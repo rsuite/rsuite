@@ -1,0 +1,29 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "plugins": [
+        "react",
+        "babel"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true,
+            "experimentalObjectRestSpread":true
+        }
+    },
+    "rules": {
+        "camelcase": 2,
+        "curly": 2,
+        "eqeqeq": 2,
+        "brace-style": [2, "1tbs"],
+        "quotes": [2, "single"],
+        "semi": [2, "always"],
+        "space-infix-ops": 2,
+        "no-param-reassign": 0,
+        "prefer-spread": 2
+    }
+}
