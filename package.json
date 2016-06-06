@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack --progress -colors --watch",
+    "build": "NODE_ENV=publish webpack --progress -colors",
     "docs": "webpack --progress -colors --watch --config webpack.docs.config.js",
+    "docs-publish":"NODE_ENV=publish webpack --progress -colors --config webpack.docs.config.js",
     "test": "karma start"
   },
   "dependencies": {

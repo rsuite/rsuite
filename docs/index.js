@@ -1,13 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import { Router, Route, IndexRoute, IndexRedirect, hashHistory, browserHistory} from 'react-router';
 
 
-// style
-import './docs.less';
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/base16-light.css';
-import 'codemirror/theme/base16-dark.css';
+
 
 import DocHeader from './fixtures/DocHeader';
 import DocSidebar from './fixtures/DocSidebar';
@@ -39,7 +35,7 @@ import PageComponents from './pages/PageComponents';
 import PageComponentsDoc from './pages/PageComponentsDoc';
 
 
-ReactDOM.render((
+render((
     <Router history={hashHistory}>
         <Route path="/" component={App}>
             <IndexRoute component={PageIndex}/>

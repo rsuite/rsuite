@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
-import _ from 'lodash';
+import { pick } from 'lodash';
 
 import BaseModal from './fixtures/BaseModal';
 import eventListener from './utils/eventListener';
@@ -166,7 +166,7 @@ const Modal = React.createClass({
         let inClass = { in: props.show && !animation };
         let Dialog = props.dialogComponent || props.dialogComponentClass;
 
-        let parentProps = _.pick(props, Object.keys(BaseModal.propTypes).concat(['onExit', 'onExiting', 'onEnter', 'onEntered']));
+        let parentProps = pick(props, Object.keys(BaseModal.propTypes).concat(['onExit', 'onExiting', 'onEnter', 'onEntered']));
         let items = autoResizeHeight ? React.Children.map(children,(child, index) => {
 
             if(child.type.displayName === 'ModalBody'){

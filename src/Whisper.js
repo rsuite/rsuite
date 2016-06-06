@@ -2,7 +2,7 @@ import React, {cloneElement} from 'react';
 import ReactDOM from 'react-dom';
 import dom from './utils/dom';
 import Overlay from './fixtures/Overlay';
-import _ from 'lodash';
+import {isNull, isUndefined, pick} from 'lodash';
 
 import createChainedFunction from './utils/createChainedFunction';
 
@@ -22,7 +22,7 @@ function isOneOf(one, of) {
 
 
 function isNullOrUndefinded(k) {
-    return _.isNull(k) || _.isUndefined(k);
+    return isNull(k) || isUndefined(k);
 }
 
 const Whisper = React.createClass({
@@ -144,7 +144,7 @@ const Whisper = React.createClass({
 
     getOverlay() {
         let speakerProps = {
-            ..._.pick(this.props, Object.keys(Overlay.propTypes)),
+            ...pick(this.props, Object.keys(Overlay.propTypes)),
             show: this.state.isOverlayShown,
             onHide: this.hide,
             target: this.getOverlayTarget,
