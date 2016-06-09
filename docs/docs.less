@@ -167,9 +167,19 @@ code{
         margin-top: 30px;
     }
     .nav > a {
-        background: #141c23;
+        background: transparent;
+
+        border-radius: 4px;
+        color: #0ae;
         margin-right: 10px;
-        padding: 7px 14px;
+        padding: 10px 23px;
+        text-decoration: none;
+        &.primary{
+             border: 1px solid #0ae;
+        }
+        &:hover{
+            box-shadow:0 0 10px #0ae
+        }
     }
     .triangle-left {
         background: #3e484a;
@@ -192,6 +202,12 @@ code{
             background: none !important;
             opacity: 0.4;
         }
+    }
+}
+.footer{
+    margin: 18px 0;
+    a{
+        margin: 0 10px;
     }
 }
 

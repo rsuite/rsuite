@@ -12,6 +12,7 @@ import 'codemirror/theme/base16-dark.css';
 
 import DocHeader from './fixtures/DocHeader';
 import DocSidebar from './fixtures/DocSidebar';
+import DocFooter from './fixtures/DocFooter';
 
 import Container from '../src/Container';
 import Content from '../src/Content';
@@ -28,6 +29,7 @@ const App = React.createClass({
                 <Container className="doc-container">
                     {this.props.children}
                 </Container>
+                <DocFooter />
             </div>
         );
     }

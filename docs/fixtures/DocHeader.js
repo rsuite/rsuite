@@ -75,7 +75,7 @@ const DocHeader = React.createClass({
                             {links}
                         </Nav>
                         <Nav pullRight>
-                            <Nav.Item  href="https://github.com/simonguo/suite">Github</Nav.Item>
+                            <Nav.Item  href="https://github.com/suitejs/suite">GitHub</Nav.Item>
                         </Nav>
                     </Navbar.Collapse>
                 </div>
