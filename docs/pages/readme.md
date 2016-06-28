@@ -10,7 +10,7 @@
 通过 `npm` 安装
 
 ```
-npm install suite
+npm install suitejs
 ```
 
 **CSS：** 我们提供一些主题, 载入对应的 CSS 资源到你的页面中，同时你也可以直接引用 Bootstrap 的 CSS 。
@@ -19,13 +19,13 @@ npm install suite
 **Javascript：** 比如在项目中用到一个 `Button`， 可以通过 `ES2015`、`CommonJS`、`AMD` 任意一种方式引入组件。
 ```js
 // ES2015
-const { Button } = require('suite');
+const { Button } = require('suitejs');
 
 // CommonJS
-var Button = require('suite').Button;
+var Button = require('suitejs').Button;
 
 // AMD
-define(['suite'], function(Suite) {
+define(['suitejs'], function(Suite) {
   var Button = Suite.Button;
   ...
 });

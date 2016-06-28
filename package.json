@@ -1,13 +1,16 @@
 {
-  "name": "suite",
-  "version": "0.0.1",
-  "description": "Suite",
-  "main": "index.js",
+  "name": "suitejs",
+  "version": "0.0.4",
+  "description": "Suite components built with React",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib/"
+  },
   "scripts": {
+    "build":"babel-node tools/build.js",
     "dev": "webpack --progress -colors --watch",
-    "build": "NODE_ENV=publish webpack --progress -colors",
     "docs": "webpack --progress -colors --watch --config webpack.docs.config.js",
-    "docs-publish":"NODE_ENV=publish webpack --progress -colors --config webpack.docs.config.js",
+    "docs-publish": "NODE_ENV=publish webpack --progress -colors --config webpack.docs.config.js",
     "test": "karma start"
   },
   "dependencies": {
@@ -20,7 +23,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git@github.com:simonguo/suite.git"
+    "url": "git@github.com:suitejs/suitejs.git"
   },
   "devDependencies": {
     "babel-core": "^6.7.6",
@@ -30,12 +33,16 @@
     "babel-preset-stage-0": "^6.5.0",
     "babel-standalone": "^6.7.7",
     "brfs": "^1.4.3",
+    "child-process-promise": "^2.0.2",
     "codemirror": "^5.15.2",
+    "colors": "^1.1.2",
     "css-loader": "^0.23.1",
     "es5-shim": "^4.1.14",
     "eslint": "^2.8.0",
     "eslint-plugin-babel": "^3.2.0",
     "eslint-plugin-react": "^5.0.1",
+    "fs-promise": "^0.5.0",
+    "glob": "^7.0.3",
     "highlight.js": "^9.4.0",
     "html-loader": "^0.4.3",
     "karma": "^0.13.22",
@@ -54,9 +61,11 @@
     "less-loader": "^2.2.3",
     "markdown-loader": "^0.1.7",
     "marked": "^0.3.5",
+    "output-file-sync": "^1.1.1",
     "postcss-loader": "^0.9.1",
     "react-hot-loader": "^1.3.0",
     "react-router": "^2.4.1",
+    "rimraf": "^2.5.2",
     "style-loader": "^0.13.1",
     "webpack-dev-server": "^1.14.1"
   }
