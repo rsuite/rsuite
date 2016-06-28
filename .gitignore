@@ -36,4 +36,5 @@ node_modules
 .vscode
 _build
 .DS_Store
+lib/
 
