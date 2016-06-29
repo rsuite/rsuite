@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import transitionInfo from '../utils/transitionProperties';
-import eventListener from '../utils/eventListener';
+import {on} from 'dom-lib';
 import classnames from 'classnames';
 
 let transitionEndEvent = transitionInfo.end;
@@ -190,7 +190,7 @@ class Transition extends React.Component {
         this.setNextCallback(handler);
 
         if (node) {
-            eventListener.on(node, transitionEndEvent, this.nextCallback);
+            on(node, transitionEndEvent, this.nextCallback);
             setTimeout(this.nextCallback, this.props.timeout);
         } else {
             setTimeout(this.nextCallback, 0);

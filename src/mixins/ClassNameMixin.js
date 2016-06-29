@@ -1,6 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import { hasClass, addClass, removeClass } from '../utils/classManager';
+import { hasClass, addClass, removeClass } from 'dom-lib';
 
 const SIZES = ['lg', 'md', 'sm', 'xs'];
 const SHAPES = ['default', 'primary', 'link', 'inverse', 'success', 'warning', 'danger', 'info'];

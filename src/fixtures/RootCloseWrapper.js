@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import eventListener from '../utils/eventListener';
+import { on } from 'dom-lib';
 
 function isLeftClickEvent(event) {
     return event.button === 0;
@@ -50,8 +50,8 @@ let RootCloseWrapper = React.createClass({
     },
     bindRootCloseHandlers() {
         let doc = window.document;
-        this._onDocumentClickListener = eventListener.on(doc, 'click', this.handleDocumentClick);
-        this._onDocumentKeyupListener = eventListener.on(doc, 'keyup', this.handleDocumentKeyUp);
+        this._onDocumentClickListener = on(doc, 'click', this.handleDocumentClick);
+        this._onDocumentKeyupListener = on(doc, 'keyup', this.handleDocumentKeyUp);
     },
     handleDocumentClick(event) {
         if (event[this._suppressRootId]) {

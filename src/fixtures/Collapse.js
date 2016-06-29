@@ -1,4 +1,4 @@
-import { getStyle } from '../utils/style';
+import { getStyle } from 'dom-lib';
 import React from 'react';
 import classNames from 'classnames';
 import Transition from './Transition';

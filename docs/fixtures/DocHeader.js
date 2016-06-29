@@ -1,9 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Header, Navbar, Nav } from '../../src/index';
+import { scrollTop, on} from 'dom-lib';
 import { Router, Route, Link } from 'react-router';
-import eventListener from '../../src/utils/eventListener';
-import {scrollTop} from '../../src/utils/dom';
+import { Header, Navbar, Nav } from '../../src/index';
+
+
 
 const NAV_LINKS = [{
         link: '/getting-started',
@@ -26,7 +27,7 @@ const DocHeader = React.createClass({
         };
     },
     componentDidMount() {
-        this._onWindowScrollListener = eventListener.on(window, 'scroll', this.handleWindowScroll);
+        this._onWindowScrollListener = on(window, 'scroll', this.handleWindowScroll);
     },
     componentWillUnmount() {
         if (this._onWindowScrollListener) {

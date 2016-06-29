@@ -1,4 +1,4 @@
-import { canUseDOM } from './dom';
+import { canUseDOM } from 'dom-lib';
 
 var has = Object.prototype.hasOwnProperty,
     transform = 'transform',

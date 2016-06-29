@@ -1,8 +1,8 @@
 import React, {cloneElement} from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
+import { ownerDocument, getContainer } from 'dom-lib';
 import mountable from '../prop-types/mountable';
-import {ownerDocument, getContainer} from '../utils/dom';
 import overlayPositionUtils from '../utils/overlayPositionUtils';
 
 /**

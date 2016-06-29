@@ -7,7 +7,7 @@
     "lib": "lib/"
   },
   "scripts": {
-    "build":"babel-node tools/build.js",
+    "build": "babel-node tools/build.js",
     "dev": "webpack --progress -colors --watch",
     "docs": "webpack --progress -colors --watch --config webpack.docs.config.js",
     "docs-publish": "NODE_ENV=publish webpack --progress -colors --config webpack.docs.config.js",
@@ -17,7 +17,8 @@
     "classnames": ">=2.0.0",
     "lodash": "^4.11.1",
     "react": "^0.14.2",
-    "react-dom": "^0.14.2"
+    "react-dom": "^0.14.2",
+    "dom-lib": "^0.0.5"
   },
   "author": "",
   "license": "MIT",
@@ -67,6 +68,7 @@
     "react-router": "^2.4.1",
     "rimraf": "^2.5.2",
     "style-loader": "^0.13.1",
+    "transform-loader": "^0.2.3",
     "webpack-dev-server": "^1.14.1"
   }
 }

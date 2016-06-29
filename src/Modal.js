@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { pick } from 'lodash';
 
 import BaseModal from './fixtures/BaseModal';
-import eventListener from './utils/eventListener';
+import {on,off} from 'dom-lib';
 import deprecated from './prop-types/deprecated';
 import elementType from './prop-types/elementType';
 import ClassNameMixin from './mixins/ClassNameMixin';
@@ -16,7 +16,7 @@ import ModalHeader from './ModalHeader';
 import ModalTitle from './ModalTitle';
 import ModalFooter from './ModalFooter';
 
-import dom, { isOverflowing, getScrollbarSize, canUseDOM, ownerDocument } from './utils/dom';
+import { getHeight, isOverflowing, getScrollbarSize, canUseDOM, ownerDocument } from 'dom-lib';
 
 
 const TRANSITION_DURATION = 300;
@@ -149,7 +149,7 @@ const Modal = React.createClass({
     },
 
     componentWillUnmount() {
-        eventListener.off(window, 'resize', this.handleWindowResize);
+        off(window, 'resize', this.handleWindowResize);
     },
 
     render() {
@@ -218,7 +218,7 @@ const Modal = React.createClass({
 
     handleShow(...args) {
 
-        eventListener.on(window, 'resize', this.handleWindowResize);
+        on(window, 'resize', this.handleWindowResize);
         this.setState(this.getStyles());
 
         if (this.props.onEntering) {
@@ -227,7 +227,7 @@ const Modal = React.createClass({
     },
 
     handleHide(...args) {
-        eventListener.off(window, 'resize', this.handleWindowResize);
+        off(window, 'resize', this.handleWindowResize);
 
         if (this.props.onExited) {
             this.props.onExited(...args);
@@ -268,7 +268,7 @@ const Modal = React.createClass({
 
             //Header height + Footer height + Dialog margin
             let excludeHeight = 200;
-            let contentHeight = dom.getHeight(window) - excludeHeight;
+            let contentHeight = getHeight(window) - excludeHeight;
             let maxHeight = (scrollHeight >= contentHeight) ? contentHeight : scrollHeight;
 
             styles.bodyStyles = {

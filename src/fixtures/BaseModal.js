@@ -3,8 +3,7 @@ import mountable from '../prop-types/mountable';
 import elementType from '../prop-types/elementType';
 import Portal from './Portal';
 import ModalManager from './ModalManager';
-import eventListener from '../utils/eventListener';
-import { ownerDocument, canUseDom, activeElement, contains, getContainer} from '../utils/dom';
+import { ownerDocument, canUseDom, activeElement, contains, getContainer, on, onFocus} from 'dom-lib';
 
 const modalManager = new ModalManager();
 
@@ -301,9 +300,9 @@ const Modal = React.createClass({
 
         modalManager.add(this, container, this.props.containerClassName);
 
-        this._onDocumentKeyupListener = eventListener.on(doc, 'keyup', this.handleDocumentKeyUp);
+        this._onDocumentKeyupListener = on(doc, 'keyup', this.handleDocumentKeyUp);
 
-        this._onFocusinListener = eventListener.onFocus(this.enforceFocus);
+        this._onFocusinListener = onFocus(this.enforceFocus);
 
         this.focus();
 

@@ -1,6 +1,6 @@
-import { addStyle } from '../utils/style';
-import { addClass, removeClass } from '../utils/classManager';
-import { getScrollbarSize, isOverflowing } from '../utils/dom';
+
+import { addClass, removeClass, addStyle, getScrollbarSize, isOverflowing} from 'dom-lib';
+
 
 function findIndexOf(arr, cb) {
     let idx = -1;

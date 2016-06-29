@@ -1,6 +1,4 @@
-import { ownerDocument } from './dom';
-import { getOffset, getPosition, scrollTop} from './dom';
-
+import { ownerDocument,getOffset, getPosition, scrollTop } from 'dom-lib';
 const utils = {
 
     getContainerDimensions(containerNode) {

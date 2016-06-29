@@ -1,6 +1,6 @@
 import React, {cloneElement} from 'react';
 import ReactDOM from 'react-dom';
-import dom from './utils/dom';
+import {contains} from 'dom-lib';
 import Overlay from './fixtures/Overlay';
 import {isNull, isUndefined, pick} from 'lodash';
 
@@ -263,7 +263,7 @@ const Whisper = React.createClass({
     handleMouseOverOut(handler, e) {
         let target = e.currentTarget;
         let related = e.relatedTarget || e.nativeEvent.toElement;
-        if (!related || related !== target && !dom.contains(target, related)) {
+        if (!related || related !== target && !contains(target, related)) {
             handler(e);
         }
     }

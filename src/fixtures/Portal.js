@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ownerDocument, getContainer } from 'dom-lib';
 import mountable from '../prop-types/mountable';
-import {ownerDocument, getContainer } from '../utils/dom';
+
 
 
 let Portal = React.createClass({

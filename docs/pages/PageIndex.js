@@ -1,23 +1,24 @@
 
 import React from 'react';
 import { Link } from 'react-router';
+import { addStyle, getHeight, on } from 'dom-lib';
 import { Container, Content, Row, Col } from '../../src';
-import dom from '../../src/utils/dom';
-import { addStyle } from '../../src/utils/style';
+
+
 import { Markdown } from '../fixtures/Markdown';
-import eventListener from '../../src/utils/eventListener';
 import Banner from '../fixtures/Banner';
 
 
 const PageIndex = React.createClass({
     handleWindowResize() {
         let banner = document.getElementById('banner');
-        let height = parseInt(dom.getHeight(banner)) - 50;
+        let height = parseInt(getHeight(banner)) - 50;
         let indexContent = document.getElementById('index-content');
+        console.log(addStyle,height);
         addStyle(indexContent, 'margin-top', (height < 0 ? 0 : height) + 'px');
     },
     componentDidMount() {
-        this._onWindowResizeListener = eventListener.on(window, 'resize', this.handleWindowResize);
+        this._onWindowResizeListener = on(window, 'resize', this.handleWindowResize);
         this.handleWindowResize();
     },
     componentWillUnmount() {
