@@ -31,7 +31,7 @@ const PageIndex = React.createClass({
         return (
             <div>
                 <Banner id="banner">
-                    <h1 className="logo">Suite</h1>
+                    <h1 className="logo"><span className="prefix">R</span>Suite</h1>
                     <p>一个基于 React.js 的 Web 组件库</p>
                     <div className="nav">
                         <Link to="/getting-started" className="primary">开始使用</Link>

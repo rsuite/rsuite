@@ -5,7 +5,7 @@
 
 ```
 npm install react --save
-npm install suitejs --save
+npm install rsuite --save
 ```
 
 
@@ -13,13 +13,13 @@ npm install suitejs --save
 
 ```js
 // ES2015
-const { Button } = require('suitejs');
+const { Button } = require('rsuite');
 
 // CommonJS
-var Button = require('suitejs').Button;
+var Button = require('rsuite').Button;
 
 // AMD
-define(['suitejs'], function(Suite) {
+define(['rsuite'], function(Suite) {
   var Button = Suite.Button;
   ...
 });

@@ -1,4 +1,4 @@
-`Suite` 是一个基于 React.js 开发的 Web 组件库，参考 Bootstrap 设计，提供其中常用组件，支持响应式布局。
+`RSuite` 是一个基于 React.js 开发的 Web 组件库，参考 Bootstrap 设计，提供其中常用组件，支持响应式布局。
 
 我们的目标就是让 WEB 开发更快捷，同时具有一定的灵活性和扩展性。
 
@@ -10,7 +10,7 @@
 通过 `npm` 安装
 
 ```
-npm install suitejs
+npm install rsuite
 ```
 
 **CSS：** 我们提供一些主题, 载入对应的 CSS 资源到你的页面中，同时你也可以直接引用 Bootstrap 的 CSS 。
@@ -19,13 +19,13 @@ npm install suitejs
 **Javascript：** 比如在项目中用到一个 `Button`， 可以通过 `ES2015`、`CommonJS`、`AMD` 任意一种方式引入组件。
 ```js
 // ES2015
-const { Button } = require('suitejs');
+const { Button } = require('rsuite');
 
 // CommonJS
-var Button = require('suitejs').Button;
+var Button = require('rsuite').Button;
 
 // AMD
-define(['suitejs'], function(Suite) {
+define(['rsuite'], function(Suite) {
   var Button = Suite.Button;
   ...
 });

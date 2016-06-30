@@ -1,7 +1,7 @@
 {
-  "name": "suitejs",
-  "version": "0.0.4",
-  "description": "Suite components built with React",
+  "name": "rsuite",
+  "version": "0.0.1",
+  "description": "RSuite components built with React",
   "main": "lib/index.js",
   "directories": {
     "lib": "lib/"
@@ -24,7 +24,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git@github.com:suitejs/suitejs.git"
+    "url": "git@github.com:rsuite/rsuite.git"
   },
   "devDependencies": {
     "babel-core": "^6.7.6",

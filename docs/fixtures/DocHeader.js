@@ -67,7 +67,7 @@ const DocHeader = React.createClass({
                 <div className="container">
                     <Navbar.Header>
                         <Navbar.Brand>
-                            <a href="#">Suite</a>
+                            <a href="#"><span className="prefix">R</span>Suite</a>
                         </Navbar.Brand>
                         <Navbar.Toggle />
                     </Navbar.Header>
