@@ -1,5 +1,7 @@
 # Suite
 
+[![Join the chat at https://gitter.im/rsuite/rsuite](https://badges.gitter.im/rsuite/rsuite.svg)](https://gitter.im/rsuite/rsuite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 
 `RSuite` 是一个基于 React.js 开发的 Web 组件库，参考 Bootstrap 设计，提供其中常用组件，支持响应式布局。
 
