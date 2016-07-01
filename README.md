@@ -1,4 +1,4 @@
-# Suite
+# RSuite
 
 [![Join the chat at https://gitter.im/rsuite/rsuite](https://badges.gitter.im/rsuite/rsuite.svg)](https://gitter.im/rsuite/rsuite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
