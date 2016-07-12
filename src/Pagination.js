@@ -177,7 +177,7 @@ const Pagination = React.createClass({
             disabled: activePage === 1,
             children: (
                 <span aria-label="Previous">
-                    {prev === true ? '\u203a' : prev}
+                    {prev === true ? '\u2039' : prev}
                 </span>
             )
         });
