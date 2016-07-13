@@ -1,6 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Router, Route, IndexRoute, IndexRedirect, hashHistory, browserHistory} from 'react-router';
+
+import { Router, Route, IndexRoute, IndexRedirect, hashHistory, browserHistory } from 'react-router';
+
 
 
 // style
@@ -10,13 +12,13 @@ import 'codemirror/theme/base16-light.css';
 import 'codemirror/theme/base16-dark.css';
 
 
+
 import DocHeader from './fixtures/DocHeader';
 import DocSidebar from './fixtures/DocSidebar';
 import DocFooter from './fixtures/DocFooter';
 
 import Container from '../src/Container';
 import Content from '../src/Content';
-
 
 const App = React.createClass({
     contextTypes: {
@@ -35,8 +37,10 @@ const App = React.createClass({
     }
 });
 
+
 // Pages
 import PageIndex from  './pages/PageIndex';
+
 import PageGettingStarted from  './pages/PageGettingStarted';
 import PageComponents from './pages/PageComponents';
 import PageComponentsDoc from './pages/PageComponentsDoc';

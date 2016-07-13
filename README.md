@@ -24,7 +24,7 @@ npm install rsuite
 **Javascript：** 比如在项目中用到一个 `Button`， 可以通过 `ES2015`、`CommonJS`、`AMD` 任意一种方式引入组件。
 ```js
 // ES2015
-const { Button } = require('rsuite');
+import { Button } from 'rsuite';
 
 // CommonJS
 var Button = require('rsuite').Button;

@@ -1,9 +1,9 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 import Example from './Example';
 
 const indexExample = require('fs').readFileSync(__dirname + '/indexExample.js', 'utf8');
-
 const Banner = React.createClass({
 
     render: function () {
@@ -17,3 +17,4 @@ const Banner = React.createClass({
 });
 
 export default Banner;
+

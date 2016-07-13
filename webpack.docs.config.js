@@ -47,7 +47,6 @@ module.exports = {
             {
                 test: /\.js$/,
                 loaders: [
-                    'react-hot',
                     'transform/cacheable?brfs',
                     'babel?babelrc'
                 ],

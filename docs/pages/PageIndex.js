@@ -6,15 +6,14 @@ import { Container, Content, Row, Col } from '../../src';
 
 
 import { Markdown } from '../fixtures/Markdown';
-import Banner from '../fixtures/Banner';
 
+import Banner from '../fixtures/Banner';
 
 const PageIndex = React.createClass({
     handleWindowResize() {
         let banner = document.getElementById('banner');
         let height = parseInt(getHeight(banner)) - 50;
         let indexContent = document.getElementById('index-content');
-        console.log(addStyle,height);
         addStyle(indexContent, 'margin-top', (height < 0 ? 0 : height) + 'px');
     },
     componentDidMount() {
