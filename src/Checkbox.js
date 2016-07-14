@@ -12,7 +12,35 @@ const Checkbox = React.createClass({
         disabled: React.PropTypes.bool,
         checked: React.PropTypes.bool,
         onClick: React.PropTypes.func,
-        onChange: React.PropTypes.func
+        onChange: React.PropTypes.func,
+        value: React.PropTypes.bool,
+        isValid: React.PropTypes.bool,
+        errorMessage: React.PropTypes.string,
+        onError: React.PropTypes.func,
+        force: React.PropTypes.bool // if false, ignore errors when value is undefined
+    },
+    shouldCallOnError() {
+        // able to call onError() when
+        // 1. value exists(not undefined) and invalid
+        // 2. invalid and force is true(ignore value exists or not)
+        const { isValid, value, force } = this.props;
+        return !isValid && (value !== undefined || force);
+    },
+    callError() {
+        const { onError, isValid, errorMessage } = this.props;
+        onError && onError(!isValid, errorMessage);
+    },
+    getCheckStateFromProps() {
+        // if checked props given, return checked props, else return value props
+        const { checked, value } = this.props;
+        let check = checked;
+        if(check === undefined) {
+            check = value;
+        }
+        return check;
+    },
+    getValue() {
+        return this.state.checked;
     },
     contextTypes: {
         formGroup: React.PropTypes.object
@@ -20,12 +48,14 @@ const Checkbox = React.createClass({
     getDefaultProps() {
         return {
             inline: false,
-            disabled: false
+            disabled: false,
+            isValid: false,
+            force: false
         };
     },
     getInitialState() {
         return {
-            checked: this.props.checked
+            checked: this.getCheckStateFromProps()
         };
     },
     handleChange(event){
@@ -48,10 +78,15 @@ const Checkbox = React.createClass({
             className,
             children,
             onChange,
+            isValid,
+            errorMessage,
+            onError,
             ...props,
         } = this.props;
 
-
+        if(this.shouldCallOnError()) {
+            this.callError();
+        }
 
         let classes = classNames({
             'checkbox-inline': inline
@@ -71,7 +106,10 @@ const Checkbox = React.createClass({
                     type='checkbox'
                     name={name}
                     disabled = {disabled}
-                    onChange = {createChainedFunction(this.handleChange, onChange)}
+                    onChange = {createChainedFunction(
+                        this.handleChange,
+                        onChange && onChange.bind(this, this.getValue())
+                    )}
                     defaultChecked = {this.state.checked}
                     />
             </span>
