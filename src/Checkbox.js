@@ -1,9 +1,11 @@
 import classNames from 'classnames';
 import React from 'react';
 import createChainedFunction from './utils/createChainedFunction';
+import FormControlMixin from './mixins/FormControlMixin.js';
 
 
 const Checkbox = React.createClass({
+    mixins: [FormControlMixin],
     propTypes: {
         id: React.PropTypes.string,
         name: React.PropTypes.string,
@@ -13,22 +15,7 @@ const Checkbox = React.createClass({
         checked: React.PropTypes.bool,
         onClick: React.PropTypes.func,
         onChange: React.PropTypes.func,
-        value: React.PropTypes.bool,
-        isValid: React.PropTypes.bool,
-        errorMessage: React.PropTypes.string,
-        onError: React.PropTypes.func,
-        force: React.PropTypes.bool // if false, ignore errors when value is undefined
-    },
-    shouldCallOnError() {
-        // able to call onError() when
-        // 1. value exists(not undefined) and invalid
-        // 2. invalid and force is true(ignore value exists or not)
-        const { isValid, value, force } = this.props;
-        return !isValid && (value !== undefined || force);
-    },
-    callError() {
-        const { onError, isValid, errorMessage } = this.props;
-        onError && onError(!isValid, errorMessage);
+        value: React.PropTypes.bool
     },
     getCheckStateFromProps() {
         // if checked props given, return checked props, else return value props
@@ -48,9 +35,7 @@ const Checkbox = React.createClass({
     getDefaultProps() {
         return {
             inline: false,
-            disabled: false,
-            isValid: false,
-            force: false
+            disabled: false
         };
     },
     getInitialState() {
@@ -78,15 +63,8 @@ const Checkbox = React.createClass({
             className,
             children,
             onChange,
-            isValid,
-            errorMessage,
-            onError,
             ...props,
         } = this.props;
-
-        if(this.shouldCallOnError()) {
-            this.callError();
-        }
 
         let classes = classNames({
             'checkbox-inline': inline
