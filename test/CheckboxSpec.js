@@ -99,7 +99,7 @@ describe('Checkbox', () => {
         assert.equal(flag, true);
     });
 
-    it('Should value as an argument on onChange', () => {
+    it('Should pass value as an argument on onChange', () => {
         let flag = false;
         let instance = ReactTestUtils.renderIntoDocument(
             <Checkbox onChange={(v) => flag = v} value={true}>

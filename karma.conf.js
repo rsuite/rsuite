@@ -19,7 +19,8 @@ module.exports = function(config) {
         basePath: '',
         files: [
           'test/ButtonSpec.js',
-          'test/CheckboxSpec.js'
+          'test/CheckboxSpec.js',
+          'test/FormControlSpec.js'
         ],
         frameworks: [
             'mocha',
@@ -31,7 +32,8 @@ module.exports = function(config) {
         logLevel: config.LOG_INFO,
         preprocessors: {
             'test/ButtonSpec.js': ['webpack'],
-            'test/CheckboxSpec.js': ['webpack']
+            'test/CheckboxSpec.js': ['webpack'],
+            'test/FormControlSpec.js': ['webpack']
         },
         webpack: webpackConfig,
         webpackMiddleware: {
