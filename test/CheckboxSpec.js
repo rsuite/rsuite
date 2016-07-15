@@ -98,5 +98,19 @@ describe('Checkbox', () => {
         ReactTestUtils.Simulate.change(inputField);
         assert.equal(flag, true);
     });
+
+    it('Should value as an argument on onChange', () => {
+        let flag = false;
+        let instance = ReactTestUtils.renderIntoDocument(
+            <Checkbox onChange={(v) => flag = v} value={true}>
+                Checkbox
+            </Checkbox>
+        );
+        let inputField = findDOMNode(instance).querySelector('input');
+        ReactTestUtils.Simulate.change(inputField);
+        assert.equal(flag, instance.state.checked);
+        ReactTestUtils.Simulate.change(inputField);
+        assert.equal(flag, instance.state.checked);
+    });
 });
 

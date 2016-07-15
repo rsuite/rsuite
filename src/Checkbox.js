@@ -26,9 +26,6 @@ const Checkbox = React.createClass({
         }
         return check;
     },
-    getValue() {
-        return this.state.checked;
-    },
     contextTypes: {
         formGroup: React.PropTypes.object
     },
@@ -48,9 +45,14 @@ const Checkbox = React.createClass({
             return;
         }
 
+        let checked = !this.state.checked;
+
         this.setState({
-            checked: !this.state.checked
+            checked
         });
+
+        const { onChange } = this.props;
+        onChange && onChange(checked);
     },
     render() {
 
@@ -84,10 +86,7 @@ const Checkbox = React.createClass({
                     type='checkbox'
                     name={name}
                     disabled = {disabled}
-                    onChange = {createChainedFunction(
-                        this.handleChange,
-                        onChange && onChange.bind(this, this.getValue())
-                    )}
+                    onChange = {this.handleChange}
                     defaultChecked = {this.state.checked}
                     />
             </span>
