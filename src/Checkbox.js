@@ -1,9 +1,11 @@
 import classNames from 'classnames';
 import React from 'react';
 import createChainedFunction from './utils/createChainedFunction';
+import FormControlMixin from './mixins/FormControlMixin.js';
 
 
 const Checkbox = React.createClass({
+    mixins: [FormControlMixin],
     propTypes: {
         id: React.PropTypes.string,
         name: React.PropTypes.string,
@@ -12,7 +14,17 @@ const Checkbox = React.createClass({
         disabled: React.PropTypes.bool,
         checked: React.PropTypes.bool,
         onClick: React.PropTypes.func,
-        onChange: React.PropTypes.func
+        onChange: React.PropTypes.func,
+        value: React.PropTypes.bool
+    },
+    getCheckStateFromProps() {
+        // if checked props given, return checked props, else return value props
+        const { checked, value } = this.props;
+        let check = checked;
+        if(check === undefined) {
+            check = value;
+        }
+        return check;
     },
     contextTypes: {
         formGroup: React.PropTypes.object
@@ -25,7 +37,7 @@ const Checkbox = React.createClass({
     },
     getInitialState() {
         return {
-            checked: this.props.checked
+            checked: this.getCheckStateFromProps()
         };
     },
     handleChange(event){
@@ -33,9 +45,14 @@ const Checkbox = React.createClass({
             return;
         }
 
+        let checked = !this.state.checked;
+
         this.setState({
-            checked: !this.state.checked
+            checked
         });
+
+        const { onChange } = this.props;
+        onChange && onChange(checked);
     },
     render() {
 
@@ -50,8 +67,6 @@ const Checkbox = React.createClass({
             onChange,
             ...props,
         } = this.props;
-
-
 
         let classes = classNames({
             'checkbox-inline': inline
@@ -71,7 +86,7 @@ const Checkbox = React.createClass({
                     type='checkbox'
                     name={name}
                     disabled = {disabled}
-                    onChange = {createChainedFunction(this.handleChange, onChange)}
+                    onChange = {this.handleChange}
                     defaultChecked = {this.state.checked}
                     />
             </span>
