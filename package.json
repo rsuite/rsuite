@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "RSuite components built with React",
   "main": "lib/index.js",
   "directories": {
@@ -49,6 +49,7 @@
     "eslint": "^2.8.0",
     "eslint-plugin-babel": "^3.2.0",
     "eslint-plugin-react": "^5.0.1",
+    "extract-text-webpack-plugin": "^1.0.1",
     "fs-promise": "^0.5.0",
     "glob": "^7.0.3",
     "highlight.js": "^9.4.0",

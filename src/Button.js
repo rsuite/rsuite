@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import ClassNameMixin from './mixins/ClassNameMixin';
 import Anchor from './Anchor';
+import elementType from './prop-types/elementType';
 
 const Button = React.createClass({
     mixins: [ClassNameMixin],
@@ -11,7 +12,7 @@ const Button = React.createClass({
         block: React.PropTypes.bool,
         href: React.PropTypes.string,
         target: React.PropTypes.string,
-        componentClass: React.PropTypes.node,
+        componentClass: elementType,
         classPrefix: React.PropTypes.string,
         type: React.PropTypes.oneOf(['button', 'reset', 'submit'])
     },
