@@ -299,9 +299,7 @@ const Modal = React.createClass({
 
 
         modalManager.add(this, container, this.props.containerClassName);
-
         this._onDocumentKeyupListener = on(doc, 'keyup', this.handleDocumentKeyUp);
-
         this._onFocusinListener = onFocus(this.enforceFocus);
 
         this.focus();
@@ -314,8 +312,14 @@ const Modal = React.createClass({
     onHide() {
         modalManager.remove(this);
 
-        this._onDocumentKeyupListener.off();
-        this._onFocusinListener.off();
+        if(this._onDocumentKeyupListener){
+            this._onDocumentKeyupListener.off();
+        }
+
+        if(this._onFocusinListener){
+            this._onFocusinListener.off();
+        }
+
         this.restoreLastFocus();
     },
 
