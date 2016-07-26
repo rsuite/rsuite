@@ -30,10 +30,9 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 
 ### CSS
 ```html
-<!-- Pagurian theme -->
-<link rel="stylesheet" href="http://pagurian.com/demo/dist/resources/css/public.css" />
-<link rel="stylesheet" href="http://pagurian.com/demo/dist/resources/css/themes-green.css" />
+<link rel="stylesheet" href="//t.hypers.com.cn/libs/rsuite/css/0.1.0/rsuite.min.css">
 ```
+[code](https://github.com/rsuite/rsuite-theme-pagurian)
 
 ### 浏览器支持
 

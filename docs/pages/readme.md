@@ -53,4 +53,4 @@ ReactDOM.render(
 
 ### License
 
-Suite 是 MIT-licensed。
+MIT
