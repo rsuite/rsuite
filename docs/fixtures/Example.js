@@ -41,9 +41,11 @@ const FormControl = require('../../src/FormControl').default;
 const HelpBlock = require('../../src/HelpBlock').default;
 const Checkbox = require('../../src/Checkbox').default;
 const CheckboxList = require('../../src/CheckboxList').default;
+const InputGroup = require('../../src/InputGroup').default;
 
 const Radio = require('../../src/Radio').default;
 const RadioList = require('../../src/RadioList').default;
+const IconFont = require('../../src/IconFont').default;
 
 //Layout
 const Header = require('../../src/Header').default;

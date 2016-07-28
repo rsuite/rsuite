@@ -5,7 +5,8 @@ import { Markdown } from '../../fixtures/Markdown';
 
 
 const examples = {
-    basic: require('fs').readFileSync(__dirname + '/basic.js', 'utf8')
+    basic: require('fs').readFileSync(__dirname + '/basic.js', 'utf8'),
+    inputGroup:require('fs').readFileSync(__dirname + '/inputGroup.js', 'utf8')
 };
 
 export default React.createClass({
@@ -28,6 +29,10 @@ export default React.createClass({
 
                 <h3>默认样式</h3>
                 <Example code={examples.basic} />
+
+
+                <h3>InputGroup</h3>
+                <Example code={examples.inputGroup} />
 
 
                 <h3>组件属性</h3>

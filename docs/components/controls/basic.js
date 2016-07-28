@@ -60,6 +60,27 @@ var instance = (
                 <Radio disabled>Item D</Radio>
             </RadioList>
         </FormGroup>
+
+
+        <FormGroup controlId='checkboxList' >
+            <ControlLabel>CheckboxList inline</ControlLabel>
+            <CheckboxList name="checkboxList" inline>
+                <Checkbox checked>Item A</Checkbox>
+                <Checkbox>Item B</Checkbox>
+                <Checkbox>Item C</Checkbox>
+                <Checkbox disabled>Item D</Checkbox>
+            </CheckboxList>
+        </FormGroup>
+
+        <FormGroup controlId='radioList'>
+            <ControlLabel>RadioList inline</ControlLabel>
+            <RadioList name="radioList" inline>
+                <Radio checked>Item A</Radio>
+                <Radio>Item B</Radio>
+                <Radio>Item C</Radio>
+                <Radio disabled>Item D</Radio>
+            </RadioList>
+        </FormGroup>
     </Form>
 );
 ReactDOM.render(instance, mountNode);
