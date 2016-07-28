@@ -27,8 +27,8 @@ const Dropdown = React.createClass({
          * If 'select' is true , title will be updated after the 'onSelect' trigger .
          */
         select: React.PropTypes.bool,
-        activeKey: React.PropTypes.any
-
+        activeKey: React.PropTypes.any,
+        bothEnds:React.PropTypes.bool
     },
     getDefaultProps() {
         return {
@@ -99,6 +99,7 @@ const Dropdown = React.createClass({
             className,
             activeKey,
             dropup,
+            bothEnds,
             componentClass: Component,
             ...props
         } = this.props;
@@ -135,6 +136,7 @@ const Dropdown = React.createClass({
         const classes = classNames( {
             'dropdown': !dropup,
             'dropup': dropup ,
+            'both-ends': bothEnds,
             'open': this.state.open
         }, className);
 
