@@ -10,6 +10,7 @@ const examples = {
     select: require('fs').readFileSync(__dirname + '/select.js', 'utf8'),
     noCaret: require('fs').readFileSync(__dirname + '/noCaret.js', 'utf8'),
     dropup: require('fs').readFileSync(__dirname + '/dropup.js', 'utf8'),
+    block: require('fs').readFileSync(__dirname + '/block.js', 'utf8')
 };
 
 export default React.createClass({
@@ -30,6 +31,9 @@ export default React.createClass({
 
                 <h3>大小</h3>
                 <Example code={examples.sizing} />
+
+                <Text>创建块级的Dropdown，给组件设置一个 <code>block</code> 属性</Text>
+                <Example code={examples.block} />
 
 
                 <h3>模拟 Select</h3>
