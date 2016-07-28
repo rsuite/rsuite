@@ -21,7 +21,7 @@ var instance = (
         </FormGroup>
 
         <FormGroup>
-            <InputGroup sink>
+            <InputGroup inside>
                 <FormControl type="text" />
                 <InputGroup.Addon>
                     <IconFont icon="search" />
@@ -30,7 +30,7 @@ var instance = (
         </FormGroup>
 
         <FormGroup>
-            <InputGroup sink>
+            <InputGroup inside>
                 <InputGroup.Addon>
                     <IconFont icon="avatar" classPrefix="icon" />
                 </InputGroup.Addon>
