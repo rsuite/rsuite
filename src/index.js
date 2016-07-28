@@ -26,6 +26,7 @@ export FormGroup from './FormGroup';
 export ControlLabel from './ControlLabel';
 export FormControl from './FormControl';
 export HelpBlock from './HelpBlock';
+export InputGroup from './InputGroup';
 
 export Checkbox from './Checkbox';
 export CheckboxList from './CheckboxList';
@@ -33,6 +34,8 @@ export CheckboxList from './CheckboxList';
 export Radio from './Radio';
 export RadioList from './RadioList';
 export Text from './Text';
+export IconFont from './IconFont';
+
 
 //Layout
 export Header from './Header';
@@ -46,3 +49,5 @@ export Content from './Content';
 export Panel from './Panel';
 export PanelGroup from './PanelGroup';
 export Table from './Table';
+
+
