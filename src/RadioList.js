@@ -6,13 +6,17 @@ import Radio  from './Radio';
 const RadioList = React.createClass({
 
     propTypes: {
-        options: React.PropTypes.array,
         name: React.PropTypes.string,
-        inline: React.PropTypes.bool
+        inline: React.PropTypes.bool,
+        onChange: React.PropTypes.func,
+        value: React.PropTypes.string
+    },
+    contextTypes: {
+        formGroup: React.PropTypes.object
     },
     handleChange(event) {
 
-        if(event.target.type !== 'radio'){
+        if (event.target.type !== 'radio') {
             return;
         }
 
@@ -22,12 +26,19 @@ const RadioList = React.createClass({
 
         for (let key in refs) {
             let ref = ReactDOM.findDOMNode(refs[key]);
-            if(target !== ref){
+            if (target !== ref) {
                 refs[key].setState({
-                   checked : false
+                    checked: false
                 });
             }
         }
+    },
+    handleRadioChange(value) {
+        const { onChange } = this.props;
+        const { onChangeValue } = this.context.formGroup;
+
+        onChange && onChange(value);
+        onChangeValue && onChangeValue(value);
     },
     render() {
 
@@ -35,9 +46,11 @@ const RadioList = React.createClass({
             className,
             inline,
             name,
-            children,
-            options
+            children
         } = this.props;
+
+        const { value } = this.context.formGroup;
+
 
         const clesses = classNames({
             'radio-list': true
@@ -48,7 +61,9 @@ const RadioList = React.createClass({
                 key: index,
                 ref: 'radio_' + index,
                 inline: inline,
-                name: name
+                name: name,
+                checked: (value || this.props.value) === child.props.value,
+                onChange: this.handleRadioChange
             }, child.props.children);
         });
 

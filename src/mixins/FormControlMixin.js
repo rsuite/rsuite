@@ -11,31 +11,41 @@ const FormControlMixin = {
     },
     getDefaultProps() {
         return {
-            isValid: false,
-            force: false
+            isValid: false
+        };
+    },
+    getInitialState() {
+        return {
+            force: this.props.force
         };
     },
     shouldCallOnError() {
+
         // able to call onError() when
         // 1. value exists(not undefined) and invalid
         // 2. invalid and force is true(ignore value exists or not)
-        const { isValid, value, force } = this.props;
+        const { isValid, value } = this.props;
+        const { force } = this.state;
+
         return !isValid && (value !== undefined || force);
     },
     callError() {
         const { onError, isValid, errorMessage } = this.props;
+        this.handleError && this.handleError(!isValid, errorMessage);
         onError && onError(!isValid, errorMessage);
+
     },
     componentDidMount() {
-        if(this.shouldCallOnError()) {
+
+        if (this.shouldCallOnError()) {
             this.callError();
         }
     },
     componentDidUpdate() {
-        if(this.shouldCallOnError()) {
+        if (this.shouldCallOnError()) {
             this.callError();
         }
     }
-}
+};
 
 export default FormControlMixin;

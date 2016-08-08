@@ -25,6 +25,7 @@ export Form from './Form';
 export FormGroup from './FormGroup';
 export ControlLabel from './ControlLabel';
 export FormControl from './FormControl';
+export TextList from './TextList';
 export HelpBlock from './HelpBlock';
 export InputGroup from './InputGroup';
 

@@ -12,7 +12,8 @@ const Radio = React.createClass({
         disabled: React.PropTypes.bool,
         checked: React.PropTypes.bool,
         onClick: React.PropTypes.func,
-        onChange: React.PropTypes.func
+        onChange: React.PropTypes.func,
+        value: React.PropTypes.any
     },
     contextTypes: {
         formGroup: React.PropTypes.object
@@ -28,11 +29,18 @@ const Radio = React.createClass({
             checked: this.props.checked
         };
     },
-    handleChange(event){
+    handleChange(event) {
 
         this.setState({
             checked: event.target.checked
         });
+        const { value } = this.props;
+        const { onChange } = this.props;
+        const { onChangeValue } = this.context.formGroup;
+
+        onChange && onChange(value);
+        onChangeValue && onChangeValue(value);
+
     },
     render() {
 
@@ -42,48 +50,48 @@ const Radio = React.createClass({
             title,
             name,
             className,
-            children ,
+            children,
             onClick,
             onChange,
             disabled,
             ...props,
         } = this.props;
 
-        const labelClasses = classNames({
-            'radio-inline': inline
-        }, className);
+const labelClasses = classNames({
+    'radio-inline': inline
+}, className);
 
-        const radioClasses = classNames({
-            'radio' : true,
-            'disabled' : disabled
-        });
+const radioClasses = classNames({
+    'radio': true,
+    'disabled': disabled
+});
 
-        const input = (
-            <span className = {classNames({
-                    checked: this.state.checked
-                })}>
-                <input
-                    {...props}
-                    type = 'radio'
-                    name = {name}
-                    disabled = {disabled}
-                    onChange =  {createChainedFunction(this.handleChange, onChange)}
-                    />
-            </span>
-        );
+const input = (
+    <span className = {classNames({
+        checked: this.state.checked
+    }) }>
+        <input
+            {...props}
+            type = 'radio'
+            name = {name}
+            disabled = {disabled}
+            onChange =  {this.handleChange }
+            />
+    </span>
+);
 
 
-        return (
-            <label className={labelClasses} >
-                <div
-                    className={radioClasses}
-                    role = 'radio'
-                    >
-                    {input}
-                </div>
-                { title || children }
-            </label>
-        );
+return (
+    <label className={labelClasses} >
+        <div
+            className={radioClasses}
+            role = 'radio'
+            >
+            {input}
+        </div>
+        { title || children }
+    </label>
+);
     }
 });
 

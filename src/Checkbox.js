@@ -15,16 +15,7 @@ const Checkbox = React.createClass({
         checked: React.PropTypes.bool,
         onClick: React.PropTypes.func,
         onChange: React.PropTypes.func,
-        value: React.PropTypes.bool
-    },
-    getCheckStateFromProps() {
-        // if checked props given, return checked props, else return value props
-        const { checked, value } = this.props;
-        let check = checked;
-        if(check === undefined) {
-            check = value;
-        }
-        return check;
+        value: React.PropTypes.any
     },
     contextTypes: {
         formGroup: React.PropTypes.object
@@ -37,22 +28,23 @@ const Checkbox = React.createClass({
     },
     getInitialState() {
         return {
-            checked: this.getCheckStateFromProps()
+            checked: this.props.checked
         };
     },
-    handleChange(event){
-        if(this.props.disabled){
+    handleChange(event) {
+        if (this.props.disabled) {
             return;
         }
 
         let checked = !this.state.checked;
-
         this.setState({
             checked
         });
-
         const { onChange } = this.props;
-        onChange && onChange(checked);
+        const { onChangeValue } = this.context.formGroup;
+        const value = checked ? this.props.value : '';
+        onChange && onChange(value);
+        onChangeValue && onChangeValue(value);
     },
     render() {
 
@@ -65,7 +57,8 @@ const Checkbox = React.createClass({
             className,
             children,
             onChange,
-            ...props,
+            value,
+            //...props,
         } = this.props;
 
         let classes = classNames({
@@ -74,17 +67,18 @@ const Checkbox = React.createClass({
 
 
         let checkboxClasses = classNames({
-            'checker' : true,
-            'disabled' : disabled
+            'checker': true,
+            'disabled': disabled
         });
 
         const input = (
             <span className={classNames({
-                    'checked' : this.state.checked
-                })}>
+                'checked': this.state.checked
+            }) }>
                 <input
                     type='checkbox'
                     name={name}
+                    value={ value }
                     disabled = {disabled}
                     onChange = {this.handleChange}
                     defaultChecked = {this.state.checked}

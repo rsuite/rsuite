@@ -2,10 +2,9 @@ import classNames from 'classnames';
 import React from 'react';
 import elementType from './prop-types/elementType';
 import ClassNameMixin from './mixins/ClassNameMixin';
-import FormControlMixin from './mixins/FormControlMixin';
 
 const FormControl = React.createClass({
-    mixins: [ClassNameMixin, FormControlMixin],
+    mixins: [ClassNameMixin],
     propTypes: {
         componentClass: elementType,
         type: React.PropTypes.string,
@@ -20,25 +19,22 @@ const FormControl = React.createClass({
         };
     },
     handleChange(evt) {
-        let value = evt.target.value;
+
+        const value = evt.target.value;
         const { onChange } = this.props;
+        const { onChangeValue } = this.context.formGroup;
+
         onChange && onChange(value);
+        onChangeValue && onChangeValue(value);
     },
     render() {
 
-        const formGroup = this.context.formGroup;
-        const controlId = formGroup && formGroup.controlId;
-
+        const { controlId, value } = this.context.formGroup;
         const {
             componentClass: Component,
             type,
             id = controlId,
             className,
-            onChange,
-            isValid,
-            errorMessage,
-            onError,
-            force,
             ...props,
         } = this.props;
 
@@ -57,6 +53,7 @@ const FormControl = React.createClass({
                 {...props}
                 type={type}
                 id={id}
+                defaultValue={value}
                 className={classes}
                 onChange={this.handleChange}
             />
