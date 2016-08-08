@@ -4,7 +4,7 @@ var marked = require('marked');
 var hl = require('highlight.js');
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const isPublish = process.env.NODE_ENV === 'publish';
+const HtmlwebpackPlugin = require('html-webpack-plugin');
 
 const codeRenderer = function (code, lang) {
     lang = lang === 'js' ? 'javascript' : lang;
@@ -22,10 +22,17 @@ var renderer = new marked.Renderer();
 renderer.code = codeRenderer;
 
 var plugins = [
-    new ExtractTextPlugin('[name].css')
+    new ExtractTextPlugin('[name].css'),
+    new HtmlwebpackPlugin({
+        title: 'RSuite | 一个基于 React.js 的 Web 组件库',
+        filename: 'index.html',
+        template: 'docs/index.html',
+        inject: true,
+        hash: true
+    }),
 ];
 
-if (isPublish) {
+if (process.env.NODE_ENV === 'production') {
 
     plugins.push(new webpack.optimize.UglifyJsPlugin({
         compress: {
@@ -34,19 +41,15 @@ if (isPublish) {
     }));
 
     plugins.push(new webpack.BannerPlugin(`Last update: ${new Date().toString()}`));
-    plugins.push(new webpack.optimize.CommonsChunkPlugin({
-        names: ['vendor']
-    }));
 }
 
 module.exports = {
     entry: {
-        index: './docs/index.js',
-        vendor: ['react', 'react-dom', 'lodash', 'classnames', 'dom-lib']
+        index: './docs/index',
     },
     output: {
         path: path.join(__dirname, 'docs/assets'),
-        filename: '[name].js'
+        filename: 'bundle.js'
     },
     node: {
         fs: 'empty'
@@ -61,15 +64,8 @@ module.exports = {
                 ],
                 exclude: /node_modules/
             }, {
-                test:/\.less$/,
-                loader:  ExtractTextPlugin.extract('style-loader', 'css-loader!less-loader')
-            }, {
-                test: /\.css$/,
-                loaders: [
-                    'style',
-                    'css?minimize',
-                    'postcss'
-                ]
+                test: /\.(less|css)$/,
+                loader: ExtractTextPlugin.extract('style-loader', 'css-loader!less-loader')
             }, {
                 test: /\.md$/,
                 loader: 'html!markdown'

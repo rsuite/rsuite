@@ -41,13 +41,53 @@ const App = React.createClass({
 // Pages
 import PageIndex from  './pages/PageIndex';
 
-import PageGettingStarted from  './pages/PageGettingStarted';
-import PageComponents from './pages/PageComponents';
-import PageComponentsDoc from './pages/PageComponentsDoc';
+//import PageGettingStarted from  './pages/PageGettingStarted';
+//import PageComponents from './pages/PageComponents';
+//import PageComponentsDoc from './pages/PageComponentsDoc';
+
+
+const routes = {
+    childRoutes: [{
+        path: '/',
+        component: App,
+        indexRoute: { component: require('./pages/PageIndex').default },
+        childRoutes: [
+            {
+                path: 'getting-started',
+                getComponent(nextState, cb) {
+                    require.ensure([], (require) => {
+                        cb(null, require('./pages/PageGettingStarted').default);
+                    });
+                }
+            },
+            {
+                path: 'components',
+                getComponent(nextState, cb) {
+                    require.ensure([], (require) => {
+                        cb(null, require('./pages/PageComponents').default);
+                    });
+                },
+                indexRoute: { onEnter: (nextState, replace) => replace('/buttons') },
+                childRoutes: [
+                    {
+                        path: 'buttons',
+                        getComponent(nextState, cb) {
+                            require.ensure([], (require) => {
+                                cb(null, require('./components/button').default);
+                            });
+                        }
+                    }
+                ]
+            }
+
+        ]
+    }]
+};
 
 
 render((
-    <Router history={hashHistory}>
+    <Router history={hashHistory} routes={routes}>
+        {/**
         <Route path="/" component={App}>
             <IndexRoute component={PageIndex}/>
             <Route path="getting-started" component={PageGettingStarted} />
@@ -56,5 +96,6 @@ render((
                 <IndexRedirect to="buttons" />
             </Route>
         </Route>
+        **/}
     </Router>
 ), document.getElementById('root'));

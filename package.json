@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "RSuite components built with React",
   "main": "lib/index.js",
   "directories": {
@@ -8,9 +8,8 @@
   },
   "scripts": {
     "build": "babel-node tools/build.js",
-    "dev": "webpack --progress -colors --watch",
-    "docs": "webpack --progress -colors --watch --config webpack.docs.config.js",
-    "docs-publish": "NODE_ENV=publish webpack --progress -colors --config webpack.docs.config.js",
+    "dev": "NODE_ENV=development webpack-dev-server --hot --inline --progress --colors --port 3000 --config webpack.dev.config.js",
+    "docs": "rm -R docs/assets &&  NODE_ENV=production webpack --progress -colors --config webpack.docs.config.js",
     "test": "karma start"
   },
   "keywords": [
@@ -25,7 +24,9 @@
     "dom-lib": "^0.0.10",
     "lodash": "^4.11.1",
     "react": "^0.14.2",
-    "react-dom": "^0.14.2"
+    "react-dom": "^0.14.2",
+    "rsuite-schema": "^0.0.1-alpha.2",
+    "rsuite-form": "^0.1.1"
   },
   "author": "",
   "license": "MIT",
@@ -82,6 +83,7 @@
     "style-loader": "^0.13.1",
     "transform-loader": "^0.2.3",
     "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^1.14.1",
+    "html-webpack-plugin": "^2.22.0"
   }
 }

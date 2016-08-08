@@ -13,3 +13,4 @@ export panels from './panels';
 export tables from './tables';
 export controls from './controls';
 export formLayout from './formLayout';
+export validate from './validate';

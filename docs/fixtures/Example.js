@@ -10,6 +10,15 @@ import 'codemirror/mode/javascript/javascript';
 import 'codemirror/addon/runmode/runmode';
 import 'codemirror/mode/jsx/jsx';
 
+import * as RForm  from 'rsuite-form';
+import * as Schema from 'rsuite-schema';
+
+const RSuiteForm = RForm.Form;
+const Field = RForm.Field;
+const SchemaModel = Schema.SchemaModel;
+const StringType = Schema.StringType;
+const ArrayType = Schema.ArrayType;
+
 // Buttons
 const Button = require('../../src/Button').default;
 const ButtonToolbar = require('../../src/ButtonToolbar').default;
@@ -42,6 +51,8 @@ const HelpBlock = require('../../src/HelpBlock').default;
 const Checkbox = require('../../src/Checkbox').default;
 const CheckboxList = require('../../src/CheckboxList').default;
 const InputGroup = require('../../src/InputGroup').default;
+const TextList = require('../../src/TextList').default;
+
 
 const Radio = require('../../src/Radio').default;
 const RadioList = require('../../src/RadioList').default;

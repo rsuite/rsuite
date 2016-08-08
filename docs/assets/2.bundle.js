@@ -1,0 +1,2 @@
+/*! Last update: Mon Aug 08 2016 10:47:04 GMT+0800 (CST) */
+webpackJsonp([2],{353:function(e,t,l){"use strict";function n(e){return e&&e.__esModule?e:{"default":e}}Object.defineProperty(t,"__esModule",{value:!0});var a=l(2),u=n(a),r=(l(160),l(251)),d=l(227),o=(n(d),l(328)),s=n(o),c=u["default"].createClass({displayName:"PageComponents",render:function(){return u["default"].createElement(r.Row,null,u["default"].createElement(r.Col,{md:3,sm:12},u["default"].createElement(s["default"],null)),this.props.children)}});t["default"]=c}});
