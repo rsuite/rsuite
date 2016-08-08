@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "RSuite components built with React",
   "main": "lib/index.js",
   "directories": {
@@ -24,9 +24,7 @@
     "dom-lib": "^0.0.10",
     "lodash": "^4.11.1",
     "react": "^0.14.2",
-    "react-dom": "^0.14.2",
-    "rsuite-schema": "^0.0.1-alpha.2",
-    "rsuite-form": "^0.1.1"
+    "react-dom": "^0.14.2"
   },
   "author": "",
   "license": "MIT",
