@@ -13,6 +13,9 @@ const FormControl = React.createClass({
     contextTypes: {
         formGroup: React.PropTypes.object
     },
+    getFormGroup(){
+        return this.context.formGroup || {};
+    },
     getDefaultProps() {
         return {
             componentClass: 'input'
@@ -22,14 +25,14 @@ const FormControl = React.createClass({
 
         const value = evt.target.value;
         const { onChange } = this.props;
-        const { onChangeValue } = this.context.formGroup;
+        const { onChangeValue } = this.getFormGroup();
 
         onChange && onChange(value);
         onChangeValue && onChangeValue(value);
     },
     render() {
 
-        const { controlId, value } = this.context.formGroup;
+        const { controlId, value } = this.getFormGroup();
         const {
             componentClass: Component,
             type,

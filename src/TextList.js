@@ -10,17 +10,20 @@ const TextList = React.createClass({
     contextTypes: {
         formGroup: React.PropTypes.object
     },
+    getFormGroup(){
+        return this.context.formGroup || {};
+    },
     handleChange(evt) {
         const value = evt.target.value.split('\n').filter((v) => v !== '');
         const { onChange } = this.props;
-        const { onChangeValue } = this.context.formGroup;
+        const { onChangeValue } = this.getFormGroup();
 
         onChange && onChange(value);
         onChangeValue && onChangeValue(value);
     },
     render() {
 
-        const { controlId, value = []} = this.context.formGroup;
+        const { controlId, value = []} = this.getFormGroup();
         const {
             id = controlId,
             className

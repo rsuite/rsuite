@@ -29,6 +29,9 @@ const Radio = React.createClass({
             checked: this.props.checked
         };
     },
+    getFormGroup(){
+        return this.context.formGroup || {};
+    },
     handleChange(event) {
 
         this.setState({
@@ -36,7 +39,7 @@ const Radio = React.createClass({
         });
         const { value } = this.props;
         const { onChange } = this.props;
-        const { onChangeValue } = this.context.formGroup;
+        const { onChangeValue } = this.getFormGroup();
 
         onChange && onChange(value);
         onChangeValue && onChangeValue(value);

@@ -11,14 +11,15 @@ const CheckboxList = React.createClass({
     contextTypes: {
         formGroup: React.PropTypes.object
     },
+    getFormGroup(){
+        return this.context.formGroup || {};
+    },
     handleChange(checked) {
 
         const refs = this.refs;
         const value = [];
         const { onChange } = this.props;
-        const { onChangeValue } = this.context.formGroup;
-
-
+        const { onChangeValue } = this.getFormGroup();
 
         setTimeout(() => {
             for (let key in refs) {

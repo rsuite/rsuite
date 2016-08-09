@@ -11,6 +11,8 @@ import {
     RadioList,
     CheckboxList,
     Checkbox,
+    InputGroup,
+    IconFont,
     Radio
 } from '../src';
 
@@ -48,7 +50,7 @@ const FormDemo = React.createClass({
         return (
             <div className="container">
                 <h1 className="page-title">表单验证</h1>
-                <Form ref="myForm" model={myModel} force={this.state.formValid} formData={this.state.data} >
+                <Form ref="myForm" model={myModel} force={this.state.formValid}   formData={this.state.data} >
                     <Field name="username" >
                         <FormGroup>
                             <ControlLabel>Text</ControlLabel>
@@ -60,7 +62,12 @@ const FormDemo = React.createClass({
                     <Field name="email" >
                         <FormGroup>
                             <ControlLabel>Email</ControlLabel>
-                            <FormControl  type='text'  />
+                            <InputGroup inside size="lg">
+                                <InputGroup.Addon>
+                                    <IconFont icon="user" />
+                                </InputGroup.Addon>
+                                <FormControl  type='text'  />
+                            </InputGroup>
                             <HelpBlock>邮件地址</HelpBlock>
                         </FormGroup>
                     </Field>

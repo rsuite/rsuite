@@ -31,6 +31,9 @@ const Checkbox = React.createClass({
             checked: this.props.checked
         };
     },
+    getFormGroup(){
+        return this.context.formGroup || {};
+    },
     handleChange(event) {
         if (this.props.disabled) {
             return;
@@ -41,7 +44,7 @@ const Checkbox = React.createClass({
             checked
         });
         const { onChange } = this.props;
-        const { onChangeValue } = this.context.formGroup;
+        const { onChangeValue } = this.getFormGroup();
         const value = checked ? this.props.value : '';
         onChange && onChange(value);
         onChangeValue && onChangeValue(value);

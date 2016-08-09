@@ -33,9 +33,12 @@ const RadioList = React.createClass({
             }
         }
     },
+    getFormGroup(){
+        return this.context.formGroup || {};
+    },
     handleRadioChange(value) {
         const { onChange } = this.props;
-        const { onChangeValue } = this.context.formGroup;
+        const { onChangeValue } = this.getFormGroup();
 
         onChange && onChange(value);
         onChangeValue && onChangeValue(value);
@@ -49,7 +52,7 @@ const RadioList = React.createClass({
             children
         } = this.props;
 
-        const { value } = this.context.formGroup;
+        const { value } = this.getFormGroup();
 
 
         const clesses = classNames({
