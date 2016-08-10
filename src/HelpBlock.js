@@ -10,7 +10,7 @@ const HelpBlock = React.createClass({
     },
     render() {
 
-        const {controlId, isValid, errorMessage, force } = this.context.formGroup;
+        const {controlId, isValid, errorMessage } = this.context.formGroup;
         const {
             className,
             htmlFor = controlId,
@@ -19,7 +19,7 @@ const HelpBlock = React.createClass({
 
         const classes = classNames({
             'help-block': true,
-            'error': !isValid && force
+            'error': !isValid
         }, className);
 
         return (
@@ -27,7 +27,7 @@ const HelpBlock = React.createClass({
                 htmlFor = {htmlFor}
                 className={classes}
                 >
-                {(!isValid && force && errorMessage ) || children}
+                {(!isValid && errorMessage ) || children}
             </span>
         );
     }

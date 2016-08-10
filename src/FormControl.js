@@ -13,7 +13,8 @@ const FormControl = React.createClass({
     contextTypes: {
         formGroup: React.PropTypes.object
     },
-    getFormGroup(){
+
+    getFormGroup() {
         return this.context.formGroup || {};
     },
     getDefaultProps() {
@@ -25,42 +26,51 @@ const FormControl = React.createClass({
 
         const value = evt.target.value;
         const { onChange } = this.props;
-        const { onChangeValue } = this.getFormGroup();
+        const { onChange: onFormGroupChange } = this.getFormGroup();
 
         onChange && onChange(value);
-        onChangeValue && onChangeValue(value);
+        onFormGroupChange && onFormGroupChange(value);
+    },
+    handleBlur() {
+        const { onBlur } = this.props;
+        const { onBlur: onFormGroupBlur } = this.getFormGroup();
+        onBlur && onBlur();
+        onFormGroupBlur && onFormGroupBlur();
+    },
+    getValue() {
+        const { value } = this.getFormGroup();
+        return value || this.props.value;
     },
     render() {
 
-        const { controlId, value } = this.getFormGroup();
+        const { controlId } = this.getFormGroup();
         const {
             componentClass: Component,
             type,
             id = controlId,
+            value = this.getValue(),
             className,
             ...props,
         } = this.props;
 
-        if(id === null ){
-             throw new Error('`controlId` is ignored on `<FormControl>` when `id` is specified.');
-        }
 
-        let classes = classNames({
-            // input[type="file"] should not have .form-control.
-            'form-control': type !== 'file'
-        }, className);
+let classes = classNames({
+    // input[type="file"] should not have .form-control.
+    'form-control': type !== 'file'
+}, className);
 
 
-        return (
-            <Component
-                {...props}
-                type={type}
-                id={id}
-                defaultValue={value}
-                className={classes}
-                onChange={this.handleChange}
-            />
-        );
+return (
+    <Component
+        {...props}
+        type={type}
+        id={id}
+        value={value}
+        className={classes}
+        onBlur={this.handleBlur}
+        onChange={this.handleChange}
+        />
+);
     }
 });
 

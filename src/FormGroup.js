@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
 import FormControlMixin from './mixins/FormControlMixin';
-import HelpBlock from './HelpBlock';
 
 
 const FormGroup = React.createClass({
@@ -13,40 +12,23 @@ const FormGroup = React.createClass({
     childContextTypes: {
         formGroup: React.PropTypes.object.isRequired,
     },
-    handleError(hasError, errorMessage) {
-        const helpBlock = this.refs.helpBlock;
-        helpBlock && helpBlock.handleError(hasError, errorMessage);
-    },
-    handleChange(value) {
-        const { onChange } = this.props;
-        onChange && onChange(value);
-        this.setState({
-            force: true
-        });
-    },
     getChildContext() {
-
-        const { isValid, errorMessage, controlId, validationState, value, force } = this.props;
         return {
             formGroup: {
-                controlId,
-                validationState,
-                value,
-                isValid,
-                errorMessage,
-                force: force || this.state.force,
-                onChangeValue: this.handleChange
+                ...this.props
             }
         };
     },
     render() {
 
-        const { validationState, className, children, isValid,force } = this.props;
-        const hasState = validationState || (isValid ? 'success' : 'error');
+        const { validationState, className, children, isValid, formStatus, errorMessage } = this.props;
+        const statusClass = (validationState || isValid === undefined ? '' : isValid ? 'has-success' : 'has-error');
+
         const classes = classNames({
             'form-group': true,
-            [`has-${hasState}`]: hasState && (force || this.state.force)
+            [statusClass]: formStatus === 'TYPING' || errorMessage
         }, className);
+
 
         return (
             <div className={classes}>
