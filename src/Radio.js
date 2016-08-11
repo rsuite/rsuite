@@ -39,10 +39,10 @@ const Radio = React.createClass({
         });
         const { value } = this.props;
         const { onChange } = this.props;
-        const { onChangeValue } = this.getFormGroup();
+        const { onChange: onFormGroupChange } = this.getFormGroup();
 
         onChange && onChange(value);
-        onChangeValue && onChangeValue(value);
+        onFormGroupChange && onFormGroupChange(value);
 
     },
     render() {

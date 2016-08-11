@@ -15,21 +15,18 @@ const FormGroup = React.createClass({
     getChildContext() {
         return {
             formGroup: {
-                ...this.props
+                 ...this.props
             }
         };
     },
     render() {
 
-        const { validationState, className, children, isValid, formStatus, errorMessage } = this.props;
-        const statusClass = (validationState || isValid === undefined ? '' : isValid ? 'has-success' : 'has-error');
+        const { validationState, className, children, isValid } = this.props;
+        const statusClass = validationState ? `has-${validationState}` : (
+            isValid === undefined ? '' : isValid ? 'has-success' : 'has-error'
+        );
 
-        const classes = classNames({
-            'form-group': true,
-            [statusClass]: formStatus === 'TYPING' || errorMessage
-        }, className);
-
-
+        const classes = classNames('form-group', statusClass, className);
         return (
             <div className={classes}>
                 {children}

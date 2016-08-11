@@ -6,16 +6,10 @@ const FormControlMixin = {
         value: React.PropTypes.any,
         isValid: React.PropTypes.bool,
         errorMessage: React.PropTypes.string,
-        onError: React.PropTypes.func,
-        formStatus: React.PropTypes.oneOf(['WAITING', 'TYPING'])
+        onError: React.PropTypes.func
     },
     shouldCallOnError() {
-
-        // able to call onError() when
-        // 1. value exists(not undefined) and invalid
-        // 2. invalid and force is true(ignore value exists or not)
-        const { isValid, value, formStatus } = this.props;
-        return !isValid && formStatus === 'TYPING';
+        return this.props.isValid === false;
     },
     callError() {
         const { onError, isValid, errorMessage } = this.props;

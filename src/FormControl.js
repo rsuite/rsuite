@@ -54,23 +54,23 @@ const FormControl = React.createClass({
         } = this.props;
 
 
-let classes = classNames({
-    // input[type="file"] should not have .form-control.
-    'form-control': type !== 'file'
-}, className);
+        let classes = classNames({
+            // input[type="file"] should not have .form-control.
+            'form-control': type !== 'file'
+        }, className);
 
 
-return (
-    <Component
-        {...props}
-        type={type}
-        id={id}
-        value={value}
-        className={classes}
-        onBlur={this.handleBlur}
-        onChange={this.handleChange}
-        />
-);
+        return (
+            <Component
+                {...props}
+                type={type}
+                id={id}
+                value={value}
+                className={classes}
+                onBlur={this.handleBlur}
+                onChange={this.handleChange}
+                />
+        );
     }
 });
 

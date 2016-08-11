@@ -11,7 +11,7 @@ const CheckboxList = React.createClass({
     contextTypes: {
         formGroup: React.PropTypes.object
     },
-    getFormGroup(){
+    getFormGroup() {
         return this.context.formGroup || {};
     },
     handleChange(checked) {
@@ -19,7 +19,7 @@ const CheckboxList = React.createClass({
         const refs = this.refs;
         const value = [];
         const { onChange } = this.props;
-        const { onChangeValue } = this.getFormGroup();
+        const { onChange: onFormGroupChange } = this.getFormGroup();
 
         setTimeout(() => {
             for (let key in refs) {
@@ -28,7 +28,7 @@ const CheckboxList = React.createClass({
                 }
             }
             onChange && onChange(value);
-            onChangeValue && onChangeValue(value);
+            onFormGroupChange && onFormGroupChange(value);
         }, 1);
 
     },

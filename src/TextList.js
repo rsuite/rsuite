@@ -5,29 +5,43 @@ import FormControl from './FormControl';
 const TextList = React.createClass({
     propTypes: {
         id: React.PropTypes.string,
+        value: React.PropTypes.array,
         onChange: React.PropTypes.func
     },
     contextTypes: {
         formGroup: React.PropTypes.object
     },
-    getFormGroup(){
+    getFormGroup() {
         return this.context.formGroup || {};
     },
+    handleBlur() {
+        const { onBlur } = this.props;
+        const { onBlur: onFormGroupBlur } = this.getFormGroup();
+        onBlur && onBlur();
+        onFormGroupBlur && onFormGroupBlur();
+    },
     handleChange(evt) {
-        const value = evt.target.value.split('\n').filter((v) => v !== '');
+        const value = evt.target.value.split('\n');
+
         const { onChange } = this.props;
-        const { onChangeValue } = this.getFormGroup();
+        const { onChange: onFormGroupChange } = this.getFormGroup();
 
         onChange && onChange(value);
-        onChangeValue && onChangeValue(value);
+        onFormGroupChange && onFormGroupChange(value);
+    },
+    getValue() {
+        const { value = []} = this.getFormGroup();
+        return value || this.props.value || [];
     },
     render() {
 
-        const { controlId, value = []} = this.getFormGroup();
+        const { controlId } = this.getFormGroup();
         const {
             id = controlId,
-            className
+            className,
+            value = this.getValue()
         } = this.props;
+
         const valueStr = value.join('\n');
 
         const classes = classNames('form-control', className);
@@ -35,8 +49,9 @@ const TextList = React.createClass({
         return (
             <textarea
                 id={id}
-                defaultValue={valueStr}
+                value={valueStr}
                 className={classes}
+                onBlur={this.handleBlur}
                 onChange={this.handleChange}
                 />
 
