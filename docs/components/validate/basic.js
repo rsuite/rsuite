@@ -1,5 +1,5 @@
 
-const myModel = SchemaModel({
+const MyModel = SchemaModel({
     username: StringType().isOneOf(['username', 'email'], '只能输入username,email').isRequired('该字段必填'),
     email: StringType().isEmail('邮件格式错误'),
     lables: ArrayType().minLength(2, '至少选择两项').shape(StringType().isOneOf(['数码', '体育', '游戏', '旅途', '其他']), '只能输入：数码,体育,游戏,旅途,其他').unrepeatable('不能重复'),
@@ -10,15 +10,23 @@ const myModel = SchemaModel({
 });
 
 const FormDemo = React.createClass({
+    PropTypes: {
+        onLogin: React.PropTypes.func,
+        errors: React.PropTypes.obejct,
+        status: React.PropTypes.string,
+        message: React.PropTypes.string,
+        data: React.PropTypes.data
+    },
     getInitialState() {
         return {
             data: {},
-            formValid: false
+            formStatus: 'WAITING',
         };
     },
     handleSubmit() {
+
         this.setState({
-            formValid: true
+            formStatus: 'CHECK_ALL'
         });
 
         console.log(
@@ -33,7 +41,12 @@ const FormDemo = React.createClass({
         return (
             <div className="container">
                 <h1 className="page-title">表单验证</h1>
-                <RSuiteForm ref="myForm" model={myModel} force={this.state.formValid} formData={this.state.data} >
+                <RSuiteForm ref="myForm"
+                    model={MyModel}
+                    status = {this.state.formStatus}
+                    errors = {this.props.errors}
+                    formData={this.state.data}
+                >
                     <Field name="username" >
                         <FormGroup>
                             <ControlLabel>Text</ControlLabel>

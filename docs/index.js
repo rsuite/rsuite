@@ -3,86 +3,20 @@ import { render } from 'react-dom';
 
 import { Router, Route, IndexRoute, IndexRedirect, hashHistory, browserHistory } from 'react-router';
 
-
-
 // style
 import './docs.less';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/base16-light.css';
 import 'codemirror/theme/base16-dark.css';
 
-
-
-import DocHeader from './fixtures/DocHeader';
-import DocSidebar from './fixtures/DocSidebar';
-import DocFooter from './fixtures/DocFooter';
-
-import Container from '../src/Container';
-import Content from '../src/Content';
-
-const App = React.createClass({
-    contextTypes: {
-        router: React.PropTypes.object.isRequired
-    },
-    render: function () {
-        return (
-            <div className="doc-page">
-                <DocHeader />
-                <Container className="doc-container">
-                    {this.props.children}
-                </Container>
-                <DocFooter />
-            </div>
-        );
-    }
-});
+import routes from './routes';
 
 
 // Pages
-import PageIndex from  './pages/PageIndex';
-
+//import PageIndex from  './pages/PageIndex';
 //import PageGettingStarted from  './pages/PageGettingStarted';
 //import PageComponents from './pages/PageComponents';
 //import PageComponentsDoc from './pages/PageComponentsDoc';
-
-
-const routes = {
-    childRoutes: [{
-        path: '/',
-        component: App,
-        indexRoute: { component: require('./pages/PageIndex').default },
-        childRoutes: [
-            {
-                path: 'getting-started',
-                getComponent(nextState, cb) {
-                    require.ensure([], (require) => {
-                        cb(null, require('./pages/PageGettingStarted').default);
-                    });
-                }
-            },
-            {
-                path: 'components',
-                getComponent(nextState, cb) {
-                    require.ensure([], (require) => {
-                        cb(null, require('./pages/PageComponents').default);
-                    });
-                },
-                indexRoute: { onEnter: (nextState, replace) => replace('/buttons') },
-                childRoutes: [
-                    {
-                        path: 'buttons',
-                        getComponent(nextState, cb) {
-                            require.ensure([], (require) => {
-                                cb(null, require('./components/button').default);
-                            });
-                        }
-                    }
-                ]
-            }
-
-        ]
-    }]
-};
 
 
 render((

@@ -53,11 +53,11 @@ var instance = (
 
         <FormGroup controlId='radioList'>
             <ControlLabel>RadioList</ControlLabel>
-            <RadioList name="radioList">
-                <Radio checked>Item A</Radio>
-                <Radio>Item B</Radio>
-                <Radio>Item C</Radio>
-                <Radio disabled>Item D</Radio>
+            <RadioList name="radioList" value="C">
+                <Radio value="A">Item A</Radio>
+                <Radio value="B">Item B</Radio>
+                <Radio value="C">Item C</Radio>
+                <Radio value="D" disabled>Item D</Radio>
             </RadioList>
         </FormGroup>
 
@@ -74,11 +74,11 @@ var instance = (
 
         <FormGroup controlId='radioList'>
             <ControlLabel>RadioList inline</ControlLabel>
-            <RadioList name="radioList" inline>
-                <Radio checked>Item A</Radio>
-                <Radio>Item B</Radio>
-                <Radio>Item C</Radio>
-                <Radio disabled>Item D</Radio>
+            <RadioList name="radioList" value="C" inline>
+                <Radio value="A">Item A</Radio>
+                <Radio value="B">Item B</Radio>
+                <Radio value="C">Item C</Radio>
+                <Radio value="D" disabled>Item D</Radio>
             </RadioList>
         </FormGroup>
     </Form>

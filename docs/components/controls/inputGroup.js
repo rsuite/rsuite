@@ -21,6 +21,14 @@ var instance = (
         </FormGroup>
 
         <FormGroup>
+            <InputGroup>
+                <FormControl type="text" />
+                <InputGroup.Addon>至</InputGroup.Addon>
+                <FormControl type="text" />
+            </InputGroup>
+        </FormGroup>
+
+        <FormGroup>
             <InputGroup inside>
                 <FormControl type="text" />
                 <InputGroup.Addon>
