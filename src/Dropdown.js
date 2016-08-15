@@ -28,7 +28,8 @@ const Dropdown = React.createClass({
          */
         select: React.PropTypes.bool,
         activeKey: React.PropTypes.any,
-        bothEnds:React.PropTypes.bool
+        bothEnds: React.PropTypes.bool,
+        menuStyle: React.PropTypes.object
     },
     getDefaultProps() {
         return {
@@ -74,21 +75,33 @@ const Dropdown = React.createClass({
 
         this.props.onSelect && this.props.onSelect(eventKey, props, event);
     },
-    componentWillMount(){
+    update(props) {
 
-        let {children, select, activeKey} = this.props;
+        const {children, select, activeKey} = props || this.props;
+        const state = {
+            activeKey
+        };
+
         let title;
-        if(select){
-
-            React.Children.map(children,(item, index) => {
-                if(activeKey === item.props.eventKey){
+        if (select) {
+            React.Children.map(children, (item, index) => {
+                if (activeKey === item.props.eventKey) {
                     title = item.props.children;
-                }else if(item.props.active){
+                } else if (item.props.active) {
                     title = item.props.children;
                 }
-                title && this.setState({ title: title });
             });
+            title && (state.title = title);
         }
+
+        this.setState(state);
+
+    },
+    componentWillMount() {
+        this.update();
+    },
+    componentWillReceiveProps(nextProps) {
+        this.update(nextProps);
     },
     render() {
 
@@ -100,6 +113,7 @@ const Dropdown = React.createClass({
             activeKey,
             dropup,
             bothEnds,
+            menuStyle,
             componentClass: Component,
             ...props
         } = this.props;
@@ -119,10 +133,11 @@ const Dropdown = React.createClass({
                 onClose={this.toggle}
                 onSelect={this.handleSelect}
                 activeKey={this.state.activeKey}
+                style={menuStyle}
                 ref='menu'
                 >
                 {children}
-             </DropdownMenu>
+            </DropdownMenu>
         );
 
         if (this.state.open) {
@@ -133,9 +148,9 @@ const Dropdown = React.createClass({
             );
         }
 
-        const classes = classNames( {
+        const classes = classNames({
             'dropdown': !dropup,
-            'dropup': dropup ,
+            'dropup': dropup,
             'both-ends': bothEnds,
             'open': this.state.open
         }, className);
