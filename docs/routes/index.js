@@ -18,7 +18,7 @@ module.exports = {
                         cb(null, require('../pages/PageComponents').default);
                     });
                 },
-                //indexRoute: { onEnter: (nextState, replace) => replace('/components/buttons') },
+                indexRoute: { onEnter: (nextState, replace) => replace('/components/buttons') },
                 childRoutes: [
                     require('./components/breadcrumbs'),
                     require('./components/buttonGroups'),

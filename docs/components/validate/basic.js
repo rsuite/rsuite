@@ -1,8 +1,8 @@
 
 const MyModel = SchemaModel({
-    username: StringType().isOneOf(['username', 'email'], '只能输入username,email').isRequired('该字段必填'),
+    username: StringType().isOneOf(['admin', 'root'], '只能输入admin,root这两个用户').isRequired('该字段必填'),
     email: StringType().isEmail('邮件格式错误'),
-    lables: ArrayType().minLength(2, '至少选择两项').shape(StringType().isOneOf(['数码', '体育', '游戏', '旅途', '其他']), '只能输入：数码,体育,游戏,旅途,其他').unrepeatable('不能重复'),
+    lables: ArrayType().minLength(2, '至少输入两项，用换行分割').shape(StringType().isOneOf(['数码', '体育', '游戏', '旅途', '其他']), '只能输入：数码,体育,游戏,旅途,其他').unrepeatable('不能重复'),
     radioList: StringType().isRequired('该字段必填'),
     radio: StringType().isRequired('该字段必填'),
     checkboxList: ArrayType().minLength(2, '至少选择2项').isRequired('该字段必填'),
@@ -11,42 +11,29 @@ const MyModel = SchemaModel({
 
 const FormDemo = React.createClass({
     PropTypes: {
-        onLogin: React.PropTypes.func,
         errors: React.PropTypes.obejct,
-        status: React.PropTypes.string,
         message: React.PropTypes.string,
         data: React.PropTypes.data
     },
     getInitialState() {
         return {
-            data: {},
-            formStatus: 'WAITING',
+            data: {}
         };
     },
     handleSubmit() {
-
-        this.setState({
-            formStatus: 'CHECK_ALL'
-        });
-
-        console.log(
-            this.state.data,
-            this.refs.myForm.getCheckResult(),
-            this.refs.myForm.isValid()
-        );
+        const { formData, isValid } = this.refs.myForm.get();
+        console.log(formData, isValid);
     },
     render() {
-
 
         return (
             <div className="container">
                 <h1 className="page-title">表单验证</h1>
                 <RSuiteForm ref="myForm"
                     model={MyModel}
-                    status = {this.state.formStatus}
                     errors = {this.props.errors}
                     formData={this.state.data}
-                >
+                    >
                     <Field name="username" >
                         <FormGroup>
                             <ControlLabel>Text</ControlLabel>
