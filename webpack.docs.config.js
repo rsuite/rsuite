@@ -34,6 +34,10 @@ var plugins = [
 
 if (process.env.NODE_ENV === 'production') {
 
+    plugins.push(new webpack.optimize.CommonsChunkPlugin({
+        names: ['vendor','babel']
+    }));
+
     plugins.push(new webpack.optimize.UglifyJsPlugin({
         compress: {
             warnings: false
@@ -46,10 +50,12 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
     entry: {
         index: './docs/index',
+        babel:['babel-standalone'],
+        vendor: ['react','react-router', 'react-dom', 'lodash', 'classnames', 'dom-lib','codemirror']
     },
     output: {
         path: path.join(__dirname, 'docs/assets'),
-        filename: 'bundle.js'
+        filename: '[name].bundle.js'
     },
     node: {
         fs: 'empty'
