@@ -101,7 +101,9 @@ const Dropdown = React.createClass({
         this.update();
     },
     componentWillReceiveProps(nextProps) {
-        this.update(nextProps);
+        if (this.props.activeKey !== nextProps.activeKey) {
+            this.update(nextProps);
+        }
     },
     render() {
 

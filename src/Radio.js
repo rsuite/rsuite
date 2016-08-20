@@ -29,7 +29,15 @@ const Radio = React.createClass({
             checked: this.props.checked
         };
     },
-    getFormGroup(){
+    componentWillReceiveProps(nextProps) {
+
+        if(nextProps.checked !== this.props.checked){
+            this.setState({
+                checked: nextProps.checked
+            });
+        }
+    },
+    getFormGroup() {
         return this.context.formGroup || {};
     },
     handleChange(event) {
@@ -60,41 +68,41 @@ const Radio = React.createClass({
             ...props,
         } = this.props;
 
-const labelClasses = classNames({
-    'radio-inline': inline
-}, className);
+        const labelClasses = classNames({
+            'radio-inline': inline
+        }, className);
 
-const radioClasses = classNames({
-    'radio': true,
-    'disabled': disabled
-});
+        const radioClasses = classNames({
+            'radio': true,
+            'disabled': disabled
+        });
 
-const input = (
-    <span className = {classNames({
-        checked: this.state.checked
-    }) }>
-        <input
-            {...props}
-            type = 'radio'
-            name = {name}
-            disabled = {disabled}
-            onChange =  {this.handleChange }
-            />
-    </span>
-);
+        const input = (
+            <span className = {classNames({
+                checked: this.state.checked
+            }) }>
+                <input
+                    {...props}
+                    type = 'radio'
+                    name = {name}
+                    disabled = {disabled}
+                    onChange =  {this.handleChange }
+                    />
+            </span>
+        );
 
 
-return (
-    <label className={labelClasses} >
-        <div
-            className={radioClasses}
-            role = 'radio'
-            >
-            {input}
-        </div>
-        { title || children }
-    </label>
-);
+        return (
+            <label className={labelClasses} >
+                <div
+                    className={radioClasses}
+                    role = 'radio'
+                    >
+                    {input}
+                </div>
+                { title || children }
+            </label>
+        );
     }
 });
 
