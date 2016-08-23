@@ -22,20 +22,20 @@ const FormControl = React.createClass({
             componentClass: 'input'
         };
     },
-    handleChange(evt) {
+    handleChange(event) {
 
-        const value = evt.target.value;
+        const value = event.target.value;
         const { onChange } = this.props;
         const { onChange: onFormGroupChange } = this.getFormGroup();
 
         onChange && onChange(value);
         onFormGroupChange && onFormGroupChange(value);
     },
-    handleBlur() {
+    handleBlur(event) {
         const { onBlur } = this.props;
         const { onBlur: onFormGroupBlur } = this.getFormGroup();
-        onBlur && onBlur();
-        onFormGroupBlur && onFormGroupBlur();
+        onBlur && onBlur(event);
+        onFormGroupBlur && onFormGroupBlur(event);
     },
     getValue() {
         const { value } = this.getFormGroup();

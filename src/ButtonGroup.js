@@ -12,6 +12,7 @@ const ButtonGroup = React.createClass({
         vertical: React.PropTypes.bool,
         justified: React.PropTypes.bool,
         block: React.PropTypes.bool,
+        onSelect: React.PropTypes.func,
         onClick: React.PropTypes.func
     },
     getDefaultProps() {
@@ -19,23 +20,25 @@ const ButtonGroup = React.createClass({
             block: false,
             justified: false,
             vertical: false,
-            classPrefix:'btn-group'
+            classPrefix: 'btn-group'
         };
     },
-    handleClick(event) {
-        let target = event.target;
-        let type = this.props.type;
-        let refs = this.refs;
-        if (type === 'checkbox') {
-            this.toggleClass('active', target);
-        } else if (type === 'radio') {
-            for (let key in refs) {
-                let ref = findDOMNode(refs[key]);
-                let toggle = target === ref ? 'addClass' : 'removeClass';
+    handleClick(index) {
 
-                refs[key][toggle]('active');
+        const { type, onSelect } = this.props;
+        const activeButton = this.refs[`btn_${index}`];
+
+        if (type === 'checkbox') {
+            activeButton.toggleClass('active');
+            onSelect && onSelect(activeButton);
+        } else if (type === 'radio') {
+            for (let key in this.refs) {
+                let toggle = this.refs[key] === activeButton ? 'addClass' : 'removeClass';
+                this.refs[key][toggle]('active');
             }
+            onSelect && onSelect(activeButton);
         }
+
     },
     render() {
 
@@ -51,7 +54,8 @@ const ButtonGroup = React.createClass({
         const items = React.Children.map(children, (item, index) => {
             return React.cloneElement(item, {
                 key: index,
-                ref: 'btn_' + index
+                ref: 'btn_' + index,
+                onClick: createChainedFunction(() => this.handleClick(index), item.props.onClick)
             }, item.props.children);
         });
 
@@ -59,7 +63,6 @@ const ButtonGroup = React.createClass({
             <div
                 {...this.props}
                 className={classes}
-                onClick={createChainedFunction(this.handleClick, this.props.onClick) }
                 >
                 {items}
             </div>
