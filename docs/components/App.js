@@ -10,11 +10,17 @@ const App = React.createClass({
     contextTypes: {
         router: React.PropTypes.object.isRequired
     },
+    componentWillReceiveProps: function (nextProps) {
+        _ha('send', 'pageview', {
+            'url': document.location.href
+        });
+    },
     render: function () {
+        //_ha('send','pageview');
         return (
-            <div className="doc-page">
+            <div className='doc-page'>
                 <DocHeader />
-                <Container className="doc-container">
+                <Container className='doc-container'>
                     {this.props.children}
                 </Container>
                 <DocFooter />

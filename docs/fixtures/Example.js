@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import classNames from 'classnames';
-import {Link} from 'react-router';
-import {transform} from 'babel-standalone';
+import { Link } from 'react-router';
+//import { transform } from 'babel-standalone';
 import CodeEditor from './CodeEditor';
 
 import 'codemirror/mode/javascript/javascript';
@@ -96,7 +96,7 @@ const Example = React.createClass({
 
         try {
 
-            let code = transform(this.state.code, {
+            let code = Babel.transform(this.state.code, {
                 presets: ['stage-0', 'react', 'es2015']
             }).code;
 
