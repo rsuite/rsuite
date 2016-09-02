@@ -1,0 +1,77 @@
+/**灰色色阶为公用颜色**/
+@B000:#fff;
+@B050:#f5f5f5;
+@B100:#eee;
+@B200:#e5e5e5;
+@B300:#ddd;
+@B400:#ccc;
+@B500:#b5b5b5;
+@B600:#9f9f9f;
+@B700:#888;
+@B800:#717171;
+@B900:#575757;
+
+
+@H050:#e8e9ea;
+@H100:#bbbec0;
+@H200:#8e9396;
+@H300:#686f73;
+@H400:#424b50;
+@H500:#1c272d;
+@H600:#192227;
+@H700:#151d22;
+@H800:#12181c;
+@H900:#0e1417;
+
+
+@btn-primary-color:@B000;
+@btn-primary-bg: @H500;
+@btn-primary-border: @H500;
+@dropdown-link-hover-bg:@H050;
+
+a{
+    color: @H500;
+    cursor: pointer;
+    &:hover,
+    &:focus{
+       color: @H600;
+    }
+}
+.btn-primary {
+    .button-variant(@btn-primary-color; @btn-primary-bg; @btn-primary-border);
+}
+
+.dropdown-menu > li > a {
+    &:hover,
+    &:focus {
+        text-decoration: none;
+        background-color: @dropdown-link-hover-bg;
+    }
+}
+.dropdown-menu > .active > a {
+    &,
+    &:hover,
+    &:focus {
+        text-decoration: none;
+        background-color: @H500;
+    }
+}
+
+div.checker,div.radio{
+     span::after{
+        color: @H500;
+    }
+}
+
+.navbar-brand.logo{
+    line-height: 50px;
+    font-size: 24px;
+    .prefix{
+        color: #0ae !important;
+    }
+    .sub-title{
+        font-size: 12px;
+        margin-left: 20px;
+        color: #ccc !important;
+    }
+}

@@ -1,0 +1,57 @@
+{
+  "name": "webpack-rudux-router-demo",
+  "version": "0.0.1",
+  "description": "webpack-rudux-router-demo",
+  "scripts": {
+    "kill": "kill -9 `ps -ef|grep webpack|awk '{print $2}'`",
+    "dev": "NODE_ENV=development webpack-dev-server --hot --inline --progress --colors --port 3000 --config webpack.dev.config.js",
+    "build": "rm -rf build && NODE_ENV=production webpack --progress --colors",
+    "test": "karma start"
+  },
+  "author": "Simon Guo <simonguo.2009@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "classnames": ">=2.0.0",
+    "dom-lib": "^0.0.12",
+    "intl": "^1.2.4",
+    "isomorphic-fetch": "^2.2.1",
+    "lodash": "^4.11.1",
+    "react": "^0.14.2",
+    "react-dom": "^0.14.2",
+    "react-intl": "^2.1.3",
+    "react-redux": "^4.4.5",
+    "react-router-redux": "^4.0.5",
+    "redux": "^3.5.2",
+    "redux-logger": "^2.6.1",
+    "redux-thunk": "^2.1.0",
+    "react-router": "2.0.1",
+    "rsuite": "0.0.7",
+    "rsuite-table": "0.0.11"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rsuite/rsuite.git"
+  },
+  "devDependencies": {
+    "babel-core": "^6.7.6",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.3.13",
+    "babel-preset-stage-0": "^6.5.0",
+    "css-loader": "^0.23.1",
+    "eslint": "^2.8.0",
+    "eslint-plugin-babel": "^3.2.0",
+    "eslint-plugin-react": "^5.0.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.9.0",
+    "html-webpack-plugin": "^2.22.0",
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
+    "postcss-loader": "^0.9.1",
+    "react-hot-loader": "^1.3.0",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1"
+  }
+}

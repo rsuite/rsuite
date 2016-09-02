@@ -1,0 +1,109 @@
+.box-shadow(@x:0px, @y:2px, @blur:3px, @color:rgba(0, 0, 0, 0.28)) {
+    -moz-box-shadow: @arguments;
+    -webkit-box-shadow: @arguments;
+    box-shadow: @arguments;
+}
+
+
+.button-variant(@color; @background; @border) {
+    color: @color;
+    background-color: @background;
+    border-color: @border;
+
+    &:focus,
+    &.focus {
+        color: @color;
+        background-color: darken(@background, 10%);
+        border-color: darken(@border, 10%);
+    }
+    &:hover {
+        color: @color;
+        background-color: darken(@background, 5%);
+        border-color: darken(@border, 5%);
+    }
+    &:active,
+    &.active,
+    .open > .dropdown-toggle& {
+        color: @color;
+        background-color: darken(@background, 10%);
+        border-color: darken(@border, 10%);
+
+        &:hover,
+        &:focus,
+        &.focus {
+            color: @color;
+            background-color: darken(@background, 17%);
+            border-color: darken(@border, 17%);
+        }
+    }
+    &:active,
+    &.active,
+    .open > .dropdown-toggle& {
+        background-image: none;
+    }
+    &.disabled,
+    &[disabled],
+    fieldset[disabled] & {
+        &:hover,
+        &:focus,
+        &.focus {
+            background-color: @background;
+            border-color: @border;
+        }
+    }
+
+    .badge {
+        color: @background;
+        background-color: @color;
+    }
+}
+
+
+/*************
+生成各种常量class所用的mixin
+*************/
+//生成宽度
+.generate-w(@n, @i: 1) when (@i <= @n) {
+    @wi: @i*10;
+    @j: @i+1;
+    .w@{wi} {
+        width: @wi*1px !important;
+    }
+    .generate-w(@n, @j);
+}
+
+.generate-pm(@n,@i:0) when (@i <= @n) {
+    @pi: @i*2;
+    @j: @i+1;
+    .p@{pi} {
+        padding: @pi*1px !important;
+    }
+    .pl@{pi} {
+        padding-left: @pi*1px !important;
+    }
+    .pr@{pi} {
+        padding-right: @pi*1px !important;
+    }
+    .pb@{pi} {
+        padding-bottom: @pi*1px !important;
+    }
+    .pt@{pi} {
+        padding-top: @pi*1px !important;
+    }
+    .mr@{pi} {
+        margin-right: @pi*1px !important;
+    }
+    .ml@{pi} {
+        margin-left: @pi*1px !important;
+    }
+    .mt@{pi} {
+        margin-top: @pi*1px !important;
+    }
+    .mb@{pi} {
+        margin-bottom: @pi*1px !important;
+    }
+    .m@{pi} {
+        margin: @pi*1px !important;
+    }
+    .generate-pm(@n, @j);
+}

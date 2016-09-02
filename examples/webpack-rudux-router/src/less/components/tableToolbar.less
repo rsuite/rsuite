@@ -1,0 +1,38 @@
+.table-toolbar{
+    padding: 18px;
+    background: @B050;
+
+    .lbl{
+        color: @B600;
+        float: left;
+        line-height: 36px;
+        margin: 0 10px 0 18px;
+        vertical-align: middle;
+    }
+    .btn-group.dropdown{
+        .dropdown-toggle{
+            background: @B050;
+        }
+        .dropdown-toggle:hover{
+            background: @B100;
+            border-color: @B100;
+        }
+        &.open .dropdown-toggle{
+            background: @B000 !important;
+            border-color: @B100;
+            border-bottom-width: 0;
+            padding-bottom: 8px;
+        }
+        .dropdown-menu{
+            border-color: @B100;
+        }
+    }
+    .pull-right{
+        float:right !important;
+    }
+    .form-control{
+        float: left;
+        width: auto;
+        border-color: #fff;
+    }
+}
