@@ -35,6 +35,7 @@ const PageIndex = React.createClass({
                     <div className="nav">
                         <Link to="/getting-started" >开始使用</Link>
                         <Link to="/components/buttons">组件</Link>
+                        <Link to="/examples">实例</Link>
                         <a href="https://github.com/suitejs/suite">GitHub</a>
                     </div>
                 </Banner>

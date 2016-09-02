@@ -8,10 +8,9 @@ const DocFooter = React.createClass({
         return (
            <div className="footer">
                 <div className="container">
-                    当前版本 v0.1.0 ·
-                    <a href="https://github.com/suitejs/suite">GitHub</a>·
-                    <a href="https://github.com/suitejs/suite/issues">Issues</a>·
-                    <a href="https://github.com/suitejs/suite/releases">Releases</a>
+                    <a href="https://github.com/rsuite/rsuite">GitHub</a>·
+                    <a href="https://github.com/rsuite/rsuite/issues">Issues</a>·
+                    <a href="https://github.com/rsuite/rsuite/releases">Releases</a>
                 </div>
            </div>
         );

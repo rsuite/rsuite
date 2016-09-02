@@ -37,7 +37,14 @@ module.exports = {
                     require('./components/tooltips'),
                     require('./components/validate')
                 ]
-            }
+            },{
+                path: 'examples',
+                getComponent(nextState, cb) {
+                    require.ensure([], (require) => {
+                        cb(null, require('../pages/PageExamples').default);
+                    });
+                }
+            },
 
         ]
     }]

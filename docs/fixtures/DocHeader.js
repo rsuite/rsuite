@@ -5,13 +5,16 @@ import { Router, Route, Link } from 'react-router';
 import { Header, Navbar, Nav } from '../../src/index';
 
 
-
-const NAV_LINKS = [{
+const NAV_LINKS = [
+    {
         link: '/getting-started',
         title: '开始使用'
     }, {
         link: '/components',
         title: '组件'
+    }, {
+        link: '/examples',
+        title: '实例'
     }];
 
 const DocHeader = React.createClass({
@@ -59,7 +62,7 @@ const DocHeader = React.createClass({
 
         let classes = classNames({
             'doc-header': true,
-            'overflow' : this.state.overflow
+            'overflow': this.state.overflow
         });
 
         return (
