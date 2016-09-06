@@ -1,76 +1,88 @@
-const instance = (
-    <div>
-        <ButtonToolbar>
-            <Button shape='default'>Default</Button>
-            <Button shape='primary'>Primary</Button>
-            <Button shape='success'>Success</Button>
-            <Button shape='warning'>Warning</Button>
-            <Button shape='danger'>Danger</Button>
-            <Button shape='info'>Info</Button>
-            <Button shape='link'>Link</Button>
-        </ButtonToolbar>
-        <Form >
-            <FormGroup controlId='username'>
-                <ControlLabel>Text</ControlLabel>
-                <FormControl  type='text'  />
-                <HelpBlock>Required</HelpBlock>
-            </FormGroup>
-            <FormGroup controlId='email'>
-                <ControlLabel>Email</ControlLabel>
-                <FormControl  type='email'  />
-            </FormGroup>
-            <FormGroup controlId='number'>
-            <ControlLabel>Number</ControlLabel>
-            <FormControl  type='number'  />
-        </FormGroup>
-        <FormGroup controlId='file'>
-            <ControlLabel>File</ControlLabel>
-            <FormControl  type='file' />
-        </FormGroup>
+const userModel = SchemaModel({
+    username: StringType().isRequired('Required'),
+    email: StringType().isEmail('Incorrect Email format'),
+    gender: StringType().isRequired('Required'),
+    skills: ArrayType().minLength(2, 'Select at least two').isRequired('Required'),
+    bio: StringType().rangeLength(0, 200, '200 character maximum'),
+});
 
-        <FormGroup controlId='select'>
-            <ControlLabel>Select</ControlLabel>
-            <FormControl componentClass='select'>
-                <option value='A'>Option A</option>
-                <option value='B'>Option B</option>
-                <option value='C'>Option C</option>
-                <option value='D'>Option D</option>
-            </FormControl>
-        </FormGroup>
+const FormExample = React.createClass({
+    PropTypes: {
+        errors: React.PropTypes.obejct,
+        data: React.PropTypes.data
+    },
+    getInitialState() {
+        return {
+            data: {}
+        };
+    },
+    handleSubmit() {
+        const { formData, isValid } = this.refs.form.get();
+        console.log(formData, isValid);
+    },
+    render() {
 
-        <FormGroup controlId='textarea'>
-            <ControlLabel>Textarea</ControlLabel>
-            <FormControl componentClass="textarea" />
-        </FormGroup>
+        return (
+            <div className="container">
+                <h1 className="page-title">Form Example</h1>
+                <RSuiteForm ref="form"
+                    model={userModel}
+                    errors = {this.props.errors}
+                    formData={this.state.data}
+                    >
+                    <Field name="username" >
+                        <FormGroup>
+                            <ControlLabel>Text</ControlLabel>
+                            <FormControl  type='text'  />
+                            <HelpBlock>Required</HelpBlock>
+                        </FormGroup>
+                    </Field>
 
-        <FormGroup controlId='checkbox'>
-            <Checkbox checked > Checkbox</Checkbox>
-        </FormGroup>
+                    <Field name="email" >
+                        <FormGroup>
+                            <ControlLabel>Email</ControlLabel>
+                            <FormControl  type='text'  />
+                            <HelpBlock>Required</HelpBlock>
+                        </FormGroup>
+                    </Field>
 
-        <FormGroup>
-            <Radio> Radio</Radio>
-        </FormGroup>
+                    <Field name="gender" >
+                        <FormGroup>
+                            <ControlLabel>Gender</ControlLabel>
+                            <RadioList >
+                                <Radio value="male">Male</Radio>
+                                <Radio value="female">Female</Radio>
+                            </RadioList>
+                            <HelpBlock>Required</HelpBlock>
+                        </FormGroup>
+                    </Field>
 
-        <FormGroup controlId='checkboxList'>
-            <ControlLabel>CheckboxList</ControlLabel>
-            <CheckboxList name="checkboxList">
-                <Checkbox checked>Item A</Checkbox>
-                <Checkbox>Item B</Checkbox>
-                <Checkbox>Item C</Checkbox>
-                <Checkbox disabled>Item D</Checkbox>
-            </CheckboxList>
-        </FormGroup>
+                    <Field name="skills" >
+                        <FormGroup>
+                            <ControlLabel>Skills</ControlLabel>
+                            <CheckboxList >
+                                <Checkbox value="javascript">javascript</Checkbox>
+                                <Checkbox value="css">css</Checkbox>
+                                <Checkbox value="react">react</Checkbox>
+                            </CheckboxList>
+                            <HelpBlock>Required</HelpBlock>
+                        </FormGroup>
+                    </Field>
 
-        <FormGroup controlId='radioList'>
-            <ControlLabel>RadioList</ControlLabel>
-            <RadioList name="radioList">
-                <Radio checked>Item A</Radio>
-                <Radio>Item B</Radio>
-                <Radio>Item C</Radio>
-                <Radio disabled>Item D</Radio>
-            </RadioList>
-        </FormGroup>
-    </Form>
-    </div>
-);
-ReactDOM.render(instance, mountNode);
+                    <Field name="bio" >
+                        <FormGroup>
+                            <ControlLabel>Bio</ControlLabel>
+                            <FormControl componentClass="textarea" />
+                            <HelpBlock></HelpBlock>
+                        </FormGroup>
+                    </Field>
+
+                    <Button shape="primary" onClick={this.handleSubmit}>Submit</Button>
+
+                </RSuiteForm>
+            </div>
+        );
+    }
+});
+
+ReactDOM.render(<FormExample />, mountNode);

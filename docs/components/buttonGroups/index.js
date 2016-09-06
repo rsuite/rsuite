@@ -12,8 +12,8 @@ const examples = {
     block: require('fs').readFileSync(__dirname + '/block.js', 'utf8'),
     justified: require('fs').readFileSync(__dirname + '/justified.js', 'utf8'),
     sizing: require('fs').readFileSync(__dirname + '/sizing.js', 'utf8')
-
 };
+
 export default React.createClass({
     render() {
         return (

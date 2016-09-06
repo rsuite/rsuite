@@ -31,7 +31,7 @@ const PageIndex = React.createClass({
             <div>
                 <Banner id="banner">
                     <h1 className="logo"><span className="prefix">R</span>Suite</h1>
-                    <p>一个基于 React.js 的 Web 组件库</p>
+                    <p className="sub-title">一个基于 React.js 的 Web 组件库</p>
                     <div className="nav">
                         <Link to="/getting-started" >开始使用</Link>
                         <Link to="/components/buttons">组件</Link>
@@ -43,7 +43,7 @@ const PageIndex = React.createClass({
                     <Row>
                         <Col id="index-content" md={12}>
                             <Markdown>
-                                {require('./readme.md') }
+                                { require('./readme.md') }
                             </Markdown>
                         </Col>
                     </Row>

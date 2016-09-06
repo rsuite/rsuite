@@ -1,9 +1,12 @@
 @import './highlight.less';
 
+@primary-color:#FF8533;
+@bg-color:#373c44;
+
 .logo{
     font-family: "open sans",arial,sans-serif;
     .prefix{
-        color: #0ae;
+        color: @primary-color;
     }
 }
 
@@ -14,7 +17,7 @@
 }
 .doc-page{
     .navbar-inverse{
-        background: #1c272d;
+        background: @bg-color;
         .active a{
             background: #141c23;
         }
@@ -156,32 +159,34 @@ code{
 .banner{
     position: absolute;
     width: 100%;
-    background:#1c272d;
+    background:@bg-color;
     top:0;
     left: 0;
-    height: 80%;
+    height: 100%;
     z-index: 1040;
     overflow: hidden;
-    color:#fff;
-    .logo, a{
-        color:#f1f1f1;
-    }
+    color:#AAB2BD;
+
     .nav{
-        margin-top: 30px;
+        top: 32px;
+        position: absolute;
+        left: 200px;
+    }
+    .sub-title{
+        margin-top: 40px;
     }
     .nav > a {
         background: transparent;
-
         border-radius: 4px;
-        color: #0ae;
+        color: #AAB2BD;
         margin-right: 10px;
         padding: 10px 23px;
         text-decoration: none;
         &.primary{
-             border: 1px solid #0ae;
+             border: 1px solid #FF8533;
         }
         &:hover{
-            box-shadow:0 0 10px #0ae
+            box-shadow:0 0 10px #FF8533
         }
     }
     .triangle-left {
