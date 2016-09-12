@@ -32,7 +32,7 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 ```html
 <link rel="stylesheet" href="//t.hypers.com.cn/libs/rsuite/css/0.1.0/rsuite.min.css">
 ```
-[code](https://github.com/rsuite/rsuite-theme-pagurian)
+[code](https://github.com/rsuite/rsuite-theme)
 
 ### 浏览器支持
 

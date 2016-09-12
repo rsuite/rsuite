@@ -3,32 +3,27 @@ const userModel = SchemaModel({
     email: StringType().isEmail('Incorrect Email format'),
     gender: StringType().isRequired('Required'),
     skills: ArrayType().minLength(2, 'Select at least two').isRequired('Required'),
-    bio: StringType().rangeLength(0, 200, '200 character maximum'),
+    bio: StringType().rangeLength(0, 200, '200 character maximum')
 });
 
 const FormExample = React.createClass({
     PropTypes: {
         errors: React.PropTypes.obejct,
-        data: React.PropTypes.data
-    },
-    getInitialState() {
-        return {
-            data: {}
-        };
+        data: React.PropTypes.obejct
     },
     handleSubmit() {
         const { formData, isValid } = this.refs.form.get();
         console.log(formData, isValid);
     },
     render() {
-
+        const { data = {}, errors } = this.props;
         return (
             <div className="container">
                 <h1 className="page-title">Form Example</h1>
                 <RSuiteForm ref="form"
-                    model={userModel}
-                    errors = {this.props.errors}
-                    formData={this.state.data}
+                    model={ userModel }
+                    errors = { errors }
+                    formData={ data }
                     >
                     <Field name="username" >
                         <FormGroup>

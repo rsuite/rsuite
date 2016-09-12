@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import { Link } from 'react-router';
-//import { transform } from 'babel-standalone';
 import CodeEditor from './CodeEditor';
 
 import 'codemirror/mode/javascript/javascript';
