@@ -50,7 +50,6 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
     entry: {
         index: './docs/index',
-        babel:['babel-standalone'],
         vendor: ['react','react-router', 'react-dom', 'lodash', 'classnames', 'dom-lib','codemirror']
     },
     output: {
