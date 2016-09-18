@@ -22,6 +22,9 @@ var renderer = new marked.Renderer();
 renderer.code = codeRenderer;
 
 var plugins = [
+    new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+    }),
     new ExtractTextPlugin('[name].css'),
     new HtmlwebpackPlugin({
         title: 'RSuite | 一个基于 React.js 的 Web 组件库',
@@ -35,7 +38,7 @@ var plugins = [
 if (process.env.NODE_ENV === 'production') {
 
     plugins.push(new webpack.optimize.CommonsChunkPlugin({
-        names: ['vendor','babel']
+        names: ['vendor']
     }));
 
     plugins.push(new webpack.optimize.UglifyJsPlugin({
@@ -50,7 +53,7 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
     entry: {
         index: './docs/index',
-        vendor: ['react','react-router', 'react-dom', 'lodash', 'classnames', 'dom-lib','codemirror']
+        vendor: ['react', 'react-router', 'react-dom', 'lodash', 'classnames', 'dom-lib', 'codemirror']
     },
     output: {
         path: path.join(__dirname, 'docs/assets'),
