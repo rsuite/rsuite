@@ -11,6 +11,8 @@ import 'codemirror/theme/base16-dark.css';
 
 import routes from './routes';
 
+require('./hypers-hire');
+
 
 // Pages
 //import PageIndex from  './pages/PageIndex';
@@ -33,3 +35,4 @@ render((
         **/}
     </Router>
 ), document.getElementById('root'));
+
