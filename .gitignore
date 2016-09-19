@@ -40,3 +40,6 @@ build
 lib/
 docs/assets
 
+# custom
+.idea
+

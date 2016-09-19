@@ -11,7 +11,8 @@ module.exports = {
                         cb(null, require('../pages/PageGettingStarted').default);
                     });
                 }
-            },{
+            },
+            {
                 path: 'components',
                 getComponent(nextState, cb) {
                     require.ensure([], (require) => {
@@ -37,7 +38,8 @@ module.exports = {
                     require('./components/tooltips'),
                     require('./components/validate')
                 ]
-            },{
+            },
+            {
                 path: 'examples',
                 getComponent(nextState, cb) {
                     require.ensure([], (require) => {
