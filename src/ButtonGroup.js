@@ -42,7 +42,7 @@ const ButtonGroup = React.createClass({
     },
     render() {
 
-        const {children, className, vertical, block, justified } = this.props;
+        const { children, className, vertical, block, justified } = this.props;
         const classes = classNames({
             'btn-group': true,
             'btn-block': block,

@@ -63,7 +63,7 @@ const Checkbox = React.createClass({
             children,
             onChange,
             value,
-            //...props,
+            checked
         } = this.props;
 
         let classes = classNames({
@@ -83,6 +83,7 @@ const Checkbox = React.createClass({
                 <input
                     type='checkbox'
                     name={name}
+                    checked = { checked !== undefined ? checked : value }
                     value={ value }
                     disabled = {disabled}
                     onChange = {this.handleChange}
@@ -94,7 +95,7 @@ const Checkbox = React.createClass({
         return (
             <label className={ classes } >
                 <div
-                    className={checkboxClasses}
+                    className={ checkboxClasses }
                     role = 'checkbox'
                     >
                     {input}
