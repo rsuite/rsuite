@@ -6,6 +6,11 @@
         <link rel="stylesheet" href="//t.hypers.com.cn/libs/rsuite/css/0.1.0/rsuite.min.css">
         <title><%= htmlWebpackPlugin.options.title %></title>
         <link rel="shortcut icon" href="/insight/dist/resources/img/favicon.ico">
+         <!--[if IE]>
+            <script src="//cdn.bootcss.com/es6-shim/0.35.1/es6-shim.min.js"></script>
+            <script src="//cdn.bootcss.com/es6-shim/0.35.1/es6-sham.min.js"></script>
+            <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en"></script>
+        <![endif]-->
     </head>
     <body class="<%= htmlWebpackPlugin.options.theme %>">
         <div id="mount">

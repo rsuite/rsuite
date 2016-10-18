@@ -9,16 +9,6 @@ module.exports = {
         'webpack/hot/dev-server',
         path.join(__dirname, 'src/index')
     ],
-    /*
-    devServer: {
-        proxy: {
-            '/api/*': {
-                target: 'http://10.1.9.90',
-                secure: false
-            }
-        }
-    },
-    */
     output: {
         publicPath: 'http://127.0.0.1:3000/',
         path: path.resolve(__dirname, 'build'),
@@ -31,7 +21,7 @@ module.exports = {
         new ExtractTextPlugin('[name].css'),
         new webpack.HotModuleReplacementPlugin(),
         new HtmlwebpackPlugin({
-            title: 'Hyper DMP',
+            title: 'RSuite example',
             filename: 'index.html',
             template: 'src/index.html',
             inject: true,
