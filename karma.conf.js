@@ -14,30 +14,33 @@ var webpackConfig = {
     devtool: 'eval'
 };
 
-module.exports = function(config) {
+module.exports = function (config) {
+    const { env } = process;
     config.set({
         basePath: '',
-        files: [
-          'test/ButtonSpec.js',
-          'test/CheckboxSpec.js',
-          'test/FormControlSpec.js'
-        ],
+        files: ['test/index.js'],
         frameworks: [
             'mocha',
             'sinon-chai'
         ],
         colors: true,
-        reporters:['mocha'],
-        browsers: ['PhantomJS'],
+        reporters: ['mocha'],
+
         logLevel: config.LOG_INFO,
         preprocessors: {
-            'test/ButtonSpec.js': ['webpack'],
-            'test/CheckboxSpec.js': ['webpack'],
-            'test/FormControlSpec.js': ['webpack']
+            'test/index.js': ['webpack'],
         },
         webpack: webpackConfig,
         webpackMiddleware: {
             noInfo: true
+        },
+        browsers: env.BROWSER ? env.BROWSER.split(',') : ['Chrome'],
+        customLaunchers: {
+            ChromeCi: {
+                base: 'Chrome',
+                flags: ['--no-sandbox'],
+            },
         }
     });
 };
+
