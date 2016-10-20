@@ -12,7 +12,8 @@ let DorpdownMenu = React.createClass({
     propTypes: {
         pullRight: React.PropTypes.bool,
         onClose: React.PropTypes.func,
-        onSelect: React.PropTypes.func
+        onSelect: React.PropTypes.func,
+        activeKey: React.PropTypes.any
     },
     getDefaultProps() {
         return {

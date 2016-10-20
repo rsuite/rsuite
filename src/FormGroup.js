@@ -7,6 +7,7 @@ const FormGroup = React.createClass({
     mixins: [FormControlMixin],
     propTypes: {
         controlId: React.PropTypes.string,
+        isValid: React.PropTypes.bool,
         validationState: React.PropTypes.oneOf(['success', 'warning', 'error'])
     },
     childContextTypes: {

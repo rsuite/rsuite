@@ -49,6 +49,4 @@ export Container from './Container';
 export Content from './Content';
 export Panel from './Panel';
 export PanelGroup from './PanelGroup';
-export Table from './Table';
-
 

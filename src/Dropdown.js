@@ -29,7 +29,8 @@ const Dropdown = React.createClass({
         select: React.PropTypes.bool,
         activeKey: React.PropTypes.any,
         bothEnds: React.PropTypes.bool,
-        menuStyle: React.PropTypes.object
+        menuStyle: React.PropTypes.object,
+        title: React.PropTypes.string
     },
     getDefaultProps() {
         return {
@@ -106,7 +107,7 @@ const Dropdown = React.createClass({
     render() {
 
         let {
-            items,
+
             title,
             children,
             className,
@@ -122,9 +123,9 @@ const Dropdown = React.createClass({
         let Toggle = (
             <DropdownToggle
                 {...props}
-                onClick = {this.handleClick}
+                onClick={this.handleClick}
                 >
-                {this.state.title || title }
+                {this.state.title || title}
             </DropdownToggle>
         );
 
@@ -158,8 +159,8 @@ const Dropdown = React.createClass({
         return (
             <Component
                 {...props}
-                className = {classes}
-                role = "dropdown"
+                className={classes}
+                role="dropdown"
                 >
                 {Toggle}
                 {Menu}

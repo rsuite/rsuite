@@ -8,7 +8,10 @@ const FormControl = React.createClass({
     propTypes: {
         componentClass: elementType,
         type: React.PropTypes.string,
-        id: React.PropTypes.string
+        id: React.PropTypes.string,
+        onChange: React.PropTypes.func,
+        onBlur: React.PropTypes.func,
+        value: React.PropTypes.any
     },
     contextTypes: {
         formGroup: React.PropTypes.object

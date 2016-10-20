@@ -6,7 +6,8 @@ const CheckboxList = React.createClass({
     propTypes: {
         name: React.PropTypes.string,
         inline: React.PropTypes.bool,
-        value: React.PropTypes.array
+        value: React.PropTypes.array,
+        onChange: React.PropTypes.func
     },
     contextTypes: {
         formGroup: React.PropTypes.object

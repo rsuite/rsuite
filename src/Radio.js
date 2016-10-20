@@ -56,7 +56,6 @@ const Radio = React.createClass({
     render() {
 
         const {
-            type,
             inline,
             title,
             name,

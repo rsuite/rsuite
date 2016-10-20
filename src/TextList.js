@@ -6,7 +6,8 @@ const TextList = React.createClass({
     propTypes: {
         id: React.PropTypes.string,
         value: React.PropTypes.array,
-        onChange: React.PropTypes.func
+        onChange: React.PropTypes.func,
+        onBlur: React.PropTypes.func
     },
     contextTypes: {
         formGroup: React.PropTypes.object

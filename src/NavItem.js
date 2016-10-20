@@ -15,6 +15,7 @@ const NavItem = React.createClass({
         onSelect: React.PropTypes.func,
         eventKey: React.PropTypes.any,
         componentClass: elementType,
+        role: React.PropTypes.string
     },
 
     getDefaultProps() {
@@ -62,7 +63,7 @@ const NavItem = React.createClass({
                     disabled={disabled}
                     role={role}
                     href={href}
-                    onClick={createChainedFunction(onClick, this.handleClick) }
+                    onClick={createChainedFunction(onClick, this.handleClick)}
                     >
                     {children}
                 </Component>

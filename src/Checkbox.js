@@ -54,7 +54,6 @@ const Checkbox = React.createClass({
     render() {
 
         const {
-            type,
             inline,
             title,
             name,

@@ -7,7 +7,7 @@
 export default  function createChainableTypeChecker(validate) {
     function checkType(isRequired, props, propName, componentName) {
         componentName = componentName || '<<anonymous>>';
-        if (props[propName] == null) {
+        if (props[propName] === null) {
             if (isRequired) {
                 return new Error(
                     `Required prop '${propName}' was not specified in '${componentName}'.`
