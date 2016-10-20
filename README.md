@@ -1,4 +1,4 @@
-# RSuite
+# RSuite  [![Travis][build-badge]][build] [![npm][npm-badge]][npm]
 
 [![Join the chat at https://gitter.im/rsuite/rsuite](https://badges.gitter.im/rsuite/rsuite.svg)](https://gitter.im/rsuite/rsuite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -59,3 +59,11 @@ ReactDOM.render(
 ### License
 
 MIT
+
+
+[build-badge]: https://travis-ci.org/rsuite/rsuite.svg?branch=master
+[build]: https://travis-ci.org/rsuite/rsuite
+
+
+[npm-badge]: https://badge.fury.io/js/rsuite.svg
+[npm]: http://badge.fury.io/js/rsuite
