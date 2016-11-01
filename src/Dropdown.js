@@ -30,14 +30,19 @@ const Dropdown = React.createClass({
         activeKey: React.PropTypes.any,
         bothEnds: React.PropTypes.bool,
         menuStyle: React.PropTypes.object,
-        title: React.PropTypes.string
+        title: React.PropTypes.oneOfType([
+            React.PropTypes.string,
+            React.PropTypes.element
+        ]),
+        autoClose: React.PropTypes.bool
     },
     getDefaultProps() {
         return {
             componentClass: ButtonGroup,
             active: false,
             disabled: false,
-            block: false
+            block: false,
+            autoClose: true
         };
     },
     getInitialState: function () {
@@ -107,7 +112,7 @@ const Dropdown = React.createClass({
     render() {
 
         let {
-
+            autoClose,
             title,
             children,
             className,
@@ -131,7 +136,9 @@ const Dropdown = React.createClass({
 
         let Menu = (
             <DropdownMenu
-                onClose={this.toggle}
+                onClose={()=>{
+                    autoClose && this.toggle();
+                }}
                 onSelect={this.handleSelect}
                 activeKey={this.state.activeKey}
                 style={menuStyle}
