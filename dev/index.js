@@ -1,5 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import FormDemo from './FormDemo';
+import ButtonGroupDemo from './ButtonGroupDemo';
 
-ReactDOM.render(<FormDemo/>, document.getElementById('mount'));
+ReactDOM.render(<ButtonGroupDemo/>, document.getElementById('mount'));

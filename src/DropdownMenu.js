@@ -56,7 +56,11 @@ let DorpdownMenu = React.createClass({
                childProps.active = (activeKey === item.props.eventKey);
             }
 
-            return React.cloneElement(item, childProps, item.props.children);
+            if (React.isValidElement(item)) {
+                return React.cloneElement(item, childProps, item.props.children);
+            }
+
+            return item;
         });
 
 
