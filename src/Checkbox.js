@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 import createChainedFunction from './utils/createChainedFunction';
 import FormControlMixin from './mixins/FormControlMixin.js';
-
+import _ from 'lodash';
 
 const Checkbox = React.createClass({
     mixins: [FormControlMixin],
@@ -77,7 +77,7 @@ const Checkbox = React.createClass({
 
         const input = (
             <span className={classNames({
-                'checked': this.state.checked
+                'checked': checked
             }) }>
                 <input
                     type='checkbox'
