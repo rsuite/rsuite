@@ -23,7 +23,7 @@
   ],
   "dependencies": {
     "classnames": ">=2.0.0",
-    "dom-lib": "^0.0.10",
+    "dom-lib": "0.0.16",
     "lodash": "^4.11.1",
     "react": "^0.14.2",
     "react-dom": "^0.14.2"
