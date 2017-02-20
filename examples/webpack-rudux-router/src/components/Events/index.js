@@ -1,1 +1,0 @@
-export EventTable from './EventTable';

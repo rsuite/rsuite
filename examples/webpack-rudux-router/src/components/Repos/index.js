@@ -1,1 +1,0 @@
-export RepoTable from './RepoTable';
