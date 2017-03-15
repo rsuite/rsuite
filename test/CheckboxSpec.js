@@ -82,8 +82,22 @@ describe('Checkbox', () => {
         let inputField = findDOMNode(instance).querySelector('input');
         ReactTestUtils.Simulate.change(inputField);
         assert.equal(flag, instance.state.checked);
-        ReactTestUtils.Simulate.change(inputField);
-        assert.equal(flag, instance.state.checked);
     });
+
+    it('Should change the state at onChange', () => {
+
+        let instance = ReactTestUtils.renderIntoDocument(
+            <Checkbox> Checkbox </Checkbox>
+        );
+
+        let inputField = findDOMNode(instance).querySelector('input');
+        ReactTestUtils.Simulate.change(inputField);
+        assert.equal(true, instance.state.checked);
+
+        ReactTestUtils.Simulate.change(inputField);
+        assert.equal(false, instance.state.checked);
+
+    });
+
 });
 

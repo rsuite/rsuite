@@ -11,18 +11,11 @@ const Radio = React.createClass({
         title: React.PropTypes.string,
         disabled: React.PropTypes.bool,
         checked: React.PropTypes.bool,
-        onClick: React.PropTypes.func,
         onChange: React.PropTypes.func,
         value: React.PropTypes.any
     },
     contextTypes: {
         formGroup: React.PropTypes.object
-    },
-    getDefaultProps() {
-        return {
-            inline: false,
-            disabled: false
-        };
     },
     getInitialState() {
         return {
@@ -31,7 +24,7 @@ const Radio = React.createClass({
     },
     componentWillReceiveProps(nextProps) {
 
-        if(nextProps.checked !== this.props.checked){
+        if (nextProps.checked !== this.props.checked) {
             this.setState({
                 checked: nextProps.checked
             });
@@ -42,9 +35,14 @@ const Radio = React.createClass({
     },
     handleChange(event) {
 
+        if (this.props.disabled) {
+            return;
+        }
+
         this.setState({
             checked: event.target.checked
         });
+
         const { value } = this.props;
         const { onChange } = this.props;
         const { onChange: onFormGroupChange } = this.getFormGroup();
@@ -61,7 +59,6 @@ const Radio = React.createClass({
             name,
             className,
             children,
-            onClick,
             onChange,
             disabled,
             ...props,
@@ -77,29 +74,24 @@ const Radio = React.createClass({
         });
 
         const input = (
-            <span className = {classNames({
+            <span className={classNames({
                 checked: this.state.checked
-            }) }>
+            })}>
                 <input
-                    {...props}
-                    type = 'radio'
-                    name = {name}
-                    disabled = {disabled}
-                    onChange =  {this.handleChange }
-                    />
+                    type='radio'
+                    name={name}
+                    disabled={disabled}
+                    onChange={this.handleChange}
+                />
             </span>
         );
 
-
         return (
-            <label className={labelClasses} >
-                <div
-                    className={radioClasses}
-                    role = 'radio'
-                    >
+            <label className={labelClasses} {...props} >
+                <div className={radioClasses} role='radio'  >
                     {input}
                 </div>
-                { title || children }
+                {title || children}
             </label>
         );
     }

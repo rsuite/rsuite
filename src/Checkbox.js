@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import React from 'react';
 import createChainedFunction from './utils/createChainedFunction';
 import FormControlMixin from './mixins/FormControlMixin.js';
-import _ from 'lodash';
 
 const Checkbox = React.createClass({
     mixins: [FormControlMixin],
@@ -13,18 +12,11 @@ const Checkbox = React.createClass({
         title: React.PropTypes.string,
         disabled: React.PropTypes.bool,
         checked: React.PropTypes.bool,
-        onClick: React.PropTypes.func,
         onChange: React.PropTypes.func,
         value: React.PropTypes.any
     },
     contextTypes: {
         formGroup: React.PropTypes.object
-    },
-    getDefaultProps() {
-        return {
-            inline: false,
-            disabled: false
-        };
     },
     getInitialState() {
         return {
@@ -51,6 +43,13 @@ const Checkbox = React.createClass({
         onChange && onChange(value);
         onFormGroupChange && onFormGroupChange(value);
     },
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.checked !== this.props.checked) {
+            this.setState({
+                checked: nextProps.checked
+            });
+        }
+    },
     render() {
 
         const {
@@ -62,44 +61,40 @@ const Checkbox = React.createClass({
             children,
             onChange,
             value,
-            checked
+            ...props
         } = this.props;
 
-        let classes = classNames({
+        const { checked } = this.state;
+        const classes = classNames({
             'checkbox-inline': inline
         }, className);
 
 
-        let checkboxClasses = classNames({
+        const checkboxClasses = classNames({
             'checker': true,
             'disabled': disabled
         });
 
         const input = (
-            <span className={classNames({
-                'checked': checked
-            }) }>
+            <span className={classNames({ 'checked': checked })}>
                 <input
                     type='checkbox'
                     name={name}
-                    checked = { checked !== undefined ? checked : value }
-                    value={ value }
-                    disabled = {disabled}
-                    onChange = {this.handleChange}
-                    defaultChecked = {this.state.checked}
-                    />
+                    checked={checked !== undefined ? checked : value}
+                    value={value}
+                    disabled={disabled}
+                    onChange={this.handleChange}
+                    defaultChecked={this.state.checked}
+                />
             </span>
         );
 
         return (
-            <label className={ classes } >
-                <div
-                    className={ checkboxClasses }
-                    role = 'checkbox'
-                    >
+            <label className={classes} {...props} >
+                <div className={checkboxClasses} role='checkbox' >
                     {input}
                 </div>
-                { title || children }
+                {title || children}
             </label>
         );
     }

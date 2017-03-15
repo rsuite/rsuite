@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "RSuite components built with React",
   "main": "lib/index.js",
   "directories": {
@@ -8,8 +8,6 @@
   },
   "scripts": {
     "build": "babel-node tools/build.js",
-    "dev": "NODE_ENV=development webpack-dev-server --hot --inline --progress --colors --port 3000 --config webpack.dev.config.js",
-    "docs": "rm -rf docs/assets &&  NODE_ENV=production webpack --watch --progress -colors --config webpack.docs.config.js",
     "tdd": "karma start",
     "lint": "eslint src  *.js",
     "test": "npm run lint &&  karma start --single-run"
