@@ -1,28 +1,50 @@
-# RSuite  [![Travis][build-badge]][build] [![npm][npm-badge]][npm]
+# RSUITE  [![Travis][build-badge]][build] [![npm][npm-badge]][npm]
 [![Discord][discord-badge]][discord]
 
-`RSuite` 是一个基于 React.js 开发的 Web 组件库，参考 Bootstrap 设计，提供其中常用组件，支持响应式布局。
+
+RSUITE  `[ɑː(r)swiːt]` 是一套 React 开发的 UI 组件库，提供 Bootstrap 设计体系的常用组件，并且会在此基础上持续开发一些高级组件。
 
 我们的目标就是让 WEB 开发更快捷，同时具有一定的灵活性和扩展性。
 
 
+<br/>
 
-### 一个简单的例子:
 
 
-通过 `npm` 安装
+加入 [![Discord](https://img.shields.io/badge/Discord-Join%20chat%20%E2%86%92-738bd7.svg)](https://discord.gg/GmPXTH3)
+ ，直接与开发者沟通。
+
+<br/>
+
+#### 特性
+
+- 基于 React 组件化开发模式
+- 丰富、漂亮 UI 组件
+- 支持多主题切换
+- 支持响应式布局
+- 支持 ES2015
+
+<br/>
+
+#### 版本
+
+[![npm](https://badge.fury.io/js/rsuite.svg)](https://www.npmjs.com/package/rsuite)
+[![Travis](https://travis-ci.org/rsuite/rsuite.svg?branch=master)](https://travis-ci.org/rsuite/rsuite)
+
+
+<br/>
+#### 安装
 
 ```
-npm install rsuite
+npm install rsuite --save
 ```
 
-**CSS：** 我们提供一些主题, 载入对应的 CSS 资源到你的页面中，同时你也可以直接引用 Bootstrap 的 CSS 。
 
+示例：
 
-**Javascript：** 比如在项目中用到一个 `Button`， 可以通过 `ES2015`、`CommonJS`、`AMD` 任意一种方式引入组件。
 ```js
 // ES2015
-import { Button } from 'rsuite';
+const { Button } = require('rsuite');
 
 // CommonJS
 var Button = require('rsuite').Button;
@@ -34,15 +56,31 @@ define(['rsuite'], function(Suite) {
 });
 
 
-ReactDOM.render(
-    <Button shape="primary" >Button</Button>,
-    document.getElementById('example')
-);
+ReactDOM.render(<Button>Button</Button>, mountNode);
 ```
 
-**HTML：** 对应生成的 HTML 代码
+#### 主题
+
+- 可以直接引入css
+
 ```html
-<button class="btn btn-primary" type="button" >Primary</button>
+<link rel="stylesheet" href="//t.hypers.com.cn/libs/rsuite/css/0.1.0/rsuite.min.css">
+```
+
+- 可以通过 [rsuite-theme](https://github.com/rsuite/rsuite-theme) 管理，只需要配置一个系统主色，自动生成系统配色方案。
+
+<br/>
+#### 浏览器支持
+
+针对IE8及以下的浏览器，需要引入 `html5shiv`、`es5-shim`, 来处理对 `HTML5 标签`、`ECMAScript5` 兼容性问题
+
+```html
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv-printshiv.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-sham.js"></script>
+<![endif]-->
 ```
 
 
