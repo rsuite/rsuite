@@ -13,7 +13,7 @@ const IconFont = React.createClass({
     getDefaultProps() {
         return {
             componentClass: 'i',
-            classPrefix: 'fa'
+            classPrefix: 'icon'
         };
     },
     render() {
