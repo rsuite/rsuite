@@ -1,5 +1,5 @@
 import React from 'react';
-import {findDOMNode} from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import DropdownMenuItem from './DropdownMenuItem';
 import ClassNameMixin from './mixins/ClassNameMixin';
@@ -8,7 +8,7 @@ import createChainedFunction from './utils/createChainedFunction';
 
 
 let DorpdownMenu = React.createClass({
-    mixins:[ClassNameMixin],
+    mixins: [ClassNameMixin],
     propTypes: {
         pullRight: React.PropTypes.bool,
         onClose: React.PropTypes.func,
@@ -37,23 +37,23 @@ let DorpdownMenu = React.createClass({
             activeItemIndex
         };
     },
-    handleSelect(event){
+    handleSelect(event) {
         let { onClose } = this.props;
         onClose && onClose();
     },
-    render(){
+    render() {
 
-        let { pullRight, children, className, activeKey, ...props} = this.props;
+        let { pullRight, children, className, activeKey, ...props } = this.props;
 
-        const items = React.Children.map(children,(item, index) => {
+        const items = React.Children.map(children, (item, index) => {
             let childProps = {
-                key : index,
-                ref : 'menu_item_' + index,
+                key: index,
+                ref: 'menu_item_' + index,
                 onSelect: createChainedFunction(this.handleSelect, this.props.onSelect)
             };
 
-            if(activeKey){
-               childProps.active = (activeKey === item.props.eventKey);
+            if (activeKey !== null && activeKey !== undefined) {
+                childProps.active = (activeKey === item.props.eventKey);
             }
 
             if (React.isValidElement(item)) {
@@ -65,15 +65,15 @@ let DorpdownMenu = React.createClass({
 
 
         let classes = {
-            [this.prefix('menu')] : true,
+            [this.prefix('menu')]: true,
             [this.prefix('menu-right')]: pullRight
         };
 
         return (
             <ul
                 {...props}
-                className = {classNames(className, classes)}
-                role = "menu"
+                className={classNames(className, classes)}
+                role="menu"
             >
                 {items}
             </ul>
