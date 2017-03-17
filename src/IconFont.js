@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import ClassNameMixin from './mixins/ClassNameMixin';
 import elementType from './prop-types/elementType';
@@ -6,9 +6,16 @@ import elementType from './prop-types/elementType';
 const IconFont = React.createClass({
     mixins: [ClassNameMixin],
     propTypes: {
-        classPrefix: React.PropTypes.string,
+        classPrefix: PropTypes.string,
         componentClass: elementType,
-        icon: React.PropTypes.string.isRequired
+        icon: PropTypes.string.isRequired,
+        size: PropTypes.oneOf(['lg', '2x', '3x', '4x', '5x']),
+        flip: PropTypes.oneOf(['horizontal', 'vertical']),
+        stack: PropTypes.oneOf(['1x', '2x']),
+        rotate: PropTypes.number,
+        fixedWidth: PropTypes.bool,
+        spin: PropTypes.bool,
+        pulse: PropTypes.bool,
     },
     getDefaultProps() {
         return {
@@ -22,13 +29,28 @@ const IconFont = React.createClass({
             className,
             classPrefix,
             icon,
+            size,
+            fixedWidth,
+            spin,
+            pulse,
+            rotate,
+            flip,
+            stack,
             ...props
         } = this.props;
 
         const classes = classNames(
             classPrefix,
             this.prefix(icon),
-            className
+            className, {
+                [`${classPrefix}-${size}`]: size,
+                [`${classPrefix}-fw`]: fixedWidth,
+                [`${classPrefix}-spin`]: spin,
+                [`${classPrefix}-pulse`]: pulse,
+                [`${classPrefix}-${flip}`]: flip,
+                [`${classPrefix}-rotate-${rotate}`]: rotate,
+                [`${classPrefix}-stack-${stack}`]: stack
+            }
         );
 
         return (
