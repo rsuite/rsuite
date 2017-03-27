@@ -65,7 +65,7 @@ describe('IconFont', () => {
         let instance = ReactTestUtils.renderIntoDocument(
            <IconFont icon="star" flip="vertical" />
         );
-        assert.ok(findDOMNode(instance).className.match(/\bicon-vertical\b/));
+        assert.ok(findDOMNode(instance).className.match(/\bicon-flip-vertical\b/));
     });
 
     it('Should have stack-2x class', () => {

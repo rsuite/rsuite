@@ -47,7 +47,7 @@ const IconFont = React.createClass({
                 [`${classPrefix}-fw`]: fixedWidth,
                 [`${classPrefix}-spin`]: spin,
                 [`${classPrefix}-pulse`]: pulse,
-                [`${classPrefix}-${flip}`]: flip,
+                [`${classPrefix}-flip-${flip}`]: flip,
                 [`${classPrefix}-rotate-${rotate}`]: rotate,
                 [`${classPrefix}-stack-${stack}`]: stack
             }
