@@ -1,4 +1,4 @@
-# RSUITE  [![Travis][build-badge]][build] [![npm][npm-badge]][npm]
+# [RSUITE](https://rsuite.github.io)  [![Travis][build-badge]][build] [![npm][npm-badge]][npm]
 [![Discord][discord-badge]][discord]
 
 
@@ -16,24 +16,24 @@ RSUITE  `[ɑː(r)swiːt]` 是一套 React 开发的 UI 组件库，提供 Bootst
 
 <br/>
 
-#### 特性
+## 特性
 
-- 基于 React 组件化开发模式
-- 丰富、漂亮 UI 组件
-- 支持多主题切换
-- 支持响应式布局
-- 支持 ES2015
+- 基于 React 组件化开发模式；
+- 丰富、漂亮 UI 组件；
+- 支持多主题切换；
+- 支持响应式布局；
+- 支持 ES2015。
 
 <br/>
 
-#### 版本
+## 版本
 
 [![npm](https://badge.fury.io/js/rsuite.svg)](https://www.npmjs.com/package/rsuite)
 [![Travis](https://travis-ci.org/rsuite/rsuite.svg?branch=master)](https://travis-ci.org/rsuite/rsuite)
 
 
 <br/>
-#### 安装
+## 安装
 
 ```
 npm install rsuite --save
@@ -44,7 +44,7 @@ npm install rsuite --save
 
 ```js
 // ES2015
-const { Button } = require('rsuite');
+import { Button } from 'rsuite';
 
 // CommonJS
 var Button = require('rsuite').Button;
@@ -59,40 +59,41 @@ define(['rsuite'], function(Suite) {
 ReactDOM.render(<Button>Button</Button>, mountNode);
 ```
 
-#### 主题
+## 主题
 
-- 可以直接引入css
+- 可以通过 [rsuite-theme](https://github.com/rsuite/rsuite-theme) 管理，只需要配置一个系统主色，自动生成系统配色方案。
+
+安装
+```
+npm install rsuite-theme --save
+```
+`import`
+```js
+import 'rsuite-theme/dist/less/rsuite.less';
+```
+
+- 也可以通过 CDN 引入 css 文件
 
 ```html
 <link rel="stylesheet" href="//t.hypers.com.cn/libs/rsuite/css/0.1.0/rsuite.min.css">
 ```
 
-- 可以通过 [rsuite-theme](https://github.com/rsuite/rsuite-theme) 管理，只需要配置一个系统主色，自动生成系统配色方案。
 
-<br/>
-#### 浏览器支持
+## 其他组件
 
-针对IE8及以下的浏览器，需要引入 `html5shiv`、`es5-shim`, 来处理对 `HTML5 标签`、`ECMAScript5` 兼容性问题
-
-```html
-<!--[if lt IE 9]>
-<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv-printshiv.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-sham.js"></script>
-<![endif]-->
-```
+- [rsuite-table](https://github.com/rsuite/rsuite-table)
+- [rsuite-datepicker](https://github.com/rsuite/rsuite-datepicker)
+- [rsuite-daterangepicker](https://github.com/rsuite/rsuite-daterangepicker)
+- [rsuite-picker](https://github.com/rsuite/rsuite-picker)
+- [rsuite-echarts](https://github.com/rsuite/rsuite-echarts)
+- [rsuite-uploader](https://github.com/rsuite/rsuite-uploader)
+- [rsuite-tree](https://github.com/rsuite/rsuite-tree)
+- [rsuite-slider](https://github.com/rsuite/rsuite-slider)
+- [rsuite-affix](https://github.com/rsuite/rsuite-affix)
+- [rsuite-autocomplete](https://github.com/rsuite/rsuite-autocomplete)
 
 
-### 贡献
-
-用 GitHub issues 提交你贡献的代码，我们积极欢迎你的参与。
-
-###  更新日志
-
-更新日志查看  GitHub releases。
-
-### License
+## License
 
 MIT
 
