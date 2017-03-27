@@ -1,7 +1,7 @@
 {
   "name": "rsuite",
-  "version": "1.0.2",
-  "description": "RSuite components built with React",
+  "version": "1.0.4",
+  "description": "A suite of react components",
   "main": "lib/index.js",
   "directories": {
     "lib": "lib/"
