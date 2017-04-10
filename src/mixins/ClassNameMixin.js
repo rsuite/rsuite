@@ -12,7 +12,7 @@ const ClassNameMixin = {
     },
     getClassNames() {
         let classes = [];
-        let {shape, size} = this.props;
+        let { shape, size } = this.props;
 
         shape && classes.push(this.prefix(shape));
         size && classes.push(this.prefix(size));
@@ -20,7 +20,7 @@ const ClassNameMixin = {
         return classes;
     },
     prefix(className) {
-        let {classPrefix } = this.props;
+        let { classPrefix } = this.props;
         let prefix = classPrefix ? classPrefix + '-' : '';
         return prefix + className;
     },
@@ -28,7 +28,7 @@ const ClassNameMixin = {
         return hasClass(target, className);
     },
     addClass: function (className, target = findDOMNode(this)) {
-        return addClass(target,className);
+        return addClass(target, className);
     },
     removeClass: function (className, target = findDOMNode(this)) {
         return removeClass(target, className);
