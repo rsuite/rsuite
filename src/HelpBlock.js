@@ -10,24 +10,26 @@ const HelpBlock = React.createClass({
     },
     render() {
 
-        const {controlId, isValid, errorMessage } = this.context.formGroup;
+        const { controlId, isValid, errorMessage } = this.context.formGroup;
         const {
             className,
             htmlFor = controlId,
             children
         } = this.props;
 
+        const valid = isValid === undefined ? true : isValid;
+
         const classes = classNames({
             'help-block': true,
-            'error': !isValid
+            'error': !valid
         }, className);
 
         return (
             <span
-                htmlFor = {htmlFor}
+                htmlFor={htmlFor}
                 className={classes}
-                >
-                {(!isValid && errorMessage ) || children}
+            >
+                {(!valid && errorMessage) || children}
             </span>
         );
     }
