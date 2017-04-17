@@ -1,27 +1,12 @@
 import classNames from 'classnames';
 import React from 'react';
 import Anchor from './Anchor';
+import elementType from './prop-types/elementType';
 
 const BreadcrumbItem = React.createClass({
     propTypes: {
         active: React.PropTypes.bool,
-        /**
-         * HTML id for the wrapper `li` element
-         */
-        id: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.number
-        ]),
-        /**
-         * HTML id for the inner `a` element
-         */
-        linkId: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.number
-        ]),
-        href: React.PropTypes.string,
-        title: React.PropTypes.node,
-        target: React.PropTypes.string
+        componentClass: elementType
     },
 
     getDefaultProps() {
@@ -29,40 +14,26 @@ const BreadcrumbItem = React.createClass({
             active: false,
         };
     },
-    renderItem(props, linkProps) {
+    renderItem() {
 
-        if (this.props.active) {
-            return (<span {...props} > { this.props.children } </span>);
+        const { componentClass, children, active, ...props } = this.props;
+        const Component = componentClass || Anchor;
+
+        if (active) {
+            return (<span {...props} >{children}</span>);
         }
 
         return (
-            <Anchor {...props } {...linkProps}>
-                { this.props.children }
-            </Anchor>
+            <Component {...props } >
+                {children}
+            </Component>
         );
     },
     render() {
-        const {
-            active,
-            className,
-            id,
-            linkId,
-            children,
-            href,
-            title,
-            target,
-            ...props
-        } = this.props;
-
-        const linkProps = {
-            href,
-            title,
-            target,
-            id: linkId
-        };
+        const { active, className } = this.props;
 
         return (
-            <li id={id} className={classNames(className, { active }) }>
+            <li className={classNames(className, { active })}>
                 {this.renderItem()}
             </li>
         );
