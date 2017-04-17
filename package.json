@@ -16,21 +16,26 @@
     "react",
     "suite",
     "rsuite",
-    "react-component",
-    "bootstrap"
+    "react-component"
   ],
-  "dependencies": {
-    "classnames": ">=2.0.0",
-    "dom-lib": "0.0.16",
-    "lodash": "^4.11.1",
-    "react": "^0.14.2",
-    "react-dom": "^0.14.2"
-  },
   "author": "Simon Guo <simonguo.2009@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git@github.com:rsuite/rsuite.git"
+  },
+  "files": [
+    "CHANGELOG.md",
+    "lib"
+  ],
+  "dependencies": {
+    "classnames": ">=2.0.0",
+    "dom-lib": "0.0.16",
+    "lodash": "^4.11.1"
+  },
+  "peerDependencies": {
+    "react": ">=0.14.0",
+    "react-dom": ">=0.14.0"
   },
   "devDependencies": {
     "babel-core": "^6.7.6",
