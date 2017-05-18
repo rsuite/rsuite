@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
-import Radio  from './Radio';
+import Radio from './Radio';
 
-const RadioList = React.createClass({
+const RadioGroup = React.createClass({
 
     propTypes: {
         name: React.PropTypes.string,
         inline: React.PropTypes.bool,
         onChange: React.PropTypes.func,
-        value: React.PropTypes.string
+        value: React.PropTypes.any
     },
     contextTypes: {
         formGroup: React.PropTypes.object
@@ -85,14 +85,14 @@ const RadioList = React.createClass({
 
         return (
             <div
-                onClick = {this.handleChange}
-                className = {clesses}
-                role = "radio-list"
-                >
+                onClick={this.handleChange}
+                className={clesses}
+                role="radio-list"
+            >
                 {items}
             </div>
         );
     }
 });
 
-export default RadioList;
+export default RadioGroup;

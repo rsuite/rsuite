@@ -30,10 +30,13 @@ export HelpBlock from './HelpBlock';
 export InputGroup from './InputGroup';
 
 export Checkbox from './Checkbox';
-export CheckboxList from './CheckboxList';
+export CheckboxList from './CheckboxGroup';
+export CheckboxGroup from './CheckboxGroup';
 
 export Radio from './Radio';
-export RadioList from './RadioList';
+export RadioList from './RadioGroup';
+export RadioGroup from './RadioGroup';
+
 export Text from './Text';
 export IconFont from './IconFont';
 
