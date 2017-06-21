@@ -175,15 +175,7 @@ let Panel = React.createClass({
                 this.prefix('title'),
                 header.props.className
             );
-
-            if (this.props.collapsible) {
-                header = cloneElement(header, {
-                    className,
-                    children: this.renderAnchor(header.props.children, headerRole)
-                });
-            } else {
-                header = cloneElement(header, { className });
-            }
+            header = cloneElement(header, { className });
         }
         return (
             <div
