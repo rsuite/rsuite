@@ -5,6 +5,9 @@ import Dropdown from './Dropdown';
 
 const NavDropdown = React.createClass({
 
+    getMountNode() {
+        return this.mountNode;
+    },
     render: function () {
 
         let clesses = classNames({
@@ -13,7 +16,9 @@ const NavDropdown = React.createClass({
 
         return (
             <Dropdown
+
                 {...this.props}
+                ref={ref => this.mountNode = ref}
                 componentClass="li"
                 useAnchor
                 className={clesses}
