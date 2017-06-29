@@ -9,7 +9,8 @@ const RadioGroup = React.createClass({
         name: React.PropTypes.string,
         inline: React.PropTypes.bool,
         onChange: React.PropTypes.func,
-        value: React.PropTypes.any
+        value: React.PropTypes.any,
+        defaultValue: React.PropTypes.any
     },
     contextTypes: {
         formGroup: React.PropTypes.object
@@ -44,8 +45,8 @@ const RadioGroup = React.createClass({
         onFormGroupChange && onFormGroupChange(value);
     },
     getValue() {
-        const { value } = this.getFormGroup();
-        return value || this.props.value;
+        const { value, defaultValue } = this.props;
+        return this.getFormGroup().value || value || defaultValue;
     },
     render() {
 
@@ -56,12 +57,9 @@ const RadioGroup = React.createClass({
             children
         } = this.props;
 
-
-
         const clesses = classNames({
             'radio-list': true
         }, className);
-
 
         const value = this.getValue();
         const items = React.Children.map(children, (child, index) => {
