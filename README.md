@@ -75,7 +75,7 @@ import 'rsuite-theme/dist/less/rsuite.less';
 - 也可以通过 CDN 引入 css 文件
 
 ```html
-<link rel="stylesheet" href="//t.hypers.com.cn/libs/rsuite/css/0.1.0/rsuite.min.css">
+<link rel="stylesheet" href="https://unpkg.com/rsuite-theme/dist/css/rsuite.min.css" />
 ```
 
 

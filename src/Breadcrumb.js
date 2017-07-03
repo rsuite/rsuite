@@ -15,7 +15,7 @@ const Breadcrumb = React.createClass({
                 {...props}
                 role="navigation"
                 aria-label="breadcrumbs"
-                className={classNames(className, 'breadcrumb') }>
+                className={classNames('breadcrumb', className)}>
                 {children}
             </ol>
         );

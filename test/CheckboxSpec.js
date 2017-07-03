@@ -14,7 +14,7 @@ describe('Checkbox', () => {
 
     it('Should setup check state depending on checked props', () => {
         let instance1 = ReactTestUtils.renderIntoDocument(
-            <Checkbox checked={true}>
+            <Checkbox checked>
                 Checkbox
             </Checkbox>
         );
@@ -30,7 +30,7 @@ describe('Checkbox', () => {
     it('Should setup check state depending on value props', () => {
 
         let instance1 = ReactTestUtils.renderIntoDocument(
-            <Checkbox value={true}>
+            <Checkbox value>
                 Checkbox
             </Checkbox>
         );
@@ -47,12 +47,12 @@ describe('Checkbox', () => {
 
     it('Should ignore value props if checked props has been given', () => {
         let instance1 = ReactTestUtils.renderIntoDocument(
-            <Checkbox checked={true} value={false}>
+            <Checkbox checked value={false}>
                 Checkbox
             </Checkbox>
         );
         let instance2 = ReactTestUtils.renderIntoDocument(
-            <Checkbox checked={false} value={true}>
+            <Checkbox checked={false} value>
                 Checkbox
             </Checkbox>
         );
@@ -75,7 +75,7 @@ describe('Checkbox', () => {
     it('Should pass value as an argument on onChange', () => {
         let flag = false;
         let instance = ReactTestUtils.renderIntoDocument(
-            <Checkbox onChange={(v) => flag = v} value={true}>
+            <Checkbox onChange={(v) => flag = v} value>
                 Checkbox
             </Checkbox>
         );

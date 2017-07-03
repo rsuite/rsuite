@@ -32,16 +32,19 @@ const Checkbox = React.createClass({
         }
 
         let checked = !this.state.checked;
-        this.setState({
-            checked
-        });
 
         const value = checked ? this.props.value : '';
         const { onChange } = this.props;
         const { onChange: onFormGroupChange } = this.getFormGroup();
 
-        onChange && onChange(value);
-        onFormGroupChange && onFormGroupChange(value);
+        this.setState({
+            checked
+        }, () => {
+            onChange && onChange(value);
+            onFormGroupChange && onFormGroupChange(value);
+        });
+
+
     },
     componentWillReceiveProps(nextProps) {
         if (nextProps.checked !== this.props.checked) {
