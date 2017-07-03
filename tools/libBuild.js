@@ -10,6 +10,6 @@ const libRoot = path.join(repoRoot, 'lib/');
 
 
 exec.exec(`rimraf ${libRoot}`)
-    .then(() => fsp.mkdirs(libRoot))
-    .then(() => buildFolder(srcRoot, libRoot))
-    .then(() => console.log('Built: '.cyan + 'src copy to lib'.green));
+  .then(() => fsp.mkdirs(libRoot))
+  .then(() => buildFolder(srcRoot, libRoot))
+  .then(() => console.log('Built: '.cyan + 'src copy to lib'.green));
