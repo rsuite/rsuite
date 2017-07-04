@@ -1,27 +1,33 @@
 import React from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import BreadcrumbItem from './BreadcrumbItem';
 
-const Breadcrumb = React.createClass({
-    render() {
-        const {
-            className,
-            children,
-            ...props
-        } = this.props;
+const propTypes = {
+  className: PropTypes.string
+};
 
-        return (
-            <ol
-                {...props}
-                role="navigation"
-                aria-label="breadcrumbs"
-                className={classNames('breadcrumb', className)}>
-                {children}
-            </ol>
-        );
-    }
-});
+const defaultProps = {
+  className: null
+};
 
+class Breadcrumb extends React.Component {
+  render() {
+    const { className, ...props } = this.props;
+    return (
+      <ol
+        {...props}
+        role="navigation"
+        aria-label="breadcrumbs"
+        className={classNames('breadcrumb', className)}
+      />
+    );
+  }
+}
+
+
+Breadcrumb.propTypes = propTypes;
+Breadcrumb.defaultProps = defaultProps;
 Breadcrumb.Item = BreadcrumbItem;
 
 export default Breadcrumb;
