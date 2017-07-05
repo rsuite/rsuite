@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import _ from 'lodash';
 import elementType from 'rsuite-utils/lib/propTypes/elementType';
 import { SIZES } from './utils/decorate';
 
@@ -55,28 +56,45 @@ const defaultProps = {
   componentClass: 'div'
 };
 
+
+
 class Col extends React.Component {
   render() {
+    const {
+      componentClass: Component,
+      className,
+      ...props
+    } = this.props;
 
-    const Component = this.props.componentClass;
     const classes = {};
+    const elementProps = _.cloneDeep(props);
+
+    function getPropValue(key) {
+      const value = elementProps[key];
+      delete elementProps[key];
+      return value;
+    }
 
     Object.values(SIZES).forEach((size) => {
-      let offset = this.props[`${size}Offset`];
-      let push = this.props[`${size}Push`];
-      let pull = this.props[`${size}Pull`];
+      let col = getPropValue(size);
+      let hidden = getPropValue(`${size}Hidden`);
+      let offset = getPropValue(`${size}Offset`);
+      let push = getPropValue(`${size}Push`);
+      let pull = getPropValue(`${size}Pull`);
 
-      classes[`hidden-${size}`] = this.props[`${size}Hidden`];
-      classes[`col-${size}-${this.props[size]}`] = (this.props[size] > 0);
-      classes[`col-${size}-offset-${offset}`] = (offset > 0);
-      classes[`col-${size}-push-${push}`] = (push > 0);
-      classes[`col-${size}-pull-${pull}`] = (pull > 0);
+
+      classes[`hidden-${size}`] = hidden;
+      classes[`col-${size}-${col}`] = col >= 0;
+      classes[`col-${size}-offset-${offset}`] = offset >= 0;
+      classes[`col-${size}-push-${push}`] = push >= 0;
+      classes[`col-${size}-pull-${pull}`] = pull >= 0;
     });
 
     return (
-      <Component {...this.props} className={classNames(this.props.className, classes)}>
-        {this.props.children}
-      </Component>
+      <Component
+        {...elementProps}
+        className={classNames(className, classes)}
+      />
     );
   }
 }
