@@ -1,73 +1,85 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Checkbox from './Checkbox';
 
-const CheckboxGroup = React.createClass({
-    propTypes: {
-        name: React.PropTypes.string,
-        inline: React.PropTypes.bool,
-        value: React.PropTypes.array,
-        defaultValue: React.PropTypes.array,
-        onChange: React.PropTypes.func
-    },
-    contextTypes: {
-        formGroup: React.PropTypes.object
-    },
-    getFormGroup() {
-        return this.context.formGroup || {};
-    },
-    handleChange(checked) {
+const propTypes = {
+  name: PropTypes.string,
+  inline: PropTypes.bool,
+  value: PropTypes.array,
+  defaultValue: PropTypes.array,
+  onChange: PropTypes.func
+};
 
-        const refs = this.refs;
-        const value = [];
-        const { onChange } = this.props;
-        const { onChange: onFormGroupChange } = this.getFormGroup();
+const defaultProps = {
+  name: null,
+  inline: false,
+  value: null,
+  defaultValue: null,
+  onChange: undefined
+};
 
-        for (let key in refs) {
-            if (refs[key].state.checked) {
-                value.push(refs[key].props.value);
-            }
-        }
-        onChange && onChange(value);
-        onFormGroupChange && onFormGroupChange(value);
+class CheckboxGroup extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.checkboxs = {};
+    this.state = {
+      value: props.defaultValue
+    };
+  }
 
-    },
-    render() {
+  handleChange() {
 
-        const {
-            className,
-            inline,
-            name,
-            value,
-            defaultValue,
-            children
-        } = this.props;
+    const value = [];
+    const { onChange } = this.props;
 
-        const nextValue = Object.assign([], value, defaultValue);
-        const clesses = classNames({
-            'checkbox-list': true
-        }, className);
+    Object.values(this.checkboxs).forEach((checkbox) => {
+      if (checkbox.state.checked) {
+        value.push(checkbox.props.value);
+      }
+    });
 
-        const items = React.Children.map(children, (child, index) => {
-            return React.cloneElement(child, {
-                key: index,
-                ref: 'checkbox_' + index,
-                inline: inline,
-                checked: nextValue.some(i => i === child.props.value),
-                onChange: this.handleChange,
-                name: name
-            }, child.props.children);
-        });
-
-        return (
-            <div
-                className={clesses}
-                role="checkbox-list"
-            >
-                {items}
-            </div>
-        );
+    if (onChange) {
+      onChange(value);
     }
-});
+  }
+  render() {
+    const {
+      className,
+      inline,
+      name,
+      value,
+      children
+    } = this.props;
+
+    const nextValue = Object.assign([], value, this.state.value);
+    const clesses = classNames({
+      'checkbox-list': true
+    }, className);
+
+    const items = React.Children.map(children, (child, index) =>
+      React.cloneElement(child, {
+        name,
+        inline,
+        ref: (ref) => {
+          this.checkboxs[index] = ref;
+        },
+        checked: nextValue.some(i => i === child.props.value),
+        onChange: this.handleChange
+      }));
+
+    return (
+      <div
+        className={clesses}
+        role="list"
+      >
+        {items}
+      </div>
+    );
+  }
+}
+
+CheckboxGroup.propTypes = propTypes;
+CheckboxGroup.defaultProps = defaultProps;
 
 export default CheckboxGroup;

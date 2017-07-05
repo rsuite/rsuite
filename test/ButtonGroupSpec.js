@@ -80,5 +80,4 @@ describe('ButtonGroup', () => {
     assert.equal(ReactDOM.findDOMNode(instance).style.fontSize, fontSize);
   });
 
-
 });

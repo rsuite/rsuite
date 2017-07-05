@@ -44,7 +44,6 @@ describe('Button', () => {
       </Button>
     );
 
-
     assert.equal(ReactDOM.findDOMNode(instance).nodeName, 'A');
     assert.equal(ReactDOM.findDOMNode(instance).getAttribute('href'), href);
   });
