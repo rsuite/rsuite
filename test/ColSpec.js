@@ -6,6 +6,15 @@ import Col from '../src/Col';
 
 describe('Col', () => {
 
+  it('Should render a Col', () => {
+    let title = 'Test';
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Col md={1}>{title}</Col>
+    );
+    assert.equal(ReactDOM.findDOMNode(instance).className, 'col-md-1');
+    assert.equal(ReactDOM.findDOMNode(instance).innerHTML, title);
+  });
+
   it('Should set col of zero', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Col xs={0} sm={0} md={0} lg={0} />
