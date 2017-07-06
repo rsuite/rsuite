@@ -1,40 +1,57 @@
-import classNames from 'classnames';
 import React from 'react';
-import FormControlMixin from './mixins/FormControlMixin';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
+const propTypes = {
+  controlId: PropTypes.string,
+  isValid: PropTypes.bool,
+  validationState: PropTypes.oneOf(['success', 'warning', 'error'])
+};
 
-const FormGroup = React.createClass({
-    mixins: [FormControlMixin],
-    propTypes: {
-        controlId: React.PropTypes.string,
-        isValid: React.PropTypes.bool,
-        validationState: React.PropTypes.oneOf(['success', 'warning', 'error'])
-    },
-    childContextTypes: {
-        formGroup: React.PropTypes.object.isRequired,
-    },
-    getChildContext() {
-        return {
-            formGroup: {
-                 ...this.props
-            }
-        };
-    },
-    render() {
+const defaultProps = {
+  controlId: undefined,
+  isValid: undefined,
+  validationState: undefined
+};
 
-        const { validationState, className, children, isValid } = this.props;
-        const statusClass = validationState ? `has-${validationState}` : (
-            isValid === undefined ? '' : isValid ? 'has-success' : 'has-error'
-        );
+const childContextTypes = {
+  formGroup: React.PropTypes.object.isRequired
+};
 
-        const classes = classNames('form-group', statusClass, className);
-        return (
-            <div className={classes}>
-                {children}
-            </div>
-        );
-    }
-});
+class FormGroup extends React.Component {
+  getChildContext() {
+    const { controlId, validationState } = this.props;
+    return {
+      formGroup: {
+        controlId,
+        validationState
+      }
+    };
+  }
 
+  render() {
+
+    const { validationState, className, children, controlId, isValid, ...props } = this.props;
+    const classes = classNames('form-group', {
+      [`has-${validationState}`]: !!validationState,
+      'has-success': !validationState && isValid,
+      'has-error': !validationState && isValid === false
+    }, className);
+
+    return (
+      <div
+        {...props}
+        className={classes}
+      >
+        {children}
+      </div>
+    );
+  }
+
+}
+
+FormGroup.propTypes = propTypes;
+FormGroup.defaultProps = defaultProps;
+FormGroup.childContextTypes = childContextTypes;
 
 export default FormGroup;
