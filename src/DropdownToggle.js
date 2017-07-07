@@ -1,46 +1,40 @@
 import React from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import Button from './Button';
-import elementType from './prop-types/elementType';
+import SafeAnchor from './SafeAnchor';
 
 
-const CARET = <span> <span className="caret" /></span>;
+const propTypes = {
+  noCaret: PropTypes.bool,
+  title: PropTypes.string,
+  useAnchor: PropTypes.bool
+};
 
-let DorpdownToggle = React.createClass({
-    propTypes: {
-        noCaret: React.PropTypes.bool,
-        open: React.PropTypes.bool,
-        title: React.PropTypes.string,
-        useAnchor: React.PropTypes.bool
-    },
-    getDefaultProps() {
-        return {
-            open: false,
-            noCaret: false,
-            useAnchor: false
-        };
-    },
-    render() {
+const defaultProps = {
+  noCaret: false,
+  title: null,
+  useAnchor: false
+};
 
-        let caret = this.props.noCaret ? null : CARET ;
-        let Component =  this.props.useAnchor ? 'a' : Button;;
+class DorpdownToggle extends React.Component {
+  render() {
+    const { noCaret, useAnchor, title, className, children, ...props } = this.props;
+    let caret = noCaret ? null : (<span className="caret" />);
+    let Component = useAnchor ? SafeAnchor : Button;
+    return (
+      <Component
+        {...props}
+        className={classNames('dropdown-toggle', className)}
+        role="button"
+      >
+        {title || children} {caret}
+      </Component>
+    );
+  }
+}
 
-        let classes = {
-            ['dropdown-toggle'] : true
-        };
-
-        return (
-            <Component
-                {...this.props}
-                className = {classNames(classes, this.props.className)}
-                type = "button"
-                role = "toggle"
-            >
-                {this.props.title || this.props.children  }{caret}
-            </Component>
-        );
-    }
-
-});
+DorpdownToggle.propTypes = propTypes;
+DorpdownToggle.defaultProps = defaultProps;
 
 export default DorpdownToggle;

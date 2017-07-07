@@ -1,71 +1,84 @@
 import React from 'react';
 import classNames from 'classnames';
-import ClassNameMixin from './mixins/ClassNameMixin';
-import elementType from './prop-types/elementType';
+import PropTypes from 'prop-types';
+import elementType from 'rsuite-utils/lib/propTypes/elementType';
 
+const propTypes = {
+  divider: PropTypes.bool,
+  active: PropTypes.bool,
+  disabled: PropTypes.bool,
+  onSelect: PropTypes.func,
+  onKeyDown: PropTypes.func,
+  eventKey: PropTypes.any,
+  componentClass: elementType
+};
 
-let DropdownMenuItem = React.createClass({
-    mixins: [ClassNameMixin],
-    propTypes: {
-        href: React.PropTypes.string,
-        divider: React.PropTypes.bool,
-        active: React.PropTypes.bool,
-        disabled: React.PropTypes.bool,
-        onSelect: React.PropTypes.func,
-        onKeyDown: React.PropTypes.func,
-        eventKey: React.PropTypes.any,
-        componentClass: elementType
-    },
-    getDefaultProps: function() {
-        return {
-            componentClass: 'a',
-            active: false,
-            disabled: false,
-            divider:false
-        };
-    },
-    handleClick(event){
-        let { onSelect } = this.props;
-        if(this.props.disabled){
-            event.preventDefault();
-            return;
-        }
-        onSelect && onSelect(this.props.eventKey, this.props, event);
-    },
-    render: function() {
+const defaultProps = {
+  componentClass: 'a',
+  active: false,
+  disabled: false,
+  divider: false,
+  onSelect: null,
+  onKeyDown: null,
+  eventKey: null
+};
 
-        let {
-            children,
-            divider,
-            onSelect,
-            onKeyDown,
-            componentClass: Component,
-            ...props
-        } = this.props;
+class DropdownMenuItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
 
-        let classes = classNames({
-            active : this.props.active ,
-            disabled : this.props.disabled
-        });
-
-        if(divider){
-            return <li role="separator" className="divider"></li>;
-        }
-
-        return (
-            <li role="presentation" className = {classes} >
-                <Component
-                    {...props}
-                    role="menu-item"
-                    tabIndex="-1"
-                    onClick={this.handleClick }
-                  >
-                  {children}
-                </Component>
-            </li>
-        );
+  handleClick(event) {
+    let { onSelect, eventKey, disabled } = this.props;
+    if (disabled) {
+      event.preventDefault();
+      return;
     }
 
-});
+    if (onSelect) {
+      onSelect(eventKey, this.props, event);
+    }
+  }
+
+  render() {
+
+    let {
+      children,
+      divider,
+      onSelect,
+      onKeyDown,
+      active,
+      disabled,
+      componentClass: Component,
+      ...props
+    } = this.props;
+
+    let classes = classNames({
+      active,
+      disabled
+    });
+
+    if (divider) {
+      return <li role="separator" className="divider" />;
+    }
+
+    return (
+      <li role="presentation" className={classes} >
+        <Component
+          {...props}
+          role="menu"
+          tabIndex="-1"
+          onClick={this.handleClick}
+        >
+          {children}
+        </Component>
+      </li>
+    );
+  }
+}
+
+DropdownMenuItem.propTypes = propTypes;
+DropdownMenuItem.defaultProps = defaultProps;
 
 export default DropdownMenuItem;
