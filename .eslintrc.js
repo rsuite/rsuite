@@ -41,6 +41,7 @@ module.exports = {
     'no-multi-spaces': ERROR,
     'no-var': OFF,
     'one-var': OFF,
+    'class-methods-use-this': WARNING,
     /**
      * https://github.com/airbnb/javascript/tree/master/react
      */
@@ -48,13 +49,18 @@ module.exports = {
     'react/jsx-pascal-case': ERROR,                   //骆驼式命名
     'react/jsx-closing-bracket-location': ERROR,      //JSX语法缩进/格式
     'react/jsx-curly-spacing': ERROR,                 //JSX {} 引用括号里两边加空格
-    'react/jsx-boolean-value': [ERROR, 'always'],     //如果属性值为 true, 可以直接省略
+    'react/jsx-boolean-value': [OFF, 'always'],       //如果属性值为 true, 可以直接省略
     'jsx-quotes': [ERROR, 'prefer-double'],           //JSX属性值总是使用双引号(")
     'react/no-string-refs': ERROR,                    //Refs里使用回调函数
     'react/jsx-wrap-multilines': ERROR,               //多行的JSX标签写在 ()里
     'react/self-closing-comp': ERROR,                 //没有子元素的标签来说总是自己关闭标签
     'react/jsx-no-bind': ERROR,                       //当在 render() 里使用事件处理方法时，提前在构造函数里把 this 绑定上去
     'react/no-is-mounted': ERROR,                      //不要再使用 isMounted
-    'jsx-a11y/href-no-hash': OFF
+    'react/prop-types': [ERROR, { ignore: ['children', 'className', 'style'] }],
+    'jsx-a11y/href-no-hash': OFF,
+    'jsx-a11y/label-has-for': OFF,
+    'react/jsx-filename-extension': OFF,
+    'react/prefer-stateless-function': OFF
+
   }
 };
