@@ -42,6 +42,7 @@ module.exports = {
     'no-var': OFF,
     'one-var': OFF,
     'class-methods-use-this': WARNING,
+    'no-unused-expressions': [ERROR, { allowShortCircuit: true }],
     /**
      * https://github.com/airbnb/javascript/tree/master/react
      */
