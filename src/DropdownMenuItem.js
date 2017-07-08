@@ -8,7 +8,6 @@ const propTypes = {
   active: PropTypes.bool,
   disabled: PropTypes.bool,
   onSelect: PropTypes.func,
-  onKeyDown: PropTypes.func,
   eventKey: PropTypes.any,
   componentClass: elementType
 };
@@ -19,7 +18,6 @@ const defaultProps = {
   disabled: false,
   divider: false,
   onSelect: null,
-  onKeyDown: null,
   eventKey: null
 };
 
@@ -47,9 +45,10 @@ class DropdownMenuItem extends React.Component {
       children,
       divider,
       onSelect,
-      onKeyDown,
       active,
       disabled,
+      className,
+      eventKey,
       componentClass: Component,
       ...props
     } = this.props;
@@ -57,17 +56,19 @@ class DropdownMenuItem extends React.Component {
     let classes = classNames({
       active,
       disabled
-    });
+    }, className);
 
     if (divider) {
       return <li role="separator" className="divider" />;
     }
 
     return (
-      <li role="presentation" className={classes} >
+      <li
+        {...props}
+        role="presentation"
+        className={classes}
+      >
         <Component
-          {...props}
-          role="menu"
           tabIndex="-1"
           onClick={this.handleClick}
         >

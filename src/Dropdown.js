@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { elementType } from 'rsuite-utils/lib/propTypes';
 import { RootCloseWrapper } from 'rsuite-utils/lib/Overlay';
@@ -9,23 +10,24 @@ import ButtonGroup from './ButtonGroup';
 import DropdownToggle from './DropdownToggle';
 import DropdownMenu from './DropdownMenu';
 import DropdownMenuItem from './DropdownMenuItem';
+import decorate, { STATE, STYLES, getClassNames } from './utils/decorate';
+
 
 const propTypes = {
-  active: PropTypes.bool,
   disabled: PropTypes.bool,
   block: PropTypes.bool,
   dropup: PropTypes.bool,
+  /*
+   * If 'select' is true , title will be updated after the 'onSelect' trigger .
+   */
+  select: PropTypes.bool,
+  bothEnds: PropTypes.bool,
   onClose: PropTypes.func,
   onOpen: PropTypes.func,
   onToggle: PropTypes.func,
   onSelect: PropTypes.func,
   componentClass: elementType,
-  /*
-   * If 'select' is true , title will be updated after the 'onSelect' trigger .
-   */
-  select: PropTypes.bool,
   activeKey: PropTypes.any,
-  bothEnds: PropTypes.bool,
   menuStyle: PropTypes.object,
   title: PropTypes.oneOfType([
     PropTypes.string,
@@ -40,7 +42,6 @@ const defaultProps = {
   title: null,
   menuStyle: null,
   bothEnds: false,
-  active: false,
   dropup: false,
   disabled: false,
   select: false,
@@ -62,29 +63,29 @@ class Dropdown extends React.Component {
     };
     this.toggle = this.toggle.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
+
   }
 
   componentWillMount() {
     this.update();
   }
   componentWillReceiveProps(nextProps) {
-    this.update(nextProps);
+    if (_.isEqual(nextProps, this.props)) {
+      this.update(nextProps);
+    }
   }
 
   toggle(isOpen) {
     const { onOpen, onClose, onToggle } = this.props;
-    let open = isOpen || !this.state.open;
+    let open = _.isUndefined(isOpen) ? !this.state.open : isOpen;
     let handleToggle = open ? onOpen : onClose;
 
     this.setState({ open }, () => {
-      if (handleToggle) {
-        handleToggle();
-      }
+      handleToggle && handleToggle();
     });
 
-    if (onToggle) {
-      onToggle();
-    }
+    onToggle && onToggle();
 
   }
 
@@ -116,7 +117,7 @@ class Dropdown extends React.Component {
 
   handleSelect(eventKey, props, event) {
 
-    const { select, onSelect } = this.props;
+    const { select, onSelect, onClose, autoClose } = this.props;
 
     if (select) {
       this.setState({
@@ -125,8 +126,10 @@ class Dropdown extends React.Component {
       });
     }
 
-    if (onSelect) {
-      onSelect(eventKey, props, event);
+    onSelect && onSelect(eventKey, props, event);
+    if (autoClose) {
+      this.toggle(false);
+      onClose && onClose();
     }
 
   }
@@ -134,7 +137,6 @@ class Dropdown extends React.Component {
   render() {
 
     let {
-      autoClose,
       title,
       children,
       className,
@@ -146,10 +148,13 @@ class Dropdown extends React.Component {
       ...props
     } = this.props;
 
+    const buttonProps = _.pick(props, ['block', 'disabled']);
+    const elementProps = _.omit(props, ['select', 'onClose', 'onOpen', 'onToggle', 'autoClose']);
 
     let Toggle = (
       <DropdownToggle
-        {...props}
+        {...buttonProps}
+        className={classNames(getClassNames(props, 'btn'))}
         onClick={this.handleClick}
       >
         {this.state.title || title}
@@ -158,11 +163,6 @@ class Dropdown extends React.Component {
 
     let Menu = (
       <DropdownMenu
-        onClose={() => {
-          if (autoClose) {
-            this.toggle();
-          }
-        }}
         onSelect={this.handleSelect}
         activeKey={this.state.activeKey}
         style={menuStyle}
@@ -188,7 +188,7 @@ class Dropdown extends React.Component {
 
     return (
       <Component
-        {...props}
+        {...elementProps}
         className={classes}
         role="menu"
       >
@@ -205,4 +205,10 @@ Dropdown.propTypes = propTypes;
 Dropdown.defaultProps = defaultProps;
 Dropdown.Item = DropdownMenuItem;
 
-export default Dropdown;
+export default decorate({
+  size: true,
+  shape: {
+    oneOf: [...Object.values(STATE), ...Object.values(STYLES)],
+    default: STATE.default
+  }
+})(Dropdown);

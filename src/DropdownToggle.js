@@ -28,7 +28,7 @@ class DorpdownToggle extends React.Component {
         className={classNames('dropdown-toggle', className)}
         role="button"
       >
-        {title || children} {caret}
+        {title || children}{caret}
       </Component>
     );
   }
