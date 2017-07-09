@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 
@@ -12,23 +12,23 @@ describe('FormGroup', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <FormGroup>{title}</FormGroup>
     );
-    assert.equal(ReactDOM.findDOMNode(instance).className, 'form-group');
-    assert.equal(ReactDOM.findDOMNode(instance).innerHTML, title);
+    assert.equal(findDOMNode(instance).className, 'form-group');
+    assert.equal(findDOMNode(instance).innerHTML, title);
   });
 
   it('Should have a validation State', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <FormGroup validationState="warning" />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bhas-warning\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bhas-warning\b/));
   });
 
   it('Should have a warning State', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <FormGroup validationState="warning" isValid />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bhas-warning\b/));
-    assert.ok(!ReactDOM.findDOMNode(instance).className.match(/\bhas-success\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bhas-warning\b/));
+    assert.ok(!findDOMNode(instance).className.match(/\bhas-success\b/));
   });
 
   it('Should have a warning State', () => {
@@ -36,29 +36,37 @@ describe('FormGroup', () => {
       <FormGroup validationState="warning" isValid={false} />
     );
 
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bhas-warning\b/));
-    assert.ok(!ReactDOM.findDOMNode(instance).className.match(/\bhas-error\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bhas-warning\b/));
+    assert.ok(!findDOMNode(instance).className.match(/\bhas-error\b/));
   });
 
   it('Should have a error State', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <FormGroup isValid={false} />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bhas-error\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bhas-error\b/));
   });
 
   it('Should have a success State', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <FormGroup isValid />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bhas-success\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bhas-success\b/));
+  });
+
+
+  it('Should have a size', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <FormGroup size='lg' />
+    );
+    assert.ok(findDOMNode(instance).className.match(/\bform-group-lg\b/));
   });
 
   it('Should have a custom className', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <FormGroup className="custom" />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bcustom\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
   });
 
 
@@ -67,7 +75,7 @@ describe('FormGroup', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <FormGroup style={{ fontSize }} />
     );
-    assert.equal(ReactDOM.findDOMNode(instance).style.fontSize, fontSize);
+    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
 
 });
