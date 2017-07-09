@@ -1,14 +1,18 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import decorate, { getClassNames } from './utils/decorate';
+
 
 const propTypes = {
+  prefixClass: PropTypes.string,
   controlId: PropTypes.string,
   isValid: PropTypes.bool,
   validationState: PropTypes.oneOf(['success', 'warning', 'error'])
 };
 
 const defaultProps = {
+  prefixClass: 'form-group',
   controlId: undefined,
   isValid: undefined,
   validationState: undefined
@@ -32,7 +36,8 @@ class FormGroup extends React.Component {
   render() {
 
     const { validationState, className, children, controlId, isValid, ...props } = this.props;
-    const classes = classNames('form-group', {
+    const classes = classNames({
+      ...getClassNames(this.props),
       [`has-${validationState}`]: !!validationState,
       'has-success': !validationState && isValid,
       'has-error': !validationState && isValid === false
@@ -54,4 +59,7 @@ FormGroup.propTypes = propTypes;
 FormGroup.defaultProps = defaultProps;
 FormGroup.childContextTypes = childContextTypes;
 
-export default FormGroup;
+export default decorate({
+  size: true
+})(FormGroup);
+

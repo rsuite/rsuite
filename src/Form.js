@@ -1,48 +1,49 @@
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import React from 'react';
-import elementType from './prop-types/elementType';
-import ClassNameMixin from './mixins/ClassNameMixin';
+import elementType from 'rsuite-utils/lib/propTypes/elementType';
+
+const propTypes = {
+  horizontal: PropTypes.bool,
+  inline: PropTypes.bool,
+  prefixClass: PropTypes.string,
+  componentClass: elementType
+};
+
+const defaultProps = {
+  prefixClass: 'form',
+  horizontal: false,
+  inline: false,
+  componentClass: 'form'
+};
 
 
-const Form = React.createClass({
-    mixins: [ClassNameMixin],
-    propTypes: {
-        horizontal: React.PropTypes.bool,
-        inline: React.PropTypes.bool,
-        classPrefix: React.PropTypes.string,
-        componentClass: elementType,
-    },
-    getDefaultProps(){
-        return {
-            classPrefix: 'form',
-            horizontal: false,
-            inline: false,
-            componentClass: 'form',
-        };
-    },
-    render() {
-        const {
-            horizontal,
-            inline,
-            componentClass: Component,
-            className,
-            ...props,
-        } = this.props;
+class Form extends React.Component {
+  render() {
+    const {
+      horizontal,
+      inline,
+      componentClass: Component,
+      className,
+      prefixClass,
+      ...props,
+    } = this.props;
 
-        const clesses = classNames({
-            'form': true ,
-            [this.prefix('horizontal')]:horizontal,
-            [this.prefix('inline')]:inline
-        }, className);
+    const clesses = classNames({
+      [`${prefixClass}-horizontal`]: horizontal,
+      [`${prefixClass}-inline`]: inline
+    }, 'form', className);
 
-        return (
-            <Component
-                {...props}
-                className={ clesses }
-            />
-        );
-    }
-});
+    return (
+      <Component
+        {...props}
+        className={clesses}
+      />
+    );
+  }
+}
 
+Form.propTypes = propTypes;
+Form.defaultProps = defaultProps;
 
 export default Form;
