@@ -21,24 +21,27 @@ export const STYLES = {
   INVERSE: 'inverse'
 };
 
-export function getClassNames(props) {
+export function getClassNames(props, prefixClass) {
 
-  const { prefixClass, size, shape } = props;
-  const classes = {
-    [`${prefixClass}`]: true,
+  const { size, shape, prefixClass: className } = props;
+  let pre = prefixClass || className;
+
+  pre = pre ? `${pre}-` : '';
+
+  return {
+    [`${className}`]: !!className,
+    [`${pre}${size}`]: !!size,
+    [`${pre}${shape}`]: !!shape
   };
-
-  if (props.size) {
-    classes[`${prefixClass}-${size}`] = true;
-  }
-
-  if (props.shape) {
-    classes[`${prefixClass}-${shape}`] = true;
-  }
-
-  return classes;
 }
 
+export function getProps(props) {
+  const elementProps = {};
+  Object.entries(props).forEach(([propName, propValue]) => {
+    elementProps[propName] = propValue;
+  });
+  return elementProps;
+}
 
 export default function decorate(skin = {
   size: null,
