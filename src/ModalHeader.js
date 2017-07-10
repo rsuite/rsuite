@@ -1,43 +1,59 @@
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import React from 'react';
 import createChainedFunction from './utils/createChainedFunction';
-import ClassNameMixin from './mixins/ClassNameMixin';
 
-const ModalHeader = React.createClass({
-    mixins: [ClassNameMixin],
-    contextTypes: {
-        onModalHide: React.PropTypes.func
-    },
-    propTypes: {
-        closeButton: React.PropTypes.bool,
-        onHide: React.PropTypes.func
-    },
-    getDefaultProps() {
-        return {
-            classPrefix: 'modal',
-            closeButton: true
-        };
-    },
-    render() {
+const propTypes = {
+  prefixClass: PropTypes.string,
+  closeButton: PropTypes.bool,
+  onHide: PropTypes.func
+};
 
-        let handleHide = createChainedFunction(this.context.onModalHide, this.props.onHide);
-        let classes = classNames(this.prefix('header'), this.props.className);
+const defaultProps = {
+  prefixClass: 'modal',
+  closeButton: true,
+  onHide: undefined
+};
 
-        let closeButton = (
-            <button type="button" className="close" aria-label='Close' onClick={handleHide}>
-                <span aria-hidden="true">
-                    &times;
-                </span>
-            </button>
-        );
+const contextTypes = {
+  onModalHide: PropTypes.func
+};
 
-        return (
-            <div {...this.props } className={classes}>
-                {this.props.closeButton && closeButton}
-                {this.props.children}
-            </div>
-        );
-    }
-});
+class ModalHeader extends React.Component {
+  render() {
+    const {
+      prefixClass,
+      onHide,
+      className,
+      closeButton,
+      children,
+      ...props
+    } = this.props;
+
+    let classes = classNames(`${prefixClass}-header`, className);
+    return (
+      <div
+        {...props}
+        className={classes}
+      >
+        {closeButton && (
+          <button
+            type="button"
+            className="close"
+            aria-label="Close"
+            onClick={createChainedFunction(this.context.onModalHide, onHide)}
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        )}
+        {children}
+      </div>
+    );
+  }
+}
+
+ModalHeader.propTypes = propTypes;
+ModalHeader.defaultProps = defaultProps;
+ModalHeader.contextTypes = contextTypes;
 
 export default ModalHeader;
