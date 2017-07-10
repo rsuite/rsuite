@@ -91,13 +91,13 @@ const Dropdown = React.createClass({
 
         let title;
         if (select) {
-            const activeItem = React.Children.find(children, item => (
-                _.isEqual(activeKey, item.props.eventKey) || item.props.active
-            ));
-
-            if (activeItem) {
-                title = activeItem.props.children;
-            }
+            React.Children.map(children, (item, index) => {
+                if (activeKey === item.props.eventKey || _.isEqual(activeKey, item.props.eventKey) ) {
+                    title = item.props.children;
+                } else if (item.props.active) {
+                    title = item.props.children;
+                }
+            });
 
             title && (state.title = title);
         }
