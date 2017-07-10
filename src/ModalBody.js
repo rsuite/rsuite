@@ -22,5 +22,7 @@ class ModalBody extends React.Component {
 
 ModalBody.propTypes = propTypes;
 ModalBody.defaultProps = defaultProps;
+ModalBody.displayName = 'ModalBody';
+
 
 export default ModalBody;

@@ -9,12 +9,12 @@ import Fade from 'rsuite-utils/lib/Animation/Fade';
 import { elementType } from 'rsuite-utils/lib/propTypes';
 import { on, getHeight, isOverflowing, getScrollbarSize, canUseDOM, ownerDocument } from 'dom-lib';
 
+import ReactChildren from './utils/ReactChildren';
 import ModalDialog from './ModalDialog';
 import ModalBody from './ModalBody';
 import ModalHeader from './ModalHeader';
 import ModalTitle from './ModalTitle';
 import ModalFooter from './ModalFooter';
-
 
 const TRANSITION_DURATION = 300;
 const BACKDROP_TRANSITION_DURATION = 150;
@@ -23,12 +23,11 @@ const propTypes = {
   ...BaseModal.propTypes,
   ...ModalDialog.propTypes,
   backdrop: PropTypes.oneOf(['static', true, false]),
-  keyboard: PropTypes.bool,
   animation: PropTypes.bool,
   dialogComponentClass: elementType,
-  autoFocus: PropTypes.bool,
-  enforceFocus: PropTypes.bool,
   show: PropTypes.bool,
+  keyboard: PropTypes.bool,
+  enforceFocus: PropTypes.bool,
   autoResizeHeight: PropTypes.bool,
   dialogClassName: PropTypes.string,
   onHide: PropTypes.func,
@@ -48,7 +47,7 @@ const defaultProps = {
   autoResizeHeight: true
 };
 
-const contextTypes = {
+const childContextTypes = {
   onModalHide: PropTypes.func
 };
 
@@ -77,18 +76,15 @@ class Modal extends React.Component {
   }
   getStyles() {
 
-    if (!canUseDOM) {
-      return {};
-    }
     const { container, autoResizeHeight } = this.props;
 
-    let node = findDOMNode(this.modal);
-    let doc = ownerDocument(node);
-    let scrollHeight = node.scrollHeight;
+    const node = findDOMNode(this.dialog);
+    const doc = ownerDocument(node);
+    const scrollHeight = node.scrollHeight;
 
-    let bodyIsOverflowing = isOverflowing(findDOMNode(container || doc.body));
-    let modalIsOverflowing = scrollHeight > doc.documentElement.clientHeight;
-    let styles = {
+    const bodyIsOverflowing = isOverflowing(findDOMNode(container || doc.body));
+    const modalIsOverflowing = scrollHeight > doc.documentElement.clientHeight;
+    const styles = {
       modalStyles: {
         paddingRight: bodyIsOverflowing && !modalIsOverflowing ? getScrollbarSize() : 0,
         paddingLeft: !bodyIsOverflowing && modalIsOverflowing ? getScrollbarSize() : 0
@@ -99,9 +95,9 @@ class Modal extends React.Component {
       /**
        * Header height + Footer height + Dialog margin
        */
-      let excludeHeight = 200;
-      let contentHeight = getHeight(window) - excludeHeight;
-      let maxHeight = (scrollHeight >= contentHeight) ? contentHeight : scrollHeight;
+      const excludeHeight = 200;
+      const contentHeight = getHeight(window) - excludeHeight;
+      const maxHeight = (scrollHeight >= contentHeight) ? contentHeight : scrollHeight;
 
       styles.bodyStyles = {
         maxHeight,
@@ -137,22 +133,26 @@ class Modal extends React.Component {
   }
 
   render() {
-    let {
+    const {
       className,
       children,
       dialogClassName,
       autoResizeHeight,
       animation,
       prefixClass,
+      style,
+      show,
       ...props
     } = this.props;
 
-    let { modalStyles, bodyStyles } = this.state;
-    let inClass = { in: props.show && !animation };
-    let Dialog = props.dialogComponentClass;
+    const { modalStyles, bodyStyles } = this.state;
+    const inClass = { in: show && !animation };
+    const Dialog = props.dialogComponentClass;
 
-    let parentProps = _.pick(props, Object.keys(BaseModal.propTypes).concat(['onExit', 'onExiting', 'onEnter', 'onEntered']));
-    let items = autoResizeHeight ? React.Children.map(children, (child) => {
+    const parentProps = _.pick(props, Object.keys(BaseModal.propTypes).concat(['onExit', 'onExiting', 'onEnter', 'onEntered']));
+    const dialogProps = _.omit(props, ['enforceFocus', 'keyboard', 'backdrop', 'onHide', 'dialogComponentClass']);
+
+    const items = (autoResizeHeight && children) ? ReactChildren.map(children, (child) => {
       if (child.type.displayName === 'ModalBody') {
         return React.cloneElement(child, {
           style: bodyStyles
@@ -162,15 +162,15 @@ class Modal extends React.Component {
     }) : children;
 
     // the rest are fired in handleHide() and handleShow();
-    let modal = (
+    const modal = (
       <Dialog
-        {...props}
-        style={modalStyles}
+        {...dialogProps}
+        style={{ ...modalStyles, ...style }}
         className={classNames(className, inClass)}
         dialogClassName={dialogClassName}
         onClick={props.backdrop === true ? this.handleDialogClick : null}
         ref={(ref) => {
-          this.modal = ref;
+          this.dialog = ref;
         }}
       >
         {items}
@@ -179,7 +179,10 @@ class Modal extends React.Component {
 
     return (
       <BaseModal
-        show={props.show}
+        ref={(ref) => {
+          this.modal = ref;
+        }}
+        show={show}
         onEntering={this.handleShow}
         onExited={this.handleHide}
         backdropClassName={classNames(`${prefixClass}-backdrop`, inClass)}
@@ -197,7 +200,7 @@ class Modal extends React.Component {
 
 Modal.propTypes = propTypes;
 Modal.defaultProps = defaultProps;
-Modal.contextTypes = contextTypes;
+Modal.childContextTypes = childContextTypes;
 
 Modal.Body = ModalBody;
 Modal.Header = ModalHeader;
