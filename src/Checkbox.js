@@ -9,11 +9,13 @@ const propTypes = {
   checked: PropTypes.bool,
   defaultChecked: PropTypes.bool,
   onChange: PropTypes.func,
-  inputRef: PropTypes.func
+  inputRef: PropTypes.func,
+  value: PropTypes.any,
 };
 
 const defaultProps = {
   title: null,
+  value: undefined,
   inline: false,
   disabled: false,
   checked: undefined,

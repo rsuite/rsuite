@@ -71,7 +71,7 @@ class CheckboxGroup extends React.Component {
     return (
       <div
         className={clesses}
-        role="list"
+        role="group"
       >
         {items}
       </div>
