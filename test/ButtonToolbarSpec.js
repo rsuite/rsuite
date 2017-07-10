@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import Button from '../src/Button';
@@ -17,7 +17,7 @@ describe('ButtonToolbar', () => {
         </ButtonGroup>
       </ButtonToolbar>
     );
-    let node = ReactDOM.findDOMNode(instance);
+    let node = findDOMNode(instance);
     assert.equal(node.nodeName, 'DIV');
     assert.ok(node.className.match(/\bbtn-toolbar\b/));
     assert.equal(node.getAttribute('role'), 'toolbar');
@@ -27,7 +27,7 @@ describe('ButtonToolbar', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ButtonToolbar className="custom" />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bcustom\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
   });
 
   it('Should have a custom style', () => {
@@ -35,7 +35,7 @@ describe('ButtonToolbar', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ButtonToolbar style={{ fontSize }} />
     );
-    assert.equal(ReactDOM.findDOMNode(instance).style.fontSize, fontSize);
+    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
 
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import Button from '../src/Button';
 
@@ -13,8 +13,8 @@ describe('Button', () => {
       </Button>
     );
 
-    assert.equal(ReactDOM.findDOMNode(instance).innerHTML, 'Title');
-    assert.equal(ReactDOM.findDOMNode(instance).nodeName, 'BUTTON');
+    assert.equal(findDOMNode(instance).innerHTML, 'Title');
+    assert.equal(findDOMNode(instance).nodeName, 'BUTTON');
   });
 
   it('Should have type=button by default', () => {
@@ -24,7 +24,7 @@ describe('Button', () => {
       </Button>
     );
 
-    assert.equal(ReactDOM.findDOMNode(instance).getAttribute('type'), 'button');
+    assert.equal(findDOMNode(instance).getAttribute('type'), 'button');
   });
 
   it('Should show the type if passed one', () => {
@@ -33,7 +33,7 @@ describe('Button', () => {
         Title
       </Button>
     );
-    assert.equal(ReactDOM.findDOMNode(instance).getAttribute('type'), 'submit');
+    assert.equal(findDOMNode(instance).getAttribute('type'), 'submit');
   });
 
   it('Should output an anchor if called with a href', () => {
@@ -43,9 +43,8 @@ describe('Button', () => {
         Title
       </Button>
     );
-
-    assert.equal(ReactDOM.findDOMNode(instance).nodeName, 'A');
-    assert.equal(ReactDOM.findDOMNode(instance).getAttribute('href'), href);
+    assert.equal(findDOMNode(instance).nodeName, 'A');
+    assert.equal(findDOMNode(instance).getAttribute('href'), href);
   });
 
   it('Should call onClick callback', (done) => {
@@ -57,7 +56,7 @@ describe('Button', () => {
         Title
       </Button>
     );
-    ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(instance));
+    ReactTestUtils.Simulate.click(findDOMNode(instance));
   });
 
   it('Should be disabled', () => {
@@ -66,7 +65,7 @@ describe('Button', () => {
         Title
       </Button>
     );
-    assert.ok(ReactDOM.findDOMNode(instance).disabled);
+    assert.ok(findDOMNode(instance).disabled);
   });
 
   it('Should be disabled link', () => {
@@ -75,7 +74,7 @@ describe('Button', () => {
         Title
       </Button>
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bdisabled\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bdisabled\b/));
   });
 
   it('Should have block class', () => {
@@ -84,7 +83,7 @@ describe('Button', () => {
         Title
       </Button>
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bbtn-block\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bbtn-block\b/));
   });
 
   it('Should apply shape class', () => {
@@ -93,7 +92,16 @@ describe('Button', () => {
         Title
       </Button>
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bbtn-danger\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bbtn-danger\b/));
+  });
+
+  it('Should apply size class', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Button size="lg">
+        Title
+      </Button>
+    );
+    assert.ok(findDOMNode(instance).className.match(/\bbtn-lg\b/));
   });
 
   it('Should honour additional classes passed in, adding not overriding', () => {
@@ -102,8 +110,8 @@ describe('Button', () => {
         Title
       </Button>
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bbob\b/));
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bbtn-danger\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bbob\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bbtn-danger\b/));
   });
 
   it('Should default to shape="default"', () => {
@@ -121,14 +129,14 @@ describe('Button', () => {
         Title
       </Button>
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bactive\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bactive\b/));
   });
 
   it('Should have a custom className', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Button className="custom" />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bcustom\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
   });
 
   it('Should have a custom style', () => {
@@ -136,7 +144,7 @@ describe('Button', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Button style={{ fontSize }} />
     );
-    assert.equal(ReactDOM.findDOMNode(instance).style.fontSize, fontSize);
+    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
 
 });

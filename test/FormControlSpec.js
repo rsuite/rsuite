@@ -75,6 +75,14 @@ describe('FormControl', () => {
     assert.ok(input);
   });
 
+  it('Should add size', () => {
+
+    let instance = ReactTestUtils.renderIntoDocument(
+      <FormControl size="lg" />
+    );
+    assert.ok(findDOMNode(instance).className.match(/\binput-lg\b/));
+  });
+
   it('Should call onChange callback', (done) => {
     let doneOp = (value) => {
       if (value === "1") {

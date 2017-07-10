@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 
@@ -13,10 +13,10 @@ describe('DropdownToggle', () => {
       <DropdownToggle>{title}</DropdownToggle>
     );
 
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bdropdown-toggle\b/));
-    assert.ok(ReactDOM.findDOMNode(instance).querySelector('.caret'));
-    assert.equal(ReactDOM.findDOMNode(instance).tagName, 'BUTTON');
-    assert.equal(ReactDOM.findDOMNode(instance).innerText, title);
+    assert.ok(findDOMNode(instance).className.match(/\bdropdown-toggle\b/));
+    assert.ok(findDOMNode(instance).querySelector('.caret'));
+    assert.equal(findDOMNode(instance).tagName, 'BUTTON');
+    assert.equal(findDOMNode(instance).innerText, title);
 
 
   });
@@ -27,7 +27,7 @@ describe('DropdownToggle', () => {
       <DropdownToggle title={title} />
     );
 
-    assert.equal(ReactDOM.findDOMNode(instance).innerText, title);
+    assert.equal(findDOMNode(instance).innerText, title);
   });
 
   it('Should not render caret', () => {
@@ -35,7 +35,7 @@ describe('DropdownToggle', () => {
       <DropdownToggle noCaret />
     );
 
-    assert.ok(!ReactDOM.findDOMNode(instance).querySelector('.caret'));
+    assert.ok(!findDOMNode(instance).querySelector('.caret'));
   });
 
   it('Should render an Anchor', () => {
@@ -43,14 +43,14 @@ describe('DropdownToggle', () => {
       <DropdownToggle useAnchor />
     );
 
-    assert.equal(ReactDOM.findDOMNode(instance).tagName, 'A');
+    assert.equal(findDOMNode(instance).tagName, 'A');
   });
 
   it('Should have a custom className', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <DropdownToggle className="custom" />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bcustom\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
   });
 
 
@@ -59,7 +59,7 @@ describe('DropdownToggle', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <DropdownToggle style={{ fontSize }} />
     );
-    assert.equal(ReactDOM.findDOMNode(instance).style.fontSize, fontSize);
+    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
 
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import Breadcrumb from '../src/Breadcrumb';
@@ -12,7 +12,7 @@ describe('Breadcrumb.Item', () => {
       </Breadcrumb.Item>
     );
     assert.ok(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'a'));
-    assert.notInclude(ReactDOM.findDOMNode(instance).className, 'active');
+    assert.notInclude(findDOMNode(instance).className, 'active');
   });
 
   it('Should render `span.active` with `active` attribute set.', () => {
@@ -22,7 +22,7 @@ describe('Breadcrumb.Item', () => {
       </Breadcrumb.Item>
     );
 
-    assert.include(ReactDOM.findDOMNode(instance).className, 'active');
+    assert.include(findDOMNode(instance).className, 'active');
     assert.ok(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'span'));
   });
 
@@ -33,7 +33,7 @@ describe('Breadcrumb.Item', () => {
       </Breadcrumb.Item>
     );
 
-    assert.include(ReactDOM.findDOMNode(instance).className, 'active');
+    assert.include(findDOMNode(instance).className, 'active');
 
     const spanNode = ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'span');
     assert.ok(spanNode);
@@ -49,7 +49,7 @@ describe('Breadcrumb.Item', () => {
       </Breadcrumb.Item>
     );
 
-    const classes = ReactDOM.findDOMNode(instance).className;
+    const classes = findDOMNode(instance).className;
     assert.include(classes, 'custom-one');
     assert.include(classes, 'custom-two');
   });
@@ -109,7 +109,7 @@ describe('Breadcrumb.Item', () => {
       </Breadcrumb.Item>
     );
 
-    const liNode = ReactDOM.findDOMNode(instance);
+    const liNode = findDOMNode(instance);
     assert.notOk(liNode.hasAttribute('href'));
     assert.notOk(liNode.hasAttribute('title'));
   });
@@ -130,7 +130,7 @@ describe('Breadcrumb.Item', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Breadcrumb.Item className="custom" />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bcustom\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
   });
 
   it('Should have a custom style', () => {
@@ -138,7 +138,7 @@ describe('Breadcrumb.Item', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Breadcrumb.Item style={{ fontSize }} />
     );
-    assert.equal(ReactDOM.findDOMNode(instance).style.fontSize, fontSize);
+    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
 
 });

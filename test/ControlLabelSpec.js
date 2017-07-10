@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import ControlLabel from '../src/ControlLabel';
@@ -12,8 +12,9 @@ describe('ControlLabel', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ControlLabel>{title}</ControlLabel>
     );
-    assert.equal(ReactDOM.findDOMNode(instance).className, 'control-label');
-    assert.equal(ReactDOM.findDOMNode(instance).innerHTML, title);
+    assert.equal(findDOMNode(instance).className, 'control-label');
+    assert.equal(findDOMNode(instance).innerHTML, title);
+    assert.equal(findDOMNode(instance).tagName, 'LABEL');
   });
 
   it('Should have sr-only className', () => {
@@ -21,31 +22,24 @@ describe('ControlLabel', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ControlLabel srOnly>{title}</ControlLabel>
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bsr-only\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bsr-only\b/));
   });
 
   it('Should have `for` in label when set controlId of FormGroup', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <FormGroup controlId="test">
-        <ControlLabel srOnly />
+        <ControlLabel />
       </FormGroup>
     );
-    assert.equal(ReactDOM.findDOMNode(instance).children[0].getAttribute('for'), 'test');
+    assert.equal(findDOMNode(instance).children[0].getAttribute('for'), 'test');
   });
 
-  it('Should have `for` in label ', () => {
-    let title = 'Test';
-    let instance = ReactTestUtils.renderIntoDocument(
-      <ControlLabel srOnly>{title}</ControlLabel>
-    );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bsr-only\b/));
-  });
 
   it('Should have a custom className', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ControlLabel className="custom" />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bcustom\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
   });
 
 
@@ -54,7 +48,7 @@ describe('ControlLabel', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ControlLabel style={{ fontSize }} />
     );
-    assert.equal(ReactDOM.findDOMNode(instance).style.fontSize, fontSize);
+    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
 
 });

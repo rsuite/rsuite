@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import Content from '../src/Content';
@@ -12,9 +12,9 @@ describe('Content', () => {
       <Content>{title}</Content>
     );
 
-    assert.equal(ReactDOM.findDOMNode(instance).className, 'content-wrapper');
-    assert.equal(ReactDOM.findDOMNode(instance).children[0].className, 'content');
-    assert.equal(ReactDOM.findDOMNode(instance).innerText, title);
+    assert.equal(findDOMNode(instance).className, 'content-wrapper');
+    assert.equal(findDOMNode(instance).children[0].className, 'content');
+    assert.equal(findDOMNode(instance).innerText, title);
   });
 
   it('Should render a Page Content', () => {
@@ -22,8 +22,8 @@ describe('Content', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Content page>{title}</Content>
     );
-    assert.equal(ReactDOM.findDOMNode(instance).className, 'page-content-wrapper');
-    assert.equal(ReactDOM.findDOMNode(instance).children[0].className, 'page-content');
+    assert.equal(findDOMNode(instance).className, 'page-content-wrapper');
+    assert.equal(findDOMNode(instance).children[0].className, 'page-content');
   });
 
 
@@ -31,7 +31,7 @@ describe('Content', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Content className="custom" />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bcustom\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
   });
 
 
@@ -40,7 +40,7 @@ describe('Content', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Content style={{ fontSize }} />
     );
-    assert.equal(ReactDOM.findDOMNode(instance).style.fontSize, fontSize);
+    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
 
 });

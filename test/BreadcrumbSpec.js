@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import Breadcrumb from '../src/Breadcrumb';
@@ -30,7 +30,7 @@ describe('Breadcrumb', () => {
       <Breadcrumb className="custom-one custom-two" />
     );
 
-    let olNode = ReactDOM.findDOMNode(ReactTestUtils.findRenderedComponentWithType(instance, Breadcrumb));
+    let olNode = findDOMNode(ReactTestUtils.findRenderedComponentWithType(instance, Breadcrumb));
 
     let classes = olNode.className;
     assert.include(classes, 'breadcrumb');
@@ -43,7 +43,7 @@ describe('Breadcrumb', () => {
       <Breadcrumb />
     );
 
-    let olNode = ReactDOM.findDOMNode(ReactTestUtils.findRenderedComponentWithType(instance, Breadcrumb));
+    let olNode = findDOMNode(ReactTestUtils.findRenderedComponentWithType(instance, Breadcrumb));
     assert.equal(olNode.getAttribute('role'), 'navigation');
   });
 
@@ -52,7 +52,7 @@ describe('Breadcrumb', () => {
       <Breadcrumb />
     );
 
-    let olNode = ReactDOM.findDOMNode(ReactTestUtils.findRenderedComponentWithType(instance, Breadcrumb));
+    let olNode = findDOMNode(ReactTestUtils.findRenderedComponentWithType(instance, Breadcrumb));
     assert.equal(olNode.getAttribute('aria-label'), 'breadcrumbs');
   });
 
@@ -60,7 +60,7 @@ describe('Breadcrumb', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Breadcrumb className="custom" />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bcustom\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
   });
 
   it('Should have a custom style', () => {
@@ -68,7 +68,7 @@ describe('Breadcrumb', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Breadcrumb style={{ fontSize }} />
     );
-    assert.equal(ReactDOM.findDOMNode(instance).style.fontSize, fontSize);
+    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
 
 });

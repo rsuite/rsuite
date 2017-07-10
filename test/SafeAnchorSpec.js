@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import SafeAnchor from '../src/SafeAnchor';
 
@@ -12,7 +12,7 @@ describe('SafeAnchor', () => {
         Title
       </SafeAnchor>
     );
-    assert.equal(ReactDOM.findDOMNode(instance).innerHTML, 'Title');
+    assert.equal(findDOMNode(instance).innerHTML, 'Title');
   });
 
   it('Should call onClick callback', (done) => {
@@ -22,7 +22,7 @@ describe('SafeAnchor', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <SafeAnchor onClick={doneOp} />
     );
-    ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(instance));
+    ReactTestUtils.Simulate.click(findDOMNode(instance));
   });
 
 
@@ -38,8 +38,8 @@ describe('SafeAnchor', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <SafeAnchor onClick={doneOp} disabled />
     );
-    ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(instance));
-    assert.equal(ReactDOM.findDOMNode(instance).tabIndex, -1);
+    ReactTestUtils.Simulate.click(findDOMNode(instance));
+    assert.equal(findDOMNode(instance).tabIndex, -1);
 
   });
 
@@ -50,15 +50,15 @@ describe('SafeAnchor', () => {
         Title
       </SafeAnchor>
     );
-    assert.equal(ReactDOM.findDOMNode(instance).nodeName, 'A');
-    assert.equal(ReactDOM.findDOMNode(instance).getAttribute('href'), href);
+    assert.equal(findDOMNode(instance).nodeName, 'A');
+    assert.equal(findDOMNode(instance).getAttribute('href'), href);
   });
 
   it('Should have a custom className', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <SafeAnchor className="custom" />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bcustom\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
   });
 
 });

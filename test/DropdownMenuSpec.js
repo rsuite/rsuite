@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 
@@ -15,16 +15,16 @@ describe('DropdownMenu', () => {
         <DropdownMenuItem>2</DropdownMenuItem>
       </DropdownMenu>
     );
-    assert.equal(ReactDOM.findDOMNode(instance).className, 'dropdown-menu');
-    assert.equal(ReactDOM.findDOMNode(instance).tagName, 'UL');
-    assert.equal(ReactDOM.findDOMNode(instance).children.length, 2);
+    assert.equal(findDOMNode(instance).className, 'dropdown-menu');
+    assert.equal(findDOMNode(instance).tagName, 'UL');
+    assert.equal(findDOMNode(instance).children.length, 2);
   });
 
   it('Should have a `pull-right` className ', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <DropdownMenu pullRight />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bdropdown-menu-right\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bdropdown-menu-right\b/));
   });
 
   it('Should be selected second option when activeKey = 2 ', () => {
@@ -34,7 +34,7 @@ describe('DropdownMenu', () => {
         <DropdownMenuItem eventKey={2}>2</DropdownMenuItem>
       </DropdownMenu>
     );
-    assert.equal(ReactDOM.findDOMNode(instance).children[1].className, 'active');
+    assert.equal(findDOMNode(instance).children[1].className, 'active');
   });
 
   it('Should call onSelect callback', (done) => {
@@ -51,14 +51,14 @@ describe('DropdownMenu', () => {
       </DropdownMenu>
     );
 
-    ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(instance).querySelectorAll('a')[2]);
+    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelectorAll('a')[2]);
   });
 
   it('Should have a custom className', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <DropdownMenu className="custom" />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bcustom\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
   });
 
 
@@ -67,7 +67,7 @@ describe('DropdownMenu', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <DropdownMenu style={{ fontSize }} />
     );
-    assert.equal(ReactDOM.findDOMNode(instance).style.fontSize, fontSize);
+    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
 
 });

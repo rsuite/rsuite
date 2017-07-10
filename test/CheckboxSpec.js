@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import Checkbox from '../src/Checkbox';
@@ -9,7 +9,7 @@ describe('Checkbox', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Checkbox>Test</Checkbox>
     );
-    assert.equal(ReactDOM.findDOMNode(instance).querySelectorAll('input[type="checkbox"]').length, 1);
+    assert.equal(findDOMNode(instance).querySelectorAll('input[type="checkbox"]').length, 1);
   });
 
   it('Should add title', () => {
@@ -17,36 +17,36 @@ describe('Checkbox', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Checkbox title={title}>Test</Checkbox>
     );
-    assert.equal(ReactDOM.findDOMNode(instance).querySelector('label').title, title);
+    assert.equal(findDOMNode(instance).querySelector('label').title, title);
   });
 
   it('Should have checkbox-inline class', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Checkbox inline>Test</Checkbox>
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bcheckbox-inline\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bcheckbox-inline\b/));
   });
 
   it('Should be disabled', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Checkbox disabled>Test</Checkbox>
     );
-    assert.ok(ReactDOM.findDOMNode(instance).querySelector('input').disabled);
-    assert.ok(ReactDOM.findDOMNode(instance).querySelector('.checker').className.match(/\bdisabled\b/));
+    assert.ok(findDOMNode(instance).querySelector('input').disabled);
+    assert.ok(findDOMNode(instance).querySelector('.checker').className.match(/\bdisabled\b/));
   });
 
   it('Should be checked', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Checkbox checked>Test</Checkbox>
     );
-    assert.ok(ReactDOM.findDOMNode(instance).querySelector('.checked'));
+    assert.ok(findDOMNode(instance).querySelector('.checked'));
   });
 
   it('Should be defaultChecked', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Checkbox defaultChecked>Test</Checkbox>
     );
-    assert.ok(ReactDOM.findDOMNode(instance).querySelector('.checked'));
+    assert.ok(findDOMNode(instance).querySelector('.checked'));
   });
 
 
@@ -55,7 +55,7 @@ describe('Checkbox', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Checkbox defaultValue={value}>Test</Checkbox>
     );
-    assert.equal(ReactDOM.findDOMNode(instance).querySelector('input').value, value);
+    assert.equal(findDOMNode(instance).querySelector('input').value, value);
   });
 
   it('Should support inputRef', () => {
@@ -79,7 +79,7 @@ describe('Checkbox', () => {
         Title
       </Checkbox>
     );
-    ReactTestUtils.Simulate.change(ReactDOM.findDOMNode(instance).querySelector('input'));
+    ReactTestUtils.Simulate.change(findDOMNode(instance).querySelector('input'));
   });
 
 
@@ -96,7 +96,7 @@ describe('Checkbox', () => {
       </Checkbox>
     );
 
-    ReactTestUtils.Simulate.change(ReactDOM.findDOMNode(instance).querySelector('input'));
+    ReactTestUtils.Simulate.change(findDOMNode(instance).querySelector('input'));
   });
 
 
@@ -113,7 +113,7 @@ describe('Checkbox', () => {
       </Checkbox>
     );
 
-    ReactTestUtils.Simulate.change(ReactDOM.findDOMNode(instance).querySelector('input'));
+    ReactTestUtils.Simulate.change(findDOMNode(instance).querySelector('input'));
   });
 
 
@@ -121,7 +121,7 @@ describe('Checkbox', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Checkbox className="custom" />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bcustom\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
   });
 
   it('Should have a custom style', () => {
@@ -129,7 +129,7 @@ describe('Checkbox', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Checkbox style={{ fontSize }} />
     );
-    assert.equal(ReactDOM.findDOMNode(instance).style.fontSize, fontSize);
+    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
 
 

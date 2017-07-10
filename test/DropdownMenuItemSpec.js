@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 
@@ -12,8 +12,8 @@ describe('DropdownMenuItem', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <DropdownMenuItem>{title}</DropdownMenuItem>
     );
-    assert.equal(ReactDOM.findDOMNode(instance).tagName, 'LI');
-    assert.equal(ReactDOM.findDOMNode(instance).innerText, title);
+    assert.equal(findDOMNode(instance).tagName, 'LI');
+    assert.equal(findDOMNode(instance).innerText, title);
 
   });
 
@@ -22,8 +22,8 @@ describe('DropdownMenuItem', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <DropdownMenuItem componentClass="button">{title}</DropdownMenuItem>
     );
-    assert.equal(ReactDOM.findDOMNode(instance).children[0].tagName, 'BUTTON');
-    assert.equal(ReactDOM.findDOMNode(instance).innerText, title);
+    assert.equal(findDOMNode(instance).children[0].tagName, 'BUTTON');
+    assert.equal(findDOMNode(instance).innerText, title);
 
   });
 
@@ -32,7 +32,7 @@ describe('DropdownMenuItem', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <DropdownMenuItem divider />
     );
-    assert.equal(ReactDOM.findDOMNode(instance).className, 'divider');
+    assert.equal(findDOMNode(instance).className, 'divider');
 
   });
 
@@ -40,7 +40,7 @@ describe('DropdownMenuItem', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <DropdownMenuItem active />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bactive\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bactive\b/));
 
   });
 
@@ -48,7 +48,7 @@ describe('DropdownMenuItem', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <DropdownMenuItem disabled />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bdisabled\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bdisabled\b/));
 
   });
 
@@ -63,7 +63,7 @@ describe('DropdownMenuItem', () => {
         Title
       </DropdownMenuItem>
     );
-    ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(instance).children[0]);
+    ReactTestUtils.Simulate.click(findDOMNode(instance).children[0]);
   });
 
 
@@ -71,7 +71,7 @@ describe('DropdownMenuItem', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <DropdownMenuItem className="custom" />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bcustom\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
   });
 
 
@@ -80,7 +80,7 @@ describe('DropdownMenuItem', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <DropdownMenuItem style={{ fontSize }} />
     );
-    assert.equal(ReactDOM.findDOMNode(instance).style.fontSize, fontSize);
+    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
 
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import ButtonGroup from '../src/ButtonGroup';
@@ -10,22 +10,22 @@ describe('ButtonGroup', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ButtonGroup />
     );
-    assert.equal(ReactDOM.findDOMNode(instance).nodeName, 'DIV');
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bbtn-group\b/));
+    assert.equal(findDOMNode(instance).nodeName, 'DIV');
+    assert.ok(findDOMNode(instance).className.match(/\bbtn-group\b/));
   });
 
   it('Should add size', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ButtonGroup size="lg" />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bbtn-group-lg\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bbtn-group-lg\b/));
   });
 
   it('Should add vertical variation', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ButtonGroup vertical />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bbtn-group-vertical\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bbtn-group-vertical\b/));
   });
 
 
@@ -33,7 +33,7 @@ describe('ButtonGroup', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ButtonGroup vertical block />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bbtn-block\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bbtn-block\b/));
   });
 
   it('Should warn about block without vertical', () => {
@@ -47,14 +47,14 @@ describe('ButtonGroup', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ButtonGroup justified />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bbtn-group-justified\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bbtn-group-justified\b/));
   });
 
   it('Should have a custom className', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ButtonGroup className="custom" />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bcustom\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
   });
 
 
@@ -69,7 +69,7 @@ describe('ButtonGroup', () => {
         </Button>
       </ButtonGroup>
     );
-    assert.equal(ReactDOM.findDOMNode(instance).querySelectorAll('button').length, 2);
+    assert.equal(findDOMNode(instance).querySelectorAll('button').length, 2);
   });
 
   it('Should have a custom style', () => {
@@ -77,7 +77,7 @@ describe('ButtonGroup', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ButtonGroup style={{ fontSize }} />
     );
-    assert.equal(ReactDOM.findDOMNode(instance).style.fontSize, fontSize);
+    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
 
 });

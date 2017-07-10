@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 
@@ -15,7 +15,7 @@ describe('Dropdown', () => {
       </Dropdown>
     );
 
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bdropdown\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bdropdown\b/));
   });
 
 
@@ -26,7 +26,7 @@ describe('Dropdown', () => {
         <Dropdown.Item>2</Dropdown.Item>
       </Dropdown>
     );
-    assert.ok(ReactDOM.findDOMNode(instance).querySelector('button.disabled'));
+    assert.ok(findDOMNode(instance).querySelector('button.disabled'));
   });
 
   it('Should be block', () => {
@@ -36,8 +36,8 @@ describe('Dropdown', () => {
         <Dropdown.Item>2</Dropdown.Item>
       </Dropdown>
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bbtn-block\b/));
-    assert.ok(ReactDOM.findDOMNode(instance).querySelector('button').className.match(/\bbtn-block\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bbtn-block\b/));
+    assert.ok(findDOMNode(instance).querySelector('button').className.match(/\bbtn-block\b/));
   });
 
   it('Should be dropup', () => {
@@ -47,7 +47,7 @@ describe('Dropdown', () => {
         <Dropdown.Item>2</Dropdown.Item>
       </Dropdown>
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bdropup\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bdropup\b/));
   });
 
   it('Should have a title', () => {
@@ -57,7 +57,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    assert.equal(ReactDOM.findDOMNode(instance).querySelector('button').innerText, 'abc');
+    assert.equal(findDOMNode(instance).querySelector('button').innerText, 'abc');
   });
 
   it('Should have a title when set activeKey', () => {
@@ -67,7 +67,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    assert.equal(ReactDOM.findDOMNode(instance).querySelector('button').innerText, 2);
+    assert.equal(findDOMNode(instance).querySelector('button').innerText, 2);
   });
 
   it('Should be shown at both ends', () => {
@@ -77,7 +77,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bboth-ends\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bboth-ends\b/));
   });
   it('Should call onSelect callback', (done) => {
     let doneOp = (eventKey) => {
@@ -91,14 +91,14 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(instance).querySelectorAll('a')[1]);
+    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelectorAll('a')[1]);
   });
 
   it('Should be active second item when trigger onSelect', (done) => {
     let doneOp = (eventKey) => {
       if (eventKey === 2) {
         setTimeout(() => {
-          if (ReactDOM.findDOMNode(instance).querySelector('button').innerText === '2') {
+          if (findDOMNode(instance).querySelector('button').innerText === '2') {
             done();
           }
         }, 200);
@@ -110,7 +110,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(instance).querySelectorAll('a')[1]);
+    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelectorAll('a')[1]);
   });
 
   it('Should call onToggle callback', (done) => {
@@ -123,7 +123,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(instance).querySelector('button'));
+    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('button'));
   });
 
   it('Should call onOpen callback', (done) => {
@@ -136,7 +136,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(instance).querySelector('button'));
+    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('button'));
   });
 
   it('Should call onClose callback', (done) => {
@@ -149,7 +149,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    const btn = ReactDOM.findDOMNode(instance).querySelector('button');
+    const btn = findDOMNode(instance).querySelector('button');
     ReactTestUtils.Simulate.click(btn);
     ReactTestUtils.Simulate.click(btn);
   });
@@ -170,7 +170,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(instance).querySelector('button'));
+    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('button'));
   });
 
   it('Should call onClose callback when set autoClose', (done) => {
@@ -183,7 +183,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(instance).querySelectorAll('a')[1]);
+    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelectorAll('a')[1]);
   });
 
   it('Should have a custom style in Menu', () => {
@@ -191,7 +191,23 @@ describe('Dropdown', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Dropdown menuStyle={{ fontSize }} />
     );
-    assert.equal(ReactDOM.findDOMNode(instance).querySelector('.dropdown-menu').style.fontSize, fontSize);
+    assert.equal(findDOMNode(instance).querySelector('.dropdown-menu').style.fontSize, fontSize);
+  });
+
+  it('Should apply shape class', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown shape="danger" />
+    );
+    assert.ok(findDOMNode(instance).className.match(/\bbtn-group-danger\b/));
+    assert.ok(findDOMNode(instance).querySelector('button').className.match(/\bbtn-danger\b/));
+  });
+
+  it('Should apply size class', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown size="lg" />
+    );
+    assert.ok(findDOMNode(instance).className.match(/\bbtn-group-lg\b/));
+    assert.ok(findDOMNode(instance).querySelector('button').className.match(/\bbtn-lg\b/));
   });
 
 
@@ -199,7 +215,7 @@ describe('Dropdown', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Dropdown className="custom" />
     );
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bcustom\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
   });
 
 
@@ -208,7 +224,7 @@ describe('Dropdown', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Dropdown style={{ fontSize }} />
     );
-    assert.equal(ReactDOM.findDOMNode(instance).style.fontSize, fontSize);
+    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
 
 });

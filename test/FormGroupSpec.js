@@ -55,9 +55,9 @@ describe('FormGroup', () => {
   });
 
 
-  it('Should have a size', () => {
+  it('Should add size', () => {
     let instance = ReactTestUtils.renderIntoDocument(
-      <FormGroup size='lg' />
+      <FormGroup size="lg" />
     );
     assert.ok(findDOMNode(instance).className.match(/\bform-group-lg\b/));
   });
