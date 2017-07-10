@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import _ from 'lodash';
 import ClassNameMixin from './mixins/ClassNameMixin';
 
 import ButtonGroup from './ButtonGroup';
@@ -83,20 +84,21 @@ const Dropdown = React.createClass({
     },
     update(props) {
 
-        const {children, select, activeKey} = props || this.props;
+        const { children, select, activeKey } = props || this.props;
         const state = {
             activeKey
         };
 
         let title;
         if (select) {
-            React.Children.map(children, (item, index) => {
-                if (activeKey === item.props.eventKey) {
-                    title = item.props.children;
-                } else if (item.props.active) {
-                    title = item.props.children;
-                }
-            });
+            const activeItem = React.Children.find(children, item => (
+                _.isEqual(activeKey, item.props.eventKey) || item.props.active
+            ));
+
+            if (activeItem) {
+                title = activeItem.props.children;
+            }
+
             title && (state.title = title);
         }
 
@@ -129,21 +131,21 @@ const Dropdown = React.createClass({
             <DropdownToggle
                 {...props}
                 onClick={this.handleClick}
-                >
+            >
                 {this.state.title || title}
             </DropdownToggle>
         );
 
         let Menu = (
             <DropdownMenu
-                onClose={()=>{
+                onClose={() => {
                     autoClose && this.toggle();
                 }}
                 onSelect={this.handleSelect}
                 activeKey={this.state.activeKey}
                 style={menuStyle}
                 ref='menu'
-                >
+            >
                 {children}
             </DropdownMenu>
         );
@@ -168,7 +170,7 @@ const Dropdown = React.createClass({
                 {...props}
                 className={classes}
                 role="dropdown"
-                >
+            >
                 {Toggle}
                 {Menu}
             </Component>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
+import _ from 'lodash';
 import classNames from 'classnames';
 import DropdownMenuItem from './DropdownMenuItem';
 import ClassNameMixin from './mixins/ClassNameMixin';
@@ -53,7 +54,7 @@ let DorpdownMenu = React.createClass({
             };
 
             if (activeKey !== null && activeKey !== undefined) {
-                childProps.active = (activeKey === item.props.eventKey);
+                childProps.active = (_.isEqual(activeKey, item.props.eventKey) || activeKey === item.props.eventKey);
             }
 
             if (React.isValidElement(item)) {
