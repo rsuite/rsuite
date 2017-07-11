@@ -1,30 +1,41 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 
-let NavbarBrand = React.createClass({
+const propTypes = {
+  prefixClass: PropTypes.string
+};
 
-    render() {
-        let { className, children, ...props } = this.props;
-        let classes = classNames({
-            'navbar-brand': true
-        }, className);
+const defaultProps = {
+  prefixClass: 'navbar'
+};
 
-        if (React.isValidElement(children)) {
-            return React.cloneElement(children, {
-                className: classNames(
-                    children.props.className, classes
-                )
-            });
-        }
+class NavbarBrand extends React.Component {
+  render() {
+    const { className, prefixClass, children, ...props } = this.props;
+    const classes = classNames(`${prefixClass}-brand`, className);
 
-        return (
-            <span {...props} className={classes}>
-                {children}
-            </span>
-        );
+    if (React.isValidElement(children)) {
+      return React.cloneElement(children, {
+        className: classNames(
+          children.props.className, classes
+        )
+      });
     }
 
-});
+    return (
+      <span
+        {...props}
+        className={classes}
+      >
+        {children}
+      </span>
+    );
+  }
+}
+
+NavbarBrand.propTypes = propTypes;
+NavbarBrand.defaultProps = defaultProps;
 
 export default NavbarBrand;

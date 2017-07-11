@@ -1,32 +1,46 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Collapse from './fixtures/Collapse';
+import Collapse from 'rsuite-utils/lib/Animation/Collapse';
 
+const propTypes = {
+  prefixClass: PropTypes.string,
+};
 
-const NavbarCollapse = React.createClass({
-    contextTypes: {
-        expanded: React.PropTypes.bool
-    },
-    render() {
-        const {
-            children,
-            ...props
-        } = this.props;
+const defaultProps = {
+  prefixClass: 'navbar'
+};
 
-        const classes = classNames({
-            'collapse': true,
-            'navbar-collapse': true
-        });
+const contextTypes = {
+  expanded: PropTypes.bool
+};
 
-        const expanded = this.context.expanded;
-        return (
-            <Collapse in={expanded}  {...props}>
-                <div className={classes} >
-                    { children }
-                </div>
-            </Collapse>
-        );
-    }
-});
+class NavbarCollapse extends React.Component {
+  render() {
+    const {
+      children,
+      prefixClass,
+      ...props
+    } = this.props;
+
+    const classes = classNames('collapse', `${prefixClass}-collapse`);
+    const expanded = this.context.expanded;
+
+    return (
+      <Collapse
+        {...props}
+        in={expanded}
+      >
+        <div className={classes} >
+          {children}
+        </div>
+      </Collapse>
+    );
+  }
+}
+
+NavbarCollapse.contextTypes = contextTypes;
+NavbarCollapse.propTypes = propTypes;
+NavbarCollapse.defaultProps = defaultProps;
 
 export default NavbarCollapse;
