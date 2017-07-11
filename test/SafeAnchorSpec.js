@@ -26,21 +26,17 @@ describe('SafeAnchor', () => {
   });
 
 
-  it('Should disabled onClick callback and tabIndex = -1', (done) => {
-    let k = true;
-    let doneOp = () => {
-      k = false;
-    };
-    setTimeout(() => {
-      k && done();
-    }, 10);
+  it('Should disabled onClick callback and tabIndex = -1', () => {
 
+    let onHideSpy = sinon.spy();
     let instance = ReactTestUtils.renderIntoDocument(
-      <SafeAnchor onClick={doneOp} disabled />
+      <SafeAnchor onClick={onHideSpy} disabled />
     );
     ReactTestUtils.Simulate.click(findDOMNode(instance));
-    assert.equal(findDOMNode(instance).tabIndex, -1);
 
+    assert.ok(!onHideSpy.calledOnce);
+    assert.equal(findDOMNode(instance).tabIndex, -1);
+    assert.equal(findDOMNode(instance).style.pointerEvents, 'none');
   });
 
   it('Should output an anchor and has href', () => {

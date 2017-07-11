@@ -52,7 +52,7 @@ describe('Modal', () => {
   it('Should be automatic height', () => {
     const instance = render(
       <Modal className="custom" autoResizeHeight show >
-        <Modal.Body style={{ height: 2000 }}></Modal.Body>
+        <Modal.Body style={{ height: 2000 }} />
       </Modal>
       , mountPoint);
     assert.ok(findDOMNode(instance.dialog).querySelector('.modal-body').style.overflow, 'auto');

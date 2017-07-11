@@ -70,6 +70,16 @@ describe('Dropdown', () => {
     assert.equal(findDOMNode(instance).querySelector('button').innerText, 2);
   });
 
+  it('Should have a title when set object activeKey', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown select activeKey={{ key: 2, value: 2 }} title="abc">
+        <Dropdown.Item eventKey={{ key: 1, value: 1 }}>1</Dropdown.Item>
+        <Dropdown.Item eventKey={{ key: 2, value: 2 }}>2</Dropdown.Item>
+      </Dropdown>
+    );
+    assert.equal(findDOMNode(instance).querySelector('button').innerText, 2);
+  });
+
   it('Should be shown at both ends', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Dropdown bothEnds>

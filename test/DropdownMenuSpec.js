@@ -37,6 +37,16 @@ describe('DropdownMenu', () => {
     assert.equal(findDOMNode(instance).children[1].className, 'active');
   });
 
+  it('Should be selected second option when activeKey = {key:2} ', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <DropdownMenu activeKey={{ key: 2 }}>
+        <DropdownMenuItem eventKey={{ key: 1 }}>1</DropdownMenuItem>
+        <DropdownMenuItem eventKey={{ key: 2 }}>2</DropdownMenuItem>
+      </DropdownMenu>
+    );
+    assert.equal(findDOMNode(instance).children[1].className, 'active');
+  });
+
   it('Should call onSelect callback', (done) => {
     let doneOp = (eventKey) => {
       if (eventKey === 3) {
