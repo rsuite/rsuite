@@ -21,6 +21,9 @@ function find(children, func, context) {
 function map(children, func, context) {
   let index = 0;
   return React.Children.map(children, (child) => {
+    if (!React.isValidElement(child)) {
+      return child;
+    }
     index += 1;
     return func.call(context, child, index);
   });
