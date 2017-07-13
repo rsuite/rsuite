@@ -1,44 +1,57 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import ClassNameMixin from './mixins/ClassNameMixin';
 
-const Popover = React.createClass({
-    mixins: [ClassNameMixin],
-    propTypes: {
-        placement: React.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
-        classPrefix: React.PropTypes.string,
-        title: React.PropTypes.node
-    },
-    getDefaultProps() {
-        return {
-            classPrefix: 'popover',
-            placement: 'right'
-        };
-    },
+const propTypes = {
+  placement: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+  prefixClass: PropTypes.string,
+  title: PropTypes.node
+};
 
-    render() {
-        const classes = classNames({
-            popover: true,
-            [this.props.placement]: true
-        }, this.props.className);
+const defaultProps = {
+  prefixClass: 'popover',
+  placement: 'right'
+};
 
-        const styles = {
-            display:'block',
-            ...this.props.style
-        };
+class Popover extends React.Component {
+  render() {
+    const {
+      prefixClass,
+      title,
+      children,
+      style,
+      placement,
+      className,
+      ...props
+    } = this.props;
+    const classes = classNames('popover', {
+      [placement]: true
+    }, className);
 
-        return (
-            <div role="popover" {...this.props} className={classes} style={styles}>
-                <div className="arrow" />
-                <h3 className={this.prefix('title')}>
-                    {this.props.title}
-                </h3>
-                <div className={this.prefix('content')}>
-                    {this.props.children}
-                </div>
-            </div>
-        );
-    }
-});
+    const styles = {
+      display: 'block',
+      ...style
+    };
+
+    return (
+      <div
+        {...props}
+        className={classes}
+        style={styles}
+      >
+        <div className="arrow" />
+        <h3 className={`${prefixClass}-title`}>
+          {title}
+        </h3>
+        <div className={`${prefixClass}-content`}>
+          {children}
+        </div>
+      </div>
+    );
+  }
+}
+
+Popover.propTypes = propTypes;
+Popover.defaultProps = defaultProps;
 
 export default Popover;
