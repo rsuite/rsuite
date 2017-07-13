@@ -8,8 +8,12 @@ module.exports = {
   'extends': 'airbnb',
   'env': {
     'browser': true,
+    'node': true,
     'es6': true,
     'mocha': true
+  },
+  globals: {
+    assert: true
   },
   'parser': 'babel-eslint',
   'plugins': [
@@ -61,7 +65,8 @@ module.exports = {
     'jsx-a11y/href-no-hash': OFF,
     'jsx-a11y/label-has-for': OFF,
     'react/jsx-filename-extension': OFF,
-    'react/prefer-stateless-function': OFF
+    'react/prefer-stateless-function': OFF,
+    'react/require-default-props':OFF
 
   }
 };
