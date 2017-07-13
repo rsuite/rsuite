@@ -1,61 +1,68 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import ClassNameMixin from './mixins/ClassNameMixin';
 
+const propTypes = {
+  placement: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+  positionLeft: PropTypes.number,
+  positionTop: PropTypes.number,
+  prefixClass: PropTypes.string,
+  arrowOffsetLeft: PropTypes.number,
+  arrowOffsetTop: PropTypes.number
+};
 
-const Tooltip = React.createClass({
-    mixins: [ClassNameMixin],
-    propTypes: {
-        placement: React.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
-        positionLeft: React.PropTypes.number,
-        positionTop: React.PropTypes.number,
-        classPrefix: React.PropTypes.string,
-        arrowOffsetLeft: React.PropTypes.oneOfType([
-            React.PropTypes.number,
-            React.PropTypes.string
-        ]),
-        arrowOffsetTop: React.PropTypes.oneOfType([
-            React.PropTypes.number,
-            React.PropTypes.string
-        ]),
-        title: React.PropTypes.node
-    },
-    getDefaultProps() {
-        return {
-            placement: 'right',
-            classPrefix: 'tooltip'
-        };
-    },
-    render() {
-        let { placement, className, positionLeft, positionTop, children} = this.props;
-        const classes = classNames({
-            'tooltip': true,
-            [placement]: true
-        }, className);
+const defaultProps = {
+  placement: 'right',
+  prefixClass: 'tooltip'
+};
 
-        const style = {
-            left: positionLeft,
-            top: positionTop
-        };
+class Tooltip extends React.Component {
+  render() {
+    let {
+      placement,
+      className,
+      positionLeft,
+      arrowOffsetLeft,
+      arrowOffsetTop,
+      positionTop,
+      prefixClass,
+      children,
+      style,
+      ...props
+    } = this.props;
 
-        const arrowStyle = {
-            left: this.props.arrowOffsetLeft,
-            top: this.props.arrowOffsetTop
-        };
-        return (
-            <div
-                role="tooltip"
-                {...this.props}
-                className={classes}
-                style={style}
-                >
-                <div className={this.prefix('arrow') } style={arrowStyle} />
-                <div className={this.prefix('inner') }>
-                    {children}
-                </div>
-            </div>
-        );
-    }
-});
+    const classes = classNames('tooltip', {
+      [placement]: true
+    }, className);
+
+    const styles = {
+      left: positionLeft,
+      top: positionTop,
+      ...style
+    };
+
+    const arrowStyle = {
+      left: arrowOffsetLeft,
+      top: arrowOffsetTop
+    };
+
+    return (
+      <div
+        {...props}
+        role="tooltip"
+        className={classes}
+        style={styles}
+      >
+        <div className={`${prefixClass}-arrow`} style={arrowStyle} />
+        <div className={`${prefixClass}-inner`}>
+          {children}
+        </div>
+      </div>
+    );
+  }
+}
+
+Tooltip.propTypes = propTypes;
+Tooltip.defaultProps = defaultProps;
 
 export default Tooltip;
