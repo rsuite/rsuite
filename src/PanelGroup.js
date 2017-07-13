@@ -1,99 +1,104 @@
-import classNames from 'classnames';
 import React, { cloneElement } from 'react';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
+import ReactChildren from './utils/ReactChildren';
 
-const PanelGroup = React.createClass({
 
-    propTypes: {
-        accordion: React.PropTypes.bool,
-        activeKey: React.PropTypes.any,
-        className: React.PropTypes.string,
-        children: React.PropTypes.node,
-        defaultActiveKey: React.PropTypes.any,
-        classPrefix: React.PropTypes.string,
-        onSelect: React.PropTypes.func
-    },
-    getDefaultProps() {
-        return {
-            classPrefix: 'panel-group',
-            accordion: false
-        };
-    },
+const propTypes = {
+  accordion: PropTypes.bool,
+  activeKey: PropTypes.any,
+  className: PropTypes.string,
+  children: PropTypes.node,
+  defaultActiveKey: PropTypes.any,
+  prefixClass: PropTypes.string,
+  onSelect: PropTypes.func
+};
 
-    getInitialState() {
-        return {
-            activeKey: this.props.defaultActiveKey
-        };
-    },
+const defaultProps = {
+  prefixClass: 'panel-group',
+  accordion: false
+};
 
-    renderPanel(child, index) {
-
-        if (!React.isValidElement(child)) {
-            return child;
-        }
-
-        let activeKey = this.props.activeKey ? this.props.activeKey : this.state.activeKey;
-        let props = {
-            key: child.key ? child.key : index,
-            ref: child.ref
-        };
-
-        if (this.props.accordion) {
-            props.headerRole = 'tab';
-            props.panelRole = 'tabpanel';
-            props.collapsible = true;
-            props.expanded = (child.props.eventKey === activeKey);
-            props.onSelect = this.handleSelect;
-        }
-
-        return cloneElement(
-            child,
-            props
-        );
-    },
-
-    shouldComponentUpdate() {
-        // Defer any updates to this component during the `onSelect` handler.
-        return !this._isChanging;
-    },
-
-    handleSelect(key, e) {
-        e.preventDefault();
-
-        if (this.props.onSelect) {
-            this._isChanging = true;
-            this.props.onSelect(key, e);
-            this._isChanging = false;
-        }
-
-        if (this.state.activeKey === key) {
-            key = null;
-        }
-
-        this.setState({
-            activeKey: key
-        });
-    },
-
-    render() {
-
-        let {
-            className,
-            accordion,
-            children,
-            ...props
-        } = this.props;
-
-        let classes = classNames('panel-group', className);
-
-        if (accordion) {
-            props.role = 'tablist';
-        }
-        return (
-            <div {...props} className={classes} onSelect={null}>
-                {React.Children.map(children, this.renderPanel) }
-            </div>
-        );
+class PanelGroup extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleSelect = this.handleSelect.bind(this);
+    this.renderPanel = this.renderPanel.bind(this);
+    this.state = {
+      activeKey: props.defaultActiveKey
+    };
+  }
+  shouldComponentUpdate() {
+    // Defer any updates to this component during the `onSelect` handler.
+    return !this.isChanging;
+  }
+  handleSelect(activeKey, event) {
+    const { onSelect } = this.props;
+    event.preventDefault();
+    if (onSelect) {
+      this.isChanging = true;
+      onSelect(activeKey, event);
+      this.isChanging = false;
     }
-});
+
+    if (this.state.activeKey === activeKey) {
+      activeKey = undefined;
+    }
+
+    this.setState({ activeKey });
+  }
+
+  renderPanel(child, index) {
+
+    if (!React.isValidElement(child)) {
+      return child;
+    }
+    const { activeKey, accordion } = this.props;
+    const props = {
+      key: child.key ? child.key : index,
+      ref: child.ref
+    };
+
+    if (accordion) {
+      props.headerRole = 'tab';
+      props.panelRole = 'tabpanel';
+      props.collapsible = true;
+      props.expanded = (child.props.eventKey === (activeKey || this.state.activeKey));
+      props.onSelect = this.handleSelect;
+    }
+
+    return cloneElement(
+      child,
+      props
+    );
+  }
+
+  render() {
+
+    let {
+      className,
+      accordion,
+      children,
+      onSelect,
+      ...props
+    } = this.props;
+
+    let classes = classNames('panel-group', className);
+    const elementProps = _.omit(props, Object.keys(propTypes));
+    return (
+      <div
+        {...elementProps}
+        role={accordion ? 'tablist' : undefined}
+        className={classes}
+      >
+        {ReactChildren.map(children, this.renderPanel)}
+      </div>
+    );
+  }
+}
+
+PanelGroup.propTypes = propTypes;
+PanelGroup.defaultProps = defaultProps;
 
 export default PanelGroup;
