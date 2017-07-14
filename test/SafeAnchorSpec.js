@@ -46,6 +46,7 @@ describe('SafeAnchor', () => {
         Title
       </SafeAnchor>
     );
+
     assert.equal(findDOMNode(instance).nodeName, 'A');
     assert.equal(findDOMNode(instance).getAttribute('href'), href);
   });
