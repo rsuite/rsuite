@@ -11,10 +11,6 @@ RSUITE  `[ɑː(r)swiːt]` 是一套 React 开发的 UI 组件库，提供 Bootst
 
 
 
-加入 [![Discord](https://img.shields.io/badge/Discord-Join%20chat%20%E2%86%92-738bd7.svg)](https://discord.gg/GmPXTH3)
- ，直接与开发者沟通。
-
-<br/>
 
 ## 特性
 
