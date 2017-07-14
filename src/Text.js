@@ -1,39 +1,44 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import elementType from 'rsuite-utils/lib/propTypes/elementType';
+import decorate, { STATE, STYLES, getClassNames } from './utils/decorate';
 
+const propTypes = {
+  bg: PropTypes.bool,
+  componentClass: elementType
+};
 
-const SHAPES = ['default', 'muted', 'primary', 'success', 'warning', 'danger', 'info'];
+const defaultProps = {
+  shape: 'default',
+  componentClass: 'p'
+};
 
-const Text = React.createClass({
-  propTypes: {
-    bg: React.PropTypes.bool,
-    shape: React.PropTypes.oneOf(SHAPES),
-    componentClass: elementType
-  },
-  getDefaultProps() {
-    return {
-      shape: 'default',
-      componentClass: 'p'
-    };
-  },
+class Text extends React.Component {
   render() {
     const {
       componentClass: Component,
       bg,
-      shape,
       className,
       ...props
     } = this.props;
 
     const classes = classNames({
-      [(bg ? 'bg' : 'text') + '-' + shape]: true
+      ...getClassNames(props, bg ? 'bg' : 'text')
     }, className);
 
     return (
       <Component {...props} className={classes} />
     );
   }
-});
+}
 
-export default Text;
+Text.propTypes = propTypes;
+Text.defaultProps = defaultProps;
+
+export default decorate({
+  shape: {
+    oneOf: [...Object.values(STATE), ...Object.values(STYLES)],
+    default: STATE.default
+  }
+})(Text);
