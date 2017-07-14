@@ -38,7 +38,7 @@ _build
 build
 .DS_Store
 lib/
-docs/assets
 
 # custom
 .idea
+yarn.lock
