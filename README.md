@@ -7,10 +7,6 @@ RSUITE  `[ɑː(r)swiːt]` 是一套 React 开发的 UI 组件库，提供 Bootst
 我们的目标就是让 WEB 开发更快捷，同时具有一定的灵活性和扩展性。
 
 
-<br/>
-
-
-
 
 ## 特性
 
@@ -20,7 +16,7 @@ RSUITE  `[ɑː(r)swiːt]` 是一套 React 开发的 UI 组件库，提供 Bootst
 - 支持响应式布局；
 - 支持 ES2015。
 
-<br/>
+
 
 ## 版本
 
@@ -28,7 +24,7 @@ RSUITE  `[ɑː(r)swiːt]` 是一套 React 开发的 UI 组件库，提供 Bootst
 [![Travis](https://travis-ci.org/rsuite/rsuite.svg?branch=master)](https://travis-ci.org/rsuite/rsuite)
 
 
-<br/>
+
 ## 安装
 
 ```
