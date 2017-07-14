@@ -33,7 +33,8 @@ const propTypes = {
     PropTypes.string,
     PropTypes.element
   ]),
-  autoClose: PropTypes.bool
+  autoClose: PropTypes.bool,
+  useAnchor: PropTypes.bool
 };
 
 const defaultProps = {
@@ -47,6 +48,7 @@ const defaultProps = {
   select: false,
   block: false,
   autoClose: true,
+  useAnchor: false,
   onClose: null,
   onOpen: null,
   onToggle: null,
@@ -96,7 +98,7 @@ class Dropdown extends React.Component {
 
     if (select) {
       const activeItem = ReactChildren.find(children, item => (
-        activeKey === item.props.eventKey || item.props.active
+        _.isEqual(activeKey, item.props.eventKey) || item.props.active
       ));
       if (activeItem) {
         title = activeItem.props.children;
@@ -144,12 +146,20 @@ class Dropdown extends React.Component {
       dropup,
       bothEnds,
       menuStyle,
+      block,
+      useAnchor,
+      disabled,
       componentClass: Component,
       ...props
     } = this.props;
 
-    const buttonProps = _.pick(props, ['block', 'disabled']);
+    const buttonProps = { block, useAnchor, disabled };
     const elementProps = _.omit(props, ['select', 'onClose', 'onOpen', 'onToggle', 'autoClose']);
+
+    if (Component.displayName === 'ButtonGroup') {
+      elementProps.block = block;
+    }
+
 
     let Toggle = (
       <DropdownToggle
@@ -178,7 +188,6 @@ class Dropdown extends React.Component {
         </RootCloseWrapper>
       );
     }
-
     const classes = classNames({
       dropup,
       dropdown: !dropup,

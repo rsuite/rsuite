@@ -57,7 +57,6 @@ class SafeAnchor extends React.Component {
 
     let {
       componentClass: Component,
-      href,
       role,
       tabIndex,
       disabled,
@@ -65,9 +64,9 @@ class SafeAnchor extends React.Component {
       ...props
     } = this.props;
 
-    if (isTrivialHref(href)) {
-      role = role || 'button';
-      href = href || '';
+    if (isTrivialHref(props.href)) {
+      props.role = props.role || 'button';
+      props.href = props.href || '#';
     }
 
     if (disabled) {
@@ -82,7 +81,6 @@ class SafeAnchor extends React.Component {
       <Component
         {...props}
         role={role}
-        href={href}
         style={style}
         tabIndex={tabIndex}
         onClick={this.handleClick}

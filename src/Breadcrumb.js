@@ -1,15 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import BreadcrumbItem from './BreadcrumbItem';
-
-const propTypes = {
-  className: PropTypes.string
-};
-
-const defaultProps = {
-  className: null
-};
 
 class Breadcrumb extends React.Component {
   render() {
@@ -25,9 +16,6 @@ class Breadcrumb extends React.Component {
   }
 }
 
-
-Breadcrumb.propTypes = propTypes;
-Breadcrumb.defaultProps = defaultProps;
 Breadcrumb.Item = BreadcrumbItem;
 
 export default Breadcrumb;

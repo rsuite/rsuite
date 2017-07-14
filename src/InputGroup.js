@@ -1,46 +1,50 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import ClassNameMixin from './mixins/ClassNameMixin';
 import InputGroupAddon from './InputGroupAddon';
 import InputGroupButton from './InputGroupButton';
+import decorate, { getClassNames } from './utils/decorate';
 
-const InputGroup = React.createClass({
-    mixins: [ClassNameMixin],
-    propTypes: {
-        classPrefix: React.PropTypes.string,
-        inside:React.PropTypes.bool
-    },
-    getDefaultProps() {
-        return {
-            classPrefix: 'input-group'
-        };
-    },
-    render() {
-        const {
-            className,
-            children,
-            classPrefix,
-            inside,
-            ...props
-        } = this.props;
+const propTypes = {
+  prefixClass: PropTypes.string,
+  inside: PropTypes.bool
+};
 
-        const classes = classNames(
-            classPrefix,
-            ...this.getClassNames(),
-            className,{
-                [this.prefix('inside')]: inside,
-            }
-        );
+const defaultProps = {
+  prefixClass: 'input-group',
+  inside: false
+};
 
-        return (
-            <span {...props} className={classes} >
-                {children}
-            </span>
-        );
-    }
-});
+class InputGroup extends React.Component {
+  render() {
+    const {
+      className,
+      prefixClass,
+      inside,
+      ...props
+    } = this.props;
+
+    const classes = classNames({
+      ...getClassNames(this.props),
+      [`${prefixClass}-inside`]: inside,
+    }, className);
+
+    return (
+      <div
+        {...props}
+        className={classes}
+      />
+
+    );
+  }
+}
+
+InputGroup.propTypes = propTypes;
+InputGroup.defaultProps = defaultProps;
 
 InputGroup.Addon = InputGroupAddon;
 InputGroup.Button = InputGroupButton;
 
-export default InputGroup;
+export default decorate({
+  size: true
+})(InputGroup);

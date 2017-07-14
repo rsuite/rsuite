@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -7,8 +8,14 @@ const propTypes = {
   positionLeft: PropTypes.number,
   positionTop: PropTypes.number,
   prefixClass: PropTypes.string,
-  arrowOffsetLeft: PropTypes.number,
-  arrowOffsetTop: PropTypes.number
+  arrowOffsetLeft: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ]),
+  arrowOffsetTop: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ]),
 };
 
 const defaultProps = {
@@ -46,9 +53,10 @@ class Tooltip extends React.Component {
       top: arrowOffsetTop
     };
 
+    const elementProps = _.omit(props, ['shouldUpdatePosition']);
     return (
       <div
-        {...props}
+        {...elementProps}
         role="tooltip"
         className={classes}
         style={styles}

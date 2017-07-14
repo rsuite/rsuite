@@ -7,7 +7,7 @@ import _ from 'lodash';
 import BaseModal from 'rsuite-utils/lib/Overlay/Modal';
 import Fade from 'rsuite-utils/lib/Animation/Fade';
 import { elementType } from 'rsuite-utils/lib/propTypes';
-import { on, getHeight, isOverflowing, getScrollbarSize, canUseDOM, ownerDocument } from 'dom-lib';
+import { on, getHeight, isOverflowing, getScrollbarSize, ownerDocument } from 'dom-lib';
 
 import ReactChildren from './utils/ReactChildren';
 import ModalDialog from './ModalDialog';
@@ -80,7 +80,7 @@ class Modal extends React.Component {
 
     const node = findDOMNode(this.dialog);
     const doc = ownerDocument(node);
-    const scrollHeight = node.scrollHeight;
+    const scrollHeight = node ? node.scrollHeight : 0;
 
     const bodyIsOverflowing = isOverflowing(findDOMNode(container || doc.body));
     const modalIsOverflowing = scrollHeight > doc.documentElement.clientHeight;
@@ -161,7 +161,6 @@ class Modal extends React.Component {
       return child;
     }) : children;
 
-    // the rest are fired in handleHide() and handleShow();
     const modal = (
       <Dialog
         {...dialogProps}

@@ -10,7 +10,6 @@ const propTypes = {
   disabled: PropTypes.bool,
   block: PropTypes.bool,
   href: PropTypes.string,
-  className: PropTypes.string,
   type: PropTypes.oneOf(['button', 'reset', 'submit']),
   componentClass: elementType,
   prefixClass: PropTypes.string
@@ -20,11 +19,11 @@ const defaultProps = {
   prefixClass: 'btn',
   href: null,
   componentClass: 'button',
-  className: null,
   active: false,
   type: 'button',
   disabled: false,
-  block: false
+  block: false,
+  shape: 'default'
 };
 
 class Button extends React.Component {

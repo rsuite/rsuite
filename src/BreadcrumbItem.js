@@ -7,7 +7,6 @@ import SafeAnchor from './SafeAnchor';
 const propTypes = {
   active: PropTypes.bool,
   componentClass: elementType,
-  className: PropTypes.string,
   style: PropTypes.object,
   href: PropTypes.string,
   title: PropTypes.node,
@@ -19,7 +18,6 @@ const defaultProps = {
   href: null,
   title: null,
   target: null,
-  className: null,
   style: null,
   active: false
 };

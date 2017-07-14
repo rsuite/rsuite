@@ -35,21 +35,28 @@ class FormGroup extends React.Component {
 
   render() {
 
-    const { validationState, className, children, controlId, isValid, ...props } = this.props;
+    const {
+      validationState,
+      className,
+      controlId,
+      prefixClass,
+      isValid,
+      ...props
+    } = this.props;
+
     const classes = classNames({
       ...getClassNames(this.props),
       [`has-${validationState}`]: !!validationState,
       'has-success': !validationState && isValid,
-      'has-error': !validationState && isValid === false
+      'has-error': !validationState && isValid === false,
     }, className);
 
     return (
       <div
         {...props}
         className={classes}
-      >
-        {children}
-      </div>
+        role="group"
+      />
     );
   }
 

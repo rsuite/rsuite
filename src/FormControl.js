@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import elementType from 'rsuite-utils/lib/propTypes/elementType';
+import decorate, { getClassNames } from './utils/decorate';
 
 const propTypes = {
   componentClass: elementType,
@@ -49,7 +50,8 @@ class FormControl extends React.Component {
 
     let classes = classNames({
       // input[type="file"] should not have .form-control.
-      'form-control': type !== 'file'
+      'form-control': type !== 'file',
+      ...getClassNames(this.props, 'input'),
     }, className);
 
     return (
@@ -69,4 +71,6 @@ FormControl.propTypes = propTypes;
 FormControl.defaultProps = defaultProps;
 FormControl.contextTypes = contextTypes;
 
-export default FormControl;
+export default decorate({
+  size: true
+})(FormControl);

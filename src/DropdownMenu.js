@@ -1,19 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import classNames from 'classnames';
 import ReactChildren from './utils/ReactChildren';
 import isNullOrUndefined from './utils/isNullOrUndefined';
 
 
 const propTypes = {
-  classPrefix: PropTypes.string,
+  prefixClass: PropTypes.string,
   pullRight: PropTypes.bool,
   onSelect: PropTypes.func,
   activeKey: PropTypes.any,
 };
 
 const defaultProps = {
-  classPrefix: 'dropdown',
+  prefixClass: 'dropdown',
   pullRight: false,
   onSelect: null,
   activeKey: null
@@ -28,23 +29,25 @@ class DorpdownMenu extends React.Component {
       className,
       activeKey,
       onSelect,
-      classPrefix,
+      prefixClass,
       ...props
     } = this.props;
 
     const items = ReactChildren.map(children, (item) => {
       if (React.isValidElement(item)) {
+        let { eventKey, active } = item.props;
         return React.cloneElement(item, {
           onSelect,
-          active: !isNullOrUndefined(activeKey) && activeKey === item.props.eventKey
+          active: isNullOrUndefined(activeKey) ? active : _.isEqual(activeKey, eventKey)
         });
+
       }
       return item;
     });
 
     const classes = classNames({
-      [`${classPrefix}-menu-right`]: pullRight
-    }, `${classPrefix}-menu`, className);
+      [`${prefixClass}-menu-right`]: pullRight
+    }, `${prefixClass}-menu`, className);
 
     return (
       <ul

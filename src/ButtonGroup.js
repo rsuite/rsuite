@@ -7,16 +7,15 @@ const propTypes = {
   prefixClass: PropTypes.string,
   vertical: PropTypes.bool,
   justified: PropTypes.bool,
-  block: PropTypes.bool,
-  className: PropTypes.string
+  block: PropTypes.bool
 };
 
 const defaultProps = {
-  className: null,
   block: false,
   justified: false,
   vertical: false,
-  prefixClass: 'btn-group'
+  prefixClass: 'btn-group',
+  shape: 'default'
 };
 
 class ButtonGroup extends React.Component {
@@ -32,6 +31,7 @@ class ButtonGroup extends React.Component {
 
     return (
       <div
+        role="group"
         {...props}
         className={classes}
       />
@@ -41,6 +41,7 @@ class ButtonGroup extends React.Component {
 
 ButtonGroup.propTypes = propTypes;
 ButtonGroup.defaultProps = defaultProps;
+ButtonGroup.displayName = 'ButtonGroup';
 
 export default decorate({
   size: true

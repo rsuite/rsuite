@@ -1,26 +1,20 @@
 import React from 'react';
 import classNames from 'classnames';
 
-const InputGroupAddon = React.createClass({
+class InputGroupAddon extends React.Component {
+  render() {
+    const {
+      className,
+      ...props
+    } = this.props;
 
-    render() {
-        const {
-            className,
-            children,
-            ...props
-        } = this.props;
-
-        const classes = classNames(
-            'input-group-addon',
-            className
-        );
-
-        return (
-            <span {...props} className={classes} >
-                {children}
-            </span>
-        );
-    }
-});
+    return (
+      <span
+        {...props}
+        className={classNames('input-group-addon', className)}
+      />
+    );
+  }
+}
 
 export default InputGroupAddon;

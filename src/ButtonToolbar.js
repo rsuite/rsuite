@@ -1,14 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
-
-const propTypes = {
-  className: PropTypes.string
-};
-
-const defaultProps = {
-  className: null
-};
 
 class ButtonToolbar extends React.Component {
   render() {
@@ -24,8 +15,5 @@ class ButtonToolbar extends React.Component {
     );
   }
 }
-
-ButtonToolbar.propTypes = propTypes;
-ButtonToolbar.defaultProps = defaultProps;
 
 export default ButtonToolbar;
