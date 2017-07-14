@@ -10,14 +10,6 @@ const propTypes = {
   onChange: PropTypes.func
 };
 
-const defaultProps = {
-  name: null,
-  inline: false,
-  value: null,
-  defaultValue: null,
-  onChange: undefined
-};
-
 class CheckboxGroup extends React.Component {
   constructor(props) {
     super(props);
@@ -39,9 +31,7 @@ class CheckboxGroup extends React.Component {
       }
     });
 
-    if (onChange) {
-      onChange(value);
-    }
+    onChange && onChange(value);
   }
   render() {
     const {
@@ -49,7 +39,8 @@ class CheckboxGroup extends React.Component {
       inline,
       name,
       value,
-      children
+      children,
+      ...props
     } = this.props;
 
     const nextValue = Object.assign([], value, this.state.value);
@@ -70,6 +61,7 @@ class CheckboxGroup extends React.Component {
 
     return (
       <div
+        {...props}
         className={clesses}
         role="group"
       >
@@ -80,6 +72,5 @@ class CheckboxGroup extends React.Component {
 }
 
 CheckboxGroup.propTypes = propTypes;
-CheckboxGroup.defaultProps = defaultProps;
 
 export default CheckboxGroup;

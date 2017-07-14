@@ -36,7 +36,6 @@ describe('CheckboxGroup', () => {
       </CheckboxGroup>
     );
     assert.equal(findDOMNode(instance).querySelectorAll('.checkbox-inline').length, 2);
-
   });
 
   it('Should be checked when set value', () => {
@@ -97,6 +96,19 @@ describe('CheckboxGroup', () => {
     ReactTestUtils.Simulate.change(checkboxs[2].querySelector('input'));
   });
 
+  it('Should have a custom className', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <CheckboxGroup className="custom" />
+    );
+    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
+  });
 
+  it('Should have a custom style', () => {
+    const fontSize = '12px';
+    const instance = ReactTestUtils.renderIntoDocument(
+      <CheckboxGroup style={{ fontSize }} />
+    );
+    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
+  });
 
 });

@@ -13,16 +13,6 @@ const propTypes = {
   value: PropTypes.any,
 };
 
-const defaultProps = {
-  title: null,
-  value: undefined,
-  inline: false,
-  disabled: false,
-  checked: undefined,
-  defaultChecked: undefined,
-  onChange: undefined,
-  inputRef: undefined
-};
 
 class Checkbox extends React.Component {
   constructor(props) {
@@ -51,9 +41,7 @@ class Checkbox extends React.Component {
     this.setState({
       checked
     }, () => {
-      if (onChange) {
-        onChange(value ? target.value : checked, event);
-      }
+      onChange && onChange(value ? target.value : checked, event);
     });
   }
 
@@ -72,12 +60,11 @@ class Checkbox extends React.Component {
     } = this.props;
 
     const { checked } = this.state;
-    const classes = classNames({
+    const classes = classNames('checkbox', {
       'checkbox-inline': inline
-    }, 'checkbox', className);
+    }, className);
 
-    const checkboxClasses = classNames({
-      checker: true,
+    const checkboxClasses = classNames('checker', {
       disabled
     });
 
@@ -113,6 +100,5 @@ class Checkbox extends React.Component {
 }
 
 Checkbox.propTypes = propTypes;
-Checkbox.defaultProps = defaultProps;
 
 export default Checkbox;
