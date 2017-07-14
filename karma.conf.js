@@ -1,4 +1,4 @@
-var webpackConfig = {
+const webpackConfig = {
   output: {
     pathinfo: true
   },
@@ -14,7 +14,7 @@ var webpackConfig = {
   devtool: 'eval'
 };
 
-module.exports = function (config) {
+module.exports = (config) => {
   const { env } = process;
   config.set({
     basePath: '',
