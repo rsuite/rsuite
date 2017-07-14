@@ -1,7 +1,8 @@
 import 'colors';
 import path from 'path';
-import exec from './exec';
 import fsp from 'fs-promise';
+import exec from './exec';
+
 import { buildFolder } from './buildBabel';
 
 const repoRoot = path.resolve(__dirname, '../');
