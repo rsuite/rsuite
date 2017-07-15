@@ -61,7 +61,7 @@ export default function decorate(skin = {
     }
 
     if (shape === true) {
-      propTypes.shape = PropTypes.oneOf(Object.values(STYLES));
+      propTypes.shape = PropTypes.oneOf([...Object.values(STATE), ...Object.values(STYLES)]);
       defaultProps.shape = STYLES.DEFAULT;
     } else if (typeof shape === 'object') {
       propTypes.shape = PropTypes.oneOf(shape.oneOf);
