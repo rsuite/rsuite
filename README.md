@@ -24,6 +24,7 @@ RSUITE  `[ɑː(r)swiːt]` 是一套 React 开发的 UI 组件库，提供 Bootst
 [![Travis](https://travis-ci.org/rsuite/rsuite.svg?branch=master)](https://travis-ci.org/rsuite/rsuite)
 
 
+兼容 React 版本 `^0.14.9 || >=15.3.0`
 
 ## 安装
 
