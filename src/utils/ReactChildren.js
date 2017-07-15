@@ -29,7 +29,17 @@ function map(children, func, context) {
   });
 }
 
+function mapCloneElement(children, func, context) {
+  return map(children, (child, index) => (
+    React.cloneElement(child, {
+      key: index,
+      ...func(child, index)
+    })
+  ), context);
+}
+
 export default {
+  mapCloneElement,
   map,
   find
 };

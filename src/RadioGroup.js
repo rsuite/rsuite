@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import isNullOrUndefined from './utils/isNullOrUndefined';
+import ReactChildren from './utils/ReactChildren';
 
 const propTypes = {
   name: PropTypes.string,
@@ -60,19 +61,16 @@ class RadioGroup extends React.Component {
     }, className);
 
     const nextValue = value || this.state.value;
-    const items = React.Children.map(children, (child, index) => (
-      React.cloneElement(child, {
-        inline,
-        name,
-        checked: isNullOrUndefined(nextValue) ?
-          child.props.checked : nextValue === child.props.value,
-        onChange: this.handleChange,
-        ref: (ref) => {
-          this.radios[index] = ref;
-        },
-      })
-    ));
-
+    const items = ReactChildren.mapCloneElement(children, (child, index) => ({
+      inline,
+      name,
+      checked: isNullOrUndefined(nextValue) ?
+        child.props.checked : nextValue === child.props.value,
+      onChange: this.handleChange,
+      ref: (ref) => {
+        this.radios[index] = ref;
+      },
+    }));
     return (
       <div
         {...props}

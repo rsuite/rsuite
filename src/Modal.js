@@ -152,14 +152,15 @@ class Modal extends React.Component {
     const parentProps = _.pick(props, Object.keys(BaseModal.propTypes).concat(['onExit', 'onExiting', 'onEnter', 'onEntered']));
     const dialogProps = _.omit(props, ['enforceFocus', 'keyboard', 'backdrop', 'onHide', 'dialogComponentClass']);
 
-    const items = (autoResizeHeight && children) ? ReactChildren.map(children, (child) => {
-      if (child.type.displayName === 'ModalBody') {
-        return React.cloneElement(child, {
-          style: bodyStyles
-        });
-      }
-      return child;
-    }) : children;
+    const items = (autoResizeHeight && children) ?
+      ReactChildren.mapCloneElement(children, (child) => {
+        if (child.type.displayName === 'ModalBody') {
+          return {
+            style: bodyStyles
+          };
+        }
+        return null;
+      }) : children;
 
     const modal = (
       <Dialog

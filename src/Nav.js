@@ -58,15 +58,16 @@ class Nav extends React.Component {
       [`${prefixClass}-justified`]: justified
     }, className);
 
-    const items = ReactChildren.map(children, (item) => {
+
+    const items = ReactChildren.mapCloneElement(children, (item) => {
       let { eventKey, active } = item.props;
-      if (!React.isValidElement(item) || item.type.displayName !== 'NavItem') {
-        return item;
+      if (item.type.displayName !== 'NavItem') {
+        return null;
       }
-      return React.cloneElement(item, {
+      return {
         onSelect,
         active: isNullOrUndefined(activeKey) ? active : _.isEqual(activeKey, eventKey)
-      });
+      };
     });
 
     return (

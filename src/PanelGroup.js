@@ -68,10 +68,7 @@ class PanelGroup extends React.Component {
       props.onSelect = this.handleSelect;
     }
 
-    return cloneElement(
-      child,
-      props
-    );
+    return props;
   }
 
   render() {
@@ -92,7 +89,7 @@ class PanelGroup extends React.Component {
         role={accordion ? 'tablist' : undefined}
         className={classes}
       >
-        {ReactChildren.map(children, this.renderPanel)}
+        {ReactChildren.mapCloneElement(children, this.renderPanel)}
       </div>
     );
   }

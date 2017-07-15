@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import ReactChildren from './utils/ReactChildren';
 
 const propTypes = {
   name: PropTypes.string,
@@ -48,17 +49,15 @@ class CheckboxGroup extends React.Component {
       'checkbox-list': true
     }, className);
 
-    const items = React.Children.map(children, (child, index) =>
-      React.cloneElement(child, {
-        name,
-        inline,
-        ref: (ref) => {
-          this.checkboxs[index] = ref;
-        },
-        checked: nextValue.some(i => i === child.props.value),
-        onChange: this.handleChange
-      }));
-
+    const items = ReactChildren.mapCloneElement(children, (child, index) => ({
+      name,
+      inline,
+      ref: (ref) => {
+        this.checkboxs[index] = ref;
+      },
+      checked: nextValue.some(i => i === child.props.value),
+      onChange: this.handleChange
+    }));
     return (
       <div
         {...props}

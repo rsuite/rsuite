@@ -33,21 +33,17 @@ class DorpdownMenu extends React.Component {
       ...props
     } = this.props;
 
-    const items = ReactChildren.map(children, (item) => {
-      if (React.isValidElement(item)) {
-        let { eventKey, active } = item.props;
-        return React.cloneElement(item, {
-          onSelect,
-          active: isNullOrUndefined(activeKey) ? active : _.isEqual(activeKey, eventKey)
-        });
-
-      }
-      return item;
-    });
-
     const classes = classNames({
       [`${prefixClass}-menu-right`]: pullRight
     }, `${prefixClass}-menu`, className);
+
+    const items = ReactChildren.mapCloneElement(children, (item) => {
+      let { eventKey, active } = item.props;
+      return {
+        onSelect,
+        active: isNullOrUndefined(activeKey) ? active : _.isEqual(activeKey, eventKey)
+      };
+    });
 
     return (
       <ul

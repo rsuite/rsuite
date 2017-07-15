@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "2.0.0",
+  "version": "2.0.0-alpha",
   "description": "A suite of react components",
   "main": "lib/index.js",
   "directories": {
@@ -33,7 +33,7 @@
     "dom-lib": "^0.2.3",
     "lodash": "^4.11.1",
     "prop-types": "^15.5.10",
-    "rsuite-utils": "^0.0.8"
+    "rsuite-utils": "^0.0.9"
   },
   "peerDependencies": {
     "react": "^0.14.9 || >=15.3.0",
