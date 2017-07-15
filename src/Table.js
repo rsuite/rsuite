@@ -26,7 +26,6 @@ class Table extends React.Component {
       bordered,
       condensed,
       hover,
-      children,
       className,
       responsive,
       ...props

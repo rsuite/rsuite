@@ -10,10 +10,11 @@ describe('Table', () => {
   it('Should render a Table', () => {
     const title = 'Test';
     const instance = ReactTestUtils.renderIntoDocument(
-      <Table>{title}</Table>
+      <Table><tr><td>{title}</td></tr></Table>
     );
     const instanceDom = findDOMNode(instance);
     assert.equal(instanceDom.tagName, 'TABLE');
+    assert.equal(instanceDom.innerText, title);
   });
 
   it('Should have a `table-striped` className', () => {
