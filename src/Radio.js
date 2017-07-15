@@ -74,7 +74,7 @@ class Radio extends React.Component {
     });
 
     const input = (
-      <span className={classNames({ checked })}>
+      <span className={classNames('radio-wrapper', { checked })}>
         <input
           {...props}
           type="radio"

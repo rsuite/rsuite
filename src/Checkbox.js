@@ -69,7 +69,7 @@ class Checkbox extends React.Component {
     });
 
     const input = (
-      <span className={classNames({ checked })}>
+      <span className={classNames('checkbox-wrapper', { checked })}>
         <input
           {...props}
           type="checkbox"
