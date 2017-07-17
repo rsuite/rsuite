@@ -67,7 +67,7 @@ class Col extends React.Component {
     } = this.props;
 
     const classes = {};
-    const elementProps = _.clone(props);
+    const elementProps = props;
 
     function getPropValue(key) {
       const value = elementProps[key];
