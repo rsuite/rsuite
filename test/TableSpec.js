@@ -10,7 +10,7 @@ describe('Table', () => {
   it('Should render a Table', () => {
     const title = 'Test';
     const instance = ReactTestUtils.renderIntoDocument(
-      <Table><tr><td>{title}</td></tr></Table>
+      <Table><tbody><tr><td>{title}</td></tr></tbody></Table>
     );
     const instanceDom = findDOMNode(instance);
     assert.equal(instanceDom.tagName, 'TABLE');
