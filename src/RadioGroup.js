@@ -29,13 +29,9 @@ class RadioGroup extends React.Component {
     const radios = Object.values(this.radios);
     const shouldChange = (should) => {
       if (should && onChange) {
-        onChange(value);
+        onChange(value, event);
       }
     };
-
-    if (event.target.type !== 'radio') {
-      return;
-    }
 
     radios.forEach((radio, index) => {
       radio.updateCheckedState(radio.props.value === value, () => (
