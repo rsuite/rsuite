@@ -75,7 +75,7 @@ class Col extends React.Component {
       return value;
     }
 
-    Object.values(SIZES).forEach((size) => {
+    _.values(SIZES).forEach((size) => {
       let col = getPropValue(size);
       let hidden = getPropValue(`${size}Hidden`);
       let offset = getPropValue(`${size}Offset`);

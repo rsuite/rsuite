@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import classNames from 'classnames';
 import isNullOrUndefined from './utils/isNullOrUndefined';
 import ReactChildren from './utils/ReactChildren';
@@ -26,7 +27,7 @@ class RadioGroup extends React.Component {
 
 
     const { onChange } = this.props;
-    const radios = Object.values(this.radios);
+    const radios = _.values(this.radios);
     const shouldChange = (should) => {
       if (should && onChange) {
         onChange(value, event);

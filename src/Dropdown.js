@@ -217,7 +217,7 @@ Dropdown.Item = DropdownMenuItem;
 export default decorate({
   size: true,
   shape: {
-    oneOf: [...Object.values(STATE), ...Object.values(STYLES)],
+    oneOf: [..._.values(STATE), ..._.values(STYLES)],
     default: STATE.default
   }
 })(Dropdown);

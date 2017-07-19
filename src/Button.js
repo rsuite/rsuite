@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import classNames from 'classnames';
 import elementType from 'rsuite-utils/lib/propTypes/elementType';
 import SafeAnchor from './SafeAnchor';
@@ -78,7 +79,7 @@ Button.defaultProps = defaultProps;
 export default decorate({
   size: true,
   shape: {
-    oneOf: [...Object.values(STATE), ...Object.values(STYLES)],
+    oneOf: [..._.values(STATE), ..._.values(STYLES)],
     default: STATE.default
   }
 })(Button);

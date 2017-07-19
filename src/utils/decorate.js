@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 export const SIZES = {
   LARGE: 'lg',
@@ -53,7 +54,7 @@ export default function decorate(skin = {
     let defaultProps = Component.defaultProps || (Component.defaultProps = {});
 
     if (size === true) {
-      propTypes.size = PropTypes.oneOf(Object.values(SIZES));
+      propTypes.size = PropTypes.oneOf(_.values(SIZES));
       defaultProps.size = null;
     } else if (typeof size === 'object') {
       propTypes.size = PropTypes.oneOf(size.oneOf);
@@ -61,7 +62,7 @@ export default function decorate(skin = {
     }
 
     if (shape === true) {
-      propTypes.shape = PropTypes.oneOf([...Object.values(STATE), ...Object.values(STYLES)]);
+      propTypes.shape = PropTypes.oneOf([..._.values(STATE), ..._.values(STYLES)]);
       defaultProps.shape = STYLES.DEFAULT;
     } else if (typeof shape === 'object') {
       propTypes.shape = PropTypes.oneOf(shape.oneOf);
