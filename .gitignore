@@ -42,4 +42,4 @@ docs/assets
 
 # custom
 .idea
-
+yarn.lock
