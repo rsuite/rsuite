@@ -64,6 +64,24 @@ describe('DropdownMenu', () => {
     ReactTestUtils.Simulate.click(findDOMNode(instance).querySelectorAll('a')[2]);
   });
 
+  it('Should call onSelect callback', (done) => {
+    let doneOp = (eventKey) => {
+      console.log(eventKey);
+      if (eventKey === 3) {
+        done();
+      }
+    };
+    let instance = ReactTestUtils.renderIntoDocument(
+      <DropdownMenu  activeKey={1}>
+        <DropdownMenuItem eventKey={1}>1</DropdownMenuItem>
+        <DropdownMenuItem eventKey={2}>2</DropdownMenuItem>
+        <DropdownMenuItem eventKey={3} onSelect={doneOp}>3</DropdownMenuItem>
+      </DropdownMenu>
+    );
+
+    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelectorAll('a')[2]);
+  });
+
   it('Should have a custom className', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <DropdownMenu className="custom" />

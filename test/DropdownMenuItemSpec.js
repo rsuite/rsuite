@@ -66,6 +66,18 @@ describe('DropdownMenuItem', () => {
     ReactTestUtils.Simulate.click(findDOMNode(instance).children[0]);
   });
 
+  it('Should call onClick callback', (done) => {
+    let doneOp = (eventKey) => {
+       done();
+    };
+    let instance = ReactTestUtils.renderIntoDocument(
+      <DropdownMenuItem onClick={doneOp}>
+        Title
+      </DropdownMenuItem>
+    );
+    ReactTestUtils.Simulate.click(findDOMNode(instance).children[0]);
+  });
+
 
   it('Should have a custom className', () => {
     let instance = ReactTestUtils.renderIntoDocument(

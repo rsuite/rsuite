@@ -28,15 +28,14 @@ class DropdownMenuItem extends React.Component {
   }
 
   handleClick(event) {
-    let { onSelect, eventKey, disabled } = this.props;
+    let { onSelect, eventKey, disabled, onClick } = this.props;
     if (disabled) {
       event.preventDefault();
       return;
     }
 
-    if (onSelect) {
-      onSelect(eventKey, this.props, event);
-    }
+    onSelect && onSelect(eventKey, this.props, event);
+    onClick && onClick(event);
   }
 
   render() {

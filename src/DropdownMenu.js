@@ -4,6 +4,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import ReactChildren from './utils/ReactChildren';
 import isNullOrUndefined from './utils/isNullOrUndefined';
+import createChainedFunction from './utils/createChainedFunction';
 
 
 const propTypes = {
@@ -38,9 +39,9 @@ class DorpdownMenu extends React.Component {
     }, `${prefixClass}-menu`, className);
 
     const items = ReactChildren.mapCloneElement(children, (item) => {
-      let { eventKey, active } = item.props;
+      let { eventKey, active, onSelect:onItemSelect } = item.props;
       return {
-        onSelect,
+        onSelect:createChainedFunction(onSelect, onItemSelect),
         active: isNullOrUndefined(activeKey) ? active : _.isEqual(activeKey, eventKey)
       };
     });

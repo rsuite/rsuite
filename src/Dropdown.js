@@ -39,20 +39,7 @@ const propTypes = {
 
 const defaultProps = {
   componentClass: ButtonGroup,
-  activeKey: null,
-  title: null,
-  menuStyle: null,
-  bothEnds: false,
-  dropup: false,
-  disabled: false,
-  select: false,
-  block: false,
-  autoClose: true,
-  useAnchor: false,
-  onClose: null,
-  onOpen: null,
-  onToggle: null,
-  onSelect: null,
+  autoClose: true
 };
 
 class Dropdown extends React.Component {
