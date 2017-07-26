@@ -10,7 +10,7 @@
 
 
 ### Version & Environment [版本及环境]
-+ Rsuite version [ECharts 版本]:
++ RSUITE version [RSUITE 版本]:
 + Browser version [浏览器类型和版本]:
 + OS Version [操作系统类型和版本]:
 
