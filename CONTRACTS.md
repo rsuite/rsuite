@@ -90,10 +90,11 @@ insert_final_newline = false
 
 - 组件概述: 说明组件的特性，和快速使用的示例代码；
 - 功能示例: 把特性中包含的功能，每一个都需要展示出示例和代码；
-- API 说明: 对组件的所有属性详细说明；
+- API 说明: 对组件的所有属性详细说明。
 
-> 参考 [rsuite-table](https://rsuitejs.com/rsuite-table)
-> 文档的发布可以通过 [gh-pages](https://github.com/tschaub/gh-pages)
+> 参考 [rsuite-table](https://rsuitejs.com/rsuite-table),
+
+> 文档的发布可以通过 [gh-pages](https://github.com/tschaub/gh-pages)。
 
 
 
