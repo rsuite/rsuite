@@ -27,12 +27,6 @@ describe('Toggle', () => {
     assert.ok(findDOMNode(instance).className.match(/\btoggle-checked\b/));
   });
 
-  it('Should be inline', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <Toggle inline />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\btoggle-inline\b/));
-  });
 
   it('Should apply size class', () => {
     const instance = ReactTestUtils.renderIntoDocument(

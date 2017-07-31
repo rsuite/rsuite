@@ -4,15 +4,11 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import decorate, { getClassNames } from './utils/decorate';
 
-
 const propTypes = {
-  title: PropTypes.string,
-  inline: PropTypes.bool,
   disabled: PropTypes.bool,
   checked: PropTypes.bool,
   defaultChecked: PropTypes.bool,
   onChange: PropTypes.func,
-  inputRef: PropTypes.func,
   checkedChildren: PropTypes.node,
   unCheckedChildren: PropTypes.node,
   prefixClass: PropTypes.string
@@ -51,10 +47,14 @@ class Toggle extends React.Component {
     });
   }
 
+  getCheckedStatus() {
+    const { checked } = this.props;
+    return _.isUndefined(checked) ? this.state.checked : checked;
+  }
+
   render() {
 
     const {
-      inline,
       disabled,
       className,
       onChange,
@@ -64,11 +64,10 @@ class Toggle extends React.Component {
       ...props
     } = this.props;
 
-    const { checked } = this.state;
+    const checked = this.getCheckedStatus();
     const classes = classNames({
       ...getClassNames(this.props),
       [`${prefixClass}-checked`]: checked,
-      [`${prefixClass}-inline`]: inline,
       disabled
     }, className);
 
