@@ -208,6 +208,7 @@ describe('Dropdown', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Dropdown shape="danger" />
     );
+
     assert.ok(findDOMNode(instance).className.match(/\bbtn-group-danger\b/));
     assert.ok(findDOMNode(instance).querySelector('button').className.match(/\bbtn-danger\b/));
   });

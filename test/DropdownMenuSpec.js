@@ -9,7 +9,7 @@ import DropdownMenuItem from '../src/DropdownMenuItem';
 describe('DropdownMenu', () => {
 
   it('Should render a ul', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
+    const instance = ReactTestUtils.renderIntoDocument(
       <DropdownMenu>
         <DropdownMenuItem>1</DropdownMenuItem>
         <DropdownMenuItem>2</DropdownMenuItem>
@@ -21,14 +21,14 @@ describe('DropdownMenu', () => {
   });
 
   it('Should have a `pull-right` className ', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
+    const instance = ReactTestUtils.renderIntoDocument(
       <DropdownMenu pullRight />
     );
     assert.ok(findDOMNode(instance).className.match(/\bdropdown-menu-right\b/));
   });
 
   it('Should be selected second option when activeKey = 2 ', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
+    const instance = ReactTestUtils.renderIntoDocument(
       <DropdownMenu activeKey={2}>
         <DropdownMenuItem eventKey={1}>1</DropdownMenuItem>
         <DropdownMenuItem eventKey={2}>2</DropdownMenuItem>
@@ -38,7 +38,7 @@ describe('DropdownMenu', () => {
   });
 
   it('Should be selected second option when activeKey = {key:2} ', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
+    const instance = ReactTestUtils.renderIntoDocument(
       <DropdownMenu activeKey={{ key: 2 }}>
         <DropdownMenuItem eventKey={{ key: 1 }}>1</DropdownMenuItem>
         <DropdownMenuItem eventKey={{ key: 2 }}>2</DropdownMenuItem>
@@ -53,7 +53,7 @@ describe('DropdownMenu', () => {
         done();
       }
     };
-    let instance = ReactTestUtils.renderIntoDocument(
+    const instance = ReactTestUtils.renderIntoDocument(
       <DropdownMenu onSelect={doneOp} activeKey={1}>
         <DropdownMenuItem eventKey={1}>1</DropdownMenuItem>
         <DropdownMenuItem eventKey={2}>2</DropdownMenuItem>
@@ -66,13 +66,12 @@ describe('DropdownMenu', () => {
 
   it('Should call onSelect callback', (done) => {
     let doneOp = (eventKey) => {
-      console.log(eventKey);
       if (eventKey === 3) {
         done();
       }
     };
-    let instance = ReactTestUtils.renderIntoDocument(
-      <DropdownMenu  activeKey={1}>
+    const instance = ReactTestUtils.renderIntoDocument(
+      <DropdownMenu activeKey={1}>
         <DropdownMenuItem eventKey={1}>1</DropdownMenuItem>
         <DropdownMenuItem eventKey={2}>2</DropdownMenuItem>
         <DropdownMenuItem eventKey={3} onSelect={doneOp}>3</DropdownMenuItem>
@@ -83,7 +82,7 @@ describe('DropdownMenu', () => {
   });
 
   it('Should have a custom className', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
+    const instance = ReactTestUtils.renderIntoDocument(
       <DropdownMenu className="custom" />
     );
     assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
@@ -92,7 +91,7 @@ describe('DropdownMenu', () => {
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    let instance = ReactTestUtils.renderIntoDocument(
+    const instance = ReactTestUtils.renderIntoDocument(
       <DropdownMenu style={{ fontSize }} />
     );
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);

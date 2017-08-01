@@ -8,14 +8,8 @@ import SafeAnchor from './SafeAnchor';
 
 const propTypes = {
   noCaret: PropTypes.bool,
-  title: PropTypes.string,
+  title: PropTypes.node,
   useAnchor: PropTypes.bool
-};
-
-const defaultProps = {
-  noCaret: false,
-  title: null,
-  useAnchor: false
 };
 
 class DorpdownToggle extends React.Component {
@@ -37,6 +31,5 @@ class DorpdownToggle extends React.Component {
 }
 
 DorpdownToggle.propTypes = propTypes;
-DorpdownToggle.defaultProps = defaultProps;
 
 export default DorpdownToggle;

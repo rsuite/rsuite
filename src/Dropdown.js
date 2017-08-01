@@ -14,6 +14,7 @@ import decorate, { STATE, STYLES, getClassNames } from './utils/decorate';
 
 
 const propTypes = {
+  ...DropdownToggle.propTypes,
   disabled: PropTypes.bool,
   block: PropTypes.bool,
   dropup: PropTypes.bool,
@@ -29,12 +30,7 @@ const propTypes = {
   componentClass: elementType,
   activeKey: PropTypes.any,
   menuStyle: PropTypes.object,
-  title: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element
-  ]),
-  autoClose: PropTypes.bool,
-  useAnchor: PropTypes.bool
+  autoClose: PropTypes.bool
 };
 
 const defaultProps = {
@@ -137,20 +133,16 @@ class Dropdown extends React.Component {
       useAnchor,
       disabled,
       componentClass: Component,
+      noCaret,
       ...props
     } = this.props;
 
-    const buttonProps = { block, useAnchor, disabled };
-    const elementProps = _.omit(props, ['select', 'onClose', 'onOpen', 'onToggle', 'autoClose']);
-
-    if (Component.displayName === 'ButtonGroup') {
-      elementProps.block = block;
-    }
-
-
-    let Toggle = (
+    const Toggle = (
       <DropdownToggle
-        {...buttonProps}
+        block={block}
+        useAnchor={useAnchor}
+        disabled={disabled}
+        noCaret={noCaret}
         className={classNames(getClassNames(props, 'btn'))}
         onClick={this.handleClick}
       >
@@ -182,6 +174,11 @@ class Dropdown extends React.Component {
       'both-ends': bothEnds
     }, className);
 
+    const elementProps = _.omit(props, ['select', 'onClose', 'onOpen', 'onToggle', 'autoClose']);
+    if (Component.displayName === 'ButtonGroup') {
+      elementProps.block = block;
+    }
+
     return (
       <Component
         {...elementProps}
@@ -193,7 +190,6 @@ class Dropdown extends React.Component {
       </Component>
     );
   }
-
 
 }
 
