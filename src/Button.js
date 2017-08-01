@@ -40,24 +40,26 @@ class Button extends React.Component {
   }
 
   renderAnchor() {
-    const { componentClass, prefixClass, active, block, ...elementProps } = this.props;
-
+    const { href, ...props } = this.props;
+    const elementProps = _.omit(props, Object.keys(propTypes));
     return (
       <SafeAnchor
+        href={href}
         {...elementProps}
         className={this.getClassNames()}
       />
     );
-
   }
 
   renderButton() {
-    const { componentClass, prefixClass, active, block, ...elementProps } = this.props;
-    const Component = componentClass || 'button';
+    const { componentClass: Component, disabled, type, ...props } = this.props;
+    const elementProps = _.omit(props, Object.keys(propTypes));
 
     return (
       <Component
         {...elementProps}
+        type={type}
+        disabled={disabled}
         className={this.getClassNames()}
       />
     );
@@ -80,6 +82,6 @@ export default decorate({
   size: true,
   shape: {
     oneOf: [..._.values(STATE), ..._.values(STYLES)],
-    default: STATE.default
+    default: STYLES.DEFAULT
   }
 })(Button);
