@@ -17,6 +17,14 @@ describe('HelpBlock', () => {
     assert.equal(findDOMNode(instance).innerHTML, title);
   });
 
+  it('Should render a warning `HelpBlock`', () => {
+    let title = 'Test';
+    let instance = ReactTestUtils.renderIntoDocument(
+      <HelpBlock shape="warning">{title}</HelpBlock>
+    );
+    assert.ok(findDOMNode(instance).className.match(/\bhelp-block-warning\b/));
+  });
+
   it('Should have `for` in span when set controlId of FormGroup', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <FormGroup controlId="test">

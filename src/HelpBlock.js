@@ -1,13 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import _ from 'lodash';
+import decorate, { STATE, getClassNames } from './utils/decorate';
 
 const propTypes = {
-  htmlFor: PropTypes.string
+  htmlFor: PropTypes.string,
+  prefixClass: PropTypes.string
 };
 
 const defaultProps = {
-  htmlFor: undefined
+  htmlFor: undefined,
+  prefixClass: 'help-block',
 };
 
 const contextTypes = {
@@ -23,11 +27,15 @@ class HelpBlock extends React.Component {
       ...props
     } = this.props;
 
+    const classes = classNames({
+      ...getClassNames(this.props),
+    }, className);
+
     return (
       <span
         {...props}
+        className={classes}
         htmlFor={htmlFor}
-        className={classNames('help-block', className)}
       />
     );
   }
@@ -37,4 +45,8 @@ HelpBlock.propTypes = propTypes;
 HelpBlock.defaultProps = defaultProps;
 HelpBlock.contextTypes = contextTypes;
 
-export default HelpBlock;
+export default decorate({
+  shape: {
+    oneOf: _.values(STATE)
+  }
+})(HelpBlock);
