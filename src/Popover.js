@@ -40,9 +40,13 @@ class Popover extends React.Component {
         style={styles}
       >
         <div className="arrow" />
-        <h3 className={`${prefixClass}-title`}>
-          {title}
-        </h3>
+        {
+          title ? (
+            <h3 className={`${prefixClass}-title`}>
+              {title}
+            </h3>
+          ) : null
+        }
         <div className={`${prefixClass}-content`}>
           {children}
         </div>
