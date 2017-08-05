@@ -23,7 +23,7 @@ module.exports = {
     library: 'RSuite',
     libraryTarget: 'umd'
   },
-  plugins: plugins,
+  plugins,
   module: {
     rules: [{
       test: /\.jsx?$/,

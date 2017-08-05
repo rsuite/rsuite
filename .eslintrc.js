@@ -18,7 +18,8 @@ module.exports = {
   'parser': 'babel-eslint',
   'plugins': [
     'react',
-    'babel'
+    'babel',
+    'json'
   ],
   'parserOptions': {
     'ecmaVersion': 6,
@@ -66,7 +67,7 @@ module.exports = {
     'jsx-a11y/label-has-for': OFF,
     'react/jsx-filename-extension': OFF,
     'react/prefer-stateless-function': OFF,
-    'react/require-default-props':OFF
+    'react/require-default-props': OFF
 
   }
 };

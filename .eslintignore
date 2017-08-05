@@ -3,4 +3,3 @@ build/**
 lib/**
 tools/*
 node_modules/**
-webpack.config.js
