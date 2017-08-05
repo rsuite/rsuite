@@ -31,9 +31,11 @@ class HelpBlock extends React.Component {
       ...getClassNames(this.props),
     }, className);
 
+    const elementProps = _.omit(props, Object.keys(propTypes));
+
     return (
       <span
-        {...props}
+        {...elementProps}
         className={classes}
         htmlFor={htmlFor}
       />

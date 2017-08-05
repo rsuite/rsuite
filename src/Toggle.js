@@ -34,6 +34,12 @@ class Toggle extends React.Component {
       });
     }
   }
+
+  getCheckedStatus() {
+    const { checked } = this.props;
+    return _.isUndefined(checked) ? this.state.checked : checked;
+  }
+
   handleChange(event) {
     const { onChange, disabled } = this.props;
     const checked = !this.state.checked;
@@ -45,11 +51,6 @@ class Toggle extends React.Component {
     this.setState({ checked }, () => {
       onChange && onChange(checked, event);
     });
-  }
-
-  getCheckedStatus() {
-    const { checked } = this.props;
-    return _.isUndefined(checked) ? this.state.checked : checked;
   }
 
   render() {

@@ -8,6 +8,7 @@ const propTypes = {
   active: PropTypes.bool,
   disabled: PropTypes.bool,
   onSelect: PropTypes.func,
+  onClick: PropTypes.func,
   eventKey: PropTypes.any,
   componentClass: elementType
 };

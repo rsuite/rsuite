@@ -39,9 +39,9 @@ class DorpdownMenu extends React.Component {
     }, `${prefixClass}-menu`, className);
 
     const items = ReactChildren.mapCloneElement(children, (item) => {
-      let { eventKey, active, onSelect:onItemSelect } = item.props;
+      let { eventKey, active, onSelect: onItemSelect } = item.props;
       return {
-        onSelect:createChainedFunction(onSelect, onItemSelect),
+        onSelect: createChainedFunction(onSelect, onItemSelect),
         active: isNullOrUndefined(activeKey) ? active : _.isEqual(activeKey, eventKey)
       };
     });

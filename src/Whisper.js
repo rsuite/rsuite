@@ -8,6 +8,16 @@ import isNullOrUndefined from './utils/isNullOrUndefined';
 import createChainedFunction from './utils/createChainedFunction';
 import isOneOf from './utils/isOneOf';
 
+
+function handleMouseOverOut(handler, event) {
+  let target = event.currentTarget;
+  let related = event.relatedTarget || event.nativeEvent.toElement;
+
+  if ((!related || (related !== target)) && !contains(target, related)) {
+    handler(event);
+  }
+}
+
 const propTypes = {
   ..._.omit(Overlay.propTypes, ['target', 'onHide', 'show']),
   trigger: PropTypes.oneOfType([
@@ -37,10 +47,10 @@ class Whisper extends React.Component {
 
 
     this.handleMouseOver = e => (
-      this.handleMouseOverOut(this.handleDelayedShow, e)
+      handleMouseOverOut(this.handleDelayedShow, e)
     );
     this.handleMouseOut = e => (
-      this.handleMouseOverOut(this.handleDelayedHide, e)
+      handleMouseOverOut(this.handleDelayedHide, e)
     );
 
     this.handleToggle = this.handleToggle.bind(this);
@@ -173,16 +183,6 @@ class Whisper extends React.Component {
       this.hoverHideDelay = null;
       this.hide();
     }, nextDelay);
-  }
-
-
-  handleMouseOverOut(handler, event) {
-    let target = event.currentTarget;
-    let related = event.relatedTarget || event.nativeEvent.toElement;
-
-    if ((!related || (related !== target)) && !contains(target, related)) {
-      handler(event);
-    }
   }
 
   renderOverlay() {
