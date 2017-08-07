@@ -10,7 +10,7 @@ RSUITE 目标就是让 WEB 开发更快捷，同时具有一定的灵活性和�
 
 
 ------
-版本及状态
+版本与状态
 
 [![npm](https://badge.fury.io/js/rsuite.svg)](https://www.npmjs.com/package/rsuite)
 [![Travis](https://travis-ci.org/rsuite/rsuite.svg?branch=master)](https://travis-ci.org/rsuite/rsuite)

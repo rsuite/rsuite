@@ -42,3 +42,4 @@ lib/
 # custom
 .idea
 yarn.lock
+karma.sauce.conf.js

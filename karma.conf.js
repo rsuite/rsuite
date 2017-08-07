@@ -1,5 +1,3 @@
-const path = require('path');
-
 const webpackConfig = {
   output: {
     pathinfo: true
@@ -44,7 +42,7 @@ module.exports = (config) => {
       },
     },
     coverageReporter: {
-      dir: path.join(__dirname, 'coverage'),
+      dir: 'coverage',
       reporters: [
         { type: 'html' },
         { type: 'lcov', subdir: 'lcov' }  // lcov

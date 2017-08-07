@@ -11,6 +11,7 @@
     "tdd": "karma start",
     "lint": "eslint src  *.js*",
     "test": "npm run lint && NODE_ENV=test  karma start --single-run",
+    "test-sauce": "NODE_ENV=test karma start karma.sauce.conf.js",
     "coveralls": "cat ./coverage/lcov/lcov.info | ./node_modules/.bin/coveralls"
   },
   "keywords": [
@@ -65,9 +66,11 @@
     "karma-chrome-launcher": "^1.0.1",
     "karma-cli": "^1.0.1",
     "karma-coverage": "^1.1.0",
+    "karma-es5-shim": "^0.0.4",
     "karma-firefox-launcher": "^1.0.0",
     "karma-mocha": "^1.1.1",
     "karma-mocha-reporter": "^2.0.4",
+    "karma-sauce-launcher": "^1.1.0",
     "karma-sinon-chai": "^1.2.2",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "2.0.3",
