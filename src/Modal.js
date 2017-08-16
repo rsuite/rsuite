@@ -29,7 +29,6 @@ const propTypes = {
   keyboard: PropTypes.bool,
   enforceFocus: PropTypes.bool,
   autoResizeHeight: PropTypes.bool,
-  dialogClassName: PropTypes.string,
   onHide: PropTypes.func,
   onEnter: PropTypes.func,
   onEntering: PropTypes.func,
@@ -137,6 +136,7 @@ class Modal extends React.Component {
       className,
       children,
       dialogClassName,
+      dialogStyle,
       autoResizeHeight,
       animation,
       prefixClass,
@@ -168,6 +168,7 @@ class Modal extends React.Component {
         style={{ ...modalStyles, ...style }}
         className={classNames(className, inClass)}
         dialogClassName={dialogClassName}
+        dialogStyle={dialogStyle}
         onClick={props.backdrop === true ? this.handleDialogClick : null}
         ref={(ref) => {
           this.dialog = ref;

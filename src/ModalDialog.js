@@ -5,12 +5,12 @@ import decorate, { getClassNames } from './utils/decorate';
 
 const propTypes = {
   prefixClass: PropTypes.string,
-  dialogClassName: PropTypes.string
+  dialogClassName: PropTypes.string,
+  dialogStyle: PropTypes.object
 };
 
 const defaultProps = {
-  prefixClass: 'modal',
-  dialogClassName: null
+  prefixClass: 'modal'
 };
 
 class ModalDialog extends React.Component {
@@ -21,6 +21,7 @@ class ModalDialog extends React.Component {
       style,
       children,
       dialogClassName,
+      dialogStyle,
       prefixClass,
       ...props
     } = this.props;
@@ -44,7 +45,10 @@ class ModalDialog extends React.Component {
         className={modalClasses}
         {...props}
       >
-        <div className={dialogClasses}>
+        <div
+          className={dialogClasses}
+          style={dialogStyle}
+        >
           <div className={`${prefixClass}-content`} role="document">
             {children}
           </div>
