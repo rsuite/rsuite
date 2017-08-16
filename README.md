@@ -16,6 +16,9 @@ RSUITE 目标就是让 WEB 开发更快捷，同时具有一定的灵活性和�
 [![Travis](https://travis-ci.org/rsuite/rsuite.svg?branch=master)](https://travis-ci.org/rsuite/rsuite)
 [![Coverage Status](https://coveralls.io/repos/github/rsuite/rsuite/badge.svg?branch=next)](https://coveralls.io/github/rsuite/rsuite?branch=next)
 
+[![codebeat badge](https://codebeat.co/badges/847f629e-1fdc-4b87-9411-e2ae8e3132d6)](https://codebeat.co/projects/github-com-rsuite-rsuite-next)
+
+
 社区
 
 [![Discord](https://img.shields.io/badge/Discord-Join%20chat%20%E2%86%92-738bd7.svg)](https://discord.gg/GmPXTH3)
