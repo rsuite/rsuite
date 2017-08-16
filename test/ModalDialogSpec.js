@@ -18,12 +18,21 @@ describe('ModalDialog', () => {
     assert.equal(findDOMNode(instance).innerText, title);
   });
 
-  it('Should have a custom className', () => {
+  it('Should have a custom className in dialog', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ModalDialog dialogClassName="custom-dialog" />
     );
     assert.ok(findDOMNode(instance).querySelector('.modal-dialog.custom-dialog'));
   });
+
+  it('Should have a custom style in dialog', () => {
+    const fontSize = '12px';
+    let instance = ReactTestUtils.renderIntoDocument(
+      <ModalDialog dialogStyle={{ fontSize }} />
+    );
+    assert.equal(findDOMNode(instance).querySelector('.modal-dialog').style.fontSize, fontSize);
+  });
+
 
   it('Should have a custom className', () => {
     let instance = ReactTestUtils.renderIntoDocument(
