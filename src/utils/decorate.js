@@ -44,28 +44,6 @@ export function getProps(props) {
   return elementProps;
 }
 
-function curry(fn) {
-  return (...args) => {
-    let last = args[args.length - 1];
-    if (typeof last === 'function') {
-      return fn(...args);
-    }
-    return (Component) => {
-      fn(...args, Component);
-    };
-  };
-}
-
-export const bsClass = curry((defaultClass, Component) => {
-  let propTypes = Component.propTypes || (Component.propTypes = {});
-  let defaultProps = Component.defaultProps || (Component.defaultProps = {});
-
-  propTypes.bsClass = PropTypes.string;
-  defaultProps.bsClass = defaultClass;
-
-  return Component;
-});
-
 
 export default function decorate(skin = {
   size: null,
