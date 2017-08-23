@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import values from 'lodash/values';
 import classNames from 'classnames';
 import ReactChildren from './utils/ReactChildren';
 
@@ -27,7 +27,7 @@ class CheckboxGroup extends React.Component {
     const value = [];
     const { onChange } = this.props;
 
-    _.values(this.checkboxs).forEach((checkbox) => {
+    values(this.checkboxs).forEach((checkbox) => {
       if (checkbox.state.checked) {
         value.push(checkbox.props.value);
       }

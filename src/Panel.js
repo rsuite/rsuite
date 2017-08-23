@@ -1,7 +1,8 @@
 import React, { cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import _ from 'lodash';
+import pick from 'lodash/pick';
+import omit from 'lodash/omit';
 import Collapse from 'rsuite-utils/lib/Animation/Collapse';
 import decorate, { getClassNames } from './utils/decorate';
 import isNullOrUndefined from './utils/isNullOrUndefined';
@@ -88,7 +89,7 @@ class Panel extends React.Component {
     const { id, prefixClass } = this.props;
 
     const collapseProps = {
-      ..._.pick(this.props, Object.keys(Collapse.propTypes)),
+      ...pick(this.props, Object.keys(Collapse.propTypes)),
       in: this.isExpanded()
     };
     let props = {
@@ -229,7 +230,7 @@ class Panel extends React.Component {
       ...getClassNames(this.props)
     }, className);
 
-    const elementProps = _.omit(props, Object.keys(propTypes));
+    const elementProps = omit(props, Object.keys(propTypes));
     return (
       <div
         {...elementProps}

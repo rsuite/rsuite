@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import isEqual from 'lodash/isEqual';
 import classNames from 'classnames';
 import ReactChildren from './utils/ReactChildren';
 import isNullOrUndefined from './utils/isNullOrUndefined';
@@ -42,7 +42,7 @@ class DorpdownMenu extends React.Component {
       let { eventKey, active, onSelect: onItemSelect } = item.props;
       return {
         onSelect: createChainedFunction(onSelect, onItemSelect),
-        active: isNullOrUndefined(activeKey) ? active : _.isEqual(activeKey, eventKey)
+        active: isNullOrUndefined(activeKey) ? active : isEqual(activeKey, eventKey)
       };
     });
 

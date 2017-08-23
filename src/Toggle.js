@@ -1,7 +1,8 @@
 import classNames from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import isUndefined from 'lodash/isUndefined';
+import omit from 'lodash/omit';
 import decorate, { getClassNames } from './utils/decorate';
 
 const propTypes = {
@@ -37,7 +38,7 @@ class Toggle extends React.Component {
 
   getCheckedStatus() {
     const { checked } = this.props;
-    return _.isUndefined(checked) ? this.state.checked : checked;
+    return isUndefined(checked) ? this.state.checked : checked;
   }
 
   handleChange(event) {
@@ -74,7 +75,7 @@ class Toggle extends React.Component {
 
 
     const inner = checked ? checkedChildren : unCheckedChildren;
-    const elementProps = _.omit(props, Object.keys(propTypes));
+    const elementProps = omit(props, Object.keys(propTypes));
 
     return (
       <span

@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import omit from 'lodash/omit';
 import ReactChildren from './utils/ReactChildren';
 
 
@@ -82,7 +82,7 @@ class PanelGroup extends React.Component {
     } = this.props;
 
     let classes = classNames('panel-group', className);
-    const elementProps = _.omit(props, Object.keys(propTypes));
+    const elementProps = omit(props, Object.keys(propTypes));
     return (
       <div
         {...elementProps}

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import omit from 'lodash/omit';
+import values from 'lodash/values';
 import classNames from 'classnames';
 import elementType from 'rsuite-utils/lib/propTypes/elementType';
 import SafeAnchor from './SafeAnchor';
@@ -41,7 +42,7 @@ class Button extends React.Component {
 
   renderAnchor() {
     const { href, ...props } = this.props;
-    const elementProps = _.omit(props, Object.keys(propTypes));
+    const elementProps = omit(props, Object.keys(propTypes));
     return (
       <SafeAnchor
         href={href}
@@ -53,7 +54,7 @@ class Button extends React.Component {
 
   renderButton() {
     const { componentClass: Component, disabled, type, ...props } = this.props;
-    const elementProps = _.omit(props, Object.keys(propTypes));
+    const elementProps = omit(props, Object.keys(propTypes));
 
     return (
       <Component
@@ -81,7 +82,7 @@ Button.defaultProps = defaultProps;
 export default decorate({
   size: true,
   shape: {
-    oneOf: [..._.values(STATE), ..._.values(STYLES)],
+    oneOf: [...values(STATE), ...values(STYLES)],
     default: STYLES.DEFAULT
   }
 })(Button);

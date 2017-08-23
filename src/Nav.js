@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import _ from 'lodash';
+import isEqual from 'lodash/isEqual';
 import NavItem from './NavItem';
 import NavDropdown from './NavDropdown';
 import ReactChildren from './utils/ReactChildren';
@@ -66,7 +66,7 @@ class Nav extends React.Component {
       }
       return {
         onSelect,
-        active: isNullOrUndefined(activeKey) ? active : _.isEqual(activeKey, eventKey)
+        active: isNullOrUndefined(activeKey) ? active : isEqual(activeKey, eventKey)
       };
     });
 

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import values from 'lodash/values';
 
 export const SIZES = {
   LARGE: 'lg',
@@ -44,6 +44,29 @@ export function getProps(props) {
   return elementProps;
 }
 
+function curry(fn) {
+  return (...args) => {
+    let last = args[args.length - 1];
+    if (typeof last === 'function') {
+      return fn(...args);
+    }
+    return (Component) => {
+      fn(...args, Component);
+    };
+  };
+}
+
+export const bsClass = curry((defaultClass, Component) => {
+  let propTypes = Component.propTypes || (Component.propTypes = {});
+  let defaultProps = Component.defaultProps || (Component.defaultProps = {});
+
+  propTypes.bsClass = PropTypes.string;
+  defaultProps.bsClass = defaultClass;
+
+  return Component;
+});
+
+
 export default function decorate(skin = {
   size: null,
   shape: null
@@ -54,7 +77,7 @@ export default function decorate(skin = {
     let defaultProps = Component.defaultProps || (Component.defaultProps = {});
 
     if (size === true) {
-      propTypes.size = PropTypes.oneOf(_.values(SIZES));
+      propTypes.size = PropTypes.oneOf(values(SIZES));
       defaultProps.size = null;
     } else if (typeof size === 'object') {
       propTypes.size = PropTypes.oneOf(size.oneOf);
@@ -62,7 +85,7 @@ export default function decorate(skin = {
     }
 
     if (shape === true) {
-      propTypes.shape = PropTypes.oneOf([..._.values(STATE), ..._.values(STYLES)]);
+      propTypes.shape = PropTypes.oneOf([...values(STATE), ...values(STYLES)]);
       defaultProps.shape = STYLES.DEFAULT;
     } else if (typeof shape === 'object') {
       propTypes.shape = PropTypes.oneOf(shape.oneOf);

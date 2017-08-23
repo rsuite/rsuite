@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import values from 'lodash/values';
 import classNames from 'classnames';
 import elementType from 'rsuite-utils/lib/propTypes/elementType';
 import decorate, { STATE, STYLES, getClassNames } from './utils/decorate';
@@ -39,7 +39,7 @@ Text.defaultProps = defaultProps;
 
 export default decorate({
   shape: {
-    oneOf: [..._.values(STATE), ..._.values(STYLES)],
+    oneOf: [...values(STATE), ...values(STYLES)],
     default: STATE.default
   }
 })(Text);

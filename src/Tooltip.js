@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash';
+import omit from 'lodash/omit';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -53,7 +53,7 @@ class Tooltip extends React.Component {
       top: arrowOffsetTop
     };
 
-    const elementProps = _.omit(props, ['shouldUpdatePosition']);
+    const elementProps = omit(props, ['shouldUpdatePosition']);
     return (
       <div
         {...elementProps}

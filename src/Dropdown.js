@@ -1,6 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
-import _ from 'lodash';
+import isEqual from 'lodash/isEqual';
+import isUndefined from 'lodash/isUndefined';
+import omit from 'lodash/omit';
+import values from 'lodash/values';
 import PropTypes from 'prop-types';
 import { elementType } from 'rsuite-utils/lib/propTypes';
 import { RootCloseWrapper } from 'rsuite-utils/lib/Overlay';
@@ -56,14 +59,14 @@ class Dropdown extends React.Component {
     this.update();
   }
   componentWillReceiveProps(nextProps) {
-    if (_.isEqual(nextProps, this.props)) {
+    if (isEqual(nextProps, this.props)) {
       this.update(nextProps);
     }
   }
 
   toggle(isOpen) {
     const { onOpen, onClose, onToggle } = this.props;
-    let open = _.isUndefined(isOpen) ? !this.state.open : isOpen;
+    let open = isUndefined(isOpen) ? !this.state.open : isOpen;
     let handleToggle = open ? onOpen : onClose;
 
     this.setState({ open }, () => {
@@ -81,7 +84,7 @@ class Dropdown extends React.Component {
 
     if (select) {
       const activeItem = ReactChildren.find(children, item => (
-        _.isEqual(activeKey, item.props.eventKey) || item.props.active
+        isEqual(activeKey, item.props.eventKey) || item.props.active
       ));
       if (activeItem) {
         title = activeItem.props.children;
@@ -174,7 +177,7 @@ class Dropdown extends React.Component {
       'both-ends': bothEnds
     }, className);
 
-    const elementProps = _.omit(props, ['select', 'onClose', 'onOpen', 'onToggle', 'autoClose']);
+    const elementProps = omit(props, ['select', 'onClose', 'onOpen', 'onToggle', 'autoClose']);
     if (Component.displayName === 'ButtonGroup') {
       elementProps.block = block;
     }
@@ -200,7 +203,7 @@ Dropdown.Item = DropdownMenuItem;
 export default decorate({
   size: true,
   shape: {
-    oneOf: [..._.values(STATE), ..._.values(STYLES)],
+    oneOf: [...values(STATE), ...values(STYLES)],
     default: STATE.default
   }
 })(Dropdown);

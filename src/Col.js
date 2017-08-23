@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import _ from 'lodash';
+import values from 'lodash/values';
 import elementType from 'rsuite-utils/lib/propTypes/elementType';
 import { SIZES } from './utils/decorate';
 
@@ -75,7 +75,7 @@ class Col extends React.Component {
       return value;
     }
 
-    _.values(SIZES).forEach((size) => {
+    values(SIZES).forEach((size) => {
       let col = getPropValue(size);
       let hidden = getPropValue(`${size}Hidden`);
       let offset = getPropValue(`${size}Offset`);

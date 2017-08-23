@@ -3,7 +3,8 @@ import ReactDOM, { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { contains } from 'dom-lib';
 import { Overlay } from 'rsuite-utils/lib/Overlay';
-import _ from 'lodash';
+import omit from 'lodash/omit';
+import pick from 'lodash/pick';
 import isNullOrUndefined from './utils/isNullOrUndefined';
 import createChainedFunction from './utils/createChainedFunction';
 import isOneOf from './utils/isOneOf';
@@ -19,7 +20,7 @@ function handleMouseOverOut(handler, event) {
 }
 
 const propTypes = {
-  ..._.omit(Overlay.propTypes, ['target', 'onHide', 'show']),
+  ...omit(Overlay.propTypes, ['target', 'onHide', 'show']),
   trigger: PropTypes.oneOfType([
     PropTypes.oneOf(['click', 'hover', 'focus']),
     PropTypes.arrayOf(PropTypes.oneOf(['click', 'hover', 'focus']))
@@ -91,7 +92,7 @@ class Whisper extends React.Component {
   getOverlay() {
 
     let speakerProps = {
-      ..._.pick(this.props, Object.keys(Overlay.propTypes)),
+      ...pick(this.props, Object.keys(Overlay.propTypes)),
       show: this.state.isOverlayShown,
       onHide: this.handleHide,
       target: this.getOverlayTarget

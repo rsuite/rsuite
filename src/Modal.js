@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
-import _ from 'lodash';
+import pick from 'lodash/pick';
+import omit from 'lodash/omit';
 
 import BaseModal from 'rsuite-utils/lib/Overlay/Modal';
 import Fade from 'rsuite-utils/lib/Animation/Fade';
@@ -149,8 +150,8 @@ class Modal extends React.Component {
     const inClass = { in: show && !animation };
     const Dialog = props.dialogComponentClass;
 
-    const parentProps = _.pick(props, Object.keys(BaseModal.propTypes).concat(['onExit', 'onExiting', 'onEnter', 'onEntered']));
-    const dialogProps = _.omit(props, ['enforceFocus', 'keyboard', 'backdrop', 'onHide', 'dialogComponentClass']);
+    const parentProps = pick(props, Object.keys(BaseModal.propTypes).concat(['onExit', 'onExiting', 'onEnter', 'onEntered']));
+    const dialogProps = omit(props, ['enforceFocus', 'keyboard', 'backdrop', 'onHide', 'dialogComponentClass']);
 
     const items = (autoResizeHeight && children) ?
       ReactChildren.mapCloneElement(children, (child) => {

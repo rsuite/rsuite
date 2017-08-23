@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import _ from 'lodash';
+import omit from 'lodash/omit';
 import elementType from 'rsuite-utils/lib/propTypes/elementType';
 import PaginationButton from './PaginationButton';
 import SafeAnchor from './SafeAnchor';
@@ -232,7 +232,7 @@ class Pagination extends React.Component {
       ...getClassNames(this.props)
     }, className);
 
-    const elementProps = _.omit(props, Object.keys(propTypes));
+    const elementProps = omit(props, Object.keys(propTypes));
     return (
       <ul
         {...elementProps}
