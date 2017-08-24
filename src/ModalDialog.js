@@ -6,7 +6,7 @@ import decorate, { getClassNames } from './utils/decorate';
 const propTypes = {
   prefixClass: PropTypes.string,
   dialogClassName: PropTypes.string,
-  dialogStyle: PropTypes.object
+  dialogStyle: PropTypes.object // eslint-disable-line react/forbid-prop-types
 };
 
 const defaultProps = {

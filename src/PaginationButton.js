@@ -6,7 +6,7 @@ import createChainedFunction from './utils/createChainedFunction';
 import SafeAnchor from './SafeAnchor';
 
 const propTypes = {
-  eventKey: PropTypes.any,
+  eventKey: PropTypes.any,  // eslint-disable-line react/forbid-prop-types
   onSelect: PropTypes.func,
   disabled: PropTypes.bool,
   active: PropTypes.bool,

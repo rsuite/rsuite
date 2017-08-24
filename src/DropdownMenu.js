@@ -11,7 +11,7 @@ const propTypes = {
   prefixClass: PropTypes.string,
   pullRight: PropTypes.bool,
   onSelect: PropTypes.func,
-  activeKey: PropTypes.any,
+  activeKey: PropTypes.any, // eslint-disable-line react/forbid-prop-types
 };
 
 const defaultProps = {

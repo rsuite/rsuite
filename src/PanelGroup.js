@@ -7,10 +7,10 @@ import ReactChildren from './utils/ReactChildren';
 
 const propTypes = {
   accordion: PropTypes.bool,
-  activeKey: PropTypes.any,
+  activeKey: PropTypes.any,         // eslint-disable-line react/forbid-prop-types
+  defaultActiveKey: PropTypes.any,  // eslint-disable-line react/forbid-prop-types
   className: PropTypes.string,
   children: PropTypes.node,
-  defaultActiveKey: PropTypes.any,
   prefixClass: PropTypes.string,
   onSelect: PropTypes.func
 };

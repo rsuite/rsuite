@@ -78,6 +78,7 @@ class Modal extends React.Component {
 
     const { container, autoResizeHeight } = this.props;
 
+    /* eslint-disable react/no-find-dom-node */
     const node = findDOMNode(this.dialog);
     const doc = ownerDocument(node);
     const scrollHeight = node ? node.scrollHeight : 0;

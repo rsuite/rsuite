@@ -9,17 +9,12 @@ const propTypes = {
   disabled: PropTypes.bool,
   onSelect: PropTypes.func,
   onClick: PropTypes.func,
-  eventKey: PropTypes.any,
+  eventKey: PropTypes.any,  // eslint-disable-line react/forbid-prop-types
   componentClass: elementType
 };
 
 const defaultProps = {
-  componentClass: 'a',
-  active: false,
-  disabled: false,
-  divider: false,
-  onSelect: null,
-  eventKey: null
+  componentClass: 'a'
 };
 
 class DropdownMenuItem extends React.Component {

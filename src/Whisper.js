@@ -86,7 +86,7 @@ class Whisper extends React.Component {
   }
 
   getOverlayTarget() {
-    return findDOMNode(this);
+    return findDOMNode(this); // eslint-disable-line react/no-find-dom-node
   }
 
   getOverlay() {

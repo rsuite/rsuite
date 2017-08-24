@@ -31,8 +31,8 @@ const propTypes = {
   onToggle: PropTypes.func,
   onSelect: PropTypes.func,
   componentClass: elementType,
-  activeKey: PropTypes.any,
-  menuStyle: PropTypes.object,
+  activeKey: PropTypes.any,    // eslint-disable-line react/forbid-prop-types
+  menuStyle: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   autoClose: PropTypes.bool
 };
 

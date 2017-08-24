@@ -17,7 +17,7 @@ const propTypes = {
   ]),
   defaultExpanded: PropTypes.bool,
   expanded: PropTypes.bool,
-  eventKey: PropTypes.any,
+  eventKey: PropTypes.any,    // eslint-disable-line react/forbid-prop-types
   headerRole: PropTypes.string,
   panelRole: PropTypes.string,
   prefixClass: PropTypes.string,

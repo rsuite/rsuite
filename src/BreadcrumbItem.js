@@ -7,20 +7,11 @@ import SafeAnchor from './SafeAnchor';
 const propTypes = {
   active: PropTypes.bool,
   componentClass: elementType,
-  style: PropTypes.object,
   href: PropTypes.string,
   title: PropTypes.node,
   target: PropTypes.string,
 };
 
-const defaultProps = {
-  componentClass: null,
-  href: null,
-  title: null,
-  target: null,
-  style: null,
-  active: false
-};
 
 class BreadcrumbItem extends React.Component {
   render() {
@@ -46,6 +37,5 @@ class BreadcrumbItem extends React.Component {
 }
 
 BreadcrumbItem.propTypes = propTypes;
-BreadcrumbItem.defaultProps = defaultProps;
 
 export default BreadcrumbItem;

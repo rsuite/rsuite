@@ -10,7 +10,7 @@ const propTypes = {
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
   onSelect: PropTypes.func,
-  eventKey: PropTypes.any,
+  eventKey: PropTypes.any, // eslint-disable-line react/forbid-prop-types
   componentClass: elementType,
 };
 

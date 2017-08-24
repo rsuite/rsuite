@@ -7,8 +7,8 @@ import ReactChildren from './utils/ReactChildren';
 const propTypes = {
   name: PropTypes.string,
   inline: PropTypes.bool,
-  value: PropTypes.array,
-  defaultValue: PropTypes.array,
+  value: PropTypes.array,        // eslint-disable-line react/forbid-prop-types
+  defaultValue: PropTypes.array, // eslint-disable-line react/forbid-prop-types
   onChange: PropTypes.func
 };
 

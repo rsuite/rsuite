@@ -10,7 +10,7 @@ const propTypes = {
   defaultChecked: PropTypes.bool,
   onChange: PropTypes.func,
   inputRef: PropTypes.func,
-  value: PropTypes.any,
+  value: PropTypes.any, // eslint-disable-line react/forbid-prop-types
 };
 
 

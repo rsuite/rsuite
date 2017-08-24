@@ -12,7 +12,7 @@ const propTypes = {
   defaultChecked: PropTypes.bool,
   onChange: React.PropTypes.func,
   inputRef: PropTypes.func,
-  value: PropTypes.any,
+  value: PropTypes.any,   // eslint-disable-line react/forbid-prop-types
 };
 
 class Radio extends React.Component {

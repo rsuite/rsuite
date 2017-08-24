@@ -14,7 +14,7 @@ const propTypes = {
   justified: PropTypes.bool,
   stacked: PropTypes.bool,
   pullRight: PropTypes.bool,
-  activeKey: PropTypes.any,
+  activeKey: PropTypes.any, // eslint-disable-line react/forbid-prop-types
   onSelect: PropTypes.func
 };
 

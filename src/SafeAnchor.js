@@ -12,7 +12,7 @@ const propTypes = {
   disabled: PropTypes.bool,
   role: PropTypes.string,
   componentClass: elementType,
-  style: PropTypes.object,
+  style: PropTypes.object,      // eslint-disable-line react/forbid-prop-types
   tabIndex: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string
