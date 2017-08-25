@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import Header from '../src/Header';
+import innerText from './innerText';
 
 describe('Header', () => {
 
@@ -13,7 +14,7 @@ describe('Header', () => {
       <Header>{title}</Header>
     );
     assert.ok(findDOMNode(instance).className.match(/\bheader\b/));
-    assert.equal(findDOMNode(instance).innerText, title);
+    assert.equal(innerText(findDOMNode(instance)), title);
   });
 
 

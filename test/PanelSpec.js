@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import Panel from '../src/Panel';
+import innerText from './innerText';
 
 describe('Panel', () => {
 
@@ -14,7 +15,7 @@ describe('Panel', () => {
     );
     assert.equal(findDOMNode(instance).tagName, 'DIV');
     assert.ok(findDOMNode(instance).className.match(/\bpanel\b/));
-    assert.equal(findDOMNode(instance).innerText, title);
+    assert.equal(innerText(findDOMNode(instance)), title);
   });
 
   it('Should default expanded', () => {
@@ -38,17 +39,11 @@ describe('Panel', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Panel header={<a>abc</a>} />
     );
-    assert.equal(findDOMNode(instance).querySelector('a.panel-title').innerText, 'abc');
+    assert.equal(innerText(findDOMNode(instance).querySelector('a.panel-title')), 'abc');
   });
 
 
-  it('Should render the custom header', () => {
 
-    const instance = ReactTestUtils.renderIntoDocument(
-      <Panel header={<a>abc</a>} />
-    );
-    assert.equal(findDOMNode(instance).querySelector('a.panel-title').innerText, 'abc');
-  });
 
   it('Should have a role in header', () => {
 

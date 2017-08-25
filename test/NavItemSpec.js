@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import NavItem from '../src/NavItem';
+import innerText from './innerText';
 
 describe('NavItem', () => {
 
@@ -13,7 +14,7 @@ describe('NavItem', () => {
       <NavItem>{title}</NavItem>
     );
     assert.equal(findDOMNode(instance).tagName, 'LI');
-    assert.equal(findDOMNode(instance).innerText, title);
+    assert.equal(innerText(findDOMNode(instance)), title);
   });
 
   it('Should call onSelect callback', (done) => {

@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import DropdownMenuItem from '../src/DropdownMenuItem';
+import innerText from './innerText';
 
 describe('DropdownMenuItem', () => {
 
@@ -13,7 +14,7 @@ describe('DropdownMenuItem', () => {
       <DropdownMenuItem>{title}</DropdownMenuItem>
     );
     assert.equal(findDOMNode(instance).tagName, 'LI');
-    assert.equal(findDOMNode(instance).innerText, title);
+    assert.equal(innerText(findDOMNode(instance)), title);
 
   });
 
@@ -23,7 +24,7 @@ describe('DropdownMenuItem', () => {
       <DropdownMenuItem componentClass="button">{title}</DropdownMenuItem>
     );
     assert.equal(findDOMNode(instance).children[0].tagName, 'BUTTON');
-    assert.equal(findDOMNode(instance).innerText, title);
+    assert.equal(innerText(findDOMNode(instance)), title);
 
   });
 

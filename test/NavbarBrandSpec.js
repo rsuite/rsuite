@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import NavbarBrand from '../src/NavbarBrand';
+import innerText from './innerText';
 
 describe('NavbarBrand', () => {
 
@@ -13,7 +14,7 @@ describe('NavbarBrand', () => {
       <NavbarBrand>{title}</NavbarBrand>
     );
     assert.equal(findDOMNode(instance).tagName, 'SPAN');
-    assert.equal(findDOMNode(instance).innerText, title);
+    assert.equal(innerText(findDOMNode(instance)), title);
   });
 
   it('Should render a Brand', () => {
@@ -22,7 +23,7 @@ describe('NavbarBrand', () => {
       <NavbarBrand><div>{title}</div></NavbarBrand>
     );
     assert.equal(findDOMNode(instance).tagName, 'DIV');
-    assert.equal(findDOMNode(instance).innerText, title);
+    assert.equal(innerText(findDOMNode(instance)), title);
   });
 
 

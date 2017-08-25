@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import NavbarCollapse from '../src/NavbarCollapse';
+import innerText from './innerText';
 
 describe('NavbarCollapse', () => {
 
@@ -14,7 +15,7 @@ describe('NavbarCollapse', () => {
     );
     assert.equal(findDOMNode(instance).tagName, 'DIV');
     assert.ok(findDOMNode(instance).className.match(/\bnavbar-collapse\b/));
-    assert.equal(findDOMNode(instance).innerText, title);
+    assert.equal(innerText(findDOMNode(instance)), title);
   });
 
   it('Should have a custom className', () => {

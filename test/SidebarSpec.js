@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import Sidebar from '../src/Sidebar';
+import innerText from './innerText';
 
 describe('Sidebar', () => {
 
@@ -13,7 +14,7 @@ describe('Sidebar', () => {
       <Sidebar>{title}</Sidebar>
     );
     assert.equal(findDOMNode(instance).className, 'sidebar-wrapper');
-    assert.equal(findDOMNode(instance).innerText, title);
+    assert.equal(innerText(findDOMNode(instance)), title);
   });
 
   it('Should have a custom className', () => {

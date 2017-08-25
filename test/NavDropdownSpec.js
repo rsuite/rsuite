@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import NavDropdown from '../src/NavDropdown';
+import innerText from './innerText';
 
 describe('NavDropdown', () => {
 
@@ -13,7 +14,7 @@ describe('NavDropdown', () => {
       <NavDropdown>{title}</NavDropdown>
     );
     assert.equal(findDOMNode(instance).tagName, 'LI');
-    assert.equal(findDOMNode(instance).innerText, title);
+    assert.equal(innerText(findDOMNode(instance)), title);
   });
 
   it('Should be active', () => {

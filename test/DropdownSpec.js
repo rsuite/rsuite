@@ -2,8 +2,8 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
-
 import Dropdown from '../src/Dropdown';
+import innerText from './innerText';
 
 describe('Dropdown', () => {
 
@@ -57,7 +57,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    assert.equal(findDOMNode(instance).querySelector('button').innerText, 'abc');
+    assert.equal(innerText(findDOMNode(instance).querySelector('button')), 'abc');
   });
 
   it('Should have a title when set activeKey', () => {
@@ -67,7 +67,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    assert.equal(findDOMNode(instance).querySelector('button').innerText, 2);
+    assert.equal(innerText(findDOMNode(instance).querySelector('button')), 2);
   });
 
   it('Should have a title when set object activeKey', () => {
@@ -77,7 +77,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={{ key: 2, value: 2 }}>2</Dropdown.Item>
       </Dropdown>
     );
-    assert.equal(findDOMNode(instance).querySelector('button').innerText, 2);
+    assert.equal(innerText(findDOMNode(instance).querySelector('button')), 2);
   });
 
   it('Should be shown at both ends', () => {
@@ -108,7 +108,7 @@ describe('Dropdown', () => {
     let doneOp = (eventKey) => {
       if (eventKey === 2) {
         setTimeout(() => {
-          if (findDOMNode(instance).querySelector('button').innerText === '2') {
+          if (innerText(findDOMNode(instance).querySelector('button')) === '2') {
             done();
           }
         }, 200);

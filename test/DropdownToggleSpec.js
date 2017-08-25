@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import DropdownToggle from '../src/DropdownToggle';
+import innerText from './innerText';
 
 describe('DropdownToggle', () => {
 
@@ -16,7 +17,7 @@ describe('DropdownToggle', () => {
     assert.ok(findDOMNode(instance).className.match(/\bdropdown-toggle\b/));
     assert.ok(findDOMNode(instance).querySelector('.caret'));
     assert.equal(findDOMNode(instance).tagName, 'BUTTON');
-    assert.equal(findDOMNode(instance).innerText, title);
+    assert.equal(innerText(findDOMNode(instance)), title);
 
 
   });
@@ -27,7 +28,7 @@ describe('DropdownToggle', () => {
       <DropdownToggle title={title} />
     );
 
-    assert.equal(findDOMNode(instance).innerText, title);
+    assert.equal(innerText(findDOMNode(instance)), title);
   });
 
   it('Should not render caret', () => {

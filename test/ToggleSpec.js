@@ -1,8 +1,9 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import Toggle from '../src/Toggle';
 
+import Toggle from '../src/Toggle';
+import innerText from './innerText';
 
 describe('Toggle', () => {
 
@@ -39,14 +40,14 @@ describe('Toggle', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Toggle unCheckedChildren="off" />
     );
-    assert.equal(findDOMNode(instance).innerText, 'off');
+    assert.equal(innerText(findDOMNode(instance)), 'off');
   });
 
   it('Should output a `on` in inner ', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Toggle checkedChildren="on" checked />
     );
-    assert.equal(findDOMNode(instance).innerText, 'on');
+    assert.equal(innerText(findDOMNode(instance)), 'on');
   });
 
   it('Should call onChange callback ', (done) => {

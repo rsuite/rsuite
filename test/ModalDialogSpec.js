@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import ModalDialog from '../src/ModalDialog';
+import innerText from './innerText';
 
 describe('ModalDialog', () => {
 
@@ -15,7 +16,7 @@ describe('ModalDialog', () => {
 
     assert.equal(findDOMNode(instance).className, 'modal');
     assert.ok(findDOMNode(instance).querySelector('.modal-dialog'));
-    assert.equal(findDOMNode(instance).innerText, title);
+    assert.equal(innerText(findDOMNode(instance)), title);
   });
 
   it('Should have a custom className in dialog', () => {

@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import Table from '../src/Table';
+import innerText from './innerText';
 
 describe('Table', () => {
 
@@ -14,7 +15,7 @@ describe('Table', () => {
     );
     const instanceDom = findDOMNode(instance);
     assert.equal(instanceDom.tagName, 'TABLE');
-    assert.equal(instanceDom.innerText, title);
+    assert.equal(innerText(instanceDom), title);
   });
 
   it('Should have a `table-striped` className', () => {

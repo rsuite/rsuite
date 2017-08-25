@@ -5,6 +5,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import PanelGroup from '../src/PanelGroup';
 import Panel from '../src/Panel';
+import innerText from './innerText';
 
 describe('PanelGroup', () => {
 
@@ -17,7 +18,7 @@ describe('PanelGroup', () => {
 
     assert.equal(instanceDom.tagName, 'DIV');
     assert.ok(instanceDom.className.match(/\bpanel-group\b/));
-    assert.equal(instanceDom.innerText, title);
+    assert.equal(innerText(instanceDom), title);
   });
 
   it('Should render 2 Panels', () => {

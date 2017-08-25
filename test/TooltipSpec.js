@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import Tooltip from '../src/Tooltip';
+import innerText from './innerText';
 
 describe('Tooltip', () => {
 
@@ -15,7 +16,7 @@ describe('Tooltip', () => {
     const instanceDom = findDOMNode(instance);
     assert.equal(instanceDom.tagName, 'DIV');
     assert.ok(instanceDom.className.match(/\btooltip\b/));
-    assert.equal(instanceDom.innerText, title);
+    assert.equal(innerText(instanceDom), title);
   });
 
   it('Should render at left', () => {

@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import Pagination from '../src/Pagination';
+import innerText from './innerText';
 
 describe('Pagination', () => {
 
@@ -40,14 +41,15 @@ describe('Pagination', () => {
       <Pagination pages={20} maxButtons={2} ellipsis />
     );
     assert.equal(findDOMNode(instance).querySelectorAll('li').length, 3);
-    assert.equal(findDOMNode(instance).querySelector('li.disabled').innerText, '…');
+    assert.equal(innerText(findDOMNode(instance).querySelector('li.disabled')), '…');
   });
+
   it('Should be ellipsis', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Pagination pages={20} maxButtons={2} ellipsis={'abc'} />
     );
     assert.equal(findDOMNode(instance).querySelectorAll('li').length, 3);
-    assert.equal(findDOMNode(instance).querySelector('li.disabled').innerText, 'abc');
+    assert.equal(innerText(findDOMNode(instance).querySelector('li.disabled')), 'abc');
   });
 
   it('Should render `first` button', () => {
@@ -82,7 +84,7 @@ describe('Pagination', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Pagination pages={20} maxButtons={2} ellipsis boundaryLinks />
     );
-    assert.equal(findDOMNode(instance).querySelector('li:last-child').innerText, '20');
+    assert.equal(innerText(findDOMNode(instance).querySelector('li:last-child')), '20');
   });
 
 
@@ -90,7 +92,7 @@ describe('Pagination', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Pagination pages={20} activePage={5} />
     );
-    assert.equal(findDOMNode(instance).querySelector('li.active').innerText, '5');
+    assert.equal(innerText(findDOMNode(instance).querySelector('li.active')), '5');
   });
 
 

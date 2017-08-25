@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import PaginationButton from '../src/PaginationButton';
+import innerText from './innerText';
 
 describe('PaginationButton', () => {
 
@@ -13,7 +14,7 @@ describe('PaginationButton', () => {
       <PaginationButton>{title}</PaginationButton>
     );
     assert.equal(findDOMNode(instance).tagName, 'LI');
-    assert.equal(findDOMNode(instance).innerText, title);
+    assert.equal(innerText(findDOMNode(instance)), title);
   });
 
   it('Should be disabled', () => {

@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import NavbarToggle from '../src/NavbarToggle';
+import innerText from './innerText';
 
 describe('NavbarToggle', () => {
 
@@ -21,7 +22,7 @@ describe('NavbarToggle', () => {
       <NavbarToggle><div>{title}</div></NavbarToggle>
     );
     assert.ok(findDOMNode(instance).className.match(/\bnavbar-toggle\b/));
-    assert.equal(findDOMNode(instance).innerText, title);
+    assert.equal(innerText(findDOMNode(instance)), title);
   });
 
   it('Should have a custom className', () => {

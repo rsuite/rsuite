@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import Nav from '../src/Nav';
+import innerText from './innerText';
 
 describe('Nav', () => {
 
@@ -14,7 +15,7 @@ describe('Nav', () => {
     );
     assert.equal(findDOMNode(instance).tagName, 'UL');
     assert.equal(findDOMNode(instance).className, 'nav');
-    assert.equal(findDOMNode(instance).innerText, title);
+    assert.equal(innerText(findDOMNode(instance)), title);
   });
 
   it('Should have a `nav-tabs` className', () => {

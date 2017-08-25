@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import Popover from '../src/Popover';
+import innerText from './innerText';
 
 describe('Popover', () => {
 
@@ -15,7 +16,7 @@ describe('Popover', () => {
     const instanceDom = findDOMNode(instance);
     assert.equal(instanceDom.tagName, 'DIV');
     assert.ok(instanceDom.className.match(/\bpopover\b/));
-    assert.equal(instanceDom.innerText, title);
+    assert.equal(innerText(instanceDom), title);
   });
 
   it('Should render at left', () => {
