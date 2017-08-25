@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import values from 'lodash/values';
+import assign from 'lodash/assign';
 import classNames from 'classnames';
 import ReactChildren from './utils/ReactChildren';
 
@@ -45,7 +46,7 @@ class CheckboxGroup extends React.Component {
       ...props
     } = this.props;
 
-    const nextValue = Object.assign([], value, this.state.value);
+    const nextValue = assign([], value, this.state.value);
     const clesses = classNames({
       'checkbox-list': true
     }, className);
