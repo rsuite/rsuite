@@ -52,6 +52,7 @@
     "chai": "^3.5.0",
     "child-process-promise": "^2.0.2",
     "colors": "^1.1.2",
+    "core-js": "^2.5.0",
     "coveralls": "^2.13.1",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",

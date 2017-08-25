@@ -1,5 +1,4 @@
 /* eslint-disable */
-require('babel-register');
 
 const webpackConfig = {
   output: {
