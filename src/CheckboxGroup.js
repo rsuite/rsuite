@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import Checkbox from './Checkbox';
+import _ from 'lodash';
 
 const CheckboxGroup = React.createClass({
     propTypes: {
@@ -53,11 +54,12 @@ const CheckboxGroup = React.createClass({
                 key: index,
                 ref: 'checkbox_' + index,
                 inline: inline,
-                checked: nextValue.some(i => i === child.props.value),
+                checked: nextValue.some(i => _.isEqual(i, child.props.value)),
                 onChange: this.handleChange,
                 name: name
             }, child.props.children);
         });
+
 
         return (
             <div
