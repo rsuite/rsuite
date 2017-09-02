@@ -1,38 +1,55 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import omit from 'lodash/omit';
+import values from 'lodash/values';
+import decorate, { STATE, getClassNames } from './utils/decorate';
 
-const HelpBlock = React.createClass({
-    propTypes: {
-        htmlFor: React.PropTypes.string
-    },
-    contextTypes: {
-        formGroup: React.PropTypes.object
-    },
-    render() {
+const propTypes = {
+  htmlFor: PropTypes.string,
+  prefixClass: PropTypes.string
+};
 
-        const { controlId, isValid, errorMessage } = this.context.formGroup;
-        const {
-            className,
-            htmlFor = controlId,
-            children
-        } = this.props;
+const defaultProps = {
+  htmlFor: undefined,
+  prefixClass: 'help-block',
+};
 
-        const valid = isValid === undefined ? true : isValid;
+const contextTypes = {
+  formGroup: PropTypes.object
+};
 
-        const classes = classNames({
-            'help-block': true,
-            'error': !valid
-        }, className);
+class HelpBlock extends React.Component {
+  render() {
+    const { formGroup = {} } = this.context;
+    const {
+      className,
+      htmlFor = formGroup.controlId,
+      ...props
+    } = this.props;
 
-        return (
-            <span
-                htmlFor={htmlFor}
-                className={classes}
-            >
-                {(!valid && errorMessage) || children}
-            </span>
-        );
-    }
-});
+    const classes = classNames({
+      ...getClassNames(this.props),
+    }, className);
 
-export default HelpBlock;
+    const elementProps = omit(props, Object.keys(propTypes));
+
+    return (
+      <span
+        {...elementProps}
+        className={classes}
+        htmlFor={htmlFor}
+      />
+    );
+  }
+}
+
+HelpBlock.propTypes = propTypes;
+HelpBlock.defaultProps = defaultProps;
+HelpBlock.contextTypes = contextTypes;
+
+export default decorate({
+  shape: {
+    oneOf: values(STATE)
+  }
+})(HelpBlock);

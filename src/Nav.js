@@ -1,73 +1,86 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import ClassNameMixin from'./mixins/ClassNameMixin';
+import isEqual from 'lodash/isEqual';
 import NavItem from './NavItem';
 import NavDropdown from './NavDropdown';
+import ReactChildren from './utils/ReactChildren';
+import isNullOrUndefined from './utils/isNullOrUndefined';
+
+const propTypes = {
+  prefixClass: PropTypes.string,
+  tabs: PropTypes.bool,
+  pills: PropTypes.bool,
+  justified: PropTypes.bool,
+  stacked: PropTypes.bool,
+  pullRight: PropTypes.bool,
+  activeKey: PropTypes.any, // eslint-disable-line react/forbid-prop-types
+  onSelect: PropTypes.func
+};
+
+const defaultProps = {
+  prefixClass: 'nav',
+  tabs: false,
+  pills: false,
+  justified: false,
+  stacked: false,
+  pullRight: false,
+  activeKey: undefined,
+  onSelect: undefined
+};
+
+const contextTypes = {
+  navbar: PropTypes.bool
+};
+
+class Nav extends React.Component {
+  render() {
+    const {
+      prefixClass,
+      tabs,
+      pills,
+      stacked,
+      justified,
+      pullRight,
+      className,
+      children,
+      onSelect,
+      activeKey,
+      ...props
+    } = this.props;
+
+    const classes = classNames(prefixClass, {
+      [`${prefixClass}bar-right`]: pullRight,
+      [`${prefixClass}bar-nav`]: this.context.navbar,
+      [`${prefixClass}-pills`]: pills,
+      [`${prefixClass}-tabs`]: tabs,
+      [`${prefixClass}-stacked`]: stacked,
+      [`${prefixClass}-justified`]: justified
+    }, className);
 
 
-const Nav = React.createClass({
-    mixins: [ClassNameMixin],
-    propTypes: {
-        tabs: React.PropTypes.bool,
-        pills: React.PropTypes.bool,
-        justified: React.PropTypes.bool,
-        stacked: React.PropTypes.bool,
-        onSelect: React.PropTypes.func,
-        pullRight: React.PropTypes.bool,
-        activeKey: React.PropTypes.any
-    },
-    contextTypes : {
-        navbar: React.PropTypes.bool
-    },
-    getDefaultProps: function () {
-        return {
-            classPrefix: 'nav',
-            pullRight: false
-        };
-    },
-    render: function () {
+    const items = ReactChildren.mapCloneElement(children, (item) => {
+      let { eventKey, active } = item.props;
+      if (item.type.displayName !== 'NavItem') {
+        return null;
+      }
+      return {
+        onSelect,
+        active: isNullOrUndefined(activeKey) ? active : isEqual(activeKey, eventKey)
+      };
+    });
 
-        const {
-            tabs,
-            pills,
-            stacked,
-            justified,
-            pullRight,
-            className,
-            children,
-            onSelect,
-            activeKey,
-            ...props
-        } = this.props;
+    return (
+      <ul {...props} className={classes} >
+        {items}
+      </ul>
+    );
+  }
+}
 
-
-        const classes = classNames({
-            'nav': true,
-            'navbar-right': pullRight,
-            'navbar-nav': this.context.navbar,
-            [this.prefix('pills')]: pills,
-            [this.prefix('tabs')]: tabs,
-            [this.prefix('stacked')]: stacked,
-            [this.prefix('justified')]: justified
-        }, className);
-
-        const items = React.Children.map(children,(item, index) => {
-
-            return React.cloneElement(item, {
-                key : index,
-                onSelect : onSelect,
-                active: (activeKey && activeKey === item.props.eventKey) || item.props.active
-            }, item.props.children);
-
-        });
-
-        return (
-            <ul {...props} className={ classes } >
-                {items}
-            </ul>
-        );
-    }
-});
+Nav.propTypes = propTypes;
+Nav.defaultProps = defaultProps;
+Nav.contextTypes = contextTypes;
 
 Nav.Item = NavItem;
 Nav.Dropdown = NavDropdown;

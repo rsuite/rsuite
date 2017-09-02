@@ -1,43 +1,41 @@
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import React from 'react';
-import Anchor from './Anchor';
-import elementType from './prop-types/elementType';
+import elementType from 'rsuite-utils/lib/propTypes/elementType';
+import SafeAnchor from './SafeAnchor';
 
-const BreadcrumbItem = React.createClass({
-    propTypes: {
-        active: React.PropTypes.bool,
-        componentClass: elementType
-    },
+const propTypes = {
+  active: PropTypes.bool,
+  componentClass: elementType,
+  href: PropTypes.string,
+  title: PropTypes.node,
+  target: PropTypes.string,
+};
 
-    getDefaultProps() {
-        return {
-            active: false,
-        };
-    },
-    renderItem() {
 
-        const { componentClass, children, active, ...props } = this.props;
-        const Component = componentClass || Anchor;
+class BreadcrumbItem extends React.Component {
+  render() {
 
-        if (active) {
-            return (<span {...props} >{children}</span>);
-        }
+    const { componentClass, href, title, target, className, style, active, ...props } = this.props;
+    const Component = componentClass || SafeAnchor;
+    const linkProps = { href, title, target };
 
-        return (
-            <Component {...props } >
-                {children}
-            </Component>
-        );
-    },
-    render() {
-        const { active, className } = this.props;
+    return (
+      <li
+        style={style}
+        className={classNames(className, { active })}
+      >
+        {active ? (<span {...props} />) : (
+          <Component
+            {...props}
+            {...linkProps}
+          />
+        )}
+      </li>
+    );
+  }
+}
 
-        return (
-            <li className={classNames(className, { active })}>
-                {this.renderItem()}
-            </li>
-        );
-    }
-});
+BreadcrumbItem.propTypes = propTypes;
 
 export default BreadcrumbItem;

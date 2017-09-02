@@ -1,80 +1,76 @@
-import classNames from 'classnames';
 import React from 'react';
-import elementType from './prop-types/elementType';
-import ClassNameMixin from './mixins/ClassNameMixin';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import elementType from 'rsuite-utils/lib/propTypes/elementType';
+import decorate, { getClassNames } from './utils/decorate';
 
-const FormControl = React.createClass({
-    mixins: [ClassNameMixin],
-    propTypes: {
-        componentClass: elementType,
-        type: React.PropTypes.string,
-        id: React.PropTypes.string,
-        onChange: React.PropTypes.func,
-        onBlur: React.PropTypes.func,
-        value: React.PropTypes.any
-    },
-    contextTypes: {
-        formGroup: React.PropTypes.object
-    },
+const propTypes = {
+  componentClass: elementType,
+  type: PropTypes.string,
+  id: PropTypes.string,
+  onChange: PropTypes.func,
+  inputRef: PropTypes.func
+};
 
-    getFormGroup() {
-        return this.context.formGroup || {};
-    },
-    getDefaultProps() {
-        return {
-            componentClass: 'input'
-        };
-    },
-    handleChange(event) {
+const defaultProps = {
+  componentClass: 'input',
+  type: undefined,
+  id: undefined,
+  onChange: undefined,
+  inputRef: undefined
+};
 
-        const value = event.target.value;
-        const { onChange } = this.props;
-        const { onChange: onFormGroupChange } = this.getFormGroup();
+const contextTypes = {
+  formGroup: PropTypes.object
+};
 
-        onChange && onChange(value);
-        onFormGroupChange && onFormGroupChange(value);
-    },
-    handleBlur(event) {
-        const { onBlur } = this.props;
-        const { onBlur: onFormGroupBlur } = this.getFormGroup();
-        onBlur && onBlur(event);
-        onFormGroupBlur && onFormGroupBlur(event);
-    },
-    getValue() {
-        const { value } = this.getFormGroup();
-        return value || this.props.value;
-    },
-    render() {
+class FormControl extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+  }
+  handleChange(event) {
+    const target = event.target;
+    const { onChange } = this.props;
+    onChange && onChange(target.value, event);
+  }
 
-        const { controlId } = this.getFormGroup();
-        const {
-            componentClass: Component,
-            type,
-            id = controlId,
-            value = this.getValue(),
-            className,
-            ...props,
-        } = this.props;
+  render() {
+
+    const { formGroup = {} } = this.context;
+    const {
+      type,
+      className,
+      inputRef,
+      componentClass: Component,
+      id = formGroup.controlId,
+      ...props,
+    } = this.props;
 
 
-        let classes = classNames({
-            // input[type="file"] should not have .form-control.
-            'form-control': type !== 'file'
-        }, className);
+    let classes = classNames({
+      // input[type="file"] should not have .form-control.
+      'form-control': type !== 'file',
+      ...getClassNames(this.props, 'input'),
+    }, className);
 
+    return (
+      <Component
+        {...props}
+        type={type}
+        id={id}
+        className={classes}
+        ref={inputRef}
+        onChange={this.handleChange}
+      />
+    );
+  }
+}
 
-        return (
-            <Component
-                {...props}
-                type={type}
-                id={id}
-                value={value}
-                className={classes}
-                onBlur={this.handleBlur}
-                onChange={this.handleChange}
-                />
-        );
-    }
-});
+FormControl.propTypes = propTypes;
+FormControl.defaultProps = defaultProps;
+FormControl.contextTypes = contextTypes;
 
-export default FormControl;
+export default decorate({
+  size: true
+})(FormControl);

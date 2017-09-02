@@ -1,56 +1,60 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-const Table = React.createClass({
-    propTypes: {
-        striped: React.PropTypes.bool,
-        bordered: React.PropTypes.bool,
-        condensed: React.PropTypes.bool,
-        hover: React.PropTypes.bool,
-        responsive: React.PropTypes.bool
-    },
+const propTypes = {
+  striped: PropTypes.bool,
+  bordered: PropTypes.bool,
+  condensed: PropTypes.bool,
+  hover: PropTypes.bool,
+  responsive: PropTypes.bool
+};
 
-    getDefaultProps() {
-        return {
-            bordered: false,
-            condensed: false,
-            hover: false,
-            responsive: false,
-            striped: false
-        };
-    },
+const defaultProps = {
+  bordered: false,
+  condensed: false,
+  hover: false,
+  responsive: false,
+  striped: false
+};
 
-    render() {
-        const {
-            striped,
-            bordered,
-            condensed,
-            hover,
-            children,
-            className,
-            ...props
-        } = this.props;
+class Table extends React.Component {
+  render() {
 
-        const classes = classNames({
-            'table': true,
-            'table-striped': striped,
-            'table-bordered': bordered,
-            'table-condensed': condensed,
-            'table-hover': hover
-        }, className);
+    const {
+      striped,
+      bordered,
+      condensed,
+      hover,
+      className,
+      responsive,
+      ...props
+    } = this.props;
 
-        const table = (
-            <table {...props} className={classes}>
-                {children}
-            </table>
-        );
+    const classes = classNames('table', {
+      'table-striped': striped,
+      'table-bordered': bordered,
+      'table-condensed': condensed,
+      'table-hover': hover
+    }, className);
 
-        return this.props.responsive ? (
-            <div className="table-responsive">
-                {table}
-            </div>
-        ) : table;
-    }
-});
+    const table = (
+      <table
+        {...props}
+        className={classes}
+      />
+    );
+
+    return responsive ? (
+      <div className="table-responsive">
+        {table}
+      </div>
+    ) : table;
+  }
+}
+
+
+Table.propTypes = propTypes;
+Table.defaultProps = defaultProps;
 
 export default Table;

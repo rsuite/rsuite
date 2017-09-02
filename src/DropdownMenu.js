@@ -1,88 +1,65 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
-import _ from 'lodash';
+import PropTypes from 'prop-types';
+import isEqual from 'lodash/isEqual';
 import classNames from 'classnames';
-import DropdownMenuItem from './DropdownMenuItem';
-import ClassNameMixin from './mixins/ClassNameMixin';
+import ReactChildren from './utils/ReactChildren';
+import isNullOrUndefined from './utils/isNullOrUndefined';
 import createChainedFunction from './utils/createChainedFunction';
 
 
+const propTypes = {
+  prefixClass: PropTypes.string,
+  pullRight: PropTypes.bool,
+  onSelect: PropTypes.func,
+  activeKey: PropTypes.any, // eslint-disable-line react/forbid-prop-types
+};
 
-let DorpdownMenu = React.createClass({
-    mixins: [ClassNameMixin],
-    propTypes: {
-        pullRight: React.PropTypes.bool,
-        onClose: React.PropTypes.func,
-        onSelect: React.PropTypes.func,
-        activeKey: React.PropTypes.any
-    },
-    getDefaultProps() {
-        return {
-            classPrefix: 'dropdown',
-            pullRight: false
-        };
-    },
-    getFocusableMenuItems() {
-        let menuNode = ReactDOM.findDOMNode(this);
-        if (menuNode === undefined) {
-            return [];
-        }
-        return Array.from(menuNode.querySelectorAll('[role="menu-item"]'));
-    },
-    getItemsAndActiveIndex() {
-        let items = this.getFocusableMenuItems();
-        let activeItemIndex = items.indexOf(document.activeElement);
+const defaultProps = {
+  prefixClass: 'dropdown',
+  pullRight: false,
+  onSelect: null,
+  activeKey: null
+};
 
-        return {
-            items,
-            activeItemIndex
-        };
-    },
-    handleSelect(event) {
-        let { onClose } = this.props;
-        onClose && onClose();
-    },
-    render() {
+class DorpdownMenu extends React.Component {
+  render() {
 
-        let { pullRight, children, className, activeKey, ...props } = this.props;
+    const {
+      pullRight,
+      children,
+      className,
+      activeKey,
+      onSelect,
+      prefixClass,
+      ...props
+    } = this.props;
 
-        const items = React.Children.map(children, (item, index) => {
-            let childProps = {
-                key: index,
-                ref: 'menu_item_' + index,
-                onSelect: createChainedFunction(this.handleSelect, this.props.onSelect)
-            };
+    const classes = classNames({
+      [`${prefixClass}-menu-right`]: pullRight
+    }, `${prefixClass}-menu`, className);
 
-            if (activeKey !== null && activeKey !== undefined) {
-                childProps.active = (_.isEqual(activeKey, item.props.eventKey) || activeKey === item.props.eventKey);
-            }
+    const items = ReactChildren.mapCloneElement(children, (item) => {
+      let { eventKey, active, onSelect: onItemSelect } = item.props;
+      return {
+        onSelect: createChainedFunction(onSelect, onItemSelect),
+        active: isNullOrUndefined(activeKey) ? active : isEqual(activeKey, eventKey)
+      };
+    });
 
-            if (React.isValidElement(item)) {
-                return React.cloneElement(item, childProps, item.props.children);
-            }
+    return (
+      <ul
+        {...props}
+        className={classes}
+        role="menu"
+      >
+        {items}
+      </ul>
+    );
+  }
 
-            return item;
-        });
+}
 
-
-        let classes = {
-            [this.prefix('menu')]: true,
-            [this.prefix('menu-right')]: pullRight
-        };
-
-        return (
-            <ul
-                {...props}
-                className={classNames(className, classes)}
-                role="menu"
-            >
-                {items}
-            </ul>
-        );
-
-
-    }
-
-});
+DorpdownMenu.propTypes = propTypes;
+DorpdownMenu.defaultProps = defaultProps;
 
 export default DorpdownMenu;

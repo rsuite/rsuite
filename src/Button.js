@@ -1,68 +1,88 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import omit from 'lodash/omit';
+import values from 'lodash/values';
 import classNames from 'classnames';
-import ClassNameMixin from './mixins/ClassNameMixin';
-import Anchor from './Anchor';
-import elementType from './prop-types/elementType';
+import elementType from 'rsuite-utils/lib/propTypes/elementType';
+import SafeAnchor from './SafeAnchor';
+import decorate, { STATE, STYLES, getClassNames } from './utils/decorate';
 
-const Button = React.createClass({
-    mixins: [ClassNameMixin],
-    propTypes: {
-        active: React.PropTypes.bool,
-        disabled: React.PropTypes.bool,
-        block: React.PropTypes.bool,
-        href: React.PropTypes.string,
-        target: React.PropTypes.string,
-        componentClass: elementType,
-        classPrefix: React.PropTypes.string,
-        type: React.PropTypes.oneOf(['button', 'reset', 'submit'])
-    },
-    getDefaultProps() {
-        return {
-            classPrefix: 'btn',
-            active: false,
-            type:'button',
-            disabled: false,
-            block: false
-        };
-    },
-    renderAnchor(classes) {
-        const Component = this.props.componentClass || Anchor;
-        const href = this.props.href || '#';
+const propTypes = {
+  active: PropTypes.bool,
+  disabled: PropTypes.bool,
+  block: PropTypes.bool,
+  href: PropTypes.string,
+  type: PropTypes.oneOf(['button', 'reset', 'submit']),
+  componentClass: elementType,
+  prefixClass: PropTypes.string
+};
 
-        return (
-            <Component
-                {...this.props}
-                href={href}
-                className={classes}
-                role="button" >
-                {this.props.children}
-            </Component>
-        );
+const defaultProps = {
+  prefixClass: 'btn',
+  href: null,
+  componentClass: 'button',
+  active: false,
+  type: 'button',
+  disabled: false,
+  block: false,
+  shape: 'default'
+};
 
-    },
-    renderButton(classes) {
-        const Component = this.props.componentClass || 'button';
-        return (
-            <Component
-                {...this.props}
-                className={classes}
-                >
-                {this.props.children}
-            </Component>
-        );
-    },
-    render() {
-        const classes = classNames({
-            btn: true,
-            active: this.props.active,
-            disabled: this.props.disabled,
-            [this.prefix('block')]: this.props.block
-        }, ...this.getClassNames(), this.props.className);
+class Button extends React.Component {
 
-        const renderName = this.props.href || this.props.target ? 'renderAnchor' : 'renderButton';
-        return this[renderName](classes);
+  getClassNames() {
+    const { active, disabled, block, className, prefixClass } = this.props;
+    return classNames({
+      ...getClassNames(this.props),
+      active,
+      disabled,
+      [`${prefixClass}-block`]: block
+    }, className);
+  }
+
+  renderAnchor() {
+    const { href, ...props } = this.props;
+    const elementProps = omit(props, Object.keys(propTypes));
+    return (
+      <SafeAnchor
+        href={href}
+        {...elementProps}
+        className={this.getClassNames()}
+      />
+    );
+  }
+
+  renderButton() {
+    const { componentClass: Component, disabled, type, ...props } = this.props;
+    const elementProps = omit(props, Object.keys(propTypes));
+
+    return (
+      <Component
+        {...elementProps}
+        type={type}
+        disabled={disabled}
+        className={this.getClassNames()}
+      />
+    );
+  }
+
+  render() {
+
+    if (this.props.href) {
+      return this.renderAnchor();
     }
 
-});
+    return this.renderButton();
+  }
+}
 
-export default Button;
+Button.propTypes = propTypes;
+Button.defaultProps = defaultProps;
+
+export default decorate({
+  size: true,
+  shape: {
+    oneOf: [...values(STATE), ...values(STYLES)],
+    default: STYLES.DEFAULT
+  }
+})(Button);

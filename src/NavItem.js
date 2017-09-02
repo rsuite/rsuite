@@ -1,76 +1,81 @@
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import React from 'react';
-
-import elementType from './prop-types/elementType';
+import elementType from 'rsuite-utils/lib/propTypes/elementType';
 import createChainedFunction from './utils/createChainedFunction';
-import Anchor from './Anchor';
+import SafeAnchor from './SafeAnchor';
 
-const NavItem = React.createClass({
+const propTypes = {
+  active: PropTypes.bool,
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func,
+  onSelect: PropTypes.func,
+  eventKey: PropTypes.any, // eslint-disable-line react/forbid-prop-types
+  componentClass: elementType,
+};
 
-    propTypes: {
-        active: React.PropTypes.bool,
-        disabled: React.PropTypes.bool,
-        href: React.PropTypes.string,
-        onClick: React.PropTypes.func,
-        onSelect: React.PropTypes.func,
-        eventKey: React.PropTypes.any,
-        componentClass: elementType,
-        role: React.PropTypes.string
-    },
+const defaultProps = {
+  href: '',
+  active: false,
+  disabled: false,
+  componentClass: SafeAnchor,
+  onClick: undefined,
+  onSelect: undefined,
+  eventKey: undefined
 
-    getDefaultProps() {
-        return {
-            href: '',
-            active: false,
-            disabled: false
-        };
-    },
+};
 
-    handleClick(e) {
+class NavItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
 
-        if (this.props.onSelect) {
-            if (!this.props.disabled) {
-                this.props.onSelect(this.props.eventKey, e);
-            }
-        }
-    },
-
-    render() {
-        const {
-            active,
-            disabled,
-            role,
-            href,
-            onClick,
-            className,
-            style,
-            onSelect,
-            eventKey,
-            children,
-            ...props
-        } = this.props;
-
-        const classes = classNames({
-            active,
-            disabled
-        }, className);
-
-        const Component = this.props.componentClass || Anchor;
-
-        return (
-            <li role="presentation" className={classes} style={style}>
-                <Component {...props}
-                    disabled={disabled}
-                    role={role}
-                    href={href}
-                    onClick={createChainedFunction(onClick, this.handleClick)}
-                    >
-                    {children}
-                </Component>
-            </li>
-        );
+  handleClick(event) {
+    const { onSelect, disabled, eventKey } = this.props;
+    if (onSelect && !disabled) {
+      onSelect(eventKey, event);
     }
+  }
 
-});
+  render() {
+    const {
+      active,
+      disabled,
+      onClick,
+      className,
+      style,
+      eventKey,
+      children,
+      componentClass: Component,
+      ...props
+    } = this.props;
+
+    const classes = classNames({
+      active,
+      disabled
+    }, className);
+
+    return (
+      <li
+        role="presentation"
+        className={classes}
+        style={style}
+      >
+        <Component
+          {...props}
+          disabled={disabled}
+          onClick={createChainedFunction(onClick, this.handleClick)}
+        >
+          {children}
+        </Component>
+      </li>
+    );
+  }
+}
+
+NavItem.propTypes = propTypes;
+NavItem.defaultProps = defaultProps;
+NavItem.displayName = 'NavItem';
 
 export default NavItem;

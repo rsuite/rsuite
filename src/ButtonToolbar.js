@@ -1,26 +1,19 @@
 import React from 'react';
 import classNames from 'classnames';
 
+class ButtonToolbar extends React.Component {
+  render() {
 
-const ButtonToolbar = React.createClass({
-
-    render() {
-
-        const { children, className , ...props } = this.props;
-        const classes = classNames({
-            'btn-toolbar': true
-        }, className);
-
-        return (
-            <div
-                role="toolbar"
-                className={classes}
-                {...props}
-                >
-                {children}
-            </div>
-        );
-    }
-});
+    const { className, ...props } = this.props;
+    const classes = classNames('btn-toolbar', className);
+    return (
+      <div
+        role="toolbar"
+        className={classes}
+        {...props}
+      />
+    );
+  }
+}
 
 export default ButtonToolbar;

@@ -1,18 +1,31 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import ClassNameMixin from './mixins/ClassNameMixin';
 
+const propTypes = {
+  prefixClass: PropTypes.string
+};
 
-const ModalTitle = React.createClass({
-    mixins: [ClassNameMixin],
-    render() {
-        let classes = classNames(this.prefix('title'), this.props.className);
-        return (
-            <h4 {...this.props} className={classes}>
-                {this.props.children}
-            </h4>
-        );
-    }
-});
+const defaultProps = {
+  prefixClass: 'modal'
+};
+
+class ModalTitle extends React.Component {
+  render() {
+    const { className, prefixClass, children, ...props } = this.props;
+    const classes = classNames(`${prefixClass}-title`, className);
+    return (
+      <h4
+        {...props}
+        className={classes}
+      >
+        {children}
+      </h4>
+    );
+  }
+}
+
+ModalTitle.propTypes = propTypes;
+ModalTitle.defaultProps = defaultProps;
 
 export default ModalTitle;

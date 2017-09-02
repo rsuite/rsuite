@@ -1,41 +1,39 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import elementType from './prop-types/elementType';
+import elementType from 'rsuite-utils/lib/propTypes/elementType';
 
-const Grid = React.createClass({
-    propTypes: {
-        fluid: React.PropTypes.bool,
-        componentClass: elementType
-    },
+const propTypes = {
+  fluid: PropTypes.bool,
+  componentClass: elementType
+};
 
-    getDefaultProps() {
-        return {
-            componentClass: 'div',
-            fluid: false
-        };
-    },
+const defaultProps = {
+  componentClass: 'div',
+  fluid: false
+};
 
-    render() {
-        const {
-            componentClass: Component,
-            fluid,
-            className,
-            children,
-            ...props
-        } = this.props;
+class Grid extends React.Component {
+  render() {
+    const {
+      componentClass: Component,
+      fluid,
+      className,
+      ...props
+    } = this.props;
 
-        const clesses = classNames({
-            ['container' + (fluid ? '-fluid' : '')]:true
-        }, className);
+    const clesses = classNames(`container${fluid ? '-fluid' : ''}`, className);
 
-        return (
-            <Component
-                {...props}
-                className={clesses} >
-                {children}
-            </Component>
-        );
-    }
-});
+    return (
+      <Component
+        {...props}
+        className={clesses}
+      />
+    );
+  }
+}
+
+Grid.propTypes = propTypes;
+Grid.defaultProps = defaultProps;
 
 export default Grid;

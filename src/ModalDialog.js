@@ -1,39 +1,45 @@
-import classNames from 'classnames';
 import React from 'react';
-import ClassNameMixin from './mixins/ClassNameMixin';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import decorate, { getClassNames } from './utils/decorate';
 
-const ModalDialog = React.createClass({
-  mixins: [ClassNameMixin],
-  propTypes: {
-    /**
-     * A css class to apply to the Modal dialog DOM node.
-     */
-    dialogClassName: React.PropTypes.string,
-    dialogStyle: React.PropTypes.object
-  },
+const propTypes = {
+  prefixClass: PropTypes.string,
+  dialogClassName: PropTypes.string,
+  dialogStyle: PropTypes.object // eslint-disable-line react/forbid-prop-types
+};
 
+const defaultProps = {
+  prefixClass: 'modal'
+};
+
+class ModalDialog extends React.Component {
   render() {
 
-    let {
+    const {
       className,
-      dialogStyle,
       style,
-      ...props } = this.props;
-    let modalStyle = {
+      children,
+      dialogClassName,
+      dialogStyle,
+      prefixClass,
+      ...props
+    } = this.props;
+
+    const modalStyle = {
       display: 'block',
       ...style
     };
-    let modalClasses = classNames('modal', className);
-    let dialogClasses = classNames(
-      this.prefix('dialog'),
-      this.props.dialogClassName,
-      ...this.getClassNames()
-    );
+
+    const modalClasses = classNames(prefixClass, className);
+    const dialogClasses = classNames({
+      ...getClassNames(this.props),
+      [prefixClass]: false,
+    }, `${prefixClass}-dialog`, dialogClassName);
 
     return (
       <div
         title={null}
-        tabIndex="-1"
         role="dialog"
         style={modalStyle}
         className={modalClasses}
@@ -43,13 +49,18 @@ const ModalDialog = React.createClass({
           className={dialogClasses}
           style={dialogStyle}
         >
-          <div className={this.prefix('content')} role="document">
-            {this.props.children}
+          <div className={`${prefixClass}-content`} role="document">
+            {children}
           </div>
         </div>
       </div>
     );
   }
-});
+}
 
-export default ModalDialog;
+ModalDialog.propTypes = propTypes;
+ModalDialog.defaultProps = defaultProps;
+
+export default decorate({
+  size: true
+})(ModalDialog);

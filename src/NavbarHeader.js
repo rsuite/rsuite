@@ -1,20 +1,32 @@
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-let NavbarHeader = React.createClass({
+const propTypes = {
+  prefixClass: PropTypes.string,
+};
 
-    render() {
-        let { className, ...props } = this.props;
-        let classes = classNames({
-            'navbar-header': true
-        }, className);
+const defaultProps = {
+  prefixClass: 'navbar'
+};
 
-        return (
-            <div {...props} className={classes} />
-        );
-    }
+class NavbarHeader extends React.Component {
+  render() {
+    const {
+      className,
+      prefixClass,
+      ...props
+    } = this.props;
+    const classes = classNames(`${prefixClass}-header`, className);
 
-});
+    return (
+      <div {...props} className={classes} />
+    );
+  }
+}
+
+NavbarHeader.propTypes = propTypes;
+NavbarHeader.defaultProps = defaultProps;
 
 export default NavbarHeader;

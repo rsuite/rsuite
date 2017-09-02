@@ -1,86 +1,96 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
-import ClassNameMixin from './mixins/ClassNameMixin';
-import elementType from './prop-types/elementType';
+import elementType from 'rsuite-utils/lib/propTypes/elementType';
 import NavbarBrand from './NavbarBrand';
 import NavbarCollapse from './NavbarCollapse';
 import NavbarHeader from './NavbarHeader';
 import NavbarToggle from './NavbarToggle';
 
+const propTypes = {
+  prefixClass: PropTypes.string,
+  fixedTop: PropTypes.bool,
+  fixedBottom: PropTypes.bool,
+  inverse: PropTypes.bool,
+  componentClass: elementType,
+  onToggle: PropTypes.func
+};
 
-let Navbar = React.createClass({
-    mixins: [ClassNameMixin],
-    propTypes: {
-        classPrefix: React.PropTypes.string,
-        fixedTop: React.PropTypes.bool,
-        fixedBottom: React.PropTypes.bool,
-        inverse: React.PropTypes.bool,
-        componentClass: elementType,
-        onToggle: React.PropTypes.func
-    },
-    childContextTypes: {
-        classPrefix: React.PropTypes.string,
-        navbar: React.PropTypes.bool,
-        expanded: React.PropTypes.bool,
-        onToggle: React.PropTypes.func,
-    },
-    getDefaultProps() {
-        return {
-            classPrefix: 'navbar',
-            componentClass: 'div',
-            inverse: false
-        };
-    },
-    getInitialState: function () {
-        return {
-            expanded: false
-        };
-    },
-    getChildContext() {
-        return {
-            navbar: true,
-            classPrefix: this.props.classPrefix,
-            onToggle: this.handleToggle,
-            expanded: this.state.expanded
-        };
-    },
-    handleToggle() {
+const defaultProps = {
+  prefixClass: 'navbar',
+  componentClass: 'div',
+  fixedTop: false,
+  fixedBottom: false,
+  inverse: false,
+  onToggle: undefined
+};
 
-        let expanded = !this.state.expanded;
+const childContextTypes = {
+  prefixClass: PropTypes.string,
+  navbar: PropTypes.bool,
+  expanded: PropTypes.bool,
+  onToggle: PropTypes.func
+};
 
-        this.setState({
-            expanded: expanded
-        });
-        this.props.onToggle && this.props.onToggle();
+class Navbar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      expanded: false
+    };
+    this.handleToggle = this.handleToggle.bind(this);
+  }
+  getChildContext() {
+    return {
+      navbar: true,
+      prefixClass: this.props.prefixClass,
+      onToggle: this.handleToggle,
+      expanded: this.state.expanded
+    };
+  }
 
-    },
-    render() {
-        const {
-            inverse,
-            fixedTop,
-            fixedBottom,
-            componentClass: Component,
-            children,
-            className,
-            ...props
-        } = this.props;
+  handleToggle() {
+    const { onToggle } = this.props;
+    this.setState({
+      expanded: !this.state.expanded
+    });
+    onToggle && onToggle();
+  }
 
-        const classes = classNames(className, {
-            'navbar': true,
-            [this.prefix('default')]: !inverse,
-            [this.prefix('inverse')]: inverse,
-            [this.prefix('fixed-top')]: fixedTop,
-            [this.prefix('fixed-Bottom')]: fixedBottom
-        });
+  render() {
+    const {
+      inverse,
+      fixedTop,
+      fixedBottom,
+      className,
+      prefixClass,
+      onToggle,
+      componentClass: Component,
+      ...props
+    } = this.props;
 
-        return (
-            <Component {...props} className={classes} role='navigation'>
-                { children }
-            </Component>
-        );
-    }
-});
+    const classes = classNames({
+      [`${prefixClass}-default`]: !inverse,
+      [`${prefixClass}-inverse`]: inverse,
+      [`${prefixClass}-fixed-top`]: fixedTop,
+      [`${prefixClass}-fixed-bottom`]: fixedBottom
+    }, prefixClass, className);
+
+    return (
+      <Component
+        {...props}
+        className={classes}
+        role="navigation"
+      />
+    );
+  }
+
+}
+
+Navbar.propTypes = propTypes;
+Navbar.defaultProps = defaultProps;
+Navbar.childContextTypes = childContextTypes;
+
 
 Navbar.Brand = NavbarBrand;
 Navbar.Header = NavbarHeader;

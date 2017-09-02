@@ -1,22 +1,28 @@
-import classNames from 'classnames';
 import React from 'react';
-import ClassNameMixin from './mixins/ClassNameMixin';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
-const ModalBody = React.createClass({
-    mixins: [ClassNameMixin],
-    getDefaultProps() {
-        return {
-            classPrefix: 'modal'
-        };
-    },
-    render() {
-        let classes = classNames(this.prefix('body'), this.props.className);
-        return (
-            <div {...this.props} className={classes} >
-                {this.props.children}
-            </div>
-        );
-    }
-});
+const propTypes = {
+  prefixClass: PropTypes.string
+};
+
+const defaultProps = {
+  prefixClass: 'modal'
+};
+
+class ModalBody extends React.Component {
+  render() {
+    const { prefixClass, className, ...props } = this.props;
+    let classes = classNames(`${prefixClass}-body`, className);
+    return (
+      <div {...props} className={classes} />
+    );
+  }
+}
+
+ModalBody.propTypes = propTypes;
+ModalBody.defaultProps = defaultProps;
+ModalBody.displayName = 'ModalBody';
+
 
 export default ModalBody;

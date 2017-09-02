@@ -1,100 +1,111 @@
-import classNames from 'classnames';
 import React from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
-import createChainedFunction from './utils/createChainedFunction';
+const propTypes = {
+  id: React.PropTypes.string,
+  name: React.PropTypes.string,
+  inline: React.PropTypes.bool,
+  title: React.PropTypes.string,
+  disabled: React.PropTypes.bool,
+  checked: React.PropTypes.bool,
+  defaultChecked: PropTypes.bool,
+  onChange: React.PropTypes.func,
+  inputRef: PropTypes.func,
+  value: PropTypes.any,   // eslint-disable-line react/forbid-prop-types
+};
 
-const Radio = React.createClass({
-    propTypes: {
-        id: React.PropTypes.string,
-        name: React.PropTypes.string,
-        inline: React.PropTypes.bool,
-        title: React.PropTypes.string,
-        disabled: React.PropTypes.bool,
-        checked: React.PropTypes.bool,
-        onChange: React.PropTypes.func,
-        value: React.PropTypes.any
-    },
-    contextTypes: {
-        formGroup: React.PropTypes.object
-    },
-    getInitialState() {
-        return {
-            checked: this.props.checked
-        };
-    },
-    componentWillReceiveProps(nextProps) {
+class Radio extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      checked: props.checked || props.defaultChecked
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+  componentWillReceiveProps(nextProps) {
 
-        if (nextProps.checked !== this.props.checked) {
-            this.setState({
-                checked: nextProps.checked
-            });
-        }
-    },
-    getFormGroup() {
-        return this.context.formGroup || {};
-    },
-    handleChange(event) {
-
-        if (this.props.disabled) {
-            return;
-        }
-
-        this.setState({
-            checked: event.target.checked
-        });
-
-        const { value } = this.props;
-        const { onChange } = this.props;
-        const { onChange: onFormGroupChange } = this.getFormGroup();
-
-        onChange && onChange(value);
-        onFormGroupChange && onFormGroupChange(value);
-
-    },
-    render() {
-
-        const {
-            inline,
-            title,
-            name,
-            className,
-            children,
-            onChange,
-            disabled,
-            ...props,
-        } = this.props;
-
-        const labelClasses = classNames({
-            'radio-inline': inline
-        }, className);
-
-        const radioClasses = classNames({
-            'radio': true,
-            'disabled': disabled
-        });
-
-        const input = (
-            <span className={classNames({
-                checked: this.state.checked
-            })}>
-                <input
-                    type='radio'
-                    name={name}
-                    disabled={disabled}
-                    onChange={this.handleChange}
-                />
-            </span>
-        );
-
-        return (
-            <label className={labelClasses} {...props} >
-                <div className={radioClasses} role='radio'  >
-                    {input}
-                </div>
-                {title || children}
-            </label>
-        );
+    if (nextProps.checked !== this.props.checked) {
+      this.setState({
+        checked: nextProps.checked
+      });
     }
-});
+  }
+
+  updateCheckedState(checked, callback) {
+    this.setState({ checked }, callback);
+  }
+
+  handleChange(event) {
+    const { value, disabled, onChange } = this.props;
+    const target = event.target;
+
+    if (disabled) {
+      return;
+    }
+
+    this.setState({ checked: target.checked }, () => {
+      onChange && onChange(value || target.checked, event);
+    });
+
+  }
+  render() {
+
+    const {
+      inline,
+      title,
+      name,
+      className,
+      children,
+      onChange,
+      disabled,
+      style,
+      inputRef,
+      ...props,
+      } = this.props;
+
+    const { checked } = this.state;
+    const classes = classNames({
+      'radio-inline': inline
+    }, className);
+
+    const radioClasses = classNames('radio', {
+      disabled
+    });
+
+    const input = (
+      <span className={classNames('radio-wrapper', { checked })}>
+        <input
+          {...props}
+          type="radio"
+          ref={inputRef}
+          name={name}
+          disabled={disabled}
+          onChange={this.handleChange}
+        />
+      </span>
+    );
+
+    return (
+      <div
+        className={classes}
+        style={style}
+      >
+        <div
+          className={radioClasses}
+          role="button"
+        >
+          <label title={title}>
+            {input}
+            {children}
+          </label>
+        </div>
+      </div>
+    );
+  }
+
+}
+
+Radio.propTypes = propTypes;
 
 export default Radio;

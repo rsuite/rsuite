@@ -1,103 +1,136 @@
 import React from 'react';
-import ReactTestUtils from 'react/lib/ReactTestUtils';
 import { findDOMNode } from 'react-dom';
-import Checkbox from '../src/Checkbox.js';
+import ReactTestUtils from 'react-dom/test-utils';
+
+import Checkbox from '../src/Checkbox';
+
 describe('Checkbox', () => {
-    it('Should uncheck by default', () => {
-        let instance = ReactTestUtils.renderIntoDocument(
-            <Checkbox>
-                Checkbox
-            </Checkbox>
-        );
-        assert.equal(findDOMNode(instance).querySelector('input').checked, false);
-    });
+  it('Should render a checkbox', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Checkbox>Test</Checkbox>
+    );
+    assert.equal(findDOMNode(instance).querySelectorAll('input[type="checkbox"]').length, 1);
+  });
 
-    it('Should setup check state depending on checked props', () => {
-        let instance1 = ReactTestUtils.renderIntoDocument(
-            <Checkbox checked>
-                Checkbox
-            </Checkbox>
-        );
-        let instance2 = ReactTestUtils.renderIntoDocument(
-            <Checkbox checked={false}>
-                Checkbox
-            </Checkbox>
-        );
-        assert.equal(findDOMNode(instance1).querySelector('input').checked, true);
-        assert.equal(findDOMNode(instance2).querySelector('input').checked, false);
-    });
+  it('Should add title', () => {
+    let title = 'Text';
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Checkbox title={title}>Test</Checkbox>
+    );
+    assert.equal(findDOMNode(instance).querySelector('label').title, title);
+  });
 
-    it('Should setup check state depending on value props', () => {
+  it('Should have checkbox-inline class', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Checkbox inline>Test</Checkbox>
+    );
+    assert.ok(findDOMNode(instance).className.match(/\bcheckbox-inline\b/));
+  });
 
-        let instance1 = ReactTestUtils.renderIntoDocument(
-            <Checkbox value>
-                Checkbox
-            </Checkbox>
-        );
+  it('Should be disabled', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Checkbox disabled>Test</Checkbox>
+    );
+    assert.ok(findDOMNode(instance).querySelector('input').disabled);
+    assert.ok(findDOMNode(instance).querySelector('.checker').className.match(/\bdisabled\b/));
+  });
 
-        let instance2 = ReactTestUtils.renderIntoDocument(
-            <Checkbox value={false}>
-                Checkbox
-            </Checkbox>
-        );
+  it('Should be checked', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Checkbox checked>Test</Checkbox>
+    );
+    assert.ok(findDOMNode(instance).querySelector('.checked'));
+  });
 
-        assert.equal(findDOMNode(instance1).querySelector('input').checked, true);
-        assert.equal(findDOMNode(instance2).querySelector('input').checked, false);
-    });
+  it('Should be defaultChecked', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Checkbox defaultChecked>Test</Checkbox>
+    );
+    assert.ok(findDOMNode(instance).querySelector('.checked'));
+  });
 
-    it('Should ignore value props if checked props has been given', () => {
-        let instance1 = ReactTestUtils.renderIntoDocument(
-            <Checkbox checked value={false}>
-                Checkbox
-            </Checkbox>
-        );
-        let instance2 = ReactTestUtils.renderIntoDocument(
-            <Checkbox checked={false} value>
-                Checkbox
-            </Checkbox>
-        );
-        assert.equal(findDOMNode(instance1).querySelector('input').checked, true);
-        assert.equal(findDOMNode(instance2).querySelector('input').checked, false);
-    });
 
-    it('Should call onChange when checkbox changed', () => {
-        let flag = false;
-        let instance = ReactTestUtils.renderIntoDocument(
-            <Checkbox onChange={() => flag = true}>
-                Checkbox
-            </Checkbox>
-        );
-        let inputField = findDOMNode(instance).querySelector('input');
-        ReactTestUtils.Simulate.change(inputField);
-        assert.equal(flag, true);
-    });
+  it('Should have a `Test` value', () => {
+    let value = 'Test';
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Checkbox defaultValue={value}>Test</Checkbox>
+    );
+    assert.equal(findDOMNode(instance).querySelector('input').value, value);
+  });
 
-    it('Should pass value as an argument on onChange', () => {
-        let flag = false;
-        let instance = ReactTestUtils.renderIntoDocument(
-            <Checkbox onChange={(v) => flag = v} value>
-                Checkbox
-            </Checkbox>
-        );
-        let inputField = findDOMNode(instance).querySelector('input');
-        ReactTestUtils.Simulate.change(inputField);
-        assert.equal(flag, instance.state.checked);
-    });
+  it('Should support inputRef', () => {
+    let input;
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Checkbox inputRef={ref => input = ref} >Test</Checkbox>
+    );
+    assert.ok(input);
+  });
 
-    it('Should change the state at onChange', () => {
+  it('Should call onChange callback', (done) => {
+    let value = 'Test';
+    let doneOp = (data) => {
+      if (data === value) {
+        done();
+      }
+    };
 
-        let instance = ReactTestUtils.renderIntoDocument(
-            <Checkbox> Checkbox </Checkbox>
-        );
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Checkbox onChange={doneOp} value={value}>
+        Title
+      </Checkbox>
+    );
+    ReactTestUtils.Simulate.change(findDOMNode(instance).querySelector('input'));
+  });
 
-        let inputField = findDOMNode(instance).querySelector('input');
-        ReactTestUtils.Simulate.change(inputField);
-        assert.equal(true, instance.state.checked);
 
-        ReactTestUtils.Simulate.change(inputField);
-        assert.equal(false, instance.state.checked);
+  it('Should be checked with change', (done) => {
+    let doneOp = (checked) => {
+      if (checked) {
+        done();
+      }
+    };
 
-    });
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Checkbox onChange={doneOp} >
+        Title
+      </Checkbox>
+    );
+
+    ReactTestUtils.Simulate.change(findDOMNode(instance).querySelector('input'));
+  });
+
+
+  it('Should be unchecked with change', (done) => {
+    let doneOp = (checked) => {
+      if (!checked) {
+        done();
+      }
+    };
+
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Checkbox onChange={doneOp} checked>
+        Title
+      </Checkbox>
+    );
+
+    ReactTestUtils.Simulate.change(findDOMNode(instance).querySelector('input'));
+  });
+
+
+  it('Should have a custom className', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Checkbox className="custom" />
+    );
+    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
+  });
+
+  it('Should have a custom style', () => {
+    const fontSize = '12px';
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Checkbox style={{ fontSize }} />
+    );
+    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
+  });
+
 
 });
-

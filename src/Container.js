@@ -1,29 +1,29 @@
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-const Container = React.createClass({
-    propTypes: {
-        page: React.PropTypes.bool
-    },
-    childContextTypes: {
-        page: React.PropTypes.bool
-    },
-    getChildContext() {
-        return {
-            page: true
-        };
-    },
-    render() {
-        const { className, page, ...props } = this.props;
-        const activeClass = page ? 'page-container' : 'container';
-        const classes = classNames(activeClass, className);
+const propTypes = {
+  page: PropTypes.bool
+};
 
-        return (
-            <div {...props} className={classes}  />
-        );
-    }
+const defaultProps = {
+  page: false
+};
 
-});
+class Container extends React.Component {
+  render() {
+    const { className, page, ...props } = this.props;
+    const pagePrefix = page ? 'page-' : '';
+    const classes = classNames(`${pagePrefix}container`, className);
+
+    return (
+      <div {...props} className={classes} />
+    );
+  }
+}
+
+Container.propTypes = propTypes;
+Container.defaultProps = defaultProps;
 
 export default Container;

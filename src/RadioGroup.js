@@ -1,97 +1,85 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
+import values from 'lodash/values';
 import classNames from 'classnames';
-import Radio from './Radio';
-import _ from 'lodash';
+import isNullOrUndefined from './utils/isNullOrUndefined';
+import ReactChildren from './utils/ReactChildren';
 
-const RadioGroup = React.createClass({
+const propTypes = {
+  name: PropTypes.string,
+  inline: PropTypes.bool,
+  onChange: PropTypes.func,
+  value: PropTypes.any,       // eslint-disable-line react/forbid-prop-types
+  defaultValue: PropTypes.any // eslint-disable-line react/forbid-prop-types
+};
 
-  propTypes: {
-    name: React.PropTypes.string,
-    inline: React.PropTypes.bool,
-    onChange: React.PropTypes.func,
-    value: React.PropTypes.any,
-    defaultValue: React.PropTypes.any
-  },
-  contextTypes: {
-    formGroup: React.PropTypes.object
-  },
-  handleChange(event) {
+class RadioGroup extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.radios = {};
+    this.state = {
+      value: props.defaultValue
+    };
+  }
 
-    if (event.target.type !== 'radio') {
-      return;
-    }
+  handleChange(value, event) {
 
-    const { children } = this.props;
-    const target = event.target;
-    const refs = this.refs;
 
-    for (let key in refs) {
-      let ref = ReactDOM.findDOMNode(refs[key]);
-      if (target !== ref) {
-        refs[key].setState({
-          checked: false
-        });
-      }
-    }
-  },
-  getFormGroup() {
-    return this.context.formGroup || {};
-  },
-  handleRadioChange(value) {
     const { onChange } = this.props;
-    const { onChange: onFormGroupChange } = this.getFormGroup();
+    const radios = values(this.radios);
+    const shouldChange = (should) => {
+      if (should && onChange) {
+        onChange(value, event);
+      }
+    };
 
-    onChange && onChange(value);
-    onFormGroupChange && onFormGroupChange(value);
-  },
-  getValue() {
-    const { value, defaultValue } = this.props;
-    return this.getFormGroup().value || value || defaultValue;
-  },
+    radios.forEach((radio, index) => {
+      radio.updateCheckedState(radio.props.value === value, () => (
+        shouldChange((index + 1) === radios.length)
+      ));
+    });
+
+  }
+
   render() {
 
     const {
-            className,
+      className,
       inline,
       name,
-      children
-        } = this.props;
+      value,
+      children,
+      ...props
+    } = this.props;
 
     const clesses = classNames({
       'radio-list': true
     }, className);
 
-    const value = this.getValue();
-    const items = React.Children.map(children, (child, index) => {
-
-      let checked = child.props.checked;
-
-      if (!_.isNull(value) && !_.isUndefined(value)) {
-        checked = _.isEqual(value, child.props.value);
-      }
-
-      return React.cloneElement(child, {
-        key: index,
-        ref: 'radio_' + index,
-        inline: inline,
-        name: name,
-        checked: checked,
-        onChange: this.handleRadioChange
-      }, child.props.children);
-
-    });
-
+    const nextValue = value || this.state.value;
+    const items = ReactChildren.mapCloneElement(children, (child, index) => ({
+      inline,
+      name,
+      checked: isNullOrUndefined(nextValue) ?
+        child.props.checked : nextValue === child.props.value,
+      onChange: this.handleChange,
+      ref: (ref) => {
+        this.radios[index] = ref;
+      },
+    }));
     return (
       <div
-        onClick={this.handleChange}
+        {...props}
         className={clesses}
-        role="radio-list"
+        role="button"
       >
         {items}
       </div>
     );
   }
-});
+}
+
+RadioGroup.propTypes = propTypes;
 
 export default RadioGroup;

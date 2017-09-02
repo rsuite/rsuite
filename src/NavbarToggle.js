@@ -1,61 +1,65 @@
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import React from 'react';
-
 import createChainedFunction from './utils/createChainedFunction';
 
-const NavbarToggle = React.createClass({
+const propTypes = {
+  prefixClass: PropTypes.string,
+  onClick: PropTypes.func
+};
 
-    propTypes: {
-        onClick: React.PropTypes.func,
-        children: React.PropTypes.node
-    },
-    contextTypes: {
-        onToggle: React.PropTypes.func,
-        expanded: React.PropTypes.bool,
-    },
+const defaultProps = {
+  prefixClass: 'navbar',
+  onClick: undefined
+};
 
-    render() {
+const contextTypes = {
+  onToggle: PropTypes.func,
+  expanded: PropTypes.bool,
+};
 
-        const {
-            onClick,
-            className,
-            children,
-            ...props
-        } = this.props;
+class NavbarToggle extends React.Component {
+  render() {
 
-        const {
-            onToggle,
-            expanded,
-        } = this.context;
+    const {
+      onClick,
+      className,
+      children,
+      prefixClass,
+      ...props
+    } = this.props;
 
-        const buttonProps = {
-            ...props,
-            type: 'button',
-            onClick: createChainedFunction(onClick, onToggle),
-            className: classNames(
-                'navbar-toggle',
-                !expanded && 'collapsed',
-                className
-            )
-        };
+    const {
+      onToggle,
+      expanded,
+    } = this.context;
 
-        if (children) {
-            return (
-                <button {...buttonProps}>
-                    {children}
-                </button>
-            );
-        }
+    const classes = classNames(`${prefixClass}-toggle`, {
+      collapsed: !expanded
+    }, className);
 
-        return (
-            <button {...buttonProps}>
-                <span className="sr-only">Toggle navigation</span>
-                <span className="icon-bar" />
-                <span className="icon-bar" />
-                <span className="icon-bar" />
-            </button>
-        );
-    }
-});
+    return (
+      <button
+        {...props}
+        type="button"
+        onClick={createChainedFunction(onClick, onToggle)}
+        className={classes}
+      >
+        {children || (
+          <span>
+            <span className="sr-only">Toggle navigation</span>
+            <span className="icon-bar" />
+            <span className="icon-bar" />
+            <span className="icon-bar" />
+          </span>
+        )}
+      </button>
+    );
+  }
+}
+
+NavbarToggle.propTypes = propTypes;
+NavbarToggle.defaultProps = defaultProps;
+NavbarToggle.contextTypes = contextTypes;
 
 export default NavbarToggle;

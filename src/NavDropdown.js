@@ -1,28 +1,39 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Dropdown from './Dropdown';
 
-const NavDropdown = React.createClass({
+const propTypes = {
+  active: PropTypes.bool,
+  disabled: PropTypes.bool
+};
 
+class NavDropdown extends React.Component {
   getMountNode() {
     return this.mountNode;
-  },
-  render: function () {
-    const { className, ...props } = this.props;
-    const classes = classNames({
-      'nav-dropdown': true
+  }
+  render() {
+    const { className, active, disabled, ...props } = this.props;
+    const classes = classNames('nav-dropdown', {
+      active,
+      disabled
     }, className);
 
     return (
       <Dropdown
         {...props}
-        ref={ref => this.mountNode = ref}
         componentClass="li"
         useAnchor
         className={classes}
+        disabled={disabled}
+        ref={(ref) => {
+          this.mountNode = ref;
+        }}
       />
     );
   }
-});
+}
+
+NavDropdown.propTypes = propTypes;
 
 export default NavDropdown;

@@ -1,48 +1,47 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+const propTypes = {
+  htmlFor: PropTypes.string,
+  srOnly: PropTypes.bool
+};
 
-const ControlLabel = React.createClass({
-    propTypes: {
-        htmlFor: React.PropTypes.string,
-        srOnly: React.PropTypes.bool,
-    },
-    contextTypes: {
-        formGroup: React.PropTypes.object,
-    },
-    getDefaultProps() {
-        return {
-            srOnly: false
-        };
-    }, render() {
-        const formGroup = this.context.formGroup;
-        const controlId = formGroup && formGroup.controlId;
+const defaultProps = {
+  htmlFor: undefined,
+  srOnly: false
+};
 
-        const {
-            htmlFor = controlId,
-            srOnly,
-            className,
-            ...props,
-        } = this.props;
+const contextTypes = {
+  formGroup: PropTypes.object
+};
 
-        if(htmlFor === null ){
-             throw new Error('`controlId` is ignored on `<ControlLabel>` when `htmlFor` is specified.');
-        }
+class ControlLabel extends React.Component {
+  render() {
+    const { formGroup = {} } = this.context;
+    const {
+      htmlFor = formGroup.controlId,
+      srOnly,
+      className,
+      ...props,
+    } = this.props;
 
+    const classes = classNames({
+      'sr-only': srOnly,
+    }, 'control-label', className);
 
-        const classes = classNames({
-            'control-label':true,
-            'sr-only': srOnly,
-        }, className);
-
-        return (
-            <label
-                {...props}
-                htmlFor={htmlFor}
-                className={classes}
-             />
-        );
+    return (
+      <label
+        {...props}
+        htmlFor={htmlFor}
+        className={classes}
+      />
+    );
   }
-});
+}
+
+ControlLabel.propTypes = propTypes;
+ControlLabel.defaultProps = defaultProps;
+ControlLabel.contextTypes = contextTypes;
 
 export default ControlLabel;

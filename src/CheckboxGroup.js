@@ -1,75 +1,76 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import values from 'lodash/values';
 import classNames from 'classnames';
-import Checkbox from './Checkbox';
-import _ from 'lodash';
+import ReactChildren from './utils/ReactChildren';
 
-const CheckboxGroup = React.createClass({
-    propTypes: {
-        name: React.PropTypes.string,
-        inline: React.PropTypes.bool,
-        value: React.PropTypes.array,
-        defaultValue: React.PropTypes.array,
-        onChange: React.PropTypes.func
-    },
-    contextTypes: {
-        formGroup: React.PropTypes.object
-    },
-    getFormGroup() {
-        return this.context.formGroup || {};
-    },
-    handleChange(checked) {
+const propTypes = {
+  name: PropTypes.string,
+  inline: PropTypes.bool,
+  value: PropTypes.array,        // eslint-disable-line react/forbid-prop-types
+  defaultValue: PropTypes.array, // eslint-disable-line react/forbid-prop-types
+  onChange: PropTypes.func
+};
 
-        const refs = this.refs;
-        const value = [];
-        const { onChange } = this.props;
-        const { onChange: onFormGroupChange } = this.getFormGroup();
+class CheckboxGroup extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.checkboxs = {};
+    this.state = {
+      value: props.defaultValue
+    };
+  }
 
-        for (let key in refs) {
-            if (refs[key].state.checked) {
-                value.push(refs[key].props.value);
-            }
-        }
-        onChange && onChange(value);
-        onFormGroupChange && onFormGroupChange(value);
+  handleChange() {
 
-    },
-    render() {
+    const value = [];
+    const { onChange } = this.props;
 
-        const {
-            className,
-            inline,
-            name,
-            value,
-            defaultValue,
-            children
-        } = this.props;
+    values(this.checkboxs).forEach((checkbox) => {
+      if (checkbox.state.checked) {
+        value.push(checkbox.props.value);
+      }
+    });
 
-        const nextValue = Object.assign([], value, defaultValue);
-        const clesses = classNames({
-            'checkbox-list': true
-        }, className);
+    onChange && onChange(value);
+  }
+  render() {
+    const {
+      className,
+      inline,
+      name,
+      value,
+      children,
+      ...props
+    } = this.props;
 
-        const items = React.Children.map(children, (child, index) => {
-            return React.cloneElement(child, {
-                key: index,
-                ref: 'checkbox_' + index,
-                inline: inline,
-                checked: nextValue.some(i => _.isEqual(i, child.props.value)),
-                onChange: this.handleChange,
-                name: name
-            }, child.props.children);
-        });
+    const nextValue = Object.assign([], value, this.state.value);
+    const clesses = classNames({
+      'checkbox-list': true
+    }, className);
 
+    const items = ReactChildren.mapCloneElement(children, (child, index) => ({
+      name,
+      inline,
+      ref: (ref) => {
+        this.checkboxs[index] = ref;
+      },
+      checked: nextValue.some(i => i === child.props.value),
+      onChange: this.handleChange
+    }));
+    return (
+      <div
+        {...props}
+        className={clesses}
+        role="group"
+      >
+        {items}
+      </div>
+    );
+  }
+}
 
-        return (
-            <div
-                className={clesses}
-                role="checkbox-list"
-            >
-                {items}
-            </div>
-        );
-    }
-});
+CheckboxGroup.propTypes = propTypes;
 
 export default CheckboxGroup;

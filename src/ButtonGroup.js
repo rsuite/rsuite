@@ -1,73 +1,48 @@
 import React from 'react';
-import {findDOMNode} from 'react-dom';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import ClassNameMixin from './mixins/ClassNameMixin';
-import createChainedFunction from './utils/createChainedFunction';
+import decorate, { getClassNames } from './utils/decorate';
 
-const ButtonGroup = React.createClass({
-    mixins: [ClassNameMixin],
-    propTypes: {
-        type: React.PropTypes.oneOf(['radio', 'checkbox']),
-        classPrefix: React.PropTypes.string,
-        vertical: React.PropTypes.bool,
-        justified: React.PropTypes.bool,
-        block: React.PropTypes.bool,
-        onSelect: React.PropTypes.func,
-        onClick: React.PropTypes.func
-    },
-    getDefaultProps() {
-        return {
-            block: false,
-            justified: false,
-            vertical: false,
-            classPrefix: 'btn-group'
-        };
-    },
-    handleClick(index) {
+const propTypes = {
+  prefixClass: PropTypes.string,
+  vertical: PropTypes.bool,
+  justified: PropTypes.bool,
+  block: PropTypes.bool
+};
 
-        const { type, onSelect } = this.props;
-        const activeButton = this.refs[`btn_${index}`];
+const defaultProps = {
+  block: false,
+  justified: false,
+  vertical: false,
+  prefixClass: 'btn-group',
+  shape: 'default'
+};
 
-        if (type === 'checkbox') {
-            activeButton.toggleClass('active');
-            onSelect && onSelect(activeButton);
-        } else if (type === 'radio') {
-            for (let key in this.refs) {
-                let toggle = this.refs[key] === activeButton ? 'addClass' : 'removeClass';
-                this.refs[key][toggle]('active');
-            }
-            onSelect && onSelect(activeButton);
-        }
+class ButtonGroup extends React.Component {
 
-    },
-    render() {
+  render() {
+    const { className, vertical, block, justified, prefixClass, ...props } = this.props;
+    const classes = classNames({
+      ...getClassNames(this.props),
+      'btn-block': block,
+      [`${prefixClass}-vertical`]: vertical,
+      [`${prefixClass}-justified`]: justified
+    }, className);
 
-        const { children, className, vertical, block, justified } = this.props;
-        const classes = classNames({
-            'btn-group': true,
-            'btn-block': block,
-            [this.prefix('vertical')]: vertical,
-            [this.prefix('justified')]: justified
-        }, ...this.getClassNames(), className);
+    return (
+      <div
+        role="group"
+        {...props}
+        className={classes}
+      />
+    );
+  }
+}
 
+ButtonGroup.propTypes = propTypes;
+ButtonGroup.defaultProps = defaultProps;
+ButtonGroup.displayName = 'ButtonGroup';
 
-        const items = React.Children.map(children, (item, index) => {
-            return React.cloneElement(item, {
-                key: index,
-                ref: 'btn_' + index,
-                onClick: createChainedFunction(() => this.handleClick(index), item.props.onClick)
-            }, item.props.children);
-        });
-
-        return (
-            <div
-                {...this.props}
-                className={classes}
-                >
-                {items}
-            </div>
-        );
-    }
-});
-
-export default ButtonGroup;
+export default decorate({
+  size: true
+})(ButtonGroup);

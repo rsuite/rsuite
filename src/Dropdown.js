@@ -1,183 +1,209 @@
 import React from 'react';
 import classNames from 'classnames';
-import _ from 'lodash';
-import ClassNameMixin from './mixins/ClassNameMixin';
+import isEqual from 'lodash/isEqual';
+import isUndefined from 'lodash/isUndefined';
+import omit from 'lodash/omit';
+import values from 'lodash/values';
+import PropTypes from 'prop-types';
+import { elementType } from 'rsuite-utils/lib/propTypes';
+import { RootCloseWrapper } from 'rsuite-utils/lib/Overlay';
 
+import ReactChildren from './utils/ReactChildren';
 import ButtonGroup from './ButtonGroup';
 import DropdownToggle from './DropdownToggle';
 import DropdownMenu from './DropdownMenu';
 import DropdownMenuItem from './DropdownMenuItem';
-
-import elementType from './prop-types/elementType';
-import RootCloseWrapper from './fixtures/RootCloseWrapper';
-
-const Dropdown = React.createClass({
-    mixins: [ClassNameMixin],
-    propTypes: {
-        active: React.PropTypes.bool,
-        disabled: React.PropTypes.bool,
-        block: React.PropTypes.bool,
-        dropup: React.PropTypes.bool,
-        role: React.PropTypes.string,
-        onClose: React.PropTypes.func,
-        onOpen: React.PropTypes.func,
-        onToggle: React.PropTypes.func,
-        onSelect: React.PropTypes.func,
-        componentClass: elementType,
-        /*
-         * If 'select' is true , title will be updated after the 'onSelect' trigger .
-         */
-        select: React.PropTypes.bool,
-        activeKey: React.PropTypes.any,
-        bothEnds: React.PropTypes.bool,
-        menuStyle: React.PropTypes.object,
-        title: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.element
-        ]),
-        autoClose: React.PropTypes.bool
-    },
-    getDefaultProps() {
-        return {
-            componentClass: ButtonGroup,
-            active: false,
-            disabled: false,
-            block: false,
-            autoClose: true
-        };
-    },
-    getInitialState: function () {
-        return {
-            title: null,
-            activeKey: this.props.activeKey,
-            open: false
-        };
-    },
-    toggle(isOpen) {
-        let open = isOpen || !this.state.open;
-        let handleToggle = open ? this.props.onOpen : this.props.onClose;
+import decorate, { STATE, STYLES, getClassNames } from './utils/decorate';
 
 
-        this.setState({
-            open: open
-        }, function () {
-            handleToggle && handleToggle();
-        });
+const propTypes = {
+  ...DropdownToggle.propTypes,
+  disabled: PropTypes.bool,
+  block: PropTypes.bool,
+  dropup: PropTypes.bool,
+  /*
+   * If 'select' is true , title will be updated after the 'onSelect' trigger .
+   */
+  select: PropTypes.bool,
+  bothEnds: PropTypes.bool,
+  onClose: PropTypes.func,
+  onOpen: PropTypes.func,
+  onToggle: PropTypes.func,
+  onSelect: PropTypes.func,
+  componentClass: elementType,
+  activeKey: PropTypes.any,    // eslint-disable-line react/forbid-prop-types
+  menuStyle: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  autoClose: PropTypes.bool
+};
 
-        this.props.onToggle && this.props.onToggle();
-    },
-    handleClick() {
+const defaultProps = {
+  componentClass: ButtonGroup,
+  autoClose: true
+};
 
-        if (this.props.disabled) {
-            return;
-        }
-        this.toggle();
-    },
-    handleSelect(eventKey, props, event) {
+class Dropdown extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: null,
+      activeKey: this.props.activeKey,
+      open: false
+    };
+    this.toggle = this.toggle.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
 
-        this.props.select && this.setState({
-            title: props.children,
-            activeKey: props.eventKey
-        });
+  }
 
-        this.props.onSelect && this.props.onSelect(eventKey, props, event);
-    },
-    update(props) {
-
-        const { children, select, activeKey } = props || this.props;
-        const state = {
-            activeKey
-        };
-
-        let title;
-        if (select) {
-            React.Children.map(children, (item, index) => {
-                if (activeKey === item.props.eventKey || _.isEqual(activeKey, item.props.eventKey) ) {
-                    title = item.props.children;
-                } else if (item.props.active) {
-                    title = item.props.children;
-                }
-            });
-
-            title && (state.title = title);
-        }
-
-        this.setState(state);
-
-    },
-    componentWillMount() {
-        this.update();
-    },
-    componentWillReceiveProps(nextProps) {
-        this.update(nextProps);
-    },
-    render() {
-
-        let {
-            autoClose,
-            title,
-            children,
-            className,
-            activeKey,
-            dropup,
-            bothEnds,
-            menuStyle,
-            componentClass: Component,
-            ...props
-        } = this.props;
-
-
-        let Toggle = (
-            <DropdownToggle
-                {...props}
-                onClick={this.handleClick}
-            >
-                {this.state.title || title}
-            </DropdownToggle>
-        );
-
-        let Menu = (
-            <DropdownMenu
-                onClose={() => {
-                    autoClose && this.toggle();
-                }}
-                onSelect={this.handleSelect}
-                activeKey={this.state.activeKey}
-                style={menuStyle}
-                ref='menu'
-            >
-                {children}
-            </DropdownMenu>
-        );
-
-        if (this.state.open) {
-            Menu = (
-                <RootCloseWrapper onRootClose={this.toggle}>
-                    {Menu}
-                </RootCloseWrapper>
-            );
-        }
-
-        const classes = classNames({
-            'dropdown': !dropup,
-            'dropup': dropup,
-            'both-ends': bothEnds,
-            'open': this.state.open
-        }, className);
-
-        return (
-            <Component
-                {...props}
-                className={classes}
-                role="dropdown"
-            >
-                {Toggle}
-                {Menu}
-            </Component>
-        );
+  componentWillMount() {
+    this.update();
+  }
+  componentWillReceiveProps(nextProps) {
+    if (isEqual(nextProps, this.props)) {
+      this.update(nextProps);
     }
-});
+  }
 
+  toggle(isOpen) {
+    const { onOpen, onClose, onToggle } = this.props;
+    let open = isUndefined(isOpen) ? !this.state.open : isOpen;
+    let handleToggle = open ? onOpen : onClose;
+
+    this.setState({ open }, () => {
+      handleToggle && handleToggle();
+    });
+
+    onToggle && onToggle();
+
+  }
+
+  update(props) {
+
+    const { children, select, activeKey } = props || this.props;
+    let title;
+
+    if (select) {
+      const activeItem = ReactChildren.find(children, item => (
+        isEqual(activeKey, item.props.eventKey) || item.props.active
+      ));
+      if (activeItem) {
+        title = activeItem.props.children;
+      }
+    }
+
+    this.setState({
+      activeKey,
+      title
+    });
+  }
+
+  handleClick() {
+    if (!this.props.disabled) {
+      this.toggle();
+    }
+  }
+
+  handleSelect(eventKey, props, event) {
+
+    const { select, onSelect, onClose, autoClose } = this.props;
+
+    if (select) {
+      this.setState({
+        title: props.children,
+        activeKey: props.eventKey
+      });
+    }
+
+    onSelect && onSelect(eventKey, props, event);
+    if (autoClose) {
+      this.toggle(false);
+      onClose && onClose();
+    }
+
+  }
+
+  render() {
+
+    let {
+      title,
+      children,
+      className,
+      activeKey,
+      dropup,
+      bothEnds,
+      menuStyle,
+      block,
+      useAnchor,
+      disabled,
+      componentClass: Component,
+      noCaret,
+      ...props
+    } = this.props;
+
+    const Toggle = (
+      <DropdownToggle
+        block={block}
+        useAnchor={useAnchor}
+        disabled={disabled}
+        noCaret={noCaret}
+        className={classNames(getClassNames(props, 'btn'))}
+        onClick={this.handleClick}
+      >
+        {this.state.title || title}
+      </DropdownToggle>
+    );
+
+    let Menu = (
+      <DropdownMenu
+        onSelect={this.handleSelect}
+        activeKey={this.state.activeKey}
+        style={menuStyle}
+      >
+        {children}
+      </DropdownMenu>
+    );
+
+    if (this.state.open) {
+      Menu = (
+        <RootCloseWrapper onRootClose={this.toggle}>
+          {Menu}
+        </RootCloseWrapper>
+      );
+    }
+    const classes = classNames({
+      dropup,
+      dropdown: !dropup,
+      open: this.state.open,
+      'both-ends': bothEnds
+    }, className);
+
+    const elementProps = omit(props, ['select', 'onClose', 'onOpen', 'onToggle', 'autoClose']);
+    if (Component.displayName === 'ButtonGroup') {
+      elementProps.block = block;
+    }
+
+    return (
+      <Component
+        {...elementProps}
+        className={classes}
+        role="menu"
+      >
+        {Toggle}
+        {Menu}
+      </Component>
+    );
+  }
+
+}
+
+Dropdown.propTypes = propTypes;
+Dropdown.defaultProps = defaultProps;
 Dropdown.Item = DropdownMenuItem;
 
-export default Dropdown;
+export default decorate({
+  size: true,
+  shape: {
+    oneOf: [...values(STATE), ...values(STYLES)],
+    default: STATE.default
+  }
+})(Dropdown);
