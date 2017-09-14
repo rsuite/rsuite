@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 const propTypes = {
-  id: React.PropTypes.string,
-  name: React.PropTypes.string,
-  inline: React.PropTypes.bool,
-  title: React.PropTypes.string,
-  disabled: React.PropTypes.bool,
-  checked: React.PropTypes.bool,
+  id: PropTypes.string,
+  name: PropTypes.string,
+  inline: PropTypes.bool,
+  title: PropTypes.string,
+  disabled: PropTypes.bool,
+  checked: PropTypes.bool,
   defaultChecked: PropTypes.bool,
-  onChange: React.PropTypes.func,
+  onChange: PropTypes.func,
   inputRef: PropTypes.func,
   value: PropTypes.any,   // eslint-disable-line react/forbid-prop-types
 };

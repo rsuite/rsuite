@@ -19,7 +19,7 @@ const defaultProps = {
 };
 
 const childContextTypes = {
-  formGroup: React.PropTypes.object.isRequired
+  formGroup: PropTypes.object.isRequired
 };
 
 class FormGroup extends React.Component {
