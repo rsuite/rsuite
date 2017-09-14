@@ -1,3 +1,9 @@
+# v2.0.2
+- React.PropTypes 改为 PropTypes
+
+# v2.0.1
+- 支持 Toggle 组件
+
 # v2.0.0
 - 升级 React 版本 15.* ,同时兼容 0.14.9 版本
 - 删除 Minxin, 改用高阶组件
