@@ -1,6 +1,7 @@
 
 // Buttons
 export Button from './Button';
+export Toggle from './Toggle';
 export ButtonToolbar from './ButtonToolbar';
 export Dropdown from './Dropdown';
 export ButtonGroup from './ButtonGroup';
