@@ -59,7 +59,7 @@ class Dropdown extends React.Component {
     this.update();
   }
   componentWillReceiveProps(nextProps) {
-    if (isEqual(nextProps, this.props)) {
+    if (!isEqual(nextProps, this.props)) {
       this.update(nextProps);
     }
   }
