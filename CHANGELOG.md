@@ -1,3 +1,6 @@
+# v2.0.4
+- Fix: Repeated onChange event for CheckboxGroup
+
 # v2.0.2
 - React.PropTypes 改为 PropTypes
 
