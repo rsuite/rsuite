@@ -30,10 +30,6 @@ class Checkbox extends React.Component {
       });
     }
   }
-  isChecked() {
-    const { checked } = this.props;
-    return isUndefined(checked) ? this.state.checked : checked;
-  }
   handleChange(event) {
     const { onChange, disabled, value } = this.props;
     const target = event.target;

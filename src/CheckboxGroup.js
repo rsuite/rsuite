@@ -37,7 +37,7 @@ class CheckboxGroup extends React.Component {
     const value = [];
     const { onChange } = this.props;
     values(this.checkboxs).forEach((checkbox) => {
-      if (checkbox.isChecked()) {
+      if (checkbox.state.checked) {
         value.push(checkbox.props.value);
       }
     });
