@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
+import isUndefined from 'lodash/isUndefined';
 
 const propTypes = {
   title: PropTypes.string,
@@ -29,6 +30,10 @@ class Checkbox extends React.Component {
       });
     }
   }
+  isChecked() {
+    const { checked } = this.props;
+    return isUndefined(checked) ? this.state.checked : checked;
+  }
   handleChange(event) {
     const { onChange, disabled, value } = this.props;
     const target = event.target;
@@ -38,9 +43,7 @@ class Checkbox extends React.Component {
       return;
     }
 
-    this.setState({
-      checked
-    }, () => {
+    this.setState({ checked }, () => {
       onChange && onChange(value ? target.value : checked, event);
     });
   }
@@ -56,10 +59,11 @@ class Checkbox extends React.Component {
       title,
       inputRef,
       style,
+      checked,
       ...props
     } = this.props;
 
-    const { checked } = this.state;
+    const nextChecked = isUndefined(checked) ? this.state.checked : checked;
     const classes = classNames('checkbox', {
       'checkbox-inline': inline
     }, className);
@@ -69,7 +73,7 @@ class Checkbox extends React.Component {
     });
 
     const input = (
-      <span className={classNames('checkbox-wrapper', { checked })}>
+      <span className={classNames('checkbox-wrapper', { checked: nextChecked })}>
         <input
           {...props}
           type="checkbox"
