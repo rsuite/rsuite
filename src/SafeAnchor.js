@@ -66,7 +66,6 @@ class SafeAnchor extends React.Component {
 
     if (isTrivialHref(props.href)) {
       props.role = props.role || 'button';
-      props.href = props.href || '#';
     }
 
     if (disabled) {

@@ -1,3 +1,7 @@
+# v2.0.5 next
+- Fix: Remove <SafeAnchor> invalid href
+
+
 # v2.0.4
 - Fix: Repeated onChange event for CheckboxGroup
 
