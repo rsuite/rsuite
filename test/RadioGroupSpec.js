@@ -38,6 +38,17 @@ describe('RadioGroup', () => {
     assert.equal(findDOMNode(instance).querySelectorAll('.radio-inline').length, 2);
   });
 
+  it('Should output a h1', () => {
+
+    let instance = ReactTestUtils.renderIntoDocument(
+      <RadioGroup inline>
+        <h1>Group</h1>
+        <Radio>Test1</Radio>
+      </RadioGroup>
+    );
+    assert.ok(findDOMNode(instance).querySelectorAll('.h1'));
+  });
+
   it('Should be checked when set value', () => {
 
     const instance = ReactTestUtils.renderIntoDocument(

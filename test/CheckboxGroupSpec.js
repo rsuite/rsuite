@@ -38,6 +38,17 @@ describe('CheckboxGroup', () => {
     assert.equal(findDOMNode(instance).querySelectorAll('.checkbox-inline').length, 2);
   });
 
+  it('Should output a h1', () => {
+
+    let instance = ReactTestUtils.renderIntoDocument(
+      <CheckboxGroup inline>
+        <h1>Group</h1>
+        <Checkbox>Test1</Checkbox>
+      </CheckboxGroup>
+    );
+    assert.ok(findDOMNode(instance).querySelectorAll('.h1'));
+  });
+
   it('Should be checked when set value', () => {
 
     let instance = ReactTestUtils.renderIntoDocument(
