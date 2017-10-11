@@ -99,6 +99,7 @@ class Checkbox extends React.Component {
   }
 }
 
+Checkbox.displayName = 'Checkbox';
 Checkbox.propTypes = propTypes;
 
 export default Checkbox;

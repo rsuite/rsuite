@@ -58,16 +58,25 @@ class RadioGroup extends React.Component {
     }, className);
 
     const nextValue = value || this.state.value;
-    const items = ReactChildren.mapCloneElement(children, (child, index) => ({
-      inline,
-      name,
-      checked: isNullOrUndefined(nextValue) ?
-        child.props.checked : nextValue === child.props.value,
-      onChange: this.handleChange,
-      ref: (ref) => {
-        this.radios[index] = ref;
-      },
-    }));
+    const items = ReactChildren.mapCloneElement(children, (child, index) => {
+
+      let childProps = {
+        inline,
+        name,
+        checked: isNullOrUndefined(nextValue) ?
+          child.props.checked : nextValue === child.props.value,
+        onChange: this.handleChange,
+        ref: (ref) => {
+          this.radios[index] = ref;
+        }
+      };
+
+      if (child.type.displayName === 'Radio') {
+        return childProps;
+      }
+
+      return child.props;
+    });
     return (
       <div
         {...props}

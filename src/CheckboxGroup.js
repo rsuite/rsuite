@@ -61,6 +61,7 @@ class CheckboxGroup extends React.Component {
     }, className);
 
     const items = ReactChildren.mapCloneElement(children, (child, index) => {
+
       let childProps = {
         name,
         inline,
@@ -71,7 +72,13 @@ class CheckboxGroup extends React.Component {
         onChange: this.handleChange,
         ...child.props
       };
-      return childProps;
+
+      if (child.type.displayName === 'Checkbox') {
+        return childProps;
+      }
+
+      return child.props;
+
     });
 
     const elementProps = omit(props, Object.keys(propTypes));
