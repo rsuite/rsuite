@@ -1,4 +1,7 @@
-# v2.0.5 next
+# v2.0.6 next
+- Added support Diverse children in <CheckGroup> and <RadioGrpup>
+
+# v2.0.5
 - Fix: Remove <SafeAnchor> invalid href
 
 
