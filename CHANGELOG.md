@@ -1,5 +1,6 @@
 # v2.0.6 next
 - Added support Diverse children in <CheckGroup> and <RadioGrpup>
+- Added support Diverse children in <Dropdown>
 
 # v2.0.5
 - Fix: Remove <SafeAnchor> invalid href

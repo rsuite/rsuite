@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import isEqual from 'lodash/isEqual';
 import isUndefined from 'lodash/isUndefined';
 import omit from 'lodash/omit';
+import get from 'lodash/get';
 import values from 'lodash/values';
 import PropTypes from 'prop-types';
 import { elementType } from 'rsuite-utils/lib/propTypes';
@@ -83,9 +84,12 @@ class Dropdown extends React.Component {
     let title;
 
     if (select) {
-      const activeItem = ReactChildren.find(children, item => (
-        isEqual(activeKey, item.props.eventKey) || item.props.active
-      ));
+      const activeItem = ReactChildren.find(children, (item) => {
+        if (get(item, ['type', 'displayName']) === 'DropdownMenuItem') {
+          return isEqual(activeKey, item.props.eventKey) || item.props.active;
+        }
+        return false;
+      });
       if (activeItem) {
         title = activeItem.props.children;
       }
