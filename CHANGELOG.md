@@ -1,6 +1,8 @@
-# v2.0.6 next
+# v2.1.0 next
 - Added support Diverse children in <CheckGroup> and <RadioGrpup>
 - Added support Diverse children in <Dropdown>
+- Fix Nav.Dropdown not selected when set activeKey
+
 
 # v2.0.5
 - Fix: Remove <SafeAnchor> invalid href
