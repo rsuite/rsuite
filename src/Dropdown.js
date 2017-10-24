@@ -85,7 +85,8 @@ class Dropdown extends React.Component {
 
     if (select) {
       const activeItem = ReactChildren.find(children, (item) => {
-        if (get(item, ['type', 'displayName']) === 'DropdownMenuItem') {
+        let displayName = get(item, ['type', 'displayName']);
+        if (displayName === 'DropdownMenuItem' || displayName === 'NavItem') {
           return isEqual(activeKey, item.props.eventKey) || item.props.active;
         }
         return false;

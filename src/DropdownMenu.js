@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
+import get from 'lodash/get';
 import classNames from 'classnames';
 import ReactChildren from './utils/ReactChildren';
 import isNullOrUndefined from './utils/isNullOrUndefined';
@@ -40,10 +41,14 @@ class DorpdownMenu extends React.Component {
 
     const items = ReactChildren.mapCloneElement(children, (item) => {
       let { eventKey, active, onSelect: onItemSelect } = item.props;
-      return {
-        onSelect: createChainedFunction(onSelect, onItemSelect),
-        active: isNullOrUndefined(activeKey) ? active : isEqual(activeKey, eventKey)
-      };
+      let displayName = get(item, ['type', 'displayName']);
+      if (displayName === 'DropdownMenuItem' || displayName === 'NavItem') {
+        return {
+          onSelect: createChainedFunction(onSelect, onItemSelect),
+          active: isNullOrUndefined(activeKey) ? active : isEqual(activeKey, eventKey)
+        };
+      }
+      return null;
     });
 
     return (
