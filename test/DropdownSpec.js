@@ -3,6 +3,7 @@ import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import Dropdown from '../src/Dropdown';
+import NavItem from '../src/NavItem';
 import innerText from './innerText';
 
 describe('Dropdown', () => {
@@ -12,9 +13,10 @@ describe('Dropdown', () => {
       <Dropdown>
         <Dropdown.Item>1</Dropdown.Item>
         <Dropdown.Item>2</Dropdown.Item>
+        {null}
+        <div>abc</div>
       </Dropdown>
     );
-
     assert.ok(findDOMNode(instance).className.match(/\bdropdown\b/));
   });
 
@@ -62,9 +64,19 @@ describe('Dropdown', () => {
 
   it('Should have a title when set activeKey', () => {
     let instance = ReactTestUtils.renderIntoDocument(
-      <Dropdown select activeKey={2} title="abc">
+      <Dropdown select activeKey={0} title="abc">
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
-        <Dropdown.Item eventKey={2}>2</Dropdown.Item>
+        <Dropdown.Item eventKey={0}>2</Dropdown.Item>
+      </Dropdown>
+    );
+    assert.equal(innerText(findDOMNode(instance).querySelector('button')), 2);
+  });
+
+  it('Should have a title when set activeKey', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown select activeKey={0} title="abc">
+        <NavItem eventKey={1}>1</NavItem>
+        <NavItem eventKey={0}>2</NavItem>
       </Dropdown>
     );
     assert.equal(innerText(findDOMNode(instance).querySelector('button')), 2);
