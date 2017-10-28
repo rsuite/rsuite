@@ -34,7 +34,7 @@
     "dom-lib": "^0.2.3",
     "lodash": "^4.11.1",
     "prop-types": "^15.5.10",
-    "rsuite-utils": "^0.0.9"
+    "rsuite-utils": "^0.1.0"
   },
   "peerDependencies": {
     "react": "^0.14.9 || >=15.3.0",
