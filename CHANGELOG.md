@@ -2,7 +2,8 @@
 - Added support Diverse children in <CheckGroup> and <RadioGrpup>
 - Added support Diverse children in <Dropdown>
 - Fix Nav.Dropdown not selected when set activeKey
-
+- Update rsuite-utils version to 0.1.0
+- Remove `pointer-events` in  SafeAnchor
 
 # v2.0.5
 - Fix: Remove <SafeAnchor> invalid href
