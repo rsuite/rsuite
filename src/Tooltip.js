@@ -1,5 +1,4 @@
 import React from 'react';
-import omit from 'lodash/omit';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -34,8 +33,7 @@ class Tooltip extends React.Component {
       positionTop,
       prefixClass,
       children,
-      style,
-      ...props
+      style
     } = this.props;
 
     const classes = classNames('tooltip', {
@@ -53,10 +51,9 @@ class Tooltip extends React.Component {
       top: arrowOffsetTop
     };
 
-    const elementProps = omit(props, ['shouldUpdatePosition']);
+
     return (
       <div
-        {...elementProps}
         role="tooltip"
         className={classes}
         style={styles}

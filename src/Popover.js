@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import omit from 'lodash/omit';
 import classNames from 'classnames';
 
 const propTypes = {
@@ -22,8 +21,7 @@ class Popover extends React.Component {
       children,
       style,
       placement,
-      className,
-      ...props
+      className
     } = this.props;
     const classes = classNames('popover', {
       [placement]: true
@@ -34,11 +32,8 @@ class Popover extends React.Component {
       ...style
     };
 
-    const elementProps = omit(props, Object.keys(propTypes));
-
     return (
       <div
-        {...elementProps}
         className={classes}
         style={styles}
       >
