@@ -70,10 +70,6 @@ class SafeAnchor extends React.Component {
 
     if (disabled) {
       tabIndex = -1;
-      style = {
-        pointerEvents: 'none',
-        ...style
-      };
     }
 
     return (
