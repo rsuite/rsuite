@@ -36,7 +36,6 @@ describe('SafeAnchor', () => {
 
     assert.ok(!onHideSpy.calledOnce);
     assert.equal(findDOMNode(instance).tabIndex, -1);
-    assert.equal(findDOMNode(instance).style.pointerEvents, 'none');
   });
 
   it('Should output an anchor and has href', () => {
