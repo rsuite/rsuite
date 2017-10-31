@@ -11,7 +11,7 @@ describe('Toggle', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Toggle />
     );
-    assert.equal(findDOMNode(instance).className, 'toggle');
+    assert.equal(findDOMNode(instance).className, 'btn-toggle');
   });
 
   it('Should be disabled', () => {
@@ -25,7 +25,7 @@ describe('Toggle', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Toggle checked />
     );
-    assert.ok(findDOMNode(instance).className.match(/\btoggle-checked\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bbtn-toggle-checked\b/));
   });
 
 
@@ -33,7 +33,7 @@ describe('Toggle', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Toggle size="lg" />
     );
-    assert.ok(findDOMNode(instance).className.match(/\btoggle-lg\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bbtn-toggle-lg\b/));
   });
 
   it('Should output a `off` in inner ', () => {
