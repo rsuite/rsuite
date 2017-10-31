@@ -16,7 +16,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  prefixClass: 'toggle'
+  prefixClass: 'btn-toggle'
 };
 
 
