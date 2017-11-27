@@ -47,7 +47,7 @@ const RadioGroup = React.createClass({
   },
   getValue() {
     const { value, defaultValue } = this.props;
-    return this.getFormGroup().value || value || defaultValue;
+    return _.isUndefined(value) ? defaultValue : value;
   },
   render() {
 
