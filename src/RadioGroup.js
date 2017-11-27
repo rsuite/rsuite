@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import values from 'lodash/values';
+import isUndefined from 'lodash/isUndefined';
 import classNames from 'classnames';
 import isNullOrUndefined from './utils/isNullOrUndefined';
 import ReactChildren from './utils/ReactChildren';
@@ -57,7 +58,7 @@ class RadioGroup extends React.Component {
       'radio-list': true
     }, className);
 
-    const nextValue = value || this.state.value;
+    const nextValue = isUndefined(value) ? this.state.value : value;
     const items = ReactChildren.mapCloneElement(children, (child, index) => {
 
       let childProps = {
