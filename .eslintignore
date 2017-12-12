@@ -1,5 +1,9 @@
-bin/**
-build/**
-lib/**
-tools/*
-node_modules/**
+bin
+build
+lib
+tools
+node_modules
+coverage
+flow
+flow-typed
+/.git

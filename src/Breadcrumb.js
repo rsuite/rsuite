@@ -1,12 +1,22 @@
-import React from 'react';
+/* @flow */
+
+import * as React from 'react';
 import classNames from 'classnames';
 import BreadcrumbItem from './BreadcrumbItem';
+import createComponent from './utils/createComponent';
 
-class Breadcrumb extends React.Component {
+const Component = createComponent('ol');
+
+type Props = {
+  className?: string
+};
+
+class Breadcrumb extends React.Component<Props> {
+  static Item = BreadcrumbItem;
   render() {
     const { className, ...props } = this.props;
     return (
-      <ol
+      <Component
         {...props}
         role="navigation"
         aria-label="breadcrumbs"
@@ -15,7 +25,5 @@ class Breadcrumb extends React.Component {
     );
   }
 }
-
-Breadcrumb.Item = BreadcrumbItem;
 
 export default Breadcrumb;

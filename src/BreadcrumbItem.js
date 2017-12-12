@@ -1,29 +1,36 @@
+/* @flow */
+
+import * as React from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import React from 'react';
-import elementType from 'rsuite-utils/lib/propTypes/elementType';
+import createComponent from './utils/createComponent';
 import SafeAnchor from './SafeAnchor';
 
-const propTypes = {
-  active: PropTypes.bool,
-  componentClass: elementType,
-  href: PropTypes.string,
-  title: PropTypes.node,
-  target: PropTypes.string,
+type Props = {
+  active?: boolean,
+  className?: string,
+  style?: Object,
+  href?: string,
+  title?: React.ElementType,
+  target?: string,
 };
 
+const Component = createComponent(SafeAnchor);
 
-class BreadcrumbItem extends React.Component {
+class BreadcrumbItem extends React.Component<Props> {
   render() {
 
-    const { componentClass, href, title, target, className, style, active, ...props } = this.props;
-    const Component = componentClass || SafeAnchor;
+    const { href, title, target, className, style, active, ...props } = this.props;
     const linkProps = { href, title, target };
+    const classes: string = classNames(
+      'breadcrumb-item',
+      { active },
+      className
+    );
 
     return (
       <li
         style={style}
-        className={classNames(className, { active })}
+        className={classes}
       >
         {active ? (<span {...props} />) : (
           <Component
@@ -35,7 +42,5 @@ class BreadcrumbItem extends React.Component {
     );
   }
 }
-
-BreadcrumbItem.propTypes = propTypes;
 
 export default BreadcrumbItem;

@@ -19,7 +19,8 @@ module.exports = {
   'plugins': [
     'react',
     'babel',
-    'json'
+    'json',
+    'flowtype'
   ],
   'parserOptions': {
     'ecmaVersion': 6,
@@ -67,7 +68,16 @@ module.exports = {
     'jsx-a11y/label-has-for': OFF,
     'react/jsx-filename-extension': OFF,
     'react/prefer-stateless-function': OFF,
-    'react/require-default-props': OFF
+    'react/require-default-props': OFF,
 
+
+    'flowtype/define-flow-type': 'error',
+    'flowtype/require-valid-file-annotation': 'off',
+    'flowtype/require-parameter-type': 'off',
+    'flowtype/require-return-type': 'off',
+    'flowtype/space-after-type-colon': 'off',
+    'flowtype/space-before-type-colon': 'off',
+    'flowtype/type-id-match': 'off',
+    'flowtype/use-flow-type': 'error'
   }
 };

@@ -33,7 +33,7 @@ describe('ButtonGroup', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ButtonGroup vertical block />
     );
-    assert.ok(findDOMNode(instance).className.match(/\bbtn-block\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bbtn-group-block\b/));
   });
 
   it('Should warn about block without vertical', () => {

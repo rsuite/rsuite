@@ -1,36 +1,49 @@
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
-import React from 'react';
-import PropTypes from 'prop-types';
 import isUndefined from 'lodash/isUndefined';
 
-const propTypes = {
-  title: PropTypes.string,
-  inline: PropTypes.bool,
-  disabled: PropTypes.bool,
-  checked: PropTypes.bool,
-  defaultChecked: PropTypes.bool,
-  onChange: PropTypes.func,
-  inputRef: PropTypes.func,
-  value: PropTypes.any, // eslint-disable-line react/forbid-prop-types
-};
+type Props = {
+  title?: string,
+  className?: string,
+  inline?: boolean,
+  disabled?: boolean,
+  checked?: boolean,
+  defaultChecked?: boolean,
+  onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void,
+  inputRef?: React.Ref<any>,
+  value?: any,
+  style?: Object,
+  children?: React.Node,
+}
+
+type States = {
+  checked: boolean
+}
+
+class Checkbox extends React.Component<Props, States> {
+
+  state = {
+    checked: true
+  };
 
 
-class Checkbox extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      checked: props.checked || props.defaultChecked
-    };
-    this.handleChange = this.handleChange.bind(this);
+  componentWillMount() {
+    const { checked, defaultChecked } = this.props;
+    this.setState({
+      checked: checked || defaultChecked
+    });
   }
-  componentWillReceiveProps(nextProps) {
+
+  componentWillReceiveProps(nextProps: Props) {
     if (nextProps.checked !== this.props.checked) {
       this.setState({
         checked: nextProps.checked
       });
     }
   }
-  handleChange(event) {
+  handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     const { onChange, disabled, value } = this.props;
     const target = event.target;
     const checked = !this.state.checked;
@@ -59,8 +72,8 @@ class Checkbox extends React.Component {
       ...props
     } = this.props;
 
-    const nextChecked = isUndefined(checked) ? this.state.checked : checked;
-    const classes = classNames('checkbox', {
+    const nextChecked: boolean | void = isUndefined(checked) ? this.state.checked : checked;
+    const classes: string = classNames('checkbox', {
       'checkbox-inline': inline
     }, className);
 
@@ -98,8 +111,5 @@ class Checkbox extends React.Component {
     );
   }
 }
-
-Checkbox.displayName = 'Checkbox';
-Checkbox.propTypes = propTypes;
 
 export default Checkbox;

@@ -1,7 +1,14 @@
+/* @flow */
+
 import React from 'react';
 import classNames from 'classnames';
 
-class ButtonToolbar extends React.Component {
+
+type Props = {
+  className?: string
+};
+
+class ButtonToolbar extends React.Component<Props> {
   render() {
 
     const { className, ...props } = this.props;

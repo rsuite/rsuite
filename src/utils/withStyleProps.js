@@ -47,7 +47,7 @@ const withStyleProps = (
 
     render() {
 
-      const { classPrefix, size, shape, innerRef, className } = this.props;
+      const { classPrefix, size, shape, innerRef, className, ...props } = this.props;
       const addPrefix: Function = prefix(classPrefix);
       const classes: string = classNames(
         classPrefix,
@@ -56,9 +56,11 @@ const withStyleProps = (
         className
       );
 
+
       return (
         <Component
-          {...this.props}
+          {...props}
+          classPrefix={classPrefix}
           className={classes}
           ref={innerRef}
         />

@@ -102,7 +102,6 @@ describe('Button', () => {
       </Button>
     );
 
-    console.log(findDOMNode(instance));
     assert.ok(findDOMNode(instance).className.match(/\bbob\b/));
     assert.ok(findDOMNode(instance).className.match(/\bbtn-danger\b/));
   });

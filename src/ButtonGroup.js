@@ -1,32 +1,35 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+/* @flow */
+
+import * as React from 'react';
 import classNames from 'classnames';
-import decorate, { getClassNames } from './utils/decorate';
 
-const propTypes = {
-  prefixClass: PropTypes.string,
-  vertical: PropTypes.bool,
-  justified: PropTypes.bool,
-  block: PropTypes.bool
+import withStyleProps from './utils/withStyleProps';
+import prefix from './utils/prefix';
+
+type Props = {
+  className?: string,
+  vertical?: boolean,
+  justified?: boolean,
+  block?: boolean,
+  classPrefix: string
 };
 
-const defaultProps = {
-  block: false,
-  justified: false,
-  vertical: false,
-  prefixClass: 'btn-group',
-  shape: 'default'
-};
 
-class ButtonGroup extends React.Component {
+class ButtonGroup extends React.Component<Props> {
+
+
+  static defaultProps = {
+    classPrefix: 'btn-group'
+  };
 
   render() {
-    const { className, vertical, block, justified, prefixClass, ...props } = this.props;
+    const { className, vertical, block, justified, classPrefix, ...props } = this.props;
+    const addPrefix: Function = prefix(classPrefix);
+
     const classes = classNames({
-      ...getClassNames(this.props),
-      'btn-block': block,
-      [`${prefixClass}-vertical`]: vertical,
-      [`${prefixClass}-justified`]: justified
+      [addPrefix('block')]: block,
+      [addPrefix('vertical')]: vertical,
+      [addPrefix('justified')]: justified
     }, className);
 
     return (
@@ -39,10 +42,7 @@ class ButtonGroup extends React.Component {
   }
 }
 
-ButtonGroup.propTypes = propTypes;
-ButtonGroup.defaultProps = defaultProps;
-ButtonGroup.displayName = 'ButtonGroup';
 
-export default decorate({
-  size: true
+export default withStyleProps({
+  hasSize: true,
 })(ButtonGroup);
