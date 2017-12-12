@@ -16,15 +16,6 @@ describe('Button', () => {
     assert.ok(findDOMNode(instance).className.match(/\bbtn-default\b/));
   });
 
-  it('Should have type=button by default', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <Button>
-        Title
-      </Button>
-    );
-
-    assert.equal(findDOMNode(instance).getAttribute('type'), 'button');
-  });
 
   it('Should show the type if passed one', () => {
     const instance = ReactTestUtils.renderIntoDocument(
@@ -110,6 +101,8 @@ describe('Button', () => {
         Title
       </Button>
     );
+
+    console.log(findDOMNode(instance));
     assert.ok(findDOMNode(instance).className.match(/\bbob\b/));
     assert.ok(findDOMNode(instance).className.match(/\bbtn-danger\b/));
   });

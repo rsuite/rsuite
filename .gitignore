@@ -33,13 +33,15 @@ node_modules
 # Optional REPL history
 .node_repl_history
 
+
+# custom
+
 .vscode
 _build
 build
 .DS_Store
 lib/
-
-# custom
 .idea
 yarn.lock
+package-lock.json
 karma.sauce.conf.js
