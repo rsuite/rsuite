@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-function find(children, func, context) {
+export function find(children, func, context) {
   let index = 0;
   let result;
 
@@ -18,7 +18,7 @@ function find(children, func, context) {
   return result;
 }
 
-function map(children, func, context) {
+export function map(children, func, context) {
   let index = 0;
   return React.Children.map(children, (child) => {
     if (!React.isValidElement(child)) {
@@ -29,7 +29,7 @@ function map(children, func, context) {
   });
 }
 
-function mapCloneElement(children, func, context) {
+export function mapCloneElement(children, func, context) {
   return map(children, (child, index) => (
     React.cloneElement(child, {
       key: index,

@@ -60,3 +60,4 @@ export default withStyleProps({
   hasStatus: true,
   hasColor: true
 })(Button);
+

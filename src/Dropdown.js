@@ -1,62 +1,68 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
 import isEqual from 'lodash/isEqual';
 import isUndefined from 'lodash/isUndefined';
 import omit from 'lodash/omit';
 import get from 'lodash/get';
-import values from 'lodash/values';
-import PropTypes from 'prop-types';
-import { elementType } from 'rsuite-utils/lib/propTypes';
+import setStatic from 'recompose/setStatic';
 import { RootCloseWrapper } from 'rsuite-utils/lib/Overlay';
 
-import ReactChildren from './utils/ReactChildren';
+import { find } from './utils/ReactChildren';
+import withStyleProps from './utils/withStyleProps';
+import createComponent from './utils/createComponent';
 import ButtonGroup from './ButtonGroup';
 import DropdownToggle from './DropdownToggle';
 import DropdownMenu from './DropdownMenu';
 import DropdownMenuItem from './DropdownMenuItem';
-import decorate, { STATE, STYLES, getClassNames } from './utils/decorate';
 
+const Component = createComponent(ButtonGroup);
 
-const propTypes = {
-  ...DropdownToggle.propTypes,
-  disabled: PropTypes.bool,
-  block: PropTypes.bool,
-  dropup: PropTypes.bool,
+type Props = {
+  noCaret?: boolean,
+  title?: React.Node,
+  useAnchor?: boolean,
+  disabled?: boolean,
+  block?: boolean,
+  dropup?: boolean,
   /*
    * If 'select' is true , title will be updated after the 'onSelect' trigger .
    */
-  select: PropTypes.bool,
-  bothEnds: PropTypes.bool,
-  onClose: PropTypes.func,
-  onOpen: PropTypes.func,
-  onToggle: PropTypes.func,
-  onSelect: PropTypes.func,
-  componentClass: elementType,
-  activeKey: PropTypes.any,    // eslint-disable-line react/forbid-prop-types
-  menuStyle: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  autoClose: PropTypes.bool
-};
+  select?: boolean,
+  bothEnds?: boolean,
+  onClose?: Function,
+  onOpen?: Function,
+  onToggle?: Function,
+  onSelect?: Function,
+  activeKey?: any,
+  menuStyle?: Object,
+  autoClose?: boolean,
+  className?: string,
+  children?: React.ChildrenArray<React.Element<typeof DropdownMenuItem>>,
+}
 
-const defaultProps = {
-  componentClass: ButtonGroup,
-  autoClose: true
-};
+type States = {
+  title?: React.Node,
+  activeKey?: any,
+  open?: boolean
+}
 
-class Dropdown extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: null,
-      activeKey: this.props.activeKey,
-      open: false
-    };
-    this.toggle = this.toggle.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.handleSelect = this.handleSelect.bind(this);
+class Dropdown extends React.Component<Props, States> {
 
+  static defaultProps = {
+    componentClass: ButtonGroup,
+    autoClose: true
+  }
+
+  state = {
+    title: null,
+    open: false
   }
 
   componentWillMount() {
+    const { activeKey } = this.props;
+    this.setState({ activeKey });
     this.update();
   }
   componentWillReceiveProps(nextProps) {
@@ -65,7 +71,7 @@ class Dropdown extends React.Component {
     }
   }
 
-  toggle(isOpen) {
+  toggle = (isOpen) => {
     const { onOpen, onClose, onToggle } = this.props;
     let open = isUndefined(isOpen) ? !this.state.open : isOpen;
     let handleToggle = open ? onOpen : onClose;
@@ -84,7 +90,7 @@ class Dropdown extends React.Component {
     let title;
 
     if (select) {
-      const activeItem = ReactChildren.find(children, (item) => {
+      const activeItem = find(children, (item) => {
         let displayName = get(item, ['type', 'displayName']);
         if (displayName === 'DropdownMenuItem' || displayName === 'NavItem') {
           return isEqual(activeKey, item.props.eventKey) || item.props.active;
@@ -102,13 +108,13 @@ class Dropdown extends React.Component {
     });
   }
 
-  handleClick() {
+  handleClick = () => {
     if (!this.props.disabled) {
       this.toggle();
     }
   }
 
-  handleSelect(eventKey, props, event) {
+  handleSelect = (eventKey, props, event) => {
 
     const { select, onSelect, onClose, autoClose } = this.props;
 
@@ -140,7 +146,6 @@ class Dropdown extends React.Component {
       block,
       useAnchor,
       disabled,
-      componentClass: Component,
       noCaret,
       ...props
     } = this.props;
@@ -151,7 +156,6 @@ class Dropdown extends React.Component {
         useAnchor={useAnchor}
         disabled={disabled}
         noCaret={noCaret}
-        className={classNames(getClassNames(props, 'btn'))}
         onClick={this.handleClick}
       >
         {this.state.title || title}
@@ -201,14 +205,13 @@ class Dropdown extends React.Component {
 
 }
 
-Dropdown.propTypes = propTypes;
-Dropdown.defaultProps = defaultProps;
-Dropdown.Item = DropdownMenuItem;
-
-export default decorate({
-  size: true,
-  shape: {
-    oneOf: [...values(STATE), ...values(STYLES)],
-    default: STATE.default
-  }
+const WrapDropdown: any = withStyleProps({
+  hasSize: true,
+  hasStatus: true,
+  hasColor: true
 })(Dropdown);
+
+
+setStatic('Item', DropdownMenuItem)(WrapDropdown);
+
+export default WrapDropdown;

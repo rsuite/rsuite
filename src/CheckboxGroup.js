@@ -1,30 +1,42 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import values from 'lodash/values';
+// @flow
+
+import * as React from 'react';
 import isEqual from 'lodash/isEqual';
-import omit from 'lodash/omit';
+import isUndefined from 'lodash/isUndefined';
+import remove from 'lodash/remove';
+import cloneDeep from 'lodash/cloneDeep';
 import classNames from 'classnames';
-import ReactChildren from './utils/ReactChildren';
+import { mapCloneElement } from './utils/ReactChildren';
 
-const propTypes = {
-  name: PropTypes.string,
-  inline: PropTypes.bool,
-  value: PropTypes.array,        // eslint-disable-line react/forbid-prop-types
-  defaultValue: PropTypes.array, // eslint-disable-line react/forbid-prop-types
-  onChange: PropTypes.func
-};
+type Props = {
+  name?: string,
+  className?: string,
+  inline?: boolean,
+  value?: Array<any>,
+  defaultValue?: Array<any>,
+  onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void,
+  children?: React.Node,
+}
 
-class CheckboxGroup extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.checkboxs = {};
-    this.state = {
-      value: props.defaultValue
-    };
+type States = {
+  value: Array<any>
+}
+
+class CheckboxGroup extends React.Component<Props, States> {
+
+  state = {
+    value: []
+  };
+
+  componentWillMount() {
+
+    const { value, defaultValue } = this.props;
+    this.setState({
+      value: value || defaultValue || []
+    });
+
   }
-
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (!isEqual(nextProps.value, this.props.value)) {
       this.setState({
         value: nextProps.value
@@ -32,62 +44,55 @@ class CheckboxGroup extends React.Component {
     }
   }
 
-  handleChange() {
+  checkboxRefs: ?Object = {};
 
-    const value = [];
+  handleChange = (itemValue: any, itemChecked: boolean, event: SyntheticInputEvent<*>) => {
+
+    const nextValue = cloneDeep(this.state.value);
     const { onChange } = this.props;
-    values(this.checkboxs).forEach((checkbox) => {
-      if (checkbox.state.checked) {
-        value.push(checkbox.props.value);
-      }
-    });
 
-    onChange && onChange(value);
+    if (itemChecked) {
+      nextValue.push(itemValue);
+    } else {
+      remove(nextValue, i => isEqual(i, itemValue));
+    }
+
+    this.setState({ value: nextValue });
+    onChange && onChange(nextValue, event);
   }
 
   render() {
+
     const {
       className,
       inline,
       name,
       value,
-      children,
-      ...props
+      children
     } = this.props;
 
-    const nextValue = value || this.state.value || [];
-    const clesses = classNames({
-      'checkbox-list': true
-    }, className);
+    const nextValue: Array<any> = value || this.state.value || [];
+    const clesses: string = classNames('checkbox-list', className);
+    const checkedKey = isUndefined(value) ? 'defaultChecked' : 'checked';
 
-    const items = ReactChildren.mapCloneElement(children, (child, index) => {
-
-      let childProps = {
-        name,
-        inline,
-        ref: (ref) => {
-          this.checkboxs[index] = ref;
-        },
-        [value ? 'checked' : 'defaultChecked']: nextValue.some(i => i === child.props.value),
-        onChange: this.handleChange,
-        ...child.props
-      };
-
+    const items: React.Node = mapCloneElement(children, (child) => {
       if (child.type.displayName === 'Checkbox') {
-        return childProps;
+        return {
+          ...child.props,
+          name,
+          inline,
+          [checkedKey]: nextValue.some(i => i === child.props.value) || false,
+          onChange: this.handleChange
+        };
       }
-
       return child.props;
 
     });
 
-    const elementProps = omit(props, Object.keys(propTypes));
-
     return (
       <div
-        {...elementProps}
-        className={clesses}
         role="group"
+        className={clesses}
       >
         {items}
       </div>
@@ -95,6 +100,5 @@ class CheckboxGroup extends React.Component {
   }
 }
 
-CheckboxGroup.propTypes = propTypes;
 
 export default CheckboxGroup;

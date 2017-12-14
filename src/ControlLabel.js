@@ -1,22 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
-const propTypes = {
-  htmlFor: PropTypes.string,
-  srOnly: PropTypes.bool
-};
+type Props = {
+  className?: string,
+  htmlFor?: string,
+  srOnly: boolean
+}
 
-const defaultProps = {
-  htmlFor: undefined,
-  srOnly: false
-};
+class ControlLabel extends React.Component<Props> {
 
-const contextTypes = {
-  formGroup: PropTypes.object
-};
+  static contextTypes = {
+    formGroup: PropTypes.object
+  }
 
-class ControlLabel extends React.Component {
   render() {
     const { formGroup = {} } = this.context;
     const {
@@ -39,9 +38,5 @@ class ControlLabel extends React.Component {
     );
   }
 }
-
-ControlLabel.propTypes = propTypes;
-ControlLabel.defaultProps = defaultProps;
-ControlLabel.contextTypes = contextTypes;
 
 export default ControlLabel;

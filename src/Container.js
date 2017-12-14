@@ -1,17 +1,14 @@
+// @flow
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 import classNames from 'classnames';
 
-const propTypes = {
-  page: PropTypes.bool
-};
+type Props = {
+  className?: string,
+  page?: boolean
+}
 
-const defaultProps = {
-  page: false
-};
-
-class Container extends React.Component {
+class Container extends React.Component<Props> {
   render() {
     const { className, page, ...props } = this.props;
     const pagePrefix = page ? 'page-' : '';
@@ -22,8 +19,5 @@ class Container extends React.Component {
     );
   }
 }
-
-Container.propTypes = propTypes;
-Container.defaultProps = defaultProps;
 
 export default Container;

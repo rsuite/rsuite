@@ -1,87 +1,63 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
-import values from 'lodash/values';
-import elementType from 'rsuite-utils/lib/propTypes/elementType';
-import { SIZES } from './utils/decorate';
+import omit from 'lodash/omit';
+import curry from 'lodash/curry';
+import createComponent from './utils/createComponent';
 
-/*eslint-disable */
+/* eslint-disable */
+type Props = {
+  className?: string,
 
-const propTypes = {
-  /**
-     * class-prefix `col-xs-` `col-sm-` `col-md-`  `col-lg-`
-     */
-  xs: PropTypes.number,
-  sm: PropTypes.number,
-  md: PropTypes.number,
-  lg: PropTypes.number,
+  xs?: number,
+  sm?: number,
+  md?: number,
+  lg?: number,
 
-  /**
-   * class-prefix `col-xs-offset-` `col-sm-offset-` `col-md-offset-`  `col-lg-offset-`
-   */
-  xsOffset: PropTypes.number,
-  smOffset: PropTypes.number,
-  mdOffset: PropTypes.number,
-  lgOffset: PropTypes.number,
+  xsOffset?: number,
+  smOffset?: number,
+  mdOffset?: number,
+  lgOffset?: number,
 
-  /**
-   * class-prefix `col-xs-push-` `col-sm-push-` `col-md-push-`  `col-lg-push-`
-   */
-  xsPush: PropTypes.number,
-  smPush: PropTypes.number,
-  mdPush: PropTypes.number,
-  lgPush: PropTypes.number,
+  xsPush?: number,
+  smPush?: number,
+  mdPush?: number,
+  lgPush?: number,
+  xsPull?: number,
+  smPull?: number,
+  mdPull?: number,
+  lgPull?: number,
 
-  /**
-   * class-prefix `col-xs-pull-` `col-sm-pull-` `col-md-pull-`  `col-lg-pull-`
-   */
-  xsPull: PropTypes.number,
-  smPull: PropTypes.number,
-  mdPull: PropTypes.number,
-  lgPull: PropTypes.number,
-
-
-  /**
-   * adds class `hidden-xs` `hidden-sm` `hidden-md`  `hidden-lg`
-   */
-  xsHidden: PropTypes.bool,
-  smHidden: PropTypes.bool,
-  mdHidden: PropTypes.bool,
-  lgHidden: PropTypes.bool,
-
-  componentClass: elementType
-};
-
-const defaultProps = {
-  componentClass: 'div'
+  xsHidden?: boolean,
+  smHidden?: boolean,
+  mdHidden?: boolean,
+  lgHidden?: boolean
 };
 
 
+const Sizes = ['xs', 'sm', 'md', 'lg'];
+const Component = createComponent('div');
+const omitKeys = [];
 
-class Col extends React.Component {
+const getValue = curry((obj: Object, key: string): number => {
+  omitKeys.push(key);
+  return obj[key];
+});
+
+
+class Col extends React.Component<Props> {
   render() {
-    const {
-      componentClass: Component,
-      className,
-      ...props
-    } = this.props;
-
+    const { className, ...props } = this.props;
     const classes = {};
-    const elementProps = props;
+    const getPropValue = getValue(this.props);
 
-    function getPropValue(key) {
-      const value = elementProps[key];
-      delete elementProps[key];
-      return value;
-    }
-
-    values(SIZES).forEach((size) => {
+    Sizes.forEach((size) => {
       let col = getPropValue(size);
       let hidden = getPropValue(`${size}Hidden`);
       let offset = getPropValue(`${size}Offset`);
       let push = getPropValue(`${size}Push`);
       let pull = getPropValue(`${size}Pull`);
-
 
       classes[`hidden-${size}`] = hidden;
       classes[`col-${size}-${col}`] = col >= 0;
@@ -89,6 +65,8 @@ class Col extends React.Component {
       classes[`col-${size}-push-${push}`] = push >= 0;
       classes[`col-${size}-pull-${pull}`] = pull >= 0;
     });
+
+    const elementProps = omit(props, omitKeys);
 
     return (
       <Component
@@ -99,7 +77,5 @@ class Col extends React.Component {
   }
 }
 
-Col.propTypes = propTypes;
-Col.defaultProps = defaultProps;
 
 export default Col;

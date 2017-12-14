@@ -1,10 +1,11 @@
 
 // Buttons
 export Button from './Button';
-export Toggle from './Toggle';
 export ButtonToolbar from './ButtonToolbar';
-export Dropdown from './Dropdown';
+export Toggle from './Toggle';
 export ButtonGroup from './ButtonGroup';
+export Dropdown from './Dropdown';
+
 
 // Whisper
 export Whisper from './Whisper';
