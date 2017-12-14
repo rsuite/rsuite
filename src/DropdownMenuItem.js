@@ -1,36 +1,35 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import elementType from 'rsuite-utils/lib/propTypes/elementType';
+import createComponent from './utils/createComponent';
 
-const propTypes = {
-  divider: PropTypes.bool,
-  active: PropTypes.bool,
-  disabled: PropTypes.bool,
-  onSelect: PropTypes.func,
-  onClick: PropTypes.func,
-  eventKey: PropTypes.any,  // eslint-disable-line react/forbid-prop-types
-  componentClass: elementType
-};
 
-const defaultProps = {
-  componentClass: 'a'
-};
+type Props = {
+  divider?: boolean,
+  active?: boolean,
+  disabled?: boolean,
+  onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
+  onClick?: (event: SyntheticEvent<*>) => void,
+  eventKey?: any,
+  className?: string,
+  children?: React.Node
+}
 
-class DropdownMenuItem extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
+const Component = createComponent('a');
 
-  handleClick(event) {
+class DropdownMenuItem extends React.Component<Props> {
+
+  static displayName = 'DropdownMenuItem';
+
+  handleClick = (event: SyntheticEvent<*>) => {
     let { onSelect, eventKey, disabled, onClick } = this.props;
     if (disabled) {
       event.preventDefault();
       return;
     }
 
-    onSelect && onSelect(eventKey, this.props, event);
+    onSelect && onSelect(eventKey, event);
     onClick && onClick(event);
   }
 
@@ -44,7 +43,6 @@ class DropdownMenuItem extends React.Component {
       disabled,
       className,
       eventKey,
-      componentClass: Component,
       ...props
     } = this.props;
 
@@ -73,9 +71,5 @@ class DropdownMenuItem extends React.Component {
     );
   }
 }
-
-DropdownMenuItem.displayName = 'DropdownMenuItem';
-DropdownMenuItem.propTypes = propTypes;
-DropdownMenuItem.defaultProps = defaultProps;
 
 export default DropdownMenuItem;

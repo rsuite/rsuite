@@ -1,45 +1,41 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+// @flow
+
+import * as React from 'react';
 import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
 import classNames from 'classnames';
-import ReactChildren from './utils/ReactChildren';
+import { mapCloneElement } from './utils/ReactChildren';
 import isNullOrUndefined from './utils/isNullOrUndefined';
 import createChainedFunction from './utils/createChainedFunction';
+import prefix from './utils/prefix';
 
+type Props = {
+  pullRight?: boolean,
+  onSelect?: Function,
+  activeKey?: any,
+  className?: string,
+  children?: React.ChildrenArray<any>,
+}
 
-const propTypes = {
-  prefixClass: PropTypes.string,
-  pullRight: PropTypes.bool,
-  onSelect: PropTypes.func,
-  activeKey: PropTypes.any, // eslint-disable-line react/forbid-prop-types
-};
+const addPrefix: Function = prefix('dropdown');
 
-const defaultProps = {
-  prefixClass: 'dropdown',
-  pullRight: false,
-  onSelect: null,
-  activeKey: null
-};
+class DorpdownMenu extends React.Component<Props> {
 
-class DorpdownMenu extends React.Component {
   render() {
-
     const {
       pullRight,
       children,
       className,
       activeKey,
       onSelect,
-      prefixClass,
       ...props
     } = this.props;
 
-    const classes = classNames({
-      [`${prefixClass}-menu-right`]: pullRight
-    }, `${prefixClass}-menu`, className);
+    const classes = classNames(addPrefix('menu'), {
+      [addPrefix('menu-right')]: pullRight
+    }, className);
 
-    const items = ReactChildren.mapCloneElement(children, (item) => {
+    const items = mapCloneElement(children, (item) => {
       let { eventKey, active, onSelect: onItemSelect } = item.props;
       let displayName = get(item, ['type', 'displayName']);
       if (displayName === 'DropdownMenuItem' || displayName === 'NavItem') {
@@ -64,7 +60,5 @@ class DorpdownMenu extends React.Component {
 
 }
 
-DorpdownMenu.propTypes = propTypes;
-DorpdownMenu.defaultProps = defaultProps;
 
 export default DorpdownMenu;

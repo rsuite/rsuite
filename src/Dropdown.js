@@ -6,54 +6,43 @@ import isEqual from 'lodash/isEqual';
 import isUndefined from 'lodash/isUndefined';
 import omit from 'lodash/omit';
 import get from 'lodash/get';
-import setStatic from 'recompose/setStatic';
 import { RootCloseWrapper } from 'rsuite-utils/lib/Overlay';
 
 import { find } from './utils/ReactChildren';
-import withStyleProps from './utils/withStyleProps';
 import createComponent from './utils/createComponent';
-import ButtonGroup from './ButtonGroup';
 import DropdownToggle from './DropdownToggle';
 import DropdownMenu from './DropdownMenu';
 import DropdownMenuItem from './DropdownMenuItem';
 
-const Component = createComponent(ButtonGroup);
+const Component = createComponent('div');
 
 type Props = {
-  noCaret?: boolean,
   title?: React.Node,
-  useAnchor?: boolean,
   disabled?: boolean,
-  block?: boolean,
   dropup?: boolean,
-  /*
-   * If 'select' is true , title will be updated after the 'onSelect' trigger .
-   */
-  select?: boolean,
-  bothEnds?: boolean,
-  onClose?: Function,
-  onOpen?: Function,
-  onToggle?: Function,
-  onSelect?: Function,
+  onClose?: () => void,
+  onOpen?: () => void,
+  onToggle?: (open?: boolean) => void,
+  onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
   activeKey?: any,
   menuStyle?: Object,
   autoClose?: boolean,
   className?: string,
   children?: React.ChildrenArray<React.Element<typeof DropdownMenuItem>>,
+  renderTitle?: (children?: React.Node) => React.Node,
 }
 
 type States = {
   title?: React.Node,
-  activeKey?: any,
   open?: boolean
 }
 
 class Dropdown extends React.Component<Props, States> {
 
   static defaultProps = {
-    componentClass: ButtonGroup,
     autoClose: true
   }
+  static Item = DropdownMenuItem;
 
   state = {
     title: null,
@@ -61,17 +50,15 @@ class Dropdown extends React.Component<Props, States> {
   }
 
   componentWillMount() {
-    const { activeKey } = this.props;
-    this.setState({ activeKey });
     this.update();
   }
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (!isEqual(nextProps, this.props)) {
       this.update(nextProps);
     }
   }
 
-  toggle = (isOpen) => {
+  toggle = (isOpen?: boolean) => {
     const { onOpen, onClose, onToggle } = this.props;
     let open = isUndefined(isOpen) ? !this.state.open : isOpen;
     let handleToggle = open ? onOpen : onClose;
@@ -80,16 +67,17 @@ class Dropdown extends React.Component<Props, States> {
       handleToggle && handleToggle();
     });
 
-    onToggle && onToggle();
+    onToggle && onToggle(open);
 
   }
 
-  update(props) {
+  update(props?: Props) {
 
-    const { children, select, activeKey } = props || this.props;
+    const { children, activeKey } = props || this.props;
     let title;
 
-    if (select) {
+    if (activeKey) {
+
       const activeItem = find(children, (item) => {
         let displayName = get(item, ['type', 'displayName']);
         if (displayName === 'DropdownMenuItem' || displayName === 'NavItem') {
@@ -97,13 +85,13 @@ class Dropdown extends React.Component<Props, States> {
         }
         return false;
       });
+
       if (activeItem) {
         title = activeItem.props.children;
       }
     }
 
     this.setState({
-      activeKey,
       title
     });
   }
@@ -114,18 +102,12 @@ class Dropdown extends React.Component<Props, States> {
     }
   }
 
-  handleSelect = (eventKey, props, event) => {
+  handleSelect = (eventKey: any, event: SyntheticEvent<*>) => {
 
-    const { select, onSelect, onClose, autoClose } = this.props;
+    const { onSelect, onClose, autoClose } = this.props;
 
-    if (select) {
-      this.setState({
-        title: props.children,
-        activeKey: props.eventKey
-      });
-    }
+    onSelect && onSelect(eventKey, event);
 
-    onSelect && onSelect(eventKey, props, event);
     if (autoClose) {
       this.toggle(false);
       onClose && onClose();
@@ -141,21 +123,15 @@ class Dropdown extends React.Component<Props, States> {
       className,
       activeKey,
       dropup,
-      bothEnds,
       menuStyle,
-      block,
-      useAnchor,
       disabled,
-      noCaret,
+      renderTitle,
       ...props
     } = this.props;
 
     const Toggle = (
       <DropdownToggle
-        block={block}
-        useAnchor={useAnchor}
-        disabled={disabled}
-        noCaret={noCaret}
+        renderTitle={renderTitle}
         onClick={this.handleClick}
       >
         {this.state.title || title}
@@ -165,7 +141,7 @@ class Dropdown extends React.Component<Props, States> {
     let Menu = (
       <DropdownMenu
         onSelect={this.handleSelect}
-        activeKey={this.state.activeKey}
+        activeKey={activeKey}
         style={menuStyle}
       >
         {children}
@@ -183,13 +159,10 @@ class Dropdown extends React.Component<Props, States> {
       dropup,
       dropdown: !dropup,
       open: this.state.open,
-      'both-ends': bothEnds
     }, className);
 
-    const elementProps = omit(props, ['select', 'onClose', 'onOpen', 'onToggle', 'autoClose']);
-    if (Component.displayName === 'ButtonGroup') {
-      elementProps.block = block;
-    }
+    const elementProps = omit(props, ['onClose', 'onOpen', 'onToggle', 'autoClose']);
+
 
     return (
       <Component
@@ -205,13 +178,4 @@ class Dropdown extends React.Component<Props, States> {
 
 }
 
-const WrapDropdown: any = withStyleProps({
-  hasSize: true,
-  hasStatus: true,
-  hasColor: true
-})(Dropdown);
-
-
-setStatic('Item', DropdownMenuItem)(WrapDropdown);
-
-export default WrapDropdown;
+export default Dropdown;
