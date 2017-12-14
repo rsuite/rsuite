@@ -56,3 +56,4 @@ export PanelGroup from './PanelGroup';
 
 export SafeAnchor from './SafeAnchor';
 
+export SchemaModel from './SchemaModel';
