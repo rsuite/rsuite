@@ -1,28 +1,27 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
+import prefix from './utils/prefix';
 
-const propTypes = {
-  classPrefix: PropTypes.string
-};
+type Props = {
+  classPrefix?: string,
+  className?: string
+}
 
-const defaultProps = {
-  classPrefix: 'modal'
-};
-
-class ModalBody extends React.Component {
+class ModalBody extends React.Component<Props> {
+  static defaultProps = {
+    classPrefix: 'modal'
+  };
   render() {
     const { classPrefix, className, ...props } = this.props;
-    let classes = classNames(`${classPrefix}-body`, className);
+    const addPrefix = prefix(classPrefix);
+    const classes = classNames(addPrefix('body'), className);
+
     return (
       <div {...props} className={classes} />
     );
   }
 }
-
-ModalBody.propTypes = propTypes;
-ModalBody.defaultProps = defaultProps;
-ModalBody.displayName = 'ModalBody';
-
 
 export default ModalBody;

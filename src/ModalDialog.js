@@ -1,23 +1,27 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
-import decorate, { getClassNames } from './utils/decorate';
+import withStyleProps from './utils/withStyleProps';
+import prefix from './utils/prefix';
 
-const propTypes = {
-  classPrefix: PropTypes.string,
-  dialogClassName: PropTypes.string,
-  dialogStyle: PropTypes.object // eslint-disable-line react/forbid-prop-types
-};
 
-const defaultProps = {
-  classPrefix: 'modal'
-};
+type Props = {
+  className?: string,
+  classPrefix?: string,
+  dialogClassName?: string,
+  style?: Object,
+  dialogStyle?: Object,
+  children?: React.Node
+}
 
-class ModalDialog extends React.Component {
+class ModalDialog extends React.Component<Props> {
+  static defaultProps = {
+    classPrefix: 'modal'
+  }
+
   render() {
-
     const {
-      className,
       style,
       children,
       dialogClassName,
@@ -31,25 +35,21 @@ class ModalDialog extends React.Component {
       ...style
     };
 
-    const modalClasses = classNames(classPrefix, className);
-    const dialogClasses = classNames({
-      ...getClassNames(this.props),
-      [classPrefix]: false,
-    }, `${classPrefix}-dialog`, dialogClassName);
+    const addPrefix = prefix(classPrefix);
+    const dialogClasses = classNames(addPrefix('dialog'), dialogClassName);
 
     return (
       <div
         title={null}
         role="dialog"
         style={modalStyle}
-        className={modalClasses}
         {...props}
       >
         <div
           className={dialogClasses}
           style={dialogStyle}
         >
-          <div className={`${classPrefix}-content`} role="document">
+          <div className={addPrefix('content')} role="document">
             {children}
           </div>
         </div>
@@ -58,9 +58,7 @@ class ModalDialog extends React.Component {
   }
 }
 
-ModalDialog.propTypes = propTypes;
-ModalDialog.defaultProps = defaultProps;
 
-export default decorate({
-  size: true
+export default withStyleProps({
+  hasSize: true
 })(ModalDialog);

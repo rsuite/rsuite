@@ -1,25 +1,31 @@
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
 import createChainedFunction from './utils/createChainedFunction';
+import prefix from './utils/prefix';
 
-const propTypes = {
-  classPrefix: PropTypes.string,
-  closeButton: PropTypes.bool,
-  onHide: PropTypes.func
-};
+type Props = {
+  classPrefix?: string,
+  className?: string,
+  closeButton?: boolean,
+  children?: React.Node,
+  onHide?: Function
+}
 
-const defaultProps = {
-  classPrefix: 'modal',
-  closeButton: true,
-  onHide: undefined
-};
 
-const contextTypes = {
-  onModalHide: PropTypes.func
-};
+class ModalHeader extends React.Component<Props> {
 
-class ModalHeader extends React.Component {
+  static contextTypes = {
+    onModalHide: PropTypes.func
+  };
+
+  static defaultProps = {
+    classPrefix: 'modal',
+    closeButton: true,
+  }
+
   render() {
     const {
       classPrefix,
@@ -30,7 +36,9 @@ class ModalHeader extends React.Component {
       ...props
     } = this.props;
 
-    let classes = classNames(`${classPrefix}-header`, className);
+    const addPrefix = prefix(classPrefix);
+    const classes = classNames(addPrefix('header'), className);
+
     return (
       <div
         {...props}
@@ -52,8 +60,5 @@ class ModalHeader extends React.Component {
   }
 }
 
-ModalHeader.propTypes = propTypes;
-ModalHeader.defaultProps = defaultProps;
-ModalHeader.contextTypes = contextTypes;
 
 export default ModalHeader;

@@ -1,20 +1,23 @@
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import React from 'react';
+import prefix from './utils/prefix';
 
+type Props = {
+  classPrefix?: string,
+  className?: string
+}
 
-const propTypes = {
-  classPrefix: PropTypes.string
-};
+class ModalFooter extends React.Component<Props> {
+  static defaultProps = {
+    classPrefix: 'modal'
+  };
 
-const defaultProps = {
-  classPrefix: 'modal'
-};
-
-class ModalFooter extends React.Component {
   render() {
     const { classPrefix, className, ...props } = this.props;
-    let classes = classNames(`${classPrefix}-footer`, className);
+    const addPrefix = prefix(classPrefix);
+    let classes = classNames(addPrefix('footer'), className);
     return (
       <div
         {...props}
@@ -24,7 +27,5 @@ class ModalFooter extends React.Component {
   }
 }
 
-ModalFooter.propTypes = propTypes;
-ModalFooter.defaultProps = defaultProps;
 
 export default ModalFooter;

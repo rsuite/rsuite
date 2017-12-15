@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import pick from 'lodash/pick';
-import omit from 'lodash/omit';
 
 import BaseModal from 'rsuite-utils/lib/Overlay/Modal';
 import Fade from 'rsuite-utils/lib/Animation/Fade';
@@ -36,26 +35,26 @@ type Props = {
   dialogStyle?: Object,
   backdropStyle?: Object,
   show?: boolean,
-  onShow?: Function,
-  onHide?: Function,
   backdrop?: boolean | 'static',
-  onEscapeKeyUp?: Function,
-  onBackdropClick?: Function,
   keyboard?: boolean,
   transition?: React.ElementType,
   dialogTransitionTimeout?: number,
   backdropTransitionTimeout?: number,
   autoFocus?: boolean,
   enforceFocus?: boolean,
+  autoResizeHeight?: boolean,
+  animation?: boolean,
+  dialogComponentClass: React.ElementType,
+  onEscapeKeyUp?: Function,
+  onBackdropClick?: Function,
+  onShow?: Function,
+  onHide?: Function,
   onEnter?: Function,
   onEntering?: Function,
   onEntered?: Function,
   onExit?: Function,
   onExiting?: Function,
   onExited?: Function,
-  autoResizeHeight?: boolean,
-  animation?: boolean,
-  dialogComponentClass: React.ElementType
 }
 
 type States = {
@@ -68,7 +67,6 @@ const childContextTypes = {
 };
 
 class Modal extends React.Component<Props, States> {
-
 
   static defaultProps = {
     backdrop: true,
@@ -110,12 +108,13 @@ class Modal extends React.Component<Props, States> {
     const { container, autoResizeHeight } = this.props;
 
     /* eslint-disable react/no-find-dom-node */
-    const node = findDOMNode(this.dialog);
-    const doc = ownerDocument(node);
+    const node: any = findDOMNode(this.dialog);
+    const doc: any = ownerDocument(node);
     const scrollHeight = node ? node.scrollHeight : 0;
 
     const bodyIsOverflowing = isOverflowing(findDOMNode(container || doc.body));
     const modalIsOverflowing = scrollHeight > doc.documentElement.clientHeight;
+
     const styles: { modalStyles: Object, bodyStyles?: Object } = {
       modalStyles: {
         paddingRight: bodyIsOverflowing && !modalIsOverflowing ? getScrollbarSize() : 0,
@@ -188,9 +187,7 @@ class Modal extends React.Component<Props, States> {
     const inClass = { in: show && !animation };
     const Dialog: React.ElementType = dialogComponentClass;
 
-    const parentProps = pick(props, Object.keys(BaseModal.propTypes).concat(['onExit', 'onExiting', 'onEnter', 'onEntered']));
-    const dialogProps = omit(props, ['enforceFocus', 'keyboard', 'backdrop', 'onHide']);
-
+    const parentProps = pick(props, Object.keys(BaseModal.propTypes));
     const items = (autoResizeHeight && children) ?
       mapCloneElement(children, (child) => {
         if (child.type.displayName === 'ModalBody') {
@@ -203,7 +200,7 @@ class Modal extends React.Component<Props, States> {
 
     const modal = (
       <Dialog
-        {...dialogProps}
+        {...pick(props, Object.keys(ModalDialog.propTypes)) }
         style={{ ...modalStyles, ...style }}
         className={classNames(className, inClass)}
         dialogClassName={dialogClassName}
@@ -221,7 +218,9 @@ class Modal extends React.Component<Props, States> {
 
     return (
       <BaseModal
-        ref={ref => (this.modal = ref)}
+        ref={(ref) => {
+          this.modal = ref;
+        }}
         show={show}
         onEntering={this.handleShow}
         onExited={this.handleHide}
