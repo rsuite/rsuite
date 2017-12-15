@@ -14,15 +14,15 @@ const StatusOf = ['success', 'warning', 'danger', 'info'];
 const ColorOf = ['default', 'primary', 'link', 'inverse'];
 
 type RequiredProps = {
-  className: string,
-  classPrefix: string,
+  className?: string,
+  classPrefix?: string,
   innerRef?: Function,
   size?: Size,
   shape?: Status | Color
 };
 
 type ProvidedProps = {
-  classPrefix: string
+  classPrefix?: string
 }
 
 type Options = {

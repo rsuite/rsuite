@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import omit from 'lodash/omit';
+import get from 'lodash/get';
 import values from 'lodash/values';
 import decorate, { STATE, getClassNames } from './utils/decorate';
 
@@ -21,10 +22,10 @@ const contextTypes = {
 
 class HelpBlock extends React.Component {
   render() {
-    const { formGroup = {} } = this.context;
+    const controlId = get(this.context, 'formGroup.controlId');
     const {
       className,
-      htmlFor = formGroup.controlId,
+      htmlFor = controlId,
       ...props
     } = this.props;
 

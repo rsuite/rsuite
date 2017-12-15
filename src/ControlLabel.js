@@ -3,11 +3,12 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import get from 'lodash/get';
 
 type Props = {
   className?: string,
   htmlFor?: string,
-  srOnly: boolean
+  srOnly?: boolean
 }
 
 class ControlLabel extends React.Component<Props> {
@@ -17,9 +18,9 @@ class ControlLabel extends React.Component<Props> {
   }
 
   render() {
-    const { formGroup = {} } = this.context;
+    const controlId = get(this.context, 'formGroup.controlId');
     const {
-      htmlFor = formGroup.controlId,
+      htmlFor = controlId,
       srOnly,
       className,
       ...props,

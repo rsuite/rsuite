@@ -1,7 +1,10 @@
+/* @flow */
+
+import setStatic from 'recompose/setStatic';
 import { Form, Field, createFormControl } from 'form-lib';
 
-Form.Field = Field;
-Form.createFormControl = createFormControl;
+setStatic('Field', Field)(Form);
+setStatic('createFormControl', createFormControl)(Form);
 
 
 export default Form;

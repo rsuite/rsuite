@@ -1,57 +1,58 @@
-import React from 'react';
+/* @flow */
+
+import * as React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import elementType from 'rsuite-utils/lib/propTypes/elementType';
-import decorate, { getClassNames } from './utils/decorate';
+import get from 'lodash/get';
+import withStyleProps from './utils/withStyleProps';
+import createComponent from './utils/createComponent';
+import prefix from './utils/prefix';
 
-const propTypes = {
-  componentClass: elementType,
-  type: PropTypes.string,
-  id: PropTypes.string,
-  onChange: PropTypes.func,
-  inputRef: PropTypes.func
-};
+type Props = {
+  type?: 'text' | 'email' | 'number' | 'file' | 'select' | 'textarea' | 'password',
+  id?: string,
+  classPrefix?: string,
+  className?: string,
+  onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void,
+  inputRef?: React.Ref<any>,
+}
 
-const defaultProps = {
-  componentClass: 'input',
-  type: undefined,
-  id: undefined,
-  onChange: undefined,
-  inputRef: undefined
-};
 
-const contextTypes = {
-  formGroup: PropTypes.object
-};
+const Component = createComponent('input');
 
-class FormControl extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
+class FormControl extends React.Component<Props> {
+
+  static defaultProps = {
+    classPrefix: 'form',
+    type: 'text'
   }
-  handleChange(event) {
+
+  static contextTypes = {
+    formGroup: PropTypes.object
+  }
+
+  handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     const target = event.target;
     const { onChange } = this.props;
     onChange && onChange(target.value, event);
   }
 
   render() {
-
-    const { formGroup = {} } = this.context;
+    const controlId = get(this.context, 'formGroup.controlId');
     const {
       type,
       className,
       inputRef,
-      componentClass: Component,
-      id = formGroup.controlId,
+      classPrefix,
+      id = controlId,
       ...props,
     } = this.props;
 
+    const addPrefix: Function = prefix(classPrefix);
 
     let classes = classNames({
       // input[type="file"] should not have .form-control.
-      'form-control': type !== 'file',
-      ...getClassNames(this.props, 'input'),
+      [addPrefix('control')]: type !== 'file',
     }, className);
 
     return (
@@ -67,10 +68,7 @@ class FormControl extends React.Component {
   }
 }
 
-FormControl.propTypes = propTypes;
-FormControl.defaultProps = defaultProps;
-FormControl.contextTypes = contextTypes;
-
-export default decorate({
-  size: true
+export default withStyleProps({
+  hasSize: true,
 })(FormControl);
+
