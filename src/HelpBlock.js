@@ -8,12 +8,12 @@ import decorate, { STATE, getClassNames } from './utils/decorate';
 
 const propTypes = {
   htmlFor: PropTypes.string,
-  prefixClass: PropTypes.string
+  classPrefix: PropTypes.string
 };
 
 const defaultProps = {
   htmlFor: undefined,
-  prefixClass: 'help-block',
+  classPrefix: 'help-block',
 };
 
 const contextTypes = {

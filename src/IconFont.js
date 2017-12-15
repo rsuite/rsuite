@@ -1,39 +1,36 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
-import elementType from 'rsuite-utils/lib/propTypes/elementType';
+import createComponent from './utils/createComponent';
+import prefix from './utils/prefix';
 
-const propTypes = {
-  prefixClass: PropTypes.string,
-  componentClass: elementType,
-  icon: PropTypes.string.isRequired,
-  size: PropTypes.oneOf(['lg', '2x', '3x', '4x', '5x']),
-  flip: PropTypes.oneOf(['horizontal', 'vertical']),
-  stack: PropTypes.oneOf(['1x', '2x']),
-  rotate: PropTypes.number,
-  fixedWidth: PropTypes.bool,
-  spin: PropTypes.bool,
-  pulse: PropTypes.bool,
-};
+type Props = {
+  icon: string,
+  className?: string,
+  classPrefix?: string,
+  componentClass?: React.ElementType,
+  size?: 'lg' | '2x' | '3x' | '4x' | '5x',
+  flip?: 'horizontal' | 'vertical',
+  stack?: '1x' | '2x',
+  rotate?: number,
+  fixedWidth?: boolean,
+  spin?: boolean,
+  pulse?: boolean
+}
 
-const defaultProps = {
-  componentClass: 'i',
-  prefixClass: 'icon',
-  size: null,
-  flip: null,
-  rotate: null,
-  stack: null,
-  fixedWidth: false,
-  spin: false,
-  pulse: false
-};
+const Component = createComponent('i');
 
-class IconFont extends React.Component {
+class IconFont extends React.Component<Props> {
+
+  static defaultProps = {
+    classPrefix: 'icon'
+  }
+
   render() {
     const {
-      componentClass: Component,
       className,
-      prefixClass,
+      classPrefix,
       icon,
       size,
       fixedWidth,
@@ -45,17 +42,16 @@ class IconFont extends React.Component {
       ...props
     } = this.props;
 
-    const classes = classNames(
-      `${prefixClass}`,
-      `${prefixClass}-${icon}`, {
-        [`${prefixClass}-${size}`]: size,
-        [`${prefixClass}-fw`]: fixedWidth,
-        [`${prefixClass}-spin`]: spin,
-        [`${prefixClass}-pulse`]: pulse,
-        [`${prefixClass}-flip-${flip}`]: flip,
-        [`${prefixClass}-rotate-${rotate}`]: rotate,
-        [`${prefixClass}-stack-${stack}`]: stack
-      }, className);
+    const addPrefix = prefix(classPrefix);
+    const classes = classNames('icon', addPrefix(icon), {
+      [addPrefix(size)]: size,
+      [addPrefix('fw')]: fixedWidth,
+      [addPrefix('spin')]: spin,
+      [addPrefix('pulse')]: pulse,
+      [addPrefix(`flip-${flip || ''}`)]: flip,
+      [addPrefix(`rotate-${rotate || ''}`)]: rotate,
+      [addPrefix(`stack-${stack || ''}`)]: stack
+    }, className);
 
     return (
       <Component {...props} className={classes} />
@@ -63,7 +59,5 @@ class IconFont extends React.Component {
   }
 }
 
-IconFont.propTypes = propTypes;
-IconFont.defaultProps = defaultProps;
 
 export default IconFont;

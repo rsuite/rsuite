@@ -1,4 +1,6 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
@@ -7,10 +9,11 @@ import omit from 'lodash/omit';
 
 import BaseModal from 'rsuite-utils/lib/Overlay/Modal';
 import Fade from 'rsuite-utils/lib/Animation/Fade';
-import { elementType } from 'rsuite-utils/lib/propTypes';
 import { on, getHeight, isOverflowing, getScrollbarSize, ownerDocument } from 'dom-lib';
 
-import ReactChildren from './utils/ReactChildren';
+import { mapCloneElement } from './utils/ReactChildren';
+import prefix from './utils/prefix';
+
 import ModalDialog from './ModalDialog';
 import ModalBody from './ModalBody';
 import ModalHeader from './ModalHeader';
@@ -20,49 +23,76 @@ import ModalFooter from './ModalFooter';
 const TRANSITION_DURATION = 300;
 const BACKDROP_TRANSITION_DURATION = 150;
 
-const propTypes = {
-  ...BaseModal.propTypes,
-  ...ModalDialog.propTypes,
-  backdrop: PropTypes.oneOf(['static', true, false]),
-  animation: PropTypes.bool,
-  dialogComponentClass: elementType,
-  show: PropTypes.bool,
-  keyboard: PropTypes.bool,
-  enforceFocus: PropTypes.bool,
-  autoResizeHeight: PropTypes.bool,
-  onHide: PropTypes.func,
-  onEnter: PropTypes.func,
-  onEntering: PropTypes.func,
-  onEntered: PropTypes.func,
-  onExit: PropTypes.func,
-  onExiting: PropTypes.func,
-  onExited: PropTypes.func
-};
+type Props = {
+  container?: React.ElementType | Function,
+  onRendered?: Function,
+  className?: string,
+  classPrefix?: string,
+  children?: React.Node,
+  dialogClassName?: string,
+  backdropClassName?: string,
+  containerClassName?: string,
+  style?: Object,
+  dialogStyle?: Object,
+  backdropStyle?: Object,
+  show?: boolean,
+  onShow?: Function,
+  onHide?: Function,
+  backdrop?: boolean | 'static',
+  onEscapeKeyUp?: Function,
+  onBackdropClick?: Function,
+  keyboard?: boolean,
+  transition?: React.ElementType,
+  dialogTransitionTimeout?: number,
+  backdropTransitionTimeout?: number,
+  autoFocus?: boolean,
+  enforceFocus?: boolean,
+  onEnter?: Function,
+  onEntering?: Function,
+  onEntered?: Function,
+  onExit?: Function,
+  onExiting?: Function,
+  onExited?: Function,
+  autoResizeHeight?: boolean,
+  animation?: boolean,
+  dialogComponentClass: React.ElementType
+}
 
-const defaultProps = {
-  ...BaseModal.defaultProps,
-  prefixClass: 'modal',
-  animation: true,
-  dialogComponentClass: ModalDialog,
-  autoResizeHeight: true
-};
+type States = {
+  modalStyles?: Object,
+  bodyStyles?: Object
+}
 
 const childContextTypes = {
   onModalHide: PropTypes.func
 };
 
-class Modal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      modalStyles: {},
-      bodyStyles: {}
-    };
-    this.handleShow = this.handleShow.bind(this);
-    this.handleHide = this.handleHide.bind(this);
-    this.handleDialogClick = this.handleDialogClick.bind(this);
-    this.handleWindowResize = this.handleWindowResize.bind(this);
+class Modal extends React.Component<Props, States> {
+
+
+  static defaultProps = {
+    backdrop: true,
+    keyboard: true,
+    autoFocus: true,
+    enforceFocus: true,
+    classPrefix: 'modal',
+    animation: true,
+    dialogComponentClass: ModalDialog,
+    autoResizeHeight: true
   }
+
+  static childContextTypes = childContextTypes;
+
+  static Body = ModalBody;
+  static Header = ModalHeader;
+  static Title = ModalTitle;
+  static Footer = ModalFooter;
+  static Dialog = ModalDialog;
+
+  state = {
+    modalStyles: {},
+    bodyStyles: {}
+  };
 
   getChildContext() {
     return {
@@ -74,6 +104,7 @@ class Modal extends React.Component {
       this.windowResizeListener.off();
     }
   }
+
   getStyles() {
 
     const { container, autoResizeHeight } = this.props;
@@ -85,7 +116,7 @@ class Modal extends React.Component {
 
     const bodyIsOverflowing = isOverflowing(findDOMNode(container || doc.body));
     const modalIsOverflowing = scrollHeight > doc.documentElement.clientHeight;
-    const styles = {
+    const styles: { modalStyles: Object, bodyStyles?: Object } = {
       modalStyles: {
         paddingRight: bodyIsOverflowing && !modalIsOverflowing ? getScrollbarSize() : 0,
         paddingLeft: !bodyIsOverflowing && modalIsOverflowing ? getScrollbarSize() : 0
@@ -108,28 +139,33 @@ class Modal extends React.Component {
 
     return styles;
   }
-  handleShow(...args) {
+
+  modal = null;
+  dialog = null;
+  windowResizeListener = null;
+
+  handleShow = (...args: Array<any>) => {
 
     this.windowResizeListener = on(window, 'resize', this.handleWindowResize);
     this.setState(this.getStyles());
     const { onEntering } = this.props;
     onEntering && onEntering(...args);
   }
-  handleHide(...args) {
+  handleHide = (...args: Array<any>) => {
     if (this.windowResizeListener) {
       this.windowResizeListener.off();
     }
     const { onExited } = this.props;
     onExited && onExited(...args);
   }
-  handleDialogClick(event) {
+  handleDialogClick = (event: SyntheticEvent<*>) => {
     if (event.target !== event.currentTarget) {
       return;
     }
     const { onHide } = this.props;
     onHide && onHide(event);
   }
-  handleWindowResize() {
+  handleWindowResize = () => {
     this.setState(this.getStyles());
   }
 
@@ -141,21 +177,22 @@ class Modal extends React.Component {
       dialogStyle,
       autoResizeHeight,
       animation,
-      prefixClass,
+      classPrefix,
       style,
       show,
+      dialogComponentClass,
       ...props
     } = this.props;
 
     const { modalStyles, bodyStyles } = this.state;
     const inClass = { in: show && !animation };
-    const Dialog = props.dialogComponentClass;
+    const Dialog: React.ElementType = dialogComponentClass;
 
     const parentProps = pick(props, Object.keys(BaseModal.propTypes).concat(['onExit', 'onExiting', 'onEnter', 'onEntered']));
-    const dialogProps = omit(props, ['enforceFocus', 'keyboard', 'backdrop', 'onHide', 'dialogComponentClass']);
+    const dialogProps = omit(props, ['enforceFocus', 'keyboard', 'backdrop', 'onHide']);
 
     const items = (autoResizeHeight && children) ?
-      ReactChildren.mapCloneElement(children, (child) => {
+      mapCloneElement(children, (child) => {
         if (child.type.displayName === 'ModalBody') {
           return {
             style: bodyStyles
@@ -180,16 +217,16 @@ class Modal extends React.Component {
       </Dialog>
     );
 
+    const addPrefix = prefix(classPrefix);
+
     return (
       <BaseModal
-        ref={(ref) => {
-          this.modal = ref;
-        }}
+        ref={ref => (this.modal = ref)}
         show={show}
         onEntering={this.handleShow}
         onExited={this.handleHide}
-        backdropClassName={classNames(`${prefixClass}-backdrop`, inClass)}
-        containerClassName={`${prefixClass}-open`}
+        backdropClassName={classNames(addPrefix('backdrop'), inClass)}
+        containerClassName={addPrefix('open')}
         transition={animation ? Fade : undefined}
         dialogTransitionTimeout={TRANSITION_DURATION}
         backdropTransitionTimeout={BACKDROP_TRANSITION_DURATION}
@@ -200,15 +237,5 @@ class Modal extends React.Component {
     );
   }
 }
-
-Modal.propTypes = propTypes;
-Modal.defaultProps = defaultProps;
-Modal.childContextTypes = childContextTypes;
-
-Modal.Body = ModalBody;
-Modal.Header = ModalHeader;
-Modal.Title = ModalTitle;
-Modal.Footer = ModalFooter;
-Modal.Dialog = ModalDialog;
 
 export default Modal;

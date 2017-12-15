@@ -4,19 +4,19 @@ import classNames from 'classnames';
 
 const propTypes = {
   placement: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
-  prefixClass: PropTypes.string,
+  classPrefix: PropTypes.string,
   title: PropTypes.node
 };
 
 const defaultProps = {
-  prefixClass: 'popover',
+  classPrefix: 'popover',
   placement: 'right'
 };
 
 class Popover extends React.Component {
   render() {
     const {
-      prefixClass,
+      classPrefix,
       title,
       children,
       style,
@@ -40,12 +40,12 @@ class Popover extends React.Component {
         <div className="arrow" />
         {
           title ? (
-            <h3 className={`${prefixClass}-title`}>
+            <h3 className={`${classPrefix}-title`}>
               {title}
             </h3>
           ) : null
         }
-        <div className={`${prefixClass}-content`}>
+        <div className={`${classPrefix}-content`}>
           {children}
         </div>
       </div>

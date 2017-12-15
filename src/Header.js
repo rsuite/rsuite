@@ -1,8 +1,15 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
 import Navbar from './Navbar';
 
-class Header extends React.Component {
+type Props = {
+  children?: React.Node,
+  className?: string
+}
+
+class Header extends React.Component<Props> {
   render() {
     const {
       children,

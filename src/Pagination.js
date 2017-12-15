@@ -35,7 +35,7 @@ const propTypes = {
   ]),
   onSelect: PropTypes.func,
   buttonComponentClass: elementType,
-  prefixClass: PropTypes.string
+  classPrefix: PropTypes.string
 };
 
 const defaultProps = {
@@ -48,7 +48,7 @@ const defaultProps = {
   next: false,
   ellipsis: false,
   boundaryLinks: false,
-  prefixClass: 'pagination',
+  classPrefix: 'pagination',
   buttonComponentClass: SafeAnchor,
   onSelect: undefined
 };

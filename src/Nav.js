@@ -8,7 +8,7 @@ import ReactChildren from './utils/ReactChildren';
 import isNullOrUndefined from './utils/isNullOrUndefined';
 
 const propTypes = {
-  prefixClass: PropTypes.string,
+  classPrefix: PropTypes.string,
   tabs: PropTypes.bool,
   pills: PropTypes.bool,
   justified: PropTypes.bool,
@@ -19,7 +19,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  prefixClass: 'nav',
+  classPrefix: 'nav',
   tabs: false,
   pills: false,
   justified: false,
@@ -36,7 +36,7 @@ const contextTypes = {
 class Nav extends React.Component {
   render() {
     const {
-      prefixClass,
+      classPrefix,
       tabs,
       pills,
       stacked,
@@ -49,13 +49,13 @@ class Nav extends React.Component {
       ...props
     } = this.props;
 
-    const classes = classNames(prefixClass, {
-      [`${prefixClass}bar-right`]: pullRight,
-      [`${prefixClass}bar-nav`]: this.context.navbar,
-      [`${prefixClass}-pills`]: pills,
-      [`${prefixClass}-tabs`]: tabs,
-      [`${prefixClass}-stacked`]: stacked,
-      [`${prefixClass}-justified`]: justified
+    const classes = classNames(classPrefix, {
+      [`${classPrefix}bar-right`]: pullRight,
+      [`${classPrefix}bar-nav`]: this.context.navbar,
+      [`${classPrefix}-pills`]: pills,
+      [`${classPrefix}-tabs`]: tabs,
+      [`${classPrefix}-stacked`]: stacked,
+      [`${classPrefix}-justified`]: justified
     }, className);
 
 

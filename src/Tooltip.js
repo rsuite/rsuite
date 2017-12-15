@@ -6,7 +6,7 @@ const propTypes = {
   placement: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
   positionLeft: PropTypes.number,
   positionTop: PropTypes.number,
-  prefixClass: PropTypes.string,
+  classPrefix: PropTypes.string,
   arrowOffsetLeft: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string
@@ -19,7 +19,7 @@ const propTypes = {
 
 const defaultProps = {
   placement: 'right',
-  prefixClass: 'tooltip'
+  classPrefix: 'tooltip'
 };
 
 class Tooltip extends React.Component {
@@ -31,7 +31,7 @@ class Tooltip extends React.Component {
       arrowOffsetLeft,
       arrowOffsetTop,
       positionTop,
-      prefixClass,
+      classPrefix,
       children,
       style
     } = this.props;
@@ -58,8 +58,8 @@ class Tooltip extends React.Component {
         className={classes}
         style={styles}
       >
-        <div className={`${prefixClass}-arrow`} style={arrowStyle} />
-        <div className={`${prefixClass}-inner`}>
+        <div className={`${classPrefix}-arrow`} style={arrowStyle} />
+        <div className={`${classPrefix}-inner`}>
           {children}
         </div>
       </div>

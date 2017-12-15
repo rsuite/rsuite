@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 const propTypes = {
-  prefixClass: PropTypes.string
+  classPrefix: PropTypes.string
 };
 
 const defaultProps = {
-  prefixClass: 'modal'
+  classPrefix: 'modal'
 };
 
 class ModalTitle extends React.Component {
   render() {
-    const { className, prefixClass, children, ...props } = this.props;
-    const classes = classNames(`${prefixClass}-title`, className);
+    const { className, classPrefix, children, ...props } = this.props;
+    const classes = classNames(`${classPrefix}-title`, className);
     return (
       <h4
         {...props}

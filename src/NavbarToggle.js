@@ -4,12 +4,12 @@ import React from 'react';
 import createChainedFunction from './utils/createChainedFunction';
 
 const propTypes = {
-  prefixClass: PropTypes.string,
+  classPrefix: PropTypes.string,
   onClick: PropTypes.func
 };
 
 const defaultProps = {
-  prefixClass: 'navbar',
+  classPrefix: 'navbar',
   onClick: undefined
 };
 
@@ -25,7 +25,7 @@ class NavbarToggle extends React.Component {
       onClick,
       className,
       children,
-      prefixClass,
+      classPrefix,
       ...props
     } = this.props;
 
@@ -34,7 +34,7 @@ class NavbarToggle extends React.Component {
       expanded,
     } = this.context;
 
-    const classes = classNames(`${prefixClass}-toggle`, {
+    const classes = classNames(`${classPrefix}-toggle`, {
       collapsed: !expanded
     }, className);
 

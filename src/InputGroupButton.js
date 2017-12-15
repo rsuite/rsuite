@@ -1,7 +1,13 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
 
-class InputGroupButton extends React.Component {
+type Props = {
+  className?: string,
+}
+
+class InputGroupButton extends React.Component<Props> {
   render() {
     const {
       className,

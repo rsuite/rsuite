@@ -4,21 +4,21 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 const propTypes = {
-  prefixClass: PropTypes.string,
+  classPrefix: PropTypes.string,
 };
 
 const defaultProps = {
-  prefixClass: 'navbar'
+  classPrefix: 'navbar'
 };
 
 class NavbarHeader extends React.Component {
   render() {
     const {
       className,
-      prefixClass,
+      classPrefix,
       ...props
     } = this.props;
-    const classes = classNames(`${prefixClass}-header`, className);
+    const classes = classNames(`${classPrefix}-header`, className);
 
     return (
       <div {...props} className={classes} />

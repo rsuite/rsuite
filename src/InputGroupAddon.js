@@ -1,7 +1,14 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
 
-class InputGroupAddon extends React.Component {
+type Props = {
+  className?: string,
+}
+
+
+class InputGroupAddon extends React.Component<Props> {
   render() {
     const {
       className,

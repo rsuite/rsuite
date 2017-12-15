@@ -11,12 +11,12 @@ const propTypes = {
   defaultActiveKey: PropTypes.any,  // eslint-disable-line react/forbid-prop-types
   className: PropTypes.string,
   children: PropTypes.node,
-  prefixClass: PropTypes.string,
+  classPrefix: PropTypes.string,
   onSelect: PropTypes.func
 };
 
 const defaultProps = {
-  prefixClass: 'panel-group',
+  classPrefix: 'panel-group',
   accordion: false
 };
 

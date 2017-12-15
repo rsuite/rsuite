@@ -11,7 +11,7 @@ type Props = {
   vertical?: boolean,
   justified?: boolean,
   block?: boolean,
-  classPrefix: string
+  classPrefix?: string
 };
 
 

@@ -13,7 +13,7 @@ type Props = {
   block?: boolean,
   href?: string,
   className?: string,
-  classPrefix: string
+  classPrefix?: string
 };
 
 const Component = createComponent('button');

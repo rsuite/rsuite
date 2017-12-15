@@ -4,17 +4,17 @@ import React from 'react';
 
 
 const propTypes = {
-  prefixClass: PropTypes.string
+  classPrefix: PropTypes.string
 };
 
 const defaultProps = {
-  prefixClass: 'modal'
+  classPrefix: 'modal'
 };
 
 class ModalFooter extends React.Component {
   render() {
-    const { prefixClass, className, ...props } = this.props;
-    let classes = classNames(`${prefixClass}-footer`, className);
+    const { classPrefix, className, ...props } = this.props;
+    let classes = classNames(`${classPrefix}-footer`, className);
     return (
       <div
         {...props}

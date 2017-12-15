@@ -4,13 +4,13 @@ import React from 'react';
 import createChainedFunction from './utils/createChainedFunction';
 
 const propTypes = {
-  prefixClass: PropTypes.string,
+  classPrefix: PropTypes.string,
   closeButton: PropTypes.bool,
   onHide: PropTypes.func
 };
 
 const defaultProps = {
-  prefixClass: 'modal',
+  classPrefix: 'modal',
   closeButton: true,
   onHide: undefined
 };
@@ -22,7 +22,7 @@ const contextTypes = {
 class ModalHeader extends React.Component {
   render() {
     const {
-      prefixClass,
+      classPrefix,
       onHide,
       className,
       closeButton,
@@ -30,7 +30,7 @@ class ModalHeader extends React.Component {
       ...props
     } = this.props;
 
-    let classes = classNames(`${prefixClass}-header`, className);
+    let classes = classNames(`${classPrefix}-header`, className);
     return (
       <div
         {...props}

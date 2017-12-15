@@ -179,5 +179,5 @@ TablePagination.propTypes = propTypes;
 TablePagination.defaultProps = defaultProps;
 
 export default addPrefixClass({
-  prefixClass: 'rsuite-table'
+  classPrefix: 'rsuite-table'
 })(TablePagination);

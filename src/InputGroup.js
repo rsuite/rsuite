@@ -1,32 +1,35 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
+import setStatic from 'recompose/setStatic';
+
 import InputGroupAddon from './InputGroupAddon';
 import InputGroupButton from './InputGroupButton';
-import decorate, { getClassNames } from './utils/decorate';
+import prefix from './utils/prefix';
+import withStyleProps from './utils/withStyleProps';
 
-const propTypes = {
-  prefixClass: PropTypes.string,
-  inside: PropTypes.bool
-};
+type Props = {
+  className?: string,
+  classPrefix?: string,
+  inside?: boolean
+}
 
-const defaultProps = {
-  prefixClass: 'input-group',
-  inside: false
-};
-
-class InputGroup extends React.Component {
+class InputGroup extends React.Component<Props> {
+  static defaultProps = {
+    classPrefix: 'input-group',
+  }
   render() {
     const {
       className,
-      prefixClass,
+      classPrefix,
       inside,
       ...props
     } = this.props;
 
+    const addPrefix = prefix(classPrefix);
     const classes = classNames({
-      ...getClassNames(this.props),
-      [`${prefixClass}-inside`]: inside,
+      [addPrefix('inside')]: inside
     }, className);
 
     return (
@@ -34,17 +37,15 @@ class InputGroup extends React.Component {
         {...props}
         className={classes}
       />
-
     );
   }
 }
 
-InputGroup.propTypes = propTypes;
-InputGroup.defaultProps = defaultProps;
-
-InputGroup.Addon = InputGroupAddon;
-InputGroup.Button = InputGroupButton;
-
-export default decorate({
-  size: true
+const WithInputGroup = withStyleProps({
+  hasSize: true
 })(InputGroup);
+
+setStatic('Addon', InputGroupAddon)(WithInputGroup);
+setStatic('Button', InputGroupButton)(WithInputGroup);
+
+export default WithInputGroup;

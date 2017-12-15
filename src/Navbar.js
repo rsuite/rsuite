@@ -8,7 +8,7 @@ import NavbarHeader from './NavbarHeader';
 import NavbarToggle from './NavbarToggle';
 
 const propTypes = {
-  prefixClass: PropTypes.string,
+  classPrefix: PropTypes.string,
   fixedTop: PropTypes.bool,
   fixedBottom: PropTypes.bool,
   inverse: PropTypes.bool,
@@ -17,7 +17,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  prefixClass: 'navbar',
+  classPrefix: 'navbar',
   componentClass: 'div',
   fixedTop: false,
   fixedBottom: false,
@@ -26,7 +26,7 @@ const defaultProps = {
 };
 
 const childContextTypes = {
-  prefixClass: PropTypes.string,
+  classPrefix: PropTypes.string,
   navbar: PropTypes.bool,
   expanded: PropTypes.bool,
   onToggle: PropTypes.func
@@ -43,7 +43,7 @@ class Navbar extends React.Component {
   getChildContext() {
     return {
       navbar: true,
-      prefixClass: this.props.prefixClass,
+      classPrefix: this.props.classPrefix,
       onToggle: this.handleToggle,
       expanded: this.state.expanded
     };
@@ -63,18 +63,18 @@ class Navbar extends React.Component {
       fixedTop,
       fixedBottom,
       className,
-      prefixClass,
+      classPrefix,
       onToggle,
       componentClass: Component,
       ...props
     } = this.props;
 
     const classes = classNames({
-      [`${prefixClass}-default`]: !inverse,
-      [`${prefixClass}-inverse`]: inverse,
-      [`${prefixClass}-fixed-top`]: fixedTop,
-      [`${prefixClass}-fixed-bottom`]: fixedBottom
-    }, prefixClass, className);
+      [`${classPrefix}-default`]: !inverse,
+      [`${classPrefix}-inverse`]: inverse,
+      [`${classPrefix}-fixed-top`]: fixedTop,
+      [`${classPrefix}-fixed-bottom`]: fixedBottom
+    }, classPrefix, className);
 
     return (
       <Component

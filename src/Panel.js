@@ -20,7 +20,7 @@ const propTypes = {
   eventKey: PropTypes.any,    // eslint-disable-line react/forbid-prop-types
   headerRole: PropTypes.string,
   panelRole: PropTypes.string,
-  prefixClass: PropTypes.string,
+  classPrefix: PropTypes.string,
 
   onSelect: PropTypes.func,
   onEnter: Collapse.propTypes.onEnter,
@@ -33,7 +33,7 @@ const propTypes = {
 
 const defaultProps = {
   defaultExpanded: false,
-  prefixClass: 'panel'
+  classPrefix: 'panel'
 };
 
 function shouldRenderFill(child) {
@@ -77,16 +77,16 @@ class Panel extends React.Component {
   }
 
   renderCollapsibleTitle(header, headerRole) {
-    const { prefixClass } = this.props;
+    const { classPrefix } = this.props;
     return (
-      <h4 className={`${prefixClass}-title`} role="presentation">
+      <h4 className={`${classPrefix}-title`} role="presentation">
         {this.renderAnchor(header, headerRole)}
       </h4>
     );
   }
 
   renderCollapsibleBody(panelRole) {
-    const { id, prefixClass } = this.props;
+    const { id, classPrefix } = this.props;
 
     const collapseProps = {
       ...pick(this.props, Object.keys(Collapse.propTypes)),
@@ -94,7 +94,7 @@ class Panel extends React.Component {
     };
     let props = {
       id,
-      className: `${prefixClass}-collapse`,
+      className: `${classPrefix}-collapse`,
       ref: 'panel',
       'aria-hidden': !this.isExpanded()
     };
@@ -112,11 +112,11 @@ class Panel extends React.Component {
   }
 
   renderBody() {
-    const { prefixClass, children } = this.props;
+    const { classPrefix, children } = this.props;
     let allChildren = children;
     let bodyElements = [];
     let panelBodyChildren = [];
-    let bodyClass = `${prefixClass}-body`;
+    let bodyClass = `${classPrefix}-body`;
 
     function getProps() {
       return {
@@ -172,7 +172,7 @@ class Panel extends React.Component {
   }
 
   renderHeading(headerRole) {
-    let { header, collapsible, prefixClass } = this.props;
+    let { header, collapsible, classPrefix } = this.props;
 
     if (!header) {
       return null;
@@ -182,7 +182,7 @@ class Panel extends React.Component {
       header = collapsible ? this.renderCollapsibleTitle(header, headerRole) : header;
     } else {
       const className = classNames(
-        `${prefixClass}-title`,
+        `${classPrefix}-title`,
         header.props.className
       );
       header = cloneElement(header, { className });
@@ -190,7 +190,7 @@ class Panel extends React.Component {
     return (
       <div
         role="rowheader"
-        className={`${prefixClass}-heading`}
+        className={`${classPrefix}-heading`}
         onClick={this.handleSelect}
         tabIndex={-1}
       >

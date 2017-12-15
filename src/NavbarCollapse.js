@@ -4,11 +4,11 @@ import classNames from 'classnames';
 import Collapse from 'rsuite-utils/lib/Animation/Collapse';
 
 const propTypes = {
-  prefixClass: PropTypes.string,
+  classPrefix: PropTypes.string,
 };
 
 const defaultProps = {
-  prefixClass: 'navbar'
+  classPrefix: 'navbar'
 };
 
 const contextTypes = {
@@ -19,11 +19,11 @@ class NavbarCollapse extends React.Component {
   render() {
     const {
       children,
-      prefixClass,
+      classPrefix,
       ...props
     } = this.props;
 
-    const classes = classNames('collapse', `${prefixClass}-collapse`);
+    const classes = classNames('collapse', `${classPrefix}-collapse`);
     const expanded = this.context.expanded;
 
     return (

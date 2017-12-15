@@ -4,13 +4,13 @@ import classNames from 'classnames';
 import decorate, { getClassNames } from './utils/decorate';
 
 const propTypes = {
-  prefixClass: PropTypes.string,
+  classPrefix: PropTypes.string,
   dialogClassName: PropTypes.string,
   dialogStyle: PropTypes.object // eslint-disable-line react/forbid-prop-types
 };
 
 const defaultProps = {
-  prefixClass: 'modal'
+  classPrefix: 'modal'
 };
 
 class ModalDialog extends React.Component {
@@ -22,7 +22,7 @@ class ModalDialog extends React.Component {
       children,
       dialogClassName,
       dialogStyle,
-      prefixClass,
+      classPrefix,
       ...props
     } = this.props;
 
@@ -31,11 +31,11 @@ class ModalDialog extends React.Component {
       ...style
     };
 
-    const modalClasses = classNames(prefixClass, className);
+    const modalClasses = classNames(classPrefix, className);
     const dialogClasses = classNames({
       ...getClassNames(this.props),
-      [prefixClass]: false,
-    }, `${prefixClass}-dialog`, dialogClassName);
+      [classPrefix]: false,
+    }, `${classPrefix}-dialog`, dialogClassName);
 
     return (
       <div
@@ -49,7 +49,7 @@ class ModalDialog extends React.Component {
           className={dialogClasses}
           style={dialogStyle}
         >
-          <div className={`${prefixClass}-content`} role="document">
+          <div className={`${classPrefix}-content`} role="document">
             {children}
           </div>
         </div>

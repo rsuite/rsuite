@@ -3,17 +3,17 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 const propTypes = {
-  prefixClass: PropTypes.string
+  classPrefix: PropTypes.string
 };
 
 const defaultProps = {
-  prefixClass: 'modal'
+  classPrefix: 'modal'
 };
 
 class ModalBody extends React.Component {
   render() {
-    const { prefixClass, className, ...props } = this.props;
-    let classes = classNames(`${prefixClass}-body`, className);
+    const { classPrefix, className, ...props } = this.props;
+    let classes = classNames(`${classPrefix}-body`, className);
     return (
       <div {...props} className={classes} />
     );

@@ -12,11 +12,11 @@ const propTypes = {
   onChange: PropTypes.func,
   checkedChildren: PropTypes.node,
   unCheckedChildren: PropTypes.node,
-  prefixClass: PropTypes.string
+  classPrefix: PropTypes.string
 };
 
 const defaultProps = {
-  prefixClass: 'btn-toggle'
+  classPrefix: 'btn-toggle'
 };
 
 
@@ -62,14 +62,14 @@ class Toggle extends React.Component {
       onChange,
       checkedChildren,
       unCheckedChildren,
-      prefixClass,
+      classPrefix,
       ...props
     } = this.props;
 
     const checked = this.getCheckedStatus();
     const classes = classNames({
       ...getClassNames(this.props),
-      [`${prefixClass}-checked`]: checked,
+      [`${classPrefix}-checked`]: checked,
       disabled
     }, className);
 

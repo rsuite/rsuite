@@ -4,17 +4,17 @@ import classNames from 'classnames';
 
 
 const propTypes = {
-  prefixClass: PropTypes.string
+  classPrefix: PropTypes.string
 };
 
 const defaultProps = {
-  prefixClass: 'navbar'
+  classPrefix: 'navbar'
 };
 
 class NavbarBrand extends React.Component {
   render() {
-    const { className, prefixClass, children, ...props } = this.props;
-    const classes = classNames(`${prefixClass}-brand`, className);
+    const { className, classPrefix, children, ...props } = this.props;
+    const classes = classNames(`${classPrefix}-brand`, className);
 
     if (React.isValidElement(children)) {
       return React.cloneElement(children, {

@@ -22,10 +22,10 @@ export const STYLES = {
   INVERSE: 'inverse'
 };
 
-export function getClassNames(props, prefixClass) {
+export function getClassNames(props, classPrefix) {
 
-  const { size, shape, prefixClass: className } = props;
-  let pre = prefixClass || className;
+  const { size, shape, classPrefix: className } = props;
+  let pre = classPrefix || className;
 
   pre = pre ? `${pre}-` : '';
 

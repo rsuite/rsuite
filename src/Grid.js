@@ -1,22 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
-import elementType from 'rsuite-utils/lib/propTypes/elementType';
+import createComponent from './utils/createComponent';
 
-const propTypes = {
-  fluid: PropTypes.bool,
-  componentClass: elementType
-};
+type Props = {
+  className?: string,
+  fluid?: boolean
+}
 
-const defaultProps = {
-  componentClass: 'div',
-  fluid: false
-};
+const Component = createComponent();
 
-class Grid extends React.Component {
+class Grid extends React.Component<Props> {
   render() {
     const {
-      componentClass: Component,
       fluid,
       className,
       ...props
@@ -32,8 +29,5 @@ class Grid extends React.Component {
     );
   }
 }
-
-Grid.propTypes = propTypes;
-Grid.defaultProps = defaultProps;
 
 export default Grid;
