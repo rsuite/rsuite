@@ -20,9 +20,9 @@ describe('IconFont', () => {
 
   it('Should have a class prefix rsuite-icon', () => {
     let instance = ReactTestUtils.renderIntoDocument(
-      <IconFont icon="star" prefixClass="rsuite-icon" />
+      <IconFont icon="star" classPrefix="rsuite-icon" />
     );
-    assert.ok(findDOMNode(instance).className.match(/\brsuite-icon rsuite-icon-star\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bicon rsuite-icon-star\b/));
   });
 
 

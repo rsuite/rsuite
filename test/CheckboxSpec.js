@@ -84,7 +84,7 @@ describe('Checkbox', () => {
 
 
   it('Should be checked with change', (done) => {
-    let doneOp = (checked) => {
+    let doneOp = (value, checked) => {
       if (checked) {
         done();
       }

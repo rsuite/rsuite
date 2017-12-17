@@ -28,18 +28,7 @@ describe('Dropdown', () => {
         <Dropdown.Item>2</Dropdown.Item>
       </Dropdown>
     );
-    assert.ok(findDOMNode(instance).querySelector('button.disabled'));
-  });
-
-  it('Should be block', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Dropdown block>
-        <Dropdown.Item>1</Dropdown.Item>
-        <Dropdown.Item>2</Dropdown.Item>
-      </Dropdown>
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bbtn-block\b/));
-    assert.ok(findDOMNode(instance).querySelector('button').className.match(/\bbtn-block\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bdisabled\b/));
   });
 
   it('Should be dropup', () => {
@@ -59,48 +48,39 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    assert.equal(innerText(findDOMNode(instance).querySelector('button')), 'abc');
+    assert.equal(innerText(findDOMNode(instance).querySelector('.dropdown-toggle')), 'abc');
   });
 
   it('Should have a title when set activeKey', () => {
     let instance = ReactTestUtils.renderIntoDocument(
-      <Dropdown select activeKey={0} title="abc">
+      <Dropdown  activeKey={0} title="abc">
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
         <Dropdown.Item eventKey={0}>2</Dropdown.Item>
       </Dropdown>
     );
-    assert.equal(innerText(findDOMNode(instance).querySelector('button')), 2);
+    assert.equal(innerText(findDOMNode(instance).querySelector('.dropdown-toggle')), 2);
   });
 
   it('Should have a title when set activeKey', () => {
     let instance = ReactTestUtils.renderIntoDocument(
-      <Dropdown select activeKey={0} title="abc">
+      <Dropdown  activeKey={0} title="abc">
         <NavItem eventKey={1}>1</NavItem>
         <NavItem eventKey={0}>2</NavItem>
       </Dropdown>
     );
-    assert.equal(innerText(findDOMNode(instance).querySelector('button')), 2);
+    assert.equal(innerText(findDOMNode(instance).querySelector('.dropdown-toggle')), 2);
   });
 
   it('Should have a title when set object activeKey', () => {
     let instance = ReactTestUtils.renderIntoDocument(
-      <Dropdown select activeKey={{ key: 2, value: 2 }} title="abc">
+      <Dropdown  activeKey={{ key: 2, value: 2 }} title="abc">
         <Dropdown.Item eventKey={{ key: 1, value: 1 }}>1</Dropdown.Item>
         <Dropdown.Item eventKey={{ key: 2, value: 2 }}>2</Dropdown.Item>
       </Dropdown>
     );
-    assert.equal(innerText(findDOMNode(instance).querySelector('button')), 2);
+    assert.equal(innerText(findDOMNode(instance).querySelector('.dropdown-toggle')), 2);
   });
 
-  it('Should be shown at both ends', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Dropdown bothEnds>
-        <Dropdown.Item eventKey={1}>1</Dropdown.Item>
-        <Dropdown.Item eventKey={2}>2</Dropdown.Item>
-      </Dropdown>
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bboth-ends\b/));
-  });
   it('Should call onSelect callback', (done) => {
     let doneOp = (eventKey) => {
       if (eventKey === 2) {
@@ -113,27 +93,9 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelectorAll('a')[1]);
+    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelectorAll('.dropdown-menu a')[1]);
   });
 
-  it('Should be active second item when trigger onSelect', (done) => {
-    let doneOp = (eventKey) => {
-      if (eventKey === 2) {
-        setTimeout(() => {
-          if (innerText(findDOMNode(instance).querySelector('button')) === '2') {
-            done();
-          }
-        }, 200);
-      }
-    };
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Dropdown onSelect={doneOp} select>
-        <Dropdown.Item eventKey={1}>1</Dropdown.Item>
-        <Dropdown.Item eventKey={2}>2</Dropdown.Item>
-      </Dropdown>
-    );
-    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelectorAll('a')[1]);
-  });
 
   it('Should call onToggle callback', (done) => {
     let doneOp = () => {
@@ -145,7 +107,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('button'));
+    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('.dropdown-toggle'));
   });
 
   it('Should call onOpen callback', (done) => {
@@ -158,7 +120,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('button'));
+    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('.dropdown-toggle'));
   });
 
   it('Should call onClose callback', (done) => {
@@ -171,7 +133,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    const btn = findDOMNode(instance).querySelector('button');
+    const btn = findDOMNode(instance).querySelector('.dropdown-toggle');
     ReactTestUtils.Simulate.click(btn);
     ReactTestUtils.Simulate.click(btn);
   });
@@ -192,7 +154,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('button'));
+    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('.dropdown-toggle'));
   });
 
   it('Should call onClose callback when set autoClose', (done) => {
@@ -205,7 +167,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelectorAll('a')[1]);
+    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelectorAll('.dropdown-menu a')[1]);
   });
 
   it('Should have a custom style in Menu', () => {
@@ -214,23 +176,6 @@ describe('Dropdown', () => {
       <Dropdown menuStyle={{ fontSize }} />
     );
     assert.equal(findDOMNode(instance).querySelector('.dropdown-menu').style.fontSize, fontSize);
-  });
-
-  it('Should apply shape class', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Dropdown shape="danger" />
-    );
-
-    assert.ok(findDOMNode(instance).className.match(/\bbtn-group-danger\b/));
-    assert.ok(findDOMNode(instance).querySelector('button').className.match(/\bbtn-danger\b/));
-  });
-
-  it('Should apply size class', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Dropdown size="lg" />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bbtn-group-lg\b/));
-    assert.ok(findDOMNode(instance).querySelector('button').className.match(/\bbtn-lg\b/));
   });
 
 

@@ -8,7 +8,7 @@ import innerText from './innerText';
 
 describe('DropdownToggle', () => {
 
-  it('Should render a button', () => {
+  it('Should render a toggle', () => {
     let title = 'Test';
     let instance = ReactTestUtils.renderIntoDocument(
       <DropdownToggle>{title}</DropdownToggle>
@@ -16,7 +16,6 @@ describe('DropdownToggle', () => {
 
     assert.ok(findDOMNode(instance).className.match(/\bdropdown-toggle\b/));
     assert.ok(findDOMNode(instance).querySelector('.caret'));
-    assert.equal(findDOMNode(instance).tagName, 'BUTTON');
     assert.equal(innerText(findDOMNode(instance)), title);
 
 
@@ -25,26 +24,9 @@ describe('DropdownToggle', () => {
   it('Should have a title', () => {
     let title = 'Test';
     let instance = ReactTestUtils.renderIntoDocument(
-      <DropdownToggle title={title} />
+      <DropdownToggle >{title}</DropdownToggle>
     );
-
     assert.equal(innerText(findDOMNode(instance)), title);
-  });
-
-  it('Should not render caret', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <DropdownToggle noCaret />
-    );
-
-    assert.ok(!findDOMNode(instance).querySelector('.caret'));
-  });
-
-  it('Should render an Anchor', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <DropdownToggle useAnchor />
-    );
-
-    assert.equal(findDOMNode(instance).tagName, 'A');
   });
 
   it('Should have a custom className', () => {

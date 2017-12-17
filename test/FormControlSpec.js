@@ -80,7 +80,7 @@ describe('FormControl', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <FormControl size="lg" />
     );
-    assert.ok(findDOMNode(instance).className.match(/\binput-lg\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bform-control-lg\b/));
   });
 
   it('Should call onChange callback', (done) => {
