@@ -13,6 +13,7 @@ type Props = {
   onClick?: (event: SyntheticEvent<*>) => void,
   eventKey?: any,
   className?: string,
+  style?: Object,
   children?: React.Node
 }
 
@@ -43,6 +44,7 @@ class DropdownMenuItem extends React.Component<Props> {
       disabled,
       className,
       eventKey,
+      style,
       ...props
     } = this.props;
 
@@ -57,11 +59,12 @@ class DropdownMenuItem extends React.Component<Props> {
 
     return (
       <li
-        {...props}
+        style={style}
         role="presentation"
         className={classes}
       >
         <Component
+          {...props}
           tabIndex="-1"
           onClick={this.handleClick}
         >

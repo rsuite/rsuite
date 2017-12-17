@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
-import ReactChildren from './utils/ReactChildren';
+import { mapCloneElement } from './utils/ReactChildren';
 
 
 const propTypes = {
@@ -89,7 +89,7 @@ class PanelGroup extends React.Component {
         role={accordion ? 'tablist' : undefined}
         className={classes}
       >
-        {ReactChildren.mapCloneElement(children, this.renderPanel)}
+        {mapCloneElement(children, this.renderPanel)}
       </div>
     );
   }

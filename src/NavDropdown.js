@@ -1,17 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
 import Dropdown from './Dropdown';
 
-const propTypes = {
-  active: PropTypes.bool,
-  disabled: PropTypes.bool
+type Props = {
+  className?: string,
+  active?: boolean,
+  disabled?: boolean
 };
 
-class NavDropdown extends React.Component {
+class NavDropdown extends React.Component<Props> {
+
   getMountNode() {
     return this.mountNode;
   }
+  mountNode = null;
   render() {
     const { className, active, disabled, ...props } = this.props;
     const classes = classNames('nav-dropdown', {
@@ -23,7 +27,6 @@ class NavDropdown extends React.Component {
       <Dropdown
         {...props}
         componentClass="li"
-        useAnchor
         className={classes}
         disabled={disabled}
         ref={(ref) => {
@@ -33,7 +36,5 @@ class NavDropdown extends React.Component {
     );
   }
 }
-
-NavDropdown.propTypes = propTypes;
 
 export default NavDropdown;

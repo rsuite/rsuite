@@ -76,8 +76,7 @@ class Dropdown extends React.Component<Props, States> {
     const { children, activeKey } = props || this.props;
     let title;
 
-    if (activeKey) {
-
+    if (!isUndefined(activeKey)) {
       const activeItem = find(children, (item) => {
         let displayName = get(item, ['type', 'displayName']);
         if (displayName === 'DropdownMenuItem' || displayName === 'NavItem') {
@@ -156,6 +155,7 @@ class Dropdown extends React.Component<Props, States> {
       );
     }
     const classes = classNames({
+      disabled,
       dropup,
       dropdown: !dropup,
       open: this.state.open,

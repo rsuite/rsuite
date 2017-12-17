@@ -8,7 +8,7 @@ import prefix from './utils/prefix';
 
 type Props = {
   className?: string,
-  classPrefix?: string,
+  classPrefix: string,
   dialogClassName?: string,
   style?: Object,
   dialogStyle?: Object,
@@ -27,6 +27,7 @@ class ModalDialog extends React.Component<Props> {
       dialogClassName,
       dialogStyle,
       classPrefix,
+      className,
       ...props
     } = this.props;
 
@@ -40,10 +41,12 @@ class ModalDialog extends React.Component<Props> {
 
     return (
       <div
+        {...props}
         title={null}
         role="dialog"
+        className={classNames(classPrefix, className)}
         style={modalStyle}
-        {...props}
+
       >
         <div
           className={dialogClasses}

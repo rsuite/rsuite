@@ -10,6 +10,8 @@ type Props = {
 }
 
 class ModalBody extends React.Component<Props> {
+
+  static displayName = 'ModalBody';
   static defaultProps = {
     classPrefix: 'modal'
   };

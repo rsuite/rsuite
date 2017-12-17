@@ -5,25 +5,22 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import withStyleProps from './utils/withStyleProps';
-import createComponent from './utils/createComponent';
-import prefix from './utils/prefix';
 
 type Props = {
   type?: 'text' | 'email' | 'number' | 'file' | 'select' | 'textarea' | 'password',
   id?: string,
-  classPrefix?: string,
+  classPrefix: string,
   className?: string,
   onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void,
+  componentClass: React.ElementType,
   inputRef?: React.Ref<any>,
 }
-
-
-const Component = createComponent('input');
 
 class FormControl extends React.Component<Props> {
 
   static defaultProps = {
-    classPrefix: 'form',
+    classPrefix: 'form-control',
+    componentClass: 'input',
     type: 'text'
   }
 
@@ -42,17 +39,16 @@ class FormControl extends React.Component<Props> {
     const {
       type,
       className,
+      componentClass: Component,
       inputRef,
       classPrefix,
       id = controlId,
       ...props,
     } = this.props;
 
-    const addPrefix: Function = prefix(classPrefix);
-
-    let classes = classNames({
+    const classes = classNames({
       // input[type="file"] should not have .form-control.
-      [addPrefix('control')]: type !== 'file',
+      [classPrefix]: type !== 'file',
     }, className);
 
     return (
@@ -68,7 +64,5 @@ class FormControl extends React.Component<Props> {
   }
 }
 
-export default withStyleProps({
-  hasSize: true,
-})(FormControl);
+export default withStyleProps({ hasSize: true })(FormControl);
 

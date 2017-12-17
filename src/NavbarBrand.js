@@ -1,22 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
+import prefix from './utils/prefix';
 
-
-const propTypes = {
-  classPrefix: PropTypes.string
+type Props = {
+  classPrefix?: string,
+  className?: string,
+  children?: React.Element<any>
 };
 
-const defaultProps = {
-  classPrefix: 'navbar'
-};
-
-class NavbarBrand extends React.Component {
+class NavbarBrand extends React.Component<Props> {
+  static defaultProps = {
+    classPrefix: 'navbar'
+  }
   render() {
     const { className, classPrefix, children, ...props } = this.props;
-    const classes = classNames(`${classPrefix}-brand`, className);
+    const addPrefix = prefix(classPrefix);
+    const classes = classNames(addPrefix('brand'), className);
 
-    if (React.isValidElement(children)) {
+    if (children && React.isValidElement(children)) {
       return React.cloneElement(children, {
         className: classNames(
           children.props.className, classes
@@ -35,7 +38,5 @@ class NavbarBrand extends React.Component {
   }
 }
 
-NavbarBrand.propTypes = propTypes;
-NavbarBrand.defaultProps = defaultProps;
 
 export default NavbarBrand;

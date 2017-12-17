@@ -1,21 +1,28 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Collapse from 'rsuite-utils/lib/Animation/Collapse';
 
-const propTypes = {
-  classPrefix: PropTypes.string,
-};
+import prefix from './utils/prefix';
 
-const defaultProps = {
-  classPrefix: 'navbar'
-};
 
-const contextTypes = {
-  expanded: PropTypes.bool
-};
+type Props = {
+  classPrefix?: string,
+  className?: string,
+  children?: React.Node
+}
 
-class NavbarCollapse extends React.Component {
+class NavbarCollapse extends React.Component<Props> {
+  static defaultProps = {
+    classPrefix: 'navbar'
+  };
+
+  static contextTypes = {
+    expanded: PropTypes.bool
+  };
+
   render() {
     const {
       children,
@@ -23,7 +30,8 @@ class NavbarCollapse extends React.Component {
       ...props
     } = this.props;
 
-    const classes = classNames('collapse', `${classPrefix}-collapse`);
+    const addPrefix = prefix(classPrefix);
+    const classes = classNames('collapse', addPrefix('collapse'));
     const expanded = this.context.expanded;
 
     return (
@@ -31,16 +39,12 @@ class NavbarCollapse extends React.Component {
         {...props}
         in={expanded}
       >
-        <div className={classes} >
+        <div className={classes}>
           {children}
         </div>
       </Collapse>
     );
   }
 }
-
-NavbarCollapse.contextTypes = contextTypes;
-NavbarCollapse.propTypes = propTypes;
-NavbarCollapse.defaultProps = defaultProps;
 
 export default NavbarCollapse;

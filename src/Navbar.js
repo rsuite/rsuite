@@ -1,45 +1,52 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import elementType from 'rsuite-utils/lib/propTypes/elementType';
 import NavbarBrand from './NavbarBrand';
 import NavbarCollapse from './NavbarCollapse';
 import NavbarHeader from './NavbarHeader';
 import NavbarToggle from './NavbarToggle';
+import createComponent from './utils/createComponent';
+import prefix from './utils/prefix';
 
-const propTypes = {
-  classPrefix: PropTypes.string,
-  fixedTop: PropTypes.bool,
-  fixedBottom: PropTypes.bool,
-  inverse: PropTypes.bool,
-  componentClass: elementType,
-  onToggle: PropTypes.func
-};
+type Props = {
+  classPrefix?: string,
+  className?: string,
+  fixedTop?: boolean,
+  fixedBottom?: boolean,
+  inverse?: boolean,
+  onToggle?: (expanded: boolean) => void
+}
 
-const defaultProps = {
-  classPrefix: 'navbar',
-  componentClass: 'div',
-  fixedTop: false,
-  fixedBottom: false,
-  inverse: false,
-  onToggle: undefined
-};
+type States = {
+  expanded?: boolean
+}
 
-const childContextTypes = {
-  classPrefix: PropTypes.string,
-  navbar: PropTypes.bool,
-  expanded: PropTypes.bool,
-  onToggle: PropTypes.func
-};
+const Component = createComponent('div');
 
-class Navbar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      expanded: false
-    };
-    this.handleToggle = this.handleToggle.bind(this);
-  }
+class Navbar extends React.Component<Props, States> {
+
+  static defaultProps = {
+    classPrefix: 'navbar'
+  };
+
+  static childContextTypes = {
+    classPrefix: PropTypes.string,
+    navbar: PropTypes.bool,
+    expanded: PropTypes.bool,
+    onToggle: PropTypes.func
+  };
+
+  static Brand = NavbarBrand;
+  static Header = NavbarHeader;
+  static Collapse = NavbarCollapse;
+  static Toggle = NavbarToggle;
+
+  state = {
+    expanded: false
+  };
+
   getChildContext() {
     return {
       navbar: true,
@@ -49,12 +56,11 @@ class Navbar extends React.Component {
     };
   }
 
-  handleToggle() {
+  handleToggle = () => {
     const { onToggle } = this.props;
-    this.setState({
-      expanded: !this.state.expanded
-    });
-    onToggle && onToggle();
+    const expanded = !this.state.expanded;
+    this.setState({ expanded });
+    onToggle && onToggle(expanded);
   }
 
   render() {
@@ -65,15 +71,15 @@ class Navbar extends React.Component {
       className,
       classPrefix,
       onToggle,
-      componentClass: Component,
       ...props
     } = this.props;
 
+    const addPrefix = prefix(classPrefix);
     const classes = classNames({
-      [`${classPrefix}-default`]: !inverse,
-      [`${classPrefix}-inverse`]: inverse,
-      [`${classPrefix}-fixed-top`]: fixedTop,
-      [`${classPrefix}-fixed-bottom`]: fixedBottom
+      [addPrefix('default')]: !inverse,
+      [addPrefix('inverse')]: inverse,
+      [addPrefix('fixed-top')]: fixedTop,
+      [addPrefix('fixed-bottom')]: fixedBottom
     }, classPrefix, className);
 
     return (
@@ -87,14 +93,5 @@ class Navbar extends React.Component {
 
 }
 
-Navbar.propTypes = propTypes;
-Navbar.defaultProps = defaultProps;
-Navbar.childContextTypes = childContextTypes;
-
-
-Navbar.Brand = NavbarBrand;
-Navbar.Header = NavbarHeader;
-Navbar.Collapse = NavbarCollapse;
-Navbar.Toggle = NavbarToggle;
 
 export default Navbar;

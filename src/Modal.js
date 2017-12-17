@@ -110,9 +110,10 @@ class Modal extends React.Component<Props, States> {
     /* eslint-disable react/no-find-dom-node */
     const node: any = findDOMNode(this.dialog);
     const doc: any = ownerDocument(node);
+    const body: any = container || doc.body;
     const scrollHeight = node ? node.scrollHeight : 0;
 
-    const bodyIsOverflowing = isOverflowing(findDOMNode(container || doc.body));
+    const bodyIsOverflowing = isOverflowing(findDOMNode(body));
     const modalIsOverflowing = scrollHeight > doc.documentElement.clientHeight;
 
     const styles: { modalStyles: Object, bodyStyles?: Object } = {
@@ -200,7 +201,7 @@ class Modal extends React.Component<Props, States> {
 
     const modal = (
       <Dialog
-        {...pick(props, Object.keys(ModalDialog.propTypes)) }
+        {...pick(props, Object.keys(ModalDialog.propTypes || {}))}
         style={{ ...modalStyles, ...style }}
         className={classNames(className, inClass)}
         dialogClassName={dialogClassName}

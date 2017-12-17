@@ -11,7 +11,7 @@ import withStyleProps from './utils/withStyleProps';
 
 type Props = {
   className?: string,
-  classPrefix?: string,
+  classPrefix: string,
   inside?: boolean
 }
 
@@ -28,7 +28,7 @@ class InputGroup extends React.Component<Props> {
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
-    const classes = classNames({
+    const classes = classNames(classPrefix, {
       [addPrefix('inside')]: inside
     }, className);
 

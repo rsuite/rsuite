@@ -1,24 +1,30 @@
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
 import createChainedFunction from './utils/createChainedFunction';
+import prefix from './utils/prefix';
 
-const propTypes = {
-  classPrefix: PropTypes.string,
-  onClick: PropTypes.func
+type Props = {
+  classPrefix?: string,
+  className?: string,
+  onClick?: (event: SyntheticEvent<HTMLButtonElement>) => void,
+  children?: React.Node
 };
 
-const defaultProps = {
-  classPrefix: 'navbar',
-  onClick: undefined
-};
 
-const contextTypes = {
-  onToggle: PropTypes.func,
-  expanded: PropTypes.bool,
-};
+class NavbarToggle extends React.Component<Props> {
 
-class NavbarToggle extends React.Component {
+  static defaultProps = {
+    classPrefix: 'navbar'
+  };
+
+  static contextTypes = {
+    onToggle: PropTypes.func,
+    expanded: PropTypes.bool,
+  };
+
   render() {
 
     const {
@@ -34,7 +40,8 @@ class NavbarToggle extends React.Component {
       expanded,
     } = this.context;
 
-    const classes = classNames(`${classPrefix}-toggle`, {
+    const addPrefix = prefix(classPrefix);
+    const classes = classNames(addPrefix('toggle'), {
       collapsed: !expanded
     }, className);
 
@@ -57,9 +64,5 @@ class NavbarToggle extends React.Component {
     );
   }
 }
-
-NavbarToggle.propTypes = propTypes;
-NavbarToggle.defaultProps = defaultProps;
-NavbarToggle.contextTypes = contextTypes;
 
 export default NavbarToggle;

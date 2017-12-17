@@ -13,7 +13,7 @@ type Props = {
   block?: boolean,
   href?: string,
   className?: string,
-  classPrefix?: string
+  classPrefix: string
 };
 
 const Component = createComponent('button');
@@ -29,7 +29,7 @@ class Button extends React.Component<Props> {
     const { href, active, disabled, block, className, classPrefix, ...props } = this.props;
     const addPrefix: Function = prefix(classPrefix);
 
-    const classes = classNames({
+    const classes = classNames(classPrefix, {
       active,
       disabled,
       [addPrefix('block')]: block,

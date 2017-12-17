@@ -68,7 +68,8 @@ class CheckboxGroup extends React.Component<Props, States> {
       inline,
       name,
       value,
-      children
+      children,
+      ...props
     } = this.props;
 
     const nextValue: Array<any> = value || this.state.value || [];
@@ -91,6 +92,7 @@ class CheckboxGroup extends React.Component<Props, States> {
 
     return (
       <div
+        {...props}
         role="group"
         className={clesses}
       >

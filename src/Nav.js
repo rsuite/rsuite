@@ -1,39 +1,41 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import isEqual from 'lodash/isEqual';
 import NavItem from './NavItem';
 import NavDropdown from './NavDropdown';
-import ReactChildren from './utils/ReactChildren';
+import { mapCloneElement } from './utils/ReactChildren';
 import isNullOrUndefined from './utils/isNullOrUndefined';
+import prefix from './utils/prefix';
 
-const propTypes = {
-  classPrefix: PropTypes.string,
-  tabs: PropTypes.bool,
-  pills: PropTypes.bool,
-  justified: PropTypes.bool,
-  stacked: PropTypes.bool,
-  pullRight: PropTypes.bool,
-  activeKey: PropTypes.any, // eslint-disable-line react/forbid-prop-types
-  onSelect: PropTypes.func
-};
+type Props = {
+  classPrefix?: string,
+  className?: string,
+  children?: React.Node,
+  tabs?: boolean,
+  pills?: boolean,
+  justified?: boolean,
+  stacked?: boolean,
+  pullRight?: boolean,
+  activeKey?: any,
+  onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
+}
 
-const defaultProps = {
-  classPrefix: 'nav',
-  tabs: false,
-  pills: false,
-  justified: false,
-  stacked: false,
-  pullRight: false,
-  activeKey: undefined,
-  onSelect: undefined
-};
 
-const contextTypes = {
-  navbar: PropTypes.bool
-};
+class Nav extends React.Component<Props> {
+  static defaultProps = {
+    classPrefix: 'nav',
+  }
+  static contextTypes = {
+    navbar: PropTypes.bool
+  };
 
-class Nav extends React.Component {
+
+  static Item = NavItem;
+  static Dropdown = NavDropdown;
+
   render() {
     const {
       classPrefix,
@@ -49,17 +51,19 @@ class Nav extends React.Component {
       ...props
     } = this.props;
 
+    const addPrefix = prefix(classPrefix);
+
     const classes = classNames(classPrefix, {
-      [`${classPrefix}bar-right`]: pullRight,
-      [`${classPrefix}bar-nav`]: this.context.navbar,
-      [`${classPrefix}-pills`]: pills,
-      [`${classPrefix}-tabs`]: tabs,
-      [`${classPrefix}-stacked`]: stacked,
-      [`${classPrefix}-justified`]: justified
+      'navbar-right': pullRight,
+      'navbar-nav': this.context.navbar,
+      [addPrefix('pills')]: pills,
+      [addPrefix('tabs')]: tabs,
+      [addPrefix('stacked')]: stacked,
+      [addPrefix('justified')]: justified
     }, className);
 
 
-    const items = ReactChildren.mapCloneElement(children, (item) => {
+    const items = mapCloneElement(children, (item) => {
       let { eventKey, active } = item.props;
       if (item.type.displayName !== 'NavItem') {
         return null;
@@ -77,12 +81,5 @@ class Nav extends React.Component {
     );
   }
 }
-
-Nav.propTypes = propTypes;
-Nav.defaultProps = defaultProps;
-Nav.contextTypes = contextTypes;
-
-Nav.Item = NavItem;
-Nav.Dropdown = NavDropdown;
 
 export default Nav;

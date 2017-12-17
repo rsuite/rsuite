@@ -14,7 +14,7 @@ type Props = {
 class DorpdownToggle extends React.Component<Props> {
   render() {
     const { className, renderTitle, children, ...props } = this.props;
-    let title: React.Node = <span>{children} <span className="caret" /></span>;
+    let title: React.Node = <span>{children}<span className="caret" /></span>;
 
     if (renderTitle) {
       title = renderTitle(children);

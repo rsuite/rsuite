@@ -22,7 +22,7 @@ type RequiredProps = {
 };
 
 type ProvidedProps = {
-  classPrefix?: string
+  classPrefix: string
 }
 
 type Options = {
@@ -50,7 +50,6 @@ const withStyleProps = (
       const { classPrefix, size, shape, innerRef, className, ...props } = this.props;
       const addPrefix: Function = prefix(classPrefix);
       const classes: string = classNames(
-        classPrefix,
         hasSize ? addPrefix(size) : null,
         (hasStatus && hasColor) ? addPrefix(shape) : null,
         className

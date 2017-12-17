@@ -1,40 +1,33 @@
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import React from 'react';
-import elementType from 'rsuite-utils/lib/propTypes/elementType';
 import createChainedFunction from './utils/createChainedFunction';
 import SafeAnchor from './SafeAnchor';
+import creatComponent from './utils/createComponent';
 
-const propTypes = {
-  active: PropTypes.bool,
-  disabled: PropTypes.bool,
-  onClick: PropTypes.func,
-  onSelect: PropTypes.func,
-  eventKey: PropTypes.any, // eslint-disable-line react/forbid-prop-types
-  componentClass: elementType,
-};
 
-const defaultProps = {
-  href: '',
-  active: false,
-  disabled: false,
-  componentClass: SafeAnchor,
-  onClick: undefined,
-  onSelect: undefined,
-  eventKey: undefined
+type Props = {
+  className?: string,
+  active?: boolean,
+  disabled?: boolean,
+  onClick?: Function,
+  style?: Object,
+  onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
+  children?: React.Node,
+  eventKey?: any,
+}
 
-};
+const Component = creatComponent(SafeAnchor);
 
-class NavItem extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
+class NavItem extends React.Component<Props> {
 
-  handleClick(event) {
+  static displayName = 'NavItem';
+
+  handleClick = (event: SyntheticEvent<*>) => {
     const { onSelect, disabled, eventKey } = this.props;
     if (onSelect && !disabled) {
-      onSelect(eventKey, this.props, event);
+      onSelect(eventKey, event);
     }
   }
 
@@ -47,7 +40,6 @@ class NavItem extends React.Component {
       style,
       eventKey,
       children,
-      componentClass: Component,
       ...props
     } = this.props;
 
@@ -73,9 +65,5 @@ class NavItem extends React.Component {
     );
   }
 }
-
-NavItem.propTypes = propTypes;
-NavItem.defaultProps = defaultProps;
-NavItem.displayName = 'NavItem';
 
 export default NavItem;

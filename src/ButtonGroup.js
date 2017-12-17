@@ -11,7 +11,7 @@ type Props = {
   vertical?: boolean,
   justified?: boolean,
   block?: boolean,
-  classPrefix?: string
+  classPrefix: string
 };
 
 
@@ -26,7 +26,7 @@ class ButtonGroup extends React.Component<Props> {
     const { className, vertical, block, justified, classPrefix, ...props } = this.props;
     const addPrefix: Function = prefix(classPrefix);
 
-    const classes = classNames({
+    const classes = classNames(classPrefix, {
       [addPrefix('block')]: block,
       [addPrefix('vertical')]: vertical,
       [addPrefix('justified')]: justified

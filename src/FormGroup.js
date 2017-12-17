@@ -4,14 +4,13 @@ import * as React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import isUndefined from 'lodash/isUndefined';
-import omit from 'lodash/omit';
 import withStyleProps from './utils/withStyleProps';
 
 type Props = {
   controlId?: string,
   isValid?: boolean,
   className?: string,
-  classPrefix?: string,
+  classPrefix: string,
   validationState?: 'success' | 'warning' | 'error'
 }
 
@@ -42,11 +41,12 @@ class FormGroup extends React.Component<Props> {
       className,
       controlId,
       isValid,
+      classPrefix,
       ...props
     } = this.props;
 
 
-    const classes = classNames({
+    const classes = classNames(classPrefix, {
       'has-success': !validationState && isValid,
       'has-error': !validationState && isValid === false,
       [`has-${validationState || ''}`]: !isUndefined(validationState)
@@ -54,7 +54,7 @@ class FormGroup extends React.Component<Props> {
 
     return (
       <div
-        {...omit(props, ['classPrefix'])}
+        {...props}
         className={classes}
         role="group"
       />

@@ -16,7 +16,7 @@ class ModalTitle extends React.Component<Props> {
   }
   render() {
     const { className, classPrefix, children, ...props } = this.props;
-    const addPrefix = prefix('classPrefix');
+    const addPrefix = prefix(classPrefix);
     const classes = classNames(addPrefix('title'), className);
     return (
       <h4
