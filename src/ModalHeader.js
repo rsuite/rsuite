@@ -4,7 +4,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import createChainedFunction from './utils/createChainedFunction';
-import prefix from './utils/prefix';
+import { globalKey } from './utils/prefix';
 
 type Props = {
   classPrefix?: string,
@@ -22,7 +22,7 @@ class ModalHeader extends React.Component<Props> {
   };
 
   static defaultProps = {
-    classPrefix: 'modal',
+    classPrefix: `${globalKey}modal-header`,
     closeButton: true,
   }
 
@@ -36,8 +36,7 @@ class ModalHeader extends React.Component<Props> {
       ...props
     } = this.props;
 
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(addPrefix('header'), className);
+    const classes = classNames(classPrefix, className);
 
     return (
       <div

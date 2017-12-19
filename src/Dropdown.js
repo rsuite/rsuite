@@ -13,6 +13,7 @@ import createComponent from './utils/createComponent';
 import DropdownToggle from './DropdownToggle';
 import DropdownMenu from './DropdownMenu';
 import DropdownMenuItem from './DropdownMenuItem';
+import prefix, { globalKey } from './utils/prefix';
 
 const Component = createComponent('div');
 
@@ -30,6 +31,7 @@ type Props = {
   className?: string,
   children?: React.ChildrenArray<React.Element<typeof DropdownMenuItem>>,
   renderTitle?: (children?: React.Node) => React.Node,
+  classPrefix?: string,
 }
 
 type States = {
@@ -40,8 +42,10 @@ type States = {
 class Dropdown extends React.Component<Props, States> {
 
   static defaultProps = {
-    autoClose: true
+    autoClose: true,
+    classPrefix: `${globalKey}dropdown`
   }
+
   static Item = DropdownMenuItem;
 
   state = {
@@ -125,6 +129,7 @@ class Dropdown extends React.Component<Props, States> {
       menuStyle,
       disabled,
       renderTitle,
+      classPrefix,
       ...props
     } = this.props;
 
@@ -154,15 +159,15 @@ class Dropdown extends React.Component<Props, States> {
         </RootCloseWrapper>
       );
     }
-    const classes = classNames({
-      disabled,
-      dropup,
-      dropdown: !dropup,
-      open: this.state.open,
+
+    const addPrefix = prefix(classPrefix);
+    const classes = classNames(classPrefix, {
+      [addPrefix('disabled')]: disabled,
+      [addPrefix('dropup')]: dropup,
+      [addPrefix('open')]: this.state.open
     }, className);
 
     const elementProps = omit(props, ['onClose', 'onOpen', 'onToggle', 'autoClose']);
-
 
     return (
       <Component

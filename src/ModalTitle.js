@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import prefix from './utils/prefix';
+import { globalKey } from './utils/prefix';
 
 type Props = {
   className?: string,
@@ -12,12 +12,11 @@ type Props = {
 
 class ModalTitle extends React.Component<Props> {
   static defaultProps = {
-    classPrefix: 'modal'
+    classPrefix: `${globalKey}modal-title`
   }
   render() {
     const { className, classPrefix, children, ...props } = this.props;
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(addPrefix('title'), className);
+    const classes = classNames(classPrefix, className);
     return (
       <h4
         {...props}

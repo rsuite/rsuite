@@ -4,6 +4,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import createComponent from './utils/createComponent';
 import SafeAnchor from './SafeAnchor';
+import { globalKey } from './utils/prefix';
 
 type Props = {
   active?: boolean,
@@ -12,17 +13,22 @@ type Props = {
   href?: string,
   title?: React.ElementType,
   target?: string,
+  classPrefix?: string
 };
 
 const Component = createComponent(SafeAnchor);
 
 class BreadcrumbItem extends React.Component<Props> {
+
+  static defaultProps = {
+    classPrefix: `${globalKey}breadcrumb-item`
+  };
   render() {
 
-    const { href, title, target, className, style, active, ...props } = this.props;
+    const { href, classPrefix, title, target, className, style, active, ...props } = this.props;
     const linkProps = { href, title, target };
     const classes: string = classNames(
-      'breadcrumb-item',
+      classPrefix,
       { active },
       className
     );

@@ -4,7 +4,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 import withStyleProps from './utils/withStyleProps';
-import prefix from './utils/prefix';
+import prefix, { globalKey } from './utils/prefix';
 
 type Props = {
   className?: string,
@@ -19,7 +19,7 @@ class ButtonGroup extends React.Component<Props> {
 
 
   static defaultProps = {
-    classPrefix: 'btn-group'
+    classPrefix: `${globalKey}btn-group`
   };
 
   render() {

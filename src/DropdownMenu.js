@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { mapCloneElement } from './utils/ReactChildren';
 import isNullOrUndefined from './utils/isNullOrUndefined';
 import createChainedFunction from './utils/createChainedFunction';
-import prefix from './utils/prefix';
+import prefix, { globalKey } from './utils/prefix';
 
 type Props = {
   pullRight?: boolean,
@@ -15,11 +15,13 @@ type Props = {
   activeKey?: any,
   className?: string,
   children?: React.ChildrenArray<any>,
+  classPrefix?: string
 }
 
-const addPrefix: Function = prefix('dropdown');
-
 class DorpdownMenu extends React.Component<Props> {
+  static defaultProps = {
+    classPrefix: `${globalKey}dropdown-menu`
+  }
 
   render() {
     const {
@@ -28,11 +30,13 @@ class DorpdownMenu extends React.Component<Props> {
       className,
       activeKey,
       onSelect,
+      classPrefix,
       ...props
     } = this.props;
 
-    const classes = classNames(addPrefix('menu'), {
-      [addPrefix('menu-right')]: pullRight
+    const addPrefix: Function = prefix(classPrefix);
+    const classes = classNames(classPrefix, {
+      [addPrefix('right')]: pullRight
     }, className);
 
     const items = mapCloneElement(children, (item) => {

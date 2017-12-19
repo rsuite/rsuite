@@ -5,10 +5,13 @@ import classNames from 'classnames';
 import omit from 'lodash/omit';
 import curry from 'lodash/curry';
 import createComponent from './utils/createComponent';
+import prefix, { globalKey } from './utils/prefix';
+
 
 /* eslint-disable */
 type Props = {
   className?: string,
+  classPrefix?: string,
 
   xs?: number,
   sm?: number,
@@ -47,8 +50,12 @@ const getValue = curry((obj: Object, key: string): number => {
 
 
 class Col extends React.Component<Props> {
+  static defaultProps = {
+    classPrefix: `${globalKey}col`
+  };
   render() {
-    const { className, ...props } = this.props;
+    const { className, classPrefix, ...props } = this.props;
+    const addPrefix = prefix(classPrefix);
     const classes = {};
     const getPropValue = getValue(this.props);
 
@@ -60,10 +67,10 @@ class Col extends React.Component<Props> {
       let pull = getPropValue(`${size}Pull`);
 
       classes[`hidden-${size}`] = hidden;
-      classes[`col-${size}-${col}`] = col >= 0;
-      classes[`col-${size}-offset-${offset}`] = offset >= 0;
-      classes[`col-${size}-push-${push}`] = push >= 0;
-      classes[`col-${size}-pull-${pull}`] = pull >= 0;
+      classes[addPrefix(`${size}-${col}`)] = col >= 0;
+      classes[addPrefix(`${size}-offset-${offset}`)] = offset >= 0;
+      classes[addPrefix(`${size}-push-${push}`)] = push >= 0;
+      classes[addPrefix(`${size}-pull-${pull}`)] = pull >= 0;
     });
 
     const elementProps = omit(props, omitKeys);
@@ -71,7 +78,7 @@ class Col extends React.Component<Props> {
     return (
       <Component
         {...elementProps}
-        className={classNames(className, classes)}
+        className={classNames(classes, className)}
       />
     );
   }

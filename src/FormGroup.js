@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import isUndefined from 'lodash/isUndefined';
 import withStyleProps from './utils/withStyleProps';
+import prefix, { globalKey } from './utils/prefix';
 
 type Props = {
   controlId?: string,
@@ -17,7 +18,7 @@ type Props = {
 
 class FormGroup extends React.Component<Props> {
   static defaultProps = {
-    classPrefix: 'form-group',
+    classPrefix: `${globalKey}form-group`,
   };
 
   static childContextTypes = {
@@ -45,11 +46,12 @@ class FormGroup extends React.Component<Props> {
       ...props
     } = this.props;
 
+    const addPrefix = prefix(classPrefix);
 
     const classes = classNames(classPrefix, {
-      'has-success': !validationState && isValid,
-      'has-error': !validationState && isValid === false,
-      [`has-${validationState || ''}`]: !isUndefined(validationState)
+      [addPrefix('has-success')]: !validationState && isValid,
+      [addPrefix('has-error')]: !validationState && isValid === false,
+      [addPrefix(`has-${validationState || ''}`)]: !isUndefined(validationState)
     }, className);
 
     return (

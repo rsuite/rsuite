@@ -4,8 +4,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Collapse from 'rsuite-utils/lib/Animation/Collapse';
-
-import prefix from './utils/prefix';
+import { globalKey } from './utils/prefix';
 
 
 type Props = {
@@ -16,7 +15,7 @@ type Props = {
 
 class NavbarCollapse extends React.Component<Props> {
   static defaultProps = {
-    classPrefix: 'navbar'
+    classPrefix: `${globalKey}navbar-collapse`
   };
 
   static contextTypes = {
@@ -30,8 +29,7 @@ class NavbarCollapse extends React.Component<Props> {
       ...props
     } = this.props;
 
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames('collapse', addPrefix('collapse'));
+    const classes = classNames(`${globalKey}collapse`, classPrefix);
     const expanded = this.context.expanded;
 
     return (

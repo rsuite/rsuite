@@ -3,6 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import createComponent from './utils/createComponent';
+import prefix, { globalKey } from './utils/prefix';
 
 
 type Props = {
@@ -14,7 +15,8 @@ type Props = {
   eventKey?: any,
   className?: string,
   style?: Object,
-  children?: React.Node
+  children?: React.Node,
+  classPrefix?: string
 }
 
 const Component = createComponent('a');
@@ -22,6 +24,9 @@ const Component = createComponent('a');
 class DropdownMenuItem extends React.Component<Props> {
 
   static displayName = 'DropdownMenuItem';
+  static defaultProps = {
+    classPrefix: `${globalKey}dropdown-item`
+  }
 
   handleClick = (event: SyntheticEvent<*>) => {
     let { onSelect, eventKey, disabled, onClick } = this.props;
@@ -45,16 +50,19 @@ class DropdownMenuItem extends React.Component<Props> {
       className,
       eventKey,
       style,
+      classPrefix,
       ...props
     } = this.props;
 
-    let classes = classNames({
-      active,
-      disabled
+    const addPrefix = prefix(classPrefix);
+
+    let classes = classNames(classPrefix, {
+      [addPrefix('active')]: active,
+      [addPrefix('disabled')]: disabled
     }, className);
 
     if (divider) {
-      return <li role="separator" className="divider" />;
+      return <li role="separator" className={addPrefix('divider')} />;
     }
 
     return (

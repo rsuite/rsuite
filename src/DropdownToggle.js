@@ -2,32 +2,45 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import SafeAnchor from './SafeAnchor';
+import Button from './Button';
+import prefix, { globalKey } from './utils/prefix';
 
 type Props = {
   className?: string,
   children?: React.Node,
   renderTitle?: (children?: React.Node) => React.Node,
+  classPrefix?: string
 }
 
 
 class DorpdownToggle extends React.Component<Props> {
+  static defaultProps = {
+    classPrefix: `${globalKey}dropdown-toggle`
+  }
   render() {
-    const { className, renderTitle, children, ...props } = this.props;
-    let title: React.Node = <span>{children}<span className="caret" /></span>;
+    const { className, classPrefix, renderTitle, children, ...props } = this.props;
+    const addPrefix = prefix(classPrefix);
 
     if (renderTitle) {
-      title = renderTitle(children);
+      return (
+        <span
+          {...props}
+          className={classNames(classPrefix, className)}
+        >
+          {renderTitle(children)}
+        </span>
+      );
     }
 
     return (
-      <SafeAnchor
+      <Button
         {...props}
-        className={classNames('dropdown-toggle', className)}
+        componentClass="a"
+        className={classNames(classPrefix, className)}
         role="button"
       >
-        {title}
-      </SafeAnchor>
+        <span>{children}<span className={addPrefix('caret')} /></span>
+      </Button>
     );
   }
 }

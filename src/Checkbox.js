@@ -3,6 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import isUndefined from 'lodash/isUndefined';
+import prefix from './utils/prefix';
 
 type Props = {
   title?: string,
@@ -16,6 +17,7 @@ type Props = {
   value?: any,
   style?: Object,
   children?: React.Node,
+  classPrefix?: string
 }
 
 type States = {
@@ -25,6 +27,11 @@ type States = {
 class Checkbox extends React.Component<Props, States> {
 
   static displayName = 'Checkbox';
+  static defaultProps = {
+    classPrefix: 'checkbox'
+  };
+
+
   state = {
     checked: false
   };
@@ -69,12 +76,14 @@ class Checkbox extends React.Component<Props, States> {
       inputRef,
       style,
       checked,
+      classPrefix,
       ...props
     } = this.props;
 
     const nextChecked: boolean | void = isUndefined(checked) ? this.state.checked : checked;
-    const classes: string = classNames('checkbox', {
-      'checkbox-inline': inline
+    const addPrefix = prefix(classPrefix);
+    const classes: string = classNames(classPrefix, {
+      [addPrefix('inline')]: inline
     }, className);
 
     const checkboxClasses = classNames('checker', {
@@ -82,7 +91,7 @@ class Checkbox extends React.Component<Props, States> {
     });
 
     const input = (
-      <span className={classNames('checkbox-wrapper', { checked: nextChecked })}>
+      <span className={classNames(addPrefix('wrapper'), { checked: nextChecked })}>
         <input
           {...props}
           type="checkbox"
@@ -90,6 +99,7 @@ class Checkbox extends React.Component<Props, States> {
           disabled={disabled}
           onChange={this.handleChange}
         />
+        <span className={addPrefix('inner')} />
       </span>
     );
 

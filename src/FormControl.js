@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import withStyleProps from './utils/withStyleProps';
+import { globalKey } from './utils/prefix';
 
 type Props = {
   type?: 'text' | 'email' | 'number' | 'file' | 'select' | 'textarea' | 'password',
@@ -19,7 +20,7 @@ type Props = {
 class FormControl extends React.Component<Props> {
 
   static defaultProps = {
-    classPrefix: 'form-control',
+    classPrefix: `${globalKey}form-control`,
     componentClass: 'input',
     type: 'text'
   }

@@ -16,6 +16,7 @@ type Props = {
   defaultValue?: Array<any>,
   onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void,
   children?: React.Node,
+  classPrefix?: string
 }
 
 type States = {
@@ -23,6 +24,10 @@ type States = {
 }
 
 class CheckboxGroup extends React.Component<Props, States> {
+
+  static defaultProps = {
+    classPrefix: 'checkbox-group'
+  };
 
   state = {
     value: []
@@ -69,11 +74,13 @@ class CheckboxGroup extends React.Component<Props, States> {
       name,
       value,
       children,
+      onChange,
+      classPrefix,
       ...props
     } = this.props;
 
     const nextValue: Array<any> = value || this.state.value || [];
-    const clesses: string = classNames('checkbox-list', className);
+    const clesses: string = classNames(classPrefix, className);
     const checkedKey = isUndefined(value) ? 'defaultChecked' : 'checked';
 
     const items: React.Node = mapCloneElement(children, (child) => {

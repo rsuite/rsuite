@@ -11,7 +11,7 @@ import Fade from 'rsuite-utils/lib/Animation/Fade';
 import { on, getHeight, isOverflowing, getScrollbarSize, ownerDocument } from 'dom-lib';
 
 import { mapCloneElement } from './utils/ReactChildren';
-import prefix from './utils/prefix';
+import prefix, { globalKey } from './utils/prefix';
 
 import ModalDialog from './ModalDialog';
 import ModalBody from './ModalBody';
@@ -73,7 +73,7 @@ class Modal extends React.Component<Props, States> {
     keyboard: true,
     autoFocus: true,
     enforceFocus: true,
-    classPrefix: 'modal',
+    classPrefix: `${globalKey}modal`,
     animation: true,
     dialogComponentClass: ModalDialog,
     autoResizeHeight: true

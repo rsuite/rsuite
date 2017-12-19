@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import prefix from './utils/prefix';
+import { globalKey } from './utils/prefix';
 
 type Props = {
   classPrefix?: string,
@@ -12,12 +12,11 @@ type Props = {
 
 class NavbarBrand extends React.Component<Props> {
   static defaultProps = {
-    classPrefix: 'navbar'
+    classPrefix: `${globalKey}navbar-brand`
   }
   render() {
     const { className, classPrefix, children, ...props } = this.props;
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(addPrefix('brand'), className);
+    const classes = classNames(classPrefix, className);
 
     if (children && React.isValidElement(children)) {
       return React.cloneElement(children, {

@@ -8,7 +8,7 @@ import NavbarCollapse from './NavbarCollapse';
 import NavbarHeader from './NavbarHeader';
 import NavbarToggle from './NavbarToggle';
 import createComponent from './utils/createComponent';
-import prefix from './utils/prefix';
+import prefix, { globalKey } from './utils/prefix';
 
 type Props = {
   classPrefix?: string,
@@ -28,7 +28,7 @@ const Component = createComponent('div');
 class Navbar extends React.Component<Props, States> {
 
   static defaultProps = {
-    classPrefix: 'navbar'
+    classPrefix: `${globalKey}navbar`
   };
 
   static childContextTypes = {
@@ -75,12 +75,12 @@ class Navbar extends React.Component<Props, States> {
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
-    const classes = classNames({
+    const classes = classNames(classPrefix, {
       [addPrefix('default')]: !inverse,
       [addPrefix('inverse')]: inverse,
       [addPrefix('fixed-top')]: fixedTop,
       [addPrefix('fixed-bottom')]: fixedBottom
-    }, classPrefix, className);
+    }, className);
 
     return (
       <Component

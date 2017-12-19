@@ -6,7 +6,7 @@ import setStatic from 'recompose/setStatic';
 
 import InputGroupAddon from './InputGroupAddon';
 import InputGroupButton from './InputGroupButton';
-import prefix from './utils/prefix';
+import prefix, { globalKey } from './utils/prefix';
 import withStyleProps from './utils/withStyleProps';
 
 type Props = {
@@ -17,7 +17,7 @@ type Props = {
 
 class InputGroup extends React.Component<Props> {
   static defaultProps = {
-    classPrefix: 'input-group',
+    classPrefix: `${globalKey}input-group`,
   }
   render() {
     const {

@@ -5,10 +5,12 @@ import classNames from 'classnames';
 import createChainedFunction from './utils/createChainedFunction';
 import SafeAnchor from './SafeAnchor';
 import creatComponent from './utils/createComponent';
+import prefix, { globalKey } from './utils/prefix';
 
 
 type Props = {
   className?: string,
+  classPrefix?: string,
   active?: boolean,
   disabled?: boolean,
   onClick?: Function,
@@ -23,6 +25,9 @@ const Component = creatComponent(SafeAnchor);
 class NavItem extends React.Component<Props> {
 
   static displayName = 'NavItem';
+  static defaultProps = {
+    classPrefix: `${globalKey}nav-item`
+  };
 
   handleClick = (event: SyntheticEvent<*>) => {
     const { onSelect, disabled, eventKey } = this.props;
@@ -37,15 +42,17 @@ class NavItem extends React.Component<Props> {
       disabled,
       onClick,
       className,
+      classPrefix,
       style,
       eventKey,
       children,
       ...props
     } = this.props;
 
-    const classes = classNames({
-      active,
-      disabled
+    const addPrefix = prefix(classPrefix);
+    const classes = classNames(classPrefix, {
+      [addPrefix('active')]: active,
+      [addPrefix('disabled')]: disabled,
     }, className);
 
     return (

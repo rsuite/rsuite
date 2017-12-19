@@ -1,59 +1,37 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import omit from 'lodash/omit';
-import elementType from 'rsuite-utils/lib/propTypes/elementType';
 import PaginationButton from './PaginationButton';
 import SafeAnchor from './SafeAnchor';
-import decorate, { getClassNames } from './utils/decorate';
+import withStyleProps from './utils/withStyleProps';
+import { globalKey } from './utils/prefix';
 
 
-const propTypes = {
-  activePage: PropTypes.number,
-  pages: PropTypes.number,
-  maxButtons: PropTypes.number,
-  boundaryLinks: PropTypes.bool,
-  ellipsis: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.node
-  ]),
-  first: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.node
-  ]),
-  last: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.node
-  ]),
-  prev: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.node
-  ]),
-  next: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.node
-  ]),
-  onSelect: PropTypes.func,
-  buttonComponentClass: elementType,
-  classPrefix: PropTypes.string
-};
+type Props = {
+  activePage?: number,
+  pages?: number,
+  maxButtons?: number,
+  boundaryLinks?: boolean,
+  ellipsis?: boolean | React.Node,
+  first?: boolean | React.Node,
+  last?: boolean | React.Node,
+  prev?: boolean | React.Node,
+  next?: boolean | React.Node,
+  onSelect?: (event: SyntheticEvent<*>) => void,
+  buttonComponentClass?: React.ElementType,
+  classPrefix?: string
+}
 
-const defaultProps = {
-  activePage: 1,
-  pages: 1,
-  maxButtons: 0,
-  first: false,
-  last: false,
-  prev: false,
-  next: false,
-  ellipsis: false,
-  boundaryLinks: false,
-  classPrefix: 'pagination',
-  buttonComponentClass: SafeAnchor,
-  onSelect: undefined
-};
+class Pagination extends React.Component<Props> {
 
-class Pagination extends React.Component {
+  static defaultProps = {
+    activePage: 1,
+    pages: 1,
+    maxButtons: 0,
+    classPrefix: `${globalKey}pagination`,
+    buttonComponentClass: SafeAnchor,
+  };
+
   renderPageButtons() {
 
     let pageButtons = [];
@@ -227,16 +205,13 @@ class Pagination extends React.Component {
   }
 
   render() {
-    const { className, ...props } = this.props;
-    const clesses = classNames({
-      ...getClassNames(this.props)
-    }, className);
+    const { className, classPrefix, ...props } = this.props;
+    const elementProps = omit(props, Object.keys(Pagination.propTypes));
 
-    const elementProps = omit(props, Object.keys(propTypes));
     return (
       <ul
+        className={classNames(classPrefix, className)}
         {...elementProps}
-        className={clesses}
       >
         {this.renderFirst()}
         {this.renderPrev()}
@@ -248,9 +223,7 @@ class Pagination extends React.Component {
   }
 }
 
-Pagination.propTypes = propTypes;
-Pagination.defaultProps = defaultProps;
 
-export default decorate({
-  size: true,
+export default withStyleProps({
+  hasSize: true,
 })(Pagination);

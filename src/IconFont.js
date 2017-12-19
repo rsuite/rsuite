@@ -3,7 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import createComponent from './utils/createComponent';
-import prefix from './utils/prefix';
+import prefix, { globalKey } from './utils/prefix';
 
 type Props = {
   icon: string,
@@ -24,7 +24,7 @@ const Component = createComponent('i');
 class IconFont extends React.Component<Props> {
 
   static defaultProps = {
-    classPrefix: 'icon'
+    classPrefix: `${globalKey}icon`
   }
 
   render() {

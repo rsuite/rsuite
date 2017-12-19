@@ -3,23 +3,30 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import createComponent from './utils/createComponent';
+import { globalKey } from './utils/prefix';
+
 
 type Props = {
   className?: string,
-  fluid?: boolean
+  fluid?: boolean,
+  classPrefix: string
 }
 
 const Component = createComponent();
 
 class Grid extends React.Component<Props> {
+  static defaultProps = {
+    classPrefix: `${globalKey}container`,
+  };
   render() {
     const {
       fluid,
       className,
+      classPrefix,
       ...props
     } = this.props;
 
-    const clesses = classNames(`container${fluid ? '-fluid' : ''}`, className);
+    const clesses = classNames(`${classPrefix}${fluid ? '-fluid' : ''}`, className);
 
     return (
       <Component

@@ -4,7 +4,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import createChainedFunction from './utils/createChainedFunction';
-import prefix from './utils/prefix';
+import { globalKey } from './utils/prefix';
 
 type Props = {
   classPrefix?: string,
@@ -17,7 +17,7 @@ type Props = {
 class NavbarToggle extends React.Component<Props> {
 
   static defaultProps = {
-    classPrefix: 'navbar'
+    classPrefix: `${globalKey}navbar-toggle`
   };
 
   static contextTypes = {
@@ -40,8 +40,7 @@ class NavbarToggle extends React.Component<Props> {
       expanded,
     } = this.context;
 
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(addPrefix('toggle'), {
+    const classes = classNames(classPrefix, {
       collapsed: !expanded
     }, className);
 

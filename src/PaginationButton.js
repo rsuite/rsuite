@@ -1,29 +1,27 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import elementType from 'rsuite-utils/lib/propTypes/elementType';
+import createComponent from './utils/createComponent';
 import createChainedFunction from './utils/createChainedFunction';
 import SafeAnchor from './SafeAnchor';
+import prefix, { globalKey } from './utils/prefix';
 
-const propTypes = {
-  eventKey: PropTypes.any,  // eslint-disable-line react/forbid-prop-types
-  onSelect: PropTypes.func,
-  disabled: PropTypes.bool,
-  active: PropTypes.bool,
-  onClick: PropTypes.func,
-  componentClass: elementType
-};
+const Component = createComponent(SafeAnchor);
 
-const defaultProps = {
-  eventKey: undefined,
-  onSelect: undefined,
-  onClick: undefined,
-  active: false,
-  disabled: false,
-  componentClass: SafeAnchor
-};
+type Props = {
+  classPrefix?: string,
+  eventKey?: any,
+  onSelect?: (event: SyntheticEvent<*>) => void,
+  onClick: (event: SyntheticEvent<*>) => void,
+  disabled: boolean,
+  active: boolean,
 
-class PaginationButton extends React.Component {
+}
+
+class PaginationButton extends React.Component<Props> {
+  static defaultProps = {
+    classPrefix: `${globalKey}pagination-btn`,
+  }
+
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
@@ -44,18 +42,23 @@ class PaginationButton extends React.Component {
       active,
       disabled,
       onClick,
-      componentClass: Component,
       className,
+      classPrefix,
       style,
       onSelect,
       eventKey,
       ...props,
     } = this.props;
 
+    const addPrefix = prefix(classPrefix);
+    const classes = classNames(classPrefix, {
+      [addPrefix('active')]: active,
+      [addPrefix('disabled')]: disabled,
+    });
 
     return (
       <li
-        className={classNames(className, { active, disabled })}
+        className={classes}
         style={style}
       >
         <Component
@@ -68,7 +71,5 @@ class PaginationButton extends React.Component {
   }
 }
 
-PaginationButton.propTypes = propTypes;
-PaginationButton.defaultProps = defaultProps;
 
 export default PaginationButton;

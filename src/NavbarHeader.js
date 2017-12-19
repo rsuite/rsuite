@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import prefix from './utils/prefix';
+import { globalKey } from './utils/prefix';
 
 type Props = {
   classPrefix?: string,
@@ -13,7 +13,7 @@ type Props = {
 class NavbarHeader extends React.Component<Props> {
 
   static defaultProps = {
-    classPrefix: 'navbar'
+    classPrefix: `${globalKey}navbar-header`
   };
 
   render() {
@@ -23,8 +23,7 @@ class NavbarHeader extends React.Component<Props> {
       ...props
     } = this.props;
 
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(addPrefix('header'), className);
+    const classes = classNames(classPrefix, className);
 
     return (
       <div {...props} className={classes} />

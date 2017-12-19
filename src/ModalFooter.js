@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import prefix from './utils/prefix';
+import { globalKey } from './utils/prefix';
 
 type Props = {
   classPrefix?: string,
@@ -11,13 +11,12 @@ type Props = {
 
 class ModalFooter extends React.Component<Props> {
   static defaultProps = {
-    classPrefix: 'modal'
+    classPrefix: `${globalKey}modal-footer`
   };
 
   render() {
     const { classPrefix, className, ...props } = this.props;
-    const addPrefix = prefix(classPrefix);
-    let classes = classNames(addPrefix('footer'), className);
+    let classes = classNames(classPrefix, className);
     return (
       <div
         {...props}

@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import SafeAnchor from './SafeAnchor';
 import withStyleProps from './utils/withStyleProps';
 import createComponent from './utils/createComponent';
-import prefix from './utils/prefix';
+import prefix, { globalKey } from './utils/prefix';
 
 type Props = {
   active?: boolean,
@@ -21,7 +21,7 @@ const Component = createComponent('button');
 class Button extends React.Component<Props> {
 
   static defaultProps = {
-    classPrefix: 'btn'
+    classPrefix: `${globalKey}btn`
   };
 
   render() {

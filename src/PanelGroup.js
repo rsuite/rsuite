@@ -1,39 +1,35 @@
 import React from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
+import isEqual from 'lodash/isEqual';
 import { mapCloneElement } from './utils/ReactChildren';
 
+type Props = {
+  accordion?: boolean,
+  activeKey?: any,
+  defaultActiveKey?: any,
+  className?: string,
+  children?: node,
+  classPrefix?: string,
+  onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
+}
 
-const propTypes = {
-  accordion: PropTypes.bool,
-  activeKey: PropTypes.any,         // eslint-disable-line react/forbid-prop-types
-  defaultActiveKey: PropTypes.any,  // eslint-disable-line react/forbid-prop-types
-  className: PropTypes.string,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  onSelect: PropTypes.func
-};
 
-const defaultProps = {
-  classPrefix: 'panel-group',
-  accordion: false
-};
+class PanelGroup extends React.Component<Props> {
 
-class PanelGroup extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleSelect = this.handleSelect.bind(this);
-    this.renderPanel = this.renderPanel.bind(this);
-    this.state = {
-      activeKey: props.defaultActiveKey
-    };
+  static defaultProps = {
+    classPrefix: 'panel-group',
+    accordion: false
+  };
+
+  componentWillMount() {
+    this.setState({ activeKey: this.props.defaultActiveKey });
   }
+
   shouldComponentUpdate() {
-    // Defer any updates to this component during the `onSelect` handler.
     return !this.isChanging;
   }
-  handleSelect(activeKey, event) {
+  handleSelect = (activeKey: any, event: SyntheticEvent<*>) => {
     const { onSelect } = this.props;
     event.preventDefault();
     if (onSelect) {
@@ -42,14 +38,13 @@ class PanelGroup extends React.Component {
       this.isChanging = false;
     }
 
-    if (this.state.activeKey === activeKey) {
+    if (isEqual(this.state.activeKey, activeKey)) {
       activeKey = undefined;
     }
-
     this.setState({ activeKey });
   }
 
-  renderPanel(child, index) {
+  renderPanel = (child, index) => {
 
     if (!React.isValidElement(child)) {
       return child;
@@ -76,13 +71,14 @@ class PanelGroup extends React.Component {
     let {
       className,
       accordion,
+      classPrefix,
       children,
       onSelect,
       ...props
     } = this.props;
 
-    let classes = classNames('panel-group', className);
-    const elementProps = omit(props, Object.keys(propTypes));
+    let classes = classNames(classPrefix, className);
+    const elementProps = omit(props, Object.keys(PanelGroup.propTypes));
     return (
       <div
         {...elementProps}
@@ -94,8 +90,5 @@ class PanelGroup extends React.Component {
     );
   }
 }
-
-PanelGroup.propTypes = propTypes;
-PanelGroup.defaultProps = defaultProps;
 
 export default PanelGroup;

@@ -8,10 +8,10 @@ import NavItem from './NavItem';
 import NavDropdown from './NavDropdown';
 import { mapCloneElement } from './utils/ReactChildren';
 import isNullOrUndefined from './utils/isNullOrUndefined';
-import prefix from './utils/prefix';
+import prefix, { globalKey } from './utils/prefix';
 
 type Props = {
-  classPrefix?: string,
+  classPrefix: string,
   className?: string,
   children?: React.Node,
   tabs?: boolean,
@@ -26,7 +26,7 @@ type Props = {
 
 class Nav extends React.Component<Props> {
   static defaultProps = {
-    classPrefix: 'nav',
+    classPrefix: `${globalKey}nav`,
   }
   static contextTypes = {
     navbar: PropTypes.bool
@@ -54,8 +54,8 @@ class Nav extends React.Component<Props> {
     const addPrefix = prefix(classPrefix);
 
     const classes = classNames(classPrefix, {
-      'navbar-right': pullRight,
-      'navbar-nav': this.context.navbar,
+      [`${classPrefix}bar-right`]: pullRight,
+      [`${classPrefix}bar-nav`]: this.context.navbar,
       [addPrefix('pills')]: pills,
       [addPrefix('tabs')]: tabs,
       [addPrefix('stacked')]: stacked,
