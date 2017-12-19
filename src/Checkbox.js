@@ -12,6 +12,7 @@ type Props = {
   disabled?: boolean,
   checked?: boolean,
   defaultChecked?: boolean,
+  indeterminate?: boolean,
   onChange?: (value: any, checked: boolean, event: SyntheticInputEvent<HTMLInputElement>) => void,
   inputRef?: React.Ref<any>,
   value?: any,
@@ -76,6 +77,7 @@ class Checkbox extends React.Component<Props, States> {
       inputRef,
       style,
       checked,
+      indeterminate,
       classPrefix,
       ...props
     } = this.props;
@@ -83,15 +85,14 @@ class Checkbox extends React.Component<Props, States> {
     const nextChecked: boolean | void = isUndefined(checked) ? this.state.checked : checked;
     const addPrefix = prefix(classPrefix);
     const classes: string = classNames(classPrefix, {
-      [addPrefix('inline')]: inline
+      [addPrefix('inline')]: inline,
+      [addPrefix('indeterminate')]: indeterminate,
+      [addPrefix('disabled')]: disabled,
+      [addPrefix('checked')]: nextChecked
     }, className);
 
-    const checkboxClasses = classNames('checker', {
-      disabled
-    });
-
     const input = (
-      <span className={classNames(addPrefix('wrapper'), { checked: nextChecked })}>
+      <span className={addPrefix('wrapper')}>
         <input
           {...props}
           type="checkbox"
@@ -109,7 +110,7 @@ class Checkbox extends React.Component<Props, States> {
         style={style}
       >
         <div
-          className={checkboxClasses}
+          className={addPrefix('checker')}
           role="button"
         >
           <label title={title}>

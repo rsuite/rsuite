@@ -94,7 +94,6 @@ class Panel extends React.Component<Props, States> {
     let props = {
       id,
       className: this.addPrefix('collapse'),
-      ref: 'panel',
       'aria-hidden': !this.isExpanded()
     };
     if (panelRole) {
