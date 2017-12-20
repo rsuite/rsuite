@@ -1,28 +1,28 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
+import prefix, { globalKey } from './utils/prefix';
 
-const propTypes = {
-  placement: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
-  positionLeft: PropTypes.number,
-  positionTop: PropTypes.number,
-  classPrefix: PropTypes.string,
-  arrowOffsetLeft: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string
-  ]),
-  arrowOffsetTop: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string
-  ]),
-};
+type Props = {
+  placement?: 'top' | 'right' | 'bottom' | 'left',
+  positionLeft?: number,
+  positionTop?: number,
+  classPrefix?: string,
+  className?: string,
+  arrowOffsetLeft?: number | string,
+  arrowOffsetTop?: number | string,
+  style?: Object,
+  children?: React.Node
+}
 
-const defaultProps = {
-  placement: 'right',
-  classPrefix: 'tooltip'
-};
 
-class Tooltip extends React.Component {
+class Tooltip extends React.Component<Props> {
+  static defaultProps = {
+    placement: 'right',
+    classPrefix: `${globalKey}tooltip`
+  };
+
   render() {
     let {
       placement,
@@ -36,9 +36,8 @@ class Tooltip extends React.Component {
       style
     } = this.props;
 
-    const classes = classNames('tooltip', {
-      [placement]: true
-    }, className);
+    const addPrefix = prefix(classPrefix);
+    const classes = classNames(classPrefix, addPrefix(placement), className);
 
     const styles = {
       left: positionLeft,
@@ -58,16 +57,13 @@ class Tooltip extends React.Component {
         className={classes}
         style={styles}
       >
-        <div className={`${classPrefix}-arrow`} style={arrowStyle} />
-        <div className={`${classPrefix}-inner`}>
+        <div className={addPrefix('arrow')} style={arrowStyle} />
+        <div className={addPrefix('inner')}>
           {children}
         </div>
       </div>
     );
   }
 }
-
-Tooltip.propTypes = propTypes;
-Tooltip.defaultProps = defaultProps;
 
 export default Tooltip;

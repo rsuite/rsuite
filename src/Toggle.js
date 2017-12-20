@@ -1,39 +1,44 @@
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
-import React from 'react';
-import PropTypes from 'prop-types';
 import isUndefined from 'lodash/isUndefined';
 import omit from 'lodash/omit';
-import decorate, { getClassNames } from './utils/decorate';
 
-const propTypes = {
-  disabled: PropTypes.bool,
-  checked: PropTypes.bool,
-  defaultChecked: PropTypes.bool,
-  onChange: PropTypes.func,
-  checkedChildren: PropTypes.node,
-  unCheckedChildren: PropTypes.node,
-  classPrefix: PropTypes.string
+import withStyleProps from './utils/withStyleProps';
+import prefix, { globalKey } from './utils/prefix';
+
+
+type Props = {
+  disabled?: boolean,
+  checked?: boolean,
+  defaultChecked?: boolean,
+  onChange?: Function,
+  checkedChildren?: React.Node,
+  unCheckedChildren?: React.Node,
+  classPrefix: string,
+  className?: string
 };
 
-const defaultProps = {
-  classPrefix: 'btn-toggle'
-};
+type States = {
+  checked?: boolean
+}
 
+class Toggle extends React.Component<Props, States> {
 
-class Toggle extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      checked: props.checked || props.defaultChecked
-    };
-    this.handleChange = this.handleChange.bind(this);
-  }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.checked !== this.props.checked) {
-      this.setState({
-        checked: nextProps.checked
-      });
-    }
+  static defaultProps = {
+    classPrefix: `${globalKey}btn-toggle`
+  };
+
+  state = {
+    checked: false
+  };
+
+  componentWillMount() {
+    const { checked, defaultChecked } = this.props;
+    this.setState({
+      checked: isUndefined(checked) ? defaultChecked : checked
+    });
   }
 
   getCheckedStatus() {
@@ -41,7 +46,7 @@ class Toggle extends React.Component {
     return isUndefined(checked) ? this.state.checked : checked;
   }
 
-  handleChange(event) {
+  handleChange = (event: SyntheticEvent<*>) => {
     const { onChange, disabled } = this.props;
     const checked = !this.state.checked;
 
@@ -67,15 +72,15 @@ class Toggle extends React.Component {
     } = this.props;
 
     const checked = this.getCheckedStatus();
-    const classes = classNames({
-      ...getClassNames(this.props),
-      [`${classPrefix}-checked`]: checked,
+    const addPrefix = prefix(classPrefix);
+    const classes = classNames(classPrefix, {
+      [addPrefix('checked')]: checked,
       disabled
     }, className);
 
 
     const inner = checked ? checkedChildren : unCheckedChildren;
-    const elementProps = omit(props, Object.keys(propTypes));
+    const elementProps = omit(props, Object.keys(Toggle.propTypes));
 
     return (
       <span
@@ -92,9 +97,6 @@ class Toggle extends React.Component {
   }
 }
 
-Toggle.propTypes = propTypes;
-Toggle.defaultProps = defaultProps;
-
-export default decorate({
-  size: true
+export default withStyleProps({
+  hasSize: true
 })(Toggle);

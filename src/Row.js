@@ -1,37 +1,38 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
-import elementType from 'rsuite-utils/lib/propTypes/elementType';
+import { globalKey } from './utils/prefix';
+import createComponent from './utils/createComponent';
 
-const propTypes = {
-  componentClass: elementType
-};
+const Component = createComponent('div');
 
-const defaultProps = {
-  componentClass: 'div'
-};
+type Props = {
+  className?: string,
+  classProfix?: string
+}
 
-class Row extends React.Component {
+class Row extends React.Component<Props> {
+  static defaultProps = {
+    classProfix: `${globalKey}row`
+  }
   render() {
+
     const {
-      componentClass: Component,
       className,
-      children,
+      classProfix,
       ...props
     } = this.props;
 
-    const classes = classNames(className, 'row');
+    const classes = classNames(classProfix, className);
+
     return (
       <Component
         {...props}
         className={classes}
-      >
-        {children}
-      </Component>
+      />
     );
   }
 }
-
-Row.propTypes = propTypes;
-Row.defaultProps = defaultProps;
 
 export default Row;

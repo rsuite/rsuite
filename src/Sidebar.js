@@ -1,23 +1,36 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
+import prefix, { globalKey } from './utils/prefix';
 
-const propTypes = {
-  pullRight: PropTypes.bool
-};
+type Props = {
+  pullRight?: boolean,
+  className?: string,
+  classPrefix?: string,
+  children?: React.Node
+}
 
-const contextTypes = {
-  page: PropTypes.bool
-};
+class Sidebar extends React.Component<Props> {
 
-class Sidebar extends React.Component {
+  static defaultProps = {
+    classPrefix: `${globalKey}sidebar`,
+  };
+
   render() {
-    const { className, pullRight, ...props } = this.props;
-    const activeClass = this.context.page ? 'page-sidebar' : 'sidebar';
-    const wrapperClass = classNames(`${activeClass}-wrapper`, className);
-    const classes = classNames('collapse', 'navbar-collapse', {
-      right: pullRight,
-    }, [activeClass]);
+    const {
+      className,
+      pullRight,
+      children,
+      classPrefix,
+      ...props
+    } = this.props;
+
+    const addPrefix = prefix(classPrefix);
+    const wrapperClass = classNames(addPrefix('wrapper'), className);
+    const classes = classNames(classPrefix, {
+      [addPrefix('right')]: pullRight,
+    });
 
     return (
       <div
@@ -25,14 +38,11 @@ class Sidebar extends React.Component {
         className={wrapperClass}
       >
         <div className={classes}>
-          {this.props.children}
+          {children}
         </div>
       </div>
     );
   }
 }
-
-Sidebar.propTypes = propTypes;
-Sidebar.contextTypes = contextTypes;
 
 export default Sidebar;

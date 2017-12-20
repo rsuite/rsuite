@@ -1,14 +1,12 @@
-import React, { cloneElement } from 'react';
+
+import * as React from 'react';
 import ReactDOM, { findDOMNode } from 'react-dom';
-import PropTypes from 'prop-types';
 import { contains } from 'dom-lib';
 import { Overlay } from 'rsuite-utils/lib/Overlay';
-import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import isNullOrUndefined from './utils/isNullOrUndefined';
 import createChainedFunction from './utils/createChainedFunction';
 import isOneOf from './utils/isOneOf';
-
 
 function handleMouseOverOut(handler, event) {
   let target = event.currentTarget;
@@ -19,46 +17,54 @@ function handleMouseOverOut(handler, event) {
   }
 }
 
-const propTypes = {
-  ...omit(Overlay.propTypes, ['target', 'onHide', 'show']),
-  trigger: PropTypes.oneOfType([
-    PropTypes.oneOf(['click', 'hover', 'focus']),
-    PropTypes.arrayOf(PropTypes.oneOf(['click', 'hover', 'focus']))
-  ]),
-  delay: PropTypes.number,
-  delayShow: PropTypes.number,
-  delayHide: PropTypes.number,
-  defaultOverlayShown: PropTypes.bool,
-  speaker: PropTypes.node.isRequired,
-  onBlur: PropTypes.func,
-  onClick: PropTypes.func,
-  onFocus: PropTypes.func,
-  onMouseLeave: PropTypes.func
-};
+type Props = {
+  target?: Function,
+  container?: React.ElementType | Function,
+  containerPadding?: number,
+  placement?: 'top' | 'right' | 'bottom' | 'left',
+  shouldUpdatePosition?: boolean,
+  show?: boolean,
+  rootClose?: boolean,
+  onHide?: Function,
+  transition?: elementType,
+  onEnter?: Function,
+  onEntering?: Function,
+  onEntered?: Function,
+  onExit?: Function,
+  onExiting?: Function,
+  onExited?: Function,
+  animation?: React.ElementType | boolean,
+  trigger?: 'click' | 'hover' | 'focus' | Array<string>,
+  delay?: number,
+  delayShow?: number,
+  delayHide?: number,
+  defaultOverlayShown?: boolean,
+  speaker: React.Node,
+  onMouseOver?: Function,
+  onMouseOut?: Function,
+  onBlur?: Function,
+  onClick?: Function,
+  onFocus?: Function,
+  onMouseLeave?: Function
+}
 
-const defaultProps = {
-  defaultOverlayShown: false,
-  trigger: ['hover', 'focus'],
-  rootClose: true
-};
+type States = {
+  isOverlayShown?: boolean
+}
 
-class Whisper extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+class Whisper extends React.Component<Props, States> {
 
+  static defaultProps = {
+    defaultOverlayShown: false,
+    trigger: ['hover', 'focus'],
+    rootClose: true
+  };
 
-    this.handleMouseOver = e => (
-      handleMouseOverOut(this.handleDelayedShow, e)
-    );
-    this.handleMouseOut = e => (
-      handleMouseOverOut(this.handleDelayedHide, e)
-    );
+  constructor(props) {
+    super(props);
 
-    this.handleToggle = this.handleToggle.bind(this);
-    this.handleHide = this.handleHide.bind(this);
-    this.handleDelayedShow = this.handleDelayedShow.bind(this);
-    this.handleDelayedHide = this.handleDelayedHide.bind(this);
-    this.getOverlayTarget = this.getOverlayTarget.bind(this);
+    this.handleMouseOver = e => handleMouseOverOut(this.handleDelayedShow, e);
+    this.handleMouseOut = e => handleMouseOverOut(this.handleDelayedHide, e);
 
     this.state = {
       isOverlayShown: props.defaultOverlayShown
@@ -85,9 +91,7 @@ class Whisper extends React.Component {
     clearTimeout(this.hoverHideDelay);
   }
 
-  getOverlayTarget() {
-    return findDOMNode(this); // eslint-disable-line react/no-find-dom-node
-  }
+  getOverlayTarget = () => findDOMNode(this) // eslint-disable-line react/no-find-dom-node
 
   getOverlay() {
 
@@ -98,7 +102,7 @@ class Whisper extends React.Component {
       target: this.getOverlayTarget
     };
 
-    let speaker = cloneElement(this.props.speaker, {
+    let speaker = React.cloneElement(this.props.speaker, {
       placement: speakerProps.placement,
     });
     return (
@@ -122,11 +126,11 @@ class Whisper extends React.Component {
     });
   }
 
-  handleHide() {
+  handleHide = () => {
     this.hide();
   }
 
-  handleToggle() {
+  handleToggle = () => {
     if (this.state.isOverlayShown) {
       this.hide();
     } else {
@@ -134,7 +138,7 @@ class Whisper extends React.Component {
     }
   }
 
-  handleDelayedShow() {
+  handleDelayedShow = () => {
 
     const { delayShow, delay } = this.props;
     if (!isNullOrUndefined(this.hoverHideDelay)) {
@@ -161,7 +165,7 @@ class Whisper extends React.Component {
 
   }
 
-  handleDelayedHide() {
+  handleDelayedHide = () => {
     const { delayHide, delay } = this.props;
     if (!isNullOrUndefined(this.hoverShowDelay)) {
       clearTimeout(this.hoverShowDelay);
@@ -245,11 +249,8 @@ class Whisper extends React.Component {
       );
     }
 
-    return cloneElement(triggerComponent, props);
+    return React.cloneElement(triggerComponent, props);
   }
 }
-
-Whisper.propTypes = propTypes;
-Whisper.defaultProps = defaultProps;
 
 export default Whisper;

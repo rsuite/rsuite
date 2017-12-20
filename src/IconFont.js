@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import createComponent from './utils/createComponent';
 import prefix, { globalKey } from './utils/prefix';
 
-type Props = {
+export type Props = {
   icon: string,
   className?: string,
   classPrefix?: string,

@@ -38,9 +38,8 @@ export Radio from './Radio';
 export RadioList from './RadioGroup';
 export RadioGroup from './RadioGroup';
 
-export Text from './Text';
 export IconFont from './IconFont';
-
+export Icon from './Icon';
 
 // Layout
 export Header from './Header';
