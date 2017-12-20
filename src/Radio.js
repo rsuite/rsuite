@@ -50,8 +50,7 @@ class Radio extends React.Component<Porps, States> {
 
   handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     const { value, disabled, onChange } = this.props;
-    const checked = !this.state.checked;
-
+    const checked = true;
     if (disabled) {
       return;
     }

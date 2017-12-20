@@ -60,20 +60,19 @@ class RadioGroup extends React.Component<Props, States> {
     } = this.props;
 
     const clesses = classNames(classPrefix, className);
-
     const nextValue = isUndefined(value) ? this.state.value : value;
-    const checkedKey = isUndefined(value) ? 'defaultChecked' : 'checked';
     const items = mapCloneElement(children, (child) => {
       if (child.type.displayName === 'Radio') {
         return {
           inline,
           name,
-          [checkedKey]: isEqual(nextValue, child.props.value),
+          checked: isEqual(nextValue, child.props.value),
           onChange: this.handleChange
         };
       }
       return child.props;
     });
+
     return (
       <div
         {...props}
