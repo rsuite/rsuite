@@ -1,4 +1,6 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
 import createComponent from './utils/createComponent';
 import createChainedFunction from './utils/createChainedFunction';
@@ -10,10 +12,12 @@ const Component = createComponent(SafeAnchor);
 type Props = {
   classPrefix?: string,
   eventKey?: any,
-  onSelect?: (event: SyntheticEvent<*>) => void,
-  onClick: (event: SyntheticEvent<*>) => void,
-  disabled: boolean,
-  active: boolean,
+  onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
+  onClick?: (event: SyntheticEvent<*>) => void,
+  disabled?: boolean,
+  active?: boolean,
+  className?: string,
+  style?: Object
 
 }
 
@@ -22,12 +26,7 @@ class PaginationButton extends React.Component<Props> {
     classPrefix: `${globalKey}pagination-btn`,
   }
 
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(event) {
+  handleClick = (event: SyntheticEvent<*>) => {
     const { disabled, onSelect, eventKey } = this.props;
     if (disabled) {
       return;

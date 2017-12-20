@@ -1,4 +1,6 @@
-import React, { cloneElement } from 'react';
+// @flow
+
+import * as React from 'react';
 
 import classNames from 'classnames';
 import pick from 'lodash/pick';
@@ -10,7 +12,7 @@ import prefix, { globalKey } from './utils/prefix';
 
 type Props = {
   collapsible?: boolean,
-  header?: React.Node,
+  header?: any,
   id?: string | number,
   defaultExpanded?: boolean,
   expanded?: boolean,
@@ -18,6 +20,7 @@ type Props = {
   headerRole?: string,
   panelRole?: string,
   classPrefix?: string,
+  children?: React.Node,
 
   onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
   onEnter?: Function,
@@ -25,7 +28,8 @@ type Props = {
   onEntered?: Function,
   onExit?: Function,
   onExiting?: Function,
-  onExited?: Function
+  onExited?: Function,
+  className?: string
 }
 
 
@@ -34,7 +38,7 @@ type States = {
 }
 
 
-function shouldRenderFill(child) {
+function shouldRenderFill(child: any) {
   return React.isValidElement(child) && child.props.fill !== null;
 }
 
@@ -50,7 +54,7 @@ class Panel extends React.Component<Props, States> {
     this.setState({ expanded: this.props.defaultExpanded });
   }
 
-  handleSelect = (event: SyntheticEvent<*>) => {
+  handleSelect = (event: Object) => {
     event.persist();
     event.selected = true;
     const { onSelect, eventKey } = this.props;
@@ -76,7 +80,7 @@ class Panel extends React.Component<Props, States> {
     return prefix(this.props.classPrefix)(name);
   }
 
-  renderCollapsibleTitle(header, headerRole) {
+  renderCollapsibleTitle(header: React.Node, headerRole?: string) {
     return (
       <h4 className={this.addPrefix('title')} role="presentation">
         {this.renderAnchor(header, headerRole)}
@@ -84,14 +88,14 @@ class Panel extends React.Component<Props, States> {
     );
   }
 
-  renderCollapsibleBody(panelRole: string) {
+  renderCollapsibleBody(panelRole?: string) {
     const { id } = this.props;
 
     const collapseProps = {
       ...pick(this.props, Object.keys(Collapse.propTypes)),
       in: this.isExpanded()
     };
-    let props = {
+    const props: Object = {
       id,
       className: this.addPrefix('collapse'),
       'aria-hidden': !this.isExpanded()
@@ -114,38 +118,35 @@ class Panel extends React.Component<Props, States> {
     let allChildren = children;
     let bodyElements = [];
     let panelBodyChildren = [];
-    let bodyClass = this.addPrefix('body');
 
-    function getProps() {
-      return {
-        key: bodyElements.length
-      };
-    }
+    const getProps = () => ({
+      key: bodyElements.length
+    });
 
-    function addPanelChild(child) {
-      bodyElements.push(cloneElement(child, getProps()));
-    }
+    const addPanelChild = (child: any) => {
+      bodyElements.push(React.cloneElement(child, getProps()));
+    };
 
-    function addPanelBody(body) {
+    const addPanelBody = (body) => {
       const props = getProps();
       bodyElements.push(
         <div
           {...props}
-          className={bodyClass}
+          className={this.addPrefix('body')}
         >
           {body}
         </div>
       );
-    }
+    };
 
-    function maybeRenderPanelBody() {
+    const maybeRenderPanelBody = () => {
       if (panelBodyChildren.length === 0) {
         return;
       }
 
       addPanelBody(panelBodyChildren);
       panelBodyChildren = [];
-    }
+    };
 
     if (!Array.isArray(allChildren) || allChildren.length === 0) {
       if (shouldRenderFill(allChildren)) {
@@ -169,7 +170,7 @@ class Panel extends React.Component<Props, States> {
     return bodyElements;
   }
 
-  renderHeading(headerRole) {
+  renderHeading(headerRole?: string) {
     let { header, collapsible } = this.props;
 
     if (!header) {
@@ -183,7 +184,7 @@ class Panel extends React.Component<Props, States> {
         this.addPrefix('title'),
         header.props.className
       );
-      header = cloneElement(header, { className });
+      header = React.cloneElement(header, { className });
     }
     return (
       <div
@@ -197,7 +198,7 @@ class Panel extends React.Component<Props, States> {
     );
   }
 
-  renderAnchor(header, headerRole) {
+  renderAnchor(header: React.Node, headerRole?: string) {
 
     const { id, collapsible } = this.props;
 

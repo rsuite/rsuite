@@ -1,4 +1,6 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
 import omit from 'lodash/omit';
 import PaginationButton from './PaginationButton';
@@ -8,8 +10,8 @@ import { globalKey } from './utils/prefix';
 
 
 type Props = {
-  activePage?: number,
-  pages?: number,
+  activePage: number,
+  pages: number,
   maxButtons?: number,
   boundaryLinks?: boolean,
   ellipsis?: boolean | React.Node,
@@ -19,7 +21,8 @@ type Props = {
   next?: boolean | React.Node,
   onSelect?: (event: SyntheticEvent<*>) => void,
   buttonComponentClass?: React.ElementType,
-  classPrefix?: string
+  className?: string,
+  classPrefix: string
 }
 
 class Pagination extends React.Component<Props> {
@@ -192,7 +195,7 @@ class Pagination extends React.Component<Props> {
     });
   }
 
-  renderItem(props) {
+  renderItem(props: Object): React.Node {
 
     const { onSelect, buttonComponentClass } = this.props;
     return (
@@ -227,3 +230,4 @@ class Pagination extends React.Component<Props> {
 export default withStyleProps({
   hasSize: true,
 })(Pagination);
+

@@ -1,51 +1,63 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
+import isUndefined from 'lodash/isUndefined';
+import prefix, { globalKey } from './utils/prefix';
 
-const propTypes = {
-  id: PropTypes.string,
-  name: PropTypes.string,
-  inline: PropTypes.bool,
-  title: PropTypes.string,
-  disabled: PropTypes.bool,
-  checked: PropTypes.bool,
-  defaultChecked: PropTypes.bool,
-  onChange: PropTypes.func,
-  inputRef: PropTypes.func,
-  value: PropTypes.any,   // eslint-disable-line react/forbid-prop-types
-};
+type Porps = {
+  id?: string,
+  name?: string,
+  inline?: boolean,
+  title?: string,
+  disabled?: boolean,
+  checked?: boolean,
+  defaultChecked?: boolean,
+  inputRef?: React.Ref<any>,
+  children?: React.Node,
+  className?: string,
+  classPrefix?: string,
+  style?: Object,
+  value?: any,
+  onChange?: (value: any, checked: boolean, event: SyntheticInputEvent<HTMLInputElement>) => void,
+}
 
-class Radio extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      checked: props.checked || props.defaultChecked
-    };
-    this.handleChange = this.handleChange.bind(this);
+type States = {
+  checked: boolean
+}
+
+
+class Radio extends React.Component<Porps, States> {
+  static displayName = 'Radio';
+  static defaultProps = {
+    classPrefix: `${globalKey}radio`
+  };
+
+  state = {
+    checked: false
+  };
+
+  componentWillMount() {
+    const { checked, defaultChecked } = this.props;
+    this.setState({
+      checked: isUndefined(checked) ? defaultChecked : checked
+    });
   }
-  componentWillReceiveProps(nextProps) {
 
-    if (nextProps.checked !== this.props.checked) {
-      this.setState({
-        checked: nextProps.checked
-      });
-    }
-  }
-
-  updateCheckedState(checked, callback) {
+  updateCheckedState(checked: boolean, callback?: Function) {
     this.setState({ checked }, callback);
   }
 
-  handleChange(event) {
+  handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     const { value, disabled, onChange } = this.props;
-    const target = event.target;
+    const checked = !this.state.checked;
 
     if (disabled) {
       return;
     }
 
-    this.setState({ checked: target.checked }, () => {
-      onChange && onChange(value || target.checked, event);
+    this.setState({ checked }, () => {
+      onChange && onChange(value, checked, event);
     });
 
   }
@@ -59,30 +71,35 @@ class Radio extends React.Component {
       children,
       onChange,
       disabled,
+      checked,
+      defaultChecked,
+      classPrefix,
       style,
       inputRef,
       ...props,
-      } = this.props;
+    } = this.props;
 
-    const { checked } = this.state;
+    const nextChecked: boolean | void = isUndefined(checked) ? this.state.checked : checked;
+    const addPrefix = prefix(classPrefix);
     const classes = classNames({
-      'radio-inline': inline
+      [addPrefix('inline')]: inline,
+      [addPrefix('disabled')]: disabled,
+      [addPrefix('checked')]: nextChecked
     }, className);
 
-    const radioClasses = classNames('radio', {
-      disabled
-    });
-
     const input = (
-      <span className={classNames('radio-wrapper', { checked })}>
+      <span className={addPrefix('wrapper')}>
         <input
           {...props}
           type="radio"
+          checked={checked}
+          defaultChecked={defaultChecked}
           ref={inputRef}
           name={name}
           disabled={disabled}
           onChange={this.handleChange}
         />
+        <span className={addPrefix('inner')} />
       </span>
     );
 
@@ -92,7 +109,7 @@ class Radio extends React.Component {
         style={style}
       >
         <div
-          className={radioClasses}
+          className={addPrefix('checker')}
           role="button"
         >
           <label title={title}>
@@ -106,7 +123,5 @@ class Radio extends React.Component {
 
 }
 
-Radio.displayName = 'Radio';
-Radio.propTypes = propTypes;
 
 export default Radio;

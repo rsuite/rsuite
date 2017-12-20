@@ -1,19 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+// @flow
+
+import * as React from 'react';
 import classNames from 'classnames';
+import prefix, { globalKey } from './utils/prefix';
 
-const propTypes = {
-  placement: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
-  classPrefix: PropTypes.string,
-  title: PropTypes.node
-};
+type Props = {
+  placement: 'top' | 'right' | 'bottom' | 'left',
+  classPrefix: string,
+  children?: React.Node,
+  title?: React.Node,
+  style?: Object,
+  className?: string
+}
 
-const defaultProps = {
-  classPrefix: 'popover',
-  placement: 'right'
-};
-
-class Popover extends React.Component {
+class Popover extends React.Component<Props> {
+  static defaultProps = {
+    classPrefix: `${globalKey}popover`,
+    placement: 'right'
+  };
   render() {
     const {
       classPrefix,
@@ -23,8 +27,10 @@ class Popover extends React.Component {
       placement,
       className
     } = this.props;
-    const classes = classNames('popover', {
-      [placement]: true
+
+    const addPrefix = prefix(classPrefix);
+    const classes = classNames(classPrefix, {
+      [addPrefix(placement)]: true
     }, className);
 
     const styles = {
@@ -40,20 +46,17 @@ class Popover extends React.Component {
         <div className="arrow" />
         {
           title ? (
-            <h3 className={`${classPrefix}-title`}>
+            <h3 className={addPrefix('title')}>
               {title}
             </h3>
           ) : null
         }
-        <div className={`${classPrefix}-content`}>
+        <div className={addPrefix('content')}>
           {children}
         </div>
       </div>
     );
   }
 }
-
-Popover.propTypes = propTypes;
-Popover.defaultProps = defaultProps;
 
 export default Popover;

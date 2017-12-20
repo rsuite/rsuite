@@ -7,6 +7,8 @@ import remove from 'lodash/remove';
 import cloneDeep from 'lodash/cloneDeep';
 import classNames from 'classnames';
 import { mapCloneElement } from './utils/ReactChildren';
+import { globalKey } from './utils/prefix';
+
 
 type Props = {
   name?: string,
@@ -26,7 +28,7 @@ type States = {
 class CheckboxGroup extends React.Component<Props, States> {
 
   static defaultProps = {
-    classPrefix: 'checkbox-group'
+    classPrefix: `${globalKey}checkbox-group`
   };
 
   state = {
@@ -48,8 +50,6 @@ class CheckboxGroup extends React.Component<Props, States> {
       });
     }
   }
-
-  checkboxRefs: ?Object = {};
 
   handleChange = (itemValue: any, itemChecked: boolean, event: SyntheticInputEvent<*>) => {
 
@@ -89,7 +89,7 @@ class CheckboxGroup extends React.Component<Props, States> {
           ...child.props,
           name,
           inline,
-          [checkedKey]: nextValue.some(i => i === child.props.value) || false,
+          [checkedKey]: nextValue.some(i => i === child.props.value),
           onChange: this.handleChange
         };
       }

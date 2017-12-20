@@ -1,46 +1,50 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import values from 'lodash/values';
-import isUndefined from 'lodash/isUndefined';
-import classNames from 'classnames';
-import isNullOrUndefined from './utils/isNullOrUndefined';
-import { mapCloneElement } from './utils/ReactChildren';
+// @flow
 
-const propTypes = {
-  name: PropTypes.string,
-  inline: PropTypes.bool,
-  onChange: PropTypes.func,
-  value: PropTypes.any,       // eslint-disable-line react/forbid-prop-types
-  defaultValue: PropTypes.any // eslint-disable-line react/forbid-prop-types
+import * as React from 'react';
+import isUndefined from 'lodash/isUndefined';
+import isEqual from 'lodash/isEqual';
+import classNames from 'classnames';
+import { mapCloneElement } from './utils/ReactChildren';
+import { globalKey } from './utils/prefix';
+
+
+type Props = {
+  name?: string,
+  inline?: boolean,
+  value?: any,
+  defaultValue?: any,
+  className?: string,
+  classPrefix?: string,
+  children?: React.Node,
+  onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void,
 };
 
-class RadioGroup extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.radios = {};
-    this.state = {
-      value: props.defaultValue
-    };
+type States = {
+  value: any
+}
+
+class RadioGroup extends React.Component<Props, States> {
+
+  static defaultProps = {
+    classPrefix: `${globalKey}radio-group`
+  };
+
+  state = {
+    value: null
+  };
+
+  componentWillMount() {
+    const { value, defaultValue } = this.props;
+    this.setState({
+      value: value || defaultValue
+    });
   }
 
-  handleChange(value, event) {
-
+  handleChange = (nextValue: any, event: SyntheticInputEvent<*>) => {
 
     const { onChange } = this.props;
-    const radios = values(this.radios);
-    const shouldChange = (should) => {
-      if (should && onChange) {
-        onChange(value, event);
-      }
-    };
-
-    radios.forEach((radio, index) => {
-      radio.updateCheckedState(radio.props.value === value, () => (
-        shouldChange((index + 1) === radios.length)
-      ));
-    });
-
+    this.setState({ value: nextValue });
+    onChange && onChange(nextValue, event);
   }
 
   render() {
@@ -51,31 +55,23 @@ class RadioGroup extends React.Component {
       name,
       value,
       children,
+      classPrefix,
       ...props
     } = this.props;
 
-    const clesses = classNames({
-      'radio-list': true
-    }, className);
+    const clesses = classNames(classPrefix, className);
 
     const nextValue = isUndefined(value) ? this.state.value : value;
-    const items = mapCloneElement(children, (child, index) => {
-
-      let childProps = {
-        inline,
-        name,
-        checked: isNullOrUndefined(nextValue) ?
-          child.props.checked : nextValue === child.props.value,
-        onChange: this.handleChange,
-        ref: (ref) => {
-          this.radios[index] = ref;
-        }
-      };
-
+    const checkedKey = isUndefined(value) ? 'defaultChecked' : 'checked';
+    const items = mapCloneElement(children, (child) => {
       if (child.type.displayName === 'Radio') {
-        return childProps;
+        return {
+          inline,
+          name,
+          [checkedKey]: isEqual(nextValue, child.props.value),
+          onChange: this.handleChange
+        };
       }
-
       return child.props;
     });
     return (
@@ -89,7 +85,5 @@ class RadioGroup extends React.Component {
     );
   }
 }
-
-RadioGroup.propTypes = propTypes;
 
 export default RadioGroup;

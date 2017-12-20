@@ -3,7 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import isUndefined from 'lodash/isUndefined';
-import prefix from './utils/prefix';
+import prefix, { globalKey } from './utils/prefix';
 
 type Props = {
   title?: string,
@@ -29,7 +29,7 @@ class Checkbox extends React.Component<Props, States> {
 
   static displayName = 'Checkbox';
   static defaultProps = {
-    classPrefix: 'checkbox'
+    classPrefix: `${globalKey}checkbox`
   };
 
 
@@ -37,20 +37,11 @@ class Checkbox extends React.Component<Props, States> {
     checked: false
   };
 
-
   componentWillMount() {
     const { checked, defaultChecked } = this.props;
     this.setState({
       checked: isUndefined(checked) ? defaultChecked : checked
     });
-  }
-
-  componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.checked !== this.props.checked) {
-      this.setState({
-        checked: nextProps.checked
-      });
-    }
   }
   handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     const { onChange, disabled, value } = this.props;
@@ -77,6 +68,7 @@ class Checkbox extends React.Component<Props, States> {
       inputRef,
       style,
       checked,
+      defaultChecked,
       indeterminate,
       classPrefix,
       ...props
@@ -95,6 +87,8 @@ class Checkbox extends React.Component<Props, States> {
       <span className={addPrefix('wrapper')}>
         <input
           {...props}
+          checked={checked}
+          defaultChecked={defaultChecked}
           type="checkbox"
           ref={inputRef}
           disabled={disabled}
