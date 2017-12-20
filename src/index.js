@@ -40,6 +40,7 @@ export RadioGroup from './RadioGroup';
 
 export IconFont from './IconFont';
 export Icon from './Icon';
+export IconButton from './IconButton';
 
 // Layout
 export Header from './Header';

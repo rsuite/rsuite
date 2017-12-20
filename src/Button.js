@@ -7,7 +7,7 @@ import withStyleProps from './utils/withStyleProps';
 import createComponent from './utils/createComponent';
 import prefix, { globalKey } from './utils/prefix';
 
-type Props = {
+export type Props = {
   active?: boolean,
   disabled?: boolean,
   block?: boolean,

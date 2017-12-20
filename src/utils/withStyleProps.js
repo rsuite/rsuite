@@ -11,7 +11,7 @@ import prefix from './prefix';
 
 const SizeOf = ['lg', 'md', 'sm', 'xs'];
 const StatusOf = ['success', 'warning', 'danger', 'info'];
-const ColorOf = ['default', 'primary', 'link', 'inverse'];
+const ColorOf = ['default', 'primary', 'inverse'];
 
 type RequiredProps = {
   className?: string,
