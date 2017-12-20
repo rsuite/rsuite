@@ -81,7 +81,7 @@ class Radio extends React.Component<Porps, States> {
 
     const nextChecked: boolean | void = isUndefined(checked) ? this.state.checked : checked;
     const addPrefix = prefix(classPrefix);
-    const classes = classNames({
+    const classes = classNames(classPrefix, {
       [addPrefix('inline')]: inline,
       [addPrefix('disabled')]: disabled,
       [addPrefix('checked')]: nextChecked
