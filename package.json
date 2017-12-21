@@ -40,6 +40,7 @@
     "react-flow-types": "^0.2.0-beta.6",
     "recompose": "^0.26.0",
     "rsuite-check-tree": "^0.2.2-beta.12",
+    "rsuite-checktreepicker": "^1.0.9",
     "rsuite-schema": "0.0.9",
     "rsuite-table": "^3.0.0-next.3",
     "rsuite-utils": "^0.1.0"
