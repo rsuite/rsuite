@@ -4,6 +4,8 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import Content from '../src/Content';
 import innerText from './innerText';
+import { globalKey } from '../src/utils/prefix';
+
 
 describe('Content', () => {
 
@@ -14,20 +16,10 @@ describe('Content', () => {
     );
 
     const instanceDOM = findDOMNode(instance);
-    assert.equal(instanceDOM.className, 'content-wrapper');
-    assert.equal(instanceDOM.children[0].className, 'content');
+    assert.equal(instanceDOM.className, `${globalKey}content-wrapper`);
+    assert.equal(instanceDOM.children[0].className, `${globalKey}content`);
     assert.equal(innerText(instanceDOM), title);
   });
-
-  it('Should render a Page Content', () => {
-    const title = 'Test';
-    const instance = ReactTestUtils.renderIntoDocument(
-      <Content page>{title}</Content>
-    );
-    assert.equal(findDOMNode(instance).className, 'page-content-wrapper');
-    assert.equal(findDOMNode(instance).children[0].className, 'page-content');
-  });
-
 
   it('Should have a custom className', () => {
     const instance = ReactTestUtils.renderIntoDocument(

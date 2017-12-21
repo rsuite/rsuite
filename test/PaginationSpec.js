@@ -2,9 +2,9 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
-
 import Pagination from '../src/Pagination';
 import innerText from './innerText';
+import { globalKey } from '../src/utils/prefix';
 
 describe('Pagination', () => {
 
@@ -40,8 +40,9 @@ describe('Pagination', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Pagination pages={20} maxButtons={2} ellipsis />
     );
+
     assert.equal(findDOMNode(instance).querySelectorAll('li').length, 3);
-    assert.equal(innerText(findDOMNode(instance).querySelector('li.disabled')), '…');
+    assert.equal(innerText(findDOMNode(instance).querySelector(`li.${globalKey}pagination-btn-disabled`)), '…');
   });
 
   it('Should be ellipsis', () => {
@@ -49,7 +50,7 @@ describe('Pagination', () => {
       <Pagination pages={20} maxButtons={2} ellipsis={'abc'} />
     );
     assert.equal(findDOMNode(instance).querySelectorAll('li').length, 3);
-    assert.equal(innerText(findDOMNode(instance).querySelector('li.disabled')), 'abc');
+    assert.equal(innerText(findDOMNode(instance).querySelector(`li.${globalKey}pagination-btn-disabled`)), 'abc');
   });
 
   it('Should render `first` button', () => {
@@ -92,7 +93,7 @@ describe('Pagination', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Pagination pages={20} activePage={5} />
     );
-    assert.equal(innerText(findDOMNode(instance).querySelector('li.active')), '5');
+    assert.equal(innerText(findDOMNode(instance).querySelector(`li.${globalKey}pagination-btn-active`)), '5');
   });
 
 

@@ -6,6 +6,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import PanelGroup from '../src/PanelGroup';
 import Panel from '../src/Panel';
 import innerText from './innerText';
+import { globalKey } from '../src/utils/prefix';
 
 describe('PanelGroup', () => {
 
@@ -30,7 +31,7 @@ describe('PanelGroup', () => {
     );
     const instanceDom = findDOMNode(instance);
 
-    assert.equal(instanceDom.querySelectorAll('.panel').length, 2);
+    assert.equal(instanceDom.querySelectorAll(`.${globalKey}panel`).length, 2);
   });
 
   it('Should call onSelect callback', (done) => {
@@ -46,7 +47,7 @@ describe('PanelGroup', () => {
       </PanelGroup>
     );
     const instanceDom = findDOMNode(instance);
-    ReactTestUtils.Simulate.click(instanceDom.querySelectorAll('.panel-heading')[1]);
+    ReactTestUtils.Simulate.click(instanceDom.querySelectorAll(`.${globalKey}panel-heading`)[1]);
   });
 
   it('Should have a custom className', () => {

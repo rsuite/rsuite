@@ -12,7 +12,7 @@ describe('Row', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Row>{title}</Row>
     );
-    assert.equal(findDOMNode(instance).className, 'row');
+    assert.ok(findDOMNode(instance).className.match(/\brow\b/));
     assert.equal(findDOMNode(instance).innerHTML, title);
   });
 

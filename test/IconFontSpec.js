@@ -2,6 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { findDOMNode } from 'react-dom';
 import IconFont from '../src/IconFont';
+import { globalKey } from '../src/utils/prefix';
 
 describe('IconFont', () => {
   it('Should output a i', () => {
@@ -22,7 +23,7 @@ describe('IconFont', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <IconFont icon="star" classPrefix="rsuite-icon" />
     );
-    assert.ok(findDOMNode(instance).className.match(/\bicon rsuite-icon-star\b/));
+    assert.ok(findDOMNode(instance).className.match(/\brsuite-icon-star\b/));
   });
 
 
@@ -30,7 +31,7 @@ describe('IconFont', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <IconFont icon="star" />
     );
-    assert.ok(findDOMNode(instance).className.match(/\bicon icon-star\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bicon-star\b/));
   });
 
   it('Should have fw class', () => {

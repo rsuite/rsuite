@@ -5,6 +5,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import InputGroup from '../src/InputGroup';
 import FormControl from '../src/FormControl';
+import { globalKey } from '../src/utils/prefix';
 
 describe('InputGroup', () => {
 
@@ -13,7 +14,7 @@ describe('InputGroup', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <InputGroup>{title}</InputGroup>
     );
-    assert.equal(findDOMNode(instance).className, 'input-group');
+    assert.equal(findDOMNode(instance).className, `${globalKey}input-group`);
     assert.equal(findDOMNode(instance).innerHTML, title);
   });
 
@@ -38,7 +39,7 @@ describe('InputGroup', () => {
         <FormControl />
       </InputGroup>
     );
-    assert.ok(findDOMNode(instance).querySelector('.input-group-addon'));
+    assert.ok(findDOMNode(instance).querySelector(`.${globalKey}input-group-addon`));
   });
 
   it('Should have a children Element and className is `input-group-btn` ', () => {
@@ -48,7 +49,7 @@ describe('InputGroup', () => {
         <InputGroup.Button>btn</InputGroup.Button>
       </InputGroup>
     );
-    assert.ok(findDOMNode(instance).querySelector('.input-group-btn'));
+    assert.ok(findDOMNode(instance).querySelector(`.${globalKey}input-group-btn`));
   });
 
   it('Should have a custom className', () => {

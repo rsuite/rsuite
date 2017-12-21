@@ -5,6 +5,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import DropdownToggle from '../src/DropdownToggle';
 import innerText from './innerText';
+import { globalKey } from '../src/utils/prefix';
 
 describe('DropdownToggle', () => {
 
@@ -15,9 +16,8 @@ describe('DropdownToggle', () => {
     );
 
     assert.ok(findDOMNode(instance).className.match(/\bdropdown-toggle\b/));
-    assert.ok(findDOMNode(instance).querySelector('.caret'));
+    assert.ok(findDOMNode(instance).querySelector(`.${globalKey}dropdown-toggle-caret`));
     assert.equal(innerText(findDOMNode(instance)), title);
-
 
   });
 

@@ -5,6 +5,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import FormGroup from '../src/FormGroup';
 import FormControl from '../src/FormControl';
+import { globalKey } from '../src/utils/prefix';
 
 describe('FormControl', () => {
 
@@ -13,7 +14,7 @@ describe('FormControl', () => {
       <FormControl />
     );
     assert.equal(findDOMNode(instance).tagName, 'INPUT');
-    assert.equal(findDOMNode(instance).className, 'form-control');
+    assert.equal(findDOMNode(instance).className, `${globalKey}form-control`);
   });
 
   it('Should render a Textearea', () => {
@@ -21,7 +22,7 @@ describe('FormControl', () => {
       <FormControl componentClass="textarea" />
     );
     assert.equal(findDOMNode(instance).tagName, 'TEXTAREA');
-    assert.equal(findDOMNode(instance).className, 'form-control');
+    assert.equal(findDOMNode(instance).className, `${globalKey}form-control`);
   });
 
   it('Should render a file Input', () => {
@@ -40,7 +41,7 @@ describe('FormControl', () => {
       </FormControl>
     );
     assert.equal(findDOMNode(instance).tagName, 'SELECT');
-    assert.equal(findDOMNode(instance).className, 'form-control');
+    assert.equal(findDOMNode(instance).className, `${globalKey}form-control`);
   });
 
   it('Should have a type', () => {

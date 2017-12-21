@@ -3,6 +3,7 @@ import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import Col from '../src/Col';
+import { globalKey } from '../src/utils/prefix';
 
 describe('Col', () => {
 
@@ -11,7 +12,7 @@ describe('Col', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Col md={1}>{title}</Col>
     );
-    assert.equal(findDOMNode(instance).className, 'col-md-1');
+    assert.equal(findDOMNode(instance).className, `${globalKey}col-md-1`);
     assert.equal(findDOMNode(instance).innerHTML, title);
   });
 

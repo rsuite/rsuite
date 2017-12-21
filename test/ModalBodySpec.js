@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import ModalBody from '../src/ModalBody';
+import { globalKey } from '../src/utils/prefix';
 
 describe('ModalBody', () => {
 
@@ -12,7 +13,7 @@ describe('ModalBody', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ModalBody>{title}</ModalBody>
     );
-    assert.equal(findDOMNode(instance).className, 'modal-body');
+    assert.equal(findDOMNode(instance).className, `${globalKey}modal-body`);
     assert.equal(findDOMNode(instance).innerHTML, title);
   });
 

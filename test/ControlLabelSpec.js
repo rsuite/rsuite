@@ -12,7 +12,7 @@ describe('ControlLabel', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ControlLabel>{title}</ControlLabel>
     );
-    assert.equal(findDOMNode(instance).className, 'control-label');
+    assert.ok(findDOMNode(instance).className.match(/\bcontrol-label\b/));
     assert.equal(findDOMNode(instance).innerHTML, title);
     assert.equal(findDOMNode(instance).tagName, 'LABEL');
   });

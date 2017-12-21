@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import HelpBlock from '../src/HelpBlock';
 import FormGroup from '../src/FormGroup';
+import { globalKey } from '../src/utils/prefix';
 
 describe('HelpBlock', () => {
 
@@ -12,17 +13,9 @@ describe('HelpBlock', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <HelpBlock>{title}</HelpBlock>
     );
-    assert.equal(findDOMNode(instance).className, 'help-block');
+    assert.equal(findDOMNode(instance).className, `${globalKey}help-block`);
     assert.equal(findDOMNode(instance).tagName, 'SPAN');
     assert.equal(findDOMNode(instance).innerHTML, title);
-  });
-
-  it('Should render a warning `HelpBlock`', () => {
-    let title = 'Test';
-    let instance = ReactTestUtils.renderIntoDocument(
-      <HelpBlock shape="warning">{title}</HelpBlock>
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bhelp-block-warning\b/));
   });
 
   it('Should have `for` in span when set controlId of FormGroup', () => {

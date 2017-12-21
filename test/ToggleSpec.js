@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import Toggle from '../src/Toggle';
 import innerText from './innerText';
+import { globalKey } from '../src/utils/prefix';
 
 describe('Toggle', () => {
 
@@ -11,7 +12,7 @@ describe('Toggle', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Toggle />
     );
-    assert.equal(findDOMNode(instance).className, 'btn-toggle');
+    assert.equal(findDOMNode(instance).className, `${globalKey}btn-toggle`);
   });
 
   it('Should be disabled', () => {

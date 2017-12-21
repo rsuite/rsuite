@@ -5,6 +5,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import Panel from '../src/Panel';
 import innerText from './innerText';
+import { globalKey } from '../src/utils/prefix';
 
 describe('Panel', () => {
 
@@ -23,7 +24,7 @@ describe('Panel', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Panel collapsible defaultExpanded />
     );
-    assert.ok(findDOMNode(instance).querySelector('.panel-collapse.in'));
+    assert.ok(findDOMNode(instance).querySelector(`.${globalKey}panel-collapse.in`));
   });
 
   it('Should be expanded', () => {
@@ -31,7 +32,7 @@ describe('Panel', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Panel collapsible expanded />
     );
-    assert.ok(findDOMNode(instance).querySelector('.panel-collapse.in'));
+    assert.ok(findDOMNode(instance).querySelector(`.${globalKey}panel-collapse.in`));
   });
 
   it('Should render the custom header', () => {
@@ -39,7 +40,7 @@ describe('Panel', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Panel header={<a>abc</a>} />
     );
-    assert.equal(innerText(findDOMNode(instance).querySelector('a.panel-title')), 'abc');
+    assert.equal(innerText(findDOMNode(instance).querySelector(`a.${globalKey}panel-title`)), 'abc');
   });
 
 
@@ -58,7 +59,7 @@ describe('Panel', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Panel panelRole="button" collapsible />
     );
-    assert.equal(findDOMNode(instance).querySelector('.panel-collapse').getAttribute('role'), 'button');
+    assert.equal(findDOMNode(instance).querySelector(`.${globalKey}panel-collapse`).getAttribute('role'), 'button');
   });
 
 
@@ -72,7 +73,7 @@ describe('Panel', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Panel onSelect={doneOp} eventKey={12} header={'abc'} />
     );
-    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('.panel-heading'));
+    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector(`.${globalKey}panel-heading`));
   });
 
 
@@ -108,7 +109,7 @@ describe('Panel', () => {
       </Panel>
     );
 
-    title = ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'panel-title');
+    title = ReactTestUtils.findRenderedDOMComponentWithClass(instance, `${globalKey}panel-title`);
     ReactTestUtils.Simulate.click(title.firstChild);
   });
 

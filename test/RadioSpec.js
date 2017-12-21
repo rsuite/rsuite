@@ -3,6 +3,7 @@ import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import Radio from '../src/Radio';
+import { globalKey } from '../src/utils/prefix';
 
 describe('Radio', () => {
   it('Should render a radio', () => {
@@ -35,7 +36,7 @@ describe('Radio', () => {
     );
     const instanceDom = findDOMNode(instance);
     assert.ok(instanceDom.querySelector('input').disabled);
-    assert.ok(instanceDom.querySelector('.radio').className.match(/\bdisabled\b/));
+    assert.ok(instanceDom.className.match(/\bradio-disabled\b/));
   });
 
   it('Should be checked', () => {
@@ -43,7 +44,7 @@ describe('Radio', () => {
       <Radio checked>Test</Radio>
     );
     const instanceDom = findDOMNode(instance);
-    assert.ok(instanceDom.querySelector('.checked'));
+    assert.ok(instanceDom.className.match(/\bradio-checked\b/));
   });
 
   it('Should be defaultChecked', () => {
@@ -51,7 +52,7 @@ describe('Radio', () => {
       <Radio defaultChecked>Test</Radio>
     );
     const instanceDom = findDOMNode(instance);
-    assert.ok(instanceDom.querySelector('.checked'));
+    assert.ok(instanceDom.className.match(/\bradio-checked\b/));
   });
 
 

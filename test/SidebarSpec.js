@@ -5,6 +5,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import Sidebar from '../src/Sidebar';
 import innerText from './innerText';
+import { globalKey } from '../src/utils/prefix';
 
 describe('Sidebar', () => {
 
@@ -13,7 +14,7 @@ describe('Sidebar', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Sidebar>{title}</Sidebar>
     );
-    assert.equal(findDOMNode(instance).className, 'sidebar-wrapper');
+    assert.equal(findDOMNode(instance).className, `${globalKey}sidebar-wrapper`);
     assert.equal(innerText(findDOMNode(instance)), title);
   });
 

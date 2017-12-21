@@ -5,6 +5,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import ModalHeader from '../src/ModalHeader';
 import innerText from './innerText';
+import { globalKey } from '../src/utils/prefix';
 
 describe('ModalHeader', () => {
 
@@ -13,7 +14,7 @@ describe('ModalHeader', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ModalHeader>{title}</ModalHeader>
     );
-    assert.equal(findDOMNode(instance).className, 'modal-header');
+    assert.equal(findDOMNode(instance).className, `${globalKey}modal-header`);
     assert.equal(innerText(findDOMNode(instance)), '×Test');
   });
 

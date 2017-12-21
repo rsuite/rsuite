@@ -15,7 +15,7 @@ describe('DropdownMenu', () => {
         <DropdownMenuItem>2</DropdownMenuItem>
       </DropdownMenu>
     );
-    assert.equal(findDOMNode(instance).className, 'dropdown-menu');
+    assert.ok(findDOMNode(instance).className.match(/\bdropdown-menu\b/));
     assert.equal(findDOMNode(instance).tagName, 'UL');
     assert.equal(findDOMNode(instance).children.length, 2);
   });
@@ -34,7 +34,8 @@ describe('DropdownMenu', () => {
         <DropdownMenuItem eventKey={2}>2</DropdownMenuItem>
       </DropdownMenu>
     );
-    assert.equal(findDOMNode(instance).children[1].className, 'active');
+
+    assert.ok(findDOMNode(instance).children[1].className.match(/\bdropdown-item-active\b/));
   });
 
   it('Should be selected second option when activeKey = {key:2} ', () => {
@@ -44,7 +45,7 @@ describe('DropdownMenu', () => {
         <DropdownMenuItem eventKey={{ key: 2 }}>2</DropdownMenuItem>
       </DropdownMenu>
     );
-    assert.equal(findDOMNode(instance).children[1].className, 'active');
+    assert.ok(findDOMNode(instance).children[1].className.match(/\bdropdown-item-active\b/));
   });
 
   it('Should call onSelect callback', (done) => {

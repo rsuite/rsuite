@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import RadioGroup from '../src/RadioGroup';
 import Radio from '../src/Radio';
+import { globalKey } from '../src/utils/prefix';
 
 describe('RadioGroup', () => {
   it('Should render a radio group', () => {
@@ -13,7 +14,7 @@ describe('RadioGroup', () => {
         <Radio>Test2</Radio>
       </RadioGroup>
     );
-    assert.equal(findDOMNode(instance).querySelectorAll('.radio').length, 2);
+    assert.equal(findDOMNode(instance).querySelectorAll(`.${globalKey}radio`).length, 2);
   });
 
   it('Should have a name in input', () => {
@@ -35,7 +36,7 @@ describe('RadioGroup', () => {
         <Radio>Test2</Radio>
       </RadioGroup>
     );
-    assert.equal(findDOMNode(instance).querySelectorAll('.radio-inline').length, 2);
+    assert.equal(findDOMNode(instance).querySelectorAll(`.${globalKey}radio-inline`).length, 2);
   });
 
   it('Should output a h1', () => {
@@ -59,8 +60,8 @@ describe('RadioGroup', () => {
         <Radio value={4}>Test2</Radio>
       </RadioGroup>
     );
-    const radios = findDOMNode(instance).querySelectorAll('.radio');
-    assert.ok(radios[1].querySelector('.checked'));
+    const radios = findDOMNode(instance).querySelectorAll(`.${globalKey}radio`);
+    assert.ok(radios[1].className.match(/\bradio-checked\b/));
   });
 
   it('Should be checked when set defaultValue', () => {
@@ -73,8 +74,8 @@ describe('RadioGroup', () => {
         <Radio >Test2</Radio>
       </RadioGroup>
     );
-    const radios = findDOMNode(instance).querySelectorAll('.radio');
-    assert.ok(radios[1].querySelector('.checked'));
+    const radios = findDOMNode(instance).querySelectorAll(`.${globalKey}radio`);
+    assert.ok(radios[1].className.match(/\bradio-checked\b/));
   });
 
 
@@ -95,7 +96,7 @@ describe('RadioGroup', () => {
       </RadioGroup>
     );
 
-    const radios = findDOMNode(instance).querySelectorAll('.radio');
+    const radios = findDOMNode(instance).querySelectorAll(`.${globalKey}radio`);
     ReactTestUtils.Simulate.change(radios[2].querySelector('input'));
   });
 

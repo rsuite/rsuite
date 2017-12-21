@@ -1,8 +1,8 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-
 import Checkbox from '../src/Checkbox';
+import { globalKey } from '../src/utils/prefix';
 
 describe('Checkbox', () => {
   it('Should render a checkbox', () => {
@@ -32,21 +32,21 @@ describe('Checkbox', () => {
       <Checkbox disabled>Test</Checkbox>
     );
     assert.ok(findDOMNode(instance).querySelector('input').disabled);
-    assert.ok(findDOMNode(instance).querySelector('.checker').className.match(/\bdisabled\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bcheckbox-disabled\b/));
   });
 
   it('Should be checked', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Checkbox checked>Test</Checkbox>
     );
-    assert.ok(findDOMNode(instance).querySelector('.checked'));
+    assert.ok(findDOMNode(instance).className.match(/\bcheckbox-checked\b/));
   });
 
   it('Should be defaultChecked', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Checkbox defaultChecked>Test</Checkbox>
     );
-    assert.ok(findDOMNode(instance).querySelector('.checked'));
+    assert.ok(findDOMNode(instance).className.match(/\bcheckbox-checked\b/));
   });
 
 

@@ -5,6 +5,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import Nav from '../src/Nav';
 import innerText from './innerText';
+import { globalKey } from '../src/utils/prefix';
 
 describe('Nav', () => {
 
@@ -14,7 +15,7 @@ describe('Nav', () => {
       <Nav>{title}</Nav>
     );
     assert.equal(findDOMNode(instance).tagName, 'UL');
-    assert.equal(findDOMNode(instance).className, 'nav');
+    assert.equal(findDOMNode(instance).className, `${globalKey}nav`);
     assert.equal(innerText(findDOMNode(instance)), title);
   });
 
@@ -67,7 +68,7 @@ describe('Nav', () => {
         <Nav.Item eventKey={2}>2</Nav.Item>
       </Nav>
     );
-    assert.equal(findDOMNode(instance).children[1].className, 'active');
+    assert.ok(findDOMNode(instance).children[1].className.match(/\bnav-item-active\b/));
   });
 
   it('Should be selected second option when activeKey = `{ key: 2, value: 2 }` ', () => {
@@ -77,7 +78,7 @@ describe('Nav', () => {
         <Nav.Item eventKey={{ key: 2, value: 2 }}>2</Nav.Item>
       </Nav>
     );
-    assert.equal(findDOMNode(instance).children[1].className, 'active');
+    assert.ok(findDOMNode(instance).children[1].className.match(/\bnav-item-active\b/));
   });
 
   it('Should render a Dropdown', () => {
@@ -90,7 +91,7 @@ describe('Nav', () => {
         </Nav.Dropdown>
       </Nav>
     );
-    assert.ok(findDOMNode(instance).querySelector('ul.dropdown-menu'));
+    assert.ok(findDOMNode(instance).querySelector(`ul.${globalKey}dropdown-menu`));
   });
 
 

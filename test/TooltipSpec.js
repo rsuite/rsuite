@@ -5,6 +5,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import Tooltip from '../src/Tooltip';
 import innerText from './innerText';
+import { globalKey } from '../src/utils/prefix';
 
 describe('Tooltip', () => {
 
@@ -47,7 +48,7 @@ describe('Tooltip', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Tooltip arrowOffsetLeft={10} />
     );
-    const instanceDom = findDOMNode(instance).querySelector('.tooltip-arrow');
+    const instanceDom = findDOMNode(instance).querySelector(`.${globalKey}tooltip-arrow`);
     assert.equal(instanceDom.style.left, '10px');
   });
 
@@ -55,7 +56,7 @@ describe('Tooltip', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Tooltip arrowOffsetTop={10} />
     );
-    const instanceDom = findDOMNode(instance).querySelector('.tooltip-arrow');
+    const instanceDom = findDOMNode(instance).querySelector(`.${globalKey}tooltip-arrow`);
     assert.equal(instanceDom.style.top, '10px');
   });
 

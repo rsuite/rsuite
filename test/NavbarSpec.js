@@ -8,6 +8,8 @@ import Nav from '../src/Nav';
 import NavbarToggle from '../src/NavbarToggle';
 import NavbarCollapse from '../src/NavbarCollapse';
 
+import { globalKey } from '../src/utils/prefix';
+
 describe('Navbar', () => {
 
   it('Should render a navbar', () => {
@@ -45,7 +47,7 @@ describe('Navbar', () => {
         <Nav>1</Nav>
       </Navbar>
     );
-    assert.ok(findDOMNode(instance).querySelector('ul.navbar-nav'));
+    assert.ok(findDOMNode(instance).querySelector(`ul.${globalKey}navbar-nav`));
   });
 
   it('Should call onToggle callback', (done) => {
@@ -66,7 +68,7 @@ describe('Navbar', () => {
   it('Should be expanded', (done) => {
     let doneOp = () => {
       setTimeout(() => {
-        if (findDOMNode(instance).querySelector('.navbar-collapse.in')) {
+        if (findDOMNode(instance).querySelector(`.${globalKey}navbar-collapse.in`)) {
           done();
         }
       }, 1000);

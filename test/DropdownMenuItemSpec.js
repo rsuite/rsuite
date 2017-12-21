@@ -5,6 +5,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import DropdownMenuItem from '../src/DropdownMenuItem';
 import innerText from './innerText';
+import { globalKey } from '../src/utils/prefix';
 
 describe('DropdownMenuItem', () => {
 
@@ -33,7 +34,7 @@ describe('DropdownMenuItem', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <DropdownMenuItem divider />
     );
-    assert.equal(findDOMNode(instance).className, 'divider');
+    assert.equal(findDOMNode(instance).className, `${globalKey}dropdown-item-divider`);
 
   });
 
@@ -69,7 +70,7 @@ describe('DropdownMenuItem', () => {
 
   it('Should call onClick callback', (done) => {
     let doneOp = (eventKey) => {
-       done();
+      done();
     };
     let instance = ReactTestUtils.renderIntoDocument(
       <DropdownMenuItem onClick={doneOp}>

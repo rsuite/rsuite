@@ -5,6 +5,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import Dropdown from '../src/Dropdown';
 import NavItem from '../src/NavItem';
 import innerText from './innerText';
+import { globalKey } from '../src/utils/prefix';
 
 describe('Dropdown', () => {
 
@@ -48,7 +49,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    assert.equal(innerText(findDOMNode(instance).querySelector('.dropdown-toggle')), 'abc');
+    assert.equal(innerText(findDOMNode(instance).querySelector(`.${globalKey}dropdown-toggle`)), 'abc');
   });
 
   it('Should have a title when set activeKey', () => {
@@ -58,7 +59,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={0}>2</Dropdown.Item>
       </Dropdown>
     );
-    assert.equal(innerText(findDOMNode(instance).querySelector('.dropdown-toggle')), 2);
+    assert.equal(innerText(findDOMNode(instance).querySelector(`.${globalKey}dropdown-toggle`)), 2);
   });
 
   it('Should have a title when set activeKey', () => {
@@ -68,7 +69,7 @@ describe('Dropdown', () => {
         <NavItem eventKey={0}>2</NavItem>
       </Dropdown>
     );
-    assert.equal(innerText(findDOMNode(instance).querySelector('.dropdown-toggle')), 2);
+    assert.equal(innerText(findDOMNode(instance).querySelector(`.${globalKey}dropdown-toggle`)), 2);
   });
 
   it('Should have a title when set object activeKey', () => {
@@ -78,7 +79,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={{ key: 2, value: 2 }}>2</Dropdown.Item>
       </Dropdown>
     );
-    assert.equal(innerText(findDOMNode(instance).querySelector('.dropdown-toggle')), 2);
+    assert.equal(innerText(findDOMNode(instance).querySelector(`.${globalKey}dropdown-toggle`)), 2);
   });
 
   it('Should call onSelect callback', (done) => {
@@ -93,7 +94,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelectorAll('.dropdown-menu a')[1]);
+    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelectorAll(`.${globalKey}dropdown-menu a`)[1]);
   });
 
 
@@ -107,7 +108,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('.dropdown-toggle'));
+    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector(`.${globalKey}dropdown-toggle`));
   });
 
   it('Should call onOpen callback', (done) => {
@@ -120,7 +121,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('.dropdown-toggle'));
+    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector(`.${globalKey}dropdown-toggle`));
   });
 
   it('Should call onClose callback', (done) => {
@@ -133,7 +134,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    const btn = findDOMNode(instance).querySelector('.dropdown-toggle');
+    const btn = findDOMNode(instance).querySelector(`.${globalKey}dropdown-toggle`);
     ReactTestUtils.Simulate.click(btn);
     ReactTestUtils.Simulate.click(btn);
   });
@@ -154,7 +155,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('.dropdown-toggle'));
+    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector(`.${globalKey}dropdown-toggle`));
   });
 
   it('Should call onClose callback when set autoClose', (done) => {
@@ -167,7 +168,7 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelectorAll('.dropdown-menu a')[1]);
+    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelectorAll(`.${globalKey}dropdown-menu a`)[1]);
   });
 
   it('Should have a custom style in Menu', () => {
@@ -175,7 +176,7 @@ describe('Dropdown', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Dropdown menuStyle={{ fontSize }} />
     );
-    assert.equal(findDOMNode(instance).querySelector('.dropdown-menu').style.fontSize, fontSize);
+    assert.equal(findDOMNode(instance).querySelector(`.${globalKey}dropdown-menu`).style.fontSize, fontSize);
   });
 
 

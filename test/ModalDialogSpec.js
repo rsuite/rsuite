@@ -5,6 +5,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import ModalDialog from '../src/ModalDialog';
 import innerText from './innerText';
+import { globalKey } from '../src/utils/prefix';
 
 describe('ModalDialog', () => {
 
@@ -14,8 +15,8 @@ describe('ModalDialog', () => {
       <ModalDialog>{title}</ModalDialog>
     );
 
-    assert.equal(findDOMNode(instance).className, 'modal');
-    assert.ok(findDOMNode(instance).querySelector('.modal-dialog'));
+    assert.equal(findDOMNode(instance).className, `${globalKey}modal`);
+    assert.ok(findDOMNode(instance).querySelector(`.${globalKey}modal-dialog`));
     assert.equal(innerText(findDOMNode(instance)), title);
   });
 
@@ -23,7 +24,7 @@ describe('ModalDialog', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ModalDialog dialogClassName="custom-dialog" />
     );
-    assert.ok(findDOMNode(instance).querySelector('.modal-dialog.custom-dialog'));
+    assert.ok(findDOMNode(instance).querySelector(`.${globalKey}modal-dialog.custom-dialog`));
   });
 
   it('Should have a custom style in dialog', () => {
@@ -31,7 +32,7 @@ describe('ModalDialog', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ModalDialog dialogStyle={{ fontSize }} />
     );
-    assert.equal(findDOMNode(instance).querySelector('.modal-dialog').style.fontSize, fontSize);
+    assert.equal(findDOMNode(instance).querySelector(`.${globalKey}modal-dialog`).style.fontSize, fontSize);
   });
 
 

@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import ModalTitle from '../src/ModalTitle';
+import { globalKey } from '../src/utils/prefix';
 
 describe('ModalTitle', () => {
 
@@ -12,7 +13,7 @@ describe('ModalTitle', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ModalTitle>{title}</ModalTitle>
     );
-    assert.equal(findDOMNode(instance).className, 'modal-title');
+    assert.equal(findDOMNode(instance).className, `${globalKey}modal-title`);
     assert.equal(findDOMNode(instance).innerHTML, title);
   });
 

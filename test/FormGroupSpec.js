@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import FormGroup from '../src/FormGroup';
+import { globalKey } from '../src/utils/prefix';
 
 describe('FormGroup', () => {
 
@@ -12,7 +13,7 @@ describe('FormGroup', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <FormGroup>{title}</FormGroup>
     );
-    assert.equal(findDOMNode(instance).className, 'form-group');
+    assert.equal(findDOMNode(instance).className, `${globalKey}form-group`);
     assert.equal(findDOMNode(instance).innerHTML, title);
   });
 

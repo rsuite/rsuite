@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import Modal from '../src/Modal';
+import { globalKey } from '../src/utils/prefix';
 
 describe('Modal', () => {
   let mountPoint;
@@ -55,7 +56,7 @@ describe('Modal', () => {
         <Modal.Body style={{ height: 2000 }} />
       </Modal>
       , mountPoint);
-    assert.ok(findDOMNode(instance.dialog).querySelector('.modal-body').style.overflow, 'auto');
+    assert.ok(findDOMNode(instance.dialog).querySelector(`.${globalKey}modal-body`).style.overflow, 'auto');
   });
 
   it('Should call onHide callback', (done) => {

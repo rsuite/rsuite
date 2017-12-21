@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import CheckboxGroup from '../src/CheckboxGroup';
 import Checkbox from '../src/Checkbox';
+import { globalKey } from '../src/utils/prefix';
 
 describe('CheckboxGroup', () => {
   it('Should render a checkbox group', () => {
@@ -13,7 +14,7 @@ describe('CheckboxGroup', () => {
         <Checkbox>Test2</Checkbox>
       </CheckboxGroup>
     );
-    assert.equal(findDOMNode(instance).querySelectorAll('.checkbox').length, 2);
+    assert.equal(findDOMNode(instance).querySelectorAll(`.${globalKey}checkbox`).length, 2);
   });
 
   it('Should have a name in input', () => {
@@ -35,7 +36,7 @@ describe('CheckboxGroup', () => {
         <Checkbox>Test2</Checkbox>
       </CheckboxGroup>
     );
-    assert.equal(findDOMNode(instance).querySelectorAll('.checkbox-inline').length, 2);
+    assert.equal(findDOMNode(instance).querySelectorAll(`.${globalKey}checkbox-inline`).length, 2);
   });
 
   it('Should output a h1', () => {
@@ -60,11 +61,12 @@ describe('CheckboxGroup', () => {
       </CheckboxGroup>
     );
 
-    let checkboxs = findDOMNode(instance).querySelectorAll('.checkbox');
-    assert.ok(!checkboxs[0].querySelector('.checked'));
-    assert.ok(!checkboxs[2].querySelector('.checked'));
-    assert.ok(checkboxs[1].querySelector('.checked'));
-    assert.ok(checkboxs[3].querySelector('.checked'));
+    let checkboxs = findDOMNode(instance).querySelectorAll(`.${globalKey}checkbox`);
+    let checked = /\bcheckbox-checked\b/;
+    assert.ok(!checkboxs[0].className.match(checked));
+    assert.ok(!checkboxs[2].className.match(checked));
+    assert.ok(checkboxs[1].className.match(checked));
+    assert.ok(checkboxs[3].className.match(checked));
   });
 
   it('Should be checked when set defaultValue', () => {
@@ -78,11 +80,12 @@ describe('CheckboxGroup', () => {
       </CheckboxGroup>
     );
 
-    let checkboxs = findDOMNode(instance).querySelectorAll('.checkbox');
-    assert.ok(!checkboxs[0].querySelector('.checked'));
-    assert.ok(!checkboxs[2].querySelector('.checked'));
-    assert.ok(checkboxs[1].querySelector('.checked'));
-    assert.ok(checkboxs[3].querySelector('.checked'));
+    let checkboxs = findDOMNode(instance).querySelectorAll(`.${globalKey}checkbox`);
+    let checked = /\bcheckbox-checked\b/;
+    assert.ok(!checkboxs[0].className.match(checked));
+    assert.ok(!checkboxs[2].className.match(checked));
+    assert.ok(checkboxs[1].className.match(checked));
+    assert.ok(checkboxs[3].className.match(checked));
   });
 
 
@@ -103,7 +106,7 @@ describe('CheckboxGroup', () => {
       </CheckboxGroup>
     );
 
-    let checkboxs = findDOMNode(instance).querySelectorAll('.checkbox');
+    let checkboxs = findDOMNode(instance).querySelectorAll(`.${globalKey}checkbox`);
     ReactTestUtils.Simulate.change(checkboxs[2].querySelector('input'));
   });
 

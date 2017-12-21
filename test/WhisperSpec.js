@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM, { findDOMNode, render } from 'react-dom';
+import ReactDOM, { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 

@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import Grid from '../src/Grid';
+import { globalKey } from '../src/utils/prefix';
 
 describe('Grid', () => {
 
@@ -12,7 +13,7 @@ describe('Grid', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Grid>{title}</Grid>
     );
-    assert.equal(findDOMNode(instance).className, 'container');
+    assert.equal(findDOMNode(instance).className, `${globalKey}container`);
     assert.equal(findDOMNode(instance).innerHTML, title);
   });
 
@@ -21,7 +22,7 @@ describe('Grid', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Grid fluid>{title}</Grid>
     );
-    assert.equal(findDOMNode(instance).className, 'container-fluid');
+    assert.equal(findDOMNode(instance).className, `${globalKey}container-fluid`);
   });
 
   it('Should have a custom className', () => {

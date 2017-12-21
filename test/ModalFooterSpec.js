@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import ModalFooter from '../src/ModalFooter';
+import { globalKey } from '../src/utils/prefix';
 
 describe('ModalFooter', () => {
 
@@ -12,7 +13,7 @@ describe('ModalFooter', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ModalFooter>{title}</ModalFooter>
     );
-    assert.equal(findDOMNode(instance).className, 'modal-footer');
+    assert.equal(findDOMNode(instance).className, `${globalKey}modal-footer`);
     assert.equal(findDOMNode(instance).innerHTML, title);
   });
 
