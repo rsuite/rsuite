@@ -43,15 +43,16 @@ function shouldRenderFill(child: any) {
 }
 
 class Panel extends React.Component<Props, States> {
+
   static defaultProps = {
     classPrefix: `${globalKey}panel`
   };
-  state = {
-    expanded: false
-  }
 
-  componentWillMount() {
-    this.setState({ expanded: this.props.defaultExpanded });
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      expanded: props.defaultExpanded
+    };
   }
 
   handleSelect = (event: Object) => {

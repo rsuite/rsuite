@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import isUndefined from 'lodash/isUndefined';
 import prefix, { globalKey } from './utils/prefix';
 
-type Porps = {
+type Props = {
   id?: string,
   name?: string,
   inline?: boolean,
@@ -24,26 +24,23 @@ type Porps = {
 }
 
 type States = {
-  checked: boolean
+  checked?: boolean
 }
 
 
-class Radio extends React.Component<Porps, States> {
+class Radio extends React.Component<Props, States> {
   static displayName = 'Radio';
   static defaultProps = {
     classPrefix: `${globalKey}radio`,
     tabIndex: 0
   };
 
-  state = {
-    checked: false
-  };
-
-  componentWillMount() {
-    const { checked, defaultChecked } = this.props;
-    this.setState({
+  constructor(props: Props) {
+    super(props);
+    const { checked, defaultChecked } = props;
+    this.state = {
       checked: isUndefined(checked) ? defaultChecked : checked
-    });
+    };
   }
 
   updateCheckedState(checked: boolean, callback?: Function) {

@@ -23,7 +23,7 @@ type Props = {
 }
 
 type States = {
-  checked: boolean
+  checked?: boolean
 }
 
 class Checkbox extends React.Component<Props, States> {
@@ -34,17 +34,14 @@ class Checkbox extends React.Component<Props, States> {
     tabIndex: 0
   };
 
-
-  state = {
-    checked: false
-  };
-
-  componentWillMount() {
-    const { checked, defaultChecked } = this.props;
-    this.setState({
+  constructor(props: Props) {
+    super(props);
+    const { checked, defaultChecked } = props;
+    this.state = {
       checked: isUndefined(checked) ? defaultChecked : checked
-    });
+    };
   }
+
   handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     const { onChange, disabled, value } = this.props;
     const checked = !this.state.checked;

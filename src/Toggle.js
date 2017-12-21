@@ -30,15 +30,12 @@ class Toggle extends React.Component<Props, States> {
     classPrefix: `${globalKey}btn-toggle`
   };
 
-  state = {
-    checked: false
-  };
-
-  componentWillMount() {
-    const { checked, defaultChecked } = this.props;
-    this.setState({
+  constructor(props: Props) {
+    super(props);
+    const { checked, defaultChecked } = props;
+    this.state = {
       checked: isUndefined(checked) ? defaultChecked : checked
-    });
+    };
   }
 
   getCheckedStatus() {

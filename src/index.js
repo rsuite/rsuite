@@ -58,3 +58,4 @@ export SchemaModel from './SchemaModel';
 
 export Table from './Table';
 export TablePagination from './TablePagination';
+export CheckTree from './CheckTree';
