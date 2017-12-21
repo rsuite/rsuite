@@ -18,7 +18,8 @@ type Props = {
   value?: any,
   style?: Object,
   children?: React.Node,
-  classPrefix?: string
+  classPrefix?: string,
+  tabIndex?: number
 }
 
 type States = {
@@ -29,7 +30,8 @@ class Checkbox extends React.Component<Props, States> {
 
   static displayName = 'Checkbox';
   static defaultProps = {
-    classPrefix: `${globalKey}checkbox`
+    classPrefix: `${globalKey}checkbox`,
+    tabIndex: 0
   };
 
 
@@ -70,6 +72,7 @@ class Checkbox extends React.Component<Props, States> {
       checked,
       defaultChecked,
       indeterminate,
+      tabIndex,
       classPrefix,
       ...props
     } = this.props;
@@ -84,7 +87,10 @@ class Checkbox extends React.Component<Props, States> {
     }, className);
 
     const input = (
-      <span className={addPrefix('wrapper')}>
+      <span
+        tabIndex={disabled ? -1 : tabIndex}
+        className={addPrefix('wrapper')}
+      >
         <input
           {...props}
           checked={checked}
@@ -105,12 +111,12 @@ class Checkbox extends React.Component<Props, States> {
       >
         <div
           className={addPrefix('checker')}
-          role="button"
         >
           <label title={title}>
             {input}
             {children}
           </label>
+
         </div>
       </div>
     );

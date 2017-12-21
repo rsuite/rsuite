@@ -20,6 +20,7 @@ type Porps = {
   style?: Object,
   value?: any,
   onChange?: (value: any, checked: boolean, event: SyntheticInputEvent<HTMLInputElement>) => void,
+  tabIndex?: number
 }
 
 type States = {
@@ -30,7 +31,8 @@ type States = {
 class Radio extends React.Component<Porps, States> {
   static displayName = 'Radio';
   static defaultProps = {
-    classPrefix: `${globalKey}radio`
+    classPrefix: `${globalKey}radio`,
+    tabIndex: 0
   };
 
   state = {
@@ -74,6 +76,7 @@ class Radio extends React.Component<Porps, States> {
       defaultChecked,
       classPrefix,
       style,
+      tabIndex,
       inputRef,
       ...props,
     } = this.props;
@@ -87,7 +90,10 @@ class Radio extends React.Component<Porps, States> {
     }, className);
 
     const input = (
-      <span className={addPrefix('wrapper')}>
+      <span
+        className={addPrefix('wrapper')}
+        tabIndex={disabled ? -1 : tabIndex}
+      >
         <input
           {...props}
           type="radio"

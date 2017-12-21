@@ -30,9 +30,9 @@ class Button extends React.Component<Props> {
     const addPrefix: Function = prefix(classPrefix);
 
     const classes = classNames(classPrefix, {
-      active,
-      disabled,
-      [addPrefix('block')]: block,
+      [addPrefix('active')]: active,
+      [addPrefix('disabled')]: disabled,
+      [addPrefix('block')]: block
     }, className);
 
     if (href) {
