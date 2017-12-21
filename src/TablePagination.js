@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Pagination from '../Pagination';
-import Dropdown from '../Dropdown';
-import addPrefixClass from '../utils/addPrefixClass';
+import Pagination from './Pagination';
+import Dropdown from './Dropdown';
+import addPrefixClass from './utils/addPrefixClass';
 
 const propTypes = {
   lengthMenu: PropTypes.arrayOf(PropTypes.shape({

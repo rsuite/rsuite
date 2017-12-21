@@ -51,7 +51,7 @@ const withStyleProps = (
       const addPrefix: Function = prefix(classPrefix);
       const classes: string = classNames(
         hasSize ? addPrefix(size) : null,
-        (hasStatus && hasColor) ? addPrefix(shape) : null,
+        (hasStatus || hasColor) ? addPrefix(shape) : null,
         className
       );
 

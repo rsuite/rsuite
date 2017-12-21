@@ -48,12 +48,13 @@ export Sidebar from './Sidebar';
 export Grid from './Grid';
 export Row from './Row';
 export Col from './Col';
-export Table from './Table';
 export Container from './Container';
 export Content from './Content';
 export Panel from './Panel';
 export PanelGroup from './PanelGroup';
 
 export SafeAnchor from './SafeAnchor';
-
 export SchemaModel from './SchemaModel';
+
+export Table from './Table';
+export TablePagination from './TablePagination';

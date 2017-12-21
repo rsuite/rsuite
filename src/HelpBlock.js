@@ -1,27 +1,26 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import omit from 'lodash/omit';
 import get from 'lodash/get';
-import values from 'lodash/values';
-import decorate, { STATE, getClassNames } from './utils/decorate';
 import { globalKey } from './utils/prefix';
 
-const propTypes = {
-  htmlFor: PropTypes.string,
-  classPrefix: PropTypes.string
-};
+type Props = {
+  className?: string,
+  htmlFor?: string,
+  classPrefix: string
+}
 
-const defaultProps = {
-  htmlFor: undefined,
-  classPrefix: `${globalKey}help-block`,
-};
+class HelpBlock extends React.Component<Props> {
+  static defaultProps = {
+    classPrefix: `${globalKey}help-block`,
+  };
 
-const contextTypes = {
-  formGroup: PropTypes.object
-};
+  static contextTypes = {
+    formGroup: PropTypes.object
+  };
 
-class HelpBlock extends React.Component {
   render() {
     const controlId = get(this.context, 'formGroup.controlId');
     const {
@@ -31,15 +30,11 @@ class HelpBlock extends React.Component {
       ...props
     } = this.props;
 
-    const classes = classNames(classPrefix, {
-      ...getClassNames(this.props),
-    }, className);
-
-    const elementProps = omit(props, Object.keys(propTypes));
+    const classes = classNames(classPrefix, className);
 
     return (
       <span
-        {...elementProps}
+        {...props}
         className={classes}
         htmlFor={htmlFor}
       />
@@ -47,12 +42,5 @@ class HelpBlock extends React.Component {
   }
 }
 
-HelpBlock.propTypes = propTypes;
-HelpBlock.defaultProps = defaultProps;
-HelpBlock.contextTypes = contextTypes;
+export default HelpBlock;
 
-export default decorate({
-  shape: {
-    oneOf: values(STATE)
-  }
-})(HelpBlock);

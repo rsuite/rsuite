@@ -66,7 +66,7 @@ class RadioGroup extends React.Component<Props, States> {
         return {
           inline,
           name,
-          checked: isEqual(nextValue, child.props.value),
+          checked: isEqual(nextValue, child.props.value) || undefined,
           onChange: this.handleChange
         };
       }

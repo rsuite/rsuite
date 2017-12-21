@@ -86,6 +86,8 @@ class Checkbox extends React.Component<Props, States> {
       [addPrefix('checked')]: nextChecked
     }, className);
 
+    console.log(checked, defaultChecked);
+
     const input = (
       <span
         tabIndex={disabled ? -1 : tabIndex}

@@ -89,7 +89,7 @@ class CheckboxGroup extends React.Component<Props, States> {
           ...child.props,
           name,
           inline,
-          [checkedKey]: nextValue.some(i => i === child.props.value),
+          [checkedKey]: nextValue.some(i => i === child.props.value) || undefined,
           onChange: this.handleChange
         };
       }

@@ -53,7 +53,7 @@ class PaginationButton extends React.Component<Props> {
     const classes = classNames(classPrefix, {
       [addPrefix('active')]: active,
       [addPrefix('disabled')]: disabled,
-    });
+    }, className);
 
     return (
       <li
