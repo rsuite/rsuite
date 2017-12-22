@@ -60,3 +60,7 @@ export Table from './Table';
 export TablePagination from './TablePagination';
 export CheckTree from './CheckTree';
 export CheckTreePicker from './CheckTreePicker';
+export CheckPicker from './CheckPicker';
+export Cascader from './Cascader';
+export DatePicker from './DatePicker';
+export DateRangePicker from './DateRangePicker';

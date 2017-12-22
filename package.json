@@ -39,8 +39,12 @@
     "prop-types-extra": "^1.0.1",
     "react-flow-types": "^0.2.0-beta.6",
     "recompose": "^0.26.0",
-    "rsuite-check-tree": "^0.2.2-beta.12",
+    "rsuite-cascader": "^1.0.0",
+    "rsuite-check-tree": "^3.0.0-next",
+    "rsuite-checkpicker": "^1.0.2",
     "rsuite-checktreepicker": "^1.0.9",
+    "rsuite-datepicker": "^2.0.5",
+    "rsuite-daterangepicker": "^2.0.4",
     "rsuite-schema": "0.0.9",
     "rsuite-table": "^3.0.0-next.3",
     "rsuite-utils": "^0.1.0"
