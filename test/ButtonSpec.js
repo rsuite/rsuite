@@ -77,13 +77,13 @@ describe('Button', () => {
     assert.ok(findDOMNode(instance).className.match(/\bbtn-block\b/));
   });
 
-  it('Should apply shape class', () => {
+  it('Should apply appearance', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <Button shape="danger">
+      <Button appearance="ghost">
         Title
       </Button>
     );
-    assert.ok(findDOMNode(instance).className.match(/\bbtn-danger\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bbtn-ghost\b/));
   });
 
   it('Should apply size class', () => {
@@ -97,13 +97,13 @@ describe('Button', () => {
 
   it('Should honour additional classes passed in, adding not overriding', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <Button className="bob" shape="danger">
+      <Button className="bob" appearance="ghost">
         Title
       </Button>
     );
 
     assert.ok(findDOMNode(instance).className.match(/\bbob\b/));
-    assert.ok(findDOMNode(instance).className.match(/\bbtn-danger\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bbtn-ghost\b/));
   });
 
   it('Should default to shape="default"', () => {

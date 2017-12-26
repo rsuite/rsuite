@@ -27,26 +27,6 @@ describe('DropdownMenu', () => {
     assert.ok(findDOMNode(instance).className.match(/\bdropdown-menu-right\b/));
   });
 
-  it('Should be selected second option when activeKey = 2 ', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <DropdownMenu activeKey={2}>
-        <DropdownMenuItem eventKey={1}>1</DropdownMenuItem>
-        <DropdownMenuItem eventKey={2}>2</DropdownMenuItem>
-      </DropdownMenu>
-    );
-
-    assert.ok(findDOMNode(instance).children[1].className.match(/\bdropdown-item-active\b/));
-  });
-
-  it('Should be selected second option when activeKey = {key:2} ', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <DropdownMenu activeKey={{ key: 2 }}>
-        <DropdownMenuItem eventKey={{ key: 1 }}>1</DropdownMenuItem>
-        <DropdownMenuItem eventKey={{ key: 2 }}>2</DropdownMenuItem>
-      </DropdownMenu>
-    );
-    assert.ok(findDOMNode(instance).children[1].className.match(/\bdropdown-item-active\b/));
-  });
 
   it('Should call onSelect callback', (done) => {
     let doneOp = (eventKey) => {

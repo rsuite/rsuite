@@ -32,15 +32,16 @@ describe('Dropdown', () => {
     assert.ok(findDOMNode(instance).className.match(/\bdisabled\b/));
   });
 
-  it('Should be dropup', () => {
+  it('Should have a className for placement', () => {
     let instance = ReactTestUtils.renderIntoDocument(
-      <Dropdown dropup>
+      <Dropdown placement="topLeft">
         <Dropdown.Item>1</Dropdown.Item>
         <Dropdown.Item>2</Dropdown.Item>
       </Dropdown>
     );
-    assert.ok(findDOMNode(instance).className.match(/\bdropup\b/));
+    assert.ok(findDOMNode(instance).className.match(/\bplacement-top-left\b/));
   });
+
 
   it('Should have a title', () => {
     let instance = ReactTestUtils.renderIntoDocument(
@@ -50,36 +51,6 @@ describe('Dropdown', () => {
       </Dropdown>
     );
     assert.equal(innerText(findDOMNode(instance).querySelector(`.${globalKey}dropdown-toggle`)), 'abc');
-  });
-
-  it('Should have a title when set activeKey', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Dropdown  activeKey={0} title="abc">
-        <Dropdown.Item eventKey={1}>1</Dropdown.Item>
-        <Dropdown.Item eventKey={0}>2</Dropdown.Item>
-      </Dropdown>
-    );
-    assert.equal(innerText(findDOMNode(instance).querySelector(`.${globalKey}dropdown-toggle`)), 2);
-  });
-
-  it('Should have a title when set activeKey', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Dropdown  activeKey={0} title="abc">
-        <NavItem eventKey={1}>1</NavItem>
-        <NavItem eventKey={0}>2</NavItem>
-      </Dropdown>
-    );
-    assert.equal(innerText(findDOMNode(instance).querySelector(`.${globalKey}dropdown-toggle`)), 2);
-  });
-
-  it('Should have a title when set object activeKey', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Dropdown  activeKey={{ key: 2, value: 2 }} title="abc">
-        <Dropdown.Item eventKey={{ key: 1, value: 1 }}>1</Dropdown.Item>
-        <Dropdown.Item eventKey={{ key: 2, value: 2 }}>2</Dropdown.Item>
-      </Dropdown>
-    );
-    assert.equal(innerText(findDOMNode(instance).querySelector(`.${globalKey}dropdown-toggle`)), 2);
   });
 
   it('Should call onSelect callback', (done) => {
@@ -178,6 +149,9 @@ describe('Dropdown', () => {
     );
     assert.equal(findDOMNode(instance).querySelector(`.${globalKey}dropdown-menu`).style.fontSize, fontSize);
   });
+
+
+
 
 
   it('Should have a custom className', () => {
