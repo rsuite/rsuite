@@ -42,9 +42,10 @@ class Checkbox extends React.Component<Props, States> {
     };
   }
 
+
   handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     const { onChange, disabled, value } = this.props;
-    const checked = !this.state.checked;
+    const checked = !this.isChecked();
 
     if (disabled) {
       return;
@@ -53,6 +54,15 @@ class Checkbox extends React.Component<Props, States> {
     this.setState({ checked }, () => {
       onChange && onChange(value, checked, event);
     });
+  }
+
+  isChecked() {
+    const { checked } = this.props;
+    if (!isUndefined(checked)) {
+      return checked;
+    }
+
+    return this.state.checked;
   }
 
   render() {
@@ -66,7 +76,6 @@ class Checkbox extends React.Component<Props, States> {
       title,
       inputRef,
       style,
-      checked,
       defaultChecked,
       indeterminate,
       tabIndex,
@@ -74,16 +83,14 @@ class Checkbox extends React.Component<Props, States> {
       ...props
     } = this.props;
 
-    const nextChecked: boolean | void = isUndefined(checked) ? this.state.checked : checked;
+    const checked: boolean | void = this.isChecked();
     const addPrefix = prefix(classPrefix);
     const classes: string = classNames(classPrefix, {
       [addPrefix('inline')]: inline,
       [addPrefix('indeterminate')]: indeterminate,
       [addPrefix('disabled')]: disabled,
-      [addPrefix('checked')]: nextChecked
+      [addPrefix('checked')]: checked
     }, className);
-
-    console.log(checked, defaultChecked);
 
     const input = (
       <span
@@ -92,7 +99,6 @@ class Checkbox extends React.Component<Props, States> {
       >
         <input
           {...props}
-          checked={checked}
           defaultChecked={defaultChecked}
           type="checkbox"
           ref={inputRef}

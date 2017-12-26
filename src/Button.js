@@ -8,12 +8,14 @@ import createComponent from './utils/createComponent';
 import prefix, { globalKey } from './utils/prefix';
 
 export type Props = {
+  appearance: 'default' | 'primary' | 'link' | 'subtle' | 'ghost',
+  classPrefix: string,
+  className?: string,
   active?: boolean,
-  disabled?: boolean,
   block?: boolean,
   href?: string,
-  className?: string,
-  classPrefix: string
+  loading?: boolean,
+  disabled?: boolean
 };
 
 const Component = createComponent('button');
@@ -21,17 +23,29 @@ const Component = createComponent('button');
 class Button extends React.Component<Props> {
 
   static defaultProps = {
+    appearance: 'default',
     classPrefix: `${globalKey}btn`
   };
 
   render() {
 
-    const { href, active, disabled, block, className, classPrefix, ...props } = this.props;
-    const addPrefix: Function = prefix(classPrefix);
+    const {
+      href,
+      active,
+      disabled,
+      loading,
+      block,
+      className,
+      classPrefix,
+      appearance,
+      ...props
+    } = this.props;
 
-    const classes = classNames(classPrefix, {
+    const addPrefix: Function = prefix(classPrefix);
+    const classes = classNames(classPrefix, addPrefix(appearance), {
       [addPrefix('active')]: active,
       [addPrefix('disabled')]: disabled,
+      [addPrefix('loading')]: loading,
       [addPrefix('block')]: block
     }, className);
 

@@ -11,14 +11,15 @@ import prefix from './prefix';
 
 const SizeOf = ['lg', 'md', 'sm', 'xs'];
 const StatusOf = ['success', 'warning', 'danger', 'info'];
-const ColorOf = ['default', 'primary', 'inverse'];
+const ColorOf = ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet'];
 
 type RequiredProps = {
   className?: string,
   classPrefix?: string,
   innerRef?: Function,
   size?: Size,
-  shape?: Status | Color
+  color?: Color,
+  status?: Status
 };
 
 type ProvidedProps = {
@@ -40,21 +41,18 @@ const withStyleProps = (
   class WithStyleProps extends React.Component<RequiredProps> {
 
     static displayName = wrapDisplayName(Component, 'withStyleProps');
-    static defaultProps = {
-      shape: 'default',
-      ...Component.defaultProps
-    };
+    static defaultProps = Component.defaultProps;
 
     render() {
 
-      const { classPrefix, size, shape, innerRef, className, ...props } = this.props;
+      const { classPrefix, size, color, status, innerRef, className, ...props } = this.props;
       const addPrefix: Function = prefix(classPrefix);
       const classes: string = classNames(
         hasSize ? addPrefix(size) : null,
-        (hasStatus || hasColor) ? addPrefix(shape) : null,
+        hasColor ? addPrefix(color) : null,
+        hasStatus ? addPrefix(status) : null,
         className
       );
-
 
       return (
         <Component
@@ -76,11 +74,12 @@ const withStyleProps = (
     propTypes.size = PropTypes.oneOf(SizeOf);
   }
 
-  if (hasStatus || hasColor) {
-    let oneOf: Array<string> = [];
-    hasStatus && oneOf.push(...StatusOf);
-    hasColor && oneOf.push(...ColorOf);
-    propTypes.shape = PropTypes.oneOf(oneOf);
+  if (hasColor) {
+    propTypes.color = PropTypes.oneOf(ColorOf);
+  }
+
+  if (hasStatus) {
+    propTypes.status = PropTypes.oneOf(StatusOf);
   }
 
   WithStyleProps.propTypes = propTypes;

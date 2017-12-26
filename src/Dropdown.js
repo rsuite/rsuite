@@ -2,13 +2,10 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import isEqual from 'lodash/isEqual';
 import isUndefined from 'lodash/isUndefined';
+import kebabCase from 'lodash/kebabCase';
 import omit from 'lodash/omit';
-import get from 'lodash/get';
 import { RootCloseWrapper } from 'rsuite-utils/lib/Overlay';
-
-import { find } from './utils/ReactChildren';
 import createComponent from './utils/createComponent';
 import DropdownToggle from './DropdownToggle';
 import DropdownMenu from './DropdownMenu';
@@ -18,20 +15,18 @@ import prefix, { globalKey } from './utils/prefix';
 const Component = createComponent('div');
 
 type Props = {
+  classPrefix: string,
+  placement: 'bottomLeft' | 'bottomCenter' | 'bottomRight' | 'topLeft' | 'topCenter' | 'topRight',
   title?: React.Node,
   disabled?: boolean,
-  dropup?: boolean,
   onClose?: () => void,
   onOpen?: () => void,
   onToggle?: (open?: boolean) => void,
   onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
-  activeKey?: any,
   menuStyle?: Object,
-  autoClose?: boolean,
   className?: string,
-  children?: React.ChildrenArray<React.Element<typeof DropdownMenuItem>>,
-  renderTitle?: (children?: React.Node) => React.Node,
-  classPrefix?: string,
+  children?: React.ChildrenArray<React.Element<any>>,
+  renderTitle?: (children?: React.Node) => React.Node
 }
 
 type States = {
@@ -42,24 +37,16 @@ type States = {
 class Dropdown extends React.Component<Props, States> {
 
   static defaultProps = {
-    autoClose: true,
-    classPrefix: `${globalKey}dropdown`
+    classPrefix: `${globalKey}dropdown`,
+    placement: 'bottomLeft'
   }
 
   static Item = DropdownMenuItem;
+  static Menu = DropdownMenu;
 
   state = {
     title: null,
     open: false
-  }
-
-  componentWillMount() {
-    this.update();
-  }
-  componentWillReceiveProps(nextProps: Props) {
-    if (!isEqual(nextProps, this.props)) {
-      this.update(nextProps);
-    }
   }
 
   toggle = (isOpen?: boolean) => {
@@ -72,32 +59,8 @@ class Dropdown extends React.Component<Props, States> {
     });
 
     onToggle && onToggle(open);
-
   }
 
-  update(props?: Props) {
-
-    const { children, activeKey } = props || this.props;
-    let title;
-
-    if (!isUndefined(activeKey)) {
-      const activeItem = find(children, (item) => {
-        let displayName = get(item, ['type', 'displayName']);
-        if (displayName === 'DropdownMenuItem' || displayName === 'NavItem') {
-          return isEqual(activeKey, item.props.eventKey) || item.props.active;
-        }
-        return false;
-      });
-
-      if (activeItem) {
-        title = activeItem.props.children;
-      }
-    }
-
-    this.setState({
-      title
-    });
-  }
 
   handleClick = () => {
     if (!this.props.disabled) {
@@ -106,16 +69,9 @@ class Dropdown extends React.Component<Props, States> {
   }
 
   handleSelect = (eventKey: any, event: SyntheticEvent<*>) => {
-
-    const { onSelect, onClose, autoClose } = this.props;
-
+    const { onSelect } = this.props;
     onSelect && onSelect(eventKey, event);
-
-    if (autoClose) {
-      this.toggle(false);
-      onClose && onClose();
-    }
-
+    this.toggle(false);
   }
 
   render() {
@@ -124,12 +80,11 @@ class Dropdown extends React.Component<Props, States> {
       title,
       children,
       className,
-      activeKey,
-      dropup,
       menuStyle,
       disabled,
       renderTitle,
       classPrefix,
+      placement,
       ...props
     } = this.props;
 
@@ -145,7 +100,6 @@ class Dropdown extends React.Component<Props, States> {
     let Menu = (
       <DropdownMenu
         onSelect={this.handleSelect}
-        activeKey={activeKey}
         style={menuStyle}
       >
         {children}
@@ -163,11 +117,10 @@ class Dropdown extends React.Component<Props, States> {
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, {
       [addPrefix('disabled')]: disabled,
-      [addPrefix('dropup')]: dropup,
       [addPrefix('open')]: this.state.open
-    }, className);
+    }, addPrefix(`placement-${kebabCase(placement)}`), className);
 
-    const elementProps = omit(props, ['onClose', 'onOpen', 'onToggle', 'autoClose']);
+    const elementProps = omit(props, ['onClose', 'onOpen', 'onToggle']);
 
     return (
       <Component

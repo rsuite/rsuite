@@ -1,24 +1,23 @@
 // @flow
 
 import * as React from 'react';
-import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
 import classNames from 'classnames';
-import { mapCloneElement } from './utils/ReactChildren';
-import isNullOrUndefined from './utils/isNullOrUndefined';
 import createChainedFunction from './utils/createChainedFunction';
 import prefix, { globalKey } from './utils/prefix';
+import DropdownMenuItem from './DropdownMenuItem';
+import Icon from './Icon';
 
 type Props = {
   pullRight?: boolean,
   onSelect?: Function,
-  activeKey?: any,
   className?: string,
   children?: React.ChildrenArray<any>,
   classPrefix?: string
 }
 
 class DorpdownMenu extends React.Component<Props> {
+  static displayName = 'DropdownMenu';
   static defaultProps = {
     classPrefix: `${globalKey}dropdown-menu`
   }
@@ -28,7 +27,6 @@ class DorpdownMenu extends React.Component<Props> {
       pullRight,
       children,
       className,
-      activeKey,
       onSelect,
       classPrefix,
       ...props
@@ -39,16 +37,27 @@ class DorpdownMenu extends React.Component<Props> {
       [addPrefix('right')]: pullRight
     }, className);
 
-    const items = mapCloneElement(children, (item) => {
-      let { eventKey, active, onSelect: onItemSelect } = item.props;
+    const items = React.Children.map(children, (item, index) => {
       let displayName = get(item, ['type', 'displayName']);
       if (displayName === 'DropdownMenuItem' || displayName === 'NavItem') {
-        return {
-          onSelect: createChainedFunction(onSelect, onItemSelect),
-          active: isNullOrUndefined(activeKey) ? active : isEqual(activeKey, eventKey)
-        };
+        let { onSelect: onItemSelect } = item.props;
+        return React.cloneElement(item, {
+          key: index,
+          onSelect: createChainedFunction(onSelect, onItemSelect)
+        });
+      } else if (displayName === 'DropdownMenu') {
+        return (
+          <DropdownMenuItem
+            componentClass="div"
+            submenu
+          >
+            {item.props.title} <Icon icon="angle-right" />
+            {item}
+          </DropdownMenuItem>
+        );
       }
-      return null;
+
+      return item;
     });
 
     return (

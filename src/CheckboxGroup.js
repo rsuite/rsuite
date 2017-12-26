@@ -83,13 +83,14 @@ class CheckboxGroup extends React.Component<Props, States> {
     const clesses: string = classNames(classPrefix, className);
     const checkedKey = isUndefined(value) ? 'defaultChecked' : 'checked';
 
+
     const items: React.Node = mapCloneElement(children, (child) => {
       if (child.type.displayName === 'Checkbox') {
         return {
           ...child.props,
           name,
           inline,
-          [checkedKey]: nextValue.some(i => i === child.props.value) || undefined,
+          [checkedKey]: nextValue.some(i => i === child.props.value),
           onChange: this.handleChange
         };
       }

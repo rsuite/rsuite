@@ -10,6 +10,7 @@ type Props = {
   divider?: boolean,
   active?: boolean,
   disabled?: boolean,
+  submenu?: boolean,
   onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
   onClick?: (event: SyntheticEvent<*>) => void,
   eventKey?: any,
@@ -19,13 +20,24 @@ type Props = {
   classPrefix?: string
 }
 
+type States = {
+  open?: boolean
+}
+
 const Component = createComponent('a');
 
-class DropdownMenuItem extends React.Component<Props> {
+class DropdownMenuItem extends React.Component<Props, States> {
 
   static displayName = 'DropdownMenuItem';
   static defaultProps = {
     classPrefix: `${globalKey}dropdown-item`
+  }
+
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      open: false
+    };
   }
 
   handleClick = (event: SyntheticEvent<*>) => {
@@ -39,9 +51,17 @@ class DropdownMenuItem extends React.Component<Props> {
     onClick && onClick(event);
   }
 
+  handleMouseEnter = () => {
+    this.setState({ open: true });
+  }
+
+  handleMouseLeave = () => {
+    this.setState({ open: false });
+  }
+
   render() {
 
-    let {
+    const {
       children,
       divider,
       onSelect,
@@ -49,14 +69,17 @@ class DropdownMenuItem extends React.Component<Props> {
       disabled,
       className,
       eventKey,
+      submenu,
       style,
       classPrefix,
       ...props
     } = this.props;
 
+    const { open } = this.state;
     const addPrefix = prefix(classPrefix);
-
-    let classes = classNames(classPrefix, {
+    const classes = classNames(classPrefix, {
+      [addPrefix('submenu')]: submenu,
+      [addPrefix('open')]: open,
       [addPrefix('active')]: active,
       [addPrefix('disabled')]: disabled
     }, className);
@@ -70,9 +93,12 @@ class DropdownMenuItem extends React.Component<Props> {
         style={style}
         role="presentation"
         className={classes}
+        onMouseEnter={submenu ? this.handleMouseEnter : null}
+        onMouseLeave={submenu ? this.handleMouseLeave : null}
       >
         <Component
           {...props}
+          className={addPrefix('content')}
           tabIndex="-1"
           onClick={this.handleClick}
         >

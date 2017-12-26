@@ -12,7 +12,6 @@ type Props = {
   classPrefix?: string
 }
 
-
 class DorpdownToggle extends React.Component<Props> {
   static defaultProps = {
     classPrefix: `${globalKey}dropdown-toggle`
@@ -35,6 +34,7 @@ class DorpdownToggle extends React.Component<Props> {
     return (
       <Button
         {...props}
+        appearance="subtle"
         componentClass="a"
         className={classNames(classPrefix, className)}
         role="button"
