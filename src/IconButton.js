@@ -2,34 +2,58 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import IconFont from './IconFont';
+import Icon from './Icon';
 import Button from './Button';
 import type { Props } from './Button';
 import prefix, { globalKey } from './utils/prefix';
 
 type IconProps = {
   className?: string,
+  iconClassName?: string,
+  iconStyle?: Object,
   classPrefix?: string,
   circle?: boolean,
+  children?: string,
+  placement: 'left' | 'right',
   icon: string
 }
 
 class IconButton extends React.Component<Props & IconProps> {
   static defaultProps = {
-    classPrefix: `${globalKey}btn`
+    placement: 'left',
+    classPrefix: `${globalKey}btn-icon`
   }
   render() {
 
-    const { icon, circle, classPrefix, className, ...props } = this.props;
+    const {
+      icon,
+      placement,
+      children,
+      circle,
+      classPrefix,
+      className,
+      iconClassName,
+      iconStyle,
+      ...props
+    } = this.props;
     const addPrefix = prefix(classPrefix);
 
-    const classes = classNames({
+    const classes = classNames(classPrefix, {
       [addPrefix('circle')]: circle
     }, className);
 
+    const items = [
+      <Icon key="icon" icon={icon} className={iconClassName} style={iconStyle} />,
+      children
+    ];
+
+    if (placement === 'right') {
+      items.reverse();
+    }
+
     return (
-      <Button {...props} className={classes} classPrefix={classPrefix}>
-        <IconFont icon={icon} />
+      <Button {...props} className={classes} >
+        {items}
       </Button>
     );
   }

@@ -1,11 +1,10 @@
-
 // Buttons
 export Button from './Button';
+export IconButton from './IconButton';
 export ButtonToolbar from './ButtonToolbar';
 export Toggle from './Toggle';
 export ButtonGroup from './ButtonGroup';
 export Dropdown from './Dropdown';
-
 
 // Whisper
 export Whisper from './Whisper';
@@ -40,7 +39,6 @@ export RadioGroup from './RadioGroup';
 
 export IconFont from './IconFont';
 export Icon from './Icon';
-export IconButton from './IconButton';
 
 // Layout
 export Header from './Header';
