@@ -62,3 +62,7 @@ export CheckPicker from './CheckPicker';
 export Cascader from './Cascader';
 export DatePicker from './DatePicker';
 export DateRangePicker from './DateRangePicker';
+
+export Alert from './Alert';
+export Notification from './Notification';
+export Message from './Message';

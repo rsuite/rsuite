@@ -4,13 +4,14 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import wrapDisplayName from 'recompose/wrapDisplayName';
+import { setPropTypes } from 'recompose';
 import type { HigherOrderComponent } from 'react-flow-types';
-import type { Size, Status, Color } from './TypeDefinition';
+import type { Size, Types, Color } from './TypeDefinition';
 
 import prefix from './prefix';
 
 const SizeOf = ['lg', 'md', 'sm', 'xs'];
-const StatusOf = ['success', 'warning', 'danger', 'info'];
+const TypeOf = ['success', 'warning', 'danger', 'info'];
 const ColorOf = ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet'];
 
 type RequiredProps = {
@@ -19,7 +20,7 @@ type RequiredProps = {
   innerRef?: Function,
   size?: Size,
   color?: Color,
-  status?: Status
+  type?: Types
 };
 
 type ProvidedProps = {
@@ -28,7 +29,7 @@ type ProvidedProps = {
 
 type Options = {
   hasSize?: boolean,
-  hasStatus?: boolean,
+  hasType?: boolean,
   hasColor?: boolean
 }
 
@@ -36,7 +37,7 @@ const withStyleProps = (
   options?: Options = {}
 ): HigherOrderComponent<RequiredProps, ProvidedProps> => (Component: any): any => {
 
-  const { hasSize, hasStatus, hasColor } = options;
+  const { hasSize, hasType, hasColor } = options;
 
   class WithStyleProps extends React.Component<RequiredProps> {
 
@@ -45,12 +46,12 @@ const withStyleProps = (
 
     render() {
 
-      const { classPrefix, size, color, status, innerRef, className, ...props } = this.props;
+      const { classPrefix, size, color, type, innerRef, className, ...props } = this.props;
       const addPrefix: Function = prefix(classPrefix);
       const classes: string = classNames(
         hasSize ? addPrefix(size) : null,
         hasColor ? addPrefix(color) : null,
-        hasStatus ? addPrefix(status) : null,
+        hasType ? addPrefix(type) : null,
         className
       );
 
@@ -78,11 +79,11 @@ const withStyleProps = (
     propTypes.color = PropTypes.oneOf(ColorOf);
   }
 
-  if (hasStatus) {
-    propTypes.status = PropTypes.oneOf(StatusOf);
+  if (hasType) {
+    propTypes.type = PropTypes.oneOf(TypeOf);
   }
 
-  WithStyleProps.propTypes = propTypes;
+  setPropTypes(propTypes)(WithStyleProps);
 
   return WithStyleProps;
 };

@@ -71,7 +71,6 @@ class Button extends React.Component<Props> {
 
 export default withStyleProps({
   hasSize: true,
-  hasStatus: true,
   hasColor: true
 })(Button);
 
