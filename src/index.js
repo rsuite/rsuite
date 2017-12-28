@@ -66,3 +66,5 @@ export DateRangePicker from './DateRangePicker';
 export Alert from './Alert';
 export Notification from './Notification';
 export Message from './Message';
+export Progress from './Progress';
+
