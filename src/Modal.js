@@ -201,8 +201,9 @@ class Modal extends React.Component<Props, States> {
 
     const modal = (
       <Dialog
-        {...pick(props, Object.keys(ModalDialog.propTypes || {}))}
+        {...pick(props, Object.keys(ModalDialog.propTypes || {})) }
         style={{ ...modalStyles, ...style }}
+        classPrefix={classPrefix}
         className={classNames(className, inClass)}
         dialogClassName={dialogClassName}
         dialogStyle={dialogStyle}

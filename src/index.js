@@ -67,4 +67,5 @@ export Alert from './Alert';
 export Notification from './Notification';
 export Message from './Message';
 export Progress from './Progress';
+export Drawer from './Drawer';
 
