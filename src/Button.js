@@ -57,6 +57,7 @@ class Button extends React.Component<Props> {
       return (
         <SafeAnchor
           {...props}
+          role="button"
           href={href}
           className={classes}
         >
