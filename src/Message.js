@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import Icon from './Icon';
 import prefix, { globalKey } from './utils/prefix';
 import type { Types } from './utils/TypeDefinition';
+import { StatusIconNames } from './utils/constants';
 
 type Props = {
   type: Types,
@@ -23,12 +24,6 @@ type States = {
   display: 'show' | 'hide' | 'fade',
 }
 
-const IconNames = {
-  info: 'info2',
-  success: 'ok-circle',
-  error: 'close-circle',
-  warning: 'warning'
-};
 
 class Message extends React.Component<Props, States> {
 
@@ -110,7 +105,7 @@ class Message extends React.Component<Props, States> {
         {
           showIcon &&
           <div className={this.addPrefix('icon-wrapper')}>
-            <Icon icon={IconNames[type]} />
+            <Icon icon={StatusIconNames[type]} />
           </div>
         }
         <div className={this.addPrefix('content')}>

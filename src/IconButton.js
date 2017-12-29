@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
+import isUndefined from 'lodash/isUndefined';
 import Icon from './Icon';
 import Button from './Button';
 import type { Props } from './Button';
@@ -39,7 +40,8 @@ class IconButton extends React.Component<Props & IconProps> {
     const addPrefix = prefix(classPrefix);
 
     const classes = classNames(classPrefix, {
-      [addPrefix('circle')]: circle
+      [addPrefix('circle')]: circle,
+      [addPrefix('with-text')]: !isUndefined(children)
     }, className);
 
     const items = [
