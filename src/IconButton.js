@@ -37,25 +37,17 @@ class IconButton extends React.Component<Props & IconProps> {
       iconStyle,
       ...props
     } = this.props;
-    const addPrefix = prefix(classPrefix);
 
+    const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, {
       [addPrefix('circle')]: circle,
       [addPrefix('with-text')]: !isUndefined(children)
-    }, className);
-
-    const items = [
-      <Icon key="icon" icon={icon} className={iconClassName} style={iconStyle} />,
-      children
-    ];
-
-    if (placement === 'right') {
-      items.reverse();
-    }
+    }, addPrefix(`placement-${placement}`), className);
 
     return (
       <Button {...props} className={classes} >
-        {items}
+        <Icon icon={icon} className={iconClassName} style={iconStyle} />
+        {children}
       </Button>
     );
   }
