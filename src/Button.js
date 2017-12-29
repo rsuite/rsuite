@@ -15,7 +15,8 @@ export type Props = {
   block?: boolean,
   href?: string,
   loading?: boolean,
-  disabled?: boolean
+  disabled?: boolean,
+  children?: React.Node
 };
 
 const Component = createComponent('button');
@@ -38,6 +39,7 @@ class Button extends React.Component<Props> {
       className,
       classPrefix,
       appearance,
+      children,
       ...props
     } = this.props;
 
@@ -49,13 +51,18 @@ class Button extends React.Component<Props> {
       [addPrefix('block')]: block
     }, className);
 
+    const spin = <span className={addPrefix('spin')} />;
+
     if (href) {
       return (
         <SafeAnchor
           {...props}
           href={href}
           className={classes}
-        />
+        >
+          {loading && spin}
+          {children}
+        </SafeAnchor>
       );
     }
 
@@ -64,7 +71,10 @@ class Button extends React.Component<Props> {
         {...props}
         disabled={disabled}
         className={classes}
-      />
+      >
+        {loading && spin}
+        {children}
+      </Component>
     );
   }
 }
