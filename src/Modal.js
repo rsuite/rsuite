@@ -12,6 +12,7 @@ import { on, getHeight, isOverflowing, getScrollbarSize, ownerDocument } from 'd
 
 import { mapCloneElement } from './utils/ReactChildren';
 import prefix, { globalKey } from './utils/prefix';
+import type { Size } from './utils/TypeDefinition';
 
 import ModalDialog from './ModalDialog';
 import ModalBody from './ModalBody';
@@ -23,10 +24,11 @@ const TRANSITION_DURATION = 300;
 const BACKDROP_TRANSITION_DURATION = 150;
 
 type Props = {
+  classPrefix: string,
+  size: Size,
   container?: React.ElementType | Function,
   onRendered?: Function,
   className?: string,
-  classPrefix?: string,
   children?: React.Node,
   dialogClassName?: string,
   backdropClassName?: string,
@@ -35,6 +37,7 @@ type Props = {
   dialogStyle?: Object,
   backdropStyle?: Object,
   show?: boolean,
+  full?: boolean,
   backdrop?: boolean | 'static',
   keyboard?: boolean,
   transition?: React.ElementType,
@@ -42,7 +45,7 @@ type Props = {
   backdropTransitionTimeout?: number,
   autoFocus?: boolean,
   enforceFocus?: boolean,
-  autoResizeHeight?: boolean,
+  overflow?: boolean,
   animation?: boolean,
   dialogComponentClass: React.ElementType,
   onEscapeKeyUp?: Function,
@@ -68,7 +71,9 @@ const childContextTypes = {
 
 class Modal extends React.Component<Props, States> {
 
+  static displayName = 'Modal';
   static defaultProps = {
+    size: 'md',
     backdrop: true,
     keyboard: true,
     autoFocus: true,
@@ -76,8 +81,9 @@ class Modal extends React.Component<Props, States> {
     classPrefix: `${globalKey}modal`,
     animation: true,
     dialogComponentClass: ModalDialog,
-    autoResizeHeight: true
+    overflow: true
   }
+
 
   static childContextTypes = childContextTypes;
 
@@ -105,7 +111,7 @@ class Modal extends React.Component<Props, States> {
 
   getStyles() {
 
-    const { container, autoResizeHeight } = this.props;
+    const { container, overflow } = this.props;
 
     /* eslint-disable react/no-find-dom-node */
     const node: any = findDOMNode(this.dialog);
@@ -123,7 +129,7 @@ class Modal extends React.Component<Props, States> {
       }
     };
 
-    if (autoResizeHeight) {
+    if (overflow) {
       /**
        * Header height + Footer height + Dialog margin
        */
@@ -175,11 +181,13 @@ class Modal extends React.Component<Props, States> {
       children,
       dialogClassName,
       dialogStyle,
-      autoResizeHeight,
+      overflow,
       animation,
       classPrefix,
       style,
       show,
+      size,
+      full,
       dialogComponentClass,
       ...props
     } = this.props;
@@ -189,7 +197,7 @@ class Modal extends React.Component<Props, States> {
     const Dialog: React.ElementType = dialogComponentClass;
 
     const parentProps = pick(props, Object.keys(BaseModal.propTypes));
-    const items = (autoResizeHeight && children) ?
+    const items = (overflow && children) ?
       mapCloneElement(children, (child) => {
         if (child.type.displayName === 'ModalBody') {
           return {
@@ -199,12 +207,17 @@ class Modal extends React.Component<Props, States> {
         return null;
       }) : children;
 
+    const addPrefix = prefix(classPrefix);
+    const classes = classNames(addPrefix(size), {
+      [addPrefix('full')]: full
+    }, className);
+
     const modal = (
       <Dialog
-        {...pick(props, Object.keys(ModalDialog.propTypes || {})) }
+        {...pick(props, Object.keys(ModalDialog.propTypes || {}))}
         style={{ ...modalStyles, ...style }}
         classPrefix={classPrefix}
-        className={classNames(className, inClass)}
+        className={classes}
         dialogClassName={dialogClassName}
         dialogStyle={dialogStyle}
         onClick={props.backdrop === true ? this.handleDialogClick : null}
@@ -215,8 +228,6 @@ class Modal extends React.Component<Props, States> {
         {items}
       </Dialog>
     );
-
-    const addPrefix = prefix(classPrefix);
 
     return (
       <BaseModal
@@ -238,5 +249,6 @@ class Modal extends React.Component<Props, States> {
     );
   }
 }
+
 
 export default Modal;

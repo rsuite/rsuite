@@ -10,6 +10,7 @@ type Props = {
   classPrefix: string,
   placement?: 'top' | 'right' | 'bottom' | 'left',
   show?: boolean,
+  full?: boolean,
   children?: React.Node,
   className?: string
 }
@@ -21,9 +22,11 @@ class Drawer extends React.Component<Props> {
   };
   render() {
 
-    const { show, children, className, placement, classPrefix, ...props } = this.props;
+    const { show, full, children, className, placement, classPrefix, ...props } = this.props;
     const addPrefix: Function = prefix(classPrefix);
-    const classes = classNames(addPrefix(placement), className);
+    const classes = classNames(addPrefix(placement), {
+      [addPrefix('full')]: full
+    }, className);
 
     return (
       <Modal

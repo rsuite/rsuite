@@ -52,7 +52,7 @@ describe('Modal', () => {
 
   it('Should be automatic height', () => {
     const instance = render(
-      <Modal className="custom" autoResizeHeight show >
+      <Modal className="custom" overflow show >
         <Modal.Body style={{ height: 2000 }} />
       </Modal>
       , mountPoint);
