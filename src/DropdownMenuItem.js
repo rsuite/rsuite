@@ -4,6 +4,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import createComponent from './utils/createComponent';
 import prefix, { globalKey } from './utils/prefix';
+import SafeAnchor from './SafeAnchor';
 
 
 type Props = {
@@ -24,7 +25,7 @@ type States = {
   open?: boolean
 }
 
-const Component = createComponent('a');
+const Component = createComponent(SafeAnchor);
 
 class DropdownMenuItem extends React.Component<Props, States> {
 

@@ -15,6 +15,7 @@ import prefix, { globalKey } from './utils/prefix';
 const Component = createComponent('div');
 
 type Props = {
+  activeKey?: any,
   classPrefix: string,
   placement: 'bottomLeft' | 'bottomCenter' | 'bottomRight' | 'topLeft' | 'topCenter' | 'topRight',
   title?: React.Node,
@@ -85,6 +86,7 @@ class Dropdown extends React.Component<Props, States> {
       renderTitle,
       classPrefix,
       placement,
+      activeKey,
       ...props
     } = this.props;
 
@@ -99,6 +101,7 @@ class Dropdown extends React.Component<Props, States> {
 
     let Menu = (
       <DropdownMenu
+        activeKey={activeKey}
         onSelect={this.handleSelect}
         style={menuStyle}
       >

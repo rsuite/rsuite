@@ -38,8 +38,31 @@ export function mapCloneElement(children, func, context) {
   ), context);
 }
 
+function some(children, func, context) {
+  let index = 0;
+  let result = false;
+
+  React.Children.forEach(children, (child) => {
+    if (result) {
+      return;
+    }
+    if (!React.isValidElement(child)) {
+      return;
+    }
+
+    /* eslint-disable */
+    if (func.call(context, child, index += 1)) {
+      result = true;
+    }
+  });
+
+  return result;
+}
+
+
 export default {
   mapCloneElement,
+  some,
   map,
   find
 };

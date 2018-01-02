@@ -11,7 +11,7 @@ import type { Size, Types, Color } from './TypeDefinition';
 import prefix from './prefix';
 
 const SizeOf = ['lg', 'md', 'sm', 'xs'];
-const TypeOf = ['success', 'warning', 'danger', 'info'];
+const StatusOf = ['success', 'warning', 'error', 'info'];
 const ColorOf = ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet'];
 
 type RequiredProps = {
@@ -20,7 +20,7 @@ type RequiredProps = {
   innerRef?: Function,
   size?: Size,
   color?: Color,
-  type?: Types
+  status?: Types
 };
 
 type ProvidedProps = {
@@ -29,7 +29,7 @@ type ProvidedProps = {
 
 type Options = {
   hasSize?: boolean,
-  hasType?: boolean,
+  hasStatus?: boolean,
   hasColor?: boolean
 }
 
@@ -37,7 +37,7 @@ const withStyleProps = (
   options?: Options = {}
 ): HigherOrderComponent<RequiredProps, ProvidedProps> => (Component: any): any => {
 
-  const { hasSize, hasType, hasColor } = options;
+  const { hasSize, hasStatus, hasColor } = options;
 
   class WithStyleProps extends React.Component<RequiredProps> {
 
@@ -46,12 +46,12 @@ const withStyleProps = (
 
     render() {
 
-      const { classPrefix, size, color, type, innerRef, className, ...props } = this.props;
+      const { classPrefix, size, color, status, innerRef, className, ...props } = this.props;
       const addPrefix: Function = prefix(classPrefix);
       const classes: string = classNames(
         hasSize ? addPrefix(size) : null,
         hasColor ? addPrefix(color) : null,
-        hasType ? addPrefix(type) : null,
+        hasStatus ? addPrefix(status) : null,
         className
       );
 
@@ -79,8 +79,8 @@ const withStyleProps = (
     propTypes.color = PropTypes.oneOf(ColorOf);
   }
 
-  if (hasType) {
-    propTypes.type = PropTypes.oneOf(TypeOf);
+  if (hasStatus) {
+    propTypes.status = PropTypes.oneOf(StatusOf);
   }
 
   setPropTypes(propTypes)(WithStyleProps);
