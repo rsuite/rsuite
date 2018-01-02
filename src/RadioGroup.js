@@ -56,6 +56,7 @@ class RadioGroup extends React.Component<Props, States> {
       value,
       children,
       classPrefix,
+      onChange,
       ...props
     } = this.props;
 
