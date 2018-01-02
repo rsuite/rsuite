@@ -110,7 +110,7 @@ class Message extends React.Component<Props, States> {
         }
         <div className={this.addPrefix('content')}>
           {hasTitle && <h5>{title}</h5>}
-          {description}
+          <div className={this.addPrefix('description')} >{description}</div>
         </div>
       </div>
     );
