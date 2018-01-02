@@ -11,7 +11,7 @@ describe('Button', () => {
         Title
       </Button>
     );
-    assert.equal(findDOMNode(instance).innerHTML, 'Title');
+    assert.equal(findDOMNode(instance).innerText, 'Title');
     assert.equal(findDOMNode(instance).nodeName, 'BUTTON');
     assert.ok(findDOMNode(instance).className.match(/\bbtn-default\b/));
   });

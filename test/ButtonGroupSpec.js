@@ -58,7 +58,21 @@ describe('ButtonGroup', () => {
   });
 
 
-  it('Should render 2 buttons', () => {
+  it('Should render 2 <button>', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <ButtonGroup>
+        <Button>
+          Title
+        </Button>
+        <Button>
+          Title
+        </Button>
+      </ButtonGroup>
+    );
+    assert.equal(findDOMNode(instance).querySelectorAll('button').length, 2);
+  });
+
+  it('Should render 2 <a>', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ButtonGroup justified>
         <Button>
@@ -69,7 +83,7 @@ describe('ButtonGroup', () => {
         </Button>
       </ButtonGroup>
     );
-    assert.equal(findDOMNode(instance).querySelectorAll('button').length, 2);
+    assert.equal(findDOMNode(instance).querySelectorAll('a').length, 2);
   });
 
   it('Should have a custom style', () => {

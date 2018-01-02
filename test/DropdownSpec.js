@@ -129,18 +129,6 @@ describe('Dropdown', () => {
     ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector(`.${globalKey}dropdown-toggle`));
   });
 
-  it('Should call onClose callback when set autoClose', (done) => {
-    let doneOp = () => {
-      done();
-    };
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Dropdown onClose={doneOp} autoClose>
-        <Dropdown.Item eventKey={1}>1</Dropdown.Item>
-        <Dropdown.Item eventKey={2}>2</Dropdown.Item>
-      </Dropdown>
-    );
-    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelectorAll(`.${globalKey}dropdown-menu a`)[1]);
-  });
 
   it('Should have a custom style in Menu', () => {
     const fontSize = '12px';
@@ -149,10 +137,6 @@ describe('Dropdown', () => {
     );
     assert.equal(findDOMNode(instance).querySelector(`.${globalKey}dropdown-menu`).style.fontSize, fontSize);
   });
-
-
-
-
 
   it('Should have a custom className', () => {
     let instance = ReactTestUtils.renderIntoDocument(
