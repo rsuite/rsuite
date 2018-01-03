@@ -100,16 +100,18 @@ class Message extends React.Component<Props, States> {
         {...props}
         className={classes}
       >
-        {closable && this.renderCloseButton(closeLabel)}
-        {
-          showIcon &&
-          <div className={this.addPrefix('icon-wrapper')}>
-            <Icon icon={StatusIconNames[type]} />
+        <div className={this.addPrefix('container')}>
+          {closable && this.renderCloseButton(closeLabel)}
+          {
+            showIcon &&
+            <div className={this.addPrefix('icon-wrapper')}>
+              <Icon icon={StatusIconNames[type]} />
+            </div>
+          }
+          <div className={this.addPrefix('content')}>
+            {hasTitle && <h5 className={this.addPrefix('header')}>{title}</h5>}
+            {hasDesc && <div className={this.addPrefix('body')} >{description}</div>}
           </div>
-        }
-        <div className={this.addPrefix('content')}>
-          {hasTitle && <h5>{title}</h5>}
-          {hasDesc && <div className={this.addPrefix('description')} >{description}</div>}
         </div>
       </div>
     );
