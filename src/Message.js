@@ -24,9 +24,7 @@ type States = {
   display: 'show' | 'hide' | 'fade',
 }
 
-
 class Message extends React.Component<Props, States> {
-
 
   static defaultProps = {
     type: 'info',
@@ -90,6 +88,7 @@ class Message extends React.Component<Props, States> {
     }
 
     const hasTitle = !!title;
+    const hasDesc = !!description;
     const classes = classNames(classPrefix, this.addPrefix(type), {
       [this.addPrefix('has-title')]: hasTitle,
       [this.addPrefix('has-icon')]: showIcon,
@@ -110,7 +109,7 @@ class Message extends React.Component<Props, States> {
         }
         <div className={this.addPrefix('content')}>
           {hasTitle && <h5>{title}</h5>}
-          <div className={this.addPrefix('description')} >{description}</div>
+          {hasDesc && <div className={this.addPrefix('description')} >{description}</div>}
         </div>
       </div>
     );
