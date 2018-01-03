@@ -21,7 +21,7 @@ type Props = {
 };
 
 type States = {
-  display: 'show' | 'hide' | 'fade',
+  display: 'show' | 'hide' | 'hiding',
 }
 
 class Message extends React.Component<Props, States> {
@@ -35,7 +35,7 @@ class Message extends React.Component<Props, States> {
   constructor() {
     super();
     this.state = {
-      display: 'fade'
+      display: 'show'
     };
   }
 
@@ -45,7 +45,7 @@ class Message extends React.Component<Props, States> {
 
   handleClose = () => {
     const { onClose } = this.props;
-    this.setState({ display: 'fade' });
+    this.setState({ display: 'hiding' });
 
     setTimeout(() => this.setState({ display: 'hide' }, () => {
       onClose && onClose();
