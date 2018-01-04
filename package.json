@@ -33,7 +33,7 @@
   "dependencies": {
     "classnames": ">=2.0.0",
     "dom-lib": "^0.2.3",
-    "form-lib": "^2.0.0",
+    "form-lib": "^3.0.0-next",
     "lodash": "^4.11.1",
     "prop-types": "^15.6.0",
     "prop-types-extra": "^1.0.1",
