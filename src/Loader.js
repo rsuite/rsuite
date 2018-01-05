@@ -11,6 +11,7 @@ type Props = {
   center?: boolean,
   backdrop?: boolean,
   inverse?: boolean,
+  vertical?: boolean,
   content?: React.Node,
   speed: 'normal' | 'fast' | 'slow'
 };
@@ -35,6 +36,7 @@ class Loader extends React.Component<Props> {
       backdrop,
       speed,
       center,
+      vertical,
       content,
       ...props
     } = this.props;
@@ -42,6 +44,7 @@ class Loader extends React.Component<Props> {
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, addPrefix(`speed-${speed}`), {
       [`${addPrefix('backdrop')}-wrapper`]: backdrop,
+      [addPrefix('vertical')]: vertical,
       [addPrefix('inverse')]: inverse,
       [addPrefix('center')]: center
     }, className);
