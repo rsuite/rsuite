@@ -14,18 +14,17 @@ type Props = {
   classPrefix: string,
   className?: string,
   children?: React.Node,
-  tabs?: boolean,
-  pills?: boolean,
+  appearance: 'default' | 'subtle' | 'tabs',
   justified?: boolean,
-  stacked?: boolean,
+  vertical?: boolean,
   pullRight?: boolean,
   activeKey?: any,
   onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
 }
 
-
 class Nav extends React.Component<Props> {
   static defaultProps = {
+    appearance: 'default',
     classPrefix: `${globalKey}nav`,
   }
   static contextTypes = {
@@ -39,9 +38,8 @@ class Nav extends React.Component<Props> {
   render() {
     const {
       classPrefix,
-      tabs,
-      pills,
-      stacked,
+      appearance,
+      vertical,
       justified,
       pullRight,
       className,
@@ -53,12 +51,10 @@ class Nav extends React.Component<Props> {
 
     const addPrefix = prefix(classPrefix);
 
-    const classes = classNames(classPrefix, {
+    const classes = classNames(classPrefix, addPrefix(appearance), {
       [`${classPrefix}bar-right`]: pullRight,
       [`${classPrefix}bar-nav`]: this.context.navbar,
-      [addPrefix('pills')]: pills,
-      [addPrefix('tabs')]: tabs,
-      [addPrefix('stacked')]: stacked,
+      [addPrefix('vertical')]: vertical,
       [addPrefix('justified')]: justified
     }, className);
 
