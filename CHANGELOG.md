@@ -21,3 +21,5 @@
 - 新增 Alert 组件
 - 新增 Message 组件
 - 新增 Notification 组件
+- 更新 Nav 组件，新增 appearance（'default' | 'subtle' | 'tabs'） 属性。
+

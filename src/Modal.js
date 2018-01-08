@@ -32,7 +32,6 @@ type Props = {
   children?: React.Node,
   dialogClassName?: string,
   backdropClassName?: string,
-  containerClassName?: string,
   style?: Object,
   dialogStyle?: Object,
   backdropStyle?: Object,
@@ -180,6 +179,7 @@ class Modal extends React.Component<Props, States> {
       className,
       children,
       dialogClassName,
+      backdropClassName,
       dialogStyle,
       overflow,
       animation,
@@ -214,7 +214,7 @@ class Modal extends React.Component<Props, States> {
 
     const modal = (
       <Dialog
-        {...pick(props, Object.keys(ModalDialog.propTypes || {}))}
+        {...pick(props, Object.keys(ModalDialog.propTypes || {})) }
         style={{ ...modalStyles, ...style }}
         classPrefix={classPrefix}
         className={classes}
@@ -237,7 +237,7 @@ class Modal extends React.Component<Props, States> {
         show={show}
         onEntering={this.handleShow}
         onExited={this.handleHide}
-        backdropClassName={classNames(addPrefix('backdrop'), inClass)}
+        backdropClassName={classNames(addPrefix('backdrop'), backdropClassName, inClass)}
         containerClassName={addPrefix('open')}
         transition={animation ? Fade : undefined}
         dialogTransitionTimeout={TRANSITION_DURATION}

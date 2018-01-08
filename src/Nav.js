@@ -15,6 +15,8 @@ type Props = {
   className?: string,
   children?: React.Node,
   appearance: 'default' | 'subtle' | 'tabs',
+  // Reverse Direction of tabs/subtle
+  reversed?: boolean,
   justified?: boolean,
   vertical?: boolean,
   pullRight?: boolean,
@@ -41,6 +43,7 @@ class Nav extends React.Component<Props> {
       appearance,
       vertical,
       justified,
+      reversed,
       pullRight,
       className,
       children,
@@ -55,7 +58,8 @@ class Nav extends React.Component<Props> {
       [`${classPrefix}bar-right`]: pullRight,
       [`${classPrefix}bar-nav`]: this.context.navbar,
       [addPrefix('vertical')]: vertical,
-      [addPrefix('justified')]: justified
+      [addPrefix('justified')]: justified,
+      [addPrefix('reversed')]: reversed,
     }, className);
 
 
