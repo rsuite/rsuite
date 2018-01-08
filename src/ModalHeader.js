@@ -4,7 +4,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import createChainedFunction from './utils/createChainedFunction';
-import { globalKey } from './utils/prefix';
+import prefix, { globalKey } from './utils/prefix';
 
 type Props = {
   classPrefix?: string,
@@ -37,6 +37,7 @@ class ModalHeader extends React.Component<Props> {
     } = this.props;
 
     const classes = classNames(classPrefix, className);
+    const addPrefix = prefix(classPrefix);
 
     return (
       <div
@@ -46,7 +47,7 @@ class ModalHeader extends React.Component<Props> {
         {closeButton && (
           <button
             type="button"
-            className="close"
+            className={addPrefix('close')}
             aria-label="Close"
             onClick={createChainedFunction(this.context.onModalHide, onHide)}
           >
