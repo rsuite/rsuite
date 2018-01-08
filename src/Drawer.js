@@ -2,9 +2,10 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
+import { defaultProps } from 'recompose';
 import Modal from './Modal';
 import prefix, { globalKey } from './utils/prefix';
-import withStyleProps from './utils/withStyleProps';
+
 
 type Props = {
   classPrefix: string,
@@ -20,9 +21,15 @@ class Drawer extends React.Component<Props> {
     placement: 'right',
     classPrefix: `${globalKey}drawer`
   };
+
+  static Body = defaultProps({ classPrefix: `${globalKey}drawer-body` })(Modal.Body);
+  static Header = defaultProps({ classPrefix: `${globalKey}drawer-header` })(Modal.Header);
+  static Title = defaultProps({ classPrefix: `${globalKey}drawer-title` })(Modal.Title);
+  static Footer = defaultProps({ classPrefix: `${globalKey}drawer-footer` })(Modal.Footer);
+
   render() {
 
-    const { show, full, children, className, placement, classPrefix, ...props } = this.props;
+    const { show, full, className, placement, classPrefix, ...props } = this.props;
     const addPrefix: Function = prefix(classPrefix);
     const classes = classNames(addPrefix(placement), {
       [addPrefix('full')]: full
@@ -34,16 +41,11 @@ class Drawer extends React.Component<Props> {
         classPrefix={classPrefix}
         className={classes}
         show={show}
-      >
-        <Modal.Body classPrefix={addPrefix('body')}>
-          {children}
-        </Modal.Body>
-      </Modal>
+      />
     );
   }
 }
 
-export default withStyleProps({
-  hasSize: true
-})(Drawer);
+
+export default Drawer;
 

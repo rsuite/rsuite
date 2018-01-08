@@ -132,7 +132,7 @@ class Modal extends React.Component<Props, States> {
       /**
        * Header height + Footer height + Dialog margin
        */
-      const excludeHeight = 200;
+      const excludeHeight = 260;
       const contentHeight = getHeight(window) - excludeHeight;
       const maxHeight = (scrollHeight >= contentHeight) ? contentHeight : scrollHeight;
 
