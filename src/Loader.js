@@ -42,7 +42,7 @@ class Loader extends React.Component<Props> {
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, addPrefix(`speed-${speed}`), {
+    const classes = classNames(addPrefix('wrapper'), addPrefix(`speed-${speed}`), {
       [`${addPrefix('backdrop')}-wrapper`]: backdrop,
       [addPrefix('vertical')]: vertical,
       [addPrefix('inverse')]: inverse,
@@ -56,8 +56,10 @@ class Loader extends React.Component<Props> {
         className={classes}
       >
         {backdrop && <div className={addPrefix('backdrop')} />}
-        <span className={addPrefix('spin')} />
-        <span className={addPrefix('content')}>{content}</span>
+        <div className={classPrefix}>
+          <span className={addPrefix('spin')} />
+          <span className={addPrefix('content')}>{content}</span>
+        </div>
       </div>
     );
   }
