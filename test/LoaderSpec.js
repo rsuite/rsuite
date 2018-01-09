@@ -1,9 +1,7 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-
 import Loader from '../src/Loader';
-import { globalKey } from '../src/utils/prefix';
 
 describe('Loader', () => {
 

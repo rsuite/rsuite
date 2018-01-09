@@ -21,6 +21,7 @@ export SafeAnchor from './SafeAnchor';
 export Dropdown from './Dropdown';
 export Nav from './Nav';
 export Navbar from './Navbar';
+export NavMenu from './NavMenu';
 export Breadcrumb from './Breadcrumb';
 export Pagination from './Pagination';
 export Steps from './Steps';

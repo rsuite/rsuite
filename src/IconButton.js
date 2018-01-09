@@ -14,9 +14,9 @@ type IconProps = {
   iconStyle?: Object,
   classPrefix?: string,
   circle?: boolean,
-  children?: string,
+  children?: React.Node,
   placement: 'left' | 'right',
-  icon: string
+  icon: string | { viewBox: string, id: string },
 }
 
 class IconButton extends React.Component<Props & IconProps> {

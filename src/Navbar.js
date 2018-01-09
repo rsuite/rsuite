@@ -13,9 +13,7 @@ import prefix, { globalKey } from './utils/prefix';
 type Props = {
   classPrefix?: string,
   className?: string,
-  fixedTop?: boolean,
-  fixedBottom?: boolean,
-  inverse?: boolean,
+  appearance: 'default' | 'inverse' | 'subtle',
   onToggle?: (expanded: boolean) => void
 }
 
@@ -28,6 +26,7 @@ const Component = createComponent('div');
 class Navbar extends React.Component<Props, States> {
 
   static defaultProps = {
+    appearance: 'default',
     classPrefix: `${globalKey}navbar`
   };
 
@@ -65,22 +64,19 @@ class Navbar extends React.Component<Props, States> {
 
   render() {
     const {
-      inverse,
-      fixedTop,
-      fixedBottom,
       className,
       classPrefix,
       onToggle,
+      appearance,
       ...props
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, {
-      [addPrefix('default')]: !inverse,
-      [addPrefix('inverse')]: inverse,
-      [addPrefix('fixed-top')]: fixedTop,
-      [addPrefix('fixed-bottom')]: fixedBottom
-    }, className);
+    const classes = classNames(
+      classPrefix,
+      addPrefix(appearance),
+      className
+    );
 
     return (
       <Component

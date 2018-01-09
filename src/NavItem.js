@@ -6,7 +6,7 @@ import createChainedFunction from './utils/createChainedFunction';
 import SafeAnchor from './SafeAnchor';
 import creatComponent from './utils/createComponent';
 import prefix, { globalKey } from './utils/prefix';
-
+import Icon from './Icon';
 
 type Props = {
   className?: string,
@@ -15,6 +15,7 @@ type Props = {
   disabled?: boolean,
   onClick?: Function,
   style?: Object,
+  icon?: string | { viewBox: string, id: string },
   onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
   children?: React.Node,
   eventKey?: any,
@@ -46,6 +47,7 @@ class NavItem extends React.Component<Props> {
       style,
       eventKey,
       children,
+      icon,
       ...props
     } = this.props;
 
@@ -54,6 +56,7 @@ class NavItem extends React.Component<Props> {
       [addPrefix('active')]: active,
       [addPrefix('disabled')]: disabled,
     }, className);
+    const hasIcon = !!icon;
 
     return (
       <li
@@ -66,7 +69,8 @@ class NavItem extends React.Component<Props> {
           disabled={disabled}
           onClick={createChainedFunction(onClick, this.handleClick)}
         >
-          {children}
+          {hasIcon && <Icon icon={icon} className={addPrefix('icon')} />}
+          <span className={addPrefix('text')}>{children}</span>
         </Component>
       </li>
     );
