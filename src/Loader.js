@@ -46,7 +46,8 @@ class Loader extends React.Component<Props> {
       [`${addPrefix('backdrop')}-wrapper`]: backdrop,
       [addPrefix('vertical')]: vertical,
       [addPrefix('inverse')]: inverse,
-      [addPrefix('center')]: center
+      [addPrefix('center')]: center,
+      [addPrefix('has-content')]: !!content
     }, className);
 
     return (
