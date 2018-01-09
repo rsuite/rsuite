@@ -2,11 +2,12 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
+import get from 'lodash/get';
 import createComponent from './utils/createComponent';
 import prefix, { globalKey } from './utils/prefix';
 
 type Props = {
-  icon: string | Object,
+  icon: string | { viewBox: string, id: string },
   className?: string,
   classPrefix?: string,
   componentClass?: React.ElementType,
@@ -15,6 +16,7 @@ type Props = {
   stack?: '1x' | '2x',
   rotate?: number,
   fixedWidth?: boolean,
+  svgStyle?: Object,
   spin?: boolean,
   pulse?: boolean
 }
@@ -39,22 +41,19 @@ class Icon extends React.Component<Props> {
       rotate,
       flip,
       stack,
+      svgStyle,
       ...props
     } = this.props;
 
-    if (typeof icon === 'object') {
-      return (
-        <svg
-          {...props}
-          viewBox={icon.viewBox}
-        >
-          <use xlinkHref={`#${icon.id}`} />
-        </svg>
-      );
-    }
-
     const addPrefix = prefix(classPrefix);
-    const classes = classNames('icon', addPrefix(icon), {
+    const isSvgIcon = (
+      typeof icon === 'object' &&
+      get(icon, ['constructor', 'name']) === 'BrowserSpriteSymbol'
+    );
+
+
+    const classes = classNames('icon', {
+      [addPrefix(icon)]: !isSvgIcon,
       [addPrefix(size)]: size,
       [addPrefix('fw')]: fixedWidth,
       [addPrefix('spin')]: spin,
@@ -63,6 +62,16 @@ class Icon extends React.Component<Props> {
       [addPrefix(`rotate-${rotate || ''}`)]: rotate,
       [addPrefix(`stack-${stack || ''}`)]: stack
     }, className);
+
+    if (isSvgIcon) {
+      return (
+        <Component {...props} className={classes}>
+          <svg style={svgStyle} viewBox={icon.viewBox}>
+            <use xlinkHref={`#${icon.id}`} />
+          </svg>
+        </Component>
+      );
+    }
 
     return (
       <Component {...props} className={classes} />
