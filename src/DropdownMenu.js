@@ -15,10 +15,9 @@ type Props = {
   className?: string,
   children?: React.ChildrenArray<any>,
   classPrefix?: string,
-  pullRight?: boolean,
+  pullLeft?: boolean,
   onSelect?: Function,
-  title?: React.Node,
-  direction?: 'left' | 'right'
+  title?: React.Node
 }
 
 class DorpdownMenu extends React.Component<Props> {
@@ -50,7 +49,7 @@ class DorpdownMenu extends React.Component<Props> {
 
   renderMenuItems(children?: React.ChildrenArray<any>): React.ChildrenArray<any> {
 
-    const { activeKey, onSelect, title } = this.props;
+    const { activeKey, onSelect } = this.props;
     const items = React.Children.map(children, (item, index) => {
       let displayName = get(item, ['type', 'displayName']);
 
@@ -62,14 +61,16 @@ class DorpdownMenu extends React.Component<Props> {
           onSelect: createChainedFunction(onSelect, onItemSelect)
         });
       } else if (displayName === 'DropdownMenu') {
+
         return (
           <DropdownMenuItem
             active={this.isActive(item.props, activeKey)}
             componentClass="div"
+            className={this.addPrefix(`pull-${item.props.pullLeft ? 'left' : 'right'}`)}
             submenu
           >
             <div className={this.addPrefix('toggle')}>
-              <span>{title}</span>
+              <span>{item.props.title}</span>
               <Icon icon="angle-right" />
             </div>
             <ul role="menu">
@@ -85,7 +86,7 @@ class DorpdownMenu extends React.Component<Props> {
   }
   render() {
     const {
-      pullRight,
+      pullLeft,
       children,
       className,
       onSelect,
@@ -94,10 +95,7 @@ class DorpdownMenu extends React.Component<Props> {
       ...props
     } = this.props;
 
-    const classes = classNames(classPrefix, {
-      [this.addPrefix('right')]: pullRight
-    }, className);
-
+    const classes = classNames(classPrefix, className);
     const items = this.renderMenuItems(children);
 
     return (
