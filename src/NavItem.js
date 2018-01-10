@@ -66,6 +66,8 @@ class NavItem extends React.Component<Props> {
       >
         <Component
           {...props}
+          role="button"
+          className={addPrefix('content')}
           disabled={disabled}
           onClick={createChainedFunction(onClick, this.handleClick)}
         >

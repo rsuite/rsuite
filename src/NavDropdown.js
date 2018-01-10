@@ -33,6 +33,7 @@ class NavDropdown extends React.Component<Props> {
     return (
       <Dropdown
         {...props}
+        toggleClassName={addPrefix('toggle')}
         componentClass="li"
         className={classes}
         disabled={disabled}
