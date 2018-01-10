@@ -28,7 +28,8 @@ type Props = {
   className?: string,
   toggleClassName?: string,
   children?: React.ChildrenArray<React.Element<any>>,
-  renderTitle?: (children?: React.Node) => React.Node
+  renderTitle?: (children?: React.Node) => React.Node,
+  tabIndex?: number
 }
 
 type States = {
@@ -40,7 +41,8 @@ class Dropdown extends React.Component<Props, States> {
 
   static defaultProps = {
     classPrefix: `${globalKey}dropdown`,
-    placement: 'bottomLeft'
+    placement: 'bottomLeft',
+    tabIndex: 0
   }
 
   static Item = DropdownMenuItem;
@@ -89,11 +91,13 @@ class Dropdown extends React.Component<Props, States> {
       placement,
       activeKey,
       toggleClassName,
+      tabIndex,
       ...props
     } = this.props;
 
     const Toggle = (
       <DropdownToggle
+        tabIndex={tabIndex}
         className={toggleClassName}
         renderTitle={renderTitle}
         onClick={this.handleClick}
