@@ -12,11 +12,13 @@ import ReactChildren from './utils/ReactChildren';
 
 type Props = {
   activeKey?: any,
-  pullRight?: boolean,
-  onSelect?: Function,
   className?: string,
   children?: React.ChildrenArray<any>,
-  classPrefix?: string
+  classPrefix?: string,
+  pullRight?: boolean,
+  onSelect?: Function,
+  title?: React.Node,
+  direction?: 'left' | 'right'
 }
 
 class DorpdownMenu extends React.Component<Props> {
@@ -25,6 +27,10 @@ class DorpdownMenu extends React.Component<Props> {
     classPrefix: `${globalKey}dropdown-menu`
   }
 
+  addPrefix(name: string) {
+    const { classPrefix } = this.props;
+    return prefix(classPrefix)(name);
+  }
   isActive(props: Object, activeKey: any) {
     if (
       props.active ||
@@ -44,7 +50,7 @@ class DorpdownMenu extends React.Component<Props> {
 
   renderMenuItems(children?: React.ChildrenArray<any>): React.ChildrenArray<any> {
 
-    const { activeKey, onSelect } = this.props;
+    const { activeKey, onSelect, title } = this.props;
     const items = React.Children.map(children, (item, index) => {
       let displayName = get(item, ['type', 'displayName']);
 
@@ -62,7 +68,10 @@ class DorpdownMenu extends React.Component<Props> {
             componentClass="div"
             submenu
           >
-            <span>{item.props.title} <Icon icon="angle-right" /></span>
+            <div className={this.addPrefix('toggle')}>
+              <span>{title}</span>
+              <Icon icon="angle-right" />
+            </div>
             <ul role="menu">
               {this.renderMenuItems(item.props.children)}
             </ul>
@@ -85,9 +94,8 @@ class DorpdownMenu extends React.Component<Props> {
       ...props
     } = this.props;
 
-    const addPrefix: Function = prefix(classPrefix);
     const classes = classNames(classPrefix, {
-      [addPrefix('right')]: pullRight
+      [this.addPrefix('right')]: pullRight
     }, className);
 
     const items = this.renderMenuItems(children);

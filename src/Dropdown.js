@@ -26,6 +26,7 @@ type Props = {
   onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
   menuStyle?: Object,
   className?: string,
+  toggleClassName?: string,
   children?: React.ChildrenArray<React.Element<any>>,
   renderTitle?: (children?: React.Node) => React.Node
 }
@@ -87,11 +88,13 @@ class Dropdown extends React.Component<Props, States> {
       classPrefix,
       placement,
       activeKey,
+      toggleClassName,
       ...props
     } = this.props;
 
     const Toggle = (
       <DropdownToggle
+        className={toggleClassName}
         renderTitle={renderTitle}
         onClick={this.handleClick}
       >
