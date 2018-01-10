@@ -9,6 +9,7 @@ import prefix, { globalKey } from './utils/prefix';
 import DropdownMenuItem from './DropdownMenuItem';
 import Icon from './Icon';
 import ReactChildren from './utils/ReactChildren';
+import isNullOrUndefined from './utils/isNullOrUndefined';
 
 type Props = {
   activeKey?: any,
@@ -33,7 +34,7 @@ class DorpdownMenu extends React.Component<Props> {
   isActive(props: Object, activeKey: any) {
     if (
       props.active ||
-      (activeKey !== null && isEqual(props.eventKey, activeKey))
+      (!isNullOrUndefined(activeKey) && isEqual(props.eventKey, activeKey))
     ) {
       return true;
     }
