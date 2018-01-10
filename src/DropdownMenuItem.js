@@ -18,7 +18,8 @@ type Props = {
   className?: string,
   style?: Object,
   children?: React.Node,
-  classPrefix?: string
+  classPrefix?: string,
+  tabIndex?: number,
 }
 
 type States = {
@@ -31,7 +32,8 @@ class DropdownMenuItem extends React.Component<Props, States> {
 
   static displayName = 'DropdownMenuItem';
   static defaultProps = {
-    classPrefix: `${globalKey}dropdown-item`
+    classPrefix: `${globalKey}dropdown-item`,
+    tabIndex: -1,
   }
 
   constructor(props: Props) {
@@ -73,6 +75,7 @@ class DropdownMenuItem extends React.Component<Props, States> {
       submenu,
       style,
       classPrefix,
+      tabIndex,
       ...props
     } = this.props;
 
@@ -100,7 +103,7 @@ class DropdownMenuItem extends React.Component<Props, States> {
         <Component
           {...props}
           className={addPrefix('content')}
-          tabIndex="-1"
+          tabIndex={tabIndex}
           onClick={this.handleClick}
         >
           {children}

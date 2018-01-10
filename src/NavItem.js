@@ -19,6 +19,7 @@ type Props = {
   onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
   children?: React.Node,
   eventKey?: any,
+  tabIndex?: number
 }
 
 const Component = creatComponent(SafeAnchor);
@@ -27,7 +28,8 @@ class NavItem extends React.Component<Props> {
 
   static displayName = 'NavItem';
   static defaultProps = {
-    classPrefix: `${globalKey}nav-item`
+    classPrefix: `${globalKey}nav-item`,
+    tabIndex: 0,
   };
 
   handleClick = (event: SyntheticEvent<*>) => {
@@ -48,6 +50,7 @@ class NavItem extends React.Component<Props> {
       eventKey,
       children,
       icon,
+      tabIndex,
       ...props
     } = this.props;
 
@@ -67,6 +70,7 @@ class NavItem extends React.Component<Props> {
         <Component
           {...props}
           role="button"
+          tabIndex={tabIndex}
           className={addPrefix('content')}
           disabled={disabled}
           onClick={createChainedFunction(onClick, this.handleClick)}
