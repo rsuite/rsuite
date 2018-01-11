@@ -10,7 +10,9 @@ type Props = {
   children?: React.Node,
   title?: React.Node,
   style?: Object,
-  className?: string
+  className?: string,
+  onMouseLeave?: (event: SyntheticEvent<*>) => void,
+  onMouseEnter?: (event: SyntheticEvent<*>) => void,
 }
 
 class Popover extends React.Component<Props> {
@@ -25,7 +27,9 @@ class Popover extends React.Component<Props> {
       children,
       style,
       placement,
-      className
+      className,
+      onMouseLeave,
+      onMouseEnter
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
@@ -40,6 +44,8 @@ class Popover extends React.Component<Props> {
 
     return (
       <div
+        onMouseLeave={onMouseLeave}
+        onMouseEnter={onMouseEnter}
         className={classes}
         style={styles}
       >

@@ -40,16 +40,17 @@ type Props = {
   delayHide?: number,
   defaultOverlayShown?: boolean,
   speaker: React.Node,
-  onMouseOver?: Function,
-  onMouseOut?: Function,
-  onBlur?: Function,
-  onClick?: Function,
-  onFocus?: Function,
-  onMouseLeave?: Function
+  onMouseOver?: (event: SyntheticEvent<*>) => void,
+  onMouseOut?: (event: SyntheticEvent<*>) => void,
+  onBlur?: (event: SyntheticEvent<*>) => void,
+  onClick?: (event: SyntheticEvent<*>) => void,
+  onFocus?: (event: SyntheticEvent<*>) => void,
+  onMouseLeave?: (event: SyntheticEvent<*>) => void
 }
 
 type States = {
-  isOverlayShown?: boolean
+  isOverlayShown?: boolean,
+  isOnSpeaker?: boolean
 }
 
 class Whisper extends React.Component<Props, States> {
@@ -57,6 +58,7 @@ class Whisper extends React.Component<Props, States> {
   static defaultProps = {
     defaultOverlayShown: false,
     trigger: ['hover', 'focus'],
+    delayHide: 200,
     rootClose: true
   };
 
@@ -93,6 +95,7 @@ class Whisper extends React.Component<Props, States> {
 
   getOverlayTarget = () => findDOMNode(this) // eslint-disable-line react/no-find-dom-node
 
+
   getOverlay() {
 
     let speakerProps = {
@@ -103,6 +106,8 @@ class Whisper extends React.Component<Props, States> {
     };
 
     let speaker = React.cloneElement(this.props.speaker, {
+      onMouseEnter: this.handleSpeakerMouseOver,
+      onMouseLeave: this.handleSpeakerMouseOut,
       placement: speakerProps.placement,
     });
     return (
@@ -114,16 +119,21 @@ class Whisper extends React.Component<Props, States> {
     );
   }
 
+  handleSpeakerMouseOver = () => {
+    this.setState({ isOnSpeaker: true });
+  }
+  handleSpeakerMouseOut = () => {
+    this.hide();
+    this.setState({ isOnSpeaker: false });
+
+  }
+
   hide() {
-    this.setState({
-      isOverlayShown: false
-    });
+    this.setState({ isOverlayShown: false });
   }
 
   show() {
-    this.setState({
-      isOverlayShown: true
-    });
+    this.setState({ isOverlayShown: true });
   }
 
   handleHide = () => {
@@ -144,10 +154,11 @@ class Whisper extends React.Component<Props, States> {
     if (!isNullOrUndefined(this.hoverHideDelay)) {
       clearTimeout(this.hoverHideDelay);
       this.hoverHideDelay = null;
+      this.show();
       return;
     }
 
-    if (this.state.isOverlayShown || !isNullOrUndefined(this.hoverShowDelay)) {
+    if (this.state.isOverlayShown) {
       return;
     }
 
@@ -166,7 +177,9 @@ class Whisper extends React.Component<Props, States> {
   }
 
   handleDelayedHide = () => {
+
     const { delayHide, delay } = this.props;
+
     if (!isNullOrUndefined(this.hoverShowDelay)) {
       clearTimeout(this.hoverShowDelay);
       this.hoverShowDelay = null;
@@ -185,6 +198,11 @@ class Whisper extends React.Component<Props, States> {
     }
 
     this.hoverHideDelay = setTimeout(() => {
+      let { isOnSpeaker } = this.state;
+      if (isOnSpeaker) {
+        return;
+      }
+      clearTimeout(this.hoverHideDelay);
       this.hoverHideDelay = null;
       this.hide();
     }, nextDelay);
