@@ -90,8 +90,8 @@ class Dropdown extends React.Component<Props, States> {
       classPrefix,
       placement,
       activeKey,
-      toggleClassName,
       tabIndex,
+      toggleClassName,
       ...props
     } = this.props;
 

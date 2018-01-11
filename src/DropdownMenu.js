@@ -25,28 +25,7 @@ class DorpdownMenu extends React.Component<Props> {
   static displayName = 'DropdownMenu';
   static defaultProps = {
     classPrefix: `${globalKey}dropdown-menu`
-  }
-
-  addPrefix(name: string) {
-    const { classPrefix } = this.props;
-    return prefix(classPrefix)(name);
-  }
-  isActive(props: Object, activeKey: any) {
-    if (
-      props.active ||
-      (!isNullOrUndefined(activeKey) && isEqual(props.eventKey, activeKey))
-    ) {
-      return true;
-    }
-
-    if (ReactChildren.some(props.children, child => (
-      this.isActive(child.props, activeKey)
-    ))) {
-      return true;
-    }
-
-    return props.active;
-  }
+  };
 
   getMenuItemsAndStatus(children?: React.ChildrenArray<any>): Object {
 
@@ -94,6 +73,29 @@ class DorpdownMenu extends React.Component<Props> {
       active
     };
   }
+
+  isActive(props: Object, activeKey: any) {
+    if (
+      props.active ||
+      (!isNullOrUndefined(activeKey) && isEqual(props.eventKey, activeKey))
+    ) {
+      return true;
+    }
+
+    if (ReactChildren.some(props.children, child => (
+      this.isActive(child.props, activeKey)
+    ))) {
+      return true;
+    }
+
+    return props.active;
+  }
+
+  addPrefix(name: string) {
+    const { classPrefix } = this.props;
+    return prefix(classPrefix)(name);
+  }
+
   render() {
     const {
       pullLeft,
@@ -105,8 +107,10 @@ class DorpdownMenu extends React.Component<Props> {
       ...props
     } = this.props;
 
-    const classes = classNames(classPrefix, className);
     const { items, active } = this.getMenuItemsAndStatus(children);
+    const classes = classNames(classPrefix, {
+      [this.addPrefix('active')]: active
+    }, className);
 
     return (
       <ul
