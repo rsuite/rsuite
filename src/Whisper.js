@@ -1,4 +1,6 @@
 
+// @flow
+
 import * as React from 'react';
 import ReactDOM, { findDOMNode } from 'react-dom';
 import { contains } from 'dom-lib';
@@ -8,7 +10,7 @@ import isNullOrUndefined from './utils/isNullOrUndefined';
 import createChainedFunction from './utils/createChainedFunction';
 import isOneOf from './utils/isOneOf';
 
-function handleMouseOverOut(handler, event) {
+function handleMouseOverOut(handler: Function, event: SyntheticEvent<*>) {
   let target = event.currentTarget;
   let related = event.relatedTarget || event.nativeEvent.toElement;
 
@@ -26,7 +28,7 @@ type Props = {
   show?: boolean,
   rootClose?: boolean,
   onHide?: Function,
-  transition?: elementType,
+  transition?: React.ElementType,
   onEnter?: Function,
   onEntering?: Function,
   onEntered?: Function,
@@ -62,7 +64,7 @@ class Whisper extends React.Component<Props, States> {
     rootClose: true
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     this.handleMouseOver = e => handleMouseOverOut(this.handleDelayedShow, e);

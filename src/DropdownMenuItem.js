@@ -2,10 +2,11 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
+import { contains } from 'dom-lib';
 import createComponent from './utils/createComponent';
 import prefix, { globalKey } from './utils/prefix';
 import SafeAnchor from './SafeAnchor';
-
+import Icon from './Icon';
 
 type Props = {
   divider?: boolean,
@@ -14,6 +15,7 @@ type Props = {
   submenu?: boolean,
   onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
   onClick?: (event: SyntheticEvent<*>) => void,
+  icon?: string | { viewBox: string, id: string },
   eventKey?: any,
   className?: string,
   style?: Object,
@@ -58,8 +60,24 @@ class DropdownMenuItem extends React.Component<Props, States> {
     this.setState({ open: true });
   }
 
-  handleMouseLeave = () => {
-    this.setState({ open: false });
+  handleMouseLeave = (event: SyntheticEvent<*>) => {
+    let target = event.currentTarget;
+    let related = event.relatedTarget || event.nativeEvent.toElement;
+    event.stopPropagation();
+    setTimeout(() => {
+
+
+      const k = contains(target, related);
+
+      console.log(k);
+
+      if (!k) {
+        this.setState({ open: false });
+      }
+
+
+    }, 100);
+
   }
 
   render() {
@@ -76,6 +94,7 @@ class DropdownMenuItem extends React.Component<Props, States> {
       style,
       classPrefix,
       tabIndex,
+      icon,
       ...props
     } = this.props;
 
@@ -88,6 +107,8 @@ class DropdownMenuItem extends React.Component<Props, States> {
       [addPrefix('disabled')]: disabled
     }, className);
 
+    const hasIcon = !!icon;
+
     if (divider) {
       return <li role="separator" className={addPrefix('divider')} />;
     }
@@ -97,8 +118,8 @@ class DropdownMenuItem extends React.Component<Props, States> {
         style={style}
         role="presentation"
         className={classes}
-        onMouseEnter={submenu ? this.handleMouseEnter : null}
-        onMouseLeave={submenu ? this.handleMouseLeave : null}
+        onMouseOver={submenu ? this.handleMouseEnter : null}
+        onMouseOut={submenu ? this.handleMouseLeave : null}
       >
         <Component
           {...props}

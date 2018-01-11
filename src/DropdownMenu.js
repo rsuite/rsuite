@@ -15,6 +15,7 @@ type Props = {
   activeKey?: any,
   className?: string,
   children?: React.ChildrenArray<any>,
+  icon?: string | { viewBox: string, id: string },
   classPrefix?: string,
   pullLeft?: boolean,
   onSelect?: Function,
@@ -50,6 +51,7 @@ class DorpdownMenu extends React.Component<Props> {
 
         return (
           <DropdownMenuItem
+            icon={item.props.icon}
             active={this.isActive(item.props, activeKey)}
             componentClass="div"
             className={this.addPrefix(`pull-${item.props.pullLeft ? 'left' : 'right'}`)}
@@ -57,7 +59,7 @@ class DorpdownMenu extends React.Component<Props> {
           >
             <div className={this.addPrefix('toggle')}>
               <span>{item.props.title}</span>
-              <Icon icon="angle-right" />
+              <Icon icon={item.props.pullLeft ? 'angle-left' : 'angle-right'} />
             </div>
             <ul role="menu" className={classPrefix}>
               {itemsAndStatus.items}
