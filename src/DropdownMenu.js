@@ -48,20 +48,26 @@ class DorpdownMenu extends React.Component<Props> {
     return props.active;
   }
 
-  renderMenuItems(children?: React.ChildrenArray<any>): React.ChildrenArray<any> {
+  getMenuItemsAndStatus(children?: React.ChildrenArray<any>): Object {
 
-    const { activeKey, onSelect } = this.props;
+    let active;
+
+    const { activeKey, onSelect, classPrefix } = this.props;
     const items = React.Children.map(children, (item, index) => {
       let displayName = get(item, ['type', 'displayName']);
 
       if (displayName === 'DropdownMenuItem' || displayName === 'NavItem') {
         let { onSelect: onItemSelect } = item.props;
+        active = this.isActive(item.props, activeKey);
         return React.cloneElement(item, {
           key: index,
-          active: this.isActive(item.props, activeKey),
+          active,
           onSelect: createChainedFunction(onSelect, onItemSelect)
         });
       } else if (displayName === 'DropdownMenu') {
+
+        active = this.isActive(item.props, activeKey);
+        let itemsAndStatus = this.getMenuItemsAndStatus(item.props.children);
 
         return (
           <DropdownMenuItem
@@ -74,8 +80,8 @@ class DorpdownMenu extends React.Component<Props> {
               <span>{item.props.title}</span>
               <Icon icon="angle-right" />
             </div>
-            <ul role="menu">
-              {this.renderMenuItems(item.props.children)}
+            <ul role="menu" className={classPrefix}>
+              {itemsAndStatus.items}
             </ul>
           </DropdownMenuItem>
         );
@@ -83,7 +89,10 @@ class DorpdownMenu extends React.Component<Props> {
       return item;
     });
 
-    return items;
+    return {
+      items,
+      active
+    };
   }
   render() {
     const {
@@ -97,7 +106,7 @@ class DorpdownMenu extends React.Component<Props> {
     } = this.props;
 
     const classes = classNames(classPrefix, className);
-    const items = this.renderMenuItems(children);
+    const { items, active } = this.getMenuItemsAndStatus(children);
 
     return (
       <ul

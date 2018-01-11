@@ -53,11 +53,12 @@ class Nav extends React.Component<Props> {
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
+    const { navbar } = this.context;
 
     const classes = classNames(classPrefix, addPrefix(appearance), {
+      [`${classPrefix}bar-nav`]: navbar,
       [`${classPrefix}bar-right`]: pullRight,
-      [`${classPrefix}bar-nav`]: this.context.navbar,
-      [addPrefix('horizontal')]: !vertical,
+      [addPrefix('horizontal')]: !vertical || navbar,
       [addPrefix('vertical')]: vertical,
       [addPrefix('justified')]: justified,
       [addPrefix('reversed')]: reversed,
