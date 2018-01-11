@@ -127,6 +127,7 @@ class DropdownMenuItem extends React.Component<Props, States> {
           tabIndex={tabIndex}
           onClick={this.handleClick}
         >
+          {hasIcon && <Icon icon={icon} className={addPrefix('icon')} />}
           {children}
         </Component>
       </li>
