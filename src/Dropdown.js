@@ -6,11 +6,15 @@ import isUndefined from 'lodash/isUndefined';
 import kebabCase from 'lodash/kebabCase';
 import omit from 'lodash/omit';
 import { RootCloseWrapper } from 'rsuite-utils/lib/Overlay';
-import createComponent from './utils/createComponent';
+
 import DropdownToggle from './DropdownToggle';
 import DropdownMenu from './DropdownMenu';
 import DropdownMenuItem from './DropdownMenuItem';
+import createComponent from './utils/createComponent';
+import createChainedFunction from './utils/createChainedFunction';
 import prefix, { globalKey } from './utils/prefix';
+import isOneOf from './utils/isOneOf';
+
 import Icon from './Icon';
 
 const Component = createComponent('div');
@@ -18,7 +22,7 @@ const Component = createComponent('div');
 type Props = {
   activeKey?: any,
   classPrefix: string,
-  trigger?: 'click' | 'hover',
+  trigger?: 'click' | 'hover' | Array<string>,
   placement: 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight' | 'leftTop' | 'rightTop' | 'leftBottom' | 'rightBottom',
   title?: React.Node,
   disabled?: boolean,
@@ -27,6 +31,9 @@ type Props = {
   onOpen?: () => void,
   onToggle?: (open?: boolean) => void,
   onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
+  onMouseEnter?: (event: SyntheticEvent<*>) => void,
+  onMouseLeave?: (event: SyntheticEvent<*>) => void,
+  onClick?: (event: SyntheticEvent<*>) => void,
   menuStyle?: Object,
   className?: string,
   toggleClassName?: string,
@@ -45,6 +52,7 @@ class Dropdown extends React.Component<Props, States> {
   static defaultProps = {
     classPrefix: `${globalKey}dropdown`,
     placement: 'bottomLeft',
+    trigger: 'click',
     tabIndex: 0
   }
 
@@ -74,6 +82,17 @@ class Dropdown extends React.Component<Props, States> {
       this.toggle();
     }
   }
+  handleMouseEnter = () => {
+    if (!this.props.disabled) {
+      this.toggle(true);
+    }
+  }
+
+  handleMouseLeave = () => {
+    if (!this.props.disabled) {
+      this.toggle(false);
+    }
+  }
 
   handleSelect = (eventKey: any, event: SyntheticEvent<*>) => {
     const { onSelect } = this.props;
@@ -95,9 +114,29 @@ class Dropdown extends React.Component<Props, States> {
       activeKey,
       tabIndex,
       toggleClassName,
+      trigger,
       icon,
+      onClick,
+      onMouseEnter,
+      onMouseLeave,
       ...props
     } = this.props;
+
+
+    const toggleProps = {
+      onClick,
+      onMouseEnter,
+      onMouseLeave
+    };
+
+    if (isOneOf('click', trigger)) {
+      toggleProps.onClick = createChainedFunction(this.handleClick, onClick);
+    }
+
+    if (isOneOf('hover', trigger)) {
+      toggleProps.onMouseEnter = createChainedFunction(this.handleMouseEnter, onMouseEnter);
+      toggleProps.onMouseLeave = createChainedFunction(this.handleMouseLeave, onMouseLeave);
+    }
 
 
     const Toggle = (
@@ -105,7 +144,6 @@ class Dropdown extends React.Component<Props, States> {
         tabIndex={tabIndex}
         className={toggleClassName}
         renderTitle={renderTitle}
-        onClick={this.handleClick}
         icon={icon}
       >
         {this.state.title || title}
@@ -140,6 +178,7 @@ class Dropdown extends React.Component<Props, States> {
 
     return (
       <Component
+        {...toggleProps}
         {...elementProps}
         className={classes}
         role="menu"
