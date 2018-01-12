@@ -144,8 +144,8 @@ class Dropdown extends React.Component<Props, States> {
         className={classes}
         role="menu"
       >
-        {Toggle}
         {Menu}
+        {Toggle}
       </Component>
     );
   }
