@@ -10,12 +10,13 @@ import Icon from './Icon';
 
 type Props = {
   divider?: boolean,
+  panel?: boolean,
   active?: boolean,
   disabled?: boolean,
   submenu?: boolean,
   onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
   onClick?: (event: SyntheticEvent<*>) => void,
-  icon?: string | { viewBox: string, id: string },
+  icon?: React.Element<typeof Icon>,
   eventKey?: any,
   className?: string,
   style?: Object,
@@ -66,15 +67,11 @@ class DropdownMenuItem extends React.Component<Props, States> {
     event.stopPropagation();
     setTimeout(() => {
 
-
       const k = contains(target, related);
-
-      console.log(k);
 
       if (!k) {
         this.setState({ open: false });
       }
-
 
     }, 100);
 
@@ -85,6 +82,7 @@ class DropdownMenuItem extends React.Component<Props, States> {
     const {
       children,
       divider,
+      panel,
       onSelect,
       active,
       disabled,
@@ -107,10 +105,25 @@ class DropdownMenuItem extends React.Component<Props, States> {
       [addPrefix('disabled')]: disabled
     }, className);
 
-    const hasIcon = !!icon;
-
     if (divider) {
-      return <li role="separator" className={addPrefix('divider')} />;
+      return (
+        <li
+          role="separator"
+          style={style}
+          className={classNames(addPrefix('divider'), className)}
+        />
+      );
+    }
+
+    if (panel) {
+      return (
+        <li
+          style={style}
+          className={classNames(addPrefix('panel'), className)}
+        >
+          {children}
+        </li>
+      );
     }
 
     return (
@@ -127,7 +140,7 @@ class DropdownMenuItem extends React.Component<Props, States> {
           tabIndex={tabIndex}
           onClick={this.handleClick}
         >
-          {hasIcon && <Icon icon={icon} className={addPrefix('icon')} />}
+          {icon}
           {children}
         </Component>
       </li>

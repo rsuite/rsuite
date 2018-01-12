@@ -11,6 +11,7 @@ import DropdownToggle from './DropdownToggle';
 import DropdownMenu from './DropdownMenu';
 import DropdownMenuItem from './DropdownMenuItem';
 import prefix, { globalKey } from './utils/prefix';
+import Icon from './Icon';
 
 const Component = createComponent('div');
 
@@ -20,6 +21,7 @@ type Props = {
   placement: 'bottomLeft' | 'bottomCenter' | 'bottomRight' | 'topLeft' | 'topCenter' | 'topRight',
   title?: React.Node,
   disabled?: boolean,
+  icon?: React.Element<typeof Icon>,
   onClose?: () => void,
   onOpen?: () => void,
   onToggle?: (open?: boolean) => void,
@@ -92,8 +94,10 @@ class Dropdown extends React.Component<Props, States> {
       activeKey,
       tabIndex,
       toggleClassName,
+      icon,
       ...props
     } = this.props;
+
 
     const Toggle = (
       <DropdownToggle
@@ -101,6 +105,7 @@ class Dropdown extends React.Component<Props, States> {
         className={toggleClassName}
         renderTitle={renderTitle}
         onClick={this.handleClick}
+        icon={icon}
       >
         {this.state.title || title}
       </DropdownToggle>

@@ -4,8 +4,8 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import isEqual from 'lodash/isEqual';
+import get from 'lodash/get';
 import NavItem from './NavItem';
-import NavDropdown from './NavDropdown';
 import { mapCloneElement } from './utils/ReactChildren';
 import isNullOrUndefined from './utils/isNullOrUndefined';
 import prefix, { globalKey } from './utils/prefix';
@@ -35,7 +35,6 @@ class Nav extends React.Component<Props> {
 
 
   static Item = NavItem;
-  static Dropdown = NavDropdown;
 
   render() {
     const {
@@ -64,10 +63,12 @@ class Nav extends React.Component<Props> {
       [addPrefix('reversed')]: reversed,
     }, className);
 
+    const hasWaterline = (appearance !== 'default');
 
     const items = mapCloneElement(children, (item) => {
       let { eventKey, active } = item.props;
-      if (item.type.displayName !== 'NavItem') {
+
+      if (get(item, ['type', 'displayName']) !== 'NavItem') {
         return null;
       }
       return {
@@ -77,9 +78,12 @@ class Nav extends React.Component<Props> {
     });
 
     return (
-      <ul {...props} className={classes} >
-        {items}
-      </ul>
+      <div {...props} className={classes} >
+        <ul>
+          {items}
+        </ul>
+        {hasWaterline && <div className={addPrefix('waterline')} />}
+      </div>
     );
   }
 }

@@ -13,9 +13,9 @@ type Props = {
   classPrefix?: string,
   active?: boolean,
   disabled?: boolean,
-  onClick?: Function,
+  onClick?: (event: SyntheticEvent<*>) => void,
   style?: Object,
-  icon?: string | { viewBox: string, id: string },
+  icon?: React.Element<typeof Icon>,
   onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
   children?: React.Node,
   eventKey?: any,
@@ -59,7 +59,6 @@ class NavItem extends React.Component<Props> {
       [addPrefix('active')]: active,
       [addPrefix('disabled')]: disabled,
     }, className);
-    const hasIcon = !!icon;
 
     return (
       <li
@@ -75,7 +74,7 @@ class NavItem extends React.Component<Props> {
           disabled={disabled}
           onClick={createChainedFunction(onClick, this.handleClick)}
         >
-          {hasIcon && <Icon icon={icon} className={addPrefix('icon')} />}
+          {icon}
           <span className={addPrefix('text')}>{children}</span>
         </Component>
       </li>

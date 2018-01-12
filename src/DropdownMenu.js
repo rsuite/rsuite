@@ -15,7 +15,7 @@ type Props = {
   activeKey?: any,
   className?: string,
   children?: React.ChildrenArray<any>,
-  icon?: string | { viewBox: string, id: string },
+  icon?: React.Element<typeof Icon>,
   classPrefix?: string,
   pullLeft?: boolean,
   onSelect?: Function,

@@ -5,18 +5,17 @@ import classNames from 'classnames';
 import isUndefined from 'lodash/isUndefined';
 import Icon from './Icon';
 import Button from './Button';
-import type { Props } from './Button';
 import prefix, { globalKey } from './utils/prefix';
+
+import type { Props } from './Button';
 
 type IconProps = {
   className?: string,
-  iconClassName?: string,
-  iconStyle?: Object,
+  icon?: React.Element<typeof Icon>,
   classPrefix?: string,
   circle?: boolean,
   children?: React.Node,
   placement: 'left' | 'right',
-  icon: string | { viewBox: string, id: string },
 }
 
 class IconButton extends React.Component<Props & IconProps> {
@@ -33,8 +32,6 @@ class IconButton extends React.Component<Props & IconProps> {
       circle,
       classPrefix,
       className,
-      iconClassName,
-      iconStyle,
       ...props
     } = this.props;
 
@@ -46,7 +43,7 @@ class IconButton extends React.Component<Props & IconProps> {
 
     return (
       <Button {...props} className={classes} >
-        <Icon icon={icon} className={iconClassName} style={iconStyle} />
+        {icon}
         {children}
       </Button>
     );

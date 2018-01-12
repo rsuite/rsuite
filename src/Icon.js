@@ -6,8 +6,10 @@ import get from 'lodash/get';
 import createComponent from './utils/createComponent';
 import prefix, { globalKey } from './utils/prefix';
 
+import type { SVGIcon } from './utils/TypeDefinition';
+
 type Props = {
-  icon: string | { viewBox: string, id: string },
+  icon: string | SVGIcon,
   className?: string,
   classPrefix?: string,
   componentClass?: React.ElementType,
