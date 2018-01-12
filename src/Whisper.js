@@ -6,13 +6,14 @@ import ReactDOM, { findDOMNode } from 'react-dom';
 import { contains } from 'dom-lib';
 import { Overlay } from 'rsuite-utils/lib/Overlay';
 import pick from 'lodash/pick';
+import get from 'lodash/get';
 import isNullOrUndefined from './utils/isNullOrUndefined';
 import createChainedFunction from './utils/createChainedFunction';
 import isOneOf from './utils/isOneOf';
 
 function handleMouseOverOut(handler: Function, event: SyntheticEvent<*>) {
   let target = event.currentTarget;
-  let related = event.relatedTarget || event.nativeEvent.toElement;
+  let related = event.relatedTarget || get(event, ['nativeEvent', 'toElement']);
 
   if ((!related || (related !== target)) && !contains(target, related)) {
     handler(event);
@@ -41,13 +42,22 @@ type Props = {
   delayShow?: number,
   delayHide?: number,
   defaultOverlayShown?: boolean,
-  speaker: React.Node,
+  speaker: React.ElementType,
+  children: React.Node,
+  onMouseOver?: (event: SyntheticEvent<*>) => void,
+  onMouseOut?: (event: SyntheticEvent<*>) => void,
+  onBlur?: (event: SyntheticEvent<*>) => void,
+  onClick?: (event: SyntheticEvent<*>) => void,
+  onFocus?: (event: SyntheticEvent<*>) => void
+}
+
+type WhisperProps = {
+  'aria-describedby': string,
   onMouseOver?: (event: SyntheticEvent<*>) => void,
   onMouseOut?: (event: SyntheticEvent<*>) => void,
   onBlur?: (event: SyntheticEvent<*>) => void,
   onClick?: (event: SyntheticEvent<*>) => void,
   onFocus?: (event: SyntheticEvent<*>) => void,
-  onMouseLeave?: (event: SyntheticEvent<*>) => void
 }
 
 type States = {
@@ -67,15 +77,14 @@ class Whisper extends React.Component<Props, States> {
   constructor(props: Props) {
     super(props);
 
-    this.handleMouseOver = e => handleMouseOverOut(this.handleDelayedShow, e);
-    this.handleMouseOut = e => handleMouseOverOut(this.handleDelayedHide, e);
+    this.handleMouseOver = (e: SyntheticEvent<*>) => handleMouseOverOut(this.handleDelayedShow, e);
+    this.handleMouseOut = (e: SyntheticEvent<*>) => handleMouseOverOut(this.handleDelayedHide, e);
 
     this.state = {
       isOverlayShown: props.defaultOverlayShown
     };
     this.mountNode = null;
   }
-
 
   componentDidMount() {
     this.mountNode = document.createElement('div');
@@ -100,6 +109,7 @@ class Whisper extends React.Component<Props, States> {
 
   getOverlay() {
 
+
     let speakerProps = {
       ...pick(this.props, Object.keys(Overlay.propTypes)),
       show: this.state.isOverlayShown,
@@ -120,6 +130,13 @@ class Whisper extends React.Component<Props, States> {
       </Overlay>
     );
   }
+
+  mountNode = null;
+  speaker = null;
+  handleMouseOver = null;
+  handleMouseOut = null;
+  hoverShowDelay = null;
+  hoverHideDelay = null;
 
   handleSpeakerMouseOver = () => {
     this.setState({ isOnSpeaker: true });
@@ -229,8 +246,8 @@ class Whisper extends React.Component<Props, States> {
     const triggerComponent = React.Children.only(children);
     const triggerProps = triggerComponent.props;
 
-    const props = {
-      'aria-describedby': speaker.props.id
+    const props: WhisperProps = {
+      'aria-describedby': get(speaker, ['props', 'id'])
     };
 
     this.speaker = this.getOverlay();

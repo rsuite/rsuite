@@ -18,7 +18,8 @@ const Component = createComponent('div');
 type Props = {
   activeKey?: any,
   classPrefix: string,
-  placement: 'bottomLeft' | 'bottomCenter' | 'bottomRight' | 'topLeft' | 'topCenter' | 'topRight',
+  trigger?: 'click' | 'hover',
+  placement: 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight' | 'leftTop' | 'rightTop' | 'leftBottom' | 'rightBottom',
   title?: React.Node,
   disabled?: boolean,
   icon?: React.Element<typeof Icon>,
