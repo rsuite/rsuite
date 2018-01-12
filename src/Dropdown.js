@@ -19,10 +19,11 @@ import Icon from './Icon';
 
 const Component = createComponent('div');
 
+type Trigger = 'click' | 'hover' | 'contextMenu';
 type Props = {
   activeKey?: any,
   classPrefix: string,
-  trigger?: 'click' | 'hover' | Array<string>,
+  trigger?: Trigger | Array<Trigger>,
   placement: 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight' | 'leftTop' | 'rightTop' | 'leftBottom' | 'rightBottom',
   title?: React.Node,
   disabled?: boolean,
@@ -33,6 +34,7 @@ type Props = {
   onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
   onMouseEnter?: (event: SyntheticEvent<*>) => void,
   onMouseLeave?: (event: SyntheticEvent<*>) => void,
+  onContextMenu?: (event: SyntheticEvent<*>) => void,
   onClick?: (event: SyntheticEvent<*>) => void,
   menuStyle?: Object,
   className?: string,
@@ -77,7 +79,8 @@ class Dropdown extends React.Component<Props, States> {
   }
 
 
-  handleClick = () => {
+  handleClick = (event: SyntheticEvent<*>) => {
+    event.preventDefault();
     if (!this.props.disabled) {
       this.toggle();
     }
@@ -119,6 +122,7 @@ class Dropdown extends React.Component<Props, States> {
       onClick,
       onMouseEnter,
       onMouseLeave,
+      onContextMenu,
       ...props
     } = this.props;
 
@@ -126,7 +130,8 @@ class Dropdown extends React.Component<Props, States> {
     const toggleProps = {
       onClick,
       onMouseEnter,
-      onMouseLeave
+      onMouseLeave,
+      onContextMenu
     };
 
     if (isOneOf('click', trigger)) {
@@ -136,6 +141,10 @@ class Dropdown extends React.Component<Props, States> {
     if (isOneOf('hover', trigger)) {
       toggleProps.onMouseEnter = createChainedFunction(this.handleMouseEnter, onMouseEnter);
       toggleProps.onMouseLeave = createChainedFunction(this.handleMouseLeave, onMouseLeave);
+    }
+
+    if (isOneOf('contextMenu', trigger)) {
+      toggleProps.onContextMenu = createChainedFunction(this.handleClick, onMouseEnter);
     }
 
 
