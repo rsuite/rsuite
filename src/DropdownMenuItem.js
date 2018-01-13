@@ -2,7 +2,8 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { contains } from 'dom-lib';
+import get from 'lodash/get';
+import { contains, getWidth, addStyle } from 'dom-lib';
 import createComponent from './utils/createComponent';
 import prefix, { globalKey } from './utils/prefix';
 import SafeAnchor from './SafeAnchor';
@@ -13,6 +14,7 @@ type Props = {
   panel?: boolean,
   active?: boolean,
   disabled?: boolean,
+  pullLeft?: boolean,
   submenu?: boolean,
   onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
   onClick?: (event: SyntheticEvent<*>) => void,
@@ -57,24 +59,21 @@ class DropdownMenuItem extends React.Component<Props, States> {
     onClick && onClick(event);
   }
 
-  handleMouseEnter = () => {
-    this.setState({ open: true });
+  handleMouseEnter = (event: SyntheticEvent<*>) => {
+
+    const { pullLeft } = this.props;
+    const menu = event.currentTarget.querySelector(`.${globalKey}dropdown-menu`);
+
+    this.setState({ open: true }, () => {
+      if (pullLeft && menu) {
+        let width = getWidth(menu);
+        addStyle(menu, 'left', `${-width}px`);
+      }
+    });
   }
 
-  handleMouseLeave = (event: SyntheticEvent<*>) => {
-    let target = event.currentTarget;
-    let related = event.relatedTarget || event.nativeEvent.toElement;
-    event.stopPropagation();
-    setTimeout(() => {
-
-      const k = contains(target, related);
-
-      if (!k) {
-        this.setState({ open: false });
-      }
-
-    }, 100);
-
+  handleMouseLeave = () => {
+    this.setState({ open: false });
   }
 
   render() {
@@ -92,6 +91,7 @@ class DropdownMenuItem extends React.Component<Props, States> {
       style,
       classPrefix,
       tabIndex,
+      pullLeft,
       icon,
       ...props
     } = this.props;

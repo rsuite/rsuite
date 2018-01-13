@@ -55,6 +55,7 @@ class DorpdownMenu extends React.Component<Props> {
             active={this.isActive(item.props, activeKey)}
             componentClass="div"
             className={this.addPrefix(`pull-${item.props.pullLeft ? 'left' : 'right'}`)}
+            pullLeft={item.props.pullLeft}
             submenu
           >
             <div className={this.addPrefix('toggle')}>

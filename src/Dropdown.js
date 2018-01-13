@@ -129,27 +129,30 @@ class Dropdown extends React.Component<Props, States> {
 
     const toggleProps = {
       onClick,
+      onContextMenu
+    };
+
+    const dropdownProps = {
       onMouseEnter,
       onMouseLeave,
-      onContextMenu
     };
 
     if (isOneOf('click', trigger)) {
       toggleProps.onClick = createChainedFunction(this.handleClick, onClick);
     }
 
-    if (isOneOf('hover', trigger)) {
-      toggleProps.onMouseEnter = createChainedFunction(this.handleMouseEnter, onMouseEnter);
-      toggleProps.onMouseLeave = createChainedFunction(this.handleMouseLeave, onMouseLeave);
-    }
-
     if (isOneOf('contextMenu', trigger)) {
       toggleProps.onContextMenu = createChainedFunction(this.handleClick, onMouseEnter);
     }
 
+    if (isOneOf('hover', trigger)) {
+      dropdownProps.onMouseEnter = createChainedFunction(this.handleMouseEnter, onMouseEnter);
+      dropdownProps.onMouseLeave = createChainedFunction(this.handleMouseLeave, onMouseLeave);
+    }
 
     const Toggle = (
       <DropdownToggle
+        {...toggleProps}
         tabIndex={tabIndex}
         className={toggleClassName}
         renderTitle={renderTitle}
@@ -187,8 +190,8 @@ class Dropdown extends React.Component<Props, States> {
 
     return (
       <Component
-        {...toggleProps}
         {...elementProps}
+        {...dropdownProps}
         className={classes}
         role="menu"
       >
