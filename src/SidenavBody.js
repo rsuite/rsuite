@@ -9,9 +9,9 @@ type Props = {
   className?: string
 }
 
-class NavMenuCollapse extends React.Component<Props> {
+class SidenavBody extends React.Component<Props> {
   static defaultProps = {
-    classPrefix: `${globalKey}nav-menu-collapse`
+    classPrefix: `${globalKey}sidenav-body`
   };
 
   render() {
@@ -32,4 +32,4 @@ class NavMenuCollapse extends React.Component<Props> {
   }
 }
 
-export default NavMenuCollapse;
+export default SidenavBody;

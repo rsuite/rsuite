@@ -4,6 +4,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { globalKey } from './utils/prefix';
 import IconButton from './IconButton';
+import Icon from './Icon';
 
 type Props = {
   classPrefix?: string,
@@ -12,10 +13,10 @@ type Props = {
   onToggle?: (expanded: boolean, event: SyntheticEvent<HTMLButtonElement>) => void
 };
 
-class NavMenuToggle extends React.Component<Props> {
+class SidenavToggle extends React.Component<Props> {
 
   static defaultProps = {
-    classPrefix: `${globalKey}nav-menu-toggle`
+    classPrefix: `${globalKey}sidenav-toggle`
   };
 
   handleToggle = (event: SyntheticEvent<HTMLButtonElement>) => {
@@ -44,7 +45,7 @@ class NavMenuToggle extends React.Component<Props> {
       >
         <IconButton
           appearance="default"
-          icon={expanded ? 'angle-right' : 'angle-left'}
+          icon={<Icon icon={expanded ? 'angle-right' : 'angle-left'} />}
           onClick={this.handleToggle}
         />
       </div>
@@ -52,4 +53,4 @@ class NavMenuToggle extends React.Component<Props> {
   }
 }
 
-export default NavMenuToggle;
+export default SidenavToggle;

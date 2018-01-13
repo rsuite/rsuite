@@ -2,8 +2,8 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import NavMenuCollapse from './NavMenuCollapse';
-import NavMenuToggle from './NavMenuToggle';
+import SidenavBody from './SidenavBody';
+import SidenavToggle from './SidenavToggle';
 import createComponent from './utils/createComponent';
 import prefix, { globalKey } from './utils/prefix';
 
@@ -16,17 +16,17 @@ type Props = {
 
 const Component = createComponent('div');
 
-class NavMenu extends React.Component<Props> {
+class Sidenav extends React.Component<Props> {
 
   static defaultProps = {
     appearance: 'default',
     expanded: true,
-    classPrefix: `${globalKey}nav-menu`
+    classPrefix: `${globalKey}sidenav`
   };
 
 
-  static Collapse = NavMenuCollapse;
-  static Toggle = NavMenuToggle;
+  static Body = SidenavBody;
+  static Toggle = SidenavToggle;
 
   render() {
     const {
@@ -54,4 +54,4 @@ class NavMenu extends React.Component<Props> {
 
 }
 
-export default NavMenu;
+export default Sidenav;

@@ -4,7 +4,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import NavbarBrand from './NavbarBrand';
-import NavbarCollapse from './NavbarCollapse';
+import NavbarBody from './NavbarBody';
 import NavbarHeader from './NavbarHeader';
 import NavbarToggle from './NavbarToggle';
 import createComponent from './utils/createComponent';
@@ -39,7 +39,7 @@ class Navbar extends React.Component<Props, States> {
 
   static Brand = NavbarBrand;
   static Header = NavbarHeader;
-  static Collapse = NavbarCollapse;
+  static Body = NavbarBody;
   static Toggle = NavbarToggle;
 
   state = {

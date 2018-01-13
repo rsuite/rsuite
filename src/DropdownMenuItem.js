@@ -2,8 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import get from 'lodash/get';
-import { contains, getWidth, addStyle } from 'dom-lib';
+import { getWidth, addStyle } from 'dom-lib';
 import createComponent from './utils/createComponent';
 import prefix, { globalKey } from './utils/prefix';
 import SafeAnchor from './SafeAnchor';

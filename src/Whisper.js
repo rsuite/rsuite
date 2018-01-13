@@ -37,7 +37,7 @@ type Props = {
   onExiting?: Function,
   onExited?: Function,
   animation?: React.ElementType | boolean,
-  trigger?: 'click' | 'hover' | 'focus' | Array<string>,
+  trigger?: 'click' | 'hover' | 'focus' | Array<'click' | 'hover' | 'focus'>,
   delay?: number,
   delayShow?: number,
   delayHide?: number,
@@ -46,8 +46,8 @@ type Props = {
   children: React.Node,
   onMouseOver?: (event: SyntheticEvent<*>) => void,
   onMouseOut?: (event: SyntheticEvent<*>) => void,
-  onBlur?: (event: SyntheticEvent<*>) => void,
   onClick?: (event: SyntheticEvent<*>) => void,
+  onBlur?: (event: SyntheticEvent<*>) => void,
   onFocus?: (event: SyntheticEvent<*>) => void
 }
 
