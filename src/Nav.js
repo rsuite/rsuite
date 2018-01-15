@@ -32,6 +32,7 @@ class Nav extends React.Component<Props> {
   }
 
   static contextTypes = {
+    expanded: PropTypes.bool,
     navbar: PropTypes.bool,
     sidenav: PropTypes.bool,
   };
@@ -55,11 +56,11 @@ class Nav extends React.Component<Props> {
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
-    const { navbar, sidenav } = this.context;
+    const { navbar, sidenav, expanded } = this.context;
 
     const classes = classNames(classPrefix, addPrefix(appearance), {
-      [`${classPrefix}bar-nav`]: navbar,
-      [`${classPrefix}bar-right`]: pullRight,
+      [`${globalKey}navbar-nav`]: navbar,
+      [`${globalKey}navbar-right`]: pullRight,
       [`${globalKey}sidenav-nav`]: sidenav,
       [addPrefix('horizontal')]: navbar || (!vertical && !sidenav),
       [addPrefix('vertical')]: vertical || sidenav,
@@ -71,13 +72,15 @@ class Nav extends React.Component<Props> {
     const items = mapCloneElement(children, (item) => {
       let { eventKey, active } = item.props;
 
-      if (get(item, ['type', 'displayName']) !== 'NavItem') {
-        return null;
+      if (get(item, ['type', 'displayName']) === 'NavItem') {
+        return {
+          onSelect,
+          hasTooltip: sidenav && !expanded,
+          active: isNullOrUndefined(activeKey) ? active : isEqual(activeKey, eventKey)
+        };
       }
-      return {
-        onSelect,
-        active: isNullOrUndefined(activeKey) ? active : isEqual(activeKey, eventKey)
-      };
+
+      return null;
     });
 
     return (

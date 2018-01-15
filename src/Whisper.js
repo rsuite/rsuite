@@ -42,7 +42,7 @@ type Props = {
   delayShow?: number,
   delayHide?: number,
   defaultOverlayShown?: boolean,
-  speaker: React.ElementType,
+  speaker: React.Node,
   children: React.Node,
   onMouseOver?: (event: SyntheticEvent<*>) => void,
   onMouseOut?: (event: SyntheticEvent<*>) => void,

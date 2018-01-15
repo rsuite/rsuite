@@ -25,7 +25,6 @@ class Navbar extends React.Component<Props> {
   };
 
   static childContextTypes = {
-    classPrefix: PropTypes.string,
     navbar: PropTypes.bool
   };
 
@@ -34,8 +33,7 @@ class Navbar extends React.Component<Props> {
 
   getChildContext() {
     return {
-      navbar: true,
-      classPrefix: this.props.classPrefix
+      navbar: true
     };
   }
 

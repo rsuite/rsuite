@@ -27,7 +27,7 @@ class Sidenav extends React.Component<Props> {
   };
 
   static childContextTypes = {
-    classPrefix: PropTypes.string,
+    expanded: PropTypes.bool,
     sidenav: PropTypes.bool
   };
 
@@ -36,9 +36,10 @@ class Sidenav extends React.Component<Props> {
   static Toggle = SidenavToggle;
 
   getChildContext() {
+    const { expanded } = this.props;
     return {
       sidenav: true,
-      classPrefix: this.props.classPrefix
+      expanded
     };
   }
 
@@ -54,7 +55,8 @@ class Sidenav extends React.Component<Props> {
     const addPrefix = prefix(classPrefix);
 
     const classes = classNames(classPrefix, {
-      [addPrefix('expanded')]: expanded
+      [addPrefix('expanded')]: expanded,
+      [addPrefix('folded')]: !expanded
     }, addPrefix(appearance), className);
 
     return (

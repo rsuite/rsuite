@@ -7,6 +7,8 @@ import SafeAnchor from './SafeAnchor';
 import creatComponent from './utils/createComponent';
 import prefix, { globalKey } from './utils/prefix';
 import Icon from './Icon';
+import Tooltip from './Tooltip';
+import Whisper from './Whisper';
 
 type Props = {
   className?: string,
@@ -19,10 +21,21 @@ type Props = {
   onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
   children?: React.Node,
   eventKey?: any,
-  tabIndex?: number
+  tabIndex?: number,
+  hasTooltip?: boolean
 }
 
 const Component = creatComponent(SafeAnchor);
+
+const addTooltip = (children, tip) => (
+  <Whisper
+    speaker={<Tooltip>{tip}</Tooltip>}
+    placement="right"
+  >
+    {children}
+  </Whisper>
+);
+
 
 class NavItem extends React.Component<Props> {
 
@@ -51,6 +64,7 @@ class NavItem extends React.Component<Props> {
       children,
       icon,
       tabIndex,
+      hasTooltip,
       ...props
     } = this.props;
 
@@ -60,26 +74,31 @@ class NavItem extends React.Component<Props> {
       [addPrefix('disabled')]: disabled,
     }, className);
 
+    const item = (
+      <Component
+        {...props}
+        role="button"
+        tabIndex={tabIndex}
+        className={addPrefix('content')}
+        disabled={disabled}
+        onClick={createChainedFunction(onClick, this.handleClick)}
+      >
+        {icon}
+        <span className={addPrefix('text')}>{children}</span>
+      </Component>
+    );
+
     return (
       <li
         role="presentation"
         className={classes}
         style={style}
       >
-        <Component
-          {...props}
-          role="button"
-          tabIndex={tabIndex}
-          className={addPrefix('content')}
-          disabled={disabled}
-          onClick={createChainedFunction(onClick, this.handleClick)}
-        >
-          {icon}
-          <span className={addPrefix('text')}>{children}</span>
-        </Component>
+        {hasTooltip ? addTooltip(item, children) : item}
       </li>
     );
   }
 }
+
 
 export default NavItem;
