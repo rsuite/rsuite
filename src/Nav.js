@@ -25,12 +25,15 @@ type Props = {
 }
 
 class Nav extends React.Component<Props> {
+
   static defaultProps = {
     appearance: 'default',
     classPrefix: `${globalKey}nav`,
   }
+
   static contextTypes = {
-    navbar: PropTypes.bool
+    navbar: PropTypes.bool,
+    sidenav: PropTypes.bool,
   };
 
 
@@ -52,19 +55,19 @@ class Nav extends React.Component<Props> {
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
-    const { navbar } = this.context;
+    const { navbar, sidenav } = this.context;
 
     const classes = classNames(classPrefix, addPrefix(appearance), {
       [`${classPrefix}bar-nav`]: navbar,
       [`${classPrefix}bar-right`]: pullRight,
-      [addPrefix('horizontal')]: !vertical || navbar,
-      [addPrefix('vertical')]: vertical,
+      [`${globalKey}sidenav-nav`]: sidenav,
+      [addPrefix('horizontal')]: navbar || (!vertical && !sidenav),
+      [addPrefix('vertical')]: vertical || sidenav,
       [addPrefix('justified')]: justified,
       [addPrefix('reversed')]: reversed,
     }, className);
 
     const hasWaterline = (appearance !== 'default');
-
     const items = mapCloneElement(children, (item) => {
       let { eventKey, active } = item.props;
 

@@ -6,24 +6,19 @@ import classNames from 'classnames';
 import NavbarBrand from './NavbarBrand';
 import NavbarBody from './NavbarBody';
 import NavbarHeader from './NavbarHeader';
-import NavbarToggle from './NavbarToggle';
 import createComponent from './utils/createComponent';
 import prefix, { globalKey } from './utils/prefix';
 
 type Props = {
   classPrefix?: string,
   className?: string,
-  appearance: 'default' | 'inverse' | 'subtle',
-  onToggle?: (expanded: boolean) => void
+  appearance: 'default' | 'inverse' | 'subtle'
 }
 
-type States = {
-  expanded?: boolean
-}
 
 const Component = createComponent('div');
 
-class Navbar extends React.Component<Props, States> {
+class Navbar extends React.Component<Props> {
 
   static defaultProps = {
     appearance: 'default',
@@ -32,41 +27,24 @@ class Navbar extends React.Component<Props, States> {
 
   static childContextTypes = {
     classPrefix: PropTypes.string,
-    navbar: PropTypes.bool,
-    expanded: PropTypes.bool,
-    onToggle: PropTypes.func
+    navbar: PropTypes.bool
   };
 
   static Brand = NavbarBrand;
   static Header = NavbarHeader;
   static Body = NavbarBody;
-  static Toggle = NavbarToggle;
-
-  state = {
-    expanded: false
-  };
 
   getChildContext() {
     return {
       navbar: true,
-      classPrefix: this.props.classPrefix,
-      onToggle: this.handleToggle,
-      expanded: this.state.expanded
+      classPrefix: this.props.classPrefix
     };
-  }
-
-  handleToggle = () => {
-    const { onToggle } = this.props;
-    const expanded = !this.state.expanded;
-    this.setState({ expanded });
-    onToggle && onToggle(expanded);
   }
 
   render() {
     const {
       className,
       classPrefix,
-      onToggle,
       appearance,
       ...props
     } = this.props;

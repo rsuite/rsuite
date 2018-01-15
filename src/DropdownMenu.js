@@ -30,23 +30,30 @@ class DorpdownMenu extends React.Component<Props> {
 
   getMenuItemsAndStatus(children?: React.ChildrenArray<any>): Object {
 
-    let active;
+    let hasActiveItem: boolean;
 
     const { activeKey, onSelect, classPrefix } = this.props;
     const items = React.Children.map(children, (item, index) => {
-      let displayName = get(item, ['type', 'displayName']);
+      let displayName: string = get(item, ['type', 'displayName']);
+      let active: boolean;
 
-      if (displayName === 'DropdownMenuItem' || displayName === 'NavItem') {
-        let { onSelect: onItemSelect } = item.props;
+      if (displayName === 'DropdownMenuItem' || displayName === 'DropdownMenu') {
         active = this.isActive(item.props, activeKey);
+        if (active) {
+          hasActiveItem = true;
+        }
+      }
+
+      if (displayName === 'DropdownMenuItem') {
+        let { onSelect: onItemSelect } = item.props;
         return React.cloneElement(item, {
           key: index,
           active,
           onSelect: createChainedFunction(onSelect, onItemSelect)
         });
+
       } else if (displayName === 'DropdownMenu') {
 
-        active = this.isActive(item.props, activeKey);
         let itemsAndStatus = this.getMenuItemsAndStatus(item.props.children);
 
         return (
@@ -68,12 +75,13 @@ class DorpdownMenu extends React.Component<Props> {
           </DropdownMenuItem>
         );
       }
+
       return item;
     });
 
     return {
       items,
-      active
+      active: hasActiveItem
     };
   }
 

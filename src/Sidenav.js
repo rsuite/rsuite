@@ -1,6 +1,7 @@
 // @flow
 
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import SidenavBody from './SidenavBody';
 import SidenavToggle from './SidenavToggle';
@@ -24,9 +25,20 @@ class Sidenav extends React.Component<Props> {
     classPrefix: `${globalKey}sidenav`
   };
 
+  static childContextTypes = {
+    classPrefix: PropTypes.string,
+    sidenav: PropTypes.bool
+  };
 
   static Body = SidenavBody;
   static Toggle = SidenavToggle;
+
+  getChildContext() {
+    return {
+      sidenav: true,
+      classPrefix: this.props.classPrefix
+    };
+  }
 
   render() {
     const {
