@@ -4,6 +4,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import SidenavBody from './SidenavBody';
+import SidenavHeader from './SidenavHeader';
 import SidenavToggle from './SidenavToggle';
 import createComponent from './utils/createComponent';
 import prefix, { globalKey } from './utils/prefix';
@@ -30,6 +31,7 @@ class Sidenav extends React.Component<Props> {
     sidenav: PropTypes.bool
   };
 
+  static Header = SidenavHeader;
   static Body = SidenavBody;
   static Toggle = SidenavToggle;
 

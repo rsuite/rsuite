@@ -3,7 +3,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import NavbarBrand from './NavbarBrand';
 import NavbarBody from './NavbarBody';
 import NavbarHeader from './NavbarHeader';
 import createComponent from './utils/createComponent';
@@ -30,7 +29,6 @@ class Navbar extends React.Component<Props> {
     navbar: PropTypes.bool
   };
 
-  static Brand = NavbarBrand;
   static Header = NavbarHeader;
   static Body = NavbarBody;
 
