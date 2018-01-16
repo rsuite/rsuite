@@ -11,6 +11,7 @@ import Icon from './Icon';
 import ReactChildren from './utils/ReactChildren';
 import isNullOrUndefined from './utils/isNullOrUndefined';
 
+type Trigger = 'click' | 'hover';
 type Props = {
   activeKey?: any,
   className?: string,
@@ -19,7 +20,10 @@ type Props = {
   classPrefix?: string,
   pullLeft?: boolean,
   onSelect?: Function,
-  title?: React.Node
+  title?: React.Node,
+  open?: boolean,
+  collapse?: boolean,
+  trigger?: Trigger | Array<Trigger>,
 }
 
 class DorpdownMenu extends React.Component<Props> {
@@ -55,19 +59,22 @@ class DorpdownMenu extends React.Component<Props> {
       } else if (displayName === 'DropdownMenu') {
 
         let itemsAndStatus = this.getMenuItemsAndStatus(item.props.children);
-
+        const { icon, open, collapse, trigger, pullLeft, title } = item.props;
         return (
           <DropdownMenuItem
-            icon={item.props.icon}
+            icon={icon}
+            open={open}
+            trigger={trigger}
+            collapse={collapse}
             active={this.isActive(item.props, activeKey)}
+            className={this.addPrefix(`pull-${pullLeft ? 'left' : 'right'}`)}
+            pullLeft={pullLeft}
             componentClass="div"
-            className={this.addPrefix(`pull-${item.props.pullLeft ? 'left' : 'right'}`)}
-            pullLeft={item.props.pullLeft}
             submenu
           >
             <div className={this.addPrefix('toggle')}>
-              <span>{item.props.title}</span>
-              <Icon icon={item.props.pullLeft ? 'angle-left' : 'angle-right'} />
+              <span>{title}</span>
+              <Icon icon={pullLeft ? 'angle-left' : 'angle-right'} />
             </div>
             <ul role="menu" className={classPrefix}>
               {itemsAndStatus.items}

@@ -81,7 +81,8 @@ class Nav extends React.Component<Props> {
         };
       } else if (displayName === 'Dropdown' && sidenav) {
         return {
-          trigger: 'hover',
+          componentClass: 'li',
+          trigger: expanded ? 'click' : 'hover',
           placement: 'rightBottom'
         };
       }

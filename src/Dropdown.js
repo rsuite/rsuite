@@ -1,9 +1,11 @@
 // @flow
 
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import isUndefined from 'lodash/isUndefined';
 import kebabCase from 'lodash/kebabCase';
+import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
 import { RootCloseWrapper } from 'rsuite-utils/lib/Overlay';
 
@@ -27,7 +29,6 @@ type Props = {
   placement: 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight' | 'leftTop' | 'rightTop' | 'leftBottom' | 'rightBottom',
   title?: React.Node,
   disabled?: boolean,
-  open?: boolean,
   icon?: React.Element<typeof Icon>,
   onClose?: () => void,
   onOpen?: () => void,
@@ -42,12 +43,15 @@ type Props = {
   toggleClassName?: string,
   children?: React.ChildrenArray<React.Element<any>>,
   renderTitle?: (children?: React.Node) => React.Node,
-  tabIndex?: number
+  tabIndex?: number,
+  open?: boolean,
+  collapse?: boolean
 }
 
 type States = {
   title?: React.Node,
-  open?: boolean
+  open?: boolean,
+  collapse?: boolean
 }
 
 class Dropdown extends React.Component<Props, States> {
@@ -63,13 +67,34 @@ class Dropdown extends React.Component<Props, States> {
   static Menu = DropdownMenu;
   static displayName = 'Dropdown';
 
+  static contextTypes = {
+    sidenav: PropTypes.bool,
+    expanded: PropTypes.bool
+  };
+
   constructor(props: Props) {
     super(props);
     this.state = {
       title: null,
+      collapse: props.collapse,
       open: props.open
     };
   }
+
+  componentWillReceiveProps(nextProps: Props) {
+    if (!isEqual(nextProps.open, this.props.open)) {
+      this.setState({
+        open: nextProps.open
+      });
+    }
+
+    if (!isEqual(nextProps.collapse, this.props.collapse)) {
+      this.setState({
+        collapse: nextProps.collapse
+      });
+    }
+  }
+
   toggle = (isOpen?: boolean) => {
     const { onOpen, onClose, onToggle } = this.props;
     let open = isUndefined(isOpen) ? !this.state.open : isOpen;
@@ -84,10 +109,18 @@ class Dropdown extends React.Component<Props, States> {
 
 
   handleClick = (event: SyntheticEvent<*>) => {
+
     event.preventDefault();
-    if (!this.props.disabled) {
-      this.toggle();
+    if (this.props.disabled) {
+      return;
     }
+
+    const { expanded, sidenav } = this.context;
+    if (expanded && sidenav) {
+      this.setState({ collapse: !this.state.collapse });
+    }
+
+    this.toggle();
   }
   handleMouseEnter = () => {
     if (!this.props.disabled) {
@@ -127,6 +160,8 @@ class Dropdown extends React.Component<Props, States> {
       onMouseEnter,
       onMouseLeave,
       onContextMenu,
+      open,
+      collapse,
       ...props
     } = this.props;
 
@@ -146,7 +181,7 @@ class Dropdown extends React.Component<Props, States> {
     }
 
     if (isOneOf('contextMenu', trigger)) {
-      toggleProps.onContextMenu = createChainedFunction(this.handleClick, onMouseEnter);
+      toggleProps.onContextMenu = createChainedFunction(this.handleClick, onContextMenu);
     }
 
     if (isOneOf('hover', trigger)) {
@@ -176,7 +211,9 @@ class Dropdown extends React.Component<Props, States> {
       </DropdownMenu>
     );
 
-    if (this.state.open) {
+    const isOpen = isUndefined(open) ? this.state.open : open;
+
+    if (isOpen) {
       Menu = (
         <RootCloseWrapper onRootClose={this.toggle}>
           {Menu}
@@ -185,9 +222,11 @@ class Dropdown extends React.Component<Props, States> {
     }
 
     const addPrefix = prefix(classPrefix);
+    const isCollapse = isUndefined(collapse) ? this.state.collapse : collapse;
     const classes = classNames(classPrefix, {
       [addPrefix('disabled')]: disabled,
-      [addPrefix('open')]: this.state.open
+      [addPrefix('open')]: isOpen,
+      [addPrefix(isCollapse ? 'collapse' : 'expand')]: this.context.sidenav,
     }, addPrefix(`placement-${kebabCase(placement)}`), className);
 
     const elementProps = omit(props, ['onClose', 'onOpen', 'onToggle']);

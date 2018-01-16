@@ -1,16 +1,25 @@
 // @flow
 
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { getWidth, addStyle } from 'dom-lib';
+import isEqual from 'lodash/isEqual';
+import isUndefined from 'lodash/isUndefined';
 import createComponent from './utils/createComponent';
+import createChainedFunction from './utils/createChainedFunction';
 import prefix, { globalKey } from './utils/prefix';
 import SafeAnchor from './SafeAnchor';
 import Icon from './Icon';
+import isOneOf from './utils/isOneOf';
 
+type Trigger = 'click' | 'hover';
 type Props = {
   divider?: boolean,
+  trigger?: Trigger | Array<Trigger>,
   panel?: boolean,
+  open?: boolean,
+  collapse?: boolean,
   active?: boolean,
   disabled?: boolean,
   pullLeft?: boolean,
@@ -27,7 +36,8 @@ type Props = {
 }
 
 type States = {
-  open?: boolean
+  open?: boolean,
+  collapse?: boolean
 }
 
 const Component = createComponent(SafeAnchor);
@@ -38,41 +48,78 @@ class DropdownMenuItem extends React.Component<Props, States> {
   static defaultProps = {
     classPrefix: `${globalKey}dropdown-item`,
     tabIndex: -1,
+    trigger: 'hover'
   }
+
+  static contextTypes = {
+    sidenav: PropTypes.bool,
+    expanded: PropTypes.bool
+  };
 
   constructor(props: Props) {
     super(props);
     this.state = {
-      open: false
+      collapse: props.collapse,
+      open: props.open
     };
   }
 
-  handleClick = (event: SyntheticEvent<*>) => {
-    let { onSelect, eventKey, disabled, onClick } = this.props;
-    if (disabled) {
-      event.preventDefault();
-      return;
+  componentWillReceiveProps(nextProps: Props) {
+
+    if (!isEqual(nextProps.open, this.props.open)) {
+      this.setState({
+        open: nextProps.open
+      });
     }
 
-    onSelect && onSelect(eventKey, event);
-    onClick && onClick(event);
+    if (!isEqual(nextProps.collapse, this.props.collapse)) {
+      this.setState({
+        collapse: nextProps.collapse
+      });
+    }
   }
 
-  handleMouseEnter = (event: SyntheticEvent<*>) => {
-
+  toggle = (event: SyntheticEvent<*>, isOpen?: boolean) => {
     const { pullLeft } = this.props;
     const menu = event.currentTarget.querySelector(`.${globalKey}dropdown-menu`);
-
-    this.setState({ open: true }, () => {
-      if (pullLeft && menu) {
+    let open = isUndefined(isOpen) ? !this.state.open : isOpen;
+    this.setState({ open }, () => {
+      if (pullLeft && menu && open) {
         let width = getWidth(menu);
         addStyle(menu, 'left', `${-width}px`);
       }
     });
   }
 
-  handleMouseLeave = () => {
-    this.setState({ open: false });
+  handleClick = (event: SyntheticEvent<*>) => {
+    let {
+      onSelect,
+      eventKey,
+      disabled,
+      onClick
+    } = this.props;
+
+    if (disabled) {
+      event.preventDefault();
+      return;
+    }
+
+    const { expanded, sidenav } = this.context;
+
+    if (expanded && sidenav) {
+      this.setState({ collapse: !this.state.collapse });
+    }
+
+    onSelect && onSelect(eventKey, event);
+    onClick && onClick(event);
+  }
+
+  handleMouseOver = (event: SyntheticEvent<*>) => {
+    this.toggle(event, true);
+  }
+
+  handleMouseOut = (event: SyntheticEvent<*>) => {
+    this.toggle(event, false);
   }
 
   render() {
@@ -92,17 +139,35 @@ class DropdownMenuItem extends React.Component<Props, States> {
       tabIndex,
       pullLeft,
       icon,
+      open,
+      trigger,
+      collapse,
       ...props
     } = this.props;
 
-    const { open } = this.state;
     const addPrefix = prefix(classPrefix);
+
+    const isCollapse = isUndefined(collapse) ? this.state.collapse : collapse;
     const classes = classNames(classPrefix, {
+      [addPrefix(isCollapse ? 'collapse' : 'expand')]: submenu && this.context.sidenav,
       [addPrefix('submenu')]: submenu,
-      [addPrefix('open')]: open,
+      [addPrefix('open')]: isUndefined(open) ? this.state.open : open,
       [addPrefix('active')]: active,
-      [addPrefix('disabled')]: disabled
-    }, className);
+      [addPrefix('disabled')]: disabled,
+    }, addPrefix(`pull-${pullLeft ? 'left' : 'right'}`), className);
+
+    const itemProps: Object = {
+      onClick: this.handleClick,
+    };
+
+    if (isOneOf('hover', trigger) && submenu && !this.context.expanded) {
+      itemProps.onMouseOver = this.handleMouseOver;
+      itemProps.onMouseOut = this.handleMouseOut;
+    }
+
+    if (isOneOf('click', trigger) && submenu) {
+      itemProps.onClick = createChainedFunction(this.handleClick, this.toggle);
+    }
 
     if (divider) {
       return (
@@ -127,17 +192,15 @@ class DropdownMenuItem extends React.Component<Props, States> {
 
     return (
       <li
+        {...itemProps}
         style={style}
         role="presentation"
         className={classes}
-        onMouseOver={submenu ? this.handleMouseEnter : null}
-        onMouseOut={submenu ? this.handleMouseLeave : null}
       >
         <Component
           {...props}
           className={addPrefix('content')}
           tabIndex={tabIndex}
-          onClick={this.handleClick}
         >
           {icon}
           {children}
