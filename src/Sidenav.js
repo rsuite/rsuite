@@ -3,11 +3,13 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import Collapse from 'rsuite-utils/lib/Animation/Collapse';
 import SidenavBody from './SidenavBody';
 import SidenavHeader from './SidenavHeader';
 import SidenavToggle from './SidenavToggle';
 import createComponent from './utils/createComponent';
 import prefix, { globalKey } from './utils/prefix';
+
 
 type Props = {
   classPrefix?: string,
@@ -53,18 +55,16 @@ class Sidenav extends React.Component<Props> {
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
-
-    const classes = classNames(classPrefix, {
-      [addPrefix('expanded')]: expanded,
-      [addPrefix('folded')]: !expanded
-    }, addPrefix(appearance), className);
+    const classes = classNames(classPrefix, addPrefix(appearance), className);
 
     return (
-      <Component
-        {...props}
-        className={classes}
-        role="navigation"
-      />
+      <Collapse in={expanded}>
+        <Component
+          {...props}
+          className={classes}
+          role="navigation"
+        />
+      </Collapse>
     );
   }
 
