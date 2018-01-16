@@ -27,6 +27,7 @@ type Props = {
   placement: 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight' | 'leftTop' | 'rightTop' | 'leftBottom' | 'rightBottom',
   title?: React.Node,
   disabled?: boolean,
+  open?: boolean,
   icon?: React.Element<typeof Icon>,
   onClose?: () => void,
   onOpen?: () => void,
@@ -60,12 +61,15 @@ class Dropdown extends React.Component<Props, States> {
 
   static Item = DropdownMenuItem;
   static Menu = DropdownMenu;
+  static displayName = 'Dropdown';
 
-  state = {
-    title: null,
-    open: false
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      title: null,
+      open: props.open
+    };
   }
-
   toggle = (isOpen?: boolean) => {
     const { onOpen, onClose, onToggle } = this.props;
     let open = isUndefined(isOpen) ? !this.state.open : isOpen;
