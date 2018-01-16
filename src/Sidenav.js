@@ -3,7 +3,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Collapse from 'rsuite-utils/lib/Animation/Collapse';
+import Transition from 'rsuite-utils/lib/Animation/Transition';
 import SidenavBody from './SidenavBody';
 import SidenavHeader from './SidenavHeader';
 import SidenavToggle from './SidenavToggle';
@@ -58,13 +58,20 @@ class Sidenav extends React.Component<Props> {
     const classes = classNames(classPrefix, addPrefix(appearance), className);
 
     return (
-      <Collapse in={expanded}>
+      <Transition
+        in={expanded}
+        timeout={300}
+        exitedClassName={addPrefix('collapse')}
+        exitingClassName={addPrefix('collapsing')}
+        enteredClassName={classNames(addPrefix('collapse'), addPrefix('in'))}
+        enteringClassName={addPrefix('collapsing')}
+      >
         <Component
           {...props}
           className={classes}
           role="navigation"
         />
-      </Collapse>
+      </Transition>
     );
   }
 
