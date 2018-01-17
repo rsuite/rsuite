@@ -11,10 +11,12 @@ import Tooltip from './Tooltip';
 import Whisper from './Whisper';
 
 type Props = {
-  className?: string,
-  classPrefix?: string,
   active?: boolean,
   disabled?: boolean,
+  className?: string,
+  classPrefix?: string,
+  divider?: boolean,
+  panel?: boolean,
   onClick?: (event: SyntheticEvent<*>) => void,
   style?: Object,
   icon?: React.Element<typeof Icon>,
@@ -65,6 +67,8 @@ class NavItem extends React.Component<Props> {
       icon,
       tabIndex,
       hasTooltip,
+      divider,
+      panel,
       ...props
     } = this.props;
 
@@ -73,6 +77,27 @@ class NavItem extends React.Component<Props> {
       [addPrefix('active')]: active,
       [addPrefix('disabled')]: disabled,
     }, className);
+
+    if (divider) {
+      return (
+        <li
+          role="separator"
+          style={style}
+          className={classNames(addPrefix('divider'), className)}
+        />
+      );
+    }
+
+    if (panel) {
+      return (
+        <li
+          style={style}
+          className={classNames(addPrefix('panel'), className)}
+        >
+          {children}
+        </li>
+      );
+    }
 
     const item = (
       <Component

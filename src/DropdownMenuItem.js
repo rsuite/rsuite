@@ -16,8 +16,8 @@ import isOneOf from './utils/isOneOf';
 type Trigger = 'click' | 'hover';
 type Props = {
   divider?: boolean,
-  trigger?: Trigger | Array<Trigger>,
   panel?: boolean,
+  trigger?: Trigger | Array<Trigger>,
   open?: boolean,
   collapse?: boolean,
   active?: boolean,
