@@ -22,8 +22,10 @@ type Props = {
   onSelect?: Function,
   title?: React.Node,
   open?: boolean,
-  collapse?: boolean,
   trigger?: Trigger | Array<Trigger>,
+  eventKey?: any,
+  onToggle?: (eventKey: any, event: SyntheticEvent<*>) => void,
+  openKeys?: Array<any>
 }
 
 class DorpdownMenu extends React.Component<Props> {
@@ -36,7 +38,7 @@ class DorpdownMenu extends React.Component<Props> {
 
     let hasActiveItem: boolean;
 
-    const { activeKey, onSelect, classPrefix } = this.props;
+    const { activeKey, onSelect, classPrefix, openKeys = [] } = this.props;
     const items = React.Children.map(children, (item, index) => {
       let displayName: string = get(item, ['type', 'displayName']);
       let active: boolean;
@@ -59,23 +61,32 @@ class DorpdownMenu extends React.Component<Props> {
       } else if (displayName === 'DropdownMenu') {
 
         let itemsAndStatus = this.getMenuItemsAndStatus(item.props.children);
-        const { icon, open, collapse, trigger, pullLeft, title } = item.props;
+        const { icon, open, trigger, pullLeft, eventKey, title } = item.props;
+        const expanded = openKeys.some(key => isEqual(key, eventKey));
         return (
           <DropdownMenuItem
             icon={icon}
             open={open}
             trigger={trigger}
-            collapse={collapse}
+            expanded={expanded}
             active={this.isActive(item.props, activeKey)}
             className={this.addPrefix(`pull-${pullLeft ? 'left' : 'right'}`)}
             pullLeft={pullLeft}
             componentClass="div"
             submenu
           >
-            <div className={this.addPrefix('toggle')}>
+            <div
+              className={this.addPrefix('toggle')}
+              onClick={(event: SyntheticEvent<*>) => {
+                this.handleToggleChange(eventKey, event);
+              }}
+              role="menu"
+              tabIndex={-1}
+            >
               <span>{title}</span>
               <Icon icon={pullLeft ? 'angle-left' : 'angle-right'} />
             </div>
+
             <ul role="menu" className={classPrefix}>
               {itemsAndStatus.items}
             </ul>
@@ -90,6 +101,11 @@ class DorpdownMenu extends React.Component<Props> {
       items,
       active: hasActiveItem
     };
+  }
+
+  handleToggleChange = (eventKey: any, event: SyntheticEvent<*>) => {
+    const { onToggle } = this.props;
+    onToggle && onToggle(eventKey, event);
   }
 
   isActive(props: Object, activeKey: any) {

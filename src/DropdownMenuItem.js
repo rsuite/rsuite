@@ -19,7 +19,7 @@ type Props = {
   panel?: boolean,
   trigger?: Trigger | Array<Trigger>,
   open?: boolean,
-  collapse?: boolean,
+  expanded?: boolean,
   active?: boolean,
   disabled?: boolean,
   pullLeft?: boolean,
@@ -36,8 +36,7 @@ type Props = {
 }
 
 type States = {
-  open?: boolean,
-  collapse?: boolean
+  open?: boolean
 }
 
 const Component = createComponent(SafeAnchor);
@@ -59,7 +58,6 @@ class DropdownMenuItem extends React.Component<Props, States> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      collapse: props.collapse,
       open: props.open
     };
   }
@@ -69,12 +67,6 @@ class DropdownMenuItem extends React.Component<Props, States> {
     if (!isEqual(nextProps.open, this.props.open)) {
       this.setState({
         open: nextProps.open
-      });
-    }
-
-    if (!isEqual(nextProps.collapse, this.props.collapse)) {
-      this.setState({
-        collapse: nextProps.collapse
       });
     }
   }
@@ -102,12 +94,6 @@ class DropdownMenuItem extends React.Component<Props, States> {
     if (disabled) {
       event.preventDefault();
       return;
-    }
-
-    const { expanded, sidenav } = this.context;
-
-    if (expanded && sidenav) {
-      this.setState({ collapse: !this.state.collapse });
     }
 
     onSelect && onSelect(eventKey, event);
@@ -141,22 +127,21 @@ class DropdownMenuItem extends React.Component<Props, States> {
       icon,
       open,
       trigger,
-      collapse,
+      expanded,
       ...props
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
-
-    const isCollapse = isUndefined(collapse) ? this.state.collapse : collapse;
     const classes = classNames(classPrefix, {
-      [addPrefix(isCollapse ? 'collapse' : 'expand')]: submenu && this.context.sidenav,
+      [addPrefix(expanded ? 'expand' : 'collapse')]: submenu && this.context.sidenav,
       [addPrefix('submenu')]: submenu,
       [addPrefix('open')]: isUndefined(open) ? this.state.open : open,
       [addPrefix('active')]: active,
       [addPrefix('disabled')]: disabled,
     }, addPrefix(`pull-${pullLeft ? 'left' : 'right'}`), className);
 
-    const itemProps: Object = {
+    const itemProps: Object = {};
+    const itemToggleProps: Object = {
       onClick: this.handleClick,
     };
 
@@ -165,8 +150,9 @@ class DropdownMenuItem extends React.Component<Props, States> {
       itemProps.onMouseOut = this.handleMouseOut;
     }
 
+
     if (isOneOf('click', trigger) && submenu) {
-      itemProps.onClick = createChainedFunction(this.handleClick, this.toggle);
+      itemToggleProps.onClick = createChainedFunction(this.handleClick, this.toggle);
     }
 
     if (divider) {
@@ -199,6 +185,7 @@ class DropdownMenuItem extends React.Component<Props, States> {
       >
         <Component
           {...props}
+          {...itemToggleProps}
           className={addPrefix('content')}
           tabIndex={tabIndex}
         >

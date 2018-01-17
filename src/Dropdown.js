@@ -45,13 +45,12 @@ type Props = {
   renderTitle?: (children?: React.Node) => React.Node,
   tabIndex?: number,
   open?: boolean,
-  collapse?: boolean
+  eventKey?: any
 }
 
 type States = {
   title?: React.Node,
-  open?: boolean,
-  collapse?: boolean
+  open?: boolean
 }
 
 class Dropdown extends React.Component<Props, States> {
@@ -69,14 +68,15 @@ class Dropdown extends React.Component<Props, States> {
 
   static contextTypes = {
     sidenav: PropTypes.bool,
-    expanded: PropTypes.bool
+    expanded: PropTypes.bool,
+    openKeys: PropTypes.array,
+    onOpenChange: PropTypes.func
   };
 
   constructor(props: Props) {
     super(props);
     this.state = {
       title: null,
-      collapse: props.collapse,
       open: props.open
     };
   }
@@ -85,12 +85,6 @@ class Dropdown extends React.Component<Props, States> {
     if (!isEqual(nextProps.open, this.props.open)) {
       this.setState({
         open: nextProps.open
-      });
-    }
-
-    if (!isEqual(nextProps.collapse, this.props.collapse)) {
-      this.setState({
-        collapse: nextProps.collapse
       });
     }
   }
@@ -109,19 +103,21 @@ class Dropdown extends React.Component<Props, States> {
 
 
   handleClick = (event: SyntheticEvent<*>) => {
-
     event.preventDefault();
     if (this.props.disabled) {
       return;
     }
-
-    const { expanded, sidenav } = this.context;
-    if (expanded && sidenav) {
-      this.setState({ collapse: !this.state.collapse });
-    }
-
     this.toggle();
+    const { eventKey } = this.props;
+    const { onOpenChange } = this.context;
+    onOpenChange && onOpenChange(eventKey, event);
   }
+
+  handleToggleChange = (eventKey: any, event: SyntheticEvent<*>) => {
+    const { onOpenChange } = this.context;
+    onOpenChange && onOpenChange(eventKey, event);
+  }
+
   handleMouseEnter = () => {
     if (!this.props.disabled) {
       this.toggle(true);
@@ -161,7 +157,7 @@ class Dropdown extends React.Component<Props, States> {
       onMouseLeave,
       onContextMenu,
       open,
-      collapse,
+      eventKey,
       ...props
     } = this.props;
 
@@ -189,6 +185,8 @@ class Dropdown extends React.Component<Props, States> {
       dropdownProps.onMouseLeave = createChainedFunction(this.handleMouseLeave, onMouseLeave);
     }
 
+    const { openKeys = [] } = this.context;
+
     const Toggle = (
       <DropdownToggle
         {...toggleProps}
@@ -206,6 +204,8 @@ class Dropdown extends React.Component<Props, States> {
         activeKey={activeKey}
         onSelect={this.handleSelect}
         style={menuStyle}
+        onToggle={this.handleToggleChange}
+        openKeys={openKeys}
       >
         {children}
       </DropdownMenu>
@@ -221,12 +221,12 @@ class Dropdown extends React.Component<Props, States> {
       );
     }
 
+    const expand = openKeys.some(key => isEqual(key, eventKey));
     const addPrefix = prefix(classPrefix);
-    const isCollapse = isUndefined(collapse) ? this.state.collapse : collapse;
     const classes = classNames(classPrefix, {
       [addPrefix('disabled')]: disabled,
       [addPrefix('open')]: isOpen,
-      [addPrefix(isCollapse ? 'collapse' : 'expand')]: this.context.sidenav,
+      [addPrefix(expand ? 'expand' : 'collapse')]: this.context.sidenav,
     }, addPrefix(`placement-${kebabCase(placement)}`), className);
 
     const elementProps = omit(props, ['onClose', 'onOpen', 'onToggle']);
