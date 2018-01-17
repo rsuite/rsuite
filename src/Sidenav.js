@@ -61,9 +61,9 @@ class Sidenav extends React.Component<Props> {
       <Transition
         in={expanded}
         timeout={300}
-        exitedClassName={addPrefix('collapse')}
+        exitedClassName={addPrefix('collapse-out')}
         exitingClassName={addPrefix('collapsing')}
-        enteredClassName={classNames(addPrefix('collapse'), addPrefix('in'))}
+        enteredClassName={addPrefix('collapse-in')}
         enteringClassName={addPrefix('collapsing')}
       >
         <Component
