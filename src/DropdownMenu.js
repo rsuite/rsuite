@@ -1,8 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import get from 'lodash/get';
-import isEqual from 'lodash/isEqual';
+import _ from 'lodash';
 import classNames from 'classnames';
 import createChainedFunction from './utils/createChainedFunction';
 import prefix, { globalKey } from './utils/prefix';
@@ -40,7 +39,7 @@ class DorpdownMenu extends React.Component<Props> {
 
     const { activeKey, onSelect, classPrefix, openKeys = [] } = this.props;
     const items = React.Children.map(children, (item, index) => {
-      let displayName: string = get(item, ['type', 'displayName']);
+      let displayName: string = _.get(item, ['type', 'displayName']);
       let active: boolean;
 
       if (displayName === 'DropdownMenuItem' || displayName === 'DropdownMenu') {
@@ -62,7 +61,7 @@ class DorpdownMenu extends React.Component<Props> {
 
         let itemsAndStatus = this.getMenuItemsAndStatus(item.props.children);
         const { icon, open, trigger, pullLeft, eventKey, title } = item.props;
-        const expanded = openKeys.some(key => isEqual(key, eventKey));
+        const expanded = openKeys.some(key => _.isEqual(key, eventKey));
         return (
           <DropdownMenuItem
             icon={icon}
@@ -111,7 +110,7 @@ class DorpdownMenu extends React.Component<Props> {
   isActive(props: Object, activeKey: any) {
     if (
       props.active ||
-      (!isNullOrUndefined(activeKey) && isEqual(props.eventKey, activeKey))
+      (!isNullOrUndefined(activeKey) && _.isEqual(props.eventKey, activeKey))
     ) {
       return true;
     }
@@ -138,6 +137,7 @@ class DorpdownMenu extends React.Component<Props> {
       onSelect,
       classPrefix,
       activeKey,
+      openKeys,
       ...props
     } = this.props;
 
@@ -157,6 +157,5 @@ class DorpdownMenu extends React.Component<Props> {
     );
   }
 }
-
 
 export default DorpdownMenu;

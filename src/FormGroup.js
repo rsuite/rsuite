@@ -3,7 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import isUndefined from 'lodash/isUndefined';
+import _ from 'lodash';
 import withStyleProps from './utils/withStyleProps';
 import prefix, { globalKey } from './utils/prefix';
 
@@ -51,7 +51,7 @@ class FormGroup extends React.Component<Props> {
     const classes = classNames(classPrefix, {
       [addPrefix('has-success')]: !validationState && isValid,
       [addPrefix('has-error')]: !validationState && isValid === false,
-      [addPrefix(`has-${validationState || ''}`)]: !isUndefined(validationState)
+      [addPrefix(`has-${validationState || ''}`)]: !_.isUndefined(validationState)
     }, className);
 
     return (

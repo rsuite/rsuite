@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import isUndefined from 'lodash/isUndefined';
+import _ from 'lodash';
 import Icon from './Icon';
 import Button from './Button';
 import prefix, { globalKey } from './utils/prefix';
@@ -38,7 +38,7 @@ class IconButton extends React.Component<Props & IconProps> {
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, {
       [addPrefix('circle')]: circle,
-      [addPrefix('with-text')]: !isUndefined(children)
+      [addPrefix('with-text')]: !_.isUndefined(children)
     }, addPrefix(`placement-${placement}`), className);
 
     return (

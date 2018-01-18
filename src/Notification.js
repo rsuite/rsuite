@@ -2,10 +2,10 @@
 
 import * as React from 'react';
 import { Notify } from 'rsuite-notification';
-import curry from 'lodash/curry';
+import _ from 'lodash';
 import Icon from './Icon';
 
-import { StatusIconNames } from './utils/constants';
+import { STATUS_ICON_NAMES } from './utils/constants';
 
 type Config = {
   title: React.Node,
@@ -20,11 +20,11 @@ type Config = {
 };
 
 function appendIcon(type: string, content: React.Node): React.Node {
-  if (!StatusIconNames[type]) {
+  if (!STATUS_ICON_NAMES[type]) {
     return content;
   }
   return (
-    <p><Icon icon={StatusIconNames[type]} />{content}</p>
+    <p><Icon icon={STATUS_ICON_NAMES[type]} />{content}</p>
   );
 }
 
@@ -33,7 +33,7 @@ function proxy(type: string, config: Config) {
   Notify[type](config);
 }
 
-const sendMessage = curry(proxy);
+const sendMessage = _.curry(proxy);
 
 export default {
   open: sendMessage('open'),

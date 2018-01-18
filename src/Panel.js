@@ -1,10 +1,8 @@
 // @flow
 
 import * as React from 'react';
-
 import classNames from 'classnames';
-import pick from 'lodash/pick';
-import omit from 'lodash/omit';
+import _ from 'lodash';
 import Collapse from 'rsuite-utils/lib/Animation/Collapse';
 import isNullOrUndefined from './utils/isNullOrUndefined';
 import prefix, { globalKey } from './utils/prefix';
@@ -93,7 +91,7 @@ class Panel extends React.Component<Props, States> {
     const { id } = this.props;
 
     const collapseProps = {
-      ...pick(this.props, Object.keys(Collapse.propTypes)),
+      ..._.pick(this.props, Object.keys(Collapse.propTypes)),
       in: this.isExpanded()
     };
     const props: Object = {
@@ -229,7 +227,7 @@ class Panel extends React.Component<Props, States> {
     } = this.props;
 
     const clesses = classNames(classPrefix, this.addPrefix('default'), className);
-    const elementProps = omit(props, Object.keys(Panel.propTypes));
+    const elementProps = _.omit(props, Object.keys(Panel.propTypes));
 
     return (
       <div

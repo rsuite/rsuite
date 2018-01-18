@@ -3,7 +3,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import get from 'lodash/get';
 import { globalKey } from './utils/prefix';
 
 type Props = {
@@ -24,7 +23,7 @@ class ControlLabel extends React.Component<Props> {
   };
 
   render() {
-    const controlId = get(this.context, 'formGroup.controlId');
+    const controlId = _.get(this.context, 'formGroup.controlId');
     const {
       htmlFor = controlId,
       srOnly,

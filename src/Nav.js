@@ -3,8 +3,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import isEqual from 'lodash/isEqual';
-import get from 'lodash/get';
+import _ from 'lodash';
 import NavItem from './NavItem';
 import { mapCloneElement } from './utils/ReactChildren';
 import isNullOrUndefined from './utils/isNullOrUndefined';
@@ -71,13 +70,13 @@ class Nav extends React.Component<Props> {
     const hasWaterline = (appearance !== 'default');
     const items = mapCloneElement(children, (item) => {
       let { eventKey, active } = item.props;
-      let displayName = get(item, ['type', 'displayName']);
+      let displayName = _.get(item, ['type', 'displayName']);
 
       if (displayName === 'NavItem') {
         return {
           onSelect,
           hasTooltip: sidenav && !expanded,
-          active: isNullOrUndefined(activeKey) ? active : isEqual(activeKey, eventKey)
+          active: isNullOrUndefined(activeKey) ? active : _.isEqual(activeKey, eventKey)
         };
       } else if (displayName === 'Dropdown' && sidenav) {
         return {

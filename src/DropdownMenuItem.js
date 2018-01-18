@@ -4,8 +4,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { getWidth, addStyle } from 'dom-lib';
-import isEqual from 'lodash/isEqual';
-import isUndefined from 'lodash/isUndefined';
+import _ from 'lodash';
 import createComponent from './utils/createComponent';
 import createChainedFunction from './utils/createChainedFunction';
 import prefix, { globalKey } from './utils/prefix';
@@ -64,7 +63,7 @@ class DropdownMenuItem extends React.Component<Props, States> {
 
   componentWillReceiveProps(nextProps: Props) {
 
-    if (!isEqual(nextProps.open, this.props.open)) {
+    if (!_.isEqual(nextProps.open, this.props.open)) {
       this.setState({
         open: nextProps.open
       });
@@ -74,7 +73,7 @@ class DropdownMenuItem extends React.Component<Props, States> {
   toggle = (event: SyntheticEvent<*>, isOpen?: boolean) => {
     const { pullLeft } = this.props;
     const menu = event.currentTarget.querySelector(`.${globalKey}dropdown-menu`);
-    let open = isUndefined(isOpen) ? !this.state.open : isOpen;
+    let open = _.isUndefined(isOpen) ? !this.state.open : isOpen;
     this.setState({ open }, () => {
       if (pullLeft && menu && open) {
         let width = getWidth(menu);
@@ -135,7 +134,7 @@ class DropdownMenuItem extends React.Component<Props, States> {
     const classes = classNames(classPrefix, {
       [addPrefix(expanded ? 'expand' : 'collapse')]: submenu && this.context.sidenav,
       [addPrefix('submenu')]: submenu,
-      [addPrefix('open')]: isUndefined(open) ? this.state.open : open,
+      [addPrefix('open')]: _.isUndefined(open) ? this.state.open : open,
       [addPrefix('active')]: active,
       [addPrefix('disabled')]: disabled,
     }, addPrefix(`pull-${pullLeft ? 'left' : 'right'}`), className);

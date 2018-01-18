@@ -1,9 +1,7 @@
 // @flow
-
 import * as React from 'react';
+import _ from 'lodash';
 import classNames from 'classnames';
-import omit from 'lodash/omit';
-import isEqual from 'lodash/isEqual';
 import { mapCloneElement } from './utils/ReactChildren';
 
 type Props = {
@@ -11,7 +9,7 @@ type Props = {
   activeKey?: any,
   defaultActiveKey?: any,
   className?: string,
-  children?: node,
+  children?: React.Node,
   classPrefix?: string,
   onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
 }
@@ -40,7 +38,7 @@ class PanelGroup extends React.Component<Props> {
       this.isChanging = false;
     }
 
-    if (isEqual(this.state.activeKey, activeKey)) {
+    if (_.isEqual(this.state.activeKey, activeKey)) {
       activeKey = undefined;
     }
     this.setState({ activeKey });
@@ -80,7 +78,7 @@ class PanelGroup extends React.Component<Props> {
     } = this.props;
 
     let classes = classNames(classPrefix, className);
-    const elementProps = omit(props, Object.keys(PanelGroup.propTypes));
+    const elementProps = _.omit(props, Object.keys(PanelGroup.propTypes));
     return (
       <div
         {...elementProps}

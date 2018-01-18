@@ -3,10 +3,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import isUndefined from 'lodash/isUndefined';
-import kebabCase from 'lodash/kebabCase';
-import isEqual from 'lodash/isEqual';
-import omit from 'lodash/omit';
+import _ from 'lodash';
 import { RootCloseWrapper } from 'rsuite-utils/lib/Overlay';
 
 import DropdownToggle from './DropdownToggle';
@@ -82,7 +79,7 @@ class Dropdown extends React.Component<Props, States> {
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    if (!isEqual(nextProps.open, this.props.open)) {
+    if (!_.isEqual(nextProps.open, this.props.open)) {
       this.setState({
         open: nextProps.open
       });
@@ -91,7 +88,7 @@ class Dropdown extends React.Component<Props, States> {
 
   toggle = (isOpen?: boolean) => {
     const { onOpen, onClose, onToggle } = this.props;
-    let open = isUndefined(isOpen) ? !this.state.open : isOpen;
+    let open = _.isUndefined(isOpen) ? !this.state.open : isOpen;
     let handleToggle = open ? onOpen : onClose;
 
     this.setState({ open }, () => {
@@ -211,7 +208,7 @@ class Dropdown extends React.Component<Props, States> {
       </DropdownMenu>
     );
 
-    const isOpen = isUndefined(open) ? this.state.open : open;
+    const isOpen = _.isUndefined(open) ? this.state.open : open;
 
     if (isOpen) {
       Menu = (
@@ -221,15 +218,15 @@ class Dropdown extends React.Component<Props, States> {
       );
     }
 
-    const expand = openKeys.some(key => isEqual(key, eventKey));
+    const expand = openKeys.some(key => _.isEqual(key, eventKey));
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, {
       [addPrefix('disabled')]: disabled,
       [addPrefix('open')]: isOpen,
       [addPrefix(expand ? 'expand' : 'collapse')]: this.context.sidenav,
-    }, addPrefix(`placement-${kebabCase(placement)}`), className);
+    }, addPrefix(`placement-${_.kebabCase(placement)}`), className);
 
-    const elementProps = omit(props, ['onClose', 'onOpen', 'onToggle']);
+    const elementProps = _.omit(props, ['onClose', 'onOpen', 'onToggle']);
 
     return (
       <Component

@@ -2,8 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import omit from 'lodash/omit';
-import curry from 'lodash/curry';
+import _ from 'lodash';
 import createComponent from './utils/createComponent';
 import prefix, { globalKey } from './utils/prefix';
 
@@ -43,7 +42,7 @@ const Sizes = ['xs', 'sm', 'md', 'lg'];
 const Component = createComponent('div');
 const omitKeys = [];
 
-const getValue = curry((obj: Object, key: string): number => {
+const getValue = _.curry((obj: Object, key: string): number => {
   omitKeys.push(key);
   return obj[key];
 });
@@ -73,7 +72,7 @@ class Col extends React.Component<Props> {
       classes[addPrefix(`${size}-pull-${pull}`)] = pull >= 0;
     });
 
-    const elementProps = omit(props, omitKeys);
+    const elementProps = _.omit(props, omitKeys);
 
     return (
       <Component

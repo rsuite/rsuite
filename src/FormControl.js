@@ -3,7 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import get from 'lodash/get';
+import _ from 'lodash';
 import withStyleProps from './utils/withStyleProps';
 import { globalKey } from './utils/prefix';
 
@@ -36,7 +36,7 @@ class FormControl extends React.Component<Props> {
   }
 
   render() {
-    const controlId = get(this.context, 'formGroup.controlId');
+    const controlId = _.get(this.context, 'formGroup.controlId');
     const {
       type,
       className,

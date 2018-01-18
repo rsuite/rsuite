@@ -4,16 +4,13 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Transition from 'rsuite-utils/lib/Animation/Transition';
-import remove from 'lodash/remove';
-import clone from 'lodash/clone';
-import isEqual from 'lodash/isEqual';
-import isUndefined from 'lodash/isUndefined';
+import _ from 'lodash';
 import SidenavBody from './SidenavBody';
 import SidenavHeader from './SidenavHeader';
 import SidenavToggle from './SidenavToggle';
 import createComponent from './utils/createComponent';
 import prefix, { globalKey } from './utils/prefix';
-
+import getUnhandledProps from './utils/getUnhandledProps';
 
 type Props = {
   classPrefix?: string,
@@ -23,6 +20,9 @@ type Props = {
   defaultOpenKeys?: Array<any>,
   openKeys?: Array<any>,
   onOpenChange?: (openKeys: Array<any>, event: SyntheticEvent<*>) => void,
+  activeKey?: any,
+  defaultActiveKey?: any,
+  onSelect?: (eventKey: Array<any>, event: SyntheticEvent<*>) => void,
 }
 
 type States = {
@@ -63,7 +63,7 @@ class Sidenav extends React.Component<Props, States> {
     return {
       sidenav: true,
       expanded,
-      openKeys: isUndefined(openKeys) ? this.state.openKeys : openKeys,
+      openKeys: _.isUndefined(openKeys) ? this.state.openKeys : openKeys,
       onOpenChange: this.handleOpenChange
     };
   }
@@ -71,11 +71,11 @@ class Sidenav extends React.Component<Props, States> {
   handleOpenChange = (eventKey: any, event: SyntheticEvent<*>) => {
 
     const { onOpenChange } = this.props;
-    const find = key => isEqual(key, eventKey);
-    let openKeys = clone(this.state.openKeys) || [];
+    const find = key => _.isEqual(key, eventKey);
+    let openKeys = _.clone(this.state.openKeys) || [];
 
     if (openKeys.some(find)) {
-      remove(openKeys, find);
+      _.remove(openKeys, find);
     } else {
       openKeys.push(eventKey);
     }
@@ -91,12 +91,15 @@ class Sidenav extends React.Component<Props, States> {
       classPrefix,
       appearance,
       expanded,
+      openKeys,
+      defaultOpenKeys,
       ...props
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, addPrefix(appearance), className);
     const addPrefixs = names => names.map(name => addPrefix(name));
+    const unhandled = getUnhandledProps(Sidenav, props);
 
     return (
       <Transition
@@ -108,7 +111,7 @@ class Sidenav extends React.Component<Props, States> {
         enteringClassName={classNames(addPrefixs(['collapse-out', 'collapsing']))}
       >
         <Component
-          {...props}
+          {...unhandled}
           className={classes}
           role="navigation"
         />

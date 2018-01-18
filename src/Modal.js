@@ -4,7 +4,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
-import pick from 'lodash/pick';
+import _ from 'lodash';
 
 import BaseModal from 'rsuite-utils/lib/Overlay/Modal';
 import Fade from 'rsuite-utils/lib/Animation/Fade';
@@ -196,7 +196,7 @@ class Modal extends React.Component<Props, States> {
     const inClass = { in: show && !animation };
     const Dialog: React.ElementType = dialogComponentClass;
 
-    const parentProps = pick(props, Object.keys(BaseModal.propTypes));
+    const parentProps = _.pick(props, Object.keys(BaseModal.propTypes));
     const items = (overflow && children) ?
       mapCloneElement(children, (child) => {
         if (child.type.displayName === 'ModalBody') {
@@ -214,7 +214,7 @@ class Modal extends React.Component<Props, States> {
 
     const modal = (
       <Dialog
-        {...pick(props, Object.keys(ModalDialog.propTypes || {})) }
+        {..._.pick(props, Object.keys(ModalDialog.propTypes || {})) }
         style={{ ...modalStyles, ...style }}
         classPrefix={classPrefix}
         className={classes}

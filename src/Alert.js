@@ -4,11 +4,11 @@ import * as React from 'react';
 import { Alert } from 'rsuite-notification';
 
 import Icon from './Icon';
-import { StatusIconNames } from './utils/constants';
+import { STATUS_ICON_NAMES } from './utils/constants';
 
 function appendIcon(type: string, content: string) {
   return (
-    <p><Icon icon={StatusIconNames[type]} />{content}</p>
+    <p><Icon icon={STATUS_ICON_NAMES[type]} />{content}</p>
   );
 }
 

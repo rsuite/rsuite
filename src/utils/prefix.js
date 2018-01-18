@@ -1,4 +1,4 @@
-import curry from 'lodash/curry';
+import _ from 'lodash';
 
 
 export const globalKey = '';
@@ -10,4 +10,4 @@ function prefix(pre: string, className: string): string {
   return '';
 }
 
-export default curry(prefix);
+export default _.curry(prefix);

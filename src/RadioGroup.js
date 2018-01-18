@@ -1,8 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import isUndefined from 'lodash/isUndefined';
-import isEqual from 'lodash/isEqual';
+import _ from 'lodash';
 import classNames from 'classnames';
 import { mapCloneElement } from './utils/ReactChildren';
 import { globalKey } from './utils/prefix';
@@ -61,13 +60,13 @@ class RadioGroup extends React.Component<Props, States> {
     } = this.props;
 
     const clesses = classNames(classPrefix, className);
-    const nextValue = isUndefined(value) ? this.state.value : value;
+    const nextValue = _.isUndefined(value) ? this.state.value : value;
     const items = mapCloneElement(children, (child) => {
       if (child.type.displayName === 'Radio') {
         return {
           inline,
           name,
-          checked: isEqual(nextValue, child.props.value),
+          checked: _.isEqual(nextValue, child.props.value),
           onChange: this.handleChange
         };
       }

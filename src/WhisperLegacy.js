@@ -5,14 +5,10 @@ import * as React from 'react';
 import ReactDOM, { findDOMNode } from 'react-dom';
 import { Overlay } from 'rsuite-utils/lib/Overlay';
 import _ from 'lodash';
-import Popover from './Popover';
-import Tooltip from './Tooltip';
 import isNullOrUndefined from './utils/isNullOrUndefined';
 import createChainedFunction from './utils/createChainedFunction';
 import handleMouseOverOut from './utils/handleMouseOverOut';
 import isOneOf from './utils/isOneOf';
-import WhisperLegacy from './WhisperLegacy';
-import WhisperPortal from './WhisperPortal';
 
 type Props = {
   target?: Function,
@@ -36,7 +32,7 @@ type Props = {
   delayShow?: number,
   delayHide?: number,
   defaultOverlayShown?: boolean,
-  speaker: React.Element<typeof Popover> | React.Element<typeof Tooltip>,
+  speaker: React.Node,
   children: React.Node,
   onMouseOver?: (event: SyntheticEvent<*>) => void,
   onMouseOut?: (event: SyntheticEvent<*>) => void,
@@ -77,9 +73,23 @@ class Whisper extends React.Component<Props, States> {
     this.state = {
       isOverlayShown: props.defaultOverlayShown
     };
+    this.mountNode = null;
+  }
+
+  componentDidMount() {
+    this.mountNode = document.createElement('div');
+    this.renderOverlay();
+  }
+
+  componentDidUpdate() {
+    if (this.mountNode) {
+      this.renderOverlay();
+    }
   }
 
   componentWillUnmount() {
+    ReactDOM.unmountComponentAtNode(this.mountNode);
+    this.mountNode = null;
     clearTimeout(this.hoverShowDelay);
     clearTimeout(this.hoverHideDelay);
   }
@@ -90,28 +100,28 @@ class Whisper extends React.Component<Props, States> {
   getOverlay() {
 
 
-    const overlayProps = {
+    let speakerProps = {
       ..._.pick(this.props, Object.keys(Overlay.propTypes)),
       show: this.state.isOverlayShown,
       onHide: this.handleHide,
       target: this.getOverlayTarget
     };
 
-    const speakerProps: Object = {
+    let speaker = React.cloneElement(this.props.speaker, {
       onMouseEnter: this.handleSpeakerMouseOver,
       onMouseLeave: this.handleSpeakerMouseOut,
-      placement: overlayProps.placement
-    };
-
+      placement: speakerProps.placement,
+    });
     return (
       <Overlay
-        {...overlayProps}
+        {...speakerProps}
       >
-        {React.cloneElement(this.props.speaker, speakerProps)}
+        {speaker}
       </Overlay>
     );
   }
 
+  mountNode = null;
   speaker = null;
   handleMouseOver = null;
   handleMouseOut = null;
@@ -207,6 +217,9 @@ class Whisper extends React.Component<Props, States> {
     }, nextDelay);
   }
 
+  renderOverlay() {
+    ReactDOM.unstable_renderSubtreeIntoContainer(this, this.speaker, this.mountNode);
+  }
 
   render() {
     const {
@@ -224,9 +237,10 @@ class Whisper extends React.Component<Props, States> {
     const triggerProps = triggerComponent.props;
 
     const props: WhisperProps = {
-      key: 'triggerComponent',
       'aria-describedby': _.get(speaker, ['props', 'id'])
     };
+
+    this.speaker = this.getOverlay();
 
     props.onClick = createChainedFunction(triggerProps.onClick, onClick);
 
@@ -262,11 +276,8 @@ class Whisper extends React.Component<Props, States> {
       );
     }
 
-    return [
-      <WhisperPortal key="portal">{this.getOverlay()}</WhisperPortal>,
-      React.cloneElement(triggerComponent, props)
-    ];
+    return React.cloneElement(triggerComponent, props);
   }
 }
 
-export default ReactDOM.createPortal ? Whisper : WhisperLegacy;
+export default Whisper;

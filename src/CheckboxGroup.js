@@ -1,10 +1,6 @@
 // @flow
-
 import * as React from 'react';
-import isEqual from 'lodash/isEqual';
-import isUndefined from 'lodash/isUndefined';
-import remove from 'lodash/remove';
-import cloneDeep from 'lodash/cloneDeep';
+import _ from 'lodash';
 import classNames from 'classnames';
 import { mapCloneElement } from './utils/ReactChildren';
 import { globalKey } from './utils/prefix';
@@ -44,7 +40,7 @@ class CheckboxGroup extends React.Component<Props, States> {
 
   }
   componentWillReceiveProps(nextProps: Props) {
-    if (!isEqual(nextProps.value, this.props.value)) {
+    if (!_.isEqual(nextProps.value, this.props.value)) {
       this.setState({
         value: nextProps.value
       });
@@ -53,13 +49,13 @@ class CheckboxGroup extends React.Component<Props, States> {
 
   handleChange = (itemValue: any, itemChecked: boolean, event: SyntheticInputEvent<*>) => {
 
-    const nextValue = cloneDeep(this.state.value);
+    const nextValue = _.cloneDeep(this.state.value);
     const { onChange } = this.props;
 
     if (itemChecked) {
       nextValue.push(itemValue);
     } else {
-      remove(nextValue, i => isEqual(i, itemValue));
+      _.remove(nextValue, i => _.isEqual(i, itemValue));
     }
 
     this.setState({ value: nextValue });
@@ -81,7 +77,7 @@ class CheckboxGroup extends React.Component<Props, States> {
 
     const nextValue: Array<any> = value || this.state.value || [];
     const clesses: string = classNames(classPrefix, className);
-    const checkedKey = isUndefined(value) ? 'defaultChecked' : 'checked';
+    const checkedKey = _.isUndefined(value) ? 'defaultChecked' : 'checked';
 
 
     const items: React.Node = mapCloneElement(children, (child) => {

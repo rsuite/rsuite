@@ -1,13 +1,14 @@
 {
   "presets": [
-    "stage-0",
     "es2015",
     "react",
-    "flow"
+    "stage-0"
   ],
   "plugins": [
+    "lodash",
     "transform-class-properties",
     "transform-dev",
+    "transform-react-handled-props",
     "flow-react-proptypes"
   ],
   "env": {

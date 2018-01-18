@@ -2,9 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import isUndefined from 'lodash/isUndefined';
-import omit from 'lodash/omit';
-
+import _ from 'lodash';
 import withStyleProps from './utils/withStyleProps';
 import prefix, { globalKey } from './utils/prefix';
 
@@ -34,13 +32,13 @@ class Toggle extends React.Component<Props, States> {
     super(props);
     const { checked, defaultChecked } = props;
     this.state = {
-      checked: isUndefined(checked) ? defaultChecked : checked
+      checked: _.isUndefined(checked) ? defaultChecked : checked
     };
   }
 
   getCheckedStatus() {
     const { checked } = this.props;
-    return isUndefined(checked) ? this.state.checked : checked;
+    return _.isUndefined(checked) ? this.state.checked : checked;
   }
 
   handleChange = (event: SyntheticEvent<*>) => {
@@ -77,7 +75,7 @@ class Toggle extends React.Component<Props, States> {
 
 
     const inner = checked ? checkedChildren : unCheckedChildren;
-    const elementProps = omit(props, Object.keys(Toggle.propTypes));
+    const elementProps = _.omit(props, Object.keys(Toggle.propTypes));
 
     return (
       <span

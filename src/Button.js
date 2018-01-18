@@ -6,6 +6,7 @@ import SafeAnchor from './SafeAnchor';
 import withStyleProps from './utils/withStyleProps';
 import createComponent from './utils/createComponent';
 import prefix, { globalKey } from './utils/prefix';
+import getUnhandledProps from './utils/getUnhandledProps';
 
 export type Props = {
   appearance: 'default' | 'primary' | 'link' | 'subtle' | 'ghost',
@@ -43,6 +44,7 @@ class Button extends React.Component<Props> {
       ...props
     } = this.props;
 
+    const unhandled = getUnhandledProps(Button, props);
     const addPrefix: Function = prefix(classPrefix);
     const classes = classNames(classPrefix, addPrefix(appearance), {
       [addPrefix('active')]: active,
@@ -56,7 +58,7 @@ class Button extends React.Component<Props> {
     if (href) {
       return (
         <SafeAnchor
-          {...props}
+          {...unhandled}
           role="button"
           href={href}
           className={classes}
@@ -69,7 +71,7 @@ class Button extends React.Component<Props> {
 
     return (
       <Component
-        {...props}
+        {...unhandled}
         disabled={disabled}
         className={classes}
       >
@@ -80,8 +82,8 @@ class Button extends React.Component<Props> {
   }
 }
 
+
 export default withStyleProps({
   hasSize: true,
   hasColor: true
 })(Button);
-

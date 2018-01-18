@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import omit from 'lodash/omit';
+import _ from 'lodash';
 import PaginationButton from './PaginationButton';
 import SafeAnchor from './SafeAnchor';
 import withStyleProps from './utils/withStyleProps';
@@ -209,7 +209,7 @@ class Pagination extends React.Component<Props> {
 
   render() {
     const { className, classPrefix, ...props } = this.props;
-    const elementProps = omit(props, Object.keys(Pagination.propTypes));
+    const elementProps = _.omit(props, Object.keys(Pagination.propTypes));
 
     return (
       <ul

@@ -9,10 +9,7 @@ import type { HigherOrderComponent } from 'react-flow-types';
 import type { Size, Types, Color } from './TypeDefinition';
 
 import prefix from './prefix';
-
-const SizeOf = ['lg', 'md', 'sm', 'xs'];
-const StatusOf = ['success', 'warning', 'error', 'info'];
-const ColorOf = ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet'];
+import { SIZE, STATUS, COLOR } from './constants';
 
 type RequiredProps = {
   className?: string,
@@ -72,15 +69,15 @@ const withStyleProps = (
 
 
   if (hasSize) {
-    propTypes.size = PropTypes.oneOf(SizeOf);
+    propTypes.size = PropTypes.oneOf(SIZE);
   }
 
   if (hasColor) {
-    propTypes.color = PropTypes.oneOf(ColorOf);
+    propTypes.color = PropTypes.oneOf(COLOR);
   }
 
   if (hasStatus) {
-    propTypes.status = PropTypes.oneOf(StatusOf);
+    propTypes.status = PropTypes.oneOf(STATUS);
   }
 
   setPropTypes(propTypes)(WithStyleProps);

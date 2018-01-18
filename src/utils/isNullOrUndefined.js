@@ -1,8 +1,7 @@
 /* @flow */
 
-import isUndefined from 'lodash/isUndefined';
-import isNull from 'lodash/isNull';
+import _ from 'lodash';
 
 export default function isNullOrUndefined(value: any): boolean {
-  return isNull(value) || isUndefined(value);
+  return _.isNull(value) || _.isUndefined(value);
 }

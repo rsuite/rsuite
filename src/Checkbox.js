@@ -2,8 +2,10 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import isUndefined from 'lodash/isUndefined';
+import _ from 'lodash';
 import prefix, { globalKey } from './utils/prefix';
+import getUnhandledProps from './utils/getUnhandledProps';
+import { partitionHTMLProps } from './utils/htmlPropsUtils';
 
 type Props = {
   title?: string,
@@ -16,7 +18,6 @@ type Props = {
   onChange?: (value: any, checked: boolean, event: SyntheticInputEvent<HTMLInputElement>) => void,
   inputRef?: React.Ref<any>,
   value?: any,
-  style?: Object,
   children?: React.Node,
   classPrefix?: string,
   tabIndex?: number
@@ -38,7 +39,7 @@ class Checkbox extends React.Component<Props, States> {
     super(props);
     const { checked, defaultChecked } = props;
     this.state = {
-      checked: isUndefined(checked) ? defaultChecked : checked
+      checked: _.isUndefined(checked) ? defaultChecked : checked
     };
   }
 
@@ -58,7 +59,7 @@ class Checkbox extends React.Component<Props, States> {
 
   isChecked() {
     const { checked } = this.props;
-    if (!isUndefined(checked)) {
+    if (!_.isUndefined(checked)) {
       return checked;
     }
 
@@ -75,7 +76,6 @@ class Checkbox extends React.Component<Props, States> {
       children,
       title,
       inputRef,
-      style,
       defaultChecked,
       indeterminate,
       tabIndex,
@@ -92,13 +92,16 @@ class Checkbox extends React.Component<Props, States> {
       [addPrefix('checked')]: checked
     }, className);
 
+    const unhandled = getUnhandledProps(Checkbox, props);
+    const [htmlInputProps, rest] = partitionHTMLProps(unhandled);
+
     const input = (
       <span
         tabIndex={disabled ? -1 : tabIndex}
         className={addPrefix('wrapper')}
       >
         <input
-          {...props}
+          {...htmlInputProps}
           defaultChecked={defaultChecked}
           type="checkbox"
           ref={inputRef}
@@ -111,8 +114,8 @@ class Checkbox extends React.Component<Props, States> {
 
     return (
       <div
+        {...rest}
         className={classes}
-        style={style}
       >
         <div
           className={addPrefix('checker')}
