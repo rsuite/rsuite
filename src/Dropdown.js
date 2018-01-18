@@ -13,6 +13,8 @@ import createComponent from './utils/createComponent';
 import createChainedFunction from './utils/createChainedFunction';
 import prefix, { globalKey } from './utils/prefix';
 import isOneOf from './utils/isOneOf';
+import getUnhandledProps from './utils/getUnhandledProps';
+
 
 import Icon from './Icon';
 
@@ -228,11 +230,11 @@ class Dropdown extends React.Component<Props, States> {
       [addPrefix(expand ? 'expand' : 'collapse')]: sidenav,
     }, addPrefix(`placement-${_.kebabCase(placement)}`), className);
 
-    const elementProps = _.omit(props, ['onClose', 'onOpen', 'onToggle']);
+    const unhandled = getUnhandledProps(Dropdown, props);
 
     return (
       <Component
-        {...elementProps}
+        {...unhandled}
         {...dropdownProps}
         className={classes}
         role="menu"

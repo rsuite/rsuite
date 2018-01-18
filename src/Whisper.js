@@ -84,7 +84,7 @@ class Whisper extends React.Component<Props, States> {
     clearTimeout(this.hoverHideDelay);
   }
 
-  getOverlayTarget = () => findDOMNode(this) // eslint-disable-line react/no-find-dom-node
+  getOverlayTarget = () => findDOMNode(this.target) // eslint-disable-line react/no-find-dom-node
 
 
   getOverlay() {
@@ -98,8 +98,8 @@ class Whisper extends React.Component<Props, States> {
     };
 
     const speakerProps: Object = {
-      onMouseEnter: this.handleSpeakerMouseOver,
-      onMouseLeave: this.handleSpeakerMouseOut,
+      onMouseEnter: this.handleSpeakerMouseEnter,
+      onMouseLeave: this.handleSpeakerMouseLeave,
       placement: overlayProps.placement
     };
 
@@ -117,18 +117,27 @@ class Whisper extends React.Component<Props, States> {
   handleMouseOut = null;
   hoverShowDelay = null;
   hoverHideDelay = null;
+  target = null;
 
-  handleSpeakerMouseOver = () => {
-    this.setState({ isOnSpeaker: true });
+  enterSpeaker = false;
+  enterTrigger = false;
+
+  handleSpeakerMouseEnter = () => {
+    this.enterSpeaker = true;
   }
-  handleSpeakerMouseOut = () => {
-    this.hide();
-    this.setState({ isOnSpeaker: false });
 
+  handleSpeakerMouseLeave = () => {
+    const { trigger } = this.props;
+    this.enterSpeaker = false;
+    if (!isOneOf('click', trigger)) {
+      this.hide();
+    }
   }
 
   hide() {
-    this.setState({ isOverlayShown: false });
+    if (!this.enterSpeaker && !this.enterTrigger) {
+      this.setState({ isOverlayShown: false });
+    }
   }
 
   show() {
@@ -150,6 +159,8 @@ class Whisper extends React.Component<Props, States> {
   handleDelayedShow = () => {
 
     const { delayShow, delay } = this.props;
+
+    this.enterTrigger = true;
     if (!isNullOrUndefined(this.hoverHideDelay)) {
       clearTimeout(this.hoverHideDelay);
       this.hoverHideDelay = null;
@@ -178,7 +189,7 @@ class Whisper extends React.Component<Props, States> {
   handleDelayedHide = () => {
 
     const { delayHide, delay } = this.props;
-
+    this.enterTrigger = false;
     if (!isNullOrUndefined(this.hoverShowDelay)) {
       clearTimeout(this.hoverShowDelay);
       this.hoverShowDelay = null;
@@ -225,6 +236,9 @@ class Whisper extends React.Component<Props, States> {
 
     const props: WhisperProps = {
       key: 'triggerComponent',
+      ref: (ref) => {
+        this.target = ref;
+      },
       'aria-describedby': _.get(speaker, ['props', 'id'])
     };
 

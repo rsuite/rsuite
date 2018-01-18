@@ -100,10 +100,10 @@ class Nav extends React.Component<Props> {
       return null;
     });
 
-    const unhandle = getUnhandledProps(Nav, props);
+    const unhandled = getUnhandledProps(Nav, props);
 
     return (
-      <div {...unhandle} className={classes} >
+      <div {...unhandled} className={classes} >
         <ul>
           {items}
         </ul>
