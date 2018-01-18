@@ -183,6 +183,8 @@ class Dropdown extends React.Component<Props, States> {
     }
 
     const { openKeys = [] } = this.context;
+    const expand = openKeys.some(key => _.isEqual(key, eventKey));
+    const addPrefix = prefix(classPrefix);
 
     const Toggle = (
       <DropdownToggle
@@ -198,6 +200,7 @@ class Dropdown extends React.Component<Props, States> {
 
     let Menu = (
       <DropdownMenu
+        expanded={expand}
         activeKey={activeKey}
         onSelect={this.handleSelect}
         style={menuStyle}
@@ -209,8 +212,9 @@ class Dropdown extends React.Component<Props, States> {
     );
 
     const isOpen = _.isUndefined(open) ? this.state.open : open;
+    const { sidenav } = this.context;
 
-    if (isOpen) {
+    if (isOpen && !sidenav) {
       Menu = (
         <RootCloseWrapper onRootClose={this.toggle}>
           {Menu}
@@ -218,12 +222,10 @@ class Dropdown extends React.Component<Props, States> {
       );
     }
 
-    const expand = openKeys.some(key => _.isEqual(key, eventKey));
-    const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, {
       [addPrefix('disabled')]: disabled,
       [addPrefix('open')]: isOpen,
-      [addPrefix(expand ? 'expand' : 'collapse')]: this.context.sidenav,
+      [addPrefix(expand ? 'expand' : 'collapse')]: sidenav,
     }, addPrefix(`placement-${_.kebabCase(placement)}`), className);
 
     const elementProps = _.omit(props, ['onClose', 'onOpen', 'onToggle']);

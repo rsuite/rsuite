@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import NavItem from './NavItem';
 import { mapCloneElement } from './utils/ReactChildren';
-import isNullOrUndefined from './utils/isNullOrUndefined';
+import getUnhandledProps from './utils/getUnhandledProps';
 import prefix, { globalKey } from './utils/prefix';
 
 type Props = {
@@ -34,6 +34,8 @@ class Nav extends React.Component<Props> {
     expanded: PropTypes.bool,
     navbar: PropTypes.bool,
     sidenav: PropTypes.bool,
+    activeKey: PropTypes.any,
+    onSelect: PropTypes.func
   };
 
 
@@ -49,13 +51,19 @@ class Nav extends React.Component<Props> {
       pullRight,
       className,
       children,
-      onSelect,
-      activeKey,
       ...props
     } = this.props;
 
+    const {
+      navbar,
+      sidenav,
+      expanded,
+      activeKey = props.activeKey,
+      onSelect = props.onSelect
+    } = this.context;
+
     const addPrefix = prefix(classPrefix);
-    const { navbar, sidenav, expanded } = this.context;
+
 
     const classes = classNames(classPrefix, addPrefix(appearance), {
       [`${globalKey}navbar-nav`]: navbar,
@@ -68,6 +76,7 @@ class Nav extends React.Component<Props> {
     }, className);
 
     const hasWaterline = (appearance !== 'default');
+
     const items = mapCloneElement(children, (item) => {
       let { eventKey, active } = item.props;
       let displayName = _.get(item, ['type', 'displayName']);
@@ -76,21 +85,25 @@ class Nav extends React.Component<Props> {
         return {
           onSelect,
           hasTooltip: sidenav && !expanded,
-          active: isNullOrUndefined(activeKey) ? active : _.isEqual(activeKey, eventKey)
+          active: _.isUndefined(activeKey) ? active : _.isEqual(activeKey, eventKey)
         };
-      } else if (displayName === 'Dropdown' && sidenav) {
+      } else if (displayName === 'Dropdown') {
         return {
+          onSelect,
+          activeKey,
           componentClass: 'li',
-          trigger: expanded ? 'click' : 'hover',
-          placement: 'rightBottom'
+          trigger: expanded ? 'click' : undefined,
+          placement: sidenav ? 'rightBottom' : undefined
         };
       }
 
       return null;
     });
 
+    const unhandle = getUnhandledProps(Nav, props);
+
     return (
-      <div {...props} className={classes} >
+      <div {...unhandle} className={classes} >
         <ul>
           {items}
         </ul>

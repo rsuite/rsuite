@@ -90,10 +90,7 @@ class TablePagination extends React.Component<Props, States> {
     onChangePage && onChangePage(eventKey);
   }
 
-  addPrefix(name: string) {
-    const { classPrefix } = this.props;
-    return prefix(classPrefix)(name);
-  }
+  addPrefix = (name: string) => prefix(this.props.classPrefix)(name)
 
   renderLengthMenu() {
 

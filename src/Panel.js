@@ -75,9 +75,7 @@ class Panel extends React.Component<Props, States> {
   isExpanded() {
     return isNullOrUndefined(this.props.expanded) ? this.state.expanded : this.props.expanded;
   }
-  addPrefix(name: string) {
-    return prefix(this.props.classPrefix)(name);
-  }
+  addPrefix = (name: string) => prefix(this.props.classPrefix)(name)
 
   renderCollapsibleTitle(header: React.Node, headerRole?: string) {
     return (

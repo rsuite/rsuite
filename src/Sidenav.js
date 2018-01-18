@@ -26,6 +26,7 @@ type Props = {
 }
 
 type States = {
+  activeKey?: any,
   openKeys?: Array<any>
 }
 
@@ -40,9 +41,11 @@ class Sidenav extends React.Component<Props, States> {
   };
 
   static childContextTypes = {
+    activeKey: PropTypes.any,
     openKeys: PropTypes.array,
     expanded: PropTypes.bool,
     sidenav: PropTypes.bool,
+    onSelect: PropTypes.func,
     onOpenChange: PropTypes.func
   };
 
@@ -53,19 +56,29 @@ class Sidenav extends React.Component<Props, States> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      activeKey: props.defaultActiveKey,
       openKeys: props.defaultOpenKeys || []
     };
   }
 
   getChildContext() {
-    const { expanded, openKeys } = this.props;
+    const { expanded, openKeys, activeKey } = this.props;
 
     return {
-      sidenav: true,
       expanded,
+      sidenav: true,
+      activeKey: _.isUndefined(activeKey) ? this.state.activeKey : activeKey,
       openKeys: _.isUndefined(openKeys) ? this.state.openKeys : openKeys,
-      onOpenChange: this.handleOpenChange
+      onOpenChange: this.handleOpenChange,
+      onSelect: this.handleSelect
     };
+  }
+
+  handleSelect = (eventKey: any, event: SyntheticEvent<*>) => {
+    const { onSelect } = this.props;
+
+    this.setState({ activeKey: eventKey });
+    onSelect && onSelect(eventKey, event);
   }
 
   handleOpenChange = (eventKey: any, event: SyntheticEvent<*>) => {

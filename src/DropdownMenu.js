@@ -3,6 +3,7 @@
 import * as React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
+import Collapse from 'rsuite-utils/lib/Animation/Collapse';
 import createChainedFunction from './utils/createChainedFunction';
 import prefix, { globalKey } from './utils/prefix';
 import DropdownMenuItem from './DropdownMenuItem';
@@ -24,7 +25,8 @@ type Props = {
   trigger?: Trigger | Array<Trigger>,
   eventKey?: any,
   onToggle?: (eventKey: any, event: SyntheticEvent<*>) => void,
-  openKeys?: Array<any>
+  openKeys?: Array<any>,
+  expanded?: boolean
 }
 
 class DorpdownMenu extends React.Component<Props> {
@@ -62,7 +64,10 @@ class DorpdownMenu extends React.Component<Props> {
         let itemsAndStatus = this.getMenuItemsAndStatus(item.props.children);
         const { icon, open, trigger, pullLeft, eventKey, title } = item.props;
         const expanded = openKeys.some(key => _.isEqual(key, eventKey));
+
+
         return (
+
           <DropdownMenuItem
             icon={icon}
             open={open}
@@ -85,11 +90,15 @@ class DorpdownMenu extends React.Component<Props> {
               <span>{title}</span>
               <Icon icon={pullLeft ? 'angle-left' : 'angle-right'} />
             </div>
-
-            <ul role="menu" className={classPrefix}>
-              {itemsAndStatus.items}
-            </ul>
+            {
+              this.renderCollapse((
+                <ul role="menu" className={classPrefix}>
+                  {itemsAndStatus.items}
+                </ul>
+              ), expanded)
+            }
           </DropdownMenuItem>
+
         );
       }
 
@@ -124,9 +133,22 @@ class DorpdownMenu extends React.Component<Props> {
     return props.active;
   }
 
-  addPrefix(name: string) {
-    const { classPrefix } = this.props;
-    return prefix(classPrefix)(name);
+  addPrefix = (name: string) => prefix(this.props.classPrefix)(name)
+  addPrefixs = (names: Array<string>) => names.map(name => this.addPrefix(name))
+
+  renderCollapse(children: React.Node, expanded?: boolean) {
+
+    return (
+      <Collapse
+        in={expanded}
+        exitedClassName={this.addPrefix('collapse-out')}
+        exitingClassName={classNames(this.addPrefixs(['collapse-out', 'collapsing']))}
+        enteredClassName={this.addPrefix('collapse-in')}
+        enteringClassName={classNames(this.addPrefixs(['collapse-out', 'collapsing']))}
+      >
+        {children}
+      </Collapse>
+    );
   }
 
   render() {
@@ -138,6 +160,7 @@ class DorpdownMenu extends React.Component<Props> {
       classPrefix,
       activeKey,
       openKeys,
+      expanded,
       ...props
     } = this.props;
 
@@ -146,7 +169,7 @@ class DorpdownMenu extends React.Component<Props> {
       [this.addPrefix('active')]: active
     }, className);
 
-    return (
+    return this.renderCollapse((
       <ul
         {...props}
         className={classes}
@@ -154,7 +177,7 @@ class DorpdownMenu extends React.Component<Props> {
       >
         {items}
       </ul>
-    );
+    ), expanded);
   }
 }
 

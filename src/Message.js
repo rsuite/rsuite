@@ -39,9 +39,7 @@ class Message extends React.Component<Props, States> {
     };
   }
 
-  addPrefix(name: string) {
-    return prefix(this.props.classPrefix)(name);
-  }
+  addPrefix = (name: string) => prefix(this.props.classPrefix)(name)
 
   handleClose = () => {
     const { onClose } = this.props;
