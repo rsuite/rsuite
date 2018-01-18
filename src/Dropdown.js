@@ -14,8 +14,6 @@ import createChainedFunction from './utils/createChainedFunction';
 import prefix, { globalKey } from './utils/prefix';
 import isOneOf from './utils/isOneOf';
 import getUnhandledProps from './utils/getUnhandledProps';
-
-
 import Icon from './Icon';
 
 const Component = createComponent('div');
@@ -107,6 +105,9 @@ class Dropdown extends React.Component<Props, States> {
       return;
     }
     this.toggle();
+  }
+
+  handleOpenChange = (event: SyntheticEvent<*>) => {
     const { eventKey } = this.props;
     const { onOpenChange } = this.context;
     onOpenChange && onOpenChange(eventKey, event);
@@ -160,9 +161,14 @@ class Dropdown extends React.Component<Props, States> {
       ...props
     } = this.props;
 
+    const { openKeys = [], sidenav, expanded } = this.context;
+    const menuExpanded = openKeys.some(key => _.isEqual(key, eventKey));
+    const addPrefix = prefix(classPrefix);
+    const isOpen = _.isUndefined(open) ? this.state.open : open;
+    const collapsible = sidenav && expanded;
 
     const toggleProps = {
-      onClick,
+      onClick: createChainedFunction(this.handleOpenChange, onClick),
       onContextMenu
     };
 
@@ -171,22 +177,25 @@ class Dropdown extends React.Component<Props, States> {
       onMouseLeave,
     };
 
-    if (isOneOf('click', trigger)) {
-      toggleProps.onClick = createChainedFunction(this.handleClick, onClick);
-    }
+    /**
+     * Bind event of trigger,
+     * not used in  in the expanded state of '<Sidenav>'
+     */
+    if (!collapsible) {
 
-    if (isOneOf('contextMenu', trigger)) {
-      toggleProps.onContextMenu = createChainedFunction(this.handleClick, onContextMenu);
-    }
+      if (isOneOf('click', trigger)) {
+        toggleProps.onClick = createChainedFunction(this.handleClick, toggleProps.onClick);
+      }
 
-    if (isOneOf('hover', trigger)) {
-      dropdownProps.onMouseEnter = createChainedFunction(this.handleMouseEnter, onMouseEnter);
-      dropdownProps.onMouseLeave = createChainedFunction(this.handleMouseLeave, onMouseLeave);
-    }
+      if (isOneOf('contextMenu', trigger)) {
+        toggleProps.onContextMenu = createChainedFunction(this.handleClick, onContextMenu);
+      }
 
-    const { openKeys = [] } = this.context;
-    const expand = openKeys.some(key => _.isEqual(key, eventKey));
-    const addPrefix = prefix(classPrefix);
+      if (isOneOf('hover', trigger)) {
+        dropdownProps.onMouseEnter = createChainedFunction(this.handleMouseEnter, onMouseEnter);
+        dropdownProps.onMouseLeave = createChainedFunction(this.handleMouseLeave, onMouseLeave);
+      }
+    }
 
     const Toggle = (
       <DropdownToggle
@@ -202,7 +211,8 @@ class Dropdown extends React.Component<Props, States> {
 
     let Menu = (
       <DropdownMenu
-        expanded={expand}
+        expanded={menuExpanded}
+        collapsible={collapsible}
         activeKey={activeKey}
         onSelect={this.handleSelect}
         style={menuStyle}
@@ -212,9 +222,6 @@ class Dropdown extends React.Component<Props, States> {
         {children}
       </DropdownMenu>
     );
-
-    const isOpen = _.isUndefined(open) ? this.state.open : open;
-    const { sidenav } = this.context;
 
     if (isOpen && !sidenav) {
       Menu = (
@@ -227,7 +234,7 @@ class Dropdown extends React.Component<Props, States> {
     const classes = classNames(classPrefix, {
       [addPrefix('disabled')]: disabled,
       [addPrefix('open')]: isOpen,
-      [addPrefix(expand ? 'expand' : 'collapse')]: sidenav,
+      [addPrefix(menuExpanded ? 'expand' : 'collapse')]: sidenav,
     }, addPrefix(`placement-${_.kebabCase(placement)}`), className);
 
     const unhandled = getUnhandledProps(Dropdown, props);

@@ -92,7 +92,7 @@ class Nav extends React.Component<Props> {
           onSelect,
           activeKey,
           componentClass: 'li',
-          trigger: expanded ? 'click' : undefined,
+          trigger: 'hover',
           placement: sidenav ? 'rightBottom' : undefined
         };
       }

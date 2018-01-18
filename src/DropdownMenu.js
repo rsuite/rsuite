@@ -10,6 +10,7 @@ import DropdownMenuItem from './DropdownMenuItem';
 import Icon from './Icon';
 import ReactChildren from './utils/ReactChildren';
 import isNullOrUndefined from './utils/isNullOrUndefined';
+import getUnhandledProps from './utils/getUnhandledProps';
 
 type Trigger = 'click' | 'hover';
 type Props = {
@@ -26,7 +27,8 @@ type Props = {
   eventKey?: any,
   onToggle?: (eventKey: any, event: SyntheticEvent<*>) => void,
   openKeys?: Array<any>,
-  expanded?: boolean
+  expanded?: boolean,
+  collapsible?: boolean
 }
 
 class DorpdownMenu extends React.Component<Props> {
@@ -137,8 +139,7 @@ class DorpdownMenu extends React.Component<Props> {
   addPrefixs = (names: Array<string>) => names.map(name => this.addPrefix(name))
 
   renderCollapse(children: React.Node, expanded?: boolean) {
-
-    return (
+    return this.props.collapsible ? (
       <Collapse
         in={expanded}
         exitedClassName={this.addPrefix('collapse-out')}
@@ -148,7 +149,7 @@ class DorpdownMenu extends React.Component<Props> {
       >
         {children}
       </Collapse>
-    );
+    ) : children;
   }
 
   render() {
@@ -165,13 +166,14 @@ class DorpdownMenu extends React.Component<Props> {
     } = this.props;
 
     const { items, active } = this.getMenuItemsAndStatus(children);
+    const unhandled = getUnhandledProps(DorpdownMenu, props);
     const classes = classNames(classPrefix, {
       [this.addPrefix('active')]: active
     }, className);
 
     return this.renderCollapse((
       <ul
-        {...props}
+        {...unhandled}
         className={classes}
         role="menu"
       >
