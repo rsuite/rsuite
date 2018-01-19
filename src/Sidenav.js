@@ -111,7 +111,6 @@ class Sidenav extends React.Component<Props, States> {
 
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, addPrefix(appearance), className);
-    const addPrefixs = names => names.map(name => addPrefix(name));
     const unhandled = getUnhandledProps(Sidenav, props);
 
     return (
@@ -119,9 +118,9 @@ class Sidenav extends React.Component<Props, States> {
         in={expanded}
         timeout={300}
         exitedClassName={addPrefix('collapse-out')}
-        exitingClassName={classNames(addPrefixs(['collapse-out', 'collapsing']))}
+        exitingClassName={addPrefix('collapsing')}
         enteredClassName={addPrefix('collapse-in')}
-        enteringClassName={classNames(addPrefixs(['collapse-out', 'collapsing']))}
+        enteringClassName={addPrefix('collapsing')}
       >
         <Component
           {...unhandled}
