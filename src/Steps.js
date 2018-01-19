@@ -11,8 +11,7 @@ type Props = {
   small?: boolean,
   className?: string,
   children: React.ChildrenArray<any>,
-  current: number,
-  status?: 'finish' | 'wait' | 'process' | 'error',
+  current: number
 }
 
 class Steps extends React.Component<Props> {
@@ -20,7 +19,6 @@ class Steps extends React.Component<Props> {
   static Item = StepItem;
   static defaultProps = {
     classPrefix: `${globalKey}steps`,
-    status: 'process',
     current: 0
   };
 
@@ -31,13 +29,11 @@ class Steps extends React.Component<Props> {
       className,
       children,
       vertical,
-      status,
       small,
       current,
       ...restProps
     } = this.props;
 
-    const lastIndex = children.length - 1;
     const addPrefix: Function = prefix(classPrefix);
     const classes = classNames(classPrefix, {
       [addPrefix('small')]: small,
@@ -46,24 +42,19 @@ class Steps extends React.Component<Props> {
     }, className);
 
     const items: React.Node = mapCloneElement(children, (item, index) => {
-      const itemWidth = vertical ? null : `${100 / lastIndex}%`;
+
+      //console.log(index);
+
       const itemProps = {
-        stepNumber: (index + 1),
-        itemWidth,
+        stepNumber: index,
+        status: 'wait',
         ...item.props
       };
 
-      // fix tail color
-      if (status === 'error' && index === (current - 1)) {
-        itemProps.className = `${classPrefix}-next-error`;
-      }
-
-
       if (!item.props.status) {
-        itemProps.status = 'wait';
 
         if (index === current) {
-          itemProps.status = status;
+          itemProps.status = 'process';
         } else if (index < current) {
           itemProps.status = 'finish';
         }

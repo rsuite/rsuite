@@ -19,7 +19,6 @@ type Props = {
 
 class StepItem extends React.Component<Props> {
   static defaultProps = {
-    status: 'wait',
     classPrefix: `${globalKey}steps-item`,
   };
   render() {
