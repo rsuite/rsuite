@@ -84,7 +84,7 @@ class Whisper extends React.Component<Props, States> {
     clearTimeout(this.hoverHideDelay);
   }
 
-  getOverlayTarget = () => findDOMNode(this.target) // eslint-disable-line react/no-find-dom-node
+  getOverlayTarget = () => findDOMNode(this) // eslint-disable-line react/no-find-dom-node
 
 
   getOverlay() {
@@ -234,11 +234,9 @@ class Whisper extends React.Component<Props, States> {
     const triggerComponent = React.Children.only(children);
     const triggerProps = triggerComponent.props;
 
+
     const props: WhisperProps = {
       key: 'triggerComponent',
-      ref: (ref) => {
-        this.target = ref;
-      },
       'aria-describedby': _.get(speaker, ['props', 'id'])
     };
 
@@ -277,8 +275,8 @@ class Whisper extends React.Component<Props, States> {
     }
 
     return [
-      <WhisperPortal key="portal">{this.getOverlay()}</WhisperPortal>,
-      React.cloneElement(triggerComponent, props)
+      React.cloneElement(triggerComponent, props),
+      <WhisperPortal key="portal">{this.getOverlay()}</WhisperPortal>
     ];
   }
 }
