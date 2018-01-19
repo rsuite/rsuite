@@ -143,9 +143,9 @@ class DorpdownMenu extends React.Component<Props> {
       <Collapse
         in={expanded}
         exitedClassName={this.addPrefix('collapse-out')}
-        exitingClassName={classNames(this.addPrefixs(['collapse-out', 'collapsing']))}
+        exitingClassName={this.addPrefix('collapsing')}
         enteredClassName={this.addPrefix('collapse-in')}
-        enteringClassName={classNames(this.addPrefixs(['collapse-out', 'collapsing']))}
+        enteringClassName={this.addPrefix('collapsing')}
       >
         {children}
       </Collapse>
