@@ -11,7 +11,8 @@ type Props = {
   small?: boolean,
   className?: string,
   children: React.ChildrenArray<any>,
-  current: number
+  current: number,
+  currentStatus?: 'finish' | 'wait' | 'process' | 'error',
 }
 
 class Steps extends React.Component<Props> {
@@ -19,6 +20,7 @@ class Steps extends React.Component<Props> {
   static Item = StepItem;
   static defaultProps = {
     classPrefix: `${globalKey}steps`,
+    currentStatus: 'process',
     current: 0
   };
 
@@ -31,6 +33,7 @@ class Steps extends React.Component<Props> {
       vertical,
       small,
       current,
+      currentStatus,
       ...restProps
     } = this.props;
 
@@ -43,10 +46,8 @@ class Steps extends React.Component<Props> {
 
     const items: React.Node = mapCloneElement(children, (item, index) => {
 
-      //console.log(index);
-
       const itemProps = {
-        stepNumber: index,
+        stepNumber: index + 1,
         status: 'wait',
         ...item.props
       };
@@ -54,7 +55,7 @@ class Steps extends React.Component<Props> {
       if (!item.props.status) {
 
         if (index === current) {
-          itemProps.status = 'process';
+          itemProps.status = currentStatus;
         } else if (index < current) {
           itemProps.status = 'finish';
         }

@@ -24,8 +24,9 @@ export function map(children, func, context) {
     if (!React.isValidElement(child)) {
       return child;
     }
+    let handle = func.call(context, child, index);
     index += 1;
-    return func.call(context, child, index);
+    return handle;
   });
 }
 

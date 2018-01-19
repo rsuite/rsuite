@@ -1,5 +1,4 @@
 import * as React from 'react';
-import _ from 'lodash';
 import classNames from 'classnames';
 import prefix, { globalKey } from './utils/prefix';
 import Icon from './Icon';
@@ -10,7 +9,6 @@ type Props = {
   style?: Object,
   itemWidth?: number | string,
   status?: 'finish' | 'wait' | 'process' | 'error',
-  iconPrefix?: string,
   icon?: React.Element<typeof Icon>,
   stepNumber?: number,
   description?: React.Node,
@@ -28,7 +26,6 @@ class StepItem extends React.Component<Props> {
       style,
       itemWidth,
       status,
-      iconPrefix,
       icon,
       stepNumber,
       description,
@@ -37,12 +34,6 @@ class StepItem extends React.Component<Props> {
     } = this.props;
 
     const addPrefix: Function = prefix(classPrefix);
-    const iconClasses = classNames({
-      [addPrefix(`icon-${icon}`)]: icon && _.isString(icon),
-      [addPrefix('icon-check')]: !icon && status === 'finish',
-      [addPrefix('icon-cross')]: !icon && status === 'error',
-    });
-
     const classes = classNames(classPrefix, {
       [addPrefix('custom')]: icon
     }, addPrefix(`status-${status}`), className);
@@ -52,22 +43,28 @@ class StepItem extends React.Component<Props> {
       ...style
     };
 
+    const contentNode = (title || description) ? (
+      <div className={addPrefix('content')}>
+        {title && <div className={addPrefix('title')}>{title}</div>}
+        {description && <div className={addPrefix('description')}>{description}</div>}
+      </div>
+    ) : null;
+
+    const iconNode = icon ? <span>{icon}</span> : (
+      <span className={addPrefix(`icon-${status}`)}>{stepNumber}</span>
+    );
+
     return (
       <div
         {...rest}
         className={classes}
         style={styles}
       >
-        <div
-          className={addPrefix('tail')}
-        />
+        <div className={addPrefix('tail')} />
         <div className={addPrefix('icon')}>
-          {icon ? <span>{icon}</span> : <span className={iconClasses}>{stepNumber}</span>}
+          {iconNode}
         </div>
-        <div className={addPrefix('content')}>
-          {title && <div className={addPrefix('title')}>{title}</div>}
-          {description && <div className={addPrefix('description')}>{description}</div>}
-        </div>
+        {contentNode}
       </div>
     );
   }
