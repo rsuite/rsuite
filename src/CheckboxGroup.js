@@ -13,7 +13,7 @@ type Props = {
   value?: Array<any>,
   defaultValue?: Array<any>,
   onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void,
-  children?: React.Node,
+  children?: React.ChildrenArray<any>,
   classPrefix?: string
 }
 
