@@ -5,10 +5,11 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import withStyleProps from './utils/withStyleProps';
+import isOneOf from './utils/isOneOf';
 import { globalKey } from './utils/prefix';
 
 type Props = {
-  type?: 'text' | 'email' | 'number' | 'file' | 'select' | 'textarea' | 'password',
+  type: 'text' | 'email' | 'number' | 'file' | 'select' | 'textarea' | 'password',
   id?: string,
   classPrefix: string,
   className?: string,
@@ -37,13 +38,13 @@ class FormControl extends React.Component<Props> {
     const {
       type,
       className,
-      inputRef,
       classPrefix,
       id = controlId,
       ...props,
     } = this.props;
 
-    const Component = (type === 'textarea') ? 'textarea' : 'input';
+    const Component = isOneOf(type, ['textarea', 'select']) ? type : 'input';
+
     const classes = classNames({
       // input[type="file"] should not have .form-control.
       [classPrefix]: type !== 'file',
