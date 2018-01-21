@@ -12,7 +12,7 @@ import { globalKey } from './utils/prefix';
 type Props = {
   activePage: number,
   pages: number,
-  maxButtons?: number,
+  maxButtons: number,
   boundaryLinks?: boolean,
   ellipsis?: boolean | React.Node,
   first?: boolean | React.Node,
@@ -20,7 +20,7 @@ type Props = {
   prev?: boolean | React.Node,
   next?: boolean | React.Node,
   onSelect?: (event: SyntheticEvent<*>) => void,
-  buttonComponentClass?: React.ElementType,
+  buttonComponentClass: React.ElementType,
   className?: string,
   classPrefix: string
 }

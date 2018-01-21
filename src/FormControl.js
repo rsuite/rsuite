@@ -12,16 +12,13 @@ type Props = {
   id?: string,
   classPrefix: string,
   className?: string,
-  onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void,
-  componentClass: React.ElementType,
-  inputRef?: React.Ref<any>,
+  onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void
 }
 
 class FormControl extends React.Component<Props> {
 
   static defaultProps = {
     classPrefix: `${globalKey}form-control`,
-    componentClass: 'input',
     type: 'text'
   }
 
@@ -40,13 +37,13 @@ class FormControl extends React.Component<Props> {
     const {
       type,
       className,
-      componentClass: Component,
       inputRef,
       classPrefix,
       id = controlId,
       ...props,
     } = this.props;
 
+    const Component = (type === 'textarea') ? 'textarea' : 'input';
     const classes = classNames({
       // input[type="file"] should not have .form-control.
       [classPrefix]: type !== 'file',
@@ -58,7 +55,6 @@ class FormControl extends React.Component<Props> {
         type={type}
         id={id}
         className={classes}
-        ref={inputRef}
         onChange={this.handleChange}
       />
     );

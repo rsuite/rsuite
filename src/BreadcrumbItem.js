@@ -25,7 +25,17 @@ class BreadcrumbItem extends React.Component<Props> {
   };
   render() {
 
-    const { href, classPrefix, title, target, className, style, active, ...props } = this.props;
+    const {
+      href,
+      classPrefix,
+      title,
+      target,
+      className,
+      style,
+      active,
+      ...rest
+    } = this.props;
+
     const linkProps = { href, title, target };
     const classes: string = classNames(
       classPrefix,
@@ -38,9 +48,9 @@ class BreadcrumbItem extends React.Component<Props> {
         style={style}
         className={classes}
       >
-        {active ? (<span {...props} />) : (
+        {active ? (<span {...rest} />) : (
           <Component
-            {...props}
+            {...rest}
             {...linkProps}
           />
         )}
