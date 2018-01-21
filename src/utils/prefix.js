@@ -1,13 +1,19 @@
 import _ from 'lodash';
-
+import classNames from 'classnames';
 
 export const globalKey = '';
 
-function prefix(pre: string, className: string): string {
-  if (pre && className) {
-    return `${pre}-${className}`;
+function prefix(pre: string, className: string | Array<string>): string {
+  if (!pre || !className) {
+    return '';
   }
-  return '';
+
+  if (_.isArray(className)) {
+    return classNames(className.map(name => `${pre}-${name}`));
+  }
+
+  return `${pre}-${className}`;
+
 }
 
 export default _.curry(prefix);
