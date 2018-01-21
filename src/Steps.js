@@ -34,7 +34,7 @@ class Steps extends React.Component<Props> {
       small,
       current,
       currentStatus,
-      ...restProps
+      ...rest
     } = this.props;
 
     const addPrefix: Function = prefix(classPrefix);
@@ -66,7 +66,7 @@ class Steps extends React.Component<Props> {
 
     return (
       <div
-        {...restProps}
+        {...rest}
         className={classes}
       >
         {items}

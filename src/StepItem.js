@@ -50,7 +50,7 @@ class StepItem extends React.Component<Props> {
       </div>
     ) : null;
 
-    const iconNode = icon ? <span>{icon}</span> : (
+    const iconNode = icon ? <span className={addPrefix('custom-icon')}>{icon}</span> : (
       <span className={addPrefix(`icon-${status}`)}>{stepNumber}</span>
     );
 
