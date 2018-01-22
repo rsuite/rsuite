@@ -1,66 +1,112 @@
 /* @flow */
 
 import * as React from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
-import withStyleProps from './utils/withStyleProps';
-import isOneOf from './utils/isOneOf';
-import { globalKey } from './utils/prefix';
+import Input from './Input';
+import getUnhandledProps from './utils/getUnhandledProps';
 
 type Props = {
-  type: 'text' | 'email' | 'number' | 'file' | 'select' | 'textarea' | 'password',
-  id?: string,
-  classPrefix: string,
-  className?: string,
-  onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void
+  name: string,
+  checkTrigger: 'change' | 'blur' | null,
+  accepter: React.ElementType,
+  onChange?: (value: any, event: SyntheticEvent<*>) => void,
+  onBlur?: (event: SyntheticEvent<*>) => void
 }
 
-class FormControl extends React.Component<Props> {
+type States = {
+  checkResult?: Object,
+  value?: any
+}
+
+class FormControl extends React.Component<Props, States> {
 
   static defaultProps = {
-    classPrefix: `${globalKey}form-control`,
-    type: 'text'
-  }
+    accepter: Input,
+    checkTrigger: 'change'
+  };
 
   static contextTypes = {
-    formGroup: PropTypes.object
+    form: PropTypes.object
+  };
+
+
+  constructor(props: Props, context: Object) {
+    super(props, context);
+    if (!context.form) {
+      throw new Error('Field must be inside a component decorated with <Form>');
+    }
+
+    const { values = {}, defaultValues = {} } = context.form;
+    const name = props.name;
+
+    this.state = {
+      checkResult: {},
+      value: values[name] || defaultValues[name]
+    };
+
   }
 
-  handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
-    const target = event.target;
-    const { onChange } = this.props;
-    onChange && onChange(target.value, event);
+  getCheckTrigger() {
+    const { checkTrigger } = this.context.form;
+    return this.props.checkTrigger || checkTrigger;
+  }
+
+  handleFieldChange = (value: any, event: SyntheticEvent<*>) => {
+
+    const { name, onChange } = this.props;
+    const { onFieldChange } = this.context.form;
+    const checkTrigger = this.getCheckTrigger();
+    const checkResult = this.handleFieldCheck(value, checkTrigger === 'change');
+    this.setState({ checkResult, value });
+    onFieldChange(name, value, event);
+    onChange && onChange(value, event);
+  }
+
+  handleFieldBlur = (event: SyntheticEvent<*>) => {
+    const { onBlur } = this.props;
+    const checkTrigger = this.getCheckTrigger();
+    this.handleFieldCheck(this.state.value, checkTrigger === 'blur');
+    onBlur && onBlur(event);
+  }
+
+  handleFieldCheck = (value: any, isCheckTrigger: boolean, callback?: Function) => {
+    const { name } = this.props;
+    const {
+      onFieldError,
+      onFieldSuccess,
+      model
+    } = this.context.form;
+
+    const checkResult = model.checkForField(name, value);
+
+    if (isCheckTrigger) {
+      if (checkResult.hasError) {
+        onFieldError(name, checkResult.errorMessage, callback);
+      } else {
+        onFieldSuccess(name, callback);
+      }
+    }
+
+    return checkResult;
   }
 
   render() {
-    const controlId = _.get(this.context, 'formGroup.controlId');
-    const {
-      type,
-      className,
-      classPrefix,
-      id = controlId,
-      ...props,
-    } = this.props;
 
-    const Component = isOneOf(type, ['textarea', 'select']) ? type : 'input';
-
-    const classes = classNames({
-      // input[type="file"] should not have .form-control.
-      [classPrefix]: type !== 'file',
-    }, className);
+    let { name, accepter: Component, ...props } = this.props;
+    const { values = {}, defaultValues = {} } = this.context.form;
+    const unhandled = getUnhandledProps(FormControl, props);
 
     return (
       <Component
-        {...props}
-        type={type}
-        id={id}
-        className={classes}
-        onChange={this.handleChange}
+        {...unhandled}
+        name={name}
+        onChange={this.handleFieldChange}
+        onBlur={this.handleFieldBlur}
+        defaultValue={defaultValues[name]}
+        value={values[name]}
       />
     );
   }
 }
 
-export default withStyleProps({ hasSize: true })(FormControl);
-
+export default FormControl;

@@ -28,19 +28,21 @@ export Steps from './Steps';
 
 // Data enter
 export Toggle from './Toggle';
+
 export Form from './Form';
 export FormGroup from './FormGroup';
-export ControlLabel from './ControlLabel';
+
 export FormControl from './FormControl';
+export ControlLabel from './ControlLabel';
 export HelpBlock from './HelpBlock';
+
+export Input from './Input';
 export InputGroup from './InputGroup';
 
 export Checkbox from './Checkbox';
-export CheckboxList from './CheckboxGroup';
 export CheckboxGroup from './CheckboxGroup';
 
 export Radio from './Radio';
-export RadioList from './RadioGroup';
 export RadioGroup from './RadioGroup';
 
 

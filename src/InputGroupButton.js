@@ -3,6 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { globalKey } from './utils/prefix';
+import Button from './Button';
 
 type Props = {
   className?: string,
@@ -20,7 +21,7 @@ class InputGroupButton extends React.Component<Props> {
       ...props
     } = this.props;
     return (
-      <span
+      <Button
         {...props}
         className={classNames(classPrefix, className)}
       />
