@@ -72,7 +72,7 @@ class Modal extends React.Component<Props, States> {
 
   static displayName = 'Modal';
   static defaultProps = {
-    size: 'md',
+    size: 'sm',
     backdrop: true,
     keyboard: true,
     autoFocus: true,
