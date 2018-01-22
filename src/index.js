@@ -50,8 +50,7 @@ export Panel from './Panel';
 export PanelGroup from './PanelGroup';
 
 
-export SchemaModel from './SchemaModel';
-
+export Schema from './Schema';
 
 export Table from './Table';
 export TablePagination from './TablePagination';
