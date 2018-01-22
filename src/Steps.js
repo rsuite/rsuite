@@ -52,6 +52,11 @@ class Steps extends React.Component<Props> {
         ...item.props
       };
 
+      // fix tail color
+      if (currentStatus === 'error' && index === current - 1) {
+        itemProps.className = addPrefix('next-error');
+      }
+
       if (!item.props.status) {
 
         if (index === current) {
