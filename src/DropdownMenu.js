@@ -136,8 +136,6 @@ class DorpdownMenu extends React.Component<Props> {
   }
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name)
-  addPrefixs = (names: Array<string>) => names.map(name => this.addPrefix(name))
-
   renderCollapse(children: React.Node, expanded?: boolean) {
     return this.props.collapsible ? (
       <Collapse
