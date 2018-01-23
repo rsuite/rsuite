@@ -14,6 +14,10 @@ export const isSafari = Object.prototype.toString.call(window.HTMLElement).index
 // Internet Explorer 6-11
 export const isIE = !!navigator.userAgent.match(/MSIE/);
 
+export const isIE8 = !!navigator.userAgent.match(/MSIE 8.0/);
+export const isIE9 = !!navigator.userAgent.match(/MSIE 9.0/);
+export const isIE10 = !!navigator.userAgent.match(/MSIE 10.0/);
+
 // Edge 20+
 export const isEdge = !isIE && !!window.StyleMedia;
 

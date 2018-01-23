@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import StepItem from './StepItem';
 import prefix, { globalKey } from './utils/prefix';
 import { mapCloneElement } from './utils/ReactChildren';
+import { isIE9, isIE10 } from './utils/BrowserDetection';
 
 type Props = {
   classPrefix: string,
@@ -39,16 +40,22 @@ class Steps extends React.Component<Props> {
 
     const addPrefix: Function = prefix(classPrefix);
     const classes = classNames(classPrefix, {
+      'ie-polyfill': isIE9 || isIE10,
       [addPrefix('small')]: small,
       [addPrefix('vertical')]: vertical,
       [addPrefix('horizontal')]: !vertical
     }, className);
 
+    const count = children.length;
     const items: React.Node = mapCloneElement(children, (item, index) => {
 
       const itemProps = {
         stepNumber: index + 1,
         status: 'wait',
+        style: {
+          flexBasis: index < (count - 1) ? `${100 / (count - 1)}%` : undefined,
+          maxWidth: index === (count - 1) ? `${100 / count}%` : undefined
+        },
         ...item.props
       };
 
