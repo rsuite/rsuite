@@ -41,7 +41,7 @@ class Steps extends React.Component<Props> {
     const addPrefix: Function = prefix(classPrefix);
     const horizontal = !vertical;
     const classes = classNames(classPrefix, {
-      'ie-polyfill': horizontal && (isIE9 || isIE10),
+      'ie-polyfill': horizontal && isIE9,
       [addPrefix('small')]: small,
       [addPrefix('vertical')]: vertical,
       [addPrefix('horizontal')]: horizontal
@@ -51,7 +51,7 @@ class Steps extends React.Component<Props> {
     const items: React.Node = mapCloneElement(children, (item, index) => {
 
       const itemStyles = {
-        flexBasis: index < (count - 1) ? `${100 / (count - 1)}%` : undefined,
+        [isIE10 ? 'msFlexPreferredSize' : 'flexBasis']: index < (count - 1) ? `${100 / (count - 1)}%` : undefined,
         maxWidth: index === (count - 1) ? `${100 / count}%` : undefined
       };
       const itemProps = {
