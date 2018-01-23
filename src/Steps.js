@@ -39,23 +39,25 @@ class Steps extends React.Component<Props> {
     } = this.props;
 
     const addPrefix: Function = prefix(classPrefix);
+    const horizontal = !vertical;
     const classes = classNames(classPrefix, {
-      'ie-polyfill': isIE9 || isIE10,
+      'ie-polyfill': horizontal && (isIE9 || isIE10),
       [addPrefix('small')]: small,
       [addPrefix('vertical')]: vertical,
-      [addPrefix('horizontal')]: !vertical
+      [addPrefix('horizontal')]: horizontal
     }, className);
 
     const count = children.length;
     const items: React.Node = mapCloneElement(children, (item, index) => {
 
+      const itemStyles = {
+        flexBasis: index < (count - 1) ? `${100 / (count - 1)}%` : undefined,
+        maxWidth: index === (count - 1) ? `${100 / count}%` : undefined
+      };
       const itemProps = {
         stepNumber: index + 1,
         status: 'wait',
-        style: {
-          flexBasis: index < (count - 1) ? `${100 / (count - 1)}%` : undefined,
-          maxWidth: index === (count - 1) ? `${100 / count}%` : undefined
-        },
+        style: horizontal ? itemStyles : undefined,
         ...item.props
       };
 
