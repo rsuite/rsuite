@@ -58,7 +58,7 @@ class StepItem extends React.Component<Props> {
 
     if (icon) {
       iconNode = (
-        <span className={addPrefix(['icon', 'custom-icon'])}>
+        <span className={addPrefix('icon')}>
           {icon}
         </span>
       );
@@ -71,7 +71,7 @@ class StepItem extends React.Component<Props> {
         style={styles}
       >
         <div className={addPrefix('tail')} />
-        <div className={addPrefix('icon-wrapper')}>
+        <div className={addPrefix(['icon-wrapper', icon ? 'custom-icon' : ''])}>
           {iconNode}
         </div>
         {contentNode}
