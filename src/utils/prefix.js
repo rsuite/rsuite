@@ -9,7 +9,7 @@ function prefix(pre: string, className: string | Array<string>): string {
   }
 
   if (_.isArray(className)) {
-    return classNames(className.map(name => `${pre}-${name}`));
+    return classNames(className.filter(name => !!name).map(name => `${pre}-${name}`));
   }
 
   return `${pre}-${className}`;
