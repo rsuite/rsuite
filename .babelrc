@@ -8,7 +8,8 @@
     "lodash",
     "transform-class-properties",
     "transform-dev",
-    "flow-react-proptypes"
+    "flow-react-proptypes",
+    "transform-react-flow-handled-props"
   ],
   "env": {
     "coverage": {
