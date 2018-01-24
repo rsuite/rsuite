@@ -1,6 +1,7 @@
 // @flow
 
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import setStatic from 'recompose/setStatic';
 
@@ -15,10 +16,41 @@ type Props = {
   inside?: boolean
 }
 
-class InputGroup extends React.Component<Props> {
+type States = {
+  focus?: boolean
+}
+
+class InputGroup extends React.Component<Props, States> {
   static defaultProps = {
     classPrefix: `${globalKey}input-group`,
   }
+
+  static childContextTypes = {
+    inputGroup: PropTypes.object.isRequired
+  }
+
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      focus: false
+    };
+  }
+  getChildContext() {
+    return {
+      inputGroup: {
+        onFocus: this.handleFocus,
+        onBlur: this.handleBlur
+      }
+    };
+  }
+  handleFocus = () => {
+    this.setState({ focus: true });
+  }
+
+  handleBlur = () => {
+    this.setState({ focus: false });
+  }
+
   render() {
     const {
       className,
@@ -26,10 +58,12 @@ class InputGroup extends React.Component<Props> {
       inside,
       ...props
     } = this.props;
+    const { focus } = this.state;
 
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, {
-      [addPrefix('inside')]: inside
+      [addPrefix('inside')]: inside,
+      [addPrefix('focus')]: focus
     }, className);
 
     return (

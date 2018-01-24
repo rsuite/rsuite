@@ -7,14 +7,17 @@ import _ from 'lodash';
 import withStyleProps from './utils/withStyleProps';
 import { globalKey } from './utils/prefix';
 import createFormControl from './utils/createFormControl';
+import createChainedFunction from './utils/createChainedFunction';
 
 type Props = {
   type: string,
+  componentClass: React.ElementType,
   id?: string,
   classPrefix: string,
   className?: string,
-  componentClass: React.ElementType,
-  onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void
+  onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void,
+  onFocus?: (event: SyntheticEvent<*>) => void,
+  onBlur?: (event: SyntheticEvent<*>) => void,
 }
 
 class Input extends React.Component<Props> {
@@ -26,7 +29,8 @@ class Input extends React.Component<Props> {
   }
 
   static contextTypes = {
-    formGroup: PropTypes.object
+    formGroup: PropTypes.object,
+    inputGroup: PropTypes.object,
   }
 
   constructor(props: Props) {
@@ -45,6 +49,8 @@ class Input extends React.Component<Props> {
       componentClass,
       onChange,
       id = controlId,
+      onFocus,
+      onBlur,
       ...rest,
     } = this.props;
 
@@ -53,6 +59,7 @@ class Input extends React.Component<Props> {
       [classPrefix]: type !== 'file',
     }, className);
 
+    const { inputGroup } = this.context;
     const Component = this.formControl;
 
     return (
@@ -60,6 +67,8 @@ class Input extends React.Component<Props> {
         {...rest}
         type={type}
         id={id}
+        onFocus={createChainedFunction(onFocus, _.get(inputGroup, 'onFocus'))}
+        onBlur={createChainedFunction(onBlur, _.get(inputGroup, 'onBlur'))}
         className={classes}
         onChange={onChange}
       />

@@ -23,6 +23,7 @@ class InputGroupButton extends React.Component<Props> {
     return (
       <Button
         {...props}
+        componentClass="a"
         className={classNames(classPrefix, className)}
       />
     );
