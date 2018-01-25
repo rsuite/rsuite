@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import withStyleProps from './utils/withStyleProps';
 import prefix, { globalKey } from './utils/prefix';
+import getUnhandledProps from './utils/getUnhandledProps';
 
 
 type Props = {
@@ -63,7 +64,7 @@ class Toggle extends React.Component<Props, States> {
       checkedChildren,
       unCheckedChildren,
       classPrefix,
-      ...props
+      ...rest
     } = this.props;
 
     const checked = this.getCheckedStatus();
@@ -75,11 +76,11 @@ class Toggle extends React.Component<Props, States> {
 
 
     const inner = checked ? checkedChildren : unCheckedChildren;
-    const elementProps = _.omit(props, Object.keys(Toggle.propTypes));
+    const unhandled = getUnhandledProps(Toggle, rest);
 
     return (
       <span
-        {...elementProps}
+        {...unhandled}
         className={classes}
         role="button"
         tabIndex={-1}

@@ -7,6 +7,7 @@ import PaginationButton from './PaginationButton';
 import SafeAnchor from './SafeAnchor';
 import withStyleProps from './utils/withStyleProps';
 import { globalKey } from './utils/prefix';
+import getUnhandledProps from './utils/getUnhandledProps';
 
 
 type Props = {
@@ -34,6 +35,12 @@ class Pagination extends React.Component<Props> {
     classPrefix: `${globalKey}pagination`,
     buttonComponentClass: SafeAnchor,
   };
+
+  /**
+   * Note that `handledProps` are generated automatically during
+   * build with `babel-plugin-transform-react-flow-handled-props`
+   */
+  static handledProps = [];
 
   renderPageButtons() {
 
@@ -208,13 +215,13 @@ class Pagination extends React.Component<Props> {
   }
 
   render() {
-    const { className, classPrefix, ...props } = this.props;
-    const elementProps = _.omit(props, Object.keys(Pagination.propTypes));
+    const { className, classPrefix, ...rest } = this.props;
+    const unhandled = getUnhandledProps(Pagination, rest);
 
     return (
       <ul
         className={classNames(classPrefix, className)}
-        {...elementProps}
+        {...unhandled}
       >
         {this.renderFirst()}
         {this.renderPrev()}

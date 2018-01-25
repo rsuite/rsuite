@@ -46,6 +46,12 @@ class Panel extends React.Component<Props, States> {
     classPrefix: `${globalKey}panel`
   };
 
+  /**
+   * Note that `handledProps` are generated automatically during
+   * build with `babel-plugin-transform-react-flow-handled-props`
+   */
+  static handledProps = [];
+
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -89,7 +95,7 @@ class Panel extends React.Component<Props, States> {
     const { id } = this.props;
 
     const collapseProps = {
-      ..._.pick(this.props, Object.keys(Collapse.propTypes)),
+      ..._.pick(this.props, Collapse.handledProps),
       in: this.isExpanded()
     };
     const props: Object = {
@@ -225,7 +231,7 @@ class Panel extends React.Component<Props, States> {
     } = this.props;
 
     const clesses = classNames(classPrefix, this.addPrefix('default'), className);
-    const elementProps = _.omit(props, Object.keys(Panel.propTypes));
+    const elementProps = _.omit(props, Panel.handledProps);
 
     return (
       <div

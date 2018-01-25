@@ -70,7 +70,9 @@ module.exports = {
     'react/prefer-stateless-function': OFF,
     'react/require-default-props': OFF,
 
-
+    /**
+     * Flowtype
+     */
     'flowtype/define-flow-type': 'error',
     'flowtype/require-valid-file-annotation': 'off',
     'flowtype/require-parameter-type': 'off',

@@ -3,6 +3,7 @@ import * as React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 import { mapCloneElement } from './utils/ReactChildren';
+import getUnhandledProps from './utils/getUnhandledProps';
 
 type Props = {
   accordion?: boolean,
@@ -14,8 +15,11 @@ type Props = {
   onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
 }
 
+type States = {
+  activeKey?: boolean
+}
 
-class PanelGroup extends React.Component<Props> {
+class PanelGroup extends React.Component<Props, States> {
 
   static defaultProps = {
     classPrefix: 'panel-group',
@@ -29,6 +33,7 @@ class PanelGroup extends React.Component<Props> {
   shouldComponentUpdate() {
     return !this.isChanging;
   }
+  isChanging = null;
   handleSelect = (activeKey: any, event: SyntheticEvent<*>) => {
     const { onSelect } = this.props;
     event.preventDefault();
@@ -74,14 +79,15 @@ class PanelGroup extends React.Component<Props> {
       classPrefix,
       children,
       onSelect,
-      ...props
+      ...rest
     } = this.props;
 
     let classes = classNames(classPrefix, className);
-    const elementProps = _.omit(props, Object.keys(PanelGroup.propTypes));
+    const unhandled = getUnhandledProps(PanelGroup, rest);
+
     return (
       <div
-        {...elementProps}
+        {...unhandled}
         role={accordion ? 'tablist' : undefined}
         className={classes}
       >

@@ -1,4 +1,5 @@
 import { contains } from 'dom-lib';
+import _ from 'lodash';
 
 export default function handleMouseOverOut(handler: Function, event: SyntheticEvent<*>) {
   let target = event.currentTarget;

@@ -196,7 +196,7 @@ class Modal extends React.Component<Props, States> {
     const inClass = { in: show && !animation };
     const Dialog: React.ElementType = dialogComponentClass;
 
-    const parentProps = _.pick(props, Object.keys(BaseModal.propTypes));
+    const parentProps = _.pick(props, BaseModal.handledProps);
     const items = (overflow && children) ?
       mapCloneElement(children, (child) => {
         if (child.type.displayName === 'ModalBody') {

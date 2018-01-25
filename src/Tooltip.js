@@ -13,9 +13,10 @@ type Props = {
   arrowOffsetLeft?: number | string,
   arrowOffsetTop?: number | string,
   style?: Object,
-  children?: React.Node
+  children?: React.Node,
+  onMouseLeave?: (event: SyntheticEvent<*>) => void,
+  onMouseEnter?: (event: SyntheticEvent<*>) => void,
 }
-
 
 class Tooltip extends React.Component<Props> {
   static defaultProps = {
@@ -33,7 +34,9 @@ class Tooltip extends React.Component<Props> {
       positionTop,
       classPrefix,
       children,
-      style
+      style,
+      onMouseLeave,
+      onMouseEnter
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
@@ -56,6 +59,8 @@ class Tooltip extends React.Component<Props> {
         role="tooltip"
         className={classes}
         style={styles}
+        onMouseLeave={onMouseLeave}
+        onMouseEnter={onMouseEnter}
       >
         <div className={addPrefix('arrow')} style={arrowStyle} />
         <div className={addPrefix('inner')}>
