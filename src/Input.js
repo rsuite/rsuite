@@ -17,7 +17,7 @@ type Props = {
   className?: string,
   onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void,
   onFocus?: (event: SyntheticEvent<*>) => void,
-  onBlur?: (event: SyntheticEvent<*>) => void,
+  onBlur?: (event: SyntheticEvent<*>) => void
 }
 
 class Input extends React.Component<Props> {

@@ -35,15 +35,13 @@ export FormGroup from './FormGroup';
 export FormControl from './FormControl';
 export ControlLabel from './ControlLabel';
 export HelpBlock from './HelpBlock';
-
 export Input from './Input';
 export InputGroup from './InputGroup';
-
 export Checkbox from './Checkbox';
 export CheckboxGroup from './CheckboxGroup';
-
 export Radio from './Radio';
 export RadioGroup from './RadioGroup';
+export SelectPicker from './SelectPicker';
 
 
 export Panel from './Panel';
