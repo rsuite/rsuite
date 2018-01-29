@@ -5,11 +5,11 @@
     "stage-0"
   ],
   "plugins": [
+    "flow-react-proptypes",
+    "transform-react-flow-handled-props",
     "lodash",
     "transform-class-properties",
-    "transform-dev",
-    "flow-react-proptypes",
-    "transform-react-flow-handled-props"
+    "transform-dev"
   ],
   "env": {
     "coverage": {
