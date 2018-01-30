@@ -40,7 +40,7 @@
     "prop-types": "^15.6.0",
     "react-flow-types": "^0.2.0-beta.6",
     "recompose": "^0.26.0",
-    "rsuite-cascader": "^1.0.0",
+    "rsuite-cascader": "^3.0.0-next",
     "rsuite-check-tree": "^3.0.0-next.1",
     "rsuite-checkpicker": "^3.0.0-next",
     "rsuite-checktreepicker": "^3.0.0-next",
