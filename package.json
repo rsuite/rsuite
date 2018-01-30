@@ -42,7 +42,7 @@
     "recompose": "^0.26.0",
     "rsuite-cascader": "^1.0.0",
     "rsuite-check-tree": "^3.0.0-next.1",
-    "rsuite-checkpicker": "^1.0.2",
+    "rsuite-checkpicker": "^3.0.0-next",
     "rsuite-checktreepicker": "^3.0.0-next",
     "rsuite-datepicker": "^2.0.5",
     "rsuite-daterangepicker": "^2.0.4",
