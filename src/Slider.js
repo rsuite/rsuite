@@ -217,18 +217,22 @@ class Slider extends React.Component<Props, States> {
    * 渲染标尺
    */
   renderGraduated() {
-    const { vertical } = this.props;
+    const { vertical, step, min } = this.props;
     const count = this.getSplitCount();
-    const { barHeight } = this.state;
+    const { barHeight, value } = this.state;
     const graduatedItems = [];
+    const pass = (value / step) - (min / step);
 
     for (let i = 0; i < count; i += 1) {
       let style = {};
+      let classes = classNames({
+        [this.addPrefix('pass')]: i <= pass
+      });
 
       if (barHeight && vertical) {
         style.height = barHeight / count;
       }
-      graduatedItems.push(<li style={style} key={i}>{' '}</li>);
+      graduatedItems.push(<li className={classes} style={style} key={i}>{' '}</li>);
     }
     return (
       <div className={this.addPrefix('graduator')}>
