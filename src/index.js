@@ -42,24 +42,22 @@ export CheckboxGroup from './CheckboxGroup';
 export Radio from './Radio';
 export RadioGroup from './RadioGroup';
 export SelectPicker from './SelectPicker';
-
-
-export Panel from './Panel';
-export PanelGroup from './PanelGroup';
-
-
-export Schema from './Schema';
-
-export Table from './Table';
-export TablePagination from './TablePagination';
+export Slider from './Slider';
 export CheckTree from './CheckTree';
 export CheckTreePicker from './CheckTreePicker';
 export CheckPicker from './CheckPicker';
 export Cascader from './Cascader';
 export DatePicker from './DatePicker';
 export DateRangePicker from './DateRangePicker';
-export Progress from './Progress';
 
+
+export Schema from './Schema';
+export Panel from './Panel';
+export PanelGroup from './PanelGroup';
+
+export Table from './Table';
+export TablePagination from './TablePagination';
+export Progress from './Progress';
 
 // Layout
 export Header from './Header';
