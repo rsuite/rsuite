@@ -44,7 +44,7 @@
     "rsuite-check-tree": "^3.0.0-next.1",
     "rsuite-checkpicker": "^3.0.0-next.1",
     "rsuite-checktreepicker": "^3.0.0-next",
-    "rsuite-datepicker": "^2.0.5",
+    "rsuite-datepicker": "^3.0.0-next",
     "rsuite-daterangepicker": "^2.0.4",
     "rsuite-notification": "^3.0.0-next.2",
     "rsuite-progress": "^2.0.0-beta.2",
