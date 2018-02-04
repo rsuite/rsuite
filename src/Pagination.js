@@ -21,7 +21,7 @@ type Props = {
   prev?: boolean | React.Node,
   next?: boolean | React.Node,
   onSelect?: (event: SyntheticEvent<*>) => void,
-  buttonComponentClass: React.ElementType,
+  buttonComponentClass: React.ElementType | string,
   className?: string,
   classPrefix: string
 }

@@ -1,3 +1,5 @@
 import CheckPicker from 'rsuite-checkpicker';
+import withLocale from './IntlProvider/withLocale';
 
-export default CheckPicker;
+
+export default withLocale(['Picker'])(CheckPicker);

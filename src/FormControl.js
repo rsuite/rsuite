@@ -47,8 +47,6 @@ class FormControl extends React.Component<Props, States> {
 
   getCheckTrigger() {
     const { checkTrigger } = this.context.form;
-
-    console.log('getCheckTrigger', checkTrigger, this.props.checkTrigger);
     return this.props.checkTrigger || checkTrigger;
   }
 
@@ -79,8 +77,6 @@ class FormControl extends React.Component<Props, States> {
     } = this.context.form;
 
     const checkResult = model.checkForField(name, value);
-
-    console.log(isCheckTrigger, this.getCheckTrigger());
 
     if (isCheckTrigger) {
       if (checkResult.hasError) {
