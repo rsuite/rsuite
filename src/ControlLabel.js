@@ -1,6 +1,7 @@
 // @flow
 
 import * as React from 'react';
+import _ from 'lodash';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { globalKey } from './utils/prefix';

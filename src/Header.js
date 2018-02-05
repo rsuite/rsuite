@@ -30,7 +30,6 @@ class Header extends React.Component<Props> {
     return (
       <Navbar
         {...props}
-        fixedTop
         className={classes}
       >
         <div className={addPrefix('inner')}>

@@ -3,17 +3,24 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import Pagination from './Pagination';
-import Dropdown from './Dropdown';
-import prefix from './utils/prefix';
+import SelectPicker from './SelectPicker';
+import prefix, { globalKey } from './utils/prefix';
+import tplTransform from './utils/tplTransform';
+import withLocale from './IntlProvider/withLocale';
+
+type Locale = {
+  lengthMenuInfo: string,
+  totalInfo: string,
+}
 
 type Props = {
-  lengthMenu?: Array<{ value: number, text: string | number }>,
+  lengthMenu?: Array<{ value: number, label: React.Node }>,
   showLengthMenu?: boolean,
   showInfo?: boolean,
   total: number,
   displayLength: number,
-  formatLengthMenu?: Function,
-  formatInfo?: Function,
+  renderLengthMenu?: (picker: React.Node) => React.Node,
+  renderTotal?: Function,
   onChangePage?: Function,
   onChangeLength?: Function,
   prev?: boolean,
@@ -23,7 +30,8 @@ type Props = {
   maxButtons?: number,
   activePage: number,
   className?: string,
-  classPrefix: string
+  locale: Locale,
+  classPrefix: string,
 }
 
 
@@ -35,17 +43,18 @@ type States = {
 class TablePagination extends React.Component<Props, States> {
 
   static defaultProps = {
+    classPrefix: `${globalKey}table-pagination`,
     showLengthMenu: true,
     showInfo: true,
     lengthMenu: [{
       value: 30,
-      text: 30,
+      label: 30,
     }, {
       value: 50,
-      text: 50,
+      label: 50,
     }, {
       value: 100,
-      text: 100,
+      label: 100,
     }],
     displayLength: 30,
     prev: true,
@@ -53,7 +62,11 @@ class TablePagination extends React.Component<Props, States> {
     first: true,
     last: true,
     activePage: 1,
-    maxButtons: 5
+    maxButtons: 5,
+    locale: {
+      lengthMenuInfo: 'Show {0} data',
+      totalInfo: 'Total: {0}'
+    }
   };
 
   constructor(props: Props) {
@@ -96,8 +109,9 @@ class TablePagination extends React.Component<Props, States> {
 
     const {
       lengthMenu = [],
-      formatLengthMenu,
+      renderLengthMenu,
       showLengthMenu,
+      locale,
     } = this.props;
 
     const { displayLength } = this.state;
@@ -106,32 +120,22 @@ class TablePagination extends React.Component<Props, States> {
       return null;
     }
 
-    const items = lengthMenu.map(item => (
-      <Dropdown.Item
-        key={item.value}
-        eventKey={item.value}
-      >
-        {item.text}
-      </Dropdown.Item>
-    ));
 
-
-    const dropdown = (
-      <Dropdown
-        shape="default"
-        activeKey={displayLength}
-        onSelect={this.handleChangeLength}
-        dropup
-        select
-      >
-        {items}
-      </Dropdown>
+    const picker = (
+      <SelectPicker
+        cleanable={false}
+        searchable={false}
+        placement="topLeft"
+        data={lengthMenu}
+        value={displayLength}
+        onChange={this.handleChangeLength}
+      />
     );
 
     return (
       <div className={this.addPrefix('length-menu')}>
         {
-          formatLengthMenu ? formatLengthMenu(dropdown) : dropdown
+          renderLengthMenu ? renderLengthMenu(picker) : tplTransform(locale.lengthMenuInfo, picker)
         }
       </div>
     );
@@ -140,7 +144,7 @@ class TablePagination extends React.Component<Props, States> {
 
   renderInfo() {
 
-    const { formatInfo, total, showInfo } = this.props;
+    const { renderTotal, total, showInfo, locale } = this.props;
 
     if (!showInfo) {
       return null;
@@ -149,7 +153,7 @@ class TablePagination extends React.Component<Props, States> {
     const { activePage } = this.state;
     return (
       <div className={this.addPrefix('page-info')}>
-        {formatInfo ? formatInfo(total, activePage) : <span>Total: {total}</span>}
+        {renderTotal ? renderTotal(total, activePage) : tplTransform(locale.totalInfo, total)}
       </div>
     );
   }
@@ -185,4 +189,4 @@ class TablePagination extends React.Component<Props, States> {
 }
 
 
-export default TablePagination;
+export default withLocale()(TablePagination);

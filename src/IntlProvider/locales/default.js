@@ -24,6 +24,14 @@ export default {
     first: 'First',
     last: 'Last'
   },
+  Table: {
+    emptyMessage: 'No data found',
+    loading: 'Loading...'
+  },
+  TablePagination: {
+    lengthMenuInfo: 'Show: {0} / page',
+    totalInfo: 'Total: {0}'
+  },
   Calendar,
   DatePicker: {
     ...Calendar

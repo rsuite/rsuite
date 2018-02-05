@@ -2,13 +2,21 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import _ from 'lodash';
+import { compose } from 'recompose';
 import PaginationButton from './PaginationButton';
 import SafeAnchor from './SafeAnchor';
 import withStyleProps from './utils/withStyleProps';
 import { globalKey } from './utils/prefix';
 import getUnhandledProps from './utils/getUnhandledProps';
+import withLocale from './IntlProvider/withLocale';
 
+type Locale = {
+  more?: string,
+  prev?: string,
+  next?: string,
+  first?: string,
+  last?: string
+}
 
 type Props = {
   activePage: number,
@@ -23,7 +31,8 @@ type Props = {
   onSelect?: (event: SyntheticEvent<*>) => void,
   buttonComponentClass: React.ElementType | string,
   className?: string,
-  classPrefix: string
+  classPrefix: string,
+  locale: Locale
 }
 
 class Pagination extends React.Component<Props> {
@@ -34,6 +43,13 @@ class Pagination extends React.Component<Props> {
     maxButtons: 0,
     classPrefix: `${globalKey}pagination`,
     buttonComponentClass: SafeAnchor,
+    locale: {
+      more: 'More',
+      prev: 'Previous',
+      next: 'Next',
+      first: 'First',
+      last: 'Last'
+    }
   };
 
   /**
@@ -48,12 +64,14 @@ class Pagination extends React.Component<Props> {
     let startPage;
     let endPage;
     let hasHiddenPagesAfter;
+
     const {
       maxButtons,
       activePage,
       pages,
       ellipsis,
-      boundaryLinks
+      boundaryLinks,
+      locale
     } = this.props;
 
     if (maxButtons) {
@@ -108,7 +126,7 @@ class Pagination extends React.Component<Props> {
         key: 'ellipsis',
         disabled: true,
         children: (
-          <span aria-label="More">
+          <span aria-label="More" title={locale.more}>
             {ellipsis === true ? '\u2026' : ellipsis}
           </span>
         )
@@ -127,9 +145,9 @@ class Pagination extends React.Component<Props> {
   }
   renderPrev() {
 
-    const { activePage, prev } = this.props;
+    const { activePage, prev, locale } = this.props;
 
-    if (!this.props.prev) {
+    if (!prev) {
       return null;
     }
 
@@ -138,7 +156,7 @@ class Pagination extends React.Component<Props> {
       eventKey: activePage - 1,
       disabled: activePage === 1,
       children: (
-        <span aria-label="Previous">
+        <span aria-label="Previous" title={locale.prev}>
           {prev === true ? '\u2039' : prev}
         </span>
       )
@@ -146,9 +164,9 @@ class Pagination extends React.Component<Props> {
 
   }
   renderNext() {
-    const { pages, activePage, next } = this.props;
+    const { pages, activePage, next, locale } = this.props;
 
-    if (!this.props.next) {
+    if (!next) {
       return null;
     }
 
@@ -157,7 +175,7 @@ class Pagination extends React.Component<Props> {
       eventKey: activePage + 1,
       disabled: activePage >= pages,
       children: (
-        <span aria-label="Next">
+        <span aria-label="Next" title={locale.next}>
           {next === true ? '\u203a' : next}
         </span>
       )
@@ -165,7 +183,7 @@ class Pagination extends React.Component<Props> {
   }
 
   renderFirst() {
-    const { activePage, first } = this.props;
+    const { activePage, first, locale } = this.props;
 
     if (!first) {
       return null;
@@ -176,7 +194,7 @@ class Pagination extends React.Component<Props> {
       eventKey: 1,
       disabled: activePage === 1,
       children: (
-        <span aria-label="First">
+        <span aria-label="First" title={locale.first}>
           {first === true ? '\u00ab' : first}
         </span>
       )
@@ -184,8 +202,7 @@ class Pagination extends React.Component<Props> {
   }
 
   renderLast() {
-    const { pages, activePage, last } = this.props;
-
+    const { pages, activePage, last, locale } = this.props;
     if (!last) {
       return null;
     }
@@ -195,7 +212,7 @@ class Pagination extends React.Component<Props> {
       eventKey: pages,
       disabled: activePage >= pages,
       children: (
-        <span aria-label="Last">
+        <span aria-label="Last" title={locale.last}>
           {last === true ? '\u00bb' : last}
         </span>
       )
@@ -233,8 +250,6 @@ class Pagination extends React.Component<Props> {
   }
 }
 
+const enhance = compose(withLocale(['Pagination']), withStyleProps({ hasSize: true }));
 
-export default withStyleProps({
-  hasSize: true,
-})(Pagination);
-
+export default enhance(Pagination);

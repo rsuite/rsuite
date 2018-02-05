@@ -24,6 +24,14 @@ export default {
     first: '第一页',
     last: '最后一页'
   },
+  Table: {
+    emptyMessage: '数据为空',
+    loading: '加载中...'
+  },
+  TablePagination: {
+    lengthMenuInfo: '每页 {0} 条',
+    totalInfo: '共 {0} 条数据'
+  },
   Calendar,
   DatePicker: {
     ...Calendar
