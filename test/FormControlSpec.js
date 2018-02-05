@@ -1,114 +1,80 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-
-
-import FormGroup from '../src/FormGroup';
+import Form from '../src/Form';
 import FormControl from '../src/FormControl';
-import { globalKey } from '../src/utils/prefix';
+import createFormControl from '../src/utils/createFormControl';
+
 
 describe('FormControl', () => {
 
-  it('Should render a Input', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <FormControl />
+  it('Should output a input', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Form>
+        <FormControl name="username" />
+      </Form>
     );
-    assert.equal(findDOMNode(instance).tagName, 'INPUT');
-    assert.equal(findDOMNode(instance).className, `${globalKey}form-control`);
+
+    const element = findDOMNode(instance);
+    assert.ok(element.querySelector('input'));
   });
 
-  it('Should render a Textearea', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <FormControl componentClass="textarea" />
-    );
-    assert.equal(findDOMNode(instance).tagName, 'TEXTAREA');
-    assert.equal(findDOMNode(instance).className, `${globalKey}form-control`);
-  });
+  it('Should output a textarea', () => {
 
-  it('Should render a file Input', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <FormControl type="file" />
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Form>
+        <FormControl name="username" accepter={createFormControl('textarea')} />
+      </Form>
     );
-    assert.equal(findDOMNode(instance).type, 'file');
-    assert.equal(findDOMNode(instance).className, '');
-  });
-
-  it('Should render a Select', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <FormControl componentClass="select" >
-        <option>1</option>
-        <option>2</option>
-      </FormControl>
-    );
-    assert.equal(findDOMNode(instance).tagName, 'SELECT');
-    assert.equal(findDOMNode(instance).className, `${globalKey}form-control`);
-  });
-
-  it('Should have a type', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <FormControl type="number" />
-    );
-    assert.equal(findDOMNode(instance).type, 'number');
-  });
-
-  it('Should have a id', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <FormControl id="input" />
-    );
-    assert.equal(findDOMNode(instance).id, 'input');
-  });
-
-  it('Should have a id when set controlId of FormGroup', () => {
-    let id = 'Test';
-    let instance = ReactTestUtils.renderIntoDocument(
-      <FormGroup controlId={id}>
-        <FormControl />
-      </FormGroup>
-    );
-    assert.equal(findDOMNode(instance).querySelector('input').id, id);
-  });
-
-  it('Should support inputRef', () => {
-    let input;
-    let instance = ReactTestUtils.renderIntoDocument(
-      <FormControl inputRef={ref => input = ref} />
-    );
-    assert.ok(input);
-  });
-
-  it('Should add size', () => {
-
-    let instance = ReactTestUtils.renderIntoDocument(
-      <FormControl size="lg" />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bform-control-lg\b/));
+    const element = findDOMNode(instance);
+    assert.ok(element.querySelector('textarea'));
   });
 
   it('Should call onChange callback', (done) => {
-    let doneOp = (value) => {
-      if (value === "1") {
-        done();
-      }
+    const doneOp = () => {
+      done();
     };
-    let instance = ReactTestUtils.renderIntoDocument(
-      <FormControl onChange={doneOp} value={1} />
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Form>
+        <FormControl name="username" onChange={doneOp} />
+      </Form>
     );
-    ReactTestUtils.Simulate.change(findDOMNode(instance));
+    const element = findDOMNode(instance);
+    ReactTestUtils.Simulate.change(element.querySelector('input'));
+  });
+
+  it('Should call onBlur callback', (done) => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Form>
+        <FormControl name="username" onBlur={doneOp} />
+      </Form>
+    );
+    const element = findDOMNode(instance);
+    ReactTestUtils.Simulate.blur(element.querySelector('input'));
   });
 
   it('Should have a custom className', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <FormControl className="custom" />
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Form>
+        <FormControl className="custom" name="username" />
+      </Form>
     );
-    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
+    const element = findDOMNode(instance);
+    assert.ok(element.querySelector('input').className.match(/\bcustom\b/));
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    let instance = ReactTestUtils.renderIntoDocument(
-      <FormControl style={{ fontSize }} />
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Form>
+        <FormControl style={{ fontSize }} name="username" />
+      </Form>
     );
-    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
+    const element = findDOMNode(instance);
+    assert.equal(element.querySelector('input').style.fontSize, fontSize);
   });
 
 });

@@ -4,7 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 
 import InputGroup from '../src/InputGroup';
-import FormControl from '../src/FormControl';
+import Input from '../src/Input';
 import { globalKey } from '../src/utils/prefix';
 
 describe('InputGroup', () => {
@@ -36,7 +36,7 @@ describe('InputGroup', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <InputGroup>
         <InputGroup.Addon> @</InputGroup.Addon>
-        <FormControl />
+        <Input />
       </InputGroup>
     );
     assert.ok(findDOMNode(instance).querySelector(`.${globalKey}input-group-addon`));
@@ -45,7 +45,7 @@ describe('InputGroup', () => {
   it('Should have a children Element and className is `input-group-btn` ', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <InputGroup>
-        <FormControl />
+        <Input />
         <InputGroup.Button>btn</InputGroup.Button>
       </InputGroup>
     );

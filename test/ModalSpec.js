@@ -68,7 +68,7 @@ describe('Modal', () => {
         <Modal.Header />
       </Modal>
       , mountPoint);
-    const closeButton = findDOMNode(instance.dialog).querySelector('.close');
+    const closeButton = findDOMNode(instance.dialog).querySelector(`.${globalKey}modal-header-close`);
     ReactTestUtils.Simulate.click(closeButton);
   });
 

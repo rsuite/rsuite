@@ -33,7 +33,7 @@ describe('ModalHeader', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ModalHeader onHide={doneOp} />
     );
-    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('button.close'));
+    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector(`.${globalKey}modal-header-close`));
   });
 
   it('Should have a custom className', () => {

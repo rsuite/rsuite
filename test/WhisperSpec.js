@@ -26,36 +26,42 @@ describe('Whisper', () => {
 
 
   it('Should create Whisper element', () => {
+    let trigger = null;
+    const triggerRef = ref => trigger = ref;
     const instance = ReactTestUtils.renderIntoDocument(
-      <Whisper speaker={<Tooltip>dd</Tooltip>}>
+      <Whisper triggerRef={triggerRef} speaker={<Tooltip>dd</Tooltip>}>
         <button>Click Me</button>
       </Whisper>
     );
-    const whisper = findDOMNode(instance);
-    assert.equal(whisper.nodeName, 'BUTTON');
+    const node = findDOMNode(trigger);
+    assert.equal(node.nodeName, 'BUTTON');
   });
 
 
   it('Should maintain overlay classname when trigger click', () => {
+    let trigger = null;
+    const triggerRef = ref => trigger = ref;
     const instance = ReactTestUtils.renderIntoDocument(
-      <Whisper trigger="click" speaker={<Tooltip className="test-whisper">test</Tooltip>}>
+      <Whisper triggerRef={triggerRef} trigger="click" speaker={<Tooltip className="test-whisper">test</Tooltip>}>
         <button>button</button>
       </Whisper>
     );
 
-    const whisper = findDOMNode(instance);
+    const whisper = findDOMNode(trigger);
     ReactTestUtils.Simulate.click(whisper);
     assert.equal(document.getElementsByClassName('test-whisper').length, 1);
   });
 
   it('Should maintain overlay classname when trigger focus', () => {
+    let trigger = null;
+    const triggerRef = ref => trigger = ref;
     const instance = ReactTestUtils.renderIntoDocument(
-      <Whisper trigger="focus" speaker={<Tooltip className="test-whisper">test</Tooltip>}>
+      <Whisper triggerRef={triggerRef} trigger="focus" speaker={<Tooltip className="test-whisper">test</Tooltip>}>
         <button>button</button>
       </Whisper>
     );
 
-    const whisper = findDOMNode(instance);
+    const whisper = findDOMNode(trigger);
     ReactTestUtils.Simulate.blur(whisper);
     assert.equal(document.getElementsByClassName('test-whisper').length, 1);
   });
@@ -64,13 +70,15 @@ describe('Whisper', () => {
     const doneOp = () => {
       done();
     };
+    let trigger = null;
+    const triggerRef = ref => trigger = ref;
     const instance = ReactTestUtils.renderIntoDocument(
-      <Whisper onClick={doneOp} trigger="click" speaker={<Tooltip className="test-whisper">test</Tooltip>}>
+      <Whisper triggerRef={triggerRef} onClick={doneOp} trigger="click" speaker={<Tooltip className="test-whisper">test</Tooltip>}>
         <button>button</button>
       </Whisper>
     );
 
-    const whisper = findDOMNode(instance);
+    const whisper = findDOMNode(trigger);
     ReactTestUtils.Simulate.click(whisper);
   });
 
@@ -82,10 +90,12 @@ describe('Whisper', () => {
     };
 
     let whisper;
-
+    let trigger = null;
+    const triggerRef = ref => trigger = ref;
     const instance = ReactTestUtils.renderIntoDocument(
       <Whisper
         trigger="click"
+        triggerRef={triggerRef}
         speaker={<Tooltip>test</Tooltip>}
         onExit={increment}
         onExiting={increment}
@@ -106,7 +116,7 @@ describe('Whisper', () => {
       </Whisper>
     );
 
-    whisper = findDOMNode(instance);
+    whisper = findDOMNode(trigger);
     ReactTestUtils.Simulate.click(whisper);
   });
 

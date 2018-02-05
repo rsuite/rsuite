@@ -15,18 +15,12 @@ describe('DropdownMenu', () => {
         <DropdownMenuItem>2</DropdownMenuItem>
       </DropdownMenu>
     );
-    assert.ok(findDOMNode(instance).className.match(/\bdropdown-menu\b/));
-    assert.equal(findDOMNode(instance).tagName, 'UL');
-    assert.equal(findDOMNode(instance).children.length, 2);
-  });
 
-  it('Should have a `pull-right` className ', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <DropdownMenu pullRight />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bdropdown-menu-right\b/));
+    const node = findDOMNode(instance);
+    assert.ok(node.className.match(/\bdropdown-menu\b/));
+    assert.equal(node.tagName, 'UL');
+    assert.equal(node.children.length, 2);
   });
-
 
   it('Should call onSelect callback', (done) => {
     let doneOp = (eventKey) => {
