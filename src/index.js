@@ -49,6 +49,7 @@ export CheckPicker from './CheckPicker';
 export Cascader from './Cascader';
 export DatePicker from './DatePicker';
 export DateRangePicker from './DateRangePicker';
+export TreePicker from './TreePicker';
 
 
 export Schema from './Schema';

@@ -32,7 +32,6 @@ export default {
     lengthMenuInfo: '每页 {0} 条',
     totalInfo: '共 {0} 条数据'
   },
-  Calendar,
   DatePicker: {
     ...Calendar
   },
