@@ -31,7 +31,7 @@ type Props = {
 }
 
 
-type States = {
+type State = {
   expanded?: boolean
 }
 
@@ -40,7 +40,7 @@ function shouldRenderFill(child: any) {
   return React.isValidElement(child) && child.props.fill !== null;
 }
 
-class Panel extends React.Component<Props, States> {
+class Panel extends React.Component<Props, State> {
 
   static defaultProps = {
     classPrefix: `${globalKey}panel`

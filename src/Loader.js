@@ -17,11 +17,11 @@ type Props = {
   speed: 'normal' | 'fast' | 'slow'
 };
 
-type States = {
+type State = {
   width?: number
 };
 
-class Loader extends React.Component<Props, States> {
+class Loader extends React.Component<Props, State> {
 
   static defaultProps = {
     classPrefix: `${globalKey}loader`,

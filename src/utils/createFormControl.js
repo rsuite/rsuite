@@ -23,7 +23,7 @@ type Props = {
   onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void,
 };
 
-type States = {
+type State = {
   inputValue?: any,
   innerValue?: any,
 }
@@ -36,7 +36,7 @@ function createFormControl(Component: React.ElementType) {
   // for safari use only, innervalue can't setState when compositionend occurred
   let isInnerChangeFromOnChange = false;
 
-  class FormControl extends React.Component<Props, States> {
+  class FormControl extends React.Component<Props, State> {
 
     static displayName = 'FormControlField';
 

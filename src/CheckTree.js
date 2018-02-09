@@ -1,4 +1,4 @@
-import CheckTree from 'rsuite-check-tree';
+import CheckTree from 'rsuite-checktreepicker';
 
 export default CheckTree;
 

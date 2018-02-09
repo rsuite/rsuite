@@ -22,12 +22,12 @@ type Props = {
   onCheck?: (errors: Object) => void,
 }
 
-type States = {
+type State = {
   errors?: Object,
   values?: Object
 }
 
-class Form extends React.Component<Props, States> {
+class Form extends React.Component<Props, State> {
 
   static defaultProps = {
     model: SchemaModel({}),

@@ -25,14 +25,14 @@ type Props = {
   onSelect?: (eventKey: Array<any>, event: SyntheticEvent<*>) => void,
 }
 
-type States = {
+type State = {
   activeKey?: any,
   openKeys?: Array<any>
 }
 
 const Component = createComponent('div');
 
-class Sidenav extends React.Component<Props, States> {
+class Sidenav extends React.Component<Props, State> {
 
   static defaultProps = {
     appearance: 'default',

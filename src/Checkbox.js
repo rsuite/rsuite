@@ -23,11 +23,11 @@ type Props = {
   tabIndex?: number
 }
 
-type States = {
+type State = {
   checked?: boolean
 }
 
-class Checkbox extends React.Component<Props, States> {
+class Checkbox extends React.Component<Props, State> {
 
   static displayName = 'Checkbox';
   static defaultProps = {

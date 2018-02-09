@@ -59,7 +59,7 @@ type Props = {
   onExited?: Function,
 }
 
-type States = {
+type State = {
   modalStyles?: Object,
   bodyStyles?: Object
 }
@@ -68,7 +68,7 @@ const childContextTypes = {
   onModalHide: PropTypes.func
 };
 
-class Modal extends React.Component<Props, States> {
+class Modal extends React.Component<Props, State> {
 
   static displayName = 'Modal';
   static defaultProps = {

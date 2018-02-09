@@ -29,7 +29,7 @@ type Props = {
   onChange?: (value: number) => void
 }
 
-type States = {
+type State = {
   value: number,
   barWidth: number,
   barHeight: number,
@@ -38,7 +38,7 @@ type States = {
 }
 
 
-class Slider extends React.Component<Props, States> {
+class Slider extends React.Component<Props, State> {
 
   static defaultProps = {
     classPrefix: `${globalKey}slider`,

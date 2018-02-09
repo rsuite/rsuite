@@ -36,6 +36,7 @@ export FormControl from './FormControl';
 export ControlLabel from './ControlLabel';
 export HelpBlock from './HelpBlock';
 export Input from './Input';
+export InputNumber from './InputNumber';
 export InputGroup from './InputGroup';
 export Checkbox from './Checkbox';
 export CheckboxGroup from './CheckboxGroup';

@@ -35,12 +35,12 @@ type Props = {
 }
 
 
-type States = {
+type State = {
   displayLength: number,
   activePage: number
 }
 
-class TablePagination extends React.Component<Props, States> {
+class TablePagination extends React.Component<Props, State> {
 
   static defaultProps = {
     classPrefix: `${globalKey}table-pagination`,

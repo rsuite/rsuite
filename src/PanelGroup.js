@@ -15,11 +15,11 @@ type Props = {
   onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
 }
 
-type States = {
+type State = {
   activeKey?: boolean
 }
 
-class PanelGroup extends React.Component<Props, States> {
+class PanelGroup extends React.Component<Props, State> {
 
   static defaultProps = {
     classPrefix: 'panel-group',

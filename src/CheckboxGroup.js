@@ -17,11 +17,11 @@ type Props = {
   classPrefix?: string
 }
 
-type States = {
+type State = {
   value: Array<any>
 }
 
-class CheckboxGroup extends React.Component<Props, States> {
+class CheckboxGroup extends React.Component<Props, State> {
 
   static defaultProps = {
     classPrefix: `${globalKey}checkbox-group`

@@ -45,12 +45,12 @@ type Props = {
   eventKey?: any
 }
 
-type States = {
+type State = {
   title?: React.Node,
   open?: boolean
 }
 
-class Dropdown extends React.Component<Props, States> {
+class Dropdown extends React.Component<Props, State> {
 
   static defaultProps = {
     classPrefix: `${globalKey}dropdown`,

@@ -34,13 +34,13 @@ type Props = {
   tabIndex?: number,
 }
 
-type States = {
+type State = {
   open?: boolean
 }
 
 const Component = createComponent(SafeAnchor);
 
-class DropdownMenuItem extends React.Component<Props, States> {
+class DropdownMenuItem extends React.Component<Props, State> {
 
   static displayName = 'DropdownMenuItem';
   static defaultProps = {

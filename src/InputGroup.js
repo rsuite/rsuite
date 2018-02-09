@@ -13,14 +13,15 @@ import withStyleProps from './utils/withStyleProps';
 type Props = {
   className?: string,
   classPrefix: string,
-  inside?: boolean
+  inside?: boolean,
+  children?: React.Node
 }
 
-type States = {
+type State = {
   focus?: boolean
 }
 
-class InputGroup extends React.Component<Props, States> {
+class InputGroup extends React.Component<Props, State> {
   static defaultProps = {
     classPrefix: `${globalKey}input-group`,
   }
@@ -78,6 +79,7 @@ class InputGroup extends React.Component<Props, States> {
 const WithInputGroup = withStyleProps({
   hasSize: true
 })(InputGroup);
+
 
 setStatic('Addon', InputGroupAddon)(WithInputGroup);
 setStatic('Button', InputGroupButton)(WithInputGroup);

@@ -25,12 +25,12 @@ type Props = {
   tabIndex?: number
 }
 
-type States = {
+type State = {
   checked?: boolean
 }
 
 
-class Radio extends React.Component<Props, States> {
+class Radio extends React.Component<Props, State> {
   static displayName = 'Radio';
   static defaultProps = {
     classPrefix: `${globalKey}radio`,
@@ -76,7 +76,7 @@ class Radio extends React.Component<Props, States> {
       classPrefix,
       tabIndex,
       inputRef,
-      ...props,
+      ...props
     } = this.props;
 
     const nextChecked: boolean | void = _.isUndefined(checked) ? this.state.checked : checked;

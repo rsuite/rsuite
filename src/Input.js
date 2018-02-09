@@ -15,6 +15,9 @@ type Props = {
   id?: string,
   classPrefix: string,
   className?: string,
+  disabled?: boolean,
+  value?: string,
+  defaultValue?: string,
   onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void,
   onFocus?: (event: SyntheticEvent<*>) => void,
   onBlur?: (event: SyntheticEvent<*>) => void
@@ -51,7 +54,10 @@ class Input extends React.Component<Props> {
       id = controlId,
       onFocus,
       onBlur,
-      ...rest,
+      disabled,
+      value,
+      defaultValue,
+      ...rest
     } = this.props;
 
     const classes = classNames({
@@ -67,6 +73,9 @@ class Input extends React.Component<Props> {
         {...rest}
         type={type}
         id={id}
+        value={value}
+        defaultValue={defaultValue}
+        disabled={disabled}
         onFocus={createChainedFunction(onFocus, _.get(inputGroup, 'onFocus'))}
         onBlur={createChainedFunction(onBlur, _.get(inputGroup, 'onBlur'))}
         className={classes}

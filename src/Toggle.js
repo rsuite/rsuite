@@ -19,11 +19,11 @@ type Props = {
   className?: string
 };
 
-type States = {
+type State = {
   checked?: boolean
 }
 
-class Toggle extends React.Component<Props, States> {
+class Toggle extends React.Component<Props, State> {
 
   static defaultProps = {
     classPrefix: `${globalKey}btn-toggle`

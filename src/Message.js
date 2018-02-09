@@ -20,11 +20,11 @@ type Props = {
   classPrefix: string
 };
 
-type States = {
+type State = {
   display: 'show' | 'hide' | 'hiding',
 }
 
-class Message extends React.Component<Props, States> {
+class Message extends React.Component<Props, State> {
 
   static defaultProps = {
     type: 'info',

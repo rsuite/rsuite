@@ -13,12 +13,12 @@ type Props = {
   onBlur?: (event: SyntheticEvent<*>) => void
 }
 
-type States = {
+type State = {
   checkResult?: Object,
   value?: any
 }
 
-class FormControl extends React.Component<Props, States> {
+class FormControl extends React.Component<Props, State> {
 
   static defaultProps = {
     accepter: Input

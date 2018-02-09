@@ -18,11 +18,11 @@ type Props = {
   onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void,
 };
 
-type States = {
+type State = {
   value: any
 }
 
-class RadioGroup extends React.Component<Props, States> {
+class RadioGroup extends React.Component<Props, State> {
 
   static defaultProps = {
     classPrefix: `${globalKey}radio-group`
