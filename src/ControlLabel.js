@@ -30,7 +30,7 @@ class ControlLabel extends React.Component<Props> {
       srOnly,
       className,
       classPrefix,
-      ...props,
+      ...rest
     } = this.props;
 
     const classes = classNames(classPrefix, {
@@ -39,7 +39,7 @@ class ControlLabel extends React.Component<Props> {
 
     return (
       <label
-        {...props}
+        {...rest}
         htmlFor={htmlFor}
         className={classes}
       />

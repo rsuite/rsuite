@@ -44,7 +44,6 @@ export Radio from './Radio';
 export RadioGroup from './RadioGroup';
 export SelectPicker from './SelectPicker';
 export Slider from './Slider';
-export CheckTree from './CheckTree';
 export CheckTreePicker from './CheckTreePicker';
 export CheckPicker from './CheckPicker';
 export Cascader from './Cascader';
@@ -54,6 +53,10 @@ export TreePicker from './TreePicker';
 
 
 export Schema from './Schema';
+
+export Tree from './Tree';
+export CheckTree from './CheckTree';
+
 export Panel from './Panel';
 export PanelGroup from './PanelGroup';
 

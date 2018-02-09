@@ -17,7 +17,8 @@ export type Props = {
   href?: string,
   loading?: boolean,
   disabled?: boolean,
-  children?: React.Node
+  children?: React.Node,
+  componentClass?: React.ElementType
 };
 
 const Component = createComponent('button');

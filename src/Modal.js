@@ -214,7 +214,7 @@ class Modal extends React.Component<Props, State> {
 
     const modal = (
       <Dialog
-        {..._.pick(props, Object.keys(ModalDialog.propTypes || {})) }
+        {..._.pick(props, Object.keys(ModalDialog.propTypes || {}))}
         style={{ ...modalStyles, ...style }}
         classPrefix={classPrefix}
         className={classes}
