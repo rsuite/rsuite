@@ -144,11 +144,11 @@ function createFormControl(Component: React.ElementType) {
         onChange: this.handleChange
       };
 
-      //if (isTextField(this)) {
-      handleEvents.onCompositionStart = this.handleComposition;
-      handleEvents.onCompositionUpdate = this.handleComposition;
-      handleEvents.onCompositionEnd = this.handleComposition;
-      //}
+      if (isTextField(this)) {
+        handleEvents.onCompositionStart = this.handleComposition;
+        handleEvents.onCompositionUpdate = this.handleComposition;
+        handleEvents.onCompositionEnd = this.handleComposition;
+      }
 
       return (
         <Component

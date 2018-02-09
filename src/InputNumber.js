@@ -14,17 +14,17 @@ type Props = {
   min: number,
   max: number,
   step: number,
-  value?: number,
+  value?: number | null,
   defaultValue?: number,
   prefix?: React.Node,
   postfix?: React.Node,
   disabled?: boolean,
-  onChange?: (value: number, event?: SyntheticEvent<*>) => void
+  onChange?: (value: number | null, event?: SyntheticEvent<*>) => void
 };
 
 type State = {
   decimals: number,
-  value?: number,
+  value?: number | null,
   disabledUpButton?: boolean,
   disabledDownButton?: boolean
 }
@@ -53,18 +53,18 @@ class InputNumber extends React.Component<Props, State> {
     }
     return 0;
   }
-  getMax(value: number) {
+  getMax(value: number | null) {
     const { max } = this.props;
     return {
-      inMax: value <= max,
-      equalMax: value >= max
+      inMax: +value <= max,
+      equalMax: +value >= max
     };
   }
-  getMin(value: number) {
+  getMin(value: number | null) {
     const { min } = this.props;
     return {
-      inMin: value >= min,
-      equalMin: value <= min
+      inMin: +value >= min,
+      equalMin: +value <= min
     };
   }
   getValue() {
@@ -84,7 +84,15 @@ class InputNumber extends React.Component<Props, State> {
     });
   }
   handleOnChange = (value: string, event: SyntheticInputEvent<*>) => {
-    this.handleValue(Number.parseFloat(value), event);
+
+    if (!/^-?(?:\d+)(?:\.\d+)?$/.test(value)) {
+      return;
+    }
+
+    this.handleValue(
+      (value === '') ? null : Number.parseFloat(value),
+      event
+    );
   }
 
   handleBlur = (event: SyntheticInputEvent<*>) => {
@@ -99,7 +107,7 @@ class InputNumber extends React.Component<Props, State> {
         targetValue = min;
       }
     } else {
-      targetValue = 0;
+      targetValue = null;
     }
     this.handleValue(targetValue, event);
 
@@ -135,7 +143,7 @@ class InputNumber extends React.Component<Props, State> {
     nextValue = this.getMin(nextValue).inMin ? +nextValue.toFixed(decimals) : min;
     this.handleValue(nextValue, event);
   }
-  handleValue(currentValue: number, event?: SyntheticEvent<*>) {
+  handleValue(currentValue: number | null, event?: SyntheticEvent<*>) {
 
     const { value } = this.state;
     const { onChange } = this.props;
@@ -172,7 +180,6 @@ class InputNumber extends React.Component<Props, State> {
     const addPrefix = classNamePrefix(classPrefix);
     const classes = classNames(classPrefix, className);
 
-
     return (
       <InputGroup
         className={classes}
@@ -182,9 +189,10 @@ class InputNumber extends React.Component<Props, State> {
           <InputGroup.Addon>{prefix}</InputGroup.Addon>
         }
         <Input
+          type="number"
           onChange={this.handleOnChange}
           onBlur={this.handleBlur}
-          value={value + ''}
+          value={(value === null) ? '' : value + ''}
           onWheel={this.handleWheel}
           disabled={disabled}
         />
