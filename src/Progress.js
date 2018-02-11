@@ -1,7 +1,7 @@
-import { Line, Circle } from 'rsuite-progress';
-
+import ProgressCircle from './ProgressCircle';
+import ProgressLine from './ProgressLine';
 
 export default {
-  Line,
-  Circle
+  Line: ProgressLine,
+  Circle: ProgressCircle
 };

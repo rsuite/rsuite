@@ -24,7 +24,8 @@ type Props = {
   placement?: PlacementEighPoints,
   onFocus?: (event: DefaultEvent) => void,
   onBlur?: (event: DefaultEvent) => void,
-  renderItem?: (itemValue: string) => React.Node
+  renderItem?: (itemValue: string) => React.Node,
+  open?: boolean
 };
 
 type State = {
@@ -261,6 +262,7 @@ class AutoComplete extends React.Component<Props, State> {
       defaultValue,
       placement,
       data,
+      open,
       ...rest
     } = this.props;
 
@@ -282,7 +284,7 @@ class AutoComplete extends React.Component<Props, State> {
           disabled={disabled}
           trigger={['click', 'focus']}
           placement={placement}
-          open={this.state.focus && hasItems}
+          open={open || (this.state.focus && hasItems)}
           speaker={this.renderDropdownMenu()}
         >
           <Input

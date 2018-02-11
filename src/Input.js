@@ -15,8 +15,8 @@ type Props = {
   classPrefix: string,
   className?: string,
   disabled?: boolean,
-  value?: string,
-  defaultValue?: string,
+  value?: string | number,
+  defaultValue?: string | number,
   onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void,
   onFocus?: (event: SyntheticEvent<*>) => void,
   onBlur?: (event: SyntheticEvent<*>) => void

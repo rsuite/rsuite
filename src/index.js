@@ -62,7 +62,7 @@ export PanelGroup from './PanelGroup';
 
 export Table from './Table';
 export TablePagination from './TablePagination';
-//export Progress from './Progress';
+export Progress from './Progress';
 
 // Layout
 export Header from './Header';

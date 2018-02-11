@@ -20,7 +20,7 @@ type Props = {
   handleClassName?: string,
   handleTitle?: React.Node,
   barClassName?: string,
-  customStyle?: Object,
+  hanldeStyle?: Object,
   disabled?: boolean,
   graduated?: boolean,
   tooltip?: boolean,
@@ -244,19 +244,18 @@ class Slider extends React.Component<Props, State> {
 
 
   renderHanlde() {
-    const { handleClassName, handleTitle, min, step, vertical, tooltip, customStyle } = this.props;
+    const { handleClassName, handleTitle, min, step, vertical, tooltip, hanldeStyle } = this.props;
     const { value, barWidth, barHeight, handleDown } = this.state;
 
     // 标尺分割数量
     const count = this.getSplitCount();
 
-    const offset = vertical ? 'top' : 'left';
-    const width = vertical ? barHeight : barWidth;
-
-    const style = customStyle ? Object.assign({}, customStyle, {
-      [offset]: ((value - min) / step) * (width / count)
-    }) :
-      { [offset]: ((value - min) / step) * (width / count) };
+    const direction = vertical ? 'top' : 'left';
+    const length = vertical ? barHeight : barWidth;
+    const offset = {
+      [direction]: ((value - min) / step) * (length / count)
+    };
+    const style = hanldeStyle ? Object.assign({}, hanldeStyle, offset) : offset;
 
     // 通过 value 计算出手柄位置
     return (
