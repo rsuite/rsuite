@@ -200,25 +200,24 @@ class InputNumber extends React.Component<Props, State> {
           postfix &&
           <InputGroup.Addon>{postfix}</InputGroup.Addon>
         }
-        {
-          !disabled &&
-          <span className={addPrefix('btn-group-vertical')} >
-            <Button
-              className={addPrefix('touchspin-up')}
-              onClick={this.handlePlus}
-              disabled={disabledUpButton}
-            >
-              <Icon icon="chevron-up" />
-            </Button>
-            <Button
-              className={addPrefix('touchspin-down')}
-              onClick={this.handleMinus}
-              disabled={disabledDownButton}
-            >
-              <Icon icon="chevron-down" />
-            </Button>
-          </span>
-        }
+
+        <span className={addPrefix('btn-group-vertical')} >
+          <Button
+            className={addPrefix('touchspin-up')}
+            onClick={this.handlePlus}
+            disabled={disabledUpButton || disabled}
+          >
+            <Icon icon="chevron-up" />
+          </Button>
+          <Button
+            className={addPrefix('touchspin-down')}
+            onClick={this.handleMinus}
+            disabled={disabledDownButton || disabled}
+          >
+            <Icon icon="chevron-down" />
+          </Button>
+        </span>
+
       </InputGroup>
     );
   }
