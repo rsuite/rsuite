@@ -13,7 +13,6 @@ import AutoCompleteItem from './AutoCompleteItem';
 type DefaultEvent = SyntheticEvent<*>;
 type PlacementEighPoints = 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight' | 'leftTop' | 'rightTop' | 'leftBottom' | 'rightBottom';
 type Props = {
-  placeholder?: string,
   data: Array<string>,
   disabled?: boolean,
   onSelect?: (text: React.Node, event: DefaultEvent) => void,
@@ -257,7 +256,6 @@ class AutoComplete extends React.Component<Props, State> {
 
     const {
       disabled,
-      placeholder,
       className,
       classPrefix,
       defaultValue,
@@ -289,7 +287,6 @@ class AutoComplete extends React.Component<Props, State> {
         >
           <Input
             {...unhandled}
-            placeholder={placeholder}
             disabled={disabled}
             value={value}
             onBlur={this.handleInputBlur}

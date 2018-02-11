@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import withStyleProps from './utils/withStyleProps';
 import { globalKey } from './utils/prefix';
-import createFormControl from './utils/createFormControl';
 import createChainedFunction from './utils/createChainedFunction';
 
 type Props = {
@@ -36,12 +35,11 @@ class Input extends React.Component<Props> {
     inputGroup: PropTypes.object,
   }
 
-  constructor(props: Props) {
-    super(props);
-    this.formControl = createFormControl(props.componentClass);
+  handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
+    const { onChange } = this.props;
+    const nextValue = event.target.value;
+    onChange && onChange(nextValue, event);
   }
-
-  formControl = 'input';
 
   render() {
     const controlId = _.get(this.context, 'formGroup.controlId');
@@ -60,16 +58,15 @@ class Input extends React.Component<Props> {
       ...rest
     } = this.props;
 
-    const classes = classNames({
+    const classes = classNames(classPrefix, {
       // input[type="file"] should not have .form-control.
-      [classPrefix]: type !== 'file',
+      [`${globalKey}form-control`]: type !== 'file',
     }, className);
 
     const { inputGroup } = this.context;
-    const Component = this.formControl;
 
     return (
-      <Component
+      <input
         {...rest}
         type={type}
         id={id}
@@ -79,11 +76,10 @@ class Input extends React.Component<Props> {
         onFocus={createChainedFunction(onFocus, _.get(inputGroup, 'onFocus'))}
         onBlur={createChainedFunction(onBlur, _.get(inputGroup, 'onBlur'))}
         className={classes}
-        onChange={onChange}
+        onChange={this.handleChange}
       />
     );
   }
 }
 
 export default withStyleProps({ hasSize: true })(Input);
-
