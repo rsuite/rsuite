@@ -1,13 +1,15 @@
 // @flow
 
 import * as React from 'react';
+import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { on, DOMMouseMoveTracker, getWidth, getHeight, getOffset } from 'dom-lib';
+import { on, DOMMouseMoveTracker, addStyle, getWidth, getHeight, getOffset } from 'dom-lib';
 
 import getUnhandledProps from './utils/getUnhandledProps';
 import prefix, { globalKey } from './utils/prefix';
 import Tooltip from './Tooltip';
+
 
 type Props = {
   min: number,
@@ -93,6 +95,7 @@ class Slider extends React.Component<Props, State> {
   }
 
   setValue(value: number) {
+
     const { onChange, min, max } = this.props;
     if (value < min) {
       value = min;
@@ -104,6 +107,12 @@ class Slider extends React.Component<Props, State> {
     onChange && onChange(value);
   }
 
+  setTooltipPosition() {
+    /* eslint-disable react/no-find-dom-node */
+    const tip = findDOMNode(this.tooltip);
+    const width = getWidth(tip);
+    addStyle(tip, 'left', `-${width / 2}px`);
+  }
 
   checkValue(value: number) {
     const { max, min } = this.props;
@@ -131,13 +140,14 @@ class Slider extends React.Component<Props, State> {
       return value;
     }
 
+
     if (vertical) {
       value = Math.round(offset / (barHeight / count)) * step;
     } else {
       value = Math.round(offset / (barWidth / count)) * step;
     }
-    return value;
 
+    return value;
   }
 
   hanldeClick = (event: SyntheticDragEvent<*>) => {
@@ -146,14 +156,15 @@ class Slider extends React.Component<Props, State> {
       return;
     }
 
-    const { vertical } = this.props;
+    const { vertical, min } = this.props;
     const { barOffset } = this.state;
     const offset = vertical ? event.pageY - barOffset.top : event.pageX - barOffset.left;
-    this.setValue(this.calculateValue(offset));
+    this.setValue(this.calculateValue(offset) + min);
   }
 
   mouseMoveTracker = null;
   bar = null;
+  tooltip = null;
 
   hanldeMouseDown = (event: SyntheticEvent<*>) => {
 
@@ -182,11 +193,11 @@ class Slider extends React.Component<Props, State> {
       return;
     }
 
-    const { vertical } = this.props;
+    const { vertical, min } = this.props;
     const { barOffset } = this.state;
     const offset = vertical ? event.pageY - barOffset.top : event.pageX - barOffset.left;
-
-    this.setValue(this.calculateValue(offset));
+    this.setValue(this.calculateValue(offset) + min);
+    this.setTooltipPosition();
   }
 
   /**
@@ -217,16 +228,18 @@ class Slider extends React.Component<Props, State> {
    * 渲染标尺
    */
   renderGraduated() {
-    const { vertical, step, min } = this.props;
+    const { vertical, step, max, min } = this.props;
     const count = this.getSplitCount();
     const { barHeight, value } = this.state;
     const graduatedItems = [];
     const pass = (value / step) - (min / step);
+    const active = Math.ceil((((value - min) / (max - min)) * count));
 
     for (let i = 0; i < count; i += 1) {
       let style = {};
       let classes = classNames({
-        [this.addPrefix('pass')]: i <= pass
+        [this.addPrefix('pass')]: i <= pass,
+        [this.addPrefix('active')]: i === active
       });
 
       if (barHeight && vertical) {
@@ -244,18 +257,23 @@ class Slider extends React.Component<Props, State> {
 
 
   renderHanlde() {
-    const { handleClassName, handleTitle, min, step, vertical, tooltip, hanldeStyle } = this.props;
-    const { value, barWidth, barHeight, handleDown } = this.state;
+    const {
+      handleClassName,
+      handleTitle,
+      max,
+      min,
+      vertical,
+      tooltip,
+      hanldeStyle
+    } = this.props;
+    const { value, handleDown } = this.state;
 
-    // 标尺分割数量
-    const count = this.getSplitCount();
 
     const direction = vertical ? 'top' : 'left';
-    const length = vertical ? barHeight : barWidth;
     const offset = {
-      [direction]: ((value - min) / step) * (length / count)
+      [direction]: `${((value - min) / (max - min)) * 100}%`
     };
-    const style = hanldeStyle ? Object.assign({}, hanldeStyle, offset) : offset;
+    const style = Object.assign({}, hanldeStyle, offset);
 
     // 通过 value 计算出手柄位置
     return (
@@ -267,24 +285,27 @@ class Slider extends React.Component<Props, State> {
         onMouseDown={this.hanldeMouseDown}
         style={style}
       >
-        {tooltip && <Tooltip placement="top"> {value} </Tooltip>}
+        {
+          tooltip && <Tooltip
+            placement="top"
+            ref={(ref) => {
+              this.tooltip = ref;
+            }}
+          >
+            {value}
+          </Tooltip>
+        }
         {handleTitle}
       </div>
     );
   }
 
   renderProgress() {
-    const { vertical } = this.props;
-    const { value, barWidth, barHeight } = this.state;
-    const { step } = this.props;
-    const count = this.getSplitCount();
-
+    const { vertical, max, min } = this.props;
+    const { value } = this.state;
     const key = vertical ? 'height' : 'width';
-    const length = vertical ? barHeight : barWidth;
-    const offset = (value / step) * (length / count);
-
     const style = {
-      [key]: offset
+      [key]: `${((value - min) / (max - min)) * 100}%`
     };
 
     return (
