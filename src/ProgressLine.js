@@ -12,7 +12,7 @@ type Props = {
   strokeWidth?: number,
   trailColor?: string,
   trailWidth?: number,
-  infoShow?: boolean,
+  showInfo?: boolean,
   status?: 'success' | 'fail' | 'error',
 };
 
@@ -20,6 +20,7 @@ class ProgressLine extends React.Component<Props> {
 
   static defaultProps = {
     classPrefix: `${globalKey}progress`,
+    showInfo: true,
     percent: 0
   };
 
@@ -32,7 +33,7 @@ class ProgressLine extends React.Component<Props> {
       trailColor,
       trailWidth,
       status,
-      infoShow,
+      showInfo,
       classPrefix,
       ...rest
     } = this.props;
@@ -50,27 +51,23 @@ class ProgressLine extends React.Component<Props> {
       className
     );
 
+    const info = status ? (<span className={addPrefix(`icon-${status}`)} />) : (
+      <div className={addPrefix('info')}>
+        <span className={addPrefix('info-status')}>{percent}%</span>
+      </div>
+    );
+
     return (
       <div
         className={classes}
         {...rest}
       >
-
         <div className={addPrefix('line-outer')}>
           <div className={addPrefix('line-inner')}>
             <div className={addPrefix('line-bg')} style={percentStyle} />
           </div>
         </div>
-
-        {status ? <span className={addPrefix(`icon-${status}`)} /> : null}
-        {
-          infoShow ? (
-            <div className={addPrefix('info')}>
-              <span className={addPrefix('info-status')}>{percent}%</span>
-            </div>
-          ) : null
-        }
-
+        {showInfo ? info : null}
       </div>
     );
   }

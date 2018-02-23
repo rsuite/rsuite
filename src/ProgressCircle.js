@@ -15,7 +15,7 @@ type Props = {
   trailWidth: number,
   gapDegree: number,
   gapPosition: 'top' | 'bottom' | 'left' | 'right',
-  infoShow?: boolean,
+  showInfo?: boolean,
   status?: 'success' | 'fail' | 'error',
   classPrefix?: string
 };
@@ -25,10 +25,11 @@ class ProgressCircle extends React.Component<Props> {
   static defaultProps = {
     classPrefix: `${globalKey}progress`,
     percent: 0,
-    strokeLinecap: 'round',
-    strokeWidth: 2,
-    trailWidth: 2,
+    strokeWidth: 6,
+    trailWidth: 6,
     gapDegree: 0,
+    showInfo: true,
+    strokeLinecap: 'round',
     gapPosition: 'top',
   };
 
@@ -49,6 +50,7 @@ class ProgressCircle extends React.Component<Props> {
     let beginPositionY = -radius;
     let endPositionX = 0;
     let endPositionY = -2 * radius;
+
     switch (gapPosition) {
       case 'left':
         beginPositionX = -radius;
@@ -102,7 +104,7 @@ class ProgressCircle extends React.Component<Props> {
       trailColor,
       strokeLinecap,
       className,
-      infoShow,
+      showInfo,
       status,
       gapDegree,
       gapPosition,
@@ -118,18 +120,20 @@ class ProgressCircle extends React.Component<Props> {
 
 
     const addPrefix = prefix(classPrefix);
-
     const classes = classNames(
       classPrefix,
       addPrefix('circle'),
       className
     );
 
+    const info = status ? (<span className={addPrefix(`icon-${status}`)} />) : (
+      <span key={1}>{percent}%</span>
+    );
+
     return (
       <div className={classes}>
         <span className={addPrefix('circle-info')}>
-          {status ? <span className={addPrefix(`icon-${status}`)} /> : null}
-          {infoShow ? <span key={1}>{percent}%</span> : null}
+          {showInfo ? info : null}
         </span>
         <svg
           className={addPrefix('svg')}
