@@ -16,7 +16,7 @@ type Props = {
   gapDegree: number,
   gapPosition: 'top' | 'bottom' | 'left' | 'right',
   showInfo?: boolean,
-  status?: 'success' | 'fail' | 'error',
+  status?: 'success' | 'fail' | 'active',
   classPrefix?: string
 };
 
@@ -120,21 +120,25 @@ class ProgressCircle extends React.Component<Props> {
 
 
     const addPrefix = prefix(classPrefix);
-    const classes = classNames(
-      classPrefix,
-      addPrefix('circle'),
-      className
-    );
+    const classes = classNames(classPrefix, addPrefix('circle'), {
+      [addPrefix(`circle-${status || ''}`)]: !!status,
+    }, className);
 
-    const info = status ? (<span className={addPrefix(`icon-${status}`)} />) : (
+    const showIcon = status && status !== 'active';
+    const info = showIcon ? (<span className={addPrefix(`icon-${status || ''}`)} />) : (
       <span key={1}>{percent}%</span>
     );
 
     return (
       <div className={classes}>
-        <span className={addPrefix('circle-info')}>
-          {showInfo ? info : null}
-        </span>
+        {
+          showInfo ? (
+            <span className={addPrefix('circle-info')}>
+              {info}
+            </span>
+          ) : null
+        }
+
         <svg
           className={addPrefix('svg')}
           viewBox="0 0 100 100"
