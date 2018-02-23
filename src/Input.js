@@ -64,9 +64,10 @@ class Input extends React.Component<Props> {
     }, className);
 
     const { inputGroup } = this.context;
+    const Component = componentClass;
 
     return (
-      <input
+      <Component
         {...rest}
         type={type}
         id={id}

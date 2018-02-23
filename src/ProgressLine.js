@@ -56,6 +56,12 @@ class ProgressLine extends React.Component<Props> {
         {...rest}
       >
 
+        <div className={addPrefix('line-outer')}>
+          <div className={addPrefix('line-inner')}>
+            <div className={addPrefix('line-bg')} style={percentStyle} />
+          </div>
+        </div>
+
         {status ? <span className={addPrefix(`icon-${status}`)} /> : null}
         {
           infoShow ? (
@@ -64,11 +70,7 @@ class ProgressLine extends React.Component<Props> {
             </div>
           ) : null
         }
-        <div className={addPrefix('line-outer')}>
-          <div className={addPrefix('line-inner')}>
-            <div className={addPrefix('line-bg')} style={percentStyle} />
-          </div>
-        </div>
+
       </div>
     );
   }

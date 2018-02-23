@@ -26,8 +26,8 @@ class ProgressCircle extends React.Component<Props> {
     classPrefix: `${globalKey}progress`,
     percent: 0,
     strokeLinecap: 'round',
-    strokeWidth: 1,
-    trailWidth: 1,
+    strokeWidth: 2,
+    trailWidth: 2,
     gapDegree: 0,
     gapPosition: 'top',
   };
@@ -78,14 +78,12 @@ class ProgressCircle extends React.Component<Props> {
       stroke: trailColor,
       strokeDasharray: `${len - gapDegree}px ${len}px`,
       strokeDashoffset: `-${gapDegree / 2}px`,
-      transition: 'stroke-dashoffset .3s ease 0s, stroke-dasharray .3s ease 0s, stroke .3s',
     };
 
     const strokePathStyle = {
       stroke: strokeColor,
       strokeDasharray: `${(percent / 100) * (len - gapDegree)}px ${len}px`,
       strokeDashoffset: `-${gapDegree / 2}px`,
-      transition: 'stroke-dashoffset .3s ease 0s, stroke-dasharray .3s ease 0s, stroke .3s, stroke-width .06s ease .3s', // eslint-disable-line
     };
 
     return {
