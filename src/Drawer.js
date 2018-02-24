@@ -38,6 +38,8 @@ class Drawer extends React.Component<Props> {
     return (
       <Modal
         {...props}
+        drawer
+        overflow={false}
         classPrefix={classPrefix}
         className={classes}
         show={show}

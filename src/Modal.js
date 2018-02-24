@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import PropTypes from 'prop-types';
+/* eslint-disable react/no-find-dom-node */
 import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import _ from 'lodash';
@@ -45,6 +46,7 @@ type Props = {
   autoFocus?: boolean,
   enforceFocus?: boolean,
   overflow?: boolean,
+  drawer?: boolean,
   animation?: boolean,
   dialogComponentClass: React.ElementType,
   onEscapeKeyUp?: Function,
@@ -110,9 +112,7 @@ class Modal extends React.Component<Props, State> {
 
   getStyles() {
 
-    const { container, overflow } = this.props;
-
-    /* eslint-disable react/no-find-dom-node */
+    const { container, overflow, classPrefix, drawer } = this.props;
     const node: any = findDOMNode(this.dialog);
     const doc: any = ownerDocument(node);
     const body: any = container || doc.body;
@@ -128,18 +128,44 @@ class Modal extends React.Component<Props, State> {
       }
     };
 
-    if (overflow) {
-      /**
-       * Header height + Footer height + Dialog margin
-       */
-      const excludeHeight = 260;
-      const contentHeight = getHeight(window) - excludeHeight;
-      const maxHeight = (scrollHeight >= contentHeight) ? contentHeight : scrollHeight;
+    if (overflow || drawer) {
+      const dialogDOM: any = findDOMNode(this.dialog);
 
-      styles.bodyStyles = {
-        maxHeight,
-        overflow: 'auto'
-      };
+      // default margin
+      let headerHeight = 46;
+      let footerHeight = 46;
+      let contentHeight = 30;
+
+
+      const headerDOM = dialogDOM.querySelector(`.${classPrefix}-header`);
+      const footerDOM = dialogDOM.querySelector(`.${classPrefix}-footer`);
+      const contentDOM = dialogDOM.querySelector(`.${classPrefix}-content`);
+
+      headerHeight = headerDOM ? getHeight(headerDOM) + headerHeight : headerHeight;
+      footerHeight = footerDOM ? getHeight(footerDOM) + headerHeight : headerHeight;
+      contentHeight = contentDOM ? getHeight(contentDOM) + contentHeight : contentHeight;
+
+
+      if (overflow) {
+        /**
+         * Header height + Footer height + Dialog margin
+         */
+        const excludeHeight = headerHeight + footerHeight + 60;
+        const bodyHeight = getHeight(window) - excludeHeight;
+        const maxHeight = (scrollHeight >= bodyHeight) ? bodyHeight : scrollHeight;
+
+        styles.bodyStyles = {
+          maxHeight,
+          overflow: 'auto'
+        };
+      }
+
+      if (drawer) {
+        styles.bodyStyles = {
+          height: contentHeight - (headerHeight + footerHeight),
+          overflow: 'auto'
+        };
+      }
     }
 
     return styles;
@@ -197,9 +223,10 @@ class Modal extends React.Component<Props, State> {
     const Dialog: React.ElementType = dialogComponentClass;
 
     const parentProps = _.pick(props, BaseModal.handledProps);
-    const items = (overflow && children) ?
+    const items = (children) ?
       mapCloneElement(children, (child) => {
-        if (child.type.displayName === 'ModalBody') {
+        let displayName = child.type.displayName;
+        if (displayName && displayName.indexOf('ModalBody') >= 0) {
           return {
             style: bodyStyles
           };
