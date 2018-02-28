@@ -1,5 +1,3 @@
-
-
 const Calendar = {
   sunday: '日',
   monday: '一',
@@ -37,10 +35,18 @@ export default {
   },
   DateRangePicker: {
     ...Calendar,
-    last7Days: '最近 7 天',
+    last7Days: '最近 7 天'
   },
   Picker: {
     placeholder: '选择',
     searchPlaceholder: '搜索'
+  },
+  Uploader: {
+    inited: '初始状态',
+    progress: '上传中',
+    error: '上传出错',
+    complete: '上传完成',
+    emptyFile: '无文件',
+    upload: '上传'
   }
 };

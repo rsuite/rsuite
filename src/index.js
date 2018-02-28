@@ -51,6 +51,7 @@ export DatePicker from './DatePicker';
 export DateRangePicker from './DateRangePicker';
 export TreePicker from './TreePicker';
 export AutoComplete from './AutoComplete';
+export Uploader from './Uploader';
 
 export Schema from './Schema';
 

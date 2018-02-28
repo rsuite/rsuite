@@ -39,7 +39,6 @@ class Drawer extends React.Component<Props> {
       <Modal
         {...props}
         drawer
-        overflow={false}
         classPrefix={classPrefix}
         className={classes}
         show={show}

@@ -1,5 +1,3 @@
-
-
 const Calendar = {
   sunday: 'Su',
   monday: 'Mo',
@@ -37,10 +35,18 @@ export default {
   },
   DateRangePicker: {
     ...Calendar,
-    last7Days: 'Last 7 Days',
+    last7Days: 'Last 7 Days'
   },
   Picker: {
     placeholder: 'Select',
     searchPlaceholder: 'Search'
+  },
+  Uploader: {
+    inited: 'Initial',
+    progress: 'Uploading',
+    error: 'Error',
+    complete: 'Finished',
+    emptyFile: 'Empty',
+    upload: 'Upload'
   }
 };
