@@ -7,7 +7,6 @@ import prefix, { globalKey } from './utils/prefix';
 import getUnhandledProps from './utils/getUnhandledProps';
 import { partitionHTMLProps } from './utils/htmlPropsUtils';
 
-
 type Props = {
   id?: string,
   name?: string,
@@ -23,12 +22,11 @@ type Props = {
   value?: any,
   onChange?: (value: any, checked: boolean, event: SyntheticInputEvent<HTMLInputElement>) => void,
   tabIndex?: number
-}
+};
 
 type State = {
   checked?: boolean
-}
-
+};
 
 class Radio extends React.Component<Props, State> {
   static displayName = 'Radio';
@@ -39,10 +37,14 @@ class Radio extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    const { checked, defaultChecked } = props;
     this.state = {
-      checked: _.isUndefined(checked) ? defaultChecked : checked
+      checked: props.defaultChecked
     };
+  }
+
+  isChecked() {
+    const { checked } = this.props;
+    return _.isUndefined(checked) ? this.state.checked : checked;
   }
 
   updateCheckedState(checked: boolean, callback?: Function) {
@@ -59,10 +61,8 @@ class Radio extends React.Component<Props, State> {
     this.setState({ checked }, () => {
       onChange && onChange(value, checked, event);
     });
-
-  }
+  };
   render() {
-
     const {
       inline,
       title,
@@ -79,23 +79,23 @@ class Radio extends React.Component<Props, State> {
       ...props
     } = this.props;
 
-    const nextChecked: boolean | void = _.isUndefined(checked) ? this.state.checked : checked;
+    const nextChecked = this.isChecked();
     const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, {
-      [addPrefix('inline')]: inline,
-      [addPrefix('disabled')]: disabled,
-      [addPrefix('checked')]: nextChecked
-    }, className);
+    const classes = classNames(
+      classPrefix,
+      {
+        [addPrefix('inline')]: inline,
+        [addPrefix('disabled')]: disabled,
+        [addPrefix('checked')]: nextChecked
+      },
+      className
+    );
 
     const unhandled = getUnhandledProps(Radio, props);
     const [htmlInputProps, rest] = partitionHTMLProps(unhandled);
 
-
     const input = (
-      <span
-        className={addPrefix('wrapper')}
-        tabIndex={disabled ? -1 : tabIndex}
-      >
+      <span className={addPrefix('wrapper')} tabIndex={disabled ? -1 : tabIndex}>
         <input
           {...htmlInputProps}
           type="radio"
@@ -111,14 +111,8 @@ class Radio extends React.Component<Props, State> {
     );
 
     return (
-      <div
-        {...rest}
-        className={classes}
-      >
-        <div
-          className={addPrefix('checker')}
-          role="button"
-        >
+      <div {...rest} className={classes}>
+        <div className={addPrefix('checker')} role="button">
           <label title={title}>
             {input}
             {children}
@@ -127,8 +121,6 @@ class Radio extends React.Component<Props, State> {
       </div>
     );
   }
-
 }
-
 
 export default Radio;

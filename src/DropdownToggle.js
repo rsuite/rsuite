@@ -12,30 +12,20 @@ type Props = {
   icon?: React.Element<typeof Icon>,
   renderTitle?: (children?: React.Node) => React.Node,
   classPrefix?: string
-}
+};
 
 class DorpdownToggle extends React.Component<Props> {
   static defaultProps = {
     classPrefix: `${globalKey}dropdown-toggle`
-  }
+  };
   render() {
-    const {
-      className,
-      classPrefix,
-      renderTitle,
-      children,
-      icon,
-      ...props
-    } = this.props;
+    const { className, classPrefix, renderTitle, children, icon, ...props } = this.props;
 
     const addPrefix = prefix(classPrefix);
 
     if (renderTitle) {
       return (
-        <span
-          {...props}
-          className={classNames(classPrefix, className)}
-        >
+        <span {...props} className={classNames(classPrefix, addPrefix('custom-title'), className)}>
           {renderTitle(children)}
         </span>
       );
@@ -50,7 +40,10 @@ class DorpdownToggle extends React.Component<Props> {
         role="button"
       >
         {icon}
-        <span>{children}<span className={addPrefix('caret')} /></span>
+        <span>
+          {children}
+          <span className={addPrefix('caret')} />
+        </span>
       </Button>
     );
   }

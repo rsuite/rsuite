@@ -120,7 +120,7 @@ class Sidenav extends React.Component<Props, State> {
         exitedClassName={addPrefix('collapse-out')}
         exitingClassName={addPrefix(['collapse-out', 'collapsing'])}
         enteredClassName={addPrefix('collapse-in')}
-        enteringClassName={addPrefix(['collapse-out', 'collapsing'])}
+        enteringClassName={addPrefix(['collapse-in', 'collapsing'])}
       >
         <Component
           {...unhandled}

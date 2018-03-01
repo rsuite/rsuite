@@ -3,9 +3,10 @@
 import * as React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
+
 import { mapCloneElement } from './utils/ReactChildren';
 import { globalKey } from './utils/prefix';
-
+import getUnhandledProps from './utils/getUnhandledProps';
 
 type Props = {
   name?: string,
@@ -15,53 +16,42 @@ type Props = {
   className?: string,
   classPrefix?: string,
   children?: React.Node,
-  onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void,
+  onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void
 };
 
 type State = {
   value: any
-}
+};
 
 class RadioGroup extends React.Component<Props, State> {
-
   static defaultProps = {
     classPrefix: `${globalKey}radio-group`
   };
 
-  state = {
-    value: null
-  };
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      value: props.defaultValue
+    };
+  }
 
-  componentWillMount() {
-    const { value, defaultValue } = this.props;
-    this.setState({
-      value: value || defaultValue
-    });
+  getValue() {
+    const { value } = this.props;
+    return _.isUndefined(value) ? this.state.value : value;
   }
 
   handleChange = (nextValue: any, event: SyntheticInputEvent<*>) => {
-
     const { onChange } = this.props;
     this.setState({ value: nextValue });
     onChange && onChange(nextValue, event);
-  }
+  };
 
   render() {
-
-    const {
-      className,
-      inline,
-      name,
-      value,
-      children,
-      classPrefix,
-      onChange,
-      ...props
-    } = this.props;
+    const { className, inline, name, children, classPrefix, onChange, ...props } = this.props;
 
     const clesses = classNames(classPrefix, className);
-    const nextValue = _.isUndefined(value) ? this.state.value : value;
-    const items = mapCloneElement(children, (child) => {
+    const nextValue = this.getValue();
+    const items = mapCloneElement(children, child => {
       if (child.type.displayName === 'Radio') {
         return {
           inline,
@@ -73,12 +63,10 @@ class RadioGroup extends React.Component<Props, State> {
       return child.props;
     });
 
+    const unhandled = getUnhandledProps(RadioGroup, props);
+
     return (
-      <div
-        {...props}
-        className={clesses}
-        role="button"
-      >
+      <div {...unhandled} className={clesses} role="button">
         {items}
       </div>
     );

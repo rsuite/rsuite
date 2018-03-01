@@ -4,7 +4,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import { mapCloneElement } from './utils/ReactChildren';
 import { globalKey } from './utils/prefix';
-
+import getUnhandledProps from './utils/getUnhandledProps';
 
 type Props = {
   name?: string,
@@ -15,41 +15,31 @@ type Props = {
   onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void,
   children?: React.ChildrenArray<any>,
   classPrefix?: string
-}
+};
 
 type State = {
   value: Array<any>
-}
+};
 
 class CheckboxGroup extends React.Component<Props, State> {
-
   static defaultProps = {
     classPrefix: `${globalKey}checkbox-group`
   };
 
-  state = {
-    value: []
-  };
-
-  componentWillMount() {
-
-    const { value, defaultValue } = this.props;
-    this.setState({
-      value: value || defaultValue || []
-    });
-
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      value: props.defaultValue || []
+    };
   }
-  componentWillReceiveProps(nextProps: Props) {
-    if (!_.isEqual(nextProps.value, this.props.value)) {
-      this.setState({
-        value: nextProps.value
-      });
-    }
+
+  getValue() {
+    const { value } = this.props;
+    return _.isUndefined(value) ? this.state.value : value;
   }
 
   handleChange = (itemValue: any, itemChecked: boolean, event: SyntheticInputEvent<*>) => {
-
-    const nextValue = _.cloneDeep(this.state.value);
+    const nextValue = _.cloneDeep(this.getValue()) || [];
     const { onChange } = this.props;
 
     if (itemChecked) {
@@ -60,10 +50,9 @@ class CheckboxGroup extends React.Component<Props, State> {
 
     this.setState({ value: nextValue });
     onChange && onChange(nextValue, event);
-  }
+  };
 
   render() {
-
     const {
       className,
       inline,
@@ -75,12 +64,11 @@ class CheckboxGroup extends React.Component<Props, State> {
       ...props
     } = this.props;
 
-    const nextValue: Array<any> = value || this.state.value || [];
+    const nextValue = this.getValue() || [];
     const clesses: string = classNames(classPrefix, className);
     const checkedKey = _.isUndefined(value) ? 'defaultChecked' : 'checked';
 
-
-    const items: React.Node = mapCloneElement(children, (child) => {
+    const items: React.Node = mapCloneElement(children, child => {
       if (child.type.displayName === 'Checkbox') {
         return {
           ...child.props,
@@ -91,20 +79,16 @@ class CheckboxGroup extends React.Component<Props, State> {
         };
       }
       return child.props;
-
     });
 
+    const unhandled = getUnhandledProps(CheckboxGroup, props);
+
     return (
-      <div
-        {...props}
-        role="group"
-        className={clesses}
-      >
+      <div {...unhandled} role="group" className={clesses}>
         {items}
       </div>
     );
   }
 }
-
 
 export default CheckboxGroup;

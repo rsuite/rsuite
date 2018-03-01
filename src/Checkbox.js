@@ -21,14 +21,13 @@ type Props = {
   children?: React.Node,
   classPrefix?: string,
   tabIndex?: number
-}
+};
 
 type State = {
   checked?: boolean
-}
+};
 
 class Checkbox extends React.Component<Props, State> {
-
   static displayName = 'Checkbox';
   static defaultProps = {
     classPrefix: `${globalKey}checkbox`,
@@ -37,12 +36,10 @@ class Checkbox extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    const { checked, defaultChecked } = props;
     this.state = {
-      checked: _.isUndefined(checked) ? defaultChecked : checked
+      checked: props.defaultChecked
     };
   }
-
 
   handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     const { onChange, disabled, value } = this.props;
@@ -55,19 +52,14 @@ class Checkbox extends React.Component<Props, State> {
     this.setState({ checked }, () => {
       onChange && onChange(value, checked, event);
     });
-  }
+  };
 
   isChecked() {
     const { checked } = this.props;
-    if (!_.isUndefined(checked)) {
-      return checked;
-    }
-
-    return this.state.checked;
+    return _.isUndefined(checked) ? this.state.checked : checked;
   }
 
   render() {
-
     const {
       inline,
       disabled,
@@ -85,21 +77,22 @@ class Checkbox extends React.Component<Props, State> {
 
     const checked: boolean | void = this.isChecked();
     const addPrefix = prefix(classPrefix);
-    const classes: string = classNames(classPrefix, {
-      [addPrefix('inline')]: inline,
-      [addPrefix('indeterminate')]: indeterminate,
-      [addPrefix('disabled')]: disabled,
-      [addPrefix('checked')]: checked
-    }, className);
+    const classes: string = classNames(
+      classPrefix,
+      {
+        [addPrefix('inline')]: inline,
+        [addPrefix('indeterminate')]: indeterminate,
+        [addPrefix('disabled')]: disabled,
+        [addPrefix('checked')]: checked
+      },
+      className
+    );
 
     const unhandled = getUnhandledProps(Checkbox, props);
     const [htmlInputProps, rest] = partitionHTMLProps(unhandled);
 
     const input = (
-      <span
-        tabIndex={disabled ? -1 : tabIndex}
-        className={addPrefix('wrapper')}
-      >
+      <span tabIndex={disabled ? -1 : tabIndex} className={addPrefix('wrapper')}>
         <input
           {...htmlInputProps}
           defaultChecked={defaultChecked}
@@ -113,18 +106,12 @@ class Checkbox extends React.Component<Props, State> {
     );
 
     return (
-      <div
-        {...rest}
-        className={classes}
-      >
-        <div
-          className={addPrefix('checker')}
-        >
+      <div {...rest} className={classes}>
+        <div className={addPrefix('checker')}>
           <label title={title}>
             {input}
             {children}
           </label>
-
         </div>
       </div>
     );
