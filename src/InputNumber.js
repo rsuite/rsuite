@@ -1,12 +1,15 @@
 // @flow
+
 import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
-import classNamePrefix, { globalKey } from './utils/prefix';
+
 import InputGroup from './InputGroup';
 import Input from './Input';
 import Button from './Button';
 import Icon from './Icon';
+
+import { prefix, defaultProps, isNullOrUndefined } from './utils';
 
 type Props = {
   className?: string,
@@ -27,12 +30,10 @@ type State = {
   value?: number | null,
   disabledUpButton?: boolean,
   disabledDownButton?: boolean
-}
+};
 
 class InputNumber extends React.Component<Props, State> {
-
   static defaultProps = {
-    classPrefix: `${globalKey}input-number`,
     min: -Infinity,
     max: Infinity,
     step: 1
@@ -68,7 +69,6 @@ class InputNumber extends React.Component<Props, State> {
     };
   }
   getValue() {
-
     const { value } = this.state;
 
     if (typeof this.props.value !== 'undefined') {
@@ -84,16 +84,12 @@ class InputNumber extends React.Component<Props, State> {
     });
   }
   handleOnChange = (value: string, event: SyntheticInputEvent<*>) => {
-
     if (!/^-?(?:\d+)(?:\.\d+)?$/.test(value)) {
       return;
     }
 
-    this.handleValue(
-      (value === '') ? null : Number.parseFloat(value),
-      event
-    );
-  }
+    this.handleValue(value === '' ? null : Number.parseFloat(value), event);
+  };
 
   handleBlur = (event: SyntheticInputEvent<*>) => {
     const { max, min } = this.props;
@@ -110,11 +106,10 @@ class InputNumber extends React.Component<Props, State> {
       targetValue = null;
     }
     this.handleValue(targetValue, event);
-
-  }
+  };
   handleWheel = (event: SyntheticWheelEvent<*>) => {
     const { disabled } = this.props;
-    if (!disabled && (event.target === document.activeElement)) {
+    if (!disabled && event.target === document.activeElement) {
       event.preventDefault();
       const delta: any = event.wheelDelta || -event.deltaY || -event.detail;
 
@@ -125,7 +120,7 @@ class InputNumber extends React.Component<Props, State> {
         this.handlePlus(event);
       }
     }
-  }
+  };
 
   handlePlus = (event: SyntheticEvent<*>) => {
     const { decimals } = this.state;
@@ -135,23 +130,19 @@ class InputNumber extends React.Component<Props, State> {
     nextValue = this.getMax(nextValue).inMax ? +nextValue.toFixed(decimals) : max;
 
     this.handleValue(nextValue, event);
-  }
+  };
   handleMinus = (event: SyntheticEvent<*>) => {
     const { decimals } = this.state;
     const { step, min } = this.props;
     let nextValue = (this.getValue() || 0) - step;
     nextValue = this.getMin(nextValue).inMin ? +nextValue.toFixed(decimals) : min;
     this.handleValue(nextValue, event);
-  }
+  };
   handleValue(currentValue: number | null, event?: SyntheticEvent<*>) {
-
     const { value } = this.state;
     const { onChange } = this.props;
 
-    this.setButtonStatus(
-      this.getMax(currentValue).equalMax,
-      this.getMin(currentValue).equalMin
-    );
+    this.setButtonStatus(this.getMax(currentValue).equalMax, this.getMin(currentValue).equalMin);
 
     if (currentValue !== value) {
       this.setState({
@@ -162,46 +153,28 @@ class InputNumber extends React.Component<Props, State> {
   }
 
   render() {
+    const { disabled, prefix: prefixElement, postfix, className, classPrefix } = this.props;
 
-    const {
-      disabled,
-      prefix,
-      postfix,
-      className,
-      classPrefix
-    } = this.props;
-
-    const {
-      disabledUpButton,
-      disabledDownButton
-    } = this.state;
+    const { disabledUpButton, disabledDownButton } = this.state;
 
     const value = this.getValue();
-    const addPrefix = classNamePrefix(classPrefix);
+    const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, className);
 
     return (
-      <InputGroup
-        className={classes}
-      >
-        {
-          prefix &&
-          <InputGroup.Addon>{prefix}</InputGroup.Addon>
-        }
+      <InputGroup className={classes}>
+        {prefix && <InputGroup.Addon>{prefixElement}</InputGroup.Addon>}
         <Input
           type="number"
           onChange={this.handleOnChange}
           onBlur={this.handleBlur}
-          value={(value === null) ? '' : value + ''}
+          value={isNullOrUndefined(value) ? '' : value}
           onWheel={this.handleWheel}
           disabled={disabled}
         />
-        {
-          postfix &&
-          <InputGroup.Addon>{postfix}</InputGroup.Addon>
-        }
+        {postfix && <InputGroup.Addon>{postfix}</InputGroup.Addon>}
 
-        <span className={addPrefix('btn-group-vertical')} >
+        <span className={addPrefix('btn-group-vertical')}>
           <Button
             className={addPrefix('touchspin-up')}
             onClick={this.handlePlus}
@@ -217,10 +190,11 @@ class InputNumber extends React.Component<Props, State> {
             <Icon icon="chevron-down" />
           </Button>
         </span>
-
       </InputGroup>
     );
   }
 }
 
-export default InputNumber;
+export default defaultProps({
+  classPrefix: 'input-number'
+})(InputNumber);

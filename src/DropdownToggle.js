@@ -37,7 +37,6 @@ class DorpdownToggle extends React.Component<Props> {
         componentClass="a"
         appearance="subtle"
         className={classNames(classPrefix, className)}
-        role="button"
       >
         {icon}
         <span>

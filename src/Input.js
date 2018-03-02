@@ -3,10 +3,11 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import compose from 'recompose/compose';
 import _ from 'lodash';
-import withStyleProps from './utils/withStyleProps';
+
+import { withStyleProps, defaultProps, createChainedFunction } from './utils';
 import { globalKey } from './utils/prefix';
-import createChainedFunction from './utils/createChainedFunction';
 
 type Props = {
   type: string,
@@ -20,26 +21,23 @@ type Props = {
   onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void,
   onFocus?: (event: SyntheticEvent<*>) => void,
   onBlur?: (event: SyntheticEvent<*>) => void
-}
+};
 
 class Input extends React.Component<Props> {
-
   static defaultProps = {
-    classPrefix: `${globalKey}input`,
-    componentClass: 'input',
     type: 'text'
-  }
+  };
 
   static contextTypes = {
     formGroup: PropTypes.object,
-    inputGroup: PropTypes.object,
-  }
+    inputGroup: PropTypes.object
+  };
 
   handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     const { onChange } = this.props;
     const nextValue = event.target.value;
     onChange && onChange(nextValue, event);
-  }
+  };
 
   render() {
     const controlId = _.get(this.context, 'formGroup.controlId');
@@ -58,10 +56,10 @@ class Input extends React.Component<Props> {
       ...rest
     } = this.props;
 
-    const classes = classNames(classPrefix, {
+    const classes = classNames(classPrefix, className, {
       // input[type="file"] should not have .form-control.
-      [`${globalKey}form-control`]: type !== 'file',
-    }, className);
+      [`${globalKey}form-control`]: type !== 'file'
+    });
 
     const { inputGroup } = this.context;
     const Component = componentClass;
@@ -83,4 +81,12 @@ class Input extends React.Component<Props> {
   }
 }
 
-export default withStyleProps({ hasSize: true })(Input);
+export default compose(
+  withStyleProps({
+    hasSize: true
+  }),
+  defaultProps({
+    classPrefix: 'input',
+    componentClass: 'input'
+  })
+)(Input);

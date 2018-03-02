@@ -2,10 +2,10 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
+import compose from 'recompose/compose';
 
-import withStyleProps from './utils/withStyleProps';
-import prefix, { globalKey } from './utils/prefix';
 import Button from './Button';
+import { withStyleProps, defaultProps, prefix } from './utils';
 
 type Props = {
   className?: string,
@@ -16,48 +16,41 @@ type Props = {
   children?: React.Element<typeof Button>
 };
 
-
 class ButtonGroup extends React.Component<Props> {
-
-
-  static defaultProps = {
-    classPrefix: `${globalKey}btn-group`
-  };
-
   render() {
     const { className, vertical, children, block, justified, classPrefix, ...props } = this.props;
-    const addPrefix: Function = prefix(classPrefix);
+    const addPrefix = prefix(classPrefix);
 
-    const classes = classNames(classPrefix, {
+    const classes = classNames(classPrefix, className, {
       [addPrefix('block')]: block,
       [addPrefix('vertical')]: vertical,
       [addPrefix('justified')]: justified
-    }, className);
-
+    });
 
     /**
      * After you set up justified, you use the table layout.
      * display:table-cell not working on button element.
      * So change 'a'
      */
-    const items = justified ? React.Children.map(children, child => (
-      React.cloneElement(child, { componentClass: 'a', role: 'button' })
-    )) : children;
-
+    const items = justified
+      ? React.Children.map(children, child =>
+          React.cloneElement(child, { componentClass: 'a', role: 'button' })
+        )
+      : children;
 
     return (
-      <div
-        role="group"
-        {...props}
-        className={classes}
-      >
+      <div role="group" {...props} className={classes}>
         {items}
       </div>
     );
   }
 }
 
-
-export default withStyleProps({
-  hasSize: true,
-})(ButtonGroup);
+export default compose(
+  withStyleProps({
+    hasSize: true
+  }),
+  defaultProps({
+    classPrefix: 'btn-group'
+  })
+)(ButtonGroup);

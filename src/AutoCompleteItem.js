@@ -2,8 +2,8 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import getUnhandledProps from './utils/getUnhandledProps';
-import prefix, { globalKey } from './utils/prefix';
+
+import { getUnhandledProps, defaultProps, prefix } from './utils';
 
 type Props = {
   classPrefix?: string,
@@ -18,15 +18,10 @@ type Props = {
 };
 
 class AutoCompleteItem extends React.Component<Props> {
-
-  static defaultProps = {
-    classPrefix: `${globalKey}auto-complete-item`
-  };
-
   handleClick = (event: SyntheticEvent<*>) => {
     const { value, onSelect } = this.props;
     onSelect && onSelect(value, event);
-  }
+  };
 
   render() {
     const {
@@ -48,11 +43,7 @@ class AutoCompleteItem extends React.Component<Props> {
     const unhandled = getUnhandledProps(AutoCompleteItem, rest);
 
     return (
-      <li
-        {...unhandled}
-        className={className}
-        role="menuitem"
-      >
+      <li {...unhandled} className={className} role="menuitem">
         <a
           className={classes}
           tabIndex={-1}
@@ -67,4 +58,6 @@ class AutoCompleteItem extends React.Component<Props> {
   }
 }
 
-export default AutoCompleteItem;
+export default defaultProps({
+  classPrefix: 'auto-complete-item'
+})(AutoCompleteItem);

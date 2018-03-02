@@ -5,13 +5,21 @@ import _ from 'lodash';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import { MenuWrapper } from 'rsuite-utils/lib/Picker';
 
-import getUnhandledProps from './utils/getUnhandledProps';
-import prefix, { globalKey } from './utils/prefix';
 import Input from './Input';
 import AutoCompleteItem from './AutoCompleteItem';
+import { defaultProps, getUnhandledProps, prefix } from './utils';
+import { globalKey } from './utils/prefix';
 
 type DefaultEvent = SyntheticEvent<*>;
-type PlacementEighPoints = 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight' | 'leftTop' | 'rightTop' | 'leftBottom' | 'rightBottom';
+type PlacementEighPoints =
+  | 'bottomLeft'
+  | 'bottomRight'
+  | 'topLeft'
+  | 'topRight'
+  | 'leftTop'
+  | 'rightTop'
+  | 'leftBottom'
+  | 'rightBottom';
 type Props = {
   data: Array<string>,
   disabled?: boolean,
@@ -32,13 +40,11 @@ type State = {
   value: string,
   focus?: boolean,
   focusItemValue?: string
-}
+};
 
 class AutoComplete extends React.Component<Props, State> {
-
   static Item = AutoCompleteItem;
   static defaultProps = {
-    classPrefix: `${globalKey}auto-complete`,
     data: [],
     placement: 'bottomLeft'
   };
@@ -66,13 +72,12 @@ class AutoComplete extends React.Component<Props, State> {
       return [];
     }
     return data.filter(this.shouldDisplay);
-  }
+  };
 
   trigger = null;
   menuContainer = null;
 
   findNode(focus: Function) {
-
     const items = this.getFocusableMenuItems();
     const { focusItemValue } = this.state;
 
@@ -87,14 +92,13 @@ class AutoComplete extends React.Component<Props, State> {
   }
 
   shouldDisplay = (label: any) => {
-
     const { value } = this.state;
     if (!_.trim(value)) {
       return false;
     }
     const keyword = value.toLocaleLowerCase();
     return label.toLocaleLowerCase().indexOf(keyword) >= 0;
-  }
+  };
 
   handleChange = (value: string, event: SyntheticInputEvent<HTMLInputElement>) => {
     const { onChange } = this.props;
@@ -111,13 +115,13 @@ class AutoComplete extends React.Component<Props, State> {
     const { onFocus } = this.props;
     this.open();
     onFocus && onFocus(event);
-  }
+  };
 
   handleInputBlur = (event: DefaultEvent) => {
     const { onBlur } = this.props;
     this.close();
     onBlur && onBlur(event);
-  }
+  };
 
   focusNextMenuItem() {
     this.findNode((items, index) => {
@@ -144,24 +148,26 @@ class AutoComplete extends React.Component<Props, State> {
     if (!focusItemValue) {
       return;
     }
-    this.setState({
-      value: focusItemValue,
-      focusItemValue
-    }, () => {
-      onChange && onChange(focusItemValue, event);
-      this.close();
-    });
+    this.setState(
+      {
+        value: focusItemValue,
+        focusItemValue
+      },
+      () => {
+        onChange && onChange(focusItemValue, event);
+        this.close();
+      }
+    );
   }
 
   close = () => {
     this.setState({ focus: false });
-  }
+  };
   open = () => {
     this.setState({ focus: true });
-  }
+  };
 
   handleKeyDown = (event: SyntheticKeyboardEvent<*>) => {
-
     if (!this.menuContainer) {
       return;
     }
@@ -190,7 +196,7 @@ class AutoComplete extends React.Component<Props, State> {
         break;
       default:
     }
-  }
+  };
 
   handleSelect = (value: string, event: DefaultEvent) => {
     const { onChange, onSelect } = this.props;
@@ -205,56 +211,45 @@ class AutoComplete extends React.Component<Props, State> {
       onChange && onChange(value, event);
     }
     this.close();
-  }
-
+  };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderDropdownMenu() {
-    const {
-      placement,
-      renderItem,
-      data
-    } = this.props;
+    const { placement, renderItem, data } = this.props;
 
     const { focusItemValue } = this.state;
     const classes = classNames(
       this.addPrefix('menu'),
-      `${globalKey}-placement-${_.kebabCase(placement)}`
+      `${globalKey}placement-${_.kebabCase(placement)}`
     );
     const items = data.filter(this.shouldDisplay);
 
     return (
-      <MenuWrapper
-        className={classes}
-        onKeyDown={this.handleKeyDown}
-      >
+      <MenuWrapper className={classes} onKeyDown={this.handleKeyDown}>
         <div
-          ref={(ref) => {
+          ref={ref => {
             this.menuContainer = ref;
           }}
         >
           <ul role="menu">
-            {
-              items.map(item => (
-                <AutoCompleteItem
-                  key={item}
-                  focus={focusItemValue === item}
-                  value={item}
-                  onSelect={this.handleSelect}
-                  renderItem={renderItem}
-                >
-                  {item}
-                </AutoCompleteItem>
-              ))
-            }
+            {items.map(item => (
+              <AutoCompleteItem
+                key={item}
+                focus={focusItemValue === item}
+                value={item}
+                onSelect={this.handleSelect}
+                renderItem={renderItem}
+              >
+                {item}
+              </AutoCompleteItem>
+            ))}
           </ul>
         </div>
       </MenuWrapper>
     );
   }
   render() {
-
     const {
       disabled,
       className,
@@ -268,17 +263,16 @@ class AutoComplete extends React.Component<Props, State> {
 
     const value = this.getValue();
     const unhandled = getUnhandledProps(AutoComplete, rest);
-    const classes = classNames(classPrefix, {
+    const classes = classNames(classPrefix, className, {
       [this.addPrefix('disabled')]: disabled
-    }, className);
+    });
 
     const hasItems = data.filter(this.shouldDisplay).length > 0;
 
     return (
       <div className={classes}>
-
         <OverlayTrigger
-          ref={(ref) => {
+          ref={ref => {
             this.trigger = ref;
           }}
           disabled={disabled}
@@ -297,11 +291,11 @@ class AutoComplete extends React.Component<Props, State> {
             onKeyDown={this.handleKeyDown}
           />
         </OverlayTrigger>
-
       </div>
     );
   }
 }
 
-
-export default AutoComplete;
+export default defaultProps({
+  classPrefix: 'auto-complete'
+})(AutoComplete);

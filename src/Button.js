@@ -2,15 +2,15 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
+import compose from 'recompose/compose';
 import SafeAnchor from './SafeAnchor';
-import withStyleProps from './utils/withStyleProps';
-import createComponent from './utils/createComponent';
-import prefix, { globalKey } from './utils/prefix';
-import getUnhandledProps from './utils/getUnhandledProps';
+
+import { withStyleProps, prefix, getUnhandledProps, defaultProps } from './utils';
 
 export type Props = {
   appearance: 'default' | 'primary' | 'link' | 'subtle' | 'ghost',
   classPrefix: string,
+  componentClass: React.ElementType,
   className?: string,
   active?: boolean,
   block?: boolean,
@@ -20,17 +20,12 @@ export type Props = {
   children?: React.Node
 };
 
-const Component = createComponent('button');
-
 class Button extends React.Component<Props> {
-
   static defaultProps = {
-    appearance: 'default',
-    classPrefix: `${globalKey}btn`
+    appearance: 'default'
   };
 
   render() {
-
     const {
       href,
       active,
@@ -41,28 +36,24 @@ class Button extends React.Component<Props> {
       classPrefix,
       appearance,
       children,
+      componentClass: Component,
       ...props
     } = this.props;
 
     const unhandled = getUnhandledProps(Button, props);
     const addPrefix: Function = prefix(classPrefix);
-    const classes = classNames(classPrefix, addPrefix(appearance), {
+    const classes = classNames(classPrefix, addPrefix(appearance), className, {
       [addPrefix('active')]: active,
       [addPrefix('disabled')]: disabled,
       [addPrefix('loading')]: loading,
       [addPrefix('block')]: block
-    }, className);
+    });
 
     const spin = <span className={addPrefix('spin')} />;
 
     if (href) {
       return (
-        <SafeAnchor
-          {...unhandled}
-          role="button"
-          href={href}
-          className={classes}
-        >
+        <SafeAnchor {...unhandled} role="button" href={href} className={classes}>
           {loading && spin}
           {children}
         </SafeAnchor>
@@ -70,11 +61,7 @@ class Button extends React.Component<Props> {
     }
 
     return (
-      <Component
-        {...unhandled}
-        disabled={disabled}
-        className={classes}
-      >
+      <Component {...unhandled} disabled={disabled} className={classes}>
         {loading && spin}
         {children}
       </Component>
@@ -82,8 +69,13 @@ class Button extends React.Component<Props> {
   }
 }
 
-
-export default withStyleProps({
-  hasSize: true,
-  hasColor: true
-})(Button);
+export default compose(
+  withStyleProps({
+    hasSize: true,
+    hasColor: true
+  }),
+  defaultProps({
+    classPrefix: 'btn',
+    componentClass: 'button'
+  })
+)(Button);
