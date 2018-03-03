@@ -1,10 +1,10 @@
 // @flow
 import * as React from 'react';
 import classNames from 'classnames';
+import setStatic from 'recompose/setStatic';
+
 import StepItem from './StepItem';
-import prefix, { globalKey } from './utils/prefix';
-import { mapCloneElement } from './utils/ReactChildren';
-import { isIE9, isIE10 } from './utils/BrowserDetection';
+import { prefix, defaultProps, ReactChildren, isIE9, isIE10 } from './utils';
 
 type Props = {
   classPrefix: string,
@@ -13,18 +13,14 @@ type Props = {
   className?: string,
   children: React.ChildrenArray<any>,
   current: number,
-  currentStatus?: 'finish' | 'wait' | 'process' | 'error',
-}
+  currentStatus?: 'finish' | 'wait' | 'process' | 'error'
+};
 
 class Steps extends React.Component<Props> {
-
-  static Item = StepItem;
   static defaultProps = {
-    classPrefix: `${globalKey}steps`,
     currentStatus: 'process',
     current: 0
   };
-
 
   render() {
     const {
@@ -40,19 +36,19 @@ class Steps extends React.Component<Props> {
 
     const addPrefix: Function = prefix(classPrefix);
     const horizontal = !vertical;
-    const classes = classNames(classPrefix, {
+    const classes = classNames(classPrefix, className, {
       'ie-polyfill': horizontal && isIE9,
       [addPrefix('small')]: small,
       [addPrefix('vertical')]: vertical,
       [addPrefix('horizontal')]: horizontal
-    }, className);
+    });
 
     const count = children.length;
-    const items: React.Node = mapCloneElement(children, (item, index) => {
-
+    const items: React.Node = ReactChildren.mapCloneElement(children, (item, index) => {
       const itemStyles = {
-        [isIE10 ? 'msFlexPreferredSize' : 'flexBasis']: index < (count - 1) ? `${100 / (count - 1)}%` : undefined,
-        maxWidth: index === (count - 1) ? `${100 / count}%` : undefined
+        [isIE10 ? 'msFlexPreferredSize' : 'flexBasis']:
+          index < count - 1 ? `${100 / (count - 1)}%` : undefined,
+        maxWidth: index === count - 1 ? `${100 / count}%` : undefined
       };
       const itemProps = {
         stepNumber: index + 1,
@@ -67,7 +63,6 @@ class Steps extends React.Component<Props> {
       }
 
       if (!item.props.status) {
-
         if (index === current) {
           itemProps.status = currentStatus;
         } else if (index < current) {
@@ -79,14 +74,17 @@ class Steps extends React.Component<Props> {
     });
 
     return (
-      <div
-        {...rest}
-        className={classes}
-      >
+      <div {...rest} className={classes}>
         {items}
       </div>
     );
   }
 }
 
-export default Steps;
+const EnhancedSteps = defaultProps({
+  classPrefix: 'steps'
+})(Steps);
+
+setStatic('Item', StepItem)(EnhancedSteps);
+
+export default EnhancedSteps;

@@ -5,9 +5,8 @@ import {
   ArrayType,
   DateType,
   ObjectType,
-  BooleanType,
+  BooleanType
 } from 'rsuite-schema';
-
 
 export default {
   Model: SchemaModel,
@@ -20,4 +19,3 @@ export default {
     BooleanType
   }
 };
-

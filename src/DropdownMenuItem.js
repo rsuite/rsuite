@@ -13,7 +13,6 @@ import Icon from './Icon';
 import { prefix, isOneOf, createChainedFunction, defaultProps } from './utils';
 import { globalKey } from './utils/prefix';
 
-
 type Trigger = 'click' | 'hover';
 type Props = {
   divider?: boolean,
@@ -42,7 +41,6 @@ type State = {
 };
 
 class DropdownMenuItem extends React.Component<Props, State> {
-  static displayName = 'DropdownMenuItem';
   static defaultProps = {
     tabIndex: -1,
     trigger: 'hover'

@@ -2,37 +2,24 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { globalKey } from './utils/prefix';
-import createComponent from './utils/createComponent';
-
-const Component = createComponent('div');
+import { defaultProps } from './utils';
 
 type Props = {
   className?: string,
-  classProfix?: string
-}
+  classPrefix?: string,
+  componentClass: React.ElementType
+};
 
 class Row extends React.Component<Props> {
-  static defaultProps = {
-    classProfix: `${globalKey}row`
-  }
   render() {
+    const { className, componentClass: Component, classPrefix, ...props } = this.props;
+    const classes = classNames(classPrefix, className);
 
-    const {
-      className,
-      classProfix,
-      ...props
-    } = this.props;
-
-    const classes = classNames(classProfix, className);
-
-    return (
-      <Component
-        {...props}
-        className={classes}
-      />
-    );
+    return <Component {...props} className={classes} />;
   }
 }
 
-export default Row;
+export default defaultProps({
+  classPrefix: 'row',
+  componentClass: 'div'
+})(Row);

@@ -3,9 +3,9 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
-import prefix, { globalKey } from './utils/prefix';
-import getUnhandledProps from './utils/getUnhandledProps';
-import { partitionHTMLProps } from './utils/htmlPropsUtils';
+import setDisplayName from 'recompose/setDisplayName';
+
+import { prefix, getUnhandledProps, partitionHTMLProps, defaultProps } from './utils';
 
 type Props = {
   id?: string,
@@ -29,9 +29,7 @@ type State = {
 };
 
 class Radio extends React.Component<Props, State> {
-  static displayName = 'Radio';
   static defaultProps = {
-    classPrefix: `${globalKey}radio`,
     tabIndex: 0
   };
 
@@ -81,15 +79,11 @@ class Radio extends React.Component<Props, State> {
 
     const nextChecked = this.isChecked();
     const addPrefix = prefix(classPrefix);
-    const classes = classNames(
-      classPrefix,
-      {
-        [addPrefix('inline')]: inline,
-        [addPrefix('disabled')]: disabled,
-        [addPrefix('checked')]: nextChecked
-      },
-      className
-    );
+    const classes = classNames(classPrefix, className, {
+      [addPrefix('inline')]: inline,
+      [addPrefix('disabled')]: disabled,
+      [addPrefix('checked')]: nextChecked
+    });
 
     const unhandled = getUnhandledProps(Radio, props);
     const [htmlInputProps, rest] = partitionHTMLProps(unhandled);
@@ -123,4 +117,8 @@ class Radio extends React.Component<Props, State> {
   }
 }
 
-export default Radio;
+export default setDisplayName('Radio')(
+  defaultProps({
+    classPrefix: 'radio'
+  })(Radio)
+);

@@ -2,7 +2,8 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import prefix, { globalKey } from './utils/prefix';
+
+import { prefix, defaultProps } from './utils';
 
 type Props = {
   placement?: 'top' | 'right' | 'bottom' | 'left',
@@ -15,13 +16,12 @@ type Props = {
   style?: Object,
   children?: React.Node,
   onMouseLeave?: (event: SyntheticEvent<*>) => void,
-  onMouseEnter?: (event: SyntheticEvent<*>) => void,
-}
+  onMouseEnter?: (event: SyntheticEvent<*>) => void
+};
 
 class Tooltip extends React.Component<Props> {
   static defaultProps = {
-    placement: 'right',
-    classPrefix: `${globalKey}tooltip`
+    placement: 'right'
   };
 
   render() {
@@ -53,7 +53,6 @@ class Tooltip extends React.Component<Props> {
       top: arrowOffsetTop
     };
 
-
     return (
       <div
         role="tooltip"
@@ -63,12 +62,12 @@ class Tooltip extends React.Component<Props> {
         onMouseEnter={onMouseEnter}
       >
         <div className={addPrefix('arrow')} style={arrowStyle} />
-        <div className={addPrefix('inner')}>
-          {children}
-        </div>
+        <div className={addPrefix('inner')}>{children}</div>
       </div>
     );
   }
 }
 
-export default Tooltip;
+export default defaultProps({
+  classPrefix: 'tooltip'
+})(Tooltip);

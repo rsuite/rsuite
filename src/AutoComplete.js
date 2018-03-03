@@ -2,6 +2,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
+import setStatic from 'recompose/setStatic';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import { MenuWrapper } from 'rsuite-utils/lib/Picker';
 
@@ -43,7 +44,6 @@ type State = {
 };
 
 class AutoComplete extends React.Component<Props, State> {
-  static Item = AutoCompleteItem;
   static defaultProps = {
     data: [],
     placement: 'bottomLeft'
@@ -296,6 +296,10 @@ class AutoComplete extends React.Component<Props, State> {
   }
 }
 
-export default defaultProps({
+const EnhancedAutoComplete = defaultProps({
   classPrefix: 'auto-complete'
 })(AutoComplete);
+
+setStatic('Item', AutoCompleteItem)(AutoComplete);
+
+export default EnhancedAutoComplete;

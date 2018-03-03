@@ -107,10 +107,10 @@ class Nav extends React.Component<Props> {
   }
 }
 
-const WithNav = defaultProps({
+const EnhancedNav = defaultProps({
   classPrefix: 'nav'
 })(Nav);
 
-setStatic('Item', NavItem)(WithNav);
+setStatic('Item', NavItem)(EnhancedNav);
 
-export default WithNav;
+export default EnhancedNav;

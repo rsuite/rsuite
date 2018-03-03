@@ -2,7 +2,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
-import prefix, { globalKey } from './utils/prefix';
+import { prefix, defaultProps } from './utils';
 
 type Props = {
   className?: string,
@@ -13,13 +13,11 @@ type Props = {
   trailColor?: string,
   trailWidth?: number,
   showInfo?: boolean,
-  status?: 'success' | 'fail' | 'active',
+  status?: 'success' | 'fail' | 'active'
 };
 
 class ProgressLine extends React.Component<Props> {
-
   static defaultProps = {
-    classPrefix: `${globalKey}progress`,
     showInfo: true,
     percent: 0
   };
@@ -45,20 +43,24 @@ class ProgressLine extends React.Component<Props> {
       backgroundColor: strokeColor
     };
 
-    const classes = classNames(classPrefix, addPrefix('line'), {
-      [addPrefix(`line-${status || ''}`)]: !!status,
-    }, className);
+    const classes = classNames(
+      classPrefix,
+      addPrefix('line'),
+      {
+        [addPrefix(`line-${status || ''}`)]: !!status
+      },
+      className
+    );
 
     const showIcon = status && status !== 'active';
-    const info = showIcon ? (<span className={addPrefix(`icon-${status || ''}`)} />) : (
+    const info = showIcon ? (
+      <span className={addPrefix(`icon-${status || ''}`)} />
+    ) : (
       <span className={addPrefix('info-status')}>{percent}%</span>
     );
 
     return (
-      <div
-        className={classes}
-        {...rest}
-      >
+      <div className={classes} {...rest}>
         <div className={addPrefix('line-outer')}>
           <div className={addPrefix('line-inner')}>
             <div className={addPrefix('line-bg')} style={percentStyle} />
@@ -70,4 +72,6 @@ class ProgressLine extends React.Component<Props> {
   }
 }
 
-export default ProgressLine;
+export default defaultProps({
+  classPrefix: 'progress'
+})(ProgressLine);

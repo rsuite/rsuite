@@ -4,9 +4,7 @@ import * as React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import { mapCloneElement } from './utils/ReactChildren';
-import { globalKey } from './utils/prefix';
-import getUnhandledProps from './utils/getUnhandledProps';
+import { ReactChildren, defaultProps, getUnhandledProps } from './utils';
 
 type Props = {
   name?: string,
@@ -24,10 +22,6 @@ type State = {
 };
 
 class RadioGroup extends React.Component<Props, State> {
-  static defaultProps = {
-    classPrefix: `${globalKey}radio-group`
-  };
-
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -51,7 +45,7 @@ class RadioGroup extends React.Component<Props, State> {
 
     const clesses = classNames(classPrefix, className);
     const nextValue = this.getValue();
-    const items = mapCloneElement(children, child => {
+    const items = ReactChildren.mapCloneElement(children, child => {
       if (child.type.displayName === 'Radio') {
         return {
           inline,
@@ -73,4 +67,6 @@ class RadioGroup extends React.Component<Props, State> {
   }
 }
 
-export default RadioGroup;
+export default defaultProps({
+  classPrefix: 'radio-group'
+})(RadioGroup);

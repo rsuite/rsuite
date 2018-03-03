@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { setDisplayName, wrapDisplayName } from 'recompose';
 
-const mergeObject = (list: Array<Object>) => list.reduce((a, b) => {
-  a = { ...a, ...b };
-  return a;
-}, {});
+const mergeObject = (list: Array<Object>) =>
+  list.reduce((a, b) => {
+    a = { ...a, ...b };
+    return a;
+  }, {});
 
-const withLocale = (combineKeys: Array<string> = []) => (BaseComponent) => {
+const withLocale = (combineKeys: Array<string> = []) => BaseComponent => {
   const factory = createFactory(BaseComponent);
   const componentName = BaseComponent.prototype.constructor.name;
 
@@ -29,9 +30,7 @@ const withLocale = (combineKeys: Array<string> = []) => (BaseComponent) => {
   }
 
   if (process.env.NODE_ENV !== 'production') {
-    return setDisplayName(wrapDisplayName(BaseComponent, 'withLocale'))(
-      WithLocale
-    );
+    return setDisplayName(wrapDisplayName(BaseComponent, 'withLocale'))(WithLocale);
   }
 
   return WithLocale;

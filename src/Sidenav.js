@@ -3,14 +3,15 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import setStatic from 'recompose/setStatic';
 import Transition from 'rsuite-utils/lib/Animation/Transition';
 import _ from 'lodash';
+
 import SidenavBody from './SidenavBody';
 import SidenavHeader from './SidenavHeader';
 import SidenavToggle from './SidenavToggle';
-import createComponent from './utils/createComponent';
-import prefix, { globalKey } from './utils/prefix';
-import getUnhandledProps from './utils/getUnhandledProps';
+
+import { prefix, defaultProps, getUnhandledProps } from './utils';
 
 type Props = {
   classPrefix?: string,
@@ -23,21 +24,18 @@ type Props = {
   activeKey?: any,
   defaultActiveKey?: any,
   onSelect?: (eventKey: Array<any>, event: SyntheticEvent<*>) => void,
-}
+  componentClass: React.ElementType
+};
 
 type State = {
   activeKey?: any,
   openKeys?: Array<any>
-}
-
-const Component = createComponent('div');
+};
 
 class Sidenav extends React.Component<Props, State> {
-
   static defaultProps = {
     appearance: 'default',
-    expanded: true,
-    classPrefix: `${globalKey}sidenav`
+    expanded: true
   };
 
   static childContextTypes = {
@@ -48,10 +46,6 @@ class Sidenav extends React.Component<Props, State> {
     onSelect: PropTypes.func,
     onOpenChange: PropTypes.func
   };
-
-  static Header = SidenavHeader;
-  static Body = SidenavBody;
-  static Toggle = SidenavToggle;
 
   constructor(props: Props) {
     super(props);
@@ -79,10 +73,9 @@ class Sidenav extends React.Component<Props, State> {
 
     this.setState({ activeKey: eventKey });
     onSelect && onSelect(eventKey, event);
-  }
+  };
 
   handleOpenChange = (eventKey: any, event: SyntheticEvent<*>) => {
-
     const { onOpenChange } = this.props;
     const find = key => _.isEqual(key, eventKey);
     let openKeys = _.clone(this.state.openKeys) || [];
@@ -96,7 +89,7 @@ class Sidenav extends React.Component<Props, State> {
     this.setState({ openKeys });
 
     onOpenChange && onOpenChange(openKeys, event);
-  }
+  };
 
   render() {
     const {
@@ -106,6 +99,7 @@ class Sidenav extends React.Component<Props, State> {
       expanded,
       openKeys,
       defaultOpenKeys,
+      componentClass: Component,
       ...props
     } = this.props;
 
@@ -122,15 +116,19 @@ class Sidenav extends React.Component<Props, State> {
         enteredClassName={addPrefix('collapse-in')}
         enteringClassName={addPrefix(['collapse-in', 'collapsing'])}
       >
-        <Component
-          {...unhandled}
-          className={classes}
-          role="navigation"
-        />
+        <Component {...unhandled} className={classes} role="navigation" />
       </Transition>
     );
   }
-
 }
 
-export default Sidenav;
+const EnhancedSidenav = defaultProps({
+  classPrefix: 'sidenav',
+  componentClass: 'div'
+})(Sidenav);
+
+setStatic('Header', SidenavHeader)(EnhancedSidenav);
+setStatic('Body', SidenavBody)(EnhancedSidenav);
+setStatic('Toggle', SidenavToggle)(EnhancedSidenav);
+
+export default EnhancedSidenav;

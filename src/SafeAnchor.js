@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react';
-import createComponent from './utils/createComponent';
 
 type Props = {
   href?: string,
@@ -10,13 +9,15 @@ type Props = {
   role?: string,
   style?: Object,
   tabIndex?: number | string,
-}
-
+  componentClass: React.ElementType
+};
 
 const isTrivialHref = href => !href || href.trim() === '#';
-const Component = createComponent('a');
 
 class SafeAnchor extends React.Component<Props> {
+  static defaultProps = {
+    componentClass: 'a'
+  };
 
   handleClick = (event: SyntheticEvent<*>) => {
     let { disabled, href, onClick } = this.props;
@@ -30,17 +31,10 @@ class SafeAnchor extends React.Component<Props> {
     }
 
     onClick && onClick(event);
-  }
+  };
 
   render() {
-
-    let {
-      role,
-      tabIndex,
-      disabled,
-      style,
-      ...props
-    } = this.props;
+    let { componentClass: Component, role, tabIndex, disabled, style, ...props } = this.props;
 
     if (disabled) {
       tabIndex = -1;

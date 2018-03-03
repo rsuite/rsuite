@@ -5,6 +5,11 @@ import classNames from 'classnames';
 import setStatic from 'recompose/setStatic';
 
 import Modal from './Modal';
+import ModalBody from './ModalBody';
+import ModalHeader from './ModalHeader';
+import ModalTitle from './ModalTitle';
+import ModalFooter from './ModalFooter';
+
 import { prefix, defaultProps } from './utils';
 
 type Props = {
@@ -32,13 +37,13 @@ class Drawer extends React.Component<Props> {
   }
 }
 
-const WithDrawer = defaultProps({
+const EnhancedDrawer = defaultProps({
   classPrefix: 'drawer'
 })(Drawer);
 
-setStatic('Body', defaultProps({ classPrefix: 'drawer-body' })(Modal.Body))(WithDrawer);
-setStatic('Header', defaultProps({ classPrefix: 'drawer-header' })(Modal.Header))(WithDrawer);
-setStatic('Title', defaultProps({ classPrefix: 'drawer-title' })(Modal.Title))(WithDrawer);
-setStatic('Footer', defaultProps({ classPrefix: 'drawer-footer' })(Modal.Footer))(WithDrawer);
+setStatic('Body', defaultProps({ classPrefix: 'drawer-body' })(ModalBody))(EnhancedDrawer);
+setStatic('Header', defaultProps({ classPrefix: 'drawer-header' })(ModalHeader))(EnhancedDrawer);
+setStatic('Title', defaultProps({ classPrefix: 'drawer-title' })(ModalTitle))(EnhancedDrawer);
+setStatic('Footer', defaultProps({ classPrefix: 'drawer-footer' })(ModalFooter))(EnhancedDrawer);
 
-export default WithDrawer;
+export default EnhancedDrawer;

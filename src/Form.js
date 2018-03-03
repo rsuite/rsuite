@@ -6,7 +6,8 @@ import _ from 'lodash';
 import { SchemaModel, Schema } from 'rsuite-schema';
 import classNames from 'classnames';
 
-import { getUnhandledProps, defaultProps, prefix } from './utils';
+import { getUnhandledProps, prefix } from './utils';
+import { defaultClassPrefix } from './utils/prefix';
 
 type Props = {
   className?: string,
@@ -31,6 +32,7 @@ type State = {
 
 class Form extends React.Component<Props, State> {
   static defaultProps = {
+    classPrefix: defaultClassPrefix('form'),
     model: SchemaModel({}),
     horizontal: false,
     inline: false,
@@ -179,6 +181,4 @@ class Form extends React.Component<Props, State> {
   }
 }
 
-export default defaultProps({
-  classPrefix: 'form'
-})(Form);
+export default Form;

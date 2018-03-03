@@ -28,7 +28,6 @@ type State = {
 };
 
 class Checkbox extends React.Component<Props, State> {
-  static displayName = 'Checkbox';
   static defaultProps = {
     tabIndex: 0
   };

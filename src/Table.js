@@ -4,12 +4,12 @@ import { Table, Column, Cell, HeaderCell } from 'rsuite-table';
 import withLocale from './IntlProvider/withLocale';
 import TablePagination from './TablePagination';
 
-const WithLocaleTable = withLocale()(Table);
+const EnhancedLocaleTable = withLocale()(Table);
 
 
-setStatic('Column', Column)(WithLocaleTable);
-setStatic('Cell', Cell)(WithLocaleTable);
-setStatic('HeaderCell', HeaderCell)(WithLocaleTable);
-setStatic('Pagination', TablePagination)(WithLocaleTable);
+setStatic('Column', Column)(EnhancedLocaleTable);
+setStatic('Cell', Cell)(EnhancedLocaleTable);
+setStatic('HeaderCell', HeaderCell)(EnhancedLocaleTable);
+setStatic('Pagination', TablePagination)(EnhancedLocaleTable);
 
-export default WithLocaleTable;
+export default EnhancedLocaleTable;

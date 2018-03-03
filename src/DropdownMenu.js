@@ -169,8 +169,8 @@ class DropdownMenu extends React.Component<Props> {
   }
 }
 
-const WithDropdownMenu = defaultProps({
+const EnhancedDropdownMenu = defaultProps({
   classPrefix: 'dropdown-menu'
 })(DropdownMenu);
 
-export default setDisplayName('DropdownMenu')(WithDropdownMenu);
+export default setDisplayName('DropdownMenu')(EnhancedDropdownMenu);

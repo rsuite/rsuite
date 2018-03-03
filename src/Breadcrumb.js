@@ -60,11 +60,11 @@ class Breadcrumb extends React.Component<Props> {
   }
 }
 
-const WithBreadcrumb = defaultProps({
+const EnhancedBreadcrumb = defaultProps({
   classPrefix: 'breadcrumb',
   componentClass: 'ol'
 })(Breadcrumb);
 
-setStatic('Item', BreadcrumbItem)(WithBreadcrumb);
+setStatic('Item', BreadcrumbItem)(EnhancedBreadcrumb);
 
-export default WithBreadcrumb;
+export default EnhancedBreadcrumb;

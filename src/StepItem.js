@@ -1,7 +1,8 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import prefix, { globalKey } from './utils/prefix';
+
 import Icon from './Icon';
+import { prefix, defaultProps } from './utils';
 
 type Props = {
   className?: string,
@@ -16,9 +17,6 @@ type Props = {
 };
 
 class StepItem extends React.Component<Props> {
-  static defaultProps = {
-    classPrefix: `${globalKey}steps-item`,
-  };
   render() {
     const {
       className,
@@ -34,50 +32,44 @@ class StepItem extends React.Component<Props> {
     } = this.props;
 
     const addPrefix: Function = prefix(classPrefix);
-    const classes = classNames(classPrefix, {
-      [addPrefix('custom')]: icon
-    }, addPrefix(`status-${status}`), className);
+    const classes = classNames(
+      classPrefix,
+      {
+        [addPrefix('custom')]: icon
+      },
+      addPrefix(`status-${status}`),
+      className
+    );
 
     const styles = {
       width: itemWidth,
       ...style
     };
 
-    const contentNode = (title || description) ? (
-      <div className={addPrefix('content')}>
-        {title && <div className={addPrefix('title')}>{title}</div>}
-        {description && <div className={addPrefix('description')}>{description}</div>}
-      </div>
-    ) : null;
+    const contentNode =
+      title || description ? (
+        <div className={addPrefix('content')}>
+          {title && <div className={addPrefix('title')}>{title}</div>}
+          {description && <div className={addPrefix('description')}>{description}</div>}
+        </div>
+      ) : null;
 
-    let iconNode = (
-      <span className={addPrefix(['icon', `icon-${status}`])}>
-        {stepNumber}
-      </span>
-    );
+    let iconNode = <span className={addPrefix(['icon', `icon-${status}`])}>{stepNumber}</span>;
 
     if (icon) {
-      iconNode = (
-        <span className={addPrefix('icon')}>
-          {icon}
-        </span>
-      );
+      iconNode = <span className={addPrefix('icon')}>{icon}</span>;
     }
 
     return (
-      <div
-        {...rest}
-        className={classes}
-        style={styles}
-      >
+      <div {...rest} className={classes} style={styles}>
         <div className={addPrefix('tail')} />
-        <div className={addPrefix(['icon-wrapper', icon ? 'custom-icon' : ''])}>
-          {iconNode}
-        </div>
+        <div className={addPrefix(['icon-wrapper', icon ? 'custom-icon' : ''])}>{iconNode}</div>
         {contentNode}
       </div>
     );
   }
 }
 
-export default StepItem;
+export default defaultProps({
+  classPrefix: 'steps-item'
+})(StepItem);

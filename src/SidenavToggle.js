@@ -2,9 +2,10 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { globalKey } from './utils/prefix';
+
 import IconButton from './IconButton';
 import Icon from './Icon';
+import { defaultProps } from './utils';
 
 type Props = {
   classPrefix?: string,
@@ -14,35 +15,24 @@ type Props = {
 };
 
 class SidenavToggle extends React.Component<Props> {
-
-  static defaultProps = {
-    classPrefix: `${globalKey}sidenav-toggle`
-  };
-
   handleToggle = (event: SyntheticEvent<HTMLButtonElement>) => {
     const { onToggle, expanded } = this.props;
     onToggle && onToggle(!expanded, event);
-  }
+  };
 
   render() {
+    const { onToggle, expanded, className, classPrefix, ...props } = this.props;
 
-    const {
-      onToggle,
-      expanded,
-      className,
+    const classes = classNames(
       classPrefix,
-      ...props
-    } = this.props;
-
-    const classes = classNames(classPrefix, {
-      collapsed: !expanded
-    }, className);
+      {
+        collapsed: !expanded
+      },
+      className
+    );
 
     return (
-      <div
-        {...props}
-        className={classes}
-      >
+      <div {...props} className={classes}>
         <IconButton
           appearance="default"
           icon={<Icon icon={expanded ? 'angle-right' : 'angle-left'} />}
@@ -53,4 +43,6 @@ class SidenavToggle extends React.Component<Props> {
   }
 }
 
-export default SidenavToggle;
+export default defaultProps({
+  classPrefix: 'sidenav-toggle'
+})(SidenavToggle);

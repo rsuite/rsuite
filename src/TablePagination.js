@@ -2,16 +2,18 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
+import compose from 'recompose/compose';
+
 import Pagination from './Pagination';
 import SelectPicker from './SelectPicker';
-import prefix, { globalKey } from './utils/prefix';
-import tplTransform from './utils/tplTransform';
+
+import { prefix, tplTransform, defaultProps } from './utils';
 import withLocale from './IntlProvider/withLocale';
 
 type Locale = {
   lengthMenuInfo: string,
-  totalInfo: string,
-}
+  totalInfo: string
+};
 
 type Props = {
   lengthMenu?: Array<{ value: number, label: React.Node }>,
@@ -31,31 +33,32 @@ type Props = {
   activePage: number,
   className?: string,
   locale: Locale,
-  classPrefix: string,
-}
-
+  classPrefix: string
+};
 
 type State = {
   displayLength: number,
   activePage: number
-}
+};
 
 class TablePagination extends React.Component<Props, State> {
-
   static defaultProps = {
-    classPrefix: `${globalKey}table-pagination`,
     showLengthMenu: true,
     showInfo: true,
-    lengthMenu: [{
-      value: 30,
-      label: 30,
-    }, {
-      value: 50,
-      label: 50,
-    }, {
-      value: 100,
-      label: 100,
-    }],
+    lengthMenu: [
+      {
+        value: 30,
+        label: 30
+      },
+      {
+        value: 50,
+        label: 50
+      },
+      {
+        value: 100,
+        label: 100
+      }
+    ],
     displayLength: 30,
     prev: true,
     next: true,
@@ -87,13 +90,12 @@ class TablePagination extends React.Component<Props, State> {
   }
 
   handleChangeLength = (eventKey: any) => {
-
     const { onChangeLength } = this.props;
     this.setState({
       displayLength: eventKey
     });
     onChangeLength && onChangeLength(eventKey);
-  }
+  };
 
   handleChangePage = (eventKey: any) => {
     const { onChangePage } = this.props;
@@ -101,25 +103,18 @@ class TablePagination extends React.Component<Props, State> {
       activePage: eventKey
     });
     onChangePage && onChangePage(eventKey);
-  }
+  };
 
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name)
+  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderLengthMenu() {
-
-    const {
-      lengthMenu = [],
-      renderLengthMenu,
-      showLengthMenu,
-      locale,
-    } = this.props;
+    const { lengthMenu = [], renderLengthMenu, showLengthMenu, locale } = this.props;
 
     const { displayLength } = this.state;
 
     if (!showLengthMenu) {
       return null;
     }
-
 
     const picker = (
       <SelectPicker
@@ -134,16 +129,12 @@ class TablePagination extends React.Component<Props, State> {
 
     return (
       <div className={this.addPrefix('length-menu')}>
-        {
-          renderLengthMenu ? renderLengthMenu(picker) : tplTransform(locale.lengthMenuInfo, picker)
-        }
+        {renderLengthMenu ? renderLengthMenu(picker) : tplTransform(locale.lengthMenuInfo, picker)}
       </div>
     );
   }
 
-
   renderInfo() {
-
     const { renderTotal, total, showInfo, locale } = this.props;
 
     if (!showInfo) {
@@ -165,12 +156,11 @@ class TablePagination extends React.Component<Props, State> {
     const classes = classNames(this.addPrefix('pagination-wrapper'), className);
 
     return (
-
       <div className={classes}>
         {this.renderLengthMenu()}
         {this.renderInfo()}
 
-        <div className={classNames(this.addPrefix('pagination'))} >
+        <div className={classNames(this.addPrefix('pagination'))}>
           <Pagination
             prev={prev}
             next={next}
@@ -182,11 +172,14 @@ class TablePagination extends React.Component<Props, State> {
             activePage={activePage}
           />
         </div>
-
       </div>
     );
   }
 }
 
-
-export default withLocale()(TablePagination);
+export default compose(
+  withLocale(['TablePagination']),
+  defaultProps({
+    classPrefix: 'table-pagination'
+  })
+)(TablePagination);

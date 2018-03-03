@@ -249,12 +249,12 @@ class Dropdown extends React.Component<Props, State> {
   }
 }
 
-const WithDropdown = defaultProps({
+const EnhancedDropdown = defaultProps({
   componentClass: 'div',
   classPrefix: 'dropdown'
 })(Dropdown);
 
-setStatic('Item', DropdownMenuItem)(WithDropdown);
-setStatic('Menu', DropdownMenu)(WithDropdown);
+setStatic('Item', DropdownMenuItem)(EnhancedDropdown);
+setStatic('Menu', DropdownMenu)(EnhancedDropdown);
 
-export default setDisplayName('Dropdown')(WithDropdown);
+export default setDisplayName('Dropdown')(EnhancedDropdown);

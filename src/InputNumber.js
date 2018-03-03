@@ -163,7 +163,7 @@ class InputNumber extends React.Component<Props, State> {
 
     return (
       <InputGroup className={classes}>
-        {prefix && <InputGroup.Addon>{prefixElement}</InputGroup.Addon>}
+        {prefixElement && <InputGroup.Addon>{prefixElement}</InputGroup.Addon>}
         <Input
           type="number"
           onChange={this.handleOnChange}

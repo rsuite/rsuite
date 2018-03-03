@@ -264,14 +264,14 @@ class Modal extends React.Component<Props, State> {
   }
 }
 
-const WithModal = defaultProps({
+const EnhancedModal = defaultProps({
   classPrefix: 'modal'
 })(Modal);
 
-setStatic('Body', ModalBody)(WithModal);
-setStatic('Header', ModalHeader)(WithModal);
-setStatic('Title', ModalTitle)(WithModal);
-setStatic('Footer', ModalFooter)(WithModal);
-setStatic('Dialog', ModalDialog)(WithModal);
+setStatic('Body', ModalBody)(EnhancedModal);
+setStatic('Header', ModalHeader)(EnhancedModal);
+setStatic('Title', ModalTitle)(EnhancedModal);
+setStatic('Footer', ModalFooter)(EnhancedModal);
+setStatic('Dialog', ModalDialog)(EnhancedModal);
 
-export default setDisplayName('Modal')(WithModal);
+export default setDisplayName('Modal')(EnhancedModal);

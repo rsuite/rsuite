@@ -63,7 +63,7 @@ class InputGroup extends React.Component<Props, State> {
   }
 }
 
-const WithInputGroup = compose(
+const EnhancedInputGroup = compose(
   withStyleProps({
     hasSize: true
   }),
@@ -72,7 +72,7 @@ const WithInputGroup = compose(
   })
 )(InputGroup);
 
-setStatic('Addon', InputGroupAddon)(WithInputGroup);
-setStatic('Button', InputGroupButton)(WithInputGroup);
+setStatic('Addon', InputGroupAddon)(EnhancedInputGroup);
+setStatic('Button', InputGroupButton)(EnhancedInputGroup);
 
-export default WithInputGroup;
+export default EnhancedInputGroup;

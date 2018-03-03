@@ -2,6 +2,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 export const globalKey = '';
+export const defaultClassPrefix = name => `${globalKey}${name}`;
 
 function prefix(pre: string, className: string | Array<string>): string {
   if (!pre || !className) {

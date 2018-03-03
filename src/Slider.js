@@ -1,15 +1,13 @@
 // @flow
 
 import * as React from 'react';
-import { findDOMNode } from 'react-dom';
+import { findDOMNode } from 'react-dom'; /* eslint-disable react/no-find-dom-node */
 import classNames from 'classnames';
 import _ from 'lodash';
 import { on, DOMMouseMoveTracker, addStyle, getWidth, getHeight, getOffset } from 'dom-lib';
 
-import getUnhandledProps from './utils/getUnhandledProps';
-import prefix, { globalKey } from './utils/prefix';
+import { getUnhandledProps, defaultProps, prefix } from './utils';
 import Tooltip from './Tooltip';
-
 
 type Props = {
   min: number,
@@ -29,7 +27,7 @@ type Props = {
   progress?: boolean,
   vertical?: boolean,
   onChange?: (value: number) => void
-}
+};
 
 type State = {
   value: number,
@@ -37,13 +35,10 @@ type State = {
   barHeight: number,
   barOffset: Object,
   handleDown?: boolean
-}
-
+};
 
 class Slider extends React.Component<Props, State> {
-
   static defaultProps = {
-    classPrefix: `${globalKey}slider`,
     min: 0,
     max: 100,
     step: 1,
@@ -82,10 +77,9 @@ class Slider extends React.Component<Props, State> {
 
   onWindowResizeListener = null;
   getMouseMoveTracker() {
-    return this.mouseMoveTracker || new DOMMouseMoveTracker(
-      this.hanldeDragMove,
-      this.hanldeDragEnd,
-      document.body
+    return (
+      this.mouseMoveTracker ||
+      new DOMMouseMoveTracker(this.hanldeDragMove, this.hanldeDragEnd, document.body)
     );
   }
 
@@ -95,7 +89,6 @@ class Slider extends React.Component<Props, State> {
   }
 
   setValue(value: number) {
-
     const { onChange, min, max } = this.props;
     if (value < min) {
       value = min;
@@ -108,10 +101,13 @@ class Slider extends React.Component<Props, State> {
   }
 
   setTooltipPosition() {
-    /* eslint-disable react/no-find-dom-node */
-    const tip = findDOMNode(this.tooltip);
-    const width = getWidth(tip);
-    addStyle(tip, 'left', `-${width / 2}px`);
+    const { tooltip } = this.props;
+    if (tooltip) {
+      const handle: any = findDOMNode(this.handle);
+      const tip = handle.querySelector(`.${this.addPrefix('tooltip')}`);
+      const width = getWidth(tip);
+      addStyle(tip, 'left', `-${width / 2}px`);
+    }
   }
 
   checkValue(value: number) {
@@ -140,7 +136,6 @@ class Slider extends React.Component<Props, State> {
       return value;
     }
 
-
     if (vertical) {
       value = Math.round(offset / (barHeight / count)) * step;
     } else {
@@ -151,7 +146,6 @@ class Slider extends React.Component<Props, State> {
   }
 
   hanldeClick = (event: SyntheticDragEvent<*>) => {
-
     if (this.props.disabled) {
       return;
     }
@@ -160,14 +154,13 @@ class Slider extends React.Component<Props, State> {
     const { barOffset } = this.state;
     const offset = vertical ? event.pageY - barOffset.top : event.pageX - barOffset.left;
     this.setValue(this.calculateValue(offset) + min);
-  }
+  };
 
   mouseMoveTracker = null;
   bar = null;
-  tooltip = null;
+  handle = null;
 
   hanldeMouseDown = (event: SyntheticEvent<*>) => {
-
     if (this.props.disabled) {
       return;
     }
@@ -177,18 +170,16 @@ class Slider extends React.Component<Props, State> {
     this.setState({
       handleDown: true
     });
-
-  }
+  };
 
   hanldeDragEnd = () => {
     this.releaseMouseMoves();
     this.setState({
       handleDown: false
     });
-  }
+  };
 
   hanldeDragMove = (deltaX: number, deltaY: number, event: SyntheticDragEvent<*>) => {
-
     if (!this.mouseMoveTracker || !this.mouseMoveTracker.isDragging()) {
       return;
     }
@@ -198,7 +189,7 @@ class Slider extends React.Component<Props, State> {
     const offset = vertical ? event.pageY - barOffset.top : event.pageX - barOffset.left;
     this.setValue(this.calculateValue(offset) + min);
     this.setTooltipPosition();
-  }
+  };
 
   /**
    * 释放鼠标移动事件
@@ -208,21 +199,21 @@ class Slider extends React.Component<Props, State> {
       this.mouseMoveTracker.releaseMouseMoves();
       this.mouseMoveTracker = null;
     }
-  }
+  };
 
   handleWindowResize = () => {
     this.updateBar();
-  }
+  };
 
   updateBar() {
     this.setState({
       barOffset: getOffset(this.bar),
       barWidth: getWidth(this.bar),
-      barHeight: getHeight(this.bar),
+      barHeight: getHeight(this.bar)
     });
   }
 
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name)
+  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   /**
    * 渲染标尺
@@ -232,8 +223,8 @@ class Slider extends React.Component<Props, State> {
     const count = this.getSplitCount();
     const { barHeight, value } = this.state;
     const graduatedItems = [];
-    const pass = (value / step) - (min / step);
-    const active = Math.ceil((((value - min) / (max - min)) * count));
+    const pass = value / step - min / step;
+    const active = Math.ceil((value - min) / (max - min) * count);
 
     for (let i = 0; i < count; i += 1) {
       let style = {};
@@ -245,33 +236,26 @@ class Slider extends React.Component<Props, State> {
       if (barHeight && vertical) {
         style.height = barHeight / count;
       }
-      graduatedItems.push(<li className={classes} style={style} key={i}>{' '}</li>);
+      graduatedItems.push(
+        <li className={classes} style={style} key={i}>
+          {' '}
+        </li>
+      );
     }
     return (
       <div className={this.addPrefix('graduator')}>
         <ul>{graduatedItems}</ul>
       </div>
     );
-
   }
 
-
   renderHanlde() {
-    const {
-      handleClassName,
-      handleTitle,
-      max,
-      min,
-      vertical,
-      tooltip,
-      hanldeStyle
-    } = this.props;
+    const { handleClassName, handleTitle, max, min, vertical, tooltip, hanldeStyle } = this.props;
     const { value, handleDown } = this.state;
-
 
     const direction = vertical ? 'top' : 'left';
     const offset = {
-      [direction]: `${((value - min) / (max - min)) * 100}%`
+      [direction]: `${(value - min) / (max - min) * 100}%`
     };
     const style = Object.assign({}, hanldeStyle, offset);
 
@@ -284,17 +268,15 @@ class Slider extends React.Component<Props, State> {
         role="presentation"
         onMouseDown={this.hanldeMouseDown}
         style={style}
+        ref={ref => {
+          this.handle = ref;
+        }}
       >
-        {
-          tooltip && <Tooltip
-            placement="top"
-            ref={(ref) => {
-              this.tooltip = ref;
-            }}
-          >
+        {tooltip && (
+          <Tooltip placement="top" className={this.addPrefix('tooltip')}>
             {value}
           </Tooltip>
-        }
+        )}
         {handleTitle}
       </div>
     );
@@ -305,16 +287,13 @@ class Slider extends React.Component<Props, State> {
     const { value } = this.state;
     const key = vertical ? 'height' : 'width';
     const style = {
-      [key]: `${((value - min) / (max - min)) * 100}%`
+      [key]: `${(value - min) / (max - min) * 100}%`
     };
 
-    return (
-      <div style={style} className={this.addPrefix('progress-bar')} />
-    );
+    return <div style={style} className={this.addPrefix('progress-bar')} />;
   }
 
   render() {
-
     const {
       graduated,
       className,
@@ -337,15 +316,10 @@ class Slider extends React.Component<Props, State> {
     const unhandled = getUnhandledProps(Slider, rest);
 
     return (
-      <div
-        {...unhandled}
-        className={classes}
-        onClick={this.hanldeClick}
-        role="presentation"
-      >
+      <div {...unhandled} className={classes} onClick={this.hanldeClick} role="presentation">
         <div
           className={classNames(this.addPrefix('bar'), barClassName)}
-          ref={(ref) => {
+          ref={ref => {
             this.bar = ref;
           }}
         >
@@ -358,5 +332,6 @@ class Slider extends React.Component<Props, State> {
   }
 }
 
-export default Slider;
-
+export default defaultProps({
+  classPrefix: 'slider'
+})(Slider);

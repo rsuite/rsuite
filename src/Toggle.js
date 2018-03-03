@@ -3,10 +3,9 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
-import withStyleProps from './utils/withStyleProps';
-import prefix, { globalKey } from './utils/prefix';
-import getUnhandledProps from './utils/getUnhandledProps';
+import compose from 'recompose/compose';
 
+import { prefix, withStyleProps, defaultProps, getUnhandledProps } from './utils';
 
 type Props = {
   disabled?: boolean,
@@ -21,14 +20,9 @@ type Props = {
 
 type State = {
   checked?: boolean
-}
+};
 
 class Toggle extends React.Component<Props, State> {
-
-  static defaultProps = {
-    classPrefix: `${globalKey}btn-toggle`
-  };
-
   constructor(props: Props) {
     super(props);
     const { checked, defaultChecked } = props;
@@ -53,10 +47,9 @@ class Toggle extends React.Component<Props, State> {
     this.setState({ checked }, () => {
       onChange && onChange(checked, event);
     });
-  }
+  };
 
   render() {
-
     const {
       disabled,
       className,
@@ -69,11 +62,10 @@ class Toggle extends React.Component<Props, State> {
 
     const checked = this.getCheckedStatus();
     const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, {
+    const classes = classNames(classPrefix, className, {
       [addPrefix('checked')]: checked,
       disabled
-    }, className);
-
+    });
 
     const inner = checked ? checkedChildren : unCheckedChildren;
     const unhandled = getUnhandledProps(Toggle, rest);
@@ -89,10 +81,14 @@ class Toggle extends React.Component<Props, State> {
         <span className="toggle-inner">{inner}</span>
       </span>
     );
-
   }
 }
 
-export default withStyleProps({
-  hasSize: true
-})(Toggle);
+export default compose(
+  withStyleProps({
+    hasSize: true
+  }),
+  defaultProps({
+    classPrefix: 'btn-toggle'
+  })
+)(Toggle);
