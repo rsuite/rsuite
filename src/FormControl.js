@@ -11,15 +11,14 @@ type Props = {
   accepter: React.ElementType,
   onChange?: (value: any, event: SyntheticEvent<*>) => void,
   onBlur?: (event: SyntheticEvent<*>) => void
-}
+};
 
 type State = {
   checkResult?: Object,
   value?: any
-}
+};
 
 class FormControl extends React.Component<Props, State> {
-
   static defaultProps = {
     accepter: Input
   };
@@ -27,7 +26,6 @@ class FormControl extends React.Component<Props, State> {
   static contextTypes = {
     form: PropTypes.object
   };
-
 
   constructor(props: Props, context: Object) {
     super(props, context);
@@ -42,7 +40,6 @@ class FormControl extends React.Component<Props, State> {
       checkResult: {},
       value: values[name] || defaultValues[name]
     };
-
   }
 
   getCheckTrigger() {
@@ -51,7 +48,6 @@ class FormControl extends React.Component<Props, State> {
   }
 
   handleFieldChange = (value: any, event: SyntheticEvent<*>) => {
-
     const { name, onChange } = this.props;
     const { onFieldChange } = this.context.form;
     const checkTrigger = this.getCheckTrigger();
@@ -59,22 +55,18 @@ class FormControl extends React.Component<Props, State> {
     this.setState({ checkResult, value });
     onFieldChange(name, value, event);
     onChange && onChange(value, event);
-  }
+  };
 
   handleFieldBlur = (event: SyntheticEvent<*>) => {
     const { onBlur } = this.props;
     const checkTrigger = this.getCheckTrigger();
     this.handleFieldCheck(this.state.value, checkTrigger === 'blur');
     onBlur && onBlur(event);
-  }
+  };
 
   handleFieldCheck = (value: any, isCheckTrigger: boolean, callback?: Function) => {
     const { name } = this.props;
-    const {
-      onFieldError,
-      onFieldSuccess,
-      model
-    } = this.context.form;
+    const { onFieldError, onFieldSuccess, model } = this.context.form;
 
     const checkResult = model.checkForField(name, value);
 
@@ -87,10 +79,9 @@ class FormControl extends React.Component<Props, State> {
     }
 
     return checkResult;
-  }
+  };
 
   render() {
-
     let { name, accepter: Component, ...props } = this.props;
     const { values = {}, defaultValues = {} } = this.context.form;
     const unhandled = getUnhandledProps(FormControl, props);

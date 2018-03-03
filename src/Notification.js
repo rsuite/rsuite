@@ -24,7 +24,10 @@ function appendIcon(type: string, content: React.Node): React.Node {
     return content;
   }
   return (
-    <p><Icon icon={STATUS_ICON_NAMES[type]} />{content}</p>
+    <p>
+      <Icon icon={STATUS_ICON_NAMES[type]} />
+      {content}
+    </p>
   );
 }
 

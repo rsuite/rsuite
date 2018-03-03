@@ -4,7 +4,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { FormattedMessage } from 'rsuite-intl';
 
-import { getUnhandledProps, defaultProps, prefix } from './utils';
+import { getUnhandledProps, createChainedFunction, defaultProps, prefix } from './utils';
 
 type Props = {
   name?: string,
@@ -14,18 +14,14 @@ type Props = {
   onChange?: (event: SyntheticInputEvent<*>) => void,
   classPrefix?: string,
   className?: string,
-  children?: React.Element<any>
+  children?: React.Element<any>,
+  innerRef?: React.ElementRef<*>
 };
 
 const Button = props => <button {...props} type="button" />;
 
 class UploadTrigger extends React.Component<Props> {
-  setValue(value: string) {
-    this.input.value = value;
-  }
-
-  input = {};
-
+  input;
   handleClick = () => {
     !this.props.disabled && this.input.click();
   };
@@ -44,6 +40,7 @@ class UploadTrigger extends React.Component<Props> {
       children,
       classPrefix,
       className,
+      innerRef,
       ...rest
     } = this.props;
 
@@ -75,7 +72,7 @@ class UploadTrigger extends React.Component<Props> {
           multiple={multiple}
           disabled={disabled}
           accept={accept}
-          ref={this.bindInputRef}
+          ref={createChainedFunction(this.bindInputRef, innerRef)}
           onChange={onChange}
         />
         {trigger}

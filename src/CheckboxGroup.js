@@ -2,9 +2,8 @@
 import * as React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
-import { mapCloneElement } from './utils/ReactChildren';
-import { globalKey } from './utils/prefix';
-import getUnhandledProps from './utils/getUnhandledProps';
+
+import { ReactChildren, getUnhandledProps, defaultProps } from './utils';
 
 type Props = {
   name?: string,
@@ -22,10 +21,6 @@ type State = {
 };
 
 class CheckboxGroup extends React.Component<Props, State> {
-  static defaultProps = {
-    classPrefix: `${globalKey}checkbox-group`
-  };
-
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -68,7 +63,7 @@ class CheckboxGroup extends React.Component<Props, State> {
     const clesses: string = classNames(classPrefix, className);
     const checkedKey = _.isUndefined(value) ? 'defaultChecked' : 'checked';
 
-    const items: React.Node = mapCloneElement(children, child => {
+    const items: React.Node = ReactChildren.mapCloneElement(children, child => {
       if (child.type.displayName === 'Checkbox') {
         return {
           ...child.props,
@@ -91,4 +86,6 @@ class CheckboxGroup extends React.Component<Props, State> {
   }
 }
 
-export default CheckboxGroup;
+export default defaultProps({
+  classPrefix: 'checkbox-group'
+})(CheckboxGroup);

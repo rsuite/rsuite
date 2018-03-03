@@ -2,10 +2,9 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import get from 'lodash/get';
-import createComponent from './utils/createComponent';
-import prefix, { globalKey } from './utils/prefix';
+import _ from 'lodash';
 
+import { defaultProps, prefix } from './utils';
 import type { SVGIcon } from './utils/TypeDefinition';
 
 type Props = {
@@ -20,17 +19,11 @@ type Props = {
   fixedWidth?: boolean,
   svgStyle?: Object,
   spin?: boolean,
-  pulse?: boolean
-}
-
-const Component = createComponent('i');
+  pulse?: boolean,
+  componentClass: React.ElementType
+};
 
 class Icon extends React.Component<Props> {
-
-  static defaultProps = {
-    classPrefix: `${globalKey}icon`
-  }
-
   render() {
     const {
       className,
@@ -44,17 +37,15 @@ class Icon extends React.Component<Props> {
       flip,
       stack,
       svgStyle,
+      componentClass: Component,
       ...props
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
-    const isSvgIcon = (
-      typeof icon === 'object' &&
-      get(icon, ['constructor', 'name']) === 'BrowserSpriteSymbol'
-    );
+    const isSvgIcon =
+      typeof icon === 'object' && _.get(icon, ['constructor', 'name']) === 'BrowserSpriteSymbol';
 
-
-    const classes = classNames('icon', {
+    const classes = classNames('icon', className, {
       [addPrefix(icon)]: !isSvgIcon,
       [addPrefix(size)]: size,
       [addPrefix('fw')]: fixedWidth,
@@ -63,9 +54,9 @@ class Icon extends React.Component<Props> {
       [addPrefix(`flip-${flip || ''}`)]: flip,
       [addPrefix(`rotate-${rotate || ''}`)]: rotate,
       [addPrefix(`stack-${stack || ''}`)]: stack
-    }, className);
+    });
 
-    if (isSvgIcon) {
+    if (isSvgIcon && typeof icon === 'object') {
       return (
         <Component {...props} className={classes}>
           <svg style={svgStyle} viewBox={icon.viewBox}>
@@ -75,12 +66,11 @@ class Icon extends React.Component<Props> {
       );
     }
 
-    return (
-      <Component {...props} className={classes} />
-    );
-
+    return <Component {...props} className={classes} />;
   }
 }
 
-export default Icon;
-
+export default defaultProps({
+  componentClass: 'i',
+  classPrefix: 'icon'
+})(Icon);

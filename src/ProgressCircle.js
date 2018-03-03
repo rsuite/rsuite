@@ -3,7 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
-import prefix, { globalKey } from './utils/prefix';
+import { prefix, defaultProps } from './utils';
 
 type Props = {
   className?: string,
@@ -21,30 +21,20 @@ type Props = {
 };
 
 class ProgressCircle extends React.Component<Props> {
-
   static defaultProps = {
-    classPrefix: `${globalKey}progress`,
     percent: 0,
     strokeWidth: 6,
     trailWidth: 6,
     gapDegree: 0,
     showInfo: true,
     strokeLinecap: 'round',
-    gapPosition: 'top',
+    gapPosition: 'top'
   };
 
   getPathStyles() {
+    const { percent, strokeWidth, gapDegree, gapPosition, trailColor, strokeColor } = this.props;
 
-    const {
-      percent,
-      strokeWidth,
-      gapDegree,
-      gapPosition,
-      trailColor,
-      strokeColor
-    } = this.props;
-
-    const radius = 50 - (strokeWidth / 2);
+    const radius = 50 - strokeWidth / 2;
 
     let beginPositionX = 0;
     let beginPositionY = -radius;
@@ -79,13 +69,13 @@ class ProgressCircle extends React.Component<Props> {
     const trailPathStyle = {
       stroke: trailColor,
       strokeDasharray: `${len - gapDegree}px ${len}px`,
-      strokeDashoffset: `-${gapDegree / 2}px`,
+      strokeDashoffset: `-${gapDegree / 2}px`
     };
 
     const strokePathStyle = {
       stroke: strokeColor,
-      strokeDasharray: `${(percent / 100) * (len - gapDegree)}px ${len}px`,
-      strokeDashoffset: `-${gapDegree / 2}px`,
+      strokeDasharray: `${percent / 100 * (len - gapDegree)}px ${len}px`,
+      strokeDashoffset: `-${gapDegree / 2}px`
     };
 
     return {
@@ -112,38 +102,30 @@ class ProgressCircle extends React.Component<Props> {
       ...rest
     } = this.props;
 
-    const {
-      pathString,
-      trailPathStyle,
-      strokePathStyle
-    } = this.getPathStyles();
-
+    const { pathString, trailPathStyle, strokePathStyle } = this.getPathStyles();
 
     const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, addPrefix('circle'), {
-      [addPrefix(`circle-${status || ''}`)]: !!status,
-    }, className);
+    const classes = classNames(
+      classPrefix,
+      addPrefix('circle'),
+      {
+        [addPrefix(`circle-${status || ''}`)]: !!status
+      },
+      className
+    );
 
     const showIcon = status && status !== 'active';
-    const info = showIcon ? (<span className={addPrefix(`icon-${status || ''}`)} />) : (
+    const info = showIcon ? (
+      <span className={addPrefix(`icon-${status || ''}`)} />
+    ) : (
       <span key={1}>{percent}%</span>
     );
 
     return (
       <div className={classes}>
-        {
-          showInfo ? (
-            <span className={addPrefix('circle-info')}>
-              {info}
-            </span>
-          ) : null
-        }
+        {showInfo ? <span className={addPrefix('circle-info')}>{info}</span> : null}
 
-        <svg
-          className={addPrefix('svg')}
-          viewBox="0 0 100 100"
-          {...rest}
-        >
+        <svg className={addPrefix('svg')} viewBox="0 0 100 100" {...rest}>
           <path
             className={addPrefix('trail')}
             d={pathString}
@@ -165,4 +147,6 @@ class ProgressCircle extends React.Component<Props> {
   }
 }
 
-export default ProgressCircle;
+export default defaultProps({
+  classPrefix: 'progress'
+})(ProgressCircle);

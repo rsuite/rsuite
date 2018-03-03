@@ -4,10 +4,12 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
+import setStatic from 'recompose/setStatic';
+
 import NavItem from './NavItem';
-import { mapCloneElement } from './utils/ReactChildren';
-import getUnhandledProps from './utils/getUnhandledProps';
-import prefix, { globalKey } from './utils/prefix';
+import { prefix, getUnhandledProps, defaultProps, ReactChildren } from './utils';
+import { globalKey } from './utils/prefix';
+
 
 type Props = {
   classPrefix: string,
@@ -20,15 +22,13 @@ type Props = {
   vertical?: boolean,
   pullRight?: boolean,
   activeKey?: any,
-  onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
-}
+  onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void
+};
 
 class Nav extends React.Component<Props> {
-
   static defaultProps = {
-    appearance: 'default',
-    classPrefix: `${globalKey}nav`,
-  }
+    appearance: 'default'
+  };
 
   static contextTypes = {
     expanded: PropTypes.bool,
@@ -37,9 +37,6 @@ class Nav extends React.Component<Props> {
     activeKey: PropTypes.any,
     onSelect: PropTypes.func
   };
-
-
-  static Item = NavItem;
 
   render() {
     const {
@@ -64,20 +61,19 @@ class Nav extends React.Component<Props> {
 
     const addPrefix = prefix(classPrefix);
 
-
-    const classes = classNames(classPrefix, addPrefix(appearance), {
+    const classes = classNames(classPrefix, addPrefix(appearance), className, {
       [`${globalKey}navbar-nav`]: navbar,
       [`${globalKey}navbar-right`]: pullRight,
       [`${globalKey}sidenav-nav`]: sidenav,
       [addPrefix('horizontal')]: navbar || (!vertical && !sidenav),
       [addPrefix('vertical')]: vertical || sidenav,
       [addPrefix('justified')]: justified,
-      [addPrefix('reversed')]: reversed,
-    }, className);
+      [addPrefix('reversed')]: reversed
+    });
 
-    const hasWaterline = (appearance !== 'default');
+    const hasWaterline = appearance !== 'default';
 
-    const items = mapCloneElement(children, (item) => {
+    const items = ReactChildren.mapCloneElement(children, item => {
       let { eventKey, active } = item.props;
       let displayName = _.get(item, ['type', 'displayName']);
 
@@ -103,14 +99,18 @@ class Nav extends React.Component<Props> {
     const unhandled = getUnhandledProps(Nav, props);
 
     return (
-      <div {...unhandled} className={classes} >
-        <ul>
-          {items}
-        </ul>
+      <div {...unhandled} className={classes}>
+        <ul>{items}</ul>
         {hasWaterline && <div className={addPrefix('waterline')} />}
       </div>
     );
   }
 }
 
-export default Nav;
+const WithNav = defaultProps({
+  classPrefix: 'nav'
+})(Nav);
+
+setStatic('Item', NavItem)(WithNav);
+
+export default WithNav;

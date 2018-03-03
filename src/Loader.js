@@ -2,9 +2,10 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import withStyleProps from './utils/withStyleProps';
-import { getWidth } from 'dom-lib';
-import prefix, { globalKey } from './utils/prefix';
+import { getWidth, addStyle } from 'dom-lib';
+import compose from 'recompose/compose';
+
+import { withStyleProps, defaultProps, prefix } from './utils';
 
 type Props = {
   className?: string,
@@ -17,27 +18,18 @@ type Props = {
   speed: 'normal' | 'fast' | 'slow'
 };
 
-type State = {
-  width?: number
-};
-
-class Loader extends React.Component<Props, State> {
-
+class Loader extends React.Component<Props> {
   static defaultProps = {
-    classPrefix: `${globalKey}loader`,
     speed: 'normal'
-  };
-
-  state = {
-    width: undefined
   };
 
   componentDidMount() {
     const { center, backdrop } = this.props;
 
     if (center || backdrop) {
-      this.setState({
-        width: getWidth(this.loader)
+      const width = getWidth(this.loader);
+      addStyle(this.loader, {
+        width: `${width}px`
       });
     }
   }
@@ -49,7 +41,6 @@ class Loader extends React.Component<Props, State> {
   }
 
   render() {
-
     const {
       classPrefix,
       className,
@@ -62,30 +53,22 @@ class Loader extends React.Component<Props, State> {
       ...props
     } = this.props;
 
-    const { width } = this.state;
-
     const hasContent = !!content;
     const addPrefix = prefix(classPrefix);
-    const classes = classNames(addPrefix('wrapper'), addPrefix(`speed-${speed}`), {
-      [`${addPrefix('backdrop')}-wrapper`]: backdrop,
+    const classes = classNames(addPrefix('wrapper'), addPrefix(`speed-${speed}`), className, {
+      [addPrefix('backdrop-wrapper')]: backdrop,
       [addPrefix('vertical')]: vertical,
       [addPrefix('inverse')]: inverse,
       [addPrefix('center')]: center,
       [addPrefix('has-content')]: hasContent
-    }, className);
-
-    const loaderStyle = { width };
+    });
 
     return (
-      <div
-        {...props}
-        className={classes}
-      >
+      <div {...props} className={classes}>
         {backdrop && <div className={addPrefix('backdrop')} />}
         <div
           className={classPrefix}
-          style={loaderStyle}
-          ref={(ref) => {
+          ref={ref => {
             this.loader = ref;
           }}
         >
@@ -97,6 +80,11 @@ class Loader extends React.Component<Props, State> {
   }
 }
 
-export default withStyleProps({
-  hasSize: true
-})(Loader);
+export default compose(
+  withStyleProps({
+    hasSize: true
+  }),
+  defaultProps({
+    classPrefix: 'loader'
+  })
+)(Loader);

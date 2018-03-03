@@ -2,10 +2,10 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { defaultProps } from 'recompose';
-import Modal from './Modal';
-import prefix, { globalKey } from './utils/prefix';
+import setStatic from 'recompose/setStatic';
 
+import Modal from './Modal';
+import { prefix, defaultProps } from './utils';
 
 type Props = {
   classPrefix: string,
@@ -14,39 +14,31 @@ type Props = {
   full?: boolean,
   children?: React.Node,
   className?: string
-}
+};
 
 class Drawer extends React.Component<Props> {
   static defaultProps = {
-    placement: 'right',
-    classPrefix: `${globalKey}drawer`
+    placement: 'right'
   };
 
-  static Body = defaultProps({ classPrefix: `${globalKey}drawer-body` })(Modal.Body);
-  static Header = defaultProps({ classPrefix: `${globalKey}drawer-header` })(Modal.Header);
-  static Title = defaultProps({ classPrefix: `${globalKey}drawer-title` })(Modal.Title);
-  static Footer = defaultProps({ classPrefix: `${globalKey}drawer-footer` })(Modal.Footer);
-
   render() {
-
     const { show, full, className, placement, classPrefix, ...props } = this.props;
     const addPrefix: Function = prefix(classPrefix);
-    const classes = classNames(addPrefix(placement), {
+    const classes = classNames(addPrefix(placement), className, {
       [addPrefix('full')]: full
-    }, className);
+    });
 
-    return (
-      <Modal
-        {...props}
-        drawer
-        classPrefix={classPrefix}
-        className={classes}
-        show={show}
-      />
-    );
+    return <Modal {...props} drawer classPrefix={classPrefix} className={classes} show={show} />;
   }
 }
 
+const WithDrawer = defaultProps({
+  classPrefix: 'drawer'
+})(Drawer);
 
-export default Drawer;
+setStatic('Body', defaultProps({ classPrefix: 'drawer-body' })(Modal.Body))(WithDrawer);
+setStatic('Header', defaultProps({ classPrefix: 'drawer-header' })(Modal.Header))(WithDrawer);
+setStatic('Title', defaultProps({ classPrefix: 'drawer-title' })(Modal.Title))(WithDrawer);
+setStatic('Footer', defaultProps({ classPrefix: 'drawer-footer' })(Modal.Footer))(WithDrawer);
 
+export default WithDrawer;

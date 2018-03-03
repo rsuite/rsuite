@@ -21,12 +21,12 @@
 
 /* eslint-disable */
 
-let lowPriorityWarning = function () { };
+let lowPriorityWarning = function() {};
 
 if (__DEV__) {
-  const printWarning = function (format, ...args) {
+  const printWarning = function(format, ...args) {
     let argIndex = 0;
-    const message = 'Warning: ' + format.replace(/%s/g, () => args[argIndex += 1]);
+    const message = 'Warning: ' + format.replace(/%s/g, () => args[(argIndex += 1)]);
     if (typeof console !== 'undefined') {
       console.warn(message);
     }
@@ -35,14 +35,13 @@ if (__DEV__) {
       // This error was thrown as a convenience so that you can use this stack
       // to find the callsite that caused this warning to fire.
       throw new Error(message);
-    } catch (x) { }
+    } catch (x) {}
   };
 
-  lowPriorityWarning = function (condition, format, ...args) {
+  lowPriorityWarning = function(condition, format, ...args) {
     if (format === undefined) {
       throw new Error(
-        '`warning(condition, format, ...args)` requires a warning ' +
-        'message argument',
+        '`warning(condition, format, ...args)` requires a warning ' + 'message argument'
       );
     }
     if (!condition) {

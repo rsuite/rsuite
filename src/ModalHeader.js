@@ -3,8 +3,8 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import createChainedFunction from './utils/createChainedFunction';
-import prefix, { globalKey } from './utils/prefix';
+
+import { createChainedFunction, defaultProps, prefix } from './utils';
 
 type Props = {
   classPrefix?: string,
@@ -12,38 +12,24 @@ type Props = {
   closeButton?: boolean,
   children?: React.Node,
   onHide?: Function
-}
-
+};
 
 class ModalHeader extends React.Component<Props> {
-
   static contextTypes = {
     onModalHide: PropTypes.func
   };
 
   static defaultProps = {
-    classPrefix: `${globalKey}modal-header`,
-    closeButton: true,
-  }
+    closeButton: true
+  };
 
   render() {
-    const {
-      classPrefix,
-      onHide,
-      className,
-      closeButton,
-      children,
-      ...props
-    } = this.props;
-
+    const { classPrefix, onHide, className, closeButton, children, ...props } = this.props;
     const classes = classNames(classPrefix, className);
     const addPrefix = prefix(classPrefix);
 
     return (
-      <div
-        {...props}
-        className={classes}
-      >
+      <div {...props} className={classes}>
         {closeButton && (
           <button
             type="button"
@@ -60,5 +46,6 @@ class ModalHeader extends React.Component<Props> {
   }
 }
 
-
-export default ModalHeader;
+export default defaultProps({
+  classPrefix: 'modal-header'
+})(ModalHeader);

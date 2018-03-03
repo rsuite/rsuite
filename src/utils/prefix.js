@@ -13,7 +13,6 @@ function prefix(pre: string, className: string | Array<string>): string {
   }
 
   return `${pre}-${className}`;
-
 }
 
 export default _.curry(prefix);

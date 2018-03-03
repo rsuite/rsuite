@@ -2,12 +2,9 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import createComponent from './utils/createComponent';
-import createChainedFunction from './utils/createChainedFunction';
-import SafeAnchor from './SafeAnchor';
-import prefix, { globalKey } from './utils/prefix';
 
-const Component = createComponent(SafeAnchor);
+import SafeAnchor from './SafeAnchor';
+import { prefix, defaultProps, createChainedFunction } from './utils';
 
 type Props = {
   classPrefix?: string,
@@ -17,15 +14,11 @@ type Props = {
   disabled?: boolean,
   active?: boolean,
   className?: string,
+  componentClass: React.ElementType,
   style?: Object
-
-}
+};
 
 class PaginationButton extends React.Component<Props> {
-  static defaultProps = {
-    classPrefix: `${globalKey}pagination-btn`,
-  }
-
   handleClick = (event: SyntheticEvent<*>) => {
     const { disabled, onSelect, eventKey } = this.props;
     if (disabled) {
@@ -33,10 +26,9 @@ class PaginationButton extends React.Component<Props> {
     }
 
     onSelect && onSelect(eventKey, event);
-  }
+  };
 
   render() {
-
     const {
       active,
       disabled,
@@ -46,20 +38,18 @@ class PaginationButton extends React.Component<Props> {
       style,
       onSelect,
       eventKey,
-      ...props,
+      componentClass: Component,
+      ...props
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, {
+    const classes = classNames(classPrefix, className, {
       [addPrefix('active')]: active,
-      [addPrefix('disabled')]: disabled,
-    }, className);
+      [addPrefix('disabled')]: disabled
+    });
 
     return (
-      <li
-        className={classes}
-        style={style}
-      >
+      <li className={classes} style={style}>
         <Component
           {...props}
           disabled={disabled}
@@ -70,5 +60,7 @@ class PaginationButton extends React.Component<Props> {
   }
 }
 
-
-export default PaginationButton;
+export default defaultProps({
+  classPrefix: 'pagination-btn',
+  componentClass: SafeAnchor
+})(PaginationButton);

@@ -5,7 +5,7 @@ export defaultProps from './defaultProps';
 export deprecationWarning from './deprecationWarning';
 export getUnhandledProps from './getUnhandledProps';
 export handleMouseOverOut from './handleMouseOverOut';
-export htmlPropsUtils from './htmlPropsUtils';
+export * from './htmlPropsUtils';
 export isNullOrUndefined from './isNullOrUndefined';
 export isOneOf from './isOneOf';
 export lowPriorityWarning from './lowPriorityWarning';

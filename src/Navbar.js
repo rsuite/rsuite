@@ -3,8 +3,10 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+
 import NavbarBody from './NavbarBody';
 import NavbarHeader from './NavbarHeader';
+
 import createComponent from './utils/createComponent';
 import prefix, { globalKey } from './utils/prefix';
 

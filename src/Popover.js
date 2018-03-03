@@ -12,8 +12,8 @@ type Props = {
   style?: Object,
   className?: string,
   onMouseLeave?: (event: SyntheticEvent<*>) => void,
-  onMouseEnter?: (event: SyntheticEvent<*>) => void,
-}
+  onMouseEnter?: (event: SyntheticEvent<*>) => void
+};
 
 class Popover extends React.Component<Props> {
   static defaultProps = {
@@ -33,9 +33,9 @@ class Popover extends React.Component<Props> {
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, {
+    const classes = classNames(classPrefix, className, {
       [addPrefix(placement)]: true
-    }, className);
+    });
 
     const styles = {
       display: 'block',
@@ -50,16 +50,8 @@ class Popover extends React.Component<Props> {
         style={styles}
       >
         <div className="arrow" />
-        {
-          title ? (
-            <h3 className={addPrefix('title')}>
-              {title}
-            </h3>
-          ) : null
-        }
-        <div className={addPrefix('content')}>
-          {children}
-        </div>
+        {title ? <h3 className={addPrefix('title')}>{title}</h3> : null}
+        <div className={addPrefix('content')}>{children}</div>
       </div>
     );
   }

@@ -6,13 +6,15 @@ import PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import _ from 'lodash';
+import setDisplayName from 'recompose/setDisplayName';
+import setStatic from 'recompose/setStatic';
 
 import BaseModal from 'rsuite-utils/lib/Overlay/Modal';
 import Fade from 'rsuite-utils/lib/Animation/Fade';
 import { on, getHeight, isOverflowing, getScrollbarSize, ownerDocument } from 'dom-lib';
 
-import { mapCloneElement } from './utils/ReactChildren';
-import prefix, { globalKey } from './utils/prefix';
+import { prefix, ReactChildren, defaultProps } from './utils';
+
 import type { Size } from './utils/TypeDefinition';
 
 import ModalDialog from './ModalDialog';
@@ -58,41 +60,31 @@ type Props = {
   onEntered?: Function,
   onExit?: Function,
   onExiting?: Function,
-  onExited?: Function,
-}
+  onExited?: Function
+};
 
 type State = {
   modalStyles?: Object,
   bodyStyles?: Object
-}
+};
 
 const childContextTypes = {
   onModalHide: PropTypes.func
 };
 
 class Modal extends React.Component<Props, State> {
-
-  static displayName = 'Modal';
   static defaultProps = {
     size: 'sm',
     backdrop: true,
     keyboard: true,
     autoFocus: true,
     enforceFocus: true,
-    classPrefix: `${globalKey}modal`,
     animation: true,
     dialogComponentClass: ModalDialog,
     overflow: true
-  }
-
+  };
 
   static childContextTypes = childContextTypes;
-
-  static Body = ModalBody;
-  static Header = ModalHeader;
-  static Title = ModalTitle;
-  static Footer = ModalFooter;
-  static Dialog = ModalDialog;
 
   state = {
     modalStyles: {},
@@ -111,7 +103,6 @@ class Modal extends React.Component<Props, State> {
   }
 
   getStyles() {
-
     const { container, overflow, classPrefix, drawer } = this.props;
     const node: any = findDOMNode(this.dialog);
     const doc: any = ownerDocument(node);
@@ -139,7 +130,6 @@ class Modal extends React.Component<Props, State> {
       let footerHeight = 46;
       let contentHeight = 30;
 
-
       const headerDOM = dialogDOM.querySelector(`.${classPrefix}-header`);
       const footerDOM = dialogDOM.querySelector(`.${classPrefix}-footer`);
       const contentDOM = dialogDOM.querySelector(`.${classPrefix}-content`);
@@ -147,7 +137,6 @@ class Modal extends React.Component<Props, State> {
       headerHeight = headerDOM ? getHeight(headerDOM) + headerHeight : headerHeight;
       footerHeight = footerDOM ? getHeight(footerDOM) + headerHeight : headerHeight;
       contentHeight = contentDOM ? getHeight(contentDOM) + contentHeight : contentHeight;
-
 
       if (drawer) {
         bodyStyles.height = contentHeight - (headerHeight + footerHeight);
@@ -157,12 +146,11 @@ class Modal extends React.Component<Props, State> {
          */
         const excludeHeight = headerHeight + footerHeight + 60;
         const bodyHeight = getHeight(window) - excludeHeight;
-        const maxHeight = (scrollHeight >= bodyHeight) ? bodyHeight : scrollHeight;
+        const maxHeight = scrollHeight >= bodyHeight ? bodyHeight : scrollHeight;
         bodyStyles.maxHeight = maxHeight;
       }
 
       styles.bodyStyles = bodyStyles;
-
     }
 
     return styles;
@@ -173,29 +161,28 @@ class Modal extends React.Component<Props, State> {
   windowResizeListener = null;
 
   handleShow = (...args: Array<any>) => {
-
     this.windowResizeListener = on(window, 'resize', this.handleWindowResize);
     this.setState(this.getStyles());
     const { onEntering } = this.props;
     onEntering && onEntering(...args);
-  }
+  };
   handleHide = (...args: Array<any>) => {
     if (this.windowResizeListener) {
       this.windowResizeListener.off();
     }
     const { onExited } = this.props;
     onExited && onExited(...args);
-  }
+  };
   handleDialogClick = (event: SyntheticEvent<*>) => {
     if (event.target !== event.currentTarget) {
       return;
     }
     const { onHide } = this.props;
     onHide && onHide(event);
-  }
+  };
   handleWindowResize = () => {
     this.setState(this.getStyles());
-  }
+  };
 
   render() {
     const {
@@ -220,21 +207,24 @@ class Modal extends React.Component<Props, State> {
     const Dialog: React.ElementType = dialogComponentClass;
 
     const parentProps = _.pick(props, BaseModal.handledProps);
-    const items = (children) ?
-      mapCloneElement(children, (child) => {
+    let items = null;
+
+    if (children) {
+      items = ReactChildren.mapCloneElement(children, child => {
         let displayName = child.type.displayName;
-        if (displayName && displayName.indexOf('ModalBody') >= 0) {
+        if (displayName && displayName.indexOf('ModalBody') !== -1) {
           return {
             style: bodyStyles
           };
         }
         return null;
-      }) : children;
+      });
+    }
 
     const addPrefix = prefix(classPrefix);
-    const classes = classNames(addPrefix(size), {
+    const classes = classNames(addPrefix(size), className, {
       [addPrefix('full')]: full
-    }, className);
+    });
 
     const modal = (
       <Dialog
@@ -245,7 +235,7 @@ class Modal extends React.Component<Props, State> {
         dialogClassName={dialogClassName}
         dialogStyle={dialogStyle}
         onClick={props.backdrop === true ? this.handleDialogClick : null}
-        ref={(ref) => {
+        ref={ref => {
           this.dialog = ref;
         }}
       >
@@ -255,7 +245,7 @@ class Modal extends React.Component<Props, State> {
 
     return (
       <BaseModal
-        ref={(ref) => {
+        ref={ref => {
           this.modal = ref;
         }}
         show={show}
@@ -274,5 +264,14 @@ class Modal extends React.Component<Props, State> {
   }
 }
 
+const WithModal = defaultProps({
+  classPrefix: 'modal'
+})(Modal);
 
-export default Modal;
+setStatic('Body', ModalBody)(WithModal);
+setStatic('Header', ModalHeader)(WithModal);
+setStatic('Title', ModalTitle)(WithModal);
+setStatic('Footer', ModalFooter)(WithModal);
+setStatic('Dialog', ModalDialog)(WithModal);
+
+export default setDisplayName('Modal')(WithModal);

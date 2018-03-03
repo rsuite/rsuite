@@ -4,8 +4,9 @@ import * as React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import withStyleProps from './utils/withStyleProps';
-import prefix, { globalKey } from './utils/prefix';
+import compose from 'recompose/compose';
+
+import { withStyleProps, defaultProps, prefix } from './utils';
 
 type Props = {
   controlId?: string,
@@ -13,17 +14,12 @@ type Props = {
   className?: string,
   classPrefix: string,
   validationState?: 'success' | 'warning' | 'error'
-}
-
+};
 
 class FormGroup extends React.Component<Props> {
-  static defaultProps = {
-    classPrefix: `${globalKey}form-group`,
-  };
-
   static childContextTypes = {
     formGroup: PropTypes.object.isRequired
-  }
+  };
 
   getChildContext() {
     const { controlId, validationState } = this.props;
@@ -36,36 +32,29 @@ class FormGroup extends React.Component<Props> {
   }
 
   render() {
-
-    const {
-      validationState,
-      className,
-      controlId,
-      isValid,
-      classPrefix,
-      ...props
-    } = this.props;
+    const { validationState, className, controlId, isValid, classPrefix, ...props } = this.props;
 
     const addPrefix = prefix(classPrefix);
 
-    const classes = classNames(classPrefix, {
-      [addPrefix('has-success')]: !validationState && isValid,
-      [addPrefix('has-error')]: !validationState && isValid === false,
-      [addPrefix(`has-${validationState || ''}`)]: !_.isUndefined(validationState)
-    }, className);
-
-    return (
-      <div
-        {...props}
-        className={classes}
-        role="group"
-      />
+    const classes = classNames(
+      classPrefix,
+      {
+        [addPrefix('has-success')]: !validationState && isValid,
+        [addPrefix('has-error')]: !validationState && isValid === false,
+        [addPrefix(`has-${validationState || ''}`)]: !_.isUndefined(validationState)
+      },
+      className
     );
-  }
 
+    return <div {...props} className={classes} role="group" />;
+  }
 }
 
-export default withStyleProps({
-  hasSize: true
-})(FormGroup);
-
+export default compose(
+  withStyleProps({
+    hasSize: true
+  }),
+  defaultProps({
+    classPrefix: 'form-group'
+  })
+)(FormGroup);

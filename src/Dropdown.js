@@ -4,26 +4,33 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
+import setStatic from 'recompose/setStatic';
+import setDisplayName from 'recompose/setDisplayName';
 import { RootCloseWrapper } from 'rsuite-utils/lib/Overlay';
 
 import DropdownToggle from './DropdownToggle';
 import DropdownMenu from './DropdownMenu';
 import DropdownMenuItem from './DropdownMenuItem';
-import createComponent from './utils/createComponent';
-import createChainedFunction from './utils/createChainedFunction';
-import prefix, { globalKey } from './utils/prefix';
-import isOneOf from './utils/isOneOf';
-import getUnhandledProps from './utils/getUnhandledProps';
 import Icon from './Icon';
 
-const Component = createComponent('div');
+import { createChainedFunction, prefix, isOneOf, getUnhandledProps, defaultProps } from './utils';
 
 type Trigger = 'click' | 'hover' | 'contextMenu';
+type PlacementEighPoints =
+  | 'bottomLeft'
+  | 'bottomRight'
+  | 'topLeft'
+  | 'topRight'
+  | 'leftTop'
+  | 'rightTop'
+  | 'leftBottom'
+  | 'rightBottom';
+
 type Props = {
   activeKey?: any,
   classPrefix: string,
   trigger?: Trigger | Array<Trigger>,
-  placement: 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight' | 'leftTop' | 'rightTop' | 'leftBottom' | 'rightBottom',
+  placement: PlacementEighPoints,
   title?: React.Node,
   disabled?: boolean,
   icon?: React.Element<typeof Icon>,
@@ -42,26 +49,21 @@ type Props = {
   renderTitle?: (children?: React.Node) => React.Node,
   tabIndex?: number,
   open?: boolean,
-  eventKey?: any
-}
+  eventKey?: any,
+  componentClass: React.ElementType
+};
 
 type State = {
   title?: React.Node,
   open?: boolean
-}
+};
 
 class Dropdown extends React.Component<Props, State> {
-
   static defaultProps = {
-    classPrefix: `${globalKey}dropdown`,
     placement: 'bottomLeft',
     trigger: 'click',
     tabIndex: 0
-  }
-
-  static Item = DropdownMenuItem;
-  static Menu = DropdownMenu;
-  static displayName = 'Dropdown';
+  };
 
   static contextTypes = {
     sidenav: PropTypes.bool,
@@ -96,8 +98,7 @@ class Dropdown extends React.Component<Props, State> {
     });
 
     onToggle && onToggle(open);
-  }
-
+  };
 
   handleClick = (event: SyntheticEvent<*>) => {
     event.preventDefault();
@@ -105,39 +106,38 @@ class Dropdown extends React.Component<Props, State> {
       return;
     }
     this.toggle();
-  }
+  };
 
   handleOpenChange = (event: SyntheticEvent<*>) => {
     const { eventKey } = this.props;
     const { onOpenChange } = this.context;
     onOpenChange && onOpenChange(eventKey, event);
-  }
+  };
 
   handleToggleChange = (eventKey: any, event: SyntheticEvent<*>) => {
     const { onOpenChange } = this.context;
     onOpenChange && onOpenChange(eventKey, event);
-  }
+  };
 
   handleMouseEnter = () => {
     if (!this.props.disabled) {
       this.toggle(true);
     }
-  }
+  };
 
   handleMouseLeave = () => {
     if (!this.props.disabled) {
       this.toggle(false);
     }
-  }
+  };
 
   handleSelect = (eventKey: any, event: SyntheticEvent<*>) => {
     const { onSelect } = this.props;
     onSelect && onSelect(eventKey, event);
     this.toggle(false);
-  }
+  };
 
   render() {
-
     let {
       title,
       children,
@@ -158,6 +158,7 @@ class Dropdown extends React.Component<Props, State> {
       onContextMenu,
       open,
       eventKey,
+      componentClass: Component,
       ...props
     } = this.props;
 
@@ -174,7 +175,7 @@ class Dropdown extends React.Component<Props, State> {
 
     const dropdownProps = {
       onMouseEnter,
-      onMouseLeave,
+      onMouseLeave
     };
 
     /**
@@ -182,7 +183,6 @@ class Dropdown extends React.Component<Props, State> {
      * not used in  in the expanded state of '<Sidenav>'
      */
     if (!collapsible) {
-
       if (isOneOf('click', trigger)) {
         toggleProps.onClick = createChainedFunction(this.handleClick, toggleProps.onClick);
       }
@@ -224,34 +224,37 @@ class Dropdown extends React.Component<Props, State> {
     );
 
     if (isOpen && !sidenav) {
-      Menu = (
-        <RootCloseWrapper onRootClose={this.toggle}>
-          {Menu}
-        </RootCloseWrapper>
-      );
+      Menu = <RootCloseWrapper onRootClose={this.toggle}>{Menu}</RootCloseWrapper>;
     }
 
-    const classes = classNames(classPrefix, {
-      [addPrefix('disabled')]: disabled,
-      [addPrefix('open')]: isOpen,
-      [addPrefix(menuExpanded ? 'expand' : 'collapse')]: sidenav,
-    }, addPrefix(`placement-${_.kebabCase(placement)}`), className);
+    const classes = classNames(
+      classPrefix,
+      {
+        [addPrefix('disabled')]: disabled,
+        [addPrefix('open')]: isOpen,
+        [addPrefix(menuExpanded ? 'expand' : 'collapse')]: sidenav
+      },
+      addPrefix(`placement-${_.kebabCase(placement)}`),
+      className
+    );
 
     const unhandled = getUnhandledProps(Dropdown, props);
 
     return (
-      <Component
-        {...unhandled}
-        {...dropdownProps}
-        className={classes}
-        role="menu"
-      >
+      <Component {...unhandled} {...dropdownProps} className={classes} role="menu">
         {Menu}
         {Toggle}
       </Component>
     );
   }
-
 }
 
-export default Dropdown;
+const WithDropdown = defaultProps({
+  componentClass: 'div',
+  classPrefix: 'dropdown'
+})(Dropdown);
+
+setStatic('Item', DropdownMenuItem)(WithDropdown);
+setStatic('Menu', DropdownMenu)(WithDropdown);
+
+export default setDisplayName('Dropdown')(WithDropdown);

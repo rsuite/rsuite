@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { SchemaModel, Schema } from 'rsuite-schema';
 import classNames from 'classnames';
-import getUnhandledProps from './utils/getUnhandledProps';
+
+import { getUnhandledProps, defaultProps, prefix } from './utils';
 
 type Props = {
   className?: string,
@@ -14,21 +15,21 @@ type Props = {
   values?: Object,
   defaultValues?: Object,
   errors?: Object,
-  model?: typeof Schema,
   checkDelay?: number,
   checkTrigger?: 'change' | 'blur' | null,
   onChange?: (values: Object, event: SyntheticEvent<*>) => void,
   onError?: (errors: Object) => void,
   onCheck?: (errors: Object) => void,
-}
+  model: typeof Schema,
+  classPrefix: string
+};
 
 type State = {
   errors?: Object,
   values?: Object
-}
+};
 
 class Form extends React.Component<Props, State> {
-
   static defaultProps = {
     model: SchemaModel({}),
     horizontal: false,
@@ -96,7 +97,7 @@ class Form extends React.Component<Props, State> {
     let errorCount = 0;
 
     const nextValues = Object.assign({}, defaultValues, values);
-    Object.keys(model.schema).forEach((key) => {
+    Object.keys(model.schema).forEach(key => {
       const checkResult = model.checkForField(key, nextValues[key]);
 
       if (checkResult.hasError === true) {
@@ -114,7 +115,7 @@ class Form extends React.Component<Props, State> {
     }
 
     return true;
-  }
+  };
 
   cleanErrors(callback: () => void) {
     this.setState({ errors: {} }, callback);
@@ -128,8 +129,6 @@ class Form extends React.Component<Props, State> {
    * 验证，出现错误的回调函数
    */
   handleFieldError = (name: string, error: string) => {
-
-
     const { onError, onCheck } = this.props;
     const errors = Object.assign({}, this.state.errors, {
       [name]: error
@@ -139,7 +138,7 @@ class Form extends React.Component<Props, State> {
       onError && onError(errors);
       onCheck && onCheck(errors);
     });
-  }
+  };
 
   /**
    * 验证通过的回调函数
@@ -152,7 +151,7 @@ class Form extends React.Component<Props, State> {
     this.setState({ errors }, () => {
       onCheck && onCheck(errors);
     });
-  }
+  };
 
   /**
    * 每一次 字段数据更新回调函数
@@ -163,32 +162,23 @@ class Form extends React.Component<Props, State> {
       [name]: value
     });
     onChange && onChange(values, event);
-  }
+  };
 
   render() {
+    const { horizontal, classPrefix, inline, className, ...props } = this.props;
+    const addPrefix = prefix(classPrefix);
 
-    const {
-      horizontal,
-      inline,
-      className,
-      ...props
-    } = this.props;
-
-    const clesses = classNames('form', {
-      'form-horizontal': horizontal,
-      'form-inline': inline
-    }, className);
+    const clesses = classNames(classPrefix, className, {
+      [addPrefix('horizontal')]: horizontal,
+      [addPrefix('inline')]: inline
+    });
 
     const unhandled = getUnhandledProps(Form, props);
 
-    return (
-      <form
-        {...unhandled}
-        onSubmit={e => e.preventDefault()}
-        className={clesses}
-      />
-    );
+    return <form {...unhandled} onSubmit={e => e.preventDefault()} className={clesses} />;
   }
 }
 
-export default Form;
+export default defaultProps({
+  classPrefix: 'form'
+})(Form);

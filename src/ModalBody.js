@@ -2,27 +2,26 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { globalKey } from './utils/prefix';
+import setDisplayName from 'recompose/setDisplayName';
+
+import { defaultProps } from './utils';
 
 type Props = {
   classPrefix?: string,
   className?: string
-}
+};
 
 class ModalBody extends React.Component<Props> {
-
-  static displayName = 'ModalBody';
-  static defaultProps = {
-    classPrefix: `${globalKey}modal-body`
-  };
   render() {
     const { classPrefix, className, ...props } = this.props;
     const classes = classNames(classPrefix, className);
 
-    return (
-      <div {...props} className={classes} />
-    );
+    return <div {...props} className={classes} />;
   }
 }
 
-export default ModalBody;
+export default setDisplayName('ModalBody')(
+  defaultProps({
+    classPrefix: 'modal-body'
+  })(ModalBody)
+);

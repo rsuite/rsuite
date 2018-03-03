@@ -2,13 +2,14 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import createChainedFunction from './utils/createChainedFunction';
+import setDisplayName from 'recompose/setDisplayName';
+
 import SafeAnchor from './SafeAnchor';
-import creatComponent from './utils/createComponent';
-import prefix, { globalKey } from './utils/prefix';
 import Icon from './Icon';
 import Tooltip from './Tooltip';
 import Whisper from './Whisper';
+
+import { createChainedFunction, defaultProps, prefix } from './utils';
 
 type Props = {
   active?: boolean,
@@ -24,27 +25,19 @@ type Props = {
   children?: React.Node,
   eventKey?: any,
   tabIndex?: number,
-  hasTooltip?: boolean
-}
-
-const Component = creatComponent(SafeAnchor);
+  hasTooltip?: boolean,
+  componentClass: React.ElementType
+};
 
 const addTooltip = (children, tip) => (
-  <Whisper
-    speaker={<Tooltip>{tip}</Tooltip>}
-    placement="right"
-  >
+  <Whisper speaker={<Tooltip>{tip}</Tooltip>} placement="right">
     {children}
   </Whisper>
 );
 
-
 class NavItem extends React.Component<Props> {
-
-  static displayName = 'NavItem';
   static defaultProps = {
-    classPrefix: `${globalKey}nav-item`,
-    tabIndex: 0,
+    tabIndex: 0
   };
 
   handleClick = (event: SyntheticEvent<*>) => {
@@ -52,7 +45,7 @@ class NavItem extends React.Component<Props> {
     if (onSelect && !disabled) {
       onSelect(eventKey, event);
     }
-  }
+  };
 
   render() {
     const {
@@ -69,14 +62,15 @@ class NavItem extends React.Component<Props> {
       hasTooltip,
       divider,
       panel,
+      componentClass: Component,
       ...props
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, {
+    const classes = classNames(classPrefix, className, {
       [addPrefix('active')]: active,
-      [addPrefix('disabled')]: disabled,
-    }, className);
+      [addPrefix('disabled')]: disabled
+    });
 
     if (divider) {
       return (
@@ -90,10 +84,7 @@ class NavItem extends React.Component<Props> {
 
     if (panel) {
       return (
-        <li
-          style={style}
-          className={classNames(addPrefix('panel'), className)}
-        >
+        <li style={style} className={classNames(addPrefix('panel'), className)}>
           {children}
         </li>
       );
@@ -114,16 +105,16 @@ class NavItem extends React.Component<Props> {
     );
 
     return (
-      <li
-        role="presentation"
-        className={classes}
-        style={style}
-      >
+      <li role="presentation" className={classes} style={style}>
         {hasTooltip ? addTooltip(item, children) : item}
       </li>
     );
   }
 }
 
-
-export default NavItem;
+export default setDisplayName('NavItem')(
+  defaultProps({
+    classPrefix: 'nav-item',
+    componentClass: SafeAnchor
+  })(NavItem)
+);

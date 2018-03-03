@@ -2,39 +2,28 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { globalKey } from './utils/prefix';
-
+import { defaultProps } from './utils';
 
 type Props = {
   classPrefix?: string,
   className?: string,
   children?: React.Node
-}
+};
 
 class NavbarBody extends React.Component<Props> {
-  static defaultProps = {
-    classPrefix: `${globalKey}navbar-body`
-  };
-
   render() {
-    const {
-      children,
-      classPrefix,
-      className,
-      ...props
-    } = this.props;
+    const { children, classPrefix, className, ...props } = this.props;
 
     const classes = classNames(classPrefix, className);
 
     return (
-      <div
-        {...props}
-        className={classes}
-      >
+      <div {...props} className={classes}>
         {children}
       </div>
     );
   }
 }
 
-export default NavbarBody;
+export default defaultProps({
+  classPrefix: 'navbar-body'
+})(NavbarBody);

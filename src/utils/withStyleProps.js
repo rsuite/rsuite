@@ -22,27 +22,24 @@ type RequiredProps = {
 
 type ProvidedProps = {
   classPrefix: string
-}
+};
 
 type Options = {
   hasSize?: boolean,
   hasStatus?: boolean,
   hasColor?: boolean
-}
+};
 
 const withStyleProps = (
   options?: Options = {}
 ): HigherOrderComponent<RequiredProps, ProvidedProps> => (Component: any): any => {
-
   const { hasSize, hasStatus, hasColor } = options;
 
   class WithStyleProps extends React.Component<RequiredProps> {
-
     static displayName = wrapDisplayName(Component, 'withStyleProps');
     static defaultProps = Component.defaultProps;
 
     render() {
-
       const { classPrefix, size, color, status, innerRef, className, ...props } = this.props;
       const addPrefix: Function = prefix(classPrefix);
       const classes: string = classNames(
@@ -52,21 +49,13 @@ const withStyleProps = (
         className
       );
 
-      return (
-        <Component
-          {...props}
-          classPrefix={classPrefix}
-          className={classes}
-          ref={innerRef}
-        />
-      );
+      return <Component {...props} classPrefix={classPrefix} className={classes} ref={innerRef} />;
     }
   }
 
   const propTypes: Object = {
     innerRef: PropTypes.func
   };
-
 
   if (hasSize) {
     propTypes.size = PropTypes.oneOf(SIZE);
@@ -84,6 +73,5 @@ const withStyleProps = (
 
   return WithStyleProps;
 };
-
 
 export default withStyleProps;

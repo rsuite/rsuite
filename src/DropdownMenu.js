@@ -4,13 +4,19 @@ import * as React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 import Collapse from 'rsuite-utils/lib/Animation/Collapse';
-import createChainedFunction from './utils/createChainedFunction';
-import prefix, { globalKey } from './utils/prefix';
+import setDisplayName from 'recompose/setDisplayName';
+
 import DropdownMenuItem from './DropdownMenuItem';
 import Icon from './Icon';
-import ReactChildren from './utils/ReactChildren';
-import isNullOrUndefined from './utils/isNullOrUndefined';
-import getUnhandledProps from './utils/getUnhandledProps';
+
+import {
+  createChainedFunction,
+  prefix,
+  ReactChildren,
+  isNullOrUndefined,
+  getUnhandledProps,
+  defaultProps
+} from './utils';
 
 type Trigger = 'click' | 'hover';
 type Props = {
@@ -29,16 +35,10 @@ type Props = {
   openKeys?: Array<any>,
   expanded?: boolean,
   collapsible?: boolean
-}
+};
 
-class DorpdownMenu extends React.Component<Props> {
-  static displayName = 'DropdownMenu';
-  static defaultProps = {
-    classPrefix: `${globalKey}dropdown-menu`
-  };
-
+class DropdownMenu extends React.Component<Props> {
   getMenuItemsAndStatus(children?: React.ChildrenArray<any>): Object {
-
     let hasActiveItem: boolean;
 
     const { activeKey, onSelect, classPrefix, openKeys = [] } = this.props;
@@ -60,16 +60,12 @@ class DorpdownMenu extends React.Component<Props> {
           active,
           onSelect: createChainedFunction(onSelect, onItemSelect)
         });
-
       } else if (displayName === 'DropdownMenu') {
-
         let itemsAndStatus = this.getMenuItemsAndStatus(item.props.children);
         const { icon, open, trigger, pullLeft, eventKey, title } = item.props;
         const expanded = openKeys.some(key => _.isEqual(key, eventKey));
 
-
         return (
-
           <DropdownMenuItem
             icon={icon}
             open={open}
@@ -92,15 +88,13 @@ class DorpdownMenu extends React.Component<Props> {
               <span>{title}</span>
               <Icon icon={pullLeft ? 'angle-left' : 'angle-right'} />
             </div>
-            {
-              this.renderCollapse((
-                <ul role="menu" className={classPrefix}>
-                  {itemsAndStatus.items}
-                </ul>
-              ), expanded)
-            }
+            {this.renderCollapse(
+              <ul role="menu" className={classPrefix}>
+                {itemsAndStatus.items}
+              </ul>,
+              expanded
+            )}
           </DropdownMenuItem>
-
         );
       }
 
@@ -116,26 +110,21 @@ class DorpdownMenu extends React.Component<Props> {
   handleToggleChange = (eventKey: any, event: SyntheticEvent<*>) => {
     const { onToggle } = this.props;
     onToggle && onToggle(eventKey, event);
-  }
+  };
 
   isActive(props: Object, activeKey: any) {
-    if (
-      props.active ||
-      (!isNullOrUndefined(activeKey) && _.isEqual(props.eventKey, activeKey))
-    ) {
+    if (props.active || (!isNullOrUndefined(activeKey) && _.isEqual(props.eventKey, activeKey))) {
       return true;
     }
 
-    if (ReactChildren.some(props.children, child => (
-      this.isActive(child.props, activeKey)
-    ))) {
+    if (ReactChildren.some(props.children, child => this.isActive(child.props, activeKey))) {
       return true;
     }
 
     return props.active;
   }
 
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name)
+  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
   renderCollapse(children: React.Node, expanded?: boolean) {
     return this.props.collapsible ? (
       <Collapse
@@ -147,7 +136,9 @@ class DorpdownMenu extends React.Component<Props> {
       >
         {children}
       </Collapse>
-    ) : children;
+    ) : (
+      children
+    );
   }
 
   render() {
@@ -164,21 +155,22 @@ class DorpdownMenu extends React.Component<Props> {
     } = this.props;
 
     const { items, active } = this.getMenuItemsAndStatus(children);
-    const unhandled = getUnhandledProps(DorpdownMenu, props);
-    const classes = classNames(classPrefix, {
+    const unhandled = getUnhandledProps(DropdownMenu, props);
+    const classes = classNames(classPrefix, className, {
       [this.addPrefix('active')]: active
-    }, className);
+    });
 
-    return this.renderCollapse((
-      <ul
-        {...unhandled}
-        className={classes}
-        role="menu"
-      >
+    return this.renderCollapse(
+      <ul {...unhandled} className={classes} role="menu">
         {items}
-      </ul>
-    ), expanded);
+      </ul>,
+      expanded
+    );
   }
 }
 
-export default DorpdownMenu;
+const WithDropdownMenu = defaultProps({
+  classPrefix: 'dropdown-menu'
+})(DropdownMenu);
+
+export default setDisplayName('DropdownMenu')(WithDropdownMenu);

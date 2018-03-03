@@ -4,9 +4,8 @@ import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 import Collapse from 'rsuite-utils/lib/Animation/Collapse';
-import isNullOrUndefined from './utils/isNullOrUndefined';
-import prefix, { globalKey } from './utils/prefix';
 
+import { isNullOrUndefined, getUnhandledProps, defaultProps, prefix } from './utils';
 
 type Props = {
   collapsible?: boolean,
@@ -28,30 +27,17 @@ type Props = {
   onExiting?: Function,
   onExited?: Function,
   className?: string
-}
-
+};
 
 type State = {
   expanded?: boolean
-}
-
+};
 
 function shouldRenderFill(child: any) {
   return React.isValidElement(child) && child.props.fill !== null;
 }
 
 class Panel extends React.Component<Props, State> {
-
-  static defaultProps = {
-    classPrefix: `${globalKey}panel`
-  };
-
-  /**
-   * Note that `handledProps` are generated automatically during
-   * build with `babel-plugin-transform-react-flow-handled-props`
-   */
-  static handledProps = [];
-
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -72,16 +58,16 @@ class Panel extends React.Component<Props, State> {
     if (event.selected) {
       this.handleToggle();
     }
-  }
+  };
 
   handleToggle = () => {
     this.setState({ expanded: !this.state.expanded });
-  }
+  };
 
   isExpanded() {
     return isNullOrUndefined(this.props.expanded) ? this.state.expanded : this.props.expanded;
   }
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name)
+  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderCollapsibleTitle(header: React.Node, headerRole?: string) {
     return (
@@ -109,9 +95,7 @@ class Panel extends React.Component<Props, State> {
 
     return (
       <Collapse {...collapseProps}>
-        <div {...props}>
-          {this.renderBody()}
-        </div>
+        <div {...props}>{this.renderBody()}</div>
       </Collapse>
     );
   }
@@ -130,13 +114,10 @@ class Panel extends React.Component<Props, State> {
       bodyElements.push(React.cloneElement(child, getProps()));
     };
 
-    const addPanelBody = (body) => {
+    const addPanelBody = body => {
       const props = getProps();
       bodyElements.push(
-        <div
-          {...props}
-          className={this.addPrefix('body')}
-        >
+        <div {...props} className={this.addPrefix('body')}>
           {body}
         </div>
       );
@@ -158,7 +139,7 @@ class Panel extends React.Component<Props, State> {
         addPanelBody(allChildren);
       }
     } else {
-      allChildren.forEach((child) => {
+      allChildren.forEach(child => {
         if (shouldRenderFill(child)) {
           maybeRenderPanelBody();
           addPanelChild(child);
@@ -183,10 +164,7 @@ class Panel extends React.Component<Props, State> {
     if (!React.isValidElement(header) || Array.isArray(header)) {
       header = collapsible ? this.renderCollapsibleTitle(header, headerRole) : header;
     } else {
-      const className = classNames(
-        this.addPrefix('title'),
-        header.props.className
-      );
+      const className = classNames(this.addPrefix('title'), header.props.className);
       header = React.cloneElement(header, { className });
     }
     return (
@@ -202,7 +180,6 @@ class Panel extends React.Component<Props, State> {
   }
 
   renderAnchor(header: React.Node, headerRole?: string) {
-
     const { id, collapsible } = this.props;
 
     return (
@@ -220,26 +197,13 @@ class Panel extends React.Component<Props, State> {
   }
 
   render() {
-    const {
-      headerRole,
-      panelRole,
-      className,
-      collapsible,
-      classPrefix,
-      id,
-      ...props
-    } = this.props;
+    const { headerRole, panelRole, className, collapsible, classPrefix, id, ...props } = this.props;
 
     const clesses = classNames(classPrefix, this.addPrefix('default'), className);
-    const elementProps = _.omit(props, Panel.handledProps);
+    const unhandled = getUnhandledProps(Panel, props);
 
     return (
-      <div
-        {...elementProps}
-        className={clesses}
-        onSelect={null}
-        id={collapsible ? null : id}
-      >
+      <div {...unhandled} className={clesses} onSelect={null} id={collapsible ? null : id}>
         {this.renderHeading(headerRole)}
         {collapsible ? this.renderCollapsibleBody(panelRole) : this.renderBody()}
       </div>
@@ -247,5 +211,6 @@ class Panel extends React.Component<Props, State> {
   }
 }
 
-
-export default Panel;
+export default defaultProps({
+  classPrefix: 'panel'
+})(Panel);

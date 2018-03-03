@@ -2,8 +2,7 @@
 import * as React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
-import { mapCloneElement } from './utils/ReactChildren';
-import getUnhandledProps from './utils/getUnhandledProps';
+import { ReactChildren, getUnhandledProps, defaultProps } from './utils';
 
 type Props = {
   accordion?: boolean,
@@ -12,17 +11,15 @@ type Props = {
   className?: string,
   children?: React.Node,
   classPrefix?: string,
-  onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
-}
+  onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void
+};
 
 type State = {
   activeKey?: boolean
-}
+};
 
 class PanelGroup extends React.Component<Props, State> {
-
   static defaultProps = {
-    classPrefix: 'panel-group',
     accordion: false
   };
 
@@ -47,15 +44,14 @@ class PanelGroup extends React.Component<Props, State> {
       activeKey = undefined;
     }
     this.setState({ activeKey });
-  }
+  };
 
-  renderPanel = (child, index) => {
-
+  renderPanel = (child: any, index: number) => {
     if (!React.isValidElement(child)) {
       return child;
     }
     const { activeKey, accordion } = this.props;
-    const props = {
+    const props: Object = {
       key: child.key ? child.key : index,
       ref: child.ref
     };
@@ -64,37 +60,27 @@ class PanelGroup extends React.Component<Props, State> {
       props.headerRole = 'tab';
       props.panelRole = 'tabpanel';
       props.collapsible = true;
-      props.expanded = (child.props.eventKey === (activeKey || this.state.activeKey));
+      props.expanded = child.props.eventKey === (activeKey || this.state.activeKey);
       props.onSelect = this.handleSelect;
     }
 
     return props;
-  }
+  };
 
   render() {
-
-    let {
-      className,
-      accordion,
-      classPrefix,
-      children,
-      onSelect,
-      ...rest
-    } = this.props;
-
+    let { className, accordion, classPrefix, children, onSelect, ...rest } = this.props;
     let classes = classNames(classPrefix, className);
+
     const unhandled = getUnhandledProps(PanelGroup, rest);
 
     return (
-      <div
-        {...unhandled}
-        role={accordion ? 'tablist' : undefined}
-        className={classes}
-      >
-        {mapCloneElement(children, this.renderPanel)}
+      <div {...unhandled} role={accordion ? 'tablist' : undefined} className={classes}>
+        {ReactChildren.mapCloneElement(children, this.renderPanel)}
       </div>
     );
   }
 }
 
-export default PanelGroup;
+export default defaultProps({
+  classPrefix: 'panel-group'
+})(PanelGroup);

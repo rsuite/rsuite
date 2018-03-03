@@ -3,9 +3,9 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
-import prefix, { globalKey } from './utils/prefix';
-import getUnhandledProps from './utils/getUnhandledProps';
-import { partitionHTMLProps } from './utils/htmlPropsUtils';
+import setDisplayName from 'recompose/setDisplayName';
+
+import { prefix, defaultProps, getUnhandledProps, partitionHTMLProps } from './utils';
 
 type Props = {
   title?: string,
@@ -30,7 +30,6 @@ type State = {
 class Checkbox extends React.Component<Props, State> {
   static displayName = 'Checkbox';
   static defaultProps = {
-    classPrefix: `${globalKey}checkbox`,
     tabIndex: 0
   };
 
@@ -77,16 +76,12 @@ class Checkbox extends React.Component<Props, State> {
 
     const checked: boolean | void = this.isChecked();
     const addPrefix = prefix(classPrefix);
-    const classes: string = classNames(
-      classPrefix,
-      {
-        [addPrefix('inline')]: inline,
-        [addPrefix('indeterminate')]: indeterminate,
-        [addPrefix('disabled')]: disabled,
-        [addPrefix('checked')]: checked
-      },
-      className
-    );
+    const classes: string = classNames(classPrefix, className, {
+      [addPrefix('inline')]: inline,
+      [addPrefix('indeterminate')]: indeterminate,
+      [addPrefix('disabled')]: disabled,
+      [addPrefix('checked')]: checked
+    });
 
     const unhandled = getUnhandledProps(Checkbox, props);
     const [htmlInputProps, rest] = partitionHTMLProps(unhandled);
@@ -118,4 +113,8 @@ class Checkbox extends React.Component<Props, State> {
   }
 }
 
-export default Checkbox;
+export default setDisplayName('Checkbox')(
+  defaultProps({
+    classPrefix: 'checkbox'
+  })(Checkbox)
+);

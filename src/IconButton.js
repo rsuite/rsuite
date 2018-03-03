@@ -3,9 +3,10 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
+
 import Icon from './Icon';
 import Button from './Button';
-import prefix, { globalKey } from './utils/prefix';
+import { prefix, defaultProps } from './utils';
 
 import type { Props } from './Button';
 
@@ -15,34 +16,29 @@ type IconProps = {
   classPrefix?: string,
   circle?: boolean,
   children?: React.Node,
-  placement: 'left' | 'right',
-}
+  placement: 'left' | 'right'
+};
 
 class IconButton extends React.Component<Props & IconProps> {
   static defaultProps = {
-    placement: 'left',
-    classPrefix: `${globalKey}btn-icon`
-  }
+    placement: 'left'
+  };
   render() {
-
-    const {
-      icon,
-      placement,
-      children,
-      circle,
-      classPrefix,
-      className,
-      ...props
-    } = this.props;
+    const { icon, placement, children, circle, classPrefix, className, ...props } = this.props;
 
     const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, {
-      [addPrefix('circle')]: circle,
-      [addPrefix('with-text')]: !_.isUndefined(children)
-    }, addPrefix(`placement-${placement}`), className);
+    const classes = classNames(
+      classPrefix,
+      {
+        [addPrefix('circle')]: circle,
+        [addPrefix('with-text')]: !_.isUndefined(children)
+      },
+      addPrefix(`placement-${placement}`),
+      className
+    );
 
     return (
-      <Button {...props} className={classes} >
+      <Button {...props} className={classes}>
         {icon}
         {children}
       </Button>
@@ -50,5 +46,6 @@ class IconButton extends React.Component<Props & IconProps> {
   }
 }
 
-export default IconButton;
-
+export default defaultProps({
+  classPrefix: 'btn-icon'
+})(IconButton);

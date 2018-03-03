@@ -2,9 +2,10 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
+
 import Button from './Button';
-import prefix, { globalKey } from './utils/prefix';
 import Icon from './Icon';
+import { prefix, defaultProps } from './utils';
 
 type Props = {
   className?: string,
@@ -15,9 +16,6 @@ type Props = {
 };
 
 class DorpdownToggle extends React.Component<Props> {
-  static defaultProps = {
-    classPrefix: `${globalKey}dropdown-toggle`
-  };
   render() {
     const { className, classPrefix, renderTitle, children, icon, ...props } = this.props;
 
@@ -48,4 +46,6 @@ class DorpdownToggle extends React.Component<Props> {
   }
 }
 
-export default DorpdownToggle;
+export default defaultProps({
+  classPrefix: 'dropdown-toggle'
+})(DorpdownToggle);

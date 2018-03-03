@@ -150,8 +150,8 @@ class Uploader extends React.Component<Props, State> {
       }
     });
 
-    if (this.uploadTrigger) {
-      this.uploadTrigger.setValue('');
+    if (this.input) {
+      this.input.value = '';
     }
   }
 
@@ -217,7 +217,7 @@ class Uploader extends React.Component<Props, State> {
     this.xhrs[file.fileKey] = xhr;
   };
 
-  uploadTrigger: any;
+  input: any;
   progressTimer: IntervalID;
   xhrs = {};
 
@@ -277,8 +277,8 @@ class Uploader extends React.Component<Props, State> {
         multiple={multiple}
         disabled={disabled}
         accept={accept}
-        ref={ref => {
-          this.uploadTrigger = ref;
+        innerRef={ref => {
+          this.input = ref;
         }}
         onChange={this.handleUploadTriggerChange}
       >

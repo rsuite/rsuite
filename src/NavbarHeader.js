@@ -1,34 +1,25 @@
-
 // @flow
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { globalKey } from './utils/prefix';
+
+import { defaultProps } from './utils';
 
 type Props = {
   classPrefix?: string,
   className?: string
-}
+};
 
 class NavbarHeader extends React.Component<Props> {
-
-  static defaultProps = {
-    classPrefix: `${globalKey}navbar-header`
-  };
-
   render() {
-    const {
-      className,
-      classPrefix,
-      ...props
-    } = this.props;
+    const { className, classPrefix, ...props } = this.props;
 
     const classes = classNames(classPrefix, className);
 
-    return (
-      <div {...props} className={classes} />
-    );
+    return <div {...props} className={classes} />;
   }
 }
 
-export default NavbarHeader;
+export default defaultProps({
+  classPrefix: 'navbar-header'
+})(NavbarHeader);

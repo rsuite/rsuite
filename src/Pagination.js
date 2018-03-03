@@ -3,12 +3,12 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { compose } from 'recompose';
+
 import PaginationButton from './PaginationButton';
 import SafeAnchor from './SafeAnchor';
-import withStyleProps from './utils/withStyleProps';
-import { globalKey } from './utils/prefix';
-import getUnhandledProps from './utils/getUnhandledProps';
+
 import withLocale from './IntlProvider/withLocale';
+import { withStyleProps, defaultProps, getUnhandledProps } from './utils';
 
 type Locale = {
   more?: string,
@@ -16,7 +16,7 @@ type Locale = {
   next?: string,
   first?: string,
   last?: string
-}
+};
 
 type Props = {
   activePage: number,
@@ -33,15 +33,13 @@ type Props = {
   className?: string,
   classPrefix: string,
   locale: Locale
-}
+};
 
 class Pagination extends React.Component<Props> {
-
   static defaultProps = {
     activePage: 1,
     pages: 1,
     maxButtons: 0,
-    classPrefix: `${globalKey}pagination`,
     buttonComponentClass: SafeAnchor,
     locale: {
       more: 'More',
@@ -59,20 +57,12 @@ class Pagination extends React.Component<Props> {
   static handledProps = [];
 
   renderPageButtons() {
-
     let pageButtons = [];
     let startPage;
     let endPage;
     let hasHiddenPagesAfter;
 
-    const {
-      maxButtons,
-      activePage,
-      pages,
-      ellipsis,
-      boundaryLinks,
-      locale
-    } = this.props;
+    const { maxButtons, activePage, pages, ellipsis, boundaryLinks, locale } = this.props;
 
     if (maxButtons) {
       let hiddenPagesBefore = activePage - parseInt(maxButtons / 2, 10);
@@ -81,12 +71,12 @@ class Pagination extends React.Component<Props> {
 
       if (!hasHiddenPagesAfter) {
         endPage = pages;
-        startPage = (pages - maxButtons) + 1;
+        startPage = pages - maxButtons + 1;
         if (startPage < 1) {
           startPage = 1;
         }
       } else {
-        endPage = (startPage + maxButtons) - 1;
+        endPage = startPage + maxButtons - 1;
       }
     } else {
       startPage = 1;
@@ -94,57 +84,61 @@ class Pagination extends React.Component<Props> {
     }
 
     for (let pagenumber = startPage; pagenumber <= endPage; pagenumber += 1) {
-      pageButtons.push(this.renderItem({
-        key: pagenumber,
-        eventKey: pagenumber,
-        active: pagenumber === activePage,
-        children: pagenumber
-      }));
+      pageButtons.push(
+        this.renderItem({
+          key: pagenumber,
+          eventKey: pagenumber,
+          active: pagenumber === activePage,
+          children: pagenumber
+        })
+      );
     }
 
     if (boundaryLinks && ellipsis && startPage !== 1) {
+      pageButtons.unshift(
+        this.renderItem({
+          key: 'ellipsisFirst',
+          disabled: true,
+          children: <span aria-label="More">{ellipsis === true ? '\u2026' : ellipsis}</span>
+        })
+      );
 
-      pageButtons.unshift(this.renderItem({
-        key: 'ellipsisFirst',
-        disabled: true,
-        children: (
-          <span aria-label="More">
-            {ellipsis === true ? '\u2026' : ellipsis}
-          </span>
-        )
-      }));
-
-      pageButtons.unshift(this.renderItem({
-        key: 1,
-        eventKey: 1,
-        children: 1
-      }));
+      pageButtons.unshift(
+        this.renderItem({
+          key: 1,
+          eventKey: 1,
+          children: 1
+        })
+      );
     }
 
     if (maxButtons && hasHiddenPagesAfter && ellipsis) {
-      pageButtons.push(this.renderItem({
-        key: 'ellipsis',
-        disabled: true,
-        children: (
-          <span aria-label="More" title={locale.more}>
-            {ellipsis === true ? '\u2026' : ellipsis}
-          </span>
-        )
-      }));
+      pageButtons.push(
+        this.renderItem({
+          key: 'ellipsis',
+          disabled: true,
+          children: (
+            <span aria-label="More" title={locale.more}>
+              {ellipsis === true ? '\u2026' : ellipsis}
+            </span>
+          )
+        })
+      );
 
       if (boundaryLinks && endPage !== pages) {
-        pageButtons.push(this.renderItem({
-          key: pages,
-          eventKey: pages,
-          disabled: false,
-          children: pages
-        }));
+        pageButtons.push(
+          this.renderItem({
+            key: pages,
+            eventKey: pages,
+            disabled: false,
+            children: pages
+          })
+        );
       }
     }
     return pageButtons;
   }
   renderPrev() {
-
     const { activePage, prev, locale } = this.props;
 
     if (!prev) {
@@ -161,7 +155,6 @@ class Pagination extends React.Component<Props> {
         </span>
       )
     });
-
   }
   renderNext() {
     const { pages, activePage, next, locale } = this.props;
@@ -220,7 +213,6 @@ class Pagination extends React.Component<Props> {
   }
 
   renderItem(props: Object): React.Node {
-
     const { onSelect, buttonComponentClass } = this.props;
     return (
       <PaginationButton
@@ -236,10 +228,7 @@ class Pagination extends React.Component<Props> {
     const unhandled = getUnhandledProps(Pagination, rest);
 
     return (
-      <ul
-        className={classNames(classPrefix, className)}
-        {...unhandled}
-      >
+      <ul className={classNames(classPrefix, className)} {...unhandled}>
         {this.renderFirst()}
         {this.renderPrev()}
         {this.renderPageButtons()}
@@ -250,6 +239,10 @@ class Pagination extends React.Component<Props> {
   }
 }
 
-const enhance = compose(withLocale(['Pagination']), withStyleProps({ hasSize: true }));
-
-export default enhance(Pagination);
+export default compose(
+  withLocale(['Pagination']),
+  withStyleProps({ hasSize: true }),
+  defaultProps({
+    classPrefix: 'pagination'
+  })
+)(Pagination);

@@ -2,9 +2,9 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import withStyleProps from './utils/withStyleProps';
-import prefix, { globalKey } from './utils/prefix';
+import compose from 'recompose/compose';
 
+import { withStyleProps, defaultProps, prefix } from './utils';
 
 type Props = {
   className?: string,
@@ -13,13 +13,9 @@ type Props = {
   style?: Object,
   dialogStyle?: Object,
   children?: React.Node
-}
+};
 
 class ModalDialog extends React.Component<Props> {
-  static defaultProps = {
-    classPrefix: `${globalKey}modal`
-  }
-
   render() {
     const {
       style,
@@ -46,12 +42,8 @@ class ModalDialog extends React.Component<Props> {
         role="dialog"
         className={classNames(classPrefix, className)}
         style={modalStyle}
-
       >
-        <div
-          className={dialogClasses}
-          style={dialogStyle}
-        >
+        <div className={dialogClasses} style={dialogStyle}>
           <div className={addPrefix('content')} role="document">
             {children}
           </div>
@@ -61,7 +53,11 @@ class ModalDialog extends React.Component<Props> {
   }
 }
 
-
-export default withStyleProps({
-  hasSize: true
-})(ModalDialog);
+export default compose(
+  withStyleProps({
+    hasSize: true
+  }),
+  defaultProps({
+    classPrefix: 'modal'
+  })
+)(ModalDialog);

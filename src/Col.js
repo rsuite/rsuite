@@ -3,9 +3,8 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
-import createComponent from './utils/createComponent';
-import prefix, { globalKey } from './utils/prefix';
 
+import { prefix, defaultProps } from './utils';
 
 /* eslint-disable */
 type Props = {
@@ -34,12 +33,12 @@ type Props = {
   xsHidden?: boolean,
   smHidden?: boolean,
   mdHidden?: boolean,
-  lgHidden?: boolean
+  lgHidden?: boolean,
+
+  componentClass: React.ElementType
 };
 
-
 const Sizes = ['xs', 'sm', 'md', 'lg'];
-const Component = createComponent('div');
 const omitKeys = [];
 
 const getValue = _.curry((obj: Object, key: string): number => {
@@ -47,18 +46,14 @@ const getValue = _.curry((obj: Object, key: string): number => {
   return obj[key];
 });
 
-
 class Col extends React.Component<Props> {
-  static defaultProps = {
-    classPrefix: `${globalKey}col`
-  };
   render() {
-    const { className, classPrefix, ...props } = this.props;
+    const { className, componentClass: Component, classPrefix, ...props } = this.props;
     const addPrefix = prefix(classPrefix);
     const classes = {};
     const getPropValue = getValue(this.props);
 
-    Sizes.forEach((size) => {
+    Sizes.forEach(size => {
       let col = getPropValue(size);
       let hidden = getPropValue(`${size}Hidden`);
       let offset = getPropValue(`${size}Offset`);
@@ -74,14 +69,11 @@ class Col extends React.Component<Props> {
 
     const elementProps = _.omit(props, omitKeys);
 
-    return (
-      <Component
-        {...elementProps}
-        className={classNames(classes, className)}
-      />
-    );
+    return <Component {...elementProps} className={classNames(classes, className)} />;
   }
 }
 
-
-export default Col;
+export default defaultProps({
+  classPrefix: 'col',
+  componentClass: 'div'
+})(Col);
