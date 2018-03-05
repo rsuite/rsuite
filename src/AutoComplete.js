@@ -12,7 +12,7 @@ import { defaultProps, getUnhandledProps, prefix } from './utils';
 import { globalKey } from './utils/prefix';
 
 type DefaultEvent = SyntheticEvent<*>;
-type PlacementEighPoints =
+type PlacementEightPoints =
   | 'bottomLeft'
   | 'bottomRight'
   | 'topLeft'
@@ -30,7 +30,7 @@ type Props = {
   value?: string,
   defaultValue?: string,
   className?: string,
-  placement?: PlacementEighPoints,
+  placement?: PlacementEightPoints,
   onFocus?: (event: DefaultEvent) => void,
   onBlur?: (event: DefaultEvent) => void,
   renderItem?: (itemValue: string) => React.Node,

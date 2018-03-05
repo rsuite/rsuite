@@ -16,7 +16,7 @@ import Icon from './Icon';
 import { createChainedFunction, prefix, isOneOf, getUnhandledProps, defaultProps } from './utils';
 
 type Trigger = 'click' | 'hover' | 'contextMenu';
-type PlacementEighPoints =
+type PlacementEightPoints =
   | 'bottomLeft'
   | 'bottomRight'
   | 'topLeft'
@@ -30,7 +30,7 @@ type Props = {
   activeKey?: any,
   classPrefix: string,
   trigger?: Trigger | Array<Trigger>,
-  placement: PlacementEighPoints,
+  placement: PlacementEightPoints,
   title?: React.Node,
   disabled?: boolean,
   icon?: React.Element<typeof Icon>,
