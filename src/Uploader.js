@@ -4,6 +4,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 import compose from 'recompose/compose';
+import { IntlProvider } from 'rsuite-intl';
 
 import withLocale from './IntlProvider/withLocale';
 import FileItem from './UploadFileItem';
@@ -52,6 +53,7 @@ type Props = {
   timeout?: number,
   withCredentials?: boolean,
   headers?: Object,
+  locale?: Object,
   listType: 'text' | 'picture-text' | 'picture',
 
   shouldQueueUpdate?: (fileList: Array<FileType>, newFile: Array<FileType> | FileType) => boolean,
@@ -299,7 +301,7 @@ class Uploader extends React.Component<Props, State> {
   }
 
   render() {
-    const { classPrerix, className, listType } = this.props;
+    const { classPrerix, className, listType, locale } = this.props;
 
     const classes = classNames(classPrerix, this.addPrefix(listType), className);
     const renderList = [this.renderUploadTrigger(), this.renderFileItems()];
@@ -308,7 +310,11 @@ class Uploader extends React.Component<Props, State> {
       renderList.reverse();
     }
 
-    return <div className={classes}>{renderList}</div>;
+    return (
+      <IntlProvider locale={locale}>
+        <div className={classes}>{renderList}</div>
+      </IntlProvider>
+    );
   }
 }
 

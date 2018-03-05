@@ -13,13 +13,14 @@ const withLocale = (combineKeys: Array<string> = []) => BaseComponent => {
   const factory = createFactory(BaseComponent);
   const componentName = BaseComponent.prototype.constructor.name;
 
+  combineKeys.push(componentName);
+
   class WithLocale extends Component {
     static contextTypes = {
       locale: PropTypes.object
     };
 
     render() {
-      combineKeys.push(componentName);
       const locales = combineKeys.map(key => _.get(this.context, `locale.${key}`));
 
       return factory({
