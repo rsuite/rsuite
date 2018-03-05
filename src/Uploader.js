@@ -56,6 +56,8 @@ type Props = {
 
   shouldQueueUpdate?: (fileList: Array<FileType>, newFile: Array<FileType> | FileType) => boolean,
   onChange?: (fileList: Array<FileType>) => void,
+  onUpload?: (file: FileType) => void,
+  onReupload?: (file: FileType) => void,
   onError?: (reason: Object, file: FileType) => void,
   onPreview?: (file: FileType, event: SyntheticEvent<*>) => void,
   onSuccess?: (response: Object, file: FileType) => void,
@@ -190,8 +192,8 @@ class Uploader extends React.Component<Props, State> {
     });
   };
 
-  handleUploadFile = (file: Object) => {
-    const { name, action, headers, withCredentials, timeout, data } = this.props;
+  handleUploadFile = (file: FileType) => {
+    const { name, action, headers, withCredentials, timeout, data, onUpload } = this.props;
     const xhr = ajaxUpload({
       name,
       timeout,
@@ -215,6 +217,14 @@ class Uploader extends React.Component<Props, State> {
       status: 'uploading'
     });
     this.xhrs[file.fileKey] = xhr;
+
+    onUpload && onUpload(file);
+  };
+
+  handleReupload = (file: FileType) => {
+    const { onReupload } = this.props;
+    this.handleUploadFile(file);
+    onReupload && onReupload(file);
   };
 
   input: any;
@@ -260,6 +270,7 @@ class Uploader extends React.Component<Props, State> {
             listType={listType}
             disabled={disabled}
             onPreview={onPreview}
+            onReupload={this.handleReupload}
             onCancel={this.handleRemoveFile}
           />
         ))}

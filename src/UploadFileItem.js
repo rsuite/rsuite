@@ -22,6 +22,7 @@ type Props = {
   disabled?: boolean,
   onCancel?: (fileKey: number | string, event: SyntheticEvent<*>) => void,
   onPreview?: (file: FileType, event: SyntheticEvent<*>) => void,
+  onReupload?: (file: FileType, event: SyntheticEvent<*>) => void,
   className?: string,
   classPrefix?: string
 };
@@ -99,6 +100,14 @@ class UploadFileItem extends React.Component<Props, State> {
     onPreview && onPreview(file, event);
   };
 
+  handleReupload = (event: SyntheticEvent<*>) => {
+    const { disabled, onReupload, file } = this.props;
+    if (disabled) {
+      return;
+    }
+    onReupload && onReupload(file, event);
+  };
+
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderProgressBar() {
@@ -171,6 +180,9 @@ class UploadFileItem extends React.Component<Props, State> {
       return (
         <div className={this.addPrefix('status')}>
           <FormattedMessage id="error" />
+          <a role="button" tabIndex="-1" onClick={this.handleReupload}>
+            <i className={this.addPrefix('icon-reupload')} />
+          </a>
         </div>
       );
     }
