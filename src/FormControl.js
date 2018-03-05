@@ -30,7 +30,7 @@ class FormControl extends React.Component<Props, State> {
   constructor(props: Props, context: Object) {
     super(props, context);
     if (!context.form) {
-      throw new Error('Field must be inside a component decorated with <Form>');
+      throw new Error('FormControl must be inside a component decorated with <Form>');
     }
 
     const { values = {}, defaultValues = {} } = context.form;

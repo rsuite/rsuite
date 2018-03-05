@@ -11,13 +11,12 @@ import { defaultClassPrefix } from './utils/prefix';
 
 type Props = {
   className?: string,
-  horizontal?: boolean,
-  inline?: boolean,
+  layout?: 'horizontal' | 'vertical' | 'inline',
   values?: Object,
   defaultValues?: Object,
   errors?: Object,
   checkDelay?: number,
-  checkTrigger?: 'change' | 'blur' | null,
+  checkTrigger?: 'change' | 'blur' | 'none',
   onChange?: (values: Object, event: SyntheticEvent<*>) => void,
   onError?: (errors: Object) => void,
   onCheck?: (errors: Object) => void,
@@ -34,8 +33,7 @@ class Form extends React.Component<Props, State> {
   static defaultProps = {
     classPrefix: defaultClassPrefix('form'),
     model: SchemaModel({}),
-    horizontal: false,
-    inline: false,
+    layout: 'vertical',
     defaultValues: {},
     checkDelay: 500,
     checkTrigger: 'change'
@@ -88,9 +86,7 @@ class Form extends React.Component<Props, State> {
     }
   }
   /**
-   * 校验表单数据是否合法
-   * 该方法主要提供给 Form ref 时候调用
-   * return  true/false
+   * public APIs
    */
   check = (callback: (errors: Object) => void) => {
     const { values } = this.state;
@@ -119,17 +115,20 @@ class Form extends React.Component<Props, State> {
     return true;
   };
 
+  /**
+   * public APIs
+   */
   cleanErrors(callback: () => void) {
     this.setState({ errors: {} }, callback);
   }
 
+  /**
+   * public APIs
+   */
   resetErrors(errors: Object = {}, callback: () => void) {
     this.setState({ errors }, callback);
   }
 
-  /**
-   * 验证，出现错误的回调函数
-   */
   handleFieldError = (name: string, error: string) => {
     const { onError, onCheck } = this.props;
     const errors = Object.assign({}, this.state.errors, {
@@ -142,9 +141,6 @@ class Form extends React.Component<Props, State> {
     });
   };
 
-  /**
-   * 验证通过的回调函数
-   */
   handleFieldSuccess = (name: string) => {
     const { onCheck } = this.props;
     const errors = Object.assign({}, this.state.errors, {
@@ -155,9 +151,6 @@ class Form extends React.Component<Props, State> {
     });
   };
 
-  /**
-   * 每一次 字段数据更新回调函数
-   */
   handleFieldChange = (name: string, value: any, event: SyntheticEvent<*>) => {
     const { onChange, defaultValues } = this.props;
     const values = Object.assign({}, this.state.values, defaultValues, {
@@ -167,14 +160,9 @@ class Form extends React.Component<Props, State> {
   };
 
   render() {
-    const { horizontal, classPrefix, inline, className, ...props } = this.props;
+    const { layout, classPrefix, className, ...props } = this.props;
     const addPrefix = prefix(classPrefix);
-
-    const clesses = classNames(classPrefix, className, {
-      [addPrefix('horizontal')]: horizontal,
-      [addPrefix('inline')]: inline
-    });
-
+    const clesses = classNames(classPrefix, addPrefix(layout), className);
     const unhandled = getUnhandledProps(Form, props);
 
     return <form {...unhandled} onSubmit={e => e.preventDefault()} className={clesses} />;

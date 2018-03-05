@@ -31,10 +31,11 @@ export Toggle from './Toggle';
 
 export Form from './Form';
 export FormGroup from './FormGroup';
-
-export FormControl from './FormControl';
+export ErrorMessage from './ErrorMessage';
 export ControlLabel from './ControlLabel';
 export HelpBlock from './HelpBlock';
+
+export FormControl from './FormControl';
 export Input from './Input';
 export InputNumber from './InputNumber';
 export InputGroup from './InputGroup';
