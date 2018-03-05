@@ -32,7 +32,7 @@ type Props = {
 
 class Tooltip extends React.Component<Props> {
   static defaultProps = {
-    placement: 'right'
+    placement: 'top'
   };
 
   render() {

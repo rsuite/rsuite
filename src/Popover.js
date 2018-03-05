@@ -29,7 +29,7 @@ type Props = {
 class Popover extends React.Component<Props> {
   static defaultProps = {
     classPrefix: `${globalKey}popover`,
-    placement: 'right'
+    placement: 'top'
   };
   render() {
     const {

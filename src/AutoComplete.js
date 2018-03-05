@@ -217,7 +217,6 @@ class AutoComplete extends React.Component<Props, State> {
 
   renderDropdownMenu() {
     const { placement, renderItem, data } = this.props;
-
     const { focusItemValue } = this.state;
     const classes = classNames(
       this.addPrefix('menu'),
