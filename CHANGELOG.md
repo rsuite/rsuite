@@ -20,11 +20,13 @@
   * 支持多级菜单
   * 支持 placement 属性，设置菜单显示位置
 * 更新 Nav 组件，新增 appearance（'default' | 'subtle' | 'tabs'） 属性。
-* 更新 Form 组件
+* 更新 Form 相关组件
   * 集成所有 form-lib 与 rsuite-schema 功能
   * 用 FormControl 组件取代了 Field 组件,(默认处理 Input 组件，可以通过 accepter 属性修改 )
   * Form checkTrigger 属性值 null 改为 'none'
   * 支持 3 种布局方式 layout: 'horizontal' | 'vertical' | 'inline'
+  * HelpBlock 组件支持 tooltip 属性
+  * 新增 ErrorMessage 组件， 用于显示错误信息
 * 把独立组件库统一集成到 rsuite 库
   * 新增 Uploader 组件
   * 新增 Tree 组件
