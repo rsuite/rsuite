@@ -9,7 +9,7 @@ type Props = {
 export default (props: Props) => {
   const { classPrefix, ...rest } = props;
   return defaultProps({
-    classPrefix: `${globalKey}${classPrefix}`,
+    classPrefix: classPrefix ? `${globalKey}${classPrefix}` : undefined,
     ...rest
   });
 };

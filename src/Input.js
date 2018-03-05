@@ -25,6 +25,7 @@ type Props = {
 
 class Input extends React.Component<Props> {
   static defaultProps = {
+    classPrefix: 'input',
     type: 'text'
   };
 
@@ -82,11 +83,11 @@ class Input extends React.Component<Props> {
 }
 
 export default compose(
-  withStyleProps({
-    hasSize: true
-  }),
   defaultProps({
     classPrefix: 'input',
     componentClass: 'input'
+  }),
+  withStyleProps({
+    hasSize: true
   })
 )(Input);

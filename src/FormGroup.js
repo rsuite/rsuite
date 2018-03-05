@@ -33,28 +33,23 @@ class FormGroup extends React.Component<Props> {
 
   render() {
     const { validationState, className, controlId, isValid, classPrefix, ...props } = this.props;
-
     const addPrefix = prefix(classPrefix);
 
-    const classes = classNames(
-      classPrefix,
-      {
-        [addPrefix('has-success')]: !validationState && isValid,
-        [addPrefix('has-error')]: !validationState && isValid === false,
-        [addPrefix(`has-${validationState || ''}`)]: !_.isUndefined(validationState)
-      },
-      className
-    );
+    const classes = classNames(classPrefix, className, {
+      [addPrefix('has-success')]: !validationState && isValid,
+      [addPrefix('has-error')]: !validationState && isValid === false,
+      [addPrefix(`has-${validationState || ''}`)]: !_.isUndefined(validationState)
+    });
 
     return <div {...props} className={classes} role="group" />;
   }
 }
 
 export default compose(
-  withStyleProps({
-    hasSize: true
-  }),
   defaultProps({
     classPrefix: 'form-group'
+  }),
+  withStyleProps({
+    hasSize: true
   })
 )(FormGroup);

@@ -2,15 +2,20 @@
 
 import * as React from 'react';
 import PropTypes from 'prop-types';
+
 import Input from './Input';
-import getUnhandledProps from './utils/getUnhandledProps';
+import ErrorMessage from './ErrorMessage';
+
+import { getUnhandledProps, defaultProps, prefix } from './utils';
 
 type Props = {
   name: string,
-  checkTrigger: 'change' | 'blur' | null,
+  checkTrigger?: 'change' | 'blur' | 'none',
   accepter: React.ElementType,
   onChange?: (value: any, event: SyntheticEvent<*>) => void,
-  onBlur?: (event: SyntheticEvent<*>) => void
+  onBlur?: (event: SyntheticEvent<*>) => void,
+  classPrefix?: string,
+  errorMessage?: React.Node
 };
 
 type State = {
@@ -82,21 +87,28 @@ class FormControl extends React.Component<Props, State> {
   };
 
   render() {
-    let { name, accepter: Component, ...props } = this.props;
+    let { name, accepter: Component, classPrefix, errorMessage, ...props } = this.props;
     const { values = {}, defaultValues = {} } = this.context.form;
     const unhandled = getUnhandledProps(FormControl, props);
+    const addPrefix = prefix(classPrefix);
+    const hasError = !!errorMessage;
 
     return (
-      <Component
-        {...unhandled}
-        name={name}
-        onChange={this.handleFieldChange}
-        onBlur={this.handleFieldBlur}
-        defaultValue={defaultValues[name]}
-        value={values[name]}
-      />
+      <div className={addPrefix('wrapper')}>
+        <Component
+          {...unhandled}
+          name={name}
+          onChange={this.handleFieldChange}
+          onBlur={this.handleFieldBlur}
+          defaultValue={defaultValues[name]}
+          value={values[name]}
+        />
+        <ErrorMessage show={hasError}>{errorMessage}</ErrorMessage>
+      </div>
     );
   }
 }
 
-export default FormControl;
+export default defaultProps({
+  classPrefix: 'form-control'
+})(FormControl);

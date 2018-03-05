@@ -22,13 +22,9 @@ class ControlLabel extends React.Component<Props> {
     const controlId = _.get(this.context, 'formGroup.controlId');
     const { htmlFor = controlId, srOnly, className, classPrefix, ...rest } = this.props;
 
-    const classes = classNames(
-      classPrefix,
-      {
-        'sr-only': srOnly
-      },
-      className
-    );
+    const classes = classNames(classPrefix, className, {
+      'sr-only': srOnly
+    });
 
     return <label {...rest} htmlFor={htmlFor} className={classes} />;
   }
