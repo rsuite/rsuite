@@ -34,7 +34,7 @@ class HelpBlock extends React.Component<Props> {
     if (tooltip) {
       return (
         <Whisper speaker={<Tooltip>{children}</Tooltip>}>
-          <span {...props}>
+          <span className={classes} {...props}>
             <Icon icon="question-circle-o" />
           </span>
         </Whisper>
