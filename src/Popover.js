@@ -4,8 +4,19 @@ import * as React from 'react';
 import classNames from 'classnames';
 import prefix, { globalKey } from './utils/prefix';
 
+type PlacementFourSides = 'top' | 'right' | 'bottom' | 'left';
+type PlacementEightPoints =
+  | 'bottomLeft'
+  | 'bottomRight'
+  | 'topLeft'
+  | 'topRight'
+  | 'leftTop'
+  | 'rightTop'
+  | 'leftBottom'
+  | 'rightBottom';
+
 type Props = {
-  placement: 'top' | 'right' | 'bottom' | 'left',
+  placement: PlacementFourSides | PlacementEightPoints,
   classPrefix: string,
   children?: React.Node,
   title?: React.Node,
