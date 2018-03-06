@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
+import _ from 'lodash';
 
 import { prefix, defaultProps } from './utils';
 
@@ -22,8 +23,6 @@ type Props = {
   positionTop?: number,
   classPrefix?: string,
   className?: string,
-  arrowOffsetLeft?: number | string,
-  arrowOffsetTop?: number | string,
   style?: Object,
   children?: React.Node,
   onMouseLeave?: (event: SyntheticEvent<*>) => void,
@@ -40,8 +39,6 @@ class Tooltip extends React.Component<Props> {
       placement,
       className,
       positionLeft,
-      arrowOffsetLeft,
-      arrowOffsetTop,
       positionTop,
       classPrefix,
       children,
@@ -51,17 +48,15 @@ class Tooltip extends React.Component<Props> {
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, addPrefix(placement), className);
-
+    const classes = classNames(
+      classPrefix,
+      addPrefix(`placement-${_.kebabCase(placement)}`),
+      className
+    );
     const styles = {
       left: positionLeft,
       top: positionTop,
       ...style
-    };
-
-    const arrowStyle = {
-      left: arrowOffsetLeft,
-      top: arrowOffsetTop
     };
 
     return (
@@ -72,7 +67,7 @@ class Tooltip extends React.Component<Props> {
         onMouseLeave={onMouseLeave}
         onMouseEnter={onMouseEnter}
       >
-        <div className={addPrefix('arrow')} style={arrowStyle} />
+        <div className={addPrefix('arrow')} />
         <div className={addPrefix('inner')}>{children}</div>
       </div>
     );

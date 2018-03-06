@@ -2,7 +2,9 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import prefix, { globalKey } from './utils/prefix';
+import _ from 'lodash';
+
+import { prefix, defaultProps } from './utils';
 
 type PlacementFourSides = 'top' | 'right' | 'bottom' | 'left';
 type PlacementEightPoints =
@@ -28,7 +30,6 @@ type Props = {
 
 class Popover extends React.Component<Props> {
   static defaultProps = {
-    classPrefix: `${globalKey}popover`,
     placement: 'top'
   };
   render() {
@@ -44,9 +45,12 @@ class Popover extends React.Component<Props> {
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, className, {
-      [addPrefix(placement)]: true
-    });
+
+    const classes = classNames(
+      classPrefix,
+      addPrefix(`placement-${_.kebabCase(placement)}`),
+      className
+    );
 
     const styles = {
       display: 'block',
@@ -68,4 +72,6 @@ class Popover extends React.Component<Props> {
   }
 }
 
-export default Popover;
+export default defaultProps({
+  classPrefix: 'popover'
+})(Popover);
