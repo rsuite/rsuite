@@ -10,7 +10,8 @@ type Props = {
   className?: string,
   htmlFor?: string,
   show?: boolean,
-  classPrefix: string
+  classPrefix: string,
+  children: React.Node
 };
 
 class ErrorMessage extends React.Component<Props> {
@@ -20,13 +21,18 @@ class ErrorMessage extends React.Component<Props> {
 
   render() {
     const controlId = _.get(this.context, 'formGroup.controlId');
-    const { className, htmlFor = controlId, show, classPrefix, ...props } = this.props;
+    const { className, htmlFor = controlId, show, classPrefix, children, ...props } = this.props;
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, className, {
       [addPrefix('show')]: show
     });
 
-    return <span {...props} className={classes} htmlFor={htmlFor} />;
+    return (
+      <div {...props} className={classes} htmlFor={htmlFor}>
+        <span className={addPrefix('arrow')} />
+        <span className={addPrefix('inner')}>{children}</span>
+      </div>
+    );
   }
 }
 
