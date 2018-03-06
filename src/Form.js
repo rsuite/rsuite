@@ -74,6 +74,7 @@ class Form extends React.Component<Props, State> {
 
   componentWillReceiveProps(nextProps: Props) {
     if (!_.isEqual(nextProps.errors, this.props.errors)) {
+      console.log('componentWillReceiveProps', nextProps.errors);
       this.setState({
         errors: nextProps.errors
       });
@@ -129,11 +130,13 @@ class Form extends React.Component<Props, State> {
     this.setState({ errors }, callback);
   }
 
-  handleFieldError = (name: string, error: string) => {
+  handleFieldError = (name: string, errorMessage: string) => {
     const { onError, onCheck } = this.props;
     const errors = Object.assign({}, this.state.errors, {
-      [name]: error
+      [name]: errorMessage
     });
+
+    console.log(this.state.errors);
 
     this.setState({ errors }, () => {
       onError && onError(errors);
@@ -143,9 +146,8 @@ class Form extends React.Component<Props, State> {
 
   handleFieldSuccess = (name: string) => {
     const { onCheck } = this.props;
-    const errors = Object.assign({}, this.state.errors, {
-      [name]: null
-    });
+    const errors = _.omit(this.state.errors, [name]);
+    console.log('handleFieldSuccess', this.state.errors);
     this.setState({ errors }, () => {
       onCheck && onCheck(errors);
     });
