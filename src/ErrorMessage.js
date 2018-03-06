@@ -11,7 +11,7 @@ type Props = {
   htmlFor?: string,
   show?: boolean,
   classPrefix: string,
-  children: React.Node
+  children?: React.Node
 };
 
 class ErrorMessage extends React.Component<Props> {
