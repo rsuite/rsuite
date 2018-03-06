@@ -103,9 +103,9 @@ class FormControl extends React.Component<Props, State> {
           defaultValue={defaultValues[name]}
           value={values[name]}
         />
-        <div className={addPrefix('message-wrapper')}>
-          <ErrorMessage show={hasError}>{errorMessage}</ErrorMessage>
-        </div>
+        <ErrorMessage show={hasError} className={addPrefix('message-wrapper')}>
+          {errorMessage}
+        </ErrorMessage>
       </div>
     );
   }
