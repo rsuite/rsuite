@@ -43,13 +43,15 @@ class ErrorMessage extends React.Component<Props> {
       ...props
     } = this.props;
     const addPrefix = prefix(classPrefix);
+    const wrapClasses = classNames(addPrefix('wrapper'), className, {
+      [addPrefix(`placement-${_.kebabCase(placement)}`)]: placement
+    });
     const classes = classNames(classPrefix, {
-      [addPrefix(`placement-${_.kebabCase(placement)}`)]: placement,
       [addPrefix('show')]: show
     });
 
     return (
-      <div {...props} className={classNames(addPrefix('wrapper'), className)}>
+      <div {...props} className={wrapClasses}>
         <div className={classes} htmlFor={htmlFor}>
           <span className={addPrefix('arrow')} />
           <span className={addPrefix('inner')}>{children}</span>
