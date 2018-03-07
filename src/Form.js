@@ -12,21 +12,21 @@ import { defaultClassPrefix } from './utils/prefix';
 type Props = {
   className?: string,
   layout?: 'horizontal' | 'vertical' | 'inline',
-  values?: Object,
-  defaultValues?: Object,
-  errors?: Object,
+  formValue?: Object,
+  formDefaultValue?: Object,
+  formError?: Object,
   checkDelay?: number,
   checkTrigger?: 'change' | 'blur' | 'none',
-  onChange?: (values: Object, event: SyntheticEvent<*>) => void,
-  onError?: (errors: Object) => void,
-  onCheck?: (errors: Object) => void,
+  onChange?: (formValue: Object, event: SyntheticEvent<*>) => void,
+  onError?: (formError: Object) => void,
+  onCheck?: (formError: Object) => void,
   model: typeof Schema,
   classPrefix: string
 };
 
 type State = {
-  errors?: Object,
-  values?: Object
+  formError?: Object,
+  formValue?: Object
 };
 
 class Form extends React.Component<Props, State> {
@@ -34,7 +34,7 @@ class Form extends React.Component<Props, State> {
     classPrefix: defaultClassPrefix('form'),
     model: SchemaModel({}),
     layout: 'vertical',
-    defaultValues: {},
+    formDefaultValue: {},
     checkDelay: 500,
     checkTrigger: 'change'
   };
@@ -46,70 +46,61 @@ class Form extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      errors: props.errors || {},
-      /**
-       * 把当前 values 维护到 state 中，主要为 Form 中的 check 方法
-       * 默认会设置 props.values ，
-       * 如果还是没有的话就默认为 {}
-       */
-      values: props.values || {}
+      formError: props.formError || {},
+      formValue: props.formDefaultValue
     };
   }
   getChildContext() {
-    const { defaultValues, model, checkTrigger } = this.props;
-    const { errors, values } = this.state;
+    const { formDefaultValue, formValue, model, checkTrigger } = this.props;
+    const { formError } = this.state;
     return {
       form: {
         onFieldChange: this.handleFieldChange,
         onFieldError: this.handleFieldError,
         onFieldSuccess: this.handleFieldSuccess,
         checkTrigger,
-        values,
-        defaultValues,
-        errors,
+        formValue,
+        formDefaultValue,
+        formError,
         model
       }
     };
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    if (!_.isEqual(nextProps.errors, this.props.errors)) {
-      console.log('componentWillReceiveProps', nextProps.errors);
+    if (!_.isEqual(nextProps.formError, this.props.formError)) {
       this.setState({
-        errors: nextProps.errors
+        formError: nextProps.formError
       });
     }
-
-    if (!_.isEqual(nextProps.values, this.props.values)) {
-      this.setState({
-        values: nextProps.values
-      });
-    }
+  }
+  getFormValue() {
+    const { formValue } = this.props;
+    return _.isUndefined(formValue) ? this.state.formValue : formValue;
   }
   /**
    * public APIs
    */
-  check = (callback: (errors: Object) => void) => {
-    const { values } = this.state;
-    const { defaultValues, model, onCheck, onError } = this.props;
-    const errors = {};
+  check = (callback: (formError: Object) => void) => {
+    const formValue = this.getFormValue() || {};
+    const { model, onCheck, onError } = this.props;
+    const formError = {};
     let errorCount = 0;
 
-    const nextValues = Object.assign({}, defaultValues, values);
     Object.keys(model.schema).forEach(key => {
-      const checkResult = model.checkForField(key, nextValues[key]);
+      const checkResult = model.checkForField(key, formValue[key]);
 
       if (checkResult.hasError === true) {
         errorCount += 1;
-        errors[key] = checkResult.errorMessage;
+        formError[key] = checkResult.errorMessage;
       }
     });
 
-    this.setState({ errors });
-    onCheck && onCheck(errors);
-    callback && callback(errors);
+    this.setState({ formError });
+    onCheck && onCheck(formError);
+    callback && callback(formError);
     if (errorCount > 0) {
-      onError && onError(errors);
+      onError && onError(formError);
       return false;
     }
 
@@ -120,45 +111,45 @@ class Form extends React.Component<Props, State> {
    * public APIs
    */
   cleanErrors(callback: () => void) {
-    this.setState({ errors: {} }, callback);
+    this.setState({ formError: {} }, callback);
   }
 
   /**
    * public APIs
    */
-  resetErrors(errors: Object = {}, callback: () => void) {
-    this.setState({ errors }, callback);
+  resetErrors(formError: Object = {}, callback: () => void) {
+    this.setState({ formError }, callback);
   }
 
   handleFieldError = (name: string, errorMessage: string) => {
     const { onError, onCheck } = this.props;
-    const errors = Object.assign({}, this.state.errors, {
+    const formError = {
+      ...this.state.formError,
       [name]: errorMessage
-    });
+    };
 
-    console.log(this.state.errors);
-
-    this.setState({ errors }, () => {
-      onError && onError(errors);
-      onCheck && onCheck(errors);
+    this.setState({ formError }, () => {
+      onError && onError(formError);
+      onCheck && onCheck(formError);
     });
   };
 
   handleFieldSuccess = (name: string) => {
     const { onCheck } = this.props;
-    const errors = _.omit(this.state.errors, [name]);
-    console.log('handleFieldSuccess', this.state.errors);
-    this.setState({ errors }, () => {
-      onCheck && onCheck(errors);
+    const formError = _.omit(this.state.formError, [name]);
+    this.setState({ formError }, () => {
+      onCheck && onCheck(formError);
     });
   };
 
   handleFieldChange = (name: string, value: any, event: SyntheticEvent<*>) => {
-    const { onChange, defaultValues } = this.props;
-    const values = Object.assign({}, this.state.values, defaultValues, {
+    const { onChange } = this.props;
+    const formValue = this.getFormValue();
+    const nextFormValue = {
+      ...formValue,
       [name]: value
-    });
-    onChange && onChange(values, event);
+    };
+    onChange && onChange(nextFormValue, event);
   };
 
   render() {

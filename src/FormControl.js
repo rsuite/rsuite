@@ -8,7 +8,6 @@ import ErrorMessage from './ErrorMessage';
 
 import { getUnhandledProps, defaultProps, prefix } from './utils';
 
-type PlacementFourSides = 'top' | 'right' | 'bottom' | 'left';
 type PlacementEightPoints =
   | 'bottomLeft'
   | 'bottomRight'
@@ -27,7 +26,7 @@ type Props = {
   onBlur?: (event: SyntheticEvent<*>) => void,
   classPrefix?: string,
   errorMessage?: React.Node,
-  errorPlacement?: PlacementFourSides | PlacementEightPoints
+  errorPlacement?: PlacementEightPoints
 };
 
 type State = {
@@ -51,12 +50,12 @@ class FormControl extends React.Component<Props, State> {
       throw new Error('FormControl must be inside a component decorated with <Form>');
     }
 
-    const { values = {}, defaultValues = {} } = context.form;
+    const { formValue = {}, formDefaultValue = {} } = context.form;
     const name = props.name;
 
     this.state = {
       checkResult: {},
-      value: values[name] || defaultValues[name]
+      value: formValue[name] || formDefaultValue[name]
     };
   }
 
@@ -100,7 +99,7 @@ class FormControl extends React.Component<Props, State> {
   };
 
   render() {
-    let {
+    const {
       name,
       accepter: Component,
       classPrefix,
@@ -108,7 +107,8 @@ class FormControl extends React.Component<Props, State> {
       errorMessage,
       ...props
     } = this.props;
-    const { values = {}, defaultValues = {} } = this.context.form;
+
+    const { formValue = {}, formDefaultValue = {} } = this.context.form;
     const unhandled = getUnhandledProps(FormControl, props);
     const addPrefix = prefix(classPrefix);
     const hasError = !!errorMessage;
@@ -120,8 +120,8 @@ class FormControl extends React.Component<Props, State> {
           name={name}
           onChange={this.handleFieldChange}
           onBlur={this.handleFieldBlur}
-          defaultValue={defaultValues[name]}
-          value={values[name]}
+          defaultValue={formDefaultValue[name]}
+          value={formValue[name]}
         />
         <ErrorMessage
           show={hasError}

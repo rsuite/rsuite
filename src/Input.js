@@ -7,7 +7,6 @@ import compose from 'recompose/compose';
 import _ from 'lodash';
 
 import { withStyleProps, defaultProps, createChainedFunction } from './utils';
-import { globalKey } from './utils/prefix';
 
 type Props = {
   type: string,
@@ -57,10 +56,7 @@ class Input extends React.Component<Props> {
       ...rest
     } = this.props;
 
-    const classes = classNames(classPrefix, className, {
-      // input[type="file"] should not have .form-control.
-      [`${globalKey}form-control`]: type !== 'file'
-    });
+    const classes = classNames(classPrefix, className);
 
     const { inputGroup } = this.context;
     const Component = componentClass;

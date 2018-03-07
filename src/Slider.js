@@ -254,10 +254,10 @@ class Slider extends React.Component<Props, State> {
     const { value, handleDown } = this.state;
 
     const direction = vertical ? 'top' : 'left';
-    const offset = {
+    const style = {
+      ...hanldeStyle,
       [direction]: `${(value - min) / (max - min) * 100}%`
     };
-    const style = Object.assign({}, hanldeStyle, offset);
 
     // 通过 value 计算出手柄位置
     return (

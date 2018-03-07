@@ -6,7 +6,6 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import { defaultProps, prefix } from './utils';
 
-type PlacementFourSides = 'top' | 'right' | 'bottom' | 'left';
 type PlacementEightPoints =
   | 'bottomLeft'
   | 'bottomRight'
@@ -23,7 +22,7 @@ type Props = {
   classPrefix: string,
   children?: React.Node,
   className?: string,
-  placement?: PlacementFourSides | PlacementEightPoints
+  placement?: PlacementEightPoints
 };
 
 class ErrorMessage extends React.Component<Props> {
