@@ -2,8 +2,6 @@
 
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import _ from 'lodash';
 
 import Input from './Input';
 import ErrorMessage from './ErrorMessage';
@@ -114,10 +112,6 @@ class FormControl extends React.Component<Props, State> {
     const unhandled = getUnhandledProps(FormControl, props);
     const addPrefix = prefix(classPrefix);
     const hasError = !!errorMessage;
-    const errorClasses = classNames(
-      addPrefix('message-wrapper'),
-      addPrefix(`placement-${_.kebabCase(errorPlacement)}`)
-    );
 
     return (
       <div className={addPrefix('wrapper')}>
@@ -129,7 +123,11 @@ class FormControl extends React.Component<Props, State> {
           defaultValue={defaultValues[name]}
           value={values[name]}
         />
-        <ErrorMessage show={hasError} className={errorClasses}>
+        <ErrorMessage
+          show={hasError}
+          className={addPrefix('message-wrapper')}
+          placement={errorPlacement}
+        >
           {errorMessage}
         </ErrorMessage>
       </div>
