@@ -2,11 +2,24 @@
 
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import _ from 'lodash';
 
 import Input from './Input';
 import ErrorMessage from './ErrorMessage';
 
 import { getUnhandledProps, defaultProps, prefix } from './utils';
+
+type PlacementFourSides = 'top' | 'right' | 'bottom' | 'left';
+type PlacementEightPoints =
+  | 'bottomLeft'
+  | 'bottomRight'
+  | 'topLeft'
+  | 'topRight'
+  | 'leftTop'
+  | 'rightTop'
+  | 'leftBottom'
+  | 'rightBottom';
 
 type Props = {
   name: string,
@@ -15,7 +28,8 @@ type Props = {
   onChange?: (value: any, event: SyntheticEvent<*>) => void,
   onBlur?: (event: SyntheticEvent<*>) => void,
   classPrefix?: string,
-  errorMessage?: React.Node
+  errorMessage?: React.Node,
+  errorPlacement?: PlacementFourSides | PlacementEightPoints
 };
 
 type State = {
@@ -25,7 +39,8 @@ type State = {
 
 class FormControl extends React.Component<Props, State> {
   static defaultProps = {
-    accepter: Input
+    accepter: Input,
+    errorPlacement: 'bottomLeft'
   };
 
   static contextTypes = {
@@ -87,11 +102,22 @@ class FormControl extends React.Component<Props, State> {
   };
 
   render() {
-    let { name, accepter: Component, classPrefix, errorMessage, ...props } = this.props;
+    let {
+      name,
+      accepter: Component,
+      classPrefix,
+      errorPlacement,
+      errorMessage,
+      ...props
+    } = this.props;
     const { values = {}, defaultValues = {} } = this.context.form;
     const unhandled = getUnhandledProps(FormControl, props);
     const addPrefix = prefix(classPrefix);
     const hasError = !!errorMessage;
+    const errorClasses = classNames(
+      addPrefix('message-wrapper'),
+      addPrefix(`placement-${_.kebabCase(errorPlacement)}`)
+    );
 
     return (
       <div className={addPrefix('wrapper')}>
@@ -103,7 +129,7 @@ class FormControl extends React.Component<Props, State> {
           defaultValue={defaultValues[name]}
           value={values[name]}
         />
-        <ErrorMessage show={hasError} className={addPrefix('message-wrapper')}>
+        <ErrorMessage show={hasError} className={errorClasses}>
           {errorMessage}
         </ErrorMessage>
       </div>
