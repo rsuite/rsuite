@@ -67,18 +67,8 @@ class DropdownMenuItem extends React.Component<Props, State> {
   }
 
   toggle = (event: SyntheticEvent<*>, isOpen?: boolean) => {
-    /*
-    const { pullLeft } = this.props;
-    const menu = event.currentTarget.querySelector(`.${globalKey}dropdown-menu`);
     let open = _.isUndefined(isOpen) ? !this.state.open : isOpen;
-
-    this.setState({ open }, () => {
-      if (pullLeft && menu && open) {
-        let width = getWidth(menu);
-        addStyle(menu, 'left', `${-width}px`);
-      }
-    });
-    */
+    this.setState({ open });
   };
 
   handleClick = (event: SyntheticEvent<*>) => {
