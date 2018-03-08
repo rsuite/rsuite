@@ -3,7 +3,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { getWidth, addStyle } from 'dom-lib';
 import _ from 'lodash';
 import { setDisplayName } from 'recompose';
 
@@ -11,7 +10,6 @@ import SafeAnchor from './SafeAnchor';
 import Icon from './Icon';
 
 import { prefix, isOneOf, createChainedFunction, defaultProps } from './utils';
-import { globalKey } from './utils/prefix';
 
 type Trigger = 'click' | 'hover';
 type Props = {
