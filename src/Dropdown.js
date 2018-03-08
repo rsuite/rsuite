@@ -229,13 +229,13 @@ class Dropdown extends React.Component<Props, State> {
 
     const classes = classNames(
       classPrefix,
+      addPrefix(`placement-${_.kebabCase(placement)}`),
+      className,
       {
         [addPrefix('disabled')]: disabled,
         [addPrefix('open')]: isOpen,
         [addPrefix(menuExpanded ? 'expand' : 'collapse')]: sidenav
-      },
-      addPrefix(`placement-${_.kebabCase(placement)}`),
-      className
+      }
     );
 
     const unhandled = getUnhandledProps(Dropdown, props);

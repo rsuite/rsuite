@@ -45,6 +45,6 @@ export default {
   warning: sendMessage('warning'),
   error: sendMessage('error'),
   remove(key: string) {
-    Notify.config(key);
+    Notify.remove(key);
   }
 };

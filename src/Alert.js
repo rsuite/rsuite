@@ -8,7 +8,10 @@ import { STATUS_ICON_NAMES } from './utils/constants';
 
 function appendIcon(type: string, content: string) {
   return (
-    <p><Icon icon={STATUS_ICON_NAMES[type]} />{content}</p>
+    <p>
+      <Icon icon={STATUS_ICON_NAMES[type]} />
+      {content}
+    </p>
   );
 }
 
@@ -17,7 +20,6 @@ function proxy(type: string) {
     Alert[type](appendIcon(type, content), duration, onClose);
   };
 }
-
 
 type Options = {
   top?: number,
