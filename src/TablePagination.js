@@ -81,9 +81,14 @@ class TablePagination extends React.Component<Props, State> {
   }
   componentWillReceiveProps(nextProps: Props) {
     const { displayLength, activePage } = this.props;
-    if (displayLength !== nextProps.displayLength || activePage !== nextProps.activePage) {
+    if (displayLength !== nextProps.displayLength) {
       this.setState({
-        displayLength: nextProps.displayLength,
+        displayLength: nextProps.displayLength
+      });
+    }
+
+    if (activePage !== nextProps.activePage) {
+      this.setState({
         activePage: nextProps.activePage
       });
     }
@@ -98,6 +103,7 @@ class TablePagination extends React.Component<Props, State> {
   };
 
   handleChangePage = (eventKey: any) => {
+    console.log('eventKey', eventKey);
     const { onChangePage } = this.props;
     this.setState({
       activePage: eventKey
@@ -109,7 +115,6 @@ class TablePagination extends React.Component<Props, State> {
 
   renderLengthMenu() {
     const { lengthMenu = [], renderLengthMenu, showLengthMenu, locale } = this.props;
-
     const { displayLength } = this.state;
 
     if (!showLengthMenu) {
@@ -154,6 +159,8 @@ class TablePagination extends React.Component<Props, State> {
     const { displayLength, activePage } = this.state;
     const pages = Math.floor(total / displayLength) + (total % displayLength ? 1 : 0);
     const classes = classNames(this.addPrefix('pagination-wrapper'), className);
+
+    console.log('---------', activePage, pages);
 
     return (
       <div className={classes}>

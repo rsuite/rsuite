@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import setStatic from 'recompose/setStatic';
 
 import BreadcrumbItem from './BreadcrumbItem';
+import Icon from './Icon';
 import { defaultProps, prefix } from './utils';
 
 type Props = {
@@ -17,7 +18,7 @@ type Props = {
 
 class Breadcrumb extends React.Component<Props> {
   static defaultProps = {
-    separator: <i className="icon icon-angle-right" />
+    separator: <Icon icon="angle-right" />
   };
 
   render() {

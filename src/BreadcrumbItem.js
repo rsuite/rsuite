@@ -4,7 +4,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 import SafeAnchor from './SafeAnchor';
-import { defaultProps } from './utils';
+import { defaultProps, prefix } from './utils';
 
 type Props = {
   active?: boolean,
@@ -31,8 +31,12 @@ class BreadcrumbItem extends React.Component<Props> {
       ...rest
     } = this.props;
 
+    const addPrefix = prefix(classPrefix);
+
     const linkProps = { href, title, target };
-    const classes = classNames(classPrefix, className, { active });
+    const classes = classNames(classPrefix, className, {
+      [addPrefix('active')]: active
+    });
 
     return (
       <li style={style} className={classes}>
