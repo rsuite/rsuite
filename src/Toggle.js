@@ -78,7 +78,7 @@ class Toggle extends React.Component<Props, State> {
         tabIndex={-1}
         onClick={this.handleChange}
       >
-        <span className="toggle-inner">{inner}</span>
+        <span className={addPrefix('toggle-inner')}>{inner}</span>
       </span>
     );
   }
