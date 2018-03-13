@@ -89,11 +89,9 @@ class DropdownMenu extends React.Component<Props> {
               <Icon icon={pullLeft ? 'angle-left' : 'angle-right'} />
             </div>
             {this.renderCollapse(
-              <div className={this.addPrefix('wrapper')}>
-                <ul role="menu" className={classPrefix}>
-                  {itemsAndStatus.items}
-                </ul>
-              </div>,
+              <ul role="menu" className={classPrefix}>
+                {itemsAndStatus.items}
+              </ul>,
               expanded
             )}
           </DropdownMenuItem>
