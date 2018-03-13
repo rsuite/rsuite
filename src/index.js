@@ -16,6 +16,7 @@ export Loader from './Loader';
 export IconFont from './IconFont';
 export Icon from './Icon';
 export SafeAnchor from './SafeAnchor';
+export Divider from './Divider';
 
 // Nav
 export Dropdown from './Dropdown';
