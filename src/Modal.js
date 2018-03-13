@@ -130,9 +130,9 @@ class Modal extends React.Component<Props, State> {
       let footerHeight = 46;
       let contentHeight = 30;
 
-      const headerDOM = dialogDOM.querySelector(`.${classPrefix}-header`);
-      const footerDOM = dialogDOM.querySelector(`.${classPrefix}-footer`);
-      const contentDOM = dialogDOM.querySelector(`.${classPrefix}-content`);
+      const headerDOM = dialogDOM.querySelector(`.${this.addPrefix('header')}`);
+      const footerDOM = dialogDOM.querySelector(`.${this.addPrefix('footer')}`);
+      const contentDOM = dialogDOM.querySelector(`.${this.addPrefix('content')}`);
 
       headerHeight = headerDOM ? getHeight(headerDOM) + headerHeight : headerHeight;
       footerHeight = footerDOM ? getHeight(footerDOM) + headerHeight : headerHeight;
@@ -184,6 +184,8 @@ class Modal extends React.Component<Props, State> {
     this.setState(this.getStyles());
   };
 
+  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
+
   render() {
     const {
       className,
@@ -221,9 +223,8 @@ class Modal extends React.Component<Props, State> {
       });
     }
 
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(addPrefix(size), className, {
-      [addPrefix('full')]: full
+    const classes = classNames(this.addPrefix(size), className, {
+      [this.addPrefix('full')]: full
     });
 
     const modal = (
@@ -251,8 +252,8 @@ class Modal extends React.Component<Props, State> {
         show={show}
         onEntering={this.handleShow}
         onExited={this.handleHide}
-        backdropClassName={classNames(addPrefix('backdrop'), backdropClassName, inClass)}
-        containerClassName={addPrefix('open')}
+        backdropClassName={classNames(this.addPrefix('backdrop'), backdropClassName, inClass)}
+        containerClassName={this.addPrefix('open')}
         transition={animation ? Fade : undefined}
         dialogTransitionTimeout={TRANSITION_DURATION}
         backdropTransitionTimeout={BACKDROP_TRANSITION_DURATION}
