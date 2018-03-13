@@ -43,7 +43,7 @@ type Props = {
   autoUpload?: boolean,
   children?: React.Element<any>,
   className?: string,
-  classPrerix?: string,
+  classPrefix?: string,
   defaultFileList?: Array<FileType>,
   fileList?: Array<FileType>,
   data?: Object,
@@ -255,7 +255,7 @@ class Uploader extends React.Component<Props, State> {
     };
   };
 
-  addPrefix = (name: string) => prefix(this.props.classPrerix)(name);
+  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   uploadTrigger = null;
 
@@ -301,9 +301,8 @@ class Uploader extends React.Component<Props, State> {
   }
 
   render() {
-    const { classPrerix, className, listType, locale } = this.props;
-
-    const classes = classNames(classPrerix, this.addPrefix(listType), className);
+    const { classPrefix, className, listType, locale } = this.props;
+    const classes = classNames(classPrefix, this.addPrefix(listType), className);
     const renderList = [this.renderUploadTrigger(), this.renderFileItems()];
 
     if (listType === 'picture') {
@@ -321,6 +320,6 @@ class Uploader extends React.Component<Props, State> {
 export default compose(
   withLocale(['Uploader']),
   defaultProps({
-    classPrerix: 'uploader'
+    classPrefix: 'uploader'
   })
 )(Uploader);
