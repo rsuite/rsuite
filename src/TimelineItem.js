@@ -9,25 +9,34 @@ type Props = {
   dot?: React.Node,
   className?: string,
   children: React.Node,
-  classPrefix?: string
+  classPrefix?: string,
+  componentClass: React.ElementType
 };
 
 class TimelineItem extends React.Component<Props> {
   render() {
-    const { children, classPrefix, last, className, dot, ...rest } = this.props;
+    const {
+      children,
+      componentClass: Component,
+      classPrefix,
+      last,
+      className,
+      dot,
+      ...rest
+    } = this.props;
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, className, {
       [addPrefix('last')]: last
     });
 
     return (
-      <li className={classes} {...rest}>
-        <div className={addPrefix('tail')} />
-        <div className={classNames(addPrefix('dot'), { [addPrefix('custom-dot')]: !!dot })}>
+      <Component className={classes} {...rest}>
+        <span className={addPrefix('tail')} />
+        <span className={classNames(addPrefix('dot'), { [addPrefix('custom-dot')]: !!dot })}>
           {dot}
-        </div>
+        </span>
         <div className={addPrefix('content')}>{children}</div>
-      </li>
+      </Component>
     );
   }
 }
