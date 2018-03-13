@@ -64,7 +64,7 @@ class Toggle extends React.Component<Props, State> {
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, className, {
       [addPrefix('checked')]: checked,
-      disabled
+      [addPrefix('disabled')]: disabled
     });
 
     const inner = checked ? checkedChildren : unCheckedChildren;
