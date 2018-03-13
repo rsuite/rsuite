@@ -2,7 +2,7 @@
 import * as React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
-import { ReactChildren, getUnhandledProps, defaultProps } from './utils';
+import { ReactChildren, getUnhandledProps, defaultProps, prefix } from './utils';
 
 type Props = {
   accordion?: boolean,
@@ -46,6 +46,8 @@ class PanelGroup extends React.Component<Props, State> {
     this.setState({ activeKey });
   };
 
+  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
+
   renderPanel = (child: any, index: number) => {
     if (!React.isValidElement(child)) {
       return child;
@@ -69,7 +71,9 @@ class PanelGroup extends React.Component<Props, State> {
 
   render() {
     let { className, accordion, classPrefix, children, onSelect, ...rest } = this.props;
-    let classes = classNames(classPrefix, className);
+    let classes = classNames(classPrefix, className, {
+      [this.addPrefix('accordion')]: accordion
+    });
 
     const unhandled = getUnhandledProps(PanelGroup, rest);
 
