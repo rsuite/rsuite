@@ -27,15 +27,10 @@ class IconButton extends React.Component<Props & IconProps> {
     const { icon, placement, children, circle, classPrefix, className, ...props } = this.props;
 
     const addPrefix = prefix(classPrefix);
-    const classes = classNames(
-      classPrefix,
-      {
-        [addPrefix('circle')]: circle,
-        [addPrefix('with-text')]: !_.isUndefined(children)
-      },
-      addPrefix(`placement-${placement}`),
-      className
-    );
+    const classes = classNames(classPrefix, className, addPrefix(`placement-${placement}`), {
+      [addPrefix('circle')]: circle,
+      [addPrefix('with-text')]: !_.isUndefined(children)
+    });
 
     return (
       <Button {...props} className={classes}>

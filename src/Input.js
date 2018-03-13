@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import compose from 'recompose/compose';
 import _ from 'lodash';
 
-import { withStyleProps, defaultProps, createChainedFunction } from './utils';
+import { withStyleProps, defaultProps, createChainedFunction, getUnhandledProps } from './utils';
 
 type Props = {
   type: string,
@@ -17,9 +17,12 @@ type Props = {
   disabled?: boolean,
   value?: string | number,
   defaultValue?: string | number,
+  inputRef: React.ElementRef<*>,
   onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void,
   onFocus?: (event: SyntheticEvent<*>) => void,
-  onBlur?: (event: SyntheticEvent<*>) => void
+  onBlur?: (event: SyntheticEvent<*>) => void,
+  onKeyDown?: (event: SyntheticEvent<*>) => void,
+  onPressEnter?: (event: SyntheticEvent<*>) => void
 };
 
 class Input extends React.Component<Props> {
@@ -39,6 +42,16 @@ class Input extends React.Component<Props> {
     onChange && onChange(nextValue, event);
   };
 
+  handleKeyDown = (event: SyntheticKeyboardEvent<*>) => {
+    const { onKeyDown, onPressEnter } = this.props;
+
+    if (event.keyCode === 13) {
+      onPressEnter && onPressEnter(event);
+    }
+
+    onKeyDown && onKeyDown(event);
+  };
+
   render() {
     const controlId = _.get(this.context, 'formGroup.controlId');
     const {
@@ -53,22 +66,25 @@ class Input extends React.Component<Props> {
       disabled,
       value,
       defaultValue,
+      inputRef,
       ...rest
     } = this.props;
 
     const classes = classNames(classPrefix, className);
-
     const { inputGroup } = this.context;
     const Component = componentClass;
+    const unhandled = getUnhandledProps(Input, rest);
 
     return (
       <Component
-        {...rest}
+        {...unhandled}
+        ref={inputRef}
         type={type}
         id={id}
         value={value}
         defaultValue={defaultValue}
         disabled={disabled}
+        onKeyDown={this.handleKeyDown}
         onFocus={createChainedFunction(onFocus, _.get(inputGroup, 'onFocus'))}
         onBlur={createChainedFunction(onBlur, _.get(inputGroup, 'onBlur'))}
         className={classes}
