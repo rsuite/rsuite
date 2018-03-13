@@ -103,7 +103,7 @@ class Modal extends React.Component<Props, State> {
   }
 
   getStyles() {
-    const { container, overflow, classPrefix, drawer } = this.props;
+    const { container, overflow, drawer } = this.props;
     const node: any = findDOMNode(this.dialog);
     const doc: any = ownerDocument(node);
     const body: any = container || doc.body;
