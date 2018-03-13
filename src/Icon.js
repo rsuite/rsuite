@@ -45,7 +45,7 @@ class Icon extends React.Component<Props> {
     const isSvgIcon =
       typeof icon === 'object' && _.get(icon, ['constructor', 'name']) === 'BrowserSpriteSymbol';
 
-    const classes = classNames('icon', className, {
+    const classes = classNames(classPrefix, className, {
       [addPrefix(icon)]: !isSvgIcon,
       [addPrefix(size)]: size,
       [addPrefix('fw')]: fixedWidth,
