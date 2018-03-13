@@ -34,7 +34,9 @@ class Tag extends React.Component<Props> {
     return (
       <Component className={classes} {...rest}>
         <span className={addPrefix('text')}>{children}</span>
-        {closable && <i className={addPrefix('icon-close')} />}
+        {closable && (
+          <i role="button" tabIndex="-1" className={addPrefix('icon-close')} onClick={onClose} />
+        )}
       </Component>
     );
   }
