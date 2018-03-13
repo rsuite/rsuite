@@ -3,8 +3,6 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import compose from 'recompose/compose';
-
-import Icon from './Icon';
 import { prefix, withStyleProps, defaultProps } from './utils';
 
 type Props = {
@@ -35,8 +33,8 @@ class Tag extends React.Component<Props> {
 
     return (
       <Component className={classes} {...rest}>
-        <span className="rs-tag-text">{children}</span>
-        {closable && <Icon icon="close" onClick={onClose} />}
+        <span className={addPrefix('text')}>{children}</span>
+        {closable && <i className={addPrefix('icon-close')} />}
       </Component>
     );
   }
