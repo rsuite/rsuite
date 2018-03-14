@@ -9,6 +9,8 @@ import { isNullOrUndefined, getUnhandledProps, defaultProps, prefix } from './ut
 
 type Props = {
   collapsible?: boolean,
+  bordered?: boolean,
+  bodyFill?: boolean,
   header?: any,
   id?: string | number,
   defaultExpanded?: boolean,
@@ -32,10 +34,6 @@ type Props = {
 type State = {
   expanded?: boolean
 };
-
-function shouldRenderFill(child: any) {
-  return React.isValidElement(child) && child.props.fill !== null;
-}
 
 class Panel extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -101,57 +99,12 @@ class Panel extends React.Component<Props, State> {
   }
 
   renderBody() {
-    const { children } = this.props;
-    let allChildren = children;
-    let bodyElements = [];
-    let panelBodyChildren = [];
-
-    const getProps = () => ({
-      key: bodyElements.length
+    const { children, bodyFill } = this.props;
+    const classes = classNames(this.addPrefix('body'), {
+      [this.addPrefix('body-fill')]: bodyFill
     });
 
-    const addPanelChild = (child: any) => {
-      bodyElements.push(React.cloneElement(child, getProps()));
-    };
-
-    const addPanelBody = body => {
-      const props = getProps();
-      bodyElements.push(
-        <div {...props} className={this.addPrefix('body')}>
-          {body}
-        </div>
-      );
-    };
-
-    const maybeRenderPanelBody = () => {
-      if (panelBodyChildren.length === 0) {
-        return;
-      }
-
-      addPanelBody(panelBodyChildren);
-      panelBodyChildren = [];
-    };
-
-    if (!Array.isArray(allChildren) || allChildren.length === 0) {
-      if (shouldRenderFill(allChildren)) {
-        addPanelChild(allChildren);
-      } else {
-        addPanelBody(allChildren);
-      }
-    } else {
-      allChildren.forEach(child => {
-        if (shouldRenderFill(child)) {
-          maybeRenderPanelBody();
-          addPanelChild(child);
-        } else {
-          panelBodyChildren.push(child);
-        }
-      });
-
-      maybeRenderPanelBody();
-    }
-
-    return bodyElements;
+    return <div className={classes}>{children}</div>;
   }
 
   renderHeading(headerRole?: string) {
@@ -197,10 +150,23 @@ class Panel extends React.Component<Props, State> {
   }
 
   render() {
-    const { headerRole, panelRole, className, collapsible, classPrefix, id, ...props } = this.props;
+    const {
+      headerRole,
+      panelRole,
+      className,
+      collapsible,
+      bordered,
+      classPrefix,
+      id,
+      ...props
+    } = this.props;
+
     const clesses = classNames(classPrefix, this.addPrefix('default'), className, {
-      [this.addPrefix('in')]: this.isExpanded()
+      [this.addPrefix('in')]: this.isExpanded(),
+      [this.addPrefix('collapsible')]: collapsible,
+      [this.addPrefix('bordered')]: bordered
     });
+
     const unhandled = getUnhandledProps(Panel, props);
 
     return (
