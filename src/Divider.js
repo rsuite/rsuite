@@ -9,7 +9,7 @@ type Props = {
   className?: string,
   vertical?: boolean,
   classPrefix: string,
-  children: React.Node,
+  children?: React.Node,
   componentClass: React.ElementType
 };
 
