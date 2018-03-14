@@ -17,7 +17,7 @@ type Props = {
   disabled?: boolean,
   value?: string | number,
   defaultValue?: string | number,
-  inputRef: React.ElementRef<*>,
+  inputRef?: React.ElementRef<*>,
   onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void,
   onFocus?: (event: SyntheticEvent<*>) => void,
   onBlur?: (event: SyntheticEvent<*>) => void,

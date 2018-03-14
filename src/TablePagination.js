@@ -6,6 +6,7 @@ import compose from 'recompose/compose';
 
 import Pagination from './Pagination';
 import SelectPicker from './SelectPicker';
+import Divider from './Divider';
 
 import { prefix, tplTransform, defaultProps } from './utils';
 import withLocale from './IntlProvider/withLocale';
@@ -160,11 +161,10 @@ class TablePagination extends React.Component<Props, State> {
     const pages = Math.floor(total / displayLength) + (total % displayLength ? 1 : 0);
     const classes = classNames(this.addPrefix('pagination-wrapper'), className);
 
-    console.log('---------', activePage, pages);
-
     return (
       <div className={classes}>
         {this.renderLengthMenu()}
+        <Divider vertical />
         {this.renderInfo()}
 
         <div className={classNames(this.addPrefix('pagination'))}>

@@ -27,8 +27,8 @@ export default {
     loading: 'Loading...'
   },
   TablePagination: {
-    lengthMenuInfo: 'Show: {0} / page',
-    totalInfo: 'Total: {0}'
+    lengthMenuInfo: '{0} / page',
+    totalInfo: 'total: {0}'
   },
   DatePicker: {
     ...Calendar
