@@ -7,6 +7,7 @@ import { ReactChildren, getUnhandledProps, defaultProps, prefix } from './utils'
 type Props = {
   accordion?: boolean,
   activeKey?: any,
+  bordered?: boolean,
   defaultActiveKey?: any,
   className?: string,
   children?: React.Node,
@@ -68,9 +69,10 @@ class PanelGroup extends React.Component<Props, State> {
   };
 
   render() {
-    const { className, accordion, classPrefix, children, onSelect, ...rest } = this.props;
+    const { className, accordion, bordered, classPrefix, children, onSelect, ...rest } = this.props;
     const classes = classNames(classPrefix, className, {
-      [this.addPrefix('accordion')]: accordion
+      [this.addPrefix('accordion')]: accordion,
+      [this.addPrefix('bordered')]: bordered
     });
 
     const unhandled = getUnhandledProps(PanelGroup, rest);

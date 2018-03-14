@@ -72,9 +72,12 @@ export Tag from './Tag';
 // Layout
 export Header from './Header';
 export Sidebar from './Sidebar';
+
 export Grid from './Grid';
 export Row from './Row';
 export Col from './Col';
+export FlexboxGird from './FlexboxGird';
+
 export Container from './Container';
 export Content from './Content';
 
