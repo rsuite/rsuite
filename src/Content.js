@@ -2,25 +2,18 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { prefix, defaultProps } from './utils';
+import { defaultProps } from './utils';
 
 type Props = {
   className?: string,
-  classPrefix?: string,
-  children?: React.Node
+  classPrefix?: string
 };
 
 class Content extends React.Component<Props> {
   render() {
-    const { className, classPrefix, children, ...props } = this.props;
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(addPrefix('wrapper'), className);
-
-    return (
-      <div {...props} className={classes}>
-        <div className={classPrefix}>{children}</div>
-      </div>
-    );
+    const { className, classPrefix, ...props } = this.props;
+    const classes = classNames(classPrefix, className);
+    return <div {...props} className={classes} />;
   }
 }
 

@@ -2,30 +2,19 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { prefix, defaultProps } from './utils';
+import { defaultProps } from './utils';
 
 type Props = {
-  pullRight?: boolean,
   className?: string,
-  classPrefix?: string,
-  children?: React.Node
+  classPrefix?: string
 };
 
 class Sidebar extends React.Component<Props> {
   render() {
-    const { className, pullRight, children, classPrefix, ...props } = this.props;
+    const { className, classPrefix, ...props } = this.props;
+    const classes = classNames(classPrefix, className);
 
-    const addPrefix = prefix(classPrefix);
-    const wrapperClass = classNames(addPrefix('wrapper'), className);
-    const classes = classNames(classPrefix, {
-      [addPrefix('right')]: pullRight
-    });
-
-    return (
-      <div {...props} className={wrapperClass}>
-        <div className={classes}>{children}</div>
-      </div>
-    );
+    return <div {...props} className={classes} />;
   }
 }
 
