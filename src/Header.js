@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
+import setDisplayName from 'recompose/setDisplayName';
 
 import { defaultProps } from './utils';
 
@@ -18,6 +19,8 @@ class Header extends React.Component<Props> {
   }
 }
 
-export default defaultProps({
-  classPrefix: 'header'
-})(Header);
+export default setDisplayName('Header')(
+  defaultProps({
+    classPrefix: 'header'
+  })(Header)
+);

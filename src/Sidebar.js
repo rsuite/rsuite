@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
+import setDisplayName from 'recompose/setDisplayName';
 import { defaultProps } from './utils';
 
 type Props = {
@@ -18,6 +19,8 @@ class Sidebar extends React.Component<Props> {
   }
 }
 
-export default defaultProps({
-  classPrefix: 'sidebar'
-})(Sidebar);
+export default setDisplayName('Sidebar')(
+  defaultProps({
+    classPrefix: 'sidebar'
+  })(Sidebar)
+);

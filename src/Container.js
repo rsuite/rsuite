@@ -2,19 +2,35 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { defaultProps } from './utils';
+import { defaultProps, prefix } from './utils';
 
 type Props = {
   className?: string,
+  children: React.ChildrenArray<React.Element<any>>,
   classPrefix?: string
 };
 
 class Container extends React.Component<Props> {
   render() {
-    const { className, classPrefix, ...props } = this.props;
-    const classes = classNames(classPrefix, className);
+    const { className, children, classPrefix, ...props } = this.props;
+    const addPrefix = prefix(classPrefix);
+    let hasSidebar = false;
 
-    return <div {...props} className={classes} />;
+    React.Children.forEach(children, item => {
+      if (item.type.displayName === 'Sidebar') {
+        hasSidebar = true;
+      }
+    });
+
+    const classes = classNames(classPrefix, className, {
+      [addPrefix('has-sidebar')]: hasSidebar
+    });
+
+    return (
+      <div {...props} className={classes}>
+        {children}
+      </div>
+    );
   }
 }
 

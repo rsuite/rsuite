@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
+import setDisplayName from 'recompose/setDisplayName';
 import { defaultProps } from './utils';
 
 type Props = {
@@ -17,6 +18,8 @@ class Content extends React.Component<Props> {
   }
 }
 
-export default defaultProps({
-  classPrefix: 'content'
-})(Content);
+export default setDisplayName('Content')(
+  defaultProps({
+    classPrefix: 'content'
+  })(Content)
+);
