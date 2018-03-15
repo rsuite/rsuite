@@ -7,8 +7,8 @@ import { defaultProps, prefix } from './utils';
 
 type Props = {
   className?: string,
-  colspan?: number,
-  order?: number,
+  colspan: number,
+  order: number,
   classPrefix: string
 };
 
@@ -21,7 +21,12 @@ class FlexboxGirdItem extends React.Component<Props> {
   render() {
     const { className, classPrefix, colspan, order, ...props } = this.props;
     const addPrefix = prefix(classPrefix);
-    const clesses = classNames(classPrefix, className, addPrefix(colspan), addPrefix(order));
+    const clesses = classNames(
+      classPrefix,
+      className,
+      addPrefix(colspan),
+      addPrefix(`order-${order}`)
+    );
 
     return <div {...props} className={clesses} />;
   }
