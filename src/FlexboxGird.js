@@ -29,7 +29,7 @@ class FlexboxGird extends React.Component<Props> {
 }
 
 const EnhancedFlexboxGird = defaultProps({
-  classPrefix: 'flexbox-gird-item'
+  classPrefix: 'flexbox-gird'
 })(FlexboxGird);
 
 setStatic('Item', FlexboxGirdItem)(EnhancedFlexboxGird);

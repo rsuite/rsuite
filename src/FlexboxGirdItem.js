@@ -28,5 +28,5 @@ class FlexboxGirdItem extends React.Component<Props> {
 }
 
 export default defaultProps({
-  classPrefix: 'flexbox-gird'
+  classPrefix: 'flexbox-gird-item'
 })(FlexboxGirdItem);
