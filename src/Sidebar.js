@@ -7,15 +7,27 @@ import { defaultProps } from './utils';
 
 type Props = {
   className?: string,
-  classPrefix?: string
+  classPrefix?: string,
+  width: number,
+  style?: Object
 };
 
 class Sidebar extends React.Component<Props> {
+  static defaultProps = {
+    width: 260
+  };
   render() {
-    const { className, classPrefix, ...props } = this.props;
+    const { className, classPrefix, width, style, ...props } = this.props;
     const classes = classNames(classPrefix, className);
 
-    return <div {...props} className={classes} />;
+    const styles = {
+      flex: `0 0 ${width}px`,
+      maxWidth: `${width}px`,
+      minWidth: `${width}px`,
+      width: `${width}px`,
+      ...style
+    };
+    return <div {...props} className={classes} style={styles} />;
   }
 }
 
