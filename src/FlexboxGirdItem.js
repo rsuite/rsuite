@@ -21,12 +21,9 @@ class FlexboxGirdItem extends React.Component<Props> {
   render() {
     const { className, classPrefix, colspan, order, ...props } = this.props;
     const addPrefix = prefix(classPrefix);
-    const clesses = classNames(
-      classPrefix,
-      className,
-      addPrefix(colspan),
-      addPrefix(`order-${order}`)
-    );
+    const clesses = classNames(classPrefix, className, addPrefix(colspan), {
+      [addPrefix(`order-${order}`)]: order
+    });
 
     return <div {...props} className={clesses} />;
   }

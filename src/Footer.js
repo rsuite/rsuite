@@ -19,5 +19,5 @@ class Header extends React.Component<Props> {
 }
 
 export default defaultProps({
-  classPrefix: 'header'
+  classPrefix: 'footer'
 })(Header);
