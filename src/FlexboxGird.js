@@ -17,7 +17,6 @@ type Props = {
 class FlexboxGird extends React.Component<Props> {
   static defaultProps = {
     align: 'top',
-    gutter: 0,
     justify: 'start'
   };
   render() {
