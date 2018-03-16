@@ -73,17 +73,19 @@ class Nav extends React.Component<Props> {
     const hasWaterline = appearance !== 'default';
 
     const items = ReactChildren.mapCloneElement(children, item => {
-      let { eventKey, active, placement } = item.props;
+      let { eventKey, active, placement, ...rest } = item.props;
       let displayName = _.get(item, ['type', 'displayName']);
 
       if (displayName === 'NavItem') {
         return {
+          ...rest,
           onSelect,
           hasTooltip: sidenav && !expanded,
           active: _.isUndefined(activeKey) ? active : _.isEqual(activeKey, eventKey)
         };
       } else if (displayName === 'Dropdown') {
         return {
+          ...rest,
           onSelect,
           activeKey,
           componentClass: 'li',

@@ -223,7 +223,7 @@ class Dropdown extends React.Component<Props, State> {
       </DropdownMenu>
     );
 
-    if (isOpen && !sidenav) {
+    if (isOpen) {
       Menu = <RootCloseWrapper onRootClose={this.toggle}>{Menu}</RootCloseWrapper>;
     }
 

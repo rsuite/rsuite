@@ -160,7 +160,7 @@ class Form extends React.Component<Props, State> {
       classPrefix,
       addPrefix(layout),
       className,
-      addPrefix(fluid ? 'fluid' : 'fixed-width')
+      addPrefix(fluid && layout === 'vertical' ? 'fluid' : 'fixed-width')
     );
     const unhandled = getUnhandledProps(Form, props);
 
