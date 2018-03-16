@@ -26,7 +26,9 @@ class Divider extends React.Component<Props> {
 
     const addPrefix = prefix(classPrefix);
     const clesses = classNames(classPrefix, className, {
-      [addPrefix('vertical')]: vertical
+      [addPrefix('vertical')]: vertical,
+      [addPrefix('horizontal')]: !vertical,
+      [addPrefix('with-text')]: !!children
     });
 
     return (
