@@ -10,7 +10,6 @@ import NavItem from './NavItem';
 import { prefix, getUnhandledProps, defaultProps, ReactChildren } from './utils';
 import { globalKey } from './utils/prefix';
 
-
 type Props = {
   classPrefix: string,
   className?: string,
@@ -74,7 +73,7 @@ class Nav extends React.Component<Props> {
     const hasWaterline = appearance !== 'default';
 
     const items = ReactChildren.mapCloneElement(children, item => {
-      let { eventKey, active } = item.props;
+      let { eventKey, active, placement } = item.props;
       let displayName = _.get(item, ['type', 'displayName']);
 
       if (displayName === 'NavItem') {
@@ -89,7 +88,7 @@ class Nav extends React.Component<Props> {
           activeKey,
           componentClass: 'li',
           trigger: 'hover',
-          placement: sidenav ? 'rightBottom' : undefined
+          placement: sidenav ? 'rightBottom' : placement
         };
       }
 

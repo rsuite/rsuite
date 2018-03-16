@@ -34,7 +34,6 @@ class Navbar extends React.Component<Props> {
 
   render() {
     const { className, componentClass: Component, classPrefix, appearance, ...props } = this.props;
-
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, addPrefix(appearance), className);
 
