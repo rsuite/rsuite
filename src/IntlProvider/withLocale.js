@@ -2,6 +2,7 @@ import { createFactory, Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { setDisplayName, wrapDisplayName } from 'recompose';
+import enGB from './locales/en_GB';
 
 const mergeObject = (list: Array<Object>) =>
   list.reduce((a, b) => {
@@ -17,11 +18,12 @@ const withLocale = (combineKeys: Array<string> = []) => BaseComponent => {
 
   class WithLocale extends Component {
     static contextTypes = {
-      locale: PropTypes.object
+      rsuiteLocale: PropTypes.object
     };
 
     render() {
-      const locales = combineKeys.map(key => _.get(this.context, `locale.${key}`));
+      const messages = this.context.rsuiteLocale || enGB;
+      const locales = combineKeys.map(key => _.get(messages, `${key}`));
 
       return factory({
         locale: mergeObject(locales),
