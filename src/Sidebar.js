@@ -3,12 +3,13 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import setDisplayName from 'recompose/setDisplayName';
-import { defaultProps } from './utils';
+import { defaultProps, prefix } from './utils';
 
 type Props = {
   className?: string,
   classPrefix?: string,
-  width: number,
+  width: number | string,
+  collapsible?: boolean,
   style?: Object
 };
 
@@ -17,14 +18,15 @@ class Sidebar extends React.Component<Props> {
     width: 260
   };
   render() {
-    const { className, classPrefix, width, style, ...props } = this.props;
-    const classes = classNames(classPrefix, className);
+    const { className, classPrefix, collapsible, width, style, ...props } = this.props;
+    const addPrefix = prefix(classPrefix);
+    const classes = classNames(classPrefix, className, {
+      [addPrefix('collapse')]: collapsible
+    });
 
     const styles = {
       flex: `0 0 ${width}px`,
-      maxWidth: `${width}px`,
-      minWidth: `${width}px`,
-      width: `${width}px`,
+      width,
       ...style
     };
     return <div {...props} className={classes} style={styles} />;
