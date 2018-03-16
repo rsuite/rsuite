@@ -12,6 +12,7 @@ import { defaultClassPrefix } from './utils/prefix';
 type Props = {
   className?: string,
   layout?: 'horizontal' | 'vertical' | 'inline',
+  fluid?: boolean,
   formValue?: Object,
   formDefaultValue?: Object,
   formError?: Object,
@@ -153,9 +154,14 @@ class Form extends React.Component<Props, State> {
   };
 
   render() {
-    const { layout, classPrefix, className, ...props } = this.props;
+    const { layout, classPrefix, fluid, className, ...props } = this.props;
     const addPrefix = prefix(classPrefix);
-    const clesses = classNames(classPrefix, addPrefix(layout), className);
+    const clesses = classNames(
+      classPrefix,
+      addPrefix(layout),
+      className,
+      addPrefix(fluid ? 'fluid' : 'fixed-width')
+    );
     const unhandled = getUnhandledProps(Form, props);
 
     return <form {...unhandled} onSubmit={e => e.preventDefault()} className={clesses} />;

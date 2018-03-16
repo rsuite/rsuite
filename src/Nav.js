@@ -87,7 +87,6 @@ class Nav extends React.Component<Props> {
           onSelect,
           activeKey,
           componentClass: 'li',
-          trigger: 'hover',
           placement: sidenav ? 'rightBottom' : placement
         };
       }
