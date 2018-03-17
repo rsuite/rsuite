@@ -16,7 +16,7 @@ type Props = {
   defaultChecked?: boolean,
   indeterminate?: boolean,
   onChange?: (value: any, checked: boolean, event: SyntheticInputEvent<HTMLInputElement>) => void,
-  inputRef?: React.Ref<any>,
+  inputRef?: React.ElementRef<*>,
   value?: any,
   children?: React.Node,
   classPrefix?: string,

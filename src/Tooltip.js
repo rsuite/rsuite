@@ -21,6 +21,7 @@ type Props = {
   placement?: PlacementFourSides | PlacementEightPoints,
   positionLeft?: number,
   positionTop?: number,
+  visible?: boolean,
   classPrefix?: string,
   className?: string,
   style?: Object,
@@ -43,6 +44,7 @@ class Tooltip extends React.Component<Props> {
       classPrefix,
       children,
       style,
+      visible,
       onMouseLeave,
       onMouseEnter
     } = this.props;
@@ -56,6 +58,7 @@ class Tooltip extends React.Component<Props> {
     const styles = {
       left: positionLeft,
       top: positionTop,
+      opacity: visible ? 1 : undefined,
       ...style
     };
 

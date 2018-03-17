@@ -201,14 +201,14 @@ class Modal extends React.Component<Props, State> {
       size,
       full,
       dialogComponentClass,
-      ...props
+      ...rest
     } = this.props;
 
     const { modalStyles, bodyStyles } = this.state;
     const inClass = { in: show && !animation };
     const Dialog: React.ElementType = dialogComponentClass;
 
-    const parentProps = _.pick(props, BaseModal.handledProps);
+    const parentProps = _.pick(rest, BaseModal.handledProps);
     let items = null;
 
     if (children) {
@@ -229,13 +229,13 @@ class Modal extends React.Component<Props, State> {
 
     const modal = (
       <Dialog
-        {..._.pick(props, Object.keys(ModalDialog.propTypes || {}))}
+        {..._.pick(rest, Object.keys(ModalDialog.propTypes || {}))}
         style={{ ...modalStyles, ...style }}
         classPrefix={classPrefix}
         className={classes}
         dialogClassName={dialogClassName}
         dialogStyle={dialogStyle}
-        onClick={props.backdrop === true ? this.handleDialogClick : null}
+        onClick={rest.backdrop === true ? this.handleDialogClick : null}
         ref={ref => {
           this.dialog = ref;
         }}
@@ -253,7 +253,9 @@ class Modal extends React.Component<Props, State> {
         onEntering={this.handleShow}
         onExited={this.handleHide}
         backdropClassName={classNames(this.addPrefix('backdrop'), backdropClassName, inClass)}
-        containerClassName={this.addPrefix('open')}
+        containerClassName={classNames(this.addPrefix('open'), {
+          [this.addPrefix('has-backdrop')]: rest.backdrop
+        })}
         transition={animation ? Fade : undefined}
         dialogTransitionTimeout={TRANSITION_DURATION}
         backdropTransitionTimeout={BACKDROP_TRANSITION_DURATION}

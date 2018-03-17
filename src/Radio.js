@@ -15,7 +15,7 @@ type Props = {
   disabled?: boolean,
   checked?: boolean,
   defaultChecked?: boolean,
-  inputRef?: React.Ref<any>,
+  inputRef?: React.ElementRef<any>,
   children?: React.Node,
   className?: string,
   classPrefix?: string,

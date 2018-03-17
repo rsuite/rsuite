@@ -23,6 +23,7 @@ type Props = {
   children?: React.Node,
   title?: React.Node,
   style?: Object,
+  visible?: boolean,
   className?: string,
   onMouseLeave?: (event: SyntheticEvent<*>) => void,
   onMouseEnter?: (event: SyntheticEvent<*>) => void
@@ -38,6 +39,7 @@ class Popover extends React.Component<Props> {
       title,
       children,
       style,
+      visible,
       placement,
       className,
       onMouseLeave,
@@ -54,6 +56,7 @@ class Popover extends React.Component<Props> {
 
     const styles = {
       display: 'block',
+      opacity: visible ? 1 : undefined,
       ...style
     };
 
