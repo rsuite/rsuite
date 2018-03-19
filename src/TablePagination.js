@@ -104,7 +104,6 @@ class TablePagination extends React.Component<Props, State> {
   };
 
   handleChangePage = (eventKey: any) => {
-    console.log('eventKey', eventKey);
     const { onChangePage } = this.props;
     this.setState({
       activePage: eventKey

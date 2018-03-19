@@ -12,9 +12,6 @@ const mergeObject = (list: Array<Object>) =>
 
 const withLocale = (combineKeys: Array<string> = []) => BaseComponent => {
   const factory = createFactory(BaseComponent);
-  const componentName = BaseComponent.prototype.constructor.name;
-
-  combineKeys.push(componentName);
 
   class WithLocale extends Component {
     static contextTypes = {

@@ -2,8 +2,6 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import _ from 'lodash';
-
 import { defaultProps, prefix } from './utils';
 import type { SVGIcon } from './utils/TypeDefinition';
 
@@ -42,8 +40,7 @@ class Icon extends React.Component<Props> {
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
-    const isSvgIcon =
-      typeof icon === 'object' && _.get(icon, ['constructor', 'name']) === 'BrowserSpriteSymbol';
+    const isSvgIcon = typeof icon === 'object' && icon.id && icon.viewBox;
 
     const classes = classNames(classPrefix, className, {
       [addPrefix(icon)]: !isSvgIcon,
@@ -56,11 +53,12 @@ class Icon extends React.Component<Props> {
       [addPrefix(`stack-${stack || ''}`)]: stack
     });
 
-    if (isSvgIcon && typeof icon === 'object') {
+    if (isSvgIcon) {
+      const svgIcon: any = icon;
       return (
         <Component {...props} className={classes}>
-          <svg style={svgStyle} viewBox={icon.viewBox}>
-            <use xlinkHref={`#${icon.id}`} />
+          <svg style={svgStyle} viewBox={svgIcon.viewBox}>
+            <use xlinkHref={`#${svgIcon.id}`} />
           </svg>
         </Component>
       );
