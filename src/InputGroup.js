@@ -15,6 +15,7 @@ type Props = {
   className?: string,
   classPrefix: string,
   inside?: boolean,
+  disabled?: boolean,
   children?: React.Node
 };
 
@@ -50,13 +51,13 @@ class InputGroup extends React.Component<Props, State> {
   };
 
   render() {
-    const { className, classPrefix, inside, ...props } = this.props;
+    const { className, classPrefix, disabled, inside, ...props } = this.props;
     const { focus } = this.state;
-
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, className, {
       [addPrefix('inside')]: inside,
-      [addPrefix('focus')]: focus
+      [addPrefix('focus')]: focus,
+      [addPrefix('disabled')]: disabled
     });
 
     return <div {...props} className={classes} />;

@@ -153,12 +153,10 @@ class InputNumber extends React.Component<Props, State> {
 
     const value = this.getValue();
     const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, className, {
-      [addPrefix('disabled')]: disabled
-    });
+    const classes = classNames(classPrefix, className);
 
     return (
-      <InputGroup className={classes}>
+      <InputGroup className={classes} disabled={disabled}>
         {prefixElement && <InputGroup.Addon>{prefixElement}</InputGroup.Addon>}
         <Input
           type="number"
