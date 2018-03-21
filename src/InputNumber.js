@@ -9,7 +9,7 @@ import Input from './Input';
 import Button from './Button';
 import Icon from './Icon';
 
-import { prefix, defaultProps, isNullOrUndefined } from './utils';
+import { prefix, defaultProps, isNullOrUndefined, getUnhandledProps } from './utils';
 
 type Props = {
   className?: string,
@@ -149,15 +149,24 @@ class InputNumber extends React.Component<Props, State> {
   }
 
   render() {
-    const { disabled, size, prefix: prefixElement, postfix, className, classPrefix } = this.props;
+    const {
+      disabled,
+      size,
+      prefix: prefixElement,
+      postfix,
+      className,
+      classPrefix,
+      ...rest
+    } = this.props;
     const { disabledUpButton, disabledDownButton } = this.state;
 
     const value = this.getValue();
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, className);
+    const unhandled = getUnhandledProps(InputNumber, rest);
 
     return (
-      <InputGroup className={classes} disabled={disabled} size={size}>
+      <InputGroup {...unhandled} className={classes} disabled={disabled} size={size}>
         {prefixElement && <InputGroup.Addon>{prefixElement}</InputGroup.Addon>}
         <Input
           type="number"
