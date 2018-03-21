@@ -22,6 +22,7 @@ type Props = {
   prefix?: React.Node,
   postfix?: React.Node,
   disabled?: boolean,
+  size?: 'lg' | 'md' | 'sm' | 'xs',
   onChange?: (value: number | null, event?: SyntheticEvent<*>) => void
 };
 
@@ -148,7 +149,7 @@ class InputNumber extends React.Component<Props, State> {
   }
 
   render() {
-    const { disabled, prefix: prefixElement, postfix, className, classPrefix } = this.props;
+    const { disabled, size, prefix: prefixElement, postfix, className, classPrefix } = this.props;
     const { disabledUpButton, disabledDownButton } = this.state;
 
     const value = this.getValue();
@@ -156,7 +157,7 @@ class InputNumber extends React.Component<Props, State> {
     const classes = classNames(classPrefix, className);
 
     return (
-      <InputGroup className={classes} disabled={disabled}>
+      <InputGroup className={classes} disabled={disabled} size={size}>
         {prefixElement && <InputGroup.Addon>{prefixElement}</InputGroup.Addon>}
         <Input
           type="number"
