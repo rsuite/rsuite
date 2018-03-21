@@ -69,13 +69,8 @@ class InputNumber extends React.Component<Props, State> {
     };
   }
   getValue() {
-    const { value } = this.state;
-
-    if (typeof this.props.value !== 'undefined') {
-      return this.props.value;
-    }
-
-    return value;
+    const { value } = this.props;
+    return _.isUndefined(value) ? this.state.value : value;
   }
   setButtonStatus(disabledUpButton: boolean, disabledDownButton: boolean) {
     this.setState({
@@ -84,7 +79,7 @@ class InputNumber extends React.Component<Props, State> {
     });
   }
   handleOnChange = (value: string, event: SyntheticInputEvent<*>) => {
-    if (!/^-?(?:\d+)(?:\.\d+)?$/.test(value)) {
+    if (!/^-?(?:\d+)(?:\.\d+)?$/.test(value) && value !== '') {
       return;
     }
 
@@ -154,12 +149,13 @@ class InputNumber extends React.Component<Props, State> {
 
   render() {
     const { disabled, prefix: prefixElement, postfix, className, classPrefix } = this.props;
-
     const { disabledUpButton, disabledDownButton } = this.state;
 
     const value = this.getValue();
     const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, className);
+    const classes = classNames(classPrefix, className, {
+      [addPrefix('disabled')]: disabled
+    });
 
     return (
       <InputGroup className={classes}>
