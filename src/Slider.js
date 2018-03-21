@@ -50,7 +50,7 @@ class Slider extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      value: this.checkValue(props.value || props.defaultValue),
+      value: this.checkValue(props.defaultValue),
       barWidth: 0,
       barHeight: 0,
       barOffset: {}
@@ -60,14 +60,6 @@ class Slider extends React.Component<Props, State> {
   componentDidMount() {
     this.updateBar();
     this.onWindowResizeListener = on(window, 'resize', _.debounce(this.handleWindowResize, 100));
-  }
-
-  componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.value !== this.props.value) {
-      this.setState({
-        value: nextProps.value
-      });
-    }
   }
 
   componentWillUnmount() {
@@ -86,6 +78,11 @@ class Slider extends React.Component<Props, State> {
   getSplitCount() {
     const { max, min, step } = this.props;
     return (max - min) / step;
+  }
+
+  getValue() {
+    const { value } = this.props;
+    return _.isUndefined(value) ? this.state.value : this.checkValue(value);
   }
 
   setValue(value: number) {
@@ -221,7 +218,8 @@ class Slider extends React.Component<Props, State> {
   renderGraduated() {
     const { vertical, step, max, min } = this.props;
     const count = this.getSplitCount();
-    const { barHeight, value } = this.state;
+    const { barHeight } = this.state;
+    const value = this.getValue();
     const graduatedItems = [];
     const pass = value / step - min / step;
     const active = Math.ceil((value - min) / (max - min) * count);
@@ -251,7 +249,8 @@ class Slider extends React.Component<Props, State> {
 
   renderHanlde() {
     const { handleClassName, handleTitle, max, min, vertical, tooltip, hanldeStyle } = this.props;
-    const { value, handleDown } = this.state;
+    const { handleDown } = this.state;
+    const value = this.getValue();
 
     const direction = vertical ? 'top' : 'left';
     const style = {
@@ -284,7 +283,7 @@ class Slider extends React.Component<Props, State> {
 
   renderProgress() {
     const { vertical, max, min } = this.props;
-    const { value } = this.state;
+    const value = this.getValue();
     const key = vertical ? 'height' : 'width';
     const style = {
       [key]: `${(value - min) / (max - min) * 100}%`
