@@ -86,4 +86,4 @@ export Footer from './Footer';
 export Schema from './Schema';
 export Animation from './Animation';
 export IntlProvider from './IntlProvider';
-
+export Portal from './Portal';
