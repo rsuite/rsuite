@@ -1,8 +1,8 @@
 export const STATUS_ICON_NAMES = {
-  info: 'info2',
-  success: 'ok-circle',
+  info: 'info',
+  success: 'check-circle',
   error: 'close-circle',
-  warning: 'warning'
+  warning: 'remind'
 };
 
 export const SIZE = ['lg', 'md', 'sm', 'xs'];

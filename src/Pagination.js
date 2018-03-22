@@ -3,9 +3,9 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { compose } from 'recompose';
-
 import PaginationButton from './PaginationButton';
 import SafeAnchor from './SafeAnchor';
+import Icon from './Icon';
 
 import withLocale from './IntlProvider/withLocale';
 import { withStyleProps, defaultProps, getUnhandledProps } from './utils';
@@ -151,7 +151,7 @@ class Pagination extends React.Component<Props> {
       disabled: activePage === 1,
       children: (
         <span aria-label="Previous" title={locale.prev}>
-          {prev === true ? '\u2039' : prev}
+          {prev === true ? <Icon icon="page-previous" /> : prev}
         </span>
       )
     });
@@ -169,7 +169,7 @@ class Pagination extends React.Component<Props> {
       disabled: activePage >= pages,
       children: (
         <span aria-label="Next" title={locale.next}>
-          {next === true ? '\u203a' : next}
+          {next === true ? <Icon icon="page-next" /> : next}
         </span>
       )
     });
@@ -188,7 +188,7 @@ class Pagination extends React.Component<Props> {
       disabled: activePage === 1,
       children: (
         <span aria-label="First" title={locale.first}>
-          {first === true ? '\u00ab' : first}
+          {first === true ? <Icon icon="page-top" /> : first}
         </span>
       )
     });
@@ -206,7 +206,7 @@ class Pagination extends React.Component<Props> {
       disabled: activePage >= pages,
       children: (
         <span aria-label="Last" title={locale.last}>
-          {last === true ? '\u00bb' : last}
+          {last === true ? <Icon icon="page-end" /> : last}
         </span>
       )
     });
