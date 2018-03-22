@@ -82,7 +82,7 @@ class Slider extends React.Component<Props, State> {
 
   getValue() {
     const { value } = this.props;
-    return _.isUndefined(value) ? this.state.value : this.checkValue(value);
+    return typeof value === 'undefined' ? this.state.value : this.checkValue(value);
   }
 
   setValue(value: number) {

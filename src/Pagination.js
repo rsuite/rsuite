@@ -9,6 +9,7 @@ import Icon from './Icon';
 
 import withLocale from './IntlProvider/withLocale';
 import { withStyleProps, defaultProps, getUnhandledProps } from './utils';
+import { PAGINATION_ICON_NAMES } from './utils/constants';
 
 type Locale = {
   more?: string,
@@ -99,7 +100,11 @@ class Pagination extends React.Component<Props> {
         this.renderItem({
           key: 'ellipsisFirst',
           disabled: true,
-          children: <span aria-label="More">{ellipsis === true ? '\u2026' : ellipsis}</span>
+          children: (
+            <span aria-label="More">
+              {ellipsis === true ? <Icon icon={PAGINATION_ICON_NAMES.more} /> : ellipsis}
+            </span>
+          )
         })
       );
 
@@ -119,7 +124,7 @@ class Pagination extends React.Component<Props> {
           disabled: true,
           children: (
             <span aria-label="More" title={locale.more}>
-              {ellipsis === true ? '\u2026' : ellipsis}
+              {ellipsis === true ? <Icon icon={PAGINATION_ICON_NAMES.more} /> : ellipsis}
             </span>
           )
         })
@@ -151,7 +156,7 @@ class Pagination extends React.Component<Props> {
       disabled: activePage === 1,
       children: (
         <span aria-label="Previous" title={locale.prev}>
-          {prev === true ? <Icon icon="page-previous" /> : prev}
+          {prev === true ? <Icon icon={PAGINATION_ICON_NAMES.prev} /> : prev}
         </span>
       )
     });
@@ -169,7 +174,7 @@ class Pagination extends React.Component<Props> {
       disabled: activePage >= pages,
       children: (
         <span aria-label="Next" title={locale.next}>
-          {next === true ? <Icon icon="page-next" /> : next}
+          {next === true ? <Icon icon={PAGINATION_ICON_NAMES.next} /> : next}
         </span>
       )
     });
@@ -188,7 +193,7 @@ class Pagination extends React.Component<Props> {
       disabled: activePage === 1,
       children: (
         <span aria-label="First" title={locale.first}>
-          {first === true ? <Icon icon="page-top" /> : first}
+          {first === true ? <Icon icon={PAGINATION_ICON_NAMES.first} /> : first}
         </span>
       )
     });
@@ -206,7 +211,7 @@ class Pagination extends React.Component<Props> {
       disabled: activePage >= pages,
       children: (
         <span aria-label="Last" title={locale.last}>
-          {last === true ? <Icon icon="page-end" /> : last}
+          {last === true ? <Icon icon={PAGINATION_ICON_NAMES.last} /> : last}
         </span>
       )
     });

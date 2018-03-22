@@ -84,4 +84,6 @@ export Footer from './Footer';
 // Utils
 
 export Schema from './Schema';
+export Animation from './Animation';
 export IntlProvider from './IntlProvider';
+

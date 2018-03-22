@@ -52,8 +52,9 @@ class Form extends React.Component<Props, State> {
     };
   }
   getChildContext() {
-    const { formDefaultValue, formValue, model, checkTrigger } = this.props;
-    const { formError } = this.state;
+    const { formDefaultValue, model, checkTrigger } = this.props;
+    const formValue = this.getFormValue();
+    const formError = this.getFormError();
     return {
       form: {
         onFieldChange: this.handleFieldChange,
@@ -67,18 +68,16 @@ class Form extends React.Component<Props, State> {
       }
     };
   }
-
-  componentWillReceiveProps(nextProps: Props) {
-    if (!_.isEqual(nextProps.formError, this.props.formError)) {
-      this.setState({
-        formError: nextProps.formError
-      });
-    }
-  }
   getFormValue() {
     const { formValue } = this.props;
     return _.isUndefined(formValue) ? this.state.formValue : formValue;
   }
+
+  getFormError() {
+    const { formError } = this.props;
+    return _.isUndefined(formError) ? this.state.formError : formError;
+  }
+
   /**
    * public APIs
    */
