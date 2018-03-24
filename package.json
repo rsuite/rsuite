@@ -34,7 +34,7 @@
   ],
   "dependencies": {
     "classnames": ">=2.0.0",
-    "dom-lib": "^0.2.5",
+    "dom-lib": "^1.0.0-beta.1",
     "form-lib": "^3.0.0-next",
     "lodash": "^4.11.1",
     "prop-types": "^15.6.0",
@@ -70,7 +70,6 @@
     "babel-plugin-transform-react-flow-handled-props": "^0.1.7",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
-    "babel-preset-flow": "^6.23.0",
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-0": "^6.5.0",
     "brfs": "^1.4.3",
