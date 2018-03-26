@@ -52,8 +52,7 @@ class Form extends React.Component<Props, State> {
     };
   }
   getChildContext() {
-    const { formDefaultValue, model, checkTrigger } = this.props;
-    const formValue = this.getFormValue();
+    const { formDefaultValue, formValue, model, checkTrigger } = this.props;
     const formError = this.getFormError();
     return {
       form: {
