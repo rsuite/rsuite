@@ -46,6 +46,7 @@ module.exports = {
     'no-unused-expressions': [ERROR, { allowShortCircuit: true }],
     'arrow-parens': [ERROR, 'as-needed'],
     'no-mixed-operators': OFF,
+    'react/no-find-dom-node': OFF,
     /**
      * https://github.com/airbnb/javascript/tree/master/react
      */

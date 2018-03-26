@@ -103,6 +103,7 @@
     "output-file-sync": "^1.1.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-test-renderer": "^16.2.0",
     "rimraf": "^2.5.2",
     "sinon": "^2.3.8",
     "sinon-chai": "^2.12.0",

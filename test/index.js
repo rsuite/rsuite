@@ -1,7 +1,7 @@
-/* eslint-disable */
 require('babel-polyfill');
 
-const addPrefix = (name) => `${globalKey}${name}`;
+function importAll(r) {
+  r.keys().forEach(r);
+}
 
-const testsContext = require.context('.', true, /Spec.js$/);
-testsContext.keys().forEach(testsContext);
+importAll(require.context('.', true, /Spec.js$/));
