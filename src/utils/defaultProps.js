@@ -1,3 +1,6 @@
+// @flow
+
+import * as React from 'react';
 import defaultProps from 'recompose/defaultProps';
 import { globalKey } from './prefix';
 
@@ -6,7 +9,7 @@ type Props = {
   componentClass?: React.ElementType
 };
 
-export default (props: Props) => {
+export default (props: Props): any => {
   const { classPrefix, ...rest } = props;
   return defaultProps({
     classPrefix: classPrefix ? `${globalKey}${classPrefix}` : undefined,

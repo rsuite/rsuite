@@ -46,7 +46,9 @@ class BreadcrumbItem extends React.Component<Props> {
   }
 }
 
-export default defaultProps({
+const enhance = defaultProps({
   classPrefix: 'breadcrumb-item',
   componentClass: SafeAnchor
-})(BreadcrumbItem);
+});
+
+export default enhance(BreadcrumbItem);

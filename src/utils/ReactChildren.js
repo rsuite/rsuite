@@ -1,11 +1,10 @@
 import * as React from 'react';
 
-
 export function find(children, func, context) {
   let index = 0;
   let result;
 
-  React.Children.forEach(children, (child) => {
+  React.Children.forEach(children, child => {
     if (result) {
       return;
     }
@@ -20,7 +19,7 @@ export function find(children, func, context) {
 
 export function map(children, func, context) {
   let index = 0;
-  return React.Children.map(children, (child) => {
+  return React.Children.map(children, child => {
     if (!React.isValidElement(child)) {
       return child;
     }
@@ -31,19 +30,22 @@ export function map(children, func, context) {
 }
 
 export function mapCloneElement(children, func, context) {
-  return map(children, (child, index) => (
-    React.cloneElement(child, {
-      key: index,
-      ...func(child, index)
-    })
-  ), context);
+  return map(
+    children,
+    (child, index) =>
+      React.cloneElement(child, {
+        key: index,
+        ...func(child, index)
+      }),
+    context
+  );
 }
 
 function some(children, func, context) {
   let index = 0;
   let result = false;
 
-  React.Children.forEach(children, (child) => {
+  React.Children.forEach(children, child => {
     if (result) {
       return;
     }
@@ -52,14 +54,13 @@ function some(children, func, context) {
     }
 
     /* eslint-disable */
-    if (func.call(context, child, index += 1)) {
+    if (func.call(context, child, (index += 1))) {
       result = true;
     }
   });
 
   return result;
 }
-
 
 export default {
   mapCloneElement,

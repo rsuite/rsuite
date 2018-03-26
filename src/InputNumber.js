@@ -156,6 +156,7 @@ class InputNumber extends React.Component<Props, State> {
       postfix,
       className,
       classPrefix,
+      step,
       ...rest
     } = this.props;
     const { disabledUpButton, disabledDownButton } = this.state;
@@ -170,6 +171,7 @@ class InputNumber extends React.Component<Props, State> {
         {prefixElement && <InputGroup.Addon>{prefixElement}</InputGroup.Addon>}
         <Input
           type="number"
+          step={step}
           onChange={this.handleOnChange}
           onBlur={this.handleBlur}
           value={isNullOrUndefined(value) ? '' : value}
@@ -184,14 +186,14 @@ class InputNumber extends React.Component<Props, State> {
             onClick={this.handlePlus}
             disabled={disabledUpButton || disabled}
           >
-            <Icon icon="chevron-up" />
+            <Icon icon="arrow-up-line" />
           </Button>
           <Button
             className={addPrefix('touchspin-down')}
             onClick={this.handleMinus}
             disabled={disabledDownButton || disabled}
           >
-            <Icon icon="chevron-down" />
+            <Icon icon="arrow-down-line" />
           </Button>
         </span>
       </InputGroup>

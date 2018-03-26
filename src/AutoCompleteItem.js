@@ -11,7 +11,6 @@ type Props = {
   onSelect?: (value: any, event: SyntheticEvent<*>) => void,
   onKeyDown?: (event: SyntheticKeyboardEvent<*>) => void,
   focus?: boolean,
-  title?: string,
   className?: string,
   children?: React.Node,
   renderItem?: (itemValue: string) => React.Node

@@ -55,8 +55,8 @@ type Props = {
   headers?: Object,
   locale?: Object,
   listType: 'text' | 'picture-text' | 'picture',
-
   shouldQueueUpdate?: (fileList: Array<FileType>, newFile: Array<FileType> | FileType) => boolean,
+  shouldUpload?: (file: FileType) => boolean,
   onChange?: (fileList: Array<FileType>) => void,
   onUpload?: (file: FileType) => void,
   onReupload?: (file: FileType) => void,
@@ -147,8 +147,13 @@ class Uploader extends React.Component<Props, State> {
   };
 
   handleAjaxUpload() {
+    const { shouldUpload } = this.props;
     const fileList = this.getFileList();
     fileList.forEach(file => {
+      if (shouldUpload && shouldUpload(file) === false) {
+        return;
+      }
+
       if (file.status === 'inited') {
         this.handleUploadFile(file);
       }
