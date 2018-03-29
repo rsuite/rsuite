@@ -168,6 +168,7 @@ class TablePagination extends React.Component<Props, State> {
 
         <div className={classNames(this.addPrefix('pagination'))}>
           <Pagination
+            size="xs"
             prev={prev}
             next={next}
             first={first}
