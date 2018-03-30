@@ -8,10 +8,10 @@ import { STATUS_ICON_NAMES } from './utils/constants';
 
 function appendIcon(type: string, content: string) {
   return (
-    <p>
+    <div>
       <Icon icon={STATUS_ICON_NAMES[type]} />
       {content}
-    </p>
+    </div>
   );
 }
 

@@ -21,6 +21,7 @@ type PlacementEightPoints =
   | 'rightTop'
   | 'leftBottom'
   | 'rightBottom';
+
 type Props = {
   data: Array<string>,
   disabled?: boolean,
@@ -34,6 +35,7 @@ type Props = {
   onFocus?: (event: DefaultEvent) => void,
   onBlur?: (event: DefaultEvent) => void,
   renderItem?: (itemValue: string) => React.Node,
+  style?: Object,
   open?: boolean
 };
 
@@ -257,6 +259,7 @@ class AutoComplete extends React.Component<Props, State> {
       placement,
       data,
       open,
+      style,
       ...rest
     } = this.props;
 
@@ -269,7 +272,7 @@ class AutoComplete extends React.Component<Props, State> {
     const hasItems = data.filter(this.shouldDisplay).length > 0;
 
     return (
-      <div className={classes}>
+      <div className={classes} style={style}>
         <OverlayTrigger
           ref={ref => {
             this.trigger = ref;

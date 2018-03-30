@@ -234,10 +234,6 @@ class Uploader extends React.Component<Props, State> {
     onReupload && onReupload(file);
   };
 
-  input: any;
-  progressTimer: IntervalID;
-  xhrs = {};
-
   updateFileList(nextFile: Object, callback?: () => void) {
     const fileList = this.getFileList();
     const nextFileList = fileList.map(
@@ -262,6 +258,9 @@ class Uploader extends React.Component<Props, State> {
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
+  input: any;
+  progressTimer: IntervalID;
+  xhrs = {};
   uploadTrigger = null;
 
   renderFileItems() {

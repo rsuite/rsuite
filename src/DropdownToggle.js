@@ -18,7 +18,6 @@ type Props = {
 class DorpdownToggle extends React.Component<Props> {
   render() {
     const { className, classPrefix, renderTitle, children, icon, ...props } = this.props;
-
     const addPrefix = prefix(classPrefix);
 
     if (renderTitle) {

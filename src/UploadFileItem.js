@@ -5,7 +5,7 @@ import { FormattedMessage } from 'rsuite-intl';
 import classNames from 'classnames';
 import _ from 'lodash';
 
-import { previewFile, defaultProps, prefix } from './utils';
+import { previewFile, defaultProps, getUnhandledProps, prefix } from './utils';
 
 type FileType = {
   fileKey: number | string,
@@ -212,11 +212,12 @@ class UploadFileItem extends React.Component<Props, State> {
   }
 
   render() {
-    const { disabled, file, classPrefix, listType, className } = this.props;
-    const classes = classNames(classPrefix, className, {
+    const { disabled, file, classPrefix, listType, className, ...rest } = this.props;
+    const classes = classNames(classPrefix, className, this.addPrefix(listType), {
       [this.addPrefix('has-error')]: file.status === 'error',
       [this.addPrefix('disabled')]: disabled
     });
+    const unhandled = getUnhandledProps(UploadFileItem, rest);
 
     if (listType === 'picture') {
       return (
@@ -242,7 +243,7 @@ class UploadFileItem extends React.Component<Props, State> {
     }
 
     return (
-      <div className={classes}>
+      <div {...unhandled} className={classes}>
         {this.renderLoading()}
         {this.renderFilePanel()}
         {this.renderProgressBar()}

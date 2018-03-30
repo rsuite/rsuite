@@ -60,7 +60,7 @@ class Col extends React.Component<Props> {
       let push = getPropValue(`${size}Push`);
       let pull = getPropValue(`${size}Pull`);
 
-      classes[`hidden-${size}`] = hidden;
+      classes[addPrefix(`hidden-${size}`)] = hidden;
       classes[addPrefix(`${size}-${col}`)] = col >= 0;
       classes[addPrefix(`${size}-offset-${offset}`)] = offset >= 0;
       classes[addPrefix(`${size}-push-${push}`)] = push >= 0;

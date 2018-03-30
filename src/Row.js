@@ -52,7 +52,7 @@ class Row extends React.Component<Props> {
     }
 
     return (
-      <Component {...props} className={classes}>
+      <Component {...props} className={classes} style={style}>
         {children}
       </Component>
     );

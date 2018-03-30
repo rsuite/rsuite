@@ -43,7 +43,7 @@ class DropdownMenu extends React.Component<Props> {
 
     const { activeKey, onSelect, classPrefix, openKeys = [] } = this.props;
     const items = React.Children.map(children, (item, index) => {
-      let displayName: string = _.get(item, ['type', 'displayName']);
+      const displayName: string = _.get(item, ['type', 'displayName']);
       let active: boolean;
 
       if (displayName === 'DropdownMenuItem' || displayName === 'DropdownMenu') {
@@ -61,7 +61,7 @@ class DropdownMenu extends React.Component<Props> {
           onSelect: createChainedFunction(onSelect, onItemSelect)
         });
       } else if (displayName === 'DropdownMenu') {
-        let itemsAndStatus = this.getMenuItemsAndStatus(item.props.children);
+        const itemsAndStatus = this.getMenuItemsAndStatus(item.props.children);
         const { icon, open, trigger, pullLeft, eventKey, title } = item.props;
         const expanded = openKeys.some(key => _.isEqual(key, eventKey));
 
