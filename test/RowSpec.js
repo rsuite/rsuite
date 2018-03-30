@@ -2,34 +2,48 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
-
 import Row from '../src/Row';
 
 describe('Row', () => {
-
   it('Should render a row', () => {
-    let title = 'Test';
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Row>{title}</Row>
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Row>
+        <div />
+      </Row>
     );
-    assert.ok(findDOMNode(instance).className.match(/\brow\b/));
-    assert.equal(findDOMNode(instance).innerHTML, title);
+    assert.include(findDOMNode(instance).className, 'rs-row');
+  });
+
+  it('Should render a gutter', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Row gutter={10}>
+        <div />
+      </Row>
+    );
+    const node = findDOMNode(instance);
+
+    assert.equal(node.style.marginLeft, '-5px');
+    assert.equal(node.style.marginRight, '-5px');
+    assert.equal(node.childNodes[0].style.paddingLeft, '5px');
+    assert.equal(node.childNodes[0].style.paddingRight, '5px');
   });
 
   it('Should have a custom className', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Row className="custom" />
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Row className="custom">
+        <div />
+      </Row>
     );
-    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
+    assert.include(findDOMNode(instance).className, 'custom');
   });
-
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Row style={{ fontSize }} />
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Row style={{ fontSize }}>
+        <div />
+      </Row>
     );
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
-
 });

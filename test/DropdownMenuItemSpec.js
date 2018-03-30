@@ -2,65 +2,90 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
-
 import DropdownMenuItem from '../src/DropdownMenuItem';
+import Sidenav from '../src/Sidenav';
+import Icon from '../src/Icon';
+
 import innerText from './innerText';
-import { globalKey } from '../src/utils/prefix';
 
 describe('DropdownMenuItem', () => {
-
   it('Should render a li', () => {
-    let title = 'Test';
-    let instance = ReactTestUtils.renderIntoDocument(
+    const title = 'Test';
+    const instance = ReactTestUtils.renderIntoDocument(
       <DropdownMenuItem>{title}</DropdownMenuItem>
     );
     assert.equal(findDOMNode(instance).tagName, 'LI');
     assert.equal(innerText(findDOMNode(instance)), title);
-
   });
 
   it('Should render a Button', () => {
-    let title = 'Test';
-    let instance = ReactTestUtils.renderIntoDocument(
+    const title = 'Test';
+    const instance = ReactTestUtils.renderIntoDocument(
       <DropdownMenuItem componentClass="button">{title}</DropdownMenuItem>
     );
     assert.equal(findDOMNode(instance).children[0].tagName, 'BUTTON');
     assert.equal(innerText(findDOMNode(instance)), title);
-
   });
 
   it('Should render a divider', () => {
-    let title = 'Test';
-    let instance = ReactTestUtils.renderIntoDocument(
-      <DropdownMenuItem divider />
-    );
-    assert.equal(findDOMNode(instance).className, `${globalKey}dropdown-item-divider`);
+    const instance = ReactTestUtils.renderIntoDocument(<DropdownMenuItem divider />);
+    assert.equal(findDOMNode(instance).className, 'rs-dropdown-item-divider');
+  });
 
+  it('Should render a panel', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<DropdownMenuItem panel />);
+    assert.equal(findDOMNode(instance).className, 'rs-dropdown-item-panel');
   });
 
   it('Should be active', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <DropdownMenuItem active />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bactive\b/));
+    const instance = ReactTestUtils.renderIntoDocument(<DropdownMenuItem active />);
+    assert.include(findDOMNode(instance).className, 'rs-dropdown-item-active');
+  });
 
+  it('Should be open', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<DropdownMenuItem open />);
+    assert.include(findDOMNode(instance).className, 'rs-dropdown-item-open');
+  });
+
+  it('Should be submenu', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<DropdownMenuItem submenu />);
+    assert.include(findDOMNode(instance).className, 'rs-dropdown-item-submenu');
+  });
+
+  it('Should be expanded in `Sidenav`', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Sidenav>
+        <DropdownMenuItem expanded submenu />
+      </Sidenav>
+    );
+    const Item = findDOMNode(instance).querySelector('.rs-dropdown-item');
+    assert.include(Item.className, 'rs-dropdown-item-expand');
   });
 
   it('Should be disabled', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <DropdownMenuItem disabled />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bdisabled\b/));
-
+    const instance = ReactTestUtils.renderIntoDocument(<DropdownMenuItem disabled />);
+    assert.include(findDOMNode(instance).className, 'rs-dropdown-item-disabled');
   });
 
-  it('Should call onSelect callback', (done) => {
-    let doneOp = (eventKey) => {
+  it('Should be `pullLeft`', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<DropdownMenuItem pullLeft />);
+    assert.include(findDOMNode(instance).className, 'rs-dropdown-item-pull-left');
+  });
+
+  it('Should render a icon', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <DropdownMenuItem icon={<Icon icon="user" />} />
+    );
+    assert.ok(findDOMNode(instance).querySelector('.rs-icon-user'));
+  });
+
+  it('Should call onSelect callback', done => {
+    const doneOp = eventKey => {
       if (eventKey === 'ABC') {
         done();
       }
     };
-    let instance = ReactTestUtils.renderIntoDocument(
+    const instance = ReactTestUtils.renderIntoDocument(
       <DropdownMenuItem onSelect={doneOp} eventKey="ABC">
         Title
       </DropdownMenuItem>
@@ -68,33 +93,24 @@ describe('DropdownMenuItem', () => {
     ReactTestUtils.Simulate.click(findDOMNode(instance).children[0]);
   });
 
-  it('Should call onClick callback', (done) => {
-    let doneOp = (eventKey) => {
+  it('Should call onClick callback', done => {
+    const doneOp = () => {
       done();
     };
-    let instance = ReactTestUtils.renderIntoDocument(
-      <DropdownMenuItem onClick={doneOp}>
-        Title
-      </DropdownMenuItem>
+    const instance = ReactTestUtils.renderIntoDocument(
+      <DropdownMenuItem onClick={doneOp}>Title</DropdownMenuItem>
     );
     ReactTestUtils.Simulate.click(findDOMNode(instance).children[0]);
   });
 
-
   it('Should have a custom className', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <DropdownMenuItem className="custom" />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
+    const instance = ReactTestUtils.renderIntoDocument(<DropdownMenuItem className="custom" />);
+    assert.include(findDOMNode(instance).className, 'custom');
   });
-
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    let instance = ReactTestUtils.renderIntoDocument(
-      <DropdownMenuItem style={{ fontSize }} />
-    );
+    const instance = ReactTestUtils.renderIntoDocument(<DropdownMenuItem style={{ fontSize }} />);
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
-
 });

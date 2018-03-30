@@ -6,90 +6,80 @@ import Col from '../src/Col';
 import { globalKey } from '../src/utils/prefix';
 
 describe('Col', () => {
-
   it('Should render a Col', () => {
-    let title = 'Test';
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Col md={1}>{title}</Col>
-    );
+    const title = 'Test';
+    const instance = ReactTestUtils.renderIntoDocument(<Col md={1}>{title}</Col>);
     assert.equal(findDOMNode(instance).className, `${globalKey}col-md-1`);
     assert.equal(findDOMNode(instance).innerHTML, title);
   });
 
   it('Should set col of zero', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Col xs={0} sm={0} md={0} lg={0} />
-    );
+    const instance = ReactTestUtils.renderIntoDocument(<Col xs={0} sm={0} md={0} lg={0} />);
+    const classes = findDOMNode(instance).className;
 
-    let instanceClassName = findDOMNode(instance).className;
-    assert.ok(instanceClassName.match(/\bcol-xs-0\b/));
-    assert.ok(instanceClassName.match(/\bcol-sm-0\b/));
-    assert.ok(instanceClassName.match(/\bcol-md-0\b/));
-    assert.ok(instanceClassName.match(/\bcol-lg-0\b/));
+    assert.include(classes, 'rs-col-xs-0');
+    assert.include(classes, 'rs-col-sm-0');
+    assert.include(classes, 'rs-col-md-0');
+    assert.include(classes, 'rs-col-lg-0');
   });
 
-
   it('Should set Offset of zero', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
+    const instance = ReactTestUtils.renderIntoDocument(
       <Col xsOffset={0} smOffset={0} mdOffset={0} lgOffset={0} />
     );
 
-    let instanceClassName = findDOMNode(instance).className;
-    assert.ok(instanceClassName.match(/\bcol-xs-offset-0\b/));
-    assert.ok(instanceClassName.match(/\bcol-sm-offset-0\b/));
-    assert.ok(instanceClassName.match(/\bcol-md-offset-0\b/));
-    assert.ok(instanceClassName.match(/\bcol-lg-offset-0\b/));
+    const classes = findDOMNode(instance).className;
+
+    assert.include(classes, 'rs-col-xs-offset-0');
+    assert.include(classes, 'rs-col-sm-offset-0');
+    assert.include(classes, 'rs-col-md-offset-0');
+    assert.include(classes, 'rs-col-lg-offset-0');
   });
 
   it('Should set Pull of zero', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
+    const instance = ReactTestUtils.renderIntoDocument(
       <Col xsPull={0} smPull={0} mdPull={0} lgPull={0} />
     );
 
-    let instanceClassName = findDOMNode(instance).className;
-    assert.ok(instanceClassName.match(/\bcol-xs-pull-0\b/));
-    assert.ok(instanceClassName.match(/\bcol-sm-pull-0\b/));
-    assert.ok(instanceClassName.match(/\bcol-md-pull-0\b/));
-    assert.ok(instanceClassName.match(/\bcol-lg-pull-0\b/));
+    const classes = findDOMNode(instance).className;
+
+    assert.include(classes, 'rs-col-xs-pull-0');
+    assert.include(classes, 'rs-col-sm-pull-0');
+    assert.include(classes, 'rs-col-md-pull-0');
+    assert.include(classes, 'rs-col-lg-pull-0');
   });
 
   it('Should set Push of zero', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
+    const instance = ReactTestUtils.renderIntoDocument(
       <Col xsPush={0} smPush={0} mdPush={0} lgPush={0} />
     );
 
-    let instanceClassName = findDOMNode(instance).className;
-    assert.ok(instanceClassName.match(/\bcol-xs-push-0\b/));
-    assert.ok(instanceClassName.match(/\bcol-sm-push-0\b/));
-    assert.ok(instanceClassName.match(/\bcol-md-push-0\b/));
-    assert.ok(instanceClassName.match(/\bcol-lg-push-0\b/));
+    const classes = findDOMNode(instance).className;
+
+    assert.include(classes, 'rs-col-xs-push-0');
+    assert.include(classes, 'rs-col-sm-push-0');
+    assert.include(classes, 'rs-col-md-push-0');
+    assert.include(classes, 'rs-col-lg-push-0');
   });
 
   it('Should set Hidden to true', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Col xsHidden smHidden mdHidden lgHidden />
-    );
+    const instance = ReactTestUtils.renderIntoDocument(<Col xsHidden smHidden mdHidden lgHidden />);
+    const classes = findDOMNode(instance).className;
+    assert.include(classes, 'rs-col-hidden-xs');
+    assert.include(classes, 'rs-col-hidden-sm');
+    assert.include(classes, 'rs-col-hidden-md');
+    assert.include(classes, 'rs-col-hidden-lg');
 
-    let instanceClassName = findDOMNode(instance).className;
-    assert.ok(instanceClassName.match(/\bhidden-xs\b/));
-    assert.ok(instanceClassName.match(/\bhidden-sm\b/));
-    assert.ok(instanceClassName.match(/\bhidden-md\b/));
-    assert.ok(instanceClassName.match(/\bhidden-lg\b/));
   });
 
   it('Should have a custom className', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Col className="custom" />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
+    const instance = ReactTestUtils.renderIntoDocument(<Col className="custom" />);
+    assert.include(findDOMNode(instance).className, 'custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Col style={{ fontSize }} />
-    );
+    const instance = ReactTestUtils.renderIntoDocument(<Col style={{ fontSize }} />);
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
-
 });

@@ -4,21 +4,15 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import Pagination from '../src/Pagination';
 import innerText from './innerText';
-import { globalKey } from '../src/utils/prefix';
 
 describe('Pagination', () => {
-
   it('Should render a ul', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <Pagination />
-    );
+    const instance = ReactTestUtils.renderIntoDocument(<Pagination />);
     assert.equal(findDOMNode(instance).tagName, 'UL');
   });
 
   it('Should render 20 li', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <Pagination pages={20} />
-    );
+    const instance = ReactTestUtils.renderIntoDocument(<Pagination pages={20} />);
     assert.equal(findDOMNode(instance).querySelectorAll('li').length, 20);
   });
 
@@ -30,9 +24,7 @@ describe('Pagination', () => {
   });
 
   it('Should render 2 li', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <Pagination pages={20} maxButtons={2} />
-    );
+    const instance = ReactTestUtils.renderIntoDocument(<Pagination pages={20} maxButtons={2} />);
     assert.equal(findDOMNode(instance).querySelectorAll('li').length, 2);
   });
 
@@ -40,9 +32,8 @@ describe('Pagination', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Pagination pages={20} maxButtons={2} ellipsis />
     );
-
     assert.equal(findDOMNode(instance).querySelectorAll('li').length, 3);
-    assert.equal(innerText(findDOMNode(instance).querySelector(`li.${globalKey}pagination-btn-disabled`)), '…');
+    assert.ok(findDOMNode(instance).querySelector('i.rs-icon-more'));
   });
 
   it('Should be ellipsis', () => {
@@ -50,7 +41,10 @@ describe('Pagination', () => {
       <Pagination pages={20} maxButtons={2} ellipsis={'abc'} />
     );
     assert.equal(findDOMNode(instance).querySelectorAll('li').length, 3);
-    assert.equal(innerText(findDOMNode(instance).querySelector(`li.${globalKey}pagination-btn-disabled`)), 'abc');
+    assert.equal(
+      innerText(findDOMNode(instance).querySelector('li.rs-pagination-btn-disabled')),
+      'abc'
+    );
   });
 
   it('Should render `first` button', () => {
@@ -88,52 +82,39 @@ describe('Pagination', () => {
     assert.equal(innerText(findDOMNode(instance).querySelector('li:last-child')), '20');
   });
 
-
   it('Should active page 5', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <Pagination pages={20} activePage={5} />
+    const instance = ReactTestUtils.renderIntoDocument(<Pagination pages={20} activePage={5} />);
+    assert.equal(
+      innerText(findDOMNode(instance).querySelector('li.rs-pagination-btn-active')),
+      '5'
     );
-    assert.equal(innerText(findDOMNode(instance).querySelector(`li.${globalKey}pagination-btn-active`)), '5');
   });
 
-
-  it('Should call onSelect callback', (done) => {
-    const doneOp = (eventKey) => {
+  it('Should call onSelect callback', done => {
+    const doneOp = eventKey => {
       if (eventKey === 2) {
         done();
       }
-    }
+    };
 
-    const instance = ReactTestUtils.renderIntoDocument(
-      <Pagination pages={20} onSelect={doneOp} />
-    );
+    const instance = ReactTestUtils.renderIntoDocument(<Pagination pages={20} onSelect={doneOp} />);
 
     ReactTestUtils.Simulate.click(findDOMNode(instance).querySelectorAll('a')[1]);
   });
 
   it('Should apply size class', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Pagination size="lg">
-        Title
-      </Pagination>
-    );
+    let instance = ReactTestUtils.renderIntoDocument(<Pagination size="lg">Title</Pagination>);
     assert.ok(findDOMNode(instance).className.match(/\bpagination-lg\b/));
   });
 
   it('Should have a custom className', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <Pagination className="custom" />
-    );
+    const instance = ReactTestUtils.renderIntoDocument(<Pagination className="custom" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
   });
 
-
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = ReactTestUtils.renderIntoDocument(
-      <Pagination style={{ fontSize }} />
-    );
+    const instance = ReactTestUtils.renderIntoDocument(<Pagination style={{ fontSize }} />);
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
-
 });

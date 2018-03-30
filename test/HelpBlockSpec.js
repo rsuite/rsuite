@@ -4,22 +4,18 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import HelpBlock from '../src/HelpBlock';
 import FormGroup from '../src/FormGroup';
-import { globalKey } from '../src/utils/prefix';
 
 describe('HelpBlock', () => {
-
   it('Should render a HelpBlock', () => {
-    let title = 'Test';
-    let instance = ReactTestUtils.renderIntoDocument(
-      <HelpBlock>{title}</HelpBlock>
-    );
-    assert.equal(findDOMNode(instance).className, `${globalKey}help-block`);
+    const title = 'Test';
+    const instance = ReactTestUtils.renderIntoDocument(<HelpBlock>{title}</HelpBlock>);
+    assert.equal(findDOMNode(instance).className, 'rs-help-block');
     assert.equal(findDOMNode(instance).tagName, 'SPAN');
     assert.equal(findDOMNode(instance).innerHTML, title);
   });
 
   it('Should have `for` in span when set controlId of FormGroup', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
+    const instance = ReactTestUtils.renderIntoDocument(
       <FormGroup controlId="test">
         <HelpBlock />
       </FormGroup>
@@ -28,27 +24,19 @@ describe('HelpBlock', () => {
   });
 
   it('Should have `for` in span ', () => {
-    let id = 'Test';
-    let instance = ReactTestUtils.renderIntoDocument(
-      <HelpBlock htmlFor={id} />
-    );
+    const id = 'Test';
+    const instance = ReactTestUtils.renderIntoDocument(<HelpBlock htmlFor={id} />);
     assert.ok(findDOMNode(instance).getAttribute('for'), id);
   });
 
   it('Should have a custom className', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <HelpBlock className="custom" />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
+    const instance = ReactTestUtils.renderIntoDocument(<HelpBlock className="custom" />);
+    assert.include(findDOMNode(instance).className, 'custom');
   });
-
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    let instance = ReactTestUtils.renderIntoDocument(
-      <HelpBlock style={{ fontSize }} />
-    );
+    const instance = ReactTestUtils.renderIntoDocument(<HelpBlock style={{ fontSize }} />);
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
-
 });

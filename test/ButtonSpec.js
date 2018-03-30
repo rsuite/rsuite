@@ -83,7 +83,7 @@ describe('Button', () => {
 
   it('Should have a custom className', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Button className="custom" />);
-    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
+    assert.include(findDOMNode(instance).className, 'custom');
   });
 
   it('Should have a custom style', () => {

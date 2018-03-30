@@ -2,110 +2,78 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { findDOMNode } from 'react-dom';
 import Icon from '../src/Icon';
-import { globalKey } from '../src/utils/prefix';
 
 describe('Icon', () => {
   it('Should output a i', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Icon icon="star" />
-    );
+    const instance = ReactTestUtils.renderIntoDocument(<Icon icon="star" />);
     assert.equal(findDOMNode(instance).nodeName, 'I');
   });
 
   it('Should output a span', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Icon icon="star" componentClass="span" />
-    );
+    const instance = ReactTestUtils.renderIntoDocument(<Icon icon="star" componentClass="span" />);
     assert.equal(findDOMNode(instance).nodeName, 'SPAN');
   });
 
   it('Should have a class prefix rsuite-icon', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
+    const instance = ReactTestUtils.renderIntoDocument(
       <Icon icon="star" classPrefix="rsuite-icon" />
     );
-    assert.ok(findDOMNode(instance).className.match(/\brsuite-icon-star\b/));
+    assert.include(findDOMNode(instance).className, 'rsuite-icon-star');
   });
 
-
   it('Should have icon class', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Icon icon="star" />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bicon-star\b/));
+    const instance = ReactTestUtils.renderIntoDocument(<Icon icon="star" />);
+    assert.include(findDOMNode(instance).className, 'rs-icon-star');
   });
 
   it('Should have fw class', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Icon icon="star" fixedWidth />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bicon-fw\b/));
+    const instance = ReactTestUtils.renderIntoDocument(<Icon icon="star" fixedWidth />);
+    assert.include(findDOMNode(instance).className, 'rs-icon-fw');
   });
 
   it('Should have pulse class', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Icon icon="star" pulse />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bicon-pulse\b/));
+    const instance = ReactTestUtils.renderIntoDocument(<Icon icon="star" pulse />);
+    assert.include(findDOMNode(instance).className, 'rs-icon-pulse');
   });
 
   it('Should have rotate-50 class', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Icon icon="star" rotate={50} />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bicon-rotate-50\b/));
+    const instance = ReactTestUtils.renderIntoDocument(<Icon icon="star" rotate={50} />);
+    assert.include(findDOMNode(instance).className, 'rs-icon-rotate-50');
   });
 
-
   it('Should have 2x class', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Icon icon="star" size="2x" />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bicon-2x\b/));
+    const instance = ReactTestUtils.renderIntoDocument(<Icon icon="star" size="2x" />);
+    assert.include(findDOMNode(instance).className, 'rs-icon-2x');
   });
 
   it('Should have vertical class', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Icon icon="star" flip="vertical" />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bicon-flip-vertical\b/));
+    const instance = ReactTestUtils.renderIntoDocument(<Icon icon="star" flip="vertical" />);
+    assert.include(findDOMNode(instance).className, 'rs-icon-flip-vertical');
   });
 
   it('Should have stack-2x class', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Icon icon="star" stack="2x" />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bicon-stack-2x\b/));
+    const instance = ReactTestUtils.renderIntoDocument(<Icon icon="star" stack="2x" />);
+    assert.include(findDOMNode(instance).className, 'rs-icon-stack-2x');
   });
 
   it('Should have spin class', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Icon icon="star" spin />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bicon-spin\b/));
+    const instance = ReactTestUtils.renderIntoDocument(<Icon icon="star" spin />);
+    assert.include(findDOMNode(instance).className, 'rs-icon-spin');
   });
 
   it('Should have pulse class', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Icon icon="star" pulse />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bicon-pulse\b/));
+    const instance = ReactTestUtils.renderIntoDocument(<Icon icon="star" pulse />);
+    assert.include(findDOMNode(instance).className, 'rs-icon-pulse');
   });
-
 
   it('Should have a custom className', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Icon icon="star" className="custom" />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
+    const instance = ReactTestUtils.renderIntoDocument(<Icon icon="star" className="custom" />);
+    assert.include(findDOMNode(instance).className, 'custom');
   });
-
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Icon icon="star" style={{ fontSize }} />
-    );
+    const instance = ReactTestUtils.renderIntoDocument(<Icon icon="star" style={{ fontSize }} />);
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
-
 });

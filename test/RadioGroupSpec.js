@@ -4,7 +4,6 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import RadioGroup from '../src/RadioGroup';
 import Radio from '../src/Radio';
-import { globalKey } from '../src/utils/prefix';
 
 describe('RadioGroup', () => {
   it('Should render a radio group', () => {
@@ -14,7 +13,7 @@ describe('RadioGroup', () => {
         <Radio>Test2</Radio>
       </RadioGroup>
     );
-    assert.equal(findDOMNode(instance).querySelectorAll(`.${globalKey}radio`).length, 2);
+    assert.equal(findDOMNode(instance).querySelectorAll('.rs-radio').length, 2);
   });
 
   it('Should have a name in input', () => {
@@ -29,18 +28,16 @@ describe('RadioGroup', () => {
   });
 
   it('Should have `radio-inline` className in radio', () => {
-
     const instance = ReactTestUtils.renderIntoDocument(
       <RadioGroup inline>
         <Radio>Test1</Radio>
         <Radio>Test2</Radio>
       </RadioGroup>
     );
-    assert.equal(findDOMNode(instance).querySelectorAll(`.${globalKey}radio-inline`).length, 2);
+    assert.equal(findDOMNode(instance).querySelectorAll('.rs-radio-inline').length, 2);
   });
 
   it('Should output a h1', () => {
-
     let instance = ReactTestUtils.renderIntoDocument(
       <RadioGroup inline>
         <h1>Group</h1>
@@ -51,39 +48,35 @@ describe('RadioGroup', () => {
   });
 
   it('Should be checked when set value', () => {
-
     const instance = ReactTestUtils.renderIntoDocument(
-      <RadioGroup value={2} >
+      <RadioGroup value={2}>
         <Radio value={1}>Test1</Radio>
         <Radio value={2}>Test2</Radio>
         <Radio value={3}>Test2</Radio>
         <Radio value={4}>Test2</Radio>
       </RadioGroup>
     );
-    const radios = findDOMNode(instance).querySelectorAll(`.${globalKey}radio`);
+    const radios = findDOMNode(instance).querySelectorAll('.rs-radio');
     assert.ok(radios[1].className.match(/\bradio-checked\b/));
   });
 
   it('Should be checked when set defaultValue', () => {
-
     const instance = ReactTestUtils.renderIntoDocument(
-      <RadioGroup defaultValue={2} >
+      <RadioGroup defaultValue={2}>
         <Radio value={1}>Test1</Radio>
         <Radio value={2}>Test2</Radio>
         <Radio value={3}>Test2</Radio>
-        <Radio >Test2</Radio>
+        <Radio>Test2</Radio>
       </RadioGroup>
     );
-    const radios = findDOMNode(instance).querySelectorAll(`.${globalKey}radio`);
+    const radios = findDOMNode(instance).querySelectorAll('.rs-radio');
     assert.ok(radios[1].className.match(/\bradio-checked\b/));
   });
 
-
-  it('Should call onChange callback', (done) => {
-
+  it('Should call onChange callback', done => {
     const instance = ReactTestUtils.renderIntoDocument(
       <RadioGroup
-        onChange={(value) => {
+        onChange={value => {
           if (value === 3) {
             done();
           }
@@ -96,23 +89,18 @@ describe('RadioGroup', () => {
       </RadioGroup>
     );
 
-    const radios = findDOMNode(instance).querySelectorAll(`.${globalKey}radio`);
+    const radios = findDOMNode(instance).querySelectorAll('.rs-radio');
     ReactTestUtils.Simulate.change(radios[2].querySelector('input'));
   });
 
   it('Should have a custom className', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <RadioGroup className="custom" />
-    );
+    const instance = ReactTestUtils.renderIntoDocument(<RadioGroup className="custom" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = ReactTestUtils.renderIntoDocument(
-      <RadioGroup style={{ fontSize }} />
-    );
+    const instance = ReactTestUtils.renderIntoDocument(<RadioGroup style={{ fontSize }} />);
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
-
 });

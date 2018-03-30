@@ -3,32 +3,35 @@ import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import Container from '../src/Container';
-import { globalKey } from '../src/utils/prefix';
 
 describe('Container', () => {
-
   it('Should render a Container', () => {
-    let title = 'Test';
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Container>{title}</Container>
+    const title = 'Test';
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Container>
+        <span>{title}</span>
+      </Container>
     );
-    assert.equal(findDOMNode(instance).className, `${globalKey}container`);
-    assert.equal(findDOMNode(instance).innerHTML, title);
+    assert.equal(findDOMNode(instance).className, 'rs-container');
+    assert.equal(findDOMNode(instance).innerText, title);
   });
 
   it('Should have a custom className', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Container className="custom" />
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Container className="custom">
+        <span />
+      </Container>
     );
-    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
+    assert.include(findDOMNode(instance).className, 'custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Container style={{ fontSize }} />
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Container style={{ fontSize }}>
+        <span />
+      </Container>
     );
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
-
 });

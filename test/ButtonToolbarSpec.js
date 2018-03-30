@@ -8,35 +8,27 @@ import ButtonToolbar from '../src/ButtonToolbar';
 
 describe('ButtonToolbar', () => {
   it('Should output a button toolbar', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
+    const instance = ReactTestUtils.renderIntoDocument(
       <ButtonToolbar>
         <ButtonGroup>
-          <Button>
-            Title
-          </Button>
+          <Button>Title</Button>
         </ButtonGroup>
       </ButtonToolbar>
     );
-    let node = findDOMNode(instance);
+    const node = findDOMNode(instance);
     assert.equal(node.nodeName, 'DIV');
     assert.ok(node.className.match(/\bbtn-toolbar\b/));
     assert.equal(node.getAttribute('role'), 'toolbar');
   });
 
   it('Should have a custom className', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <ButtonToolbar className="custom" />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
+    const instance = ReactTestUtils.renderIntoDocument(<ButtonToolbar className="custom" />);
+    assert.include(findDOMNode(instance).className, 'custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    let instance = ReactTestUtils.renderIntoDocument(
-      <ButtonToolbar style={{ fontSize }} />
-    );
+    const instance = ReactTestUtils.renderIntoDocument(<ButtonToolbar style={{ fontSize }} />);
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
-
-
 });
