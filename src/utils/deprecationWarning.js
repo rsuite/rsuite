@@ -1,9 +1,9 @@
-
 /**
  * Forked from react-bootstrap/react-bootstrap:
  * https://github.com/react-bootstrap/react-bootstrap/blob/master/src/utils/deprecationWarning.js
  */
 
+/* eslint-disable */
 import lowPriorityWarning from './lowPriorityWarning';
 
 let warned = {};
@@ -29,16 +29,16 @@ function deprecationWarning(oldname, newname, link) {
   warned[message] = true;
 }
 
+deprecationWarning.wrapper = (Component, ...args) =>
+  class DeprecatedComponent extends Component {
+    componentWillMount(...methodArgs) {
+      deprecationWarning(...args);
 
-deprecationWarning.wrapper = (Component, ...args) => class DeprecatedComponent extends Component {
-  componentWillMount(...methodArgs) {
-    deprecationWarning(...args);
-
-    if (super.componentWillMount) {
-      super.componentWillMount(...methodArgs);
+      if (super.componentWillMount) {
+        super.componentWillMount(...methodArgs);
+      }
     }
-  }
-};
+  };
 
 export default deprecationWarning;
 

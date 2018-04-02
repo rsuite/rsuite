@@ -262,6 +262,9 @@ class Uploader extends React.Component<Props, State> {
   progressTimer: IntervalID;
   xhrs = {};
   uploadTrigger = null;
+  inputRef = ref => {
+    this.input = ref;
+  };
 
   renderFileItems() {
     const { disabled, listType, onPreview } = this.props;
@@ -294,9 +297,7 @@ class Uploader extends React.Component<Props, State> {
         multiple={multiple}
         disabled={disabled}
         accept={accept}
-        innerRef={ref => {
-          this.input = ref;
-        }}
+        innerRef={this.inputRef}
         onChange={this.handleUploadTriggerChange}
       >
         {children}

@@ -20,7 +20,6 @@
  */
 
 /* eslint-disable */
-
 let lowPriorityWarning = function() {};
 
 if (__DEV__) {

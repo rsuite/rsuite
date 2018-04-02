@@ -186,6 +186,13 @@ class Modal extends React.Component<Props, State> {
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
+  dialogRef = ref => {
+    this.dialog = ref;
+  };
+  modalRef = ref => {
+    this.modal = ref;
+  };
+
   render() {
     const {
       className,
@@ -236,9 +243,7 @@ class Modal extends React.Component<Props, State> {
         dialogClassName={dialogClassName}
         dialogStyle={dialogStyle}
         onClick={rest.backdrop === true ? this.handleDialogClick : null}
-        ref={ref => {
-          this.dialog = ref;
-        }}
+        ref={this.dialogRef}
       >
         {items}
       </Dialog>
@@ -246,9 +251,7 @@ class Modal extends React.Component<Props, State> {
 
     return (
       <BaseModal
-        ref={ref => {
-          this.modal = ref;
-        }}
+        ref={this.modalRef}
         show={show}
         onEntering={this.handleShow}
         onExited={this.handleHide}

@@ -217,6 +217,14 @@ class AutoComplete extends React.Component<Props, State> {
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
+  menuContainerRef = ref => {
+    this.menuContainer = ref;
+  };
+
+  triggerRef = ref => {
+    this.trigger = ref;
+  };
+
   renderDropdownMenu() {
     const { placement, renderItem, data } = this.props;
     const { focusItemValue } = this.state;
@@ -228,11 +236,7 @@ class AutoComplete extends React.Component<Props, State> {
 
     return (
       <MenuWrapper className={classes} onKeyDown={this.handleKeyDown}>
-        <div
-          ref={ref => {
-            this.menuContainer = ref;
-          }}
-        >
+        <div ref={this.menuContainerRef}>
           <ul role="menu">
             {items.map(item => (
               <AutoCompleteItem
@@ -274,9 +278,7 @@ class AutoComplete extends React.Component<Props, State> {
     return (
       <div className={classes} style={style}>
         <OverlayTrigger
-          ref={ref => {
-            this.trigger = ref;
-          }}
+          ref={this.triggerRef}
           disabled={disabled}
           trigger={['click', 'focus']}
           placement={placement}

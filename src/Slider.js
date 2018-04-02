@@ -33,7 +33,6 @@ type State = {
   value: number,
   barWidth: number,
   barHeight: number,
-  barOffset: Object,
   handleDown?: boolean
 };
 
@@ -52,8 +51,7 @@ class Slider extends React.Component<Props, State> {
     this.state = {
       value: this.checkValue(props.defaultValue),
       barWidth: 0,
-      barHeight: 0,
-      barOffset: {}
+      barHeight: 0
     };
   }
 
@@ -93,6 +91,7 @@ class Slider extends React.Component<Props, State> {
     if (value > max) {
       value = max;
     }
+
     this.setState({ value });
     onChange && onChange(value);
   }
@@ -148,7 +147,7 @@ class Slider extends React.Component<Props, State> {
     }
 
     const { vertical, min } = this.props;
-    const { barOffset } = this.state;
+    const barOffset = getOffset(this.bar);
     const offset = vertical ? event.pageY - barOffset.top : event.pageX - barOffset.left;
     this.setValue(this.calculateValue(offset) + min);
   };
@@ -161,7 +160,6 @@ class Slider extends React.Component<Props, State> {
     if (this.props.disabled) {
       return;
     }
-
     this.mouseMoveTracker = this.getMouseMoveTracker();
     this.mouseMoveTracker.captureMouseMoves(event);
     this.setState({
@@ -182,8 +180,9 @@ class Slider extends React.Component<Props, State> {
     }
 
     const { vertical, min } = this.props;
-    const { barOffset } = this.state;
+    const barOffset = getOffset(this.bar);
     const offset = vertical ? event.pageY - barOffset.top : event.pageX - barOffset.left;
+
     this.setValue(this.calculateValue(offset) + min);
     this.setTooltipPosition();
   };
@@ -204,13 +203,20 @@ class Slider extends React.Component<Props, State> {
 
   updateBar() {
     this.setState({
-      barOffset: getOffset(this.bar),
       barWidth: getWidth(this.bar),
       barHeight: getHeight(this.bar)
     });
   }
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
+
+  handleRef = ref => {
+    this.handle = ref;
+  };
+
+  barRef = ref => {
+    this.bar = ref;
+  };
 
   /**
    * 渲染标尺
@@ -255,21 +261,20 @@ class Slider extends React.Component<Props, State> {
     const direction = vertical ? 'top' : 'left';
     const style = {
       ...hanldeStyle,
+      // 通过 value 计算出手柄位置
       [direction]: `${(value - min) / (max - min) * 100}%`
     };
+    const handleClasses = classNames(this.addPrefix('handle'), handleClassName, {
+      [this.addPrefix('showtip')]: handleDown
+    });
 
-    // 通过 value 计算出手柄位置
     return (
       <div
-        className={classNames(this.addPrefix('handle'), handleClassName, {
-          [this.addPrefix('showtip')]: handleDown
-        })}
+        className={handleClasses}
         role="presentation"
         onMouseDown={this.hanldeMouseDown}
         style={style}
-        ref={ref => {
-          this.handle = ref;
-        }}
+        ref={this.handleRef}
       >
         {tooltip && (
           <Tooltip placement="top" className={this.addPrefix('tooltip')}>
@@ -316,12 +321,7 @@ class Slider extends React.Component<Props, State> {
 
     return (
       <div {...unhandled} className={classes} onClick={this.hanldeClick} role="presentation">
-        <div
-          className={classNames(this.addPrefix('bar'), barClassName)}
-          ref={ref => {
-            this.bar = ref;
-          }}
-        >
+        <div className={classNames(this.addPrefix('bar'), barClassName)} ref={this.barRef}>
           {progress && this.renderProgress()}
           {graduated && this.renderGraduated()}
         </div>

@@ -22,14 +22,9 @@ class SidenavToggle extends React.Component<Props> {
 
   render() {
     const { onToggle, expanded, className, classPrefix, ...props } = this.props;
-
-    const classes = classNames(
-      classPrefix,
-      {
-        collapsed: !expanded
-      },
-      className
-    );
+    const classes = classNames(classPrefix, className, {
+      collapsed: !expanded
+    });
 
     return (
       <div {...props} className={classes}>
