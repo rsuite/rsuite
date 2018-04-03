@@ -106,6 +106,7 @@ class AutoComplete extends React.Component<Props, State> {
     const { onChange } = this.props;
     this.setState({
       focus: true,
+      focusItemValue: undefined,
       value
     });
     if (this.state.value !== value) {
@@ -150,6 +151,7 @@ class AutoComplete extends React.Component<Props, State> {
     if (!focusItemValue) {
       return;
     }
+
     this.setState(
       {
         value: focusItemValue,
