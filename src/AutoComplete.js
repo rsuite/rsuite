@@ -122,7 +122,7 @@ class AutoComplete extends React.Component<Props, State> {
 
   handleInputBlur = (event: DefaultEvent) => {
     const { onBlur } = this.props;
-    this.close();
+    setTimeout(this.close, 300);
     onBlur && onBlur(event);
   };
 
@@ -204,6 +204,9 @@ class AutoComplete extends React.Component<Props, State> {
 
   handleSelect = (value: string, event: DefaultEvent) => {
     const { onChange, onSelect } = this.props;
+
+    console.log(value, event);
+
     this.setState({
       value,
       focusItemValue: value
