@@ -48,8 +48,16 @@ class InputNumber extends React.Component<Props, State> {
     };
   }
 
-  getDecimals() {
-    const { step } = this.props;
+  componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.step !== this.props.step) {
+      this.setState({
+        decimals: this.getDecimals(nextProps)
+      });
+    }
+  }
+
+  getDecimals(nextProps?: Props) {
+    const { step } = nextProps || this.props;
     if (_.isNumber(step) && !_.isInteger(step)) {
       return step.toString().split('.')[1].length;
     }
