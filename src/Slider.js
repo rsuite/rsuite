@@ -26,7 +26,8 @@ type Props = {
   tooltip?: boolean,
   progress?: boolean,
   vertical?: boolean,
-  onChange?: (value: number) => void
+  onChange?: (value: number) => void,
+  renderMark?: (mark: numser) => React.Node
 };
 
 type State = {
@@ -74,8 +75,14 @@ class Slider extends React.Component<Props, State> {
   }
 
   getSplitCount() {
-    const { max, min, step } = this.props;
+    const { min, step } = this.props;
+    const max = this.getMax();
     return (max - min) / step;
+  }
+
+  getMax() {
+    const { max, min, step } = this.props;
+    return Math.floor((max - min) / step) * step + min;
   }
 
   getValue() {
@@ -84,7 +91,8 @@ class Slider extends React.Component<Props, State> {
   }
 
   setValue(value: number) {
-    const { onChange, min, max } = this.props;
+    const { onChange, min } = this.props;
+    const max = this.getMax();
     if (value < min) {
       value = min;
     }
@@ -107,7 +115,8 @@ class Slider extends React.Component<Props, State> {
   }
 
   checkValue(value: number) {
-    const { max, min } = this.props;
+    const { min } = this.props;
+    const max = this.getMax();
     if (value < min) {
       return min;
     }
@@ -222,13 +231,19 @@ class Slider extends React.Component<Props, State> {
    * 渲染标尺
    */
   renderGraduated() {
-    const { vertical, step, max, min } = this.props;
+    const { vertical, step, min, renderMark } = this.props;
+    const max = this.getMax();
     const count = this.getSplitCount();
     const { barHeight } = this.state;
     const value = this.getValue();
     const graduatedItems = [];
     const pass = value / step - min / step;
     const active = Math.ceil((value - min) / (max - min) * count);
+    const lastMark = (
+      <span className={classNames(this.addPrefix('mark'), this.addPrefix('last-mark'))}>
+        {renderMark ? renderMark(max) : max}
+      </span>
+    );
 
     for (let i = 0; i < count; i += 1) {
       let style = {};
@@ -240,12 +255,17 @@ class Slider extends React.Component<Props, State> {
       if (barHeight && vertical) {
         style.height = barHeight / count;
       }
+      let mark = i * step + min;
+      let last = i === count - 1;
+
       graduatedItems.push(
         <li className={classes} style={style} key={i}>
-          {' '}
+          {<span className={this.addPrefix('mark')}>{renderMark ? renderMark(mark) : mark}</span>}
+          {last && lastMark}
         </li>
       );
     }
+
     return (
       <div className={this.addPrefix('graduator')}>
         <ul>{graduatedItems}</ul>
@@ -254,7 +274,8 @@ class Slider extends React.Component<Props, State> {
   }
 
   renderHanlde() {
-    const { handleClassName, handleTitle, max, min, vertical, tooltip, hanldeStyle } = this.props;
+    const { handleClassName, handleTitle, min, vertical, tooltip, hanldeStyle } = this.props;
+    const max = this.getMax();
     const { handleDown } = this.state;
     const value = this.getValue();
 
@@ -287,7 +308,8 @@ class Slider extends React.Component<Props, State> {
   }
 
   renderProgress() {
-    const { vertical, max, min } = this.props;
+    const { vertical, min } = this.props;
+    const max = this.getMax();
     const value = this.getValue();
     const key = vertical ? 'height' : 'width';
     const style = {
