@@ -27,7 +27,7 @@ type Props = {
   progress?: boolean,
   vertical?: boolean,
   onChange?: (value: number) => void,
-  renderMark?: (mark: numser) => React.Node
+  renderMark?: (mark: number) => React.Node
 };
 
 type State = {
@@ -227,11 +227,25 @@ class Slider extends React.Component<Props, State> {
     this.bar = ref;
   };
 
+  renderMark(mark: number, last?: boolean) {
+    const { renderMark } = this.props;
+    const classes = classNames(this.addPrefix('mark'), {
+      [this.addPrefix('last-mark')]: last
+    });
+    return (
+      <span className={classes}>
+        <span className={this.addPrefix('mark-content')}>
+          {renderMark ? renderMark(mark) : mark}
+        </span>
+      </span>
+    );
+  }
+
   /**
    * 渲染标尺
    */
   renderGraduated() {
-    const { vertical, step, min, renderMark } = this.props;
+    const { vertical, step, min } = this.props;
     const max = this.getMax();
     const count = this.getSplitCount();
     const { barHeight } = this.state;
@@ -239,11 +253,6 @@ class Slider extends React.Component<Props, State> {
     const graduatedItems = [];
     const pass = value / step - min / step;
     const active = Math.ceil((value - min) / (max - min) * count);
-    const lastMark = (
-      <span className={classNames(this.addPrefix('mark'), this.addPrefix('last-mark'))}>
-        {renderMark ? renderMark(max) : max}
-      </span>
-    );
 
     for (let i = 0; i < count; i += 1) {
       let style = {};
@@ -260,8 +269,8 @@ class Slider extends React.Component<Props, State> {
 
       graduatedItems.push(
         <li className={classes} style={style} key={i}>
-          {<span className={this.addPrefix('mark')}>{renderMark ? renderMark(mark) : mark}</span>}
-          {last && lastMark}
+          {this.renderMark(mark)}
+          {last && this.renderMark(max, true)}
         </li>
       );
     }
