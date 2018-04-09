@@ -232,13 +232,16 @@ class Slider extends React.Component<Props, State> {
     const classes = classNames(this.addPrefix('mark'), {
       [this.addPrefix('last-mark')]: last
     });
-    return (
-      <span className={classes}>
-        <span className={this.addPrefix('mark-content')}>
-          {renderMark ? renderMark(mark) : mark}
+
+    if (renderMark) {
+      return (
+        <span className={classes}>
+          <span className={this.addPrefix('mark-content')}>{renderMark(mark)}</span>
         </span>
-      </span>
-    );
+      );
+    }
+
+    return null;
   }
 
   /**
@@ -337,6 +340,7 @@ class Slider extends React.Component<Props, State> {
       vertical,
       disabled,
       classPrefix,
+      renderMark,
       ...rest
     } = this.props;
 
@@ -345,7 +349,8 @@ class Slider extends React.Component<Props, State> {
       [this.addPrefix('vertical')]: vertical,
       [this.addPrefix('disabled')]: disabled,
       [this.addPrefix('graduated')]: graduated,
-      [this.addPrefix('dragging')]: handleDown
+      [this.addPrefix('dragging')]: handleDown,
+      [this.addPrefix('with-mark')]: _.isFunction(renderMark)
     });
 
     const unhandled = getUnhandledProps(Slider, rest);
