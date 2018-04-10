@@ -68,10 +68,6 @@ type State = {
   bodyStyles?: Object
 };
 
-const childContextTypes = {
-  onModalHide: PropTypes.func
-};
-
 class Modal extends React.Component<Props, State> {
   static defaultProps = {
     size: 'sm',
@@ -84,12 +80,17 @@ class Modal extends React.Component<Props, State> {
     overflow: true
   };
 
-  static childContextTypes = childContextTypes;
-
-  state = {
-    modalStyles: {},
-    bodyStyles: {}
+  static childContextTypes = {
+    onModalHide: PropTypes.func.isRequired
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalStyles: {},
+      bodyStyles: {}
+    };
+  }
 
   getChildContext() {
     return {
@@ -112,7 +113,7 @@ class Modal extends React.Component<Props, State> {
     const bodyIsOverflowing = isOverflowing(findDOMNode(body));
     const modalIsOverflowing = scrollHeight > doc.documentElement.clientHeight;
 
-    const styles: { modalStyles: Object, bodyStyles?: Object } = {
+    const styles: Object = {
       modalStyles: {
         paddingRight: bodyIsOverflowing && !modalIsOverflowing ? getScrollbarSize() : 0,
         paddingLeft: !bodyIsOverflowing && modalIsOverflowing ? getScrollbarSize() : 0

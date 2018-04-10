@@ -1,6 +1,7 @@
 // @flow
 
 import * as React from 'react';
+import defaultProps from 'recompose/defaultProps';
 import { globalKey } from './prefix';
 
 type Props = {
@@ -10,16 +11,8 @@ type Props = {
 
 export default (props: Props): any => {
   const { classPrefix, ...rest } = props;
-  return WrappedComponent =>
-    class DefaultPropsComponent extends WrappedComponent {
-      static defaultProps = {
-        ...WrappedComponent.defaultProps,
-        classPrefix: classPrefix ? `${globalKey}${classPrefix}` : undefined,
-        ...rest
-      };
-
-      render() {
-        return super.render();
-      }
-    };
+  return defaultProps({
+    classPrefix: classPrefix ? `${globalKey}${classPrefix}` : undefined,
+    ...rest
+  });
 };
