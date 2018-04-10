@@ -50,7 +50,7 @@ class Slider extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      value: this.checkValue(props.defaultValue),
+      value: this.checkValue(props.defaultValue, props),
       barWidth: 0,
       barHeight: 0
     };
@@ -80,8 +80,8 @@ class Slider extends React.Component<Props, State> {
     return (max - min) / step;
   }
 
-  getMax() {
-    const { max, min, step } = this.props;
+  getMax(props?: Props) {
+    const { max, min, step } = props || this.props;
     return Math.floor((max - min) / step) * step + min;
   }
 
@@ -114,9 +114,9 @@ class Slider extends React.Component<Props, State> {
     }
   }
 
-  checkValue(value: number) {
-    const { min } = this.props;
-    const max = this.getMax();
+  checkValue(value: number, props?: Props) {
+    const { min } = props || this.props;
+    const max = this.getMax(props);
     if (value < min) {
       return min;
     }
