@@ -86,8 +86,9 @@ class Uploader extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    const { defaultFileList = [] } = this.props;
+    const { defaultFileList = [] } = props;
     const fileList = defaultFileList.map(this.createFile);
+
     this.state = {
       fileList
     };
@@ -250,7 +251,6 @@ class Uploader extends React.Component<Props, State> {
     const { fileKey } = file;
     return {
       ...file,
-      blobFile: window.File ? new File([], file.name) : undefined,
       fileKey: fileKey || guid(),
       progress: 0
     };
