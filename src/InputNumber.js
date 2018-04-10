@@ -44,7 +44,7 @@ class InputNumber extends React.Component<Props, State> {
     super(props);
     this.state = {
       value: props.defaultValue || 0,
-      decimals: this.getDecimals()
+      decimals: this.getDecimals(props)
     };
   }
 
@@ -56,13 +56,13 @@ class InputNumber extends React.Component<Props, State> {
     }
   }
 
-  getDecimals(nextProps?: Props) {
-    const { step } = nextProps || this.props;
+  getDecimals = (nextProps?: Props) => {
+    const step = nextProps || this.props;
     if (_.isNumber(step) && !_.isInteger(step)) {
       return step.toString().split('.')[1].length;
     }
     return 0;
-  }
+  };
   getMax(value: number | null) {
     const { max } = this.props;
     return {
@@ -93,6 +93,9 @@ class InputNumber extends React.Component<Props, State> {
     }
 
     this.handleValue(value === '' ? null : Number.parseFloat(value), event);
+  };
+  handleKeyPress = (event: KeyboardEvent<*>) => {
+    console.log(event.charCode);
   };
 
   handleBlur = (event: SyntheticInputEvent<*>) => {
@@ -184,6 +187,7 @@ class InputNumber extends React.Component<Props, State> {
           onBlur={this.handleBlur}
           value={isNullOrUndefined(value) ? '' : value}
           onWheel={this.handleWheel}
+          onKeyPress={this.handleKeyPress}
           disabled={disabled}
         />
         {postfix && <InputGroup.Addon>{postfix}</InputGroup.Addon>}
