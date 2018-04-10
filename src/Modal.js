@@ -117,7 +117,8 @@ class Modal extends React.Component<Props, State> {
       modalStyles: {
         paddingRight: bodyIsOverflowing && !modalIsOverflowing ? getScrollbarSize() : 0,
         paddingLeft: !bodyIsOverflowing && modalIsOverflowing ? getScrollbarSize() : 0
-      }
+      },
+      bodyStyles: {}
     };
 
     if (overflow) {
