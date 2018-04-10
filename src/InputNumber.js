@@ -56,13 +56,13 @@ class InputNumber extends React.Component<Props, State> {
     }
   }
 
-  getDecimals = (nextProps?: Props) => {
-    const step = nextProps || this.props;
+  getDecimals(nextProps?: Props) {
+    const { step } = nextProps || this.props;
     if (_.isNumber(step) && !_.isInteger(step)) {
       return step.toString().split('.')[1].length;
     }
     return 0;
-  };
+  }
   getMax(value: number | null) {
     const { max } = this.props;
     return {
@@ -87,15 +87,11 @@ class InputNumber extends React.Component<Props, State> {
       disabledDownButton
     });
   }
-  handleOnChange = (value: string, event: SyntheticInputEvent<*>) => {
-    if (!/^-?(?:\d+)(?:\.\d+)?$/.test(value) && value !== '') {
+  handleOnChange = (value: any, event: SyntheticInputEvent<*>) => {
+    if (!/^-?(?:\d+)(\.)?(\d+)*$/.test(value) && value !== '') {
       return;
     }
-
-    this.handleValue(value === '' ? null : Number.parseFloat(value), event);
-  };
-  handleKeyPress = (event: KeyboardEvent<*>) => {
-    console.log(event.charCode);
+    this.handleValue(value === '' ? null : value, event, true);
   };
 
   handleBlur = (event: SyntheticInputEvent<*>) => {
@@ -145,7 +141,7 @@ class InputNumber extends React.Component<Props, State> {
     nextValue = this.getMin(nextValue).inMin ? +nextValue.toFixed(decimals) : min;
     this.handleValue(nextValue, event);
   };
-  handleValue(currentValue: number | null, event?: SyntheticEvent<*>) {
+  handleValue(currentValue: number | null, event?: SyntheticEvent<*>, input?: boolean) {
     const { value } = this.state;
     const { onChange } = this.props;
 
@@ -155,7 +151,10 @@ class InputNumber extends React.Component<Props, State> {
       this.setState({
         value: currentValue
       });
-      onChange && onChange(currentValue, event);
+
+      if (!input && onChange) {
+        onChange(currentValue, event);
+      }
     }
   }
 
@@ -181,13 +180,12 @@ class InputNumber extends React.Component<Props, State> {
       <InputGroup {...unhandled} className={classes} disabled={disabled} size={size}>
         {prefixElement && <InputGroup.Addon>{prefixElement}</InputGroup.Addon>}
         <Input
-          type="number"
+          type="text"
           step={step}
           onChange={this.handleOnChange}
           onBlur={this.handleBlur}
           value={isNullOrUndefined(value) ? '' : value}
           onWheel={this.handleWheel}
-          onKeyPress={this.handleKeyPress}
           disabled={disabled}
         />
         {postfix && <InputGroup.Addon>{postfix}</InputGroup.Addon>}
