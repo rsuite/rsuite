@@ -3,6 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import setStatic from 'recompose/setStatic';
+import setDisplayName from 'recompose/setDisplayName';
 
 import Modal from './Modal';
 import ModalBody from './ModalBody';
@@ -41,7 +42,9 @@ const EnhancedDrawer = defaultProps({
   classPrefix: 'drawer'
 })(Drawer);
 
-setStatic('Body', defaultProps({ classPrefix: 'drawer-body' })(ModalBody))(EnhancedDrawer);
+const EnhancedBody = defaultProps({ classPrefix: 'drawer-body' })(ModalBody);
+
+setStatic('Body', setDisplayName('Body')(EnhancedBody))(EnhancedDrawer);
 setStatic('Header', defaultProps({ classPrefix: 'drawer-header' })(ModalHeader))(EnhancedDrawer);
 setStatic('Title', defaultProps({ classPrefix: 'drawer-title' })(ModalTitle))(EnhancedDrawer);
 setStatic('Footer', defaultProps({ classPrefix: 'drawer-footer' })(ModalFooter))(EnhancedDrawer);

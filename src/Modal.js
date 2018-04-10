@@ -223,7 +223,7 @@ class Modal extends React.Component<Props, State> {
     if (children) {
       items = ReactChildren.mapCloneElement(children, child => {
         let displayName = child.type.displayName;
-        if (displayName && displayName.indexOf('ModalBody') !== -1) {
+        if (displayName && displayName.indexOf('Body') !== -1) {
           return {
             style: bodyStyles
           };
