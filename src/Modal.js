@@ -81,7 +81,7 @@ class Modal extends React.Component<Props, State> {
   };
 
   static childContextTypes = {
-    onModalHide: PropTypes.func.isRequired
+    onModalHide: PropTypes.func
   };
 
   constructor(props) {

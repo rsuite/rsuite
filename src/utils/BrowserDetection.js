@@ -24,6 +24,9 @@ export const isIE8 = !!navigator.userAgent.match(/MSIE 8.0/);
 export const isIE9 = !!navigator.userAgent.match(/MSIE 9.0/);
 export const isIE10 = !!navigator.userAgent.match(/MSIE 10.0/);
 
+export const isIE11 =
+  navigator.userAgent.indexOf('Trident') > -1 && navigator.userAgent.indexOf('rv:11.0') > -1;
+
 // Edge 20+
 export const isEdge = !isIE && !!window.StyleMedia;
 

@@ -1,10 +1,16 @@
 {
   "presets": [
-    "env",
+    [
+      "env",
+      {
+        "loose": true
+      }
+    ],
     "react",
     "stage-0"
   ],
   "plugins": [
+    "transform-proto-to-assign",
     "flow-react-proptypes",
     "transform-react-flow-handled-props",
     "lodash",
@@ -13,9 +19,7 @@
   ],
   "env": {
     "coverage": {
-      "plugins": [
-        "istanbul"
-      ]
+      "plugins": ["istanbul"]
     }
   }
 }
