@@ -6,7 +6,7 @@ import { getWidth, addStyle } from 'dom-lib';
 import compose from 'recompose/compose';
 
 import { withStyleProps, defaultProps, prefix } from './utils';
-import { isIE11 } from './utils/BrowserDetection';
+import { isIE11, isEdge } from './utils/BrowserDetection';
 
 type Props = {
   className?: string,
@@ -30,7 +30,7 @@ class Loader extends React.Component<Props> {
     if (center || backdrop) {
       const width = getWidth(this.loader);
       addStyle(this.loader, {
-        display: isIE11 ? 'block' : 'table',
+        display: isIE11 || isEdge ? 'block' : 'table',
         width: `${width}px`
       });
     }
