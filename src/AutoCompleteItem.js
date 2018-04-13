@@ -46,7 +46,7 @@ class AutoCompleteItem extends React.Component<Props> {
         <a
           className={classes}
           tabIndex={-1}
-          role="presentation"
+          role="button"
           onKeyDown={onKeyDown}
           onClick={this.handleClick}
         >

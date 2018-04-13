@@ -32,11 +32,13 @@ class ButtonGroup extends React.Component<Props> {
      * display:table-cell not working on button element.
      * So change 'a'
      */
-    const items = justified
-      ? React.Children.map(children, child =>
-          React.cloneElement(child, { componentClass: 'a', role: 'button' })
-        )
-      : children;
+    let items = children;
+
+    if (justified) {
+      items = React.Children.map(children, child =>
+        React.cloneElement(child, { componentClass: 'a', role: 'button' })
+      );
+    }
 
     return (
       <div role="group" {...props} className={classes}>

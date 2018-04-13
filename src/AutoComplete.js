@@ -204,9 +204,6 @@ class AutoComplete extends React.Component<Props, State> {
 
   handleSelect = (value: string, event: DefaultEvent) => {
     const { onChange, onSelect } = this.props;
-
-    console.log(value, event);
-
     this.setState({
       value,
       focusItemValue: value
