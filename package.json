@@ -10,6 +10,7 @@
     "build": "rm -rf lib && babel src --out-dir lib ",
     "tdd": "karma start",
     "lint": "eslint src  *.js*",
+    "dist": "rm -rf dist && NODE_ENV=production  webpack --mode production --progress ",
     "test": "npm run lint && NODE_ENV=coverage  karma start --single-run",
     "coveralls": "cat ./coverage/lcov/lcov.info | ./node_modules/.bin/coveralls",
     "flow": "flow"
@@ -59,9 +60,9 @@
     "react-dom": "^0.14.9 || >=15.3.0"
   },
   "devDependencies": {
-    "babel-core": "^6.7.6",
-    "babel-eslint": "^6.1.2",
-    "babel-loader": "^6.2.4",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^7.2.3",
+    "babel-loader": "^7.1.4",
     "babel-plugin-flow-react-proptypes": "^14.0.4",
     "babel-plugin-istanbul": "^4.1.4",
     "babel-plugin-lodash": "^3.3.2",
@@ -108,7 +109,8 @@
     "rimraf": "^2.5.2",
     "sinon": "^2.3.8",
     "sinon-chai": "^2.12.0",
-    "webpack": "^3.0.0",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14",
     "webpack-dev-server": "^2.3.0"
   }
 }
