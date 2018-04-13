@@ -7,16 +7,16 @@ const webpackConfig = {
   output: {
     pathinfo: true
   },
+  mode: 'development',
   module: {
     rules: [
       {
         test: /\.jsx?$/,
-        use: ['babel-loader'],
+        use: ['babel-loader?babelrc'],
         exclude: /node_modules/
       }
     ]
-  },
-  devtool: 'eval'
+  }
 };
 
 module.exports = config => {

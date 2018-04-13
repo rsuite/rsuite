@@ -12,9 +12,7 @@ class Wrapper extends React.Component {
 }
 
 export function getInstance(children) {
-  const instance = ReactTestUtils.renderIntoDocument(<Wrapper>{children}</Wrapper>);
-
-  return instance;
+  return ReactTestUtils.renderIntoDocument(children);
 }
 
 export function getDOMNode(children) {
