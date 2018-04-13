@@ -47,12 +47,18 @@ class InputNumber extends React.Component<Props, State> {
       decimals: this.getDecimals(props)
     };
   }
-
+  componentWillMount() {
+    const value = this.getValue();
+    this.setButtonStatus(value);
+  }
   componentWillReceiveProps(nextProps: Props) {
     if (nextProps.step !== this.props.step) {
       this.setState({
         decimals: this.getDecimals(nextProps)
       });
+    }
+    if (nextProps.value !== this.props.value) {
+      this.setButtonStatus(nextProps.value);
     }
   }
 
@@ -63,6 +69,7 @@ class InputNumber extends React.Component<Props, State> {
     }
     return 0;
   }
+
   getMax(value: number | null) {
     const { max } = this.props;
     return {
@@ -81,12 +88,17 @@ class InputNumber extends React.Component<Props, State> {
     const { value } = this.props;
     return _.isUndefined(value) ? this.state.value : value;
   }
-  setButtonStatus(disabledUpButton: boolean, disabledDownButton: boolean) {
-    this.setState({
-      disabledUpButton,
-      disabledDownButton
-    });
+  setButtonStatus(value?: number | null) {
+    if (typeof value !== 'undefined') {
+      const disabledUpButton = this.getMax(value).equalMax;
+      const disabledDownButton = this.getMin(value).equalMin;
+      this.setState({
+        disabledUpButton,
+        disabledDownButton
+      });
+    }
   }
+
   handleOnChange = (value: any, event: SyntheticInputEvent<*>) => {
     if (!/^-?(?:\d+)(\.)?(\d+)*$/.test(value) && value !== '') {
       return;
@@ -145,7 +157,7 @@ class InputNumber extends React.Component<Props, State> {
     const { value } = this.state;
     const { onChange } = this.props;
 
-    this.setButtonStatus(this.getMax(currentValue).equalMax, this.getMin(currentValue).equalMin);
+    this.setButtonStatus(currentValue);
 
     if (currentValue !== value) {
       this.setState({
