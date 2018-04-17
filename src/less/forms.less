@@ -1,0 +1,486 @@
+//
+// Forms
+// --------------------------------------------------
+
+// Normalize non-controls
+//
+// Restyle and baseline non-control form elements.
+label {
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+// Normalize form controls
+//
+// While most of our form styles require extra classes, some basic normalization
+// is required to ensure optimum display with or without those classes to better
+// address browser inconsistencies.
+
+// Focus for file, radio, and checkbox
+input[type="file"]:focus,
+input[type="radio"]:focus,
+input[type="checkbox"]:focus {
+  .tab-focus();
+}
+
+// Common form controls
+.@{ns}input {
+  .default-input;
+
+  // Reset height for `textarea`
+  textarea& {
+    resize: none;
+    // Set textarea valid value
+    min-width: 300px;
+    min-height: 76px;
+    max-width: 100%;
+    max-height: 200px;
+  }
+}
+
+// Form control sizing
+.@{ns}input-xs {
+  .input-xs;
+}
+
+.@{ns}input-lg {
+  .input-lg;
+}
+
+.@{ns}input-sm {
+  .input-sm;
+}
+
+// Form groups
+.@{ns}control-label {
+  margin-bottom: @control-label-margin-bottom;
+}
+
+// Checkboxes and radios
+//
+// Indent the labels to position radios/checkboxes as hanging controls.
+
+.@{ns}radio,
+.@{ns}checkbox {
+  position: relative;
+  display: block;
+
+  // These classes are used on elements with <label> descendants
+  &-disabled {
+    label {
+      cursor: @cursor-disabled;
+    }
+  }
+
+  label {
+    line-height: 1.1428571428571428; //  @checkbox-width-height/@font-size-base = 16px/14px
+    margin-bottom: 0;
+    font-weight: normal;
+    cursor: pointer;
+  }
+}
+
+.@{ns}checkbox label:hover .@{ns}checkbox-inner::before {
+  border-color: @checkbox-checked-border-color;
+}
+
+.@{ns}radio label:hover .@{ns}radio-inner::before {
+  border-color: @radio-checked-border-color;
+}
+
+.@{ns}checkbox.@{ns}checkbox-disabled label,
+.@{ns}radio.@{ns}radio-disabled label {
+  cursor: not-allowed;
+}
+
+.@{ns}radio input[type="radio"],
+.@{ns}radio-inline input[type="radio"],
+.@{ns}checkbox input[type="checkbox"],
+.@{ns}checkbox-inline input[type="checkbox"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: @zindex-input;
+}
+
+// Disabled text styles.
+.@{ns}radio-disabled > .@{ns}radio-checker > label,
+.@{ns}checkbox-disabled > .@{ns}checkbox-checker > label {
+  color: @input-color-disabled;
+}
+
+// Radios and checkboxes on same line
+.@{ns}radio-inline,
+.@{ns}checkbox-inline {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 0;
+  vertical-align: middle;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.@{ns}radio-inline {
+  &.@{ns}radio-disabled {
+    cursor: @cursor-disabled;
+  }
+}
+
+.@{ns}checkbox-inline {
+  &.@{ns}checkbox-disabled {
+    cursor: @cursor-disabled;
+  }
+}
+
+.@{ns}radio-inline + .@{ns}radio-inline,
+.@{ns}checkbox-inline + .@{ns}checkbox-inline {
+  margin-top: 0;
+  margin-left: 10px; // space out consecutive inline controls
+}
+
+// Help text
+//
+// Apply to any element you wish to create light text for placement immediately
+// below a form control. Use for general help, formatting, or instructional text.
+
+.@{ns}help-block {
+  display: block; // account for any element using help-block
+  color: @help-block-color; // lighten the text some for contrast
+  //Sometimes help info is more than one line，so height can't set a fixed value
+  min-height: @line-height-computed;
+  line-height: @line-height-base;
+  font-size: @font-size-base;
+
+  &-tooltip {
+    display: inline-block;
+    margin-left: @help-block-inline-gap;
+  }
+}
+
+.@{ns}form-inline {
+  > *,
+  > .@{ns}btn {
+    margin-right: 30px;
+    margin-bottom: 24px;
+    vertical-align: middle;
+  }
+}
+
+//== Form Layout
+
+// Form groups
+.@{ns}form-group {
+  .@{ns}form:not(.@{ns}form-inline) &:not(:last-child) {
+    margin-bottom: @form-group-margin-bottom;
+  }
+
+  .@{ns}input {
+    display: inline-block;
+  }
+}
+
+// Full container.
+.@{ns}form-fluid .@{ns}form-control-wrapper {
+  width: 100%;
+
+  > .@{ns}input-number,
+  > .@{ns}input {
+    width: 100%;
+  }
+}
+
+// Fixed width.
+.@{ns}form-control-wrapper {
+  // Used to provide relation for error message
+  position: relative;
+
+  > .@{ns}input-number,
+  > .@{ns}input {
+    width: @form-control-width;
+  }
+
+  // Error
+  .@{ns}error-message {
+    position: absolute;
+    padding: @error-message-padding-vertical @error-message-padding-horizontal;
+    background-color: @error-message-background-color;
+    border: 1px solid @error-message-border-color;
+    border-radius: @border-radius-base;
+    filter: ~"drop-shadow(0 0 6px rgba(0,0,0,.1))";
+    z-index: @zindex-error-message;
+    color: @error-message-font-color;
+    display: none;
+    white-space: nowrap;
+
+    // Used to provide relation for error message
+    &-wrapper {
+      position: absolute;
+    }
+
+    &-show {
+      display: block;
+      animation-duration: .3s;
+      animation-timing-function: ease-in-out;
+    }
+
+    &-arrow {
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        border-color: transparent;
+        border-style: solid;
+      }
+    }
+
+    // Placement
+    // == Bottom Left && Bottom Right && Top Left && Top Right
+    &-placement-bottom-left,
+    &-placement-bottom-right {
+      bottom: -1px; // Error message width form-control has 1px gap
+
+      .@{ns}error-message {
+        top: 0;
+
+        &-show {
+          animation-name: slideUpIn;
+        }
+      }
+
+      .@{ns}error-message-arrow {
+        &::before,
+        &::after {
+          border-width: 0 @error-message-triangle-width @error-message-triangle-width;
+          border-bottom-color: @error-message-border-color;
+          top: -1 * @error-message-triangle-width;
+        }
+
+        &::after {
+          top: -1*(@error-message-triangle-width - 1);
+          border-bottom-color: @error-message-background-color;
+        }
+      }
+    }
+
+    &-placement-top-left,
+    &-placement-top-right {
+      top: -1px; // Error message width form-control has 1px gap
+
+      .@{ns}error-message {
+        bottom: 0;
+
+        &-show {
+          animation-name: slideDownIn;
+        }
+      }
+
+      .@{ns}error-message-arrow {
+        &::before,
+        &::after {
+          border-width: @error-message-triangle-width @error-message-triangle-width 0;
+          border-top-color: @error-message-border-color;
+          bottom: -1*@error-message-triangle-width;
+        }
+
+        &::after {
+          bottom: -1*(@error-message-triangle-width - 1);
+          border-top-color: @error-message-background-color;
+        }
+      }
+    }
+
+    &-placement-bottom-left,
+    &-placement-top-left {
+      left: 0;
+
+      .@{ns}error-message {
+        left: 0;
+      }
+
+      .@{ns}error-message-arrow {
+        &::before,
+        &::after {
+          left: @error-message-triangle-gap;
+        }
+      }
+    }
+
+    &-placement-bottom-right,
+    &-placement-top-right {
+      right: 0;
+
+      .@{ns}error-message {
+        right: 0;
+      }
+
+      .@{ns}error-message-arrow {
+        &::before,
+        &::after {
+          right: @error-message-triangle-gap;
+        }
+      }
+    }
+
+    // == Left Top && Left Bottom Right && Top && Right Bottom
+    &-placement-left-top,
+    &-placement-left-bottom {
+      left: -1px;
+
+      .@{ns}error-message {
+        right: 0;
+
+        &-show {
+          animation-name: slideRightIn;
+        }
+      }
+
+      .@{ns}error-message-arrow {
+        &::before,
+        &::after {
+          border-width: @error-message-triangle-width 0 @error-message-triangle-width @error-message-triangle-width;
+          border-left-color: @error-message-border-color;
+          right: -1*@error-message-triangle-width;
+        }
+
+        &::after {
+          right: -1*(@error-message-triangle-width - 1);
+          border-left-color: @error-message-background-color;
+        }
+      }
+    }
+
+    &-placement-right-top,
+    &-placement-right-bottom {
+      right: -1px;
+
+      .@{ns}error-message {
+        left: 0;
+
+        &-show {
+          animation-name: slideLeftIn;
+        }
+      }
+
+      .@{ns}error-message-arrow {
+        &::before,
+        &::after {
+          border-width: @error-message-triangle-width @error-message-triangle-width @error-message-triangle-width 0;
+          border-right-color: @error-message-border-color;
+          left: -1*@error-message-triangle-width;
+        }
+
+        &::after {
+          left: -1*(@error-message-triangle-width - 1);
+          border-right-color: @error-message-background-color;
+        }
+      }
+    }
+
+    &-placement-left-top,
+    &-placement-right-top {
+      top: 0;
+
+      .@{ns}error-message {
+        top: 0;
+      }
+
+      .@{ns}error-message-arrow {
+        &::before,
+        &::after {
+          top: @error-message-triangle-vertical;
+        }
+      }
+    }
+
+    &-placement-left-bottom,
+    &-placement-right-bottom {
+      bottom: 0;
+
+      .@{ns}error-message {
+        bottom: 0;
+      }
+
+      .@{ns}error-message-arrow {
+        &::before,
+        &::after {
+          bottom: @error-message-triangle-vertical;
+        }
+      }
+    }
+  }
+}
+
+// Vertical forms
+.@{ns}form-vertical .@{ns}form-group {
+  .@{ns}control-label {
+    display: block;
+  }
+
+  .@{ns}help-block:not(.@{ns}help-block-tooltip) {
+    padding-top: 4px;
+  }
+
+  .@{ns}form-control-wrapper {
+    display: inline-block;
+  }
+}
+
+// Horizontal forms
+//
+// Horizontal forms are built on grid classes and allow you to create forms with
+// labels on the left and inputs on the right.
+
+.@{ns}form-horizontal {
+  .@{ns}form-group {
+    .clearfix;
+
+    .@{ns}form-control-wrapper,
+    .@{ns}control-label {
+      float: left;
+    }
+
+    .@{ns}form-control-wrapper + .@{ns}help-block {
+      clear: both;
+    }
+
+    // Help block
+    .@{ns}form-control-wrapper + .@{ns}help-block:not(.@{ns}help-block-tooltip) {
+      margin-left: @control-label-width + @control-label-margin-right;
+    }
+
+    .@{ns}form-control-wrapper + .@{ns}help-block.@{ns}help-block-tooltip {
+      padding: @padding-base-vertical 0;
+    }
+
+    .@{ns}control-label {
+      display: inline-block;
+      //Sometimes help info is more than one line，so height can't set a fixed value
+      min-height: @line-height-computed;
+      line-height: @line-height-base;
+      font-size: @font-size-base;
+      padding: @padding-base-vertical 0;
+      width: @control-label-width;
+      margin-right: @control-label-margin-right;
+      text-align: right;
+    }
+
+    .@{ns}btn-toolbar {
+      padding-left: @control-label-width + @control-label-margin-right;
+    }
+  }
+}
+
+// Inline
+.@{ns}form-inline .@{ns}form-group {
+  display: inline-block;
+
+  .@{ns}form-control-wrapper {
+    display: inline-block;
+    margin-left: @form-control-margin-left;
+  }
+
+  // Form control wrapper behind Screen only dom no need margin left.
+  .@{ns}sr-only + .@{ns}form-control-wrapper {
+    margin-left: 0;
+  }
+}

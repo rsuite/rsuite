@@ -1,0 +1,14 @@
+.tag-variant(@background-color) {
+  color: @B000;
+  background-color: @background-color;
+}
+
+.generate-spectrum-tags(@i:length(@spectrum)) when (@i>0) {
+  .generate-spectrum-tags(@i - 1);
+  @name: extract(@spectrum, @i);
+  @color: @@name;
+
+  .@{ns}tag-@{name} {
+    .tag-variant(@color);
+  }
+}

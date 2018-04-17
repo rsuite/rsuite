@@ -1,0 +1,560 @@
+// Common button style
+.btn() {
+  display: inline-block;
+  margin-bottom: 0; // For input.btn
+  font-weight: @btn-font-weight;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  outline: 0 !important;
+  white-space: nowrap;
+  // Reset border style in all browser
+  border: none;
+  user-select: none;
+
+  .btn-md;
+
+  &,
+  &:active,
+  &.active {
+    &:focus,
+    &.focus {
+      .tab-focus();
+    }
+  }
+
+  &:hover,
+  &:focus,
+  &.focus {
+    color: @btn-default-color;
+    text-decoration: none;
+  }
+
+  &:active,
+  &.@{ns}btn-active {
+    outline: 0;
+    background-image: none;
+  }
+
+  &.@{ns}btn-disabled,
+  &[disabled],
+  .@{ns}dropdown-disabled & {
+    cursor: @cursor-disabled;
+    .opacity(.3);
+
+    &::after {
+      display: none !important;
+    }
+  }
+
+  a& {
+    &.@{ns}btn-disabled {
+      pointer-events: none; // Future-proof disabling of clicks on `<a>` elements
+    }
+  }
+}
+
+// When browser don't support `pointer-events`,need reset button styles.
+.btn-loading-reset(@color,@background-color:transparent) {
+  &.@{ns}btn-loading {
+    &:hover,
+    &:not(.@{ns}btn-disabled):hover,
+    &:focus,
+    &:active,
+    &:hover:active {
+      color: @color;
+      background-color: @background-color;
+
+      // Remove ripple.
+      &::after {
+        display: none;
+      }
+    }
+  }
+}
+
+// Subtle  button style
+.btn-subtle() {
+  .button-ripple;
+  .btn-transition;
+  .btn-subtle-variant(@btn-subtle-hover-bg);
+  .btn-loading-reset(@btn-subtle-color);
+
+  &.@{ns}btn-disabled,
+  &[disabled],
+  .@{ns}dropdown-disabled & {
+    &,
+    &:hover,
+    &:focus,
+    &:active {
+      // Reset Opacity;
+      opacity: 1;
+    }
+  }
+
+  &:focus,
+  &.@{ns}btn-focus,
+  &:hover {
+    color: @btn-subtle-default-hover-color;
+  }
+
+  &:active,
+  &.@{ns}btn-active,
+  .@{ns}open > .@{ns}dropdown-toggle& {
+    color: @btn-subtle-active-default-color;
+    background-color: @btn-subtle-active-default-bg;
+    background-image: none;
+
+    &:hover,
+    &:focus,
+    &.focus {
+      color: @btn-subtle-active-default-color;
+      background-color: @btn-subtle-active-default-bg;
+    }
+  }
+
+  .generate-spectrum-subtle-btns();
+}
+
+// Button variants
+.button-primary-variant(@color; @background) {
+  @background-dark: color(~`palette("@{background}", 600)`);
+  @background-darker: color(~`palette("@{background}", 700)`);
+  @background-even-darker: color(~`palette("@{background}", 800)`);
+
+  color: @color;
+  background-color: @background;
+  .btn-icon-with-text(@background-dark);
+
+  .btn-loading-reset(@color, @background);
+
+  &:focus,
+  &.@{ns}btn-focus {
+    color: @color;
+    background-color: @background-dark;
+    .btn-icon-with-text(@background-darker);
+  }
+
+  &:hover {
+    color: @color;
+  }
+
+  &:not(.@{ns}btn-disabled):hover {
+    background-color: @background-dark;
+    .btn-icon-with-text(@background-darker);
+  }
+
+  &:active,
+  &.@{ns}btn-active,
+  .@{ns}open > .@{ns}dropdown-toggle& {
+    color: @color;
+    background-color: @background-darker;
+    .btn-icon-with-text(@background-even-darker);
+
+    &:hover,
+    &:focus,
+    &.focus {
+      color: @color;
+      background-color: @background-darker;
+      .btn-icon-with-text(@background-even-darker);
+    }
+  }
+
+  &:active,
+  &.@{ns}btn-active,
+  .open > .@{ns}dropdown-toggle& {
+    background-image: none;
+  }
+
+  &.@{ns}btn-disabled,
+  &[disabled],
+  .@{ns}dropdown-disabled & {
+    &:hover,
+    &:focus,
+    &.focus {
+      background: @background;
+    }
+  }
+}
+
+.btn-link-variant(@color) {
+  @color-dark: color(~`palette("@{color}", 600)`);
+  @color-darker: color(~`palette("@{color}", 700)`);
+
+  color: @color;
+  font-weight: normal;
+  border-radius: 0;
+
+  .btn-loading-reset(@color);
+
+  &,
+  &:active,
+  &.@{ns}btn-active,
+  &[disabled] {
+    background-color: transparent;
+  }
+
+  &,
+  &:hover,
+  &:focus,
+  &:active {
+    border-color: transparent;
+  }
+
+  &:hover,
+  &:focus {
+    color: @color-dark;
+    text-decoration: @link-hover-decoration;
+    background-color: transparent;
+  }
+
+  &:active {
+    color: @color-darker;
+    text-decoration: none;
+
+    &:hover,
+    &:focus,
+    &.focus {
+      color: @color-darker;
+    }
+  }
+
+  &[disabled] {
+    &:hover,
+    &:focus {
+      color: @color;
+      text-decoration: none;
+    }
+  }
+}
+
+.btn-subtle-variant(@color) {
+  @color-dark: color(~`palette("@{color}", 600)`);
+  @color-darker: color(~`palette("@{color}", 700)`);
+
+  color: @btn-subtle-color;
+  background-color: transparent;
+
+  .btn-loading-reset(@btn-subtle-color);
+
+  &:focus,
+  &.@{ns}btn-focus,
+  &:hover {
+    color: @btn-subtle-hover-color;
+    background: @color;
+  }
+
+  &:active,
+  &.@{ns}btn-active,
+  .@{ns}open > .@{ns}dropdown-toggle& {
+    color: @btn-subtle-active-color;
+    background-color: @color-dark;
+    background-image: none;
+
+    &:hover,
+    &:focus,
+    &.focus {
+      color: @btn-subtle-active-color;
+      background-color: @color-dark;
+    }
+  }
+
+  &.@{ns}btn-disabled,
+  &[disabled],
+  .@{ns}dropdown-disabled & {
+    &,
+    &:hover,
+    &:focus,
+    &.focus,
+    &:active,
+    &:hover:active {
+      color: @btn-subtle-disabled-color;
+      background: none;
+    }
+  }
+}
+
+.btn-ghost-variant(@color,@border-color) {
+  @color-dark: color(~`palette("@{color}", 600)`);
+  @color-darker: color(~`palette("@{color}", 700)`);
+  @color-border-dark: color(~`palette("@{color}", 600)`);
+  @color-border-darker: color(~`palette("@{color}", 700)`);
+
+  color: @color;
+  border: 1px solid @border-color;
+  background-color: transparent;
+
+  .btn-loading-reset(@color);
+
+  &:focus,
+  &.@{ns}btn-focus {
+    color: @color-dark;
+    border-color: @color-border-dark;
+  }
+
+  &:hover {
+    color: @color-dark;
+    border-color: @color-border-dark;
+  }
+
+  &:active,
+  &.@{ns}btn-active,
+  .@{ns}open > .@{ns}dropdown-toggle& {
+    color: @color-darker;
+    border-color: @color-border-darker;
+    background-image: none;
+
+    &:hover,
+    &:focus,
+    &.@{ns}btn-focus {
+      color: @color-darker;
+      border-color: @color-border-darker;
+    }
+  }
+
+  &.@{ns}btn-disabled,
+  &[disabled],
+  .@{ns}dropdown-disabled & {
+    &:hover,
+    &:focus,
+    &.focus {
+      background: none;
+    }
+  }
+}
+
+// Use to hack button border in button-group set [justified].
+.btn-ghost-hack-variant(@border-color) {
+  @color-border-dark: color(~`palette("@{border-color}", 600)`);
+  @color-border-darker: color(~`palette("@{border-color}", 700)`);
+
+  &::before,
+  &::after {
+    background-color: @border-color;
+  }
+
+  &:focus,
+  &.@{ns}btn-focus {
+    &::before,
+    &::after {
+      background-color: @color-border-dark;
+    }
+  }
+
+  &:hover {
+    &::before,
+    &::after {
+      background-color: @color-border-dark;
+    }
+  }
+
+  &:active,
+  &.@{ns}btn-active {
+    &::before,
+    &::after {
+      background-color: @color-border-darker;
+    }
+
+    &:hover,
+    &:focus,
+    &.@{ns}btn-focus {
+      &::before,
+      &::after {
+        background-color: @color-border-darker;
+      }
+    }
+  }
+}
+
+// General spectrum buttons
+.generate-spectrum-primary-btns(@i:length(@spectrum)) when (@i>0) {
+  .generate-spectrum-primary-btns(@i - 1);
+  @name: extract(@spectrum, @i);
+  @backgroud-color: @@name;
+
+  &.@{ns}btn-@{name} {
+    .button-primary-variant(@btn-primary-color, @backgroud-color);
+
+    // Defalut button spectrum button need set opacity.
+    &.@{ns}btn-default.@{ns}btn-disabled,
+    &.@{ns}btn-default[disabled],
+    .@{ns}dropdown-disabled &.@{ns}btn-default {
+      opacity: .3;
+    }
+  }
+}
+
+.generate-spectrum-link-btns(@i:length(@spectrum)) when (@i>0) {
+  .generate-spectrum-link-btns(@i - 1);
+  @name: extract(@spectrum, @i);
+  @color: @@name;
+
+  &.@{ns}btn-@{name} {
+    .btn-link-variant(@color);
+  }
+}
+
+.generate-spectrum-subtle-btns(@i:length(@spectrum)) when (@i>0) {
+  .generate-spectrum-subtle-btns(@i - 1);
+  @name: extract(@spectrum, @i);
+  @color: @@name;
+
+  &.@{ns}btn-@{name} {
+    .btn-subtle-variant(@color);
+  }
+}
+
+.generate-spectrum-ghost-btns(@i:length(@spectrum)) when (@i>0) {
+  .generate-spectrum-ghost-btns(@i - 1);
+  @name: extract(@spectrum, @i);
+  @color: @@name;
+  @border-color: @color;
+
+  &.@{ns}btn-@{name} {
+    .btn-ghost-variant(@color, @border-color);
+  }
+}
+
+// Button sizes
+.button-size(@padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius) {
+  @icon-side-length: @padding-vertical*2 + floor(@font-size*@line-height);
+  @ghost-icon-side-length: @icon-side-length - @btn-ghost-border-width*2;
+  @svg-icon-height: @font-size;
+
+  padding: @padding-vertical @padding-horizontal;
+  font-size: @font-size;
+  line-height: @line-height;
+  border-radius: @border-radius;
+
+  &.@{ns}btn-ghost {
+    // Ghost button has 1px border
+    padding-top: (@padding-vertical - 1);
+    padding-bottom: (@padding-vertical - 1);
+  }
+
+  // Button icon
+  &.@{ns}btn-icon {
+    padding-left: @icon-side-length - @padding-horizontal;
+    height: @icon-side-length;
+    position: relative;
+
+    // Ghost button need minus border-width.
+    .@{ns}btn-ghost& {
+      padding-left: @icon-side-length - @padding-horizontal - @btn-ghost-border-width*2;
+    }
+
+    &.@{ns}btn-icon-with-text {
+      &.@{ns}btn-icon-placement-left {
+        padding-left: @icon-side-length + @padding-vertical;
+      }
+
+      &.@{ns}btn-icon-placement-right {
+        padding-left: @padding-base-input-horizontal;
+        padding-right: @icon-side-length + @padding-vertical;
+
+        > .@{ns}icon {
+          left: auto;
+          right: 0;
+        }
+      }
+    }
+
+    > .@{ns}icon {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      width: @icon-side-length;
+      height: @icon-side-length;
+      padding: @padding-vertical 0;
+      font-size: @font-size;
+      line-height: @line-height;
+
+      .@{ns}btn-ghost& {
+        width: @ghost-icon-side-length;
+        height: @ghost-icon-side-length;
+        padding: (@padding-vertical - @btn-ghost-border-width) 0;
+      }
+
+      > svg {
+        height: @svg-icon-height;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  &.@{ns}btn-icon-circle {
+    width: @icon-side-length;
+    padding: @padding-vertical;
+  }
+}
+
+.btn-sm() {
+  .button-size(@padding-small-vertical; @padding-small-horizontal; @font-size-base; @line-height-base; @btn-border-radius-small);
+}
+
+.btn-md() {
+  .button-size(@padding-base-vertical; @padding-base-horizontal; @font-size-base; @line-height-base; @btn-border-radius-base);
+}
+
+.btn-xs() {
+  .button-size(@padding-extra-small-vertical; @padding-extra-small-horizontal; @font-size-small; @line-height-small; @btn-border-radius-small);
+}
+
+.btn-lg() {
+  .button-size(@padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large; @btn-border-radius-large);
+}
+
+// Button ripple
+.button-ripple(@prefix:~"@{ns}btn-",@transition:@ripple-transition) when (@button-ripple = true) {
+  overflow: hidden;
+  position: relative;
+
+  &:not(.@{prefix}disabled) {
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      background-image: radial-gradient(circle, #000 10%, rgba(0, 0, 0, 0) 10.01%);
+      background-repeat: no-repeat;
+      background-position: 50%;
+      transform: scale(10);
+      opacity: 0;
+      transition: transform .5s, opacity 1s;
+
+      .ie-display(none);
+      .safari-display(none);
+    }
+
+    &:active::after {
+      transform: scale(0);
+      opacity: .2;
+      transition: 0s;
+    }
+  }
+}
+
+// Icon Button with text
+.btn-icon-with-text(@bg) {
+  &.@{ns}btn-icon.@{ns}btn-icon-with-text > .@{ns}icon {
+    background: @bg;
+  }
+}
+
+// Button transition
+.btn-transition() {
+  transition: color .2s linear, background-color .3s linear;
+}
+
+.btn-transition(color) {
+  transition: color .2s linear;
+}
+
+.btn-transition(color-and-border) {
+  transition: color .2s linear, border-color .3s linear;
+}

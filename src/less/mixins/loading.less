@@ -1,0 +1,9 @@
+@charset "utf-8";
+//Created by yangguo on 2016/8/17 0017.
+.generate-letter(@n,@i:0) when (@i <= @n) {
+  @j: (@i+1);
+  .rsuite-letter-@{i} {
+    animation: ~'Load@{i} 2s cubic-bezier(.645, .045, .355, 1) infinite alternate';
+  }
+  .generate-letter(@n, @j);
+}

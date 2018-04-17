@@ -1,0 +1,169 @@
+//
+// Pickers
+// --------------------------------------------------
+
+// Common styles
+// ----------------------
+.@{ns}picker-select {
+  display: inline-block;
+}
+
+// Disabled
+.@{ns}picker-checktree-disabled,
+.@{ns}picker-daterange-disabled,
+.@{ns}picker-tree-disabled,
+.@{ns}picker-date-disabled,
+.@{ns}picker-check-disabled,
+.@{ns}picker-select-disabled,
+.@{ns}picker-cascader-disabled {
+  cursor: @cursor-disabled;
+  opacity: .3;
+
+  .@{ns}picker-toggle {
+    cursor: @cursor-disabled;
+
+    &,
+    &:hover,
+    &:focus,
+    &:active,
+    &:hover:active {
+      background: none;
+
+      &::after {
+        display: none;
+      }
+    }
+  }
+}
+
+//## Dropdown toggle
+// The Same to Dropdown toggle
+.@{ns}picker-toggle {
+  .btn;
+  .btn-subtle;
+  .dropdown-toggle;
+
+  // Has value highlight
+  .@{ns}picker-select-has-value &,
+  .@{ns}picker-cascader-has-value & {
+    .@{ns}picker-toggle-value {
+      color: @picker-selected-value-color;
+    }
+  }
+
+  &:hover .@{ns}picker-toggle-clean {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Picker clean button
+.@{ns}picker-toggle-clean {
+  .dropdown-toggle-caret-common;
+  .set-dropdown-caret(~"dropdown");
+
+  transition-duration: .2s;
+  transition-timing-function: ease-in-out;
+  transition-property: transform, opacity;
+  opacity: 0;
+  transform: scale(0);
+  background: inherit;
+  // Reset to cover calendar icon.
+  width: 18px;
+  right: 10px;
+  // FIXED: IE browser has 1px orange line.
+  .ie-width(19px) !important;
+}
+
+// Picker toggle caret
+.@{ns}picker-toggle-caret {
+  // Extend  Dropdown toggle caret style
+  .dropdown-toggle-caret-common;
+  .set-dropdown-caret(~"@{ns}picker");
+}
+
+// Picker Menu
+.@{ns}picker-menu {
+  position: absolute;
+  text-align: left;
+  z-index: @zindex-dropdown;
+  border-radius: @border-radius-base;
+  background-color: @picker-bg;
+  box-shadow: @picker-shadow;
+  overflow: hidden;
+
+  // Select picker menu & Check select picker menu always has 6px gap
+  &.@{ns}picker-select-menu,
+  &.@{ns}picker-check-menu {
+    padding-top: @border-radius-base;
+  }
+
+  // Searchbar
+  .@{ns}picker-search-bar {
+    position: relative;
+    padding: (@picker-menu-padding - @border-radius-base) @picker-menu-padding @picker-menu-padding;
+
+    .@{ns}picker-search-bar-input {
+      .default-input;
+
+      min-width: @picker-content-min-width;
+      padding-right: @picker-search-bar-icon-width + (@padding-base-input-horizontal - @input-border-width)*2;
+    }
+
+    &::after {
+      content: @picker-search-bar-icon-content;
+      font-family: @font-family-icon;
+      font-style: normal;
+      position: absolute;
+      width: @picker-search-bar-icon-width;
+      color: @B400;
+      font-size: @font-size-base;
+      line-height: unit(@line-height-computed/@font-size-base);
+      top: @picker-menu-padding - @border-radius-base + @padding-base-input-vertical;
+      right: @picker-menu-padding + @padding-base-input-horizontal;
+
+      .@{tpns}-menu&,
+      .@{ctpns}-menu& {
+        top: (@padding-base-input-vertical - @input-border-width);
+      }
+    }
+  }
+
+  // Animation
+  animation-duration: .3s;
+  animation-timing-function: cubic-bezier(.23, 1, .32, 1);
+  animation-fill-mode: both;
+  animation-play-state: paused;
+
+  &.in {
+    animation-play-state: running;
+
+    &.@{ns}picker-placement-top-left,
+    &.@{ns}picker-placement-top-right {
+      animation-name: slideDownIn;
+      //FIXED: In IE is invisible.
+      .ie-animation-name(none);
+    }
+
+    &.@{ns}picker-placement-left-top,
+    &.@{ns}picker-placement-left-bottom {
+      animation-name: slideRightIn;
+      .ie-animation-name(none);
+    }
+
+    &.@{ns}picker-placement-right-top,
+    &.@{ns}picker-placement-right-bottom {
+      animation-name: slideLeftIn;
+      .ie-animation-name(none);
+    }
+
+    &.@{ns}picker-placement-bottom-left,
+    &.@{ns}picker-placement-bottom-right {
+      animation-name: slideUpIn;
+      .ie-animation-name(none);
+    }
+  }
+}
+
+// import all picker styles
+@import "pickers/index";
