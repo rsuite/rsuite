@@ -23,11 +23,11 @@
 
   &-heading {
     color: @panel-heading-color;
+    font-size: @panel-heading-font-size;
+    line-height: unit(@line-height-computed/@panel-heading-font-size);
   }
 
   &-title {
-    font-size: @panel-title-font-size;
-    line-height: unit(@line-height-computed/@panel-title-font-size);
     margin: 0;
 
     a {
