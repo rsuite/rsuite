@@ -10,7 +10,8 @@
     "build": "rm -rf lib && babel src --out-dir lib ",
     "tdd": "karma start",
     "lint": "eslint src  *.js*",
-    "dist": "rm -rf dist && NODE_ENV=production  webpack --mode production --progress ",
+    "gulp": "gulp --gulpfile scripts/gulpfile.js",
+    "dist": "rm -rf dist && NODE_ENV=production  webpack --mode production --progress && gulp",
     "test": "npm run lint && NODE_ENV=coverage  karma start --single-run",
     "coveralls": "cat ./coverage/lcov/lcov.info | ./node_modules/.bin/coveralls",
     "flow": "flow"
@@ -59,6 +60,7 @@
     "react-dom": "^0.14.9 || >=15.3.0"
   },
   "devDependencies": {
+    "autoprefixer": "^8.3.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",
     "babel-loader": "^7.1.4",
@@ -76,6 +78,7 @@
     "brfs": "^1.6.1",
     "chai": "^4.1.0",
     "coveralls": "^2.13.1",
+    "cssnano": "^3.10.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-babel": "^4.1.1",
@@ -86,6 +89,12 @@
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.7.0",
     "flow-bin": "^0.61.0",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.4.0",
+    "gulp-less": "^4.0.0",
+    "gulp-postcss": "^7.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^2.6.4",
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",
     "karma-cli": "^1.0.1",
@@ -109,5 +118,10 @@
     "webpack": "^4.5.0",
     "webpack-cli": "^2.0.14",
     "webpack-dev-server": "^2.3.0"
-  }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "ie >= 9"
+  ]
 }
