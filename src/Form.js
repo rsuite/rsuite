@@ -88,7 +88,6 @@ class Form extends React.Component<Props, State> {
 
     Object.keys(model.schema).forEach(key => {
       const checkResult = model.checkForField(key, formValue[key]);
-
       if (checkResult.hasError === true) {
         errorCount += 1;
         formError[key] = checkResult.errorMessage;
@@ -148,6 +147,9 @@ class Form extends React.Component<Props, State> {
       ...formValue,
       [name]: value
     };
+    this.setState({
+      formValue: nextFormValue
+    });
     onChange && onChange(nextFormValue, event);
   };
 
