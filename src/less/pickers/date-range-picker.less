@@ -1,0 +1,83 @@
+// Date range Picker
+// ----------------------
+
+// Date range Picker Name Space
+@drpns: ~"@{ns}@{date-range-picker-prefix}";
+
+.@{drpns} {
+  // let clean button cover caret
+  .@{ns}picker-toggle-clean {
+    width: 16px;
+  }
+
+  .@{ns}picker-toggle-caret::before {
+    content: @calendar-default-caret-content;
+  }
+}
+
+.@{drpns}-menu {
+  .@{clpns} {
+    display: inline-block;
+    width: 255px;
+    height: 278px;
+    padding-bottom: 12px;
+
+    &:first-child {
+      border-right: @date-range-picker-inner-border;
+    }
+
+    &-header {
+      width: 100%;
+      text-align: center;
+    }
+
+    &-header-month-toolbar {
+      float: none;
+    }
+  }
+
+  .@{clpns}-month-dropdown {
+    z-index: @zindex-date-range-picker-calendar-dropdown;
+
+    &-list {
+      width: 185px;
+    }
+  }
+
+  .@{ns}picker-toolbar {
+    margin-top: 4px;
+  }
+}
+
+// Header
+.@{drpns}-header {
+  padding: @date-range-picker-header-padding-vertical @picker-menu-padding;
+  font-size: @date-range-picker-header-font-size;
+  line-height: @date-range-picker-header-line-height;
+  border-bottom: @date-range-picker-inner-border;
+}
+
+// Calendar group
+.@{drpns}-calendar-group {
+  height: 274px;
+}
+
+.@{clpns}-table-cell-in-range {
+  position: relative;
+
+  &::before {
+    content: "";
+    background-color: @H050;
+    display: block;
+    width: 100%;
+    margin-top: 3px;
+    height: 24px;
+    position: absolute;
+    z-index: @zindex-date-range-picker-table-cell-content - 1;
+  }
+
+  .@{clpns}-table-cell-content {
+    z-index: @zindex-date-range-picker-table-cell-content;
+    position: relative;
+  }
+}

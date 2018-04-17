@@ -1,0 +1,60 @@
+//
+// Pickers
+// --------------------------------------------------
+.@{ns}btn-toggle {
+  // Default size is middle.
+  .btn-toggle(md);
+
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: middle;
+  background-color: @toggle-default-bg;
+  cursor: pointer;
+  transition: .2s linear;
+  transition-property: background-color, width;
+  user-select: none;
+
+  &::after {
+    content: "";
+    cursor: pointer;
+    position: absolute;
+    background-color: @toggle-md-handle-bg;
+    transition: all @toggle-transition;
+    transition-property: left, margin-left, width;
+  }
+
+  &-inner {
+    color: @toggle-md-handle-bg;
+    display: block;
+    transition: margin @toggle-transition;
+
+    .@{ns}icon {
+      vertical-align: middle;
+    }
+  }
+
+  &-disabled {
+    cursor: not-allowed;
+    opacity: .3;
+  }
+
+  &-checked {
+    background-color: @toggle-checked-bg;
+  }
+}
+
+// small
+.@{ns}btn-toggle-sm {
+  .btn-toggle(sm);
+}
+
+// middle
+.@{ns}btn-toggle-md {
+  .btn-toggle(md);
+}
+
+// large
+.@{ns}btn-toggle-lg {
+  .btn-toggle(lg);
+}

@@ -1,0 +1,38 @@
+// Container styles
+// contains: <Container/> <Header/> <Content/> <Footer/> <Sidebar/>
+
+.@{ns}container {
+  display: flex;
+  flex-direction: column;
+  flex: auto;
+
+  // The sidebar only are combined and containers.
+  // When they combined , change flex-direction value to row.
+  &-has-sidebar {
+    flex-direction: row;
+
+    // The overflow of the container is hidden when there is a sidebar.
+    .@{ns}container,
+    .@{ns}content {
+      overflow: hidden;
+    }
+  }
+}
+
+.@{ns}header,
+.@{ns}footer {
+  // Flex initial value.
+  flex: 0 0 auto;
+}
+
+// Full container
+.@{ns}content {
+  flex: auto; // The same to `flex: 1 1 auto`
+}
+
+.@{ns}sidebar {
+  &-collapse {
+    transition: @sidenav-collapse-transition-config;
+    transition-property: flex, width;
+  }
+}

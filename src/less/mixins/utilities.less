@@ -1,0 +1,105 @@
+// Opacity
+
+.opacity(@opacity) {
+  opacity: @opacity;
+}
+
+// Reset filters for IE
+//
+// When you need to remove a gradient background, do not forget to use this to reset
+// the IE filter for IE9 and below.
+
+.reset-filter() {
+  filter: e(%("progid:DXImageTransform.Microsoft.gradient(enabled = false)"));
+}
+
+// WebKit-style focus
+.tab-focus() {
+  outline: 0;
+}
+
+.reset-text(@font-family:@font-family-base,@line-height:@line-height-base) {
+  font-family: @font-family;
+  // We deliberately do NOT reset font-size.
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: normal;
+  line-break: auto;
+  line-height: @line-height;
+  text-align: left; // Fallback for where `start` is not supported
+  text-align: start;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  white-space: normal;
+  word-break: normal;
+  word-spacing: normal;
+  word-wrap: normal;
+}
+
+.reset-link-text-decoration(@text-decoration:none) {
+  &,
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: @text-decoration;
+  }
+}
+
+// Typography
+
+.text-emphasis-variant(@color) {
+  color: @color;
+
+  a&:hover,
+  a&:focus {
+    color: darken(@color, 10%);
+  }
+}
+
+// Text overflow
+// Requires inline-block or block for proper styling
+
+.text-overflow() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ellipsis-basic() {
+  .text-overflow;
+}
+
+.ellipsis(@substract:0) {
+  .ellipsis-basic();
+
+  width: 100% - @substract;
+}
+
+//dorp-shadow
+.drop-shadow(@shadow) {
+  filter: drop-shadow(@shadow);
+  // IE don't support `drop-shadow`,replace it with `box-shadow`.
+  .ie-box-shadow(@shadow);
+}
+
+// Reset font color
+.reset-font-color(@font-color:@text-color) {
+  &,
+  &:hover,
+  &:focus,
+  &:active {
+    color: @font-color;
+  }
+}
+
+.break-word() {
+  word-wrap: break-word;
+  word-break: normal;
+}
+
+.icon-font() {
+  font-family: @font-family-icon;
+  font-style: normal;
+  line-height: 1;
+}
