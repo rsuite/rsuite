@@ -1,13 +1,17 @@
 const path = require('path');
+const webpack = require('webpack');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+const __DEV__ = process.env.NODE_ENV === 'development';
+const filename = __DEV__ ? '[name].js' : '[name].min.js';
 
 module.exports = {
   entry: {
     rsuite: path.join(__dirname, 'src')
   },
   output: {
-    path: path.join(__dirname, 'dist/js'),
-    filename: '[name].production.min.js',
+    path: path.join(__dirname, 'dist'),
+    filename,
     library: 'rsuite',
     libraryTarget: 'umd'
   },
@@ -23,12 +27,6 @@ module.exports = {
       commonjs2: 'react-dom',
       commonjs: 'react-dom',
       amd: 'react-dom'
-    },
-    moment: {
-      root: 'moment',
-      commonjs2: 'moment',
-      commonjs: 'moment',
-      amd: 'moment'
     }
   },
   module: {
@@ -39,6 +37,11 @@ module.exports = {
         exclude: /node_modules/
       }
     ]
-  }
-  //plugins: [new BundleAnalyzerPlugin()]
+  },
+  plugins: [
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new webpack.SourceMapDevToolPlugin({
+      filename: `${filename}.map`
+    })
+  ]
 };

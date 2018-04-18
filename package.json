@@ -8,33 +8,26 @@
   },
   "scripts": {
     "build": "rm -rf lib && babel src --out-dir lib && npm run dist",
+    "dist-style": "gulp --gulpfile scripts/gulpfile.js",
+    "dist-map": "NODE_ENV=development  webpack --mode development --progress",
+    "dist-pro": "webpack --mode production --progress",
+    "dist": "rm -rf dist && npm run dist-map && npm run dist-pro && npm run dist-style",
+    "lint-style": "stylelint  styles  *.less",
+    "lint-js": "eslint src  *.js*",
+    "lint": "npm run lint-js && npm run lint-style",
     "tdd": "karma start",
-    "lint": "eslint src  *.js*",
-    "gulp": "gulp --gulpfile scripts/gulpfile.js",
-    "dist": "rm -rf dist && NODE_ENV=production  webpack --mode production --progress && npm run gulp",
     "test": "npm run lint && NODE_ENV=coverage  karma start --single-run",
     "coveralls": "cat ./coverage/lcov/lcov.info | ./node_modules/.bin/coveralls",
     "flow": "flow"
   },
-  "keywords": [
-    "react",
-    "rsuite",
-    "component",
-    "react-component"
-  ],
+  "keywords": ["react", "rsuite", "component", "react-component"],
   "author": "Simon Guo <simonguo.2009@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git@github.com:rsuite/rsuite.git"
   },
-  "files": [
-    "CHANGELOG.md",
-    "README.md",
-    "dist",
-    "lib",
-    "src"
-  ],
+  "files": ["CHANGELOG.md", "README.md", "dist", "lib", "src"],
   "dependencies": {
     "classnames": ">=2.0.0",
     "dom-lib": "^1.0.0-beta.1",
@@ -121,9 +114,5 @@
     "webpack-cli": "^2.0.14",
     "webpack-dev-server": "^2.3.0"
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "ie >= 9"
-  ]
+  "browserslist": ["> 1%", "last 2 versions", "ie >= 9"]
 }
