@@ -25,16 +25,10 @@ module.exports = {
     // 禁止 media 特性名称（ @media ）带有浏览器引擎前缀
     'media-feature-name-no-vendor-prefix': true,
     // 限制允许嵌套的深度
-    'max-nesting-depth': [
-      5, {
-        // 忽略只包裹了其他规则，而且没有自己的声明块的 at 规则
-        // {@link http://stylelint.cn/user-guide/rules/max-nesting-depth/#ignore-at-rules-without-declaration-blocks}
-        ignore: ['at-rules-without-declaration-blocks']
-      }
-    ],
+    'max-nesting-depth': 5,
     // 不禁止低优先级的选择器出现在高优先级的选择器之后
     // [优先级的描述]{@link https://www.w3.org/TR/css3-selectors/#specificity}
-    'no-descending-specificity': false,
+    'no-descending-specificity': null,
     // 类选择器使用 snake case
     'selector-class-pattern': '^[a-z0-9]+(-?[a-z0-9]+)*$',
     // ID 选择器使用小驼峰命名

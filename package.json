@@ -12,7 +12,7 @@
     "dist-map": "NODE_ENV=development  webpack --mode development --progress",
     "dist-pro": "webpack --mode production --progress",
     "dist": "rm -rf dist && npm run dist-map && npm run dist-pro && npm run dist-style",
-    "lint-style": "stylelint  styles  *.less",
+    "lint-style": "stylelint  \"styles/**/*.less\"",
     "lint-js": "eslint src  *.js*",
     "lint": "npm run lint-js && npm run lint-style",
     "tdd": "karma start",
