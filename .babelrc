@@ -10,10 +10,10 @@
     "stage-0"
   ],
   "plugins": [
+    "lodash",
     "transform-proto-to-assign",
     "flow-react-proptypes",
     "transform-react-flow-handled-props",
-    "lodash",
     "transform-class-properties",
     "transform-dev"
   ],

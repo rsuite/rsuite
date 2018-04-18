@@ -7,11 +7,11 @@
     "lib": "lib/"
   },
   "scripts": {
-    "build": "rm -rf lib && babel src --out-dir lib ",
+    "build": "rm -rf lib && babel src --out-dir lib && npm run dist",
     "tdd": "karma start",
     "lint": "eslint src  *.js*",
     "gulp": "gulp --gulpfile scripts/gulpfile.js",
-    "dist": "rm -rf dist && NODE_ENV=production  webpack --mode production --progress && gulp",
+    "dist": "rm -rf dist && NODE_ENV=production  webpack --mode production --progress && npm run gulp",
     "test": "npm run lint && NODE_ENV=coverage  karma start --single-run",
     "coveralls": "cat ./coverage/lcov/lcov.info | ./node_modules/.bin/coveralls",
     "flow": "flow"
@@ -31,6 +31,7 @@
   "files": [
     "CHANGELOG.md",
     "README.md",
+    "dist",
     "lib",
     "src"
   ],
@@ -53,7 +54,8 @@
     "rsuite-table": "^3.0.0-next.3",
     "rsuite-treepicker": "^3.0.0-next.3",
     "rsuite-uploader": "^3.0.0-next",
-    "rsuite-utils": "^1.0.0-next.10"
+    "rsuite-utils": "^1.0.0-next.10",
+    "webpack-bundle-analyzer": "^2.11.1"
   },
   "peerDependencies": {
     "react": "^0.14.9 || >=15.3.0",
