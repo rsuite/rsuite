@@ -6,8 +6,7 @@
 
 [![Discord](https://img.shields.io/badge/Discord-Join%20chat%20%E2%86%92-738bd7.svg)](https://discord.gg/GmPXTH3)
 
-
-<img src="https://user-images.githubusercontent.com/1203827/38915267-a966bf0c-4315-11e8-9eba-7d4cb77d4229.png" width="500" />
+[<img src="https://user-images.githubusercontent.com/1203827/38915267-a966bf0c-4315-11e8-9eba-7d4cb77d4229.png" width="500" />](https://rsuitejs.com)
 
 RSUITE (React Suite) is a set of react component libraries for enterprise system products. Built by Hypers front-end team and UX team, mainly serve the company's large data products.
 
