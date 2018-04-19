@@ -17,11 +17,11 @@
   .@{ns}dropdown .@{ns}dropdown-toggle,
   .@{ns}dropdown-item > .@{ns}dropdown-item-content {
     padding: @sidenav-padding-vertical @sidenav-padding-horizonal;
-    transition: padding-left @sidenav-collapse-transition-config, @nav-item-transition;
+    transition: @nav-item-transition;
   }
 
   .@{ns}dropdown .@{ns}dropdown-menu {
-    transition: padding-left @sidenav-collapse-transition-config, height @sidenav-collapse-transition-config;
+    transition: height @sidenav-collapse-transition-config;
   }
 
   .@{ns}dropdown .@{ns}dropdown-toggle {
@@ -45,7 +45,7 @@
   .@{ns}dropdown .@{ns}dropdown-toggle {
     font-size: @sidenav-level1-item-font-size;
     line-height: @sidenav-level1-item-line-height;
-    padding-left: @sidenav-padding-horizonal + @sidenav-icon-width+@sidenav-icon-spacing;
+    padding-left: @sidenav-padding-horizonal + @sidenav-icon-width + @sidenav-icon-spacing;
     .ellipsis;
 
     > .@{ns}icon {
@@ -248,6 +248,12 @@
     .@{ns}dropdown-item .@{ns}dropdown-item-content,
     .@{ns}dropdown-item-submenu > .@{ns}dropdown-item-content > .@{ns}dropdown-menu-toggle {
       text-overflow: clip;
+    }
+  }
+
+  &.@{ns}sidenav-collapse-in {
+    .@{ns}dropdown-toggle-caret {
+      display: none;
     }
   }
 

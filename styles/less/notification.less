@@ -80,17 +80,12 @@
   // Animations
   &-notify &-fade-entered,
   &-notify &-fade-leave-active {
-    animation-duration: .3s;
     animation-fill-mode: forwards;
   }
 
   &-notify &-fade-entered {
-    animation-timing-function: cubic-bezier(.68, -.55, .27, 1.55);
-  }
-
-  &-notify &-fade-leave-active {
-    animation-timing-function: cubic-bezier(.4, 0, 1, 1);
-    animation-name: notificationMoveOut;
+    animation-duration: .4s;
+    animation-timing-function: cubic-bezier(.99, .44, .44, 1.35);
   }
 
   &-notify &-fade-exited,
@@ -133,6 +128,12 @@
     .@{notification-ns}-fade-entered {
       animation-name: notificationMoveInRight;
     }
+  }
+
+  &-notify &-fade-leave-active {
+    animation-duration: .3s;
+    animation-timing-function: cubic-bezier(.64, .65, .57, 1.13);
+    animation-name: notificationMoveOut;
   }
 }
 

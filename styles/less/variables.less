@@ -302,6 +302,7 @@
 @error-message-triangle-width: 6px;
 @error-message-triangle-gap: 10px;
 @error-message-triangle-vertical: 4px;
+@error-message-translate-distance: 2px;
 
 //== Number input
 //
@@ -533,7 +534,8 @@
 @nav-bar-height: @nav-bar-padding-vertical * 2 + @line-height-computed;
 //** Default
 @nav-bar-default-bg: @B050;
-@nav-bar-default-active-bg: @B200;
+@nav-bar-default-active-color: @H500;
+@nav-bar-default-active-bg: transparent;
 @nav-bar-default-font-color: @B800;
 
 //** Inverse
@@ -564,11 +566,11 @@
 @sidenav-menu-animation-time: 1.5s;
 @sidenav-level1-item-font-size: @font-size-large;
 @sidenav-level1-item-line-height: unit(@line-height-computed/@font-size-large);
-@sidenav-icon-spacing: 15px;
+@sidenav-icon-spacing: 20px;
 @sidenav-icon-width: @sidenav-level1-item-font-size;
 @sidenav-dropdown-toggle-caret-width: 20px;
 @sidenav-level-retract: 9px;
-@sidenav-level1-retract: @sidenav-padding-horizonal + @sidenav-icon-width+@sidenav-icon-spacing;
+@sidenav-level1-retract: @sidenav-padding-horizonal + @sidenav-icon-width + @sidenav-icon-spacing;
 @sidenav-collapse-transition-config: .2s ease-in;
 // ** Sidenav default
 @sidenav-deafult-bg: @B050;
@@ -838,7 +840,7 @@
 @alert-max-width: 400px;
 @alert-box-shadow: @default-box-shadow;
 @alert-close-btn-size: 12px;
-@alert-close-btn-padding: 8px 8px 0;
+@alert-close-btn-padding: 4px;
 
 // Alternate colors
 @alert-success-bg: @state-success-bg;

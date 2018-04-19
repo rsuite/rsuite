@@ -69,6 +69,60 @@
   }
 }
 
+@keyframes errorMessageSlideUpIn {
+  0% {
+    transform: translate3d(0, @error-message-translate-distance, 0);
+    visibility: visible;
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes errorMessageSlideDownIn {
+  0% {
+    transform: translate3d(0, -1*@error-message-translate-distance, 0);
+    visibility: visible;
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes errorMessageSlideLeftIn {
+  0% {
+    transform: translate3d(-1*@error-message-translate-distance, 0, 0);
+    visibility: visible;
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes errorMessageSlideRightIn {
+  0% {
+    transform: translate3d(@error-message-translate-distance, 0, 0);
+    visibility: visible;
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 @keyframes buttonSpin {
   from {
     transform: rotate(0);

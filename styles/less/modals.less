@@ -56,6 +56,7 @@
   }
 
   &.in .@{ns}modal-dialog {
+    opacity: 0;
     // timing: ease-in-out
     animation: modalMoveIn .3s cubic-bezier(.68, -.55, .27, 1.55) forwards;
   }
@@ -97,11 +98,12 @@
 
   // Fade for backdrop
   &.fade {
-    .opacity(0);
+    opacity: 0;
+    transition: opacity .3s ease-in;
   }
 
   &.in {
-    .opacity(@modal-backdrop-opacity);
+    opacity: @modal-backdrop-opacity;
   }
 }
 

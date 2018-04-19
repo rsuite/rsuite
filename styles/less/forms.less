@@ -220,7 +220,7 @@ input[type="checkbox"]:focus {
     &-show {
       display: block;
       animation-duration: .3s;
-      animation-timing-function: ease-in-out;
+      animation-timing-function: ease-out;
     }
 
     &-arrow {
@@ -243,7 +243,7 @@ input[type="checkbox"]:focus {
         top: 0;
 
         &-show {
-          animation-name: slideUpIn;
+          animation-name: errorMessageSlideDownIn;
         }
       }
 
@@ -270,7 +270,7 @@ input[type="checkbox"]:focus {
         bottom: 0;
 
         &-show {
-          animation-name: slideDownIn;
+          animation-name: errorMessageSlideUpIn;
         }
       }
 
@@ -330,7 +330,7 @@ input[type="checkbox"]:focus {
         right: 0;
 
         &-show {
-          animation-name: slideRightIn;
+          animation-name: errorMessageSlideRightIn;
         }
       }
 
@@ -357,7 +357,7 @@ input[type="checkbox"]:focus {
         left: 0;
 
         &-show {
-          animation-name: slideLeftIn;
+          animation-name: errorMessageSlideLeftIn;
         }
       }
 

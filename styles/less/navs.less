@@ -104,12 +104,6 @@
       float: left;
     }
 
-    // margin space
-    ul > .@{ns}dropdown:not(:first-child),
-    ul > .@{ns}nav-item:not(:first-child) {
-      margin-left: @nav-item-spacing;
-    }
-
     // Waterline
     .@{ns}nav-waterline {
       position: absolute;
@@ -421,6 +415,7 @@
     &:hover,
     &:focus,
     &:active {
+      color: @nav-bar-default-active-color;
       background-color: @nav-bar-default-active-bg;
     }
   }
@@ -449,7 +444,7 @@
     &:hover,
     &:focus,
     &:active {
-      background-color: @nav-bar-inverse-active-bg;
+      background-color: @nav-bar-inverse-active-bg !important;
     }
   }
 
