@@ -1,55 +1,56 @@
 # 3.0.0 next
 
-* 支持 Flow, 类型检查
-* 支持 React 15+,16+, 同时兼容 React 0.14.9+
-* 支持 国际化
-* 放弃对 IE9 的支持
-* Breadcrumb 新增支持 separator, 自定义分隔符
-* Modal autoResizeHeight 属性重命名为 overflow
-* 更新 Button 组进行
-  * 删除 shape 属性， 通过 appearance 属性代替，新增对 subtle，ghost 按钮支持
-  * 新增支持 color 属性，定义按钮颜色
-  * 新增支持 loading 属性
-* 更新 Table 组件
-  * 集成所有 rsuite-table 功能
-  * 新增支持合并单元格
-  * 新增支持文本过长换行的处理，需要设置 wordWrap 属性，默认为 flase
-* 更新 Checkbox 组件，支持 indeterminate 属性
-* 更新 Dropdown 组件
-  * 删除 activeKey 与 select 属性，如果需要选择功能，可以使用 SelectPicker 组
-  * 支持多级菜单
-  * 支持 placement 属性，设置菜单显示位置
-* 更新 Nav 组件，新增 appearance（'default' | 'subtle' | 'tabs'） 属性。
-* 更新 Form 相关组件
-  * 集成所有 form-lib 与 rsuite-schema 功能
-  * 用 FormControl 组件取代了 Field 组件,(默认处理 Input 组件，可以通过 accepter 属性修改 )
-  * Form checkTrigger 属性值 null 改为 'none'
-  * 支持 3 种布局方式 layout: 'horizontal' | 'vertical' | 'inline'
-  * HelpBlock 组件支持 tooltip 属性
-  * 新增 ErrorMessage 组件， 用于显示错误信息
-* 把独立组件库统一集成到 rsuite 库
-  * 新增 Uploader 组件
-  * 新增 Tree 组件
-  * 新增 CheckTree 组件
-  * 新增 TreePicker 组件
-  * 新增 CheckTreePicker 组件
-  * 新增 SelectPicker 组件
-  * 新增 CheckPicker 组件
-  * 新增 Cascader 组件
-  * 新增 AutoComplete 组件
-  * 新增 DatePicker 组件
-  * 新增 DateRangePicker 组件
-  * 新增 Slider 组件
-  * 新增 InputNumber 组件
-  * 新增 Steps 组件
-  * 新增 Timeline 组件
-* 新增组件
-  * 新增 Sidenav 组件
-  * 新增 IconButton 组件
-  * 新增 Icon 组件，代替 IconFont 组件，同时支持 svg 自定义导入图标
-  * 新增 Drawer 组件
-  * 新增 Progress 组件
-  * 新增 Alert 组件
-  * 新增 Message 组件
-  * 新增 Notification 组件
-  * 新增 Loader 组件
+* A brand new style.
+* Support react 16+.
+* Support Internationalization.
+* Support flow, a Static Type Checker for JavaScript.
+* Give up support for IE9.
+* Breadcrumb New support `separator` property, custom separator.
+* Modal `autoResizeHeight` attribute renamed to `overflow`.
+* Update Button Group
+  * Delete `shape` property, replace with `appearance` property, add support for `subtle` and `ghost` button
+  * Add property `color`, define button color.
+  * Add property `loading`.
+* Update Table
+  * Integrate all `rsuite-table` functions
+  * Add support merged cells
+  * Add support text over long line wrap processing, you need to set the `wordWrap` property, default to flase
+* Update Checkbox, support `indeterminate` property
+* Update Dropdown
+  * Delete the `activekey` and `select` properties, and use the `Selectpicker` component if you need to select a feature.
+  * Add Support Multilevel Menu
+  * Add property placement` , set menu display location.
+* Update Nav components, add `appearance` (`default`,`subtle`,`tabs`) property.
+* Update Form related components
+  * Integrates all `form-lib` and `rsuite-schema` functions.
+  * Replaced the Field component with the `FormControl` component (default processing Input component, can be modified by `accepter` property)
+  * Form `checktrigger` property value `null` to 'none'
+  * Support 3 kinds of layout layout: `horizontal`, `vertical`, `inline`.
+  * Helpblock support `tooltip` property
+  * Add `ErrorMessage` component for displaying error messages.
+* Integrate standalone component library into `rsuite` library
+  * Add Uploader
+  * Add Tree
+  * Add CheckTree
+  * Add TreePicker
+  * Add CheckTreePicker
+  * Add SelectPicker
+  * Add CheckPicker
+  * Add Cascader
+  * Add AutoComplete
+  * Add DatePicker
+  * Add DateRangePicker
+  * Add Slider
+  * Add InputNumber
+  * Add Steps
+  * Add Timeline
+* New Components
+  * Add Sidenav
+  * Added IconButton
+  * Add Icon, instead of IconFont component, while supporting SVG custom import icons.
+  * Added Drawer
+  * Add Progress
+  * Add Alert
+  * Add Message
+  * Add Notification
+  * Add Loader
