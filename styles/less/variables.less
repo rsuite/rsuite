@@ -1,5 +1,5 @@
 @import "iconfont-variables";
-@import "commonly-variables";
+@import "constants";
 
 @primary-color: @H500;
 @primary-bg-color: @H050;
@@ -103,7 +103,9 @@
 //## Specify custom location and filename of the included Glyphicons icon font. Useful for those including Bootstrap via Bower.
 
 //** Load fonts from this directory.
-@icon-font-path: "./fonts";
+// default use cdn.jsdelivr.net
+// If you want to use local resource , please change it to "./fonts"
+@icon-font-path: "//cdn.jsdelivr.net/npm/rsuite-icon-font@3.0.0/fonts";
 @icon-font-size-base: @font-size-base;
 @icon-line-height-base: 1;
 @icon-css-prefix: ~"@{ns}icon";
