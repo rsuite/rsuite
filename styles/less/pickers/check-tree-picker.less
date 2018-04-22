@@ -32,6 +32,20 @@
     transition-property: background-color, color;
     position: relative;
 
+    // Only has 1 level
+    .without-children & {
+      padding-left: 34px; //text gap + checkbox space
+
+      &::before {
+        width: 28px;
+        margin-left: -36px;
+      }
+
+      .@{ctpns}-view-input-wrapper {
+        left: 0;
+      }
+    }
+
     &::before {
       content: "";
       position: absolute;
