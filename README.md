@@ -9,8 +9,8 @@
 
 [<img src="https://opencollective.com/rsuite/tiers/backer.svg?avatarHeight=36">](https://opencollective.com/rsuite)
 
-[<img src="https://user-images.githubusercontent.com/1203827/38915267-a966bf0c-4315-11e8-9eba-7d4cb77d4229.png" width="500" />](https://rsuitejs.com)
 
+[<img src="https://user-images.githubusercontent.com/1203827/39026518-277950c4-4480-11e8-8109-42fbb0f2f7b5.png" width="100" />](https://rsuitejs.com)
 
 
 

@@ -19,12 +19,14 @@ const withLocale = (combineKeys: Array<string> = []) => BaseComponent => {
     };
 
     render() {
+      const { innerRef, ...rest } = this.props;
       const messages = this.context.rsuiteLocale || enGB;
       const locales = combineKeys.map(key => _.get(messages, `${key}`));
 
       return factory({
+        ref: innerRef,
         locale: mergeObject(locales),
-        ...this.props
+        ...rest
       });
     }
   }
