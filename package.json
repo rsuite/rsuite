@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A suite of react components",
   "main": "lib/index.js",
   "directories": {
@@ -27,7 +27,7 @@
     "type": "git",
     "url": "git@github.com:rsuite/rsuite.git"
   },
-  "files": ["CHANGELOG.md", "README.md", "dist", "lib", "src"],
+  "files": ["CHANGELOG.md", "README.md", "dist", "lib", "src", "styles"],
   "dependencies": {
     "classnames": ">=2.0.0",
     "dom-lib": "^1.0.0",
