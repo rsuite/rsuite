@@ -44,7 +44,7 @@
     "rsuite-checktreepicker": "^3.0.3",
     "rsuite-treepicker": "^3.0.1",
     "rsuite-intl": "^1.0.4",
-    "rsuite-notification": "^3.0.1",
+    "rsuite-notification": "^3.0.2",
     "rsuite-table": "^3.0.0",
     "rsuite-schema": "0.0.11"
   },
