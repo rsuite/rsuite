@@ -15,6 +15,10 @@
   transition-property: background-color, width;
   user-select: none;
 
+  &:hover {
+    background-color: @toggle-default-hover-bg;
+  }
+
   &::after {
     content: "";
     cursor: pointer;
@@ -34,13 +38,31 @@
     }
   }
 
-  &-disabled {
-    cursor: not-allowed;
-    opacity: .3;
-  }
-
   &-checked {
     background-color: @toggle-checked-bg;
+
+    &:hover {
+      background-color: @toggle-checked-hover-bg;
+    }
+  }
+
+  &-disabled {
+    &,
+    &::after {
+      cursor: not-allowed;
+    }
+
+    &,
+    &:hover {
+      background-color: @B050;
+    }
+  }
+
+  &-disabled&-checked {
+    &,
+    &:hover {
+      background-color: @H100;
+    }
   }
 }
 
