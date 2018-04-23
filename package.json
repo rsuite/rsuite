@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "3.0.0-next.12",
+  "version": "3.0.0",
   "description": "A suite of react components",
   "main": "lib/index.js",
   "directories": {
@@ -21,7 +21,7 @@
     "flow": "flow"
   },
   "keywords": ["react", "rsuite", "component", "react-component"],
-  "author": "Simon Guo <simonguo.2009@gmail.com>",
+  "author": "HYPERS Team",
   "license": "MIT",
   "repository": {
     "type": "git",
