@@ -31,7 +31,7 @@ The IE9 version (including IE9) is not supported at the beginning of Rsuite 3, a
 
 ## UI Design
 
-Rsuite Design Prototype and specification, click to [view](https://next.rsuitejs.com/design/index.html)
+Rsuite Design Prototype and specification, click to [view](https://rsuitejs.com/design/index.html)
 
 ## Install
 
@@ -57,10 +57,10 @@ To preview This example, click ['CodeSandbox'](https://codesandbox.io/s/mo7jxvr9
 
 ### Help Links
 
-* [Quick start](https://next.rsuitejs.com/guide/usage)
-* [Customizing themes](https://next.rsuitejs.com/guide/themes)
-* [Internationalization](https://next.rsuitejs.com/guide/intl)
-* [Components](https://next.rsuitejs.com/components/overview)
+* [Quick start](https://rsuitejs.com/guide/usage)
+* [Customizing themes](https://rsuitejs.com/guide/themes)
+* [Internationalization](https://rsuitejs.com/guide/intl)
+* [Components](https://rsuitejs.com/components/overview)
 
 ## Change Log
 
@@ -68,7 +68,7 @@ To preview This example, click ['CodeSandbox'](https://codesandbox.io/s/mo7jxvr9
 
 # Contributing
 
-Please read through our [contributing guidelines](https://github.com/rsuite/rsuite/blob/next/CONTRIBUTING.md).
+Please read through our [contributing guidelines](https://github.com/rsuite/rsuite/blob/master/CONTRIBUTING.md).
 
 Editor preferences are available in the [.prettierrc](https://github.com/rsuite/rsuite/wiki/.prettierrc) for easy use in common text editors. Read more and download plugins at https://prettier.io/.
 
