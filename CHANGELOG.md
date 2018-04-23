@@ -4,6 +4,8 @@
 * Support react 16+.
 * Support Internationalization.
 * Support flow, a Static Type Checker for JavaScript.
+* Added prettier formatting.
+* Update build to use `babel-preset-env`
 * Give up support for IE9.
 * Breadcrumb New support `separator` property, custom separator.
 * Modal `autoResizeHeight` attribute renamed to `overflow`.
