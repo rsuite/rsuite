@@ -11,6 +11,11 @@
     position: relative;
   }
 
+  &-content {
+    // Hack display:contents to make sure width adaptive content.
+    .ie-display(table);
+  }
+
   // Fixed: The problem of wide width in IE browser.
   &-notify,
   &-notify &-notice-wrapper {
@@ -24,6 +29,8 @@
     padding: @notify-padding;
     border-radius: @notify-border-radius;
     max-width: @notify-max-width;
+    // Hack display:contents to make sure width adaptive content.
+    .ie-display(table);
   }
 
   // Title
