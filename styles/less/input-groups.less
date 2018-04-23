@@ -38,6 +38,17 @@
       border: none;
       border-radius: 0;
     }
+
+    // @FIXED: first-child haven't border radius in ie10.
+    & > :first-child,
+    .@{ns}auto-complete:first-child .@{ns}input {
+      .border-left-radius(@input-border-radius);
+    }
+
+    & > :last-child,
+    .@{ns}auto-complete:last-child .@{ns}input {
+      .border-right-radius(@input-border-radius);
+    }
   }
 
   .@{ns}input {
