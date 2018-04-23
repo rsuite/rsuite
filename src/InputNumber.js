@@ -27,11 +27,17 @@ type Props = {
 };
 
 type State = {
-  decimals: number,
   value?: number | null,
   disabledUpButton?: boolean,
   disabledDownButton?: boolean
 };
+
+function decimals(value) {
+  if (_.isNumber(value) && !_.isInteger(value)) {
+    return value.toString().split('.')[1].length;
+  }
+  return 0;
+}
 
 class InputNumber extends React.Component<Props, State> {
   static defaultProps = {
@@ -43,8 +49,7 @@ class InputNumber extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      value: props.defaultValue || 0,
-      decimals: this.getDecimals(props)
+      value: props.defaultValue || 0
     };
   }
   componentWillMount() {
@@ -52,32 +57,19 @@ class InputNumber extends React.Component<Props, State> {
     this.setButtonStatus(value);
   }
   componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.step !== this.props.step) {
-      this.setState({
-        decimals: this.getDecimals(nextProps)
-      });
-    }
     if (nextProps.value !== this.props.value) {
       this.setButtonStatus(nextProps.value);
     }
   }
 
-  getDecimals(nextProps?: Props) {
-    const { step } = nextProps || this.props;
-    if (_.isNumber(step) && !_.isInteger(step)) {
-      return step.toString().split('.')[1].length;
-    }
-    return 0;
-  }
-
-  getMax(value: number | null) {
+  eqMax(value: number | null) {
     const { max } = this.props;
     return {
       inMax: +value <= max,
       equalMax: +value >= max
     };
   }
-  getMin(value: number | null) {
+  eqMin(value: number | null) {
     const { min } = this.props;
     return {
       inMin: +value >= min,
@@ -90,8 +82,8 @@ class InputNumber extends React.Component<Props, State> {
   }
   setButtonStatus(value?: number | null) {
     if (typeof value !== 'undefined') {
-      const disabledUpButton = this.getMax(value).equalMax;
-      const disabledDownButton = this.getMin(value).equalMin;
+      const disabledUpButton = this.eqMax(value).equalMax;
+      const disabledDownButton = this.eqMin(value).equalMin;
       this.setState({
         disabledUpButton,
         disabledDownButton
@@ -111,10 +103,10 @@ class InputNumber extends React.Component<Props, State> {
     let targetValue = Number.parseFloat(event.target.value);
 
     if (!Number.isNaN(targetValue)) {
-      if (!this.getMax(targetValue).inMax) {
+      if (!this.eqMax(targetValue).inMax) {
         targetValue = max;
       }
-      if (!this.getMin(targetValue).inMin) {
+      if (!this.eqMin(targetValue).inMin) {
         targetValue = min;
       }
     } else {
@@ -138,20 +130,24 @@ class InputNumber extends React.Component<Props, State> {
   };
 
   handlePlus = (event: SyntheticEvent<*>) => {
-    const { decimals } = this.state;
     const { step, max } = this.props;
-    let nextValue = (this.getValue() || 0) + step;
+    const value = this.getValue() || 0;
+    const bit = decimals(value);
 
-    nextValue = this.getMax(nextValue).inMax ? +nextValue.toFixed(decimals) : max;
+    const nextValue = +(value + step).toFixed(bit);
+    const output = this.eqMax(nextValue).inMax ? nextValue : max;
 
-    this.handleValue(nextValue, event);
+    this.handleValue(output, event);
   };
   handleMinus = (event: SyntheticEvent<*>) => {
-    const { decimals } = this.state;
     const { step, min } = this.props;
-    let nextValue = (this.getValue() || 0) - step;
-    nextValue = this.getMin(nextValue).inMin ? +nextValue.toFixed(decimals) : min;
-    this.handleValue(nextValue, event);
+    const value = this.getValue() || 0;
+    const bit = decimals(value);
+
+    const nextValue = +(value - step).toFixed(bit);
+    const output = this.eqMin(nextValue).inMin ? nextValue : min;
+
+    this.handleValue(output, event);
   };
   handleValue(currentValue: number | null, event?: SyntheticEvent<*>, input?: boolean) {
     const { value } = this.state;
