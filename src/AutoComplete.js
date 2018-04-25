@@ -22,10 +22,15 @@ type PlacementEightPoints =
   | 'leftBottom'
   | 'rightBottom';
 
+type ItemDataType = {
+  label: any,
+  value: any
+};
+
 type Props = {
-  data: Array<string>,
+  data: Array<string | ItemDataType>,
   disabled?: boolean,
-  onSelect?: (text: React.Node, event: DefaultEvent) => void,
+  onSelect?: (item: ItemDataType, event: DefaultEvent) => void,
   onChange?: (value: string, event: DefaultEvent) => void,
   classPrefix?: string,
   value?: string,
@@ -68,8 +73,24 @@ class AutoComplete extends React.Component<Props, State> {
     return _.isUndefined(value) ? this.state.value : value;
   }
 
-  getFocusableMenuItems = (): Array<string> => {
-    const { data } = this.props;
+  getData() {
+    const { data = [] } = this.props;
+    return data.map(item => {
+      if (_.isString(item)) {
+        return {
+          value: item,
+          label: item
+        };
+      }
+
+      if (typeof item === 'object') {
+        return item;
+      }
+    });
+  }
+
+  getFocusableMenuItems = (): Array<any> => {
+    const data = this.getData();
     if (!data) {
       return [];
     }
@@ -84,7 +105,7 @@ class AutoComplete extends React.Component<Props, State> {
     const { focusItemValue } = this.state;
 
     for (let i = 0; i < items.length; i += 1) {
-      if (_.eq(focusItemValue, items[i])) {
+      if (_.eq(focusItemValue, items[i].value)) {
         focus(items, i);
         return;
       }
@@ -93,13 +114,13 @@ class AutoComplete extends React.Component<Props, State> {
     focus(items, -1);
   }
 
-  shouldDisplay = (label: any) => {
+  shouldDisplay = (item: any) => {
     const { value } = this.state;
     if (!_.trim(value)) {
       return false;
     }
     const keyword = value.toLocaleLowerCase();
-    return label.toLocaleLowerCase().indexOf(keyword) >= 0;
+    return item.label.toLocaleLowerCase().indexOf(keyword) >= 0;
   };
 
   handleChange = (value: string, event: SyntheticInputEvent<HTMLInputElement>) => {
@@ -128,7 +149,7 @@ class AutoComplete extends React.Component<Props, State> {
 
   focusNextMenuItem() {
     this.findNode((items, index) => {
-      const focusItemValue = items[index + 1];
+      const focusItemValue = items[index + 1].value;
       if (!_.isUndefined(focusItemValue)) {
         this.setState({ focusItemValue });
       }
@@ -137,7 +158,7 @@ class AutoComplete extends React.Component<Props, State> {
 
   focusPrevMenuItem() {
     this.findNode((items, index) => {
-      const focusItemValue = items[index - 1];
+      const focusItemValue = items[index - 1].value;
       if (!_.isUndefined(focusItemValue)) {
         this.setState({ focusItemValue });
       }
@@ -202,14 +223,15 @@ class AutoComplete extends React.Component<Props, State> {
     }
   };
 
-  handleSelect = (value: string, event: DefaultEvent) => {
+  handleSelect = (item: ItemDataType, event: DefaultEvent) => {
     const { onChange, onSelect } = this.props;
+    const value = item.value;
     this.setState({
       value,
       focusItemValue: value
     });
 
-    onSelect && onSelect(value, event);
+    onSelect && onSelect(item, event);
 
     if (this.state.value !== value) {
       onChange && onChange(value, event);
@@ -228,7 +250,8 @@ class AutoComplete extends React.Component<Props, State> {
   };
 
   renderDropdownMenu() {
-    const { placement, renderItem, data } = this.props;
+    const { placement, renderItem } = this.props;
+    const data = this.getData();
     const { focusItemValue } = this.state;
     const classes = classNames(
       this.addPrefix('menu'),
@@ -242,13 +265,13 @@ class AutoComplete extends React.Component<Props, State> {
           <ul role="menu">
             {items.map(item => (
               <AutoCompleteItem
-                key={item}
-                focus={focusItemValue === item}
-                value={item}
+                key={item.value}
+                focus={focusItemValue === item.value}
+                itemData={item}
                 onSelect={this.handleSelect}
                 renderItem={renderItem}
               >
-                {item}
+                {item.label}
               </AutoCompleteItem>
             ))}
           </ul>
@@ -263,12 +286,12 @@ class AutoComplete extends React.Component<Props, State> {
       classPrefix,
       defaultValue,
       placement,
-      data,
       open,
       style,
       ...rest
     } = this.props;
 
+    const data = this.getData();
     const value = this.getValue();
     const unhandled = getUnhandledProps(AutoComplete, rest);
     const classes = classNames(classPrefix, className, {

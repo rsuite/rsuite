@@ -1,4 +1,12 @@
-# 3.0.0 next
+# 3.0.2
+
+* AutoComplete support {value,label} in data property
+
+# 3.0.1
+
+* Fix: styles directory not published to NPM
+
+# 3.0.0
 
 * A brand new style.
 * Support react 16+.

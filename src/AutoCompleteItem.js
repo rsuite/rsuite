@@ -5,21 +5,26 @@ import classNames from 'classnames';
 
 import { getUnhandledProps, defaultProps, prefix } from './utils';
 
+type ItemDataType = {
+  label: any,
+  value: any
+};
+
 type Props = {
   classPrefix?: string,
-  value: string,
-  onSelect?: (value: any, event: SyntheticEvent<*>) => void,
+  itemData: ItemDataType,
+  onSelect?: (itemData: ItemDataType, event: SyntheticEvent<*>) => void,
   onKeyDown?: (event: SyntheticKeyboardEvent<*>) => void,
   focus?: boolean,
   className?: string,
   children?: React.Node,
-  renderItem?: (itemValue: string) => React.Node
+  renderItem?: (itemValue: ItemDataType) => React.Node
 };
 
 class AutoCompleteItem extends React.Component<Props> {
   handleClick = (event: SyntheticEvent<*>) => {
-    const { value, onSelect } = this.props;
-    onSelect && onSelect(value, event);
+    const { itemData, onSelect } = this.props;
+    onSelect && onSelect(itemData, event);
   };
 
   render() {
@@ -30,7 +35,7 @@ class AutoCompleteItem extends React.Component<Props> {
       className,
       classPrefix,
       renderItem,
-      value,
+      itemData,
       ...rest
     } = this.props;
 
@@ -50,7 +55,7 @@ class AutoCompleteItem extends React.Component<Props> {
           onKeyDown={onKeyDown}
           onClick={this.handleClick}
         >
-          {renderItem ? renderItem(value) : children}
+          {renderItem ? renderItem(itemData) : children}
         </a>
       </li>
     );
