@@ -1,5 +1,5 @@
 const gulp = require('gulp');
-const clean = require('gulp-clean');
+const del = require('del');
 const less = require('gulp-less');
 const postcss = require('gulp-postcss');
 const sourcemaps = require('gulp-sourcemaps');
@@ -9,7 +9,8 @@ const SOURCE_PATH = '../styles/less';
 const DIST_PATH = '../dist/styles';
 
 gulp.task('clean', () => {
-  return gulp.src(DIST_PATH, { read: true }).pipe(clean({ force: true }));
+  del.sync(`${DIST_PATH}/**`, { force: true });
+  return gulp;
 });
 
 gulp.task('build-less', () => {
