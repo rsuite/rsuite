@@ -1,8 +1,10 @@
 # RSUITE
 
-[![npm](https://badge.fury.io/js/rsuite.svg)](https://www.npmjs.com/package/rsuite)
+ [![npm](https://badge.fury.io/js/rsuite.svg)](https://www.npmjs.com/package/rsuite)
 [![Travis](https://travis-ci.org/rsuite/rsuite.svg?branch=master)](https://travis-ci.org/rsuite/rsuite)
 [![Coverage Status](https://coveralls.io/repos/github/rsuite/rsuite/badge.svg?branch=next)](https://coveralls.io/github/rsuite/rsuite?branch=next)
+[![Backers on Open Collective](https://opencollective.com/rsuite/backers/badge.svg)](#backers) 
+[![Sponsors on Open Collective](https://opencollective.com/rsuite/sponsors/badge.svg)](#sponsors)
 
 [![Discord](https://img.shields.io/badge/Discord-Join%20chat%20%E2%86%92-738bd7.svg)](https://discord.gg/GmPXTH3)
 
@@ -71,6 +73,36 @@ To preview This example, click ['CodeSandbox'](https://codesandbox.io/s/mo7jxvr9
 Please read through our [contributing guidelines](https://github.com/rsuite/rsuite/blob/master/CONTRIBUTING.md).
 
 Editor preferences are available in the [.prettierrc](https://github.com/rsuite/rsuite/wiki/.prettierrc) for easy use in common text editors. Read more and download plugins at https://prettier.io/.
+
+### Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](https://github.com/rsuite/rsuite/blob/master/CONTRIBUTING.md)].
+<a href="graphs/contributors"><img src="https://opencollective.com/rsuite/contributors.svg?width=890&button=false" /></a>
+
+
+### Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/rsuite#backer)]
+
+<a href="https://opencollective.com/rsuite#backers" target="_blank"><img src="https://opencollective.com/rsuite/backers.svg?width=890"></a>
+
+
+### Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/rsuite#sponsor)]
+
+<a href="https://opencollective.com/rsuite/sponsor/0/website" target="_blank"><img src="https://opencollective.com/rsuite/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/rsuite/sponsor/1/website" target="_blank"><img src="https://opencollective.com/rsuite/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/rsuite/sponsor/2/website" target="_blank"><img src="https://opencollective.com/rsuite/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/rsuite/sponsor/3/website" target="_blank"><img src="https://opencollective.com/rsuite/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/rsuite/sponsor/4/website" target="_blank"><img src="https://opencollective.com/rsuite/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/rsuite/sponsor/5/website" target="_blank"><img src="https://opencollective.com/rsuite/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/rsuite/sponsor/6/website" target="_blank"><img src="https://opencollective.com/rsuite/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/rsuite/sponsor/7/website" target="_blank"><img src="https://opencollective.com/rsuite/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/rsuite/sponsor/8/website" target="_blank"><img src="https://opencollective.com/rsuite/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/rsuite/sponsor/9/website" target="_blank"><img src="https://opencollective.com/rsuite/sponsor/9/avatar.svg"></a>
+
+
 
 ## License
 
