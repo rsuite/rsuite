@@ -69,7 +69,6 @@ describe('Col', () => {
     assert.include(classes, 'rs-col-hidden-sm');
     assert.include(classes, 'rs-col-hidden-md');
     assert.include(classes, 'rs-col-hidden-lg');
-
   });
 
   it('Should have a custom className', () => {

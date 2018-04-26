@@ -46,5 +46,4 @@ describe('DropdownToggle', () => {
     const instance = ReactTestUtils.renderIntoDocument(<DropdownToggle style={{ fontSize }} />);
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
-
 });

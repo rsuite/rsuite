@@ -24,7 +24,6 @@ describe('IconButton', () => {
   });
 
   it('Should have a custom style', () => {
-
     const fontSize = '12px';
     const instance = ReactTestUtils.renderIntoDocument(
       <IconButton icon="star" style={{ fontSize }} />

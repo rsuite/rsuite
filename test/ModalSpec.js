@@ -25,7 +25,6 @@ describe('Modal', () => {
     ReactTestUtils.Simulate.click(dialog);
   });
 
-
   it('Should not close the modal when the "static" dialog is clicked', () => {
     const onHideSpy = sinon.spy();
     const instance = ReactTestUtils.renderIntoDocument(

@@ -1,4 +1,3 @@
-
 // @flow
 
 export default (file: File, callback: (result: string | ArrayBuffer) => void) => {

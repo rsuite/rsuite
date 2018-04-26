@@ -7,6 +7,8 @@
     "lib": "lib/"
   },
   "scripts": {
+    "format": "prettier --write \"{src,test}/**/*.js\"",
+    "format:check": "prettier --list-different \"{src,test}/**/*.js\"",
     "build": "rm -rf lib && babel src --out-dir lib && npm run dist",
     "dist-style": "gulp --gulpfile scripts/gulpfile.js",
     "dist-map": "NODE_ENV=development  webpack --mode development --progress",
@@ -16,7 +18,7 @@
     "lint-js": "eslint src  *.js*",
     "lint": "npm run lint-js && npm run lint-style",
     "tdd": "karma start",
-    "test": "npm run lint && NODE_ENV=coverage  karma start --single-run",
+    "test": "npm run format:check && npm run lint && NODE_ENV=coverage  karma start --single-run",
     "coveralls": "cat ./coverage/lcov/lcov.info | ./node_modules/.bin/coveralls",
     "flow": "flow"
   },
