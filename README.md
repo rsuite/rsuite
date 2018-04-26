@@ -101,7 +101,7 @@ RSUITE is [MIT licensed][LICENSE]. Copyright (c) 2016-present, HYPERS.
 [coverage-svg]:https://coveralls.io/repos/github/rsuite/rsuite/badge.svg?branch=master
 [travis-home]:https://coveralls.io/github/rsuite/rsuite?branch=master
 [discord-svg]:https://img.shields.io/badge/Discord-Join%20chat%20%E2%86%92-738bd7.svg
-[discord-invite]:https://discord.gg/GmPXTH3
+[discord-invite]:https://discord.gg/R8mnjwh
 [rsuite-design]:https://rsuitejs.com/design/index.html
 [live-preview-on-codesandbox]:https://codesandbox.io/s/mo7jxvr9x9?from-embed
 [rsuite-doc-guide]:https://rsuitejs.com/guide/introduction
