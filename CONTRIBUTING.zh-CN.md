@@ -24,7 +24,7 @@ git clone https://github.com/<your-username>/rsuite.git
 cd rsuite
 ```
 
-* 如果您以前克隆过, 请从上游最新:
+* 如果您以前克隆过, 请从上游更新:
 
 ```bash
 git fetch upstream
