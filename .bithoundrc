@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "mute": [
+      "mocha",
+      "karma",
+      "webpack-cli",
+      "gulp",
+      "eslint-plugin-json",
+      "recompose",
+      "webpack-dev-server",
+      "sinon-chai",
+      "sinon",
+      "prettier",
+      "flow-bin",
+      "eslint-plugin-babel",
+      "coveralls",
+      "babel-plugin-flow-react-proptypes"
+    ]
+  }
+}
