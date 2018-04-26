@@ -20,7 +20,8 @@
     "tdd": "karma start",
     "test": "npm run format:check && npm run lint && NODE_ENV=coverage  karma start --single-run",
     "coveralls": "cat ./coverage/lcov/lcov.info | ./node_modules/.bin/coveralls",
-    "flow": "flow"
+    "flow": "flow",
+    "prepublishOnly": "npm run build"
   },
   "keywords": ["react", "rsuite", "component", "react-component"],
   "author": "HYPERS Team",
