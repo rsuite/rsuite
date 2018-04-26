@@ -87,11 +87,11 @@ Editor preferences are available in the [.prettierrc](https://github.com/rsuite/
 
 ## Supporting RSUITE
 
-If you like RSUITE, you can show your supoort by either
+If you like RSUITE, you can show your support by either
 
 - Starring this repo
-- [Leave a comment here](https://github.com/rsuite/rsuite/issues/11) if you are using RSUITE in your project (like we do :smile:)
-- Become a backer on OpenCollective
+- [Leaving a comment here](https://github.com/rsuite/rsuite/issues/11) if you are using RSUITE in your project (like we do :smile:)
+- Becomiong a backer on OpenCollective
 
 [<img src="https://opencollective.com/rsuite/tiers/backer.svg?avatarHeight=36">](https://opencollective.com/rsuite)
 
