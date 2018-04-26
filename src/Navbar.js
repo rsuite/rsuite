@@ -8,17 +8,19 @@ import setStatic from 'recompose/setStatic';
 import NavbarBody from './NavbarBody';
 import NavbarHeader from './NavbarHeader';
 
-import { prefix, defaultProps } from './utils';
+import { prefix, defaultProps, getUnhandledProps } from './utils';
 
 type Props = {
   classPrefix?: string,
   className?: string,
   appearance: 'default' | 'inverse' | 'subtle',
-  componentClass: React.ElementType
+  componentClass: React.ElementType,
+  hasChildContext?: boolean
 };
 
 class Navbar extends React.Component<Props> {
   static defaultProps = {
+    hasChildContext: true,
     appearance: 'default'
   };
 
@@ -28,16 +30,17 @@ class Navbar extends React.Component<Props> {
 
   getChildContext() {
     return {
-      navbar: true
+      navbar: this.props.hasChildContext
     };
   }
 
   render() {
-    const { className, componentClass: Component, classPrefix, appearance, ...props } = this.props;
+    const { className, componentClass: Component, classPrefix, appearance, ...rest } = this.props;
     const addPrefix = prefix(classPrefix);
+    const unhandled = getUnhandledProps(Navbar, rest);
     const classes = classNames(classPrefix, addPrefix(appearance), className);
 
-    return <Component {...props} className={classes} role="navigation" />;
+    return <Component {...unhandled} className={classes} role="navigation" />;
   }
 }
 
