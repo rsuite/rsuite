@@ -56,7 +56,7 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 
 [**Live preview on CodeSandbox**][live-preview-on-codesandbox]
 
-### Documentaion
+### Documentation
 
 You can go through [full documentation][rsuite-doc-guide] or start with following sections
 
@@ -84,7 +84,7 @@ If you like RSUITE, you can show your support by either
 
 - Starring this repo
 - [Leaving a comment here][issues-11] if you are using RSUITE in your project (like we do :smile:)
-- [Becomiong a backer][opencollective-home] on OpenCollective
+- [Becoming a backer][opencollective-home] on OpenCollective
 
 [![opencollective-now][opencollective-svg]][opencollective-home]
 
