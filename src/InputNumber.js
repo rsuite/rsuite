@@ -17,26 +17,32 @@ type Props = {
   min: number,
   max: number,
   step: number,
-  value?: number | null,
-  defaultValue?: number,
+  value?: number | string,
+  defaultValue?: number | string,
   prefix?: React.Node,
   postfix?: React.Node,
   disabled?: boolean,
   size?: 'lg' | 'md' | 'sm' | 'xs',
-  onChange?: (value: number | null, event?: SyntheticEvent<*>) => void
+  onWheel?: (event?: SyntheticEvent<*>) => void,
+  onChange?: (value: any, event?: SyntheticEvent<*>) => void
 };
 
 type State = {
-  value?: number | null,
+  value?: number | string,
   disabledUpButton?: boolean,
   disabledDownButton?: boolean
 };
 
-function decimals(value) {
+function getDecimalLength(value: number): number {
   if (_.isNumber(value) && !_.isInteger(value)) {
     return value.toString().split('.')[1].length;
   }
   return 0;
+}
+
+function decimals(...values: Array<number>) {
+  const lengths: Array<any> = values.map(getDecimalLength);
+  return Math.max(...lengths);
 }
 
 class InputNumber extends React.Component<Props, State> {
@@ -62,14 +68,14 @@ class InputNumber extends React.Component<Props, State> {
     }
   }
 
-  eqMax(value: number | null) {
+  eqMax(value: number | string) {
     const { max } = this.props;
     return {
       inMax: +value <= max,
       equalMax: +value >= max
     };
   }
-  eqMin(value: number | null) {
+  eqMin(value: number | string) {
     const { min } = this.props;
     return {
       inMin: +value >= min,
@@ -80,22 +86,22 @@ class InputNumber extends React.Component<Props, State> {
     const { value } = this.props;
     return _.isUndefined(value) ? this.state.value : value;
   }
-  setButtonStatus(value?: number | null) {
+  setButtonStatus(value?: number | string) {
     if (typeof value !== 'undefined') {
-      const disabledUpButton = this.eqMax(value).equalMax;
-      const disabledDownButton = this.eqMin(value).equalMin;
       this.setState({
-        disabledUpButton,
-        disabledDownButton
+        disabledUpButton: this.eqMax(value).equalMax,
+        disabledDownButton: this.eqMin(value).equalMin
       });
     }
   }
 
   handleOnChange = (value: any, event: SyntheticInputEvent<*>) => {
-    if (!/^-?(?:\d+)(\.)?(\d+)*$/.test(value) && value !== '') {
+    if (!/^-?(?:\d+)?(\.)?(\d+)*$/.test(value) && value !== '') {
       return;
     }
-    this.handleValue(value === '' ? null : value, event, true);
+    const isUnControl = _.isUndefined(this.props.value);
+
+    this.handleValue(value, event, isUnControl);
   };
 
   handleBlur = (event: SyntheticInputEvent<*>) => {
@@ -110,12 +116,12 @@ class InputNumber extends React.Component<Props, State> {
         targetValue = min;
       }
     } else {
-      targetValue = null;
+      targetValue = '';
     }
     this.handleValue(targetValue, event);
   };
   handleWheel = (event: SyntheticWheelEvent<*>) => {
-    const { disabled } = this.props;
+    const { onWheel, disabled } = this.props;
     if (!disabled && event.target === document.activeElement) {
       event.preventDefault();
       const delta: any = event.wheelDelta || -event.deltaY || -event.detail;
@@ -127,29 +133,30 @@ class InputNumber extends React.Component<Props, State> {
         this.handlePlus(event);
       }
     }
+
+    onWheel && onWheel(event);
   };
 
   handlePlus = (event: SyntheticEvent<*>) => {
     const { step, max } = this.props;
-    const value = this.getValue() || 0;
-    const bit = decimals(value);
-
-    const nextValue = +(value + step).toFixed(bit);
+    const value = +(this.getValue() || 0);
+    const bit = decimals(value, step);
+    const nextValue = (value + step).toFixed(bit);
     const output = this.eqMax(nextValue).inMax ? nextValue : max;
 
     this.handleValue(output, event);
   };
   handleMinus = (event: SyntheticEvent<*>) => {
     const { step, min } = this.props;
-    const value = this.getValue() || 0;
-    const bit = decimals(value);
+    const value = +(this.getValue() || 0);
+    const bit = decimals(value, step);
 
-    const nextValue = +(value - step).toFixed(bit);
+    const nextValue = (value - step).toFixed(bit);
     const output = this.eqMin(nextValue).inMin ? nextValue : min;
 
     this.handleValue(output, event);
   };
-  handleValue(currentValue: number | null, event?: SyntheticEvent<*>, input?: boolean) {
+  handleValue(currentValue: number | string, event?: SyntheticEvent<*>, input?: boolean) {
     const { value } = this.state;
     const { onChange } = this.props;
 

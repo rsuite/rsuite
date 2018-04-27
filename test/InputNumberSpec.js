@@ -61,6 +61,42 @@ describe('InputNumber', () => {
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-input-number-touchspin-down'));
   });
 
+  it('Should call onChange callback when onblur', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getDOMNode(<InputNumber onChange={doneOp} />);
+    const input = instance.querySelector('.rs-input');
+    input.value = 2;
+    ReactTestUtils.Simulate.blur(input);
+  });
+
+  it('Should call onWheel callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getDOMNode(<InputNumber onWheel={doneOp} />);
+    const input = instance.querySelector('.rs-input');
+    ReactTestUtils.Simulate.wheel(input);
+  });
+
+  it('Should call onChange callback when is control component', () => {
+    const onChnageSpy = sinon.spy();
+    const instance = getDOMNode(<InputNumber onChange={onChnageSpy} value={2} />);
+    const input = instance.querySelector('.rs-input');
+    ReactTestUtils.Simulate.change(input);
+    assert.ok(onChnageSpy.calledOnce);
+  });
+
+  it('Should not call onChange callback when is not control component', () => {
+    const onChnageSpy = sinon.spy();
+    const instance = getDOMNode(<InputNumber onChange={onChnageSpy} />);
+    const input = instance.querySelector('.rs-input');
+    ReactTestUtils.Simulate.change(input);
+
+    assert.ok(!onChnageSpy.calledOnce);
+  });
+
   it('Should have a custom className', () => {
     const instance = getDOMNode(<InputNumber className="custom" />);
     assert.include(instance.className, 'custom');
