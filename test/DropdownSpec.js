@@ -116,7 +116,6 @@ describe('Dropdown', () => {
   });
 
   it('Should not call onToggle callback when set disabled', () => {
-
     const onToggleSpy = sinon.spy();
     const instance = ReactTestUtils.renderIntoDocument(
       <Dropdown onToggle={onToggleSpy} disabled>
@@ -126,7 +125,6 @@ describe('Dropdown', () => {
     );
     ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('.rs-dropdown-toggle'));
     assert.ok(!onToggleSpy.calledOnce);
-
   });
 
   it('Should have a custom style in Menu', () => {
