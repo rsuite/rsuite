@@ -8,7 +8,7 @@ English | [中文版][readm-cn]
 </p>
 
 
-[![npm][npm-svg]][npm-home] [![Travis][travis-svg]][travis-home] [![Coverage Status][coverage-svg]][travis-home] [![Discord][discord-svg]][discord-invite]
+[![npm][npm-svg]][npm-home] [![Travis][travis-svg]][travis-home] [![Coverage Status][coverage-svg]][coverage-home] [![Discord][discord-svg]][discord-invite]
 
 RSUITE (React Suite) is a set of react component libraries for enterprise system products. Built by HYPERS front-end team and UX team, mainly serving company's big data products.
 
@@ -99,7 +99,7 @@ RSUITE is [MIT licensed][LICENSE]. Copyright (c) 2016-present, HYPERS.
 [travis-svg]:https://travis-ci.org/rsuite/rsuite.svg?branch=master
 [travis-home]:https://travis-ci.org/rsuite/rsuite
 [coverage-svg]:https://coveralls.io/repos/github/rsuite/rsuite/badge.svg?branch=master
-[travis-home]:https://coveralls.io/github/rsuite/rsuite?branch=master
+[coverage-home]:https://coveralls.io/github/rsuite/rsuite?branch=master
 [discord-svg]:https://img.shields.io/badge/Discord-Join%20chat%20%E2%86%92-738bd7.svg
 [discord-invite]:https://discord.gg/R8mnjwh
 [rsuite-design]:https://rsuitejs.com/design/index.html
