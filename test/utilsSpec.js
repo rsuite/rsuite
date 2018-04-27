@@ -2,6 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import tplTransform from '../src/utils/tplTransform';
 import isOneOf from '../src/utils/isOneOf';
+import previewFile from '../src/utils/previewFile';
 
 describe('[utils] tplTransform', () => {
   it('Should return react component', () => {
@@ -28,5 +29,14 @@ describe('[utils] isOneOf', () => {
 
   it('Should return false when target!=`c`', () => {
     assert.ok(!isOneOf('e', 'c'));
+  });
+});
+
+describe('[utils] previewFile', () => {
+  it('Should return base64 string', () => {
+    const file = new File(['First Line Text', 'Second Line Text'], 'test');
+    previewFile(file, result => {
+      assert.equal(result, 'data:;base64,Rmlyc3QgTGluZSBUZXh0U2Vjb25kIExpbmUgVGV4dA==');
+    });
   });
 });

@@ -42,6 +42,15 @@ describe('Message', () => {
     assert.ok(findDOMNode(instance).querySelector('.rs-message-btn-close'));
   });
 
+  it('Should call onClose callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = ReactTestUtils.renderIntoDocument(<Message closable onClose={doneOp} />);
+    const closeButton = findDOMNode(instance).querySelector('.rs-message-btn-close');
+    ReactTestUtils.Simulate.click(closeButton);
+  });
+
   it('Should have a custom className', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Message className="custom" />);
     assert.include(findDOMNode(instance).className, 'custom');

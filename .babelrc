@@ -19,7 +19,18 @@
   ],
   "env": {
     "coverage": {
-      "plugins": ["istanbul"]
+      "plugins": [
+        [
+          "istanbul",
+          {
+            "exclude": [
+              "src/utils/deprecationWarning.js",
+              "src/utils/lowPriorityWarning.js",
+              "src/utils/ajaxUpload.js"
+            ]
+          }
+        ]
+      ]
     }
   }
 }
