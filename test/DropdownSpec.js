@@ -115,23 +115,18 @@ describe('Dropdown', () => {
     ReactTestUtils.Simulate.click(btn);
   });
 
-  it('Should not call onToggle callback when set disabled', done => {
-    let k = true;
-    const doneOp = () => {
-      k = false;
-    };
-    setTimeout(() => {
-      if (k) {
-        done();
-      }
-    }, 200);
+  it('Should not call onToggle callback when set disabled', () => {
+
+    const onToggleSpy = sinon.spy();
     const instance = ReactTestUtils.renderIntoDocument(
-      <Dropdown onToggle={doneOp} disabled>
+      <Dropdown onToggle={onToggleSpy} disabled>
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
     ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('.rs-dropdown-toggle'));
+    assert.ok(!onToggleSpy.calledOnce);
+
   });
 
   it('Should have a custom style in Menu', () => {
