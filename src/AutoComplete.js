@@ -38,7 +38,11 @@ type Props = {
   className?: string,
   placement?: PlacementEightPoints,
   onFocus?: (event: DefaultEvent) => void,
+  onMenuFocus?: (focusItemValue: any, event: DefaultEvent) => void,
   onBlur?: (event: DefaultEvent) => void,
+  onKeyDown?: (event: DefaultEvent) => void,
+  onOpen?: () => void,
+  onClose?: () => void,
   renderItem?: (itemValue: string) => React.Node,
   style?: Object,
   open?: boolean
@@ -147,20 +151,26 @@ class AutoComplete extends React.Component<Props, State> {
     onBlur && onBlur(event);
   };
 
-  focusNextMenuItem() {
+  focusNextMenuItem(event: DefaultEvent) {
+    const { onMenuFocus } = this.props;
     this.findNode((items, index) => {
-      const focusItemValue = items[index + 1].value;
-      if (!_.isUndefined(focusItemValue)) {
+      const item = items[index + 1];
+      if (!_.isUndefined(item)) {
+        const focusItemValue = item.value;
         this.setState({ focusItemValue });
+        onMenuFocus && onMenuFocus(focusItemValue, event);
       }
     });
   }
 
-  focusPrevMenuItem() {
+  focusPrevMenuItem(event: DefaultEvent) {
+    const { onMenuFocus } = this.props;
     this.findNode((items, index) => {
-      const focusItemValue = items[index - 1].value;
-      if (!_.isUndefined(focusItemValue)) {
+      const item = items[index - 1];
+      if (!_.isUndefined(item)) {
+        const focusItemValue = item.value;
         this.setState({ focusItemValue });
+        onMenuFocus && onMenuFocus(focusItemValue, event);
       }
     });
   }
@@ -186,10 +196,10 @@ class AutoComplete extends React.Component<Props, State> {
   }
 
   close = () => {
-    this.setState({ focus: false });
+    this.setState({ focus: false }, this.props.onClose);
   };
   open = () => {
-    this.setState({ focus: true });
+    this.setState({ focus: true }, this.props.onOpen);
   };
 
   handleKeyDown = (event: SyntheticKeyboardEvent<*>) => {
@@ -197,15 +207,17 @@ class AutoComplete extends React.Component<Props, State> {
       return;
     }
 
+    const { onKeyDown } = this.props;
+
     switch (event.keyCode) {
       // down
       case 40:
-        this.focusNextMenuItem();
+        this.focusNextMenuItem(event);
         event.preventDefault();
         break;
       // up
       case 38:
-        this.focusPrevMenuItem();
+        this.focusPrevMenuItem(event);
         event.preventDefault();
         break;
       // enter
@@ -221,6 +233,7 @@ class AutoComplete extends React.Component<Props, State> {
         break;
       default:
     }
+    onKeyDown && onKeyDown(event);
   };
 
   handleSelect = (item: ItemDataType, event: DefaultEvent) => {

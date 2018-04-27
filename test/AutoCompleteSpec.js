@@ -60,11 +60,76 @@ describe('AutoComplete', () => {
     ReactTestUtils.Simulate.focus(input);
   });
 
+  it('Should call onKeyDown callback on input', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getDOMNode(<AutoComplete onKeyDown={doneOp} data={['a', 'b', 'ab']} open />);
+    const input = instance.querySelector('input');
+    ReactTestUtils.Simulate.keyDown(input);
+  });
+
+  it('Should call onKeyDown callback on menu', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getInstance(
+      <AutoComplete defaultValue="a" onKeyDown={doneOp} data={['a', 'b']} open />
+    );
+    ReactTestUtils.Simulate.keyDown(instance.menuContainer);
+  });
+
+  it('Should call onMenuFocus callback when keyCode=40', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getInstance(
+      <AutoComplete defaultValue="a" onMenuFocus={doneOp} data={['a', 'ab', 'ac']} open />
+    );
+    ReactTestUtils.Simulate.keyDown(instance.menuContainer, { keyCode: 40 });
+  });
+
+  it('Should call onMenuFocus callback when keyCode=38', done => {
+    let i = 0;
+    const doneOp = () => {
+      i++;
+      if (i === 2) {
+        done();
+      }
+    };
+    const instance = getInstance(
+      <AutoComplete defaultValue="a" onMenuFocus={doneOp} data={['a', 'ab', 'ac']} open />
+    );
+    ReactTestUtils.Simulate.keyDown(instance.menuContainer, { keyCode: 40 });
+    ReactTestUtils.Simulate.keyDown(instance.menuContainer, { keyCode: 38 });
+  });
+
+  it('Should call onChange callback when keyCode=13', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getInstance(
+      <AutoComplete defaultValue="a" onChange={doneOp} data={['a', 'ab', 'ac']} open />
+    );
+    ReactTestUtils.Simulate.keyDown(instance.menuContainer, { keyCode: 40 });
+    ReactTestUtils.Simulate.keyDown(instance.menuContainer, { keyCode: 13 });
+  });
+
+  it('Should call onClose callback when keyCode=27', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getInstance(
+      <AutoComplete defaultValue="a" onClose={doneOp} data={['a', 'ab', 'ac']} open />
+    );
+    ReactTestUtils.Simulate.keyDown(instance.menuContainer, { keyCode: 27 });
+  });
+
   it('Should call onBlur callback', done => {
     const doneOp = () => {
       done();
     };
-    const instance = getDOMNode(<AutoComplete onBlur={doneOp} />);
+    const instance = getDOMNode(<AutoComplete data={['a', 'b', 'ab']} onBlur={doneOp} />);
     const input = instance.querySelector('input');
     ReactTestUtils.Simulate.blur(input);
   });
