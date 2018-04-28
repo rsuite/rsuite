@@ -1,6 +1,9 @@
 # 3.0.2
 
 * AutoComplete support {value,label} in data property
+* Added support for keydown events in AutoComplete
+* Fix `pageDate` not updated when value change for `Datepicker`
+* Datepicker added new property `menuClassName`
 
 # 3.0.1
 

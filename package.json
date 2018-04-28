@@ -23,14 +23,26 @@
     "flow": "flow",
     "prepublishOnly": "npm run build"
   },
-  "keywords": ["react", "rsuite", "component", "react-component"],
+  "keywords": [
+    "react",
+    "rsuite",
+    "component",
+    "react-component"
+  ],
   "author": "HYPERS Team",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git@github.com:rsuite/rsuite.git"
   },
-  "files": ["CHANGELOG.md", "README.md", "dist", "lib", "src", "styles"],
+  "files": [
+    "CHANGELOG.md",
+    "README.md",
+    "dist",
+    "lib",
+    "src",
+    "styles"
+  ],
   "dependencies": {
     "classnames": ">=2.0.0",
     "dom-lib": "^1.0.0",
@@ -38,18 +50,18 @@
     "prop-types": "^15.6.0",
     "react-flow-types": "^0.2.0-beta.6",
     "recompose": "^0.26.0",
-    "rsuite-utils": "^1.0.0",
     "rsuite-cascader": "^3.0.0",
     "rsuite-checkpicker": "^3.0.0",
-    "rsuite-selectpicker": "^3.0.0",
-    "rsuite-datepicker": "^3.0.0",
-    "rsuite-daterangepicker": "^3.0.0",
     "rsuite-checktreepicker": "^3.0.3",
-    "rsuite-treepicker": "^3.0.1",
+    "rsuite-datepicker": "^3.0.1",
+    "rsuite-daterangepicker": "^3.0.0",
     "rsuite-intl": "^1.0.4",
     "rsuite-notification": "^3.0.2",
+    "rsuite-schema": "0.0.11",
+    "rsuite-selectpicker": "^3.0.0",
     "rsuite-table": "^3.0.0",
-    "rsuite-schema": "0.0.11"
+    "rsuite-treepicker": "^3.0.1",
+    "rsuite-utils": "^1.0.0"
   },
   "peerDependencies": {
     "react": "^0.14.9 || >=15.3.0",
@@ -111,10 +123,14 @@
     "sinon-chai": "^2.12.0",
     "stylelint": "^9.2.0",
     "stylelint-config-standard": "^18.2.0",
-    "webpack-bundle-analyzer": "^2.11.1",
     "webpack": "^4.5.0",
+    "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^2.0.14",
     "webpack-dev-server": "^2.3.0"
   },
-  "browserslist": ["> 1%", "last 2 versions", "ie >= 9"]
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "ie >= 9"
+  ]
 }
