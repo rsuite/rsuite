@@ -36,6 +36,7 @@ type Props = {
   value?: string,
   defaultValue?: string,
   className?: string,
+  menuClassName?: string,
   placement?: PlacementEightPoints,
   onFocus?: (event: DefaultEvent) => void,
   onMenuFocus?: (focusItemValue: any, event: DefaultEvent) => void,
@@ -263,32 +264,31 @@ class AutoComplete extends React.Component<Props, State> {
   };
 
   renderDropdownMenu() {
-    const { placement, renderItem } = this.props;
+    const { placement, renderItem, menuClassName } = this.props;
     const data = this.getData();
     const { focusItemValue } = this.state;
     const classes = classNames(
       this.addPrefix('menu'),
+      menuClassName,
       `${globalKey}placement-${_.kebabCase(placement)}`
     );
     const items = data.filter(this.shouldDisplay);
 
     return (
-      <MenuWrapper className={classes} onKeyDown={this.handleKeyDown}>
-        <div ref={this.menuContainerRef}>
-          <ul role="menu">
-            {items.map(item => (
-              <AutoCompleteItem
-                key={item.value}
-                focus={focusItemValue === item.value}
-                itemData={item}
-                onSelect={this.handleSelect}
-                renderItem={renderItem}
-              >
-                {item.label}
-              </AutoCompleteItem>
-            ))}
-          </ul>
-        </div>
+      <MenuWrapper className={classes} onKeyDown={this.handleKeyDown} ref={this.menuContainerRef}>
+        <ul role="menu">
+          {items.map(item => (
+            <AutoCompleteItem
+              key={item.value}
+              focus={focusItemValue === item.value}
+              itemData={item}
+              onSelect={this.handleSelect}
+              renderItem={renderItem}
+            >
+              {item.label}
+            </AutoCompleteItem>
+          ))}
+        </ul>
       </MenuWrapper>
     );
   }
