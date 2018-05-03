@@ -22,10 +22,13 @@ branches:
   only:
     - master
 
-deploy:
-  provider: npm
-  skip-cleanup: true
-  email: "simonguo.2009@gmail.com"
-  api_key: $NPM_AUTH_TOKEN
-  on:
-    tags: true
+jobs:
+  include:
+    - stage: "NPM publish"
+      script: echo "Deploying to NPM ..."
+      deploy:
+        provider: npm
+        email: "simonguo.2009@gmail.com"
+        api_key: $NPM_API_KEY
+        on:
+          tags: true
