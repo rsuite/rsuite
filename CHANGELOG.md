@@ -2,17 +2,17 @@
 
 > 2018-05-03
 
-* _Bugfix_: `pageDate` not updated when value change for `Datepicker`.
-* _Bugfix_: The scrolling operation throws an exception, when InputNumber `step` is a decimal.
-* _Feature_: AutoComplete support {value,label} in data property.
-* _Feature_: Added support for keydown events in AutoComplete.
-* _Feature_: All picker added new property `menuClassName`.
+* **Bugfix**: `pageDate` not updated when value change for `Datepicker`.
+* **Bugfix**: The scrolling operation throws an exception, when InputNumber `step` is a decimal.
+* **Feature**: AutoComplete support {value,label} in data property.
+* **Feature**: Added support for keydown events in AutoComplete.
+* **Feature**: All picker added new property `menuClassName`.
 
 # 3.0.1
 
 > 2018-04-24
 
-* _Bugfix_: styles directory not published to NPM
+* **Bugfix**: styles directory not published to NPM
 
 # 3.0.0
 
