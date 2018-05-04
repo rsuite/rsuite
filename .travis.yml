@@ -29,6 +29,6 @@ jobs:
       deploy:
         provider: npm
         email: "simonguo.2009@gmail.com"
-        api_key: $NPM_API_KEY
+        api_key: $NPM_AUTH_TOKEN
         on:
           tags: true
