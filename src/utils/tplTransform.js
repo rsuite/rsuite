@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-const toJSX = (node, key) => (node ? <span key={key}>{node}</span> : null);
+const toJSX = (node, key) => (typeof node !== 'undefined' ? <span key={key}>{node}</span> : null);
 
 /**
  * tplTransform('Show {0} data', <i>100</i>);
