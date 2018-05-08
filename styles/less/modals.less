@@ -164,7 +164,8 @@
 .@{ns}modal-body {
   position: relative;
   margin-top: @modal-body-margin;
-  margin-bottom: @modal-body-margin;
+  // Make sure input error message don't overflow.
+  padding-bottom: @modal-body-margin;
 }
 
 // Footer (for actions)
