@@ -20,7 +20,6 @@
     "tdd": "karma start",
     "test": "npm run format:check && npm run lint && NODE_ENV=coverage  karma start --single-run",
     "coveralls": "cat ./coverage/lcov/lcov.info | ./node_modules/.bin/coveralls",
-    "flow": "flow",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
@@ -82,7 +81,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.3.13",
-    "babel-preset-stage-0": "^6.5.0",
+    "babel-preset-stage-1": "^6.5.0",
     "brfs": "^1.6.1",
     "chai": "^4.1.0",
     "coveralls": "^2.13.1",

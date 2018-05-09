@@ -7,14 +7,13 @@
       }
     ],
     "react",
-    "stage-0"
+    "stage-1"
   ],
   "plugins": [
     "lodash",
     "transform-proto-to-assign",
     "flow-react-proptypes",
     "transform-react-flow-handled-props",
-    "transform-class-properties",
     "transform-dev"
   ],
   "env": {
