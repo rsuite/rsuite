@@ -92,6 +92,11 @@
   box-shadow: @picker-shadow;
   overflow: hidden;
 
+  // Increase z-index when modal opened.
+  .@{ns}modal-open & {
+    z-index: @zindex-modal + @zindex-dropdown;
+  }
+
   // Select picker menu & Check select picker menu always has 6px gap
   &.@{ns}picker-select-menu,
   &.@{ns}picker-check-menu {
