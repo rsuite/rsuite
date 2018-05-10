@@ -5,7 +5,7 @@
 * **Bugfix**: The error is thrown when children is false in `Container` ([#20])
 * **Bugfix**: Dropdown placement not customizable in Nav ([#21])
 * **Bugfix**: `tplTransform` return value mismatch when parameter is 0 ([#22])
-* **Bugfix**: Form error message incomplete display in Modal ([#22])
+* **Bugfix**: Form error message incomplete display in Modal ([#23])
 * **Chore**: Update Babel configuration ([#24])
 * **Bugfix**: Increase z-index for dropdown when modal opened ([#25])
 
