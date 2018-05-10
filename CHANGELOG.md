@@ -1,3 +1,21 @@
+# 3.0.3
+
+> 2018-05-10
+
+* **Bugfix**: The error is thrown when children is false in `Container` ([#20])
+* **Bugfix**: Dropdown placement not customizable in Nav ([#21])
+* **Bugfix**: `tplTransform` return value mismatch when parameter is 0 ([#22])
+* **Bugfix**: Form error message incomplete display in Modal ([#22])
+* **Chore**: Update Babel configuration ([#24])
+* **Bugfix**: Increase z-index for dropdown when modal opened ([#25])
+
+[#20]: https://github.com/rsuite/rsuite/pull/20
+[#21]: https://github.com/rsuite/rsuite/pull/21
+[#22]: https://github.com/rsuite/rsuite/pull/22
+[#23]: https://github.com/rsuite/rsuite/pull/23
+[#24]: https://github.com/rsuite/rsuite/pull/24
+[#25]: https://github.com/rsuite/rsuite/pull/25
+
 # 3.0.2
 
 > 2018-05-03
