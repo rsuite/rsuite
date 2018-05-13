@@ -13,7 +13,6 @@ import {
   createChainedFunction,
   prefix,
   ReactChildren,
-  isNullOrUndefined,
   getUnhandledProps,
   defaultProps
 } from './utils';
@@ -113,7 +112,7 @@ class DropdownMenu extends React.Component<Props> {
   };
 
   isActive(props: Object, activeKey: any) {
-    if (props.active || (!isNullOrUndefined(activeKey) && _.isEqual(props.eventKey, activeKey))) {
+    if (props.active || (!_.isUndefined(activeKey) && _.isEqual(props.eventKey, activeKey))) {
       return true;
     }
 

@@ -4,7 +4,6 @@ export createChainedFunction from './createChainedFunction';
 export defaultProps from './defaultProps';
 export deprecationWarning from './deprecationWarning';
 export getUnhandledProps from './getUnhandledProps';
-export isNullOrUndefined from './isNullOrUndefined';
 export isOneOf from './isOneOf';
 export lowPriorityWarning from './lowPriorityWarning';
 export prefix from './prefix';
