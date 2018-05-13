@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import setStatic from 'recompose/setStatic';
 
 import { defaultProps, prefix } from './utils';
-import FlexboxGirdItem from './FlexboxGirdItem';
+import FlexboxGridItem from './FlexboxGridItem';
 
 type Props = {
   className?: string,
@@ -14,7 +14,7 @@ type Props = {
   classPrefix: string
 };
 
-class FlexboxGird extends React.Component<Props> {
+class FlexboxGrid extends React.Component<Props> {
   static defaultProps = {
     align: 'top',
     justify: 'start'
@@ -27,10 +27,10 @@ class FlexboxGird extends React.Component<Props> {
   }
 }
 
-const EnhancedFlexboxGird = defaultProps({
-  classPrefix: 'flex-box-gird'
-})(FlexboxGird);
+const EnhancedFlexboxGrid = defaultProps({
+  classPrefix: 'flex-box-grid'
+})(FlexboxGrid);
 
-setStatic('Item', FlexboxGirdItem)(EnhancedFlexboxGird);
+setStatic('Item', FlexboxGridItem)(EnhancedFlexboxGrid);
 
-export default EnhancedFlexboxGird;
+export default EnhancedFlexboxGrid;
