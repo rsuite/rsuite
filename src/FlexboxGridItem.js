@@ -12,7 +12,7 @@ type Props = {
   classPrefix: string
 };
 
-class FlexboxGirdItem extends React.Component<Props> {
+class FlexboxGridItem extends React.Component<Props> {
   static defaultProps = {
     colspan: 0,
     order: 0
@@ -30,5 +30,5 @@ class FlexboxGirdItem extends React.Component<Props> {
 }
 
 export default defaultProps({
-  classPrefix: 'flex-box-gird-item'
-})(FlexboxGirdItem);
+  classPrefix: 'flex-box-grid-item'
+})(FlexboxGridItem);
