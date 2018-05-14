@@ -1,6 +1,7 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
+import { getDOMNode, getInstance } from './TestWrapper';
 
 import NavItem from '../src/NavItem';
 import innerText from './innerText';
@@ -8,9 +9,9 @@ import innerText from './innerText';
 describe('NavItem', () => {
   it('Should render a li', () => {
     let title = 'Test';
-    let instance = ReactTestUtils.renderIntoDocument(<NavItem>{title}</NavItem>);
-    assert.equal(findDOMNode(instance).tagName, 'LI');
-    assert.equal(innerText(findDOMNode(instance)), title);
+    let instance = getDOMNode(<NavItem>{title}</NavItem>);
+    assert.equal(instance.tagName, 'LI');
+    assert.equal(innerText(instance), title);
   });
 
   it('Should call onSelect callback', done => {
@@ -21,52 +22,62 @@ describe('NavItem', () => {
       }
     };
 
-    let instance = ReactTestUtils.renderIntoDocument(<NavItem onSelect={doneOp} eventKey={key} />);
-    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('a'));
+    let instance = getDOMNode(<NavItem onSelect={doneOp} eventKey={key} />);
+    ReactTestUtils.Simulate.click(instance.querySelector('a'));
   });
 
   it('Should call onClick callback', done => {
     let doneOp = () => {
       done();
     };
-    let instance = ReactTestUtils.renderIntoDocument(<NavItem onSelect={doneOp} />);
-    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('a'));
+    let instance = getDOMNode(<NavItem onSelect={doneOp} />);
+    ReactTestUtils.Simulate.click(instance.querySelector('a'));
+  });
+
+  it('Should render a separator', () => {
+    let instance = getDOMNode(<NavItem divider />);
+    assert.include(instance.className, 'rs-nav-item-divider');
+  });
+
+  it('Should render a panel', () => {
+    let instance = getDOMNode(<NavItem panel />);
+    assert.include(instance.className, 'rs-nav-item-panel');
   });
 
   it('Should be active', () => {
-    let instance = ReactTestUtils.renderIntoDocument(<NavItem active />);
-    assert.ok(findDOMNode(instance).className.match(/\bactive\b/));
+    let instance = getDOMNode(<NavItem active />);
+    assert.include(instance.className, 'rs-nav-item-active');
   });
 
   it('Should be disabled', () => {
-    let instance = ReactTestUtils.renderIntoDocument(<NavItem disabled />);
-    assert.ok(findDOMNode(instance).className.match(/\bdisabled\b/));
+    let instance = getDOMNode(<NavItem disabled />);
+    assert.include(instance.className, 'rs-nav-item-disabled');
   });
 
   it('Should not call onSelect callback when the `NavItem` is disabled', () => {
     const onHideSpy = sinon.spy();
 
-    let instance = ReactTestUtils.renderIntoDocument(<NavItem onSelect={onHideSpy} disabled />);
-    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('a'));
+    let instance = getDOMNode(<NavItem onSelect={onHideSpy} disabled />);
+    ReactTestUtils.Simulate.click(instance.querySelector('a'));
     assert.ok(!onHideSpy.calledOnce);
   });
 
   it('Should not call onClick callback when the `NavItem` is disabled', () => {
     const onHideSpy = sinon.spy();
 
-    let instance = ReactTestUtils.renderIntoDocument(<NavItem onClick={onHideSpy} disabled />);
-    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('a'));
+    let instance = getDOMNode(<NavItem onClick={onHideSpy} disabled />);
+    ReactTestUtils.Simulate.click(instance.querySelector('a'));
     assert.ok(!onHideSpy.calledOnce);
   });
 
   it('Should have a custom className', () => {
-    let instance = ReactTestUtils.renderIntoDocument(<NavItem className="custom" />);
-    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
+    let instance = getDOMNode(<NavItem className="custom" />);
+    assert.include(instance.className, 'custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    let instance = ReactTestUtils.renderIntoDocument(<NavItem style={{ fontSize }} />);
-    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
+    let instance = getDOMNode(<NavItem style={{ fontSize }} />);
+    assert.equal(instance.style.fontSize, fontSize);
   });
 });

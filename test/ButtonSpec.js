@@ -2,93 +2,100 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import Button from '../src/Button';
+import { getDOMNode, getInstance } from './TestWrapper';
 
 describe('Button', () => {
   it('Should output a button', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Button>Title</Button>);
-    assert.equal(findDOMNode(instance).innerText, 'Title');
-    assert.equal(findDOMNode(instance).nodeName, 'BUTTON');
-    assert.ok(findDOMNode(instance).className.match(/\bbtn-default\b/));
+    const instance = getDOMNode(<Button>Title</Button>);
+    assert.equal(instance.innerText, 'Title');
+    assert.equal(instance.nodeName, 'BUTTON');
+    assert.ok(instance.className.match(/\bbtn-default\b/));
   });
 
   it('Should show the type if passed one', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Button type="submit">Title</Button>);
-    assert.equal(findDOMNode(instance).getAttribute('type'), 'submit');
+    const instance = getDOMNode(<Button type="submit">Title</Button>);
+    assert.equal(instance.getAttribute('type'), 'submit');
   });
 
   it('Should output an anchor if called with a href', () => {
     const href = '/url';
-    const instance = ReactTestUtils.renderIntoDocument(<Button href={href}>Title</Button>);
-    assert.equal(findDOMNode(instance).nodeName, 'A');
-    assert.equal(findDOMNode(instance).getAttribute('href'), href);
+    const instance = getDOMNode(<Button href={href}>Title</Button>);
+    assert.equal(instance.nodeName, 'A');
+    assert.equal(instance.getAttribute('href'), href);
   });
 
   it('Should call onClick callback', done => {
     const doneOp = () => {
       done();
     };
-    const instance = ReactTestUtils.renderIntoDocument(<Button onClick={doneOp}>Title</Button>);
-    ReactTestUtils.Simulate.click(findDOMNode(instance));
+    const instance = getDOMNode(<Button onClick={doneOp}>Title</Button>);
+    ReactTestUtils.Simulate.click(instance);
   });
 
   it('Should be disabled', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Button disabled>Title</Button>);
-    assert.ok(findDOMNode(instance).disabled);
+    const instance = getDOMNode(<Button disabled>Title</Button>);
+    assert.ok(instance.disabled);
+  });
+
+  it('Should be loading', () => {
+    const instance = getInstance(<Button loading>Title</Button>);
+    assert.include(getDOMNode(instance).className, 'rs-btn-loading');
+    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-btn-spin');
   });
 
   it('Should be disabled link', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <Button disabled href="#">
         Title
       </Button>
     );
-    assert.ok(findDOMNode(instance).className.match(/\bdisabled\b/));
+    assert.ok(instance.className.match(/\bdisabled\b/));
   });
 
   it('Should have block class', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Button block>Title</Button>);
-    assert.ok(findDOMNode(instance).className.match(/\bbtn-block\b/));
+    const instance = getDOMNode(<Button block>Title</Button>);
+    assert.ok(instance.className.match(/\bbtn-block\b/));
   });
 
   it('Should apply appearance', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Button appearance="ghost">Title</Button>);
-    assert.ok(findDOMNode(instance).className.match(/\bbtn-ghost\b/));
+    const instance = getDOMNode(<Button appearance="ghost">Title</Button>);
+    assert.ok(instance.className.match(/\bbtn-ghost\b/));
   });
 
   it('Should apply size class', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Button size="lg">Title</Button>);
-    assert.ok(findDOMNode(instance).className.match(/\bbtn-lg\b/));
+    const instance = getDOMNode(<Button size="lg">Title</Button>);
+    assert.ok(instance.className.match(/\bbtn-lg\b/));
   });
 
   it('Should honour additional classes passed in, adding not overriding', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <Button className="bob" appearance="ghost">
         Title
       </Button>
     );
 
-    assert.ok(findDOMNode(instance).className.match(/\bbob\b/));
-    assert.ok(findDOMNode(instance).className.match(/\bbtn-ghost\b/));
+    assert.ok(instance.className.match(/\bbob\b/));
+    assert.ok(instance.className.match(/\bbtn-ghost\b/));
   });
 
   it('Should default to shape="default"', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Button shape="default">Title</Button>);
+    const instance = getInstance(<Button shape="default">Title</Button>);
     assert.equal(instance.props.shape, 'default');
   });
 
   it('Should be active', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Button active>Title</Button>);
-    assert.ok(findDOMNode(instance).className.match(/\bactive\b/));
+    const instance = getDOMNode(<Button active>Title</Button>);
+    assert.ok(instance.className.match(/\bactive\b/));
   });
 
   it('Should have a custom className', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Button className="custom" />);
-    assert.include(findDOMNode(instance).className, 'custom');
+    const instance = getDOMNode(<Button className="custom" />);
+    assert.include(instance.className, 'custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = ReactTestUtils.renderIntoDocument(<Button style={{ fontSize }} />);
-    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
+    const instance = getDOMNode(<Button style={{ fontSize }} />);
+    assert.equal(instance.style.fontSize, fontSize);
   });
 });

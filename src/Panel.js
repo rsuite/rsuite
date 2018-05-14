@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import Collapse from 'rsuite-utils/lib/Animation/Collapse';
 
-import { isNullOrUndefined, getUnhandledProps, defaultProps, prefix } from './utils';
+import { getUnhandledProps, defaultProps, prefix } from './utils';
 
 type Props = {
   collapsible?: boolean,
@@ -63,7 +63,7 @@ class Panel extends React.Component<Props, State> {
   };
 
   isExpanded() {
-    return isNullOrUndefined(this.props.expanded) ? this.state.expanded : this.props.expanded;
+    return _.isUndefined(this.props.expanded) ? this.state.expanded : this.props.expanded;
   }
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 

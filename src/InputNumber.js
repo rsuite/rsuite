@@ -9,7 +9,7 @@ import Input from './Input';
 import Button from './Button';
 import Icon from './Icon';
 
-import { prefix, defaultProps, isNullOrUndefined, getUnhandledProps } from './utils';
+import { prefix, defaultProps, getUnhandledProps } from './utils';
 
 type Props = {
   className?: string,
@@ -199,7 +199,7 @@ class InputNumber extends React.Component<Props, State> {
           step={step}
           onChange={this.handleOnChange}
           onBlur={this.handleBlur}
-          value={isNullOrUndefined(value) ? '' : value}
+          value={_.isNil(value) ? '' : value}
           onWheel={this.handleWheel}
           disabled={disabled}
         />
