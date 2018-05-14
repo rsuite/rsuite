@@ -16,6 +16,10 @@ export function getInstance(children) {
 }
 
 export function getDOMNode(children) {
+  if (ReactTestUtils.isCompositeComponent(children)) {
+    return findDOMNode(children);
+  }
+
   return findDOMNode(getInstance(children));
 }
 
