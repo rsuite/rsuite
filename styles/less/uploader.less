@@ -128,10 +128,13 @@
     }
 
     &-status {
-      flex-basis: 1px;
-      flex-shrink: 0;
+      flex: 0 1 auto;
       .ie-float(right);
       .ie-display(table);
+
+      > a {
+        .reset-link-text-decoration;
+      }
     }
 
     &-btn-remove {
