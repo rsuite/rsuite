@@ -1,3 +1,23 @@
+# 3.0.5
+
+> 2018-05-17
+
+* **Bugfix**: Set all picker display inline-block ([#35])
+* **Chore**: Create CODE_OF_CONDUCT.md ([#34])
+* **Feature**: Support `onChangeCalendarDate` on <DatePicker> ([#33])
+* **Chore**: Fix travis config for npm deployment ([#32])
+* **Bugfix**: Remove redundant check `isNullOrUndefined` ([#31])
+* **Bugfix**: Serious typos ([#30])
+* **Bugfix**: `rsuite-schema` get precise length of a string ([#rsuite-schema-3])
+
+[#36]: https://github.com/rsuite/rsuite/pull/36
+[#34]: https://github.com/rsuite/rsuite/pull/34
+[#33]: https://github.com/rsuite/rsuite/pull/33
+[#32]: https://github.com/rsuite/rsuite/pull/32
+[#31]: https://github.com/rsuite/rsuite/pull/31
+[#30]: https://github.com/rsuite/rsuite/pull/30
+[#rsuite-schema-3]: https://github.com/rsuite/rsuite-schema/pull/3
+
 # 3.0.3
 
 > 2018-05-10
