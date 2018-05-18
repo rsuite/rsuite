@@ -4,7 +4,7 @@
 
 * **Bugfix**: Set all picker display inline-block ([#35])
 * **Chore**: Create CODE_OF_CONDUCT.md ([#34])
-* **Feature**: Support `onChangeCalendarDate` on <DatePicker> ([#33])
+* **Feature**: Support `onChangeCalendarDate` on `<DatePicker>` ([#33])
 * **Chore**: Fix travis config for npm deployment ([#32])
 * **Bugfix**: Remove redundant check `isNullOrUndefined` ([#31])
 * **Bugfix**: Serious typos ([#30])
