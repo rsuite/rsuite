@@ -41,8 +41,7 @@ npm i rsuite --save
 
 ```js
 import { Button } from 'rsuite';
-
-import '~rsuite/lib/less/index.less';
+import 'rsuite/styles/less/index.less';
 
 ReactDOM.render(<Button>Button</Button>, mountNode);
 ```
