@@ -103,10 +103,10 @@ RSUITE is [MIT licensed][LICENSE]. Copyright (c) 2016-present, HYPERS.
 [discord-invite]:https://discord.gg/R8mnjwh
 [rsuite-design]:https://rsuitejs.com/design/index.html
 [live-preview-on-codesandbox]:https://codesandbox.io/s/mo7jxvr9x9?from-embed
-[rsuite-doc-guide]:https://rsuitejs.com/guide/introduction
-[rsuite-doc-guide-themes]:https://rsuitejs.com/guide/themes
-[rsuite-doc-guide-intl]:https://rsuitejs.com/guide/intl
-[rsuite-components-overview]:https://rsuitejs.com/components/overview
+[rsuite-doc-guide]:https://rsuitejs.com/en/guide/introduction
+[rsuite-doc-guide-themes]:https://rsuitejs.com/en/guide/themes
+[rsuite-doc-guide-intl]:https://rsuitejs.com/en/guide/intl
+[rsuite-components-overview]:https://rsuitejs.com/en/components/overview
 [release-notes]:https://github.com/rsuite/rsuite/releases
 [contributing]:https://github.com/rsuite/rsuite/blob/master/CONTRIBUTING.md
 [prettierrc]:https://github.com/rsuite/rsuite/wiki/.prettierrc
