@@ -50,6 +50,8 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 
 ### 文档
 
+[国内镜像站点 🇨🇳 ][rsuite-gitee]
+
 你可以阅读[完整文档][rsuite-doc-guide]，或者从下面几个章节开始学习
 
 * [如何使用？][rsuite-doc-guide]
@@ -107,3 +109,4 @@ RSUITE 基于 [MIT licensed][LICENSE] 发布。
 [opencollective-svg]:https://opencollective.com/rsuite/tiers/backer.svg?avatarHeight=36
 [opencollective-home]:https://opencollective.com/rsuite
 [LICENSE]:https://github.com/rsuite/rsuite/blob/master/LICENSE
+[rsuite-gitee]:http://rsuite.gitee.io/
