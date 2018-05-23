@@ -29,7 +29,6 @@ module.exports = config => {
     frameworks: ['mocha', 'sinon-chai'],
     colors: true,
     reporters: ['mocha', 'coverage'],
-
     logLevel: config.LOG_INFO,
     preprocessors: {
       'test/*.js': ['webpack']
