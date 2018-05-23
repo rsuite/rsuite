@@ -30,7 +30,7 @@ module.exports = config => {
     colors: true,
     reporters: ['mocha', 'coverage'],
     // https://github.com/karma-runner/karma/blob/master/docs/config/01-configuration-file.md#browsernoactivitytimeout
-    browserNoActivityTimeout: 20000,
+    browserNoActivityTimeout: 100000,
     logLevel: config.LOG_INFO,
     preprocessors: {
       'test/*.js': ['webpack']
