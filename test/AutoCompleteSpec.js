@@ -115,6 +115,17 @@ describe('AutoComplete', () => {
     ReactTestUtils.Simulate.keyDown(findDOMNode(instance.menuContainer), { keyCode: 13 });
   });
 
+  it('Should call onSelect callback when keyCode=13', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getInstance(
+      <AutoComplete defaultValue="a" onSelect={doneOp} data={['a', 'ab', 'ac']} open />
+    );
+    ReactTestUtils.Simulate.keyDown(findDOMNode(instance.menuContainer), { keyCode: 40 });
+    ReactTestUtils.Simulate.keyDown(findDOMNode(instance.menuContainer), { keyCode: 13 });
+  });
+
   it('Should call onClose callback when keyCode=27', done => {
     const doneOp = () => {
       done();

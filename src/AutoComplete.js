@@ -52,7 +52,7 @@ type Props = {
 type State = {
   value: string,
   focus?: boolean,
-  focusItemValue?: string
+  focusItemValue?: any
 };
 
 class AutoComplete extends React.Component<Props, State> {
@@ -63,13 +63,12 @@ class AutoComplete extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-
-    const nextValue = props.defaultValue;
+    const { defaultValue } = props;
 
     this.state = {
-      value: nextValue || '',
+      value: defaultValue || '',
       focus: false,
-      focusItemValue: nextValue
+      focusItemValue: defaultValue
     };
   }
 
@@ -78,8 +77,8 @@ class AutoComplete extends React.Component<Props, State> {
     return _.isUndefined(value) ? this.state.value : value;
   }
 
-  getData() {
-    const { data = [] } = this.props;
+  getData(props) {
+    const { data = [] } = props || this.props;
     return data.map(item => {
       if (_.isString(item)) {
         return {
@@ -129,15 +128,14 @@ class AutoComplete extends React.Component<Props, State> {
   };
 
   handleChange = (value: string, event: SyntheticInputEvent<HTMLInputElement>) => {
-    const { onChange } = this.props;
-    this.setState({
+    const nextState = {
       focus: true,
       focusItemValue: undefined,
       value
+    };
+    this.setState(nextState, () => {
+      this.handleChangeValue(value, event);
     });
-    if (this.state.value !== value) {
-      onChange && onChange(value, event);
-    }
   };
 
   handleInputFocus = (event: DefaultEvent) => {
@@ -177,23 +175,26 @@ class AutoComplete extends React.Component<Props, State> {
   }
 
   selectFocusMenuItem(event: DefaultEvent) {
-    const { onChange } = this.props;
-    const { focusItemValue } = this.state;
-
+    const { focusItemValue, value: prevValue } = this.state;
     if (!focusItemValue) {
       return;
     }
+    const nextState = {
+      value: focusItemValue,
+      focusItemValue
+    };
 
-    this.setState(
-      {
-        value: focusItemValue,
-        focusItemValue
-      },
-      () => {
-        onChange && onChange(focusItemValue, event);
-        this.close();
+    const data = this.getData();
+    const focusItem: any = data.find(item => _.isEqual(_.get(item, 'value'), focusItemValue));
+
+    this.setState(nextState, () => {
+      this.handleSelect(focusItem, event);
+      if (!_.isEqual(prevValue, focusItemValue)) {
+        this.handleChangeValue(focusItemValue, event);
       }
-    );
+    });
+
+    this.close();
   }
 
   close = () => {
@@ -237,19 +238,30 @@ class AutoComplete extends React.Component<Props, State> {
     onKeyDown && onKeyDown(event);
   };
 
+  handleChangeValue = (value: any, event: DefaultEvent) => {
+    const { onChange } = this.props;
+    onChange && onChange(value, event);
+  };
+
   handleSelect = (item: ItemDataType, event: DefaultEvent) => {
-    const { onChange, onSelect } = this.props;
+    const { onSelect } = this.props;
+    onSelect && onSelect(item, event);
+  };
+
+  handleItemSelect = (item: ItemDataType, event: DefaultEvent) => {
+    const { onSelect } = this.props;
     const value = item.value;
-    this.setState({
+    const prevValue = this.state.value;
+    const nextState = {
       value,
       focusItemValue: value
+    };
+    this.setState(nextState, () => {
+      this.handleSelect(item, event);
+      if (!_.isEqual(prevValue, value)) {
+        this.handleChangeValue(value, event);
+      }
     });
-
-    onSelect && onSelect(item, event);
-
-    if (this.state.value !== value) {
-      onChange && onChange(value, event);
-    }
     this.close();
   };
 
@@ -280,9 +292,9 @@ class AutoComplete extends React.Component<Props, State> {
           {items.map(item => (
             <AutoCompleteItem
               key={item.value}
-              focus={focusItemValue === item.value}
+              focus={_.isEqual(focusItemValue, item.value)}
               itemData={item}
-              onSelect={this.handleSelect}
+              onSelect={this.handleItemSelect}
               renderItem={renderItem}
             >
               {item.label}
