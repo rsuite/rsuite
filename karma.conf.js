@@ -29,10 +29,6 @@ module.exports = config => {
     frameworks: ['mocha', 'sinon-chai'],
     colors: true,
     reporters: ['mocha', 'coverage'],
-    // https://github.com/karma-runner/karma/blob/master/docs/config/01-configuration-file.md#browsernoactivitytimeout
-    browserNoActivityTimeout: 60000,
-    browserDisconnectTimeout: 30000,
-    captureTimeout: 60000,
     logLevel: config.LOG_INFO,
     preprocessors: {
       'test/*.js': ['webpack']
