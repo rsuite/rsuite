@@ -49,8 +49,6 @@ class Panel extends React.Component<Props, State> {
     const { onSelect, eventKey } = this.props;
     if (onSelect) {
       onSelect(eventKey, event);
-    } else {
-      event.preventDefault();
     }
 
     if (event.selected) {

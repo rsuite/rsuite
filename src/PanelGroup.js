@@ -33,7 +33,6 @@ class PanelGroup extends React.Component<Props, State> {
   }
 
   handleSelect = (activeKey: any, event: SyntheticEvent<*>) => {
-    event.preventDefault();
     const { onSelect } = this.props;
     this.setState({ activeKey });
     onSelect && onSelect(activeKey, event);
