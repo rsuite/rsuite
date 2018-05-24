@@ -16,6 +16,7 @@ type Props = {
   defaultChecked?: boolean,
   indeterminate?: boolean,
   onChange?: (value: any, checked: boolean, event: SyntheticInputEvent<HTMLInputElement>) => void,
+  onClick?: (event: SyntheticEvent<*>) => void,
   inputRef?: React.ElementRef<*>,
   value?: any,
   children?: React.Node,
@@ -70,6 +71,7 @@ class Checkbox extends React.Component<Props, State> {
       indeterminate,
       tabIndex,
       classPrefix,
+      onClick,
       ...props
     } = this.props;
 
@@ -92,6 +94,7 @@ class Checkbox extends React.Component<Props, State> {
           defaultChecked={defaultChecked}
           type="checkbox"
           ref={inputRef}
+          onClick={event => event.stopPropagation()}
           disabled={disabled}
           onChange={this.handleChange}
         />
@@ -100,7 +103,7 @@ class Checkbox extends React.Component<Props, State> {
     );
 
     return (
-      <div {...rest} className={classes}>
+      <div {...rest} onClick={onClick} className={classes}>
         <div className={addPrefix('checker')}>
           <label title={title}>
             {input}

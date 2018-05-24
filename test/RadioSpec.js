@@ -55,6 +55,14 @@ describe('Radio', () => {
     assert.ok(input);
   });
 
+  it('Should call onClick callback', done => {
+    const doneOp = data => {
+      done();
+    };
+    const instance = ReactTestUtils.renderIntoDocument(<Radio onClick={doneOp}>Title</Radio>);
+    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('label'));
+  });
+
   it('Should call onChange callback', done => {
     const value = 'Test';
     const doneOp = data => {

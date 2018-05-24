@@ -66,6 +66,14 @@ describe('Checkbox', () => {
     ReactTestUtils.Simulate.change(findDOMNode(instance).querySelector('input'));
   });
 
+  it('Should call onClick callback', done => {
+    const doneOp = data => {
+      done();
+    };
+    const instance = ReactTestUtils.renderIntoDocument(<Checkbox onClick={doneOp}>Title</Checkbox>);
+    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('label'));
+  });
+
   it('Should be checked with change', done => {
     const doneOp = (value, checked) => {
       if (checked) {
