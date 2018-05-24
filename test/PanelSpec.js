@@ -2,53 +2,43 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
+import Checkbox from '../src/Checkbox';
 import Panel from '../src/Panel';
 import innerText from './innerText';
+import { getDOMNode, getInstance } from './TestWrapper';
 
 describe('Panel', () => {
   it('Should render a panel', () => {
     const title = 'Test';
-    const instance = ReactTestUtils.renderIntoDocument(<Panel>{title}</Panel>);
-    assert.equal(findDOMNode(instance).tagName, 'DIV');
-    assert.ok(findDOMNode(instance).className.match(/\bpanel\b/));
-    assert.equal(innerText(findDOMNode(instance)), title);
+    const instance = getDOMNode(<Panel>{title}</Panel>);
+    assert.equal(instance.tagName, 'DIV');
+    assert.ok(instance.className.match(/\bpanel\b/));
+    assert.equal(innerText(instance), title);
   });
 
   it('Should default expanded', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Panel collapsible defaultExpanded />);
-    assert.ok(findDOMNode(instance).querySelector('.rs-panel-collapse.in'));
+    const instance = getDOMNode(<Panel collapsible defaultExpanded />);
+    assert.ok(instance.querySelector('.rs-panel-collapse.in'));
   });
 
   it('Should be expanded', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Panel collapsible expanded />);
-    assert.ok(findDOMNode(instance).querySelector('.rs-panel-collapse.in'));
+    const instance = getDOMNode(<Panel collapsible expanded />);
+    assert.ok(instance.querySelector('.rs-panel-collapse.in'));
   });
 
   it('Should render the custom header', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Panel header={<a>abc</a>} />);
-    assert.equal(innerText(findDOMNode(instance).querySelector('a.rs-panel-title')), 'abc');
+    const instance = getDOMNode(<Panel header={<a>abc</a>} />);
+    assert.equal(innerText(instance.querySelector('a.rs-panel-title')), 'abc');
   });
 
   it('Should have a role in header', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <Panel headerRole="button" collapsible header={'abc'} />
-    );
-    assert.equal(
-      findDOMNode(instance)
-        .querySelector('h4 a')
-        .getAttribute('role'),
-      'button'
-    );
+    const instance = getDOMNode(<Panel headerRole="button" collapsible header={'abc'} />);
+    assert.equal(instance.querySelector('h4 a').getAttribute('role'), 'button');
   });
 
   it('Should have a role in header', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Panel panelRole="button" collapsible />);
-    assert.equal(
-      findDOMNode(instance)
-        .querySelector('.rs-panel-collapse')
-        .getAttribute('role'),
-      'button'
-    );
+    const instance = getDOMNode(<Panel panelRole="button" collapsible />);
+    assert.equal(instance.querySelector('.rs-panel-collapse').getAttribute('role'), 'button');
   });
 
   it('Should call onSelect callback', done => {
@@ -58,10 +48,8 @@ describe('Panel', () => {
       }
     };
 
-    const instance = ReactTestUtils.renderIntoDocument(
-      <Panel onSelect={doneOp} eventKey={12} header={'abc'} />
-    );
-    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('.rs-panel-heading'));
+    const instance = getDOMNode(<Panel onSelect={doneOp} eventKey={12} header={'abc'} />);
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-panel-heading'));
   });
 
   it('Should pass transition callbacks to Collapse', done => {
@@ -72,7 +60,7 @@ describe('Panel', () => {
 
     let title;
 
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getInstance(
       <Panel
         collapsible
         defaultExpanded={false}
@@ -101,13 +89,13 @@ describe('Panel', () => {
   });
 
   it('Should have a custom className', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Panel className="custom" />);
-    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
+    const instance = getDOMNode(<Panel className="custom" />);
+    assert.ok(instance.className.match(/\bcustom\b/));
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = ReactTestUtils.renderIntoDocument(<Panel style={{ fontSize }} />);
-    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
+    const instance = getDOMNode(<Panel style={{ fontSize }} />);
+    assert.equal(instance.style.fontSize, fontSize);
   });
 });
