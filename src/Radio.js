@@ -21,6 +21,7 @@ type Props = {
   classPrefix?: string,
   value?: any,
   onChange?: (value: any, checked: boolean, event: SyntheticInputEvent<HTMLInputElement>) => void,
+  onClick?: (event: SyntheticEvent<*>) => void,
   tabIndex?: number
 };
 
@@ -74,6 +75,7 @@ class Radio extends React.Component<Props, State> {
       classPrefix,
       tabIndex,
       inputRef,
+      onClick,
       ...props
     } = this.props;
 
@@ -99,13 +101,14 @@ class Radio extends React.Component<Props, State> {
           name={name}
           disabled={disabled}
           onChange={this.handleChange}
+          onClick={event => event.stopPropagation()}
         />
         <span className={addPrefix('inner')} />
       </span>
     );
 
     return (
-      <div {...rest} className={classes}>
+      <div {...rest} onClick={onClick} className={classes}>
         <div className={addPrefix('checker')} role="button">
           <label title={title}>
             {input}
