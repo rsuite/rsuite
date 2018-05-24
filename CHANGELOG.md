@@ -1,3 +1,13 @@
+# 3.0.6
+
+> 2018-05-24
+
+* **Bugfix**: The `onSelect` event is not triggered after the enter key on `AutoComplete` ([#43])
+* **Bugfix**: Omit the `style` and `className` on `DropdownMenu` of Picker ([#42])
+
+[#43]: https://github.com/rsuite/rsuite/pull/43
+[#42]: https://github.com/rsuite/rsuite/pull/42
+
 # 3.0.5
 
 > 2018-05-17
