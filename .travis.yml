@@ -5,6 +5,7 @@ node_js:
 
 env:
   - BROWSER=ChromeCi
+  - BROWSER=FireFox
 
 cache:
   directories:
