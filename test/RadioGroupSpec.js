@@ -93,6 +93,27 @@ describe('RadioGroup', () => {
     ReactTestUtils.Simulate.change(radios[2].querySelector('input'));
   });
 
+  it('Should call onChange callback and return correct parameters', done => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <RadioGroup
+        name="test"
+        onChange={(value, event) => {
+          if (value === 3 && event.target.name === 'test') {
+            done();
+          }
+        }}
+      >
+        <Radio value={1}>Test1</Radio>
+        <Radio value={2}>Test2</Radio>
+        <Radio value={3}>Test2</Radio>
+        <Radio value={4}>Test2</Radio>
+      </RadioGroup>
+    );
+
+    const radios = findDOMNode(instance).querySelectorAll('.rs-radio');
+    ReactTestUtils.Simulate.change(radios[2].querySelector('input'));
+  });
+
   it('Should have a custom className', () => {
     const instance = ReactTestUtils.renderIntoDocument(<RadioGroup className="custom" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));

@@ -34,7 +34,7 @@ class RadioGroup extends React.Component<Props, State> {
     return _.isUndefined(value) ? this.state.value : value;
   }
 
-  handleChange = (nextValue: any, event: SyntheticInputEvent<*>) => {
+  handleChange = (nextValue: any, itemChecked: boolean, event: SyntheticInputEvent<*>) => {
     const { onChange } = this.props;
     this.setState({ value: nextValue });
     onChange && onChange(nextValue, event);
