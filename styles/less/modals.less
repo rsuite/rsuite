@@ -40,8 +40,8 @@
   }
 
   &-full {
-    @modal-full-size-margin-value: unit(@modal-full-size-margin);
-    .content-width(~"calc(100% - `@{modal-full-size-margin-value} * 2`px)");
+    @modal-full-size-margin-value: @modal-full-size-margin* 2;
+    .content-width(~"calc(100% - @{modal-full-size-margin-value})");
 
     .@{ns}modal-dialog {
       margin-left: @modal-full-size-margin;
