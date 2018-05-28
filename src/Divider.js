@@ -25,14 +25,14 @@ class Divider extends React.Component<Props> {
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
-    const clesses = classNames(classPrefix, className, {
+    const classes = classNames(classPrefix, className, {
       [addPrefix('vertical')]: vertical,
       [addPrefix('horizontal')]: !vertical,
       [addPrefix('with-text')]: !!children
     });
 
     return (
-      <Component {...props} className={clesses}>
+      <Component {...props} className={classes}>
         {children ? <span className={addPrefix('inner-text')}>{children}</span> : null}
       </Component>
     );
