@@ -15,6 +15,10 @@
   display: inline-block;
 }
 
+.@{ns}picker-select-block {
+  display: block;
+}
+
 // Disabled
 .@{ns}picker-checktree-disabled,
 .@{ns}picker-daterange-disabled,
@@ -64,6 +68,13 @@
   .dropdown-toggle;
 
   max-width: 100%;
+
+  // Set `display:block` for toggle button.
+  .@{ns}picker-select-block & {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
 
   &-value {
     display: block;
