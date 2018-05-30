@@ -44,10 +44,23 @@
 }
 
 //## Dropdown toggle
-// The Same to Dropdown toggle
+// Default toggle style the same to the subtle button.
 .@{ns}picker-toggle {
   .btn;
   .btn-subtle;
+
+  // Has value highlight
+  .@{ns}picker-select-has-value &,
+  .@{ns}picker-cascader-has-value & {
+    .@{ns}picker-toggle-value {
+      color: @picker-selected-value-color;
+    }
+  }
+}
+
+// The Same to Dropdown toggle
+.@{ns}picker-toggle,
+.@{ns}picker-toggle-custom {
   .dropdown-toggle;
 
   max-width: 100%;
@@ -57,12 +70,10 @@
     .ellipsis;
   }
 
-  // Has value highlight
-  .@{ns}picker-select-has-value &,
-  .@{ns}picker-cascader-has-value & {
-    .@{ns}picker-toggle-value {
-      color: @picker-selected-value-color;
-    }
+  .@{ns}picker-cascader-has-value &:hover .@{ns}picker-toggle-caret,
+  .@{ns}picker-select-has-value &:hover .@{ns}picker-toggle-caret {
+    opacity: 0;
+    transform: scale(0);
   }
 
   &:hover .@{ns}picker-toggle-clean {
@@ -75,10 +86,8 @@
 .@{ns}picker-toggle-clean {
   .dropdown-toggle-caret-common;
   .set-dropdown-caret(~"dropdown");
+  .picker-caret-transition;
 
-  transition-duration: .2s;
-  transition-timing-function: ease-in-out;
-  transition-property: transform, opacity;
   opacity: 0;
   transform: scale(0);
   background: inherit;
@@ -94,6 +103,7 @@
   // Extend  Dropdown toggle caret style
   .dropdown-toggle-caret-common;
   .set-dropdown-caret(~"@{ns}picker");
+  .picker-caret-transition;
 }
 
 // Picker Menu
