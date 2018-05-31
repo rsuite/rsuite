@@ -58,7 +58,7 @@
     "rsuite-notification": "^3.0.2",
     "rsuite-schema": "0.0.12",
     "rsuite-selectpicker": "^3.0.3",
-    "rsuite-table": "^3.0.0",
+    "rsuite-table": "^3.0.1",
     "rsuite-treepicker": "^3.0.3",
     "rsuite-utils": "^1.0.3"
   },
