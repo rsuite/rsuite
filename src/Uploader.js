@@ -64,7 +64,8 @@ type Props = {
   onPreview?: (file: FileType, event: SyntheticEvent<*>) => void,
   onSuccess?: (response: Object, file: FileType) => void,
   onProgress?: (percent: number, file: FileType) => void,
-  onRemove?: (file: FileType) => void
+  onRemove?: (file: FileType) => void,
+  maxPreviewFileSize?: number
 };
 
 type State = {
@@ -267,7 +268,7 @@ class Uploader extends React.Component<Props, State> {
   };
 
   renderFileItems() {
-    const { disabled, listType, onPreview } = this.props;
+    const { disabled, listType, onPreview, maxPreviewFileSize } = this.props;
     const fileList = this.getFileList();
 
     return (
@@ -276,6 +277,7 @@ class Uploader extends React.Component<Props, State> {
           <FileItem
             key={file.fileKey || index}
             file={file}
+            maxPreviewFileSize={maxPreviewFileSize}
             listType={listType}
             disabled={disabled}
             onPreview={onPreview}

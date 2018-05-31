@@ -24,6 +24,7 @@ type Props = {
   onPreview?: (file: FileType, event: SyntheticEvent<*>) => void,
   onReupload?: (file: FileType, event: SyntheticEvent<*>) => void,
   className?: string,
+  maxPreviewFileSize: number,
   classPrefix?: string
 };
 
@@ -53,6 +54,7 @@ const getSize = (size: number = 0): string => {
 
 class UploadFileItem extends React.Component<Props, State> {
   static defaultProps = {
+    maxPreviewFileSize: 1024 * 1024 * 5, // 5MB
     listType: 'text'
   };
 
@@ -64,22 +66,23 @@ class UploadFileItem extends React.Component<Props, State> {
   }
 
   componentWillMount() {
-    this.getThumbnail();
+    this.getThumbnail((previewImage: string | ArrayBuffer) => {
+      this.setState({ previewImage });
+    });
   }
 
-  componentWillReceiveProps(nextProps: Props) {
-    if (_.isEqual(nextProps, this.props)) {
-      this.getThumbnail(nextProps);
-    }
-  }
+  getThumbnail(callback) {
+    const { file, listType, maxPreviewFileSize } = this.props;
 
-  getThumbnail(nextProps?: Props) {
-    const { file } = nextProps || this.props;
-    if (file.blobFile) {
-      previewFile(file.blobFile, (previewImage: string | ArrayBuffer) => {
-        this.setState({ previewImage });
-      });
+    if (!!~['picture-text', 'picture'].indexOf(listType)) {
+      return;
     }
+
+    if (!file.blobFile || _.get(file, 'blobFile.size') > maxPreviewFileSize) {
+      return;
+    }
+
+    previewFile(file.blobFile, callback);
   }
 
   handleRemove = (event: SyntheticEvent<*>) => {
