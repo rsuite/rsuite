@@ -11,9 +11,6 @@ cache:
   directories:
     - node_modules
 
-script:
-  - npm test
-  - npm run coveralls
 
 before_install:
   - export CHROME_BIN=chromium-browser
