@@ -1,3 +1,23 @@
+# 3.0.7
+
+> 2018-05-31
+
+* **Feature**: Added support for `block` and `toggleComponentClass` on `Picker` ([#54])
+* **Chore**: Update `shouldComponentUpdate` check in `<Table>` ([#53])
+* **Chore**: Set max-width for some picker ([#51])
+* **Bugfix**: Full Modal size not working ([#50])
+* **Bugfix**: The event is not defined in the RadioGroup's onChange ([#49])
+* **Bugfix**: The Click event Triggers 2 times when the checker is in the label ([#46])
+* **Bugfix**: Events in the `Panel` header was blocked ([#45])
+
+[#54]: https://github.com/rsuite/rsuite/pull/54
+[#53]: https://github.com/rsuite/rsuite/pull/53
+[#51]: https://github.com/rsuite/rsuite/pull/51
+[#50]: https://github.com/rsuite/rsuite/pull/50
+[#49]: https://github.com/rsuite/rsuite/pull/49
+[#46]: https://github.com/rsuite/rsuite/pull/46
+[#45]: https://github.com/rsuite/rsuite/pull/45
+
 # 3.0.6
 
 > 2018-05-24
