@@ -112,3 +112,34 @@
   color: @H500;
   background: transparent;
 }
+
+.picker-caret-transition() {
+  transition-duration: .2s;
+  transition-timing-function: ease-in-out;
+  transition-property: transform, opacity;
+}
+
+.picker-custom-button-caret-size(@padding-horizontal,@padding-vertical) {
+  padding-right: @padding-horizontal + @dropdown-caret-with + @dropdown-caret-padding;
+
+  .@{ns}picker-toggle-caret {
+    top: @padding-vertical;
+    right: @padding-horizontal;
+  }
+}
+
+.picker-button-caret-lg() {
+  .picker-custom-button-caret-size(@padding-large-horizontal, @padding-large-vertical);
+}
+
+.picker-button-caret-md() {
+  .picker-custom-button-caret-size(@padding-base-horizontal, @padding-base-vertical);
+}
+
+.picker-button-caret-sm() {
+  .picker-custom-button-caret-size(@padding-small-horizontal, @padding-small-vertical);
+}
+
+.picker-button-caret-xs() {
+  .picker-custom-button-caret-size(@padding-extra-small-horizontal, @padding-extra-small-vertical);
+}
