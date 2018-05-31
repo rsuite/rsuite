@@ -121,12 +121,16 @@ class Modal extends React.Component<Props, State> {
       bodyStyles: {}
     };
 
-    if (overflow) {
-      const dialogDOM: any = findDOMNode(this.dialog);
-      const bodyStyles: Object = {
-        overflow: 'auto'
-      };
+    if (!overflow) {
+      return styles;
+    }
 
+    const dialogDOM: any = findDOMNode(this.dialog);
+    const bodyStyles: Object = {
+      overflow: 'auto'
+    };
+
+    if (dialogDOM) {
       // default margin
       let headerHeight = 46;
       let footerHeight = 46;
@@ -151,9 +155,9 @@ class Modal extends React.Component<Props, State> {
         const maxHeight = scrollHeight >= bodyHeight ? bodyHeight : scrollHeight;
         bodyStyles.maxHeight = maxHeight;
       }
-
-      styles.bodyStyles = bodyStyles;
     }
+
+    styles.bodyStyles = bodyStyles;
 
     return styles;
   }
