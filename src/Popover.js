@@ -25,6 +25,7 @@ type Props = {
   style?: Object,
   visible?: boolean,
   className?: string,
+  full?: boolean,
   onMouseLeave?: (event: SyntheticEvent<*>) => void,
   onMouseEnter?: (event: SyntheticEvent<*>) => void
 };
@@ -42,6 +43,7 @@ class Popover extends React.Component<Props> {
       visible,
       placement,
       className,
+      full,
       onMouseLeave,
       onMouseEnter
     } = this.props;
@@ -53,6 +55,9 @@ class Popover extends React.Component<Props> {
       addPrefix(`placement-${_.kebabCase(placement)}`),
       className
     );
+    const contentClasses = classNames(addPrefix('content'), {
+      [addPrefix('full')]: full
+    });
 
     const styles = {
       display: 'block',
@@ -69,7 +74,7 @@ class Popover extends React.Component<Props> {
       >
         <div className="arrow" />
         {title ? <h3 className={addPrefix('title')}>{title}</h3> : null}
-        <div className={addPrefix('content')}>{children}</div>
+        <div className={contentClasses}>{children}</div>
       </div>
     );
   }
