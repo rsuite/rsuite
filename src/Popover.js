@@ -53,11 +53,11 @@ class Popover extends React.Component<Props> {
     const classes = classNames(
       classPrefix,
       addPrefix(`placement-${_.kebabCase(placement)}`),
-      className
+      className,
+      {
+        [addPrefix('full')]: full
+      }
     );
-    const contentClasses = classNames(addPrefix('content'), {
-      [addPrefix('full')]: full
-    });
 
     const styles = {
       display: 'block',
@@ -74,7 +74,7 @@ class Popover extends React.Component<Props> {
       >
         <div className="arrow" />
         {title ? <h3 className={addPrefix('title')}>{title}</h3> : null}
-        <div className={contentClasses}>{children}</div>
+        <div className={addPrefix('content')}>{children}</div>
       </div>
     );
   }
