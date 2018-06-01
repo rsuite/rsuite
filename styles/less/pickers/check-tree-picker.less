@@ -111,22 +111,6 @@
     height: @checkbox-width-height;
   }
 
-  // Ripple effect
-  &::before {
-    .checkbox-inner-wrap(@checkbox-checked-border-color);
-
-    transform: scale(1);
-    opacity: .7;
-    visibility: hidden;
-    transition: transform .2s linear, opacity .2s linear;
-
-    .@{ctpns}-view-node-checked & {
-      transform: scale(1.5);
-      opacity: 0;
-      visibility: visible;
-    }
-  }
-
   // Sensing field
   &::after {
     top: -@checkbox-sense-width;
@@ -139,7 +123,7 @@
   .@{ctpns}-view-inner::before {
     .checkbox-inner-wrap(@checkbox-default-border-color);
 
-    transition: background .2s linear, border .2s linear, box-shadow .2s linear;
+    transition: background .1s linear, border .1s linear, box-shadow .1s linear;
 
     .@{ctpns}-view-node-indeterminate &,
     .@{ctpns}-view-node-checked & {
@@ -162,7 +146,7 @@
     .opacity(0);
 
     transform: rotate(45deg) scale(0);
-    transition: opacity .2s ease-in, transform .2s cubic-bezier(.12, .4, .29, 1.46);
+    transition: opacity .1s ease-in;
 
     .@{ctpns}-view-node-checked & {
       border: solid @B000;

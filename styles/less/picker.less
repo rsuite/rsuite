@@ -14,10 +14,18 @@
 .@{ns}@{date-range-picker-prefix} {
   display: inline-block;
   max-width: 100%;
-}
 
-.@{ns}picker-select-block {
-  display: block;
+  &-block {
+    display: block;
+
+    // Set `display:block` for toggle button.
+    .@{ns}picker-toggle,
+    .@{ns}picker-toggle-custom {
+      display: block;
+      width: 100%;
+      text-align: left;
+    }
+  }
 }
 
 .@{ns}@{select-picker-prefix},
@@ -97,20 +105,12 @@
 
   max-width: 100%;
 
-  // Set `display:block` for toggle button.
-  .@{ns}picker-select-block & {
-    display: block;
-    width: 100%;
-    text-align: left;
-  }
-
   &-value {
     display: block;
     .ellipsis;
   }
 
-  .@{ns}picker-cascader-has-value &:hover .@{ns}picker-toggle-caret,
-  .@{ns}picker-select-has-value &:hover .@{ns}picker-toggle-caret {
+  &.@{ns}picker-toggle-cleanable:hover .@{ns}picker-toggle-caret {
     opacity: 0;
     transform: scale(0);
   }
@@ -130,9 +130,6 @@
   opacity: 0;
   transform: scale(0);
   background: inherit;
-  // Reset to cover calendar icon.
-  width: 18px;
-  right: 10px;
   // FIXED: IE browser has 1px orange line.
   .ie-width(19px) !important;
 }
