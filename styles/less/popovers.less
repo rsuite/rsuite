@@ -173,3 +173,18 @@
   }
 }
 
+// Adjust full popover arrow postion
+.@{ns}popover-full {
+  padding: 0;
+
+  .@{ns}popover-placement-top-left& > .arrow,
+  .@{ns}popover-placement-bottom-left& > .arrow {
+    margin-left: @popover-arrow-outer-width;
+  }
+
+  .@{ns}popover-placement-right-top& > .arrow,
+  .@{ns}popover-placement-left-top& > .arrow {
+    margin-top: @popover-arrow-outer-width;
+  }
+}
+

@@ -22,6 +22,11 @@ describe('Popover', () => {
     assert.ok(instanceDom.className.match(/\bleft\b/));
   });
 
+  it('Should be full', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<Popover full>Test</Popover>);
+    assert.ok(ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-popover-full'));
+  });
+
   it('Should have a custom className', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Popover className="custom" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
