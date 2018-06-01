@@ -33,6 +33,20 @@
       float: right;
     }
   }
+
+  & &-menu {
+    position: absolute;
+    // dropdown-menu zindex value is greater than dropdown-toggle
+    z-index: @zindex-dropdown + 1;
+    display: none; // none by default, but block on "open" of the menu
+    float: left;
+    box-shadow: @dropdown-shadow;
+    animation-duration: .3s;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-play-state: paused;
+    animation-name: fadeIn;
+  }
 }
 
 .@{ns}dropdown-toggle {
@@ -41,23 +55,12 @@
 
 // The dropdown menu (ul)
 .@{ns}dropdown-menu {
-  position: absolute;
-  // dropdown-menu zindex value is greater than dropdown-toggle
-  z-index: @zindex-dropdown + 1;
-  display: none; // none by default, but block on "open" of the menu
-  float: left;
   margin: 0; // override default ul
   list-style: none;
   font-size: @font-size-base;
   text-align: left; // Ensures proper alignment if parent has it changed (e.g., modal footer)
   background-color: @dropdown-bg;
   border-radius: @border-radius-base;
-  box-shadow: @dropdown-shadow;
-  animation-duration: .3s;
-  animation-timing-function: linear;
-  animation-fill-mode: both;
-  animation-play-state: paused;
-  animation-name: fadeIn;
   padding: @border-radius-base 0;
 
   .@{ns}dropdown-item-divider {
@@ -159,7 +162,7 @@
 }
 
 // Hover/Focus state
-.@{ns}dropdown-menu > li > .@{ns}dropdown-item-content {
+.@{ns}dropdown-menu > .@{ns}dropdown-item > .@{ns}dropdown-item-content {
   &:hover,
   &:focus {
     text-decoration: none;
