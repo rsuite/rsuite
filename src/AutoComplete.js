@@ -46,7 +46,8 @@ type Props = {
   onClose?: () => void,
   renderItem?: (itemValue: string) => React.Node,
   style?: Object,
-  open?: boolean
+  open?: boolean,
+  selectOnEnter?: boolean
 };
 
 type State = {
@@ -58,7 +59,8 @@ type State = {
 class AutoComplete extends React.Component<Props, State> {
   static defaultProps = {
     data: [],
-    placement: 'bottomLeft'
+    placement: 'bottomLeft',
+    selectOnEnter: true
   };
 
   constructor(props: Props) {
@@ -209,7 +211,7 @@ class AutoComplete extends React.Component<Props, State> {
       return;
     }
 
-    const { onKeyDown } = this.props;
+    const { onKeyDown, selectOnEnter = true } = this.props;
 
     switch (event.keyCode) {
       // down
@@ -224,7 +226,7 @@ class AutoComplete extends React.Component<Props, State> {
         break;
       // enter
       case 13:
-        this.selectFocusMenuItem(event);
+        selectOnEnter && this.selectFocusMenuItem(event);
         event.preventDefault();
         break;
       // esc | tab
