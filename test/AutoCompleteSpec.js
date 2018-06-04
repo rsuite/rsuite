@@ -126,6 +126,23 @@ describe('AutoComplete', () => {
     ReactTestUtils.Simulate.keyDown(findDOMNode(instance.menuContainer), { keyCode: 13 });
   });
 
+  it("Shouldn't call onSelect callback on Enter pressed if selectOnEnter=false", () => {
+    const onSelectSpy = sinon.spy();
+    const instance = getInstance(
+      <AutoComplete
+        defaultValue="a"
+        onSelect={onSelectSpy}
+        selectOnEnter={false}
+        data={['a', 'ab', 'ac']}
+        open
+      />
+    );
+    ReactTestUtils.Simulate.keyDown(findDOMNode(instance.menuContainer), { keyCode: 40 });
+    ReactTestUtils.Simulate.keyDown(findDOMNode(instance.menuContainer), { keyCode: 13 });
+
+    assert.ok(!onSelectSpy.calledOnce);
+  });
+
   it('Should call onClose callback when keyCode=27', done => {
     const doneOp = () => {
       done();
