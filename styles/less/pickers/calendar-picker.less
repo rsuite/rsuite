@@ -456,6 +456,9 @@
 // In picker menu
 .@{ns}picker-menu .@{clpns} {
   width: @calendar-header-width;
+  // To make sure <Calendar/> horizontal align at center when toolbar  width is so long.
+  display: block;
+  margin: 0 auto;
 
   .@{clpns}-month-dropdown-cell-content,
   .@{clpns}-table-cell-content {
