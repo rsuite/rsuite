@@ -126,12 +126,13 @@ describe('AutoComplete', () => {
     ReactTestUtils.Simulate.keyDown(findDOMNode(instance.menuContainer), { keyCode: 13 });
   });
 
-  it("Shouldn't call onSelect callback on Enter pressed if selectOnEnter=false", () => {
+  it("Shouldn't call onSelect nor onChange callback on Enter pressed if selectOnEnter=false", () => {
     const onSelectSpy = sinon.spy();
     const instance = getInstance(
       <AutoComplete
         defaultValue="a"
         onSelect={onSelectSpy}
+        onChagne={onSelectSpy}
         selectOnEnter={false}
         data={['a', 'ab', 'ac']}
         open

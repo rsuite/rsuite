@@ -211,7 +211,7 @@ class AutoComplete extends React.Component<Props, State> {
       return;
     }
 
-    const { onKeyDown, selectOnEnter = true } = this.props;
+    const { onKeyDown, selectOnEnter } = this.props;
 
     switch (event.keyCode) {
       // down
