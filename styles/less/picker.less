@@ -140,6 +140,11 @@
   .dropdown-toggle-caret-common;
   .set-dropdown-caret(~"@{ns}picker");
   .picker-caret-transition;
+
+  // Set default content to @dropdown-caret-content for support [placement="auto*"]
+  &::before {
+    content: @dropdown-caret-content;
+  }
 }
 
 // Picker Menu
