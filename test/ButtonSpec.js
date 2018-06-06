@@ -12,9 +12,14 @@ describe('Button', () => {
     assert.ok(instance.className.match(/\bbtn-default\b/));
   });
 
-  it('Should show the type if passed one', () => {
+  it('Should show the submit type', () => {
     const instance = getDOMNode(<Button type="submit">Title</Button>);
     assert.equal(instance.getAttribute('type'), 'submit');
+  });
+
+  it('Should show the default type', () => {
+    const instance = getDOMNode(<Button>Title</Button>);
+    assert.equal(instance.getAttribute('type'), 'button');
   });
 
   it('Should output an anchor if called with a href', () => {
