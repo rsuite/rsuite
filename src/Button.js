@@ -60,6 +60,10 @@ class Button extends React.Component<Props> {
       );
     }
 
+    if (Component === 'button') {
+      unhandled.type = unhandled.type || 'button';
+    }
+
     return (
       <Component {...unhandled} disabled={disabled} className={classes}>
         {loading && spin}
