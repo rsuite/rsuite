@@ -65,9 +65,9 @@
 }
 
 // Offset the popover to account for the popover arrow
-.@{ns}popover-placement-top-left,
-.@{ns}popover-placement-top-right,
-.@{ns}popover-placement-top {
+.@{ns}popover.placement-top-left,
+.@{ns}popover.placement-top-right,
+.@{ns}popover.placement-top {
   margin-top: -@popover-arrow-width;
   .set-translate(0, -@popover-translate-distance);
 
@@ -85,9 +85,9 @@
   }
 }
 
-.@{ns}popover-placement-right-top,
-.@{ns}popover-placement-right-bottom,
-.@{ns}popover-placement-right {
+.@{ns}popover.placement-right-top,
+.@{ns}popover.placement-right-bottom,
+.@{ns}popover.placement-right {
   margin-left: @popover-arrow-width;
   .set-translate(@popover-translate-distance, 0);
 
@@ -105,9 +105,9 @@
   }
 }
 
-.@{ns}popover-placement-bottom-left,
-.@{ns}popover-placement-bottom-right,
-.@{ns}popover-placement-bottom {
+.@{ns}popover.placement-bottom-left,
+.@{ns}popover.placement-bottom-right,
+.@{ns}popover.placement-bottom {
   margin-top: @popover-arrow-width;
   .set-translate(0, @popover-translate-distance);
 
@@ -125,9 +125,9 @@
   }
 }
 
-.@{ns}popover-placement-left-top,
-.@{ns}popover-placement-left-bottom,
-.@{ns}popover-placement-left {
+.@{ns}popover.placement-left-top,
+.@{ns}popover.placement-left-bottom,
+.@{ns}popover.placement-left {
   margin-left: -@popover-arrow-width;
   .set-translate(-@popover-translate-distance, 0);
 
@@ -145,29 +145,29 @@
   }
 }
 
-.@{ns}popover-placement-bottom,
-.@{ns}popover-placement-top {
+.@{ns}popover.placement-bottom,
+.@{ns}popover.placement-top {
   > .arrow {
     left: 50%;
   }
 }
 
-.@{ns}popover-placement-bottom-right,
-.@{ns}popover-placement-top-right {
+.@{ns}popover.placement-bottom-right,
+.@{ns}popover.placement-top-right {
   > .arrow {
     right: @popover-arrow-gap;
   }
 }
 
-.@{ns}popover-placement-left,
-.@{ns}popover-placement-right {
+.@{ns}popover.placement-left,
+.@{ns}popover.placement-right {
   > .arrow {
     top: 50%;
   }
 }
 
-.@{ns}popover-placement-left-bottom,
-.@{ns}popover-placement-right-bottom {
+.@{ns}popover.placement-left-bottom,
+.@{ns}popover.placement-right-bottom {
   > .arrow {
     bottom: @popover-arrow-gap;
   }
@@ -177,13 +177,13 @@
 .@{ns}popover-full {
   padding: 0;
 
-  .@{ns}popover-placement-top-left& > .arrow,
-  .@{ns}popover-placement-bottom-left& > .arrow {
+  .@{ns}popover.placement-top-left& > .arrow,
+  .@{ns}popover.placement-bottom-left& > .arrow {
     margin-left: @popover-arrow-outer-width;
   }
 
-  .@{ns}popover-placement-right-top& > .arrow,
-  .@{ns}popover-placement-left-top& > .arrow {
+  .@{ns}popover.placement-right-top& > .arrow,
+  .@{ns}popover.placement-left-top& > .arrow {
     margin-top: @popover-arrow-outer-width;
   }
 }
