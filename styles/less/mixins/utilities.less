@@ -103,3 +103,11 @@
   font-style: normal;
   line-height: 1;
 }
+
+.set-translate(@translateX:0,@translateY:0) {
+  transform: translate(0, 0);
+
+  &.in {
+    transform: translate(@translateX, @translateY);
+  }
+}

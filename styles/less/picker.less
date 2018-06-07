@@ -142,6 +142,11 @@
   .dropdown-toggle-caret-common;
   .set-dropdown-caret(~"@{ns}picker");
   .picker-caret-transition;
+
+  // Set default content to @dropdown-caret-content for support [placement="auto*"]
+  &::before {
+    content: @dropdown-caret-content;
+  }
 }
 
 // Picker Menu
@@ -193,41 +198,6 @@
       .@{ctpns}-menu& {
         top: (@padding-base-input-vertical - @input-border-width);
       }
-    }
-  }
-
-  // Animation
-  animation-duration: .3s;
-  animation-timing-function: cubic-bezier(.23, 1, .32, 1);
-  animation-fill-mode: both;
-  animation-play-state: paused;
-
-  &.in {
-    animation-play-state: running;
-
-    &.@{ns}picker-placement-top-left,
-    &.@{ns}picker-placement-top-right {
-      animation-name: slideDownIn;
-      //FIXED: In IE is invisible.
-      .ie-animation-name(none);
-    }
-
-    &.@{ns}picker-placement-left-top,
-    &.@{ns}picker-placement-left-bottom {
-      animation-name: slideRightIn;
-      .ie-animation-name(none);
-    }
-
-    &.@{ns}picker-placement-right-top,
-    &.@{ns}picker-placement-right-bottom {
-      animation-name: slideLeftIn;
-      .ie-animation-name(none);
-    }
-
-    &.@{ns}picker-placement-bottom-left,
-    &.@{ns}picker-placement-bottom-right {
-      animation-name: slideUpIn;
-      .ie-animation-name(none);
     }
   }
 }

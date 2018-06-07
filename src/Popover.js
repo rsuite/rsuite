@@ -15,7 +15,12 @@ type PlacementEightPoints =
   | 'leftTop'
   | 'rightTop'
   | 'leftBottom'
-  | 'rightBottom';
+  | 'rightBottom'
+  | 'auto'
+  | 'autoVerticalLeft'
+  | 'autoVerticalRight'
+  | 'autoHorizontalTop'
+  | 'autoHorizontalBottom';
 
 type Props = {
   placement: PlacementFourSides | PlacementEightPoints,

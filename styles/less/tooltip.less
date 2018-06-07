@@ -44,14 +44,13 @@
   }
 }
 
-.@{ns}tooltip-placement-top-left,
-.@{ns}tooltip-placement-top-right,
-.@{ns}tooltip-placement-top {
-  padding: @tooltip-arrow-width 0;
+// Common style for .placement-top*
+.@{ns}tooltip[class*=placement-top] {
+  margin-top: -@tooltip-arrow-width;
   .set-translate(0, -@tooltip-translate-distance);
 
   .@{ns}tooltip-arrow {
-    bottom: 0;
+    bottom: -@tooltip-arrow-width;
     // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
     .edge-position(bottom, 1px);
     .ie11-position(bottom, 1px);
@@ -62,14 +61,13 @@
   }
 }
 
-.@{ns}tooltip-placement-bottom-left,
-.@{ns}tooltip-placement-bottom-right,
-.@{ns}tooltip-placement-bottom {
-  padding: @tooltip-arrow-width 0;
+// Common style for .placement-bottom*
+.@{ns}tooltip[class*=placement-bottom] {
+  margin-top: @tooltip-arrow-width;
   .set-translate(0, @tooltip-translate-distance);
 
   .@{ns}tooltip-arrow {
-    top: 0;
+    top: -@tooltip-arrow-width;
     // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
     .edge-position(top, 1px);
     .ie11-position(top, 1px);
@@ -80,14 +78,13 @@
   }
 }
 
-.@{ns}tooltip-placement-right-top,
-.@{ns}tooltip-placement-right-bottom,
-.@{ns}tooltip-placement-right {
-  padding: 0 @tooltip-arrow-width;
+// Common style for .placement-right*
+.@{ns}tooltip[class*=placement-right] {
+  margin-left: @tooltip-arrow-width;
   .set-translate(@tooltip-translate-distance, 0);
 
   .@{ns}tooltip-arrow {
-    left: 0;
+    left: -@tooltip-arrow-width;
     // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
     .edge-position(left, 1px);
     .ie11-position(left, 1px);
@@ -98,14 +95,13 @@
   }
 }
 
-.@{ns}tooltip-placement-left-top,
-.@{ns}tooltip-placement-left-bottom,
-.@{ns}tooltip-placement-left {
-  padding: 0 @tooltip-arrow-width;
+// Common style for .placement-lef*
+.@{ns}tooltip[class*=placement-left] {
+  margin-left: -@tooltip-arrow-width;
   .set-translate(-@tooltip-translate-distance, 0);
 
   .@{ns}tooltip-arrow {
-    right: 0;
+    right: -@tooltip-arrow-width;
     // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
     .edge-position(right, 1px);
     .ie11-position(right, 1px);
@@ -116,43 +112,43 @@
   }
 }
 
-.@{ns}tooltip-placement-bottom,
-.@{ns}tooltip-placement-top {
+.@{ns}tooltip.placement-bottom,
+.@{ns}tooltip.placement-top {
   .@{ns}tooltip-arrow {
     left: 50%;
   }
 }
 
-.@{ns}tooltip-placement-bottom-left,
-.@{ns}tooltip-placement-top-left {
+.@{ns}tooltip.placement-bottom-left,
+.@{ns}tooltip.placement-top-left {
   .@{ns}tooltip-arrow {
     left: @tooltip-arrow-gap-lg;
   }
 }
 
-.@{ns}tooltip-placement-bottom-right,
-.@{ns}tooltip-placement-top-right {
+.@{ns}tooltip.placement-bottom-right,
+.@{ns}tooltip.placement-top-right {
   .@{ns}tooltip-arrow {
     right: @tooltip-arrow-gap-sm;
   }
 }
 
-.@{ns}tooltip-placement-right,
-.@{ns}tooltip-placement-left {
+.@{ns}tooltip.placement-right,
+.@{ns}tooltip.placement-left {
   .@{ns}tooltip-arrow {
     top: 50%;
   }
 }
 
-.@{ns}tooltip-placement-right-top,
-.@{ns}tooltip-placement-left-top {
+.@{ns}tooltip.placement-right-top,
+.@{ns}tooltip.placement-left-top {
   .@{ns}tooltip-arrow {
     top: @tooltip-arrow-gap-lg;
   }
 }
 
-.@{ns}tooltip-placement-right-bottom,
-.@{ns}tooltip-placement-left-bottom {
+.@{ns}tooltip.placement-right-bottom,
+.@{ns}tooltip.placement-left-bottom {
   .@{ns}tooltip-arrow {
     bottom: @tooltip-arrow-gap-sm;
   }
