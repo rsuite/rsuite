@@ -1,3 +1,23 @@
+# 3.0.8
+
+> 2018-06-07
+
+* **Feature**: The position of the overlay can be adjusted automatically ([#69])
+* **Bugfix**: The default type of `<Button>` is `button` ([#67])
+* **Bugfix**: `<textarea />` in form-control will produce a whitesapce ([#65])
+* **Feature**: Support `selectOnEnter` on `<AutoComplete>` ([#62])
+* **Bugfix**: Fix the problem on the Picker style ([#58])
+* **Feature**: Support `maxPreviewFileSize` on `<Uploader>` ([#57])
+* **Bugfix**: dialogDOM is null ([#56])
+
+[#69]: https://github.com/rsuite/rsuite/pull/69
+[#67]: https://github.com/rsuite/rsuite/pull/67
+[#65]: https://github.com/rsuite/rsuite/pull/65
+[#62]: https://github.com/rsuite/rsuite/pull/62
+[#58]: https://github.com/rsuite/rsuite/pull/58
+[#57]: https://github.com/rsuite/rsuite/pull/57
+[#56]: https://github.com/rsuite/rsuite/pull/56
+
 # 3.0.7
 
 > 2018-05-31
