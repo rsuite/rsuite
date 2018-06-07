@@ -44,9 +44,8 @@
   }
 }
 
-.@{ns}tooltip.placement-top-left,
-.@{ns}tooltip.placement-top-right,
-.@{ns}tooltip.placement-top {
+// Common style for .placement-top*
+.@{ns}tooltip[class*=placement-top] {
   margin-top: -@tooltip-arrow-width;
   .set-translate(0, -@tooltip-translate-distance);
 
@@ -62,9 +61,8 @@
   }
 }
 
-.@{ns}tooltip.placement-bottom-left,
-.@{ns}tooltip.placement-bottom-right,
-.@{ns}tooltip.placement-bottom {
+// Common style for .placement-bottom*
+.@{ns}tooltip[class*=placement-bottom] {
   margin-top: @tooltip-arrow-width;
   .set-translate(0, @tooltip-translate-distance);
 
@@ -80,9 +78,8 @@
   }
 }
 
-.@{ns}tooltip.placement-right-top,
-.@{ns}tooltip.placement-right-bottom,
-.@{ns}tooltip.placement-right {
+// Common style for .placement-right*
+.@{ns}tooltip[class*=placement-right] {
   margin-left: @tooltip-arrow-width;
   .set-translate(@tooltip-translate-distance, 0);
 
@@ -98,9 +95,8 @@
   }
 }
 
-.@{ns}tooltip.placement-left-top,
-.@{ns}tooltip.placement-left-bottom,
-.@{ns}tooltip.placement-left {
+// Common style for .placement-lef*
+.@{ns}tooltip[class*=placement-left] {
   margin-left: -@tooltip-arrow-width;
   .set-translate(-@tooltip-translate-distance, 0);
 

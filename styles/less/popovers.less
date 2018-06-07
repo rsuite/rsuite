@@ -1,7 +1,6 @@
 //
 // Popovers
 // --------------------------------------------------
-
 .@{ns}popover {
   // Our parent element can be arbitrary since popovers are by default inserted as a sibling of their target element.
   // So reset our font and text properties to avoid inheriting weird values.
@@ -64,10 +63,8 @@
   }
 }
 
-// Offset the popover to account for the popover arrow
-.@{ns}popover.placement-top-left,
-.@{ns}popover.placement-top-right,
-.@{ns}popover.placement-top {
+// Common style for .placement-top*
+.@{ns}popover[class*=placement-top] {
   margin-top: -@popover-arrow-width;
   .set-translate(0, -@popover-translate-distance);
 
@@ -85,9 +82,8 @@
   }
 }
 
-.@{ns}popover.placement-right-top,
-.@{ns}popover.placement-right-bottom,
-.@{ns}popover.placement-right {
+// Common style for .placement-right*
+.@{ns}popover[class*=placement-right] {
   margin-left: @popover-arrow-width;
   .set-translate(@popover-translate-distance, 0);
 
@@ -105,9 +101,8 @@
   }
 }
 
-.@{ns}popover.placement-bottom-left,
-.@{ns}popover.placement-bottom-right,
-.@{ns}popover.placement-bottom {
+// Common style for .placement-bottom*
+.@{ns}popover[class*=placement-bottom] {
   margin-top: @popover-arrow-width;
   .set-translate(0, @popover-translate-distance);
 
@@ -125,9 +120,8 @@
   }
 }
 
-.@{ns}popover.placement-left-top,
-.@{ns}popover.placement-left-bottom,
-.@{ns}popover.placement-left {
+// Common style for .placement-left*
+.@{ns}popover[class*=placement-left] {
   margin-left: -@popover-arrow-width;
   .set-translate(-@popover-translate-distance, 0);
 
