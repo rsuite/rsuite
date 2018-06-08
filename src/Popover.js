@@ -23,7 +23,7 @@ type PlacementEightPoints =
   | 'autoHorizontalBottom';
 
 type Props = {
-  placement: PlacementFourSides | PlacementEightPoints,
+  placement?: PlacementFourSides | PlacementEightPoints,
   classPrefix: string,
   children?: React.Node,
   title?: React.Node,
@@ -36,9 +36,6 @@ type Props = {
 };
 
 class Popover extends React.Component<Props> {
-  static defaultProps = {
-    placement: 'top'
-  };
   render() {
     const {
       classPrefix,
@@ -54,15 +51,10 @@ class Popover extends React.Component<Props> {
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
-
-    const classes = classNames(
-      classPrefix,
-      addPrefix(`placement-${_.kebabCase(placement)}`),
-      className,
-      {
-        [addPrefix('full')]: full
-      }
-    );
+    const classes = classNames(classPrefix, className, {
+      [addPrefix(`placement-${_.kebabCase(placement || '')}`)]: placement,
+      [addPrefix('full')]: full
+    });
 
     const styles = {
       display: 'block',

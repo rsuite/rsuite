@@ -11,7 +11,7 @@ describe('Popover', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Popover>{title}</Popover>);
     const instanceDom = findDOMNode(instance);
     assert.equal(instanceDom.tagName, 'DIV');
-    assert.ok(instanceDom.className.match(/\bpopover\b/));
+    assert.equal(instanceDom.className, 'rs-popover');
     assert.equal(innerText(instanceDom), title);
   });
 

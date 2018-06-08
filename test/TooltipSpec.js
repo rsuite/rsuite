@@ -11,7 +11,7 @@ describe('Tooltip', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Tooltip>{title}</Tooltip>);
     const instanceDom = findDOMNode(instance);
     assert.equal(instanceDom.tagName, 'DIV');
-    assert.ok(instanceDom.className.match(/\btooltip\b/));
+    assert.equal(instanceDom.className, 'rs-tooltip');
     assert.equal(innerText(instanceDom), title);
   });
 
