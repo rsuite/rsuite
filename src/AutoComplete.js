@@ -12,7 +12,7 @@ import { defaultProps, getUnhandledProps, prefix } from './utils';
 import { globalKey } from './utils/prefix';
 
 type DefaultEvent = SyntheticEvent<*>;
-type PlacementEightPoints =
+type Placement =
   | 'bottomLeft'
   | 'bottomRight'
   | 'topLeft'
@@ -20,7 +20,12 @@ type PlacementEightPoints =
   | 'leftTop'
   | 'rightTop'
   | 'leftBottom'
-  | 'rightBottom';
+  | 'rightBottom'
+  | 'auto'
+  | 'autoVerticalLeft'
+  | 'autoVerticalRight'
+  | 'autoHorizontalTop'
+  | 'autoHorizontalBottom';
 
 type ItemDataType = {
   label: any,
@@ -37,7 +42,7 @@ type Props = {
   defaultValue?: string,
   className?: string,
   menuClassName?: string,
-  placement?: PlacementEightPoints,
+  placement?: Placement,
   onFocus?: (event: DefaultEvent) => void,
   onMenuFocus?: (focusItemValue: any, event: DefaultEvent) => void,
   onBlur?: (event: DefaultEvent) => void,
@@ -121,11 +126,11 @@ class AutoComplete extends React.Component<Props, State> {
   }
 
   shouldDisplay = (item: any) => {
-    const { value } = this.state;
+    const value = this.getValue();
     if (!_.trim(value)) {
       return false;
     }
-    const keyword = value.toLocaleLowerCase();
+    const keyword = (value || '').toLocaleLowerCase();
     return item.label.toLocaleLowerCase().indexOf(keyword) >= 0;
   };
 
@@ -135,9 +140,8 @@ class AutoComplete extends React.Component<Props, State> {
       focusItemValue: undefined,
       value
     };
-    this.setState(nextState, () => {
-      this.handleChangeValue(value, event);
-    });
+    this.setState(nextState);
+    this.handleChangeValue(value, event);
   };
 
   handleInputFocus = (event: DefaultEvent) => {
@@ -187,14 +191,13 @@ class AutoComplete extends React.Component<Props, State> {
     };
 
     const data = this.getData();
-    const focusItem: any = data.find(item => _.isEqual(_.get(item, 'value'), focusItemValue));
+    const focusItem: any = data.find(item => _.get(item, 'value') === focusItemValue);
 
-    this.setState(nextState, () => {
-      this.handleSelect(focusItem, event);
-      if (!_.isEqual(prevValue, focusItemValue)) {
-        this.handleChangeValue(focusItemValue, event);
-      }
-    });
+    this.setState(nextState);
+    this.handleSelect(focusItem, event);
+    if (prevValue !== focusItemValue) {
+      this.handleChangeValue(focusItemValue, event);
+    }
 
     this.close();
   }
@@ -258,12 +261,11 @@ class AutoComplete extends React.Component<Props, State> {
       value,
       focusItemValue: value
     };
-    this.setState(nextState, () => {
-      this.handleSelect(item, event);
-      if (!_.isEqual(prevValue, value)) {
-        this.handleChangeValue(value, event);
-      }
-    });
+    this.setState(nextState);
+    this.handleSelect(item, event);
+    if (prevValue !== value) {
+      this.handleChangeValue(value, event);
+    }
     this.close();
   };
 
@@ -294,7 +296,7 @@ class AutoComplete extends React.Component<Props, State> {
           {items.map(item => (
             <AutoCompleteItem
               key={item.value}
-              focus={_.isEqual(focusItemValue, item.value)}
+              focus={focusItemValue === item.value}
               itemData={item}
               onSelect={this.handleItemSelect}
               renderItem={renderItem}
