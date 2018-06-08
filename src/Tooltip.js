@@ -36,10 +36,6 @@ type Props = {
 };
 
 class Tooltip extends React.Component<Props> {
-  static defaultProps = {
-    placement: 'top'
-  };
-
   render() {
     let {
       placement,
@@ -55,11 +51,9 @@ class Tooltip extends React.Component<Props> {
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
-    const classes = classNames(
-      classPrefix,
-      addPrefix(`placement-${_.kebabCase(placement)}`),
-      className
-    );
+    const classes = classNames(classPrefix, className, {
+      [addPrefix(`placement-${_.kebabCase(placement || '')}`)]: placement
+    });
     const styles = {
       left: positionLeft,
       top: positionTop,
