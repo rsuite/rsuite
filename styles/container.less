@@ -1,3 +1,5 @@
+@import "common";
+
 // Container styles
 // contains: <Container/> <Header/> <Content/> <Footer/> <Sidebar/>
 
@@ -15,13 +17,12 @@
 
 .@{ns}header,
 .@{ns}footer {
-  // Flex initial value.
   flex: 0 0 auto;
 }
 
 // Full container
 .@{ns}content {
-  flex: auto; // The same to `flex: 1 1 auto`
+  flex: 1 1 auto;
 }
 
 .@{ns}sidebar {

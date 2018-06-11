@@ -1,3 +1,9 @@
+@import "common";
+@import "mixins/button";
+@import "mixins/dropdown";
+@import "mixins/form";
+@import "mixins/picker";
+
 //
 // Pickers
 // --------------------------------------------------
@@ -194,13 +200,10 @@
       top: @picker-menu-padding - @border-radius-base + @padding-base-input-vertical;
       right: @picker-menu-padding + @padding-base-input-horizontal;
 
-      .@{tpns}-menu&,
-      .@{ctpns}-menu& {
+      .@{ns}@{tree-picker-prefix}-menu&,
+      .@{ns}@{check-tree-picker-prefix}-menu& {
         top: (@padding-base-input-vertical - @input-border-width);
       }
     }
   }
 }
-
-// import all picker styles
-@import "pickers/index";

@@ -1,0 +1,83 @@
+@import "picker";
+
+// Cascader
+// ----------------------
+
+// Cascader Picker Name Space
+@cspns: ~"@{ns}@{cascader-picker-prefix}";
+
+.@{cspns}-menu-items > div {
+  .clearfix;
+}
+
+// Column menu
+.@{cspns}-menu-items-column-menu {
+  float: left;
+  overflow-y: auto;
+}
+
+// Menu Items
+.@{cspns}-menu-items {
+  padding: @border-radius-base 0;
+
+  ul,
+  li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+// Menu item
+.@{cspns}-menu-item {
+  position: relative;
+  display: block;
+  padding: @picker-item-content-padding-vertical @picker-item-content-padding-horizontal;
+  max-width: @picker-content-max-width;
+  transition: @picker-item-transition;
+  cursor: pointer;
+  text-decoration: none;
+  color: @picker-select-item-color;
+
+  // Has children
+  &s-has-children & {
+    padding-right: @dropdown-toggle-padding-right;
+  }
+
+  &:not(&-disabled):hover,
+  &:not(&-disabled):focus,
+  &.@{ns}picker-select-menu-item-focus {
+    .picker-item-hover;
+
+    text-decoration: none;
+  }
+
+  &&-focus,
+  &&-active {
+    &,
+    &:hover,
+    &:focus,
+    &:hover:focus {
+      color: @picker-select-menu-item-selected-color;
+      background-color: @picker-select-menu-item-selected-bg;
+    }
+
+    .@{cspns}-menu-items-caret {
+      color: @text-color;
+    }
+  }
+
+  &&-disabled {
+    color: @picker-menu-item-disabled-color;
+    text-decoration: none;
+    cursor: @cursor-disabled;
+  }
+}
+
+.@{cspns}-menu-items-caret {
+  .dropdown-toggle-caret-common;
+
+  &::before {
+    content: @drop-right-caret-content;
+  }
+}

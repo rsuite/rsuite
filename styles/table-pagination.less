@@ -1,0 +1,49 @@
+@import "common";
+
+.@{ns}table-pagination {
+  &-pagination-wrapper {
+    padding: @table-pagination-padding-vertical @table-pagination-padding-horizontal;
+    font-size: @font-size-small;
+    line-height: @line-height-small;
+    .clearfix;
+  }
+
+  &-length-menu,
+  &-page-info {
+    color: @B600;
+  }
+
+  &-length-menu,
+  &-page-info,
+  &-pagination {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  // Rest dropdown the same to design.
+  &-length-menu .@{ns}picker-toggle {
+    padding: 2px 21px 2px 8px;
+    font-size: @font-size-small;
+    line-height: @line-height-small;
+
+    &-caret {
+      top: 0;
+      right: 8px;
+
+      &::before {
+        vertical-align: middle;
+      }
+    }
+  }
+
+  // There is a gap between Length Menu and Page info.
+  &-length-menu + &-page-info {
+    margin-left: 18px;
+  }
+
+  &-pagination {
+    //Reset font-space to clear whitspace
+    font-size: 0;
+    float: right;
+  }
+}
