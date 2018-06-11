@@ -4,8 +4,8 @@ const makeDir = require('make-dir');
 const glob = promisify(require('glob'));
 const writeFile = promisify(require('fs').writeFile);
 
-const INPUT_DIR = '../styles';
-const OUTPUT_DIR = '../lib/styles';
+const INPUT_DIR = './styles';
+const OUTPUT_DIR = './lib/styles';
 const CORE_FILE_NAME = '_core.less';
 
 const getImportContent = files => files.map(fileName => `require('../../styles/${fileName}');`).join('\n');
