@@ -156,7 +156,7 @@ class Form extends React.Component<Props, State> {
   render() {
     const { layout, classPrefix, fluid, className, ...props } = this.props;
     const addPrefix = prefix(classPrefix);
-    const clesses = classNames(
+    const classes = classNames(
       classPrefix,
       addPrefix(layout),
       className,
@@ -164,7 +164,7 @@ class Form extends React.Component<Props, State> {
     );
     const unhandled = getUnhandledProps(Form, props);
 
-    return <form {...unhandled} onSubmit={e => e.preventDefault()} className={clesses} />;
+    return <form {...unhandled} onSubmit={e => e.preventDefault()} className={classes} />;
   }
 }
 

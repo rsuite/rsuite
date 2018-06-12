@@ -60,7 +60,7 @@ class CheckboxGroup extends React.Component<Props, State> {
     } = this.props;
 
     const nextValue = this.getValue() || [];
-    const clesses: string = classNames(classPrefix, className);
+    const classes: string = classNames(classPrefix, className);
     const checkedKey = _.isUndefined(value) ? 'defaultChecked' : 'checked';
 
     const items: React.Node = ReactChildren.mapCloneElement(children, child => {
@@ -79,7 +79,7 @@ class CheckboxGroup extends React.Component<Props, State> {
     const unhandled = getUnhandledProps(CheckboxGroup, props);
 
     return (
-      <div {...unhandled} role="group" className={clesses}>
+      <div {...unhandled} role="group" className={classes}>
         {items}
       </div>
     );

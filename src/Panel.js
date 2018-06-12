@@ -159,7 +159,7 @@ class Panel extends React.Component<Props, State> {
       ...props
     } = this.props;
 
-    const clesses = classNames(classPrefix, this.addPrefix('default'), className, {
+    const classes = classNames(classPrefix, this.addPrefix('default'), className, {
       [this.addPrefix('in')]: this.isExpanded(),
       [this.addPrefix('collapsible')]: collapsible,
       [this.addPrefix('bordered')]: bordered
@@ -168,7 +168,7 @@ class Panel extends React.Component<Props, State> {
     const unhandled = getUnhandledProps(Panel, props);
 
     return (
-      <div {...unhandled} className={clesses} onSelect={null} id={collapsible ? null : id}>
+      <div {...unhandled} className={classes} onSelect={null} id={collapsible ? null : id}>
         {this.renderHeading(headerRole)}
         {collapsible ? this.renderCollapsibleBody(panelRole) : this.renderBody()}
       </div>

@@ -22,8 +22,8 @@ class FlexboxGrid extends React.Component<Props> {
   render() {
     const { className, classPrefix, align, justify, ...props } = this.props;
     const addPrefix = prefix(classPrefix);
-    const clesses = classNames(classPrefix, className, addPrefix(align), addPrefix(justify));
-    return <div {...props} className={clesses} />;
+    const classes = classNames(classPrefix, className, addPrefix(align), addPrefix(justify));
+    return <div {...props} className={classes} />;
   }
 }
 

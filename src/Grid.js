@@ -16,8 +16,8 @@ class Grid extends React.Component<Props> {
   render() {
     const { fluid, componentClass: Component, className, classPrefix, ...props } = this.props;
     const addPrefix = prefix(classPrefix);
-    const clesses = classNames(fluid ? addPrefix('fluid') : classPrefix, className);
-    return <Component {...props} className={clesses} />;
+    const classes = classNames(fluid ? addPrefix('fluid') : classPrefix, className);
+    return <Component {...props} className={classes} />;
   }
 }
 
