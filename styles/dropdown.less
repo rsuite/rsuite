@@ -1,7 +1,5 @@
 @import "common";
 @import "mixins/dropdown";
-// @todo move to mixins/dropdown
-@import "mixins/nav-divider";
 
 //
 // Dropdown menus
@@ -55,7 +53,10 @@
 }
 
 .@{ns}dropdown-toggle {
-  .dropdown-toggle;
+  &,
+  &.@{ns}btn { // Force set style even if has `.btn`.
+    .dropdown-toggle;
+  }
 }
 
 // The dropdown menu (ul)
