@@ -70,7 +70,7 @@
 
 // Optional: Group multiple button groups together for a toolbar
 .@{ns}btn-toolbar {
-  &:extend(.clearfix all);
+  .clearfix;
 
   .@{ns}btn,
   .@{ns}btn-group,
@@ -269,7 +269,7 @@
 
   // Clear floats so dropdown menus can be properly placed
   > .@{ns}btn-group {
-    &:extend(.clearfix all);
+    .clearfix;
 
     > .@{ns}btn {
       float: none;

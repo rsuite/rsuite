@@ -113,7 +113,7 @@
 // Modal header
 // Top section of the modal w/ title and dismiss
 .@{ns}modal-header {
-  &:extend(.clearfix all);
+  .clearfix;
 
   padding-right: @line-height-computed;
 
@@ -175,7 +175,7 @@
 .@{ns}modal-footer {
   text-align: right; // right align buttons
   border-top: none;
-  &:extend(.clearfix all); // clear it in case folks use .pull-* classes on buttons
+  .clearfix; // clear it in case folks use .pull-* classes on buttons
 
   // Properly space out buttons
   .@{ns}btn + .@{ns}btn {

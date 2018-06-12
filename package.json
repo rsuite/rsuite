@@ -20,7 +20,8 @@
     "tdd": "karma start",
     "test": "npm run format:check && npm run lint && NODE_ENV=coverage  karma start --single-run",
     "coveralls": "cat ./coverage/lcov/lcov.info | ./node_modules/.bin/coveralls",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "generate-styles": "rm -rf lib/styles && node scripts/generate-styles.js"
   },
   "keywords": [
     "react",
