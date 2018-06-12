@@ -43,7 +43,7 @@ class RadioGroup extends React.Component<Props, State> {
   render() {
     const { className, inline, name, children, classPrefix, onChange, ...props } = this.props;
 
-    const clesses = classNames(classPrefix, className);
+    const classes = classNames(classPrefix, className);
     const nextValue = this.getValue();
     const items = ReactChildren.mapCloneElement(children, child => {
       if (child.type.displayName === 'Radio') {
@@ -60,7 +60,7 @@ class RadioGroup extends React.Component<Props, State> {
     const unhandled = getUnhandledProps(RadioGroup, props);
 
     return (
-      <div {...unhandled} className={clesses} role="button">
+      <div {...unhandled} className={classes} role="button">
         {items}
       </div>
     );
