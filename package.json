@@ -10,7 +10,7 @@
     "format": "prettier --write \"{src,test}/**/*.js\"",
     "format:check": "prettier --list-different \"{src,test}/**/*.js\"",
     "build": "rm -rf lib && babel src --out-dir lib && npm run dist",
-    "dist-style": "gulp --gulpfile scripts/gulpfile.js && node scripts/generate-styles.js",
+    "dist-style": "gulp --gulpfile scripts/gulpfile.js && npm run generate-styles",
     "dist-map": "NODE_ENV=development  webpack --mode development --progress",
     "dist-pro": "webpack --mode production --progress",
     "dist": "rm -rf dist && npm run dist-map && npm run dist-pro && npm run dist-style",
