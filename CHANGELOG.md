@@ -1,3 +1,27 @@
+# 3.1.0 🎉
+
+> 2018-06-14
+
+* **Feature**: Support for style modularized  ([#76], [#81])
+* **Feature**: Support `bodyRef` on `<Table>` ([#TABLE-23])
+* **Bugfix**: The `<FormControl>` loses focus and the validated value is incorrect.  ([#79])
+* **Bugfix**: Fix some style problems ([#78])
+* **Bugfix**: TreeNode title property display error on `<TreePicker>` ([#77])
+* **Bugfix**: Remove popover/tooltip open animation delay ([#73])
+* **Bugfix**: Bugfix: When the height of the content is updated, reset the scroll bar position ([#TABLE-22])
+* **Bugfix**: `<AutoComplete>` cannot enter Chinese in controlled condition ([#70])
+
+[#81]: https://github.com/rsuite/rsuite/pull/81
+[#79]: https://github.com/rsuite/rsuite/pull/79
+[#78]: https://github.com/rsuite/rsuite/pull/78
+[#77]: https://github.com/rsuite/rsuite/pull/77
+[#76]: https://github.com/rsuite/rsuite/pull/76
+[#73]: https://github.com/rsuite/rsuite/pull/73
+[#70]: https://github.com/rsuite/rsuite/pull/70
+[#TABLE-22]: https://github.com/rsuite/rsuite-table/pull/22
+[#TABLE-23]: https://github.com/rsuite/rsuite-table/pull/23
+
+
 # 3.0.8
 
 > 2018-06-07
