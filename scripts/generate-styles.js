@@ -36,7 +36,8 @@ const IMPORT_FILE_CONFIG = {
   'navbar': ['nav.less', 'navbar.less'],
   'row': ['grid.less'],
   'radio': ['form.less', 'radio.less'],
-  'table': ['table.less', 'table-pagination.less'],
+  'table': ['table.less', 'table-pagination.less', 'pagination.less', 'picker.less', 'select-picker.less', 'divider.less'],
+  'table-pagination': ['table-pagination.less', 'pagination.less', 'picker.less', 'select-picker.less', 'divider.less'],
   'select-picker': ['picker.less', 'select-picker.less'],
   'tree': ['picker.less', 'tree-picker.less'],
   'tree-picker': ['picker.less', 'tree-picker.less']
