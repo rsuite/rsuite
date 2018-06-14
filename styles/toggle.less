@@ -1,0 +1,86 @@
+@import "common";
+@import "mixins/button";
+@import "mixins/toggle";
+
+//
+// Pickers
+// --------------------------------------------------
+.@{ns}btn-toggle {
+  // Default size is middle.
+  .btn-toggle(md);
+
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: middle;
+  background-color: @toggle-default-bg;
+  cursor: pointer;
+  transition: .2s linear;
+  transition-property: background-color, width;
+  user-select: none;
+
+  &:hover {
+    background-color: @toggle-default-hover-bg;
+  }
+
+  &::after {
+    content: "";
+    cursor: pointer;
+    position: absolute;
+    background-color: @toggle-md-handle-bg;
+    transition: all @toggle-transition;
+    transition-property: left, margin-left, width;
+  }
+
+  &-inner {
+    color: @toggle-md-handle-bg;
+    display: block;
+    transition: margin @toggle-transition;
+
+    .@{ns}icon {
+      vertical-align: middle;
+    }
+  }
+
+  &-checked {
+    background-color: @toggle-checked-bg;
+
+    &:hover {
+      background-color: @toggle-checked-hover-bg;
+    }
+  }
+
+  &-disabled {
+    &,
+    &::after {
+      cursor: not-allowed;
+    }
+
+    &,
+    &:hover {
+      background-color: @B050;
+    }
+  }
+
+  &-disabled&-checked {
+    &,
+    &:hover {
+      background-color: @H100;
+    }
+  }
+}
+
+// small
+.@{ns}btn-toggle-sm {
+  .btn-toggle(sm);
+}
+
+// middle
+.@{ns}btn-toggle-md {
+  .btn-toggle(md);
+}
+
+// large
+.@{ns}btn-toggle-lg {
+  .btn-toggle(lg);
+}

@@ -1,0 +1,209 @@
+@import "common";
+@import "mixins/button";
+@import "mixins/dropdown";
+@import "mixins/form";
+@import "mixins/picker";
+
+//
+// Pickers
+// --------------------------------------------------
+
+// Common styles
+// ----------------------
+.@{ns}@{select-picker-prefix},
+.@{ns}@{check-picker-prefix},
+.@{ns}@{cascader-picker-prefix},
+.@{ns}@{calendar-picker-prefix},
+.@{ns}@{date-picker-prefix},
+.@{ns}@{tree-picker-prefix},
+.@{ns}@{check-tree-picker-prefix},
+.@{ns}@{date-range-picker-prefix} {
+  display: inline-block;
+  // Remove whitespace
+  vertical-align: bottom;
+  max-width: 100%;
+
+  &-block {
+    display: block;
+
+    // Set `display:block` for toggle button.
+    .@{ns}picker-toggle,
+    .@{ns}picker-toggle-custom {
+      display: block;
+      width: 100%;
+      text-align: left;
+    }
+  }
+}
+
+.@{ns}@{select-picker-prefix},
+.@{ns}@{check-picker-prefix},
+.@{ns}@{cascader-picker-prefix},
+.@{ns}@{tree-picker-prefix},
+.@{ns}@{check-tree-picker-prefix} {
+  max-width: 100%;
+}
+
+// Disabled
+.@{ns}picker-checktree-disabled,
+.@{ns}picker-daterange-disabled,
+.@{ns}picker-tree-disabled,
+.@{ns}picker-date-disabled,
+.@{ns}picker-check-disabled,
+.@{ns}picker-select-disabled,
+.@{ns}picker-cascader-disabled {
+  cursor: @cursor-disabled;
+  opacity: .3;
+
+  .@{ns}picker-toggle {
+    cursor: @cursor-disabled;
+
+    &,
+    &:hover,
+    &:focus,
+    &:active,
+    &:hover:active {
+      background: none;
+
+      &::after {
+        display: none;
+      }
+    }
+  }
+}
+
+//## Dropdown toggle
+// Default toggle style the same to the subtle button.
+.@{ns}picker-toggle {
+  .btn;
+  .btn-subtle;
+
+  // Has value highlight
+  .@{ns}picker-select-has-value &,
+  .@{ns}picker-cascader-has-value & {
+    .@{ns}picker-toggle-value {
+      color: @picker-selected-value-color;
+    }
+  }
+}
+
+// Custom button sizes
+.@{ns}picker-toggle-custom.@{ns}btn {
+  &-lg {
+    .picker-button-caret-lg;
+  }
+
+  &-md {
+    .picker-button-caret-md;
+  }
+
+  &-sm {
+    .picker-button-caret-sm;
+  }
+
+  &-xs {
+    .picker-button-caret-xs;
+  }
+}
+
+// The Same to Dropdown toggle
+.@{ns}picker-toggle,
+.@{ns}picker-toggle-custom {
+  .dropdown-toggle;
+
+  max-width: 100%;
+
+  &-value {
+    display: block;
+    .ellipsis;
+  }
+
+  &.@{ns}picker-toggle-cleanable:hover .@{ns}picker-toggle-caret {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  &:hover .@{ns}picker-toggle-clean {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Picker clean button
+.@{ns}picker-toggle-clean {
+  .dropdown-toggle-caret-common;
+  .set-dropdown-caret(~"dropdown");
+  .picker-caret-transition;
+
+  opacity: 0;
+  transform: scale(0);
+  background: inherit;
+  // FIXED: IE browser has 1px orange line.
+  .ie-width(19px) !important;
+}
+
+// Picker toggle caret
+.@{ns}picker-toggle-caret {
+  // Extend  Dropdown toggle caret style
+  .dropdown-toggle-caret-common;
+  .set-dropdown-caret(~"@{ns}picker");
+  .picker-caret-transition;
+
+  // Set default content to @dropdown-caret-content for support [placement="auto*"]
+  &::before {
+    content: @dropdown-caret-content;
+  }
+}
+
+// Picker Menu
+.@{ns}picker-menu {
+  position: absolute;
+  text-align: left;
+  z-index: @zindex-dropdown;
+  border-radius: @border-radius-base;
+  background-color: @picker-bg;
+  box-shadow: @picker-shadow;
+  overflow: hidden;
+
+  // Increase z-index when modal opened.
+  .@{ns}modal-open & {
+    z-index: @zindex-modal + @zindex-dropdown;
+  }
+
+  // Select picker menu & Check select picker menu always has 6px gap
+  &.@{ns}picker-select-menu,
+  &.@{ns}picker-check-menu {
+    padding-top: @border-radius-base;
+  }
+
+  // Searchbar
+  .@{ns}picker-search-bar {
+    position: relative;
+    padding: (@picker-menu-padding - @border-radius-base) @picker-menu-padding @picker-menu-padding;
+
+    .@{ns}picker-search-bar-input {
+      .default-input;
+
+      min-width: @picker-content-min-width;
+      padding-right: @picker-search-bar-icon-width + (@padding-base-input-horizontal - @input-border-width)*2;
+    }
+
+    &::after {
+      content: @picker-search-bar-icon-content;
+      font-family: @font-family-icon;
+      font-style: normal;
+      position: absolute;
+      width: @picker-search-bar-icon-width;
+      color: @B400;
+      font-size: @font-size-base;
+      line-height: unit(@line-height-computed/@font-size-base);
+      top: @picker-menu-padding - @border-radius-base + @padding-base-input-vertical;
+      right: @picker-menu-padding + @padding-base-input-horizontal;
+
+      .@{ns}@{tree-picker-prefix}-menu&,
+      .@{ns}@{check-tree-picker-prefix}-menu& {
+        top: (@padding-base-input-vertical - @input-border-width);
+      }
+    }
+  }
+}
