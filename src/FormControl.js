@@ -59,6 +59,17 @@ class FormControl extends React.Component<Props, State> {
     };
   }
 
+  getValue() {
+    const { formValue } = this.context.form;
+    const { name } = this.props;
+
+    if (formValue && typeof formValue[name] !== 'undefined') {
+      return formValue[name];
+    }
+
+    return this.state.value;
+  }
+
   getCheckTrigger() {
     const { checkTrigger } = this.context.form;
     return this.props.checkTrigger || checkTrigger;
@@ -77,7 +88,7 @@ class FormControl extends React.Component<Props, State> {
   handleFieldBlur = (event: SyntheticEvent<*>) => {
     const { onBlur } = this.props;
     const checkTrigger = this.getCheckTrigger();
-    this.handleFieldCheck(this.state.value, checkTrigger === 'blur');
+    this.handleFieldCheck(this.getValue(), checkTrigger === 'blur');
     onBlur && onBlur(event);
   };
 
