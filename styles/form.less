@@ -156,7 +156,15 @@ input[type="checkbox"]:focus {
 
   &-tooltip {
     display: inline-block;
+    vertical-align: top;
     margin-left: @help-block-inline-gap;
+    margin-top: @padding-base-vertical;
+
+    .@{ns}icon::before {
+      .icon-font;
+
+      content: @icon-help-o;
+    }
   }
 }
 
@@ -452,10 +460,6 @@ input[type="checkbox"]:focus {
     // Help block
     .@{ns}form-control-wrapper + .@{ns}help-block:not(.@{ns}help-block-tooltip) {
       margin-left: @control-label-width + @control-label-margin-right;
-    }
-
-    .@{ns}form-control-wrapper + .@{ns}help-block.@{ns}help-block-tooltip {
-      padding: @padding-base-vertical 0;
     }
 
     .@{ns}control-label {
