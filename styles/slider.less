@@ -10,8 +10,9 @@
     display: none;
 
     &.@{ns}tooltip-placement-top .@{ns}tooltip-arrow {
-      // Fixed a pixel white line problem;
-      bottom: 1px;
+      margin: auto;
+      left: 0;
+      right: 0;
     }
   }
 
@@ -200,12 +201,13 @@
 .@{ns}slider-showtip .@{ns}tooltip {
   display: block;
   opacity: 1;
-  left: -13.5px;
-  top: -38px;
-  animation: .3s ease-in-out slideDownIn;
+  top: -30px;
+  // @todo replace animation
+  //animation: .3s ease-in-out slideDownIn;
 
   .@{ns}slider-vertical & {
-    top: -43px;
+    top: -33px;
+    // Make sure tooltip align center.
     margin-left: 3px;
   }
 }

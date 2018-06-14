@@ -106,6 +106,7 @@ class Slider extends React.Component<Props, State> {
 
   setTooltipPosition() {
     const { tooltip } = this.props;
+
     if (tooltip) {
       const handle: any = findDOMNode(this.handle);
       const tip = handle.querySelector(`.${this.addPrefix('tooltip')}`);
@@ -174,6 +175,10 @@ class Slider extends React.Component<Props, State> {
     this.setState({
       handleDown: true
     });
+  };
+
+  handleMouseEnter = () => {
+    this.setTooltipPosition();
   };
 
   hanldeDragEnd = () => {
@@ -306,6 +311,7 @@ class Slider extends React.Component<Props, State> {
         className={handleClasses}
         role="presentation"
         onMouseDown={this.hanldeMouseDown}
+        onMouseEnter={this.handleMouseEnter}
         style={style}
         ref={this.handleRef}
       >
