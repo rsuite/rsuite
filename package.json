@@ -60,7 +60,7 @@
     "rsuite-schema": "0.0.12",
     "rsuite-selectpicker": "^3.0.4",
     "rsuite-table": "^3.0.2",
-    "rsuite-treepicker": "^3.0.5",
+    "rsuite-treepicker": "~3.0.6",
     "rsuite-utils": "^1.0.8"
   },
   "peerDependencies": {
