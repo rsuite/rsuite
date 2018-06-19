@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import setStatic from 'recompose/setStatic';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
+import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
 import { MenuWrapper } from 'rsuite-utils/lib/Picker';
 
 import Input from './Input';
@@ -116,7 +117,7 @@ class AutoComplete extends React.Component<Props, State> {
     const { focusItemValue } = this.state;
 
     for (let i = 0; i < items.length; i += 1) {
-      if (_.eq(focusItemValue, items[i].value)) {
+      if (shallowEqual(focusItemValue, items[i].value)) {
         focus(items, i);
         return;
       }

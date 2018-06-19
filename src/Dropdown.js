@@ -7,6 +7,7 @@ import _ from 'lodash';
 import setStatic from 'recompose/setStatic';
 import setDisplayName from 'recompose/setDisplayName';
 import { RootCloseWrapper } from 'rsuite-utils/lib/Overlay';
+import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
 
 import DropdownToggle from './DropdownToggle';
 import DropdownMenu from './DropdownMenu';
@@ -80,17 +81,17 @@ class Dropdown extends React.Component<Props, State> {
     };
   }
 
-  componentWillReceiveProps(nextProps: Props) {
-    if (!_.isEqual(nextProps.open, this.props.open)) {
-      this.setState({
-        open: nextProps.open
-      });
+  getOpen() {
+    const { open } = this.props;
+    if (_.isUndefined(open)) {
+      return this.state.open;
     }
+    return open;
   }
 
   toggle = (isOpen?: boolean) => {
     const { onOpen, onClose, onToggle } = this.props;
-    let open = _.isUndefined(isOpen) ? !this.state.open : isOpen;
+    let open = _.isUndefined(isOpen) ? !this.getOpen() : isOpen;
     let handleToggle = open ? onOpen : onClose;
 
     this.setState({ open }, () => {
@@ -156,16 +157,15 @@ class Dropdown extends React.Component<Props, State> {
       onMouseEnter,
       onMouseLeave,
       onContextMenu,
-      open,
       eventKey,
       componentClass: Component,
       ...props
     } = this.props;
 
     const { openKeys = [], sidenav, expanded } = this.context;
-    const menuExpanded = openKeys.some(key => _.isEqual(key, eventKey));
+    const menuExpanded = openKeys.some(key => shallowEqual(key, eventKey));
     const addPrefix = prefix(classPrefix);
-    const isOpen = _.isUndefined(open) ? this.state.open : open;
+    const open = this.getOpen();
     const collapsible = sidenav && expanded;
 
     const toggleProps = {
@@ -223,7 +223,7 @@ class Dropdown extends React.Component<Props, State> {
       </DropdownMenu>
     );
 
-    if (isOpen) {
+    if (open) {
       Menu = <RootCloseWrapper onRootClose={this.toggle}>{Menu}</RootCloseWrapper>;
     }
 
@@ -233,7 +233,7 @@ class Dropdown extends React.Component<Props, State> {
       className,
       {
         [addPrefix('disabled')]: disabled,
-        [addPrefix('open')]: isOpen,
+        [addPrefix('open')]: open,
         [addPrefix(menuExpanded ? 'expand' : 'collapse')]: sidenav
       }
     );

@@ -2,6 +2,7 @@
 import * as React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
+import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
 
 import { ReactChildren, getUnhandledProps, defaultProps } from './utils';
 
@@ -40,7 +41,7 @@ class CheckboxGroup extends React.Component<Props, State> {
     if (itemChecked) {
       nextValue.push(itemValue);
     } else {
-      _.remove(nextValue, i => _.isEqual(i, itemValue));
+      _.remove(nextValue, i => shallowEqual(i, itemValue));
     }
 
     this.setState({ value: nextValue });

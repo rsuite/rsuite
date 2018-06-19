@@ -4,6 +4,7 @@ import * as React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 import Collapse from 'rsuite-utils/lib/Animation/Collapse';
+import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
 import setDisplayName from 'recompose/setDisplayName';
 
 import DropdownMenuItem from './DropdownMenuItem';
@@ -62,7 +63,7 @@ class DropdownMenu extends React.Component<Props> {
       } else if (displayName === 'DropdownMenu') {
         const itemsAndStatus = this.getMenuItemsAndStatus(item.props.children);
         const { icon, open, trigger, pullLeft, eventKey, title } = item.props;
-        const expanded = openKeys.some(key => _.isEqual(key, eventKey));
+        const expanded = openKeys.some(key => shallowEqual(key, eventKey));
 
         return (
           <DropdownMenuItem
@@ -112,7 +113,7 @@ class DropdownMenu extends React.Component<Props> {
   };
 
   isActive(props: Object, activeKey: any) {
-    if (props.active || (!_.isUndefined(activeKey) && _.isEqual(props.eventKey, activeKey))) {
+    if (props.active || (!_.isUndefined(activeKey) && shallowEqual(props.eventKey, activeKey))) {
       return true;
     }
 
