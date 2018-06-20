@@ -16,6 +16,7 @@ function createChainedFunction(...funcs) {
     if (typeof f !== 'function') {
       throw new Error('Invalid Argument Type, must only provide functions, undefined, or null.');
     }
+    
     if (acc === undefined) {
       return f;
     }
