@@ -8,7 +8,6 @@ import { setDisplayName } from 'recompose';
 
 import SafeAnchor from './SafeAnchor';
 import Icon from './Icon';
-
 import { prefix, isOneOf, createChainedFunction, defaultProps } from './utils';
 
 type Trigger = 'click' | 'hover';
@@ -56,16 +55,16 @@ class DropdownMenuItem extends React.Component<Props, State> {
     };
   }
 
-  componentWillReceiveProps(nextProps: Props) {
-    if (!_.isEqual(nextProps.open, this.props.open)) {
-      this.setState({
-        open: nextProps.open
-      });
+  getOpen() {
+    const { open } = this.props;
+    if (_.isUndefined(open)) {
+      return this.state.open;
     }
+    return open;
   }
 
   toggle = (event: SyntheticEvent<*>, isOpen?: boolean) => {
-    let open = _.isUndefined(isOpen) ? !this.state.open : isOpen;
+    let open = _.isUndefined(isOpen) ? !this.getOpen() : isOpen;
     this.setState({ open });
   };
 
@@ -105,7 +104,6 @@ class DropdownMenuItem extends React.Component<Props, State> {
       tabIndex,
       pullLeft,
       icon,
-      open,
       trigger,
       expanded,
       componentClass: Component,
@@ -116,7 +114,7 @@ class DropdownMenuItem extends React.Component<Props, State> {
     const classes = classNames(classPrefix, className, {
       [addPrefix(expanded ? 'expand' : 'collapse')]: submenu && this.context.sidenav,
       [addPrefix('submenu')]: submenu,
-      [addPrefix('open')]: _.isUndefined(open) ? this.state.open : open,
+      [addPrefix('open')]: this.getOpen(),
       [addPrefix('active')]: active,
       [addPrefix('disabled')]: disabled,
       [addPrefix(`pull-${pullLeft ? 'left' : 'right'}`)]: pullLeft

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import setStatic from 'recompose/setStatic';
+import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
 
 import NavItem from './NavItem';
 import { prefix, getUnhandledProps, defaultProps, ReactChildren } from './utils';
@@ -81,7 +82,7 @@ class Nav extends React.Component<Props> {
           ...rest,
           onSelect,
           hasTooltip: sidenav && !expanded,
-          active: _.isUndefined(activeKey) ? active : _.isEqual(activeKey, eventKey)
+          active: _.isUndefined(activeKey) ? active : shallowEqual(activeKey, eventKey)
         };
       } else if (displayName === 'Dropdown') {
         return {

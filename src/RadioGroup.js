@@ -3,6 +3,7 @@
 import * as React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
+import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
 
 import { ReactChildren, defaultProps, getUnhandledProps } from './utils';
 
@@ -50,7 +51,7 @@ class RadioGroup extends React.Component<Props, State> {
         return {
           inline,
           name,
-          checked: _.isEqual(nextValue, child.props.value),
+          checked: shallowEqual(nextValue, child.props.value),
           onChange: this.handleChange
         };
       }

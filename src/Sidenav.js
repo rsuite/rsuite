@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import setStatic from 'recompose/setStatic';
 import Transition from 'rsuite-utils/lib/Animation/Transition';
+import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
 import _ from 'lodash';
 
 import SidenavBody from './SidenavBody';
@@ -77,7 +78,7 @@ class Sidenav extends React.Component<Props, State> {
 
   handleOpenChange = (eventKey: any, event: SyntheticEvent<*>) => {
     const { onOpenChange } = this.props;
-    const find = key => _.isEqual(key, eventKey);
+    const find = key => shallowEqual(key, eventKey);
     let openKeys = _.clone(this.state.openKeys) || [];
 
     if (openKeys.some(find)) {
