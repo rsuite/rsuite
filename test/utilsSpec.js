@@ -3,6 +3,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import tplTransform from '../src/utils/tplTransform';
 import isOneOf from '../src/utils/isOneOf';
 import previewFile from '../src/utils/previewFile';
+import createChainedFunction from '../src/utils/createChainedFunction';
 
 describe('[utils] tplTransform', () => {
   it('Should return react component', () => {
@@ -44,5 +45,13 @@ describe('[utils] previewFile', () => {
     previewFile(file, result => {
       assert.equal(result, 'data:;base64,Rmlyc3QgTGluZSBUZXh0U2Vjb25kIExpbmUgVGV4dA==');
     });
+  });
+});
+
+describe('[utils] createChainedFunction', () => {
+
+  it('Should return a `undefined`', () => {
+    const c = createChainedFunction(null, undefined);
+    assert.ok(c === undefined);
   });
 });
