@@ -61,17 +61,78 @@ describe('Whisper', () => {
     let trigger = null;
     const triggerRef = ref => (trigger = ref);
     ReactTestUtils.renderIntoDocument(
-      <Whisper
-        triggerRef={triggerRef}
-        onClick={doneOp}
-        trigger="click"
-        speaker={<Tooltip className="test-whisper">test</Tooltip>}
-      >
+      <Whisper triggerRef={triggerRef} onClick={doneOp} trigger="click" speaker={<Tooltip />}>
         <button>button</button>
       </Whisper>
     );
 
     const whisper = findDOMNode(trigger);
+    ReactTestUtils.Simulate.click(whisper);
+  });
+
+  it('Should call onOpen callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    let trigger = null;
+    const triggerRef = ref => (trigger = ref);
+    ReactTestUtils.renderIntoDocument(
+      <Whisper triggerRef={triggerRef} onOpen={doneOp} trigger="click" speaker={<Tooltip />}>
+        <button>button</button>
+      </Whisper>
+    );
+
+    const whisper = findDOMNode(trigger);
+    ReactTestUtils.Simulate.click(whisper);
+  });
+
+  it('Should call onEntered callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    let trigger = null;
+    const triggerRef = ref => (trigger = ref);
+    ReactTestUtils.renderIntoDocument(
+      <Whisper triggerRef={triggerRef} onEntered={doneOp} trigger="click" speaker={<Tooltip />}>
+        <button>button</button>
+      </Whisper>
+    );
+
+    const whisper = findDOMNode(trigger);
+    ReactTestUtils.Simulate.click(whisper);
+  });
+
+  it('Should call onClose callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    let trigger = null;
+    const triggerRef = ref => (trigger = ref);
+    ReactTestUtils.renderIntoDocument(
+      <Whisper triggerRef={triggerRef} onClose={doneOp} trigger="click" speaker={<Tooltip />}>
+        <button>button</button>
+      </Whisper>
+    );
+
+    const whisper = findDOMNode(trigger);
+    ReactTestUtils.Simulate.click(whisper);
+    ReactTestUtils.Simulate.click(whisper);
+  });
+
+  it('Should call onExited callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    let trigger = null;
+    const triggerRef = ref => (trigger = ref);
+    ReactTestUtils.renderIntoDocument(
+      <Whisper triggerRef={triggerRef} onExited={doneOp} trigger="click" speaker={<Tooltip />}>
+        <button>button</button>
+      </Whisper>
+    );
+
+    const whisper = findDOMNode(trigger);
+    ReactTestUtils.Simulate.click(whisper);
     ReactTestUtils.Simulate.click(whisper);
   });
 
