@@ -171,7 +171,13 @@
 
 // Adjust full popover arrow postion
 .@{ns}popover-full {
+  // Reset content padding when [full]
   padding: 0;
+
+  // Reset content margin-top when [full]
+  .@{ns}popover-content {
+    margin-top: 0;
+  }
 
   .@{ns}popover.placement-top-left& > .arrow,
   .@{ns}popover.placement-bottom-left& > .arrow {
