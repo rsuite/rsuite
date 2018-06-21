@@ -34,41 +34,32 @@
       text-align: left;
     }
   }
-}
 
-.@{ns}@{select-picker-prefix},
-.@{ns}@{check-picker-prefix},
-.@{ns}@{cascader-picker-prefix},
-.@{ns}@{tree-picker-prefix},
-.@{ns}@{check-tree-picker-prefix} {
-  max-width: 100%;
-}
-
-// Disabled
-.@{ns}picker-checktree-disabled,
-.@{ns}picker-daterange-disabled,
-.@{ns}picker-tree-disabled,
-.@{ns}picker-date-disabled,
-.@{ns}picker-check-disabled,
-.@{ns}picker-select-disabled,
-.@{ns}picker-cascader-disabled {
-  cursor: @cursor-disabled;
-  opacity: .3;
-
-  .@{ns}picker-toggle {
+  // Disabled
+  &-disabled {
     cursor: @cursor-disabled;
+    opacity: .3;
 
-    &,
-    &:hover,
-    &:focus,
-    &:active,
-    &:hover:active {
-      background: none;
+    .@{ns}picker-toggle {
+      cursor: @cursor-disabled;
 
-      &::after {
-        display: none;
+      &,
+      &:hover,
+      &:focus,
+      &:active,
+      &:hover:active {
+        background: none;
+
+        &::after {
+          display: none;
+        }
       }
     }
+  }
+
+  // Has value highlight
+  &-has-value .@{ns}picker-toggle .@{ns}picker-toggle-value {
+    color: @picker-selected-value-color;
   }
 }
 
@@ -77,14 +68,6 @@
 .@{ns}picker-toggle {
   .btn;
   .btn-subtle;
-
-  // Has value highlight
-  .@{ns}picker-select-has-value &,
-  .@{ns}picker-cascader-has-value & {
-    .@{ns}picker-toggle-value {
-      color: @picker-selected-value-color;
-    }
-  }
 }
 
 // Custom button sizes
