@@ -226,9 +226,11 @@
     padding-left: @sidenav-default-width;
   }
 
-  // The same to the dorpdown item
+  // The same to the dropdown item
   .@{ns}dropdown-item > .@{ns}dropdown-item-content {
-    padding-right: @dropdown-item-content-padding-horizontal+ @dropdown-item-content-submenu-icon-angle-spacing + @dropdown-item-content-submenu-icon-angle-width;
+    @padding-right: @dropdown-item-content-padding-horizontal+ @dropdown-item-content-submenu-icon-angle-spacing + @dropdown-item-content-submenu-icon-angle-width;
+
+    padding: @dropdown-item-content-padding-vertical @padding-right @dropdown-item-content-padding-vertical @dropdown-item-content-padding-horizontal;
   }
 
   .@{ns}dropdown-toggle-caret {
