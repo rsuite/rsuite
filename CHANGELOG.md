@@ -1,10 +1,34 @@
+# 3.1.1
+
+> 2018-06-21
+
+* **Bugfix**: Unity picker style when select values. ([#91],[#issues-61])
+* **Bugfix**: Adjust sidenav dropdown padding ([#90])
+* **Feature**: Support `bordered` on `<Table>` ([#89])
+* **Feature**: Support `onOpen` and `onClose` on `<Whisper>` ([#87])
+* **Chore**: Update createChainedFunction [#86]
+* **Chore**: Remove dropdown&picker open animations ([#85])
+* **Bugfix**: Clear popover margin-top when it is full ([#84])
+* **Chore**: Change the `depth equal` to the `shallow equal` for all pickers ([#83], [#88])
+
+[#91]: https://github.com/rsuite/rsuite/pull/91
+[#90]: https://github.com/rsuite/rsuite/pull/90
+[#89]: https://github.com/rsuite/rsuite/pull/89
+[#88]: https://github.com/rsuite/rsuite/pull/88
+[#87]: https://github.com/rsuite/rsuite/pull/87
+[#86]: https://github.com/rsuite/rsuite/pull/86
+[#85]: https://github.com/rsuite/rsuite/pull/85
+[#84]: https://github.com/rsuite/rsuite/pull/84
+[#83]: https://github.com/rsuite/rsuite/pull/83
+[#issues-61]: https://github.com/rsuite/rsuite/issues/61
+
 # 3.1.0 🎉
 
 > 2018-06-14
 
-* **Feature**: Support for style modularized  ([#76], [#81])
+* **Feature**: Support for style modularized ([#76], [#81])
 * **Feature**: Support `bodyRef` on `<Table>` ([#TABLE-23])
-* **Bugfix**: The `<FormControl>` loses focus and the validated value is incorrect.  ([#79])
+* **Bugfix**: The `<FormControl>` loses focus and the validated value is incorrect. ([#79])
 * **Bugfix**: Fix some style problems ([#78])
 * **Bugfix**: TreeNode title property display error on `<TreePicker>` ([#77])
 * **Bugfix**: Remove popover/tooltip open animation delay ([#73])
@@ -18,9 +42,8 @@
 [#76]: https://github.com/rsuite/rsuite/pull/76
 [#73]: https://github.com/rsuite/rsuite/pull/73
 [#70]: https://github.com/rsuite/rsuite/pull/70
-[#TABLE-22]: https://github.com/rsuite/rsuite-table/pull/22
-[#TABLE-23]: https://github.com/rsuite/rsuite-table/pull/23
-
+[#table-22]: https://github.com/rsuite/rsuite-table/pull/22
+[#table-23]: https://github.com/rsuite/rsuite-table/pull/23
 
 # 3.0.8
 
