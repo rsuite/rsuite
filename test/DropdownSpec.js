@@ -59,6 +59,16 @@ describe('Dropdown', () => {
     assert.equal(innerText(findDOMNode(instance).querySelector('.rs-dropdown-toggle')), 'abc');
   });
 
+  it('Should render custom component', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<Dropdown toggleComponentClass={'div'} />);
+    assert.equal(findDOMNode(instance).querySelector('.rs-dropdown-toggle').tagName, 'DIV');
+  });
+
+  it('Should not show caret', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<Dropdown noCaret />);
+    assert.ok(!findDOMNode(instance).querySelector('.rs-dropdown-toggle-caret'));
+  });
+
   it('Should call onSelect callback', done => {
     const doneOp = eventKey => {
       if (eventKey === 2) {

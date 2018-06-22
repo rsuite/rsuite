@@ -1,5 +1,5 @@
-@import "common";
-@import "mixins/dropdown";
+@import 'common';
+@import 'mixins/dropdown';
 
 //
 // Dropdown menus
@@ -7,7 +7,7 @@
 
 .@{ns}dropdown-toggle-caret {
   .dropdown-toggle-caret-common;
-  .set-dropdown-caret(~"@{ns}dropdown");
+  .set-dropdown-caret(~'@{ns}dropdown');
 }
 
 // The dropdown wrapper (div)
@@ -49,9 +49,14 @@
 
 .@{ns}dropdown-toggle {
   &,
-  &.@{ns}btn { // Force set style even if has `.btn`.
+  &.@{ns}btn {
+    // Force set style even if has `.btn`.
     .dropdown-toggle;
   }
+}
+
+.@{ns}dropdown-no-caret .@{ns}dropdown-toggle {
+  padding-right: @padding-base-horizontal;
 }
 
 // The dropdown menu (ul)
@@ -78,7 +83,7 @@
     color: @dropdown-link-color;
     white-space: nowrap; // prevent links from randomly breaking onto new lines
     cursor: pointer; //fixed link has not [href] style
-    transition: color .3s linear, background-color .3s linear;
+    transition: color 0.3s linear, background-color 0.3s linear;
 
     > .@{ns}icon {
       width: @font-size-base;
@@ -115,7 +120,9 @@
   // Set submenu icon
   &.@{ns}dropdown-menu-pull-right {
     > .@{ns}dropdown-item-content {
-      padding-right: @dropdown-item-content-padding-horizontal+ @dropdown-item-content-submenu-icon-angle-spacing + @dropdown-item-content-submenu-icon-angle-width;
+      padding-right: @dropdown-item-content-padding-horizontal+
+        @dropdown-item-content-submenu-icon-angle-spacing +
+        @dropdown-item-content-submenu-icon-angle-width;
 
       > .@{ns}dropdown-menu-toggle .@{ns}icon {
         right: @dropdown-item-content-padding-horizontal;
@@ -129,7 +136,9 @@
 
   &.@{ns}dropdown-menu-pull-left {
     > .@{ns}dropdown-item-content {
-      padding-left: @dropdown-item-content-padding-horizontal+ @dropdown-item-content-submenu-icon-angle-spacing + @dropdown-item-content-submenu-icon-angle-width;
+      padding-left: @dropdown-item-content-padding-horizontal+
+        @dropdown-item-content-submenu-icon-angle-spacing +
+        @dropdown-item-content-submenu-icon-angle-width;
 
       > .@{ns}dropdown-menu-toggle .@{ns}icon {
         left: @dropdown-item-content-padding-horizontal;
@@ -188,7 +197,7 @@
 //
 // Gray out text and ensure the hover/focus state remains gray
 .@{ns}dropdown-menu > .@{ns}dropdown-item-disabled > .@{ns}dropdown-item-content {
-  opacity: .3;
+  opacity: 0.3;
 
   &,
   &:hover,
