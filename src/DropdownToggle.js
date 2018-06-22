@@ -12,12 +12,23 @@ type Props = {
   children?: React.Node,
   icon?: React.Element<typeof Icon>,
   renderTitle?: (children?: React.Node) => React.Node,
-  classPrefix?: string
+  classPrefix?: string,
+  noCaret?: boolean,
+  componentClass: React.ElementType
 };
 
 class DorpdownToggle extends React.Component<Props> {
   render() {
-    const { className, classPrefix, renderTitle, children, icon, ...props } = this.props;
+    const {
+      className,
+      classPrefix,
+      renderTitle,
+      children,
+      icon,
+      noCaret,
+      componentClass: Component,
+      ...props
+    } = this.props;
     const addPrefix = prefix(classPrefix);
 
     if (renderTitle) {
@@ -28,23 +39,25 @@ class DorpdownToggle extends React.Component<Props> {
       );
     }
 
+    let buttonProps = {};
+    if (Component === Button) {
+      buttonProps = {
+        componentClass: 'a',
+        appearance: 'subtle'
+      };
+    }
+
     return (
-      <Button
-        {...props}
-        componentClass="a"
-        appearance="subtle"
-        className={classNames(classPrefix, className)}
-      >
+      <Component {...props} {...buttonProps} className={classNames(classPrefix, className)}>
         {icon}
-        <span>
-          {children}
-          <span className={addPrefix('caret')} />
-        </span>
-      </Button>
+        {children}
+        {noCaret ? null : <span className={addPrefix('caret')} />}
+      </Component>
     );
   }
 }
 
 export default defaultProps({
+  componentClass: Button,
   classPrefix: 'dropdown-toggle'
 })(DorpdownToggle);

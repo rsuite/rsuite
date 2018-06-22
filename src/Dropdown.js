@@ -51,7 +51,9 @@ type Props = {
   tabIndex?: number,
   open?: boolean,
   eventKey?: any,
-  componentClass: React.ElementType
+  componentClass: React.ElementType,
+  toggleComponentClass?: React.ElementType,
+  noCaret?: boolean
 };
 
 type State = {
@@ -159,6 +161,8 @@ class Dropdown extends React.Component<Props, State> {
       onContextMenu,
       eventKey,
       componentClass: Component,
+      toggleComponentClass,
+      noCaret,
       ...props
     } = this.props;
 
@@ -200,10 +204,12 @@ class Dropdown extends React.Component<Props, State> {
     const Toggle = (
       <DropdownToggle
         {...toggleProps}
+        noCaret={noCaret}
         tabIndex={tabIndex}
         className={toggleClassName}
         renderTitle={renderTitle}
         icon={icon}
+        componentClass={toggleComponentClass}
       >
         {this.state.title || title}
       </DropdownToggle>
@@ -233,6 +239,7 @@ class Dropdown extends React.Component<Props, State> {
       className,
       {
         [addPrefix('disabled')]: disabled,
+        [addPrefix('no-caret')]: noCaret,
         [addPrefix('open')]: open,
         [addPrefix(menuExpanded ? 'expand' : 'collapse')]: sidenav
       }
