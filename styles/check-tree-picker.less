@@ -30,9 +30,6 @@
     padding-left: @picker-tree-arrow-down-width+@picker-tree-arrow-down-gap+8px+26px;
     display: inline-block;
     cursor: pointer;
-    transition-timing-function: linear;
-    transition-duration: .3s;
-    transition-property: background-color, color;
     position: relative;
 
     // Only has 1 level
@@ -127,8 +124,6 @@
   .@{ctpns}-view-inner::before {
     .checkbox-inner-wrap(@checkbox-default-border-color);
 
-    transition: background .1s linear, border .1s linear, box-shadow .1s linear;
-
     .@{ctpns}-view-node-indeterminate &,
     .@{ctpns}-view-node-checked & {
       border-color: @checkbox-checked-border-color;
@@ -150,7 +145,6 @@
     .opacity(0);
 
     transform: rotate(45deg) scale(0);
-    transition: opacity .1s ease-in;
 
     .@{ctpns}-view-node-checked & {
       border: solid @B000;
