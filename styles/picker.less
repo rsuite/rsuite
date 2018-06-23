@@ -155,6 +155,11 @@
     z-index: @zindex-modal + @zindex-dropdown;
   }
 
+  // Increase z-index when drawer opened.
+  .@{ns}drawer-open & {
+    z-index: @zindex-drawer + @zindex-dropdown;
+  }
+
   // Select picker menu & Check select picker menu always has 6px gap
   &.@{ns}picker-select-menu,
   &.@{ns}picker-check-menu {
