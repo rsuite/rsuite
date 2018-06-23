@@ -36,11 +36,26 @@
       border-color: @input-border-focus;
     }
 
+    .@{ns}input-number,
     .@{ns}input-group-addon,
     .@{ns}input,
     .@{ns}input-group-btn {
       border: none;
       border-radius: 0;
+    }
+
+    .@{ns}input-number:not(:last-child) .@{ns}input-number {
+      &-btn-group-vertical {
+        border-radius: 0;
+      }
+
+      &-touchspin-up {
+        border-top-right-radius: 0;
+      }
+
+      &-touchspin-down {
+        border-bottom-right-radius: 0;
+      }
     }
 
     // @FIXED: first-child haven't border radius in ie10.
