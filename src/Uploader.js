@@ -49,6 +49,7 @@ type Props = {
   data?: Object,
   multiple?: boolean,
   disabled?: boolean,
+  disabledFileItem?: boolean,
   name: string,
   timeout?: number,
   withCredentials?: boolean,
@@ -268,7 +269,7 @@ class Uploader extends React.Component<Props, State> {
   };
 
   renderFileItems() {
-    const { disabled, listType, onPreview, maxPreviewFileSize } = this.props;
+    const { disabledFileItem, listType, onPreview, maxPreviewFileSize } = this.props;
     const fileList = this.getFileList();
 
     return (
@@ -279,7 +280,7 @@ class Uploader extends React.Component<Props, State> {
             file={file}
             maxPreviewFileSize={maxPreviewFileSize}
             listType={listType}
-            disabled={disabled}
+            disabled={disabledFileItem}
             onPreview={onPreview}
             onReupload={this.handleReupload}
             onCancel={this.handleRemoveFile}
