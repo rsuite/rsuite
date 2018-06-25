@@ -34,8 +34,10 @@ type State = {
   disabledDownButton?: boolean
 };
 
+const isFloat = (value: string | number) => /(^-?|^\+?|^\d?)\d*\.\d+$/.test(value + '');
+
 function getDecimalLength(value: number): number {
-  if (_.isNumber(value) && !_.isInteger(value)) {
+  if (isFloat(value)) {
     return value.toString().split('.')[1].length;
   }
   return 0;
