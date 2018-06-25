@@ -114,6 +114,7 @@
     height: 100%;
     width: 100%;
     background-color: @table-loader-backdrop-color;
+    visibility: hidden;
   }
 
   &-loader {
@@ -134,6 +135,10 @@
       // Make sure loader vertical-align center
       padding-top: 3px;
     }
+  }
+
+  &-loading &-loader-wrapper {
+    visibility: visible;
   }
 
   &-cell {
