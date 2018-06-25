@@ -105,6 +105,12 @@ class Uploader extends React.Component<Props, State> {
     return fileList || [];
   }
 
+  cleanInputValue() {
+    if (this.input) {
+      this.input.value = '';
+    }
+  }
+
   handleRemoveFile = (fileKey: number | string) => {
     const { onChange, onRemove } = this.props;
     const fileList = this.getFileList();
@@ -139,6 +145,7 @@ class Uploader extends React.Component<Props, State> {
     const nextFileList = [...fileList, ...newFileList];
 
     if (shouldQueueUpdate && shouldQueueUpdate(nextFileList, newFileList) === false) {
+      this.cleanInputValue();
       return;
     }
 
@@ -162,9 +169,7 @@ class Uploader extends React.Component<Props, State> {
       }
     });
 
-    if (this.input) {
-      this.input.value = '';
-    }
+    this.cleanInputValue();
   }
 
   handleAjaxUploadSuccess = (response: Object, file: FileType) => {
