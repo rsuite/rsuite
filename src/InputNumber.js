@@ -24,7 +24,8 @@ type Props = {
   disabled?: boolean,
   size?: 'lg' | 'md' | 'sm' | 'xs',
   onWheel?: (event?: SyntheticEvent<*>) => void,
-  onChange?: (value: any, event?: SyntheticEvent<*>) => void
+  onChange?: (value: any, event?: SyntheticEvent<*>) => void,
+  buttonAppearance?: 'default' | 'primary' | 'link' | 'subtle' | 'ghost'
 };
 
 type State = {
@@ -49,7 +50,8 @@ class InputNumber extends React.Component<Props, State> {
   static defaultProps = {
     min: -Infinity,
     max: Infinity,
-    step: 1
+    step: 1,
+    buttonAppearance: 'subtle'
   };
 
   constructor(props: Props) {
@@ -184,6 +186,7 @@ class InputNumber extends React.Component<Props, State> {
       className,
       classPrefix,
       step,
+      buttonAppearance,
       ...rest
     } = this.props;
     const { disabledUpButton, disabledDownButton } = this.state;
@@ -205,10 +208,10 @@ class InputNumber extends React.Component<Props, State> {
           onWheel={this.handleWheel}
           disabled={disabled}
         />
-        {postfix && <InputGroup.Addon>{postfix}</InputGroup.Addon>}
 
         <span className={addPrefix('btn-group-vertical')}>
           <Button
+            appearance={buttonAppearance}
             className={addPrefix('touchspin-up')}
             onClick={this.handlePlus}
             disabled={disabledUpButton || disabled}
@@ -216,6 +219,7 @@ class InputNumber extends React.Component<Props, State> {
             <Icon icon="arrow-up-line" />
           </Button>
           <Button
+            appearance={buttonAppearance}
             className={addPrefix('touchspin-down')}
             onClick={this.handleMinus}
             disabled={disabledDownButton || disabled}
@@ -223,6 +227,7 @@ class InputNumber extends React.Component<Props, State> {
             <Icon icon="arrow-down-line" />
           </Button>
         </span>
+        {postfix && <InputGroup.Addon>{postfix}</InputGroup.Addon>}
       </InputGroup>
     );
   }

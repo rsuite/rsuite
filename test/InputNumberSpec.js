@@ -21,6 +21,16 @@ describe('InputNumber', () => {
     assert.include(instance.className, 'rs-input-group-lg');
   });
 
+  it('Should output a subtle button', () => {
+    const instance = getDOMNode(<InputNumber />);
+    assert.ok(instance.querySelector('.rs-input-number-touchspin-up.rs-btn-subtle'));
+  });
+
+  it('Should output a link button', () => {
+    const instance = getDOMNode(<InputNumber buttonAppearance="link" />);
+    assert.ok(instance.querySelector('.rs-input-number-touchspin-up.rs-btn-link'));
+  });
+
   it('Should be disabled of down button', () => {
     const instance = getDOMNode(<InputNumber min={10} value={10} />);
     assert.ok(instance.querySelector('.rs-input-number-touchspin-down.rs-btn-disabled'));
