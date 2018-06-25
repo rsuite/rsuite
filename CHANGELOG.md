@@ -2,10 +2,25 @@
 
 > 2018-06-28
 
-* Chore: Allowed table header height can be 0 ([#25])
-* Chore: Update style for table load ([#25])
-* Bugfix: Set minimum height for table body ([#24])
+* **Bugfix**: Treepicker error when comparing values
+* **Feature**: Support for `<InputGroup/>` nesting `<InputNumber/>` ([#96])
+* **Feature**: Support `noCaret` and `toggleComponentClass` on `<Dropdown>` ([#92])
+* **Chore**: Keep loader backdrop-color with table loader ([#96])
+* **Bugfix**: Increase z-index when drawer opened ([#95])
+* **Bugfix**: InputNumber should not set the default value ([#93])
+* **Bugfix**: Set minimum height for table body ([#table-24])
+* **Chore**: remove all animation for tree to optimal performance ([#94])
+* **Chore**: Button in `InputNumber`, defaults to the subtle button ([#99])
+* **Chore**: Allowed table header height can be 0 ([#table-25])
+* **Chore**: Update style for table load ([#table-25])
 
+[#99]: https://github.com/rsuite/rsuite/pull/99
+[#96]: https://github.com/rsuite/rsuite/pull/96
+[#95]: https://github.com/rsuite/rsuite/pull/96
+[#95]: https://github.com/rsuite/rsuite/pull/95
+[#94]: https://github.com/rsuite/rsuite/pull/94
+[#93]: https://github.com/rsuite/rsuite/pull/93
+[#92]: https://github.com/rsuite/rsuite/pull/92
 [#table-25]: https://github.com/rsuite/rsuite-table/pull/25
 [#table-24]: https://github.com/rsuite/rsuite-table/pull/24
 
