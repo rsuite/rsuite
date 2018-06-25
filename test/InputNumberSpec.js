@@ -42,22 +42,38 @@ describe('InputNumber', () => {
   });
 
   it('Should call onChange callback when click up button', done => {
-    const doneOp = checked => {
-      if (checked) {
-        done();
-      }
+    const doneOp = () => {
+      done();
     };
     const instance = getDOMNode(<InputNumber onChange={doneOp} />);
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-input-number-touchspin-up'));
   });
 
   it('Should call onChange callback when click down button', done => {
-    const doneOp = checked => {
-      if (checked) {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getDOMNode(<InputNumber onChange={doneOp} />);
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-input-number-touchspin-down'));
+  });
+
+  it('Should return min value  when click up button', done => {
+    const doneOp = value => {
+      if (value === 10) {
         done();
       }
     };
-    const instance = getDOMNode(<InputNumber onChange={doneOp} />);
+    const instance = getDOMNode(<InputNumber onChange={doneOp} min={10} />);
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-input-number-touchspin-up'));
+  });
+
+  it('Should return max value  when click up button', done => {
+    const doneOp = value => {
+      if (value === 10) {
+        done();
+      }
+    };
+    const instance = getDOMNode(<InputNumber onChange={doneOp} defaultValue={100} max={10} />);
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-input-number-touchspin-down'));
   });
 

@@ -29,6 +29,20 @@ describe('DropdownToggle', () => {
     assert.ok(findDOMNode(instance).querySelector('i.rs-icon-user'));
   });
 
+  it('Should render custom component', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <DropdownToggle componentClass={'div'}>abc</DropdownToggle>
+    );
+    assert.equal(findDOMNode(instance).tagName, 'DIV');
+  });
+
+  it('Should not show caret', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <DropdownToggle noCaret>abc</DropdownToggle>
+    );
+    assert.ok(!findDOMNode(instance).querySelector('.rs-dropdown-toggle-caret'));
+  });
+
   it('Should render a custom title', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <DropdownToggle renderTitle={children => <b>{children}</b>}>abc</DropdownToggle>
