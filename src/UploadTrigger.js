@@ -15,7 +15,8 @@ type Props = {
   classPrefix?: string,
   className?: string,
   children?: React.Element<any>,
-  innerRef?: React.ElementRef<*>
+  innerRef?: React.ElementRef<*>,
+  componentClass: React.ElementType
 };
 
 const Button = props => <button {...props} type="button" />;
@@ -41,6 +42,7 @@ class UploadTrigger extends React.Component<Props> {
       classPrefix,
       className,
       innerRef,
+      componentClass: Component,
       ...rest
     } = this.props;
 
@@ -59,9 +61,9 @@ class UploadTrigger extends React.Component<Props> {
     const trigger = children ? (
       React.cloneElement(React.Children.only(children), buttonProps)
     ) : (
-      <Button {...buttonProps}>
+      <Component {...buttonProps}>
         <FormattedMessage id="upload" />
-      </Button>
+      </Component>
     );
 
     return (
@@ -82,5 +84,6 @@ class UploadTrigger extends React.Component<Props> {
 }
 
 export default defaultProps({
+  componentClass: Button,
   classPrefix: 'uploader-trigger'
 })(UploadTrigger);

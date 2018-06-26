@@ -9,8 +9,7 @@ import { IntlProvider } from 'rsuite-intl';
 import withLocale from './IntlProvider/withLocale';
 import FileItem from './UploadFileItem';
 import UploadTrigger from './UploadTrigger';
-
-import { prefix, ajaxUpload, defaultProps } from './utils';
+import { prefix, ajaxUpload, defaultProps, getUnhandledProps } from './utils';
 
 const guid = (num = 8) =>
   (Math.random() * 1e18)
@@ -66,7 +65,9 @@ type Props = {
   onSuccess?: (response: Object, file: FileType) => void,
   onProgress?: (percent: number, file: FileType) => void,
   onRemove?: (file: FileType) => void,
-  maxPreviewFileSize?: number
+  maxPreviewFileSize?: number,
+  style?: Object,
+  toggleComponentClass?: React.ElementType
 };
 
 type State = {
@@ -296,10 +297,21 @@ class Uploader extends React.Component<Props, State> {
   }
 
   renderUploadTrigger() {
-    const { name, multiple, disabled, accept, children } = this.props;
+    const {
+      name,
+      multiple,
+      disabled,
+      accept,
+      children,
+      toggleComponentClass,
+      ...rest
+    } = this.props;
+
+    const unhandled = getUnhandledProps(Uploader, rest);
 
     return (
       <UploadTrigger
+        {...unhandled}
         name={name}
         key="trigger"
         multiple={multiple}
@@ -307,6 +319,7 @@ class Uploader extends React.Component<Props, State> {
         accept={accept}
         innerRef={this.inputRef}
         onChange={this.handleUploadTriggerChange}
+        componentClass={toggleComponentClass}
       >
         {children}
       </UploadTrigger>
@@ -314,7 +327,7 @@ class Uploader extends React.Component<Props, State> {
   }
 
   render() {
-    const { classPrefix, className, listType, locale } = this.props;
+    const { classPrefix, className, listType, locale, style } = this.props;
     const classes = classNames(classPrefix, this.addPrefix(listType), className);
     const renderList = [this.renderUploadTrigger(), this.renderFileItems()];
 
@@ -324,7 +337,9 @@ class Uploader extends React.Component<Props, State> {
 
     return (
       <IntlProvider locale={locale}>
-        <div className={classes}>{renderList}</div>
+        <div className={classes} style={style}>
+          {renderList}
+        </div>
       </IntlProvider>
     );
   }
