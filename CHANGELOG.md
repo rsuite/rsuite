@@ -2,13 +2,15 @@
 
 > 2018-06-28
 
-* **Bugfix**: Treepicker error when comparing values
+* **Feature**: Support `loadAnimaction` on `<Table>` ([#table-27])
 * **Feature**: Support for `<InputGroup/>` nesting `<InputNumber/>` ([#96])
 * **Feature**: Support `noCaret` and `toggleComponentClass` on `<Dropdown>` ([#92])
-* **Chore**: Keep loader backdrop-color with table loader ([#96])
+* **Bugfix**: The position was updated incorrectly when the scrollbar was clicked on `<Table>` ([#table-26])
+* **Bugfix**: Treepicker error when comparing values
 * **Bugfix**: Increase z-index when drawer opened ([#95])
 * **Bugfix**: InputNumber should not set the default value ([#93])
 * **Bugfix**: Set minimum height for table body ([#table-24])
+* **Chore**: Keep loader backdrop-color with table loader ([#96])
 * **Chore**: remove all animation for tree to optimal performance ([#94])
 * **Chore**: Button in `InputNumber`, defaults to the subtle button ([#99])
 * **Chore**: Allowed table header height can be 0 ([#table-25])
@@ -21,6 +23,8 @@
 [#94]: https://github.com/rsuite/rsuite/pull/94
 [#93]: https://github.com/rsuite/rsuite/pull/93
 [#92]: https://github.com/rsuite/rsuite/pull/92
+[#table-27]: https://github.com/rsuite/rsuite-table/pull/27
+[#table-26]: https://github.com/rsuite/rsuite-table/pull/26
 [#table-25]: https://github.com/rsuite/rsuite-table/pull/25
 [#table-24]: https://github.com/rsuite/rsuite-table/pull/24
 
