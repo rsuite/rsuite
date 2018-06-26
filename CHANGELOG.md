@@ -2,7 +2,8 @@
 
 > 2018-06-28
 
-* **Feature**: Support `loadAnimaction` on `<Table>` ([#table-27])
+* **Feature**: Support `toggleComponentClass` on `<Uploader>`
+* **Feature**: Support `loadAnimation` on `<Table>` ([#table-27])
 * **Feature**: Support for `<InputGroup/>` nesting `<InputNumber/>` ([#96])
 * **Feature**: Support `noCaret` and `toggleComponentClass` on `<Dropdown>` ([#92])
 * **Bugfix**: The position was updated incorrectly when the scrollbar was clicked on `<Table>` ([#table-26])
