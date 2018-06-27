@@ -17,8 +17,10 @@ type PlacementEightPoints =
   | 'leftBottom'
   | 'rightBottom'
   | 'auto'
+  | 'autoVertical'
   | 'autoVerticalLeft'
   | 'autoVerticalRight'
+  | 'autoHorizontal'
   | 'autoHorizontalTop'
   | 'autoHorizontalBottom';
 
