@@ -101,14 +101,9 @@
     .ellipsis;
   }
 
-  &.@{ns}picker-toggle-cleanable:hover .@{ns}picker-toggle-caret {
+  &.@{ns}picker-toggle-cleanable .@{ns}picker-toggle-caret {
     opacity: 0;
     transform: scale(0);
-  }
-
-  &:hover .@{ns}picker-toggle-clean {
-    opacity: 1;
-    transform: scale(1);
   }
 }
 
@@ -116,10 +111,7 @@
 .@{ns}picker-toggle-clean {
   .dropdown-toggle-caret-common;
   .set-dropdown-caret(~"dropdown");
-  .picker-caret-transition;
 
-  opacity: 0;
-  transform: scale(0);
   background: inherit;
   // FIXED: IE browser has 1px orange line.
   .ie-width(19px) !important;
@@ -130,7 +122,6 @@
   // Extend  Dropdown toggle caret style
   .dropdown-toggle-caret-common;
   .set-dropdown-caret(~"@{ns}picker");
-  .picker-caret-transition;
 
   // Set default content to @dropdown-caret-content for support [placement="auto*"]
   &::before {
