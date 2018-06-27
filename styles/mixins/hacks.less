@@ -196,3 +196,8 @@
     }
   }
 }
+
+// ie10
+.ie10-visibility(@value) when (@ie-polyfill = true) {
+  visibility: ~"@{value}@{ie-suffix}";
+}

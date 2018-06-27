@@ -114,7 +114,12 @@
     height: 100%;
     width: 100%;
     background-color: @table-loader-backdrop-color;
-    visibility: hidden;
+    opacity: 0;
+    transition: opacity @table-loader-transition;
+    animation: tableLoaderFadeOut @table-loader-transition;
+    // Make sure events through loader
+    pointer-events: none;
+    .ie10-visibility(hidden);
   }
 
   &-loader {
@@ -139,6 +144,8 @@
 
   &-loading &-loader-wrapper {
     visibility: visible;
+    opacity: 1;
+    animation: none;
   }
 
   &-cell {
@@ -325,13 +332,15 @@
   }
 }
 
-// Scroll bar
+// Scrollbar
 .@{ns}table-scrollbar {
   background: @table-scrollbar-background;
   position: absolute;
   transition-duration: @table-scrollbar-timing-duration;
   transition-property: background, transform;
   opacity: .6;
+  // Make sure Scrollbar on the loader.
+  z-index: 1;
 
   &-hide {
     display: none;
