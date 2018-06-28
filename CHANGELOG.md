@@ -1,22 +1,39 @@
-# 3.1.2 (dev)
+# 3.1.2
 
 > 2018-06-28
 
-* **Feature**: Support `toggleComponentClass` on `<Uploader>`
+* **Feature**: Support `expandAll` on `<TreePicker>` and `CheckTreePicker` ([#112])
+* **Feature**: Support `searchKeyword` on `<TreePicker>` and `CheckTreePicker` ([#112])
+* **Feature**: Support `autoVertical` and `autoHorizontal` for `placement` value on `<Popover>` and `<Tooltip>` ([#107])
+* **Feature**: Support `disabledFileItem` on `<Uploader>` ([#101])
+* **Feature**: Support `toggleComponentClass` on `<Uploader>` ([#104])
 * **Feature**: Support `loadAnimation` on `<Table>` ([#table-27])
 * **Feature**: Support for `<InputGroup/>` nesting `<InputNumber/>` ([#96])
 * **Feature**: Support `noCaret` and `toggleComponentClass` on `<Dropdown>` ([#92])
+* **Bugfix**: Select the same file without triggering the `onChange` event in `<Uploader>` ([#102])
+* **Bugfix**: `<TreePicker>` error when comparing values ([#100])
 * **Bugfix**: The position was updated incorrectly when the scrollbar was clicked on `<Table>` ([#table-26])
-* **Bugfix**: Treepicker error when comparing values
 * **Bugfix**: Increase z-index when drawer opened ([#95])
-* **Bugfix**: InputNumber should not set the default value ([#93])
+* **Bugfix**: `<InputNumber>` should not set the default value ([#93])
 * **Bugfix**: Set minimum height for table body ([#table-24])
+* **Chore**: Improve picker selected styles ([#109])
+* **Chore**: Added transition for table loader. ([#108])
+* **Chore**: Handle `<InputNumber>` combination styles ([#106])
+* **Chore**: Button in `<InputNumber>`, defaults to the subtle button ([#99])
 * **Chore**: Keep loader backdrop-color with table loader ([#96])
 * **Chore**: remove all animation for tree to optimal performance ([#94])
-* **Chore**: Button in `InputNumber`, defaults to the subtle button ([#99])
 * **Chore**: Allowed table header height can be 0 ([#table-25])
 * **Chore**: Update style for table load ([#table-25])
 
+[#112]: https://github.com/rsuite/rsuite/pull/112
+[#109]: https://github.com/rsuite/rsuite/pull/109
+[#108]: https://github.com/rsuite/rsuite/pull/108
+[#107]: https://github.com/rsuite/rsuite/pull/107
+[#106]: https://github.com/rsuite/rsuite/pull/106
+[#104]: https://github.com/rsuite/rsuite/pull/104
+[#102]: https://github.com/rsuite/rsuite/pull/102
+[#101]: https://github.com/rsuite/rsuite/pull/101
+[#100]: https://github.com/rsuite/rsuite/pull/100
 [#99]: https://github.com/rsuite/rsuite/pull/99
 [#96]: https://github.com/rsuite/rsuite/pull/96
 [#95]: https://github.com/rsuite/rsuite/pull/96
@@ -130,7 +147,7 @@
 
 > 2018-05-17
 
-* **Bugfix**: Set all picker display inline-block ([#35])
+* **Bugfix**: Set all picker display inline-block ([#36])
 * **Chore**: Create CODE_OF_CONDUCT.md ([#34])
 * **Feature**: Support `onChangeCalendarDate` on `<DatePicker>` ([#33])
 * **Chore**: Fix travis config for npm deployment ([#32])
