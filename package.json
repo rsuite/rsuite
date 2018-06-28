@@ -52,7 +52,7 @@
     "recompose": "^0.26.0",
     "rsuite-cascader": "~3.0.4",
     "rsuite-checkpicker": "~3.0.5",
-    "rsuite-checktreepicker": "~3.0.8",
+    "rsuite-checktreepicker": "~3.0.11",
     "rsuite-datepicker": "~3.0.5",
     "rsuite-daterangepicker": "~3.0.4",
     "rsuite-intl": "~1.0.4",
@@ -60,7 +60,7 @@
     "rsuite-schema": "~0.0.12",
     "rsuite-selectpicker": "~3.0.5",
     "rsuite-table": "~3.0.4",
-    "rsuite-treepicker": "~3.0.8",
+    "rsuite-treepicker": "~3.0.10",
     "rsuite-utils": "~1.2.1"
   },
   "peerDependencies": {
