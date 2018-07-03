@@ -268,16 +268,12 @@
     word-break: break-all;
   }
 
-  &-bordered &-cell {
+  &-bordered {
+    border: 1px solid @table-border-color;
+  }
+
+  &-cell-bordered &-cell {
     border-width: 0 1px 0 0;
-  }
-
-  &-bordered &-cell-first {
-    border-left-width: 1px;
-  }
-
-  &-bordered &-cell-header &-cell {
-    border-top-width: 1px;
   }
 }
 
