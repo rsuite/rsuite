@@ -50,8 +50,18 @@ class InputGroup extends React.Component<Props, State> {
     this.setState({ focus: false });
   };
 
+  disabledChildren() {
+    const { children } = this.props;
+    return React.Children.map(children, (item, index) => {
+      if (React.isValidElement(item)) {
+        return React.cloneElement(item, { disabled: true });
+      }
+      return item;
+    });
+  }
+
   render() {
-    const { className, classPrefix, disabled, inside, ...props } = this.props;
+    const { className, classPrefix, disabled, inside, children, ...props } = this.props;
     const { focus } = this.state;
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, className, {
@@ -60,7 +70,11 @@ class InputGroup extends React.Component<Props, State> {
       [addPrefix('disabled')]: disabled
     });
 
-    return <div {...props} className={classes} />;
+    return (
+      <div {...props} className={classes}>
+        {disabled ? this.disabledChildren() : children}
+      </div>
+    );
   }
 }
 
