@@ -48,7 +48,7 @@ class DorpdownToggle extends React.Component<Props> {
     }
 
     return (
-      <Component {...props} {...buttonProps} className={classNames(classPrefix, className)}>
+      <Component {...buttonProps} {...props} className={classNames(classPrefix, className)}>
         {icon}
         {children}
         {noCaret ? null : <span className={addPrefix('caret')} />}
