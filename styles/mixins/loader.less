@@ -33,6 +33,8 @@
 }
 
 .loader-spin() {
+  animation: loaderSpin @loader-duration-normal infinite linear;
+
   &::before,
   &::after {
     content: "";
@@ -51,6 +53,5 @@
     border-width: @loader-spin-ring-wide;
     border-style: solid;
     border-color: @loader-spin-ring-active-color transparent transparent;
-    animation: loaderSpin @loader-duration-normal infinite linear;
   }
 }
