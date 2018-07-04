@@ -3,6 +3,7 @@ import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import Dropdown from '../src/Dropdown';
+import Button from '../src/Button';
 import innerText from './innerText';
 
 describe('Dropdown', () => {
@@ -62,6 +63,17 @@ describe('Dropdown', () => {
   it('Should render custom component', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Dropdown toggleComponentClass={'div'} />);
     assert.equal(findDOMNode(instance).querySelector('.rs-dropdown-toggle').tagName, 'DIV');
+  });
+
+  it('Should render a Button', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown toggleComponentClass={Button} size="xs" appearance="link" />
+    );
+
+    const toggle = findDOMNode(instance).querySelector('.rs-dropdown-toggle');
+    assert.include(toggle.className, 'rs-btn-link');
+    assert.include(toggle.className, 'rs-btn-xs');
+    assert.equal(toggle.tagName, 'A');
   });
 
   it('Should not show caret', () => {

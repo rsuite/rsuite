@@ -53,7 +53,8 @@ type Props = {
   eventKey?: any,
   componentClass: React.ElementType,
   toggleComponentClass?: React.ElementType,
-  noCaret?: boolean
+  noCaret?: boolean,
+  style?: Object
 };
 
 type State = {
@@ -163,6 +164,7 @@ class Dropdown extends React.Component<Props, State> {
       componentClass: Component,
       toggleComponentClass,
       noCaret,
+      style,
       ...props
     } = this.props;
 
@@ -171,8 +173,9 @@ class Dropdown extends React.Component<Props, State> {
     const addPrefix = prefix(classPrefix);
     const open = this.getOpen();
     const collapsible = sidenav && expanded;
-
+    const unhandled = getUnhandledProps(Dropdown, props);
     const toggleProps = {
+      ...unhandled,
       onClick: createChainedFunction(this.handleOpenChange, onClick),
       onContextMenu
     };
@@ -245,10 +248,8 @@ class Dropdown extends React.Component<Props, State> {
       }
     );
 
-    const unhandled = getUnhandledProps(Dropdown, props);
-
     return (
-      <Component {...unhandled} {...dropdownProps} className={classes} role="menu">
+      <Component {...dropdownProps} style={style} className={classes} role="menu">
         {Menu}
         {Toggle}
       </Component>
