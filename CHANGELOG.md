@@ -1,11 +1,19 @@
-# 3.1.3 (dev)
+# 3.1.3
 
 > 2018-07-05
 
+* **Feature**: Support `disabled` on `<InputGroup>` ([#117])
 * **Feature**: Support `showHeader` on `<Table>` ([#table-30])
 * **Feature**: Support `autoHeight` and `minHeight` on `<Table>` ([#table-29])
 * **Feature**: Support `cellBordered` on `<Table>` ([#table-28])
+* **Chore**: Unhandled props are passed to the DropdownToggle ([#119])
+* **Bugfix**: Fixed `<Checkbox>` and `<Radio>` clickable area ([#120])
+* **Bugfix**: `<Loader>` don't spin in Safari ([#121])
 
+[#121]: https://github.com/rsuite/rsuite/pull/121
+[#120]: https://github.com/rsuite/rsuite/pull/120
+[#119]: https://github.com/rsuite/rsuite/pull/119
+[#117]: https://github.com/rsuite/rsuite/pull/117
 [#table-30]: https://github.com/rsuite/rsuite-table/pull/30
 [#table-29]: https://github.com/rsuite/rsuite-table/pull/29
 [#table-28]: https://github.com/rsuite/rsuite-table/pull/28
