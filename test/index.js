@@ -5,3 +5,5 @@ function importAll(r) {
 }
 
 importAll(require.context('.', true, /Spec.js$/));
+
+require('./SelectPicker');
