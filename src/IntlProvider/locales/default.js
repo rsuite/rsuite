@@ -41,6 +41,12 @@ export default {
     placeholder: 'Select',
     searchPlaceholder: 'Search'
   },
+  CheckPicker: {
+    selectedValues: '{0} selected'
+  },
+  CheckTreePicker: {
+    selectedValues: '{0} selected'
+  },
   Uploader: {
     inited: 'Initial',
     progress: 'Uploading',
