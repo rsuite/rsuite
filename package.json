@@ -51,8 +51,8 @@
     "react-flow-types": "^0.2.0-beta.6",
     "recompose": "^0.26.0",
     "rsuite-cascader": "~3.0.4",
-    "rsuite-checkpicker": "~3.0.5",
-    "rsuite-checktreepicker": "~3.0.11",
+    "rsuite-checkpicker": "~3.0.6",
+    "rsuite-checktreepicker": "~3.0.12",
     "rsuite-datepicker": "~3.0.5",
     "rsuite-daterangepicker": "~3.0.4",
     "rsuite-intl": "~1.0.4",
@@ -60,8 +60,8 @@
     "rsuite-schema": "~0.0.12",
     "rsuite-selectpicker": "~3.0.5",
     "rsuite-table": "~3.0.5",
-    "rsuite-treepicker": "~3.0.10",
-    "rsuite-utils": "~1.2.1"
+    "rsuite-treepicker": "~3.0.11",
+    "rsuite-utils": "~1.2.4"
   },
   "peerDependencies": {
     "react": "^0.14.9 || >=15.3.0",
