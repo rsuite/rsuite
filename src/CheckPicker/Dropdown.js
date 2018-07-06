@@ -14,9 +14,10 @@ import {
 } from 'rsuite-utils/lib/utils';
 
 import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
-import { SearchBar, Toggle, MenuWrapper } from 'rsuite-utils/lib/Picker';
+import { SearchBar, MenuWrapper } from 'rsuite-utils/lib/Picker';
 import DropdownMenu from '../_picker/DropdownMenu';
 import DropdownMenuItem from '../_picker/DropdownMenuCheckItem';
+import PickerToggle from '../_picker/PickerToggle';
 
 type DefaultEvent = SyntheticEvent<*>;
 type DefaultEventFunction = (event: DefaultEvent) => void;
@@ -406,6 +407,7 @@ class Dropdown extends React.Component<Props, States> {
       <DropdownMenu
         {...menuProps}
         classPrefix={this.addPrefix('check-menu')}
+        dropdownMenuItemClassPrefix={this.addPrefix('check-menu-item')}
         dropdownMenuItemComponentClass={DropdownMenuItem}
         ref={this.bindMenuContainerRef}
         activeItemValues={this.getValue()}
@@ -516,7 +518,7 @@ class Dropdown extends React.Component<Props, States> {
           container={container}
           containerPadding={containerPadding}
         >
-          <Toggle
+          <PickerToggle
             {...unhandled}
             componentClass={toggleComponentClass}
             onClean={this.handleClean}
@@ -524,7 +526,7 @@ class Dropdown extends React.Component<Props, States> {
             hasValue={hasValue}
           >
             {selectedLabel || locale.placeholder}
-          </Toggle>
+          </PickerToggle>
         </OverlayTrigger>
       </div>
     );

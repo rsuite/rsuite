@@ -4,7 +4,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
-import { SearchBar, Toggle, MenuWrapper, constants } from 'rsuite-utils/lib/Picker';
+import { SearchBar, MenuWrapper, constants } from 'rsuite-utils/lib/Picker';
 import {
   reactToString,
   filterNodesOfTree,
@@ -17,6 +17,7 @@ import {
 import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 import DropdownMenu from '../_picker/DropdownMenu';
 import DropdownMenuItem from '../_picker/DropdownMenuItem';
+import PickerToggle from '../_picker/PickerToggle';
 
 type DefaultEvent = SyntheticEvent<*>;
 type DefaultEventFunction = (event: DefaultEvent) => void;
@@ -509,7 +510,7 @@ class Dropdown extends React.Component<Props, States> {
           container={container}
           containerPadding={containerPadding}
         >
-          <Toggle
+          <PickerToggle
             {...unhandled}
             componentClass={toggleComponentClass}
             onClean={this.handleClean}
@@ -517,7 +518,7 @@ class Dropdown extends React.Component<Props, States> {
             hasValue={hasValue}
           >
             {activeItemLabel || locale.placeholder}
-          </Toggle>
+          </PickerToggle>
         </OverlayTrigger>
       </div>
     );

@@ -5,12 +5,13 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import { IntlProvider, FormattedMessage } from 'rsuite-intl';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
-import { Toggle, MenuWrapper, constants } from 'rsuite-utils/lib/Picker';
+import { MenuWrapper, constants } from 'rsuite-utils/lib/Picker';
 
 import { findNodeOfTree, shallowEqual, shallowEqualArray } from 'rsuite-utils/lib/utils';
 import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 import stringToObject from '../utils/stringToObject';
 import DropdownMenu from './DropdownMenu';
+import PickerToggle from '../_picker/PickerToggle';
 
 type DefaultEvent = SyntheticEvent<*>;
 type Placement =
@@ -422,7 +423,7 @@ class Dropdown extends React.Component<Props, States> {
             container={container}
             containerPadding={containerPadding}
           >
-            <Toggle
+            <PickerToggle
               {...unhandled}
               componentClass={toggleComponentClass}
               onClean={this.handleClean}
@@ -430,7 +431,7 @@ class Dropdown extends React.Component<Props, States> {
               hasValue={!!value}
             >
               {activeItemLabel || <FormattedMessage id="placeholder" />}
-            </Toggle>
+            </PickerToggle>
           </OverlayTrigger>
         </div>
       </IntlProvider>

@@ -2,10 +2,10 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { prefix, defaultProps, getUnhandledProps } from '../utils';
+import { prefix, getUnhandledProps } from '../utils';
 
 type Props = {
-  classPrefix?: string,
+  classPrefix: string,
   active?: boolean,
   disabled?: boolean,
   value?: any,
@@ -71,8 +71,4 @@ class DropdownMenuCheckItem extends React.Component<Props> {
   }
 }
 
-const enhance = defaultProps({
-  classPrefix: 'picker-check-menu-item'
-});
-
-export default enhance(DropdownMenuCheckItem);
+export default DropdownMenuCheckItem;
