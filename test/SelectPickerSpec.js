@@ -3,7 +3,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { findDOMNode } from 'react-dom';
 import { namespace } from 'rsuite-utils/lib/Picker/constants';
 
-import Dropdown from '../../src/SelectPicker/Dropdown';
+import Dropdown from '../src/SelectPicker/Dropdown';
 
 const classPrefix = `${namespace}-select`;
 const groupClassName = `.${classPrefix}-menu-group`;
@@ -33,7 +33,7 @@ const data = [
   }
 ];
 
-describe('<SelectPicker> - Dropdown', () => {
+describe('SelectPicker', () => {
   it('Should clean selected default value', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Dropdown defaultOpen data={data} defaultValue={'Eugenia'} />
@@ -192,13 +192,6 @@ describe('<SelectPicker> - Dropdown', () => {
       <Dropdown data={data} defaultValue={'Louisa'} />
     );
     assert.ok(findDOMNode(instance).querySelector(cleanClassName));
-  });
-
-  it('Should not output a clean button', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <Dropdown cleanable={false} data={data} defaultValue={'Louisa'} />
-    );
-    assert.ok(!findDOMNode(instance.searchBarContainer));
   });
 
   it('Should call `onSearch` callback', done => {

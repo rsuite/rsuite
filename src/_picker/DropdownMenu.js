@@ -4,20 +4,19 @@ import * as React from 'react';
 import _ from 'lodash';
 import { getPosition, scrollTop, getHeight } from 'dom-lib';
 import classNames from 'classnames';
-import { getUnhandledProps, shallowEqual } from 'rsuite-utils/lib/utils';
-import { namespace } from 'rsuite-utils/lib/Picker/constants';
+import { shallowEqual } from 'rsuite-utils/lib/utils';
 
+import { getUnhandledProps, defaultProps, prefix } from '../utils';
 import DropdownMenuGroup from './DropdownMenuGroup';
-import DropdownMenuItem from './DropdownMenuItem';
 
 type DefaultEvent = SyntheticEvent<*>;
 type DefaultEventFunction = (event: DefaultEvent) => void;
 type Props = {
-  classPrefix?: string,
+  classPrefix: string,
   data?: Array<any>,
   group?: boolean,
   disabledItemValues: Array<any>,
-  activeItemValue?: any,
+  activeItemValues: Array<any>,
   focusItemValue?: any,
   maxHeight?: number,
   valueKey: string,
@@ -26,15 +25,18 @@ type Props = {
   style?: Object,
   renderMenuItem?: (itemLabel: React.Node, item: Object) => React.Node,
   renderMenuGroup?: (title: React.Node, item: Object) => React.Node,
-  onSelect?: (value: any, item: Object, event: DefaultEvent) => void,
-  onGroupTitleClick?: DefaultEventFunction
+  onSelect?: (value: any, checked: boolean, item: Object, event: DefaultEvent) => void,
+  onGroupTitleClick?: DefaultEventFunction,
+  dropdownMenuItemComponentClass: React.ElementType,
+  dropdownMenuItemClassPrefix?: string
 };
 
 class DropdownMenu extends React.Component<Props> {
   static defaultProps = {
-    classPrefix: `${namespace}-select-menu-items`,
     data: [],
+    activeItemValues: [],
     disabledItemValues: [],
+    maxHeight: 320,
     valueKey: 'value',
     labelKey: 'label'
   };
@@ -59,8 +61,7 @@ class DropdownMenu extends React.Component<Props> {
   menuBodyContainer = {};
 
   updateScrollPoistion() {
-    const activeItem = this.menuBodyContainer.querySelector(`.${namespace}-select-menu-item-focus`);
-
+    const activeItem = this.menuBodyContainer.querySelector(`.${this.addPrefix('item-focus')}`);
     if (!activeItem) {
       return;
     }
@@ -69,19 +70,22 @@ class DropdownMenu extends React.Component<Props> {
     const sHeight = getHeight(this.menuBodyContainer);
     if (sTop > position.top) {
       scrollTop(this.menuBodyContainer, Math.max(0, position.top - 20));
-    } else if (position.top >= sTop + sHeight) {
+    } else if (position.top > sTop + sHeight) {
       scrollTop(this.menuBodyContainer, Math.max(0, position.top - sHeight + 32));
     }
   }
 
-  handleSelect = (value: any, item: Object, event: DefaultEvent) => {
+  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
+
+  // value: any, item: Object, event: DefaultEvent
+  handleSelect = (value: any, checked: boolean, item: Object, event: DefaultEvent) => {
     const { onSelect } = this.props;
-    onSelect && onSelect(value, item, event);
+    onSelect && onSelect(value, checked, item, event);
   };
 
   renderItems() {
     const {
-      activeItemValue,
+      activeItemValues,
       focusItemValue,
       valueKey,
       labelKey,
@@ -90,7 +94,9 @@ class DropdownMenu extends React.Component<Props> {
       renderMenuGroup,
       onGroupTitleClick,
       disabledItemValues,
-      group
+      group,
+      dropdownMenuItemClassPrefix,
+      dropdownMenuItemComponentClass: DropdownMenuItem
     } = this.props;
 
     const createMenuItems = (items = [], groupId = 0) =>
@@ -112,6 +118,7 @@ class DropdownMenu extends React.Component<Props> {
         if (group && _.isArray(item.children)) {
           return (
             <DropdownMenuGroup
+              classPrefix={this.addPrefix('group')}
               key={onlyKey}
               title={renderMenuGroup ? renderMenuGroup(item.groupTitle, item) : item.groupTitle}
               onClick={onGroupTitleClick}
@@ -129,10 +136,13 @@ class DropdownMenu extends React.Component<Props> {
 
         return (
           <DropdownMenuItem
+            classPrefix={dropdownMenuItemClassPrefix}
             getItemData={() => item}
             key={`${groupId}-${onlyKey}`}
             disabled={disabled}
-            active={!_.isUndefined(activeItemValue) && shallowEqual(activeItemValue, value)}
+            active={
+              !_.isUndefined(activeItemValues) && activeItemValues.some(v => shallowEqual(v, value))
+            }
             focus={!_.isUndefined(focusItemValue) && shallowEqual(focusItemValue, value)}
             value={value}
             ref={ref => {
@@ -140,8 +150,8 @@ class DropdownMenu extends React.Component<Props> {
                 this.menuItems[`${groupId}-${onlyKey}`] = ref;
               }
             }}
-            onSelect={(val, event) => {
-              this.handleSelect(val, item, event);
+            onSelect={(val, checked, event) => {
+              this.handleSelect(val, checked, item, event);
             }}
           >
             {renderMenuItem ? renderMenuItem(label, item) : label}
@@ -154,8 +164,7 @@ class DropdownMenu extends React.Component<Props> {
 
   render() {
     const { maxHeight, className, style, classPrefix, ...rest } = this.props;
-
-    const classes = classNames(classPrefix, className);
+    const classes = classNames(this.addPrefix('items'), className);
     const unhandled = getUnhandledProps(DropdownMenu, rest);
 
     return (

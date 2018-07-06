@@ -4,19 +4,19 @@ import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
-import { SearchBar, Toggle, MenuWrapper, constants } from 'rsuite-utils/lib/Picker';
 import {
   reactToString,
   filterNodesOfTree,
-  findNodeOfTree,
   getDataGroupBy,
   shallowEqual,
-  shallowEqualArray
+  shallowEqualArray,
+  tplTransform
 } from 'rsuite-utils/lib/utils';
 
 import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
+import { SearchBar, Toggle, MenuWrapper } from 'rsuite-utils/lib/Picker';
 import DropdownMenu from '../_picker/DropdownMenu';
-import DropdownMenuItem from '../_picker/DropdownMenuItem';
+import DropdownMenuItem from '../_picker/DropdownMenuCheckItem';
 
 type DefaultEvent = SyntheticEvent<*>;
 type DefaultEventFunction = (event: DefaultEvent) => void;
@@ -51,14 +51,14 @@ type Props = {
   maxHeight?: number,
   valueKey?: string,
   labelKey?: string,
-  value?: any,
-  defaultValue?: any,
+  value?: Array<any>,
+  defaultValue?: Array<any>,
   renderMenu?: (menu: React.Node) => React.Node,
   renderMenuItem?: (itemLabel: React.Node, item: Object) => React.Node,
   renderMenuGroup?: (title: React.Node, item: Object) => React.Node,
-  renderValue?: (value: any, item: Object) => React.Node,
+  renderValue?: (value: Array<any>, items: Array<any>) => React.Node,
   renderExtraFooter?: () => React.Node,
-  onChange?: (value: any, event: DefaultEvent) => void,
+  onChange?: (value: Array<any>, event: DefaultEvent) => void,
   onSelect?: (value: any, item: Object, event: DefaultEvent) => void,
   onGroupTitleClick?: DefaultEventFunction,
   onSearch?: (searchKeyword: string, event: DefaultEvent) => void,
@@ -84,7 +84,7 @@ type Props = {
 };
 
 type States = {
-  value?: any,
+  value?: Array<any>,
   // Used to focus the active item  when trigger `onKeydown`
   focusItemValue?: any,
   searchKeyword: string,
@@ -101,7 +101,8 @@ class Dropdown extends React.Component<Props, States> {
     labelKey: 'label',
     locale: {
       placeholder: 'Select',
-      searchPlaceholder: 'Search'
+      searchPlaceholder: 'Search',
+      selectedValues: '{0} selected'
     },
     searchable: true,
     cleanable: true,
@@ -112,11 +113,12 @@ class Dropdown extends React.Component<Props, States> {
     super(props);
 
     const { data, value, defaultValue, groupBy, valueKey, labelKey } = props;
-    const nextValue = value || defaultValue;
+    const nextValue = _.clone(value || defaultValue) || [];
 
     this.state = {
       value: nextValue,
-      focusItemValue: nextValue,
+      // Used to hover the active item  when trigger `onKeydown`
+      focusItemValue: nextValue ? nextValue[0] : undefined,
       searchKeyword: '',
       filteredData: data
     };
@@ -129,10 +131,9 @@ class Dropdown extends React.Component<Props, States> {
   componentWillReceiveProps(nextProps: Props) {
     const { value, data } = nextProps;
 
-    if (!shallowEqual(value, this.props.value)) {
+    if (!shallowEqualArray(value, this.props.value)) {
       this.setState({
-        value,
-        focusItemValue: value
+        value
       });
     }
 
@@ -149,36 +150,16 @@ class Dropdown extends React.Component<Props, States> {
     if (!menuItems) {
       return [];
     }
-
     const items = Object.values(menuItems).map((item: any) => item.props.getItemData());
+
     return filterNodesOfTree(items, item => this.shouldDisplay(item[labelKey]));
   };
 
   getValue() {
     const { value } = this.props;
-    return _.isUndefined(value) ? this.state.value : value;
+    const nextValue = _.isUndefined(value) ? this.state.value : value;
+    return _.clone(nextValue) || [];
   }
-
-  menuContainer = {
-    menuItems: null
-  };
-
-  bindMenuContainerRef = (ref: React.ElementRef<*>) => {
-    this.menuContainer = ref;
-  };
-
-  // for test
-  searchBarContainer = null;
-
-  bindSearchBarContainerRef = (ref: React.ElementRef<*>) => {
-    this.searchBarContainer = ref;
-  };
-
-  trigger = null;
-
-  bindTriggerRef = (ref: React.ElementRef<*>) => {
-    this.trigger = ref;
-  };
 
   /**
    * Index of keyword  in `label`
@@ -203,7 +184,6 @@ class Dropdown extends React.Component<Props, States> {
           .indexOf(keyword) >= 0
       );
     }
-
     return false;
   }
 
@@ -241,21 +221,26 @@ class Dropdown extends React.Component<Props, States> {
   }
 
   selectFocusMenuItem(event: DefaultEvent) {
-    const { focusItemValue } = this.state;
+    const value = this.getValue();
     const { data, valueKey } = this.props;
+    const { focusItemValue } = this.state;
+
     if (!focusItemValue) {
       return;
     }
 
-    // Find active `MenuItem` by `value`
-    const focusItem = findNodeOfTree(data, item => shallowEqual(item[valueKey], focusItemValue));
+    if (!value.some(v => shallowEqual(v, focusItemValue))) {
+      value.push(focusItemValue);
+    } else {
+      _.remove(value, itemVal => shallowEqual(itemVal, focusItemValue));
+    }
 
-    this.setState({ value: focusItemValue }, () => {
-      this.handleSelect(focusItemValue, focusItem, event);
-      this.handleChange(focusItemValue, event);
+    const focusItem: any = data.find(item => shallowEqual(_.get(item, valueKey), focusItemValue));
+
+    this.setState({ value }, () => {
+      this.handleSelect(value, focusItem, event);
+      this.handleChangeValue(value, event);
     });
-
-    this.closeDropdown();
   }
 
   handleKeyDown = (event: SyntheticKeyboardEvent<*>) => {
@@ -289,21 +274,34 @@ class Dropdown extends React.Component<Props, States> {
     }
   };
 
-  handleItemSelect = (value: any, item: Object, event: DefaultEvent) => {
+  handleItemSelect = (nextItemValue: any, checked: boolean, item: Object, event: DefaultEvent) => {
+    const value = this.getValue();
+
+    if (checked) {
+      value.push(nextItemValue);
+    } else {
+      _.remove(value, itemVal => shallowEqual(itemVal, nextItemValue));
+    }
+
     const nextState = {
       value,
-      focusItemValue: value
+      focusItemValue: nextItemValue
     };
+
     this.setState(nextState, () => {
       this.handleSelect(value, item, event);
-      this.handleChange(value, event);
+      this.handleChangeValue(value, event);
     });
-    this.closeDropdown();
   };
 
-  handleSelect = (value: any, item: Object, event: DefaultEvent) => {
+  handleSelect = (nextItemValue: any, item: Object, event: DefaultEvent) => {
     const { onSelect } = this.props;
-    onSelect && onSelect(value, item, event);
+    onSelect && onSelect(nextItemValue, item, event);
+  };
+
+  handleChangeValue = (value: any, event: DefaultEvent) => {
+    const { onChange } = this.props;
+    onChange && onChange(value, event);
   };
 
   handleSearch = (searchKeyword: string, event: DefaultEvent) => {
@@ -316,14 +314,13 @@ class Dropdown extends React.Component<Props, States> {
   };
 
   closeDropdown = () => {
+    const value = this.getValue();
     if (this.trigger) {
       this.trigger.hide();
     }
-  };
-
-  handleChange = (value: any, event: DefaultEvent) => {
-    const { onChange } = this.props;
-    onChange && onChange(value, event);
+    this.setState({
+      focusItemValue: value ? value[0] : undefined
+    });
   };
 
   handleClean = (event: DefaultEvent) => {
@@ -331,22 +328,17 @@ class Dropdown extends React.Component<Props, States> {
     if (disabled) {
       return;
     }
-    const nextState = {
-      value: null,
-      focusItemValue: null
-    };
-
-    this.setState(nextState, () => {
-      this.handleChange(null, event);
+    this.setState({ value: [] }, () => {
+      this.handleChangeValue([], event);
     });
   };
 
   handleExited = () => {
     const { onClose } = this.props;
-    onClose && onClose();
     const value = this.getValue();
+    onClose && onClose();
     this.setState({
-      focusItemValue: value
+      focusItemValue: value ? value[0] : undefined
     });
   };
 
@@ -357,26 +349,45 @@ class Dropdown extends React.Component<Props, States> {
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
+  container = null;
+
+  bindContainerRef = (ref: React.ElementRef<*>) => {
+    this.container = ref;
+  };
+
+  trigger = null;
+
+  bindTriggerRef = (ref: React.ElementRef<*>) => {
+    this.trigger = ref;
+  };
+
+  menuContainer = {
+    menuItems: null
+  };
+
+  bindMenuContainerRef = (ref: React.ElementRef<*>) => {
+    this.menuContainer = ref;
+  };
+
   renderDropdownMenu() {
     const {
       data,
       labelKey,
       groupBy,
       searchable,
-      placement,
-      locale,
-      renderMenu,
       renderExtraFooter,
+      locale,
+      placement,
+      renderMenu,
       menuClassName
     } = this.props;
 
     const { focusItemValue } = this.state;
     const classes = classNames(
-      this.addPrefix('select-menu'),
+      this.addPrefix('check-menu'),
       this.addPrefix(`placement-${_.kebabCase(placement)}`),
       menuClassName
     );
-
     let filteredData = filterNodesOfTree(data, item => this.shouldDisplay(item[labelKey]));
 
     // Create a tree structure data when set `groupBy`
@@ -394,11 +405,10 @@ class Dropdown extends React.Component<Props, States> {
     const menu = (
       <DropdownMenu
         {...menuProps}
-        classPrefix={this.addPrefix('select-menu')}
-        dropdownMenuItemClassPrefix={this.addPrefix('select-menu-item')}
+        classPrefix={this.addPrefix('check-menu')}
         dropdownMenuItemComponentClass={DropdownMenuItem}
         ref={this.bindMenuContainerRef}
-        activeItemValues={[this.getValue()]}
+        activeItemValues={this.getValue()}
         focusItemValue={focusItemValue}
         data={filteredData}
         group={!_.isUndefined(groupBy)}
@@ -410,13 +420,11 @@ class Dropdown extends React.Component<Props, States> {
       <MenuWrapper className={classes} onKeyDown={this.handleKeyDown}>
         {searchable && (
           <SearchBar
-            ref={this.bindSearchBarContainerRef}
             placeholder={locale.searchPlaceholder}
             onChange={this.handleSearch}
             value={this.state.searchKeyword}
           />
         )}
-
         {renderMenu ? renderMenu(menu) : menu}
         {renderExtraFooter && renderExtraFooter()}
       </MenuWrapper>
@@ -457,30 +465,28 @@ class Dropdown extends React.Component<Props, States> {
 
     const unhandled = getUnhandledProps(Dropdown, rest);
     const value = this.getValue();
+    const selectedItems =
+      !!value && !!value.length
+        ? data.filter(item => value.some(val => shallowEqual(item[valueKey], val)))
+        : [];
+    const hasValue = !!selectedItems.length;
 
-    // Find active `MenuItem` by `value`
-    const activeItem = findNodeOfTree(data, item => shallowEqual(item[valueKey], value));
-    const hasValue = !!activeItem;
-
-    let activeItemLabel = placeholder;
-
-    if (activeItem && activeItem[labelKey]) {
-      activeItemLabel = activeItem[labelKey];
-
-      if (renderValue) {
-        activeItemLabel = renderValue(activeItemLabel, activeItem);
-      }
+    let selectedLabel = hasValue
+      ? tplTransform(locale.selectedValues, selectedItems.length)
+      : placeholder;
+    if (renderValue && hasValue) {
+      selectedLabel = renderValue(value, selectedItems);
     }
 
     const classes = classNames(
       className,
-      this.addPrefix('select'),
-      this.addPrefix(`select-${appearance}`),
+      this.addPrefix('check'),
+      this.addPrefix(`check-${appearance}`),
       this.addPrefix(`placement-${_.kebabCase(placement)}`),
       {
-        [this.addPrefix('select-block')]: block,
-        [this.addPrefix('select-has-value')]: hasValue,
-        [this.addPrefix('select-disabled')]: disabled
+        [this.addPrefix('check-block')]: block,
+        [this.addPrefix('check-has-value')]: hasValue,
+        [this.addPrefix('check-disabled')]: disabled
       }
     );
 
@@ -491,6 +497,7 @@ class Dropdown extends React.Component<Props, States> {
         onKeyDown={this.handleKeyDown}
         tabIndex={-1}
         role="menu"
+        ref={this.bindContainerRef}
       >
         <OverlayTrigger
           ref={this.bindTriggerRef}
@@ -516,7 +523,7 @@ class Dropdown extends React.Component<Props, States> {
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
           >
-            {activeItemLabel || locale.placeholder}
+            {selectedLabel || locale.placeholder}
           </Toggle>
         </OverlayTrigger>
       </div>

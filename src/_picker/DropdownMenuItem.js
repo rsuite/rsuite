@@ -2,8 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { getUnhandledProps, prefix } from 'rsuite-utils/lib/utils';
-import { namespace } from 'rsuite-utils/lib/Picker/constants';
+import { prefix, getUnhandledProps } from '../utils';
 
 type Props = {
   classPrefix?: string,
@@ -15,15 +14,11 @@ type Props = {
   focus?: boolean,
   title?: string,
   className?: string,
-  children: ?React.Node,
+  children?: React.Node,
   getItemData?: () => any
 };
 
 class DropdownMenuItem extends React.Component<Props> {
-  static defaultProps = {
-    classPrefix: `${namespace}-select-menu-item`
-  };
-
   handleClick = (event: SyntheticEvent<*>) => {
     const { value, disabled, onSelect } = this.props;
     event.preventDefault();

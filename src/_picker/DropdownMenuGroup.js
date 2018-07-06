@@ -3,8 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { toggleClass } from 'dom-lib';
-import { getUnhandledProps, prefix } from 'rsuite-utils/lib/utils';
-import { namespace } from 'rsuite-utils/lib/Picker/constants';
+import { prefix, getUnhandledProps } from '../utils';
 
 type Props = {
   title: React.Node,
@@ -16,7 +15,7 @@ type Props = {
 
 class DropdownMenuGroup extends React.Component<Props> {
   static defaultProps = {
-    classPrefix: `${namespace}-select-menu-group`
+    classPrefix: 'dropdown-menu-group'
   };
 
   DropdownMenuGroup = null;
