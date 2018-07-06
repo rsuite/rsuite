@@ -483,7 +483,7 @@ class Dropdown extends React.Component<Props, States> {
     const classes = classNames(
       className,
       this.addPrefix('check'),
-      this.addPrefix(`check-${appearance}`),
+      this.addPrefix(appearance),
       this.addPrefix(`placement-${_.kebabCase(placement)}`),
       {
         [this.addPrefix('check-block')]: block,

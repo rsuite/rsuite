@@ -476,7 +476,7 @@ class Dropdown extends React.Component<Props, States> {
     const classes = classNames(
       className,
       this.addPrefix('select'),
-      this.addPrefix(`select-${appearance}`),
+      this.addPrefix(appearance),
       this.addPrefix(`placement-${_.kebabCase(placement)}`),
       {
         [this.addPrefix('select-block')]: block,
