@@ -1,4 +1,4 @@
-@charset "utf-8";
+@import "./dropdown";
 
 // Picker Menu items common styles
 .picker-menu-items-reset() {
@@ -137,4 +137,23 @@
 
 .picker-button-caret-xs() {
   .picker-custom-button-caret-size(@padding-extra-small-horizontal, @padding-extra-small-vertical);
+}
+
+// Default picker toggle
+.picker-default-toggle() {
+  .dropdown-toggle;
+
+  color: @picker-default-toggle-font-color;
+  border: @picker-default-toggle-border-width solid @picker-default-toggle-border-color;
+  transition: border .3s linear;
+
+  &:hover,
+  &:focus {
+    border-color: @picker-default-toggle-hover-border-color;
+  }
+}
+
+// Subtle picker toggle
+.picker-subtle-toggle {
+  .dropdown-toggle;
 }

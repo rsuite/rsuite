@@ -1,6 +1,5 @@
 @import "common";
 @import "mixins/button";
-@import "mixins/dropdown";
 @import "mixins/form";
 @import "mixins/picker";
 
@@ -63,11 +62,19 @@
   }
 }
 
-//## Dropdown toggle
-// Default toggle style the same to the subtle button.
 .@{ns}picker-toggle {
   .btn;
-  .btn-subtle;
+
+  .@{ns}picker-default & {
+    @padding-vertical: @padding-base-vertical - @picker-default-toggle-border-width;
+    @padding-horizontal: @padding-base-horizontal - @picker-default-toggle-border-width;
+
+    padding: @padding-vertical @padding-horizontal;
+  }
+
+  .@{ns}picker-subtle & {
+    .btn-subtle;
+  }
 }
 
 // Custom button sizes
@@ -89,32 +96,42 @@
   }
 }
 
-// The Same to Dropdown toggle
 .@{ns}picker-toggle,
 .@{ns}picker-toggle-custom {
-  .dropdown-toggle;
-
   max-width: 100%;
+
+  .@{ns}picker-default & {
+    .picker-default-toggle;
+  }
+
+  .@{ns}picker-subtle & {
+    .picker-subtle-toggle;
+  }
 
   &-value {
     display: block;
     .ellipsis;
   }
 
-  &.@{ns}picker-toggle-cleanable .@{ns}picker-toggle-caret {
-    opacity: 0;
-    transform: scale(0);
+  &.@{ns}picker-toggle-cleanable {
+    padding-right: @dropdown-toggle-padding-right + @picker-toggle-clean-width;
   }
 }
 
 // Picker clean button
 .@{ns}picker-toggle-clean {
-  .dropdown-toggle-caret-common;
+  .dropdown-toggle-caret-common(30px);
   .set-dropdown-caret(~"dropdown");
 
   background: inherit;
+  color: @picker-toggle-clean-color;
+  transition: .2s color linear;
   // FIXED: IE browser has 1px orange line.
   .ie-width(19px) !important;
+
+  &:hover {
+    color: @picker-toggle-clean-hover-color;
+  }
 }
 
 // Picker toggle caret
@@ -122,6 +139,8 @@
   // Extend  Dropdown toggle caret style
   .dropdown-toggle-caret-common;
   .set-dropdown-caret(~"@{ns}picker");
+
+  color: @picker-default-toggle-caret-color;
 
   // Set default content to @dropdown-caret-content for support [placement="auto*"]
   &::before {
