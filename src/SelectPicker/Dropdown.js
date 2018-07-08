@@ -47,6 +47,7 @@ type Props = {
   block?: boolean,
   toggleComponentClass?: React.ElementType,
   menuClassName?: string,
+  menuStyle?: Object,
   disabled?: boolean,
   disabledItemValues?: Array<any>,
   maxHeight?: number,
@@ -368,7 +369,8 @@ class Dropdown extends React.Component<Props, States> {
       locale,
       renderMenu,
       renderExtraFooter,
-      menuClassName
+      menuClassName,
+      menuStyle
     } = this.props;
 
     const { focusItemValue } = this.state;
@@ -395,6 +397,7 @@ class Dropdown extends React.Component<Props, States> {
     const menu = (
       <DropdownMenu
         {...menuProps}
+        style={menuStyle}
         classPrefix={this.addPrefix('select-menu')}
         dropdownMenuItemClassPrefix={this.addPrefix('select-menu-item')}
         dropdownMenuItemComponentClass={DropdownMenuItem}
@@ -486,29 +489,29 @@ class Dropdown extends React.Component<Props, States> {
     );
 
     return (
-      <div
-        className={classes}
-        style={style}
-        onKeyDown={this.handleKeyDown}
-        tabIndex={-1}
-        role="menu"
+      <OverlayTrigger
+        ref={this.bindTriggerRef}
+        open={open}
+        defaultOpen={defaultOpen}
+        disabled={disabled}
+        trigger="click"
+        placement={placement}
+        onEnter={onEnter}
+        onEntering={onEntering}
+        onEntered={createChainedFunction(this.handleOpen, onEntered)}
+        onExit={onExit}
+        onExiting={onExiting}
+        onExited={createChainedFunction(this.handleExited, onExited)}
+        speaker={this.renderDropdownMenu()}
+        container={container}
+        containerPadding={containerPadding}
       >
-        <OverlayTrigger
-          ref={this.bindTriggerRef}
-          open={open}
-          defaultOpen={defaultOpen}
-          disabled={disabled}
-          trigger="click"
-          placement={placement}
-          onEnter={onEnter}
-          onEntering={onEntering}
-          onEntered={createChainedFunction(this.handleOpen, onEntered)}
-          onExit={onExit}
-          onExiting={onExiting}
-          onExited={createChainedFunction(this.handleExited, onExited)}
-          speaker={this.renderDropdownMenu()}
-          container={container}
-          containerPadding={containerPadding}
+        <div
+          className={classes}
+          style={style}
+          onKeyDown={this.handleKeyDown}
+          tabIndex={-1}
+          role="menu"
         >
           <PickerToggle
             {...unhandled}
@@ -519,8 +522,8 @@ class Dropdown extends React.Component<Props, States> {
           >
             {activeItemLabel || locale.placeholder}
           </PickerToggle>
-        </OverlayTrigger>
-      </div>
+        </div>
+      </OverlayTrigger>
     );
   }
 }

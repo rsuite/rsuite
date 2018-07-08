@@ -47,6 +47,7 @@ type Props = {
   block?: boolean,
   toggleComponentClass?: React.ElementType,
   menuClassName?: string,
+  menuStyle?: Object,
   disabled?: boolean,
   disabledItemValues?: Array<any>,
   maxHeight?: number,
@@ -380,7 +381,8 @@ class Dropdown extends React.Component<Props, States> {
       locale,
       placement,
       renderMenu,
-      menuClassName
+      menuClassName,
+      menuStyle
     } = this.props;
 
     const { focusItemValue } = this.state;
@@ -406,6 +408,7 @@ class Dropdown extends React.Component<Props, States> {
     const menu = (
       <DropdownMenu
         {...menuProps}
+        style={menuStyle}
         classPrefix={this.addPrefix('check-menu')}
         dropdownMenuItemClassPrefix={this.addPrefix('check-menu-item')}
         dropdownMenuItemComponentClass={DropdownMenuItem}

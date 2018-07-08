@@ -39,6 +39,7 @@ type Props = {
   block?: boolean,
   toggleComponentClass?: React.ElementType,
   menuClassName?: string,
+  menuStyle?: Object,
   childrenKey?: string,
   valueKey: string,
   labelKey: string,
@@ -300,7 +301,7 @@ class Dropdown extends React.Component<Props, States> {
 
   renderDropdownMenu() {
     const { items, tempActivePaths, activePaths } = this.state;
-    const { renderMenu, placement, renderExtraFooter, menuClassName } = this.props;
+    const { renderMenu, placement, renderExtraFooter, menuClassName, menuStyle } = this.props;
     const classes = classNames(
       this.addPrefix('cascader-menu'),
       this.addPrefix(`placement-${_.kebabCase(placement)}`),
@@ -316,6 +317,7 @@ class Dropdown extends React.Component<Props, States> {
       <MenuWrapper className={classes}>
         <DropdownMenu
           {...menuProps}
+          style={menuStyle}
           classPrefix={this.addPrefix('cascader-menu')}
           ref={this.bindMenuContainerRef}
           cascadeItems={items}
