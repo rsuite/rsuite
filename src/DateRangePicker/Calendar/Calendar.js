@@ -145,7 +145,6 @@ class Calendar extends React.Component<Props> {
       <div {...unhandled} className={calendarClasses}>
         <Header
           showMonth={true}
-          showDate={true}
           date={pageDate}
           disabledBackward={this.disabledBackward()}
           disabledForword={this.disabledForword()}
