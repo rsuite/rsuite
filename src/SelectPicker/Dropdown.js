@@ -481,10 +481,11 @@ class Dropdown extends React.Component<Props, States> {
       this.addPrefix('select'),
       this.addPrefix(appearance),
       this.addPrefix(`placement-${_.kebabCase(placement)}`),
+      this.addPrefix('toggle-wrapper'),
       {
-        [this.addPrefix('select-block')]: block,
-        [this.addPrefix('select-has-value')]: hasValue,
-        [this.addPrefix('select-disabled')]: disabled
+        [this.addPrefix('block')]: block,
+        [this.addPrefix('has-value')]: hasValue,
+        [this.addPrefix('disabled')]: disabled
       }
     );
 

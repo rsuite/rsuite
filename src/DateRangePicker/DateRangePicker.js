@@ -7,7 +7,7 @@ import { IntlProvider } from 'rsuite-intl';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import _ from 'lodash';
 
-import { getUnhandledProps, prefix, createChainedFunction } from 'rsuite-utils/lib/utils';
+import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
 import { MenuWrapper, constants } from 'rsuite-utils/lib/Picker';
 
 import PickerToggle from '../_picker/PickerToggle';
@@ -121,7 +121,6 @@ type State = {
 class DateRangePicker extends React.Component<Props, State> {
   static defaultProps = {
     appearance: 'default',
-    classPrefix: `${namespace}-daterange`,
     placement: 'bottomLeft',
     limitStartYear: 5,
     limitEndYear: 5,
@@ -452,9 +451,9 @@ class DateRangePicker extends React.Component<Props, State> {
     const { calendarDate, selectValue, hoverValue, doneSelected } = this.state;
 
     const classes = classNames(
-      this.addPrefix('menu'),
-      menuClassName,
-      `${namespace}-placement-${_.kebabCase(placement)}`
+      this.addPrefix('daterange-menu'),
+      this.addPrefix(`placement-${_.kebabCase(placement)}`),
+      menuClassName
     );
 
     const pickerProps = {
@@ -479,10 +478,12 @@ class DateRangePicker extends React.Component<Props, State> {
           this.menuContainer = ref;
         }}
       >
-        <div className={this.addPrefix('panel')}>
-          <div className={this.addPrefix('content')}>
-            <div className={this.addPrefix('header')}>{this.getDateString(selectValue)}</div>
-            <div className={this.addPrefix('calendar-group')}>
+        <div className={this.addPrefix('daterange-panel')}>
+          <div className={this.addPrefix('daterange-content')}>
+            <div className={this.addPrefix('daterange-header')}>
+              {this.getDateString(selectValue)}
+            </div>
+            <div className={this.addPrefix('daterange-calendar-group')}>
               <DatePicker index={0} {...pickerProps} />
               <DatePicker index={1} {...pickerProps} />
             </div>
@@ -530,10 +531,11 @@ class DateRangePicker extends React.Component<Props, State> {
     const unhandled = getUnhandledProps(DateRangePicker, rest);
     const hasValue = value && value.length > 1;
     const classes = classNames(
-      classPrefix,
       className,
-      `${namespace}-${appearance}`,
-      `${namespace}-placement-${_.kebabCase(placement)}`,
+      this.addPrefix('daterange'),
+      this.addPrefix(appearance),
+      this.addPrefix(`placement-${_.kebabCase(placement)}`),
+      this.addPrefix('toggle-wrapper'),
       {
         [this.addPrefix('block')]: block,
         [this.addPrefix('has-value')]: hasValue,
@@ -585,4 +587,8 @@ class DateRangePicker extends React.Component<Props, State> {
   }
 }
 
-export default DateRangePicker;
+const enhance = defaultProps({
+  classPrefix: 'picker'
+});
+
+export default enhance(DateRangePicker);

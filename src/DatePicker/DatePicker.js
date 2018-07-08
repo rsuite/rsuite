@@ -434,7 +434,7 @@ class DatePicker extends React.Component<Props, States> {
     if (inline) {
       return (
         <IntlProvider locale={locale}>
-          <div className={classNames(classPrefix, this.addPrefix('inline'), className)}>
+          <div className={classNames(classPrefix, this.addPrefix('date-inline'), className)}>
             {calendar}
           </div>
         </IntlProvider>
@@ -446,10 +446,11 @@ class DatePicker extends React.Component<Props, States> {
       this.addPrefix('date'),
       this.addPrefix(appearance),
       this.addPrefix(`placement-${_.kebabCase(placement)}`),
+      this.addPrefix('toggle-wrapper'),
       {
-        [this.addPrefix('date-block')]: block,
-        [this.addPrefix('date-has-value')]: hasValue,
-        [this.addPrefix('date-disabled')]: disabled,
+        [this.addPrefix('block')]: block,
+        [this.addPrefix('has-value')]: hasValue,
+        [this.addPrefix('disabled')]: disabled,
         [this.addPrefix('date-only-time')]: shouldOnlyTime(format)
       }
     );
