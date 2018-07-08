@@ -6,8 +6,8 @@ import { FormattedMessage } from 'rsuite-intl';
 import moment from 'moment';
 import _ from 'lodash';
 import classNames from 'classnames';
-import { prefix, getUnhandledProps } from 'rsuite-utils/lib/utils';
 
+import { prefix, getUnhandledProps, defaultProps } from '../utils';
 import scrollTopAnimation from '../utils/scrollTopAnimation';
 
 type Props = {
@@ -36,7 +36,6 @@ const ranges = {
 
 class TimeDropdown extends React.PureComponent<Props> {
   static defaultProps = {
-    classPrefix: 'rs-calendar-time-dropdown',
     show: false,
     ranges: [
       {
@@ -186,4 +185,8 @@ class TimeDropdown extends React.PureComponent<Props> {
   }
 }
 
-export default TimeDropdown;
+const enhance = defaultProps({
+  classPrefix: 'calendar-time-dropdown'
+});
+
+export default enhance(TimeDropdown);

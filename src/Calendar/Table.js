@@ -2,8 +2,10 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
+
 import TableRow from './TableRow';
 import TableHeaderRow from './TableHeaderRow';
+import { defaultProps } from '../utils';
 
 type Props = {
   rows: Array<any>,
@@ -18,7 +20,6 @@ type Props = {
 
 class Table extends React.PureComponent<Props> {
   static defaultProps = {
-    classPrefix: 'rs-calendar-table',
     rows: []
   };
   render() {
@@ -56,4 +57,8 @@ class Table extends React.PureComponent<Props> {
   }
 }
 
-export default Table;
+const enhance = defaultProps({
+  classPrefix: 'calendar-table'
+});
+
+export default enhance(Table);

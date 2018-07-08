@@ -3,7 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
-import { prefix, getUnhandledProps } from 'rsuite-utils/lib/utils';
+import { prefix, getUnhandledProps, defaultProps } from '../utils';
 
 type Props = {
   date?: moment$Moment,
@@ -18,7 +18,6 @@ type Props = {
 
 class MonthDropdownItem extends React.PureComponent<Props> {
   static defaultProps = {
-    classPrefix: 'rs-calendar-month-dropdown-cell',
     month: 0
   };
 
@@ -57,4 +56,7 @@ class MonthDropdownItem extends React.PureComponent<Props> {
   }
 }
 
-export default MonthDropdownItem;
+const enhance = defaultProps({
+  classPrefix: 'calendar-month-dropdown-cell'
+});
+export default enhance(MonthDropdownItem);

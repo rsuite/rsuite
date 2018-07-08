@@ -3,12 +3,12 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { getUnhandledProps, prefix } from 'rsuite-utils/lib/utils';
 
 import MonthDropdown from './MonthDropdown';
 import TimeDropdown from './TimeDropdown';
 import View from './View';
 import Header from './Header';
+import { getUnhandledProps, defaultProps, prefix } from '../utils';
 import disabledTime, { calendarOnlyProps } from '../utils/disabledTime';
 import { shouldTime, shouldDate, shouldMonth } from '../utils/formatUtils';
 
@@ -145,4 +145,8 @@ class Calendar extends React.PureComponent<Props> {
   }
 }
 
-export default Calendar;
+const enhance = defaultProps({
+  classPrefix: 'calendar'
+});
+
+export default enhance(Calendar);

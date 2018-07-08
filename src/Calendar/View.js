@@ -4,6 +4,7 @@ import * as React from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 
+import { defaultProps } from '../utils';
 import Table from './Table';
 import getMonthView from '../utils/getMonthView';
 
@@ -13,11 +14,7 @@ type Props = {
   disabledDate?: (date: moment$Moment) => boolean,
   isoWeek?: boolean,
   className?: string,
-  classPrefix?: string,
-
-  // for date range
-  value?: Array<moment$Moment>,
-  hoverValue?: Array<moment$Moment>
+  classPrefix?: string
 };
 
 // is two date in the same month
@@ -26,7 +23,6 @@ const getThisMonthDate = (date: moment$Moment) => date.clone().date(1);
 
 class View extends React.PureComponent<Props> {
   static defaultProps = {
-    classPrefix: 'rs-calendar-view',
     activeDate: moment()
   };
 
@@ -64,4 +60,8 @@ class View extends React.PureComponent<Props> {
   }
 }
 
-export default View;
+const enhance = defaultProps({
+  classPrefix: 'calendar-view'
+});
+
+export default enhance(View);

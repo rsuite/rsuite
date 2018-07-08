@@ -4,7 +4,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { scrollTop } from 'dom-lib';
 import moment from 'moment';
-import { prefix, getUnhandledProps } from 'rsuite-utils/lib/utils';
+import { prefix, getUnhandledProps, defaultProps } from '../utils';
 
 import MonthDropdownItem from './MonthDropdownItem';
 import scrollTopAnimation from '../utils/scrollTopAnimation';
@@ -26,7 +26,6 @@ const monthMap = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
 class MonthDropdown extends React.PureComponent<Props> {
   static defaultProps = {
-    classPrefix: 'rs-calendar-month-dropdown',
     show: false,
     limitStartYear: 5,
     limitEndYear: 5,
@@ -133,4 +132,7 @@ class MonthDropdown extends React.PureComponent<Props> {
   }
 }
 
-export default MonthDropdown;
+const enhance = defaultProps({
+  classPrefix: 'calendar-month-dropdown'
+});
+export default enhance(MonthDropdown);

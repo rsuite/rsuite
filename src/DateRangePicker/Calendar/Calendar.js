@@ -3,8 +3,8 @@
 import * as React from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
-import { getUnhandledProps, prefix } from 'rsuite-utils/lib/utils';
 
+import { getUnhandledProps, prefix, defaultProps } from '../../utils';
 import MonthDropdown from '../../Calendar/MonthDropdown';
 import Header from '../../Calendar/Header';
 import View from './View';
@@ -36,7 +36,6 @@ type Props = {
 
 class Calendar extends React.Component<Props> {
   static defaultProps = {
-    classPrefix: 'rs-calendar',
     calendarDate: [moment(), moment().add(1, 'month')],
     index: 0
   };
@@ -176,4 +175,8 @@ class Calendar extends React.Component<Props> {
   }
 }
 
-export default Calendar;
+const enhance = defaultProps({
+  classPrefix: 'calendar'
+});
+
+export default enhance(Calendar);

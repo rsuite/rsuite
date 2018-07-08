@@ -5,6 +5,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 
 import Table from './Table';
+import { defaultProps } from '../../utils';
 import getMonthView from '../../utils/getMonthView';
 
 type Props = {
@@ -29,7 +30,6 @@ const getThisMonthDate = (date: moment$Moment) => date.clone().date(1);
 
 class View extends React.Component<Props> {
   static defaultProps = {
-    classPrefix: 'rs-calendar-view',
     activeDate: moment()
   };
 
@@ -71,4 +71,8 @@ class View extends React.Component<Props> {
   }
 }
 
-export default View;
+const enhance = defaultProps({
+  classPrefix: 'calendar-view'
+});
+
+export default enhance(View);
