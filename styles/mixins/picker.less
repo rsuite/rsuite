@@ -141,19 +141,43 @@
 
 // Default picker toggle
 .picker-default-toggle() {
-  .dropdown-toggle;
+  .@{ns}picker-default & {
+    .dropdown-toggle;
 
-  color: @picker-default-toggle-font-color;
-  border: @picker-default-toggle-border-width solid @picker-default-toggle-border-color;
-  transition: border .3s linear;
+    color: @picker-default-toggle-font-color;
+    border: @picker-default-toggle-border-width solid @picker-default-toggle-border-color;
+    transition: border .3s linear;
+  }
 
-  &:hover,
-  &:focus {
-    border-color: @picker-default-toggle-hover-border-color;
+  .@{ns}picker-default[class*=disabled] & {
+    cursor: @cursor-disabled;
+  }
+
+  .@{ns}picker-default:not([class*=disabled]) & {
+    &:hover,
+    &:focus {
+      border-color: @picker-default-toggle-hover-border-color;
+    }
   }
 }
 
 // Subtle picker toggle
 .picker-subtle-toggle {
-  .dropdown-toggle;
+  .@{ns}picker-subtle & {
+    .dropdown-toggle;
+  }
+
+  .@{ns}picker-subtle[class*=disabled] & {
+    cursor: @cursor-disabled;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background: none;
+
+      &::after {
+        display: none;
+      }
+    }
+  }
 }

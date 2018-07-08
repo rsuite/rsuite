@@ -9,63 +9,30 @@
 
 // Common styles
 // ----------------------
-.@{ns}@{select-picker-prefix},
-.@{ns}@{check-picker-prefix},
-.@{ns}@{cascader-picker-prefix},
-.@{ns}@{calendar-picker-prefix},
-.@{ns}@{date-picker-prefix},
-.@{ns}@{tree-picker-prefix},
-.@{ns}@{check-tree-picker-prefix},
-.@{ns}@{date-range-picker-prefix} {
-  display: inline-block;
-  // Remove whitespace
-  vertical-align: middle;
-  max-width: 100%;
+[class^=@{picker-prefix}] {
+  &.@{ns}picker-default,
+  &.@{ns}picker-subtle {
+    display: inline-block;
+    // Clear whitespace.
+    vertical-align: middle;
+    max-width: 100%;
+  }
 
-  &-block {
+  &[class*=block] {
     display: block;
-
-    // Set `display:block` for toggle button.
-    .@{ns}picker-toggle,
-    .@{ns}picker-toggle-custom {
-      display: block;
-      width: 100%;
-      text-align: left;
-    }
   }
 
-  // Disabled
-  &-disabled {
-    cursor: @cursor-disabled;
+  &[class*=disabled] {
     opacity: .3;
-
-    .@{ns}picker-toggle {
-      cursor: @cursor-disabled;
-
-      &,
-      &:hover,
-      &:focus,
-      &:active,
-      &:hover:active {
-        background: none;
-
-        &::after {
-          display: none;
-        }
-      }
-    }
   }
 
-  // Has value highlight
-  &-has-value .@{ns}picker-toggle .@{ns}picker-toggle-value {
+  &[class*=has-value] .@{ns}picker-toggle .@{ns}picker-toggle-value {
     color: @picker-selected-value-color;
   }
 }
 
 .@{ns}picker-toggle {
   .btn;
-
-  text-align: left;
 
   .@{ns}picker-default & {
     @padding-vertical: @padding-base-vertical - @picker-default-toggle-border-width;
@@ -100,15 +67,11 @@
 
 .@{ns}picker-toggle,
 .@{ns}picker-toggle-custom {
+  .picker-default-toggle;
+  .picker-subtle-toggle;
+
   width: 100%;
-
-  .@{ns}picker-default & {
-    .picker-default-toggle;
-  }
-
-  .@{ns}picker-subtle & {
-    .picker-subtle-toggle;
-  }
+  text-align: left;
 
   &-value {
     display: block;
