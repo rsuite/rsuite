@@ -10,10 +10,11 @@ type Props = {
   date?: moment$Moment,
   month?: number,
   year?: number,
-  active?: boolean,
   onSelect?: (date: moment$Moment, event: SyntheticEvent<*>) => void,
   className?: string,
-  classPrefix?: string
+  classPrefix?: string,
+  active?: boolean,
+  disabled?: boolean
 };
 
 class MonthDropdownItem extends React.PureComponent<Props> {
@@ -33,12 +34,13 @@ class MonthDropdownItem extends React.PureComponent<Props> {
   };
 
   render() {
-    const { className, classPrefix, month, active, ...rest } = this.props;
+    const { className, classPrefix, month, active, disabled, ...rest } = this.props;
 
     const addPrefix = prefix(classPrefix);
     const unhandled = getUnhandledProps(MonthDropdownItem, rest);
     const classes = classNames(classPrefix, className, {
-      [addPrefix('active')]: active
+      [addPrefix('active')]: active,
+      [addPrefix('disabled')]: disabled
     });
 
     return (

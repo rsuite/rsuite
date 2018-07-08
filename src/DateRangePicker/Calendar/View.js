@@ -6,26 +6,29 @@ import classNames from 'classnames';
 import { constants } from 'rsuite-utils/lib/Picker';
 
 import Table from './Table';
-import getMonthView from '../utils/getMonthView';
+import getMonthView from '../../utils/getMonthView';
 
 type Props = {
   activeDate: moment$Moment,
+  value?: Array<moment$Moment>,
+  hoverValue?: Array<moment$Moment>,
   onSelect?: (date: moment$Moment) => void,
-  disabledDate?: (date: moment$Moment) => boolean,
+  onMouseMove?: (date: moment$Moment) => void,
+  disabledDate?: (
+    date: moment$Moment,
+    selectValue: Array<moment$Moment | null>,
+    type: string
+  ) => boolean,
   isoWeek?: boolean,
   className?: string,
-  classPrefix?: string,
-
-  // for date range
-  value?: Array<moment$Moment>,
-  hoverValue?: Array<moment$Moment>
+  classPrefix?: string
 };
 
 // is two date in the same month
 const inSameMonth = (dateA: moment$Moment, dateB: moment$Moment) => dateA.month() === dateB.month();
 const getThisMonthDate = (date: moment$Moment) => date.clone().date(1);
 
-class View extends React.PureComponent<Props> {
+class View extends React.Component<Props> {
   static defaultProps = {
     classPrefix: `${constants.namespace}-calendar-view`,
     activeDate: moment()
@@ -35,15 +38,17 @@ class View extends React.PureComponent<Props> {
     const thisMonthDate = getThisMonthDate(this.props.activeDate);
     return inSameMonth(date, thisMonthDate);
   };
-
   render() {
     const {
       activeDate,
+      value,
+      hoverValue,
       onSelect,
+      onMouseMove,
       disabledDate,
       className,
-      classPrefix,
       isoWeek,
+      classPrefix,
       ...rest
     } = this.props;
 
@@ -55,10 +60,12 @@ class View extends React.PureComponent<Props> {
         <Table
           rows={getMonthView(thisMonthDate, isoWeek)}
           isoWeek={isoWeek}
-          selected={activeDate}
+          selected={value}
           onSelect={onSelect}
+          onMouseMove={onMouseMove}
           inSameMonth={this.inSameThisMonthDate}
           disabledDate={disabledDate}
+          hoverValue={hoverValue}
         />
       </div>
     );

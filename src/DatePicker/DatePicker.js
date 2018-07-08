@@ -6,8 +6,9 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import { IntlProvider } from 'rsuite-intl';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
-import { MenuWrapper, Toggle, constants } from 'rsuite-utils/lib/Picker';
+import { MenuWrapper, constants } from 'rsuite-utils/lib/Picker';
 
+import PickerToggle from '../_picker/PickerToggle';
 import Calendar from '../Calendar';
 import Toolbar from './Toolbar';
 import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
@@ -481,7 +482,7 @@ class DatePicker extends React.Component<Props, States> {
             container={container}
             containerPadding={containerPadding}
           >
-            <Toggle
+            <PickerToggle
               {...unhandled}
               componentClass={toggleComponentClass}
               onClean={this.handleClean}
@@ -489,7 +490,7 @@ class DatePicker extends React.Component<Props, States> {
               hasValue={hasValue}
             >
               {this.getDateString()}
-            </Toggle>
+            </PickerToggle>
           </OverlayTrigger>
         </div>
       </IntlProvider>

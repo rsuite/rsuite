@@ -12,12 +12,13 @@ import scrollTopAnimation from '../utils/scrollTopAnimation';
 
 type Props = {
   onSelect?: (month: moment$Moment, event: SyntheticEvent<*>) => void,
-  show: boolean,
   date: moment$Moment,
   limitStartYear?: number,
   limitEndYear?: number,
   className?: string,
-  classPrefix?: string
+  classPrefix?: string,
+  disabledMonth?: (date: moment$Moment) => boolean,
+  show: boolean
 };
 
 const minYear = 1950;
@@ -61,10 +62,14 @@ class MonthDropdown extends React.PureComponent<Props> {
 
   scroll = null;
 
+  bindScrollRef = (ref: React.ElementRef<*>) => {
+    this.scroll = ref;
+  };
+
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderBlock() {
-    const { date, onSelect, limitEndYear } = this.props;
+    const { date, onSelect, limitEndYear, disabledMonth } = this.props;
 
     const ret = [];
     const selectedMonth = date.month();
@@ -85,10 +90,19 @@ class MonthDropdown extends React.PureComponent<Props> {
           <div className={titleClasses}>{nextYear}</div>
           <div className={this.addPrefix('list')}>
             {monthMap.map((i, month) => {
+              let disabled =
+                disabledMonth &&
+                disabledMonth(
+                  moment()
+                    .year(nextYear)
+                    .month(month)
+                );
+
               return (
                 <MonthDropdownItem
                   date={date}
                   onSelect={onSelect}
+                  disabled={disabled}
                   active={isSelectedYear && month === selectedMonth}
                   key={month}
                   month={month + 1}
@@ -111,12 +125,7 @@ class MonthDropdown extends React.PureComponent<Props> {
     return (
       <div {...unhandled} className={classes}>
         <div className={this.addPrefix('content')}>
-          <div
-            className={this.addPrefix('scroll')}
-            ref={ref => {
-              this.scroll = ref;
-            }}
-          >
+          <div className={this.addPrefix('scroll')} ref={this.bindScrollRef}>
             {this.renderBlock()}
           </div>
         </div>

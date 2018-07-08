@@ -19,7 +19,9 @@ type Props = {
   disabledDate?: (date: moment$Moment) => boolean,
   disabledTime?: (date: moment$Moment) => boolean,
   classPrefix?: string,
-  className?: string
+  className?: string,
+  disabledBackward?: boolean,
+  disabledForword?: boolean
 };
 
 class Header extends React.PureComponent<Props> {
@@ -74,32 +76,34 @@ class Header extends React.PureComponent<Props> {
       className,
       disabledDate,
       disabledTime,
+      disabledBackward,
+      disabledForword,
       ...rest
     } = this.props;
 
-    const dateTitleClasses = classNames(
-      this.addPrefix('title'),
-      {
-        [this.addPrefix('error')]: disabledDate && disabledDate(date)
-      },
-      this.addPrefix('title-date')
-    );
+    const dateTitleClasses = classNames(this.addPrefix('title'), this.addPrefix('title-date'), {
+      [this.addPrefix('error')]: disabledDate && disabledDate(date)
+    });
 
-    const timeTitleClasses = classNames(
-      this.addPrefix('title'),
-      {
-        [this.addPrefix('error')]: disabledTime && disabledTime(date)
-      },
-      this.addPrefix('title-time')
-    );
+    const timeTitleClasses = classNames(this.addPrefix('title'), this.addPrefix('title-time'), {
+      [this.addPrefix('error')]: disabledTime && disabledTime(date)
+    });
+
+    const backwardClass = classNames(this.addPrefix('backward'), {
+      [this.addPrefix('btn-disabled')]: disabledBackward
+    });
+
+    const forwardClass = classNames(this.addPrefix('forward'), {
+      [this.addPrefix('btn-disabled')]: disabledForword
+    });
 
     const monthToolbar = (
       <div className={this.addPrefix('month-toolbar')}>
         <i
-          className={this.addPrefix('backward')}
+          className={backwardClass}
           role="button"
           tabIndex="-1"
-          onClick={onMoveBackward}
+          onClick={disabledBackward ? undefined : onMoveBackward}
         />
         <span
           role="button"
@@ -110,23 +114,19 @@ class Header extends React.PureComponent<Props> {
           {date && date.format(this.getDateFormat())}
         </span>
         <i
-          className={this.addPrefix('forward')}
+          className={forwardClass}
           role="button"
           tabIndex="-1"
-          onClick={onMoveForword}
+          onClick={disabledForword ? undefined : onMoveForword}
         />
       </div>
     );
 
     const hasMonth = showDate || showMonth;
-    const classes = classNames(
-      classPrefix,
-      {
-        [this.addPrefix('has-month')]: hasMonth,
-        [this.addPrefix('has-time')]: showTime
-      },
-      className
-    );
+    const classes = classNames(classPrefix, className, {
+      [this.addPrefix('has-month')]: hasMonth,
+      [this.addPrefix('has-time')]: showTime
+    });
     const unhandled = getUnhandledProps(Header, rest);
 
     return (
