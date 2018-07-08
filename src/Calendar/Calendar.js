@@ -4,7 +4,6 @@ import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { getUnhandledProps, prefix } from 'rsuite-utils/lib/utils';
-import { constants } from 'rsuite-utils/lib/Picker';
 
 import MonthDropdown from './MonthDropdown';
 import TimeDropdown from './TimeDropdown';
@@ -12,8 +11,6 @@ import View from './View';
 import Header from './Header';
 import disabledTime, { calendarOnlyProps } from '../utils/disabledTime';
 import { shouldTime, shouldDate, shouldMonth } from '../utils/formatUtils';
-
-const { namespace } = constants;
 
 type Props = {
   pageDate: moment$Moment,
@@ -43,7 +40,7 @@ type Props = {
 
 class Calendar extends React.PureComponent<Props> {
   static defaultProps = {
-    classPrefix: `${namespace}-calendar`
+    classPrefix: 'rc-calendar'
   };
   disabledDate = (date: moment$Moment) => {
     const { disabledDate } = this.props;

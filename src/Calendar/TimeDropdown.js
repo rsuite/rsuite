@@ -7,7 +7,6 @@ import moment from 'moment';
 import _ from 'lodash';
 import classNames from 'classnames';
 import { prefix, getUnhandledProps } from 'rsuite-utils/lib/utils';
-import { constants } from 'rsuite-utils/lib/Picker';
 
 import scrollTopAnimation from '../utils/scrollTopAnimation';
 
@@ -37,7 +36,7 @@ const ranges = {
 
 class TimeDropdown extends React.PureComponent<Props> {
   static defaultProps = {
-    classPrefix: `${constants.namespace}-calendar-time-dropdown`,
+    classPrefix: 'rs-calendar-time-dropdown',
     show: false,
     ranges: [
       {

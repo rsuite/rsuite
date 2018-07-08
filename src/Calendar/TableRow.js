@@ -4,7 +4,6 @@ import * as React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import { getUnhandledProps, prefix } from 'rsuite-utils/lib/utils';
-import { constants } from 'rsuite-utils/lib/Picker';
 
 type Props = {
   weekendDate?: moment$Moment,
@@ -16,11 +15,9 @@ type Props = {
   classPrefix?: string
 };
 
-const { namespace } = constants;
-
 class TableRow extends React.PureComponent<Props> {
   static defaultProps = {
-    classPrefix: `${namespace}-calendar-table`,
+    classPrefix: 'rs-calendar-table',
     selected: moment()
   };
 

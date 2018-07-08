@@ -4,7 +4,6 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { scrollTop } from 'dom-lib';
 import moment from 'moment';
-import { constants } from 'rsuite-utils/lib/Picker';
 import { prefix, getUnhandledProps } from 'rsuite-utils/lib/utils';
 
 import MonthDropdownItem from './MonthDropdownItem';
@@ -27,7 +26,7 @@ const monthMap = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
 class MonthDropdown extends React.PureComponent<Props> {
   static defaultProps = {
-    classPrefix: `${constants.namespace}-calendar-month-dropdown`,
+    classPrefix: 'rs-calendar-month-dropdown',
     show: false,
     limitStartYear: 5,
     limitEndYear: 5,

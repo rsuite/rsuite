@@ -3,7 +3,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { prefix } from 'rsuite-utils/lib/utils';
-import { constants } from 'rsuite-utils/lib/Picker';
 import { FormattedMessage } from 'rsuite-intl';
 
 type Props = {
@@ -16,7 +15,7 @@ const weekKeys = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'frida
 
 class TableHeaderRow extends React.PureComponent<Props> {
   static defaultProps = {
-    classPrefix: `${constants.namespace}-calendar-table`
+    classPrefix: 'rs-calendar-table'
   };
   render() {
     const { className, classPrefix, isoWeek, ...props } = this.props;
