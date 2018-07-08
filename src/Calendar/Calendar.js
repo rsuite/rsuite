@@ -40,7 +40,7 @@ type Props = {
 
 class Calendar extends React.PureComponent<Props> {
   static defaultProps = {
-    classPrefix: 'rc-calendar'
+    classPrefix: 'rs-calendar'
   };
   disabledDate = (date: moment$Moment) => {
     const { disabledDate } = this.props;

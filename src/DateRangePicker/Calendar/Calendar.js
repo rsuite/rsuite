@@ -4,13 +4,10 @@ import * as React from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import { getUnhandledProps, prefix } from 'rsuite-utils/lib/utils';
-import { constants } from 'rsuite-utils/lib/Picker';
 
 import MonthDropdown from '../../Calendar/MonthDropdown';
 import Header from '../../Calendar/Header';
 import View from './View';
-
-const { namespace } = constants;
 
 type Props = {
   disabledDate?: (
@@ -39,7 +36,7 @@ type Props = {
 
 class Calendar extends React.Component<Props> {
   static defaultProps = {
-    classPrefix: `${namespace}-calendar`,
+    classPrefix: 'rs-calendar',
     calendarDate: [moment(), moment().add(1, 'month')],
     index: 0
   };

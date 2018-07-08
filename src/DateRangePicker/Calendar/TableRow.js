@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import moment from 'moment';
 import _ from 'lodash';
 import { getUnhandledProps, prefix } from 'rsuite-utils/lib/utils';
-import { constants } from 'rsuite-utils/lib/Picker';
 
 import Type from '../Type';
 
@@ -25,11 +24,9 @@ type Props = {
   classPrefix?: string
 };
 
-const { namespace } = constants;
-
 class TableRow extends React.Component<Props> {
   static defaultProps = {
-    classPrefix: `${namespace}-calendar-table`,
+    classPrefix: 'rs-calendar-table',
     selected: [],
     hoverValue: []
   };

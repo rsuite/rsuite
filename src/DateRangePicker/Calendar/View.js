@@ -3,7 +3,6 @@
 import * as React from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
-import { constants } from 'rsuite-utils/lib/Picker';
 
 import Table from './Table';
 import getMonthView from '../../utils/getMonthView';
@@ -30,7 +29,7 @@ const getThisMonthDate = (date: moment$Moment) => date.clone().date(1);
 
 class View extends React.Component<Props> {
   static defaultProps = {
-    classPrefix: `${constants.namespace}-calendar-view`,
+    classPrefix: 'rs-calendar-view',
     activeDate: moment()
   };
 
