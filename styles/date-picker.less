@@ -18,14 +18,6 @@
   overflow: hidden;
 }
 
-.@{ns}picker-date-inline {
-  height: 299px;
-
-  .@{clpns} {
-    height: 286px;
-  }
-}
-
 .@{clpns}-header {
   width: @calendar-header-width;
   padding-left: @calendar-picker-padding;
@@ -489,7 +481,7 @@
 }
 
 // Picker date
-.@{ns}picker-date {
+.@{ns}@{date-picker-prefix} {
   .@{ns}picker-toggle-caret::before {
     content: @calendar-default-caret-content !important;
     // Adjust the line-height to make sure icon vertical align middle.
@@ -504,6 +496,14 @@
 
     .@{ns}picker-toggle-caret::before {
       content: @calendar-only-time-caret-content;
+    }
+  }
+
+  &-inline {
+    height: 299px;
+
+    .@{clpns} {
+      height: 286px;
     }
   }
 }
