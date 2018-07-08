@@ -3,7 +3,6 @@
 import * as React from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
-import { constants } from 'rsuite-utils/lib/Picker';
 import { prefix, getUnhandledProps } from 'rsuite-utils/lib/utils';
 
 type Props = {
@@ -26,7 +25,7 @@ type Props = {
 
 class Header extends React.PureComponent<Props> {
   static defaultProps = {
-    classPrefix: `${constants.namespace}-calendar-header`,
+    classPrefix: 'rc-calendar-header',
     date: moment()
   };
   getTimeFormat() {

@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { constants } from 'rsuite-utils/lib/Picker';
 import TableRow from './TableRow';
 import TableHeaderRow from './TableHeaderRow';
 
@@ -19,7 +18,7 @@ type Props = {
 
 class Table extends React.PureComponent<Props> {
   static defaultProps = {
-    classPrefix: `${constants.namespace}-calendar-table`,
+    classPrefix: 'rs-calendar-table',
     rows: []
   };
   render() {

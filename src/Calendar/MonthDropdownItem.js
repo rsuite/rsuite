@@ -3,7 +3,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
-import { constants } from 'rsuite-utils/lib/Picker';
 import { prefix, getUnhandledProps } from 'rsuite-utils/lib/utils';
 
 type Props = {
@@ -19,7 +18,7 @@ type Props = {
 
 class MonthDropdownItem extends React.PureComponent<Props> {
   static defaultProps = {
-    classPrefix: `${constants.namespace}-calendar-month-dropdown-cell`,
+    classPrefix: 'rs-calendar-month-dropdown-cell',
     month: 0
   };
 
