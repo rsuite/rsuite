@@ -149,11 +149,11 @@
     transition: border .3s linear;
   }
 
-  .@{ns}picker-default[class*=disabled] & {
+  .@{ns}picker-default.@{ns}picker-disabled & {
     cursor: @cursor-disabled;
   }
 
-  .@{ns}picker-default:not([class*=disabled]) & {
+  .@{ns}picker-default:not(.@{ns}picker-disabled) & {
     &:hover,
     &:focus {
       border-color: @picker-default-toggle-hover-border-color;
@@ -167,7 +167,7 @@
     .dropdown-toggle;
   }
 
-  .@{ns}picker-subtle[class*=disabled] & {
+  .@{ns}picker-subtle.@{ns}picker-disabled & {
     cursor: @cursor-disabled;
 
     &:hover,

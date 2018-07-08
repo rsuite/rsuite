@@ -9,24 +9,23 @@
 
 // Common styles
 // ----------------------
-[class^=@{picker-prefix}] {
-  &.@{ns}picker-default,
-  &.@{ns}picker-subtle {
+.@{ns}picker {
+  &-toggle-wrapper {
     display: inline-block;
     // Clear whitespace.
     vertical-align: middle;
     max-width: 100%;
   }
 
-  &[class*=block] {
+  &-block {
     display: block;
   }
 
-  &[class*=disabled] {
+  &-disabled {
     opacity: .3;
   }
 
-  &[class*=has-value] .@{ns}picker-toggle .@{ns}picker-toggle-value {
+  &-has-value .@{ns}picker-toggle .@{ns}picker-toggle-value {
     color: @picker-selected-value-color;
   }
 }
