@@ -100,7 +100,6 @@ type States = {
   focusItemValue?: any,
   searchKeyword: string,
   data?: Array<any>,
-  filteredData?: Array<any>,
   open?: boolean,
   newData: Array<any>
 };
@@ -135,29 +134,11 @@ class Dropdown extends React.Component<Props, States> {
       focusItemValue: nextValue,
       searchKeyword: '',
       newData: [],
-      filteredData: data,
       open: defaultOpen
     };
 
     if (groupBy === valueKey || groupBy === labelKey) {
       throw Error('`groupBy` can not be equal to `valueKey` and `labelKey`');
-    }
-  }
-
-  componentWillReceiveProps(nextProps: Props) {
-    const { value, data } = nextProps;
-
-    if (!shallowEqual(value, this.props.value)) {
-      this.setState({
-        value,
-        focusItemValue: value
-      });
-    }
-
-    if (!shallowEqualArray(data, this.props.data)) {
-      this.setState({
-        filteredData: data
-      });
     }
   }
 
@@ -180,13 +161,11 @@ class Dropdown extends React.Component<Props, States> {
   getAllData() {
     const { data } = this.props;
     const { newData } = this.state;
-
     return [].concat(data, newData);
   }
 
   createOption(value: string) {
     const { valueKey, labelKey, groupBy, locale } = this.props;
-    console.log(groupBy, 'groupBy');
     if (groupBy) {
       return {
         create: true,
@@ -237,13 +216,13 @@ class Dropdown extends React.Component<Props, States> {
    * Index of keyword  in `label`
    * @param {node} label
    */
-  shouldDisplay(label: any) {
-    const { searchKeyword } = this.state;
-    if (!_.trim(searchKeyword)) {
+  shouldDisplay(label: any, searchKeyword?: string) {
+    const word = typeof searchKeyword === 'undefined' ? this.state.searchKeyword : searchKeyword;
+    if (!_.trim(word)) {
       return true;
     }
 
-    const keyword = searchKeyword.toLocaleLowerCase();
+    const keyword = word.toLocaleLowerCase();
 
     if (typeof label === 'string' || typeof label === 'number') {
       return `${label}`.toLocaleLowerCase().indexOf(keyword) >= 0;
@@ -373,11 +352,16 @@ class Dropdown extends React.Component<Props, States> {
   };
 
   handleSearch = (searchKeyword: string, event: DefaultEvent) => {
-    const { onSearch } = this.props;
+    const { onSearch, creatable, labelKey, valueKey } = this.props;
+    const filteredData = filterNodesOfTree(this.getAllData(), item =>
+      this.shouldDisplay(item[labelKey], searchKeyword)
+    );
+
     this.setState({
       searchKeyword,
-      focusItemValue: undefined
+      focusItemValue: filteredData.length ? filteredData[0][valueKey] : searchKeyword
     });
+
     onSearch && onSearch(searchKeyword, event);
   };
 

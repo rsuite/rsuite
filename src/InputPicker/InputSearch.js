@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
+import _ from 'lodash';
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
 
 type Props = {
@@ -17,7 +18,7 @@ type Props = {
 class InputSearch extends React.Component<Props> {
   handleChange = (event: SyntheticEvent<*>) => {
     const { onChange } = this.props;
-    onChange && onChange(event.target.value, event);
+    onChange && onChange(_.get(event, 'target.value'), event);
   };
 
   render() {

@@ -151,7 +151,6 @@ class DropdownMenu extends React.Component<Props> {
               }
             }}
             onSelect={(val, event, checked) => {
-              console.log(item, '-----item-----');
               this.handleSelect(val, item, event, checked);
             }}
           >
