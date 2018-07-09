@@ -4,12 +4,9 @@ import * as React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import { FormattedMessage } from 'rsuite-intl';
-import { constants } from 'rsuite-utils/lib/Picker';
-import { getUnhandledProps, prefix } from 'rsuite-utils/lib/utils';
 
+import { getUnhandledProps, prefix, defaultProps } from '../utils';
 import setTimingMargin from './setTimingMargin';
-
-const { namespace } = constants;
 
 type Range = {
   label: React.Node,
@@ -35,7 +32,6 @@ type Props = {
 
 class Toolbar extends React.PureComponent<Props> {
   static defaultProps = {
-    classPrefix: `${namespace}-toolbar`,
     ranges: [
       {
         label: 'today',
@@ -117,4 +113,8 @@ class Toolbar extends React.PureComponent<Props> {
   }
 }
 
-export default Toolbar;
+const enhance = defaultProps({
+  classPrefix: 'picker-toolbar'
+});
+
+export default enhance(Toolbar);

@@ -4,7 +4,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import _ from 'lodash';
-import { getUnhandledProps, prefix } from 'rsuite-utils/lib/utils';
+import { getUnhandledProps, prefix, defaultProps } from '../../utils';
 
 import Type from '../Type';
 
@@ -26,7 +26,6 @@ type Props = {
 
 class TableRow extends React.Component<Props> {
   static defaultProps = {
-    classPrefix: 'rs-calendar-table',
     selected: [],
     hoverValue: []
   };
@@ -138,4 +137,8 @@ class TableRow extends React.Component<Props> {
   }
 }
 
-export default TableRow;
+const enhance = defaultProps({
+  classPrefix: 'calendar-table'
+});
+
+export default enhance(TableRow);

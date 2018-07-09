@@ -3,7 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
-import { getUnhandledProps, prefix } from 'rsuite-utils/lib/utils';
+import { getUnhandledProps, prefix, defaultProps } from '../utils';
 
 type Props = {
   weekendDate?: moment$Moment,
@@ -17,7 +17,6 @@ type Props = {
 
 class TableRow extends React.PureComponent<Props> {
   static defaultProps = {
-    classPrefix: 'rs-calendar-table',
     selected: moment()
   };
 
@@ -73,4 +72,8 @@ class TableRow extends React.PureComponent<Props> {
   }
 }
 
-export default TableRow;
+const enhance = defaultProps({
+  classPrefix: 'calendar-table'
+});
+
+export default enhance(TableRow);

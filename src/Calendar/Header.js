@@ -3,7 +3,7 @@
 import * as React from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
-import { prefix, getUnhandledProps } from 'rsuite-utils/lib/utils';
+import { prefix, getUnhandledProps, defaultProps } from '../utils';
 
 type Props = {
   date: moment$Moment,
@@ -148,4 +148,7 @@ class Header extends React.PureComponent<Props> {
   }
 }
 
-export default Header;
+const enhance = defaultProps({
+  classPrefix: 'calendar-header'
+});
+export default enhance(Header);

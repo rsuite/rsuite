@@ -3,6 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
+import { defaultProps } from '../../utils';
 import TableRow from './TableRow';
 import TableHeaderRow from '../../Calendar/TableHeaderRow';
 
@@ -25,7 +26,6 @@ type Props = {
 
 class Table extends React.Component<Props> {
   static defaultProps = {
-    classPrefix: 'rs-calendar-table',
     rows: []
   };
 
@@ -67,4 +67,8 @@ class Table extends React.Component<Props> {
   }
 }
 
-export default Table;
+const enhance = defaultProps({
+  classPrefix: 'calendar-table'
+});
+
+export default enhance(Table);
