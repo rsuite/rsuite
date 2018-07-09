@@ -89,8 +89,7 @@ type States = {
   value?: Array<any>,
   // Used to focus the active item  when trigger `onKeydown`
   focusItemValue?: any,
-  searchKeyword: string,
-  filteredData?: Array<any>
+  searchKeyword: string
 };
 
 class Dropdown extends React.Component<Props, States> {
@@ -121,28 +120,11 @@ class Dropdown extends React.Component<Props, States> {
       value: nextValue,
       // Used to hover the active item  when trigger `onKeydown`
       focusItemValue: nextValue ? nextValue[0] : undefined,
-      searchKeyword: '',
-      filteredData: data
+      searchKeyword: ''
     };
 
     if (groupBy === valueKey || groupBy === labelKey) {
       throw Error('`groupBy` can not be equal to `valueKey` and `labelKey`');
-    }
-  }
-
-  componentWillReceiveProps(nextProps: Props) {
-    const { value, data } = nextProps;
-
-    if (!shallowEqualArray(value, this.props.value)) {
-      this.setState({
-        value
-      });
-    }
-
-    if (!shallowEqualArray(data, this.props.data)) {
-      this.setState({
-        filteredData: data
-      });
     }
   }
 
