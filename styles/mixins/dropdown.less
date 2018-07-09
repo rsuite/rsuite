@@ -1,9 +1,9 @@
-.dropdown-toggle-caret-common() {
+.dropdown-toggle-caret-common(@right:@padding-base-horizontal) {
   display: inline-block;
   margin-left: 2px;
   position: absolute;
   top: @padding-base-vertical;
-  right: @padding-base-horizontal;
+  right: @right;
 
   &::before {
     font-family: @dropdown-caret-font-family !important;

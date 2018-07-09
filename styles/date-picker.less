@@ -2,8 +2,6 @@
 @import "mixins/button";
 @import "mixins/picker";
 
-//@todo rename to date-picker
-
 // Calendar Picker
 // ----------------------
 
@@ -16,14 +14,6 @@
   position: relative;
   height: 266px;
   overflow: hidden;
-}
-
-.@{ns}picker-date-inline {
-  height: 299px;
-
-  .@{clpns} {
-    height: 286px;
-  }
 }
 
 .@{clpns}-header {
@@ -489,24 +479,24 @@
 }
 
 // Picker date
-.@{ns}picker-date {
-  // let clean button cover caret
-  .@{ns}picker-toggle-clean {
-    width: 16px;
-  }
-
+.@{ns}@{date-picker-prefix} {
   .@{ns}picker-toggle-caret::before {
-    content: @calendar-default-caret-content;
+    content: @calendar-default-caret-content !important;
+    // Adjust the line-height to make sure icon vertical align middle.
+    line-height: 17px;
   }
 
   &-only-time {
-    // let clean button cover caret
-    .@{ns}picker-toggle-clean {
-      right: 10px;
-    }
-
     .@{ns}picker-toggle-caret::before {
       content: @calendar-only-time-caret-content;
+    }
+  }
+
+  &-inline {
+    height: 299px;
+
+    .@{clpns} {
+      height: 286px;
     }
   }
 }

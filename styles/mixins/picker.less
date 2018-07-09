@@ -1,4 +1,4 @@
-@charset "utf-8";
+@import "./dropdown";
 
 // Picker Menu items common styles
 .picker-menu-items-reset() {
@@ -76,7 +76,7 @@
   cursor: pointer; //fixed link has not [href] style
   transition: @picker-item-transition;
   text-decoration: none;
-  max-width: @picker-content-max-width;
+  width: 100%;
   // Forcing a newline
   .break-word;
 }
@@ -137,4 +137,47 @@
 
 .picker-button-caret-xs() {
   .picker-custom-button-caret-size(@padding-extra-small-horizontal, @padding-extra-small-vertical);
+}
+
+// Default picker toggle
+.picker-default-toggle() {
+  .@{ns}picker-default & {
+    .dropdown-toggle;
+
+    color: @picker-default-toggle-font-color;
+    border: @picker-default-toggle-border-width solid @picker-default-toggle-border-color;
+    transition: border .3s linear;
+  }
+
+  .@{ns}picker-default.@{ns}picker-disabled & {
+    cursor: @cursor-disabled;
+  }
+
+  .@{ns}picker-default:not(.@{ns}picker-disabled) & {
+    &:hover,
+    &:focus {
+      border-color: @picker-default-toggle-hover-border-color;
+    }
+  }
+}
+
+// Subtle picker toggle
+.picker-subtle-toggle {
+  .@{ns}picker-subtle & {
+    .dropdown-toggle;
+  }
+
+  .@{ns}picker-subtle.@{ns}picker-disabled & {
+    cursor: @cursor-disabled;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background: none;
+
+      &::after {
+        display: none;
+      }
+    }
+  }
 }

@@ -21,7 +21,7 @@ const webpackConfig = {
 
 module.exports = config => {
   const { env } = process;
-  const M = env.M ? `${env.M}Spec.js` : 'index.js';
+  const M = env.M ? env.M : 'index.js';
 
   config.set({
     basePath: '',
@@ -31,7 +31,7 @@ module.exports = config => {
     reporters: ['mocha', 'coverage'],
     logLevel: config.LOG_INFO,
     preprocessors: {
-      'test/*.js': ['webpack']
+      'test/**/*.js': ['webpack']
     },
     webpack: webpackConfig,
     webpackMiddleware: {

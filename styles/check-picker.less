@@ -7,6 +7,10 @@
 // Check picker name space
 @ckpns: ~"@{ns}@{check-picker-prefix}";
 
+.@{ckpns}-menu {
+  min-width: @picker-content-min-width;
+}
+
 // Menu Items
 .@{ckpns}-menu-items {
   .picker-menu-items-reset;
@@ -20,7 +24,6 @@
   position: relative;
   display: block;
   padding: @picker-item-content-padding-vertical @picker-item-content-padding-horizontal @picker-item-content-padding-vertical @picker-check-item-content-padding-left;
-  max-width: @picker-content-max-width;
   transition: @picker-item-transition;
   cursor: pointer;
   // Reset label styles
