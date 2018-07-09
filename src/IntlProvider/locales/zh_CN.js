@@ -47,6 +47,11 @@ export default {
   CheckTreePicker: {
     selectedValues: '已选择 {0} 项'
   },
+  InputPicker: {
+    noResultsText: '无匹配选项',
+    newItem: '新选项',
+    createOption: '新建选项 "{0}"'
+  },
   Uploader: {
     inited: '初始状态',
     progress: '上传中',

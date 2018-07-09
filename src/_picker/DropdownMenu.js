@@ -25,7 +25,7 @@ type Props = {
   style?: Object,
   renderMenuItem?: (itemLabel: React.Node, item: Object) => React.Node,
   renderMenuGroup?: (title: React.Node, item: Object) => React.Node,
-  onSelect?: (value: any, checked: boolean, item: Object, event: DefaultEvent) => void,
+  onSelect?: (value: any, item: Object, event: DefaultEvent, checked?: boolean) => void,
   onGroupTitleClick?: DefaultEventFunction,
   dropdownMenuItemComponentClass: React.ElementType,
   dropdownMenuItemClassPrefix?: string
@@ -78,9 +78,9 @@ class DropdownMenu extends React.Component<Props> {
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   // value: any, item: Object, event: DefaultEvent
-  handleSelect = (value: any, checked: boolean, item: Object, event: DefaultEvent) => {
+  handleSelect = (value: any, item: Object, event: DefaultEvent, checked?: boolean) => {
     const { onSelect } = this.props;
-    onSelect && onSelect(value, checked, item, event);
+    onSelect && onSelect(value, item, event, checked);
   };
 
   renderItems() {
@@ -150,8 +150,9 @@ class DropdownMenu extends React.Component<Props> {
                 this.menuItems[`${groupId}-${onlyKey}`] = ref;
               }
             }}
-            onSelect={(val, checked, event) => {
-              this.handleSelect(val, checked, item, event);
+            onSelect={(val, event, checked) => {
+              console.log(item, '-----item-----');
+              this.handleSelect(val, item, event, checked);
             }}
           >
             {renderMenuItem ? renderMenuItem(label, item) : label}
