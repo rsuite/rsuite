@@ -42,7 +42,7 @@ class InputSearch extends React.Component<Props> {
 }
 
 const enhance = defaultProps({
-  classPrefix: 'input-search'
+  classPrefix: 'picker-search'
 });
 
 export default enhance(InputSearch);
