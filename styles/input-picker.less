@@ -1,0 +1,30 @@
+@import "common";
+@import "mixins/form";
+@import "mixins/picker";
+
+.@{ns}@{input-picker-prefix} {
+  position: relative;
+
+  .@{ns}picker-toggle {
+    height: @input-picker-toggle-height;
+    position: absolute !important;
+    top: 0;
+    left: 0;
+  }
+}
+
+.@{ns}picker-search {
+  border: none;
+  padding-right: @dropdown-toggle-padding-right + @picker-toggle-clean-width;
+
+  &-input {
+    .input-size(@input-height-base; @padding-base-vertical; @padding-base-input-horizontal; @font-size-base; @line-height-base; @input-border-radius, 0);
+
+    background: none;
+    outline: none;
+    border: none;
+    width: 100%;
+    position: relative;
+    z-index: @zindex-picker-input;
+  }
+}

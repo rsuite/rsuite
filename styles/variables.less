@@ -416,6 +416,9 @@
 @zindex-input: 2;
 @zindex-input-group-icon: 4;
 @zindex-dropdown: 5;
+@zindex-picker-toggle: 5; // The same with zindex-dropdown
+@zindex-picker-input: @zindex-picker-toggle + 1; // Greater than picker toggle
+@zindex-picker-menu: @zindex-picker-toggle+2; // Greater than picker toggle and input
 @zindex-dropdown-a: 10;
 @zindex-navbar: 1000;
 @zindex-navbar-fixed: 1030;
@@ -998,6 +1001,9 @@
 @check-tree-picker-prefix: ~"picker-checktree";
 @date-range-picker-prefix: ~"picker-daterange";
 @date-picker-prefix: ~"picker-date";
+@input-picker-prefix: ~"picker-input";
+@picker-none-padding:6px 12px 12px;
+@picker-none-font-color:@B600;
 //** Picker background
 @picker-bg: @dropdown-bg;
 @picker-shadow: @dropdown-shadow;
@@ -1090,6 +1096,9 @@
 @date-range-picker-header-font-size: @font-size-base;
 @date-range-picker-header-line-height: @line-height-base;
 @date-range-picker-inner-border: 1px solid @B200;
+
+//== Input Picker
+@input-picker-toggle-height: @line-height-computed + @padding-base-vertical*2; // 20px + 8px*2 = 36px  the same with md button
 
 //== Slider
 //
