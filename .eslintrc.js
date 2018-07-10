@@ -5,6 +5,7 @@ const WARNING = 1;
 const ERROR = 2;
 
 module.exports = {
+  extends: ['eslint-config-airbnb', 'prettier'],
   env: {
     browser: true,
     node: true,
@@ -35,6 +36,7 @@ module.exports = {
     'class-methods-use-this': WARNING,
     'no-unused-expressions': [ERROR, { allowShortCircuit: true }],
     'arrow-parens': [ERROR, 'as-needed'],
-    'no-mixed-operators': OFF
+    'no-mixed-operators': OFF,
+    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }]
   }
 };

@@ -23,7 +23,9 @@ import {
 
 import DropdownMenu from '../_picker/DropdownMenu';
 import DropdownMenuItem from '../_picker/DropdownMenuItem';
+import DropdownMenuCheckItem from '../_picker/DropdownMenuCheckItem';
 import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
+import onMenuKeyDown from '../_picker/onMenuKeyDown';
 import Toggle from './Toggle';
 import InputSearch from './InputSearch';
 import type { Placement } from '../utils/TypeDefinition';
@@ -47,8 +49,8 @@ type Props = {
   maxHeight?: number,
   valueKey: string,
   labelKey: string,
-  value?: any,
-  defaultValue?: any,
+  value?: any | Array<any>,
+  defaultValue?: any | Array<any>,
   renderMenu?: (menu: React.Node) => React.Node,
   renderMenuItem?: (itemLabel: React.Node, item: Object) => React.Node,
   renderMenuGroup?: (title: React.Node, item: Object) => React.Node,
@@ -77,15 +79,15 @@ type Props = {
   defaultOpen?: boolean,
   placement?: Placement,
   style?: Object,
-  creatable?: boolean
+  creatable?: boolean,
+  multi?: boolean
 };
 
 type States = {
-  value?: any,
+  value?: any | Array<any>,
   // Used to focus the active item  when trigger `onKeydown`
   focusItemValue?: any,
   searchKeyword: string,
-  data?: Array<any>,
   open?: boolean,
   newData: Array<any>
 };
@@ -112,12 +114,13 @@ class Dropdown extends React.Component<Props, States> {
   constructor(props: Props) {
     super(props);
 
-    const { value, defaultValue, groupBy, valueKey, labelKey, defaultOpen } = props;
-    const nextValue = value || defaultValue;
+    const { defaultValue, groupBy, valueKey, labelKey, defaultOpen, multi } = props;
+    const value: any = multi ? defaultValue || [] : defaultValue;
+    const focusItemValue = multi ? value[0] : defaultValue;
 
     this.state = {
-      value: nextValue,
-      focusItemValue: nextValue,
+      value,
+      focusItemValue,
       searchKeyword: '',
       newData: [],
       open: defaultOpen
@@ -140,8 +143,13 @@ class Dropdown extends React.Component<Props, States> {
   };
 
   getValue() {
-    const { value } = this.props;
-    return _.isUndefined(value) ? this.state.value : value;
+    const { value, multi } = this.props;
+    const nextValue = _.isUndefined(value) ? this.state.value : value;
+
+    if (multi) {
+      return _.clone(nextValue) || [];
+    }
+    return nextValue;
   }
 
   getAllData() {
@@ -239,7 +247,7 @@ class Dropdown extends React.Component<Props, States> {
 
     focus(items, -1);
   }
-  focusNextMenuItem() {
+  focusNextMenuItem = () => {
     const { valueKey } = this.props;
     this.findNode((items, index) => {
       const focusItem = items[index + 1];
@@ -247,8 +255,8 @@ class Dropdown extends React.Component<Props, States> {
         this.setState({ focusItemValue: focusItem[valueKey] });
       }
     });
-  }
-  focusPrevMenuItem() {
+  };
+  focusPrevMenuItem = () => {
     const { valueKey } = this.props;
     this.findNode((items, index) => {
       const focusItem = items[index - 1];
@@ -256,9 +264,24 @@ class Dropdown extends React.Component<Props, States> {
         this.setState({ focusItemValue: focusItem[valueKey] });
       }
     });
-  }
+  };
 
-  selectFocusMenuItem(event: DefaultEvent) {
+  handleKeyDown = (event: SyntheticKeyboardEvent<*>) => {
+    if (!this.menuContainer) {
+      return;
+    }
+
+    const { multi } = this.props;
+
+    onMenuKeyDown(event, {
+      down: this.focusNextMenuItem,
+      up: this.focusPrevMenuItem,
+      enter: multi ? this.selectFocusMenuCheckItem : this.selectFocusMenuItem,
+      esc: this.closeDropdown
+    });
+  };
+
+  selectFocusMenuItem = (event: DefaultEvent) => {
     const { focusItemValue, searchKeyword } = this.state;
     const { valueKey } = this.props;
     if (!focusItemValue) {
@@ -278,37 +301,28 @@ class Dropdown extends React.Component<Props, States> {
     this.handleSelect(focusItemValue, focusItem, event);
     this.handleChange(focusItemValue, event);
     this.closeDropdown();
-  }
+  };
 
-  handleKeyDown = (event: SyntheticKeyboardEvent<*>) => {
-    if (!this.menuContainer) {
+  selectFocusMenuCheckItem = (event: DefaultEvent) => {
+    const value: any = this.getValue();
+    const { data, valueKey } = this.props;
+    const { focusItemValue } = this.state;
+
+    if (!focusItemValue) {
       return;
     }
 
-    switch (event.keyCode) {
-      // down
-      case 40:
-        this.focusNextMenuItem();
-        event.preventDefault();
-        break;
-      // up
-      case 38:
-        this.focusPrevMenuItem();
-        event.preventDefault();
-        break;
-      // enter
-      case 13:
-        this.selectFocusMenuItem(event);
-        event.preventDefault();
-        break;
-      // esc | tab
-      case 27:
-      case 9:
-        this.closeDropdown();
-        event.preventDefault();
-        break;
-      default:
+    if (!value.some(v => shallowEqual(v, focusItemValue))) {
+      value.push(focusItemValue);
+    } else {
+      _.remove(value, itemVal => shallowEqual(itemVal, focusItemValue));
     }
+
+    const focusItem: any = data.find(item => shallowEqual(_.get(item, valueKey), focusItemValue));
+
+    this.setState({ value });
+    this.handleSelect(value, focusItem, event);
+    this.handleChange(value, event);
   };
 
   handleItemSelect = (value: any, item: Object, event: DefaultEvent) => {
@@ -405,7 +419,6 @@ class Dropdown extends React.Component<Props, States> {
 
   renderMenuItem = (label, item) => {
     const { locale, renderMenuItem } = this.props;
-
     const newLabel = item.create ? <span>{tplTransform(locale.createOption, label)}</span> : label;
     return renderMenuItem ? renderMenuItem(newLabel, item) : newLabel;
   };
@@ -421,14 +434,16 @@ class Dropdown extends React.Component<Props, States> {
       menuClassName,
       menuStyle,
       creatable,
-      valueKey
+      valueKey,
+      multi
     } = this.props;
 
     const { focusItemValue, searchKeyword } = this.state;
+    const menuClassPrefix = this.addPrefix(multi ? 'check-menu' : 'select-menu');
     const classes = classNames(
-      this.addPrefix('select-menu'),
-      this.addPrefix(`placement-${_.kebabCase(placement)}`),
-      menuClassName
+      menuClassPrefix,
+      menuClassName,
+      this.addPrefix(`placement-${_.kebabCase(placement)}`)
     );
 
     const allData = this.getAllData();
@@ -459,9 +474,9 @@ class Dropdown extends React.Component<Props, States> {
       <DropdownMenu
         {...menuProps}
         style={menuStyle}
-        classPrefix={this.addPrefix('select-menu')}
-        dropdownMenuItemClassPrefix={this.addPrefix('select-menu-item')}
-        dropdownMenuItemComponentClass={DropdownMenuItem}
+        classPrefix={menuClassPrefix}
+        dropdownMenuItemClassPrefix={`${menuClassPrefix}-item`}
+        dropdownMenuItemComponentClass={multi ? DropdownMenuCheckItem : DropdownMenuItem}
         ref={this.bindMenuContainerRef}
         activeItemValues={[this.getValue()]}
         focusItemValue={focusItemValue}
@@ -482,14 +497,34 @@ class Dropdown extends React.Component<Props, States> {
     );
   }
 
+  renderSingleValue() {
+    const { renderValue, placeholder, valueKey, labelKey } = this.props;
+    const value = this.getValue();
+
+    // Find active `MenuItem` by `value`
+    const activeItem = findNodeOfTree(this.getAllData(), item =>
+      shallowEqual(item[valueKey], value)
+    );
+    const hasValue = !!activeItem;
+    let displayElement = placeholder;
+
+    if (_.get(activeItem, labelKey)) {
+      displayElement = _.get(activeItem, labelKey);
+
+      if (renderValue) {
+        displayElement = renderValue(value, activeItem);
+      }
+    }
+    return {
+      hasValue,
+      displayElement
+    };
+  }
+
   render() {
     const {
       data,
-      valueKey,
-      labelKey,
       className,
-      placeholder,
-      renderValue,
       disabled,
       cleanable,
       locale,
@@ -510,32 +545,17 @@ class Dropdown extends React.Component<Props, States> {
       onExit,
       onExiting,
       onExited,
-      appearance,
       searchable,
+      multi,
       ...rest
     } = this.props;
 
     const unhandled = getUnhandledProps(Dropdown, rest);
-    const value = this.getValue();
-
-    // Find active `MenuItem` by `value`
-    const activeItem = findNodeOfTree(this.getAllData(), item =>
-      shallowEqual(item[valueKey], value)
-    );
-    const hasValue = !!activeItem;
     const searching = !!this.state.searchKeyword && this.state.open;
-
-    let activeItemLabel = placeholder;
-
-    if (activeItem && activeItem[labelKey]) {
-      activeItemLabel = activeItem[labelKey];
-
-      if (renderValue) {
-        activeItemLabel = renderValue(activeItemLabel, activeItem);
-      }
-    }
-
-    const classes = getToggleWrapperClassName('input', this.addPrefix, this.props, hasValue);
+    const { hasValue, displayElement } = this.renderSingleValue();
+    const classes = getToggleWrapperClassName('input', this.addPrefix, this.props, hasValue, {
+      [this.addPrefix('focused')]: this.state.open
+    });
 
     return (
       <OverlayTrigger
@@ -569,15 +589,18 @@ class Dropdown extends React.Component<Props, States> {
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
           >
-            {searching ? null : activeItemLabel || locale.placeholder}
+            {searching ? null : displayElement || locale.placeholder}
           </Toggle>
-          {searchable && (
-            <InputSearch
-              inputRef={this.bindInputRef}
-              onChange={this.handleSearch}
-              value={this.state.open ? this.state.searchKeyword : ''}
-            />
-          )}
+          <div className={this.addPrefix('tag-wrapper')}>
+            {searchable &&
+              !disabled && (
+                <InputSearch
+                  inputRef={this.bindInputRef}
+                  onChange={this.handleSearch}
+                  value={this.state.open ? this.state.searchKeyword : ''}
+                />
+              )}
+          </div>
         </div>
       </OverlayTrigger>
     );

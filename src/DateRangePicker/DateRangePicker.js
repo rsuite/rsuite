@@ -6,10 +6,9 @@ import classNames from 'classnames';
 import { IntlProvider } from 'rsuite-intl';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import _ from 'lodash';
-
-import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
 import { MenuWrapper } from 'rsuite-utils/lib/Picker';
 
+import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
 import PickerToggle from '../_picker/PickerToggle';
 import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
 import Toolbar from './Toolbar';

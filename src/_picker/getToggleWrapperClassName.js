@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import _ from 'lodash';
 
 function getToggleWrapperClassName(
   name: string,
@@ -7,7 +8,8 @@ function getToggleWrapperClassName(
   hasValue: boolean,
   classes: Object
 ) {
-  const { className, placement, appearance, block, disabled } = props;
+  const { className, placement, appearance, cleanable, block, disabled } = props;
+
   return classNames(
     className,
     prefix(name),
@@ -18,6 +20,7 @@ function getToggleWrapperClassName(
       [prefix('block')]: block,
       [prefix('has-value')]: hasValue,
       [prefix('disabled')]: disabled,
+      [prefix('cleanable')]: hasValue && cleanable,
       ...classes
     }
   );

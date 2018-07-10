@@ -4,14 +4,13 @@ import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
-import { SearchBar, MenuWrapper, constants } from 'rsuite-utils/lib/Picker';
+import { SearchBar, MenuWrapper } from 'rsuite-utils/lib/Picker';
 import {
   reactToString,
   filterNodesOfTree,
   findNodeOfTree,
   getDataGroupBy,
-  shallowEqual,
-  shallowEqualArray
+  shallowEqual
 } from 'rsuite-utils/lib/utils';
 
 import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
@@ -19,24 +18,10 @@ import DropdownMenu from '../_picker/DropdownMenu';
 import DropdownMenuItem from '../_picker/DropdownMenuItem';
 import PickerToggle from '../_picker/PickerToggle';
 import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
+import type { Placement } from '../utils/TypeDefinition';
 
 type DefaultEvent = SyntheticEvent<*>;
 type DefaultEventFunction = (event: DefaultEvent) => void;
-type Placement =
-  | 'bottomLeft'
-  | 'bottomRight'
-  | 'topLeft'
-  | 'topRight'
-  | 'leftTop'
-  | 'rightTop'
-  | 'leftBottom'
-  | 'rightBottom'
-  | 'auto'
-  | 'autoVerticalLeft'
-  | 'autoVerticalRight'
-  | 'autoHorizontalTop'
-  | 'autoHorizontalBottom';
-
 type Props = {
   appearance: 'default' | 'subtle',
   data: Array<any>,
