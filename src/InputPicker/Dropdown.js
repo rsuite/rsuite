@@ -6,6 +6,7 @@ import _ from 'lodash';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import { MenuWrapper } from 'rsuite-utils/lib/Picker';
 import InputAutosize from 'react-input-autosize';
+import { getWidth } from 'dom-lib';
 import {
   reactToString,
   filterNodesOfTree,
@@ -91,7 +92,8 @@ type States = {
   focusItemValue?: any,
   searchKeyword: string,
   open?: boolean,
-  newData: Array<any>
+  newData: Array<any>,
+  maxWidth: number
 };
 
 class Dropdown extends React.Component<Props, States> {
@@ -125,14 +127,20 @@ class Dropdown extends React.Component<Props, States> {
       focusItemValue,
       searchKeyword: '',
       newData: [],
-      open: defaultOpen
+      open: defaultOpen,
+      maxWidth: 100
     };
 
     if (groupBy === valueKey || groupBy === labelKey) {
       throw Error('`groupBy` can not be equal to `valueKey` and `labelKey`');
     }
   }
-
+  componentDidMount() {
+    if (this.toggleWrapper) {
+      const maxWidth = getWidth(this.toggleWrapper);
+      this.setState({ maxWidth });
+    }
+  }
   getFocusableMenuItems = () => {
     const { labelKey } = this.props;
     const { menuItems } = this.menuContainer;
@@ -208,6 +216,18 @@ class Dropdown extends React.Component<Props, States> {
     this.trigger = ref;
   };
 
+  toggleWrapper = null;
+
+  bindToggleWrapperRef = (ref: React.ElementRef<*>) => {
+    this.toggleWrapper = ref;
+  };
+
+  position = null;
+
+  bindPositionRef = (ref: React.ElementRef<*>) => {
+    this.position = ref;
+  };
+
   /**
    * Index of keyword  in `label`
    * @param {node} label
@@ -268,6 +288,12 @@ class Dropdown extends React.Component<Props, States> {
     });
   };
 
+  updatePosition() {
+    if (this.position) {
+      this.position.updatePosition(true);
+    }
+  }
+
   handleKeyDown = (event: SyntheticKeyboardEvent<*>) => {
     if (!this.menuContainer) {
       return;
@@ -322,7 +348,7 @@ class Dropdown extends React.Component<Props, States> {
 
     const focusItem: any = data.find(item => shallowEqual(_.get(item, valueKey), focusItemValue));
 
-    this.setState({ value });
+    this.setState({ value }, this.updatePosition);
     this.handleSelect(value, focusItem, event);
     this.handleChange(value, event);
   };
@@ -357,7 +383,7 @@ class Dropdown extends React.Component<Props, States> {
       focusItemValue: nextItemValue
     };
 
-    this.setState(nextState);
+    this.setState(nextState, this.updatePosition);
     this.handleSelect(value, item, event);
     this.handleChange(value, event);
   };
@@ -414,6 +440,7 @@ class Dropdown extends React.Component<Props, States> {
 
     this.setState(nextState, () => {
       this.handleChange(null, event);
+      this.updatePosition();
     });
   };
 
@@ -444,7 +471,7 @@ class Dropdown extends React.Component<Props, States> {
   handleRemoveTag = (tag: string) => {
     const value = this.getValue();
     _.remove(value, itemVal => shallowEqual(itemVal, tag));
-    this.setState({ value });
+    this.setState({ value }, this.updatePosition);
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
@@ -574,6 +601,27 @@ class Dropdown extends React.Component<Props, States> {
     return tag;
   }
 
+  renderInputSearch() {
+    const { multi } = this.props;
+    const props: Object = {
+      componentClass: 'input'
+    };
+
+    if (multi) {
+      props.componentClass = InputAutosize;
+      props.inputStyle = { maxWidth: this.state.maxWidth };
+    }
+
+    return (
+      <InputSearch
+        {...props}
+        inputRef={this.bindInputRef}
+        onChange={this.handleSearch}
+        value={this.state.open ? this.state.searchKeyword : ''}
+      />
+    );
+  }
+
   render() {
     const {
       data,
@@ -632,6 +680,7 @@ class Dropdown extends React.Component<Props, States> {
         speaker={this.renderDropdownMenu()}
         container={container}
         containerPadding={containerPadding}
+        positionRef={this.bindPositionRef}
       >
         <div
           className={classes}
@@ -639,6 +688,7 @@ class Dropdown extends React.Component<Props, States> {
           onKeyDown={this.handleKeyDown}
           tabIndex={-1}
           role="menu"
+          ref={this.bindToggleWrapperRef}
         >
           <Toggle
             {...unhandled}
@@ -653,14 +703,7 @@ class Dropdown extends React.Component<Props, States> {
           </Toggle>
           <div className={this.addPrefix('tag-wrapper')}>
             {this.renderMultiValue()}
-            {displaySearchInput && (
-              <InputSearch
-                componentClass={multi ? InputAutosize : 'input'}
-                inputRef={this.bindInputRef}
-                onChange={this.handleSearch}
-                value={this.state.open ? this.state.searchKeyword : ''}
-              />
-            )}
+            {displaySearchInput && this.renderInputSearch()}
           </div>
         </div>
       </OverlayTrigger>

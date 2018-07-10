@@ -37,8 +37,9 @@ class InputSearch extends React.Component<Props> {
     const unhandled = getUnhandledProps(InputSearch, rest);
 
     return (
-      <div {...unhandled} className={classNames(classPrefix, className)}>
+      <div className={classNames(classPrefix, className)}>
         <Component
+          {...unhandled}
           ref={inputRef}
           className={addPrefix('input')}
           value={value}
