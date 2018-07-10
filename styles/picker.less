@@ -28,6 +28,12 @@
   &-has-value .@{ns}picker-toggle .@{ns}picker-toggle-value {
     color: @picker-selected-value-color;
   }
+
+  &-none {
+    padding: @picker-none-padding;
+    color: @picker-none-font-color;
+    cursor: default;
+  }
 }
 
 .@{ns}picker-toggle {
@@ -117,7 +123,7 @@
 .@{ns}picker-menu {
   position: absolute;
   text-align: left;
-  z-index: @zindex-dropdown;
+  z-index: @zindex-picker-menu;
   border-radius: @border-radius-base;
   background-color: @picker-bg;
   box-shadow: @picker-shadow;
@@ -127,12 +133,12 @@
 
   // Increase z-index when modal opened.
   .@{ns}modal-open & {
-    z-index: @zindex-modal + @zindex-dropdown;
+    z-index: @zindex-modal + @zindex-picker-toggle;
   }
 
   // Increase z-index when drawer opened.
   .@{ns}drawer-open & {
-    z-index: @zindex-drawer + @zindex-dropdown;
+    z-index: @zindex-drawer + @zindex-picker-toggle;
   }
 
   // Select picker menu & Check select picker menu always has 6px gap
