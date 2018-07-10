@@ -24,8 +24,6 @@ type Range = {
   value: Array<moment$Moment> | ((value?: Array<moment$Moment>) => Array<moment$Moment>)
 };
 
-
-
 type Props = {
   appearance: 'default' | 'subtle',
   disabledDate?: (
