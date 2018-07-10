@@ -10,6 +10,11 @@
   .@{ns}picker-toggle {
     border: none !important;
     height: @input-picker-toggle-content-height;
+
+    &-clean,
+    &-caret {
+      top: @padding-base-vertical - @picker-default-toggle-border-width;
+    }
   }
 
   &:not(.@{ns}picker-disabled) .@{ns}picker-toggle {
