@@ -12,7 +12,8 @@ type Props = {
   className?: string,
   children?: React.Node,
   onChange?: (value: string, event: SyntheticEvent<*>) => void,
-  inputRef?: React.ElementRef<*>
+  inputRef?: React.ElementRef<*>,
+  componentClass: React.ElementType
 };
 
 class InputSearch extends React.Component<Props> {
@@ -22,13 +23,22 @@ class InputSearch extends React.Component<Props> {
   };
 
   render() {
-    const { value, children, className, classPrefix, placeholder, inputRef, ...rest } = this.props;
+    const {
+      value,
+      componentClass: Component,
+      children,
+      className,
+      classPrefix,
+      placeholder,
+      inputRef,
+      ...rest
+    } = this.props;
     const addPrefix = prefix(classPrefix);
     const unhandled = getUnhandledProps(InputSearch, rest);
 
     return (
       <div {...unhandled} className={classNames(classPrefix, className)}>
-        <input
+        <Component
           ref={inputRef}
           className={addPrefix('input')}
           value={value}
@@ -42,7 +52,8 @@ class InputSearch extends React.Component<Props> {
 }
 
 const enhance = defaultProps({
-  classPrefix: 'picker-search'
+  classPrefix: 'picker-search',
+  componentClass: 'input'
 });
 
 export default enhance(InputSearch);

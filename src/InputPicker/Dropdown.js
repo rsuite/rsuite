@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import { MenuWrapper } from 'rsuite-utils/lib/Picker';
+import InputAutosize from 'react-input-autosize';
 import {
   reactToString,
   filterNodesOfTree,
@@ -606,15 +607,10 @@ class Dropdown extends React.Component<Props, States> {
     const value: any = this.getValue();
     const hasValue = multi ? !!value.length : !!value;
 
-    const classes = getToggleWrapperClassName(
-      multi ? 'multi-input' : 'input',
-      this.addPrefix,
-      this.props,
-      hasValue,
-      {
-        [this.addPrefix('focused')]: this.state.open
-      }
-    );
+    const classes = getToggleWrapperClassName('input', this.addPrefix, this.props, hasValue, {
+      [this.addPrefix('multi')]: multi,
+      [this.addPrefix('focused')]: this.state.open
+    });
 
     const searching = !!this.state.searchKeyword && this.state.open;
     const displaySearchInput = searchable && !disabled;
@@ -659,6 +655,7 @@ class Dropdown extends React.Component<Props, States> {
             {this.renderMultiValue()}
             {displaySearchInput && (
               <InputSearch
+                componentClass={multi ? InputAutosize : 'input'}
                 inputRef={this.bindInputRef}
                 onChange={this.handleSearch}
                 value={this.state.open ? this.state.searchKeyword : ''}
