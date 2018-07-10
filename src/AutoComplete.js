@@ -11,23 +11,9 @@ import Input from './Input';
 import AutoCompleteItem from './AutoCompleteItem';
 import { defaultProps, getUnhandledProps, prefix } from './utils';
 import { globalKey } from './utils/prefix';
+import type { Placement } from './utils/TypeDefinition';
 
 type DefaultEvent = SyntheticEvent<*>;
-type Placement =
-  | 'bottomLeft'
-  | 'bottomRight'
-  | 'topLeft'
-  | 'topRight'
-  | 'leftTop'
-  | 'rightTop'
-  | 'leftBottom'
-  | 'rightBottom'
-  | 'auto'
-  | 'autoVerticalLeft'
-  | 'autoVerticalRight'
-  | 'autoHorizontalTop'
-  | 'autoHorizontalBottom';
-
 type ItemDataType = {
   label: any,
   value: any

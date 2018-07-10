@@ -4,13 +4,12 @@ import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
-import { MenuWrapper, constants } from 'rsuite-utils/lib/Picker';
+import { MenuWrapper } from 'rsuite-utils/lib/Picker';
 import {
   reactToString,
   filterNodesOfTree,
   findNodeOfTree,
-  shallowEqual,
-  shallowEqualArray
+  shallowEqual
 } from 'rsuite-utils/lib/utils';
 
 import {
@@ -24,26 +23,13 @@ import {
 
 import DropdownMenu from '../_picker/DropdownMenu';
 import DropdownMenuItem from '../_picker/DropdownMenuItem';
+import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
 import Toggle from './Toggle';
 import InputSearch from './InputSearch';
+import type { Placement } from '../utils/TypeDefinition';
 
 type DefaultEvent = SyntheticEvent<*>;
 type DefaultEventFunction = (event: DefaultEvent) => void;
-type Placement =
-  | 'bottomLeft'
-  | 'bottomRight'
-  | 'topLeft'
-  | 'topRight'
-  | 'leftTop'
-  | 'rightTop'
-  | 'leftBottom'
-  | 'rightBottom'
-  | 'auto'
-  | 'autoVerticalLeft'
-  | 'autoVerticalRight'
-  | 'autoHorizontalTop'
-  | 'autoHorizontalBottom';
-
 type Props = {
   appearance: 'default' | 'subtle',
   data: Array<any>,
@@ -126,7 +112,7 @@ class Dropdown extends React.Component<Props, States> {
   constructor(props: Props) {
     super(props);
 
-    const { data, value, defaultValue, groupBy, valueKey, labelKey, defaultOpen } = props;
+    const { value, defaultValue, groupBy, valueKey, labelKey, defaultOpen } = props;
     const nextValue = value || defaultValue;
 
     this.state = {
@@ -192,7 +178,7 @@ class Dropdown extends React.Component<Props, States> {
 
   input = null;
 
-  bindIputRef = (ref: React.ElementRef<*>) => {
+  bindInputRef = (ref: React.ElementRef<*>) => {
     this.input = ref;
   };
 
@@ -274,7 +260,7 @@ class Dropdown extends React.Component<Props, States> {
 
   selectFocusMenuItem(event: DefaultEvent) {
     const { focusItemValue, searchKeyword } = this.state;
-    const { data, valueKey } = this.props;
+    const { valueKey } = this.props;
     if (!focusItemValue) {
       return;
     }
@@ -326,7 +312,6 @@ class Dropdown extends React.Component<Props, States> {
   };
 
   handleItemSelect = (value: any, item: Object, event: DefaultEvent) => {
-    const { valueKey } = this.props;
     const nextState = {
       value,
       focusItemValue: value
@@ -352,7 +337,7 @@ class Dropdown extends React.Component<Props, States> {
   };
 
   handleSearch = (searchKeyword: string, event: DefaultEvent) => {
-    const { onSearch, creatable, labelKey, valueKey } = this.props;
+    const { onSearch, labelKey, valueKey } = this.props;
     const filteredData = filterNodesOfTree(this.getAllData(), item =>
       this.shouldDisplay(item[labelKey], searchKeyword)
     );
@@ -427,10 +412,8 @@ class Dropdown extends React.Component<Props, States> {
 
   renderDropdownMenu() {
     const {
-      data,
       labelKey,
       groupBy,
-      searchable,
       placement,
       locale,
       renderMenu,
@@ -488,7 +471,7 @@ class Dropdown extends React.Component<Props, States> {
         renderMenuItem={this.renderMenuItem}
       />
     ) : (
-      <div className={this.addPrefix('mismatching')}>{locale.noResultsText}</div>
+      <div className={this.addPrefix('none')}>{locale.noResultsText}</div>
     );
 
     return (
@@ -552,19 +535,7 @@ class Dropdown extends React.Component<Props, States> {
       }
     }
 
-    const classes = classNames(
-      className,
-      this.addPrefix('input'),
-      this.addPrefix(appearance),
-      this.addPrefix(`placement-${_.kebabCase(placement)}`),
-      this.addPrefix('toggle-wrapper'),
-      {
-        [this.addPrefix('open')]: this.state.open,
-        [this.addPrefix('block')]: block,
-        [this.addPrefix('has-value')]: hasValue,
-        [this.addPrefix('disabled')]: disabled
-      }
-    );
+    const classes = getToggleWrapperClassName('input', this.addPrefix, this.props, hasValue);
 
     return (
       <OverlayTrigger
@@ -602,7 +573,7 @@ class Dropdown extends React.Component<Props, States> {
           </Toggle>
           {searchable && (
             <InputSearch
-              inputRef={this.bindIputRef}
+              inputRef={this.bindInputRef}
               onChange={this.handleSearch}
               value={this.state.open ? this.state.searchKeyword : ''}
             />

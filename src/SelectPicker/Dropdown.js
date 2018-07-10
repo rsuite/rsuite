@@ -18,6 +18,7 @@ import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '
 import DropdownMenu from '../_picker/DropdownMenu';
 import DropdownMenuItem from '../_picker/DropdownMenuItem';
 import PickerToggle from '../_picker/PickerToggle';
+import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
 
 type DefaultEvent = SyntheticEvent<*>;
 type DefaultEventFunction = (event: DefaultEvent) => void;
@@ -457,18 +458,7 @@ class Dropdown extends React.Component<Props, States> {
       }
     }
 
-    const classes = classNames(
-      className,
-      this.addPrefix('select'),
-      this.addPrefix(appearance),
-      this.addPrefix(`placement-${_.kebabCase(placement)}`),
-      this.addPrefix('toggle-wrapper'),
-      {
-        [this.addPrefix('block')]: block,
-        [this.addPrefix('has-value')]: hasValue,
-        [this.addPrefix('disabled')]: disabled
-      }
-    );
+    const classes = getToggleWrapperClassName('select', this.addPrefix, this.props, hasValue);
 
     return (
       <OverlayTrigger

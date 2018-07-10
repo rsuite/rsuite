@@ -8,16 +8,16 @@ import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import _ from 'lodash';
 
 import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
-import { MenuWrapper, constants } from 'rsuite-utils/lib/Picker';
+import { MenuWrapper } from 'rsuite-utils/lib/Picker';
 
 import PickerToggle from '../_picker/PickerToggle';
+import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
 import Toolbar from './Toolbar';
 import DatePicker from './DatePicker';
 import setTimingMargin from './setTimingMargin';
 import equalMoment from './equalMoment';
 import Type from './Type';
-
-const { namespace } = constants;
+import type { Placement } from '../utils/TypeDefinition';
 
 type Range = {
   label: React.Node,
@@ -25,20 +25,7 @@ type Range = {
   value: Array<moment$Moment> | ((value?: Array<moment$Moment>) => Array<moment$Moment>)
 };
 
-type Placement =
-  | 'bottomLeft'
-  | 'bottomRight'
-  | 'topLeft'
-  | 'topRight'
-  | 'leftTop'
-  | 'rightTop'
-  | 'leftBottom'
-  | 'rightBottom'
-  | 'auto'
-  | 'autoVerticalLeft'
-  | 'autoVerticalRight'
-  | 'autoHorizontalTop'
-  | 'autoHorizontalBottom';
+
 
 type Props = {
   appearance: 'default' | 'subtle',
@@ -530,18 +517,7 @@ class DateRangePicker extends React.Component<Props, State> {
     const value = this.getValue();
     const unhandled = getUnhandledProps(DateRangePicker, rest);
     const hasValue = value && value.length > 1;
-    const classes = classNames(
-      className,
-      this.addPrefix('daterange'),
-      this.addPrefix(appearance),
-      this.addPrefix(`placement-${_.kebabCase(placement)}`),
-      this.addPrefix('toggle-wrapper'),
-      {
-        [this.addPrefix('block')]: block,
-        [this.addPrefix('has-value')]: hasValue,
-        [this.addPrefix('disabled')]: disabled
-      }
-    );
+    const classes = getToggleWrapperClassName('daterange', this.addPrefix, this.props, hasValue);
 
     return (
       <IntlProvider locale={locale}>
