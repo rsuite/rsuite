@@ -1,24 +1,29 @@
 function onMenuKeyDown(event, events) {
+  const { down, up, enter, del, esc } = events;
   switch (event.keyCode) {
     // down
     case 40:
-      events.down(event);
+      down && down(event);
       event.preventDefault();
       break;
     // up
     case 38:
-      events.up(event);
+      up && up(event);
       event.preventDefault();
       break;
     // enter
     case 13:
-      events.enter(event);
+      enter && enter(event);
       event.preventDefault();
+      break;
+    // enter
+    case 8:
+      del && del(event);
       break;
     // esc | tab
     case 27:
     case 9:
-      events.esc(event);
+      esc && esc(event);
       event.preventDefault();
       break;
     default:

@@ -305,8 +305,12 @@ class Dropdown extends React.Component<Props, States> {
       down: this.focusNextMenuItem,
       up: this.focusPrevMenuItem,
       enter: multi ? this.selectFocusMenuCheckItem : this.selectFocusMenuItem,
-      esc: this.closeDropdown
+      esc: this.closeDropdown,
+      del: multi ? this.removeItem : null
     });
+  };
+  handleClick = (event: DefaultEvent) => {
+    this.focusInput();
   };
 
   selectFocusMenuItem = (event: DefaultEvent) => {
@@ -348,9 +352,11 @@ class Dropdown extends React.Component<Props, States> {
 
     const focusItem: any = data.find(item => shallowEqual(_.get(item, valueKey), focusItemValue));
 
-    this.setState({ value }, this.updatePosition);
-    this.handleSelect(value, focusItem, event);
-    this.handleChange(value, event);
+    if (focusItem) {
+      this.setState({ value }, this.updatePosition);
+      this.handleSelect(value, focusItem, event);
+      this.handleChange(value, event);
+    }
   };
 
   handleItemSelect = (value: any, item: Object, event: DefaultEvent) => {
@@ -407,11 +413,12 @@ class Dropdown extends React.Component<Props, States> {
     const filteredData = filterNodesOfTree(this.getAllData(), item =>
       this.shouldDisplay(item[labelKey], searchKeyword)
     );
-
-    this.setState({
+    const nextState = {
       searchKeyword,
       focusItemValue: filteredData.length ? filteredData[0][valueKey] : searchKeyword
-    });
+    };
+
+    this.setState(nextState, this.updatePosition);
 
     onSearch && onSearch(searchKeyword, event);
   };
@@ -447,6 +454,7 @@ class Dropdown extends React.Component<Props, States> {
   handleEntered = () => {
     const { onOpen } = this.props;
     onOpen && onOpen();
+    this.updatePosition();
   };
 
   handleExited = () => {
@@ -468,9 +476,16 @@ class Dropdown extends React.Component<Props, States> {
     this.setState({ open: false });
   };
 
-  handleRemoveTag = (tag: string) => {
+  handleRemoveTag = (tag: string, event: DefaultEvent) => {
+    event.stopPropagation();
     const value = this.getValue();
     _.remove(value, itemVal => shallowEqual(itemVal, tag));
+    this.setState({ value }, this.updatePosition);
+  };
+
+  removeItem = () => {
+    const value: any = this.getValue();
+    value.pop();
     this.setState({ value }, this.updatePosition);
   };
 
@@ -590,8 +605,8 @@ class Dropdown extends React.Component<Props, States> {
         <Tag
           key={tag}
           closable
-          onClose={() => {
-            this.handleRemoveTag(tag);
+          onClose={event => {
+            this.handleRemoveTag(tag, event);
           }}
         >
           {tag}
@@ -609,7 +624,7 @@ class Dropdown extends React.Component<Props, States> {
 
     if (multi) {
       props.componentClass = InputAutosize;
-      props.inputStyle = { maxWidth: this.state.maxWidth };
+      props.inputStyle = { maxWidth: this.state.maxWidth - 44 };
     }
 
     return (
@@ -686,6 +701,7 @@ class Dropdown extends React.Component<Props, States> {
           className={classes}
           style={style}
           onKeyDown={this.handleKeyDown}
+          onClick={this.handleClick}
           tabIndex={-1}
           role="menu"
           ref={this.bindToggleWrapperRef}
