@@ -5,7 +5,7 @@ const WARNING = 1;
 const ERROR = 2;
 
 module.exports = {
-  extends: ['eslint-config-airbnb', 'prettier'],
+  extends: ['prettier'],
   env: {
     browser: true,
     node: true,
