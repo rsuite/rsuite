@@ -1002,8 +1002,9 @@
 @date-range-picker-prefix: ~"picker-daterange";
 @date-picker-prefix: ~"picker-date";
 @input-picker-prefix: ~"picker-input";
-@picker-none-padding:6px 12px 12px;
-@picker-none-font-color:@B600;
+@multi-input-picker-prefix: ~"picker-multi";
+@picker-none-padding: 6px 12px 12px;
+@picker-none-font-color: @B600;
 //** Picker background
 @picker-bg: @dropdown-bg;
 @picker-shadow: @dropdown-shadow;
@@ -1099,8 +1100,9 @@
 
 //== Input Picker
 @input-picker-toggle-height: @line-height-computed + @padding-base-vertical*2; // 20px + 8px*2 = 36px  the same with md button
-@input-picker-toggle-content-height:@input-picker-toggle-height - @picker-default-toggle-border-width*2;
-
+@input-picker-toggle-content-height: @input-picker-toggle-height - @picker-default-toggle-border-width*2;
+@multi-input-picker-toggle-content-height: @input-height-extra-small;
+@multi-input-picker-content-padding: (@input-picker-toggle-height - @multi-input-picker-toggle-content-height)/2; // (36 -24)/2
 //== Slider
 //
 //##

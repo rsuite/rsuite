@@ -2,6 +2,8 @@
 @import "mixins/form";
 @import "mixins/picker";
 
+@multi-input-picker: ~"@{ns}@{multi-input-picker-prefix}";
+
 .@{ns}@{input-picker-prefix} {
   position: relative;
   border: @picker-default-toggle-border-width solid @picker-default-toggle-border-color;
@@ -43,6 +45,19 @@
   &-input {
     .input-size(@input-picker-toggle-content-height; @padding-base-vertical; @padding-base-input-horizontal; @font-size-base; @line-height-base; @input-border-radius);
 
+    .@{multi-input-picker} & {
+      .input-size(@multi-input-picker-toggle-content-height; @padding-extra-small-vertical; @padding-base-input-horizontal; @font-size-small; @line-height-base; @input-border-radius);
+
+      padding-left: @padding-base-horizontal - @picker-default-toggle-border-width;
+
+      > input {
+        background: none;
+        outline: none;
+        border: none;
+        width: 100%;
+      }
+    }
+
     background: none;
     outline: none;
     border: none;
@@ -53,5 +68,31 @@
     .@{ns}picker-focused & {
       z-index: @zindex-picker-input;
     }
+  }
+}
+
+.@{multi-input-picker} {
+  .@{ns}tag {
+    position: relative;
+    // make sure tag in front of toggle
+    z-index: @zindex-picker-toggle + 1;
+  }
+
+  .@{ns}picker-search-input,
+  .@{ns}tag {
+    margin-top: @multi-input-picker-content-padding;
+  }
+
+  &.@{ns}picker-has-value .@{ns}picker-search-input {
+    padding-left: @multi-input-picker-content-padding;
+  }
+
+  .@{ns}tag,
+  .@{ns}tag + .@{ns}tag {
+    margin-left: @multi-input-picker-content-padding;
+  }
+
+  .@{ns}picker-tag-wrapper {
+    padding-bottom: @multi-input-picker-content-padding;
   }
 }

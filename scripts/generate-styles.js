@@ -33,7 +33,7 @@ const IMPORT_FILE_CONFIG = {
   'input': ['form.less'],
   'input-group': ['form.less', 'input-group.less'],
   'input-number': ['form.less', 'input-number.less'],
-  'input-picker': ['picker.less', 'select-picker.less', 'input-picker.less'],
+  'input-picker': ['picker.less', 'select-picker.less', 'tag.less', 'input-picker.less'],
   'navbar': ['nav.less', 'navbar.less'],
   'row': ['grid.less'],
   'radio': ['form.less', 'radio.less'],
