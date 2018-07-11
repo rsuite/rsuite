@@ -1,0 +1,46 @@
+@import "common";
+@import "mixins/form";
+@import "mixins/picker";
+
+.@{multi-input-picker} {
+  // Make sure vertical align with input
+  &:not(.@{ns}picker-disabled) .@{ns}picker-toggle {
+    top: 0;
+  }
+
+  .@{ns}tag {
+    position: relative;
+    // make sure tag in front of toggle
+    z-index: @zindex-picker-toggle + 1;
+    max-width: ~"calc(100% - @{multi-input-picker-content-padding-horizontal})";
+    vertical-align: top;
+    .ellipsis-basic;
+  }
+
+  .@{ns}picker-search-input,
+  .@{ns}tag {
+    margin-top: @multi-input-picker-content-padding-vertical;
+  }
+
+  &.@{ns}picker-has-value .@{ns}picker-search-input {
+    padding-left: @multi-input-picker-content-padding-horizontal;
+  }
+
+  .@{ns}tag,
+  .@{ns}tag + .@{ns}tag {
+    margin-left: @multi-input-picker-content-padding-horizontal;
+  }
+
+  .@{ns}picker-tag-wrapper {
+    padding-bottom: @multi-input-picker-content-padding-vertical;
+  }
+
+  .@{ns}picker-search {
+    &,
+    &-input,
+    &-input > input {
+      display: inline-block;
+      width: auto;
+    }
+  }
+}
