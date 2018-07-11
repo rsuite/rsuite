@@ -426,7 +426,7 @@ class DatePicker extends React.Component<Props, States> {
       );
     }
 
-    const classes = getToggleWrapperClassName('select', this.addPrefix, this.props, hasValue, {
+    const classes = getToggleWrapperClassName('date', this.addPrefix, this.props, hasValue, {
       [this.addPrefix('date-only-time')]: shouldOnlyTime(format)
     });
 
