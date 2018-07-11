@@ -55,6 +55,8 @@
         outline: none;
         border: none;
         width: 100%;
+        font-size: @font-size-base;
+        line-height: @line-height-computed;
       }
     }
 
@@ -72,10 +74,18 @@
 }
 
 .@{multi-input-picker} {
+  // Make sure vertical align with input
+  &:not(.@{ns}picker-disabled) .@{ns}picker-toggle {
+    top: 0;
+  }
+
   .@{ns}tag {
     position: relative;
     // make sure tag in front of toggle
     z-index: @zindex-picker-toggle + 1;
+    max-width: ~"calc(100% - @{multi-input-picker-content-padding-horizontal})";
+    vertical-align: top;
+    .ellipsis-basic;
   }
 
   .@{ns}picker-search-input,
