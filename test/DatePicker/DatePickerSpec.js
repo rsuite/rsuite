@@ -10,8 +10,6 @@ describe('DatePicker', () => {
   it('Should render a div with "rs-picker-date" class', () => {
     const instance = ReactTestUtils.renderIntoDocument(<DatePicker />);
 
-    console.log(findDOMNode(instance));
-
     assert.equal(findDOMNode(instance).nodeName, 'DIV');
     assert.ok(findDOMNode(instance).className.match(/\brs-picker-date\b/));
   });
