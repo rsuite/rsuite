@@ -38,6 +38,7 @@ type DefaultEventFunction = (event: DefaultEvent) => void;
 type Props = {
   appearance: 'default' | 'subtle',
   data: Array<any>,
+  cacheData?: Array<any>,
   locale: Object,
   classPrefix?: string,
   className?: string,
@@ -100,6 +101,7 @@ class Dropdown extends React.Component<Props, States> {
   static defaultProps = {
     appearance: 'default',
     data: [],
+    cacheData: [],
     disabledItemValues: [],
     maxHeight: 320,
     valueKey: 'value',
@@ -166,6 +168,12 @@ class Dropdown extends React.Component<Props, States> {
     const { data } = this.props;
     const { newData } = this.state;
     return [].concat(data, newData);
+  }
+
+  getAllDataAndCache() {
+    const { cacheData } = this.props;
+    const data = this.getAllData();
+    return [].concat(data, cacheData);
   }
 
   createOption(value: string) {
@@ -583,7 +591,7 @@ class Dropdown extends React.Component<Props, States> {
   getLabelByValue(value) {
     const { renderValue, placeholder, valueKey, labelKey } = this.props;
     // Find active `MenuItem` by `value`
-    const activeItem = findNodeOfTree(this.getAllData(), item =>
+    const activeItem = findNodeOfTree(this.getAllDataAndCache(), item =>
       shallowEqual(item[valueKey], value)
     );
     let displayElement = placeholder;
