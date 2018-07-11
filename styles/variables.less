@@ -1101,11 +1101,12 @@
 //== Input Picker
 @input-picker-toggle-height: @line-height-computed + @padding-base-vertical*2; // 20px + 8px*2 = 36px  the same with md button
 @input-picker-toggle-content-height: @input-picker-toggle-height - @picker-default-toggle-border-width*2;
+
 // == TagPicker
-@multi-input-picker-toggle-content-height: @input-height-extra-small;
-@multi-input-picker-content-padding-vertical: (@input-picker-toggle-content-height - @multi-input-picker-toggle-content-height)/2; // (36 -24)/2
-@multi-input-picker-content-padding-horizontal: 6px;
-@multi-input-picker: ~"@{ns}@{multi-input-picker-prefix}";
+@tag-picker-toggle-content-height: @input-height-extra-small;
+@tag-picker-content-padding-vertical: (@input-picker-toggle-content-height - @tag-picker-toggle-content-height)/2; // (36 -24)/2
+@tag-picker-content-padding-horizontal: 6px;
+@tag-picker: ~"@{ns}@{multi-input-picker-prefix}";
 //== Slider
 //
 //##
