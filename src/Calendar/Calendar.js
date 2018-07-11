@@ -39,9 +39,6 @@ type Props = {
 };
 
 class Calendar extends React.PureComponent<Props> {
-  static defaultProps = {
-    classPrefix: 'rs-calendar'
-  };
   disabledDate = (date: moment$Moment) => {
     const { disabledDate } = this.props;
     if (disabledDate && disabledDate(date)) {

@@ -47,6 +47,7 @@ export RadioGroup from './RadioGroup';
 export SelectPicker from './SelectPicker';
 export CheckPicker from './CheckPicker';
 export InputPicker from './InputPicker';
+export TagPicker from './TagPicker';
 export TreePicker from './TreePicker';
 export CheckTreePicker from './CheckTreePicker';
 export Cascader from './Cascader';

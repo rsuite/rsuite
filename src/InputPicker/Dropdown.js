@@ -28,7 +28,7 @@ import DropdownMenuItem from '../_picker/DropdownMenuItem';
 import DropdownMenuCheckItem from '../_picker/DropdownMenuCheckItem';
 import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
 import onMenuKeyDown from '../_picker/onMenuKeyDown';
-import Toggle from './Toggle';
+import PickerToggle from '../_picker/PickerToggle';
 import InputSearch from './InputSearch';
 import Tag from '../Tag';
 import type { Placement } from '../utils/TypeDefinition';
@@ -306,7 +306,7 @@ class Dropdown extends React.Component<Props, States> {
       up: this.focusPrevMenuItem,
       enter: multi ? this.selectFocusMenuCheckItem : this.selectFocusMenuItem,
       esc: this.closeDropdown,
-      del: multi ? this.removeItem : null
+      del: multi ? this.removeLastItem : null
     });
   };
   handleClick = (event: DefaultEvent) => {
@@ -336,9 +336,10 @@ class Dropdown extends React.Component<Props, States> {
   };
 
   selectFocusMenuCheckItem = (event: DefaultEvent) => {
-    const value: any = this.getValue();
-    const { data, valueKey } = this.props;
+    const { valueKey } = this.props;
     const { focusItemValue } = this.state;
+    const value: any = this.getValue();
+    const data = this.getAllData();
 
     if (!focusItemValue) {
       return;
@@ -350,13 +351,15 @@ class Dropdown extends React.Component<Props, States> {
       _.remove(value, itemVal => shallowEqual(itemVal, focusItemValue));
     }
 
-    const focusItem: any = data.find(item => shallowEqual(_.get(item, valueKey), focusItemValue));
+    let focusItem: any = data.find(item => shallowEqual(_.get(item, valueKey), focusItemValue));
 
-    if (focusItem) {
-      this.setState({ value }, this.updatePosition);
-      this.handleSelect(value, focusItem, event);
-      this.handleChange(value, event);
+    if (!focusItem) {
+      focusItem = this.createOption(focusItemValue);
     }
+
+    this.setState({ value }, this.updatePosition);
+    this.handleSelect(value, focusItem, event);
+    this.handleChange(value, event);
   };
 
   handleItemSelect = (value: any, item: Object, event: DefaultEvent) => {
@@ -462,7 +465,7 @@ class Dropdown extends React.Component<Props, States> {
     onClose && onClose();
     const value = this.getValue();
     this.setState({
-      focusItemValue: value
+      focusItemValue: null
     });
   };
 
@@ -476,17 +479,22 @@ class Dropdown extends React.Component<Props, States> {
     this.setState({ open: false });
   };
 
-  handleRemoveTag = (tag: string, event: DefaultEvent) => {
+  handleRemoveItemByTag = (tag: string, event: DefaultEvent) => {
     event.stopPropagation();
     const value = this.getValue();
     _.remove(value, itemVal => shallowEqual(itemVal, tag));
     this.setState({ value }, this.updatePosition);
+    this.handleChange(value, event);
   };
 
-  removeItem = () => {
+  removeLastItem = (event: DefaultEvent) => {
+    if (_.get(event, 'target.tagName') === 'INPUT' && event.target.value) {
+      return;
+    }
     const value: any = this.getValue();
     value.pop();
     this.setState({ value }, this.updatePosition);
+    this.handleChange(value, event);
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
@@ -572,10 +580,8 @@ class Dropdown extends React.Component<Props, States> {
     );
   }
 
-  renderSingleValue() {
+  getLabelByValue(value) {
     const { renderValue, placeholder, valueKey, labelKey } = this.props;
-    const value = this.getValue();
-
     // Find active `MenuItem` by `value`
     const activeItem = findNodeOfTree(this.getAllData(), item =>
       shallowEqual(item[valueKey], value)
@@ -589,7 +595,16 @@ class Dropdown extends React.Component<Props, States> {
         displayElement = renderValue(value, activeItem);
       }
     }
-    return displayElement;
+
+    return {
+      isValid: !!activeItem,
+      displayElement
+    };
+  }
+
+  renderSingleValue() {
+    const value = this.getValue();
+    return this.getLabelByValue(value);
   }
 
   renderMultiValue() {
@@ -598,22 +613,20 @@ class Dropdown extends React.Component<Props, States> {
       return null;
     }
 
-    const value = this.getValue() || [];
-    //classPrefix={`${classPrefix}-tag`}
-    const tag = value.map(tag => {
-      return (
-        <Tag
-          key={tag}
-          closable
-          onClose={event => {
-            this.handleRemoveTag(tag, event);
-          }}
-        >
-          {tag}
-        </Tag>
-      );
-    });
-    return tag;
+    const tags = this.getValue() || [];
+    return tags
+      .map(tag => {
+        const { isValid, displayElement } = this.getLabelByValue(tag);
+        if (!isValid) {
+          return null;
+        }
+        return (
+          <Tag key={tag} closable onClose={this.handleRemoveItemByTag.bind(this, tag)}>
+            {displayElement}
+          </Tag>
+        );
+      })
+      .filter(item => item !== null);
   }
 
   renderInputSearch() {
@@ -667,11 +680,12 @@ class Dropdown extends React.Component<Props, States> {
     } = this.props;
 
     const unhandled = getUnhandledProps(Dropdown, rest);
-    const value: any = this.getValue();
-    const hasValue = multi ? !!value.length : !!value;
+    const { isValid, displayElement } = this.renderSingleValue();
+    const tagElements = this.renderMultiValue();
+    const hasValue = multi ? !!_.get(tagElements, 'length') : isValid;
 
     const classes = getToggleWrapperClassName('input', this.addPrefix, this.props, hasValue, {
-      [this.addPrefix('multi')]: multi,
+      [this.addPrefix('tag')]: multi,
       [this.addPrefix('focused')]: this.state.open
     });
 
@@ -684,7 +698,7 @@ class Dropdown extends React.Component<Props, States> {
         open={open}
         defaultOpen={defaultOpen}
         disabled={disabled}
-        trigger="focus"
+        trigger="active"
         placement={placement}
         onEnter={createChainedFunction(this.handleEnter, onEnter)}
         onEntered={createChainedFunction(this.handleEntered, onEntered)}
@@ -706,19 +720,17 @@ class Dropdown extends React.Component<Props, States> {
           role="menu"
           ref={this.bindToggleWrapperRef}
         >
-          <Toggle
+          <PickerToggle
             {...unhandled}
             componentClass={toggleComponentClass}
             onClean={this.handleClean}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
           >
-            {searching || (multi && hasValue)
-              ? null
-              : this.renderSingleValue() || locale.placeholder}
-          </Toggle>
+            {searching || (multi && hasValue) ? null : displayElement || locale.placeholder}
+          </PickerToggle>
           <div className={this.addPrefix('tag-wrapper')}>
-            {this.renderMultiValue()}
+            {tagElements}
             {displaySearchInput && this.renderInputSearch()}
           </div>
         </div>
