@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import CheckTreePicker from 'rsuite-checktreepicker';
+import CheckTreePicker from './CheckTreePicker';
 
 const CheckTree = (props: any) => <CheckTreePicker inline {...props} />;
 
