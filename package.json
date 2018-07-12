@@ -89,6 +89,8 @@
     "coveralls": "^2.13.1",
     "cssnano": "^3.10.0",
     "del": "^3.0.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-babel": "^4.1.1",
