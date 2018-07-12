@@ -5,23 +5,23 @@ import Adapter from 'enzyme-adapter-react-16';
 import TestRenderer from 'react-test-renderer';
 import { findDOMNode } from 'react-dom';
 import { namespace } from 'rsuite-utils/lib/Picker/constants';
-import CheckTreePicker from '../src/CheckTreePicker';
+import TreePicker from '../src/TreePicker';
 import { clone } from '../src/utils';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const classPrefix = `.${namespace}-checktree`;
-const checkTreeMenuCls = `${classPrefix}-menu`;
+const classPrefix = `.${namespace}-tree`;
+const TreeMenuCls = `${classPrefix}-menu`;
 const treeViewCls = `${classPrefix}-view`;
 const treeNodeCls = `${treeViewCls}-node`;
-const treeNodeLabelCls = `${treeViewCls}-checknode-label`;
+const treeNodeLabelCls = `${treeViewCls}-node-label`;
 const expandIconCls = `${treeViewCls}-node-expand-icon`;
 const valueCls = `.${namespace}-toggle-value`;
 const toggleCls = `.${namespace}-toggle`;
 const toggleCleanCls = `.${namespace}-toggle-clean`;
 const customToggleClass = `.${namespace}-toggle-custom`;
 const placeholderCls = `${toggleCls}-placeholder`;
-const treeNodeCheckedCls = `${treeViewCls}-node-checked`;
+const treeNodeActiveCls = `${treeViewCls}-node-active`;
 const nodeChildrenOpenCls = `${treeViewCls}-open`;
 const expandIconWrapperCls = `${treeViewCls}-node-expand-icon-wrapper`;
 const searchInput = `${namespace}-search-bar-input`;
@@ -53,18 +53,18 @@ const data = [
   }
 ];
 
-describe('CheckTreePicker', () => {
+describe('TreePicker', () => {
   it('Should render default value', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <CheckTreePicker data={data} defaultValue={['Master']} />
+      <TreePicker data={data} defaultValue={'Master'} />
     );
     const instanceDOM = findDOMNode(instance);
-    expect(instanceDOM.querySelector(valueCls).innerText).to.equal('4 selected');
+    expect(instanceDOM.querySelector(valueCls).innerText).to.equal('Master');
   });
 
   it('Should clean selected value', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <CheckTreePicker data={data} defaultValue={['Master']} />
+      <TreePicker data={data} defaultValue={'Master'} />
     );
     const instanceDOM = findDOMNode(instance);
     ReactTestUtils.Simulate.click(instanceDOM.querySelector(toggleCleanCls));
@@ -73,56 +73,48 @@ describe('CheckTreePicker', () => {
 
   it('Should output a clean button', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <CheckTreePicker data={data} defaultValue={['Master']} />
+      <TreePicker data={data} defaultValue={'Master'} />
     );
     assert.ok(findDOMNode(instance).querySelector(toggleCleanCls));
   });
 
-  it('Should render CheckTreePicker Menu', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<CheckTreePicker data={data} />);
+  it('Should render TreePicker Menu', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<TreePicker data={data} />);
     const instanceDOM = findDOMNode(instance);
     ReactTestUtils.Simulate.click(instanceDOM.querySelector(toggleCls));
-    expect(document.querySelectorAll(checkTreeMenuCls).length).to.equal(1);
+    expect(document.querySelectorAll(TreeMenuCls).length).to.equal(1);
   });
 
   it('Should output a button', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <CheckTreePicker toggleComponentClass="button" data={[]} />
+      <TreePicker toggleComponentClass="button" data={[]} />
     );
     assert.ok(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'button'));
   });
 
   it('Should be disabled', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<CheckTreePicker disabled data={[]} />);
+    const instance = ReactTestUtils.renderIntoDocument(<TreePicker disabled data={[]} />);
     const instanceDom = findDOMNode(instance);
     assert.ok(instanceDom.className.match(/\bdisabled\b/));
   });
 
   it('Should be block', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<CheckTreePicker block data={[]} />);
+    const instance = ReactTestUtils.renderIntoDocument(<TreePicker block data={[]} />);
     const instanceDom = findDOMNode(instance);
     assert.ok(instanceDom.className.match(/\bblock\b/));
   });
 
   it('Should active 4 node by `value` when cascade is true', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <CheckTreePicker inline data={data} value={['Master']} />
+      <TreePicker inline data={data} value={'Master'} />
     );
     const instanceDOM = findDOMNode(instance);
-    expect(instanceDOM.querySelectorAll(treeNodeCheckedCls).length).to.equal(4);
-  });
-
-  it('Should active 1 node by `value` when cascade is false', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <CheckTreePicker inline cascade={false} data={data} value={['Master']} />
-    );
-    const instanceDOM = findDOMNode(instance);
-    expect(instanceDOM.querySelectorAll(treeNodeCheckedCls).length).to.equal(1);
+    expect(instanceDOM.querySelectorAll(treeNodeActiveCls).length).to.equal(1);
   });
 
   it('Should expand children nodes', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <CheckTreePicker inline cascade={false} data={data} value={['Master']} />
+      <TreePicker inline cascade={false} data={data} value={['Master']} />
     );
     const instanceDOM = findDOMNode(instance);
     ReactTestUtils.Simulate.click(instanceDOM.querySelectorAll(expandIconCls)[0]);
@@ -131,7 +123,7 @@ describe('CheckTreePicker', () => {
 
   it('Should have a placeholder', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <CheckTreePicker data={data} placeholder="test" />
+      <TreePicker data={data} placeholder="test" />
     );
     const instanceDom = findDOMNode(instance);
     assert.equal(instanceDom.querySelector(placeholderCls).innerText, 'test');
@@ -139,19 +131,19 @@ describe('CheckTreePicker', () => {
 
   it('Should render value by `renderValue`', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <CheckTreePicker
+      <TreePicker
         data={[{ label: '1', value: '1' }, { label: '2', value: '2' }]}
-        value={['1', '2']}
-        renderValue={value => value.join(',')}
+        value={'2'}
+        renderValue={activeNode => `Selected: ${activeNode.label}`}
       />
     );
     const instanceDom = findDOMNode(instance);
-    assert.equal(instanceDom.querySelector(valueCls).innerText, '1,2');
+    assert.equal(instanceDom.querySelector(valueCls).innerText, 'Selected: 2');
   });
 
   it('Should render a placeholder when value error', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <CheckTreePicker placeholder="test" data={data} value={['4']} />
+      <TreePicker placeholder="test" data={data} value={['4']} />
     );
     const instanceDom = findDOMNode(instance);
     assert.equal(instanceDom.querySelector(placeholderCls).innerText, 'test');
@@ -162,11 +154,10 @@ describe('CheckTreePicker', () => {
       done();
     };
     const instance = ReactTestUtils.renderIntoDocument(
-      <CheckTreePicker inline onChange={doneOp} data={data} />
+      <TreePicker inline onChange={doneOp} data={data} />
     );
     const instanceDOM = findDOMNode(instance);
-
-    ReactTestUtils.Simulate.change(instanceDOM.querySelectorAll(`${treeNodeCls} input`)[3]);
+    ReactTestUtils.Simulate.click(instanceDOM.querySelectorAll(`${treeNodeLabelCls}`)[0]);
   });
 
   it('Should call `onOpen` callback', done => {
@@ -174,7 +165,7 @@ describe('CheckTreePicker', () => {
       done();
     };
 
-    const instance = ReactTestUtils.renderIntoDocument(<CheckTreePicker onOpen={cb} data={data} />);
+    const instance = ReactTestUtils.renderIntoDocument(<TreePicker onOpen={cb} data={data} />);
     ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector(toggleCls));
   });
 
@@ -183,15 +174,13 @@ describe('CheckTreePicker', () => {
       done();
     };
 
-    const instance = ReactTestUtils.renderIntoDocument(
-      <CheckTreePicker onClose={cb} data={data} />
-    );
+    const instance = ReactTestUtils.renderIntoDocument(<TreePicker onClose={cb} data={data} />);
     ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector(toggleCls));
     ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector(toggleCls));
   });
 
   it('Should focus item by keyCode=40 ', () => {
-    const instance = mount(<CheckTreePicker data={data} inline cascade={false} expandAll />);
+    const instance = mount(<TreePicker data={data} inline cascade={false} expandAll />);
 
     instance.find('span[data-key="0-0"]').simulate('click');
     expect(instance.find('span[data-key="0-0"]').getElement() === document.activeElement);
@@ -203,7 +192,7 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should focus item by keyCode=38 ', () => {
-    const instance = mount(<CheckTreePicker data={data} inline cascade={false} expandAll />);
+    const instance = mount(<TreePicker data={data} inline cascade={false} expandAll />);
 
     instance.find('span[data-key="0-0"]').simulate('click');
     expect(instance.find('span[data-key="0-0"]').getElement() === document.activeElement);
@@ -220,7 +209,7 @@ describe('CheckTreePicker', () => {
     };
 
     const instance = mount(
-      <CheckTreePicker data={data} onChange={doneOp} inline cascade={false} expandAll />
+      <TreePicker data={data} onChange={doneOp} inline cascade={false} expandAll />
     );
 
     instance.find('span[data-key="0-0"]').simulate('click');
@@ -233,7 +222,7 @@ describe('CheckTreePicker', () => {
 
   it('Should have a custom className', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <CheckTreePicker className="custom" data={data} />
+      <TreePicker className="custom" data={data} />
     );
     assert.include(findDOMNode(instance).className, 'custom');
   });
@@ -241,35 +230,16 @@ describe('CheckTreePicker', () => {
   it('Should have a custom style', () => {
     const fontSize = '12px';
     const instance = ReactTestUtils.renderIntoDocument(
-      <CheckTreePicker style={{ fontSize }} data={data} />
+      <TreePicker style={{ fontSize }} data={data} />
     );
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
 
-  it('Should output the correct language', () => {
-    const locale = {
-      selectedValues: '已选择 {0} 项'
-    };
+  it('Should render empty tree when searchKeyword is `1`', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <CheckTreePicker locale={locale} data={data} cascade={false} value={['Master']} />
+      <TreePicker data={data} searchKeyword="1" />
     );
-    const instanceDOM = findDOMNode(instance).querySelector('.rs-picker-toggle-value');
-    assert.equal(instanceDOM.innerText, '已选择 1 项');
-  });
-
-  it('Should render node without checkbox', () => {
-    const data = [
-      {
-        value: 1,
-        label: 1
-      }
-    ];
-    const instance = ReactTestUtils.renderIntoDocument(
-      <CheckTreePicker data={data} disabledCheckboxValues={[1]} />
-    );
-    const instanceDOM = findDOMNode(instance);
-    ReactTestUtils.Simulate.click(instanceDOM.querySelector(toggleCls));
-    assert.equal(instanceDOM.querySelectorAll(`${treeNodeCls}`).length, 0);
+    assert.equal(findDOMNode(instance).querySelectorAll(treeNodeCls).length, 0);
   });
 
   it('Should load data async', () => {
@@ -318,7 +288,7 @@ describe('CheckTreePicker', () => {
     };
 
     const instance = mount(
-      <CheckTreePicker data={data} onExpand={mockOnExpand} inline cascade={false} expandAll />
+      <TreePicker data={data} onExpand={mockOnExpand} inline cascade={false} expandAll />
     );
     instance.find(`div[data-ref="0-1"]  > ${expandIconCls}`).simulate('click');
     const nextTreeData = clone(data);
@@ -334,22 +304,22 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should expandAll nodes when `expandAll` setting true', () => {
-    const instance = mount(<CheckTreePicker data={data} inline />);
+    const instance = mount(<TreePicker data={data} inline />);
 
     instance.setProps({
       expandAll: false
     });
-    assert.equal(instance.find(`${nodeChildrenOpenCls}`).length, 0);
+    assert.equal(instance.find(nodeChildrenOpenCls).length, 0);
 
     instance.setProps({
       expandAll: true
     });
-    assert.equal(instance.find(`${nodeChildrenOpenCls}`).length, 2);
+    assert.equal(instance.find(nodeChildrenOpenCls).length, 2);
     instance.unmount();
   });
 
   it('Should render empty tree when searchKeyword is `1`', () => {
-    const instance = mount(<CheckTreePicker data={data} inline />);
+    const instance = mount(<TreePicker data={data} inline />);
 
     instance.setProps({
       searchKeyword: 'name'
