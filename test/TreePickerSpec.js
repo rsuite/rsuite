@@ -235,13 +235,6 @@ describe('TreePicker', () => {
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
 
-  it('Should render empty tree when searchKeyword is `1`', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <TreePicker data={data} searchKeyword="1" />
-    );
-    assert.equal(findDOMNode(instance).querySelectorAll(treeNodeCls).length, 0);
-  });
-
   it('Should load data async', () => {
     let activeNode = null;
     let layer = 0;
