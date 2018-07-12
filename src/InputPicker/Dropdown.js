@@ -656,7 +656,8 @@ class Dropdown extends React.Component<Props, States> {
 
     if (multi) {
       props.componentClass = InputAutosize;
-      props.inputStyle = { maxWidth: this.state.maxWidth - 44 };
+      // 52 = 44 (right padding)  - 2 (border) - 6 (left padding)
+      props.inputStyle = { maxWidth: this.state.maxWidth - 52 };
     }
 
     return (
