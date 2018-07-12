@@ -176,6 +176,28 @@ class Dropdown extends React.Component<Props, States> {
     return [].concat(data, cacheData);
   }
 
+  getLabelByValue(value: any) {
+    const { renderValue, placeholder, valueKey, labelKey } = this.props;
+    // Find active `MenuItem` by `value`
+    const activeItem = findNodeOfTree(this.getAllDataAndCache(), item =>
+      shallowEqual(item[valueKey], value)
+    );
+    let displayElement = placeholder;
+
+    if (_.get(activeItem, labelKey)) {
+      displayElement = _.get(activeItem, labelKey);
+
+      if (renderValue) {
+        displayElement = renderValue(value, activeItem);
+      }
+    }
+
+    return {
+      isValid: !!activeItem,
+      displayElement
+    };
+  }
+
   createOption(value: string) {
     const { valueKey, labelKey, groupBy, locale } = this.props;
     if (groupBy) {
@@ -466,16 +488,21 @@ class Dropdown extends React.Component<Props, States> {
   handleEntered = () => {
     const { onOpen } = this.props;
     onOpen && onOpen();
-    this.updatePosition();
   };
 
   handleExited = () => {
-    const { onClose } = this.props;
+    const { onClose, multi } = this.props;
     onClose && onClose();
-    const value = this.getValue();
-    this.setState({
+
+    const nextState: Object = {
       focusItemValue: null
-    });
+    };
+
+    if (multi) {
+      nextState.searchKeyword = '';
+    }
+
+    this.setState(nextState);
   };
 
   handleEnter = () => {
@@ -594,35 +621,13 @@ class Dropdown extends React.Component<Props, States> {
     );
   }
 
-  getLabelByValue(value) {
-    const { renderValue, placeholder, valueKey, labelKey } = this.props;
-    // Find active `MenuItem` by `value`
-    const activeItem = findNodeOfTree(this.getAllDataAndCache(), item =>
-      shallowEqual(item[valueKey], value)
-    );
-    let displayElement = placeholder;
-
-    if (_.get(activeItem, labelKey)) {
-      displayElement = _.get(activeItem, labelKey);
-
-      if (renderValue) {
-        displayElement = renderValue(value, activeItem);
-      }
-    }
-
-    return {
-      isValid: !!activeItem,
-      displayElement
-    };
-  }
-
   renderSingleValue() {
     const value = this.getValue();
     return this.getLabelByValue(value);
   }
 
   renderMultiValue() {
-    const { multi, classPrefix } = this.props;
+    const { multi, disabled } = this.props;
     if (!multi) {
       return null;
     }
@@ -637,7 +642,7 @@ class Dropdown extends React.Component<Props, States> {
         return (
           <Tag
             key={tag}
-            closable
+            closable={!disabled}
             title={typeof displayElement === 'string' ? displayElement : undefined}
             onClose={this.handleRemoveItemByTag.bind(this, tag)}
           >
@@ -656,8 +661,8 @@ class Dropdown extends React.Component<Props, States> {
 
     if (multi) {
       props.componentClass = InputAutosize;
-      // 52 = 44 (right padding)  - 2 (border) - 6 (left padding)
-      props.inputStyle = { maxWidth: this.state.maxWidth - 52 };
+      // 52 = 55 (right padding)  - 2 (border) - 6 (left padding)
+      props.inputStyle = { maxWidth: this.state.maxWidth - 63 };
     }
 
     return (
