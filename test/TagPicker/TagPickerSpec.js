@@ -239,7 +239,7 @@ describe('TagPicker', () => {
       />
     );
     assert.equal(instance.querySelectorAll('.rs-tag').length, 2);
-    ReactTestUtils.Simulate.keyDown(instance, { keyCode: 8 });
+    ReactTestUtils.Simulate.keyDown(instance.querySelector('input'), { keyCode: 8 });
   });
 
   it('Should call `onChange` by removeTag ', done => {
