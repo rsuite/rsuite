@@ -52,12 +52,10 @@
     "react-flow-types": "^0.2.0-beta.6",
     "react-input-autosize": "^2.2.1",
     "recompose": "^0.26.0",
-    "rsuite-checktreepicker": "~3.0.12",
     "rsuite-intl": "~1.0.4",
     "rsuite-notification": "~3.0.2",
     "rsuite-schema": "~0.0.12",
     "rsuite-table": "~3.0.5",
-    "rsuite-treepicker": "~3.0.11",
     "rsuite-utils": "^1.2.7"
   },
   "peerDependencies": {
