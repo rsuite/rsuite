@@ -18,6 +18,7 @@ import CheckTreeNode from './CheckTreeNode';
 import { CHECK_STATE } from '../utils/constants';
 import { clone, defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 import PickerToggle from '../_picker/PickerToggle';
+import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
 
 type DefaultEvent = SyntheticEvent<*>;
 type Placement =
@@ -46,8 +47,8 @@ type Props = {
   locale: Object,
   cascade: boolean,
   disabled?: boolean,
-  valueKey?: string,
-  labelKey?: string,
+  valueKey: string,
+  labelKey: string,
   container?: HTMLElement | (() => HTMLElement),
   className?: string,
   cleanable?: boolean,
@@ -55,7 +56,7 @@ type Props = {
   placement?: Placement,
   searchable?: boolean,
   appearance: 'default' | 'subtle',
-  classPrefix?: string,
+  classPrefix: string,
   defaultOpen?: boolean,
   childrenKey?: string,
   placeholder?: React.Node,
@@ -716,9 +717,9 @@ class CheckTree extends React.Component<Props, State> {
     }
 
     if (
-      event.target.className.includes(`${classPrefix}-toggle`) ||
-      event.target.className.includes(`${classPrefix}-toggle-custom`) ||
-      event.target.className.includes(`${classPrefix}-search-bar-input`)
+      event.currentTarget.className.includes(`${classPrefix}-toggle`) ||
+      event.currentTarget.className.includes(`${classPrefix}-toggle-custom`) ||
+      event.currentTarget.className.includes(`${classPrefix}-search-bar-input`)
     ) {
       switch (event.keyCode) {
         // down
@@ -936,23 +937,11 @@ class CheckTree extends React.Component<Props, State> {
 
     const selectedValues = this.serializeList('check');
 
-    const classes = classNames(
-      classPrefix,
-      this.addPrefix(appearance),
-      this.addPrefix('toggle-wrapper'),
-      {
-        [this.addPrefix('block')]: block,
-        [this.addPrefix('has-value')]: !!selectedValues,
-        [this.addPrefix('disabled')]: disabled
-      },
-      this.addPrefix(`placement-${_.kebabCase(placement)}`),
-      className
-    );
+    const classes = getToggleWrapperClassName('checktree', this.addPrefix, this.props, hasValue);
 
     let placeholderText = placeholder;
     if (hasValue && selectedValues.length) {
       placeholderText = tplTransform(locale.selectedValues, selectedValues.length);
-      // placeholderText = `${selectedValues.length} selected`;
     }
     if (renderValue && hasValue) {
       const checkItems = [];

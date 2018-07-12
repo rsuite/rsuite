@@ -19,6 +19,7 @@ import { SearchBar, MenuWrapper } from 'rsuite-utils/lib/Picker';
 import TreeNode from './TreeNode';
 import { clone, defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 import PickerToggle from '../_picker/PickerToggle';
+import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
 
 type DefaultEvent = SyntheticEvent<*>;
 type Placement =
@@ -45,8 +46,8 @@ type Props = {
   height?: number,
   inline?: boolean,
   locale: Object,
-  labelKey?: string,
-  valueKey?: string,
+  labelKey: string,
+  valueKey: string,
   container?: HTMLElement | (() => HTMLElement),
   disabled?: boolean,
   className?: string,
@@ -55,7 +56,7 @@ type Props = {
   placement?: Placement,
   appearance: 'default' | 'subtle',
   searchable?: boolean,
-  classPrefix?: string,
+  classPrefix: string,
   childrenKey?: string,
   placeholder?: React.Node,
   defaultOpen?: boolean,
@@ -495,9 +496,9 @@ class Tree extends React.Component<Props, State> {
     }
 
     if (
-      event.target.className.includes(`${classPrefix}-toggle`) ||
-      event.target.className.includes(`${classPrefix}-toggle-custom`) ||
-      event.target.className.includes(`${classPrefix}-search-bar-input`)
+      event.currentTarget.className.includes(`${classPrefix}-toggle`) ||
+      event.currentTarget.className.includes(`${classPrefix}-toggle-custom`) ||
+      event.currentTarget.className.includes(`${classPrefix}-search-bar-input`)
     ) {
       switch (event.keyCode) {
         // down
@@ -709,24 +710,12 @@ class Tree extends React.Component<Props, State> {
       ...rest
     } = this.props;
     const { activeNode } = this.state;
-
-    const classes = classNames(
-      classPrefix,
-      this.addPrefix(appearance),
-      this.addPrefix('toggle-wrapper'),
-      {
-        [this.addPrefix('block')]: block,
-        [this.addPrefix('has-value')]: !!activeNode,
-        [this.addPrefix('disabled')]: disabled
-      },
-      this.addPrefix(`placement-${_.kebabCase(placement)}`),
-      className
-    );
+    const classes = getToggleWrapperClassName('tree', this.addPrefix, this.props, !!activeNode);
 
     let placeholderText = null;
     const hasValue = activeNode !== null;
     if (hasValue) {
-      placeholderText = activeNode[labelKey];
+      placeholderText = activeNode && activeNode[labelKey];
     } else if (placeholder) {
       placeholderText = placeholder;
     }
