@@ -22,6 +22,14 @@ class TableRow extends React.PureComponent<Props> {
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
+  handleSelect = (date: moment$Moment, disabled: boolean | void) => {
+    const { onSelect } = this.props;
+    if (disabled) {
+      return;
+    }
+    onSelect && onSelect(date);
+  };
+
   renderDays() {
     const { weekendDate, disabledDate, inSameMonth, selected, onSelect } = this.props;
 
@@ -43,12 +51,7 @@ class TableRow extends React.PureComponent<Props> {
           role="menu"
           tabIndex="-1"
           title={isToday ? 'Today' : ''}
-          onClick={() => {
-            if (disabled) {
-              return;
-            }
-            onSelect && onSelect(thisDate);
-          }}
+          onClick={this.handleSelect.bind(this, thisDate, disabled)}
           key={i}
         >
           <span className={this.addPrefix('cell-content')}>{thisDate.date()}</span>
