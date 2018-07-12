@@ -105,15 +105,12 @@ type State = {
 
 class CheckTree extends React.Component<Props, State> {
   static defaultProps = {
-    inline: false,
-    expand: false,
     locale: {
       placeholder: 'Select',
       searchPlaceholder: 'Search',
       selectedValues: '{0} selected'
     },
     cascade: true,
-    disabled: false,
     valueKey: 'value',
     labelKey: 'label',
     cleanable: true,

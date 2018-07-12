@@ -96,13 +96,11 @@ type State = {
 
 class Tree extends React.Component<Props, State> {
   static defaultProps = {
-    inline: false,
     locale: {
       placeholder: 'Select',
       searchPlaceholder: 'Search',
       selectedValues: '{0} selected'
     },
-    disabled: false,
     valueKey: 'value',
     labelKey: 'label',
     cleanable: true,
@@ -110,8 +108,7 @@ class Tree extends React.Component<Props, State> {
     searchable: true,
     appearance: 'default',
     childrenKey: 'children',
-    searchKeyword: '',
-    defaultExpandAll: false
+    searchKeyword: ''
   };
 
   constructor(props: Props) {
