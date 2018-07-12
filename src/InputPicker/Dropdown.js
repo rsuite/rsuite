@@ -365,7 +365,7 @@ class Dropdown extends React.Component<Props, States> {
       focusItem = this.createOption(focusItemValue);
     }
 
-    this.setState({ value }, this.updatePosition);
+    this.setState({ value, searchKeyword: '' }, this.updatePosition);
     this.handleSelect(value, focusItem, event);
     this.handleChange(value, event);
   };
@@ -397,6 +397,7 @@ class Dropdown extends React.Component<Props, States> {
 
     const nextState = {
       value,
+      searchKeyword: '',
       focusItemValue: nextItemValue
     };
 
@@ -496,7 +497,12 @@ class Dropdown extends React.Component<Props, States> {
   };
 
   removeLastItem = (event: DefaultEvent) => {
-    if (_.get(event, 'target.tagName') === 'INPUT' && event.target.value) {
+    const tagName = _.get(event, 'target.tagName');
+    if (tagName !== 'INPUT') {
+      this.focusInput();
+      return;
+    }
+    if (tagName === 'INPUT' && event.target.value) {
       return;
     }
     const value: any = this.getValue();
@@ -629,7 +635,12 @@ class Dropdown extends React.Component<Props, States> {
           return null;
         }
         return (
-          <Tag key={tag} closable onClose={this.handleRemoveItemByTag.bind(this, tag)}>
+          <Tag
+            key={tag}
+            closable
+            title={typeof displayElement === 'string' ? displayElement : undefined}
+            onClose={this.handleRemoveItemByTag.bind(this, tag)}
+          >
             {displayElement}
           </Tag>
         );
