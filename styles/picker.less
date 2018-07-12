@@ -86,12 +86,17 @@
 
   .@{ns}picker-cleanable & {
     padding-right: @dropdown-toggle-padding-right + @picker-toggle-clean-width;
+
+    .@{ns}@{date-picker-prefix}&,
+    .@{ns}@{date-range-picker-prefix}& {
+      padding-right: @dropdown-toggle-padding-right + @picker-toggle-clean-width + @picker-item-content-padding-vertical;
+    }
   }
 }
 
 // Picker clean button
 .@{ns}picker-toggle-clean {
-  .dropdown-toggle-caret-common(30px);
+  .dropdown-toggle-caret-common(@picker-toggle-clean-right);
   .set-dropdown-caret(~"dropdown");
 
   background: inherit;
@@ -102,6 +107,11 @@
 
   &:hover {
     color: @picker-toggle-clean-hover-color;
+  }
+
+  .@{ns}@{date-picker-prefix} &,
+  .@{ns}@{date-range-picker-prefix} & {
+    right: @picker-toggle-clean-right + @picker-item-content-padding-vertical;
   }
 }
 
@@ -116,6 +126,17 @@
   // Set default content to @dropdown-caret-content for support [placement="auto*"]
   &::before {
     content: @dropdown-caret-content;
+  }
+}
+
+// Change the <caret/> & <clean/> vertical position make it align middle.
+.@{ns}@{date-picker-prefix},
+.@{ns}@{date-range-picker-prefix} {
+  &.@{ns}picker-default {
+    .@{ns}picker-toggle-caret,
+    .@{ns}picker-toggle-clean {
+      top: @padding-base-vertical - @picker-default-toggle-border-width;
+    }
   }
 }
 
