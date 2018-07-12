@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import TreePicker from 'rsuite-treepicker';
+import TreePicker from './TreePicker';
 
 const Tree = (props: any) => <TreePicker inline {...props} />;
 
