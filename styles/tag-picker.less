@@ -8,6 +8,14 @@
     top: 0;
   }
 
+  &.@{ns}picker-disabled {
+    cursor: not-allowed;
+
+    .@{ns}picker-toggle {
+      position: absolute;
+    }
+  }
+
   .@{ns}tag {
     position: relative;
     // make sure tag in front of toggle
