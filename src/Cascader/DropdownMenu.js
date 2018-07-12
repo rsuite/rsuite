@@ -112,7 +112,7 @@ class DropdownMenu extends React.Component<Props, States> {
 
   menus = [];
 
-  handleSelect = (node: any, layer: number, index: number, event: DefaultEvent) => {
+  handleSelect = (layer: number, index: number, node: any, event: DefaultEvent) => {
     const { onSelect, childrenKey } = this.props;
     const children = node[childrenKey];
     const isLeafNode = _.isUndefined(children) || _.isNull(children);
@@ -153,6 +153,10 @@ class DropdownMenu extends React.Component<Props, States> {
     });
   }
 
+  getItemData = (itemData: Object) => {
+    return itemData;
+  };
+
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   menuBodyContainer = null;
@@ -179,16 +183,14 @@ class DropdownMenu extends React.Component<Props, States> {
     return (
       <DropdownMenuItem
         classPrefix={this.addPrefix('item')}
-        getItemData={() => node}
+        getItemData={this.getItemData.bind(this, node)}
         key={`${layer}-${onlyKey}`}
         disabled={disabled}
         active={!_.isUndefined(activeItemValue) && shallowEqual(activeItemValue, value)}
         focus={focus}
         value={node}
         className={children ? this.addPrefix('has-children') : undefined}
-        onSelect={(itemData, event) => {
-          this.handleSelect(itemData, layer, index, event);
-        }}
+        onSelect={this.handleSelect.bind(this, layer, index)}
       >
         {renderMenuItem ? renderMenuItem(label, node) : label}
         {children ? <span className={this.addPrefix('caret')} /> : null}

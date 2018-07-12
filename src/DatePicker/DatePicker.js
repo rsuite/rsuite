@@ -6,31 +6,16 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import { IntlProvider } from 'rsuite-intl';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
-import { MenuWrapper, constants } from 'rsuite-utils/lib/Picker';
+import { MenuWrapper } from 'rsuite-utils/lib/Picker';
 
 import PickerToggle from '../_picker/PickerToggle';
+import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
 import Calendar from '../Calendar';
 import Toolbar from './Toolbar';
 import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
 import disabledTime, { calendarOnlyProps } from '../utils/disabledTime';
 import { shouldOnlyTime } from '../utils/formatUtils';
-
-const { namespace } = constants;
-
-type Placement =
-  | 'bottomLeft'
-  | 'bottomRight'
-  | 'topLeft'
-  | 'topRight'
-  | 'leftTop'
-  | 'rightTop'
-  | 'leftBottom'
-  | 'rightBottom'
-  | 'auto'
-  | 'autoVerticalLeft'
-  | 'autoVerticalRight'
-  | 'autoHorizontalTop'
-  | 'autoHorizontalBottom';
+import type { Placement } from '../utils/TypeDefinition';
 
 type Range = {
   label: React.Node,
@@ -441,19 +426,9 @@ class DatePicker extends React.Component<Props, States> {
       );
     }
 
-    const classes = classNames(
-      className,
-      this.addPrefix('date'),
-      this.addPrefix(appearance),
-      this.addPrefix(`placement-${_.kebabCase(placement)}`),
-      this.addPrefix('toggle-wrapper'),
-      {
-        [this.addPrefix('block')]: block,
-        [this.addPrefix('has-value')]: hasValue,
-        [this.addPrefix('disabled')]: disabled,
-        [this.addPrefix('date-only-time')]: shouldOnlyTime(format)
-      }
-    );
+    const classes = getToggleWrapperClassName('date', this.addPrefix, this.props, hasValue, {
+      [this.addPrefix('date-only-time')]: shouldOnlyTime(format)
+    });
 
     return (
       <IntlProvider locale={locale}>

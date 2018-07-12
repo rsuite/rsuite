@@ -4,37 +4,24 @@ import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
+import { SearchBar, MenuWrapper } from 'rsuite-utils/lib/Picker';
 import {
   reactToString,
   filterNodesOfTree,
   getDataGroupBy,
   shallowEqual,
-  shallowEqualArray,
   tplTransform
 } from 'rsuite-utils/lib/utils';
 
 import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
-import { SearchBar, MenuWrapper } from 'rsuite-utils/lib/Picker';
 import DropdownMenu from '../_picker/DropdownMenu';
 import DropdownMenuItem from '../_picker/DropdownMenuCheckItem';
 import PickerToggle from '../_picker/PickerToggle';
+import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
+import type { Placement } from '../utils/TypeDefinition';
 
 type DefaultEvent = SyntheticEvent<*>;
 type DefaultEventFunction = (event: DefaultEvent) => void;
-type Placement =
-  | 'bottomLeft'
-  | 'bottomRight'
-  | 'topLeft'
-  | 'topRight'
-  | 'leftTop'
-  | 'rightTop'
-  | 'leftBottom'
-  | 'rightBottom'
-  | 'auto'
-  | 'autoVerticalLeft'
-  | 'autoVerticalRight'
-  | 'autoHorizontalTop'
-  | 'autoHorizontalBottom';
 
 type Props = {
   appearance: 'default' | 'subtle',
@@ -89,8 +76,7 @@ type States = {
   value?: Array<any>,
   // Used to focus the active item  when trigger `onKeydown`
   focusItemValue?: any,
-  searchKeyword: string,
-  filteredData?: Array<any>
+  searchKeyword: string
 };
 
 class Dropdown extends React.Component<Props, States> {
@@ -114,35 +100,18 @@ class Dropdown extends React.Component<Props, States> {
   constructor(props: Props) {
     super(props);
 
-    const { data, value, defaultValue, groupBy, valueKey, labelKey } = props;
+    const { value, defaultValue, groupBy, valueKey, labelKey } = props;
     const nextValue = _.clone(value || defaultValue) || [];
 
     this.state = {
       value: nextValue,
       // Used to hover the active item  when trigger `onKeydown`
       focusItemValue: nextValue ? nextValue[0] : undefined,
-      searchKeyword: '',
-      filteredData: data
+      searchKeyword: ''
     };
 
     if (groupBy === valueKey || groupBy === labelKey) {
       throw Error('`groupBy` can not be equal to `valueKey` and `labelKey`');
-    }
-  }
-
-  componentWillReceiveProps(nextProps: Props) {
-    const { value, data } = nextProps;
-
-    if (!shallowEqualArray(value, this.props.value)) {
-      this.setState({
-        value
-      });
-    }
-
-    if (!shallowEqualArray(data, this.props.data)) {
-      this.setState({
-        filteredData: data
-      });
     }
   }
 
@@ -276,7 +245,7 @@ class Dropdown extends React.Component<Props, States> {
     }
   };
 
-  handleItemSelect = (nextItemValue: any, checked: boolean, item: Object, event: DefaultEvent) => {
+  handleItemSelect = (nextItemValue: any, item: Object, event: DefaultEvent, checked: boolean) => {
     const value = this.getValue();
 
     if (checked) {
@@ -483,44 +452,33 @@ class Dropdown extends React.Component<Props, States> {
       selectedLabel = renderValue(value, selectedItems);
     }
 
-    const classes = classNames(
-      className,
-      this.addPrefix('check'),
-      this.addPrefix(appearance),
-      this.addPrefix(`placement-${_.kebabCase(placement)}`),
-      this.addPrefix('toggle-wrapper'),
-      {
-        [this.addPrefix('block')]: block,
-        [this.addPrefix('has-value')]: hasValue,
-        [this.addPrefix('disabled')]: disabled
-      }
-    );
+    const classes = getToggleWrapperClassName('check', this.addPrefix, this.props, hasValue);
 
     return (
-      <div
-        className={classes}
-        style={style}
-        onKeyDown={this.handleKeyDown}
-        tabIndex={-1}
-        role="menu"
-        ref={this.bindContainerRef}
+      <OverlayTrigger
+        ref={this.bindTriggerRef}
+        open={open}
+        defaultOpen={defaultOpen}
+        disabled={disabled}
+        trigger="click"
+        placement={placement}
+        onEnter={onEnter}
+        onEntering={onEntering}
+        onEntered={createChainedFunction(this.handleOpen, onEntered)}
+        onExit={onExit}
+        onExiting={onExiting}
+        onExited={createChainedFunction(this.handleExited, onExited)}
+        speaker={this.renderDropdownMenu()}
+        container={container}
+        containerPadding={containerPadding}
       >
-        <OverlayTrigger
-          ref={this.bindTriggerRef}
-          open={open}
-          defaultOpen={defaultOpen}
-          disabled={disabled}
-          trigger="click"
-          placement={placement}
-          onEnter={onEnter}
-          onEntering={onEntering}
-          onEntered={createChainedFunction(this.handleOpen, onEntered)}
-          onExit={onExit}
-          onExiting={onExiting}
-          onExited={createChainedFunction(this.handleExited, onExited)}
-          speaker={this.renderDropdownMenu()}
-          container={container}
-          containerPadding={containerPadding}
+        <div
+          className={classes}
+          style={style}
+          onKeyDown={this.handleKeyDown}
+          tabIndex={-1}
+          role="menu"
+          ref={this.bindContainerRef}
         >
           <PickerToggle
             {...unhandled}
@@ -531,8 +489,8 @@ class Dropdown extends React.Component<Props, States> {
           >
             {selectedLabel || locale.placeholder}
           </PickerToggle>
-        </OverlayTrigger>
-      </div>
+        </div>
+      </OverlayTrigger>
     );
   }
 }

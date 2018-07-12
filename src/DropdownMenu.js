@@ -79,9 +79,7 @@ class DropdownMenu extends React.Component<Props> {
           >
             <div
               className={this.addPrefix('toggle')}
-              onClick={(event: SyntheticEvent<*>) => {
-                this.handleToggleChange(eventKey, event);
-              }}
+              onClick={this.handleToggleChange.bind(this, eventKey)}
               role="menu"
               tabIndex={-1}
             >

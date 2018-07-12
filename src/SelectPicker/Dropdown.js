@@ -4,38 +4,24 @@ import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
-import { SearchBar, MenuWrapper, constants } from 'rsuite-utils/lib/Picker';
+import { SearchBar, MenuWrapper } from 'rsuite-utils/lib/Picker';
 import {
   reactToString,
   filterNodesOfTree,
   findNodeOfTree,
   getDataGroupBy,
-  shallowEqual,
-  shallowEqualArray
+  shallowEqual
 } from 'rsuite-utils/lib/utils';
 
 import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 import DropdownMenu from '../_picker/DropdownMenu';
 import DropdownMenuItem from '../_picker/DropdownMenuItem';
 import PickerToggle from '../_picker/PickerToggle';
+import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
+import type { Placement } from '../utils/TypeDefinition';
 
 type DefaultEvent = SyntheticEvent<*>;
 type DefaultEventFunction = (event: DefaultEvent) => void;
-type Placement =
-  | 'bottomLeft'
-  | 'bottomRight'
-  | 'topLeft'
-  | 'topRight'
-  | 'leftTop'
-  | 'rightTop'
-  | 'leftBottom'
-  | 'rightBottom'
-  | 'auto'
-  | 'autoVerticalLeft'
-  | 'autoVerticalRight'
-  | 'autoHorizontalTop'
-  | 'autoHorizontalBottom';
-
 type Props = {
   appearance: 'default' | 'subtle',
   data: Array<any>,
@@ -89,8 +75,7 @@ type States = {
   value?: any,
   // Used to focus the active item  when trigger `onKeydown`
   focusItemValue?: any,
-  searchKeyword: string,
-  filteredData?: Array<any>
+  searchKeyword: string
 };
 
 class Dropdown extends React.Component<Props, States> {
@@ -119,29 +104,11 @@ class Dropdown extends React.Component<Props, States> {
     this.state = {
       value: nextValue,
       focusItemValue: nextValue,
-      searchKeyword: '',
-      filteredData: data
+      searchKeyword: ''
     };
 
     if (groupBy === valueKey || groupBy === labelKey) {
       throw Error('`groupBy` can not be equal to `valueKey` and `labelKey`');
-    }
-  }
-
-  componentWillReceiveProps(nextProps: Props) {
-    const { value, data } = nextProps;
-
-    if (!shallowEqual(value, this.props.value)) {
-      this.setState({
-        value,
-        focusItemValue: value
-      });
-    }
-
-    if (!shallowEqualArray(data, this.props.data)) {
-      this.setState({
-        filteredData: data
-      });
     }
   }
 
@@ -476,18 +443,7 @@ class Dropdown extends React.Component<Props, States> {
       }
     }
 
-    const classes = classNames(
-      className,
-      this.addPrefix('select'),
-      this.addPrefix(appearance),
-      this.addPrefix(`placement-${_.kebabCase(placement)}`),
-      this.addPrefix('toggle-wrapper'),
-      {
-        [this.addPrefix('block')]: block,
-        [this.addPrefix('has-value')]: hasValue,
-        [this.addPrefix('disabled')]: disabled
-      }
-    );
+    const classes = getToggleWrapperClassName('select', this.addPrefix, this.props, hasValue);
 
     return (
       <OverlayTrigger

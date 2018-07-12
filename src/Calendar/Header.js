@@ -25,7 +25,6 @@ type Props = {
 
 class Header extends React.PureComponent<Props> {
   static defaultProps = {
-    classPrefix: 'rs-calendar-header',
     date: moment()
   };
   getTimeFormat() {

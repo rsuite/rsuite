@@ -1,0 +1,72 @@
+@import "common";
+@import "mixins/form";
+@import "mixins/picker";
+
+.@{ns}@{input-picker-prefix} {
+  position: relative;
+  border: @picker-default-toggle-border-width solid @picker-default-toggle-border-color;
+  border-radius: @border-radius-base;
+
+  .@{ns}picker-toggle {
+    border: none !important;
+    height: @input-picker-toggle-content-height;
+
+    &-clean,
+    &-caret {
+      top: @padding-base-vertical - @picker-default-toggle-border-width;
+    }
+  }
+
+  &:not(.@{ns}picker-disabled) .@{ns}picker-toggle {
+    position: absolute !important;
+    top: @picker-default-toggle-border-width;
+    left: 0;
+  }
+
+  &.@{ns}picker-focused {
+    border-color: @picker-default-toggle-hover-border-color;
+  }
+}
+
+.@{ns}picker-tag-wrapper {
+  padding-right: @dropdown-toggle-padding-right;
+
+  .@{ns}picker-cleanable & {
+    padding-right: @dropdown-toggle-padding-right + @picker-toggle-clean-width;
+  }
+}
+
+.@{ns}picker-search {
+  border: none;
+  width: 100%;
+
+  &-input {
+    .input-size(@input-picker-toggle-content-height; @padding-base-vertical; @padding-base-input-horizontal; @font-size-base; @line-height-base; @input-border-radius);
+
+    .@{tag-picker} & {
+      .input-size(@tag-picker-toggle-content-height; @padding-extra-small-vertical; @padding-base-input-horizontal; @font-size-small; @line-height-base; @input-border-radius);
+
+      padding-left: @padding-base-horizontal - @picker-default-toggle-border-width;
+
+      > input {
+        background: none;
+        outline: none;
+        border: none;
+        width: 100%;
+        font-size: @font-size-base;
+        line-height: @line-height-computed;
+      }
+    }
+
+    background: none;
+    outline: none;
+    border: none;
+    width: 100%;
+    position: relative;
+    padding-right: 0;
+
+    .@{ns}picker-focused & {
+      z-index: @zindex-picker-input;
+    }
+  }
+}

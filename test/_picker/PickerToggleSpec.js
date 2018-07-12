@@ -31,16 +31,6 @@ describe('Toggle', () => {
     assert.equal(instance.innerText, Title);
   });
 
-  it('Should be cleanable', () => {
-    const instance = getDOMNode(
-      <Toggle title="title" cleanable hasValue>
-        Title
-      </Toggle>
-    );
-
-    assert.include(instance.className, 'toggle-cleanable');
-  });
-
   it('Should call `onClean` callback', done => {
     const doneOp = () => {
       done();

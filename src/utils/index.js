@@ -13,4 +13,5 @@ export TypeDefinition from './TypeDefinition';
 export withStyleProps from './withStyleProps';
 export ajaxUpload from './ajaxUpload';
 export previewFile from './previewFile';
+export getDataGroupBy from './getDataGroupBy';
 export clone from './clone';

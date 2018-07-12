@@ -47,6 +47,11 @@ export default {
   CheckTreePicker: {
     selectedValues: '{0} selected'
   },
+  InputPicker: {
+    noResultsText: 'No results found',
+    newItem: 'New item',
+    createOption: 'Create option "{0}"'
+  },
   Uploader: {
     inited: 'Initial',
     progress: 'Uploading',

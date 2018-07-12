@@ -9,7 +9,7 @@ type Props = {
   active?: boolean,
   disabled?: boolean,
   value?: any,
-  onSelect?: (value: any, checked: boolean, event: SyntheticEvent<*>) => void,
+  onSelect?: (value: any, event: SyntheticEvent<*>, checked: boolean) => void,
   onKeyDown?: (event: SyntheticKeyboardEvent<*>) => void,
   focus?: boolean,
   title?: string,
@@ -22,7 +22,7 @@ class DropdownMenuCheckItem extends React.Component<Props> {
   handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
     const { value, disabled, onSelect } = this.props;
     if (!disabled && onSelect) {
-      onSelect(value, event.target.checked, event);
+      onSelect(value, event, event.target.checked);
     }
   };
 

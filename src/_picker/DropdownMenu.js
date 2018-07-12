@@ -25,7 +25,7 @@ type Props = {
   style?: Object,
   renderMenuItem?: (itemLabel: React.Node, item: Object) => React.Node,
   renderMenuGroup?: (title: React.Node, item: Object) => React.Node,
-  onSelect?: (value: any, checked: boolean, item: Object, event: DefaultEvent) => void,
+  onSelect?: (value: any, item: Object, event: DefaultEvent, checked?: boolean) => void,
   onGroupTitleClick?: DefaultEventFunction,
   dropdownMenuItemComponentClass: React.ElementType,
   dropdownMenuItemClassPrefix?: string
@@ -77,10 +77,19 @@ class DropdownMenu extends React.Component<Props> {
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
-  // value: any, item: Object, event: DefaultEvent
-  handleSelect = (value: any, checked: boolean, item: Object, event: DefaultEvent) => {
+  handleSelect = (item: Object, value: any, event: DefaultEvent, checked?: boolean) => {
     const { onSelect } = this.props;
-    onSelect && onSelect(value, checked, item, event);
+    onSelect && onSelect(value, item, event, checked);
+  };
+
+  bindMenuItems = (disabled: boolean, key: string, ref: React.ElementRef<*>) => {
+    if (ref && !disabled) {
+      this.menuItems[key] = ref;
+    }
+  };
+
+  getItemData = (itemData: Object) => {
+    return itemData;
   };
 
   renderItems() {
@@ -137,7 +146,7 @@ class DropdownMenu extends React.Component<Props> {
         return (
           <DropdownMenuItem
             classPrefix={dropdownMenuItemClassPrefix}
-            getItemData={() => item}
+            getItemData={this.getItemData.bind(this, item)}
             key={`${groupId}-${onlyKey}`}
             disabled={disabled}
             active={
@@ -145,14 +154,8 @@ class DropdownMenu extends React.Component<Props> {
             }
             focus={!_.isUndefined(focusItemValue) && shallowEqual(focusItemValue, value)}
             value={value}
-            ref={ref => {
-              if (ref && !disabled) {
-                this.menuItems[`${groupId}-${onlyKey}`] = ref;
-              }
-            }}
-            onSelect={(val, checked, event) => {
-              this.handleSelect(val, checked, item, event);
-            }}
+            ref={this.bindMenuItems.bind(this, disabled, `${groupId}-${onlyKey}`)}
+            onSelect={this.handleSelect.bind(this, item)}
           >
             {renderMenuItem ? renderMenuItem(label, item) : label}
           </DropdownMenuItem>
