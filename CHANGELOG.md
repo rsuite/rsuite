@@ -1,3 +1,16 @@
+# 3.2.0 🎉 (dev)
+
+* **Feature/Breaking**: Support `appearance` on `*Picker`, The default value is `default` ([#125])
+* **Feature**: Added InputPicker component
+* **Feature**: Added TagPicker component
+* **Bugfix**: Calendar render incomplete when set `isoWeek` ([#128])
+* **Bugfix**: Table loading unclickable ([#124])
+* **Chore**: Migrate code for picker related components to `rsuite` library
+
+[#128]: https://github.com/rsuite/rsuite/pull/128
+[#125]: https://github.com/rsuite/rsuite/pull/125
+[#124]: https://github.com/rsuite/rsuite/pull/124
+
 # 3.1.3
 
 > 2018-07-05
