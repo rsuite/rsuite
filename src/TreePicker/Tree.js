@@ -396,7 +396,7 @@ class Tree extends React.Component<Props, State> {
     if (node !== null) {
       node.focus();
     }
-  }
+  };
 
   focusPreviousItem = () => {
     const { items, activeIndex } = this.getItemsAndActiveIndex();
@@ -411,7 +411,7 @@ class Tree extends React.Component<Props, State> {
     if (node !== null) {
       node.focus();
     }
-  }
+  };
 
   closeDropdown = () => {
     if (this.trigger) {
@@ -486,7 +486,7 @@ class Tree extends React.Component<Props, State> {
         className.includes(`${classPrefix}-search-bar-input`)
       ) {
         onMenuKeyDown(event, {
-          down: this.focusNextItem,
+          down: this.focusNextItem
         });
       }
     }

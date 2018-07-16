@@ -577,7 +577,7 @@ class CheckTree extends React.Component<Props, State> {
     if (node !== null) {
       node.focus();
     }
-  }
+  };
 
   everyChildChecked = (nodes: Object, node: Object) => {
     const list = [];
