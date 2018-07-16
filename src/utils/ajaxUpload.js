@@ -2,7 +2,7 @@
 
 type ErrorStatus = {
   type: 'timeout' | 'server_error' | 'xhr_error',
-  message?: string
+  response?: any
 };
 
 type Options = {
@@ -13,9 +13,9 @@ type Options = {
   headers?: Object,
   file: File,
   url: string,
-  onError: (status: ErrorStatus) => void,
-  onSuccess: (response: any) => void,
-  onProgress: (percent: number) => void
+  onError: (status: ErrorStatus, event: Object) => void,
+  onSuccess: (response: any, event: Object) => void,
+  onProgress: (percent: number, event: Object) => void
 };
 
 function getResponse(xhr) {
@@ -65,8 +65,8 @@ export default function ajaxUpload(options: Options) {
 
   if (timeout) {
     xhr.timeout = timeout;
-    xhr.ontimeout = () => {
-      onError({ type: 'timeout' });
+    xhr.ontimeout = event => {
+      onError({ type: 'timeout' }, event);
     };
   }
 
@@ -74,13 +74,13 @@ export default function ajaxUpload(options: Options) {
     xhr.withCredentials = true;
   }
 
-  xhr.onload = () => {
+  xhr.onload = event => {
     const resp = getResponse(xhr);
     if (xhr.status < 200 || xhr.status >= 300) {
-      onError({ type: 'server_error' });
+      onError({ type: 'server_error', response: resp }, event);
       return;
     }
-    onSuccess(resp);
+    onSuccess(resp, event);
   };
 
   if (xhr.upload) {
@@ -89,12 +89,12 @@ export default function ajaxUpload(options: Options) {
       if (event.lengthComputable) {
         percent = event.loaded / event.total * 100;
       }
-      onProgress(percent);
+      onProgress(percent, event);
     };
   }
 
-  xhr.onerror = () => {
-    onError({ type: 'xhr_error' });
+  xhr.onerror = event => {
+    onError({ type: 'xhr_error' }, event);
   };
 
   xhr.send(formData);

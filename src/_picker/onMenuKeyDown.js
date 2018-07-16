@@ -16,7 +16,7 @@ function onMenuKeyDown(event, events) {
       enter && enter(event);
       event.preventDefault();
       break;
-    // enter
+    // delete
     case 8:
       del && del(event);
       break;

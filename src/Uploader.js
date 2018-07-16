@@ -60,10 +60,10 @@ type Props = {
   onChange?: (fileList: Array<FileType>) => void,
   onUpload?: (file: FileType) => void,
   onReupload?: (file: FileType) => void,
-  onError?: (reason: Object, file: FileType) => void,
   onPreview?: (file: FileType, event: SyntheticEvent<*>) => void,
-  onSuccess?: (response: Object, file: FileType) => void,
-  onProgress?: (percent: number, file: FileType) => void,
+  onError?: (status: Object, file: FileType, event: SyntheticEvent<*>) => void,
+  onSuccess?: (response: Object, file: FileType, event: SyntheticEvent<*>) => void,
+  onProgress?: (percent: number, file: FileType, event: SyntheticEvent<*>) => void,
   onRemove?: (file: FileType) => void,
   maxPreviewFileSize?: number,
   style?: Object,
@@ -173,7 +173,7 @@ class Uploader extends React.Component<Props, State> {
     this.cleanInputValue();
   }
 
-  handleAjaxUploadSuccess = (response: Object, file: FileType) => {
+  handleAjaxUploadSuccess = (file: FileType, response: Object, event) => {
     const { onSuccess } = this.props;
     const nextFile = {
       ...file,
@@ -181,22 +181,22 @@ class Uploader extends React.Component<Props, State> {
       progress: 100
     };
     this.updateFileList(nextFile, () => {
-      onSuccess && onSuccess(response, nextFile);
+      onSuccess && onSuccess(response, nextFile, event);
     });
   };
 
-  handleAjaxUploadError = (reason: Object, file: FileType) => {
+  handleAjaxUploadError = (file: FileType, status: Object, event) => {
     const { onError } = this.props;
     const nextFile = {
       ...file,
       status: 'error'
     };
     this.updateFileList(nextFile, () => {
-      onError && onError(reason, nextFile);
+      onError && onError(status, nextFile, event);
     });
   };
 
-  handleAjaxUploadProgress = (percent: number, file: FileType) => {
+  handleAjaxUploadProgress = (file: FileType, percent: number, event) => {
     const { onProgress } = this.props;
     const nextFile = {
       ...file,
@@ -204,7 +204,7 @@ class Uploader extends React.Component<Props, State> {
       progress: percent
     };
     this.updateFileList(nextFile, () => {
-      onProgress && onProgress(percent, nextFile);
+      onProgress && onProgress(percent, nextFile, event);
     });
   };
 
@@ -218,16 +218,11 @@ class Uploader extends React.Component<Props, State> {
       withCredentials,
       file: file.blobFile,
       url: action,
-      onError: reason => {
-        this.handleAjaxUploadError(reason, file);
-      },
-      onSuccess: resp => {
-        this.handleAjaxUploadSuccess(resp, file);
-      },
-      onProgress: percent => {
-        this.handleAjaxUploadProgress(percent, file);
-      }
+      onError: this.handleAjaxUploadError.bind(this, file),
+      onSuccess: this.handleAjaxUploadSuccess.bind(this, file),
+      onProgress: this.handleAjaxUploadProgress.bind(this, file)
     });
+
     this.updateFileList({
       ...file,
       status: 'uploading'
