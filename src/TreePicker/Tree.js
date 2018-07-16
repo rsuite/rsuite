@@ -20,6 +20,7 @@ import TreeNode from './TreeNode';
 import { clone, defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 import PickerToggle from '../_picker/PickerToggle';
 import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
+import onMenuKeyDown from '../_picker/onMenuKeyDown';
 
 type DefaultEvent = SyntheticEvent<*>;
 type Placement =
@@ -385,11 +386,7 @@ class Tree extends React.Component<Props, State> {
     this.handleNodeSelect(nodeData, +layer, event);
   };
 
-  focusNextMenuItem() {
-    this.focusNextItem();
-  }
-
-  focusNextItem() {
+  focusNextItem = () => {
     const { items, activeIndex } = this.getItemsAndActiveIndex();
     if (items.length === 0) {
       return;
@@ -401,7 +398,7 @@ class Tree extends React.Component<Props, State> {
     }
   }
 
-  focusPreviousItem() {
+  focusPreviousItem = () => {
     const { items, activeIndex } = this.getItemsAndActiveIndex();
 
     if (items.length === 0) {
@@ -469,24 +466,11 @@ class Tree extends React.Component<Props, State> {
   };
 
   handleKeyDown = (event: SyntheticKeyboardEvent<*>) => {
-    switch (event.keyCode) {
-      // down
-      case 40:
-        this.focusNextItem();
-        event.preventDefault();
-        break;
-      // up
-      case 38:
-        this.focusPreviousItem();
-        event.preventDefault();
-        break;
-      // enter
-      case 13:
-        this.selectActiveItem(event);
-        event.preventDefault();
-        break;
-      default:
-    }
+    onMenuKeyDown(event, {
+      down: this.focusNextItem,
+      up: this.focusPreviousItem,
+      enter: this.selectActiveItem
+    });
   };
 
   handleToggleKeyDown = (event: SyntheticKeyboardEvent<*>) => {
@@ -494,19 +478,16 @@ class Tree extends React.Component<Props, State> {
     if (!this.treeView) {
       return;
     }
-
-    if (
-      event.currentTarget.className.includes(`${classPrefix}-toggle`) ||
-      event.currentTarget.className.includes(`${classPrefix}-toggle-custom`) ||
-      event.currentTarget.className.includes(`${classPrefix}-search-bar-input`)
-    ) {
-      switch (event.keyCode) {
-        // down
-        case 40:
-          this.focusNextItem();
-          event.preventDefault();
-          break;
-        default:
+    if (event.target instanceof HTMLElement) {
+      const className = event.target.className;
+      if (
+        className.includes(`${classPrefix}-toggle`) ||
+        className.includes(`${classPrefix}-toggle-custom`) ||
+        className.includes(`${classPrefix}-search-bar-input`)
+      ) {
+        onMenuKeyDown(event, {
+          down: this.focusNextItem,
+        });
       }
     }
   };
