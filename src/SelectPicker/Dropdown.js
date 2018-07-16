@@ -18,6 +18,7 @@ import DropdownMenu from '../_picker/DropdownMenu';
 import DropdownMenuItem from '../_picker/DropdownMenuItem';
 import PickerToggle from '../_picker/PickerToggle';
 import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
+import onMenuKeyDown from '../_picker/onMenuKeyDown';
 import type { Placement } from '../utils/TypeDefinition';
 
 type DefaultEvent = SyntheticEvent<*>;
@@ -190,7 +191,7 @@ class Dropdown extends React.Component<Props, States> {
 
     focus(items, -1);
   }
-  focusNextMenuItem() {
+  focusNextMenuItem = () => {
     const { valueKey } = this.props;
     this.findNode((items, index) => {
       const focusItem = items[index + 1];
@@ -198,8 +199,8 @@ class Dropdown extends React.Component<Props, States> {
         this.setState({ focusItemValue: focusItem[valueKey] });
       }
     });
-  }
-  focusPrevMenuItem() {
+  };
+  focusPrevMenuItem = () => {
     const { valueKey } = this.props;
     this.findNode((items, index) => {
       const focusItem = items[index - 1];
@@ -207,9 +208,9 @@ class Dropdown extends React.Component<Props, States> {
         this.setState({ focusItemValue: focusItem[valueKey] });
       }
     });
-  }
+  };
 
-  selectFocusMenuItem(event: DefaultEvent) {
+  selectFocusMenuItem = (event: DefaultEvent) => {
     const { focusItemValue } = this.state;
     const { data, valueKey } = this.props;
     if (!focusItemValue) {
@@ -225,37 +226,19 @@ class Dropdown extends React.Component<Props, States> {
     });
 
     this.closeDropdown();
-  }
+  };
 
   handleKeyDown = (event: SyntheticKeyboardEvent<*>) => {
     if (!this.menuContainer) {
       return;
     }
 
-    switch (event.keyCode) {
-      // down
-      case 40:
-        this.focusNextMenuItem();
-        event.preventDefault();
-        break;
-      // up
-      case 38:
-        this.focusPrevMenuItem();
-        event.preventDefault();
-        break;
-      // enter
-      case 13:
-        this.selectFocusMenuItem(event);
-        event.preventDefault();
-        break;
-      // esc | tab
-      case 27:
-      case 9:
-        this.closeDropdown();
-        event.preventDefault();
-        break;
-      default:
-    }
+    onMenuKeyDown(event, {
+      down: this.focusNextMenuItem,
+      up: this.focusPrevMenuItem,
+      enter: this.selectFocusMenuItem,
+      esc: this.closeDropdown
+    });
   };
 
   handleItemSelect = (value: any, item: Object, event: DefaultEvent) => {
