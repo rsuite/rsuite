@@ -9,6 +9,7 @@ import { MenuWrapper } from 'rsuite-utils/lib/Picker';
 
 import Input from './Input';
 import AutoCompleteItem from './AutoCompleteItem';
+import onMenuKeyDown from './_picker/onMenuKeyDown';
 import { defaultProps, getUnhandledProps, prefix } from './utils';
 import { globalKey } from './utils/prefix';
 import type { Placement } from './utils/TypeDefinition';
@@ -143,7 +144,7 @@ class AutoComplete extends React.Component<Props, State> {
     onBlur && onBlur(event);
   };
 
-  focusNextMenuItem(event: DefaultEvent) {
+  focusNextMenuItem = (event: DefaultEvent) => {
     const { onMenuFocus } = this.props;
     this.findNode((items, index) => {
       const item = items[index + 1];
@@ -153,9 +154,9 @@ class AutoComplete extends React.Component<Props, State> {
         onMenuFocus && onMenuFocus(focusItemValue, event);
       }
     });
-  }
+  };
 
-  focusPrevMenuItem(event: DefaultEvent) {
+  focusPrevMenuItem = (event: DefaultEvent) => {
     const { onMenuFocus } = this.props;
     this.findNode((items, index) => {
       const item = items[index - 1];
@@ -165,9 +166,9 @@ class AutoComplete extends React.Component<Props, State> {
         onMenuFocus && onMenuFocus(focusItemValue, event);
       }
     });
-  }
+  };
 
-  selectFocusMenuItem(event: DefaultEvent) {
+  selectFocusMenuItem = (event: DefaultEvent) => {
     const { focusItemValue, value: prevValue } = this.state;
     if (!focusItemValue) {
       return;
@@ -187,7 +188,7 @@ class AutoComplete extends React.Component<Props, State> {
     }
 
     this.close();
-  }
+  };
 
   close = () => {
     this.setState({ focus: false }, this.props.onClose);
@@ -203,30 +204,13 @@ class AutoComplete extends React.Component<Props, State> {
 
     const { onKeyDown, selectOnEnter } = this.props;
 
-    switch (event.keyCode) {
-      // down
-      case 40:
-        this.focusNextMenuItem(event);
-        event.preventDefault();
-        break;
-      // up
-      case 38:
-        this.focusPrevMenuItem(event);
-        event.preventDefault();
-        break;
-      // enter
-      case 13:
-        selectOnEnter && this.selectFocusMenuItem(event);
-        event.preventDefault();
-        break;
-      // esc | tab
-      case 27:
-      case 9:
-        this.close();
-        event.preventDefault();
-        break;
-      default:
-    }
+    onMenuKeyDown(event, {
+      down: this.focusNextMenuItem,
+      up: this.focusPrevMenuItem,
+      enter: selectOnEnter ? this.selectFocusMenuItem : undefined,
+      esc: this.close
+    });
+
     onKeyDown && onKeyDown(event);
   };
 
