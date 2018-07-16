@@ -8,7 +8,7 @@ import Pagination from './Pagination';
 import SelectPicker from './SelectPicker';
 import Divider from './Divider';
 
-import { prefix, tplTransform, defaultProps } from './utils';
+import { prefix, tplTransform, getUnhandledProps, defaultProps } from './utils';
 import withLocale from './IntlProvider/withLocale';
 
 type Locale = {
@@ -123,6 +123,7 @@ class TablePagination extends React.Component<Props, State> {
 
     const picker = (
       <SelectPicker
+        appearance="subtle"
         cleanable={false}
         searchable={false}
         placement="topLeft"
@@ -155,13 +156,14 @@ class TablePagination extends React.Component<Props, State> {
   }
 
   render() {
-    const { total, prev, next, first, last, maxButtons, className } = this.props;
+    const { total, prev, next, first, last, maxButtons, className, ...rest } = this.props;
     const { displayLength, activePage } = this.state;
     const pages = Math.floor(total / displayLength) + (total % displayLength ? 1 : 0);
     const classes = classNames(this.addPrefix('pagination-wrapper'), className);
+    const unhandled = getUnhandledProps(TablePagination, rest);
 
     return (
-      <div className={classes}>
+      <div className={classes} {...unhandled}>
         {this.renderLengthMenu()}
         <Divider vertical />
         {this.renderInfo()}
