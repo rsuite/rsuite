@@ -17,7 +17,6 @@ type Props = {
   active?: boolean,
   checkState?: CheckState,
   hasChildren?: boolean,
-  labelClickableExpand?: boolean,
   disabled?: boolean,
   disabledCheckbox: boolean,
   layer: number,
@@ -43,10 +42,7 @@ class TreeCheckNode extends React.Component<Props> {
    * 展开收缩节点
    */
   handleTreeToggle = (event: DefaultEvent) => {
-    const { labelClickableExpand, onTreeToggle, layer, nodeData } = this.props;
-    if (labelClickableExpand) {
-      return;
-    }
+    const { onTreeToggle, layer, nodeData } = this.props;
     onTreeToggle && onTreeToggle(nodeData, layer, event);
   };
 
@@ -56,7 +52,6 @@ class TreeCheckNode extends React.Component<Props> {
       onTreeToggle,
       onSelect,
       hasChildren,
-      labelClickableExpand,
       layer,
       disabled,
       disabledCheckbox,
@@ -73,11 +68,6 @@ class TreeCheckNode extends React.Component<Props> {
       if (hasClass(event.target.parentNode, `${classPrefix}-node-expand-icon-wrapper`)) {
         return;
       }
-    }
-
-    // 点击title的时候，如果 title 设置为可以点击，同时又拥有子节点，则可以展开数据
-    if (labelClickableExpand && hasChildren) {
-      onTreeToggle && onTreeToggle(nodeData, layer, event);
     }
 
     let isChecked = false;

@@ -45,9 +45,10 @@ class TreeNode extends React.Component<Props> {
       return;
     }
 
-    // 如果点击的是展开 icon 就 return
-    if (hasClass(event.currentTarget.parentNode, `${classPrefix}-node-expand-icon-wrapper`)) {
-      return;
+    if (event.target instanceof HTMLElement) {
+      if (hasClass(event.target.parentNode, `${classPrefix}-node-expand-icon-wrapper`)) {
+        return;
+      }
     }
 
     onSelect && onSelect(nodeData, layer, event);
