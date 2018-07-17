@@ -252,6 +252,14 @@ describe('CheckTreePicker', () => {
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
 
+  it('Should have a custom menuStyle', () => {
+    const fontSize = '12px';
+    const instance = ReactTestUtils.renderIntoDocument(
+      <CheckTreePicker inline menuStyle={{ fontSize }} data={data} />
+    );
+    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
+  });
+
   it('Should output the correct language', () => {
     const locale = {
       selectedValues: '已选择 {0} 项'

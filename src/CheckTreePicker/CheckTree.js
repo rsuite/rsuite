@@ -55,6 +55,7 @@ type Props = {
   cleanable?: boolean,
   expandAll?: boolean,
   placement?: Placement,
+  menuStyle?: Object,
   searchable?: boolean,
   appearance: 'default' | 'subtle',
   classPrefix: string,
@@ -859,7 +860,7 @@ class CheckTree extends React.Component<Props, State> {
     const { onScroll } = this.props;
     // 树节点的层级
     let layer = 0;
-    const { menuClassName, height } = this.props;
+    const { menuStyle, menuClassName, height } = this.props;
     const treeViewClass = classNames(this.addPrefix('checktree-view'), {});
     const classes = classNames(treeViewClass, menuClassName, {
       'without-children': !isSomeNodeHasChildren
@@ -872,7 +873,8 @@ class CheckTree extends React.Component<Props, State> {
       this.renderNode(node, index, layer, treeViewClass)
     );
     const styles = {
-      height
+      height,
+      ...menuStyle
     };
     const treeNodesClass = this.addPrefix('checktree-nodes');
     return (
