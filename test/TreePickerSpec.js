@@ -237,6 +237,14 @@ describe('TreePicker', () => {
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
 
+  it('Should have a custom menuStyle', () => {
+    const fontSize = '12px';
+    const instance = ReactTestUtils.renderIntoDocument(
+      <TreePicker inline menuStyle={{ fontSize }} data={data} />
+    );
+    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
+  });
+
   it('Should load data async', () => {
     let activeNode = null;
     let layer = 0;

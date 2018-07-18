@@ -55,6 +55,7 @@ type Props = {
   expandAll?: boolean,
   cleanable?: boolean,
   placement?: Placement,
+  menuStyle?: Object,
   appearance: 'default' | 'subtle',
   searchable?: boolean,
   classPrefix: string,
@@ -637,14 +638,15 @@ class Tree extends React.Component<Props, State> {
     // 树节点的层级
     let layer = 0;
     const { filterData } = this.state;
-    const { menuClassName, height } = this.props;
+    const { menuStyle, menuClassName, height } = this.props;
     const treeViewClass = classNames(this.addPrefix('tree-view'));
     const classes = classNames(treeViewClass, menuClassName);
     const nodes = filterData.map((dataItem, index) => {
       return this.renderNode(dataItem, index, layer, treeViewClass);
     });
     const styles = {
-      height
+      height,
+      ...menuStyle
     };
     const treeNodesClass = `${treeViewClass}-nodes`;
     return (
