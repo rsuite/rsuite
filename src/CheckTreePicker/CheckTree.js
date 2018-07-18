@@ -19,6 +19,7 @@ import { CHECK_STATE } from '../utils/constants';
 import { clone, defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 import PickerToggle from '../_picker/PickerToggle';
 import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
+import onMenuKeyDown from '../_picker/onMenuKeyDown';
 
 type DefaultEvent = SyntheticEvent<*>;
 type Placement =
@@ -553,7 +554,7 @@ class CheckTree extends React.Component<Props, State> {
     this.handleSelect(nodeData, +layer);
   };
 
-  focusNextItem() {
+  focusNextItem = () => {
     const { items, activeIndex } = this.getItemsAndActiveIndex();
     if (items.length === 0) {
       return;
@@ -563,9 +564,9 @@ class CheckTree extends React.Component<Props, State> {
     if (node !== null) {
       node.focus();
     }
-  }
+  };
 
-  focusPreviousItem() {
+  focusPreviousItem = () => {
     const { items, activeIndex } = this.getItemsAndActiveIndex();
     if (items.length === 0) {
       return;
@@ -576,7 +577,7 @@ class CheckTree extends React.Component<Props, State> {
     if (node !== null) {
       node.focus();
     }
-  }
+  };
 
   everyChildChecked = (nodes: Object, node: Object) => {
     const list = [];
@@ -690,24 +691,11 @@ class CheckTree extends React.Component<Props, State> {
    * 处理键盘方向键移动
    */
   handleKeyDown = (event: SyntheticKeyboardEvent<*>) => {
-    switch (event.keyCode) {
-      // down
-      case 40:
-        this.focusNextItem();
-        event.preventDefault();
-        break;
-      // up
-      case 38:
-        this.focusPreviousItem();
-        event.preventDefault();
-        break;
-      // enter
-      case 13:
-        this.selectActiveItem();
-        event.preventDefault();
-        break;
-      default:
-    }
+    onMenuKeyDown(event, {
+      down: this.focusNextItem,
+      up: this.focusPreviousItem,
+      enter: this.selectActiveItem
+    });
   };
 
   handleToggleKeyDown = (event: SyntheticKeyboardEvent<*>) => {
@@ -715,19 +703,16 @@ class CheckTree extends React.Component<Props, State> {
     if (!this.treeView) {
       return;
     }
-
-    if (
-      event.currentTarget.className.includes(`${classPrefix}-toggle`) ||
-      event.currentTarget.className.includes(`${classPrefix}-toggle-custom`) ||
-      event.currentTarget.className.includes(`${classPrefix}-search-bar-input`)
-    ) {
-      switch (event.keyCode) {
-        // down
-        case 40:
-          this.focusNextItem();
-          event.preventDefault();
-          break;
-        default:
+    if (event.target instanceof HTMLElement) {
+      const className = event.target.className;
+      if (
+        className.includes(`${classPrefix}-toggle`) ||
+        className.includes(`${classPrefix}-toggle-custom`) ||
+        className.includes(`${classPrefix}-search-bar-input`)
+      ) {
+        onMenuKeyDown(event, {
+          down: this.focusNextItem
+        });
       }
     }
   };

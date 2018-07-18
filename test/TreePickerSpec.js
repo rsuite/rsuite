@@ -104,7 +104,7 @@ describe('TreePicker', () => {
     assert.ok(instanceDom.className.match(/\bblock\b/));
   });
 
-  it('Should active 4 node by `value` when cascade is true', () => {
+  it('Should active 4 node by `value`', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <TreePicker inline data={data} value={'Master'} />
     );
@@ -179,28 +179,34 @@ describe('TreePicker', () => {
     ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector(toggleCls));
   });
 
-  it('Should focus item by keyCode=40 ', () => {
-    const instance = mount(<TreePicker data={data} inline cascade={false} expandAll />);
+  it('Should focus item by keyCode=40', () => {
+    const instance = mount(<TreePicker data={data} expandAll />);
 
-    instance.find('span[data-key="0-0"]').simulate('click');
-    expect(instance.find('span[data-key="0-0"]').getElement() === document.activeElement);
-
+    instance.find(toggleCls).simulate('click');
+    instance.find(toggleCls).simulate('keydown', {
+      keyCode: 40
+    });
     instance.find('span[data-key="0-0"]').simulate('keydown', {
       keyCode: 40
     });
-    expect(instance.find('span[data-key="0-0-0"]').getElement() === document.activeElement);
+
+    assert.equal(instance.find('span[data-key="0-0-0"]').text(), document.activeElement.innerText);
+    instance.unmount();
   });
 
   it('Should focus item by keyCode=38 ', () => {
-    const instance = mount(<TreePicker data={data} inline cascade={false} expandAll />);
+    const instance = mount(<TreePicker data={data} expandAll />);
 
-    instance.find('span[data-key="0-0"]').simulate('click');
-    expect(instance.find('span[data-key="0-0"]').getElement() === document.activeElement);
-
+    instance.find(toggleCls).simulate('click');
+    instance.find(toggleCls).simulate('keydown', {
+      keyCode: 40
+    });
     instance.find('span[data-key="0-0"]').simulate('keydown', {
       keyCode: 38
     });
-    expect(instance.find('span[data-key="0-1"]').getElement() === document.activeElement);
+
+    assert.equal(instance.find('span[data-key="0-1"]').text(), document.activeElement.innerText);
+    instance.unmount();
   });
 
   it('Should focus item by keyCode=13 ', done => {
@@ -208,13 +214,9 @@ describe('TreePicker', () => {
       done();
     };
 
-    const instance = mount(
-      <TreePicker data={data} onChange={doneOp} inline cascade={false} expandAll />
-    );
+    const instance = mount(<TreePicker data={data} onChange={doneOp} inline expandAll />);
 
     instance.find('span[data-key="0-0"]').simulate('click');
-    expect(instance.find('span[data-key="0-0"]').getElement() === document.activeElement);
-
     instance.find('span[data-key="0-0"]').simulate('keydown', {
       keyCode: 13
     });
