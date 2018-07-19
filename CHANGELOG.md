@@ -1,3 +1,19 @@
+# 3.2.1
+
+> 2018-07-19
+
+* **Feature**: Support `menuStyle` on `<TreePicker>` and `<CheckTreePicker>` ([#136])
+* **Bugfix**: Fix the color of pickers placeholders ([#137])
+* **Bugfix**: Fix `<TreePicker>` and `<CheckTreePicker>` keydown event error ([#135])
+* **Bugfix**: Table in the page picker should be subtle ([#134])
+* **Chore**: The callback function returns detailed info on `<Uploader>` ([#133])
+
+[#137]: https://github.com/rsuite/rsuite/pull/137
+[#136]: https://github.com/rsuite/rsuite/pull/136
+[#135]: https://github.com/rsuite/rsuite/pull/135
+[#134]: https://github.com/rsuite/rsuite/pull/134
+[#133]: https://github.com/rsuite/rsuite/pull/133
+
 # 3.2.0
 
 > 2018-07-12
