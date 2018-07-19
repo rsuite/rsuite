@@ -25,7 +25,11 @@
     opacity: .3;
   }
 
-  &-has-value .@{ns}picker-toggle .@{ns}picker-toggle-value {
+  &-toggle &-toggle-placeholder {
+    color: @picker-placeholder-color;
+  }
+
+  &-has-value &-toggle &-toggle-value {
     color: @picker-selected-value-color;
   }
 
