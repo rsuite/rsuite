@@ -28,7 +28,7 @@ jobs:
       script: skip
       deploy:
         provider: npm
-        email: "leishenghao@126.com"
+        email: "simonguo.2009@gmail.com"
         api_key: $NPM_AUTH_TOKEN
         skip_cleanup: true
         on:
