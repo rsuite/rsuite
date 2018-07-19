@@ -5,7 +5,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import TestRenderer from 'react-test-renderer';
 import { findDOMNode } from 'react-dom';
 import { namespace } from 'rsuite-utils/lib/Picker/constants';
-import CheckTreePicker from '../src/CheckTreePicker';
+import CheckTreePicker from '../src/CheckTreePicker/CheckTree';
 import { clone } from '../src/utils';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -255,9 +255,9 @@ describe('CheckTreePicker', () => {
   it('Should have a custom menuStyle', () => {
     const fontSize = '12px';
     const instance = ReactTestUtils.renderIntoDocument(
-      <CheckTreePicker inline menuStyle={{ fontSize }} data={data} />
+      <CheckTreePicker menuStyle={{ fontSize }} data={data} open />
     );
-    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
+    assert.equal(findDOMNode(instance.menu).style.fontSize, fontSize);
   });
 
   it('Should output the correct language', () => {

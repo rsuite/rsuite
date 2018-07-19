@@ -130,6 +130,7 @@ class TablePagination extends React.Component<Props, State> {
         data={lengthMenu}
         value={displayLength}
         onChange={this.handleChangeLength}
+        menuStyle={{ minWidth: 'auto' }}
       />
     );
 

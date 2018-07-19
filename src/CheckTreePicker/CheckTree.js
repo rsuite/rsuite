@@ -550,6 +550,12 @@ class CheckTree extends React.Component<Props, State> {
     this.nodeRefs[refKey] = ref;
   };
 
+  // for test
+  menu = null;
+  bindMenuRef = (ref: React.ElementRef<*>) => {
+    this.menu = ref;
+  };
+
   selectActiveItem = () => {
     const { nodeData, layer } = this.getActiveItem();
     this.handleSelect(nodeData, +layer);
@@ -765,14 +771,24 @@ class CheckTree extends React.Component<Props, State> {
   };
 
   renderDropdownMenu() {
-    const { locale, searchable, placement, renderExtraFooter, renderMenu } = this.props;
+    const {
+      locale,
+      searchable,
+      placement,
+      renderExtraFooter,
+      renderMenu,
+      menuStyle,
+      menuClassName
+    } = this.props;
     const classes = classNames(
+      menuClassName,
       this.addPrefix('checktree-menu'),
       this.addPrefix(`placement-${_.kebabCase(placement)}`)
     );
     const menu = this.renderCheckTree();
+
     return (
-      <MenuWrapper className={classes}>
+      <MenuWrapper className={classes} style={menuStyle} ref={this.bindMenuRef}>
         {searchable ? (
           <SearchBar
             placeholder={locale.searchPlaceholder}
@@ -860,9 +876,9 @@ class CheckTree extends React.Component<Props, State> {
     const { onScroll } = this.props;
     // 树节点的层级
     let layer = 0;
-    const { menuStyle, menuClassName, height } = this.props;
-    const treeViewClass = classNames(this.addPrefix('checktree-view'), {});
-    const classes = classNames(treeViewClass, menuClassName, {
+    const { height } = this.props;
+    const treeViewClass = this.addPrefix('checktree-view');
+    const classes = classNames(treeViewClass, {
       'without-children': !isSomeNodeHasChildren
     });
     const formattedNodes = this.state.formattedNodes.length
@@ -873,8 +889,7 @@ class CheckTree extends React.Component<Props, State> {
       this.renderNode(node, index, layer, treeViewClass)
     );
     const styles = {
-      height,
-      ...menuStyle
+      height
     };
     const treeNodesClass = this.addPrefix('checktree-nodes');
     return (

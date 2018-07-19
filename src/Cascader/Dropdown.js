@@ -301,10 +301,9 @@ class Dropdown extends React.Component<Props, States> {
     );
 
     return (
-      <MenuWrapper className={classes}>
+      <MenuWrapper className={classes} style={menuStyle}>
         <DropdownMenu
           {...menuProps}
-          style={menuStyle}
           classPrefix={this.addPrefix('cascader-menu')}
           ref={this.bindMenuContainerRef}
           cascadeItems={items}
