@@ -385,7 +385,7 @@ class DateRangePicker extends React.Component<Props, State> {
 
     // If the date is between the start and the end
     // the button is disabled
-    while (start.isBefore(end)) {
+    while (start.isBefore(end) || start.isSame(end, 'day')) {
       if (disabledDate && disabledDate(date, nextSelectValue, doneSelected, type)) {
         return true;
       }

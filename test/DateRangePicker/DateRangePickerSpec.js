@@ -18,6 +18,39 @@ describe('DateRangePicker', () => {
     assert.ok(findDOMNode(instance).className.match(/\bdisabled\b/));
   });
 
+  it('Should be disabled date', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <DateRangePicker
+        ranges={[
+          {
+            label: 'Yesterday',
+            value: [moment().add(-1, 'd'), moment().add(-1, 'd')]
+          },
+          {
+            label: 'Today',
+            value: [moment(), moment()]
+          },
+          {
+            label: 'Tomorrow',
+            value: [moment().add(1, 'd'), moment().add(1, 'd')]
+          },
+          {
+            label: 'Last 7 days',
+            value: [moment().subtract(6, 'days'), moment()]
+          }
+        ]}
+        disabledDate={() => true}
+        open
+      />
+    );
+
+    assert.equal(
+      findDOMNode(instance.menuContainer).querySelectorAll('.rs-picker-toolbar-option-disabled')
+        .length,
+      4
+    );
+  });
+
   it('Should call `onChange` callback', done => {
     const doneOp = () => {
       done();
