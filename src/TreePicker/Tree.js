@@ -349,6 +349,12 @@ class Tree extends React.Component<Props, State> {
     this.nodeRefs[refKey] = ref;
   };
 
+  // for test
+  menu = null;
+  bindMenuRef = (ref: React.ElementRef<*>) => {
+    this.menu = ref;
+  };
+
   /**
    * 将数组变为对象
    * @param {*} nodes tree data
@@ -534,15 +540,24 @@ class Tree extends React.Component<Props, State> {
   };
 
   renderDropdownMenu() {
-    const { searchable, placement, renderExtraFooter, locale, renderMenu } = this.props;
+    const {
+      searchable,
+      placement,
+      renderExtraFooter,
+      locale,
+      renderMenu,
+      menuStyle,
+      menuClassName
+    } = this.props;
 
     const classes = classNames(
+      menuClassName,
       this.addPrefix('tree-menu'),
       this.addPrefix(`placement-${_.kebabCase(placement)}`)
     );
 
     return (
-      <MenuWrapper className={classes}>
+      <MenuWrapper className={classes} style={menuStyle} ref={this.bindMenuRef}>
         {searchable ? (
           <SearchBar
             placeholder={locale.searchPlaceholder}
@@ -638,17 +653,14 @@ class Tree extends React.Component<Props, State> {
     // 树节点的层级
     let layer = 0;
     const { filterData } = this.state;
-    const { menuStyle, menuClassName, height } = this.props;
-    const treeViewClass = classNames(this.addPrefix('tree-view'));
-    const classes = classNames(treeViewClass, menuClassName);
+    const { height } = this.props;
+    const classes = this.addPrefix('tree-view');
     const nodes = filterData.map((dataItem, index) => {
-      return this.renderNode(dataItem, index, layer, treeViewClass);
+      return this.renderNode(dataItem, index, layer, classes);
     });
     const styles = {
-      height,
-      ...menuStyle
+      height
     };
-    const treeNodesClass = `${treeViewClass}-nodes`;
     return (
       <div
         ref={this.bindTreeViewRef}
@@ -656,7 +668,7 @@ class Tree extends React.Component<Props, State> {
         style={styles}
         onKeyDown={this.handleKeyDown}
       >
-        <div className={treeNodesClass}>{nodes}</div>
+        <div className={this.addPrefix('tree-view-nodes')}>{nodes}</div>
       </div>
     );
   }

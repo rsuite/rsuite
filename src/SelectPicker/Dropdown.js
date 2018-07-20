@@ -347,7 +347,6 @@ class Dropdown extends React.Component<Props, States> {
     const menu = (
       <DropdownMenu
         {...menuProps}
-        style={menuStyle}
         classPrefix={this.addPrefix('select-menu')}
         dropdownMenuItemClassPrefix={this.addPrefix('select-menu-item')}
         dropdownMenuItemComponentClass={DropdownMenuItem}
@@ -361,7 +360,7 @@ class Dropdown extends React.Component<Props, States> {
     );
 
     return (
-      <MenuWrapper className={classes} onKeyDown={this.handleKeyDown}>
+      <MenuWrapper className={classes} style={menuStyle} onKeyDown={this.handleKeyDown}>
         {searchable && (
           <SearchBar
             ref={this.bindSearchBarContainerRef}

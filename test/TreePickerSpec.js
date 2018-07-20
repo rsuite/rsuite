@@ -5,7 +5,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import TestRenderer from 'react-test-renderer';
 import { findDOMNode } from 'react-dom';
 import { namespace } from 'rsuite-utils/lib/Picker/constants';
-import TreePicker from '../src/TreePicker';
+import TreePicker from '../src/TreePicker/Tree';
 import { clone } from '../src/utils';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -240,9 +240,9 @@ describe('TreePicker', () => {
   it('Should have a custom menuStyle', () => {
     const fontSize = '12px';
     const instance = ReactTestUtils.renderIntoDocument(
-      <TreePicker inline menuStyle={{ fontSize }} data={data} />
+      <TreePicker open menuStyle={{ fontSize }} data={data} />
     );
-    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
+    assert.equal(findDOMNode(instance.menu).style.fontSize, fontSize);
   });
 
   it('Should load data async', () => {
