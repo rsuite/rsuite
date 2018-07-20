@@ -26,6 +26,11 @@ describe('InputNumber', () => {
     assert.ok(instance.querySelector('.rs-input-number-touchspin-up.rs-btn-subtle'));
   });
 
+  it('Should render placeholder in input', () => {
+    const instance = getDOMNode(<InputNumber placeholder="abc" />);
+    assert.equal(instance.querySelector('input').placeholder, 'abc');
+  });
+
   it('Should output a link button', () => {
     const instance = getDOMNode(<InputNumber buttonAppearance="link" />);
     assert.ok(instance.querySelector('.rs-input-number-touchspin-up.rs-btn-link'));

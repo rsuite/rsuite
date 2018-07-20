@@ -9,7 +9,7 @@ import Input from './Input';
 import Button from './Button';
 import Icon from './Icon';
 
-import { prefix, defaultProps, getUnhandledProps } from './utils';
+import { prefix, defaultProps, getUnhandledProps, partitionHTMLProps } from './utils';
 
 type Props = {
   className?: string,
@@ -189,19 +189,21 @@ class InputNumber extends React.Component<Props, State> {
       classPrefix,
       step,
       buttonAppearance,
-      ...rest
+      ...props
     } = this.props;
     const { disabledUpButton, disabledDownButton } = this.state;
 
     const value = this.getValue();
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, className);
-    const unhandled = getUnhandledProps(InputNumber, rest);
+    const unhandled = getUnhandledProps(InputNumber, props);
+    const [htmlInputProps, rest] = partitionHTMLProps(unhandled);
 
     return (
-      <InputGroup {...unhandled} className={classes} disabled={disabled} size={size}>
+      <InputGroup {...rest} className={classes} disabled={disabled} size={size}>
         {prefixElement && <InputGroup.Addon>{prefixElement}</InputGroup.Addon>}
         <Input
+          {...htmlInputProps}
           type="text"
           step={step}
           onChange={this.handleOnChange}
