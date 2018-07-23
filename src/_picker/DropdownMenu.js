@@ -108,6 +108,8 @@ class DropdownMenu extends React.Component<Props> {
       dropdownMenuItemComponentClass: DropdownMenuItem
     } = this.props;
 
+    this.menuItems = {};
+
     const createMenuItems = (items = [], groupId = 0) =>
       items.map((item, index) => {
         const value = item[valueKey];
