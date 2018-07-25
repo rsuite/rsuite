@@ -6,6 +6,7 @@
   "directories": {
     "lib": "lib/"
   },
+  "sideEffects": false,
   "scripts": {
     "format": "prettier --write \"{src,test}/**/*.js\"",
     "format:check": "prettier --list-different \"{src,test}/**/*.js\"",
