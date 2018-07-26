@@ -65,6 +65,7 @@ You can go through [full documentation][rsuite-doc-guide] or start with followin
 * [Customizing themes][rsuite-doc-guide-themes]
 * [Internationalization][rsuite-doc-guide-intl]
 * [Components][rsuite-components-overview]
+* [Sample][rsuite-sample]
 
 ## Changelog
 
@@ -116,3 +117,4 @@ RSUITE is [MIT licensed][LICENSE]. Copyright (c) 2016-present, HYPERS.
 [opencollective-home]:https://opencollective.com/rsuite
 [LICENSE]:https://github.com/rsuite/rsuite/blob/master/LICENSE
 [rsuite-gitee]:http://rsuite.gitee.io/
+[rsuite-sample]:https://sample.rsuitejs.com/

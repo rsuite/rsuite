@@ -1,3 +1,30 @@
+# 3.2.2
+
+> 2018-07-26
+
+Add a sample site: https://sample.rsuitejs.com/
+
+* **Feature**: Support `placeholder` on `<InputNumber>` ([#140])
+* **Breaking**: Remove unused `defaultActiveKey` on `<Sidenav>` ([#143])
+* **Bugfix**: Fixed an issue where the input box was not centered when the form was vertical aligned ([#148])
+* **Bugfix**: Set backgroud color to table. ([#146])
+* **Bugfix**: `<Button>` is missing border-radius in `<ButtonGroup>` ([#145])
+* **Bugfix**: The option value error when current keyboard operation option on `<TagPicker>` ([#142])
+* **Bugfix**: The callback for `disableDate` is incorrect on `<DateRangePicker>` ([#138])
+* **Chore**: Add `sideEffects: false` for Webpack 4 ([#144])
+* **Chore**: filter the ref value of `null` for `tableRows` ([#table-33])
+
+[#148]: https://github.com/rsuite/rsuite/pull/148
+[#146]: https://github.com/rsuite/rsuite/pull/146
+[#145]: https://github.com/rsuite/rsuite/pull/145
+[#144]: https://github.com/rsuite/rsuite/pull/144
+[#143]: https://github.com/rsuite/rsuite/pull/143
+[#142]: https://github.com/rsuite/rsuite/pull/142
+[#140]: https://github.com/rsuite/rsuite/pull/140
+[#139]: https://github.com/rsuite/rsuite/pull/139
+[#138]: https://github.com/rsuite/rsuite/pull/138
+[#table-33]: https://github.com/rsuite/rsuite-table/pull/33
+
 # 3.2.1
 
 > 2018-07-19
