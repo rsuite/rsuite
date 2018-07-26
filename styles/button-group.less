@@ -28,31 +28,31 @@
 
 .@{ns}btn-group {
   //** Buttons in the button group have no border radius
-  :not(:first-child):not(:last-child),
-  > .@{ns}dropdown:not(:first-child):not(:last-child) > .@{ns}dropdown-toggle > .@{ns}btn {
+  > .@{ns}btn,
+  > .@{ns}dropdown > .@{ns}dropdown-toggle > .@{ns}btn {
     border-radius: 0;
   }
 
   //** Horizontal Button remove border radius
   &:not(.@{ns}btn-group-vertical) > .@{ns}btn:first-child,
   &:not(.@{ns}btn-group-vertical) > .@{ns}dropdown:first-child > .@{ns}dropdown-toggle > .@{ns}btn {
-    .border-right-radius(0);
+    .border-left-radius(@border-radius-base);
   }
 
   &:not(.@{ns}btn-group-vertical) > .@{ns}btn:last-child,
   &:not(.@{ns}btn-group-vertical) > .@{ns}dropdown:last-child > .@{ns}dropdown-toggle > .@{ns}btn {
-    .border-left-radius(0);
+    .border-right-radius(@border-radius-base);
   }
 
   //** Vertical Button remove radius
   &.@{ns}btn-group-vertical > .@{ns}btn:first-child,
   &.@{ns}btn-group-vertical > .@{ns}dropdown:first-child > .@{ns}dropdown-toggle > .@{ns}btn {
-    .border-bottom-radius(0);
+    .border-top-radius(@border-radius-base);
   }
 
   &.@{ns}btn-group-vertical > .@{ns}btn:last-child,
   &.@{ns}btn-group-vertical > .@{ns}dropdown:last-child > .@{ns}dropdown-toggle > .@{ns}btn {
-    .border-top-radius(0);
+    .border-bottom-radius(@border-radius-base);
   }
 
   &.@{ns}btn-group-vertical > .@{ns}dropdown,
