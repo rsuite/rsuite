@@ -186,7 +186,10 @@ input[type="checkbox"]:focus {
 
   .@{ns}input {
     display: inline-block;
-    // Fixed inline element will produce a whitespace
+  }
+
+  // Fixed inline element will produce a whitespace
+  textarea.@{ns}input {
     vertical-align: bottom;
   }
 }
