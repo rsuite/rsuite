@@ -26,6 +26,21 @@
   }
 }
 
+// Force change the size of the button in the button group.
+.@{ns}btn {
+  .@{ns}btn-group-lg & {
+    .btn-lg;
+  }
+
+  .@{ns}btn-group-sm & {
+    .btn-sm;
+  }
+
+  .@{ns}btn-group-xs & {
+    .btn-xs;
+  }
+}
+
 .@{ns}btn-group {
   //** Buttons in the button group have no border radius
   > .@{ns}btn,
@@ -108,22 +123,6 @@
 .@{ns}btn-group .dropdown-toggle:active,
 .@{ns}btn-group.open .dropdown-toggle {
   outline: 0;
-}
-
-// Sizing
-//
-// Remix the default button sizing classes into new ones for easier manipulation.
-
-.@{ns}btn-group-xs > .@{ns}btn {
-  &:extend(.btn-xs);
-}
-
-.@{ns}btn-group-sm > .@{ns}btn {
-  &:extend(.btn-sm);
-}
-
-.@{ns}btn-group-lg > .@{ns}btn {
-  &:extend(.btn-lg);
 }
 
 // Split button dropdowns
@@ -374,24 +373,5 @@
     .@{ns}btn-link:hover {
       color: white;
     }
-  }
-}
-
-// Reset button size in button group.
-.@{ns}btn-group-lg {
-  .@{ns}btn {
-    .btn-lg;
-  }
-}
-
-.@{ns}btn-group-sm {
-  .@{ns}btn {
-    .btn-sm;
-  }
-}
-
-.@{ns}btn-group-xs {
-  .@{ns}btn {
-    .btn-xs;
   }
 }
