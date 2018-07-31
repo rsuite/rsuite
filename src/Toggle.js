@@ -11,7 +11,7 @@ type Props = {
   disabled?: boolean,
   checked?: boolean,
   defaultChecked?: boolean,
-  onChange?: Function,
+  onChange?: (checked: boolean, event: SyntheticEvent<*>) => void,
   checkedChildren?: React.Node,
   unCheckedChildren?: React.Node,
   classPrefix: string,
