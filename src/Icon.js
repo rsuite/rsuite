@@ -9,7 +9,7 @@ type Props = {
   icon: string | SVGIcon,
   className?: string,
   classPrefix?: string,
-  componentClass?: React.ElementType,
+  componentClass: React.ElementType,
   size?: 'lg' | '2x' | '3x' | '4x' | '5x',
   flip?: 'horizontal' | 'vertical',
   stack?: '1x' | '2x',
@@ -17,8 +17,7 @@ type Props = {
   fixedWidth?: boolean,
   svgStyle?: Object,
   spin?: boolean,
-  pulse?: boolean,
-  componentClass: React.ElementType
+  pulse?: boolean
 };
 
 class Icon extends React.Component<Props> {

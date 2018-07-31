@@ -36,7 +36,6 @@ import type { Placement } from '../utils/TypeDefinition';
 type DefaultEvent = SyntheticEvent<*>;
 type DefaultEventFunction = (event: DefaultEvent) => void;
 type Props = {
-  appearance: 'default' | 'subtle',
   data: Array<any>,
   cacheData?: Array<any>,
   locale: Object,
@@ -99,7 +98,6 @@ type States = {
 
 class Dropdown extends React.Component<Props, States> {
   static defaultProps = {
-    appearance: 'default',
     data: [],
     cacheData: [],
     disabledItemValues: [],
