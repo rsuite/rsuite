@@ -1,3 +1,15 @@
+# 3.2.3
+
+> 2018-08-02
+
+* **Bugfix**: Fixed `<CheckTree>` label horizontal padding ([#151])
+* **Bugfix**: Fixed `<Button>` unusual styles when setting the size of the button group ([#149])
+* **Chore**: Update flow-typed ([#150])
+
+[#151]: https://github.com/rsuite/rsuite/pull/151
+[#150]: https://github.com/rsuite/rsuite/pull/150
+[#149]: https://github.com/rsuite/rsuite/pull/149
+
 # 3.2.2
 
 > 2018-07-26
