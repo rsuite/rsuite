@@ -4,6 +4,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 import SafeAnchor from './SafeAnchor';
+import Ripple from './Ripple';
 import { prefix, defaultProps, createChainedFunction } from './utils';
 
 type Props = {
@@ -55,6 +56,7 @@ class PaginationButton extends React.Component<Props> {
           disabled={disabled}
           onClick={createChainedFunction(onClick, this.handleClick)}
         />
+        <Ripple />
       </li>
     );
   }

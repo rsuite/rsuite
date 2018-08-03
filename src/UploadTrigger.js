@@ -3,6 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { FormattedMessage } from 'rsuite-intl';
+import Ripple from './Ripple';
 
 import { getUnhandledProps, createChainedFunction, defaultProps, prefix } from './utils';
 
@@ -78,6 +79,7 @@ class UploadTrigger extends React.Component<Props> {
           onChange={onChange}
         />
         {trigger}
+        <Ripple />
       </div>
     );
   }

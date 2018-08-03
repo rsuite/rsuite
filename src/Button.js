@@ -4,6 +4,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import compose from 'recompose/compose';
 import SafeAnchor from './SafeAnchor';
+import Ripple from './Ripple';
 
 import { withStyleProps, prefix, getUnhandledProps, defaultProps } from './utils';
 
@@ -56,6 +57,7 @@ class Button extends React.Component<Props> {
         <SafeAnchor {...unhandled} role="button" href={href} className={classes}>
           {loading && spin}
           {children}
+          <Ripple />
         </SafeAnchor>
       );
     }
@@ -68,6 +70,7 @@ class Button extends React.Component<Props> {
       <Component {...unhandled} disabled={disabled} className={classes}>
         {loading && spin}
         {children}
+        <Ripple />
       </Component>
     );
   }

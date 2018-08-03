@@ -8,6 +8,7 @@ import SafeAnchor from './SafeAnchor';
 import Icon from './Icon';
 import Tooltip from './Tooltip';
 import Whisper from './Whisper';
+import Ripple from './Ripple';
 
 import { createChainedFunction, defaultProps, prefix } from './utils';
 
@@ -107,6 +108,7 @@ class NavItem extends React.Component<Props> {
     return (
       <li role="presentation" className={classes} style={style}>
         {hasTooltip ? addTooltip(item, children) : item}
+        <Ripple />
       </li>
     );
   }
