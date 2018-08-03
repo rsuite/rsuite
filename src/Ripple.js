@@ -9,7 +9,8 @@ import { defaultProps, prefix } from './utils';
 
 type Props = {
   classPrefix?: string,
-  className?: string
+  className?: string,
+  onMouseDown?: (position: Object, event: SyntheticMouseEvent<*>) => void
 };
 
 type State = {
@@ -29,10 +30,10 @@ class Ripple extends React.Component<Props, State> {
   bindTriggerRef = ref => {
     this.trigger = ref;
   };
-  getPosition = event => {
+  getPosition = (event: SyntheticMouseEvent<*>) => {
     const offset = getOffset(this.trigger);
-    const offsetX = event.pageX - offset.left;
-    const offsetY = event.pageY - offset.top;
+    const offsetX = (event.pageX || 0) - offset.left;
+    const offsetY = (event.pageY || 0) - offset.top;
 
     const radiusX = Math.max(offset.width - offsetX, offsetX);
     const radiusY = Math.max(offset.height - offsetY, offsetY);
@@ -45,12 +46,15 @@ class Ripple extends React.Component<Props, State> {
       top: offsetY - radius
     };
   };
-  handleMouseMown = event => {
+  handleMouseMown = (event: SyntheticMouseEvent<*>) => {
     const position = this.getPosition(event);
+    const { onMouseDown } = this.props;
     this.setState({
       rippling: true,
       position
     });
+
+    onMouseDown && onMouseDown(position, event);
   };
 
   handleRippled = () => {

@@ -47,7 +47,7 @@ describe('DropdownToggle', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <DropdownToggle renderTitle={children => <b>{children}</b>}>abc</DropdownToggle>
     );
-    assert.equal(findDOMNode(instance).innerHTML, '<b>abc</b>');
+    assert.equal(findDOMNode(instance).innerText, 'abc');
   });
 
   it('Should have a custom className', () => {

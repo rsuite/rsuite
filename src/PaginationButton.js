@@ -16,6 +16,7 @@ type Props = {
   active?: boolean,
   className?: string,
   componentClass: React.ElementType,
+  children?: React.Node,
   style?: Object
 };
 
@@ -40,6 +41,7 @@ class PaginationButton extends React.Component<Props> {
       onSelect,
       eventKey,
       componentClass: Component,
+      children,
       ...props
     } = this.props;
 
@@ -55,8 +57,10 @@ class PaginationButton extends React.Component<Props> {
           {...props}
           disabled={disabled}
           onClick={createChainedFunction(onClick, this.handleClick)}
-        />
-        <Ripple />
+        >
+          {children}
+          <Ripple />
+        </Component>
       </li>
     );
   }
