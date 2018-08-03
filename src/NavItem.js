@@ -102,13 +102,13 @@ class NavItem extends React.Component<Props> {
       >
         {icon}
         <span className={addPrefix('text')}>{children}</span>
+        <Ripple />
       </Component>
     );
 
     return (
       <li role="presentation" className={classes} style={style}>
         {hasTooltip ? addTooltip(item, children) : item}
-        <Ripple />
       </li>
     );
   }

@@ -64,6 +64,7 @@ class UploadTrigger extends React.Component<Props> {
     ) : (
       <Component {...buttonProps}>
         <FormattedMessage id="upload" />
+        <Ripple />
       </Component>
     );
 
@@ -79,7 +80,6 @@ class UploadTrigger extends React.Component<Props> {
           onChange={onChange}
         />
         {trigger}
-        <Ripple />
       </div>
     );
   }

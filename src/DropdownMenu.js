@@ -9,6 +9,7 @@ import setDisplayName from 'recompose/setDisplayName';
 
 import DropdownMenuItem from './DropdownMenuItem';
 import Icon from './Icon';
+import Ripple from './Ripple';
 
 import {
   createChainedFunction,
@@ -85,6 +86,7 @@ class DropdownMenu extends React.Component<Props> {
             >
               <span>{title}</span>
               <Icon icon={pullLeft ? 'angle-left' : 'angle-right'} />
+              <Ripple />
             </div>
             {this.renderCollapse(
               <ul role="menu" className={classPrefix}>
