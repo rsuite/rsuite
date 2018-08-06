@@ -3,6 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
+import Ripple from './Ripple';
 import Button from './Button';
 import Icon from './Icon';
 import { prefix, defaultProps } from './utils';
@@ -35,6 +36,7 @@ class DorpdownToggle extends React.Component<Props> {
       return (
         <span {...props} className={classNames(classPrefix, addPrefix('custom-title'), className)}>
           {renderTitle(children)}
+          <Ripple />
         </span>
       );
     }
@@ -52,6 +54,7 @@ class DorpdownToggle extends React.Component<Props> {
         {icon}
         {children}
         {noCaret ? null : <span className={addPrefix('caret')} />}
+        <Ripple />
       </Component>
     );
   }

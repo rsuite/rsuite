@@ -510,31 +510,34 @@
   overflow: hidden;
   position: relative;
 
+  .safari-border-radius-overflow-hidden;
+
   &:not(.@{prefix}disabled) {
-    &::after {
-      content: "";
-      display: block;
+    .@{ns}ripple {
       position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-      background-image: radial-gradient(circle, #000 10%, rgba(0, 0, 0, 0) 10.01%);
-      background-repeat: no-repeat;
-      background-position: 50%;
-      transform: scale(10);
-      opacity: 0;
-      transition: transform .5s, opacity 1s;
-
-      .ie-display(none);
-      .safari-display(none);
-    }
-
-    &:active::after {
+      display: block;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, .2);
       transform: scale(0);
-      opacity: .2;
       transition: 0s;
+
+      &-rippling {
+        transition-duration: 550ms, 1s;
+        transition-property: transform, opacity;
+        transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+        transform: scale(1);
+        opacity: 0;
+      }
+
+      &-pond {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+      }
     }
   }
 }

@@ -4,6 +4,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import compose from 'recompose/compose';
 import SafeAnchor from './SafeAnchor';
+import Ripple from './Ripple';
 
 import { withStyleProps, prefix, getUnhandledProps, defaultProps } from './utils';
 
@@ -48,7 +49,7 @@ class Button extends React.Component<Props> {
       [addPrefix('loading')]: loading,
       [addPrefix('block')]: block
     });
-
+    const ripple = appearance !== 'link' && appearance !== 'ghost' ? <Ripple /> : null;
     const spin = <span className={addPrefix('spin')} />;
 
     if (href) {
@@ -56,6 +57,7 @@ class Button extends React.Component<Props> {
         <SafeAnchor {...unhandled} role="button" href={href} className={classes}>
           {loading && spin}
           {children}
+          {ripple}
         </SafeAnchor>
       );
     }
@@ -68,6 +70,7 @@ class Button extends React.Component<Props> {
       <Component {...unhandled} disabled={disabled} className={classes}>
         {loading && spin}
         {children}
+        {ripple}
       </Component>
     );
   }

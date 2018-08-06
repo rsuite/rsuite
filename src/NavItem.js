@@ -8,6 +8,7 @@ import SafeAnchor from './SafeAnchor';
 import Icon from './Icon';
 import Tooltip from './Tooltip';
 import Whisper from './Whisper';
+import Ripple from './Ripple';
 
 import { createChainedFunction, defaultProps, prefix } from './utils';
 
@@ -101,6 +102,7 @@ class NavItem extends React.Component<Props> {
       >
         {icon}
         <span className={addPrefix('text')}>{children}</span>
+        <Ripple />
       </Component>
     );
 
