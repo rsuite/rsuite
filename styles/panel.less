@@ -78,8 +78,7 @@
   // Collapsible panel heading hover background
   &-collapsible &-heading {
     cursor: pointer;
-    transition: @panel-accodion-transition;
-    transition-property: background-color, border-radius;
+    transition: background-color @panel-accodion-transition, border-radius @panel-accodion-transition;
     position: relative;
 
     &::before {
@@ -88,8 +87,7 @@
       content: @panel-heading-accordion-icon-content;
       top: @panel-padding;
       right: @panel-padding;
-      transition: @panel-accodion-transition;
-      transition-property: transform;
+      transition: transform @panel-accodion-transition;
     }
   }
 

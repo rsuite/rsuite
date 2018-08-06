@@ -63,8 +63,7 @@
   &-row,
   &-cell-group,
   &-cell {
-    transition: .3s linear;
-    transition-property: background-color;
+    transition: background-color .3s linear;
   }
 
   &-hover &-row:not(&-row-header):hover,
@@ -334,8 +333,7 @@
 .@{ns}table-scrollbar {
   background: @table-scrollbar-background;
   position: absolute;
-  transition-duration: @table-scrollbar-timing-duration;
-  transition-property: background, transform;
+  transition: background @table-scrollbar-timing-duration linear, transform @table-scrollbar-timing-duration linear;
   opacity: .6;
   // Make sure Scrollbar on the loader.
   z-index: 1;
