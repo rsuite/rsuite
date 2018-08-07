@@ -3,6 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
+import { polyfill } from 'react-lifecycles-compat';
 
 import InputGroup from './InputGroup';
 import Input from './Input';
@@ -48,6 +49,18 @@ function decimals(...values: Array<number>) {
   return Math.max(...lengths);
 }
 
+function getButtonStatus(value?: ?number | string, min: number, max: number) {
+  let status = {
+    disabledUpButton: false,
+    disabledDownButton: false
+  };
+  if (typeof value !== 'undefined' && value !== null) {
+    status.disabledUpButton = +value >= max;
+    status.disabledDownButton = +value <= min;
+  }
+  return status;
+}
+
 class InputNumber extends React.Component<Props, State> {
   static defaultProps = {
     min: -Infinity,
@@ -58,34 +71,28 @@ class InputNumber extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
+    const { value, defaultValue, max, min } = props;
+    const { disabledUpButton, disabledDownButton } = getButtonStatus(
+      _.isUndefined(value) ? defaultValue : value,
+      min,
+      max
+    );
+
     this.state = {
-      value: props.defaultValue
+      value: defaultValue,
+      disabledUpButton,
+      disabledDownButton
     };
-  }
-  componentWillMount() {
-    const value = this.getValue();
-    this.setButtonStatus(value);
-  }
-  componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.value !== this.props.value) {
-      this.setButtonStatus(nextProps.value);
-    }
   }
 
-  eqMax(value: number | string) {
-    const { max } = this.props;
-    return {
-      inMax: +value <= max,
-      equalMax: +value >= max
-    };
+  static getDerivedStateFromProps(nextProps: Props) {
+    if (typeof nextProps.value !== 'undefined') {
+      const { value, min, max } = nextProps;
+      return getButtonStatus(value, min, max);
+    }
+    return null;
   }
-  eqMin(value: number | string) {
-    const { min } = this.props;
-    return {
-      inMin: +value >= min,
-      equalMin: +value <= min
-    };
-  }
+
   getValue() {
     const { value } = this.props;
     return _.isUndefined(value) ? this.state.value : value;
@@ -94,25 +101,16 @@ class InputNumber extends React.Component<Props, State> {
   getSafeValue(value) {
     const { max, min } = this.props;
     if (!Number.isNaN(value)) {
-      if (!this.eqMax(value).inMax) {
+      if (+value > max) {
         value = max;
       }
-      if (!this.eqMin(value).inMin) {
+      if (+value < min) {
         value = min;
       }
     } else {
       value = '';
     }
     return value;
-  }
-
-  setButtonStatus(value?: number | string) {
-    if (typeof value !== 'undefined') {
-      this.setState({
-        disabledUpButton: this.eqMax(value).equalMax,
-        disabledDownButton: this.eqMin(value).equalMin
-      });
-    }
   }
 
   handleOnChange = (value: any, event: SyntheticInputEvent<*>) => {
@@ -133,7 +131,7 @@ class InputNumber extends React.Component<Props, State> {
     const { onWheel, disabled } = this.props;
     if (!disabled && event.target === document.activeElement) {
       event.preventDefault();
-      const delta: any = event.wheelDelta || -event.deltaY || -event.detail;
+      const delta: number = _.get(event, 'wheelDelta') || -event.deltaY || -event.detail;
 
       if (delta > 0) {
         this.handleMinus(event);
@@ -164,12 +162,11 @@ class InputNumber extends React.Component<Props, State> {
   };
   handleValue(currentValue: number | string, event?: SyntheticEvent<*>, input?: boolean) {
     const { value } = this.state;
-    const { onChange } = this.props;
-
-    this.setButtonStatus(currentValue);
+    const { onChange, min, max } = this.props;
 
     if (currentValue !== value) {
       this.setState({
+        ...getButtonStatus(currentValue, min, max),
         value: currentValue
       });
 
@@ -191,8 +188,8 @@ class InputNumber extends React.Component<Props, State> {
       buttonAppearance,
       ...props
     } = this.props;
-    const { disabledUpButton, disabledDownButton } = this.state;
 
+    const { disabledUpButton, disabledDownButton } = this.state;
     const value = this.getValue();
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, className);
@@ -236,6 +233,8 @@ class InputNumber extends React.Component<Props, State> {
     );
   }
 }
+
+polyfill(InputNumber);
 
 export default defaultProps({
   classPrefix: 'input-number'

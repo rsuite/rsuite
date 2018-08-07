@@ -7,6 +7,7 @@ import _ from 'lodash';
 import { IntlProvider } from 'rsuite-intl';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import { MenuWrapper } from 'rsuite-utils/lib/Picker';
+import { polyfill } from 'react-lifecycles-compat';
 
 import PickerToggle from '../_picker/PickerToggle';
 import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
@@ -74,14 +75,13 @@ type Props = {
   style?: Object
 };
 
-type States = {
+type State = {
   value?: moment$Moment,
-  forceOpen?: boolean,
   calendarState?: 'DROP_MONTH' | 'DROP_TIME',
   pageDate: moment$Moment
 };
 
-class DatePicker extends React.Component<Props, States> {
+class DatePicker extends React.Component<Props, State> {
   static defaultProps = {
     appearance: 'default',
     placement: 'bottomLeft',
@@ -115,20 +115,29 @@ class DatePicker extends React.Component<Props, States> {
 
     this.state = {
       value: activeValue,
-      forceOpen: false,
-      calendarState: undefined,
       pageDate: activeValue || calendarDefaultDate || moment() // display calendar date
     };
   }
 
-  componentWillReceiveProps(nextProps: Props) {
-    const { value } = this.props;
-    if (nextProps.value && !nextProps.value.isSame(value, 'day')) {
-      this.setState({
-        pageDate: nextProps.value
-      });
+  static getDerivedStateFromProps(nextProps: Props, prevState: State) {
+    if (typeof nextProps.value !== 'undefined') {
+      const { value } = nextProps;
+
+      if (!value.isSame(prevState.value, 'day')) {
+        return {
+          value,
+          pageDate: value
+        };
+      }
+
+      return {
+        value
+      };
     }
+
+    return null;
   }
+
   onMoveForword = (nextPageDate: moment$Moment) => {
     const { onNextMonth, onChangeCalendarDate } = this.props;
     this.setState({
@@ -473,6 +482,8 @@ class DatePicker extends React.Component<Props, States> {
     );
   }
 }
+
+polyfill(DatePicker);
 
 const enhance = defaultProps({
   classPrefix: 'picker'

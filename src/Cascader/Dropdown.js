@@ -63,7 +63,7 @@ type Props = {
   style?: Object
 };
 
-type States = {
+type State = {
   selectNode?: any,
   value?: any,
   activePaths: Array<any>,
@@ -71,7 +71,7 @@ type States = {
   tempActivePaths?: Array<any>
 };
 
-class Dropdown extends React.Component<Props, States> {
+class Dropdown extends React.Component<Props, State> {
   static defaultProps = {
     appearance: 'default',
     data: [],

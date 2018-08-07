@@ -86,7 +86,7 @@ type Props = {
   multi?: boolean
 };
 
-type States = {
+type State = {
   value?: any | Array<any>,
   // Used to focus the active item  when trigger `onKeydown`
   focusItemValue?: any,
@@ -96,7 +96,7 @@ type States = {
   maxWidth: number
 };
 
-class Dropdown extends React.Component<Props, States> {
+class Dropdown extends React.Component<Props, State> {
   static defaultProps = {
     data: [],
     cacheData: [],

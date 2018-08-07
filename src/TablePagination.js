@@ -23,9 +23,9 @@ type Props = {
   total: number,
   displayLength: number,
   renderLengthMenu?: (picker: React.Node) => React.Node,
-  renderTotal?: Function,
-  onChangePage?: Function,
-  onChangeLength?: Function,
+  renderTotal?: (total: number, activePage: number) => void,
+  onChangePage?: (page: number) => void,
+  onChangeLength?: (size: number) => void,
   prev?: boolean,
   next?: boolean,
   first?: boolean,
@@ -37,12 +37,7 @@ type Props = {
   classPrefix: string
 };
 
-type State = {
-  displayLength: number,
-  activePage: number
-};
-
-class TablePagination extends React.Component<Props, State> {
+class TablePagination extends React.Component<Props> {
   static defaultProps = {
     showLengthMenu: true,
     showInfo: true,
@@ -73,49 +68,20 @@ class TablePagination extends React.Component<Props, State> {
     }
   };
 
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      displayLength: props.displayLength,
-      activePage: props.activePage
-    };
-  }
-  componentWillReceiveProps(nextProps: Props) {
-    const { displayLength, activePage } = this.props;
-    if (displayLength !== nextProps.displayLength) {
-      this.setState({
-        displayLength: nextProps.displayLength
-      });
-    }
-
-    if (activePage !== nextProps.activePage) {
-      this.setState({
-        activePage: nextProps.activePage
-      });
-    }
-  }
-
   handleChangeLength = (eventKey: any) => {
     const { onChangeLength } = this.props;
-    this.setState({
-      displayLength: eventKey
-    });
     onChangeLength && onChangeLength(eventKey);
   };
 
   handleChangePage = (eventKey: any) => {
     const { onChangePage } = this.props;
-    this.setState({
-      activePage: eventKey
-    });
     onChangePage && onChangePage(eventKey);
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderLengthMenu() {
-    const { lengthMenu = [], renderLengthMenu, showLengthMenu, locale } = this.props;
-    const { displayLength } = this.state;
+    const { lengthMenu = [], renderLengthMenu, showLengthMenu, locale, displayLength } = this.props;
 
     if (!showLengthMenu) {
       return null;
@@ -142,13 +108,12 @@ class TablePagination extends React.Component<Props, State> {
   }
 
   renderInfo() {
-    const { renderTotal, total, showInfo, locale } = this.props;
+    const { renderTotal, total, showInfo, locale, activePage } = this.props;
 
     if (!showInfo) {
       return null;
     }
 
-    const { activePage } = this.state;
     return (
       <div className={this.addPrefix('page-info')}>
         {renderTotal ? renderTotal(total, activePage) : tplTransform(locale.totalInfo, total)}
@@ -157,8 +122,19 @@ class TablePagination extends React.Component<Props, State> {
   }
 
   render() {
-    const { total, prev, next, first, last, maxButtons, className, ...rest } = this.props;
-    const { displayLength, activePage } = this.state;
+    const {
+      total,
+      prev,
+      next,
+      first,
+      last,
+      maxButtons,
+      className,
+      displayLength,
+      activePage,
+      ...rest
+    } = this.props;
+
     const pages = Math.floor(total / displayLength) + (total % displayLength ? 1 : 0);
     const classes = classNames(this.addPrefix('pagination-wrapper'), className);
     const unhandled = getUnhandledProps(TablePagination, rest);

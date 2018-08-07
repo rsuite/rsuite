@@ -31,12 +31,9 @@ function deprecationWarning(oldname, newname, link) {
 
 deprecationWarning.wrapper = (Component, ...args) =>
   class DeprecatedComponent extends Component {
-    componentWillMount(...methodArgs) {
+    constructor() {
+      super(props);
       deprecationWarning(...args);
-
-      if (super.componentWillMount) {
-        super.componentWillMount(...methodArgs);
-      }
     }
   };
 
