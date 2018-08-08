@@ -63,9 +63,7 @@ class UploadFileItem extends React.Component<Props, State> {
     this.state = {
       thumbnail: null
     };
-  }
 
-  componentWillMount() {
     this.getThumbnail((previewImage: string | ArrayBuffer) => {
       this.setState({ previewImage });
     });

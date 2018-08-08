@@ -73,14 +73,14 @@ type Props = {
   style?: Object
 };
 
-type States = {
+type State = {
   value?: Array<any>,
   // Used to focus the active item  when trigger `onKeydown`
   focusItemValue?: any,
   searchKeyword: string
 };
 
-class Dropdown extends React.Component<Props, States> {
+class Dropdown extends React.Component<Props, State> {
   static defaultProps = {
     appearance: 'default',
     data: [],
