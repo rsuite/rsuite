@@ -362,12 +362,9 @@ describe('CheckTreePicker', () => {
     instance.unmount();
   });
 
-  it('Should render empty tree when searchKeyword is `1`', () => {
-    const instance = mount(<CheckTreePicker data={data} inline />);
-
-    instance.setProps({
-      searchKeyword: 'name'
-    });
+  it('Should render empty tree when searchKeyword is `name`', () => {
+    const instance = mount(<CheckTreePicker data={data} inline searchKeyword="name" />);
+    console.log(instance.find(treeNodeCls).length);
     assert.equal(instance.find(treeNodeCls).length, 0);
     instance.unmount();
   });
