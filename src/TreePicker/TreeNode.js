@@ -8,14 +8,15 @@ import { hasClass } from 'dom-lib';
 type DefaultEvent = SyntheticEvent<*>;
 
 type Props = {
-  classPrefix: string,
+  layer: number,
   value?: any,
   label?: any,
-  nodeData: Object,
   active?: boolean,
-  hasChildren?: boolean,
+  visible: boolean,
+  nodeData: Object,
   disabled?: boolean,
-  layer: number,
+  hasChildren?: boolean,
+  classPrefix: string,
   onTreeToggle?: (nodeData: Object, layer: number, event: DefaultEvent) => void,
   onSelect?: (nodeData: Object, layer: number, event: DefaultEvent) => void,
   onRenderTreeIcon?: (nodeData: Object) => React.Node,
@@ -26,6 +27,10 @@ const INITIAL_PADDING = 12;
 const PADDING = 16;
 
 class TreeNode extends React.Component<Props> {
+  static defaultProps = {
+    visible: true
+  };
+
   shouldComponentUpdate(nextProps: Props) {
     return !shallowEqual(this.props, nextProps);
   }
@@ -95,7 +100,7 @@ class TreeNode extends React.Component<Props> {
   };
 
   render() {
-    const { classPrefix, active, layer, disabled } = this.props;
+    const { classPrefix, active, layer, disabled, visible } = this.props;
 
     const disabledClass = `${classPrefix}-node-disabled`;
     const activeClass = `${classPrefix}-node-active`;
@@ -107,12 +112,12 @@ class TreeNode extends React.Component<Props> {
 
     const styles = { paddingLeft: layer * PADDING + INITIAL_PADDING };
 
-    return (
+    return visible ? (
       <div style={styles} className={classes}>
         {this.renderIcon()}
         {this.renderLabel()}
       </div>
-    );
+    ) : null;
   }
 }
 

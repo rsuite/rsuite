@@ -88,16 +88,18 @@ type Props = {
   renderExtraFooter?: () => React.Node
 };
 
-type State = {
+type States = {
   data: Array<any>,
   value: any,
+  selectedValue: any,
   expandAll?: boolean,
   filterData: Array<any>,
   activeNode?: ?Object,
+  searchWord: string,
   searchKeyword: string
 };
 
-class Tree extends React.Component<Props, State> {
+class Tree extends React.Component<Props, States> {
   static defaultProps = {
     locale: {
       placeholder: 'Select',
@@ -117,55 +119,69 @@ class Tree extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.isControlled = 'value' in props;
-    const expandAll = props.expandAll !== undefined ? props.expandAll : props.defaultExpandAll;
+    const { data, valueKey } = props;
+    const nextData = clone(data);
+    this.flattenNodes(nextData);
     this.state = {
       data: props.data,
-      value: this.getValue(props),
-      expandAll,
-      filterData: [],
-      activeNode: null,
+      value: props.value,
+      selectedValue: this.getValue(props),
+      expandAll: this.getExpandAll(props),
+      filterData: this.getFilterData(nextData, props.searchKeyword, props),
+      activeNode: this.getActiveNode(this.getValue(props), valueKey),
+      searchWord: props.searchKeyword || '',
       searchKeyword: props.searchKeyword || ''
     };
   }
 
-  componentWillMount() {
-    const { data, valueKey } = this.props;
-    const nextData = clone(data);
-    this.flattenNodes(nextData);
-    const filterData = this.getFilterData(nextData);
-    this.setState({
-      data: nextData,
-      filterData,
-      activeNode: this.getActiveNode(this.getValue(), valueKey)
-    });
-  }
-
   componentDidMount() {
-    const { inline } = this.props;
     const { activeNode } = this.state;
-    if (activeNode && inline) {
-      const node = this.getElementByDataKey(activeNode.refKey);
-      if (node !== null) {
-        node.focus();
-      }
-    }
+    this.focusNode(activeNode);
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  static getDerivedStateFromProps(nextProps: Props, prevState: States) {
     const { value, data, expandAll, valueKey, searchKeyword } = nextProps;
+    let nextState = {};
+    if (_.isArray(data) && _.isArray(prevState.data) && !shallowEqualArray(prevState.data, data)) {
+      nextState.data = data;
+    }
 
-    if (!shallowEqualArray(this.props.data, data)) {
+    if (
+      _.isArray(value) &&
+      _.isArray(prevState.value) &&
+      !shallowEqualArray(value, prevState.value)
+    ) {
+      nextState.value = value;
+    }
+
+    if (prevState.searchKeyword !== searchKeyword) {
+      nextState.searchWord = searchKeyword;
+    }
+
+    if (expandAll !== prevState.expandAll) {
+      nextState.expandAll = expandAll;
+    }
+
+    return Object.keys(nextState).length ? nextState : null;
+  }
+
+  componentDidUpdate(prevProps: Props, prevState: States) {
+    const { filterData, searchWord, selectedValue } = this.state;
+    const { value, data, expandAll, valueKey, searchKeyword } = this.props;
+    if (!shallowEqualArray(prevState.data, data)) {
       const nextData = clone(data);
       this.flattenNodes(nextData);
-      const filterData = this.getFilterData(nextData);
+      const filterData = this.getFilterData(nextData, searchWord);
+      const activeNode = this.getActiveNode(this.getValue());
+      this.focusNode(activeNode);
       this.setState({
         data: nextData,
         filterData,
-        activeNode: this.getActiveNode(this.getValue())
+        activeNode
       });
     }
 
-    if (!shallowEqual(this.props.value, value)) {
+    if (!shallowEqual(prevState.value, value)) {
       let activeNode = null;
       if (this.node === null) {
         activeNode = this.getActiveNode(value);
@@ -185,21 +201,23 @@ class Tree extends React.Component<Props, State> {
         nextState.activeNode = null;
         this.node = null;
       }
+
+      if (activeNode !== null) {
+        this.focusNode(activeNode);
+      }
       this.setState(nextState);
     }
 
-    if (searchKeyword !== this.props.searchKeyword) {
+    if (prevProps.searchKeyword !== this.props.searchKeyword) {
       this.setState({
-        searchKeyword,
-        filterData: this.getFilterData(this.state.data, searchKeyword)
+        filterData: this.getFilterData(filterData, searchKeyword),
+        searchWord: searchKeyword
       });
     }
+  }
 
-    if (expandAll !== this.props.expandAll) {
-      this.setState({
-        expandAll
-      });
-    }
+  getExpandAll(props: Props = this.props) {
+    return props.expandAll !== undefined ? props.expandAll : props.defaultExpandAll;
   }
 
   getValue(props: Props = this.props) {
@@ -220,9 +238,9 @@ class Tree extends React.Component<Props, State> {
     return activeNode;
   }
 
-  getExpandState(node: Object) {
-    const { expandAll } = this.state;
-    const { childrenKey } = this.props;
+  getExpandState(node: Object, props: Props = this.props) {
+    const expandAll = this.getExpandAll(props);
+    const { childrenKey } = props;
     if (node[childrenKey] && node[childrenKey].length) {
       if ('expand' in node) {
         return !!node.expand;
@@ -313,10 +331,24 @@ class Tree extends React.Component<Props, State> {
     return null;
   };
 
-  getFilterData(data: Array<any>, word?: string) {
-    const { labelKey } = this.props;
+  getFilterData(data: Array<any>, word?: string, props: Props = this.props) {
+    const { labelKey } = props;
+
+    const setVisible = (nodes = []) =>
+      nodes.forEach((item: Object) => {
+        item.visible = this.shouldDisplay(item[labelKey], word);
+        if (_.isArray(item.children)) {
+          setVisible(item.children);
+          item.children.forEach((child: Object) => {
+            if (child.visible) {
+              item.visible = child.visible;
+            }
+          });
+        }
+      });
+
     if (!_.isUndefined(word) || !word !== '') {
-      return filterNodesOfTree(data, item => this.shouldDisplay(item[labelKey], word));
+      setVisible(data);
     }
     return data;
   }
@@ -355,6 +387,15 @@ class Tree extends React.Component<Props, State> {
     this.menu = ref;
   };
 
+  focusNode(activeNode) {
+    const { inline } = this.props;
+    if (activeNode && inline) {
+      const node = this.getElementByDataKey(activeNode.refKey);
+      if (node !== null) {
+        node.focus();
+      }
+    }
+  }
   /**
    * 将数组变为对象
    * @param {*} nodes tree data
@@ -374,7 +415,7 @@ class Tree extends React.Component<Props, State> {
     nodes.map((node, index) => {
       const refKey = `${ref}-${index}`;
       node.refKey = refKey;
-      node.expand = this.getExpandState(node);
+      node.expand = this.getExpandState(node, props);
       this.nodes[refKey] = {
         [labelKey]: node[labelKey],
         [valueKey]: node[valueKey],
@@ -390,7 +431,7 @@ class Tree extends React.Component<Props, State> {
 
   selectActiveItem = (event: DefaultEvent) => {
     const { nodeData, layer } = this.getActiveItem();
-    this.handleNodeSelect(nodeData, +layer, event);
+    this.handleSelect(nodeData, +layer, event);
   };
 
   focusNextItem = () => {
@@ -428,7 +469,7 @@ class Tree extends React.Component<Props, State> {
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
-  shouldDisplay = (label: any, searchKeyword?: string = this.state.searchKeyword) => {
+  shouldDisplay = (label: any, searchKeyword?: string = this.state.searchWord) => {
     if (!_.trim(searchKeyword)) {
       return true;
     }
@@ -457,13 +498,13 @@ class Tree extends React.Component<Props, State> {
     onExpand && onExpand(nodeData, layer);
   };
 
-  handleNodeSelect = (nodeData: Object, layer: number, event: DefaultEvent) => {
+  handleSelect = (nodeData: Object, layer: number, event: DefaultEvent) => {
     const { valueKey, onChange, onSelect } = this.props;
     this.node = nodeData;
     if (!this.isControlled) {
       this.setState({
         activeNode: nodeData,
-        value: nodeData[valueKey]
+        selectedValue: nodeData[valueKey]
       });
     }
 
@@ -500,10 +541,11 @@ class Tree extends React.Component<Props, State> {
   };
 
   handleSearch = (value: string, event: DefaultEvent) => {
+    const { filterData } = this.state;
     const { onSearch, data } = this.props;
     this.setState({
-      searchKeyword: value,
-      filterData: this.getFilterData(data, value)
+      searchWord: value,
+      filterData: this.getFilterData(filterData, value)
     });
 
     onSearch && onSearch(value, event);
@@ -513,7 +555,7 @@ class Tree extends React.Component<Props, State> {
     const { onChange } = this.props;
     this.setState({
       activeNode: null,
-      value: null
+      selectedValue: null
     });
 
     this.node = null;
@@ -563,7 +605,7 @@ class Tree extends React.Component<Props, State> {
             placeholder={locale.searchPlaceholder}
             key="searchBar"
             onChange={this.handleSearch}
-            value={this.state.searchKeyword}
+            value={this.state.searchWord}
           />
         ) : null}
         {renderMenu ? renderMenu(this.renderTree()) : this.renderTree()}
@@ -573,7 +615,7 @@ class Tree extends React.Component<Props, State> {
   }
 
   renderNode(node: Object, index: number, layer: number, classPrefix: string) {
-    const { expandAll, value } = this.state;
+    const { expandAll, selectedValue } = this.state;
     const {
       disabledItemValues = [],
       valueKey,
@@ -598,14 +640,15 @@ class Tree extends React.Component<Props, State> {
       index,
       layer,
       parent,
-      active: shallowEqual(node[valueKey], value),
+      active: shallowEqual(node[valueKey], selectedValue),
+      visible: node.visible,
       children,
       nodeData: node,
       disabled:
         disabledItemValues.filter(disabledItem => shallowEqual(disabledItem, node[valueKey]))
           .length > 0,
       hasChildren: !!children,
-      onSelect: this.handleNodeSelect,
+      onSelect: this.handleSelect,
       onTreeToggle: this.handleTreeToggle,
       onRenderTreeNode: renderTreeNode,
       onRenderTreeIcon: renderTreeIcon

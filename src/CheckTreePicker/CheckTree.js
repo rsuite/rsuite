@@ -95,18 +95,22 @@ type Props = {
   renderExtraFooter?: () => React.Node
 };
 
-type State = {
+type States = {
   data: Array<any>,
+  value?: Array<any>,
+  cascade: boolean,
   hasValue: boolean,
   expandAll?: boolean,
+  filterData: Array<any>,
   activeNode?: ?Object,
+  searchWord?: string,
   searchKeyword?: string,
   formattedNodes: Array<any>,
   selectedValues: Array<any>,
   isSomeNodeHasChildren: boolean
 };
 
-class CheckTree extends React.Component<Props, State> {
+class CheckTree extends React.Component<Props, States> {
   static defaultProps = {
     locale: {
       placeholder: 'Select',
@@ -128,15 +132,28 @@ class CheckTree extends React.Component<Props, State> {
   };
   constructor(props: Props) {
     super(props);
+    const { data, searchKeyword } = props;
     this.nodes = {};
     this.isControlled = 'value' in props;
 
     const nextValue = this.getValue(props);
-    const expandAll = props.expandAll !== undefined ? props.expandAll : props.defaultExpandAll;
+    const nextData = clone(data);
+    this.flattenNodes(nextData, props);
+    this.unserializeLists(
+      {
+        check: nextValue
+      },
+      props
+    );
+
     this.state = {
-      data: [],
-      hasValue: true,
-      expandAll,
+      data: props.data,
+      value: props.value,
+      cascade: props.cascade,
+      hasValue: this.hasValue(nextValue, props),
+      expandAll: this.getExpandAll(props),
+      filterData: this.getFilterData(searchKeyword, nextData, props),
+      searchWord: props.searchKeyword,
       searchKeyword: props.searchKeyword,
       selectedValues: nextValue,
       formattedNodes: [],
@@ -144,46 +161,50 @@ class CheckTree extends React.Component<Props, State> {
     };
   }
 
-  componentWillMount() {
-    const { searchKeyword } = this.state;
-    const { data } = this.props;
-    const nextValue = this.getValue(this.props);
-    const nextData = clone(data);
-    this.flattenNodes(nextData);
-    this.unserializeLists({
-      check: nextValue
-    });
-    this.setState({
-      data: this.getFilterData(searchKeyword, nextData),
-      hasValue: this.hasValue()
-    });
+  static getDerivedStateFromProps(nextProps: Props, prevState: States) {
+    const { value, data, cascade, expandAll, searchKeyword } = nextProps;
+    let nextState = {};
+    if (_.isArray(data) && _.isArray(prevState.data) && !shallowEqualArray(prevState.data, data)) {
+      nextState.data = data;
+    }
+    if (
+      _.isArray(value) &&
+      _.isArray(prevState.value) &&
+      !shallowEqualArray(value, prevState.value)
+    ) {
+      nextState.value = value;
+    }
+    if (prevState.searchKeyword !== searchKeyword) {
+      nextState.searchWord = searchKeyword;
+    }
+    if (cascade !== prevState.cascade) {
+      nextState.cascade = cascade;
+    }
+    if (expandAll !== prevState.expandAll) {
+      nextState.expandAll = expandAll;
+    }
+
+    return Object.keys(nextState).length ? nextState : null;
   }
 
-  componentWillReceiveProps(nextProps: Props) {
-    const { searchKeyword, selectedValues } = this.state;
-    const { value = [], data = [], cascade, expandAll } = nextProps;
-
-    if (
-      _.isArray(data) &&
-      _.isArray(this.props.data) &&
-      !shallowEqualArray(this.props.data, data)
-    ) {
+  componentDidUpdate(prevProps: Props, prevState: States) {
+    const { filterData, searchWord, selectedValues } = this.state;
+    const { value, data = [], cascade, expandAll } = this.props;
+    if (!shallowEqualArray(prevState.data, data)) {
       const nextData = clone(data);
       this.flattenNodes(nextData);
       this.unserializeLists({
-        check: this.getValue(nextProps)
+        check: this.getValue()
       });
       this.setState({
-        data: this.getFilterData(searchKeyword, nextData),
+        data: nextData,
+        filterData: this.getFilterData(searchWord, nextData),
         isSomeNodeHasChildren: this.isSomeNodeHasChildren(nextData),
         hasValue: this.hasValue()
       });
     }
-    if (
-      _.isArray(value) &&
-      _.isArray(this.props.value) &&
-      !shallowEqualArray(value, this.props.value)
-    ) {
+
+    if (_.isArray(value) && !shallowEqualArray(prevState.value, value)) {
       const nextState = {
         selectedValues: value,
         hasValue: this.hasValue(value),
@@ -194,37 +215,38 @@ class CheckTree extends React.Component<Props, State> {
         nextState.activeNode = null;
       }
       this.unserializeLists({
-        check: nextProps.value
+        check: value
       });
       this.setState(nextState);
     }
 
     // cascade 改变时，重新初始化
-    if (cascade !== this.props.cascade && cascade) {
-      this.flattenNodes(this.state.data);
+    if (cascade !== prevState.cascade && cascade) {
+      this.flattenNodes(filterData);
       this.unserializeLists(
         {
           check: selectedValues
         },
-        nextProps
+        this.props
       );
-    }
-
-    if (nextProps.searchKeyword !== this.props.searchKeyword) {
       this.setState({
-        data: this.getFilterData(nextProps.searchKeyword, this.state.data),
-        searchKeyword: nextProps.searchKeyword
+        cascade
       });
     }
 
-    if (expandAll !== this.props.expandAll) {
+    if (prevProps.searchKeyword !== this.props.searchKeyword) {
       this.setState({
-        expandAll
+        filterData: this.getFilterData(this.props.searchKeyword, filterData),
+        searchWord: this.props.searchKeyword
       });
     }
   }
 
-  getValue = (props: Props) => {
+  getExpandAll(props: Props = this.props) {
+    return props.expandAll !== undefined ? props.expandAll : props.defaultExpandAll;
+  }
+
+  getValue = (props: Props = this.props) => {
     const { value, defaultValue } = props;
     if (value && value.length) {
       return value;
@@ -252,9 +274,9 @@ class CheckTree extends React.Component<Props, State> {
     return CHECK_STATE.UNCHECK;
   }
 
-  getExpandState(node: Object) {
-    const { expandAll } = this.state;
-    const { childrenKey } = this.props;
+  getExpandState(node: Object, props: Props = this.props) {
+    const expandAll = this.getExpandAll(props);
+    const { childrenKey } = props;
     if (node[childrenKey] && node[childrenKey].length) {
       if ('expand' in node) {
         return !!node.expand;
@@ -343,7 +365,7 @@ class CheckTree extends React.Component<Props, State> {
   }
 
   getFocusableMenuItems = () => {
-    const { data } = this.state;
+    const { filterData } = this.state;
     const { childrenKey } = this.props;
 
     let items = [];
@@ -362,7 +384,7 @@ class CheckTree extends React.Component<Props, State> {
       });
     };
 
-    loop(data);
+    loop(filterData);
     return items;
   };
 
@@ -381,11 +403,11 @@ class CheckTree extends React.Component<Props, State> {
   }
 
   getActiveItem() {
-    const { data } = this.state;
+    const { filterData } = this.state;
     const activeItem = document.activeElement;
     if (activeItem !== null) {
       const { key, layer } = activeItem.dataset;
-      const nodeData: Object = this.getActiveElementOption(data, key);
+      const nodeData: Object = this.getActiveElementOption(filterData, key);
       nodeData.check = !this.nodes[nodeData.refKey].check;
       nodeData.parentNode = this.nodes[nodeData.refKey].parentNode;
       return {
@@ -400,8 +422,8 @@ class CheckTree extends React.Component<Props, State> {
    * 判断传入的 value 是否存在于data 中
    * @param {*} values
    */
-  hasValue(values: Array<any> = this.state.selectedValues) {
-    const { valueKey } = this.props;
+  hasValue(values: Array<any> = this.state.selectedValues, props: Props = this.props) {
+    const { valueKey } = props;
     const selectedValues = Object.keys(this.nodes)
       .map((refKey: string) => this.nodes[refKey][valueKey])
       .filter((item: any) => values.some(v => shallowEqual(v, item)));
@@ -480,7 +502,7 @@ class CheckTree extends React.Component<Props, State> {
       this.nodes[refKey] = {
         [labelKey]: node[labelKey],
         [valueKey]: node[valueKey],
-        expand: this.getExpandState(node),
+        expand: this.getExpandState(node, props),
         disabledCheckbox: this.getDisabledCheckboxState(node),
         refKey
       };
@@ -725,11 +747,11 @@ class CheckTree extends React.Component<Props, State> {
   };
 
   handleSearch = (value: string, event: DefaultEvent) => {
-    const { data } = this.state;
+    const { filterData } = this.state;
     const { onSearch } = this.props;
     this.setState({
-      searchKeyword: value,
-      data: this.getFilterData(value, data)
+      searchWord: value,
+      filterData: this.getFilterData(value, filterData)
     });
 
     onSearch && onSearch(value, event);
@@ -794,7 +816,7 @@ class CheckTree extends React.Component<Props, State> {
             placeholder={locale.searchPlaceholder}
             key="searchBar"
             onChange={this.handleSearch}
-            value={this.state.searchKeyword}
+            value={this.state.searchWord}
           />
         ) : null}
         {renderMenu ? renderMenu(menu) : menu}
@@ -872,7 +894,7 @@ class CheckTree extends React.Component<Props, State> {
   }
 
   renderCheckTree() {
-    const { data, isSomeNodeHasChildren } = this.state;
+    const { filterData, isSomeNodeHasChildren } = this.state;
     const { onScroll } = this.props;
     // 树节点的层级
     let layer = 0;
@@ -883,7 +905,7 @@ class CheckTree extends React.Component<Props, State> {
     });
     const formattedNodes = this.state.formattedNodes.length
       ? this.state.formattedNodes
-      : this.getFormattedNodes(data);
+      : this.getFormattedNodes(filterData);
 
     const nodes = formattedNodes.map((node, index) =>
       this.renderNode(node, index, layer, treeViewClass)
