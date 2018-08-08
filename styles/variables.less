@@ -228,7 +228,7 @@
 //== Btn Group
 @btn-group-disabled-active-color: @B500;
 //== other
-@ripple-transition: background-color .3s linear, border-bottom-color .3s linear;
+@ripple-transition: 550ms, 1s;
 
 //== Forms
 //
@@ -370,6 +370,7 @@
 @dropdown-menu-xs-top: 21px;
 
 //== Toggle
+@toggle-transition: .2s linear;
 @toggle-default-bg: @B300;
 @toggle-default-hover-bg: @B400;
 //Toggle checked background color
@@ -532,6 +533,7 @@
 @nav-subtle-waterline-active-color: @H500;
 @nav-subtle-default-waterline: @nav-subtle-waterline-width solid @nav-subtle-waterline-default-color;
 @nav-subtle-active-waterline: @nav-subtle-waterline-width solid @nav-subtle-default-waterline;
+@nav-subtle-content-transition: .3s ease-out;
 
 //** Divider
 @nav-divider-margin-vertical: 6px;
@@ -932,6 +934,7 @@
 @progress-element-gap: 12px;
 @progress-status-success-color: @success-color;
 @progress-status-fail-color: @error-color;
+@progress-bg-transition: .2s ease-in-out;
 //== Uploader
 //
 //##
@@ -1008,7 +1011,7 @@
 //** Picker background
 @picker-bg: @dropdown-bg;
 @picker-shadow: @dropdown-shadow;
-@picker-placeholder-color:@B600;
+@picker-placeholder-color: @B600;
 //** Picker content width
 @picker-content-min-width: 200px;
 @picker-search-bar-icon-width: @font-size-base;
@@ -1130,6 +1133,7 @@
 @slider-calibration-border-color: @B100;
 @slider-calibration-pass-border-color: @H500;
 @slider-mark-margin-top: 9px;
+@slider-handle-transition: .3s ease-in-out;
 
 //== Breadcrumbs
 //
