@@ -24,18 +24,19 @@ type Props = {
   className?: string,
   renderMenuItem?: (itemLabel: React.Node, item: Object) => React.Node,
   renderMenu?: (itemLabel: React.Node, item: Object, parentNode: Object) => React.Node,
-  onSelect?: (node: any, activePaths: Array<any>, isLeafNode: boolean, event: DefaultEvent) => void,
+  onSelect?: (
+    node: any,
+    cascadeItems: Array<any>,
+    activePaths: Array<any>,
+    isLeafNode: boolean,
+    event: DefaultEvent
+  ) => void,
 
   cascadeItems: Array<any>,
   cascadePathItems: Array<any>
 };
 
-type States = {
-  cascadeItems: Array<any>,
-  cascadePathItems: Array<any>
-};
-
-class DropdownMenu extends React.Component<Props, States> {
+class DropdownMenu extends React.Component<Props> {
   static defaultProps = {
     data: [],
     disabledItemValues: [],
@@ -50,42 +51,12 @@ class DropdownMenu extends React.Component<Props, States> {
 
   static handledProps = [];
 
-  constructor(props: Props) {
-    super(props);
-    const { cascadeItems, cascadePathItems } = props;
-    this.state = {
-      cascadeItems,
-      cascadePathItems
-    };
-  }
-
   componentDidMount() {
     this.scrollToActiveItemTop();
   }
 
-  componentWillReceiveProps(nextProps: Props) {
-    const { cascadeItems, cascadePathItems } = nextProps;
-    if (!shallowEqualArray(cascadeItems, this.props.cascadeItems)) {
-      this.setState({ cascadeItems }, () => {
-        this.scrollToActiveItemTop();
-      });
-    }
-
-    if (!shallowEqualArray(cascadePathItems, this.props.cascadePathItems)) {
-      this.setState({ cascadePathItems }, () => {
-        this.scrollToActiveItemTop();
-      });
-    }
-  }
-
-  setCascadeCache(
-    items: Array<any>,
-    layer: number,
-    node: any,
-    isLeafNode: boolean,
-    callback: Function
-  ) {
-    const { cascadeItems = [], cascadePathItems } = this.state;
+  getCascadeItems(items: Array<any>, layer: number, node: any, isLeafNode: boolean) {
+    const { cascadeItems = [], cascadePathItems } = this.props;
     const nextItems = [];
     const nextPathItems = [];
 
@@ -101,13 +72,10 @@ class DropdownMenu extends React.Component<Props, States> {
       nextItems.push(items);
     }
 
-    this.setState(
-      {
-        cascadeItems: nextItems,
-        cascadePathItems: nextPathItems
-      },
-      callback
-    );
+    return {
+      cascadeItems: nextItems,
+      cascadePathItems: nextPathItems
+    };
   }
 
   menus = [];
@@ -116,18 +84,19 @@ class DropdownMenu extends React.Component<Props, States> {
     const { onSelect, childrenKey } = this.props;
     const children = node[childrenKey];
     const isLeafNode = _.isUndefined(children) || _.isNull(children);
-
-    const callback = () => {
-      const { cascadePathItems = [] } = this.state;
-      onSelect && onSelect(node, cascadePathItems, isLeafNode, event);
-    };
-
     const items = (children || []).map(item => ({
       ...this.stringToObject(item),
       parent: node
     }));
 
-    this.setCascadeCache(items, layer + 1, node, isLeafNode, callback);
+    const { cascadeItems, cascadePathItems } = this.getCascadeItems(
+      items,
+      layer + 1,
+      node,
+      isLeafNode
+    );
+
+    onSelect && onSelect(node, cascadeItems, cascadePathItems, isLeafNode, event);
   };
 
   stringToObject(value: any) {
@@ -144,7 +113,11 @@ class DropdownMenu extends React.Component<Props, States> {
         return;
       }
 
-      const activeItem = menu.querySelector(`.${this.addPrefix('item-focus')}`);
+      let activeItem = menu.querySelector(`.${this.addPrefix('item-focus')}`);
+
+      if (!activeItem) {
+        activeItem = menu.querySelector(`.${this.addPrefix('item-active')}`);
+      }
 
       if (activeItem) {
         const position = getPosition(activeItem, menu);
@@ -153,13 +126,7 @@ class DropdownMenu extends React.Component<Props, States> {
     });
   }
 
-  getItemData = (itemData: Object) => {
-    return itemData;
-  };
-
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
-
-  menuBodyContainer = null;
 
   renderCascadeNode(node: any, index: number, layer: number, focus: boolean) {
     const {
@@ -183,7 +150,6 @@ class DropdownMenu extends React.Component<Props, States> {
     return (
       <DropdownMenuItem
         classPrefix={this.addPrefix('item')}
-        getItemData={this.getItemData.bind(this, node)}
         key={`${layer}-${onlyKey}`}
         disabled={disabled}
         active={!_.isUndefined(activeItemValue) && shallowEqual(activeItemValue, value)}
@@ -199,13 +165,18 @@ class DropdownMenu extends React.Component<Props, States> {
   }
 
   renderCascade() {
-    const { cascadeItems = [], cascadePathItems } = this.state;
-    const { menuWidth, menuHeight, valueKey, renderMenu } = this.props;
+    const {
+      menuWidth,
+      menuHeight,
+      valueKey,
+      renderMenu,
+      cascadeItems = [],
+      cascadePathItems
+    } = this.props;
 
     const styles = {
       width: cascadeItems.length * menuWidth
     };
-
     const cascadeNodes = cascadeItems.map((children, layer) => {
       const onlyKey = `${layer}_${children.length}`;
       const menu = (
@@ -245,18 +216,11 @@ class DropdownMenu extends React.Component<Props, States> {
 
   render() {
     const { className, ...rest } = this.props;
-
     const classes = classNames(this.addPrefix('items'), className);
     const unhandled = getUnhandledProps(DropdownMenu, rest);
 
     return (
-      <div
-        {...unhandled}
-        className={classes}
-        ref={ref => {
-          this.menuBodyContainer = ref;
-        }}
-      >
+      <div {...unhandled} className={classes}>
         {this.renderCascade()}
       </div>
     );
