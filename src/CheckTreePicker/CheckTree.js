@@ -163,62 +163,48 @@ class CheckTree extends React.Component<Props, States> {
 
   static getDerivedStateFromProps(nextProps: Props, prevState: States) {
     const { value, data, cascade, expandAll, searchKeyword } = nextProps;
-
+    let nextState = {};
     if (_.isArray(data) && _.isArray(prevState.data) && !shallowEqualArray(prevState.data, data)) {
-      return {
-        data
-      };
+      nextState.data = data;
     }
-
     if (
       _.isArray(value) &&
       _.isArray(prevState.value) &&
       !shallowEqualArray(value, prevState.value)
     ) {
-      return {
-        value
-      };
+      nextState.value = value;
     }
-
     if (prevState.searchKeyword !== searchKeyword) {
-      return {
-        searchWord: nextProps.searchKeyword
-      };
+      nextState.searchWord = searchKeyword;
     }
-
-
-    // cascade 改变时，重新初始化
     if (cascade !== prevState.cascade) {
-      return {
-        cascade
-      };
+      nextState.cascade = cascade;
+    }
+    if (expandAll !== prevState.expandAll) {
+      nextState.expandAll = expandAll;
     }
 
-    if (expandAll !== prevState.expandAll) {
-      return {
-        expandAll
-      };
-    }
-    return null;
+    return Object.keys(nextState).length ? nextState : null;
   }
 
   componentDidUpdate(prevProps: Props, prevState: States) {
     const { filterData, searchWord, selectedValues } = this.state;
-    const { value = [], data = [], cascade, expandAll } = this.props;
-    if (!shallowEqualArray(prevState.data, this.props.data)) {
+    const { value, data = [], cascade, expandAll } = this.props;
+    if (!shallowEqualArray(prevState.data, data)) {
       const nextData = clone(data);
       this.flattenNodes(nextData);
       this.unserializeLists({
         check: this.getValue()
       });
       this.setState({
+        data: nextData,
         filterData: this.getFilterData(searchWord, nextData),
         isSomeNodeHasChildren: this.isSomeNodeHasChildren(nextData),
         hasValue: this.hasValue()
       });
     }
 
-    if (_.isArray(this.props.value) && !shallowEqualArray(prevState.value, this.props.value)) {
+    if (_.isArray(value) && !shallowEqualArray(prevState.value, value)) {
       const nextState = {
         selectedValues: value,
         hasValue: this.hasValue(value),
@@ -290,7 +276,7 @@ class CheckTree extends React.Component<Props, States> {
 
   getExpandState(node: Object, props: Props = this.props) {
     const expandAll = this.getExpandAll(props);
-    const { childrenKey } = this.props;
+    const { childrenKey } = props;
     if (node[childrenKey] && node[childrenKey].length) {
       if ('expand' in node) {
         return !!node.expand;

@@ -322,11 +322,8 @@ describe('TreePicker', () => {
   });
 
   it('Should render empty tree when searchKeyword is `1`', () => {
-    const instance = mount(<TreePicker data={data} inline />);
+    const instance = mount(<TreePicker data={data} inline searchKeyword="name" />);
 
-    instance.setProps({
-      searchKeyword: 'name'
-    });
     assert.equal(instance.find(treeNodeCls).length, 0);
     instance.unmount();
   });
