@@ -176,9 +176,7 @@
     background-color: @slider-handle-default-bg;
     margin-left: -@slider-handle-diameter/2;
     cursor: pointer;
-    transition-property: box-shadow, background-color, transform;
-    transition-timing-function: ease-in-out;
-    transition-duration: .3s;
+    transition: box-shadow @slider-handle-transition, background-color @slider-handle-transition, transform @slider-handle-transition;
   }
 
   &:hover::before {

@@ -6,8 +6,9 @@ import _ from 'lodash';
 import { IntlProvider, FormattedMessage } from 'rsuite-intl';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import { MenuWrapper } from 'rsuite-utils/lib/Picker';
-
 import { findNodeOfTree, shallowEqual, shallowEqualArray } from 'rsuite-utils/lib/utils';
+import { polyfill } from 'react-lifecycles-compat';
+
 import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 import stringToObject from '../utils/stringToObject';
 import DropdownMenu from './DropdownMenu';
@@ -63,15 +64,84 @@ type Props = {
   style?: Object
 };
 
-type States = {
+type State = {
   selectNode?: any,
   value?: any,
   activePaths: Array<any>,
   items?: Array<any>,
-  tempActivePaths?: Array<any>
+  tempActivePaths?: Array<any>,
+  data: Array<any>
 };
 
-class Dropdown extends React.Component<Props, States> {
+function getDerivedStateForCascade(
+  nextProps: Props,
+  prevState: any,
+  selectNodeValue?: any,
+  newChildren?: Array<any>
+) {
+  const { data, labelKey, valueKey, childrenKey, value } = nextProps;
+  const activeItemValue =
+    selectNodeValue || (typeof value === 'undefined' ? prevState.value : value);
+  const nextItems = [];
+  const nextPathItems = [];
+  const findNode = items => {
+    for (let i = 0; i < items.length; i += 1) {
+      items[i] = stringToObject(items[i], labelKey, valueKey);
+      items[i].active = false;
+      let children = items[i][childrenKey];
+
+      if (shallowEqual(items[i][valueKey], activeItemValue)) {
+        return {
+          items,
+          active: items[i]
+        };
+      } else if (children) {
+        let v = findNode(children);
+        if (v) {
+          nextItems.push(
+            children.map(item => ({
+              ...stringToObject(item, labelKey, valueKey),
+              parent: items[i]
+            }))
+          );
+          nextPathItems.push(v.active);
+          return {
+            items,
+            active: items[i]
+          };
+        }
+      }
+    }
+    return null;
+  };
+
+  const activeItem = findNode(data);
+
+  nextItems.push(data);
+
+  if (activeItem) {
+    nextPathItems.push(activeItem.active);
+  }
+
+  /**
+   * 如果是异步更新 data 后，获取到的一个 selectNodeValue，则不更新 activePaths
+   * 但是需要更新 items， 因为这里的目的就是把异步更新后的的数据展示出来
+   */
+  const cascadePathItems = nextPathItems.reverse();
+  if (selectNodeValue) {
+    return {
+      items: [...nextItems.reverse(), newChildren],
+      tempActivePaths: cascadePathItems
+    };
+  }
+
+  return {
+    items: nextItems.reverse(),
+    activePaths: cascadePathItems
+  };
+}
+
+class Dropdown extends React.Component<Props, State> {
   static defaultProps = {
     appearance: 'default',
     data: [],
@@ -88,8 +158,10 @@ class Dropdown extends React.Component<Props, States> {
 
   constructor(props: Props) {
     super(props);
-    this.state = {
+
+    const initState = {
       selectNode: null,
+      data: props.data,
       value: props.defaultValue,
       /**
        * 选中值的路径
@@ -101,36 +173,47 @@ class Dropdown extends React.Component<Props, States> {
        */
       items: []
     };
+
+    this.state = {
+      ...initState,
+      ...getDerivedStateForCascade(props, initState)
+    };
   }
 
-  componentWillMount() {
-    this.updateStateForCascade();
-  }
+  static getDerivedStateFromProps(nextProps: Props, prevState: State) {
+    const { value, data, labelKey, valueKey } = nextProps;
 
-  componentWillReceiveProps(nextProps: Props) {
-    const { value, data, valueKey } = nextProps;
-
-    if (!shallowEqualArray(data, this.props.data)) {
+    if (!shallowEqualArray(data, prevState.data)) {
       /**
-       * 如果是异步加载更新了 data,
+       * 如果更新了 data,
        * 首先获取到被点击节点的值 `selectNodeValue`， 然后再拿到新增后的 `newChildren`,
-       * 把这个两个数据通过交给 updateStateForCascade 处理。
        */
-      const selectNodeValue = _.get(this.state, ['selectNode', valueKey]);
+      const selectNodeValue = _.get(prevState, ['selectNode', valueKey]);
       const newChildren =
         _.get(
           findNodeOfTree(data, item => shallowEqual(item[valueKey], selectNodeValue)),
           'children'
         ) || [];
 
-      this.updateStateForCascade(
+      const nextState = getDerivedStateForCascade(
         nextProps,
+        prevState,
         selectNodeValue,
-        newChildren.map(item => this.stringToObject(item))
+        newChildren.map(item => stringToObject(item, labelKey, valueKey))
       );
-    } else if (!shallowEqual(value, this.props.value)) {
-      this.updateStateForCascade(nextProps);
+      return {
+        ...nextState,
+        data
+      };
+    } else if (typeof value !== 'undefined' && !shallowEqual(value, prevState.value)) {
+      const nextState = getDerivedStateForCascade(nextProps, prevState);
+      return {
+        ...nextState,
+        value
+      };
     }
+
+    return null;
   }
 
   getValue(nextProps?: Props) {
@@ -138,15 +221,17 @@ class Dropdown extends React.Component<Props, States> {
     return _.isUndefined(value) ? this.state.value : value;
   }
 
-  handleSelect = (node: any, activePaths: Array<any>, isLeafNode: boolean, event: DefaultEvent) => {
+  handleSelect = (
+    node: any,
+    cascadeItems,
+    activePaths: Array<any>,
+    isLeafNode: boolean,
+    event: DefaultEvent
+  ) => {
     const { onChange, onSelect, valueKey } = this.props;
     const prevValue = this.getValue();
     const value = node[valueKey];
     onSelect && onSelect(node, activePaths, event);
-
-    this.setState({
-      selectNode: node
-    });
 
     /**
      * 只有在叶子节点的时候才当做是可以选择的值
@@ -154,15 +239,29 @@ class Dropdown extends React.Component<Props, States> {
      */
     if (isLeafNode) {
       this.closeDropdown();
-      this.setState({ value });
+      const nextState: any = {
+        selectNode: node,
+        ...getDerivedStateForCascade(this.props, { value })
+      };
+
+      if (typeof this.props.value === 'undefined') {
+        nextState.value = value;
+      }
+
+      this.setState(nextState);
+
       if (!shallowEqual(value, prevValue)) {
         onChange && onChange(value, event);
       }
 
-      if (_.isUndefined(this.props.value)) {
-        this.setState({ activePaths });
-      }
+      return;
     }
+
+    this.setState({
+      selectNode: node,
+      items: cascadeItems,
+      tempActivePaths: activePaths
+    });
   };
 
   trigger = null;
@@ -205,7 +304,6 @@ class Dropdown extends React.Component<Props, States> {
 
   handleEntered = () => {
     const { onOpen } = this.props;
-    this.updateStateForCascade();
     onOpen && onOpen();
   };
 
@@ -221,67 +319,6 @@ class Dropdown extends React.Component<Props, States> {
   stringToObject(value: any) {
     const { labelKey, valueKey } = this.props;
     return stringToObject(value, labelKey, valueKey);
-  }
-
-  updateStateForCascade(nextProps?: Props, selectNodeValue?: any, newChildren?: Array<any>) {
-    const { data, valueKey, childrenKey } = nextProps || this.props;
-    const activeItemValue = selectNodeValue || this.getValue(nextProps);
-    const nextItems = [];
-    const nextPathItems = [];
-    const findNode = items => {
-      for (let i = 0; i < items.length; i += 1) {
-        items[i] = this.stringToObject(items[i]);
-        items[i].active = false;
-        let children = items[i][childrenKey];
-
-        if (shallowEqual(items[i][valueKey], activeItemValue)) {
-          return {
-            items,
-            active: items[i]
-          };
-        } else if (children) {
-          let v = findNode(children);
-          if (v) {
-            nextItems.push(
-              children.map(item => ({
-                ...this.stringToObject(item),
-                parent: items[i]
-              }))
-            );
-            nextPathItems.push(v.active);
-            return {
-              items,
-              active: items[i]
-            };
-          }
-        }
-      }
-      return null;
-    };
-
-    const activeItem = findNode(data);
-
-    nextItems.push(data);
-
-    if (activeItem) {
-      nextPathItems.push(activeItem.active);
-    }
-
-    /**
-     * 如果是异步更新 data 后，获取到的一个 selectNodeValue，则不更新 activePaths
-     * 但是需要更新 items， 因为这里的目的就是把异步更新后的的数据展示出来
-     */
-    if (selectNodeValue) {
-      this.setState({
-        items: [...nextItems.reverse(), newChildren],
-        tempActivePaths: nextPathItems.reverse()
-      });
-    } else {
-      this.setState({
-        items: nextItems.reverse(),
-        activePaths: nextPathItems.reverse()
-      });
-    }
   }
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
@@ -307,10 +344,10 @@ class Dropdown extends React.Component<Props, States> {
           classPrefix={this.addPrefix('cascader-menu')}
           ref={this.bindMenuContainerRef}
           cascadeItems={items}
-          renderMenu={renderMenu}
           cascadePathItems={tempActivePaths || activePaths}
           activeItemValue={this.getValue()}
           onSelect={this.handleSelect}
+          renderMenu={renderMenu}
         />
         {renderExtraFooter && renderExtraFooter()}
       </MenuWrapper>
@@ -365,8 +402,7 @@ class Dropdown extends React.Component<Props, States> {
         if (index < activePaths.length - 1) {
           activeItemLabel.push(
             <span className="separator" key={`${key}-separator`}>
-              {' '}
-              /{' '}
+              {' / '}
             </span>
           );
         }
@@ -416,6 +452,8 @@ class Dropdown extends React.Component<Props, States> {
     );
   }
 }
+
+polyfill(Dropdown);
 
 const enhance = defaultProps({
   classPrefix: 'picker'

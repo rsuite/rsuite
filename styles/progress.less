@@ -129,9 +129,7 @@
   &-bg {
     background-color: @progress-bar-fill-bg;
     border-radius: @progress-bar-height/2;
-    transition-timing-function: ease-in-out;
-    transition-duration: .2s;
-    transition-property: width, color;
+    transition: width @progress-bg-transition, color @progress-bg-transition;
   }
 
   &-inner,

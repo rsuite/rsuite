@@ -159,6 +159,10 @@
 
     transition: @nav-item-transition;
   }
+
+  &-tabs &-item&-item-active {
+    z-index: 1;
+  }
 }
 
 // Alternate Navs
@@ -291,9 +295,7 @@
           right: 50%;
           height: @nav-subtle-waterline-width;
           background-color: @nav-subtle-waterline-active-color;
-          transition-property: left, right;
-          transition-duration: .3s;
-          transition-timing-function: ease-out;
+          transition: left @nav-subtle-content-transition, right @nav-subtle-content-transition;
 
           // Reversed
           .@{ns}nav-reversed& {
@@ -331,9 +333,7 @@
           bottom: 50%;
           width: @nav-subtle-waterline-width;
           background-color: @nav-subtle-waterline-active-color;
-          transition-property: top, bottom;
-          transition-duration: .3s;
-          transition-timing-function: ease-out;
+          transition: top @nav-subtle-content-transition, bottom @nav-subtle-content-transition;
 
           // Reversed
           .@{ns}nav-reversed& {

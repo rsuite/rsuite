@@ -15,8 +15,7 @@
   vertical-align: middle;
   background-color: @toggle-default-bg;
   cursor: pointer;
-  transition: .2s linear;
-  transition-property: background-color, width;
+  transition: background-color @toggle-transition, width @toggle-transition;
   user-select: none;
 
   &:hover {
@@ -28,8 +27,7 @@
     cursor: pointer;
     position: absolute;
     background-color: @toggle-md-handle-bg;
-    transition: all @toggle-transition;
-    transition-property: left, margin-left, width;
+    transition: left @toggle-transition, margin-left @toggle-transition, width @toggle-transition;
   }
 
   &-inner {

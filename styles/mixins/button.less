@@ -506,7 +506,7 @@
 }
 
 // Button ripple
-.button-ripple(@prefix:~"@{ns}btn-",@transition:@ripple-transition) when (@button-ripple = true) {
+.button-ripple(@prefix:~"@{ns}btn-") when (@button-ripple = true) {
   overflow: hidden;
   position: relative;
 
@@ -522,9 +522,7 @@
       transition: 0s;
 
       &-rippling {
-        transition-duration: 550ms, 1s;
-        transition-property: transform, opacity;
-        transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+        transition: transform .55s cubic-bezier(.4, 0, .2, 1), opacity 1s cubic-bezier(.4, 0, .2, 1);
         transform: scale(1);
         opacity: 0;
       }
