@@ -6,6 +6,7 @@ import { toggleClass, hasClass } from 'dom-lib';
 import { findDOMNode } from 'react-dom';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import _ from 'lodash';
+import { polyfill } from 'react-lifecycles-compat';
 import {
   reactToString,
   shallowEqual,
@@ -1021,6 +1022,8 @@ class CheckTree extends React.Component<Props, States> {
     );
   }
 }
+
+polyfill(CheckTree);
 const enhance = defaultProps({
   classPrefix: 'picker'
 });
