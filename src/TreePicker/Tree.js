@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { findDOMNode } from 'react-dom';
 import { toggleClass, hasClass } from 'dom-lib';
 import { IntlProvider, FormattedMessage } from 'rsuite-intl';
+import { polyfill } from 'react-lifecycles-compat';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import _ from 'lodash';
 import {
@@ -808,6 +809,7 @@ class Tree extends React.Component<Props, States> {
   }
 }
 
+polyfill(Tree);
 const enhance = defaultProps({
   classPrefix: 'picker'
 });
