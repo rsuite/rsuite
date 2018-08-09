@@ -22,7 +22,7 @@ type Props = {
   layer: number,
   onTreeToggle?: (nodeData: Object, layer: number, event: DefaultEvent) => void,
   onSelect?: (nodeData: Object, layer: number, event: DefaultEvent) => void,
-  onRenderTreeIcon?: (nodeData: Object) => React.Node,
+  onRenderTreeIcon?: (nodeData: Object, expandIcon: React.Node) => React.Node,
   onRenderTreeNode?: (nodeData: Object) => React.Node
 };
 
@@ -43,6 +43,12 @@ class TreeCheckNode extends React.Component<Props> {
    */
   handleTreeToggle = (event: DefaultEvent) => {
     const { onTreeToggle, layer, nodeData } = this.props;
+
+    // 异步加载数据自定义loading图标时，阻止原生冒泡，不触发 document.click
+    if (event.nativeEvent) {
+      event.nativeEvent.stopImmediatePropagation && event.nativeEvent.stopImmediatePropagation();
+    }
+
     onTreeToggle && onTreeToggle(nodeData, layer, event);
   };
 
@@ -86,7 +92,9 @@ class TreeCheckNode extends React.Component<Props> {
     const { onRenderTreeIcon, hasChildren, nodeData, classPrefix } = this.props;
     let expandIcon = <i className={`${classPrefix}-node-expand-icon icon`} />;
     if (typeof onRenderTreeIcon === 'function') {
-      expandIcon = onRenderTreeIcon(nodeData);
+      const customIcon = onRenderTreeIcon(nodeData);
+      expandIcon =
+        customIcon !== null ? <div className="custom-icon">{customIcon}</div> : expandIcon;
     }
     return hasChildren ? (
       <div
