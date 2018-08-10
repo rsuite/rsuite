@@ -12,31 +12,14 @@ describe('Ripple', () => {
   });
 
   it('Should call onMouseDown callback', done => {
-    let ripple = null;
     const doneOp = () => {
       done();
     };
     const instance = getDOMNode(
       <div style={{ width: 100, height: 100 }}>
-        <Ripple
-          onMouseDown={doneOp}
-          ref={ref => {
-            ripple = ref;
-          }}
-        />
+        <Ripple onMouseDown={doneOp} />
       </div>
     );
     ReactTestUtils.Simulate.mouseDown(instance.querySelector('.rs-ripple'));
-  });
-
-  it('Should call onMouseDown callback', () => {
-    const instance = getDOMNode(
-      <div style={{ width: 100, height: 100 }}>
-        <Ripple />
-      </div>
-    );
-
-    ReactTestUtils.Simulate.mouseDown(instance.querySelector('.rs-ripple'));
-    assert.ok(instance.querySelector('.rs-ripple-rippling'));
   });
 });
