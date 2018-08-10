@@ -1,3 +1,7 @@
+# 3.2.5
+
+* **Bugfix**: Fix click NavItem no response in Firefox.
+
 # 3.2.4
 
 > 2018-08-10

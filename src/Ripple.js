@@ -3,7 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import Transition from 'rsuite-utils/lib/Animation/Transition';
-import { getWidth, getOffset } from 'dom-lib';
+import { getWidth, getOffset, on } from 'dom-lib';
 
 import { defaultProps, prefix } from './utils';
 
@@ -26,10 +26,23 @@ class Ripple extends React.Component<Props, State> {
       position: {}
     };
   }
+  mousedownListener = null;
   trigger = null;
   bindTriggerRef = ref => {
     this.trigger = ref;
   };
+
+  componentDidMount() {
+    if (this.trigger) {
+      this.mousedownListener = on(this.trigger.parentNode, 'mousedown', this.onMouseDown);
+    }
+  }
+  componentWillUnmount() {
+    if (this.mousedownListener) {
+      this.mousedownListener.off();
+    }
+  }
+
   getPosition = (event: SyntheticMouseEvent<*>) => {
     const offset = getOffset(this.trigger);
     const offsetX = (event.pageX || 0) - offset.left;
@@ -46,9 +59,11 @@ class Ripple extends React.Component<Props, State> {
       top: offsetY - radius
     };
   };
-  handleMouseMown = (event: SyntheticMouseEvent<*>) => {
+
+  onMouseDown = (event: SyntheticMouseEvent<*>) => {
     const position = this.getPosition(event);
     const { onMouseDown } = this.props;
+
     this.setState({
       rippling: true,
       position
@@ -71,12 +86,7 @@ class Ripple extends React.Component<Props, State> {
     const { position, rippling } = this.state;
 
     return (
-      <span
-        {...props}
-        className={classes}
-        ref={this.bindTriggerRef}
-        onMouseDown={this.handleMouseMown}
-      >
+      <span {...props} className={classes} ref={this.bindTriggerRef}>
         <Transition
           in={rippling}
           enteringClassName={this.addPrefix('rippling')}
