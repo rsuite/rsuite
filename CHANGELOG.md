@@ -1,3 +1,21 @@
+# 3.2.4
+
+> 2018-08-10
+
+* **Feature**: Improve of ripple animation effects ([#154])
+* **Bugfix**: Tab nav active styles abnormal ([#156])
+* **Chore**: Migrated to new lifecycle method ([#157],[#158],[#159],[#161],[#164])
+* **Chore**: Compatibility with the post-css autoprefixer ([#155])
+
+[#164]: https://github.com/rsuite/rsuite/pull/164
+[#161]: https://github.com/rsuite/rsuite/pull/161
+[#159]: https://github.com/rsuite/rsuite/pull/159
+[#158]: https://github.com/rsuite/rsuite/pull/158
+[#157]: https://github.com/rsuite/rsuite/pull/157
+[#156]: https://github.com/rsuite/rsuite/pull/156
+[#155]: https://github.com/rsuite/rsuite/pull/155
+[#154]: https://github.com/rsuite/rsuite/pull/154
+
 # 3.2.3
 
 > 2018-08-02
