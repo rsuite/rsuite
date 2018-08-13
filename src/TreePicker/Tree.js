@@ -694,16 +694,25 @@ class Tree extends React.Component<Props, States> {
   }
 
   renderTree() {
+    const { filterData } = this.state;
+    const { height, className = '', inline } = this.props;
+
     // 树节点的层级
     let layer = 0;
-    const { filterData } = this.state;
-    const { height } = this.props;
-    const classes = this.addPrefix('tree-view');
-    const nodes = filterData.map((dataItem, index) => {
-      return this.renderNode(dataItem, index, layer, classes);
+
+    const treeViewClasses = this.addPrefix('tree-view');
+
+    const classes = classNames(treeViewClasses, {
+      [className]: inline
     });
+    const nodes = filterData.map((dataItem, index) => {
+      return this.renderNode(dataItem, index, layer, treeViewClasses);
+    });
+
+    const style = inline ? this.props.style : {};
     const styles = {
-      height
+      height,
+      ...style
     };
     return (
       <div
