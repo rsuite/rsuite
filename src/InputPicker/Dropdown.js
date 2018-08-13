@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import { MenuWrapper } from 'rsuite-utils/lib/Picker';
-import InputAutosize from 'react-input-autosize';
+import InputAutosize from './InputAutosize';
 import { getWidth } from 'dom-lib';
 import {
   reactToString,
