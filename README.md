@@ -1,12 +1,10 @@
-English | [中文版][readm-cn]
-
-
 <p align="center">
   <a href="https://rsuitejs.com" target="_blank" rel="noopener noreferrer">
-   <img height="100" src="https://user-images.githubusercontent.com/15609339/39298633-53826e50-4979-11e8-99fa-fac162d0830e.png" alt="RSUITE logo">
+   <img src="https://user-images.githubusercontent.com/1203827/44192693-0440f400-a163-11e8-9d7c-0cc55797e0cb.png" alt="RSUITE logo">
   </a>
 </p>
 
+English | [中文版][readm-cn]
 
 [![npm][npm-svg]][npm-home] [![Travis][travis-svg]][travis-home] [![Coverage Status][coverage-svg]][coverage-home] [![Discord][discord-svg]][discord-invite]
 
