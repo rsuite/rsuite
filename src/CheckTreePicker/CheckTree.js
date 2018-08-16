@@ -896,12 +896,12 @@ class CheckTree extends React.Component<Props, States> {
 
   renderCheckTree() {
     const { filterData, isSomeNodeHasChildren } = this.state;
-    const { onScroll } = this.props;
+    const { inline, height, className = '', onScroll } = this.props;
     // 树节点的层级
     let layer = 0;
-    const { height } = this.props;
     const treeViewClass = this.addPrefix('checktree-view');
     const classes = classNames(treeViewClass, {
+      [className]: inline,
       'without-children': !isSomeNodeHasChildren
     });
     const formattedNodes = this.state.formattedNodes.length
@@ -911,9 +911,13 @@ class CheckTree extends React.Component<Props, States> {
     const nodes = formattedNodes.map((node, index) =>
       this.renderNode(node, index, layer, treeViewClass)
     );
+
+    const style = inline ? this.props.style : {};
     const styles = {
-      height
+      height,
+      ...style
     };
+
     const treeNodesClass = this.addPrefix('checktree-nodes');
     return (
       <div
