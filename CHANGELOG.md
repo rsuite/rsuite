@@ -1,3 +1,19 @@
+# 3.2.6
+
+* **Feature**: Support `onResize` on `<Table.Column>` ([#table-37])
+* **Bugfix**: Add className and style props for Tree and CheckTree
+* **Bugfix**: The scrollbar position is reset when the data is loaded ([#table-36])
+* **Bugfix**: Tree has a scroll bar that should not be there ([#169])
+* **Chore**: Refactor the `<InputAutosize>` component in `<TagPicker>` ([#167])
+* **Chore**: [flow-typed] Add rsuite v3 libdef ([#flow-typed-2547])
+
+[#170]: https://github.com/rsuite/rsuite/pull/170
+[#169]: https://github.com/rsuite/rsuite/pull/169
+[#167]: https://github.com/rsuite/rsuite/pull/167
+[#table-37]: https://github.com/rsuite/rsuite-table/pull/37
+[#table-36]: https://github.com/rsuite/rsuite-table/pull/36
+[#flow-typed-2547]: https://github.com/flow-typed/flow-typed/pull/2547
+
 # 3.2.5
 
 * **Bugfix**: Fix click NavItem no response in Firefox.
