@@ -147,12 +147,9 @@ class Tree extends React.Component<Props, States> {
       nextState.data = data;
     }
 
-    if (
-      _.isArray(value) &&
-      _.isArray(prevState.value) &&
-      !shallowEqualArray(value, prevState.value)
-    ) {
+    if (!shallowEqual(value, prevState.value)) {
       nextState.value = value;
+      nextState.selectedValue = value;
     }
 
     if (prevState.searchKeyword !== searchKeyword) {
