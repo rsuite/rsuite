@@ -211,4 +211,30 @@ describe('DatePicker', () => {
       picker.menuContainer.querySelector('.rs-calendar-table-cell-is-today')
     );
   });
+
+  it('Should not change for the value  when it is controlled', done => {
+    const doneOp = date => {
+      if (findDOMNode(picker).querySelector('.rs-picker-toggle-value').innerText === '2018-01-05') {
+        done();
+      }
+    };
+
+    let picker = null;
+
+    let instance = ReactTestUtils.renderIntoDocument(
+      <DatePicker
+        innerRef={ref => (picker = ref)}
+        value={moment('2018-01-05')}
+        onChange={doneOp}
+        defaultOpen
+      />
+    );
+
+    let allCell = picker.menuContainer.querySelectorAll('.rs-calendar-table-cell');
+    ReactTestUtils.Simulate.click(allCell[allCell.length - 1]);
+
+    ReactTestUtils.Simulate.click(
+      picker.menuContainer.querySelector('.rs-picker-toolbar-right-btn-ok')
+    );
+  });
 });

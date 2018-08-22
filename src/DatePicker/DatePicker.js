@@ -123,7 +123,7 @@ class DatePicker extends React.Component<Props, State> {
     if (typeof nextProps.value !== 'undefined') {
       const { value } = nextProps;
 
-      if (!value.isSame(prevState.value, 'day')) {
+      if (value && !value.isSame(prevState.value, 'day')) {
         return {
           value,
           pageDate: value
@@ -165,7 +165,7 @@ class DatePicker extends React.Component<Props, State> {
     const { placeholder, format } = this.props;
     const value = this.getValue();
 
-    return value ? value.format(this.props.format) : placeholder || format;
+    return value ? value.format(format) : placeholder || format;
   }
 
   calendar = null;
