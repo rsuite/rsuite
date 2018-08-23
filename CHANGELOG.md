@@ -1,3 +1,15 @@
+# 3.2.7
+
+* **Bugfix**: The `flexGrow` is invalid when there is only one column on `<Table>` ([#177])
+* **Bugfix**: `<Modal>` and `<Drawer>` have no animation problems when modular. ([#176])
+* **Bugfix**: `<TreePicker>` miss active className ([#174])
+* **Bugfix**: An error occurred in the `null` value when the `DatePicker` was controlled. ([#172])
+
+[#177]: https://github.com/rsuite/rsuite/pull/177
+[#176]: https://github.com/rsuite/rsuite/pull/176
+[#174]: https://github.com/rsuite/rsuite/pull/174
+[#172]: https://github.com/rsuite/rsuite/pull/172
+
 # 3.2.6
 
 * **Feature**: Support `onResize` on `<Table.Column>` ([#table-37])
