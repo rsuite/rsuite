@@ -1,5 +1,7 @@
 # 3.2.7
 
+> 2018-08-23
+
 * **Bugfix**: The `flexGrow` is invalid when there is only one column on `<Table>` ([#177])
 * **Bugfix**: `<Modal>` and `<Drawer>` have no animation problems when modular. ([#176])
 * **Bugfix**: `<TreePicker>` miss active className ([#174])
@@ -11,6 +13,8 @@
 [#172]: https://github.com/rsuite/rsuite/pull/172
 
 # 3.2.6
+
+> 2018-08-16
 
 * **Feature**: Support `onResize` on `<Table.Column>` ([#table-37])
 * **Bugfix**: Add className and style props for Tree and CheckTree
@@ -27,6 +31,8 @@
 [#flow-typed-2547]: https://github.com/flow-typed/flow-typed/pull/2547
 
 # 3.2.5
+
+> 2018-08-10
 
 * **Bugfix**: Fix click NavItem no response in Firefox.
 
