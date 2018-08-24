@@ -8,7 +8,7 @@
 </p>
 
 
-[![npm][npm-svg]][npm-home] [![Travis][travis-svg]][travis-home] [![Coverage Status][coverage-svg]][travis-home] [![Discord][discord-svg]][discord-invite]
+[![npm][npm-svg]][npm-home] [![Travis][travis-svg]][travis-home] [![Coverage Status][coverage-svg]][travis-home] [![Discord][discord-svg]][discord-invite] [![Gitter][gitter-svg]][gitter]
 
 RSUITE（React Suite 的简写）是一套 React 组件库，为后台产品而生。由 HYPERS 前端团队与 UX 团队打造，主要服务于公司大数据产品线。经历了三次大的版本更新后，累积了大量的组件和丰富的功能。
 
@@ -110,3 +110,5 @@ RSUITE 基于 [MIT licensed][LICENSE] 发布。
 [opencollective-home]:https://opencollective.com/rsuite
 [LICENSE]:https://github.com/rsuite/rsuite/blob/master/LICENSE
 [rsuite-gitee]:http://rsuite.gitee.io/
+[gitter]:https://gitter.im/rsuite/rsuite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
+[gitter-svg]:https://badges.gitter.im/rsuite/rsuite.svg
