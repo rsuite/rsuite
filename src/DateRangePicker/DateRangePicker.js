@@ -154,7 +154,10 @@ class DateRangePicker extends React.Component<Props, State> {
     const endDate = _.get(nextValue, '1');
 
     if (startDate && endDate) {
-      return `${startDate.format(format)} ~ ${endDate.format(format)}`;
+      const displayValue = [startDate, endDate].sort(
+        (a, b) => (a ? a.unix() : 0) - (b ? b.unix() : 0)
+      );
+      return `${displayValue[0].format(format)} ~ ${displayValue[1].format(format)}`;
     }
 
     return placeholder || `${format} ~ ${format}`;
