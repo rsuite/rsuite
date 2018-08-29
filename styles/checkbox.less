@@ -1,5 +1,5 @@
-@import "common";
-@import "mixins/checkbox";
+@import 'common';
+@import 'mixins/checkbox';
 
 .@{ns}checkbox-checker {
   padding-top: 10px;
@@ -18,7 +18,7 @@
   left: @checkbox-sense-width;
   top: @checkbox-sense-width;
 
-  [type="checkbox"] {
+  [type='checkbox'] {
     display: none;
   }
 
@@ -26,7 +26,7 @@
   &::after,
   .@{ns}checkbox-inner::before,
   .@{ns}checkbox-inner::after {
-    content: "";
+    content: '';
     position: absolute;
     left: 0;
     top: 0;
@@ -45,9 +45,9 @@
     .checkbox-inner-wrap(@checkbox-checked-border-color);
 
     transform: scale(1);
-    opacity: .7;
+    opacity: 0.7;
     visibility: hidden;
-    transition: transform .2s linear, opacity .2s linear;
+    transition: transform 0.2s linear, opacity 0.2s linear;
 
     .@{ns}checkbox-checked & {
       transform: scale(1.5);
@@ -68,7 +68,7 @@
   .@{ns}checkbox-inner::before {
     .checkbox-inner-wrap(@checkbox-default-border-color);
 
-    transition: background .2s linear, border .2s linear, box-shadow .2s linear;
+    transition: background 0.2s linear, border 0.2s linear, box-shadow 0.2s linear;
 
     .@{ns}checkbox-checked &,
     .@{ns}checkbox-indeterminate & {
@@ -83,7 +83,7 @@
 
     .@{ns}checkbox-disabled.@{ns}checkbox-checked &,
     .@{ns}checkbox-disabled.@{ns}checkbox-indeterminate & {
-      opacity: .3;
+      opacity: 0.3;
     }
   }
 
@@ -92,7 +92,7 @@
     .opacity(0);
 
     transform: rotate(45deg) scale(0);
-    transition: opacity .2s ease-in, transform .2s cubic-bezier(.12, .4, .29, 1.46);
+    transition: opacity 0.2s ease-in, transform 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46);
 
     .@{ns}checkbox-checked &,
     .@{ns}checkbox-indeterminate & {
@@ -125,7 +125,7 @@
     .@{ns}checkbox-inner::before {
       .checkbox-inner-active-shadow(@checkbox-default-border-color);
 
-      @hover: ~":hover";
+      @hover: ~':hover';
 
       @{hover}& {
         .checkbox-inner-active-shadow(@checkbox-checked-border-color);
@@ -137,4 +137,3 @@
     }
   }
 }
-

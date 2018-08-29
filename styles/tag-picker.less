@@ -1,6 +1,6 @@
-@import "common";
-@import "mixins/form";
-@import "mixins/picker";
+@import 'common';
+@import 'mixins/form';
+@import 'mixins/picker';
 
 .@{tag-picker} {
   // Make sure vertical align with input
@@ -20,7 +20,7 @@
     position: relative;
     // make sure tag in front of toggle
     z-index: @zindex-picker-toggle + 1;
-    max-width: ~"calc(100% - @{tag-picker-content-padding-horizontal})";
+    max-width: ~'calc(100% - @{tag-picker-content-padding-horizontal})';
     vertical-align: top;
     .ellipsis-basic;
   }

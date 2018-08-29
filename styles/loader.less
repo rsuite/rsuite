@@ -1,5 +1,5 @@
-@import "common";
-@import "mixins/loader";
+@import 'common';
+@import 'mixins/loader';
 
 .@{ns}loader {
   .clearfix;
@@ -50,7 +50,7 @@
     }
 
     .@{ns}loader-content {
-      line-height: unit(@line-height-computed/@loader-default-content-font-size);
+      line-height: unit(@line-height-computed / @loader-default-content-font-size);
       text-align: center;
     }
 
@@ -141,7 +141,7 @@
     // vertical content text align center
     &.@{ns}loader-vertical {
       .@{ns}loader {
-        height: (@loader-default-diameter + @loader-content-spin-spacing-vertical + @line-height-computed);
+        height: @loader-default-diameter + @loader-content-spin-spacing-vertical + @line-height-computed;
       }
 
       .@{ns}loader-content {

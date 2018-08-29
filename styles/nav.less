@@ -1,5 +1,5 @@
-@import "common";
-@import "mixins/button";
+@import 'common';
+@import 'mixins/button';
 
 //
 // Navs
@@ -155,7 +155,7 @@
   // Ripple
   .@{ns}nav-default &-item,
   .@{ns}nav-tabs &-item {
-    .button-ripple(~"@{ns}nav-item-");
+    .button-ripple(~'@{ns}nav-item-');
 
     transition: @nav-item-transition;
   }
@@ -288,7 +288,7 @@
         position: relative;
 
         &::before {
-          content: "";
+          content: '';
           position: absolute;
           bottom: 0;
           left: 50%;
@@ -326,7 +326,7 @@
         position: relative;
 
         &::before {
-          content: "";
+          content: '';
           position: absolute;
           right: 0;
           top: 50%;

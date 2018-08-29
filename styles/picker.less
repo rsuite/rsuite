@@ -1,7 +1,7 @@
-@import "common";
-@import "mixins/button";
-@import "mixins/form";
-@import "mixins/picker";
+@import 'common';
+@import 'mixins/button';
+@import 'mixins/form';
+@import 'mixins/picker';
 
 //
 // Pickers
@@ -22,7 +22,7 @@
   }
 
   &-disabled {
-    opacity: .3;
+    opacity: 0.3;
   }
 
   &-toggle &-toggle-placeholder {
@@ -101,11 +101,11 @@
 // Picker clean button
 .@{ns}picker-toggle-clean {
   .dropdown-toggle-caret-common(@picker-toggle-clean-right);
-  .set-dropdown-caret(~"dropdown");
+  .set-dropdown-caret(~'dropdown');
 
   background: inherit;
   color: @picker-toggle-clean-color;
-  transition: .2s color linear;
+  transition: 0.2s color linear;
   // FIXED: IE browser has 1px orange line.
   .ie-width(19px) !important;
 
@@ -123,7 +123,7 @@
 .@{ns}picker-toggle-caret {
   // Extend  Dropdown toggle caret style
   .dropdown-toggle-caret-common;
-  .set-dropdown-caret(~"@{ns}picker");
+  .set-dropdown-caret(~'@{ns}picker');
 
   color: @picker-default-toggle-caret-color;
 
@@ -192,7 +192,7 @@
       width: @picker-search-bar-icon-width;
       color: @B400;
       font-size: @font-size-base;
-      line-height: unit(@line-height-computed/@font-size-base);
+      line-height: unit(@line-height-computed / @font-size-base);
       top: @picker-menu-padding - @border-radius-base + @padding-base-input-vertical;
       right: @picker-menu-padding + @padding-base-input-horizontal;
 

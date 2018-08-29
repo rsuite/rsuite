@@ -40,7 +40,7 @@
   &[disabled],
   .@{ns}dropdown-disabled & {
     cursor: @cursor-disabled;
-    .opacity(.3);
+    .opacity(0.3);
 
     &::after {
       display: none !important;
@@ -118,9 +118,9 @@
 
 // Button variants
 .button-primary-variant(@color; @background) {
-  @background-dark: color(~`palette("@{background}", 600)`);
-  @background-darker: color(~`palette("@{background}", 700)`);
-  @background-even-darker: color(~`palette("@{background}", 800)`);
+  @background-dark: color(~`palette('@{background}', 600) `);
+  @background-darker: color(~`palette('@{background}', 700) `);
+  @background-even-darker: color(~`palette('@{background}', 800) `);
 
   color: @color;
   background-color: @background;
@@ -178,8 +178,8 @@
 }
 
 .btn-link-variant(@color) {
-  @color-dark: color(~`palette("@{color}", 600)`);
-  @color-darker: color(~`palette("@{color}", 700)`);
+  @color-dark: color(~`palette('@{color}', 600) `);
+  @color-darker: color(~`palette('@{color}', 700) `);
 
   color: @color;
   font-weight: normal;
@@ -229,8 +229,8 @@
 }
 
 .btn-subtle-variant(@color) {
-  @color-dark: color(~`palette("@{color}", 600)`);
-  @color-darker: color(~`palette("@{color}", 700)`);
+  @color-dark: color(~`palette('@{color}', 600) `);
+  @color-darker: color(~`palette('@{color}', 700) `);
 
   color: @btn-subtle-color;
   background-color: transparent;
@@ -275,10 +275,10 @@
 }
 
 .btn-ghost-variant(@color,@border-color) {
-  @color-dark: color(~`palette("@{color}", 600)`);
-  @color-darker: color(~`palette("@{color}", 700)`);
-  @color-border-dark: color(~`palette("@{color}", 600)`);
-  @color-border-darker: color(~`palette("@{color}", 700)`);
+  @color-dark: color(~`palette('@{color}', 600) `);
+  @color-darker: color(~`palette('@{color}', 700) `);
+  @color-border-dark: color(~`palette('@{color}', 600) `);
+  @color-border-darker: color(~`palette('@{color}', 700) `);
 
   color: @color;
   border: 1px solid @border-color;
@@ -325,8 +325,8 @@
 
 // Use to hack button border in button-group set [justified].
 .btn-ghost-hack-variant(@border-color) {
-  @color-border-dark: color(~`palette("@{border-color}", 600)`);
-  @color-border-darker: color(~`palette("@{border-color}", 700)`);
+  @color-border-dark: color(~`palette('@{border-color}', 600) `);
+  @color-border-darker: color(~`palette('@{border-color}', 700) `);
 
   &::before,
   &::after {
@@ -379,7 +379,7 @@
     &.@{ns}btn-default.@{ns}btn-disabled,
     &.@{ns}btn-default[disabled],
     .@{ns}dropdown-disabled &.@{ns}btn-default {
-      opacity: .3;
+      opacity: 0.3;
     }
   }
 }
@@ -417,7 +417,7 @@
 
 // Button sizes
 .button-size(@padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius) {
-  @icon-side-length: @padding-vertical*2 + floor(@font-size*@line-height);
+  @icon-side-length: @padding-vertical*2 + floor(@font-size* @line-height);
   @ghost-icon-side-length: @icon-side-length - @btn-ghost-border-width*2;
   @svg-icon-height: @font-size;
 
@@ -506,7 +506,7 @@
 }
 
 // Button ripple
-.button-ripple(@prefix:~"@{ns}btn-") when (@button-ripple = true) {
+.button-ripple(@prefix:~'@{ns}btn-') when (@button-ripple = true) {
   overflow: hidden;
   position: relative;
 
@@ -517,18 +517,18 @@
       position: absolute;
       display: block;
       border-radius: 50%;
-      background-color: rgba(0, 0, 0, .2);
+      background-color: rgba(0, 0, 0, 0.2);
       transform: scale(0);
       transition: 0s;
 
       &-rippling {
-        transition: transform .55s cubic-bezier(.4, 0, .2, 1), opacity 1s cubic-bezier(.4, 0, .2, 1);
+        transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1), opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
         transform: scale(1);
         opacity: 0;
       }
 
       &-pond {
-        content: "";
+        content: '';
         display: block;
         position: absolute;
         width: 100%;
@@ -550,13 +550,13 @@
 
 // Button transition
 .btn-transition() {
-  transition: color .2s linear, background-color .3s linear;
+  transition: color 0.2s linear, background-color 0.3s linear;
 }
 
 .btn-transition(color) {
-  transition: color .2s linear;
+  transition: color 0.2s linear;
 }
 
 .btn-transition(color-and-border) {
-  transition: color .2s linear, border-color .3s linear;
+  transition: color 0.2s linear, border-color 0.3s linear;
 }

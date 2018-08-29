@@ -1,6 +1,6 @@
-@import "common";
-@import "mixins/loader";
-@import "mixins/table";
+@import 'common';
+@import 'mixins/loader';
+@import 'mixins/table';
 
 //
 // Table
@@ -63,7 +63,7 @@
   &-row,
   &-cell-group,
   &-cell {
-    transition: background-color .3s linear;
+    transition: background-color 0.3s linear;
   }
 
   &-hover &-row:not(&-row-header):hover,
@@ -242,7 +242,7 @@
     }
 
     &-shadow {
-      box-shadow: 3px 0 5px rgba(9, 9, 9, .08);
+      box-shadow: 3px 0 5px rgba(9, 9, 9, 0.08);
     }
   }
 
@@ -260,7 +260,7 @@
 
       background-color: @table-resize-mouse-color;
       position: absolute;
-      left: -1*(@table-column-resize-spanner-width/2);
+      left: -1 * (@table-column-resize-spanner-width / 2);
     }
   }
 
@@ -307,12 +307,12 @@
   cursor: pointer;
 
   &::after {
-    content: "";
+    content: '';
     position: absolute;
-    left: -1*@icon-table-sense-width;
-    right: -1*@icon-table-sense-width;
-    top: -1*@icon-table-sense-width;
-    bottom: -1*@icon-table-sense-width;
+    left: -1 * @icon-table-sense-width;
+    right: -1 * @icon-table-sense-width;
+    top: -1 * @icon-table-sense-width;
+    bottom: -1 * @icon-table-sense-width;
   }
 }
 
@@ -333,8 +333,9 @@
 .@{ns}table-scrollbar {
   background: @table-scrollbar-background;
   position: absolute;
-  transition: background @table-scrollbar-timing-duration linear, transform @table-scrollbar-timing-duration linear;
-  opacity: .6;
+  transition: background @table-scrollbar-timing-duration linear,
+    transform @table-scrollbar-timing-duration linear;
+  opacity: 0.6;
   // Make sure Scrollbar on the loader.
   z-index: 1;
 

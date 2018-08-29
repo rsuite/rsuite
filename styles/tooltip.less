@@ -1,4 +1,4 @@
-@import "common";
+@import 'common';
 
 //
 // Tooltips
@@ -17,12 +17,12 @@
   opacity: 0;
 
   &.fade {
-    transition: opacity .1s linear, transform .1s ease-out;
+    transition: opacity 0.1s linear, transform 0.1s ease-out;
   }
 
   &.in {
     opacity: 1;
-    transition: opacity .15s linear, transform .15s ease-in;
+    transition: opacity 0.15s linear, transform 0.15s ease-in;
   }
 
   // Wrapper for the tooltip content
@@ -47,7 +47,7 @@
 }
 
 // Common style for .placement-top*
-.@{ns}tooltip[class*=placement-top] {
+.@{ns}tooltip[class*='placement-top'] {
   margin-top: -@tooltip-arrow-width;
   .set-translate(0, -@tooltip-translate-distance);
 
@@ -64,7 +64,7 @@
 }
 
 // Common style for .placement-bottom*
-.@{ns}tooltip[class*=placement-bottom] {
+.@{ns}tooltip[class*='placement-bottom'] {
   margin-top: @tooltip-arrow-width;
   .set-translate(0, @tooltip-translate-distance);
 
@@ -81,7 +81,7 @@
 }
 
 // Common style for .placement-right*
-.@{ns}tooltip[class*=placement-right] {
+.@{ns}tooltip[class*='placement-right'] {
   margin-left: @tooltip-arrow-width;
   .set-translate(@tooltip-translate-distance, 0);
 
@@ -98,7 +98,7 @@
 }
 
 // Common style for .placement-lef*
-.@{ns}tooltip[class*=placement-left] {
+.@{ns}tooltip[class*='placement-left'] {
   margin-left: -@tooltip-arrow-width;
   .set-translate(-@tooltip-translate-distance, 0);
 

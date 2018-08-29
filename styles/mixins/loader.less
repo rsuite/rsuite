@@ -19,7 +19,7 @@
 
     &-content {
       font-size: @font-size;
-      line-height: unit(@diameter/@font-size);
+      line-height: unit(@diameter / @font-size);
     }
 
     &-vertical & {
@@ -27,7 +27,7 @@
     }
 
     &-vertical &-content {
-      line-height: unit(@line-height-computed/@font-size);
+      line-height: unit(@line-height-computed / @font-size);
     }
   }
 }
@@ -35,7 +35,7 @@
 .loader-spin() {
   &::before,
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     left: 0;
     right: 0;

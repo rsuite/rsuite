@@ -1,23 +1,23 @@
-@import "common";
-@import "mixins/button";
-@import "mixins/loader";
-@import "mixins/uploader";
+@import 'common';
+@import 'mixins/button';
+@import 'mixins/loader';
+@import 'mixins/uploader';
 
 // Uploader
 // ----------------------
 
 // Uploader Name Space
-@uplns: ~"@{ns}uploader";
+@uplns: ~'@{ns}uploader';
 
 .@{uplns} {
   &-trigger {
-    input[type="file"] {
+    input[type='file'] {
       position: absolute !important;
       clip: rect(1px 1px 1px 1px);
     }
 
     &-disabled {
-      opacity: .3;
+      opacity: 0.3;
       //cursor: not-allowed;
 
       .@{uplns}-trigger-btn {
@@ -27,7 +27,7 @@
   }
 
   &-file-item-disabled {
-    opacity: .3;
+    opacity: 0.3;
     cursor: not-allowed;
 
     .@{uplns}-picture & .@{uplns}-file-item-status {
@@ -67,7 +67,7 @@
     position: relative;
     padding-left: 36px;
     padding-right: 30px;
-    transition: .3s linear background-color;
+    transition: 0.3s linear background-color;
 
     &:hover {
       background-color: @uploader-item-hover-background-color;
@@ -96,7 +96,7 @@
         font-style: normal;
         color: @B800;
         font-size: @uploader-file-item-icon-font-size;
-        line-height: unit(@line-height-computed/@uploader-file-item-icon-font-size);
+        line-height: unit(@line-height-computed / @uploader-file-item-icon-font-size);
       }
     }
 
@@ -107,7 +107,7 @@
       &,
       & > a {
         color: @uploader-default-font-color;
-        transition: color .3s;
+        transition: color 0.3s;
       }
 
       > a {
@@ -181,7 +181,7 @@
       &-bar {
         height: 2px;
         background-color: @H500;
-        transition: width .3s ease-in-out;
+        transition: width 0.3s ease-in-out;
       }
     }
   }
@@ -261,7 +261,7 @@
       height: @uploader-picture-side-length;
       text-align: center;
       z-index: @zindex-uploader-picture-error-wrapper;
-      background-color: rgba(255, 255, 255, .8);
+      background-color: rgba(255, 255, 255, 0.8);
       cursor: default;
       color: @error-color;
       padding-top: 14px;
@@ -289,11 +289,11 @@
       height: @uploader-picture-remove-button-radius;
       line-height: @uploader-picture-remove-button-radius;
       text-align: center;
-      background-color: rgba(255, 255, 255, .8);
+      background-color: rgba(255, 255, 255, 0.8);
       border-radius: 50%;
       visibility: hidden;
       opacity: 0;
-      transition: .2s opacity;
+      transition: 0.2s opacity;
       z-index: @zindex-uploader-picture-remove-button;
 
       &:hover,
@@ -322,7 +322,7 @@
       width: @uploader-picture-side-length;
       height: @uploader-picture-side-length;
       line-height: @uploader-picture-side-length;
-      background-color: rgba(255, 255, 255, .8);
+      background-color: rgba(255, 255, 255, 0.8);
       position: absolute;
       top: 0;
       left: 0;
@@ -399,7 +399,7 @@
     border: 1px solid @uploader-picture-text-border-color;
     border-radius: @border-radius-base;
     overflow: hidden;
-    transition: .3s linear background-color;
+    transition: 0.3s linear background-color;
 
     &:hover {
       background-color: @uploader-item-hover-background-color;
@@ -486,7 +486,7 @@
       &-bar {
         height: 2px;
         background-color: @H500;
-        transition: width .3s ease-in-out;
+        transition: width 0.3s ease-in-out;
       }
     }
 
@@ -498,7 +498,7 @@
       width: @uploader-picture-text-preview-side-length;
       height: @uploader-picture-text-preview-side-length;
       z-index: 1;
-      background-color: rgba(255, 255, 255, .8);
+      background-color: rgba(255, 255, 255, 0.8);
       text-align: center;
       line-height: 50px;
 

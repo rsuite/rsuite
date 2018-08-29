@@ -1,5 +1,5 @@
-@import "common";
-@import "mixins/message";
+@import 'common';
+@import 'mixins/message';
 
 //
 // Messages
@@ -25,7 +25,7 @@
 
     //The last message hiding haven't clearance.
     &.@{ns}message-hiding:last-child {
-      transition: margin-top .1s linear .3s;
+      transition: margin-top 0.1s linear 0.3s;
       margin-top: 0;
     }
   }
@@ -63,7 +63,7 @@
   // Title
   h5 {
     color: @B900;
-    line-height: unit(round(@message-icon-large-size/@message-title-size, 16));
+    line-height: unit(round(@message-icon-large-size / @message-title-size, 16));
   }
 
   // Description
@@ -112,11 +112,11 @@
   // Animations
   // ----------------------------
   &.@{ns}message-show {
-    animation: messageMoveIn .3s ease-in forwards;
+    animation: messageMoveIn 0.3s ease-in forwards;
   }
 
   &.@{ns}message-hiding {
-    animation: messageMoveOut .3s ease-in forwards;
+    animation: messageMoveOut 0.3s ease-in forwards;
   }
 }
 

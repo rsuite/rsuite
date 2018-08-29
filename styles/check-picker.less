@@ -1,11 +1,11 @@
-@import "picker";
-@import "mixins/checkbox";
+@import 'picker';
+@import 'mixins/checkbox';
 
 // Check Picker
 // ----------------------
 
 // Check picker name space
-@ckpns: ~"@{ns}@{check-picker-prefix}";
+@ckpns: ~'@{ns}@{check-picker-prefix}';
 
 // Menu Items
 .@{ckpns}-menu-items {
@@ -57,7 +57,7 @@
     left: @picker-menu-padding + @picker-children-check-item-padding-left;
   }
 
-  [type="checkbox"] {
+  [type='checkbox'] {
     display: none;
   }
 
@@ -65,7 +65,7 @@
   &::after,
   .@{ckpns}-menu-item-inner::before,
   .@{ckpns}-menu-item-inner::after {
-    content: "";
+    content: '';
     position: absolute;
     left: 0;
     top: 0;
@@ -84,9 +84,9 @@
     .checkbox-inner-wrap(@checkbox-checked-border-color);
 
     transform: scale(1);
-    opacity: .7;
+    opacity: 0.7;
     visibility: hidden;
-    transition: transform .2s linear, opacity .2s linear;
+    transition: transform 0.2s linear, opacity 0.2s linear;
 
     .@{ckpns}-menu-item-active & {
       transform: scale(1.5);
@@ -107,7 +107,7 @@
   .@{ckpns}-menu-item-inner::before {
     .checkbox-inner-wrap(@checkbox-default-border-color);
 
-    transition: background .2s linear, border .2s linear, box-shadow .2s linear;
+    transition: background 0.2s linear, border 0.2s linear, box-shadow 0.2s linear;
 
     .@{ckpns}-menu-item-active & {
       border-color: @checkbox-checked-border-color;
@@ -120,7 +120,7 @@
     }
 
     .@{ckpns}-menu-item-disabled.@{ckpns}-menu-item-active & {
-      opacity: .3;
+      opacity: 0.3;
     }
   }
 
@@ -129,7 +129,7 @@
     .opacity(0);
 
     transform: rotate(45deg) scale(0);
-    transition: opacity .2s ease-in, transform .2s cubic-bezier(.12, .4, .29, 1.46);
+    transition: opacity 0.2s ease-in, transform 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46);
 
     .@{ckpns}-menu-item-active & {
       border: solid @B000;
@@ -150,7 +150,7 @@
     .@{ckpns}-menu-item-inner::before {
       .checkbox-inner-active-shadow(@checkbox-default-border-color);
 
-      @hover: ~":hover";
+      @hover: ~':hover';
 
       @{hover}& {
         .checkbox-inner-active-shadow(@checkbox-checked-border-color);

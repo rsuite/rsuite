@@ -1,5 +1,5 @@
-@import "common";
-@import "mixins/modal";
+@import 'common';
+@import 'mixins/modal';
 
 //
 // Modals
@@ -44,7 +44,7 @@
 
   &-full {
     @modal-full-size-margin-value: @modal-full-size-margin* 2;
-    .content-width(~"calc(100% - @{modal-full-size-margin-value})");
+    .content-width(~'calc(100% - @{modal-full-size-margin-value})');
 
     .@{ns}modal-dialog {
       margin-left: @modal-full-size-margin;
@@ -55,13 +55,13 @@
   // Animations
   &.fade .@{ns}modal-dialog {
     // timing: fast-out
-    animation: modalMoveOut .3s cubic-bezier(.4, 0, 1, 1) forwards;
+    animation: modalMoveOut 0.3s cubic-bezier(0.4, 0, 1, 1) forwards;
   }
 
   &.in .@{ns}modal-dialog {
     opacity: 0;
     // timing: ease-in-out
-    animation: modalMoveIn .3s cubic-bezier(.68, -.55, .27, 1.55) forwards;
+    animation: modalMoveIn 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
   }
 }
 
@@ -102,7 +102,7 @@
   // Fade for backdrop
   &.fade {
     opacity: 0;
-    transition: opacity .3s ease-in;
+    transition: opacity 0.3s ease-in;
   }
 
   &.in {
@@ -200,4 +200,3 @@
   height: 50px;
   overflow: scroll;
 }
-

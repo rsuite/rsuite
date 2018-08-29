@@ -1,5 +1,5 @@
-@import "iconfont-variables";
-@import "constants";
+@import 'iconfont-variables';
+@import 'constants';
 
 @primary-color: @H500;
 @primary-bg-color: @H050;
@@ -66,8 +66,9 @@
 //
 //## Font, line-height, and color for body text, headings, and more.
 
-@font-family-base: "Avenir", "Trebuchet MS", Arial, Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", STXihei, sans-serif;
-@font-family-icon: "rsuite-icon-font";
+@font-family-base: 'Avenir', 'Trebuchet MS', Arial, Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+  'Microsoft YaHei', STXihei, sans-serif;
+@font-family-icon: 'rsuite-icon-font';
 
 @font-size-base: 14px;
 @font-size-large: 16px;
@@ -85,9 +86,9 @@
 //** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
 @line-height-large-computed: 22px;
 //** Unit-less `line-height` for use in components like buttons.
-@line-height-large: unit(@line-height-large-computed/@font-size-base); // ~1.375
-@line-height-base: unit(@line-height-computed/@font-size-base); // ~1.4285714285714286
-@line-height-small: unit(@line-height-computed/@font-size-small); // ~1.6666666666666667
+@line-height-large: unit(@line-height-large-computed / @font-size-base); // ~1.375
+@line-height-base: unit(@line-height-computed / @font-size-base); // ~1.4285714285714286
+@line-height-small: unit(@line-height-computed / @font-size-small); // ~1.6666666666666667
 
 //** By default, this inherits from the `<body>`.
 @headings-font-family: inherit;
@@ -96,7 +97,7 @@
 @headings-color: inherit;
 
 //** Box shadows
-@default-box-shadow: 0 4px 4px rgba(0, 0, 0, .12), 0 0 10px rgba(0, 0, 0, .06);
+@default-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
 
 //== Iconography
 //
@@ -105,10 +106,10 @@
 //** Load fonts from this directory.
 // default use cdn.jsdelivr.net
 // If you want to use local resource , please change it to "./fonts"
-@icon-font-path: "//cdn.jsdelivr.net/npm/rsuite-icon-font@3.0.0/fonts";
+@icon-font-path: '//cdn.jsdelivr.net/npm/rsuite-icon-font@3.0.0/fonts';
 @icon-font-size-base: @font-size-base;
 @icon-line-height-base: 1;
-@icon-css-prefix: ~"@{ns}icon";
+@icon-css-prefix: ~'@{ns}icon';
 @icon-inverse: @B000;
 
 //== Components
@@ -127,7 +128,7 @@
 @padding-extra-small-vertical: 2px;
 @padding-extra-small-horizontal: 8px;
 
-@line-height-large: unit(22px/@font-size-large);
+@line-height-large: unit(22px / @font-size-large);
 @line-height-small: 1.6666666666666667;
 
 @border-radius-base: 6px;
@@ -141,9 +142,9 @@
 @table-body-hover-background: @H050;
 @table-resize-mouse-color: @H500;
 @table-sort-icon-color: @H500;
-@table-sort-icon-unsort: "\f0dc";
-@table-sort-icon-desc: "\f0dd";
-@table-sort-icon-asc: "\f0de";
+@table-sort-icon-unsort: '\f0dc';
+@table-sort-icon-desc: '\f0dd';
+@table-sort-icon-asc: '\f0de';
 @table-header-content-padding-vertical: 10px;
 @table-header-font-size: @font-size-small;
 @table-header-line-small: @line-height-small;
@@ -153,14 +154,14 @@
 @table-scrollbar-pressed-handle-background: @B500;
 @table-scrollbar-background: @B200;
 @table-scrollbar-pressed-background: @B300;
-@table-scrollbar-timing-duration: .1s;
+@table-scrollbar-timing-duration: 0.1s;
 @table-scrollbar-width: 10px;
 @table-scrollbar-handle-width: 8px;
 @table-scrollbar-handle-gap: (@table-scrollbar-width - @table-scrollbar-handle-width)/2;
 @table-column-resize-spanner-width: 3px;
 @table-header-sort-wrapper-margin-left: 5px;
 @table-loader-backdrop-color: @loader-backdrop-color;
-@table-loader-transition: .2s ease-in;
+@table-loader-transition: 0.2s ease-in;
 
 @icon-table-sense-width: 10px;
 @table-expand-icon-color: @B600;
@@ -263,7 +264,7 @@
 @input-border-focus: @H500;
 
 //** Input transition
-@input-transition: border-color ease-in-out .3s;
+@input-transition: border-color ease-in-out 0.3s;
 
 //** Placeholder text color
 @input-color-placeholder: @B600;
@@ -328,7 +329,7 @@
 @dropdown-bg: #fff;
 //** Divider color for between dropdown items.
 @dropdown-divider-bg: #e5e5e5;
-@dropdown-shadow: 0 0 10px rgba(0, 0, 0, .06), 0 4px 4px rgba(0, 0, 0, .12);
+@dropdown-shadow: 0 0 10px rgba(0, 0, 0, 0.06), 0 4px 4px rgba(0, 0, 0, 0.12);
 
 //** Dropdown link text color.
 @dropdown-link-color: @B800;
@@ -357,7 +358,8 @@
 @dropdown-item-content-submenu-icon-angle-width: 5px;
 @dropdown-item-content-submenu-icon-angle-line-height: @line-height-base;
 @dropdown-item-content-submenu-icon-angle-size: @font-size-base;
-@dropdown-toggle-padding-right: @padding-base-horizontal+@dropdown-caret-with+@dropdown-caret-padding;
+@dropdown-toggle-padding-right: @padding-base-horizontal+ @dropdown-caret-with+
+  @dropdown-caret-padding;
 //** Deprecated `@dropdown-caret-color`
 @dropdown-caret-color: #000;
 //** Dropdown Caret Font Family
@@ -370,7 +372,7 @@
 @dropdown-menu-xs-top: 21px;
 
 //== Toggle
-@toggle-transition: .2s linear;
+@toggle-transition: 0.2s linear;
 @toggle-default-bg: @B300;
 @toggle-default-hover-bg: @B400;
 //Toggle checked background color
@@ -379,7 +381,7 @@
 //Disabled toggle checked background color
 @toggle-disabled-background-color: @H300;
 @toggle-active-scale: 1.2;
-@toggle-transition: .2s ease-in-out;
+@toggle-transition: 0.2s ease-in-out;
 @toggle-md-height: 24px;
 @toggle-md-handle-gap: 3px;
 @toggle-md-min-width: 44px;
@@ -387,7 +389,9 @@
 @toggle-md-handle-diameter: @toggle-md-height - @toggle-md-handle-gap*2;
 @toggle-md-handle-bg: @B000;
 @toggle-md-inner-line-height-computed: @toggle-md-height;
-@toggle-md-inner-line-height: unit(@toggle-md-inner-line-height-computed/@toggle-md-inner-font-size);
+@toggle-md-inner-line-height: unit(
+  @toggle-md-inner-line-height-computed / @toggle-md-inner-font-size
+);
 // The same to button
 @toggle-md-inner-margin: @padding-base-vertical;
 
@@ -507,7 +511,7 @@
 @nav-item-padding-vertical: 8px;
 @nav-item-padding-horizontal: 12px;
 @nav-item-spacing: 6px;
-@nav-base-height: @line-height-computed+@nav-item-padding-vertical*2;
+@nav-base-height: @line-height-computed+ @nav-item-padding-vertical*2;
 @nav-item-icon-spacing: 6px;
 @nav-item-font-default-color: @B600;
 @nav-item-font-active-color: @H600;
@@ -518,7 +522,7 @@
 @nav-item-click-font-color: @B900;
 @nav-item-active-font-color: @H500;
 @nav-item-disable-font-color: @B400;
-@nav-item-transition: color .3s linear, background-color .3s linear;
+@nav-item-transition: color 0.3s linear, background-color 0.3s linear;
 
 // Variant
 //** Tab
@@ -533,7 +537,7 @@
 @nav-subtle-waterline-active-color: @H500;
 @nav-subtle-default-waterline: @nav-subtle-waterline-width solid @nav-subtle-waterline-default-color;
 @nav-subtle-active-waterline: @nav-subtle-waterline-width solid @nav-subtle-default-waterline;
-@nav-subtle-content-transition: .3s ease-out;
+@nav-subtle-content-transition: 0.3s ease-out;
 
 //** Divider
 @nav-divider-margin-vertical: 6px;
@@ -577,13 +581,13 @@
 @sidenav-menu-max-height: @sidenav-item-height*40;
 @sidenav-menu-animation-time: 1.5s;
 @sidenav-level1-item-font-size: @font-size-large;
-@sidenav-level1-item-line-height: unit(@line-height-computed/@font-size-large);
+@sidenav-level1-item-line-height: unit(@line-height-computed / @font-size-large);
 @sidenav-icon-spacing: 20px;
 @sidenav-icon-width: @sidenav-level1-item-font-size;
 @sidenav-dropdown-toggle-caret-width: 20px;
 @sidenav-level-retract: 9px;
 @sidenav-level1-retract: @sidenav-padding-horizonal + @sidenav-icon-width + @sidenav-icon-spacing;
-@sidenav-collapse-transition-config: .2s ease-in;
+@sidenav-collapse-transition-config: 0.2s ease-in;
 // ** Sidenav default
 @sidenav-deafult-bg: @B050;
 @sidenav-deafult-font-color: @nav-item-font-default-color;
@@ -610,7 +614,7 @@
 @pagination-active-color: @H500;
 @pagination-hover-bg: @btn-subtle-hover-bg;
 @pagination-active-bg: @btn-subtle-active-default-bg;
-@pagination-transition: @ripple-transition, color .3s linear;
+@pagination-transition: @ripple-transition, color 0.3s linear;
 
 //== Steps
 //
@@ -632,15 +636,15 @@
 // This space place the steps-icon
 @steps-icon-space-width: @steps-icon-diameter+ @steps-icon-spacing;
 @steps-icon-size: @font-size-large;
-@steps-icon-line-height: unit((@steps-icon-diameter - 2px)/@font-size-large);
+@steps-icon-line-height: unit((@steps-icon-diameter - 2px) / @font-size-large);
 @steps-title-font-size: @font-size-large;
-@steps-title-line-height: unit(@steps-icon-diameter/@font-size-large);
+@steps-title-line-height: unit(@steps-icon-diameter / @font-size-large);
 @steps-description-margin-top: 12px;
 // Small
 @small-steps-icon-diameter: 24px;
 @small-steps-icon-space-width: @small-steps-icon-diameter + @steps-icon-spacing;
-@small-steps-icon-line-height: unit((@small-steps-icon-diameter - 2px)/@font-size-base);
-@small-steps-title-line-height: unit(@small-steps-icon-diameter/@font-size-base);
+@small-steps-icon-line-height: unit((@small-steps-icon-diameter - 2px) / @font-size-base);
+@small-steps-title-line-height: unit(@small-steps-icon-diameter / @font-size-base);
 @small-steps-icon-size: @font-size-base;
 @small-steps-description-font-size: @font-size-small;
 @small-steps-description-line-height: @line-height-small;
@@ -764,7 +768,7 @@
 //** Modal backdrop background color
 @modal-backdrop-bg: @B900;
 //** Modal backdrop opacity
-@modal-backdrop-opacity: .3; // 30%
+@modal-backdrop-opacity: 0.3; // 30%
 //** Modal header border color
 @modal-header-border-color: #e5e5e5;
 //** Modal footer border color
@@ -793,7 +797,7 @@
 //** Drawer backdrop background color
 @drawer-backdrop-bg: @B900;
 //** Drawer backdrop opacity
-@drawer-backdrop-opacity: .3; // 30%
+@drawer-backdrop-opacity: 0.3; // 30%
 //** Padding applied to the drawer content
 @drawer-content-spacing: 20px;
 //** Margin of modal header and body
@@ -846,7 +850,7 @@
 //== Alert
 //
 //##
-@notification-ns: ~"@{ns}notification";
+@notification-ns: ~'@{ns}notification';
 @alert-padding: 20px;
 @alert-border-radius: @border-radius-base;
 @alert-max-width: 400px;
@@ -913,9 +917,9 @@
 @loader-spin-ring-inverse-color: fade(@B050, 30);
 @loader-spin-ring-inverse-active-color: @B000;
 // spin animation time
-@loader-duration-fast: .4s;
-@loader-duration-normal: .6s;
-@loader-duration-slow: .8s;
+@loader-duration-fast: 0.4s;
+@loader-duration-normal: 0.6s;
+@loader-duration-slow: 0.8s;
 // spacing
 @loader-content-spin-spacing-horizontal: 12px;
 @loader-content-spin-spacing-horizontal-xs: 10px;
@@ -934,7 +938,7 @@
 @progress-element-gap: 12px;
 @progress-status-success-color: @success-color;
 @progress-status-fail-color: @error-color;
-@progress-bg-transition: .2s ease-in-out;
+@progress-bg-transition: 0.2s ease-in-out;
 //== Uploader
 //
 //##
@@ -961,7 +965,7 @@
 @panel-split-line-color: @B200;
 @panel-group-panel-heading-hover-background: @B050;
 @panel-heading-color: @B900;
-@panel-accodion-transition: .3s linear;
+@panel-accodion-transition: 0.3s linear;
 @panel-border: 1px solid @B200;
 
 //== Time lines
@@ -969,7 +973,7 @@
 //##
 @time-line-item-content-margin-left: 12px;
 @time-line-dot-side-length: 10px;
-@time-line-item-padding-left: @time-line-item-content-margin-left+@time-line-dot-side-length;
+@time-line-item-padding-left: @time-line-item-content-margin-left+ @time-line-dot-side-length;
 @time-line-dot-default-background-color: @B300;
 @time-line-last-dot-default-background-color: @H500;
 @time-line-tail-width: 2px;
@@ -995,17 +999,17 @@
 
 //== Picker
 //** prefixs
-@picker-prefix: ~"@{ns}picker";
-@select-picker-prefix: ~"picker-select";
-@check-picker-prefix: ~"picker-check";
-@calendar-picker-prefix: ~"calendar";
-@cascader-picker-prefix: ~"picker-cascader";
-@tree-picker-prefix: ~"picker-tree";
-@check-tree-picker-prefix: ~"picker-checktree";
-@date-range-picker-prefix: ~"picker-daterange";
-@date-picker-prefix: ~"picker-date";
-@input-picker-prefix: ~"picker-input";
-@multi-input-picker-prefix: ~"picker-tag";
+@picker-prefix: ~'@{ns}picker';
+@select-picker-prefix: ~'picker-select';
+@check-picker-prefix: ~'picker-check';
+@calendar-picker-prefix: ~'calendar';
+@cascader-picker-prefix: ~'picker-cascader';
+@tree-picker-prefix: ~'picker-tree';
+@check-tree-picker-prefix: ~'picker-checktree';
+@date-range-picker-prefix: ~'picker-daterange';
+@date-picker-prefix: ~'picker-date';
+@input-picker-prefix: ~'picker-input';
+@multi-input-picker-prefix: ~'picker-tag';
 @picker-none-padding: 6px 12px 12px;
 @picker-none-font-color: @B600;
 //** Picker background
@@ -1035,7 +1039,7 @@
 @picker-group-children-padding-left: 26px;
 @picker-group-select-menu-gap: 6px;
 @picker-group-select-menu-lin-color: @dropdown-divider-bg;
-@picker-item-transition: color .3s linear, background-color .3s linear;
+@picker-item-transition: color 0.3s linear, background-color 0.3s linear;
 @picker-select-item-color: @B800;
 @picker-menu-item-hover-bg: @H050;
 // Select picker
@@ -1043,17 +1047,18 @@
 @picker-select-menu-item-selected-color: @H500;
 @picker-menu-item-disabled-color: @B400;
 @picker-selected-value-color: @H500;
-@picker-select-arrow-down: "\F0D7";
+@picker-select-arrow-down: '\F0D7';
 
 // Check Picker
 @picker-check-checkbox-gap: 10px;
 @picker-children-check-item-padding-left: 14px;
-@picker-check-item-content-padding-left: @picker-item-content-padding-horizontal+@checkbox-width-height+@picker-check-checkbox-gap;
+@picker-check-item-content-padding-left: @picker-item-content-padding-horizontal+
+  @checkbox-width-height+ @picker-check-checkbox-gap;
 
 // Tree Picker
 @picker-tree-bg: @B000;
 @picker-tree-padding: 12px;
-@picker-tree-arrow-down: "\F0D7";
+@picker-tree-arrow-down: '\F0D7';
 @picker-tree-node-padding-vertical: @padding-base-vertical;
 @picker-tree-node-padding-horizontal: @padding-base-horizontal;
 @picker-tree-node-font-size: @font-size-base;
@@ -1105,13 +1110,14 @@
 
 //== Input Picker
 @input-picker-toggle-height: @line-height-computed + @padding-base-vertical*2; // 20px + 8px*2 = 36px  the same with md button
-@input-picker-toggle-content-height: @input-picker-toggle-height - @picker-default-toggle-border-width*2;
+@input-picker-toggle-content-height: @input-picker-toggle-height -
+  @picker-default-toggle-border-width*2;
 
 // == TagPicker
 @tag-picker-toggle-content-height: @input-height-extra-small;
 @tag-picker-content-padding-vertical: (@input-picker-toggle-content-height - @tag-picker-toggle-content-height)/2; // (36 -24)/2
 @tag-picker-content-padding-horizontal: 6px;
-@tag-picker: ~"@{ns}@{multi-input-picker-prefix}";
+@tag-picker: ~'@{ns}@{multi-input-picker-prefix}';
 //== Slider
 //
 //##
@@ -1133,7 +1139,7 @@
 @slider-calibration-border-color: @B100;
 @slider-calibration-pass-border-color: @H500;
 @slider-mark-margin-top: 9px;
-@slider-handle-transition: .3s ease-in-out;
+@slider-handle-transition: 0.3s ease-in-out;
 
 //== Breadcrumbs
 //
