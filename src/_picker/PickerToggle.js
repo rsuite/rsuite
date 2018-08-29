@@ -2,6 +2,8 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
+
+import Ripple from '../Ripple';
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
 
 type Props = {
@@ -23,17 +25,19 @@ class PickerToggle extends React.Component<Props> {
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
-  renderToggleClean() {
+  handleClean = (event: SyntheticEvent<*>) => {
     const { onClean } = this.props;
+    onClean && onClean(event);
+    event.stopPropagation();
+  };
+
+  renderToggleClean() {
     return (
       <span
         className={this.addPrefix('clean')}
         role="button"
         tabIndex="-1"
-        onClick={e => {
-          onClean && onClean(e);
-          e.stopPropagation();
-        }}
+        onClick={this.handleClean}
       >
         ✕
       </span>
@@ -64,6 +68,7 @@ class PickerToggle extends React.Component<Props> {
         )}
         {hasValue && cleanable && this.renderToggleClean()}
         {caret && <span className={this.addPrefix('caret')} />}
+        <Ripple />
       </Component>
     );
   }
