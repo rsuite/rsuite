@@ -54,7 +54,6 @@ class DorpdownToggle extends React.Component<Props> {
         {icon}
         {children}
         {noCaret ? null : <span className={addPrefix('caret')} />}
-        <Ripple />
       </Component>
     );
   }
