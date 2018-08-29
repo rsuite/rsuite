@@ -1,11 +1,11 @@
-@import "common";
-@import "mixins/tree-picker";
+@import 'common';
+@import 'mixins/tree-picker';
 
 // Tree Picker
 // ----------------------
 
 // tree picker name space
-@tpns: ~"@{ns}@{tree-picker-prefix}";
+@tpns: ~'@{ns}@{tree-picker-prefix}';
 
 .@{tpns}-view {
   background-color: @picker-tree-bg;
@@ -27,14 +27,14 @@
     margin: 0;
     padding: @picker-tree-node-padding-vertical @picker-tree-node-padding-horizontal;
     //text gap
-    padding-left: @picker-tree-arrow-down-width+@picker-tree-arrow-down-gap+8px;
+    padding-left: @picker-tree-arrow-down-width+ @picker-tree-arrow-down-gap+8px;
     display: inline-block;
     cursor: pointer;
 
     &::before {
-      content: "";
+      content: '';
       position: absolute;
-      width: @picker-tree-arrow-down-width+@picker-tree-arrow-down-gap;
+      width: @picker-tree-arrow-down-width+ @picker-tree-arrow-down-gap;
       height: 100%;
       background-color: @picker-tree-bg;
       top: 0;

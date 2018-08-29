@@ -1,5 +1,5 @@
-@import "common";
-@import "mixins/button";
+@import 'common';
+@import 'mixins/button';
 
 //
 // Buttons
@@ -27,7 +27,7 @@
   > .@{ns}btn-spin {
     &::before,
     &::after {
-      content: "";
+      content: '';
       position: absolute;
       width: @btn-loading-spin-default-diameter;
       height: @btn-loading-spin-default-diameter;
@@ -48,7 +48,7 @@
       border: @btn-loading-spin-ring-wide solid @btn-loading-spin-ring-color;
 
       .@{ns}btn-primary& {
-        opacity: .3;
+        opacity: 0.3;
       }
     }
 
@@ -56,7 +56,7 @@
       border-width: @btn-loading-spin-ring-wide;
       border-color: @btn-spin-light-color transparent transparent;
       border-style: solid;
-      animation: buttonSpin .6s infinite linear;
+      animation: buttonSpin 0.6s infinite linear;
 
       .@{ns}btn-default&,
       .@{ns}btn-link&,
@@ -219,9 +219,9 @@
 }
 
 // Specificity overrides
-input[type="submit"],
-input[type="reset"],
-input[type="button"] {
+input[type='submit'],
+input[type='reset'],
+input[type='button'] {
   &.@{ns}btn-block {
     width: 100%;
   }

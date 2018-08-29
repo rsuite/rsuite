@@ -1,12 +1,12 @@
-@import "common";
-@import "mixins/checkbox";
-@import "mixins/tree-picker";
+@import 'common';
+@import 'mixins/checkbox';
+@import 'mixins/tree-picker';
 
 // Check Tree Picker
 // ----------------------
 
 // Check tree picker name space
-@ctpns: ~"@{ns}@{check-tree-picker-prefix}";
+@ctpns: ~'@{ns}@{check-tree-picker-prefix}';
 
 .@{ctpns}-view {
   background-color: @picker-tree-bg;
@@ -44,9 +44,9 @@
     }
 
     &::before {
-      content: "";
+      content: '';
       position: absolute;
-      width: @picker-tree-arrow-down-width+@picker-tree-arrow-down-gap + 30px; // checkbox-spacing = 30
+      width: @picker-tree-arrow-down-width+ @picker-tree-arrow-down-gap + 30px; // checkbox-spacing = 30
       height: 100%;
       background-color: @picker-tree-bg;
       top: 0;
@@ -88,7 +88,7 @@
   left: @checkbox-sense-width+10px;
   top: @checkbox-sense-width;
 
-  [type="checkbox"] {
+  [type='checkbox'] {
     display: none;
   }
 
@@ -96,7 +96,7 @@
   &::after,
   .@{ctpns}-view-inner::before,
   .@{ctpns}-view-inner::after {
-    content: "";
+    content: '';
     position: absolute;
     left: 0;
     top: 0;
@@ -134,7 +134,7 @@
     }
 
     .@{ctpns}-view-node-disabled.@{ns}picker-check-menu-item-active & {
-      opacity: .3;
+      opacity: 0.3;
     }
   }
 
@@ -175,7 +175,7 @@
     .@{ctpns}-view-inner::before {
       .checkbox-inner-active-shadow(@checkbox-default-border-color);
 
-      @hover: ~":hover";
+      @hover: ~':hover';
 
       @{hover}& {
         .checkbox-inner-active-shadow(@checkbox-checked-border-color);

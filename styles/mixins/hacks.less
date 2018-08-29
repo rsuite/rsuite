@@ -2,7 +2,7 @@
 // IE
 // -----------
 .ie-width(@value) when (@ie-polyfill = true) {
-  width: ~"@{value}@{ie-suffix}";
+  width: ~'@{value}@{ie-suffix}';
 
   // IE 11
   @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
@@ -13,15 +13,15 @@
 }
 
 .ie-display(@value) when (@ie-polyfill = true) {
-  display: ~"@{value}@{ie-suffix}";
+  display: ~'@{value}@{ie-suffix}';
 }
 
 .ie-box-shadow(@value) when (@ie-polyfill = true) {
-  box-shadow: ~"@{value}@{ie-suffix}";
+  box-shadow: ~'@{value}@{ie-suffix}';
 }
 
 .ie-border-style(@value) when (@ie-polyfill = true) {
-  border-style: ~"@{value}@{ie-suffix}";
+  border-style: ~'@{value}@{ie-suffix}';
 
   // IE 11
   @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
@@ -32,81 +32,81 @@
 }
 
 .ie-text-align(@value) when (@ie-polyfill = true) {
-  text-align: ~"@{value}@{ie-suffix}";
+  text-align: ~'@{value}@{ie-suffix}';
 
   // IE 11
   @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
     & {
-      text-align: ~"@{value}@{ie-suffix}";
+      text-align: ~'@{value}@{ie-suffix}';
     }
   }
 }
 
 .ie-position(@value) when (@ie-polyfill = true) {
-  position: ~"@{value}@{ie-suffix}";
+  position: ~'@{value}@{ie-suffix}';
 
   // IE 11
   @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
     & {
-      position: ~"@{value}@{ie-suffix}";
+      position: ~'@{value}@{ie-suffix}';
     }
   }
 }
 
 .ie-z-index(@value) when (@ie-polyfill = true) {
-  z-index: ~"@{value}@{ie-suffix}";
+  z-index: ~'@{value}@{ie-suffix}';
 
   // IE 11
   @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
     & {
-      z-index: ~"@{value}@{ie-suffix}";
+      z-index: ~'@{value}@{ie-suffix}';
     }
   }
 }
 
 .ie-top(@value) when (@ie-polyfill = true) {
-  top: ~"@{value}@{ie-suffix}";
+  top: ~'@{value}@{ie-suffix}';
 
   // IE 11
   @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
     & {
-      top: ~"@{value}@{ie-suffix}";
+      top: ~'@{value}@{ie-suffix}';
     }
   }
 }
 
 .ie-left(@value) when (@ie-polyfill = true) {
-  left: ~"@{value}@{ie-suffix}";
+  left: ~'@{value}@{ie-suffix}';
 
   // IE 11
   @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
     & {
-      left: ~"@{value}@{ie-suffix}";
+      left: ~'@{value}@{ie-suffix}';
     }
   }
 }
 
 .ie-transform(@value) when (@ie-polyfill = true) {
-  transform: ~"@{value}@{ie-suffix}";
+  transform: ~'@{value}@{ie-suffix}';
 
   // IE 11
   @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
     & {
-      transform: ~"@{value}@{ie-suffix}";
+      transform: ~'@{value}@{ie-suffix}';
     }
   }
 }
 
 .ie-float(@value) when (@ie-polyfill = true) {
-  float: ~"@{value}@{ie-suffix}";
+  float: ~'@{value}@{ie-suffix}';
 }
 
 .ie-animation-name(@value) when (@ie-polyfill = true) {
-  animation-name: ~"@{value}@{ie-suffix}";
+  animation-name: ~'@{value}@{ie-suffix}';
 }
 
 .ie-vertical-align(@vertical-align) when (@ie-polyfill = true) {
-  vertical-align: ~"@{vertical-align}@{ie-suffix}";
+  vertical-align: ~'@{vertical-align}@{ie-suffix}';
 }
 
 //
@@ -157,7 +157,7 @@
 // Edge
 // -----------
 .edge-position(top,@value) {
-  @supports (-ms-ime-align:auto) {
+  @supports (-ms-ime-align: auto) {
     & {
       top: @value;
     }
@@ -165,7 +165,7 @@
 }
 
 .edge-position(bottom,@value) {
-  @supports (-ms-ime-align:auto) {
+  @supports (-ms-ime-align: auto) {
     & {
       bottom: @value;
     }
@@ -173,7 +173,7 @@
 }
 
 .edge-position(left,@value) {
-  @supports (-ms-ime-align:auto) {
+  @supports (-ms-ime-align: auto) {
     & {
       left: @value;
     }
@@ -181,7 +181,7 @@
 }
 
 .edge-position(right,@value) {
-  @supports (-ms-ime-align:auto) {
+  @supports (-ms-ime-align: auto) {
     & {
       right: @value;
     }
@@ -190,7 +190,7 @@
 
 // Safari
 .safari-display(@value) {
-  @media not all and (min-resolution: .001dpcm) {
+  @media not all and (min-resolution: 0.001dpcm) {
     & {
       display: @value;
     }
@@ -205,5 +205,5 @@
 
 // ie10
 .ie10-visibility(@value) when (@ie-polyfill = true) {
-  visibility: ~"@{value}@{ie-suffix}";
+  visibility: ~'@{value}@{ie-suffix}';
 }

@@ -1,4 +1,4 @@
-@import "common";
+@import 'common';
 
 .@{ns}divider {
   background-color: @divider-border-color;
@@ -28,7 +28,7 @@
 
     &::before,
     &::after {
-      content: "";
+      content: '';
       flex: 1 1 auto;
       border-top: 1px solid @divider-border-color;
 
@@ -36,7 +36,7 @@
       .ie-display(table-cell);
       .ie-top(50%);
       .ie-width(50%);
-      .ie-transform(~"translateY(50%)");
+      .ie-transform(~'translateY(50%)');
     }
   }
 

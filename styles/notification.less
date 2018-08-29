@@ -1,5 +1,5 @@
-@import "common";
-@import "mixins/notification";
+@import 'common';
+@import 'mixins/notification';
 
 //
 // Notifications
@@ -43,7 +43,7 @@
 
     color: @notify-title-font-color;
     font-size: @notify-title-font-size;
-    line-height: unit(@notify-title-icon-size/@notify-title-font-size);
+    line-height: unit(@notify-title-icon-size / @notify-title-font-size);
 
     > p {
       margin: 0;
@@ -94,8 +94,8 @@
   }
 
   &-notify &-fade-entered {
-    animation-duration: .4s;
-    animation-timing-function: cubic-bezier(.99, .44, .44, 1.35);
+    animation-duration: 0.4s;
+    animation-timing-function: cubic-bezier(0.99, 0.44, 0.44, 1.35);
   }
 
   &-notify &-fade-exited,
@@ -106,7 +106,7 @@
   // The same to @keyframe notificationMoveOut  100%.
   &-notify &-fade-exited {
     transform-origin: 0% 0%;
-    transform: scaleY(.8);
+    transform: scaleY(0.8);
     max-height: 0;
     overflow: hidden;
   }
@@ -141,8 +141,8 @@
   }
 
   &-notify &-fade-leave-active {
-    animation-duration: .3s;
-    animation-timing-function: cubic-bezier(.64, .65, .57, 1.13);
+    animation-duration: 0.3s;
+    animation-timing-function: cubic-bezier(0.64, 0.65, 0.57, 1.13);
     animation-name: notificationMoveOut;
   }
 }

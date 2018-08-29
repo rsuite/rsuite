@@ -5,15 +5,18 @@
 
 .make-grid-columns() {
   // Common styles for all sizes of grid columns, widths 1- `@grid-columns`
-  .col(@index) { // initial
-    @item: ~".@{ns}col-xs-@{index}, .@{ns}col-sm-@{index}, .@{ns}col-md-@{index}, .@{ns}col-lg-@{index}";
+  .col(@index) {
+    // initial
+    @item: ~'.@{ns}col-xs-@{index}, .@{ns}col-sm-@{index}, .@{ns}col-md-@{index}, .@{ns}col-lg-@{index}';
     .col((@index + 1), @item);
   }
-  .col(@index, @list) when (@index =< @grid-columns) { // general; "=<" isn't a typo
-    @item: ~".@{ns}col-xs-@{index}, .@{ns}col-sm-@{index}, .@{ns}col-md-@{index}, .@{ns}col-lg-@{index}";
-    .col((@index + 1), ~"@{list}, @{item}");
+  .col(@index, @list) when (@index =< @grid-columns) {
+    // general; "=<" isn't a typo
+    @item: ~'.@{ns}col-xs-@{index}, .@{ns}col-sm-@{index}, .@{ns}col-md-@{index}, .@{ns}col-lg-@{index}';
+    .col((@index + 1), ~'@{list}, @{item}');
   }
-  .col(@index, @list) when (@index > @grid-columns) { // terminal
+  .col(@index, @list) when (@index > @grid-columns) {
+    // terminal
     @{list} {
       position: relative;
       // Prevent columns from collapsing when empty
@@ -27,15 +30,18 @@
 }
 
 .float-grid-columns(@class) {
-  .col(@index) { // initial
-    @item: ~".@{ns}col-@{class}-@{index}";
+  .col(@index) {
+    // initial
+    @item: ~'.@{ns}col-@{class}-@{index}';
     .col((@index + 1), @item);
   }
-  .col(@index, @list) when (@index =< @grid-columns) { // general
-    @item: ~".@{ns}col-@{class}-@{index}";
-    .col((@index + 1), ~"@{list}, @{item}");
+  .col(@index, @list) when (@index =< @grid-columns) {
+    // general
+    @item: ~'.@{ns}col-@{class}-@{index}';
+    .col((@index + 1), ~'@{list}, @{item}');
   }
-  .col(@index, @list) when (@index > @grid-columns) { // terminal
+  .col(@index, @list) when (@index > @grid-columns) {
+    // terminal
     @{list} {
       float: left;
     }

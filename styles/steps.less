@@ -1,4 +1,4 @@
-@import "common";
+@import 'common';
 
 //
 // Steps
@@ -46,7 +46,7 @@
           height: @steps-icon-diameter - 2px;
           font-size: @steps-icon-size-default-font-size;
           // Minus 2px border width;
-          line-height: unit(( @steps-icon-diameter - 2px)/12);
+          line-height: unit((@steps-icon-diameter - 2px)/12);
           display: block;
           position: absolute;
           top: 0;
@@ -193,7 +193,7 @@
   }
 
   .@{ns}steps-item-tail {
-    top: @steps-icon-diameter/2;
+    top: @steps-icon-diameter / 2;
     left: @steps-icon-space-width;
     width: 100%;
     border-top-width: 1px;
@@ -219,7 +219,7 @@
   .@{ns}steps-item-tail {
     top: @steps-icon-space-width;
     bottom: 0;
-    left: @steps-icon-diameter/2;
+    left: @steps-icon-diameter / 2;
     border-left-width: 1px;
     border-left-style: solid;
   }
@@ -239,7 +239,7 @@
   }
 
   &.@{ns}steps-vertical .@{ns}steps-item-tail {
-    left: @small-steps-icon-diameter/2;
+    left: @small-steps-icon-diameter / 2;
   }
 
   .@{ns}steps-item {
@@ -269,6 +269,6 @@
   .@{ns}steps-item-status-error .@{ns}steps-item-icon-wrapper:not(.@{ns}steps-item-custom-icon) .@{ns}steps-item-icon::before {
     width: @small-steps-icon-diameter - 2px;
     height: @small-steps-icon-diameter - 2px;
-    line-height: unit(( @small-steps-icon-diameter - 2px)/12);
+    line-height: unit((@small-steps-icon-diameter - 2px)/12);
   }
 }

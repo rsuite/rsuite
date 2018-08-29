@@ -1,4 +1,4 @@
-@import "common";
+@import 'common';
 
 .@{ns}progress {
   // Remove whitespace.
@@ -12,7 +12,7 @@
   &-icon-fail,
   &-info-status {
     font-size: @progress-font-size;
-    line-height: unit(@line-height-computed/@progress-font-size);
+    line-height: unit(@line-height-computed / @progress-font-size);
   }
 }
 
@@ -48,7 +48,7 @@
     bottom: 0;
     text-align: center;
     font-size: @progress-font-size;
-    line-height: unit(@info-height/@progress-font-size);
+    line-height: unit(@info-height / @progress-font-size);
     height: @info-height;
     color: @progress-info-text-color;
   }
@@ -59,7 +59,7 @@
 
   .@{ns}progress-stroke {
     stroke: @progress-bar-fill-bg;
-    transition: stroke-dashoffset .3s ease, stroke-dasharray .2s ease-in-out, stroke .3s;
+    transition: stroke-dashoffset 0.3s ease, stroke-dasharray 0.2s ease-in-out, stroke 0.3s;
   }
 }
 
@@ -90,7 +90,7 @@
     position: relative;
 
     &::before {
-      content: "";
+      content: '';
       opacity: 0;
       position: absolute;
       top: 0;
@@ -99,7 +99,7 @@
       bottom: 0;
       background: @B000;
       border-radius: 10px;
-      animation: progress-active 2s cubic-bezier(.23, 1, .32, 1) infinite;
+      animation: progress-active 2s cubic-bezier(0.23, 1, 0.32, 1) infinite;
     }
   }
 
@@ -115,7 +115,7 @@
   }
 
   &-outer {
-    border-radius: @progress-bar-height/2;
+    border-radius: @progress-bar-height / 2;
     overflow: hidden;
     // Make sure outer vertical-align:center;
     vertical-align: middle;
@@ -123,12 +123,12 @@
 
   &-inner {
     background: @progress-bar-bg;
-    border-radius: @progress-bar-height/2;
+    border-radius: @progress-bar-height / 2;
   }
 
   &-bg {
     background-color: @progress-bar-fill-bg;
-    border-radius: @progress-bar-height/2;
+    border-radius: @progress-bar-height / 2;
     transition: width @progress-bg-transition, color @progress-bg-transition;
   }
 

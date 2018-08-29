@@ -1,5 +1,5 @@
-@import "common";
-@import "mixins/alert";
+@import 'common';
+@import 'mixins/alert';
 
 //
 // Alerts
@@ -96,17 +96,17 @@
   // The same to @keyframe alertMoveOut  100%.
   &-alert &-fade-exited {
     transform-origin: 0% 0%;
-    transform: scaleY(.8);
+    transform: scaleY(0.8);
     max-height: 0;
     overflow: hidden;
   }
 
   &-alert &-fade-entered {
-    animation: alertMoverIn .3s ease-in forwards;
+    animation: alertMoverIn 0.3s ease-in forwards;
   }
 
   &-alert &-fade-leave-active {
-    animation: alertMoveOut .3s ease-out forwards;
+    animation: alertMoveOut 0.3s ease-out forwards;
   }
 }
 

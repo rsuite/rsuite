@@ -1,4 +1,4 @@
-@import "common";
+@import 'common';
 
 //
 // Slider
@@ -17,7 +17,7 @@
   }
 
   &-disabled {
-    opacity: .3;
+    opacity: 0.3;
     cursor: not-allowed;
 
     .@{ns}slider-bar,
@@ -57,7 +57,7 @@
 // Bar
 .@{ns}slider-bar {
   height: @slider-bar-side-length;
-  border-radius: @slider-bar-side-length/2;
+  border-radius: @slider-bar-side-length / 2;
   background-color: @slider-bar-default-bg;
   cursor: pointer;
 
@@ -91,7 +91,7 @@
 
       &:last-child::after,
       &::before {
-        content: "";
+        content: '';
         display: block;
         position: absolute;
         width: @slider-calibration-diameter;
@@ -102,7 +102,7 @@
         border: @slider-calibration-border-width solid @slider-calibration-border-color;
         margin-left: -4px;
         top: -1px;
-        transition: border-color .3s ease-in;
+        transition: border-color 0.3s ease-in;
 
         // Vertical styles
         .@{ns}slider-vertical & {
@@ -152,12 +152,12 @@
 .@{ns}slider-progress-bar {
   position: absolute;
   height: @slider-bar-side-length;
-  border-radius: @slider-bar-side-length/2 0 0 @slider-bar-side-length/2;
+  border-radius: @slider-bar-side-length / 2 0 0 @slider-bar-side-length / 2;
   background-color: @slider-progress-bar-bg;
 
   .@{ns}slider-vertical & {
     width: @slider-bar-side-length;
-    border-radius: @slider-bar-side-length/2 @slider-bar-side-length/2 0 0;
+    border-radius: @slider-bar-side-length / 2 @slider-bar-side-length / 2 0 0;
   }
 }
 
@@ -167,16 +167,18 @@
   top: -50%;
 
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     width: @slider-handle-diameter;
     height: @slider-handle-diameter;
     border-radius: 50%;
     border: @slider-handle-border-width solid @slider-handle-default-border-color;
     background-color: @slider-handle-default-bg;
-    margin-left: -@slider-handle-diameter/2;
+    margin-left: -@slider-handle-diameter / 2;
     cursor: pointer;
-    transition: box-shadow @slider-handle-transition, background-color @slider-handle-transition, transform @slider-handle-transition;
+    transition: box-shadow @slider-handle-transition,
+      background-color @slider-handle-transition,
+      transform @slider-handle-transition;
   }
 
   &:hover::before {
@@ -191,7 +193,7 @@
 
   .@{ns}slider-vertical &::before {
     left: (@slider-handle-diameter - @slider-bar-side-length)/2;
-    margin-top: -@slider-handle-diameter/2;
+    margin-top: -@slider-handle-diameter / 2;
   }
 }
 
@@ -200,8 +202,6 @@
   display: block;
   opacity: 1;
   top: -30px;
-  // @todo replace animation
-  //animation: .3s ease-in-out slideDownIn;
 
   .@{ns}slider-vertical & {
     top: -33px;

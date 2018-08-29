@@ -3,14 +3,14 @@
 
   height: @toogle-height;
   min-width: @min-width;
-  border-radius: @toogle-height/2;
+  border-radius: @toogle-height / 2;
 
   &::after {
     width: @handle-diameter;
     height: @handle-diameter;
     left: @toggle-handle-gap;
     top: @toggle-handle-gap;
-    border-radius: @handle-diameter/2;
+    border-radius: @handle-diameter / 2;
   }
 
   &:active::after {
@@ -21,7 +21,7 @@
     margin-left: @toogle-height;
     margin-right: @toggle-inner-margin;
     height: @toogle-height;
-    line-height: unit(@toogle-height/@toggle-inner-font-size);
+    line-height: unit(@toogle-height / @toggle-inner-font-size);
     font-size: @toggle-inner-font-size;
   }
 
@@ -44,15 +44,33 @@
 
 // Small
 .btn-toggle(sm) {
-  .toggle-size-variant(@toggle-sm-height, @toggle-sm-min-width, @toggle-sm-handle-gap, @toggle-sm-inner-margin, @toggle-sm-inner-font-size);
+  .toggle-size-variant(
+    @toggle-sm-height,
+    @toggle-sm-min-width,
+    @toggle-sm-handle-gap,
+    @toggle-sm-inner-margin,
+    @toggle-sm-inner-font-size
+  );
 }
 
 // Middle
 .btn-toggle(md) {
-  .toggle-size-variant(@toggle-md-height, @toggle-md-min-width, @toggle-md-handle-gap, @toggle-md-inner-margin, @toggle-md-inner-font-size);
+  .toggle-size-variant(
+    @toggle-md-height,
+    @toggle-md-min-width,
+    @toggle-md-handle-gap,
+    @toggle-md-inner-margin,
+    @toggle-md-inner-font-size
+  );
 }
 
 // Large
 .btn-toggle(lg) {
-  .toggle-size-variant(@toggle-lg-height, @toggle-lg-min-width, @toggle-lg-handle-gap, @toggle-lg-inner-margin, @toggle-lg-inner-font-size);
+  .toggle-size-variant(
+    @toggle-lg-height,
+    @toggle-lg-min-width,
+    @toggle-lg-handle-gap,
+    @toggle-lg-inner-margin,
+    @toggle-lg-inner-font-size
+  );
 }

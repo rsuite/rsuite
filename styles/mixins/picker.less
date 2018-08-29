@@ -1,4 +1,4 @@
-@import "./dropdown";
+@import './dropdown';
 
 // Picker Menu items common styles
 .picker-menu-items-reset() {
@@ -43,7 +43,7 @@
       position: absolute;
       top: @padding-base-vertical;
       right: @padding-base-horizontal;
-      transition: transform .3s linear;
+      transition: transform 0.3s linear;
 
       &::before {
         content: @picker-select-arrow-down;
@@ -93,7 +93,7 @@
   padding: @calendar-table-cell-content-padding;
   cursor: pointer;
   border-radius: @border-radius-base;
-  transition-duration: .3s;
+  transition-duration: 0.3s;
   transition-timing-function: linear;
   transition-property: background-color;
 
@@ -146,7 +146,7 @@
 
     color: @picker-default-toggle-font-color;
     border: @picker-default-toggle-border-width solid @picker-default-toggle-border-color;
-    transition: border .3s linear;
+    transition: border 0.3s linear;
   }
 
   .@{ns}picker-default.@{ns}picker-disabled & {
