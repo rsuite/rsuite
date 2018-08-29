@@ -50,9 +50,7 @@ class TableRow extends React.Component<Props> {
 
     for (let i = 0; i < 7; i += 1) {
       let thisDate = moment(weekendDate).add(i, 'd');
-      let selectValue = [selectedStartDate, selectedEndDate].sort(
-        (a, b) => (a ? a.unix() : 0) - (b ? b.unix() : 0)
-      );
+      let selectValue = [selectedStartDate, selectedEndDate];
 
       let disabled = disabledDate && disabledDate(thisDate.clone(), selectValue, Type.CALENDAR);
       let isToday = thisDate.isSame(moment(), 'date');
