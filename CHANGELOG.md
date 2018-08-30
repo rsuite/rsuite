@@ -1,3 +1,25 @@
+# 3.2.8
+
+> 2018-08-30
+
+* **Feature**: Support for return all data in `Schema.Types.addRule` ([#186])
+* **Feature**: Replaced and created some icons. ([#185])
+* **Bugfix**: Remove minimum with limit for menu of picker menu. ([#182])
+* **Bugfix**: The default value of `sortType` on `<Table>` should be `desc`. ([#180])
+* **Bugfix**: Backdrop set to `static` invalid on `<Drawer>`. ([#179])
+* **Bugfix**: Fix `disabeldDate` callback parameter error on `<DateRangePicker>`. ([#178])
+* **Chore**: Remove duplicate ripple DOM. ([#183])
+* **Chore**: Reformat code style with prettier. ([#184])
+
+[#186]: https://github.com/rsuite/rsuite/pull/186
+[#185]: https://github.com/rsuite/rsuite/pull/185
+[#184]: https://github.com/rsuite/rsuite/pull/184
+[#183]: https://github.com/rsuite/rsuite/pull/183
+[#182]: https://github.com/rsuite/rsuite/pull/182
+[#180]: https://github.com/rsuite/rsuite/pull/180
+[#179]: https://github.com/rsuite/rsuite/pull/179
+[#178]: https://github.com/rsuite/rsuite/pull/178
+
 # 3.2.7
 
 > 2018-08-23
