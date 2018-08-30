@@ -3,7 +3,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { SchemaModel, Schema } from 'rsuite-schema';
+import { SchemaModel, Schema } from 'schema-typed';
 import classNames from 'classnames';
 
 import { getUnhandledProps, prefix } from './utils';
@@ -87,7 +87,7 @@ class Form extends React.Component<Props, State> {
     let errorCount = 0;
 
     Object.keys(model.schema).forEach(key => {
-      const checkResult = model.checkForField(key, formValue[key]);
+      const checkResult = model.checkForField(key, formValue[key], formValue);
       if (checkResult.hasError === true) {
         errorCount += 1;
         formError[key] = checkResult.errorMessage;

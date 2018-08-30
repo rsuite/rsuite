@@ -6,7 +6,7 @@ import {
   DateType,
   ObjectType,
   BooleanType
-} from 'rsuite-schema';
+} from 'schema-typed';
 
 export default {
   Model: SchemaModel,
