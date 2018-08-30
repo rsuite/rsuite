@@ -94,9 +94,9 @@ class FormControl extends React.Component<Props, State> {
 
   handleFieldCheck = (value: any, isCheckTrigger: boolean, callback?: Function) => {
     const { name } = this.props;
-    const { onFieldError, onFieldSuccess, model } = this.context.form;
+    const { onFieldError, onFieldSuccess, model, formValue } = this.context.form;
 
-    const checkResult = model.checkForField(name, value);
+    const checkResult = model.checkForField(name, value, formValue);
 
     if (isCheckTrigger) {
       if (checkResult.hasError) {
