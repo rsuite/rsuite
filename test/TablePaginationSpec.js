@@ -1,8 +1,10 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
+
 import TablePagination from '../src/TablePagination';
 import { getDOMNode, getInstance } from './TestWrapper';
+import innerText from './innerText';
 
 describe('Table-Pagination', () => {
   it('Should output a TablePagination', () => {
@@ -123,5 +125,34 @@ describe('Table-Pagination', () => {
     const fontSize = '12px';
     const instance = getDOMNode(<TablePagination style={{ fontSize }} total={10} />);
     assert.equal(instance.style.fontSize, fontSize);
+  });
+
+  it('Should be disabled', () => {
+    // total={60}  ==> pages 2
+    const instance = getDOMNode(<TablePagination total={60} disabled first last prev next />);
+    assert.equal(instance.querySelectorAll('li.rs-pagination-btn-disabled').length, 6);
+    assert.ok(instance.querySelector('.rs-picker-disabled'));
+  });
+
+  it('Should be disabled', () => {
+    const instance = getDOMNode(
+      <TablePagination
+        total={60}
+        first={false}
+        last={false}
+        prev={false}
+        next={false}
+        disabled={eventKey => {
+          if (eventKey === 2 || eventKey === 'picker') {
+            return true;
+          }
+          return false;
+        }}
+      />
+    );
+    const disabledDOMs = instance.querySelectorAll('li.rs-pagination-btn-disabled');
+    assert.ok(instance.querySelector('.rs-picker-disabled'));
+    assert.equal(disabledDOMs.length, 1);
+    assert.equal(innerText(disabledDOMs[0]), '2');
   });
 });
