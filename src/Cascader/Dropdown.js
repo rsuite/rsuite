@@ -87,7 +87,6 @@ function getDerivedStateForCascade(
   const findNode = items => {
     for (let i = 0; i < items.length; i += 1) {
       items[i] = stringToObject(items[i], labelKey, valueKey);
-      items[i].active = false;
       let children = items[i][childrenKey];
 
       if (shallowEqual(items[i][valueKey], activeItemValue)) {
