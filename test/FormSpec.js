@@ -80,6 +80,28 @@ describe('Form', () => {
     assert.equal(instance.check(), false);
   });
 
+  it('Should be `false` for check status by checkForField', () => {
+    const values = {
+      name: 'abc'
+    };
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Form
+        model={model}
+        formDefaultValue={values}
+        onError={formError => {
+          assert.equal(formError.name, checkEmail);
+        }}
+      >
+        <FormControl name="name" />
+      </Form>
+    );
+    const checkStatus = instance.checkForField('name', checkResult => {
+      assert.equal(checkResult.hasError, true);
+      assert.equal(checkResult.errorMessage, checkEmail);
+    });
+    assert.equal(checkStatus, false);
+  });
+
   it('Should be `true` for check status', () => {
     const values = {
       name: 'abc@gmail.com'
@@ -90,6 +112,21 @@ describe('Form', () => {
       </Form>
     );
     assert.equal(instance.check(), true);
+  });
+
+  it('Should be `true` for check status by checkForField', () => {
+    const values = {
+      name: 'abc@gmail.com'
+    };
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Form model={model} formDefaultValue={values}>
+        <FormControl name="name" />
+      </Form>
+    );
+    const checkStatus = instance.checkForField('name', checkResult => {
+      assert.equal(checkResult.hasError, false);
+    });
+    assert.equal(checkStatus, true);
   });
 
   it('Should be {} for formError when call cleanErrors', () => {
