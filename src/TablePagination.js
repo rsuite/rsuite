@@ -34,7 +34,8 @@ type Props = {
   activePage: number,
   className?: string,
   locale: Locale,
-  classPrefix: string
+  classPrefix: string,
+  disabled?: boolean | ((eventKey: any) => boolean)
 };
 
 class TablePagination extends React.Component<Props> {
@@ -81,11 +82,20 @@ class TablePagination extends React.Component<Props> {
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderLengthMenu() {
-    const { lengthMenu = [], renderLengthMenu, showLengthMenu, locale, displayLength } = this.props;
+    const {
+      lengthMenu = [],
+      renderLengthMenu,
+      showLengthMenu,
+      locale,
+      displayLength,
+      disabled
+    } = this.props;
 
     if (!showLengthMenu) {
       return null;
     }
+
+    const disabledPicker = typeof disabled === 'function' ? disabled('picker') : disabled;
 
     const picker = (
       <SelectPicker
@@ -97,6 +107,7 @@ class TablePagination extends React.Component<Props> {
         value={displayLength}
         onChange={this.handleChangeLength}
         menuStyle={{ minWidth: 'auto' }}
+        disabled={disabledPicker}
       />
     );
 
@@ -132,6 +143,7 @@ class TablePagination extends React.Component<Props> {
       className,
       displayLength,
       activePage,
+      disabled,
       ...rest
     } = this.props;
 
@@ -154,6 +166,7 @@ class TablePagination extends React.Component<Props> {
             last={last}
             maxButtons={maxButtons}
             pages={pages}
+            disabled={disabled}
             onSelect={this.handleChangePage}
             activePage={activePage}
           />

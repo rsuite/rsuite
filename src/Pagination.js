@@ -33,7 +33,8 @@ type Props = {
   buttonComponentClass: React.ElementType | string,
   className?: string,
   classPrefix: string,
-  locale: Locale
+  locale: Locale,
+  disabled?: boolean | ((eventKey: any) => boolean)
 };
 
 class Pagination extends React.Component<Props> {
@@ -218,11 +219,21 @@ class Pagination extends React.Component<Props> {
   }
 
   renderItem(props: Object): React.Node {
-    const { onSelect, buttonComponentClass } = this.props;
+    const { onSelect, buttonComponentClass, disabled } = this.props;
+
+    let disabledButton = props.disabled;
+
+    if (typeof disabled === 'function') {
+      disabledButton = disabled(props.eventKey);
+    } else if (typeof disabled === 'boolean') {
+      disabledButton = disabled;
+    }
+
     return (
       <PaginationButton
         {...props}
-        onSelect={props.disabled ? null : onSelect}
+        disabled={disabledButton}
+        onSelect={disabledButton ? null : onSelect}
         componentClass={buttonComponentClass}
       />
     );
