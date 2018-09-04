@@ -80,7 +80,7 @@ class Form extends React.Component<Props, State> {
   /**
    * public APIs
    */
-  check = (callback: (formError: Object) => void) => {
+  check = (callback?: (formError: Object) => void) => {
     const formValue = this.getFormValue() || {};
     const { model, onCheck, onError } = this.props;
     const formError = {};
@@ -98,6 +98,30 @@ class Form extends React.Component<Props, State> {
     onCheck && onCheck(formError);
     callback && callback(formError);
     if (errorCount > 0) {
+      onError && onError(formError);
+      return false;
+    }
+
+    return true;
+  };
+
+  /**
+   * public APIs
+   */
+  checkForField = (fieldName: string, callback?: (checkResult: Object) => void) => {
+    const formValue = this.getFormValue() || {};
+    const { model, onCheck, onError } = this.props;
+    const checkResult = model.checkForField(fieldName, formValue[fieldName], formValue);
+
+    const formError = {
+      ...this.getFormError(),
+      [fieldName]: checkResult.errorMessage
+    };
+
+    onCheck && onCheck(formError);
+    callback && callback(checkResult);
+
+    if (checkResult.hasError) {
       onError && onError(formError);
       return false;
     }
