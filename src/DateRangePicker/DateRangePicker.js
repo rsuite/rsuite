@@ -129,6 +129,27 @@ class DateRangePicker extends React.Component<Props, State> {
     }
   };
 
+  static getDerivedStateFromProps(nextProps: Props, prevState: State) {
+    const { value } = nextProps;
+    const { selectValue } = prevState;
+    if (typeof value === 'undefined') {
+      return null;
+    }
+
+    if (
+      (value[0] && !value[0].isSame(prevState.value[0], 'day')) ||
+      (value[1] && !value[1].isSame(prevState.value[1], 'day'))
+    ) {
+      return {
+        value,
+        selectValue: value,
+        calendarDate: getCalendarDate(value)
+      };
+    }
+
+    return null;
+  }
+
   constructor(props: Props) {
     super(props);
 
@@ -145,7 +166,15 @@ class DateRangePicker extends React.Component<Props, State> {
       currentHoverDate: null
     };
   }
-  getValue = (): Array<moment$Moment> => this.props.value || this.state.value || [];
+  getValue = (): Array<moment$Moment> => {
+    const { value } = this.props;
+
+    if (typeof value !== 'undefined') {
+      return value;
+    }
+
+    return this.state.value || [];
+  };
 
   getDateString(value?: Array<moment$Moment>) {
     const { placeholder, format } = this.props;
