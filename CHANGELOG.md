@@ -1,3 +1,21 @@
+# 3.2.9
+
+> 2018-09-05
+
+* **Feature**: Support combine in Schema ([#195])
+* **Feature**: Support `onHide` on Picker ([#194])
+* **Feature**: Support `checkForField` in `<Form>` ([#193])
+* **Feature**: Support `disabled` on `<Pagination>` ([#189])
+* **Bugfix**: Calender is not updated when the value is updated ([#192])
+* **Bugfix**: Fix not updated after updating the value in `<Cascader>` ([#188])
+
+[#195]: https://github.com/rsuite/rsuite/pull/195
+[#194]: https://github.com/rsuite/rsuite/pull/194
+[#193]: https://github.com/rsuite/rsuite/pull/193
+[#192]: https://github.com/rsuite/rsuite/pull/192
+[#189]: https://github.com/rsuite/rsuite/pull/189
+[#188]: https://github.com/rsuite/rsuite/pull/188
+
 # 3.2.8
 
 > 2018-08-30
