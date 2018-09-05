@@ -53,6 +53,7 @@ type Props = {
   onSearch?: (searchKeyword: string, event: DefaultEvent) => void,
   onOpen?: () => void,
   onClose?: () => void,
+  onHide?: () => void,
   onEnter?: Function,
   onEntering?: Function,
   onEntered?: Function,
@@ -404,6 +405,7 @@ class Dropdown extends React.Component<Props, State> {
       onExit,
       onExiting,
       onExited,
+      onHide,
       appearance,
       ...rest
     } = this.props;
@@ -441,6 +443,7 @@ class Dropdown extends React.Component<Props, State> {
         onExit={onExit}
         onExiting={onExiting}
         onExited={createChainedFunction(this.handleExited, onExited)}
+        onHide={onHide}
         speaker={this.renderDropdownMenu()}
         container={container}
         containerPadding={containerPadding}

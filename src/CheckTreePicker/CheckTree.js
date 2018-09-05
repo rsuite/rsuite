@@ -76,6 +76,7 @@ type Props = {
   onExit?: Function,
   onEnter?: Function,
   onClose?: () => void,
+  onHide?: () => void,
   onSearch?: (searchKeyword: string, event: DefaultEvent) => void,
   onChange?: (values: any) => void,
   onExpand?: (activeNode: any, labyer: number) => void,
@@ -954,6 +955,7 @@ class CheckTree extends React.Component<Props, States> {
       onExit,
       onOpen,
       onClose,
+      onHide,
       onEnter,
       onExited,
       onExiting,
@@ -1006,6 +1008,7 @@ class CheckTree extends React.Component<Props, States> {
           onExit={onExit}
           onExiting={onExiting}
           onExited={createChainedFunction(this.handleOnClose, onExited)}
+          onHide={onHide}
           container={container}
           containerPadding={containerPadding}
           speaker={this.renderDropdownMenu()}

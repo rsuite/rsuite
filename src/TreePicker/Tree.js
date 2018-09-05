@@ -74,6 +74,7 @@ type Props = {
   onExit?: Function,
   onEnter?: Function,
   onClose?: () => void,
+  onHide?: () => void,
   onSearch?: (searchKeyword: string, event: DefaultEvent) => void,
   onChange?: (value: any) => void,
   onExpand?: (activeNode: any, labyer: number) => void,
@@ -742,6 +743,7 @@ class Tree extends React.Component<Props, States> {
       appearance,
       onOpen,
       onClose,
+      onHide,
       container,
       containerPadding,
       onEnter,
@@ -793,6 +795,7 @@ class Tree extends React.Component<Props, States> {
             onExit={onExit}
             onExiting={onExiting}
             onExited={createChainedFunction(this.handleOnClose, onExited)}
+            onHide={onHide}
             container={container}
             containerPadding={containerPadding}
             speaker={this.renderDropdownMenu()}
