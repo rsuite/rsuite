@@ -72,6 +72,7 @@ type Props = {
   placement?: Placement,
   onOpen?: () => void,
   onClose?: () => void,
+  onHide?: () => void,
   style?: Object
 };
 
@@ -416,6 +417,7 @@ class DatePicker extends React.Component<Props, State> {
       onExit,
       onExiting,
       onExited,
+      onHide,
       appearance,
       ...rest
     } = this.props;
@@ -463,6 +465,7 @@ class DatePicker extends React.Component<Props, State> {
             onExit={onExit}
             onExiting={onExiting}
             onExited={createChainedFunction(this.handleExited, onExited)}
+            onHide={onHide}
             speaker={this.renderDropdownMenu(calendar)}
             container={container}
             containerPadding={containerPadding}

@@ -37,6 +37,7 @@ type Props = {
   onKeyDown?: (event: DefaultEvent) => void,
   onOpen?: () => void,
   onClose?: () => void,
+  onHide?: () => void,
   renderItem?: (itemValue: string) => React.Node,
   style?: Object,
   open?: boolean,
@@ -288,6 +289,7 @@ class AutoComplete extends React.Component<Props, State> {
       placement,
       open,
       style,
+      onHide,
       ...rest
     } = this.props;
 
@@ -309,6 +311,7 @@ class AutoComplete extends React.Component<Props, State> {
           placement={placement}
           open={open || (this.state.focus && hasItems)}
           speaker={this.renderDropdownMenu()}
+          onHide={onHide}
         >
           <Input
             {...unhandled}
