@@ -540,12 +540,12 @@
 }
 
 // Calendar group
+.@{clpns}-table-cell-selected,
 .@{clpns}-table-cell-in-range {
   position: relative;
 
   &::before {
     content: '';
-    background-color: @H050;
     display: block;
     width: 100%;
     margin-top: 3px;
@@ -558,4 +558,8 @@
     z-index: @zindex-date-range-picker-table-cell-content;
     position: relative;
   }
+}
+
+.@{clpns}-table-cell-in-range::before {
+  background-color: @H050;
 }
