@@ -120,6 +120,8 @@
     // Make sure events through loader
     pointer-events: none;
     .ie10-visibility(hidden);
+    // Fixed in safari, after multiple clicks , the loader still has not disappeared.
+    .safari-visibility(hidden);
   }
 
   &-loader {
@@ -147,6 +149,8 @@
     opacity: 1;
     animation: none;
     pointer-events: auto;
+    // When loading cover scrollbar.
+    z-index: 1;
   }
 
   &-cell {

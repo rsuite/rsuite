@@ -207,3 +207,12 @@
 .ie10-visibility(@value) when (@ie-polyfill = true) {
   visibility: ~'@{value}@{ie-suffix}';
 }
+
+// Safari
+.safari-visibility(@value) {
+  @media not all and (min-resolution: 0.001dpcm) {
+    & {
+      visibility: @value;
+    }
+  }
+}
