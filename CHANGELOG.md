@@ -1,3 +1,20 @@
+# 3.2.10
+
+> 2018-09-14
+
+* **Bugfix**: Uploader size info in IE is abnormality.
+* **Bugfix**: The `DateRangePicker` end date is a problem that flashes wildly as the mouse moves ([#202])
+* **Bugfix**: In safari, after multiple clicks , the loader still has not disappeared on `<Table>` ([#201])
+* **Bugfix**: The loader on `<Table>` should be above the scrollbar ([#201])
+* **Chore**: Compress lodash ([#200])
+* **Chore**: Change icon font CDN path ([#199])
+
+[#203]: https://github.com/rsuite/rsuite/pull/203
+[#202]: https://github.com/rsuite/rsuite/pull/202
+[#201]: https://github.com/rsuite/rsuite/pull/201
+[#200]: https://github.com/rsuite/rsuite/pull/200
+[#199]: https://github.com/rsuite/rsuite/pull/199
+
 # 3.2.9
 
 > 2018-09-05
