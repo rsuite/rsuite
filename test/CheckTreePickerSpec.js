@@ -342,7 +342,10 @@ describe('CheckTreePicker', () => {
       data: nextTreeData
     });
 
-    assert.equal(instance.exists('span[data-key="0-1-0"]'), true);
+    assert.equal(
+      instance.html(),
+      '<div class="rs-picker-checktree-view "><div class="rs-picker-checktree-nodes"><div class="rs-picker-checktree-view-node" style="padding-left: 12px;"><span role="button" tabindex="-1" class="rs-picker-checktree-view-checknode-label" title="Master" data-layer="0" data-key="0-0"><span class="rs-picker-checktree-view-input-wrapper"><input class="rs-picker-checktree-view-input" type="checkbox"><span class="rs-picker-checktree-view-inner"></span></span>Master</span></div><div class="rs-picker-checktree-view-node-children rs-picker-checktree-view-open"><div class="rs-picker-checktree-view-node" style="padding-left: 12px;"><div role="button" tabindex="-1" data-ref="0-1" class="rs-picker-checktree-view-node-expand-icon-wrapper"><i class="rs-picker-checktree-view-node-expand-icon icon"></i></div><span role="button" tabindex="-1" class="rs-picker-checktree-view-checknode-label" title="async" data-layer="0" data-key="0-1"><span class="rs-picker-checktree-view-input-wrapper"><input class="rs-picker-checktree-view-input" type="checkbox"><span class="rs-picker-checktree-view-inner"></span></span>async</span></div><div class="rs-picker-checktree-view-children"><div class="rs-picker-checktree-view-node" style="padding-left: 28px;"><span role="button" tabindex="-1" class="rs-picker-checktree-view-checknode-label" title="children1" data-layer="1" data-key="0-1-0"><span class="rs-picker-checktree-view-input-wrapper"><input class="rs-picker-checktree-view-input" type="checkbox"><span class="rs-picker-checktree-view-inner"></span></span>children1</span></div></div></div></div></div>'
+    );
 
     instance.unmount();
   });
