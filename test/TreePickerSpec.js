@@ -303,10 +303,7 @@ describe('TreePicker', () => {
       data: nextTreeData
     });
 
-    assert.equal(
-      instance.html(),
-      '<div class="rs-picker-tree-view "><div class="rs-picker-tree-view-nodes"><div class="rs-picker-tree-view-node" style="padding-left: 12px;"><span class="rs-picker-tree-view-node-label" title="Master" data-layer="0" data-key="0-0" role="button" tabindex="-1">Master</span></div><div class="rs-picker-tree-view-node-children rs-picker-tree-view-open"><div class="rs-picker-tree-view-node" style="padding-left: 12px;"><div role="button" tabindex="-1" data-ref="0-1" class="rs-picker-tree-view-node-expand-icon-wrapper"><i class="rs-picker-tree-view-node-expand-icon icon"></i></div><span class="rs-picker-tree-view-node-label" title="async" data-layer="0" data-key="0-1" role="button" tabindex="-1">async</span></div><div class="rs-picker-tree-view-children"><div class="rs-picker-tree-view-node" style="padding-left: 28px;"><span class="rs-picker-tree-view-node-label" title="children1" data-layer="1" data-key="0-1-0" role="button" tabindex="-1">children1</span></div></div></div></div></div>'
-    );
+    assert.equal(instance.html().indexOf('data-key="0-1-0"') > -1, true);
 
     instance.unmount();
   });
