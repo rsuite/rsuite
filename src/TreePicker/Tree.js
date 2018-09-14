@@ -8,12 +8,7 @@ import { IntlProvider, FormattedMessage } from 'rsuite-intl';
 import { polyfill } from 'react-lifecycles-compat';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import _ from 'lodash';
-import {
-  reactToString,
-  filterNodesOfTree,
-  shallowEqual,
-  shallowEqualArray
-} from 'rsuite-utils/lib/utils';
+import { reactToString, shallowEqual, shallowEqualArray } from 'rsuite-utils/lib/utils';
 
 import { SearchBar, MenuWrapper } from 'rsuite-utils/lib/Picker';
 
