@@ -63,10 +63,8 @@
   }
 
   .@{uplns}-file-item {
-    padding: @padding-base-vertical @padding-base-horizontal;
+    padding: @padding-base-vertical 30px @padding-base-vertical 36px;
     position: relative;
-    padding-left: 36px;
-    padding-right: 30px;
     transition: 0.3s linear background-color;
 
     &:hover {
@@ -121,13 +119,11 @@
     &-title {
       .ellipsis;
 
-      flex-basis: 1px;
-      flex-grow: 1;
+      flex: 1 1 auto;
     }
 
     &-size {
-      flex-basis: 1px;
-      flex-shrink: 0;
+      flex: 0 0 auto;
       color: @uploader-light-font-color;
       padding: 0 @uploader-base-padding;
     }
