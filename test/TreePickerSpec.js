@@ -26,6 +26,8 @@ const nodeChildrenOpenCls = `${treeViewCls}-open`;
 const expandIconWrapperCls = `${treeViewCls}-node-expand-icon-wrapper`;
 const searchInput = `${namespace}-search-bar-input`;
 
+export const delay = timeout => new Promise(resolve => setTimeout(resolve, timeout));
+
 const data = [
   {
     label: 'Master',
@@ -301,7 +303,7 @@ describe('TreePicker', () => {
       data: nextTreeData
     });
 
-    assert.equal(instance.exists('span[data-key="0-1-0"]'), true);
+    assert.equal(instance.html().indexOf('data-key="0-1-0"') > -1, true);
 
     instance.unmount();
   });

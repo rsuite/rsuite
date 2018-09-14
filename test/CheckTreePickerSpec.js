@@ -342,7 +342,7 @@ describe('CheckTreePicker', () => {
       data: nextTreeData
     });
 
-    assert.equal(instance.exists('span[data-key="0-1-0"]'), true);
+    assert.equal(instance.html().indexOf('data-key="0-1-0"') > -1, true);
 
     instance.unmount();
   });
