@@ -13,6 +13,7 @@ const OUTPUT_DIR = './lib/styles';
 const CORE_FILE_NAME = 'core.less';
 
 const IMPORT_FILE_CONFIG = {
+  'animation': ['keyframes.less'],
   'col': ['grid.less'],
   'control-label': ['form.less'],
   'cascader': ['picker.less', 'cascader.less'],
@@ -22,7 +23,7 @@ const IMPORT_FILE_CONFIG = {
   'check-tree-picker': ['picker.less', 'check-tree-picker.less'],
   'date-picker': ['picker.less', 'date-picker.less'],
   'date-range-picker': ['picker.less', 'date-range-picker.less'],
-  'drawer': ['drawer.less', 'animation.less'],
+  'drawer': ['drawer.less', 'keyframes.less'],
   'error-message': ['form.less'],
   'panel-group': ['panel.less'],
   'form-control': ['form.less'],
@@ -35,7 +36,7 @@ const IMPORT_FILE_CONFIG = {
   'input-group': ['form.less', 'input-group.less'],
   'input-number': ['form.less', 'input-number.less'],
   'input-picker': ['picker.less', 'select-picker.less', 'tag.less', 'input-picker.less'],
-  'modal': ['modal.less', 'animation.less'],
+  'modal': ['modal.less', 'keyframes.less'],
   'navbar': ['nav.less', 'navbar.less'],
   'row': ['grid.less'],
   'radio': ['form.less', 'radio.less'],
