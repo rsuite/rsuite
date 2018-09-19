@@ -9,7 +9,6 @@ export lowPriorityWarning from './lowPriorityWarning';
 export prefix from './prefix';
 export ReactChildren from './ReactChildren';
 export tplTransform from './tplTransform';
-export TypeDefinition from './TypeDefinition';
 export withStyleProps from './withStyleProps';
 export ajaxUpload from './ajaxUpload';
 export previewFile from './previewFile';
