@@ -1,8 +1,22 @@
+# 3.2.11
+
+> 2018-09-21
+
+* **Feature**: International support for Portuguese ([#208])
+* **Bugfix**: Fixed an exception when using <Modal />, <Drawer /> in modular ([#209])
+* **Bugfix**: Remove the deep clone from the filterNodesOfTree function ([#206])
+* **Bugfix**: Problem with the first-level menu icon blinking when the sidebar is closed ([#205])
+
+[#209]: https://github.com/rsuite/rsuite/pull/209
+[#208]: https://github.com/rsuite/rsuite/pull/208
+[#206]: https://github.com/rsuite/rsuite/pull/206
+[#205]: https://github.com/rsuite/rsuite/pull/205
+
 # 3.2.10
 
 > 2018-09-14
 
-* **Bugfix**: Uploader size info in IE is abnormality.
+* **Bugfix**: Uploader size info in IE is abnormality. ([#203])
 * **Bugfix**: The `DateRangePicker` end date is a problem that flashes wildly as the mouse moves ([#202])
 * **Bugfix**: In safari, after multiple clicks , the loader still has not disappeared on `<Table>` ([#201])
 * **Bugfix**: The loader on `<Table>` should be above the scrollbar ([#201])
