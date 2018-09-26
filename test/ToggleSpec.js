@@ -56,4 +56,10 @@ describe('Toggle', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Toggle style={{ fontSize }} />);
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<Toggle classPrefix="custom-prefix" />);
+    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
+
 });

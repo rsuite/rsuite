@@ -113,4 +113,11 @@ describe('DropdownMenuItem', () => {
     const instance = ReactTestUtils.renderIntoDocument(<DropdownMenuItem style={{ fontSize }} />);
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <DropdownMenuItem classPrefix="custom-prefix" />
+    );
+    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
 });

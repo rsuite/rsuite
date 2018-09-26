@@ -42,4 +42,9 @@ describe('Drawer', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Drawer style={{ fontSize }} show />);
     assert.equal(findDOMNode(instance).querySelector('.rs-drawer').style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<Drawer classPrefix="custom-prefix" show />);
+    assert.ok(findDOMNode(instance).querySelector('.fade').className.match(/\bcustom-prefix\b/));
+  });
 });

@@ -103,4 +103,9 @@ describe('Radio', () => {
     const instance = getDOMNode(<Radio style={{ fontSize }} />);
     assert.equal(instance.style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = getDOMNode(<Radio classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
 });

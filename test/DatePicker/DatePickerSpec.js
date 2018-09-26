@@ -237,4 +237,9 @@ describe('DatePicker', () => {
       picker.menuContainer.querySelector('.rs-picker-toolbar-right-btn-ok')
     );
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<DatePicker classPrefix="custom-prefix" />);
+    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
 });

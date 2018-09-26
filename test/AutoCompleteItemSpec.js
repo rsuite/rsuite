@@ -68,4 +68,11 @@ describe('AutoCompleteItem', () => {
     );
     assert.equal(instance.style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = getDOMNode(
+      <AutoCompleteItem classPrefix="custom-prefix" itemData={{ value: '1', label: '1' }} />
+    );
+    assert.ok(instance.querySelector('a').className.match(/\bcustom-prefix\b/));
+  });
 });

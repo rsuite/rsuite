@@ -50,4 +50,12 @@ describe('Container', () => {
     );
     assert.equal(instance.style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Container classPrefix="custom-prefix" />
+    );
+    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
+
 });

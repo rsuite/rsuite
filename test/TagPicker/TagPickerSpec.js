@@ -271,4 +271,9 @@ describe('TagPicker', () => {
     const instance = getDOMNode(<TagPicker multi style={{ fontSize }} />);
     assert.equal(instance.style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = getDOMNode(<TagPicker classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
 });

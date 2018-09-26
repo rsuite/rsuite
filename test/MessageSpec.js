@@ -61,4 +61,9 @@ describe('Message', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Message style={{ fontSize }} />);
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<Message classPrefix="custom-prefix" />);
+    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
 });

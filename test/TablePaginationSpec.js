@@ -155,4 +155,11 @@ describe('Table-Pagination', () => {
     assert.equal(disabledDOMs.length, 1);
     assert.equal(innerText(disabledDOMs[0]), '2');
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <TablePagination total={10} classPrefix="custom-prefix" />
+    );
+    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
 });

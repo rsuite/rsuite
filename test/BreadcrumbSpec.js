@@ -83,4 +83,10 @@ describe('Breadcrumb', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Breadcrumb style={{ fontSize }} />);
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<Breadcrumb classPrefix="custom-prefix" />);
+    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
+
 });

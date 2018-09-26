@@ -2,7 +2,13 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 export const globalKey = 'rs-';
-export const defaultClassPrefix = name => `${globalKey}${name}`;
+export const getClassNamePrefix = () => {
+  if (typeof __RSUITE_CLASSNAME_PREFIX__ !== 'undefined') {
+    return __RSUITE_CLASSNAME_PREFIX__;
+  }
+  return globalKey;
+};
+export const defaultClassPrefix = name => `${getClassNamePrefix()}${name}`;
 
 function prefix(pre: string, className: string | Array<string>): string {
   if (!pre || !className) {

@@ -23,4 +23,9 @@ describe('Sidebar', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Sidebar style={{ fontSize }} />);
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<Sidebar classPrefix="custom-prefix" />);
+    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
 });

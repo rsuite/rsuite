@@ -106,4 +106,9 @@ describe('Modal', () => {
     const instance = getInstance(<Modal style={{ fontSize }} show />);
     assert.equal(findDOMNode(instance.dialog).style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = getInstance(<Modal classPrefix="custom-prefix" show />);
+    assert.ok(findDOMNode(instance.dialog).className.match(/\bcustom-prefix\b/));
+  });
 });

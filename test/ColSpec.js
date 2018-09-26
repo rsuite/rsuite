@@ -81,4 +81,9 @@ describe('Col', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Col style={{ fontSize }} />);
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<Col classPrefix="custom-prefix" md={1} />);
+    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
 });

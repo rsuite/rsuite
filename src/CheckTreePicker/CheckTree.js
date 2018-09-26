@@ -14,13 +14,14 @@ import {
   tplTransform
 } from 'rsuite-utils/lib/utils';
 
-import { SearchBar, Toggle, MenuWrapper } from 'rsuite-utils/lib/Picker';
 import CheckTreeNode from './CheckTreeNode';
 import { CHECK_STATE } from '../utils/constants';
 import { clone, defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 import PickerToggle from '../_picker/PickerToggle';
 import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
 import onMenuKeyDown from '../_picker/onMenuKeyDown';
+import MenuWrapper from '../_picker/MenuWrapper';
+import SearchBar from '../_picker/SearchBar';
 
 type DefaultEvent = SyntheticEvent<*>;
 type Placement =
@@ -326,7 +327,7 @@ class CheckTree extends React.Component<Props, States> {
   getElementByDataKey = (dataKey: string) => {
     const ele = findDOMNode(this.nodeRefs[dataKey]);
     if (ele instanceof Element) {
-      return ele.querySelector('.rs-picker-checktree-view-checknode-label');
+      return ele.querySelector(`.${this.addPrefix('checktree-view-checknode-label')}`);
     }
     return null;
   };

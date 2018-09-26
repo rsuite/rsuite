@@ -103,4 +103,9 @@ describe('Button', () => {
     const instance = getDOMNode(<Button style={{ fontSize }} />);
     assert.equal(instance.style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<Button classPrefix="custom-prefix" />);
+    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
 });

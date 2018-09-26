@@ -247,4 +247,9 @@ describe('CheckPicker', () => {
     const instanceDOM = findDOMNode(instance).querySelector('.rs-picker-toggle-value');
     assert.equal(instanceDOM.innerText, '已选择 1 项');
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<Dropdown classPrefix="custom-prefix" />);
+    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
 });

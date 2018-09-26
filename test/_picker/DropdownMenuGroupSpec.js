@@ -62,4 +62,9 @@ describe('picker - DropdownMenuGroup', () => {
     const instance = getDOMNode(<DropdownMenuGroup style={{ fontSize }} title="title" />);
     assert.equal(instance.style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = getDOMNode(<DropdownMenuGroup classPrefix="custom-prefix" title="title" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
 });

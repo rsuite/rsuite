@@ -170,4 +170,10 @@ describe('DateRangePicker', () => {
     );
     ReactTestUtils.Simulate.click(today);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<DateRangePicker classPrefix="custom-prefix" />);
+    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
+
 });

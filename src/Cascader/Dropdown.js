@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import { IntlProvider, FormattedMessage } from 'rsuite-intl';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
-import { MenuWrapper } from 'rsuite-utils/lib/Picker';
 import { findNodeOfTree, shallowEqual, shallowEqualArray } from 'rsuite-utils/lib/utils';
 import { polyfill } from 'react-lifecycles-compat';
 
@@ -13,6 +12,7 @@ import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '
 import stringToObject from '../utils/stringToObject';
 import DropdownMenu from './DropdownMenu';
 import PickerToggle from '../_picker/PickerToggle';
+import MenuWrapper from '../_picker/MenuWrapper';
 import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
 import type { Placement } from '../utils/TypeDefinition';
 

@@ -118,4 +118,9 @@ describe('Pagination', () => {
     const instance = getDOMNode(<Pagination style={{ fontSize }} />);
     assert.equal(instance.style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<Pagination classPrefix="custom-prefix" />);
+    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
 });
