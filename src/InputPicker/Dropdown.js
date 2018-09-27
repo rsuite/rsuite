@@ -425,6 +425,7 @@ class Dropdown extends React.Component<Props, State> {
     this.setState(nextState, this.updatePosition);
     this.handleSelect(value, item, event);
     this.handleChange(value, event);
+    this.focusInput();
   };
 
   handleSelect = (value: any, item: Object, event: DefaultEvent) => {
