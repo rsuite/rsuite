@@ -92,4 +92,9 @@ describe('DatePicker', () => {
       assert.equal(instance.state.calendarState, null);
     });
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<DatePicker classPrefix="custom-prefix" />);
+    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
 });

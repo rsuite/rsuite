@@ -82,4 +82,11 @@ describe('Calendar-TimeDropdown', () => {
     const instance = ReactTestUtils.renderIntoDocument(<TimeDropdown style={{ fontSize }} />);
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <TimeDropdown classPrefix="custom-prefix" />
+    );
+    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
 });

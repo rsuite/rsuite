@@ -41,4 +41,9 @@ describe('Uploader', () => {
 
     assert.equal(instance.style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = getDOMNode(<Uploader action="" classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
 });

@@ -22,4 +22,9 @@ describe('ModalTitle', () => {
     const instance = ReactTestUtils.renderIntoDocument(<ModalTitle style={{ fontSize }} />);
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<ModalTitle classPrefix="custom-prefix" />);
+    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
 });

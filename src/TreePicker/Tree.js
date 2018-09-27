@@ -10,11 +10,11 @@ import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import _ from 'lodash';
 import { reactToString, shallowEqual, shallowEqualArray } from 'rsuite-utils/lib/utils';
 
-import { SearchBar, MenuWrapper } from 'rsuite-utils/lib/Picker';
-
 import TreeNode from './TreeNode';
 import { clone, defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 import PickerToggle from '../_picker/PickerToggle';
+import MenuWrapper from '../_picker/MenuWrapper';
+import SearchBar from '../_picker/SearchBar';
 import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
 import onMenuKeyDown from '../_picker/onMenuKeyDown';
 
@@ -320,7 +320,7 @@ class Tree extends React.Component<Props, States> {
   getElementByDataKey = (dataKey: string) => {
     const ele = findDOMNode(this.nodeRefs[dataKey]);
     if (ele instanceof Element) {
-      return ele.querySelector('.rs-picker-tree-view-node-label');
+      return ele.querySelector(`.${this.addPrefix('tree-view-node-label')}`);
     }
     return null;
   };

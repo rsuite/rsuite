@@ -6,10 +6,10 @@ import classNames from 'classnames';
 import { IntlProvider } from 'rsuite-intl';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import _ from 'lodash';
-import { MenuWrapper } from 'rsuite-utils/lib/Picker';
 
 import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
 import PickerToggle from '../_picker/PickerToggle';
+import MenuWrapper from '../_picker/MenuWrapper';
 import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
 import Toolbar from './Toolbar';
 import DatePicker from './DatePicker';
@@ -464,7 +464,15 @@ class DateRangePicker extends React.Component<Props, State> {
   container = null;
 
   renderDropdownMenu() {
-    const { placement, menuClassName, ranges, isoWeek, limitStartYear, limitEndYear } = this.props;
+    const {
+      placement,
+      menuClassName,
+      ranges,
+      isoWeek,
+      limitStartYear,
+      limitEndYear,
+      classPrefix
+    } = this.props;
     const { calendarDate, selectValue, hoverValue, doneSelected } = this.state;
 
     const classes = classNames(

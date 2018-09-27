@@ -5,13 +5,13 @@ import _ from 'lodash';
 import setStatic from 'recompose/setStatic';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
-import { MenuWrapper } from 'rsuite-utils/lib/Picker';
 
 import Input from './Input';
 import AutoCompleteItem from './AutoCompleteItem';
 import onMenuKeyDown from './_picker/onMenuKeyDown';
+import MenuWrapper from './_picker/MenuWrapper';
 import { defaultProps, getUnhandledProps, prefix } from './utils';
-import { globalKey } from './utils/prefix';
+import { getClassNamePrefix } from './utils/prefix';
 import type { Placement } from './utils/TypeDefinition';
 
 type DefaultEvent = SyntheticEvent<*>;
@@ -258,7 +258,7 @@ class AutoComplete extends React.Component<Props, State> {
     const classes = classNames(
       this.addPrefix('menu'),
       menuClassName,
-      `${globalKey}placement-${_.kebabCase(placement)}`
+      `${getClassNamePrefix()}placement-${_.kebabCase(placement)}`
     );
     const items = data.filter(this.shouldDisplay);
 

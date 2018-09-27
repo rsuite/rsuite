@@ -4,7 +4,6 @@ import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
-import { SearchBar, MenuWrapper } from 'rsuite-utils/lib/Picker';
 import {
   reactToString,
   filterNodesOfTree,
@@ -17,6 +16,8 @@ import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '
 import DropdownMenu from '../_picker/DropdownMenu';
 import DropdownMenuItem from '../_picker/DropdownMenuItem';
 import PickerToggle from '../_picker/PickerToggle';
+import MenuWrapper from '../_picker/MenuWrapper';
+import SearchBar from '../_picker/SearchBar';
 import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
 import onMenuKeyDown from '../_picker/onMenuKeyDown';
 import type { Placement } from '../utils/TypeDefinition';

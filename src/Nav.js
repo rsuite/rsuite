@@ -9,7 +9,7 @@ import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
 
 import NavItem from './NavItem';
 import { prefix, getUnhandledProps, defaultProps, ReactChildren } from './utils';
-import { globalKey } from './utils/prefix';
+import { getClassNamePrefix } from './utils/prefix';
 
 type Props = {
   classPrefix: string,
@@ -60,11 +60,12 @@ class Nav extends React.Component<Props> {
     } = this.context;
 
     const addPrefix = prefix(classPrefix);
+    const globalClassNamePrefix = getClassNamePrefix();
 
     const classes = classNames(classPrefix, addPrefix(appearance), className, {
-      [`${globalKey}navbar-nav`]: navbar,
-      [`${globalKey}navbar-right`]: pullRight,
-      [`${globalKey}sidenav-nav`]: sidenav,
+      [`${globalClassNamePrefix}navbar-nav`]: navbar,
+      [`${globalClassNamePrefix}navbar-right`]: pullRight,
+      [`${globalClassNamePrefix}sidenav-nav`]: sidenav,
       [addPrefix('horizontal')]: navbar || (!vertical && !sidenav),
       [addPrefix('vertical')]: vertical || sidenav,
       [addPrefix('justified')]: justified,

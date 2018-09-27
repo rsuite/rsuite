@@ -70,4 +70,15 @@ describe('InputGroup', () => {
     const instance = getDOMNode(<InputGroup style={{ fontSize }} />);
     assert.equal(instance.style.fontSize, fontSize);
   });
+
+  it('Should have a custom style', () => {
+    const fontSize = '12px';
+    let instance = getDOMNode(<InputGroup style={{ fontSize }} />);
+    assert.equal(instance.style.fontSize, fontSize);
+  });
+
+  it('Should have a custom className prefix', () => {
+    const instance = getDOMNode(<InputGroup classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
 });

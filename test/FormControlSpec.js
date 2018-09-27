@@ -73,4 +73,17 @@ describe('FormControl', () => {
     const element = findDOMNode(instance);
     assert.equal(element.querySelector('input').style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Form>
+        <FormControl classPrefix="custom-prefix" name="username" />
+      </Form>
+    );
+    assert.ok(
+      findDOMNode(instance)
+        .querySelector('div')
+        .className.match(/\bcustom-prefix\b/)
+    );
+  });
 });

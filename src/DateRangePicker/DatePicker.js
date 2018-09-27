@@ -20,7 +20,8 @@ type Props = {
   onChangeCalendarDate?: (index: number, nextPageDate: moment$Moment) => void,
   isoWeek?: boolean,
   limitStartYear?: number,
-  limitEndYear?: number
+  limitEndYear?: number,
+  classPrefix?: string
 };
 
 type State = {
@@ -89,13 +90,15 @@ class DatePicker extends React.Component<Props, State> {
       disabledDate,
       isoWeek,
       limitStartYear,
-      limitEndYear
+      limitEndYear,
+      classPrefix
     } = this.props;
 
     const { calendarState } = this.state;
 
     return (
       <Calendar
+        classPrefix={classPrefix}
         disabledDate={disabledDate}
         format={format}
         value={value}

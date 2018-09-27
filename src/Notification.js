@@ -6,6 +6,13 @@ import _ from 'lodash';
 import Icon from './Icon';
 
 import { STATUS_ICON_NAMES } from './utils/constants';
+import { getClassNamePrefix } from './utils/prefix';
+
+const defaultOptions = {
+  classPrefix: `${getClassNamePrefix()}notification`
+};
+
+Notify.config(defaultOptions);
 
 type Config = {
   title: React.Node,

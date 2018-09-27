@@ -54,4 +54,9 @@ describe('UploadTrigger', () => {
     const instance = getDOMNode(<UploadTrigger style={{ fontSize }} />);
     assert.equal(instance.querySelector('button').style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = getDOMNode(<UploadTrigger classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
 });

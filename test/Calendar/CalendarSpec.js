@@ -46,4 +46,11 @@ describe('Calendar', () => {
     const instance = getDOMNode(<Calendar style={{ fontSize }} pageDate={moment()} />);
     assert.equal(instance.style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Calendar classPrefix="custom-prefix" pageDate={moment()} />
+    );
+    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
 });

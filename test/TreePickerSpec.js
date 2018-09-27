@@ -329,4 +329,11 @@ describe('TreePicker', () => {
     assert.equal(instance.find(treeNodeCls).length, 0);
     instance.unmount();
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <TreePicker data={data} classPrefix="custom-prefix" />
+    );
+    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
 });

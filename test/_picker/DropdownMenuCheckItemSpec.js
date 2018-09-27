@@ -68,4 +68,9 @@ describe('picker - DropdownMenuCheckItem', () => {
     const instance = getDOMNode(<DropdownMenuItem classPrefix="item" style={{ fontSize }} />);
     assert.equal(instance.style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = getDOMNode(<DropdownMenuItem classPrefix="custom-prefix" />);
+    assert.ok(instance.querySelector('label').className.match(/\bcustom-prefix\b/));
+  });
 });

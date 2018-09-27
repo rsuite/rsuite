@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import { globalKey } from './prefix';
+import { getClassNamePrefix } from './prefix';
 
 type Props = {
   classPrefix: string,
@@ -18,7 +18,7 @@ export default (props: Props): any => {
 
       static defaultProps = {
         ...WrappedComponent.defaultProps,
-        classPrefix: classPrefix ? `${globalKey}${classPrefix}` : undefined,
+        classPrefix: classPrefix ? `${getClassNamePrefix()}${classPrefix}` : undefined,
         ...rest
       };
 

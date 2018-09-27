@@ -5,6 +5,13 @@ import { Alert } from 'rsuite-notification';
 
 import Icon from './Icon';
 import { STATUS_ICON_NAMES } from './utils/constants';
+import { getClassNamePrefix } from './utils/prefix';
+
+const defaultOptions = {
+  classPrefix: `${getClassNamePrefix()}notification`
+};
+
+Alert.config(defaultOptions);
 
 function appendIcon(type: string, content: string) {
   return (
@@ -33,6 +40,9 @@ export default {
   warning: proxy('warning'),
   error: proxy('error'),
   config(options: Options) {
-    Alert.config(options);
+    Alert.config({
+      ...defaultOptions,
+      ...options
+    });
   }
 };

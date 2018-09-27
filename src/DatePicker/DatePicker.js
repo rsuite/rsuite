@@ -6,10 +6,10 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import { IntlProvider } from 'rsuite-intl';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
-import { MenuWrapper } from 'rsuite-utils/lib/Picker';
 import { polyfill } from 'react-lifecycles-compat';
 
 import PickerToggle from '../_picker/PickerToggle';
+import MenuWrapper from '../_picker/MenuWrapper';
 import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
 import Calendar from '../Calendar';
 import Toolbar from './Toolbar';

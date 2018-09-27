@@ -39,4 +39,9 @@ describe('ModalHeader', () => {
     let instance = ReactTestUtils.renderIntoDocument(<ModalHeader style={{ fontSize }} />);
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<ModalHeader classPrefix="custom-prefix" />);
+    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
 });

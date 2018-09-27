@@ -31,4 +31,15 @@ describe('IconButton', () => {
 
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
+
+  it('Should have a custom style', () => {
+    const fontSize = '12px';
+    let instance = ReactTestUtils.renderIntoDocument(<IconButton style={{ fontSize }} />);
+    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
+  });
+
+  it('Should have a custom className prefix', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<IconButton classPrefix="custom-prefix" />);
+    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
 });

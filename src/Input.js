@@ -27,7 +27,6 @@ type Props = {
 
 class Input extends React.Component<Props> {
   static defaultProps = {
-    classPrefix: 'input',
     type: 'text'
   };
 

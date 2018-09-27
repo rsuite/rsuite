@@ -22,4 +22,11 @@ describe('SidenavHeader', () => {
     const instance = ReactTestUtils.renderIntoDocument(<SidenavHeader style={{ fontSize }} />);
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <SidenavHeader classPrefix="custom-prefix" />
+    );
+    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
 });

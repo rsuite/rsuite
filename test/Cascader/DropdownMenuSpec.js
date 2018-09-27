@@ -152,4 +152,9 @@ describe('Cascader -  DropdownMenu', () => {
     const instance = getDOMNode(<DropdownMenu classPrefix="cascader" style={{ fontSize }} />);
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = getDOMNode(<DropdownMenu classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
 });

@@ -45,4 +45,9 @@ describe('HelpBlock', () => {
     const instance = getDOMNode(<HelpBlock style={{ fontSize }} />);
     assert.equal(instance.style.fontSize, fontSize);
   });
+
+  it('Should have a custom className prefix', () => {
+    const instance = getDOMNode(<HelpBlock classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
 });
