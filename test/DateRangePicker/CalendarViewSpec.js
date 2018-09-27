@@ -27,5 +27,4 @@ describe('DateRangePicker - CalendarView', () => {
     const instance = ReactTestUtils.renderIntoDocument(<View classPrefix="custom-prefix" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
   });
-
 });

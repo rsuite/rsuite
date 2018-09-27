@@ -27,5 +27,4 @@ describe('ModalBody', () => {
     const instance = ReactTestUtils.renderIntoDocument(<ModalBody classPrefix="custom-prefix" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
   });
-
 });

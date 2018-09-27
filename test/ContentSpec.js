@@ -27,10 +27,7 @@ describe('Content', () => {
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <Content classPrefix="custom-prefix" />
-    );
+    const instance = ReactTestUtils.renderIntoDocument(<Content classPrefix="custom-prefix" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
   });
-
 });

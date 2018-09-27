@@ -24,8 +24,9 @@ describe('Calendar-TableHeaderRow', () => {
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<TableHeaderRow classPrefix="custom-prefix" />);
+    const instance = ReactTestUtils.renderIntoDocument(
+      <TableHeaderRow classPrefix="custom-prefix" />
+    );
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
   });
-
 });

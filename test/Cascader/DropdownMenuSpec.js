@@ -157,5 +157,4 @@ describe('Cascader -  DropdownMenu', () => {
     const instance = getDOMNode(<DropdownMenu classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
-
 });

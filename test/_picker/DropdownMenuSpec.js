@@ -228,7 +228,9 @@ describe('picker -  DropdownMenu', () => {
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<DropdownMenu dropdownMenuItemComponentClass={DropdownMenuItem} classPrefix="custom-prefix" />);
+    const instance = getDOMNode(
+      <DropdownMenu dropdownMenuItemComponentClass={DropdownMenuItem} classPrefix="custom-prefix" />
+    );
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

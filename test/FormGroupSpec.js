@@ -64,5 +64,4 @@ describe('FormGroup', () => {
     const instance = ReactTestUtils.renderIntoDocument(<FormGroup classPrefix="custom-prefix" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
   });
-
 });

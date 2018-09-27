@@ -88,5 +88,4 @@ describe('Breadcrumb', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Breadcrumb classPrefix="custom-prefix" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
   });
-
 });

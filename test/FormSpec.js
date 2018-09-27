@@ -325,6 +325,4 @@ describe('Form', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Form classPrefix="custom-prefix" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
   });
-
-
 });

@@ -38,6 +38,4 @@ describe('SafeAnchor', () => {
     const instance = ReactTestUtils.renderIntoDocument(<SafeAnchor className="custom" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
   });
-
-
 });

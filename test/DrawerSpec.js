@@ -45,6 +45,10 @@ describe('Drawer', () => {
 
   it('Should have a custom className prefix', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Drawer classPrefix="custom-prefix" show />);
-    assert.ok(findDOMNode(instance).querySelector('.fade').className.match(/\bcustom-prefix\b/));
+    assert.ok(
+      findDOMNode(instance)
+        .querySelector('.fade')
+        .className.match(/\bcustom-prefix\b/)
+    );
   });
 });

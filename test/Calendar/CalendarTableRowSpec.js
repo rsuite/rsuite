@@ -46,5 +46,4 @@ describe('Calendar-TableRow', () => {
     const instance = ReactTestUtils.renderIntoDocument(<TableRow classPrefix="custom-prefix" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
   });
-
 });

@@ -61,5 +61,4 @@ describe('Toggle', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Toggle classPrefix="custom-prefix" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
   });
-
 });

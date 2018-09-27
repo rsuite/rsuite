@@ -48,5 +48,4 @@ describe('Tooltip', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Tooltip classPrefix="custom-prefix" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
   });
-
 });

@@ -84,9 +84,9 @@ describe('Calendar-TimeDropdown', () => {
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<TimeDropdown classPrefix="custom-prefix" />);
+    const instance = ReactTestUtils.renderIntoDocument(
+      <TimeDropdown classPrefix="custom-prefix" />
+    );
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
   });
-
-
 });

@@ -103,5 +103,4 @@ describe('Panel', () => {
     const instance = getDOMNode(<Panel classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
-
 });

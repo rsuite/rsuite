@@ -46,5 +46,4 @@ describe('Uploader', () => {
     const instance = getDOMNode(<Uploader action="" classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
-
 });

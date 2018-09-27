@@ -27,5 +27,4 @@ describe('SidenavBody', () => {
     const instance = ReactTestUtils.renderIntoDocument(<SidenavBody classPrefix="custom-prefix" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
   });
-
 });

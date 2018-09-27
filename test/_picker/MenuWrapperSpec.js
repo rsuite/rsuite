@@ -26,5 +26,4 @@ describe('MenuWrapper', () => {
     const instance = getDOMNode(<MenuWrapper classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
-
 });
