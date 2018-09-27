@@ -39,10 +39,10 @@
   &.@{ns}btn-disabled,
   &[disabled],
   .@{ns}dropdown-disabled & {
-    cursor: @cursor-disabled;
-    .opacity(0.3);
+    cursor: @cursor-disabled !important;
+    opacity: 0.3;
 
-    &::after {
+    .@{ns}ripple-pond {
       display: none !important;
     }
   }
