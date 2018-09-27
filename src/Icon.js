@@ -17,7 +17,8 @@ type Props = {
   fixedWidth?: boolean,
   svgStyle?: Object,
   spin?: boolean,
-  pulse?: boolean
+  pulse?: boolean,
+  inverse?: boolean
 };
 
 class Icon extends React.Component<Props> {
@@ -33,6 +34,7 @@ class Icon extends React.Component<Props> {
       rotate,
       flip,
       stack,
+      inverse,
       svgStyle,
       componentClass: Component,
       ...props
@@ -49,7 +51,8 @@ class Icon extends React.Component<Props> {
       [addPrefix('pulse')]: pulse,
       [addPrefix(`flip-${flip || ''}`)]: flip,
       [addPrefix(`rotate-${rotate || ''}`)]: rotate,
-      [addPrefix(`stack-${stack || ''}`)]: stack
+      [addPrefix(`stack-${stack || ''}`)]: stack,
+      [addPrefix('inverse')]: inverse
     });
 
     if (isSvgIcon) {
