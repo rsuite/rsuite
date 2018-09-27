@@ -67,7 +67,7 @@
 //## Font, line-height, and color for body text, headings, and more.
 
 @font-family-base: 'Avenir', 'Trebuchet MS', Arial, Helvetica, 'PingFang SC', 'Hiragino Sans GB',
-  'Microsoft YaHei', STXihei, sans-serif;
+'Microsoft YaHei', STXihei, sans-serif;
 @font-family-icon: 'rsuite-icon-font';
 
 @font-size-base: 14px;
@@ -111,6 +111,7 @@
 @icon-line-height-base: 1;
 @icon-css-prefix: ~'@{ns}icon';
 @icon-inverse: @B000;
+@icon-font-sizes: 1, 2, 3, 4, 5;
 
 //== Components
 //
@@ -390,7 +391,7 @@
 @toggle-md-handle-bg: @B000;
 @toggle-md-inner-line-height-computed: @toggle-md-height;
 @toggle-md-inner-line-height: unit(
-  @toggle-md-inner-line-height-computed / @toggle-md-inner-font-size
+    @toggle-md-inner-line-height-computed / @toggle-md-inner-font-size
 );
 // The same to button
 @toggle-md-inner-margin: @padding-base-vertical;
