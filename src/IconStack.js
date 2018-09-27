@@ -16,8 +16,9 @@ class IconStack extends React.Component<Props> {
     const { className, size, classPrefix, ...props } = this.props;
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, className, {
-      [addPrefix(size)]: size
+      [addPrefix(`size-${size || ''}`)]: size
     });
+
     return <span {...props} className={classes} />;
   }
 }

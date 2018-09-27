@@ -45,10 +45,11 @@ class Icon extends React.Component<Props> {
 
     const classes = classNames(classPrefix, className, {
       [addPrefix(icon)]: !isSvgIcon,
-      [addPrefix(size)]: size,
+
       [addPrefix('fw')]: fixedWidth,
       [addPrefix('spin')]: spin,
       [addPrefix('pulse')]: pulse,
+      [addPrefix(`size-${size || ''}`)]: size,
       [addPrefix(`flip-${flip || ''}`)]: flip,
       [addPrefix(`rotate-${rotate || ''}`)]: rotate,
       [addPrefix(`stack-${stack || ''}`)]: stack,
