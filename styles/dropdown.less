@@ -45,6 +45,49 @@
     float: left;
     box-shadow: @dropdown-shadow;
   }
+
+  &-disabled &-toggle.@{ns}btn {
+    cursor: @cursor-disabled !important;
+
+    &.@{ns}btn-subtle {
+      &,
+      &:focus,
+      &:active {
+        color: @btn-subtle-disabled-color;
+        background: none;
+      }
+    }
+
+    &.@{ns}btn-primary {
+      &,
+      &:focus,
+      &:active {
+        opacity: 0.3;
+        background-color: @btn-primary-bg;
+      }
+    }
+
+    &.@{ns}btn-link {
+      &,
+      &:focus,
+      &:active {
+        opacity: 0.3;
+        text-decoration: none;
+      }
+    }
+
+    &.@{ns}btn-ghost {
+      &,
+      &:focus,
+      &:active {
+        opacity: 0.3;
+      }
+    }
+
+    .@{ns}ripple-pond {
+      display: none !important;
+    }
+  }
 }
 
 .@{ns}dropdown-toggle {
@@ -120,7 +163,9 @@
   // Set submenu icon
   &.@{ns}dropdown-menu-pull-right {
     > .@{ns}dropdown-item-content {
-      padding-right: @dropdown-item-content-padding-horizontal+@dropdown-item-content-submenu-icon-angle-spacing+@dropdown-item-content-submenu-icon-angle-width;
+      padding-right: @dropdown-item-content-padding-horizontal+
+        @dropdown-item-content-submenu-icon-angle-spacing+
+        @dropdown-item-content-submenu-icon-angle-width;
 
       > .@{ns}dropdown-menu-toggle .@{ns}icon {
         right: @dropdown-item-content-padding-horizontal;
@@ -134,7 +179,9 @@
 
   &.@{ns}dropdown-menu-pull-left {
     > .@{ns}dropdown-item-content {
-      padding-left: @dropdown-item-content-padding-horizontal+ @dropdown-item-content-submenu-icon-angle-spacing + @dropdown-item-content-submenu-icon-angle-width;
+      padding-left: @dropdown-item-content-padding-horizontal+
+        @dropdown-item-content-submenu-icon-angle-spacing +
+        @dropdown-item-content-submenu-icon-angle-width;
 
       > .@{ns}dropdown-menu-toggle .@{ns}icon {
         left: @dropdown-item-content-padding-horizontal;

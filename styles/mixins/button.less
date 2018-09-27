@@ -36,13 +36,11 @@
     background-image: none;
   }
 
-  &.@{ns}btn-disabled,
-  &[disabled],
-  .@{ns}dropdown-disabled & {
-    cursor: @cursor-disabled;
-    .opacity(0.3);
+  &.@{ns}btn-disabled {
+    cursor: @cursor-disabled !important;
+    opacity: 0.3;
 
-    &::after {
+    .@{ns}ripple-pond {
       display: none !important;
     }
   }
@@ -80,9 +78,7 @@
   .btn-subtle-variant(@btn-subtle-hover-bg);
   .btn-loading-reset(@btn-subtle-color);
 
-  &.@{ns}btn-disabled,
-  &[disabled],
-  .@{ns}dropdown-disabled & {
+  &.@{ns}btn-disabled {
     &,
     &:hover,
     &:focus,
@@ -166,9 +162,7 @@
     background-image: none;
   }
 
-  &.@{ns}btn-disabled,
-  &[disabled],
-  .@{ns}dropdown-disabled & {
+  &.@{ns}btn-disabled {
     &:hover,
     &:focus,
     &.focus {
@@ -189,8 +183,7 @@
 
   &,
   &:active,
-  &.@{ns}btn-active,
-  &[disabled] {
+  &.@{ns}btn-active {
     background-color: transparent;
   }
 
@@ -219,7 +212,7 @@
     }
   }
 
-  &[disabled] {
+  &.@{ns}btn-disabled {
     &:hover,
     &:focus {
       color: @color;
@@ -259,9 +252,7 @@
     }
   }
 
-  &.@{ns}btn-disabled,
-  &[disabled],
-  .@{ns}dropdown-disabled & {
+  &.@{ns}btn-disabled {
     &,
     &:hover,
     &:focus,
@@ -312,9 +303,7 @@
     }
   }
 
-  &.@{ns}btn-disabled,
-  &[disabled],
-  .@{ns}dropdown-disabled & {
+  &.@{ns}btn-disabled {
     &:hover,
     &:focus,
     &.focus {
@@ -377,7 +366,6 @@
 
     // Defalut button spectrum button need set opacity.
     &.@{ns}btn-default.@{ns}btn-disabled,
-    &.@{ns}btn-default[disabled],
     .@{ns}dropdown-disabled &.@{ns}btn-default {
       opacity: 0.3;
     }
