@@ -1,3 +1,24 @@
+# 3.3.0
+
+> 2018-09-28
+
+* **Feature**: Add `<IconStack>` ([#219])
+* **Feature**: Support for global configuration of the className prefix ([#214])
+* **Bugfix**: Focus does not return to the input box on "<TagPicker>" when you click the option ([#218])
+* **Bugfix**: Change <Modal/> backdrop and <Drawer/> backdrop zindex ([#217])
+* **Bugfix**: Clicking when `<Dropdown>` is disabled still triggers ripple animation and the cursor is the default ([#215])
+* **Chore**: Change browserslist IE supported to IE10+ ([#216])
+* **Chore**: Remove dropdown disabled styles to dropdown.less ([#215])
+* **Chore**: Update to babel 7 ([#211])
+
+[#219]: https://github.com/rsuite/rsuite/pull/219
+[#218]: https://github.com/rsuite/rsuite/pull/218
+[#217]: https://github.com/rsuite/rsuite/pull/217
+[#216]: https://github.com/rsuite/rsuite/pull/216
+[#215]: https://github.com/rsuite/rsuite/pull/215
+[#214]: https://github.com/rsuite/rsuite/pull/214
+[#211]: https://github.com/rsuite/rsuite/pull/211
+
 # 3.2.11
 
 > 2018-09-21

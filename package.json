@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "3.2.11",
+  "version": "3.3.0",
   "description": "A suite of react components",
   "main": "lib/index.js",
   "directories": {
@@ -111,7 +111,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.7.0",
-    "flow-bin": "^0.77.0",
+    "flow-bin": "^0.81.0",
     "glob": "^7.1.2",
     "gulp": "^3.9.1",
     "gulp-less": "^4.0.0",
@@ -143,7 +143,7 @@
     "stylelint-config-standard": "^18.2.0",
     "webpack": "^4.5.0",
     "webpack-bundle-analyzer": "^2.11.1",
-    "webpack-cli": "^2.0.14",
+    "webpack-cli": "^3.1.1",
     "webpack-dev-server": "^2.3.0"
   },
   "browserslist": [
