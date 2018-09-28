@@ -58,7 +58,7 @@ describe('Icon', () => {
 
   it('Should have 2x class', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Icon icon="star" size="2x" />);
-    assert.include(findDOMNode(instance).className, 'rs-icon-2x');
+    assert.include(findDOMNode(instance).className, 'rs-icon-size-2x');
   });
 
   it('Should have vertical class', () => {

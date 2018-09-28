@@ -3,55 +3,28 @@
 // *  https://github.com/FortAwesome/Font-Awesome/tree/v4.7.0
 // */
 
-// Icon Sizes
-// -------------------------
-
-//* makes the font 33% larger relative to the icon container */
-.@{icon-css-prefix}-lg {
-  &,
-  &.@{icon-css-prefix} {
-    font-size: (4em / 3);
-    line-height: (3em / 4);
-
-    > svg {
-      vertical-align: middle;
-      height: floor(1.33 * @icon-font-size-base);
-      // Fixed bug that ie svg width too long.
-      .ie-width(floor(1.33 * @icon-font-size-base));
-    }
-  }
-}
-
-.@{icon-css-prefix}-2x {
-  .icon-size(2);
-}
-
-.@{icon-css-prefix}-3x {
-  .icon-size(3);
-}
-
-.@{icon-css-prefix}-4x {
-  .icon-size(4);
-}
-
-.@{icon-css-prefix}-5x {
-  .icon-size(5);
-}
-
 .@{icon-css-prefix} {
-  height: @icon-font-size-base;
-
   > svg {
     height: @icon-font-size-base * @icon-line-height-base;
   }
 }
 
-// Fixed Width Icons
+// Icon Sizes
 // -------------------------
-.@{icon-css-prefix}-fw {
-  width: (18em / 14);
-  text-align: center;
+
+//* makes the font 33% larger relative to the icon container */
+.@{icon-css-prefix}-size-lg {
+  font-size: (4em / 3);
+
+  > svg {
+    vertical-align: middle;
+    height: floor(1.33 * @icon-font-size-base);
+    // Fixed bug that in IE browser  svg icon width is too long.
+    .ie-width(floor(1.33 * @icon-font-size-base));
+  }
 }
+
+.generate-icon-sizes();
 
 // Animated Icons
 // --------------------------
@@ -79,68 +52,41 @@
   .fa-icon-rotate(270deg, 3);
 }
 
-.@{icon-css-prefix}-flip-horizontal {
-  .fa-icon-flip(-1, 1, 0);
-}
-
-.@{icon-css-prefix}-flip-vertical {
-  .fa-icon-flip(1, -1, 2);
-}
-
 // Stacked Icons
 // -------------------------
 
 .@{icon-css-prefix}-stack {
-  &,
-  &.@{icon-css-prefix} {
-    position: relative;
-    display: inline-block;
-    width: 2em;
-    height: 2em;
-    line-height: 2em;
-    vertical-align: middle;
-  }
+  display: inline-block;
+  height: 2em;
+  line-height: 2em;
+  position: relative;
+  vertical-align: middle;
+  width: 2em;
 }
+
+.@{icon-css-prefix}-stack-size-lg {
+  font-size: (4em / 3);
+}
+
+.generate-stack-sizes();
 
 .@{icon-css-prefix}-stack-1x,
 .@{icon-css-prefix}-stack-2x {
-  &,
-  &.@{icon-css-prefix} {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    text-align: center;
-  }
+  left: 0;
+  position: absolute;
+  text-align: center;
+  width: 100%;
 }
 
 .@{icon-css-prefix}-stack-1x {
-  &,
-  &.@{icon-css-prefix} {
-    line-height: inherit;
-  }
+  font-size: 1em;
+  line-height: inherit;
 }
 
 .@{icon-css-prefix}-stack-2x {
-  &,
-  &.@{icon-css-prefix} {
-    font-size: 2em;
-  }
+  font-size: 2em;
 }
 
 .@{icon-css-prefix}-inverse {
-  &,
-  &.@{icon-css-prefix} {
-    color: @icon-inverse;
-  }
-}
-
-// Screen Readers
-// -------------------------
-
-.sr-only {
-  .sr-only();
-}
-
-.sr-only-focusable {
-  .sr-only-focusable();
+  color: @icon-inverse;
 }

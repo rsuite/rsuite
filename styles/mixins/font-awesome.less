@@ -5,42 +5,6 @@
   transform: rotate(@degrees);
 }
 
-.fa-icon-flip(@horiz, @vert, @rotation) {
-  transform: scale(@horiz, @vert);
-}
-
-// Only display content to screen readers. A la Bootstrap 4.
-//
-// See: http://a11yproject.com/posts/how-to-hide-content/
-.sr-only() {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-}
-
-// Use in conjunction with .sr-only to only display content when it's focused.
-//
-// Useful for "Skip to main content" links; see http://www.w3.org/TR/2013/NOTE-WCAG20-TECHS-20130905/G1
-//
-// Credit: HTML5 Boilerplate
-
-.sr-only-focusable() {
-  &:active,
-  &:focus {
-    position: static;
-    width: auto;
-    height: auto;
-    margin: 0;
-    overflow: visible;
-    clip: auto;
-  }
-}
-
 .icon-size(@size) {
   @font-size: @size * @icon-font-size-base;
 
@@ -54,5 +18,21 @@
       // Fixed bug that ie svg width too long.
       .ie-width(@size * @icon-font-size-base);
     }
+  }
+}
+
+.generate-icon-sizes(@i:length(@icon-font-sizes)) when (@i>0) {
+  .generate-icon-sizes(@i - 1);
+
+  .@{icon-css-prefix}-size-@{i}x {
+    .icon-size(@i);
+  }
+}
+
+.generate-stack-sizes(@i:length(@icon-font-sizes)) when (@i>0) {
+  .generate-stack-sizes(@i - 1);
+
+  .@{icon-css-prefix}-stack-size-@{i}x {
+    font-size: @i*1em;
   }
 }

@@ -15,6 +15,7 @@ export Drawer from './Drawer';
 export Loader from './Loader';
 export IconFont from './IconFont';
 export Icon from './Icon';
+export IconStack from './IconStack';
 export SafeAnchor from './SafeAnchor';
 export Divider from './Divider';
 
