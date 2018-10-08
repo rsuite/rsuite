@@ -54,7 +54,7 @@ class Sidenav extends React.Component<Props, State> {
   }
 
   getChildContext() {
-    const { expanded, openKeys, activeKey } = this.props;
+    const { expanded, activeKey } = this.props;
     return {
       expanded,
       activeKey,
@@ -70,9 +70,9 @@ class Sidenav extends React.Component<Props, State> {
 
     if (_.isUndefined(openKeys)) {
       return this.state.openKeys;
-    } else {
-      return openKeys;
     }
+
+    return openKeys;
   };
 
   handleSelect = (eventKey: any, event: SyntheticEvent<*>) => {
