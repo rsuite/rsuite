@@ -162,4 +162,39 @@ describe('Table-Pagination', () => {
     );
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
   });
+
+  it('Should render the maximum', () => {
+    const instance = getDOMNode(
+      <TablePagination
+        total={100}
+        displayLength={10}
+        maxButtons={3}
+        activePage={2}
+        last={false}
+        next={false}
+        prev={false}
+        first={false}
+        ellipsis={true}
+        boundaryLinks={true}
+      />
+    );
+    assert.equal(instance.querySelector('li:last-child').innerText, '10');
+  });
+
+  it('Should render a `more` icon', () => {
+    const instance = getDOMNode(
+      <TablePagination
+        total={100}
+        displayLength={10}
+        maxButtons={3}
+        activePage={2}
+        last={false}
+        next={false}
+        prev={false}
+        first={false}
+        ellipsis={true}
+      />
+    );
+    assert.ok(instance.querySelector('li:last-child .rs-icon-more'));
+  });
 });

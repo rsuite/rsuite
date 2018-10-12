@@ -35,7 +35,8 @@ type Props = {
   className?: string,
   locale: Locale,
   classPrefix: string,
-  disabled?: boolean | ((eventKey: any) => boolean)
+  disabled?: boolean | ((eventKey: any) => boolean),
+  style?: Object
 };
 
 class TablePagination extends React.Component<Props> {
@@ -144,6 +145,7 @@ class TablePagination extends React.Component<Props> {
       displayLength,
       activePage,
       disabled,
+      style,
       ...rest
     } = this.props;
 
@@ -152,7 +154,7 @@ class TablePagination extends React.Component<Props> {
     const unhandled = getUnhandledProps(TablePagination, rest);
 
     return (
-      <div className={classes} {...unhandled}>
+      <div className={classes} style={style}>
         {this.renderLengthMenu()}
         <Divider vertical />
         {this.renderInfo()}
@@ -169,6 +171,7 @@ class TablePagination extends React.Component<Props> {
             disabled={disabled}
             onSelect={this.handleChangePage}
             activePage={activePage}
+            {...unhandled}
           />
         </div>
       </div>
