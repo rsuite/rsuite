@@ -6,7 +6,6 @@
   "directories": {
     "lib": "lib/"
   },
-  "sideEffects": false,
   "scripts": {
     "format": "prettier --write \"{src,test}/**/*.js\"",
     "format:check": "prettier --list-different \"{src,test}/**/*.js\"",
@@ -150,5 +149,8 @@
     "> 1%",
     "last 2 versions",
     "ie >= 10"
+  ],
+  "sideEffects": [
+    "lib/styles/*"
   ]
 }
