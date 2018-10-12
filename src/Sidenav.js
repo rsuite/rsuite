@@ -54,16 +54,26 @@ class Sidenav extends React.Component<Props, State> {
   }
 
   getChildContext() {
-    const { expanded, openKeys, activeKey } = this.props;
+    const { expanded, activeKey } = this.props;
     return {
       expanded,
       activeKey,
       sidenav: true,
-      openKeys: _.isUndefined(openKeys) ? this.state.openKeys : openKeys,
+      openKeys: this.getOpenKeys(),
       onOpenChange: this.handleOpenChange,
       onSelect: this.handleSelect
     };
   }
+
+  getOpenKeys = () => {
+    const { openKeys } = this.props;
+
+    if (_.isUndefined(openKeys)) {
+      return this.state.openKeys;
+    }
+
+    return openKeys;
+  };
 
   handleSelect = (eventKey: any, event: SyntheticEvent<*>) => {
     const { onSelect } = this.props;
@@ -73,7 +83,7 @@ class Sidenav extends React.Component<Props, State> {
   handleOpenChange = (eventKey: any, event: SyntheticEvent<*>) => {
     const { onOpenChange } = this.props;
     const find = key => shallowEqual(key, eventKey);
-    let openKeys = _.clone(this.state.openKeys) || [];
+    let openKeys = _.clone(this.getOpenKeys()) || [];
 
     if (openKeys.some(find)) {
       _.remove(openKeys, find);
