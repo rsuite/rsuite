@@ -4,6 +4,8 @@ const less = require('gulp-less');
 const postcss = require('gulp-postcss');
 const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
+const babel = require('gulp-babel');
+const babelrc = require('../.babelrc.js');
 
 const SOURCE_PATH = '../styles';
 const DIST_PATH = '../dist/styles';
@@ -53,4 +55,25 @@ gulp.task('generate-modularized-styles', () => {
 
 gulp.task('default', ['clean'], () => {
   gulp.start(['postcss', 'copy-fonts']);
+});
+
+gulp.task('babel', () =>
+  gulp
+    .src('../src/**/*.js')
+    .pipe(babel(babelrc()))
+    .pipe(gulp.dest('../lib'))
+);
+
+gulp.task('dev', () => {
+  gulp.start(['babel']);
+  gulp.watch('../src/**/*.js', function(event) {
+    console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
+    const srcPath = `../${event.path.match(/src\/\S*/)[0]}`;
+    const libPath = srcPath.replace('/src/', '/lib/').replace(/\/[a-z|A-Z]+.js/, '');
+
+    gulp
+      .src(srcPath)
+      .pipe(babel(babelrc()))
+      .pipe(gulp.dest(libPath));
+  });
 });
