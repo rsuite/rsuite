@@ -38,6 +38,7 @@ export default {
     last7Days: '最近 7 天'
   },
   Picker: {
+    noResultsText: '无匹配选项',
     placeholder: '选择',
     searchPlaceholder: '搜索'
   },
@@ -48,7 +49,6 @@ export default {
     selectedValues: '已选择 {0} 项'
   },
   InputPicker: {
-    noResultsText: '无匹配选项',
     newItem: '新选项',
     createOption: '新建选项 "{0}"'
   },
