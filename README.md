@@ -127,4 +127,7 @@ RSUITE is [MIT licensed][LICENSE]. Copyright (c) 2016-present, HYPERS.
 [rsuite-sample]:https://sample.rsuitejs.com/
 [gitter]:https://gitter.im/rsuite/rsuite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
 [gitter-svg]:https://badges.gitter.im/rsuite/rsuite.svg
+[demo-admin]:https://github.com/rsuite/rsuite-management-system
+[demo-modular-import]:https://github.com/rsuite/examples/tree/modular/modular-import
+[demo-cdn]:https://github.com/rsuite/examples/tree/master/cdn
 
