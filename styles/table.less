@@ -232,12 +232,48 @@
 
   &-column-resize-spanner {
     .column-resize-spanner;
+
+    border-left: @table-column-resize-spanner-gap-width solid @B000;
+    box-sizing: content-box;
+    border-right: @table-column-resize-spanner-gap-width solid @B000;
+    margin-left: -1 * @table-column-resize-spanner-gap-width;
+
+    &::after,
+    &::before {
+      content: ' ';
+      position: absolute;
+      width: 0;
+      height: 0;
+      margin: auto;
+      bottom: 0;
+      top: 0;
+      display: none;
+    }
+
+    &::before {
+      border-style: dashed solid dashed dashed;
+      border-color: transparent @table-resize-mouse-color transparent transparent;
+      border-width: @table-column-resize-spanner-triangle-side-length;
+      right: 4px;
+    }
+
+    &::after {
+      border-style: dashed dashed dashed solid;
+      border-color: transparent transparent transparent @table-resize-mouse-color;
+      border-width: @table-column-resize-spanner-triangle-side-length;
+      left: 4px;
+    }
   }
 
   // Table not resizing , header should show resize-spanner .
   &:not(&-column-resizing) &-cell-header &-cell:hover ~ &-column-resize-spanner,
-  &-column-resize-spanner:hover {
+  &:not(&-column-resizing) &-column-resize-spanner:hover {
     background-color: @table-resize-mouse-color;
+
+    &::before,
+    &::after {
+      display: block;
+    }
   }
 
   &-cell-group {
