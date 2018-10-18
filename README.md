@@ -63,7 +63,12 @@ You can go through [full documentation][rsuite-doc-guide] or start with followin
 * [Customizing themes][rsuite-doc-guide-themes]
 * [Internationalization][rsuite-doc-guide-intl]
 * [Components][rsuite-components-overview]
-* [Sample][rsuite-sample]
+
+### Examples
+
+- [Management system][demo-admin]
+- [Use modularized][demo-modular-import]
+- [Use CDN][demo-cdn]
 
 ## Changelog
 
@@ -77,6 +82,11 @@ Make sure you've read the [guidelines][contributing] before you start contributi
 Editor preferences are available in the [.prettierrc][prettierrc] for easy use in common code editors. Read more and download plugins at https://prettier.io/.
 
 
+### Development plan
+
+You can learn about our development plan through [Trello](https://trello.com/b/nsaUoK7S/rsuite) and hope that you can get involved.
+
+
 ## Supporting RSUITE
 
 If you like RSUITE, you can show your support by either
@@ -86,7 +96,6 @@ If you like RSUITE, you can show your support by either
 - [Becoming a backer][opencollective-home] on OpenCollective
 
 [![opencollective-now][opencollective-svg]][opencollective-home]
-
 
 ## License
 
