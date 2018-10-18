@@ -1,11 +1,32 @@
+# 3.3.1
+
+> 2018-10-18
+
+* **Feature**: Support `sticky` on `<CheckPicker>`, top the selected options in the options. ([#226])
+* **Feature**: Support `ellipsis` and `boundaryLinks` on `<TablePagination>` ([#221])
+* **Bugfix**: Fixed an issue where the input group was set inside and there were two addons. ([#227])
+* **Bugfix**: `sideEffects: false` cause css file not bundled ([#222])
+* **Bugfix**: Fixed a parameter error in the `onOpenChange` function when the `<Sidenav>` component was being controlled ([#221])
+* **Bugfix**: Display a message when there is no option on the Picker ([#232])
+* **Improve**: Optimize the experience of the resize spanner on `<Table>`. ([#229],[#230])
+
+[#232]: https://github.com/rsuite/rsuite/pull/232
+[#230]: https://github.com/rsuite/rsuite/pull/230
+[#229]: https://github.com/rsuite/rsuite/pull/229
+[#227]: https://github.com/rsuite/rsuite/pull/227
+[#226]: https://github.com/rsuite/rsuite/pull/226
+[#223]: https://github.com/rsuite/rsuite/pull/223
+[#222]: https://github.com/rsuite/rsuite/pull/222
+[#221]: https://github.com/rsuite/rsuite/pull/221
+
 # 3.3.0
 
 > 2018-09-28
 
 * **Feature**: Add `<IconStack>` ([#219])
 * **Feature**: Support for global configuration of the className prefix ([#214])
-* **Bugfix**: Focus does not return to the input box on "<TagPicker>" when you click the option ([#218])
-* **Bugfix**: Change <Modal/> backdrop and <Drawer/> backdrop zindex ([#217])
+* **Bugfix**: Focus does not return to the input box on `<TagPicker>` when you click the option ([#218])
+* **Bugfix**: Change `<Modal>` backdrop and `<Drawer>` backdrop zindex ([#217])
 * **Bugfix**: Clicking when `<Dropdown>` is disabled still triggers ripple animation and the cursor is the default ([#215])
 * **Chore**: Change browserslist IE supported to IE10+ ([#216])
 * **Chore**: Remove dropdown disabled styles to dropdown.less ([#215])
@@ -24,7 +45,7 @@
 > 2018-09-21
 
 * **Feature**: International support for Portuguese ([#208])
-* **Bugfix**: Fixed an exception when using <Modal />, <Drawer /> in modular ([#209])
+* **Bugfix**: Fixed an exception when using `<Modal>`, `<Drawer>` in modular ([#209])
 * **Bugfix**: Remove the deep clone from the filterNodesOfTree function ([#206])
 * **Bugfix**: Problem with the first-level menu icon blinking when the sidebar is closed ([#205])
 
