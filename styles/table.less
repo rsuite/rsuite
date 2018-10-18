@@ -232,10 +232,12 @@
 
   &-column-resize-spanner {
     .column-resize-spanner;
+  }
 
-    &:hover {
-      background-color: @table-resize-mouse-color;
-    }
+  // Table not resizing , header should show resize-spanner .
+  &:not(&-column-resizing) &-cell-header &-cell:hover ~ &-column-resize-spanner,
+  &-column-resize-spanner:hover {
+    background-color: @table-resize-mouse-color;
   }
 
   &-cell-group {
