@@ -38,6 +38,7 @@ export default {
     last7Days: 'Last 7 Days'
   },
   Picker: {
+    noResultsText: 'No results found',
     placeholder: 'Select',
     searchPlaceholder: 'Search'
   },
@@ -48,7 +49,6 @@ export default {
     selectedValues: '{0} selected'
   },
   InputPicker: {
-    noResultsText: 'No results found',
     newItem: 'New item',
     createOption: 'Create option "{0}"'
   },

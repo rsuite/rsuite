@@ -101,7 +101,8 @@ class Tree extends React.Component<Props, States> {
     locale: {
       placeholder: 'Select',
       searchPlaceholder: 'Search',
-      selectedValues: '{0} selected'
+      selectedValues: '{0} selected',
+      noResultsText: 'No results found'
     },
     valueKey: 'value',
     labelKey: 'label',
@@ -609,6 +610,10 @@ class Tree extends React.Component<Props, States> {
   }
 
   renderNode(node: Object, index: number, layer: number, classPrefix: string) {
+    if (!node.visible) {
+      return null;
+    }
+
     const { expandAll, selectedValue } = this.state;
     const {
       disabledItemValues = [],
@@ -688,7 +693,7 @@ class Tree extends React.Component<Props, States> {
 
   renderTree() {
     const { filterData } = this.state;
-    const { height, className = '', inline } = this.props;
+    const { height, className = '', inline, locale } = this.props;
 
     // 树节点的层级
     let layer = 0;
@@ -702,11 +707,16 @@ class Tree extends React.Component<Props, States> {
       return this.renderNode(dataItem, index, layer, treeViewClasses);
     });
 
+    if (!nodes.some(v => v !== null)) {
+      return <div className={this.addPrefix('none')}>{locale.noResultsText}</div>;
+    }
+
     const style = inline ? this.props.style : {};
     const styles = {
       height,
       ...style
     };
+
     return (
       <div
         ref={this.bindTreeViewRef}

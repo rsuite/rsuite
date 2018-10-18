@@ -181,7 +181,9 @@ describe('SelectPicker', () => {
   });
 
   it('Should not output a search bar', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Dropdown searchable={false} defaultOpen />);
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown searchable={false} defaultOpen data={data} />
+    );
     const instanceDOM = findDOMNode(instance.menuContainer);
 
     assert.ok(!instanceDOM.querySelector(searchInputClassName));
@@ -250,7 +252,9 @@ describe('SelectPicker', () => {
   });
 
   it('Should have a custom className', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Dropdown className="custom" defaultOpen />);
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown className="custom" defaultOpen data={data} />
+    );
     assert.include(findDOMNode(instance).className, 'custom');
     expect(findDOMNode(instance.menuContainer).className).to.not.include('custom');
   });

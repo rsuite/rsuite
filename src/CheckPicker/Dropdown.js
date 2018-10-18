@@ -95,7 +95,8 @@ class Dropdown extends React.Component<Props, State> {
     locale: {
       placeholder: 'Select',
       searchPlaceholder: 'Search',
-      selectedValues: '{0} selected'
+      selectedValues: '{0} selected',
+      noResultsText: 'No results found'
     },
     searchable: true,
     cleanable: true,
@@ -396,7 +397,7 @@ class Dropdown extends React.Component<Props, State> {
       )
     );
 
-    const menu = (
+    const menu = filteredData.length ? (
       <DropdownMenu
         {...menuProps}
         classPrefix={this.addPrefix('check-menu')}
@@ -409,6 +410,8 @@ class Dropdown extends React.Component<Props, State> {
         group={!_.isUndefined(groupBy)}
         onSelect={this.handleItemSelect}
       />
+    ) : (
+      <div className={this.addPrefix('none')}>{locale.noResultsText}</div>
     );
 
     return (

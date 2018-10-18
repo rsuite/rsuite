@@ -215,7 +215,9 @@ describe('CheckPicker', () => {
   });
 
   it('Should have a custom className', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Dropdown className="custom" defaultOpen />);
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown className="custom" defaultOpen data={[{ label: '', value: '1' }]} />
+    );
     assert.include(findDOMNode(instance).className, 'custom');
     expect(findDOMNode(instance.menuContainer).className).to.not.include('custom');
   });
