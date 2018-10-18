@@ -252,4 +252,16 @@ describe('CheckPicker', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Dropdown classPrefix="custom-prefix" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
   });
+
+  it('Should be sticky', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown placeholder="test" sticky data={data} value={['Kariane']} defaultOpen />
+    );
+
+    const instanceDOM = findDOMNode(instance.menuContainer).querySelector(
+      '.rs-picker-check-menu-item-checker'
+    );
+
+    assert.equal(instanceDOM.innerText, 'Kariane');
+  });
 });
