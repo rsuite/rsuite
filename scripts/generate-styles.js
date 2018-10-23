@@ -31,9 +31,9 @@ const IMPORT_FILE_CONFIG = {
   'help-block': ['form.less', 'help-block.less'],
   'icon-button': ['button.less'],
   // @deprecated It's not recommended to use it , Compatible with old version.
-  'icon-font': ['icon.less', 'keyframes.less'],
-  'icon': ['icon.less', 'keyframes.less'],
-  'icon-stack': ['icon.less', 'keyframes.less'],
+  'icon-font': ['keyframes.less'],
+  'icon': ['keyframes.less'],
+  'icon-stack': ['keyframes.less'],
   'input': ['form.less'],
   'input-group': ['form.less', 'input-group.less'],
   'input-number': ['form.less', 'input-number.less'],
