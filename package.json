@@ -3,6 +3,7 @@
   "version": "3.3.1",
   "description": "A suite of react components",
   "main": "lib/index.js",
+  "typings": "types/index.d.ts",
   "directories": {
     "lib": "lib/"
   },
