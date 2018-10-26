@@ -70,6 +70,17 @@ class FormControl extends React.Component<Props, State> {
     return this.state.value;
   }
 
+  getErrorMessage() {
+    const { formError } = this.context.form;
+    const { name, errorMessage } = this.props;
+
+    if (errorMessage) {
+      return errorMessage;
+    }
+
+    return formError[name];
+  }
+
   getCheckTrigger() {
     const { checkTrigger } = this.context.form;
     return this.props.checkTrigger || checkTrigger;
@@ -115,13 +126,14 @@ class FormControl extends React.Component<Props, State> {
       accepter: Component,
       classPrefix,
       errorPlacement,
-      errorMessage,
+      errorMessage: propErrorMessage,
       ...props
     } = this.props;
 
     const { formValue = {}, formDefaultValue = {} } = this.context.form;
     const unhandled = getUnhandledProps(FormControl, props);
     const addPrefix = prefix(classPrefix);
+    const errorMessage = this.getErrorMessage();
     const hasError = !!errorMessage;
 
     return (
