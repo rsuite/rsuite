@@ -39,7 +39,7 @@ class Form extends React.Component<Props, State> {
     formDefaultValue: {},
     checkDelay: 500,
     checkTrigger: 'change',
-    errorFromContext: true,
+    errorFromContext: true
   };
 
   static childContextTypes = {
@@ -66,7 +66,7 @@ class Form extends React.Component<Props, State> {
         formDefaultValue,
         formError,
         model,
-        errorFromContext,
+        errorFromContext
       }
     };
   }

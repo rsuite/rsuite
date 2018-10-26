@@ -121,13 +121,7 @@ class FormControl extends React.Component<Props, State> {
   };
 
   render() {
-    const {
-      name,
-      accepter: Component,
-      classPrefix,
-      errorPlacement,
-      ...props
-    } = this.props;
+    const { name, accepter: Component, classPrefix, errorPlacement, ...props } = this.props;
 
     const { formValue = {}, formDefaultValue = {} } = this.context.form;
     const unhandled = getUnhandledProps(FormControl, props);
