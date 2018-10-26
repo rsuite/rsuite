@@ -444,7 +444,7 @@ class Dropdown extends React.Component<Props, State> {
               componentClass={toggleComponentClass}
               onClean={this.handleClean}
               cleanable={cleanable && !disabled}
-              hasValue={!!value}
+              hasValue={hasValue}
             >
               {activeItemLabel || <FormattedMessage id="placeholder" />}
             </PickerToggle>
