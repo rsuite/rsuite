@@ -46,7 +46,7 @@ Here's a simple example
 
 ```js
 import { Button } from 'rsuite';
-import 'rsuite/styles/less/index.less';
+import 'rsuite/styles/less/index.less'; // or 'rsuite/dist/styles/rsuite.min.css'
 
 ReactDOM.render(<Button>Button</Button>, mountNode);
 ```
@@ -75,16 +75,39 @@ You can go through [full documentation][rsuite-doc-guide] or start with followin
 Detailed changes for each release are documented in the [release notes][release-notes].
 
 
+## Development
+
+You can learn about our development plan through [Trello](https://trello.com/b/nsaUoK7S/rsuite) and hope that you can get involved.
+
+
+1. Fork `https://github.com/rsuite/rsuite` this repo.
+
+```bash
+$ git clone git@github.com:<YOUR NAME>/rsuite.git
+$ cd rsuite
+$ npm install
+$ npm run dev
+```
+
+2. Fork `https://github.com/rsuite/rsuite.github.io` this repo.
+
+```bash
+$ git clone git@github.com:<YOUR NAME>/rsuite.github.io.git
+$ cd rsuite.github.io
+$ npm install
+$ npm run dev
+```
+
+3. Your show time. Open url http://127.0.0.1:3200/ in browser.
+
+
+
 ## Contribution
 
 Make sure you've read the [guidelines][contributing] before you start contributing.
 
 Editor preferences are available in the [.prettierrc][prettierrc] for easy use in common code editors. Read more and download plugins at https://prettier.io/.
 
-
-### Development plan
-
-You can learn about our development plan through [Trello](https://trello.com/b/nsaUoK7S/rsuite) and hope that you can get involved.
 
 
 ## Supporting RSUITE
