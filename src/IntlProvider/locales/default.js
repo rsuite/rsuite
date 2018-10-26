@@ -42,6 +42,10 @@ export default {
     placeholder: 'Select',
     searchPlaceholder: 'Search'
   },
+  MultiCascader: {
+    placeholder: 'Select',
+    selectedValues: '{0} selected'
+  },
   CheckPicker: {
     selectedValues: '{0} selected'
   },

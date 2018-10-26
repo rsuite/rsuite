@@ -52,6 +52,7 @@ export TagPicker from './TagPicker';
 export TreePicker from './TreePicker';
 export CheckTreePicker from './CheckTreePicker';
 export Cascader from './Cascader';
+export MultiCascader from './MultiCascader';
 export DatePicker from './DatePicker';
 export DateRangePicker from './DateRangePicker';
 export AutoComplete from './AutoComplete';
