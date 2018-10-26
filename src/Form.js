@@ -46,7 +46,11 @@ class Form extends React.Component<Props, State> {
     formDefaultValue: {},
     checkDelay: 500,
     checkTrigger: 'change',
-    errorFromContext: true
+    errorFromContext: true,
+  };
+
+  static childContextTypes = {
+    form: PropTypes.object.isRequired
   };
 
   constructor(props: Props) {
@@ -62,8 +66,25 @@ class Form extends React.Component<Props, State> {
     } = this.props;
 
     this.state = {
-      formError: formError || {},
-      formValue: formDefaultValue
+      formError: props.formError || {},
+      formValue: props.formDefaultValue
+    };
+  }
+  getChildContext() {
+    const { formDefaultValue, formValue, model, checkTrigger, errorFromContext } = this.props;
+    const formError = this.getFormError();
+    return {
+      form: {
+        onFieldChange: this.handleFieldChange,
+        onFieldError: this.handleFieldError,
+        onFieldSuccess: this.handleFieldSuccess,
+        checkTrigger,
+        formValue,
+        formDefaultValue,
+        formError,
+        model,
+        errorFromContext,
+      }
     };
   }
   getFormValue() {
