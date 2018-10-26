@@ -22,7 +22,8 @@ type Props = {
   onError?: (formError: Object) => void,
   onCheck?: (formError: Object) => void,
   model: typeof Schema,
-  classPrefix: string
+  classPrefix: string,
+  errorFromContext?: boolean
 };
 
 type State = {
@@ -37,7 +38,8 @@ class Form extends React.Component<Props, State> {
     layout: 'vertical',
     formDefaultValue: {},
     checkDelay: 500,
-    checkTrigger: 'change'
+    checkTrigger: 'change',
+    errorFromContext: true,
   };
 
   static childContextTypes = {
@@ -52,7 +54,7 @@ class Form extends React.Component<Props, State> {
     };
   }
   getChildContext() {
-    const { formDefaultValue, formValue, model, checkTrigger } = this.props;
+    const { formDefaultValue, formValue, model, checkTrigger, errorFromContext } = this.props;
     const formError = this.getFormError();
     return {
       form: {
@@ -63,7 +65,8 @@ class Form extends React.Component<Props, State> {
         formValue,
         formDefaultValue,
         formError,
-        model
+        model,
+        errorFromContext,
       }
     };
   }
