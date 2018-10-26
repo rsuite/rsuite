@@ -60,6 +60,28 @@ class FormControl extends React.Component<Props, State> {
     };
   }
 
+  getValue() {
+    const { formValue } = this.context.form;
+    const { name } = this.props;
+
+    if (formValue && typeof formValue[name] !== 'undefined') {
+      return formValue[name];
+    }
+
+    return this.state.value;
+  }
+
+  getErrorMessage() {
+    const { formError } = this.context.form;
+    const { name, errorMessage } = this.props;
+
+    if (errorMessage) {
+      return errorMessage;
+    }
+
+    return formError[name];
+  }
+
   getCheckTrigger() {
     const { checkTrigger } = this.context;
     return this.props.checkTrigger || checkTrigger;
@@ -107,56 +129,21 @@ class FormControl extends React.Component<Props, State> {
     return checkResult;
   };
 
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
+  render() {
+    const {
+      name,
+      accepter: Component,
+      classPrefix,
+      errorPlacement,
+      errorMessage: propErrorMessage,
+      ...props
+    } = this.props;
 
-  checkErrorFromContext() {
-    const { errorFromContext } = this.context;
-    const { name, errorMessage } = this.props;
-
-    if (errorMessage) {
-      return this.renderError(errorMessage);
-    }
-
-    if (errorFromContext) {
-      return (
-        <FormErrorContext.Consumer>
-          {formError => this.renderError(formError[name])}
-        </FormErrorContext.Consumer>
-      );
-    }
-
-    return null;
-  }
-
-  renderError = (errorMessage: React.Node) => {
-    const { errorPlacement } = this.props;
-    const show = !!errorMessage;
-    return (
-      <ErrorMessage
-        show={show}
-        className={this.addPrefix('message-wrapper')}
-        placement={errorPlacement}
-      >
-        {errorMessage}
-      </ErrorMessage>
-    );
-  };
-
-  renderValue = (formValue: Object = {}) => {
-    const { name, accepter: Component, ...props } = this.props;
-    const { formDefaultValue = {} } = this.context;
+    const { formValue = {}, formDefaultValue = {} } = this.context.form;
     const unhandled = getUnhandledProps(FormControl, props);
-    return (
-      <Component
-        {...unhandled}
-        name={name}
-        onChange={this.handleFieldChange.bind(this, formValue)}
-        onBlur={this.handleFieldBlur.bind(this, formValue)}
-        defaultValue={formDefaultValue[name]}
-        value={formValue[name]}
-      />
-    );
-  };
+    const addPrefix = prefix(classPrefix);
+    const errorMessage = this.getErrorMessage();
+    const hasError = !!errorMessage;
 
   render() {
     return (
