@@ -16,6 +16,7 @@ import {
 } from '../utils';
 
 import stringToObject from '../utils/stringToObject';
+import findNodesOfTree from '../utils/findNodesOfTree';
 import DropdownMenu from './DropdownMenu';
 import PickerToggle from '../_picker/PickerToggle';
 import MenuWrapper from '../_picker/MenuWrapper';
@@ -42,7 +43,7 @@ type Props = {
   valueKey: string,
   labelKey: string,
   renderMenu?: (itemLabel: React.Node, item: Object) => React.Node,
-  renderValue?: (activePaths?: Array<any>) => React.Node,
+  renderValue?: (value?: Array<any>, selectedItems: Array<any>) => React.Node,
   renderExtraFooter?: () => React.Node,
   disabled?: boolean,
   value?: Array<any>,
@@ -431,7 +432,12 @@ class Dropdown extends React.Component<Props, State> {
     let activeItemLabel: any = placeholder;
 
     if (renderValue) {
-      activeItemLabel = renderValue(value);
+      let selectedItems =
+        findNodesOfTree(data, item => {
+          return value.some(v => v === item[valueKey]);
+        }) || [];
+
+      activeItemLabel = renderValue(value, selectedItems);
     } else if (value.length > 0) {
       activeItemLabel = tplTransform(locale.selectedValues, value.length);
     }
