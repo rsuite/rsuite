@@ -74,11 +74,15 @@ class FormControl extends React.Component<Props, State> {
     const { formError, errorFromContext } = this.context.form;
     const { name, errorMessage } = this.props;
 
+    if (errorMessage) {
+      return errorMessage;
+    }
+
     if (errorFromContext) {
       return formError ? formError[name] : null;
     }
 
-    return errorMessage;
+    return null;
   }
 
   getCheckTrigger() {
