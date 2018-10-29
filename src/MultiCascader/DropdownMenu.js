@@ -116,7 +116,7 @@ class DropdownMenu extends React.Component<Props> {
     });
   }
 
-  renderCascadeNode(node: any, index: number, layer: number, focus: boolean) {
+  renderCascadeNode(node: any, index: number, layer: number, focus: boolean, uncheckable: boolean) {
     const {
       value,
       valueKey,
@@ -134,10 +134,6 @@ class DropdownMenu extends React.Component<Props> {
 
     const disabled = disabledItemValues.some(disabledValue =>
       shallowEqual(disabledValue, itemValue)
-    );
-
-    const uncheckable = uncheckableItemValues.some(uncheckableValue =>
-      shallowEqual(uncheckableValue, itemValue)
     );
 
     // Use `value` in keys when If `value` is string or number
@@ -175,40 +171,51 @@ class DropdownMenu extends React.Component<Props> {
       valueKey,
       renderMenu,
       cascadeItems = [],
-      cascadePathItems
+      cascadePathItems,
+      uncheckableItemValues
     } = this.props;
 
     const styles = {
       width: cascadeItems.length * menuWidth
     };
+    const columnStyles = {
+      height: menuHeight,
+      width: menuWidth
+    };
     const cascadeNodes = cascadeItems.map((children, layer) => {
+      let uncheckableCount = 0;
       const onlyKey = `${layer}_${children.length}`;
       const menu = (
         <ul>
-          {children.map((item, index) =>
-            this.renderCascadeNode(
+          {children.map((item, index) => {
+            const uncheckable = uncheckableItemValues.some(uncheckableValue =>
+              shallowEqual(uncheckableValue, item[valueKey])
+            );
+            if (uncheckable) {
+              uncheckableCount++;
+            }
+            return this.renderCascadeNode(
               item,
               index,
               layer,
               cascadePathItems[layer] &&
-                shallowEqual(cascadePathItems[layer][valueKey], item[valueKey])
-            )
-          )}
+                shallowEqual(cascadePathItems[layer][valueKey], item[valueKey]),
+              uncheckable
+            );
+          })}
         </ul>
       );
 
       const parentNode = cascadePathItems[layer - 1];
+      const columnClasses = classNames(this.addPrefix('cascader-menu-column'), {
+        [this.addPrefix('cascader-menu-column-uncheckable')]: uncheckableCount === children.length
+      });
       const node = (
         <div
           key={onlyKey}
-          className={this.addPrefix('cascader-menu-column')}
-          ref={ref => {
-            this.menus[layer] = ref;
-          }}
-          style={{
-            height: menuHeight,
-            width: menuWidth
-          }}
+          className={columnClasses}
+          ref={ref => (this.menus[layer] = ref)}
+          style={columnStyles}
         >
           {renderMenu ? renderMenu(children, menu, parentNode) : menu}
         </div>
