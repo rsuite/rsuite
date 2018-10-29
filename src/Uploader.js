@@ -33,7 +33,8 @@ type FileType = {
   // https://developer.mozilla.org/zh-CN/docs/Web/API/File
   blobFile?: File,
   status?: 'inited' | 'uploading' | 'error' | 'finished',
-  progress?: number
+  progress?: number,
+  url?: string
 };
 
 type Props = {

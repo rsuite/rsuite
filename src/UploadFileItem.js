@@ -13,7 +13,8 @@ type FileType = {
   // https://developer.mozilla.org/zh-CN/docs/Web/API/File
   blobFile?: File,
   status?: 'inited' | 'uploading' | 'error' | 'finished',
-  progress?: number
+  progress?: number,
+  url?: string
 };
 
 type Props = {
@@ -60,19 +61,24 @@ class UploadFileItem extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
+
+    const { file } = props;
+
     this.state = {
-      thumbnail: null
+      previewImage: file.url ? file.url : null
     };
 
-    this.getThumbnail((previewImage: string | ArrayBuffer) => {
-      this.setState({ previewImage });
-    });
+    if (!file.url) {
+      this.getThumbnail((previewImage: string | ArrayBuffer) => {
+        this.setState({ previewImage });
+      });
+    }
   }
 
   getThumbnail(callback) {
     const { file, listType, maxPreviewFileSize } = this.props;
 
-    if (!!~['picture-text', 'picture'].indexOf(listType)) {
+    if (!~['picture-text', 'picture'].indexOf(listType)) {
       return;
     }
 
@@ -133,13 +139,13 @@ class UploadFileItem extends React.Component<Props, State> {
     const { previewImage } = this.state;
     const { file } = this.props;
 
-    if (previewImage && file.blobFile) {
+    if (previewImage) {
       return (
         <div className={this.addPrefix('preview')}>
           <img
             role="presentation"
             src={previewImage}
-            alt={file.blobFile.name}
+            alt={file.name}
             onClick={this.handlePreview}
           />
         </div>
