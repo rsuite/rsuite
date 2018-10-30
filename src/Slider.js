@@ -27,7 +27,8 @@ type Props = {
   progress?: boolean,
   vertical?: boolean,
   onChange?: (value: number) => void,
-  renderMark?: (mark: number) => React.Node
+  renderMark?: (mark: number) => React.Node,
+  renderTooltip?: (value: number) => React.Node
 };
 
 type State = {
@@ -291,7 +292,15 @@ class Slider extends React.Component<Props, State> {
   }
 
   renderHanlde() {
-    const { handleClassName, handleTitle, min, vertical, tooltip, hanldeStyle } = this.props;
+    const {
+      handleClassName,
+      handleTitle,
+      min,
+      vertical,
+      tooltip,
+      hanldeStyle,
+      renderTooltip
+    } = this.props;
     const max = this.getMax();
     const { handleDown } = this.state;
     const value = this.getValue();
@@ -317,7 +326,7 @@ class Slider extends React.Component<Props, State> {
       >
         {tooltip && (
           <Tooltip placement="top" className={this.addPrefix('tooltip')}>
-            {value}
+            {renderTooltip ? renderTooltip(value) : value}
           </Tooltip>
         )}
         {handleTitle}
