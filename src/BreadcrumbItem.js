@@ -11,7 +11,7 @@ type Props = {
   className?: string,
   style?: Object,
   href?: string,
-  title?: React.ElementType,
+  title?: string,
   target?: string,
   classPrefix: string,
   componentClass: React.ElementType

@@ -5,19 +5,19 @@ export interface AlertConfigProps {
 }
 
 export interface AlertAPI {
-  // A message may be formatted to display a positive message
+  /** A message may be formatted to display a positive message */
   success(content: string, duration?: number, onClose?: () => void): void;
 
-  // A message may be formatted to display a negative message
+  /** A message may be formatted to display a negative message */
   error(content: string, duration?: number, onClose?: () => void): void;
 
-  // A message may be formatted to display information
+  /** A message may be formatted to display information */
   info(content: string, duration?: number, onClose?: () => void): void;
 
-  // A message may be formatted to display warning messages
+  /** A message may be formatted to display warning messages */
   warning(content: string, duration?: number, onClose?: () => void): void;
 
-  // Used to configure where the message is displayed
+  /** Used to configure where the message is displayed */
   config(options: AlertConfigProps): void;
 }
 
