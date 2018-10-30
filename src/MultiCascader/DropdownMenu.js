@@ -43,7 +43,7 @@ class DropdownMenu extends React.Component<Props> {
     uncheckableItemValues: [],
     cascadeItems: [],
     cascadePathItems: [],
-    menuWidth: 120,
+    menuWidth: 156,
     menuHeight: 200,
     childrenKey: 'children',
     valueKey: 'value',
