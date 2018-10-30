@@ -109,7 +109,8 @@
 
     transition: background 0.2s linear, border 0.2s linear, box-shadow 0.2s linear;
 
-    .@{ckpns}-menu-item-active & {
+    .@{ckpns}-menu-item-active &,
+    .@{ckpns}-menu-item-indeterminate & {
       border-color: @checkbox-checked-border-color;
       background-color: @checkbox-checked-border-color;
     }
@@ -119,6 +120,13 @@
       background-color: @checkbox-disabled-color;
     }
 
+    // Force setting background color
+    .@{ckpns}-menu-item-indeterminate .@{ckpns}-menu-item-disabled & {
+      border-color: @checkbox-checked-border-color;
+      background-color: @checkbox-checked-border-color;
+    }
+
+    .@{ckpns}-menu-item-indeterminate .@{ckpns}-menu-item-disabled &,
     .@{ckpns}-menu-item-disabled.@{ckpns}-menu-item-active & {
       opacity: 0.3;
     }
@@ -140,6 +148,18 @@
       opacity: 1;
       border-width: 0 2px 2px 0;
       transform: rotate(45deg) scale(1);
+    }
+
+    .@{ckpns}-menu-item-indeterminate & {
+      .opacity(1);
+
+      border: solid @B000;
+      height: 9px;
+      border-width: 0 0 2px;
+      transform: rotate(0deg) scale(1);
+      width: 10px;
+      margin-top: 0;
+      margin-left: 3px;
     }
   }
 
