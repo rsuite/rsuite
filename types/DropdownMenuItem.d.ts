@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { IconProps } from './Icon';
 
 export interface DropdownMenuItemProps {
   /** Active the current option */
@@ -29,7 +30,7 @@ export interface DropdownMenuItemProps {
   panel?: boolean;
 
   /** Set the icon */
-  icon?: React.ReactNode;
+  icon?: React.ReactElement<IconProps>;
 
   /** Select the callback function for the current option  */
   onSelect?: (eventKey: any, event: React.SyntheticEvent<HTMLElement>) => void;

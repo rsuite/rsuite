@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { PropTypes } from './index';
+import { IconProps } from './Icon';
 import DropdownMenu from './DropdownMenu';
 import DropdownMenuItem from './DropdownMenuItem';
 
@@ -20,13 +21,13 @@ export interface DropdownProps {
   title?: React.ReactNode;
 
   /** Set the icon */
-  icon?: React.ReactNode;
+  icon?: React.ReactElement<IconProps>;
 
   /** The option to activate the state, corresponding to the eventkey in the Dropdown.item */
   activeKey?: any;
 
   /** Triggering events */
-  trigger?: Trigger | Array<Trigger>;
+  trigger?: Trigger | Trigger[];
 
   /** The placement of Menu */
   placement: PropTypes.Placement8;
@@ -47,7 +48,7 @@ export interface DropdownProps {
   onSelect?: (eventKey: any, event: React.MouseEvent<HTMLElement>) => void;
 
   /** The style of the menu */
-  menuStyle?: Object;
+  menuStyle?: object;
 
   /** A css class to apply to the Toggle DOM node */
   toggleClassName?: string;
@@ -68,7 +69,7 @@ export interface DropdownProps {
   noCaret?: boolean;
 }
 
-interface DropdownComponent extends React.ComponentType<DropdownProps> {
+interface DropdownComponent extends React.ComponentClass<DropdownProps> {
   Menu: typeof DropdownMenu;
   Item: typeof DropdownMenuItem;
 }

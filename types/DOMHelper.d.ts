@@ -6,26 +6,26 @@ export interface DOMHelperAPI {
   toggleClass: (node: HTMLElement, className: string) => HTMLElement;
 
   /** styles */
-  getStyle: (node: HTMLElement, property?: string) => Object;
-  addStyle: (node: HTMLElement, property: string | Object, value?: string | number) => void;
-  removeStyle: (node: HTMLElement, keys: string | Array<string>) => void;
-  translateDOMPositionXY: (style: Object, x: number, y: number) => Object;
+  getStyle: (node: HTMLElement, property?: string) => object;
+  addStyle: (node: HTMLElement, property: string | object, value?: string | number) => void;
+  removeStyle: (node: HTMLElement, keys: string | string[]) => void;
+  translateDOMPositionXY: (style: object, x: number, y: number) => object;
 
   /** events */
-  on: (target: HTMLElement, eventName: string, listener: Function, capture?: boolean) => Object;
-  off: (target: HTMLElement, eventName: string, listener: Function, capture?: boolean) => void;
+  on: (target: HTMLElement, eventName: string, listener: () => void, capture?: boolean) => object;
+  off: (target: HTMLElement, eventName: string, listener: () => void, capture?: boolean) => void;
 
   /** query  */
   activeElement: () => HTMLElement;
   getHeight: (node: HTMLElement, client?: HTMLElement) => number;
   getWidth: (node: HTMLElement, client?: HTMLElement) => number;
-  getOffset: (node: HTMLElement) => Object;
-  getOffsetParent: (node: HTMLElement) => Object;
-  getPosition: (node: HTMLElement, offsetParent?: Object) => Object;
-  getWindow: (node: HTMLElement) => String;
-  nodeName: (node: HTMLElement) => String;
-  ownerDocument: (node: HTMLElement) => Object;
-  ownerWindow: (node: HTMLElement) => Object;
+  getOffset: (node: HTMLElement) => object;
+  getOffsetParent: (node: HTMLElement) => object;
+  getPosition: (node: HTMLElement, offsetParent?: object) => object;
+  getWindow: (node: HTMLElement) => string;
+  nodeName: (node: HTMLElement) => string;
+  ownerDocument: (node: HTMLElement) => object;
+  ownerWindow: (node: HTMLElement) => object;
   contains: (context: HTMLElement, node: HTMLElement) => boolean;
   scrollLeft: (node: HTMLElement, val?: number) => number | void;
   scrollTop: (node: HTMLElement, val?: number) => number | void;

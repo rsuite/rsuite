@@ -19,7 +19,7 @@ export interface BreadcrumbProps {
   classPrefix?: string;
 }
 
-interface BreadcrumbComponent extends React.ComponentType<BreadcrumbProps> {
+interface BreadcrumbComponent extends React.ComponentClass<BreadcrumbProps> {
   Item: typeof BreadcrumbItem;
 }
 

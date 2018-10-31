@@ -2,7 +2,7 @@ import * as React from 'react';
 
 export interface TransitionProps {
   /** Primary content */
-  children?: React.Node;
+  children?: React.ReactNode;
 
   /** Additional classes */
   className?: string;
@@ -50,9 +50,8 @@ export interface TransitionProps {
   onExited?: (node: null | Element | Text) => void;
 }
 
-export declare type CollapseDimension = 'height' | 'width';
+export type CollapseDimension = 'height' | 'width';
 
-export interface FadeProps extends TransitionProps {}
 export interface CollapseProps extends TransitionProps {
   /** The dimension used when collapsing */
   dimension?: CollapseDimension | (() => CollapseDimension);
@@ -65,7 +64,7 @@ export interface CollapseProps extends TransitionProps {
 }
 
 export interface AnimationAPI {
-  Fade: React.StatelessComponent<FadeProps>;
+  Fade: React.StatelessComponent<TransitionProps>;
   Collapse: React.StatelessComponent<CollapseProps>;
   Transition: React.StatelessComponent<TransitionProps>;
 }

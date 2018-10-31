@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { IconProps } from './Icon';
 
-export interface DropdownMenuProps {
+export interface IconButtonProps {
   /** The prefix of the component CSS class */
   classPrefix?: string;
 
@@ -11,16 +11,16 @@ export interface DropdownMenuProps {
   /** Primary content */
   children?: React.ReactNode;
 
-  /** Define the title as a submenu */
-  title?: React.ReactNode;
-
-  /** The submenu expands from the left and defaults to the right */
-  pullLeft?: boolean;
-
   /** Set the icon */
   icon?: React.ReactElement<IconProps>;
+
+  /** Set circle button */
+  circle?: boolean;
+
+  /** The placement of icon */
+  placement?: 'left' | 'right';
 }
 
-declare const DropdownMenu: React.ComponentType<DropdownMenuProps>;
+declare const IconButton: React.ComponentType<IconButtonProps>;
 
-export default DropdownMenu;
+export default IconButton;

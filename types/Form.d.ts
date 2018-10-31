@@ -14,13 +14,13 @@ export interface FormProps {
   fluid?: boolean;
 
   /** Current value of the input. Creates a controlled component */
-  formValue?: Object;
+  formValue?: object;
 
   /** Initial value */
-  formDefaultValue?: Object;
+  formDefaultValue?: object;
 
   /** Error message of form */
-  formError?: Object;
+  formError?: object;
 
   /** Delayed processing when data check, unit: millisecond */
   checkDelay?: number;
@@ -28,17 +28,17 @@ export interface FormProps {
   /** Trigger the type of form validation */
   checkTrigger?: 'change' | 'blur' | 'none';
 
-  /** SchemaModel Object */
-  model?: Object;
+  /** SchemaModel object */
+  model?: object;
 
   /** Callback fired when data changing */
-  onChange?: (formValue: Object, event: React.SyntheticEvent<HTMLElement>) => void;
+  onChange?: (formValue: object, event: React.SyntheticEvent<HTMLElement>) => void;
 
   /** Callback fired when error checking */
-  onError?: (formError: Object) => void;
+  onError?: (formError: object) => void;
 
   /** Callback fired when data cheking */
-  onCheck?: (formError: Object) => void;
+  onCheck?: (formError: object) => void;
 }
 
 declare const Form: React.ComponentType<FormProps>;

@@ -18,7 +18,7 @@ export interface FormControlProps {
   checkTrigger?: 'change' | 'blur' | 'none';
 
   /** Show error messages */
-  errorMessage?: React.Node;
+  errorMessage?: React.ReactNode;
 
   /** The placement of error messages */
   errorPlacement?: PropTypes.Placement8;

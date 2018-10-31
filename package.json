@@ -18,6 +18,7 @@
     "dist": "rm -rf dist && npm run dist-map && npm run dist-pro && npm run dist-style",
     "lint-style": "stylelint  \"styles/**/*.less\"",
     "lint-js": "eslint src  *.js*",
+    "lint-tsd": "tslint  \"./types/*.d.ts\" ",
     "lint": "npm run lint-js && npm run lint-style",
     "tdd": "karma start",
     "test": "npm run format:check && npm run lint && NODE_ENV=coverage  karma start --single-run",
@@ -25,26 +26,14 @@
     "prepublishOnly": "npm run build",
     "generate-styles": "rm -rf lib/styles && node scripts/generate-styles.js"
   },
-  "keywords": [
-    "react",
-    "rsuite",
-    "component",
-    "react-component"
-  ],
+  "keywords": ["react", "rsuite", "component", "react-component"],
   "author": "HYPERS Team",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git@github.com:rsuite/rsuite.git"
   },
-  "files": [
-    "CHANGELOG.md",
-    "README.md",
-    "dist",
-    "lib",
-    "src",
-    "styles"
-  ],
+  "files": ["CHANGELOG.md", "README.md", "dist", "lib", "src", "styles"],
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "classnames": ">=2.0.0",
@@ -100,6 +89,7 @@
     "coveralls": "^2.13.1",
     "cssnano": "^3.10.0",
     "del": "^3.0.0",
+    "dtslint": "^0.3.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.19.1",
@@ -148,12 +138,6 @@
     "webpack-cli": "^3.1.1",
     "webpack-dev-server": "^2.3.0"
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "ie >= 10"
-  ],
-  "sideEffects": [
-    "lib/styles/*"
-  ]
+  "browserslist": ["> 1%", "last 2 versions", "ie >= 10"],
+  "sideEffects": ["lib/styles/*"]
 }

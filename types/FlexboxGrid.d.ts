@@ -15,7 +15,7 @@ export interface FlexboxGridProps {
   justify: 'start' | 'end' | 'center' | 'space-around' | 'space-between';
 }
 
-interface FlexboxGridComponent extends React.ComponentType<FlexboxGridProps> {
+interface FlexboxGridComponent extends React.ComponentClass<FlexboxGridProps> {
   Item: typeof FlexboxGridItem;
 }
 
