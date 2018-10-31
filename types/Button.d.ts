@@ -21,7 +21,7 @@ export interface ButtonProps extends StandardProps {
   /** Primary content */
   children?: React.ReactNode;
 
-  /** Display block buttons */
+  /** Format button to appear inside a content bloc */
   block?: boolean;
 
   /** Providing a `href` will render an `<a>` element, _styled_ as a button */

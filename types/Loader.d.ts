@@ -1,6 +1,8 @@
 import * as React from 'react';
 
-export interface LoaderProps {
+import { StandardProps } from './index';
+
+export interface LoaderProps extends StandardProps {
   /** Centered in the container */
   center?: boolean;
 

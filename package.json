@@ -19,7 +19,7 @@
     "lint-style": "stylelint  \"styles/**/*.less\"",
     "lint-js": "eslint src  *.js*",
     "lint-tsd": "tslint  \"./types/*.d.ts\" ",
-    "lint": "npm run lint-js && npm run lint-style",
+    "lint": "npm run lint-js && npm run lint-style && npm run lint-tsd",
     "tdd": "karma start",
     "test": "npm run format:check && npm run lint && NODE_ENV=coverage  karma start --single-run",
     "coveralls": "cat ./coverage/lcov/lcov.info | ./node_modules/.bin/coveralls",
