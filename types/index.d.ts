@@ -1,3 +1,11 @@
+export interface StandardProps {
+  /** The prefix of the component CSS class */
+  classPrefix?: string;
+
+  /** Additional classes */
+  className?: string;
+}
+
 export namespace PropTypes {
   type Size = 'lg' | 'md' | 'sm' | 'xs';
   type Status = 'success' | 'warning' | 'error' | 'info';
