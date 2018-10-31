@@ -28,13 +28,13 @@ export interface CheckTreePickerProps extends FormControlPickerProps<any[]> {
   renderMenu?: (menu: React.ReactNode) => React.ReactNode;
 
   /** Custom render tree node */
-  renderTreeNode?: (nodeData: object) => React.Node;
+  renderTreeNode?: (nodeData: object) => React.ReactNode;
 
   /** Custom render icon of tree node */
-  renderTreeIcon?: (nodeData: object) => React.Node;
+  renderTreeIcon?: (nodeData: object) => React.ReactNode;
 
   /** Custom render selected items */
-  renderValue?: (values: any[], checkItems: any[], placeholder: string | React.Node) => React.Node;
+  renderValue?: (values: any[], checkItems: any[], placeholder: string | React.ReactNode) => React.ReactNode;
 
   /** Called after the node is expanded */
   onExpand?: (activeNode: any, labyer: number) => void;

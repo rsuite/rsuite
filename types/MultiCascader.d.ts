@@ -5,9 +5,6 @@ import { FormControlPickerProps } from './index';
 export interface MultiCascaderProps extends FormControlPickerProps<any[]> {
   cascade: boolean;
 
-  /** Set children key in data */
-  childrenKey?: string;
-
   /** Sets the width of the menu */
   menuWidth?: number;
 

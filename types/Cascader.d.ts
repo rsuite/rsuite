@@ -3,9 +3,6 @@ import * as React from 'react';
 import { FormControlPickerProps } from './index';
 
 export interface CascaderProps extends FormControlPickerProps<any> {
-  /** Set children key in data */
-  childrenKey?: string;
-
   /** Sets the width of the menu */
   menuWidth?: number;
 

@@ -33,7 +33,7 @@ export interface PanelProps extends StandardProps, AnimationEventProps {
   panelRole?: string;
 
   /** Primary content */
-  children?: React.Node;
+  children?: React.ReactNode;
 
   /** callback function for the panel clicked */
   onSelect?: (eventKey: any, event: React.SyntheticEvent<any>) => void;

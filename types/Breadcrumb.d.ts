@@ -4,7 +4,7 @@ import { StandardProps } from './index';
 import BreadcrumbItem from './BreadcrumbItem';
 
 export interface BreadcrumbProps extends StandardProps {
-  /** Shorthand for primary content of the React.Node */
+  /** Shorthand for primary content of the React.ReactNode */
   separator?: React.ReactNode;
 
   /** You can use a custom element for this component */

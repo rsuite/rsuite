@@ -54,12 +54,6 @@ export interface PickerBaseProps extends StandardProps, AnimationEventProps {
   /** A style to apply to the Menu DOM node. */
   menuStyle?: object;
 
-  /** Set option value 'key' in 'data' */
-  valueKey: string;
-
-  /** Set options to display the 'key' in 'data' */
-  labelKey: string;
-
   /** Placeholder text */
   placeholder?: string;
 
@@ -85,9 +79,29 @@ export interface PickerBaseProps extends StandardProps, AnimationEventProps {
   renderExtraFooter?: () => React.ReactNode;
 }
 
+export interface FormControlBaseProps<ValueType = any> {
+  /** Initial value */
+  defaultValue?: ValueType;
+
+  /** Current value of the component. Creates a controlled component */
+  value?: ValueType;
+
+  /** Called after the value has been changed */
+  onChange?: (value: ValueType, event: React.SyntheticEvent<HTMLElement>) => void;
+}
+
 export interface FormControlPickerProps<ValueType = any> extends PickerBaseProps {
   /** The data of component */
   data: any[];
+
+  /** Set option value 'key' in 'data' */
+  valueKey?: string;
+
+  /** Set options to display the 'key' in 'data' */
+  labelKey?: string;
+
+  /** Set children key in data */
+  childrenKey?: string;
 
   /** Disabled items */
   disabledItemValues?: any[];
@@ -95,7 +109,7 @@ export interface FormControlPickerProps<ValueType = any> extends PickerBaseProps
   /** Initial value */
   defaultValue?: ValueType;
 
-  /** Current value of the input. Creates a controlled component */
+  /** Current value of the component. Creates a controlled component */
   value?: ValueType;
 
   /** Called after the value has been changed */

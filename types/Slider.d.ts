@@ -48,7 +48,7 @@ export interface SliderProps extends StandardProps {
   onChange?: (value: number) => void;
 
   /** Customize labels on the render ruler */
-  renderMark?: (mark: number) => React.Node;
+  renderMark?: (mark: number) => React.ReactNode;
 }
 
 declare const Slider: React.ComponentType<SliderProps>;
