@@ -1,12 +1,8 @@
 import * as React from 'react';
 
-export interface FormProps {
-  /** The prefix of the component CSS class */
-  classPrefix?: string;
+import { StandardProps } from './index';
 
-  /** Additional classes */
-  className?: string;
-
+export interface FormProps extends StandardProps {
   /** Set the left and right columns of the layout of the elements within the form */
   layout?: 'horizontal' | 'vertical' | 'inline';
 

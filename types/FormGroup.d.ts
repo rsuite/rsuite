@@ -1,12 +1,8 @@
 import * as React from 'react';
 
-export interface FormGroupProps {
-  /** Additional classes */
-  className?: string;
+import { StandardProps } from './index';
 
-  /** The prefix of the component CSS class */
-  classPrefix: string;
-
+export interface FormGroupProps extends StandardProps {
   /** Sets id for controlled component   */
   controlId?: string;
 }

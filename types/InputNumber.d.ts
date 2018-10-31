@@ -1,14 +1,10 @@
 import * as React from 'react';
 
-export interface InputNumberProps {
+import { StandardProps } from './index';
+
+export interface InputNumberProps extends StandardProps {
   /** Button can have different appearances */
   buttonAppearance?: 'default' | 'primary' | 'link' | 'subtle' | 'ghost';
-
-  /** The prefix of the component CSS class */
-  classPrefix?: string;
-
-  /** Additional classes */
-  className?: string;
 
   /** An input can show that it is disabled */
   disabled?: boolean;

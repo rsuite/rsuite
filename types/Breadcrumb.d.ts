@@ -1,8 +1,9 @@
 import * as React from 'react';
 
+import { StandardProps } from './index';
 import BreadcrumbItem from './BreadcrumbItem';
 
-export interface BreadcrumbProps {
+export interface BreadcrumbProps extends StandardProps {
   /** Shorthand for primary content of the React.Node */
   separator?: React.ReactNode;
 
@@ -11,12 +12,6 @@ export interface BreadcrumbProps {
 
   /** Primary content */
   children?: React.ReactNode;
-
-  /** Additional classes */
-  className?: string;
-
-  /** The prefix of the component CSS class */
-  classPrefix?: string;
 }
 
 interface BreadcrumbComponent extends React.ComponentClass<BreadcrumbProps> {

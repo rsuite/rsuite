@@ -1,13 +1,9 @@
 import * as React from 'react';
+
+import { StandardProps } from './index';
 import FlexboxGridItem from './FlexboxGridItem';
 
-export interface FlexboxGridProps {
-  /** The prefix of the component CSS class */
-  classPrefix?: string;
-
-  /** Additional classes */
-  className?: string;
-
+export interface FlexboxGridProps extends StandardProps {
   /** align */
   align: 'top' | 'middle' | 'bottom';
 

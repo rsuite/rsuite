@@ -1,11 +1,10 @@
 import * as React from 'react';
 
-export interface BreadcrumbItemProps {
+import { StandardProps } from './index';
+
+export interface BreadcrumbItemProps extends StandardProps {
   // Style as the currently active section
   active?: boolean;
-
-  // Additional classes
-  className?: string;
 
   // Render as an `a` tag instead of a `div` and adds the href attribute
   href?: string;
@@ -21,9 +20,6 @@ export interface BreadcrumbItemProps {
 
   /** Primary content */
   children?: React.ReactNode;
-
-  // The prefix of the component CSS class
-  classPrefix?: string;
 }
 
 declare const BreadcrumbItem: React.ComponentType<BreadcrumbItemProps>;

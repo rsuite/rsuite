@@ -4,6 +4,9 @@ export interface StandardProps {
 
   /** Additional classes */
   className?: string;
+
+  /** Additional style */
+  style?: React.CSSProperties;
 }
 
 export namespace PropTypes {

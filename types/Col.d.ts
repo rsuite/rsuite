@@ -1,12 +1,8 @@
 import * as React from 'react';
 
-export interface ColProps {
-  /** The prefix of the component CSS class */
-  classPrefix?: string;
+import { StandardProps } from './index';
 
-  /** Additional classes */
-  className?: string;
-
+export interface ColProps extends StandardProps {
   /** You can use a custom element for this component */
   componentClass?: React.ReactType<ColProps>;
 

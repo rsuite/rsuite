@@ -1,13 +1,8 @@
 import * as React from 'react';
-import { SVGIcon } from './index';
 
-export interface IconProps {
-  /** The prefix of the component CSS class */
-  classPrefix?: string;
+import { SVGIcon, StandardProps } from './index';
 
-  /** Additional classes */
-  className?: string;
-
+export interface IconProps extends StandardProps {
   /** You can use a custom element for this component */
   componentClass: React.ReactType<IconProps>;
 

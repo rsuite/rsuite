@@ -1,12 +1,10 @@
 import * as React from 'react';
-import { PropTypes } from './index';
 
-export interface FormControlProps {
+import { PropTypes, StandardProps } from './index';
+
+export interface FormControlProps extends StandardProps {
   /** Proxied components */
   accepter: React.ReactNode;
-
-  /** The prefix of the component CSS class */
-  classPrefix?: string;
 
   /** Callback fired when data changing */
   onChange?: (value: any, event: React.SyntheticEvent<HTMLElement>) => void;

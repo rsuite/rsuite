@@ -1,15 +1,11 @@
 import * as React from 'react';
+
+import { StandardProps } from './index';
 import { IconProps } from './Icon';
 
-export interface DropdownMenuItemProps {
+export interface DropdownMenuItemProps extends StandardProps {
   /** Active the current option */
   active?: boolean;
-
-  /** The prefix of the component CSS class */
-  classPrefix?: string;
-
-  /** Additional classes */
-  className?: string;
 
   /** Primary content */
   children?: React.ReactNode;

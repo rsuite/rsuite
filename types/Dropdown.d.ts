@@ -1,19 +1,13 @@
 import * as React from 'react';
 
-import { PropTypes } from './index';
+import { PropTypes, StandardProps } from './index';
 import { IconProps } from './Icon';
 import DropdownMenu from './DropdownMenu';
 import DropdownMenuItem from './DropdownMenuItem';
 
 export type Trigger = 'click' | 'hover' | 'contextMenu';
 
-export interface DropdownProps {
-  /** The prefix of the component CSS class */
-  classPrefix?: string;
-
-  /** Additional classes */
-  className?: string;
-
+export interface DropdownProps extends StandardProps {
   /** Primary content */
   children?: React.ReactNode;
 

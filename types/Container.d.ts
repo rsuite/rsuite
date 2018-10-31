@@ -1,12 +1,8 @@
 import * as React from 'react';
 
-export interface ContainerProps {
-  /** The prefix of the component CSS class */
-  classPrefix?: string;
+import { StandardProps } from './index';
 
-  /** Additional classes */
-  className?: string;
-
+export interface ContainerProps extends StandardProps {
   /** Primary content */
   children?: React.ReactNode;
 }

@@ -1,14 +1,10 @@
 import * as React from 'react';
+
+import { StandardProps } from './index';
 import InputGroupAddon from './InputGroupAddon';
 import InputGroupButton from './InputGroupButton';
 
-export interface InputGroupProps {
-  /** The prefix of the component CSS class */
-  classPrefix?: string;
-
-  /** Additional classes */
-  className?: string;
-
+export interface InputGroupProps extends StandardProps {
   /** Sets the composition content internally */
   inside?: boolean;
 

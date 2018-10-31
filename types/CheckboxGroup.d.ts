@@ -1,6 +1,8 @@
 import * as React from 'react';
 
-export interface CheckboxGroupProps {
+import { StandardProps } from './index';
+
+export interface CheckboxGroupProps extends StandardProps {
   /** Used for the name of the form */
   name?: string;
 
@@ -10,16 +12,11 @@ export interface CheckboxGroupProps {
   /** Initial value */
   defaultValue?: string;
 
-  children?: React.ReactChildren;
-
-  /** The prefix of the component CSS class */
-  classPrefix?: string;
+  /** Primary content */
+  children?: React.ReactNode;
 
   /** Called when the user attempts to change the checked state. */
   onChange?: (value: any, event: React.SyntheticEvent<HTMLInputElement>) => void;
-
-  /** Additional classes */
-  className?: string;
 
   /** Inline layout */
   inline?: boolean;

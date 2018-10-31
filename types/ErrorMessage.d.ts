@@ -1,14 +1,8 @@
 import * as React from 'react';
 
-import { PropTypes } from './index';
+import { PropTypes, StandardProps } from './index';
 
-export interface ErrorMessageProps {
-  /** The prefix of the component CSS class */
-  classPrefix?: string;
-
-  /** Additional classes */
-  className?: string;
-
+export interface ErrorMessageProps extends StandardProps {
   /** Primary content */
   children?: React.ReactNode;
 

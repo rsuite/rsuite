@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { PropTypes } from './index';
+import { PropTypes, StandardProps } from './index';
 
-export interface ButtonProps {
+export interface ButtonProps extends StandardProps {
   /** A button can have different appearances. */
   appearance?: 'default' | 'primary' | 'link' | 'subtle' | 'ghost';
 
@@ -17,12 +17,6 @@ export interface ButtonProps {
 
   /** A button can have different colors */
   color?: PropTypes.Color;
-
-  /** The prefix of the component CSS class */
-  classPrefix?: string;
-
-  /** Additional classes */
-  className?: string;
 
   /** Primary content */
   children?: React.ReactNode;

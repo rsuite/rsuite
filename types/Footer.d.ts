@@ -1,11 +1,10 @@
 import * as React from 'react';
 
-export interface FooterProps {
-  /** The prefix of the component CSS class */
-  classPrefix?: string;
+import { StandardProps } from './index';
 
-  /** Additional classes */
-  className?: string;
+export interface FooterProps extends StandardProps {
+  /** Primary content */
+  children?: React.ReactNode;
 }
 
 declare const Footer: React.ComponentType<FooterProps>;

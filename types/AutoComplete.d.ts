@@ -1,16 +1,10 @@
 import * as React from 'react';
 
-import { PropTypes, ItemDataType } from './index';
+import { StandardProps, PropTypes, ItemDataType } from './index';
 
-export interface AutoCompleteProps {
+export interface AutoCompleteProps extends StandardProps {
   /** Primary content */
   children?: React.ReactNode;
-
-  /** Additional classes */
-  className?: string;
-
-  /** The prefix of the component CSS class */
-  classPrefix?: string;
 
   /** Whether disabled select */
   disabled?: boolean;
@@ -55,7 +49,7 @@ export interface AutoCompleteProps {
   onHide?: () => void;
 
   /** Custom selected option */
-  renderItem?: (itemValue: string) => React.Node;
+  renderItem?: (itemValue: string) => React.ReactNode;
 }
 
 declare const AutoComplete: React.ComponentType<AutoCompleteProps>;

@@ -1,12 +1,8 @@
 import * as React from 'react';
 
-export interface InputGroupAddonProps {
-  /** The prefix of the component CSS class */
-  classPrefix?: string;
+import { StandardProps } from './index';
 
-  /** Additional classes */
-  className?: string;
-
+export interface InputGroupAddonProps extends StandardProps {
   /** An Input group addon can show that it is disabled */
   disabled?: boolean;
 }

@@ -1,12 +1,8 @@
 import * as React from 'react';
 
-export interface InputProps {
-  /** The prefix of the component CSS class */
-  classPrefix?: string;
+import { StandardProps } from './index';
 
-  /** Additional classes */
-  className?: string;
-
+export interface InputProps extends StandardProps {
   /** You can use a custom element for this component */
   componentClass: React.ReactType<InputProps>;
 
