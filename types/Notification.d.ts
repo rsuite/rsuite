@@ -1,15 +1,29 @@
 import * as React from 'react';
 
 export interface NotificationConfigProps {
+  /** The title of the message box */
   title: React.ReactNode;
+
+  /** The description of the message box */
   description: React.ReactType;
+
+  /** message box duration (Unit: milliseconds) */
   duration?: number;
+
+  /** The placement of the message box. */
   placement?: string;
+
+  /** The distance from the top of the message box */
   top?: number;
+
+  /** The distance from the bottom of the message box */
   bottom?: number;
-  onClose?: () => void;
-  style?: object;
+
+  /** The message box is uniquely identified, and you must fill out the field if you want to manually remove the message box. */
   key?: string;
+
+  /** Closes the callback function */
+  onClose?: () => void;
 }
 
 export interface NotificationAPI {

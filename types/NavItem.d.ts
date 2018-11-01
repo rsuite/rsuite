@@ -21,7 +21,10 @@ export interface NavItemProps extends StandardProps {
   /** Primary content */
   children?: React.ReactNode;
 
+  /** The value of the current option */
   eventKey?: any;
+
+  /** Whether NavItem have a tooltip  */
   hasTooltip?: boolean;
 
   /** You can use a custom element type for this component */

@@ -53,4 +53,4 @@ export interface SliderProps extends StandardProps {
 
 declare const Slider: React.ComponentType<SliderProps>;
 
-export default SliderProps;
+export default Slider;
