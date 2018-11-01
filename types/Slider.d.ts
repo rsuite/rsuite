@@ -27,7 +27,7 @@ export interface SliderProps extends StandardProps {
   barClassName?: string;
 
   /** custom style */
-  hanldeStyle?: React.CSSProperties;
+  handleStyle?: React.CSSProperties;
 
   /** The disabled of component */
   disabled?: boolean;
