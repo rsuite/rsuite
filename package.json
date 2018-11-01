@@ -3,6 +3,7 @@
   "version": "3.3.1",
   "description": "A suite of react components",
   "main": "lib/index.js",
+  "typings": "types/index.d.ts",
   "directories": {
     "lib": "lib/"
   },
@@ -17,7 +18,8 @@
     "dist": "rm -rf dist && npm run dist-map && npm run dist-pro && npm run dist-style",
     "lint-style": "stylelint  \"styles/**/*.less\"",
     "lint-js": "eslint src  *.js*",
-    "lint": "npm run lint-js && npm run lint-style",
+    "lint-tsd": "tslint  \"./types/*.d.ts\" ",
+    "lint": "npm run lint-js && npm run lint-style && npm run lint-tsd",
     "tdd": "karma start",
     "test": "npm run format:check && npm run lint && NODE_ENV=coverage  karma start --single-run",
     "coveralls": "cat ./coverage/lcov/lcov.info | ./node_modules/.bin/coveralls",
@@ -42,6 +44,7 @@
     "dist",
     "lib",
     "src",
+    "types",
     "styles"
   ],
   "dependencies": {
@@ -99,6 +102,7 @@
     "coveralls": "^2.13.1",
     "cssnano": "^3.10.0",
     "del": "^3.0.0",
+    "dtslint": "^0.3.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.19.1",
