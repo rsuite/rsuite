@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { StandardProps } from './index';
+import { StandardProps, FormControlBaseProps } from './index';
 
-export interface InputProps extends StandardProps {
+export interface InputProps extends StandardProps, FormControlBaseProps<string> {
   /** You can use a custom element for this component */
   componentClass: React.ReactType<InputProps>;
 
@@ -15,17 +15,8 @@ export interface InputProps extends StandardProps {
   /** An Input field can show that it is disabled */
   disabled?: boolean;
 
-  /** Current value of the input. Creates a controlled component */
-  value?: string;
-
-  /** Initial value */
-  defaultValue?: string;
-
   /** Ref of input element */
   inputRef?: React.Ref<any>;
-
-  /** Called on change */
-  onChange?: (value: any, event: React.ChangeEvent<HTMLInputElement>) => void;
 
   /** Called on press enter */
   onPressEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
