@@ -12,7 +12,7 @@ export interface TagProps extends StandardProps {
   componentClass: React.ReactType<TagProps>;
 
   /** Click the callback function for the Close button */
-  onClose?: (event: React.MouseEvent<any>) => void;
+  onClose?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
 declare const Tag: React.ComponentType<TagProps>;

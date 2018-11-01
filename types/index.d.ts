@@ -70,7 +70,7 @@ export interface PickerBaseProps extends StandardProps, AnimationEventProps {
   cleanable?: boolean;
 
   /** Called when Modal is displayed */
-  onShow?: () => void;
+  onOpen?: () => void;
 
   /** Called when Modal is closed */
   onClose?: () => void;
