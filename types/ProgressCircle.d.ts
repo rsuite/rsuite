@@ -6,25 +6,25 @@ export interface ProgressCircleProps extends StandardProps {
   strokeColor?: string;
 
   /** The end of different types of open paths */
-  strokeLinecap: 'butt' | 'round' | 'square';
+  strokeLinecap?: 'butt' | 'round' | 'square';
 
   /** Tail color */
   trailColor?: string;
 
   /** Percent of progress */
-  percent: number;
+  percent?: number;
 
   /** Line width */
-  strokeWidth: number;
+  strokeWidth?: number;
 
   /** Tail width */
-  trailWidth: number;
+  trailWidth?: number;
 
   /** Circular progress bar degree */
   gapDegree: number;
 
   /** Circular progress bar Notch position */
-  gapPosition: 'top' | 'bottom' | 'left' | 'right';
+  gapPosition?: 'top' | 'bottom' | 'left' | 'right';
 
   /** Show text */
   showInfo?: boolean;

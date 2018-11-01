@@ -8,7 +8,7 @@ import ModalFooter from './ModalFooter';
 
 export interface ModalProps extends StandardProps, AnimationEventProps {
   /** A modal can have different sizes */
-  size: PropTypes.Size;
+  size?: PropTypes.Size;
 
   /** Primary content */
   children?: React.ReactNode;

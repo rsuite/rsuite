@@ -9,10 +9,10 @@ export interface TimelineItemProps extends StandardProps {
   dot?: React.ReactNode;
 
   /** The content of the component */
-  children: React.ReactNode;
+  children?: React.ReactNode;
 
   /** You can use a custom element type for this component */
-  componentClass: React.ReactType<TimelineItemProps>;
+  componentClass?: React.ReactType<TimelineItemProps>;
 }
 
 declare const TimelineItem: React.ComponentType<TimelineItemProps>;

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { FormControlPickerProps } from './index';
 
 export interface MultiCascaderProps extends FormControlPickerProps<any[]> {
-  cascade: boolean;
+  cascade?: boolean;
 
   /** Sets the width of the menu */
   menuWidth?: number;

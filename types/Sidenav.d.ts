@@ -6,10 +6,10 @@ import SidenavToggle from './SidenavToggle';
 
 export interface SidenavProps extends StandardProps {
   /** Whether to expand the Sidenav */
-  expanded: boolean;
+  expanded?: boolean;
 
   /** Menu style */
-  appearance: 'default' | 'inverse' | 'subtle';
+  appearance?: 'default' | 'inverse' | 'subtle';
 
   /** Open menu, corresponding to Dropdown eventkey */
   defaultOpenKeys?: [];
@@ -21,7 +21,7 @@ export interface SidenavProps extends StandardProps {
   activeKey?: any;
 
   /** You can use a custom element type for this component */
-  componentClass: React.ReactType<SidenavProps>;
+  componentClass?: React.ReactType<SidenavProps>;
 
   /** Menu opening callback function that changed */
   onOpenChange?: (openKeys: [], event: React.SyntheticEvent<any>) => void;

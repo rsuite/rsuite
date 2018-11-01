@@ -15,7 +15,7 @@ export interface RadioProps extends StandardProps {
   defaultChecked?: boolean;
 
   /** Ref for the input element */
-  inputRef?: React.ElementRef<any>;
+  inputRef?: React.Ref<any>;
 
   /** Value, corresponding to the value of the Radiogroup, to determine whether the */
   value?: any;
@@ -30,7 +30,7 @@ export interface RadioProps extends StandardProps {
   children?: React.ReactNode;
 
   /** Callback function with value changed */
-  onChange?: (value: any, event: React.SyntheticInputEvent<HTMLInputElement>) => void;
+  onChange?: (value: any, event: React.SyntheticEvent<HTMLInputElement>) => void;
 }
 
 declare const Radio: React.ComponentType<RadioProps>;

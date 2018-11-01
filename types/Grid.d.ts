@@ -10,7 +10,7 @@ export interface GridProps extends StandardProps {
   fluid?: boolean;
 
   /** You can use a custom element for this component */
-  componentClass: React.ReactType<GridProps>;
+  componentClass?: React.ReactType<GridProps>;
 }
 
 declare const Grid: React.ComponentType<GridProps>;

@@ -16,7 +16,7 @@ export interface DateRangePickerProps extends PickerBaseProps, FormControlBasePr
   ranges?: RangeType[];
 
   /** Format date */
-  format: string;
+  format?: string;
 
   /** The date range that will be selected when you click on the date */
   hoverRange?: 'week' | 'month' | ((date: moment.Moment) => moment.Moment[]);
