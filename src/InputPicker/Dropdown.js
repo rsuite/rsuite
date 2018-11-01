@@ -344,8 +344,16 @@ class Dropdown extends React.Component<Props, State> {
 
   selectFocusMenuItem = (event: DefaultEvent) => {
     const { focusItemValue, searchKeyword } = this.state;
-    const { valueKey } = this.props;
-    if (!focusItemValue) {
+    const { valueKey, data, disabledItemValues } = this.props;
+    if (!focusItemValue || !data) {
+      return;
+    }
+
+    // Returns if the value does not exist in the option or is disabled in the option.
+    if (
+      !data.some(item => item[valueKey] === focusItemValue) ||
+      disabledItemValues.some(item => item === focusItemValue)
+    ) {
       return;
     }
 
@@ -365,12 +373,20 @@ class Dropdown extends React.Component<Props, State> {
   };
 
   selectFocusMenuCheckItem = (event: DefaultEvent) => {
-    const { valueKey } = this.props;
+    const { valueKey, disabledItemValues } = this.props;
     const { focusItemValue } = this.state;
     const value: any = this.getValue();
     const data = this.getAllData();
 
-    if (!focusItemValue) {
+    if (!focusItemValue || !data) {
+      return;
+    }
+
+    // Returns if the value does not exist in the option or is disabled in the option.
+    if (
+      !data.some(item => item[valueKey] === focusItemValue) ||
+      disabledItemValues.some(item => item === focusItemValue)
+    ) {
       return;
     }
 
@@ -449,7 +465,7 @@ class Dropdown extends React.Component<Props, State> {
     );
     const nextState = {
       searchKeyword,
-      focusItemValue: filteredData.length ? filteredData[0][valueKey] : searchKeyword
+      focusItemValue: filteredData.length ? filteredData[0][valueKey] : null
     };
 
     this.setState(nextState, this.updatePosition);
