@@ -12,25 +12,25 @@ export interface TableProps extends StandardProps {
   width?: number;
 
   /** Table data */
-  data: [];
+  data?: [];
 
   /** Table Height */
-  height: number;
+  height?: number;
 
   /** Automatic Height */
   autoHeight?: boolean;
 
   /** Minimum Height */
-  minHeight: number;
+  minHeight?: number;
 
   /** Row height */
-  rowHeight: number;
+  rowHeight?: number;
 
   /** Header height */
-  headerHeight: number;
+  headerHeight?: number;
 
   /** Each row corresponds to the unique key in  data */
-  rowKey: string | number;
+  rowKey?: string | number;
 
   /** Show as Tree table */
   isTree?: boolean;
@@ -51,7 +51,7 @@ export interface TableProps extends StandardProps {
   sortColumn?: string;
 
   /** Sort type */
-  sortType: SortType;
+  sortType?: SortType;
 
   /** Show loading */
   loading?: boolean;
@@ -65,7 +65,7 @@ export interface TableProps extends StandardProps {
   /** Show cell border */
   cellBordered?: boolean;
 
-  hover: boolean;
+  hover?: boolean;
   wordWrap?: boolean;
   bodyRef?: React.Ref<any>;
 

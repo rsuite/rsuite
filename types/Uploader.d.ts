@@ -3,9 +3,9 @@ import { StandardProps } from '.';
 
 interface FileType {
   /** File Name */
-  name: string;
+  name?: string;
   /** File unique identifier */
-  fileKey: number | string;
+  fileKey?: number | string;
   /** https://developer.mozilla.org/zh-CN/docs/Web/API/File */
   blobFile?: File;
 
@@ -21,7 +21,7 @@ interface FileType {
 
 export interface UploaderProps extends StandardProps {
   /** Uploading URL */
-  action: string;
+  action?: string;
 
   /** File types that can be accepted. See input accept Attribute */
   accept?: string;
@@ -52,7 +52,7 @@ export interface UploaderProps extends StandardProps {
   disabledFileItem?: boolean;
 
   /** Upload the parameter name of the corresponding file */
-  name: string;
+  name?: string;
 
   /** Set upload timeout */
   timeout?: number;

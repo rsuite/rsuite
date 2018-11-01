@@ -9,13 +9,13 @@ export interface ProgressLineProps extends StandardProps {
   trailColor?: string;
 
   /** Percent of progress */
-  percent: number;
+  percent?: number;
 
   /** Line width */
-  strokeWidth: number;
+  strokeWidth?: number;
 
   /** Tail width */
-  trailWidth: number;
+  trailWidth?: number;
 
   /** Show text */
   showInfo?: boolean;

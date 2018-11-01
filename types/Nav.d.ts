@@ -7,7 +7,7 @@ export interface NavProps extends StandardProps {
   children?: React.ReactNode;
 
   /** sets appearance */
-  appearance: 'default' | 'subtle' | 'tabs';
+  appearance?: 'default' | 'subtle' | 'tabs';
 
   /** Reverse Direction of tabs/subtle */
   reversed?: boolean;

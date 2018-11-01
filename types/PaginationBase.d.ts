@@ -4,10 +4,10 @@ import { ButtonProps } from './Button';
 
 export interface PaginationBaseProps extends StandardProps {
   /** Current page number */
-  activePage: number;
+  activePage?: number;
 
   /** Page buttons display the maximum number of */
-  maxButtons: number;
+  maxButtons?: number;
 
   /** Displays the first page */
   first?: boolean | React.ReactNode;

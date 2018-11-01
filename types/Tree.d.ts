@@ -3,16 +3,16 @@ import { TreeBaseProps } from './TreeBase';
 
 interface TreeProps extends TreeBaseProps {
   /** Tree Data */
-  data: [];
+  data?: [];
 
   /** Selected value */
   value?: any;
 
   /** Tree data structure Label property name */
-  labelKey: string;
+  labelKey?: string;
 
   /** ree data Structure Value property name */
-  valueKey: string;
+  valueKey?: string;
 
   /** Tree data structure Children property name */
   childrenKey?: string;

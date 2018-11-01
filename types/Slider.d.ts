@@ -3,19 +3,19 @@ import { StandardProps } from '.';
 
 export interface SliderProps extends StandardProps {
   /** Minimum value of sliding range */
-  min: number;
+  min?: number;
 
   /** Maximum sliding range */
-  max: number;
+  max?: number;
 
   /** Slide the value of one step */
-  step: number;
+  step?: number;
 
   /** Value (Controlled) */
   value?: number;
 
   /** Default value */
-  defaultValue: number;
+  defaultValue?: number;
 
   /** A css class to apply to the Handle node. */
   handleClassName?: string;

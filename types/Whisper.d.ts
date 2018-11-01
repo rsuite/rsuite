@@ -6,31 +6,31 @@ export interface WhisperProps extends AnimationEventProps {
   trigger?: React.Ref<any>;
 
   /** Display placement */
-  placement: PropTypes.Placement | PropTypes.Placement4;
+  placement?: PropTypes.Placement | PropTypes.Placement4;
 
   /** Delay Time */
-  delay: number;
+  delay?: number;
 
   /** Show delay Time */
-  delayShow: number;
+  delayShow?: number;
 
   /** Hidden delay Time */
-  delayHide: number;
+  delayHide?: number;
 
   /** Sets the rendering container */
-  container: HTMLElement | (() => HTMLElement);
+  container?: HTMLElement | (() => HTMLElement);
 
   /** Lose Focus callback function */
-  onBlur: () => void;
+  onBlur?: () => void;
 
   /** Click on the callback function */
-  onClick: () => void;
+  onClick?: () => void;
 
   /** Callback function to get focus */
-  onFocus: () => void;
+  onFocus?: () => void;
 
   /** Mouse leave callback function */
-  onMouseOut: () => void;
+  onMouseOut?: () => void;
 }
 
 declare const Whisper: React.ComponentType<WhisperProps>;

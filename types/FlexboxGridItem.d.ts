@@ -4,10 +4,10 @@ import { StandardProps } from './index';
 
 export interface FlexboxGridItemProps extends StandardProps {
   /** spacing between grids */
-  colspan: number;
+  colspan?: number;
 
   /** grid orders for sorting */
-  order: number;
+  order?: number;
 }
 
 declare const FlexboxGridItem: React.ComponentType<FlexboxGridItemProps>;

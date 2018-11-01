@@ -2,10 +2,10 @@ import * as React from 'react';
 
 export interface NotificationConfigProps {
   /** The title of the message box */
-  title: React.ReactNode;
+  title?: React.ReactNode;
 
   /** The description of the message box */
-  description: React.ReactType;
+  description?: React.ReactType;
 
   /** message box duration (Unit: milliseconds) */
   duration?: number;

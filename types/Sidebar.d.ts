@@ -2,7 +2,7 @@ import * as React from 'react';
 
 export interface SidebarProps {
   /** Width */
-  width: number | string;
+  width?: number | string;
 
   collapsible?: boolean;
 }

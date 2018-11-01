@@ -4,13 +4,13 @@ import { StandardProps, PropTypes } from './index';
 
 export interface MessageProps extends StandardProps {
   /** The type of the message box. */
-  type: PropTypes.Status;
+  type?: PropTypes.Status;
 
   /** Whether it is possible to close the message box */
   closable?: boolean;
 
   /** Closes the prompt text on the button */
-  closeLabel: string;
+  closeLabel?: string;
 
   /** The title of the message  */
   title?: React.ReactNode;

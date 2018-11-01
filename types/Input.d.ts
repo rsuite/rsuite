@@ -4,7 +4,7 @@ import { StandardProps, FormControlBaseProps } from './index';
 
 export interface InputProps extends StandardProps, FormControlBaseProps<string> {
   /** You can use a custom element for this component */
-  componentClass: React.ReactType<InputProps>;
+  componentClass?: React.ReactType<InputProps>;
 
   /** The HTML input type */
   type: string;

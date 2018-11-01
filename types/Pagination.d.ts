@@ -11,9 +11,7 @@ export interface PaginationProps extends StandardProps, PaginationBaseProps {
   ellipsis?: boolean | React.ReactNode;
 
   /** Customizes the element type for the component */
-  buttonComponentClass: React.ReactType<ButtonProps>;
-
-  /** Disabled component */
+  buttonComponentClass?: React.ReactType<ButtonProps>;
 
   /** callback function for pagination clicked */
   onSelect?: (event: React.SyntheticEvent<any>) => void;

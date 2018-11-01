@@ -54,7 +54,7 @@ export interface DropdownProps extends StandardProps {
   eventKey?: any;
 
   /** You can use a custom element type for this component */
-  componentClass: React.ReactType<DropdownProps>;
+  componentClass?: React.ReactType<DropdownProps>;
 
   /** You can use a custom element type for this toggle component */
   toggleComponentClass?: React.ReactType<any>;

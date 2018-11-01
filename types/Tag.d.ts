@@ -6,10 +6,10 @@ export interface TagProps extends StandardProps {
   closable?: boolean;
 
   /** The content of the component */
-  children: React.ReactNode;
+  children?: React.ReactNode;
 
   /** You can use a custom element type for this component */
-  componentClass: React.ReactType<TagProps>;
+  componentClass?: React.ReactType<TagProps>;
 
   /** Click the callback function for the Close button */
   onClose?: (event: React.MouseEvent<HTMLElement>) => void;
