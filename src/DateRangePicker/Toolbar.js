@@ -30,25 +30,28 @@ type Props = {
   selectValue?: Array<moment$Moment>
 };
 
+const defaultRanges = [
+  {
+    label: 'today',
+    value: [setTimingMargin(moment()), setTimingMargin(moment(), 'right')]
+  },
+  {
+    label: 'yesterday',
+    value: [setTimingMargin(moment().add(-1, 'd')), setTimingMargin(moment().add(-1, 'd'), 'right')]
+  },
+  {
+    label: 'last7Days',
+    value: [setTimingMargin(moment().subtract(6, 'days')), setTimingMargin(moment(), 'right')]
+  }
+];
+
+function hasLocaleKey(key: any) {
+  return defaultRanges.some(item => item.label === key);
+}
+
 class Toolbar extends React.PureComponent<Props> {
   static defaultProps = {
-    ranges: [
-      {
-        label: 'today',
-        value: [setTimingMargin(moment()), setTimingMargin(moment(), 'right')]
-      },
-      {
-        label: 'yesterday',
-        value: [
-          setTimingMargin(moment().add(-1, 'd')),
-          setTimingMargin(moment().add(-1, 'd'), 'right')
-        ]
-      },
-      {
-        label: 'last7Days',
-        value: [setTimingMargin(moment().subtract(6, 'days')), setTimingMargin(moment(), 'right')]
-      }
-    ]
+    ranges: defaultRanges
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
@@ -102,7 +105,7 @@ class Toolbar extends React.PureComponent<Props> {
                   !disabled && onShortcut(value, item.closeOverlay, event);
                 }}
               >
-                <FormattedMessage id={item.label} />
+                {hasLocaleKey(item.label) ? <FormattedMessage id={item.label} /> : item.label}
               </a>
             );
           })}

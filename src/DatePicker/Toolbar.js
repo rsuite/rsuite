@@ -6,7 +6,6 @@ import moment from 'moment';
 import { FormattedMessage } from 'rsuite-intl';
 
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
-import isOneOf from '../utils/isOneOf';
 
 type Range = {
   label: React.Node,
@@ -24,29 +23,29 @@ type Props = {
   disabledHandle?: (date?: moment$Moment) => boolean
 };
 
+const defaultRanges = [
+  {
+    label: 'today',
+    value: moment(),
+    closeOverlay: true
+  },
+  {
+    label: 'yesterday',
+    value: moment().add(-1, 'd'),
+    closeOverlay: true
+  }
+];
+
+function hasLocaleKey(key: any) {
+  return defaultRanges.some(item => item.label === key);
+}
+
 class Toolbar extends React.PureComponent<Props> {
   static defaultProps = {
-    ranges: [
-      {
-        label: 'today',
-        value: moment(),
-        closeOverlay: true
-      },
-      {
-        label: 'yesterday',
-        value: moment().add(-1, 'd'),
-        closeOverlay: true
-      }
-    ]
+    ranges: defaultRanges
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
-
-  hasLocaleKey = (key: any) => {
-    const { ranges } = this.props;
-    const keys = ranges.map(item => item.label);
-    return isOneOf(key, keys);
-  };
 
   renderOkButton() {
     const { disabledHandle, pageDate, onOk } = this.props;
@@ -97,7 +96,7 @@ class Toolbar extends React.PureComponent<Props> {
                   !disabled && onShortcut && onShortcut(value, item.closeOverlay, event);
                 }}
               >
-                {this.hasLocaleKey(item.label) ? <FormattedMessage id={item.label} /> : item.label}
+                {hasLocaleKey(item.label) ? <FormattedMessage id={item.label} /> : item.label}
               </a>
             );
           })}

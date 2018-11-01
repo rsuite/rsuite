@@ -1,5 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
+import moment from 'moment';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import Toolbar from '../../src/DateRangePicker/Toolbar';
@@ -13,6 +14,22 @@ describe('Toolbar', () => {
     const instanceDOM = findDOMNode(instance);
     assert.equal(instanceDOM.nodeName, 'DIV');
     assert.ok(instanceDOM.className.match(/\brs-picker-toolbar\b/));
+  });
+
+  it('Should render a custom option', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Toolbar
+        ranges={[
+          {
+            label: <div className="btn-today">today</div>,
+            value: [moment(), moment()],
+            closeOverlay: true
+          }
+        ]}
+      />
+    );
+
+    assert.equal(findDOMNode(instance).querySelector('.btn-today').innerText, 'today');
   });
 
   it('Should call `onOk` callback', done => {
