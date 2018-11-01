@@ -150,7 +150,7 @@ RSUITE 基于 [MIT licensed][LICENSE] 发布。
 [gitter]:https://gitter.im/rsuite/rsuite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
 [gitter-svg]:https://badges.gitter.im/rsuite/rsuite.svg
 [demo-admin]:https://github.com/rsuite/rsuite-management-system
-[demo-modular-import]:https://github.com/rsuite/examples/tree/modular/modular-import
+[demo-modular-import]:https://github.com/rsuite/examples/tree/master/modular-import
 [demo-cdn]:https://github.com/rsuite/examples/tree/master/cdn
 [demo-create-react-app]:https://github.com/rsuite/examples/tree/master/create-react-app
 [demo-intl-app]:https://github.com/rsuite/examples/tree/master/intl-app
