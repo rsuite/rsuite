@@ -41,7 +41,7 @@ npm i rsuite --save
 
 ```js
 import { Button } from 'rsuite';
-import 'rsuite/styles/less/index.less';
+import 'rsuite/styles/less/index.less'; // 或者 'rsuite/dist/styles/rsuite.min.css'
 
 ReactDOM.render(<Button>Button</Button>, mountNode);
 ```
@@ -70,15 +70,39 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 
 每一个版本的详细变化记录在[Release Notes][release-notes]
 
+
+## 开发
+
+您可以通过 [Trello](https://trello.com/b/nsaUoK7S/rsuite) 查看我们的开发计划，同时希望您能参与其中。
+
+
+1. Fork `https://github.com/rsuite/rsuite` 这个仓库。
+
+```bash
+$ git clone git@github.com:<YOUR NAME>/rsuite.git
+$ cd rsuite
+$ npm install
+$ npm run dev
+```
+
+2. Fork `https://github.com/rsuite/rsuite.github.io` 这个仓库。
+
+```bash
+$ git clone git@github.com:<YOUR NAME>/rsuite.github.io.git
+$ cd rsuite.github.io
+$ npm install
+$ npm run dev
+```
+
+3. 您可以开始访问了， 在浏览器输入 http://127.0.0.1:3200/ 。
+
+
 ## 贡献
 
 在开始之前，确保您已读[贡献指南][contributing]。
 
 编辑器的配置参考 [.prettierrc][prettierrc]， 下载编辑的插件 https://prettier.io/。
 
-### 开发计划
-
-您可以通过 [Trello](https://trello.com/b/nsaUoK7S/rsuite) 查看我们的开发计划，同时希望您能参与其中。
 
 ## 支持 RSUITE
 

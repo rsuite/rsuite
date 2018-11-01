@@ -58,6 +58,42 @@ describe('picker - DropdownMenuCheckItem', () => {
     ReactTestUtils.Simulate.keyDown(instance.querySelector('label'));
   });
 
+  it('Should call onCheck callback', () => {
+    const onSelectSpy = sinon.spy();
+    const onCheckeSpy = sinon.spy();
+
+    const instance = getDOMNode(
+      <DropdownMenuItem
+        classPrefix="item"
+        title="title"
+        onCheck={onCheckeSpy}
+        onSelectItem={onSelectSpy}
+        labelComponentClass="div"
+      />
+    );
+
+    ReactTestUtils.Simulate.click(instance.querySelector('.item-wrapper'));
+
+    assert.ok(onCheckeSpy.calledOnce);
+    assert.ok(onSelectSpy.calledOnce);
+  });
+
+  it('Should call onSelectItem callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getDOMNode(
+      <DropdownMenuItem
+        classPrefix="item"
+        title="title"
+        onSelectItem={doneOp}
+        labelComponentClass="div"
+      />
+    );
+
+    ReactTestUtils.Simulate.click(instance.querySelector('.item'));
+  });
+
   it('Should have a custom className', () => {
     const instance = getDOMNode(<DropdownMenuItem classPrefix="item" className="custom" />);
     assert.ok(instance.className.match(/\bcustom\b/));

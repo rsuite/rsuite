@@ -8,14 +8,14 @@ import { shallowEqual } from 'rsuite-utils/lib/utils';
 
 import { getUnhandledProps, defaultProps, prefix } from '../utils';
 import stringToObject from '../utils/stringToObject';
-import DropdownMenuItem from '../_picker/DropdownMenuItem';
+import DropdownMenuItem from '../_picker/DropdownMenuCheckItem';
 
 type DefaultEvent = SyntheticEvent<*>;
 type Props = {
   classPrefix: string,
   data: Array<any>,
   disabledItemValues: Array<any>,
-  activeItemValue?: any,
+  value?: Array<any>,
   childrenKey: string,
   valueKey: string,
   labelKey: string,
@@ -28,21 +28,22 @@ type Props = {
     node: any,
     cascadeItems: Array<any>,
     activePaths: Array<any>,
-    isLeafNode: boolean,
     event: DefaultEvent
   ) => void,
-
+  onCheck?: (value: any, event: SyntheticEvent<*>, checked: boolean) => void,
   cascadeItems: Array<any>,
-  cascadePathItems: Array<any>
+  cascadePathItems: Array<any>,
+  uncheckableItemValues: Array<any>
 };
 
 class DropdownMenu extends React.Component<Props> {
   static defaultProps = {
     data: [],
     disabledItemValues: [],
+    uncheckableItemValues: [],
     cascadeItems: [],
     cascadePathItems: [],
-    menuWidth: 120,
+    menuWidth: 156,
     menuHeight: 200,
     childrenKey: 'children',
     valueKey: 'value',
@@ -50,10 +51,6 @@ class DropdownMenu extends React.Component<Props> {
   };
 
   static handledProps = [];
-
-  componentDidMount() {
-    this.scrollToActiveItemTop();
-  }
 
   getCascadeItems(items: Array<any>, layer: number, node: any, isLeafNode: boolean) {
     const { cascadeItems = [], cascadePathItems } = this.props;
@@ -96,7 +93,7 @@ class DropdownMenu extends React.Component<Props> {
       isLeafNode
     );
 
-    onSelect && onSelect(node, cascadeItems, cascadePathItems, isLeafNode, event);
+    onSelect && onSelect(node, cascadeItems, cascadePathItems, event);
   };
 
   stringToObject(value: any) {
@@ -104,62 +101,65 @@ class DropdownMenu extends React.Component<Props> {
     return stringToObject(value, labelKey, valueKey);
   }
 
-  scrollToActiveItemTop() {
-    if (!this.menus) {
-      return;
+  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
+
+  isSomeChildChecked(node: Object) {
+    const { childrenKey, valueKey, value } = this.props;
+    if (!node[childrenKey]) {
+      return false;
     }
-    this.menus.forEach(menu => {
-      if (!menu) {
-        return;
+    return node[childrenKey].some((child: Object) => {
+      if (child[childrenKey] && child[childrenKey].length) {
+        return this.isSomeChildChecked(child);
       }
-
-      let activeItem = menu.querySelector(`.${this.addPrefix('item-focus')}`);
-
-      if (!activeItem) {
-        activeItem = menu.querySelector(`.${this.addPrefix('item-active')}`);
-      }
-
-      if (activeItem) {
-        const position = getPosition(activeItem, menu);
-        scrollTop(menu, position.top);
-      }
+      return value.some(n => n === child[valueKey]);
     });
   }
 
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
-
-  renderCascadeNode(node: any, index: number, layer: number, focus: boolean) {
+  renderCascadeNode(node: any, index: number, layer: number, focus: boolean, uncheckable: boolean) {
     const {
-      activeItemValue,
+      value,
       valueKey,
       labelKey,
       childrenKey,
       disabledItemValues,
-      renderMenuItem
+      uncheckableItemValues,
+      renderMenuItem,
+      onCheck
     } = this.props;
 
     const children = node[childrenKey];
-    const value = node[valueKey];
+    const itemValue = node[valueKey];
     const label = node[labelKey];
 
-    const disabled = disabledItemValues.some(disabledValue => shallowEqual(disabledValue, value));
+    const disabled = disabledItemValues.some(disabledValue =>
+      shallowEqual(disabledValue, itemValue)
+    );
 
     // Use `value` in keys when If `value` is string or number
-    const onlyKey = _.isString(value) || _.isNumber(value) ? value : index;
+    const onlyKey = _.isString(itemValue) || _.isNumber(itemValue) ? itemValue : index;
+    const active = value.some(item => shallowEqual(item, itemValue));
+    const classes = classNames({
+      [this.addPrefix('cascader-menu-has-children')]: children,
+      [this.addPrefix('check-menu-item-indeterminate')]: !active && this.isSomeChildChecked(node)
+    });
 
     return (
       <DropdownMenuItem
-        classPrefix={this.addPrefix('item')}
+        labelComponentClass="div"
+        classPrefix={this.addPrefix('check-menu-item')}
         key={`${layer}-${onlyKey}`}
         disabled={disabled}
-        active={!_.isUndefined(activeItemValue) && shallowEqual(activeItemValue, value)}
+        active={active}
         focus={focus}
         value={node}
-        className={children ? this.addPrefix('has-children') : undefined}
-        onSelect={this.handleSelect.bind(this, layer, index)}
+        className={classes}
+        onSelectItem={this.handleSelect.bind(this, layer, index)}
+        onCheck={onCheck}
+        checkable={!uncheckable}
       >
         {renderMenuItem ? renderMenuItem(label, node) : label}
-        {children ? <span className={this.addPrefix('caret')} /> : null}
+        {children ? <span className={this.addPrefix('cascader-menu-caret')} /> : null}
       </DropdownMenuItem>
     );
   }
@@ -171,40 +171,51 @@ class DropdownMenu extends React.Component<Props> {
       valueKey,
       renderMenu,
       cascadeItems = [],
-      cascadePathItems
+      cascadePathItems,
+      uncheckableItemValues
     } = this.props;
 
     const styles = {
       width: cascadeItems.length * menuWidth
     };
+    const columnStyles = {
+      height: menuHeight,
+      width: menuWidth
+    };
     const cascadeNodes = cascadeItems.map((children, layer) => {
+      let uncheckableCount = 0;
       const onlyKey = `${layer}_${children.length}`;
       const menu = (
         <ul>
-          {children.map((item, index) =>
-            this.renderCascadeNode(
+          {children.map((item, index) => {
+            const uncheckable = uncheckableItemValues.some(uncheckableValue =>
+              shallowEqual(uncheckableValue, item[valueKey])
+            );
+            if (uncheckable) {
+              uncheckableCount++;
+            }
+            return this.renderCascadeNode(
               item,
               index,
               layer,
               cascadePathItems[layer] &&
-                shallowEqual(cascadePathItems[layer][valueKey], item[valueKey])
-            )
-          )}
+                shallowEqual(cascadePathItems[layer][valueKey], item[valueKey]),
+              uncheckable
+            );
+          })}
         </ul>
       );
 
       const parentNode = cascadePathItems[layer - 1];
+      const columnClasses = classNames(this.addPrefix('cascader-menu-column'), {
+        [this.addPrefix('cascader-menu-column-uncheckable')]: uncheckableCount === children.length
+      });
       const node = (
         <div
           key={onlyKey}
-          className={this.addPrefix('column')}
-          ref={ref => {
-            this.menus[layer] = ref;
-          }}
-          style={{
-            height: menuHeight,
-            width: menuWidth
-          }}
+          className={columnClasses}
+          ref={ref => (this.menus[layer] = ref)}
+          style={columnStyles}
         >
           {renderMenu ? renderMenu(children, menu, parentNode) : menu}
         </div>
@@ -216,7 +227,7 @@ class DropdownMenu extends React.Component<Props> {
 
   render() {
     const { className, ...rest } = this.props;
-    const classes = classNames(this.addPrefix('items'), className);
+    const classes = classNames(this.addPrefix('cascader-menu-items'), className);
     const unhandled = getUnhandledProps(DropdownMenu, rest);
 
     return (
