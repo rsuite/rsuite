@@ -1,3 +1,13 @@
+# 3.4.1
+
+> 2018-11-01
+
+* **Bugfix**: Fix typos in Slider ([#246])
+* **Bugfix**: Fix typescript type definition error ([#245])
+
+[#246]: https://github.com/rsuite/rsuite/pull/246
+[#245]: https://github.com/rsuite/rsuite/pull/245
+
 # 3.4.0
 
 > 2018-11-01
