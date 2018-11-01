@@ -1,3 +1,27 @@
+# 3.4.0
+
+> 2018-11-01
+
+* **Feature**: Support [`Typescript`](https://www.typescriptlang.org/) ([#241])
+* **Feature**: Add [`<MultiCascader>`](https://rsuitejs.com/en/components/multi-cascader) ([#238])
+* **Feature**: Add `renderTooltip` for Slider ([#239])
+* **Bugfix**: The scroll bar is not reset after the column of the `<Table>` has changed ([#244])
+* **Bugfix**: The option value of `<InputPicker>` does not exist or is disabled and cannot be selected ([#243])
+* **Bugfix**: Cannot customize options in `<DatePicker>` shortcuts ([#242])
+* **Bugfix**: Fix cannot preview images in `fileList` on `<Uploader>` ([#237])
+* **Bugfix**: `<FormControl>` updates error information from the context of the `<Form>` by default ([#236])
+* **Bugfix**: Resolve the problem that icon exception when modularity ([#233])
+
+[#244]: https://github.com/rsuite/rsuite/pull/244
+[#243]: https://github.com/rsuite/rsuite/pull/243
+[#242]: https://github.com/rsuite/rsuite/pull/242
+[#241]: https://github.com/rsuite/rsuite/pull/241
+[#239]: https://github.com/rsuite/rsuite/pull/239
+[#238]: https://github.com/rsuite/rsuite/pull/238
+[#237]: https://github.com/rsuite/rsuite/pull/237
+[#236]: https://github.com/rsuite/rsuite/pull/236
+[#233]: https://github.com/rsuite/rsuite/pull/233
+
 # 3.3.1
 
 > 2018-10-18

@@ -65,6 +65,11 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 - [管理系统][demo-admin]
 - [模块化按需加载][demo-modular-import]
 - [CDN 引入][demo-cdn]
+- [国际化方案][demo-intl-app]
+- [多主题方案][demo-multiple-themes]
+- [在 create-react-app 中使用][demo-create-react-app]
+- [在 Flow 中使用][demo-flow-app]
+- [在 TypeScript 中使用][demo-typescript-app]
 
 ## 更新日志
 
@@ -147,3 +152,8 @@ RSUITE 基于 [MIT licensed][LICENSE] 发布。
 [demo-admin]:https://github.com/rsuite/rsuite-management-system
 [demo-modular-import]:https://github.com/rsuite/examples/tree/modular/modular-import
 [demo-cdn]:https://github.com/rsuite/examples/tree/master/cdn
+[demo-create-react-app]:https://github.com/rsuite/examples/tree/master/create-react-app
+[demo-intl-app]:https://github.com/rsuite/examples/tree/master/intl-app
+[demo-multiple-themes]:https://github.com/rsuite/examples/tree/master/multiple-themes
+[demo-flow-app]:https://github.com/rsuite/examples/tree/master/flow-app
+[demo-typescript-app]:https://github.com/rsuite/examples/tree/master/typescript-app

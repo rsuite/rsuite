@@ -69,6 +69,11 @@ You can go through [full documentation][rsuite-doc-guide] or start with followin
 - [Management system][demo-admin]
 - [Use modularized][demo-modular-import]
 - [Use CDN][demo-cdn]
+- [Internationalization][demo-intl-app]
+- [Themes][demo-multiple-themes]
+- [Use in create-react-app][demo-create-react-app]
+- [Use in Flow][demo-flow-app]
+- [Use in TypeScript][demo-typescript-app]
 
 ## Changelog
 
@@ -99,7 +104,6 @@ $ npm run dev
 ```
 
 3. Your show time. Open url http://127.0.0.1:3200/ in browser.
-
 
 
 ## Contribution
@@ -153,4 +157,8 @@ RSUITE is [MIT licensed][LICENSE]. Copyright (c) 2016-present, HYPERS.
 [demo-admin]:https://github.com/rsuite/rsuite-management-system
 [demo-modular-import]:https://github.com/rsuite/examples/tree/modular/modular-import
 [demo-cdn]:https://github.com/rsuite/examples/tree/master/cdn
-
+[demo-create-react-app]:https://github.com/rsuite/examples/tree/master/create-react-app
+[demo-intl-app]:https://github.com/rsuite/examples/tree/master/intl-app
+[demo-multiple-themes]:https://github.com/rsuite/examples/tree/master/multiple-themes
+[demo-flow-app]:https://github.com/rsuite/examples/tree/master/flow-app
+[demo-typescript-app]:https://github.com/rsuite/examples/tree/master/typescript-app
