@@ -20,7 +20,7 @@ type Props = {
   handleClassName?: string,
   handleTitle?: React.Node,
   barClassName?: string,
-  hanldeStyle?: Object,
+  handleStyle?: Object,
   disabled?: boolean,
   graduated?: boolean,
   tooltip?: boolean,
@@ -71,7 +71,7 @@ class Slider extends React.Component<Props, State> {
   getMouseMoveTracker() {
     return (
       this.mouseMoveTracker ||
-      new DOMMouseMoveTracker(this.hanldeDragMove, this.hanldeDragEnd, document.body)
+      new DOMMouseMoveTracker(this.handleDragMove, this.handleDragEnd, document.body)
     );
   }
 
@@ -152,7 +152,7 @@ class Slider extends React.Component<Props, State> {
     return value;
   }
 
-  hanldeClick = (event: SyntheticDragEvent<*>) => {
+  handleClick = (event: SyntheticDragEvent<*>) => {
     if (this.props.disabled) {
       return;
     }
@@ -167,7 +167,7 @@ class Slider extends React.Component<Props, State> {
   bar = null;
   handle = null;
 
-  hanldeMouseDown = (event: SyntheticEvent<*>) => {
+  handleMouseDown = (event: SyntheticEvent<*>) => {
     if (this.props.disabled) {
       return;
     }
@@ -182,14 +182,14 @@ class Slider extends React.Component<Props, State> {
     this.setTooltipPosition();
   };
 
-  hanldeDragEnd = () => {
+  handleDragEnd = () => {
     this.releaseMouseMoves();
     this.setState({
       handleDown: false
     });
   };
 
-  hanldeDragMove = (deltaX: number, deltaY: number, event: SyntheticDragEvent<*>) => {
+  handleDragMove = (deltaX: number, deltaY: number, event: SyntheticDragEvent<*>) => {
     if (!this.mouseMoveTracker || !this.mouseMoveTracker.isDragging()) {
       return;
     }
@@ -298,7 +298,7 @@ class Slider extends React.Component<Props, State> {
       min,
       vertical,
       tooltip,
-      hanldeStyle,
+      handleStyle,
       renderTooltip
     } = this.props;
     const max = this.getMax();
@@ -307,7 +307,7 @@ class Slider extends React.Component<Props, State> {
 
     const direction = vertical ? 'top' : 'left';
     const style = {
-      ...hanldeStyle,
+      ...handleStyle,
       // 通过 value 计算出手柄位置
       [direction]: `${(value - min) / (max - min) * 100}%`
     };
@@ -319,7 +319,7 @@ class Slider extends React.Component<Props, State> {
       <div
         className={handleClasses}
         role="presentation"
-        onMouseDown={this.hanldeMouseDown}
+        onMouseDown={this.handleMouseDown}
         onMouseEnter={this.handleMouseEnter}
         style={style}
         ref={this.handleRef}
@@ -371,7 +371,7 @@ class Slider extends React.Component<Props, State> {
     const unhandled = getUnhandledProps(Slider, rest);
 
     return (
-      <div {...unhandled} className={classes} onClick={this.hanldeClick} role="presentation">
+      <div {...unhandled} className={classes} onClick={this.handleClick} role="presentation">
         <div className={classNames(this.addPrefix('bar'), barClassName)} ref={this.barRef}>
           {progress && this.renderProgress()}
           {graduated && this.renderGraduated()}
