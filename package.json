@@ -26,14 +26,27 @@
     "prepublishOnly": "npm run build",
     "generate-styles": "rm -rf lib/styles && node scripts/generate-styles.js"
   },
-  "keywords": ["react", "rsuite", "component", "react-component"],
+  "keywords": [
+    "react",
+    "rsuite",
+    "component",
+    "react-component"
+  ],
   "author": "HYPERS Team",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git@github.com:rsuite/rsuite.git"
   },
-  "files": ["CHANGELOG.md", "README.md", "dist", "lib", "src", "styles"],
+  "files": [
+    "CHANGELOG.md",
+    "README.md",
+    "dist",
+    "lib",
+    "src",
+    "types",
+    "styles"
+  ],
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "classnames": ">=2.0.0",
@@ -138,6 +151,12 @@
     "webpack-cli": "^3.1.1",
     "webpack-dev-server": "^2.3.0"
   },
-  "browserslist": ["> 1%", "last 2 versions", "ie >= 10"],
-  "sideEffects": ["lib/styles/*"]
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "ie >= 10"
+  ],
+  "sideEffects": [
+    "lib/styles/*"
+  ]
 }

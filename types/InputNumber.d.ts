@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { StandardProps } from './index';
+import { StandardProps, PropTypes } from './index';
 
 export interface InputNumberProps extends StandardProps {
   /** Button can have different appearances */
-  buttonAppearance?: 'default' | 'primary' | 'link' | 'subtle' | 'ghost';
+  buttonAppearance?: PropTypes.Appearance;
 
   /** An input can show that it is disabled */
   disabled?: boolean;
@@ -31,7 +31,7 @@ export interface InputNumberProps extends StandardProps {
   postfix?: React.ReactNode;
 
   /** An Input can have different sizes */
-  size?: 'lg' | 'md' | 'sm' | 'xs';
+  size?: PropTypes.Size;
 
   /** The callback function when value changes */
   onChange?: (value: any, event?: React.ChangeEvent<HTMLInputElement>) => void;

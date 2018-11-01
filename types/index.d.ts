@@ -120,7 +120,7 @@ export namespace PropTypes {
   type Size = 'lg' | 'md' | 'sm' | 'xs';
   type Status = 'success' | 'warning' | 'error' | 'info';
   type Color = 'red' | 'orange' | 'yellow' | 'green' | 'cyan' | 'blue' | 'violet';
-
+  type Appearance = 'default' | 'primary' | 'link' | 'subtle' | 'ghost';
   type Placement4 = 'top' | 'bottom' | 'right' | 'left';
   type Placement8 =
     | 'bottomLeft'
@@ -149,6 +149,7 @@ export interface SVGIcon {
 export interface ItemDataType {
   label: any;
   value: any;
+  groupBy?: string;
 }
 
 export { default as Alert } from './Alert';

@@ -4,7 +4,7 @@ import { PropTypes, StandardProps } from './index';
 
 export interface ButtonProps extends StandardProps {
   /** A button can have different appearances. */
-  appearance?: 'default' | 'primary' | 'link' | 'subtle' | 'ghost';
+  appearance?: PropTypes.Appearance;
 
   /** A button can show it is currently the active user selection */
   active?: boolean;

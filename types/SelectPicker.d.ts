@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { FormControlPickerProps } from './index';
+import { FormControlPickerProps, ItemDataType } from './index';
 
 export interface SelectProps<ValueType = any> {
   /** Set group condition key in data */
@@ -13,16 +13,16 @@ export interface SelectProps<ValueType = any> {
   renderMenu?: (menu: React.ReactNode) => React.ReactNode;
 
   /** Custom render menuItems */
-  renderMenuItem?: (label: React.ReactNode, item: object) => React.ReactNode;
+  renderMenuItem?: (label: React.ReactNode, item: ItemDataType) => React.ReactNode;
 
   /** Custom render menu group */
-  renderMenuGroup?: (title: React.ReactNode, item: object) => React.ReactNode;
+  renderMenuGroup?: (title: React.ReactNode, item: ItemDataType) => React.ReactNode;
 
   /** Custom render selected items */
   renderValue?: (value: ValueType, items: any[]) => React.ReactNode;
 
   /** Called when the option is selected */
-  onSelect?: (value: any, item: object, event: React.SyntheticEvent<HTMLElement>) => void;
+  onSelect?: (value: any, item: ItemDataType, event: React.SyntheticEvent<HTMLElement>) => void;
 
   /** Called after clicking the group title */
   onGroupTitleClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
