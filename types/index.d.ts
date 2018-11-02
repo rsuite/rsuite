@@ -7,6 +7,8 @@ export interface StandardProps {
 
   /** Additional style */
   style?: React.CSSProperties;
+
+  [key: string]: any;
 }
 
 export interface AnimationEventProps {
