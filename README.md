@@ -46,7 +46,7 @@ Here's a simple example
 
 ```js
 import { Button } from 'rsuite';
-import 'rsuite/styles/less/index.less';
+import 'rsuite/styles/less/index.less'; // or 'rsuite/dist/styles/rsuite.min.css'
 
 ReactDOM.render(<Button>Button</Button>, mountNode);
 ```
@@ -63,11 +63,47 @@ You can go through [full documentation][rsuite-doc-guide] or start with followin
 * [Customizing themes][rsuite-doc-guide-themes]
 * [Internationalization][rsuite-doc-guide-intl]
 * [Components][rsuite-components-overview]
-* [Sample][rsuite-sample]
+
+### Examples
+
+- [Management system][demo-admin]
+- [Use modularized][demo-modular-import]
+- [Use CDN][demo-cdn]
+- [Internationalization][demo-intl-app]
+- [Themes][demo-multiple-themes]
+- [Use in create-react-app][demo-create-react-app]
+- [Use in Flow][demo-flow-app]
+- [Use in TypeScript][demo-typescript-app]
 
 ## Changelog
 
 Detailed changes for each release are documented in the [release notes][release-notes].
+
+
+## Development
+
+You can learn about our development plan through [Trello](https://trello.com/b/nsaUoK7S/rsuite) and hope that you can get involved.
+
+
+1. Fork `https://github.com/rsuite/rsuite` this repo.
+
+```bash
+$ git clone git@github.com:<YOUR NAME>/rsuite.git
+$ cd rsuite
+$ npm install
+$ npm run dev
+```
+
+2. Fork `https://github.com/rsuite/rsuite.github.io` this repo.
+
+```bash
+$ git clone git@github.com:<YOUR NAME>/rsuite.github.io.git
+$ cd rsuite.github.io
+$ npm install
+$ npm run dev
+```
+
+3. Your show time. Open url http://127.0.0.1:3200/ in browser.
 
 
 ## Contribution
@@ -75,6 +111,7 @@ Detailed changes for each release are documented in the [release notes][release-
 Make sure you've read the [guidelines][contributing] before you start contributing.
 
 Editor preferences are available in the [.prettierrc][prettierrc] for easy use in common code editors. Read more and download plugins at https://prettier.io/.
+
 
 
 ## Supporting RSUITE
@@ -86,7 +123,6 @@ If you like RSUITE, you can show your support by either
 - [Becoming a backer][opencollective-home] on OpenCollective
 
 [![opencollective-now][opencollective-svg]][opencollective-home]
-
 
 ## License
 
@@ -118,4 +154,11 @@ RSUITE is [MIT licensed][LICENSE]. Copyright (c) 2016-present, HYPERS.
 [rsuite-sample]:https://sample.rsuitejs.com/
 [gitter]:https://gitter.im/rsuite/rsuite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
 [gitter-svg]:https://badges.gitter.im/rsuite/rsuite.svg
-
+[demo-admin]:https://github.com/rsuite/rsuite-management-system
+[demo-modular-import]:https://github.com/rsuite/examples/tree/master/modular-import
+[demo-cdn]:https://github.com/rsuite/examples/tree/master/cdn
+[demo-create-react-app]:https://github.com/rsuite/examples/tree/master/create-react-app
+[demo-intl-app]:https://github.com/rsuite/examples/tree/master/intl-app
+[demo-multiple-themes]:https://github.com/rsuite/examples/tree/master/multiple-themes
+[demo-flow-app]:https://github.com/rsuite/examples/tree/master/flow-app
+[demo-typescript-app]:https://github.com/rsuite/examples/tree/master/typescript-app

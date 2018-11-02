@@ -118,7 +118,8 @@ class CheckTree extends React.Component<Props, States> {
     locale: {
       placeholder: 'Select',
       searchPlaceholder: 'Search',
-      selectedValues: '{0} selected'
+      selectedValues: '{0} selected',
+      noResultsText: 'No results found'
     },
     cascade: true,
     valueKey: 'value',
@@ -829,6 +830,10 @@ class CheckTree extends React.Component<Props, States> {
   }
 
   renderNode(node: Object, index: number, layer: number, classPrefix: string) {
+    if (!node.visible) {
+      return null;
+    }
+
     const { activeNode, expandAll } = this.state;
     const { valueKey, labelKey, childrenKey, renderTreeNode, renderTreeIcon, cascade } = this.props;
 
@@ -898,7 +903,7 @@ class CheckTree extends React.Component<Props, States> {
 
   renderCheckTree() {
     const { filterData, isSomeNodeHasChildren } = this.state;
-    const { inline, height, className = '', onScroll } = this.props;
+    const { inline, height, className = '', onScroll, locale } = this.props;
     // 树节点的层级
     let layer = 0;
     const treeViewClass = this.addPrefix('checktree-view');
@@ -913,6 +918,10 @@ class CheckTree extends React.Component<Props, States> {
     const nodes = formattedNodes.map((node, index) =>
       this.renderNode(node, index, layer, treeViewClass)
     );
+
+    if (!nodes.some(v => v !== null)) {
+      return <div className={this.addPrefix('none')}>{locale.noResultsText}</div>;
+    }
 
     const style = inline ? this.props.style : {};
     const styles = {

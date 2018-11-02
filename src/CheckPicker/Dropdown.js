@@ -72,14 +72,16 @@ type Props = {
   open?: boolean,
   defaultOpen?: boolean,
   placement?: Placement,
-  style?: Object
+  style?: Object,
+  sticky?: boolean
 };
 
 type State = {
   value?: Array<any>,
   // Used to focus the active item  when trigger `onKeydown`
   focusItemValue?: any,
-  searchKeyword: string
+  searchKeyword: string,
+  stickyItems: Array<any>
 };
 
 class Dropdown extends React.Component<Props, State> {
@@ -93,7 +95,8 @@ class Dropdown extends React.Component<Props, State> {
     locale: {
       placeholder: 'Select',
       searchPlaceholder: 'Search',
-      selectedValues: '{0} selected'
+      selectedValues: '{0} selected',
+      noResultsText: 'No results found'
     },
     searchable: true,
     cleanable: true,
@@ -134,6 +137,26 @@ class Dropdown extends React.Component<Props, State> {
     const nextValue = _.isUndefined(value) ? this.state.value : value;
     return _.clone(nextValue) || [];
   }
+
+  setStickyItems = () => {
+    const { sticky, data, valueKey } = this.props;
+    const value = this.getValue();
+
+    if (!sticky) {
+      return;
+    }
+
+    let stickyItems = [];
+    if (data && value.length) {
+      stickyItems = data.filter(item => {
+        return value.some(v => v === item[valueKey]);
+      });
+    }
+
+    this.setState({
+      stickyItems
+    });
+  };
 
   /**
    * Index of keyword  in `label`
@@ -328,6 +351,7 @@ class Dropdown extends React.Component<Props, State> {
     const {
       data,
       labelKey,
+      valueKey,
       groupBy,
       searchable,
       renderExtraFooter,
@@ -338,13 +362,28 @@ class Dropdown extends React.Component<Props, State> {
       menuStyle
     } = this.props;
 
-    const { focusItemValue } = this.state;
+    const { focusItemValue, stickyItems } = this.state;
     const classes = classNames(
       this.addPrefix('check-menu'),
       this.addPrefix(`placement-${_.kebabCase(placement)}`),
       menuClassName
     );
-    let filteredData = filterNodesOfTree(data, item => this.shouldDisplay(item[labelKey]));
+    let filteredData = [];
+    let filteredStickyItems = [];
+
+    if (stickyItems) {
+      filteredStickyItems = filterNodesOfTree(stickyItems, item =>
+        this.shouldDisplay(item[labelKey])
+      );
+      filteredData = filterNodesOfTree(data, item => {
+        return (
+          this.shouldDisplay(item[labelKey]) &&
+          !stickyItems.some(v => v[valueKey] === item[valueKey])
+        );
+      });
+    } else {
+      filteredData = filterNodesOfTree(data, item => this.shouldDisplay(item[labelKey]));
+    }
 
     // Create a tree structure data when set `groupBy`
     if (groupBy) {
@@ -358,7 +397,7 @@ class Dropdown extends React.Component<Props, State> {
       )
     );
 
-    const menu = (
+    const menu = filteredData.length ? (
       <DropdownMenu
         {...menuProps}
         classPrefix={this.addPrefix('check-menu')}
@@ -367,10 +406,12 @@ class Dropdown extends React.Component<Props, State> {
         ref={this.bindMenuContainerRef}
         activeItemValues={this.getValue()}
         focusItemValue={focusItemValue}
-        data={filteredData}
+        data={[...filteredStickyItems, ...filteredData]}
         group={!_.isUndefined(groupBy)}
         onSelect={this.handleItemSelect}
       />
+    ) : (
+      <div className={this.addPrefix('none')}>{locale.noResultsText}</div>
     );
 
     return (
@@ -446,7 +487,7 @@ class Dropdown extends React.Component<Props, State> {
         disabled={disabled}
         trigger="click"
         placement={placement}
-        onEnter={onEnter}
+        onEnter={createChainedFunction(this.setStickyItems, onEnter)}
         onEntering={onEntering}
         onEntered={createChainedFunction(this.handleOpen, onEntered)}
         onExit={onExit}

@@ -4,7 +4,7 @@ import * as React from 'react';
 import { getPosition, scrollTop } from 'dom-lib';
 import _ from 'lodash';
 import classNames from 'classnames';
-import { shallowEqual, shallowEqualArray } from 'rsuite-utils/lib/utils';
+import { shallowEqual } from 'rsuite-utils/lib/utils';
 
 import { getUnhandledProps, defaultProps, prefix } from '../utils';
 import stringToObject from '../utils/stringToObject';

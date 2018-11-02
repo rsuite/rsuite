@@ -41,18 +41,18 @@ npm i rsuite --save
 
 ```js
 import { Button } from 'rsuite';
-import 'rsuite/styles/less/index.less';
+import 'rsuite/styles/less/index.less'; // 或者 'rsuite/dist/styles/rsuite.min.css'
 
 ReactDOM.render(<Button>Button</Button>, mountNode);
 ```
 
-你可以在 [CodeSandbox][live-preview-on-codesandbox] 上查看该示例。
+您可以在 [CodeSandbox][live-preview-on-codesandbox] 上查看该示例。
 
 ### 文档
 
 [国内镜像站点 🇨🇳 ][rsuite-gitee]
 
-你可以阅读[完整文档][rsuite-doc-guide]，或者从下面几个章节开始学习
+您可以阅读[完整文档][rsuite-doc-guide]，或者从下面几个章节开始学习
 
 * [如何使用？][rsuite-doc-guide]
 * [自定义主题][rsuite-doc-guide-themes]
@@ -60,24 +60,61 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 * [组件][rsuite-components-overview]
 
 
+### 示例
+
+- [管理系统][demo-admin]
+- [模块化按需加载][demo-modular-import]
+- [CDN 引入][demo-cdn]
+- [国际化方案][demo-intl-app]
+- [多主题方案][demo-multiple-themes]
+- [在 create-react-app 中使用][demo-create-react-app]
+- [在 Flow 中使用][demo-flow-app]
+- [在 TypeScript 中使用][demo-typescript-app]
+
 ## 更新日志
 
-详见 [Release Notes][release-notes]
+每一个版本的详细变化记录在[Release Notes][release-notes]
+
+
+## 开发
+
+您可以通过 [Trello](https://trello.com/b/nsaUoK7S/rsuite) 查看我们的开发计划，同时希望您能参与其中。
+
+
+1. Fork `https://github.com/rsuite/rsuite` 这个仓库。
+
+```bash
+$ git clone git@github.com:<YOUR NAME>/rsuite.git
+$ cd rsuite
+$ npm install
+$ npm run dev
+```
+
+2. Fork `https://github.com/rsuite/rsuite.github.io` 这个仓库。
+
+```bash
+$ git clone git@github.com:<YOUR NAME>/rsuite.github.io.git
+$ cd rsuite.github.io
+$ npm install
+$ npm run dev
+```
+
+3. 您可以开始访问了， 在浏览器输入 http://127.0.0.1:3200/ 。
 
 
 ## 贡献
 
-请阅读[贡献指南][contributing]。
+在开始之前，确保您已读[贡献指南][contributing]。
 
 编辑器的配置参考 [.prettierrc][prettierrc]， 下载编辑的插件 https://prettier.io/。
 
 
 ## 支持 RSUITE
 
-如果你喜欢 RSUITE，可以通过以下方式支持我们
+如果您喜欢 RSUITE，可以通过以下方式支持我们
 
 - Star 这个项目
-- 如果你在你的项目中使用了 RSUITE，欢迎在这里[留言][issues-11]！
+- 如果您在您的项目中使用了 RSUITE，欢迎在这里[留言][issues-11]！
 - 在 [OpenCollective](https://opencollective.com/rsuite#) 上赞助我们
 
 [![opencollective-now][opencollective-svg]][opencollective-home]
@@ -112,3 +149,11 @@ RSUITE 基于 [MIT licensed][LICENSE] 发布。
 [rsuite-gitee]:http://rsuite.gitee.io/
 [gitter]:https://gitter.im/rsuite/rsuite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
 [gitter-svg]:https://badges.gitter.im/rsuite/rsuite.svg
+[demo-admin]:https://github.com/rsuite/rsuite-management-system
+[demo-modular-import]:https://github.com/rsuite/examples/tree/master/modular-import
+[demo-cdn]:https://github.com/rsuite/examples/tree/master/cdn
+[demo-create-react-app]:https://github.com/rsuite/examples/tree/master/create-react-app
+[demo-intl-app]:https://github.com/rsuite/examples/tree/master/intl-app
+[demo-multiple-themes]:https://github.com/rsuite/examples/tree/master/multiple-themes
+[demo-flow-app]:https://github.com/rsuite/examples/tree/master/flow-app
+[demo-typescript-app]:https://github.com/rsuite/examples/tree/master/typescript-app

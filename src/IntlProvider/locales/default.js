@@ -38,8 +38,13 @@ export default {
     last7Days: 'Last 7 Days'
   },
   Picker: {
+    noResultsText: 'No results found',
     placeholder: 'Select',
     searchPlaceholder: 'Search'
+  },
+  MultiCascader: {
+    placeholder: 'Select',
+    selectedValues: '{0} selected'
   },
   CheckPicker: {
     selectedValues: '{0} selected'
@@ -48,7 +53,6 @@ export default {
     selectedValues: '{0} selected'
   },
   InputPicker: {
-    noResultsText: 'No results found',
     newItem: 'New item',
     createOption: 'Create option "{0}"'
   },

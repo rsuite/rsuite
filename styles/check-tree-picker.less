@@ -122,17 +122,19 @@
   .@{ctpns}-view-inner::before {
     .checkbox-inner-wrap(@checkbox-default-border-color);
 
+    .@{ctpns}-view-node-disabled & {
+      border-color: @checkbox-disabled-color;
+      background-color: @checkbox-disabled-color;
+    }
+
     .@{ctpns}-view-node-indeterminate &,
     .@{ctpns}-view-node-checked & {
       border-color: @checkbox-checked-border-color;
       background-color: @checkbox-checked-border-color;
     }
 
-    .@{ctpns}-view-node-disabled:not(.@{ns}picker-check-menu-item-active) & {
-      border-color: @checkbox-disabled-color;
-      background-color: @checkbox-disabled-color;
-    }
-
+    .@{ctpns}-view-node-disabled.@{ctpns}-view-node-indeterminate &,
+    .@{ctpns}-view-node-disabled.@{ctpns}-view-node-checked &,
     .@{ctpns}-view-node-disabled.@{ns}picker-check-menu-item-active & {
       opacity: 0.3;
     }

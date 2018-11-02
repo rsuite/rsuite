@@ -215,7 +215,9 @@ describe('CheckPicker', () => {
   });
 
   it('Should have a custom className', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Dropdown className="custom" defaultOpen />);
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown className="custom" defaultOpen data={[{ label: '', value: '1' }]} />
+    );
     assert.include(findDOMNode(instance).className, 'custom');
     expect(findDOMNode(instance.menuContainer).className).to.not.include('custom');
   });
@@ -251,5 +253,17 @@ describe('CheckPicker', () => {
   it('Should have a custom className prefix', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Dropdown classPrefix="custom-prefix" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should be sticky', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown placeholder="test" sticky data={data} value={['Kariane']} defaultOpen />
+    );
+
+    const instanceDOM = findDOMNode(instance.menuContainer).querySelector(
+      '.rs-picker-check-menu-item-checker'
+    );
+
+    assert.equal(instanceDOM.innerText, 'Kariane');
   });
 });

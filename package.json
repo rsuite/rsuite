@@ -1,23 +1,25 @@
 {
   "name": "rsuite",
-  "version": "3.3.0",
+  "version": "3.4.1",
   "description": "A suite of react components",
   "main": "lib/index.js",
+  "typings": "types/index.d.ts",
   "directories": {
     "lib": "lib/"
   },
-  "sideEffects": false,
   "scripts": {
     "format": "prettier --write \"{src,test}/**/*.js\"",
     "format:check": "prettier --list-different \"{src,test}/**/*.js\"",
     "build": "rm -rf lib && npx babel src --out-dir lib  && npm run dist",
+    "dev": "gulp dev --gulpfile scripts/gulpfile.js",
     "dist-style": "gulp --gulpfile scripts/gulpfile.js && npm run generate-styles",
     "dist-map": "NODE_ENV=development  webpack --mode development --progress",
     "dist-pro": "webpack --mode production --progress",
     "dist": "rm -rf dist && npm run dist-map && npm run dist-pro && npm run dist-style",
     "lint-style": "stylelint  \"styles/**/*.less\"",
     "lint-js": "eslint src  *.js*",
-    "lint": "npm run lint-js && npm run lint-style",
+    "lint-tsd": "tslint  \"./types/*.d.ts\" ",
+    "lint": "npm run lint-js && npm run lint-style && npm run lint-tsd",
     "tdd": "karma start",
     "test": "npm run format:check && npm run lint && NODE_ENV=coverage  karma start --single-run",
     "coveralls": "cat ./coverage/lcov/lcov.info | ./node_modules/.bin/coveralls",
@@ -42,6 +44,7 @@
     "dist",
     "lib",
     "src",
+    "types",
     "styles"
   ],
   "dependencies": {
@@ -56,7 +59,7 @@
     "recompose": "^0.26.0",
     "rsuite-intl": "~1.0.4",
     "rsuite-notification": "~3.0.2",
-    "rsuite-table": "^3.1.4",
+    "rsuite-table": "^3.1.6",
     "rsuite-utils": "~1.4.3",
     "schema-typed": "~0.2.0"
   },
@@ -99,6 +102,7 @@
     "coveralls": "^2.13.1",
     "cssnano": "^3.10.0",
     "del": "^3.0.0",
+    "dtslint": "^0.3.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.19.1",
@@ -114,6 +118,7 @@
     "flow-bin": "^0.81.0",
     "glob": "^7.1.2",
     "gulp": "^3.9.1",
+    "gulp-babel": "^8.0.0",
     "gulp-less": "^4.0.0",
     "gulp-postcss": "^7.0.1",
     "gulp-rename": "^1.2.2",
@@ -150,5 +155,8 @@
     "> 1%",
     "last 2 versions",
     "ie >= 10"
+  ],
+  "sideEffects": [
+    "lib/styles/*"
   ]
 }
