@@ -7,7 +7,7 @@ export interface InputProps extends StandardProps, FormControlBaseProps<string> 
   componentClass?: React.ReactType<InputProps>;
 
   /** The HTML input type */
-  type: string;
+  type?: string;
 
   /** The HTML input id */
   id?: string;
