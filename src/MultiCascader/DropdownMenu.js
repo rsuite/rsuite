@@ -31,6 +31,7 @@ type Props = {
     event: DefaultEvent
   ) => void,
   onCheck?: (value: any, event: SyntheticEvent<*>, checked: boolean) => void,
+  cascade: boolean,
   cascadeItems: Array<any>,
   cascadePathItems: Array<any>,
   uncheckableItemValues: Array<any>
@@ -109,10 +110,12 @@ class DropdownMenu extends React.Component<Props> {
       return false;
     }
     return node[childrenKey].some((child: Object) => {
-      if (child[childrenKey] && child[childrenKey].length) {
+      if (value.some(n => n === child[valueKey])) {
+        return true;
+      } else if (child[childrenKey] && child[childrenKey].length) {
         return this.isSomeChildChecked(child);
       }
-      return value.some(n => n === child[valueKey]);
+      return false;
     });
   }
 
@@ -125,7 +128,8 @@ class DropdownMenu extends React.Component<Props> {
       disabledItemValues,
       uncheckableItemValues,
       renderMenuItem,
-      onCheck
+      onCheck,
+      cascade
     } = this.props;
 
     const children = node[childrenKey];
@@ -139,9 +143,11 @@ class DropdownMenu extends React.Component<Props> {
     // Use `value` in keys when If `value` is string or number
     const onlyKey = _.isString(itemValue) || _.isNumber(itemValue) ? itemValue : index;
     const active = value.some(item => shallowEqual(item, itemValue));
+
     const classes = classNames({
       [this.addPrefix('cascader-menu-has-children')]: children,
-      [this.addPrefix('check-menu-item-indeterminate')]: !active && this.isSomeChildChecked(node)
+      [this.addPrefix('check-menu-item-indeterminate')]:
+        cascade && !active && this.isSomeChildChecked(node)
     });
 
     return (

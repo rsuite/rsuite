@@ -21,7 +21,12 @@ import DropdownMenu from './DropdownMenu';
 import PickerToggle from '../_picker/PickerToggle';
 import MenuWrapper from '../_picker/MenuWrapper';
 import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
-import getDerivedStateForCascade from './getDerivedStateForCascade';
+import {
+  getDerivedStateForCascade,
+  getChildrenValue,
+  getCheckedItemsByCascade,
+  flattenNodes
+} from './utils';
 
 import type { Placement } from '../utils/TypeDefinition';
 
@@ -85,47 +90,6 @@ type State = {
   data: Array<any>
 };
 
-/**
- * 获取一个节点的所有子节点的值
- */
-function getChildrenValue(
-  item: Object,
-  childrenKey: string,
-  valueKey: string,
-  uncheckableItemValues: Array<any>
-) {
-  let values = [];
-
-  if (!item[childrenKey]) {
-    return values;
-  }
-
-  item[childrenKey].forEach(n => {
-    if (!uncheckableItemValues.some(v => v === n[valueKey])) {
-      values.push(n[valueKey]);
-    }
-    values = values.concat(getChildrenValue(n, childrenKey, valueKey, uncheckableItemValues));
-  });
-
-  return values;
-}
-
-/**
- * 获取一个节点的所有父辈节点
- */
-function getParents(item: Object, uncheckableItemValues: Array<any>) {
-  let parents = [];
-
-  if (!item.parent) {
-    return parents;
-  }
-
-  parents.push(item.parent);
-  parents = parents.concat(getParents(item.parent));
-
-  return parents;
-}
-
 class Dropdown extends React.Component<Props, State> {
   static defaultProps = {
     cascade: true,
@@ -147,10 +111,10 @@ class Dropdown extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
+    const { data, defaultValue, cascade, valueKey } = props;
     const initState = {
+      data,
       selectNode: null,
-      data: props.data,
-      value: props.defaultValue,
       /**
        * 选中值的路径
        */
@@ -162,9 +126,30 @@ class Dropdown extends React.Component<Props, State> {
       items: []
     };
 
+    let cascadeValue = defaultValue || [];
+
+    /**
+     * 如果启用级联，则通过 defaultValue 遍历 data
+     * 然后初始化一个新的默认值
+     */
+    if (cascade && defaultValue && data) {
+      const items = flattenNodes(props.data, props).filter(item =>
+        defaultValue.some(v => v === item[valueKey])
+      );
+
+      cascadeValue = _.uniq(
+        _.flatten(
+          items.map(item => {
+            return getCheckedItemsByCascade(item, true, defaultValue, props);
+          })
+        )
+      );
+    }
+
     this.state = {
       ...initState,
-      ...getDerivedStateForCascade(props, initState)
+      ...getDerivedStateForCascade(props, initState),
+      value: cascadeValue
     };
   }
 
@@ -196,16 +181,12 @@ class Dropdown extends React.Component<Props, State> {
       );
 
       /**
-       * 在级联的情况下，需要判断当前节点是否被选中，并更新子节点
+       * 一般在异步更新 data 的情况下，同时是级联状态，
+       * 当前 active 的节点是 checked 的则需要把当前所有子节点也选中
        */
       if (cascade && value.some(n => n === selectNodeValue)) {
         value = value.concat(
-          getChildrenValue(
-            { [childrenKey]: newChildren },
-            childrenKey,
-            valueKey,
-            uncheckableItemValues
-          )
+          getChildrenValue({ [childrenKey]: newChildren }, uncheckableItemValues, nextProps)
         );
       }
 
@@ -225,59 +206,13 @@ class Dropdown extends React.Component<Props, State> {
     return nextValue ? [...nextValue] : [];
   }
 
-  // 获取所有级联的节点
-  getCheckedItemsByCascade(item: Object, checked: boolean) {
-    const { valueKey, childrenKey, uncheckableItemValues } = this.props;
-    const itemValue = item[valueKey];
-    let value = this.getValue();
-
-    const childrenValue = getChildrenValue(item, childrenKey, valueKey, uncheckableItemValues);
-    const parents = getParents(item);
-
-    if (checked) {
-      value.push(itemValue);
-      value = value.concat(childrenValue);
-
-      /**
-       * 遍历当前节点所有祖宗节点
-       * 然后判断这些节点的子节点是否是否全部被选中，则自身也要被选中
-       */
-
-      for (let i = 0, isContinue = true; i < parents.length && isContinue; i++) {
-        let isCheckAll = parents[i][childrenKey]
-          // 过滤掉被标识为不可选的选项
-          .filter(n => !uncheckableItemValues.some(v => v === n[valueKey]))
-          // 检查是否所有节点都被选中
-          .every(n => value.some(v => v === n[valueKey]));
-
-        if (isCheckAll) {
-          value.push(parents[i][valueKey]);
-        } else {
-          /**
-           * 如果 parents[i] 下的子节点没有全选，
-           * 那它祖宗节点肯定不会被选中，则没必要再继续循环。
-           */
-          isContinue = false;
-        }
-      }
-    } else {
-      value = value.filter(n => !shallowEqual(n, itemValue));
-      const tempValue = childrenValue.concat(parents.map(item => item[valueKey]));
-
-      // 删除相关的子父节点
-      _.remove(value, item => tempValue.some(n => n === item));
-    }
-
-    return _.uniq(value);
-  }
-
   handleCheck = (item: Object, event: SyntheticEvent<*>, checked: boolean) => {
     const { valueKey, onChange, cascade } = this.props;
     const itemValue = item[valueKey];
     let value = [];
 
     if (cascade) {
-      value = this.getCheckedItemsByCascade(item, checked);
+      value = getCheckedItemsByCascade(item, checked, this.getValue(), this.props);
     } else {
       value = this.getValue();
       if (checked) {
