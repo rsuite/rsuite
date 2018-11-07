@@ -42,9 +42,6 @@ export default {
     placeholder: '选择',
     searchPlaceholder: '搜索'
   },
-  CheckPicker: {
-    selectedValues: '已选择 {0} 项'
-  },
   CheckTreePicker: {
     selectedValues: '已选择 {0} 项'
   },

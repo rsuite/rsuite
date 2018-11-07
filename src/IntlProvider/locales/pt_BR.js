@@ -42,9 +42,6 @@ export default {
     placeholder: 'Selecionar',
     searchPlaceholder: 'Pesquisar'
   },
-  CheckPicker: {
-    selectedValues: '{0} selecionado'
-  },
   CheckTreePicker: {
     selectedValues: '{0} selecionado'
   },

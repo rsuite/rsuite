@@ -4,6 +4,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
+import { IntlProvider, FormattedMessage } from 'rsuite-intl';
 import {
   reactToString,
   filterNodesOfTree,
@@ -20,6 +21,7 @@ import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
 import onMenuKeyDown from '../_picker/onMenuKeyDown';
 import MenuWrapper from '../_picker/MenuWrapper';
 import SearchBar from '../_picker/SearchBar';
+import SelectedElement from '../_picker/SelectedElement';
 import type { Placement } from '../utils/TypeDefinition';
 
 type DefaultEvent = SyntheticEvent<*>;
@@ -69,6 +71,7 @@ type Props = {
   placeholder?: React.Node,
   searchable?: boolean,
   cleanable?: boolean,
+  countable?: boolean,
   open?: boolean,
   defaultOpen?: boolean,
   placement?: Placement,
@@ -100,6 +103,7 @@ class Dropdown extends React.Component<Props, State> {
     },
     searchable: true,
     cleanable: true,
+    countable: true,
     placement: 'bottomLeft'
   };
 
@@ -459,64 +463,76 @@ class Dropdown extends React.Component<Props, State> {
       onExited,
       onHide,
       appearance,
+      countable,
       ...rest
     } = this.props;
 
     const unhandled = getUnhandledProps(Dropdown, rest);
     const value = this.getValue();
     const selectedItems =
-      !!value && !!value.length
-        ? data.filter(item => value.some(val => shallowEqual(item[valueKey], val)))
-        : [];
-    const hasValue = !!selectedItems.length;
+      data.filter(item => value.some(val => shallowEqual(item[valueKey], val))) || [];
 
-    let selectedLabel = hasValue
-      ? tplTransform(locale.selectedValues, selectedItems.length)
-      : placeholder;
-    if (renderValue && hasValue) {
-      selectedLabel = renderValue(value, selectedItems);
+    const count = selectedItems.length;
+    const hasValue = !!count;
+
+    let selectedElement = placeholder;
+
+    if (renderValue) {
+      selectedElement = renderValue(value, selectedItems);
+    } else if (count > 0) {
+      selectedElement = (
+        <SelectedElement
+          selectedItems={selectedItems}
+          countable={countable}
+          valueKey={valueKey}
+          labelKey={labelKey}
+          prefix={this.addPrefix}
+        />
+      );
     }
 
     const classes = getToggleWrapperClassName('check', this.addPrefix, this.props, hasValue);
 
     return (
-      <OverlayTrigger
-        ref={this.bindTriggerRef}
-        open={open}
-        defaultOpen={defaultOpen}
-        disabled={disabled}
-        trigger="click"
-        placement={placement}
-        onEnter={createChainedFunction(this.setStickyItems, onEnter)}
-        onEntering={onEntering}
-        onEntered={createChainedFunction(this.handleOpen, onEntered)}
-        onExit={onExit}
-        onExiting={onExiting}
-        onExited={createChainedFunction(this.handleExited, onExited)}
-        onHide={onHide}
-        speaker={this.renderDropdownMenu()}
-        container={container}
-        containerPadding={containerPadding}
-      >
-        <div
-          className={classes}
-          style={style}
-          onKeyDown={this.handleKeyDown}
-          tabIndex={-1}
-          role="menu"
-          ref={this.bindContainerRef}
+      <IntlProvider locale={locale}>
+        <OverlayTrigger
+          ref={this.bindTriggerRef}
+          open={open}
+          defaultOpen={defaultOpen}
+          disabled={disabled}
+          trigger="click"
+          placement={placement}
+          onEnter={createChainedFunction(this.setStickyItems, onEnter)}
+          onEntering={onEntering}
+          onEntered={createChainedFunction(this.handleOpen, onEntered)}
+          onExit={onExit}
+          onExiting={onExiting}
+          onExited={createChainedFunction(this.handleExited, onExited)}
+          onHide={onHide}
+          speaker={this.renderDropdownMenu()}
+          container={container}
+          containerPadding={containerPadding}
         >
-          <PickerToggle
-            {...unhandled}
-            componentClass={toggleComponentClass}
-            onClean={this.handleClean}
-            cleanable={cleanable && !disabled}
-            hasValue={hasValue}
+          <div
+            className={classes}
+            style={style}
+            onKeyDown={this.handleKeyDown}
+            tabIndex={-1}
+            role="menu"
+            ref={this.bindContainerRef}
           >
-            {selectedLabel || locale.placeholder}
-          </PickerToggle>
-        </div>
-      </OverlayTrigger>
+            <PickerToggle
+              {...unhandled}
+              componentClass={toggleComponentClass}
+              onClean={this.handleClean}
+              cleanable={cleanable && !disabled}
+              hasValue={hasValue}
+            >
+              {selectedElement || <FormattedMessage id="placeholder" />}
+            </PickerToggle>
+          </div>
+        </OverlayTrigger>
+      </IntlProvider>
     );
   }
 }
