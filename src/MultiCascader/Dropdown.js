@@ -99,8 +99,7 @@ class Dropdown extends React.Component<Props, State> {
     valueKey: 'value',
     labelKey: 'label',
     locale: {
-      placeholder: 'Select',
-      selectedValues: '{0} selected'
+      placeholder: 'Select'
     },
     cleanable: true,
     countable: true,
