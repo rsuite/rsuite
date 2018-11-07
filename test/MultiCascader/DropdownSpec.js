@@ -23,12 +23,12 @@ const items = [
     label: 'abcde',
     children: [
       {
-        value: 'vv-abc',
-        label: 'vv-abc'
+        value: 'abcde-1',
+        label: 'abcde-1'
       },
       {
-        value: 'vv-abcd',
-        label: 'vv-abcd'
+        value: 'abcde-2',
+        label: 'abcde-2'
       }
     ]
   }
@@ -36,10 +36,77 @@ const items = [
 
 describe('MultiCascader - Dropdown', () => {
   it('Should output a dropdown', () => {
-    const Title = 'Title';
-    const instance = ReactTestUtils.renderIntoDocument(<Dropdown>{Title}</Dropdown>);
+    const instance = ReactTestUtils.renderIntoDocument(<Dropdown>Title</Dropdown>);
     const instanceDom = findDOMNode(instance);
     assert.ok(instanceDom.className.match(/\bpicker-cascader\b/));
+  });
+
+  it('Should render number', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown data={items} value={['abcde-1', 'abcde-2']} classPrefix="rs-picker" />
+    );
+    const instanceDom = findDOMNode(instance);
+
+    assert.equal(instanceDom.querySelector('.rs-picker-value-count').innerText, '1');
+  });
+
+  it('Should not render number', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown
+        data={items}
+        value={['abcde-1', 'abcde-2']}
+        countable={false}
+        classPrefix="rs-picker"
+      />
+    );
+    const instanceDom = findDOMNode(instance);
+    assert.ok(!instanceDom.querySelector('.rs-picker-value-count'));
+  });
+
+  it('Should render the parent node by children value', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown data={items} value={['abcde-1', 'abcde-2']} classPrefix="rs-picker" />
+    );
+    const instanceDom = findDOMNode(instance);
+
+    assert.equal(instanceDom.querySelector('.rs-picker-value-list').innerText, 'abcde');
+  });
+
+  it('Should render the parent node by children defaultValue', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown data={items} defaultValue={['abcde-1', 'abcde-2']} classPrefix="rs-picker" />
+    );
+    const instanceDom = findDOMNode(instance);
+
+    assert.equal(instanceDom.querySelector('.rs-picker-value-list').innerText, 'abcde');
+  });
+
+  it('Should render the parent node by children value', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown
+        data={items}
+        value={['abcde-1']}
+        classPrefix="rs-picker"
+        uncheckableItemValues={['abcde-2']}
+      />
+    );
+    const instanceDom = findDOMNode(instance);
+
+    assert.equal(instanceDom.querySelector('.rs-picker-value-list').innerText, 'abcde');
+  });
+
+  it('Should render the children nodes', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown
+        data={items}
+        value={['abcde-1', 'abcde-2']}
+        classPrefix="rs-picker"
+        uncheckableItemValues={['abcde']}
+      />
+    );
+    const instanceDom = findDOMNode(instance);
+
+    assert.equal(instanceDom.querySelector('.rs-picker-value-list').innerText, 'abcde-1,abcde-2');
   });
 
   it('Should be disabled', () => {
@@ -124,7 +191,7 @@ describe('MultiCascader - Dropdown', () => {
 
   it('Should clean selected default value', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <Dropdown defaultOpen data={items} defaultValue={['vv-abc']} />
+      <Dropdown defaultOpen data={items} defaultValue={['abcde-1']} />
     );
     const instanceDOM = findDOMNode(instance);
     ReactTestUtils.Simulate.click(instanceDOM.querySelector('.rs-picker-toggle-clean'));
