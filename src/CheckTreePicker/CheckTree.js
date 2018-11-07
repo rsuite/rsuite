@@ -482,10 +482,8 @@ class CheckTree extends React.Component<Props, States> {
     return node[childrenKey].some((child: Object) => {
       if (child.check) {
         return true;
-      } else if (child[childrenKey] && child[childrenKey].length) {
-        return this.isSomeChildChecked(child);
       }
-      return false;
+      return this.isSomeChildChecked(child);
     });
   }
 
