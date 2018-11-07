@@ -183,18 +183,23 @@ export default function(props) {
        * 然后判断这些节点的子节点是否是否全部被选中，则自身也要被选中
        */
       for (let i = 0; i < parents.length; i++) {
-        let isCheckAll = parents[i][childrenKey]
-          // 过滤掉被标识为不可选的选项
-          .filter(n => !uncheckableItemValues.some(v => v === n[valueKey]))
-          // 检查是否所有节点都被选中
-          .every(n => nextValue.some(v => v === n[valueKey]));
+        // 父节点是否可以选择
+        let isCheckableParent = !uncheckableItemValues.some(v => v === parents[i][valueKey]);
 
-        if (isCheckAll) {
-          // 添加父节点值
-          nextValue.push(parents[i][valueKey]);
+        if (isCheckableParent) {
+          let isCheckAll = parents[i][childrenKey]
+            // 过滤掉被标识为不可选的选项
+            .filter(n => !uncheckableItemValues.some(v => v === n[valueKey]))
+            // 检查是否所有节点都被选中
+            .every(n => nextValue.some(v => v === n[valueKey]));
 
-          // 删除父节点下所有的值
-          removedValue = removedValue.concat(removeAllChildrenValue(nextValue, parents[i]));
+          if (isCheckAll) {
+            // 添加父节点值
+            nextValue.push(parents[i][valueKey]);
+
+            // 删除父节点下所有的值
+            removedValue = removedValue.concat(removeAllChildrenValue(nextValue, parents[i]));
+          }
         }
       }
     } else {
