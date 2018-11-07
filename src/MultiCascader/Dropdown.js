@@ -20,6 +20,7 @@ import findNodesOfTree from '../utils/findNodesOfTree';
 import DropdownMenu from './DropdownMenu';
 import PickerToggle from '../_picker/PickerToggle';
 import MenuWrapper from '../_picker/MenuWrapper';
+import SelectedElement from '../_picker/SelectedElement';
 import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
 import createUtils from './utils';
 
@@ -394,23 +395,13 @@ class Dropdown extends React.Component<Props, State> {
       selectedElement = renderValue(value, selectedItems);
     } else if (count > 0) {
       selectedElement = (
-        <React.Fragment>
-          <span className={this.addPrefix('value-list')}>
-            {selectedItems.map((item, index) => (
-              <React.Fragment key={item[valueKey]}>
-                <span className={this.addPrefix('value-item')}>{item[labelKey]}</span>
-                {index === count - 1 ? null : (
-                  <span className={this.addPrefix('value-separator')}>,</span>
-                )}
-              </React.Fragment>
-            ))}
-          </span>
-          {countable ? (
-            <span className={this.addPrefix('value-count')} title={count}>
-              {count > 99 ? '99+' : count}
-            </span>
-          ) : null}
-        </React.Fragment>
+        <SelectedElement
+          selectedItems={selectedItems}
+          countable={countable}
+          valueKey={valueKey}
+          labelKey={labelKey}
+          prefix={this.addPrefix}
+        />
       );
     }
 
