@@ -104,6 +104,20 @@ class DropdownMenu extends React.Component<Props> {
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
+  isSomeParentChecked(node: Object) {
+    const { valueKey, value } = this.props;
+
+    if (value.some(n => n === node[valueKey])) {
+      return true;
+    }
+
+    if (node.parent) {
+      return this.isSomeParentChecked(node.parent);
+    }
+
+    return false;
+  }
+
   isSomeChildChecked(node: Object) {
     const { childrenKey, valueKey, value } = this.props;
     if (!node[childrenKey]) {
@@ -112,7 +126,8 @@ class DropdownMenu extends React.Component<Props> {
     return node[childrenKey].some((child: Object) => {
       if (value.some(n => n === child[valueKey])) {
         return true;
-      } else if (child[childrenKey] && child[childrenKey].length) {
+      }
+      if (child[childrenKey] && child[childrenKey].length) {
         return this.isSomeChildChecked(child);
       }
       return false;
@@ -142,8 +157,13 @@ class DropdownMenu extends React.Component<Props> {
 
     // Use `value` in keys when If `value` is string or number
     const onlyKey = _.isString(itemValue) || _.isNumber(itemValue) ? itemValue : index;
-    const active = value.some(item => shallowEqual(item, itemValue));
+    let active = value.some(v => v === itemValue);
 
+    if (cascade) {
+      active = active || this.isSomeParentChecked(node);
+    }
+
+    value.some(item => shallowEqual(item, itemValue));
     const classes = classNames({
       [this.addPrefix('cascader-menu-has-children')]: children,
       [this.addPrefix('check-menu-item-indeterminate')]:
