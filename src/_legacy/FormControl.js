@@ -3,12 +3,10 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 
-import Input from './Input';
-import ErrorMessage from './ErrorMessage';
-import FormContext from './FormContext';
-import LegacyFormControl from './_legacy/FormControl';
+import Input from '../Input';
+import ErrorMessage from '../ErrorMessage';
 
-import { getUnhandledProps, defaultProps, prefix } from './utils';
+import { getUnhandledProps, defaultProps, prefix } from '../utils';
 
 type PlacementEightPoints =
   | 'bottomLeft'
@@ -37,19 +35,22 @@ type State = {
 };
 
 class FormControl extends React.Component<Props, State> {
-  static contextType = FormContext;
   static defaultProps = {
     accepter: Input,
     errorPlacement: 'bottomLeft'
   };
 
+  static contextTypes = {
+    form: PropTypes.object
+  };
+
   constructor(props: Props, context: Object) {
     super(props, context);
-    if (!context) {
+    if (!context.form) {
       throw new Error('FormControl must be inside a component decorated with <Form>');
     }
 
-    const { formValue = {}, formDefaultValue = {} } = context;
+    const { formValue = {}, formDefaultValue = {} } = context.form;
     const name = props.name;
 
     this.state = {
@@ -59,7 +60,7 @@ class FormControl extends React.Component<Props, State> {
   }
 
   getValue() {
-    const { formValue } = this.context;
+    const { formValue } = this.context.form;
     const { name } = this.props;
 
     if (formValue && typeof formValue[name] !== 'undefined') {
@@ -70,7 +71,7 @@ class FormControl extends React.Component<Props, State> {
   }
 
   getErrorMessage() {
-    const { formError, errorFromContext } = this.context;
+    const { formError, errorFromContext } = this.context.form;
     const { name, errorMessage } = this.props;
 
     if (errorMessage) {
@@ -85,13 +86,13 @@ class FormControl extends React.Component<Props, State> {
   }
 
   getCheckTrigger() {
-    const { checkTrigger } = this.context;
+    const { checkTrigger } = this.context.form;
     return this.props.checkTrigger || checkTrigger;
   }
 
   handleFieldChange = (value: any, event: SyntheticEvent<*>) => {
     const { name, onChange } = this.props;
-    const { onFieldChange } = this.context;
+    const { onFieldChange } = this.context.form;
     const checkTrigger = this.getCheckTrigger();
     const checkResult = this.handleFieldCheck(value, checkTrigger === 'change');
     this.setState({ checkResult, value });
@@ -108,7 +109,7 @@ class FormControl extends React.Component<Props, State> {
 
   handleFieldCheck = (value: any, isCheckTrigger: boolean, callback?: Function) => {
     const { name } = this.props;
-    const { onFieldError, onFieldSuccess, model, formValue } = this.context;
+    const { onFieldError, onFieldSuccess, model, formValue } = this.context.form;
 
     const checkResult = model.checkForField(name, value, formValue);
 
@@ -125,7 +126,8 @@ class FormControl extends React.Component<Props, State> {
 
   render() {
     const { name, accepter: Component, classPrefix, errorPlacement, ...props } = this.props;
-    const { formValue = {}, formDefaultValue = {} } = this.context;
+
+    const { formValue = {}, formDefaultValue = {} } = this.context.form;
     const unhandled = getUnhandledProps(FormControl, props);
     const addPrefix = prefix(classPrefix);
     const errorMessage = this.getErrorMessage();
@@ -153,8 +155,6 @@ class FormControl extends React.Component<Props, State> {
   }
 }
 
-const EnhancedFormControl = defaultProps({
+export default defaultProps({
   classPrefix: 'form-control'
 })(FormControl);
-
-export default (React.createContext ? EnhancedFormControl : LegacyFormControl);

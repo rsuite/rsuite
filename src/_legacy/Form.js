@@ -5,12 +5,9 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { SchemaModel, Schema } from 'schema-typed';
 import classNames from 'classnames';
-import { shallowEqual } from 'rsuite-utils/lib/utils';
 
-import { getUnhandledProps, prefix } from './utils';
-import { defaultClassPrefix } from './utils/prefix';
-import FormContext from './FormContext';
-import LegacyForm from './_legacy/Form';
+import { getUnhandledProps, prefix } from '../utils';
+import { defaultClassPrefix } from '../utils/prefix';
 
 type Props = {
   className?: string,
@@ -34,10 +31,6 @@ type State = {
   formValue?: Object
 };
 
-function preventDefaultEvent(event) {
-  event.preventDefault();
-}
-
 class Form extends React.Component<Props, State> {
   static defaultProps = {
     classPrefix: defaultClassPrefix('form'),
@@ -49,59 +42,31 @@ class Form extends React.Component<Props, State> {
     errorFromContext: true
   };
 
-  static getDerivedStateFromProps(nextProps: Props, prevState: State) {
-    let { formValue, formError, checkTrigger, model } = nextProps;
-    let update = false;
-
-    if (!shallowEqual(formValue, prevState.formContextValue.formValue)) {
-      prevState.formContextValue.formValue = formValue;
-      update = true;
-    }
-
-    if (!shallowEqual(formError, prevState.formContextValue.formError)) {
-      prevState.formContextValue.formError = formError;
-      update = true;
-    }
-
-    if (!shallowEqual(checkTrigger, prevState.formContextValue.checkTrigger)) {
-      prevState.formContextValue.checkTrigger = checkTrigger;
-      update = true;
-    }
-
-    if (!shallowEqual(model, prevState.formContextValue.model)) {
-      prevState.formContextValue.model = model;
-      update = true;
-    }
-
-    return update ? prevState : null;
-  }
+  static childContextTypes = {
+    form: PropTypes.object.isRequired
+  };
 
   constructor(props: Props) {
     super(props);
-
-    const {
-      formDefaultValue,
-      formError,
-      formValue,
-      model,
-      checkTrigger,
-      errorFromContext
-    } = this.props;
-
     this.state = {
-      formError: formError || {},
-      formValue: formDefaultValue,
-      formContextValue: {
+      formError: props.formError || {},
+      formValue: props.formDefaultValue
+    };
+  }
+  getChildContext() {
+    const { formDefaultValue, formValue, model, checkTrigger, errorFromContext } = this.props;
+    const formError = this.getFormError();
+    return {
+      form: {
         onFieldChange: this.handleFieldChange,
         onFieldError: this.handleFieldError,
         onFieldSuccess: this.handleFieldSuccess,
-        formDefaultValue,
-        errorFromContext,
-
-        model,
         checkTrigger,
         formValue,
-        formError
+        formDefaultValue,
+        formError,
+        model,
+        errorFromContext
       }
     };
   }
@@ -220,18 +185,14 @@ class Form extends React.Component<Props, State> {
     const addPrefix = prefix(classPrefix);
     const classes = classNames(
       classPrefix,
-      className,
       addPrefix(layout),
+      className,
       addPrefix(fluid && layout === 'vertical' ? 'fluid' : 'fixed-width')
     );
     const unhandled = getUnhandledProps(Form, props);
 
-    return (
-      <FormContext.Provider value={this.state.formContextValue}>
-        <form {...unhandled} onSubmit={preventDefaultEvent} className={classes} />
-      </FormContext.Provider>
-    );
+    return <form {...unhandled} onSubmit={e => e.preventDefault()} className={classes} />;
   }
 }
 
-export default (React.createContext ? Form : LegacyForm);
+export default Form;
