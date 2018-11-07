@@ -8,7 +8,7 @@ function getToggleWrapperClassName(
   hasValue: boolean,
   classes: Object
 ) {
-  const { className, placement, appearance, cleanable, block, disabled } = props;
+  const { className, placement, appearance, cleanable, block, disabled, countable } = props;
 
   return classNames(
     className,
@@ -21,6 +21,7 @@ function getToggleWrapperClassName(
       [prefix('has-value')]: hasValue,
       [prefix('disabled')]: disabled,
       [prefix('cleanable')]: hasValue && cleanable,
+      [prefix('countable')]: countable,
       ...classes
     }
   );
