@@ -118,24 +118,38 @@ export default function(props) {
   /**
    * 在 value 中的值存在级联的情况下
    * 通过 value 重新计算出一个新的 value
-   * @param {*} items
-   * @param {*} value
-   * @param {*} uncheckableItemValues
    */
-  function transformValue(items, value, uncheckableItemValues) {
+  function transformValue(value, flattenData, uncheckableItemValues) {
     let tempRemovedValue = [];
     let nextValue = [];
 
-    for (let i = 0; i < items.length; i++) {
-      if (tempRemovedValue.some(v => v === items[i][valueKey])) {
+    for (let i = 0; i < value.length; i++) {
+      // 如果当前 value 中的值已经在被删除列表中则不处理
+      if (tempRemovedValue.some(v => v === value[i])) {
         continue;
       }
-      let sv = splitValue(items[i], true, value, uncheckableItemValues);
+
+      let sv = splitValue(
+        flattenData.find(v => v[valueKey] === value[i]),
+        true,
+        value,
+        uncheckableItemValues
+      );
+
       tempRemovedValue = _.uniq(tempRemovedValue.concat(sv.removedValue));
+
+      // 获取到所有相关的值
       nextValue = _.uniq(nextValue.concat(sv.value));
     }
 
-    return nextValue;
+    // 最后遍历所有的 nextValue, 如果它的父节点也在nextValue则删除
+    return nextValue.filter(v => {
+      const item = flattenData.find(n => n[valueKey] === v);
+      if (item.parent && nextValue.some(v => v === item.parent[valueKey])) {
+        return false;
+      }
+      return true;
+    });
   }
 
   /**

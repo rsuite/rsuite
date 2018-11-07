@@ -143,9 +143,13 @@ class Dropdown extends React.Component<Props, State> {
     const { data, cascade, value, defaultValue, uncheckableItemValues, valueKey } = nextProps;
     let cascadeValue = nextValue || value || defaultValue || [];
 
-    if (cascade && cascadeValue && data) {
+    if (cascade && data) {
       const items = flattenData.filter(item => cascadeValue.some(v => v === item[valueKey]));
-      cascadeValue = Dropdown.utils.transformValue(items, cascadeValue, uncheckableItemValues);
+      cascadeValue = Dropdown.utils.transformValue(
+        cascadeValue,
+        flattenData,
+        uncheckableItemValues
+      );
     }
 
     return {
@@ -380,30 +384,32 @@ class Dropdown extends React.Component<Props, State> {
     const { activePaths, flattenData } = this.state;
     const unhandled = getUnhandledProps(Dropdown, rest);
     const value = this.getValue();
+
     const selectedItems = flattenData.filter(item => value.some(v => v === item[valueKey])) || [];
-    const hasValue = !!selectedItems.length;
+    const count = selectedItems.length;
+    const hasValue = !!count;
 
     let selectedElement = placeholder;
 
     if (renderValue) {
       selectedElement = renderValue(value, selectedItems);
-    } else if (selectedItems.length > 0) {
+    } else if (count > 0) {
       selectedElement = (
         <React.Fragment>
           <span className={this.addPrefix('value-list')}>
             {selectedItems.map((item, index) => (
               <React.Fragment key={item[valueKey]}>
                 <span className={this.addPrefix('value-item')}>{item[labelKey]}</span>
-                {index === selectedItems.length - 1 ? (
-                  ''
-                ) : (
+                {index === count - 1 ? null : (
                   <span className={this.addPrefix('value-separator')}>,</span>
                 )}
               </React.Fragment>
             ))}
           </span>
           {countable ? (
-            <span className={this.addPrefix('value-count')}>{selectedItems.length}</span>
+            <span className={this.addPrefix('value-count')} title={count}>
+              {count > 99 ? '99+' : count}
+            </span>
           ) : null}
         </React.Fragment>
       );
