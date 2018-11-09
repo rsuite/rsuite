@@ -1,7 +1,6 @@
 /* @flow */
 
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { SchemaModel, Schema } from 'schema-typed';
 import classNames from 'classnames';
@@ -9,7 +8,7 @@ import { shallowEqual } from 'rsuite-utils/lib/utils';
 
 import { getUnhandledProps, prefix } from './utils';
 import { defaultClassPrefix } from './utils/prefix';
-import FormContext from './FormContext';
+import FormContext, { FormValueContext, FormErrorContext } from './FormContext';
 import LegacyForm from './_legacy/Form';
 
 type Props = {
@@ -39,6 +38,7 @@ function preventDefaultEvent(event) {
 }
 
 class Form extends React.Component<Props, State> {
+  formContextValue = null;
   static defaultProps = {
     classPrefix: defaultClassPrefix('form'),
     model: SchemaModel({}),
@@ -48,33 +48,6 @@ class Form extends React.Component<Props, State> {
     checkTrigger: 'change',
     errorFromContext: true
   };
-
-  static getDerivedStateFromProps(nextProps: Props, prevState: State) {
-    let { formValue, formError, checkTrigger, model } = nextProps;
-    let update = false;
-
-    if (!shallowEqual(formValue, prevState.formContextValue.formValue)) {
-      prevState.formContextValue.formValue = formValue;
-      update = true;
-    }
-
-    if (!shallowEqual(formError, prevState.formContextValue.formError)) {
-      prevState.formContextValue.formError = formError;
-      update = true;
-    }
-
-    if (!shallowEqual(checkTrigger, prevState.formContextValue.checkTrigger)) {
-      prevState.formContextValue.checkTrigger = checkTrigger;
-      update = true;
-    }
-
-    if (!shallowEqual(model, prevState.formContextValue.model)) {
-      prevState.formContextValue.model = model;
-      update = true;
-    }
-
-    return update ? prevState : null;
-  }
 
   constructor(props: Props) {
     super(props);
@@ -90,19 +63,7 @@ class Form extends React.Component<Props, State> {
 
     this.state = {
       formError: formError || {},
-      formValue: formDefaultValue,
-      formContextValue: {
-        onFieldChange: this.handleFieldChange,
-        onFieldError: this.handleFieldError,
-        onFieldSuccess: this.handleFieldSuccess,
-        formDefaultValue,
-        errorFromContext,
-
-        model,
-        checkTrigger,
-        formValue,
-        formError
-      }
+      formValue: formDefaultValue
     };
   }
   getFormValue() {
@@ -133,8 +94,10 @@ class Form extends React.Component<Props, State> {
     });
 
     this.setState({ formError });
+
     onCheck && onCheck(formError);
     callback && callback(formError);
+
     if (errorCount > 0) {
       onError && onError(formError);
       return false;
@@ -215,8 +178,39 @@ class Form extends React.Component<Props, State> {
     onChange && onChange(nextFormValue, event);
   };
 
+  getFormContextValue() {
+    const { formDefaultValue, errorFromContext, model, checkTrigger } = this.props;
+    const nextFormContextValue = {
+      model,
+      checkTrigger,
+      formDefaultValue,
+      errorFromContext,
+      onFieldChange: this.handleFieldChange,
+      onFieldError: this.handleFieldError,
+      onFieldSuccess: this.handleFieldSuccess
+    };
+
+    if (!shallowEqual(nextFormContextValue, this.formContextValue)) {
+      this.formContextValue = nextFormContextValue;
+    }
+
+    return this.formContextValue;
+  }
+
+  checkErrorFromContext(children: React.Node) {
+    const { errorFromContext } = this.props;
+    if (errorFromContext) {
+      return (
+        <FormErrorContext.Provider value={this.getFormError()}>
+          {children}
+        </FormErrorContext.Provider>
+      );
+    }
+    return children;
+  }
+
   render() {
-    const { layout, classPrefix, fluid, className, ...props } = this.props;
+    const { formValue, layout, classPrefix, fluid, className, children, ...props } = this.props;
     const addPrefix = prefix(classPrefix);
     const classes = classNames(
       classPrefix,
@@ -227,9 +221,13 @@ class Form extends React.Component<Props, State> {
     const unhandled = getUnhandledProps(Form, props);
 
     return (
-      <FormContext.Provider value={this.state.formContextValue}>
-        <form {...unhandled} onSubmit={preventDefaultEvent} className={classes} />
-      </FormContext.Provider>
+      <form {...unhandled} onSubmit={preventDefaultEvent} className={classes}>
+        <FormContext.Provider value={this.getFormContextValue()}>
+          <FormValueContext.Provider value={formValue}>
+            {this.checkErrorFromContext(children)}
+          </FormValueContext.Provider>
+        </FormContext.Provider>
+      </form>
     );
   }
 }
