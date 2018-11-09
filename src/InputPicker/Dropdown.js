@@ -88,6 +88,7 @@ type Props = {
 };
 
 type State = {
+  data?: Array<any>,
   value?: any | Array<any>,
   // Used to focus the active item  when trigger `onKeydown`
   focusItemValue?: any,
@@ -116,14 +117,24 @@ class Dropdown extends React.Component<Props, State> {
     placement: 'bottomLeft'
   };
 
+  static getDerivedStateFromProps(nextProps: Props, prevState: State) {
+    if (nextProps.data && !shallowEqual(nextProps.data, prevState.data)) {
+      return {
+        focusItemValue: _.get(nextProps, `data.0.${nextProps.valueKey}`)
+      };
+    }
+    return null;
+  }
+
   constructor(props: Props) {
     super(props);
 
-    const { defaultValue, groupBy, valueKey, labelKey, defaultOpen, multi } = props;
+    const { defaultValue, groupBy, valueKey, labelKey, defaultOpen, multi, data } = props;
     const value: any = multi ? defaultValue || [] : defaultValue;
     const focusItemValue = multi ? value[0] : defaultValue;
 
     this.state = {
+      data,
       value,
       focusItemValue,
       searchKeyword: '',
@@ -349,11 +360,8 @@ class Dropdown extends React.Component<Props, State> {
       return;
     }
 
-    // Returns if the value does not exist in the option or is disabled in the option.
-    if (
-      !data.some(item => item[valueKey] === focusItemValue) ||
-      disabledItemValues.some(item => item === focusItemValue)
-    ) {
+    // If the value is disabled in this option, it is returned.
+    if (disabledItemValues.some(item => item === focusItemValue)) {
       return;
     }
 
@@ -382,11 +390,8 @@ class Dropdown extends React.Component<Props, State> {
       return;
     }
 
-    // Returns if the value does not exist in the option or is disabled in the option.
-    if (
-      !data.some(item => item[valueKey] === focusItemValue) ||
-      disabledItemValues.some(item => item === focusItemValue)
-    ) {
+    // If the value is disabled in this option, it is returned.
+    if (disabledItemValues.some(item => item === focusItemValue)) {
       return;
     }
 
@@ -465,7 +470,7 @@ class Dropdown extends React.Component<Props, State> {
     );
     const nextState = {
       searchKeyword,
-      focusItemValue: filteredData.length ? filteredData[0][valueKey] : null
+      focusItemValue: filteredData.length ? filteredData[0][valueKey] : searchKeyword
     };
 
     this.setState(nextState, this.updatePosition);
