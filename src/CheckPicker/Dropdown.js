@@ -98,7 +98,6 @@ class Dropdown extends React.Component<Props, State> {
     locale: {
       placeholder: 'Select',
       searchPlaceholder: 'Search',
-      selectedValues: '{0} selected',
       noResultsText: 'No results found'
     },
     searchable: true,
