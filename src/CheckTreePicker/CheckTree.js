@@ -266,17 +266,17 @@ class CheckTree extends React.Component<Props, States> {
   getNodeCheckState(node: Object, cascade: boolean) {
     const { childrenKey } = this.props;
     if (!node[childrenKey] || !node[childrenKey].length || !cascade) {
-      this.nodes[node.refKey].allChildCheck = false;
+      this.nodes[node.refKey].checkAll = false;
       return node.check ? CHECK_STATE.CHECK : CHECK_STATE.UNCHECK;
     }
 
     if (this.isEveryChildChecked(node)) {
-      this.nodes[node.refKey].allChildCheck = true;
+      this.nodes[node.refKey].checkAll = true;
       return CHECK_STATE.CHECK;
     }
 
     if (this.isSomeChildChecked(node)) {
-      this.nodes[node.refKey].allChildCheck = false;
+      this.nodes[node.refKey].checkAll = false;
       return CHECK_STATE.INDETERMINATE;
     }
 
@@ -561,7 +561,7 @@ class CheckTree extends React.Component<Props, States> {
     Object.keys(nodes).forEach((refKey: string) => {
       const currentNode = nodes[refKey];
       if (currentNode.parentNode) {
-        if (!nodes[currentNode.parentNode.refKey].allChildCheck && currentNode[key]) {
+        if (!nodes[currentNode.parentNode.refKey].checkAll && currentNode[key]) {
           list.push(nodes[refKey][valueKey]);
         }
       } else {
@@ -681,14 +681,14 @@ class CheckTree extends React.Component<Props, States> {
     if (cascade) {
       if (!checked) {
         currentNode.check = checked;
-        currentNode.allChildCheck = checked;
+        currentNode.checkAll = checked;
       } else {
         if (this.everyChildChecked(nodes, node)) {
           currentNode.check = true;
-          currentNode.allChildCheck = true;
+          currentNode.checkAll = true;
         } else {
           currentNode.check = false;
-          currentNode.allChildCheck = false;
+          currentNode.checkAll = false;
         }
       }
       if (node.parentNode) {
@@ -702,9 +702,9 @@ class CheckTree extends React.Component<Props, States> {
     nodes[node.refKey].check = isChecked;
 
     if (!node[childrenKey] || !node[childrenKey].length || !cascade) {
-      nodes[node.refKey].allChildCheck = false;
+      nodes[node.refKey].checkAll = false;
     } else {
-      nodes[node.refKey].allChildCheck = isChecked;
+      nodes[node.refKey].checkAll = isChecked;
       node.children.forEach((child: Object) => {
         this.toggleDownChecked(nodes, child, isChecked);
       });
