@@ -12,7 +12,7 @@ const itemFocusClassName = `.${classPrefix}-menu-item-focus`;
 const itemActiveClassName = `.${classPrefix}-menu-item-active`;
 const cleanClassName = `.${namespace}-toggle-clean`;
 const placeholderClassName = `.${namespace}-toggle-placeholder`;
-const valueClassName = `.${namespace}-toggle-value`;
+const valueClassName = `.${namespace}-value-list`;
 
 const data = [
   {
@@ -48,7 +48,7 @@ describe('CheckPicker', () => {
     );
     const instanceDOM = findDOMNode(instance);
     ReactTestUtils.Simulate.click(instanceDOM.querySelector(cleanClassName));
-    expect(instanceDOM.querySelector(valueClassName).innerText).to.equal('1 selected');
+    expect(instanceDOM.querySelector(valueClassName).innerText).to.equal('Eugenia');
   });
 
   it('Should output a dropdown', () => {
@@ -83,7 +83,7 @@ describe('CheckPicker', () => {
     const instanceDom = findDOMNode(instance);
     const menuDom = findDOMNode(instance.menuContainer);
 
-    assert.equal(instanceDom.querySelector(valueClassName).innerText, '1 selected');
+    assert.equal(instanceDom.querySelector(valueClassName).innerText, 'Louisa');
     assert.equal(menuDom.querySelector(itemActiveClassName).innerText, value);
   });
 
@@ -95,7 +95,7 @@ describe('CheckPicker', () => {
     const instanceDom = findDOMNode(instance);
     const menuDom = findDOMNode(instance.menuContainer);
 
-    assert.equal(instanceDom.querySelector(valueClassName).innerText, '1 selected');
+    assert.equal(instanceDom.querySelector(valueClassName).innerText, 'Louisa');
     assert.equal(menuDom.querySelector(itemActiveClassName).innerText, value);
   });
 
@@ -125,7 +125,7 @@ describe('CheckPicker', () => {
       />
     );
     const instanceDom = findDOMNode(instance);
-    assert.equal(instanceDom.querySelector(valueClassName).innerText, '1,2');
+    assert.equal(instanceDom.querySelector('.rs-picker-toggle-value').innerText, '1,2');
   });
 
   it('Should render a placeholder when value error', () => {
@@ -239,16 +239,6 @@ describe('CheckPicker', () => {
     assert.equal(instanceDOM.innerText, '');
   });
 
-  it('Sholud output the correct language', () => {
-    const locale = {
-      selectedValues: '已选择 {0} 项'
-    };
-    const instance = ReactTestUtils.renderIntoDocument(
-      <Dropdown locale={locale} data={[{ label: '', value: '1' }]} value={['1']} defaultOpen />
-    );
-    const instanceDOM = findDOMNode(instance).querySelector('.rs-picker-toggle-value');
-    assert.equal(instanceDOM.innerText, '已选择 1 项');
-  });
 
   it('Should have a custom className prefix', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Dropdown classPrefix="custom-prefix" />);
