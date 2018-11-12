@@ -17,6 +17,7 @@ const treeNodeCls = `${treeViewCls}-node`;
 const treeNodeLabelCls = `${treeViewCls}-checknode-label`;
 const expandIconCls = `${treeViewCls}-node-expand-icon`;
 const valueCls = `.${namespace}-toggle-value`;
+const selectedItemsCls = `.${namespace}-value-item`;
 const toggleCls = `.${namespace}-toggle`;
 const toggleCleanCls = `.${namespace}-toggle-clean`;
 const customToggleClass = `.${namespace}-toggle-custom`;
@@ -59,7 +60,9 @@ describe('CheckTreePicker', () => {
       <CheckTreePicker data={data} defaultValue={['Master']} />
     );
     const instanceDOM = findDOMNode(instance);
-    expect(instanceDOM.querySelector(valueCls).innerText).to.equal('4 selected');
+    expect(instanceDOM.querySelector(`${valueCls} ${selectedItemsCls}`).innerText).to.equal(
+      'Master'
+    );
   });
 
   it('Should clean selected value', () => {
@@ -157,9 +160,11 @@ describe('CheckTreePicker', () => {
     assert.equal(instanceDom.querySelector(placeholderCls).innerText, 'test');
   });
 
-  it('Should call `onChange` callback', done => {
+  it('Should call `onChange` callback with 1 selectedValues', done => {
     const doneOp = values => {
-      done();
+      if (values.length === 1) {
+        done();
+      }
     };
     const instance = ReactTestUtils.renderIntoDocument(
       <CheckTreePicker inline onChange={doneOp} data={data} />
@@ -258,17 +263,6 @@ describe('CheckTreePicker', () => {
       <CheckTreePicker menuStyle={{ fontSize }} data={data} open />
     );
     assert.equal(findDOMNode(instance.menu).style.fontSize, fontSize);
-  });
-
-  it('Should output the correct language', () => {
-    const locale = {
-      selectedValues: '已选择 {0} 项'
-    };
-    const instance = ReactTestUtils.renderIntoDocument(
-      <CheckTreePicker locale={locale} data={data} cascade={false} value={['Master']} />
-    );
-    const instanceDOM = findDOMNode(instance).querySelector('.rs-picker-toggle-value');
-    assert.equal(instanceDOM.innerText, '已选择 1 项');
   });
 
   it('Should render node without checkbox', () => {
