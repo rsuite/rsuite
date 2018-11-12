@@ -160,7 +160,7 @@ describe('CheckTreePicker', () => {
     assert.equal(instanceDom.querySelector(placeholderCls).innerText, 'test');
   });
 
-  it('Should call `onChange` callback with 1 selectedValues', done => {
+  it('Should call `onChange` callback with 1 values', done => {
     const doneOp = values => {
       if (values.length === 1) {
         done();
