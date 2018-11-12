@@ -217,7 +217,7 @@ class CheckTree extends React.Component<Props, States> {
         activeNode: this.activeNode
       };
 
-      if (!value.length) {
+      if (value && !value.length) {
         nextState.activeNode = null;
       }
       this.unserializeLists({
