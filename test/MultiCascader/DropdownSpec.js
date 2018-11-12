@@ -69,7 +69,7 @@ describe('MultiCascader - Dropdown', () => {
     );
     const instanceDom = findDOMNode(instance);
 
-    assert.equal(instanceDom.querySelector('.rs-picker-value-list').innerText, 'abcde');
+    assert.equal(instanceDom.querySelector('.rs-picker-value-list').innerText, 'abcde (All)');
   });
 
   it('Should render the parent node by children defaultValue', () => {
@@ -78,7 +78,7 @@ describe('MultiCascader - Dropdown', () => {
     );
     const instanceDom = findDOMNode(instance);
 
-    assert.equal(instanceDom.querySelector('.rs-picker-value-list').innerText, 'abcde');
+    assert.equal(instanceDom.querySelector('.rs-picker-value-list').innerText, 'abcde (All)');
   });
 
   it('Should render the parent node by children value', () => {
@@ -92,7 +92,7 @@ describe('MultiCascader - Dropdown', () => {
     );
     const instanceDom = findDOMNode(instance);
 
-    assert.equal(instanceDom.querySelector('.rs-picker-value-list').innerText, 'abcde');
+    assert.equal(instanceDom.querySelector('.rs-picker-value-list').innerText, 'abcde (All)');
   });
 
   it('Should render the children nodes', () => {

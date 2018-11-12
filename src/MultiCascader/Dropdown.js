@@ -100,7 +100,8 @@ class Dropdown extends React.Component<Props, State> {
     valueKey: 'value',
     labelKey: 'label',
     locale: {
-      placeholder: 'Select'
+      placeholder: 'Select',
+      checkAll: 'All'
     },
     cleanable: true,
     countable: true,
@@ -353,6 +354,7 @@ class Dropdown extends React.Component<Props, State> {
       data,
       valueKey,
       labelKey,
+      childrenKey,
       className,
       placeholder,
       renderValue,
@@ -378,6 +380,7 @@ class Dropdown extends React.Component<Props, State> {
       onHide,
       appearance,
       countable,
+      cascade,
       ...rest
     } = this.props;
 
@@ -400,7 +403,10 @@ class Dropdown extends React.Component<Props, State> {
           countable={countable}
           valueKey={valueKey}
           labelKey={labelKey}
+          childrenKey={childrenKey}
           prefix={this.addPrefix}
+          cascade={cascade}
+          locale={locale}
         />
       );
     }
@@ -408,44 +414,36 @@ class Dropdown extends React.Component<Props, State> {
     const classes = getToggleWrapperClassName('cascader', this.addPrefix, this.props, hasValue);
 
     return (
-      <IntlProvider locale={locale}>
-        <div
-          className={classes}
-          style={style}
-          tabIndex={-1}
-          role="menu"
-          ref={this.bindContainerRef}
+      <div className={classes} style={style} tabIndex={-1} role="menu" ref={this.bindContainerRef}>
+        <OverlayTrigger
+          ref={this.bindTriggerRef}
+          open={open}
+          defaultOpen={defaultOpen}
+          disabled={disabled}
+          trigger="click"
+          placement={placement}
+          onEnter={createChainedFunction(this.handleEntered, onEnter)}
+          onEntering={onEntering}
+          onEntered={onEntered}
+          onExit={onExit}
+          onExiting={onExiting}
+          onExited={createChainedFunction(this.handleExited, onExited)}
+          onHide={onHide}
+          speaker={this.renderDropdownMenu()}
+          container={container}
+          containerPadding={containerPadding}
         >
-          <OverlayTrigger
-            ref={this.bindTriggerRef}
-            open={open}
-            defaultOpen={defaultOpen}
-            disabled={disabled}
-            trigger="click"
-            placement={placement}
-            onEnter={createChainedFunction(this.handleEntered, onEnter)}
-            onEntering={onEntering}
-            onEntered={onEntered}
-            onExit={onExit}
-            onExiting={onExiting}
-            onExited={createChainedFunction(this.handleExited, onExited)}
-            onHide={onHide}
-            speaker={this.renderDropdownMenu()}
-            container={container}
-            containerPadding={containerPadding}
+          <PickerToggle
+            {...unhandled}
+            componentClass={toggleComponentClass}
+            onClean={this.handleClean}
+            cleanable={cleanable && !disabled}
+            hasValue={hasValue}
           >
-            <PickerToggle
-              {...unhandled}
-              componentClass={toggleComponentClass}
-              onClean={this.handleClean}
-              cleanable={cleanable && !disabled}
-              hasValue={hasValue}
-            >
-              {selectedElement || <FormattedMessage id="placeholder" />}
-            </PickerToggle>
-          </OverlayTrigger>
-        </div>
-      </IntlProvider>
+            {selectedElement || locale.placeholder}
+          </PickerToggle>
+        </OverlayTrigger>
+      </div>
     );
   }
 }

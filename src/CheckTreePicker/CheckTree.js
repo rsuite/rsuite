@@ -120,7 +120,8 @@ class CheckTree extends React.Component<Props, States> {
     locale: {
       placeholder: 'Select',
       searchPlaceholder: 'Search',
-      noResultsText: 'No results found'
+      noResultsText: 'No results found',
+      checkAll: 'All'
     },
     cascade: true,
     valueKey: 'value',
@@ -994,6 +995,7 @@ class CheckTree extends React.Component<Props, States> {
     const {
       open,
       block,
+      cascade,
       style,
       locale,
       inline,
@@ -1038,6 +1040,8 @@ class CheckTree extends React.Component<Props, States> {
           valueKey={valueKey}
           labelKey={labelKey}
           prefix={this.addPrefix}
+          cascade={cascade}
+          locale={locale}
         />
       );
     }

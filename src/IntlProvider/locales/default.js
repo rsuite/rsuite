@@ -40,7 +40,8 @@ export default {
   Picker: {
     noResultsText: 'No results found',
     placeholder: 'Select',
-    searchPlaceholder: 'Search'
+    searchPlaceholder: 'Search',
+    checkAll: 'All'
   },
   InputPicker: {
     newItem: 'New item',
