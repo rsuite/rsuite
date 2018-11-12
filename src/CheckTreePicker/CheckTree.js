@@ -22,6 +22,7 @@ import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
 import onMenuKeyDown from '../_picker/onMenuKeyDown';
 import MenuWrapper from '../_picker/MenuWrapper';
 import SearchBar from '../_picker/SearchBar';
+import SelectedElement from '../_picker/SelectedElement';
 
 type DefaultEvent = SyntheticEvent<*>;
 type Placement =
@@ -55,6 +56,7 @@ type Props = {
   container?: HTMLElement | (() => HTMLElement),
   className?: string,
   cleanable?: boolean,
+  countable?: boolean,
   expandAll?: boolean,
   placement?: Placement,
   menuStyle?: Object,
@@ -118,13 +120,13 @@ class CheckTree extends React.Component<Props, States> {
     locale: {
       placeholder: 'Select',
       searchPlaceholder: 'Search',
-      selectedValues: '{0} selected',
       noResultsText: 'No results found'
     },
     cascade: true,
     valueKey: 'value',
     labelKey: 'label',
     cleanable: true,
+    countable: true,
     placement: 'bottomLeft',
     appearance: 'default',
     searchable: true,
@@ -136,9 +138,9 @@ class CheckTree extends React.Component<Props, States> {
   };
   constructor(props: Props) {
     super(props);
-    const { data, searchKeyword } = props;
+    const { value, data, searchKeyword } = props;
     this.nodes = {};
-    this.isControlled = 'value' in props;
+    this.isControlled = !_.isUndefined(value);
 
     const nextValue = this.getValue(props);
     const nextData = clone(data);
@@ -264,14 +266,17 @@ class CheckTree extends React.Component<Props, States> {
   getNodeCheckState(node: Object, cascade: boolean) {
     const { childrenKey } = this.props;
     if (!node[childrenKey] || !node[childrenKey].length || !cascade) {
+      this.nodes[node.refKey].allChildCheck = false;
       return node.check ? CHECK_STATE.CHECK : CHECK_STATE.UNCHECK;
     }
 
     if (this.isEveryChildChecked(node)) {
+      this.nodes[node.refKey].allChildCheck = true;
       return CHECK_STATE.CHECK;
     }
 
     if (this.isSomeChildChecked(node)) {
+      this.nodes[node.refKey].allChildCheck = false;
       return CHECK_STATE.INDETERMINATE;
     }
 
@@ -423,6 +428,21 @@ class CheckTree extends React.Component<Props, States> {
   }
 
   /**
+   * 获取已选择的items，用于显示在placeholder
+   */
+  getSelectedItems(selectedValues) {
+    const { valueKey } = this.props;
+    const checkItems = [];
+    Object.keys(this.nodes).map((refKey: string) => {
+      const node = this.nodes[refKey];
+      if (selectedValues.some((value: any) => shallowEqual(node[valueKey], value))) {
+        checkItems.push(node);
+      }
+    });
+    return checkItems;
+  }
+
+  /**
    * 判断传入的 value 是否存在于data 中
    * @param {*} values
    */
@@ -485,7 +505,7 @@ class CheckTree extends React.Component<Props, States> {
   }
 
   /**
-   * 拍平数组，将tree 转换为一维数组
+   * 拍平数组，将tree 转换为一维对象
    * @param {*} nodes tree data
    * @param {*} ref 当前层级
    */
@@ -524,6 +544,30 @@ class CheckTree extends React.Component<Props, States> {
     Object.keys(nodes).forEach((refKey: string) => {
       if (nodes[refKey][key]) {
         list.push(nodes[refKey][valueKey]);
+      }
+    });
+    return list;
+  }
+
+  /**
+   * 当子节点全部选中时，只返回父节点的值
+   * @param {*} key
+   * @param {*} nodes
+   */
+  serializeListOnlyParent(key: string, nodes: Object = this.nodes) {
+    const { valueKey } = this.props;
+    const list = [];
+
+    Object.keys(nodes).forEach((refKey: string) => {
+      const currentNode = nodes[refKey];
+      if (currentNode.parentNode) {
+        if (!nodes[currentNode.parentNode.refKey].allChildCheck && currentNode[key]) {
+          list.push(nodes[refKey][valueKey]);
+        }
+      } else {
+        if (currentNode[key]) {
+          list.push(nodes[refKey][valueKey]);
+        }
       }
     });
     return list;
@@ -628,20 +672,23 @@ class CheckTree extends React.Component<Props, States> {
     const nodes = clone(this.nodes);
     this.toggleDownChecked(nodes, node, isChecked);
     node.parentNode && this.toggleUpChecked(nodes, node.parentNode, isChecked);
-    return this.serializeList('check', nodes);
+    return this.serializeListOnlyParent('check', nodes);
   }
 
   toggleUpChecked(nodes: Object, node: Object, checked: boolean) {
     const { cascade } = this.props;
-
+    const currentNode = nodes[node.refKey];
     if (cascade) {
       if (!checked) {
-        nodes[node.refKey].check = checked;
+        currentNode.check = checked;
+        currentNode.allChildCheck = checked;
       } else {
         if (this.everyChildChecked(nodes, node)) {
-          nodes[node.refKey].check = checked;
+          currentNode.check = true;
+          currentNode.allChildCheck = true;
         } else {
-          nodes[node.refKey].check = false;
+          currentNode.check = false;
+          currentNode.allChildCheck = false;
         }
       }
       if (node.parentNode) {
@@ -652,10 +699,12 @@ class CheckTree extends React.Component<Props, States> {
 
   toggleDownChecked(nodes: Object, node: Object, isChecked: boolean) {
     const { childrenKey, cascade } = this.props;
+    nodes[node.refKey].check = isChecked;
+
     if (!node[childrenKey] || !node[childrenKey].length || !cascade) {
-      nodes[node.refKey].check = isChecked;
+      nodes[node.refKey].allChildCheck = false;
     } else {
-      nodes[node.refKey].check = isChecked;
+      nodes[node.refKey].allChildCheck = isChecked;
       node.children.forEach((child: Object) => {
         this.toggleDownChecked(nodes, child, isChecked);
       });
@@ -911,9 +960,7 @@ class CheckTree extends React.Component<Props, States> {
       [className]: inline,
       'without-children': !isSomeNodeHasChildren
     });
-    const formattedNodes = this.state.formattedNodes.length
-      ? this.state.formattedNodes
-      : this.getFormattedNodes(filterData);
+    const formattedNodes = this.getFormattedNodes(filterData);
 
     const nodes = formattedNodes.map((node, index) =>
       this.renderNode(node, index, layer, treeViewClass)
@@ -952,8 +999,10 @@ class CheckTree extends React.Component<Props, States> {
       inline,
       disabled,
       valueKey,
+      labelKey,
       cleanable,
       className,
+      countable,
       placement,
       appearance,
       classPrefix,
@@ -974,26 +1023,25 @@ class CheckTree extends React.Component<Props, States> {
       renderValue,
       ...rest
     } = this.props;
-    const { hasValue } = this.state;
-
-    const selectedValues = this.serializeList('check');
-
+    const { hasValue, selectedValues } = this.state;
     const classes = getToggleWrapperClassName('checktree', this.addPrefix, this.props, hasValue);
+    const selectedItems = this.getSelectedItems(selectedValues);
+    let selectedElement = placeholder;
 
-    let placeholderText = placeholder;
-    if (hasValue && selectedValues.length) {
-      placeholderText = tplTransform(locale.selectedValues, selectedValues.length);
+    if (renderValue) {
+      selectedElement = renderValue(selectedValues, selectedItems, selectedElement);
+    } else if (hasValue && selectedValues.length) {
+      selectedElement = (
+        <SelectedElement
+          selectedItems={selectedItems}
+          countable={countable}
+          valueKey={valueKey}
+          labelKey={labelKey}
+          prefix={this.addPrefix}
+        />
+      );
     }
-    if (renderValue && hasValue) {
-      const checkItems = [];
-      Object.keys(this.nodes).map((refKey: string) => {
-        const node = this.nodes[refKey];
-        if (selectedValues.some((value: any) => shallowEqual(node[valueKey], value))) {
-          checkItems.push(node);
-        }
-      });
-      placeholderText = renderValue(selectedValues, checkItems, placeholderText);
-    }
+
     const unhandled = getUnhandledProps(CheckTree, rest);
 
     return !inline ? (
@@ -1030,7 +1078,7 @@ class CheckTree extends React.Component<Props, States> {
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
           >
-            {placeholderText || locale.placeholder}
+            {selectedElement || locale.placeholder}
           </PickerToggle>
         </OverlayTrigger>
       </div>
