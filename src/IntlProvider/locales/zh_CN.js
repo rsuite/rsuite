@@ -42,9 +42,6 @@ export default {
     placeholder: '选择',
     searchPlaceholder: '搜索'
   },
-  CheckTreePicker: {
-    selectedValues: '已选择 {0} 项'
-  },
   InputPicker: {
     newItem: '新选项',
     createOption: '新建选项 "{0}"'

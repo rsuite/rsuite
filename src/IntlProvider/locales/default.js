@@ -42,9 +42,6 @@ export default {
     placeholder: 'Select',
     searchPlaceholder: 'Search'
   },
-  CheckTreePicker: {
-    selectedValues: '{0} selected'
-  },
   InputPicker: {
     newItem: 'New item',
     createOption: 'Create option "{0}"'

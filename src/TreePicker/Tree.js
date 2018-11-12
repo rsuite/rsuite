@@ -101,7 +101,6 @@ class Tree extends React.Component<Props, States> {
     locale: {
       placeholder: 'Select',
       searchPlaceholder: 'Search',
-      selectedValues: '{0} selected',
       noResultsText: 'No results found'
     },
     valueKey: 'value',
