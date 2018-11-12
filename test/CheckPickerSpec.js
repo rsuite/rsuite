@@ -239,7 +239,6 @@ describe('CheckPicker', () => {
     assert.equal(instanceDOM.innerText, '');
   });
 
-
   it('Should have a custom className prefix', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Dropdown classPrefix="custom-prefix" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
