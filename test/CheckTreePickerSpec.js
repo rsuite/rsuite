@@ -61,7 +61,7 @@ describe('CheckTreePicker', () => {
     );
     const instanceDOM = findDOMNode(instance);
     expect(instanceDOM.querySelector(`${valueCls} ${selectedItemsCls}`).innerText).to.equal(
-      'Master'
+      'Master (All)'
     );
   });
 
