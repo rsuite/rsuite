@@ -1,79 +1,9 @@
 //@flow
 
 import _ from 'lodash';
-import stringToObject from '../utils/stringToObject';
 
 export default function(props) {
   const { labelKey, valueKey, childrenKey } = props;
-
-  function getDerivedStateForCascade(
-    nextProps: Props,
-    prevState: any,
-    selectNodeValue?: any,
-    newChildren?: Array<any>
-  ) {
-    const { data, value } = nextProps;
-    const activeItemValue = selectNodeValue || prevState.selectNode;
-    const nextItems = [];
-    const nextPathItems = [];
-    const findNode = items => {
-      for (let i = 0; i < items.length; i += 1) {
-        items[i] = stringToObject(items[i], labelKey, valueKey);
-        let children = items[i][childrenKey];
-
-        if (items[i][valueKey] === activeItemValue) {
-          return {
-            items,
-            active: items[i]
-          };
-        } else if (children) {
-          let v = findNode(children);
-          if (v) {
-            nextItems.push(
-              children.map(item => ({
-                ...stringToObject(item, labelKey, valueKey),
-                parent: items[i]
-              }))
-            );
-            nextPathItems.push(v.active);
-            return {
-              items,
-              active: items[i]
-            };
-          }
-        }
-      }
-      return null;
-    };
-
-    const activeItem = findNode(data);
-
-    nextItems.push(data);
-
-    if (activeItem) {
-      nextPathItems.push(activeItem.active);
-    }
-
-    /**
-     * 如果是异步更新 data 后，获取到的一个 selectNodeValue，则不更新 activePaths
-     * 但是需要更新 items， 因为这里的目的就是把异步更新后的的数据展示出来
-     */
-    const cascadePathItems = nextPathItems.reverse();
-    if (selectNodeValue) {
-      return {
-        items:
-          newChildren && newChildren.length
-            ? [...nextItems.reverse(), newChildren]
-            : nextItems.reverse(),
-        tempActivePaths: cascadePathItems
-      };
-    }
-
-    return {
-      items: nextItems.reverse(),
-      activePaths: cascadePathItems
-    };
-  }
 
   /**
    * 获取一个节点的所有子节点的值
@@ -243,7 +173,7 @@ export default function(props) {
     return removedValue;
   }
 
-  function getOtherItemValuesByUnselectChild(item, value) {
+  function getOtherItemValuesByUnselectChild(itemNode, value) {
     const parentValues = [];
     const itemValues = [];
 
@@ -262,21 +192,22 @@ export default function(props) {
       return null;
     }
 
-    // 通过父节点
+    // 通过父节点获取子节点
     function pushChildValue(item) {
       if (!item[childrenKey]) {
         return;
       }
       item[childrenKey].forEach(n => {
-        itemValues.push(n[valueKey]);
-
+        //判断是否是直属父级
         if (parentValues.some(v => v === n[valueKey]) && n[childrenKey]) {
           pushChildValue(n);
+        } else if (n[valueKey] !== itemNode[valueKey]) {
+          itemValues.push(n[valueKey]);
         }
       });
     }
 
-    const parent = findParent(item);
+    const parent = findParent(itemNode);
 
     if (!parent) {
       return [];
@@ -316,11 +247,32 @@ export default function(props) {
     return flattenItems;
   }
 
+  function getItems(selectNode: Object, flattenData: Array<any>) {
+    const items = [];
+
+    function findParent(item) {
+      if (item[childrenKey]) {
+        items.push(item[childrenKey]);
+      }
+
+      if (item.parent) {
+        findParent(item.parent);
+      }
+    }
+
+    findParent(selectNode);
+
+    items.push(flattenData.filter(item => item.parent === null));
+
+    return items.reverse();
+  }
+
   return {
-    getDerivedStateForCascade,
     getChildrenValue,
     splitValue,
     transformValue,
-    flattenNodes
+    flattenNodes,
+    getOtherItemValuesByUnselectChild,
+    getItems
   };
 }

@@ -7,7 +7,6 @@ import classNames from 'classnames';
 import { shallowEqual } from 'rsuite-utils/lib/utils';
 
 import { getUnhandledProps, defaultProps, prefix } from '../utils';
-import stringToObject from '../utils/stringToObject';
 import DropdownMenuItem from '../_picker/DropdownMenuCheckItem';
 
 type DefaultEvent = SyntheticEvent<*>;
@@ -83,7 +82,7 @@ class DropdownMenu extends React.Component<Props> {
     const children = node[childrenKey];
     const isLeafNode = _.isUndefined(children) || _.isNull(children);
     const items = (children || []).map(item => ({
-      ...this.stringToObject(item),
+      ...item,
       parent: node
     }));
 
@@ -96,11 +95,6 @@ class DropdownMenu extends React.Component<Props> {
 
     onSelect && onSelect(node, cascadeItems, cascadePathItems, event);
   };
-
-  stringToObject(value: any) {
-    const { labelKey, valueKey } = this.props;
-    return stringToObject(value, labelKey, valueKey);
-  }
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 

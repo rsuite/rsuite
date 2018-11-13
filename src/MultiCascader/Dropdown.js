@@ -15,7 +15,6 @@ import {
   tplTransform
 } from '../utils';
 
-import stringToObject from '../utils/stringToObject';
 import findNodesOfTree from '../utils/findNodesOfTree';
 import DropdownMenu from './DropdownMenu';
 import PickerToggle from '../_picker/PickerToggle';
@@ -84,7 +83,6 @@ type State = {
   prevValue?: Array<any>,
   activePaths: Array<any>,
   items?: Array<any>,
-  tempActivePaths?: Array<any>,
   data: Array<any>,
   flattenData: Array<any>
 };
@@ -120,12 +118,7 @@ class Dropdown extends React.Component<Props, State> {
       /**
        * 选中值的路径
        */
-      activePaths: [],
-      /**
-       * 用于展示面板的数据列表，是一个二维的数组
-       * 是通过 data 树结构转换成的二维的数组，其中只包含页面上展示的数据
-       */
-      items: []
+      activePaths: []
     };
 
     Dropdown.utils = createUtils(props);
@@ -133,9 +126,13 @@ class Dropdown extends React.Component<Props, State> {
 
     this.isControlled = !_.isUndefined(value);
     this.state = {
-      flattenData,
       ...initState,
-      ...Dropdown.utils.getDerivedStateForCascade(props, initState),
+      flattenData,
+      /**
+       * 用于展示面板的数据列表，是一个二维的数组
+       * 是通过 data 树结构转换成的二维的数组，其中只包含页面上展示的数据
+       */
+      items: [flattenData.filter(item => !item.parent)],
       ...Dropdown.getCascadeState(props, flattenData)
     };
   }
@@ -162,7 +159,7 @@ class Dropdown extends React.Component<Props, State> {
     const { data, labelKey, valueKey, childrenKey, cascade, uncheckableItemValues } = nextProps;
 
     let value = nextProps.value || prevState.value || [];
-    let { prevValue, flattenData, selectNode } = prevState;
+    let { prevValue, flattenData, selectNode, items } = prevState;
 
     const isChangedData = !shallowEqualArray(data, prevState.data);
     const isChangedValue = !shallowEqualArray(prevValue, nextProps.value);
@@ -174,41 +171,23 @@ class Dropdown extends React.Component<Props, State> {
 
       /**
        * 如果更新了 data,
-       * 首先获取到被点击节点的值 `selectNodeValue`， 然后再拿到新增后的 `newChildren`,
+       * 首先获取到被点击节点的值 `selectNode`， 然后再拿到新增后的 `newChildren`,
        */
-      const selectNodeValue = _.get(prevState, ['selectNode', valueKey]);
-      const newChildren = (
-        _.get(flattenData.find(n => n[valueKey] === selectNodeValue), 'children') || []
-      ).map(item => ({
-        ...stringToObject(item, labelKey, valueKey),
-        parent: selectNode
-      }));
+      const nextSelectNode = flattenData.find(n => n[valueKey] === selectNode[valueKey]);
+      const newChildren = (_.get(nextSelectNode, childrenKey) || []).map(item => {
+        item.parent = nextSelectNode;
+        return item;
+      });
 
-      // 重新给选中节点的 children 赋值
-      if (selectNode) {
-        selectNode[childrenKey] = newChildren;
-      }
-
-      /**
-       * 一般在异步更新 data 的情况下，同时是级联状态，
-       * 当前 active 的节点是 checked 的则需要把当前所有子节点也选中
-       */
-      if (cascade && value.some(n => n === selectNodeValue)) {
-        value = value.concat(
-          Dropdown.utils.getChildrenValue({ [childrenKey]: newChildren }, uncheckableItemValues)
-        );
+      if (newChildren.length) {
+        items[items.length - 1] = newChildren;
       }
 
       const nextState = {
-        selectNode,
+        selectNode: nextSelectNode,
         flattenData,
         data,
-        ...Dropdown.utils.getDerivedStateForCascade(
-          nextProps,
-          prevState,
-          selectNodeValue,
-          newChildren
-        ),
+        items: Dropdown.utils.getItems(nextSelectNode, flattenData),
         ...Dropdown.getCascadeState(nextProps, flattenData, value)
       };
 
@@ -253,13 +232,14 @@ class Dropdown extends React.Component<Props, State> {
 
   handleSelect = (node: Object, cascadeItems, activePaths: Array<any>, event: DefaultEvent) => {
     const { onSelect } = this.props;
-    onSelect && onSelect(node, activePaths, event);
 
     this.setState({
       selectNode: node,
       items: cascadeItems,
-      tempActivePaths: activePaths
+      activePaths
     });
+
+    onSelect && onSelect(node, activePaths, event);
   };
 
   trigger = null;
@@ -313,7 +293,7 @@ class Dropdown extends React.Component<Props, State> {
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderDropdownMenu() {
-    const { items, tempActivePaths, activePaths } = this.state;
+    const { items, activePaths } = this.state;
     const {
       renderMenu,
       placement,
@@ -338,7 +318,7 @@ class Dropdown extends React.Component<Props, State> {
           classPrefix={classPrefix}
           ref={this.bindMenuContainerRef}
           cascadeItems={items}
-          cascadePathItems={tempActivePaths || activePaths}
+          cascadePathItems={activePaths}
           value={this.getValue()}
           onSelect={this.handleSelect}
           onCheck={this.handleCheck}
