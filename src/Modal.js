@@ -8,12 +8,13 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import setDisplayName from 'recompose/setDisplayName';
 import setStatic from 'recompose/setStatic';
+import bindElementResize, { unbind as unbindElementResize } from 'element-resize-event';
 
 import BaseModal from 'rsuite-utils/lib/Overlay/Modal';
 import Fade from 'rsuite-utils/lib/Animation/Fade';
 import { on, getHeight, isOverflowing, getScrollbarSize, ownerDocument } from 'dom-lib';
 
-import { prefix, ReactChildren, defaultProps } from './utils';
+import { prefix, ReactChildren, defaultProps, createChainedFunction } from './utils';
 
 import type { Size } from './utils/TypeDefinition';
 
@@ -98,14 +99,12 @@ class Modal extends React.Component<Props, State> {
     };
   }
   componentWillUnmount() {
-    if (this.windowResizeListener) {
-      this.windowResizeListener.off();
-    }
+    this.destroyEvent();
   }
 
-  getStyles() {
+  getStyles(dialogElement?: HTMLElement) {
     const { container, overflow, drawer } = this.props;
-    const node: any = findDOMNode(this.dialog);
+    const node: any = dialogElement || findDOMNode(this.dialog);
     const doc: any = ownerDocument(node);
     const body: any = container || doc.body;
     const scrollHeight = node ? node.scrollHeight : 0;
@@ -125,20 +124,19 @@ class Modal extends React.Component<Props, State> {
       return styles;
     }
 
-    const dialogDOM: any = findDOMNode(this.dialog);
     const bodyStyles: Object = {
       overflow: 'auto'
     };
 
-    if (dialogDOM) {
+    if (node) {
       // default margin
       let headerHeight = 46;
       let footerHeight = 46;
       let contentHeight = 30;
 
-      const headerDOM = dialogDOM.querySelector(`.${this.addPrefix('header')}`);
-      const footerDOM = dialogDOM.querySelector(`.${this.addPrefix('footer')}`);
-      const contentDOM = dialogDOM.querySelector(`.${this.addPrefix('content')}`);
+      const headerDOM = node.querySelector(`.${this.addPrefix('header')}`);
+      const footerDOM = node.querySelector(`.${this.addPrefix('footer')}`);
+      const contentDOM = node.querySelector(`.${this.addPrefix('content')}`);
 
       headerHeight = headerDOM ? getHeight(headerDOM) + headerHeight : headerHeight;
       footerHeight = footerDOM ? getHeight(footerDOM) + headerHeight : headerHeight;
@@ -165,30 +163,42 @@ class Modal extends React.Component<Props, State> {
   modal = null;
   dialog = null;
   windowResizeListener = null;
+  contentElement = null;
 
-  handleShow = (...args: Array<any>) => {
-    this.windowResizeListener = on(window, 'resize', this.handleWindowResize);
-    this.setState(this.getStyles());
-    const { onEntering } = this.props;
-    onEntering && onEntering(...args);
+  handleShow = () => {
+    const dialogElement = findDOMNode(this.dialog);
+
+    this.updateModalStyles(dialogElement);
+    this.contentElement = dialogElement.querySelector(`.${this.addPrefix('content')}`);
+    this.windowResizeListener = on(window, 'resize', this.handleResize);
+
+    bindElementResize(this.contentElement, this.handleResize);
   };
-  handleHide = (...args: Array<any>) => {
-    if (this.windowResizeListener) {
-      this.windowResizeListener.off();
-    }
-    const { onExited } = this.props;
-    onExited && onExited(...args);
+  handleHide = () => {
+    this.destroyEvent();
   };
   handleDialogClick = (event: SyntheticEvent<*>) => {
     if (event.target !== event.currentTarget) {
       return;
     }
-    const { onHide } = this.props;
-    onHide && onHide(event);
   };
-  handleWindowResize = () => {
-    this.setState(this.getStyles());
+
+  handleResize = () => {
+    this.updateModalStyles();
   };
+
+  destroyEvent() {
+    if (this.windowResizeListener) {
+      this.windowResizeListener.off();
+    }
+    if (this.contentElement) {
+      unbindElementResize(this.contentElement);
+    }
+  }
+
+  updateModalStyles(dialogElement) {
+    this.setState(this.getStyles(dialogElement));
+  }
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
@@ -248,7 +258,11 @@ class Modal extends React.Component<Props, State> {
         className={classes}
         dialogClassName={dialogClassName}
         dialogStyle={dialogStyle}
-        onClick={rest.backdrop === true ? this.handleDialogClick : null}
+        onClick={
+          rest.backdrop === true
+            ? createChainedFunction(this.handleDialogClick, this.props.onHide)
+            : null
+        }
         ref={this.dialogRef}
       >
         {items}
@@ -259,8 +273,8 @@ class Modal extends React.Component<Props, State> {
       <BaseModal
         ref={this.modalRef}
         show={show}
-        onEntering={this.handleShow}
-        onExited={this.handleHide}
+        onEntering={createChainedFunction(this.handleShow, this.props.onEntering)}
+        onExited={createChainedFunction(this.handleHide, this.props.onExited)}
         backdropClassName={classNames(this.addPrefix('backdrop'), backdropClassName, inClass)}
         containerClassName={classNames(this.addPrefix('open'), {
           [this.addPrefix('has-backdrop')]: rest.backdrop
