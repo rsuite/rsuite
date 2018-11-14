@@ -40,13 +40,8 @@ export default {
   Picker: {
     noResultsText: '无匹配选项',
     placeholder: '选择',
-    searchPlaceholder: '搜索'
-  },
-  CheckPicker: {
-    selectedValues: '已选择 {0} 项'
-  },
-  CheckTreePicker: {
-    selectedValues: '已选择 {0} 项'
+    searchPlaceholder: '搜索',
+    checkAll: '全部'
   },
   InputPicker: {
     newItem: '新选项',

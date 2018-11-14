@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import { IntlProvider, FormattedMessage } from 'rsuite-intl';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
-import { findNodeOfTree, shallowEqual, shallowEqualArray } from 'rsuite-utils/lib/utils';
+import { findNodeOfTree, shallowEqualArray } from 'rsuite-utils/lib/utils';
 import { polyfill } from 'react-lifecycles-compat';
 import {
   defaultProps,
@@ -15,13 +15,13 @@ import {
   tplTransform
 } from '../utils';
 
-import stringToObject from '../utils/stringToObject';
 import findNodesOfTree from '../utils/findNodesOfTree';
 import DropdownMenu from './DropdownMenu';
 import PickerToggle from '../_picker/PickerToggle';
 import MenuWrapper from '../_picker/MenuWrapper';
+import SelectedElement from '../_picker/SelectedElement';
 import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
-import getDerivedStateForCascade from './getDerivedStateForCascade';
+import createUtils from './utils';
 
 import type { Placement } from '../utils/TypeDefinition';
 
@@ -64,6 +64,7 @@ type Props = {
   cleanable?: boolean,
   open?: boolean,
   defaultOpen?: boolean,
+  countable?: boolean,
   placement?: Placement,
 
   /**
@@ -79,52 +80,12 @@ type Props = {
 type State = {
   selectNode?: any,
   value?: Array<any>,
+  prevValue?: Array<any>,
   activePaths: Array<any>,
   items?: Array<any>,
-  tempActivePaths?: Array<any>,
-  data: Array<any>
+  data: Array<any>,
+  flattenData: Array<any>
 };
-
-/**
- * 获取一个节点的所有子节点的值
- */
-function getChildrenValue(
-  item: Object,
-  childrenKey: string,
-  valueKey: string,
-  uncheckableItemValues: Array<any>
-) {
-  let values = [];
-
-  if (!item[childrenKey]) {
-    return values;
-  }
-
-  item[childrenKey].forEach(n => {
-    if (!uncheckableItemValues.some(v => v === n[valueKey])) {
-      values.push(n[valueKey]);
-    }
-    values = values.concat(getChildrenValue(n, childrenKey, valueKey, uncheckableItemValues));
-  });
-
-  return values;
-}
-
-/**
- * 获取一个节点的所有父辈节点
- */
-function getParents(item: Object, uncheckableItemValues: Array<any>) {
-  let parents = [];
-
-  if (!item.parent) {
-    return parents;
-  }
-
-  parents.push(item.parent);
-  parents = parents.concat(getParents(item.parent));
-
-  return parents;
-}
 
 class Dropdown extends React.Component<Props, State> {
   static defaultProps = {
@@ -138,152 +99,127 @@ class Dropdown extends React.Component<Props, State> {
     labelKey: 'label',
     locale: {
       placeholder: 'Select',
-      selectedValues: '{0} selected'
+      checkAll: 'All'
     },
     cleanable: true,
+    countable: true,
     placement: 'bottomLeft'
   };
 
   constructor(props: Props) {
     super(props);
 
+    const { data, value, defaultValue, cascade } = props;
     const initState = {
+      data,
+      prevValue: value,
+      value: defaultValue,
       selectNode: null,
-      data: props.data,
-      value: props.defaultValue,
       /**
        * 选中值的路径
        */
-      activePaths: [],
+      activePaths: []
+    };
+
+    Dropdown.utils = createUtils(props);
+    const flattenData = Dropdown.utils.flattenNodes(data);
+
+    this.isControlled = !_.isUndefined(value);
+    this.state = {
+      ...initState,
+      flattenData,
       /**
        * 用于展示面板的数据列表，是一个二维的数组
        * 是通过 data 树结构转换成的二维的数组，其中只包含页面上展示的数据
        */
-      items: []
+      items: [flattenData.filter(item => !item.parent)],
+      ...Dropdown.getCascadeState(props, flattenData)
     };
+  }
 
-    this.state = {
-      ...initState,
-      ...getDerivedStateForCascade(props, initState)
+  static getCascadeState(nextProps: Props, flattenData: Array<any>, nextValue: Array<any>) {
+    const { data, cascade, value, defaultValue, uncheckableItemValues, valueKey } = nextProps;
+    let cascadeValue = nextValue || value || defaultValue || [];
+
+    if (cascade && data) {
+      const items = flattenData.filter(item => cascadeValue.some(v => v === item[valueKey]));
+      cascadeValue = Dropdown.utils.transformValue(
+        cascadeValue,
+        flattenData,
+        uncheckableItemValues
+      );
+    }
+
+    return {
+      value: cascadeValue
     };
   }
 
   static getDerivedStateFromProps(nextProps: Props, prevState: State) {
     const { data, labelKey, valueKey, childrenKey, cascade, uncheckableItemValues } = nextProps;
+
     let value = nextProps.value || prevState.value || [];
+    let { prevValue, flattenData, selectNode, items } = prevState;
 
-    if (!shallowEqualArray(data, prevState.data)) {
-      /**
-       * 如果更新了 data,
-       * 首先获取到被点击节点的值 `selectNodeValue`， 然后再拿到新增后的 `newChildren`,
-       */
-      const selectNodeValue = _.get(prevState, ['selectNode', valueKey]);
-      const newChildren = (
-        _.get(
-          findNodeOfTree(data, item => shallowEqual(item[valueKey], selectNodeValue)),
-          'children'
-        ) || []
-      ).map(item => ({
-        ...stringToObject(item, labelKey, valueKey),
-        parent: prevState.selectNode
-      }));
+    const isChangedData = !shallowEqualArray(data, prevState.data);
+    const isChangedValue = !shallowEqualArray(prevValue, nextProps.value);
 
-      const nextState = getDerivedStateForCascade(
-        nextProps,
-        prevState,
-        selectNodeValue,
-        newChildren
-      );
-
-      /**
-       * 在级联的情况下，需要判断当前节点是否被选中，并更新子节点
-       */
-      if (cascade && value.some(n => n === selectNodeValue)) {
-        value = value.concat(
-          getChildrenValue(
-            { [childrenKey]: newChildren },
-            childrenKey,
-            valueKey,
-            uncheckableItemValues
-          )
-        );
+    if (isChangedData || isChangedValue) {
+      if (isChangedData) {
+        flattenData = Dropdown.utils.flattenNodes(data);
       }
 
-      return {
-        ...nextState,
+      /**
+       * 如果更新了 data,
+       * 首先获取到被点击节点的值 `selectNode`， 然后再拿到新增后的 `newChildren`,
+       */
+      const nextSelectNode = flattenData.find(n => n[valueKey] === selectNode[valueKey]);
+      const newChildren = (_.get(nextSelectNode, childrenKey) || []).map(item => {
+        item.parent = nextSelectNode;
+        return item;
+      });
+
+      if (newChildren.length) {
+        items[items.length - 1] = newChildren;
+      }
+
+      const nextState = {
+        selectNode: nextSelectNode,
+        flattenData,
         data,
-        value
+        items: Dropdown.utils.getItems(nextSelectNode, flattenData),
+        ...Dropdown.getCascadeState(nextProps, flattenData, value)
       };
+
+      if (isChangedValue) {
+        nextState.prevValue = nextProps.value;
+      }
+
+      return nextState;
     }
 
     return null;
   }
 
-  getValue(nextProps?: Props) {
-    const { value } = this.props;
-    const nextValue = _.isUndefined(value) ? this.state.value : value;
-    return nextValue ? [...nextValue] : [];
-  }
-
-  // 获取所有级联的节点
-  getCheckedItemsByCascade(item: Object, checked: boolean) {
-    const { valueKey, childrenKey, uncheckableItemValues } = this.props;
-    const itemValue = item[valueKey];
-    let value = this.getValue();
-
-    const childrenValue = getChildrenValue(item, childrenKey, valueKey, uncheckableItemValues);
-    const parents = getParents(item);
-
-    if (checked) {
-      value.push(itemValue);
-      value = value.concat(childrenValue);
-
-      /**
-       * 遍历当前节点所有祖宗节点
-       * 然后判断这些节点的子节点是否是否全部被选中，则自身也要被选中
-       */
-
-      for (let i = 0, isContinue = true; i < parents.length && isContinue; i++) {
-        let isCheckAll = parents[i][childrenKey]
-          // 过滤掉被标识为不可选的选项
-          .filter(n => !uncheckableItemValues.some(v => v === n[valueKey]))
-          // 检查是否所有节点都被选中
-          .every(n => value.some(v => v === n[valueKey]));
-
-        if (isCheckAll) {
-          value.push(parents[i][valueKey]);
-        } else {
-          /**
-           * 如果 parents[i] 下的子节点没有全选，
-           * 那它祖宗节点肯定不会被选中，则没必要再继续循环。
-           */
-          isContinue = false;
-        }
-      }
-    } else {
-      value = value.filter(n => !shallowEqual(n, itemValue));
-      const tempValue = childrenValue.concat(parents.map(item => item[valueKey]));
-
-      // 删除相关的子父节点
-      _.remove(value, item => tempValue.some(n => n === item));
-    }
-
-    return _.uniq(value);
+  getValue() {
+    const { value } = this.state;
+    return value || [];
   }
 
   handleCheck = (item: Object, event: SyntheticEvent<*>, checked: boolean) => {
-    const { valueKey, onChange, cascade } = this.props;
+    const { valueKey, onChange, cascade, uncheckableItemValues } = this.props;
     const itemValue = item[valueKey];
     let value = [];
 
     if (cascade) {
-      value = this.getCheckedItemsByCascade(item, checked);
+      value = Dropdown.utils.splitValue(item, checked, this.getValue(), uncheckableItemValues)
+        .value;
     } else {
       value = this.getValue();
       if (checked) {
         value.push(itemValue);
       } else {
-        value = value.filter(n => !shallowEqual(n, itemValue));
+        value = value.filter(n => n !== itemValue);
       }
     }
 
@@ -296,13 +232,14 @@ class Dropdown extends React.Component<Props, State> {
 
   handleSelect = (node: Object, cascadeItems, activePaths: Array<any>, event: DefaultEvent) => {
     const { onSelect } = this.props;
-    onSelect && onSelect(node, activePaths, event);
 
     this.setState({
       selectNode: node,
       items: cascadeItems,
-      tempActivePaths: activePaths
+      activePaths
     });
+
+    onSelect && onSelect(node, activePaths, event);
   };
 
   trigger = null;
@@ -339,7 +276,7 @@ class Dropdown extends React.Component<Props, State> {
       activePaths: []
     };
     this.setState(nextState, () => {
-      onChange && onChange(null, event);
+      onChange && onChange([], event);
     });
   };
 
@@ -356,7 +293,7 @@ class Dropdown extends React.Component<Props, State> {
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderDropdownMenu() {
-    const { items, tempActivePaths, activePaths } = this.state;
+    const { items, activePaths } = this.state;
     const {
       renderMenu,
       placement,
@@ -381,7 +318,7 @@ class Dropdown extends React.Component<Props, State> {
           classPrefix={classPrefix}
           ref={this.bindMenuContainerRef}
           cascadeItems={items}
-          cascadePathItems={tempActivePaths || activePaths}
+          cascadePathItems={activePaths}
           value={this.getValue()}
           onSelect={this.handleSelect}
           onCheck={this.handleCheck}
@@ -397,6 +334,7 @@ class Dropdown extends React.Component<Props, State> {
       data,
       valueKey,
       labelKey,
+      childrenKey,
       className,
       placeholder,
       renderValue,
@@ -421,68 +359,71 @@ class Dropdown extends React.Component<Props, State> {
       onExited,
       onHide,
       appearance,
+      countable,
+      cascade,
       ...rest
     } = this.props;
 
-    const { activePaths } = this.state;
+    const { activePaths, flattenData } = this.state;
     const unhandled = getUnhandledProps(Dropdown, rest);
     const value = this.getValue();
-    const hasValue = !!value.length;
 
-    let activeItemLabel: any = placeholder;
+    const selectedItems = flattenData.filter(item => value.some(v => v === item[valueKey])) || [];
+    const count = selectedItems.length;
+    const hasValue = !!count;
+
+    let selectedElement = placeholder;
 
     if (renderValue) {
-      let selectedItems =
-        findNodesOfTree(data, item => {
-          return value.some(v => v === item[valueKey]);
-        }) || [];
-
-      activeItemLabel = renderValue(value, selectedItems);
-    } else if (value.length > 0) {
-      activeItemLabel = tplTransform(locale.selectedValues, value.length);
+      selectedElement = renderValue(value, selectedItems);
+    } else if (count > 0) {
+      selectedElement = (
+        <SelectedElement
+          selectedItems={selectedItems}
+          countable={countable}
+          valueKey={valueKey}
+          labelKey={labelKey}
+          childrenKey={childrenKey}
+          prefix={this.addPrefix}
+          cascade={cascade}
+          locale={locale}
+        />
+      );
     }
 
     const classes = getToggleWrapperClassName('cascader', this.addPrefix, this.props, hasValue);
 
     return (
-      <IntlProvider locale={locale}>
-        <div
-          className={classes}
-          style={style}
-          tabIndex={-1}
-          role="menu"
-          ref={this.bindContainerRef}
+      <div className={classes} style={style} tabIndex={-1} role="menu" ref={this.bindContainerRef}>
+        <OverlayTrigger
+          ref={this.bindTriggerRef}
+          open={open}
+          defaultOpen={defaultOpen}
+          disabled={disabled}
+          trigger="click"
+          placement={placement}
+          onEnter={createChainedFunction(this.handleEntered, onEnter)}
+          onEntering={onEntering}
+          onEntered={onEntered}
+          onExit={onExit}
+          onExiting={onExiting}
+          onExited={createChainedFunction(this.handleExited, onExited)}
+          onHide={onHide}
+          speaker={this.renderDropdownMenu()}
+          container={container}
+          containerPadding={containerPadding}
         >
-          <OverlayTrigger
-            ref={this.bindTriggerRef}
-            open={open}
-            defaultOpen={defaultOpen}
-            disabled={disabled}
-            trigger="click"
-            placement={placement}
-            onEnter={createChainedFunction(this.handleEntered, onEnter)}
-            onEntering={onEntering}
-            onEntered={onEntered}
-            onExit={onExit}
-            onExiting={onExiting}
-            onExited={createChainedFunction(this.handleExited, onExited)}
-            onHide={onHide}
-            speaker={this.renderDropdownMenu()}
-            container={container}
-            containerPadding={containerPadding}
+          <PickerToggle
+            {...unhandled}
+            componentClass={toggleComponentClass}
+            onClean={this.handleClean}
+            cleanable={cleanable && !disabled}
+            hasValue={hasValue}
           >
-            <PickerToggle
-              {...unhandled}
-              componentClass={toggleComponentClass}
-              onClean={this.handleClean}
-              cleanable={cleanable && !disabled}
-              hasValue={hasValue}
-            >
-              {activeItemLabel || <FormattedMessage id="placeholder" />}
-            </PickerToggle>
-          </OverlayTrigger>
-        </div>
-      </IntlProvider>
+            {selectedElement || locale.placeholder}
+          </PickerToggle>
+        </OverlayTrigger>
+      </div>
     );
   }
 }

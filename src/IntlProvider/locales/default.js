@@ -40,17 +40,8 @@ export default {
   Picker: {
     noResultsText: 'No results found',
     placeholder: 'Select',
-    searchPlaceholder: 'Search'
-  },
-  MultiCascader: {
-    placeholder: 'Select',
-    selectedValues: '{0} selected'
-  },
-  CheckPicker: {
-    selectedValues: '{0} selected'
-  },
-  CheckTreePicker: {
-    selectedValues: '{0} selected'
+    searchPlaceholder: 'Search',
+    checkAll: 'All'
   },
   InputPicker: {
     newItem: 'New item',
