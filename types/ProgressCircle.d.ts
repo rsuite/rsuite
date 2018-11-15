@@ -21,7 +21,7 @@ export interface ProgressCircleProps extends StandardProps {
   trailWidth?: number;
 
   /** Circular progress bar degree */
-  gapDegree: number;
+  gapDegree?: number;
 
   /** Circular progress bar Notch position */
   gapPosition?: 'top' | 'bottom' | 'left' | 'right';

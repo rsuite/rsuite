@@ -19,7 +19,7 @@ export interface LoaderProps extends StandardProps {
   content?: React.ReactNode;
 
   /** The speed at which the loader rotates */
-  speed: 'normal' | 'fast' | 'slow';
+  speed?: 'normal' | 'fast' | 'slow';
 }
 
 declare const Loader: React.ComponentType<LoaderProps>;

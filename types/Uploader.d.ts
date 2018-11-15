@@ -64,7 +64,7 @@ export interface UploaderProps extends StandardProps {
   headers?: object;
 
   /** Upload list Style */
-  listType: 'text' | 'picture-text' | 'picture';
+  listType?: 'text' | 'picture-text' | 'picture';
 
   /** Allow the queue to be updated. After you select a file, update the checksum function before the upload file queue, and return false to not update */
   shouldQueueUpdate?: (fileList: FileType[], newFile: FileType[] | FileType) => boolean;

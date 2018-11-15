@@ -5,10 +5,10 @@ import FlexboxGridItem from './FlexboxGridItem';
 
 export interface FlexboxGridProps extends StandardProps {
   /** align */
-  align: 'top' | 'middle' | 'bottom';
+  align?: 'top' | 'middle' | 'bottom';
 
   /** horizontal arrangement */
-  justify: 'start' | 'end' | 'center' | 'space-around' | 'space-between';
+  justify?: 'start' | 'end' | 'center' | 'space-around' | 'space-between';
 }
 
 interface FlexboxGridComponent extends React.ComponentClass<FlexboxGridProps> {

@@ -8,7 +8,7 @@ export interface CheckTreeProps extends TreeBaseProps, FormControlPickerProps<an
   height?: number;
 
   /** Tree node cascade */
-  cascade: boolean;
+  cascade?: boolean;
 }
 
 declare const CheckTree: React.ComponentType<CheckTreeProps>;

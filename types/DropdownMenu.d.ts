@@ -13,6 +13,9 @@ export interface DropdownMenuProps extends StandardProps {
   /** The submenu expands from the left and defaults to the right */
   pullLeft?: boolean;
 
+  /** The value of the current option */
+  eventKey?: any;
+
   /** Set the icon */
   icon?: React.ReactElement<IconProps>;
 }

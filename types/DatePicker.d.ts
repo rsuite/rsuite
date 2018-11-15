@@ -17,7 +17,7 @@ export interface DatePickerProps extends PickerBaseProps, FormControlBaseProps<m
   calendarDefaultDate?: moment.Moment;
 
   /** Format date */
-  format: string;
+  format?: string;
 
   /** Display date panel when component initial */
   inline?: boolean;
