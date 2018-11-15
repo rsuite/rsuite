@@ -24,7 +24,7 @@ export interface DropdownProps extends StandardProps {
   trigger?: Trigger | Trigger[];
 
   /** The placement of Menu */
-  placement: PropTypes.Placement8;
+  placement?: PropTypes.Placement8;
 
   /** Whether or not component is disabled */
   disabled?: boolean;

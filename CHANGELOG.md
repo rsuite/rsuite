@@ -1,3 +1,31 @@
+# 3.4.2
+
+> 2018-11-15
+
+* **Feature**: Support `rowClassName` on Table ([#table-45])
+* **Feature**: Support `defaultSortType` on `<Table>` and let `sortType` be controlled ([#table-43])
+* **Feature**: Added public API `start` on `<Uploader>` for manual upload ([#255])
+* **Feature**: Improve the interactive experience of `<MultiCascader>`, `<CheckTreePicker>`, and `<CheckPicker>` ([#259])
+* **Refactor**: Used new contextType API in Form ([#256])
+* **Bugfix**: The height of `body` should be reset when the content in `<Modal>` is updated ([#260])
+* **Bugfix**: Fix `<InputPicker>` The keyboard return event cannot select the new option ([#254])
+* **Bugfix**: Fix the problem that `<Tooltip>` without arrow ([#253])
+* **Bugfix**: Fix the problem that property `fixedWith` of `<Icon/>` is invalid ([#252])
+* **Bugfix**: Fix `<CheckTree>` to determine the problem with node state ([#251])
+* **Bugfix**: Fix typescript type check error ([#249])
+
+[#260]: https://github.com/rsuite/rsuite/pull/260
+[#259]: https://github.com/rsuite/rsuite/pull/259
+[#256]: https://github.com/rsuite/rsuite/pull/256
+[#255]: https://github.com/rsuite/rsuite/pull/255
+[#254]: https://github.com/rsuite/rsuite/pull/254
+[#253]: https://github.com/rsuite/rsuite/pull/253
+[#252]: https://github.com/rsuite/rsuite/pull/252
+[#251]: https://github.com/rsuite/rsuite/pull/251
+[#249]: https://github.com/rsuite/rsuite/pull/249
+[#table-45]: https://github.com/rsuite/rsuite-table/pull/45
+[#table-43]: https://github.com/rsuite/rsuite-table/pull/43
+
 # 3.4.1
 
 > 2018-11-01

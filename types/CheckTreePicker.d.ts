@@ -10,6 +10,9 @@ export interface CheckTreePickerProps extends TreeBaseProps, FormControlPickerPr
   /** Tree node cascade */
   cascade?: boolean;
 
+  /** A picker that can be counted */
+  countable?: boolean;
+
   /** Whether dispaly search input box */
   searchable?: boolean;
 

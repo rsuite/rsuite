@@ -7,7 +7,6 @@ import classNames from 'classnames';
 import { shallowEqual } from 'rsuite-utils/lib/utils';
 
 import { getUnhandledProps, defaultProps, prefix } from '../utils';
-import stringToObject from '../utils/stringToObject';
 import DropdownMenuItem from '../_picker/DropdownMenuCheckItem';
 
 type DefaultEvent = SyntheticEvent<*>;
@@ -31,6 +30,7 @@ type Props = {
     event: DefaultEvent
   ) => void,
   onCheck?: (value: any, event: SyntheticEvent<*>, checked: boolean) => void,
+  cascade: boolean,
   cascadeItems: Array<any>,
   cascadePathItems: Array<any>,
   uncheckableItemValues: Array<any>
@@ -82,7 +82,7 @@ class DropdownMenu extends React.Component<Props> {
     const children = node[childrenKey];
     const isLeafNode = _.isUndefined(children) || _.isNull(children);
     const items = (children || []).map(item => ({
-      ...this.stringToObject(item),
+      ...item,
       parent: node
     }));
 
@@ -96,12 +96,21 @@ class DropdownMenu extends React.Component<Props> {
     onSelect && onSelect(node, cascadeItems, cascadePathItems, event);
   };
 
-  stringToObject(value: any) {
-    const { labelKey, valueKey } = this.props;
-    return stringToObject(value, labelKey, valueKey);
-  }
-
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
+
+  isSomeParentChecked(node: Object) {
+    const { valueKey, value } = this.props;
+
+    if (value.some(n => n === node[valueKey])) {
+      return true;
+    }
+
+    if (node.parent) {
+      return this.isSomeParentChecked(node.parent);
+    }
+
+    return false;
+  }
 
   isSomeChildChecked(node: Object) {
     const { childrenKey, valueKey, value } = this.props;
@@ -109,10 +118,13 @@ class DropdownMenu extends React.Component<Props> {
       return false;
     }
     return node[childrenKey].some((child: Object) => {
+      if (value.some(n => n === child[valueKey])) {
+        return true;
+      }
       if (child[childrenKey] && child[childrenKey].length) {
         return this.isSomeChildChecked(child);
       }
-      return value.some(n => n === child[valueKey]);
+      return false;
     });
   }
 
@@ -125,7 +137,8 @@ class DropdownMenu extends React.Component<Props> {
       disabledItemValues,
       uncheckableItemValues,
       renderMenuItem,
-      onCheck
+      onCheck,
+      cascade
     } = this.props;
 
     const children = node[childrenKey];
@@ -138,10 +151,17 @@ class DropdownMenu extends React.Component<Props> {
 
     // Use `value` in keys when If `value` is string or number
     const onlyKey = _.isString(itemValue) || _.isNumber(itemValue) ? itemValue : index;
-    const active = value.some(item => shallowEqual(item, itemValue));
+    let active = value.some(v => v === itemValue);
+
+    if (cascade) {
+      active = active || this.isSomeParentChecked(node);
+    }
+
+    value.some(item => shallowEqual(item, itemValue));
     const classes = classNames({
       [this.addPrefix('cascader-menu-has-children')]: children,
-      [this.addPrefix('check-menu-item-indeterminate')]: !active && this.isSomeChildChecked(node)
+      [this.addPrefix('check-menu-item-indeterminate')]:
+        cascade && !active && this.isSomeChildChecked(node)
     });
 
     return (

@@ -98,6 +98,11 @@ class Uploader extends React.Component<Props, State> {
     };
   }
 
+  // public API
+  start() {
+    this.handleAjaxUpload();
+  }
+
   getFileList() {
     const { fileList } = this.props;
     if (_.isUndefined(fileList)) {
