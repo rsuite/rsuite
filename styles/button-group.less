@@ -237,17 +237,6 @@
   padding-right: 12px;
 }
 
-// The clickable button for toggling the menu
-// Remove the gradient and set the same inset shadow as the :active state
-.@{ns}btn-group.open .@{ns}dropdown-toggle {
-  box-shadow: none;
-
-  // Show no shadow for `.btn-link` since it has no other button styles.
-  &.btn-link {
-    box-shadow: none;
-  }
-}
-
 // Reposition the caret
 .@{ns}btn .@{ns}caret {
   margin-left: 0;
@@ -324,7 +313,7 @@
       background-color: @btn-ghost-border-color;
       top: -1 * @btn-ghost-border-width;
       bottom: -1 * @btn-ghost-border-width;
-      .btn-transition(color-and-border);
+      .btn-transition();
     }
 
     &::before {
