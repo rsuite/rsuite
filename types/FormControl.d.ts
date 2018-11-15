@@ -13,7 +13,7 @@ export interface FormControlProps extends StandardProps {
   name: string;
 
   /** The data validation trigger type, and it wiill overrides the setting on <Form> */
-  checkTrigger?: 'change' | 'blur' | 'none';
+  checkTrigger?: PropTypes.CheckTrigger;
 
   /** Show error messages */
   errorMessage?: React.ReactNode;
