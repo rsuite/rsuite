@@ -12,10 +12,10 @@ export interface SidenavProps extends StandardProps {
   appearance?: 'default' | 'inverse' | 'subtle';
 
   /** Open menu, corresponding to Dropdown eventkey */
-  defaultOpenKeys?: [];
+  defaultOpenKeys?: any[];
 
   /** Open menu, corresponding to Dropdown eventkey (controlled) */
-  openKeys?: [];
+  openKeys?: any[];
 
   /** Activation option, corresponding menu eventkey */
   activeKey?: any;
@@ -24,10 +24,10 @@ export interface SidenavProps extends StandardProps {
   componentClass?: React.ReactType<SidenavProps>;
 
   /** Menu opening callback function that changed */
-  onOpenChange?: (openKeys: [], event: React.SyntheticEvent<any>) => void;
+  onOpenChange?: (openKeys: any[], event: React.SyntheticEvent<any>) => void;
 
   /** Select the callback function for the menu */
-  onSelect?: (eventKey: [], event: React.SyntheticEvent<any>) => void;
+  onSelect?: (eventKey: any[], event: React.SyntheticEvent<any>) => void;
 }
 
 interface SidenavComponent extends React.ComponentClass<SidenavProps> {

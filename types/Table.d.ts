@@ -12,7 +12,7 @@ export interface TableProps extends StandardProps {
   width?: number;
 
   /** Table data */
-  data?: [];
+  data?: any[];
 
   /** Table Height */
   height?: number;
