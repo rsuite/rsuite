@@ -5,7 +5,7 @@ export interface IntlProviderProps {
   children?: React.ReactNode;
 
   /** Language configuration */
-  locale: object;
+  locale?: object;
 }
 
 declare const IntlProvider: React.ComponentType<IntlProviderProps>;

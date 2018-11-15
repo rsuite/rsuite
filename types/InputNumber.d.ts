@@ -10,13 +10,13 @@ export interface InputNumberProps extends StandardProps {
   disabled?: boolean;
 
   /** Minimum value */
-  min: number;
+  min?: number;
 
   /** Maximum value */
-  max: number;
+  max?: number;
 
   /** The value of each step. can be decimal */
-  step: number;
+  step?: number;
 
   /** Current value of the input. Creates a controlled component */
   value?: number | string;

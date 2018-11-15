@@ -33,7 +33,7 @@ export interface AnimationEventProps {
 
 export interface PickerBaseProps extends StandardProps, AnimationEventProps {
   /** A picker can have different appearances. */
-  appearance: 'default' | 'subtle';
+  appearance?: 'default' | 'subtle';
 
   /** Format picker to appear inside a content block */
   block?: boolean;
