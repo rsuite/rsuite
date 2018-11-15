@@ -4,7 +4,7 @@ import { TreeBaseProps } from './TreeBase';
 interface DataItem {
   value: any;
   label: React.ReactNode;
-  children?: Array<DataItem>;
+  children?: DataItem[];
 }
 
 interface TreeProps extends TreeBaseProps {
