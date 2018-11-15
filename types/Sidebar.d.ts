@@ -1,6 +1,7 @@
 import * as React from 'react';
+import { StandardProps } from '.';
 
-export interface SidebarProps {
+export interface SidebarProps extends StandardProps {
   /** Width */
   width?: number | string;
 
