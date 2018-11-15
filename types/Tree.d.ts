@@ -1,9 +1,15 @@
 import * as React from 'react';
 import { TreeBaseProps } from './TreeBase';
 
+interface DataItem {
+  value: any;
+  label: React.ReactNode;
+  children?: DataItem[];
+}
+
 interface TreeProps extends TreeBaseProps {
   /** Tree Data */
-  data?: [];
+  data?: DataItem[];
 
   /** Selected value */
   value?: any;
