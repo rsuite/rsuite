@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "3.4.1",
+  "version": "3.4.2",
   "description": "A suite of react components",
   "main": "lib/index.js",
   "typings": "types/index.d.ts",
@@ -60,7 +60,7 @@
     "recompose": "^0.26.0",
     "rsuite-intl": "~1.0.4",
     "rsuite-notification": "~3.0.2",
-    "rsuite-table": "^3.1.6",
+    "rsuite-table": "~3.1.7",
     "rsuite-utils": "~1.4.3",
     "schema-typed": "~0.2.0"
   },
