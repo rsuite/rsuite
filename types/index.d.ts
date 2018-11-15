@@ -207,6 +207,7 @@ export { default as Popover } from './Popover';
 export { default as Portal } from './Portal';
 export { default as Progress } from './Progress';
 export { default as Radio } from './Radio';
+export { default as SelectPicker } from './SelectPicker';
 export { default as Sidebar } from './Sidebar';
 export { default as Sidenav } from './Sidenav';
 export { default as Slider } from './Slider';
