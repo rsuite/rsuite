@@ -141,6 +141,7 @@ export namespace PropTypes {
     | 'autoHorizontalBottom';
 
   type Placement = Placement8 | PlacementAuto;
+  type CheckTrigger = 'change' | 'blur' | 'none';
 }
 
 export interface SVGIcon {
@@ -207,6 +208,7 @@ export { default as Popover } from './Popover';
 export { default as Portal } from './Portal';
 export { default as Progress } from './Progress';
 export { default as Radio } from './Radio';
+export { default as SelectPicker } from './SelectPicker';
 export { default as Sidebar } from './Sidebar';
 export { default as Sidenav } from './Sidenav';
 export { default as Slider } from './Slider';
@@ -221,3 +223,5 @@ export { default as Tree } from './Tree';
 export { default as TreePicker } from './TreePicker';
 export { default as Uploader } from './Uploader';
 export { default as Whisper } from './Whisper';
+
+export { default as Navbar } from './Navbar';

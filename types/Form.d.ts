@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { StandardProps } from './index';
+import { StandardProps, PropTypes } from './index';
 
 export interface FormProps extends StandardProps {
   /** Set the left and right columns of the layout of the elements within the form */
@@ -22,7 +22,7 @@ export interface FormProps extends StandardProps {
   checkDelay?: number;
 
   /** Trigger the type of form validation */
-  checkTrigger?: 'change' | 'blur' | 'none';
+  checkTrigger?: PropTypes.CheckTrigger;
 
   /** SchemaModel object */
   model?: object;

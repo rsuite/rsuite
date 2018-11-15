@@ -57,7 +57,7 @@ export interface ModalProps extends StandardProps, AnimationEventProps {
   enforceFocus?: boolean;
 
   /** You can use a custom element type for Dialog */
-  dialogComponentClass: React.ReactType<any>;
+  dialogComponentClass?: React.ReactType<any>;
 
   /** Called when Modal is displayed */
   onShow?: () => void;
