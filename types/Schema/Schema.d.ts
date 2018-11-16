@@ -16,3 +16,6 @@ declare namespace SchemaModel{
 }
 
 export default SchemaModel;
+export {
+  Schema
+};
