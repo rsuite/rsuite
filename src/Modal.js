@@ -181,6 +181,9 @@ class Modal extends React.Component<Props, State> {
     if (event.target !== event.currentTarget) {
       return;
     }
+
+    const { onHide } = this.props;
+    onHide && onHide(event);
   };
 
   handleResize = () => {
@@ -258,11 +261,7 @@ class Modal extends React.Component<Props, State> {
         className={classes}
         dialogClassName={dialogClassName}
         dialogStyle={dialogStyle}
-        onClick={
-          rest.backdrop === true
-            ? createChainedFunction(this.handleDialogClick, this.props.onHide)
-            : null
-        }
+        onClick={rest.backdrop === true ? this.handleDialogClick : null}
         ref={this.dialogRef}
       >
         {items}
