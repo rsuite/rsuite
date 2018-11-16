@@ -27,7 +27,7 @@ export interface SidenavProps extends StandardProps {
   onOpenChange?: (openKeys: any[], event: React.SyntheticEvent<any>) => void;
 
   /** Select the callback function for the menu */
-  onSelect?: (eventKey: any[], event: React.SyntheticEvent<any>) => void;
+  onSelect?: (eventKey: any, event: React.SyntheticEvent<any>) => void;
 }
 
 interface SidenavComponent extends React.ComponentClass<SidenavProps> {
