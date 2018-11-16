@@ -223,5 +223,5 @@ export { default as Tree } from './Tree';
 export { default as TreePicker } from './TreePicker';
 export { default as Uploader } from './Uploader';
 export { default as Whisper } from './Whisper';
-
 export { default as Navbar } from './Navbar';
+export { default as Row } from './Row';
