@@ -4,7 +4,6 @@ import { DateType, exportType as DateExportType } from './DateType';
 import { NumberType, exportType as NumberExportType } from './NumberType';
 import { StringType, exportType as StringExportType } from './StringType';
 import { ObjectType, exportType as ObjectExportType } from './ObjectType';
-import { CheckResult } from './Type';
 import SchemaModel from './Schema';
 
 export type CheckType = ArrayType | BooleanType | DateType | NumberType | StringType;
