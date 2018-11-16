@@ -1,9 +1,9 @@
-import { ArrayType, exportType as ArrayExportType } from './ArrayType';
-import { BooleanType, exportType as BooleanExportType} from './BooleanType';
-import { DateType, exportType as DateExportType } from './DateType';
-import { NumberType, exportType as NumberExportType } from './NumberType';
-import { StringType, exportType as StringExportType } from './StringType';
-import { ObjectType, exportType as ObjectExportType } from './ObjectType';
+import ArrayExportType, { ArrayType } from './ArrayType';
+import BooleanExportType, { BooleanType } from './BooleanType';
+import DateExportType, { DateType } from './DateType';
+import NumberExportType, { NumberType } from './NumberType';
+import StringExportType, { StringType } from './StringType';
+import ObjectExportType, { ObjectType } from './ObjectType';
 import SchemaModel from './Schema';
 
 export type CheckType = ArrayType | BooleanType | DateType | NumberType | StringType;

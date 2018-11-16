@@ -1,6 +1,6 @@
 import { Type } from "./Type";
 
-declare class StringType extends Type {
+export declare class StringType extends Type {
   constructor(errorMessage?: string);
   containsLetter: (errorMessage: string) => this;
   containsUppercaseLetter: (errorMessage: string) => this;
@@ -21,7 +21,4 @@ declare function getStringType(errorMessage?: string): StringType;
 
 type exportType = typeof getStringType;
 
-export {
-  exportType,
-  StringType
-};
+export default exportType;

@@ -1,6 +1,6 @@
 import { Type } from "./Type";
 
-declare class NumberType extends Type {
+export declare class NumberType extends Type {
   constructor(errorMessage?: string)
   isInteger: (errorMessage: string) => this;
   pattern: (regexp, errorMessage: string) => this;
@@ -14,7 +14,4 @@ declare function getNumberType(errorMessage?: string): NumberType;
 
 type exportType = typeof getNumberType;
 
-export {
-  exportType,
-  NumberType,
-};
+export default exportType;
