@@ -8,7 +8,6 @@ import FormContext, { FormValueContext, FormErrorContext } from './FormContext';
 import LegacyFormControl from './_legacy/FormControl';
 
 import { getUnhandledProps, defaultProps, prefix } from './utils';
-import { mapProps, compose } from 'recompose';
 
 type PlacementEightPoints =
   | 'bottomLeft'
@@ -29,7 +28,7 @@ type Props = {
   classPrefix?: string,
   errorMessage?: React.Node,
   errorPlacement?: PlacementEightPoints,
-  formValue: any
+  formValue?: Object
 };
 
 type State = {
@@ -55,7 +54,6 @@ class FormControl extends React.Component<Props, State> {
 
     const { formValue = {}, formDefaultValue = {} } = context;
     const name = props.name;
-
     this.state = {
       checkResult: {},
       value: formValue[name] || formDefaultValue[name]
@@ -68,7 +66,7 @@ class FormControl extends React.Component<Props, State> {
   }
 
   handleFieldChange = (value: any, event: SyntheticEvent<*>) => {
-    const { name, onChange, formValue } = this.props;
+    const { name, onChange, formValue = {} } = this.props;
     const { onFieldChange } = this.context;
     const checkTrigger = this.getCheckTrigger();
     const checkResult = this.handleFieldCheck(formValue, value, checkTrigger === 'change');
@@ -80,7 +78,7 @@ class FormControl extends React.Component<Props, State> {
   };
 
   handleFieldBlur = (event: SyntheticEvent<*>) => {
-    const { onBlur, name, formValue } = this.props;
+    const { onBlur, name, formValue = {} } = this.props;
     const checkTrigger = this.getCheckTrigger();
     const value = typeof formValue[name] === 'undefined' ? this.state.value : formValue[name];
 
@@ -145,7 +143,7 @@ class FormControl extends React.Component<Props, State> {
   };
 
   renderValue = () => {
-    const { name, accepter: Component, formValue, ...props } = this.props;
+    const { name, accepter: Component, formValue = {}, ...props } = this.props;
     const { formDefaultValue = {} } = this.context;
     const unhandled = getUnhandledProps(FormControl, props);
     return (
@@ -174,14 +172,7 @@ class FormControlWrapper extends React.Component {
   render() {
     return (
       <FormValueContext.Consumer>
-        {formValue => {
-          return (
-            <FormControl
-              {...this.props}
-              formValue={formValue}
-            />
-          );
-        }}
+        {formValue => <FormControl {...this.props} formValue={formValue} />}
       </FormValueContext.Consumer>
     );
   }
