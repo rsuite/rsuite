@@ -52,12 +52,22 @@ class FormControl extends React.Component<Props, State> {
       `);
     }
 
-    const { formValue = {}, formDefaultValue = {} } = context;
+    const { formDefaultValue = {} } = context;
     const name = props.name;
     this.state = {
       checkResult: {},
-      value: formValue[name] || formDefaultValue[name]
+      value: this.getValue(props) || formDefaultValue[name]
     };
+  }
+
+  getValue(props?: Props) {
+    const { formValue, name } = props || this.props;
+
+    if (!formValue) {
+      return;
+    }
+
+    return formValue[name];
   }
 
   getCheckTrigger() {
@@ -66,10 +76,10 @@ class FormControl extends React.Component<Props, State> {
   }
 
   handleFieldChange = (value: any, event: SyntheticEvent<*>) => {
-    const { name, onChange, formValue = {} } = this.props;
+    const { name, onChange } = this.props;
     const { onFieldChange } = this.context;
     const checkTrigger = this.getCheckTrigger();
-    const checkResult = this.handleFieldCheck(formValue, value, checkTrigger === 'change');
+    const checkResult = this.handleFieldCheck(value, checkTrigger === 'change');
 
     this.setState({ checkResult, value });
 
@@ -78,21 +88,16 @@ class FormControl extends React.Component<Props, State> {
   };
 
   handleFieldBlur = (event: SyntheticEvent<*>) => {
-    const { onBlur, name, formValue = {} } = this.props;
+    const { onBlur } = this.props;
     const checkTrigger = this.getCheckTrigger();
-    const value = typeof formValue[name] === 'undefined' ? this.state.value : formValue[name];
+    const value = this.getValue() || this.state.value;
 
-    this.handleFieldCheck(formValue, value, checkTrigger === 'blur');
+    this.handleFieldCheck(value, checkTrigger === 'blur');
     onBlur && onBlur(event);
   };
 
-  handleFieldCheck = (
-    formValue: Object,
-    value: any,
-    isCheckTrigger: boolean,
-    callback?: Function
-  ) => {
-    const { name } = this.props;
+  handleFieldCheck = (value: any, isCheckTrigger: boolean, callback?: Function) => {
+    const { name, formValue } = this.props;
     const { onFieldError, onFieldSuccess, model } = this.context;
     const checkResult = model.checkForField(name, value, formValue);
 
@@ -111,29 +116,29 @@ class FormControl extends React.Component<Props, State> {
 
   checkErrorFromContext() {
     const { errorFromContext } = this.context;
-    const { name, errorMessage } = this.props;
+    const { errorMessage } = this.props;
 
     if (errorMessage) {
-      return this.renderError(errorMessage);
+      return this.renderError(null, errorMessage);
     }
 
     if (errorFromContext) {
-      return (
-        <FormErrorContext.Consumer>
-          {formError => this.renderError(formError[name])}
-        </FormErrorContext.Consumer>
-      );
+      return <FormErrorContext.Consumer>{this.renderError}</FormErrorContext.Consumer>;
     }
 
     return null;
   }
 
-  renderError = (errorMessage: React.Node) => {
-    const { errorPlacement } = this.props;
-    const show = !!errorMessage;
+  renderError = (formError?: Object, errorMessage?: React.Node) => {
+    const { errorPlacement, name } = this.props;
+
+    if (formError) {
+      errorMessage = formError[name];
+    }
+
     return (
       <ErrorMessage
-        show={show}
+        show={!!errorMessage}
         className={this.addPrefix('message-wrapper')}
         placement={errorPlacement}
       >
@@ -143,9 +148,10 @@ class FormControl extends React.Component<Props, State> {
   };
 
   renderValue = () => {
-    const { name, accepter: Component, formValue = {}, ...props } = this.props;
+    const { name, accepter: Component, ...props } = this.props;
     const { formDefaultValue = {} } = this.context;
     const unhandled = getUnhandledProps(FormControl, props);
+    const value = this.getValue();
     return (
       <Component
         {...unhandled}
@@ -153,7 +159,7 @@ class FormControl extends React.Component<Props, State> {
         onChange={this.handleFieldChange}
         onBlur={this.handleFieldBlur}
         defaultValue={formDefaultValue[name]}
-        value={formValue[name]}
+        value={value}
       />
     );
   };

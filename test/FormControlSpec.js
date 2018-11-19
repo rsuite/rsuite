@@ -86,4 +86,25 @@ describe('FormControl', () => {
         .className.match(/\bcustom-prefix\b/)
     );
   });
+
+  it('Should render correctly when form value was null', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Form formValue={null}>
+        <FormControl name="name" />
+      </Form>
+    );
+    assert.equal(findDOMNode(instance).querySelector('input').value, '');
+  });
+
+  it('Should render correctly when form error was null', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Form formError={null}>
+        <FormControl name="name" />
+      </Form>
+    );
+    assert.equal(
+      findDOMNode(instance).querySelector('.rs-form-control-message-wrapper').innerText,
+      ''
+    );
+  });
 });
