@@ -15,6 +15,7 @@ export default (props: Props): any => {
       // for IE9 & IE10 support
       static contextTypes = WrappedComponent.contextTypes;
       static childContextTypes = WrappedComponent.childContextTypes;
+      static getDerivedStateFromProps = WrappedComponent.getDerivedStateFromProps;
 
       static defaultProps = {
         ...WrappedComponent.defaultProps,
