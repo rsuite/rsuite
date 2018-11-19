@@ -8,6 +8,7 @@ import FormContext, { FormValueContext, FormErrorContext } from './FormContext';
 import LegacyFormControl from './_legacy/FormControl';
 
 import { getUnhandledProps, defaultProps, prefix } from './utils';
+import { mapProps, compose } from 'recompose';
 
 type PlacementEightPoints =
   | 'bottomLeft'
@@ -27,7 +28,8 @@ type Props = {
   onBlur?: (event: SyntheticEvent<*>) => void,
   classPrefix?: string,
   errorMessage?: React.Node,
-  errorPlacement?: PlacementEightPoints
+  errorPlacement?: PlacementEightPoints,
+  formValue: any
 };
 
 type State = {
@@ -65,8 +67,8 @@ class FormControl extends React.Component<Props, State> {
     return this.props.checkTrigger || checkTrigger;
   }
 
-  handleFieldChange = (formValue: Object, value: any, event: SyntheticEvent<*>) => {
-    const { name, onChange } = this.props;
+  handleFieldChange = (value: any, event: SyntheticEvent<*>) => {
+    const { name, onChange, formValue } = this.props;
     const { onFieldChange } = this.context;
     const checkTrigger = this.getCheckTrigger();
     const checkResult = this.handleFieldCheck(formValue, value, checkTrigger === 'change');
@@ -77,8 +79,8 @@ class FormControl extends React.Component<Props, State> {
     onChange && onChange(value, event);
   };
 
-  handleFieldBlur = (formValue: Object, event: SyntheticEvent<*>) => {
-    const { onBlur, name } = this.props;
+  handleFieldBlur = (event: SyntheticEvent<*>) => {
+    const { onBlur, name, formValue } = this.props;
     const checkTrigger = this.getCheckTrigger();
     const value = typeof formValue[name] === 'undefined' ? this.state.value : formValue[name];
 
@@ -142,16 +144,16 @@ class FormControl extends React.Component<Props, State> {
     );
   };
 
-  renderValue = (formValue: Object = {}) => {
-    const { name, accepter: Component, ...props } = this.props;
+  renderValue = () => {
+    const { name, accepter: Component, formValue, ...props } = this.props;
     const { formDefaultValue = {} } = this.context;
     const unhandled = getUnhandledProps(FormControl, props);
     return (
       <Component
         {...unhandled}
         name={name}
-        onChange={this.handleFieldChange.bind(this, formValue)}
-        onBlur={this.handleFieldBlur.bind(this, formValue)}
+        onChange={this.handleFieldChange}
+        onBlur={this.handleFieldBlur}
         defaultValue={formDefaultValue[name]}
         value={formValue[name]}
       />
@@ -161,15 +163,32 @@ class FormControl extends React.Component<Props, State> {
   render() {
     return (
       <div className={this.addPrefix('wrapper')}>
-        <FormValueContext.Consumer>{this.renderValue}</FormValueContext.Consumer>
+        {this.renderValue()}
         {this.checkErrorFromContext()}
       </div>
     );
   }
 }
 
+class FormControlWrapper extends React.Component {
+  render() {
+    return (
+      <FormValueContext.Consumer>
+        {formValue => {
+          return (
+            <FormControl
+              {...this.props}
+              formValue={formValue}
+            />
+          );
+        }}
+      </FormValueContext.Consumer>
+    );
+  }
+}
+
 const EnhancedFormControl = defaultProps({
   classPrefix: 'form-control'
-})(FormControl);
+})(FormControlWrapper);
 
 export default (React.createContext ? EnhancedFormControl : LegacyFormControl);
