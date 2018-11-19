@@ -325,4 +325,14 @@ describe('Form', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Form classPrefix="custom-prefix" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
   });
+
+  it('Should render correctly when form value was null', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Form>
+        <FormControl name="name" />
+      </Form>
+    );
+
+    assert.equal(findDOMNode(instance).tagName, 'FORM');
+  });
 });
