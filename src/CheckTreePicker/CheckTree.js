@@ -237,7 +237,10 @@ class CheckTree extends React.Component<Props, States> {
       this.setState(nextState);
     }
 
-    if(_.isArray(uncheckableItemValues) && !shallowEqualArray(prevState.uncheckableItemValues, uncheckableItemValues)){
+    if (
+      _.isArray(uncheckableItemValues) &&
+      !shallowEqualArray(prevState.uncheckableItemValues, uncheckableItemValues)
+    ) {
       this.flattenNodes(filterData);
       this.unserializeLists({
         check: selectedValues

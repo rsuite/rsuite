@@ -153,15 +153,7 @@ class TreeCheckNode extends React.Component<Props> {
   };
 
   render() {
-    const {
-      classPrefix,
-      visible,
-      active,
-      layer,
-      disabled,
-      uncheckable,
-      checkState
-    } = this.props;
+    const { classPrefix, visible, active, layer, disabled, uncheckable, checkState } = this.props;
 
     const addPrefix = prefix(`${classPrefix}-node`);
     const classes = classNames(`${classPrefix}-node`, {
