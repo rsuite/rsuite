@@ -18,7 +18,7 @@ type Props = {
   checkState?: CheckState,
   hasChildren?: boolean,
   disabled?: boolean,
-  disabledCheckbox: boolean,
+  uncheckable: boolean,
   layer: number,
   onTreeToggle?: (nodeData: Object, layer: number, event: DefaultEvent) => void,
   onSelect?: (nodeData: Object, layer: number, event: DefaultEvent) => void,
@@ -60,12 +60,12 @@ class TreeCheckNode extends React.Component<Props> {
       hasChildren,
       layer,
       disabled,
-      disabledCheckbox,
+      uncheckable,
       nodeData,
       checkState
     } = this.props;
 
-    if (disabled || disabledCheckbox) {
+    if (disabled || uncheckable) {
       return;
     }
 
@@ -121,7 +121,7 @@ class TreeCheckNode extends React.Component<Props> {
       label,
       layer,
       disabled,
-      disabledCheckbox
+      uncheckable
     } = this.props;
     const addPrefix = prefix(classPrefix);
     const input = (
@@ -146,7 +146,7 @@ class TreeCheckNode extends React.Component<Props> {
         data-key={nodeData.refKey}
         onClick={this.handleSelect}
       >
-        {!disabledCheckbox ? input : null}
+        {!uncheckable ? input : null}
         {custom}
       </span>
     );
@@ -159,7 +159,7 @@ class TreeCheckNode extends React.Component<Props> {
       active,
       layer,
       disabled,
-      disabledCheckbox,
+      uncheckable,
       checkState
     } = this.props;
 
@@ -170,11 +170,10 @@ class TreeCheckNode extends React.Component<Props> {
       [addPrefix('checked')]: checkState === CHECK_STATE.CHECK,
       [addPrefix('disabled')]: disabled,
       [addPrefix('active')]: active,
-      [addPrefix('disabled-checkbox')]: disabledCheckbox
+      [addPrefix('disabled-checkbox')]: uncheckable
     });
 
     const styles = { paddingLeft: layer * PADDING + INITIAL_PADDING };
-
     return visible ? (
       <div style={styles} className={classes}>
         {this.renderIcon()}
