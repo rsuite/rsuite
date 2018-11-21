@@ -161,8 +161,7 @@ class TreeCheckNode extends React.Component<Props> {
       [addPrefix('indeterminate')]: checkState === CHECK_STATE.INDETERMINATE,
       [addPrefix('checked')]: checkState === CHECK_STATE.CHECK,
       [addPrefix('disabled')]: disabled,
-      [addPrefix('active')]: active,
-      [addPrefix('disabled-checkbox')]: uncheckable
+      [addPrefix('active')]: active
     });
 
     const styles = { paddingLeft: layer * PADDING + INITIAL_PADDING };

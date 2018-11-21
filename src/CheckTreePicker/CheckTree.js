@@ -480,6 +480,33 @@ class CheckTree extends React.Component<Props, States> {
   }
 
   /**
+   * 获取第一层节点是否全部都为 uncheckable
+   */
+  getEveryFisrtLevelNodeUncheckable() {
+    const list = [];
+    Object.keys(this.nodes).forEach((refKey: string) => {
+      const curNode = this.nodes[refKey];
+      if (!curNode.parentNode) {
+        list.push(curNode);
+      }
+    });
+
+    return list.every(node => node.uncheckable);
+  }
+
+  getEveryChildUncheckable(node: Object) {
+    const list = [];
+    Object.keys(this.nodes).forEach((refKey: string) => {
+      const curNode = this.nodes[refKey];
+      if (curNode.parentNode && curNode.parentNode.refKey === node.refKey) {
+        list.push(curNode);
+      }
+    });
+
+    return list.every(node => node.uncheckable);
+  }
+
+  /**
    * 判断传入的 value 是否存在于data 中
    * @param {*} values
    */
@@ -716,7 +743,7 @@ class CheckTree extends React.Component<Props, States> {
 
   everyChildChecked = (nodes: Object, node: Object) => {
     const list = [];
-    Object.keys(nodes).filter((refKey: string) => {
+    Object.keys(nodes).forEach((refKey: string) => {
       const curNode = nodes[refKey];
       if (curNode.parentNode && curNode.parentNode.refKey === node.refKey && !curNode.uncheckable) {
         list.push(curNode);
@@ -983,6 +1010,10 @@ class CheckTree extends React.Component<Props, States> {
         [openClass]: expandALlState && hasNotEmptyChildren
       });
 
+      const viewChildrenClass = classNames(`${classPrefix}-children`, {
+        'all-uncheckable': this.getEveryChildUncheckable(node)
+      });
+
       let nodes = children || [];
       return (
         <div className={childrenClass} key={key} ref={this.bindNodeRefs.bind(this, refKey)}>
@@ -992,7 +1023,7 @@ class CheckTree extends React.Component<Props, States> {
             ref={this.bindNodeRefs.bind(this, refKey)}
             {...props}
           />
-          <div className={`${classPrefix}-children`}>
+          <div className={viewChildrenClass}>
             {nodes.map((child, i) => this.renderNode(child, i, layer, classPrefix))}
           </div>
         </div>
@@ -1035,7 +1066,9 @@ class CheckTree extends React.Component<Props, States> {
       ...style
     };
 
-    const treeNodesClass = this.addPrefix('checktree-nodes');
+    const treeNodesClass = classNames(this.addPrefix('checktree-nodes'), {
+      'all-uncheckable': this.getEveryFisrtLevelNodeUncheckable()
+    });
     return (
       <div
         ref={this.bindTreeViewRef}
