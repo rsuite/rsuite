@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import { IntlProvider, FormattedMessage } from 'rsuite-intl';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
-import { findNodeOfTree, shallowEqualArray } from 'rsuite-utils/lib/utils';
+import { shallowEqualArray } from 'rsuite-utils/lib/utils';
 import { polyfill } from 'react-lifecycles-compat';
 import {
   defaultProps,
@@ -21,6 +21,7 @@ import PickerToggle from '../_picker/PickerToggle';
 import MenuWrapper from '../_picker/MenuWrapper';
 import SelectedElement from '../_picker/SelectedElement';
 import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
+import createConcatChildrenFunction from '../_picker/createConcatChildrenFunction';
 import createUtils from './utils';
 
 import type { Placement } from '../utils/TypeDefinition';
@@ -230,14 +231,6 @@ class Dropdown extends React.Component<Props, State> {
     onChange && onChange(value, event);
   };
 
-  handleConcat = (itemValue: any) => {
-    return (data, children) => {
-      const selectedNode = findNodeOfTree(data, item => itemValue === item.value);
-      selectedNode.children = children;
-      return data.concat([]);
-    };
-  };
-
   handleSelect = (node: Object, cascadeItems, activePaths: Array<any>, event: DefaultEvent) => {
     const { onSelect, valueKey } = this.props;
 
@@ -247,7 +240,8 @@ class Dropdown extends React.Component<Props, State> {
       activePaths
     });
 
-    onSelect && onSelect(node, activePaths, this.handleConcat(node[valueKey]), event);
+    onSelect &&
+      onSelect(node, activePaths, createConcatChildrenFunction(node, node[valueKey]), event);
   };
 
   trigger = null;

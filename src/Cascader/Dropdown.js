@@ -14,6 +14,7 @@ import DropdownMenu from './DropdownMenu';
 import PickerToggle from '../_picker/PickerToggle';
 import MenuWrapper from '../_picker/MenuWrapper';
 import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
+import createConcatChildrenFunction from '../_picker/createConcatChildrenFunction';
 import type { Placement } from '../utils/TypeDefinition';
 
 type DefaultEvent = SyntheticEvent<*>;
@@ -221,14 +222,6 @@ class Dropdown extends React.Component<Props, State> {
     return _.isUndefined(value) ? this.state.value : value;
   }
 
-  handleConcat = (itemValue: any) => {
-    return (data, children) => {
-      const selectedNode = findNodeOfTree(data, item => itemValue === item.value);
-      selectedNode.children = children;
-      return data.concat([]);
-    };
-  };
-
   handleSelect = (
     node: any,
     cascadeItems,
@@ -240,7 +233,7 @@ class Dropdown extends React.Component<Props, State> {
     const prevValue = this.getValue();
     const value = node[valueKey];
 
-    onSelect && onSelect(node, activePaths, this.handleConcat(node[valueKey]), event);
+    onSelect && onSelect(node, activePaths, createConcatChildrenFunction(node), event);
 
     /**
      * 只有在叶子节点的时候才当做是可以选择的值
