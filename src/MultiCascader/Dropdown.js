@@ -161,7 +161,7 @@ class Dropdown extends React.Component<Props, State> {
     let value = nextProps.value || prevState.value || [];
     let { prevValue, flattenData, selectNode, items } = prevState;
 
-    const isChangedData = !shallowEqualArray(data, prevState.data);
+    const isChangedData = data !== prevState.data;
     const isChangedValue = !shallowEqualArray(prevValue, nextProps.value);
 
     if (isChangedData || isChangedValue) {
@@ -230,8 +230,16 @@ class Dropdown extends React.Component<Props, State> {
     onChange && onChange(value, event);
   };
 
+  handleConcat = (itemValue: any) => {
+    return (data, children) => {
+      const selectedNode = findNodeOfTree(data, item => itemValue === item.value);
+      selectedNode.children = children;
+      return data.concat([]);
+    };
+  };
+
   handleSelect = (node: Object, cascadeItems, activePaths: Array<any>, event: DefaultEvent) => {
-    const { onSelect } = this.props;
+    const { onSelect, valueKey } = this.props;
 
     this.setState({
       selectNode: node,
@@ -239,7 +247,7 @@ class Dropdown extends React.Component<Props, State> {
       activePaths
     });
 
-    onSelect && onSelect(node, activePaths, event);
+    onSelect && onSelect(node, activePaths, this.handleConcat(node[valueKey]), event);
   };
 
   trigger = null;
