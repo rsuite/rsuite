@@ -2,16 +2,6 @@
 //*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 
 //
-// 2. Prevent iOS and IE text size adjust after device orientation change,
-//    without disabling user zoom.
-//
-
-html {
-  -ms-text-size-adjust: 100%; // 2
-  -webkit-text-size-adjust: 100%; // 2
-}
-
-//
 // Remove default margin.
 //
 
@@ -63,16 +53,6 @@ video {
 }
 
 //
-// Prevent modern browsers from displaying `audio` without controls.
-// Remove excess height in iOS 5 devices.
-//
-
-audio:not([controls]) {
-  display: none;
-  height: 0;
-}
-
-//
 // Address `[hidden]` styling not present in IE 8/9/10.
 // Hide the `template` element in IE 8/9/10/11, Safari, and Firefox < 22.
 //
@@ -107,28 +87,12 @@ a:hover {
 // ==========================================================================
 
 //
-// Address styling not present in IE 8/9/10/11, Safari, and Chrome.
-//
-
-abbr[title] {
-  border-bottom: 1px dotted;
-}
-
-//
 // Address style set to `bolder` in Firefox 4+, Safari, and Chrome.
 //
 
 b,
 strong {
   font-weight: bold;
-}
-
-//
-// Address styling not present in Safari and Chrome.
-//
-
-dfn {
-  font-style: italic;
 }
 
 //
@@ -139,23 +103,6 @@ dfn {
 h1 {
   font-size: 2em;
   margin: 0.67em 0;
-}
-
-//
-// Address styling not present in IE 8/9.
-//
-
-mark {
-  background: #ff0;
-  color: #000;
-}
-
-//
-// Address inconsistent and variable font size in all browsers.
-//
-
-small {
-  font-size: 80%;
 }
 
 //
@@ -368,30 +315,11 @@ input[type='search']::-webkit-search-decoration {
 }
 
 //
-// 1. Correct `color` not being inherited in IE 8/9/10/11.
-// 2. Remove padding so people aren't caught out if they zero out fieldsets.
-//
-
-legend {
-  border: 0; // 1
-  padding: 0; // 2
-}
-
-//
 // Remove default vertical scrollbar in IE 8/9/10/11.
 //
 
 textarea {
   overflow: auto;
-}
-
-//
-// Don't inherit the `font-weight` (applied by a rule above).
-// NOTE: the default cannot safely be changed in Chrome and Safari on OS X.
-//
-
-optgroup {
-  font-weight: bold;
 }
 
 // Tables
@@ -427,4 +355,11 @@ input[type='reset'],
 input[type='file']::-webkit-file-upload-button,
 button {
   border-width: 0;
+}
+
+//
+// Remove IE10's “clear field” X button on certain inputs
+//
+input::-ms-clear {
+  display: none;
 }
