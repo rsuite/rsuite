@@ -549,15 +549,20 @@ class CheckTree extends React.Component<Props, States> {
 
   isEveryChildChecked(node: Object) {
     const { childrenKey } = this.props;
-    return node[childrenKey].every((child: Object) => {
-      if (child[childrenKey] && child[childrenKey].length) {
-        return this.isEveryChildChecked(child);
+    let children = null;
+    if (node[childrenKey]) {
+      children = node[childrenKey].filter(child => !child.uncheckable);
+      if (!children.length) {
+        return node.check;
       }
-      if (child.uncheckable) {
-        return true;
-      }
-      return child.check;
-    });
+      return children.every((child: Object) => {
+        if (child[childrenKey] && child[childrenKey].length) {
+          return this.isEveryChildChecked(child);
+        }
+        return child.check;
+      });
+    }
+    return node.check;
   }
 
   isSomeChildChecked(node: Object) {
