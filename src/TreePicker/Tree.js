@@ -12,11 +12,14 @@ import { reactToString, shallowEqual, shallowEqualArray } from 'rsuite-utils/lib
 
 import TreeNode from './TreeNode';
 import { clone, defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
-import PickerToggle from '../_picker/PickerToggle';
-import MenuWrapper from '../_picker/MenuWrapper';
-import SearchBar from '../_picker/SearchBar';
-import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
-import onMenuKeyDown from '../_picker/onMenuKeyDown';
+
+import {
+  PickerToggle,
+  getToggleWrapperClassName,
+  onMenuKeyDown,
+  MenuWrapper,
+  SearchBar
+} from '../_picker';
 
 type DefaultEvent = SyntheticEvent<*>;
 type Placement =
@@ -381,6 +384,16 @@ class Tree extends React.Component<Props, States> {
     this.menu = ref;
   };
 
+  position = null;
+
+  bindPositionRef = (ref: React.ElementRef<*>) => {
+    this.position = ref;
+  };
+
+  getPositionInstance = () => {
+    return this.position;
+  };
+
   focusNode(activeNode) {
     const { inline } = this.props;
     if (activeNode && inline) {
@@ -593,7 +606,12 @@ class Tree extends React.Component<Props, States> {
     );
 
     return (
-      <MenuWrapper className={classes} style={menuStyle} ref={this.bindMenuRef}>
+      <MenuWrapper
+        className={classes}
+        style={menuStyle}
+        ref={this.bindMenuRef}
+        getPositionInstance={this.getPositionInstance}
+      >
         {searchable ? (
           <SearchBar
             placeholder={locale.searchPlaceholder}
@@ -788,6 +806,7 @@ class Tree extends React.Component<Props, States> {
         >
           <OverlayTrigger
             ref={this.bindTriggerRef}
+            positionRef={this.bindPositionRef}
             open={open}
             defaultOpen={defaultOpen}
             disabled={disabled}
