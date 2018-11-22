@@ -1011,7 +1011,7 @@ class CheckTree extends React.Component<Props, States> {
       });
 
       const viewChildrenClass = classNames(`${classPrefix}-children`, {
-        'all-uncheckable': this.getEveryChildUncheckable(node)
+        [this.addPrefix('all-uncheckable')]: this.getEveryChildUncheckable(node)
       });
 
       let nodes = children || [];
