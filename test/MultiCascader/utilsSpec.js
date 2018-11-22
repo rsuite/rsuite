@@ -138,4 +138,12 @@ describe('MultiCascader - utils', () => {
     const values = utils.getOtherItemValuesByUnselectChild(item, ['1']);
     assert.equal(values.toString(), '1-1,1-2-2,1-2-3,1-2-4,1-2-5,1-2-6,1-3');
   });
+
+  it('removeAllChildrenValue', () => {
+    const item = _.get(data, '0'); // 四川  1
+    const value = ['1', '1-3', '1-2'];
+    const removedValue = utils.removeAllChildrenValue(value, item);
+    assert.equal(removedValue.toString(), '1-2,1-3');
+    assert.equal(value.toString(), '1');
+  });
 });
