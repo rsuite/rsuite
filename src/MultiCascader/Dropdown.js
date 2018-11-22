@@ -7,6 +7,12 @@ import { IntlProvider, FormattedMessage } from 'rsuite-intl';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import { shallowEqualArray } from 'rsuite-utils/lib/utils';
 import { polyfill } from 'react-lifecycles-compat';
+
+import findNodesOfTree from '../utils/findNodesOfTree';
+import DropdownMenu from './DropdownMenu';
+import createUtils from './utils';
+import type { Placement } from '../utils/TypeDefinition';
+
 import {
   defaultProps,
   prefix,
@@ -15,16 +21,13 @@ import {
   tplTransform
 } from '../utils';
 
-import findNodesOfTree from '../utils/findNodesOfTree';
-import DropdownMenu from './DropdownMenu';
-import PickerToggle from '../_picker/PickerToggle';
-import MenuWrapper from '../_picker/MenuWrapper';
-import SelectedElement from '../_picker/SelectedElement';
-import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
-import createConcatChildrenFunction from '../_picker/createConcatChildrenFunction';
-import createUtils from './utils';
-
-import type { Placement } from '../utils/TypeDefinition';
+import {
+  PickerToggle,
+  MenuWrapper,
+  SelectedElement,
+  getToggleWrapperClassName,
+  createConcatChildrenFunction
+} from '../_picker';
 
 type DefaultEvent = SyntheticEvent<*>;
 type Props = {

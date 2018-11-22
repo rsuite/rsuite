@@ -8,14 +8,17 @@ import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import { findNodeOfTree, shallowEqual } from 'rsuite-utils/lib/utils';
 import { polyfill } from 'react-lifecycles-compat';
 
+import DropdownMenu from './DropdownMenu';
 import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 import stringToObject from '../utils/stringToObject';
-import DropdownMenu from './DropdownMenu';
-import PickerToggle from '../_picker/PickerToggle';
-import MenuWrapper from '../_picker/MenuWrapper';
-import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
-import createConcatChildrenFunction from '../_picker/createConcatChildrenFunction';
 import type { Placement } from '../utils/TypeDefinition';
+
+import {
+  PickerToggle,
+  MenuWrapper,
+  getToggleWrapperClassName,
+  createConcatChildrenFunction
+} from '../_picker';
 
 type DefaultEvent = SyntheticEvent<*>;
 type Props = {
