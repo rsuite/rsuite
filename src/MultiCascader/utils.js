@@ -167,7 +167,7 @@ export default function(props) {
     item[childrenKey].forEach(n => {
       removedValue = removedValue.concat(_.remove(value, v => v === n[valueKey]));
       if (n[childrenKey]) {
-        removeAllChildrenValue(n, value);
+        removeAllChildrenValue(value, n);
       }
     });
     return removedValue;
@@ -268,6 +268,7 @@ export default function(props) {
   }
 
   return {
+    removeAllChildrenValue,
     getChildrenValue,
     splitValue,
     transformValue,
