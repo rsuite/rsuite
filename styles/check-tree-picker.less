@@ -258,3 +258,22 @@
     }
   }
 }
+
+// Uncheckable state
+.@{ns}picker-all-uncheckable {
+  // Top level
+  .@{ctpns}-nodes&,
+  // Other level
+  .@{ctpns}-view-children& {
+    > .@{ctpns}-view-node > .@{ctpns}-view-checknode-label,
+    > .@{ctpns}-view-node-children > .@{ctpns}-view-node > .@{ctpns}-view-checknode-label {
+      padding-left: 22px; // 10px + 12px
+
+      &::before {
+        width: 14px;
+        margin-left: 0;
+        left: 0;
+      }
+    }
+  }
+}

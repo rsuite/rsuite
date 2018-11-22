@@ -368,4 +368,10 @@ describe('CheckTreePicker', () => {
     );
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
   });
+
+  it('should render tree without checkbox', () => {
+    const instance = mount(
+      <CheckTreePicker data={data} inline uncheckableItemValues={['tester0', 'disabled']} />
+    );
+  });
 });

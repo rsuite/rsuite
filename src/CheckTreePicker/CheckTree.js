@@ -75,9 +75,9 @@ type Props = {
   defaultExpandAll?: boolean,
   containerPadding?: number,
   disabledItemValues?: Array<any>,
+  uncheckableItemValues?: Array<any>,
   toggleComponentClass?: React.ElementType,
   // 禁用 checkbox 数组
-  disabledCheckboxValues: Array<any>,
   onOpen?: () => void,
   onExit?: Function,
   onEnter?: Function,
@@ -115,6 +115,7 @@ type States = {
   searchKeyword?: string,
   formattedNodes: Array<any>,
   selectedValues: Array<any>,
+  uncheckableItemValues: Array<any>,
   isSomeNodeHasChildren: boolean
 };
 
@@ -137,8 +138,7 @@ class CheckTree extends React.Component<Props, States> {
     defaultValue: [],
     childrenKey: 'children',
     searchKeyword: '',
-    disabledItemValues: [],
-    disabledCheckboxValues: []
+    uncheckableItemValues: []
   };
   constructor(props: Props) {
     super(props);
@@ -167,12 +167,13 @@ class CheckTree extends React.Component<Props, States> {
       searchKeyword: props.searchKeyword,
       selectedValues: nextValue,
       formattedNodes: [],
+      uncheckableItemValues: props.uncheckableItemValues,
       isSomeNodeHasChildren: this.isSomeNodeHasChildren(props.data)
     };
   }
 
   static getDerivedStateFromProps(nextProps: Props, prevState: States) {
-    const { value, data, cascade, expandAll, searchKeyword } = nextProps;
+    const { value, data, cascade, expandAll, searchKeyword, uncheckableItemValues } = nextProps;
     let nextState = {};
     if (_.isArray(data) && _.isArray(prevState.data) && !shallowEqualArray(prevState.data, data)) {
       nextState.data = data;
@@ -184,6 +185,15 @@ class CheckTree extends React.Component<Props, States> {
     ) {
       nextState.value = value;
     }
+
+    if (
+      _.isArray(uncheckableItemValues) &&
+      _.isArray(prevState.uncheckableItemValues) &&
+      !shallowEqualArray(uncheckableItemValues, prevState.uncheckableItemValues)
+    ) {
+      nextState.uncheckableItemValues = uncheckableItemValues;
+    }
+
     if (prevState.searchKeyword !== searchKeyword) {
       nextState.searchWord = searchKeyword;
     }
@@ -199,7 +209,7 @@ class CheckTree extends React.Component<Props, States> {
 
   componentDidUpdate(prevProps: Props, prevState: States) {
     const { filterData, searchWord, selectedValues } = this.state;
-    const { value, data = [], cascade, expandAll } = this.props;
+    const { value, data = [], cascade, expandAll, uncheckableItemValues } = this.props;
     if (!shallowEqualArray(prevState.data, data)) {
       const nextData = clone(data);
       this.flattenNodes(nextData);
@@ -228,6 +238,20 @@ class CheckTree extends React.Component<Props, States> {
         check: value
       });
       this.setState(nextState);
+    }
+
+    if (
+      _.isArray(uncheckableItemValues) &&
+      !shallowEqualArray(prevState.uncheckableItemValues, uncheckableItemValues)
+    ) {
+      this.flattenNodes(filterData);
+      this.unserializeLists({
+        check: selectedValues
+      });
+
+      this.setState({
+        hasValue: this.hasValue()
+      });
     }
 
     // cascade 改变时，重新初始化
@@ -348,7 +372,7 @@ class CheckTree extends React.Component<Props, States> {
       const curNode = this.nodes[node.refKey];
       formatted.check = curNode.check;
       formatted.expand = curNode.expand;
-      formatted.disabledCheckbox = curNode.disabledCheckbox;
+      formatted.uncheckable = curNode.uncheckable;
       formatted.parentNode = curNode.parentNode;
       if (Array.isArray(node.children) && node.children.length > 0) {
         formatted.children = this.getFormattedNodes(formatted.children);
@@ -369,12 +393,12 @@ class CheckTree extends React.Component<Props, States> {
   }
 
   /**
-   * 获取每个节点的是否需要 disabled checkbox
+   * 获取节点的是否需要隐藏checkbox
    * @param {*} node
    */
-  getDisabledCheckboxState(node: Object) {
-    const { disabledCheckboxValues = [], valueKey } = this.props;
-    return disabledCheckboxValues.some((value: any) => shallowEqual(node[valueKey], value));
+  getUncheckableState(node: Object) {
+    const { uncheckableItemValues = [], valueKey } = this.props;
+    return uncheckableItemValues.some((value: any) => shallowEqual(node[valueKey], value));
   }
 
   getFocusableMenuItems = () => {
@@ -384,7 +408,7 @@ class CheckTree extends React.Component<Props, States> {
     let items = [];
     const loop = (treeNodes: Array<any>) => {
       treeNodes.forEach((node: Object) => {
-        if (!this.getDisabledState(node) && !this.getDisabledCheckboxState(node) && node.visible) {
+        if (!this.getDisabledState(node) && !this.getUncheckableState(node) && node.visible) {
           items.push(node);
           const nodeData = { ...node, ...this.nodes[node.refKey] };
           if (!this.getExpandState(nodeData)) {
@@ -447,6 +471,45 @@ class CheckTree extends React.Component<Props, States> {
   }
 
   /**
+   * 获取每个节点的最顶层父节点的check值
+   * @param {*} nodes
+   * @param {*} node
+   */
+  getTopParentNodeCheckState(nodes: Object, node: Object) {
+    if (node.parentNode) {
+      return this.getTopParentNodeCheckState(nodes, node.parentNode);
+    }
+    return nodes[node.refKey].check;
+  }
+
+  /**
+   * 获取第一层节点是否全部都为 uncheckable
+   */
+  getEveryFisrtLevelNodeUncheckable() {
+    const list = [];
+    Object.keys(this.nodes).forEach((refKey: string) => {
+      const curNode = this.nodes[refKey];
+      if (!curNode.parentNode) {
+        list.push(curNode);
+      }
+    });
+
+    return list.every(node => node.uncheckable);
+  }
+
+  getEveryChildUncheckable(node: Object) {
+    const list = [];
+    Object.keys(this.nodes).forEach((refKey: string) => {
+      const curNode = this.nodes[refKey];
+      if (curNode.parentNode && curNode.parentNode.refKey === node.refKey) {
+        list.push(curNode);
+      }
+    });
+
+    return list.every(node => node.uncheckable);
+  }
+
+  /**
    * 判断传入的 value 是否存在于data 中
    * @param {*} values
    */
@@ -489,12 +552,20 @@ class CheckTree extends React.Component<Props, States> {
 
   isEveryChildChecked(node: Object) {
     const { childrenKey } = this.props;
-    return node[childrenKey].every((child: Object) => {
-      if (child[childrenKey] && child[childrenKey].length) {
-        return this.isEveryChildChecked(child);
+    let children = null;
+    if (node[childrenKey]) {
+      children = node[childrenKey].filter(child => !child.uncheckable);
+      if (!children.length) {
+        return node.check;
       }
-      return child.check;
-    });
+      return children.every((child: Object) => {
+        if (child[childrenKey] && child[childrenKey].length) {
+          return this.isEveryChildChecked(child);
+        }
+        return child.check;
+      });
+    }
+    return node.check;
   }
 
   isSomeChildChecked(node: Object) {
@@ -534,7 +605,7 @@ class CheckTree extends React.Component<Props, States> {
         [labelKey]: node[labelKey],
         [valueKey]: node[valueKey],
         expand: this.getExpandState(node, props),
-        disabledCheckbox: this.getDisabledCheckboxState(node),
+        uncheckable: this.getUncheckableState(node),
         refKey
       };
       if (parentNode) {
@@ -542,6 +613,15 @@ class CheckTree extends React.Component<Props, States> {
       }
       this.flattenNodes(node[childrenKey], props, refKey, this.nodes[refKey]);
     });
+  }
+
+  /**
+   * 过滤选中的values中不包含 uncheckableItemValues 的那些值
+   * @param {*} values
+   */
+  filterSelectedValues(values: Array<any>) {
+    const { uncheckableItemValues } = this.props;
+    return values.filter(value => !uncheckableItemValues.includes(value));
   }
 
   serializeList(key: string, nodes: Object = this.nodes) {
@@ -556,11 +636,6 @@ class CheckTree extends React.Component<Props, States> {
     return list;
   }
 
-  /**
-   * 当子节点全部选中时，只返回父节点的值
-   * @param {*} key
-   * @param {*} nodes
-   */
   serializeListOnlyParent(key: string, nodes: Object = this.nodes) {
     const { valueKey } = this.props;
     const list = [];
@@ -568,8 +643,16 @@ class CheckTree extends React.Component<Props, States> {
     Object.keys(nodes).forEach((refKey: string) => {
       const currentNode = nodes[refKey];
       if (currentNode.parentNode) {
-        if (!nodes[currentNode.parentNode.refKey].checkAll && currentNode[key]) {
-          list.push(nodes[refKey][valueKey]);
+        const parentNode = nodes[currentNode.parentNode.refKey];
+        if (currentNode[key]) {
+          if (!parentNode.checkAll) {
+            list.push(nodes[refKey][valueKey]);
+          } else if (
+            !this.getTopParentNodeCheckState(nodes, currentNode) &&
+            parentNode.uncheckable
+          ) {
+            list.push(nodes[refKey][valueKey]);
+          }
         }
       } else {
         if (currentNode[key]) {
@@ -581,7 +664,7 @@ class CheckTree extends React.Component<Props, States> {
   }
 
   unserializeLists(lists: Object, nextProps?: Props = this.props) {
-    const { valueKey, cascade } = nextProps;
+    const { valueKey, cascade, uncheckableItemValues } = nextProps;
     // Reset values to false
     Object.keys(this.nodes).forEach((refKey: string) => {
       Object.keys(lists).forEach((listKey: string) => {
@@ -592,7 +675,10 @@ class CheckTree extends React.Component<Props, States> {
           node[listKey] = false;
         }
         lists[listKey].forEach((value: any) => {
-          if (shallowEqual(this.nodes[refKey][valueKey], value)) {
+          if (
+            shallowEqual(this.nodes[refKey][valueKey], value) &&
+            !uncheckableItemValues.some(uncheckableValue => shallowEqual(value, uncheckableValue))
+          ) {
             this.nodes[refKey][listKey] = true;
           }
         });
@@ -675,9 +761,9 @@ class CheckTree extends React.Component<Props, States> {
 
   everyChildChecked = (nodes: Object, node: Object) => {
     const list = [];
-    Object.keys(nodes).filter((refKey: string) => {
+    Object.keys(nodes).forEach((refKey: string) => {
       const curNode = nodes[refKey];
-      if (curNode.parentNode && curNode.parentNode.refKey === node.refKey) {
+      if (curNode.parentNode && curNode.parentNode.refKey === node.refKey && !curNode.uncheckable) {
         list.push(curNode);
       }
     });
@@ -689,7 +775,8 @@ class CheckTree extends React.Component<Props, States> {
     const nodes = clone(this.nodes);
     this.toggleDownChecked(nodes, node, isChecked);
     node.parentNode && this.toggleUpChecked(nodes, node.parentNode, isChecked);
-    return this.serializeListOnlyParent('check', nodes);
+    const values = this.serializeListOnlyParent('check', nodes);
+    return this.filterSelectedValues(values);
   }
 
   toggleUpChecked(nodes: Object, node: Object, checked: boolean) {
@@ -730,7 +817,7 @@ class CheckTree extends React.Component<Props, States> {
 
   toggleNode(key: string, node: Object, toggleValue: boolean) {
     // 如果该节点处于 disabledChecbox，则忽略该值
-    if (!node.disabledCheckbox) {
+    if (!node.uncheckable) {
       this.nodes[node.refKey][key] = toggleValue;
     }
   }
@@ -928,7 +1015,7 @@ class CheckTree extends React.Component<Props, States> {
       checkState: this.getNodeCheckState(node, cascade),
       parentNode: node.parentNode,
       hasChildren: !!children,
-      disabledCheckbox: node.disabledCheckbox,
+      uncheckable: node.uncheckable,
       onSelect: this.handleSelect,
       onTreeToggle: this.handleToggle,
       onRenderTreeNode: renderTreeNode,
@@ -946,6 +1033,10 @@ class CheckTree extends React.Component<Props, States> {
         [openClass]: expandALlState && hasNotEmptyChildren
       });
 
+      const viewChildrenClass = classNames(`${classPrefix}-children`, {
+        [this.addPrefix('all-uncheckable')]: this.getEveryChildUncheckable(node)
+      });
+
       let nodes = children || [];
       return (
         <div className={childrenClass} key={key} ref={this.bindNodeRefs.bind(this, refKey)}>
@@ -955,7 +1046,7 @@ class CheckTree extends React.Component<Props, States> {
             ref={this.bindNodeRefs.bind(this, refKey)}
             {...props}
           />
-          <div className={`${classPrefix}-children`}>
+          <div className={viewChildrenClass}>
             {nodes.map((child, i) => this.renderNode(child, i, layer, classPrefix))}
           </div>
         </div>
@@ -998,7 +1089,9 @@ class CheckTree extends React.Component<Props, States> {
       ...style
     };
 
-    const treeNodesClass = this.addPrefix('checktree-nodes');
+    const treeNodesClass = classNames(this.addPrefix('checktree-nodes'), {
+      [this.addPrefix('all-uncheckable')]: this.getEveryFisrtLevelNodeUncheckable()
+    });
     return (
       <div
         ref={this.bindTreeViewRef}
