@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import { IntlProvider, FormattedMessage } from 'rsuite-intl';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
-import { findNodeOfTree, shallowEqual, shallowEqualArray } from 'rsuite-utils/lib/utils';
+import { findNodeOfTree, shallowEqual } from 'rsuite-utils/lib/utils';
 import { polyfill } from 'react-lifecycles-compat';
 
 import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
@@ -183,7 +183,7 @@ class Dropdown extends React.Component<Props, State> {
   static getDerivedStateFromProps(nextProps: Props, prevState: State) {
     const { value, data, labelKey, valueKey } = nextProps;
 
-    if (!shallowEqualArray(data, prevState.data)) {
+    if (data !== prevState.data) {
       /**
        * 如果更新了 data,
        * 首先获取到被点击节点的值 `selectNodeValue`， 然后再拿到新增后的 `newChildren`,
@@ -221,6 +221,14 @@ class Dropdown extends React.Component<Props, State> {
     return _.isUndefined(value) ? this.state.value : value;
   }
 
+  handleConcat = (itemValue: any) => {
+    return (data, children) => {
+      const selectedNode = findNodeOfTree(data, item => itemValue === item.value);
+      selectedNode.children = children;
+      return data.concat([]);
+    };
+  };
+
   handleSelect = (
     node: any,
     cascadeItems,
@@ -231,7 +239,8 @@ class Dropdown extends React.Component<Props, State> {
     const { onChange, onSelect, valueKey } = this.props;
     const prevValue = this.getValue();
     const value = node[valueKey];
-    onSelect && onSelect(node, activePaths, event);
+
+    onSelect && onSelect(node, activePaths, this.handleConcat(node[valueKey]), event);
 
     /**
      * 只有在叶子节点的时候才当做是可以选择的值
