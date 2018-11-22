@@ -5,27 +5,6 @@
 // Forms
 // --------------------------------------------------
 
-// Normalize non-controls
-//
-// Restyle and baseline non-control form elements.
-label {
-  display: inline-block;
-  margin-bottom: 5px;
-}
-
-// Normalize form controls
-//
-// While most of our form styles require extra classes, some basic normalization
-// is required to ensure optimum display with or without those classes to better
-// address browser inconsistencies.
-
-// Focus for file, radio, and checkbox
-input[type='file']:focus,
-input[type='radio']:focus,
-input[type='checkbox']:focus {
-  .tab-focus();
-}
-
 // Common form controls
 .@{ns}input {
   .default-input;
@@ -33,7 +12,7 @@ input[type='checkbox']:focus {
   // Reset height for `textarea`
   textarea& {
     resize: none;
-    // Set textarea valid value
+    // Set textarea valid size
     min-width: 300px;
     min-height: 76px;
     max-width: 100%;
@@ -76,7 +55,7 @@ input[type='checkbox']:focus {
   }
 
   label {
-    line-height: 1.1428571428571428; //  @checkbox-width-height/@font-size-base = 16px/14px
+    line-height: @checkbox-width-height/@font-size-base;
     margin-bottom: 0;
     font-weight: normal;
     cursor: pointer;
@@ -96,16 +75,6 @@ input[type='checkbox']:focus {
   cursor: not-allowed;
 }
 
-.@{ns}radio input[type='radio'],
-.@{ns}radio-inline input[type='radio'],
-.@{ns}checkbox input[type='checkbox'],
-.@{ns}checkbox-inline input[type='checkbox'] {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: @zindex-input;
-}
-
 // Disabled text styles.
 .@{ns}radio-disabled > .@{ns}radio-checker > label,
 .@{ns}checkbox-disabled > .@{ns}checkbox-checker > label {
@@ -120,18 +89,6 @@ input[type='checkbox']:focus {
   margin-bottom: 0;
   vertical-align: middle;
   font-weight: normal;
-}
-
-.@{ns}radio-inline {
-  &.@{ns}radio-disabled {
-    cursor: @cursor-disabled;
-  }
-}
-
-.@{ns}checkbox-inline {
-  &.@{ns}checkbox-disabled {
-    cursor: @cursor-disabled;
-  }
 }
 
 .@{ns}radio-inline + .@{ns}radio-inline,

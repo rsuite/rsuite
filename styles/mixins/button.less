@@ -14,18 +14,8 @@
 
   .btn-md;
 
-  &,
-  &:active,
-  &.active {
-    &:focus,
-    &.focus {
-      .tab-focus();
-    }
-  }
-
   &:hover,
-  &:focus,
-  &.focus {
+  &:focus {
     color: @btn-default-color;
     text-decoration: none;
   }
@@ -44,12 +34,6 @@
       display: none !important;
     }
   }
-
-  a& {
-    &.@{ns}btn-disabled {
-      pointer-events: none; // Future-proof disabling of clicks on `<a>` elements
-    }
-  }
 }
 
 // When browser don't support `pointer-events`,need reset button styles.
@@ -62,18 +46,12 @@
     &:hover:active {
       color: @color;
       background-color: @background-color;
-
-      // Remove ripple.
-      &::after {
-        display: none;
-      }
     }
   }
 }
 
 // Subtle  button style
 .btn-subtle() {
-  .button-ripple;
   .btn-transition;
   .btn-subtle-variant(@btn-subtle-hover-bg);
   .btn-loading-reset(@btn-subtle-color);
@@ -543,8 +521,4 @@
 
 .btn-transition(color) {
   transition: color 0.2s linear;
-}
-
-.btn-transition(color-and-border) {
-  transition: color 0.2s linear, border-color 0.3s linear;
 }
