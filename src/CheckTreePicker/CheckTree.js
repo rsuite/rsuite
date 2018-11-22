@@ -17,12 +17,15 @@ import {
 import CheckTreeNode from './CheckTreeNode';
 import { CHECK_STATE } from '../utils/constants';
 import { clone, defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
-import PickerToggle from '../_picker/PickerToggle';
-import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
-import onMenuKeyDown from '../_picker/onMenuKeyDown';
-import MenuWrapper from '../_picker/MenuWrapper';
-import SearchBar from '../_picker/SearchBar';
-import SelectedElement from '../_picker/SelectedElement';
+
+import {
+  PickerToggle,
+  getToggleWrapperClassName,
+  onMenuKeyDown,
+  MenuWrapper,
+  SearchBar,
+  SelectedElement
+} from '../_picker';
 
 type DefaultEvent = SyntheticEvent<*>;
 type Placement =
@@ -630,6 +633,16 @@ class CheckTree extends React.Component<Props, States> {
     this.menu = ref;
   };
 
+  position = null;
+
+  bindPositionRef = (ref: React.ElementRef<*>) => {
+    this.position = ref;
+  };
+
+  getPositionInstance = () => {
+    return this.position;
+  };
+
   selectActiveItem = () => {
     const { nodeData, layer } = this.getActiveItem();
     this.handleSelect(nodeData, +layer);
@@ -867,7 +880,12 @@ class CheckTree extends React.Component<Props, States> {
     const menu = this.renderCheckTree();
 
     return (
-      <MenuWrapper className={classes} style={menuStyle} ref={this.bindMenuRef}>
+      <MenuWrapper
+        className={classes}
+        style={menuStyle}
+        ref={this.bindMenuRef}
+        getPositionInstance={this.getPositionInstance}
+      >
         {searchable ? (
           <SearchBar
             placeholder={locale.searchPlaceholder}
@@ -1062,6 +1080,7 @@ class CheckTree extends React.Component<Props, States> {
       >
         <OverlayTrigger
           ref={this.bindTriggerRef}
+          positionRef={this.bindPositionRef}
           open={open}
           defaultOpen={defaultOpen}
           disabled={disabled}

@@ -5,6 +5,9 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import { IntlProvider, FormattedMessage } from 'rsuite-intl';
+import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
+import type { Placement } from '../utils/TypeDefinition';
+
 import {
   reactToString,
   filterNodesOfTree,
@@ -13,16 +16,16 @@ import {
   tplTransform
 } from 'rsuite-utils/lib/utils';
 
-import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
-import DropdownMenu from '../_picker/DropdownMenu';
-import DropdownMenuItem from '../_picker/DropdownMenuCheckItem';
-import PickerToggle from '../_picker/PickerToggle';
-import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
-import onMenuKeyDown from '../_picker/onMenuKeyDown';
-import MenuWrapper from '../_picker/MenuWrapper';
-import SearchBar from '../_picker/SearchBar';
-import SelectedElement from '../_picker/SelectedElement';
-import type { Placement } from '../utils/TypeDefinition';
+import {
+  DropdownMenu,
+  DropdownMenuCheckItem as DropdownMenuItem,
+  PickerToggle,
+  getToggleWrapperClassName,
+  onMenuKeyDown,
+  MenuWrapper,
+  SearchBar,
+  SelectedElement
+} from '../_picker';
 
 type DefaultEvent = SyntheticEvent<*>;
 type DefaultEventFunction = (event: DefaultEvent) => void;
@@ -350,6 +353,16 @@ class Dropdown extends React.Component<Props, State> {
     this.menuContainer = ref;
   };
 
+  position = null;
+
+  bindPositionRef = (ref: React.ElementRef<*>) => {
+    this.position = ref;
+  };
+
+  getPositionInstance = () => {
+    return this.position;
+  };
+
   renderDropdownMenu() {
     const {
       data,
@@ -418,7 +431,12 @@ class Dropdown extends React.Component<Props, State> {
     );
 
     return (
-      <MenuWrapper className={classes} style={menuStyle} onKeyDown={this.handleKeyDown}>
+      <MenuWrapper
+        className={classes}
+        style={menuStyle}
+        onKeyDown={this.handleKeyDown}
+        getPositionInstance={this.getPositionInstance}
+      >
         {searchable && (
           <SearchBar
             placeholder={locale.searchPlaceholder}
@@ -496,6 +514,7 @@ class Dropdown extends React.Component<Props, State> {
       <IntlProvider locale={locale}>
         <OverlayTrigger
           ref={this.bindTriggerRef}
+          positionRef={this.bindPositionRef}
           open={open}
           defaultOpen={defaultOpen}
           disabled={disabled}
