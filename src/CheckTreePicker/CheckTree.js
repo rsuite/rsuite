@@ -621,7 +621,7 @@ class CheckTree extends React.Component<Props, States> {
    * @param {*} values
    */
   filterSelectedValues(values: Array<any>) {
-    const { uncheckableItemValues = []} = this.props;
+    const { uncheckableItemValues = [] } = this.props;
     return values.filter(value => !uncheckableItemValues.includes(value));
   }
 

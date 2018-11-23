@@ -503,7 +503,8 @@ class Tree extends React.Component<Props, States> {
     toggleClass(findDOMNode(this.nodeRefs[nodeData.refKey]), openClass);
     nodeData.expand = hasClass(findDOMNode(this.nodeRefs[nodeData.refKey]), openClass);
     this.nodes[nodeData.refKey].expand = nodeData.expand;
-    onExpand && onExpand(nodeData, layer, createConcatChildrenFunction(nodeData, nodeData[valueKey]));
+    onExpand &&
+      onExpand(nodeData, layer, createConcatChildrenFunction(nodeData, nodeData[valueKey]));
   };
 
   handleSelect = (nodeData: Object, layer: number, event: DefaultEvent) => {

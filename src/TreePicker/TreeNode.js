@@ -31,7 +31,6 @@ class TreeNode extends React.Component<Props> {
     visible: true
   };
 
-
   /**
    * 展开收缩节点
    */
