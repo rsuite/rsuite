@@ -1,16 +1,47 @@
+# 3.4.3
+
+> 2018-11-22
+
+* **Feature**: Support `uncheckableItemValues` on `<CheckTreePicker>` ([#284])
+* **Bugfix**: The `Picker` menu should update the position after the height has changed ([#282])
+* **Bugfix**: Fixed the `<Uploader>` component retry button styles ([#280])
+* **Bugfix**: Fixed the problem that cursor is default pointer when mouse over the `<TagPicker>` ([#279])
+* **Bugfix**: Fixed bugs in IE10 browser ([#277])
+* **Bugfix**: The Drawer will trigger onHide when clicking inside the Drawer ([#273])
+* **Improve**: Improve the way that tree related components are updated asynchronously ([#287])
+* **Improve**: Improve FormControl to avoid unnecessary rendering ([#276]) @zpbc007
+* **Improve**: Adjust the default font family ([#275])
+* **Improve**: Improve TypeScript type definitions ([#262],[#264],[#267],[#270],[#270],[#274]) @zpbc007
+
+[#287]: https://github.com/rsuite/rsuite/pull/287
+[#284]: https://github.com/rsuite/rsuite/pull/284
+[#282]: https://github.com/rsuite/rsuite/pull/282
+[#280]: https://github.com/rsuite/rsuite/pull/280
+[#279]: https://github.com/rsuite/rsuite/pull/279
+[#277]: https://github.com/rsuite/rsuite/pull/277
+[#276]: https://github.com/rsuite/rsuite/pull/276
+[#275]: https://github.com/rsuite/rsuite/pull/275
+[#274]: https://github.com/rsuite/rsuite/pull/274
+[#273]: https://github.com/rsuite/rsuite/pull/273
+[#271]: https://github.com/rsuite/rsuite/pull/271
+[#270]: https://github.com/rsuite/rsuite/pull/270
+[#267]: https://github.com/rsuite/rsuite/pull/267
+[#264]: https://github.com/rsuite/rsuite/pull/264
+[#262]: https://github.com/rsuite/rsuite/pull/262
+
 # 3.4.2
 
 > 2018-11-15
 
-* **Feature**: Support `rowClassName` on Table ([#table-45])
+* **Feature**: Support `rowClassName` on `<Table>` ([#table-45])
 * **Feature**: Support `defaultSortType` on `<Table>` and let `sortType` be controlled ([#table-43])
 * **Feature**: Added public API `start` on `<Uploader>` for manual upload ([#255])
 * **Feature**: Improve the interactive experience of `<MultiCascader>`, `<CheckTreePicker>`, and `<CheckPicker>` ([#259])
-* **Refactor**: Used new contextType API in Form ([#256])
+* **Refactor**: Used new contextType API in `<Form>` ([#256])
 * **Bugfix**: The height of `body` should be reset when the content in `<Modal>` is updated ([#260])
 * **Bugfix**: Fix `<InputPicker>` The keyboard return event cannot select the new option ([#254])
 * **Bugfix**: Fix the problem that `<Tooltip>` without arrow ([#253])
-* **Bugfix**: Fix the problem that property `fixedWith` of `<Icon/>` is invalid ([#252])
+* **Bugfix**: Fix the problem that property `fixedWith` of `<Icon>` is invalid ([#252])
 * **Bugfix**: Fix `<CheckTree>` to determine the problem with node state ([#251])
 * **Bugfix**: Fix typescript type check error ([#249])
 
@@ -42,7 +73,7 @@
 
 * **Feature**: Support [`Typescript`](https://www.typescriptlang.org/) ([#241])
 * **Feature**: Add [`<MultiCascader>`](https://rsuitejs.com/en/components/multi-cascader) ([#238])
-* **Feature**: Add `renderTooltip` for Slider ([#239])
+* **Feature**: Support `renderTooltip` on `<Slider>` ([#239])
 * **Bugfix**: The scroll bar is not reset after the column of the `<Table>` has changed ([#244])
 * **Bugfix**: The option value of `<InputPicker>` does not exist or is disabled and cannot be selected ([#243])
 * **Bugfix**: Cannot customize options in `<DatePicker>` shortcuts ([#242])
@@ -330,7 +361,7 @@ Add a sample site: https://sample.rsuitejs.com/
 * **Feature**: Support `disabledFileItem` on `<Uploader>` ([#101])
 * **Feature**: Support `toggleComponentClass` on `<Uploader>` ([#104])
 * **Feature**: Support `loadAnimation` on `<Table>` ([#table-27])
-* **Feature**: Support for `<InputGroup/>` nesting `<InputNumber/>` ([#96])
+* **Feature**: Support for `<InputGroup>` nesting `<InputNumber>` ([#96])
 * **Feature**: Support `noCaret` and `toggleComponentClass` on `<Dropdown>` ([#92])
 * **Bugfix**: Select the same file without triggering the `onChange` event in `<Uploader>` ([#102])
 * **Bugfix**: `<TreePicker>` error when comparing values ([#100])
@@ -421,7 +452,7 @@ Add a sample site: https://sample.rsuitejs.com/
 
 * **Feature**: The position of the overlay can be adjusted automatically ([#69])
 * **Bugfix**: The default type of `<Button>` is `button` ([#67])
-* **Bugfix**: `<textarea />` in form-control will produce a whitesapce ([#65])
+* **Bugfix**: `<textarea>` in form-control will produce a whitesapce ([#65])
 * **Feature**: Support `selectOnEnter` on `<AutoComplete>` ([#62])
 * **Bugfix**: Fix the problem on the Picker style ([#58])
 * **Feature**: Support `maxPreviewFileSize` on `<Uploader>` ([#57])
