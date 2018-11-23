@@ -24,7 +24,8 @@ import {
   onMenuKeyDown,
   MenuWrapper,
   SearchBar,
-  SelectedElement
+  SelectedElement,
+  createConcatChildrenFunction
 } from '../_picker';
 
 type DefaultEvent = SyntheticEvent<*>;
@@ -115,7 +116,7 @@ type States = {
   searchKeyword?: string,
   formattedNodes: Array<any>,
   selectedValues: Array<any>,
-  uncheckableItemValues: Array<any>,
+  uncheckableItemValues?: Array<any>,
   isSomeNodeHasChildren: boolean
 };
 
@@ -175,7 +176,7 @@ class CheckTree extends React.Component<Props, States> {
   static getDerivedStateFromProps(nextProps: Props, prevState: States) {
     const { value, data, cascade, expandAll, searchKeyword, uncheckableItemValues } = nextProps;
     let nextState = {};
-    if (_.isArray(data) && _.isArray(prevState.data) && !shallowEqualArray(prevState.data, data)) {
+    if (_.isArray(data) && _.isArray(prevState.data) && prevState.data !== data) {
       nextState.data = data;
     }
     if (
@@ -210,7 +211,7 @@ class CheckTree extends React.Component<Props, States> {
   componentDidUpdate(prevProps: Props, prevState: States) {
     const { filterData, searchWord, selectedValues } = this.state;
     const { value, data = [], cascade, expandAll, uncheckableItemValues } = this.props;
-    if (!shallowEqualArray(prevState.data, data)) {
+    if (prevState.data !== data) {
       const nextData = clone(data);
       this.flattenNodes(nextData);
       this.unserializeLists({
@@ -857,20 +858,13 @@ class CheckTree extends React.Component<Props, States> {
    * 展开、收起节点
    */
   handleToggle = (nodeData: Object, layer: number) => {
-    const { classPrefix = '', onExpand } = this.props;
+    const { classPrefix = '', valueKey, onExpand } = this.props;
     const openClass = `${classPrefix}-checktree-view-open`;
     toggleClass(findDOMNode(this.nodeRefs[nodeData.refKey]), openClass);
     nodeData.expand = hasClass(findDOMNode(this.nodeRefs[nodeData.refKey]), openClass);
     this.toggleExpand(nodeData, nodeData.expand);
-    onExpand && onExpand(nodeData, layer);
-  };
-
-  /**
-   * 展开树节点后的回调函数
-   */
-  handleExpand = (activeNode: Object, layer: number) => {
-    const { onExpand } = this.props;
-    onExpand && onExpand(activeNode, layer);
+    onExpand &&
+      onExpand(nodeData, layer, createConcatChildrenFunction(nodeData, nodeData[valueKey]));
   };
 
   /**
