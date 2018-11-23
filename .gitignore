@@ -42,8 +42,6 @@ build
 .DS_Store
 lib/
 .idea
-yarn.lock
-package-lock.json
 karma.sauce.conf.js
 dev-publish.sh
 dist
