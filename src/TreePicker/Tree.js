@@ -18,7 +18,8 @@ import {
   getToggleWrapperClassName,
   onMenuKeyDown,
   MenuWrapper,
-  SearchBar
+  SearchBar,
+  createConcatChildrenFunction
 } from '../_picker';
 
 type DefaultEvent = SyntheticEvent<*>;
@@ -142,7 +143,7 @@ class Tree extends React.Component<Props, States> {
   static getDerivedStateFromProps(nextProps: Props, prevState: States) {
     const { value, data, expandAll, valueKey, searchKeyword } = nextProps;
     let nextState = {};
-    if (_.isArray(data) && _.isArray(prevState.data) && !shallowEqualArray(prevState.data, data)) {
+    if (_.isArray(data) && _.isArray(prevState.data) && prevState.data !== data) {
       nextState.data = data;
     }
 
@@ -165,7 +166,7 @@ class Tree extends React.Component<Props, States> {
   componentDidUpdate(prevProps: Props, prevState: States) {
     const { filterData, searchWord, selectedValue } = this.state;
     const { value, data, expandAll, valueKey, searchKeyword } = this.props;
-    if (!shallowEqualArray(prevState.data, data)) {
+    if (prevState.data !== data) {
       const nextData = clone(data);
       this.flattenNodes(nextData);
       const filterData = this.getFilterData(nextData, searchWord);
@@ -497,12 +498,12 @@ class Tree extends React.Component<Props, States> {
 
   // 展开，收起节点
   handleTreeToggle = (nodeData: Object, layer: number) => {
-    const { classPrefix = '', onExpand } = this.props;
+    const { classPrefix = '', valueKey, onExpand } = this.props;
     const openClass = `${classPrefix}-tree-view-open`;
     toggleClass(findDOMNode(this.nodeRefs[nodeData.refKey]), openClass);
     nodeData.expand = hasClass(findDOMNode(this.nodeRefs[nodeData.refKey]), openClass);
     this.nodes[nodeData.refKey].expand = nodeData.expand;
-    onExpand && onExpand(nodeData, layer);
+    onExpand && onExpand(nodeData, layer, createConcatChildrenFunction(nodeData, nodeData[valueKey]));
   };
 
   handleSelect = (nodeData: Object, layer: number, event: DefaultEvent) => {

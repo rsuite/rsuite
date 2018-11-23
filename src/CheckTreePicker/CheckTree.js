@@ -621,7 +621,7 @@ class CheckTree extends React.Component<Props, States> {
    * @param {*} values
    */
   filterSelectedValues(values: Array<any>) {
-    const { uncheckableItemValues } = this.props;
+    const { uncheckableItemValues = []} = this.props;
     return values.filter(value => !uncheckableItemValues.includes(value));
   }
 
@@ -665,7 +665,7 @@ class CheckTree extends React.Component<Props, States> {
   }
 
   unserializeLists(lists: Object, nextProps?: Props = this.props) {
-    const { valueKey, cascade, uncheckableItemValues } = nextProps;
+    const { valueKey, cascade, uncheckableItemValues = [] } = nextProps;
     // Reset values to false
     Object.keys(this.nodes).forEach((refKey: string) => {
       Object.keys(lists).forEach((listKey: string) => {
