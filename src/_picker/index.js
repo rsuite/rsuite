@@ -9,3 +9,4 @@ export SelectedElement from './SelectedElement';
 
 export onMenuKeyDown from './onMenuKeyDown';
 export getToggleWrapperClassName from './getToggleWrapperClassName';
+export createConcatChildrenFunction from './createConcatChildrenFunction';

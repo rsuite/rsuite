@@ -5,8 +5,14 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import { IntlProvider, FormattedMessage } from 'rsuite-intl';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
-import { findNodeOfTree, shallowEqualArray } from 'rsuite-utils/lib/utils';
+import { shallowEqualArray } from 'rsuite-utils/lib/utils';
 import { polyfill } from 'react-lifecycles-compat';
+
+import findNodesOfTree from '../utils/findNodesOfTree';
+import DropdownMenu from './DropdownMenu';
+import createUtils from './utils';
+import type { Placement } from '../utils/TypeDefinition';
+
 import {
   defaultProps,
   prefix,
@@ -15,15 +21,13 @@ import {
   tplTransform
 } from '../utils';
 
-import findNodesOfTree from '../utils/findNodesOfTree';
-import DropdownMenu from './DropdownMenu';
-import PickerToggle from '../_picker/PickerToggle';
-import MenuWrapper from '../_picker/MenuWrapper';
-import SelectedElement from '../_picker/SelectedElement';
-import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
-import createUtils from './utils';
-
-import type { Placement } from '../utils/TypeDefinition';
+import {
+  PickerToggle,
+  MenuWrapper,
+  SelectedElement,
+  getToggleWrapperClassName,
+  createConcatChildrenFunction
+} from '../_picker';
 
 type DefaultEvent = SyntheticEvent<*>;
 type Props = {
@@ -53,13 +57,18 @@ type Props = {
   onOpen?: () => void,
   onClose?: () => void,
   onHide?: () => void,
-  onEnter?: Function,
-  onEntering?: Function,
-  onEntered?: Function,
-  onExit?: Function,
-  onExiting?: Function,
-  onExited?: Function,
-  onSelect?: (value: any, activePaths: Array<any>, event: DefaultEvent) => void,
+  onEnter?: () => void,
+  onEntering?: () => void,
+  onEntered?: () => void,
+  onExit?: () => void,
+  onExiting?: () => void,
+  onExited?: () => void,
+  onSelect?: (
+    value: any,
+    activePaths: Array<any>,
+    concat: (data: Array<any>, children: Array<any>) => Array<any>,
+    event: DefaultEvent
+  ) => void,
   locale?: Object,
   cleanable?: boolean,
   open?: boolean,
@@ -161,7 +170,7 @@ class Dropdown extends React.Component<Props, State> {
     let value = nextProps.value || prevState.value || [];
     let { prevValue, flattenData, selectNode, items } = prevState;
 
-    const isChangedData = !shallowEqualArray(data, prevState.data);
+    const isChangedData = data !== prevState.data;
     const isChangedValue = !shallowEqualArray(prevValue, nextProps.value);
 
     if (isChangedData || isChangedValue) {
@@ -231,7 +240,7 @@ class Dropdown extends React.Component<Props, State> {
   };
 
   handleSelect = (node: Object, cascadeItems, activePaths: Array<any>, event: DefaultEvent) => {
-    const { onSelect } = this.props;
+    const { onSelect, valueKey } = this.props;
 
     this.setState({
       selectNode: node,
@@ -239,7 +248,8 @@ class Dropdown extends React.Component<Props, State> {
       activePaths
     });
 
-    onSelect && onSelect(node, activePaths, event);
+    onSelect &&
+      onSelect(node, activePaths, createConcatChildrenFunction(node, node[valueKey]), event);
   };
 
   trigger = null;

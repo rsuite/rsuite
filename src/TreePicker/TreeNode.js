@@ -31,9 +31,6 @@ class TreeNode extends React.Component<Props> {
     visible: true
   };
 
-  shouldComponentUpdate(nextProps: Props) {
-    return !shallowEqual(this.props, nextProps);
-  }
   /**
    * 展开收缩节点
    */

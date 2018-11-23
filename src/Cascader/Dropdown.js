@@ -5,16 +5,20 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import { IntlProvider, FormattedMessage } from 'rsuite-intl';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
-import { findNodeOfTree, shallowEqual, shallowEqualArray } from 'rsuite-utils/lib/utils';
+import { findNodeOfTree, shallowEqual } from 'rsuite-utils/lib/utils';
 import { polyfill } from 'react-lifecycles-compat';
 
+import DropdownMenu from './DropdownMenu';
 import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 import stringToObject from '../utils/stringToObject';
-import DropdownMenu from './DropdownMenu';
-import PickerToggle from '../_picker/PickerToggle';
-import MenuWrapper from '../_picker/MenuWrapper';
-import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
 import type { Placement } from '../utils/TypeDefinition';
+
+import {
+  PickerToggle,
+  MenuWrapper,
+  getToggleWrapperClassName,
+  createConcatChildrenFunction
+} from '../_picker';
 
 type DefaultEvent = SyntheticEvent<*>;
 type Props = {
@@ -42,13 +46,18 @@ type Props = {
   onOpen?: () => void,
   onClose?: () => void,
   onHide?: () => void,
-  onEnter?: Function,
-  onEntering?: Function,
-  onEntered?: Function,
-  onExit?: Function,
-  onExiting?: Function,
-  onExited?: Function,
-  onSelect?: (value: any, activePaths: Array<any>, event: DefaultEvent) => void,
+  onEnter?: () => void,
+  onEntering?: () => void,
+  onEntered?: () => void,
+  onExit?: () => void,
+  onExiting?: () => void,
+  onExited?: () => void,
+  onSelect?: (
+    value: any,
+    activePaths: Array<any>,
+    concat: (data: Array<any>, children: Array<any>) => Array<any>,
+    event: DefaultEvent
+  ) => void,
   locale?: Object,
   cleanable?: boolean,
   open?: boolean,
@@ -183,7 +192,7 @@ class Dropdown extends React.Component<Props, State> {
   static getDerivedStateFromProps(nextProps: Props, prevState: State) {
     const { value, data, labelKey, valueKey } = nextProps;
 
-    if (!shallowEqualArray(data, prevState.data)) {
+    if (data !== prevState.data) {
       /**
        * 如果更新了 data,
        * 首先获取到被点击节点的值 `selectNodeValue`， 然后再拿到新增后的 `newChildren`,
@@ -231,7 +240,8 @@ class Dropdown extends React.Component<Props, State> {
     const { onChange, onSelect, valueKey } = this.props;
     const prevValue = this.getValue();
     const value = node[valueKey];
-    onSelect && onSelect(node, activePaths, event);
+
+    onSelect && onSelect(node, activePaths, createConcatChildrenFunction(node), event);
 
     /**
      * 只有在叶子节点的时候才当做是可以选择的值
