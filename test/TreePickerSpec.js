@@ -261,46 +261,27 @@ describe('TreePicker', () => {
         children: []
       }
     ];
-    const asyncData = [
+    const children = [
       {
         label: 'children1',
         value: 'children1'
       }
     ];
-    const mockOnExpand = (node, l) => {
+
+    let newData = [];
+    const mockOnExpand = (node, l, concat) => {
       activeNode = node;
       layer = l;
-    };
-
-    const setTreeData = (child, activeNode, layer, treeNodes) => {
-      if (layer < 0) {
-        return;
-      }
-
-      const loop = nodes => {
-        nodes.forEach(node => {
-          if (node.value === activeNode.value && activeNode.expand) {
-            node.children = [...node.children, ...child];
-          }
-          if (node.children) {
-            loop(node.children);
-          }
-        });
-      };
-
-      loop(treeNodes);
-      return treeNodes;
+      newData = concat(data, children);
     };
 
     const instance = mount(
       <TreePicker data={data} onExpand={mockOnExpand} inline cascade={false} expandAll />
     );
     instance.find(`div[data-ref="0-1"]  > ${expandIconCls}`).simulate('click');
-    const nextTreeData = clone(data);
-    setTreeData(asyncData, activeNode, layer, nextTreeData);
 
     instance.setProps({
-      data: nextTreeData
+      data: newData
     });
 
     assert.equal(instance.html().indexOf('data-key="0-1-0"') > -1, true);
