@@ -10,7 +10,7 @@
   overflow: hidden;
 }
 
-body > div[role='dialog'] {
+.@{ns}modal-wrapper {
   position: fixed;
   overflow: auto;
   z-index: @zindex-modal;
@@ -27,6 +27,10 @@ body > div[role='dialog'] {
   // Prevent Chrome on Windows from adding a focus outline. For details, see
   // https://github.com/twbs/bootstrap/pull/10951.
   outline: 0;
+  margin: 30px auto 0 auto;
+  position: relative;
+  width: auto;
+  z-index: @zindex-modal;
 
   // Scale up the modal
   &-lg {
@@ -66,14 +70,6 @@ body > div[role='dialog'] {
     // timing: ease-in-out
     animation: modalMoveIn 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
   }
-}
-
-// Shell div to position the modal with bottom padding
-.@{ns}modal-dialog {
-  position: relative;
-  width: auto;
-  margin: 30px auto;
-  z-index: @zindex-modal;
 }
 
 // Actual modal
