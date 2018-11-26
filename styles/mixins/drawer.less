@@ -1,13 +1,9 @@
 .drawer-content-width(@width) {
-  .@{ns}drawer-dialog {
-    width: @width;
-  }
+  width: @width;
 }
 
 .drawer-content-height(@height) {
-  .@{ns}drawer-dialog {
-    height: @height;
-  }
+  height: @height;
 }
 
 .drawer-animation(@timing) {
@@ -17,11 +13,11 @@
 }
 
 .drawer-animation-setting(@move-in-animation-name,@move-out-animation-name) {
-  &.fade .@{ns}drawer-dialog {
+  &.fade {
     animation-name: @move-out-animation-name;
   }
 
-  &.in .@{ns}drawer-dialog {
+  &.in {
     animation-name: @move-in-animation-name;
   }
 }
