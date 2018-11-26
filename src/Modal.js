@@ -272,6 +272,7 @@ class Modal extends React.Component<Props, State> {
       <BaseModal
         ref={this.modalRef}
         show={show}
+        className={this.addPrefix('wrapper')}
         onEntering={createChainedFunction(this.handleShow, this.props.onEntering)}
         onExited={createChainedFunction(this.handleHide, this.props.onExited)}
         backdropClassName={classNames(this.addPrefix('backdrop'), backdropClassName, inClass)}
