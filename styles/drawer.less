@@ -27,6 +27,9 @@
 
   // When fading in the drawer, animate it to slide down
   &.fade {
+    // Reset fade effect.
+    transition: none;
+    opacity: 1;
     .drawer-animation(cubic-bezier(0.4, 0, 1, 1)); //Fast out
   }
 
