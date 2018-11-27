@@ -25,18 +25,6 @@
     overflow: hidden;
   }
 
-  // When fading in the drawer, animate it to slide down
-  &.fade {
-    // Reset fade effect.
-    transition: none;
-    opacity: 1;
-    .drawer-animation(cubic-bezier(0.4, 0, 1, 1)); //Fast out
-  }
-
-  &.in {
-    .drawer-animation(ease-in-out);
-  }
-
   // Drawer sizes
   &-left,
   &-right {
@@ -104,22 +92,18 @@
   // Drawer directions
   &-right {
     right: 0;
-    .drawer-animation-setting(drawerMoveInRight, drawerMoveOutRight);
   }
 
   &-left {
     left: 0;
-    .drawer-animation-setting(drawerMoveInLeft, drawerMoveOutLeft);
   }
 
   &-top {
     top: 0;
-    .drawer-animation-setting(drawerMoveInTop, drawerMoveOutTop);
   }
 
   &-bottom {
     bottom: 0;
-    .drawer-animation-setting(drawerMoveInBottom, drawerMoveOutBottom);
   }
 }
 

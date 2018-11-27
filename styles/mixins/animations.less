@@ -1,0 +1,15 @@
+.animation-common(@timing) {
+  animation-duration: 0.3s;
+  animation-timing-function: @timing;
+  animation-fill-mode: forwards;
+}
+
+.slide-animation-setting(@move-in-animation-name,@move-out-animation-name) {
+  &.slide-in {
+    animation-name: @move-in-animation-name;
+  }
+
+  &.slide-out {
+    animation-name: @move-out-animation-name;
+  }
+}
