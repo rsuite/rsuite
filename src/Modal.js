@@ -11,7 +11,7 @@ import setStatic from 'recompose/setStatic';
 import bindElementResize, { unbind as unbindElementResize } from 'element-resize-event';
 
 import BaseModal from 'rsuite-utils/lib/Overlay/Modal';
-import Fade from 'rsuite-utils/lib/Animation/Fade';
+import Bounce from 'rsuite-utils/lib/Animation/Bounce';
 import { on, getHeight, isOverflowing, getScrollbarSize, ownerDocument } from 'dom-lib';
 
 import { prefix, ReactChildren, defaultProps, createChainedFunction } from './utils';
@@ -50,18 +50,19 @@ type Props = {
   enforceFocus?: boolean,
   overflow?: boolean,
   drawer?: boolean,
-  animation?: boolean,
+  animation?: boolean | Object,
   dialogComponentClass: React.ElementType,
-  onEscapeKeyUp?: Function,
-  onBackdropClick?: Function,
-  onShow?: Function,
-  onHide?: Function,
-  onEnter?: Function,
-  onEntering?: Function,
-  onEntered?: Function,
-  onExit?: Function,
-  onExiting?: Function,
-  onExited?: Function
+  onEscapeKeyUp?: () => void,
+  onBackdropClick?: () => void,
+  onShow?: (event: SyntheticEvent<*>) => void,
+  onHide?: (event: SyntheticEvent<*>) => void,
+  onEnter?: () => void,
+  onEntering?: () => void,
+  onEntered?: () => void,
+  onExit?: () => void,
+  onExiting?: () => void,
+  onExited?: () => void,
+  animationProps?: Object
 };
 
 type State = {
@@ -76,7 +77,7 @@ class Modal extends React.Component<Props, State> {
     keyboard: true,
     autoFocus: true,
     enforceFocus: true,
-    animation: true,
+    animation: Bounce,
     dialogComponentClass: ModalDialog,
     overflow: true
   };
@@ -166,7 +167,7 @@ class Modal extends React.Component<Props, State> {
   contentElement = null;
 
   handleShow = () => {
-    const dialogElement = findDOMNode(this.dialog);
+    const dialogElement: any = findDOMNode(this.dialog);
 
     this.updateModalStyles(dialogElement);
     this.contentElement = dialogElement.querySelector(`.${this.addPrefix('content')}`);
@@ -227,6 +228,7 @@ class Modal extends React.Component<Props, State> {
       size,
       full,
       dialogComponentClass,
+      animationProps,
       ...rest
     } = this.props;
 
@@ -279,7 +281,8 @@ class Modal extends React.Component<Props, State> {
         containerClassName={classNames(this.addPrefix('open'), {
           [this.addPrefix('has-backdrop')]: rest.backdrop
         })}
-        transition={animation ? Fade : undefined}
+        transition={animation ? animation : undefined}
+        animationProps={animationProps}
         dialogTransitionTimeout={TRANSITION_DURATION}
         backdropTransitionTimeout={BACKDROP_TRANSITION_DURATION}
         {...parentProps}
