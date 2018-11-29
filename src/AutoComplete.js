@@ -16,8 +16,8 @@ import type { Placement } from './utils/TypeDefinition';
 
 type DefaultEvent = SyntheticEvent<*>;
 type ItemDataType = {
-  label: any,
-  value: any
+  label: React.Node,
+  value: string
 };
 
 type Props = {
@@ -32,7 +32,7 @@ type Props = {
   menuClassName?: string,
   placement?: Placement,
   onFocus?: (event: DefaultEvent) => void,
-  onMenuFocus?: (focusItemValue: any, event: DefaultEvent) => void,
+  onMenuFocus?: (focusItemValue: string, event: DefaultEvent) => void,
   onBlur?: (event: DefaultEvent) => void,
   onKeyDown?: (event: DefaultEvent) => void,
   onOpen?: () => void,
@@ -47,7 +47,7 @@ type Props = {
 type State = {
   value: string,
   focus?: boolean,
-  focusItemValue?: any
+  focusItemValue?: string
 };
 
 class AutoComplete extends React.Component<Props, State> {
@@ -73,20 +73,23 @@ class AutoComplete extends React.Component<Props, State> {
     return _.isUndefined(value) ? this.state.value : value;
   }
 
-  getData(props) {
-    const { data = [] } = props || this.props;
-    return data.map(item => {
-      if (_.isString(item)) {
-        return {
-          value: item,
-          label: item
-        };
-      }
+  getData(props): Array<ItemDataType> {
+    const { data } = props || this.props;
+    if (data) {
+      data.map(item => {
+        if (typeof item === 'string') {
+          return {
+            value: item,
+            label: item
+          };
+        }
 
-      if (typeof item === 'object') {
-        return item;
-      }
-    });
+        if (typeof item === 'object') {
+          return item;
+        }
+      });
+    }
+    return [];
   }
 
   getFocusableMenuItems = (): Array<any> => {
