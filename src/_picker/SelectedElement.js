@@ -38,7 +38,7 @@ function SelectedElement({
         }
         return '';
       })
-      .join(',');
+      .join(', ');
   }
 
   return (
