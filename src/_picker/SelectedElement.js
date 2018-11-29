@@ -1,10 +1,11 @@
 // @flow
 
 import * as React from 'react';
+import { reactToString } from 'rsuite-utils/lib/utils';
 
 type Props = {
   selectedItems: Array<any>,
-  prefix: () => string,
+  prefix: (name: string) => string,
   valueKey: string,
   labelKey: string,
   countable: boolean,
@@ -24,10 +25,25 @@ function SelectedElement({
   locale
 }: Props) {
   const count = selectedItems.length;
+  let title = '';
+
+  if (count) {
+    title = selectedItems
+      .map(item => {
+        let label = item[labelKey];
+        if (typeof label === 'string' || typeof label === 'number') {
+          return label;
+        } else if (React.isValidElement(label)) {
+          return reactToString(label).join('');
+        }
+        return '';
+      })
+      .join(',');
+  }
 
   return (
     <React.Fragment>
-      <span className={prefix('value-list')}>
+      <span className={prefix('value-list')} title={title}>
         {selectedItems.map((item, index) => {
           let checkAll = cascade && (item.checkAll || item[childrenKey]);
           return (
