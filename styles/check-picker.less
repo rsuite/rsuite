@@ -25,9 +25,6 @@
   // Reset label styles
   margin-bottom: 0;
 
-  // Forcing a newline
-  .break-word;
-
   &:not(&-disabled):hover,
   &&-focus {
     .picker-item-hover;
@@ -134,8 +131,7 @@
 
   // check mark
   .@{ckpns}-menu-item-inner::after {
-    .opacity(0);
-
+    opacity: 0;
     transform: rotate(45deg) scale(0);
     transition: opacity 0.2s ease-in, transform 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46);
 
@@ -151,8 +147,7 @@
     }
 
     .@{ckpns}-menu-item-indeterminate & {
-      .opacity(1);
-
+      opacity: 1;
       border: solid @B000;
       height: 9px;
       border-width: 0 0 2px;

@@ -1,31 +1,6 @@
-// Opacity
-
-.opacity(@opacity) {
-  opacity: @opacity;
-}
-
 // WebKit-style focus
 .tab-focus() {
   outline: 0;
-}
-
-.reset-text(@font-family:@font-family-base,@line-height:@line-height-base) {
-  font-family: @font-family;
-  // We deliberately do NOT reset font-size.
-  font-style: normal;
-  font-weight: normal;
-  letter-spacing: normal;
-  line-break: auto;
-  line-height: @line-height;
-  text-align: left; // Fallback for where `start` is not supported
-  text-align: start;
-  text-decoration: none;
-  text-shadow: none;
-  text-transform: none;
-  white-space: normal;
-  word-break: normal;
-  word-spacing: normal;
-  word-wrap: normal;
 }
 
 .reset-link-text-decoration(@text-decoration:none) {
@@ -67,7 +42,7 @@
   width: 100% - @substract;
 }
 
-//dorp-shadow
+//drop-shadow
 .drop-shadow(@shadow) {
   filter: drop-shadow(@shadow);
   // IE don't support `drop-shadow`,replace it with `box-shadow`.
@@ -84,18 +59,13 @@
   }
 }
 
-.break-word() {
-  word-wrap: break-word;
-  word-break: normal;
-}
-
 .icon-font() {
   font-family: @font-family-icon;
   font-style: normal;
   line-height: 1;
 }
 
-.set-translate(@translateX:0,@translateY:0) {
+.set-translate-transition(@translateX:0,@translateY:0) {
   transform: translate(0, 0);
 
   &.in {

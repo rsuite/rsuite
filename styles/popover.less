@@ -4,11 +4,6 @@
 // Popovers
 // --------------------------------------------------
 .@{ns}popover {
-  // Our parent element can be arbitrary since popovers are by default inserted as a sibling of their target element.
-  // So reset our font and text properties to avoid inheriting weird values.
-  .reset-text();
-  .drop-shadow(0 1px 8px rgba(0, 0, 0, 0.12));
-
   position: absolute;
   top: 0;
   left: 0;
@@ -20,6 +15,7 @@
   background-clip: padding-box;
   border-radius: @popover-border-radius;
   opacity: 0;
+  .drop-shadow(0 1px 8px rgba(0, 0, 0, 0.12));
 
   &.fade {
     transition: opacity 0.1s linear, transform 0.1s ease-out;
@@ -68,7 +64,7 @@
 // Common style for .placement-top*
 .@{ns}popover[class*='placement-top'] {
   margin-top: -@popover-arrow-width;
-  .set-translate(0, -@popover-translate-distance);
+  .set-translate-transition(0, -@popover-translate-distance);
 
   > .arrow {
     margin-left: -@popover-arrow-outer-width;
@@ -87,7 +83,7 @@
 // Common style for .placement-right*
 .@{ns}popover[class*='placement-right'] {
   margin-left: @popover-arrow-width;
-  .set-translate(@popover-translate-distance, 0);
+  .set-translate-transition(@popover-translate-distance, 0);
 
   > .arrow {
     left: -@popover-arrow-outer-width;
@@ -106,7 +102,7 @@
 // Common style for .placement-bottom*
 .@{ns}popover[class*='placement-bottom'] {
   margin-top: @popover-arrow-width;
-  .set-translate(0, @popover-translate-distance);
+  .set-translate-transition(0, @popover-translate-distance);
 
   > .arrow {
     margin-left: -@popover-arrow-outer-width;
@@ -125,7 +121,7 @@
 // Common style for .placement-left*
 .@{ns}popover[class*='placement-left'] {
   margin-left: -@popover-arrow-width;
-  .set-translate(-@popover-translate-distance, 0);
+  .set-translate-transition(-@popover-translate-distance, 0);
 
   > .arrow {
     right: -@popover-arrow-outer-width;
