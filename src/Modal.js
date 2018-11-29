@@ -24,7 +24,6 @@ import ModalHeader from './ModalHeader';
 import ModalTitle from './ModalTitle';
 import ModalFooter from './ModalFooter';
 
-const TRANSITION_DURATION = 300;
 const BACKDROP_TRANSITION_DURATION = 150;
 
 type Props = {
@@ -62,7 +61,8 @@ type Props = {
   onExit?: () => void,
   onExiting?: () => void,
   onExited?: () => void,
-  animationProps?: Object
+  animationProps?: Object,
+  animationTimeout?: number
 };
 
 type State = {
@@ -78,6 +78,7 @@ class Modal extends React.Component<Props, State> {
     autoFocus: true,
     enforceFocus: true,
     animation: Bounce,
+    animationTimeout: 300,
     dialogComponentClass: ModalDialog,
     overflow: true
   };
@@ -229,6 +230,7 @@ class Modal extends React.Component<Props, State> {
       full,
       dialogComponentClass,
       animationProps,
+      animationTimeout,
       ...rest
     } = this.props;
 
@@ -283,7 +285,7 @@ class Modal extends React.Component<Props, State> {
         })}
         transition={animation ? animation : undefined}
         animationProps={animationProps}
-        dialogTransitionTimeout={TRANSITION_DURATION}
+        dialogTransitionTimeout={animationTimeout}
         backdropTransitionTimeout={BACKDROP_TRANSITION_DURATION}
         {...parentProps}
       >
