@@ -386,16 +386,23 @@
   }
 }
 
-// Button sizes
+// Base button size
+.button-size(base;@padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius) {
+  padding: @padding-vertical @padding-horizontal;
+  font-size: @font-size;
+  line-height: @line-height;
+  border-radius: @border-radius;
+}
+
+// Full button size
 .button-size(@padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius) {
   @icon-side-length: @padding-vertical*2 + floor(@font-size* @line-height);
   @ghost-icon-side-length: @icon-side-length - @btn-ghost-border-width*2;
   @svg-icon-height: @font-size;
 
-  padding: @padding-vertical @padding-horizontal;
-  font-size: @font-size;
-  line-height: @line-height;
-  border-radius: @border-radius;
+  .button-size(
+    base; @padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius
+  );
 
   &.@{ns}btn-ghost {
     // Ghost button has 1px border
@@ -460,6 +467,24 @@
   }
 }
 
+// Base sizes
+.btn-sm(base) {
+  .button-size(base; @padding-small-vertical; @padding-small-horizontal; @font-size-base; @line-height-base; @btn-border-radius-small);
+}
+
+.btn-md(base) {
+  .button-size(base; @padding-base-vertical; @padding-base-horizontal; @font-size-base; @line-height-base; @btn-border-radius-base);
+}
+
+.btn-xs(base) {
+  .button-size(base; @padding-extra-small-vertical; @padding-extra-small-horizontal; @font-size-small; @line-height-small; @btn-border-radius-small);
+}
+
+.btn-lg(base) {
+  .button-size(base; @padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large; @btn-border-radius-large);
+}
+
+// Full sizes
 .btn-sm() {
   .button-size(@padding-small-vertical; @padding-small-horizontal; @font-size-base; @line-height-base; @btn-border-radius-small);
 }
