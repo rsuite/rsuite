@@ -362,7 +362,7 @@ class Dropdown extends React.Component<Props, State> {
     }
 
     // If the value is disabled in this option, it is returned.
-    if (disabledItemValues.some(item => item === focusItemValue)) {
+    if (disabledItemValues && disabledItemValues.some(item => item === focusItemValue)) {
       return;
     }
 
@@ -392,7 +392,7 @@ class Dropdown extends React.Component<Props, State> {
     }
 
     // If the value is disabled in this option, it is returned.
-    if (disabledItemValues.some(item => item === focusItemValue)) {
+    if (disabledItemValues && disabledItemValues.some(item => item === focusItemValue)) {
       return;
     }
 
@@ -545,7 +545,7 @@ class Dropdown extends React.Component<Props, State> {
     this.handleChange(value, event);
   };
 
-  removeLastItem = (event: DefaultEvent) => {
+  removeLastItem = (event: SyntheticInputEvent<*>) => {
     const tagName = _.get(event, 'target.tagName');
     if (tagName !== 'INPUT') {
       this.focusInput();

@@ -69,7 +69,7 @@ type Props = {
     concat: (data: Array<any>, children: Array<any>) => Array<any>,
     event: DefaultEvent
   ) => void,
-  locale?: Object,
+  locale: Object,
   cleanable?: boolean,
   open?: boolean,
   defaultOpen?: boolean,
@@ -83,7 +83,7 @@ type Props = {
   menuWidth?: number,
   menuHeight?: number,
   style?: Object,
-  uncheckableItemValues?: Array<any>
+  uncheckableItemValues?: any[]
 };
 
 type State = {
@@ -115,6 +115,9 @@ class Dropdown extends React.Component<Props, State> {
     placement: 'bottomLeft'
   };
 
+  static utils = null;
+
+  isControlled = null;
   constructor(props: Props) {
     super(props);
 
@@ -146,7 +149,7 @@ class Dropdown extends React.Component<Props, State> {
     };
   }
 
-  static getCascadeState(nextProps: Props, flattenData: Array<any>, nextValue: Array<any>) {
+  static getCascadeState(nextProps: Props, flattenData: Array<any>, nextValue?: Array<any>) {
     const { data, cascade, value, defaultValue, uncheckableItemValues, valueKey } = nextProps;
     let cascadeValue = nextValue || value || defaultValue || [];
 
@@ -168,7 +171,7 @@ class Dropdown extends React.Component<Props, State> {
     const { data, labelKey, valueKey, childrenKey, cascade, uncheckableItemValues } = nextProps;
 
     let value = nextProps.value || prevState.value || [];
-    let { prevValue, flattenData, selectNode, items } = prevState;
+    let { prevValue, flattenData, selectNode = {}, items } = prevState;
 
     const isChangedData = data !== prevState.data;
     const isChangedValue = !shallowEqualArray(prevValue, nextProps.value);
@@ -282,7 +285,7 @@ class Dropdown extends React.Component<Props, State> {
       return;
     }
     const nextState = {
-      value: null,
+      value: [],
       activePaths: []
     };
     this.setState(nextState, () => {

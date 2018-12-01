@@ -87,7 +87,7 @@ type State = {
   // Used to focus the active item  when trigger `onKeydown`
   focusItemValue?: any,
   searchKeyword: string,
-  stickyItems: Array<any>
+  stickyItems?: Array<any>
 };
 
 class Dropdown extends React.Component<Props, State> {

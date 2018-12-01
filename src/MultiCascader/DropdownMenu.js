@@ -99,7 +99,7 @@ class DropdownMenu extends React.Component<Props> {
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   isSomeParentChecked(node: Object) {
-    const { valueKey, value } = this.props;
+    const { valueKey, value = [] } = this.props;
 
     if (value.some(n => n === node[valueKey])) {
       return true;
@@ -113,7 +113,7 @@ class DropdownMenu extends React.Component<Props> {
   }
 
   isSomeChildChecked(node: Object) {
-    const { childrenKey, valueKey, value } = this.props;
+    const { childrenKey, valueKey, value = [] } = this.props;
     if (!node[childrenKey]) {
       return false;
     }
@@ -130,7 +130,7 @@ class DropdownMenu extends React.Component<Props> {
 
   renderCascadeNode(node: any, index: number, layer: number, focus: boolean, uncheckable: boolean) {
     const {
-      value,
+      value = [],
       valueKey,
       labelKey,
       childrenKey,

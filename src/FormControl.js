@@ -119,7 +119,7 @@ class FormControl extends React.Component<Props, State> {
     const { errorMessage } = this.props;
 
     if (errorMessage) {
-      return this.renderError(null, errorMessage);
+      return this.renderError(undefined, errorMessage);
     }
 
     if (errorFromContext) {
@@ -174,7 +174,7 @@ class FormControl extends React.Component<Props, State> {
   }
 }
 
-class FormControlWrapper extends React.Component {
+class FormControlWrapper extends React.Component<any> {
   render() {
     return (
       <FormValueContext.Consumer>
