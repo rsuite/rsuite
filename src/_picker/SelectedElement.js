@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 type Props = {
-  selectedItems: Array<any>,
+  selectedItems: any[],
   prefix: (name: string) => string,
   valueKey: string,
   labelKey: string,

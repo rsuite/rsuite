@@ -12,9 +12,9 @@ import DropdownMenuItem from '../_picker/DropdownMenuCheckItem';
 type DefaultEvent = SyntheticEvent<*>;
 type Props = {
   classPrefix: string,
-  data: Array<any>,
-  disabledItemValues: Array<any>,
-  value?: Array<any>,
+  data: any[],
+  disabledItemValues: any[],
+  value?: any[],
   childrenKey: string,
   valueKey: string,
   labelKey: string,
@@ -23,17 +23,12 @@ type Props = {
   className?: string,
   renderMenuItem?: (itemLabel: React.Node, item: Object) => React.Node,
   renderMenu?: (itemLabel: React.Node, item: Object, parentNode: Object) => React.Node,
-  onSelect?: (
-    node: any,
-    cascadeItems: Array<any>,
-    activePaths: Array<any>,
-    event: DefaultEvent
-  ) => void,
+  onSelect?: (node: any, cascadeItems: any[], activePaths: any[], event: DefaultEvent) => void,
   onCheck?: (value: any, event: SyntheticEvent<*>, checked: boolean) => void,
   cascade: boolean,
-  cascadeItems: Array<any>,
-  cascadePathItems: Array<any>,
-  uncheckableItemValues: Array<any>
+  cascadeItems: any[],
+  cascadePathItems: any[],
+  uncheckableItemValues: any[]
 };
 
 class DropdownMenu extends React.Component<Props> {
@@ -52,7 +47,7 @@ class DropdownMenu extends React.Component<Props> {
 
   static handledProps = [];
 
-  getCascadeItems(items: Array<any>, layer: number, node: any, isLeafNode: boolean) {
+  getCascadeItems(items: any[], layer: number, node: any, isLeafNode: boolean) {
     const { cascadeItems = [], cascadePathItems } = this.props;
     const nextItems = [];
     const nextPathItems = [];

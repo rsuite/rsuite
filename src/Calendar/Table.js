@@ -8,7 +8,7 @@ import TableHeaderRow from './TableHeaderRow';
 import { defaultProps } from '../utils';
 
 type Props = {
-  rows: Array<any>,
+  rows: any[],
   isoWeek?: boolean,
   selected?: moment$Moment,
   onSelect?: (date: moment$Moment) => void,

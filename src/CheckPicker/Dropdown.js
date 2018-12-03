@@ -32,7 +32,7 @@ type DefaultEventFunction = (event: DefaultEvent) => void;
 
 type Props = {
   appearance: 'default' | 'subtle',
-  data: Array<any>,
+  data: any[],
   locale: Object,
   classPrefix?: string,
   className?: string,
@@ -43,18 +43,18 @@ type Props = {
   menuClassName?: string,
   menuStyle?: Object,
   disabled?: boolean,
-  disabledItemValues?: Array<any>,
+  disabledItemValues?: any[],
   maxHeight?: number,
   valueKey?: string,
   labelKey?: string,
-  value?: Array<any>,
-  defaultValue?: Array<any>,
+  value?: any[],
+  defaultValue?: any[],
   renderMenu?: (menu: React.Node) => React.Node,
   renderMenuItem?: (itemLabel: React.Node, item: Object) => React.Node,
   renderMenuGroup?: (title: React.Node, item: Object) => React.Node,
-  renderValue?: (value: Array<any>, items: Array<any>) => React.Node,
+  renderValue?: (value: any[], items: any[]) => React.Node,
   renderExtraFooter?: () => React.Node,
-  onChange?: (value: Array<any>, event: DefaultEvent) => void,
+  onChange?: (value: any[], event: DefaultEvent) => void,
   onSelect?: (value: any, item: Object, event: DefaultEvent) => void,
   onGroupTitleClick?: DefaultEventFunction,
   onSearch?: (searchKeyword: string, event: DefaultEvent) => void,
@@ -83,11 +83,11 @@ type Props = {
 };
 
 type State = {
-  value?: Array<any>,
+  value?: any[],
   // Used to focus the active item  when trigger `onKeydown`
   focusItemValue?: any,
   searchKeyword: string,
-  stickyItems?: Array<any>
+  stickyItems?: any[]
 };
 
 class Dropdown extends React.Component<Props, State> {

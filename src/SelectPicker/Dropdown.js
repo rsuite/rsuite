@@ -29,7 +29,7 @@ type DefaultEvent = SyntheticEvent<*>;
 type DefaultEventFunction = (event: DefaultEvent) => void;
 type Props = {
   appearance: 'default' | 'subtle',
-  data: Array<any>,
+  data: any[],
   locale: Object,
   classPrefix?: string,
   className?: string,
@@ -40,7 +40,7 @@ type Props = {
   menuClassName?: string,
   menuStyle?: Object,
   disabled?: boolean,
-  disabledItemValues?: Array<any>,
+  disabledItemValues?: any[],
   maxHeight?: number,
   valueKey?: string,
   labelKey?: string,

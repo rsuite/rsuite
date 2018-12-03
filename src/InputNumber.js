@@ -44,8 +44,8 @@ function getDecimalLength(value: number): number {
   return 0;
 }
 
-function decimals(...values: Array<number>) {
-  const lengths: Array<any> = values.map(getDecimalLength);
+function decimals(...values: number[]) {
+  const lengths: any[] = values.map(getDecimalLength);
   return Math.max(...lengths);
 }
 

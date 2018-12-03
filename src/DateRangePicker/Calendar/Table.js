@@ -8,7 +8,7 @@ import TableRow from './TableRow';
 import TableHeaderRow from '../../Calendar/TableHeaderRow';
 
 type Props = {
-  rows: Array<any>,
+  rows: any[],
   isoWeek?: boolean,
   selected?: Array<moment$Moment>,
   hoverValue?: Array<moment$Moment>,

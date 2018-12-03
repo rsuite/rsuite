@@ -11,7 +11,7 @@ type Props = {
   vertical?: boolean,
   small?: boolean,
   className?: string,
-  children: React.ChildrenArray<any>,
+  children: React.Childrenany[],
   current: number,
   currentStatus?: 'finish' | 'wait' | 'process' | 'error'
 };

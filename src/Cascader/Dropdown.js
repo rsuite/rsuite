@@ -24,7 +24,7 @@ type DefaultEvent = SyntheticEvent<*>;
 type Props = {
   appearance: 'default' | 'subtle',
   classPrefix: string,
-  data: Array<any>,
+  data: any[],
   className?: string,
   container?: HTMLElement | (() => HTMLElement),
   containerPadding?: number,
@@ -36,7 +36,7 @@ type Props = {
   valueKey: string,
   labelKey: string,
   renderMenu?: (itemLabel: React.Node, item: Object) => React.Node,
-  renderValue?: (activePaths?: Array<any>) => React.Node,
+  renderValue?: (activePaths?: any[]) => React.Node,
   renderExtraFooter?: () => React.Node,
   disabled?: boolean,
   value?: any,
@@ -54,8 +54,8 @@ type Props = {
   onExited?: () => void,
   onSelect?: (
     value: any,
-    activePaths: Array<any>,
-    concat: (data: Array<any>, children: Array<any>) => Array<any>,
+    activePaths: any[],
+    concat: (data: any[], children: any[]) => any[],
     event: DefaultEvent
   ) => void,
   locale?: Object,
@@ -70,24 +70,24 @@ type Props = {
   renderMenuItem?: (itemLabel: React.Node, item: Object) => React.Node,
   menuWidth?: number,
   menuHeight?: number,
-  disabledItemValues?: Array<any>,
+  disabledItemValues?: any[],
   style?: Object
 };
 
 type State = {
   selectNode?: any,
   value?: any,
-  activePaths: Array<any>,
-  items?: Array<any>,
-  tempActivePaths?: Array<any>,
-  data: Array<any>
+  activePaths: any[],
+  items?: any[],
+  tempActivePaths?: any[],
+  data: any[]
 };
 
 function getDerivedStateForCascade(
   nextProps: Props,
   prevState: any,
   selectNodeValue?: any,
-  newChildren?: Array<any>
+  newChildren?: any[]
 ) {
   const { data, labelKey, valueKey, childrenKey, value } = nextProps;
   const activeItemValue =
@@ -233,7 +233,7 @@ class Dropdown extends React.Component<Props, State> {
   handleSelect = (
     node: any,
     cascadeItems,
-    activePaths: Array<any>,
+    activePaths: any[],
     isLeafNode: boolean,
     event: DefaultEvent
   ) => {

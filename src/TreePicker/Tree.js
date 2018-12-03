@@ -39,7 +39,7 @@ type Placement =
   | 'autoHorizontalBottom';
 
 type Props = {
-  data: Array<any>,
+  data: any[],
   open?: boolean,
   style?: Object,
   block?: boolean,
@@ -67,7 +67,7 @@ type Props = {
   searchKeyword?: string,
   defaultExpandAll?: boolean,
   containerPadding?: number,
-  disabledItemValues?: Array<any>,
+  disabledItemValues?: any[],
   toggleComponentClass?: React.ElementType,
   onOpen?: () => void,
   onExit?: () => void,
@@ -94,11 +94,11 @@ type Props = {
 };
 
 type States = {
-  data: Array<any>,
+  data: any[],
   value: any,
   selectedValue: any,
   expandAll?: boolean,
-  filterData: Array<any>,
+  filterData: any[],
   activeNode?: ?Object,
   searchWord: string,
   searchKeyword: string
@@ -254,7 +254,7 @@ class Tree extends React.Component<Props, States> {
     return false;
   }
 
-  getActiveElementOption(options: Array<any>, value: string) {
+  getActiveElementOption(options: any[], value: string) {
     for (let i = 0; i < options.length; i += 1) {
       if (options[i].value === value) {
         return options[i];
@@ -273,7 +273,7 @@ class Tree extends React.Component<Props, States> {
     const { childrenKey, disabledItemValues = [], valueKey } = this.props;
 
     let items = [];
-    const loop = (nodes: Array<any>) => {
+    const loop = (nodes: any[]) => {
       nodes.forEach((node: Object) => {
         const disabled =
           disabledItemValues.filter(disabledItem => shallowEqual(disabledItem, node[valueKey]))
@@ -333,7 +333,7 @@ class Tree extends React.Component<Props, States> {
     return null;
   };
 
-  getFilterData(data: Array<any>, word?: string, props: Props = this.props) {
+  getFilterData(data: any[], word?: string, props: Props = this.props) {
     const { labelKey } = props;
 
     const setVisible = (nodes = []) =>
@@ -413,12 +413,7 @@ class Tree extends React.Component<Props, States> {
    * @param {*} nodes tree data
    * @param {*} ref 当前层级
    */
-  flattenNodes(
-    nodes: Array<any>,
-    props?: Props = this.props,
-    ref?: string = '0',
-    parentNode?: Object
-  ) {
+  flattenNodes(nodes: any[], props?: Props = this.props, ref?: string = '0', parentNode?: Object) {
     const { labelKey, valueKey, childrenKey } = props;
 
     if (!Array.isArray(nodes) || nodes.length === 0) {

@@ -23,7 +23,7 @@ type Trigger = 'click' | 'hover';
 type Props = {
   activeKey?: any,
   className?: string,
-  children?: React.ChildrenArray<any>,
+  children?: React.Childrenany[],
   icon?: React.Element<typeof Icon>,
   classPrefix?: string,
   pullLeft?: boolean,
@@ -33,13 +33,13 @@ type Props = {
   trigger?: Trigger | Array<Trigger>,
   eventKey?: any,
   onToggle?: (eventKey: any, event: SyntheticEvent<*>) => void,
-  openKeys?: Array<any>,
+  openKeys?: any[],
   expanded?: boolean,
   collapsible?: boolean
 };
 
 class DropdownMenu extends React.Component<Props> {
-  getMenuItemsAndStatus(children?: React.ChildrenArray<any>): Object {
+  getMenuItemsAndStatus(children?: React.Childrenany[]): Object {
     let hasActiveItem: boolean;
 
     const { activeKey, onSelect, classPrefix, openKeys = [] } = this.props;

@@ -13,10 +13,10 @@ type DefaultEvent = SyntheticEvent<*>;
 type DefaultEventFunction = (event: DefaultEvent) => void;
 type Props = {
   classPrefix: string,
-  data?: Array<any>,
+  data?: any[],
   group?: boolean,
-  disabledItemValues: Array<any>,
-  activeItemValues: Array<any>,
+  disabledItemValues: any[],
+  activeItemValues: any[],
   focusItemValue?: any,
   maxHeight?: number,
   valueKey: string,

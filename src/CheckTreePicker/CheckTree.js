@@ -45,11 +45,11 @@ type Placement =
   | 'autoHorizontalBottom';
 
 type Props = {
-  data: Array<any>,
+  data: any[],
   open?: boolean,
   block?: boolean,
   style?: Object,
-  value?: Array<any>,
+  value?: any[],
   height?: number,
   inline?: boolean,
   locale: Object,
@@ -70,13 +70,13 @@ type Props = {
   defaultOpen?: boolean,
   childrenKey?: string,
   placeholder?: React.Node,
-  defaultValue?: Array<any>,
+  defaultValue?: any[],
   searchKeyword?: string,
   menuClassName?: string,
   defaultExpandAll?: boolean,
   containerPadding?: number,
-  disabledItemValues?: Array<any>,
-  uncheckableItemValues?: Array<any>,
+  disabledItemValues?: any[],
+  uncheckableItemValues?: any[],
   toggleComponentClass?: React.ElementType,
   // 禁用 checkbox 数组
   onOpen?: () => void,
@@ -98,29 +98,25 @@ type Props = {
   onExiting?: () => void,
   onEntering?: () => void,
   renderMenu?: (menu: string | React.Node) => React.Node,
-  renderValue?: (
-    values: Array<any>,
-    checkItems: Array<any>,
-    placeholder: string | React.Node
-  ) => React.Node,
+  renderValue?: (values: any[], checkItems: any[], placeholder: string | React.Node) => React.Node,
   renderTreeNode?: (nodeData: Object) => React.Node,
   renderTreeIcon?: (nodeData: Object) => React.Node,
   renderExtraFooter?: () => React.Node
 };
 
 type States = {
-  data: Array<any>,
-  value?: Array<any>,
+  data: any[],
+  value?: any[],
   cascade: boolean,
   hasValue: boolean,
   expandAll?: boolean,
-  filterData: Array<any>,
+  filterData: any[],
   activeNode?: ?Object,
   searchWord?: string,
   searchKeyword?: string,
-  formattedNodes: Array<any>,
-  selectedValues: Array<any>,
-  uncheckableItemValues?: Array<any>,
+  formattedNodes: any[],
+  selectedValues: any[],
+  uncheckableItemValues?: any[],
   isSomeNodeHasChildren: boolean
 };
 
@@ -330,7 +326,7 @@ class CheckTree extends React.Component<Props, States> {
     return false;
   }
 
-  getFilterData(searchKeyword: string = '', data: Array<any>, props?: Props = this.props) {
+  getFilterData(searchKeyword: string = '', data: any[], props?: Props = this.props) {
     const { labelKey } = props;
     const setVisible = (nodes = []) =>
       nodes.forEach((item: Object) => {
@@ -349,7 +345,7 @@ class CheckTree extends React.Component<Props, States> {
     return data;
   }
 
-  getActiveElementOption(options: Array<any>, refKey: string) {
+  getActiveElementOption(options: any[], refKey: string) {
     for (let i = 0; i < options.length; i += 1) {
       if (options[i].refKey === refKey) {
         return options[i];
@@ -371,7 +367,7 @@ class CheckTree extends React.Component<Props, States> {
     return null;
   };
 
-  getFormattedNodes(nodes: Array<any>) {
+  getFormattedNodes(nodes: any[]) {
     return nodes.map((node: Object) => {
       const formatted = { ...node };
       const curNode = this.nodes[node.refKey];
@@ -411,7 +407,7 @@ class CheckTree extends React.Component<Props, States> {
     const { childrenKey } = this.props;
 
     let items = [];
-    const loop = (treeNodes: Array<any>) => {
+    const loop = (treeNodes: any[]) => {
       treeNodes.forEach((node: Object) => {
         if (!this.getDisabledState(node) && !this.getUncheckableState(node) && node.visible) {
           items.push(node);
@@ -518,7 +514,7 @@ class CheckTree extends React.Component<Props, States> {
    * 判断传入的 value 是否存在于data 中
    * @param {*} values
    */
-  hasValue(values: Array<any> = this.state.selectedValues, props: Props = this.props) {
+  hasValue(values: any[] = this.state.selectedValues, props: Props = this.props) {
     const { valueKey } = props;
     const selectedValues = Object.keys(this.nodes)
       .map((refKey: string) => this.nodes[refKey][valueKey])
@@ -530,7 +526,7 @@ class CheckTree extends React.Component<Props, States> {
    * 判断第一层节点是否存在有children的节点
    * @param {*} data
    */
-  isSomeNodeHasChildren = (data: Array<any>) => {
+  isSomeNodeHasChildren = (data: any[]) => {
     return data.some((node: Object) => {
       return node.children;
     });
@@ -592,12 +588,7 @@ class CheckTree extends React.Component<Props, States> {
    * @param {*} nodes tree data
    * @param {*} ref 当前层级
    */
-  flattenNodes(
-    nodes: Array<any>,
-    props?: Props = this.props,
-    ref?: string = '0',
-    parentNode?: Object
-  ) {
+  flattenNodes(nodes: any[], props?: Props = this.props, ref?: string = '0', parentNode?: Object) {
     const { labelKey, valueKey, childrenKey } = props;
 
     if (!Array.isArray(nodes) || nodes.length === 0) {
@@ -624,7 +615,7 @@ class CheckTree extends React.Component<Props, States> {
    * 过滤选中的values中不包含 uncheckableItemValues 的那些值
    * @param {*} values
    */
-  filterSelectedValues(values: Array<any>) {
+  filterSelectedValues(values: any[]) {
     const { uncheckableItemValues = [] } = this.props;
     return values.filter(value => !uncheckableItemValues.includes(value));
   }

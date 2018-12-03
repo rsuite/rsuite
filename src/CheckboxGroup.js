@@ -10,15 +10,15 @@ type Props = {
   name?: string,
   className?: string,
   inline?: boolean,
-  value?: Array<any>,
-  defaultValue?: Array<any>,
+  value?: any[],
+  defaultValue?: any[],
   onChange?: (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void,
-  children?: React.ChildrenArray<any>,
+  children?: React.Childrenany[],
   classPrefix?: string
 };
 
 type State = {
-  value: Array<any>
+  value: any[]
 };
 
 class CheckboxGroup extends React.Component<Props, State> {

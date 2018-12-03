@@ -10,7 +10,7 @@ export default function(props: Object) {
    * @param {*} item
    * @param {*} uncheckableItemValues
    */
-  function getChildrenValue(item: Object, uncheckableItemValues?: Array<any>) {
+  function getChildrenValue(item: Object, uncheckableItemValues?: any[]) {
     let values = [];
 
     if (!item[childrenKey]) {
@@ -32,7 +32,7 @@ export default function(props: Object) {
    * @param {*} item
    * @param {*} uncheckableItemValues
    */
-  function getParents(item: Object, uncheckableItemValues?: Array<any>) {
+  function getParents(item: Object, uncheckableItemValues?: any[]) {
     let parents = [];
 
     if (!item.parent) {
@@ -87,8 +87,8 @@ export default function(props: Object) {
   function splitValue(
     item: Object,
     checked: boolean,
-    value: Array<any>,
-    uncheckableItemValues?: Array<any> = []
+    value: any[],
+    uncheckableItemValues?: any[] = []
   ) {
     const itemValue = item[valueKey];
     const childrenValue = getChildrenValue(item, uncheckableItemValues);
@@ -242,7 +242,7 @@ export default function(props: Object) {
     return flattenItems;
   }
 
-  function getItems(selectNode: Object, flattenData: Array<any>): any[] {
+  function getItems(selectNode?: Object, flattenData: any[]): any[] {
     const items = [];
 
     function findParent(item) {

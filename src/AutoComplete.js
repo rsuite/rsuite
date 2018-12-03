@@ -92,7 +92,7 @@ class AutoComplete extends React.Component<Props, State> {
     });
   }
 
-  getFocusableMenuItems = (): Array<any> => {
+  getFocusableMenuItems = (): any[] => {
     const data = this.getData();
     if (!data) {
       return [];
