@@ -115,7 +115,7 @@ class Dropdown extends React.Component<Props, State> {
     placement: 'bottomLeft'
   };
 
-  static utils = null;
+  static utils = {};
 
   isControlled = null;
   constructor(props: Props) {
@@ -191,7 +191,7 @@ class Dropdown extends React.Component<Props, State> {
         return item;
       });
 
-      if (newChildren.length) {
+      if (newChildren.length && items) {
         items[items.length - 1] = newChildren;
       }
 

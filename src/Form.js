@@ -25,7 +25,8 @@ type Props = {
   onCheck?: (formError: Object) => void,
   model: typeof Schema,
   classPrefix: string,
-  errorFromContext?: boolean
+  errorFromContext?: boolean,
+  children?: React.Node
 };
 
 type State = {
@@ -201,18 +202,24 @@ class Form extends React.Component<Props, State> {
 
   checkErrorFromContext(children: React.Node) {
     const { errorFromContext } = this.props;
+
     if (errorFromContext) {
-      return (
-        <FormErrorContext.Provider value={this.getFormError()}>
-          {children}
-        </FormErrorContext.Provider>
-      );
+      const formError: any = this.getFormError();
+      return <FormErrorContext.Provider value={formError}>{children}</FormErrorContext.Provider>;
     }
     return children;
   }
 
   render() {
-    const { formValue, layout, classPrefix, fluid, className, children, ...props } = this.props;
+    const {
+      formValue = {},
+      layout,
+      classPrefix,
+      fluid,
+      className,
+      children,
+      ...props
+    } = this.props;
     const addPrefix = prefix(classPrefix);
     const classes = classNames(
       classPrefix,
@@ -221,10 +228,11 @@ class Form extends React.Component<Props, State> {
       addPrefix(fluid && layout === 'vertical' ? 'fluid' : 'fixed-width')
     );
     const unhandled = getUnhandledProps(Form, props);
+    const contextDefalutValue: any = this.getFormContextValue();
 
     return (
       <form {...unhandled} onSubmit={preventDefaultEvent} className={classes}>
-        <FormContext.Provider value={this.getFormContextValue()}>
+        <FormContext.Provider value={contextDefalutValue}>
           <FormValueContext.Provider value={formValue}>
             {this.checkErrorFromContext(children)}
           </FormValueContext.Provider>

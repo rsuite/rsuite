@@ -73,23 +73,23 @@ class AutoComplete extends React.Component<Props, State> {
     return _.isUndefined(value) ? this.state.value : value;
   }
 
-  getData(props): Array<ItemDataType> {
+  getData(props): any {
     const { data } = props || this.props;
-    if (data) {
-      data.map(item => {
-        if (typeof item === 'string') {
-          return {
-            value: item,
-            label: item
-          };
-        }
-
-        if (typeof item === 'object') {
-          return item;
-        }
-      });
+    if (!data) {
+      return [];
     }
-    return [];
+    return data.map(item => {
+      if (typeof item === 'string') {
+        return {
+          value: item,
+          label: item
+        };
+      }
+
+      if (typeof item === 'object') {
+        return item;
+      }
+    });
   }
 
   getFocusableMenuItems = (): Array<any> => {

@@ -4,7 +4,7 @@ import * as React from 'react';
 
 type Props = {
   selectedItems: Array<any>,
-  prefix: () => string,
+  prefix: (name: string) => string,
   valueKey: string,
   labelKey: string,
   countable: boolean,
