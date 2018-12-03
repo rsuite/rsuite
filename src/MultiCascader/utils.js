@@ -255,7 +255,9 @@ export default function(props: Object) {
       }
     }
 
-    findParent(selectNode);
+    if (selectNode) {
+      findParent(selectNode);
+    }
 
     items.push(flattenData.filter(item => item.parent === null));
 
