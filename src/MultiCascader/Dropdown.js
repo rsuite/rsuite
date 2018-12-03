@@ -182,7 +182,9 @@ class Dropdown extends React.Component<Props, State> {
        * 如果更新了 data,
        * 首先获取到被点击节点的值 `selectNode`， 然后再拿到新增后的 `newChildren`,
        */
-      const nextSelectNode = flattenData.find(n => n[valueKey] === selectNode[valueKey]);
+      const nextSelectNode = flattenData.find(n => {
+        return selectNode && n[valueKey] === selectNode[valueKey];
+      });
       const newChildren = (_.get(nextSelectNode, childrenKey) || []).map(item => {
         item.parent = nextSelectNode;
         return item;
