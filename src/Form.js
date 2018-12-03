@@ -119,6 +119,8 @@ class Form extends React.Component<Props, State> {
       [fieldName]: checkResult.errorMessage
     };
 
+    this.setState({ formError });
+
     onCheck && onCheck(formError);
     callback && callback(checkResult);
 
