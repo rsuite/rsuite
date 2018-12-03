@@ -116,7 +116,6 @@
     background-color: @table-loader-backdrop-color;
     opacity: 0;
     transition: opacity @table-loader-transition;
-    animation: tableLoaderFadeOut @table-loader-transition;
     // Make sure events through loader
     pointer-events: none;
     .ie10-visibility(hidden);
@@ -147,7 +146,6 @@
   &-loading &-loader-wrapper {
     visibility: visible;
     opacity: 1;
-    animation: none;
     pointer-events: auto;
     // When loading cover scrollbar.
     z-index: 1;
