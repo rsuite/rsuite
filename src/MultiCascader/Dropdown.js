@@ -93,7 +93,8 @@ type State = {
   activePaths: any[],
   items?: any[],
   data: any[],
-  flattenData: any[]
+  flattenData: any[],
+  active?: boolean
 };
 
 class Dropdown extends React.Component<Props, State> {
@@ -298,11 +299,17 @@ class Dropdown extends React.Component<Props, State> {
   handleEntered = () => {
     const { onOpen } = this.props;
     onOpen && onOpen();
+    this.setState({
+      active: true
+    });
   };
 
   handleExited = () => {
     const { onClose } = this.props;
     onClose && onClose();
+    this.setState({
+      active: false
+    });
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
@@ -434,6 +441,7 @@ class Dropdown extends React.Component<Props, State> {
             onClean={this.handleClean}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
+            active={this.state.active}
           >
             {selectedElement || locale.placeholder}
           </PickerToggle>
