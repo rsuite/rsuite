@@ -37,8 +37,7 @@ class TreeNode extends React.Component<Props> {
       return label;
     } else if (React.isValidElement(label)) {
       const nodes = reactToString(label);
-      return;
-      nodes.join('');
+      return nodes.join('');
     }
   }
 
