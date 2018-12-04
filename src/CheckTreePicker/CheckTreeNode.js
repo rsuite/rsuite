@@ -2,7 +2,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { hasClass } from 'dom-lib';
-import { prefix, shallowEqual } from 'rsuite-utils/lib/utils';
+import { prefix, shallowEqual, reactToString } from 'rsuite-utils/lib/utils';
 import { CHECK_STATE } from '../utils/constants';
 
 type CheckState = CHECK_STATE.UNCHECK | CHECK_STATE.INDETERMINATE | CHECK_STATE.CHECK;
@@ -33,6 +33,16 @@ class TreeCheckNode extends React.Component<Props> {
   static defaultProps = {
     visible: true
   };
+
+  getTitle() {
+    const { label } = this.props;
+    if (typeof label === 'string') {
+      return label;
+    } else if (React.isValidElement(label)) {
+      const nodes = reactToString(label);
+      return nodes.join('');
+    }
+  }
 
   /**
    * 展开收缩节点
@@ -137,7 +147,7 @@ class TreeCheckNode extends React.Component<Props> {
         role="button"
         tabIndex="-1"
         className={addPrefix('checknode-label')}
-        title={label}
+        title={this.getTitle()}
         data-layer={layer}
         data-key={nodeData.refKey}
         onClick={this.handleSelect}

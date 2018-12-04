@@ -125,7 +125,7 @@ class Tree extends React.Component<Props, States> {
     super(props);
     this.isControlled = 'value' in props;
     const { data, valueKey } = props;
-    const nextData = clone(data);
+    const nextData = [...data];
     this.flattenNodes(nextData);
     this.state = {
       data: props.data,
@@ -171,7 +171,7 @@ class Tree extends React.Component<Props, States> {
     const { filterData, searchWord, selectedValue } = this.state;
     const { value, data, expandAll, valueKey, searchKeyword } = this.props;
     if (prevState.data !== data) {
-      const nextData = clone(data);
+      const nextData = [...data];
       this.flattenNodes(nextData);
       const filterData = this.getFilterData(nextData, searchWord);
       const activeNode = this.getActiveNode(this.getValue());

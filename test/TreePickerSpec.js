@@ -317,4 +317,16 @@ describe('TreePicker', () => {
     );
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
   });
+
+  it('should render tree node with custom dom', () => {
+    const customData = [
+      {
+        value: '1',
+        label: <span className="custom-label">1</span>
+      }
+    ];
+    const instance = mount(<TreePicker data={customData} inline />);
+
+    assert.equal(instance.find('.custom-label').length, 1);
+  });
 });
