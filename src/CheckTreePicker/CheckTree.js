@@ -148,7 +148,7 @@ class CheckTree extends React.Component<Props, States> {
     this.isControlled = !_.isUndefined(value);
 
     const nextValue = this.getValue(props);
-    const nextData = clone(data);
+    const nextData = [...data];
     this.flattenNodes(nextData, props);
     this.unserializeLists(
       {
@@ -212,7 +212,7 @@ class CheckTree extends React.Component<Props, States> {
     const { filterData, searchWord, selectedValues } = this.state;
     const { value, data = [], cascade, expandAll, uncheckableItemValues } = this.props;
     if (prevState.data !== data) {
-      const nextData = clone(data);
+      const nextData = [...data];
       this.flattenNodes(nextData);
       this.unserializeLists({
         check: this.getValue()
@@ -371,13 +371,16 @@ class CheckTree extends React.Component<Props, States> {
     return nodes.map((node: Object) => {
       const formatted = { ...node };
       const curNode = this.nodes[node.refKey];
-      formatted.check = curNode.check;
-      formatted.expand = curNode.expand;
-      formatted.uncheckable = curNode.uncheckable;
-      formatted.parentNode = curNode.parentNode;
-      if (Array.isArray(node.children) && node.children.length > 0) {
-        formatted.children = this.getFormattedNodes(formatted.children);
+      if (curNode) {
+        formatted.check = curNode.check;
+        formatted.expand = curNode.expand;
+        formatted.uncheckable = curNode.uncheckable;
+        formatted.parentNode = curNode.parentNode;
+        if (Array.isArray(node.children) && node.children.length > 0) {
+          formatted.children = this.getFormattedNodes(formatted.children);
+        }
       }
+
       return formatted;
     });
   }

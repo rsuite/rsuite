@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { shallowEqual } from 'rsuite-utils/lib/utils';
+import { shallowEqual, reactToString } from 'rsuite-utils/lib/utils';
 import { hasClass } from 'dom-lib';
 
 type DefaultEvent = SyntheticEvent<*>;
@@ -30,6 +30,17 @@ class TreeNode extends React.Component<Props> {
   static defaultProps = {
     visible: true
   };
+
+  getTitle() {
+    const { label } = this.props;
+    if (typeof label === 'string') {
+      return label;
+    } else if (React.isValidElement(label)) {
+      const nodes = reactToString(label);
+      return;
+      nodes.join('');
+    }
+  }
 
   /**
    * 展开收缩节点
@@ -95,7 +106,7 @@ class TreeNode extends React.Component<Props> {
     return (
       <span
         className={`${classPrefix}-node-label`}
-        title={label}
+        title={this.getTitle()}
         data-layer={layer}
         data-key={key}
         role="button"
