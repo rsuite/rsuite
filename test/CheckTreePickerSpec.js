@@ -266,21 +266,6 @@ describe('CheckTreePicker', () => {
     assert.equal(findDOMNode(instance.menu).style.fontSize, fontSize);
   });
 
-  it('Should render node without checkbox', () => {
-    const data = [
-      {
-        value: 1,
-        label: 1
-      }
-    ];
-    const instance = ReactTestUtils.renderIntoDocument(
-      <CheckTreePicker data={data} disabledCheckboxValues={[1]} />
-    );
-    const instanceDOM = findDOMNode(instance);
-    ReactTestUtils.Simulate.click(instanceDOM.querySelector(toggleCls));
-    assert.equal(instanceDOM.querySelectorAll(`${treeNodeCls}`).length, 0);
-  });
-
   it('Should load data async', () => {
     let activeNode = null;
     let layer = 0;
