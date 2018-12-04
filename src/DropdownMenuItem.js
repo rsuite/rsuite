@@ -168,9 +168,13 @@ class DropdownMenuItem extends React.Component<Props, State> {
   }
 }
 
-export default setDisplayName('DropdownMenuItem')(
-  defaultProps({
-    classPrefix: 'dropdown-item',
-    componentClass: SafeAnchor
-  })(DropdownMenuItem)
+const EnhancedDropdownMenuItem = defaultProps({
+  classPrefix: 'dropdown-item',
+  componentClass: SafeAnchor
+})(DropdownMenuItem);
+
+const Component: EnhancedDropdownMenuItem = setDisplayName('DropdownMenuItem')(
+  EnhancedDropdownMenuItem
 );
+
+export default Component;

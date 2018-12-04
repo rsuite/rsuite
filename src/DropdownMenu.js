@@ -33,7 +33,7 @@ type Props = {
   trigger?: Trigger | Array<Trigger>,
   eventKey?: any,
   onToggle?: (eventKey: any, event: SyntheticEvent<*>) => void,
-  openKeys?: Array<any>,
+  openKeys?: any[],
   expanded?: boolean,
   collapsible?: boolean
 };
@@ -173,4 +173,6 @@ const EnhancedDropdownMenu = defaultProps({
   classPrefix: 'dropdown-menu'
 })(DropdownMenu);
 
-export default setDisplayName('DropdownMenu')(EnhancedDropdownMenu);
+const Component: EnhancedDropdownMenu = setDisplayName('DropdownMenu')(EnhancedDropdownMenu);
+
+export default Component;

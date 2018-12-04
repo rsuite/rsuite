@@ -22,13 +22,16 @@ import {
   getDataGroupBy
 } from '../utils';
 
-import DropdownMenu from '../_picker/DropdownMenu';
-import DropdownMenuItem from '../_picker/DropdownMenuItem';
-import DropdownMenuCheckItem from '../_picker/DropdownMenuCheckItem';
-import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
-import onMenuKeyDown from '../_picker/onMenuKeyDown';
-import PickerToggle from '../_picker/PickerToggle';
-import MenuWrapper from '../_picker/MenuWrapper';
+import {
+  DropdownMenu,
+  DropdownMenuItem,
+  DropdownMenuCheckItem,
+  getToggleWrapperClassName,
+  onMenuKeyDown,
+  PickerToggle,
+  MenuWrapper
+} from '../_picker';
+
 import InputSearch from './InputSearch';
 import Tag from '../Tag';
 import type { Placement } from '../utils/TypeDefinition';
@@ -36,8 +39,8 @@ import type { Placement } from '../utils/TypeDefinition';
 type DefaultEvent = SyntheticEvent<*>;
 type DefaultEventFunction = (event: DefaultEvent) => void;
 type Props = {
-  data: Array<any>,
-  cacheData?: Array<any>,
+  data: any[],
+  cacheData?: any[],
   locale: Object,
   classPrefix?: string,
   className?: string,
@@ -48,12 +51,12 @@ type Props = {
   menuClassName?: string,
   menuStyle?: Object,
   disabled?: boolean,
-  disabledItemValues?: Array<any>,
+  disabledItemValues?: any[],
   maxHeight?: number,
   valueKey: string,
   labelKey: string,
-  value?: any | Array<any>,
-  defaultValue?: any | Array<any>,
+  value?: any | any[],
+  defaultValue?: any | any[],
   renderMenu?: (menu: React.Node) => React.Node,
   renderMenuItem?: (itemLabel: React.Node, item: Object) => React.Node,
   renderMenuGroup?: (title: React.Node, item: Object) => React.Node,
@@ -88,13 +91,13 @@ type Props = {
 };
 
 type State = {
-  data?: Array<any>,
-  value?: any | Array<any>,
+  data?: any[],
+  value?: any | any[],
   // Used to focus the active item  when trigger `onKeydown`
   focusItemValue?: any,
   searchKeyword: string,
   open?: boolean,
-  newData: Array<any>,
+  newData: any[],
   maxWidth: number
 };
 
@@ -362,7 +365,7 @@ class Dropdown extends React.Component<Props, State> {
     }
 
     // If the value is disabled in this option, it is returned.
-    if (disabledItemValues.some(item => item === focusItemValue)) {
+    if (disabledItemValues && disabledItemValues.some(item => item === focusItemValue)) {
       return;
     }
 
@@ -392,7 +395,7 @@ class Dropdown extends React.Component<Props, State> {
     }
 
     // If the value is disabled in this option, it is returned.
-    if (disabledItemValues.some(item => item === focusItemValue)) {
+    if (disabledItemValues && disabledItemValues.some(item => item === focusItemValue)) {
       return;
     }
 
@@ -545,7 +548,7 @@ class Dropdown extends React.Component<Props, State> {
     this.handleChange(value, event);
   };
 
-  removeLastItem = (event: DefaultEvent) => {
+  removeLastItem = (event: SyntheticInputEvent<*>) => {
     const tagName = _.get(event, 'target.tagName');
     if (tagName !== 'INPUT') {
       this.focusInput();

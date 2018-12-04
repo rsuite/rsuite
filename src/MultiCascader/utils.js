@@ -2,7 +2,7 @@
 
 import _ from 'lodash';
 
-export default function(props) {
+export default function(props: Object) {
   const { labelKey, valueKey, childrenKey } = props;
 
   /**
@@ -10,7 +10,7 @@ export default function(props) {
    * @param {*} item
    * @param {*} uncheckableItemValues
    */
-  function getChildrenValue(item: Object, uncheckableItemValues: Array<any>) {
+  function getChildrenValue(item: Object, uncheckableItemValues?: any[]) {
     let values = [];
 
     if (!item[childrenKey]) {
@@ -18,7 +18,7 @@ export default function(props) {
     }
 
     item[childrenKey].forEach(n => {
-      if (!uncheckableItemValues.some(v => v === n[valueKey])) {
+      if (uncheckableItemValues && !uncheckableItemValues.some(v => v === n[valueKey])) {
         values.push(n[valueKey]);
       }
       values = values.concat(getChildrenValue(n, uncheckableItemValues));
@@ -32,7 +32,7 @@ export default function(props) {
    * @param {*} item
    * @param {*} uncheckableItemValues
    */
-  function getParents(item: Object, uncheckableItemValues: Array<any>) {
+  function getParents(item: Object, uncheckableItemValues?: any[]) {
     let parents = [];
 
     if (!item.parent) {
@@ -49,7 +49,7 @@ export default function(props) {
    * 在 value 中的值存在级联的情况下
    * 通过 value 重新计算出一个新的 value
    */
-  function transformValue(value, flattenData, uncheckableItemValues) {
+  function transformValue(value: any[], flattenData: any[], uncheckableItemValues?: any[]): any[] {
     let tempRemovedValue = [];
     let nextValue = [];
 
@@ -59,13 +59,8 @@ export default function(props) {
         continue;
       }
 
-      let sv = splitValue(
-        flattenData.find(v => v[valueKey] === value[i]),
-        true,
-        value,
-        uncheckableItemValues
-      );
-
+      let item: any = flattenData.find(v => v[valueKey] === value[i]);
+      let sv = splitValue(item, true, value, uncheckableItemValues);
       tempRemovedValue = _.uniq(tempRemovedValue.concat(sv.removedValue));
 
       // 获取到所有相关的值
@@ -75,7 +70,7 @@ export default function(props) {
     // 最后遍历所有的 nextValue, 如果它的父节点也在nextValue则删除
     return nextValue.filter(v => {
       const item = flattenData.find(n => n[valueKey] === v);
-      if (item.parent && nextValue.some(v => v === item.parent[valueKey])) {
+      if (item && item.parent && nextValue.some(v => v === item.parent[valueKey])) {
         return false;
       }
       return true;
@@ -92,8 +87,8 @@ export default function(props) {
   function splitValue(
     item: Object,
     checked: boolean,
-    value: Array<any>,
-    uncheckableItemValues: Array<any>
+    value: any[],
+    uncheckableItemValues?: any[] = []
   ) {
     const itemValue = item[valueKey];
     const childrenValue = getChildrenValue(item, uncheckableItemValues);
@@ -147,9 +142,12 @@ export default function(props) {
       });
     }
 
+    const uniqValue: any[] = _.uniq(nextValue);
+    const uniqRemovedValue: any[] = _.uniq(removedValue);
+
     return {
-      value: _.uniq(nextValue),
-      removedValue: _.uniq(removedValue)
+      value: uniqValue,
+      removedValue: uniqRemovedValue
     };
   }
 
@@ -158,7 +156,7 @@ export default function(props) {
    * @param {*} value
    * @param {*} item
    */
-  function removeAllChildrenValue(value, item) {
+  function removeAllChildrenValue(value: any, item: Object) {
     let removedValue = [];
     if (!item[childrenKey]) {
       return;
@@ -173,7 +171,7 @@ export default function(props) {
     return removedValue;
   }
 
-  function getOtherItemValuesByUnselectChild(itemNode, value) {
+  function getOtherItemValuesByUnselectChild(itemNode: Object, value: any) {
     const parentValues = [];
     const itemValues = [];
 
@@ -222,7 +220,7 @@ export default function(props) {
    * 扁平化一个树结构
    * @param {*} data
    */
-  function flattenNodes(data) {
+  function flattenNodes(data: any[]) {
     const flattenItems = [];
 
     function loop(data, parent) {
@@ -247,7 +245,7 @@ export default function(props) {
     return flattenItems;
   }
 
-  function getItems(selectNode: Object, flattenData: Array<any>) {
+  function getItems(selectNode?: Object, flattenData: any[]): any[] {
     const items = [];
 
     function findParent(item) {
@@ -260,7 +258,9 @@ export default function(props) {
       }
     }
 
-    findParent(selectNode);
+    if (selectNode) {
+      findParent(selectNode);
+    }
 
     items.push(flattenData.filter(item => item.parent === null));
 

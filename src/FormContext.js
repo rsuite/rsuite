@@ -3,7 +3,16 @@
 import * as React from 'react';
 
 function createContext(defaultValue) {
-  return React.createContext ? React.createContext() : null;
+  const context = {
+    Provider: React.Fragment,
+    Consumer: React.Fragment
+  };
+
+  const ReactContext: React.Context<any> = React.createContext
+    ? React.createContext(defaultValue)
+    : context;
+
+  return ReactContext;
 }
 
 export const FormContext = createContext({});

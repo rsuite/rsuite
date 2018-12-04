@@ -8,13 +8,11 @@ import { IntlProvider } from 'rsuite-intl';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import { polyfill } from 'react-lifecycles-compat';
 
-import PickerToggle from '../_picker/PickerToggle';
-import MenuWrapper from '../_picker/MenuWrapper';
-import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
 import Calendar from '../Calendar';
 import Toolbar from './Toolbar';
 import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
 import disabledTime, { calendarOnlyProps } from '../utils/disabledTime';
+import { PickerToggle, MenuWrapper, getToggleWrapperClassName } from '../_picker';
 import { shouldOnlyTime } from '../utils/formatUtils';
 import type { Placement } from '../utils/TypeDefinition';
 

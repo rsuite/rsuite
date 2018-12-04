@@ -33,8 +33,10 @@ class Sidebar extends React.Component<Props> {
   }
 }
 
-export default setDisplayName('Sidebar')(
-  defaultProps({
-    classPrefix: 'sidebar'
-  })(Sidebar)
-);
+const EnhancedSidebar = defaultProps({
+  classPrefix: 'sidebar'
+})(Sidebar);
+
+const Component: EnhancedSidebar = setDisplayName('Sidebar')(EnhancedSidebar);
+
+export default Component;

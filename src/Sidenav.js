@@ -19,16 +19,16 @@ type Props = {
   className?: string,
   expanded: boolean,
   appearance: 'default' | 'inverse' | 'subtle',
-  defaultOpenKeys?: Array<any>,
-  openKeys?: Array<any>,
-  onOpenChange?: (openKeys: Array<any>, event: SyntheticEvent<*>) => void,
+  defaultOpenKeys?: any[],
+  openKeys?: any[],
+  onOpenChange?: (openKeys: any[], event: SyntheticEvent<*>) => void,
   activeKey?: any,
-  onSelect?: (eventKey: Array<any>, event: SyntheticEvent<*>) => void,
+  onSelect?: (eventKey: any[], event: SyntheticEvent<*>) => void,
   componentClass: React.ElementType
 };
 
 type State = {
-  openKeys?: Array<any>
+  openKeys?: any[]
 };
 
 class Sidenav extends React.Component<Props, State> {

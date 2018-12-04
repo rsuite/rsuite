@@ -4,6 +4,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import setStatic from 'recompose/setStatic';
 import setDisplayName from 'recompose/setDisplayName';
+import Slide from 'rsuite-utils/lib/Animation/Slide';
 
 import Modal from './Modal';
 import ModalBody from './ModalBody';
@@ -34,7 +35,21 @@ class Drawer extends React.Component<Props> {
       [addPrefix('full')]: full
     });
 
-    return <Modal {...props} drawer classPrefix={classPrefix} className={classes} show={show} />;
+    const animationProps = {
+      placement
+    };
+
+    return (
+      <Modal
+        {...props}
+        drawer
+        classPrefix={classPrefix}
+        className={classes}
+        show={show}
+        animation={Slide}
+        animationProps={animationProps}
+      />
+    );
   }
 }
 

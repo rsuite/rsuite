@@ -19,8 +19,10 @@ class Footer extends React.Component<Props> {
   }
 }
 
-export default setDisplayName('Footer')(
-  defaultProps({
-    classPrefix: 'footer'
-  })(Footer)
-);
+const EnhancedFooter = defaultProps({
+  classPrefix: 'footer'
+})(Footer);
+
+const Component: EnhancedFooter = setDisplayName('Footer')(EnhancedFooter);
+
+export default Component;

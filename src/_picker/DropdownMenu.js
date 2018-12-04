@@ -13,10 +13,10 @@ type DefaultEvent = SyntheticEvent<*>;
 type DefaultEventFunction = (event: DefaultEvent) => void;
 type Props = {
   classPrefix: string,
-  data?: Array<any>,
+  data?: any[],
   group?: boolean,
-  disabledItemValues: Array<any>,
-  activeItemValues: Array<any>,
+  disabledItemValues: any[],
+  activeItemValues: any[],
   focusItemValue?: any,
   maxHeight?: number,
   valueKey: string,
@@ -60,6 +60,10 @@ class DropdownMenu extends React.Component<Props> {
   menuItems = {};
   menuBodyContainer = {};
 
+  bindMenuBodyContainerRef = (ref: React.ElementRef<*>) => {
+    this.menuBodyContainer = ref;
+  };
+
   updateScrollPoistion() {
     const activeItem = this.menuBodyContainer.querySelector(`.${this.addPrefix('item-focus')}`);
     if (!activeItem) {
@@ -92,13 +96,12 @@ class DropdownMenu extends React.Component<Props> {
     return itemData;
   };
 
-  renderItems() {
+  createMenuItems = (items: any[] = [], groupId?: string | number = 0) => {
     const {
       activeItemValues,
       focusItemValue,
       valueKey,
       labelKey,
-      data,
       renderMenuItem,
       renderMenuGroup,
       onGroupTitleClick,
@@ -108,82 +111,77 @@ class DropdownMenu extends React.Component<Props> {
       dropdownMenuItemComponentClass: DropdownMenuItem
     } = this.props;
 
-    this.menuItems = {};
+    const nextItems: any[] = items.map((item: any, index: number) => {
+      const value = item[valueKey];
+      const label = item[labelKey];
 
-    const createMenuItems = (items = [], groupId = 0) =>
-      items.map((item, index) => {
-        const value = item[valueKey];
-        const label = item[labelKey];
+      if (_.isUndefined(label) && _.isUndefined(item.groupTitle)) {
+        throw Error(`labelKey "${labelKey}" is not defined in "data" : ${index}`);
+      }
 
-        if (_.isUndefined(label) && _.isUndefined(item.groupTitle)) {
-          throw Error(`labelKey "${labelKey}" is not defined in "data" : ${index}`);
-        }
+      // Use `value` in keys when If `value` is string or number
+      const onlyKey = _.isString(value) || _.isNumber(value) ? value : index;
 
-        // Use `value` in keys when If `value` is string or number
-        const onlyKey = _.isString(value) || _.isNumber(value) ? value : index;
-
-        /**
-         * Render <DropdownMenuGroup>
-         * when if `group` is enabled and `itme.children` is array
-         */
-        if (group && _.isArray(item.children)) {
-          return (
-            <DropdownMenuGroup
-              classPrefix={this.addPrefix('group')}
-              key={onlyKey}
-              title={renderMenuGroup ? renderMenuGroup(item.groupTitle, item) : item.groupTitle}
-              onClick={onGroupTitleClick}
-            >
-              {createMenuItems(item.children, onlyKey)}
-            </DropdownMenuGroup>
-          );
-        } else if (_.isUndefined(value) && !_.isArray(item.children)) {
-          throw Error(`valueKey "${valueKey}" is not defined in "data" : ${index} `);
-        }
-
-        const disabled = disabledItemValues.some(disabledValue =>
-          shallowEqual(disabledValue, value)
-        );
-
+      /**
+       * Render <DropdownMenuGroup>
+       * when if `group` is enabled and `itme.children` is array
+       */
+      if (group && _.isArray(item.children)) {
         return (
-          <DropdownMenuItem
-            classPrefix={dropdownMenuItemClassPrefix}
-            getItemData={this.getItemData.bind(this, item)}
-            key={`${groupId}-${onlyKey}`}
-            disabled={disabled}
-            active={
-              !_.isUndefined(activeItemValues) && activeItemValues.some(v => shallowEqual(v, value))
-            }
-            focus={!_.isUndefined(focusItemValue) && shallowEqual(focusItemValue, value)}
-            value={value}
-            ref={this.bindMenuItems.bind(this, disabled, `${groupId}-${onlyKey}`)}
-            onSelect={this.handleSelect.bind(this, item)}
+          <DropdownMenuGroup
+            classPrefix={this.addPrefix('group')}
+            key={onlyKey}
+            title={renderMenuGroup ? renderMenuGroup(item.groupTitle, item) : item.groupTitle}
+            onClick={onGroupTitleClick}
           >
-            {renderMenuItem ? renderMenuItem(label, item) : label}
-          </DropdownMenuItem>
+            {this.createMenuItems(item.children, onlyKey)}
+          </DropdownMenuGroup>
         );
-      });
+      } else if (_.isUndefined(value) && !_.isArray(item.children)) {
+        throw Error(`valueKey "${valueKey}" is not defined in "data" : ${index} `);
+      }
 
-    return createMenuItems(data);
+      const disabled = disabledItemValues.some(disabledValue => shallowEqual(disabledValue, value));
+
+      return (
+        <DropdownMenuItem
+          classPrefix={dropdownMenuItemClassPrefix}
+          getItemData={this.getItemData.bind(this, item)}
+          key={`${groupId}-${onlyKey}`}
+          disabled={disabled}
+          active={
+            !_.isUndefined(activeItemValues) && activeItemValues.some(v => shallowEqual(v, value))
+          }
+          focus={!_.isUndefined(focusItemValue) && shallowEqual(focusItemValue, value)}
+          value={value}
+          ref={this.bindMenuItems.bind(this, disabled, `${groupId}-${onlyKey}`)}
+          onSelect={this.handleSelect.bind(this, item)}
+        >
+          {renderMenuItem ? renderMenuItem(label, item) : label}
+        </DropdownMenuItem>
+      );
+    });
+
+    return nextItems;
+  };
+
+  renderItems() {
+    const { data } = this.props;
+    this.menuItems = {};
+    return this.createMenuItems(data);
   }
 
   render() {
     const { maxHeight, className, style, classPrefix, ...rest } = this.props;
     const classes = classNames(this.addPrefix('items'), className);
     const unhandled = getUnhandledProps(DropdownMenu, rest);
+    const styles = {
+      ...style,
+      maxHeight
+    };
 
     return (
-      <div
-        {...unhandled}
-        className={classes}
-        ref={ref => {
-          this.menuBodyContainer = ref;
-        }}
-        style={{
-          ...style,
-          maxHeight
-        }}
-      >
+      <div {...unhandled} className={classes} ref={this.bindMenuBodyContainerRef} style={styles}>
         <ul>{this.renderItems()}</ul>
       </div>
     );

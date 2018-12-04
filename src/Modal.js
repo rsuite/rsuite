@@ -11,7 +11,7 @@ import setStatic from 'recompose/setStatic';
 import bindElementResize, { unbind as unbindElementResize } from 'element-resize-event';
 
 import BaseModal from 'rsuite-utils/lib/Overlay/Modal';
-import Fade from 'rsuite-utils/lib/Animation/Fade';
+import Bounce from 'rsuite-utils/lib/Animation/Bounce';
 import { on, getHeight, isOverflowing, getScrollbarSize, ownerDocument } from 'dom-lib';
 
 import { prefix, ReactChildren, defaultProps, createChainedFunction } from './utils';
@@ -24,7 +24,6 @@ import ModalHeader from './ModalHeader';
 import ModalTitle from './ModalTitle';
 import ModalFooter from './ModalFooter';
 
-const TRANSITION_DURATION = 300;
 const BACKDROP_TRANSITION_DURATION = 150;
 
 type Props = {
@@ -50,18 +49,20 @@ type Props = {
   enforceFocus?: boolean,
   overflow?: boolean,
   drawer?: boolean,
-  animation?: boolean,
+  animation?: boolean | Object,
   dialogComponentClass: React.ElementType,
-  onEscapeKeyUp?: Function,
-  onBackdropClick?: Function,
-  onShow?: Function,
-  onHide?: Function,
-  onEnter?: Function,
-  onEntering?: Function,
-  onEntered?: Function,
-  onExit?: Function,
-  onExiting?: Function,
-  onExited?: Function
+  onEscapeKeyUp?: () => void,
+  onBackdropClick?: () => void,
+  onShow?: (event: SyntheticEvent<*>) => void,
+  onHide?: (event: SyntheticEvent<*>) => void,
+  onEnter?: () => void,
+  onEntering?: () => void,
+  onEntered?: () => void,
+  onExit?: () => void,
+  onExiting?: () => void,
+  onExited?: () => void,
+  animationProps?: Object,
+  animationTimeout?: number
 };
 
 type State = {
@@ -76,7 +77,8 @@ class Modal extends React.Component<Props, State> {
     keyboard: true,
     autoFocus: true,
     enforceFocus: true,
-    animation: true,
+    animation: Bounce,
+    animationTimeout: 300,
     dialogComponentClass: ModalDialog,
     overflow: true
   };
@@ -166,7 +168,7 @@ class Modal extends React.Component<Props, State> {
   contentElement = null;
 
   handleShow = () => {
-    const dialogElement = findDOMNode(this.dialog);
+    const dialogElement: any = findDOMNode(this.dialog);
 
     this.updateModalStyles(dialogElement);
     this.contentElement = dialogElement.querySelector(`.${this.addPrefix('content')}`);
@@ -227,6 +229,8 @@ class Modal extends React.Component<Props, State> {
       size,
       full,
       dialogComponentClass,
+      animationProps,
+      animationTimeout,
       ...rest
     } = this.props;
 
@@ -272,14 +276,16 @@ class Modal extends React.Component<Props, State> {
       <BaseModal
         ref={this.modalRef}
         show={show}
+        className={this.addPrefix('wrapper')}
         onEntering={createChainedFunction(this.handleShow, this.props.onEntering)}
         onExited={createChainedFunction(this.handleHide, this.props.onExited)}
         backdropClassName={classNames(this.addPrefix('backdrop'), backdropClassName, inClass)}
         containerClassName={classNames(this.addPrefix('open'), {
           [this.addPrefix('has-backdrop')]: rest.backdrop
         })}
-        transition={animation ? Fade : undefined}
-        dialogTransitionTimeout={TRANSITION_DURATION}
+        transition={animation ? animation : undefined}
+        animationProps={animationProps}
+        dialogTransitionTimeout={animationTimeout}
         backdropTransitionTimeout={BACKDROP_TRANSITION_DURATION}
         {...parentProps}
       >
@@ -299,4 +305,6 @@ setStatic('Title', ModalTitle)(EnhancedModal);
 setStatic('Footer', ModalFooter)(EnhancedModal);
 setStatic('Dialog', ModalDialog)(EnhancedModal);
 
-export default setDisplayName('Modal')(EnhancedModal);
+const Component: EnhancedModal = setDisplayName('Modal')(EnhancedModal);
+
+export default Component;

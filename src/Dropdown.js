@@ -265,4 +265,6 @@ const EnhancedDropdown = defaultProps({
 setStatic('Item', DropdownMenuItem)(EnhancedDropdown);
 setStatic('Menu', DropdownMenu)(EnhancedDropdown);
 
-export default setDisplayName('Dropdown')(EnhancedDropdown);
+const Component: EnhancedDropdown = setDisplayName('Dropdown')(EnhancedDropdown);
+
+export default Component;

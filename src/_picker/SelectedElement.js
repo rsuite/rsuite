@@ -4,7 +4,7 @@ import * as React from 'react';
 import { reactToString } from 'rsuite-utils/lib/utils';
 
 type Props = {
-  selectedItems: Array<any>,
+  selectedItems: any[],
   prefix: (name: string) => string,
   valueKey: string,
   labelKey: string,

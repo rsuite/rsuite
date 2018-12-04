@@ -120,8 +120,10 @@ class Radio extends React.Component<Props, State> {
   }
 }
 
-export default setDisplayName('Radio')(
-  defaultProps({
-    classPrefix: 'radio'
-  })(Radio)
-);
+const EnhancedRadio = defaultProps({
+  classPrefix: 'radio'
+})(Radio);
+
+const Component: EnhancedRadio = setDisplayName('Radio')(EnhancedRadio);
+
+export default Component;
