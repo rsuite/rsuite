@@ -6,15 +6,12 @@
 
 // Base class
 .@{ns}tooltip {
-  // Our parent element can be arbitrary since tooltips are by default inserted as a sibling of their target element.
-  // So reset our font and text properties to avoid inheriting weird values.
-  .reset-text(@font-family-base, @line-height-small);
-
   position: absolute;
   z-index: @zindex-tooltip;
   display: block;
   font-size: @font-size-small;
   opacity: 0;
+  line-height: @line-height-small;
 
   &.fade {
     transition: opacity 0.1s linear, transform 0.1s ease-out;
@@ -49,7 +46,7 @@
 // Common style for .placement-top*
 .@{ns}tooltip[class*='placement-top'] {
   margin-top: -@tooltip-arrow-width;
-  .set-translate(0, -@tooltip-translate-distance);
+  .set-translate-transition(0, -@tooltip-translate-distance);
 
   .@{ns}tooltip-arrow {
     bottom: -@tooltip-arrow-width;
@@ -66,7 +63,7 @@
 // Common style for .placement-bottom*
 .@{ns}tooltip[class*='placement-bottom'] {
   margin-top: @tooltip-arrow-width;
-  .set-translate(0, @tooltip-translate-distance);
+  .set-translate-transition(0, @tooltip-translate-distance);
 
   .@{ns}tooltip-arrow {
     top: -@tooltip-arrow-width;
@@ -83,7 +80,7 @@
 // Common style for .placement-right*
 .@{ns}tooltip[class*='placement-right'] {
   margin-left: @tooltip-arrow-width;
-  .set-translate(@tooltip-translate-distance, 0);
+  .set-translate-transition(@tooltip-translate-distance, 0);
 
   .@{ns}tooltip-arrow {
     left: -@tooltip-arrow-width;
@@ -100,7 +97,7 @@
 // Common style for .placement-lef*
 .@{ns}tooltip[class*='placement-left'] {
   margin-left: -@tooltip-arrow-width;
-  .set-translate(-@tooltip-translate-distance, 0);
+  .set-translate-transition(-@tooltip-translate-distance, 0);
 
   .@{ns}tooltip-arrow {
     right: -@tooltip-arrow-width;

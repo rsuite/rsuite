@@ -29,7 +29,7 @@
     cursor: pointer;
     position: relative;
 
-    // Only has 1 level
+    // Only has the first level
     .without-children & {
       padding-left: 34px; //text gap + checkbox space
 
@@ -142,8 +142,7 @@
 
   // check mark
   .@{ctpns}-view-inner::after {
-    .opacity(0);
-
+    opacity: 0;
     transform: rotate(45deg) scale(0);
 
     .@{ctpns}-view-node-checked & {
@@ -158,8 +157,7 @@
     }
 
     .@{ctpns}-view-node-indeterminate & {
-      .opacity(1);
-
+      opacity: 1;
       border: solid @B000;
       height: 9px;
       border-width: 0 0 2px;

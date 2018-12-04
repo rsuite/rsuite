@@ -1,31 +1,6 @@
-// Opacity
-
-.opacity(@opacity) {
-  opacity: @opacity;
-}
-
 // WebKit-style focus
 .tab-focus() {
   outline: 0;
-}
-
-.reset-text(@font-family:@font-family-base,@line-height:@line-height-base) {
-  font-family: @font-family;
-  // We deliberately do NOT reset font-size.
-  font-style: normal;
-  font-weight: normal;
-  letter-spacing: normal;
-  line-break: auto;
-  line-height: @line-height;
-  text-align: left; // Fallback for where `start` is not supported
-  text-align: start;
-  text-decoration: none;
-  text-shadow: none;
-  text-transform: none;
-  white-space: normal;
-  word-break: normal;
-  word-spacing: normal;
-  word-wrap: normal;
 }
 
 .reset-link-text-decoration(@text-decoration:none) {
@@ -67,7 +42,7 @@
   width: 100% - @substract;
 }
 
-//dorp-shadow
+//drop-shadow
 .drop-shadow(@shadow) {
   filter: drop-shadow(@shadow);
   // IE don't support `drop-shadow`,replace it with `box-shadow`.
@@ -84,21 +59,60 @@
   }
 }
 
-.break-word() {
-  word-wrap: break-word;
-  word-break: normal;
-}
-
 .icon-font() {
   font-family: @font-family-icon;
   font-style: normal;
   line-height: 1;
 }
 
-.set-translate(@translateX:0,@translateY:0) {
+.set-translate-transition(@translateX:0,@translateY:0) {
   transform: translate(0, 0);
 
   &.in {
     transform: translate(@translateX, @translateY);
   }
+}
+
+// Clearfix
+//
+// For modern browsers
+// 1. The space content is one way to avoid an Opera bug when the
+//    contenteditable attribute is included anywhere else in the document.
+//    Otherwise it causes space to appear at the top and bottom of elements
+//    that are clearfixed.
+// 2. The use of `table` rather than `block` is only necessary if using
+//    `:before` to contain the top-margins of child elements.
+//
+// Source: http://nicolasgallagher.com/micro-clearfix-hack/
+.clearfix() {
+  &::before,
+  &::after {
+    content: ' '; // 1
+    display: table; // 2
+  }
+
+  &::after {
+    clear: both;
+  }
+}
+
+// Single side border-radius
+.border-top-radius(@radius) {
+  border-top-right-radius: @radius;
+  border-top-left-radius: @radius;
+}
+
+.border-right-radius(@radius) {
+  border-bottom-right-radius: @radius;
+  border-top-right-radius: @radius;
+}
+
+.border-bottom-radius(@radius) {
+  border-bottom-right-radius: @radius;
+  border-bottom-left-radius: @radius;
+}
+
+.border-left-radius(@radius) {
+  border-bottom-left-radius: @radius;
+  border-top-left-radius: @radius;
 }
