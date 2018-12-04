@@ -10,7 +10,7 @@ const mergeObject = (list: Array<Object>) =>
     return a;
   }, {});
 
-const withLocale = (combineKeys: Array<string> = []) => BaseComponent => {
+const withLocale = (combineKeys: string[] = []) => BaseComponent => {
   const factory = createFactory(BaseComponent);
 
   class WithLocale extends Component {

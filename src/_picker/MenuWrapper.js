@@ -30,7 +30,8 @@ const resizePlacement = [
 type Props = {
   classPrefix?: string,
   className?: string,
-  getPositionInstance?: () => any
+  getPositionInstance?: () => any,
+  placement?: string
 };
 
 class MenuWrapper extends React.Component<Props> {

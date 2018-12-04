@@ -16,8 +16,8 @@ import type { Placement } from './utils/TypeDefinition';
 
 type DefaultEvent = SyntheticEvent<*>;
 type ItemDataType = {
-  label: any,
-  value: any
+  label: React.Node,
+  value: string
 };
 
 type Props = {
@@ -32,7 +32,7 @@ type Props = {
   menuClassName?: string,
   placement?: Placement,
   onFocus?: (event: DefaultEvent) => void,
-  onMenuFocus?: (focusItemValue: any, event: DefaultEvent) => void,
+  onMenuFocus?: (focusItemValue: string, event: DefaultEvent) => void,
   onBlur?: (event: DefaultEvent) => void,
   onKeyDown?: (event: DefaultEvent) => void,
   onOpen?: () => void,
@@ -47,7 +47,7 @@ type Props = {
 type State = {
   value: string,
   focus?: boolean,
-  focusItemValue?: any
+  focusItemValue?: string
 };
 
 class AutoComplete extends React.Component<Props, State> {
@@ -73,10 +73,13 @@ class AutoComplete extends React.Component<Props, State> {
     return _.isUndefined(value) ? this.state.value : value;
   }
 
-  getData(props) {
-    const { data = [] } = props || this.props;
+  getData(props): any {
+    const { data } = props || this.props;
+    if (!data) {
+      return [];
+    }
     return data.map(item => {
-      if (_.isString(item)) {
+      if (typeof item === 'string') {
         return {
           value: item,
           label: item
@@ -89,7 +92,7 @@ class AutoComplete extends React.Component<Props, State> {
     });
   }
 
-  getFocusableMenuItems = (): Array<any> => {
+  getFocusableMenuItems = (): any[] => {
     const data = this.getData();
     if (!data) {
       return [];

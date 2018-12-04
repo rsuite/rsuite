@@ -17,12 +17,12 @@ const guid = (num = 8) =>
     .slice(0, num)
     .toUpperCase();
 
-const getFiles = (event: SyntheticInputEvent<*>) => {
+const getFiles = (event: SyntheticDragEvent<*> | SyntheticInputEvent<*>) => {
   if (event.dataTransfer && typeof event.dataTransfer === 'object') {
     return event.dataTransfer.files;
   }
   if (event.target) {
-    return event.target.files;
+    return _.get(event, 'target.files');
   }
   return [];
 };

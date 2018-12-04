@@ -33,7 +33,7 @@ type Props = {
   trigger?: Trigger | Array<Trigger>,
   eventKey?: any,
   onToggle?: (eventKey: any, event: SyntheticEvent<*>) => void,
-  openKeys?: Array<any>,
+  openKeys?: any[],
   expanded?: boolean,
   collapsible?: boolean
 };

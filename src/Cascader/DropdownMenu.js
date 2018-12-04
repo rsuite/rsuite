@@ -13,8 +13,8 @@ import DropdownMenuItem from '../_picker/DropdownMenuItem';
 type DefaultEvent = SyntheticEvent<*>;
 type Props = {
   classPrefix: string,
-  data: Array<any>,
-  disabledItemValues: Array<any>,
+  data: any[],
+  disabledItemValues: any[],
   activeItemValue?: any,
   childrenKey: string,
   valueKey: string,
@@ -26,14 +26,14 @@ type Props = {
   renderMenu?: (itemLabel: React.Node, item: Object, parentNode: Object) => React.Node,
   onSelect?: (
     node: any,
-    cascadeItems: Array<any>,
-    activePaths: Array<any>,
+    cascadeItems: any[],
+    activePaths: any[],
     isLeafNode: boolean,
     event: DefaultEvent
   ) => void,
 
-  cascadeItems: Array<any>,
-  cascadePathItems: Array<any>
+  cascadeItems: any[],
+  cascadePathItems: any[]
 };
 
 class DropdownMenu extends React.Component<Props> {
@@ -55,7 +55,7 @@ class DropdownMenu extends React.Component<Props> {
     this.scrollToActiveItemTop();
   }
 
-  getCascadeItems(items: Array<any>, layer: number, node: any, isLeafNode: boolean) {
+  getCascadeItems(items: any[], layer: number, node: any, isLeafNode: boolean) {
     const { cascadeItems = [], cascadePathItems } = this.props;
     const nextItems = [];
     const nextPathItems = [];

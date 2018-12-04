@@ -1,5 +1,5 @@
-// flow-typed signature: ababb4f540ef52bbdbb2fdd0e473eb0d
-// flow-typed version: 245513abee/recompose_v0.x.x/flow_>=v0.57.x
+// flow-typed signature: d62fea90abf81b2475b65e2c036c2f4f
+// flow-typed version: 1bff4b8b05/recompose_v0.26.x/flow_>=v0.57.x
 
 /**
  * 1) Types give additional constraint on a language, recompose was written on the untyped language

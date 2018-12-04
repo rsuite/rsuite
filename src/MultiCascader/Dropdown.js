@@ -34,8 +34,8 @@ type Props = {
   appearance: 'default' | 'subtle',
   classPrefix: string,
   cascade: boolean,
-  data: Array<any>,
-  disabledItemValues?: Array<any>,
+  data: any[],
+  disabledItemValues?: any[],
   className?: string,
   container?: HTMLElement | (() => HTMLElement),
   containerPadding?: number,
@@ -47,11 +47,11 @@ type Props = {
   valueKey: string,
   labelKey: string,
   renderMenu?: (itemLabel: React.Node, item: Object) => React.Node,
-  renderValue?: (value?: Array<any>, selectedItems: Array<any>) => React.Node,
+  renderValue?: (value?: any[], selectedItems: any[]) => React.Node,
   renderExtraFooter?: () => React.Node,
   disabled?: boolean,
-  value?: Array<any>,
-  defaultValue?: Array<any>,
+  value?: any[],
+  defaultValue?: any[],
   placeholder?: string,
   onChange?: (value: any, event: DefaultEvent) => void,
   onOpen?: () => void,
@@ -65,11 +65,11 @@ type Props = {
   onExited?: () => void,
   onSelect?: (
     value: any,
-    activePaths: Array<any>,
-    concat: (data: Array<any>, children: Array<any>) => Array<any>,
+    activePaths: any[],
+    concat: (data: any[], children: any[]) => any[],
     event: DefaultEvent
   ) => void,
-  locale?: Object,
+  locale: Object,
   cleanable?: boolean,
   open?: boolean,
   defaultOpen?: boolean,
@@ -83,17 +83,17 @@ type Props = {
   menuWidth?: number,
   menuHeight?: number,
   style?: Object,
-  uncheckableItemValues?: Array<any>
+  uncheckableItemValues?: any[]
 };
 
 type State = {
   selectNode?: any,
-  value?: Array<any>,
-  prevValue?: Array<any>,
-  activePaths: Array<any>,
-  items?: Array<any>,
-  data: Array<any>,
-  flattenData: Array<any>
+  value?: any[],
+  prevValue?: any[],
+  activePaths: any[],
+  items?: any[],
+  data: any[],
+  flattenData: any[]
 };
 
 class Dropdown extends React.Component<Props, State> {
@@ -115,6 +115,9 @@ class Dropdown extends React.Component<Props, State> {
     placement: 'bottomLeft'
   };
 
+  static utils = {};
+
+  isControlled = null;
   constructor(props: Props) {
     super(props);
 
@@ -146,7 +149,7 @@ class Dropdown extends React.Component<Props, State> {
     };
   }
 
-  static getCascadeState(nextProps: Props, flattenData: Array<any>, nextValue: Array<any>) {
+  static getCascadeState(nextProps: Props, flattenData: any[], nextValue?: any[]) {
     const { data, cascade, value, defaultValue, uncheckableItemValues, valueKey } = nextProps;
     let cascadeValue = nextValue || value || defaultValue || [];
 
@@ -168,7 +171,7 @@ class Dropdown extends React.Component<Props, State> {
     const { data, labelKey, valueKey, childrenKey, cascade, uncheckableItemValues } = nextProps;
 
     let value = nextProps.value || prevState.value || [];
-    let { prevValue, flattenData, selectNode, items } = prevState;
+    let { prevValue, flattenData, selectNode = {}, items } = prevState;
 
     const isChangedData = data !== prevState.data;
     const isChangedValue = !shallowEqualArray(prevValue, nextProps.value);
@@ -190,11 +193,11 @@ class Dropdown extends React.Component<Props, State> {
         return item;
       });
 
-      if (newChildren.length) {
+      if (newChildren.length && items) {
         items[items.length - 1] = newChildren;
       }
 
-      const nextState = {
+      const nextState: Object = {
         selectNode: nextSelectNode,
         flattenData,
         data,
@@ -241,7 +244,7 @@ class Dropdown extends React.Component<Props, State> {
     onChange && onChange(value, event);
   };
 
-  handleSelect = (node: Object, cascadeItems, activePaths: Array<any>, event: DefaultEvent) => {
+  handleSelect = (node: Object, cascadeItems, activePaths: any[], event: DefaultEvent) => {
     const { onSelect, valueKey } = this.props;
 
     this.setState({
@@ -284,7 +287,7 @@ class Dropdown extends React.Component<Props, State> {
       return;
     }
     const nextState = {
-      value: null,
+      value: [],
       activePaths: []
     };
     this.setState(nextState, () => {

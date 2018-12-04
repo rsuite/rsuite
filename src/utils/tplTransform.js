@@ -7,7 +7,7 @@ const toJSX = (node, key) => (typeof node !== 'undefined' ? <span key={key}>{nod
  * output:
  * Show <span><i>100</i></span> data
  */
-export default (pattern: string, ...data: Array<any>) =>
+export default (pattern: string, ...data: any[]) =>
   pattern
     .split(/\{(\d+)\}/)
     .map((item, index) => (index % 2 ? toJSX(data[+item], index) : toJSX(item, index)))
