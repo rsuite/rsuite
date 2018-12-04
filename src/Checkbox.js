@@ -115,8 +115,10 @@ class Checkbox extends React.Component<Props, State> {
   }
 }
 
-export default setDisplayName('Checkbox')(
-  defaultProps({
-    classPrefix: 'checkbox'
-  })(Checkbox)
-);
+const EnhancedCheckBox = defaultProps({
+  classPrefix: 'checkbox'
+})(Checkbox);
+
+const Component: EnhancedCheckBox = setDisplayName('Checkbox')(EnhancedCheckBox);
+
+export default Component;

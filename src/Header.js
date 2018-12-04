@@ -19,8 +19,10 @@ class Header extends React.Component<Props> {
   }
 }
 
-export default setDisplayName('Header')(
-  defaultProps({
-    classPrefix: 'header'
-  })(Header)
-);
+const EnhancedHeader = defaultProps({
+  classPrefix: 'header'
+})(Header);
+
+const Component: EnhancedHeader = setDisplayName('Header')(EnhancedHeader);
+
+export default Component;

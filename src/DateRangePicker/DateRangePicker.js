@@ -8,14 +8,12 @@ import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import _ from 'lodash';
 
 import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
-import PickerToggle from '../_picker/PickerToggle';
-import MenuWrapper from '../_picker/MenuWrapper';
-import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
 import Toolbar from './Toolbar';
 import DatePicker from './DatePicker';
 import setTimingMargin from './setTimingMargin';
 import equalMoment from './equalMoment';
 import Type from './Type';
+import { PickerToggle, MenuWrapper, getToggleWrapperClassName } from '../_picker';
 import type { Placement } from '../utils/TypeDefinition';
 
 type Range = {

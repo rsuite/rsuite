@@ -305,4 +305,6 @@ setStatic('Title', ModalTitle)(EnhancedModal);
 setStatic('Footer', ModalFooter)(EnhancedModal);
 setStatic('Dialog', ModalDialog)(EnhancedModal);
 
-export default setDisplayName('Modal')(EnhancedModal);
+const Component: EnhancedModal = setDisplayName('Modal')(EnhancedModal);
+
+export default Component;

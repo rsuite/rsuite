@@ -20,8 +20,10 @@ class ModalBody extends React.Component<Props> {
   }
 }
 
-export default setDisplayName('ModalBody')(
-  defaultProps({
-    classPrefix: 'modal-body'
-  })(ModalBody)
-);
+const EnhancedModalBody = defaultProps({
+  classPrefix: 'modal-body'
+})(ModalBody);
+
+const Component: EnhancedModalBody = setDisplayName('ModalBody')(EnhancedModalBody);
+
+export default Component;

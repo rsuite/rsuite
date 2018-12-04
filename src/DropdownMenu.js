@@ -173,4 +173,6 @@ const EnhancedDropdownMenu = defaultProps({
   classPrefix: 'dropdown-menu'
 })(DropdownMenu);
 
-export default setDisplayName('DropdownMenu')(EnhancedDropdownMenu);
+const Component: EnhancedDropdownMenu = setDisplayName('DropdownMenu')(EnhancedDropdownMenu);
+
+export default Component;

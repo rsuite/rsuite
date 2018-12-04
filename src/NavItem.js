@@ -114,9 +114,11 @@ class NavItem extends React.Component<Props> {
   }
 }
 
-export default setDisplayName('NavItem')(
-  defaultProps({
-    classPrefix: 'nav-item',
-    componentClass: SafeAnchor
-  })(NavItem)
-);
+const EnhancedNavItem = defaultProps({
+  classPrefix: 'nav-item',
+  componentClass: SafeAnchor
+})(NavItem);
+
+const Component: EnhancedNavItem = setDisplayName('NavItem')(EnhancedNavItem);
+
+export default Component;
