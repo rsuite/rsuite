@@ -26,6 +26,7 @@ const treeNodeCheckedCls = `${treeViewCls}-node-checked`;
 const nodeChildrenOpenCls = `${treeViewCls}-open`;
 const expandIconWrapperCls = `${treeViewCls}-node-expand-icon-wrapper`;
 const searchInput = `${namespace}-search-bar-input`;
+const inputWrapperCls = `${treeViewCls}-input-wrapper`;
 
 const data = [
   {
@@ -350,7 +351,25 @@ describe('CheckTreePicker', () => {
 
   it('should render tree without checkbox', () => {
     const instance = mount(
-      <CheckTreePicker data={data} inline uncheckableItemValues={['tester0', 'disabled']} />
+      <CheckTreePicker
+        data={data}
+        inline
+        uncheckableItemValues={['tester0', 'disabled', 'tester1', 'tester2', 'Master']}
+      />
     );
+
+    assert.equal(instance.find(inputWrapperCls).length, 0);
+  });
+
+  it('should render tree node with custom dom', () => {
+    const customData = [
+      {
+        value: '1',
+        label: <span className="custom-label">1</span>
+      }
+    ];
+    const instance = mount(<CheckTreePicker data={customData} inline />);
+
+    assert.equal(instance.find('.custom-label').length, 1);
   });
 });
