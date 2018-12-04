@@ -282,12 +282,12 @@ class CheckTree extends React.Component<Props, States> {
   }
 
   getValue = (props: Props = this.props) => {
-    const { value, defaultValue } = props;
+    const { value, defaultValue, uncheckableItemValues = [] } = props;
     if (value && value.length) {
-      return value;
+      return value.filter(v => !uncheckableItemValues.includes(v));
     }
     if (defaultValue && defaultValue.length > 0) {
-      return defaultValue;
+      return defaultValue.filter(v => !uncheckableItemValues.includes(v));
     }
     return [];
   };
