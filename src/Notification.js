@@ -43,7 +43,7 @@ function proxy(type: string, config: Config) {
   Notify[type](config);
 }
 
-const sendMessage = _.curry(proxy);
+const sendMessage: any = _.curry(proxy);
 
 export default {
   open: sendMessage('open'),

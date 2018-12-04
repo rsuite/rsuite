@@ -18,8 +18,10 @@ class Content extends React.Component<Props> {
   }
 }
 
-export default setDisplayName('Content')(
-  defaultProps({
-    classPrefix: 'content'
-  })(Content)
-);
+const EnhancedContent = defaultProps({
+  classPrefix: 'content'
+})(Content);
+
+const Component: EnhancedContent = setDisplayName('Content')(EnhancedContent);
+
+export default Component;

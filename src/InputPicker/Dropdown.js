@@ -22,13 +22,16 @@ import {
   getDataGroupBy
 } from '../utils';
 
-import DropdownMenu from '../_picker/DropdownMenu';
-import DropdownMenuItem from '../_picker/DropdownMenuItem';
-import DropdownMenuCheckItem from '../_picker/DropdownMenuCheckItem';
-import getToggleWrapperClassName from '../_picker/getToggleWrapperClassName';
-import onMenuKeyDown from '../_picker/onMenuKeyDown';
-import PickerToggle from '../_picker/PickerToggle';
-import MenuWrapper from '../_picker/MenuWrapper';
+import {
+  DropdownMenu,
+  DropdownMenuItem,
+  DropdownMenuCheckItem,
+  getToggleWrapperClassName,
+  onMenuKeyDown,
+  PickerToggle,
+  MenuWrapper
+} from '../_picker';
+
 import InputSearch from './InputSearch';
 import Tag from '../Tag';
 import type { Placement } from '../utils/TypeDefinition';

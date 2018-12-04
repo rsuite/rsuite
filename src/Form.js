@@ -200,7 +200,7 @@ class Form extends React.Component<Props, State> {
     return this.formContextValue;
   }
 
-  checkErrorFromContext(children: React.Node) {
+  checkErrorFromContext(children?: React.Node) {
     const { errorFromContext } = this.props;
 
     if (errorFromContext) {

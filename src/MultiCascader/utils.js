@@ -142,9 +142,12 @@ export default function(props: Object) {
       });
     }
 
+    const uniqValue: any[] = _.uniq(nextValue);
+    const uniqRemovedValue: any[] = _.uniq(removedValue);
+
     return {
-      value: _.uniq(nextValue),
-      removedValue: _.uniq(removedValue)
+      value: uniqValue,
+      removedValue: uniqRemovedValue
     };
   }
 

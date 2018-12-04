@@ -8,7 +8,11 @@ function createContext(defaultValue) {
     Consumer: React.Fragment
   };
 
-  return React.createContext ? React.createContext(defaultValue) : context;
+  const ReactContext: React.Context<any> = React.createContext
+    ? React.createContext(defaultValue)
+    : context;
+
+  return ReactContext;
 }
 
 export const FormContext = createContext({});
