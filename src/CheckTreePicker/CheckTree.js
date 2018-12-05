@@ -112,7 +112,6 @@ type States = {
   expandAll?: boolean,
   filterData: any[],
   activeNode?: ?Object,
-  searchWord?: string,
   searchKeyword?: string,
   formattedNodes: any[],
   selectedValues: any[],
@@ -139,15 +138,15 @@ class CheckTree extends React.Component<Props, States> {
     searchable: true,
     defaultValue: [],
     childrenKey: 'children',
-    searchKeyword: '',
     uncheckableItemValues: []
   };
   constructor(props: Props) {
     super(props);
-    const { value, data, searchKeyword } = props;
+    const { value, data } = props;
     this.nodes = {};
     this.isControlled = !_.isUndefined(value);
 
+    const keyword = this.getSearchKeyword(props);
     const nextValue = this.getValue(props);
     const nextData = [...data];
     this.flattenNodes(nextData, props);
@@ -164,9 +163,8 @@ class CheckTree extends React.Component<Props, States> {
       cascade: props.cascade,
       hasValue: this.hasValue(nextValue, props),
       expandAll: this.getExpandAll(props),
-      filterData: this.getFilterData(searchKeyword, nextData, props),
-      searchWord: props.searchKeyword,
-      searchKeyword: props.searchKeyword,
+      filterData: this.getFilterData(keyword, nextData, props),
+      searchKeyword: keyword,
       selectedValues: nextValue,
       formattedNodes: [],
       uncheckableItemValues: props.uncheckableItemValues,
@@ -196,9 +194,6 @@ class CheckTree extends React.Component<Props, States> {
       nextState.uncheckableItemValues = uncheckableItemValues;
     }
 
-    if (prevState.searchKeyword !== searchKeyword) {
-      nextState.searchWord = searchKeyword;
-    }
     if (cascade !== prevState.cascade) {
       nextState.cascade = cascade;
     }
@@ -210,7 +205,7 @@ class CheckTree extends React.Component<Props, States> {
   }
 
   componentDidUpdate(prevProps: Props, prevState: States) {
-    const { filterData, searchWord, selectedValues } = this.state;
+    const { filterData, searchKeyword, selectedValues } = this.state;
     const { value, data = [], cascade, expandAll, uncheckableItemValues } = this.props;
     if (prevState.data !== data) {
       const nextData = [...data];
@@ -220,7 +215,7 @@ class CheckTree extends React.Component<Props, States> {
       });
       this.setState({
         data: nextData,
-        filterData: this.getFilterData(searchWord, nextData),
+        filterData: this.getFilterData(searchKeyword, nextData),
         isSomeNodeHasChildren: this.isSomeNodeHasChildren(nextData),
         hasValue: this.hasValue()
       });
@@ -272,8 +267,7 @@ class CheckTree extends React.Component<Props, States> {
 
     if (prevProps.searchKeyword !== this.props.searchKeyword) {
       this.setState({
-        filterData: this.getFilterData(this.props.searchKeyword, filterData),
-        searchWord: this.props.searchKeyword
+        filterData: this.getFilterData(this.props.searchKeyword, filterData)
       });
     }
   }
@@ -292,6 +286,11 @@ class CheckTree extends React.Component<Props, States> {
     }
     return [];
   };
+
+  getSearchKeyword(props: Props = this.props) {
+    const { searchKeyword } = props;
+    return !_.isUndefined(searchKeyword) ? searchKeyword : '';
+  }
 
   getNodeCheckState(node: Object, cascade: boolean) {
     const { childrenKey } = this.props;
@@ -898,12 +897,13 @@ class CheckTree extends React.Component<Props, States> {
 
   handleSearch = (value: string, event: DefaultEvent) => {
     const { filterData } = this.state;
-    const { onSearch } = this.props;
-    this.setState({
-      searchWord: value,
-      filterData: this.getFilterData(value, filterData)
-    });
-
+    const { onSearch, searchKeyword } = this.props;
+    if (_.isUndefined(searchKeyword)) {
+      this.setState({
+        filterData: this.getFilterData(value, filterData),
+        searchKeyword: value
+      });
+    }
     onSearch && onSearch(value, event);
   };
 
@@ -940,7 +940,14 @@ class CheckTree extends React.Component<Props, States> {
   };
 
   handleOnClose = () => {
-    const { onClose } = this.props;
+    const { filterData } = this.state;
+    const { onClose, searchKeyword } = this.props;
+    if (_.isUndefined(searchKeyword)) {
+      this.setState({
+        filterData: this.getFilterData('', filterData),
+        searchKeyword: ''
+      });
+    }
     onClose && onClose();
     this.setState({
       active: false
@@ -952,11 +959,14 @@ class CheckTree extends React.Component<Props, States> {
       locale,
       searchable,
       placement,
+      searchKeyword,
       renderExtraFooter,
       renderMenu,
       menuStyle,
       menuClassName
     } = this.props;
+
+    const keyword = !_.isUndefined(searchKeyword) ? searchKeyword : this.state.searchKeyword;
     const classes = classNames(
       menuClassName,
       this.addPrefix('checktree-menu'),
@@ -976,7 +986,7 @@ class CheckTree extends React.Component<Props, States> {
             placeholder={locale.searchPlaceholder}
             key="searchBar"
             onChange={this.handleSearch}
-            value={this.state.searchWord}
+            value={keyword}
           />
         ) : null}
         {renderMenu ? renderMenu(menu) : menu}
