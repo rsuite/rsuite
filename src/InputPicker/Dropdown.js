@@ -378,7 +378,7 @@ class Dropdown extends React.Component<Props, State> {
       focusItem = this.createOption(searchKeyword);
     }
 
-    this.setState({ value: focusItemValue });
+    this.setState({ value: focusItemValue, searchKeyword: '' });
     this.handleSelect(focusItemValue, focusItem, event);
     this.handleChange(focusItemValue, event);
     this.closeDropdown();
@@ -419,7 +419,8 @@ class Dropdown extends React.Component<Props, State> {
   handleItemSelect = (value: any, item: Object, event: DefaultEvent) => {
     const nextState = {
       value,
-      focusItemValue: value
+      focusItemValue: value,
+      searchKeyword: ''
     };
     this.setState(nextState);
     this.handleSelect(value, item, event);
@@ -524,6 +525,10 @@ class Dropdown extends React.Component<Props, State> {
     };
 
     if (multi) {
+      /**
+       在多选的情况下, 当 searchKeyword 过长，在 focus 的时候会导致内容换行。
+       把 searchKeyword 清空是为了，Menu 在展开时候位置正确。
+       */
       nextState.searchKeyword = '';
     }
 
