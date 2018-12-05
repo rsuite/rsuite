@@ -98,7 +98,9 @@ type State = {
   hoverValue?: Array<moment$Moment>,
 
   // 当前 hover 的 date，用来减少 handleMouseMoveSelectValue 的计算
-  currentHoverDate?: moment$Moment | null
+  currentHoverDate?: moment$Moment | null,
+
+  active?: boolean
 };
 
 class DateRangePicker extends React.Component<Props, State> {
@@ -399,11 +401,17 @@ class DateRangePicker extends React.Component<Props, State> {
   handleEntered = () => {
     const { onOpen } = this.props;
     onOpen && onOpen();
+    this.setState({
+      active: true
+    });
   };
 
   handleExited = () => {
     const { onClose } = this.props;
     onClose && onClose();
+    this.setState({
+      active: false
+    });
   };
 
   disabledByBetween(start: moment$Moment, end: moment$Moment, type: string) {
@@ -461,6 +469,18 @@ class DateRangePicker extends React.Component<Props, State> {
   menuContainer = null;
   container = null;
 
+  bindTriggerRef = (ref: React.ElementRef<*>) => {
+    this.trigger = ref;
+  };
+
+  bindContainerRef = (ref: React.ElementRef<*>) => {
+    this.container = ref;
+  };
+
+  bindMenuContainerRef = (ref: React.ElementRef<*>) => {
+    this.menuContainer = ref;
+  };
+
   renderDropdownMenu() {
     const {
       placement,
@@ -494,13 +514,7 @@ class DateRangePicker extends React.Component<Props, State> {
     };
 
     return (
-      <MenuWrapper
-        className={classes}
-        ref={ref => {
-          // for test
-          this.menuContainer = ref;
-        }}
-      >
+      <MenuWrapper className={classes} ref={this.bindMenuContainerRef}>
         <div className={this.addPrefix('daterange-panel')}>
           <div className={this.addPrefix('daterange-content')}>
             <div className={this.addPrefix('daterange-header')}>
@@ -558,17 +572,9 @@ class DateRangePicker extends React.Component<Props, State> {
 
     return (
       <IntlProvider locale={locale}>
-        <div
-          className={classes}
-          style={style}
-          ref={ref => {
-            this.container = ref;
-          }}
-        >
+        <div className={classes} style={style} ref={this.bindContainerRef}>
           <OverlayTrigger
-            ref={ref => {
-              this.trigger = ref;
-            }}
+            ref={this.bindTriggerRef}
             open={open}
             defaultOpen={defaultOpen}
             disabled={disabled}
@@ -591,6 +597,7 @@ class DateRangePicker extends React.Component<Props, State> {
               onClean={this.handleClean}
               cleanable={cleanable && !disabled}
               hasValue={hasValue}
+              active={this.state.active}
             >
               {this.getDateString()}
             </PickerToggle>

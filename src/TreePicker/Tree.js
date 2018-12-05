@@ -101,7 +101,8 @@ type States = {
   filterData: any[],
   activeNode?: ?Object,
   searchWord: string,
-  searchKeyword: string
+  searchKeyword: string,
+  active?: boolean
 };
 
 class Tree extends React.Component<Props, States> {
@@ -582,11 +583,18 @@ class Tree extends React.Component<Props, States> {
     }
 
     onOpen && onOpen();
+
+    this.setState({
+      active: true
+    });
   };
 
   handleOnClose = () => {
     const { onClose } = this.props;
     onClose && onClose();
+    this.setState({
+      active: true
+    });
   };
 
   renderDropdownMenu() {
@@ -830,6 +838,7 @@ class Tree extends React.Component<Props, States> {
               cleanable={cleanable && !disabled}
               componentClass={toggleComponentClass}
               hasValue={hasValue}
+              active={this.state.active}
             >
               {placeholderText || <FormattedMessage id="placeholder" />}
             </PickerToggle>

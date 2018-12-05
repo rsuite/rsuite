@@ -117,7 +117,8 @@ type States = {
   formattedNodes: any[],
   selectedValues: any[],
   uncheckableItemValues?: any[],
-  isSomeNodeHasChildren: boolean
+  isSomeNodeHasChildren: boolean,
+  active?: boolean
 };
 
 class CheckTree extends React.Component<Props, States> {
@@ -932,13 +933,18 @@ class CheckTree extends React.Component<Props, States> {
         node.focus();
       }
     }
-
     onOpen && onOpen();
+    this.setState({
+      active: true
+    });
   };
 
   handleOnClose = () => {
     const { onClose } = this.props;
     onClose && onClose();
+    this.setState({
+      active: false
+    });
   };
 
   renderDropdownMenu() {
@@ -1188,6 +1194,7 @@ class CheckTree extends React.Component<Props, States> {
             componentClass={toggleComponentClass}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
+            active={this.state.active}
           >
             {selectedElement || locale.placeholder}
           </PickerToggle>
