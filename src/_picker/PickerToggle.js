@@ -14,7 +14,8 @@ type Props = {
   children?: React.Node,
   caret?: boolean,
   componentClass: React.ElementType,
-  onClean?: (event: SyntheticEvent<*>) => void
+  onClean?: (event: SyntheticEvent<*>) => void,
+  active?: boolean
 };
 
 class PickerToggle extends React.Component<Props> {
@@ -52,20 +53,17 @@ class PickerToggle extends React.Component<Props> {
       cleanable,
       classPrefix,
       caret,
+      active,
       ...rest
     } = this.props;
 
     const defaultClassName = Component === 'a' ? classPrefix : this.addPrefix('custom');
-    const classes = classNames(defaultClassName, className);
+    const classes = classNames(defaultClassName, className, { active });
     const unhandled = getUnhandledProps(PickerToggle, rest);
 
     return (
       <Component {...unhandled} role="button" tabIndex="-1" className={classes}>
-        {hasValue ? (
-          <span className={this.addPrefix('value')}>{children}</span>
-        ) : (
-          <span className={this.addPrefix('placeholder')}>{children}</span>
-        )}
+        <span className={this.addPrefix(hasValue ? 'value' : 'placeholder')}>{children}</span>
         {hasValue && cleanable && this.renderToggleClean()}
         {caret && <span className={this.addPrefix('caret')} />}
         <Ripple />

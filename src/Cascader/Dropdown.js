@@ -80,7 +80,8 @@ type State = {
   activePaths: any[],
   items?: any[],
   tempActivePaths?: any[],
-  data: any[]
+  data: any[],
+  active?: boolean
 };
 
 function getDerivedStateForCascade(
@@ -315,11 +316,17 @@ class Dropdown extends React.Component<Props, State> {
   handleEntered = () => {
     const { onOpen } = this.props;
     onOpen && onOpen();
+    this.setState({
+      active: true
+    });
   };
 
   handleExited = () => {
     const { onClose } = this.props;
     onClose && onClose();
+    this.setState({
+      active: false
+    });
   };
 
   /**
@@ -396,7 +403,7 @@ class Dropdown extends React.Component<Props, State> {
       ...rest
     } = this.props;
 
-    const { activePaths } = this.state;
+    const { activePaths, active } = this.state;
     const unhandled = getUnhandledProps(Dropdown, rest);
     const value = this.getValue();
     const hasValue = !!value;
@@ -455,6 +462,7 @@ class Dropdown extends React.Component<Props, State> {
               onClean={this.handleClean}
               cleanable={cleanable && !disabled}
               hasValue={hasValue}
+              active={active}
             >
               {activeItemLabel || <FormattedMessage id="placeholder" />}
             </PickerToggle>

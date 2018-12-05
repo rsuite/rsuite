@@ -87,7 +87,8 @@ type State = {
   // Used to focus the active item  when trigger `onKeydown`
   focusItemValue?: any,
   searchKeyword: string,
-  stickyItems?: any[]
+  stickyItems?: any[],
+  active?: boolean
 };
 
 class Dropdown extends React.Component<Props, State> {
@@ -323,13 +324,17 @@ class Dropdown extends React.Component<Props, State> {
     onClose && onClose();
     this.setState({
       searchKeyword: '',
-      focusItemValue: value ? value[0] : undefined
+      focusItemValue: value ? value[0] : undefined，
+      active: false
     });
   };
 
   handleOpen = () => {
     const { onOpen } = this.props;
     onOpen && onOpen();
+    this.setState({
+      active: true
+    });
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
@@ -546,6 +551,7 @@ class Dropdown extends React.Component<Props, State> {
               onClean={this.handleClean}
               cleanable={cleanable && !disabled}
               hasValue={hasValue}
+              active={this.state.active}
             >
               {selectedElement || <FormattedMessage id="placeholder" />}
             </PickerToggle>

@@ -77,7 +77,8 @@ type Props = {
 type State = {
   value?: moment$Moment,
   calendarState?: 'DROP_MONTH' | 'DROP_TIME',
-  pageDate: moment$Moment
+  pageDate: moment$Moment,
+  active?: boolean
 };
 
 class DatePicker extends React.Component<Props, State> {
@@ -312,11 +313,19 @@ class DatePicker extends React.Component<Props, State> {
   handleEntered = () => {
     const { onOpen } = this.props;
     onOpen && onOpen();
+
+    this.setState({
+      active: true
+    });
   };
 
   handleExited = () => {
     const { onClose } = this.props;
     onClose && onClose();
+
+    this.setState({
+      active: false
+    });
   };
 
   disabledToolbarHandle = (date?: moment$Moment): boolean => {
@@ -331,6 +340,18 @@ class DatePicker extends React.Component<Props, State> {
   container = null;
   trigger = null;
   menuContainer = null;
+
+  bindTriggerRef = (ref: React.ElementRef<*>) => {
+    this.trigger = ref;
+  };
+
+  bindContainerRef = (ref: React.ElementRef<*>) => {
+    this.container = ref;
+  };
+
+  bindMenuContainerRef = (ref: React.ElementRef<*>) => {
+    this.menuContainer = ref;
+  };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
@@ -373,12 +394,7 @@ class DatePicker extends React.Component<Props, State> {
 
     return (
       <MenuWrapper className={classes}>
-        <div
-          ref={ref => {
-            // for test
-            this.menuContainer = ref;
-          }}
-        >
+        <div ref={this.bindMenuContainerRef}>
           {calendar}
           <Toolbar
             ranges={ranges}
@@ -441,17 +457,9 @@ class DatePicker extends React.Component<Props, State> {
 
     return (
       <IntlProvider locale={locale}>
-        <div
-          className={classes}
-          style={style}
-          ref={ref => {
-            this.container = ref;
-          }}
-        >
+        <div className={classes} style={style} ref={this.bindContainerRef}>
           <OverlayTrigger
-            ref={ref => {
-              this.trigger = ref;
-            }}
+            ref={this.bindTriggerRef}
             open={open}
             defaultOpen={defaultOpen}
             disabled={disabled}
@@ -474,6 +482,7 @@ class DatePicker extends React.Component<Props, State> {
               onClean={this.handleClean}
               cleanable={cleanable && !disabled}
               hasValue={hasValue}
+              active={this.state.active}
             >
               {this.getDateString()}
             </PickerToggle>
