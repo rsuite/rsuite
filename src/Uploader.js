@@ -27,14 +27,21 @@ const getFiles = (event: SyntheticDragEvent<*> | SyntheticInputEvent<*>) => {
   return [];
 };
 
+type fileStatus = 'inited' | 'uploading' | 'error' | 'finished';
+
 type FileType = {
   name: string,
   fileKey: number | string,
   // https://developer.mozilla.org/zh-CN/docs/Web/API/File
   blobFile?: File,
-  status?: 'inited' | 'uploading' | 'error' | 'finished',
+  status?: fileStatus,
   progress?: number,
   url?: string
+};
+
+type fileProgressType = {
+  status?: fileStatus,
+  progress?: number
 };
 
 type Props = {
@@ -72,7 +79,8 @@ type Props = {
 };
 
 type State = {
-  fileList: Array<FileType>
+  fileList: Array<FileType>,
+  fileMap: { [fileKey: number | string]: fileProgressType }
 };
 
 class Uploader extends React.Component<Props, State> {
@@ -94,7 +102,8 @@ class Uploader extends React.Component<Props, State> {
     const fileList = defaultFileList.map(this.createFile);
 
     this.state = {
-      fileList
+      fileList,
+      fileMap: {}
     };
   }
 
@@ -103,13 +112,20 @@ class Uploader extends React.Component<Props, State> {
     this.handleAjaxUpload();
   }
 
-  getFileList() {
+  getFileList(): Array<FileType> {
     const { fileList } = this.props;
-    if (_.isUndefined(fileList)) {
-      return this.state.fileList;
+    const { fileMap } = this.state;
+
+    if (typeof fileList !== 'undefined') {
+      return fileList.map(file => {
+        return {
+          ...file,
+          ...fileMap[file.fileKey]
+        };
+      });
     }
 
-    return fileList || [];
+    return this.state.fileList;
   }
 
   cleanInputValue() {
@@ -209,6 +225,7 @@ class Uploader extends React.Component<Props, State> {
       status: 'uploading',
       progress: percent
     };
+
     this.updateFileList(nextFile, () => {
       onProgress && onProgress(percent, nextFile, event);
     });
@@ -244,17 +261,28 @@ class Uploader extends React.Component<Props, State> {
     onReupload && onReupload(file);
   };
 
-  updateFileList(nextFile: Object, callback?: () => void) {
+  updateFileList(nextFile: FileType, callback?: () => void) {
     const fileList = this.getFileList();
     const nextFileList = fileList.map(
       file => (file.fileKey === nextFile.fileKey ? nextFile : file)
     );
-    this.setState(
-      {
-        fileList: nextFileList
-      },
-      callback
-    );
+
+    const nextState: any = {
+      fileList: nextFileList
+    };
+
+    if (nextFile.progress) {
+      const { fileMap } = this.state;
+
+      fileMap[nextFile.fileKey] = {
+        progress: nextFile.progress,
+        status: nextFile.status
+      };
+
+      nextState.fileMap = fileMap;
+    }
+
+    this.setState(nextState, callback);
   }
   createFile = (file: FileType) => {
     const { fileKey } = file;
