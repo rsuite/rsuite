@@ -69,6 +69,10 @@
     @padding-horizontal: @padding-base-horizontal - @picker-default-toggle-border-width;
 
     padding: @padding-vertical @padding-horizontal;
+
+    &.active {
+      border-color: @picker-default-toggle-hover-border-color;
+    }
   }
 
   .@{ns}picker-subtle & {

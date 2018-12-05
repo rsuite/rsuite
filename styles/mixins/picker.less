@@ -153,10 +153,11 @@
     cursor: @cursor-disabled;
   }
 
-  .@{ns}picker-default:not(.@{ns}picker-disabled) &:hover,
-  .@{ns}picker-default:not(.@{ns}picker-disabled) &:focus,
-  .@{ns}picker-default &.active {
-    border-color: @picker-default-toggle-hover-border-color;
+  .@{ns}picker-default:not(.@{ns}picker-disabled) {
+    &:hover,
+    &:focus {
+      border-color: @picker-default-toggle-hover-border-color;
+    }
   }
 }
 
