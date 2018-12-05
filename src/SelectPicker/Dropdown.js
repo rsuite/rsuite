@@ -316,7 +316,7 @@ class Dropdown extends React.Component<Props, State> {
     const value = this.getValue();
     this.setState({
       focusItemValue: value,
-      searchKeyword: ''，
+      searchKeyword: '',
       active: false
     });
   };
