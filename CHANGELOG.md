@@ -1,3 +1,28 @@
+# 3.4.4
+
+> 2018-12-06
+
+* **Improve**: Refactor the animations Bounce and Slide ([#288])
+* **Improve**: The active state is Displayed when the Picker is expanded ([#299])
+* **Improve**: Add a title to a multi-picker ([#298])
+* **Improve**: Picker clears the search input when it is cloed ([#301])
+* **Bugfix**: Update progress bar when the `<Uploader>` is controlled ([#300])
+* **Bugfix**: Fixed issue with active date item in month panel ([#295])
+* **Bugfix**: Fixed selectNode null exception in `<MultiCascader>` ([#293])
+* **Bugfix**: Fixed checkForField API in `<Form>` is invalid ([#289])
+* **Chore**: Update flow type definition ([#294],[#295],[#296])
+
+[#301]: https://github.com/rsuite/rsuite/pull/301
+[#300]: https://github.com/rsuite/rsuite/pull/300
+[#299]: https://github.com/rsuite/rsuite/pull/299
+[#298]: https://github.com/rsuite/rsuite/pull/298
+[#296]: https://github.com/rsuite/rsuite/pull/296
+[#295]: https://github.com/rsuite/rsuite/pull/295
+[#294]: https://github.com/rsuite/rsuite/pull/294
+[#293]: https://github.com/rsuite/rsuite/pull/293
+[#289]: https://github.com/rsuite/rsuite/pull/289
+[#288]: https://github.com/rsuite/rsuite/pull/288
+
 # 3.4.3
 
 > 2018-11-22
