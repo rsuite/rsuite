@@ -129,4 +129,10 @@ describe('RadioGroup', () => {
     const instance = ReactTestUtils.renderIntoDocument(<RadioGroup classPrefix="custom-prefix" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
   });
+
+  it('Should apply appearance', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<RadioGroup appearance="picker" />);
+
+    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-radio-group-picker');
+  });
 });

@@ -5,9 +5,10 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
 
-import { ReactChildren, defaultProps, getUnhandledProps } from './utils';
+import { ReactChildren, defaultProps, getUnhandledProps, prefix } from './utils';
 
 type Props = {
+  appearance: 'default' | 'picker',
   name?: string,
   inline?: boolean,
   value?: any,
@@ -42,9 +43,19 @@ class RadioGroup extends React.Component<Props, State> {
   };
 
   render() {
-    const { className, inline, name, children, classPrefix, onChange, ...props } = this.props;
+    const {
+      className,
+      inline,
+      name,
+      children,
+      classPrefix,
+      appearance,
+      onChange,
+      ...props
+    } = this.props;
 
-    const classes = classNames(classPrefix, className);
+    const addPrefix = prefix(classPrefix);
+    const classes = classNames(classPrefix, addPrefix(appearance), className);
     const nextValue = this.getValue();
     const items = ReactChildren.mapCloneElement(children, child => {
       if (child.type.displayName === 'Radio') {
@@ -69,5 +80,6 @@ class RadioGroup extends React.Component<Props, State> {
 }
 
 export default defaultProps({
+  appearance: 'default',
   classPrefix: 'radio-group'
 })(RadioGroup);
