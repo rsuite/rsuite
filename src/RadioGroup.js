@@ -55,7 +55,9 @@ class RadioGroup extends React.Component<Props, State> {
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, addPrefix(appearance), className);
+    const classes = classNames(classPrefix, addPrefix(appearance), className, {
+      [addPrefix('inline')]: inline
+    });
     const nextValue = this.getValue();
     const items = ReactChildren.mapCloneElement(children, child => {
       if (child.type.displayName === 'Radio') {

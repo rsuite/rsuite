@@ -34,6 +34,8 @@ describe('RadioGroup', () => {
         <Radio>Test2</Radio>
       </RadioGroup>
     );
+
+    assert.ok(findDOMNode(instance).className.match(/\brs-radio-group-inline\b/));
     assert.equal(findDOMNode(instance).querySelectorAll('.rs-radio-inline').length, 2);
   });
 
