@@ -101,6 +101,19 @@ describe('UploadFileItem', () => {
     assert.include(findDOMNode(instance).className, 'custom');
   });
 
+  it('Should output a custom file name', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <UploadFileItem
+        file={file}
+        className="custom"
+        renderFileInfo={file => {
+          return <div className="file-info">{file.name}</div>;
+        }}
+      />
+    );
+    assert.include(findDOMNode(instance).querySelector('.file-info').innerText, 'a');
+  });
+
   it('Should have a custom style', () => {
     const fontSize = '12px';
     const instance = ReactTestUtils.renderIntoDocument(
