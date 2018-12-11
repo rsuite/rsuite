@@ -26,7 +26,8 @@ type Props = {
   onReupload?: (file: FileType, event: SyntheticEvent<*>) => void,
   className?: string,
   maxPreviewFileSize: number,
-  classPrefix?: string
+  classPrefix?: string,
+  renderFileInfo?: (file: FileType, fileElement: React.Node) => React.Node
 };
 
 type State = {
@@ -204,13 +205,16 @@ class UploadFileItem extends React.Component<Props, State> {
   }
 
   renderFilePanel() {
-    const { file } = this.props;
+    const { file, renderFileInfo } = this.props;
+    const fileElement = (
+      <a role="presentation" className={this.addPrefix('title')} onClick={this.handlePreview}>
+        {file.name}
+      </a>
+    );
     return (
       <div className={this.addPrefix('panel')}>
         <div className={this.addPrefix('content')}>
-          <a role="presentation" className={this.addPrefix('title')} onClick={this.handlePreview}>
-            {file.name}
-          </a>
+          {renderFileInfo ? renderFileInfo(file, fileElement) : fileElement}
           {this.renderErrorStatus()}
           {this.renderFileSize()}
         </div>
