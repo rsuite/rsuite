@@ -34,6 +34,8 @@ describe('RadioGroup', () => {
         <Radio>Test2</Radio>
       </RadioGroup>
     );
+
+    assert.ok(findDOMNode(instance).className.match(/\brs-radio-group-inline\b/));
     assert.equal(findDOMNode(instance).querySelectorAll('.rs-radio-inline').length, 2);
   });
 
@@ -128,5 +130,11 @@ describe('RadioGroup', () => {
   it('Should have a custom className prefix', () => {
     const instance = ReactTestUtils.renderIntoDocument(<RadioGroup classPrefix="custom-prefix" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should apply appearance', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<RadioGroup appearance="picker" />);
+
+    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-radio-group-picker');
   });
 });

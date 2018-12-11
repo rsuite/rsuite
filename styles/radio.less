@@ -122,3 +122,52 @@
     }
   }
 }
+
+.@{ns}radio {
+  &-group-inline {
+    display: inline-block;
+  }
+
+  &-group-picker {
+    color: @picker-default-toggle-font-color;
+    border: 1px solid @picker-default-toggle-border-color;
+    border-radius: @border-radius-base;
+  }
+
+  // Reset checker padding value.
+  &-group-picker &-checker {
+    padding: 0;
+    min-height: auto;
+  }
+
+  // Picker Radio group hidden radio.
+  &-group-picker &-wrapper {
+    display: none;
+  }
+
+  &-group-picker &-checker > label {
+    .btn(base);
+
+    color: @B600;
+    transition: color 0.3s linear;
+    padding: @padding-base-vertical - 1px @padding-base-horizontal - 1px;
+
+    &:hover,
+    &:active {
+      color: @B800;
+    }
+  }
+
+  &-group-picker &-checked &-checker > label {
+    color: @H500;
+  }
+
+  &-group-picker &-disabled &-checker > label {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  &-group-picker &-disabled:not(&-checked) &-checker > label {
+    color: @B600;
+  }
+}
