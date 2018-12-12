@@ -1,5 +1,6 @@
 function onMenuKeyDown(event, events) {
   const { down, up, enter, del, esc } = events;
+
   switch (event.keyCode) {
     // down
     case 40:

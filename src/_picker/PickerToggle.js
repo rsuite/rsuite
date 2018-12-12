@@ -18,11 +18,22 @@ type Props = {
   active?: boolean
 };
 
-class PickerToggle extends React.Component<Props> {
+type State = {
+  active?: boolean
+};
+
+class PickerToggle extends React.Component<Props, State> {
   static defaultProps = {
     componentClass: 'a',
     caret: true
   };
+
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      active: false
+    };
+  }
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
@@ -30,6 +41,20 @@ class PickerToggle extends React.Component<Props> {
     const { onClean } = this.props;
     onClean && onClean(event);
     event.stopPropagation();
+  };
+
+  handleFocus = () => {
+    this.setState({ active: true });
+  };
+
+  handleBlur = () => {
+    this.setState({ active: false });
+  };
+
+  onFocus = () => {
+    if (this.toggle) {
+      this.toggle.focus();
+    }
   };
 
   renderToggleClean() {
@@ -44,6 +69,12 @@ class PickerToggle extends React.Component<Props> {
       </span>
     );
   }
+
+  toggle = null;
+  bindToggleRef = (ref: React.ElementRef<*>) => {
+    this.toggle = ref;
+  };
+
   render() {
     const {
       componentClass: Component,
@@ -58,11 +89,21 @@ class PickerToggle extends React.Component<Props> {
     } = this.props;
 
     const defaultClassName = Component === 'a' ? classPrefix : this.addPrefix('custom');
-    const classes = classNames(defaultClassName, className, { active });
+    const classes = classNames(defaultClassName, className, {
+      active: active || this.state.active
+    });
     const unhandled = getUnhandledProps(PickerToggle, rest);
 
     return (
-      <Component {...unhandled} role="button" tabIndex="-1" className={classes}>
+      <Component
+        {...unhandled}
+        role="combobox"
+        tabIndex="0"
+        className={classes}
+        ref={this.bindToggleRef}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
+      >
         <span className={this.addPrefix(hasValue ? 'value' : 'placeholder')}>{children}</span>
         {hasValue && cleanable && this.renderToggleClean()}
         {caret && <span className={this.addPrefix('caret')} />}

@@ -163,6 +163,12 @@ class Dropdown extends React.Component<Props, State> {
     this.position = ref;
   };
 
+  toggle = null;
+
+  bindToggleRef = (ref: React.ElementRef<*>) => {
+    this.toggle = ref;
+  };
+
   getPositionInstance = () => {
     return this.position;
   };
@@ -246,6 +252,18 @@ class Dropdown extends React.Component<Props, State> {
   };
 
   handleKeyDown = (event: SyntheticKeyboardEvent<*>) => {
+    const { focusItemValue, active } = this.state;
+
+    // enter
+    if ((!focusItemValue || !active) && event.keyCode === 13) {
+      this.toggleDropdown();
+    }
+
+    // delete
+    if (event.keyCode === 8) {
+      this.handleClean(event);
+    }
+
     if (!this.menuContainer) {
       return;
     }
@@ -290,14 +308,30 @@ class Dropdown extends React.Component<Props, State> {
     }
   };
 
+  openDropdown = () => {
+    if (this.trigger) {
+      this.trigger.show();
+    }
+  };
+
+  toggleDropdown = () => {
+    const { active } = this.state;
+    if (active) {
+      this.closeDropdown();
+      return;
+    }
+    this.openDropdown();
+  };
+
   handleChange = (value: any, event: DefaultEvent) => {
     const { onChange } = this.props;
     onChange && onChange(value, event);
   };
 
   handleClean = (event: DefaultEvent) => {
-    const { disabled } = this.props;
-    if (disabled) {
+    const { disabled, cleanable } = this.props;
+
+    if (disabled || !cleanable) {
       return;
     }
     const nextState = {
@@ -314,11 +348,16 @@ class Dropdown extends React.Component<Props, State> {
     const { onClose } = this.props;
     onClose && onClose();
     const value = this.getValue();
+
     this.setState({
       focusItemValue: value,
       searchKeyword: '',
       active: false
     });
+
+    if (this.toggle) {
+      this.toggle.onFocus();
+    }
   };
 
   handleOpen = () => {
@@ -477,17 +516,13 @@ class Dropdown extends React.Component<Props, State> {
         container={container}
         containerPadding={containerPadding}
       >
-        <div
-          className={classes}
-          style={style}
-          onKeyDown={this.handleKeyDown}
-          tabIndex={-1}
-          role="menu"
-        >
+        <div className={classes} style={style} tabIndex={-1} role="menu">
           <PickerToggle
             {...unhandled}
-            componentClass={toggleComponentClass}
+            ref={this.bindToggleRef}
             onClean={this.handleClean}
+            onKeyDown={this.handleKeyDown}
+            componentClass={toggleComponentClass}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
             active={this.state.active}
