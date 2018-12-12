@@ -65,7 +65,12 @@ class DropdownMenu extends React.Component<Props> {
   };
 
   updateScrollPoistion() {
-    const activeItem = this.menuBodyContainer.querySelector(`.${this.addPrefix('item-focus')}`);
+    let activeItem = this.menuBodyContainer.querySelector(`.${this.addPrefix('item-focus')}`);
+
+    if (!activeItem) {
+      activeItem = this.menuBodyContainer.querySelector(`.${this.addPrefix('item-active')}`);
+    }
+
     if (!activeItem) {
       return;
     }

@@ -724,6 +724,12 @@ class CheckTree extends React.Component<Props, States> {
     this.position = ref;
   };
 
+  toggle = null;
+
+  bindToggleRef = (ref: React.ElementRef<*>) => {
+    this.toggle = ref;
+  };
+
   getPositionInstance = () => {
     return this.position;
   };
@@ -756,6 +762,27 @@ class CheckTree extends React.Component<Props, States> {
     if (node !== null) {
       node.focus();
     }
+  };
+
+  closeDropdown = () => {
+    if (this.trigger) {
+      this.trigger.hide();
+    }
+  };
+
+  openDropdown = () => {
+    if (this.trigger) {
+      this.trigger.show();
+    }
+  };
+
+  toggleDropdown = () => {
+    const { active } = this.state;
+    if (active) {
+      this.closeDropdown();
+      return;
+    }
+    this.openDropdown();
   };
 
   everyChildChecked = (nodes: Object, node: Object) => {
@@ -872,12 +899,25 @@ class CheckTree extends React.Component<Props, States> {
     onMenuKeyDown(event, {
       down: this.focusNextItem,
       up: this.focusPreviousItem,
-      enter: this.selectActiveItem
+      enter: this.selectActiveItem,
+      del: this.handleClean
     });
   };
 
   handleToggleKeyDown = (event: SyntheticKeyboardEvent<*>) => {
     const { classPrefix } = this.props;
+    const { activeNode, active } = this.state;
+
+    // enter
+    if ((!activeNode || !active) && event.keyCode === 13) {
+      this.toggleDropdown();
+    }
+
+    // delete
+    if (event.keyCode === 8) {
+      this.handleClean();
+    }
+
     if (!this.treeView) {
       return;
     }
@@ -952,6 +992,10 @@ class CheckTree extends React.Component<Props, States> {
     this.setState({
       active: false
     });
+
+    if (this.toggle) {
+      this.toggle.onFocus();
+    }
   };
 
   renderDropdownMenu() {
@@ -1170,36 +1214,35 @@ class CheckTree extends React.Component<Props, States> {
 
     const unhandled = getUnhandledProps(CheckTree, rest);
 
-    return !inline ? (
-      <div
-        onKeyDown={this.handleToggleKeyDown}
-        className={classes}
-        style={style}
-        tabIndex={-1}
-        role="menu"
-        ref={this.bindContainerRef}
+    if (inline) {
+      return this.renderCheckTree();
+    }
+
+    return (
+      <OverlayTrigger
+        ref={this.bindTriggerRef}
+        positionRef={this.bindPositionRef}
+        open={open}
+        defaultOpen={defaultOpen}
+        disabled={disabled}
+        trigger="click"
+        placement={placement}
+        onEnter={onEnter}
+        onEntering={onEntering}
+        onEntered={createChainedFunction(this.handleOnOpen, onEntered)}
+        onExit={onExit}
+        onExiting={onExiting}
+        onExited={createChainedFunction(this.handleOnClose, onExited)}
+        onHide={onHide}
+        container={container}
+        containerPadding={containerPadding}
+        speaker={this.renderDropdownMenu()}
       >
-        <OverlayTrigger
-          ref={this.bindTriggerRef}
-          positionRef={this.bindPositionRef}
-          open={open}
-          defaultOpen={defaultOpen}
-          disabled={disabled}
-          trigger="click"
-          placement={placement}
-          onEnter={onEnter}
-          onEntering={onEntering}
-          onEntered={createChainedFunction(this.handleOnOpen, onEntered)}
-          onExit={onExit}
-          onExiting={onExiting}
-          onExited={createChainedFunction(this.handleOnClose, onExited)}
-          onHide={onHide}
-          container={container}
-          containerPadding={containerPadding}
-          speaker={this.renderDropdownMenu()}
-        >
+        <div className={classes} style={style} ref={this.bindContainerRef}>
           <PickerToggle
             {...unhandled}
+            ref={this.bindToggleRef}
+            onKeyDown={this.handleToggleKeyDown}
             onClean={this.handleClean}
             componentClass={toggleComponentClass}
             cleanable={cleanable && !disabled}
@@ -1208,10 +1251,8 @@ class CheckTree extends React.Component<Props, States> {
           >
             {selectedElement || locale.placeholder}
           </PickerToggle>
-        </OverlayTrigger>
-      </div>
-    ) : (
-      this.renderCheckTree()
+        </div>
+      </OverlayTrigger>
     );
   }
 }

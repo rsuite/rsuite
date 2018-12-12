@@ -248,6 +248,18 @@ class Dropdown extends React.Component<Props, State> {
   };
 
   handleKeyDown = (event: SyntheticKeyboardEvent<*>) => {
+    const { focusItemValue, active } = this.state;
+
+    // enter
+    if ((!focusItemValue || !active) && event.keyCode === 13) {
+      this.toggleDropdown();
+    }
+
+    // delete
+    if (event.keyCode === 8) {
+      this.handleClean(event);
+    }
+
     if (!this.menuContainer) {
       return;
     }
@@ -308,11 +320,28 @@ class Dropdown extends React.Component<Props, State> {
     });
   };
 
-  handleClean = (event: DefaultEvent) => {
-    const { disabled } = this.props;
-    if (disabled) {
+  openDropdown = () => {
+    if (this.trigger) {
+      this.trigger.show();
+    }
+  };
+
+  toggleDropdown = () => {
+    const { active } = this.state;
+    if (active) {
+      this.closeDropdown();
       return;
     }
+    this.openDropdown();
+  };
+
+  handleClean = (event: DefaultEvent) => {
+    const { disabled, cleanable } = this.props;
+
+    if (disabled || !cleanable) {
+      return;
+    }
+
     this.setState({ value: [] }, () => {
       this.handleChangeValue([], event);
     });
@@ -363,6 +392,12 @@ class Dropdown extends React.Component<Props, State> {
 
   bindPositionRef = (ref: React.ElementRef<*>) => {
     this.position = ref;
+  };
+
+  toggle = null;
+
+  bindToggleRef = (ref: React.ElementRef<*>) => {
+    this.toggle = ref;
   };
 
   getPositionInstance = () => {
@@ -537,18 +572,13 @@ class Dropdown extends React.Component<Props, State> {
           container={container}
           containerPadding={containerPadding}
         >
-          <div
-            className={classes}
-            style={style}
-            onKeyDown={this.handleKeyDown}
-            tabIndex={-1}
-            role="menu"
-            ref={this.bindContainerRef}
-          >
+          <div className={classes} style={style} ref={this.bindContainerRef}>
             <PickerToggle
               {...unhandled}
-              componentClass={toggleComponentClass}
+              ref={this.bindToggleRef}
               onClean={this.handleClean}
+              onKeyDown={this.handleKeyDown}
+              componentClass={toggleComponentClass}
               cleanable={cleanable && !disabled}
               hasValue={hasValue}
               active={this.state.active}

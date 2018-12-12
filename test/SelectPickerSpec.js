@@ -175,7 +175,7 @@ describe('SelectPicker', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Dropdown defaultOpen data={data} onSelect={doneOp} defaultValue={'Kariane'} />
     );
-    const instanceDOM = findDOMNode(instance);
+    const instanceDOM = findDOMNode(instance.toggle);
     ReactTestUtils.Simulate.keyDown(instanceDOM, { keyCode: 40 });
     ReactTestUtils.Simulate.keyDown(instanceDOM, { keyCode: 13 });
   });
@@ -216,7 +216,7 @@ describe('SelectPicker', () => {
     );
     const instanceDOM = findDOMNode(instance);
     const menuDOM = findDOMNode(instance.menuContainer);
-    ReactTestUtils.Simulate.keyDown(instanceDOM, { keyCode: 40 });
+    ReactTestUtils.Simulate.keyDown(findDOMNode(instance.toggle), { keyCode: 40 });
 
     setTimeout(() => {
       if (menuDOM.querySelector(itemFocusClassName).innerText === 'Kariane') {
@@ -231,7 +231,7 @@ describe('SelectPicker', () => {
     );
     const instanceDOM = findDOMNode(instance);
     const menuDOM = findDOMNode(instance.menuContainer);
-    ReactTestUtils.Simulate.keyDown(instanceDOM, { keyCode: 38 });
+    ReactTestUtils.Simulate.keyDown(findDOMNode(instance.toggle), { keyCode: 38 });
 
     setTimeout(() => {
       if (menuDOM.querySelector(itemFocusClassName).innerText === 'Eugenia') {
@@ -247,7 +247,7 @@ describe('SelectPicker', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Dropdown defaultOpen data={data} onChange={doneOp} defaultValue={'Kariane'} />
     );
-    const instanceDOM = findDOMNode(instance);
+    const instanceDOM = findDOMNode(instance.toggle);
     ReactTestUtils.Simulate.keyDown(instanceDOM, { keyCode: 13 });
   });
 

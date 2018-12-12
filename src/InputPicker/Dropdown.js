@@ -135,7 +135,7 @@ class Dropdown extends React.Component<Props, State> {
 
     const { defaultValue, groupBy, valueKey, labelKey, defaultOpen, multi, data } = props;
     const value: any = multi ? defaultValue || [] : defaultValue;
-    const focusItemValue = multi ? value[0] : defaultValue;
+    const focusItemValue = multi ? _.get(value, 0) : defaultValue;
 
     this.state = {
       data,
@@ -350,7 +350,7 @@ class Dropdown extends React.Component<Props, State> {
       up: this.focusPrevMenuItem,
       enter: multi ? this.selectFocusMenuCheckItem : this.selectFocusMenuItem,
       esc: this.closeDropdown,
-      del: multi ? this.removeLastItem : null
+      del: multi ? this.removeLastItem : this.handleClean
     });
   };
   handleClick = (event: DefaultEvent) => {
@@ -518,10 +518,10 @@ class Dropdown extends React.Component<Props, State> {
 
   handleExited = () => {
     const { onClose, multi } = this.props;
-    onClose && onClose();
+    const value = this.getValue();
 
     const nextState: Object = {
-      focusItemValue: null
+      focusItemValue: multi ? _.get(value, 0) : value
     };
 
     if (multi) {
@@ -532,6 +532,7 @@ class Dropdown extends React.Component<Props, State> {
       nextState.searchKeyword = '';
     }
 
+    onClose && onClose();
     this.setState(nextState);
   };
 
@@ -772,8 +773,6 @@ class Dropdown extends React.Component<Props, State> {
           style={style}
           onKeyDown={this.handleKeyDown}
           onClick={this.handleClick}
-          tabIndex={-1}
-          role="menu"
           ref={this.bindToggleWrapperRef}
         >
           <PickerToggle

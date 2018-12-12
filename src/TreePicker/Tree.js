@@ -394,6 +394,12 @@ class Tree extends React.Component<Props, States> {
     this.position = ref;
   };
 
+  toggle = null;
+
+  bindToggleRef = (ref: React.ElementRef<*>) => {
+    this.toggle = ref;
+  };
+
   getPositionInstance = () => {
     return this.position;
   };
@@ -473,6 +479,21 @@ class Tree extends React.Component<Props, States> {
     }
   };
 
+  openDropdown = () => {
+    if (this.trigger) {
+      this.trigger.show();
+    }
+  };
+
+  toggleDropdown = () => {
+    const { active } = this.state;
+    if (active) {
+      this.closeDropdown();
+      return;
+    }
+    this.openDropdown();
+  };
+
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   shouldDisplay = (label: any, searchKeyword: string = '') => {
@@ -524,12 +545,25 @@ class Tree extends React.Component<Props, States> {
     onMenuKeyDown(event, {
       down: this.focusNextItem,
       up: this.focusPreviousItem,
-      enter: this.selectActiveItem
+      enter: this.selectActiveItem,
+      del: this.handleClean
     });
   };
 
   handleToggleKeyDown = (event: SyntheticKeyboardEvent<*>) => {
     const { classPrefix } = this.props;
+    const { activeNode, active } = this.state;
+
+    // enter
+    if ((!activeNode || !active) && event.keyCode === 13) {
+      this.toggleDropdown();
+    }
+
+    // delete
+    if (event.keyCode === 8) {
+      this.handleClean();
+    }
+
     if (!this.treeView) {
       return;
     }
@@ -600,8 +634,12 @@ class Tree extends React.Component<Props, States> {
     }
     onClose && onClose();
     this.setState({
-      active: true
+      active: false
     });
+
+    if (this.toggle) {
+      this.toggle.onFocus();
+    }
   };
 
   renderDropdownMenu() {
@@ -809,39 +847,38 @@ class Tree extends React.Component<Props, States> {
     if (renderValue && hasValue) {
       placeholderText = renderValue(activeNode, placeholderText);
     }
-
     const unhandled = getUnhandledProps(Tree, rest);
-    return !inline ? (
+
+    if (inline) {
+      return this.renderTree();
+    }
+
+    return (
       <IntlProvider locale={locale}>
-        <div
-          className={classes}
-          style={style}
-          onKeyDown={this.handleToggleKeyDown}
-          tabIndex={-1}
-          role="menu"
-          ref={this.bindContainerRef}
+        <OverlayTrigger
+          ref={this.bindTriggerRef}
+          positionRef={this.bindPositionRef}
+          open={open}
+          defaultOpen={defaultOpen}
+          disabled={disabled}
+          trigger="click"
+          placement={placement}
+          onEnter={onEnter}
+          onEntering={onEntering}
+          onEntered={createChainedFunction(this.handleOnOpen, onEntered)}
+          onExit={onExit}
+          onExiting={onExiting}
+          onExited={createChainedFunction(this.handleOnClose, onExited)}
+          onHide={onHide}
+          container={container}
+          containerPadding={containerPadding}
+          speaker={this.renderDropdownMenu()}
         >
-          <OverlayTrigger
-            ref={this.bindTriggerRef}
-            positionRef={this.bindPositionRef}
-            open={open}
-            defaultOpen={defaultOpen}
-            disabled={disabled}
-            trigger="click"
-            placement={placement}
-            onEnter={onEnter}
-            onEntering={onEntering}
-            onEntered={createChainedFunction(this.handleOnOpen, onEntered)}
-            onExit={onExit}
-            onExiting={onExiting}
-            onExited={createChainedFunction(this.handleOnClose, onExited)}
-            onHide={onHide}
-            container={container}
-            containerPadding={containerPadding}
-            speaker={this.renderDropdownMenu()}
-          >
+          <div className={classes} style={style} ref={this.bindContainerRef}>
             <PickerToggle
               {...unhandled}
+              ref={this.bindToggleRef}
+              onKeyDown={this.handleToggleKeyDown}
               onClean={this.handleClean}
               cleanable={cleanable && !disabled}
               componentClass={toggleComponentClass}
@@ -850,11 +887,9 @@ class Tree extends React.Component<Props, States> {
             >
               {placeholderText || <FormattedMessage id="placeholder" />}
             </PickerToggle>
-          </OverlayTrigger>
-        </div>
+          </div>
+        </OverlayTrigger>
       </IntlProvider>
-    ) : (
-      this.renderTree()
     );
   }
 }
