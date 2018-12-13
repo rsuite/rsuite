@@ -1,3 +1,21 @@
+# 3.4.5
+
+> 2018-12-13
+
+* **Breaking**: Adjust the callback parameters of `renderValue` on all `Picker` ([#307])
+* **Feature**: Added some default utility functions for disabledDate on `<DateRangePicker>` ([#304])
+* **Feature**: Support `appearance` on `<RadioGroup>`, let Radio look like a Picker . ([#303])
+* **Feature**: Support `renderFileInfo` on `<Uploader>`, custom file list style ([#302])
+* **Improve**: Improve the Picker keyboard operation experience ([#306])
+* **Bugfix**: Fixed issue with active date item in time panel ([#305])
+
+[#307]: https://github.com/rsuite/rsuite/pull/307
+[#306]: https://github.com/rsuite/rsuite/pull/306
+[#305]: https://github.com/rsuite/rsuite/pull/305
+[#304]: https://github.com/rsuite/rsuite/pull/304
+[#303]: https://github.com/rsuite/rsuite/pull/303
+[#302]: https://github.com/rsuite/rsuite/pull/302
+
 # 3.4.4
 
 > 2018-12-06
