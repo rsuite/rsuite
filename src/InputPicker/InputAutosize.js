@@ -144,8 +144,7 @@ class InputAutosize extends React.Component<Props, State> {
 
   renderStyles() {
     const { inputId } = this.props;
-
-    return isIE ? (
+    return isIE() ? (
       <style
         dangerouslySetInnerHTML={{
           __html: `input#${inputId}::-ms-clear {display: none;}`

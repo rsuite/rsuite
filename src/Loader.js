@@ -30,7 +30,7 @@ class Loader extends React.Component<Props> {
     if (center || backdrop) {
       const width = getWidth(this.loader);
       addStyle(this.loader, {
-        display: isIE11 || isEdge ? 'block' : 'table',
+        display: isIE11() || isEdge() ? 'block' : 'table',
         width: `${width}px`
       });
     }
