@@ -136,7 +136,7 @@ describe('TreePicker', () => {
       <TreePicker
         data={[{ label: '1', value: '1' }, { label: '2', value: '2' }]}
         value={'2'}
-        renderValue={activeNode => `Selected: ${activeNode.label}`}
+        renderValue={(value, item, selectedElement) => `Selected: ${item.label}`}
       />
     );
     const instanceDom = findDOMNode(instance);

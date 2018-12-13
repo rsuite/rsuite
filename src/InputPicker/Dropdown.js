@@ -60,7 +60,7 @@ type Props = {
   renderMenu?: (menu: React.Node) => React.Node,
   renderMenuItem?: (itemLabel: React.Node, item: Object) => React.Node,
   renderMenuGroup?: (title: React.Node, item: Object) => React.Node,
-  renderValue?: (value: any, item: Object) => React.Node,
+  renderValue?: (value: any, item: Object, selectedElement: React.Node) => React.Node,
   renderExtraFooter?: () => React.Node,
   onChange?: (value: any, event: DefaultEvent) => void,
   onSelect?: (value: any, item: Object, event: DefaultEvent) => void,
@@ -202,7 +202,7 @@ class Dropdown extends React.Component<Props, State> {
       displayElement = _.get(activeItem, labelKey);
 
       if (renderValue) {
-        displayElement = renderValue(value, activeItem);
+        displayElement = renderValue(value, activeItem, displayElement);
       }
     }
 

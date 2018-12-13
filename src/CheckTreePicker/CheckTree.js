@@ -1196,9 +1196,7 @@ class CheckTree extends React.Component<Props, States> {
     const selectedItems = this.getSelectedItems(selectedValues);
     let selectedElement = placeholder;
 
-    if (renderValue) {
-      selectedElement = renderValue(selectedValues, selectedItems, selectedElement);
-    } else if (hasValue && selectedValues.length) {
+    if (hasValue && selectedValues.length) {
       selectedElement = (
         <SelectedElement
           selectedItems={selectedItems}
@@ -1210,6 +1208,9 @@ class CheckTree extends React.Component<Props, States> {
           locale={locale}
         />
       );
+      if (renderValue) {
+        selectedElement = renderValue(selectedValues, selectedItems, selectedElement);
+      }
     }
 
     const unhandled = getUnhandledProps(CheckTree, rest);

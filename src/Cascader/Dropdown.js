@@ -36,7 +36,7 @@ type Props = {
   valueKey: string,
   labelKey: string,
   renderMenu?: (itemLabel: React.Node, item: Object) => React.Node,
-  renderValue?: (activePaths?: any[]) => React.Node,
+  renderValue?: (value: any, activePaths?: any[], selectedElement: React.Node) => React.Node,
   renderExtraFooter?: () => React.Node,
   disabled?: boolean,
   value?: any,
@@ -300,13 +300,17 @@ class Dropdown extends React.Component<Props, State> {
   };
 
   handleClean = (event: DefaultEvent) => {
-    const { disabled, onChange } = this.props;
+    const { disabled, onChange, data } = this.props;
     if (disabled) {
       return;
     }
+
     const nextState = {
+      items: [data],
       value: null,
-      activePaths: []
+      selectNode: null,
+      activePaths: [],
+      tempActivePaths: []
     };
     this.setState(nextState, () => {
       onChange && onChange(null, event);
@@ -410,9 +414,7 @@ class Dropdown extends React.Component<Props, State> {
 
     let activeItemLabel: any = placeholder;
 
-    if (renderValue) {
-      activeItemLabel = renderValue(activePaths);
-    } else if (activePaths.length > 0) {
+    if (activePaths.length > 0) {
       activeItemLabel = [];
       activePaths.forEach((item, index) => {
         let key = item[valueKey] || item[labelKey];
@@ -425,6 +427,9 @@ class Dropdown extends React.Component<Props, State> {
           );
         }
       });
+      if (renderValue) {
+        activeItemLabel = renderValue(value, activePaths, activeItemLabel);
+      }
     }
 
     const classes = getToggleWrapperClassName('cascader', this.addPrefix, this.props, hasValue);

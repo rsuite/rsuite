@@ -145,7 +145,7 @@ describe('SelectPicker', () => {
         placeholder="test"
         data={[{ label: 'foo', value: 'bar' }]}
         value={'bar'}
-        renderValue={(label, item) => `${label}-${item.value}`}
+        renderValue={(value, item, label) => `${label}-${item.value}`}
       />
     );
     const instanceDom = findDOMNode(instance);
