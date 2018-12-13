@@ -49,7 +49,7 @@ type Props = {
   renderMenu?: (menu: React.Node) => React.Node,
   renderMenuItem?: (itemLabel: React.Node, item: Object) => React.Node,
   renderMenuGroup?: (title: React.Node, item: Object) => React.Node,
-  renderValue?: (value: any, item: Object) => React.Node,
+  renderValue?: (value: any, item: Object, selectedElement: React.Node) => React.Node,
   renderExtraFooter?: () => React.Node,
   onChange?: (value: any, event: DefaultEvent) => void,
   onSelect?: (value: any, item: Object, event: DefaultEvent) => void,
@@ -484,13 +484,13 @@ class Dropdown extends React.Component<Props, State> {
     const activeItem = findNodeOfTree(data, item => shallowEqual(item[valueKey], value));
     const hasValue = !!activeItem;
 
-    let activeItemLabel = placeholder;
+    let selectedElement = placeholder;
 
     if (activeItem && activeItem[labelKey]) {
-      activeItemLabel = activeItem[labelKey];
+      selectedElement = activeItem[labelKey];
 
       if (renderValue) {
-        activeItemLabel = renderValue(activeItemLabel, activeItem);
+        selectedElement = renderValue(value, activeItem, selectedElement);
       }
     }
 
@@ -527,7 +527,7 @@ class Dropdown extends React.Component<Props, State> {
             hasValue={hasValue}
             active={this.state.active}
           >
-            {activeItemLabel || locale.placeholder}
+            {selectedElement || locale.placeholder}
           </PickerToggle>
         </div>
       </OverlayTrigger>

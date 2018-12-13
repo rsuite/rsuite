@@ -52,7 +52,7 @@ type Props = {
   renderMenu?: (menu: React.Node) => React.Node,
   renderMenuItem?: (itemLabel: React.Node, item: Object) => React.Node,
   renderMenuGroup?: (title: React.Node, item: Object) => React.Node,
-  renderValue?: (value: any[], items: any[]) => React.Node,
+  renderValue?: (value: any[], items: any[], selectedElement: React.Node) => React.Node,
   renderExtraFooter?: () => React.Node,
   onChange?: (value: any[], event: DefaultEvent) => void,
   onSelect?: (value: any, item: Object, event: DefaultEvent) => void,
@@ -535,9 +535,7 @@ class Dropdown extends React.Component<Props, State> {
 
     let selectedElement = placeholder;
 
-    if (renderValue) {
-      selectedElement = renderValue(value, selectedItems);
-    } else if (count > 0) {
+    if (count > 0) {
       selectedElement = (
         <SelectedElement
           selectedItems={selectedItems}
@@ -547,6 +545,10 @@ class Dropdown extends React.Component<Props, State> {
           prefix={this.addPrefix}
         />
       );
+
+      if (renderValue) {
+        selectedElement = renderValue(value, selectedItems, selectedElement);
+      }
     }
 
     const classes = getToggleWrapperClassName('check', this.addPrefix, this.props, hasValue);

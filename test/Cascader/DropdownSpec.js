@@ -70,10 +70,17 @@ describe('Cascader - Dropdown', () => {
   it('Should output a placeholder by renderValue()', () => {
     const placeholder = 'foobar';
     const instance = ReactTestUtils.renderIntoDocument(
-      <Dropdown renderValue={() => placeholder} />
+      <Dropdown renderValue={() => placeholder} data={items} value={'abc'} />
     );
     const instanceDom = findDOMNode(instance);
-    assert.equal(instanceDom.querySelector(toggleClassName).innerText, placeholder);
+    assert.equal(instanceDom.querySelector('.rs-picker-toggle-value').innerText, placeholder);
+
+    const instance2 = ReactTestUtils.renderIntoDocument(
+      <Dropdown renderValue={() => placeholder} />
+    );
+
+    const instanceDom2 = findDOMNode(instance2);
+    assert.equal(instanceDom2.querySelector(toggleClassName).innerText, 'Select');
   });
 
   it('Should be active by value', () => {

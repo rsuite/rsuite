@@ -47,7 +47,7 @@ type Props = {
   valueKey: string,
   labelKey: string,
   renderMenu?: (itemLabel: React.Node, item: Object) => React.Node,
-  renderValue?: (value?: any[], selectedItems: any[]) => React.Node,
+  renderValue?: (value?: any[], selectedItems: any[], selectedElement: React.Node) => React.Node,
   renderExtraFooter?: () => React.Node,
   disabled?: boolean,
   value?: any[],
@@ -283,12 +283,14 @@ class Dropdown extends React.Component<Props, State> {
   };
 
   handleClean = (event: DefaultEvent) => {
-    const { disabled, onChange } = this.props;
+    const { disabled, onChange, data } = this.props;
     if (disabled) {
       return;
     }
     const nextState = {
+      items: [data],
       value: [],
+      selectNode: null,
       activePaths: []
     };
     this.setState(nextState, () => {
@@ -396,9 +398,7 @@ class Dropdown extends React.Component<Props, State> {
 
     let selectedElement = placeholder;
 
-    if (renderValue) {
-      selectedElement = renderValue(value, selectedItems);
-    } else if (count > 0) {
+    if (count > 0) {
       selectedElement = (
         <SelectedElement
           selectedItems={selectedItems}
@@ -411,6 +411,9 @@ class Dropdown extends React.Component<Props, State> {
           locale={locale}
         />
       );
+      if (renderValue) {
+        selectedElement = renderValue(value, selectedItems, selectedElement);
+      }
     }
 
     const classes = getToggleWrapperClassName('cascader', this.addPrefix, this.props, hasValue);

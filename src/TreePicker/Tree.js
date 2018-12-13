@@ -86,8 +86,8 @@ type Props = {
   onEntered?: () => void,
   onExiting?: () => void,
   onEntering?: () => void,
-  renderMenu?: (menu: string | React.Node) => React.Node,
-  renderValue?: (activeNode: ?Object, placeholder?: string | React.Node) => React.Node,
+  renderMenu?: (menu: React.Node) => React.Node,
+  renderValue?: (value: any, activeNode: ?Object, selectedElement: ?React.Node) => React.Node,
   renderTreeNode?: (nodeData: Object) => React.Node,
   renderTreeIcon?: (nodeData: Object) => React.Node,
   renderExtraFooter?: () => React.Node
@@ -836,17 +836,15 @@ class Tree extends React.Component<Props, States> {
     const { activeNode } = this.state;
     const classes = getToggleWrapperClassName('tree', this.addPrefix, this.props, !!activeNode);
 
-    let placeholderText = null;
-    const hasValue = activeNode !== null;
+    let selectedElement = placeholder;
+    const hasValue = !!activeNode;
     if (hasValue) {
-      placeholderText = activeNode && activeNode[labelKey];
-    } else if (placeholder) {
-      placeholderText = placeholder;
+      selectedElement = activeNode && activeNode[labelKey];
+      if (renderValue && activeNode) {
+        selectedElement = renderValue(activeNode[valueKey], activeNode, selectedElement);
+      }
     }
 
-    if (renderValue && hasValue) {
-      placeholderText = renderValue(activeNode, placeholderText);
-    }
     const unhandled = getUnhandledProps(Tree, rest);
 
     if (inline) {
@@ -885,7 +883,7 @@ class Tree extends React.Component<Props, States> {
               hasValue={hasValue}
               active={this.state.active}
             >
-              {placeholderText || <FormattedMessage id="placeholder" />}
+              {selectedElement || <FormattedMessage id="placeholder" />}
             </PickerToggle>
           </div>
         </OverlayTrigger>
