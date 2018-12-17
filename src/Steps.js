@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import setStatic from 'recompose/setStatic';
 
 import StepItem from './StepItem';
-import { prefix, defaultProps, ReactChildren, isIE9, isIE10 } from './utils';
+import { prefix, defaultProps, ReactChildren, isIE10 } from './utils';
 
 type Props = {
   classPrefix: string,
@@ -37,7 +37,6 @@ class Steps extends React.Component<Props> {
     const addPrefix: Function = prefix(classPrefix);
     const horizontal = !vertical;
     const classes = classNames(classPrefix, className, {
-      'ie-polyfill': horizontal && isIE9(),
       [addPrefix('small')]: small,
       [addPrefix('vertical')]: vertical,
       [addPrefix('horizontal')]: horizontal
