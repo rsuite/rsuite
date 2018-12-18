@@ -348,7 +348,7 @@ class Dropdown extends React.Component<Props, State> {
     });
   };
 
-  handleExited = () => {
+  handleExit = () => {
     const { onClose } = this.props;
     const value = this.getValue();
     onClose && onClose();
@@ -554,7 +554,7 @@ class Dropdown extends React.Component<Props, State> {
           positionRef={this.bindPositionRef}
           onEnter={createChainedFunction(this.setStickyItems, onEnter)}
           onEntered={createChainedFunction(this.handleOpen, onEntered)}
-          onExited={createChainedFunction(this.handleExited, onExited)}
+          onExit={createChainedFunction(this.handleExit, onExited)}
           speaker={this.renderDropdownMenu()}
         >
           <div className={classes} style={style} ref={this.bindContainerRef}>

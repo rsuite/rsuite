@@ -325,7 +325,7 @@ class Dropdown extends React.Component<Props, State> {
     });
   };
 
-  handleExited = () => {
+  handleExit = () => {
     const { onClose } = this.props;
     onClose && onClose();
     this.setState({
@@ -431,7 +431,7 @@ class Dropdown extends React.Component<Props, State> {
             pickerProps={this.props}
             innerRef={this.bindTriggerRef}
             onEnter={createChainedFunction(this.handleEntered, onEnter)}
-            onExited={createChainedFunction(this.handleExited, onExited)}
+            onExit={createChainedFunction(this.handleExit, onExited)}
             speaker={this.renderDropdownMenu()}
           >
             <PickerToggle

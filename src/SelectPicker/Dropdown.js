@@ -297,6 +297,9 @@ class Dropdown extends React.Component<Props, State> {
   handleSelect = (value: any, item: Object, event: DefaultEvent) => {
     const { onSelect } = this.props;
     onSelect && onSelect(value, item, event);
+    if (this.toggle) {
+      this.toggle.onFocus();
+    }
   };
 
   handleSearch = (searchKeyword: string, event: DefaultEvent) => {
@@ -350,20 +353,15 @@ class Dropdown extends React.Component<Props, State> {
     });
   };
 
-  handleExited = () => {
+  handleExit = () => {
     const { onClose } = this.props;
     onClose && onClose();
     const value = this.getValue();
-
     this.setState({
       focusItemValue: value,
       searchKeyword: '',
       active: false
     });
-
-    if (this.toggle) {
-      this.toggle.onFocus();
-    }
   };
 
   handleOpen = () => {
@@ -495,7 +493,7 @@ class Dropdown extends React.Component<Props, State> {
         innerRef={this.bindTriggerRef}
         positionRef={this.bindPositionRef}
         onEntered={createChainedFunction(this.handleOpen, onEntered)}
-        onExited={createChainedFunction(this.handleExited, onExited)}
+        onExit={createChainedFunction(this.handleExit, onExited)}
         speaker={this.renderDropdownMenu()}
       >
         <div className={classes} style={style} tabIndex={-1} role="menu">

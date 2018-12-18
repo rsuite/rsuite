@@ -993,10 +993,6 @@ class CheckTree extends React.Component<Props, States> {
     this.setState({
       active: false
     });
-
-    if (this.toggle) {
-      this.toggle.onFocus();
-    }
   };
 
   renderDropdownMenu() {
@@ -1213,7 +1209,7 @@ class CheckTree extends React.Component<Props, States> {
         innerRef={this.bindTriggerRef}
         positionRef={this.bindPositionRef}
         onEntered={createChainedFunction(this.handleOnOpen, onEntered)}
-        onExited={createChainedFunction(this.handleOnClose, onExited)}
+        onExit={createChainedFunction(this.handleOnClose, onExited)}
         speaker={this.renderDropdownMenu()}
       >
         <div className={classes} style={style} ref={this.bindContainerRef}>
