@@ -52,15 +52,7 @@ class Form extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-
-    const {
-      formDefaultValue,
-      formError,
-      formValue,
-      model,
-      checkTrigger,
-      errorFromContext
-    } = this.props;
+    const { formDefaultValue, formError } = this.props;
 
     this.state = {
       formError: formError || {},

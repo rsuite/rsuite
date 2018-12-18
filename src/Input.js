@@ -58,7 +58,6 @@ class Input extends React.Component<Props> {
       className,
       classPrefix,
       componentClass,
-      onChange,
       id = controlId,
       onFocus,
       onBlur,

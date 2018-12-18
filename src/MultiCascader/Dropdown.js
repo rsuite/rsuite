@@ -3,28 +3,20 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { IntlProvider, FormattedMessage } from 'rsuite-intl';
-import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import { shallowEqualArray } from 'rsuite-utils/lib/utils';
 import { polyfill } from 'react-lifecycles-compat';
 
-import findNodesOfTree from '../utils/findNodesOfTree';
 import DropdownMenu from './DropdownMenu';
 import createUtils from './utils';
 import type { Placement } from '../utils/TypeDefinition';
 
-import {
-  defaultProps,
-  prefix,
-  getUnhandledProps,
-  createChainedFunction,
-  tplTransform
-} from '../utils';
+import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 
 import {
   PickerToggle,
   MenuWrapper,
   SelectedElement,
+  PickerToggleTrigger,
   getToggleWrapperClassName,
   createConcatChildrenFunction
 } from '../_picker';
@@ -122,7 +114,7 @@ class Dropdown extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    const { data, value, defaultValue, cascade } = props;
+    const { data, value, defaultValue } = props;
     const initState = {
       data,
       prevValue: value,
@@ -151,11 +143,10 @@ class Dropdown extends React.Component<Props, State> {
   }
 
   static getCascadeState(nextProps: Props, flattenData: any[], nextValue?: any[]) {
-    const { data, cascade, value, defaultValue, uncheckableItemValues, valueKey } = nextProps;
+    const { data, cascade, value, defaultValue, uncheckableItemValues } = nextProps;
     let cascadeValue = nextValue || value || defaultValue || [];
 
     if (cascade && data) {
-      const items = flattenData.filter(item => cascadeValue.some(v => v === item[valueKey]));
       cascadeValue = Dropdown.utils.transformValue(
         cascadeValue,
         flattenData,
@@ -169,7 +160,7 @@ class Dropdown extends React.Component<Props, State> {
   }
 
   static getDerivedStateFromProps(nextProps: Props, prevState: State) {
-    const { data, labelKey, valueKey, childrenKey, cascade, uncheckableItemValues } = nextProps;
+    const { data, valueKey, childrenKey } = nextProps;
 
     let value = nextProps.value || prevState.value || [];
     let { prevValue, flattenData, selectNode = {}, items } = prevState;
@@ -355,40 +346,24 @@ class Dropdown extends React.Component<Props, State> {
 
   render() {
     const {
-      data,
       valueKey,
       labelKey,
       childrenKey,
-      className,
       placeholder,
       renderValue,
       disabled,
       cleanable,
       locale,
-      open,
-      defaultOpen,
-      onClose,
-      placement,
-      classPrefix,
       toggleComponentClass,
-      block,
       style,
-      container,
-      containerPadding,
       onEnter,
-      onEntering,
-      onEntered,
-      onExit,
-      onExiting,
       onExited,
-      onHide,
-      appearance,
       countable,
       cascade,
       ...rest
     } = this.props;
 
-    const { activePaths, flattenData } = this.state;
+    const { flattenData } = this.state;
     const unhandled = getUnhandledProps(Dropdown, rest);
     const value = this.getValue();
 
@@ -420,23 +395,12 @@ class Dropdown extends React.Component<Props, State> {
 
     return (
       <div className={classes} style={style} tabIndex={-1} role="menu" ref={this.bindContainerRef}>
-        <OverlayTrigger
-          ref={this.bindTriggerRef}
-          open={open}
-          defaultOpen={defaultOpen}
-          disabled={disabled}
-          trigger="click"
-          placement={placement}
+        <PickerToggleTrigger
+          pickerProps={this.props}
+          innerRef={this.bindTriggerRef}
           onEnter={createChainedFunction(this.handleEntered, onEnter)}
-          onEntering={onEntering}
-          onEntered={onEntered}
-          onExit={onExit}
-          onExiting={onExiting}
           onExited={createChainedFunction(this.handleExited, onExited)}
-          onHide={onHide}
           speaker={this.renderDropdownMenu()}
-          container={container}
-          containerPadding={containerPadding}
         >
           <PickerToggle
             {...unhandled}
@@ -448,7 +412,7 @@ class Dropdown extends React.Component<Props, State> {
           >
             {selectedElement || locale.placeholder}
           </PickerToggle>
-        </OverlayTrigger>
+        </PickerToggleTrigger>
       </div>
     );
   }

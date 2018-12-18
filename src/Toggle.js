@@ -53,7 +53,6 @@ class Toggle extends React.Component<Props, State> {
     const {
       disabled,
       className,
-      onChange,
       checkedChildren,
       unCheckedChildren,
       classPrefix,

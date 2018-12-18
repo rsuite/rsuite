@@ -4,7 +4,6 @@ import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { IntlProvider, FormattedMessage } from 'rsuite-intl';
-import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import { findNodeOfTree, shallowEqual } from 'rsuite-utils/lib/utils';
 import { polyfill } from 'react-lifecycles-compat';
 
@@ -16,6 +15,7 @@ import type { Placement } from '../utils/TypeDefinition';
 import {
   PickerToggle,
   MenuWrapper,
+  PickerToggleTrigger,
   getToggleWrapperClassName,
   createConcatChildrenFunction
 } from '../_picker';
@@ -377,33 +377,17 @@ class Dropdown extends React.Component<Props, State> {
 
   render() {
     const {
-      data,
       valueKey,
       labelKey,
-      className,
       placeholder,
       renderValue,
       disabled,
       cleanable,
       locale,
-      open,
-      defaultOpen,
-      onClose,
-      placement,
-      classPrefix,
       toggleComponentClass,
-      block,
       style,
-      container,
-      containerPadding,
       onEnter,
-      onEntering,
-      onEntered,
-      onExit,
-      onExiting,
       onExited,
-      onHide,
-      appearance,
       ...rest
     } = this.props;
 
@@ -443,23 +427,12 @@ class Dropdown extends React.Component<Props, State> {
           role="menu"
           ref={this.bindContainerRef}
         >
-          <OverlayTrigger
-            ref={this.bindTriggerRef}
-            open={open}
-            defaultOpen={defaultOpen}
-            disabled={disabled}
-            trigger="click"
-            placement={placement}
+          <PickerToggleTrigger
+            pickerProps={this.props}
+            innerRef={this.bindTriggerRef}
             onEnter={createChainedFunction(this.handleEntered, onEnter)}
-            onEntering={onEntering}
-            onEntered={onEntered}
-            onExit={onExit}
-            onExiting={onExiting}
             onExited={createChainedFunction(this.handleExited, onExited)}
-            onHide={onHide}
             speaker={this.renderDropdownMenu()}
-            container={container}
-            containerPadding={containerPadding}
           >
             <PickerToggle
               {...unhandled}
@@ -471,7 +444,7 @@ class Dropdown extends React.Component<Props, State> {
             >
               {activeItemLabel || <FormattedMessage id="placeholder" />}
             </PickerToggle>
-          </OverlayTrigger>
+          </PickerToggleTrigger>
         </div>
       </IntlProvider>
     );

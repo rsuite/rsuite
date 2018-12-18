@@ -43,17 +43,7 @@ class RadioGroup extends React.Component<Props, State> {
   };
 
   render() {
-    const {
-      className,
-      inline,
-      name,
-      children,
-      classPrefix,
-      appearance,
-      onChange,
-      ...props
-    } = this.props;
-
+    const { className, inline, name, children, classPrefix, appearance, ...rest } = this.props;
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, addPrefix(appearance), className, {
       [addPrefix('inline')]: inline
@@ -71,7 +61,7 @@ class RadioGroup extends React.Component<Props, State> {
       return child.props;
     });
 
-    const unhandled = getUnhandledProps(RadioGroup, props);
+    const unhandled = getUnhandledProps(RadioGroup, rest);
 
     return (
       <div {...unhandled} className={classes} role="button">

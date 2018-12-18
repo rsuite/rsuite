@@ -3,7 +3,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
-import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import { IntlProvider, FormattedMessage } from 'rsuite-intl';
 import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 import type { Placement } from '../utils/TypeDefinition';
@@ -12,8 +11,7 @@ import {
   reactToString,
   filterNodesOfTree,
   getDataGroupBy,
-  shallowEqual,
-  tplTransform
+  shallowEqual
 } from 'rsuite-utils/lib/utils';
 
 import {
@@ -24,7 +22,8 @@ import {
   onMenuKeyDown,
   MenuWrapper,
   SearchBar,
-  SelectedElement
+  SelectedElement,
+  PickerToggleTrigger
 } from '../_picker';
 
 type DefaultEvent = SyntheticEvent<*>;
@@ -42,6 +41,7 @@ type Props = {
   toggleComponentClass?: React.ElementType,
   menuClassName?: string,
   menuStyle?: Object,
+  menuAutoWidth?: boolean,
   disabled?: boolean,
   disabledItemValues?: any[],
   maxHeight?: number,
@@ -107,6 +107,7 @@ class Dropdown extends React.Component<Props, State> {
     searchable: true,
     cleanable: true,
     countable: true,
+    menuAutoWidth: true,
     placement: 'bottomLeft'
   };
 
@@ -404,6 +405,10 @@ class Dropdown extends React.Component<Props, State> {
     return this.position;
   };
 
+  getToggleInstance = () => {
+    return this.toggle;
+  };
+
   renderDropdownMenu() {
     const {
       data,
@@ -416,7 +421,8 @@ class Dropdown extends React.Component<Props, State> {
       placement,
       renderMenu,
       menuClassName,
-      menuStyle
+      menuStyle,
+      menuAutoWidth
     } = this.props;
 
     const { focusItemValue, stickyItems } = this.state;
@@ -473,9 +479,11 @@ class Dropdown extends React.Component<Props, State> {
 
     return (
       <MenuWrapper
+        autoWidth={menuAutoWidth}
         className={classes}
         style={menuStyle}
         onKeyDown={this.handleKeyDown}
+        getToggleInstance={this.getToggleInstance}
         getPositionInstance={this.getPositionInstance}
       >
         {searchable && (
@@ -496,31 +504,16 @@ class Dropdown extends React.Component<Props, State> {
       data,
       valueKey,
       labelKey,
-      className,
       placeholder,
       renderValue,
       disabled,
       cleanable,
       locale,
-      classPrefix,
-      onOpen,
-      onClose,
-      placement,
-      open,
-      defaultOpen,
       toggleComponentClass,
-      block,
       style,
-      container,
-      containerPadding,
       onEnter,
-      onEntering,
       onEntered,
-      onExit,
-      onExiting,
       onExited,
-      onHide,
-      appearance,
       countable,
       ...rest
     } = this.props;
@@ -555,24 +548,14 @@ class Dropdown extends React.Component<Props, State> {
 
     return (
       <IntlProvider locale={locale}>
-        <OverlayTrigger
-          ref={this.bindTriggerRef}
+        <PickerToggleTrigger
+          pickerProps={this.props}
+          innerRef={this.bindTriggerRef}
           positionRef={this.bindPositionRef}
-          open={open}
-          defaultOpen={defaultOpen}
-          disabled={disabled}
-          trigger="click"
-          placement={placement}
           onEnter={createChainedFunction(this.setStickyItems, onEnter)}
-          onEntering={onEntering}
           onEntered={createChainedFunction(this.handleOpen, onEntered)}
-          onExit={onExit}
-          onExiting={onExiting}
           onExited={createChainedFunction(this.handleExited, onExited)}
-          onHide={onHide}
           speaker={this.renderDropdownMenu()}
-          container={container}
-          containerPadding={containerPadding}
         >
           <div className={classes} style={style} ref={this.bindContainerRef}>
             <PickerToggle
@@ -588,7 +571,7 @@ class Dropdown extends React.Component<Props, State> {
               {selectedElement || <FormattedMessage id="placeholder" />}
             </PickerToggle>
           </div>
-        </OverlayTrigger>
+        </PickerToggleTrigger>
       </IntlProvider>
     );
   }

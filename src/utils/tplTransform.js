@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 
 const toJSX = (node, key) => (typeof node !== 'undefined' ? <span key={key}>{node}</span> : null);

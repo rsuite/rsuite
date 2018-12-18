@@ -102,8 +102,6 @@ class Sidenav extends React.Component<Props, State> {
       classPrefix,
       appearance,
       expanded,
-      openKeys,
-      defaultOpenKeys,
       componentClass: Component,
       ...props
     } = this.props;

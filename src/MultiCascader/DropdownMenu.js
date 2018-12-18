@@ -1,12 +1,11 @@
 // @flow
 
 import * as React from 'react';
-import { getPosition, scrollTop } from 'dom-lib';
 import _ from 'lodash';
 import classNames from 'classnames';
 import { shallowEqual } from 'rsuite-utils/lib/utils';
 
-import { getUnhandledProps, defaultProps, prefix } from '../utils';
+import { getUnhandledProps, prefix } from '../utils';
 import DropdownMenuItem from '../_picker/DropdownMenuCheckItem';
 
 type DefaultEvent = SyntheticEvent<*>;
@@ -130,7 +129,6 @@ class DropdownMenu extends React.Component<Props> {
       labelKey,
       childrenKey,
       disabledItemValues,
-      uncheckableItemValues,
       renderMenuItem,
       onCheck,
       cascade

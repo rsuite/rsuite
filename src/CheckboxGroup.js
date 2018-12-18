@@ -49,17 +49,7 @@ class CheckboxGroup extends React.Component<Props, State> {
   };
 
   render() {
-    const {
-      className,
-      inline,
-      name,
-      value,
-      children,
-      onChange,
-      classPrefix,
-      ...props
-    } = this.props;
-
+    const { className, inline, name, value, children, classPrefix, ...props } = this.props;
     const nextValue = this.getValue() || [];
     const classes: string = classNames(classPrefix, className);
     const checkedKey = _.isUndefined(value) ? 'defaultChecked' : 'checked';

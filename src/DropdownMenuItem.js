@@ -8,7 +8,7 @@ import { setDisplayName } from 'recompose';
 
 import SafeAnchor from './SafeAnchor';
 import Icon from './Icon';
-import { prefix, isOneOf, createChainedFunction, defaultProps } from './utils';
+import { prefix, isOneOf, createChainedFunction, defaultProps, getUnhandledProps } from './utils';
 
 type Trigger = 'click' | 'hover';
 type Props = {
@@ -93,11 +93,9 @@ class DropdownMenuItem extends React.Component<Props, State> {
       children,
       divider,
       panel,
-      onSelect,
       active,
       disabled,
       className,
-      eventKey,
       submenu,
       style,
       classPrefix,
@@ -107,9 +105,10 @@ class DropdownMenuItem extends React.Component<Props, State> {
       trigger,
       expanded,
       componentClass: Component,
-      ...props
+      ...rest
     } = this.props;
 
+    const unhandled = getUnhandledProps(DropdownMenuItem, rest);
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, className, {
       [addPrefix(expanded ? 'expand' : 'collapse')]: submenu && this.context.sidenav,
@@ -155,7 +154,7 @@ class DropdownMenuItem extends React.Component<Props, State> {
     return (
       <li {...itemProps} style={style} role="presentation" className={classes}>
         <Component
-          {...props}
+          {...unhandled}
           {...itemToggleProps}
           className={addPrefix('content')}
           tabIndex={tabIndex}

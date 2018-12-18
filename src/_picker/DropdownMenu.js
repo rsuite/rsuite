@@ -6,7 +6,7 @@ import { getPosition, scrollTop, getHeight } from 'dom-lib';
 import classNames from 'classnames';
 import { shallowEqual } from 'rsuite-utils/lib/utils';
 
-import { getUnhandledProps, defaultProps, prefix } from '../utils';
+import { getUnhandledProps, prefix } from '../utils';
 import DropdownMenuGroup from './DropdownMenuGroup';
 
 type DefaultEvent = SyntheticEvent<*>;
@@ -177,7 +177,7 @@ class DropdownMenu extends React.Component<Props> {
   }
 
   render() {
-    const { maxHeight, className, style, classPrefix, ...rest } = this.props;
+    const { maxHeight, className, style, ...rest } = this.props;
     const classes = classNames(this.addPrefix('items'), className);
     const unhandled = getUnhandledProps(DropdownMenu, rest);
     const styles = {

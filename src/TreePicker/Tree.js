@@ -6,12 +6,11 @@ import { findDOMNode } from 'react-dom';
 import { toggleClass, hasClass } from 'dom-lib';
 import { IntlProvider, FormattedMessage } from 'rsuite-intl';
 import { polyfill } from 'react-lifecycles-compat';
-import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import _ from 'lodash';
-import { reactToString, shallowEqual, shallowEqualArray } from 'rsuite-utils/lib/utils';
+import { reactToString, shallowEqual } from 'rsuite-utils/lib/utils';
 
 import TreeNode from './TreeNode';
-import { clone, defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
+import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 
 import {
   PickerToggle,
@@ -19,6 +18,7 @@ import {
   onMenuKeyDown,
   MenuWrapper,
   SearchBar,
+  PickerToggleTrigger,
   createConcatChildrenFunction
 } from '../_picker';
 
@@ -55,7 +55,6 @@ type Props = {
   expandAll?: boolean,
   cleanable?: boolean,
   placement?: Placement,
-  menuStyle?: Object,
   appearance: 'default' | 'subtle',
   searchable?: boolean,
   classPrefix: string,
@@ -63,7 +62,9 @@ type Props = {
   placeholder?: React.Node,
   defaultOpen?: boolean,
   defaultValue?: any,
+  menuStyle?: Object,
   menuClassName?: string,
+  menuAutoWidth?: boolean,
   searchKeyword?: string,
   defaultExpandAll?: boolean,
   containerPadding?: number,
@@ -116,6 +117,7 @@ class Tree extends React.Component<Props, States> {
     cleanable: true,
     placement: 'bottomLeft',
     searchable: true,
+    menuAutoWidth: true,
     appearance: 'default',
     childrenKey: 'children'
   };
@@ -144,7 +146,7 @@ class Tree extends React.Component<Props, States> {
   }
 
   static getDerivedStateFromProps(nextProps: Props, prevState: States) {
-    const { value, data, expandAll, valueKey, searchKeyword } = nextProps;
+    const { value, data, expandAll } = nextProps;
     let nextState = {};
     if (_.isArray(data) && _.isArray(prevState.data) && prevState.data !== data) {
       nextState.data = data;
@@ -163,8 +165,8 @@ class Tree extends React.Component<Props, States> {
   }
 
   componentDidUpdate(prevProps: Props, prevState: States) {
-    const { filterData, searchKeyword, selectedValue } = this.state;
-    const { value, data, expandAll, valueKey } = this.props;
+    const { filterData, searchKeyword } = this.state;
+    const { value, data, valueKey } = this.props;
     if (prevState.data !== data) {
       const nextData = [...data];
       this.flattenNodes(nextData);
@@ -404,6 +406,10 @@ class Tree extends React.Component<Props, States> {
     return this.position;
   };
 
+  getToggleInstance = () => {
+    return this.toggle;
+  };
+
   focusNode(activeNode) {
     const { inline } = this.props;
     if (activeNode && inline) {
@@ -583,7 +589,7 @@ class Tree extends React.Component<Props, States> {
 
   handleSearch = (value: string, event: DefaultEvent) => {
     const { filterData } = this.state;
-    const { onSearch, data, searchKeyword } = this.props;
+    const { onSearch, searchKeyword } = this.props;
 
     if (_.isUndefined(searchKeyword)) {
       this.setState({
@@ -651,7 +657,8 @@ class Tree extends React.Component<Props, States> {
       locale,
       renderMenu,
       menuStyle,
-      menuClassName
+      menuClassName,
+      menuAutoWidth
     } = this.props;
     const keyword = !_.isUndefined(searchKeyword) ? searchKeyword : this.state.searchKeyword;
     const classes = classNames(
@@ -662,9 +669,11 @@ class Tree extends React.Component<Props, States> {
 
     return (
       <MenuWrapper
+        autoWidth={menuAutoWidth}
         className={classes}
         style={menuStyle}
         ref={this.bindMenuRef}
+        getToggleInstance={this.getToggleInstance}
         getPositionInstance={this.getPositionInstance}
       >
         {searchable ? (
@@ -805,31 +814,15 @@ class Tree extends React.Component<Props, States> {
     const {
       inline,
       locale,
-      open,
-      defaultOpen,
       disabled,
-      className,
       toggleComponentClass,
-      placement,
-      classPrefix,
       placeholder,
       cleanable,
       renderValue,
       valueKey,
       labelKey,
-      appearance,
-      onOpen,
-      onClose,
-      onHide,
-      container,
-      containerPadding,
-      onEnter,
-      onEntering,
       onEntered,
-      onExit,
-      onExiting,
       onExited,
-      block,
       style,
       ...rest
     } = this.props;
@@ -853,23 +846,12 @@ class Tree extends React.Component<Props, States> {
 
     return (
       <IntlProvider locale={locale}>
-        <OverlayTrigger
-          ref={this.bindTriggerRef}
+        <PickerToggleTrigger
+          pickerProps={this.props}
+          innerRef={this.bindTriggerRef}
           positionRef={this.bindPositionRef}
-          open={open}
-          defaultOpen={defaultOpen}
-          disabled={disabled}
-          trigger="click"
-          placement={placement}
-          onEnter={onEnter}
-          onEntering={onEntering}
           onEntered={createChainedFunction(this.handleOnOpen, onEntered)}
-          onExit={onExit}
-          onExiting={onExiting}
           onExited={createChainedFunction(this.handleOnClose, onExited)}
-          onHide={onHide}
-          container={container}
-          containerPadding={containerPadding}
           speaker={this.renderDropdownMenu()}
         >
           <div className={classes} style={style} ref={this.bindContainerRef}>
@@ -886,7 +868,7 @@ class Tree extends React.Component<Props, States> {
               {selectedElement || <FormattedMessage id="placeholder" />}
             </PickerToggle>
           </div>
-        </OverlayTrigger>
+        </PickerToggleTrigger>
       </IntlProvider>
     );
   }

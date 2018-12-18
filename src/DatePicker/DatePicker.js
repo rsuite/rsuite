@@ -5,14 +5,18 @@ import moment from 'moment';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { IntlProvider } from 'rsuite-intl';
-import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import { polyfill } from 'react-lifecycles-compat';
 
 import Calendar from '../Calendar';
 import Toolbar from './Toolbar';
 import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
 import disabledTime, { calendarOnlyProps } from '../utils/disabledTime';
-import { PickerToggle, MenuWrapper, getToggleWrapperClassName } from '../_picker';
+import {
+  PickerToggle,
+  MenuWrapper,
+  PickerToggleTrigger,
+  getToggleWrapperClassName
+} from '../_picker';
 import { shouldOnlyTime } from '../utils/formatUtils';
 import type { Placement } from '../utils/TypeDefinition';
 
@@ -412,27 +416,14 @@ class DatePicker extends React.Component<Props, State> {
       inline,
       className,
       disabled,
-      ranges,
       cleanable,
-      open,
-      defaultOpen,
-      placement,
       classPrefix,
       format,
       locale,
       toggleComponentClass,
-      block,
       style,
-      container,
-      containerPadding,
-      onEnter,
-      onEntering,
       onEntered,
-      onExit,
-      onExiting,
       onExited,
-      onHide,
-      appearance,
       ...rest
     } = this.props;
 
@@ -458,23 +449,12 @@ class DatePicker extends React.Component<Props, State> {
     return (
       <IntlProvider locale={locale}>
         <div className={classes} style={style} ref={this.bindContainerRef}>
-          <OverlayTrigger
-            ref={this.bindTriggerRef}
-            open={open}
-            defaultOpen={defaultOpen}
-            disabled={disabled}
-            trigger="click"
-            placement={placement}
-            onEnter={onEnter}
-            onEntering={onEntering}
+          <PickerToggleTrigger
+            pickerProps={this.props}
+            innerRef={this.bindTriggerRef}
             onEntered={createChainedFunction(this.handleEntered, onEntered)}
-            onExit={onExit}
-            onExiting={onExiting}
             onExited={createChainedFunction(this.handleExited, onExited)}
-            onHide={onHide}
             speaker={this.renderDropdownMenu(calendar)}
-            container={container}
-            containerPadding={containerPadding}
           >
             <PickerToggle
               {...unhandled}
@@ -486,7 +466,7 @@ class DatePicker extends React.Component<Props, State> {
             >
               {this.getDateString()}
             </PickerToggle>
-          </OverlayTrigger>
+          </PickerToggleTrigger>
         </div>
       </IntlProvider>
     );

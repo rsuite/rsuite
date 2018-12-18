@@ -66,7 +66,6 @@ class Message extends React.Component<Props, State> {
     const {
       className,
       classPrefix,
-      onClose,
       type,
       title,
       description,

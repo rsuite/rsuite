@@ -37,6 +37,8 @@ module.exports = {
     'no-unused-expressions': [ERROR, { allowShortCircuit: true }],
     'arrow-parens': [ERROR, 'as-needed'],
     'no-mixed-operators': OFF,
+    'no-unused-vars': ERROR,
+    'react/jsx-uses-vars': ERROR,
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }]
   }
 };

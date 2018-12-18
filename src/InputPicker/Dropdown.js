@@ -3,7 +3,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
-import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import InputAutosize from './InputAutosize';
 import { getWidth } from 'dom-lib';
 import {
@@ -29,7 +28,8 @@ import {
   getToggleWrapperClassName,
   onMenuKeyDown,
   PickerToggle,
-  MenuWrapper
+  MenuWrapper,
+  PickerToggleTrigger
 } from '../_picker';
 
 import InputSearch from './InputSearch';
@@ -50,6 +50,7 @@ type Props = {
   toggleComponentClass?: React.ElementType,
   menuClassName?: string,
   menuStyle?: Object,
+  menuAutoWidth?: boolean,
   disabled?: boolean,
   disabledItemValues?: any[],
   maxHeight?: number,
@@ -117,6 +118,7 @@ class Dropdown extends React.Component<Props, State> {
     },
     searchable: true,
     cleanable: true,
+    menuAutoWidth: true,
     placement: 'bottomLeft'
   };
 
@@ -266,6 +268,16 @@ class Dropdown extends React.Component<Props, State> {
     this.toggleWrapper = ref;
   };
 
+  toggle = null;
+
+  bindToggleRef = (ref: React.ElementRef<*>) => {
+    this.toggle = ref;
+  };
+
+  getToggleInstance = () => {
+    return this.toggle;
+  };
+
   position = null;
 
   bindPositionRef = (ref: React.ElementRef<*>) => {
@@ -353,7 +365,7 @@ class Dropdown extends React.Component<Props, State> {
       del: multi ? this.removeLastItem : this.handleClean
     });
   };
-  handleClick = (event: DefaultEvent) => {
+  handleClick = () => {
     this.focusInput();
   };
 
@@ -587,6 +599,7 @@ class Dropdown extends React.Component<Props, State> {
       renderExtraFooter,
       menuClassName,
       menuStyle,
+      menuAutoWidth,
       creatable,
       valueKey,
       multi
@@ -644,7 +657,13 @@ class Dropdown extends React.Component<Props, State> {
     );
 
     return (
-      <MenuWrapper className={classes} style={menuStyle} onKeyDown={this.handleKeyDown}>
+      <MenuWrapper
+        autoWidth={menuAutoWidth}
+        className={classes}
+        style={menuStyle}
+        getToggleInstance={this.getToggleInstance}
+        onKeyDown={this.handleKeyDown}
+      >
         {renderMenu ? renderMenu(menu) : menu}
         {renderExtraFooter && renderExtraFooter()}
       </MenuWrapper>
@@ -707,29 +726,15 @@ class Dropdown extends React.Component<Props, State> {
 
   render() {
     const {
-      data,
-      className,
       disabled,
       cleanable,
       locale,
-      classPrefix,
-      onOpen,
-      onClose,
-      placement,
-      open,
-      defaultOpen,
       toggleComponentClass,
-      block,
       style,
-      container,
-      containerPadding,
       onEnter,
-      onEntering,
       onEntered,
       onExit,
-      onExiting,
       onExited,
-      onHide,
       searchable,
       multi,
       ...rest
@@ -749,24 +754,16 @@ class Dropdown extends React.Component<Props, State> {
     const displaySearchInput = searchable && !disabled;
 
     return (
-      <OverlayTrigger
-        ref={this.bindTriggerRef}
-        open={open}
-        defaultOpen={defaultOpen}
-        disabled={disabled}
+      <PickerToggleTrigger
+        pickerProps={this.props}
+        innerRef={this.bindTriggerRef}
+        positionRef={this.bindPositionRef}
         trigger="active"
-        placement={placement}
         onEnter={createChainedFunction(this.handleEnter, onEnter)}
         onEntered={createChainedFunction(this.handleEntered, onEntered)}
-        onEntering={onEntering}
         onExit={createChainedFunction(this.handleExit, onExit)}
         onExited={createChainedFunction(this.handleExited, onExited)}
-        onExiting={onExiting}
-        onHide={onHide}
         speaker={this.renderDropdownMenu()}
-        container={container}
-        containerPadding={containerPadding}
-        positionRef={this.bindPositionRef}
       >
         <div
           className={classes}
@@ -777,6 +774,7 @@ class Dropdown extends React.Component<Props, State> {
         >
           <PickerToggle
             {...unhandled}
+            ref={this.bindToggleRef}
             componentClass={toggleComponentClass}
             onClean={this.handleClean}
             cleanable={cleanable && !disabled}
@@ -789,7 +787,7 @@ class Dropdown extends React.Component<Props, State> {
             {displaySearchInput && this.renderInputSearch()}
           </div>
         </div>
-      </OverlayTrigger>
+      </PickerToggleTrigger>
     );
   }
 }

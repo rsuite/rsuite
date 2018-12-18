@@ -4,6 +4,7 @@ export DropdownMenuGroup from './DropdownMenuGroup';
 export DropdownMenuItem from './DropdownMenuItem';
 export MenuWrapper from './MenuWrapper';
 export PickerToggle from './PickerToggle';
+export PickerToggleTrigger from './PickerToggleTrigger';
 export SearchBar from './SearchBar';
 export SelectedElement from './SelectedElement';
 

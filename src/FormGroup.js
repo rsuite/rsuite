@@ -5,8 +5,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import compose from 'recompose/compose';
-
-import { withStyleProps, defaultProps, prefix } from './utils';
+import { withStyleProps, defaultProps, prefix, getUnhandledProps } from './utils';
 
 type Props = {
   controlId?: string,
@@ -32,8 +31,9 @@ class FormGroup extends React.Component<Props> {
   }
 
   render() {
-    const { validationState, className, controlId, isValid, classPrefix, ...props } = this.props;
+    const { validationState, className, isValid, classPrefix, ...rest } = this.props;
     const addPrefix = prefix(classPrefix);
+    const unhandled = getUnhandledProps(FormGroup, rest);
 
     const classes = classNames(classPrefix, className, {
       [addPrefix('has-success')]: !validationState && isValid,
@@ -41,7 +41,7 @@ class FormGroup extends React.Component<Props> {
       [addPrefix(`has-${validationState || ''}`)]: !_.isUndefined(validationState)
     });
 
-    return <div {...props} className={classes} role="group" />;
+    return <div {...unhandled} className={classes} role="group" />;
   }
 }
 

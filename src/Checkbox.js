@@ -63,7 +63,6 @@ class Checkbox extends React.Component<Props, State> {
       inline,
       disabled,
       className,
-      onChange,
       children,
       title,
       inputRef,

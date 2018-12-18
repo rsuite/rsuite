@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { shallowEqual, reactToString } from 'rsuite-utils/lib/utils';
+import { reactToString } from 'rsuite-utils/lib/utils';
 import { hasClass } from 'dom-lib';
 
 type DefaultEvent = SyntheticEvent<*>;

@@ -3,7 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import Transition from 'rsuite-utils/lib/Animation/Transition';
-import { getWidth, getOffset, on } from 'dom-lib';
+import { getOffset, on } from 'dom-lib';
 
 import { defaultProps, prefix } from './utils';
 

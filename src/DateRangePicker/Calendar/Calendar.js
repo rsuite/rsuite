@@ -119,7 +119,6 @@ class Calendar extends React.Component<Props> {
       onMouseMove,
       onToggleMonthDropdown,
       onChangePageDate,
-      format,
       disabledDate,
       className,
       value,

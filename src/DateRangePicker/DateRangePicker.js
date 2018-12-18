@@ -4,7 +4,6 @@ import * as React from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import { IntlProvider } from 'rsuite-intl';
-import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import _ from 'lodash';
 
 import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
@@ -13,7 +12,12 @@ import DatePicker from './DatePicker';
 import setTimingMargin from './setTimingMargin';
 import equalMoment from './equalMoment';
 import Type from './Type';
-import { PickerToggle, MenuWrapper, getToggleWrapperClassName } from '../_picker';
+import {
+  PickerToggle,
+  MenuWrapper,
+  PickerToggleTrigger,
+  getToggleWrapperClassName
+} from '../_picker';
 import type { Placement } from '../utils/TypeDefinition';
 
 type Range = {
@@ -132,7 +136,6 @@ class DateRangePicker extends React.Component<Props, State> {
 
   static getDerivedStateFromProps(nextProps: Props, prevState: State) {
     const { value } = nextProps;
-    const { selectValue } = prevState;
     if (typeof value === 'undefined') {
       return null;
     }
@@ -482,15 +485,7 @@ class DateRangePicker extends React.Component<Props, State> {
   };
 
   renderDropdownMenu() {
-    const {
-      placement,
-      menuClassName,
-      ranges,
-      isoWeek,
-      limitStartYear,
-      limitEndYear,
-      classPrefix
-    } = this.props;
+    const { placement, menuClassName, ranges, isoWeek, limitStartYear, limitEndYear } = this.props;
     const { calendarDate, selectValue, hoverValue, doneSelected } = this.state;
 
     const classes = classNames(
@@ -539,29 +534,13 @@ class DateRangePicker extends React.Component<Props, State> {
   }
   render() {
     const {
-      className,
       disabled,
-      ranges,
       cleanable,
-      isoWeek,
       locale,
-      open,
-      placement,
-      defaultOpen,
-      classPrefix,
       toggleComponentClass,
-      block,
       style,
-      container,
-      containerPadding,
-      onEnter,
-      onEntering,
       onEntered,
-      onExit,
-      onExiting,
       onExited,
-      onHide,
-      appearance,
       ...rest
     } = this.props;
 
@@ -573,23 +552,12 @@ class DateRangePicker extends React.Component<Props, State> {
     return (
       <IntlProvider locale={locale}>
         <div className={classes} style={style} ref={this.bindContainerRef}>
-          <OverlayTrigger
-            ref={this.bindTriggerRef}
-            open={open}
-            defaultOpen={defaultOpen}
-            disabled={disabled}
-            trigger="click"
-            placement={placement}
-            onEnter={onEnter}
-            onEntering={onEntering}
+          <PickerToggleTrigger
+            pickerProps={this.props}
+            innerRef={this.bindTriggerRef}
             onEntered={createChainedFunction(this.handleEntered, onEntered)}
-            onExit={onExit}
-            onExiting={onExiting}
             onExited={createChainedFunction(this.handleExited, onExited)}
-            onHide={onHide}
             speaker={this.renderDropdownMenu()}
-            container={container}
-            containerPadding={containerPadding}
           >
             <PickerToggle
               {...unhandled}
@@ -601,7 +569,7 @@ class DateRangePicker extends React.Component<Props, State> {
             >
               {this.getDateString()}
             </PickerToggle>
-          </OverlayTrigger>
+          </PickerToggleTrigger>
         </div>
       </IntlProvider>
     );
