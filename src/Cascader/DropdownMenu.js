@@ -6,7 +6,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import { shallowEqual } from 'rsuite-utils/lib/utils';
 
-import { getUnhandledProps, defaultProps, prefix } from '../utils';
+import { getUnhandledProps, prefix } from '../utils';
 import stringToObject from '../utils/stringToObject';
 import DropdownMenuItem from '../_picker/DropdownMenuItem';
 

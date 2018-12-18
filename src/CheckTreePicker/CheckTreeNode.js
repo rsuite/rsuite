@@ -2,7 +2,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { hasClass } from 'dom-lib';
-import { prefix, shallowEqual, reactToString } from 'rsuite-utils/lib/utils';
+import { prefix, reactToString } from 'rsuite-utils/lib/utils';
 import { CHECK_STATE } from '../utils/constants';
 
 type CheckState = CHECK_STATE.UNCHECK | CHECK_STATE.INDETERMINATE | CHECK_STATE.CHECK;
@@ -61,9 +61,7 @@ class TreeCheckNode extends React.Component<Props> {
   handleSelect = (event: DefaultEvent) => {
     const {
       classPrefix,
-      onTreeToggle,
       onSelect,
-      hasChildren,
       layer,
       disabled,
       uncheckable,
@@ -159,7 +157,7 @@ class TreeCheckNode extends React.Component<Props> {
   };
 
   render() {
-    const { classPrefix, visible, active, layer, disabled, uncheckable, checkState } = this.props;
+    const { classPrefix, visible, active, layer, disabled, checkState } = this.props;
 
     const addPrefix = prefix(`${classPrefix}-node`);
     const classes = classNames(`${classPrefix}-node`, {

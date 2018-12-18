@@ -41,6 +41,7 @@ class PickerToggle extends React.Component<Props, State> {
     const { onClean } = this.props;
     onClean && onClean(event);
     event.stopPropagation();
+    this.handleBlur();
   };
 
   handleFocus = () => {
@@ -52,7 +53,7 @@ class PickerToggle extends React.Component<Props, State> {
   };
 
   onFocus = () => {
-    if (this.toggle) {
+    if (this.toggle && typeof this.toggle.focus === 'function') {
       this.toggle.focus();
     }
   };

@@ -4,15 +4,9 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { toggleClass, hasClass } from 'dom-lib';
 import { findDOMNode } from 'react-dom';
-import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import _ from 'lodash';
 import { polyfill } from 'react-lifecycles-compat';
-import {
-  reactToString,
-  shallowEqual,
-  shallowEqualArray,
-  tplTransform
-} from 'rsuite-utils/lib/utils';
+import { reactToString, shallowEqual, shallowEqualArray } from 'rsuite-utils/lib/utils';
 
 import CheckTreeNode from './CheckTreeNode';
 import { CHECK_STATE } from '../utils/constants';
@@ -25,6 +19,7 @@ import {
   MenuWrapper,
   SearchBar,
   SelectedElement,
+  PickerToggleTrigger,
   createConcatChildrenFunction
 } from '../_picker';
 
@@ -63,7 +58,6 @@ type Props = {
   countable?: boolean,
   expandAll?: boolean,
   placement?: Placement,
-  menuStyle?: Object,
   searchable?: boolean,
   appearance: 'default' | 'subtle',
   classPrefix: string,
@@ -72,7 +66,9 @@ type Props = {
   placeholder?: React.Node,
   defaultValue?: any[],
   searchKeyword?: string,
+  menuStyle?: Object,
   menuClassName?: string,
+  menuAutoWidth?: boolean,
   defaultExpandAll?: boolean,
   containerPadding?: number,
   disabledItemValues?: any[],
@@ -136,6 +132,7 @@ class CheckTree extends React.Component<Props, States> {
     placement: 'bottomLeft',
     appearance: 'default',
     searchable: true,
+    menuAutoWidth: true,
     defaultValue: [],
     childrenKey: 'children',
     uncheckableItemValues: []
@@ -173,7 +170,7 @@ class CheckTree extends React.Component<Props, States> {
   }
 
   static getDerivedStateFromProps(nextProps: Props, prevState: States) {
-    const { value, data, cascade, expandAll, searchKeyword, uncheckableItemValues } = nextProps;
+    const { value, data, cascade, expandAll, uncheckableItemValues } = nextProps;
     let nextState = {};
     if (_.isArray(data) && _.isArray(prevState.data) && prevState.data !== data) {
       nextState.data = data;
@@ -206,7 +203,7 @@ class CheckTree extends React.Component<Props, States> {
 
   componentDidUpdate(prevProps: Props, prevState: States) {
     const { filterData, searchKeyword, selectedValues } = this.state;
-    const { value, data = [], cascade, expandAll, uncheckableItemValues } = this.props;
+    const { value, data = [], cascade, uncheckableItemValues } = this.props;
     if (prevState.data !== data) {
       const nextData = [...data];
       this.flattenNodes(nextData);
@@ -734,6 +731,10 @@ class CheckTree extends React.Component<Props, States> {
     return this.position;
   };
 
+  getToggleInstance = () => {
+    return this.toggle;
+  };
+
   selectActiveItem = () => {
     const { nodeData, layer } = this.getActiveItem();
     this.handleSelect(nodeData, +layer);
@@ -1007,7 +1008,8 @@ class CheckTree extends React.Component<Props, States> {
       renderExtraFooter,
       renderMenu,
       menuStyle,
-      menuClassName
+      menuClassName,
+      menuAutoWidth
     } = this.props;
 
     const keyword = !_.isUndefined(searchKeyword) ? searchKeyword : this.state.searchKeyword;
@@ -1020,9 +1022,11 @@ class CheckTree extends React.Component<Props, States> {
 
     return (
       <MenuWrapper
+        autoWidth={menuAutoWidth}
         className={classes}
         style={menuStyle}
         ref={this.bindMenuRef}
+        getToggleInstance={this.getToggleInstance}
         getPositionInstance={this.getPositionInstance}
       >
         {searchable ? (
@@ -1159,8 +1163,6 @@ class CheckTree extends React.Component<Props, States> {
 
   render() {
     const {
-      open,
-      block,
       cascade,
       style,
       locale,
@@ -1169,25 +1171,11 @@ class CheckTree extends React.Component<Props, States> {
       valueKey,
       labelKey,
       cleanable,
-      className,
       countable,
-      placement,
-      appearance,
-      classPrefix,
-      defaultOpen,
       placeholder,
-      container,
-      containerPadding,
       toggleComponentClass,
-      onExit,
-      onOpen,
-      onClose,
-      onHide,
-      onEnter,
       onExited,
-      onExiting,
       onEntered,
-      onEntering,
       renderValue,
       ...rest
     } = this.props;
@@ -1220,23 +1208,12 @@ class CheckTree extends React.Component<Props, States> {
     }
 
     return (
-      <OverlayTrigger
-        ref={this.bindTriggerRef}
+      <PickerToggleTrigger
+        pickerProps={this.props}
+        innerRef={this.bindTriggerRef}
         positionRef={this.bindPositionRef}
-        open={open}
-        defaultOpen={defaultOpen}
-        disabled={disabled}
-        trigger="click"
-        placement={placement}
-        onEnter={onEnter}
-        onEntering={onEntering}
         onEntered={createChainedFunction(this.handleOnOpen, onEntered)}
-        onExit={onExit}
-        onExiting={onExiting}
         onExited={createChainedFunction(this.handleOnClose, onExited)}
-        onHide={onHide}
-        container={container}
-        containerPadding={containerPadding}
         speaker={this.renderDropdownMenu()}
       >
         <div className={classes} style={style} ref={this.bindContainerRef}>
@@ -1253,7 +1230,7 @@ class CheckTree extends React.Component<Props, States> {
             {selectedElement || locale.placeholder}
           </PickerToggle>
         </div>
-      </OverlayTrigger>
+      </PickerToggleTrigger>
     );
   }
 }

@@ -3,7 +3,7 @@
 import _ from 'lodash';
 
 export default function(props: Object) {
-  const { labelKey, valueKey, childrenKey } = props;
+  const { valueKey, childrenKey } = props;
 
   /**
    * 获取一个节点的所有子节点的值
@@ -32,7 +32,7 @@ export default function(props: Object) {
    * @param {*} item
    * @param {*} uncheckableItemValues
    */
-  function getParents(item: Object, uncheckableItemValues?: any[]) {
+  function getParents(item: Object) {
     let parents = [];
 
     if (!item.parent) {

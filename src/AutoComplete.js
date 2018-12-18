@@ -3,15 +3,13 @@ import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 import setStatic from 'recompose/setStatic';
-import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
-
 import Input from './Input';
 import AutoCompleteItem from './AutoCompleteItem';
-import onMenuKeyDown from './_picker/onMenuKeyDown';
-import MenuWrapper from './_picker/MenuWrapper';
 import { defaultProps, getUnhandledProps, prefix } from './utils';
 import { getClassNamePrefix } from './utils/prefix';
+import { PickerToggleTrigger, onMenuKeyDown, MenuWrapper } from './_picker';
+
 import type { Placement } from './utils/TypeDefinition';
 
 type DefaultEvent = SyntheticEvent<*>;
@@ -229,7 +227,6 @@ class AutoComplete extends React.Component<Props, State> {
   };
 
   handleItemSelect = (item: ItemDataType, event: DefaultEvent) => {
-    const { onSelect } = this.props;
     const value = item.value;
     const prevValue = this.state.value;
     const nextState = {
@@ -284,17 +281,7 @@ class AutoComplete extends React.Component<Props, State> {
     );
   }
   render() {
-    const {
-      disabled,
-      className,
-      classPrefix,
-      defaultValue,
-      placement,
-      open,
-      style,
-      onHide,
-      ...rest
-    } = this.props;
+    const { disabled, className, classPrefix, open, style, ...rest } = this.props;
 
     const data = this.getData();
     const value = this.getValue();
@@ -307,14 +294,12 @@ class AutoComplete extends React.Component<Props, State> {
 
     return (
       <div className={classes} style={style}>
-        <OverlayTrigger
-          ref={this.triggerRef}
-          disabled={disabled}
+        <PickerToggleTrigger
+          pickerProps={this.props}
+          innerRef={this.triggerRef}
           trigger={['click', 'focus']}
-          placement={placement}
           open={open || (this.state.focus && hasItems)}
           speaker={this.renderDropdownMenu()}
-          onHide={onHide}
         >
           <Input
             {...unhandled}
@@ -325,7 +310,7 @@ class AutoComplete extends React.Component<Props, State> {
             onChange={this.handleChange}
             onKeyDown={this.handleKeyDown}
           />
-        </OverlayTrigger>
+        </PickerToggleTrigger>
       </div>
     );
   }
