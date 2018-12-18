@@ -142,18 +142,7 @@ class DropdownMenu extends React.Component<Props> {
   }
 
   render() {
-    const {
-      pullLeft,
-      children,
-      className,
-      onSelect,
-      classPrefix,
-      activeKey,
-      openKeys,
-      expanded,
-      ...props
-    } = this.props;
-
+    const { children, className, classPrefix, expanded, ...props } = this.props;
     const { items, active } = this.getMenuItemsAndStatus(children);
     const unhandled = getUnhandledProps(DropdownMenu, props);
     const classes = classNames(classPrefix, className, {

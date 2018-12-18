@@ -221,7 +221,6 @@ class Modal extends React.Component<Props, State> {
       dialogClassName,
       backdropClassName,
       dialogStyle,
-      overflow,
       animation,
       classPrefix,
       style,

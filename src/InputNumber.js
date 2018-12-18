@@ -123,7 +123,6 @@ class InputNumber extends React.Component<Props, State> {
   };
 
   handleBlur = (event: SyntheticInputEvent<*>) => {
-    const { max, min } = this.props;
     const targetValue = Number.parseFloat(event.target.value);
     this.handleValue(this.getSafeValue(targetValue), event);
   };
@@ -145,7 +144,7 @@ class InputNumber extends React.Component<Props, State> {
   };
 
   handlePlus = (event: SyntheticEvent<*>) => {
-    const { step, max } = this.props;
+    const { step } = this.props;
     const value = +(this.getValue() || 0);
     const bit = decimals(value, step);
     const nextValue = (value + step).toFixed(bit);
@@ -153,7 +152,7 @@ class InputNumber extends React.Component<Props, State> {
     this.handleValue(this.getSafeValue(nextValue), event);
   };
   handleMinus = (event: SyntheticEvent<*>) => {
-    const { step, min } = this.props;
+    const { step } = this.props;
     const value = +(this.getValue() || 0);
     const bit = decimals(value, step);
     const nextValue = (value - step).toFixed(bit);

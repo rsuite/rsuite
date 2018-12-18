@@ -31,7 +31,7 @@ class TableRow extends React.PureComponent<Props> {
   };
 
   renderDays() {
-    const { weekendDate, disabledDate, inSameMonth, selected, onSelect } = this.props;
+    const { weekendDate, disabledDate, inSameMonth, selected } = this.props;
 
     let days = [];
     for (let i = 0; i < 7; i += 1) {

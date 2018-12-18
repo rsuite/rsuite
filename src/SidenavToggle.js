@@ -21,7 +21,7 @@ class SidenavToggle extends React.Component<Props> {
   };
 
   render() {
-    const { onToggle, expanded, className, classPrefix, ...props } = this.props;
+    const { expanded, className, classPrefix, ...props } = this.props;
     const classes = classNames(classPrefix, className, {
       collapsed: !expanded
     });

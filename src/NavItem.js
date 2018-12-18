@@ -10,7 +10,7 @@ import Tooltip from './Tooltip';
 import Whisper from './Whisper';
 import Ripple from './Ripple';
 
-import { createChainedFunction, defaultProps, prefix } from './utils';
+import { createChainedFunction, defaultProps, prefix, getUnhandledProps } from './utils';
 
 type Props = {
   active?: boolean,
@@ -56,7 +56,6 @@ class NavItem extends React.Component<Props> {
       className,
       classPrefix,
       style,
-      eventKey,
       children,
       icon,
       tabIndex,
@@ -64,10 +63,11 @@ class NavItem extends React.Component<Props> {
       divider,
       panel,
       componentClass: Component,
-      ...props
+      ...rest
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
+    const unhandled = getUnhandledProps(NavItem, rest);
     const classes = classNames(classPrefix, className, {
       [addPrefix('active')]: active,
       [addPrefix('disabled')]: disabled
@@ -93,7 +93,7 @@ class NavItem extends React.Component<Props> {
 
     const item = (
       <Component
-        {...props}
+        {...unhandled}
         role="button"
         tabIndex={tabIndex}
         className={addPrefix('content')}

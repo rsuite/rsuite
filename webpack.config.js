@@ -1,7 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const __DEV__ = process.env.NODE_ENV === 'development';
 const filename = __DEV__ ? '[name].js' : '[name].min.js';

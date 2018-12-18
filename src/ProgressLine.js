@@ -2,7 +2,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
-import { prefix, defaultProps } from './utils';
+import { prefix, defaultProps, getUnhandledProps } from './utils';
 
 type Props = {
   className?: string,
@@ -28,8 +28,6 @@ class ProgressLine extends React.Component<Props> {
       percent,
       strokeColor,
       strokeWidth,
-      trailColor,
-      trailWidth,
       status,
       showInfo,
       classPrefix,
@@ -37,20 +35,16 @@ class ProgressLine extends React.Component<Props> {
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
+    const unhandled = getUnhandledProps(ProgressLine, rest);
     const percentStyle = {
       width: `${percent}%`,
       height: strokeWidth,
       backgroundColor: strokeColor
     };
 
-    const classes = classNames(
-      classPrefix,
-      addPrefix('line'),
-      {
-        [addPrefix(`line-${status || ''}`)]: !!status
-      },
-      className
-    );
+    const classes = classNames(classPrefix, addPrefix('line'), className, {
+      [addPrefix(`line-${status || ''}`)]: !!status
+    });
 
     const showIcon = status && status !== 'active';
     const info = showIcon ? (
@@ -60,7 +54,7 @@ class ProgressLine extends React.Component<Props> {
     );
 
     return (
-      <div className={classes} {...rest}>
+      <div className={classes} {...unhandled}>
         <div className={addPrefix('line-outer')}>
           <div className={addPrefix('line-inner')}>
             <div className={addPrefix('line-bg')} style={percentStyle} />

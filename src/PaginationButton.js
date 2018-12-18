@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import SafeAnchor from './SafeAnchor';
 import Ripple from './Ripple';
-import { prefix, defaultProps, createChainedFunction } from './utils';
+import { prefix, defaultProps, getUnhandledProps, createChainedFunction } from './utils';
 
 type Props = {
   classPrefix?: string,
@@ -38,14 +38,13 @@ class PaginationButton extends React.Component<Props> {
       className,
       classPrefix,
       style,
-      onSelect,
-      eventKey,
       componentClass: Component,
       children,
-      ...props
+      ...rest
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
+    const unhandled = getUnhandledProps(PaginationButton, rest);
     const classes = classNames(classPrefix, className, {
       [addPrefix('active')]: active,
       [addPrefix('disabled')]: disabled
@@ -54,7 +53,7 @@ class PaginationButton extends React.Component<Props> {
     return (
       <li className={classes} style={style}>
         <Component
-          {...props}
+          {...unhandled}
           disabled={disabled}
           onClick={createChainedFunction(onClick, this.handleClick)}
         >

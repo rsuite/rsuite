@@ -3,7 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
-import { prefix, defaultProps } from './utils';
+import { prefix, defaultProps, getUnhandledProps } from './utils';
 
 type Props = {
   className?: string,
@@ -89,15 +89,11 @@ class ProgressCircle extends React.Component<Props> {
     const {
       strokeWidth,
       trailWidth,
-      strokeColor,
       percent,
-      trailColor,
       strokeLinecap,
       className,
       showInfo,
       status,
-      gapDegree,
-      gapPosition,
       classPrefix,
       ...rest
     } = this.props;
@@ -105,14 +101,10 @@ class ProgressCircle extends React.Component<Props> {
     const { pathString, trailPathStyle, strokePathStyle } = this.getPathStyles();
 
     const addPrefix = prefix(classPrefix);
-    const classes = classNames(
-      classPrefix,
-      addPrefix('circle'),
-      {
-        [addPrefix(`circle-${status || ''}`)]: !!status
-      },
-      className
-    );
+    const unhandled = getUnhandledProps(ProgressCircle, rest);
+    const classes = classNames(classPrefix, addPrefix('circle'), className, {
+      [addPrefix(`circle-${status || ''}`)]: !!status
+    });
 
     const showIcon = status && status !== 'active';
     const info = showIcon ? (
@@ -125,7 +117,7 @@ class ProgressCircle extends React.Component<Props> {
       <div className={classes}>
         {showInfo ? <span className={addPrefix('circle-info')}>{info}</span> : null}
 
-        <svg className={addPrefix('svg')} viewBox="0 0 100 100" {...rest}>
+        <svg className={addPrefix('svg')} viewBox="0 0 100 100" {...unhandled}>
           <path
             className={addPrefix('trail')}
             d={pathString}

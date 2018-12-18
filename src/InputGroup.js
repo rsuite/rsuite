@@ -52,7 +52,7 @@ class InputGroup extends React.Component<Props, State> {
 
   disabledChildren() {
     const { children } = this.props;
-    return React.Children.map(children, (item, index) => {
+    return React.Children.map(children, item => {
       if (React.isValidElement(item)) {
         return React.cloneElement(item, { disabled: true });
       }

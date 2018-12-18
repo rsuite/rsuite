@@ -68,7 +68,7 @@ class PanelGroup extends React.Component<Props, State> {
   };
 
   render() {
-    const { className, accordion, bordered, classPrefix, children, onSelect, ...rest } = this.props;
+    const { className, accordion, bordered, classPrefix, children, ...rest } = this.props;
     const classes = classNames(classPrefix, className, {
       [this.addPrefix('accordion')]: accordion,
       [this.addPrefix('bordered')]: bordered

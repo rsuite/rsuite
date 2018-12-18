@@ -68,7 +68,6 @@ class Radio extends React.Component<Props, State> {
       name,
       className,
       children,
-      onChange,
       disabled,
       checked,
       defaultChecked,
