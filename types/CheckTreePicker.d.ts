@@ -16,11 +16,18 @@ export interface CheckTreePickerProps extends TreeBaseProps, FormControlPickerPr
   /** Whether dispaly search input box */
   searchable?: boolean;
 
+  /** Set the option value for the check box not to be rendered */
+  uncheckableItemValues?: any[];
+
   /** Customizing the Rendering Menu list */
   renderMenu?: (menu: React.ReactNode) => React.ReactNode;
 
   /** Custom render selected items */
-  renderValue?: (values: any[], checkItems: any[], placeholder: React.ReactNode) => React.ReactNode;
+  renderValue?: (
+    value: any[],
+    selectedItems: any[],
+    selectedElement: React.ReactNode
+  ) => React.ReactNode;
 
   /** Called when scrolling */
   onScroll?: (event: React.SyntheticEvent<HTMLElement>) => void;

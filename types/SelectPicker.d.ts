@@ -19,7 +19,11 @@ export interface SelectProps<ValueType = any> {
   renderMenuGroup?: (title: React.ReactNode, item: ItemDataType) => React.ReactNode;
 
   /** Custom render selected items */
-  renderValue?: (value: ValueType, items: any[]) => React.ReactNode;
+  renderValue?: (
+    value: ValueType,
+    item: ItemDataType,
+    selectedElement: React.ReactNode
+  ) => React.ReactNode;
 
   /** Called when the option is selected */
   onSelect?: (value: any, item: ItemDataType, event: React.SyntheticEvent<HTMLElement>) => void;

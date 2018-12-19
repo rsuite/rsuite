@@ -13,7 +13,7 @@ export interface TreePickerProps extends TreeBaseProps, FormControlPickerProps<a
   renderMenu?: (menu: React.ReactNode) => React.ReactNode;
 
   /** Custom Render Placeholder */
-  renderValue?: (activeNode: object, placeholder: React.ReactNode) => React.ReactNode;
+  renderValue?: (value: any, item: Object, selectedElement: React.ReactNode) => React.ReactNode;
 }
 
 declare const TreePicker: React.ComponentType<TreePickerProps>;

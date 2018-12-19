@@ -101,6 +101,9 @@ export interface UploaderProps extends StandardProps {
 
   /** You can use a custom element for this component */
   toggleComponentClass?: React.ReactType<UploaderProps>;
+
+  /** Custom render file information */
+  renderFileInfo?: (file: FileType, fileElement: React.ReactNode) => React.ReactNode;
 }
 
 declare const Uploader: React.ComponentType<UploaderProps>;

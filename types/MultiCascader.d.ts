@@ -24,7 +24,11 @@ export interface MultiCascaderProps extends FormControlPickerProps<any[]> {
   renderMenuItem?: (itemLabel: React.ReactNode, item: object) => React.ReactNode;
 
   /** Custom render selected items */
-  renderValue?: (value: any[], selectedItems: any[]) => React.ReactNode;
+  renderValue?: (
+    value: any[],
+    selectedItems: any[],
+    selectedElement: React.ReactNode
+  ) => React.ReactNode;
 
   /** Called when the option is selected */
   onSelect?: (value: any, activePaths: any[], event: React.SyntheticEvent<HTMLElement>) => void;
