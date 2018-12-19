@@ -6,7 +6,7 @@ declare class Schema {
   getFieldType: (fieldName: string) => CheckType;
   getKeys: () => string[];
   checkForField: (fieldName: string, fieldValue: any, data: object) => CheckResult;
-  check: (data) => CheckResult;
+  check: (data: object) => CheckResult;
 }
 
 declare function SchemaModel(schema: { [key: string]: CheckType }): Schema;
