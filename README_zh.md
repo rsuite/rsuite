@@ -15,7 +15,7 @@ React Suite 是一套 React 组件库，为后台产品而生。由 HYPERS 前�
 
 ### UI Design
 
-React Suite 设计原型与规范, [点击查看][rsuite-design]
+React Suite 设计原型与规范， [点击查看][rsuite-design]。
 
 
 
@@ -33,7 +33,7 @@ React Suite 支持最新的，稳定版的全部主流浏览器和平台。 从 
 
 ### 服务端
 
-React Suite 支持服务端渲染。 支持通过 [Next.js](https://github.com/zeit/next.js) 构建应用.
+React Suite 支持服务端渲染， 支持通过 [Next.js](https://github.com/zeit/next.js) 构建应用。
 
 ## 支持的开发环境
 
@@ -45,7 +45,7 @@ React Suite 支持服务端渲染。 支持通过 [Next.js](https://github.com/z
 
 ## 安装
 
-React Suite 可通过 [npm][npm-home] 安装.
+React Suite 可通过 [npm][npm-home] 安装。
 
 ```bash
 npm i rsuite --save
@@ -130,11 +130,11 @@ $ npm run dev
 
 ## 支持 React Suite
 
-如果您喜欢 React Suite，可以通过以下方式支持我们
+如果您喜欢 React Suite，可以通过以下方式支持我们：
 
-- Star 这个项目
+- Star 这个项目。
 - 如果您在您的项目中使用了 React Suite，欢迎在这里[留言][issues-11]！
-- 在 [OpenCollective](https://opencollective.com/rsuite#) 上赞助我们
+- 在 [OpenCollective](https://opencollective.com/rsuite#) 上赞助我们。
 
 [![opencollective-now][opencollective-svg]][opencollective-home]
 
