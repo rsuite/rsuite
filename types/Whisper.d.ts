@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { AnimationEventProps, PropTypes } from '.';
-import { TooltipProps } from './Tooltip'
+import { TooltipProps } from './Tooltip';
 import { PopoverProps } from './Popover';
 
 export interface WhisperProps extends AnimationEventProps {
