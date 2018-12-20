@@ -1,3 +1,23 @@
+# 3.5.0
+
+> 2018-12-20
+
+* **Feature**: Support server side rendering ([#315])
+* **Improve**: Improve picker active and hover effects ([#314],[#318])
+* **Improve**: The width of the picker menu is automatically calculated ([#309])
+* **Bugfix**: Fixed that the icon was not vertically centered in `<SlideMenu>` ([#315])
+* **Bugfix**: Fixed some issues with TypeScript ([#312],[#313])
+* **Bugfix**: Adjust breadcrumb font size ([#308])
+
+[#318]: https://github.com/rsuite/rsuite/pull/318
+[#316]: https://github.com/rsuite/rsuite/pull/316
+[#315]: https://github.com/rsuite/rsuite/pull/315
+[#314]: https://github.com/rsuite/rsuite/pull/314
+[#313]: https://github.com/rsuite/rsuite/pull/313
+[#312]: https://github.com/rsuite/rsuite/pull/312
+[#309]: https://github.com/rsuite/rsuite/pull/309
+[#308]: https://github.com/rsuite/rsuite/pull/308
+
 # 3.4.5
 
 > 2018-12-13
