@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { AnimationEventProps, PropTypes } from '.';
+import { TooltipProps } from './Tooltip';
+import { PopoverProps } from './Popover';
 
 export interface WhisperProps extends AnimationEventProps {
   /** Ref of trigger */
@@ -19,6 +21,9 @@ export interface WhisperProps extends AnimationEventProps {
 
   /** Sets the rendering container */
   container?: HTMLElement | (() => HTMLElement);
+
+  /** display element */
+  speaker?: React.ReactElement<TooltipProps | PopoverProps>;
 
   /** Lose Focus callback function */
   onBlur?: () => void;
