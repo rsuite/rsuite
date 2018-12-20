@@ -26,6 +26,9 @@ export interface TableProps extends StandardProps {
   /** Row height */
   rowHeight?: number;
 
+  /** Add an optional extra class name to row */
+  rowClassName?: string | ((rowData: object) => string);
+
   /** Header height */
   headerHeight?: number;
 
@@ -52,6 +55,9 @@ export interface TableProps extends StandardProps {
 
   /** Sort type */
   sortType?: SortType;
+
+  /** Sort type */
+  defaultSortType?: SortType;
 
   /** Show loading */
   loading?: boolean;
