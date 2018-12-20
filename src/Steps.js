@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import setStatic from 'recompose/setStatic';
 
 import StepItem from './StepItem';
-import { prefix, defaultProps, ReactChildren, isIE9, isIE10 } from './utils';
+import { prefix, defaultProps, ReactChildren, isIE10 } from './utils';
 
 type Props = {
   classPrefix: string,
@@ -37,7 +37,6 @@ class Steps extends React.Component<Props> {
     const addPrefix: Function = prefix(classPrefix);
     const horizontal = !vertical;
     const classes = classNames(classPrefix, className, {
-      'ie-polyfill': horizontal && isIE9,
       [addPrefix('small')]: small,
       [addPrefix('vertical')]: vertical,
       [addPrefix('horizontal')]: horizontal
@@ -46,7 +45,7 @@ class Steps extends React.Component<Props> {
     const count = children.length;
     const items: React.Node = ReactChildren.mapCloneElement(children, (item, index) => {
       const itemStyles = {
-        [isIE10 ? 'msFlexPreferredSize' : 'flexBasis']:
+        [isIE10() ? 'msFlexPreferredSize' : 'flexBasis']:
           index < count - 1 ? `${100 / (count - 1)}%` : undefined,
         maxWidth: index === count - 1 ? `${100 / count}%` : undefined
       };
