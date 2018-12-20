@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://rsuitejs.com" target="_blank" rel="noopener noreferrer">
-   <img src="https://user-images.githubusercontent.com/1203827/44192693-0440f400-a163-11e8-9d7c-0cc55797e0cb.png" alt="RSUITE logo">
+   <img src="https://user-images.githubusercontent.com/1203827/44192693-0440f400-a163-11e8-9d7c-0cc55797e0cb.png" alt="React Suite logo">
   </a>
 </p>
 
@@ -8,27 +8,42 @@ English | [中文版][readm-cn]
 
 [![npm][npm-svg]][npm-home] [![Travis][travis-svg]][travis-home] [![Coverage Status][coverage-svg]][coverage-home] [![Discord][discord-svg]][discord-invite] [![Gitter][gitter-svg]][gitter]
 
-RSUITE (React Suite) is a set of react component libraries for enterprise system products. Built by HYPERS front-end team and UX team, mainly serving company's big data products.
+React Suite is a set of react component libraries for enterprise system products. Built by HYPERS front-end team and UX team, mainly serving company's big data products.
 
 After three major revisions, a large number of components and rich functionality have been accumulated.
 
-### Browser Compatibility
+### UI Design
+
+React Suite Design Prototype and specification, click to [view][rsuite-design].
+
+
+## Supported Platforms
+
+
+### Browser
+
+React Suite supports the latest, stable releases of all major browsers and platforms. IE<=9 is no longer supported since React Suite 3.0. React Suite is designed and implemented for use on modern desktop browsers rather than mobile browsers.
 
 | IE   | Edge | Firefox | Chrome | Safari |
 | ---- | ---- | ------- | ------ | ------ |
 | >=10 | >=14 | >= 45   | >= 49  | >= 10  |
 
- - IE<=9 is no longer supported since RSUITE 3.0.
- - RSUITE is designed and implemented for use on modern desktop browsers rather than mobile browsers.
 
-### UI Design
+### Server
 
-RSUITE Design Prototype and specification, click to [view][rsuite-design]
+React Suite supports server side rendering. Support [Next.js](https://github.com/zeit/next.js) to build applications.
+
+## Supported development environment
+
+- Supports React 16 +
+- Supports [TypeScript](http://www.typescriptlang.org/)
+- Supports [Flow](https://flow.org/)
+- Supports [Electron](https://electronjs.org/)
 
 
 ## Installation
 
-RSUITE is available as an [npm package][npm-home].
+React Suite is available as an [npm package][npm-home].
 
 ```bash
 npm i rsuite --save
@@ -74,6 +89,7 @@ You can go through [full documentation][rsuite-doc-guide] or start with followin
 - [Use in create-react-app][demo-create-react-app]
 - [Use in Flow][demo-flow-app]
 - [Use in TypeScript][demo-typescript-app]
+- [Use in Next.js][demo-ssr-app]
 
 ## Changelog
 
@@ -114,19 +130,19 @@ Editor preferences are available in the [.prettierrc][prettierrc] for easy use i
 
 
 
-## Supporting RSUITE
+## Supporting React Suite
 
-If you like RSUITE, you can show your support by either
+If you like React Suite, you can show your support by either
 
 - Starring this repo
-- [Leaving a comment here][issues-11] if you are using RSUITE in your project (like we do :smile:)
+- [Leaving a comment here][issues-11] if you are using React Suite in your project (like we do :smile:)
 - [Becoming a backer][opencollective-home] on OpenCollective
 
 [![opencollective-now][opencollective-svg]][opencollective-home]
 
 ## License
 
-RSUITE is [MIT licensed][LICENSE]. Copyright (c) 2016-present, HYPERS.
+React Suite is [MIT licensed][LICENSE]. Copyright (c) 2016-present, HYPERS.
 
 [readm-cn]:https://github.com/rsuite/rsuite/blob/master/README_zh.md
 [npm-svg]:https://badge.fury.io/js/rsuite.svg
@@ -162,3 +178,6 @@ RSUITE is [MIT licensed][LICENSE]. Copyright (c) 2016-present, HYPERS.
 [demo-multiple-themes]:https://github.com/rsuite/examples/tree/master/multiple-themes
 [demo-flow-app]:https://github.com/rsuite/examples/tree/master/flow-app
 [demo-typescript-app]:https://github.com/rsuite/examples/tree/master/typescript-app
+[demo-ssr-app]:https://github.com/rsuite/rsuite-management-system-ssr
+
+

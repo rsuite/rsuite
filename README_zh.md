@@ -3,32 +3,49 @@
 
 <p align="center">
   <a href="https://rsuitejs.com" target="_blank" rel="noopener noreferrer">
-   <img height="100" src="https://user-images.githubusercontent.com/15609339/39298633-53826e50-4979-11e8-99fa-fac162d0830e.png" alt="RSUITE logo">
+   <img height="100" src="https://user-images.githubusercontent.com/15609339/39298633-53826e50-4979-11e8-99fa-fac162d0830e.png" alt="React Suite logo">
   </a>
 </p>
 
 
 [![npm][npm-svg]][npm-home] [![Travis][travis-svg]][travis-home] [![Coverage Status][coverage-svg]][travis-home] [![Discord][discord-svg]][discord-invite] [![Gitter][gitter-svg]][gitter]
 
-RSUITE（React Suite 的简写）是一套 React 组件库，为后台产品而生。由 HYPERS 前端团队与 UX 团队打造，主要服务于公司大数据产品线。经历了三次大的版本更新后，累积了大量的组件和丰富的功能。
+React Suite 是一套 React 组件库，为后台产品而生。由 HYPERS 前端团队与 UX 团队打造，主要服务于公司大数据产品线。经历了三次大的版本更新后，累积了大量的组件和丰富的功能。
 
-### 浏览器兼容性
+
+### UI Design
+
+React Suite 设计原型与规范， [点击查看][rsuite-design]。
+
+
+
+## 支持的平台
+
+
+### 浏览器
+
+React Suite 支持最新的，稳定版的全部主流浏览器和平台。 从 React Suite 3 开始不支持 IE9 以下版本(包括 IE9)。不推荐在移动端使用。
 
 | IE   | Edge | Firefox | Chrome | Safari |
 | ---- | ---- | ------- | ------ | ------ |
 | >=10 | >=14 | >= 45   | >= 49  | >= 10  |
 
-- 从 RSUITE 3.0 开始不支持 IE9 以下版本(包括 IE9)， 其他现代桌面浏览器都支持。
-- 不推荐在移动端使用。
 
-### UI Design
+### 服务端
 
-RSUITE 设计原型与规范, [点击查看][rsuite-design]
+React Suite 支持服务端渲染， 支持通过 [Next.js](https://github.com/zeit/next.js) 构建应用。
+
+## 支持的开发环境
+
+- 支持 React 16 +
+- 支持 [TypeScript](http://www.typescriptlang.org/)
+- 支持 [Flow](https://flow.org/)
+- 支持 [Electron](https://electronjs.org/)
 
 
 ## 安装
 
-RSUITE 可通过 [npm][npm-home] 安装.
+React Suite 可通过 [npm][npm-home] 安装。
 
 ```bash
 npm i rsuite --save
@@ -70,6 +87,8 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 - [在 create-react-app 中使用][demo-create-react-app]
 - [在 Flow 中使用][demo-flow-app]
 - [在 TypeScript 中使用][demo-typescript-app]
+- [在 Next.js 中使用][demo-ssr-app]
+
 
 ## 更新日志
 
@@ -109,20 +128,20 @@ $ npm run dev
 编辑器的配置参考 [.prettierrc][prettierrc]， 下载编辑的插件 https://prettier.io/。
 
 
-## 支持 RSUITE
+## 支持 React Suite
 
-如果您喜欢 RSUITE，可以通过以下方式支持我们
+如果您喜欢 React Suite，可以通过以下方式支持我们：
 
-- Star 这个项目
-- 如果您在您的项目中使用了 RSUITE，欢迎在这里[留言][issues-11]！
-- 在 [OpenCollective](https://opencollective.com/rsuite#) 上赞助我们
+- Star 这个项目。
+- 如果您在您的项目中使用了 React Suite，欢迎在这里[留言][issues-11]！
+- 在 [OpenCollective](https://opencollective.com/rsuite#) 上赞助我们。
 
 [![opencollective-now][opencollective-svg]][opencollective-home]
 
 
 ## License
 
-RSUITE 基于 [MIT licensed][LICENSE] 发布。
+React Suite 基于 [MIT licensed][LICENSE] 发布。
 
 [readm-en]:https://github.com/rsuite/rsuite/blob/master/README.md
 [npm-svg]:https://badge.fury.io/js/rsuite.svg
@@ -157,3 +176,4 @@ RSUITE 基于 [MIT licensed][LICENSE] 发布。
 [demo-multiple-themes]:https://github.com/rsuite/examples/tree/master/multiple-themes
 [demo-flow-app]:https://github.com/rsuite/examples/tree/master/flow-app
 [demo-typescript-app]:https://github.com/rsuite/examples/tree/master/typescript-app
+[demo-ssr-app]:https://github.com/rsuite/rsuite-management-system-ssr
