@@ -545,6 +545,9 @@ class Tree extends React.Component<Props, States> {
     onChange && onChange(nodeData[valueKey]);
     onSelect && onSelect(nodeData, layer, event);
     this.closeDropdown();
+    if (this.toggle) {
+      this.toggle.onFocus();
+    }
   };
 
   handleKeyDown = (event: SyntheticKeyboardEvent<*>) => {
@@ -642,10 +645,6 @@ class Tree extends React.Component<Props, States> {
     this.setState({
       active: false
     });
-
-    if (this.toggle) {
-      this.toggle.onFocus();
-    }
   };
 
   renderDropdownMenu() {
@@ -851,7 +850,7 @@ class Tree extends React.Component<Props, States> {
           innerRef={this.bindTriggerRef}
           positionRef={this.bindPositionRef}
           onEntered={createChainedFunction(this.handleOnOpen, onEntered)}
-          onExited={createChainedFunction(this.handleOnClose, onExited)}
+          onExit={createChainedFunction(this.handleOnClose, onExited)}
           speaker={this.renderDropdownMenu()}
         >
           <div className={classes} style={style} ref={this.bindContainerRef}>

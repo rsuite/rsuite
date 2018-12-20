@@ -409,7 +409,7 @@ class DateRangePicker extends React.Component<Props, State> {
     });
   };
 
-  handleExited = () => {
+  handleExit = () => {
     const { onClose } = this.props;
     onClose && onClose();
     this.setState({
@@ -556,7 +556,7 @@ class DateRangePicker extends React.Component<Props, State> {
             pickerProps={this.props}
             innerRef={this.bindTriggerRef}
             onEntered={createChainedFunction(this.handleEntered, onEntered)}
-            onExited={createChainedFunction(this.handleExited, onExited)}
+            onExit={createChainedFunction(this.handleExit, onExited)}
             speaker={this.renderDropdownMenu()}
           >
             <PickerToggle
