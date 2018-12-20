@@ -70,6 +70,7 @@
 
     padding: @padding-vertical @padding-horizontal;
 
+    &:hover,
     &.active {
       border-color: @picker-default-toggle-hover-border-color;
     }
@@ -77,6 +78,8 @@
 
   .@{ns}picker-subtle & {
     .btn-subtle;
+
+    transition: none;
 
     &.active {
       background-color: @btn-subtle-hover-bg;
