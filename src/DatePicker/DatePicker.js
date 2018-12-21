@@ -357,6 +357,10 @@ class DatePicker extends React.Component<Props, State> {
     this.menuContainer = ref;
   };
 
+  bindCalendarRef = (ref: React.ElementRef<*>) => {
+    this.calendar = ref;
+  };
+
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderCalendar() {
@@ -381,9 +385,7 @@ class DatePicker extends React.Component<Props, State> {
         onToggleTimeDropdown={this.toggleTimeDropdown}
         onChangePageDate={this.handleChangePageDate}
         onChangePageTime={this.handleChangePageTime}
-        calendarRef={ref => {
-          this.calendar = ref;
-        }}
+        calendarRef={this.bindCalendarRef}
       />
     );
   }

@@ -22,7 +22,12 @@ class MonthDropdownItem extends React.PureComponent<Props> {
   };
 
   handleClick = (event: SyntheticEvent<*>) => {
-    const { onSelect, month, year, date } = this.props;
+    const { onSelect, month, year, date, disabled } = this.props;
+
+    if (disabled) {
+      return;
+    }
+
     if (year && month && date) {
       const nextMonth = moment(date)
         .year(year)
@@ -38,7 +43,7 @@ class MonthDropdownItem extends React.PureComponent<Props> {
     const unhandled = getUnhandledProps(MonthDropdownItem, rest);
     const classes = classNames(classPrefix, className, {
       [addPrefix('active')]: active,
-      [addPrefix('disabled')]: disabled
+      disabled
     });
 
     return (

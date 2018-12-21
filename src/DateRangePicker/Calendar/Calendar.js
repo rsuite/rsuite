@@ -10,11 +10,7 @@ import Header from '../../Calendar/Header';
 import View from './View';
 
 type Props = {
-  disabledDate?: (
-    date: moment$Moment,
-    selectValue: Array<moment$Moment | null>,
-    type: string
-  ) => boolean,
+  disabledDate?: (date: moment$Moment, selectValue: ?Array<moment$Moment>, type: string) => boolean,
   calendarState?: 'DROP_MONTH' | 'DROP_TIME',
   index: number,
   calendarDate: Array<moment$Moment>,
@@ -96,8 +92,12 @@ class Calendar extends React.Component<Props> {
   };
 
   disabledMonth = (date: moment$Moment) => {
-    const { calendarDate, index } = this.props;
+    const { calendarDate, value, index, disabledDate } = this.props;
     let isAfter = true;
+
+    if (disabledDate && disabledDate(date, value, 'MONTH')) {
+      return true;
+    }
 
     if (index === 1) {
       isAfter = date.isAfter(calendarDate[0], 'month');
@@ -105,6 +105,7 @@ class Calendar extends React.Component<Props> {
     }
 
     isAfter = calendarDate[1].isAfter(date, 'month');
+
     return !isAfter;
   };
 
