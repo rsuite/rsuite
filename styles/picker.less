@@ -70,7 +70,7 @@
 
     padding: @padding-vertical @padding-horizontal;
 
-    &:hover,
+    &:not(.@{ns}&-disabled):hover,
     &.active {
       border-color: @picker-default-toggle-hover-border-color;
     }
