@@ -3,13 +3,10 @@
 @import 'mixins/picker';
 
 .@{tag-picker} {
-  .@{ns}picker-toggle {
-    cursor: text;
-  }
-
-  // Make sure align with input
   &:not(.@{ns}picker-disabled) .@{ns}picker-toggle {
+    // Make sure align with input
     left: 0;
+    cursor: text;
   }
 
   &.@{ns}picker-disabled {
