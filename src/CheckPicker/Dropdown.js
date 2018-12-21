@@ -350,11 +350,10 @@ class Dropdown extends React.Component<Props, State> {
 
   handleExit = () => {
     const { onClose } = this.props;
-    const value = this.getValue();
     onClose && onClose();
     this.setState({
       searchKeyword: '',
-      focusItemValue: value ? value[0] : undefined,
+      focusItemValue: null,
       active: false
     });
   };

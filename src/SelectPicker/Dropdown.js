@@ -355,21 +355,25 @@ class Dropdown extends React.Component<Props, State> {
 
   handleExit = () => {
     const { onClose } = this.props;
-    onClose && onClose();
-    const value = this.getValue();
+
     this.setState({
-      focusItemValue: value,
       searchKeyword: '',
       active: false
     });
+
+    onClose && onClose();
   };
 
   handleOpen = () => {
     const { onOpen } = this.props;
-    onOpen && onOpen();
+    const value = this.getValue();
+
     this.setState({
-      active: true
+      active: true,
+      focusItemValue: value
     });
+
+    onOpen && onOpen();
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
