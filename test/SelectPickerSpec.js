@@ -4,6 +4,7 @@ import { findDOMNode } from 'react-dom';
 import { namespace } from 'rsuite-utils/lib/Picker/constants';
 
 import Dropdown from '../src/SelectPicker/Dropdown';
+import Button from '../src/Button';
 
 const classPrefix = `${namespace}-select`;
 const groupClassName = `.${classPrefix}-menu-group`;
@@ -268,5 +269,12 @@ describe('SelectPicker', () => {
   it('Should have a custom className prefix', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Dropdown classPrefix="custom-prefix" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should render a button by toggleComponentClass={Button}', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown open data={data} toggleComponentClass={Button} />
+    );
+    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-btn');
   });
 });

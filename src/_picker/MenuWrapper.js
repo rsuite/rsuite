@@ -1,6 +1,7 @@
 // @flow
 
 import * as React from 'react';
+import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { addStyle, getWidth } from 'dom-lib';
@@ -64,7 +65,7 @@ class MenuWrapper extends React.Component<Props> {
     if (this.menuElement && getToggleInstance) {
       const instance = getToggleInstance();
       if (instance && instance.toggle) {
-        const width = getWidth(instance.toggle);
+        const width = getWidth(findDOMNode(instance.toggle));
         addStyle(this.menuElement, 'min-width', `${width}px`);
       }
     }

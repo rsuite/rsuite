@@ -4,6 +4,7 @@ import { findDOMNode } from 'react-dom';
 import { namespace } from 'rsuite-utils/lib/Picker/constants';
 
 import Dropdown from '../src/CheckPicker/Dropdown';
+import Button from '../src/Button';
 
 const classPrefix = `${namespace}-check`;
 const groupClassName = `.${classPrefix}-menu-group`;
@@ -254,5 +255,12 @@ describe('CheckPicker', () => {
     );
 
     assert.equal(instanceDOM.innerText, 'Kariane');
+  });
+
+  it('Should render a button by toggleComponentClass={Button}', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown open data={data} toggleComponentClass={Button} />
+    );
+    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-btn');
   });
 });

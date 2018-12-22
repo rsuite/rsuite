@@ -5,6 +5,7 @@ import { namespace } from 'rsuite-utils/lib/Picker/constants';
 import { getDOMNode, getInstance } from '../TestWrapper';
 
 import Dropdown from '../../src/InputPicker/Dropdown';
+import Button from '../../src/Button';
 
 const classPrefix = '.rs-picker-input';
 const groupClassName = '.rs-picker-select-menu-group';
@@ -232,5 +233,12 @@ describe('InputPicker - Dropdown', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<Dropdown classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should render a button by toggleComponentClass={Button}', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown open data={data} toggleComponentClass={Button} />
+    );
+    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-btn');
   });
 });

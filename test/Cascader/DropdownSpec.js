@@ -4,6 +4,7 @@ import { findDOMNode } from 'react-dom';
 
 import { namespace } from 'rsuite-utils/lib/Picker/constants';
 import Dropdown from '../../src/Cascader/Dropdown';
+import Button from '../../src/Button';
 
 const classPrefix = `${namespace}-cascader`;
 const toggleClassName = `.${namespace}-toggle-placeholder`;
@@ -152,5 +153,12 @@ describe('Cascader - Dropdown', () => {
   it('Should have a custom className prefix', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Dropdown classPrefix="custom-prefix" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should render a button by toggleComponentClass={Button}', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown open data={items} toggleComponentClass={Button} />
+    );
+    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-btn');
   });
 });
