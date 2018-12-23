@@ -278,6 +278,18 @@
     .picker-calendar-cell-content;
   }
 
+  &-cell:not(&-cell-active).disabled &-cell-content {
+    color: @B400;
+    background: none;
+    text-decoration: line-through;
+    cursor: not-allowed;
+  }
+
+  &-cell-active.disabled &-cell-content {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
   &-cell-active &-cell-content {
     .picker-calendar-cell-content-selected;
   }
@@ -373,6 +385,7 @@
         color: @calendar-table-cell-content-disabled-color;
         background: none;
         cursor: not-allowed;
+        text-decoration: line-through;
       }
     }
 
