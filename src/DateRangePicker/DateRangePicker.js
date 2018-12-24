@@ -52,7 +52,6 @@ type Props = {
    * 用于选择单日，或配合 hoverRange 使用
    */
   oneTap?: boolean,
-  limitStartYear?: number,
   limitEndYear?: number,
   className?: string,
   menuClassName?: string,
@@ -111,8 +110,7 @@ class DateRangePicker extends React.Component<Props, State> {
   static defaultProps = {
     appearance: 'default',
     placement: 'bottomLeft',
-    limitStartYear: 5,
-    limitEndYear: 5,
+    limitEndYear: 1000,
     format: 'YYYY-MM-DD',
     placeholder: '',
     cleanable: true,
@@ -485,7 +483,7 @@ class DateRangePicker extends React.Component<Props, State> {
   };
 
   renderDropdownMenu() {
-    const { placement, menuClassName, ranges, isoWeek, limitStartYear, limitEndYear } = this.props;
+    const { placement, menuClassName, ranges, isoWeek, limitEndYear } = this.props;
     const { calendarDate, selectValue, hoverValue, doneSelected } = this.state;
 
     const classes = classNames(
@@ -499,7 +497,6 @@ class DateRangePicker extends React.Component<Props, State> {
       doneSelected,
       hoverValue,
       calendarDate,
-      limitStartYear,
       limitEndYear,
       value: selectValue,
       disabledDate: this.handleDisabledDate,

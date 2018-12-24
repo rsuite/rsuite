@@ -60,7 +60,6 @@ type Props = {
   onExited?: Function,
   cleanable?: boolean,
   isoWeek?: boolean,
-  limitStartYear?: number,
   limitEndYear?: number,
   className?: string,
   menuClassName?: string,
@@ -89,8 +88,7 @@ class DatePicker extends React.Component<Props, State> {
   static defaultProps = {
     appearance: 'default',
     placement: 'bottomLeft',
-    limitStartYear: 5,
-    limitEndYear: 5,
+    limitEndYear: 1000,
     format: 'YYYY-MM-DD',
     placeholder: '',
     locale: {
@@ -328,6 +326,7 @@ class DatePicker extends React.Component<Props, State> {
     onClose && onClose();
 
     this.setState({
+      calendarState: undefined,
       active: false
     });
   };
@@ -364,7 +363,7 @@ class DatePicker extends React.Component<Props, State> {
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderCalendar() {
-    const { format, isoWeek, limitStartYear, limitEndYear, disabledDate } = this.props;
+    const { format, isoWeek, limitEndYear, disabledDate } = this.props;
     const { calendarState, pageDate } = this.state;
     const calendarProps = _.pick(this.props, calendarOnlyProps);
 
@@ -372,7 +371,6 @@ class DatePicker extends React.Component<Props, State> {
       <Calendar
         {...calendarProps}
         disabledDate={disabledDate}
-        limitStartYear={limitStartYear}
         limitEndYear={limitEndYear}
         format={format}
         isoWeek={isoWeek}

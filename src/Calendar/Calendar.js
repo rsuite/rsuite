@@ -32,7 +32,6 @@ type Props = {
   calendarRef?: React.ElementRef<*>,
   format?: string,
   isoWeek?: boolean,
-  limitStartYear?: number,
   limitEndYear?: number,
   className?: string,
   classPrefix?: string
@@ -72,7 +71,6 @@ class Calendar extends React.PureComponent<Props> {
       calendarRef,
       className,
       isoWeek,
-      limitStartYear,
       limitEndYear,
       classPrefix,
       ...rest
@@ -124,7 +122,6 @@ class Calendar extends React.PureComponent<Props> {
             date={pageDate}
             onSelect={onChangePageDate}
             show={dropMonth}
-            limitStartYear={limitStartYear}
             limitEndYear={limitEndYear}
             disabledMonth={this.disabledDate}
           />

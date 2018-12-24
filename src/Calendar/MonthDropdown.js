@@ -2,17 +2,14 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { scrollTop } from 'dom-lib';
 import moment from 'moment';
+import List from 'react-virtualized/dist/es/list';
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
-
 import MonthDropdownItem from './MonthDropdownItem';
-import scrollTopAnimation from '../utils/scrollTopAnimation';
 
 type Props = {
   onSelect?: (month: moment$Moment, event: SyntheticEvent<*>) => void,
   date: moment$Moment,
-  limitStartYear?: number,
   limitEndYear?: number,
   className?: string,
   classPrefix?: string,
@@ -20,111 +17,99 @@ type Props = {
   show: boolean
 };
 
-const minYear = 1950;
-const blockHeight = 84;
+type RowProps = {
+  index: number, // Index of row
+  isScrolling: boolean, // The List is currently being scrolled
+  isVisible: boolean, // This row is visible within the List (eg it is not an overscanned row)
+  key?: any, // Unique key within array of rendered rows
+  parent: any, // Reference to the parent List (instance)
+  style?: Object // Style object to be applied to row (to position it);
+};
+
 const monthMap = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
 class MonthDropdown extends React.PureComponent<Props> {
   static defaultProps = {
     show: false,
-    limitStartYear: 5,
     limitEndYear: 5,
     date: moment()
   };
-
-  componentDidMount() {
-    this.updatePosition();
-  }
-
+  list = null;
   componentDidUpdate() {
-    this.updatePosition();
+    if (this.list) {
+      this.list.forceUpdateGrid();
+    }
   }
 
-  getStartYear() {
-    const { date, limitStartYear = 5 } = this.props;
-    const startYear = date.year() - limitStartYear;
-    return Math.max(startYear, minYear);
-  }
-
-  updatePosition(props?: Props) {
-    const { date } = props || this.props;
-    date && this.scrollTo(date);
-  }
-
-  scrollTo = (date: moment$Moment) => {
-    const year = date.year();
-    const top = (year - this.getStartYear()) * blockHeight;
-
-    scrollTopAnimation(this.scroll, top, scrollTop(this.scroll) !== 0);
-  };
-
-  scroll = null;
-
-  bindScrollRef = (ref: React.ElementRef<*>) => {
-    this.scroll = ref;
+  bindListRef = ref => {
+    this.list = ref;
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
-  renderBlock() {
-    const { date, onSelect, limitEndYear, disabledMonth } = this.props;
+  disabledMonth(nextYear, month) {
+    const { disabledMonth } = this.props;
 
-    const ret = [];
-    const selectedMonth = date.month();
-    const selectedYear = date.year();
-    const startYear = this.getStartYear();
-    let nextYear = 0;
-
-    for (let i = 0; i < 100 && nextYear < selectedYear + limitEndYear; i += 1) {
-      nextYear = startYear + i;
-
-      let isSelectedYear = nextYear === selectedYear;
-      let titleClasses = classNames(this.addPrefix('year'), {
-        [this.addPrefix('year-active')]: isSelectedYear
-      });
-
-      ret.push(
-        <div className={this.addPrefix('row')} key={i}>
-          <div className={titleClasses}>{nextYear}</div>
-          <div className={this.addPrefix('list')}>
-            {monthMap.map((i, month) => {
-              let disabled =
-                disabledMonth &&
-                disabledMonth(
-                  moment()
-                    .year(nextYear)
-                    .month(month)
-                );
-
-              return (
-                <MonthDropdownItem
-                  date={date}
-                  onSelect={onSelect}
-                  disabled={disabled}
-                  active={isSelectedYear && month === selectedMonth}
-                  key={month}
-                  month={month + 1}
-                  year={nextYear}
-                />
-              );
-            })}
-          </div>
-        </div>
+    if (disabledMonth) {
+      return disabledMonth(
+        moment()
+          .year(nextYear)
+          .month(month)
       );
     }
-
-    return ret;
+    return false;
   }
 
+  rowRenderer = ({ index, key, style }: RowProps) => {
+    const { date, onSelect } = this.props;
+    const selectedMonth = date.month();
+    const selectedYear = date.year();
+    let nextYear = index;
+    let isSelectedYear = nextYear === selectedYear;
+    let titleClasses = classNames(this.addPrefix('year'), {
+      [this.addPrefix('year-active')]: isSelectedYear
+    });
+
+    return (
+      <div className={this.addPrefix('row')} key={key} style={style}>
+        <div className={titleClasses}>{nextYear}</div>
+        <div className={this.addPrefix('list')}>
+          {monthMap.map((i, month) => {
+            return (
+              <MonthDropdownItem
+                date={date}
+                onSelect={onSelect}
+                disabled={this.disabledMonth(nextYear, month)}
+                active={isSelectedYear && month === selectedMonth}
+                key={month}
+                month={month + 1}
+                year={nextYear}
+              />
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
   render() {
-    const { classPrefix, className, ...rest } = this.props;
+    const { classPrefix, className, limitEndYear, date, ...rest } = this.props;
     const classes = classNames(classPrefix, className);
     const unhandled = getUnhandledProps(MonthDropdown, rest);
+    const list = [...new Array(moment().year() + limitEndYear)];
+
     return (
       <div {...unhandled} className={classes}>
         <div className={this.addPrefix('content')}>
-          <div className={this.addPrefix('scroll')} ref={this.bindScrollRef}>
-            {this.renderBlock()}
+          <div className={this.addPrefix('scroll')}>
+            <List
+              ref={this.bindListRef}
+              width={256}
+              height={227}
+              rowCount={list.length}
+              scrollToIndex={moment(date).year() + 1}
+              rowHeight={86}
+              rowRenderer={this.rowRenderer}
+            />
           </div>
         </div>
       </div>
