@@ -126,6 +126,7 @@ class Calendar extends React.PureComponent<Props> {
             show={dropMonth}
             limitStartYear={limitStartYear}
             limitEndYear={limitEndYear}
+            disabledMonth={this.disabledDate}
           />
         )}
         {showTime && (
