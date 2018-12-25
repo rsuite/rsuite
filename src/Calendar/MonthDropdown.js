@@ -3,7 +3,8 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
-import List from 'react-virtualized/dist/es/list';
+import List from 'react-virtualized/dist/es/List';
+import AutoSizer from 'react-virtualized/dist/es/AutoSizer';
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
 import MonthDropdownItem from './MonthDropdownItem';
 
@@ -47,13 +48,13 @@ class MonthDropdown extends React.PureComponent<Props> {
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
-  disabledMonth(nextYear, month) {
+  disabledMonth(year, month) {
     const { disabledMonth } = this.props;
 
     if (disabledMonth) {
       return disabledMonth(
         moment()
-          .year(nextYear)
+          .year(year)
           .month(month)
       );
     }
@@ -64,26 +65,26 @@ class MonthDropdown extends React.PureComponent<Props> {
     const { date, onSelect } = this.props;
     const selectedMonth = date.month();
     const selectedYear = date.year();
-    let nextYear = index;
-    let isSelectedYear = nextYear === selectedYear;
+    let year = index + 1;
+    let isSelectedYear = year === selectedYear;
     let titleClasses = classNames(this.addPrefix('year'), {
       [this.addPrefix('year-active')]: isSelectedYear
     });
 
     return (
       <div className={this.addPrefix('row')} key={key} style={style}>
-        <div className={titleClasses}>{nextYear}</div>
+        <div className={titleClasses}>{year}</div>
         <div className={this.addPrefix('list')}>
           {monthMap.map((i, month) => {
             return (
               <MonthDropdownItem
                 date={date}
                 onSelect={onSelect}
-                disabled={this.disabledMonth(nextYear, month)}
+                disabled={this.disabledMonth(year, month)}
                 active={isSelectedYear && month === selectedMonth}
                 key={month}
                 month={month + 1}
-                year={nextYear}
+                year={year}
               />
             );
           })}
@@ -101,15 +102,20 @@ class MonthDropdown extends React.PureComponent<Props> {
       <div {...unhandled} className={classes}>
         <div className={this.addPrefix('content')}>
           <div className={this.addPrefix('scroll')}>
-            <List
-              ref={this.bindListRef}
-              width={256}
-              height={227}
-              rowCount={list.length}
-              scrollToIndex={moment(date).year() + 1}
-              rowHeight={86}
-              rowRenderer={this.rowRenderer}
-            />
+            <AutoSizer>
+              {({ height, width }) => (
+                <List
+                  className={this.addPrefix('list')}
+                  ref={this.bindListRef}
+                  width={width}
+                  height={height}
+                  rowHeight={86}
+                  rowCount={list.length}
+                  scrollToIndex={moment(date).year()}
+                  rowRenderer={this.rowRenderer}
+                />
+              )}
+            </AutoSizer>
           </div>
         </div>
       </div>
