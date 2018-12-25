@@ -85,13 +85,8 @@
 
 // Optional: Group multiple button groups together for a toolbar
 .@{ns}btn-toolbar {
-  .clearfix;
-
-  .@{ns}btn,
-  .@{ns}btn-group,
-  .@{ns}input-group,
-  .@{ns}dropdown {
-    float: left;
+  > * {
+    vertical-align: top;
   }
 
   > :not(:first-child):not(.@{ns}btn-block) {
