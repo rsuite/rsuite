@@ -10,9 +10,8 @@ describe('Calendar-MonthDropdown', () => {
     const date = moment();
 
     const instance = ReactTestUtils.renderIntoDocument(<MonthDropdown date={date} />);
-
     const node = findDOMNode(instance);
-    assert.equal(node.querySelectorAll('.rs-calendar-month-dropdown-year').length, 7);
+    assert.equal(node.querySelectorAll('.rs-calendar-month-dropdown-year').length, 8);
   });
 
   it('Should call `onSelect` callback ', done => {

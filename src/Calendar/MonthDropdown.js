@@ -28,6 +28,8 @@ type RowProps = {
 };
 
 const monthMap = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+const defaultHeight = 221;
+const defaultWidth = 256;
 
 class MonthDropdown extends React.PureComponent<Props> {
   static defaultProps = {
@@ -102,13 +104,13 @@ class MonthDropdown extends React.PureComponent<Props> {
       <div {...unhandled} className={classes}>
         <div className={this.addPrefix('content')}>
           <div className={this.addPrefix('scroll')}>
-            <AutoSizer>
+            <AutoSizer defaultHeight={defaultHeight} defaultWidth={defaultWidth}>
               {({ height, width }) => (
                 <List
                   className={this.addPrefix('list')}
                   ref={this.bindListRef}
-                  width={width}
-                  height={height}
+                  width={width || defaultWidth}
+                  height={height || defaultHeight}
                   rowHeight={86}
                   rowCount={list.length}
                   scrollToIndex={moment(date).year()}
