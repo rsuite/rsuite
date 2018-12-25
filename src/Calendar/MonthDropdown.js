@@ -15,8 +15,7 @@ type Props = {
   className?: string,
   classPrefix?: string,
   disabledMonth?: (date: moment$Moment) => boolean,
-  show: boolean,
-  rows: any[]
+  show: boolean
 };
 
 type RowProps = {
@@ -32,9 +31,9 @@ const monthMap = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 const defaultHeight = 221;
 const defaultWidth = 256;
 
-function getRowHeight(length: number) {
+function getRowHeight(count: number) {
   return ({ index }) => {
-    if (index === 0 || length - 1 === index) {
+    if (index === 0 || count - 1 === index) {
       return 75 + 1;
     }
     return 75;
@@ -54,9 +53,9 @@ class MonthDropdown extends React.PureComponent<Props> {
     }
   }
 
-  getRows = () => {
+  getRowCount = () => {
     const { limitEndYear } = this.props;
-    return [...new Array(moment().year() + limitEndYear)];
+    return moment().year() + limitEndYear;
   };
 
   list = null;
@@ -80,50 +79,50 @@ class MonthDropdown extends React.PureComponent<Props> {
     return false;
   }
 
-  rowRenderer = (length: number) => {
-    return ({ index, key, style }: RowProps) => {
-      const { date, onSelect } = this.props;
-      const selectedMonth = date.month();
-      const selectedYear = date.year();
-      const year = index + 1;
-      const isSelectedYear = year === selectedYear;
-      const titleClassName = classNames(this.addPrefix('year'), {
-        [this.addPrefix('year-active')]: isSelectedYear
-      });
+  rowRenderer = ({ index, key, style }: RowProps) => {
+    const { date, onSelect } = this.props;
+    const selectedMonth = date.month();
+    const selectedYear = date.year();
+    const year = index + 1;
+    const isSelectedYear = year === selectedYear;
+    const count = this.getRowCount();
+    const titleClassName = classNames(this.addPrefix('year'), {
+      [this.addPrefix('year-active')]: isSelectedYear
+    });
 
-      const rowClassName = classNames(this.addPrefix('row'), {
-        'first-row': index === 0,
-        'last-row': index === length - 1
-      });
+    const rowClassName = classNames(this.addPrefix('row'), {
+      'first-row': index === 0,
+      'last-row': index === count - 1
+    });
 
-      return (
-        <div className={rowClassName} key={key} style={style}>
-          <div className={titleClassName}>{year}</div>
-          <div className={this.addPrefix('list')}>
-            {monthMap.map((i, month) => {
-              return (
-                <MonthDropdownItem
-                  date={date}
-                  onSelect={onSelect}
-                  disabled={this.disabledMonth(year, month)}
-                  active={isSelectedYear && month === selectedMonth}
-                  key={month}
-                  month={month + 1}
-                  year={year}
-                />
-              );
-            })}
-          </div>
+    return (
+      <div className={rowClassName} key={key} style={style}>
+        <div className={titleClassName}>{year}</div>
+        <div className={this.addPrefix('list')}>
+          {monthMap.map((i, month) => {
+            return (
+              <MonthDropdownItem
+                date={date}
+                onSelect={onSelect}
+                disabled={this.disabledMonth(year, month)}
+                active={isSelectedYear && month === selectedMonth}
+                key={month}
+                month={month + 1}
+                year={year}
+              />
+            );
+          })}
         </div>
-      );
-    };
+      </div>
+    );
   };
   render() {
-    const { classPrefix, className, date, ...rest } = this.props;
-    const classes = classNames(classPrefix, className);
+    const { classPrefix, className, date, show, ...rest } = this.props;
     const unhandled = getUnhandledProps(MonthDropdown, rest);
-    const rows = this.getRows();
-    const length = rows.length;
+    const count = this.getRowCount();
+    const classes = classNames(classPrefix, className, {
+      show
+    });
 
     return (
       <div {...unhandled} className={classes}>
@@ -136,10 +135,10 @@ class MonthDropdown extends React.PureComponent<Props> {
                   ref={this.bindListRef}
                   width={width || defaultWidth}
                   height={height || defaultHeight}
-                  rowHeight={getRowHeight(length)}
-                  rowCount={length}
+                  rowHeight={getRowHeight(count)}
+                  rowCount={count}
                   scrollToIndex={moment(date).year()}
-                  rowRenderer={this.rowRenderer(length)}
+                  rowRenderer={this.rowRenderer}
                 />
               )}
             </AutoSizer>
