@@ -1,6 +1,8 @@
 // @flow
 
 import * as React from 'react';
+import { findDOMNode } from 'react-dom';
+import { getWidth, getHeight } from 'dom-lib';
 import classNames from 'classnames';
 import moment from 'moment';
 import List from 'react-virtualized/dist/es/list';
@@ -17,6 +19,11 @@ type Props = {
   show: boolean
 };
 
+type State = {
+  listWidth: number,
+  listHeight: number
+};
+
 type RowProps = {
   index: number, // Index of row
   isScrolling: boolean, // The List is currently being scrolled
@@ -28,21 +35,51 @@ type RowProps = {
 
 const monthMap = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
-class MonthDropdown extends React.PureComponent<Props> {
+class MonthDropdown extends React.PureComponent<Props, State> {
   static defaultProps = {
     show: false,
     limitEndYear: 5,
     date: moment()
   };
   list = null;
+  scroll = null;
+
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      listWidth: 256,
+      listHeight: 221
+    };
+  }
+
+  componentDidMount() {
+    this.resizeListWidth();
+  }
+
   componentDidUpdate() {
     if (this.list) {
       this.list.forceUpdateGrid();
     }
+    this.resizeListWidth();
   }
+
+  bindScrollRef = ref => {
+    this.scroll = ref;
+  };
 
   bindListRef = ref => {
     this.list = ref;
+  };
+
+  resizeListWidth = () => {
+    const scroll = findDOMNode(this.scroll);
+    if (scroll) {
+      this.setState({
+        listWidth: getWidth(scroll) || this.state.listWidth,
+        listHeight: getHeight(scroll) || this.state.listHeight
+      });
+    }
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
@@ -93,6 +130,7 @@ class MonthDropdown extends React.PureComponent<Props> {
   };
   render() {
     const { classPrefix, className, limitEndYear, date, ...rest } = this.props;
+    const { listWidth, listHeight } = this.state;
     const classes = classNames(classPrefix, className);
     const unhandled = getUnhandledProps(MonthDropdown, rest);
     const list = [...new Array(moment().year() + limitEndYear)];
@@ -100,11 +138,11 @@ class MonthDropdown extends React.PureComponent<Props> {
     return (
       <div {...unhandled} className={classes}>
         <div className={this.addPrefix('content')}>
-          <div className={this.addPrefix('scroll')}>
+          <div ref={this.bindScrollRef} className={this.addPrefix('scroll')}>
             <List
               ref={this.bindListRef}
-              width={256}
-              height={227}
+              width={listWidth}
+              height={listHeight}
               rowCount={list.length}
               scrollToIndex={moment(date).year() + 1}
               rowHeight={86}
