@@ -223,8 +223,6 @@
   top: @calendar-dropdown-top;
   border-top: 1px solid @B200;
   margin-top: 4px;
-  padding-left: @calendar-picker-padding;
-  padding-right: @calendar-picker-padding;
   width: 100%;
   background-color: @B000;
   overflow: hidden;
@@ -240,12 +238,12 @@
 
   &-scroll {
     height: 230px;
-    overflow-y: auto;
   }
 
   &-row {
     position: relative;
-    padding-left: 40px;
+    padding-left: 40px + @calendar-picker-padding;
+    padding-right: @calendar-picker-padding;
     padding-top: 5px;
     padding-bottom: 5px;
 
@@ -257,7 +255,7 @@
   &-year {
     position: absolute;
     top: ~'calc(50% - 0.5em)';
-    left: 0;
+    left: @calendar-picker-padding;
 
     &-active {
       color: @calendar-month-dropdown-year-active-color;
