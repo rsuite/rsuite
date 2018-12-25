@@ -11,7 +11,6 @@
 .@{clpns} {
   background-color: @picker-bg;
   padding-top: @calendar-picker-padding;
-  padding-bottom: @calendar-picker-padding;
   position: relative;
   min-height: 266px;
   overflow: hidden;
@@ -133,9 +132,7 @@
 }
 
 .@{clpns}-view {
-  margin-top: @calendar-picker-view-margin-top;
-  padding-left: @calendar-picker-padding;
-  padding-right: @calendar-picker-padding;
+  padding: @calendar-picker-view-padding-top @calendar-picker-padding @calendar-picker-padding;
 }
 
 // Calendar Table
@@ -187,8 +184,7 @@
   .picker-calendar-cell-content;
 
   .@{clpns}-table-cell-is-today & {
-    border: @calendar-table-cell-content-today-border-width solid
-      @calendar-table-cell-content-today-border-color;
+    border: @calendar-table-cell-content-today-border-width solid @calendar-table-cell-content-today-border-color;
     padding: @calendar-table-cell-content-padding - @calendar-table-cell-content-today-border-width;
   }
 
@@ -353,7 +349,7 @@
 
   &-cell {
     font-size: @font-size-base;
-    line-height: @line-height-base;
+    line-height: @line-height-computed;
     padding: 5px;
     display: block;
     color: @B800;
