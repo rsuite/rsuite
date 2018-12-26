@@ -58,6 +58,7 @@
     "prop-types": "^15.6.0",
     "react-flow-types": "^0.2.0-beta.6",
     "react-lifecycles-compat": "^3.0.4",
+    "react-virtualized": "^9.21.0",
     "recompose": "^0.26.0",
     "rsuite-intl": "~1.0.4",
     "rsuite-notification": "~3.0.2",

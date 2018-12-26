@@ -26,7 +26,6 @@ type Props = {
   isoWeek?: boolean,
   className?: string,
   classPrefix?: string,
-  limitStartYear?: number,
   limitEndYear?: number
 };
 
@@ -125,7 +124,6 @@ class Calendar extends React.Component<Props> {
       value,
       hoverValue,
       isoWeek,
-      limitStartYear,
       limitEndYear,
       classPrefix,
       ...rest
@@ -167,7 +165,6 @@ class Calendar extends React.Component<Props> {
           show={dropMonth}
           disabledMonth={this.disabledMonth}
           onSelect={onChangePageDate}
-          limitStartYear={limitStartYear}
           limitEndYear={limitEndYear}
         />
       </div>

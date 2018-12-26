@@ -12,7 +12,7 @@
   background-color: @picker-bg;
   padding-top: @calendar-picker-padding;
   position: relative;
-  height: 266px;
+  min-height: 266px;
   overflow: hidden;
 }
 
@@ -132,9 +132,7 @@
 }
 
 .@{clpns}-view {
-  margin-top: @calendar-picker-view-margin-top;
-  padding-left: @calendar-picker-padding;
-  padding-right: @calendar-picker-padding;
+  padding: @calendar-picker-view-padding-top @calendar-picker-padding @calendar-picker-padding;
 }
 
 // Calendar Table
@@ -201,6 +199,8 @@
     color: @calendar-table-cell-header-color;
     font-size: @font-size-small;
     line-height: @line-height-small;
+    padding-top: 2px;
+    padding-bottom: 2px;
 
     &,
     &:hover,
@@ -219,9 +219,6 @@
   top: @calendar-dropdown-top;
   border-top: 1px solid @B200;
   margin-top: 4px;
-  padding-top: 6px;
-  padding-left: @calendar-picker-padding;
-  padding-right: @calendar-picker-padding;
   width: 100%;
   background-color: @B000;
   overflow: hidden;
@@ -237,12 +234,14 @@
 
   &-scroll {
     height: 230px;
-    overflow-y: auto;
   }
 
   &-row {
     position: relative;
-    padding-left: 40px;
+    padding-left: 40px + @calendar-picker-padding;
+    padding-right: @calendar-picker-padding;
+    padding-top: 5px;
+    padding-bottom: 5px;
 
     &:not(:last-child) {
       border-bottom: 1px dotted @calendar-month-dropdown-row-border-color;
@@ -251,8 +250,8 @@
 
   &-year {
     position: absolute;
-    top: 35px;
-    left: 0;
+    top: ~'calc(50% - 0.5em)';
+    left: @calendar-picker-padding;
 
     &-active {
       color: @calendar-month-dropdown-year-active-color;
@@ -268,8 +267,7 @@
     display: inline-block;
     float: left;
     width: ~'calc((100% - @{calendar-table-cell-content-today-border-width} * 12 ) / 6)';
-    margin: @calendar-table-cell-padding;
-    padding: @calendar-table-cell-content-padding;
+    margin: 1px;
     text-align: center;
     vertical-align: middle;
   }
@@ -351,7 +349,7 @@
 
   &-cell {
     font-size: @font-size-base;
-    line-height: @line-height-base;
+    line-height: @line-height-computed;
     padding: 5px;
     display: block;
     color: @B800;
@@ -400,7 +398,6 @@
 .@{ns}picker-toolbar {
   .clearfix;
 
-  margin-top: @calendar-picker-padding;
   padding: @calendar-picker-padding;
   border-top: 1px solid @B200;
 
@@ -473,6 +470,11 @@
   .@{clpns}-table-cell-content {
     width: @calendar-in-menu-content-side-length;
     height: @calendar-in-menu-content-side-length;
+  }
+
+  .@{clpns}-table-header-row .@{clpns}-table-cell-content {
+    height: 24px;
+    padding-top: 0;
   }
 
   .@{clpns}-table-cell-content {
@@ -577,4 +579,9 @@
 
 .@{clpns}-table-cell-in-range::before {
   background-color: @H050;
+}
+
+// Reset outline for scroll list.
+.@{clpns}-month-dropdown-scroll div:focus {
+  outline: none;
 }

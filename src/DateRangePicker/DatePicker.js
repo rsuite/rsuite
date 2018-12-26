@@ -19,7 +19,6 @@ type Props = {
   onMouseMove?: (date: moment$Moment) => void,
   onChangeCalendarDate?: (index: number, nextPageDate: moment$Moment) => void,
   isoWeek?: boolean,
-  limitStartYear?: number,
   limitEndYear?: number,
   classPrefix?: string
 };
@@ -89,7 +88,6 @@ class DatePicker extends React.Component<Props, State> {
       onMouseMove,
       disabledDate,
       isoWeek,
-      limitStartYear,
       limitEndYear,
       classPrefix
     } = this.props;
@@ -113,7 +111,6 @@ class DatePicker extends React.Component<Props, State> {
         onMouseMove={onMouseMove}
         onToggleMonthDropdown={this.toggleMonthDropdown}
         onChangePageDate={this.handleChangePageDate}
-        limitStartYear={limitStartYear}
         limitEndYear={limitEndYear}
       />
     );
