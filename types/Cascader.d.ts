@@ -18,7 +18,7 @@ export interface CascaderProps extends FormControlPickerProps<any> {
   /** Custom render selected items */
   renderValue?: (
     value: any,
-    activePaths?: any[],
+    activePaths: any[],
     selectedElement: React.ReactNode
   ) => React.ReactNode;
 
