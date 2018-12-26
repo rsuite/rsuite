@@ -23,7 +23,7 @@
     left: -1px;
   }
 
-  &:hover,
+  &:not(.@{ns}picker-disabled):hover,
   &.@{ns}picker-focused {
     border-color: @picker-default-toggle-hover-border-color;
   }
@@ -42,9 +42,7 @@
   width: 100%;
 
   &-input {
-    .input-size(
-      @input-picker-toggle-content-height; @padding-base-vertical; @padding-base-input-horizontal; @font-size-base; @line-height-base; @input-border-radius
-    );
+    .input-size(@input-picker-toggle-content-height; @padding-base-vertical; @padding-base-input-horizontal; @font-size-base; @line-height-base; @input-border-radius);
 
     .@{tag-picker} & {
       .input-size(@tag-picker-toggle-content-height; @padding-extra-small-vertical; @padding-base-input-horizontal; @font-size-small; @line-height-base; @input-border-radius);
