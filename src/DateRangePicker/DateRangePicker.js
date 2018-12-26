@@ -401,20 +401,42 @@ class DateRangePicker extends React.Component<Props, State> {
     this.updateValue([]);
   };
 
-  handleEntered = () => {
-    const { onOpen } = this.props;
-    onOpen && onOpen();
+  handleEnter = () => {
+    const value = this.getValue();
+
+    let calendarDate;
+
+    if (value && value.length) {
+      const [startDate, endData] = value;
+      calendarDate = [
+        startDate.clone(),
+        startDate.isSame(endData, 'month') ? endData.clone().add(1, 'month') : endData
+      ];
+    } else {
+      calendarDate = [moment(), moment().add(1, 'month')];
+    }
+
     this.setState({
+      selectValue: value,
+      calendarDate,
       active: true
     });
   };
 
+  handleEntered = () => {
+    const { onOpen } = this.props;
+    onOpen && onOpen();
+  };
+
   handleExit = () => {
     const { onClose } = this.props;
-    onClose && onClose();
+
     this.setState({
-      active: false
+      active: false,
+      doneSelected: true
     });
+
+    onClose && onClose();
   };
 
   disabledByBetween(start: moment$Moment, end: moment$Moment, type: string) {
@@ -540,6 +562,7 @@ class DateRangePicker extends React.Component<Props, State> {
       toggleComponentClass,
       style,
       onEntered,
+      onEnter,
       onExited,
       ...rest
     } = this.props;
@@ -555,6 +578,7 @@ class DateRangePicker extends React.Component<Props, State> {
           <PickerToggleTrigger
             pickerProps={this.props}
             innerRef={this.bindTriggerRef}
+            onEnter={createChainedFunction(this.handleEnter, onEnter)}
             onEntered={createChainedFunction(this.handleEntered, onEntered)}
             onExit={createChainedFunction(this.handleExit, onExited)}
             speaker={this.renderDropdownMenu()}
