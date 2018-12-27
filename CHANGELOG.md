@@ -1,3 +1,43 @@
+# 3.5.1
+
+> 2018-12-27
+
+* **Improve**: Improve the experience of select months on Calendar ([#334])
+* **Refactor**: Refactor the style of the button toolbar ([#333])
+* **Breaking**: Remove `limitStartYear` prop from `<DatePicker>` and `<DateRangePicker>` ([#334])
+* **Bugfix**: Fixed `<CheckPicker>` setting `toggleComponentClass` which will cause an error ([#329])
+* **Bugfix**: Fixed `disabledDate` cannot disable the month ([#327])
+* **Bugfix**: Fixed focus position error when `<SelectPicker>` and `<CheckPicker>` are controlled ([#324])
+* **Bugfix**: Fixed calendar display date and value are inconsistent on `<DateRangePicker>` ([#323])
+* **Bugfix**: Fixed some style issues ([#321])
+* **Bugfix**: Fixed some issues with TypeScript ([#320],[#325])
+* **Chore**: Adjust the priority of rule execution for Schema ([#schema-9])
+
+---
+
+* **Improve**: 改善日历上选择月份的体验 ([#334])
+* **Refactor**: 重构`<ButtonToolbar>`的样式 ([#333])
+* **Breaking**: 删除在 `<DatePicker>` 和 `<DateRangePicker>` 的 `limitStartYear` 属性 ([#334])
+* **Bugfix**: 修复 `<CheckPicker>` 设置 `toggleComponentClass` 以后出现异常 ([#329])
+* **Bugfix**: 修复 `disabledDate` 不能禁用月份 ([#327])
+* **Bugfix**: 修复 `<SelectPicker>`和`<CheckPicker>`在受控情况下，选项焦点位置错误 ([#324])
+* **Bugfix**: 修复 `<DateRangePicker>` 日历上显示的日期与值不一致的问题 ([#323])
+* **Bugfix**: 修复了一些样式问题 ([#321])
+* **Bugfix**: 修复了一些 TypeScript 问题 ([#320],[#325])
+* **Chore**: 调整 Schema 中规则校验的优先级 ([#schema-9])
+
+[#334]: https://github.com/rsuite/rsuite/pull/334
+[#333]: https://github.com/rsuite/rsuite/pull/333
+[#329]: https://github.com/rsuite/rsuite/pull/329
+[#327]: https://github.com/rsuite/rsuite/pull/327
+[#325]: https://github.com/rsuite/rsuite/pull/325
+[#324]: https://github.com/rsuite/rsuite/pull/324
+[#323]: https://github.com/rsuite/rsuite/pull/323
+[#323]: https://github.com/rsuite/rsuite/pull/323
+[#321]: https://github.com/rsuite/rsuite/pull/321
+[#320]: https://github.com/rsuite/rsuite/pull/320
+[#schema-9]: https://github.com/rsuite/schema-typed/pull/9
+
 # 3.5.0
 
 > 2018-12-20
