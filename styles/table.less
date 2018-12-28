@@ -275,14 +275,19 @@
   }
 
   &-cell-group {
-    &-fixed {
+    &-fixed-right,
+    &-fixed-left {
       position: absolute;
       z-index: @zindex-table-cell-group-fixed;
       background: @table-body-background;
     }
 
-    &-shadow {
-      box-shadow: 3px 0 5px rgba(9, 9, 9, 0.08);
+    &-left-shadow {
+      box-shadow: 3px @table-table-cell-fixed-shadow;
+    }
+
+    &-right-shadow {
+      box-shadow: -3px @table-table-cell-fixed-shadow;
     }
   }
 
