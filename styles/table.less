@@ -282,6 +282,11 @@
       background: @table-body-background;
     }
 
+    &-fixed-right {
+      margin-left: @table-scrollbar-width;
+    }
+
+    &-shadow,
     &-left-shadow {
       box-shadow: 3px @table-table-cell-fixed-shadow;
     }
@@ -378,8 +383,7 @@
 .@{ns}table-scrollbar {
   background: @table-scrollbar-background;
   position: absolute;
-  transition: background @table-scrollbar-timing-duration linear,
-    transform @table-scrollbar-timing-duration linear;
+  transition: background @table-scrollbar-timing-duration linear, transform @table-scrollbar-timing-duration linear;
   opacity: 0.6;
   // Make sure Scrollbar on the loader.
   z-index: 1;
