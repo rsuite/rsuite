@@ -80,6 +80,7 @@ type Props = {
    * group by key in `data`
    */
   groupBy?: any,
+  sort?: (isGroup: boolean) => (a: any, b: any) => number,
   placeholder?: React.Node,
   searchable?: boolean,
   cleanable?: boolean,
@@ -602,7 +603,8 @@ class Dropdown extends React.Component<Props, State> {
       menuAutoWidth,
       creatable,
       valueKey,
-      multi
+      multi,
+      sort
     } = this.props;
 
     const { focusItemValue, searchKeyword } = this.state;
@@ -627,7 +629,9 @@ class Dropdown extends React.Component<Props, State> {
 
     // Create a tree structure data when set `groupBy`
     if (groupBy) {
-      filteredData = getDataGroupBy(filteredData, groupBy);
+      filteredData = getDataGroupBy(filteredData, groupBy, sort);
+    } else if (typeof sort === 'function') {
+      filteredData = filteredData.sort(sort(false));
     }
 
     const menuProps = _.pick(
