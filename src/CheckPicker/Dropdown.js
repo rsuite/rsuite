@@ -4,15 +4,16 @@ import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { IntlProvider, FormattedMessage } from 'rsuite-intl';
-import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
+import {
+  defaultProps,
+  prefix,
+  getUnhandledProps,
+  createChainedFunction,
+  getDataGroupBy
+} from '../utils';
 import type { Placement } from '../utils/TypeDefinition';
 
-import {
-  reactToString,
-  filterNodesOfTree,
-  getDataGroupBy,
-  shallowEqual
-} from 'rsuite-utils/lib/utils';
+import { reactToString, filterNodesOfTree, shallowEqual } from 'rsuite-utils/lib/utils';
 
 import {
   DropdownMenu,
@@ -71,6 +72,7 @@ type Props = {
    * group by key in `data`
    */
   groupBy?: any,
+  sort?: (isGroup: boolean) => (a: any, b: any) => number,
   placeholder?: React.Node,
   searchable?: boolean,
   cleanable?: boolean,
@@ -421,7 +423,8 @@ class Dropdown extends React.Component<Props, State> {
       renderMenu,
       menuClassName,
       menuStyle,
-      menuAutoWidth
+      menuAutoWidth,
+      sort
     } = this.props;
 
     const { focusItemValue, stickyItems } = this.state;
@@ -449,7 +452,9 @@ class Dropdown extends React.Component<Props, State> {
 
     // Create a tree structure data when set `groupBy`
     if (groupBy) {
-      filteredData = getDataGroupBy(filteredData, groupBy);
+      filteredData = getDataGroupBy(filteredData, groupBy, sort);
+    } else if (typeof sort === 'function') {
+      filteredData = filteredData.sort(sort(false));
     }
 
     const menuProps = _.pick(
