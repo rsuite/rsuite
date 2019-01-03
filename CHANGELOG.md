@@ -1,3 +1,25 @@
+# 3.5.2
+
+> January 3, 2019
+
+* **Feature**: Support `sort` for pickers that can be grouped ([#343])
+* **Feature**: Support fixed column to the right on `<Table>` ([#341],[#table-53])
+* **Bugfix**: Fixed style issue when `<Popover>` has no title ([#339])
+* **Bugfix**: Fixed issues of form inline layout ([#338])
+
+---
+
+* **Feature**: 支持 `groupBy` 分组的 Picker 组件，同时支持 `sort` 对选项排序 ([#343])
+* **Feature**: `<Table>` 支持 `fixed='right'`, 锁定列在右侧 ([#341],[#table-53])
+* **Bugfix**: 修复 `<Popover>` 在没有 `title` 时候的样式问题 ([#339])
+* **Bugfix**: 修复表单 inline 布局存在对齐问题 ([#338])
+
+[#343]: https://github.com/rsuite/rsuite/pull/343
+[#341]: https://github.com/rsuite/rsuite/pull/341
+[#339]: https://github.com/rsuite/rsuite/pull/339
+[#338]: https://github.com/rsuite/rsuite/pull/338
+[#table-53]: https://github.com/rsuite/rsuite-table/pull/53
+
 # 3.5.1
 
 > 2018-12-27
