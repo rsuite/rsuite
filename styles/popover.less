@@ -47,17 +47,20 @@
   }
 
   // Popover Title
-  .@{ns}popover-title {
+  &-title {
     margin: 0; // reset heading margin
     font-size: @font-size-base;
     line-height: @line-height-base;
   }
 
   // Popover Content
-  .@{ns}popover-content {
-    margin-top: 8px;
+  &-content {
     font-size: @font-size-small;
     line-height: @line-height-small;
+  }
+
+  &-title ~ &-content {
+    margin-top: 8px;
   }
 }
 
