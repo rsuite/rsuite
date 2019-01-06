@@ -201,6 +201,7 @@ class InputNumber extends React.Component<Props, State> {
         <Input
           {...htmlInputProps}
           type="text"
+          autoComplete="off"
           step={step}
           onChange={this.handleOnChange}
           onBlur={this.handleBlur}
