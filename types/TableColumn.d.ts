@@ -8,7 +8,7 @@ export interface TableColumnProps {
   width?: number;
 
   /** Fixed column */
-  fixed?: boolean;
+  fixed?: boolean | 'left' | 'right';
 
   /** Customizable Resize Column width */
   resizable?: boolean;
