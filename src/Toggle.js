@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import _ from 'lodash';
 import compose from 'recompose/compose';
 
 import { prefix, withStyleProps, defaultProps, getUnhandledProps } from './utils';
@@ -25,28 +24,27 @@ type State = {
 class Toggle extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    const { checked, defaultChecked } = props;
     this.state = {
-      checked: _.isUndefined(checked) ? defaultChecked : checked
+      checked: props.defaultChecked
     };
   }
 
   getCheckedStatus() {
     const { checked } = this.props;
-    return _.isUndefined(checked) ? this.state.checked : checked;
+    return typeof checked === 'undefined' ? this.state.checked : checked;
   }
 
   handleChange = (event: SyntheticEvent<*>) => {
     const { onChange, disabled } = this.props;
-    const checked = !this.state.checked;
+    const checked = !this.getCheckedStatus();
 
     if (disabled) {
       return;
     }
 
-    this.setState({ checked }, () => {
-      onChange && onChange(checked, event);
-    });
+    this.setState({ checked });
+
+    onChange && onChange(checked, event);
   };
 
   render() {
