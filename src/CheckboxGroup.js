@@ -4,7 +4,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
 
-import { ReactChildren, getUnhandledProps, defaultProps } from './utils';
+import { ReactChildren, getUnhandledProps, defaultProps, prefix } from './utils';
 
 type Props = {
   name?: string,
@@ -51,7 +51,10 @@ class CheckboxGroup extends React.Component<Props, State> {
   render() {
     const { className, inline, name, value, children, classPrefix, ...props } = this.props;
     const nextValue = this.getValue() || [];
-    const classes: string = classNames(classPrefix, className);
+    const addPrefix = prefix(classPrefix);
+    const classes = classNames(classPrefix, className, {
+      [addPrefix('inline')]: inline
+    });
     const checkedKey = _.isUndefined(value) ? 'defaultChecked' : 'checked';
 
     const items: React.Node = ReactChildren.mapCloneElement(children, child => {

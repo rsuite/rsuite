@@ -126,12 +126,22 @@
 .@{ns}radio {
   &-group-inline {
     display: inline-block;
+    margin-left: -1 * @radio-sense-width;
   }
 
   &-group-picker {
     color: @picker-default-toggle-font-color;
     border: 1px solid @picker-default-toggle-border-color;
     border-radius: @border-radius-base;
+    margin-left: 0;
+
+    .@{ns}radio-inline {
+      margin-left: 0;
+    }
+
+    .@{ns}radio-inline + .@{ns}radio-inline {
+      margin-left: @radio-sense-width; // space out consecutive inline controls
+    }
   }
 
   // Reset checker padding value.
