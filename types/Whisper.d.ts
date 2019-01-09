@@ -4,8 +4,11 @@ import { TooltipProps } from './Tooltip';
 import { PopoverProps } from './Popover';
 
 export interface WhisperProps extends AnimationEventProps {
+  /** Triggering events */
+  trigger?: 'click' | 'hover' | 'focus' | 'active';
+
   /** Ref of trigger */
-  trigger?: React.Ref<any>;
+  triggerRef?: React.Ref<any>;
 
   /** Display placement */
   placement?: PropTypes.Placement | PropTypes.Placement4;
