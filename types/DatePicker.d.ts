@@ -25,9 +25,6 @@ export interface DatePickerProps extends PickerBaseProps, FormControlBaseProps<m
   /** ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day */
   isoWeek?: boolean;
 
-  /** Set an optional year limit relative to the current selection date */
-  limitStartYear?: number;
-
   /** Set the lower limit of the available year relative to the current selection date */
   limitEndYear?: number;
 
