@@ -50,6 +50,7 @@
       color: @nav-item-font-default-color;
       transition: @nav-item-transition;
       overflow: hidden;
+      white-space: nowrap;
 
       .safari-border-radius-overflow-hidden;
 
@@ -88,13 +89,12 @@
 
   // Orientation
   &.@{ns}nav-horizontal {
-    .clearfix;
+    white-space: nowrap;
 
     // Justified
     &.@{ns}nav-justified {
       .@{ns}nav-item,
       .@{ns}dropdown {
-        float: none;
         display: table-cell;
         width: 1%;
       }
@@ -107,7 +107,8 @@
 
     .@{ns}dropdown,
     .@{ns}nav-item {
-      float: left;
+      display: inline-block;
+      vertical-align: top;
     }
 
     // Waterline
@@ -119,6 +120,7 @@
       //** Reversed
       .@{ns}nav-reversed& {
         bottom: auto;
+        top: 0;
       }
     }
   }
