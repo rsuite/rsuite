@@ -1,3 +1,34 @@
+# 3.5.3
+
+> January 10, 2019
+
+* **Improve**: The `children` property support function for `<Cell>` in `<Table>` ([#360])
+* **Improve**: Make sure `<NavItem>` show in one line when setting horizontal for `<Nav>` ([#359])
+* **Bugfix**: Fix `onChange` return parameter is incorrect on `<Toggle>` ([#358])
+* **Bugfix**: `<RadioGroup>` and `<CheckboxGroup>` supported mutiple line when setting inline ([#355])
+* **Bugfix**: Fix typescript type definition error ([#352],[#354])
+* **Bugfix**: Fixed style issue when table cell fixed and resizable ([#348])
+* **Bugfix**: Fix issue that button border width is less than 1px ([#346])
+
+---
+
+* **Improve**: `<Table>`的`<Cell>` 组件，`children` 支持设置为函数，方便自定义单元格数据([#360])
+* **Improve**: 当 `<Nav>` 设置为水平布局时候，让 `<NavItem>` 都在一行显示([#359])
+* **Bugfix**: 修复了`<Toggle>` 在受控情况下，`onChange` 的回调参数错误的问题 ([#358])
+* **Bugfix**: 修复了 `<RadioGroup>` 和 `<CheckboxGroup>` 在换行后对齐问题 ([#355])
+* **Bugfix**: 修复了 TypeScript 定义错误 ([#352],[#354])
+* **Bugfix**: 修复了 `<Table>` 同时设置 fixed 和 resizable 滚动样式问题 ([#348])
+* **Bugfix**: 修复了按钮边框丢失 1px 像素的问题 ([#346])
+
+[#360]: https://github.com/rsuite/rsuite/pull/360
+[#359]: https://github.com/rsuite/rsuite/pull/359
+[#358]: https://github.com/rsuite/rsuite/pull/358
+[#355]: https://github.com/rsuite/rsuite/pull/355
+[#354]: https://github.com/rsuite/rsuite/pull/354
+[#352]: https://github.com/rsuite/rsuite/pull/352
+[#348]: https://github.com/rsuite/rsuite/pull/348
+[#346]: https://github.com/rsuite/rsuite/pull/346
+
 # 3.5.2
 
 > January 3, 2019
