@@ -153,17 +153,7 @@ describe('DateRangePicker', () => {
       }
     };
     const instance = ReactTestUtils.renderIntoDocument(
-      <DateRangePicker
-        onSelect={() => {
-          ReactTestUtils.Simulate.click(
-            findDOMNode(instance.menuContainer).querySelector('.rs-picker-toolbar-right-btn-ok')
-          );
-        }}
-        onOk={doneOp}
-        hoverRange="week"
-        oneTap
-        open
-      />
+      <DateRangePicker onChange={doneOp} hoverRange="week" oneTap open />
     );
     const today = findDOMNode(instance.menuContainer).querySelector(
       '.rs-calendar-table-cell-is-today'
