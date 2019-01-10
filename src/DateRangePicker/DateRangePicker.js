@@ -306,7 +306,7 @@ class DateRangePicker extends React.Component<Props, State> {
 
   handleChangeSelectValue = (date: moment$Moment) => {
     const { selectValue, doneSelected } = this.state;
-    const { onSelect } = this.props;
+    const { onSelect, oneTap } = this.props;
     let nextValue = [];
     let nextHoverValue = this.getHoverRange(date);
 
@@ -344,9 +344,15 @@ class DateRangePicker extends React.Component<Props, State> {
 
     this.setState(nextState, () => {
       // 如果是单击模式，并且是第一次点选，再触发一次点击
-      if (this.props.oneTap && !this.state.doneSelected) {
+      if (oneTap && !this.state.doneSelected) {
         this.handleChangeSelectValue(date);
       }
+
+      // 如果是单击模式，并且是第二次点选，更新值，并关闭面板
+      if (oneTap && this.state.doneSelected) {
+        this.updateValue();
+      }
+
       onSelect && onSelect(date);
     });
   };
@@ -505,7 +511,7 @@ class DateRangePicker extends React.Component<Props, State> {
   };
 
   renderDropdownMenu() {
-    const { placement, menuClassName, ranges, isoWeek, limitEndYear } = this.props;
+    const { placement, menuClassName, ranges, isoWeek, limitEndYear, oneTap } = this.props;
     const { calendarDate, selectValue, hoverValue, doneSelected } = this.state;
 
     const classes = classNames(
@@ -546,6 +552,7 @@ class DateRangePicker extends React.Component<Props, State> {
             disabledShortcutButton={this.disabledShortcutButton}
             onShortcut={this.handleShortcutPageDate}
             onOk={this.handleOK}
+            hideOkButton={oneTap}
           />
         </div>
       </MenuWrapper>
