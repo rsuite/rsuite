@@ -1,6 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 
@@ -22,7 +22,7 @@ describe('DatePicker', () => {
 
   it('Should be not cleanable', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <DatePicker cleanable={false} value={moment()} />
+      <DatePicker cleanable={false} value={dayjs()} />
     );
 
     assert.ok(!findDOMNode(instance).querySelector('.rs-picker-toggle-clean'));
@@ -49,7 +49,7 @@ describe('DatePicker', () => {
 
   it('Should output a date', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <DatePicker defaultValue={moment('2017-08-14')} />
+      <DatePicker defaultValue={dayjs('2017-08-14')} />
     );
     assert.equal(
       findDOMNode(instance).querySelector('.rs-picker-toggle-value').innerText,
@@ -58,7 +58,7 @@ describe('DatePicker', () => {
   });
 
   it('Should output a date', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<DatePicker value={moment('2017-08-14')} />);
+    const instance = ReactTestUtils.renderIntoDocument(<DatePicker value={dayjs('2017-08-14')} />);
     assert.equal(
       findDOMNode(instance).querySelector('.rs-picker-toggle-value').innerText,
       '2017-08-14'
@@ -224,7 +224,7 @@ describe('DatePicker', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <DatePicker
         innerRef={ref => (picker = ref)}
-        value={moment('2018-01-05')}
+        value={dayjs('2018-01-05')}
         onChange={doneOp}
         defaultOpen
       />

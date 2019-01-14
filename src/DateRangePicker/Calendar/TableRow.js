@@ -2,24 +2,24 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import _ from 'lodash';
 import { getUnhandledProps, prefix, defaultProps } from '../../utils';
 
 import Type from '../Type';
 
 type Props = {
-  weekendDate?: moment$Moment,
-  selected: Array<moment$Moment>,
-  hoverValue: Array<moment$Moment>,
-  onSelect?: (date: moment$Moment) => void,
+  weekendDate?: dayjs.Dayjs,
+  selected: Array<dayjs.Dayjs>,
+  hoverValue: Array<dayjs.Dayjs>,
+  onSelect?: (date: dayjs.Dayjs) => void,
   disabledDate?: (
-    date: moment$Moment,
-    selectValue: Array<moment$Moment | null>,
+    date: dayjs.Dayjs,
+    selectValue: Array<dayjs.Dayjs | null>,
     type: string
   ) => boolean,
-  inSameMonth?: (date: moment$Moment) => boolean,
-  onMouseMove?: (date: moment$Moment) => void,
+  inSameMonth?: (date: dayjs.Dayjs) => boolean,
+  onMouseMove?: (date: dayjs.Dayjs) => void,
   className?: string,
   classPrefix?: string
 };
@@ -49,11 +49,11 @@ class TableRow extends React.Component<Props> {
     const hoverEndDate = hoverValue[1] || null;
 
     for (let i = 0; i < 7; i += 1) {
-      let thisDate = moment(weekendDate).add(i, 'd');
+      let thisDate = dayjs(weekendDate).add(i, 'd');
       let selectValue = [selectedStartDate, selectedEndDate];
 
       let disabled = disabledDate && disabledDate(thisDate.clone(), selectValue, Type.CALENDAR);
-      let isToday = thisDate.isSame(moment(), 'date');
+      let isToday = thisDate.isSame(dayjs(), 'date');
       let inRange = false;
 
       let unSameMonth = !(inSameMonth && inSameMonth(thisDate));

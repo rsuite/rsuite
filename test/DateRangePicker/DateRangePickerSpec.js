@@ -1,6 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import DateRangePicker from '../../src/DateRangePicker/DateRangePicker';
@@ -24,19 +24,19 @@ describe('DateRangePicker', () => {
         ranges={[
           {
             label: 'Yesterday',
-            value: [moment().add(-1, 'd'), moment().add(-1, 'd')]
+            value: [dayjs().add(-1, 'd'), dayjs().add(-1, 'd')]
           },
           {
             label: 'Today',
-            value: [moment(), moment()]
+            value: [dayjs(), dayjs()]
           },
           {
             label: 'Tomorrow',
-            value: [moment().add(1, 'd'), moment().add(1, 'd')]
+            value: [dayjs().add(1, 'd'), dayjs().add(1, 'd')]
           },
           {
             label: 'Last 7 days',
-            value: [moment().subtract(6, 'days'), moment()]
+            value: [dayjs().subtract(6, 'days'), dayjs()]
           }
         ]}
         disabledDate={() => true}
@@ -59,7 +59,7 @@ describe('DateRangePicker', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <DateRangePicker onChange={doneOp} ref={ref => (demo = ref)} />
     );
-    demo.updateValue([moment(), moment()]);
+    demo.updateValue([dayjs(), dayjs()]);
   });
 
   it('Should call `onOpen` callback', done => {
@@ -109,10 +109,10 @@ describe('DateRangePicker', () => {
     let today = null;
     const doneOp = values => {
       if (
-        moment()
+        dayjs()
           .startOf('week')
           .isSame(values[0], 'date') &&
-        moment()
+        dayjs()
           .endOf('week')
           .isSame(values[1], 'date')
       ) {
@@ -142,10 +142,10 @@ describe('DateRangePicker', () => {
   it('Should fire onChange if click ok after only select one date in oneTap mode', done => {
     const doneOp = values => {
       if (
-        moment()
+        dayjs()
           .startOf('week')
           .isSame(values[0], 'date') &&
-        moment()
+        dayjs()
           .endOf('week')
           .isSame(values[1], 'date')
       ) {

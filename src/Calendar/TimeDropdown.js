@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { getPosition, scrollTop } from 'dom-lib';
 import { FormattedMessage } from 'rsuite-intl';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import _ from 'lodash';
 import classNames from 'classnames';
 
@@ -11,15 +11,15 @@ import { prefix, getUnhandledProps, defaultProps } from '../utils';
 import scrollTopAnimation from '../utils/scrollTopAnimation';
 
 type Props = {
-  disabledDate?: (date: moment$Moment) => boolean,
-  disabledHours?: (hour: number, date: moment$Moment) => boolean,
-  disabledMinutes?: (minute: number, date: moment$Moment) => boolean,
-  disabledSeconds?: (second: number, date: moment$Moment) => boolean,
-  hideHours?: (hour: number, date: moment$Moment) => boolean,
-  hideMinutes?: (minute: number, date: moment$Moment) => boolean,
-  hideSeconds?: (second: number, date: moment$Moment) => boolean,
-  date?: moment$Moment,
-  onSelect?: (nextDate: moment$Moment, event: SyntheticEvent<*>) => void,
+  disabledDate?: (date: dayjs.Dayjs) => boolean,
+  disabledHours?: (hour: number, date: dayjs.Dayjs) => boolean,
+  disabledMinutes?: (minute: number, date: dayjs.Dayjs) => boolean,
+  disabledSeconds?: (second: number, date: dayjs.Dayjs) => boolean,
+  hideHours?: (hour: number, date: dayjs.Dayjs) => boolean,
+  hideMinutes?: (minute: number, date: dayjs.Dayjs) => boolean,
+  hideSeconds?: (second: number, date: dayjs.Dayjs) => boolean,
+  date?: dayjs.Dayjs,
+  onSelect?: (nextDate: dayjs.Dayjs, event: SyntheticEvent<*>) => void,
   show: boolean,
   format?: string,
   className?: string,
@@ -40,12 +40,12 @@ class TimeDropdown extends React.PureComponent<Props> {
     ranges: [
       {
         label: 'today',
-        value: moment(),
+        value: dayjs(),
         closeOverlay: true
       },
       {
         label: 'yesterday',
-        value: moment().add(-1, 'd'),
+        value: dayjs().add(-1, 'd'),
         closeOverlay: true
       }
     ]
@@ -61,7 +61,7 @@ class TimeDropdown extends React.PureComponent<Props> {
 
   getTime(props?: Props) {
     const { format, date } = props || this.props;
-    let time = date || moment();
+    let time = date || dayjs();
     let nextTime = {};
 
     if (!format) {
@@ -69,13 +69,13 @@ class TimeDropdown extends React.PureComponent<Props> {
     }
 
     if (/(H|h)/.test(format)) {
-      nextTime.hours = time.hours();
+      nextTime.hours = time.hour();
     }
     if (/m/.test(format)) {
-      nextTime.minutes = time.minutes();
+      nextTime.minutes = time.minute();
     }
     if (/s/.test(format)) {
-      nextTime.seconds = time.seconds();
+      nextTime.seconds = time.second();
     }
     return nextTime;
   }
@@ -102,8 +102,20 @@ class TimeDropdown extends React.PureComponent<Props> {
 
   handleClick = (type: TimeType, d: number, event: SyntheticEvent<*>) => {
     const { onSelect, date } = this.props;
+
+    const dayjsCast = {
+      milliseconds: 'millisecond',
+      seconds: 'second',
+      minutes: 'minute',
+      hours: 'hour',
+      dates: 'date',
+      days: 'day',
+      months: 'month',
+      years: 'year',
+    };
+
     // $FlowFixMe
-    const nextDate = moment(date)[type](d);
+    const nextDate = dayjs(date)[dayjsCast[type]](d);
     onSelect && onSelect(nextDate, event);
   };
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);

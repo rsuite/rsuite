@@ -3,7 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
-
+import dayjs from 'dayjs';
 import MonthDropdown from './MonthDropdown';
 import TimeDropdown from './TimeDropdown';
 import View from './View';
@@ -13,22 +13,22 @@ import disabledTime, { calendarOnlyProps } from '../utils/disabledTime';
 import { shouldTime, shouldDate, shouldMonth } from '../utils/formatUtils';
 
 type Props = {
-  pageDate: moment$Moment,
-  disabledDate?: (date: moment$Moment) => boolean,
-  disabledHours?: (hour: number, date: moment$Moment) => boolean,
-  disabledMinutes?: (minute: number, date: moment$Moment) => boolean,
-  disabledSeconds?: (second: number, date: moment$Moment) => boolean,
-  hideHours?: (hour: number, date: moment$Moment) => boolean,
-  hideMinutes?: (minute: number, date: moment$Moment) => boolean,
-  hideSeconds?: (second: number, date: moment$Moment) => boolean,
+  pageDate: dayjs.Dayjs,
+  disabledDate?: (date: dayjs.Dayjs) => boolean,
+  disabledHours?: (hour: number, date: dayjs.Dayjs) => boolean,
+  disabledMinutes?: (minute: number, date: dayjs.Dayjs) => boolean,
+  disabledSeconds?: (second: number, date: dayjs.Dayjs) => boolean,
+  hideHours?: (hour: number, date: dayjs.Dayjs) => boolean,
+  hideMinutes?: (minute: number, date: dayjs.Dayjs) => boolean,
+  hideSeconds?: (second: number, date: dayjs.Dayjs) => boolean,
   calendarState?: 'DROP_MONTH' | 'DROP_TIME',
-  onMoveForword?: (nextPageDate: moment$Moment) => void,
-  onMoveBackward?: (nextPageDate: moment$Moment) => void,
-  onSelect?: (date: moment$Moment) => void,
+  onMoveForword?: (nextPageDate: dayjs.Dayjs) => void,
+  onMoveBackward?: (nextPageDate: dayjs.Dayjs) => void,
+  onSelect?: (date: dayjs.Dayjs) => void,
   onToggleMonthDropdown?: (event: SyntheticEvent<*>) => void,
   onToggleTimeDropdown?: (event: SyntheticEvent<*>) => void,
-  onChangePageDate?: (nextPageDate: moment$Moment, event: SyntheticEvent<*>) => void,
-  onChangePageTime?: (nextPageTime: moment$Moment, event: SyntheticEvent<*>) => void,
+  onChangePageDate?: (nextPageDate: dayjs.Dayjs, event: SyntheticEvent<*>) => void,
+  onChangePageTime?: (nextPageTime: dayjs.Dayjs, event: SyntheticEvent<*>) => void,
   calendarRef?: React.ElementRef<*>,
   format?: string,
   isoWeek?: boolean,
@@ -38,7 +38,7 @@ type Props = {
 };
 
 class Calendar extends React.PureComponent<Props> {
-  disabledDate = (date: moment$Moment) => {
+  disabledDate = (date: dayjs.Dayjs) => {
     const { disabledDate } = this.props;
     if (disabledDate && disabledDate(date)) {
       return true;
@@ -46,7 +46,7 @@ class Calendar extends React.PureComponent<Props> {
     return false;
   };
 
-  disabledTime = (date: moment$Moment) => disabledTime(this.props, date);
+  disabledTime = (date: dayjs.Dayjs) => disabledTime(this.props, date);
 
   handleMoveForword = () => {
     const { onMoveForword, pageDate } = this.props;

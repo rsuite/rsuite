@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { FormattedMessage } from 'rsuite-intl';
 
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
@@ -10,28 +10,28 @@ import { getUnhandledProps, prefix, defaultProps } from '../utils';
 type Range = {
   label: React.Node,
   closeOverlay?: boolean,
-  value: moment$Moment | ((pageDate?: moment$Moment) => moment$Moment)
+  value: dayjs.Dayjs | ((pageDate?: dayjs.Dayjs) => dayjs.Dayjs)
 };
 
 type Props = {
   ranges: Array<Range>,
   className?: string,
   classPrefix?: string,
-  pageDate?: moment$Moment,
-  onShortcut?: (value: moment$Moment, closeOverlay?: boolean, event?: SyntheticEvent<*>) => void,
+  pageDate?: dayjs.Dayjs,
+  onShortcut?: (value: dayjs.Dayjs, closeOverlay?: boolean, event?: SyntheticEvent<*>) => void,
   onOk?: (event: SyntheticEvent<*>) => void,
-  disabledHandle?: (date?: moment$Moment) => boolean
+  disabledHandle?: (date?: dayjs.Dayjs) => boolean
 };
 
 const defaultRanges = [
   {
     label: 'today',
-    value: moment(),
+    value: dayjs(),
     closeOverlay: true
   },
   {
     label: 'yesterday',
-    value: moment().add(-1, 'd'),
+    value: dayjs().add(-1, 'd'),
     closeOverlay: true
   }
 ];

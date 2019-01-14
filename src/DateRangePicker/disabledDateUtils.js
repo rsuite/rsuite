@@ -1,12 +1,12 @@
 // @flow
 
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 type DisabledDateFunction = (
   /** Date used to determine if disabling is required. */
-  date: moment$Moment,
+  date: dayjs.Dayjs,
   /** Date selected. */
-  selectValue?: Array<moment$Moment>,
+  selectValue?: Array<dayjs.Dayjs>,
   /**
    Whether to choose to finish now.
    If `false`, only the start date is selected, waiting for the selection end date.
@@ -80,11 +80,11 @@ export function allowedDays(days: number): DisabledDateFunction {
  Allow specified date range, other dates are disabled.
  */
 export function allowedRange(
-  startDate: string | moment$Moment,
-  endDate: string | moment$Moment
+  startDate: string | dayjs.Dayjs,
+  endDate: string | dayjs.Dayjs
 ): DisabledDateFunction {
-  return (date: moment$Moment) => {
-    if (date.isBefore(moment(startDate), 'd') || date.isAfter(moment(endDate), 'd')) {
+  return (date: dayjs.Dayjs) => {
+    if (date.isBefore(dayjs(startDate), 'd') || date.isAfter(dayjs(endDate), 'd')) {
       return true;
     }
     return false;
@@ -94,9 +94,9 @@ export function allowedRange(
 /**
  Disable dates after the specified date.
  */
-export function before(beforeDate?: string | moment$Moment): DisabledDateFunction {
-  return (date: moment$Moment) => {
-    if (date.isBefore(moment(beforeDate), 'd')) {
+export function before(beforeDate?: string | dayjs.Dayjs): DisabledDateFunction {
+  return (date: dayjs.Dayjs) => {
+    if (date.isBefore(dayjs(beforeDate), 'd')) {
       return true;
     }
     return false;
@@ -106,9 +106,9 @@ export function before(beforeDate?: string | moment$Moment): DisabledDateFunctio
 /**
 Disable dates before the specified date.
  */
-export function after(afterDate?: string | moment$Moment) {
-  return (date: moment$Moment) => {
-    if (date.isAfter(moment(afterDate), 'd')) {
+export function after(afterDate?: string | dayjs.Dayjs) {
+  return (date: dayjs.Dayjs) => {
+    if (date.isAfter(dayjs(afterDate), 'd')) {
       return true;
     }
     return false;

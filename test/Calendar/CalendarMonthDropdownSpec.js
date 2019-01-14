@@ -1,13 +1,13 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import MonthDropdown from '../../src/Calendar/MonthDropdown';
 
 describe('Calendar-MonthDropdown', () => {
   it('Should output year and month ', () => {
-    const date = moment();
+    const date = dayjs();
 
     const instance = ReactTestUtils.renderIntoDocument(<MonthDropdown date={date} />);
     const node = findDOMNode(instance);
@@ -15,7 +15,7 @@ describe('Calendar-MonthDropdown', () => {
   });
 
   it('Should call `onSelect` callback ', done => {
-    const date = moment();
+    const date = dayjs();
     const doneOp = () => {
       done();
     };

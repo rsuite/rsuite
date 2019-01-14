@@ -2,27 +2,27 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
 
 type Props = {
-  weekendDate?: moment$Moment,
-  selected?: moment$Moment,
-  onSelect?: (date: moment$Moment) => void,
-  disabledDate?: (date: moment$Moment) => boolean,
-  inSameMonth?: (date: moment$Moment) => boolean,
+  weekendDate?: dayjs.Dayjs,
+  selected?: dayjs.Dayjs,
+  onSelect?: (date: dayjs.Dayjs) => void,
+  disabledDate?: (date: dayjs.Dayjs) => boolean,
+  inSameMonth?: (date: dayjs.Dayjs) => boolean,
   className?: string,
   classPrefix?: string
 };
 
 class TableRow extends React.PureComponent<Props> {
   static defaultProps = {
-    selected: moment()
+    selected: dayjs()
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
-  handleSelect = (date: moment$Moment, disabled: boolean | void) => {
+  handleSelect = (date: dayjs.Dayjs, disabled: boolean | void) => {
     const { onSelect } = this.props;
     if (disabled) {
       return;
@@ -35,9 +35,9 @@ class TableRow extends React.PureComponent<Props> {
 
     let days = [];
     for (let i = 0; i < 7; i += 1) {
-      let thisDate = moment(weekendDate).add(i, 'd');
+      let thisDate = dayjs(weekendDate).add(i, 'd');
       let disabled = disabledDate && disabledDate(thisDate.clone());
-      let isToday = thisDate.isSame(moment(), 'date');
+      let isToday = thisDate.isSame(dayjs(), 'date');
       let classes = classNames(this.addPrefix('cell'), {
         [this.addPrefix('cell-un-same-month')]: !(inSameMonth && inSameMonth(thisDate)),
         [this.addPrefix('cell-is-today')]: isToday,

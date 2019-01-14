@@ -19,13 +19,13 @@ export default function disabledTime(props, date) {
 
   return Object.keys(calendarProps).some(key => {
     if (/(Hours)/.test(key)) {
-      return calendarProps[key](date.hours(), date);
+      return calendarProps[key](date.hour(), date);
     }
     if (/(Minutes)/.test(key)) {
-      return calendarProps[key](date.minutes(), date);
+      return calendarProps[key](date.minute(), date);
     }
     if (/(Seconds)/.test(key)) {
-      return calendarProps[key](date.seconds(), date);
+      return calendarProps[key](date.second(), date);
     }
     return false;
   });

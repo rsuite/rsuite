@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { IntlProvider } from 'rsuite-intl';
@@ -23,35 +23,35 @@ import type { Placement } from '../utils/TypeDefinition';
 type Range = {
   label: React.Node,
   closeOverlay?: boolean,
-  value: moment$Moment | ((pageDate?: moment$Moment) => moment$Moment)
+  value: dayjs.Dayjs | ((pageDate?: dayjs.Dayjs) => dayjs.Dayjs)
 };
 
 type Props = {
   appearance: 'default' | 'subtle',
-  disabledDate?: (date?: moment$Moment) => boolean,
-  disabledHours?: (hour: number, date: moment$Moment) => boolean,
-  disabledMinutes?: (minute: number, date: moment$Moment) => boolean,
-  disabledSeconds?: (second: number, date: moment$Moment) => boolean,
-  hideHours?: (hour: number, date: moment$Moment) => boolean,
-  hideMinutes?: (minute: number, date: moment$Moment) => boolean,
-  hideSeconds?: (second: number, date: moment$Moment) => boolean,
+  disabledDate?: (date?: dayjs.Dayjs) => boolean,
+  disabledHours?: (hour: number, date: dayjs.Dayjs) => boolean,
+  disabledMinutes?: (minute: number, date: dayjs.Dayjs) => boolean,
+  disabledSeconds?: (second: number, date: dayjs.Dayjs) => boolean,
+  hideHours?: (hour: number, date: dayjs.Dayjs) => boolean,
+  hideMinutes?: (minute: number, date: dayjs.Dayjs) => boolean,
+  hideSeconds?: (second: number, date: dayjs.Dayjs) => boolean,
   ranges?: Array<Range>,
-  defaultValue?: moment$Moment,
-  value?: moment$Moment,
-  calendarDefaultDate?: moment$Moment,
+  defaultValue?: dayjs.Dayjs,
+  value?: dayjs.Dayjs,
+  calendarDefaultDate?: dayjs.Dayjs,
   placeholder?: string,
   format: string,
   disabled?: boolean,
   locale?: Object,
   inline?: boolean,
-  onChange?: (value: moment$Moment | null) => void,
-  onChangeCalendarDate?: (date: moment$Moment, event?: SyntheticEvent<*>) => void,
+  onChange?: (value: dayjs.Dayjs | null) => void,
+  onChangeCalendarDate?: (date: dayjs.Dayjs, event?: SyntheticEvent<*>) => void,
   onToggleMonthDropdown?: (toggle: boolean) => void,
   onToggleTimeDropdown?: (toggle: boolean) => void,
-  onSelect?: (date: moment$Moment, event?: SyntheticEvent<*>) => void,
-  onPrevMonth?: (date: moment$Moment) => void,
-  onNextMonth?: (date: moment$Moment) => void,
-  onOk?: (date: moment$Moment, event: SyntheticEvent<*>) => void,
+  onSelect?: (date: dayjs.Dayjs, event?: SyntheticEvent<*>) => void,
+  onPrevMonth?: (date: dayjs.Dayjs) => void,
+  onNextMonth?: (date: dayjs.Dayjs) => void,
+  onOk?: (date: dayjs.Dayjs, event: SyntheticEvent<*>) => void,
   onEnter?: Function,
   onEntering?: Function,
   onEntered?: Function,
@@ -78,9 +78,9 @@ type Props = {
 };
 
 type State = {
-  value?: moment$Moment,
+  value?: dayjs.Dayjs,
   calendarState?: 'DROP_MONTH' | 'DROP_TIME',
-  pageDate: moment$Moment,
+  pageDate: dayjs.Dayjs,
   active?: boolean
 };
 
@@ -117,7 +117,7 @@ class DatePicker extends React.Component<Props, State> {
 
     this.state = {
       value: activeValue,
-      pageDate: activeValue || calendarDefaultDate || moment() // display calendar date
+      pageDate: activeValue || calendarDefaultDate || dayjs() // display calendar date
     };
   }
 
@@ -140,7 +140,7 @@ class DatePicker extends React.Component<Props, State> {
     return null;
   }
 
-  onMoveForword = (nextPageDate: moment$Moment) => {
+  onMoveForword = (nextPageDate: dayjs.Dayjs) => {
     const { onNextMonth, onChangeCalendarDate } = this.props;
     this.setState({
       pageDate: nextPageDate
@@ -149,7 +149,7 @@ class DatePicker extends React.Component<Props, State> {
     onChangeCalendarDate && onChangeCalendarDate(nextPageDate);
   };
 
-  onMoveBackward = (nextPageDate: moment$Moment) => {
+  onMoveBackward = (nextPageDate: dayjs.Dayjs) => {
     const { onPrevMonth, onChangeCalendarDate } = this.props;
     this.setState({
       pageDate: nextPageDate
@@ -172,7 +172,7 @@ class DatePicker extends React.Component<Props, State> {
 
   calendar = null;
 
-  handleChangePageDate = (nextPageDate: moment$Moment) => {
+  handleChangePageDate = (nextPageDate: dayjs.Dayjs) => {
     this.setState({
       pageDate: nextPageDate,
       calendarState: undefined
@@ -180,7 +180,7 @@ class DatePicker extends React.Component<Props, State> {
     this.handleAllSelect(nextPageDate);
   };
 
-  handleChangePageTime = (nextPageTime: moment$Moment) => {
+  handleChangePageTime = (nextPageTime: dayjs.Dayjs) => {
     this.setState({
       pageDate: nextPageTime
     });
@@ -188,7 +188,7 @@ class DatePicker extends React.Component<Props, State> {
   };
 
   handleShortcutPageDate = (
-    value: moment$Moment,
+    value: dayjs.Dayjs,
     closeOverlay?: boolean,
     event?: SyntheticEvent<*>
   ) => {
@@ -202,14 +202,14 @@ class DatePicker extends React.Component<Props, State> {
     onOk && onOk(this.state.pageDate, event);
   };
 
-  updateValue(nextPageDate?: moment$Moment | null, closeOverlay?: boolean = true) {
+  updateValue(nextPageDate?: dayjs.Dayjs | null, closeOverlay?: boolean = true) {
     const { pageDate } = this.state;
     const { onChange } = this.props;
     const value = this.getValue();
     const nextValue: any = !_.isUndefined(nextPageDate) ? nextPageDate : pageDate;
 
     this.setState({
-      pageDate: nextValue || moment(),
+      pageDate: nextValue || dayjs(),
       value: nextValue
     });
 
@@ -227,7 +227,7 @@ class DatePicker extends React.Component<Props, State> {
     const { calendarDefaultDate } = this.props;
     const value = this.getValue();
     this.setState({
-      pageDate: value || calendarDefaultDate || moment()
+      pageDate: value || calendarDefaultDate || dayjs()
     });
   }
 
@@ -290,20 +290,20 @@ class DatePicker extends React.Component<Props, State> {
   };
 
   handleClean = () => {
-    this.setState({ pageDate: moment() });
+    this.setState({ pageDate: dayjs() });
     this.updateValue(null);
   };
-  handleAllSelect = (nextValue: moment$Moment, event?: SyntheticEvent<*>) => {
+  handleAllSelect = (nextValue: dayjs.Dayjs, event?: SyntheticEvent<*>) => {
     const { onSelect, onChangeCalendarDate } = this.props;
     onSelect && onSelect(nextValue, event);
     onChangeCalendarDate && onChangeCalendarDate(nextValue, event);
   };
-  handleSelect = (nextValue: moment$Moment) => {
+  handleSelect = (nextValue: dayjs.Dayjs) => {
     const { pageDate } = this.state;
     nextValue
-      .hours(pageDate.hours())
-      .minutes(pageDate.minutes())
-      .seconds(pageDate.seconds());
+      .set('hour', pageDate.hour())
+      .set('minute', pageDate.minute())
+      .set('second', pageDate.second());
 
     this.setState({
       pageDate: nextValue
@@ -331,7 +331,7 @@ class DatePicker extends React.Component<Props, State> {
     });
   };
 
-  disabledToolbarHandle = (date?: moment$Moment): boolean => {
+  disabledToolbarHandle = (date?: dayjs.Dayjs): boolean => {
     const { disabledDate } = this.props;
     const allowDate = disabledDate ? disabledDate(date) : false;
     const allowTime = disabledTime(this.props, date);

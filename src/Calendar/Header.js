@@ -1,12 +1,12 @@
 // @flow
 
 import * as React from 'react';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import classNames from 'classnames';
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
 
 type Props = {
-  date: moment$Moment,
+  date: dayjs.Dayjs,
   onMoveForword?: () => void,
   onMoveBackward?: () => void,
   onToggleMonthDropdown?: (event: SyntheticEvent<*>) => void,
@@ -15,8 +15,8 @@ type Props = {
   showDate?: boolean,
   showTime?: boolean,
   format?: string,
-  disabledDate?: (date: moment$Moment) => boolean,
-  disabledTime?: (date: moment$Moment) => boolean,
+  disabledDate?: (date: dayjs.Dayjs) => boolean,
+  disabledTime?: (date: dayjs.Dayjs) => boolean,
   classPrefix?: string,
   className?: string,
   disabledBackward?: boolean,
@@ -25,7 +25,7 @@ type Props = {
 
 class Header extends React.PureComponent<Props> {
   static defaultProps = {
-    date: moment()
+    date: dayjs()
   };
   getTimeFormat() {
     const { format } = this.props;

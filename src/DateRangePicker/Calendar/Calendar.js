@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import classNames from 'classnames';
 
 import { getUnhandledProps, prefix, defaultProps } from '../../utils';
@@ -10,18 +10,18 @@ import Header from '../../Calendar/Header';
 import View from './View';
 
 type Props = {
-  disabledDate?: (date: moment$Moment, selectValue: ?Array<moment$Moment>, type: string) => boolean,
+  disabledDate?: (date: dayjs.Dayjs, selectValue: ?Array<dayjs.Dayjs>, type: string) => boolean,
   calendarState?: 'DROP_MONTH' | 'DROP_TIME',
   index: number,
-  calendarDate: Array<moment$Moment>,
-  value?: Array<moment$Moment>,
-  hoverValue?: Array<moment$Moment>,
-  onMoveForword?: (nextPageDate: moment$Moment) => void,
-  onMoveBackward?: (nextPageDate: moment$Moment) => void,
-  onSelect?: (date: moment$Moment) => void,
-  onMouseMove?: (date: moment$Moment) => void,
+  calendarDate: Array<dayjs.Dayjs>,
+  value?: Array<dayjs.Dayjs>,
+  hoverValue?: Array<dayjs.Dayjs>,
+  onMoveForword?: (nextPageDate: dayjs.Dayjs) => void,
+  onMoveBackward?: (nextPageDate: dayjs.Dayjs) => void,
+  onSelect?: (date: dayjs.Dayjs) => void,
+  onMouseMove?: (date: dayjs.Dayjs) => void,
   onToggleMonthDropdown?: (event: SyntheticEvent<*>) => void,
-  onChangePageDate?: (nextPageDate: moment$Moment, event: SyntheticEvent<*>) => void,
+  onChangePageDate?: (nextPageDate: dayjs.Dayjs, event: SyntheticEvent<*>) => void,
   format: string,
   isoWeek?: boolean,
   className?: string,
@@ -31,7 +31,7 @@ type Props = {
 
 class Calendar extends React.Component<Props> {
   static defaultProps = {
-    calendarDate: [moment(), moment().add(1, 'month')],
+    calendarDate: [dayjs(), dayjs().add(1, 'month')],
     index: 0
   };
 
@@ -90,7 +90,7 @@ class Calendar extends React.Component<Props> {
     return false;
   };
 
-  disabledMonth = (date: moment$Moment) => {
+  disabledMonth = (date: dayjs.Dayjs) => {
     const { calendarDate, value, index, disabledDate } = this.props;
     let isAfter = true;
 

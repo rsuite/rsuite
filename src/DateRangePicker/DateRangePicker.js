@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import classNames from 'classnames';
 import { IntlProvider } from 'rsuite-intl';
 import _ from 'lodash';
@@ -23,26 +23,26 @@ import type { Placement } from '../utils/TypeDefinition';
 type Range = {
   label: React.Node,
   closeOverlay?: boolean,
-  value: Array<moment$Moment> | ((value?: Array<moment$Moment>) => Array<moment$Moment>)
+  value: Array<dayjs.Dayjs> | ((value?: Array<dayjs.Dayjs>) => Array<dayjs.Dayjs>)
 };
 
 type Props = {
   appearance: 'default' | 'subtle',
   disabledDate?: (
-    date: moment$Moment,
-    selectValue: Array<moment$Moment | null>,
+    date: dayjs.Dayjs,
+    selectValue: Array<dayjs.Dayjs | null>,
     doneSelected: boolean,
     type: string
   ) => boolean,
   ranges?: Array<Range>,
-  value?: Array<moment$Moment>,
-  defaultValue?: Array<moment$Moment>,
+  value?: Array<dayjs.Dayjs>,
+  defaultValue?: Array<dayjs.Dayjs>,
   placeholder?: React.Node,
   format: string,
   disabled?: boolean,
   locale?: Object,
-  onChange?: (value: Array<moment$Moment>) => void,
-  onOk?: (value?: Array<moment$Moment>, event: SyntheticEvent<*>) => void,
+  onChange?: (value: Array<dayjs.Dayjs>) => void,
+  onOk?: (value?: Array<dayjs.Dayjs>, event: SyntheticEvent<*>) => void,
   hoverRange?: 'week' | 'month' | Function,
   cleanable?: boolean,
   isoWeek?: boolean,
@@ -64,7 +64,7 @@ type Props = {
   open?: boolean,
   defaultOpen?: boolean,
   placement?: Placement,
-  onSelect?: (date: moment$Moment) => void,
+  onSelect?: (date: dayjs.Dayjs) => void,
   onOpen?: () => void,
   onClose?: () => void,
   onHide?: () => void,
@@ -76,8 +76,8 @@ type Props = {
   onExited?: Function
 };
 
-function getCalendarDate(value: Array<moment$Moment> = []) {
-  let calendarDate = [moment(), moment().add(1, 'month')];
+function getCalendarDate(value: Array<dayjs.Dayjs> = []) {
+  let calendarDate = [dayjs(), dayjs().add(1, 'month')];
 
   // Update calendarDate if the value is not null
   if (value[0] && value[1]) {
@@ -88,20 +88,20 @@ function getCalendarDate(value: Array<moment$Moment> = []) {
 }
 
 type State = {
-  value: Array<moment$Moment>,
-  selectValue: Array<moment$Moment | any>,
+  value: Array<dayjs.Dayjs>,
+  selectValue: Array<dayjs.Dayjs | any>,
 
   // Two clicks, the second click ends
   doneSelected: boolean,
 
   // display calendar date
-  calendarDate: Array<moment$Moment>,
+  calendarDate: Array<dayjs.Dayjs>,
 
   // 当前应该高亮哪个区间，用于实现选择整周、整月
-  hoverValue?: Array<moment$Moment>,
+  hoverValue?: Array<dayjs.Dayjs>,
 
   // 当前 hover 的 date，用来减少 handleMouseMoveSelectValue 的计算
-  currentHoverDate?: moment$Moment | null,
+  currentHoverDate?: dayjs.Dayjs | null,
 
   active?: boolean
 };
@@ -137,7 +137,7 @@ class DateRangePicker extends React.Component<Props, State> {
     if (typeof value === 'undefined') {
       return null;
     }
-
+    console.log(value, prevState);
     if (
       (value[0] && !value[0].isSame(prevState.value[0], 'day')) ||
       (value[1] && !value[1].isSame(prevState.value[1], 'day'))
@@ -168,7 +168,7 @@ class DateRangePicker extends React.Component<Props, State> {
       currentHoverDate: null
     };
   }
-  getValue = (): Array<moment$Moment> => {
+  getValue = (): Array<dayjs.Dayjs> => {
     const { value } = this.props;
 
     if (typeof value !== 'undefined') {
@@ -178,7 +178,7 @@ class DateRangePicker extends React.Component<Props, State> {
     return this.state.value || [];
   };
 
-  getDateString(value?: Array<moment$Moment>) {
+  getDateString(value?: Array<dayjs.Dayjs>) {
     const { placeholder, format } = this.props;
     const nextValue = value || this.getValue();
     const startDate = _.get(nextValue, '0');
@@ -195,7 +195,7 @@ class DateRangePicker extends React.Component<Props, State> {
   }
 
   // hover range presets
-  getWeekHoverRange = (date: moment$Moment) => {
+  getWeekHoverRange = (date: dayjs.Dayjs) => {
     const { isoWeek } = this.props;
 
     if (isoWeek) {
@@ -205,12 +205,12 @@ class DateRangePicker extends React.Component<Props, State> {
 
     return [date.clone().startOf('week'), date.clone().endOf('week')];
   };
-  getMonthHoverRange = (date: moment$Moment) => [
+  getMonthHoverRange = (date: dayjs.Dayjs) => [
     date.clone().startOf('month'),
     date.clone().endOf('month')
   ];
 
-  getHoverRange(date: moment$Moment) {
+  getHoverRange(date: dayjs.Dayjs) {
     const { hoverRange } = this.props;
     if (!hoverRange) {
       return [];
@@ -240,7 +240,7 @@ class DateRangePicker extends React.Component<Props, State> {
     return hoverValues;
   }
 
-  handleChangeCalendarDate = (index: number, date: moment$Moment) => {
+  handleChangeCalendarDate = (index: number, date: dayjs.Dayjs) => {
     const { calendarDate } = this.state;
     calendarDate[index] = date;
 
@@ -271,11 +271,11 @@ class DateRangePicker extends React.Component<Props, State> {
   /**
    * Toolbar operation callback function
    */
-  handleShortcutPageDate = (value: Array<moment$Moment>, closeOverlay?: boolean) => {
+  handleShortcutPageDate = (value: Array<dayjs.Dayjs>, closeOverlay?: boolean) => {
     this.updateValue(value, closeOverlay);
   };
 
-  updateValue(nextSelectValue?: Array<moment$Moment>, closeOverlay?: boolean = true) {
+  updateValue(nextSelectValue?: Array<dayjs.Dayjs>, closeOverlay?: boolean = true) {
     const { value, selectValue } = this.state;
     const { onChange } = this.props;
     const nextValue: any = !_.isUndefined(nextSelectValue) ? nextSelectValue : selectValue;
@@ -304,7 +304,7 @@ class DateRangePicker extends React.Component<Props, State> {
     onOk && onOk(this.state.selectValue, event);
   };
 
-  handleChangeSelectValue = (date: moment$Moment) => {
+  handleChangeSelectValue = (date: dayjs.Dayjs) => {
     const { selectValue, doneSelected } = this.state;
     const { onSelect } = this.props;
     let nextValue = [];
@@ -351,7 +351,7 @@ class DateRangePicker extends React.Component<Props, State> {
     });
   };
 
-  handleMouseMoveSelectValue = (date: moment$Moment) => {
+  handleMouseMoveSelectValue = (date: dayjs.Dayjs) => {
     const { doneSelected, selectValue, hoverValue, currentHoverDate } = this.state;
     const { hoverRange } = this.props;
 
@@ -395,7 +395,7 @@ class DateRangePicker extends React.Component<Props, State> {
   };
 
   handleClean = () => {
-    this.setState({ calendarDate: [moment(), moment().add(1, 'month')] });
+    this.setState({ calendarDate: [dayjs(), dayjs().add(1, 'month')] });
     this.updateValue([]);
   };
 
@@ -411,7 +411,7 @@ class DateRangePicker extends React.Component<Props, State> {
         startDate.isSame(endData, 'month') ? endData.clone().add(1, 'month') : endData
       ];
     } else {
-      calendarDate = [moment(), moment().add(1, 'month')];
+      calendarDate = [dayjs(), dayjs().add(1, 'month')];
     }
 
     this.setState({
@@ -437,7 +437,7 @@ class DateRangePicker extends React.Component<Props, State> {
     onClose && onClose();
   };
 
-  disabledByBetween(start: moment$Moment, end: moment$Moment, type: string) {
+  disabledByBetween(start: dayjs.Dayjs, end: dayjs.Dayjs, type: string) {
     const { disabledDate } = this.props;
     const { selectValue, doneSelected } = this.state;
     const date = start.clone();
@@ -451,7 +451,7 @@ class DateRangePicker extends React.Component<Props, State> {
       if (disabledDate && disabledDate(date, nextSelectValue, doneSelected, type)) {
         return true;
       }
-      start.add(1, 'd');
+      start = start.add(1, 'd');
     }
 
     return false;
@@ -471,14 +471,14 @@ class DateRangePicker extends React.Component<Props, State> {
     );
   };
 
-  disabledShortcutButton = (value: Array<moment$Moment> = []) => {
+  disabledShortcutButton = (value: Array<dayjs.Dayjs> = []) => {
     if (!value[0] || !value[1]) {
       return true;
     }
     return this.disabledByBetween(value[0].clone(), value[1].clone(), Type.TOOLBAR_SHORTCUT);
   };
 
-  handleDisabledDate = (date: moment$Moment, values: Array<moment$Moment | null>, type: string) => {
+  handleDisabledDate = (date: dayjs.Dayjs, values: Array<dayjs.Dayjs | null>, type: string) => {
     const { disabledDate } = this.props;
     const { doneSelected } = this.state;
     if (disabledDate) {

@@ -1,23 +1,23 @@
 // @flow
 
 import * as React from 'react';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import Calendar from './Calendar';
 
 type Props = {
   disabledDate?: (
-    date: moment$Moment,
-    selectValue: Array<moment$Moment | null>,
+    date: dayjs.Dayjs,
+    selectValue: Array<dayjs.Dayjs | null>,
     type: string
   ) => boolean,
-  value?: Array<moment$Moment>,
-  hoverValue?: Array<moment$Moment>,
-  calendarDate?: Array<moment$Moment>,
+  value?: Array<dayjs.Dayjs>,
+  hoverValue?: Array<dayjs.Dayjs>,
+  calendarDate?: Array<dayjs.Dayjs>,
   index: number,
   format: string,
-  onSelect?: (date: moment$Moment, event?: SyntheticEvent<*>) => void,
-  onMouseMove?: (date: moment$Moment) => void,
-  onChangeCalendarDate?: (index: number, nextPageDate: moment$Moment) => void,
+  onSelect?: (date: dayjs.Dayjs, event?: SyntheticEvent<*>) => void,
+  onMouseMove?: (date: dayjs.Dayjs) => void,
+  onChangeCalendarDate?: (index: number, nextPageDate: dayjs.Dayjs) => void,
   isoWeek?: boolean,
   limitEndYear?: number,
   classPrefix?: string
@@ -30,7 +30,7 @@ type State = {
 class DatePicker extends React.Component<Props, State> {
   static defaultProps = {
     value: [],
-    calendarDate: [moment(), moment().add(1, 'month')],
+    calendarDate: [dayjs(), dayjs().add(1, 'month')],
     format: 'YYYY-MM-DD',
     index: 0
   };
@@ -42,17 +42,17 @@ class DatePicker extends React.Component<Props, State> {
     };
   }
 
-  onMoveForword = (nextPageDate: moment$Moment) => {
+  onMoveForword = (nextPageDate: dayjs.Dayjs) => {
     const { onChangeCalendarDate, index } = this.props;
     onChangeCalendarDate && onChangeCalendarDate(index, nextPageDate);
   };
 
-  onMoveBackward = (nextPageDate: moment$Moment) => {
+  onMoveBackward = (nextPageDate: dayjs.Dayjs) => {
     const { onChangeCalendarDate, index } = this.props;
     onChangeCalendarDate && onChangeCalendarDate(index, nextPageDate);
   };
 
-  handleChangePageDate = (nextPageDate: moment$Moment) => {
+  handleChangePageDate = (nextPageDate: dayjs.Dayjs) => {
     const { onChangeCalendarDate, index } = this.props;
     onChangeCalendarDate && onChangeCalendarDate(index, nextPageDate);
     this.setState({

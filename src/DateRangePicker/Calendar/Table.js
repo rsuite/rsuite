@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-
+import dayjs from 'dayjs';
 import { defaultProps } from '../../utils';
 import TableRow from './TableRow';
 import TableHeaderRow from '../../Calendar/TableHeaderRow';
@@ -10,16 +10,16 @@ import TableHeaderRow from '../../Calendar/TableHeaderRow';
 type Props = {
   rows: any[],
   isoWeek?: boolean,
-  selected?: Array<moment$Moment>,
-  hoverValue?: Array<moment$Moment>,
-  onSelect?: (date: moment$Moment) => void,
-  onMouseMove?: (date: moment$Moment) => void,
+  selected?: Array<dayjs.Dayjs>,
+  hoverValue?: Array<dayjs.Dayjs>,
+  onSelect?: (date: dayjs.Dayjs) => void,
+  onMouseMove?: (date: dayjs.Dayjs) => void,
   disabledDate?: (
-    date: moment$Moment,
-    selectValue: Array<moment$Moment | null>,
+    date: dayjs.Dayjs,
+    selectValue: Array<dayjs.Dayjs | null>,
     type: string
   ) => boolean,
-  inSameMonth?: (date: moment$Moment) => boolean,
+  inSameMonth?: (date: dayjs.Dayjs) => boolean,
   className?: string,
   classPrefix?: string
 };

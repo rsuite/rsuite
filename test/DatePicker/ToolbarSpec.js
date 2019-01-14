@@ -1,6 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import Toolbar from '../../src/DatePicker/Toolbar';
@@ -20,7 +20,7 @@ describe('Toolbar', () => {
         ranges={[
           {
             label: <div className="btn-today">today</div>,
-            value: moment(),
+            value: dayjs(),
             closeOverlay: true
           }
         ]}

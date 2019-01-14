@@ -1,7 +1,7 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 function equalMoment(a, b, unit = 'day') {
-  if (moment.isMoment(a) && moment.isMoment(b)) {
+  if (dayjs.isDayjs(a) && dayjs.isDayjs(b)) {
     return a.isSame(b, unit);
   }
 

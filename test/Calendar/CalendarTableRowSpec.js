@@ -1,6 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import TableRow from '../../src/Calendar/TableRow';
@@ -18,7 +18,7 @@ describe('Calendar-TableRow', () => {
 
     assert.equal(
       instanceDOM.querySelector('.rs-calendar-table-cell-is-today').innerText,
-      moment().date() + ''
+      dayjs().date() + ''
     );
   });
 

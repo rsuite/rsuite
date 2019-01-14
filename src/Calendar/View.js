@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import classNames from 'classnames';
 
 import { defaultProps } from '../utils';
@@ -9,24 +9,24 @@ import Table from './Table';
 import getMonthView from '../utils/getMonthView';
 
 type Props = {
-  activeDate: moment$Moment,
-  onSelect?: (date: moment$Moment) => void,
-  disabledDate?: (date: moment$Moment) => boolean,
+  activeDate: dayjs.Dayjs,
+  onSelect?: (date: dayjs.Dayjs) => void,
+  disabledDate?: (date: dayjs.Dayjs) => boolean,
   isoWeek?: boolean,
   className?: string,
   classPrefix?: string
 };
 
 // is two date in the same month
-const inSameMonth = (dateA: moment$Moment, dateB: moment$Moment) => dateA.month() === dateB.month();
-const getThisMonthDate = (date: moment$Moment) => date.clone().date(1);
+const inSameMonth = (dateA: dayjs.Dayjs, dateB: dayjs.Dayjs) => dateA.month() === dateB.month();
+const getThisMonthDate = (date: dayjs.Dayjs) => date.clone().set('date', 1);
 
 class View extends React.PureComponent<Props> {
   static defaultProps = {
-    activeDate: moment()
+    activeDate: dayjs()
   };
 
-  inSameThisMonthDate = (date: moment$Moment) => {
+  inSameThisMonthDate = (date: dayjs.Dayjs) => {
     const thisMonthDate = getThisMonthDate(this.props.activeDate);
     return inSameMonth(date, thisMonthDate);
   };

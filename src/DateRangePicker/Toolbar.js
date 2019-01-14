@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { FormattedMessage } from 'rsuite-intl';
 
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
@@ -11,37 +11,37 @@ import setTimingMargin from './setTimingMargin';
 type Range = {
   label: React.Node,
   closeOverlay?: boolean,
-  value: Array<moment$Moment> | ((value?: Array<moment$Moment>) => Array<moment$Moment>)
+  value: Array<dayjs.Dayjs> | ((value?: Array<dayjs.Dayjs>) => Array<dayjs.Dayjs>)
 };
 
 type Props = {
   ranges: Array<Range>,
   className?: string,
   classPrefix?: string,
-  pageDate?: Array<moment$Moment>,
+  pageDate?: Array<dayjs.Dayjs>,
   onShortcut: (
-    value: Array<moment$Moment>,
+    value: Array<dayjs.Dayjs>,
     closeOverlay?: boolean,
     event?: SyntheticEvent<*>
   ) => void,
   onOk?: (event: SyntheticEvent<*>) => void,
-  disabledOkButton?: (value?: Array<moment$Moment>) => boolean,
-  disabledShortcutButton: (value?: Array<moment$Moment>) => boolean,
-  selectValue?: Array<moment$Moment>
+  disabledOkButton?: (value?: Array<dayjs.Dayjs>) => boolean,
+  disabledShortcutButton: (value?: Array<dayjs.Dayjs>) => boolean,
+  selectValue?: Array<dayjs.Dayjs>
 };
 
 const defaultRanges = [
   {
     label: 'today',
-    value: [setTimingMargin(moment()), setTimingMargin(moment(), 'right')]
+    value: [setTimingMargin(dayjs()), setTimingMargin(dayjs(), 'right')]
   },
   {
     label: 'yesterday',
-    value: [setTimingMargin(moment().add(-1, 'd')), setTimingMargin(moment().add(-1, 'd'), 'right')]
+    value: [setTimingMargin(dayjs().add(-1, 'd')), setTimingMargin(dayjs().add(-1, 'd'), 'right')]
   },
   {
     label: 'last7Days',
-    value: [setTimingMargin(moment().subtract(6, 'days')), setTimingMargin(moment(), 'right')]
+    value: [setTimingMargin(dayjs().subtract(6, 'days')), setTimingMargin(dayjs(), 'right')]
   }
 ];
 

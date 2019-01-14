@@ -2,19 +2,19 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import List from 'react-virtualized/dist/es/List';
 import AutoSizer from 'react-virtualized/dist/es/AutoSizer';
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
 import MonthDropdownItem from './MonthDropdownItem';
 
 type Props = {
-  onSelect?: (month: moment$Moment, event: SyntheticEvent<*>) => void,
-  date: moment$Moment,
+  onSelect?: (month: dayjs.Dayjs, event: SyntheticEvent<*>) => void,
+  date: dayjs.Dayjs,
   limitEndYear?: number,
   className?: string,
   classPrefix?: string,
-  disabledMonth?: (date: moment$Moment) => boolean,
+  disabledMonth?: (date: dayjs.Dayjs) => boolean,
   show: boolean
 };
 
@@ -44,7 +44,7 @@ class MonthDropdown extends React.PureComponent<Props> {
   static defaultProps = {
     show: false,
     limitEndYear: 5,
-    date: moment()
+    date: dayjs()
   };
 
   componentDidUpdate() {
@@ -55,7 +55,7 @@ class MonthDropdown extends React.PureComponent<Props> {
 
   getRowCount = () => {
     const { limitEndYear } = this.props;
-    return moment().year() + limitEndYear;
+    return dayjs().year() + limitEndYear;
   };
 
   list = null;
@@ -71,9 +71,9 @@ class MonthDropdown extends React.PureComponent<Props> {
 
     if (disabledMonth) {
       return disabledMonth(
-        moment()
-          .year(year)
-          .month(month)
+        dayjs()
+          .set('year', year)
+          .set('month', month)
       );
     }
     return false;
@@ -137,7 +137,7 @@ class MonthDropdown extends React.PureComponent<Props> {
                   height={height || defaultHeight}
                   rowHeight={getRowHeight(count)}
                   rowCount={count}
-                  scrollToIndex={moment(date).year()}
+                  scrollToIndex={dayjs(date).year()}
                   rowRenderer={this.rowRenderer}
                 />
               )}

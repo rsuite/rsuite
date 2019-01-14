@@ -1,13 +1,13 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import Header from '../../src/Calendar/Header';
 
 describe('Calendar-Header', () => {
   it('Should render a div with "calendar-header" class', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Header date={moment()} />);
+    const instance = ReactTestUtils.renderIntoDocument(<Header date={dayjs()} />);
     const instanceDOM = findDOMNode(instance);
 
     assert.equal(instanceDOM.nodeName, 'DIV');
@@ -15,7 +15,7 @@ describe('Calendar-Header', () => {
   });
 
   it('Should output a time for `HH:ss`', () => {
-    const date = moment();
+    const date = dayjs();
     const format = 'HH:ss';
     const instance = ReactTestUtils.renderIntoDocument(
       <Header showTime date={date} format={format} />
@@ -29,7 +29,7 @@ describe('Calendar-Header', () => {
   });
 
   it('Should output a date for `YYYY-MM-DD`', () => {
-    const date = moment();
+    const date = dayjs();
     const format = 'YYYY-MM-DD';
     const instance = ReactTestUtils.renderIntoDocument(
       <Header showDate date={date} format={format} />
@@ -43,7 +43,7 @@ describe('Calendar-Header', () => {
   });
 
   it('Should output a date for `YYYY-MM`', () => {
-    const date = moment();
+    const date = dayjs();
     const format = 'YYYY-MM';
     const instance = ReactTestUtils.renderIntoDocument(
       <Header showMonth date={date} format={format} />
@@ -61,7 +61,7 @@ describe('Calendar-Header', () => {
       done();
     };
 
-    const date = moment();
+    const date = dayjs();
     const format = 'YYYY-MM';
     const instance = ReactTestUtils.renderIntoDocument(
       <Header showMonth date={date} format={format} onMoveForword={doneOp} />
@@ -75,7 +75,7 @@ describe('Calendar-Header', () => {
       done();
     };
 
-    const date = moment();
+    const date = dayjs();
     const format = 'YYYY-MM';
     const instance = ReactTestUtils.renderIntoDocument(
       <Header showMonth date={date} format={format} onMoveBackward={doneOp} />
@@ -89,7 +89,7 @@ describe('Calendar-Header', () => {
       done();
     };
 
-    const date = moment();
+    const date = dayjs();
     const format = 'YYYY-MM';
     const instance = ReactTestUtils.renderIntoDocument(
       <Header showMonth date={date} format={format} onToggleMonthDropdown={doneOp} />
@@ -103,7 +103,7 @@ describe('Calendar-Header', () => {
       done();
     };
 
-    const date = moment();
+    const date = dayjs();
     const format = 'HH:mm:ss';
     const instance = ReactTestUtils.renderIntoDocument(
       <Header showTime date={date} format={format} onToggleTimeDropdown={doneOp} />
