@@ -256,11 +256,12 @@ class Tree extends React.Component<Props, States> {
   }
 
   getActiveElementOption(options: any[], value: string) {
+    const { childrenKey } = this.props;
     for (let i = 0; i < options.length; i += 1) {
       if (options[i].value === value) {
         return options[i];
-      } else if (options[i].children && options[i].children.length) {
-        let active = this.getActiveElementOption(options[i].children, value);
+      } else if (options[i][childrenKey] && options[i][childrenKey].length) {
+        let active = this.getActiveElementOption(options[i][childrenKey], value);
         if (!_.isEmpty(active)) {
           return active;
         }
@@ -335,14 +336,14 @@ class Tree extends React.Component<Props, States> {
   };
 
   getFilterData(data: any[], word?: string, props: Props = this.props) {
-    const { labelKey } = props;
+    const { labelKey, childrenKey } = props;
 
     const setVisible = (nodes = []) =>
       nodes.forEach((item: Object) => {
         item.visible = this.shouldDisplay(item[labelKey], word);
-        if (_.isArray(item.children)) {
-          setVisible(item.children);
-          item.children.forEach((child: Object) => {
+        if (_.isArray(item[childrenKey])) {
+          setVisible(item[childrenKey]);
+          item[childrenKey].forEach((child: Object) => {
             if (child.visible) {
               item.visible = child.visible;
             }
