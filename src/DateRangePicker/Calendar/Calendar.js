@@ -42,27 +42,17 @@ class Calendar extends React.Component<Props> {
 
   handleMoveForword = () => {
     const { onMoveForword } = this.props;
-    onMoveForword &&
-      onMoveForword(
-        this.getPageDate()
-          .clone()
-          .add(1, 'month')
-      );
+    onMoveForword && onMoveForword(this.getPageDate().add(1, 'month'));
   };
 
   handleMoveBackward = () => {
     const { onMoveBackward } = this.props;
-    onMoveBackward &&
-      onMoveBackward(
-        this.getPageDate()
-          .clone()
-          .add(-1, 'month')
-      );
+    onMoveBackward && onMoveBackward(this.getPageDate().add(-1, 'month'));
   };
 
   disabledBackward = () => {
     const { calendarDate, index } = this.props;
-    const isAfter = calendarDate[1].isAfter(calendarDate[0].clone().add(1, 'month'), 'month');
+    const isAfter = calendarDate[1].isAfter(calendarDate[0].add(1, 'month'), 'month');
 
     if (index === 0) {
       return false;
@@ -77,7 +67,7 @@ class Calendar extends React.Component<Props> {
 
   disabledForword = () => {
     const { calendarDate, index } = this.props;
-    const isAfter = calendarDate[1].isAfter(calendarDate[0].clone().add(1, 'month'), 'month');
+    const isAfter = calendarDate[1].isAfter(calendarDate[0].add(1, 'month'), 'month');
 
     if (index === 1) {
       return false;

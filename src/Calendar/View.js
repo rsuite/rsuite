@@ -19,7 +19,7 @@ type Props = {
 
 // is two date in the same month
 const inSameMonth = (dateA: dayjs.Dayjs, dateB: dayjs.Dayjs) => dateA.month() === dateB.month();
-const getThisMonthDate = (date: dayjs.Dayjs) => date.clone().set('date', 1);
+const getThisMonthDate = (date: dayjs.Dayjs) => date.set('date', 1);
 
 class View extends React.PureComponent<Props> {
   static defaultProps = {

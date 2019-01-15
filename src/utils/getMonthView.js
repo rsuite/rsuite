@@ -15,13 +15,13 @@ export default function getMonthView(monthDate, isoWeek) {
     }
   }
 
-  let firstWeekendDate = monthDate.clone().add(distance, 'days');
+  let firstWeekendDate = monthDate.add(distance, 'days');
   let weeks = [firstWeekendDate];
-  let nextWeekendDate = firstWeekendDate.clone().add(7, 'days');
+  let nextWeekendDate = firstWeekendDate.add(7, 'days');
 
   weeks.push(nextWeekendDate);
   while (weeks.length < 6) {
-    nextWeekendDate = nextWeekendDate.clone().add(7, 'days');
+    nextWeekendDate = nextWeekendDate.add(7, 'days');
     weeks.push(nextWeekendDate);
   }
 

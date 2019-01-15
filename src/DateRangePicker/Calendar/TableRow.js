@@ -43,8 +43,8 @@ class TableRow extends React.Component<Props> {
     } = this.props;
 
     const days = [];
-    const selectedStartDate = selected[0] ? selected[0].clone() : null;
-    const selectedEndDate = selected[1] ? selected[1].clone() : null;
+    const selectedStartDate = selected[0];
+    const selectedEndDate = selected[1];
     const hoverStartDate = hoverValue[0] || null;
     const hoverEndDate = hoverValue[1] || null;
 
@@ -52,7 +52,7 @@ class TableRow extends React.Component<Props> {
       let thisDate = dayjs(weekendDate).add(i, 'd');
       let selectValue = [selectedStartDate, selectedEndDate];
 
-      let disabled = disabledDate && disabledDate(thisDate.clone(), selectValue, Type.CALENDAR);
+      let disabled = disabledDate && disabledDate(thisDate, selectValue, Type.CALENDAR);
       let isToday = thisDate.isSame(dayjs(), 'date');
       let inRange = false;
 

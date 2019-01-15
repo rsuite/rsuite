@@ -158,10 +158,7 @@ class DatePicker extends React.Component<Props, State> {
     onChangeCalendarDate && onChangeCalendarDate(nextPageDate);
   };
 
-  getValue = () => {
-    const value = this.props.value || this.state.value;
-    return value ? value.clone() : null;
-  };
+  getValue = () => this.props.value || this.state.value;
 
   getDateString() {
     const { placeholder, format } = this.props;
@@ -214,7 +211,7 @@ class DatePicker extends React.Component<Props, State> {
     });
 
     if (nextValue !== value || !nextValue.isSame(value)) {
-      onChange && onChange(nextValue ? nextValue.clone() : null);
+      onChange && onChange(nextValue ? nextValue : null);
     }
 
     // `closeOverlay` default value is `true`

@@ -27,15 +27,9 @@ export function allowedMaxDays(days: number): DisabledDateFunction {
     if (selectValue && selectValue[0]) {
       const startDate = selectValue[0];
 
-      beforeLimit = startDate
-        .clone()
-        .add(-days + 1, 'd')
-        .isAfter(date, 'd');
+      beforeLimit = startDate.add(-days + 1, 'd').isAfter(date, 'd');
 
-      afterLimit = startDate
-        .clone()
-        .add(days - 1, 'd')
-        .isBefore(date, 'd');
+      afterLimit = startDate.add(days - 1, 'd').isBefore(date, 'd');
     }
 
     if (target === 'CALENDAR' && !selectedDone && (beforeLimit || afterLimit)) {
@@ -57,15 +51,9 @@ export function allowedDays(days: number): DisabledDateFunction {
     if (selectValue && selectValue[0]) {
       const startDate = selectValue[0];
 
-      beforeLimit = !startDate
-        .clone()
-        .add(-days + 1, 'd')
-        .isSame(date, 'd');
+      beforeLimit = !startDate.add(-days + 1, 'd').isSame(date, 'd');
 
-      afterLimit = !startDate
-        .clone()
-        .add(days - 1, 'd')
-        .isSame(date, 'd');
+      afterLimit = !startDate.add(days - 1, 'd').isSame(date, 'd');
     }
 
     if (target === 'CALENDAR' && !selectedDone && (beforeLimit && afterLimit)) {

@@ -81,8 +81,8 @@ function getCalendarDate(value: Array<dayjs.Dayjs> = []) {
 
   // Update calendarDate if the value is not null
   if (value[0] && value[1]) {
-    let isSameMonth = value[0].clone().isSame(value[1], 'month');
-    calendarDate = [value[0], isSameMonth ? value[1].clone().add(1, 'month') : value[1].clone()];
+    let isSameMonth = value[0].isSame(value[1], 'month');
+    calendarDate = [value[0], isSameMonth ? value[1].add(1, 'month') : value[1]];
   }
   return calendarDate;
 }
@@ -200,15 +200,12 @@ class DateRangePicker extends React.Component<Props, State> {
 
     if (isoWeek) {
       // set to the first day of this week according to ISO 8601, 12:00 am
-      return [date.clone().startOf('isoWeek'), date.clone().endOf('isoWeek')];
+      return [date.startOf('isoWeek'), date.endOf('isoWeek')];
     }
 
-    return [date.clone().startOf('week'), date.clone().endOf('week')];
+    return [date.startOf('week'), date.endOf('week')];
   };
-  getMonthHoverRange = (date: dayjs.Dayjs) => [
-    date.clone().startOf('month'),
-    date.clone().endOf('month')
-  ];
+  getMonthHoverRange = (date: dayjs.Dayjs) => [date.startOf('month'), date.endOf('month')];
 
   getHoverRange(date: dayjs.Dayjs) {
     const { hoverRange } = this.props;
@@ -229,7 +226,7 @@ class DateRangePicker extends React.Component<Props, State> {
       return [];
     }
 
-    const hoverValues = hoverRangeFunc(date.clone());
+    const hoverValues = hoverRangeFunc(date);
     const isHoverRangeValid = hoverValues instanceof Array && hoverValues.length === 2;
     if (!isHoverRangeValid) {
       return [];
@@ -407,8 +404,8 @@ class DateRangePicker extends React.Component<Props, State> {
     if (value && value.length) {
       const [startDate, endData] = value;
       calendarDate = [
-        startDate.clone(),
-        startDate.isSame(endData, 'month') ? endData.clone().add(1, 'month') : endData
+        startDate,
+        startDate.isSame(endData, 'month') ? endData.add(1, 'month') : endData
       ];
     } else {
       calendarDate = [dayjs(), dayjs().add(1, 'month')];
@@ -440,15 +437,14 @@ class DateRangePicker extends React.Component<Props, State> {
   disabledByBetween(start: dayjs.Dayjs, end: dayjs.Dayjs, type: string) {
     const { disabledDate } = this.props;
     const { selectValue, doneSelected } = this.state;
-    const date = start.clone();
-    const selectStartDate = selectValue[0] ? selectValue[0].clone() : null;
-    const selectEndDate = selectValue[1] ? selectValue[1].clone() : null;
+    const selectStartDate = selectValue[0] ? selectValue[0] : null;
+    const selectEndDate = selectValue[1] ? selectValue[1] : null;
     const nextSelectValue = [selectStartDate, selectEndDate];
 
     // If the date is between the start and the end
     // the button is disabled
     while (start.isBefore(end) || start.isSame(end, 'day')) {
-      if (disabledDate && disabledDate(date, nextSelectValue, doneSelected, type)) {
+      if (disabledDate && disabledDate(start, nextSelectValue, doneSelected, type)) {
         return true;
       }
       start = start.add(1, 'd');
@@ -464,18 +460,14 @@ class DateRangePicker extends React.Component<Props, State> {
       return true;
     }
 
-    return this.disabledByBetween(
-      selectValue[0].clone(),
-      selectValue[1].clone(),
-      Type.TOOLBAR_BUTTON_OK
-    );
+    return this.disabledByBetween(selectValue[0], selectValue[1], Type.TOOLBAR_BUTTON_OK);
   };
 
   disabledShortcutButton = (value: Array<dayjs.Dayjs> = []) => {
     if (!value[0] || !value[1]) {
       return true;
     }
-    return this.disabledByBetween(value[0].clone(), value[1].clone(), Type.TOOLBAR_SHORTCUT);
+    return this.disabledByBetween(value[0], value[1], Type.TOOLBAR_SHORTCUT);
   };
 
   handleDisabledDate = (date: dayjs.Dayjs, values: Array<dayjs.Dayjs | null>, type: string) => {
