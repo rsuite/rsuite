@@ -3,8 +3,8 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import List from 'react-virtualized/dist/es/List';
-import AutoSizer from 'react-virtualized/dist/es/AutoSizer';
+import List from 'react-virtualized/dist/commonjs/List';
+import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
 import MonthDropdownItem from './MonthDropdownItem';
 
