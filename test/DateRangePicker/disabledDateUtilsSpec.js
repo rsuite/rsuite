@@ -6,10 +6,7 @@ describe('DateRangePicker - disabledDate - utils', () => {
     const func = utils.allowedMaxDays(5);
 
     assert.equal(func(dayjs('2018-12-07'), [dayjs('2018-12-01'), null], false, 'CALENDAR'), true);
-    assert.equal(
-      func(dayjs('2018-12-04'), [dayjs('2018-12-01'), null], false, 'CALENDAR'),
-      false
-    );
+    assert.equal(func(dayjs('2018-12-04'), [dayjs('2018-12-01'), null], false, 'CALENDAR'), false);
   });
 
   it('allowedDays', () => {
@@ -17,10 +14,7 @@ describe('DateRangePicker - disabledDate - utils', () => {
 
     assert.equal(func(dayjs('2018-12-06'), [dayjs('2018-12-01'), null], false, 'CALENDAR'), true);
     assert.equal(func(dayjs('2018-12-04'), [dayjs('2018-12-01'), null], false, 'CALENDAR'), true);
-    assert.equal(
-      func(dayjs('2018-12-05'), [dayjs('2018-12-01'), null], false, 'CALENDAR'),
-      false
-    );
+    assert.equal(func(dayjs('2018-12-05'), [dayjs('2018-12-01'), null], false, 'CALENDAR'), false);
   });
 
   it('allowedRange', () => {
@@ -53,9 +47,6 @@ describe('DateRangePicker - disabledDate - utils', () => {
 
     assert.equal(func(dayjs('2018-12-07'), [dayjs('2018-12-01'), null], false, 'CALENDAR'), true);
     assert.equal(func(dayjs('2018-11-26'), [dayjs('2018-12-01'), null], false, 'CALENDAR'), true);
-    assert.equal(
-      func(dayjs('2018-11-27'), [dayjs('2018-12-01'), null], false, 'CALENDAR'),
-      false
-    );
+    assert.equal(func(dayjs('2018-11-27'), [dayjs('2018-12-01'), null], false, 'CALENDAR'), false);
   });
 });

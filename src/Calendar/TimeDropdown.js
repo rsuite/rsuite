@@ -111,7 +111,7 @@ class TimeDropdown extends React.PureComponent<Props> {
       dates: 'date',
       days: 'day',
       months: 'month',
-      years: 'year',
+      years: 'year'
     };
 
     // $FlowFixMe
