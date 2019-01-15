@@ -116,3 +116,11 @@
   border-bottom-left-radius: @radius;
   border-top-left-radius: @radius;
 }
+
+.pointer-event-none() {
+  // Make sure events through
+  pointer-events: none;
+  .ie10-visibility(hidden);
+  // Fixed in safari, after multiple clicks , the loader still has not disappeared.
+  .safari-visibility(hidden);
+}
