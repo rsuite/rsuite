@@ -2,7 +2,7 @@
 
 import { addDays, isAfter, isBefore } from 'date-fns';
 import { isSameDay } from 'date-fns';
-import curry from '../utils/curry';
+import composeFunctions from '../utils/composeFunctions';
 
 type DisabledDateFunction = (
   /** Date used to determine if disabling is required. */
@@ -29,9 +29,9 @@ export function allowedMaxDays(days: number): DisabledDateFunction {
     if (selectValue && selectValue[0]) {
       const startDate = selectValue[0];
 
-      beforeLimit = curry(f => addDays(f, -days + 1), f => isAfter(f, date))(startDate);
+      beforeLimit = composeFunctions(f => addDays(f, -days + 1), f => isAfter(f, date))(startDate);
 
-      afterLimit = curry(f => addDays(f, days - 1), f => isBefore(f, date))(startDate);
+      afterLimit = composeFunctions(f => addDays(f, days - 1), f => isBefore(f, date))(startDate);
     }
 
     if (target === 'CALENDAR' && !selectedDone && (beforeLimit || afterLimit)) {
@@ -53,9 +53,11 @@ export function allowedDays(days: number): DisabledDateFunction {
     if (selectValue && selectValue[0]) {
       const startDate = selectValue[0];
 
-      beforeLimit = curry(f => addDays(f, -days + 1), f => !isSameDay(f, date))(startDate);
+      beforeLimit = composeFunctions(f => addDays(f, -days + 1), f => !isSameDay(f, date))(
+        startDate
+      );
 
-      afterLimit = curry(f => addDays(f, days - 1), f => !isSameDay(f, date))(startDate);
+      afterLimit = composeFunctions(f => addDays(f, days - 1), f => !isSameDay(f, date))(startDate);
     }
 
     if (target === 'CALENDAR' && !selectedDone && (beforeLimit && afterLimit)) {

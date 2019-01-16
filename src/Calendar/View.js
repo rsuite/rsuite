@@ -7,7 +7,7 @@ import { defaultProps } from '../utils';
 import Table from './Table';
 import getMonthView from '../utils/getMonthView';
 import { isSameMonth, setDate } from 'date-fns';
-import curry from '../utils/curry';
+import composeFunctions from '../utils/composeFunctions';
 
 type Props = {
   activeDate: Date,
@@ -24,7 +24,7 @@ class View extends React.PureComponent<Props> {
   };
 
   inSameThisMonthDate = (date: Date) =>
-    curry(d => setDate(d, 1), d => isSameMonth(d, date))(this.props.activeDate);
+    composeFunctions(d => setDate(d, 1), d => isSameMonth(d, date))(this.props.activeDate);
 
   render() {
     const {

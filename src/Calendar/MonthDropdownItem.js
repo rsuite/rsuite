@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
 import { setYear } from 'date-fns';
 import { setMonth } from 'date-fns';
-import curry from '../utils/curry';
+import composeFunctions from '../utils/composeFunctions';
 
 type Props = {
   date?: Date,
@@ -31,7 +31,7 @@ class MonthDropdownItem extends React.PureComponent<Props> {
     }
 
     if (year && month && date) {
-      const nextMonth = curry(d => setYear(d, year), d => setMonth(d, month - 1))(date);
+      const nextMonth = composeFunctions(d => setYear(d, year), d => setMonth(d, month - 1))(date);
       onSelect && onSelect(nextMonth, event);
     }
   };

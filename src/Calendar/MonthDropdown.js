@@ -7,7 +7,7 @@ import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
 import MonthDropdownItem from './MonthDropdownItem';
 import { getYear, setYear, setMonth, getMonth } from 'date-fns';
-import curry from '../utils/curry';
+import composeFunctions from '../utils/composeFunctions';
 
 type Props = {
   onSelect?: (month: Date, event: SyntheticEvent<*>) => void,
@@ -71,7 +71,9 @@ class MonthDropdown extends React.PureComponent<Props> {
     const { disabledMonth } = this.props;
 
     if (disabledMonth) {
-      return disabledMonth(curry(d => setYear(d, year), d => setMonth(d, month))(new Date()));
+      return disabledMonth(
+        composeFunctions(d => setYear(d, year), d => setMonth(d, month))(new Date())
+      );
     }
     return false;
   }

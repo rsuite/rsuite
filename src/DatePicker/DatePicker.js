@@ -28,7 +28,7 @@ import {
   setMinutes,
   setSeconds
 } from 'date-fns';
-import curry from '../utils/curry';
+import composeFunctions from '../utils/composeFunctions';
 
 type Range = {
   label: React.Node,
@@ -307,7 +307,7 @@ class DatePicker extends React.Component<Props, State> {
     const { pageDate } = this.state;
 
     this.setState({
-      pageDate: curry(
+      pageDate: composeFunctions(
         d => setHours(d, getHours(pageDate)),
         d => setMinutes(d, getMinutes(pageDate)),
         d => setSeconds(d, getSeconds(pageDate))
