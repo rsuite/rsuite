@@ -2,36 +2,36 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
 import { FormattedMessage } from 'rsuite-intl';
 
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
+import { addDays } from 'date-fns';
 
 type Range = {
   label: React.Node,
   closeOverlay?: boolean,
-  value: moment$Moment | ((pageDate?: moment$Moment) => moment$Moment)
+  value: Date | ((pageDate?: Date) => Date)
 };
 
 type Props = {
   ranges: Array<Range>,
   className?: string,
   classPrefix?: string,
-  pageDate?: moment$Moment,
-  onShortcut?: (value: moment$Moment, closeOverlay?: boolean, event?: SyntheticEvent<*>) => void,
+  pageDate?: Date,
+  onShortcut?: (value: Date, closeOverlay?: boolean, event?: SyntheticEvent<*>) => void,
   onOk?: (event: SyntheticEvent<*>) => void,
-  disabledHandle?: (date?: moment$Moment) => boolean
+  disabledHandle?: (date?: Date) => boolean
 };
 
 const defaultRanges = [
   {
     label: 'today',
-    value: moment(),
+    value: new Date(),
     closeOverlay: true
   },
   {
     label: 'yesterday',
-    value: moment().add(-1, 'd'),
+    value: addDays(new Date(), -1),
     closeOverlay: true
   }
 ];

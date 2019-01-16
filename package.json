@@ -51,10 +51,10 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "classnames": ">=2.0.0",
+    "date-fns": "^1.30.1",
     "dom-lib": "^1.1.0",
     "element-resize-event": "^3.0.2",
     "lodash": "^4.17.5",
-    "moment": "^2.22.2",
     "prop-types": "^15.6.0",
     "react-flow-types": "^0.2.0-beta.6",
     "react-lifecycles-compat": "^3.0.4",

@@ -1,9 +1,9 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import moment from 'moment';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import TableRow from '../../src/Calendar/TableRow';
+import { getDate } from 'date-fns';
 
 describe('Calendar-TableRow', () => {
   it('Should render a div with `table-row` class', () => {
@@ -18,7 +18,7 @@ describe('Calendar-TableRow', () => {
 
     assert.equal(
       instanceDOM.querySelector('.rs-calendar-table-cell-is-today').innerText,
-      moment().date() + ''
+      getDate(new Date()) + ''
     );
   });
 

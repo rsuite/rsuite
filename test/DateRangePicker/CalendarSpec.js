@@ -1,14 +1,12 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import moment from 'moment';
-
 import Calendar from '../../src/DateRangePicker/Calendar';
 
 describe('DateRangePicker - Calendar', () => {
   it('Should render a div with `calendar` class', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <Calendar format="YYYY-MM-DD" calendarDate={[moment(), moment()]} />
+      <Calendar format="YYYY-MM-DD" calendarDate={[new Date(), new Date()]} />
     );
 
     assert.equal(findDOMNode(instance).nodeName, 'DIV');
@@ -21,7 +19,7 @@ describe('DateRangePicker - Calendar', () => {
     };
 
     const instance = ReactTestUtils.renderIntoDocument(
-      <Calendar format="YYYY-MM-DD" calendarDate={[moment(), moment()]} onSelect={doneOp} />
+      <Calendar format="YYYY-MM-DD" calendarDate={[new Date(), new Date()]} onSelect={doneOp} />
     );
     const instanceDOM = findDOMNode(instance);
     ReactTestUtils.Simulate.click(instanceDOM.querySelector('.rs-calendar-table-cell-is-today'));
@@ -29,7 +27,7 @@ describe('DateRangePicker - Calendar', () => {
 
   it('Should have a custom className', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <Calendar format="YYYY-MM-DD" className="custom" calendarDate={[moment(), moment()]} />
+      <Calendar format="YYYY-MM-DD" className="custom" calendarDate={[new Date(), new Date()]} />
     );
     assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
   });
@@ -37,7 +35,7 @@ describe('DateRangePicker - Calendar', () => {
   it('Should have a custom style', () => {
     const fontSize = '12px';
     const instance = ReactTestUtils.renderIntoDocument(
-      <Calendar format="YYYY-MM-DD" style={{ fontSize }} calendarDate={[moment(), moment()]} />
+      <Calendar format="YYYY-MM-DD" style={{ fontSize }} calendarDate={[new Date(), new Date()]} />
     );
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });

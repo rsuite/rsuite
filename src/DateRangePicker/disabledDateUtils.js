@@ -1,12 +1,14 @@
 // @flow
 
-import moment from 'moment';
+import { addDays, isAfter, isBefore } from 'date-fns';
+import { isSameDay } from 'date-fns';
+import curry from '../utils/curry';
 
 type DisabledDateFunction = (
   /** Date used to determine if disabling is required. */
-  date: moment$Moment,
+  date: Date,
   /** Date selected. */
-  selectValue?: Array<moment$Moment>,
+  selectValue?: Array<Date>,
   /**
    Whether to choose to finish now.
    If `false`, only the start date is selected, waiting for the selection end date.
@@ -27,15 +29,9 @@ export function allowedMaxDays(days: number): DisabledDateFunction {
     if (selectValue && selectValue[0]) {
       const startDate = selectValue[0];
 
-      beforeLimit = startDate
-        .clone()
-        .add(-days + 1, 'd')
-        .isAfter(date, 'd');
+      beforeLimit = curry(f => addDays(f, -days + 1), f => isAfter(f, date))(startDate);
 
-      afterLimit = startDate
-        .clone()
-        .add(days - 1, 'd')
-        .isBefore(date, 'd');
+      afterLimit = curry(f => addDays(f, days - 1), f => isBefore(f, date))(startDate);
     }
 
     if (target === 'CALENDAR' && !selectedDone && (beforeLimit || afterLimit)) {
@@ -57,15 +53,9 @@ export function allowedDays(days: number): DisabledDateFunction {
     if (selectValue && selectValue[0]) {
       const startDate = selectValue[0];
 
-      beforeLimit = !startDate
-        .clone()
-        .add(-days + 1, 'd')
-        .isSame(date, 'd');
+      beforeLimit = curry(f => addDays(f, -days + 1), f => !isSameDay(f, date))(startDate);
 
-      afterLimit = !startDate
-        .clone()
-        .add(days - 1, 'd')
-        .isSame(date, 'd');
+      afterLimit = curry(f => addDays(f, days - 1), f => !isSameDay(f, date))(startDate);
     }
 
     if (target === 'CALENDAR' && !selectedDone && (beforeLimit && afterLimit)) {
@@ -80,11 +70,11 @@ export function allowedDays(days: number): DisabledDateFunction {
  Allow specified date range, other dates are disabled.
  */
 export function allowedRange(
-  startDate: string | moment$Moment,
-  endDate: string | moment$Moment
+  startDate: string | Date,
+  endDate: string | Date
 ): DisabledDateFunction {
-  return (date: moment$Moment) => {
-    if (date.isBefore(moment(startDate), 'd') || date.isAfter(moment(endDate), 'd')) {
+  return (date: Date) => {
+    if (isBefore(date, startDate) || isAfter(date, endDate)) {
       return true;
     }
     return false;
@@ -94,9 +84,9 @@ export function allowedRange(
 /**
  Disable dates after the specified date.
  */
-export function before(beforeDate?: string | moment$Moment): DisabledDateFunction {
-  return (date: moment$Moment) => {
-    if (date.isBefore(moment(beforeDate), 'd')) {
+export function before(beforeDate?: string | Date): DisabledDateFunction {
+  return (date: Date) => {
+    if (isBefore(date, beforeDate)) {
       return true;
     }
     return false;
@@ -106,9 +96,9 @@ export function before(beforeDate?: string | moment$Moment): DisabledDateFunctio
 /**
 Disable dates before the specified date.
  */
-export function after(afterDate?: string | moment$Moment) {
-  return (date: moment$Moment) => {
-    if (date.isAfter(moment(afterDate), 'd')) {
+export function after(afterDate?: string | Date) {
+  return (date: Date) => {
+    if (isAfter(date, afterDate)) {
       return true;
     }
     return false;

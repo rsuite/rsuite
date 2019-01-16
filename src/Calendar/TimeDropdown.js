@@ -3,23 +3,23 @@
 import * as React from 'react';
 import { getPosition, scrollTop } from 'dom-lib';
 import { FormattedMessage } from 'rsuite-intl';
-import moment from 'moment';
 import _ from 'lodash';
 import classNames from 'classnames';
 
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
 import scrollTopAnimation from '../utils/scrollTopAnimation';
+import { addDays, getHours, getMinutes, getSeconds, addHours, addMinutes } from 'date-fns';
 
 type Props = {
-  disabledDate?: (date: moment$Moment) => boolean,
-  disabledHours?: (hour: number, date: moment$Moment) => boolean,
-  disabledMinutes?: (minute: number, date: moment$Moment) => boolean,
-  disabledSeconds?: (second: number, date: moment$Moment) => boolean,
-  hideHours?: (hour: number, date: moment$Moment) => boolean,
-  hideMinutes?: (minute: number, date: moment$Moment) => boolean,
-  hideSeconds?: (second: number, date: moment$Moment) => boolean,
-  date?: moment$Moment,
-  onSelect?: (nextDate: moment$Moment, event: SyntheticEvent<*>) => void,
+  disabledDate?: (date: Date) => boolean,
+  disabledHours?: (hour: number, date: Date) => boolean,
+  disabledMinutes?: (minute: number, date: Date) => boolean,
+  disabledSeconds?: (second: number, date: Date) => boolean,
+  hideHours?: (hour: number, date: Date) => boolean,
+  hideMinutes?: (minute: number, date: Date) => boolean,
+  hideSeconds?: (second: number, date: Date) => boolean,
+  date?: Date,
+  onSelect?: (nextDate: Date, event: SyntheticEvent<*>) => void,
   show: boolean,
   format?: string,
   className?: string,
@@ -40,12 +40,12 @@ class TimeDropdown extends React.PureComponent<Props> {
     ranges: [
       {
         label: 'today',
-        value: moment(),
+        value: new Date(),
         closeOverlay: true
       },
       {
         label: 'yesterday',
-        value: moment().add(-1, 'd'),
+        value: addDays(new Date(), -1),
         closeOverlay: true
       }
     ]
@@ -61,7 +61,7 @@ class TimeDropdown extends React.PureComponent<Props> {
 
   getTime(props?: Props) {
     const { format, date } = props || this.props;
-    let time = date || moment();
+    let time = date || new Date();
     let nextTime = {};
 
     if (!format) {
@@ -69,13 +69,13 @@ class TimeDropdown extends React.PureComponent<Props> {
     }
 
     if (/(H|h)/.test(format)) {
-      nextTime.hours = time.hours();
+      nextTime.hours = getHours(time);
     }
     if (/m/.test(format)) {
-      nextTime.minutes = time.minutes();
+      nextTime.minutes = getMinutes(time);
     }
     if (/s/.test(format)) {
-      nextTime.seconds = time.seconds();
+      nextTime.seconds = getSeconds(time);
     }
     return nextTime;
   }
@@ -103,10 +103,22 @@ class TimeDropdown extends React.PureComponent<Props> {
   handleClick = (type: TimeType, d: number, event: SyntheticEvent<*>) => {
     const { onSelect, date } = this.props;
     // $FlowFixMe
-    const nextDate = moment(date)[type](d);
+    let nextDate = date || new Date();
+
+    switch (type) {
+      case 'hours':
+        nextDate = addHours(date, d);
+        break;
+      case 'minutes':
+        nextDate = addMinutes(date, d);
+        break;
+    }
+
     onSelect && onSelect(nextDate, event);
   };
+
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
+
   renderColumn(type: TimeType, active: any) {
     if (!_.isNumber(active)) {
       return null;

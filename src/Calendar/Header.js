@@ -1,12 +1,12 @@
 // @flow
 
 import * as React from 'react';
-import moment from 'moment';
 import classNames from 'classnames';
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
+import { format } from 'date-fns';
 
 type Props = {
-  date: moment$Moment,
+  date: Date,
   onMoveForword?: () => void,
   onMoveBackward?: () => void,
   onToggleMonthDropdown?: (event: SyntheticEvent<*>) => void,
@@ -15,8 +15,8 @@ type Props = {
   showDate?: boolean,
   showTime?: boolean,
   format?: string,
-  disabledDate?: (date: moment$Moment) => boolean,
-  disabledTime?: (date: moment$Moment) => boolean,
+  disabledDate?: (date: Date) => boolean,
+  disabledTime?: (date: Date) => boolean,
   classPrefix?: string,
   className?: string,
   disabledBackward?: boolean,
@@ -25,7 +25,7 @@ type Props = {
 
 class Header extends React.PureComponent<Props> {
   static defaultProps = {
-    date: moment()
+    date: new Date()
   };
   getTimeFormat() {
     const { format } = this.props;
@@ -109,7 +109,7 @@ class Header extends React.PureComponent<Props> {
           className={dateTitleClasses}
           onClick={onToggleMonthDropdown}
         >
-          {date && date.format(this.getDateFormat())}
+          {date && format(date, this.getDateFormat())}
         </span>
         <i
           className={forwardClass}
@@ -138,7 +138,7 @@ class Header extends React.PureComponent<Props> {
               className={timeTitleClasses}
               onClick={onToggleTimeDropdown}
             >
-              {date && date.format(this.getTimeFormat())}
+              {date && format(date, this.getTimeFormat())}
             </span>
           </div>
         )}

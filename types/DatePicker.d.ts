@@ -1,20 +1,19 @@
 import * as React from 'react';
-import * as moment from 'moment';
 
 import { PickerBaseProps, FormControlBaseProps } from './index';
 
 export interface RangeType {
   label: React.ReactNode;
   closeOverlay?: boolean;
-  value: moment.Moment | ((pageDate?: moment.Moment) => moment.Moment);
+  value: Date | ((pageDate?: Date) => Date);
 }
 
-export interface DatePickerProps extends PickerBaseProps, FormControlBaseProps<moment.Moment> {
+export interface DatePickerProps extends PickerBaseProps, FormControlBaseProps<Date> {
   /** Configure shortcut options */
   ranges?: RangeType[];
 
   /** Calendar panel default presentation date and time */
-  calendarDefaultDate?: moment.Moment;
+  calendarDefaultDate?: Date;
 
   /** Format date */
   format?: string;
@@ -29,28 +28,28 @@ export interface DatePickerProps extends PickerBaseProps, FormControlBaseProps<m
   limitEndYear?: number;
 
   /** Disabled date */
-  disabledDate?: (date?: moment.Moment) => boolean;
+  disabledDate?: (date?: Date) => boolean;
 
   /** Disabled hours */
-  disabledHours?: (hour: number, date: moment.Moment) => boolean;
+  disabledHours?: (hour: number, date: Date) => boolean;
 
   /** Disabled minutes */
-  disabledMinutes?: (minute: number, date: moment.Moment) => boolean;
+  disabledMinutes?: (minute: number, date: Date) => boolean;
 
   /** Disabled seconds */
-  disabledSeconds?: (second: number, date: moment.Moment) => boolean;
+  disabledSeconds?: (second: number, date: Date) => boolean;
 
   /** Hidden hours */
-  hideHours?: (hour: number, date: moment.Moment) => boolean;
+  hideHours?: (hour: number, date: Date) => boolean;
 
   /** Hidden minutes */
-  hideMinutes?: (minute: number, date: moment.Moment) => boolean;
+  hideMinutes?: (minute: number, date: Date) => boolean;
 
   /** Hidden seconds */
-  hideSeconds?: (second: number, date: moment.Moment) => boolean;
+  hideSeconds?: (second: number, date: Date) => boolean;
 
   /** Called when the calendar panel date changes */
-  onChangeCalendarDate?: (date: moment.Moment, event?: React.SyntheticEvent<HTMLElement>) => void;
+  onChangeCalendarDate?: (date: Date, event?: React.SyntheticEvent<HTMLElement>) => void;
 
   /** Called when opening the month view */
   onToggleMonthDropdown?: (toggle: boolean) => void;
@@ -59,16 +58,16 @@ export interface DatePickerProps extends PickerBaseProps, FormControlBaseProps<m
   onToggleTimeDropdown?: (toggle: boolean) => void;
 
   /** Called when the option is selected */
-  onSelect?: (date: moment.Moment, event?: React.SyntheticEvent<HTMLElement>) => void;
+  onSelect?: (date: Date, event?: React.SyntheticEvent<HTMLElement>) => void;
 
   /** Called after the prev month */
-  onPrevMonth?: (date: moment.Moment) => void;
+  onPrevMonth?: (date: Date) => void;
 
   /** Called after the next month */
-  onNextMonth?: (date: moment.Moment) => void;
+  onNextMonth?: (date: Date) => void;
 
   /** Called after clicking the OK button */
-  onOk?: (date: moment.Moment, event: React.SyntheticEvent<HTMLElement>) => void;
+  onOk?: (date: Date, event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
 declare const DatePicker: React.ComponentType<DatePickerProps>;

@@ -1,9 +1,8 @@
 import * as React from 'react';
-import * as moment from 'moment';
 
 import { PickerBaseProps, FormControlBaseProps } from './index';
 
-type ValueType = [moment.Moment, moment.Moment];
+type ValueType = [Date, Date];
 
 export interface RangeType {
   label: React.ReactNode;
@@ -19,7 +18,7 @@ export interface DateRangePickerProps extends PickerBaseProps, FormControlBasePr
   format?: string;
 
   /** The date range that will be selected when you click on the date */
-  hoverRange?: 'week' | 'month' | ((date: moment.Moment) => moment.Moment[]);
+  hoverRange?: 'week' | 'month' | ((date: Date) => Date[]);
 
   /** Whether to click once on selected date range，Can be used with hoverRange */
   oneTap?: boolean;
@@ -32,17 +31,17 @@ export interface DateRangePickerProps extends PickerBaseProps, FormControlBasePr
 
   /** Disabled date */
   disabledDate?: (
-    date: moment.Moment,
-    selectValue: [moment.Moment | null, moment.Moment | null],
+    date: Date,
+    selectValue: [Date | null, Date | null],
     doneSelected: boolean,
     type: string
   ) => boolean;
 
   /** Called when the option is selected */
-  onSelect?: (date: moment.Moment, event?: React.SyntheticEvent<HTMLElement>) => void;
+  onSelect?: (date: Date, event?: React.SyntheticEvent<HTMLElement>) => void;
 
   /** Called after clicking the OK button */
-  onOk?: (date: moment.Moment, event: React.SyntheticEvent<HTMLElement>) => void;
+  onOk?: (date: Date, event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
 declare const DateRangePicker: React.ComponentType<DateRangePickerProps>;
