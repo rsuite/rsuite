@@ -8,7 +8,15 @@ import classNames from 'classnames';
 
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
 import scrollTopAnimation from '../utils/scrollTopAnimation';
-import { addDays, getHours, getMinutes, getSeconds, addHours, addMinutes } from 'date-fns';
+import {
+  addDays,
+  getHours,
+  getMinutes,
+  getSeconds,
+  setSeconds,
+  setMinutes,
+  setHours
+} from 'date-fns';
 
 type Props = {
   disabledDate?: (date: Date) => boolean,
@@ -107,10 +115,13 @@ class TimeDropdown extends React.PureComponent<Props> {
 
     switch (type) {
       case 'hours':
-        nextDate = addHours(date, d);
+        nextDate = setHours(date, d);
         break;
       case 'minutes':
-        nextDate = addMinutes(date, d);
+        nextDate = setMinutes(date, d);
+        break;
+      case 'seconds':
+        nextDate = setSeconds(date, d);
         break;
     }
 
