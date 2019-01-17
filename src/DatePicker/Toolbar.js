@@ -20,7 +20,8 @@ type Props = {
   pageDate?: moment$Moment,
   onShortcut?: (value: moment$Moment, closeOverlay?: boolean, event?: SyntheticEvent<*>) => void,
   onOk?: (event: SyntheticEvent<*>) => void,
-  disabledHandle?: (date?: moment$Moment) => boolean
+  disabledHandle?: (date?: moment$Moment) => boolean,
+  hideOkButton?: boolean
 };
 
 const defaultRanges = [
@@ -48,7 +49,12 @@ class Toolbar extends React.PureComponent<Props> {
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderOkButton() {
-    const { disabledHandle, pageDate, onOk } = this.props;
+    const { disabledHandle, pageDate, onOk, hideOkButton } = this.props;
+
+    if (hideOkButton) {
+      return null;
+    }
+
     const disabled = disabledHandle && disabledHandle(pageDate);
     const classes = classNames(this.addPrefix('right-btn-ok'), {
       [this.addPrefix('btn-disabled')]: disabled
@@ -70,8 +76,13 @@ class Toolbar extends React.PureComponent<Props> {
       className,
       pageDate,
       classPrefix,
+      hideOkButton,
       ...rest
     } = this.props;
+
+    if (hideOkButton && ranges.length === 0) {
+      return null;
+    }
 
     const classes = classNames(classPrefix, className);
     const unhandled = getUnhandledProps(Toolbar, rest);

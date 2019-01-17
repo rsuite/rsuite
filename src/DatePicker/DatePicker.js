@@ -74,7 +74,9 @@ type Props = {
   onOpen?: () => void,
   onClose?: () => void,
   onHide?: () => void,
-  style?: Object
+  style?: Object,
+  // 一键选值
+  oneTap?: boolean
 };
 
 type State = {
@@ -299,6 +301,7 @@ class DatePicker extends React.Component<Props, State> {
     onChangeCalendarDate && onChangeCalendarDate(nextValue, event);
   };
   handleSelect = (nextValue: moment$Moment) => {
+    const { oneTap } = this.props;
     const { pageDate } = this.state;
     nextValue
       .hours(pageDate.hours())
@@ -310,6 +313,9 @@ class DatePicker extends React.Component<Props, State> {
     });
 
     this.handleAllSelect(nextValue);
+    if (oneTap) {
+      this.updateValue(nextValue);
+    }
   };
 
   handleEntered = () => {
@@ -388,7 +394,7 @@ class DatePicker extends React.Component<Props, State> {
     );
   }
   renderDropdownMenu(calendar: React.Node) {
-    const { placement, ranges, menuClassName } = this.props;
+    const { placement, ranges, menuClassName, oneTap } = this.props;
     const { pageDate } = this.state;
     const classes = classNames(
       this.addPrefix('date-menu'),
@@ -406,6 +412,7 @@ class DatePicker extends React.Component<Props, State> {
             disabledHandle={this.disabledToolbarHandle}
             onShortcut={this.handleShortcutPageDate}
             onOk={this.handleOK}
+            hideOkButton={oneTap}
           />
         </div>
       </MenuWrapper>
