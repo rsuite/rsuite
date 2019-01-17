@@ -242,4 +242,20 @@ describe('DatePicker', () => {
     const instance = ReactTestUtils.renderIntoDocument(<DatePicker classPrefix="custom-prefix" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
   });
+
+  it('Should call onChange after setting oneTap', done => {
+    let picker = null;
+    const doneOp = value => {
+      if (value.isSame(moment(), 'day')) {
+        done();
+      }
+    };
+    ReactTestUtils.renderIntoDocument(
+      <DatePicker onChange={doneOp} oneTap defaultOpen innerRef={ref => (picker = ref)} />
+    );
+
+    const today = picker.menuContainer.querySelector('.rs-calendar-table-cell-is-today');
+
+    ReactTestUtils.Simulate.click(today);
+  });
 });

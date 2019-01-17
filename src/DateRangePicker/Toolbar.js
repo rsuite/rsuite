@@ -24,6 +24,7 @@ type Props = {
   disabledOkButton?: (value?: Array<Date>) => boolean,
   disabledShortcutButton: (value?: Array<Date>) => boolean,
   selectValue?: Array<Date>
+  hideOkButton?: boolean
 };
 
 const defaultRanges = [
@@ -56,7 +57,11 @@ class Toolbar extends React.PureComponent<Props> {
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderOkButton() {
-    const { disabledOkButton, pageDate, onOk } = this.props;
+    const { disabledOkButton, pageDate, onOk, hideOkButton } = this.props;
+
+    if (hideOkButton) {
+      return null;
+    }
 
     const disabled = disabledOkButton && disabledOkButton(pageDate);
     const classes = classNames(this.addPrefix('right-btn-ok'), {
@@ -78,8 +83,13 @@ class Toolbar extends React.PureComponent<Props> {
       className,
       pageDate,
       classPrefix,
+      hideOkButton,
       ...rest
     } = this.props;
+
+    if (hideOkButton && ranges.length === 0) {
+      return null;
+    }
 
     const classes = classNames(classPrefix, className);
     const unhandled = getUnhandledProps(Toolbar, rest);
