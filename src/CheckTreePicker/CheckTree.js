@@ -62,7 +62,7 @@ type Props = {
   appearance: 'default' | 'subtle',
   classPrefix: string,
   defaultOpen?: boolean,
-  childrenKey?: string,
+  childrenKey: string,
   placeholder?: React.Node,
   defaultValue?: any[],
   searchKeyword?: string,
@@ -139,7 +139,7 @@ class CheckTree extends React.Component<Props, States> {
   };
   constructor(props: Props) {
     super(props);
-    const { value, data } = props;
+    const { value, data, cascade, childrenKey } = props;
     this.nodes = {};
     this.isControlled = !_.isUndefined(value);
 
@@ -155,9 +155,9 @@ class CheckTree extends React.Component<Props, States> {
     );
 
     this.state = {
-      data: props.data,
-      value: props.value,
-      cascade: props.cascade,
+      data,
+      value,
+      cascade,
       hasValue: this.hasValue(nextValue, props),
       expandAll: this.getExpandAll(props),
       filterData: this.getFilterData(keyword, nextData, props),
@@ -165,7 +165,7 @@ class CheckTree extends React.Component<Props, States> {
       selectedValues: nextValue,
       formattedNodes: [],
       uncheckableItemValues: props.uncheckableItemValues,
-      isSomeNodeHasChildren: this.isSomeNodeHasChildren(props.data)
+      isSomeNodeHasChildren: this.isSomeNodeHasChildren(data, childrenKey)
     };
   }
 
@@ -203,7 +203,7 @@ class CheckTree extends React.Component<Props, States> {
 
   componentDidUpdate(prevProps: Props, prevState: States) {
     const { filterData, searchKeyword, selectedValues } = this.state;
-    const { value, data = [], cascade, uncheckableItemValues } = this.props;
+    const { value, data = [], cascade, uncheckableItemValues, childrenKey } = this.props;
     if (prevState.data !== data) {
       const nextData = [...data];
       this.flattenNodes(nextData);
@@ -213,7 +213,7 @@ class CheckTree extends React.Component<Props, States> {
       this.setState({
         data: nextData,
         filterData: this.getFilterData(searchKeyword, nextData),
-        isSomeNodeHasChildren: this.isSomeNodeHasChildren(nextData),
+        isSomeNodeHasChildren: this.isSomeNodeHasChildren(nextData, childrenKey),
         hasValue: this.hasValue()
       });
     }
@@ -324,13 +324,13 @@ class CheckTree extends React.Component<Props, States> {
   }
 
   getFilterData(searchKeyword: string = '', data: any[], props?: Props = this.props) {
-    const { labelKey } = props;
+    const { labelKey, childrenKey } = props;
     const setVisible = (nodes = []) =>
       nodes.forEach((item: Object) => {
         item.visible = this.shouldDisplay(item[labelKey], searchKeyword);
-        if (_.isArray(item.children)) {
-          setVisible(item.children);
-          item.children.forEach((child: Object) => {
+        if (_.isArray(item[childrenKey])) {
+          setVisible(item[childrenKey]);
+          item[childrenKey].forEach((child: Object) => {
             if (child.visible) {
               item.visible = child.visible;
             }
@@ -343,11 +343,12 @@ class CheckTree extends React.Component<Props, States> {
   }
 
   getActiveElementOption(options: any[], refKey: string) {
+    const { childrenKey } = this.props;
     for (let i = 0; i < options.length; i += 1) {
       if (options[i].refKey === refKey) {
         return options[i];
-      } else if (options[i].children && options[i].children.length) {
-        let active = this.getActiveElementOption(options[i].children, refKey);
+      } else if (options[i][childrenKey] && options[i][childrenKey].length) {
+        let active = this.getActiveElementOption(options[i][childrenKey], refKey);
         if (!_.isEmpty(active)) {
           return active;
         }
@@ -365,6 +366,7 @@ class CheckTree extends React.Component<Props, States> {
   };
 
   getFormattedNodes(nodes: any[]) {
+    const { childrenKey } = this.props;
     return nodes.map((node: Object) => {
       const formatted = { ...node };
       const curNode = this.nodes[node.refKey];
@@ -373,8 +375,8 @@ class CheckTree extends React.Component<Props, States> {
         formatted.expand = curNode.expand;
         formatted.uncheckable = curNode.uncheckable;
         formatted.parentNode = curNode.parentNode;
-        if (Array.isArray(node.children) && node.children.length > 0) {
-          formatted.children = this.getFormattedNodes(formatted.children);
+        if (Array.isArray(node[childrenKey]) && node[childrenKey].length > 0) {
+          formatted[childrenKey] = this.getFormattedNodes(formatted[childrenKey]);
         }
       }
 
@@ -526,10 +528,8 @@ class CheckTree extends React.Component<Props, States> {
    * 判断第一层节点是否存在有children的节点
    * @param {*} data
    */
-  isSomeNodeHasChildren = (data: any[]) => {
-    return data.some((node: Object) => {
-      return node.children;
-    });
+  isSomeNodeHasChildren = (data: any[], childrenKey: string) => {
+    return data.some((node: Object) => node[childrenKey]);
   };
 
   shouldDisplay = (label: any, searchKeyword: string) => {
@@ -836,7 +836,7 @@ class CheckTree extends React.Component<Props, States> {
       nodes[node.refKey].checkAll = false;
     } else {
       nodes[node.refKey].checkAll = isChecked;
-      node.children.forEach((child: Object) => {
+      node[childrenKey].forEach((child: Object) => {
         this.toggleDownChecked(nodes, child, isChecked);
       });
     }
