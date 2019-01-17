@@ -20,8 +20,7 @@ type Props = {
   pageDate?: Date,
   onShortcut?: (value: Date, closeOverlay?: boolean, event?: SyntheticEvent<*>) => void,
   onOk?: (event: SyntheticEvent<*>) => void,
-
-  disabledHandle?: (date?: Date) => boolean
+  disabledHandle?: (date?: Date) => boolean,
   hideOkButton?: boolean
 };
 

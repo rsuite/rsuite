@@ -4,7 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 
 import DatePicker from '../../src/DatePicker';
-import { parse } from 'date-fns';
+import { parse, isSameDay } from 'date-fns';
 
 describe('DatePicker', () => {
   it('Should render a div with "rs-picker-date" class', () => {
@@ -246,7 +246,7 @@ describe('DatePicker', () => {
   it('Should call onChange after setting oneTap', done => {
     let picker = null;
     const doneOp = value => {
-      if (value.isSame(moment(), 'day')) {
+      if (isSameDay(value, new Date())) {
         done();
       }
     };

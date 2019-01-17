@@ -23,7 +23,7 @@ type Props = {
   onOk?: (event: SyntheticEvent<*>) => void,
   disabledOkButton?: (value?: Array<Date>) => boolean,
   disabledShortcutButton: (value?: Array<Date>) => boolean,
-  selectValue?: Array<Date>
+  selectValue?: Array<Date>,
   hideOkButton?: boolean
 };
 
