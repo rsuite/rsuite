@@ -24,6 +24,10 @@
     width: 100%;
     top: 0;
     border-bottom: 1px solid @table-border-color;
+
+    &.vitrualized {
+      .pointer-event-none;
+    }
   }
 
   &-row-expanded {
@@ -37,11 +41,11 @@
     background: @table-body-background;
   }
 
-  &-row:hover &-cell-group {
+  &-hover &-row:hover &-cell-group {
     background: @table-body-background;
   }
 
-  &-row:hover &-cell {
+  &-hover &-row:hover &-cell {
     background: @table-body-background;
   }
 
@@ -116,11 +120,7 @@
     background-color: @table-loader-backdrop-color;
     opacity: 0;
     transition: opacity @table-loader-transition;
-    // Make sure events through loader
-    pointer-events: none;
-    .ie10-visibility(hidden);
-    // Fixed in safari, after multiple clicks , the loader still has not disappeared.
-    .safari-visibility(hidden);
+    .pointer-event-none;
   }
 
   &-loader {
@@ -328,30 +328,13 @@
 }
 
 // Tree Table
-.@{ns}table-treetable .@{ns}table-row {
-  position: relative;
-}
-
-.@{ns}table-treetable .@{ns}table-row-children {
-  display: none;
-}
-
-.@{ns}table-row-open > .@{ns}table-row-children {
-  display: block;
-}
-
-.@{ns}table-row-has-children > .@{ns}table-row .@{ns}table-cell-group .@{ns}table-cell:first-child {
-  padding-left: 20px;
-}
-
-.@{ns}table-row-open > .@{ns}table-row .@{ns}table-cell-expand-icon::before {
+.@{ns}table-cell-expanded .@{ns}table-cell-expand-icon::before {
   font-family: @font-family-icon;
   content: @table-shrink-content;
 }
 
 .@{ns}table-cell-expand-wrapper {
-  position: absolute;
-  left: 10px;
+  margin-right: 10px;
   display: inline-block;
   cursor: pointer;
 
