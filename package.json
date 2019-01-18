@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "3.5.3",
+  "version": "3.6.0",
   "description": "A suite of react components",
   "main": "lib/index.js",
   "typings": "types/index.d.ts",
