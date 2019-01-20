@@ -200,7 +200,11 @@
 // Safari border-radius + overflow: hidden + CSS transform fix
 // @link https://gist.github.com/ayamflow/b602ab436ac9f05660d9c15190f4fd7b
 .safari-border-radius-overflow-hidden() {
-  -webkit-mask-image: -webkit-radial-gradient(white, black); /* stylelint-disable-line property-no-vendor-prefix */
+  @media not all and (min-resolution: 0.001dpcm) {
+    & {
+      -webkit-mask-image: -webkit-radial-gradient(white, black); /* stylelint-disable-line property-no-vendor-prefix */
+    }
+  }
 }
 
 // ie10
