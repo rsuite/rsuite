@@ -2,27 +2,28 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
+import { isSameDay, addDays, getDate } from 'date-fns';
 
 type Props = {
-  weekendDate?: moment$Moment,
-  selected?: moment$Moment,
-  onSelect?: (date: moment$Moment) => void,
-  disabledDate?: (date: moment$Moment) => boolean,
-  inSameMonth?: (date: moment$Moment) => boolean,
+  weekendDate?: Date,
+  selected?: Date,
+  onSelect?: (date: Date) => void,
+  disabledDate?: (date: Date) => boolean,
+  inSameMonth?: (date: Date) => boolean,
   className?: string,
   classPrefix?: string
 };
 
 class TableRow extends React.PureComponent<Props> {
   static defaultProps = {
-    selected: moment()
+    selected: new Date(),
+    weekendDate: new Date()
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
-  handleSelect = (date: moment$Moment, disabled: boolean | void) => {
+  handleSelect = (date: Date, disabled: boolean | void) => {
     const { onSelect } = this.props;
     if (disabled) {
       return;
@@ -35,13 +36,13 @@ class TableRow extends React.PureComponent<Props> {
 
     let days = [];
     for (let i = 0; i < 7; i += 1) {
-      let thisDate = moment(weekendDate).add(i, 'd');
-      let disabled = disabledDate && disabledDate(thisDate.clone());
-      let isToday = thisDate.isSame(moment(), 'date');
+      let thisDate = addDays(weekendDate, i);
+      let disabled = disabledDate && disabledDate(thisDate);
+      let isToday = isSameDay(thisDate, new Date());
       let classes = classNames(this.addPrefix('cell'), {
         [this.addPrefix('cell-un-same-month')]: !(inSameMonth && inSameMonth(thisDate)),
         [this.addPrefix('cell-is-today')]: isToday,
-        [this.addPrefix('cell-selected')]: thisDate.isSame(selected, 'date'),
+        [this.addPrefix('cell-selected')]: isSameDay(thisDate, selected),
         [this.addPrefix('cell-disabled')]: disabled
       });
 
@@ -54,7 +55,7 @@ class TableRow extends React.PureComponent<Props> {
           onClick={this.handleSelect.bind(this, thisDate, disabled)}
           key={i}
         >
-          <span className={this.addPrefix('cell-content')}>{thisDate.date()}</span>
+          <span className={this.addPrefix('cell-content')}>{getDate(thisDate)}</span>
         </div>
       );
     }

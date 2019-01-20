@@ -10,16 +10,12 @@ import TableHeaderRow from '../../Calendar/TableHeaderRow';
 type Props = {
   rows: any[],
   isoWeek?: boolean,
-  selected?: Array<moment$Moment>,
-  hoverValue?: Array<moment$Moment>,
-  onSelect?: (date: moment$Moment) => void,
-  onMouseMove?: (date: moment$Moment) => void,
-  disabledDate?: (
-    date: moment$Moment,
-    selectValue: Array<moment$Moment | null>,
-    type: string
-  ) => boolean,
-  inSameMonth?: (date: moment$Moment) => boolean,
+  selected?: Array<Date>,
+  hoverValue?: Array<Date>,
+  onSelect?: (date: Date) => void,
+  onMouseMove?: (date: Date) => void,
+  disabledDate?: (date: Date, selectValue: Array<Date | null>, type: string) => boolean,
+  inSameMonth?: (date: Date) => boolean,
   className?: string,
   classPrefix?: string
 };

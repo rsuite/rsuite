@@ -2,19 +2,20 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
 import List from 'react-virtualized/dist/commonjs/List';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
 import MonthDropdownItem from './MonthDropdownItem';
+import { getYear, setYear, setMonth, getMonth } from 'date-fns';
+import composeFunctions from '../utils/composeFunctions';
 
 type Props = {
-  onSelect?: (month: moment$Moment, event: SyntheticEvent<*>) => void,
-  date: moment$Moment,
+  onSelect?: (month: Date, event: SyntheticEvent<*>) => void,
+  date: Date,
   limitEndYear?: number,
   className?: string,
   classPrefix?: string,
-  disabledMonth?: (date: moment$Moment) => boolean,
+  disabledMonth?: (date: Date) => boolean,
   show: boolean
 };
 
@@ -44,7 +45,7 @@ class MonthDropdown extends React.PureComponent<Props> {
   static defaultProps = {
     show: false,
     limitEndYear: 5,
-    date: moment()
+    date: new Date()
   };
 
   componentDidUpdate() {
@@ -55,7 +56,7 @@ class MonthDropdown extends React.PureComponent<Props> {
 
   getRowCount = () => {
     const { limitEndYear } = this.props;
-    return moment().year() + limitEndYear;
+    return getYear(new Date()) + limitEndYear;
   };
 
   list = null;
@@ -71,9 +72,7 @@ class MonthDropdown extends React.PureComponent<Props> {
 
     if (disabledMonth) {
       return disabledMonth(
-        moment()
-          .year(year)
-          .month(month)
+        composeFunctions(d => setYear(d, year), d => setMonth(d, month))(new Date())
       );
     }
     return false;
@@ -81,8 +80,8 @@ class MonthDropdown extends React.PureComponent<Props> {
 
   rowRenderer = ({ index, key, style }: RowProps) => {
     const { date, onSelect } = this.props;
-    const selectedMonth = date.month();
-    const selectedYear = date.year();
+    const selectedMonth = getMonth(date);
+    const selectedYear = getYear(date);
     const year = index + 1;
     const isSelectedYear = year === selectedYear;
     const count = this.getRowCount();
@@ -137,7 +136,7 @@ class MonthDropdown extends React.PureComponent<Props> {
                   height={height || defaultHeight}
                   rowHeight={getRowHeight(count)}
                   rowCount={count}
-                  scrollToIndex={moment(date).year()}
+                  scrollToIndex={getYear(date)}
                   rowRenderer={this.rowRenderer}
                 />
               )}

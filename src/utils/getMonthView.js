@@ -1,10 +1,12 @@
+import { addDays, getDay } from 'date-fns';
+
 /**
  * Get all weeks of this month
  * @params monthDate
  * @return date[]
  */
 export default function getMonthView(monthDate, isoWeek) {
-  let firstDayOfMonth = monthDate.day();
+  let firstDayOfMonth = getDay(monthDate);
   let distance = 0 - firstDayOfMonth;
 
   if (isoWeek) {
@@ -15,13 +17,13 @@ export default function getMonthView(monthDate, isoWeek) {
     }
   }
 
-  let firstWeekendDate = monthDate.clone().add(distance, 'days');
+  let firstWeekendDate = addDays(monthDate, distance);
   let weeks = [firstWeekendDate];
-  let nextWeekendDate = firstWeekendDate.clone().add(7, 'days');
+  let nextWeekendDate = addDays(firstWeekendDate, 7);
 
   weeks.push(nextWeekendDate);
   while (weeks.length < 6) {
-    nextWeekendDate = nextWeekendDate.clone().add(7, 'days');
+    nextWeekendDate = addDays(nextWeekendDate, 7);
     weeks.push(nextWeekendDate);
   }
 

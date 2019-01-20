@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react';
-import moment from 'moment';
 import classNames from 'classnames';
 import { IntlProvider } from 'rsuite-intl';
 import _ from 'lodash';
@@ -10,7 +9,6 @@ import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '
 import Toolbar from './Toolbar';
 import DatePicker from './DatePicker';
 import setTimingMargin from './setTimingMargin';
-import equalMoment from './equalMoment';
 import Type from './Type';
 import {
   PickerToggle,
@@ -19,30 +17,46 @@ import {
   getToggleWrapperClassName
 } from '../_picker';
 import type { Placement } from '../utils/TypeDefinition';
+import {
+  format,
+  addDays,
+  isBefore,
+  isAfter,
+  isSameDay,
+  isSameMonth,
+  addMonths,
+  startOfISOWeek,
+  endOfISOWeek,
+  startOfWeek,
+  endOfWeek,
+  startOfMonth,
+  endOfMonth,
+  compareAsc
+} from 'date-fns';
 
 type Range = {
   label: React.Node,
   closeOverlay?: boolean,
-  value: Array<moment$Moment> | ((value?: Array<moment$Moment>) => Array<moment$Moment>)
+  value: Array<Date> | ((value?: Array<Date>) => Array<Date>)
 };
 
 type Props = {
   appearance: 'default' | 'subtle',
   disabledDate?: (
-    date: moment$Moment,
-    selectValue: Array<moment$Moment | null>,
+    date: Date,
+    selectValue: Array<Date | null>,
     doneSelected: boolean,
     type: string
   ) => boolean,
   ranges?: Array<Range>,
-  value?: Array<moment$Moment>,
-  defaultValue?: Array<moment$Moment>,
+  value?: Array<Date>,
+  defaultValue?: Array<Date>,
   placeholder?: React.Node,
   format: string,
   disabled?: boolean,
   locale?: Object,
-  onChange?: (value: Array<moment$Moment>) => void,
-  onOk?: (value?: Array<moment$Moment>, event: SyntheticEvent<*>) => void,
+  onChange?: (value: Array<Date>) => void,
+  onOk?: (value?: Array<Date>, event: SyntheticEvent<*>) => void,
   hoverRange?: 'week' | 'month' | Function,
   cleanable?: boolean,
   isoWeek?: boolean,
@@ -64,7 +78,7 @@ type Props = {
   open?: boolean,
   defaultOpen?: boolean,
   placement?: Placement,
-  onSelect?: (date: moment$Moment) => void,
+  onSelect?: (date: Date) => void,
   onOpen?: () => void,
   onClose?: () => void,
   onHide?: () => void,
@@ -76,32 +90,32 @@ type Props = {
   onExited?: Function
 };
 
-function getCalendarDate(value: Array<moment$Moment> = []) {
-  let calendarDate = [moment(), moment().add(1, 'month')];
+function getCalendarDate(value: Array<Date> = []) {
+  let calendarDate = [new Date(), addMonths(new Date(), 1)];
 
   // Update calendarDate if the value is not null
   if (value[0] && value[1]) {
-    let isSameMonth = value[0].clone().isSame(value[1], 'month');
-    calendarDate = [value[0], isSameMonth ? value[1].clone().add(1, 'month') : value[1].clone()];
+    let sameMonth = isSameMonth(value[0], value[1]);
+    calendarDate = [value[0], sameMonth ? addMonths(value[1], 1) : value[1]];
   }
   return calendarDate;
 }
 
 type State = {
-  value: Array<moment$Moment>,
-  selectValue: Array<moment$Moment | any>,
+  value: Array<Date>,
+  selectValue: Array<Date | any>,
 
   // Two clicks, the second click ends
   doneSelected: boolean,
 
   // display calendar date
-  calendarDate: Array<moment$Moment>,
+  calendarDate: Array<Date>,
 
   // 当前应该高亮哪个区间，用于实现选择整周、整月
-  hoverValue?: Array<moment$Moment>,
+  hoverValue?: Array<Date>,
 
   // 当前 hover 的 date，用来减少 handleMouseMoveSelectValue 的计算
-  currentHoverDate?: moment$Moment | null,
+  currentHoverDate?: Date | null,
 
   active?: boolean
 };
@@ -139,8 +153,8 @@ class DateRangePicker extends React.Component<Props, State> {
     }
 
     if (
-      (value[0] && !value[0].isSame(prevState.value[0], 'day')) ||
-      (value[1] && !value[1].isSame(prevState.value[1], 'day'))
+      (value[0] && !isSameDay(value[0], prevState.value[0])) ||
+      (value[1] && !isSameDay(value[1], prevState.value[1]))
     ) {
       return {
         value,
@@ -168,7 +182,7 @@ class DateRangePicker extends React.Component<Props, State> {
       currentHoverDate: null
     };
   }
-  getValue = (): Array<moment$Moment> => {
+  getValue = (): Array<Date> => {
     const { value } = this.props;
 
     if (typeof value !== 'undefined') {
@@ -178,39 +192,34 @@ class DateRangePicker extends React.Component<Props, State> {
     return this.state.value || [];
   };
 
-  getDateString(value?: Array<moment$Moment>) {
-    const { placeholder, format } = this.props;
+  getDateString(value?: Array<Date>) {
+    const { placeholder, format: formatType } = this.props;
     const nextValue = value || this.getValue();
     const startDate = _.get(nextValue, '0');
     const endDate = _.get(nextValue, '1');
 
     if (startDate && endDate) {
-      const displayValue = [startDate, endDate].sort(
-        (a, b) => (a ? a.unix() : 0) - (b ? b.unix() : 0)
-      );
-      return `${displayValue[0].format(format)} ~ ${displayValue[1].format(format)}`;
+      const displayValue = [startDate, endDate].sort(compareAsc);
+      return `${format(displayValue[0], formatType)} ~ ${format(displayValue[1], formatType)}`;
     }
 
-    return placeholder || `${format} ~ ${format}`;
+    return placeholder || `${formatType} ~ ${formatType}`;
   }
 
   // hover range presets
-  getWeekHoverRange = (date: moment$Moment) => {
+  getWeekHoverRange = (date: Date) => {
     const { isoWeek } = this.props;
 
     if (isoWeek) {
       // set to the first day of this week according to ISO 8601, 12:00 am
-      return [date.clone().startOf('isoWeek'), date.clone().endOf('isoWeek')];
+      return [startOfISOWeek(date), endOfISOWeek(date)];
     }
 
-    return [date.clone().startOf('week'), date.clone().endOf('week')];
+    return [startOfWeek(date), endOfWeek(date)];
   };
-  getMonthHoverRange = (date: moment$Moment) => [
-    date.clone().startOf('month'),
-    date.clone().endOf('month')
-  ];
+  getMonthHoverRange = (date: Date) => [startOfMonth(date), endOfMonth(date)];
 
-  getHoverRange(date: moment$Moment) {
+  getHoverRange(date: Date) {
     const { hoverRange } = this.props;
     if (!hoverRange) {
       return [];
@@ -229,18 +238,18 @@ class DateRangePicker extends React.Component<Props, State> {
       return [];
     }
 
-    const hoverValues = hoverRangeFunc(date.clone());
+    const hoverValues = hoverRangeFunc(date);
     const isHoverRangeValid = hoverValues instanceof Array && hoverValues.length === 2;
     if (!isHoverRangeValid) {
       return [];
     }
-    if (hoverValues[0].isAfter(hoverValues[1])) {
+    if (isAfter(hoverValues[0], hoverValues[1])) {
       hoverValues.reverse();
     }
     return hoverValues;
   }
 
-  handleChangeCalendarDate = (index: number, date: moment$Moment) => {
+  handleChangeCalendarDate = (index: number, date: Date) => {
     const { calendarDate } = this.state;
     calendarDate[index] = date;
 
@@ -271,11 +280,11 @@ class DateRangePicker extends React.Component<Props, State> {
   /**
    * Toolbar operation callback function
    */
-  handleShortcutPageDate = (value: Array<moment$Moment>, closeOverlay?: boolean) => {
+  handleShortcutPageDate = (value: Array<Date>, closeOverlay?: boolean) => {
     this.updateValue(value, closeOverlay);
   };
 
-  updateValue(nextSelectValue?: Array<moment$Moment>, closeOverlay?: boolean = true) {
+  updateValue(nextSelectValue?: Array<Date>, closeOverlay?: boolean = true) {
     const { value, selectValue } = this.state;
     const { onChange } = this.props;
     const nextValue: any = !_.isUndefined(nextSelectValue) ? nextSelectValue : selectValue;
@@ -285,10 +294,7 @@ class DateRangePicker extends React.Component<Props, State> {
       value: nextValue
     });
 
-    if (
-      onChange &&
-      (!equalMoment(nextValue[0], value[0]) || !equalMoment(nextValue[1], value[1]))
-    ) {
+    if (onChange && (!isSameDay(nextValue[0], value[0]) || !isSameDay(nextValue[1], value[1]))) {
       onChange(nextValue);
     }
 
@@ -304,7 +310,7 @@ class DateRangePicker extends React.Component<Props, State> {
     onOk && onOk(this.state.selectValue, event);
   };
 
-  handleChangeSelectValue = (date: moment$Moment) => {
+  handleChangeSelectValue = (date: Date) => {
     const { selectValue, doneSelected } = this.state;
     const { onSelect, oneTap } = this.props;
     let nextValue = [];
@@ -324,7 +330,7 @@ class DateRangePicker extends React.Component<Props, State> {
         nextValue = [selectValue[0], date];
       }
 
-      if (nextValue[0].isAfter(nextValue[1])) {
+      if (isAfter(nextValue[0], nextValue[1])) {
         nextValue.reverse();
       }
 
@@ -357,11 +363,11 @@ class DateRangePicker extends React.Component<Props, State> {
     });
   };
 
-  handleMouseMoveSelectValue = (date: moment$Moment) => {
+  handleMouseMoveSelectValue = (date: Date) => {
     const { doneSelected, selectValue, hoverValue, currentHoverDate } = this.state;
     const { hoverRange } = this.props;
 
-    if (currentHoverDate && date.isSame(currentHoverDate, 'day')) {
+    if (currentHoverDate && isSameDay(date, currentHoverDate)) {
       return;
     }
 
@@ -383,14 +389,14 @@ class DateRangePicker extends React.Component<Props, State> {
       nextValue[1] = date;
     } else if (hoverValue) {
       nextValue = [
-        nextHoverValue[0].isBefore(hoverValue[0]) ? nextHoverValue[0] : hoverValue[0],
-        nextHoverValue[1].isAfter(hoverValue[1]) ? nextHoverValue[1] : hoverValue[1],
+        isBefore(nextHoverValue[0], hoverValue[0]) ? nextHoverValue[0] : hoverValue[0],
+        isAfter(nextHoverValue[1], hoverValue[1]) ? nextHoverValue[1] : hoverValue[1],
         nextValue[2]
       ];
     }
 
     // If `nextValue[0]` is greater than `nextValue[1]` then reverse order
-    if (nextValue[0].isAfter(nextValue[1])) {
+    if (isAfter(nextValue[0], nextValue[1])) {
       nextValue.reverse();
     }
 
@@ -401,7 +407,7 @@ class DateRangePicker extends React.Component<Props, State> {
   };
 
   handleClean = () => {
-    this.setState({ calendarDate: [moment(), moment().add(1, 'month')] });
+    this.setState({ calendarDate: [new Date(), addMonths(new Date(), 1)] });
     this.updateValue([]);
   };
 
@@ -412,12 +418,9 @@ class DateRangePicker extends React.Component<Props, State> {
 
     if (value && value.length) {
       const [startDate, endData] = value;
-      calendarDate = [
-        startDate.clone(),
-        startDate.isSame(endData, 'month') ? endData.clone().add(1, 'month') : endData
-      ];
+      calendarDate = [startDate, isSameMonth(startDate, endData) ? addMonths(endData, 1) : endData];
     } else {
-      calendarDate = [moment(), moment().add(1, 'month')];
+      calendarDate = [new Date(), addMonths(new Date(), 1)];
     }
 
     this.setState({
@@ -443,21 +446,21 @@ class DateRangePicker extends React.Component<Props, State> {
     onClose && onClose();
   };
 
-  disabledByBetween(start: moment$Moment, end: moment$Moment, type: string) {
+  disabledByBetween(start: Date, end: Date, type: string) {
     const { disabledDate } = this.props;
     const { selectValue, doneSelected } = this.state;
-    const date = start.clone();
-    const selectStartDate = selectValue[0] ? selectValue[0].clone() : null;
-    const selectEndDate = selectValue[1] ? selectValue[1].clone() : null;
+    const date = new Date(start);
+    const selectStartDate = selectValue[0];
+    const selectEndDate = selectValue[1];
     const nextSelectValue = [selectStartDate, selectEndDate];
 
     // If the date is between the start and the end
     // the button is disabled
-    while (start.isBefore(end) || start.isSame(end, 'day')) {
+    while (isBefore(start, end) || isSameDay(start, end)) {
       if (disabledDate && disabledDate(date, nextSelectValue, doneSelected, type)) {
         return true;
       }
-      start.add(1, 'd');
+      start = addDays(start, 1);
     }
 
     return false;
@@ -470,21 +473,17 @@ class DateRangePicker extends React.Component<Props, State> {
       return true;
     }
 
-    return this.disabledByBetween(
-      selectValue[0].clone(),
-      selectValue[1].clone(),
-      Type.TOOLBAR_BUTTON_OK
-    );
+    return this.disabledByBetween(selectValue[0], selectValue[1], Type.TOOLBAR_BUTTON_OK);
   };
 
-  disabledShortcutButton = (value: Array<moment$Moment> = []) => {
+  disabledShortcutButton = (value: Array<Date> = []) => {
     if (!value[0] || !value[1]) {
       return true;
     }
-    return this.disabledByBetween(value[0].clone(), value[1].clone(), Type.TOOLBAR_SHORTCUT);
+    return this.disabledByBetween(value[0], value[1], Type.TOOLBAR_SHORTCUT);
   };
 
-  handleDisabledDate = (date: moment$Moment, values: Array<moment$Moment | null>, type: string) => {
+  handleDisabledDate = (date: Date, values: Array<Date | null>, type: string) => {
     const { disabledDate } = this.props;
     const { doneSelected } = this.state;
     if (disabledDate) {

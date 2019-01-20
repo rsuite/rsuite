@@ -1,10 +1,10 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import moment from 'moment';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 
 import DatePicker from '../../src/DatePicker';
+import { parse, isSameDay } from 'date-fns';
 
 describe('DatePicker', () => {
   it('Should render a div with "rs-picker-date" class', () => {
@@ -22,7 +22,7 @@ describe('DatePicker', () => {
 
   it('Should be not cleanable', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <DatePicker cleanable={false} value={moment()} />
+      <DatePicker cleanable={false} value={new Date()} />
     );
 
     assert.ok(!findDOMNode(instance).querySelector('.rs-picker-toggle-clean'));
@@ -49,7 +49,7 @@ describe('DatePicker', () => {
 
   it('Should output a date', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <DatePicker defaultValue={moment('2017-08-14')} />
+      <DatePicker defaultValue={parse('2017-08-14')} />
     );
     assert.equal(
       findDOMNode(instance).querySelector('.rs-picker-toggle-value').innerText,
@@ -58,7 +58,7 @@ describe('DatePicker', () => {
   });
 
   it('Should output a date', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<DatePicker value={moment('2017-08-14')} />);
+    const instance = ReactTestUtils.renderIntoDocument(<DatePicker value={parse('2017-08-14')} />);
     assert.equal(
       findDOMNode(instance).querySelector('.rs-picker-toggle-value').innerText,
       '2017-08-14'
@@ -224,7 +224,7 @@ describe('DatePicker', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <DatePicker
         innerRef={ref => (picker = ref)}
-        value={moment('2018-01-05')}
+        value={parse('2018-01-05')}
         onChange={doneOp}
         defaultOpen
       />
@@ -246,7 +246,7 @@ describe('DatePicker', () => {
   it('Should call onChange after setting oneTap', done => {
     let picker = null;
     const doneOp = value => {
-      if (value.isSame(moment(), 'day')) {
+      if (isSameDay(value, new Date())) {
         done();
       }
     };

@@ -10,10 +10,10 @@ import { defaultProps } from '../utils';
 type Props = {
   rows: any[],
   isoWeek?: boolean,
-  selected?: moment$Moment,
-  onSelect?: (date: moment$Moment) => void,
-  disabledDate?: (date: moment$Moment) => boolean,
-  inSameMonth?: (date: moment$Moment) => boolean,
+  selected?: Date,
+  onSelect?: (date: Date) => void,
+  disabledDate?: (date: Date) => boolean,
+  inSameMonth?: (date: Date) => boolean,
   className?: string,
   classPrefix?: string
 };

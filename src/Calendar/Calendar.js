@@ -11,24 +11,25 @@ import Header from './Header';
 import { getUnhandledProps, defaultProps, prefix } from '../utils';
 import disabledTime, { calendarOnlyProps } from '../utils/disabledTime';
 import { shouldTime, shouldDate, shouldMonth } from '../utils/formatUtils';
+import { addMonths } from 'date-fns';
 
 type Props = {
-  pageDate: moment$Moment,
-  disabledDate?: (date: moment$Moment) => boolean,
-  disabledHours?: (hour: number, date: moment$Moment) => boolean,
-  disabledMinutes?: (minute: number, date: moment$Moment) => boolean,
-  disabledSeconds?: (second: number, date: moment$Moment) => boolean,
-  hideHours?: (hour: number, date: moment$Moment) => boolean,
-  hideMinutes?: (minute: number, date: moment$Moment) => boolean,
-  hideSeconds?: (second: number, date: moment$Moment) => boolean,
+  pageDate: Date,
+  disabledDate?: (date: Date) => boolean,
+  disabledHours?: (hour: number, date: Date) => boolean,
+  disabledMinutes?: (minute: number, date: Date) => boolean,
+  disabledSeconds?: (second: number, date: Date) => boolean,
+  hideHours?: (hour: number, date: Date) => boolean,
+  hideMinutes?: (minute: number, date: Date) => boolean,
+  hideSeconds?: (second: number, date: Date) => boolean,
   calendarState?: 'DROP_MONTH' | 'DROP_TIME',
-  onMoveForword?: (nextPageDate: moment$Moment) => void,
-  onMoveBackward?: (nextPageDate: moment$Moment) => void,
-  onSelect?: (date: moment$Moment) => void,
+  onMoveForword?: (nextPageDate: Date) => void,
+  onMoveBackward?: (nextPageDate: Date) => void,
+  onSelect?: (date: Date) => void,
   onToggleMonthDropdown?: (event: SyntheticEvent<*>) => void,
   onToggleTimeDropdown?: (event: SyntheticEvent<*>) => void,
-  onChangePageDate?: (nextPageDate: moment$Moment, event: SyntheticEvent<*>) => void,
-  onChangePageTime?: (nextPageTime: moment$Moment, event: SyntheticEvent<*>) => void,
+  onChangePageDate?: (nextPageDate: Date, event: SyntheticEvent<*>) => void,
+  onChangePageTime?: (nextPageTime: Date, event: SyntheticEvent<*>) => void,
   calendarRef?: React.ElementRef<*>,
   format?: string,
   isoWeek?: boolean,
@@ -38,7 +39,7 @@ type Props = {
 };
 
 class Calendar extends React.PureComponent<Props> {
-  disabledDate = (date: moment$Moment) => {
+  disabledDate = (date: Date) => {
     const { disabledDate } = this.props;
     if (disabledDate && disabledDate(date)) {
       return true;
@@ -46,16 +47,16 @@ class Calendar extends React.PureComponent<Props> {
     return false;
   };
 
-  disabledTime = (date: moment$Moment) => disabledTime(this.props, date);
+  disabledTime = (date: Date) => disabledTime(this.props, date);
 
   handleMoveForword = () => {
     const { onMoveForword, pageDate } = this.props;
-    onMoveForword && onMoveForword(pageDate.clone().add(1, 'month'));
+    onMoveForword && onMoveForword(addMonths(pageDate, 1));
   };
 
   handleMoveBackward = () => {
     const { onMoveBackward, pageDate } = this.props;
-    onMoveBackward && onMoveBackward(pageDate.clone().add(-1, 'month'));
+    onMoveBackward && onMoveBackward(addMonths(pageDate, -1));
   };
 
   render() {

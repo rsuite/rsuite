@@ -1,13 +1,13 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import moment from 'moment';
+import { format } from 'date-fns';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import Header from '../../src/Calendar/Header';
 
 describe('Calendar-Header', () => {
   it('Should render a div with "calendar-header" class', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Header date={moment()} />);
+    const instance = ReactTestUtils.renderIntoDocument(<Header date={new Date()} />);
     const instanceDOM = findDOMNode(instance);
 
     assert.equal(instanceDOM.nodeName, 'DIV');
@@ -15,44 +15,44 @@ describe('Calendar-Header', () => {
   });
 
   it('Should output a time for `HH:ss`', () => {
-    const date = moment();
-    const format = 'HH:ss';
+    const date = new Date();
+    const formatType = 'HH:ss';
     const instance = ReactTestUtils.renderIntoDocument(
-      <Header showTime date={date} format={format} />
+      <Header showTime date={date} format={formatType} />
     );
 
     const instanceDOM = findDOMNode(instance);
     assert.equal(
       instanceDOM.querySelector('.rs-calendar-header-title-time').innerText,
-      date.format(format)
+      format(new Date(), formatType)
     );
   });
 
   it('Should output a date for `YYYY-MM-DD`', () => {
-    const date = moment();
-    const format = 'YYYY-MM-DD';
+    const date = new Date();
+    const formatType = 'YYYY-MM-DD';
     const instance = ReactTestUtils.renderIntoDocument(
-      <Header showDate date={date} format={format} />
+      <Header showDate date={date} format={formatType} />
     );
 
     const instanceDOM = findDOMNode(instance);
     assert.equal(
       instanceDOM.querySelector('.rs-calendar-header-title-date').innerText,
-      date.format(format)
+      format(new Date(), formatType)
     );
   });
 
   it('Should output a date for `YYYY-MM`', () => {
-    const date = moment();
-    const format = 'YYYY-MM';
+    const date = new Date();
+    const formatType = 'YYYY-MM';
     const instance = ReactTestUtils.renderIntoDocument(
-      <Header showMonth date={date} format={format} />
+      <Header showMonth date={date} format={formatType} />
     );
 
     const instanceDOM = findDOMNode(instance);
     assert.equal(
       instanceDOM.querySelector('.rs-calendar-header-title-date').innerText,
-      date.format(format)
+      format(new Date(), formatType)
     );
   });
 
@@ -61,10 +61,10 @@ describe('Calendar-Header', () => {
       done();
     };
 
-    const date = moment();
-    const format = 'YYYY-MM';
+    const date = new Date();
+    const formatType = 'YYYY-MM';
     const instance = ReactTestUtils.renderIntoDocument(
-      <Header showMonth date={date} format={format} onMoveForword={doneOp} />
+      <Header showMonth date={date} format={formatType} onMoveForword={doneOp} />
     );
     const instanceDOM = findDOMNode(instance);
     ReactTestUtils.Simulate.click(instanceDOM.querySelector('.rs-calendar-header-forward'));
@@ -75,10 +75,10 @@ describe('Calendar-Header', () => {
       done();
     };
 
-    const date = moment();
-    const format = 'YYYY-MM';
+    const date = new Date();
+    const formatType = 'YYYY-MM';
     const instance = ReactTestUtils.renderIntoDocument(
-      <Header showMonth date={date} format={format} onMoveBackward={doneOp} />
+      <Header showMonth date={date} format={formatType} onMoveBackward={doneOp} />
     );
     const instanceDOM = findDOMNode(instance);
     ReactTestUtils.Simulate.click(instanceDOM.querySelector('.rs-calendar-header-backward'));
@@ -89,10 +89,10 @@ describe('Calendar-Header', () => {
       done();
     };
 
-    const date = moment();
-    const format = 'YYYY-MM';
+    const date = new Date();
+    const formatType = 'YYYY-MM';
     const instance = ReactTestUtils.renderIntoDocument(
-      <Header showMonth date={date} format={format} onToggleMonthDropdown={doneOp} />
+      <Header showMonth date={date} format={formatType} onToggleMonthDropdown={doneOp} />
     );
     const instanceDOM = findDOMNode(instance);
     ReactTestUtils.Simulate.click(instanceDOM.querySelector('.rs-calendar-header-title-date'));
@@ -103,10 +103,10 @@ describe('Calendar-Header', () => {
       done();
     };
 
-    const date = moment();
-    const format = 'HH:mm:ss';
+    const date = new Date();
+    const formatType = 'HH:mm:ss';
     const instance = ReactTestUtils.renderIntoDocument(
-      <Header showTime date={date} format={format} onToggleTimeDropdown={doneOp} />
+      <Header showTime date={date} format={formatType} onToggleTimeDropdown={doneOp} />
     );
     const instanceDOM = findDOMNode(instance);
     ReactTestUtils.Simulate.click(instanceDOM.querySelector('.rs-calendar-header-title-time'));

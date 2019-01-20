@@ -39,7 +39,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new LodashModuleReplacementPlugin(),
     new webpack.SourceMapDevToolPlugin({
       filename: `${filename}.map`

@@ -1,27 +1,27 @@
 // @flow
 
 import * as React from 'react';
-import moment from 'moment';
 import classNames from 'classnames';
 
 import { getUnhandledProps, prefix, defaultProps } from '../../utils';
 import MonthDropdown from '../../Calendar/MonthDropdown';
 import Header from '../../Calendar/Header';
 import View from './View';
+import { addMonths, isAfter } from 'date-fns';
 
 type Props = {
-  disabledDate?: (date: moment$Moment, selectValue: ?Array<moment$Moment>, type: string) => boolean,
+  disabledDate?: (date: Date, selectValue: ?Array<Date>, type: string) => boolean,
   calendarState?: 'DROP_MONTH' | 'DROP_TIME',
   index: number,
-  calendarDate: Array<moment$Moment>,
-  value?: Array<moment$Moment>,
-  hoverValue?: Array<moment$Moment>,
-  onMoveForword?: (nextPageDate: moment$Moment) => void,
-  onMoveBackward?: (nextPageDate: moment$Moment) => void,
-  onSelect?: (date: moment$Moment) => void,
-  onMouseMove?: (date: moment$Moment) => void,
+  calendarDate: Array<Date>,
+  value?: Array<Date>,
+  hoverValue?: Array<Date>,
+  onMoveForword?: (nextPageDate: Date) => void,
+  onMoveBackward?: (nextPageDate: Date) => void,
+  onSelect?: (date: Date) => void,
+  onMouseMove?: (date: Date) => void,
   onToggleMonthDropdown?: (event: SyntheticEvent<*>) => void,
-  onChangePageDate?: (nextPageDate: moment$Moment, event: SyntheticEvent<*>) => void,
+  onChangePageDate?: (nextPageDate: Date, event: SyntheticEvent<*>) => void,
   format: string,
   isoWeek?: boolean,
   className?: string,
@@ -31,7 +31,7 @@ type Props = {
 
 class Calendar extends React.Component<Props> {
   static defaultProps = {
-    calendarDate: [moment(), moment().add(1, 'month')],
+    calendarDate: [new Date(), addMonths(new Date(), 1)],
     index: 0
   };
 
@@ -42,33 +42,23 @@ class Calendar extends React.Component<Props> {
 
   handleMoveForword = () => {
     const { onMoveForword } = this.props;
-    onMoveForword &&
-      onMoveForword(
-        this.getPageDate()
-          .clone()
-          .add(1, 'month')
-      );
+    onMoveForword && onMoveForword(addMonths(this.getPageDate(), 1));
   };
 
   handleMoveBackward = () => {
     const { onMoveBackward } = this.props;
-    onMoveBackward &&
-      onMoveBackward(
-        this.getPageDate()
-          .clone()
-          .add(-1, 'month')
-      );
+    onMoveBackward && onMoveBackward(addMonths(this.getPageDate(), -1));
   };
 
   disabledBackward = () => {
     const { calendarDate, index } = this.props;
-    const isAfter = calendarDate[1].isAfter(calendarDate[0].clone().add(1, 'month'), 'month');
+    const after = isAfter(calendarDate[1], addMonths(calendarDate[0], 1));
 
     if (index === 0) {
       return false;
     }
 
-    if (!isAfter) {
+    if (!after) {
       return true;
     }
 
@@ -77,35 +67,35 @@ class Calendar extends React.Component<Props> {
 
   disabledForword = () => {
     const { calendarDate, index } = this.props;
-    const isAfter = calendarDate[1].isAfter(calendarDate[0].clone().add(1, 'month'), 'month');
+    const after = isAfter(calendarDate[1], addMonths(calendarDate[0], 1));
 
     if (index === 1) {
       return false;
     }
 
-    if (!isAfter) {
+    if (!after) {
       return true;
     }
 
     return false;
   };
 
-  disabledMonth = (date: moment$Moment) => {
+  disabledMonth = (date: Date) => {
     const { calendarDate, value, index, disabledDate } = this.props;
-    let isAfter = true;
+    let after = true;
 
     if (disabledDate && disabledDate(date, value, 'MONTH')) {
       return true;
     }
 
     if (index === 1) {
-      isAfter = date.isAfter(calendarDate[0], 'month');
-      return !isAfter;
+      after = isAfter(date, calendarDate[0]);
+      return !after;
     }
 
-    isAfter = calendarDate[1].isAfter(date, 'month');
+    after = isAfter(calendarDate[1], date);
 
-    return !isAfter;
+    return !after;
   };
 
   shouldMountDate(props: Props) {
