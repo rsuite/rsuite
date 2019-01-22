@@ -1,10 +1,10 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-
 import Form from '../src/Form';
 import FormControl from '../src/FormControl';
 import Schema from '../src/Schema';
+import _isNil from 'lodash/isNil';
 
 const checkEmail = '请输入正确的邮箱';
 
@@ -175,6 +175,62 @@ describe('Form', () => {
     );
     const element = findDOMNode(instance);
     ReactTestUtils.Simulate.change(element.querySelector('input[name="name"]'));
+  });
+
+  it('Should clear error', done => {
+    const tip = 'This field is required.';
+    const curModel = Schema.Model({
+      name: Schema.Types.StringType().isRequired(tip),
+      number: Schema.Types.StringType().isRequired(tip)
+    });
+
+    class Demo extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          formValue: {
+            name: '',
+            number: '123'
+          },
+          formError: {}
+        };
+      }
+
+      handleChangeNum = () => {
+        this.setState(({ formValue }) => ({
+          formValue: {
+            ...formValue,
+            name: 'abc@qq.com'
+          }
+        }));
+        setTimeout(() => {
+          if (this.state.formValue.name === 'abc@qq.com' && _isNil(this.state.formError.name)) {
+            done();
+          }
+        });
+      };
+
+      render() {
+        const { formValue } = this.state;
+        return (
+          <Form
+            ref={ref => (this.form = ref)}
+            model={curModel}
+            formValue={formValue}
+            onChange={formValue => this.setState({ formValue })}
+            onCheck={formError => this.setState({ formError })}
+          >
+            <FormControl name="name" />
+            <FormControl name="number" onChange={this.handleChangeNum} />
+          </Form>
+        );
+      }
+    }
+
+    const instance = ReactTestUtils.renderIntoDocument(<Demo />);
+    const element = findDOMNode(instance.form);
+    ReactTestUtils.Simulate.change(element.querySelector('input[name="name"]'));
+    ReactTestUtils.Simulate.change(element.querySelector('input[name="number"]'));
   });
 
   it('Should call onError callback', done => {

@@ -5,7 +5,6 @@ import _ from 'lodash';
 import { SchemaModel, Schema } from 'schema-typed';
 import classNames from 'classnames';
 import { shallowEqual } from 'rsuite-utils/lib/utils';
-
 import { getUnhandledProps, prefix } from './utils';
 import { defaultClassPrefix } from './utils/prefix';
 import FormContext, { FormValueContext, FormErrorContext } from './FormContext';
@@ -59,6 +58,7 @@ class Form extends React.Component<Props, State> {
       formValue: formDefaultValue
     };
   }
+
   getFormValue() {
     const { formValue } = this.props;
     return _.isUndefined(formValue) ? this.state.formValue : formValue;
@@ -167,9 +167,15 @@ class Form extends React.Component<Props, State> {
       ...formValue,
       [name]: value
     };
-    this.setState({
-      formValue: nextFormValue
-    });
+    this.setState(
+      {
+        formValue: nextFormValue
+      },
+      () =>
+        Object.entries(this.state.formError).forEach(
+          ([key, error]) => error && this.checkForField(key)
+        )
+    );
     onChange && onChange(nextFormValue, event);
   };
 
