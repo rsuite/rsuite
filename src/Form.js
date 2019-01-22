@@ -59,15 +59,10 @@ class Form extends React.Component<Props, State> {
     };
   }
 
-  getFormValue() {
-    const { formValue } = this.props;
-    return _.isUndefined(formValue) ? this.state.formValue : formValue;
-  }
-
-  getFormError() {
-    const { formError } = this.props;
-    return _.isUndefined(formError) ? this.state.formError : formError;
-  }
+  getFormValue = (state: State = this.state, props: Props = this.props) =>
+    _.isUndefined(props.formValue) ? state.formValue : props.formValue;
+  getFormError = (state: State = this.state, props: Props = this.props) =>
+    _.isUndefined(props.formError) ? state.formError : props.formError;
 
   /**
    * public APIs
@@ -106,23 +101,17 @@ class Form extends React.Component<Props, State> {
     const formValue = this.getFormValue() || {};
     const { model, onCheck, onError } = this.props;
     const checkResult = model.checkForField(fieldName, formValue[fieldName], formValue);
-
-    const formError = {
-      ...this.getFormError(),
-      [fieldName]: checkResult.errorMessage
-    };
-
-    this.setState({ formError });
-
-    onCheck && onCheck(formError);
+    this.setState((prvState, props) => {
+      const formError = {
+        ...this.getFormError(prvState, props),
+        [fieldName]: checkResult.errorMessage
+      };
+      onCheck && onCheck(formError);
+      checkResult.hasError && onError && onError(formError);
+      return { formError };
+    });
     callback && callback(checkResult);
-
-    if (checkResult.hasError) {
-      onError && onError(formError);
-      return false;
-    }
-
-    return true;
+    return !checkResult.hasError;
   };
 
   /**
@@ -141,22 +130,23 @@ class Form extends React.Component<Props, State> {
 
   handleFieldError = (name: string, errorMessage: string) => {
     const { onError, onCheck } = this.props;
-    const formError = {
-      ...this.state.formError,
-      [name]: errorMessage
-    };
-
-    this.setState({ formError }, () => {
+    this.setState((prvState, props) => {
+      const formError = {
+        ...this.getFormError(prvState, props),
+        [name]: errorMessage
+      };
       onError && onError(formError);
       onCheck && onCheck(formError);
+      return { formError };
     });
   };
 
   handleFieldSuccess = (name: string) => {
     const { onCheck } = this.props;
-    const formError = _.omit(this.state.formError, [name]);
-    this.setState({ formError }, () => {
+    this.setState((prvState, props) => {
+      const formError = _.omit(this.getFormError(prvState, props), [name]);
       onCheck && onCheck(formError);
+      return { formError };
     });
   };
 

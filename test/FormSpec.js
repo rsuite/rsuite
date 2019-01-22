@@ -180,7 +180,9 @@ describe('Form', () => {
   it('Should clear error', done => {
     const tip = 'This field is required.';
     const curModel = Schema.Model({
-      name: Schema.Types.StringType().isRequired(tip),
+      name1: Schema.Types.StringType().isRequired(tip),
+      name2: Schema.Types.StringType().isRequired(tip),
+      name3: Schema.Types.StringType().isRequired(tip),
       number: Schema.Types.StringType().isRequired(tip)
     });
 
@@ -189,7 +191,9 @@ describe('Form', () => {
         super(props);
         this.state = {
           formValue: {
-            name: '',
+            name1: '',
+            name2: '',
+            name3: '',
             number: '123'
           },
           formError: {}
@@ -200,14 +204,24 @@ describe('Form', () => {
         this.setState(({ formValue }) => ({
           formValue: {
             ...formValue,
-            name: 'abc@qq.com'
+            name1: 'abc@qq.com',
+            name2: 'abc@qq.com',
+            name3: 'abc@qq.com'
           }
         }));
         setTimeout(() => {
-          if (this.state.formValue.name === 'abc@qq.com' && _isNil(this.state.formError.name)) {
+          const { formValue, formError } = this.state;
+          if (
+            formValue.name1 === 'abc@qq.com' &&
+            _isNil(formError.name1) &&
+            formValue.name2 === 'abc@qq.com' &&
+            _isNil(formError.name2) &&
+            formValue.name3 === 'abc@qq.com' &&
+            _isNil(formError.name3)
+          ) {
             done();
           }
-        });
+        }, 1000);
       };
 
       render() {
@@ -220,7 +234,9 @@ describe('Form', () => {
             onChange={formValue => this.setState({ formValue })}
             onCheck={formError => this.setState({ formError })}
           >
-            <FormControl name="name" />
+            <FormControl name="name1" />
+            <FormControl name="name2" />
+            <FormControl name="name3" />
             <FormControl name="number" onChange={this.handleChangeNum} />
           </Form>
         );
@@ -229,7 +245,9 @@ describe('Form', () => {
 
     const instance = ReactTestUtils.renderIntoDocument(<Demo />);
     const element = findDOMNode(instance.form);
-    ReactTestUtils.Simulate.change(element.querySelector('input[name="name"]'));
+    ReactTestUtils.Simulate.change(element.querySelector('input[name="name1"]'));
+    ReactTestUtils.Simulate.change(element.querySelector('input[name="name2"]'));
+    ReactTestUtils.Simulate.change(element.querySelector('input[name="name3"]'));
     ReactTestUtils.Simulate.change(element.querySelector('input[name="number"]'));
   });
 
