@@ -59,6 +59,7 @@ class Form extends React.Component<Props, State> {
       formValue: formDefaultValue
     };
   }
+
   getFormValue() {
     const { formValue } = this.props;
     return _.isUndefined(formValue) ? this.state.formValue : formValue;
@@ -107,14 +108,16 @@ class Form extends React.Component<Props, State> {
     const { model, onCheck, onError } = this.props;
     const checkResult = model.checkForField(fieldName, formValue[fieldName], formValue);
 
-    const formError = {
-      ...this.getFormError(),
-      [fieldName]: checkResult.errorMessage
-    };
+    let formError = this.getFormError();
+    if (_.get(formError, [fieldName]) !== checkResult.errorMessage) {
+      formError = {
+        ...formError,
+        [fieldName]: checkResult.errorMessage
+      };
 
-    this.setState({ formError });
-
-    onCheck && onCheck(formError);
+      this.setState({ formError });
+      onCheck && onCheck(formError);
+    }
     callback && callback(checkResult);
 
     if (checkResult.hasError) {
@@ -141,23 +144,29 @@ class Form extends React.Component<Props, State> {
 
   handleFieldError = (name: string, errorMessage: string) => {
     const { onError, onCheck } = this.props;
-    const formError = {
-      ...this.state.formError,
-      [name]: errorMessage
-    };
+    let formError = this.getFormError();
+    if (_.get(formError, [name]) !== errorMessage) {
+      formError = {
+        ...formError,
+        [name]: errorMessage
+      };
 
-    this.setState({ formError }, () => {
-      onError && onError(formError);
-      onCheck && onCheck(formError);
-    });
+      this.setState({ formError }, () => {
+        onError && onError(formError);
+        onCheck && onCheck(formError);
+      });
+    }
   };
 
   handleFieldSuccess = (name: string) => {
     const { onCheck } = this.props;
-    const formError = _.omit(this.state.formError, [name]);
-    this.setState({ formError }, () => {
-      onCheck && onCheck(formError);
-    });
+    let formError = this.getFormError();
+    if (_.get(formError, [name])) {
+      formError = _.omit(formError, [name]);
+      this.setState({ formError }, () => {
+        onCheck && onCheck(formError);
+      });
+    }
   };
 
   handleFieldChange = (name: string, value: any, event: SyntheticEvent<*>) => {
@@ -169,7 +178,7 @@ class Form extends React.Component<Props, State> {
     };
     this.setState({
       formValue: nextFormValue
-    });
+    }, () => Object.entries(this.state.formError).forEach(([key, error]) => error && this.checkForField(key)));
     onChange && onChange(nextFormValue, event);
   };
 
