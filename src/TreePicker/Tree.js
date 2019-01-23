@@ -940,14 +940,7 @@ class Tree extends React.Component<Props, States> {
 
   renderTree() {
     const { filterData } = this.state;
-    const {
-      height = defaultHeight,
-      className = '',
-      inline,
-      style,
-      locale,
-      virtualized
-    } = this.props;
+    const { height, className = '', inline, style, locale, virtualized } = this.props;
 
     // 树节点的层级
     let layer = 0;
@@ -973,9 +966,11 @@ class Tree extends React.Component<Props, States> {
       }
     }
 
-    const styles = inline ? { height, ...style } : {};
+    // 当未定义 height 且 设置了 virtualized 为 true，treeHeight 设置默认高度
+    const treeHeight = _.isUndefined(height) && virtualized ? defaultHeight : height;
+    const styles = inline ? { height: treeHeight, ...style } : {};
 
-    const ListHeight = getVirtualLisHeight(inline, height);
+    const ListHeight = getVirtualLisHeight(inline, treeHeight);
 
     return (
       <div

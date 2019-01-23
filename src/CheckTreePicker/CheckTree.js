@@ -1210,15 +1210,7 @@ class CheckTree extends React.Component<Props, States> {
 
   renderCheckTree() {
     const { filterData, isSomeNodeHasChildren } = this.state;
-    const {
-      inline,
-      style,
-      height = defaultHeight,
-      className = '',
-      onScroll,
-      locale,
-      virtualized
-    } = this.props;
+    const { inline, style, height, className = '', onScroll, locale, virtualized } = this.props;
 
     // 树节点的层级
     let layer = 0;
@@ -1245,12 +1237,14 @@ class CheckTree extends React.Component<Props, States> {
       }
     }
 
-    const styles = inline ? { height, ...style } : {};
+    // 当未定义 height 且 设置了 virtualized 为 true，treeHeight 设置默认高度
+    const treeHeight = _.isUndefined(height) && virtualized ? defaultHeight : height;
+    const styles = inline ? { height: treeHeight, ...style } : {};
 
     const treeNodesClass = classNames(this.addPrefix('checktree-nodes'), {
       [this.addPrefix('all-uncheckable')]: this.getEveryFisrtLevelNodeUncheckable()
     });
-    const ListHeight = getVirtualLisHeight(inline, height);
+    const ListHeight = getVirtualLisHeight(inline, treeHeight);
     return (
       <div
         ref={this.bindTreeViewRef}

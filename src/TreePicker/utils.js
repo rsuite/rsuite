@@ -68,6 +68,6 @@ export function getNodeParentKeys(node: Object, props: Object) {
  * @param {*} inline
  * @param {*} height
  */
-export function getVirtualLisHeight(inline: boolean, height: number) {
+export function getVirtualLisHeight(inline: boolean, height?: number = 0) {
   return inline ? height - MENU_PADDING * 2 : height - SEARCH_BAR_HEIGHT - MENU_PADDING * 2;
 }
