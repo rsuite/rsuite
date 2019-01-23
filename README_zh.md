@@ -142,11 +142,12 @@ Gitee 用户访问地址: https://gitee.com/rsuite/rsuite
 - 如果您在您的项目中使用了 React Suite，欢迎在这里[留言][issues-11]！
 - 在 [OpenCollective](https://opencollective.com/rsuite#) 上赞助我们。
 
-感谢以下贡献者:
 
-<a href="https://opencollective.com/rsuite" target="_blank"><img src="https://opencollective.com/rsuite/contributors.svg?width=890" /></a>
+这个项目的存在归功于所有贡献者。
 
-
+<a href="https://github.com/rsuite/rsuite/graphs/contributors" target="_blank">
+  <img src="https://opencollective.com/rsuite/contributors.svg?width=890" />
+</a>
 
 ## License
 
