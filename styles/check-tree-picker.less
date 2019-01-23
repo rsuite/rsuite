@@ -13,6 +13,11 @@
   max-height: 360px;
   height: 100%;
   overflow-y: auto;
+
+  /* stylelint-disable-next-line */ // This class name provide by Virtualized.
+  .ReactVirtualized__Grid.ReactVirtualized__List:focus {
+    outline: none;
+  }
 }
 
 .@{ctpns}-view-node {
@@ -58,6 +63,17 @@
     &:focus,
     &:hover {
       background-color: @picker-tree-node-hover-bg;
+    }
+  }
+
+  // Uncheckable state
+  &-all-uncheckable > .@{ctpns}-view-checknode-label {
+    padding-left: 22px; // 10px + 12px
+
+    &::before {
+      width: 14px;
+      margin-left: 0;
+      left: 0;
     }
   }
 
@@ -260,25 +276,6 @@
       .ellipsis;
 
       display: block;
-    }
-  }
-}
-
-// Uncheckable state
-.@{ns}picker-all-uncheckable {
-  // Top level
-  .@{ctpns}-nodes&,
-  // Other level
-  .@{ctpns}-view-children& {
-    > .@{ctpns}-view-node > .@{ctpns}-view-checknode-label,
-    > .@{ctpns}-view-node-children > .@{ctpns}-view-node > .@{ctpns}-view-checknode-label {
-      padding-left: 22px; // 10px + 12px
-
-      &::before {
-        width: 14px;
-        margin-left: 0;
-        left: 0;
-      }
     }
   }
 }
