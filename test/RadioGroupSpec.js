@@ -95,6 +95,32 @@ describe('RadioGroup', () => {
     ReactTestUtils.Simulate.change(radios[2].querySelector('input'));
   });
 
+  it('Should call onChange callback', done => {
+    let count = 0;
+
+    function onDone() {
+      count++;
+      console.log(count);
+      if (count === 2) {
+        done();
+      }
+    }
+
+    const instance = ReactTestUtils.renderIntoDocument(
+      <RadioGroup onChange={onDone}>
+        <Radio value={1}>Test1</Radio>
+        <Radio value={2}>Test2</Radio>
+        <Radio value={3} onChange={onDone}>
+          Test2
+        </Radio>
+        <Radio value={4}>Test2</Radio>
+      </RadioGroup>
+    );
+
+    const radios = findDOMNode(instance).querySelectorAll('.rs-radio');
+    ReactTestUtils.Simulate.change(radios[2].querySelector('input'));
+  });
+
   it('Should call onChange callback and return correct parameters', done => {
     const instance = ReactTestUtils.renderIntoDocument(
       <RadioGroup
