@@ -5,12 +5,19 @@ import classNames from 'classnames';
 import { findDOMNode } from 'react-dom';
 import { toggleClass, hasClass } from 'dom-lib';
 import { IntlProvider, FormattedMessage } from 'rsuite-intl';
+import { AutoSizer, List, CellMeasurerCache, CellMeasurer } from 'react-virtualized';
 import { polyfill } from 'react-lifecycles-compat';
 import _ from 'lodash';
 import { reactToString, shallowEqual } from 'rsuite-utils/lib/utils';
 
 import TreeNode from './TreeNode';
 import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
+import {
+  flattenTree,
+  getNodeParentKeys,
+  shouldShowNodeByExpanded,
+  getVirtualLisHeight
+} from './utils';
 
 import {
   PickerToggle,
@@ -21,6 +28,9 @@ import {
   PickerToggleTrigger,
   createConcatChildrenFunction
 } from '../_picker';
+
+const defaultHeight = 360;
+const defaultWidth = 200;
 
 type DefaultEvent = SyntheticEvent<*>;
 type Placement =
@@ -45,7 +55,7 @@ type Props = {
   block?: boolean,
   value?: any,
   height?: number,
-  inline?: boolean,
+  inline: boolean,
   locale: Object,
   labelKey: string,
   valueKey: string,
@@ -56,6 +66,7 @@ type Props = {
   cleanable?: boolean,
   placement?: Placement,
   appearance: 'default' | 'subtle',
+  virtualized: boolean,
   searchable?: boolean,
   classPrefix: string,
   childrenKey?: string,
@@ -94,15 +105,25 @@ type Props = {
   renderExtraFooter?: () => React.Node
 };
 
+export type RowProps = {
+  node: Object, // Index of row
+  isScrolling: boolean, // The List is currently being scrolled
+  isVisible: boolean, // This row is visible within the List (eg it is not an overscanned row)
+  key?: any, // Unique key within array of rendered rows
+  parent: any, // Reference to the parent List (instance)
+  style?: Object // Style object to be applied to row (to position it);
+};
+
 type States = {
   data: any[],
   value: any,
-  selectedValue: any,
+  active?: boolean,
   expandAll?: boolean,
   filterData: any[],
   activeNode?: ?Object,
+  selectedValue: any,
   searchKeyword?: string,
-  active?: boolean
+  expandItemValues: any[]
 };
 
 class Tree extends React.Component<Props, States> {
@@ -112,14 +133,16 @@ class Tree extends React.Component<Props, States> {
       searchPlaceholder: 'Search',
       noResultsText: 'No results found'
     },
+    inline: false,
     valueKey: 'value',
     labelKey: 'label',
     cleanable: true,
     placement: 'bottomLeft',
     searchable: true,
-    menuAutoWidth: true,
     appearance: 'default',
-    childrenKey: 'children'
+    childrenKey: 'children',
+    virtualized: false,
+    menuAutoWidth: true
   };
 
   constructor(props: Props) {
@@ -136,7 +159,8 @@ class Tree extends React.Component<Props, States> {
       expandAll: this.getExpandAll(props),
       filterData: this.getFilterData(nextData, keyword, props),
       activeNode: this.getActiveNode(this.getValue(props), valueKey),
-      searchKeyword: keyword
+      searchKeyword: keyword,
+      expandItemValues: this.serializeList('expand')
     };
   }
 
@@ -212,6 +236,10 @@ class Tree extends React.Component<Props, States> {
         filterData: this.getFilterData(filterData, this.props.searchKeyword)
       });
     }
+
+    if (this.list) {
+      this.list.forceUpdateGrid();
+    }
   }
 
   getExpandAll(props: Props = this.props) {
@@ -242,10 +270,15 @@ class Tree extends React.Component<Props, States> {
   }
 
   getExpandState(node: Object, props: Props = this.props) {
+    const { valueKey } = props;
+    const expandItemValues = _.isUndefined(this.state) ? [] : this.state.expandItemValues;
     const expandAll = this.getExpandAll(props);
+    const expand = expandItemValues.some((value: any) => shallowEqual(node[valueKey], value));
     const { childrenKey } = props;
-    if (node[childrenKey] && node[childrenKey].length) {
-      if ('expand' in node) {
+    if (expandItemValues.length) {
+      return expand;
+    } else if (node[childrenKey] && node[childrenKey].length) {
+      if (expand) {
         return !!node.expand;
       } else if (expandAll) {
         return true;
@@ -357,6 +390,26 @@ class Tree extends React.Component<Props, States> {
     return data;
   }
 
+  getFlattenTreeData(nodes: any[]) {
+    const { expandItemValues } = this.state;
+    return flattenTree(
+      nodes,
+      (node: Object) => {
+        const formatted = { ...node };
+        const curNode = this.nodes[node.refKey];
+        const parentKeys = getNodeParentKeys(curNode, this.props);
+        if (curNode) {
+          formatted.expand = curNode.expand;
+          formatted.layer = curNode.layer;
+          formatted.parentNode = curNode.parentNode;
+          formatted.showNode = shouldShowNodeByExpanded(expandItemValues, parentKeys);
+        }
+        return formatted;
+      },
+      this.props
+    );
+  }
+
   nodes = {};
   node = null;
 
@@ -365,6 +418,17 @@ class Tree extends React.Component<Props, States> {
   tempNode = [];
 
   treeView = null;
+
+  list = null;
+
+  cache = new CellMeasurerCache({
+    fixedWidth: true,
+    minHeight: 20
+  });
+
+  bindListRef = (ref: React.ElementRef<*>) => {
+    this.list = ref;
+  };
 
   bindTreeViewRef = (ref: React.ElementRef<*>) => {
     this.treeView = ref;
@@ -425,27 +489,47 @@ class Tree extends React.Component<Props, States> {
    * @param {*} nodes tree data
    * @param {*} ref 当前层级
    */
-  flattenNodes(nodes: any[], props?: Props = this.props, ref?: string = '0', parentNode?: Object) {
+  flattenNodes(
+    nodes: any[],
+    props?: Props = this.props,
+    ref?: string = '0',
+    parentNode?: Object,
+    layer?: number = 0
+  ) {
     const { labelKey, valueKey, childrenKey } = props;
 
     if (!Array.isArray(nodes) || nodes.length === 0) {
       return [];
     }
+
+    layer += 1;
     nodes.map((node, index) => {
       const refKey = `${ref}-${index}`;
       node.refKey = refKey;
-      node.expand = this.getExpandState(node, props);
       this.nodes[refKey] = {
+        layer,
         [labelKey]: node[labelKey],
         [valueKey]: node[valueKey],
-        expand: node.expand,
+        expand: this.getExpandState(node, props),
         refKey
       };
       if (parentNode) {
         this.nodes[refKey].parentNode = parentNode;
       }
-      this.flattenNodes(node[childrenKey], props, refKey, this.nodes[refKey]);
+      this.flattenNodes(node[childrenKey], props, refKey, this.nodes[refKey], layer);
     });
+  }
+
+  serializeList(key: string, nodes: Object = this.nodes) {
+    const { valueKey } = this.props;
+    const list = [];
+
+    Object.keys(nodes).forEach((refKey: string) => {
+      if (nodes[refKey][key]) {
+        list.push(nodes[refKey][valueKey]);
+      }
+    });
+    return list;
   }
 
   selectActiveItem = (event: DefaultEvent) => {
@@ -523,12 +607,20 @@ class Tree extends React.Component<Props, States> {
   };
 
   // 展开，收起节点
-  handleTreeToggle = (nodeData: Object, layer: number) => {
-    const { classPrefix = '', valueKey, onExpand } = this.props;
-    const openClass = `${classPrefix}-tree-view-open`;
-    toggleClass(findDOMNode(this.nodeRefs[nodeData.refKey]), openClass);
-    nodeData.expand = hasClass(findDOMNode(this.nodeRefs[nodeData.refKey]), openClass);
-    this.nodes[nodeData.refKey].expand = nodeData.expand;
+  handleToggle = (nodeData: Object, layer: number) => {
+    const { classPrefix = '', valueKey, onExpand, virtualized } = this.props;
+    if (!virtualized) {
+      const openClass = `${classPrefix}-tree-view-open`;
+      toggleClass(findDOMNode(this.nodeRefs[nodeData.refKey]), openClass);
+      nodeData.expand = hasClass(findDOMNode(this.nodeRefs[nodeData.refKey]), openClass);
+      this.nodes[nodeData.refKey].expand = nodeData.expand;
+    } else {
+      this.nodes[nodeData.refKey].expand = !nodeData.expand;
+    }
+
+    this.setState({
+      expandItemValues: this.serializeList('expand')
+    });
     onExpand &&
       onExpand(nodeData, layer, createConcatChildrenFunction(nodeData, nodeData[valueKey]));
   };
@@ -650,6 +742,7 @@ class Tree extends React.Component<Props, States> {
 
   renderDropdownMenu() {
     const {
+      height = defaultHeight,
       searchable,
       searchKeyword,
       placement,
@@ -657,6 +750,7 @@ class Tree extends React.Component<Props, States> {
       locale,
       renderMenu,
       menuStyle,
+      virtualized,
       menuClassName,
       menuAutoWidth
     } = this.props;
@@ -667,11 +761,13 @@ class Tree extends React.Component<Props, States> {
       this.addPrefix(`placement-${_.kebabCase(placement)}`)
     );
 
+    const styles = virtualized ? { height, ...menuStyle } : menuStyle;
+
     return (
       <MenuWrapper
         autoWidth={menuAutoWidth}
         className={classes}
-        style={menuStyle}
+        style={styles}
         ref={this.bindMenuRef}
         getToggleInstance={this.getToggleInstance}
         getPositionInstance={this.getPositionInstance}
@@ -729,7 +825,7 @@ class Tree extends React.Component<Props, States> {
           .length > 0,
       hasChildren: !!children,
       onSelect: this.handleSelect,
-      onTreeToggle: this.handleTreeToggle,
+      onTreeToggle: this.handleToggle,
       onRenderTreeNode: renderTreeNode,
       onRenderTreeIcon: renderTreeIcon
     };
@@ -772,31 +868,114 @@ class Tree extends React.Component<Props, States> {
     );
   }
 
+  renderVirtualNode(node: Object, options: Object) {
+    const { selectedValue } = this.state;
+    const {
+      disabledItemValues = [],
+      valueKey,
+      labelKey,
+      childrenKey,
+      renderTreeNode,
+      renderTreeIcon
+    } = this.props;
+
+    const { key, style, classPrefix } = options;
+    const { layer, refKey, expand, showNode } = node;
+    if (!node.visible) {
+      return null;
+    }
+    const children = node[childrenKey];
+
+    const props = {
+      style,
+      value: node[valueKey],
+      label: node[labelKey],
+      layer,
+      expand,
+      active: shallowEqual(node[valueKey], selectedValue),
+      visible: node.visible,
+      nodeData: node,
+      disabled:
+        disabledItemValues.filter(disabledItem => shallowEqual(disabledItem, node[valueKey]))
+          .length > 0,
+      children,
+      hasChildren: !!children,
+      onSelect: this.handleSelect,
+      onTreeToggle: this.handleToggle,
+      onRenderTreeNode: renderTreeNode,
+      onRenderTreeIcon: renderTreeIcon
+    };
+
+    return (
+      showNode && (
+        <TreeNode
+          classPrefix={classPrefix}
+          key={key}
+          ref={this.bindNodeRefs.bind(this, refKey)}
+          {...props}
+        />
+      )
+    );
+  }
+
+  rowRenderer = ({ node, key, style }: RowProps) => {
+    const treeViewClasses = this.addPrefix('tree-view');
+    const options = {
+      key,
+      style,
+      classPrefix: treeViewClasses
+    };
+    return this.renderVirtualNode(node, options);
+  };
+
+  measureRowRenderer = nodes => ({ key, index, style, parent }) => {
+    const node = nodes[index];
+
+    return (
+      <CellMeasurer cache={this.cache} columnIndex={0} key={key} rowIndex={index} parent={parent}>
+        {m => this.rowRenderer({ ...m, node, key, style })}
+      </CellMeasurer>
+    );
+  };
+
   renderTree() {
     const { filterData } = this.state;
-    const { height, className = '', inline, locale } = this.props;
+    const {
+      height = defaultHeight,
+      className = '',
+      inline,
+      style,
+      locale,
+      virtualized
+    } = this.props;
 
     // 树节点的层级
     let layer = 0;
 
     const treeViewClasses = this.addPrefix('tree-view');
-
     const classes = classNames(treeViewClasses, {
       [className]: inline
     });
-    const nodes = filterData.map((dataItem, index) => {
-      return this.renderNode(dataItem, index, layer, treeViewClasses);
-    });
 
-    if (!nodes.some(v => v !== null)) {
-      return <div className={this.addPrefix('none')}>{locale.noResultsText}</div>;
+    let nodes = [];
+    if (!virtualized) {
+      nodes = filterData.map((dataItem, index) =>
+        this.renderNode(dataItem, index, layer, treeViewClasses)
+      );
+
+      if (!nodes.some(v => v !== null)) {
+        return <div className={this.addPrefix('none')}>{locale.noResultsText}</div>;
+      }
+    } else {
+      nodes = this.getFlattenTreeData(filterData).filter(n => n.showNode);
+      if (!nodes.length) {
+        return <div className={this.addPrefix('none')}>{locale.noResultsText}</div>;
+      }
     }
 
-    const style = inline ? this.props.style : {};
-    const styles = {
-      height,
-      ...style
-    };
+    const styles = inline ? { height, ...style } : {};
+
+    const ListHeight = getVirtualLisHeight(inline, height);
 
     return (
       <div
@@ -805,7 +984,24 @@ class Tree extends React.Component<Props, States> {
         style={styles}
         onKeyDown={this.handleKeyDown}
       >
-        <div className={this.addPrefix('tree-view-nodes')}>{nodes}</div>
+        <div className={this.addPrefix('tree-view-nodes')}>
+          {virtualized ? (
+            <AutoSizer defaultHeight={ListHeight} defaultWidth={defaultWidth}>
+              {({ height, width }) => (
+                <List
+                  ref={this.bindListRef}
+                  width={width || defaultWidth}
+                  height={height || ListHeight}
+                  rowHeight={36}
+                  rowCount={nodes.length}
+                  rowRenderer={this.measureRowRenderer(nodes)}
+                />
+              )}
+            </AutoSizer>
+          ) : (
+            nodes
+          )}
+        </div>
       </div>
     );
   }

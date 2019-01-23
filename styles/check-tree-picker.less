@@ -11,6 +11,7 @@
 .@{ctpns}-view {
   background-color: @picker-tree-bg;
   max-height: 360px;
+  height: 100%;
   overflow-y: auto;
 }
 
@@ -219,6 +220,12 @@
       margin-left: 0;
       margin-top: 0;
     }
+  }
+
+  > .@{ctpns}-view-node-expanded {
+    transform: rotate(0deg);
+    margin-left: 0;
+    margin-top: 0;
   }
 
   > .@{ctpns}-view-custom-icon {
