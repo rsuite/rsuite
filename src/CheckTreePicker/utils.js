@@ -158,7 +158,12 @@ export function getVirtualLisHeight(inline: boolean, height?: number = 0) {
  */
 export function getSiblingNodeUncheckable(node: Object, nodes: Object) {
   const list = [];
+  if (!node.parentNode) {
+    return false;
+  }
+
   const parentNodeRefkey = node.parentNode ? node.parentNode.refKey : '';
+
   Object.keys(nodes).forEach((refKey: string) => {
     const curNode = nodes[refKey];
     if (curNode.parentNode && curNode.parentNode.refKey === parentNodeRefkey) {
