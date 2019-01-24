@@ -22,7 +22,7 @@ type Props = {
   checkState?: CheckState,
   hasChildren?: boolean,
   uncheckable: boolean,
-  allUncheckable?: boolean,
+  allUncheckable: boolean,
   onTreeToggle?: (nodeData: Object, layer: number, event: DefaultEvent) => void,
   onSelect?: (nodeData: Object, layer: number, event: DefaultEvent) => void,
   onRenderTreeIcon?: (nodeData: Object, expandIcon?: React.Node) => React.Node,

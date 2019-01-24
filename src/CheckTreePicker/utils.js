@@ -1,4 +1,5 @@
 //@flow
+import _ from 'lodash';
 
 export function isEveryChildChecked(node: Object, nodes: Object, props: Object) {
   const { childrenKey } = props;
@@ -60,30 +61,13 @@ export function getTopParentNodeCheckState(nodes: Object, node: Object) {
  */
 export function getSiblingNodeUncheckable(node: Object, nodes: Object) {
   const list = [];
-  if (!node.parentNode) {
-    return false;
-  }
-
   const parentNodeRefkey = node.parentNode ? node.parentNode.refKey : '';
 
   Object.keys(nodes).forEach((refKey: string) => {
     const curNode = nodes[refKey];
-    if (curNode.parentNode && curNode.parentNode.refKey === parentNodeRefkey) {
+    if (_.isUndefined(node.parentNode) && _.isUndefined(curNode.parentNode)) {
       list.push(curNode);
-    }
-  });
-
-  return list.every(node => node.uncheckable);
-}
-
-/**
- * 获取当前节点的所有子节点是否都为 uncheckable
- */
-export function getEveryChildUncheckable(node: Object, nodes: Object) {
-  const list = [];
-  Object.keys(nodes).forEach((refKey: string) => {
-    const curNode = nodes[refKey];
-    if (curNode.parentNode && curNode.parentNode.refKey === node.refKey) {
+    } else if (curNode.parentNode && curNode.parentNode.refKey === parentNodeRefkey) {
       list.push(curNode);
     }
   });

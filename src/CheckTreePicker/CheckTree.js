@@ -28,7 +28,6 @@ import {
   isSomeChildChecked,
   isSomeNodeHasChildren,
   getTopParentNodeCheckState,
-  getEveryChildUncheckable,
   getSiblingNodeUncheckable
 } from './utils';
 import {
@@ -482,7 +481,7 @@ class CheckTree extends React.Component<Props, States> {
     let items = [];
     const loop = (treeNodes: any[]) => {
       treeNodes.forEach((node: Object) => {
-        if (!this.getDisabledState(node) && !this.getUncheckableState(node) && node.visible) {
+        if (!this.getDisabledState(node) && node.visible) {
           items.push(node);
           const nodeData = { ...node, ...this.nodes[node.refKey] };
           if (!this.getExpandState(nodeData, this.props)) {
@@ -1096,6 +1095,7 @@ class CheckTree extends React.Component<Props, States> {
       parentNode: node.parentNode,
       hasChildren: !!children,
       uncheckable: node.uncheckable,
+      allUncheckable: getSiblingNodeUncheckable(node, this.nodes),
       onSelect: this.handleSelect,
       onTreeToggle: this.handleToggle,
       onRenderTreeNode: renderTreeNode,
@@ -1113,10 +1113,6 @@ class CheckTree extends React.Component<Props, States> {
         [openClass]: expandALlState && hasNotEmptyChildren
       });
 
-      const viewChildrenClass = classNames(`${classPrefix}-children`, {
-        [this.addPrefix('all-uncheckable')]: getEveryChildUncheckable(node, this.nodes)
-      });
-
       let nodes = children || [];
       return (
         <div className={childrenClass} key={key} ref={this.bindNodeRefs.bind(this, refKey)}>
@@ -1126,7 +1122,7 @@ class CheckTree extends React.Component<Props, States> {
             ref={this.bindNodeRefs.bind(this, refKey)}
             {...props}
           />
-          <div className={viewChildrenClass}>
+          <div className={`${classPrefix}-children`}>
             {nodes.map((child, i) => this.renderNode(child, i, layer, classPrefix))}
           </div>
         </div>
