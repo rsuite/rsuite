@@ -1,3 +1,9 @@
+# 3.7.1
+
+> January 24, 2019
+
+* **Improve**: Modular import `react-virtualized`
+
 # 3.7.0
 
 > January 24, 2019
@@ -17,8 +23,6 @@
 * **Bugfix**: 修复了在 `<CheckboxGroup>` 和 `<RadioGroup>` 中 `onChange` 事件的被覆盖问题 ([#376])
 * **Bugfix**: 修复了快速单击展开图标时会选择文本的问题 ([#372])
 * **Bugfix**: 修复了在 `<Sidenav>` 菜单中快速单击后无法显示文本的问题 ([#371])
-
-
 
 [#381]: https://github.com/rsuite/rsuite/pull/381
 [#380]: https://github.com/rsuite/rsuite/pull/380
