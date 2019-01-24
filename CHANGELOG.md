@@ -1,3 +1,31 @@
+# 3.7.0
+
+> January 24, 2019
+
+* **Feature**: Support `virtualized` on all Tree components ([#380])
+* **Breaking**: Migration from `moment.js` to `date-fns` ([#367] @fnpen)
+* **Bugfix**: Fixed an uncontrolled situation about `formError` in `<Form>` ([#379],[#381])
+* **Bugfix**: Fixed an issue where the onChange event is overridden in the Group ([#376])
+* **Bugfix**: Fixed a problem that select text when quick click expand icon ([#372])
+* **Bugfix**: Fixed issues that cannot display text after a quick click in the `<Sidenav>` menu ([#371])
+
+* **Feature**: 所有的 Tree 相关组件都支持 `virtualized` 有效地呈现大列表数据 ([#380])
+* **Breaking**: `moment.js` 迁移到 `date-fns` ([#367] @fnpen)
+* **Bugfix**: 修复了 `<Form>` 中关于 `formError` 的不受控制的情况 ([#379],[#381])
+* **Bugfix**: 修复了在 `<CheckboxGroup>` 和 `<RadioGroup>` 中 `onChange` 事件的被覆盖问题 ([#376])
+* **Bugfix**: 修复了快速单击展开图标时会选择文本的问题 ([#372])
+* **Bugfix**: 修复了在 `<Sidenav>` 菜单中快速单击后无法显示文本的问题 ([#371])
+
+---
+
+[#381]: https://github.com/rsuite/rsuite/pull/381
+[#380]: https://github.com/rsuite/rsuite/pull/380
+[#379]: https://github.com/rsuite/rsuite/pull/379
+[#376]: https://github.com/rsuite/rsuite/pull/376
+[#372]: https://github.com/rsuite/rsuite/pull/372
+[#371]: https://github.com/rsuite/rsuite/pull/371
+[#367]: https://github.com/rsuite/rsuite/pull/367
+
 # 3.6.0
 
 > January 18, 2019
