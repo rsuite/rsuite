@@ -16,6 +16,9 @@ export interface CheckTreePickerProps extends TreeBaseProps, FormControlPickerPr
   /** Whether dispaly search input box */
   searchable?: boolean;
 
+  /** Whether using virtualized list */
+  virtualized?: boolean;
+
   /** Set the option value for the check box not to be rendered */
   uncheckableItemValues?: any[];
 

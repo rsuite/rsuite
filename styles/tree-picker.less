@@ -10,7 +10,13 @@
 .@{tpns}-view {
   background-color: @picker-tree-bg;
   max-height: 360px;
+  height: 100%;
   overflow-y: auto;
+
+  /* stylelint-disable-next-line */ // This class name provide by Virtualized.
+  .ReactVirtualized__Grid.ReactVirtualized__List:focus {
+    outline: none;
+  }
 }
 
 .@{tpns}-view-node {
@@ -97,6 +103,12 @@
       margin-left: 0;
       margin-top: 0;
     }
+  }
+
+  > .@{tpns}-view-node-expanded {
+    transform: rotate(0deg);
+    margin-left: 0;
+    margin-top: 0;
   }
 
   > .@{tpns}-view-custom-icon {

@@ -11,15 +11,18 @@ type DefaultEvent = SyntheticEvent<*>;
 type Props = {
   classPrefix: string,
   visible?: boolean,
+  style?: Object,
   label?: any,
+  layer: number,
   value?: any,
-  nodeData: Object,
   active?: boolean,
+  expand?: boolean,
+  nodeData: Object,
+  disabled?: boolean,
   checkState?: CheckState,
   hasChildren?: boolean,
-  disabled?: boolean,
   uncheckable: boolean,
-  layer: number,
+  allUncheckable?: boolean,
   onTreeToggle?: (nodeData: Object, layer: number, event: DefaultEvent) => void,
   onSelect?: (nodeData: Object, layer: number, event: DefaultEvent) => void,
   onRenderTreeIcon?: (nodeData: Object, expandIcon?: React.Node) => React.Node,
@@ -93,8 +96,11 @@ class TreeCheckNode extends React.Component<Props> {
   };
 
   renderIcon = () => {
-    const { onRenderTreeIcon, hasChildren, nodeData, classPrefix } = this.props;
-    let expandIcon = <i className={`${classPrefix}-node-expand-icon icon`} />;
+    const { expand, onRenderTreeIcon, hasChildren, nodeData, classPrefix } = this.props;
+    const expandIconClasses = classNames(`${classPrefix}-node-expand-icon icon`, {
+      [`${classPrefix}-node-expanded`]: expand
+    });
+    let expandIcon = <i className={expandIconClasses} />;
     if (typeof onRenderTreeIcon === 'function') {
       const customIcon = onRenderTreeIcon(nodeData);
       expandIcon =
@@ -157,7 +163,16 @@ class TreeCheckNode extends React.Component<Props> {
   };
 
   render() {
-    const { classPrefix, visible, active, layer, disabled, checkState } = this.props;
+    const {
+      style,
+      classPrefix,
+      visible,
+      active,
+      layer,
+      disabled,
+      checkState,
+      allUncheckable
+    } = this.props;
 
     const addPrefix = prefix(`${classPrefix}-node`);
     const classes = classNames(`${classPrefix}-node`, {
@@ -165,12 +180,13 @@ class TreeCheckNode extends React.Component<Props> {
       [addPrefix('indeterminate')]: checkState === CHECK_STATE.INDETERMINATE,
       [addPrefix('checked')]: checkState === CHECK_STATE.CHECK,
       [addPrefix('disabled')]: disabled,
-      [addPrefix('active')]: active
+      [addPrefix('active')]: active,
+      [addPrefix('all-uncheckable')]: !!allUncheckable
     });
 
     const styles = { paddingLeft: layer * PADDING + INITIAL_PADDING };
     return visible ? (
-      <div style={styles} className={classes}>
+      <div style={{ ...style, ...styles }} className={classes}>
         {this.renderIcon()}
         {this.renderLabel()}
       </div>

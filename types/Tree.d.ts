@@ -14,6 +14,9 @@ interface TreeProps extends TreeBaseProps {
   /** Selected value */
   value?: any;
 
+  /** Whether using virtualized list */
+  virtualized?: boolean;
+
   /** Tree data structure Label property name */
   labelKey?: string;
 

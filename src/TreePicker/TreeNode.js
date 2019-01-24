@@ -8,9 +8,11 @@ import { hasClass } from 'dom-lib';
 type DefaultEvent = SyntheticEvent<*>;
 
 type Props = {
+  style?: Object,
   layer: number,
   value?: any,
   label?: any,
+  expand?: boolean,
   active?: boolean,
   visible: boolean,
   nodeData: Object,
@@ -72,8 +74,11 @@ class TreeNode extends React.Component<Props> {
   };
 
   renderIcon = () => {
-    const { classPrefix, onRenderTreeIcon, hasChildren, nodeData } = this.props;
-    let expandIcon = <i className={`${classPrefix}-node-expand-icon icon`} />;
+    const { classPrefix, expand, onRenderTreeIcon, hasChildren, nodeData } = this.props;
+    const expandIconClasses = classNames(`${classPrefix}-node-expand-icon icon`, {
+      [`${classPrefix}-node-expanded`]: !!expand
+    });
+    let expandIcon = <i className={expandIconClasses} />;
     if (nodeData !== undefined && typeof onRenderTreeIcon === 'function') {
       const customIcon = onRenderTreeIcon(nodeData);
       expandIcon =
@@ -118,7 +123,7 @@ class TreeNode extends React.Component<Props> {
   };
 
   render() {
-    const { classPrefix, active, layer, disabled, visible } = this.props;
+    const { style, classPrefix, active, layer, disabled, visible } = this.props;
 
     const disabledClass = `${classPrefix}-node-disabled`;
     const activeClass = `${classPrefix}-node-active`;
@@ -131,7 +136,7 @@ class TreeNode extends React.Component<Props> {
     const styles = { paddingLeft: layer * PADDING + INITIAL_PADDING };
 
     return visible ? (
-      <div style={styles} className={classes}>
+      <div style={{ ...style, ...styles }} className={classes}>
         {this.renderIcon()}
         {this.renderLabel()}
       </div>

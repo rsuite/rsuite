@@ -9,6 +9,9 @@ export interface TreePickerProps extends TreeBaseProps, FormControlPickerProps<a
   /** Whether inline display tree */
   inline?: boolean;
 
+  /** Whether using virtualized list */
+  virtualized?: boolean;
+
   /** Custom Render TreePicker Menu */
   renderMenu?: (menu: React.ReactNode) => React.ReactNode;
 
