@@ -369,7 +369,7 @@ class Tree extends React.Component<Props, States> {
     return null;
   };
 
-  getFilterData(data: any[], word?: string, props: Props = this.props) {
+  getFilterData(data: any[], word: string = '', props: Props = this.props) {
     const { labelKey, childrenKey } = props;
 
     const setVisible = (nodes = []) =>

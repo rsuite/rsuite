@@ -54,7 +54,6 @@ export function getTopParentNodeCheckState(nodes: Object, node: Object) {
   return nodes[node.refKey].check;
 }
 
-
 /**
  * 获取该节点的兄弟节点是否都为 uncheckable
  * @param {*} node
