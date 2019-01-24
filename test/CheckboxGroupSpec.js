@@ -104,6 +104,32 @@ describe('CheckboxGroup', () => {
     ReactTestUtils.Simulate.change(checkboxs[2].querySelector('input'));
   });
 
+  it('Should call onChange callback', done => {
+    let count = 0;
+
+    function onDone() {
+      count++;
+      console.log(count);
+      if (count === 2) {
+        done();
+      }
+    }
+
+    const instance = ReactTestUtils.renderIntoDocument(
+      <CheckboxGroup onChange={onDone}>
+        <Checkbox value={1}>Test1</Checkbox>
+        <Checkbox value={2}>Test2</Checkbox>
+        <Checkbox value={3} onChange={onDone}>
+          Test2
+        </Checkbox>
+        <Checkbox value={4}>Test2</Checkbox>
+      </CheckboxGroup>
+    );
+
+    const checkboxs = findDOMNode(instance).querySelectorAll(`.${globalKey}checkbox`);
+    ReactTestUtils.Simulate.change(checkboxs[2].querySelector('input'));
+  });
+
   it('Should have a custom className', () => {
     const instance = ReactTestUtils.renderIntoDocument(<CheckboxGroup className="custom" />);
     assert.include(findDOMNode(instance).className, 'custom');

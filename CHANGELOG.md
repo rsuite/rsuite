@@ -1,3 +1,24 @@
+# 3.6.0
+
+> January 18, 2019
+
+* **Feature**: Support `virtualized` on `<Table>`, effectively render large tabular data ([#368])
+* **Feature**: Support `oneTap` on `<DatePicker>` ([#362])
+* **Bugfix/Breaking**: Replace `children` with `childrenKey` on `<CheckTreePicker>` ([#365])
+* **Bugfix**: Fix errors in SSR build ([#364] @fnpen)
+
+---
+
+* **Feature**: `<Table>` 组件支持 `virtualized`属性, 有效地呈现大表格数据 ([#368])
+* **Feature**: `<DatePicker>` 组件支持 `oneTap` 属性 ([#362])
+* **Bugfix/Breaking**: 在 <CheckTreePicker> 组件中用 `childrenKey` 替换 `children` ([#365])
+* **Bugfix**: 修复服务端渲染的错误 ([#364] @fnpen)
+
+[#368]: https://github.com/rsuite/rsuite/pull/368
+[#365]: https://github.com/rsuite/rsuite/pull/365
+[#364]: https://github.com/rsuite/rsuite/pull/364
+[#362]: https://github.com/rsuite/rsuite/pull/362
+
 # 3.5.3
 
 > January 10, 2019

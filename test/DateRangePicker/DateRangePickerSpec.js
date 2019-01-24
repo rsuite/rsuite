@@ -1,9 +1,9 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import moment from 'moment';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import DateRangePicker from '../../src/DateRangePicker/DateRangePicker';
+import { addDays, subDays, startOfWeek, isSameDay, endOfWeek } from 'date-fns';
 
 describe('DateRangePicker', () => {
   it('Should render a div with "rs-picker-daterange" class', () => {
@@ -24,19 +24,19 @@ describe('DateRangePicker', () => {
         ranges={[
           {
             label: 'Yesterday',
-            value: [moment().add(-1, 'd'), moment().add(-1, 'd')]
+            value: [addDays(new Date(), -1), addDays(new Date(), -1)]
           },
           {
             label: 'Today',
-            value: [moment(), moment()]
+            value: [new Date(), new Date()]
           },
           {
             label: 'Tomorrow',
-            value: [moment().add(1, 'd'), moment().add(1, 'd')]
+            value: [addDays(new Date(), 1), addDays(new Date(), 1)]
           },
           {
             label: 'Last 7 days',
-            value: [moment().subtract(6, 'days'), moment()]
+            value: [subDays(new Date(), 6), new Date()]
           }
         ]}
         disabledDate={() => true}
@@ -59,7 +59,7 @@ describe('DateRangePicker', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <DateRangePicker onChange={doneOp} ref={ref => (demo = ref)} />
     );
-    demo.updateValue([moment(), moment()]);
+    demo.updateValue([new Date(), new Date()]);
   });
 
   it('Should call `onOpen` callback', done => {
@@ -109,12 +109,8 @@ describe('DateRangePicker', () => {
     let today = null;
     const doneOp = values => {
       if (
-        moment()
-          .startOf('week')
-          .isSame(values[0], 'date') &&
-        moment()
-          .endOf('week')
-          .isSame(values[1], 'date')
+        isSameDay(startOfWeek(new Date()), values[0]) &&
+        isSameDay(endOfWeek(new Date()), values[1])
       ) {
         done();
       }
@@ -142,28 +138,14 @@ describe('DateRangePicker', () => {
   it('Should fire onChange if click ok after only select one date in oneTap mode', done => {
     const doneOp = values => {
       if (
-        moment()
-          .startOf('week')
-          .isSame(values[0], 'date') &&
-        moment()
-          .endOf('week')
-          .isSame(values[1], 'date')
+        isSameDay(startOfWeek(new Date()), values[0]) &&
+        isSameDay(endOfWeek(new Date()), values[1])
       ) {
         done();
       }
     };
     const instance = ReactTestUtils.renderIntoDocument(
-      <DateRangePicker
-        onSelect={() => {
-          ReactTestUtils.Simulate.click(
-            findDOMNode(instance.menuContainer).querySelector('.rs-picker-toolbar-right-btn-ok')
-          );
-        }}
-        onOk={doneOp}
-        hoverRange="week"
-        oneTap
-        open
-      />
+      <DateRangePicker onChange={doneOp} hoverRange="week" oneTap open />
     );
     const today = findDOMNode(instance.menuContainer).querySelector(
       '.rs-calendar-table-cell-is-today'

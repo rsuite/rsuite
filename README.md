@@ -138,7 +138,14 @@ If you like React Suite, you can show your support by either
 - [Leaving a comment here][issues-11] if you are using React Suite in your project (like we do :smile:)
 - [Becoming a backer][opencollective-home] on OpenCollective
 
-[![opencollective-now][opencollective-svg]][opencollective-home]
+
+This project exists thanks to all the people who contribute.
+
+<a href="https://github.com/rsuite/rsuite/graphs/contributors" target="_blank">
+  <img src="https://opencollective.com/rsuite/contributors.svg?width=890" />
+</a>
+
+
 
 ## License
 

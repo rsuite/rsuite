@@ -16,6 +16,7 @@ module.exports = api => {
     ],
     plugins: [
       'lodash',
+      'date-fns',
       '@babel/plugin-transform-proto-to-assign',
       '@babel/plugin-transform-runtime',
       'transform-react-flow-handled-props',

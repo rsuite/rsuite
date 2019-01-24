@@ -1,41 +1,33 @@
 // @flow
 
 import * as React from 'react';
-import moment from 'moment';
 import classNames from 'classnames';
 
 import Table from './Table';
 import { defaultProps } from '../../utils';
 import getMonthView from '../../utils/getMonthView';
+import { setDate, isSameMonth } from 'date-fns';
 
 type Props = {
-  activeDate: moment$Moment,
-  value?: Array<moment$Moment>,
-  hoverValue?: Array<moment$Moment>,
-  onSelect?: (date: moment$Moment) => void,
-  onMouseMove?: (date: moment$Moment) => void,
-  disabledDate?: (
-    date: moment$Moment,
-    selectValue: Array<moment$Moment | null>,
-    type: string
-  ) => boolean,
+  activeDate: Date,
+  value?: Array<Date>,
+  hoverValue?: Array<Date>,
+  onSelect?: (date: Date) => void,
+  onMouseMove?: (date: Date) => void,
+  disabledDate?: (date: Date, selectValue: Array<Date | null>, type: string) => boolean,
   isoWeek?: boolean,
   className?: string,
   classPrefix?: string
 };
 
-// is two date in the same month
-const inSameMonth = (dateA: moment$Moment, dateB: moment$Moment) => dateA.month() === dateB.month();
-const getThisMonthDate = (date: moment$Moment) => date.clone().date(1);
-
 class View extends React.Component<Props> {
   static defaultProps = {
-    activeDate: moment()
+    activeDate: new Date()
   };
 
-  inSameThisMonthDate = (date: moment$Moment) => {
-    const thisMonthDate = getThisMonthDate(this.props.activeDate);
-    return inSameMonth(date, thisMonthDate);
+  inSameThisMonthDate = (date: Date) => {
+    const thisMonthDate = setDate(this.props.activeDate, 1);
+    return isSameMonth(date, thisMonthDate);
   };
   render() {
     const {
@@ -51,7 +43,7 @@ class View extends React.Component<Props> {
       ...rest
     } = this.props;
 
-    const thisMonthDate = getThisMonthDate(activeDate);
+    const thisMonthDate = setDate(activeDate, 1);
     const classes = classNames(classPrefix, className);
 
     return (

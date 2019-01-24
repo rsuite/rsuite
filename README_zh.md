@@ -121,6 +121,12 @@ $ npm run dev
 3. 您可以开始访问了， 在浏览器输入 http://127.0.0.1:3200/ 。
 
 
+> `rsuite.github.io` 会依赖 `rsuite` 中的组件，并支持热更新。
+
+
+Gitee 用户访问地址: https://gitee.com/rsuite/rsuite
+
+
 ## 贡献
 
 在开始之前，确保您已读[贡献指南][contributing]。
@@ -136,8 +142,12 @@ $ npm run dev
 - 如果您在您的项目中使用了 React Suite，欢迎在这里[留言][issues-11]！
 - 在 [OpenCollective](https://opencollective.com/rsuite#) 上赞助我们。
 
-[![opencollective-now][opencollective-svg]][opencollective-home]
 
+这个项目的存在归功于所有贡献者。
+
+<a href="https://github.com/rsuite/rsuite/graphs/contributors" target="_blank">
+  <img src="https://opencollective.com/rsuite/contributors.svg?width=890" />
+</a>
 
 ## License
 

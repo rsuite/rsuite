@@ -236,6 +236,7 @@ class CheckTree extends React.Component<Props, States> {
 
   componentDidUpdate(prevProps: Props, prevState: States) {
     const { filterData, searchKeyword, selectedValues, expandItemValues } = this.state;
+
     const { value, data = [], cascade, uncheckableItemValues, childrenKey } = this.props;
     if (prevState.data !== data) {
       const nextData = [...data];

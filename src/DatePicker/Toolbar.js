@@ -2,36 +2,37 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
 import { FormattedMessage } from 'rsuite-intl';
 
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
+import { addDays } from 'date-fns';
 
 type Range = {
   label: React.Node,
   closeOverlay?: boolean,
-  value: moment$Moment | ((pageDate?: moment$Moment) => moment$Moment)
+  value: Date | ((pageDate?: Date) => Date)
 };
 
 type Props = {
   ranges: Array<Range>,
   className?: string,
   classPrefix?: string,
-  pageDate?: moment$Moment,
-  onShortcut?: (value: moment$Moment, closeOverlay?: boolean, event?: SyntheticEvent<*>) => void,
+  pageDate?: Date,
+  onShortcut?: (value: Date, closeOverlay?: boolean, event?: SyntheticEvent<*>) => void,
   onOk?: (event: SyntheticEvent<*>) => void,
-  disabledHandle?: (date?: moment$Moment) => boolean
+  disabledHandle?: (date?: Date) => boolean,
+  hideOkButton?: boolean
 };
 
 const defaultRanges = [
   {
     label: 'today',
-    value: moment(),
+    value: new Date(),
     closeOverlay: true
   },
   {
     label: 'yesterday',
-    value: moment().add(-1, 'd'),
+    value: addDays(new Date(), -1),
     closeOverlay: true
   }
 ];
@@ -48,7 +49,12 @@ class Toolbar extends React.PureComponent<Props> {
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderOkButton() {
-    const { disabledHandle, pageDate, onOk } = this.props;
+    const { disabledHandle, pageDate, onOk, hideOkButton } = this.props;
+
+    if (hideOkButton) {
+      return null;
+    }
+
     const disabled = disabledHandle && disabledHandle(pageDate);
     const classes = classNames(this.addPrefix('right-btn-ok'), {
       [this.addPrefix('btn-disabled')]: disabled
@@ -70,8 +76,13 @@ class Toolbar extends React.PureComponent<Props> {
       className,
       pageDate,
       classPrefix,
+      hideOkButton,
       ...rest
     } = this.props;
+
+    if (hideOkButton && ranges.length === 0) {
+      return null;
+    }
 
     const classes = classNames(classPrefix, className);
     const unhandled = getUnhandledProps(Toolbar, rest);

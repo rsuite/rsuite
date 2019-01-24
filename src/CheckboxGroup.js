@@ -4,7 +4,13 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
 
-import { ReactChildren, getUnhandledProps, defaultProps, prefix } from './utils';
+import {
+  ReactChildren,
+  getUnhandledProps,
+  defaultProps,
+  prefix,
+  createChainedFunction
+} from './utils';
 
 type Props = {
   name?: string,
@@ -64,7 +70,7 @@ class CheckboxGroup extends React.Component<Props, State> {
           name,
           inline,
           [checkedKey]: nextValue.some(i => i === child.props.value),
-          onChange: this.handleChange
+          onChange: createChainedFunction(this.handleChange, child.props.onChange)
         };
       }
       return child.props;

@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "3.5.3",
+  "version": "3.6.0",
   "description": "A suite of react components",
   "main": "lib/index.js",
   "typings": "types/index.d.ts",
@@ -51,10 +51,10 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "classnames": ">=2.0.0",
+    "date-fns": "^1.30.1",
     "dom-lib": "^1.1.0",
     "element-resize-event": "^3.0.2",
     "lodash": "^4.17.5",
-    "moment": "^2.22.2",
     "prop-types": "^15.6.0",
     "react-flow-types": "^0.2.0-beta.6",
     "react-lifecycles-compat": "^3.0.4",
@@ -62,7 +62,7 @@
     "recompose": "^0.26.0",
     "rsuite-intl": "~1.0.4",
     "rsuite-notification": "~3.0.2",
-    "rsuite-table": "^3.3.2",
+    "rsuite-table": "^3.4.1",
     "rsuite-utils": "^1.6.0",
     "schema-typed": "~0.2.1"
   },
@@ -96,6 +96,7 @@
     "autoprefixer": "^8.3.0",
     "babel-eslint": "^8.2.2",
     "babel-loader": "^8.0.0",
+    "babel-plugin-date-fns": "^0.2.1",
     "babel-plugin-istanbul": "^4.1.4",
     "babel-plugin-lodash": "^3.3.2",
     "babel-plugin-transform-dev": "^2.0.1",

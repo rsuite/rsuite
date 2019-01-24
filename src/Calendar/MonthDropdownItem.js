@@ -2,14 +2,16 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
+import { setYear } from 'date-fns';
+import { setMonth } from 'date-fns';
+import composeFunctions from '../utils/composeFunctions';
 
 type Props = {
-  date?: moment$Moment,
+  date?: Date,
   month?: number,
   year?: number,
-  onSelect?: (date: moment$Moment, event: SyntheticEvent<*>) => void,
+  onSelect?: (date: Date, event: SyntheticEvent<*>) => void,
   className?: string,
   classPrefix?: string,
   active?: boolean,
@@ -29,9 +31,7 @@ class MonthDropdownItem extends React.PureComponent<Props> {
     }
 
     if (year && month && date) {
-      const nextMonth = moment(date)
-        .year(year)
-        .month(month - 1);
+      const nextMonth = composeFunctions(d => setYear(d, year), d => setMonth(d, month - 1))(date);
       onSelect && onSelect(nextMonth, event);
     }
   };

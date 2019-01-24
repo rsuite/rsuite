@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react';
-import moment from 'moment';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { IntlProvider } from 'rsuite-intl';
@@ -19,39 +18,50 @@ import {
 } from '../_picker';
 import { shouldOnlyTime } from '../utils/formatUtils';
 import type { Placement } from '../utils/TypeDefinition';
+import {
+  format,
+  getMinutes,
+  getHours,
+  isSameDay,
+  getSeconds,
+  setHours,
+  setMinutes,
+  setSeconds
+} from 'date-fns';
+import composeFunctions from '../utils/composeFunctions';
 
 type Range = {
   label: React.Node,
   closeOverlay?: boolean,
-  value: moment$Moment | ((pageDate?: moment$Moment) => moment$Moment)
+  value: Date | ((pageDate?: Date) => Date)
 };
 
 type Props = {
   appearance: 'default' | 'subtle',
-  disabledDate?: (date?: moment$Moment) => boolean,
-  disabledHours?: (hour: number, date: moment$Moment) => boolean,
-  disabledMinutes?: (minute: number, date: moment$Moment) => boolean,
-  disabledSeconds?: (second: number, date: moment$Moment) => boolean,
-  hideHours?: (hour: number, date: moment$Moment) => boolean,
-  hideMinutes?: (minute: number, date: moment$Moment) => boolean,
-  hideSeconds?: (second: number, date: moment$Moment) => boolean,
+  disabledDate?: (date?: Date) => boolean,
+  disabledHours?: (hour: number, date: Date) => boolean,
+  disabledMinutes?: (minute: number, date: Date) => boolean,
+  disabledSeconds?: (second: number, date: Date) => boolean,
+  hideHours?: (hour: number, date: Date) => boolean,
+  hideMinutes?: (minute: number, date: Date) => boolean,
+  hideSeconds?: (second: number, date: Date) => boolean,
   ranges?: Array<Range>,
-  defaultValue?: moment$Moment,
-  value?: moment$Moment,
-  calendarDefaultDate?: moment$Moment,
+  defaultValue?: Date,
+  value?: Date,
+  calendarDefaultDate?: Date,
   placeholder?: string,
   format: string,
   disabled?: boolean,
   locale?: Object,
   inline?: boolean,
-  onChange?: (value: moment$Moment | null) => void,
-  onChangeCalendarDate?: (date: moment$Moment, event?: SyntheticEvent<*>) => void,
+  onChange?: (value: Date | null) => void,
+  onChangeCalendarDate?: (date: Date, event?: SyntheticEvent<*>) => void,
   onToggleMonthDropdown?: (toggle: boolean) => void,
   onToggleTimeDropdown?: (toggle: boolean) => void,
-  onSelect?: (date: moment$Moment, event?: SyntheticEvent<*>) => void,
-  onPrevMonth?: (date: moment$Moment) => void,
-  onNextMonth?: (date: moment$Moment) => void,
-  onOk?: (date: moment$Moment, event: SyntheticEvent<*>) => void,
+  onSelect?: (date: Date, event?: SyntheticEvent<*>) => void,
+  onPrevMonth?: (date: Date) => void,
+  onNextMonth?: (date: Date) => void,
+  onOk?: (date: Date, event: SyntheticEvent<*>) => void,
   onEnter?: Function,
   onEntering?: Function,
   onEntered?: Function,
@@ -74,13 +84,15 @@ type Props = {
   onOpen?: () => void,
   onClose?: () => void,
   onHide?: () => void,
-  style?: Object
+  style?: Object,
+  // 一键选值
+  oneTap?: boolean
 };
 
 type State = {
-  value?: moment$Moment,
+  value?: Date,
   calendarState?: 'DROP_MONTH' | 'DROP_TIME',
-  pageDate: moment$Moment,
+  pageDate: Date,
   active?: boolean
 };
 
@@ -117,7 +129,7 @@ class DatePicker extends React.Component<Props, State> {
 
     this.state = {
       value: activeValue,
-      pageDate: activeValue || calendarDefaultDate || moment() // display calendar date
+      pageDate: activeValue || calendarDefaultDate || new Date() // display calendar date
     };
   }
 
@@ -125,7 +137,7 @@ class DatePicker extends React.Component<Props, State> {
     if (typeof nextProps.value !== 'undefined') {
       const { value } = nextProps;
 
-      if (value && !value.isSame(prevState.value, 'day')) {
+      if (value && !isSameDay(value, prevState.value)) {
         return {
           value,
           pageDate: value
@@ -140,7 +152,7 @@ class DatePicker extends React.Component<Props, State> {
     return null;
   }
 
-  onMoveForword = (nextPageDate: moment$Moment) => {
+  onMoveForword = (nextPageDate: Date) => {
     const { onNextMonth, onChangeCalendarDate } = this.props;
     this.setState({
       pageDate: nextPageDate
@@ -149,7 +161,7 @@ class DatePicker extends React.Component<Props, State> {
     onChangeCalendarDate && onChangeCalendarDate(nextPageDate);
   };
 
-  onMoveBackward = (nextPageDate: moment$Moment) => {
+  onMoveBackward = (nextPageDate: Date) => {
     const { onPrevMonth, onChangeCalendarDate } = this.props;
     this.setState({
       pageDate: nextPageDate
@@ -159,20 +171,19 @@ class DatePicker extends React.Component<Props, State> {
   };
 
   getValue = () => {
-    const value = this.props.value || this.state.value;
-    return value ? value.clone() : null;
+    return this.props.value || this.state.value;
   };
 
   getDateString() {
-    const { placeholder, format } = this.props;
+    const { placeholder, format: formatType } = this.props;
     const value = this.getValue();
 
-    return value ? value.format(format) : placeholder || format;
+    return value ? format(value, formatType) : placeholder || formatType;
   }
 
   calendar = null;
 
-  handleChangePageDate = (nextPageDate: moment$Moment) => {
+  handleChangePageDate = (nextPageDate: Date) => {
     this.setState({
       pageDate: nextPageDate,
       calendarState: undefined
@@ -180,18 +191,14 @@ class DatePicker extends React.Component<Props, State> {
     this.handleAllSelect(nextPageDate);
   };
 
-  handleChangePageTime = (nextPageTime: moment$Moment) => {
+  handleChangePageTime = (nextPageTime: Date) => {
     this.setState({
       pageDate: nextPageTime
     });
     this.handleAllSelect(nextPageTime);
   };
 
-  handleShortcutPageDate = (
-    value: moment$Moment,
-    closeOverlay?: boolean,
-    event?: SyntheticEvent<*>
-  ) => {
+  handleShortcutPageDate = (value: Date, closeOverlay?: boolean, event?: SyntheticEvent<*>) => {
     this.updateValue(value, closeOverlay);
     this.handleAllSelect(value, event);
   };
@@ -202,19 +209,19 @@ class DatePicker extends React.Component<Props, State> {
     onOk && onOk(this.state.pageDate, event);
   };
 
-  updateValue(nextPageDate?: moment$Moment | null, closeOverlay?: boolean = true) {
+  updateValue(nextPageDate?: Date | null, closeOverlay?: boolean = true) {
     const { pageDate } = this.state;
     const { onChange } = this.props;
     const value = this.getValue();
     const nextValue: any = !_.isUndefined(nextPageDate) ? nextPageDate : pageDate;
 
     this.setState({
-      pageDate: nextValue || moment(),
+      pageDate: nextValue || new Date(),
       value: nextValue
     });
 
-    if (nextValue !== value || !nextValue.isSame(value)) {
-      onChange && onChange(nextValue ? nextValue.clone() : null);
+    if (nextValue !== value || !isSameDay(nextValue, value)) {
+      onChange && onChange(nextValue);
     }
 
     // `closeOverlay` default value is `true`
@@ -227,7 +234,7 @@ class DatePicker extends React.Component<Props, State> {
     const { calendarDefaultDate } = this.props;
     const value = this.getValue();
     this.setState({
-      pageDate: value || calendarDefaultDate || moment()
+      pageDate: value || calendarDefaultDate || new Date()
     });
   }
 
@@ -290,26 +297,31 @@ class DatePicker extends React.Component<Props, State> {
   };
 
   handleClean = () => {
-    this.setState({ pageDate: moment() });
+    this.setState({ pageDate: new Date() });
     this.updateValue(null);
   };
-  handleAllSelect = (nextValue: moment$Moment, event?: SyntheticEvent<*>) => {
+  handleAllSelect = (nextValue: Date, event?: SyntheticEvent<*>) => {
     const { onSelect, onChangeCalendarDate } = this.props;
     onSelect && onSelect(nextValue, event);
     onChangeCalendarDate && onChangeCalendarDate(nextValue, event);
   };
-  handleSelect = (nextValue: moment$Moment) => {
+
+  handleSelect = (nextValue: Date) => {
+    const { oneTap } = this.props;
     const { pageDate } = this.state;
-    nextValue
-      .hours(pageDate.hours())
-      .minutes(pageDate.minutes())
-      .seconds(pageDate.seconds());
 
     this.setState({
-      pageDate: nextValue
+      pageDate: composeFunctions(
+        d => setHours(d, getHours(pageDate)),
+        d => setMinutes(d, getMinutes(pageDate)),
+        d => setSeconds(d, getSeconds(pageDate))
+      )(nextValue)
     });
 
     this.handleAllSelect(nextValue);
+    if (oneTap) {
+      this.updateValue(nextValue);
+    }
   };
 
   handleEntered = () => {
@@ -331,7 +343,7 @@ class DatePicker extends React.Component<Props, State> {
     });
   };
 
-  disabledToolbarHandle = (date?: moment$Moment): boolean => {
+  disabledToolbarHandle = (date?: Date): boolean => {
     const { disabledDate } = this.props;
     const allowDate = disabledDate ? disabledDate(date) : false;
     const allowTime = disabledTime(this.props, date);
@@ -388,7 +400,7 @@ class DatePicker extends React.Component<Props, State> {
     );
   }
   renderDropdownMenu(calendar: React.Node) {
-    const { placement, ranges, menuClassName } = this.props;
+    const { placement, ranges, menuClassName, oneTap } = this.props;
     const { pageDate } = this.state;
     const classes = classNames(
       this.addPrefix('date-menu'),
@@ -406,6 +418,7 @@ class DatePicker extends React.Component<Props, State> {
             disabledHandle={this.disabledToolbarHandle}
             onShortcut={this.handleShortcutPageDate}
             onOk={this.handleOK}
+            hideOkButton={oneTap}
           />
         </div>
       </MenuWrapper>

@@ -5,7 +5,13 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
 
-import { ReactChildren, defaultProps, getUnhandledProps, prefix } from './utils';
+import {
+  ReactChildren,
+  defaultProps,
+  getUnhandledProps,
+  prefix,
+  createChainedFunction
+} from './utils';
 
 type Props = {
   appearance: 'default' | 'picker',
@@ -55,7 +61,7 @@ class RadioGroup extends React.Component<Props, State> {
           inline,
           name,
           checked: shallowEqual(nextValue, child.props.value),
-          onChange: this.handleChange
+          onChange: createChainedFunction(this.handleChange, child.props.onChange)
         };
       }
       return child.props;

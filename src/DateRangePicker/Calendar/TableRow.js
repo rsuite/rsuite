@@ -2,24 +2,21 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
 import _ from 'lodash';
 import { getUnhandledProps, prefix, defaultProps } from '../../utils';
 
 import Type from '../Type';
+import { addDays, isSameDay, isBefore, isAfter } from 'date-fns';
+import { getDate, format } from 'date-fns';
 
 type Props = {
-  weekendDate?: moment$Moment,
-  selected: Array<moment$Moment>,
-  hoverValue: Array<moment$Moment>,
-  onSelect?: (date: moment$Moment) => void,
-  disabledDate?: (
-    date: moment$Moment,
-    selectValue: Array<moment$Moment | null>,
-    type: string
-  ) => boolean,
-  inSameMonth?: (date: moment$Moment) => boolean,
-  onMouseMove?: (date: moment$Moment) => void,
+  weekendDate?: Date,
+  selected: Array<Date>,
+  hoverValue: Array<Date>,
+  onSelect?: (date: Date) => void,
+  disabledDate?: (date: Date, selectValue: Array<Date | null>, type: string) => boolean,
+  inSameMonth?: (date: Date) => boolean,
+  onMouseMove?: (date: Date) => void,
   className?: string,
   classPrefix?: string
 };
@@ -43,50 +40,43 @@ class TableRow extends React.Component<Props> {
     } = this.props;
 
     const days = [];
-    const selectedStartDate = selected[0] ? selected[0].clone() : null;
-    const selectedEndDate = selected[1] ? selected[1].clone() : null;
+    const selectedStartDate = selected[0];
+    const selectedEndDate = selected[1];
     const hoverStartDate = hoverValue[0] || null;
     const hoverEndDate = hoverValue[1] || null;
 
     for (let i = 0; i < 7; i += 1) {
-      let thisDate = moment(weekendDate).add(i, 'd');
+      let thisDate = addDays(weekendDate, i);
       let selectValue = [selectedStartDate, selectedEndDate];
 
-      let disabled = disabledDate && disabledDate(thisDate.clone(), selectValue, Type.CALENDAR);
-      let isToday = thisDate.isSame(moment(), 'date');
+      let disabled = disabledDate && disabledDate(thisDate, selectValue, Type.CALENDAR);
+      let isToday = isSameDay(thisDate, new Date());
       let inRange = false;
 
       let unSameMonth = !(inSameMonth && inSameMonth(thisDate));
 
       const isStartSelected =
-        !unSameMonth && selectedStartDate && thisDate.isSame(selectedStartDate, 'date');
-      const isEndSelected =
-        !unSameMonth && selectedEndDate && thisDate.isSame(selectedEndDate, 'date');
+        !unSameMonth && selectedStartDate && isSameDay(thisDate, selectedStartDate);
+      const isEndSelected = !unSameMonth && selectedEndDate && isSameDay(thisDate, selectedEndDate);
 
       const isSelected = isStartSelected || isEndSelected;
 
       // for Selected
       if (selectedStartDate && selectedEndDate) {
-        if (
-          thisDate.isBefore(selectedEndDate, 'date') &&
-          thisDate.isAfter(selectedStartDate, 'date')
-        ) {
+        if (isBefore(thisDate, selectedEndDate) && isAfter(thisDate, selectedStartDate)) {
           inRange = true;
         }
-        if (
-          thisDate.isBefore(selectedStartDate, 'date') &&
-          thisDate.isAfter(selectedEndDate, 'date')
-        ) {
+        if (isBefore(thisDate, selectedStartDate) && isAfter(thisDate, selectedEndDate)) {
           inRange = true;
         }
       }
 
       // for Hovering
       if (!isSelected && hoverEndDate && hoverStartDate) {
-        if (!thisDate.isAfter(hoverEndDate, 'date') && !thisDate.isBefore(hoverStartDate, 'date')) {
+        if (!isAfter(thisDate, hoverEndDate) && !isBefore(thisDate, hoverStartDate)) {
           inRange = true;
         }
-        if (!thisDate.isAfter(hoverStartDate, 'date') && !thisDate.isBefore(hoverEndDate, 'date')) {
+        if (!isAfter(thisDate, hoverStartDate) && !isBefore(thisDate, hoverEndDate)) {
           inRange = true;
         }
       }
@@ -101,7 +91,7 @@ class TableRow extends React.Component<Props> {
         [this.addPrefix('cell-disabled')]: disabled
       });
 
-      let title = thisDate.format('YYYY-MM-DD');
+      let title = format(thisDate, 'YYYY-MM-DD');
 
       days.push(
         <div
@@ -115,7 +105,7 @@ class TableRow extends React.Component<Props> {
           }
           key={title}
         >
-          <span className={this.addPrefix('cell-content')}>{thisDate.date()}</span>
+          <span className={this.addPrefix('cell-content')}>{getDate(thisDate)}</span>
         </div>
       );
     }

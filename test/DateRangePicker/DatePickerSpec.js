@@ -1,9 +1,9 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import moment from 'moment';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import DatePicker from '../../src/DateRangePicker/DatePicker';
+import { parse } from 'date-fns';
 
 describe('DatePicker', () => {
   it('Should render a div with "rs-calendar" class', () => {
@@ -19,7 +19,7 @@ describe('DatePicker', () => {
   it('Should output a date', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <DatePicker
-        calendarDate={[moment('2017-08'), moment('2017-09')]}
+        calendarDate={[parse('2017-08'), parse('2017-09')]}
         index={0}
         onChangeCalendarDate={() => {}}
       />
@@ -33,7 +33,7 @@ describe('DatePicker', () => {
   it('Should call `onChangeCalendarDate` callback', done => {
     const instance = ReactTestUtils.renderIntoDocument(
       <DatePicker
-        calendarDate={[moment('2017-08'), moment('2017-09')]}
+        calendarDate={[parse('2017-08'), parse('2017-09')]}
         index={0}
         onChangeCalendarDate={() => {
           done();
@@ -49,7 +49,7 @@ describe('DatePicker', () => {
   it('Should call `onChangeCalendarDate` callback', done => {
     const instance = ReactTestUtils.renderIntoDocument(
       <DatePicker
-        calendarDate={[moment('2017-08'), moment('2017-10')]}
+        calendarDate={[parse('2017-08'), parse('2017-10')]}
         index={0}
         onChangeCalendarDate={() => {
           done();
@@ -64,7 +64,7 @@ describe('DatePicker', () => {
   it('Should call `onChangeCalendarDate` callback', done => {
     const instance = ReactTestUtils.renderIntoDocument(
       <DatePicker
-        calendarDate={[moment('2017-08'), moment('2017-10')]}
+        calendarDate={[parse('2017-08'), parse('2017-10')]}
         index={0}
         onChangeCalendarDate={() => {
           done();
@@ -80,7 +80,7 @@ describe('DatePicker', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <DatePicker
         onChangeCalendarDate={() => {}}
-        calendarDate={[moment('2017-08'), moment('2017-10')]}
+        calendarDate={[parse('2017-08'), parse('2017-10')]}
         index={0}
       />
     );
