@@ -211,20 +211,56 @@ describe('Form', () => {
           },
           formError: _omit(formError, ['name1', 'name2', 'name3'])
         }));
-        setTimeout(() => {
-          const { formValue, formError } = this.state;
-          if (
-            formValue.name1 === 'abc@qq.com' &&
-            _isNil(formError.name1) &&
-            formValue.name2 === 'abc@qq.com' &&
-            _isNil(formError.name2) &&
-            formValue.name3 === 'abc@qq.com' &&
-            _isNil(formError.name3)
-          ) {
-            done();
-          }
-        }, 500);
       };
+
+      result = true;
+      count = 0;
+      handleChange = formError =>
+        this.setState({ formError }, () => {
+          const { formValue, formError } = this.state;
+          switch (++this.count) {
+            case 1:
+              this.result =
+                this.result &&
+                formValue.name1 === '' &&
+                !_isNil(formError.name1) &&
+                formValue.name2 === '' &&
+                _isNil(formError.name2) &&
+                formValue.name3 === '' &&
+                _isNil(formError.name3);
+              break;
+            case 2:
+              this.result =
+                this.result &&
+                formValue.name1 === '' &&
+                !_isNil(formError.name1) &&
+                formValue.name2 === '' &&
+                !_isNil(formError.name2) &&
+                formValue.name3 === '' &&
+                _isNil(formError.name3);
+              break;
+            case 3:
+              this.result =
+                this.result &&
+                formValue.name1 === '' &&
+                !_isNil(formError.name1) &&
+                formValue.name2 === '' &&
+                !_isNil(formError.name2) &&
+                formValue.name3 === '' &&
+                !_isNil(formError.name3);
+              break;
+            case 4:
+              this.result =
+                this.result &&
+                formValue.name1 === 'abc@qq.com' &&
+                _isNil(formError.name1) &&
+                formValue.name2 === 'abc@qq.com' &&
+                _isNil(formError.name2) &&
+                formValue.name3 === 'abc@qq.com' &&
+                _isNil(formError.name3);
+              this.result && done();
+          }
+        });
 
       render() {
         const { formValue, formError } = this.state;
@@ -235,7 +271,7 @@ describe('Form', () => {
             formValue={formValue}
             formError={formError}
             onChange={formValue => this.setState({ formValue })}
-            onCheck={formError => this.setState({ formError })}
+            onCheck={this.handleChange}
           >
             <FormControl name="name1" />
             <FormControl name="name2" />
