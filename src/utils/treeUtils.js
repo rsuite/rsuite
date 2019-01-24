@@ -1,5 +1,7 @@
 //@flow
+import * as React from 'react';
 import _ from 'lodash';
+import { reactToString } from 'rsuite-utils/lib/utils';
 
 const SEARCH_BAR_HEIGHT = 48;
 const MENU_PADDING = 12;
@@ -61,6 +63,30 @@ export function getNodeParentKeys(node: Object, props: Object) {
 
   traverse(node);
   return parentKeys;
+}
+
+/**
+ * 判断当前节点是否显示
+ * @param {*} label
+ * @param {*} searchKeyword
+ */
+export function shouldDisplay(label: any, searchKeyword: string) {
+  if (!_.trim(searchKeyword)) {
+    return true;
+  }
+  const keyword = searchKeyword.toLocaleLowerCase();
+  if (typeof label === 'string') {
+    return label.toLocaleLowerCase().indexOf(keyword) >= 0;
+  } else if (React.isValidElement(label)) {
+    const nodes = reactToString(label);
+    return (
+      nodes
+        .join('')
+        .toLocaleLowerCase()
+        .indexOf(keyword) >= 0
+    );
+  }
+  return false;
 }
 
 /**

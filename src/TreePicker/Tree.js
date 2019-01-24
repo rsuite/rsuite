@@ -8,16 +8,17 @@ import { IntlProvider, FormattedMessage } from 'rsuite-intl';
 import { AutoSizer, List, CellMeasurerCache, CellMeasurer } from 'react-virtualized';
 import { polyfill } from 'react-lifecycles-compat';
 import _ from 'lodash';
-import { reactToString, shallowEqual } from 'rsuite-utils/lib/utils';
+import { shallowEqual } from 'rsuite-utils/lib/utils';
 
 import TreeNode from './TreeNode';
 import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 import {
   flattenTree,
+  shouldDisplay,
   getNodeParentKeys,
   shouldShowNodeByExpanded,
   getVirtualLisHeight
-} from './utils';
+} from '../utils/treeUtils';
 
 import {
   PickerToggle,
@@ -310,12 +311,12 @@ class Tree extends React.Component<Props, States> {
     let items = [];
     const loop = (nodes: any[]) => {
       nodes.forEach((node: Object) => {
-        const disabled =
-          disabledItemValues.filter(disabledItem => shallowEqual(disabledItem, node[valueKey]))
-            .length > 0;
+        const disabled = disabledItemValues.some(disabledItem =>
+          shallowEqual(disabledItem, node[valueKey])
+        );
         if (!disabled) {
           items.push(node);
-          if (!node.expand) {
+          if (!this.getExpandState(node, this.props)) {
             return;
           }
           if (node[childrenKey]) {
@@ -373,7 +374,7 @@ class Tree extends React.Component<Props, States> {
 
     const setVisible = (nodes = []) =>
       nodes.forEach((item: Object) => {
-        item.visible = this.shouldDisplay(item[labelKey], word);
+        item.visible = shouldDisplay(item[labelKey], word);
         if (_.isArray(item[childrenKey])) {
           setVisible(item[childrenKey]);
           item[childrenKey].forEach((child: Object) => {
@@ -586,25 +587,6 @@ class Tree extends React.Component<Props, States> {
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
-
-  shouldDisplay = (label: any, searchKeyword: string = '') => {
-    if (!_.trim(searchKeyword)) {
-      return true;
-    }
-    const keyword = searchKeyword.toLocaleLowerCase();
-    if (typeof label === 'string') {
-      return label.toLocaleLowerCase().indexOf(keyword) >= 0;
-    } else if (React.isValidElement(label)) {
-      const nodes = reactToString(label);
-      return (
-        nodes
-          .join('')
-          .toLocaleLowerCase()
-          .indexOf(keyword) >= 0
-      );
-    }
-    return false;
-  };
 
   // 展开，收起节点
   handleToggle = (nodeData: Object, layer: number) => {
@@ -960,7 +942,7 @@ class Tree extends React.Component<Props, States> {
         return <div className={this.addPrefix('none')}>{locale.noResultsText}</div>;
       }
     } else {
-      nodes = this.getFlattenTreeData(filterData).filter(n => n.showNode);
+      nodes = this.getFlattenTreeData(filterData).filter(n => n.showNode && n.visible);
       if (!nodes.length) {
         return <div className={this.addPrefix('none')}>{locale.noResultsText}</div>;
       }

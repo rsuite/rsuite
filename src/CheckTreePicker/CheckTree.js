@@ -24,19 +24,20 @@ import {
   createConcatChildrenFunction
 } from '../_picker';
 import {
-  shouldDisplay,
-  shouldShowNodeByExpanded,
-  flattenTree,
-  getNodeParentKeys,
   isEveryChildChecked,
   isSomeChildChecked,
   isSomeNodeHasChildren,
   getTopParentNodeCheckState,
-  getVirtualLisHeight,
   getEveryChildUncheckable,
   getSiblingNodeUncheckable
 } from './utils';
-// import { Props, States, DefaultEvent, RowProps } from './types';
+import {
+  shouldDisplay,
+  shouldShowNodeByExpanded,
+  flattenTree,
+  getNodeParentKeys,
+  getVirtualLisHeight
+} from '../utils/treeUtils';
 
 const defaultHeight = 360;
 const defaultWidth = 200;
@@ -1148,10 +1149,6 @@ class CheckTree extends React.Component<Props, States> {
     const { key, style, classPrefix } = options;
     const { layer, refKey, expand, showNode } = node;
 
-    if (!node.visible) {
-      return null;
-    }
-
     const children = node[childrenKey];
 
     const props = {
@@ -1232,7 +1229,7 @@ class CheckTree extends React.Component<Props, States> {
         return <div className={this.addPrefix('none')}>{locale.noResultsText}</div>;
       }
     } else {
-      formattedNodes = this.getFlattenTreeData(filterData).filter(n => n.showNode);
+      formattedNodes = this.getFlattenTreeData(filterData).filter(n => n.showNode && n.visible);
       if (!formattedNodes.length) {
         return <div className={this.addPrefix('none')}>{locale.noResultsText}</div>;
       }
