@@ -1,7 +1,8 @@
-# 3.7.1
+# 3.7.2
 
-> January 24, 2019
+> January 25, 2019
 
+* **Hotfix**: Fix typos
 * **Improve**: Modular import `react-virtualized`
 
 # 3.7.0
