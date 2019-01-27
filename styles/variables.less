@@ -140,7 +140,7 @@
 @table-head-font-color: @B600;
 @table-body-background: @B000;
 @table-body-hover-background: @H050;
-@table-table-cell-fixed-shadow:0 5px rgba(9, 9, 9, 0.08);
+@table-table-cell-fixed-shadow: 0 5px rgba(9, 9, 9, 0.08);
 @table-resize-mouse-color: @H500;
 @table-sort-icon-color: @H500;
 @table-sort-icon-unsort: '\f0dc';
@@ -573,7 +573,7 @@
 //
 //##
 @sidenav-padding-vertical: 15px;
-@sidenav-childrn-padding-vertical: 11px;
+@sidenav-children-padding-vertical: 11px;
 @sidenav-padding-horizonal: 20px;
 @sidenav-collapse-in-width: 100%;
 @sidenav-default-width: 56px;
@@ -586,7 +586,11 @@
 @sidenav-icon-width: @sidenav-level1-item-font-size;
 @sidenav-dropdown-toggle-caret-width: 20px;
 @sidenav-level-retract: 9px;
-@sidenav-level1-retract: @sidenav-padding-horizonal + @sidenav-icon-width + @sidenav-icon-spacing;
+@sidenav-level2-retract: @sidenav-padding-horizonal + @sidenav-icon-width + @sidenav-icon-spacing;
+@sidenav-level3-retract: @sidenav-level2-retract + @sidenav-level-retract; //60 px
+@sidenav-level4-retract: @sidenav-level2-retract + @sidenav-level-retract*2;
+@sidenav-level5-retract: @sidenav-level2-retract + @sidenav-level-retract*3;
+@sidenav-level6-retract: @sidenav-level2-retract + @sidenav-level-retract*4;
 @sidenav-collapse-transition-config: 0.2s ease-in;
 // ** Sidenav default
 @sidenav-deafult-bg: @B050;
