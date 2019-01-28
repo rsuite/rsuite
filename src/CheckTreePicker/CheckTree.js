@@ -210,11 +210,7 @@ class CheckTree extends React.Component<Props, States> {
     if (_.isArray(data) && _.isArray(prevState.data) && prevState.data !== data) {
       nextState.data = data;
     }
-    if (
-      _.isArray(value) &&
-      _.isArray(prevState.value) &&
-      !shallowEqualArray(value, prevState.value)
-    ) {
+    if (_.isArray(value) && !shallowEqualArray(value, prevState.value)) {
       nextState.value = value;
     }
 
