@@ -205,7 +205,7 @@ class CheckTree extends React.Component<Props, States> {
   }
 
   static getDerivedStateFromProps(nextProps: Props, prevState: States) {
-    const { value, data, cascade, expandAll, uncheckableItemValues } = nextProps;
+    const { value, data, cascade, expandAll, searchKeyword, uncheckableItemValues } = nextProps;
     let nextState = {};
     if (_.isArray(data) && _.isArray(prevState.data) && prevState.data !== data) {
       nextState.data = data;
@@ -220,6 +220,10 @@ class CheckTree extends React.Component<Props, States> {
       !shallowEqualArray(uncheckableItemValues, prevState.uncheckableItemValues)
     ) {
       nextState.uncheckableItemValues = uncheckableItemValues;
+    }
+
+    if (searchKeyword !== prevState.searchKeyword) {
+      nextState.searchKeyword = searchKeyword;
     }
 
     if (cascade !== prevState.cascade) {
@@ -298,7 +302,7 @@ class CheckTree extends React.Component<Props, States> {
       });
     }
 
-    if (prevProps.searchKeyword !== this.props.searchKeyword) {
+    if (prevState.searchKeyword !== this.props.searchKeyword) {
       this.setState({
         filterData: this.getFilterData(this.props.searchKeyword, filterData)
       });

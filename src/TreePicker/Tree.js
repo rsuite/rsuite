@@ -173,7 +173,7 @@ class Tree extends React.Component<Props, States> {
   }
 
   static getDerivedStateFromProps(nextProps: Props, prevState: States) {
-    const { value, data, expandAll } = nextProps;
+    const { value, data, expandAll, searchKeyword } = nextProps;
     let nextState = {};
     if (_.isArray(data) && _.isArray(prevState.data) && prevState.data !== data) {
       nextState.data = data;
@@ -182,6 +182,10 @@ class Tree extends React.Component<Props, States> {
     if (!shallowEqual(value, prevState.value)) {
       nextState.value = value;
       nextState.selectedValue = value;
+    }
+
+    if (searchKeyword !== prevState.searchKeyword) {
+      nextState.searchKeyword = searchKeyword;
     }
 
     if (expandAll !== prevState.expandAll) {
@@ -234,7 +238,7 @@ class Tree extends React.Component<Props, States> {
       this.setState(nextState);
     }
 
-    if (prevProps.searchKeyword !== this.props.searchKeyword) {
+    if (prevState.searchKeyword !== this.props.searchKeyword) {
       this.setState({
         filterData: this.getFilterData(filterData, this.props.searchKeyword)
       });
