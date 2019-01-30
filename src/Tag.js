@@ -44,7 +44,8 @@ class Tag extends React.Component<Props> {
 
 export default compose(
   withStyleProps({
-    hasColor: true
+    hasColor: true,
+    defaultColor: 'default'
   }),
   defaultProps({
     componentClass: 'div',

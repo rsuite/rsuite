@@ -27,13 +27,14 @@ type ProvidedProps = {
 type Options = {
   hasSize?: boolean,
   hasStatus?: boolean,
-  hasColor?: boolean
+  hasColor?: boolean,
+  defaultColor?: string
 };
 
 const withStyleProps = (
   options?: Options = {}
 ): HigherOrderComponent<RequiredProps, ProvidedProps> => (Component: any): any => {
-  const { hasSize, hasStatus, hasColor } = options;
+  const { hasSize, hasStatus, hasColor, defaultColor } = options;
 
   class WithStyleProps extends React.Component<RequiredProps> {
     static displayName = wrapDisplayName(Component, 'withStyleProps');
@@ -42,12 +43,12 @@ const withStyleProps = (
     render() {
       const { classPrefix, size, color, status, innerRef, className, ...props } = this.props;
       const addPrefix: Function = prefix(classPrefix);
-      const classes: string = classNames(
-        hasSize ? addPrefix(size) : null,
-        hasColor ? addPrefix(color) : null,
-        hasStatus ? addPrefix(status) : null,
-        className
-      );
+      const classes: string = classNames(className, {
+        [addPrefix(size)]: hasSize && size,
+        [addPrefix(color)]: hasColor && color,
+        [addPrefix(defaultColor)]: !color,
+        [addPrefix(status)]: hasStatus && status
+      });
 
       return <Component {...props} classPrefix={classPrefix} className={classes} ref={innerRef} />;
     }
