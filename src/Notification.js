@@ -8,8 +8,9 @@ import Icon from './Icon';
 import { STATUS_ICON_NAMES } from './utils/constants';
 import { getClassNamePrefix } from './utils/prefix';
 
+const classPrefix = `${getClassNamePrefix()}notification`;
 const defaultOptions = {
-  classPrefix: `${getClassNamePrefix()}notification`
+  classPrefix
 };
 
 Notify.config(defaultOptions);
@@ -31,7 +32,7 @@ function appendIcon(type: string, content: React.Node): React.Node {
     return content;
   }
   return (
-    <div>
+    <div className={`${classPrefix}-title-with-icon`}>
       <Icon icon={STATUS_ICON_NAMES[type]} />
       {content}
     </div>
