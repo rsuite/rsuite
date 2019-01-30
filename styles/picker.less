@@ -69,8 +69,10 @@
     @padding-horizontal: @padding-base-horizontal - @picker-default-toggle-border-width;
 
     padding: @padding-vertical @padding-horizontal;
+  }
 
-    &:not(.@{ns}&-disabled):hover,
+  .@{ns}picker-default:not(.@{ns}picker-disabled) & {
+    &:hover,
     &.active {
       border-color: @picker-default-toggle-hover-border-color;
     }
