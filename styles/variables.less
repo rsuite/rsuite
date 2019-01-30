@@ -393,9 +393,7 @@
 @toggle-md-handle-diameter: @toggle-md-height - @toggle-md-handle-gap*2;
 @toggle-md-handle-bg: @B000;
 @toggle-md-inner-line-height-computed: @toggle-md-height;
-@toggle-md-inner-line-height: unit(
-  @toggle-md-inner-line-height-computed / @toggle-md-inner-font-size
-);
+@toggle-md-inner-line-height: unit(@toggle-md-inner-line-height-computed / @toggle-md-inner-font-size);
 // The same to button
 @toggle-md-inner-margin: @padding-base-vertical;
 
@@ -1124,9 +1122,7 @@
 
 // == TagPicker
 @tag-picker-toggle-content-height: @input-height-extra-small;
-@tag-picker-content-padding-vertical: (
-    @input-picker-toggle-content-height - @tag-picker-toggle-content-height
-  )/2; // (36 -24)/2
+@tag-picker-content-padding-vertical: ( @input-picker-toggle-content-height - @tag-picker-toggle-content-height )/2; // (36 -24)/2
 @tag-picker-content-padding-horizontal: 6px;
 @tag-picker: ~'@{ns}@{multi-input-picker-prefix}';
 //== Slider
