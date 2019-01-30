@@ -118,7 +118,7 @@ class FormControl extends React.Component<Props, State> {
     const { errorFromContext } = this.context;
     const { errorMessage } = this.props;
 
-    if (errorMessage) {
+    if (typeof errorMessage !== 'undefined') {
       return this.renderError(undefined, errorMessage);
     }
 
