@@ -116,7 +116,8 @@ class DropdownMenuItem extends React.Component<Props, State> {
       [addPrefix('open')]: this.getOpen(),
       [addPrefix('active')]: active,
       [addPrefix('disabled')]: disabled,
-      [addPrefix(`pull-${pullLeft ? 'left' : 'right'}`)]: pullLeft
+      [addPrefix(`pull-${pullLeft ? 'left' : 'right'}`)]: pullLeft,
+      [addPrefix('with-icon')]: icon
     });
 
     const itemProps: Object = {};
@@ -159,7 +160,7 @@ class DropdownMenuItem extends React.Component<Props, State> {
           className={addPrefix('content')}
           tabIndex={tabIndex}
         >
-          {icon}
+          {icon && React.cloneElement(icon, { className: addPrefix('menu-icon') })}
           {children}
         </Component>
       </li>

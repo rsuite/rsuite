@@ -85,7 +85,10 @@ class DropdownMenu extends React.Component<Props> {
               tabIndex={-1}
             >
               <span>{title}</span>
-              <Icon icon={pullLeft ? 'angle-left' : 'angle-right'} />
+              <Icon
+                className={this.addPrefix('toggle-icon')}
+                icon={pullLeft ? 'angle-left' : 'angle-right'}
+              />
               <Ripple />
             </div>
             {this.renderCollapse(
