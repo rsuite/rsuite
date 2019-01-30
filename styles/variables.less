@@ -66,7 +66,8 @@
 //
 //## Font, line-height, and color for body text, headings, and more.
 
-@font-family-base: Avenir-Roman, Apple-System, Arial, Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', STXihei, sans-serif;
+@font-family-base: Avenir-Roman, Apple-System, Arial, Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+  'Microsoft YaHei', STXihei, sans-serif;
 @font-family-icon: 'rsuite-icon-font';
 
 @font-size-base: 14px;
@@ -140,7 +141,7 @@
 @table-head-font-color: @B600;
 @table-body-background: @B000;
 @table-body-hover-background: @H050;
-@table-table-cell-fixed-shadow:0 5px rgba(9, 9, 9, 0.08);
+@table-table-cell-fixed-shadow: 0 5px rgba(9, 9, 9, 0.08);
 @table-resize-mouse-color: @H500;
 @table-sort-icon-color: @H500;
 @table-sort-icon-unsort: '\f0dc';
@@ -392,7 +393,9 @@
 @toggle-md-handle-diameter: @toggle-md-height - @toggle-md-handle-gap*2;
 @toggle-md-handle-bg: @B000;
 @toggle-md-inner-line-height-computed: @toggle-md-height;
-@toggle-md-inner-line-height: unit(@toggle-md-inner-line-height-computed / @toggle-md-inner-font-size);
+@toggle-md-inner-line-height: unit(
+  @toggle-md-inner-line-height-computed / @toggle-md-inner-font-size
+);
 // The same to button
 @toggle-md-inner-margin: @padding-base-vertical;
 
@@ -987,6 +990,7 @@
 @tag-default-background: @B050;
 @tag-default-color: @B800;
 @tag-gap: 10px;
+@tag-toggle-clean-hover-color: @error-color;
 
 //== Divider
 //
@@ -1120,7 +1124,9 @@
 
 // == TagPicker
 @tag-picker-toggle-content-height: @input-height-extra-small;
-@tag-picker-content-padding-vertical: (@input-picker-toggle-content-height - @tag-picker-toggle-content-height)/2; // (36 -24)/2
+@tag-picker-content-padding-vertical: (
+    @input-picker-toggle-content-height - @tag-picker-toggle-content-height
+  )/2; // (36 -24)/2
 @tag-picker-content-padding-horizontal: 6px;
 @tag-picker: ~'@{ns}@{multi-input-picker-prefix}';
 //== Slider
