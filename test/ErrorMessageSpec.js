@@ -8,7 +8,7 @@ import innerText from './innerText';
 describe('ErrorMessage', () => {
   it('Should render a ErrorMessage', () => {
     const title = 'Test';
-    const instance = ReactTestUtils.renderIntoDocument(<ErrorMessage>{title}</ErrorMessage>);
+    const instance = ReactTestUtils.renderIntoDocument(<ErrorMessage show>{title}</ErrorMessage>);
     assert.include(findDOMNode(instance).className, 'rs-error-message-wrapper');
     assert.equal(innerText(findDOMNode(instance)), title);
   });
@@ -18,25 +18,32 @@ describe('ErrorMessage', () => {
     assert.ok(findDOMNode(instance).querySelector('.rs-error-message.rs-error-message-show'));
   });
 
+  it('Should be hide', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<ErrorMessage show={false} />);
+    assert.equal(findDOMNode(instance), null);
+  });
+
   it('Should hava a `bottomLeft` for placement', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<ErrorMessage placement="bottomLeft" />);
+    const instance = ReactTestUtils.renderIntoDocument(
+      <ErrorMessage show placement="bottomLeft" />
+    );
     assert.include(findDOMNode(instance).className, 'rs-error-message-placement-bottom-left');
   });
 
   it('Should have a custom className', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<ErrorMessage className="custom" />);
+    const instance = ReactTestUtils.renderIntoDocument(<ErrorMessage show className="custom" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = ReactTestUtils.renderIntoDocument(<ErrorMessage style={{ fontSize }} />);
+    const instance = ReactTestUtils.renderIntoDocument(<ErrorMessage show style={{ fontSize }} />);
     assert.equal(findDOMNode(instance).style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <ErrorMessage classPrefix="custom-prefix" />
+      <ErrorMessage show classPrefix="custom-prefix" />
     );
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
   });

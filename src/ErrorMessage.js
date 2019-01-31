@@ -41,13 +41,16 @@ class ErrorMessage extends React.Component<Props> {
       placement,
       ...props
     } = this.props;
+
+    if (!show) {
+      return null;
+    }
+
     const addPrefix = prefix(classPrefix);
     const wrapClasses = classNames(addPrefix('wrapper'), className, {
       [addPrefix(`placement-${_.kebabCase(placement)}`)]: placement
     });
-    const classes = classNames(classPrefix, {
-      [addPrefix('show')]: show
-    });
+    const classes = classNames(classPrefix, addPrefix('show'));
 
     return (
       <div {...props} className={wrapClasses}>
