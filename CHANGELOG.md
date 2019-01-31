@@ -1,3 +1,36 @@
+# 3.7.5
+
+> January 31, 2019
+
+* **Improve**: Adjust the style of the Close button on `<Tag>` ([#387])
+* **Bugfix**: Fixed an `errorMessage` for `<FormControl>` that could not overwrite `formError` in `<Form>` ([#389])
+* **Bugfix**: Fixed a passively triggered onScroll event on `<Table>` that caused the scrollbar to be misaligned ([#388])
+* **Bugfix**: Fixed an issue where the style is not uniform when the picker mouse hovers ([#386])
+* **Bugfix**: Fixed an issue where the `<Notification>` header text is too long to be displayed ([#385])
+* **Bugfix**: Fixed `searchKeyword` not controlled in `<TreePicker>` and `<CheckTreePicker>` ([#384])
+* **Bugfix**: Fixed an issue where icons could not be used in combination in `<DropdownMenu>` and `<Sidenav>` ([#383])
+* **Bugfix**: Fixed the node alignment issue that occurred after `<Checktree>` setting `uncheckableItemValues` and `virtualized` ([#382])
+
+---
+
+* **Improve**: 调整了 `<Tag>` 上关闭按钮的样式 ([#387])
+* **Bugfix**: 修复 `<FormControl>` 的 `errorMessage` 属性不能覆盖 `<Form>` 的 `formError` ([#389])
+* **Bugfix**: 修复了 `<Table>` 上被动触发的 onScroll 事件, 该事件导致滚动条不对齐 ([#388])
+* **Bugfix**: 修复了 `Picker` 鼠标悬停时样式不统一的问题 ([#386])
+* **Bugfix**: 修复了 `<Notification>` 标题文本太长无法显示的问题 ([#385])
+* **Bugfix**: 修复了 `<TreePicker>` 和 `<CheckTreePicker>` 的 `searchKeyword` 属性不受控 ([#384])
+* **Bugfix**: 修复了图标无法在 `<DropdownMenu>` 与 `<Sidenav>` 中组合使用的问题([#383])
+* **Bugfix**: 修复了 `<Checktree>` 同时设置 `uncheckableItemValues` 和 `virtualized` 后出现的节点对齐问题 ([#382])
+
+[#389]: https://github.com/rsuite/rsuite/pull/389
+[#388]: https://github.com/rsuite/rsuite/pull/388
+[#387]: https://github.com/rsuite/rsuite/pull/387
+[#386]: https://github.com/rsuite/rsuite/pull/386
+[#385]: https://github.com/rsuite/rsuite/pull/385
+[#384]: https://github.com/rsuite/rsuite/pull/384
+[#383]: https://github.com/rsuite/rsuite/pull/383
+[#382]: https://github.com/rsuite/rsuite/pull/382
+
 # 3.7.4
 
 > January 25, 2019
