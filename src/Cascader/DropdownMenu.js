@@ -23,7 +23,7 @@ type Props = {
   menuHeight: number,
   className?: string,
   renderMenuItem?: (itemLabel: React.Node, item: Object) => React.Node,
-  renderMenu?: (itemLabel: React.Node, item: Object, parentNode?: Object) => React.Node,
+  renderMenu?: (children: Array<Object>, menu: React.Node, parentNode?: Object) => React.Node,
   onSelect?: (
     node: any,
     cascadeItems: any[],
