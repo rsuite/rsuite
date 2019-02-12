@@ -35,7 +35,7 @@ type Props = {
   childrenKey?: string,
   valueKey: string,
   labelKey: string,
-  renderMenu?: (itemLabel: React.Node, item: Object) => React.Node,
+  renderMenu?: (itemLabel: React.Node, item: Object, parentNode?: Object) => React.Node,
   renderValue?: (value: any, activePaths?: any[], selectedElement: React.Node) => React.Node,
   renderExtraFooter?: () => React.Node,
   disabled?: boolean,
