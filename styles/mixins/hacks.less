@@ -12,6 +12,17 @@
   }
 }
 
+.ie-max-width(@value) when (@ie-polyfill = true) {
+  max-width: ~'@{value}@{ie-suffix}';
+
+  // IE 11
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      max-width: @value;
+    }
+  }
+}
+
 .ie-display(@value) when (@ie-polyfill = true) {
   display: ~'@{value}@{ie-suffix}';
 }
