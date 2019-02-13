@@ -61,7 +61,7 @@
     "react-virtualized": "^9.21.0",
     "recompose": "^0.26.0",
     "rsuite-intl": "~1.0.4",
-    "rsuite-notification": "~3.0.2",
+    "rsuite-notification": "^3.0.4",
     "rsuite-table": "^3.4.8",
     "rsuite-utils": "^1.6.0",
     "schema-typed": "~0.2.1"
