@@ -46,6 +46,8 @@
   &-value-list {
     flex: 0 1 auto;
     .ellipsis-basic;
+    .ie-display(block);
+    .ie-max-width(100%);
   }
 
   &-value-count {
@@ -144,6 +146,7 @@
   transition: 0.2s color linear;
   // FIXED: IE browser has 1px orange line.
   .ie-width(19px) !important;
+  .ie-text-align(center);
 
   &:hover {
     color: @picker-toggle-clean-hover-color;
