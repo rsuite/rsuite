@@ -7,7 +7,6 @@
       "gulp",
       "eslint-plugin-json",
       "recompose",
-      "webpack-dev-server",
       "sinon-chai",
       "sinon",
       "prettier",
