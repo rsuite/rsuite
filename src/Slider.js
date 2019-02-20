@@ -261,7 +261,7 @@ class Slider extends React.Component<Props, State> {
     const value = this.getValue();
     const graduatedItems = [];
     const pass = value / step - min / step;
-    const active = Math.ceil((value - min) / (max - min) * count);
+    const active = Math.ceil(((value - min) / (max - min)) * count);
 
     for (let i = 0; i < count; i += 1) {
       let style = {};
@@ -309,7 +309,7 @@ class Slider extends React.Component<Props, State> {
     const style = {
       ...handleStyle,
       // 通过 value 计算出手柄位置
-      [direction]: `${(value - min) / (max - min) * 100}%`
+      [direction]: `${((value - min) / (max - min)) * 100}%`
     };
     const handleClasses = classNames(this.addPrefix('handle'), handleClassName, {
       [this.addPrefix('showtip')]: handleDown
@@ -340,7 +340,7 @@ class Slider extends React.Component<Props, State> {
     const value = this.getValue();
     const key = vertical ? 'height' : 'width';
     const style = {
-      [key]: `${(value - min) / (max - min) * 100}%`
+      [key]: `${((value - min) / (max - min)) * 100}%`
     };
 
     return <div style={style} className={this.addPrefix('progress-bar')} />;

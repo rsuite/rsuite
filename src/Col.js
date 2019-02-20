@@ -41,10 +41,12 @@ type Props = {
 const Sizes = ['xs', 'sm', 'md', 'lg'];
 const omitKeys = [];
 
-const getValue = _.curry((obj: Object, key: string): number => {
-  omitKeys.push(key);
-  return obj[key];
-});
+const getValue = _.curry(
+  (obj: Object, key: string): number => {
+    omitKeys.push(key);
+    return obj[key];
+  }
+);
 
 class Col extends React.Component<Props> {
   render() {

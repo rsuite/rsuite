@@ -264,8 +264,8 @@ class Uploader extends React.Component<Props, State> {
 
   updateFileList(nextFile: FileType, callback?: () => void) {
     const fileList = this.getFileList();
-    const nextFileList = fileList.map(
-      file => (file.fileKey === nextFile.fileKey ? nextFile : file)
+    const nextFileList = fileList.map(file =>
+      file.fileKey === nextFile.fileKey ? nextFile : file
     );
 
     const nextState: any = {
