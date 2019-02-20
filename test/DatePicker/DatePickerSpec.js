@@ -79,6 +79,17 @@ describe('DatePicker', () => {
     );
   });
 
+  it('Should call `onClean` callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = ReactTestUtils.renderIntoDocument(
+      <DatePicker defaultValue={new Date()} onClean={doneOp} />
+    );
+    const instanceDOM = findDOMNode(instance);
+    ReactTestUtils.Simulate.click(instanceDOM.querySelector('.rs-picker-toggle-clean'));
+  });
+
   it('Should call `onSelect` callback', done => {
     const doneOp = () => {
       done();

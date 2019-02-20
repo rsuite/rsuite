@@ -67,15 +67,16 @@ type Props = {
   onSelect?: (value: any, item: Object, event: DefaultEvent) => void,
   onGroupTitleClick?: DefaultEventFunction,
   onSearch?: (searchKeyword: string, event: DefaultEvent) => void,
+  onClean?: (event: DefaultEvent) => void,
   onOpen?: () => void,
   onClose?: () => void,
   onHide?: () => void,
-  onEnter?: Function,
-  onEntering?: Function,
-  onEntered?: Function,
-  onExit?: Function,
-  onExiting?: Function,
-  onExited?: Function,
+  onEnter?: () => void,
+  onEntering?: () => void,
+  onEntered?: () => void,
+  onExit?: () => void,
+  onExiting?: () => void,
+  onExited?: () => void,
   /**
    * group by key in `data`
    */
@@ -739,6 +740,7 @@ class Dropdown extends React.Component<Props, State> {
       onEntered,
       onExit,
       onExited,
+      onClean,
       searchable,
       multi,
       ...rest
@@ -780,7 +782,7 @@ class Dropdown extends React.Component<Props, State> {
             {...unhandled}
             ref={this.bindToggleRef}
             componentClass={toggleComponentClass}
-            onClean={this.handleClean}
+            onClean={createChainedFunction(this.handleClean, onClean)}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
           >

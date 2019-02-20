@@ -62,12 +62,13 @@ type Props = {
   onPrevMonth?: (date: Date) => void,
   onNextMonth?: (date: Date) => void,
   onOk?: (date: Date, event: SyntheticEvent<*>) => void,
-  onEnter?: Function,
-  onEntering?: Function,
-  onEntered?: Function,
-  onExit?: Function,
-  onExiting?: Function,
-  onExited?: Function,
+  onClean?: (event: SyntheticEvent<*>) => void,
+  onEnter?: () => void,
+  onEntering?: () => void,
+  onEntered?: () => void,
+  onExit?: () => void,
+  onExiting?: () => void,
+  onExited?: () => void,
   cleanable?: boolean,
   isoWeek?: boolean,
   limitEndYear?: number,
@@ -437,6 +438,7 @@ class DatePicker extends React.Component<Props, State> {
       style,
       onEntered,
       onExited,
+      onClean,
       ...rest
     } = this.props;
 
@@ -472,7 +474,7 @@ class DatePicker extends React.Component<Props, State> {
             <PickerToggle
               {...unhandled}
               componentClass={toggleComponentClass}
-              onClean={this.handleClean}
+              onClean={createChainedFunction(this.handleClean, onClean)}
               cleanable={cleanable && !disabled}
               hasValue={hasValue}
               active={this.state.active}
