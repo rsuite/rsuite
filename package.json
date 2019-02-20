@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "3.7.5",
+  "version": "4.0.0-beta",
   "description": "A suite of react components",
   "main": "lib/index.js",
   "typings": "types/index.d.ts",
@@ -54,8 +54,8 @@
     "date-fns": "^1.30.1",
     "dom-lib": "^1.1.0",
     "element-resize-event": "^3.0.2",
-    "lodash": "^4.17.5",
-    "prop-types": "^15.6.0",
+    "lodash": "^4.17.11",
+    "prop-types": "^15.7.2",
     "react-flow-types": "^0.2.0-beta.6",
     "react-lifecycles-compat": "^3.0.4",
     "react-virtualized": "^9.21.0",
@@ -67,8 +67,8 @@
     "schema-typed": "~0.2.1"
   },
   "peerDependencies": {
-    "react": "^0.14.9 || >=15.3.0",
-    "react-dom": "^0.14.9 || >=15.3.0"
+    "react": ">=16.6.0",
+    "react-dom": ">=16.6.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
@@ -119,7 +119,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.7.0",
-    "flow-bin": "^0.87.0",
+    "flow-bin": "^0.93.0",
     "glob": "^7.1.2",
     "gulp": "^3.9.1",
     "gulp-babel": "^8.0.0",
@@ -138,14 +138,14 @@
     "karma-safari-launcher": "^1.0.0",
     "karma-sinon-chai": "^1.2.2",
     "karma-sourcemap-loader": "^0.3.7",
-    "karma-webpack": "^4.0.0-beta.0",
+    "karma-webpack": "^4.0.0-rc.6",
     "lodash-webpack-plugin": "^0.11.5",
     "make-dir": "^1.3.0",
     "mocha": "^2.5.3",
-    "prettier": "1.12.0",
+    "prettier": "^1.12.0",
     "react": "^16.6.1",
     "react-dom": "^16.6.1",
-    "react-test-renderer": "^16.2.0",
+    "react-test-renderer": "^16.8.2",
     "sinon": "^2.3.8",
     "sinon-chai": "^2.12.0",
     "stylelint": "9.2.0",

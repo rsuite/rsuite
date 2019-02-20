@@ -5,8 +5,6 @@ import * as React from 'react';
 import Input from './Input';
 import ErrorMessage from './ErrorMessage';
 import FormContext, { FormValueContext, FormErrorContext } from './FormContext';
-import LegacyFormControl from './_legacy/FormControl';
-
 import { getUnhandledProps, defaultProps, prefix } from './utils';
 
 type PlacementEightPoints =
@@ -188,4 +186,4 @@ const EnhancedFormControl = defaultProps({
   classPrefix: 'form-control'
 })(FormControlWrapper);
 
-export default (React.createContext ? EnhancedFormControl : LegacyFormControl);
+export default EnhancedFormControl;

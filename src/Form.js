@@ -9,7 +9,6 @@ import { shallowEqual } from 'rsuite-utils/lib/utils';
 import { getUnhandledProps, prefix } from './utils';
 import { defaultClassPrefix } from './utils/prefix';
 import FormContext, { FormValueContext, FormErrorContext } from './FormContext';
-import LegacyForm from './_legacy/Form';
 
 type Props = {
   className?: string,
@@ -224,4 +223,4 @@ class Form extends React.Component<Props, State> {
   }
 }
 
-export default (React.createContext ? Form : LegacyForm);
+export default Form;
