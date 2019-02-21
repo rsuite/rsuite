@@ -437,24 +437,20 @@ class CheckTree extends React.Component<Props, States> {
 
   getFlattenTreeData(nodes: any[]) {
     const { expandItemValues } = this.state;
-    return flattenTree(
-      nodes,
-      (node: Object) => {
-        const formatted = { ...node };
-        const curNode = this.nodes[node.refKey];
-        const parentKeys = getNodeParentKeys(curNode, this.props);
-        if (curNode) {
-          formatted.check = curNode.check;
-          formatted.expand = curNode.expand;
-          formatted.uncheckable = curNode.uncheckable;
-          formatted.layer = curNode.layer;
-          formatted.parentNode = curNode.parentNode;
-          formatted.showNode = shouldShowNodeByExpanded(expandItemValues, parentKeys);
-        }
-        return formatted;
-      },
-      this.props
-    );
+    return flattenTree(nodes, this.props.childrenKey, (node: Object) => {
+      const formatted = { ...node };
+      const curNode = this.nodes[node.refKey];
+      const parentKeys = getNodeParentKeys(curNode, this.props);
+      if (curNode) {
+        formatted.check = curNode.check;
+        formatted.expand = curNode.expand;
+        formatted.uncheckable = curNode.uncheckable;
+        formatted.layer = curNode.layer;
+        formatted.parentNode = curNode.parentNode;
+        formatted.showNode = shouldShowNodeByExpanded(expandItemValues, parentKeys);
+      }
+      return formatted;
+    });
   }
 
   /**

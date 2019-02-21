@@ -22,28 +22,33 @@ export function shouldShowNodeByExpanded(expandItemValues: any[] = [], parentKey
 /**
  * 拍平树结构为数组
  * @param {*} tree
+ * @param {*} childrenKey
  * @param {*} executor
- * @param {*} props
  */
 export function flattenTree(
   tree: any[],
-  executor: (node: Object, index: number) => Object,
-  props: Object
+  childrenKey?: string = 'children',
+  executor?: (node: Object, index: number) => Object
 ) {
-  const { childrenKey } = props;
-
   const flattenData = [];
-  const traverse = (data: any[]) => {
-    data.forEach((d: Object, index: number) => {
-      const node = executor(d, index);
+  const traverse = (data: any[], _parent: Object | null) => {
+    if (!_.isArray(data)) {
+      return;
+    }
+
+    data.forEach((item: Object, index: number) => {
+      const node = typeof executor === 'function' ? executor(item, index) : item;
+      node._parent = _parent;
+
       flattenData.push({ ...node });
-      if (d[childrenKey]) {
-        traverse(d[childrenKey]);
+
+      if (item[childrenKey]) {
+        traverse(item[childrenKey], item);
       }
     });
   };
 
-  traverse(tree);
+  traverse(tree, null);
   return flattenData;
 }
 
