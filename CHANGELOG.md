@@ -1,3 +1,31 @@
+# 3.7.6
+
+> February 21, 2019
+
+* **Feature**: Support `onClean` on picker ([#398])
+* **Bugfix**: Fixed a tool function for `<DateRangePicker>` to disable dates ([#400])
+* **Bugfix**: Fixed a style error with `<CheckPicker>` in IE ([#394])
+* **Bugfix**: Fixed an error in calling Notification in ComponentDidUpdate([#393])
+* **Bugfix**: Fixed a Typescript definition error ([#391],[#399])
+* **Extension**: Add extension component [@rsuite/document-nav]
+
+---
+
+* **Feature**: `Picker` 相关的组件都支持 `onClean` 事件 ([#398])
+* **Bugfix**: 修复了 `<DateRangePicker>` 禁用日期的工具函数 ([#400])
+* **Bugfix**: 修复了 `<CheckPicker>` 组件在 IE 浏览器上的样式错误 ([#394])
+* **Bugfix**: 修复了 Notification 在 ComponentDidUpdate 生命周期内调用的一个错误 ([#393])
+* **Bugfix**: 修复了 Typescript 定义错误 ([#391],[#399])
+* **Extension**: 添加扩展组件 [@rsuite/document-nav]
+
+[#400]: https://github.com/rsuite/rsuite/pull/400
+[#399]: https://github.com/rsuite/rsuite/pull/399
+[#398]: https://github.com/rsuite/rsuite/pull/398
+[#394]: https://github.com/rsuite/rsuite/pull/394
+[#393]: https://github.com/rsuite/rsuite/pull/393
+[#391]: https://github.com/rsuite/rsuite/pull/391
+[@rsuite/document-nav]: https://github.com/rsuite/document-nav
+
 # 3.7.5
 
 > January 31, 2019
