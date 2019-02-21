@@ -62,6 +62,17 @@ describe('DateRangePicker', () => {
     demo.updateValue([new Date(), new Date()]);
   });
 
+  it('Should call onClean callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = ReactTestUtils.renderIntoDocument(
+      <DateRangePicker defaultValue={[new Date(), new Date()]} onClean={doneOp} />
+    );
+    const instanceDOM = findDOMNode(instance);
+    ReactTestUtils.Simulate.click(instanceDOM.querySelector('.rs-picker-toggle-clean'));
+  });
+
   it('Should call `onOpen` callback', done => {
     const doneOp = () => {
       done();

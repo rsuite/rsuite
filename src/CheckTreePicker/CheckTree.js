@@ -110,6 +110,7 @@ export type Props = {
   ) => void,
   onSelect?: (activeNode: any, layer: number, values: any) => void,
   onScroll?: (event: DefaultEvent) => void,
+  onClean?: (event: DefaultEvent) => void,
   onExited?: () => void,
   onEntered?: () => void,
   onExiting?: () => void,
@@ -1286,6 +1287,7 @@ class CheckTree extends React.Component<Props, States> {
       toggleComponentClass,
       onExited,
       onEntered,
+      onClean,
       renderValue,
       ...rest
     } = this.props;
@@ -1330,7 +1332,7 @@ class CheckTree extends React.Component<Props, States> {
             {...unhandled}
             ref={this.bindToggleRef}
             onKeyDown={this.handleToggleKeyDown}
-            onClean={this.handleClean}
+            onClean={createChainedFunction(this.handleClean, onClean)}
             componentClass={toggleComponentClass}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}

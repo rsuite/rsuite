@@ -46,6 +46,7 @@ type Props = {
   defaultValue?: any[],
   placeholder?: string,
   onChange?: (value: any, event: DefaultEvent) => void,
+  onClean?: (event: DefaultEvent) => void,
   onOpen?: () => void,
   onClose?: () => void,
   onHide?: () => void,
@@ -358,6 +359,7 @@ class Dropdown extends React.Component<Props, State> {
       style,
       onEnter,
       onExited,
+      onClean,
       countable,
       cascade,
       ...rest
@@ -405,7 +407,7 @@ class Dropdown extends React.Component<Props, State> {
           <PickerToggle
             {...unhandled}
             componentClass={toggleComponentClass}
-            onClean={this.handleClean}
+            onClean={createChainedFunction(this.handleClean, onClean)}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
             active={this.state.active}

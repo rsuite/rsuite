@@ -90,6 +90,7 @@ type Props = {
   onClose?: () => void,
   onHide?: () => void,
   onSearch?: (searchKeyword: string, event: DefaultEvent) => void,
+  onClean?: (event: DefaultEvent) => void,
   onChange?: (value: any) => void,
   onExpand?: (
     activeNode: any,
@@ -1002,6 +1003,7 @@ class Tree extends React.Component<Props, States> {
       labelKey,
       onEntered,
       onExited,
+      onClean,
       style,
       ...rest
     } = this.props;
@@ -1038,7 +1040,7 @@ class Tree extends React.Component<Props, States> {
               {...unhandled}
               ref={this.bindToggleRef}
               onKeyDown={this.handleToggleKeyDown}
-              onClean={this.handleClean}
+              onClean={createChainedFunction(this.handleClean, onClean)}
               cleanable={cleanable && !disabled}
               componentClass={toggleComponentClass}
               hasValue={hasValue}

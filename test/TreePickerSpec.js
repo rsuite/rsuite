@@ -162,6 +162,17 @@ describe('TreePicker', () => {
     ReactTestUtils.Simulate.click(instanceDOM.querySelectorAll(`${treeNodeLabelCls}`)[0]);
   });
 
+  it('Should call `onClean` callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = ReactTestUtils.renderIntoDocument(
+      <TreePicker data={data} defaultValue={'tester0'} onClean={doneOp} />
+    );
+    const instanceDOM = findDOMNode(instance);
+    ReactTestUtils.Simulate.click(instanceDOM.querySelector('.rs-picker-toggle-clean'));
+  });
+
   it('Should call `onOpen` callback', done => {
     const cb = () => {
       done();

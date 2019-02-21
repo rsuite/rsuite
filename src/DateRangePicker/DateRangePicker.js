@@ -82,12 +82,13 @@ type Props = {
   onOpen?: () => void,
   onClose?: () => void,
   onHide?: () => void,
-  onEnter?: Function,
-  onEntering?: Function,
-  onEntered?: Function,
-  onExit?: Function,
-  onExiting?: Function,
-  onExited?: Function
+  onClean?: (event: SyntheticEvent<*>) => void,
+  onEnter?: () => void,
+  onEntering?: () => void,
+  onEntered?: () => void,
+  onExit?: () => void,
+  onExiting?: () => void,
+  onExited?: () => void
 };
 
 function getCalendarDate(value: Array<Date> = []) {
@@ -567,6 +568,7 @@ class DateRangePicker extends React.Component<Props, State> {
       onEntered,
       onEnter,
       onExited,
+      onClean,
       ...rest
     } = this.props;
 
@@ -589,7 +591,7 @@ class DateRangePicker extends React.Component<Props, State> {
             <PickerToggle
               {...unhandled}
               componentClass={toggleComponentClass}
-              onClean={this.handleClean}
+              onClean={createChainedFunction(this.handleClean, onClean)}
               cleanable={cleanable && !disabled}
               hasValue={hasValue}
               active={this.state.active}
