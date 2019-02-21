@@ -36,6 +36,9 @@ export interface SelectProps<ValueType = any> {
 
   /** Called when searching */
   onSearch?: (searchKeyword: string, event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Called when clean */
+  onClean?: (event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
 declare const SelectPicker: React.ComponentType<FormControlPickerProps<any> & SelectProps<any>>;

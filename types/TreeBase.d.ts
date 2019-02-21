@@ -24,4 +24,7 @@ export interface TreeBaseProps extends StandardProps {
 
   /** callback fired when search */
   onSearch?: (searchKeyword: string, event: React.KeyboardEvent<HTMLInputElement>) => void;
+
+  /** Called when clean */
+  onClean?: (event: React.SyntheticEvent<HTMLElement>) => void;
 }

@@ -32,6 +32,9 @@ export interface MultiCascaderProps extends FormControlPickerProps<any[]> {
 
   /** Called when the option is selected */
   onSelect?: (value: any, activePaths: any[], event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Called when clean */
+  onClean?: (event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
 declare const MultiCascader: React.ComponentType<MultiCascaderProps>;
