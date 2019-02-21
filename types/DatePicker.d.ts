@@ -68,6 +68,9 @@ export interface DatePickerProps extends PickerBaseProps, FormControlBaseProps<D
 
   /** Called after clicking the OK button */
   onOk?: (date: Date, event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Called when clean */
+  onClean?: (event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
 declare const DatePicker: React.ComponentType<DatePickerProps>;
