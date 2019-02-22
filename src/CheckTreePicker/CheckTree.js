@@ -36,7 +36,7 @@ import {
   shouldDisplay,
   shouldShowNodeByExpanded,
   flattenTree,
-  getNodeParentKeys,
+  getNodeParents,
   getVirtualLisHeight
 } from '../utils/treeUtils';
 
@@ -437,10 +437,12 @@ class CheckTree extends React.Component<Props, States> {
 
   getFlattenTreeData(nodes: any[]) {
     const { expandItemValues } = this.state;
-    return flattenTree(nodes, this.props.childrenKey, (node: Object) => {
+    const { childrenKey, valueKey } = this.props;
+
+    return flattenTree(nodes, childrenKey, (node: Object) => {
       const formatted = { ...node };
       const curNode = this.nodes[node.refKey];
-      const parentKeys = getNodeParentKeys(curNode, this.props);
+      const parentKeys = getNodeParents(curNode, 'parentNode', valueKey);
       if (curNode) {
         formatted.check = curNode.check;
         formatted.expand = curNode.expand;

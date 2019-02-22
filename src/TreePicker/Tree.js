@@ -17,7 +17,7 @@ import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '
 import {
   flattenTree,
   shouldDisplay,
-  getNodeParentKeys,
+  getNodeParents,
   shouldShowNodeByExpanded,
   getVirtualLisHeight
 } from '../utils/treeUtils';
@@ -400,10 +400,12 @@ class Tree extends React.Component<Props, States> {
 
   getFlattenTreeData(nodes: any[]) {
     const { expandItemValues } = this.state;
-    return flattenTree(nodes, this.props.childrenKey, (node: Object) => {
+    const { childrenKey, valueKey } = this.props;
+
+    return flattenTree(nodes, childrenKey, (node: Object) => {
       const formatted = { ...node };
       const curNode = this.nodes[node.refKey];
-      const parentKeys = getNodeParentKeys(curNode, this.props);
+      const parentKeys = getNodeParents(curNode, 'parentNode', valueKey);
       if (curNode) {
         formatted.expand = curNode.expand;
         formatted.layer = curNode.layer;

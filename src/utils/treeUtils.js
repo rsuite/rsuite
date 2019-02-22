@@ -53,21 +53,26 @@ export function flattenTree(
 }
 
 /**
- * 获取当前节点所有的祖先节点
+ * 获取树节点所有的祖先节点
  * @param {*} node
  */
-export function getNodeParentKeys(node: Object, props: Object) {
-  const { valueKey } = props;
-  const parentKeys = [];
+export function getNodeParents(node: Object, parentKey?: string = '_parent', valueKey?: string) {
+  const parents = [];
   const traverse = (node: Object) => {
-    if (node && node.parentNode) {
-      traverse(node.parentNode);
-      parentKeys.push(node.parentNode[valueKey]);
+    if (node && node[parentKey]) {
+      traverse(node[parentKey]);
+
+      if (valueKey) {
+        parents.push(node[parentKey][valueKey]);
+      } else {
+        parents.push(node[parentKey]);
+      }
     }
   };
 
   traverse(node);
-  return parentKeys;
+
+  return parents;
 }
 
 /**
