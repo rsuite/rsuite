@@ -11,10 +11,12 @@ import DropdownMenu from './DropdownMenu';
 import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 import stringToObject from '../utils/stringToObject';
 import type { Placement } from '../utils/TypeDefinition';
+import { flattenTree, getNodeParents } from '../utils/treeUtils';
 
 import {
   PickerToggle,
   MenuWrapper,
+  SearchBar,
   PickerToggleTrigger,
   getToggleWrapperClassName,
   createConcatChildrenFunction
@@ -59,6 +61,7 @@ type Props = {
     concat: (data: any[], children: any[]) => any[],
     event: DefaultEvent
   ) => void,
+  onSearch?: (searchKeyword: string, event: DefaultEvent) => void,
   locale?: Object,
   cleanable?: boolean,
   open?: boolean,
@@ -72,7 +75,8 @@ type Props = {
   menuWidth?: number,
   menuHeight?: number,
   disabledItemValues?: any[],
-  style?: Object
+  style?: Object,
+  searchable?: boolean
 };
 
 type State = {
@@ -82,7 +86,9 @@ type State = {
   items?: any[],
   tempActivePaths?: any[],
   data: any[],
-  active?: boolean
+  active?: boolean,
+  flattenData: any[],
+  searchKeyword: string
 };
 
 function getDerivedStateForCascade(
@@ -161,9 +167,12 @@ class Dropdown extends React.Component<Props, State> {
     valueKey: 'value',
     labelKey: 'label',
     locale: {
-      placeholder: 'Select'
+      placeholder: 'Select',
+      searchPlaceholder: 'Search',
+      noResultsText: 'No results found'
     },
     cleanable: true,
+    searchable: true,
     placement: 'bottomLeft'
   };
 
@@ -171,6 +180,7 @@ class Dropdown extends React.Component<Props, State> {
     super(props);
 
     const initState = {
+      searchKeyword: '',
       selectNode: null,
       data: props.data,
       value: props.defaultValue,
@@ -187,7 +197,8 @@ class Dropdown extends React.Component<Props, State> {
 
     this.state = {
       ...initState,
-      ...getDerivedStateForCascade(props, initState)
+      ...getDerivedStateForCascade(props, initState),
+      flattenData: flattenTree(props.data)
     };
   }
 
@@ -214,7 +225,8 @@ class Dropdown extends React.Component<Props, State> {
       );
       return {
         ...nextState,
-        data
+        data,
+        flattenData: flattenTree(props.data)
       };
     } else if (typeof value !== 'undefined' && !shallowEqual(value, prevState.value)) {
       const nextState = getDerivedStateForCascade(nextProps, prevState);
@@ -276,6 +288,23 @@ class Dropdown extends React.Component<Props, State> {
     });
   };
 
+  handleSearchRowSelect = item => {
+    const { valueKey, onChange } = this.props;
+    const value = item[valueKey];
+    const { activePaths, items } = getDerivedStateForCascade(this.props, { value });
+
+    this.closeDropdown();
+    this.setState({
+      selectNode: item,
+      searchKeyword: '',
+      activePaths,
+      items,
+      value
+    });
+
+    onChange && onChange(value, event);
+  };
+
   trigger = null;
 
   bindTriggerRef = (ref: React.ElementRef<*>) => {
@@ -318,6 +347,14 @@ class Dropdown extends React.Component<Props, State> {
     });
   };
 
+  handleSearch = (searchKeyword: string, event: DefaultEvent) => {
+    const { onSearch } = this.props;
+    this.setState({
+      searchKeyword
+    });
+    onSearch && onSearch(searchKeyword, event);
+  };
+
   handleEntered = () => {
     const { onOpen } = this.props;
     onOpen && onOpen();
@@ -345,9 +382,99 @@ class Dropdown extends React.Component<Props, State> {
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
+  renderSearchRow = (item: Object, key: index) => {
+    const { labelKey } = this.props;
+    const { searchKeyword } = this.state;
+    const nodes = getNodeParents(item);
+    const regx = new RegExp(searchKeyword, 'ig');
+    const labelElements = [];
+
+    let a = item[labelKey].split(regx);
+    let b = item[labelKey].match(regx);
+
+    for (let i = 0; i < a.length; i++) {
+      labelElements.push(a[i]);
+      if (b[i]) {
+        labelElements.push(<strong key={i}>{b[i]}</strong>);
+      }
+    }
+
+    nodes.push({
+      ...item,
+      [labelKey]: labelElements
+    });
+
+    return (
+      <div
+        key={key}
+        className={this.addPrefix('cascader-row')}
+        onClick={() => {
+          this.handleSearchRowSelect(item);
+        }}
+      >
+        {nodes.map((node, index) => (
+          <span key={`col-${index}`} className={this.addPrefix('cascader-col')}>
+            {node[labelKey]}
+          </span>
+        ))}
+      </div>
+    );
+  };
+
+  getSearchResult() {
+    const { labelKey } = this.props;
+    const { searchKeyword, flattenData } = this.state;
+    const items = [];
+
+    const result = flattenData.filter(item => {
+      if (item[labelKey].match(new RegExp(searchKeyword, 'i'))) {
+        return true;
+      }
+      return false;
+    });
+
+    for (let i = 0; i < result.length; i++) {
+      items.push(result[i]);
+
+      if (i === 99) {
+        return items;
+      }
+    }
+    return items;
+  }
+
+  renderSearchResultPanel() {
+    const { locale } = this.props;
+    const { searchKeyword } = this.state;
+
+    if (searchKeyword === '') {
+      return null;
+    }
+
+    const items = this.getSearchResult();
+    return (
+      <div className={this.addPrefix('cascader-search-panel')}>
+        {items.length ? (
+          items.map(this.renderSearchRow)
+        ) : (
+          <div className={this.addPrefix('none')}>{locale.noResultsText}</div>
+        )}
+      </div>
+    );
+  }
+
   renderDropdownMenu() {
-    const { items, tempActivePaths, activePaths } = this.state;
-    const { renderMenu, placement, renderExtraFooter, menuClassName, menuStyle } = this.props;
+    const { items, tempActivePaths, activePaths, searchKeyword } = this.state;
+    const {
+      renderMenu,
+      placement,
+      renderExtraFooter,
+      menuClassName,
+      menuStyle,
+      searchable,
+      locale
+    } = this.props;
+
     const classes = classNames(
       this.addPrefix('cascader-menu'),
       this.addPrefix(`placement-${_.kebabCase(placement)}`),
@@ -361,16 +488,27 @@ class Dropdown extends React.Component<Props, State> {
 
     return (
       <MenuWrapper className={classes} style={menuStyle}>
-        <DropdownMenu
-          {...menuProps}
-          classPrefix={this.addPrefix('cascader-menu')}
-          ref={this.bindMenuContainerRef}
-          cascadeItems={items}
-          cascadePathItems={tempActivePaths || activePaths}
-          activeItemValue={this.getValue()}
-          onSelect={this.handleSelect}
-          renderMenu={renderMenu}
-        />
+        {searchable && (
+          <SearchBar
+            placeholder={locale.searchPlaceholder}
+            onChange={this.handleSearch}
+            value={searchKeyword}
+          />
+        )}
+
+        {this.renderSearchResultPanel()}
+        {searchKeyword === '' && (
+          <DropdownMenu
+            {...menuProps}
+            classPrefix={this.addPrefix('cascader-menu')}
+            ref={this.bindMenuContainerRef}
+            cascadeItems={items}
+            cascadePathItems={tempActivePaths || activePaths}
+            activeItemValue={this.getValue()}
+            onSelect={this.handleSelect}
+            renderMenu={renderMenu}
+          />
+        )}
         {renderExtraFooter && renderExtraFooter()}
       </MenuWrapper>
     );
