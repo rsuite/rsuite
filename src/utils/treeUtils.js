@@ -22,47 +22,57 @@ export function shouldShowNodeByExpanded(expandItemValues: any[] = [], parentKey
 /**
  * 拍平树结构为数组
  * @param {*} tree
+ * @param {*} childrenKey
  * @param {*} executor
- * @param {*} props
  */
 export function flattenTree(
   tree: any[],
-  executor: (node: Object, index: number) => Object,
-  props: Object
+  childrenKey?: string = 'children',
+  executor?: (node: Object, index: number) => Object
 ) {
-  const { childrenKey } = props;
-
   const flattenData = [];
-  const traverse = (data: any[]) => {
-    data.forEach((d: Object, index: number) => {
-      const node = executor(d, index);
+  const traverse = (data: any[], _parent: Object | null) => {
+    if (!_.isArray(data)) {
+      return;
+    }
+
+    data.forEach((item: Object, index: number) => {
+      const node = typeof executor === 'function' ? executor(item, index) : item;
+      node._parent = _parent;
+
       flattenData.push({ ...node });
-      if (d[childrenKey]) {
-        traverse(d[childrenKey]);
+
+      if (item[childrenKey]) {
+        traverse(item[childrenKey], item);
       }
     });
   };
 
-  traverse(tree);
+  traverse(tree, null);
   return flattenData;
 }
 
 /**
- * 获取当前节点所有的祖先节点
+ * 获取树节点所有的祖先节点
  * @param {*} node
  */
-export function getNodeParentKeys(node: Object, props: Object) {
-  const { valueKey } = props;
-  const parentKeys = [];
+export function getNodeParents(node: Object, parentKey?: string = '_parent', valueKey?: string) {
+  const parents = [];
   const traverse = (node: Object) => {
-    if (node && node.parentNode) {
-      traverse(node.parentNode);
-      parentKeys.push(node.parentNode[valueKey]);
+    if (node && node[parentKey]) {
+      traverse(node[parentKey]);
+
+      if (valueKey) {
+        parents.push(node[parentKey][valueKey]);
+      } else {
+        parents.push(node[parentKey]);
+      }
     }
   };
 
   traverse(node);
-  return parentKeys;
+
+  return parents;
 }
 
 /**
