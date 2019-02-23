@@ -62,7 +62,7 @@ type Props = {
     event: DefaultEvent
   ) => void,
   onSearch?: (searchKeyword: string, event: DefaultEvent) => void,
-  locale?: Object,
+  locale: Object,
   cleanable?: boolean,
   open?: boolean,
   defaultOpen?: boolean,
@@ -96,7 +96,7 @@ function getDerivedStateForCascade(
   prevState: any,
   selectNodeValue?: any,
   newChildren?: any[]
-) {
+): Object {
   const { data, labelKey, valueKey, childrenKey, value } = nextProps;
   const activeItemValue =
     selectNodeValue || (typeof value === 'undefined' ? prevState.value : value);
@@ -226,7 +226,7 @@ class Dropdown extends React.Component<Props, State> {
       return {
         ...nextState,
         data,
-        flattenData: flattenTree(props.data)
+        flattenData: flattenTree(data)
       };
     } else if (typeof value !== 'undefined' && !shallowEqual(value, prevState.value)) {
       const nextState = getDerivedStateForCascade(nextProps, prevState);
@@ -288,7 +288,7 @@ class Dropdown extends React.Component<Props, State> {
     });
   };
 
-  handleSearchRowSelect = item => {
+  handleSearchRowSelect = (item: Object, event: DefaultEvent) => {
     const { valueKey, onChange } = this.props;
     const value = item[valueKey];
     const { activePaths, items } = getDerivedStateForCascade(this.props, { value });
@@ -382,7 +382,7 @@ class Dropdown extends React.Component<Props, State> {
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
-  renderSearchRow = (item: Object, key: index) => {
+  renderSearchRow = (item: Object, key: number) => {
     const { labelKey } = this.props;
     const { searchKeyword } = this.state;
     const nodes = getNodeParents(item);
@@ -408,8 +408,8 @@ class Dropdown extends React.Component<Props, State> {
       <div
         key={key}
         className={this.addPrefix('cascader-row')}
-        onClick={() => {
-          this.handleSearchRowSelect(item);
+        onClick={event => {
+          this.handleSearchRowSelect(item, event);
         }}
       >
         {nodes.map((node, index) => (
