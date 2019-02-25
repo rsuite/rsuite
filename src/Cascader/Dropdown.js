@@ -383,7 +383,7 @@ class Dropdown extends React.Component<Props, State> {
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderSearchRow = (item: Object, key: number) => {
-    const { labelKey } = this.props;
+    const { labelKey, valueKey, disabledItemValues = [] } = this.props;
     const { searchKeyword } = this.state;
     const nodes = getNodeParents(item);
     const regx = new RegExp(searchKeyword, 'ig');
@@ -404,12 +404,19 @@ class Dropdown extends React.Component<Props, State> {
       [labelKey]: labelElements
     });
 
+    const disabled = disabledItemValues.some(value => nodes.some(node => node[valueKey] === value));
+    const itemClasses = classNames(this.addPrefix('cascader-row'), {
+      [this.addPrefix('cascader-row-disabled')]: disabled
+    });
+
     return (
       <div
         key={key}
-        className={this.addPrefix('cascader-row')}
+        className={itemClasses}
         onClick={event => {
-          this.handleSearchRowSelect(item, event);
+          if (!disabled) {
+            this.handleSearchRowSelect(item, event);
+          }
         }}
       >
         {nodes.map((node, index) => (

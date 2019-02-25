@@ -216,35 +216,6 @@ export default function(props: Object) {
     return itemValues;
   }
 
-  /**
-   * 扁平化一个树结构
-   * @param {*} data
-   */
-  function flattenNodes(data: any[]) {
-    const flattenItems = [];
-
-    function loop(data, parent) {
-      if (!_.isArray(data)) {
-        return;
-      }
-
-      data.forEach(item => {
-        flattenItems.push({
-          ...item,
-          parent
-        });
-
-        if (item[childrenKey]) {
-          loop(item[childrenKey], item);
-        }
-      });
-    }
-
-    loop(data, null);
-
-    return flattenItems;
-  }
-
   function getItems(selectNode?: Object, flattenData: any[]): any[] {
     const items = [];
 
@@ -272,7 +243,6 @@ export default function(props: Object) {
     getChildrenValue,
     splitValue,
     transformValue,
-    flattenNodes,
     getOtherItemValuesByUnselectChild,
     getItems
   };

@@ -31,14 +31,14 @@ export function flattenTree(
   executor?: (node: Object, index: number) => Object
 ) {
   const flattenData = [];
-  const traverse = (data: any[], _parent: Object | null) => {
+  const traverse = (data: any[], parent: Object | null) => {
     if (!_.isArray(data)) {
       return;
     }
 
     data.forEach((item: Object, index: number) => {
       const node = typeof executor === 'function' ? executor(item, index) : item;
-      node._parent = _parent;
+      node.parent = parent;
 
       flattenData.push({ ...node });
 
@@ -56,7 +56,7 @@ export function flattenTree(
  * 获取树节点所有的祖先节点
  * @param {*} node
  */
-export function getNodeParents(node: Object, parentKey?: string = '_parent', valueKey?: string) {
+export function getNodeParents(node: Object, parentKey?: string = 'parent', valueKey?: string) {
   const parents = [];
   const traverse = (node: Object) => {
     if (node && node[parentKey]) {
