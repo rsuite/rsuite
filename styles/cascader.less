@@ -20,6 +20,8 @@
 
 .@{cspns}-row {
   cursor: pointer;
+  padding-left: @cascader-row-content-padding-horizontal;
+  padding-right: @cascader-row-content-padding-horizontal;
 
   &:hover {
     color: @cascader-search-panel-hover-color;
@@ -28,23 +30,18 @@
 }
 
 .@{cspns}-col {
-  padding: @picker-item-content-padding-vertical @cascader-column-margin-horizontal;
+  padding: @picker-item-content-padding-vertical 0;
   display: inline-block;
 
   &::after {
-    content: '/';
-    margin-left: @cascader-column-margin-horizontal;
-  }
-
-  &:not(:first-child) {
-    padding-left: 0;
+    content: '\00a0/\00a0'; //content:' / '
   }
 
   &:last-child::after {
-    content: '';
+    display: none;
   }
 
-  strong {
+  &:last-child strong {
     color: @cascader-search-panel-highlight-word-color;
   }
 }
