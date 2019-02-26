@@ -438,6 +438,7 @@ class Dropdown extends React.Component<Props, State> {
 
     const classes = classNames(
       this.addPrefix('cascader-menu'),
+      this.addPrefix('multi-cascader-menu'),
       this.addPrefix(`placement-${_.kebabCase(placement)}`),
       menuClassName
     );
