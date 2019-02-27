@@ -238,12 +238,46 @@ export default function(props: Object) {
     return items.reverse();
   }
 
+  function isSomeChildChecked(node: Object, value: Array<Object> = []) {
+    if (!node[childrenKey] || !value) {
+      return false;
+    }
+
+    return node[childrenKey].some((child: Object) => {
+      if (value.some(n => n === child[valueKey])) {
+        return true;
+      }
+      if (child[childrenKey] && child[childrenKey].length) {
+        return isSomeChildChecked(child, value);
+      }
+      return false;
+    });
+  }
+
+  function isSomeParentChecked(node: Object, value: Array<Object> = []) {
+    if (!value) {
+      return false;
+    }
+
+    if (value.some(n => n === node[valueKey])) {
+      return true;
+    }
+
+    if (node.parent) {
+      return isSomeParentChecked(node.parent, value);
+    }
+
+    return false;
+  }
+
   return {
     removeAllChildrenValue,
     getChildrenValue,
     splitValue,
     transformValue,
     getOtherItemValuesByUnselectChild,
-    getItems
+    getItems,
+    isSomeChildChecked,
+    isSomeParentChecked
   };
 }

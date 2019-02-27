@@ -7,6 +7,7 @@ import { shallowEqualArray } from 'rsuite-utils/lib/utils';
 import { polyfill } from 'react-lifecycles-compat';
 
 import DropdownMenu from './DropdownMenu';
+import Checkbox from '../Checkbox';
 import createUtils from './utils';
 import type { Placement } from '../utils/TypeDefinition';
 
@@ -118,7 +119,6 @@ class Dropdown extends React.Component<Props, State> {
   };
 
   static utils = {};
-
   isControlled = null;
   constructor(props: Props) {
     super(props);
@@ -246,6 +246,14 @@ class Dropdown extends React.Component<Props, State> {
     onChange && onChange(value, event);
   };
 
+  handleChangeForSearchItem = (
+    value: any,
+    checked: boolean,
+    event: SyntheticInputEvent<HTMLInputElement>
+  ) => {
+    this.handleCheck(value, event, checked);
+  };
+
   handleSelect = (node: Object, cascadeItems, activePaths: any[], event: DefaultEvent) => {
     const { onSelect, valueKey } = this.props;
 
@@ -326,11 +334,15 @@ class Dropdown extends React.Component<Props, State> {
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   getSearchResult() {
-    const { labelKey } = this.props;
+    const { labelKey, valueKey, uncheckableItemValues = [] } = this.props;
     const { searchKeyword, flattenData } = this.state;
-    const items = [];
 
+    const items = [];
     const result = flattenData.filter(item => {
+      if (uncheckableItemValues.some(value => item[valueKey] === value)) {
+        return false;
+      }
+
       if (item[labelKey].match(new RegExp(searchKeyword, 'i'))) {
         return true;
       }
@@ -348,7 +360,7 @@ class Dropdown extends React.Component<Props, State> {
   }
 
   renderSearchRow = (item: Object, key: number) => {
-    const { labelKey, valueKey, disabledItemValues = [] } = this.props;
+    const { labelKey, valueKey, cascade, disabledItemValues = [] } = this.props;
     const { searchKeyword } = this.state;
     const values = this.getValue();
     const nodes = getNodeParents(item);
@@ -370,35 +382,29 @@ class Dropdown extends React.Component<Props, State> {
       [labelKey]: labelElements
     });
 
+    const active = values.some(value => nodes.some(node => node[valueKey] === value));
     const disabled = disabledItemValues.some(value => nodes.some(node => node[valueKey] === value));
     const itemClasses = classNames(this.addPrefix('cascader-row'), {
       [this.addPrefix('cascader-row-disabled')]: disabled
     });
 
-    const active = values.some(value => nodes.some(node => node[valueKey] === value));
-
-    const input = (
-      <label className={this.addPrefix('wrapper')}>
-        <input
-          type="checkbox"
-          disabled={disabled}
-          checked={active}
-          onChange={event => {
-            this.handleCheck(item, event, !active);
-          }}
-        />
-        <span className={this.addPrefix('inner')} />
-      </label>
-    );
-
     return (
       <div key={key} className={itemClasses}>
-        {input}
-        {nodes.map((node, index) => (
-          <span key={`col-${index}`} className={this.addPrefix('cascader-col')}>
-            {node[labelKey]}
+        <Checkbox
+          disabled={disabled}
+          checked={active}
+          value={item}
+          indeterminate={cascade && !active && Dropdown.utils.isSomeChildChecked(item, values)}
+          onChange={this.handleChangeForSearchItem}
+        >
+          <span className={this.addPrefix('cascader-cols')}>
+            {nodes.map((node, index) => (
+              <span key={`col-${index}`} className={this.addPrefix('cascader-col')}>
+                {node[labelKey]}
+              </span>
+            ))}
           </span>
-        ))}
+        </Checkbox>
       </div>
     );
   };
