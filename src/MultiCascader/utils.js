@@ -216,35 +216,6 @@ export default function(props: Object) {
     return itemValues;
   }
 
-  /**
-   * 扁平化一个树结构
-   * @param {*} data
-   */
-  function flattenNodes(data: any[]) {
-    const flattenItems = [];
-
-    function loop(data, parent) {
-      if (!_.isArray(data)) {
-        return;
-      }
-
-      data.forEach(item => {
-        flattenItems.push({
-          ...item,
-          parent
-        });
-
-        if (item[childrenKey]) {
-          loop(item[childrenKey], item);
-        }
-      });
-    }
-
-    loop(data, null);
-
-    return flattenItems;
-  }
-
   function getItems(selectNode?: Object, flattenData: any[]): any[] {
     const items = [];
 
@@ -267,13 +238,46 @@ export default function(props: Object) {
     return items.reverse();
   }
 
+  function isSomeChildChecked(node: Object, value: Array<Object> = []) {
+    if (!node[childrenKey] || !value) {
+      return false;
+    }
+
+    return node[childrenKey].some((child: Object) => {
+      if (value.some(n => n === child[valueKey])) {
+        return true;
+      }
+      if (child[childrenKey] && child[childrenKey].length) {
+        return isSomeChildChecked(child, value);
+      }
+      return false;
+    });
+  }
+
+  function isSomeParentChecked(node: Object, value: Array<Object> = []) {
+    if (!value) {
+      return false;
+    }
+
+    if (value.some(n => n === node[valueKey])) {
+      return true;
+    }
+
+    if (node.parent) {
+      return isSomeParentChecked(node.parent, value);
+    }
+
+    return false;
+  }
+
   return {
     removeAllChildrenValue,
     getChildrenValue,
     splitValue,
     transformValue,
-    flattenNodes,
     getOtherItemValuesByUnselectChild,
-    getItems
+    getItems,
+    isSomeChildChecked,
+    isSomeParentChecked
   };
 }

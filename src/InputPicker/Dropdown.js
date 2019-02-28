@@ -532,7 +532,7 @@ class Dropdown extends React.Component<Props, State> {
 
   handleExited = () => {
     const { onClose, multi } = this.props;
-    const value = this.getValue();
+    const value: any = this.getValue();
 
     const nextState: Object = {
       focusItemValue: multi ? _.get(value, 0) : value

@@ -66,8 +66,7 @@
 //
 //## Font, line-height, and color for body text, headings, and more.
 
-@font-family-base: Avenir-Roman, Apple-System, Arial, Helvetica, 'PingFang SC', 'Hiragino Sans GB',
-  'Microsoft YaHei', STXihei, sans-serif;
+@font-family-base: Avenir-Roman, Apple-System, Arial, Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', STXihei, sans-serif;
 @font-family-icon: 'rsuite-icon-font';
 
 @font-size-base: 14px;
@@ -1010,6 +1009,7 @@
 @check-picker-prefix: ~'picker-check';
 @calendar-picker-prefix: ~'calendar';
 @cascader-picker-prefix: ~'picker-cascader';
+@cascader-multi-picker-prefix: ~'picker-multi-cascader';
 @tree-picker-prefix: ~'picker-tree';
 @check-tree-picker-prefix: ~'picker-checktree';
 @date-range-picker-prefix: ~'picker-daterange';
@@ -1129,6 +1129,14 @@
 @tag-picker-content-padding-vertical: ( @input-picker-toggle-content-height - @tag-picker-toggle-content-height )/2; // (36 -24)/2
 @tag-picker-content-padding-horizontal: 6px;
 @tag-picker: ~'@{ns}@{multi-input-picker-prefix}';
+
+// == Cascader
+@cascader-search-panel-max-height: 300px;
+@cascader-row-content-padding-horizontal: @picker-item-content-padding-horizontal;
+@cascader-search-panel-hover-color: @B800;
+@cascader-search-panel-hover-bg: @H050;
+@cascader-search-panel-highlight-word-color: @H500;
+
 //== Slider
 //
 //##

@@ -35,6 +35,12 @@ export interface MultiCascaderProps extends FormControlPickerProps<any[]> {
 
   /** Called when clean */
   onClean?: (event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Called when searching */
+  onSearch?: (searchKeyword: string, event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Whether dispaly search input box */
+  searchable?: boolean;
 }
 
 declare const MultiCascader: React.ComponentType<MultiCascaderProps>;
