@@ -1,3 +1,28 @@
+# 3.7.7
+
+> February 28, 2019
+
+* **Feature**: Support `searchable` on `<Cascader>` and `<MultiCascader>` ([#401],[#403],[#406])
+* **Bugfix**: Fixed a bug in the tree table's cell word wrap ([#407])
+* **Bugfix**: Fixed `flip` property not working on `<Icon>` ([#402])
+* **Chore**: Update `flow-bin` 0.93.0 ([#407])
+* **Chore**: Update the sample code in the documentation
+
+---
+
+* **Feature**: `<Cascader>` 与 `<MultiCascader>` 组件支持搜索功能 ([#401],[#403],[#406])
+* **Bugfix**: 修复了 Tree Table 在自动换行时候的 bug ([#407])
+* **Bugfix**: 修复了 `flip` 属性在 `<Icon>` 组件上无效 ([#402])
+* **Chore**: 更新 `flow-bin` 至 0.93.0 版本 ([#407])
+* **Chore**: 更新文档中的示例代码
+
+[#407]: https://github.com/rsuite/rsuite/pull/407
+[#406]: https://github.com/rsuite/rsuite/pull/406
+[#405]: https://github.com/rsuite/rsuite/pull/405
+[#403]: https://github.com/rsuite/rsuite/pull/403
+[#402]: https://github.com/rsuite/rsuite/pull/402
+[#401]: https://github.com/rsuite/rsuite/pull/401
+
 # 3.7.6
 
 > February 21, 2019
