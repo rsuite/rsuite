@@ -29,6 +29,19 @@
   }
 }
 
+.@{cspns}-row-disabled {
+  cursor: not-allowed;
+
+  &,
+  &:hover {
+    color: @B400;
+  }
+
+  strong {
+    opacity: 0.7;
+  }
+}
+
 .@{cspns}-col {
   padding: @picker-item-content-padding-vertical 0;
   display: inline-block;
@@ -70,7 +83,8 @@
 
   position: relative;
   display: block;
-  padding: @picker-item-content-padding-vertical @padding-right @picker-item-content-padding-vertical @picker-item-content-padding-horizontal;
+  padding: @picker-item-content-padding-vertical @padding-right
+    @picker-item-content-padding-vertical @picker-item-content-padding-horizontal;
   transition: @picker-item-transition;
   cursor: pointer;
   text-decoration: none;
