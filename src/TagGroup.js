@@ -15,7 +15,7 @@ class TagGroup extends React.Component<Props> {
     const { className, classPrefix, children, ...rest } = this.props;
     const classes = classNames(classPrefix, className);
     return (
-      <div {...rest} className={classes} role="button">
+      <div {...rest} className={classes}>
         {children}
       </div>
     );
