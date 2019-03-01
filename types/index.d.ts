@@ -216,6 +216,7 @@ export { default as Slider } from './Slider';
 export { default as Step } from './Step';
 export { default as Table } from './Table';
 export { default as Tag } from './Tag';
+export { default as TagGroup } from './TagGroup';
 export { default as TagPicker } from './TagPicker';
 export { default as Timeline } from './Timeline';
 export { default as Toggle } from './Toggle';
