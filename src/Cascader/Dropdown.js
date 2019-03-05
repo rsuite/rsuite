@@ -367,6 +367,7 @@ class Dropdown extends React.Component<Props, State> {
     const { onClose } = this.props;
     onClose && onClose();
     this.setState({
+      searchKeyword: '',
       active: false
     });
   };
