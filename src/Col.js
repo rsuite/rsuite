@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 
 import { prefix, defaultProps } from './utils';
+import { defaultClassPrefix } from './utils/prefix';
 
 /* eslint-disable */
 type Props = {
@@ -60,7 +61,7 @@ class Col extends React.Component<Props> {
       let push = getPropValue(`${size}Push`);
       let pull = getPropValue(`${size}Pull`);
 
-      classes[addPrefix(`hidden-${size}`)] = hidden;
+      classes[defaultClassPrefix(`hidden-${size}`)] = hidden;
       classes[addPrefix(`${size}-${col}`)] = col >= 0;
       classes[addPrefix(`${size}-offset-${offset}`)] = offset >= 0;
       classes[addPrefix(`${size}-push-${push}`)] = push >= 0;

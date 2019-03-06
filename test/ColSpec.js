@@ -65,10 +65,10 @@ describe('Col', () => {
   it('Should set Hidden to true', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Col xsHidden smHidden mdHidden lgHidden />);
     const classes = findDOMNode(instance).className;
-    assert.include(classes, 'rs-col-hidden-xs');
-    assert.include(classes, 'rs-col-hidden-sm');
-    assert.include(classes, 'rs-col-hidden-md');
-    assert.include(classes, 'rs-col-hidden-lg');
+    assert.include(classes, 'rs-hidden-xs');
+    assert.include(classes, 'rs-hidden-sm');
+    assert.include(classes, 'rs-hidden-md');
+    assert.include(classes, 'rs-hidden-lg');
   });
 
   it('Should have a custom className', () => {
