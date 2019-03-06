@@ -36,6 +36,15 @@
   &-default &-icon-close:hover {
     color: @tag-toggle-clean-hover-color;
   }
+
+  &-group {
+    margin: -1 * @tag-gap 0 0 -1 * @tag-gap;
+  }
+
+  &-group > & {
+    margin-top: @tag-gap;
+    margin-left: @tag-gap;
+  }
 }
 
 .@{ns}tag + .@{ns}tag {
