@@ -1,3 +1,33 @@
+# 3.7.8
+
+> March 7, 2019
+
+* **Feature**: Add `<TagGroup>` ([#411],[#410])
+* **Improve**: Clear search box when `<Cascader>` is closed ([#409])
+* **Bugfix**: Fixed `<Nav>` ripple effect styles problem ([#413])
+* **Bugfix**: Fixed `*Hidden` property is invalid on `<Col>` ([#412])
+* **Bugfix**: Fixed `disabledDate` property to disable `<DateRangePicker>` shortcut option is invalid ([#408])
+* **Bugfix**: Fixed icon style problem with Tree Table ([#table-64])
+* **Bugfix**: Fixed invalid `autoHeight` property when table data is empty ([#table-62])
+
+---
+
+* **Feature**: 新增 `<TagGroup>` 组件 ([#411],[#410])
+* **Improve**: 在 `<Cascader>` 关闭后清空搜索框的值 ([#409])
+* **Bugfix**: 修复 `<Nav>` 涟漪效果的样式问题 ([#413])
+* **Bugfix**: 修复 `*Hidden` 属性 `<Col>` 组件上无效的问题 ([#412])
+* **Bugfix**: 修复 `disabledDate` 属性对 `<DateRangePicker>`的快捷选项的禁用无效 ([#408])
+* **Bugfix**: 修复 Tree Table 图标的样式问题 ([#table-64])
+* **Bugfix**: 修复 `<Table>` 数据为空时，设置 `autoHeight` 属性无效 ([#table-62])
+
+[#412]: https://github.com/rsuite/rsuite/pull/412
+[#411]: https://github.com/rsuite/rsuite/pull/411
+[#410]: https://github.com/rsuite/rsuite/pull/410
+[#409]: https://github.com/rsuite/rsuite/pull/409
+[#408]: https://github.com/rsuite/rsuite/pull/408
+[#table-64]: https://github.com/rsuite/rsuite-table/pull/64
+[#table-62]: https://github.com/rsuite/rsuite-table/pull/62
+
 # 3.7.7
 
 > February 28, 2019
