@@ -70,6 +70,7 @@ export TablePagination from './TablePagination';
 export Progress from './Progress';
 export Timeline from './Timeline';
 export Tag from './Tag';
+export TagGroup from './TagGroup';
 
 // Layout
 

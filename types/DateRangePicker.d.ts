@@ -42,6 +42,9 @@ export interface DateRangePickerProps extends PickerBaseProps, FormControlBasePr
 
   /** Called after clicking the OK button */
   onOk?: (date: Date, event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Called when clean */
+  onClean?: (event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
 declare const DateRangePicker: React.ComponentType<DateRangePickerProps>;

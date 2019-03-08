@@ -87,7 +87,7 @@ export default function ajaxUpload(options: Options) {
     xhr.upload.onprogress = event => {
       let percent = 0;
       if (event.lengthComputable) {
-        percent = (event.loaded / event.total) * 100;
+        percent = event.loaded / event.total * 100;
       }
       onProgress(percent, event);
     };

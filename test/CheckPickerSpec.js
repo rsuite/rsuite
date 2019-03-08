@@ -153,6 +153,17 @@ describe('CheckPicker', () => {
     ReactTestUtils.Simulate.change(instanceDOM.querySelectorAll(`${itemClassName} input`)[0]);
   });
 
+  it('Should call `onClean` callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown data={data} defaultValue={['Eugenia']} onClean={doneOp} />
+    );
+    const instanceDOM = findDOMNode(instance);
+    ReactTestUtils.Simulate.click(instanceDOM.querySelector('.rs-picker-toggle-clean'));
+  });
+
   it('Should output a clean button', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Dropdown data={data} defaultValue={['Louisa']} />

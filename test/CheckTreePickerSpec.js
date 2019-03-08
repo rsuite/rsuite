@@ -175,6 +175,17 @@ describe('CheckTreePicker', () => {
     ReactTestUtils.Simulate.change(instanceDOM.querySelectorAll(`${treeNodeCls} input`)[3]);
   });
 
+  it('Should call `onClean` callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = ReactTestUtils.renderIntoDocument(
+      <CheckTreePicker data={data} defaultValue={['tester0']} onClean={doneOp} />
+    );
+    const instanceDOM = findDOMNode(instance);
+    ReactTestUtils.Simulate.click(instanceDOM.querySelector('.rs-picker-toggle-clean'));
+  });
+
   it('Should call `onOpen` callback', done => {
     const cb = () => {
       done();

@@ -82,12 +82,13 @@ type Props = {
   onOpen?: () => void,
   onClose?: () => void,
   onHide?: () => void,
-  onEnter?: Function,
-  onEntering?: Function,
-  onEntered?: Function,
-  onExit?: Function,
-  onExiting?: Function,
-  onExited?: Function
+  onClean?: (event: SyntheticEvent<*>) => void,
+  onEnter?: () => void,
+  onEntering?: () => void,
+  onEntered?: () => void,
+  onExit?: () => void,
+  onExiting?: () => void,
+  onExited?: () => void
 };
 
 function getCalendarDate(value: Array<Date> = []) {
@@ -449,7 +450,6 @@ class DateRangePicker extends React.Component<Props, State> {
   disabledByBetween(start: Date, end: Date, type: string) {
     const { disabledDate } = this.props;
     const { selectValue, doneSelected } = this.state;
-    const date = new Date(start);
     const selectStartDate = selectValue[0];
     const selectEndDate = selectValue[1];
     const nextSelectValue = [selectStartDate, selectEndDate];
@@ -457,7 +457,7 @@ class DateRangePicker extends React.Component<Props, State> {
     // If the date is between the start and the end
     // the button is disabled
     while (isBefore(start, end) || isSameDay(start, end)) {
-      if (disabledDate && disabledDate(date, nextSelectValue, doneSelected, type)) {
+      if (disabledDate && disabledDate(start, nextSelectValue, doneSelected, type)) {
         return true;
       }
       start = addDays(start, 1);
@@ -480,6 +480,7 @@ class DateRangePicker extends React.Component<Props, State> {
     if (!value[0] || !value[1]) {
       return true;
     }
+
     return this.disabledByBetween(value[0], value[1], Type.TOOLBAR_SHORTCUT);
   };
 
@@ -567,6 +568,7 @@ class DateRangePicker extends React.Component<Props, State> {
       onEntered,
       onEnter,
       onExited,
+      onClean,
       ...rest
     } = this.props;
 
@@ -589,7 +591,7 @@ class DateRangePicker extends React.Component<Props, State> {
             <PickerToggle
               {...unhandled}
               componentClass={toggleComponentClass}
-              onClean={this.handleClean}
+              onClean={createChainedFunction(this.handleClean, onClean)}
               cleanable={cleanable && !disabled}
               hasValue={hasValue}
               active={this.state.active}

@@ -7,6 +7,7 @@ import { shallowEqual } from 'rsuite-utils/lib/utils';
 
 import { getUnhandledProps, prefix } from '../utils';
 import DropdownMenuItem from '../_picker/DropdownMenuCheckItem';
+import createUtils from './utils';
 
 type DefaultEvent = SyntheticEvent<*>;
 type Props = {
@@ -45,6 +46,13 @@ class DropdownMenu extends React.Component<Props> {
   };
 
   static handledProps = [];
+
+  utils = {};
+
+  constructor(props: Props) {
+    super(props);
+    this.utils = createUtils(props);
+  }
 
   getCascadeItems(items: any[], layer: number, node: any, isLeafNode: boolean) {
     const { cascadeItems = [], cascadePathItems } = this.props;
@@ -92,36 +100,6 @@ class DropdownMenu extends React.Component<Props> {
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
-  isSomeParentChecked(node: Object) {
-    const { valueKey, value = [] } = this.props;
-
-    if (value.some(n => n === node[valueKey])) {
-      return true;
-    }
-
-    if (node.parent) {
-      return this.isSomeParentChecked(node.parent);
-    }
-
-    return false;
-  }
-
-  isSomeChildChecked(node: Object) {
-    const { childrenKey, valueKey, value = [] } = this.props;
-    if (!node[childrenKey]) {
-      return false;
-    }
-    return node[childrenKey].some((child: Object) => {
-      if (value.some(n => n === child[valueKey])) {
-        return true;
-      }
-      if (child[childrenKey] && child[childrenKey].length) {
-        return this.isSomeChildChecked(child);
-      }
-      return false;
-    });
-  }
-
   renderCascadeNode(node: any, index: number, layer: number, focus: boolean, uncheckable: boolean) {
     const {
       value = [],
@@ -147,14 +125,14 @@ class DropdownMenu extends React.Component<Props> {
     let active = value.some(v => v === itemValue);
 
     if (cascade) {
-      active = active || this.isSomeParentChecked(node);
+      active = active || this.utils.isSomeParentChecked(node, value);
     }
 
     value.some(item => shallowEqual(item, itemValue));
     const classes = classNames({
       [this.addPrefix('cascader-menu-has-children')]: children,
       [this.addPrefix('check-menu-item-indeterminate')]:
-        cascade && !active && this.isSomeChildChecked(node)
+        cascade && !active && this.utils.isSomeChildChecked(node, value)
     });
 
     return (

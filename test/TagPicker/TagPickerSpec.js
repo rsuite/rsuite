@@ -159,6 +159,17 @@ describe('TagPicker', () => {
     ReactTestUtils.Simulate.change(instanceDOM.querySelector('.rs-picker-check-menu-item input'));
   });
 
+  it('Should call `onClean` callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = ReactTestUtils.renderIntoDocument(
+      <TagPicker multi data={data} defaultValue={['Kariane']} onClean={doneOp} />
+    );
+    const instanceDOM = findDOMNode(instance);
+    ReactTestUtils.Simulate.click(instanceDOM.querySelector('.rs-picker-toggle-clean'));
+  });
+
   it('Should call `onSelect` by keyCode=13 ', done => {
     const doneOp = (value, item) => {
       if (value[1] === 'Louisa' && item.value === 'Louisa') {

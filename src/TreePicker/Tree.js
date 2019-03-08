@@ -17,7 +17,7 @@ import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '
 import {
   flattenTree,
   shouldDisplay,
-  getNodeParentKeys,
+  getNodeParents,
   shouldShowNodeByExpanded,
   getVirtualLisHeight
 } from '../utils/treeUtils';
@@ -90,6 +90,7 @@ type Props = {
   onClose?: () => void,
   onHide?: () => void,
   onSearch?: (searchKeyword: string, event: DefaultEvent) => void,
+  onClean?: (event: DefaultEvent) => void,
   onChange?: (value: any) => void,
   onExpand?: (
     activeNode: any,
@@ -399,22 +400,20 @@ class Tree extends React.Component<Props, States> {
 
   getFlattenTreeData(nodes: any[]) {
     const { expandItemValues } = this.state;
-    return flattenTree(
-      nodes,
-      (node: Object) => {
-        const formatted = { ...node };
-        const curNode = this.nodes[node.refKey];
-        const parentKeys = getNodeParentKeys(curNode, this.props);
-        if (curNode) {
-          formatted.expand = curNode.expand;
-          formatted.layer = curNode.layer;
-          formatted.parentNode = curNode.parentNode;
-          formatted.showNode = shouldShowNodeByExpanded(expandItemValues, parentKeys);
-        }
-        return formatted;
-      },
-      this.props
-    );
+    const { childrenKey, valueKey } = this.props;
+
+    return flattenTree(nodes, childrenKey, (node: Object) => {
+      const formatted = { ...node };
+      const curNode = this.nodes[node.refKey];
+      const parentKeys = getNodeParents(curNode, 'parentNode', valueKey);
+      if (curNode) {
+        formatted.expand = curNode.expand;
+        formatted.layer = curNode.layer;
+        formatted.parentNode = curNode.parentNode;
+        formatted.showNode = shouldShowNodeByExpanded(expandItemValues, parentKeys);
+      }
+      return formatted;
+    });
   }
 
   nodes = {};
@@ -1002,6 +1001,7 @@ class Tree extends React.Component<Props, States> {
       labelKey,
       onEntered,
       onExited,
+      onClean,
       style,
       ...rest
     } = this.props;
@@ -1038,7 +1038,7 @@ class Tree extends React.Component<Props, States> {
               {...unhandled}
               ref={this.bindToggleRef}
               onKeyDown={this.handleToggleKeyDown}
-              onClean={this.handleClean}
+              onClean={createChainedFunction(this.handleClean, onClean)}
               cleanable={cleanable && !disabled}
               componentClass={toggleComponentClass}
               hasValue={hasValue}

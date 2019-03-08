@@ -1,7 +1,6 @@
 // @flow
 
-import { addDays, isAfter, isBefore } from 'date-fns';
-import { isSameDay } from 'date-fns';
+import { addDays, isAfter, isBefore, isSameDay } from 'date-fns';
 import composeFunctions from '../utils/composeFunctions';
 
 type DisabledDateFunction = (
@@ -18,6 +17,20 @@ type DisabledDateFunction = (
   target?: 'CALENDAR' | 'TOOLBAR_BUTTON_OK' | 'TOOLBAR_SHORTCUT'
 ) => boolean;
 
+function isAfterDay(date1: Date, date2: Date) {
+  return isAfter(
+    new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()),
+    new Date(date2.getFullYear(), date2.getMonth(), date2.getDate())
+  );
+}
+
+function isBeforeDay(date1: Date, date2: Date) {
+  return isBefore(
+    new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()),
+    new Date(date2.getFullYear(), date2.getMonth(), date2.getDate())
+  );
+}
+
 /**
 Allow the maximum number of days specified, other dates are disabled.
  */
@@ -29,9 +42,13 @@ export function allowedMaxDays(days: number): DisabledDateFunction {
     if (selectValue && selectValue[0]) {
       const startDate = selectValue[0];
 
-      beforeLimit = composeFunctions(f => addDays(f, -days + 1), f => isAfter(f, date))(startDate);
+      beforeLimit = composeFunctions(f => addDays(f, -days + 1), f => isAfterDay(f, date))(
+        startDate
+      );
 
-      afterLimit = composeFunctions(f => addDays(f, days - 1), f => isBefore(f, date))(startDate);
+      afterLimit = composeFunctions(f => addDays(f, days - 1), f => isBeforeDay(f, date))(
+        startDate
+      );
     }
 
     if (target === 'CALENDAR' && !selectedDone && (beforeLimit || afterLimit)) {
@@ -76,7 +93,7 @@ export function allowedRange(
   endDate: string | Date
 ): DisabledDateFunction {
   return (date: Date) => {
-    if (isBefore(date, startDate) || isAfter(date, endDate)) {
+    if (isBeforeDay(date, new Date(startDate)) || isAfterDay(date, new Date(endDate))) {
       return true;
     }
     return false;
@@ -86,9 +103,9 @@ export function allowedRange(
 /**
  Disable dates after the specified date.
  */
-export function before(beforeDate?: string | Date): DisabledDateFunction {
+export function before(beforeDate?: string | Date = new Date()): DisabledDateFunction {
   return (date: Date) => {
-    if (isBefore(date, beforeDate)) {
+    if (isBeforeDay(date, new Date(beforeDate))) {
       return true;
     }
     return false;
@@ -98,9 +115,9 @@ export function before(beforeDate?: string | Date): DisabledDateFunction {
 /**
 Disable dates before the specified date.
  */
-export function after(afterDate?: string | Date) {
+export function after(afterDate?: string | Date = new Date()) {
   return (date: Date) => {
-    if (isAfter(date, afterDate)) {
+    if (isAfterDay(date, new Date(afterDate))) {
       return true;
     }
     return false;

@@ -1,3 +1,86 @@
+# 3.7.8
+
+> March 7, 2019
+
+* **Feature**: Add `<TagGroup>` ([#411],[#410])
+* **Improve**: Clear search box when `<Cascader>` is closed ([#409])
+* **Bugfix**: Fixed `<Nav>` ripple effect styles problem ([#413])
+* **Bugfix**: Fixed `*Hidden` property is invalid on `<Col>` ([#412])
+* **Bugfix**: Fixed `disabledDate` property to disable `<DateRangePicker>` shortcut option is invalid ([#408])
+* **Bugfix**: Fixed icon style problem with Tree Table ([#table-64])
+* **Bugfix**: Fixed invalid `autoHeight` property when table data is empty ([#table-62])
+
+---
+
+* **Feature**: 新增 `<TagGroup>` 组件 ([#411],[#410])
+* **Improve**: 在 `<Cascader>` 关闭后清空搜索框的值 ([#409])
+* **Bugfix**: 修复 `<Nav>` 涟漪效果的样式问题 ([#413])
+* **Bugfix**: 修复 `*Hidden` 属性 `<Col>` 组件上无效的问题 ([#412])
+* **Bugfix**: 修复 `disabledDate` 属性对 `<DateRangePicker>`的快捷选项的禁用无效 ([#408])
+* **Bugfix**: 修复 Tree Table 图标的样式问题 ([#table-64])
+* **Bugfix**: 修复 `<Table>` 数据为空时，设置 `autoHeight` 属性无效 ([#table-62])
+
+[#412]: https://github.com/rsuite/rsuite/pull/412
+[#411]: https://github.com/rsuite/rsuite/pull/411
+[#410]: https://github.com/rsuite/rsuite/pull/410
+[#409]: https://github.com/rsuite/rsuite/pull/409
+[#408]: https://github.com/rsuite/rsuite/pull/408
+[#table-64]: https://github.com/rsuite/rsuite-table/pull/64
+[#table-62]: https://github.com/rsuite/rsuite-table/pull/62
+
+# 3.7.7
+
+> February 28, 2019
+
+* **Feature**: Support `searchable` on `<Cascader>` and `<MultiCascader>` ([#401],[#403],[#406])
+* **Bugfix**: Fixed a bug in the tree table's cell word wrap ([#407])
+* **Bugfix**: Fixed `flip` property not working on `<Icon>` ([#402])
+* **Chore**: Update `flow-bin` 0.93.0 ([#407])
+* **Chore**: Update the sample code in the documentation
+
+---
+
+* **Feature**: `<Cascader>` 与 `<MultiCascader>` 组件支持搜索功能 ([#401],[#403],[#406])
+* **Bugfix**: 修复了 Tree Table 在自动换行时候的 bug ([#407])
+* **Bugfix**: 修复了 `flip` 属性在 `<Icon>` 组件上无效 ([#402])
+* **Chore**: 更新 `flow-bin` 至 0.93.0 版本 ([#407])
+* **Chore**: 更新文档中的示例代码
+
+[#407]: https://github.com/rsuite/rsuite/pull/407
+[#406]: https://github.com/rsuite/rsuite/pull/406
+[#405]: https://github.com/rsuite/rsuite/pull/405
+[#403]: https://github.com/rsuite/rsuite/pull/403
+[#402]: https://github.com/rsuite/rsuite/pull/402
+[#401]: https://github.com/rsuite/rsuite/pull/401
+
+# 3.7.6
+
+> February 21, 2019
+
+* **Feature**: Support `onClean` on picker ([#398])
+* **Bugfix**: Fixed a tool function for `<DateRangePicker>` to disable dates ([#400])
+* **Bugfix**: Fixed a style error with `<CheckPicker>` in IE ([#394])
+* **Bugfix**: Fixed an error in calling Notification in ComponentDidUpdate([#393])
+* **Bugfix**: Fixed a Typescript definition error ([#391],[#399])
+* **Extension**: Add extension component [@rsuite/document-nav]
+
+---
+
+* **Feature**: `Picker` 相关的组件都支持 `onClean` 事件 ([#398])
+* **Bugfix**: 修复了 `<DateRangePicker>` 禁用日期的工具函数 ([#400])
+* **Bugfix**: 修复了 `<CheckPicker>` 组件在 IE 浏览器上的样式错误 ([#394])
+* **Bugfix**: 修复了 Notification 在 ComponentDidUpdate 生命周期内调用的一个错误 ([#393])
+* **Bugfix**: 修复了 Typescript 定义错误 ([#391],[#399])
+* **Extension**: 添加扩展组件 [@rsuite/document-nav]
+
+[#400]: https://github.com/rsuite/rsuite/pull/400
+[#399]: https://github.com/rsuite/rsuite/pull/399
+[#398]: https://github.com/rsuite/rsuite/pull/398
+[#394]: https://github.com/rsuite/rsuite/pull/394
+[#393]: https://github.com/rsuite/rsuite/pull/393
+[#391]: https://github.com/rsuite/rsuite/pull/391
+[@rsuite/document-nav]: https://github.com/rsuite/document-nav
+
 # 3.7.5
 
 > January 31, 2019

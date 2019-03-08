@@ -36,7 +36,7 @@ import {
   shouldDisplay,
   shouldShowNodeByExpanded,
   flattenTree,
-  getNodeParentKeys,
+  getNodeParents,
   getVirtualLisHeight
 } from '../utils/treeUtils';
 
@@ -110,6 +110,7 @@ export type Props = {
   ) => void,
   onSelect?: (activeNode: any, layer: number, values: any) => void,
   onScroll?: (event: DefaultEvent) => void,
+  onClean?: (event: DefaultEvent) => void,
   onExited?: () => void,
   onEntered?: () => void,
   onExiting?: () => void,
@@ -436,24 +437,22 @@ class CheckTree extends React.Component<Props, States> {
 
   getFlattenTreeData(nodes: any[]) {
     const { expandItemValues } = this.state;
-    return flattenTree(
-      nodes,
-      (node: Object) => {
-        const formatted = { ...node };
-        const curNode = this.nodes[node.refKey];
-        const parentKeys = getNodeParentKeys(curNode, this.props);
-        if (curNode) {
-          formatted.check = curNode.check;
-          formatted.expand = curNode.expand;
-          formatted.uncheckable = curNode.uncheckable;
-          formatted.layer = curNode.layer;
-          formatted.parentNode = curNode.parentNode;
-          formatted.showNode = shouldShowNodeByExpanded(expandItemValues, parentKeys);
-        }
-        return formatted;
-      },
-      this.props
-    );
+    const { childrenKey, valueKey } = this.props;
+
+    return flattenTree(nodes, childrenKey, (node: Object) => {
+      const formatted = { ...node };
+      const curNode = this.nodes[node.refKey];
+      const parentKeys = getNodeParents(curNode, 'parentNode', valueKey);
+      if (curNode) {
+        formatted.check = curNode.check;
+        formatted.expand = curNode.expand;
+        formatted.uncheckable = curNode.uncheckable;
+        formatted.layer = curNode.layer;
+        formatted.parentNode = curNode.parentNode;
+        formatted.showNode = shouldShowNodeByExpanded(expandItemValues, parentKeys);
+      }
+      return formatted;
+    });
   }
 
   /**
@@ -1286,6 +1285,7 @@ class CheckTree extends React.Component<Props, States> {
       toggleComponentClass,
       onExited,
       onEntered,
+      onClean,
       renderValue,
       ...rest
     } = this.props;
@@ -1330,7 +1330,7 @@ class CheckTree extends React.Component<Props, States> {
             {...unhandled}
             ref={this.bindToggleRef}
             onKeyDown={this.handleToggleKeyDown}
-            onClean={this.handleClean}
+            onClean={createChainedFunction(this.handleClean, onClean)}
             componentClass={toggleComponentClass}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}

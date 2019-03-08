@@ -74,7 +74,7 @@ class ProgressCircle extends React.Component<Props> {
 
     const strokePathStyle = {
       stroke: strokeColor,
-      strokeDasharray: `${(percent / 100) * (len - gapDegree)}px ${len}px`,
+      strokeDasharray: `${percent / 100 * (len - gapDegree)}px ${len}px`,
       strokeDashoffset: `-${gapDegree / 2}px`
     };
 

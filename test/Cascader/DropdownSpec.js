@@ -130,6 +130,17 @@ describe('Cascader - Dropdown', () => {
     ReactTestUtils.Simulate.click(instanceDom.querySelectorAll(itemClassName)[1]);
   });
 
+  it('Should call onClean callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown data={items} defaultValue={['vv-abc']} onClean={doneOp} />
+    );
+    const instanceDOM = findDOMNode(instance);
+    ReactTestUtils.Simulate.click(instanceDOM.querySelector('.rs-picker-toggle-clean'));
+  });
+
   it('Should clean selected default value', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Dropdown defaultOpen data={items} defaultValue={['vv-abc']} />

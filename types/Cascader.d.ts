@@ -24,6 +24,15 @@ export interface CascaderProps extends FormControlPickerProps<any> {
 
   /** Called when the option is selected */
   onSelect?: (value: any, activePaths: any[], event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Called when clean */
+  onClean?: (event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Called when searching */
+  onSearch?: (searchKeyword: string, event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Whether dispaly search input box */
+  searchable?: boolean;
 }
 
 declare const Cascader: React.ComponentType<CascaderProps>;

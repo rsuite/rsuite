@@ -149,6 +149,17 @@ describe('InputPicker - Dropdown', () => {
     ReactTestUtils.Simulate.click(menuContainer.querySelector(itemClassName));
   });
 
+  it('Should call `onClean` callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Dropdown data={data} defaultValue={'Eugenia'} onClean={doneOp} />
+    );
+    const instanceDOM = findDOMNode(instance);
+    ReactTestUtils.Simulate.click(instanceDOM.querySelector('.rs-picker-toggle-clean'));
+  });
+
   it('Should call `onSelect` by keyCode=13 ', done => {
     const doneOp = (value, item) => {
       if (value === 'Louisa' && item.value === 'Louisa') {
