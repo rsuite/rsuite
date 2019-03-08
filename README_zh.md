@@ -118,7 +118,7 @@ $ npm install
 $ npm run dev
 ```
 
-3. 您可以开始访问了， 在浏览器输入 http://127.0.0.1:3200/ 。
+3. 您可以开始访问了， 在浏览器输入 http://127.0.0.1:3200/ 
 
 
 > `rsuite.github.io` 会依赖 `rsuite` 中的组件，并支持热更新。
@@ -131,7 +131,7 @@ Gitee 用户访问地址: https://gitee.com/rsuite/rsuite
 
 在开始之前，确保您已读[贡献指南][contributing]。
 
-编辑器的配置参考 [.prettierrc][prettierrc]， 下载编辑的插件 https://prettier.io/。
+编辑器的配置参考 [.prettierrc][prettierrc]， 下载编辑的插件 https://prettier.io/
 
 
 ## 支持 React Suite
