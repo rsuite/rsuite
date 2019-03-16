@@ -150,7 +150,7 @@ Gitee 用户访问地址: https://gitee.com/rsuite/rsuite
 </a>
 
 
-国内交流群, 添加 React Suite 小助手，备注 'rsuite', 邀请入群。
+国内交流群, 添加 React Suite 小助手，备注 rsuite， 邀请入群。
 
 <img src="https://user-images.githubusercontent.com/1203827/51657342-7ace0180-1fdf-11e9-9237-5d19c7a5c7da.jpeg" width="200" />
 
