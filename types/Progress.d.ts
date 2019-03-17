@@ -3,8 +3,10 @@ import ProgressLine from './ProgressLine';
 import ProgressCircle from './ProgressCircle';
 
 interface Progress {
-  ProgressLine: typeof ProgressLine;
-  ProgressCircle: typeof ProgressCircle;
+  Line: typeof ProgressLine;
+  Circle: typeof ProgressCircle;
 }
+
+declare var Progress: Progress;
 
 export default Progress;
