@@ -37,7 +37,7 @@ class PlaceholderParagraph extends React.Component<Props> {
     const classes = classNames(classPrefix, addPrefix('paragraph'), className);
     const graphShape = graph === true ? 'square' : graph;
     const rowArr = [];
-    for (let i = 0, length = rows > 0 ? rows : 0; i < length; i++) {
+    for (let i = 0; i < rows; i++) {
       rowArr.push(
         <div
           key={i}

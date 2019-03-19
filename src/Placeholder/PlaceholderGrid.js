@@ -39,37 +39,26 @@ class PlaceholderGrid extends React.Component<Props> {
     const colArr = [];
     const firstRowItemWidth = Math.random() * 30 + 30;
     const ItemWidth = firstRowItemWidth / 2;
-    for (let i = 0, length = columns > 0 ? columns : 0; i < length; i++) {
+    for (let i = 0; i < columns; i++) {
       const rowArr = [];
-      for (let j = 0, length = rows > 0 ? rows : 0; j < length; j++) {
+      for (let j = 0; j < rows; j++) {
+        let widthPercent = Math.random() * 50 + 10; // when first column
+        if (i > 0) {
+          // when other columns
+          widthPercent = j > 0 ? ItemWidth : firstRowItemWidth;
+        }
         rowArr.push(
-          j === 0 ? (
-            /* first column */
-            <div
-              key={j}
-              className={classNames(addPrefix('grid-item-placeholder'), {
-                [addPrefix('active')]: active
-              })}
-              style={{
-                width: `${Math.random() * 50 + 10}%`,
-                height: rowHeight,
-                marginTop: j > 0 ? rowMargin : null
-              }}
-            />
-          ) : (
-            /* other columns */
-            <div
-              key={j}
-              className={classNames(addPrefix('grid-item-placeholder'), {
-                [addPrefix('active')]: active
-              })}
-              style={{
-                width: `${j > 0 ? ItemWidth : firstRowItemWidth}%`,
-                height: rowHeight,
-                marginTop: j > 0 ? rowMargin : null
-              }}
-            />
-          )
+          <div
+            key={j}
+            className={classNames(addPrefix('grid-item-placeholder'), {
+              [addPrefix('active')]: active
+            })}
+            style={{
+              width: `${widthPercent}%`,
+              height: rowHeight,
+              marginTop: j > 0 ? rowMargin : null
+            }}
+          />
         );
       }
       colArr.push(
