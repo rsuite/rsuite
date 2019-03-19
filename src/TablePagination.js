@@ -23,7 +23,7 @@ type Props = {
   total: number,
   displayLength: number,
   renderLengthMenu?: (picker: React.Node) => React.Node,
-  renderTotal?: (total: number, activePage: number) => void,
+  renderTotal?: (total: number, activePage: number) => React.Node,
   onChangePage?: (page: number) => void,
   onChangeLength?: (size: number) => void,
   prev?: boolean,

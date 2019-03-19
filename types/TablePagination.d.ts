@@ -26,7 +26,7 @@ export interface TablePaginationProps extends StandardProps, PaginationBaseProps
   renderLengthMenu?: (picker: React.ReactNode) => React.ReactNode;
 
   /** Custom total */
-  renderTotal?: (total: number, activePage: number) => void;
+  renderTotal?: (total: number, activePage: number) => React.ReactNode;
 
   /** callback function triggered when page changes */
   onChangePage?: (page: number) => void;
