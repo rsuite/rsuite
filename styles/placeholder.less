@@ -1,0 +1,63 @@
+@import 'common';
+@import "mixins/placeholder";
+
+//
+// Placeholder
+// --------------------------------------------------
+
+.@{ns}placeholder {
+  display: flex;
+  padding: 30px;
+  background-color: @placeholder-bg;
+
+  &-paragraph {
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    &-graph-area {
+      &-circle {
+        border-radius: 50%;
+        .placeholder-graph-base();
+      }
+
+      &-square {
+        border-radius: 2px;
+        .placeholder-graph-base();
+      }
+    }
+
+    &-rows-area {
+      width: 100%;
+      margin-left: 20px;
+    }
+
+    &-row-placeholder {
+      .placeholder-active-animation();
+
+      &:last-child {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  &-graph-placeholder {
+    .placeholder-active-animation();
+  }
+
+  &-grid {
+    &-col-placeholder {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+
+      &:first-child {
+        align-items: flex-start; //first col align left
+      }
+    }
+
+    &-item-placeholder {
+      .placeholder-active-animation();
+    }
+  }
+}
