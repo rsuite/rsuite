@@ -36,18 +36,18 @@ class PlaceholderGrid extends React.Component<Props> {
     const addPrefix = prefix(classPrefix);
     const unhandled = getUnhandledProps(PlaceholderGrid, rest);
     const classes = classNames(classPrefix, addPrefix('grid'), className);
-    const colArr = [];
+    const colItems = [];
     const firstRowItemWidth = Math.random() * 30 + 30;
-    const ItemWidth = firstRowItemWidth / 2;
+    const itemWidth = firstRowItemWidth / 2;
     for (let i = 0; i < columns; i++) {
-      const rowArr = [];
+      const rowItems = [];
       for (let j = 0; j < rows; j++) {
         let widthPercent = Math.random() * 50 + 10; // when first column
         if (i > 0) {
           // when other columns
-          widthPercent = j > 0 ? ItemWidth : firstRowItemWidth;
+          widthPercent = j > 0 ? itemWidth : firstRowItemWidth;
         }
-        rowArr.push(
+        rowItems.push(
           <div
             key={j}
             className={classNames(addPrefix('grid-item-placeholder'), {
@@ -61,15 +61,15 @@ class PlaceholderGrid extends React.Component<Props> {
           />
         );
       }
-      colArr.push(
+      colItems.push(
         <div key={i} className={classNames(addPrefix('grid-col-placeholder'))}>
-          {rowArr}
+          {rowItems}
         </div>
       );
     }
     return (
       <div className={classes} {...unhandled}>
-        {colArr}
+        {colItems}
       </div>
     );
   }
