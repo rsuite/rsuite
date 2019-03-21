@@ -18,20 +18,22 @@ class PlaceholderGraph extends React.Component<Props> {
   };
 
   render() {
-    const { className, width, height, active, classPrefix, ...rest } = this.props;
+    const { className, width, height, style, active, classPrefix, ...rest } = this.props;
     const addPrefix = prefix(classPrefix);
     const unhandled = getUnhandledProps(PlaceholderGraph, rest);
-    const classes = classNames(classPrefix, addPrefix('graph'), className);
+    const classes = classNames(classPrefix, addPrefix('graph'), className, {
+      [addPrefix('active')]: active
+    });
     return (
-      <div className={classes} {...unhandled}>
-        <div
-          className={classNames(addPrefix('graph-placeholder'), { [addPrefix('active')]: active })}
-          style={{
-            width: width || '100%',
-            height
-          }}
-        />
-      </div>
+      <div
+        className={classes}
+        style={{
+          width: width || '100%',
+          height,
+          ...style
+        }}
+        {...unhandled}
+      />
     );
   }
 }

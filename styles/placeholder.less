@@ -7,7 +7,6 @@
 
 .@{ns}placeholder {
   display: flex;
-  padding: 30px;
   background-color: @placeholder-bg;
 
   &-paragraph {
@@ -16,6 +15,7 @@
 
     &-graph-area {
       flex: 0 0 auto;
+      margin-right: 20px;
 
       &-circle {
         border-radius: 50%;
@@ -30,7 +30,6 @@
 
     &-rows-area {
       width: 100%;
-      margin-left: 20px;
     }
 
     &-row-placeholder {
@@ -42,7 +41,9 @@
     }
   }
 
-  &-graph-placeholder {
+  &-graph {
+    display: inline-block;
+    width: 100%;
     .placeholder-active-animation();
   }
 
