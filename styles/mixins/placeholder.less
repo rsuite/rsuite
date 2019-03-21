@@ -1,8 +1,7 @@
 .placeholder-active-animation() {
-  background-color: @placeholder-holder-bg;
   position: relative;
 
-  &.@{ns}placeholder-active::before {
+  &::before {
     content: '';
     opacity: 0;
     position: absolute;
@@ -14,10 +13,4 @@
     border-radius: 10px;
     animation: progress-active 2s cubic-bezier(0.23, 1, 0.32, 1) infinite;
   }
-}
-
-.placeholder-graph-base() {
-  width: 60px;
-  height: 60px;
-  background-color: @placeholder-holder-bg;
 }
