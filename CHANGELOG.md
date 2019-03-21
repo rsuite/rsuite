@@ -1,3 +1,23 @@
+# 3.7.9
+
+> March 21, 2019
+
+* **Bugfix**: Fixed modular styles issues for animation ([#422])
+* **Bugfix**: Fixed TypeScript definition error ([#415],[#416],[#419])
+* **Bugfix**: Fixed a scrollbar event invalid on the internal elements of the table ([#table-67])
+
+---
+
+* **Bugfix**: 修复了 `animation` 按需加载时的问题 ([#422])
+* **Bugfix**: 修复了一些 TypeScript 定义错误 ([#415],[#416],[#419])
+* **Bugfix**: 修复了表格内部元素的滚动事件无效的问题 ([#table-67])
+
+[#422]: https://github.com/rsuite/rsuite/pull/422
+[#419]: https://github.com/rsuite/rsuite/pull/419
+[#416]: https://github.com/rsuite/rsuite/pull/416
+[#415]: https://github.com/rsuite/rsuite/pull/415
+[#table-67]: https://github.com/rsuite/rsuite-table/pull/67
+
 # 3.7.8
 
 > March 7, 2019
@@ -20,6 +40,7 @@
 * **Bugfix**: 修复 Tree Table 图标的样式问题 ([#table-64])
 * **Bugfix**: 修复 `<Table>` 数据为空时，设置 `autoHeight` 属性无效 ([#table-62])
 
+[#413]: https://github.com/rsuite/rsuite/pull/413
 [#412]: https://github.com/rsuite/rsuite/pull/412
 [#411]: https://github.com/rsuite/rsuite/pull/411
 [#410]: https://github.com/rsuite/rsuite/pull/410
