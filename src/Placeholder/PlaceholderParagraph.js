@@ -46,7 +46,7 @@ class PlaceholderParagraph extends React.Component<Props> {
           style={{
             width: `${Math.random() * 75 + 25}%`,
             height: rowHeight,
-            marginTop: i > 0 ? rowMargin : rowMargin / 2
+            marginTop: i > 0 ? rowMargin : Number(rowMargin) / 2
           }}
         />
       );

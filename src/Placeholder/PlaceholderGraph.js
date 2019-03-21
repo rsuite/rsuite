@@ -6,6 +6,7 @@ import classNames from 'classnames';
 
 type Props = {
   className?: string,
+  style?: Object,
   classPrefix?: string,
   width?: number | string,
   height?: number | string,

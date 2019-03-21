@@ -66,9 +66,6 @@ describe('PlaceholderParagraph', () => {
   it('Should has animation', () => {
     const instance = ReactTestUtils.renderIntoDocument(<PlaceholderParagraph active />);
     const instanceDom = findDOMNode(instance);
-    assert.include(
-      Array.from(instanceDom.classList),
-      'rs-placeholder-active'
-    );
+    assert.include(Array.from(instanceDom.classList), 'rs-placeholder-active');
   });
 });
