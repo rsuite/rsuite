@@ -7,59 +7,58 @@
 
 .@{ns}placeholder {
   display: flex;
-  padding: 30px;
   background-color: @placeholder-bg;
+
+  &-active {
+    .placeholder-active-animation();
+  }
 
   &-paragraph {
     justify-content: flex-start;
     align-items: flex-start;
 
-    &-graph-area {
+    &-graph {
       flex: 0 0 auto;
+      width: 60px;
+      height: 60px;
+      border-radius: 2px;
+      margin-right: 20px;
+      background-color: @placeholder-holder-bg;
 
       &-circle {
         border-radius: 50%;
-        .placeholder-graph-base();
-      }
-
-      &-square {
-        border-radius: 2px;
-        .placeholder-graph-base();
       }
     }
 
-    &-rows-area {
+    &-rows {
       width: 100%;
-      margin-left: 20px;
-    }
 
-    &-row-placeholder {
-      .placeholder-active-animation();
-
-      &:last-child {
-        margin-bottom: 10px;
+      & > p {
+        background-color: @placeholder-holder-bg;
       }
     }
-  }
-
-  &-graph-placeholder {
-    .placeholder-active-animation();
   }
 
   &-grid {
-    &-col-placeholder {
+    &-col {
       flex: 1;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
 
+      & > p {
+        background-color: @placeholder-holder-bg;
+      }
+
       &:first-child {
         align-items: flex-start; //first col align left
       }
     }
+  }
 
-    &-item-placeholder {
-      .placeholder-active-animation();
-    }
+  &-graph {
+    display: inline-block;
+    width: 100%;
+    background-color: @placeholder-holder-bg;
   }
 }

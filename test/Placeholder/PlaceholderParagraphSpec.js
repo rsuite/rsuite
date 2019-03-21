@@ -50,7 +50,7 @@ describe('PlaceholderParagraph', () => {
     const instanceDom = findDOMNode(instance);
     assert.include(
       Array.from(instanceDom.firstElementChild.classList),
-      'rs-placeholder-paragraph-graph-area-square'
+      'rs-placeholder-paragraph-graph'
     );
   });
 
@@ -59,16 +59,13 @@ describe('PlaceholderParagraph', () => {
     const instanceDom = findDOMNode(instance);
     assert.include(
       Array.from(instanceDom.firstElementChild.classList),
-      'rs-placeholder-paragraph-graph-area-circle'
+      'rs-placeholder-paragraph-graph-circle'
     );
   });
 
   it('Should has animation', () => {
     const instance = ReactTestUtils.renderIntoDocument(<PlaceholderParagraph active />);
     const instanceDom = findDOMNode(instance);
-    assert.include(
-      Array.from(instanceDom.lastElementChild.lastElementChild.classList),
-      'rs-placeholder-active'
-    );
+    assert.include(Array.from(instanceDom.classList), 'rs-placeholder-active');
   });
 });

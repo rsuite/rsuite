@@ -35,7 +35,9 @@ class PlaceholderGrid extends React.Component<Props> {
     } = this.props;
     const addPrefix = prefix(classPrefix);
     const unhandled = getUnhandledProps(PlaceholderGrid, rest);
-    const classes = classNames(classPrefix, addPrefix('grid'), className);
+    const classes = classNames(classPrefix, addPrefix('grid'), className, {
+      [addPrefix('active')]: active
+    });
     const colItems = [];
     const firstRowItemWidth = Math.random() * 30 + 30;
     const itemWidth = firstRowItemWidth / 2;
@@ -48,11 +50,8 @@ class PlaceholderGrid extends React.Component<Props> {
           widthPercent = j > 0 ? itemWidth : firstRowItemWidth;
         }
         rowItems.push(
-          <div
+          <p
             key={j}
-            className={classNames(addPrefix('grid-item-placeholder'), {
-              [addPrefix('active')]: active
-            })}
             style={{
               width: `${widthPercent}%`,
               height: rowHeight,
@@ -62,7 +61,7 @@ class PlaceholderGrid extends React.Component<Props> {
         );
       }
       colItems.push(
-        <div key={i} className={classNames(addPrefix('grid-col-placeholder'))}>
+        <div key={i} className={classNames(addPrefix('grid-col'))}>
           {rowItems}
         </div>
       );

@@ -34,20 +34,19 @@ class PlaceholderParagraph extends React.Component<Props> {
     } = this.props;
     const addPrefix = prefix(classPrefix);
     const unhandled = getUnhandledProps(PlaceholderParagraph, rest);
-    const classes = classNames(classPrefix, addPrefix('paragraph'), className);
+    const classes = classNames(classPrefix, addPrefix('paragraph'), className, {
+      [addPrefix('active')]: active
+    });
     const graphShape = graph === true ? 'square' : graph;
     const rowArr = [];
     for (let i = 0; i < rows; i++) {
       rowArr.push(
-        <div
+        <p
           key={i}
-          className={classNames(addPrefix('paragraph-row-placeholder'), {
-            [addPrefix('active')]: active
-          })}
           style={{
             width: `${Math.random() * 75 + 25}%`,
             height: rowHeight,
-            marginTop: i > 0 ? rowMargin : 10
+            marginTop: i > 0 ? rowMargin : Number(rowMargin) / 2
           }}
         />
       );
@@ -56,13 +55,12 @@ class PlaceholderParagraph extends React.Component<Props> {
       <div className={classes} {...unhandled}>
         {graphShape && (
           <div
-            className={classNames(
-              addPrefix('paragraph-graph-area'),
-              addPrefix(`paragraph-graph-area-${graphShape}`)
-            )}
+            className={classNames(addPrefix('paragraph-graph'), {
+              [addPrefix('paragraph-graph-circle')]: graph === 'circle'
+            })}
           />
         )}
-        <div className={addPrefix('paragraph-rows-area')}>{rowArr}</div>
+        <div className={addPrefix('paragraph-rows')}>{rowArr}</div>
       </div>
     );
   }
