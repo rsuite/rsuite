@@ -77,7 +77,7 @@ describe('PlaceholderGrid', () => {
     const instance = ReactTestUtils.renderIntoDocument(<PlaceholderGrid active />);
     const instanceDom = findDOMNode(instance);
     assert.include(
-      Array.from(instanceDom.lastElementChild.lastElementChild.classList),
+      Array.from(instanceDom.classList),
       'rs-placeholder-active'
     );
   });
