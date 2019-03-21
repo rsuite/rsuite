@@ -55,11 +55,9 @@ class PlaceholderParagraph extends React.Component<Props> {
       <div className={classes} {...unhandled}>
         {graphShape && (
           <div
-            className={classNames(
-              addPrefix('paragraph-graph'), {
-                [addPrefix('paragraph-graph-circle')]: graph === 'circle'
-              }
-            )}
+            className={classNames(addPrefix('paragraph-graph'), {
+              [addPrefix('paragraph-graph-circle')]: graph === 'circle'
+            })}
           />
         )}
         <div className={addPrefix('paragraph-rows')}>{rowArr}</div>
