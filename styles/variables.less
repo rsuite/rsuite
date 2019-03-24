@@ -18,6 +18,8 @@
 
 //** Link hover decoration.
 @link-hover-decoration: underline;
+//** Link active decoration.
+@link-active-decoration: underline;
 //** border base color.
 @border-base-color: @B300;
 
@@ -213,8 +215,8 @@
 @btn-subtle-active-default-bg: @B200;
 @btn-subtle-disabled-color: @B400;
 // Ghost Button color set;
-@btn-ghost-color: @primary-color;
-@btn-ghost-border-color: @primary-color;
+@btn-ghost-color: @link-color;
+@btn-ghost-border-color: @link-color;
 @btn-ghost-border-width: 1px;
 
 // Allows for customizing button radius independently from global border radius
@@ -264,7 +266,7 @@
 @input-border-radius-small: @border-radius-base;
 
 //** Border color for inputs on focus
-@input-border-focus: @H500;
+@input-border-focus: @H700;
 
 //** Input transition
 @input-transition: border-color ease-in-out 0.3s;
@@ -342,7 +344,7 @@
 @dropdown-link-hover-bg: @H050;
 
 //** Active dropdown menu item text color.
-@dropdown-link-active-color: @H500;
+@dropdown-link-active-color: @H700;
 //** Active dropdown menu item background color.
 @dropdown-link-active-bg: fade(@H050, 50);
 
@@ -520,7 +522,7 @@
 @nav-item-hover-font-color: @B800;
 @nav-item-click-bg: @B200;
 @nav-item-click-font-color: @B900;
-@nav-item-active-font-color: @H500;
+@nav-item-active-font-color: @H700;
 @nav-item-disable-font-color: @B400;
 @nav-item-transition: color 0.3s linear, background-color 0.3s linear;
 
@@ -534,7 +536,7 @@
 //** Subtle
 @nav-subtle-waterline-width: 2px;
 @nav-subtle-waterline-default-color: @B050;
-@nav-subtle-waterline-active-color: @H500;
+@nav-subtle-waterline-active-color: @H700;
 @nav-subtle-default-waterline: @nav-subtle-waterline-width solid @nav-subtle-waterline-default-color;
 @nav-subtle-active-waterline: @nav-subtle-waterline-width solid @nav-subtle-default-waterline;
 @nav-subtle-content-transition: 0.3s ease-out;
@@ -550,7 +552,7 @@
 @nav-bar-height: @nav-bar-padding-vertical * 2 + @line-height-computed;
 //** Default
 @nav-bar-default-bg: @B050;
-@nav-bar-default-active-color: @H500;
+@nav-bar-default-active-color: @H700;
 @nav-bar-default-active-bg: transparent;
 @nav-bar-default-font-color: @B800;
 
@@ -563,11 +565,10 @@
 //** Subtle
 @nav-bar-subtle-bg: @B000;
 @nav-bar-subtle-font-color: @B700;
-@nav-bar-subtle-font-active-color: @H500;
+@nav-bar-subtle-font-active-color: @H700;
 @nav-bar-subtle-hover-bg: @B050;
 @nav-bar-subtle-hover-font-color: @B800;
 @nav-bar-subtle-active-bg: fade(@B000, 0);
-@nav-bar-subtle-active-font-color: @H500;
 
 //== Sidenav
 //
@@ -615,7 +616,7 @@
 //##
 
 @pagination-hover-color: @btn-subtle-default-hover-color;
-@pagination-active-color: @H500;
+@pagination-active-color: @H700;
 @pagination-hover-bg: @btn-subtle-hover-bg;
 @pagination-active-bg: @btn-subtle-active-default-bg;
 @pagination-transition: @ripple-transition, color 0.3s linear;
@@ -689,6 +690,7 @@
 @radio-disabled-color: @B050;
 @radio-bg: @B000;
 @radio-inner-checked-color: @B000;
+@radio-picker-active-color: @picker-selected-value-color;
 
 //== Tooltips
 //
@@ -1032,7 +1034,7 @@
 @picker-search-bar-icon-width: @font-size-base;
 @picker-default-toggle-border-width: 1px;
 @picker-default-toggle-border-color: @B200;
-@picker-default-toggle-hover-border-color: @H500;
+@picker-default-toggle-hover-border-color: @H700;
 @picker-default-toggle-font-color: @B800;
 @picker-default-toggle-caret-color: @B600;
 @picker-toggle-clean-width: 12px;
@@ -1055,9 +1057,9 @@
 @picker-menu-item-hover-bg: @H050;
 // Select picker
 @picker-select-menu-item-selected-bg: fade(@H050, 50);
-@picker-select-menu-item-selected-color: @H500;
+@picker-select-menu-item-selected-color: @H700;
 @picker-menu-item-disabled-color: @B400;
-@picker-selected-value-color: @H500;
+@picker-selected-value-color: @H700;
 @picker-select-arrow-down: '\F0D7';
 
 // Check Picker
@@ -1093,13 +1095,13 @@
 @calendar-table-cell-content-padding: 5px;
 @calendar-table-cell-content-hover-bg: @H050;
 @calendar-table-cell-content-today-border-width: 1px;
-@calendar-table-cell-content-today-border-color: @H500;
+@calendar-table-cell-content-today-border-color: @H700;
 @calendar-table-cell-content-selected-color: @H500;
 @calendar-table-cell-content-disabled-color: @B400;
 @calendar-table-cell-content-selected-font-color: @B000;
 @calendar-table-cell-header-color: @B600;
 @calendar-month-dropdown-row-border-color: @B200;
-@calendar-month-dropdown-year-active-color: @H500;
+@calendar-month-dropdown-year-active-color: @H700;
 @calendar-dropdown-top: 40px; // @calendar-picker-padding + content-height + gap
 @calendar-time-dropdown-column-title-bg: @B050;
 @calendar-time-dropdown-column-title-font-color: @B600;
@@ -1109,8 +1111,9 @@
 @calendar-time-dropdown-column-cell-active-bg: @H500;
 @calendar-right-btn-ok-color: @btn-primary-color;
 @calendar-right-btn-ok-bg: @btn-primary-bg;
-@calendar-option-color: @H500;
+@calendar-option-color: @H700;
 @calendar-in-menu-content-side-length: 30px;
+@picker-calendar-title-color: @H700;
 
 //== DateRange Picker
 @date-range-picker-header-padding-horizontal: 12px;
