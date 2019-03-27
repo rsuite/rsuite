@@ -64,6 +64,13 @@ describe('UploadFileItem', () => {
     );
   });
 
+  it('Should not render remove button', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <UploadFileItem file={file} removable={false} />
+    );
+    assert.ok(!findDOMNode(instance).querySelector('.rs-uploader-file-item-btn-remove'));
+  });
+
   it('Should call onPreview callback', done => {
     const doneOp = () => {
       done();
