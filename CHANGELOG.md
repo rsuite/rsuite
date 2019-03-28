@@ -3,7 +3,7 @@
 > March 28, 2019
 
 * **Feature**: Support `removable` on `<Uploader>` ([#426])
-* **Feature**: Support `verticalAlign` on `<Table.Column>` ([#table-79])
+* **Feature**: Support `verticalAlign` on `<Table.Column>` ([#table-70])
 * **Feature**: Support `renderEmpty` and `renderLoading` on `<Table>` ([#table-74])
 * **Bugfix**: Fixed `Picker` component to trigger `onChange` event when deleting search value ([#425])
 * **Bugfix**: Unable to preventDefault inside passive event listener due to target being treated as passive ([#table-73],[#chromestatus])
@@ -11,7 +11,7 @@
 ---
 
 * **Feature**: `<Uploader>` 组件支持 `removable` 属性 ([#426])
-* **Feature**: `<Table.Column>` 组件支持 `verticalAlign` 属性 ([#table-79])
+* **Feature**: `<Table.Column>` 组件支持 `verticalAlign` 属性 ([#table-70])
 * **Feature**: `<Table>` 组件支持 `renderEmpty` 和 `renderLoading` 属性 ([#table-74])
 * **Bugfix**: 修复 `<SelectPicker>` 与 `<CheckPicker>` 组件删除搜索框值时候会触发 `onChange` 事件 ([#425])
 * **Bugfix**: 修复 `<Table>` 组件在 Chrome 73 版本中滚动时报错的问题 ([#table-73],[#chromestatus])
