@@ -104,6 +104,9 @@ export interface UploaderProps extends StandardProps {
 
   /** Custom render file information */
   renderFileInfo?: (file: FileType, fileElement: React.ReactNode) => React.ReactNode;
+
+  /** Removable list file  */
+  removable?: boolean;
 }
 
 declare const Uploader: React.ComponentType<UploaderProps>;
