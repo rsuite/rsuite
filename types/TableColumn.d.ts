@@ -4,6 +4,9 @@ export interface TableColumnProps {
   /** Alignment */
   align?: 'left' | 'center' | 'right';
 
+  /** Vertical alignment */
+  verticalAlign?: 'top' | 'middle' | 'bottom';
+
   /** 	Column width */
   width?: number;
 
