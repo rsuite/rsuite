@@ -43,7 +43,7 @@ describe('FormControl', () => {
   it('Should be readOnly', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Form>
-        <FormControl name="username" readOnly/>
+        <FormControl name="username" readOnly />
       </Form>
     );
 
