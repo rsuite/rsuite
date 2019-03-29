@@ -20,6 +20,9 @@ export interface FormControlProps extends StandardProps {
 
   /** The placement of error messages */
   errorPlacement?: PropTypes.Placement8;
+
+  /** Make the control readonly */
+  readOnly?: boolean;
 }
 
 declare const FormControl: React.ComponentType<FormControlProps>;

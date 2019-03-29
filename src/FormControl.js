@@ -1,6 +1,8 @@
 /* @flow */
 
 import * as React from 'react';
+import _ from 'lodash';
+import classNames from 'classnames';
 
 import Input from './Input';
 import ErrorMessage from './ErrorMessage';
@@ -26,7 +28,8 @@ type Props = {
   classPrefix?: string,
   errorMessage?: React.Node,
   errorPlacement?: PlacementEightPoints,
-  formValue?: Object
+  formValue?: Object,
+  readOnly?: boolean
 };
 
 type State = {
@@ -145,11 +148,16 @@ class FormControl extends React.Component<Props, State> {
     );
   };
 
-  renderValue = () => {
-    const { name, accepter: Component, ...props } = this.props;
+  renderAccepter = () => {
+    const { name, accepter: Component, readOnly, ...props } = this.props;
     const { formDefaultValue = {} } = this.context;
     const unhandled = getUnhandledProps(FormControl, props);
     const value = this.getValue();
+
+    if (_.get(Component, 'defaultProps.componentClass') === 'input' && readOnly) {
+      unhandled.readOnly = readOnly;
+    }
+
     return (
       <Component
         {...unhandled}
@@ -163,9 +171,13 @@ class FormControl extends React.Component<Props, State> {
   };
 
   render() {
+    const { readOnly } = this.props;
+    const classes = classNames(this.addPrefix('wrapper'), {
+      'read-only': readOnly
+    });
     return (
-      <div className={this.addPrefix('wrapper')}>
-        {this.renderValue()}
+      <div className={classes}>
+        {this.renderAccepter()}
         {this.checkErrorFromContext()}
       </div>
     );
