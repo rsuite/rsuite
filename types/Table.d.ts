@@ -98,6 +98,12 @@ export interface TableProps extends StandardProps {
 
   /** Customize what you can do to expand a zone */
   renderRowExpanded?: (rowDate?: object) => React.ReactNode;
+
+  /** Customize data is empty display content  */
+  renderEmpty?: (info: React.ReactNode) => React.ReactNode;
+
+  /** Customize the display content in the data load  */
+  renderLoading?: (loading: React.ReactNode) => React.ReactNode;
 }
 
 interface TableComponent extends React.ComponentClass<TableProps> {

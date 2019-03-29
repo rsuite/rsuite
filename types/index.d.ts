@@ -1,6 +1,4 @@
-import * as React from 'react';
-
-export interface StandardProps extends React.AllHTMLAttributes<any> {
+export interface StandardProps {
   /** The prefix of the component CSS class */
   classPrefix?: string;
 

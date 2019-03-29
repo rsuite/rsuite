@@ -76,7 +76,10 @@ type Props = {
   maxPreviewFileSize?: number,
   style?: Object,
   toggleComponentClass?: React.ElementType,
-  renderFileInfo?: (file: FileType, fileElement: React.Node) => React.Node
+  renderFileInfo?: (file: FileType, fileElement: React.Node) => React.Node,
+
+  // Removable list file
+  removable?: boolean
 };
 
 type State = {
@@ -94,7 +97,8 @@ class Uploader extends React.Component<Props, State> {
     withCredentials: false,
     hasPanel: true,
     data: {},
-    listType: 'text'
+    listType: 'text',
+    removable: true
   };
 
   constructor(props: Props) {
@@ -310,7 +314,8 @@ class Uploader extends React.Component<Props, State> {
       listType,
       onPreview,
       maxPreviewFileSize,
-      renderFileInfo
+      renderFileInfo,
+      removable
     } = this.props;
     const fileList = this.getFileList();
 
@@ -327,6 +332,7 @@ class Uploader extends React.Component<Props, State> {
             onReupload={this.handleReupload}
             onCancel={this.handleRemoveFile}
             renderFileInfo={renderFileInfo}
+            removable={removable}
           />
         ))}
       </div>

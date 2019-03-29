@@ -27,7 +27,8 @@ type Props = {
   className?: string,
   maxPreviewFileSize: number,
   classPrefix?: string,
-  renderFileInfo?: (file: FileType, fileElement: React.Node) => React.Node
+  renderFileInfo?: (file: FileType, fileElement: React.Node) => React.Node,
+  removable?: boolean
 };
 
 type State = {
@@ -57,7 +58,8 @@ const getSize = (size: number = 0): string => {
 class UploadFileItem extends React.Component<Props, State> {
   static defaultProps = {
     maxPreviewFileSize: 1024 * 1024 * 5, // 5MB
-    listType: 'text'
+    listType: 'text',
+    removable: true
   };
 
   constructor(props: Props) {
@@ -169,6 +171,12 @@ class UploadFileItem extends React.Component<Props, State> {
   }
 
   renderRemoveButton() {
+    const { removable } = this.props;
+
+    if (!removable) {
+      return null;
+    }
+
     return (
       <a
         aria-label="Remove"

@@ -260,7 +260,7 @@ class Dropdown extends React.Component<Props, State> {
     }
 
     // delete
-    if (event.keyCode === 8) {
+    if (event.keyCode === 8 && event.target === _.get(this, 'toggle.toggle')) {
       this.handleClean(event);
     }
 
