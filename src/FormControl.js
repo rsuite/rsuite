@@ -29,7 +29,8 @@ type Props = {
   errorMessage?: React.Node,
   errorPlacement?: PlacementEightPoints,
   formValue?: Object,
-  readOnly?: boolean
+  readOnly?: boolean,
+  value?: any
 };
 
 type State = {
@@ -62,7 +63,11 @@ class FormControl extends React.Component<Props, State> {
   }
 
   getValue(props?: Props) {
-    const { formValue, name } = props || this.props;
+    const { formValue, name, value } = props || this.props;
+
+    if (!_.isUndefined(value)) {
+      return value;
+    }
 
     if (!formValue) {
       return;

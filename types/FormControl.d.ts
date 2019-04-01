@@ -23,6 +23,10 @@ export interface FormControlProps extends StandardProps {
 
   /** Make the control readonly */
   readOnly?: boolean;
+
+  /** Value */
+
+  value?: any;
 }
 
 declare const FormControl: React.ComponentType<FormControlProps>;
