@@ -1,5 +1,7 @@
 # 3.8.2
 
+> April 3, 2019
+
 * **Improve**: Update the title style of `<Drawer>` and `<Modal>` ([#431])
 * **Bugfix**: Fixed Typescript incorrectly extends interface ([#428])
 * **Bugfix**: Fixed scrollbar position not updated after data update ([#table-75])
@@ -10,7 +12,7 @@
 * **Bugfix**: 修复 Typescript 定义继承错误的接口 ([#428])
 * **Bugfix**: 修复表格数据更新后滚动条位置未更新的问题([#table-75])
 
-[#428]: https://github.com/rsuite/rsuite/pull/431
+[#431]: https://github.com/rsuite/rsuite/pull/431
 [#428]: https://github.com/rsuite/rsuite/pull/429
 [#table-75]: https://github.com/rsuite/rsuite-table/pull/75
 
