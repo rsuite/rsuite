@@ -99,6 +99,8 @@
   padding-right: @line-height-computed;
 
   .@{ns}modal-title {
+    font-size: @modal-title-font-size;
+    line-height: unit(@line-height-computed / @modal-title-font-size);
     width: 100%;
     display: block;
     color: @modal-title-color;
