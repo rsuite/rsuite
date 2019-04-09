@@ -4,7 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 
 import DatePicker from '../../src/DatePicker';
-import { parse, isSameDay } from 'date-fns';
+import { parse, isSameDay, format } from 'date-fns';
 
 describe('DatePicker', () => {
   it('Should render a div with "rs-picker-date" class', () => {
@@ -54,6 +54,22 @@ describe('DatePicker', () => {
     assert.equal(
       findDOMNode(instance).querySelector('.rs-picker-toggle-value').innerText,
       '2017-08-14'
+    );
+  });
+
+  it('Should output custom value', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <DatePicker
+        value={parse('2017-08-14')}
+        renderValue={value => {
+          return format(value, 'MM/DD/YYYY');
+        }}
+      />
+    );
+
+    assert.equal(
+      findDOMNode(instance).querySelector('.rs-picker-toggle-value').innerText,
+      '08/14/2017'
     );
   });
 
