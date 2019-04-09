@@ -213,7 +213,7 @@ export { default as SelectPicker } from './SelectPicker';
 export { default as Sidebar } from './Sidebar';
 export { default as Sidenav } from './Sidenav';
 export { default as Slider } from './Slider';
-export { default as Step } from './Step';
+export { default as Steps } from './Steps';
 export { default as Table } from './Table';
 export { default as Tag } from './Tag';
 export { default as TagGroup } from './TagGroup';
