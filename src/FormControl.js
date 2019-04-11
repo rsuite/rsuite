@@ -78,7 +78,17 @@ class FormControl extends React.Component<Props, State> {
 
   getCheckTrigger() {
     const { checkTrigger } = this.context;
+
     return this.props.checkTrigger || checkTrigger;
+  }
+
+  getReadOnly() {
+    const { readOnly } = this.context;
+    if (!_.isUndefined(readOnly)) {
+      return readOnly;
+    }
+
+    return this.props.readOnly;
   }
 
   handleFieldChange = (value: any, event: SyntheticEvent<*>) => {
@@ -154,10 +164,11 @@ class FormControl extends React.Component<Props, State> {
   };
 
   renderAccepter = () => {
-    const { name, accepter: Component, readOnly, ...props } = this.props;
+    const { name, accepter: Component, ...props } = this.props;
     const { formDefaultValue = {} } = this.context;
     const unhandled = getUnhandledProps(FormControl, props);
     const value = this.getValue();
+    const readOnly = this.getReadOnly();
 
     if (_.get(Component, 'defaultProps.componentClass') === 'input' && readOnly) {
       unhandled.readOnly = readOnly;
@@ -176,7 +187,7 @@ class FormControl extends React.Component<Props, State> {
   };
 
   render() {
-    const { readOnly } = this.props;
+    const readOnly = this.getReadOnly();
     const classes = classNames(this.addPrefix('wrapper'), {
       'read-only': readOnly
     });

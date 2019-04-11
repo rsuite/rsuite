@@ -25,7 +25,8 @@ type Props = {
   model: typeof Schema,
   classPrefix: string,
   errorFromContext?: boolean,
-  children?: React.Node
+  children?: React.Node,
+  readOnly?: boolean
 };
 
 type State = {
@@ -163,12 +164,13 @@ class Form extends React.Component<Props, State> {
   };
 
   getFormContextValue() {
-    const { formDefaultValue, errorFromContext, model, checkTrigger } = this.props;
+    const { formDefaultValue, errorFromContext, model, checkTrigger, readOnly } = this.props;
     const nextFormContextValue = {
       model,
       checkTrigger,
       formDefaultValue,
       errorFromContext,
+      readOnly,
       onFieldChange: this.handleFieldChange,
       onFieldError: this.handleFieldError,
       onFieldSuccess: this.handleFieldSuccess

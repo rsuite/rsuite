@@ -27,6 +27,9 @@ export interface FormProps extends StandardProps {
   /** SchemaModel object */
   model?: object;
 
+  /** Make the form readonly */
+  readOnly?: boolean;
+
   /** Callback fired when data changing */
   onChange?: (formValue: object, event: React.SyntheticEvent<HTMLElement>) => void;
 
