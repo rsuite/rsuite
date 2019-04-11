@@ -40,6 +40,18 @@ describe('FormControl', () => {
     ReactTestUtils.Simulate.change(element.querySelector('input'));
   });
 
+  it('Should be readOnly', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Form>
+        <FormControl name="username" readOnly />
+      </Form>
+    );
+
+    const element = findDOMNode(instance);
+    assert.ok(element.querySelector('.rs-form-control-wrapper.read-only'));
+    assert.ok(element.querySelector('input[readonly]'));
+  });
+
   it('Should call onBlur callback', done => {
     const doneOp = () => {
       done();

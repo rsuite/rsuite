@@ -1,6 +1,8 @@
 /* @flow */
 
 import * as React from 'react';
+import _ from 'lodash';
+import classNames from 'classnames';
 
 import Input from './Input';
 import ErrorMessage from './ErrorMessage';
@@ -26,7 +28,9 @@ type Props = {
   classPrefix?: string,
   errorMessage?: React.Node,
   errorPlacement?: PlacementEightPoints,
-  formValue?: Object
+  formValue?: Object,
+  readOnly?: boolean,
+  value?: any
 };
 
 type State = {
@@ -59,7 +63,11 @@ class FormControl extends React.Component<Props, State> {
   }
 
   getValue(props?: Props) {
-    const { formValue, name } = props || this.props;
+    const { formValue, name, value } = props || this.props;
+
+    if (!_.isUndefined(value)) {
+      return value;
+    }
 
     if (!formValue) {
       return;
@@ -70,7 +78,17 @@ class FormControl extends React.Component<Props, State> {
 
   getCheckTrigger() {
     const { checkTrigger } = this.context;
+
     return this.props.checkTrigger || checkTrigger;
+  }
+
+  getReadOnly() {
+    const { readOnly } = this.context;
+    if (!_.isUndefined(readOnly)) {
+      return readOnly;
+    }
+
+    return this.props.readOnly;
   }
 
   handleFieldChange = (value: any, event: SyntheticEvent<*>) => {
@@ -145,11 +163,17 @@ class FormControl extends React.Component<Props, State> {
     );
   };
 
-  renderValue = () => {
+  renderAccepter = () => {
     const { name, accepter: Component, ...props } = this.props;
     const { formDefaultValue = {} } = this.context;
     const unhandled = getUnhandledProps(FormControl, props);
     const value = this.getValue();
+    const readOnly = this.getReadOnly();
+
+    if (_.get(Component, 'defaultProps.componentClass') === 'input' && readOnly) {
+      unhandled.readOnly = readOnly;
+    }
+
     return (
       <Component
         {...unhandled}
@@ -163,9 +187,13 @@ class FormControl extends React.Component<Props, State> {
   };
 
   render() {
+    const readOnly = this.getReadOnly();
+    const classes = classNames(this.addPrefix('wrapper'), {
+      'read-only': readOnly
+    });
     return (
-      <div className={this.addPrefix('wrapper')}>
-        {this.renderValue()}
+      <div className={classes}>
+        {this.renderAccepter()}
         {this.checkErrorFromContext()}
       </div>
     );

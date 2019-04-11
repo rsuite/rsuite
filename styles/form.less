@@ -174,6 +174,11 @@
     width: @form-control-width;
   }
 
+  &.read-only {
+    pointer-events: none;
+    touch-action: none;
+  }
+
   // Error
   .@{ns}error-message {
     position: absolute;
