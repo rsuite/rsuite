@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import DateRangePicker from '../../src/DateRangePicker/DateRangePicker';
-import { addDays, subDays, startOfWeek, isSameDay, endOfWeek } from 'date-fns';
+import { addDays, subDays, startOfWeek, isSameDay, endOfWeek, parse, format } from 'date-fns';
 
 describe('DateRangePicker', () => {
   it('Should render a div with "rs-picker-daterange" class', () => {
@@ -48,6 +48,22 @@ describe('DateRangePicker', () => {
       findDOMNode(instance.menuContainer).querySelectorAll('.rs-picker-toolbar-option-disabled')
         .length,
       4
+    );
+  });
+
+  it('Should output custom value', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <DateRangePicker
+        value={[parse('2019-04-01'), parse('2019-04-02')]}
+        renderValue={value => {
+          return `${format(value[0], 'MM/DD/YYYY')}~${format(value[1], 'MM/DD/YYYY')}`;
+        }}
+      />
+    );
+
+    assert.equal(
+      findDOMNode(instance).querySelector('.rs-picker-toggle-value').innerText,
+      '04/01/2019~04/02/2019'
     );
   });
 

@@ -88,7 +88,8 @@ type Props = {
   onEntered?: () => void,
   onExit?: () => void,
   onExiting?: () => void,
-  onExited?: () => void
+  onExited?: () => void,
+  renderValue?: (value: Array<Date>, format: string) => React.Node
 };
 
 function getCalendarDate(value: Array<Date> = []) {
@@ -194,14 +195,16 @@ class DateRangePicker extends React.Component<Props, State> {
   };
 
   getDateString(value?: Array<Date>) {
-    const { placeholder, format: formatType } = this.props;
+    const { placeholder, format: formatType, renderValue } = this.props;
     const nextValue = value || this.getValue();
     const startDate = _.get(nextValue, '0');
     const endDate = _.get(nextValue, '1');
 
     if (startDate && endDate) {
       const displayValue = [startDate, endDate].sort(compareAsc);
-      return `${format(displayValue[0], formatType)} ~ ${format(displayValue[1], formatType)}`;
+      return renderValue
+        ? renderValue(displayValue, formatType)
+        : `${format(displayValue[0], formatType)} ~ ${format(displayValue[1], formatType)}`;
     }
 
     return placeholder || `${formatType} ~ ${formatType}`;
