@@ -24,6 +24,9 @@ export interface FormControlProps extends StandardProps {
   /** Make the control readonly */
   readOnly?: boolean;
 
+  /** Render the control as plain text */
+  plaintext?: boolean;
+
   /** Value */
 
   value?: any;

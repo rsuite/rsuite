@@ -55,7 +55,7 @@
   }
 
   label {
-    line-height: unit(@checkbox-width-height/@font-size-base);
+    line-height: unit(@checkbox-width-height / @font-size-base);
     margin-bottom: 0;
     font-weight: normal;
     cursor: pointer;
@@ -174,9 +174,16 @@
     width: @form-control-width;
   }
 
-  &.read-only {
+  &.read-only,
+  &.plaintext {
     pointer-events: none;
     touch-action: none;
+  }
+
+  &.plaintext > .@{ns}input {
+    border: none;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   // Error
@@ -318,7 +325,8 @@
       .@{ns}error-message-arrow {
         &::before,
         &::after {
-          border-width: @error-message-triangle-width 0 @error-message-triangle-width @error-message-triangle-width;
+          border-width: @error-message-triangle-width 0 @error-message-triangle-width
+            @error-message-triangle-width;
           border-left-color: @error-message-border-color;
           right: -1 * @error-message-triangle-width;
         }
@@ -345,7 +353,8 @@
       .@{ns}error-message-arrow {
         &::before,
         &::after {
-          border-width: @error-message-triangle-width @error-message-triangle-width @error-message-triangle-width 0;
+          border-width: @error-message-triangle-width @error-message-triangle-width
+            @error-message-triangle-width 0;
           border-right-color: @error-message-border-color;
           left: -1 * @error-message-triangle-width;
         }

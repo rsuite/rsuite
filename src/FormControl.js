@@ -30,6 +30,7 @@ type Props = {
   errorPlacement?: PlacementEightPoints,
   formValue?: Object,
   readOnly?: boolean,
+  plaintext?: boolean,
   value?: any
 };
 
@@ -89,6 +90,14 @@ class FormControl extends React.Component<Props, State> {
     }
 
     return this.props.readOnly;
+  }
+
+  getPlaintext() {
+    const { plaintext } = this.context;
+    if (!_.isUndefined(plaintext)) {
+      return plaintext;
+    }
+    return this.props.plaintext;
   }
 
   handleFieldChange = (value: any, event: SyntheticEvent<*>) => {
@@ -188,8 +197,10 @@ class FormControl extends React.Component<Props, State> {
 
   render() {
     const readOnly = this.getReadOnly();
+    const plaintext = this.getPlaintext();
     const classes = classNames(this.addPrefix('wrapper'), {
-      'read-only': readOnly
+      'read-only': readOnly,
+      plaintext
     });
     return (
       <div className={classes}>
