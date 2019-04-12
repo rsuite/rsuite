@@ -39,7 +39,7 @@ const IMPORT_FILE_CONFIG = {
   'input-number': ['form.less', 'input-number.less'],
   'input-picker': ['picker.less', 'select-picker.less', 'tag.less', 'input-picker.less'],
   'modal': ['modal.less', 'animations.less', 'keyframes.less'],
-  'multi-cascader': ['picker.less', 'check-picker.less', 'cascader.less', 'multi-cascader.less'],
+  'multi-cascader': ['picker.less', 'check-picker.less', 'cascader.less', 'multi-cascader.less', 'form.less', 'checkbox.less'],
   'navbar': ['nav.less', 'navbar.less'],
   'row': ['grid.less'],
   'radio': ['form.less', 'radio.less'],
