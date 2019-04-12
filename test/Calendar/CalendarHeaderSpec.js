@@ -15,7 +15,7 @@ describe('Calendar-Header', () => {
   });
 
   it('Should output a time for `HH:ss`', () => {
-    const date = new Date();
+    const date = new Date('2019-04-01 12:20:00');
     const formatType = 'HH:ss';
     const instance = ReactTestUtils.renderIntoDocument(
       <Header showTime date={date} format={formatType} />
@@ -24,7 +24,7 @@ describe('Calendar-Header', () => {
     const instanceDOM = findDOMNode(instance);
     assert.equal(
       instanceDOM.querySelector('.rs-calendar-header-title-time').innerText,
-      format(new Date(), formatType)
+      format(new Date('2019-04-01 12:20:00'), formatType)
     );
   });
 
