@@ -71,6 +71,9 @@ export interface DatePickerProps extends PickerBaseProps, FormControlBaseProps<D
 
   /** Called when clean */
   onClean?: (event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Custom render value */
+  renderValue?: (value: Date, format: string) => React.ReactNode;
 }
 
 declare const DatePicker: React.ComponentType<DatePickerProps>;

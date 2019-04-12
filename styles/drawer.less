@@ -171,6 +171,8 @@
   margin: @drawer-content-spacing @drawer-content-spacing 0;
 
   .@{ns}drawer-title {
+    font-size: @drawer-title-font-size;
+    line-height: unit(@line-height-computed / @drawer-title-font-size);
     width: 100%;
     display: block;
     color: @drawer-title-color;

@@ -87,7 +87,8 @@ type Props = {
   onHide?: () => void,
   style?: Object,
   // 一键选值
-  oneTap?: boolean
+  oneTap?: boolean,
+  renderValue?: (value: Date, format: string) => React.Node
 };
 
 type State = {
@@ -176,10 +177,14 @@ class DatePicker extends React.Component<Props, State> {
   };
 
   getDateString() {
-    const { placeholder, format: formatType } = this.props;
+    const { placeholder, format: formatType, renderValue } = this.props;
     const value = this.getValue();
 
-    return value ? format(value, formatType) : placeholder || formatType;
+    if (value) {
+      return renderValue ? renderValue(value, formatType) : format(value, formatType);
+    }
+
+    return placeholder || formatType;
   }
 
   calendar = null;

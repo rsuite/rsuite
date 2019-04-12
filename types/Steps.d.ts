@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StandardProps } from '.';
 
-export interface StepProps extends StandardProps {
+export interface StepsProps extends StandardProps {
   /** Vertical display */
   vertical?: boolean;
 
@@ -14,10 +14,10 @@ export interface StepProps extends StandardProps {
   /** Current execution step */
   current?: number;
 
-  /** CUrrent execution step status */
+  /** Current execution step status */
   currentStatus?: 'finish' | 'wait' | 'process' | 'error';
 }
 
-declare const Step: React.ComponentType<StepProps>;
+declare const Steps: React.ComponentType<StepsProps>;
 
-export default Step;
+export default Steps;
