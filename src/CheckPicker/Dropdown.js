@@ -111,7 +111,7 @@ class Dropdown extends React.Component<Props, State> {
     cleanable: true,
     countable: true,
     menuAutoWidth: true,
-    placement: 'bottomLeft'
+    placement: 'bottomStart'
   };
 
   constructor(props: Props) {
@@ -420,7 +420,6 @@ class Dropdown extends React.Component<Props, State> {
       searchable,
       renderExtraFooter,
       locale,
-      placement,
       renderMenu,
       menuClassName,
       menuStyle,
@@ -429,11 +428,7 @@ class Dropdown extends React.Component<Props, State> {
     } = this.props;
 
     const { focusItemValue, stickyItems } = this.state;
-    const classes = classNames(
-      this.addPrefix('check-menu'),
-      this.addPrefix(`placement-${_.kebabCase(placement)}`),
-      menuClassName
-    );
+    const classes = classNames(this.addPrefix('check-menu'), menuClassName);
     let filteredData = [];
     let filteredStickyItems = [];
 

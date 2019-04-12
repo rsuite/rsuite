@@ -46,7 +46,7 @@ describe('Dropdown', () => {
         <Dropdown.Item>2</Dropdown.Item>
       </Dropdown>
     );
-    assert.include(findDOMNode(instance).className, 'rs-dropdown-placement-top-left');
+    assert.include(findDOMNode(instance).className, 'rs-dropdown-placement-top-start');
   });
 
   it('Should have a title', () => {

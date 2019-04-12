@@ -5,16 +5,17 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { defaultProps, prefix } from './utils';
+import placementPolyfill from './utils/placementPolyfill';
 
 type PlacementEightPoints =
-  | 'bottomLeft'
-  | 'bottomRight'
-  | 'topLeft'
-  | 'topRight'
-  | 'leftTop'
-  | 'rightTop'
-  | 'leftBottom'
-  | 'rightBottom';
+  | 'bottomStart'
+  | 'bottomEnd'
+  | 'topStart'
+  | 'topEnd'
+  | 'leftStart'
+  | 'rightStart'
+  | 'leftEnd'
+  | 'rightEnd';
 
 type Props = {
   htmlFor?: string,
@@ -48,7 +49,7 @@ class ErrorMessage extends React.Component<Props> {
 
     const addPrefix = prefix(classPrefix);
     const wrapClasses = classNames(addPrefix('wrapper'), className, {
-      [addPrefix(`placement-${_.kebabCase(placement)}`)]: placement
+      [addPrefix(`placement-${_.kebabCase(placementPolyfill(placement))}`)]: placement
     });
     const classes = classNames(classPrefix, addPrefix('show'));
 

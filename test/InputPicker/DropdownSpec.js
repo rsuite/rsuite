@@ -1,13 +1,10 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { findDOMNode } from 'react-dom';
-import { namespace } from 'rsuite-utils/lib/Picker/constants';
 import { getDOMNode, getInstance } from '../TestWrapper';
 
 import Dropdown from '../../src/InputPicker/Dropdown';
 import Button from '../../src/Button';
-
-const classPrefix = '.rs-picker-input';
 const groupClassName = '.rs-picker-select-menu-group';
 const itemClassName = '.rs-picker-select-menu-item';
 const itemFocusClassName = '.rs-picker-select-menu-item-focus';
@@ -15,7 +12,6 @@ const itemActiveClassName = '.rs-picker-select-menu-item-active';
 const cleanClassName = '.rs-picker-toggle-clean';
 const placeholderClassName = '.rs-picker-toggle-placeholder';
 const valueClassName = '.rs-picker-toggle-value';
-const searchInputClassName = '.rs-picker-search-bar-input';
 
 const data = [
   {

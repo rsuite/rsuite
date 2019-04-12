@@ -15,12 +15,6 @@ describe('Tooltip', () => {
     assert.equal(innerText(instanceDom), title);
   });
 
-  it('Should render at left', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Tooltip placement="left" />);
-    const instanceDom = findDOMNode(instance);
-    assert.ok(instanceDom.className.match(/\bleft\b/));
-  });
-
   it('Should render at left 10px', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Tooltip positionLeft={10} />);
     const instanceDom = findDOMNode(instance);

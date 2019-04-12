@@ -2,11 +2,9 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import TestRenderer from 'react-test-renderer';
 import { findDOMNode } from 'react-dom';
-import { namespace } from 'rsuite-utils/lib/Picker/constants';
+import { namespace } from './';
 import CheckTreePicker from '../src/CheckTreePicker/CheckTree';
-import { clone } from '../src/utils';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -14,18 +12,14 @@ const classPrefix = `.${namespace}-checktree`;
 const checkTreeMenuCls = `${classPrefix}-menu`;
 const treeViewCls = `${classPrefix}-view`;
 const treeNodeCls = `${treeViewCls}-node`;
-const treeNodeLabelCls = `${treeViewCls}-checknode-label`;
 const expandIconCls = `${treeViewCls}-node-expand-icon`;
 const valueCls = `.${namespace}-toggle-value`;
 const selectedItemsCls = `.${namespace}-value-item`;
 const toggleCls = `.${namespace}-toggle`;
 const toggleCleanCls = `.${namespace}-toggle-clean`;
-const customToggleClass = `.${namespace}-toggle-custom`;
 const placeholderCls = `${toggleCls}-placeholder`;
 const treeNodeCheckedCls = `${treeViewCls}-node-checked`;
 const nodeChildrenOpenCls = `${treeViewCls}-open`;
-const expandIconWrapperCls = `${treeViewCls}-node-expand-icon-wrapper`;
-const searchInput = `${namespace}-search-bar-input`;
 const inputWrapperCls = `${treeViewCls}-input-wrapper`;
 
 const data = [

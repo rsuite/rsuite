@@ -121,7 +121,7 @@ class Dropdown extends React.Component<Props, State> {
     searchable: true,
     cleanable: true,
     menuAutoWidth: true,
-    placement: 'bottomLeft'
+    placement: 'bottomStart'
   };
 
   static getDerivedStateFromProps(nextProps: Props, prevState: State) {
@@ -595,7 +595,6 @@ class Dropdown extends React.Component<Props, State> {
     const {
       labelKey,
       groupBy,
-      placement,
       locale,
       renderMenu,
       renderExtraFooter,
@@ -610,11 +609,7 @@ class Dropdown extends React.Component<Props, State> {
 
     const { focusItemValue, searchKeyword } = this.state;
     const menuClassPrefix = this.addPrefix(multi ? 'check-menu' : 'select-menu');
-    const classes = classNames(
-      menuClassPrefix,
-      menuClassName,
-      this.addPrefix(`placement-${_.kebabCase(placement)}`)
-    );
+    const classes = classNames(menuClassPrefix, menuClassName);
 
     const allData = this.getAllData();
 

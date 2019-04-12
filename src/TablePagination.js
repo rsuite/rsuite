@@ -103,7 +103,7 @@ class TablePagination extends React.Component<Props> {
         appearance="subtle"
         cleanable={false}
         searchable={false}
-        placement="topLeft"
+        placement="topStart"
         data={lengthMenu}
         value={displayLength}
         onChange={this.handleChangeLength}

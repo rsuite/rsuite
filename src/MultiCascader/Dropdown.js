@@ -115,7 +115,7 @@ class Dropdown extends React.Component<Props, State> {
     cleanable: true,
     searchable: true,
     countable: true,
-    placement: 'bottomLeft'
+    placement: 'bottomStart'
   };
 
   static utils = {};
@@ -434,7 +434,6 @@ class Dropdown extends React.Component<Props, State> {
     const { items, activePaths, searchKeyword } = this.state;
     const {
       renderMenu,
-      placement,
       renderExtraFooter,
       menuClassName,
       menuStyle,
@@ -446,7 +445,6 @@ class Dropdown extends React.Component<Props, State> {
     const classes = classNames(
       this.addPrefix('cascader-menu'),
       this.addPrefix('multi-cascader-menu'),
-      this.addPrefix(`placement-${_.kebabCase(placement)}`),
       menuClassName
     );
 

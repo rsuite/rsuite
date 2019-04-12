@@ -16,10 +16,10 @@ describe('AutoComplete', () => {
     assert.equal(findDOMNode(instance.menuContainer).querySelectorAll('li').length, 2);
   });
 
-  it('Should be a `top-right` for placement', () => {
-    const instance = getInstance(<AutoComplete open placement="topRight" />);
+  it('Should be a `top-end` for placement', () => {
+    const instance = getInstance(<AutoComplete open placement="topEnd" />);
     const classes = findDOMNode(instance.menuContainer).className;
-    assert.include(classes, 'rs-placement-top-right');
+    assert.include(classes, 'placement-top-end');
   });
 
   it('Should be disabled', () => {

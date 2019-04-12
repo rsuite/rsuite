@@ -109,7 +109,6 @@ describe('CheckboxGroup', () => {
 
     function onDone() {
       count++;
-      console.log(count);
       if (count === 2) {
         done();
       }

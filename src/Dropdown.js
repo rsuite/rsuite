@@ -13,19 +13,20 @@ import DropdownToggle from './DropdownToggle';
 import DropdownMenu from './DropdownMenu';
 import DropdownMenuItem from './DropdownMenuItem';
 import Icon from './Icon';
+import placementPolyfill from './utils/placementPolyfill';
 
 import { createChainedFunction, prefix, isOneOf, getUnhandledProps, defaultProps } from './utils';
 
 type Trigger = 'click' | 'hover' | 'contextMenu';
 type PlacementEightPoints =
-  | 'bottomLeft'
-  | 'bottomRight'
-  | 'topLeft'
-  | 'topRight'
-  | 'leftTop'
-  | 'rightTop'
-  | 'leftBottom'
-  | 'rightBottom';
+  | 'bottomStart'
+  | 'bottomEnd'
+  | 'topStart'
+  | 'topEnd'
+  | 'leftStart'
+  | 'rightStart'
+  | 'leftEnd'
+  | 'rightEnd';
 
 type Props = {
   activeKey?: any,
@@ -64,7 +65,7 @@ type State = {
 
 class Dropdown extends React.Component<Props, State> {
   static defaultProps = {
-    placement: 'bottomLeft',
+    placement: 'bottomStart',
     trigger: 'click',
     tabIndex: 0
   };
@@ -236,17 +237,13 @@ class Dropdown extends React.Component<Props, State> {
       Menu = <RootCloseWrapper onRootClose={this.toggle}>{Menu}</RootCloseWrapper>;
     }
 
-    const classes = classNames(
-      classPrefix,
-      addPrefix(`placement-${_.kebabCase(placement)}`),
-      className,
-      {
-        [addPrefix('disabled')]: disabled,
-        [addPrefix('no-caret')]: noCaret,
-        [addPrefix('open')]: open,
-        [addPrefix(menuExpanded ? 'expand' : 'collapse')]: sidenav
-      }
-    );
+    const classes = classNames(classPrefix, className, {
+      [addPrefix(`placement-${_.kebabCase(placementPolyfill(placement))}`)]: placement,
+      [addPrefix('disabled')]: disabled,
+      [addPrefix('no-caret')]: noCaret,
+      [addPrefix('open')]: open,
+      [addPrefix(menuExpanded ? 'expand' : 'collapse')]: sidenav
+    });
 
     return (
       <Component {...dropdownProps} style={style} className={classes} role="menu">
