@@ -22,6 +22,9 @@ export interface TablePaginationProps extends StandardProps, PaginationBaseProps
   /** Configure how many lines of entries per page to display, corresponding to lengthMenu */
   displayLength?: number;
 
+  /** Reverse start and end position */
+  reverse?: boolean;
+
   /** Custom menu */
   renderLengthMenu?: (picker: React.ReactNode) => React.ReactNode;
 
