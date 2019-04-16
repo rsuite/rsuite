@@ -74,6 +74,10 @@ type Props = {
   classPrefix: string,
   childrenKey?: string,
   placeholder?: React.Node,
+  /**
+   * Prevent floating element overflow
+   */
+  preventOverflow?: boolean,
   defaultOpen?: boolean,
   defaultValue?: any,
   menuStyle?: Object,

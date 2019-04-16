@@ -90,7 +90,11 @@ type Props = {
   placement?: Placement,
   style?: Object,
   creatable?: boolean,
-  multi?: boolean
+  multi?: boolean,
+  /**
+   * Prevent floating element overflow
+   */
+  preventOverflow?: boolean
 };
 
 type State = {

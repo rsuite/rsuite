@@ -20,7 +20,8 @@ const PickerToggleTriggerProps = [
   'onExiting',
   'onHide',
   'container',
-  'containerPadding'
+  'containerPadding',
+  'preventOverflow'
 ];
 
 class PickerToggleTrigger extends React.Component<Props, State> {

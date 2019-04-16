@@ -81,7 +81,12 @@ type Props = {
   menuHeight?: number,
   style?: Object,
   uncheckableItemValues?: any[],
-  searchable?: boolean
+  searchable?: boolean,
+
+  /**
+   * Prevent floating element overflow
+   */
+  preventOverflow?: boolean
 };
 
 type State = {
@@ -257,11 +262,18 @@ class Dropdown extends React.Component<Props, State> {
   handleSelect = (node: Object, cascadeItems, activePaths: any[], event: DefaultEvent) => {
     const { onSelect, valueKey } = this.props;
 
-    this.setState({
-      selectNode: node,
-      items: cascadeItems,
-      activePaths
-    });
+    this.setState(
+      {
+        selectNode: node,
+        items: cascadeItems,
+        activePaths
+      },
+      () => {
+        if (this.position) {
+          this.position.updatePosition();
+        }
+      }
+    );
 
     onSelect &&
       onSelect(node, activePaths, createConcatChildrenFunction(node, node[valueKey]), event);
@@ -279,6 +291,12 @@ class Dropdown extends React.Component<Props, State> {
 
   bindTriggerRef = (ref: React.ElementRef<*>) => {
     this.trigger = ref;
+  };
+
+  position = null;
+
+  bindPositionRef = (ref: React.ElementRef<*>) => {
+    this.position = ref;
   };
 
   menuContainer = null;
@@ -536,6 +554,7 @@ class Dropdown extends React.Component<Props, State> {
         <PickerToggleTrigger
           pickerProps={this.props}
           innerRef={this.bindTriggerRef}
+          positionRef={this.bindPositionRef}
           onEnter={createChainedFunction(this.handleEntered, onEnter)}
           onExit={createChainedFunction(this.handleExit, onExited)}
           speaker={this.renderDropdownMenu()}

@@ -62,6 +62,9 @@ export interface PickerBaseProps extends StandardProps, AnimationEventProps {
   /** The placement of picker */
   placement?: PropTypes.Placement;
 
+  /** Prevent floating element overflow */
+  preventOverflow?: boolean;
+
   /** Open the menu and control it */
   open?: boolean;
 

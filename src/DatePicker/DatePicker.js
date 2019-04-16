@@ -88,7 +88,11 @@ type Props = {
   style?: Object,
   // 一键选值
   oneTap?: boolean,
-  renderValue?: (value: Date, format: string) => React.Node
+  renderValue?: (value: Date, format: string) => React.Node,
+  /**
+   * Prevent floating element overflow
+   */
+  preventOverflow?: boolean
 };
 
 type State = {

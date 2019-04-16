@@ -78,6 +78,10 @@ type Props = {
   open?: boolean,
   defaultOpen?: boolean,
   placement?: Placement,
+  /**
+   * Prevent floating element overflow
+   */
+  preventOverflow?: boolean,
   onSelect?: (date: Date) => void,
   onOpen?: () => void,
   onClose?: () => void,

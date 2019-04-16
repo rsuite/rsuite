@@ -85,6 +85,10 @@ export type Props = {
   defaultOpen?: boolean,
   childrenKey: string,
   placeholder?: React.Node,
+  /**
+   * Prevent floating element overflow
+   */
+  preventOverflow?: boolean,
   defaultValue?: any[],
   searchKeyword?: string,
   menuStyle?: Object,

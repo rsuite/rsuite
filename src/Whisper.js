@@ -10,7 +10,11 @@ type Props = {
   onClose?: () => void,
   onEntered?: () => void,
   onExited?: () => void,
-  placement?: string
+  placement?: string,
+  /**
+   * Prevent floating element overflow
+   */
+  preventOverflow?: boolean
 };
 
 class Whisper extends React.Component<Props> {
@@ -22,11 +26,13 @@ class Whisper extends React.Component<Props> {
       onEntered,
       onExited,
       placement = 'right',
+      preventOverflow,
       ...rest
     } = this.props;
 
     return (
       <OverlayTrigger
+        preventOverflow={preventOverflow}
         placement={placementPolyfill(placement)}
         onEntered={createChainedFunction(onOpen, onEntered)}
         onExited={createChainedFunction(onClose, onExited)}

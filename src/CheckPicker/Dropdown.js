@@ -82,7 +82,11 @@ type Props = {
   defaultOpen?: boolean,
   placement?: Placement,
   style?: Object,
-  sticky?: boolean
+  sticky?: boolean,
+  /**
+   * Prevent floating element overflow
+   */
+  preventOverflow?: boolean
 };
 
 type State = {
