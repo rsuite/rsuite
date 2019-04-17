@@ -103,10 +103,10 @@
     width: 100%;
     border-radius: 0;
 
-    input.@{ns}input {
+    .@{ns}input {
       display: block;
       width: 100%;
-      padding-right: 36px;
+      padding-right: @input-group-paading-for-add-on-base;
     }
 
     .@{ns}input-group-btn,
@@ -147,7 +147,7 @@
     .@{ns}input-group-addon ~ .@{ns}auto-complete > input.@{ns}input,
     .@{ns}input-group-btn ~ input.@{ns}input,
     .@{ns}input-group-addon ~ input.@{ns}input {
-      padding-left: 36px;
+      padding-left: @input-group-paading-for-add-on-base;
       padding-right: 12px;
     }
 
@@ -239,7 +239,7 @@
   .reset-input-group-addon-size(extra-small);
 }
 
-// Reset input group button size.
+// Reset inside input group button size.
 .@{ns}input-group-inside.@{ns}input-group-lg > .@{ns}input-group-btn {
   .input-lg();
   .reset-inside-input-group-btn-size(large);
@@ -258,15 +258,6 @@
 .@{ns}input-group-inside.@{ns}input-group-xs > .@{ns}input-group-btn {
   .input-xs();
   .reset-inside-input-group-btn-size(extra-small);
-}
-
-.@{ns}input-group-lg > .@{ns}input-group-addon > .@{ns}icon {
-  line-height: @line-height-large;
-}
-
-.@{ns}input-group-sm > .@{ns}input-group-addon > .@{ns}icon,
-.@{ns}input-group-xs > .@{ns}input-group-addon > .@{ns}icon {
-  line-height: @line-height-small;
 }
 
 // Display as table-cell
