@@ -1,21 +1,17 @@
 @import 'common';
 
 .@{ns}table-pagination {
-  &-pagination-wrapper {
+  &-toolbar {
     padding: @table-pagination-padding-vertical @table-pagination-padding-horizontal;
     font-size: @font-size-small;
     line-height: @line-height-small;
-    .clearfix;
+    display: flex;
+    justify-content: space-between;
   }
 
   &-length-menu,
   &-page-info {
     color: @B600;
-  }
-
-  &-length-menu,
-  &-page-info,
-  &-pagination {
     display: inline-block;
     vertical-align: middle;
   }
@@ -41,9 +37,8 @@
     margin-left: 18px;
   }
 
-  &-pagination {
+  &-end {
     //Reset font-space to clear whitspace
     font-size: 0;
-    float: right;
   }
 }
