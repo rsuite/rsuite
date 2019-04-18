@@ -5,6 +5,7 @@
 * **Feature**: Support `reverse` on `<Table.Pagination>`. ([#444])
 * **Feature**: Support `renderValue` on `<DatePicker>` and `<DateRangePicker>`. ([#435])
 * **Bugfix**: Remove invalid anchors in the Panel title. ([#446])
+* **Bugfix**: Fixed missing Cascader style for modular import. ([#440])
 * **Bugfix**: Fixed some style issues. ([#439],[#445])
 * **Bugfix**: Fixed TypeScript definition error. ([#436])
 * **Bugfix**: Fixed unable to preventDefault inside passive event listener for InputNumber. ([#441],[#6662647093133312])
@@ -13,9 +14,10 @@
 
 ---
 
-* **Feature**: `<Table.Pagination>` 支持 `reverse` 属性。
-* **Feature**: `<DatePicker>` 与 `<DateRangePicker>` 支持 `renderValue` 属性。
+* **Feature**: `<Table.Pagination>` 支持 `reverse` 属性。([#444])
+* **Feature**: `<DatePicker>` 与 `<DateRangePicker>` 支持 `renderValue` 属性。([#435])
 * **Bugfix**: 删除 `<Panel>` 标题上无效的锚点。 ([#446])
+* **Bugfix**: 修复模块化按需引入时缺少 Cascader 样式。 ([#440])
 * **Bugfix**: 修复一些样式问题。 ([#439],[#445])
 * **Bugfix**: 修复一些 TypeScript 定义错误。 ([#436])
 * **Bugfix**: 修复 `<InputNumber>` 滚动事件无法阻止被动默认的事件监听。 ([#441],[#6662647093133312])
@@ -26,6 +28,7 @@
 [#445]: https://github.com/rsuite/rsuite/pull/445
 [#444]: https://github.com/rsuite/rsuite/pull/444
 [#441]: https://github.com/rsuite/rsuite/pull/441
+[#440]: https://github.com/rsuite/rsuite/pull/440
 [#439]: https://github.com/rsuite/rsuite/pull/439
 [#436]: https://github.com/rsuite/rsuite/pull/436
 [#435]: https://github.com/rsuite/rsuite/pull/435
