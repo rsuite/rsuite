@@ -42,10 +42,12 @@
   width: 100%;
 
   &-input {
-    .input-size(@input-picker-toggle-content-height; @padding-base-vertical; @padding-base-input-horizontal; @font-size-base; @line-height-base; @input-border-radius);
+    .input-md;
 
     .@{tag-picker} & {
-      .input-size(@tag-picker-toggle-content-height; @padding-extra-small-vertical; @padding-base-input-horizontal; @font-size-small; @line-height-base; @input-border-radius);
+      .input-size(
+        @padding-extra-small-vertical; @padding-base-input-horizontal; @font-size-base; @line-height-computed; @input-border-radius
+      );
 
       padding-left: @padding-base-horizontal - @picker-default-toggle-border-width;
 
@@ -54,8 +56,6 @@
         outline: none;
         border: none;
         width: 100%;
-        font-size: @font-size-base;
-        line-height: @line-height-computed;
       }
     }
 

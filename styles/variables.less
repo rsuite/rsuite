@@ -75,9 +75,10 @@
 @font-family-base: Avenir-Roman, Apple-System, Arial, Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', STXihei, sans-serif;
 @font-family-icon: 'rsuite-icon-font';
 
-@font-size-base: 14px;
 @font-size-large: 16px;
+@font-size-base: 14px;
 @font-size-small: 12px;
+@font-size-extra-small: 12px;
 
 @font-size-h1: 28px;
 @font-size-h2: 22px;
@@ -91,9 +92,10 @@
 //** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
 @line-height-large-computed: 22px;
 //** Unit-less `line-height` for use in components like buttons.
-@line-height-large: unit(@line-height-large-computed / @font-size-base); // ~1.375
+@line-height-large: unit(@line-height-large-computed / @font-size-large); // ~1.375
 @line-height-base: unit(@line-height-computed / @font-size-base); // ~1.4285714285714286
 @line-height-small: unit(@line-height-computed / @font-size-small); // ~1.6666666666666667
+@line-height-extra-small: unit(@line-height-computed / @font-size-extra-small); // ~1.6666666666666667
 
 //** By default, this inherits from the `<body>`.
 @headings-font-family: inherit;
@@ -133,9 +135,6 @@
 
 @padding-extra-small-vertical: 2px;
 @padding-extra-small-horizontal: 8px;
-
-@line-height-large: unit(22px / @font-size-large);
-@line-height-small: 1.6666666666666667;
 
 @border-radius-base: 6px;
 
@@ -295,6 +294,11 @@
 @input-group-addon-bg: @B050;
 //** Border color for textual input addons
 @input-group-addon-border-color: @input-border;
+//** InputGroup padding for add-on
+@input-group-paading-for-add-on-large: 46px;
+@input-group-paading-for-add-on-base: 36px;
+@input-group-paading-for-add-on-small: 30px;
+@input-group-paading-for-add-on-extra-small: 26px;
 
 //** Disabled cursor for form controls and buttons.
 @cursor-disabled: not-allowed;
@@ -322,7 +326,6 @@
 //== Number input
 //
 //##
-@number-input-height: @input-height-base;
 @number-input-button-color: @B600;
 @number-input-touchspin-font-size: 12px;
 

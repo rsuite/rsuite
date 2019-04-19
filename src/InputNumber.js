@@ -4,6 +4,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { polyfill } from 'react-lifecycles-compat';
+import { on } from 'dom-lib';
 
 import InputGroup from './InputGroup';
 import Input from './Input';
@@ -92,6 +93,25 @@ class InputNumber extends React.Component<Props, State> {
     }
     return null;
   }
+
+  input = null;
+  inputWheelListener = null;
+  componentDidMount() {
+    if (this.input) {
+      this.inputWheelListener = on(this.input, 'wheel', this.handleWheel, {
+        passive: false
+      });
+    }
+  }
+  componentWillUnmount() {
+    if (this.inputWheelListener) {
+      this.inputWheelListener.off();
+    }
+  }
+
+  bindInputRef = ref => {
+    this.input = ref;
+  };
 
   getValue() {
     const { value } = this.props;
@@ -203,10 +223,10 @@ class InputNumber extends React.Component<Props, State> {
           type="text"
           autoComplete="off"
           step={step}
+          inputRef={this.bindInputRef}
           onChange={this.handleOnChange}
           onBlur={this.handleBlur}
           value={_.isNil(value) ? '' : value}
-          onWheel={this.handleWheel}
           disabled={disabled}
         />
 
