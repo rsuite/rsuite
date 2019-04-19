@@ -213,7 +213,7 @@ class FormControl extends React.Component<Props, State> {
       plaintext
     });
 
-    if (_.isUndefined(value) || _.isNull(value)) {
+    if (plaintext && (_.isUndefined(value) || _.isNull(value))) {
       return (
         <div className={classes}>
           <div className={this.addPrefix('default-value')}>{plaintextDefaultValue}</div>
