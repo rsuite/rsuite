@@ -37,6 +37,7 @@ type Props = {
   formValue?: Object,
   readOnly?: boolean,
   plaintext?: boolean,
+  plaintextDefaultValue: React.Node,
   value?: any
 };
 
@@ -49,7 +50,8 @@ class FormControl extends React.Component<Props, State> {
   static contextType = FormContext;
   static defaultProps = {
     accepter: Input,
-    errorPlacement: 'bottomLeft'
+    errorPlacement: 'bottomLeft',
+    plaintextDefaultValue: '--'
   };
 
   constructor(props: Props, context: Object) {
@@ -202,12 +204,23 @@ class FormControl extends React.Component<Props, State> {
   };
 
   render() {
+    const { plaintextDefaultValue } = this.props;
     const readOnly = this.getReadOnly();
     const plaintext = this.getPlaintext();
+    const value = this.getValue();
     const classes = classNames(this.addPrefix('wrapper'), {
       'read-only': readOnly,
       plaintext
     });
+
+    if (_.isUndefined(value) || _.isNull(value)) {
+      return (
+        <div className={classes}>
+          <div className={this.addPrefix('default-value')}>{plaintextDefaultValue}</div>
+        </div>
+      );
+    }
+
     return (
       <div className={classes}>
         <FormPlaintextContext.Provider value={plaintext}>
