@@ -6,7 +6,13 @@ import classNames from 'classnames';
 
 import Input from './Input';
 import ErrorMessage from './ErrorMessage';
-import FormContext, { FormValueContext, FormErrorContext } from './FormContext';
+
+import FormContext, {
+  FormValueContext,
+  FormErrorContext,
+  FormPlaintextContext
+} from './FormContext';
+
 import { getUnhandledProps, defaultProps, prefix } from './utils';
 
 type PlacementEightPoints =
@@ -204,7 +210,9 @@ class FormControl extends React.Component<Props, State> {
     });
     return (
       <div className={classes}>
-        {this.renderAccepter()}
+        <FormPlaintextContext.Provider value={plaintext}>
+          {this.renderAccepter()}
+        </FormPlaintextContext.Provider>
         {this.checkErrorFromContext()}
       </div>
     );

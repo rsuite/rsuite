@@ -18,5 +18,6 @@ function createContext(defaultValue) {
 export const FormContext = createContext({});
 export const FormValueContext = createContext({});
 export const FormErrorContext = createContext({});
+export const FormPlaintextContext = createContext({});
 
 export default FormContext;
