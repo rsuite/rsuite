@@ -7,6 +7,7 @@ import compose from 'recompose/compose';
 import _ from 'lodash';
 
 import { withStyleProps, defaultProps, createChainedFunction, getUnhandledProps } from './utils';
+import { FormPlaintextContext } from './FormContext';
 
 type Props = {
   type: string,
@@ -72,22 +73,35 @@ class Input extends React.Component<Props> {
     const { inputGroup } = this.context;
     const Component = componentClass;
     const unhandled = getUnhandledProps(Input, rest);
+    const plaintextInput = (
+      <div {...unhandled} className={classes}>
+        {_.isUndefined(value) ? defaultValue : value}
+      </div>
+    );
 
     return (
-      <Component
-        {...unhandled}
-        ref={inputRef}
-        type={type}
-        id={id}
-        value={value}
-        defaultValue={defaultValue}
-        disabled={disabled}
-        onKeyDown={this.handleKeyDown}
-        onFocus={createChainedFunction(onFocus, _.get(inputGroup, 'onFocus'))}
-        onBlur={createChainedFunction(onBlur, _.get(inputGroup, 'onBlur'))}
-        className={classes}
-        onChange={this.handleChange}
-      />
+      <FormPlaintextContext.Consumer>
+        {plaintext =>
+          plaintext ? (
+            plaintextInput
+          ) : (
+            <Component
+              {...unhandled}
+              ref={inputRef}
+              type={type}
+              id={id}
+              value={value}
+              defaultValue={defaultValue}
+              disabled={disabled}
+              onKeyDown={this.handleKeyDown}
+              onFocus={createChainedFunction(onFocus, _.get(inputGroup, 'onFocus'))}
+              onBlur={createChainedFunction(onBlur, _.get(inputGroup, 'onBlur'))}
+              className={classes}
+              onChange={this.handleChange}
+            />
+          )
+        }
+      </FormPlaintextContext.Consumer>
     );
   }
 }

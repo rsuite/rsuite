@@ -30,6 +30,9 @@ export interface FormProps extends StandardProps {
   /** Make the form readonly */
   readOnly?: boolean;
 
+  /** Render the form as plain text */
+  plaintext?: boolean;
+
   /** Callback fired when data changing */
   onChange?: (formValue: object, event: React.SyntheticEvent<HTMLElement>) => void;
 

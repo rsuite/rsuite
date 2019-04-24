@@ -24,6 +24,12 @@ export interface FormControlProps extends StandardProps {
   /** Make the control readonly */
   readOnly?: boolean;
 
+  /** Render the control as plain text */
+  plaintext?: boolean;
+
+  /** Plain text when the control has no value */
+  plaintextDefaultValue: React.ReactNode;
+
   /** Value */
 
   value?: any;

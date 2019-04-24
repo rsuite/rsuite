@@ -6,7 +6,13 @@ import classNames from 'classnames';
 
 import Input from './Input';
 import ErrorMessage from './ErrorMessage';
-import FormContext, { FormValueContext, FormErrorContext } from './FormContext';
+
+import FormContext, {
+  FormValueContext,
+  FormErrorContext,
+  FormPlaintextContext
+} from './FormContext';
+
 import { getUnhandledProps, defaultProps, prefix } from './utils';
 
 type PlacementEightPoints =
@@ -30,6 +36,8 @@ type Props = {
   errorPlacement?: PlacementEightPoints,
   formValue?: Object,
   readOnly?: boolean,
+  plaintext?: boolean,
+  plaintextDefaultValue: React.Node,
   value?: any
 };
 
@@ -42,7 +50,8 @@ class FormControl extends React.Component<Props, State> {
   static contextType = FormContext;
   static defaultProps = {
     accepter: Input,
-    errorPlacement: 'bottomStart'
+    errorPlacement: 'bottomLeft',
+    plaintextDefaultValue: '--'
   };
 
   constructor(props: Props, context: Object) {
@@ -89,6 +98,14 @@ class FormControl extends React.Component<Props, State> {
     }
 
     return this.props.readOnly;
+  }
+
+  getPlaintext() {
+    const { plaintext } = this.context;
+    if (!_.isUndefined(plaintext)) {
+      return plaintext;
+    }
+    return this.props.plaintext;
   }
 
   handleFieldChange = (value: any, event: SyntheticEvent<*>) => {
@@ -187,13 +204,28 @@ class FormControl extends React.Component<Props, State> {
   };
 
   render() {
+    const { plaintextDefaultValue } = this.props;
     const readOnly = this.getReadOnly();
+    const plaintext = this.getPlaintext();
+    const value = this.getValue();
     const classes = classNames(this.addPrefix('wrapper'), {
-      'read-only': readOnly
+      'read-only': readOnly,
+      plaintext
     });
+
+    if (plaintext && (_.isUndefined(value) || _.isNull(value))) {
+      return (
+        <div className={classes}>
+          <div className={this.addPrefix('default-value')}>{plaintextDefaultValue}</div>
+        </div>
+      );
+    }
+
     return (
       <div className={classes}>
-        {this.renderAccepter()}
+        <FormPlaintextContext.Provider value={plaintext}>
+          {this.renderAccepter()}
+        </FormPlaintextContext.Provider>
         {this.checkErrorFromContext()}
       </div>
     );
