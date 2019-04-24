@@ -31,8 +31,7 @@
   }
 }
 
-.input-size(@input-height; @padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius;) {
-  height: @input-height;
+.input-size( @padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius;) {
   padding: (@padding-vertical - @input-border-width) (@padding-horizontal - @input-border-width);
   font-size: @font-size;
   line-height: @line-height;
@@ -43,19 +42,27 @@
 }
 
 .input-lg() {
-  .input-size(@input-height-large; @padding-large-vertical; @padding-base-input-horizontal; @font-size-large; @line-height-large; @input-border-radius);
+  .input-size(
+    @padding-large-vertical; @padding-base-input-horizontal; @font-size-large; @line-height-large; @input-border-radius
+  );
 }
 
 .input-md() {
-  .input-size(@input-height-base; @padding-base-vertical; @padding-base-input-horizontal; @font-size-base; @line-height-base; @input-border-radius);
+  .input-size(
+    @padding-base-vertical; @padding-base-input-horizontal; @font-size-base; @line-height-base; @input-border-radius
+  );
 }
 
 .input-sm() {
-  .input-size(@input-height-small; @padding-small-vertical; @padding-base-input-horizontal; @font-size-base; @line-height-base; @input-border-radius);
+  .input-size(
+    @padding-small-vertical; @padding-base-input-horizontal; @font-size-base; @line-height-base; @input-border-radius
+  );
 }
 
 .input-xs() {
-  .input-size(@input-height-extra-small; @padding-extra-small-vertical; @padding-base-input-horizontal; @font-size-small; @line-height-base; @input-border-radius);
+  .input-size(
+    @padding-extra-small-vertical; @padding-base-input-horizontal; @font-size-extra-small; @line-height-extra-small; @input-border-radius
+  );
 }
 
 .input-base() {
@@ -78,6 +85,7 @@
   @vertical: ~'padding-@{size-name}-vertical';
   @horizontal: ~'padding-@{size-name}-horizontal';
   @font-size: ~'font-size-@{size-name}';
+  @line-height: ~'line-height-@{size-name}';
 
   height: @@height - @input-border-width*2;
   padding: (@@vertical - @input-border-width) (@@horizontal - @input-border-width);
@@ -85,12 +93,8 @@
 
   > .@{ns}icon {
     // Extend font-size from parent.
-    font-size: inherit;
-
-    &::before {
-      // Make sure icon vertical align center.
-      vertical-align: middle;
-    }
+    font-size: @@font-size;
+    line-height: @@line-height;
   }
 }
 
@@ -98,6 +102,11 @@
   @height: ~'input-height-@{size-name}';
   @useable-height: @@height - @input-border-width*2;
   @vertical: ~'padding-@{size-name}-vertical';
+  @add-on-padding: ~'input-group-paading-for-add-on-@{size-name}';
+
+  &.@{ns}input-group-inside > .@{ns}input {
+    padding-right: @@add-on-padding;
+  }
 
   &.@{ns}input-group:not(.@{ns}input-group-inside) {
     > .@{ns}input {

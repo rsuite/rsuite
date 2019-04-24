@@ -1,3 +1,42 @@
+# 3.8.3
+
+> April 18, 2019
+
+* **Feature**: Support `reverse` on `<Table.Pagination>`. ([#444])
+* **Feature**: Support `renderValue` on `<DatePicker>` and `<DateRangePicker>`. ([#435])
+* **Bugfix**: Remove invalid anchors in the Panel title. ([#446])
+* **Bugfix**: Fixed missing Cascader style for modular import. ([#440])
+* **Bugfix**: Fixed some style issues. ([#439],[#445])
+* **Bugfix**: Fixed TypeScript definition error. ([#436])
+* **Bugfix**: Fixed unable to preventDefault inside passive event listener for InputNumber. ([#441],[#6662647093133312])
+* **Bugfix**: Fixed unable to preventDefault inside passive event listener for Table on drag. ([#table-78],[#5093566007214080])
+* **Bugfix**: Fixed a scrollbar being reset in the case of `virtualized` on Table. ([#table-76])
+
+---
+
+* **Feature**: `<Table.Pagination>` 支持 `reverse` 属性。([#444])
+* **Feature**: `<DatePicker>` 与 `<DateRangePicker>` 支持 `renderValue` 属性。([#435])
+* **Bugfix**: 删除 `<Panel>` 标题上无效的锚点。 ([#446])
+* **Bugfix**: 修复模块化按需引入时缺少 Cascader 样式。 ([#440])
+* **Bugfix**: 修复一些样式问题。 ([#439],[#445])
+* **Bugfix**: 修复一些 TypeScript 定义错误。 ([#436])
+* **Bugfix**: 修复 `<InputNumber>` 滚动事件无法阻止被动默认的事件监听。 ([#441],[#6662647093133312])
+* **Bugfix**: 修复 `<Table>` 在移动端拖拽事件无法阻止被动默认的事件监听。 ([#table-78],[#5093566007214080])
+* **Bugfix**: 修复 `<Table>` 在设置 `virtualized` 情况下,滚动时滚动条被重置的问题。 ([#table-76])
+
+[#446]: https://github.com/rsuite/rsuite/pull/446
+[#445]: https://github.com/rsuite/rsuite/pull/445
+[#444]: https://github.com/rsuite/rsuite/pull/444
+[#441]: https://github.com/rsuite/rsuite/pull/441
+[#440]: https://github.com/rsuite/rsuite/pull/440
+[#439]: https://github.com/rsuite/rsuite/pull/439
+[#436]: https://github.com/rsuite/rsuite/pull/436
+[#435]: https://github.com/rsuite/rsuite/pull/435
+[#table-78]: https://github.com/rsuite/rsuite-table/pull/78
+[#table-76]: https://github.com/rsuite/rsuite-table/pull/76
+[#5093566007214080]: https://www.chromestatus.com/features/5093566007214080
+[#6662647093133312]: https://www.chromestatus.com/features/6662647093133312
+
 # 3.8.2
 
 > April 3, 2019
@@ -24,7 +63,7 @@
 * **Feature**: Support `verticalAlign` on `<Table.Column>` ([#table-70])
 * **Feature**: Support `renderEmpty` and `renderLoading` on `<Table>` ([#table-74])
 * **Bugfix**: Fixed `Picker` component to trigger `onChange` event when deleting search value ([#425])
-* **Bugfix**: Unable to preventDefault inside passive event listener due to target being treated as passive ([#table-73],[#chromestatus])
+* **Bugfix**: Unable to preventDefault inside passive event listener due to target being treated as passive ([#table-73],[#6662647093133312])
 
 ---
 
@@ -32,14 +71,13 @@
 * **Feature**: `<Table.Column>` 组件支持 `verticalAlign` 属性 ([#table-70])
 * **Feature**: `<Table>` 组件支持 `renderEmpty` 和 `renderLoading` 属性 ([#table-74])
 * **Bugfix**: 修复 `<SelectPicker>` 与 `<CheckPicker>` 组件删除搜索框值时候会触发 `onChange` 事件 ([#425])
-* **Bugfix**: 修复 `<Table>` 组件在 Chrome 73 版本中滚动时报错的问题 ([#table-73],[#chromestatus])
+* **Bugfix**: 修复 `<Table>` 组件在 Chrome 73 版本中滚动时报错的问题 ([#table-73],[#6662647093133312])
 
 [#426]: https://github.com/rsuite/rsuite/pull/426
 [#425]: https://github.com/rsuite/rsuite/pull/425
 [#table-70]: https://github.com/rsuite/rsuite-table/pull/70
 [#table-73]: https://github.com/rsuite/rsuite-table/pull/73
 [#table-74]: https://github.com/rsuite/rsuite-table/pull/74
-[#chromestatus]: https://www.chromestatus.com/features/6662647093133312
 
 # 3.7.9
 
