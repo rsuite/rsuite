@@ -78,6 +78,10 @@ type Props = {
   open?: boolean,
   defaultOpen?: boolean,
   placement?: Placement,
+  /**
+   * Prevent floating element overflow
+   */
+  preventOverflow?: boolean,
   onSelect?: (date: Date) => void,
   onOpen?: () => void,
   onClose?: () => void,
@@ -88,7 +92,8 @@ type Props = {
   onEntered?: () => void,
   onExit?: () => void,
   onExiting?: () => void,
-  onExited?: () => void
+  onExited?: () => void,
+  renderValue?: (value: Array<Date>, format: string) => React.Node
 };
 
 function getCalendarDate(value: Array<Date> = []) {
@@ -124,7 +129,7 @@ type State = {
 class DateRangePicker extends React.Component<Props, State> {
   static defaultProps = {
     appearance: 'default',
-    placement: 'bottomLeft',
+    placement: 'bottomStart',
     limitEndYear: 1000,
     format: 'YYYY-MM-DD',
     placeholder: '',
@@ -194,14 +199,16 @@ class DateRangePicker extends React.Component<Props, State> {
   };
 
   getDateString(value?: Array<Date>) {
-    const { placeholder, format: formatType } = this.props;
+    const { placeholder, format: formatType, renderValue } = this.props;
     const nextValue = value || this.getValue();
     const startDate = _.get(nextValue, '0');
     const endDate = _.get(nextValue, '1');
 
     if (startDate && endDate) {
       const displayValue = [startDate, endDate].sort(compareAsc);
-      return `${format(displayValue[0], formatType)} ~ ${format(displayValue[1], formatType)}`;
+      return renderValue
+        ? renderValue(displayValue, formatType)
+        : `${format(displayValue[0], formatType)} ~ ${format(displayValue[1], formatType)}`;
     }
 
     return placeholder || `${formatType} ~ ${formatType}`;
@@ -511,14 +518,10 @@ class DateRangePicker extends React.Component<Props, State> {
   };
 
   renderDropdownMenu() {
-    const { placement, menuClassName, ranges, isoWeek, limitEndYear, oneTap } = this.props;
+    const { menuClassName, ranges, isoWeek, limitEndYear, oneTap } = this.props;
     const { calendarDate, selectValue, hoverValue, doneSelected } = this.state;
 
-    const classes = classNames(
-      this.addPrefix('daterange-menu'),
-      this.addPrefix(`placement-${_.kebabCase(placement)}`),
-      menuClassName
-    );
+    const classes = classNames(this.addPrefix('daterange-menu'), menuClassName);
 
     const pickerProps = {
       isoWeek,

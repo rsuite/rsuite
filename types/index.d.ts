@@ -62,6 +62,9 @@ export interface PickerBaseProps extends StandardProps, AnimationEventProps {
   /** The placement of picker */
   placement?: PropTypes.Placement;
 
+  /** Prevent floating element overflow */
+  preventOverflow?: boolean;
+
   /** Open the menu and control it */
   open?: boolean;
 
@@ -125,20 +128,20 @@ export namespace PropTypes {
   type Appearance = 'default' | 'primary' | 'link' | 'subtle' | 'ghost';
   type Placement4 = 'top' | 'bottom' | 'right' | 'left';
   type Placement8 =
-    | 'bottomLeft'
-    | 'bottomRight'
-    | 'topLeft'
-    | 'topRight'
-    | 'leftTop'
-    | 'rightTop'
-    | 'leftBottom'
-    | 'rightBottom';
+    | 'bottomStart'
+    | 'bottomEnd'
+    | 'topStart'
+    | 'topEnd'
+    | 'leftStart'
+    | 'rightStart'
+    | 'leftEnd'
+    | 'rightEnd';
   type PlacementAuto =
     | 'auto'
-    | 'autoVerticalLeft'
-    | 'autoVerticalRight'
-    | 'autoHorizontalTop'
-    | 'autoHorizontalBottom';
+    | 'autoVerticalStart'
+    | 'autoVerticalEnd'
+    | 'autoHorizontalStart'
+    | 'autoHorizontalEnd';
 
   type Placement = Placement8 | PlacementAuto;
   type CheckTrigger = 'change' | 'blur' | 'none';
@@ -213,7 +216,7 @@ export { default as SelectPicker } from './SelectPicker';
 export { default as Sidebar } from './Sidebar';
 export { default as Sidenav } from './Sidenav';
 export { default as Slider } from './Slider';
-export { default as Step } from './Step';
+export { default as Steps } from './Steps';
 export { default as Table } from './Table';
 export { default as Tag } from './Tag';
 export { default as TagGroup } from './TagGroup';

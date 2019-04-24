@@ -23,11 +23,11 @@ describe('ErrorMessage', () => {
     assert.equal(findDOMNode(instance), null);
   });
 
-  it('Should hava a `bottomLeft` for placement', () => {
+  it('Should hava a `bottomStart` for placement', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <ErrorMessage show placement="bottomLeft" />
     );
-    assert.include(findDOMNode(instance).className, 'rs-error-message-placement-bottom-left');
+    assert.include(findDOMNode(instance).className, 'rs-error-message-placement-bottom-start');
   });
 
   it('Should have a custom className', () => {

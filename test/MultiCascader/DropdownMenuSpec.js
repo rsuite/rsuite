@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { findDOMNode } from 'react-dom';
-import { namespace } from 'rsuite-utils/lib/Picker/constants';
+import { namespace } from '../';
 
 import { getDOMNode, getInstance } from '../TestWrapper';
 import DropdownMenu from '../../src/MultiCascader/DropdownMenu';
 import Dropdown from '../../src/MultiCascader/Dropdown';
 
-const classPrefix = `${namespace}-cascader-menu-items`;
 const itemClassName = `.${namespace}-check-menu-item`;
 
 const items = [

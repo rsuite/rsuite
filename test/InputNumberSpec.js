@@ -102,15 +102,6 @@ describe('InputNumber', () => {
     ReactTestUtils.Simulate.blur(input);
   });
 
-  it('Should call onWheel callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<InputNumber onWheel={doneOp} />);
-    const input = instance.querySelector('.rs-input');
-    ReactTestUtils.Simulate.wheel(input);
-  });
-
   it('Should call onChange callback when is control component', () => {
     const onChnageSpy = sinon.spy();
     const instance = getDOMNode(<InputNumber onChange={onChnageSpy} value={2} />);

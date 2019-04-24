@@ -9,7 +9,13 @@ import innerText from './innerText';
 describe('Table-Pagination', () => {
   it('Should output a TablePagination', () => {
     const instance = getDOMNode(<TablePagination total={10} />);
-    assert.include(instance.className, 'rs-table-pagination-pagination-wrapper');
+    assert.include(instance.className, 'rs-table-pagination-toolbar');
+  });
+
+  it('Should reverse start and end position', () => {
+    const instance = getDOMNode(<TablePagination reverse />);
+    assert.include(instance.childNodes[0].className, 'rs-table-pagination-end');
+    assert.include(instance.childNodes[1].className, 'rs-table-pagination-start');
   });
 
   it('Should output a prev button', () => {

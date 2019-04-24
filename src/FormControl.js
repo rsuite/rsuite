@@ -16,14 +16,14 @@ import FormContext, {
 import { getUnhandledProps, defaultProps, prefix } from './utils';
 
 type PlacementEightPoints =
-  | 'bottomLeft'
-  | 'bottomRight'
-  | 'topLeft'
-  | 'topRight'
-  | 'leftTop'
-  | 'rightTop'
-  | 'leftBottom'
-  | 'rightBottom';
+  | 'bottomStart'
+  | 'bottomEnd'
+  | 'topStart'
+  | 'topEnd'
+  | 'leftStart'
+  | 'rightStart'
+  | 'leftEnd'
+  | 'rightEnd';
 
 type Props = {
   name: string,

@@ -87,7 +87,12 @@ type Props = {
   onHide?: () => void,
   style?: Object,
   // 一键选值
-  oneTap?: boolean
+  oneTap?: boolean,
+  renderValue?: (value: Date, format: string) => React.Node,
+  /**
+   * Prevent floating element overflow
+   */
+  preventOverflow?: boolean
 };
 
 type State = {
@@ -100,7 +105,7 @@ type State = {
 class DatePicker extends React.Component<Props, State> {
   static defaultProps = {
     appearance: 'default',
-    placement: 'bottomLeft',
+    placement: 'bottomStart',
     limitEndYear: 1000,
     format: 'YYYY-MM-DD',
     placeholder: '',
@@ -176,10 +181,14 @@ class DatePicker extends React.Component<Props, State> {
   };
 
   getDateString() {
-    const { placeholder, format: formatType } = this.props;
+    const { placeholder, format: formatType, renderValue } = this.props;
     const value = this.getValue();
 
-    return value ? format(value, formatType) : placeholder || formatType;
+    if (value) {
+      return renderValue ? renderValue(value, formatType) : format(value, formatType);
+    }
+
+    return placeholder || formatType;
   }
 
   calendar = null;
@@ -401,13 +410,9 @@ class DatePicker extends React.Component<Props, State> {
     );
   }
   renderDropdownMenu(calendar: React.Node) {
-    const { placement, ranges, menuClassName, oneTap } = this.props;
+    const { ranges, menuClassName, oneTap } = this.props;
     const { pageDate } = this.state;
-    const classes = classNames(
-      this.addPrefix('date-menu'),
-      this.addPrefix(`placement-${_.kebabCase(placement)}`),
-      menuClassName
-    );
+    const classes = classNames(this.addPrefix('date-menu'), menuClassName);
 
     return (
       <MenuWrapper className={classes}>

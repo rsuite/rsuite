@@ -134,8 +134,7 @@ class Panel extends React.Component<Props, State> {
     const { id, collapsible } = this.props;
 
     return (
-      <a
-        href={`#${id || ''}`}
+      <span
         aria-controls={collapsible ? id : null}
         className={this.isExpanded() ? null : 'collapsed'}
         aria-expanded={this.isExpanded()}
@@ -143,7 +142,7 @@ class Panel extends React.Component<Props, State> {
         role={headerRole}
       >
         {header}
-      </a>
+      </span>
     );
   }
 

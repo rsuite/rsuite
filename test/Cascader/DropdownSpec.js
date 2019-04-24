@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { findDOMNode } from 'react-dom';
 
-import { namespace } from 'rsuite-utils/lib/Picker/constants';
+import { namespace } from '../';
 import Dropdown from '../../src/Cascader/Dropdown';
 import Button from '../../src/Button';
 

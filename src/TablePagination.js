@@ -36,7 +36,9 @@ type Props = {
   locale: Locale,
   classPrefix: string,
   disabled?: boolean | ((eventKey: any) => boolean),
-  style?: Object
+  style?: Object,
+  // reverse start and end position
+  reverse?: boolean
 };
 
 class TablePagination extends React.Component<Props> {
@@ -103,7 +105,7 @@ class TablePagination extends React.Component<Props> {
         appearance="subtle"
         cleanable={false}
         searchable={false}
-        placement="topLeft"
+        placement="topStart"
         data={lengthMenu}
         value={displayLength}
         onChange={this.handleChangeLength}
@@ -146,34 +148,39 @@ class TablePagination extends React.Component<Props> {
       activePage,
       disabled,
       style,
+      reverse,
       ...rest
     } = this.props;
 
     const pages = Math.floor(total / displayLength) + (total % displayLength ? 1 : 0);
-    const classes = classNames(this.addPrefix('pagination-wrapper'), className);
+    const classes = classNames(this.addPrefix('toolbar'), className);
     const unhandled = getUnhandledProps(TablePagination, rest);
-
-    return (
-      <div className={classes} style={style}>
+    const pagers = [
+      <div className={classNames(this.addPrefix('start'))} key={1}>
         {this.renderLengthMenu()}
         <Divider vertical />
         {this.renderInfo()}
+      </div>,
+      <div className={classNames(this.addPrefix('end'))} key={2}>
+        <Pagination
+          size="xs"
+          prev={prev}
+          next={next}
+          first={first}
+          last={last}
+          maxButtons={maxButtons}
+          pages={pages}
+          disabled={disabled}
+          onSelect={this.handleChangePage}
+          activePage={activePage}
+          {...unhandled}
+        />
+      </div>
+    ];
 
-        <div className={classNames(this.addPrefix('pagination'))}>
-          <Pagination
-            size="xs"
-            prev={prev}
-            next={next}
-            first={first}
-            last={last}
-            maxButtons={maxButtons}
-            pages={pages}
-            disabled={disabled}
-            onSelect={this.handleChangePage}
-            activePage={activePage}
-            {...unhandled}
-          />
-        </div>
+    return (
+      <div className={classes} style={style}>
+        {reverse ? pagers.reverse() : pagers}
       </div>
     );
   }
