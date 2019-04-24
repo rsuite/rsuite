@@ -64,6 +64,15 @@ gulp.task('babel', () =>
     .pipe(gulp.dest('../lib'))
 );
 
+gulp.task('babel-map', () =>
+  gulp
+    .src('../src/**/*.js')
+    .pipe(sourcemaps.init())
+    .pipe(babel(babelrc()))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('../lib'))
+);
+
 gulp.task('dev', () => {
   gulp.start(['babel']);
   gulp.watch('../src/**/*.js', function(event) {
@@ -74,6 +83,22 @@ gulp.task('dev', () => {
     gulp
       .src(srcPath)
       .pipe(babel(babelrc()))
+      .pipe(gulp.dest(libPath));
+  });
+});
+
+gulp.task('dev-map', () => {
+  gulp.start(['babel-map']);
+  gulp.watch('../src/**/*.js', function(event) {
+    console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
+    const srcPath = `../${event.path.match(/src\/\S*/)[0]}`;
+    const libPath = srcPath.replace('/src/', '/lib/').replace(/\/[a-z|A-Z]+.js/, '');
+
+    gulp
+      .src(srcPath)
+      .pipe(sourcemaps.init())
+      .pipe(babel(babelrc()))
+      .pipe(sourcemaps.write('./'))
       .pipe(gulp.dest(libPath));
   });
 });
