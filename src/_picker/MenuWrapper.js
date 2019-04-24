@@ -21,14 +21,14 @@ const omitProps = [
 ];
 
 const resizePlacement = [
-  'topLeft',
-  'topRight',
-  'leftBottom',
-  'rightBottom',
+  'topStart',
+  'topEnd',
+  'leftEnd',
+  'rightEnd',
   'auto',
-  'autoVerticalLeft',
-  'autoVerticalRight',
-  'autoHorizontalBottom'
+  'autoVerticalStart',
+  'autoVerticalEnd',
+  'autoHorizontalEnd'
 ];
 
 type Props = {

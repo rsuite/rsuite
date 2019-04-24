@@ -78,6 +78,10 @@ type Props = {
   open?: boolean,
   defaultOpen?: boolean,
   placement?: Placement,
+  /**
+   * Prevent floating element overflow
+   */
+  preventOverflow?: boolean,
   onSelect?: (date: Date) => void,
   onOpen?: () => void,
   onClose?: () => void,
@@ -125,7 +129,7 @@ type State = {
 class DateRangePicker extends React.Component<Props, State> {
   static defaultProps = {
     appearance: 'default',
-    placement: 'bottomLeft',
+    placement: 'bottomStart',
     limitEndYear: 1000,
     format: 'YYYY-MM-DD',
     placeholder: '',
@@ -514,14 +518,10 @@ class DateRangePicker extends React.Component<Props, State> {
   };
 
   renderDropdownMenu() {
-    const { placement, menuClassName, ranges, isoWeek, limitEndYear, oneTap } = this.props;
+    const { menuClassName, ranges, isoWeek, limitEndYear, oneTap } = this.props;
     const { calendarDate, selectValue, hoverValue, doneSelected } = this.state;
 
-    const classes = classNames(
-      this.addPrefix('daterange-menu'),
-      this.addPrefix(`placement-${_.kebabCase(placement)}`),
-      menuClassName
-    );
+    const classes = classNames(this.addPrefix('daterange-menu'), menuClassName);
 
     const pickerProps = {
       isoWeek,

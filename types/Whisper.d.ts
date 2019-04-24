@@ -28,6 +28,11 @@ export interface WhisperProps extends AnimationEventProps {
   /** display element */
   speaker?: React.ReactElement<TooltipProps | PopoverProps>;
 
+  /**
+   * Prevent floating element overflow
+   */
+  preventOverflow?: boolean;
+
   /** Lose Focus callback function */
   onBlur?: () => void;
 

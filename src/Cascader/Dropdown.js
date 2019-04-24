@@ -76,7 +76,12 @@ type Props = {
   menuHeight?: number,
   disabledItemValues?: any[],
   style?: Object,
-  searchable?: boolean
+  searchable?: boolean,
+
+  /**
+   * Prevent floating element overflow
+   */
+  preventOverflow?: boolean
 };
 
 type State = {
@@ -173,7 +178,7 @@ class Dropdown extends React.Component<Props, State> {
     },
     cleanable: true,
     searchable: true,
-    placement: 'bottomLeft'
+    placement: 'bottomStart'
   };
 
   constructor(props: Props) {
@@ -281,11 +286,18 @@ class Dropdown extends React.Component<Props, State> {
       return;
     }
 
-    this.setState({
-      selectNode: node,
-      items: cascadeItems,
-      tempActivePaths: activePaths
-    });
+    this.setState(
+      {
+        selectNode: node,
+        items: cascadeItems,
+        tempActivePaths: activePaths
+      },
+      () => {
+        if (this.position) {
+          this.position.updatePosition();
+        }
+      }
+    );
   };
 
   handleSearchRowSelect = (item: Object, event: DefaultEvent) => {
@@ -309,6 +321,11 @@ class Dropdown extends React.Component<Props, State> {
 
   bindTriggerRef = (ref: React.ElementRef<*>) => {
     this.trigger = ref;
+  };
+
+  position = null;
+  bindPositionRef = (ref: React.ElementRef<*>) => {
+    this.position = ref;
   };
 
   menuContainer = null;
@@ -475,7 +492,6 @@ class Dropdown extends React.Component<Props, State> {
     const { items, tempActivePaths, activePaths, searchKeyword } = this.state;
     const {
       renderMenu,
-      placement,
       renderExtraFooter,
       menuClassName,
       menuStyle,
@@ -483,11 +499,7 @@ class Dropdown extends React.Component<Props, State> {
       locale
     } = this.props;
 
-    const classes = classNames(
-      this.addPrefix('cascader-menu'),
-      this.addPrefix(`placement-${_.kebabCase(placement)}`),
-      menuClassName
-    );
+    const classes = classNames(this.addPrefix('cascader-menu'), menuClassName);
 
     const menuProps = _.pick(
       this.props,
@@ -578,6 +590,7 @@ class Dropdown extends React.Component<Props, State> {
           <PickerToggleTrigger
             pickerProps={this.props}
             innerRef={this.bindTriggerRef}
+            positionRef={this.bindPositionRef}
             onEnter={createChainedFunction(this.handleEntered, onEnter)}
             onExit={createChainedFunction(this.handleExit, onExited)}
             speaker={this.renderDropdownMenu()}

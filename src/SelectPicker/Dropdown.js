@@ -83,7 +83,11 @@ type Props = {
   open?: boolean,
   defaultOpen?: boolean,
   placement?: Placement,
-  style?: Object
+  style?: Object,
+  /**
+   * Prevent floating element overflow
+   */
+  preventOverflow?: boolean
 };
 
 type State = {
@@ -110,7 +114,7 @@ class Dropdown extends React.Component<Props, State> {
     searchable: true,
     cleanable: true,
     menuAutoWidth: true,
-    placement: 'bottomLeft'
+    placement: 'bottomStart'
   };
 
   constructor(props: Props) {
@@ -392,7 +396,6 @@ class Dropdown extends React.Component<Props, State> {
       labelKey,
       groupBy,
       searchable,
-      placement,
       locale,
       renderMenu,
       renderExtraFooter,
@@ -403,11 +406,7 @@ class Dropdown extends React.Component<Props, State> {
     } = this.props;
 
     const { focusItemValue } = this.state;
-    const classes = classNames(
-      this.addPrefix('select-menu'),
-      this.addPrefix(`placement-${_.kebabCase(placement)}`),
-      menuClassName
-    );
+    const classes = classNames(this.addPrefix('select-menu'), menuClassName);
 
     let filteredData = filterNodesOfTree(data, item => this.shouldDisplay(item[labelKey]));
 

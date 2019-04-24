@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { findDOMNode } from 'react-dom';
-import { namespace } from 'rsuite-utils/lib/Picker/constants';
+import { namespace } from '../';
 
 import { getDOMNode } from '../TestWrapper';
 import DropdownMenu from '../../src/_picker/DropdownMenu';

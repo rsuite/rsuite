@@ -1,9 +1,11 @@
 import React from 'react';
 import _ from 'lodash';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
+import placementPolyfill from '../utils/placementPolyfill';
 
 type Props = {
-  innerRef?: React.ElementRef<*>
+  innerRef?: React.ElementRef<*>,
+  placement?: string
 };
 
 const PickerToggleTriggerProps = [
@@ -12,24 +14,26 @@ const PickerToggleTriggerProps = [
   'open',
   'defaultOpen',
   'disabled',
-  'placement',
   'onEnter',
   'onEntering',
   'onExit',
   'onExiting',
   'onHide',
   'container',
-  'containerPadding'
+  'containerPadding',
+  'preventOverflow'
 ];
 
 class PickerToggleTrigger extends React.Component<Props, State> {
   render() {
     const { innerRef, pickerProps, ...rest } = this.props;
+    const placement = placementPolyfill(pickerProps.placement);
 
     return (
       <OverlayTrigger
         trigger="click"
         ref={innerRef}
+        placement={placement}
         {..._.pick(pickerProps, PickerToggleTriggerProps)}
         {...rest}
       />

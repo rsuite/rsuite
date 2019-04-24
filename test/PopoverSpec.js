@@ -15,13 +15,6 @@ describe('Popover', () => {
     assert.equal(innerText(instanceDom), title);
   });
 
-  it('Should render at left', () => {
-    const title = 'Test';
-    const instance = ReactTestUtils.renderIntoDocument(<Popover placement="left">{title}</Popover>);
-    const instanceDom = findDOMNode(instance);
-    assert.ok(instanceDom.className.match(/\bleft\b/));
-  });
-
   it('Should be full', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Popover full>Test</Popover>);
     assert.ok(ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-popover-full'));

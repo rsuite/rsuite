@@ -7,7 +7,6 @@ import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
 import Input from './Input';
 import AutoCompleteItem from './AutoCompleteItem';
 import { defaultProps, getUnhandledProps, prefix } from './utils';
-import { getClassNamePrefix } from './utils/prefix';
 import { PickerToggleTrigger, onMenuKeyDown, MenuWrapper } from './_picker';
 
 import type { Placement } from './utils/TypeDefinition';
@@ -51,7 +50,7 @@ type State = {
 class AutoComplete extends React.Component<Props, State> {
   static defaultProps = {
     data: [],
-    placement: 'bottomLeft',
+    placement: 'bottomStart',
     selectOnEnter: true
   };
 
@@ -252,14 +251,10 @@ class AutoComplete extends React.Component<Props, State> {
   };
 
   renderDropdownMenu() {
-    const { placement, renderItem, menuClassName } = this.props;
+    const { renderItem, menuClassName } = this.props;
     const data = this.getData();
     const { focusItemValue } = this.state;
-    const classes = classNames(
-      this.addPrefix('menu'),
-      menuClassName,
-      `${getClassNamePrefix()}placement-${_.kebabCase(placement)}`
-    );
+    const classes = classNames(this.addPrefix('menu'), menuClassName);
     const items = data.filter(this.shouldDisplay);
 
     return (

@@ -19,7 +19,6 @@ describe('Calendar-MonthDropdownItem', () => {
 
   it('Should call `onSelect` callback', done => {
     const doneOp = date => {
-      console.log(date);
       if (format(date, 'YYYY-MM') === '2017-01') {
         done();
       }

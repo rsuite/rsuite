@@ -62,6 +62,9 @@ export interface PickerBaseProps extends StandardProps, AnimationEventProps {
   /** The placement of picker */
   placement?: PropTypes.Placement;
 
+  /** Prevent floating element overflow */
+  preventOverflow?: boolean;
+
   /** Open the menu and control it */
   open?: boolean;
 
@@ -125,20 +128,20 @@ export namespace PropTypes {
   type Appearance = 'default' | 'primary' | 'link' | 'subtle' | 'ghost';
   type Placement4 = 'top' | 'bottom' | 'right' | 'left';
   type Placement8 =
-    | 'bottomLeft'
-    | 'bottomRight'
-    | 'topLeft'
-    | 'topRight'
-    | 'leftTop'
-    | 'rightTop'
-    | 'leftBottom'
-    | 'rightBottom';
+    | 'bottomStart'
+    | 'bottomEnd'
+    | 'topStart'
+    | 'topEnd'
+    | 'leftStart'
+    | 'rightStart'
+    | 'leftEnd'
+    | 'rightEnd';
   type PlacementAuto =
     | 'auto'
-    | 'autoVerticalLeft'
-    | 'autoVerticalRight'
-    | 'autoHorizontalTop'
-    | 'autoHorizontalBottom';
+    | 'autoVerticalStart'
+    | 'autoVerticalEnd'
+    | 'autoHorizontalStart'
+    | 'autoHorizontalEnd';
 
   type Placement = Placement8 | PlacementAuto;
   type CheckTrigger = 'change' | 'blur' | 'none';

@@ -37,19 +37,19 @@ const defaultWidth = 200;
 
 type DefaultEvent = SyntheticEvent<*>;
 type Placement =
-  | 'bottomLeft'
-  | 'bottomRight'
-  | 'topLeft'
-  | 'topRight'
-  | 'leftTop'
-  | 'rightTop'
-  | 'leftBottom'
-  | 'rightBottom'
+  | 'bottomStart'
+  | 'bottomEnd'
+  | 'topStart'
+  | 'topEnd'
+  | 'leftStart'
+  | 'rightStart'
+  | 'leftEnd'
+  | 'rightEnd'
   | 'auto'
-  | 'autoVerticalLeft'
-  | 'autoVerticalRight'
-  | 'autoHorizontalTop'
-  | 'autoHorizontalBottom';
+  | 'autoVerticalStart'
+  | 'autoVerticalEnd'
+  | 'autoHorizontalStart'
+  | 'autoHorizontalEnd';
 
 type Props = {
   data: any[],
@@ -74,6 +74,10 @@ type Props = {
   classPrefix: string,
   childrenKey?: string,
   placeholder?: React.Node,
+  /**
+   * Prevent floating element overflow
+   */
+  preventOverflow?: boolean,
   defaultOpen?: boolean,
   defaultValue?: any,
   menuStyle?: Object,
@@ -141,7 +145,7 @@ class Tree extends React.Component<Props, States> {
     valueKey: 'value',
     labelKey: 'label',
     cleanable: true,
-    placement: 'bottomLeft',
+    placement: 'bottomStart',
     searchable: true,
     appearance: 'default',
     childrenKey: 'children',
@@ -732,7 +736,6 @@ class Tree extends React.Component<Props, States> {
       height = defaultHeight,
       searchable,
       searchKeyword,
-      placement,
       renderExtraFooter,
       locale,
       renderMenu,
@@ -742,11 +745,7 @@ class Tree extends React.Component<Props, States> {
       menuAutoWidth
     } = this.props;
     const keyword = !_.isUndefined(searchKeyword) ? searchKeyword : this.state.searchKeyword;
-    const classes = classNames(
-      menuClassName,
-      this.addPrefix('tree-menu'),
-      this.addPrefix(`placement-${_.kebabCase(placement)}`)
-    );
+    const classes = classNames(menuClassName, this.addPrefix('tree-menu'));
 
     const styles = virtualized ? { height, ...menuStyle } : menuStyle;
 

@@ -10,14 +10,14 @@ import FormContext, { FormValueContext, FormErrorContext } from './FormContext';
 import { getUnhandledProps, defaultProps, prefix } from './utils';
 
 type PlacementEightPoints =
-  | 'bottomLeft'
-  | 'bottomRight'
-  | 'topLeft'
-  | 'topRight'
-  | 'leftTop'
-  | 'rightTop'
-  | 'leftBottom'
-  | 'rightBottom';
+  | 'bottomStart'
+  | 'bottomEnd'
+  | 'topStart'
+  | 'topEnd'
+  | 'leftStart'
+  | 'rightStart'
+  | 'leftEnd'
+  | 'rightEnd';
 
 type Props = {
   name: string,
@@ -42,7 +42,7 @@ class FormControl extends React.Component<Props, State> {
   static contextType = FormContext;
   static defaultProps = {
     accepter: Input,
-    errorPlacement: 'bottomLeft'
+    errorPlacement: 'bottomStart'
   };
 
   constructor(props: Props, context: Object) {

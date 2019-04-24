@@ -45,19 +45,19 @@ const defaultWidth = 200;
 
 export type DefaultEvent = SyntheticEvent<*>;
 export type Placement =
-  | 'bottomLeft'
-  | 'bottomRight'
-  | 'topLeft'
-  | 'topRight'
-  | 'leftTop'
-  | 'rightTop'
-  | 'leftBottom'
-  | 'rightBottom'
+  | 'bottomStart'
+  | 'bottomEnd'
+  | 'topStart'
+  | 'topEnd'
+  | 'leftStart'
+  | 'leftEnd'
+  | 'rightStart'
+  | 'rightEnd'
   | 'auto'
-  | 'autoVerticalLeft'
-  | 'autoVerticalRight'
-  | 'autoHorizontalTop'
-  | 'autoHorizontalBottom';
+  | 'autoVerticalStart'
+  | 'autoVerticalEnd'
+  | 'autoHorizontalStart'
+  | 'autoHorizontalEnd';
 
 export type Props = {
   data: any[],
@@ -85,6 +85,10 @@ export type Props = {
   defaultOpen?: boolean,
   childrenKey: string,
   placeholder?: React.Node,
+  /**
+   * Prevent floating element overflow
+   */
+  preventOverflow?: boolean,
   defaultValue?: any[],
   searchKeyword?: string,
   menuStyle?: Object,
@@ -161,7 +165,7 @@ class CheckTree extends React.Component<Props, States> {
     labelKey: 'label',
     cleanable: true,
     countable: true,
-    placement: 'bottomLeft',
+    placement: 'bottomStart',
     appearance: 'default',
     searchable: true,
     virtualized: false,
@@ -1025,7 +1029,6 @@ class CheckTree extends React.Component<Props, States> {
     const {
       height = defaultHeight,
       locale,
-      placement,
       menuStyle,
       searchable,
       renderMenu,
@@ -1037,11 +1040,7 @@ class CheckTree extends React.Component<Props, States> {
     } = this.props;
 
     const keyword = !_.isUndefined(searchKeyword) ? searchKeyword : this.state.searchKeyword;
-    const classes = classNames(
-      menuClassName,
-      this.addPrefix('checktree-menu'),
-      this.addPrefix(`placement-${_.kebabCase(placement)}`)
-    );
+    const classes = classNames(menuClassName, this.addPrefix('checktree-menu'));
     const menu = this.renderCheckTree();
     const styles = virtualized ? { height, ...menuStyle } : menuStyle;
     return (
