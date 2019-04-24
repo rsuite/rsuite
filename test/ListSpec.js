@@ -1,6 +1,6 @@
 import React from 'react';
 import List from '../src/List';
-import { getInstance, getDOMNode } from './TestWrapper';
+import { getDOMNode } from './TestWrapper';
 
 describe('List', () => {
   it('Should render a List', () => {
@@ -27,16 +27,6 @@ describe('List', () => {
   it('Should have hover animation', () => {
     const domNode = getDOMNode(<List hover />);
     assert.include(domNode.className, 'rs-list-hover');
-  });
-
-  it('Axis X', () => {
-    const domNode = getDOMNode(<List axis="x" />);
-    assert.include(domNode.className, 'rs-list-axis-x');
-  });
-
-  it('Axis XY', () => {
-    const domNode = getDOMNode(<List axis="xy" />);
-    assert.include(domNode.className, 'rs-list-axis-xy');
   });
 
   it('should be sortable', () => {

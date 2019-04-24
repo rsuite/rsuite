@@ -18,12 +18,6 @@ export interface ListProps extends StandardProps {
   /* Size of list item */
   size?: 'lg' | 'md' | 'sm';
 
-  /* List items sort direction */
-  axis?: 'x' | 'y' | 'xy';
-
-  /* Lock list items sort direction */
-  lockAxis?: 'x' | 'y';
-
   /* Auto scroll when overflow */
   autoScroll?: boolean;
 

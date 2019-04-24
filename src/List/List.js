@@ -59,8 +59,6 @@ type Props = {
   hover?: boolean,
   sortable?: boolean,
   size?: 'lg' | 'md' | 'sm',
-  axis?: 'x' | 'y' | 'xy',
-  lockAxis?: 'x' | 'y',
   autoScroll?: boolean,
   pressDelay?: number,
   pressThreshold?: number,
@@ -107,7 +105,6 @@ export const { Provider, Consumer }: React.Context<Context> = React.createContex
 class List extends React.Component<Props> {
   static defaultProps = {
     size: 'md',
-    axis: 'y',
     autoScroll: true,
     pressDelay: 0,
     pressThreshold: 5,
@@ -115,18 +112,6 @@ class List extends React.Component<Props> {
   };
   static handledProps = ['onSortStart', 'onSortMove', 'onSortOver', 'onSortEnd', 'onSort'];
 
-  constructor({ axis }) {
-    super();
-    this.axis = {
-      x: axis.includes('x'),
-      y: axis.includes('y')
-    };
-  }
-
-  axis = {
-    x: false,
-    y: false
-  };
   node: Element;
   sortableGhost: Element;
   helper: Element | null;
@@ -282,8 +267,7 @@ class List extends React.Component<Props> {
     if (!active) {
       return;
     }
-    const { classPrefix, axis = 'y', onSortStart } = this.props;
-
+    const { classPrefix, onSortStart } = this.props;
     const { node, collection } = active;
     const { index } = node.sortableInfo;
     const addItemPrefix = prefix(classPrefix + '-item');
@@ -310,10 +294,6 @@ class List extends React.Component<Props> {
     this.containerBoundingRect = this.scrollContainer.getBoundingClientRect();
     this.index = index;
     this.newIndex = index;
-    this.axis = {
-      x: axis.includes('x'),
-      y: axis.includes('y')
-    };
     this.offsetEdge = getEdgeOffset(node, this.container);
     this.initialOffset = getPosition(event);
     this.initialScroll = {
@@ -333,35 +313,18 @@ class List extends React.Component<Props> {
       left: `${this.boundingClientRect.left - margin.left}px`,
       top: `${this.boundingClientRect.top - margin.top}px`
     });
-
     this.sortableGhost = node;
     node.classList.add(addItemPrefix('holder'));
-
     this.minTranslate = {};
     this.maxTranslate = {};
-
-    if (this.axis.x) {
-      this.minTranslate.x =
-        this.containerBoundingRect.left - this.boundingClientRect.left - this.width / 2;
-      this.maxTranslate.x =
-        this.containerBoundingRect.left +
-        this.containerBoundingRect.width -
-        this.boundingClientRect.left -
-        this.width / 2;
-    }
-
-    if (this.axis.y) {
-      this.minTranslate.y =
-        this.containerBoundingRect.top - this.boundingClientRect.top - this.height / 2;
-      this.maxTranslate.y =
-        this.containerBoundingRect.top +
-        this.containerBoundingRect.height -
-        this.boundingClientRect.top -
-        this.height / 2;
-    }
-
+    this.minTranslate.y =
+      this.containerBoundingRect.top - this.boundingClientRect.top - this.height / 2;
+    this.maxTranslate.y =
+      this.containerBoundingRect.top +
+      this.containerBoundingRect.height -
+      this.boundingClientRect.top -
+      this.height / 2;
     this.listenerNode = event.touches ? node : window;
-
     EVENTS.move.forEach((eventName: TouchEventTypes | MouseEventTypes) =>
       on(this.listenerNode, eventName, this.handleSortMove, { passive: false })
     );
@@ -467,8 +430,6 @@ class List extends React.Component<Props> {
   };
 
   updateHelperPosition(event) {
-    const { lockAxis } = this.props;
-
     const offset = getPosition(event);
     const translate = {
       x: _.get(offset, 'x', 0) - this.initialOffset.x,
@@ -480,12 +441,6 @@ class List extends React.Component<Props> {
     translate.x -= window.pageXOffset - (this.initialWindowScroll.left || 0);
 
     this.translate = translate;
-
-    if (lockAxis === 'x') {
-      translate.y = 0;
-    } else if (lockAxis === 'y') {
-      translate.x = 0;
-    }
 
     setTranslate3d(this.helper, translate);
   }
@@ -526,7 +481,6 @@ class List extends React.Component<Props> {
 
       // Get a reference to the next and previous node
       const nextNode = i < nodes.length - 1 && nodes[i + 1];
-      const prevNode = i > 0 && nodes[i - 1];
 
       // Also cache the next node's edge offset if needed.
       // We need this for calculating the animation in a grid setup
@@ -540,77 +494,19 @@ class List extends React.Component<Props> {
       }
 
       setTransitionDuration(node, transitionDuration);
-      const offsetX = this.width + this.marginOffset.x;
       const offsetY = this.height + this.marginOffset.y;
       const distanceTop = sortingOffset.top + windowScrollDelta.top;
-      const distanceLeft = sortingOffset.left + windowScrollDelta.left;
-      if (this.axis.x) {
-        if (this.axis.y) {
-          // Calculations for a grid setup
-          if (
-            index < this.index &&
-            ((distanceLeft - offset.width <= edgeOffset.left &&
-              distanceTop <= edgeOffset.top + offset.height) ||
-              distanceTop + offset.height <= edgeOffset.top)
-          ) {
-            // If the current node is to the left on the same row, or above the node that's being dragged
-            // then move it to the right
-            translate.x = offsetX;
-            if (edgeOffset.left + translate.x > this.containerBoundingRect.width - offset.width) {
-              // If it moves passed the right bounds, then animate it to the first position of the next row.
-              // We just use the offset of the next node to calculate where to move, because that node's original position
-              // is exactly where we want to go
-              if (nextNode) {
-                translate.x = nextNode.edgeOffset.left - edgeOffset.left;
-                translate.y = nextNode.edgeOffset.top - edgeOffset.top;
-              }
-            }
-            if (this.newIndex === -1) {
-              this.newIndex = index;
-            }
-          } else if (
-            index > this.index &&
-            ((distanceLeft + offset.width >= edgeOffset.left &&
-              distanceTop + offset.height >= edgeOffset.top) ||
-              distanceTop + offset.height >= edgeOffset.top + height)
-          ) {
-            // If the current node is to the right on the same row, or below the node that's being dragged
-            // then move it to the left
-            translate.x = -offsetX;
-            if (edgeOffset.left + translate.x < this.containerBoundingRect.left + offset.width) {
-              // If it moves passed the left bounds, then animate it to the last position of the previous row.
-              // We just use the offset of the previous node to calculate where to move, because that node's original position
-              // is exactly where we want to go
-              if (prevNode) {
-                translate.x = prevNode.edgeOffset.left - edgeOffset.left;
-                translate.y = prevNode.edgeOffset.top - edgeOffset.top;
-              }
-            }
-            this.newIndex = index;
-          }
-        } else {
-          if (index > this.index && distanceLeft + offset.width >= edgeOffset.left) {
-            translate.x = -offsetX;
-            this.newIndex = index;
-          } else if (index < this.index && distanceLeft <= edgeOffset.left + offset.width) {
-            translate.x = offsetX;
 
-            if (this.newIndex === -1) {
-              this.newIndex = index;
-            }
-          }
-        }
-      } else if (this.axis.y) {
-        if (index > this.index && distanceTop + offset.height >= edgeOffset.top) {
-          translate.y = -offsetY;
+      if (index > this.index && distanceTop + offset.height >= edgeOffset.top) {
+        translate.y = -offsetY;
+        this.newIndex = index;
+      } else if (index < this.index && distanceTop <= edgeOffset.top + offset.height) {
+        translate.y = offsetY;
+        if (this.newIndex === -1) {
           this.newIndex = index;
-        } else if (index < this.index && distanceTop <= edgeOffset.top + offset.height) {
-          translate.y = offsetY;
-          if (this.newIndex === -1) {
-            this.newIndex = index;
-          }
         }
       }
+
       setTranslate3d(node, translate);
 
       // translate holder
@@ -697,19 +593,12 @@ class List extends React.Component<Props> {
       }
       const offsetX = node.offsetWidth + marginOffset.x;
       const offsetY = node.offsetHeight + marginOffset.y;
-      if (this.axis.x && this.axis.y) {
-        /*
-        * grid only support same size box
-        * */
-        translateX += x;
-        translateY += y;
-      } else {
-        if (x) {
-          translateX += +x / Math.abs(+x) * offsetX;
-        }
-        if (y) {
-          translateY += +y / Math.abs(+y) * offsetY;
-        }
+
+      if (x) {
+        translateX += +x / Math.abs(+x) * offsetX;
+      }
+      if (y) {
+        translateY += +y / Math.abs(+y) * offsetY;
       }
     });
     return {
@@ -732,8 +621,6 @@ class List extends React.Component<Props> {
     const addPrefix = prefix(classPrefix);
     const unhandled = getUnhandledProps(List, rest);
     const classes = classNames(classPrefix, className, {
-      [addPrefix('axis-x')]: this.axis && this.axis.x && !this.axis.y,
-      [addPrefix('axis-xy')]: this.axis && this.axis.x && this.axis.y,
       [addPrefix('bordered')]: bordered,
       [addPrefix('sortable')]: sortable,
       [addPrefix('sorting')]: this.sorting,
