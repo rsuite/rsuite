@@ -50,7 +50,7 @@ class FormControl extends React.Component<Props, State> {
   static contextType = FormContext;
   static defaultProps = {
     accepter: Input,
-    errorPlacement: 'bottomLeft',
+    errorPlacement: 'bottomStart',
     plaintextDefaultValue: '--'
   };
 
