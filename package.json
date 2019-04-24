@@ -12,6 +12,7 @@
     "format:check": "prettier --list-different \"{src,test}/**/*.js\"",
     "build": "rm -rf lib && npx babel src --out-dir lib  && npm run dist",
     "dev": "gulp dev --gulpfile scripts/gulpfile.js",
+    "dev-map": "gulp dev-map --gulpfile scripts/gulpfile.js",
     "dist-style": "gulp --gulpfile scripts/gulpfile.js && npm run generate-styles",
     "dist-map": "NODE_ENV=development  webpack --mode development --progress",
     "dist-pro": "webpack --mode production --progress",
