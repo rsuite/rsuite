@@ -27,3 +27,27 @@
 [#423]: https://github.com/rsuite/rsuite/pull/423
 [#420]: https://github.com/rsuite/rsuite/pull/420
 [#418]: https://github.com/rsuite/rsuite/pull/418
+
+### 4.0.0-alpha.1
+
+* **Feature**: Add `<Calendar>`
+* **Feature**: Add `<Avatar>`
+* **Feature**: Add `<Badge>`
+* **Feature**: Support `size` on all `Picker`
+
+---
+
+* **Feature**: 支持 `<Calendar>` 组件
+* **Feature**: 支持 `<Avatar>` 组件
+* **Feature**: 支持 `<Badge>` 组件
+* **Feature**: `Picker` 组件支持 `size` 属性
+
+### 4.0.0-alpha.2
+
+* **Feature**: Support dark theme
+* **Improve**: Refactor CSS to optimize file size
+
+---
+
+* **Feature**: 支持 dark 主题
+* **Improve**: 重构 CSS, 优化文件体积
