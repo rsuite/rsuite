@@ -213,7 +213,7 @@ class Form extends React.Component<Props, State> {
     const contextDefalutValue: any = this.getFormContextValue();
 
     return (
-      <form {...unhandled} onSubmit={preventDefaultEvent} className={classes}>
+      <form onSubmit={preventDefaultEvent} {...unhandled} className={classes}>
         <FormContext.Provider value={contextDefalutValue}>
           <FormValueContext.Provider value={formValue}>
             {this.checkErrorFromContext(children)}
