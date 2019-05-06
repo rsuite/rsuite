@@ -7,7 +7,7 @@ export interface SelectProps<ValueType = any> {
   groupBy?: string;
 
   /** Sort options */
-  sort: (isGroup: boolean) => (a: any, b: any) => number;
+  sort?: (isGroup: boolean) => (a: any, b: any) => number;
 
   /** Whether dispaly search input box */
   searchable?: boolean;
