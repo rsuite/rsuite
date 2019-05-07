@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 export interface AlertConfigProps {
   top?: number;
   duration?: number;
@@ -6,16 +8,16 @@ export interface AlertConfigProps {
 
 export interface AlertAPI {
   /** A message may be formatted to display a positive message */
-  success(content: string, duration?: number, onClose?: () => void): void;
+  success(content: string | React.ReactElement, duration?: number, onClose?: () => void): void;
 
   /** A message may be formatted to display a negative message */
-  error(content: string, duration?: number, onClose?: () => void): void;
+  error(content: string | React.ReactElement, duration?: number, onClose?: () => void): void;
 
   /** A message may be formatted to display information */
-  info(content: string, duration?: number, onClose?: () => void): void;
+  info(content: string | React.ReactElement, duration?: number, onClose?: () => void): void;
 
   /** A message may be formatted to display warning messages */
-  warning(content: string, duration?: number, onClose?: () => void): void;
+  warning(content: string | React.ReactElement, duration?: number, onClose?: () => void): void;
 
   /** Used to configure where the message is displayed */
   config(options: AlertConfigProps): void;
