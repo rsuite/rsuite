@@ -9,7 +9,7 @@ export interface TagProps extends StandardProps {
   children?: React.ReactNode;
 
   /** You can use a custom element type for this component */
-  componentClass?: React.ReactType<TagProps>;
+  componentClass?: React.ElementType;
 
   /** Click the callback function for the Close button */
   onClose?: (event: React.MouseEvent<HTMLElement>) => void;

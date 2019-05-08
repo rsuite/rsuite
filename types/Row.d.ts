@@ -4,7 +4,7 @@ import { StandardProps } from './index';
 
 export interface RowProps extends StandardProps {
   gutter?: number;
-  componentClass?: React.ReactType<RowProps>;
+  componentClass?: React.ElementType;
 }
 
 declare const Row: React.ComponentType<RowProps>;

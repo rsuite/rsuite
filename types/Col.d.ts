@@ -4,7 +4,7 @@ import { StandardProps } from './index';
 
 export interface ColProps extends StandardProps {
   /** You can use a custom element for this component */
-  componentClass?: React.ReactType<ColProps>;
+  componentClass?: React.ElementType;
 
   /** The number of columns you wish to span for Extra small devices Phones (< 480px) */
   xs?: number;
