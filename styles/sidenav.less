@@ -50,7 +50,8 @@
     font-size: @sidenav-level1-item-font-size;
     line-height: @sidenav-level1-item-line-height;
     padding-left: @sidenav-padding-horizonal + @sidenav-icon-width + @sidenav-icon-spacing;
-    .ellipsis;
+    width: 100%;
+    white-space: normal;
 
     > .@{ns}icon {
       font-size: @sidenav-level1-item-font-size;
@@ -59,6 +60,10 @@
       left: @sidenav-padding-horizonal;
       top: @sidenav-padding-vertical;
       line-height: @sidenav-level1-item-line-height;
+
+      > svg {
+        height: @sidenav-level1-item-font-size;
+      }
     }
   }
 
@@ -80,7 +85,9 @@
 
   //Dropdown style rewrite
   .@{ns}dropdown {
-    padding-top: @sidenav-item-height;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column-reverse;
 
     // Set  the ripple effect of items.
     &-item:not(.@{ns}dropdown-item-submenu) > .@{ns}dropdown-item-content,
@@ -91,13 +98,6 @@
     // Remove the ripple effect of disabled items.
     &-item-disabled &-item-content::after {
       display: none;
-    }
-
-    .@{ns}dropdown-menu-active ~ .@{ns}dropdown-toggle,
-    > .@{ns}dropdown-toggle {
-      position: absolute;
-      top: 0;
-      border-radius: 0;
     }
 
     // Setting icon to dropdown-caret.
@@ -144,7 +144,8 @@
   //Ellipsis
   .@{ns}dropdown-item:not(.@{ns}dropdown-item-submenu) > .@{ns}dropdown-item-content,
   .@{ns}dropdown-menu .@{ns}dropdown-menu-toggle {
-    .ellipsis;
+    width: 100%;
+    white-space: normal;
   }
 
   // Expand && Collapse
