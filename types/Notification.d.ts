@@ -5,7 +5,7 @@ export interface NotificationConfigProps {
   title?: React.ReactNode;
 
   /** The description of the message box */
-  description?: React.ReactType;
+  description?: React.ReactNode;
 
   /** message box duration (Unit: milliseconds) */
   duration?: number;
