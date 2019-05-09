@@ -1,3 +1,27 @@
+# 3.8.4
+
+> May 9, 2019
+
+* **Bugfix**: Fixed TypeScript definition error. ([#459],[#460],[#462],[#463])
+* **Improve**: `<Nav.Item>` supports text wrap in `<Sidenav>` ([#458])
+* **Improve**: Allow `<Form>` to trigger native `submit` event ([#456])
+* **Improve**: `isRequired` method in `Schema.Types.StringType` supports `trim` parameter ([#schema-10])
+
+---
+
+* **Bugfix**: 修复一些 TypeScript 定义错误。 ([#459],[#460],[#462],[#463])
+* **Improve**: `<Nav.Item>` 在 `<Sidenav>` 中支持文本自动换行。 ([#458])
+* **Improve**: 允许 `<Form>` 触发原生的 `submit` 事件 ([#456])
+* **Improve**: `Schema.Types.StringType` 的 `isRequired` 方法支持 `trim` 参数 ([#schema-10])
+
+[#463]: https://github.com/rsuite/rsuite/pull/463
+[#462]: https://github.com/rsuite/rsuite/pull/462
+[#460]: https://github.com/rsuite/rsuite/pull/460
+[#459]: https://github.com/rsuite/rsuite/pull/459
+[#458]: https://github.com/rsuite/rsuite/pull/458
+[#456]: https://github.com/rsuite/rsuite/pull/446
+[#schema-10]: https://github.com/rsuite/schema-typed/pull/10
+
 # 3.8.3
 
 > April 18, 2019
