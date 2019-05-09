@@ -65,7 +65,7 @@
     "rsuite-notification": "^3.0.4",
     "rsuite-table": "^3.5.3",
     "rsuite-utils": "^2.0.0-alpha.3",
-    "schema-typed": "~0.2.1"
+    "schema-typed": "^1.0.0"
   },
   "peerDependencies": {
     "react": ">=16.6.0",

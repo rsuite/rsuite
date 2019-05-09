@@ -4,7 +4,7 @@ import { SVGIcon, StandardProps } from './index';
 
 export interface IconProps extends StandardProps {
   /** You can use a custom element for this component */
-  componentClass?: React.ReactType<IconProps>;
+  componentClass?: React.ElementType;
 
   /** Icon name */
   icon: string | SVGIcon;

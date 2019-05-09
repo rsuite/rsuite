@@ -8,7 +8,7 @@ export interface BreadcrumbProps extends StandardProps {
   separator?: React.ReactNode;
 
   /** You can use a custom element for this component */
-  componentClass?: React.ReactType<BreadcrumbProps>;
+  componentClass?: React.ElementType;
 
   /** Primary content */
   children?: React.ReactNode;
