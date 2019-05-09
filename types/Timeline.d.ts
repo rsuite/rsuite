@@ -7,7 +7,7 @@ export interface TimelineProps extends StandardProps {
   children?: React.ReactNode;
 
   /** You can use a custom element type for this component */
-  componentClass?: React.ReactType<TimelineProps>;
+  componentClass?: React.ElementType;
 }
 
 interface TimelineComponent extends React.ComponentClass<TimelineProps> {

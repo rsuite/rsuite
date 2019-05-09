@@ -10,7 +10,7 @@ export interface ButtonProps extends StandardProps {
   active?: boolean;
 
   /** You can use a custom element for this component */
-  componentClass?: React.ReactType<ButtonProps>;
+  componentClass?: React.ElementType;
 
   /** A button can have different sizes */
   size?: PropTypes.Size;

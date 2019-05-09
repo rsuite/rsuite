@@ -48,7 +48,7 @@ export interface PickerBaseProps extends StandardProps, AnimationEventProps {
   disabled?: boolean;
 
   /** You can use a custom element for this component */
-  toggleComponentClass?: React.ReactType<any>;
+  toggleComponentClass?: React.ElementType;
 
   /** A CSS class to apply to the Menu DOM node. */
   menuClassName?: string;
