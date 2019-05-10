@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { StandardProps } from '.';
+import StepItem from './StepItem';
 
 export interface StepsProps extends StandardProps {
   /** Vertical display */
@@ -18,6 +19,10 @@ export interface StepsProps extends StandardProps {
   currentStatus?: 'finish' | 'wait' | 'process' | 'error';
 }
 
-declare const Steps: React.ComponentType<StepsProps>;
+interface StepsComponent extends React.ComponentClass<StepsProps> {
+  Item: typeof StepItem;
+}
+
+declare const Steps: StepsComponent;
 
 export default Steps;
