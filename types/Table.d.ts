@@ -1,7 +1,7 @@
 import * as React from 'react';
 import TableColumn from './TableColumn';
 import TableCell from './TableCell';
-import TabelHeaderCell from './TabelHeaderCell';
+import TableHeaderCell from './TableHeaderCell';
 import TablePagination from './TablePagination';
 import { StandardProps } from '.';
 
@@ -109,7 +109,7 @@ export interface TableProps extends StandardProps {
 interface TableComponent extends React.ComponentClass<TableProps> {
   Column: typeof TableColumn;
   Cell: typeof TableCell;
-  HeaderCell: typeof TabelHeaderCell;
+  HeaderCell: typeof TableHeaderCell;
   Pagination: typeof TablePagination;
 }
 
