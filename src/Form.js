@@ -124,6 +124,18 @@ class Form extends React.Component<Props, State> {
   /**
    * public APIs
    */
+  cleanErrorForFiled(fieldName: string, callback: () => void) {
+    this.setState(
+      {
+        formError: _.omit(this.state.formError, [fieldName])
+      },
+      callback
+    );
+  }
+
+  /**
+   * public APIs
+   */
   resetErrors(formError: Object = {}, callback: () => void) {
     this.setState({ formError }, callback);
   }
