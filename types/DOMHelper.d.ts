@@ -1,25 +1,26 @@
-type DOMElement = HTMLElement | Window;
-type Offset = {
+type DOMElement = Element | Window;
+
+export interface DOMOffset {
   top: number;
   left: number;
   height: number;
   width: number;
-};
+}
 
 export interface DOMHelperAPI {
   /** classes */
-  hasClass(node: HTMLElement, className: string): boolean;
-  addClass(node: HTMLElement, className: string): HTMLElement;
-  removeClass(node: HTMLElement, className: string): HTMLElement;
-  toggleClass(node: HTMLElement, className: string): HTMLElement;
+  hasClass(node: Element, className: string): boolean;
+  addClass(node: Element, className: string): Element;
+  removeClass(node: Element, className: string): Element;
+  toggleClass(node: Element, className: string): Element;
 
   /** styles */
-  getStyle(node: HTMLElement): React.CSSProperties;
-  getStyle(node: HTMLElement, property?: string): string | number;
+  getStyle(node: Element): React.CSSProperties;
+  getStyle(node: Element, property?: string): string | number;
 
-  addStyle(node: HTMLElement, propertys: React.CSSProperties): void;
-  addStyle(node: HTMLElement, property: string, value: string | number): void;
-  removeStyle: (node: HTMLElement, keys: string | string[]) => void;
+  addStyle(node: Element, propertys: React.CSSProperties): void;
+  addStyle(node: Element, property: string, value: string | number): void;
+  removeStyle: (node: Element, keys: string | string[]) => void;
   translateDOMPositionXY: (style: React.CSSProperties, x: number, y: number) => React.CSSProperties;
 
   /** events */
@@ -40,17 +41,17 @@ export interface DOMHelperAPI {
   ): void;
 
   /** query  */
-  activeElement(): HTMLElement;
+  activeElement(): Element;
   getHeight(node: DOMElement, client?: DOMElement): number;
   getWidth(node: DOMElement, client?: DOMElement): number;
-  getOffset(node: DOMElement): Offset | DOMRect;
-  getOffsetParent(node: HTMLElement | Document): HTMLElement;
-  getPosition(node: HTMLElement, offsetParent?: HTMLElement): Offset;
-  getWindow(node: HTMLElement): Window;
-  nodeName(node: HTMLElement): string;
-  ownerDocument(node: HTMLElement): Document;
-  ownerWindow(node: HTMLElement): Window;
-  contains(context: HTMLElement, node: HTMLElement): boolean;
+  getOffset(node: DOMElement): DOMOffset | DOMRect;
+  getOffsetParent(node: Element | Document): Element;
+  getPosition(node: Element, offsetParent?: Element): DOMOffset;
+  getWindow(node: Element): Window;
+  nodeName(node: Element): string;
+  ownerDocument(node: Element): Document;
+  ownerWindow(node: Element): Window;
+  contains(context: Element, node: Element): boolean;
   scrollLeft(node: DOMElement): number;
   scrollLef(node: DOMElement, val: number): void;
   scrollTop(node: DOMElement): number;
