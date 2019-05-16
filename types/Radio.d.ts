@@ -30,7 +30,7 @@ export interface RadioProps extends StandardProps {
   children?: React.ReactNode;
 
   /** Callback function with value changed */
-  onChange?: (value: any, event: React.SyntheticEvent<HTMLInputElement>) => void;
+  onChange?: (value: any, checked: boolean, event: React.SyntheticEvent<HTMLInputElement>) => void;
 }
 
 declare const Radio: React.ComponentType<RadioProps>;
