@@ -1,8 +1,9 @@
 import * as React from 'react';
 
 import { StandardProps, FormControlBaseProps } from './index';
+import { CheckboxProps } from './Checkbox';
 
-export interface CheckboxGroupProps extends StandardProps, FormControlBaseProps<string> {
+export interface CheckboxGroupProps<V = any> extends StandardProps, FormControlBaseProps<Array<CheckboxProps<V>['value']>> {
   /** Used for the name of the form */
   name?: string;
 

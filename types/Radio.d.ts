@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StandardProps } from '.';
 
-export interface RadioProps extends StandardProps {
+export interface RadioProps<V = any> extends StandardProps {
   /** HTML title */
   title?: string;
 
@@ -18,7 +18,7 @@ export interface RadioProps extends StandardProps {
   inputRef?: React.Ref<any>;
 
   /** Value, corresponding to the value of the Radiogroup, to determine whether the */
-  value?: any;
+  value?: V;
 
   /** Name to use for form */
   name?: string;
