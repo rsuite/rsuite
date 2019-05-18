@@ -134,6 +134,7 @@ describe('Form', () => {
     const values = {
       name: 'abc.com'
     };
+
     const instance = ReactTestUtils.renderIntoDocument(
       <Form model={model} formDefaultValue={values}>
         <FormControl name="name" />
@@ -142,6 +143,29 @@ describe('Form', () => {
     instance.check();
     instance.cleanErrors(() => {
       assert.equal(Object.keys(instance.state.formError).length, 0);
+    });
+  });
+
+  it('Should be {n1} for formError when call cleanErrorForFiled', () => {
+    const values = {
+      n1: 1,
+      n2: 1
+    };
+    const model = Schema.Model({
+      n1: Schema.Types.NumberType().min(2, 'error'),
+      n2: Schema.Types.NumberType().min(2, 'error')
+    });
+
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Form model={model} formDefaultValue={values}>
+        <FormControl name="n1" />
+        <FormControl name="n2" />
+      </Form>
+    );
+    instance.check();
+    instance.cleanErrorForFiled('n2', () => {
+      assert.equal(instance.state.formError.n1, 'error');
+      assert.equal(instance.state.formError.n2, undefined);
     });
   });
 
