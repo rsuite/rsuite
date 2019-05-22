@@ -25,7 +25,7 @@ export interface DOMHelperAPI {
 
   /** events */
   on(
-    target: DOMElement,
+    target: DOMElement | Window,
     eventName: string,
     listener: (event: EventInit) => void,
     capture?: boolean
@@ -34,7 +34,7 @@ export interface DOMHelperAPI {
   };
 
   off(
-    target: DOMElement,
+    target: DOMElement | Window,
     eventName: string,
     listener: (event: EventInit) => void,
     capture?: boolean
