@@ -1,3 +1,40 @@
+# 3.8.5
+
+> May 23, 2019
+
+* **Feature**: Support `cleanErrorForFiled` method in `<Form>`. ([#470])
+* **Feature**: Support `open` on `<Whisper>`. ([#467])
+* **Bugfix**: MultiCascader: don't throw on a non-present selected value. ([#468])
+* **Bugfix**: [TS] Fix type definition for DOMHelper ([#469])
+* **Bugfix**: [TS] Add Steps.Item type definition to Steps ([#464])
+* **Bugfix**: [TS] Fix `value` type for `<Checkbox>` `<CheckboxGroup>` `<Radio>` `<RadioGroup>` ([#471])
+* **Bugfix**: [TS] Fix `onChange` type for `<Radio>` ([#472])
+* **Bugfix**: [TS] Added icon names to Icon.d.ts ([#476])
+* **Bugfix**: [TS] Update \*.d.ts file directory for import on demand. ([#475])
+
+---
+
+* **Feature**: `<Form>` 组件里支持 `cleanErrorForFiled` 方法。 ([#470])
+* **Feature**: `<Whisper>` 支持 `open` 属性，默认打开 speaker 设置的组件。 ([#467])
+* **Bugfix**: 修复 `<MultiCascader>` 的值在选项中不存在时候会抛出异常。 ([#468])
+* **Bugfix**: [TS] 修复 `DOMHelper` 类型定义 ([#469])
+* **Bugfix**: [TS] `Steps` 中添加 `teps.Item` 定义 ([#464])
+* **Bugfix**: [TS] 修复 `<Checkbox>` `<CheckboxGroup>` `<Radio>` `<RadioGroup>` 中的 `value` 类型定义 ([#471])
+* **Bugfix**: [TS] 修复 `<Radio>` 的 `onChange` 类型定义 ([#472])
+* **Bugfix**: [TS] 为 `Icon` 的定义图标名称列表 ([#476])
+* **Bugfix**: [TS] 为按需加载，更新 ts 类型定义文件目录 ([#475])
+
+[#476]: https://github.com/rsuite/rsuite/pull/476
+[#475]: https://github.com/rsuite/rsuite/pull/475
+[#472]: https://github.com/rsuite/rsuite/pull/472
+[#471]: https://github.com/rsuite/rsuite/pull/471
+[#470]: https://github.com/rsuite/rsuite/pull/470
+[#469]: https://github.com/rsuite/rsuite/pull/469
+[#468]: https://github.com/rsuite/rsuite/pull/468
+[#467]: https://github.com/rsuite/rsuite/pull/467
+[#467]: https://github.com/rsuite/rsuite/pull/467
+[#464]: https://github.com/rsuite/rsuite/pull/464
+
 # 3.8.4
 
 > May 9, 2019
