@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StandardProps, FormControlBaseProps } from '.';
 import { RadioProps } from './Radio';
 
-export interface RadioGroupProps<V = any> extends StandardProps, FormControlBaseProps<Array<RadioProps<V>['value']>> {
+export interface RadioGroupProps<V = any> extends StandardProps, FormControlBaseProps<RadioProps<V>['value']> {
   /** A radio group can have different appearances */
   appearance?: 'default' | 'picker';
 
