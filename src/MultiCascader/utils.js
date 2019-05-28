@@ -60,6 +60,9 @@ export default function(props: Object) {
       }
 
       let item: any = flattenData.find(v => v[valueKey] === value[i]);
+      if (!item) {
+        continue;
+      }
       let sv = splitValue(item, true, value, uncheckableItemValues);
       tempRemovedValue = _.uniq(tempRemovedValue.concat(sv.removedValue));
 

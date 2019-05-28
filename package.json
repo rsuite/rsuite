@@ -3,14 +3,15 @@
   "version": "4.0.0-alpha.0",
   "description": "A suite of react components",
   "main": "lib/index.js",
-  "typings": "types/index.d.ts",
+  "typings": "lib/index.d.ts",
   "directories": {
     "lib": "lib/"
   },
   "scripts": {
     "format": "prettier --write \"{src,test}/**/*.js\"",
     "format:check": "prettier --list-different \"{src,test}/**/*.js\"",
-    "build": "rm -rf lib && npx babel src --out-dir lib  && npm run dist",
+    "build-tsd": "gulp copy-tsd --gulpfile scripts/gulpfile.js",
+    "build": "rm -rf lib && npx babel src --out-dir lib && npm run build-tsd && npm run dist",
     "dev": "gulp dev --gulpfile scripts/gulpfile.js",
     "dev-map": "gulp dev-map --gulpfile scripts/gulpfile.js",
     "dist-style": "gulp --gulpfile scripts/gulpfile.js && npm run generate-styles",
@@ -46,7 +47,6 @@
     "dist",
     "lib",
     "src",
-    "types",
     "styles"
   ],
   "dependencies": {

@@ -102,3 +102,7 @@ gulp.task('dev-map', () => {
       .pipe(gulp.dest(libPath));
   });
 });
+
+gulp.task('copy-tsd', () => {
+  gulp.src('../types/**/*.d.ts').pipe(gulp.dest('../lib'));
+});

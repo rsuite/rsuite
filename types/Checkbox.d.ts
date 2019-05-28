@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { StandardProps } from './index';
 
-export interface CheckboxProps extends StandardProps {
+export interface CheckboxProps<V = any> extends StandardProps {
   /** HTML title */
   title?: string;
 
@@ -31,7 +31,7 @@ export interface CheckboxProps extends StandardProps {
   inputRef?: React.Ref<any>;
 
   /** The HTML input value. */
-  value?: any;
+  value?: V;
 
   /** A checkbox can receive focus. */
   tabIndex?: number;

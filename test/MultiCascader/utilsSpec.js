@@ -146,4 +146,9 @@ describe('MultiCascader - utils', () => {
     assert.equal(removedValue.toString(), '1-2,1-3');
     assert.equal(value.toString(), '1');
   });
+
+  it("transformValue - doesn't throw", () => {
+    const transformedValue = utils.transformValue(['1', '999'], [{ value: '1', label: '1' }]);
+    assert.equal(transformedValue.toString(), '1,999');
+  });
 });

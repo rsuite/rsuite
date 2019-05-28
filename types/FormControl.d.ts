@@ -2,9 +2,9 @@ import * as React from 'react';
 
 import { PropTypes, StandardProps } from './index';
 
-export interface FormControlProps extends StandardProps {
+export type FormControlProps<P = {}> = StandardProps & {
   /** Proxied components */
-  accepter: React.ReactNode;
+  accepter: React.ComponentType<P>;
 
   /** Callback fired when data changing */
   onChange?: (value: any, event: React.SyntheticEvent<HTMLElement>) => void;
@@ -33,8 +33,8 @@ export interface FormControlProps extends StandardProps {
   /** Value */
 
   value?: any;
-}
+} & P;
 
-declare const FormControl: React.ComponentType<FormControlProps>;
+declare function FormControl<P = {}>(props: FormControlProps<P>): React.ReactElement;
 
 export default FormControl;

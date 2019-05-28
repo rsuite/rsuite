@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { AnimationEventProps, PropTypes } from '.';
+import { AnimationEventProps, StandardProps, PropTypes } from '.';
 import { TooltipProps } from './Tooltip';
 import { PopoverProps } from './Popover';
 
-export interface WhisperProps extends AnimationEventProps {
+export interface WhisperProps extends AnimationEventProps, StandardProps {
   /** Triggering events */
   trigger?: 'click' | 'hover' | 'focus' | 'active';
 
@@ -32,6 +32,9 @@ export interface WhisperProps extends AnimationEventProps {
    * Prevent floating element overflow
    */
   preventOverflow?: boolean;
+
+  /** Show speaker */
+  open?: boolean;
 
   /** Lose Focus callback function */
   onBlur?: () => void;

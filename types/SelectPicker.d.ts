@@ -41,6 +41,8 @@ export interface SelectProps<ValueType = any> {
   onClean?: (event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
-declare const SelectPicker: React.ComponentType<FormControlPickerProps<any> & SelectProps<any>>;
+export interface SelectPickerProps extends FormControlPickerProps<any[]>, SelectProps<any[]> {}
+
+declare const SelectPicker: React.ComponentType<SelectPickerProps>;
 
 export default SelectPicker;
