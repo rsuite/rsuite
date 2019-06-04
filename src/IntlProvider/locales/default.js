@@ -11,7 +11,8 @@ const Calendar = {
   yesterday: 'Yesterday',
   hours: 'Hours',
   minutes: 'Minutes',
-  seconds: 'Seconds'
+  seconds: 'Seconds',
+  titleFormat: 'MMMM  YYYY'
 };
 
 export default {
@@ -30,6 +31,7 @@ export default {
     lengthMenuInfo: '{0} / page',
     totalInfo: 'total: {0}'
   },
+  Calendar,
   DatePicker: {
     ...Calendar
   },

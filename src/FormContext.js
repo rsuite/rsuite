@@ -1,19 +1,6 @@
 //@flow
 
-import * as React from 'react';
-
-function createContext(defaultValue) {
-  const context = {
-    Provider: React.Fragment,
-    Consumer: React.Fragment
-  };
-
-  const ReactContext: React.Context<any> = React.createContext
-    ? React.createContext(defaultValue)
-    : context;
-
-  return ReactContext;
-}
+import createContext from './utils/createContext';
 
 export const FormContext = createContext({});
 export const FormValueContext = createContext({});

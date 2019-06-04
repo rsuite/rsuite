@@ -11,7 +11,8 @@ const Calendar = {
   yesterday: '昨天',
   hours: '时',
   minutes: '分',
-  seconds: '秒'
+  seconds: '秒',
+  titleFormat: 'YYYY 年 MM 月'
 };
 
 export default {
@@ -30,6 +31,7 @@ export default {
     lengthMenuInfo: '每页 {0} 条',
     totalInfo: '共 {0} 条数据'
   },
+  Calendar,
   DatePicker: {
     ...Calendar
   },
