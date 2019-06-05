@@ -2,14 +2,13 @@
 
 import * as React from 'react';
 import { defaultProps, prefix } from './utils';
-import setDisplayName from 'recompose/setDisplayName';
 import classNames from 'classnames';
 
 type Props = {
   className?: string,
   classPrefix: string,
   children?: React.Node,
-  content: string | number | React.Node,
+  content?: string | number | React.Node,
   maxCount?: number
 };
 
@@ -35,20 +34,19 @@ class Badge extends React.Component<Props> {
       [addPrefix('dot')]: dot
     });
 
-    const contentInner =
+    const content =
       typeof contentText === 'number' && contentText > maxCount ? `${maxCount}+` : contentText;
     if (!children) {
       return (
         <div {...rest} className={classes}>
-          {contentInner}
+          {content}
         </div>
       );
     }
-    const content = <div className={addPrefix('content')}>{contentInner}</div>;
     return (
       <div {...rest} className={classes}>
         {children}
-        {content}
+        <div className={addPrefix('content')}>{content}</div>
       </div>
     );
   }
