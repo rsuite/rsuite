@@ -239,6 +239,11 @@
 //== other
 @ripple-transition: 550ms, 1s;
 
+//== Badge
+@badge-background: @error-color;
+@badge-dot-side-length: 8px;
+@badge-content-border-radius: 8px;
+@badge-content-color: @B000;
 //== Forms
 //
 //##
@@ -432,6 +437,7 @@
 
 @zindex-date-range-picker-calendar-dropdown: 1;
 @zindex-date-range-picker-table-cell-content: 1;
+@zindex-badge-content: 1;
 @zindex-input: 2;
 @zindex-input-group-icon: 4;
 @zindex-dropdown: 5;
@@ -1152,7 +1158,7 @@
 
 // == TagPicker
 @tag-picker-toggle-content-height: @input-height-extra-small;
-@tag-picker-content-padding-vertical: ( @input-picker-toggle-content-height - @tag-picker-toggle-content-height )/2; // (36 -24)/2
+@tag-picker-content-padding-vertical: (@input-picker-toggle-content-height - @tag-picker-toggle-content-height)/2; // (36 -24)/2
 @tag-picker-content-padding-horizontal: 6px;
 @tag-picker: ~'@{ns}@{multi-input-picker-prefix}';
 
