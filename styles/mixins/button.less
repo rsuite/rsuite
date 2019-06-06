@@ -539,7 +539,7 @@
 
 // Icon Button with text
 .btn-icon-with-text(@bg) {
-  &.@{ns}btn-icon.@{ns}btn-icon-with-text > .@{ns}icon {
+  &.@{ns}btn-icon.@{ns}btn-icon-with-text:not(.@{ns}btn-loading) > .@{ns}icon {
     background: @bg;
   }
 }
