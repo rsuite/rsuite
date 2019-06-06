@@ -1,3 +1,24 @@
+# 3.8.6
+
+> June 6, 2019
+
+* **Bugfix**: Fix the problem that `<TagPicker>` minimum width is inconsistent with design. ([#482])
+* **Bugfix**: Fix `<IconButton>` loading status style problem. ([#480])
+* **Bugfix**: Fixed TypeScript definition error. ([#478],[#479],[#483])
+* **Bugfix**: Fix `<Table>` setting `expandedRowKeys` value, there is a problem that child nodes cannot be expanded. ([#table-85])
+
+* **Bugfix**: 修复 `<TagPicker>` 最小宽度值与设计不一致的问题。 ([#482])
+* **Bugfix**: 修复 `<IconButton>` loading 状态样式问题. ([#480])
+* **Bugfix**: 修复一些 TypeScript 定义错误。 ([#478],[#479],[#483])
+* **Bugfix**: 修复 `<Table>` 设置 `expandedRowKeys` 值，存在子节点不能展开的问题。 ([#table-85])
+
+[#483]: https://github.com/rsuite/rsuite/pull/483
+[#482]: https://github.com/rsuite/rsuite/pull/482
+[#480]: https://github.com/rsuite/rsuite/pull/480
+[#479]: https://github.com/rsuite/rsuite/pull/479
+[#478]: https://github.com/rsuite/rsuite/pull/478
+[#table-85]: https://github.com/rsuite/rsuite-table/pull/85
+
 # 3.8.5
 
 > May 23, 2019
