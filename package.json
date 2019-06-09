@@ -151,7 +151,6 @@
     "stylelint": "9.2.0",
     "stylelint-config-standard": "^18.2.0",
     "webpack": "^4.5.0",
-    "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^3.1.1"
   },
   "browserslist": [
