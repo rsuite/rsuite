@@ -2,13 +2,13 @@ import * as React from 'react';
 import { StandardProps } from './index';
 
 export interface BadgeProps extends StandardProps {
-  /** The content of the wrapped **/
+  /** The content of the wrapped */
   children?: React.ReactChild;
 
-  /** Main content **/
+  /** Main content */
   content?: string | number | React.ReactNode;
 
-  /** Max count **/
+  /** Max count */
   maxCount?: number;
 }
 
