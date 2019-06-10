@@ -1,0 +1,37 @@
+.avatar-size(@side-length,@font-size) {
+  width: @side-length;
+  height: @side-length;
+  font-size: @font-size;
+
+  & > .@{ns}icon {
+    @icon-font-size: (@side-length - @font-size)/2 + @font-size;
+
+    font-size: @icon-font-size;
+
+    > svg {
+      height: @icon-font-size;
+    }
+  }
+
+  & > .@{ns}avatar-image {
+    width: @side-length;
+    height: @side-length;
+    line-height: @side-length;
+  }
+}
+
+.avatar-lg() {
+  .avatar-size(@avatar-lg-side-length, @avatar-lg-font-size);
+}
+
+.avatar-md() {
+  .avatar-size(@avatar-md-side-length, @avatar-md-font-size);
+}
+
+.avatar-sm() {
+  .avatar-size(@avatar-sm-side-length, @avatar-sm-font-size);
+}
+
+.avatar-xs() {
+  .avatar-size(@avatar-xs-side-length, @avatar-xs-font-size);
+}
