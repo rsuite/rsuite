@@ -35,6 +35,7 @@ class Badge extends React.Component<Props> {
     });
 
     const content =
+      // $FlowFixMe I'm sure contenxtText is number type and maxCount is number type.
       typeof contentText === 'number' && contentText > maxCount ? `${maxCount}+` : contentText;
     if (!children) {
       return (
