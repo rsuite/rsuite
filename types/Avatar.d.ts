@@ -2,19 +2,19 @@ import * as React from 'react';
 import { PropTypes, StandardProps } from './index';
 
 export interface AvatarProps extends StandardProps {
-  /** The content of the wrapped **/
+  /** The content of the wrapped */
   children?: React.ReactNode;
 
   /** A avatar can have different sizes */
   size?: PropTypes.Size;
 
-  /** Image src **/
+  /** Image src */
   src?: string;
 
-  /** Set avatar shape to circle  **/
+  /** Set avatar shape to circle  */
   circle?: boolean;
 
-  /** This attribute defines an alternative text description of the image **/
+  /** This attribute defines an alternative text description of the image */
   alt?: string;
 }
 
