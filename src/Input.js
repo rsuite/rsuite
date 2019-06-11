@@ -2,12 +2,13 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import compose from 'recompose/compose';
 import _ from 'lodash';
 
 import { withStyleProps, defaultProps, createChainedFunction, getUnhandledProps } from './utils';
 import { FormPlaintextContext } from './FormContext';
+import { FormGroupContext } from './FormGroup';
+import { InputGroupContext } from './InputGroup';
 
 type Props = {
   type: string,
@@ -27,13 +28,9 @@ type Props = {
 };
 
 class Input extends React.Component<Props> {
+  static contextType = InputGroupContext;
   static defaultProps = {
     type: 'text'
-  };
-
-  static contextTypes = {
-    formGroup: PropTypes.object,
-    inputGroup: PropTypes.object
   };
 
   handleChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
@@ -53,25 +50,22 @@ class Input extends React.Component<Props> {
   };
 
   render() {
-    const controlId = _.get(this.context, 'formGroup.controlId');
     const {
       type,
       className,
       classPrefix,
-      componentClass,
-      id = controlId,
+      componentClass: Component,
       onFocus,
       onBlur,
       disabled,
       value,
       defaultValue,
       inputRef,
+      id,
       ...rest
     } = this.props;
 
     const classes = classNames(classPrefix, className);
-    const { inputGroup } = this.context;
-    const Component = componentClass;
     const unhandled = getUnhandledProps(Input, rest);
     const plaintextInput = (
       <div {...unhandled} className={classes}>
@@ -79,28 +73,30 @@ class Input extends React.Component<Props> {
       </div>
     );
 
+    const input = (
+      <FormGroupContext.Consumer>
+        {controlId => (
+          <Component
+            {...unhandled}
+            ref={inputRef}
+            type={type}
+            id={id || controlId}
+            value={value}
+            defaultValue={defaultValue}
+            disabled={disabled}
+            onKeyDown={this.handleKeyDown}
+            onFocus={createChainedFunction(onFocus, _.get(this.context, 'onFocus'))}
+            onBlur={createChainedFunction(onBlur, _.get(this.context, 'onBlur'))}
+            className={classes}
+            onChange={this.handleChange}
+          />
+        )}
+      </FormGroupContext.Consumer>
+    );
+
     return (
       <FormPlaintextContext.Consumer>
-        {plaintext =>
-          plaintext ? (
-            plaintextInput
-          ) : (
-            <Component
-              {...unhandled}
-              ref={inputRef}
-              type={type}
-              id={id}
-              value={value}
-              defaultValue={defaultValue}
-              disabled={disabled}
-              onKeyDown={this.handleKeyDown}
-              onFocus={createChainedFunction(onFocus, _.get(inputGroup, 'onFocus'))}
-              onBlur={createChainedFunction(onBlur, _.get(inputGroup, 'onBlur'))}
-              className={classes}
-              onChange={this.handleChange}
-            />
-          )
-        }
+        {plaintext => (plaintext ? plaintextInput : input)}
       </FormPlaintextContext.Consumer>
     );
   }

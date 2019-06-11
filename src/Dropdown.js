@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import setStatic from 'recompose/setStatic';
@@ -14,8 +13,8 @@ import DropdownMenu from './DropdownMenu';
 import DropdownMenuItem from './DropdownMenuItem';
 import Icon from './Icon';
 import placementPolyfill from './utils/placementPolyfill';
-
 import { createChainedFunction, prefix, isOneOf, getUnhandledProps, defaultProps } from './utils';
+import { SidenavContext } from './Sidenav';
 
 type Trigger = 'click' | 'hover' | 'contextMenu';
 type PlacementEightPoints =
@@ -64,17 +63,11 @@ type State = {
 };
 
 class Dropdown extends React.Component<Props, State> {
+  static contextType = SidenavContext;
   static defaultProps = {
     placement: 'bottomStart',
     trigger: 'click',
     tabIndex: 0
-  };
-
-  static contextTypes = {
-    sidenav: PropTypes.bool,
-    expanded: PropTypes.bool,
-    openKeys: PropTypes.array,
-    onOpenChange: PropTypes.func
   };
 
   constructor(props: Props) {
@@ -115,12 +108,12 @@ class Dropdown extends React.Component<Props, State> {
 
   handleOpenChange = (event: SyntheticEvent<*>) => {
     const { eventKey } = this.props;
-    const { onOpenChange } = this.context;
+    const onOpenChange = _.get(this.context, 'onOpenChange');
     onOpenChange && onOpenChange(eventKey, event);
   };
 
   handleToggleChange = (eventKey: any, event: SyntheticEvent<*>) => {
-    const { onOpenChange } = this.context;
+    const onOpenChange = _.get(this.context, 'onOpenChange');
     onOpenChange && onOpenChange(eventKey, event);
   };
 
@@ -169,7 +162,7 @@ class Dropdown extends React.Component<Props, State> {
       ...props
     } = this.props;
 
-    const { openKeys = [], sidenav, expanded } = this.context;
+    const { openKeys = [], sidenav, expanded } = this.context || {};
     const menuExpanded = openKeys.some(key => shallowEqual(key, eventKey));
     const addPrefix = prefix(classPrefix);
     const open = this.getOpen();

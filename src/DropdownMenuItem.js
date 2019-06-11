@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { setDisplayName } from 'recompose';
@@ -9,6 +8,7 @@ import { setDisplayName } from 'recompose';
 import SafeAnchor from './SafeAnchor';
 import Icon from './Icon';
 import { prefix, isOneOf, createChainedFunction, defaultProps, getUnhandledProps } from './utils';
+import { SidenavContext } from './Sidenav';
 
 type Trigger = 'click' | 'hover';
 type Props = {
@@ -38,14 +38,10 @@ type State = {
 };
 
 class DropdownMenuItem extends React.Component<Props, State> {
+  static contextType = SidenavContext;
   static defaultProps = {
     tabIndex: -1,
     trigger: 'hover'
-  };
-
-  static contextTypes = {
-    sidenav: PropTypes.bool,
-    expanded: PropTypes.bool
   };
 
   constructor(props: Props) {
@@ -111,7 +107,7 @@ class DropdownMenuItem extends React.Component<Props, State> {
     const unhandled = getUnhandledProps(DropdownMenuItem, rest);
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, className, {
-      [addPrefix(expanded ? 'expand' : 'collapse')]: submenu && this.context.sidenav,
+      [addPrefix(expanded ? 'expand' : 'collapse')]: submenu && _.get(this.context, 'sidenav'),
       [addPrefix('submenu')]: submenu,
       [addPrefix('open')]: this.getOpen(),
       [addPrefix('active')]: active,
@@ -125,7 +121,7 @@ class DropdownMenuItem extends React.Component<Props, State> {
       onClick: this.handleClick
     };
 
-    if (isOneOf('hover', trigger) && submenu && !this.context.expanded) {
+    if (isOneOf('hover', trigger) && submenu && !_.get(this.context, 'expanded')) {
       itemProps.onMouseOver = this.handleMouseOver;
       itemProps.onMouseOut = this.handleMouseOut;
     }

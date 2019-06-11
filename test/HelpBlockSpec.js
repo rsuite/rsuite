@@ -1,5 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode, getInstance } from './TestWrapper';
 import HelpBlock from '../src/HelpBlock';
