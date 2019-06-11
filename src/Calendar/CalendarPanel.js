@@ -102,7 +102,11 @@ class CalendarPanel extends React.PureComponent<Props, State> {
 
   renderToolbar = () => {
     const { locale } = this.props;
-    return <Button onClick={this.handleClickToday}> {locale.today || 'Today'} </Button>;
+    return (
+      <Button className={this.addPrefix('btn-today')} onClick={this.handleClickToday}>
+        {locale.today || 'Today'}
+      </Button>
+    );
   };
 
   render() {

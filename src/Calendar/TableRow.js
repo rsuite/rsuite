@@ -56,8 +56,10 @@ class TableRow extends React.PureComponent<Props> {
           onClick={this.handleSelect.bind(this, thisDate, disabled)}
           key={format(thisDate, 'YYYYMMMDD')}
         >
-          <div className={this.addPrefix('cell-content')}>{getDate(thisDate)}</div>
-          {renderCell && renderCell(thisDate)}
+          <div className={this.addPrefix('cell-content')}>
+            <span className={this.addPrefix('cell-day')}>{getDate(thisDate)}</span>
+            {renderCell && renderCell(thisDate)}
+          </div>
         </div>
       );
     }
