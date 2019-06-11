@@ -19,6 +19,8 @@ export IconStack from './IconStack';
 export SafeAnchor from './SafeAnchor';
 export Divider from './Divider';
 export Placeholder from './Placeholder';
+export Badge from './Badge';
+export Avatar from './Avatar';
 
 // Nav
 export Dropdown from './Dropdown';
