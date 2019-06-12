@@ -12,7 +12,7 @@ const Calendar = {
   hours: 'Hours',
   minutes: 'Minutes',
   seconds: 'Seconds',
-  titleFormat: 'MMMM  YYYY'
+  titleFormat: 'MMM  YYYY'
 };
 
 export default {
