@@ -25,6 +25,11 @@
     border-bottom: 1px solid @calendar-panel-table-border-color;
   }
 
+  &-bordered &-month-dropdown {
+    border: 1px solid @calendar-month-dropdown-row-border-color;
+    border-radius: 6px;
+  }
+
   &-panel &-header {
     width: 100%;
     padding-bottom: 6px;
@@ -88,8 +93,8 @@
     border-color: @calendar-table-cell-content-selected-color;
   }
 
-  &-panel:not(&-compact) &-table-cell-day {
-    margin-top: 8px;
+  &-panel &-table-cell-day {
+    margin-top: 3px;
     display: block;
     text-align: center;
   }
