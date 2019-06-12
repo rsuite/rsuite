@@ -17,7 +17,7 @@
 
   &-bordered &-table {
     border: 1px solid @calendar-panel-table-border-color;
-    border-radius: 6px;
+    border-radius: @calendar-panel-border-radius;
   }
 
   &-bordered &-table-row:not(:last-child) &-table-cell,
@@ -27,7 +27,7 @@
 
   &-bordered &-month-dropdown {
     border: 1px solid @calendar-month-dropdown-row-border-color;
-    border-radius: 6px;
+    border-radius: @calendar-panel-border-radius;
   }
 
   &-panel &-header {
@@ -79,6 +79,16 @@
 
   &-panel &-table-cell-is-today &-table-cell-day {
     color: @calendar-panel-today-active-font-color;
+    width: @calendar-panel-today-active-side-length;
+    height: @calendar-panel-today-active-side-length;
+    background-color: @calendar-panel-today-active-background-color;
+    border-radius: 50%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &-panel &-table-cell-is-today &-table-cell-content {
+    border-color: transparent;
   }
 
   &-panel &-table-cell-selected &-table-cell-content {
@@ -89,10 +99,6 @@
     padding: @calendar-table-cell-content-padding - @calendar-table-cell-content-today-border-width;
   }
 
-  &-panel &-table-cell-is-today &-table-cell-content {
-    border-color: @calendar-table-cell-content-selected-color;
-  }
-
   &-panel &-table-cell-day {
     margin-top: 3px;
     display: block;
@@ -100,7 +106,10 @@
   }
 
   &-panel &-month-dropdown {
+    margin-left: 12px;
+    margin-right: 12px;
     top: 54px;
+    width: ~'calc(100% - 24px)';
   }
 
   &-panel:not(&-compact) &-month-dropdown-scroll {
@@ -128,6 +137,15 @@
 
   &-panel &-table-cell-content {
     width: 100%;
+    border-radius: 0;
+  }
+
+  &-panel &-table-row:last-child :first-child &-table-cell-content {
+    border-bottom-left-radius: @calendar-panel-border-radius;
+  }
+
+  &-panel &-table-row:last-child :last-child &-table-cell-content {
+    border-bottom-right-radius: @calendar-panel-border-radius;
   }
 
   &-panel&-compact &-table-row:not(&-table-header-row) &-table-cell-content {
