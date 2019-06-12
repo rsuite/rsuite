@@ -1,10 +1,9 @@
 // @flow
 
 import * as React from 'react';
-import _ from 'lodash';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import { defaultProps } from './utils';
+import { FormGroupContext } from './FormGroup';
 
 type Props = {
   className?: string,
@@ -14,19 +13,17 @@ type Props = {
 };
 
 class ControlLabel extends React.Component<Props> {
-  static contextTypes = {
-    formGroup: PropTypes.object
-  };
-
   render() {
-    const controlId = _.get(this.context, 'formGroup.controlId');
-    const { htmlFor = controlId, srOnly, className, classPrefix, ...rest } = this.props;
-
+    const { srOnly, htmlFor, className, classPrefix, ...rest } = this.props;
     const classes = classNames(classPrefix, className, {
       'sr-only': srOnly
     });
 
-    return <label {...rest} htmlFor={htmlFor} className={classes} />;
+    return (
+      <FormGroupContext.Consumer>
+        {controlId => <label {...rest} htmlFor={htmlFor || controlId} className={classes} />}
+      </FormGroupContext.Consumer>
+    );
   }
 }
 

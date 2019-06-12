@@ -2,9 +2,9 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
 import { createChainedFunction, defaultProps, prefix } from './utils';
+import { ModalContext } from './Modal';
 
 type Props = {
   classPrefix?: string,
@@ -15,10 +15,6 @@ type Props = {
 };
 
 class ModalHeader extends React.Component<Props> {
-  static contextTypes = {
-    onModalHide: PropTypes.func
-  };
-
   static defaultProps = {
     closeButton: true
   };
@@ -28,18 +24,24 @@ class ModalHeader extends React.Component<Props> {
     const classes = classNames(classPrefix, className);
     const addPrefix = prefix(classPrefix);
 
-    return (
-      <div {...props} className={classes}>
-        {closeButton && (
+    const buttonElement = (
+      <ModalContext.Consumer>
+        {context => (
           <button
             type="button"
             className={addPrefix('close')}
             aria-label="Close"
-            onClick={createChainedFunction(this.context.onModalHide, onHide)}
+            onClick={createChainedFunction(context ? context.onModalHide : null, onHide)}
           >
             <span aria-hidden="true">&times;</span>
           </button>
         )}
+      </ModalContext.Consumer>
+    );
+
+    return (
+      <div {...props} className={classes}>
+        {closeButton && buttonElement}
         {children}
       </div>
     );

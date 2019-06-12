@@ -1,15 +1,14 @@
 // @flow
 
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import setStatic from 'recompose/setStatic';
 import compose from 'recompose/compose';
-
 import InputGroupAddon from './InputGroupAddon';
 import InputGroupButton from './InputGroupButton';
+import { prefix, withStyleProps, defaultProps, createContext } from './utils';
 
-import { prefix, withStyleProps, defaultProps } from './utils';
+export const InputGroupContext = createContext(null);
 
 type Props = {
   className?: string,
@@ -24,24 +23,13 @@ type State = {
 };
 
 class InputGroup extends React.Component<Props, State> {
-  static childContextTypes = {
-    inputGroup: PropTypes.object.isRequired
-  };
-
   constructor(props: Props) {
     super(props);
     this.state = {
       focus: false
     };
   }
-  getChildContext() {
-    return {
-      inputGroup: {
-        onFocus: this.handleFocus,
-        onBlur: this.handleBlur
-      }
-    };
-  }
+
   handleFocus = () => {
     this.setState({ focus: true });
   };
@@ -71,9 +59,16 @@ class InputGroup extends React.Component<Props, State> {
     });
 
     return (
-      <div {...props} className={classes}>
-        {disabled ? this.disabledChildren() : children}
-      </div>
+      <InputGroupContext.Provider
+        value={{
+          onFocus: this.handleFocus,
+          onBlur: this.handleBlur
+        }}
+      >
+        <div {...props} className={classes}>
+          {disabled ? this.disabledChildren() : children}
+        </div>
+      </InputGroupContext.Provider>
     );
   }
 }

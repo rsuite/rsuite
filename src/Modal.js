@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react';
-import PropTypes from 'prop-types';
 /* eslint-disable react/no-find-dom-node */
 import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
@@ -9,20 +8,18 @@ import _ from 'lodash';
 import setDisplayName from 'recompose/setDisplayName';
 import setStatic from 'recompose/setStatic';
 import bindElementResize, { unbind as unbindElementResize } from 'element-resize-event';
-
 import BaseModal from 'rsuite-utils/lib/Overlay/Modal';
 import Bounce from 'rsuite-utils/lib/Animation/Bounce';
 import { on, getHeight, isOverflowing, getScrollbarSize, ownerDocument } from 'dom-lib';
-
-import { prefix, ReactChildren, defaultProps, createChainedFunction } from './utils';
-
+import { prefix, ReactChildren, defaultProps, createChainedFunction, createContext } from './utils';
 import type { Size } from './utils/TypeDefinition';
-
 import ModalDialog from './ModalDialog';
 import ModalBody from './ModalBody';
 import ModalHeader from './ModalHeader';
 import ModalTitle from './ModalTitle';
 import ModalFooter from './ModalFooter';
+
+export const ModalContext = createContext(null);
 
 const BACKDROP_TRANSITION_DURATION = 150;
 
@@ -83,10 +80,6 @@ class Modal extends React.Component<Props, State> {
     overflow: true
   };
 
-  static childContextTypes = {
-    onModalHide: PropTypes.func
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -95,11 +88,6 @@ class Modal extends React.Component<Props, State> {
     };
   }
 
-  getChildContext() {
-    return {
-      onModalHide: this.props.onHide
-    };
-  }
   componentWillUnmount() {
     this.destroyEvent();
   }
@@ -230,6 +218,7 @@ class Modal extends React.Component<Props, State> {
       dialogComponentClass,
       animationProps,
       animationTimeout,
+      onHide,
       ...rest
     } = this.props;
 
@@ -272,24 +261,30 @@ class Modal extends React.Component<Props, State> {
     );
 
     return (
-      <BaseModal
-        ref={this.modalRef}
-        show={show}
-        className={this.addPrefix('wrapper')}
-        onEntering={createChainedFunction(this.handleShow, this.props.onEntering)}
-        onExited={createChainedFunction(this.handleHide, this.props.onExited)}
-        backdropClassName={classNames(this.addPrefix('backdrop'), backdropClassName, inClass)}
-        containerClassName={classNames(this.addPrefix('open'), {
-          [this.addPrefix('has-backdrop')]: rest.backdrop
-        })}
-        transition={animation ? animation : undefined}
-        animationProps={animationProps}
-        dialogTransitionTimeout={animationTimeout}
-        backdropTransitionTimeout={BACKDROP_TRANSITION_DURATION}
-        {...parentProps}
+      <ModalContext.Provider
+        value={{
+          onModalHide: onHide
+        }}
       >
-        {modal}
-      </BaseModal>
+        <BaseModal
+          ref={this.modalRef}
+          show={show}
+          className={this.addPrefix('wrapper')}
+          onEntering={createChainedFunction(this.handleShow, this.props.onEntering)}
+          onExited={createChainedFunction(this.handleHide, this.props.onExited)}
+          backdropClassName={classNames(this.addPrefix('backdrop'), backdropClassName, inClass)}
+          containerClassName={classNames(this.addPrefix('open'), {
+            [this.addPrefix('has-backdrop')]: rest.backdrop
+          })}
+          transition={animation ? animation : undefined}
+          animationProps={animationProps}
+          dialogTransitionTimeout={animationTimeout}
+          backdropTransitionTimeout={BACKDROP_TRANSITION_DURATION}
+          {...parentProps}
+        >
+          {modal}
+        </BaseModal>
+      </ModalContext.Provider>
     );
   }
 }

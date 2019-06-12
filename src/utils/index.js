@@ -15,3 +15,4 @@ export previewFile from './previewFile';
 export getDataGroupBy from './getDataGroupBy';
 export clone from './clone';
 export findNodesOfTree from './findNodesOfTree';
+export createContext from './createContext';

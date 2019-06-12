@@ -1,6 +1,6 @@
 /**
  * 执行全部测试用例: npm run tdd
- * 执行单个组件的测试用例: M=BreadcrumbItem npm run tdd
+ * 执行单个组件的测试用例: M=BreadcrumbItemSpec.js npm run tdd
  */
 
 const webpackConfig = {

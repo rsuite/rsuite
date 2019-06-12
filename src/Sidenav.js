@@ -1,18 +1,17 @@
 // @flow
 
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import setStatic from 'recompose/setStatic';
 import Transition from 'rsuite-utils/lib/Animation/Transition';
 import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
 import _ from 'lodash';
-
 import SidenavBody from './SidenavBody';
 import SidenavHeader from './SidenavHeader';
 import SidenavToggle from './SidenavToggle';
+import { prefix, defaultProps, getUnhandledProps, createContext } from './utils';
 
-import { prefix, defaultProps, getUnhandledProps } from './utils';
+export const SidenavContext = createContext(null);
 
 type Props = {
   classPrefix?: string,
@@ -37,31 +36,10 @@ class Sidenav extends React.Component<Props, State> {
     expanded: true
   };
 
-  static childContextTypes = {
-    activeKey: PropTypes.any,
-    openKeys: PropTypes.array,
-    expanded: PropTypes.bool,
-    sidenav: PropTypes.bool,
-    onSelect: PropTypes.func,
-    onOpenChange: PropTypes.func
-  };
-
   constructor(props: Props) {
     super(props);
     this.state = {
       openKeys: props.defaultOpenKeys || []
-    };
-  }
-
-  getChildContext() {
-    const { expanded, activeKey } = this.props;
-    return {
-      expanded,
-      activeKey,
-      sidenav: true,
-      openKeys: this.getOpenKeys(),
-      onOpenChange: this.handleOpenChange,
-      onSelect: this.handleSelect
     };
   }
 
@@ -102,6 +80,7 @@ class Sidenav extends React.Component<Props, State> {
       classPrefix,
       appearance,
       expanded,
+      activeKey,
       componentClass: Component,
       ...props
     } = this.props;
@@ -111,16 +90,27 @@ class Sidenav extends React.Component<Props, State> {
     const unhandled = getUnhandledProps(Sidenav, props);
 
     return (
-      <Transition
-        in={expanded}
-        timeout={300}
-        exitedClassName={addPrefix('collapse-out')}
-        exitingClassName={addPrefix(['collapse-out', 'collapsing'])}
-        enteredClassName={addPrefix('collapse-in')}
-        enteringClassName={addPrefix(['collapse-in', 'collapsing'])}
+      <SidenavContext.Provider
+        value={{
+          expanded,
+          activeKey,
+          sidenav: true,
+          openKeys: this.getOpenKeys(),
+          onOpenChange: this.handleOpenChange,
+          onSelect: this.handleSelect
+        }}
       >
-        <Component {...unhandled} className={classes} role="navigation" />
-      </Transition>
+        <Transition
+          in={expanded}
+          timeout={300}
+          exitedClassName={addPrefix('collapse-out')}
+          exitingClassName={addPrefix(['collapse-out', 'collapsing'])}
+          enteredClassName={addPrefix('collapse-in')}
+          enteringClassName={addPrefix(['collapse-in', 'collapsing'])}
+        >
+          <Component {...unhandled} className={classes} role="navigation" />
+        </Transition>
+      </SidenavContext.Provider>
     );
   }
 }

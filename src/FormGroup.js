@@ -2,10 +2,11 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import _ from 'lodash';
 import compose from 'recompose/compose';
-import { withStyleProps, defaultProps, prefix, getUnhandledProps } from './utils';
+import { withStyleProps, defaultProps, prefix, createContext } from './utils';
+
+export const FormGroupContext = createContext(null);
 
 type Props = {
   controlId?: string,
@@ -16,24 +17,9 @@ type Props = {
 };
 
 class FormGroup extends React.Component<Props> {
-  static childContextTypes = {
-    formGroup: PropTypes.object.isRequired
-  };
-
-  getChildContext() {
-    const { controlId, validationState } = this.props;
-    return {
-      formGroup: {
-        controlId,
-        validationState
-      }
-    };
-  }
-
   render() {
-    const { validationState, className, isValid, classPrefix, ...rest } = this.props;
+    const { controlId, validationState, className, isValid, classPrefix, ...rest } = this.props;
     const addPrefix = prefix(classPrefix);
-    const unhandled = getUnhandledProps(FormGroup, rest);
 
     const classes = classNames(classPrefix, className, {
       [addPrefix('has-success')]: !validationState && isValid,
@@ -41,7 +27,11 @@ class FormGroup extends React.Component<Props> {
       [addPrefix(`has-${validationState || ''}`)]: !_.isUndefined(validationState)
     });
 
-    return <div {...unhandled} className={classes} role="group" />;
+    return (
+      <FormGroupContext.Provider value={controlId}>
+        <div {...rest} className={classes} role="group" />
+      </FormGroupContext.Provider>
+    );
   }
 }
 
