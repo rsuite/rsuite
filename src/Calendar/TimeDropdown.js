@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { getPosition, scrollTop } from 'dom-lib';
-import { FormattedMessage } from 'rsuite-intl';
+import FormattedMessage from '../IntlProvider/FormattedMessage';
 import _ from 'lodash';
 import classNames from 'classnames';
 

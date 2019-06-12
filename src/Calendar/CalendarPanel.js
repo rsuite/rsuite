@@ -1,12 +1,12 @@
 // @flow
 
 import * as React from 'react';
-import { IntlProvider } from 'rsuite-intl';
 import { format } from 'date-fns';
 import Calendar from './Calendar';
 import classNames from 'classnames';
 import Button from '../Button';
 import { defaultProps, prefix } from '../utils';
+import IntlProvider from '../IntlProvider';
 
 type Props = {
   value?: Date,
@@ -135,6 +135,7 @@ class CalendarPanel extends React.PureComponent<Props, State> {
           onMoveBackward={this.handlePrevMonth}
           onToggleMonthDropdown={this.handleToggleMonthDropdown}
           onChangePageDate={this.handleChangePageDate}
+          limitEndYear={1000}
           {...rest}
         />
       </IntlProvider>

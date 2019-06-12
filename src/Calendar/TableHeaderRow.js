@@ -4,7 +4,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 import { prefix, defaultProps } from '../utils';
-import { FormattedMessage } from 'rsuite-intl';
+import FormattedMessage from '../IntlProvider/FormattedMessage';
 
 type Props = {
   isoWeek?: boolean,
