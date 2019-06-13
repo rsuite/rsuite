@@ -2,8 +2,8 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { prefix, getUnhandledProps, defaultProps } from '../utils';
 import { format } from 'date-fns';
+import { prefix, getUnhandledProps, defaultProps } from '../utils';
 
 type Props = {
   date: Date,
@@ -20,7 +20,9 @@ type Props = {
   classPrefix?: string,
   className?: string,
   disabledBackward?: boolean,
-  disabledForword?: boolean
+  disabledForword?: boolean,
+  renderTitle?: (date: Date) => React.Node,
+  renderToolbar?: (date: Date) => React.Node
 };
 
 class Header extends React.PureComponent<Props> {
@@ -60,6 +62,15 @@ class Header extends React.PureComponent<Props> {
     return 'YYYY';
   }
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
+  renderTitle() {
+    const { date, renderTitle } = this.props;
+
+    if (renderTitle) {
+      return renderTitle(date);
+    }
+
+    return date && format(date, this.getDateFormat());
+  }
   render() {
     const {
       date,
@@ -76,6 +87,7 @@ class Header extends React.PureComponent<Props> {
       disabledTime,
       disabledBackward,
       disabledForword,
+      renderToolbar,
       ...rest
     } = this.props;
 
@@ -109,7 +121,7 @@ class Header extends React.PureComponent<Props> {
           className={dateTitleClasses}
           onClick={onToggleMonthDropdown}
         >
-          {date && format(date, this.getDateFormat())}
+          {this.renderTitle()}
         </span>
         <i
           className={forwardClass}
@@ -142,6 +154,8 @@ class Header extends React.PureComponent<Props> {
             </span>
           </div>
         )}
+
+        {renderToolbar && renderToolbar(date)}
       </div>
     );
   }

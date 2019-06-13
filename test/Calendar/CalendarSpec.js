@@ -1,8 +1,7 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import { parse } from 'date-fns';
-import { getDOMNode, getInstance } from '../TestWrapper';
+import { getDOMNode } from '../TestWrapper';
 import Calendar from '../../src/Calendar';
 
 describe('Calendar', () => {
@@ -47,9 +46,7 @@ describe('Calendar', () => {
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <Calendar classPrefix="custom-prefix" pageDate={new Date()} />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+    const instance = getDOMNode(<Calendar classPrefix="custom-prefix" pageDate={new Date()} />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

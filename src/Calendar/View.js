@@ -15,7 +15,8 @@ type Props = {
   disabledDate?: (date: Date) => boolean,
   isoWeek?: boolean,
   className?: string,
-  classPrefix?: string
+  classPrefix?: string,
+  renderCell?: (date: Date) => React.Node
 };
 
 class View extends React.PureComponent<Props> {
@@ -34,6 +35,7 @@ class View extends React.PureComponent<Props> {
       className,
       classPrefix,
       isoWeek,
+      renderCell,
       ...rest
     } = this.props;
 
@@ -49,6 +51,7 @@ class View extends React.PureComponent<Props> {
           onSelect={onSelect}
           inSameMonth={this.inSameThisMonthDate}
           disabledDate={disabledDate}
+          renderCell={renderCell}
         />
       </div>
     );

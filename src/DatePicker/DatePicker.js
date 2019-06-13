@@ -6,7 +6,7 @@ import _ from 'lodash';
 import { IntlProvider } from 'rsuite-intl';
 import { polyfill } from 'react-lifecycles-compat';
 
-import Calendar from '../Calendar';
+import Calendar from '../Calendar/Calendar';
 import Toolbar from './Toolbar';
 import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
 import disabledTime, { calendarOnlyProps } from '../utils/disabledTime';

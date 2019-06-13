@@ -3,7 +3,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
-import { isSameDay, addDays, getDate } from 'date-fns';
+import { isSameDay, addDays, getDate, format } from 'date-fns';
 
 type Props = {
   weekendDate?: Date,
@@ -12,7 +12,8 @@ type Props = {
   disabledDate?: (date: Date) => boolean,
   inSameMonth?: (date: Date) => boolean,
   className?: string,
-  classPrefix?: string
+  classPrefix?: string,
+  renderCell?: (date: Date) => React.Node
 };
 
 class TableRow extends React.PureComponent<Props> {
@@ -32,7 +33,7 @@ class TableRow extends React.PureComponent<Props> {
   };
 
   renderDays() {
-    const { weekendDate, disabledDate, inSameMonth, selected } = this.props;
+    const { weekendDate, disabledDate, inSameMonth, selected, renderCell } = this.props;
 
     let days = [];
     for (let i = 0; i < 7; i += 1) {
@@ -53,9 +54,12 @@ class TableRow extends React.PureComponent<Props> {
           tabIndex="-1"
           title={isToday ? 'Today' : ''}
           onClick={this.handleSelect.bind(this, thisDate, disabled)}
-          key={i}
+          key={format(thisDate, 'YYYYMMMDD')}
         >
-          <span className={this.addPrefix('cell-content')}>{getDate(thisDate)}</span>
+          <div className={this.addPrefix('cell-content')}>
+            <span className={this.addPrefix('cell-day')}>{getDate(thisDate)}</span>
+            {renderCell && renderCell(thisDate)}
+          </div>
         </div>
       );
     }

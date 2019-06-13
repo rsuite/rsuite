@@ -75,6 +75,7 @@ export Timeline from './Timeline';
 export Tag from './Tag';
 export TagGroup from './TagGroup';
 export List from './List';
+export Calendar from './Calendar';
 
 // Layout
 

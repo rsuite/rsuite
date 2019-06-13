@@ -35,7 +35,10 @@ type Props = {
   isoWeek?: boolean,
   limitEndYear?: number,
   className?: string,
-  classPrefix?: string
+  classPrefix?: string,
+  renderTitle?: (date: Date) => React.Node,
+  renderToolbar?: (date: Date) => React.Node,
+  renderCell?: (date: Date) => React.Node
 };
 
 class Calendar extends React.PureComponent<Props> {
@@ -74,6 +77,9 @@ class Calendar extends React.PureComponent<Props> {
       isoWeek,
       limitEndYear,
       classPrefix,
+      renderTitle,
+      renderToolbar,
+      renderCell,
       ...rest
     } = this.props;
 
@@ -108,6 +114,8 @@ class Calendar extends React.PureComponent<Props> {
           onMoveBackward={this.handleMoveBackward}
           onToggleMonthDropdown={onToggleMonthDropdown}
           onToggleTimeDropdown={onToggleTimeDropdown}
+          renderTitle={renderTitle}
+          renderToolbar={renderToolbar}
         />
         {showDate && (
           <View
@@ -116,6 +124,7 @@ class Calendar extends React.PureComponent<Props> {
             onSelect={onSelect}
             isoWeek={isoWeek}
             disabledDate={this.disabledDate}
+            renderCell={renderCell}
           />
         )}
         {showMonth && (
