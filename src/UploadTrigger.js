@@ -2,9 +2,8 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { FormattedMessage } from 'rsuite-intl';
 import Ripple from './Ripple';
-
+import FormattedMessage from './IntlProvider/FormattedMessage';
 import { getUnhandledProps, createChainedFunction, defaultProps, prefix } from './utils';
 
 type Props = {

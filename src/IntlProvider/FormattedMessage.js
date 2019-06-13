@@ -4,7 +4,7 @@ import * as React from 'react';
 import IntlContext from './IntlContext';
 
 type Props = {
-  id: string,
+  id: string | React.Node,
   componentClass?: React.ElementType
 };
 
@@ -14,7 +14,7 @@ const FormattedMessage = ({ id, componentClass }: Props) => {
     <Component>
       <IntlContext.Consumer>
         {context => {
-          if (context && typeof context[id] !== 'undefined') {
+          if (context && typeof id === 'string' && typeof context[id] !== 'undefined') {
             return context[id];
           }
           return id;
