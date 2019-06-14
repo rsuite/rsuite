@@ -17,6 +17,14 @@
     max-width: 100%;
   }
 
+  &-toggle-custom.@{ns}btn {
+    background-color: transparent !important;
+
+    .@{ns}ripple-pond {
+      display: none !important;
+    }
+  }
+
   &-block {
     display: block;
   }
@@ -92,22 +100,30 @@
   }
 }
 
-// Custom button sizes
+/* stylelint-disable-next-line */ // Custom button sizes
 .@{ns}picker-toggle-custom.@{ns}btn {
   &-lg {
     .picker-button-caret-lg;
+    .tag-picker-search-input-lg;
+    .date-picker-button-caret-lg;
   }
 
   &-md {
     .picker-button-caret-md;
+    .tag-picker-search-input-md;
+    .date-picker-button-caret-md;
   }
 
   &-sm {
     .picker-button-caret-sm;
+    .tag-picker-search-input-sm;
+    .date-picker-button-caret-sm;
   }
 
   &-xs {
     .picker-button-caret-xs;
+    .tag-picker-search-input-xs;
+    .date-picker-button-caret-xs;
   }
 }
 
