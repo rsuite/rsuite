@@ -64,6 +64,7 @@
     color: @picker-value-count-color;
     border-radius: @picker-value-count-border-radius;
     padding: 0 @picker-value-count-padding;
+    line-height: @line-height-computed;
   }
 
   &-value-separator {
@@ -236,8 +237,7 @@
       .default-input;
 
       min-width: @picker-content-min-width;
-      padding-right: @picker-search-bar-icon-width +
-        (@padding-base-input-horizontal - @input-border-width) * 2;
+      padding-right: @picker-search-bar-icon-width + (@padding-base-input-horizontal - @input-border-width) * 2;
     }
 
     &::after {
