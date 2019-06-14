@@ -27,7 +27,7 @@
 .picker-menu-group-title(@prefix) {
   .@{ns}@{prefix}-menu-group-title {
     padding: @picker-item-content-padding-vertical @picker-item-content-padding-horizontal;
-    padding-right: @padding-base-horizontal + @dropdown-caret-with + @dropdown-caret-padding;
+    padding-right: @padding-base-horizontal + @dropdown-caret-width + @dropdown-caret-padding;
     position: relative;
     cursor: default;
     transition: @picker-item-transition;
@@ -109,12 +109,16 @@
 }
 
 .picker-custom-button-caret-size(@padding-horizontal,@padding-vertical) {
-  padding-right: @padding-horizontal + @dropdown-caret-with + @dropdown-caret-padding;
+  padding-right: @padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding;
 
-  .@{ns}picker-toggle-clean,
   .@{ns}picker-toggle-caret {
     top: @padding-vertical;
     right: @padding-horizontal;
+  }
+
+  .@{ns}picker-toggle-clean {
+    top: @padding-vertical;
+    right: @padding-horizontal + 10px;
   }
 }
 
@@ -132,6 +136,133 @@
 
 .picker-button-caret-xs() {
   .picker-custom-button-caret-size(@padding-extra-small-horizontal, @padding-extra-small-vertical);
+}
+
+.date-picker-custom-button-caret-size(@padding-horizontal,@top) {
+  @calendar-caret-width: 14px;
+
+  .@{ns}picker-cleanable& {
+    padding-right: @padding-horizontal + @calendar-caret-width + @dropdown-caret-padding +
+      @dropdown-caret-width;
+  }
+
+  .@{ns}picker-toggle-caret {
+    top: @top;
+    right: @padding-horizontal;
+  }
+
+  .@{ns}picker-toggle-clean {
+    top: @top;
+    right: @padding-horizontal + @dropdown-caret-padding + @calendar-caret-width;
+  }
+}
+
+.date-picker-button-caret-lg() {
+  .@{ns}picker-date &,
+  .@{ns}picker-daterange & {
+    .date-picker-custom-button-caret-size(@padding-large-horizontal, 10px);
+  }
+}
+
+.date-picker-button-caret-md() {
+  .@{ns}picker-date &,
+  .@{ns}picker-daterange & {
+    .date-picker-custom-button-caret-size(@padding-base-horizontal, 8px);
+  }
+}
+
+.date-picker-button-caret-sm() {
+  .@{ns}picker-date &,
+  .@{ns}picker-daterange & {
+    .date-picker-custom-button-caret-size(@padding-small-horizontal, 4px);
+  }
+}
+
+.date-picker-button-caret-xs() {
+  .@{ns}picker-date &,
+  .@{ns}picker-daterange & {
+    .date-picker-custom-button-caret-size(@padding-extra-small-horizontal, 2px);
+  }
+}
+
+.tag-picker-search-input-size(@padding-vertical; @padding-horizontal; @font-size; @line-height;) {
+  .@{ns}picker-input:not(.@{ns}picker-tag) & ~ .@{ns}picker-tag-wrapper .@{ns}picker-search-input {
+    padding: @padding-vertical @padding-horizontal;
+    font-size: @font-size;
+    line-height: @line-height;
+  }
+
+  .@{ns}picker-input.@{ns}picker-tag & ~ .@{ns}picker-tag-wrapper {
+    padding-bottom: @padding-vertical - 3px;
+
+    .@{ns}tag {
+      margin-top: @padding-vertical - 3px;
+    }
+
+    .@{ns}picker-search-input {
+      padding-left: @padding-horizontal;
+      margin-top: @padding-vertical - 3px;
+    }
+
+    .@{ns}picker-search-input input {
+      height: @line-height * @font-size - 2px;
+    }
+  }
+
+  .@{ns}picker-input.@{ns}picker-tag & {
+    padding-top: @padding-vertical - 1px;
+    padding-bottom: @padding-vertical - 1px;
+  }
+}
+
+.tag-picker-search-input-lg() {
+  .tag-picker-search-input-size(
+    @padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large
+  );
+}
+
+.tag-picker-search-input-md() {
+  .tag-picker-search-input-size(
+    @padding-base-vertical; @padding-base-horizontal; @font-size-base; @line-height-base
+  );
+}
+
+.tag-picker-search-input-sm() {
+  .tag-picker-search-input-size(
+    @padding-small-vertical; @padding-small-horizontal; @font-size-base; @line-height-base
+  );
+}
+
+.tag-picker-search-input-xs() {
+  .tag-picker-search-input-size(
+    @padding-extra-small-vertical; @padding-extra-small-horizontal; @font-size-extra-small; @line-height-extra-small
+  );
+
+  .@{ns}picker-input.@{ns}picker-tag & ~ .@{ns}picker-tag-wrapper {
+    padding-bottom: @padding-extra-small-vertical - 1px;
+
+    .@{ns}tag {
+      margin-top: @padding-extra-small-vertical;
+    }
+  }
+}
+
+.input-picker-input-sizes() {
+  .@{ns}picker-toggle-custom.@{ns}btn-lg {
+    height: @line-height-computed + @padding-large-vertical*2;
+  }
+
+  .@{ns}picker-toggle-custom.@{ns}btn-md {
+    height: @line-height-computed + @padding-base-vertical*2;
+  }
+
+  .@{ns}picker-toggle-custom.@{ns}btn-sm {
+    height: @line-height-computed + @padding-small-vertical*2;
+  }
+
+  .@{ns}picker-toggle-custom.@{ns}btn-xs {
+    height: @line-height-computed + @padding-extra-small-vertical*2;
+  }
 }
 
 // Default picker toggle
