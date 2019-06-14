@@ -109,7 +109,9 @@
 }
 
 .picker-custom-button-caret-size(@padding-horizontal,@padding-vertical) {
-  padding-right: @padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding;
+  .@{ns}picker-cleanable & {
+    padding-right: @padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding + 10px;
+  }
 
   .@{ns}picker-toggle-caret {
     top: @padding-vertical;
@@ -118,7 +120,7 @@
 
   .@{ns}picker-toggle-clean {
     top: @padding-vertical;
-    right: @padding-horizontal + 10px;
+    right: @dropdown-caret-width + @padding-horizontal + 10px;
   }
 }
 
