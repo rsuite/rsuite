@@ -2,9 +2,9 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { IntlProvider } from 'rsuite-intl';
 import _ from 'lodash';
 
+import IntlProvider from '../IntlProvider';
 import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
 import Toolbar from './Toolbar';
 import DatePicker from './DatePicker';

@@ -1,10 +1,10 @@
 // @flow
 
 import * as React from 'react';
-import { FormattedMessage } from 'rsuite-intl';
 import classNames from 'classnames';
 import _ from 'lodash';
 
+import FormattedMessage from './IntlProvider/FormattedMessage';
 import { previewFile, defaultProps, getUnhandledProps, prefix } from './utils';
 
 type FileType = {

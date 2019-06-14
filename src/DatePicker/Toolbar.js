@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import classNames from 'classnames';
-import { FormattedMessage } from 'rsuite-intl';
+import FormattedMessage from '../IntlProvider/FormattedMessage';
 
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
 import { addDays } from 'date-fns';

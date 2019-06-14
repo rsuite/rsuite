@@ -3,7 +3,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { IntlProvider, FormattedMessage } from 'rsuite-intl';
 import {
   defaultProps,
   prefix,
@@ -11,8 +10,10 @@ import {
   createChainedFunction,
   getDataGroupBy
 } from '../utils';
-import type { Placement } from '../utils/TypeDefinition';
 
+import IntlProvider from '../IntlProvider';
+import FormattedMessage from '../IntlProvider/FormattedMessage';
+import type { Placement } from '../utils/TypeDefinition';
 import { reactToString, filterNodesOfTree, shallowEqual } from 'rsuite-utils/lib/utils';
 
 import {

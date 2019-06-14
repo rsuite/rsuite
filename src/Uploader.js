@@ -4,8 +4,8 @@ import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
 import compose from 'recompose/compose';
-import { IntlProvider } from 'rsuite-intl';
 
+import IntlProvider from './IntlProvider';
 import withLocale from './IntlProvider/withLocale';
 import FileItem from './UploadFileItem';
 import UploadTrigger from './UploadTrigger';

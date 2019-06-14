@@ -3,9 +3,9 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { IntlProvider } from 'rsuite-intl';
 import { polyfill } from 'react-lifecycles-compat';
 
+import IntlProvider from '../IntlProvider';
 import Calendar from '../Calendar/Calendar';
 import Toolbar from './Toolbar';
 import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';

@@ -4,14 +4,14 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { findDOMNode } from 'react-dom';
 import { toggleClass, hasClass } from 'dom-lib';
-import { IntlProvider, FormattedMessage } from 'rsuite-intl';
 import List from 'react-virtualized/dist/commonjs/List';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import { CellMeasurerCache, CellMeasurer } from 'react-virtualized/dist/commonjs/CellMeasurer';
 import { polyfill } from 'react-lifecycles-compat';
 import _ from 'lodash';
 import { shallowEqual } from 'rsuite-utils/lib/utils';
-
+import IntlProvider from '../IntlProvider';
+import FormattedMessage from '../IntlProvider/FormattedMessage';
 import TreeNode from './TreeNode';
 import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 import {

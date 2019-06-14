@@ -3,10 +3,11 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { IntlProvider, FormattedMessage } from 'rsuite-intl';
 import { findNodeOfTree, shallowEqual } from 'rsuite-utils/lib/utils';
 import { polyfill } from 'react-lifecycles-compat';
 
+import IntlProvider from '../IntlProvider';
+import FormattedMessage from '../IntlProvider/FormattedMessage';
 import DropdownMenu from './DropdownMenu';
 import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 import stringToObject from '../utils/stringToObject';
