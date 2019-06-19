@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AnimationEventProps, StandardProps, PropTypes } from '.';
+import { AnimationEventProps, StandardProps, TypeAttributes } from '.';
 import { TooltipProps } from './Tooltip';
 import { PopoverProps } from './Popover';
 
@@ -11,7 +11,7 @@ export interface WhisperProps extends AnimationEventProps, StandardProps {
   triggerRef?: React.Ref<any>;
 
   /** Display placement */
-  placement?: PropTypes.Placement | PropTypes.Placement4;
+  placement?: TypeAttributes.Placement | TypeAttributes.Placement4;
 
   /** Delay Time */
   delay?: number;

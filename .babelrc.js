@@ -4,26 +4,15 @@ module.exports = api => {
   }
 
   return {
-    presets: [
-      [
-        '@babel/preset-env',
-        {
-          loose: true
-        }
-      ],
-      '@babel/preset-react',
-      '@babel/preset-flow'
-    ],
+    presets: ['@babel/preset-env', '@babel/preset-react', '@babel/typescript'],
     plugins: [
-      'lodash',
-      'date-fns',
+      '@babel/plugin-proposal-class-properties',
+      '@babel/proposal-object-rest-spread',
+      'transform-dev',
       '@babel/plugin-transform-proto-to-assign',
       '@babel/plugin-transform-runtime',
-      'transform-react-flow-handled-props',
-      'transform-dev',
       '@babel/plugin-syntax-dynamic-import',
       '@babel/plugin-syntax-import-meta',
-      '@babel/plugin-proposal-class-properties',
       '@babel/plugin-proposal-json-strings',
       '@babel/plugin-proposal-function-sent',
       '@babel/plugin-proposal-export-namespace-from',
@@ -39,7 +28,8 @@ module.exports = api => {
         }
       ],
       '@babel/plugin-proposal-nullish-coalescing-operator',
-      '@babel/plugin-proposal-do-expressions'
+      '@babel/plugin-proposal-do-expressions',
+      '@babel/plugin-proposal-function-bind'
     ],
     env: {
       coverage: {

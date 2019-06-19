@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { PropTypes } from './index';
+import { TypeAttributes } from './index';
 import { ModalProps } from './Modal';
 import { ModalBodyProps } from './ModalBody';
 import { ModalHeaderProps } from './ModalHeader';
@@ -14,7 +14,7 @@ declare const DrawerBody: React.ComponentType<ModalBodyProps>;
 
 export interface DrawerProps extends ModalProps {
   /** The placement of Drawer */
-  placement?: PropTypes.Placement4;
+  placement?: TypeAttributes.Placement4;
 }
 
 interface DrawerComponent extends React.ComponentClass<DrawerProps> {

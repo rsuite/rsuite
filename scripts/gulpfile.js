@@ -5,8 +5,14 @@ const postcss = require('gulp-postcss');
 const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
 const babel = require('gulp-babel');
+const ts = require('gulp-typescript');
+
+const tsConfig = require('../tsconfig.json');
+
 const babelrc = require('../.babelrc.js');
 
+const ES_DIR = '../es';
+const LIB_DIR = '../lib';
 const SOURCE_PATH = '../styles';
 const DIST_PATH = '../dist/styles';
 const MODULARIZED_DIST_PATH = '../lib/styles';
@@ -53,7 +59,7 @@ gulp.task('generate-modularized-styles', () => {
   return gulp.src(`${SOURCE_PATH}/!(_)*.less`).pipe(gulp.dest(MODULARIZED_DIST_PATH));
 });
 
-gulp.task('default', ['clean'], () => {
+gulp.task('build-style', ['clean'], () => {
   gulp.start(['postcss', 'copy-fonts']);
 });
 
@@ -61,7 +67,7 @@ gulp.task('babel', () =>
   gulp
     .src('../src/**/*.js')
     .pipe(babel(babelrc()))
-    .pipe(gulp.dest('../lib'))
+    .pipe(gulp.dest(LIB_DIR))
 );
 
 gulp.task('babel-map', () =>
@@ -70,7 +76,7 @@ gulp.task('babel-map', () =>
     .pipe(sourcemaps.init())
     .pipe(babel(babelrc()))
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('../lib'))
+    .pipe(gulp.dest(LIB_DIR))
 );
 
 gulp.task('dev', () => {
@@ -104,5 +110,20 @@ gulp.task('dev-map', () => {
 });
 
 gulp.task('copy-tsd', () => {
-  gulp.src('../types/**/*.d.ts').pipe(gulp.dest('../lib'));
+  gulp.src('../src/**/*.d.ts').pipe(gulp.dest(LIB_DIR));
+});
+
+gulp.task('compile-ts', () => {
+  const source = ['../src/**/*.tsx', '../src/**/*.ts'];
+  const compilerOptions = tsConfig.compilerOptions;
+  const modules = process.env.MODULE === 'ES6';
+
+  if (modules) {
+    compilerOptions.module = 'ES6';
+  }
+
+  gulp
+    .src(source)
+    .pipe(ts(compilerOptions))
+    .pipe(gulp.dest(modules ? ES_DIR : LIB_DIR));
 });

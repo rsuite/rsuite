@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { StandardProps, PropTypes, ItemDataType } from './index';
+import { StandardProps, TypeAttributes, ItemDataType } from './index';
 
 export interface AutoCompleteProps extends StandardProps {
   /** Primary content */
@@ -19,7 +19,7 @@ export interface AutoCompleteProps extends StandardProps {
   menuClassName?: string;
 
   /** The placement of component */
-  placement?: PropTypes.Placement;
+  placement?: TypeAttributesbutes.Placement;
 
   /** When set to false, the Enter key selection function is invalid */
   selectOnEnter?: boolean;

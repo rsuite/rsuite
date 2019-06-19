@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { PropTypes, StandardProps } from './';
+import { TypeAttributes, StandardProps } from './';
 
 export interface TooltipProps extends StandardProps {
   /** Dispaly placement */
-  placement?: PropTypes.Placement;
+  placement?: TypeAttributes.Placement;
 
   /** Value of positionLeft */
   positionLeft?: number;

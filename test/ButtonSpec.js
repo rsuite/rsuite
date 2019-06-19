@@ -1,7 +1,7 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import Button from '../src/Button';
+import Button from '../src/Button/Button.tsx';
 import { getDOMNode, getInstance } from './TestWrapper';
 
 describe('Button', () => {

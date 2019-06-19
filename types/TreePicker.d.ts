@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { PropTypes, FormControlPickerProps } from './';
+import { TypeAttributes, FormControlPickerProps } from './';
 import { TreeBaseProps } from './TreeBase';
 
 export interface TreePickerProps extends TreeBaseProps, FormControlPickerProps<any> {

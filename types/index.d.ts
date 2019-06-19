@@ -1,3 +1,4 @@
+
 export interface StandardProps {
   /** The prefix of the component CSS class */
   classPrefix?: string;
@@ -60,7 +61,7 @@ export interface PickerBaseProps extends StandardProps, AnimationEventProps {
   placeholder?: string;
 
   /** The placement of picker */
-  placement?: PropTypes.Placement;
+  placement?: TypeAttributes.Placement;
 
   /** Prevent floating element overflow */
   preventOverflow?: boolean;
@@ -121,7 +122,7 @@ export interface FormControlPickerProps<ValueType = any> extends PickerBaseProps
   onChange?: (value: ValueType, event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
-export namespace PropTypes {
+export namespace TypeAttributes {
   type Size = 'lg' | 'md' | 'sm' | 'xs';
   type Status = 'success' | 'warning' | 'error' | 'info';
   type Color = 'red' | 'orange' | 'yellow' | 'green' | 'cyan' | 'blue' | 'violet';

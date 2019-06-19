@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { StandardProps, PropTypes, AnimationEventProps } from './index';
+import { StandardProps, TypeAttributes, AnimationEventProps } from './index';
 import ModalBody from './ModalBody';
 import ModalHeader from './ModalHeader';
 import ModalTitle from './ModalTitle';
@@ -8,7 +8,7 @@ import ModalFooter from './ModalFooter';
 
 export interface ModalProps extends StandardProps, AnimationEventProps {
   /** A modal can have different sizes */
-  size?: PropTypes.Size;
+  size?: TypeAttributes.Size;
 
   /** Primary content */
   children?: React.ReactNode;

@@ -32,7 +32,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.tsx?$/,
         use: ['babel-loader?babelrc'],
         exclude: /node_modules/
       }

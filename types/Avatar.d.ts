@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { PropTypes, StandardProps } from './index';
+import { TypeAttributes, StandardProps } from './index';
 
 export interface AvatarProps extends StandardProps {
   /** The content of the wrapped */
   children?: React.ReactNode;
 
   /** A avatar can have different sizes */
-  size?: PropTypes.Size;
+  size?: TypeAttributes.Size;
 
   /** Image src */
   src?: string;

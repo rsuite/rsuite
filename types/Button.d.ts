@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { PropTypes, StandardProps } from './index';
+import { TypeAttributes, StandardProps } from './index';
 
 export interface ButtonProps extends StandardProps {
   /** A button can have different appearances. */
-  appearance?: PropTypes.Appearance;
+  appearance?: TypeAttributes.Appearance;
 
   /** A button can show it is currently the active user selection */
   active?: boolean;
@@ -13,10 +13,10 @@ export interface ButtonProps extends StandardProps {
   componentClass?: React.ElementType;
 
   /** A button can have different sizes */
-  size?: PropTypes.Size;
+  size?: TypeAttributes.Size;
 
   /** A button can have different colors */
-  color?: PropTypes.Color;
+  color?: TypeAttributes.Color;
 
   /** Primary content */
   children?: React.ReactNode;

@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { StandardProps, PropTypes } from './index';
+import { StandardProps, TypeAttributes } from './index';
 
 export interface MessageProps extends StandardProps {
   /** The type of the message box. */
-  type?: PropTypes.Status;
+  type?: TypeAttributes.Status;
 
   /** Whether it is possible to close the message box */
   closable?: boolean;

@@ -4,6 +4,4 @@ lib
 tools
 node_modules
 coverage
-flow
-flow-typed
 /.git

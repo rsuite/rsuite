@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { PropTypes, StandardProps } from './index';
+import { TypeAttributes, StandardProps } from './index';
 
 export type FormControlProps<P = {}> = StandardProps & {
   /** Proxied components */
@@ -13,13 +13,13 @@ export type FormControlProps<P = {}> = StandardProps & {
   name: string;
 
   /** The data validation trigger type, and it wiill overrides the setting on <Form> */
-  checkTrigger?: PropTypes.CheckTrigger;
+  checkTrigger?: TypeAttributes.CheckTrigger;
 
   /** Show error messages */
   errorMessage?: React.ReactNode;
 
   /** The placement of error messages */
-  errorPlacement?: PropTypes.Placement8;
+  errorPlacement?: TypeAttributes.Placement8;
 
   /** Make the control readonly */
   readOnly?: boolean;

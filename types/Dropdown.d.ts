@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { PropTypes, StandardProps } from './index';
+import { TypeAttributes, StandardProps } from './index';
 import { IconProps } from './Icon';
 import DropdownMenu from './DropdownMenu';
 import DropdownMenuItem from './DropdownMenuItem';
@@ -24,7 +24,7 @@ export interface DropdownProps extends StandardProps {
   trigger?: Trigger | Trigger[];
 
   /** The placement of Menu */
-  placement?: PropTypes.Placement8;
+  placement?: TypeAttributes.Placement8;
 
   /** Whether or not component is disabled */
   disabled?: boolean;

@@ -1,6 +1,6 @@
 /**
  * 执行全部测试用例: npm run tdd
- * 执行单个组件的测试用例: M=BreadcrumbItemSpec.js npm run tdd
+ * 执行单个组件的测试用例: M=ButtonSpec.js npm run tdd
  */
 
 const webpackConfig = {
@@ -8,10 +8,13 @@ const webpackConfig = {
     pathinfo: true
   },
   mode: 'development',
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js']
+  },
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: [/\.tsx?$/, /\.jsx?$/],
         use: ['babel-loader?babelrc'],
         exclude: /node_modules/
       }

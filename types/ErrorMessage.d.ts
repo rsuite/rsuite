@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { PropTypes, StandardProps } from './index';
+import { TypeAttributes, StandardProps } from './index';
 
 export interface ErrorMessageProps extends StandardProps {
   /** Primary content */
@@ -13,7 +13,7 @@ export interface ErrorMessageProps extends StandardProps {
   show?: boolean;
 
   /** The placement of error messages */
-  placement?: PropTypes.Placement8;
+  placement?: TypeAttributes.Placement8;
 }
 
 declare const ErrorMessage: React.ComponentType<ErrorMessageProps>;
