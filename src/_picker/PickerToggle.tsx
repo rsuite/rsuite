@@ -111,7 +111,7 @@ class PickerToggle extends React.Component<PickerToggleProps, PickerToggleState>
   }
 }
 
-const enhance = defaultProps({
+const enhance = defaultProps<PickerToggleProps>({
   classPrefix: 'picker-toggle'
 });
 

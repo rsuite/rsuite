@@ -5,7 +5,7 @@ export default function scrollTopAnimation(
   target: Element,
   nextTop: number,
   animation: boolean = true,
-  callback: (top: number) => void
+  callback?: (top: number) => void
 ) {
   let top = scrollTop(target);
   const step = () => {

@@ -4,18 +4,18 @@ import classNames from 'classnames';
 import wrapDisplayName from 'recompose/wrapDisplayName';
 import { setPropTypes } from 'recompose';
 
-import { PropTypes as pt } from '../../types';
+import { TypeAttributes } from '../@types/common';
 
 import prefix from './prefix';
-import { SIZE, STATUS, COLOR } from './constants';
+import { SIZE, STATUS, COLOR } from '../constants';
 
 export interface RequiredProps {
   className?: string;
   classPrefix?: string;
   innerRef?: Function;
-  size?: pt.Size;
-  color?: pt.Color;
-  status?: pt.Status;
+  size?: TypeAttributes.Size;
+  color?: TypeAttributes.Color;
+  status?: TypeAttributes.Status;
 }
 
 interface Options {

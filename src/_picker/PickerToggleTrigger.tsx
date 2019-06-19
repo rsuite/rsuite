@@ -13,6 +13,9 @@ export interface PickerToggleTriggerProps {
   trigger?: TriggerType | Array<TriggerType>;
   children: React.ReactNode;
   speaker: React.ReactNode;
+  positionRef?: React.RefObject<any>;
+  onEnter?: Function;
+  onExit?: Function;
 }
 
 const PickerToggleTriggerProps = [

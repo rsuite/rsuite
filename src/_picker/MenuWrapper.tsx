@@ -32,10 +32,12 @@ const resizePlacement = [
 export interface MenuWrapperProps {
   classPrefix?: string;
   className?: string;
-  getPositionInstance?: () => any;
-  getToggleInstance?: () => any;
   placement?: string;
   autoWidth?: boolean;
+  style?: React.CSSProperties;
+  children?: React.ReactNode;
+  getPositionInstance?: () => any;
+  getToggleInstance?: () => any;
 }
 
 class MenuWrapper extends React.Component<MenuWrapperProps> {
@@ -90,7 +92,7 @@ class MenuWrapper extends React.Component<MenuWrapperProps> {
   }
 }
 
-const enhance = defaultProps({
+const enhance = defaultProps<MenuWrapperProps>({
   classPrefix: 'picker-menu'
 });
 

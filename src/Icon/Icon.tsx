@@ -68,7 +68,7 @@ class Icon extends React.Component<IconProps> {
   }
 }
 
-export default defaultProps({
+export default defaultProps<IconProps>({
   componentClass: 'i',
   classPrefix: 'icon'
 })(Icon);

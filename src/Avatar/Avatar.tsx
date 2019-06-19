@@ -31,11 +31,11 @@ class Avatar extends React.Component<AvatarProps> {
   }
 }
 
-export default compose(
-  withStyleProps({
+export default compose<any, AvatarProps>(
+  withStyleProps<AvatarProps>({
     hasSize: true
   }),
-  defaultProps({
+  defaultProps<AvatarProps>({
     classPrefix: 'avatar'
   })
 )(Avatar);

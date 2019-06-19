@@ -29,7 +29,7 @@ export function map(children: React.ReactChildren, func: Function, context: any)
   });
 }
 
-export function mapCloneElement(children: React.ReactChildren, func: Function, context: any) {
+export function mapCloneElement(children: React.ReactChildren, func: Function, context?: any) {
   return map(
     children,
     (child: React.DetailedReactHTMLElement<any, HTMLElement>, index: number) =>

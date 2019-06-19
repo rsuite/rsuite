@@ -7,7 +7,7 @@ function getToggleWrapperClassName(
   prefix: (name: string) => string,
   props: any,
   hasValue: boolean,
-  classes: any
+  classes?: any
 ) {
   const { className, placement, appearance, cleanable, block, disabled, countable } = props;
 

@@ -10,7 +10,7 @@ export interface SearchBarProps {
   placeholder?: string;
   className?: string;
   children?: React.ReactNode;
-  onChange?: (value: string, event: React.ChangeEvent) => void;
+  onChange?: (value: string, event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
 class SearchBar extends React.Component<SearchBarProps> {
@@ -23,7 +23,7 @@ class SearchBar extends React.Component<SearchBarProps> {
     onChange: PropTypes.func
   };
 
-  handleChange = (event: React.ChangeEvent) => {
+  handleChange = (event: React.SyntheticEvent<HTMLElement>) => {
     const { onChange } = this.props;
     onChange && onChange(_.get(event, 'target.value'), event);
   };
@@ -47,7 +47,7 @@ class SearchBar extends React.Component<SearchBarProps> {
   }
 }
 
-const enhance = defaultProps({
+const enhance = defaultProps<SearchBarProps>({
   classPrefix: 'picker-search-bar'
 });
 

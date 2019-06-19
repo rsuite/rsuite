@@ -24,17 +24,25 @@ const webpackConfig = {
 
 module.exports = config => {
   const { env } = process;
-  const M = env.M ? env.M : 'index.js';
+  const { M, F } = env;
+
+  let testFile = 'test/index.js';
+
+  if (M) {
+    testFile = `src/${M}/test/*.js`;
+  } else if (F) {
+    testFile = F;
+  }
 
   config.set({
     basePath: '',
-    files: [`test/${M}`],
+    files: [testFile],
     frameworks: ['mocha', 'sinon-chai'],
     colors: true,
     reporters: ['mocha', 'coverage'],
     logLevel: config.LOG_INFO,
     preprocessors: {
-      'test/**/*.js': ['webpack']
+      'src/**/*.js': ['webpack']
     },
     webpack: webpackConfig,
     webpackMiddleware: {

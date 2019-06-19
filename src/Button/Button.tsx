@@ -8,11 +8,7 @@ import Ripple from '../Ripple';
 import { withStyleProps, getUnhandledProps, defaultProps, prefix } from '../utils';
 import { ButtonProps } from './Button.d';
 
-interface MyP {
-  abc?: number;
-}
-
-class Button extends React.Component<ButtonProps & MyP> {
+class Button extends React.Component<ButtonProps> {
   static propTypes = {
     appearance: PropTypes.oneOf(['default', 'primary', 'link', 'subtle', 'ghost']),
     active: PropTypes.bool,
@@ -78,12 +74,12 @@ class Button extends React.Component<ButtonProps & MyP> {
   }
 }
 
-export default compose(
-  withStyleProps({
+export default compose<any, ButtonProps>(
+  withStyleProps<ButtonProps>({
     hasSize: true,
     hasColor: true
   }),
-  defaultProps({
+  defaultProps<ButtonProps>({
     classPrefix: 'btn',
     componentClass: 'button'
   })

@@ -6,16 +6,17 @@ type Props = {
   componentClass?: React.ElementType;
 };
 
-export default (props: Props): any => {
+function defaultProps<ProvidedProps>(props: Props) {
   const { classPrefix, ...rest } = props;
-  return (WrappedComponent: React.ComponentClass) => {
+
+  return (WrappedComponent: React.ComponentClass<any>): React.ComponentClass<ProvidedProps> => {
     class DefaultPropsComponent extends WrappedComponent {
       // for IE9 & IE10 support
       static contextTypes = WrappedComponent.contextTypes;
       static childContextTypes = WrappedComponent.childContextTypes;
       static getDerivedStateFromProps = WrappedComponent.getDerivedStateFromProps;
 
-      static defaultProps = {
+      static defaultProps: any = {
         ...WrappedComponent.defaultProps,
         classPrefix: classPrefix ? `${getClassNamePrefix()}${classPrefix}` : undefined,
         ...rest
@@ -28,4 +29,6 @@ export default (props: Props): any => {
 
     return DefaultPropsComponent;
   };
-};
+}
+
+export default defaultProps;
