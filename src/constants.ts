@@ -41,8 +41,8 @@ export const PLACEMENT = [].concat(PLACEMENT_4, PLACEMENT_8, PLACEMENT_AUTO);
 /**
  *  Check Tree Node State
  */
-export const CHECK_STATE = {
-  UNCHECK: 0,
-  CHECK: 1,
-  INDETERMINATE: 2
-};
+export enum CHECK_STATE {
+  UNCHECK = 0,
+  CHECK = 1,
+  INDETERMINATE = 2
+}

@@ -6,8 +6,8 @@ export interface SelectedElementProps {
   valueKey: string;
   labelKey: string;
   countable: boolean;
-  cascade: boolean;
-  locale: any;
+  cascade?: boolean;
+  locale?: any;
   childrenKey?: string;
   prefix: (name: string) => string;
 }

@@ -16,6 +16,8 @@ export interface PickerToggleTriggerProps {
   positionRef?: React.RefObject<any>;
   onEnter?: Function;
   onExit?: Function;
+  onEntered?: Function;
+  onExited?: Function;
 }
 
 const PickerToggleTriggerProps = [

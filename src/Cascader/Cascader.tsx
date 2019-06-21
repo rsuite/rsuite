@@ -416,7 +416,7 @@ class Dropdown extends React.Component<CascaderProps, State> {
 
     const menuProps = _.pick(
       this.props,
-      DropdownMenu.handledProps.filter(name => name !== 'classPrefix')
+      Object.keys(_.omit(DropdownMenu.propTypes, ['classPrefix']))
     );
 
     return (

@@ -38,6 +38,7 @@ export interface MenuWrapperProps {
   children?: React.ReactNode;
   getPositionInstance?: () => any;
   getToggleInstance?: () => any;
+  onKeyDown?: (event: React.KeyboardEvent) => void;
 }
 
 class MenuWrapper extends React.Component<MenuWrapperProps> {

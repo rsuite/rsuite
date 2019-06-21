@@ -26,15 +26,12 @@ interface Options {
 }
 
 function withStyleProps<ProvidedProps>(options: Options = {}) {
-  return (Component: React.ComponentType) => {
+  return (Component: React.ComponentType<any>) => {
     const { hasSize, hasStatus, hasColor, defaultColor } = options;
 
-    class WithStyleProps extends React.Component<RequiredProps & ProvidedProps> {
-      static displayName = wrapDisplayName(Component, 'withStyleProps');
-      static defaultProps = Component.defaultProps;
-
-      render() {
-        const { classPrefix, size, color, status, innerRef, className, ...props } = this.props;
+    const WithStyleComponent = React.forwardRef(
+      (props: RequiredProps & ProvidedProps, ref: React.Ref<any>) => {
+        const { classPrefix, size, color, status, innerRef, className, ...rest } = props;
         const addPrefix = prefix(classPrefix);
         const classes = classNames(className, {
           [addPrefix(size)]: hasSize && size,
@@ -44,10 +41,15 @@ function withStyleProps<ProvidedProps>(options: Options = {}) {
         });
 
         return (
-          <Component {...props} classPrefix={classPrefix} className={classes} ref={innerRef} />
+          <Component
+            {...rest}
+            classPrefix={classPrefix}
+            className={classes}
+            ref={ref || innerRef}
+          />
         );
       }
-    }
+    );
 
     const propTypes: any = {
       innerRef: PropTypes.func
@@ -65,9 +67,12 @@ function withStyleProps<ProvidedProps>(options: Options = {}) {
       propTypes.status = PropTypes.oneOf(STATUS);
     }
 
-    setPropTypes(propTypes)(WithStyleProps);
+    WithStyleComponent.displayName = wrapDisplayName(Component, 'withStyleProps');
+    WithStyleComponent.defaultProps = Component.defaultProps;
 
-    return WithStyleProps;
+    setPropTypes<any>(propTypes)(WithStyleComponent);
+
+    return WithStyleComponent;
   };
 }
 
