@@ -52,7 +52,7 @@ export interface AutoCompleteProps extends StandardProps {
   onHide?: () => void;
 
   /** Custom selected option */
-  renderItem?: (itemValue: string) => React.ReactNode;
+  renderItem?: (itemData: ItemDataType) => React.ReactNode;
 }
 
 declare const AutoComplete: React.ComponentType<AutoCompleteProps>;

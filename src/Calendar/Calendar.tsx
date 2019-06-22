@@ -36,7 +36,7 @@ export interface CalendarProps {
   hideSeconds?: (second: number, date: Date) => boolean;
   onMoveForword?: (nextPageDate: Date) => void;
   onMoveBackward?: (nextPageDate: Date) => void;
-  onSelect?: (date: Date) => void;
+  onSelect?: (date: Date, event: React.SyntheticEvent<any>) => void;
   onToggleMonthDropdown?: (event: React.MouseEvent) => void;
   onToggleTimeDropdown?: (event: React.MouseEvent) => void;
   onChangePageDate?: (nextPageDate: Date, event: React.MouseEvent) => void;

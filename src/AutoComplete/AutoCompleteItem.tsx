@@ -18,7 +18,7 @@ class AutoCompleteItem extends React.Component<AutoCompleteItemProps> {
     renderItem: PropTypes.func
   };
 
-  handleClick = (event: React.MouseEvent) => {
+  handleClick = (event: React.SyntheticEvent<HTMLElement>) => {
     const { itemData, onSelect } = this.props;
     onSelect && onSelect(itemData, event);
   };
@@ -58,6 +58,6 @@ class AutoCompleteItem extends React.Component<AutoCompleteItemProps> {
   }
 }
 
-export default defaultProps({
+export default defaultProps<AutoCompleteItemProps>({
   classPrefix: 'auto-complete-item'
 })(AutoCompleteItem);

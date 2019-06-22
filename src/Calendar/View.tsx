@@ -1,11 +1,10 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
-import { defaultProps } from '../utils';
-import Table from './Table';
-import getMonthView from '../utils/getMonthView';
 import { isSameMonth, setDate } from 'date-fns';
+
+import { defaultProps, getMonthView } from '../utils';
+import Table from './Table';
 import composeFunctions from '../utils/composeFunctions';
 
 export interface ViewProps {
@@ -13,7 +12,7 @@ export interface ViewProps {
   isoWeek?: boolean;
   className?: string;
   classPrefix?: string;
-  onSelect?: (date: Date) => void;
+  onSelect?: (date: Date, event: React.SyntheticEvent<any>) => void;
   disabledDate?: (date: Date) => boolean;
   renderCell?: (date: Date) => React.ReactNode;
 }

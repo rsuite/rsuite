@@ -49,6 +49,8 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
     placement: 'bottomStart',
     selectOnEnter: true
   };
+  menuContainerRef: React.RefObject<any>;
+  triggerRef: React.RefObject<any>;
 
   constructor(props: AutoCompleteProps) {
     super(props);
@@ -59,6 +61,8 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
       focus: false,
       focusItemValue: defaultValue
     };
+    this.menuContainerRef = React.createRef();
+    this.triggerRef = React.createRef();
   }
 
   getValue() {
@@ -92,9 +96,6 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
     }
     return data.filter(this.shouldDisplay);
   };
-
-  trigger: any = null;
-  menuContainer: any = null;
 
   findNode(focus: Function) {
     const items = this.getFocusableMenuItems();
@@ -195,7 +196,7 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
   };
 
   handleKeyDown = (event: React.KeyboardEvent) => {
-    if (!this.menuContainer) {
+    if (!this.menuContainerRef.current) {
       return;
     }
 
@@ -238,25 +239,17 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
-  menuContainerRef = (ref: React.Ref<any>) => {
-    this.menuContainer = ref;
-  };
-
-  triggerRef = (ref: React.Ref<any>) => {
-    this.trigger = ref;
-  };
-
   renderDropdownMenu() {
     const { renderItem, menuClassName } = this.props;
     const data = this.getData();
     const { focusItemValue } = this.state;
     const classes = classNames(this.addPrefix('menu'), menuClassName);
-    const items = data.filter(this.shouldDisplay);
+    const items: ItemDataType[] = data.filter(this.shouldDisplay);
 
     return (
       <MenuWrapper className={classes} onKeyDown={this.handleKeyDown} ref={this.menuContainerRef}>
         <ul role="menu">
-          {items.map(item => (
+          {items.map((item: ItemDataType) => (
             <AutoCompleteItem
               key={item.value}
               focus={focusItemValue === item.value}

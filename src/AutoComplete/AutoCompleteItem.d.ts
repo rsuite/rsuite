@@ -6,9 +6,9 @@ export interface AutoCompleteItemProps extends StandardProps {
   itemData: ItemDataType;
   focus?: boolean;
   children?: React.ReactNode;
-  onSelect?: (itemData: ItemDataType, event: React.MouseEvent) => void;
+  onSelect?: (itemData: ItemDataType, event: React.SyntheticEvent<HTMLElement>) => void;
   onKeyDown?: (event: React.KeyboardEvent) => void;
-  renderItem?: (itemValue: ItemDataType) => React.ReactNode;
+  renderItem?: (itemData: ItemDataType) => React.ReactNode;
 }
 
 declare const AutoCompleteItem: React.ComponentType<AutoCompleteItemProps>;

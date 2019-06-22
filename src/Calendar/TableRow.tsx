@@ -9,7 +9,7 @@ export interface TableRowProps {
   selected?: Date;
   className?: string;
   classPrefix?: string;
-  onSelect?: (date: Date) => void;
+  onSelect?: (date: Date, event: React.SyntheticEvent<any>) => void;
   disabledDate?: (date: Date) => boolean;
   inSameMonth?: (date: Date) => boolean;
   renderCell?: (date: Date) => React.ReactNode;
@@ -33,12 +33,12 @@ class TableRow extends React.PureComponent<TableRowProps> {
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
-  handleSelect = (date: Date, disabled: boolean | void) => {
+  handleSelect = (date: Date, disabled: boolean | void, event: React.SyntheticEvent<any>) => {
     const { onSelect } = this.props;
     if (disabled) {
       return;
     }
-    onSelect && onSelect(date);
+    onSelect && onSelect(date, event);
   };
 
   renderDays() {
