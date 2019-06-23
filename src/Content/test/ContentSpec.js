@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import Content from '../Content';
-import innerText from '../../../test/innerText';
+import { innerText } from '@test/testUtils';
 
 describe('Content', () => {
   it('Should render a Content', () => {

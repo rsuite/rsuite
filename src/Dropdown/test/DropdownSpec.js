@@ -4,7 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import Dropdown from '../Dropdown';
 import Button from '../../Button';
-import innerText from '../../../test/innerText';
+import { innerText } from '@test/testUtils';
 
 describe('Dropdown', () => {
   it('Should render a Dropdown', () => {

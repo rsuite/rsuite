@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { getDOMNode } from '../../../test/TestWrapper';
+import { getDOMNode } from '@test/testUtils';
 import DropdownMenuItem from '../DropdownMenuCheckItem';
 
 describe('picker - DropdownMenuCheckItem', () => {

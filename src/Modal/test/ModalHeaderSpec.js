@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import ModalHeader from '../ModalHeader';
-import innerText from '../../../test/innerText';
+import { innerText } from '@test/testUtils';
 
 describe('ModalHeader', () => {
   it('Should render a modal header', () => {

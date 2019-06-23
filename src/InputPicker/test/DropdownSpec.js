@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { findDOMNode } from 'react-dom';
-import { getDOMNode, getInstance } from '../TestWrapper';
+import { getDOMNode, getInstance } from '../testUtils';
 
 import Dropdown from '../../src/InputPicker/Dropdown';
 import Button from '../../src/Button';

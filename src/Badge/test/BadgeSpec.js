@@ -1,6 +1,6 @@
 import React from 'react';
 import Badge from '../Badge';
-import { getDOMNode } from '../../../test/TestWrapper';
+import { getDOMNode } from '@test/testUtils';
 
 describe('Badge', () => {
   it('Should render independent', () => {

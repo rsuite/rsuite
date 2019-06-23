@@ -2,7 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { getDOMNode, getInstance } from '../TestWrapper';
+import { getDOMNode, getInstance } from '../testUtils';
 import InputAutosize from '../../src/InputPicker/InputAutosize';
 import InputSearch from '../../src/InputPicker/InputSearch';
 

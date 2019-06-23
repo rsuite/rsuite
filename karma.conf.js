@@ -1,3 +1,5 @@
+const path = require('path');
+
 /**
  * 执行全部测试用例: npm run tdd
  * 执行单个组件的测试用例: M=ButtonSpec.js npm run tdd
@@ -9,7 +11,10 @@ const webpackConfig = {
   },
   mode: 'development',
   resolve: {
-    extensions: ['.ts', '.tsx', '.js']
+    extensions: ['.ts', '.tsx', '.js'],
+    alias: {
+      '@test': path.resolve(__dirname, './test')
+    }
   },
   module: {
     rules: [
@@ -42,6 +47,7 @@ module.exports = config => {
     reporters: ['mocha', 'coverage'],
     logLevel: config.LOG_INFO,
     preprocessors: {
+      'test/**/*.js': ['webpack'],
       'src/**/*.js': ['webpack']
     },
     webpack: webpackConfig,

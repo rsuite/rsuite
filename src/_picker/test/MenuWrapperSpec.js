@@ -3,7 +3,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { findDOMNode } from 'react-dom';
 
 import MenuWrapper from '../MenuWrapper';
-import { getDOMNode } from '../../../test/TestWrapper';
+import { getDOMNode } from '@test/testUtils';
 
 describe('MenuWrapper', () => {
   it('Should render a menu', () => {

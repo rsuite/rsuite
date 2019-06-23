@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { parse } from 'date-fns';
-import { getDOMNode } from '../../../test/TestWrapper';
+import { getDOMNode } from '@test/testUtils';
 import Calendar from '../Calendar';
 
 describe('Calendar', () => {

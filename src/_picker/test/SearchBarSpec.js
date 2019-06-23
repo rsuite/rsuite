@@ -3,7 +3,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { findDOMNode } from 'react-dom';
 
 import SearchBar from '../SearchBar';
-import { getDOMNode, getInstance } from '../../../test/TestWrapper';
+import { getDOMNode, getInstance } from '@test/testUtils';
 
 const searchInputClassName = '.rs-picker-search-bar-input';
 

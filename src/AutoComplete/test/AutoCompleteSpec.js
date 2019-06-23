@@ -2,7 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import AutoComplete from '../AutoComplete';
-import { getDOMNode, getInstance } from '../../../test/TestWrapper';
+import { getDOMNode, getInstance } from '@test/testUtils';
 
 describe('AutoComplete', () => {
   it('Should render input', () => {

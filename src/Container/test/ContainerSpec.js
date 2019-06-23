@@ -4,7 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import Container from '../Container';
 import Sidebar from '../../Sidebar';
-import { getDOMNode } from '../../../test/TestWrapper';
+import { getDOMNode } from '@test/testUtils';
 
 describe('Container', () => {
   it('Should render a Container', () => {

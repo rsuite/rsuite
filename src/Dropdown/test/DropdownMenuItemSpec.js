@@ -6,7 +6,7 @@ import DropdownMenuItem from '../DropdownMenuItem';
 import Sidenav from '../../Sidenav';
 import Icon from '../../Icon';
 
-import innerText from '../../../test/innerText';
+import { innerText } from '@test/testUtils';
 
 describe('DropdownMenuItem', () => {
   it('Should render a li', () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance } from '../../../test/TestWrapper';
+import { getDOMNode, getInstance } from '@test/testUtils';
 
 import Modal from '../Modal';
 

@@ -1,8 +1,9 @@
 import React from 'react';
-import Avatar from '../Avatar';
-import { getDOMNode } from '../../../test/TestWrapper';
 import ReactTestUtils from 'react-dom/test-utils';
 import { findDOMNode } from 'react-dom';
+
+import { getDOMNode } from '@test/testUtils';
+import Avatar from '../Avatar';
 
 describe('Avatar', () => {
   it('Should render avatar', () => {

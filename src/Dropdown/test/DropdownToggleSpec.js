@@ -4,7 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import DropdownToggle from '../DropdownToggle';
 import Icon from '../../Icon';
-import innerText from '../../../test/innerText';
+import { innerText } from '@test/testUtils';
 
 describe('DropdownToggle', () => {
   it('Should render a toggle', () => {

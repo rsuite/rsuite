@@ -3,7 +3,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { findDOMNode } from 'react-dom';
 import { namespace } from '../';
 
-import { getDOMNode, getInstance } from '../TestWrapper';
+import { getDOMNode, getInstance } from '../testUtils';
 import DropdownMenu from '../../src/MultiCascader/DropdownMenu';
 import Dropdown from '../../src/MultiCascader/Dropdown';
 

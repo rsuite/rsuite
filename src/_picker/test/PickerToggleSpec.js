@@ -4,7 +4,7 @@ import { findDOMNode } from 'react-dom';
 
 import Toggle from '../PickerToggle';
 import { namespace } from '../../../test';
-import { getDOMNode } from '../../../test/TestWrapper';
+import { getDOMNode } from '@test/testUtils';
 
 const cleanClassName = `.${namespace}-toggle-clean`;
 

@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import AutoCompleteItem from '../AutoCompleteItem';
-import { getDOMNode, getInstance } from '../../../test/TestWrapper';
+import { getDOMNode, getInstance } from '@test/testUtils';
 
 describe('AutoCompleteItem', () => {
   it('Should render `a` as inner element', () => {

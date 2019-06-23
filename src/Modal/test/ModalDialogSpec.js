@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import ModalDialog from '../ModalDialog';
-import innerText from '../../../test/innerText';
+import { innerText } from '@test/testUtils';
 
 describe('ModalDialog', () => {
   it('Should render a dialog', () => {
