@@ -98,8 +98,10 @@ function getDerivedStateForCascade(
   newChildren?: any[]
 ): Object {
   const { data, labelKey, valueKey, childrenKey, value } = nextProps;
+
   const activeItemValue =
     selectNodeValue || (typeof value === 'undefined' ? prevState.value : value);
+
   const nextItems = [];
   const nextPathItems = [];
   const findNode = items => {
@@ -145,7 +147,7 @@ function getDerivedStateForCascade(
    * 但是需要更新 items， 因为这里的目的就是把异步更新后的的数据展示出来
    */
   const cascadePathItems = nextPathItems.reverse();
-  if (selectNodeValue) {
+  if (newChildren) {
     return {
       items: [...nextItems.reverse(), newChildren],
       tempActivePaths: cascadePathItems
@@ -265,7 +267,7 @@ class Dropdown extends React.Component<Props, State> {
       this.closeDropdown();
       const nextState: any = {
         selectNode: node,
-        ...getDerivedStateForCascade(this.props, { value })
+        ...getDerivedStateForCascade(this.props, this.state, value)
       };
 
       if (typeof this.props.value === 'undefined') {
@@ -291,7 +293,7 @@ class Dropdown extends React.Component<Props, State> {
   handleSearchRowSelect = (item: Object, event: DefaultEvent) => {
     const { valueKey, onChange } = this.props;
     const value = item[valueKey];
-    const { activePaths, items } = getDerivedStateForCascade(this.props, { value });
+    const { activePaths, items } = getDerivedStateForCascade(this.props, this.state, value);
 
     this.closeDropdown();
     this.setState({
