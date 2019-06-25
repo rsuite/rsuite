@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { StandardProps, TypeAttributes } from './index';
+import { StandardProps, TypeAttributes } from '../@types/common';
 
 export interface InputNumberProps extends StandardProps {
   /** Button can have different appearances */
@@ -34,7 +34,7 @@ export interface InputNumberProps extends StandardProps {
   size?: TypeAttributes.Size;
 
   /** The callback function when value changes */
-  onChange?: (value: any, event?: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (value: any, event?: React.SyntheticEvent<any>) => void;
 }
 
 declare const InputNumber: React.ComponentType<InputNumberProps>;

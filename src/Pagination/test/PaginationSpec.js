@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import Pagination from '../src/Pagination';
-import { getDOMNode, getInstance, innerText } from './testUtils';
+import { getDOMNode, getInstance, innerText } from '@test/testUtils';
 
 describe('Pagination', () => {
   it('Should render a ul', () => {

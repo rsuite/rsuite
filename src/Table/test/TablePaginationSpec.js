@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import TablePagination from '../src/TablePagination';
-import { getDOMNode, getInstance, innerText } from './testUtils';
+import { getDOMNode, getInstance, innerText } from '@test/testUtils';
 
 describe('Table-Pagination', () => {
   it('Should output a TablePagination', () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance, innerText } from './testUtils';
+import { getDOMNode, getInstance, innerText } from '@test/testUtils';
 
 import NavItem from '../src/NavItem';
 

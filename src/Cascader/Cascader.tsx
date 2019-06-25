@@ -1,5 +1,3 @@
-// @flow
-
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -22,7 +20,7 @@ import {
   PickerToggleTrigger,
   getToggleWrapperClassName,
   createConcatChildrenFunction
-} from '../_picker';
+} from '../Picker';
 
 import { CascaderProps } from './Cascader.d';
 import { PLACEMENT } from '../constants';

@@ -31,7 +31,7 @@ import {
   MenuWrapper,
   PickerToggleTrigger,
   getToggleWrapperClassName
-} from '../_picker';
+} from '../Picker';
 
 import { DateRangePickerProps, ValueType } from './DateRangePicker.d';
 import { PLACEMENT } from '../constants';

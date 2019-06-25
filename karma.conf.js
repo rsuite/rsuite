@@ -47,7 +47,7 @@ module.exports = config => {
     reporters: ['mocha', 'coverage'],
     logLevel: config.LOG_INFO,
     preprocessors: {
-      'test/**/*.js': ['webpack'],
+      'test/*.js': ['webpack'],
       'src/**/*.js': ['webpack']
     },
     webpack: webpackConfig,

@@ -1,9 +1,6 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-import { findDOMNode } from 'react-dom';
-
-import { getDOMNode } from '@test/testUtils';
 import Avatar from '../Avatar';
+import { getDOMNode } from '@test/testUtils';
 
 describe('Avatar', () => {
   it('Should render avatar', () => {
@@ -44,12 +41,12 @@ describe('Avatar', () => {
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = ReactTestUtils.renderIntoDocument(<Avatar style={{ fontSize }} />);
-    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
+    const instance = getDOMNode(<Avatar style={{ fontSize }} />);
+    assert.equal(instance.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Avatar classPrefix="custom-prefix" />);
-    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+    const instance = getDOMNode(<Avatar classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

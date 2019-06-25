@@ -1,4 +1,4 @@
-// @flow
+
 import Icon from './Icon';
 import deprecationWarning from './utils/deprecationWarning';
 

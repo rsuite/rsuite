@@ -1,4 +1,4 @@
-// @flow
+
 
 import * as React from 'react';
 import classNames from 'classnames';
@@ -30,7 +30,7 @@ import {
   SearchBar,
   PickerToggleTrigger,
   createConcatChildrenFunction
-} from '../_picker';
+} from '../Picker';
 
 const defaultHeight = 360;
 const defaultWidth = 200;

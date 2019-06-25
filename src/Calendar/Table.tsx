@@ -12,7 +12,7 @@ export interface TableProps {
   selected?: Date;
   className?: string;
   classPrefix?: string;
-  onSelect?: (date: Date, event: React.SyntheticEvent<any>) => void;
+  onSelect?: (date: Date, event: React.MouseEvent<HTMLDivElement>) => void;
   disabledDate?: (date: Date) => boolean;
   inSameMonth?: (date: Date) => boolean;
   renderCell?: (date: Date) => React.ReactNode;

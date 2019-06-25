@@ -4,7 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import Checkbox from '../src/Checkbox';
 import Panel from '../src/Panel';
-import { getDOMNode, getInstance, innerText } from './testUtils';
+import { getDOMNode, getInstance, innerText } from '@test/testUtils';
 
 describe('Panel', () => {
   it('Should render a panel', () => {

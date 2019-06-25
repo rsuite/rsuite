@@ -23,7 +23,7 @@ import {
   SelectedElement,
   PickerToggleTrigger,
   createConcatChildrenFunction
-} from '../_picker';
+} from '../Picker';
 
 import {
   isEveryChildChecked,
@@ -715,7 +715,7 @@ class CheckTree extends React.Component<CheckTreePickerProps, CheckTreePickerSta
     return this.toggleRef.current;
   };
 
-  selectActiveItem = (event: React.SyntheticEvent<any>) => {
+  selectActiveItem = (event: React.KeyboardEvent<any>) => {
     const { nodeData } = this.getActiveItem();
     this.handleSelect(nodeData, event);
   };

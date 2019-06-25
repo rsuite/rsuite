@@ -19,7 +19,7 @@ export interface ButtonProps extends StandardProps {
   color?: TypeAttributes.Color;
 
   /** Primary content */
-  children?: React.ReactChildren;
+  children?: React.ReactNode;
 
   /** Format button to appear inside a content bloc */
   block?: boolean;

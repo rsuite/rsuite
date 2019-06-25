@@ -1,4 +1,4 @@
-// @flow
+
 
 import * as React from 'react';
 import _ from 'lodash';
@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { shallowEqual } from 'rsuite-utils/lib/utils';
 
 import { getUnhandledProps, prefix } from '../utils';
-import DropdownMenuItem from '../_picker/DropdownMenuCheckItem';
+import { DropdownMenuItem } from '../Picker';
 import createUtils from './utils';
 
 type DefaultEvent = SyntheticEvent<*>;

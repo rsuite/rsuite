@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StandardProps } from './index';
+import { StandardProps } from '../@types/common';
 
 export interface ListItemProps extends StandardProps {
   /** Primary content */

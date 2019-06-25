@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { StandardProps, FormControlBaseProps } from './index';
+import { StandardProps, FormControlBaseProps } from '../@types/common';
 
-export interface InputProps extends StandardProps, FormControlBaseProps<string> {
+export interface InputProps extends StandardProps, FormControlBaseProps<string | number> {
   /** You can use a custom element for this component */
   componentClass?: React.ElementType;
 

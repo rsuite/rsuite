@@ -26,7 +26,7 @@ import {
   onMenuKeyDown,
   MenuWrapper,
   SearchBar
-} from '../_picker';
+} from '../Picker';
 
 import { SelectPickerProps } from './SelectPicker.d';
 import { PLACEMENT } from '../constants';

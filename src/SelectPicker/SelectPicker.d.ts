@@ -29,16 +29,16 @@ export interface SelectProps<ValueType = any> {
   ) => React.ReactNode;
 
   /** Called when the option is selected */
-  onSelect?: (value: any, item: ItemDataType, event: React.SyntheticEvent<HTMLElement>) => void;
+  onSelect?: (value: any, item: ItemDataType, event: React.SyntheticEvent<any>) => void;
 
   /** Called after clicking the group title */
-  onGroupTitleClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
+  onGroupTitleClick?: (event: React.SyntheticEvent<any>) => void;
 
   /** Called when searching */
-  onSearch?: (searchKeyword: string, event: React.SyntheticEvent<HTMLElement>) => void;
+  onSearch?: (searchKeyword: string, event: React.SyntheticEvent<any>) => void;
 
   /** Called when clean */
-  onClean?: (event: React.SyntheticEvent<HTMLElement>) => void;
+  onClean?: (event: React.SyntheticEvent<any>) => void;
 }
 
 export interface SelectPickerProps extends FormControlPickerProps<any[]>, SelectProps<any[]> {}

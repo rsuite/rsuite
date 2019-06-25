@@ -1,12 +1,10 @@
 import * as React from 'react';
 
-import { IconProps } from './Icon';
-import { StandardProps } from './index';
+import { IconProps } from '../Icon/Icon.d';
+import { ButtonProps } from '../Button/Button.d';
+import { StandardProps } from '../@types/common';
 
-export interface IconButtonProps extends StandardProps {
-  /** Primary content */
-  children?: React.ReactNode;
-
+export interface IconButtonProps extends StandardProps, ButtonProps {
   /** Set the icon */
   icon?: React.ReactElement<IconProps>;
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { StandardProps, TypeAttributes } from './index';
+import { StandardProps, TypeAttributes } from '../@types/common';
 
 export interface MessageProps extends StandardProps {
   /** The type of the message box. */

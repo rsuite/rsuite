@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import Radio from '../src/Radio';
-import { getDOMNode } from './testUtils';
+import { getDOMNode } from '@test/testUtils';
 
 describe('Radio', () => {
   it('Should render a radio', () => {

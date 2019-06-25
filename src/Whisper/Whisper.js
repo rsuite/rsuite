@@ -1,4 +1,4 @@
-// @flow
+
 import * as React from 'react';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import createChainedFunction from './utils/createChainedFunction';

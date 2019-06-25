@@ -1,5 +1,3 @@
-// @flow
-
 import * as React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -36,7 +34,7 @@ export interface CalendarProps {
   hideSeconds?: (second: number, date: Date) => boolean;
   onMoveForword?: (nextPageDate: Date) => void;
   onMoveBackward?: (nextPageDate: Date) => void;
-  onSelect?: (date: Date, event: React.SyntheticEvent<any>) => void;
+  onSelect?: (date: Date, event: React.MouseEvent<HTMLDivElement>) => void;
   onToggleMonthDropdown?: (event: React.MouseEvent) => void;
   onToggleTimeDropdown?: (event: React.MouseEvent) => void;
   onChangePageDate?: (nextPageDate: Date, event: React.MouseEvent) => void;

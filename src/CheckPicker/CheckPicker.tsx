@@ -24,7 +24,7 @@ import {
   SearchBar,
   SelectedElement,
   PickerToggleTrigger
-} from '../_picker';
+} from '../Picker';
 
 import { CheckPickerProps } from './CheckPicker.d';
 import { PLACEMENT } from '../constants';
@@ -255,7 +255,7 @@ class SelectPicker extends React.Component<CheckPickerProps, CheckPickerState> {
     });
   };
 
-  handleKeyDown = (event: React.KeyboardEvent) => {
+  handleKeyDown = (event: React.KeyboardEvent<any>) => {
     const { focusItemValue, active } = this.state;
 
     // enter
@@ -282,7 +282,7 @@ class SelectPicker extends React.Component<CheckPickerProps, CheckPickerState> {
   handleItemSelect = (
     nextItemValue: any,
     item: ItemDataType,
-    event: React.SyntheticEvent<any>,
+    event: React.MouseEvent<any>,
     checked: boolean
   ) => {
     const value = this.getValue();

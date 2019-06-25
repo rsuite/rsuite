@@ -3,8 +3,8 @@ import '@babel/polyfill';
 export const globalKey = 'rs';
 export const namespace = `${globalKey}-picker`;
 
-function importAll(r) {
-  r.keys().forEach(r);
+function runAllTests(tests) {
+  tests.keys().forEach(tests);
 }
 
-importAll(require.context('../src/Avatar/test', true, /Spec.js$/));
+runAllTests(require.context('../src', true, /Spec.js$/));

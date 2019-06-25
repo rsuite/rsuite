@@ -1,4 +1,4 @@
-// @flow
+
 
 import * as React from 'react';
 import classNames from 'classnames';
@@ -36,7 +36,7 @@ type State = {
 };
 
 const getSize = (size: number = 0): string => {
-  // @flow
+  
   const K = 1024;
   const M = 1024 * 1024;
   const G = 1024 * 1024 * 1024;

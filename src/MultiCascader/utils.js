@@ -1,5 +1,3 @@
-//@flow
-
 import _ from 'lodash';
 
 export default function(props: Object) {

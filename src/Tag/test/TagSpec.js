@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode } from './testUtils';
+import { getDOMNode } from '@test/testUtils';
 
 import Tag from '../src/Tag';
 

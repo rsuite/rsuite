@@ -1,4 +1,4 @@
-// @flow
+
 
 import * as React from 'react';
 import classNames from 'classnames';
@@ -22,7 +22,7 @@ import {
   PickerToggleTrigger,
   getToggleWrapperClassName,
   createConcatChildrenFunction
-} from '../_picker';
+} from '../Picker';
 
 type DefaultEvent = SyntheticEvent<*>;
 type Props = {

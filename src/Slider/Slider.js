@@ -1,4 +1,4 @@
-// @flow
+
 
 import * as React from 'react';
 import { findDOMNode } from 'react-dom'; /* eslint-disable react/no-find-dom-node */

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance } from './testUtils';
+import { getDOMNode, getInstance } from '@test/testUtils';
 
 import Uploader from '../src/Uploader';
 import Button from '../src/Button';

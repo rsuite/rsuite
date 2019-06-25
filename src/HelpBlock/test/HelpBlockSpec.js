@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance } from './testUtils';
+import { getDOMNode, getInstance } from '@test/testUtils';
 import HelpBlock from '../src/HelpBlock';
 import FormGroup from '../src/FormGroup';
 
@@ -16,7 +16,7 @@ describe('HelpBlock', () => {
   it('Should render a tooltip ', () => {
     const instance = getInstance(<HelpBlock tooltip />);
     assert.include(getDOMNode(instance).className, 'rs-help-block-tooltip');
-    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-icon-question-circle-o');
+    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-icon-question-circle2');
   });
 
   it('Should have `for` in span when set controlId of FormGroup', () => {

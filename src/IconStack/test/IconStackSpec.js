@@ -1,9 +1,6 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
-import ReactTestUtils from 'react-dom/test-utils';
-
-import IconStack from '../src/IconStack';
-import { getDOMNode } from './testUtils';
+import { getDOMNode } from '@test/testUtils';
+import IconStack from '../IconStack';
 
 describe('IconStack', () => {
   it('Should render a span', () => {
@@ -31,7 +28,7 @@ describe('IconStack', () => {
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<IconStack classPrefix="custom-prefix" />);
-    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+    const instance = getDOMNode(<IconStack classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

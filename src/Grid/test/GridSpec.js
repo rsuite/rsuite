@@ -1,36 +1,34 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
-import ReactTestUtils from 'react-dom/test-utils';
-
-import Grid from '../src/Grid';
+import { getDOMNode } from '@test/testUtils';
+import Grid from '../Grid';
 
 describe('Grid', () => {
   it('Should render a container', () => {
     let title = 'Test';
-    let instance = ReactTestUtils.renderIntoDocument(<Grid>{title}</Grid>);
-    assert.equal(findDOMNode(instance).className, 'rs-grid-container');
-    assert.equal(findDOMNode(instance).innerHTML, title);
+    let instance = getDOMNode(<Grid>{title}</Grid>);
+    assert.equal(instance.className, 'rs-grid-container');
+    assert.equal(instance.innerHTML, title);
   });
 
   it('Should render a fluid container', () => {
     let title = 'Test';
-    let instance = ReactTestUtils.renderIntoDocument(<Grid fluid>{title}</Grid>);
-    assert.equal(findDOMNode(instance).className, 'rs-grid-container-fluid');
+    let instance = getDOMNode(<Grid fluid>{title}</Grid>);
+    assert.equal(instance.className, 'rs-grid-container-fluid');
   });
 
   it('Should have a custom className', () => {
-    let instance = ReactTestUtils.renderIntoDocument(<Grid className="custom" />);
-    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
+    let instance = getDOMNode(<Grid className="custom" />);
+    assert.ok(instance.className.match(/\bcustom\b/));
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    let instance = ReactTestUtils.renderIntoDocument(<Grid style={{ fontSize }} />);
-    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
+    let instance = getDOMNode(<Grid style={{ fontSize }} />);
+    assert.equal(instance.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Grid classPrefix="custom-prefix" />);
-    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+    const instance = getDOMNode(<Grid classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

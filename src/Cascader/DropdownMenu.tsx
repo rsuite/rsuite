@@ -7,7 +7,7 @@ import { shallowEqual } from 'rsuite-utils/lib/utils';
 
 import { getUnhandledProps, prefix } from '../utils';
 import stringToObject from '../utils/stringToObject';
-import DropdownMenuItem from '../_picker/DropdownMenuItem';
+import { DropdownMenuItem} from '../Picker';
 
 export interface Props {
   classPrefix: string;

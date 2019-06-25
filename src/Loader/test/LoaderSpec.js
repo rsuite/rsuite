@@ -1,58 +1,56 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
-import ReactTestUtils from 'react-dom/test-utils';
-
-import Loader from '../src/Loader';
+import { getDOMNode } from '@test/testUtils';
+import Loader from '../Loader';
 
 describe('Loader', () => {
   it('Should render a Loader', () => {
-    let instance = ReactTestUtils.renderIntoDocument(<Loader />);
-    assert.include(findDOMNode(instance).className, 'rs-loader');
+    let instance = getDOMNode(<Loader />);
+    assert.include(instance.className, 'rs-loader');
   });
 
   it('Should be center', () => {
-    let instance = ReactTestUtils.renderIntoDocument(<Loader center />);
-    assert.include(findDOMNode(instance).className, 'rs-loader-center');
+    let instance = getDOMNode(<Loader center />);
+    assert.include(instance.className, 'rs-loader-center');
   });
 
   it('Should be inverse', () => {
-    let instance = ReactTestUtils.renderIntoDocument(<Loader inverse />);
-    assert.include(findDOMNode(instance).className, 'rs-loader-inverse');
+    let instance = getDOMNode(<Loader inverse />);
+    assert.include(instance.className, 'rs-loader-inverse');
   });
 
   it('Should have a backdrop', () => {
-    let instance = ReactTestUtils.renderIntoDocument(<Loader backdrop />);
-    assert.include(findDOMNode(instance).className, 'rs-loader-backdrop');
+    let instance = getDOMNode(<Loader backdrop />);
+    assert.include(instance.className, 'rs-loader-backdrop');
   });
 
   it('Should have content', () => {
-    let instance = ReactTestUtils.renderIntoDocument(<Loader content="content" />);
-    assert.equal(findDOMNode(instance).innerText, 'content');
+    let instance = getDOMNode(<Loader content="content" />);
+    assert.equal(instance.innerText, 'content');
   });
 
   it('Should have a speed', () => {
-    let instance = ReactTestUtils.renderIntoDocument(<Loader speed="fast" />);
-    assert.include(findDOMNode(instance).className, 'rs-loader-speed-fast');
+    let instance = getDOMNode(<Loader speed="fast" />);
+    assert.include(instance.className, 'rs-loader-speed-fast');
   });
 
   it('Should have a size', () => {
-    let instance = ReactTestUtils.renderIntoDocument(<Loader size="lg" />);
-    assert.include(findDOMNode(instance).className, 'rs-loader-lg');
+    let instance = getDOMNode(<Loader size="lg" />);
+    assert.include(instance.className, 'rs-loader-lg');
   });
 
   it('Should have a custom className', () => {
-    let instance = ReactTestUtils.renderIntoDocument(<Loader className="custom" />);
-    assert.include(findDOMNode(instance).className, 'custom');
+    let instance = getDOMNode(<Loader className="custom" />);
+    assert.include(instance.className, 'custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    let instance = ReactTestUtils.renderIntoDocument(<Loader style={{ fontSize }} />);
-    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
+    let instance = getDOMNode(<Loader style={{ fontSize }} />);
+    assert.equal(instance.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Loader classPrefix="custom-prefix" />);
-    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+    const instance = getDOMNode(<Loader classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

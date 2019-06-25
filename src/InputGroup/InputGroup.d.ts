@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { StandardProps } from './index';
+import { StandardProps } from '../@types/common';
 import InputGroupAddon from './InputGroupAddon';
 import InputGroupButton from './InputGroupButton';
 
@@ -15,7 +15,7 @@ export interface InputGroupProps extends StandardProps {
   children?: React.ReactNode;
 }
 
-interface InputGroupComponent extends React.ComponentClass<InputGroupProps> {
+export interface InputGroupComponent extends React.ComponentClass<InputGroupProps> {
   Addon: typeof InputGroupAddon;
   Button: typeof InputGroupButton;
 }

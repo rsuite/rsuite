@@ -1,6 +1,6 @@
 import React from 'react';
-import List from '../src/List';
-import { getDOMNode } from './testUtils';
+import List from '../List';
+import { getDOMNode } from '@test/testUtils';
 
 describe('List', () => {
   it('Should render a List', () => {

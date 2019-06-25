@@ -1,9 +1,7 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-
-import { getDOMNode } from './testUtils';
-import InputGroup from '../src/InputGroup';
-import Input from '../src/Input';
+import { getDOMNode } from '@test/testUtils';
+import InputGroup from '../InputGroup';
+import Input from '../../Input/Input';
 
 describe('InputGroup', () => {
   it('Should render a container', () => {

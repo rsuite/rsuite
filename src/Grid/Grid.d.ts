@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { StandardProps } from './index';
+import { StandardProps } from '../@types/common';
 
 export interface GridProps extends StandardProps {
   /** Sets id for controlled component   */
