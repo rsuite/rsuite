@@ -9,7 +9,7 @@ export interface ListItemProps extends StandardProps {
   index: number;
 
   /* Symbol of collection*/
-  collection?: Array<number | string>;
+  collection?: number | string;
 
   /* disable drag */
   disabled?: boolean;

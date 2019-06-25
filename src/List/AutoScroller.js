@@ -1,13 +1,21 @@
-/*
-* Scroller
-* */
+// @flow
+import type { Axis } from './List';
+
+export type AutoScrollerUpdatePayload = {
+  translate: Axis,
+  minTranslate: Axis,
+  maxTranslate: Axis,
+  width: number,
+  height: number
+};
+
 class AutoScroller {
   container: Element;
   onScrollCallback: Function = null;
   interval = null;
   isAutoScrolling: boolean = true;
 
-  constructor(container, onScrollCallback) {
+  constructor(container: React.Node, onScrollCallback: Function) {
     this.container = container;
     this.onScrollCallback = onScrollCallback;
   }
@@ -17,7 +25,7 @@ class AutoScroller {
     this.interval = null;
   }
 
-  update({ translate, minTranslate, maxTranslate, width, height }) {
+  update({ translate, minTranslate, maxTranslate, width, height }: AutoScrollerUpdatePayload) {
     const direction = {
       x: 0,
       y: 0

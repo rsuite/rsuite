@@ -1,16 +1,15 @@
 // @flow
-
 import * as React from 'react';
 import { setDisplayName } from 'recompose';
 import classNames from 'classnames';
-import _ from 'lodash';
 import { defaultProps, getUnhandledProps, prefix } from '../utils';
 import { Consumer } from './List';
+import type { ManagerRef } from './Manager';
 
 type Props = {
   //custom
   index: number,
-  collection?: Array<number | string>,
+  collection?: number | string,
   disabled?: boolean,
   className?: string,
   classPrefix?: string,
@@ -22,29 +21,16 @@ type Props = {
 };
 
 class ListItem extends React.Component<Props> {
-  static defaultProps = {
-    collection: 0
-  };
-
-  ref: {
-    node: Element | Text | null
-  };
-  node: any;
+  managerRef: ManagerRef;
+  listItemRef: React.Node;
 
   componentDidMount() {
     this.register();
   }
 
   componentDidUpdate(prevProps) {
-    if (this.node) {
-      if (prevProps.index !== this.props.index) {
-        this.node.sortableInfo.index = this.props.index;
-      }
-
-      if (prevProps.disabled !== this.props.disabled) {
-        this.node.sortableInfo.disabled = this.props.disabled;
-      }
-    }
+    this.managerRef.info.index = this.props.index;
+    this.managerRef.info.disabled = this.props.disabled;
 
     if (prevProps.collection !== this.props.collection) {
       this.unregister(prevProps.collection);
@@ -57,25 +43,27 @@ class ListItem extends React.Component<Props> {
   }
 
   register = () => {
-    const { collection, disabled, index, manager } = this.props;
+    const { collection = 0, disabled, index, manager } = this.props;
     if (manager) {
-      _.set(this.node, 'sortableInfo', {
-        collection,
-        disabled,
-        index,
-        manager
-      });
+      this.managerRef = {
+        node: this.listItemRef,
+        edgeOffset: null,
+        info: {
+          collection,
+          disabled,
+          index,
+          manager
+        }
+      };
 
-      this.ref = { node: this.node };
-
-      manager.add(collection, this.ref);
+      manager.add(collection, this.managerRef);
     }
   };
 
   unregister = (collection = this.props.collection) => {
     const { manager } = this.props;
     if (manager) {
-      manager.remove(collection, this.ref);
+      manager.remove(collection, this.managerRef);
     }
   };
 
@@ -90,7 +78,7 @@ class ListItem extends React.Component<Props> {
     const itemContent = <div className={addPrefix('content')}>{children}</div>;
 
     return (
-      <div ref={ref => (this.node = ref)} className={classes} {...unhandled}>
+      <div ref={ref => (this.listItemRef = ref)} className={classes} {...unhandled}>
         {itemContent}
       </div>
     );
