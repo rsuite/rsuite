@@ -3,8 +3,8 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { findDOMNode } from 'react-dom';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
-import Dropdown from '../../src/InputPicker/Dropdown';
-import Button from '../../src/Button';
+import Dropdown from '../InputPicker';
+import Button from '../../Button';
 const groupClassName = '.rs-picker-select-menu-group';
 const itemClassName = '.rs-picker-select-menu-item';
 const itemFocusClassName = '.rs-picker-select-menu-item-focus';
@@ -31,7 +31,7 @@ const data = [
   }
 ];
 
-describe('InputPicker - Dropdown', () => {
+describe('InputPicker', () => {
   it('Should clean selected default value', () => {
     const instance = getDOMNode(<Dropdown defaultOpen data={data} defaultValue={'Eugenia'} />);
 

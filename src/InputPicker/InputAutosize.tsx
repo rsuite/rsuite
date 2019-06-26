@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { isIE } from '../utils/BrowserDetection';
-import { partitionHTMLProps, createChainedFunction } from '../utils';
+import { partitionHTMLProps, createChainedFunction, isIE } from '../utils';
 
 const sizerStyle: React.CSSProperties = {
   position: 'absolute',

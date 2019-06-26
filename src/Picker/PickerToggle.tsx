@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
-
+import PropTypes from 'prop-types';
 import Ripple from '../Ripple';
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
 
@@ -21,6 +21,18 @@ interface PickerToggleState {
 }
 
 class PickerToggle extends React.Component<PickerToggleProps, PickerToggleState> {
+  static propTypes = {
+    classPrefix: PropTypes.string,
+    hasValue: PropTypes.bool,
+    cleanable: PropTypes.bool,
+    className: PropTypes.string,
+    children: PropTypes.node,
+    caret: PropTypes.bool,
+    componentClass: PropTypes.elementType,
+    onClean: PropTypes.func,
+    active: PropTypes.bool
+  };
+
   static defaultProps = {
     componentClass: 'a',
     caret: true

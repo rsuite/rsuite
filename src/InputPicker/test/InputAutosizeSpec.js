@@ -1,9 +1,8 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { getDOMNode, getInstance } from '@test/testUtils';
-import InputAutosize from '../../src/InputPicker/InputAutosize';
+import { getDOMNode } from '@test/testUtils';
+import InputAutosize from '../InputAutosize';
 
 describe('InputPicker - InputAutosize', () => {
   it('Should have a custom className', () => {

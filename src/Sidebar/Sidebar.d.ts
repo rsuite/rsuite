@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { StandardProps } from '.';
+import { StandardProps } from '../@types/common';
 
 export interface SidebarProps extends StandardProps {
   /** Width */
   width?: number | string;
 
+  /** Sidebar can be collapsed */
   collapsible?: boolean;
 }
 

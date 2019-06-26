@@ -212,6 +212,9 @@ describe('CheckTreePicker', () => {
     instance.find('span[data-key="0-0"]').simulate('keydown', {
       keyCode: 40
     });
+    instance.find('span[data-key="0-0"]').simulate('keydown', {
+      keyCode: 40
+    });
 
     assert.equal(instance.find('span[data-key="0-0-0"]').text(), document.activeElement.innerText);
     instance.unmount();
@@ -223,6 +226,9 @@ describe('CheckTreePicker', () => {
     instance.find(toggleCls).simulate('click');
     instance.find(toggleCls).simulate('keydown', {
       keyCode: 40
+    });
+    instance.find('span[data-key="0-0"]').simulate('keydown', {
+      keyCode: 38
     });
     instance.find('span[data-key="0-0"]').simulate('keydown', {
       keyCode: 38
@@ -269,7 +275,7 @@ describe('CheckTreePicker', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <CheckTreePicker menuStyle={{ fontSize }} data={data} open />
     );
-    assert.equal(findDOMNode(instance.menu).style.fontSize, fontSize);
+    assert.equal(findDOMNode(instance.menuRef.current).style.fontSize, fontSize);
   });
 
   it('Should load data async', () => {

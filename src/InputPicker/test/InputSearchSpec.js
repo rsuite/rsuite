@@ -3,8 +3,8 @@ import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import { getDOMNode, getInstance } from '@test/testUtils';
-import InputAutosize from '../../src/InputPicker/InputAutosize';
-import InputSearch from '../../src/InputPicker/InputSearch';
+import InputAutosize from '../InputAutosize';
+import InputSearch from '../InputSearch';
 
 describe('InputPicker - InputSearch', () => {
   it('Should render a div with `rs-picker-search` class', () => {

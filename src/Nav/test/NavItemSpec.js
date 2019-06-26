@@ -1,9 +1,8 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance, innerText } from '@test/testUtils';
+import { getDOMNode, innerText } from '@test/testUtils';
 
-import NavItem from '../src/NavItem';
+import NavItem from '../NavItem';
 
 describe('NavItem', () => {
   it('Should render a li', () => {
@@ -81,7 +80,7 @@ describe('NavItem', () => {
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<NavItem classPrefix="custom-prefix" />);
-    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+    const instance = getDOMNode(<NavItem classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

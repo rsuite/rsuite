@@ -1,20 +1,19 @@
-
-
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { defaultProps, ReactChildren } from './utils';
-import Col from './Col';
+import { defaultProps, ReactChildren } from '../utils';
 
-type Props = {
-  className?: string,
-  classPrefix?: string,
-  gutter?: number,
-  style?: Object,
-  componentClass: React.ElementType,
-  children: React.ChildrenArray<React.Element<typeof Col>>
-};
+import { RowProps } from './Row.d';
 
-class Row extends React.Component<Props> {
+class Row extends React.Component<RowProps> {
+  static propTypes = {
+    className: PropTypes.string,
+    classPrefix: PropTypes.string,
+    gutter: PropTypes.number,
+    style: PropTypes.object,
+    componentClass: PropTypes.elementType,
+    children: PropTypes.node
+  };
   render() {
     const {
       className,
@@ -59,7 +58,7 @@ class Row extends React.Component<Props> {
   }
 }
 
-export default defaultProps({
+export default defaultProps<RowProps>({
   classPrefix: 'row',
   componentClass: 'div'
 })(Row);

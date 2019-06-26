@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode, getInstance } from '@test/testUtils';
-import HelpBlock from '../src/HelpBlock';
-import FormGroup from '../src/FormGroup';
+import HelpBlock from '../HelpBlock';
 
 describe('HelpBlock', () => {
   it('Should render a HelpBlock', () => {
@@ -17,15 +16,6 @@ describe('HelpBlock', () => {
     const instance = getInstance(<HelpBlock tooltip />);
     assert.include(getDOMNode(instance).className, 'rs-help-block-tooltip');
     ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-icon-question-circle2');
-  });
-
-  it('Should have `for` in span when set controlId of FormGroup', () => {
-    const instance = getDOMNode(
-      <FormGroup controlId="test">
-        <HelpBlock />
-      </FormGroup>
-    );
-    assert.equal(instance.children[0].getAttribute('for'), 'test');
   });
 
   it('Should have `for` in span ', () => {

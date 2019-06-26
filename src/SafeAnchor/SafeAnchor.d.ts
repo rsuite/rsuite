@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { StandardProps } from '../../types/index';
+import { StandardProps } from '../@types/common';
 
 export interface SafeAnchorProps {
   /** Link specified url */

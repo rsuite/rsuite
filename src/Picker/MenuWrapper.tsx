@@ -68,8 +68,8 @@ class MenuWrapper extends React.Component<MenuWrapperProps> {
 
     if (this.menuElementRef.current && getToggleInstance) {
       const instance = getToggleInstance();
-      if (instance && instance.toggle) {
-        const width = getWidth(findDOMNode(instance.toggle));
+      if (instance && instance.toggleRef.current) {
+        const width = getWidth(findDOMNode(instance.toggleRef.current));
         addStyle(this.menuElementRef.current, 'min-width', `${width}px`);
       }
     }

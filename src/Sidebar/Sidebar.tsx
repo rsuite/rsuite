@@ -1,19 +1,18 @@
-
-
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import setDisplayName from 'recompose/setDisplayName';
-import { defaultProps, prefix } from './utils';
+import { defaultProps, prefix } from '../utils';
+import { SidebarProps } from './Sidebar.d';
 
-type Props = {
-  className?: string,
-  classPrefix?: string,
-  width: number | string,
-  collapsible?: boolean,
-  style?: Object
-};
-
-class Sidebar extends React.Component<Props> {
+class Sidebar extends React.Component<SidebarProps> {
+  static propTypes = {
+    className: PropTypes.string,
+    classPrefix: PropTypes.string,
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    collapsible: PropTypes.bool,
+    style: PropTypes.object
+  };
   static defaultProps = {
     width: 260
   };
@@ -33,10 +32,8 @@ class Sidebar extends React.Component<Props> {
   }
 }
 
-const EnhancedSidebar = defaultProps({
+const EnhancedSidebar = defaultProps<SidebarProps>({
   classPrefix: 'sidebar'
 })(Sidebar);
 
-const Component: EnhancedSidebar = setDisplayName('Sidebar')(EnhancedSidebar);
-
-export default Component;
+export default setDisplayName('Sidebar')(EnhancedSidebar);

@@ -1,5 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import Button from '../Button';
 import { getDOMNode, getInstance } from '@test/testUtils';
@@ -83,11 +82,6 @@ describe('Button', () => {
     assert.ok(instance.className.match(/\bbtn-ghost\b/));
   });
 
-  it('Should default to shape="default"', () => {
-    const instance = getInstance(<Button shape="default">Title</Button>);
-    assert.equal(instance.props.shape, 'default');
-  });
-
   it('Should be active', () => {
     const instance = getDOMNode(<Button active>Title</Button>);
     assert.ok(instance.className.match(/\bactive\b/));
@@ -105,7 +99,7 @@ describe('Button', () => {
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Button classPrefix="custom-prefix" />);
-    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+    const instance = getDOMNode(<Button classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

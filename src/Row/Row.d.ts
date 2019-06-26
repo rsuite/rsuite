@@ -1,10 +1,11 @@
 import * as React from 'react';
 
-import { StandardProps } from './index';
+import { StandardProps } from '../@types/common';
 
 export interface RowProps extends StandardProps {
   gutter?: number;
   componentClass?: React.ElementType;
+  children?: React.ReactChildren;
 }
 
 declare const Row: React.ComponentType<RowProps>;
