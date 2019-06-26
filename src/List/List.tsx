@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import setStatic from 'recompose/setStatic';
 import classNames from 'classnames';
 import _ from 'lodash';
@@ -66,6 +67,23 @@ export const ListContext = createContext({
 });
 
 class List extends React.Component<ListProps, State> {
+  static propTypes = {
+    className: PropTypes.string,
+    classPrefix: PropTypes.string,
+    bordered: PropTypes.bool,
+    hover: PropTypes.bool,
+    sortable: PropTypes.bool,
+    size: PropTypes.oneOf(['lg', 'md', 'sm']),
+    autoScroll: PropTypes.bool,
+    pressDelay: PropTypes.number,
+    pressThreshold: PropTypes.number,
+    transitionDuration: PropTypes.number,
+    onSortStart: PropTypes.func,
+    onSortMove: PropTypes.func,
+    onSortOver: PropTypes.func,
+    onSortEnd: PropTypes.func,
+    onSort: PropTypes.func
+  };
   static defaultProps = {
     size: 'md',
     autoScroll: true,
