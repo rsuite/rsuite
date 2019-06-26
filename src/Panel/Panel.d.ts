@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AnimationEventProps, StandardProps } from '.';
+import { AnimationEventProps, StandardProps } from '../@types/common';
 
 export interface PanelProps extends StandardProps, AnimationEventProps {
   /** Whether it is a collapsible panel */

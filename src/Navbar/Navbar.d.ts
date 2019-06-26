@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { StandardProps } from './index';
+import { StandardProps } from '../@types/common';
 
 type AppearanceType = 'default' | 'inverse' | 'subtle';
 
@@ -9,8 +9,6 @@ export interface NavbarProps extends StandardProps {
   classPrefix?: string;
   componentClass?: React.ElementType;
 }
-
-// declare const Navbar: React.ComponentType<NavbarProps>;
 
 interface InstanceInterface {
   Body: React.ComponentType<StandardProps>;

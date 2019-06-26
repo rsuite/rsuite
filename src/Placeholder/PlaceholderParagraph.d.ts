@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { StandardProps } from '.';
+import { StandardProps } from '../@types/common';
 
-export interface PlaceholderParagraph extends StandardProps {
+export interface PlaceholderParagraphProps extends StandardProps {
   /* number of rows */
   rows?: number;
 
@@ -18,6 +18,6 @@ export interface PlaceholderParagraph extends StandardProps {
   active?: boolean;
 }
 
-declare const PlaceholderParagraph: React.ComponentType<PlaceholderParagraph>;
+declare const PlaceholderParagraph: React.ComponentType<PlaceholderParagraphProps>;
 
 export default PlaceholderParagraph;

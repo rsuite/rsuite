@@ -1,9 +1,7 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import Checkbox from '../src/Checkbox';
-import Panel from '../src/Panel';
+import Panel from '../Panel';
 import { getDOMNode, getInstance, innerText } from '@test/testUtils';
 
 describe('Panel', () => {

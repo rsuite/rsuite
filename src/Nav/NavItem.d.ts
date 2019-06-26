@@ -19,7 +19,7 @@ export interface NavItemProps extends StandardProps {
   icon?: React.ReactElement<IconProps>;
 
   /** Primary content */
-  children?: React.ReactNode;
+  children?: React.ReactChildren;
 
   /** The value of the current option */
   eventKey?: any;

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { StandardProps } from '.';
+import { StandardProps } from '../@types/common';
 
-export interface PlaceholderGraph extends StandardProps {
+export interface PlaceholderGraphProps extends StandardProps {
   /* height of rows */
   height?: number;
 
@@ -12,6 +12,6 @@ export interface PlaceholderGraph extends StandardProps {
   active?: boolean;
 }
 
-declare const PlaceholderGraph: React.ComponentType<PlaceholderGraph>;
+declare const PlaceholderGraph: React.ComponentType<PlaceholderGraphProps>;
 
 export default PlaceholderGraph;

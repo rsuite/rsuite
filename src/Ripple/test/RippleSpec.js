@@ -1,8 +1,7 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { getDOMNode, getInstance } from '../../../testUtils';
+import { getDOMNode, getInstance } from '@test/testUtils';
 import Ripple from '../Ripple';
 
 describe('Ripple', () => {
@@ -20,7 +19,9 @@ describe('Ripple', () => {
         <Ripple onMouseDown={doneOp} />
       </div>
     );
-    ReactTestUtils.Simulate.mouseDown(instance.querySelector('.rs-ripple'));
+
+    const event = new Event('mousedown');
+    instance.dispatchEvent(event);
   });
 
   it('Should have a custom className prefix', () => {

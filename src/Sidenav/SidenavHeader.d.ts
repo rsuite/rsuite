@@ -1,6 +1,8 @@
 import * as React from 'react';
-import { StandardProps } from '.';
+import { StandardProps } from '../@types/common';
 
-declare const SidenavHeader: React.ComponentType<StandardProps>;
+export interface SidenavHeaderProps extends StandardProps {}
+
+declare const SidenavHeader: React.ComponentType<SidenavHeaderProps>;
 
 export default SidenavHeader;

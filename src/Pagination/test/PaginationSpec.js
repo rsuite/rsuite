@@ -1,9 +1,7 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-
-import Pagination from '../src/Pagination';
-import { getDOMNode, getInstance, innerText } from '@test/testUtils';
+import { getDOMNode, innerText } from '@test/testUtils';
+import Pagination from '../Pagination';
 
 describe('Pagination', () => {
   it('Should render a ul', () => {
@@ -119,7 +117,7 @@ describe('Pagination', () => {
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Pagination classPrefix="custom-prefix" />);
-    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+    const instance = getDOMNode(<Pagination classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

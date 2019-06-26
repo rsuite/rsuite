@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StandardProps } from '.';
+import { StandardProps } from '../@types/common';
 
 export interface PanelGroupProps extends StandardProps {
   /** Whether it is a collapsible panel. */
@@ -15,7 +15,7 @@ export interface PanelGroupProps extends StandardProps {
   defaultActiveKey?: any;
 
   /** Primary content */
-  children?: React.ReactNode;
+  children?: React.ReactChildren;
 
   /** Toggles the callback function for the expand panel */
   onSelect?: (eventKey: any, event: React.SyntheticEvent<any>) => void;

@@ -6,7 +6,7 @@ import { setDisplayName } from 'recompose';
 
 import SafeAnchor from '../SafeAnchor';
 import { prefix, isOneOf, createChainedFunction, defaultProps, getUnhandledProps } from '../utils';
-import { SidenavContext } from '../Sidenav';
+import { SidenavContext } from '../Sidenav/Sidenav';
 import { DropdownMenuItemProps } from './DropdownMenuItem.d';
 
 type DropdownMenuItemState = {

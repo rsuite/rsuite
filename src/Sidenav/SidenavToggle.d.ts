@@ -1,6 +1,14 @@
 import * as React from 'react';
-import { StandardProps } from '.';
+import { StandardProps } from '../@types/common';
 
-declare const SidenavToggle: React.ComponentType<StandardProps>;
+export interface SidenavToggleProps extends StandardProps {
+  /** Expand then nav */
+  expanded?: boolean;
+
+  /** Callback function for menu state switching */
+  onToggle?: (expanded: boolean, event: React.SyntheticEvent<HTMLButtonElement>) => void;
+}
+
+declare const SidenavToggle: React.ComponentType<SidenavToggleProps>;
 
 export default SidenavToggle;

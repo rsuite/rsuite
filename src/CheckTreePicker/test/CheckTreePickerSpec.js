@@ -3,11 +3,12 @@ import ReactTestUtils from 'react-dom/test-utils';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { findDOMNode } from 'react-dom';
-import { namespace } from '../../../test';
+import { globalKey } from '@test/testUtils';
 import CheckTreePicker from '../CheckTreePicker';
 
 Enzyme.configure({ adapter: new Adapter() });
 
+const namespace = `${globalKey}-picker`;
 const classPrefix = `.${namespace}-checktree`;
 const checkTreeMenuCls = `${classPrefix}-menu`;
 const treeViewCls = `${classPrefix}-view`;

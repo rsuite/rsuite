@@ -1,34 +1,15 @@
-
-
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import setDisplayName from 'recompose/setDisplayName';
 
 import SafeAnchor from '../SafeAnchor';
-import Icon from '../Icon';
 import Tooltip from '../Tooltip';
 import Whisper from '../Whisper';
 import Ripple from '../Ripple';
 
 import { createChainedFunction, defaultProps, prefix, getUnhandledProps } from '../utils';
-
-type Props = {
-  active?: boolean,
-  disabled?: boolean,
-  className?: string,
-  classPrefix?: string,
-  divider?: boolean,
-  panel?: boolean,
-  onClick?: (event: SyntheticEvent<*>) => void,
-  style?: Object,
-  icon?: React.Element<typeof Icon>,
-  onSelect?: (eventKey: any, event: SyntheticEvent<*>) => void,
-  children?: React.Node,
-  eventKey?: any,
-  tabIndex?: number,
-  hasTooltip?: boolean,
-  componentClass: React.ElementType
-};
+import { NavItemProps } from './NavItem.d';
 
 const addTooltip = (children, tip) => (
   <Whisper speaker={<Tooltip>{tip}</Tooltip>} placement="right">
@@ -36,12 +17,29 @@ const addTooltip = (children, tip) => (
   </Whisper>
 );
 
-class NavItem extends React.Component<Props> {
+class NavItem extends React.Component<NavItemProps> {
+  static propTypes = {
+    active: PropTypes.bool,
+    disabled: PropTypes.bool,
+    className: PropTypes.string,
+    classPrefix: PropTypes.string,
+    divider: PropTypes.bool,
+    panel: PropTypes.bool,
+    onClick: PropTypes.func,
+    style: PropTypes.object,
+    icon: PropTypes.node,
+    onSelect: PropTypes.func,
+    children: PropTypes.node,
+    eventKey: PropTypes.any,
+    tabIndex: PropTypes.number,
+    hasTooltip: PropTypes.bool,
+    componentClass: PropTypes.elementType
+  };
   static defaultProps = {
     tabIndex: 0
   };
 
-  handleClick = (event: SyntheticEvent<*>) => {
+  handleClick = (event: React.MouseEvent) => {
     const { onSelect, disabled, eventKey } = this.props;
     if (onSelect && !disabled) {
       onSelect(eventKey, event);
@@ -114,11 +112,9 @@ class NavItem extends React.Component<Props> {
   }
 }
 
-const EnhancedNavItem = defaultProps({
+const EnhancedNavItem = defaultProps<NavItemProps>({
   classPrefix: 'nav-item',
   componentClass: SafeAnchor
 })(NavItem);
 
-const Component: EnhancedNavItem = setDisplayName('NavItem')(EnhancedNavItem);
-
-export default Component;
+export default setDisplayName('NavItem')(EnhancedNavItem);

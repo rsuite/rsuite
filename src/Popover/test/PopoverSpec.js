@@ -1,38 +1,36 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-
-import Popover from '../src/Popover';
+import { getDOMNode, getInstance } from '@test/testUtils';
+import Popover from '../Popover';
 import { innerText } from '@test/testUtils';
 
 describe('Popover', () => {
   it('Should render a Popover', () => {
     const title = 'Test';
-    const instance = ReactTestUtils.renderIntoDocument(<Popover>{title}</Popover>);
-    const instanceDom = findDOMNode(instance);
-    assert.equal(instanceDom.tagName, 'DIV');
-    assert.equal(instanceDom.className, 'rs-popover');
-    assert.equal(innerText(instanceDom), title);
+    const instance = getDOMNode(<Popover>{title}</Popover>);
+    assert.equal(instance.tagName, 'DIV');
+    assert.equal(instance.className, 'rs-popover');
+    assert.equal(innerText(instance), title);
   });
 
   it('Should be full', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Popover full>Test</Popover>);
+    const instance = getInstance(<Popover full>Test</Popover>);
     assert.ok(ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-popover-full'));
   });
 
   it('Should have a custom className', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Popover className="custom" />);
-    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
+    const instance = getDOMNode(<Popover className="custom" />);
+    assert.ok(instance.className.match(/\bcustom\b/));
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = ReactTestUtils.renderIntoDocument(<Popover style={{ fontSize }} />);
-    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
+    const instance = getDOMNode(<Popover style={{ fontSize }} />);
+    assert.equal(instance.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Popover classPrefix="custom-prefix" />);
-    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+    const instance = getDOMNode(<Popover classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

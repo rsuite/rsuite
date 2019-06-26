@@ -2,10 +2,12 @@ import PlaceholderParagraph from './PlaceholderParagraph';
 import PlaceholderGrid from './PlaceholderGrid';
 import PlaceholderGraph from './PlaceholderGraph';
 
-interface Progress {
-  PlaceholderParagraph: typeof PlaceholderParagraph;
-  PlaceholderGrid: typeof PlaceholderGrid;
-  PlaceholderGraph: typeof PlaceholderGraph;
+export interface Placeholder {
+  Paragraph: typeof PlaceholderParagraph;
+  Grid: typeof PlaceholderGrid;
+  Graph: typeof PlaceholderGraph;
 }
 
-export default Progress;
+declare const Placeholder: Placeholder;
+
+export default Placeholder;

@@ -1,8 +1,7 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import Radio from '../src/Radio';
+import Radio from '../Radio';
 import { getDOMNode } from '@test/testUtils';
 
 describe('Radio', () => {

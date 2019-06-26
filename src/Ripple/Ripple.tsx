@@ -6,12 +6,12 @@ import { getOffset, on } from 'dom-lib';
 import { defaultProps, getUnhandledProps, prefix } from '../utils';
 import { RippleProps } from './Ripple.d';
 
-interface State {
+interface RippleState {
   rippling: boolean;
   position: Object;
 }
 
-class Ripple extends React.Component<RippleProps, State> {
+class Ripple extends React.Component<RippleProps, RippleState> {
   static propTypes = {
     classPrefix: PropTypes.string,
     className: PropTypes.string,
@@ -37,7 +37,7 @@ class Ripple extends React.Component<RippleProps, State> {
       this.mousedownListener = on(
         this.triggerRef.current.parentNode,
         'mousedown',
-        this.onMouseDown
+        this.handleMouseDown
       );
     }
   }
@@ -64,7 +64,7 @@ class Ripple extends React.Component<RippleProps, State> {
     };
   };
 
-  onMouseDown = (event: React.MouseEvent) => {
+  handleMouseDown = (event: React.MouseEvent) => {
     const position = this.getPosition(event);
     const { onMouseDown } = this.props;
 
@@ -104,6 +104,6 @@ class Ripple extends React.Component<RippleProps, State> {
   }
 }
 
-export default defaultProps({
+export default defaultProps<RippleProps>({
   classPrefix: 'ripple'
 })(Ripple);

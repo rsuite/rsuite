@@ -1,32 +1,32 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
+import { getDOMNode } from '@test/testUtils';
 
-import Sidenav from '../src/Sidenav';
-import Nav from '../src/Nav';
-import Dropdown from '../src/Dropdown';
+import Sidenav from '../Sidenav';
+import Nav from '../../Nav';
+import Dropdown from '../../Dropdown';
 
 describe('Sidenav', () => {
   it('Should render a navigation', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Sidenav />);
-    assert.include(findDOMNode(instance).className, 'rs-sidenav');
+    const instance = getDOMNode(<Sidenav />);
+    assert.include(instance.className, 'rs-sidenav');
   });
 
   it('Should apply appearance', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Sidenav appearance="subtle" />);
-    assert.include(findDOMNode(instance).className, 'rs-sidenav-subtle');
+    const instance = getDOMNode(<Sidenav appearance="subtle" />);
+    assert.include(instance.className, 'rs-sidenav-subtle');
   });
 
   it('Should be expanded', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Sidenav expanded />);
-    assert.include(findDOMNode(instance).className, 'rs-sidenav-collapse-in');
+    const instance = getDOMNode(<Sidenav expanded />);
+    assert.include(instance.className, 'rs-sidenav-collapse-in');
   });
 
   it('Should call onSelect callback', done => {
     const doneOp = () => {
       done();
     };
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <Sidenav onSelect={doneOp}>
         <Nav>
           <Nav.Item eventKey="1">a</Nav.Item>
@@ -34,14 +34,15 @@ describe('Sidenav', () => {
         </Nav>
       </Sidenav>
     );
-    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('.rs-nav-item-content'));
+
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-nav-item-content'));
   });
 
   it('Should call onOpenChange callback', done => {
     const doneOp = () => {
       done();
     };
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <Sidenav onOpenChange={doneOp}>
         <Nav>
           <Nav.Item eventKey="1">a</Nav.Item>
@@ -53,22 +54,23 @@ describe('Sidenav', () => {
         </Nav>
       </Sidenav>
     );
-    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelector('.rs-dropdown-toggle'));
+
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-dropdown-toggle'));
   });
 
   it('Should have a custom className', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Sidenav className="custom" />);
-    assert.include(findDOMNode(instance).className, 'custom');
+    const instance = getDOMNode(<Sidenav className="custom" />);
+    assert.include(instance.className, 'custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = ReactTestUtils.renderIntoDocument(<Sidenav style={{ fontSize }} />);
-    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
+    const instance = getDOMNode(<Sidenav style={{ fontSize }} />);
+    assert.equal(instance.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Sidenav classPrefix="custom-prefix" />);
-    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+    const instance = getDOMNode(<Sidenav classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

@@ -18,7 +18,7 @@ import {
   defaultProps,
   placementPolyfill
 } from '../utils';
-import { SidenavContext } from '../Sidenav';
+import { SidenavContext } from '../Sidenav/Sidenav';
 import { PLACEMENT_8 } from '../constants';
 import { DropdownProps } from './Dropdown.d';
 

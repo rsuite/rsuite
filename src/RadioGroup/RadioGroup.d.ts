@@ -1,8 +1,10 @@
 import * as React from 'react';
-import { StandardProps, FormControlBaseProps } from '.';
-import { RadioProps } from './Radio';
+import { StandardProps, FormControlBaseProps } from '../@types/common';
+import { RadioProps } from '../Radio/Radio.d';
 
-export interface RadioGroupProps<V = any> extends StandardProps, FormControlBaseProps<RadioProps<V>['value']> {
+export interface RadioGroupProps<V = any>
+  extends StandardProps,
+    FormControlBaseProps<RadioProps<V>['value']> {
   /** A radio group can have different appearances */
   appearance?: 'default' | 'picker';
 
@@ -13,7 +15,7 @@ export interface RadioGroupProps<V = any> extends StandardProps, FormControlBase
   inline?: boolean;
 
   /** Primary content */
-  children?: React.ReactNode;
+  children?: React.ReactChildren;
 }
 
 declare const RadioGroup: React.ComponentType<RadioGroupProps>;

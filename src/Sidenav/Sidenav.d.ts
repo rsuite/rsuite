@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StandardProps } from '.';
+import { StandardProps } from '../@types/common';
 import SidenavHeader from './SidenavHeader';
 import SidenavBody from './SidenavBody';
 import SidenavToggle from './SidenavToggle';

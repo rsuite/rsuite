@@ -7,6 +7,6 @@ interface Progress {
   Circle: typeof ProgressCircle;
 }
 
-declare var Progress: Progress;
+declare const Progress: Progress;
 
 export default Progress;

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { StandardProps } from '.';
+import { StandardProps } from '../@types/common';
 
-export interface PlaceholderGrid extends StandardProps {
+export interface PlaceholderGridProps extends StandardProps {
   /* number of rows */
   rows?: number;
 
@@ -18,6 +18,6 @@ export interface PlaceholderGrid extends StandardProps {
   active?: boolean;
 }
 
-declare const PlaceholderGrid: React.ComponentType<PlaceholderGrid>;
+declare const PlaceholderGrid: React.ComponentType<PlaceholderGridProps>;
 
 export default PlaceholderGrid;
