@@ -31,7 +31,7 @@ function withStyleProps<ProvidedProps>(options: Options = {}) {
 
     const WithStyleComponent = React.forwardRef(
       (props: RequiredProps & ProvidedProps, ref: React.Ref<any>) => {
-        const { classPrefix, size, color, status, innerRef, className, ...rest } = props;
+        const { classPrefix, size, color, status, className, ...rest } = props;
         const addPrefix = prefix(classPrefix);
         const classes = classNames(className, {
           [addPrefix(size)]: hasSize && size,
@@ -40,14 +40,7 @@ function withStyleProps<ProvidedProps>(options: Options = {}) {
           [addPrefix(status)]: hasStatus && status
         });
 
-        return (
-          <Component
-            {...rest}
-            classPrefix={classPrefix}
-            className={classes}
-            ref={ref || innerRef}
-          />
-        );
+        return <Component {...rest} classPrefix={classPrefix} className={classes} ref={ref} />;
       }
     );
 

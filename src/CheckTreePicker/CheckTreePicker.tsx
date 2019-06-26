@@ -618,7 +618,7 @@ class CheckTree extends React.Component<CheckTreePickerProps, CheckTreePickerSta
     return values.filter(value => !uncheckableItemValues.includes(value));
   }
 
-  serializeList(key: string, nodes: Object = this.nodes) {
+  serializeList(key: string, nodes: object = this.nodes) {
     const { valueKey } = this.props;
     const list = [];
 

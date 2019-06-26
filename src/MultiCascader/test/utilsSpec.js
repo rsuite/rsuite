@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import createUtils from '../../src/MultiCascader/utils';
+import createUtils from '../utils';
 
 const utils = createUtils({
   labelKey: 'label',

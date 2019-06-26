@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TypeAttributes, StandardProps } from './';
+import { TypeAttributes, StandardProps } from '../@types/common';
 
 export interface TooltipProps extends StandardProps {
   /** Dispaly placement */

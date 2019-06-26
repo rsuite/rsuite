@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { FormControlPickerProps } from './index';
+import { FormControlPickerProps } from '../@types/common';
 
 export interface MultiCascaderProps extends FormControlPickerProps<any[]> {
   cascade?: boolean;
@@ -17,6 +17,9 @@ export interface MultiCascaderProps extends FormControlPickerProps<any[]> {
   /** Set the option value for the check box not to be rendered */
   uncheckableItemValues?: any[];
 
+  /** Whether dispaly search input box */
+  searchable?: boolean;
+
   /** Custom render menu */
   renderMenu?: (children: object[], menu: React.ReactNode, parentNode?: object) => React.ReactNode;
 
@@ -31,16 +34,18 @@ export interface MultiCascaderProps extends FormControlPickerProps<any[]> {
   ) => React.ReactNode;
 
   /** Called when the option is selected */
-  onSelect?: (value: any, activePaths: any[], event: React.SyntheticEvent<HTMLElement>) => void;
+  onSelect?: (
+    value: any,
+    activePaths: any[],
+    concat: (data: any, children: any) => any[],
+    event: React.SyntheticEvent<HTMLElement>
+  ) => void;
 
   /** Called when clean */
   onClean?: (event: React.SyntheticEvent<HTMLElement>) => void;
 
   /** Called when searching */
   onSearch?: (searchKeyword: string, event: React.SyntheticEvent<HTMLElement>) => void;
-
-  /** Whether dispaly search input box */
-  searchable?: boolean;
 }
 
 declare const MultiCascader: React.ComponentType<MultiCascaderProps>;

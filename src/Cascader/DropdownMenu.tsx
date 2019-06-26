@@ -9,7 +9,7 @@ import { getUnhandledProps, prefix } from '../utils';
 import stringToObject from '../utils/stringToObject';
 import { DropdownMenuItem} from '../Picker';
 
-export interface Props {
+export interface DropdownMenuProps {
   classPrefix: string;
   data: any[];
   disabledItemValues: any[];
@@ -34,7 +34,7 @@ export interface Props {
   cascadePathItems: any[];
 }
 
-class DropdownMenu extends React.Component<Props> {
+class DropdownMenu extends React.Component<DropdownMenuProps> {
   static propTypes = {
     classPrefix: PropTypes.string,
     data: PropTypes.array,

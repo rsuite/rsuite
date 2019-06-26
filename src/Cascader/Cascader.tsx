@@ -203,7 +203,7 @@ class Dropdown extends React.Component<CascaderProps, State> {
       this.closeDropdown();
       const nextState: any = {
         selectNode: node,
-        ...getDerivedStateForCascade(this.props, { value })
+        ...getDerivedStateForCascade(this.props, this.state, value)
       };
 
       if (typeof this.props.value === 'undefined') {
@@ -234,10 +234,10 @@ class Dropdown extends React.Component<CascaderProps, State> {
     );
   };
 
-  handleSearchRowSelect = (item: Object, event: React.SyntheticEvent<HTMLElement>) => {
+  handleSearchRowSelect = (item: object, event: React.SyntheticEvent<HTMLElement>) => {
     const { valueKey, onChange } = this.props;
     const value = item[valueKey];
-    const { activePaths, items } = getDerivedStateForCascade(this.props, { value });
+    const { activePaths, items } = getDerivedStateForCascade(this.props, this.state, value);
 
     this.closeDropdown();
     this.setState({
@@ -311,7 +311,7 @@ class Dropdown extends React.Component<CascaderProps, State> {
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
-  renderSearchRow = (item: Object, key: number) => {
+  renderSearchRow = (item: object, key: number) => {
     const { labelKey, valueKey, disabledItemValues = [] } = this.props;
     const { searchKeyword } = this.state;
     const nodes = getNodeParents(item);

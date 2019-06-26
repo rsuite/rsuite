@@ -1,37 +1,65 @@
-
-
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
 import { shallowEqual } from 'rsuite-utils/lib/utils';
 
 import { getUnhandledProps, prefix } from '../utils';
-import { DropdownMenuItem } from '../Picker';
-import createUtils from './utils';
+import { DropdownMenuCheckItem } from '../Picker';
+import createUtils, { UtilType } from './utils';
 
-type DefaultEvent = SyntheticEvent<*>;
-type Props = {
-  classPrefix: string,
-  data: any[],
-  disabledItemValues: any[],
-  value?: any[],
-  childrenKey: string,
-  valueKey: string,
-  labelKey: string,
-  menuWidth: number,
-  menuHeight: number,
-  className?: string,
-  renderMenuItem?: (itemLabel: React.Node, item: Object) => React.Node,
-  renderMenu?: (children: Array<Object>, menu: React.Node, parentNode?: Object) => React.Node,
-  onSelect?: (node: any, cascadeItems: any[], activePaths: any[], event: DefaultEvent) => void,
-  onCheck?: (value: any, event: SyntheticEvent<*>, checked: boolean) => void,
-  cascade: boolean,
-  cascadeItems: any[],
-  cascadePathItems: any[],
-  uncheckableItemValues: any[]
-};
+export interface DropdownMenuProps {
+  classPrefix: string;
+  data: any[];
+  disabledItemValues: any[];
+  value?: any[];
+  childrenKey: string;
+  valueKey: string;
+  labelKey: string;
+  menuWidth: number;
+  menuHeight: number;
+  className?: string;
+  cascade?: boolean;
+  cascadeItems: any[];
+  cascadePathItems: any[];
+  uncheckableItemValues: any[];
+  renderMenuItem?: (itemLabel: React.MouseEventHandler, item: object) => React.ReactNode;
+  renderMenu?: (
+    children: Array<Object>,
+    menu: React.ReactNode,
+    parentNode?: object
+  ) => React.ReactNode;
+  onSelect?: (
+    node: any,
+    cascadeItems: any[],
+    activePaths: any[],
+    event: React.SyntheticEvent<any>
+  ) => void;
+  onCheck?: (value: any, event: React.SyntheticEvent<any>, checked: boolean) => void;
+}
 
-class DropdownMenu extends React.Component<Props> {
+class DropdownMenu extends React.Component<DropdownMenuProps> {
+  static propTypes = {
+    classPrefix: PropTypes.string,
+    data: PropTypes.array,
+    disabledItemValues: PropTypes.array,
+    value: PropTypes.array,
+    childrenKey: PropTypes.string,
+    valueKey: PropTypes.string,
+    labelKey: PropTypes.string,
+    menuWidth: PropTypes.number,
+    menuHeight: PropTypes.number,
+    className: PropTypes.string,
+    cascade: PropTypes.bool,
+    cascadeItems: PropTypes.array,
+    cascadePathItems: PropTypes.array,
+    uncheckableItemValues: PropTypes.array,
+    renderMenuItem: PropTypes.func,
+    renderMenu: PropTypes.func,
+    onSelect: PropTypes.func,
+    onCheck: PropTypes.func
+  };
+
   static defaultProps = {
     data: [],
     disabledItemValues: [],
@@ -45,11 +73,9 @@ class DropdownMenu extends React.Component<Props> {
     labelKey: 'label'
   };
 
-  static handledProps = [];
+  utils: UtilType = {};
 
-  utils = {};
-
-  constructor(props: Props) {
+  constructor(props) {
     super(props);
     this.utils = createUtils(props);
   }
@@ -79,7 +105,7 @@ class DropdownMenu extends React.Component<Props> {
 
   menus = [];
 
-  handleSelect = (layer: number, index: number, node: any, event: DefaultEvent) => {
+  handleSelect = (layer: number, index: number, node: any, event: React.SyntheticEvent<any>) => {
     const { onSelect, childrenKey } = this.props;
     const children = node[childrenKey];
     const isLeafNode = _.isUndefined(children) || _.isNull(children);
@@ -136,7 +162,7 @@ class DropdownMenu extends React.Component<Props> {
     });
 
     return (
-      <DropdownMenuItem
+      <DropdownMenuCheckItem
         labelComponentClass="div"
         classPrefix={this.addPrefix('check-menu-item')}
         key={`${layer}-${onlyKey}`}
@@ -151,7 +177,7 @@ class DropdownMenu extends React.Component<Props> {
       >
         {renderMenuItem ? renderMenuItem(label, node) : label}
         {children ? <span className={this.addPrefix('cascader-menu-caret')} /> : null}
-      </DropdownMenuItem>
+      </DropdownMenuCheckItem>
     );
   }
 

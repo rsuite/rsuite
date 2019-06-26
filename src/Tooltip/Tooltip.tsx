@@ -1,23 +1,21 @@
-
-
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { prefix, defaultProps } from '../utils';
+import { TooltipProps } from './Tooltip.d';
 
-import { prefix, defaultProps } from './utils';
-
-type Props = {
-  positionLeft?: number,
-  positionTop?: number,
-  visible?: boolean,
-  classPrefix?: string,
-  className?: string,
-  style?: Object,
-  children?: React.Node,
-  onMouseLeave?: (event: SyntheticEvent<*>) => void,
-  onMouseEnter?: (event: SyntheticEvent<*>) => void
-};
-
-class Tooltip extends React.Component<Props> {
+class Tooltip extends React.Component<TooltipProps> {
+  static propTypes = {
+    positionLeft: PropTypes.number,
+    positionTop: PropTypes.number,
+    visible: PropTypes.bool,
+    classPrefix: PropTypes.string,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    children: PropTypes.node,
+    onMouseLeave: PropTypes.func,
+    onMouseEnter: PropTypes.func
+  };
   render() {
     let {
       className,
@@ -55,6 +53,6 @@ class Tooltip extends React.Component<Props> {
   }
 }
 
-export default defaultProps({
+export default defaultProps<TooltipProps>({
   classPrefix: 'tooltip'
 })(Tooltip);

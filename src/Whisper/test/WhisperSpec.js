@@ -2,8 +2,8 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import Whisper from '../src/Whisper';
-import Tooltip from '../src/Tooltip';
+import Whisper from '../Whisper';
+import Tooltip from '../../Tooltip';
 
 describe('Whisper', () => {
   it('Should create Whisper element', () => {

@@ -19,10 +19,10 @@ const getUnhandledProps = (Component: any, props: any) => {
     if (prop === 'childKey') {
       return acc;
     }
-    if (handledProps.indexOf(prop) === -1) {
+    if (handledProps.length > 0 && handledProps.indexOf(prop) === -1) {
       acc[prop] = props[prop];
     }
-    if (propTypeKeys.indexOf(prop) === -1) {
+    if (propTypeKeys.length > 0 && propTypeKeys.indexOf(prop) === -1) {
       acc[prop] = props[prop];
     }
 

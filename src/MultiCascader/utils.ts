@@ -1,6 +1,35 @@
 import _ from 'lodash';
 
-export default function(props: Object) {
+export interface ItemType {
+  valueKey: string;
+  childrenKey: string;
+  parent?: ItemType;
+}
+
+export interface UtilType {
+  removeAllChildrenValue?: (value: any, item: ItemType) => any;
+  getChildrenValue?: (item: ItemType, uncheckableItemValues?: ItemType[]) => any[];
+  splitValue?: (
+    item: ItemType,
+    checked: boolean,
+    value: any[],
+    uncheckableItemValues: any[]
+  ) => {
+    value: any;
+    removedValue: any;
+  };
+  transformValue?: (
+    value: ItemType[],
+    flattenData: ItemType[],
+    uncheckableItemValues?: ItemType[]
+  ) => ItemType[];
+  getOtherItemValuesByUnselectChild?: (itemNode: ItemType, value: any) => any;
+  getItems?: (selectNode: any, flattenData: any[]) => any[];
+  isSomeChildChecked?: (node: any, value: any[]) => boolean;
+  isSomeParentChecked?: (node: any, value: any[]) => boolean;
+}
+
+export default function(props: any): UtilType {
   const { valueKey, childrenKey } = props;
 
   /**
@@ -8,7 +37,7 @@ export default function(props: Object) {
    * @param {*} item
    * @param {*} uncheckableItemValues
    */
-  function getChildrenValue(item: Object, uncheckableItemValues?: any[]) {
+  function getChildrenValue(item: ItemType, uncheckableItemValues?: ItemType[]) {
     let values = [];
 
     if (!item[childrenKey]) {
@@ -30,7 +59,7 @@ export default function(props: Object) {
    * @param {*} item
    * @param {*} uncheckableItemValues
    */
-  function getParents(item: Object) {
+  function getParents(item: ItemType) {
     let parents = [];
 
     if (!item.parent) {
@@ -47,7 +76,11 @@ export default function(props: Object) {
    * 在 value 中的值存在级联的情况下
    * 通过 value 重新计算出一个新的 value
    */
-  function transformValue(value: any[], flattenData: any[], uncheckableItemValues?: any[]): any[] {
+  function transformValue(
+    value: ItemType[],
+    flattenData: ItemType[],
+    uncheckableItemValues?: ItemType[]
+  ): ItemType[] {
     let tempRemovedValue = [];
     let nextValue = [];
 
@@ -57,7 +90,7 @@ export default function(props: Object) {
         continue;
       }
 
-      let item: any = flattenData.find(v => v[valueKey] === value[i]);
+      let item: ItemType = flattenData.find(v => v[valueKey] === value[i]);
       if (!item) {
         continue;
       }
@@ -86,10 +119,10 @@ export default function(props: Object) {
    * @param {*} uncheckableItemValues
    */
   function splitValue(
-    item: Object,
+    item: ItemType,
     checked: boolean,
     value: any[],
-    uncheckableItemValues?: any[] = []
+    uncheckableItemValues: any[] = []
   ) {
     const itemValue = item[valueKey];
     const childrenValue = getChildrenValue(item, uncheckableItemValues);
@@ -157,7 +190,7 @@ export default function(props: Object) {
    * @param {*} value
    * @param {*} item
    */
-  function removeAllChildrenValue(value: any, item: Object) {
+  function removeAllChildrenValue(value: any, item: ItemType) {
     let removedValue = [];
     if (!item[childrenKey]) {
       return;
@@ -172,7 +205,7 @@ export default function(props: Object) {
     return removedValue;
   }
 
-  function getOtherItemValuesByUnselectChild(itemNode: Object, value: any) {
+  function getOtherItemValuesByUnselectChild(itemNode: ItemType, value: any) {
     const parentValues = [];
     const itemValues = [];
 
@@ -217,7 +250,7 @@ export default function(props: Object) {
     return itemValues;
   }
 
-  function getItems(selectNode?: Object, flattenData: any[]): any[] {
+  function getItems(selectNode: any, flattenData: any[]): any[] {
     const items = [];
 
     function findParent(item) {
@@ -239,12 +272,12 @@ export default function(props: Object) {
     return items.reverse();
   }
 
-  function isSomeChildChecked(node: Object, value: Array<Object> = []) {
+  function isSomeChildChecked(node: any, value: any[] = []) {
     if (!node[childrenKey] || !value) {
       return false;
     }
 
-    return node[childrenKey].some((child: Object) => {
+    return node[childrenKey].some((child: any) => {
       if (value.some(n => n === child[valueKey])) {
         return true;
       }
@@ -255,7 +288,7 @@ export default function(props: Object) {
     });
   }
 
-  function isSomeParentChecked(node: Object, value: Array<Object> = []) {
+  function isSomeParentChecked(node: any, value: any[] = []) {
     if (!value) {
       return false;
     }

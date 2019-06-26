@@ -4,13 +4,13 @@ import * as React from 'react';
 import classNames from 'classnames';
 import setDisplayName from 'recompose/setDisplayName';
 
-import SafeAnchor from './SafeAnchor';
-import Icon from './Icon';
-import Tooltip from './Tooltip';
-import Whisper from './Whisper';
-import Ripple from './Ripple';
+import SafeAnchor from '../SafeAnchor';
+import Icon from '../Icon';
+import Tooltip from '../Tooltip';
+import Whisper from '../Whisper';
+import Ripple from '../Ripple';
 
-import { createChainedFunction, defaultProps, prefix, getUnhandledProps } from './utils';
+import { createChainedFunction, defaultProps, prefix, getUnhandledProps } from '../utils';
 
 type Props = {
   active?: boolean,

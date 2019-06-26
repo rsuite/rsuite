@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { StandardProps } from '.';
-import { IconProps } from './Icon';
+import { StandardProps } from '../@types/common';
+import { IconProps } from '../Icon/Icon.d';
 
 export interface NavItemProps extends StandardProps {
   /** Activation status */

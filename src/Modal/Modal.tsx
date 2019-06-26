@@ -56,8 +56,8 @@ class Modal extends React.Component<ModalProps, ModalState> {
     enforceFocus: PropTypes.bool,
     overflow: PropTypes.bool,
     drawer: PropTypes.bool,
-    animation: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
     dialogComponentClass: PropTypes.elementType,
+    animation: PropTypes.any,
     animationProps: PropTypes.object,
     animationTimeout: PropTypes.number,
     onEscapeKeyUp: PropTypes.func,
@@ -71,6 +71,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
     onExiting: PropTypes.func,
     onExited: PropTypes.func
   };
+
   static defaultProps = {
     size: 'sm',
     backdrop: true,
@@ -165,6 +166,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
 
   handleShow = () => {
     const dialogElement = this.dialogRef.current;
+
     this.updateModalStyles(dialogElement);
     this.contentElement = dialogElement.querySelector(`.${this.addPrefix('content')}`);
     this.windowResizeListener = on(window, 'resize', this.handleResize);
@@ -226,7 +228,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
     const inClass = { in: show && !animation };
     const Dialog: React.ElementType = dialogComponentClass;
 
-    const parentProps = _.pick(rest, BaseModal.handledProps);
+    const parentProps = _.pick(rest, _.get(BaseModal, 'handledProps'));
     let items = null;
 
     if (children) {
@@ -254,7 +256,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
         dialogClassName={dialogClassName}
         dialogStyle={dialogStyle}
         onClick={rest.backdrop === true ? this.handleDialogClick : null}
-        innerRef={this.dialogRef}
+        dialogRef={this.dialogRef}
       >
         {items}
       </Dialog>

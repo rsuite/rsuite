@@ -1,23 +1,23 @@
-
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
-import createChainedFunction from './utils/createChainedFunction';
-import placementPolyfill from './utils/placementPolyfill';
+import { createChainedFunction, placementPolyfill } from '../utils';
 
-type Props = {
-  triggerRef?: React.ElementRef<*>,
-  onOpen?: () => void,
-  onClose?: () => void,
-  onEntered?: () => void,
-  onExited?: () => void,
-  placement?: string,
-  /**
-   * Prevent floating element overflow
-   */
-  preventOverflow?: boolean
-};
+import { WhisperProps } from './Whisper.d';
 
-class Whisper extends React.Component<Props> {
+class Whisper extends React.Component<WhisperProps> {
+  static propTypes = {
+    triggerRef: PropTypes.func,
+    onOpen: PropTypes.func,
+    onClose: PropTypes.func,
+    onEntered: PropTypes.func,
+    onExited: PropTypes.func,
+    placement: PropTypes.string,
+    /**
+     * Prevent floating element overflow
+     */
+    preventOverflow: PropTypes.bool
+  };
   render() {
     const {
       triggerRef,

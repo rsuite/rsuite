@@ -1,6 +1,5 @@
-
-
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { shallowEqualArray } from 'rsuite-utils/lib/utils';
@@ -8,11 +7,10 @@ import { polyfill } from 'react-lifecycles-compat';
 
 import DropdownMenu from './DropdownMenu';
 import Checkbox from '../Checkbox';
-import createUtils from './utils';
-import type { Placement } from '../utils/TypeDefinition';
-
+import createUtils, { UtilType } from './utils';
 import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 import { flattenTree, getNodeParents } from '../utils/treeUtils';
+import { PLACEMENT } from '../constants';
 
 import {
   PickerToggle,
@@ -24,84 +22,72 @@ import {
   createConcatChildrenFunction
 } from '../Picker';
 
-type DefaultEvent = SyntheticEvent<*>;
-type Props = {
-  appearance: 'default' | 'subtle',
-  classPrefix: string,
-  cascade: boolean,
-  data: any[],
-  disabledItemValues?: any[],
-  className?: string,
-  container?: HTMLElement | (() => HTMLElement),
-  containerPadding?: number,
-  block?: boolean,
-  toggleComponentClass?: React.ElementType,
-  menuClassName?: string,
-  menuStyle?: Object,
-  childrenKey?: string,
-  valueKey: string,
-  labelKey: string,
-  renderMenu?: (children: Array<Object>, menu: React.Node, parentNode?: Object) => React.Node,
-  renderValue?: (value?: any[], selectedItems: any[], selectedElement: React.Node) => React.Node,
-  renderExtraFooter?: () => React.Node,
-  disabled?: boolean,
-  value?: any[],
-  defaultValue?: any[],
-  placeholder?: string,
-  onSearch?: (searchKeyword: string, event: DefaultEvent) => void,
-  onChange?: (value: any, event: DefaultEvent) => void,
-  onClean?: (event: DefaultEvent) => void,
-  onOpen?: () => void,
-  onClose?: () => void,
-  onHide?: () => void,
-  onEnter?: () => void,
-  onEntering?: () => void,
-  onEntered?: () => void,
-  onExit?: () => void,
-  onExiting?: () => void,
-  onExited?: () => void,
-  onSelect?: (
-    value: any,
-    activePaths: any[],
-    concat: (data: any[], children: any[]) => any[],
-    event: DefaultEvent
-  ) => void,
-  locale: Object,
-  cleanable?: boolean,
-  open?: boolean,
-  defaultOpen?: boolean,
-  countable?: boolean,
-  placement?: Placement,
+import { MultiCascaderProps } from './MultiCascader.d';
 
-  /**
-   * Only for `DropdownMenu`
-   */
-  renderMenuItem?: (itemLabel: React.Node, item: Object) => React.Node,
-  menuWidth?: number,
-  menuHeight?: number,
-  style?: Object,
-  uncheckableItemValues?: any[],
-  searchable?: boolean,
+interface MultiCascaderState {
+  selectNode?: any;
+  value?: any[];
+  prevValue?: any[];
+  activePaths?: any[];
+  items?: any[];
+  data?: any[];
+  flattenData?: any[];
+  active?: boolean;
+  searchKeyword?: string;
+}
 
-  /**
-   * Prevent floating element overflow
-   */
-  preventOverflow?: boolean
-};
+class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderState> {
+  static propTypes = {
+    appearance: PropTypes.oneOf(['default', 'subtle']),
+    classPrefix: PropTypes.string,
+    cascade: PropTypes.bool,
+    data: PropTypes.array,
+    disabledItemValues: PropTypes.array,
+    className: PropTypes.string,
+    container: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    containerPadding: PropTypes.number,
+    block: PropTypes.bool,
+    toggleComponentClass: PropTypes.elementType,
+    menuClassName: PropTypes.string,
+    menuStyle: PropTypes.object,
+    childrenKey: PropTypes.string,
+    valueKey: PropTypes.string,
+    labelKey: PropTypes.string,
+    disabled: PropTypes.bool,
+    value: PropTypes.array,
+    defaultValue: PropTypes.array,
+    placeholder: PropTypes.string,
+    locale: PropTypes.object,
+    cleanable: PropTypes.bool,
+    open: PropTypes.bool,
+    defaultOpen: PropTypes.bool,
+    countable: PropTypes.bool,
+    placement: PropTypes.oneOf(PLACEMENT),
+    menuWidth: PropTypes.number,
+    menuHeight: PropTypes.number,
+    style: PropTypes.object,
+    uncheckableItemValues: PropTypes.array,
+    searchable: PropTypes.bool,
+    preventOverflow: PropTypes.bool,
+    renderMenuItem: PropTypes.func,
+    renderMenu: PropTypes.func,
+    renderValue: PropTypes.func,
+    renderExtraFooter: PropTypes.func,
+    onSearch: PropTypes.func,
+    onChange: PropTypes.func,
+    onClean: PropTypes.func,
+    onOpen: PropTypes.func,
+    onClose: PropTypes.func,
+    onHide: PropTypes.func,
+    onEnter: PropTypes.func,
+    onEntering: PropTypes.func,
+    onEntered: PropTypes.func,
+    onExit: PropTypes.func,
+    onExiting: PropTypes.func,
+    onExited: PropTypes.func,
+    onSelect: PropTypes.func
+  };
 
-type State = {
-  selectNode?: any,
-  value?: any[],
-  prevValue?: any[],
-  activePaths: any[],
-  items?: any[],
-  data: any[],
-  flattenData: any[],
-  active?: boolean,
-  searchKeyword: string
-};
-
-class Dropdown extends React.Component<Props, State> {
   static defaultProps = {
     cascade: true,
     appearance: 'default',
@@ -123,9 +109,12 @@ class Dropdown extends React.Component<Props, State> {
     placement: 'bottomStart'
   };
 
-  static utils = {};
-  isControlled = null;
-  constructor(props: Props) {
+  static utils: UtilType = {};
+  isControlled: boolean = null;
+  menuContainerRef: React.RefObject<any>;
+  positionRef: React.RefObject<any>;
+  triggerRef: React.RefObject<any>;
+  constructor(props) {
     super(props);
 
     const { data, value, defaultValue } = props;
@@ -141,7 +130,7 @@ class Dropdown extends React.Component<Props, State> {
       activePaths: []
     };
 
-    Dropdown.utils = createUtils(props);
+    MultiCascader.utils = createUtils(props);
     const flattenData = flattenTree(data, props.childrenKey);
 
     this.isControlled = !_.isUndefined(value);
@@ -153,16 +142,21 @@ class Dropdown extends React.Component<Props, State> {
        * 是通过 data 树结构转换成的二维的数组，其中只包含页面上展示的数据
        */
       items: [flattenData.filter(item => !item.parent)],
-      ...Dropdown.getCascadeState(props, flattenData)
+      ...MultiCascader.getCascadeState(props, flattenData)
     };
+
+    // for test
+    this.menuContainerRef = React.createRef();
+    this.positionRef = React.createRef();
+    this.triggerRef = React.createRef();
   }
 
-  static getCascadeState(nextProps: Props, flattenData: any[], nextValue?: any[]) {
+  static getCascadeState(nextProps: MultiCascaderProps, flattenData: any[], nextValue?: any[]) {
     const { data, cascade, value, defaultValue, uncheckableItemValues } = nextProps;
     let cascadeValue = nextValue || value || defaultValue || [];
 
     if (cascade && data) {
-      cascadeValue = Dropdown.utils.transformValue(
+      cascadeValue = MultiCascader.utils.transformValue(
         cascadeValue,
         flattenData,
         uncheckableItemValues
@@ -174,7 +168,7 @@ class Dropdown extends React.Component<Props, State> {
     };
   }
 
-  static getDerivedStateFromProps(nextProps: Props, prevState: State) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     const { data, valueKey, childrenKey } = nextProps;
 
     let value = nextProps.value || prevState.value || [];
@@ -204,12 +198,12 @@ class Dropdown extends React.Component<Props, State> {
         items[items.length - 1] = newChildren;
       }
 
-      const nextState: Object = {
+      const nextState: MultiCascaderState = {
         selectNode: nextSelectNode,
         flattenData,
         data,
-        items: Dropdown.utils.getItems(nextSelectNode, flattenData),
-        ...Dropdown.getCascadeState(nextProps, flattenData, value)
+        items: MultiCascader.utils.getItems(nextSelectNode, flattenData),
+        ...MultiCascader.getCascadeState(nextProps, flattenData, value)
       };
 
       if (isChangedValue) {
@@ -227,13 +221,13 @@ class Dropdown extends React.Component<Props, State> {
     return value || [];
   }
 
-  handleCheck = (item: Object, event: SyntheticEvent<*>, checked: boolean) => {
+  handleCheck = (item: any, event: React.SyntheticEvent<any>, checked: boolean) => {
     const { valueKey, onChange, cascade, uncheckableItemValues } = this.props;
     const itemValue = item[valueKey];
     let value = [];
 
     if (cascade) {
-      value = Dropdown.utils.splitValue(item, checked, this.getValue(), uncheckableItemValues)
+      value = MultiCascader.utils.splitValue(item, checked, this.getValue(), uncheckableItemValues)
         .value;
     } else {
       value = this.getValue();
@@ -251,15 +245,16 @@ class Dropdown extends React.Component<Props, State> {
     onChange && onChange(value, event);
   };
 
-  handleChangeForSearchItem = (
-    value: any,
-    checked: boolean,
-    event: SyntheticInputEvent<HTMLInputElement>
-  ) => {
+  handleChangeForSearchItem = (value: any, checked: boolean, event: React.SyntheticEvent<any>) => {
     this.handleCheck(value, event, checked);
   };
 
-  handleSelect = (node: Object, cascadeItems, activePaths: any[], event: DefaultEvent) => {
+  handleSelect = (
+    node: any,
+    cascadeItems,
+    activePaths: any[],
+    event: React.SyntheticEvent<any>
+  ) => {
     const { onSelect, valueKey } = this.props;
 
     this.setState(
@@ -269,8 +264,8 @@ class Dropdown extends React.Component<Props, State> {
         activePaths
       },
       () => {
-        if (this.position) {
-          this.position.updatePosition();
+        if (this.positionRef.current) {
+          this.positionRef.current.updatePosition();
         }
       }
     );
@@ -279,7 +274,7 @@ class Dropdown extends React.Component<Props, State> {
       onSelect(node, activePaths, createConcatChildrenFunction(node, node[valueKey]), event);
   };
 
-  handleSearch = (searchKeyword: string, event: DefaultEvent) => {
+  handleSearch = (searchKeyword: string, event: React.SyntheticEvent<any>) => {
     const { onSearch } = this.props;
     this.setState({
       searchKeyword
@@ -287,37 +282,13 @@ class Dropdown extends React.Component<Props, State> {
     onSearch && onSearch(searchKeyword, event);
   };
 
-  trigger = null;
-
-  bindTriggerRef = (ref: React.ElementRef<*>) => {
-    this.trigger = ref;
-  };
-
-  position = null;
-
-  bindPositionRef = (ref: React.ElementRef<*>) => {
-    this.position = ref;
-  };
-
-  menuContainer = null;
-
-  bindMenuContainerRef = (ref: React.ElementRef<*>) => {
-    this.menuContainer = ref;
-  };
-
-  container = null;
-
-  bindContainerRef = (ref: React.ElementRef<*>) => {
-    this.container = ref;
-  };
-
   closeDropdown = () => {
-    if (this.trigger) {
-      this.trigger.hide();
+    if (this.triggerRef.current) {
+      this.triggerRef.current.hide();
     }
   };
 
-  handleClean = (event: DefaultEvent) => {
+  handleClean = (event: React.SyntheticEvent<any>) => {
     const { disabled, onChange, data } = this.props;
     if (disabled) {
       return;
@@ -413,7 +384,7 @@ class Dropdown extends React.Component<Props, State> {
           disabled={disabled}
           checked={active}
           value={item}
-          indeterminate={cascade && !active && Dropdown.utils.isSomeChildChecked(item, values)}
+          indeterminate={cascade && !active && MultiCascader.utils.isSomeChildChecked(item, values)}
           onChange={this.handleChangeForSearchItem}
         >
           <span className={this.addPrefix('cascader-cols')}>
@@ -466,7 +437,7 @@ class Dropdown extends React.Component<Props, State> {
       menuClassName
     );
 
-    const menuProps = _.pick(this.props, DropdownMenu.handledProps);
+    const menuProps = _.pick(this.props, Object.keys(DropdownMenu.propTypes));
 
     return (
       <MenuWrapper className={classes} style={menuStyle}>
@@ -484,7 +455,7 @@ class Dropdown extends React.Component<Props, State> {
           <DropdownMenu
             {...menuProps}
             classPrefix={classPrefix}
-            ref={this.bindMenuContainerRef}
+            ref={this.menuContainerRef}
             cascadeItems={items}
             cascadePathItems={activePaths}
             value={this.getValue()}
@@ -520,14 +491,14 @@ class Dropdown extends React.Component<Props, State> {
     } = this.props;
 
     const { flattenData } = this.state;
-    const unhandled = getUnhandledProps(Dropdown, rest);
+    const unhandled = getUnhandledProps(MultiCascader, rest);
     const value = this.getValue();
 
     const selectedItems = flattenData.filter(item => value.some(v => v === item[valueKey])) || [];
     const count = selectedItems.length;
     const hasValue = !!count;
 
-    let selectedElement = placeholder;
+    let selectedElement: React.ReactNode = placeholder;
 
     if (count > 0) {
       selectedElement = (
@@ -550,11 +521,11 @@ class Dropdown extends React.Component<Props, State> {
     const classes = getToggleWrapperClassName('cascader', this.addPrefix, this.props, hasValue);
 
     return (
-      <div className={classes} style={style} tabIndex={-1} role="menu" ref={this.bindContainerRef}>
+      <div className={classes} style={style} tabIndex={-1} role="menu">
         <PickerToggleTrigger
           pickerProps={this.props}
-          innerRef={this.bindTriggerRef}
-          positionRef={this.bindPositionRef}
+          innerRef={this.triggerRef}
+          positionRef={this.positionRef}
           onEnter={createChainedFunction(this.handleEntered, onEnter)}
           onExit={createChainedFunction(this.handleExit, onExited)}
           speaker={this.renderDropdownMenu()}
@@ -575,10 +546,10 @@ class Dropdown extends React.Component<Props, State> {
   }
 }
 
-polyfill(Dropdown);
+polyfill(MultiCascader);
 
-const enhance = defaultProps({
+const enhance = defaultProps<MultiCascaderProps>({
   classPrefix: 'picker'
 });
 
-export default enhance(Dropdown);
+export default enhance(MultiCascader);

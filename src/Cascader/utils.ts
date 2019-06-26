@@ -60,7 +60,7 @@ export function getDerivedStateForCascade(
    * 但是需要更新 items， 因为这里的目的就是把异步更新后的的数据展示出来
    */
   const cascadePathItems = nextPathItems.reverse();
-  if (selectNodeValue) {
+  if (newChildren) {
     return {
       items: [...nextItems.reverse(), newChildren],
       tempActivePaths: cascadePathItems

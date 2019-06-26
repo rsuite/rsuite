@@ -2,10 +2,11 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { findDOMNode } from 'react-dom';
 
-import { namespace } from '../';
-import Dropdown from '../../src/MultiCascader/Dropdown';
-import Button from '../../src/Button';
+import { globalKey } from '@test/testutils';
+import Dropdown from '../MultiCascader';
+import Button from '../../Button';
 
+const namespace = `${globalKey}-picker`;
 const toggleClassName = `.${namespace}-toggle-placeholder`;
 const activeClassName = `.${namespace}-check-menu-item-active`;
 const itemClassName = `.${namespace}-check-menu-item`;
@@ -35,7 +36,7 @@ const items = [
   }
 ];
 
-describe('MultiCascader - Dropdown', () => {
+describe('MultiCascader', () => {
   it('Should output a dropdown', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Dropdown>Title</Dropdown>);
     const instanceDom = findDOMNode(instance);
@@ -155,7 +156,7 @@ describe('MultiCascader - Dropdown', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Dropdown defaultOpen data={items} value={value} />
     );
-    const instanceDom = findDOMNode(instance.menuContainer);
+    const instanceDom = findDOMNode(instance.menuContainerRef.current);
     assert.equal(instanceDom.querySelector(activeClassName).innerText, value);
   });
 
@@ -164,7 +165,7 @@ describe('MultiCascader - Dropdown', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Dropdown defaultOpen data={items} defaultValue={value} />
     );
-    const instanceDom = findDOMNode(instance.menuContainer);
+    const instanceDom = findDOMNode(instance.menuContainerRef.current);
     assert.equal(instanceDom.querySelector(activeClassName).innerText, value);
   });
 
@@ -176,7 +177,7 @@ describe('MultiCascader - Dropdown', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Dropdown data={items} defaultOpen onSelect={doneOp} />
     );
-    const instanceDom = findDOMNode(instance.menuContainer);
+    const instanceDom = findDOMNode(instance.menuContainerRef.current);
     ReactTestUtils.Simulate.click(instanceDom.querySelector(itemClassName));
   });
 
@@ -190,7 +191,7 @@ describe('MultiCascader - Dropdown', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <Dropdown data={items} defaultOpen onChange={doneOp} />
     );
-    const instanceDom = findDOMNode(instance.menuContainer).querySelector(
+    const instanceDom = findDOMNode(instance.menuContainerRef.current).querySelector(
       `.${namespace}-check-menu-item-wrapper`
     );
 

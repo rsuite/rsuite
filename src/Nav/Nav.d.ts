@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StandardProps } from '.';
+import { StandardProps } from '../@types/common';
 import NavItem from './NavItem';
 
 export interface NavProps extends StandardProps {

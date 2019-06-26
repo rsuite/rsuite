@@ -14,7 +14,7 @@ class ModalDialog extends React.Component<ModalDialogProps> {
     style: PropTypes.object,
     dialogStyle: PropTypes.object,
     children: PropTypes.node,
-    innerRef: PropTypes.func
+    dialogRef: PropTypes.object
   };
   render() {
     const {
@@ -24,7 +24,7 @@ class ModalDialog extends React.Component<ModalDialogProps> {
       dialogStyle,
       classPrefix,
       className,
-      innerRef,
+      dialogRef,
       ...props
     } = this.props;
 
@@ -41,7 +41,7 @@ class ModalDialog extends React.Component<ModalDialogProps> {
         {...props}
         title={null}
         role="dialog"
-        ref={innerRef}
+        ref={dialogRef}
         className={classNames(classPrefix, className)}
         style={modalStyle}
       >
@@ -55,11 +55,11 @@ class ModalDialog extends React.Component<ModalDialogProps> {
   }
 }
 
-export default compose(
-  withStyleProps({
+export default compose<any, ModalDialogProps>(
+  withStyleProps<ModalDialogProps>({
     hasSize: true
   }),
-  defaultProps({
+  defaultProps<ModalDialogProps>({
     classPrefix: 'modal'
   })
 )(ModalDialog);

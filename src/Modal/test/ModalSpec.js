@@ -1,7 +1,6 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getInstance } from '@test/testUtils';
 
 import Modal from '../Modal';
 
@@ -12,6 +11,7 @@ describe('Modal', () => {
         <p>message</p>
       </Modal>
     );
+
     assert.equal(instance.modalRef.current.getDialogElement().querySelectorAll('p').length, 1);
   });
 
@@ -41,7 +41,7 @@ describe('Modal', () => {
         <Modal.Body style={{ height: 2000 }} />
       </Modal>
     );
-    assert.ok(findDOMNode(instance.dialog).querySelector('.rs-modal-body').style.overflow, 'auto');
+    assert.ok(instance.dialogRef.current.querySelector('.rs-modal-body').style.overflow, 'auto');
   });
 
   it('Should call onHide callback', done => {
@@ -53,7 +53,7 @@ describe('Modal', () => {
         <Modal.Header />
       </Modal>
     );
-    const closeButton = findDOMNode(instance.dialog).querySelector('.rs-modal-header-close');
+    const closeButton = instance.dialogRef.current.querySelector('.rs-modal-header-close');
     ReactTestUtils.Simulate.click(closeButton);
   });
 
@@ -92,23 +92,23 @@ describe('Modal', () => {
       }
     }
     const instance = getInstance(<Demo />);
-    const closeButton = findDOMNode(instance.demo.dialog).querySelector('.rs-modal-header-close');
+    const closeButton = instance.demo.dialogRef.current.querySelector('.rs-modal-header-close');
     ReactTestUtils.Simulate.click(closeButton);
   });
 
   it('Should have a custom className', () => {
     const instance = getInstance(<Modal className="custom" show />);
-    assert.ok(findDOMNode(instance.dialog).className.match(/\bcustom\b/));
+    assert.ok(instance.dialogRef.current.className.match(/\bcustom\b/));
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
     const instance = getInstance(<Modal style={{ fontSize }} show />);
-    assert.equal(findDOMNode(instance.dialog).style.fontSize, fontSize);
+    assert.equal(instance.dialogRef.current.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
     const instance = getInstance(<Modal classPrefix="custom-prefix" show />);
-    assert.ok(findDOMNode(instance.dialog).className.match(/\bcustom-prefix\b/));
+    assert.ok(instance.dialogRef.current.className.match(/\bcustom-prefix\b/));
   });
 });
