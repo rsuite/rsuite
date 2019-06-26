@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { StandardProps } from '../@types/common';
+import Manager from './Manager';
 
 export interface ListItemProps extends StandardProps {
   /** Primary content */

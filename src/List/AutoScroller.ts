@@ -1,20 +1,20 @@
 import { Axis, Position } from './List';
 
-export type AutoScrollerUpdatePayload = {
+export interface AutoScrollerUpdatePayload {
   translate: Axis,
   minTranslate: Axis,
   maxTranslate: Axis,
   width: number,
   height: number
-};
+}
 
 class AutoScroller {
-  container: HTMLElement | null;
+  container: HTMLElement;
   onScrollCallback: (offset: Position) => any;
   interval = null;
   isAutoScrolling: boolean = true;
 
-  constructor(container: HTMLElement | null, onScrollCallback: (offset: Position) => any) {
+  constructor(container: HTMLElement, onScrollCallback: (offset: Position) => any) {
     this.container = container;
     this.onScrollCallback = onScrollCallback;
   }

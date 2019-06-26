@@ -1,25 +1,26 @@
 import _ from 'lodash';
 import { Position } from './List';
 
-type Collection = string | number;
-type Refs = Record<Collection, Array<ManagerRef>>;
-export type ManagerRef = {
+export type Collection = string | number;
+type Refs = Record<Collection, ManagerRef[]>;
+
+export interface ManagerRef {
   node: HTMLElement,
-  edgeOffset: Position | null,
+  edgeOffset: Position,
   info: {
     collection: Collection,
     index: number,
     disabled?: boolean,
     manager: Manager
   }
-};
+}
 
 /*
 * Move manager
 * */
 class Manager {
   refs: Refs = {};
-  active: ManagerRef | null;
+  active: ManagerRef;
 
   add(collection: Collection, ref: ManagerRef) {
     if (!this.refs[collection]) {
@@ -35,14 +36,14 @@ class Manager {
     }
   }
 
-  setActive = (payload: ManagerRef | null) => (this.active = payload);
-  getActive = (): ManagerRef | null => this.active;
+  setActive = (payload: ManagerRef) => (this.active = payload);
+  getActive = (): ManagerRef => this.active;
 
   getIndex = (collection: Collection, ref: ManagerRef) => this.refs[collection].indexOf(ref);
   getNodeManagerRef = (node: HTMLElement): any =>
     _.flatten(Object.values(this.refs)).find((managerRef: any) => managerRef.node === node);
 
-  getOrderedRefs = (collection?: Collection | null) => {
+  getOrderedRefs = (collection?: Collection) => {
     if (collection === undefined) {
       collection = this.active ? this.active.info.collection : null;
     }

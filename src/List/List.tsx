@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import * as React from 'react';
 import setStatic from 'recompose/setStatic';
 import classNames from 'classnames';
 import _ from 'lodash';
@@ -15,6 +15,7 @@ import {
 } from './utils';
 import { prefix, defaultProps, getUnhandledProps, createContext } from '../utils';
 import ListItem from './ListItem';
+import { ListProps } from './List.d';
 import Manager from './Manager';
 import AutoScroller from './AutoScroller';
 
@@ -35,63 +36,28 @@ const interactiveElements = [
   NodeType.Button
 ];
 
-type SortStartCallback = (
-  payload: { collection?: number | string, index?: number, node?: HTMLElement },
-  event: Event
-) => any;
-type SortMoveCallback = (event: Event) => any;
-type SortOverCallback = (payload: {
-  collection: number | string,
-  index?: number,
-  newIndex?: number,
-  oldIndex?: number
-}) => any;
-type SortCallback = (
-  payload: {
-    collection?: number | string,
-    newIndex?: number,
-    oldIndex?: number
-  },
-  event: Event
-) => any;
-
-export type Axis = {
+export interface Axis {
   x?: number,
   y?: number
-};
-export type Position = {
+}
+
+export interface Position {
   top?: number,
   left?: number,
   bottom?: number,
   right?: number
-};
-type Props = {
-  bordered?: boolean,
-  hover?: boolean,
-  sortable?: boolean,
-  size?: 'lg' | 'md' | 'sm',
-  autoScroll?: boolean,
-  pressDelay?: number,
-  pressThreshold?: number,
-  transitionDuration?: number,
-  onSortStart?: SortStartCallback,
-  onSortMove?: SortMoveCallback,
-  onSortOver?: SortOverCallback,
-  onSortEnd?: SortCallback,
-  onSort?: SortCallback,
-  className?: string,
-  classPrefix: string,
-  children?: ReactNode
-};
-type State = {
+}
+
+interface State {
   sorting: boolean,
   manager: Manager
-};
-type Context = {
+}
+
+interface Context {
   bordered?: boolean,
   size?: 'lg' | 'md' | 'sm',
-  manager?: Manager | null
-};
+  manager?: Manager
+}
 
 export const ListContext = createContext({
   bordered: false,
@@ -99,7 +65,7 @@ export const ListContext = createContext({
   manager: null
 });
 
-class List extends React.Component<Props, State> {
+class List extends React.Component<ListProps, State> {
   static defaultProps = {
     size: 'md',
     autoScroll: true,
@@ -107,26 +73,25 @@ class List extends React.Component<Props, State> {
     pressThreshold: 5,
     transitionDuration: 300
   };
-  static handledProps = ['onSortStart', 'onSortMove', 'onSortOver', 'onSortEnd', 'onSort'];
 
   state = {
     sorting: false,
     manager: new Manager()
   };
   // actionEnv
-  container: HTMLElement | null;
+  containerRef = React.createRef<HTMLElement>();
   containerBoundingRect: ClientRect;
   touched: boolean;
   scrollContainer: HTMLElement;
   scrollContainerInitialScroll: Position;
   autoScroller: AutoScroller;
   windowInitialScroll: Position;
-  animatedNodeOffset: Array<Axis> = [];
+  animatedNodeOffset: Axis[] = [];
   // activeNode
   activeNodeBoundingClientRect: ClientRect;
   activeNodeGhost: HTMLElement;
   activeNodeFlowBodyTranslate: Axis;
-  activeNodeFlowBody: HTMLElement | null;
+  activeNodeFlowBody: HTMLElement;
   activeNodeOffsetEdge: Position;
   activeNodeMarginOffset: Axis;
   activeNodeOldIndex: number;
@@ -145,20 +110,20 @@ class List extends React.Component<Props, State> {
   cancelTimer: any; // Timer ID
 
   componentDidMount() {
-    if (this.container instanceof HTMLElement) {
-      this.scrollContainer = getScrollingParent(this.container) || this.container;
+    if (this.containerRef.current instanceof HTMLElement) {
+      this.scrollContainer = getScrollingParent(this.containerRef.current) || this.containerRef.current;
       this.autoScroller = new AutoScroller(this.scrollContainer, (offset: Position) => {
         this.activeNodeFlowBodyTranslate.x += offset.left;
         this.activeNodeFlowBodyTranslate.y += offset.top;
         this.animateNodes();
       });
-      this.windowStartListener = on(this.container, 'mousedown', this.handleStart, {
+      this.windowStartListener = on(this.containerRef.current, 'mousedown', this.handleStart, {
         passive: false
       });
-      this.windowMoveListener = on(this.container, 'mousemove', this.handleMove, {
+      this.windowMoveListener = on(this.containerRef.current, 'mousemove', this.handleMove, {
         passive: false
       });
-      this.windowEndListener = on(this.container, 'mouseup', this.handleEnd, { passive: false });
+      this.windowEndListener = on(this.containerRef.current, 'mouseup', this.handleEnd, { passive: false });
     }
   }
 
@@ -266,7 +231,7 @@ class List extends React.Component<Props, State> {
     this.containerBoundingRect = this.scrollContainer.getBoundingClientRect();
     this.activeNodeOldIndex = index;
     this.activeNodeNextIndex = index;
-    this.activeNodeOffsetEdge = getEdgeOffset(activeNode, this.container);
+    this.activeNodeOffsetEdge = getEdgeOffset(activeNode, this.containerRef.current);
     this.cursorInitialOffset = getPosition(event);
     this.scrollContainerInitialScroll = {
       left: this.scrollContainer.scrollLeft,
@@ -305,13 +270,19 @@ class List extends React.Component<Props, State> {
     this.setState({ sorting: true });
 
     if (onSortStart) {
-      onSortStart({ collection, index, node: activeNode }, event);
+      onSortStart({
+        collection,
+        node: activeNode,
+        oldIndex: this.activeNodeOldIndex,
+        newIndex: this.activeNodeNextIndex
+      }, event);
     }
   };
 
   handleSortMove = (event: MouseEvent) => {
     event.preventDefault();
     const { onSortMove } = this.props;
+    const { manager } = this.state;
 
     // Update helper position
     const offset = getPosition(event);
@@ -328,7 +299,12 @@ class List extends React.Component<Props, State> {
     this.autoScroll();
 
     if (onSortMove) {
-      onSortMove(event);
+      onSortMove({
+        collection: manager.getActive().info.collection,
+        node: manager.getActive().node,
+        oldIndex: this.activeNodeOldIndex,
+        newIndex: this.activeNodeNextIndex
+      }, event);
     }
   };
 
@@ -384,6 +360,7 @@ class List extends React.Component<Props, State> {
         onSortEnd(
           {
             collection: activeCollection,
+            node: activeManagerRef.node,
             newIndex: this.activeNodeNextIndex,
             oldIndex: this.activeNodeOldIndex
           },
@@ -394,6 +371,7 @@ class List extends React.Component<Props, State> {
         onSort(
           {
             collection: activeCollection,
+            node: activeManagerRef.node,
             newIndex: this.activeNodeNextIndex,
             oldIndex: this.activeNodeOldIndex
           },
@@ -429,7 +407,7 @@ class List extends React.Component<Props, State> {
       } = listItemManagerRefs[i];
       const width = node.offsetWidth;
       const height = node.offsetHeight;
-      const offset: { height: number, width: number } = {
+      const offset = {
         height:
           this.activeNodeBoundingClientRect.height > height
             ? height / 2
@@ -446,7 +424,7 @@ class List extends React.Component<Props, State> {
       };
 
       // If we haven't cached the node's offsetTop / offsetLeft value
-      const curEdgeOffset = edgeOffset || getEdgeOffset(node, this.container);
+      const curEdgeOffset = edgeOffset || getEdgeOffset(node, this.containerRef.current);
       listItemManagerRefs[i].edgeOffset = curEdgeOffset;
 
       // Get a reference to the next and previous node
@@ -455,7 +433,7 @@ class List extends React.Component<Props, State> {
       // Also cache the next node's edge offset if needed.
       // We need this for calculating the animation in a grid setup
       if (nextNode && !nextNode.edgeOffset) {
-        nextNode.edgeOffset = getEdgeOffset(nextNode.node, this.container);
+        nextNode.edgeOffset = getEdgeOffset(nextNode.node, this.containerRef.current);
       }
 
       // If the node is the one we're currently animating, skip it
@@ -495,8 +473,8 @@ class List extends React.Component<Props, State> {
 
     if (onSortOver && this.activeNodeNextIndex !== prevIndex) {
       onSortOver({
-        collection: _.get(manager, ['active', 'collection']),
-        index: this.activeNodeOldIndex,
+        collection: manager.getActive().info.collection,
+        node: manager.getActive().node,
         newIndex: this.activeNodeNextIndex,
         oldIndex: prevIndex
       });
@@ -550,7 +528,7 @@ class List extends React.Component<Props, State> {
         y: Math.max(margin.top, margin.bottom)
       };
       if (!nodeItem.edgeOffset) {
-        nodeItem.edgeOffset = getEdgeOffset(node, this.container);
+        nodeItem.edgeOffset = getEdgeOffset(node, this.containerRef.current);
       }
       const offsetX = node.offsetWidth + marginOffset.x;
       const offsetY = node.offsetHeight + marginOffset.y;
@@ -598,7 +576,7 @@ class List extends React.Component<Props, State> {
     };
     return (
       <ListContext.Provider value={contextValue}>
-        <div ref={this.container} className={classes} {...unhandled}>
+        <div ref={this.containerRef} className={classes} {...unhandled}>
           {children}
         </div>
       </ListContext.Provider>

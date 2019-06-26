@@ -1,28 +1,14 @@
-import React, { ReactNode } from 'react';
+import * as React from 'react';
 import { setDisplayName } from 'recompose';
 import classNames from 'classnames';
 import { defaultProps, getUnhandledProps, prefix } from '../utils';
 import { ListContext } from './List';
 import { ListItemProps } from './ListItem.d';
-import Manager, { ManagerRef } from './Manager';
+import { ManagerRef } from './Manager';
 
-type Props = {
-  //custom
-  index: number,
-  collection?: number | string,
-  disabled?: boolean,
-  className?: string,
-  classPrefix?: string,
-  children?: ReactNode,
-  //from context
-  bordered?: boolean,
-  size?: 'lg' | 'md' | 'sm',
-  manager: Manager
-};
-
-class ListItem extends React.Component<Props> {
+class ListItem extends React.Component<ListItemProps> {
   managerRef: ManagerRef;
-  listItemRef: HTMLElement | null;
+  listItemRef = React.createRef<HTMLElement>();
 
   componentDidMount() {
     this.register();
@@ -46,7 +32,7 @@ class ListItem extends React.Component<Props> {
     const { collection = 0, disabled, index, manager } = this.props;
     if (manager) {
       this.managerRef = {
-        node: this.listItemRef,
+        node: this.listItemRef.current,
         edgeOffset: null,
         info: {
           collection,
@@ -78,7 +64,7 @@ class ListItem extends React.Component<Props> {
     const itemContent = <div className={addPrefix('content')}>{children}</div>;
 
     return (
-      <div ref={ref => (this.listItemRef = ref)} className={classes} {...unhandled}>
+      <div ref={this.listItemRef} className={classes} {...unhandled}>
         {itemContent}
       </div>
     );
