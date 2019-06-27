@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { SVGIcon, StandardProps } from '../@types/common';
 
-type IconNames =
+export type IconNames =
   | '500px'
   | 'address-book'
   | 'address-book-o'

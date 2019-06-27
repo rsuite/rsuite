@@ -1,8 +1,7 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import TablePagination from '../src/TablePagination';
+import TablePagination from '../TablePagination';
 import { getDOMNode, getInstance, innerText } from '@test/testUtils';
 
 describe('Table-Pagination', () => {
@@ -162,10 +161,8 @@ describe('Table-Pagination', () => {
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <TablePagination total={10} classPrefix="custom-prefix" />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+    const instance = getDOMNode(<TablePagination total={10} classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   it('Should render the maximum', () => {

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { StandardProps } from '.';
-import PaginationBaseProps from './PaginationBase';
+import { StandardProps } from '../@types/common';
+import PaginationBaseProps from '../Pagination/PaginationBase';
 
 interface MenuItem {
   label: React.ReactNode;

@@ -3,7 +3,7 @@ import TableColumn from './TableColumn';
 import TableCell from './TableCell';
 import TableHeaderCell from './TableHeaderCell';
 import TablePagination from './TablePagination';
-import { StandardProps } from '.';
+import { StandardProps } from '../@types/common';
 
 type SortType = 'desc' | 'asc';
 

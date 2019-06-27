@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StandardProps } from '.';
+import { StandardProps } from '../@types/common';
 import StepItem from './StepItem';
 
 export interface StepsProps extends StandardProps {
@@ -10,7 +10,7 @@ export interface StepsProps extends StandardProps {
   small?: boolean;
 
   /** Primary content */
-  children?: React.ReactNode;
+  children?: React.ReactChildren;
 
   /** Current execution step */
   current?: number;

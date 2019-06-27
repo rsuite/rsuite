@@ -6,10 +6,10 @@ type Props = {
   componentClass?: React.ElementType;
 };
 
-function defaultProps<ProvidedProps>(props: Props) {
+function defaultProps<T>(props: Props) {
   const { classPrefix, ...rest } = props;
 
-  return (WrappedComponent: React.ComponentClass<any>): React.ComponentClass<ProvidedProps> => {
+  return (WrappedComponent: React.ComponentClass<any>): React.ComponentClass<T> => {
     class DefaultPropsComponent extends WrappedComponent {
       // for IE9 & IE10 support
       static contextTypes = WrappedComponent.contextTypes;

@@ -25,12 +25,12 @@ interface Options {
   defaultColor?: string;
 }
 
-function withStyleProps<ProvidedProps>(options: Options = {}) {
+function withStyleProps<T>(options: Options = {}) {
   return (Component: React.ComponentType<any>) => {
     const { hasSize, hasStatus, hasColor, defaultColor } = options;
 
     const WithStyleComponent = React.forwardRef(
-      (props: RequiredProps & ProvidedProps, ref: React.Ref<any>) => {
+      (props: RequiredProps & T, ref: React.Ref<any>) => {
         const { classPrefix, size, color, status, className, ...rest } = props;
         const addPrefix = prefix(classPrefix);
         const classes = classNames(className, {

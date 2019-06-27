@@ -1,22 +1,21 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { prefix, defaultProps } from '../utils';
+import { StepItemProps } from './StepItem.d';
 
-import Icon from './Icon';
-import { prefix, defaultProps } from './utils';
-
-type Props = {
-  className?: string,
-  classPrefix?: string,
-  style?: Object,
-  itemWidth?: number | string,
-  status?: 'finish' | 'wait' | 'process' | 'error',
-  icon?: React.Element<typeof Icon>,
-  stepNumber?: number,
-  description?: React.Node,
-  title?: React.Node
-};
-
-class StepItem extends React.Component<Props> {
+class StepItem extends React.Component<StepItemProps> {
+  static propTypes = {
+    className: PropTypes.string,
+    classPrefix: PropTypes.string,
+    style: PropTypes.object,
+    itemWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    status: PropTypes.oneOf(['finish', 'wait', 'process', 'error']),
+    icon: PropTypes.object,
+    stepNumber: PropTypes.number,
+    description: PropTypes.node,
+    title: PropTypes.node
+  };
   render() {
     const {
       className,
@@ -31,15 +30,11 @@ class StepItem extends React.Component<Props> {
       ...rest
     } = this.props;
 
-    const addPrefix: Function = prefix(classPrefix);
-    const classes = classNames(
-      classPrefix,
-      {
-        [addPrefix('custom')]: icon
-      },
-      addPrefix(`status-${status}`),
-      className
-    );
+    const addPrefix = prefix(classPrefix);
+    const classes = classNames(className, classPrefix, {
+      [addPrefix(`status-${status}`)]: status,
+      [addPrefix('custom')]: icon
+    });
 
     const styles = {
       width: itemWidth,
@@ -70,6 +65,6 @@ class StepItem extends React.Component<Props> {
   }
 }
 
-export default defaultProps({
+export default defaultProps<StepItemProps>({
   classPrefix: 'steps-item'
 })(StepItem);

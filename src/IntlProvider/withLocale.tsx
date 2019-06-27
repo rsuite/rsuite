@@ -10,35 +10,30 @@ const mergeObject = (list: any[]) =>
     return a;
   }, {});
 
-interface WithLocaleProps {
-  innerRef: React.Ref<any>;
-  locale: any;
-}
+function withLocale<T>(combineKeys: string[] = []) {
+  return (BaseComponent: React.ComponentClass<any>) => {
+    const factory = React.createFactory(BaseComponent);
+    const WithLocale = React.forwardRef((props: T, ref) => {
+      return (
+        <IntlContext.Consumer>
+          {messages => {
+            const locales = combineKeys.map(key => _.get(messages || enGB, `${key}`));
+            return factory({
+              ref,
+              locale: mergeObject(locales),
+              ...props
+            });
+          }}
+        </IntlContext.Consumer>
+      );
+    });
 
-const withLocale = (combineKeys: string[] = []) => BaseComponent => {
-  const factory = React.createFactory(BaseComponent);
-
-  class WithLocale extends React.Component<WithLocaleProps> {
-    render() {
-      const { innerRef, ...rest } = this.props;
-      const messages = this.context || enGB;
-      const locales = combineKeys.map(key => _.get(messages, `${key}`));
-
-      return factory({
-        ref: innerRef,
-        locale: mergeObject(locales),
-        ...rest
-      });
+    if (process.env.NODE_ENV !== 'production') {
+      return setDisplayName(wrapDisplayName(BaseComponent, 'withLocale'))(WithLocale);
     }
-  }
 
-  WithLocale.contextType = IntlContext;
-
-  if (process.env.NODE_ENV !== 'production') {
-    return setDisplayName(wrapDisplayName(BaseComponent, 'withLocale'))(WithLocale);
-  }
-
-  return WithLocale;
-};
+    return WithLocale;
+  };
+}
 
 export default withLocale;

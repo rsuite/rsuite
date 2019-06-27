@@ -1,22 +1,23 @@
-
 import * as React from 'react';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
 import classNames from 'classnames';
 import setStatic from 'recompose/setStatic';
 
 import StepItem from './StepItem';
-import { prefix, defaultProps, ReactChildren, isIE10 } from './utils';
+import { prefix, defaultProps, ReactChildren, isIE10 } from '../utils';
+import { StepsProps } from './Steps.d';
 
-type Props = {
-  classPrefix: string,
-  vertical?: boolean,
-  small?: boolean,
-  className?: string,
-  children: React.ChildrenArray<any>,
-  current: number,
-  currentStatus?: 'finish' | 'wait' | 'process' | 'error'
-};
-
-class Steps extends React.Component<Props> {
+class Steps extends React.Component<StepsProps> {
+  static propTypes = {
+    classPrefix: PropTypes.string,
+    vertical: PropTypes.bool,
+    small: PropTypes.bool,
+    className: PropTypes.string,
+    children: PropTypes.node,
+    current: PropTypes.number,
+    currentStatus: PropTypes.oneOf(['finish', 'wait', 'process', 'error'])
+  };
   static defaultProps = {
     currentStatus: 'process',
     current: 0
@@ -42,8 +43,8 @@ class Steps extends React.Component<Props> {
       [addPrefix('horizontal')]: horizontal
     });
 
-    const count = children.length;
-    const items: React.Node = ReactChildren.mapCloneElement(children, (item, index) => {
+    const count = _.get(children, 'length');
+    const items = ReactChildren.mapCloneElement(children, (item, index) => {
       const itemStyles = {
         [isIE10() ? 'msFlexPreferredSize' : 'flexBasis']:
           index < count - 1 ? `${100 / (count - 1)}%` : undefined,
@@ -80,7 +81,7 @@ class Steps extends React.Component<Props> {
   }
 }
 
-const EnhancedSteps = defaultProps({
+const EnhancedSteps = defaultProps<StepsProps>({
   classPrefix: 'steps'
 })(Steps);
 

@@ -1,16 +1,15 @@
-
-
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { defaultProps } from './utils';
+import { defaultProps } from '../utils';
+import { TagGroupProps } from './TagGroup.d';
 
-type Props = {
-  className?: string,
-  classPrefix?: string,
-  children?: React.Node
-};
-
-class TagGroup extends React.Component<Props> {
+class TagGroup extends React.Component<TagGroupProps> {
+  static propTypes = {
+    className: PropTypes.string,
+    classPrefix: PropTypes.string,
+    children: PropTypes.node
+  };
   render() {
     const { className, classPrefix, children, ...rest } = this.props;
     const classes = classNames(classPrefix, className);
@@ -22,6 +21,6 @@ class TagGroup extends React.Component<Props> {
   }
 }
 
-export default defaultProps({
+export default defaultProps<TagGroupProps>({
   classPrefix: 'tag-group'
 })(TagGroup);

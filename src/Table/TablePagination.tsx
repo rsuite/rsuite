@@ -1,47 +1,51 @@
-
-
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import compose from 'recompose/compose';
 
-import Pagination from './Pagination';
-import SelectPicker from './SelectPicker';
-import Divider from './Divider';
+import Pagination from '../Pagination';
+import SelectPicker from '../SelectPicker';
+import Divider from '../Divider';
 
-import { prefix, tplTransform, getUnhandledProps, defaultProps } from './utils';
-import withLocale from './IntlProvider/withLocale';
+import { prefix, tplTransform, getUnhandledProps, defaultProps } from '../utils';
+import withLocale from '../IntlProvider/withLocale';
+import { TablePaginationProps } from './TablePagination.d';
 
-type Locale = {
-  lengthMenuInfo: string,
-  totalInfo: string
-};
+interface Locale {
+  lengthMenuInfo: string;
+  totalInfo: string;
+}
 
-type Props = {
-  lengthMenu?: Array<{ value: number, label: React.Node }>,
-  showLengthMenu?: boolean,
-  showInfo?: boolean,
-  total: number,
-  displayLength: number,
-  renderLengthMenu?: (picker: React.Node) => React.Node,
-  renderTotal?: (total: number, activePage: number) => React.Node,
-  onChangePage?: (page: number) => void,
-  onChangeLength?: (size: number) => void,
-  prev?: boolean,
-  next?: boolean,
-  first?: boolean,
-  last?: boolean,
-  maxButtons?: number,
-  activePage: number,
-  className?: string,
-  locale: Locale,
-  classPrefix: string,
-  disabled?: boolean | ((eventKey: any) => boolean),
-  style?: Object,
-  // reverse start and end position
-  reverse?: boolean
-};
-
-class TablePagination extends React.Component<Props> {
+class TablePagination extends React.Component<TablePaginationProps> {
+  static propTypes = {
+    lengthMenu: PropTypes.arrayOf(
+      PropTypes.shape({
+        value: PropTypes.number,
+        label: PropTypes.node
+      })
+    ),
+    showLengthMenu: PropTypes.bool,
+    showInfo: PropTypes.bool,
+    total: PropTypes.number,
+    displayLength: PropTypes.number,
+    prev: PropTypes.bool,
+    next: PropTypes.bool,
+    first: PropTypes.bool,
+    last: PropTypes.bool,
+    maxButtons: PropTypes.number,
+    activePage: PropTypes.number,
+    className: PropTypes.string,
+    locale: PropTypes.object,
+    classPrefix: PropTypes.string,
+    disabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+    style: PropTypes.object,
+    // reverse start and end position
+    reverse: PropTypes.bool,
+    renderLengthMenu: PropTypes.func,
+    renderTotal: PropTypes.func,
+    onChangePage: PropTypes.func,
+    onChangeLength: PropTypes.func
+  };
   static defaultProps = {
     showLengthMenu: true,
     showInfo: true,
@@ -186,9 +190,9 @@ class TablePagination extends React.Component<Props> {
   }
 }
 
-export default compose(
-  withLocale(['TablePagination']),
-  defaultProps({
+export default compose<any, TablePaginationProps>(
+  withLocale<TablePaginationProps>(['TablePagination']),
+  defaultProps<TablePaginationProps>({
     classPrefix: 'table-pagination'
   })
 )(TablePagination);

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StandardProps } from '.';
+import { StandardProps } from '../@types/common';
 
 export interface SliderProps extends StandardProps {
   /** Minimum value of sliding range */

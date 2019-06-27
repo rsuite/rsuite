@@ -1,44 +1,43 @@
-
-
 import * as React from 'react';
-import { findDOMNode } from 'react-dom'; /* eslint-disable react/no-find-dom-node */
+import PropTypes from 'prop-types';
+import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { on, DOMMouseMoveTracker, addStyle, getWidth, getHeight, getOffset } from 'dom-lib';
 
-import { getUnhandledProps, defaultProps, prefix } from './utils';
-import Tooltip from './Tooltip';
+import { getUnhandledProps, defaultProps, prefix } from '../utils';
+import Tooltip from '../Tooltip';
+import { SliderProps } from './Slider.d';
 
-type Props = {
-  min: number,
-  max: number,
-  step: number,
-  value?: number,
-  defaultValue: number,
-  className?: string,
-  classPrefix?: string,
-  handleClassName?: string,
-  handleTitle?: React.Node,
-  barClassName?: string,
-  handleStyle?: Object,
-  disabled?: boolean,
-  graduated?: boolean,
-  tooltip?: boolean,
-  progress?: boolean,
-  vertical?: boolean,
-  onChange?: (value: number) => void,
-  renderMark?: (mark: number) => React.Node,
-  renderTooltip?: (value: number) => React.Node
-};
+interface SliderState {
+  value: number;
+  barWidth: number;
+  barHeight: number;
+  handleDown?: boolean;
+}
 
-type State = {
-  value: number,
-  barWidth: number,
-  barHeight: number,
-  handleDown?: boolean
-};
-
-class Slider extends React.Component<Props, State> {
+class Slider extends React.Component<SliderProps, SliderState> {
+  static propTypes = {
+    min: PropTypes.number,
+    max: PropTypes.number,
+    step: PropTypes.number,
+    value: PropTypes.number,
+    defaultValue: PropTypes.number,
+    className: PropTypes.string,
+    classPrefix: PropTypes.string,
+    handleClassName: PropTypes.string,
+    handleTitle: PropTypes.node,
+    barClassName: PropTypes.string,
+    handleStyle: PropTypes.object,
+    disabled: PropTypes.bool,
+    graduated: PropTypes.bool,
+    tooltip: PropTypes.bool,
+    progress: PropTypes.bool,
+    vertical: PropTypes.bool,
+    onChange: PropTypes.func,
+    renderMark: PropTypes.func,
+    renderTooltip: PropTypes.func
+  };
   static defaultProps = {
     min: 0,
     max: 100,
@@ -46,8 +45,10 @@ class Slider extends React.Component<Props, State> {
     defaultValue: 0,
     tooltip: true
   };
-
-  constructor(props: Props) {
+  handleRef: React.RefObject<HTMLDivElement>;
+  barRef: React.RefObject<HTMLDivElement>;
+  mouseMoveTracker = null;
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -55,6 +56,9 @@ class Slider extends React.Component<Props, State> {
       barWidth: 0,
       barHeight: 0
     };
+
+    this.handleRef = React.createRef();
+    this.barRef = React.createRef();
   }
 
   componentDidMount() {
@@ -81,7 +85,7 @@ class Slider extends React.Component<Props, State> {
     return (max - min) / step;
   }
 
-  getMax(props?: Props) {
+  getMax(props?: SliderProps) {
     const { max, min, step } = props || this.props;
     return Math.floor((max - min) / step) * step + min;
   }
@@ -109,14 +113,14 @@ class Slider extends React.Component<Props, State> {
     const { tooltip } = this.props;
 
     if (tooltip) {
-      const handle: any = findDOMNode(this.handle);
+      const handle = this.handleRef.current;
       const tip = handle.querySelector(`.${this.addPrefix('tooltip')}`);
       const width = getWidth(tip);
       addStyle(tip, 'left', `-${width / 2}px`);
     }
   }
 
-  checkValue(value: number, props?: Props) {
+  checkValue(value: number, props?: SliderProps) {
     const { min } = props || this.props;
     const max = this.getMax(props);
     if (value < min) {
@@ -152,22 +156,18 @@ class Slider extends React.Component<Props, State> {
     return value;
   }
 
-  handleClick = (event: SyntheticDragEvent<*>) => {
+  handleClick = (event: React.MouseEvent) => {
     if (this.props.disabled) {
       return;
     }
 
     const { vertical, min } = this.props;
-    const barOffset = getOffset(this.bar);
+    const barOffset = getOffset(this.barRef.current);
     const offset = vertical ? event.pageY - barOffset.top : event.pageX - barOffset.left;
     this.setValue(this.calculateValue(offset) + min);
   };
 
-  mouseMoveTracker = null;
-  bar = null;
-  handle = null;
-
-  handleMouseDown = (event: SyntheticEvent<*>) => {
+  handleMouseDown = (event: React.MouseEvent) => {
     if (this.props.disabled) {
       return;
     }
@@ -189,13 +189,13 @@ class Slider extends React.Component<Props, State> {
     });
   };
 
-  handleDragMove = (deltaX: number, deltaY: number, event: SyntheticDragEvent<*>) => {
+  handleDragMove = (deltaX: number, deltaY: number, event: React.DragEvent) => {
     if (!this.mouseMoveTracker || !this.mouseMoveTracker.isDragging()) {
       return;
     }
 
     const { vertical, min } = this.props;
-    const barOffset = getOffset(this.bar);
+    const barOffset = getOffset(this.barRef.current);
     const offset = vertical ? event.pageY - barOffset.top : event.pageX - barOffset.left;
 
     this.setValue(this.calculateValue(offset) + min);
@@ -218,20 +218,12 @@ class Slider extends React.Component<Props, State> {
 
   updateBar() {
     this.setState({
-      barWidth: getWidth(this.bar),
-      barHeight: getHeight(this.bar)
+      barWidth: getWidth(this.barRef.current),
+      barHeight: getHeight(this.barRef.current)
     });
   }
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
-
-  handleRef = ref => {
-    this.handle = ref;
-  };
-
-  barRef = ref => {
-    this.bar = ref;
-  };
 
   renderMark(mark: number, last?: boolean) {
     const { renderMark } = this.props;
@@ -250,9 +242,6 @@ class Slider extends React.Component<Props, State> {
     return null;
   }
 
-  /**
-   * 渲染标尺
-   */
   renderGraduated() {
     const { vertical, step, min } = this.props;
     const max = this.getMax();
@@ -264,7 +253,7 @@ class Slider extends React.Component<Props, State> {
     const active = Math.ceil((value - min) / (max - min) * count);
 
     for (let i = 0; i < count; i += 1) {
-      let style = {};
+      let style: React.CSSProperties = {};
       let classes = classNames({
         [this.addPrefix('pass')]: i <= pass,
         [this.addPrefix('active')]: i === active
@@ -382,6 +371,6 @@ class Slider extends React.Component<Props, State> {
   }
 }
 
-export default defaultProps({
+export default defaultProps<SliderProps>({
   classPrefix: 'slider'
 })(Slider);

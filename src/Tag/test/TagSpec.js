@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 
-import Tag from '../src/Tag';
+import Tag from '../Tag';
 
 describe('Tag', () => {
   it('Should output a Tag', () => {

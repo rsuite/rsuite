@@ -1,8 +1,7 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 
-import TagGroup from '../src/TagGroup';
+import TagGroup from '../TagGroup';
 
 describe('TagGroup', () => {
   it('Should output a TagGroup', () => {

@@ -143,7 +143,7 @@ export namespace TypeAttributes {
     | 'autoHorizontalStart'
     | 'autoHorizontalEnd';
 
-  type Placement = Placement8 | PlacementAuto;
+  type Placement = Placement4 | Placement8 | PlacementAuto;
   type CheckTrigger = 'change' | 'blur' | 'none';
 }
 

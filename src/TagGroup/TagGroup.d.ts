@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StandardProps } from '.';
+import { StandardProps } from '../@types/common';
 
 export interface TagGroupProps extends StandardProps {
   /** The content of the component */

@@ -15,7 +15,12 @@ export class TestWrapper extends React.Component {
 }
 
 export function getInstance(children) {
-  if (_.get(children, 'type.displayName') === 'withStyleProps(DefaultPropsComponent)') {
+  const displayName = _.get(children, 'type.displayName') || _.get(children, 'displayName');
+
+  if (
+    displayName === 'withStyleProps(DefaultPropsComponent)' ||
+    displayName === 'withLocale(DefaultPropsComponent)'
+  ) {
     return ReactTestUtils.renderIntoDocument(<TestWrapper>{children}</TestWrapper>);
   }
 

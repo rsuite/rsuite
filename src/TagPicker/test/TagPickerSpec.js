@@ -3,8 +3,8 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { findDOMNode } from 'react-dom';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
-import TagPicker from '../../src/InputPicker/Dropdown';
-import Button from '../../src/Button';
+import TagPicker from '../../InputPicker/InputPicker';
+import Button from '../../Button';
 
 const groupClassName = '.rs-picker-check-menu-group';
 const itemFocusClassName = '.rs-picker-check-menu-item-focus';
@@ -281,13 +281,13 @@ describe('TagPicker', () => {
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<TagPicker classPrefix="custom-prefix" />);
+    const instance = getDOMNode(<TagPicker multi classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   it('Should render a button by toggleComponentClass={Button}', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <TagPicker open data={data} toggleComponentClass={Button} />
+      <TagPicker multi open data={data} toggleComponentClass={Button} />
     );
     ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-btn');
   });

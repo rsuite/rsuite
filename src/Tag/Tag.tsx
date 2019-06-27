@@ -1,20 +1,19 @@
-
-
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import compose from 'recompose/compose';
-import { prefix, withStyleProps, defaultProps } from './utils';
+import { prefix, withStyleProps, defaultProps } from '../utils';
+import { TagProps } from './Tag.d';
 
-type Props = {
-  closable?: boolean,
-  classPrefix?: string,
-  onClose?: (event: SyntheticEvent<*>) => void,
-  children?: React.Node,
-  className?: string,
-  componentClass: React.ElementType
-};
-
-class Tag extends React.Component<Props> {
+class Tag extends React.Component<TagProps> {
+  static propTypes = {
+    closable: PropTypes.bool,
+    classPrefix: PropTypes.string,
+    onClose: PropTypes.func,
+    children: PropTypes.node,
+    className: PropTypes.string,
+    componentClass: PropTypes.elementType
+  };
   render() {
     const {
       children,
@@ -35,19 +34,19 @@ class Tag extends React.Component<Props> {
       <Component className={classes} {...rest}>
         <span className={addPrefix('text')}>{children}</span>
         {closable && (
-          <i role="button" tabIndex="-1" className={addPrefix('icon-close')} onClick={onClose} />
+          <i role="button" tabIndex={-1} className={addPrefix('icon-close')} onClick={onClose} />
         )}
       </Component>
     );
   }
 }
 
-export default compose(
-  withStyleProps({
+export default compose<any, TagProps>(
+  withStyleProps<TagProps>({
     hasColor: true,
     defaultColor: 'default'
   }),
-  defaultProps({
+  defaultProps<TagProps>({
     componentClass: 'div',
     classPrefix: 'tag'
   })
