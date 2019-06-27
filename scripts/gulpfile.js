@@ -1,3 +1,4 @@
+const path = require('path');
 const gulp = require('gulp');
 const del = require('del');
 const less = require('gulp-less');
@@ -68,7 +69,7 @@ gulp.task('dev', () => {
   gulp.start(['babel']);
   gulp.watch('../src/**/*.js', function(event) {
     console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
-    const srcPath = `../${event.path.match(/src\/\S*/)[0]}`;
+    const srcPath = `../${event.path.split(path.sep).join('/').match(/src\/\S*/)[0]}`;
     const libPath = srcPath.replace('/src/', '/lib/').replace(/\/[a-z|A-Z]+.js/, '');
 
     gulp
