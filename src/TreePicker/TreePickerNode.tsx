@@ -1,34 +1,30 @@
-
-
 import * as React from 'react';
 import classNames from 'classnames';
 import { reactToString } from 'rsuite-utils/lib/utils';
 import { hasClass } from 'dom-lib';
 
-type DefaultEvent = SyntheticEvent<*>;
-
-type Props = {
-  style?: Object,
-  layer: number,
-  value?: any,
-  label?: any,
-  expand?: boolean,
-  active?: boolean,
-  visible: boolean,
-  nodeData: Object,
-  disabled?: boolean,
-  hasChildren?: boolean,
-  classPrefix: string,
-  onTreeToggle?: (nodeData: Object, layer: number, event: DefaultEvent) => void,
-  onSelect?: (nodeData: Object, layer: number, event: DefaultEvent) => void,
-  onRenderTreeIcon?: (nodeData: Object) => React.Node,
-  onRenderTreeNode?: (nodeData: Object) => React.Node
-};
+export interface TreePickerProps {
+  style?: React.CSSProperties;
+  layer: number;
+  value?: any;
+  label?: any;
+  expand?: boolean;
+  active?: boolean;
+  visible: boolean;
+  nodeData: any;
+  disabled?: boolean;
+  hasChildren?: boolean;
+  classPrefix: string;
+  onTreeToggle?: (nodeData: Object, layer: number, event: React.SyntheticEvent<any>) => void;
+  onSelect?: (nodeData: Object, layer: number, event: React.SyntheticEvent<any>) => void;
+  onRenderTreeIcon?: (nodeData: Object) => React.ReactNode;
+  onRenderTreeNode?: (nodeData: Object) => React.ReactNode;
+}
 
 const INITIAL_PADDING = 12;
 const PADDING = 16;
 
-class TreeNode extends React.Component<Props> {
+class TreeNode extends React.Component<TreePickerProps> {
   static defaultProps = {
     visible: true
   };
@@ -46,7 +42,7 @@ class TreeNode extends React.Component<Props> {
   /**
    * 展开收缩节点
    */
-  handleTreeToggle = (event: DefaultEvent) => {
+  handleTreeToggle = (event: React.SyntheticEvent<any>) => {
     const { onTreeToggle, layer, nodeData } = this.props;
 
     // 异步加载数据自定义loading图标时，阻止原生冒泡，不触发 document.click
@@ -57,7 +53,7 @@ class TreeNode extends React.Component<Props> {
     onTreeToggle && onTreeToggle(nodeData, layer, event);
   };
 
-  handleSelect = (event: DefaultEvent) => {
+  handleSelect = (event: React.SyntheticEvent<any>) => {
     const { classPrefix, onSelect, layer, disabled, nodeData } = this.props;
 
     if (disabled) {
@@ -92,7 +88,7 @@ class TreeNode extends React.Component<Props> {
     return hasChildren ? (
       <div
         role="button"
-        tabIndex="-1"
+        tabIndex={-1}
         data-ref={nodeData.refKey}
         className={`${classPrefix}-node-expand-icon-wrapper`}
         onClick={this.handleTreeToggle}
@@ -114,7 +110,7 @@ class TreeNode extends React.Component<Props> {
         data-layer={layer}
         data-key={key}
         role="button"
-        tabIndex="-1"
+        tabIndex={-1}
         onClick={this.handleSelect}
       >
         {newLabel}

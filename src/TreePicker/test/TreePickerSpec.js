@@ -3,11 +3,11 @@ import ReactTestUtils from 'react-dom/test-utils';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { findDOMNode } from 'react-dom';
-import { namespace } from './';
-import TreePicker from '../src/TreePicker/Tree';
+import { globalKey } from '@test/testUtils';
+import TreePicker from '../TreePicker';
 
 Enzyme.configure({ adapter: new Adapter() });
-
+const namespace = `${globalKey}-picker`;
 const classPrefix = `.${namespace}-tree`;
 const TreeMenuCls = `${classPrefix}-menu`;
 const treeViewCls = `${classPrefix}-view`;
@@ -251,7 +251,7 @@ describe('TreePicker', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <TreePicker open menuStyle={{ fontSize }} data={data} />
     );
-    assert.equal(findDOMNode(instance.menu).style.fontSize, fontSize);
+    assert.equal(findDOMNode(instance.menuRef.current).style.fontSize, fontSize);
   });
 
   it('Should load data async', () => {

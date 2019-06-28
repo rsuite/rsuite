@@ -1,22 +1,36 @@
 import * as React from 'react';
-import { TypeAttributes, FormControlPickerProps } from './';
-import { TreeBaseProps } from './TreeBase';
 
-export interface TreePickerProps extends TreeBaseProps, FormControlPickerProps<any> {
+import { FormControlPickerProps } from '../@types/common';
+import { TreeBaseProps } from '../Tree/TreeBase';
+
+export interface TreePickerProps extends TreeBaseProps, FormControlPickerProps<any[]> {
+  /** The height of Dropdown */
+  height?: number;
+
+  /** Tree node cascade */
+  cascade?: boolean;
+
+  /** A picker that can be counted */
+  countable?: boolean;
+
   /** Whether dispaly search input box */
   searchable?: boolean;
-
-  /** Whether inline display tree */
-  inline?: boolean;
 
   /** Whether using virtualized list */
   virtualized?: boolean;
 
-  /** Custom Render TreePicker Menu */
+  /** Customizing the Rendering Menu list */
   renderMenu?: (menu: React.ReactNode) => React.ReactNode;
 
-  /** Custom Render Placeholder */
-  renderValue?: (value: any, item: object, selectedElement: React.ReactNode) => React.ReactNode;
+  /** Custom render selected items */
+  renderValue?: (
+    value: any[],
+    selectedItems: any[],
+    selectedElement: React.ReactNode
+  ) => React.ReactNode;
+
+  /** Called when scrolling */
+  onScroll?: (event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
 declare const TreePicker: React.ComponentType<TreePickerProps>;
