@@ -11,7 +11,7 @@ interface Payload {
 }
 
 interface PayloadCallback {
-  (payload: Payload, event: MouseEvent): any
+  (payload?: Payload, event?: MouseEvent): any
 }
 
 export interface ListProps extends StandardProps {
@@ -47,9 +47,6 @@ export interface ListProps extends StandardProps {
 
   /* Callback of moving */
   onSortMove?: PayloadCallback;
-
-  /* Callback of moving over a list items */
-  onSortOver?: (payload: Payload) => void;
 
   /* Callback of end of sorting */
   onSortEnd?: PayloadCallback;

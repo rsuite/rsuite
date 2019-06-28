@@ -6,7 +6,7 @@ describe('ListItem', () => {
   it('Should render a ListItem', () => {
     const domNode = getDOMNode(
       <List>
-        <List.Item />
+        <List.Item index={1} />
       </List>
     );
     assert.include(domNode.firstChild.className, 'rs-list-item');
@@ -15,7 +15,7 @@ describe('ListItem', () => {
   it('Should be disabled', () => {
     const domNode = getDOMNode(
       <List>
-        <List.Item disabled>Disabled</List.Item>
+        <List.Item index={1} disabled>Disabled</List.Item>
       </List>
     );
     assert.include(domNode.firstChild.className, 'rs-list-item-disabled');
@@ -25,7 +25,7 @@ describe('ListItem', () => {
     const fontSize = '12px';
     const domNode = getDOMNode(
       <List>
-        <List.Item style={{ fontSize }} />
+        <List.Item index={1} style={{ fontSize }} />
       </List>
     );
     assert.equal(domNode.firstChild.style.fontSize, fontSize);
@@ -34,7 +34,7 @@ describe('ListItem', () => {
   it('Should have a custom className prefix', () => {
     const domNode = getDOMNode(
       <List>
-        <List.Item classPrefix="custom-prefix" />
+        <List.Item index={1} classPrefix="custom-prefix" />
       </List>
     );
     assert.ok(domNode.firstChild.className.match(/\bcustom-prefix\b/));

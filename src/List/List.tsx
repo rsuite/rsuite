@@ -80,7 +80,6 @@ class List extends React.Component<ListProps, State> {
     transitionDuration: PropTypes.number,
     onSortStart: PropTypes.func,
     onSortMove: PropTypes.func,
-    onSortOver: PropTypes.func,
     onSortEnd: PropTypes.func,
     onSort: PropTypes.func
   };
@@ -400,7 +399,7 @@ class List extends React.Component<ListProps, State> {
   };
 
   animateNodes() {
-    const { transitionDuration, onSortOver } = this.props;
+    const { transitionDuration } = this.props;
     const { manager } = this.state;
     const listItemManagerRefs = manager.getOrderedRefs();
     const sortingOffset: Position = {
@@ -413,8 +412,6 @@ class List extends React.Component<ListProps, State> {
         this.activeNodeFlowBodyTranslate.y +
         this.containerScrollDelta.top
     };
-
-    const prevIndex = this.activeNodeNextIndex;
     this.activeNodeNextIndex = -1;
 
     for (let i = 0, len = listItemManagerRefs.length; i < len; i++) {
@@ -487,15 +484,6 @@ class List extends React.Component<ListProps, State> {
 
     if (this.activeNodeNextIndex === -1) {
       this.activeNodeNextIndex = this.activeNodeOldIndex;
-    }
-
-    if (onSortOver && this.activeNodeNextIndex !== prevIndex) {
-      onSortOver({
-        collection: manager.getActive().info.collection,
-        node: manager.getActive().node,
-        newIndex: this.activeNodeNextIndex,
-        oldIndex: prevIndex
-      });
     }
   }
 
