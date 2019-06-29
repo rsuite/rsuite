@@ -29,20 +29,18 @@ function withStyleProps<T>(options: Options = {}) {
   return (Component: React.ComponentType<any>) => {
     const { hasSize, hasStatus, hasColor, defaultColor } = options;
 
-    const WithStyleComponent = React.forwardRef(
-      (props: RequiredProps & T, ref: React.Ref<any>) => {
-        const { classPrefix, size, color, status, className, ...rest } = props;
-        const addPrefix = prefix(classPrefix);
-        const classes = classNames(className, {
-          [addPrefix(size)]: hasSize && size,
-          [addPrefix(color)]: hasColor && color,
-          [addPrefix(defaultColor)]: !color,
-          [addPrefix(status)]: hasStatus && status
-        });
+    const WithStyleComponent = React.forwardRef((props: RequiredProps & T, ref: React.Ref<any>) => {
+      const { classPrefix, size, color, status, className, ...rest } = props;
+      const addPrefix = prefix(classPrefix);
+      const classes = classNames(className, {
+        [addPrefix(size)]: hasSize && size,
+        [addPrefix(color)]: hasColor && color,
+        [addPrefix(defaultColor)]: !color,
+        [addPrefix(status)]: hasStatus && status
+      });
 
-        return <Component {...rest} classPrefix={classPrefix} className={classes} ref={ref} />;
-      }
-    );
+      return <Component {...rest} classPrefix={classPrefix} className={classes} ref={ref} />;
+    });
 
     const propTypes: any = {
       innerRef: PropTypes.func

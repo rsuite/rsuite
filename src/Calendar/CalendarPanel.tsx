@@ -5,8 +5,8 @@ import classNames from 'classnames';
 
 import Calendar from './Calendar';
 import Button from '../Button';
-import { defaultProps, prefix } from '../utils';
 import IntlProvider from '../IntlProvider';
+import { defaultProps, prefix } from '../utils';
 import { CalendarPanelProps } from './CalendarPanel.d';
 
 interface State {
@@ -21,7 +21,7 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
     isoWeek: PropTypes.bool,
     compact: PropTypes.bool,
     bordered: PropTypes.bool,
-    locale: PropTypes.any,
+    locale: PropTypes.object,
     className: PropTypes.string,
     classPrefix: PropTypes.string,
     onChange: PropTypes.func,
@@ -143,8 +143,6 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
   }
 }
 
-const enhance = defaultProps({
+export default defaultProps<CalendarPanelProps>({
   classPrefix: 'calendar'
-});
-
-export default enhance(CalendarPanel);
+})(CalendarPanel);

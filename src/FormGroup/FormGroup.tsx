@@ -35,10 +35,10 @@ class FormGroup extends React.Component<FormGroupProps> {
 }
 
 export default compose<any, FormGroupProps>(
-  defaultProps<FormGroupProps>({
-    classPrefix: 'form-group'
-  }),
   withStyleProps<FormGroupProps>({
     hasSize: true
+  }),
+  defaultProps<FormGroupProps>({
+    classPrefix: 'form-group'
   })
 )(FormGroup);

@@ -1,42 +1,31 @@
-
-
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 
-import FormattedMessage from './IntlProvider/FormattedMessage';
-import { previewFile, defaultProps, getUnhandledProps, prefix } from './utils';
+import FormattedMessage from '../IntlProvider/FormattedMessage';
+import { previewFile, defaultProps, getUnhandledProps, prefix } from '../utils';
+import { FileType } from './Uploader.d';
 
-type FileType = {
-  fileKey: number | string,
-  name: string,
-  // https://developer.mozilla.org/zh-CN/docs/Web/API/File
-  blobFile?: File,
-  status?: 'inited' | 'uploading' | 'error' | 'finished',
-  progress?: number,
-  url?: string
-};
+export interface UploadFileItemProps {
+  file: FileType;
+  listType: 'text' | 'picture-text' | 'picture';
+  disabled?: boolean;
+  className?: string;
+  maxPreviewFileSize: number;
+  classPrefix?: string;
+  removable?: boolean;
+  renderFileInfo?: (file: FileType, fileElement: React.ReactNode) => React.ReactNode;
+  onCancel?: (fileKey: number | string, event: React.MouseEvent) => void;
+  onPreview?: (file: FileType, event: React.MouseEvent) => void;
+  onReupload?: (file: FileType, event: React.MouseEvent) => void;
+}
 
-type Props = {
-  file: FileType,
-  listType: 'text' | 'picture-text' | 'picture',
-  disabled?: boolean,
-  onCancel?: (fileKey: number | string, event: SyntheticEvent<*>) => void,
-  onPreview?: (file: FileType, event: SyntheticEvent<*>) => void,
-  onReupload?: (file: FileType, event: SyntheticEvent<*>) => void,
-  className?: string,
-  maxPreviewFileSize: number,
-  classPrefix?: string,
-  renderFileInfo?: (file: FileType, fileElement: React.Node) => React.Node,
-  removable?: boolean
-};
-
-type State = {
-  previewImage?: null | string | ArrayBuffer
-};
+interface UploadFileItemState {
+  previewImage?: string;
+}
 
 const getSize = (size: number = 0): string => {
-  
   const K = 1024;
   const M = 1024 * 1024;
   const G = 1024 * 1024 * 1024;
@@ -55,14 +44,27 @@ const getSize = (size: number = 0): string => {
   return `${size}B`;
 };
 
-class UploadFileItem extends React.Component<Props, State> {
+class UploadFileItem extends React.Component<UploadFileItemProps, UploadFileItemState> {
+  static propTypes = {
+    file: PropTypes.object,
+    listType: PropTypes.oneOf(['text', 'picture-text', 'picture']),
+    disabled: PropTypes.bool,
+    className: PropTypes.string,
+    maxPreviewFileSize: PropTypes.number,
+    classPrefix: PropTypes.string,
+    removable: PropTypes.bool,
+    renderFileInfo: PropTypes.func,
+    onCancel: PropTypes.func,
+    onPreview: PropTypes.func,
+    onReupload: PropTypes.func
+  };
   static defaultProps = {
     maxPreviewFileSize: 1024 * 1024 * 5, // 5MB
     listType: 'text',
     removable: true
   };
 
-  constructor(props: Props) {
+  constructor(props) {
     super(props);
 
     const { file } = props;
@@ -72,7 +74,7 @@ class UploadFileItem extends React.Component<Props, State> {
     };
 
     if (!file.url) {
-      this.getThumbnail((previewImage: string | ArrayBuffer) => {
+      this.getThumbnail((previewImage: any) => {
         this.setState({ previewImage });
       });
     }
@@ -92,7 +94,7 @@ class UploadFileItem extends React.Component<Props, State> {
     previewFile(file.blobFile, callback);
   }
 
-  handleRemove = (event: SyntheticEvent<*>) => {
+  handleRemove = (event: React.MouseEvent<HTMLAnchorElement>) => {
     const { disabled, onCancel, file } = this.props;
 
     if (disabled) {
@@ -102,7 +104,7 @@ class UploadFileItem extends React.Component<Props, State> {
     onCancel && onCancel(file.fileKey, event);
   };
 
-  handlePreview = (event: SyntheticEvent<*>) => {
+  handlePreview = (event: React.MouseEvent) => {
     const { disabled, onPreview, file } = this.props;
     if (disabled) {
       return;
@@ -110,7 +112,7 @@ class UploadFileItem extends React.Component<Props, State> {
     onPreview && onPreview(file, event);
   };
 
-  handleReupload = (event: SyntheticEvent<*>) => {
+  handleReupload = (event: React.MouseEvent<HTMLAnchorElement>) => {
     const { disabled, onReupload, file } = this.props;
     if (disabled) {
       return;
@@ -125,7 +127,7 @@ class UploadFileItem extends React.Component<Props, State> {
     const { progress = 0, status } = file;
     const show = !disabled && status === 'uploading';
     const visibility = show ? 'visible' : 'hidden';
-    const wrapStyle = {
+    const wrapStyle: React.CSSProperties = {
       visibility
     };
     const progressbarStyle = {
@@ -183,7 +185,7 @@ class UploadFileItem extends React.Component<Props, State> {
         className={this.addPrefix('btn-remove')}
         onClick={this.handleRemove}
         role="button"
-        tabIndex="-1"
+        tabIndex={-1}
       >
         <span aria-hidden="true">×</span>
       </a>
@@ -196,7 +198,7 @@ class UploadFileItem extends React.Component<Props, State> {
       return (
         <div className={this.addPrefix('status')}>
           <FormattedMessage id="error" />
-          <a role="button" tabIndex="-1" onClick={this.handleReupload}>
+          <a role="button" tabIndex={-1} onClick={this.handleReupload}>
             <i className={this.addPrefix('icon-reupload')} />
           </a>
         </div>
@@ -272,6 +274,6 @@ class UploadFileItem extends React.Component<Props, State> {
   }
 }
 
-export default defaultProps({
+export default defaultProps<UploadFileItemProps>({
   classPrefix: 'uploader-file-item'
 })(UploadFileItem);

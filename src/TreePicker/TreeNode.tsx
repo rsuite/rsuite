@@ -1,10 +1,12 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { reactToString } from 'rsuite-utils/lib/utils';
 import { hasClass } from 'dom-lib';
+import { TREE_NODE_PADDING } from '../constants';
+import { defaultProps, prefix } from '../utils';
 
-export interface TreePickerProps {
-  style?: React.CSSProperties;
+export interface TreeNodeProps {
   layer: number;
   value?: any;
   label?: any;
@@ -14,17 +16,34 @@ export interface TreePickerProps {
   nodeData: any;
   disabled?: boolean;
   hasChildren?: boolean;
-  classPrefix: string;
-  onTreeToggle?: (nodeData: Object, layer: number, event: React.SyntheticEvent<any>) => void;
-  onSelect?: (nodeData: Object, layer: number, event: React.SyntheticEvent<any>) => void;
-  onRenderTreeIcon?: (nodeData: Object) => React.ReactNode;
-  onRenderTreeNode?: (nodeData: Object) => React.ReactNode;
+  className?: string;
+  classPrefix?: string;
+  style?: React.CSSProperties;
+  onTreeToggle?: (nodeData: any, layer: number, event: React.SyntheticEvent<any>) => void;
+  onSelect?: (nodeData: any, layer: number, event: React.SyntheticEvent<any>) => void;
+  onRenderTreeIcon?: (nodeData: any) => React.ReactNode;
+  onRenderTreeNode?: (nodeData: any) => React.ReactNode;
 }
 
-const INITIAL_PADDING = 12;
-const PADDING = 16;
-
-class TreeNode extends React.Component<TreePickerProps> {
+class TreeNode extends React.Component<TreeNodeProps> {
+  static propTypes = {
+    layer: PropTypes.number,
+    value: PropTypes.any,
+    label: PropTypes.any,
+    expand: PropTypes.bool,
+    active: PropTypes.bool,
+    visible: PropTypes.bool,
+    nodeData: PropTypes.any,
+    disabled: PropTypes.bool,
+    hasChildren: PropTypes.bool,
+    className: PropTypes.string,
+    classPrefix: PropTypes.string,
+    style: PropTypes.object,
+    onTreeToggle: PropTypes.func,
+    onSelect: PropTypes.func,
+    onRenderTreeIcon: PropTypes.func,
+    onRenderTreeNode: PropTypes.func
+  };
   static defaultProps = {
     visible: true
   };
@@ -39,9 +58,8 @@ class TreeNode extends React.Component<TreePickerProps> {
     }
   }
 
-  /**
-   * 展开收缩节点
-   */
+  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
+
   handleTreeToggle = (event: React.SyntheticEvent<any>) => {
     const { onTreeToggle, layer, nodeData } = this.props;
 
@@ -54,14 +72,14 @@ class TreeNode extends React.Component<TreePickerProps> {
   };
 
   handleSelect = (event: React.SyntheticEvent<any>) => {
-    const { classPrefix, onSelect, layer, disabled, nodeData } = this.props;
+    const { onSelect, layer, disabled, nodeData } = this.props;
 
     if (disabled) {
       return;
     }
 
     if (event.target instanceof HTMLElement) {
-      if (hasClass(event.target.parentNode, `${classPrefix}-node-expand-icon-wrapper`)) {
+      if (hasClass(event.target.parentNode, this.addPrefix('expand-icon-wrapper'))) {
         return;
       }
     }
@@ -70,16 +88,17 @@ class TreeNode extends React.Component<TreePickerProps> {
   };
 
   renderIcon = () => {
-    const { classPrefix, expand, onRenderTreeIcon, hasChildren, nodeData } = this.props;
-    const expandIconClasses = classNames(`${classPrefix}-node-expand-icon icon`, {
-      [`${classPrefix}-node-expanded`]: !!expand
+    const { expand, onRenderTreeIcon, hasChildren, nodeData } = this.props;
+    const classes = classNames(this.addPrefix('expand-icon'), 'icon', {
+      [this.addPrefix('expanded')]: !!expand
     });
-    let expandIcon = <i className={expandIconClasses} />;
+
+    let expandIcon = <i className={classes} />;
     if (nodeData !== undefined && typeof onRenderTreeIcon === 'function') {
       const customIcon = onRenderTreeIcon(nodeData);
       expandIcon =
         customIcon !== null ? (
-          <div className={`${classPrefix}-custom-icon`}>{customIcon}</div>
+          <div className={this.addPrefix('custom-icon')}>{customIcon}</div>
         ) : (
           expandIcon
         );
@@ -90,7 +109,7 @@ class TreeNode extends React.Component<TreePickerProps> {
         role="button"
         tabIndex={-1}
         data-ref={nodeData.refKey}
-        className={`${classPrefix}-node-expand-icon-wrapper`}
+        className={this.addPrefix('expand-icon-wrapper')}
         onClick={this.handleTreeToggle}
       >
         {expandIcon}
@@ -99,13 +118,12 @@ class TreeNode extends React.Component<TreePickerProps> {
   };
 
   renderLabel = () => {
-    const { nodeData, onRenderTreeNode, label, classPrefix, layer } = this.props;
-    let newLabel = label;
-    newLabel = typeof onRenderTreeNode === 'function' ? onRenderTreeNode(nodeData) : label;
+    const { nodeData, onRenderTreeNode, label, layer } = this.props;
     const key = nodeData ? nodeData.refKey : '';
+
     return (
       <span
-        className={`${classPrefix}-node-label`}
+        className={this.addPrefix('label')}
         title={this.getTitle()}
         data-layer={layer}
         data-key={key}
@@ -113,23 +131,20 @@ class TreeNode extends React.Component<TreePickerProps> {
         tabIndex={-1}
         onClick={this.handleSelect}
       >
-        {newLabel}
+        {onRenderTreeNode ? onRenderTreeNode(nodeData) : label}
       </span>
     );
   };
 
   render() {
-    const { style, classPrefix, active, layer, disabled, visible } = this.props;
-
-    const disabledClass = `${classPrefix}-node-disabled`;
-    const activeClass = `${classPrefix}-node-active`;
-    const classes = classNames(`${classPrefix}-node`, {
+    const { style, className, classPrefix, active, layer, disabled, visible } = this.props;
+    const classes = classNames(className, classPrefix, {
       'text-muted': disabled,
-      [disabledClass]: disabled,
-      [activeClass]: active
+      [this.addPrefix('disabled')]: disabled,
+      [this.addPrefix('active')]: active
     });
 
-    const styles = { paddingLeft: layer * PADDING + INITIAL_PADDING };
+    const styles = { paddingLeft: layer * TREE_NODE_PADDING };
 
     return visible ? (
       <div style={{ ...style, ...styles }} className={classes}>
@@ -140,4 +155,6 @@ class TreeNode extends React.Component<TreePickerProps> {
   }
 }
 
-export default TreeNode;
+export default defaultProps<TreeNodeProps>({
+  classPrefix: 'tree-node'
+})(TreeNode);

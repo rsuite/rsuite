@@ -2,8 +2,6 @@ import React from 'react';
 import { getDOMNode } from '@test/testUtils';
 
 import FormGroup from '../FormGroup';
-import ErrorMessage from '../../ErrorMessage';
-import HelpBlock from '../../HelpBlock';
 import Input from '../../Input';
 import ControlLabel from '../../ControlLabel';
 
@@ -70,15 +68,11 @@ describe('FormGroup', () => {
         <div>
           <ControlLabel />
           <Input />
-          <ErrorMessage show />
-          <HelpBlock />
         </div>
       </FormGroup>
     );
     assert.equal(instance.querySelector('.rs-control-label').getAttribute('for'), 'name');
     assert.equal(instance.querySelector('.rs-input').getAttribute('id'), 'name');
-    assert.equal(instance.querySelector('.rs-error-message-show').getAttribute('for'), 'name');
-    assert.equal(instance.querySelector('.rs-help-block').getAttribute('for'), 'name');
   });
 
   it('Should use their own htmlFor and id', () => {
@@ -87,14 +81,10 @@ describe('FormGroup', () => {
         <div>
           <ControlLabel htmlFor="email" />
           <Input id="email" />
-          <ErrorMessage show htmlFor="email" />
-          <HelpBlock htmlFor="email" />
         </div>
       </FormGroup>
     );
     assert.equal(instance.querySelector('.rs-control-label').getAttribute('for'), 'email');
     assert.equal(instance.querySelector('.rs-input').getAttribute('id'), 'email');
-    assert.equal(instance.querySelector('.rs-error-message-show').getAttribute('for'), 'email');
-    assert.equal(instance.querySelector('.rs-help-block').getAttribute('for'), 'email');
   });
 });

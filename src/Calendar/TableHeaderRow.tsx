@@ -14,7 +14,7 @@ export interface TableHeaderRowProps {
 const weekKeys = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
 class TableHeaderRow extends React.PureComponent<TableHeaderRowProps> {
-  static PropTypes = {
+  static propTypes = {
     isoWeek: PropTypes.bool,
     className: PropTypes.string,
     classPrefix: PropTypes.string

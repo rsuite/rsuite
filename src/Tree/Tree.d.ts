@@ -7,7 +7,7 @@ interface DataItem {
   children?: DataItem[];
 }
 
-interface TreeProps extends TreeBaseProps {
+export interface TreeProps extends TreeBaseProps {
   /** Tree Data */
   data?: DataItem[];
 

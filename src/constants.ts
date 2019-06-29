@@ -46,3 +46,7 @@ export enum CHECK_STATE {
   CHECK = 1,
   INDETERMINATE = 2
 }
+
+export type CheckStateType = CHECK_STATE.UNCHECK | CHECK_STATE.CHECK | CHECK_STATE.INDETERMINATE;
+
+export const TREE_NODE_PADDING = 28;

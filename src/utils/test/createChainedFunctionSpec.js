@@ -1,4 +1,4 @@
-import createChainedFunction from '../src/utils/createChainedFunction';
+import createChainedFunction from '../createChainedFunction';
 
 describe('[utils] createChainedFunction', () => {
   it('Should call all functions', () => {

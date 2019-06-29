@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { findDOMNode } from 'react-dom';
 
 import SearchBar from '../SearchBar';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 
 const searchInputClassName = '.rs-picker-search-bar-input';
 

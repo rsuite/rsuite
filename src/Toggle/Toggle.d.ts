@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StandardProps } from '.';
+import { StandardProps } from '../@types/common';
 
 export interface ToggleProps extends StandardProps {
   /** Wheather to disabled toggle */

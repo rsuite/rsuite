@@ -1,20 +1,19 @@
-
-
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import setStatic from 'recompose/setStatic';
 
 import TimelineItem from './TimelineItem';
-import { defaultProps, ReactChildren } from './utils';
+import { defaultProps, ReactChildren } from '../utils';
+import { TimelineProps } from './Timeline.d';
 
-type Props = {
-  className?: string,
-  classPrefix?: string,
-  children: React.Node,
-  componentClass: React.ElementType
-};
-
-class Timeline extends React.Component<Props> {
+class Timeline extends React.Component<TimelineProps> {
+  static propTypes = {
+    className: PropTypes.string,
+    classPrefix: PropTypes.string,
+    children: PropTypes.node,
+    componentClass: PropTypes.elementType
+  };
   render() {
     const { children, componentClass: Component, classPrefix, className, ...rest } = this.props;
     const count = React.Children.count(children);
@@ -28,7 +27,7 @@ class Timeline extends React.Component<Props> {
   }
 }
 
-const EnhancedTimeline = defaultProps({
+const EnhancedTimeline = defaultProps<TimelineProps>({
   classPrefix: 'timeline',
   componentClass: 'ul'
 })(Timeline);

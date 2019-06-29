@@ -6,7 +6,7 @@ import _omit from 'lodash/omit';
 
 import Form from '../Form';
 import FormControl from '../../FormControl';
-import Schema from '../Schema';
+import Schema from '../../Schema';
 
 const checkEmail = '请输入正确的邮箱';
 

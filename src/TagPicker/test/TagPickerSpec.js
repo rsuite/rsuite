@@ -66,14 +66,13 @@ describe('TagPicker', () => {
 
   it('Should be block', () => {
     const instance = getDOMNode(<TagPicker block multi />);
-
     assert.ok(instance.className.match(/\bblock\b/));
   });
 
   it('Should active item by `value`', () => {
     const value = 'Louisa';
     const instance = getInstance(<TagPicker multi defaultOpen data={data} value={[value]} />);
-    const menuContainer = getDOMNode(instance.menuContainer);
+    const menuContainer = getDOMNode(instance.menuContainerRef.current);
     assert.equal(getDOMNode(instance).querySelector('.rs-tag').innerText, value);
     assert.equal(menuContainer.querySelector(itemActiveClassName).innerText, value);
   });
@@ -83,7 +82,7 @@ describe('TagPicker', () => {
     const instance = getInstance(
       <TagPicker multi defaultOpen data={data} defaultValue={[value]} />
     );
-    const menuContainer = getDOMNode(instance.menuContainer);
+    const menuContainer = getDOMNode(instance.menuContainerRef.current);
 
     assert.equal(getDOMNode(instance).querySelector('.rs-tag').innerText, value);
     assert.equal(menuContainer.querySelector(itemActiveClassName).innerText, value);
@@ -91,7 +90,7 @@ describe('TagPicker', () => {
 
   it('Should render a group', () => {
     const instance = getInstance(<TagPicker multi defaultOpen groupBy="role" data={data} />);
-    const menuContainer = getDOMNode(instance.menuContainer);
+    const menuContainer = getDOMNode(instance.menuContainerRef.current);
     assert.ok(menuContainer.querySelector(groupClassName));
   });
 
@@ -123,7 +122,7 @@ describe('TagPicker', () => {
         defaultOpen
       />
     );
-    const menuContainer = getDOMNode(instance.menuContainer).querySelector(
+    const menuContainer = getDOMNode(instance.menuContainerRef.current).querySelector(
       '.rs-picker-check-menu-item-active'
     );
     assert.equal(menuContainer.innerText, '');
@@ -150,7 +149,7 @@ describe('TagPicker', () => {
     const instance = ReactTestUtils.renderIntoDocument(
       <TagPicker multi defaultOpen onChange={doneOp} data={[{ label: '1', value: '1' }]} />
     );
-    const instanceDOM = findDOMNode(instance.menuContainer);
+    const instanceDOM = findDOMNode(instance.menuContainerRef.current);
 
     ReactTestUtils.Simulate.change(instanceDOM.querySelector('.rs-picker-check-menu-item input'));
   });
@@ -203,7 +202,7 @@ describe('TagPicker', () => {
       <TagPicker multi defaultOpen data={data} defaultValue={['Eugenia']} />
     );
 
-    const menuDOM = getDOMNode(instance.menuContainer);
+    const menuDOM = getDOMNode(instance.menuContainerRef.current);
     ReactTestUtils.Simulate.keyDown(getDOMNode(instance), { keyCode: 40 });
 
     assert.equal(menuDOM.querySelector(itemFocusClassName).innerText, 'Kariane');
@@ -214,7 +213,7 @@ describe('TagPicker', () => {
       <TagPicker multi defaultOpen data={data} defaultValue={['Kariane']} />
     );
 
-    const menuDOM = getDOMNode(instance.menuContainer);
+    const menuDOM = getDOMNode(instance.menuContainerRef.current);
     ReactTestUtils.Simulate.keyDown(getDOMNode(instance), { keyCode: 38 });
 
     assert.equal(menuDOM.querySelector(itemFocusClassName).innerText, 'Eugenia');

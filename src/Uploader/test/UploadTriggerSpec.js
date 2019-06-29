@@ -1,9 +1,8 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 
-import UploadTrigger from '../src/UploadTrigger';
+import UploadTrigger from '../UploadTrigger';
 
 describe('UploadTrigger', () => {
   it('Should output a UploadTrigger', () => {

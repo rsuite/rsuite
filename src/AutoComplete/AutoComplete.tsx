@@ -25,7 +25,7 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
     disabled: PropTypes.bool,
     onSelect: PropTypes.func,
     onChange: PropTypes.func,
-    classPrefix: PropTypes.func,
+    classPrefix: PropTypes.string,
     value: PropTypes.string,
     defaultValue: PropTypes.string,
     className: PropTypes.string,
@@ -299,7 +299,7 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
   }
 }
 
-const EnhancedAutoComplete = defaultProps({
+const EnhancedAutoComplete = defaultProps<AutoCompleteProps>({
   classPrefix: 'auto-complete'
 })(AutoComplete);
 

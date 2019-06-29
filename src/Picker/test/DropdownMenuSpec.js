@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { findDOMNode } from 'react-dom';
-import { namespace } from '../';
 
 import { getDOMNode } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
 import DropdownMenuItem from '../DropdownMenuItem';
 
-const classPrefix = `${namespace}-select-menu`;
+const classPrefix = `.rs-select-menu`;
 const groupClassName = `.${classPrefix}-group`;
 const titleClassName = `.${classPrefix}-group-title`;
 const childrenClassName = `.${classPrefix}-group-children`;

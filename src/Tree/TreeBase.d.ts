@@ -1,5 +1,14 @@
 import { StandardProps } from '../@types/common';
 
+export interface RowProps {
+  node: object; // Index of row
+  isScrolling: boolean; // The List is currently being scrolled
+  isVisible: boolean; // This row is visible within the List (eg it is not an overscanned row)
+  key?: any; // Unique key within array of rendered rows
+  parent: any; // Reference to the parent List (instance)
+  style?: React.CSSProperties; // Style object to be applied to row (to position it);
+}
+
 export interface TreeBaseProps extends StandardProps {
   /** Expand all nodes By default */
   defaultExpandAll?: boolean;

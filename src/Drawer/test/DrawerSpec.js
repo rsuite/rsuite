@@ -2,7 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import Drawer from '../src/Drawer';
+import Drawer from '../Drawer';
 
 describe('Drawer', () => {
   it('Should render a drawer', () => {

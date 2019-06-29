@@ -1,19 +1,20 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import compose from 'recompose/compose';
 
-import { prefix, defaultProps, withStyleProps } from './utils';
+import { prefix, defaultProps, withStyleProps } from '../utils';
+import { TimelineItemProps } from './TimelineItem.d';
 
-type Props = {
-  last?: boolean,
-  dot?: React.Node,
-  className?: string,
-  children: React.Node,
-  classPrefix?: string,
-  componentClass: React.ElementType
-};
-
-class TimelineItem extends React.Component<Props> {
+class TimelineItem extends React.Component<TimelineItemProps> {
+  static propTypes = {
+    last: PropTypes.bool,
+    dot: PropTypes.node,
+    className: PropTypes.string,
+    children: PropTypes.node,
+    classPrefix: PropTypes.string,
+    componentClass: PropTypes.elementType
+  };
   render() {
     const {
       children,
@@ -41,11 +42,11 @@ class TimelineItem extends React.Component<Props> {
   }
 }
 
-export default compose(
-  withStyleProps({
+export default compose<any, TimelineItemProps>(
+  withStyleProps<TimelineItemProps>({
     hasColor: true
   }),
-  defaultProps({
+  defaultProps<TimelineItemProps>({
     componentClass: 'li',
     classPrefix: 'timeline-item'
   })

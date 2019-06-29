@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { findDOMNode } from 'react-dom';
 
-import { globalKey } from '@test/testutils';
+import { globalKey } from '@test/testUtils';
 import Dropdown from '../MultiCascader';
 import Button from '../../Button';
 

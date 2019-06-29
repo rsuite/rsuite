@@ -2,12 +2,13 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { hasClass } from 'dom-lib';
-import { prefix, reactToString } from 'rsuite-utils/lib/utils';
-import { CHECK_STATE } from '../constants';
+import { reactToString } from 'rsuite-utils/lib/utils';
+import { defaultProps, prefix } from '../utils';
+import { CHECK_STATE, CheckStateType, TREE_NODE_PADDING } from '../constants';
 
-export type CheckState = CHECK_STATE.UNCHECK | CHECK_STATE.CHECK | CHECK_STATE.INDETERMINATE;
 export interface TreeCheckNodeProps {
   classPrefix?: string;
+  className?: string;
   visible?: boolean;
   style?: React.CSSProperties;
   label?: any;
@@ -17,7 +18,7 @@ export interface TreeCheckNodeProps {
   expand?: boolean;
   nodeData?: any;
   disabled?: boolean;
-  checkState?: CheckState;
+  checkState?: CheckStateType;
   hasChildren?: boolean;
   uncheckable?: boolean;
   allUncheckable?: boolean;
@@ -26,9 +27,6 @@ export interface TreeCheckNodeProps {
   onRenderTreeIcon?: (nodeData: any, expandIcon?: React.ReactNode) => React.ReactNode;
   onRenderTreeNode?: (nodeData: any) => React.ReactNode;
 }
-
-const INITIAL_PADDING = 12;
-const PADDING = 16;
 
 class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
   static propTypes = {
@@ -81,7 +79,7 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
   };
 
   handleSelect = (event: React.SyntheticEvent<any>) => {
-    const { classPrefix, onSelect, disabled, uncheckable, nodeData, checkState } = this.props;
+    const { onSelect, disabled, uncheckable, nodeData, checkState } = this.props;
 
     if (disabled || uncheckable) {
       return;
@@ -89,7 +87,7 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
 
     // 如果点击的是展开 icon 就 return
     if (event.target instanceof HTMLElement) {
-      if (hasClass(event.target.parentNode, `${classPrefix}-node-expand-icon-wrapper`)) {
+      if (hasClass(event.target.parentNode, this.addPrefix('expand-icon-wrapper'))) {
         return;
       }
     }
@@ -106,17 +104,19 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
     onSelect && onSelect(nodeData, event);
   };
 
+  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
+
   renderIcon = () => {
-    const { expand, onRenderTreeIcon, hasChildren, nodeData, classPrefix } = this.props;
-    const expandIconClasses = classNames(`${classPrefix}-node-expand-icon icon`, {
-      [`${classPrefix}-node-expanded`]: expand
+    const { expand, onRenderTreeIcon, hasChildren, nodeData } = this.props;
+    const expandIconClasses = classNames(this.addPrefix('expand-icon'), 'icon', {
+      [this.addPrefix('expanded')]: expand
     });
     let expandIcon = <i className={expandIconClasses} />;
     if (typeof onRenderTreeIcon === 'function') {
       const customIcon = onRenderTreeIcon(nodeData);
       expandIcon =
         customIcon !== null ? (
-          <div className={`${classPrefix}-custom-icon`}>{customIcon}</div>
+          <div className={this.addPrefix('custom-icon')}>{customIcon}</div>
         ) : (
           expandIcon
         );
@@ -126,7 +126,7 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
         role="button"
         tabIndex={-1}
         data-ref={nodeData.refKey}
-        className={`${classPrefix}-node-expand-icon-wrapper`}
+        className={this.addPrefix('expand-icon-wrapper')}
         onClick={this.handleTreeToggle}
       >
         {expandIcon}
@@ -135,25 +135,16 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
   };
 
   renderLabel = () => {
-    const {
-      classPrefix,
-      nodeData,
-      onRenderTreeNode,
-      label,
-      layer,
-      disabled,
-      uncheckable
-    } = this.props;
-    const addPrefix = prefix(classPrefix);
+    const { nodeData, onRenderTreeNode, label, layer, disabled, uncheckable } = this.props;
     const input = (
-      <span className={addPrefix('input-wrapper')}>
+      <span className={this.addPrefix('input-wrapper')}>
         <input
-          className={addPrefix('input')}
+          className={this.addPrefix('input')}
           type="checkbox"
           disabled={disabled}
           onChange={this.handleSelect}
         />
-        <span className={addPrefix('inner')} />
+        <span className={this.addPrefix('inner')} />
       </span>
     );
     let custom = typeof onRenderTreeNode === 'function' ? onRenderTreeNode(nodeData) : label;
@@ -161,7 +152,7 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
       <span
         role="button"
         tabIndex={-1}
-        className={addPrefix('checknode-label')}
+        className={this.addPrefix('label')}
         title={this.getTitle()}
         data-layer={layer}
         data-key={nodeData.refKey}
@@ -176,6 +167,7 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
   render() {
     const {
       style,
+      className,
       classPrefix,
       visible,
       active,
@@ -185,17 +177,16 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
       allUncheckable
     } = this.props;
 
-    const addPrefix = prefix(`${classPrefix}-node`);
-    const classes = classNames(`${classPrefix}-node`, {
+    const classes = classNames(className, classPrefix, {
       'text-muted': disabled,
-      [addPrefix('indeterminate')]: checkState === CHECK_STATE.INDETERMINATE,
-      [addPrefix('checked')]: checkState === CHECK_STATE.CHECK,
-      [addPrefix('disabled')]: disabled,
-      [addPrefix('active')]: active,
-      [addPrefix('all-uncheckable')]: !!allUncheckable
+      [this.addPrefix('indeterminate')]: checkState === CHECK_STATE.INDETERMINATE,
+      [this.addPrefix('checked')]: checkState === CHECK_STATE.CHECK,
+      [this.addPrefix('disabled')]: disabled,
+      [this.addPrefix('active')]: active,
+      [this.addPrefix('all-uncheckable')]: !!allUncheckable
     });
 
-    const styles = { paddingLeft: layer * PADDING + INITIAL_PADDING };
+    const styles = { paddingLeft: layer * TREE_NODE_PADDING };
     return visible ? (
       <div style={{ ...style, ...styles }} className={classes}>
         {this.renderIcon()}
@@ -205,4 +196,6 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
   }
 }
 
-export default TreeCheckNode;
+export default defaultProps<TreeCheckNodeProps>({
+  classPrefix: 'check-tree-node'
+})(TreeCheckNode);

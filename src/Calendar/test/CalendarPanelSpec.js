@@ -4,7 +4,7 @@ import { parse } from 'date-fns';
 import { getDOMNode } from '@test/testUtils';
 import CalendarPanel from '../CalendarPanel';
 
-describe('Calendar', () => {
+describe('Calendar - Panel', () => {
   it('Should render a div with `calendar` class', () => {
     const instance = getDOMNode(<CalendarPanel />);
 

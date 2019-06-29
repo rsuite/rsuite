@@ -47,7 +47,7 @@ interface InputPickerState {
   maxWidth?: number;
 }
 
-class Dropdown extends React.Component<InputPickerProps, InputPickerState> {
+class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   static propTypes = {
     data: PropTypes.array,
     cacheData: PropTypes.array,
@@ -123,6 +123,7 @@ class Dropdown extends React.Component<InputPickerProps, InputPickerState> {
   toggleWrapperRef: React.RefObject<any>;
   toggleRef: React.RefObject<any>;
   triggerRef: React.RefObject<any>;
+  inputRef: React.RefObject<any>;
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.data && !shallowEqual(nextProps.data, prevState.data)) {
@@ -160,6 +161,7 @@ class Dropdown extends React.Component<InputPickerProps, InputPickerState> {
     this.toggleWrapperRef = React.createRef();
     this.toggleRef = React.createRef();
     this.triggerRef = React.createRef();
+    this.inputRef = React.createRef();
   }
 
   componentDidMount() {
@@ -241,20 +243,26 @@ class Dropdown extends React.Component<InputPickerProps, InputPickerState> {
     };
   }
 
-  input = null;
-
-  bindInputRef = (ref: React.Ref<any>) => {
-    this.input = ref;
-  };
-
   focusInput() {
-    if (!this.input) return;
-    this.input.focus();
+    const input = this.getInput();
+    if (!input) return;
+
+    input.focus();
   }
 
   blurInput() {
-    if (!this.input) return;
-    this.input.blur();
+    const input = this.getInput();
+    if (!input) return;
+    input.blur();
+  }
+
+  getInput() {
+    const { multi } = this.props;
+    if (multi) {
+      return this.inputRef.current.getInputInstance();
+    }
+
+    return this.inputRef.current;
   }
 
   getToggleInstance = () => {
@@ -405,7 +413,7 @@ class Dropdown extends React.Component<InputPickerProps, InputPickerState> {
     this.handleChange(value, event);
   };
 
-  handleItemSelect = (value: any, item: Object, event: React.MouseEvent) => {
+  handleItemSelect = (value: any, item: any, event: React.MouseEvent) => {
     const nextState = {
       value,
       focusItemValue: value,
@@ -419,7 +427,7 @@ class Dropdown extends React.Component<InputPickerProps, InputPickerState> {
 
   handleCheckItemSelect = (
     nextItemValue: any,
-    item: Object,
+    item: any,
     event: React.MouseEvent,
     checked: boolean
   ) => {
@@ -677,8 +685,9 @@ class Dropdown extends React.Component<InputPickerProps, InputPickerState> {
 
   renderInputSearch() {
     const { multi } = this.props;
-    const props: InputSearchProps & InputAutosizeProps = {
-      componentClass: 'input'
+    const props: InputSearchProps & InputAutosizeProps & React.RefAttributes<any> = {
+      componentClass: 'input',
+      inputRef: this.inputRef
     };
 
     if (multi) {
@@ -690,7 +699,6 @@ class Dropdown extends React.Component<InputPickerProps, InputPickerState> {
     return (
       <InputSearch
         {...props}
-        inputRef={this.bindInputRef}
         onChange={this.handleSearch}
         value={this.state.open ? this.state.searchKeyword : ''}
       />
@@ -714,7 +722,7 @@ class Dropdown extends React.Component<InputPickerProps, InputPickerState> {
       ...rest
     } = this.props;
 
-    const unhandled = getUnhandledProps(Dropdown, rest);
+    const unhandled = getUnhandledProps(InputPicker, rest);
     const { isValid, displayElement } = this.renderSingleValue();
     const tagElements = this.renderMultiValue();
     const hasValue = multi ? !!_.get(tagElements, 'length') : isValid;
@@ -770,4 +778,4 @@ const enhance = defaultProps<InputPickerProps>({
   classPrefix: 'picker'
 });
 
-export default enhance(Dropdown);
+export default enhance(InputPicker);

@@ -1,93 +1,64 @@
-
-
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import compose from 'recompose/compose';
 
-import IntlProvider from './IntlProvider';
-import withLocale from './IntlProvider/withLocale';
+import IntlProvider from '../IntlProvider';
+import withLocale from '../IntlProvider/withLocale';
 import FileItem from './UploadFileItem';
 import UploadTrigger from './UploadTrigger';
-import { prefix, ajaxUpload, defaultProps, getUnhandledProps } from './utils';
-
-const guid = (num = 8) =>
-  (Math.random() * 1e18)
-    .toString(36)
-    .slice(0, num)
-    .toUpperCase();
-
-const getFiles = (event: SyntheticDragEvent<*> | SyntheticInputEvent<*>) => {
-  if (event.dataTransfer && typeof event.dataTransfer === 'object') {
-    return event.dataTransfer.files;
-  }
-  if (event.target) {
-    return _.get(event, 'target.files');
-  }
-  return [];
-};
+import { prefix, ajaxUpload, defaultProps, getUnhandledProps } from '../utils';
+import { getFiles, guid } from './utils';
+import { UploaderProps, FileType } from './Uploader.d';
 
 type fileStatus = 'inited' | 'uploading' | 'error' | 'finished';
-
-type FileType = {
-  name: string,
-  fileKey: number | string,
-  // https://developer.mozilla.org/zh-CN/docs/Web/API/File
-  blobFile?: File,
-  status?: fileStatus,
-  progress?: number,
-  url?: string
-};
-
 type fileProgressType = {
-  status?: fileStatus,
-  progress?: number
+  status?: fileStatus;
+  progress?: number;
 };
 
-type Props = {
-  action: string,
-  accept?: string,
-  autoUpload?: boolean,
-  children?: React.Element<any>,
-  className?: string,
-  classPrefix?: string,
-  defaultFileList?: Array<FileType>,
-  fileList?: Array<FileType>,
-  data?: Object,
-  multiple?: boolean,
-  disabled?: boolean,
-  disabledFileItem?: boolean,
-  name: string,
-  timeout?: number,
-  withCredentials?: boolean,
-  headers?: Object,
-  locale?: Object,
-  listType: 'text' | 'picture-text' | 'picture',
-  shouldQueueUpdate?: (fileList: Array<FileType>, newFile: Array<FileType> | FileType) => boolean,
-  shouldUpload?: (file: FileType) => boolean,
-  onChange?: (fileList: Array<FileType>) => void,
-  onUpload?: (file: FileType) => void,
-  onReupload?: (file: FileType) => void,
-  onPreview?: (file: FileType, event: SyntheticEvent<*>) => void,
-  onError?: (status: Object, file: FileType, event: SyntheticEvent<*>) => void,
-  onSuccess?: (response: Object, file: FileType, event: SyntheticEvent<*>) => void,
-  onProgress?: (percent: number, file: FileType, event: SyntheticEvent<*>) => void,
-  onRemove?: (file: FileType) => void,
-  maxPreviewFileSize?: number,
-  style?: Object,
-  toggleComponentClass?: React.ElementType,
-  renderFileInfo?: (file: FileType, fileElement: React.Node) => React.Node,
+interface UploaderState {
+  fileList: Array<FileType>;
+  fileMap: { [fileKey: string]: fileProgressType };
+}
 
-  // Removable list file
-  removable?: boolean
-};
-
-type State = {
-  fileList: Array<FileType>,
-  fileMap: { [fileKey: number | string]: fileProgressType }
-};
-
-class Uploader extends React.Component<Props, State> {
+class Uploader extends React.Component<UploaderProps, UploaderState> {
+  static propTypes = {
+    action: PropTypes.string,
+    accept: PropTypes.string,
+    autoUpload: PropTypes.bool,
+    children: PropTypes.node,
+    className: PropTypes.string,
+    classPrefix: PropTypes.string,
+    defaultFileList: PropTypes.array,
+    fileList: PropTypes.array,
+    data: PropTypes.object,
+    multiple: PropTypes.bool,
+    disabled: PropTypes.bool,
+    disabledFileItem: PropTypes.bool,
+    name: PropTypes.string,
+    timeout: PropTypes.number,
+    withCredentials: PropTypes.bool,
+    headers: PropTypes.object,
+    locale: PropTypes.object,
+    listType: PropTypes.oneOf(['text', 'picture-text', 'picture']),
+    shouldQueueUpdate: PropTypes.func,
+    shouldUpload: PropTypes.func,
+    onChange: PropTypes.func,
+    onUpload: PropTypes.func,
+    onReupload: PropTypes.func,
+    onPreview: PropTypes.func,
+    onError: PropTypes.func,
+    onSuccess: PropTypes.func,
+    onProgress: PropTypes.func,
+    onRemove: PropTypes.func,
+    maxPreviewFileSize: PropTypes.number,
+    style: PropTypes.object,
+    toggleComponentClass: PropTypes.elementType,
+    renderFileInfo: PropTypes.func,
+    removable: PropTypes.bool
+  };
   static defaultProps = {
     autoUpload: true,
     timeout: 0,
@@ -95,13 +66,14 @@ class Uploader extends React.Component<Props, State> {
     multiple: false,
     disabled: false,
     withCredentials: false,
-    hasPanel: true,
     data: {},
     listType: 'text',
     removable: true
   };
 
-  constructor(props: Props) {
+  inputRef: React.RefObject<any>;
+
+  constructor(props) {
     super(props);
     const { defaultFileList = [] } = props;
     const fileList = defaultFileList.map(this.createFile);
@@ -110,6 +82,7 @@ class Uploader extends React.Component<Props, State> {
       fileList,
       fileMap: {}
     };
+    this.inputRef = React.createRef();
   }
 
   // public API
@@ -134,8 +107,8 @@ class Uploader extends React.Component<Props, State> {
   }
 
   cleanInputValue() {
-    if (this.input) {
-      this.input.value = '';
+    if (this.inputRef.current) {
+      this.inputRef.current.getInputInstance().value = '';
     }
   }
 
@@ -155,13 +128,13 @@ class Uploader extends React.Component<Props, State> {
     onChange && onChange(nextFileList);
   };
 
-  handleUploadTriggerChange = (event: SyntheticInputEvent<*>) => {
+  handleUploadTriggerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { autoUpload, shouldQueueUpdate, onChange } = this.props;
     const fileList = this.getFileList();
-    const files: any = getFiles(event);
-    const newFileList: Array<FileType> = [];
+    const files: File[] = getFiles(event);
+    const newFileList: FileType[] = [];
 
-    Array.from(files).forEach(file => {
+    Array.from(files).forEach((file: File) => {
       newFileList.push({
         blobFile: file,
         name: file.name,
@@ -202,7 +175,7 @@ class Uploader extends React.Component<Props, State> {
 
   handleAjaxUploadSuccess = (file: FileType, response: Object, event) => {
     const { onSuccess } = this.props;
-    const nextFile = {
+    const nextFile: FileType = {
       ...file,
       status: 'finished',
       progress: 100
@@ -214,7 +187,7 @@ class Uploader extends React.Component<Props, State> {
 
   handleAjaxUploadError = (file: FileType, status: Object, event) => {
     const { onError } = this.props;
-    const nextFile = {
+    const nextFile: FileType = {
       ...file,
       status: 'error'
     };
@@ -225,7 +198,7 @@ class Uploader extends React.Component<Props, State> {
 
   handleAjaxUploadProgress = (file: FileType, percent: number, event) => {
     const { onProgress } = this.props;
-    const nextFile = {
+    const nextFile: FileType = {
       ...file,
       status: 'uploading',
       progress: percent
@@ -300,13 +273,9 @@ class Uploader extends React.Component<Props, State> {
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
-  input: any;
-  progressTimer: IntervalID;
+  progressTimer: any; //IntervalID;
   xhrs = {};
   uploadTrigger = null;
-  inputRef = ref => {
-    this.input = ref;
-  };
 
   renderFileItems() {
     const {
@@ -360,7 +329,7 @@ class Uploader extends React.Component<Props, State> {
         multiple={multiple}
         disabled={disabled}
         accept={accept}
-        innerRef={this.inputRef}
+        ref={this.inputRef}
         onChange={this.handleUploadTriggerChange}
         componentClass={toggleComponentClass}
       >
@@ -388,9 +357,9 @@ class Uploader extends React.Component<Props, State> {
   }
 }
 
-export default compose(
-  withLocale(['Uploader']),
-  defaultProps({
+export default compose<any, UploaderProps>(
+  withLocale<UploaderProps>(['Uploader']),
+  defaultProps<UploaderProps>({
     classPrefix: 'uploader'
   })
 )(Uploader);

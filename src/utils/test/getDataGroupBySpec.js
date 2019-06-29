@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import getDataGroupBy from '../src/utils/getDataGroupBy';
+import getDataGroupBy from '../getDataGroupBy';
 
 describe('[utils] getDataGroupBy', () => {
   it('Should be grouped by title', () => {

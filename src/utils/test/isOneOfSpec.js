@@ -1,4 +1,4 @@
-import isOneOf from '../src/utils/isOneOf';
+import isOneOf from '../isOneOf';
 
 describe('[utils] isOneOf', () => {
   it('Should return true when the presence of `c` in the array', () => {

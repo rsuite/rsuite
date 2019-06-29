@@ -1,4 +1,4 @@
-import previewFile from '../src/utils/previewFile';
+import previewFile from '../previewFile';
 
 describe('[utils] previewFile', () => {
   it('Should return base64 string', () => {

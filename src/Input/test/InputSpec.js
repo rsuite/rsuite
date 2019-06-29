@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 
 import Input from '../Input';
-
-console.log(Input);
 
 describe('Input', () => {
   it('Should render a input', () => {

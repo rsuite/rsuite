@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { StandardProps } from '.';
+import { StandardProps } from '../@types/common';
 
-interface FileType {
+export interface FileType {
   /** File Name */
   name?: string;
   /** File unique identifier */
@@ -110,4 +110,5 @@ export interface UploaderProps extends StandardProps {
 }
 
 declare const Uploader: React.ComponentType<UploaderProps>;
+
 export default Uploader;

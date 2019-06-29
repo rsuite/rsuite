@@ -4,40 +4,40 @@ import ReactTestUtils from 'react-dom/test-utils';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-import Toggle from '../src/Toggle';
-import { innerText } from '@test/testUtils';
+import Toggle from '../Toggle';
+import { innerText, getDOMNode } from '@test/testUtils';
 
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('Toggle', () => {
   it('Should output a toggle', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Toggle />);
-    assert.equal(findDOMNode(instance).className, 'rs-btn-toggle');
+    const instance = getDOMNode(<Toggle />);
+    assert.equal(instance.className, 'rs-btn-toggle');
   });
 
   it('Should be disabled', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Toggle disabled />);
-    assert.ok(findDOMNode(instance).className.match(/\bdisabled\b/));
+    const instance = getDOMNode(<Toggle disabled />);
+    assert.ok(instance.className.match(/\bdisabled\b/));
   });
 
   it('Should be checked', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Toggle checked />);
-    assert.ok(findDOMNode(instance).className.match(/\bbtn-toggle-checked\b/));
+    const instance = getDOMNode(<Toggle checked />);
+    assert.ok(instance.className.match(/\bbtn-toggle-checked\b/));
   });
 
   it('Should apply size class', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Toggle size="lg" />);
-    assert.ok(findDOMNode(instance).className.match(/\bbtn-toggle-lg\b/));
+    const instance = getDOMNode(<Toggle size="lg" />);
+    assert.ok(instance.className.match(/\bbtn-toggle-lg\b/));
   });
 
   it('Should output a `off` in inner ', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Toggle unCheckedChildren="off" />);
-    assert.equal(innerText(findDOMNode(instance)), 'off');
+    const instance = getDOMNode(<Toggle unCheckedChildren="off" />);
+    assert.equal(innerText(instance), 'off');
   });
 
   it('Should output a `on` in inner ', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Toggle checkedChildren="on" checked />);
-    assert.equal(innerText(findDOMNode(instance)), 'on');
+    const instance = getDOMNode(<Toggle checkedChildren="on" checked />);
+    assert.equal(innerText(instance), 'on');
   });
 
   it('Should call onChange callback ', done => {
@@ -46,8 +46,8 @@ describe('Toggle', () => {
         done();
       }
     };
-    const instance = ReactTestUtils.renderIntoDocument(<Toggle onChange={doneOp} />);
-    ReactTestUtils.Simulate.click(findDOMNode(instance));
+    const instance = getDOMNode(<Toggle onChange={doneOp} />);
+    ReactTestUtils.Simulate.click(instance);
   });
 
   it('Should call onChange callback and the correct arguments returned', done => {
@@ -68,18 +68,18 @@ describe('Toggle', () => {
   });
 
   it('Should have a custom className', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Toggle className="custom" />);
-    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
+    const instance = getDOMNode(<Toggle className="custom" />);
+    assert.ok(instance.className.match(/\bcustom\b/));
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = ReactTestUtils.renderIntoDocument(<Toggle style={{ fontSize }} />);
-    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
+    const instance = getDOMNode(<Toggle style={{ fontSize }} />);
+    assert.equal(instance.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Toggle classPrefix="custom-prefix" />);
-    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+    const instance = getDOMNode(<Toggle classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

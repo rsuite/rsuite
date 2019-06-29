@@ -1,28 +1,27 @@
-
-
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import compose from 'recompose/compose';
 
-import { prefix, withStyleProps, defaultProps, getUnhandledProps } from './utils';
+import { prefix, withStyleProps, defaultProps, getUnhandledProps } from '../utils';
+import { ToggleProps } from './Toggle.d';
 
-type Props = {
-  disabled?: boolean,
-  checked?: boolean,
-  defaultChecked?: boolean,
-  onChange?: (checked: boolean, event: SyntheticEvent<*>) => void,
-  checkedChildren?: React.Node,
-  unCheckedChildren?: React.Node,
-  classPrefix: string,
-  className?: string
-};
+interface ToggleState {
+  checked?: boolean;
+}
 
-type State = {
-  checked?: boolean
-};
-
-class Toggle extends React.Component<Props, State> {
-  constructor(props: Props) {
+class Toggle extends React.Component<ToggleProps, ToggleState> {
+  static propTypes = {
+    disabled: PropTypes.bool,
+    checked: PropTypes.bool,
+    defaultChecked: PropTypes.bool,
+    checkedChildren: PropTypes.node,
+    unCheckedChildren: PropTypes.node,
+    classPrefix: PropTypes.string,
+    className: PropTypes.string,
+    onChange: PropTypes.func
+  };
+  constructor(props) {
     super(props);
     this.state = {
       checked: props.defaultChecked
@@ -34,7 +33,7 @@ class Toggle extends React.Component<Props, State> {
     return typeof checked === 'undefined' ? this.state.checked : checked;
   }
 
-  handleChange = (event: SyntheticEvent<*>) => {
+  handleChange = (event: React.MouseEvent<any>) => {
     const { onChange, disabled } = this.props;
     const checked = !this.getCheckedStatus();
 
@@ -81,11 +80,11 @@ class Toggle extends React.Component<Props, State> {
   }
 }
 
-export default compose(
-  withStyleProps({
+export default compose<any, ToggleProps>(
+  withStyleProps<ToggleProps>({
     hasSize: true
   }),
-  defaultProps({
+  defaultProps<ToggleProps>({
     classPrefix: 'btn-toggle'
   })
 )(Toggle);

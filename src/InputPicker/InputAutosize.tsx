@@ -32,7 +32,6 @@ export interface InputAutosizeProps {
   placeholder?: string;
   style?: React.CSSProperties;
   value?: any;
-  inputRef?: React.RefObject<any>;
   onAutosize?: (inputWidth: number) => void;
 }
 
@@ -52,7 +51,6 @@ class InputAutosize extends React.Component<InputAutosizeProps, InputAutosizeSta
     placeholder: PropTypes.string,
     style: PropTypes.object,
     value: PropTypes.any,
-    inputRef: PropTypes.func,
     onAutosize: PropTypes.func
   };
   static defaultProps = {
@@ -79,6 +77,10 @@ class InputAutosize extends React.Component<InputAutosizeProps, InputAutosizeSta
     this.placeHolderSizerRef = React.createRef();
   }
 
+  getInputInstance() {
+    return this.inputRef.current;
+  }
+
   componentDidMount() {
     this.copyInputStyles();
     this.updateInputWidth();
@@ -92,17 +94,6 @@ class InputAutosize extends React.Component<InputAutosizeProps, InputAutosizeSta
     }
     this.updateInputWidth();
   }
-  focus() {
-    if (this.inputRef.current) {
-      this.inputRef.current.focus();
-    }
-  }
-  blur() {
-    if (this.inputRef.current) {
-      this.inputRef.current.blur();
-    }
-  }
-
   copyInputStyles() {
     if (!this.inputRef.current || !window.getComputedStyle) {
       return;
@@ -194,11 +185,7 @@ class InputAutosize extends React.Component<InputAutosizeProps, InputAutosizeSta
     return (
       <div className={className} style={wrapperStyle}>
         {this.renderStyles()}
-        <input
-          {...htmlInputProps}
-          ref={createChainedFunction(this.inputRef, this.props.inputRef)}
-          type="text"
-        />
+        <input {...htmlInputProps} ref={this.inputRef} type="text" />
         <div ref={this.sizerRef} style={sizerStyle}>
           {sizerValue}
         </div>

@@ -55,12 +55,12 @@ class Calendar extends React.Component<CalendarProps> {
     className: PropTypes.string,
     classPrefix: PropTypes.string,
     disabledDate: PropTypes.func,
-    disabledHours: PropTypes.func,
-    disabledMinutes: PropTypes.func,
-    disabledSeconds: PropTypes.func,
-    hideHours: PropTypes.func,
-    hideMinutes: PropTypes.func,
-    hideSeconds: PropTypes.func,
+    //disabledHours: PropTypes.func,
+    //disabledMinutes: PropTypes.func,
+    //disabledSeconds: PropTypes.func,
+    //hideHours: PropTypes.func,
+    //hideMinutes: PropTypes.func,
+    //hideSeconds: PropTypes.func,
     onMoveForword: PropTypes.func,
     onMoveBackward: PropTypes.func,
     onSelect: PropTypes.func,
@@ -123,7 +123,7 @@ class Calendar extends React.Component<CalendarProps> {
     const dropMonth = calendarState === 'DROP_MONTH' || onlyShowMonth;
     const addPrefix = prefix(classPrefix);
 
-    const calendarClasses = classNames(classPrefix, className, {
+    const calendarClasses = classNames(className, classPrefix, {
       [addPrefix('show-time-dropdown')]: dropTime,
       [addPrefix('show-month-dropdown')]: dropMonth
     });
@@ -180,8 +180,6 @@ class Calendar extends React.Component<CalendarProps> {
   }
 }
 
-const enhance = defaultProps<CalendarProps>({
+export default defaultProps<CalendarProps>({
   classPrefix: 'calendar'
-});
-
-export default enhance(Calendar);
+})(Calendar);

@@ -1,7 +1,4 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-import { findDOMNode } from 'react-dom';
-
 import MenuWrapper from '../MenuWrapper';
 import { getDOMNode } from '@test/testUtils';
 

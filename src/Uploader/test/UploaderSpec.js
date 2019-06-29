@@ -2,8 +2,8 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
-import Uploader from '../src/Uploader';
-import Button from '../src/Button';
+import Uploader from '../Uploader';
+import Button from '../../Button';
 
 describe('Uploader', () => {
   it('Should output a Uploader', () => {

@@ -10,7 +10,7 @@ export interface InputSearchProps {
   className?: string;
   children?: React.ReactNode;
   style?: React.CSSProperties;
-  inputRef?: React.Ref<any>;
+  inputRef?: React.RefObject<any>;
   componentClass: React.ElementType;
   onChange?: (value: string, event: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -22,10 +22,11 @@ class InputSearch extends React.Component<InputSearchProps> {
     className: PropTypes.string,
     children: PropTypes.node,
     style: PropTypes.object,
-    inputRef: PropTypes.func,
+    inputRef: PropTypes.object,
     componentClass: PropTypes.elementType,
     onChange: PropTypes.func
   };
+
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { onChange } = this.props;
     onChange && onChange(_.get(event, 'target.value'), event);

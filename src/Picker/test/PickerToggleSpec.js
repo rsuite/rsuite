@@ -1,12 +1,10 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { findDOMNode } from 'react-dom';
 
 import Toggle from '../PickerToggle';
-import { namespace } from '../../../test';
 import { getDOMNode } from '@test/testUtils';
 
-const cleanClassName = `.${namespace}-toggle-clean`;
+const cleanClassName = `.rs-toggle-clean`;
 
 describe('Toggle', () => {
   it('Should output a toggle', () => {

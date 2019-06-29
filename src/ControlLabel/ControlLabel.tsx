@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { defaultProps } from '../utils';
-import { FormGroupContext } from '../FormGroup';
+import { FormGroupContext } from '../FormGroup/FormGroup';
 
 import { ControlLabelProps } from './ControlLabel.d';
 
