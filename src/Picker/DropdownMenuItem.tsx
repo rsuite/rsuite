@@ -1,10 +1,10 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { prefix, getUnhandledProps } from '../utils';
+import { prefix, getUnhandledProps, defaultProps } from '../utils';
 
 export interface DropdownMenuItemProps {
-  classPrefix?: string;
+  classPrefix: string;
   active?: boolean;
   disabled?: boolean;
   value?: any;
@@ -19,7 +19,7 @@ export interface DropdownMenuItemProps {
 
 class DropdownMenuItem extends React.Component<DropdownMenuItemProps> {
   static propTypes = {
-    classPrefix: PropTypes.string,
+    classPrefix: PropTypes.string.isRequired,
     active: PropTypes.bool,
     disabled: PropTypes.bool,
     value: PropTypes.any,
@@ -77,4 +77,6 @@ class DropdownMenuItem extends React.Component<DropdownMenuItemProps> {
   }
 }
 
-export default DropdownMenuItem;
+export default defaultProps<DropdownMenuItemProps>({
+  classPrefix: 'dropdown-menu-item'
+})(DropdownMenuItem);

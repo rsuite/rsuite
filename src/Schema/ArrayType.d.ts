@@ -1,4 +1,4 @@
-import { Type } from "./Type";
+import { Type } from './Type';
 
 export declare class ArrayType extends Type {
   constructor(errorMessage?: string);

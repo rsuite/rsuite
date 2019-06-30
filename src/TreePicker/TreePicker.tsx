@@ -37,7 +37,6 @@ import {
 } from '../Picker';
 
 import { TreePickerProps } from './TreePicker.d';
-import { RowProps } from '../Tree/TreeBase.d';
 import { PLACEMENT } from '../constants';
 
 // default value for virtualized

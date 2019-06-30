@@ -6,7 +6,7 @@ import { getDOMNode } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
 import DropdownMenuItem from '../DropdownMenuItem';
 
-const classPrefix = `.rs-select-menu`;
+const classPrefix = `rs-picker-select-menu`;
 const groupClassName = `.${classPrefix}-group`;
 const titleClassName = `.${classPrefix}-group-title`;
 const childrenClassName = `.${classPrefix}-group-children`;
@@ -83,7 +83,7 @@ describe('picker -  DropdownMenu', () => {
       />
     );
 
-    assert.equal(instance.querySelector(`${itemActiveClassName}`).innerText, 'vv-abcd');
+    assert.equal(instance.querySelector(itemActiveClassName).innerText, 'vv-abcd');
   });
 
   it('Should have a maxHeight', () => {

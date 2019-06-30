@@ -26,8 +26,8 @@ describe('picker - DropdownMenuGroup', () => {
   it('Should have 2 option', () => {
     const instance = getDOMNode(
       <DropdownMenuGroup title={<div>title</div>}>
-        <DropdownMenuItem>1</DropdownMenuItem>
-        <DropdownMenuItem>2</DropdownMenuItem>
+        <DropdownMenuItem classPrefix="rs-dropdown-item">1</DropdownMenuItem>
+        <DropdownMenuItem classPrefix="rs-dropdown-item">2</DropdownMenuItem>
       </DropdownMenuGroup>
     );
 

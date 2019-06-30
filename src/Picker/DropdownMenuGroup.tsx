@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { toggleClass } from 'dom-lib';
 import { prefix, getUnhandledProps } from '../utils';
@@ -12,6 +13,13 @@ export interface DropdownMenuGroupProps {
 }
 
 class DropdownMenuGroup extends React.Component<DropdownMenuGroupProps> {
+  static propTypes = {
+    title: PropTypes.node,
+    classPrefix: PropTypes.string,
+    className: PropTypes.string,
+    children: PropTypes.node,
+    onClick: PropTypes.func
+  };
   static defaultProps = {
     classPrefix: 'dropdown-menu-group'
   };

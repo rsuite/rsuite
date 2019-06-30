@@ -11,11 +11,6 @@ import { prefix, tplTransform, getUnhandledProps, defaultProps } from '../utils'
 import withLocale from '../IntlProvider/withLocale';
 import { TablePaginationProps } from './TablePagination.d';
 
-interface Locale {
-  lengthMenuInfo: string;
-  totalInfo: string;
-}
-
 class TablePagination extends React.Component<TablePaginationProps> {
   static propTypes = {
     lengthMenu: PropTypes.arrayOf(

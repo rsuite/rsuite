@@ -159,18 +159,50 @@ describe('TreePicker', () => {
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle'));
   });
 
-  it('Should focus item by keyCode=40', () => {
-    const instance = getInstance(<TreePicker defaultOpen data={data} expandAll />);
-    const toggle = instance.getToggleInstance().toggleRef.current;
-    ReactTestUtils.Simulate.keyDown(toggle, { keyCode: 40 });
-    ReactTestUtils.Simulate.keyDown(toggle, { keyCode: 40 });
+  it('Should focus item by keyCode=40', done => {
+    const instance = getInstance(
+      <TreePicker
+        open
+        data={data}
+        expandAll
+        value="tester1"
+        onChange={value => {
+          if (value === 'tester2') {
+            done();
+          }
+        }}
+      />
+    );
+    const tree = instance.treeViewRef.current;
+    tree.querySelector('span[title="tester1"]').focus();
 
-    assert.equal(document.activeElement.innerText, 'tester0');
+    ReactTestUtils.Simulate.keyDown(tree, { keyCode: 40 });
+    ReactTestUtils.Simulate.keyDown(tree, { keyCode: 13 });
+
+    assert.equal(document.activeElement.innerText, 'tester2');
   });
 
-  it('Should focus item by keyCode=38 ', () => {
-    ReactTestUtils.Simulate.keyDown(document.activeElement, { keyCode: 40 });
-    ReactTestUtils.Simulate.keyDown(document.activeElement, { keyCode: 38 });
+  it('Should focus item by keyCode=38 ', done => {
+    const instance = getInstance(
+      <TreePicker
+        open
+        data={data}
+        expandAll
+        value="tester1"
+        onChange={value => {
+          if (value === 'tester0') {
+            done();
+          }
+        }}
+      />
+    );
+    const tree = instance.treeViewRef.current;
+
+    tree.querySelector('span[title="tester1"]').focus();
+
+    ReactTestUtils.Simulate.keyDown(tree, { keyCode: 38 });
+    ReactTestUtils.Simulate.keyDown(tree, { keyCode: 13 });
+
     assert.equal(document.activeElement.innerText, 'tester0');
   });
 

@@ -12,7 +12,6 @@ const getUnhandledProps = (Component: any, props: any) => {
    * build with `babel-plugin-transform-react-flow-handled-props`
    */
   const { handledProps = [], propTypes = {} } = Component;
-
   const propTypeKeys = Object.keys(propTypes);
 
   return Object.keys(props).reduce((acc: any, prop: string) => {

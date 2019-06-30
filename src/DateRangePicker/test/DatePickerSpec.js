@@ -1,37 +1,30 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-
+import { getDOMNode, getInstance } from '@test/testUtils';
 import DatePicker from '../DatePicker';
 import { parse } from 'date-fns';
 
 describe('DatePicker', () => {
   it('Should render a div with "rs-calendar" class', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <DatePicker onChangeCalendarDate={() => {}} />
-    );
+    const instance = getDOMNode(<DatePicker onChangeCalendarDate={() => {}} />);
 
-    assert.equal(findDOMNode(instance).nodeName, 'DIV');
-
-    assert.ok(findDOMNode(instance).className.match(/\brs-calendar\b/));
+    assert.equal(instance.nodeName, 'DIV');
+    assert.ok(instance.className.match(/\brs-calendar\b/));
   });
 
   it('Should output a date', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <DatePicker
         calendarDate={[parse('2017-08'), parse('2017-09')]}
         index={0}
         onChangeCalendarDate={() => {}}
       />
     );
-    assert.equal(
-      findDOMNode(instance).querySelector('.rs-calendar-header-title').innerText,
-      '2017-08'
-    );
+    assert.equal(instance.querySelector('.rs-calendar-header-title').innerText, '2017-08');
   });
 
   it('Should call `onChangeCalendarDate` callback', done => {
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <DatePicker
         calendarDate={[parse('2017-08'), parse('2017-09')]}
         index={0}
@@ -41,13 +34,11 @@ describe('DatePicker', () => {
       />
     );
 
-    ReactTestUtils.Simulate.click(
-      findDOMNode(instance).querySelector('.rs-calendar-header-backward')
-    );
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-header-backward'));
   });
 
   it('Should call `onChangeCalendarDate` callback', done => {
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <DatePicker
         calendarDate={[parse('2017-08'), parse('2017-10')]}
         index={0}
@@ -56,13 +47,11 @@ describe('DatePicker', () => {
         }}
       />
     );
-    ReactTestUtils.Simulate.click(
-      findDOMNode(instance).querySelector('.rs-calendar-header-forward')
-    );
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-header-forward'));
   });
 
   it('Should call `onChangeCalendarDate` callback', done => {
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <DatePicker
         calendarDate={[parse('2017-08'), parse('2017-10')]}
         index={0}
@@ -71,13 +60,11 @@ describe('DatePicker', () => {
         }}
       />
     );
-    ReactTestUtils.Simulate.click(
-      findDOMNode(instance).querySelector('.rs-calendar-month-dropdown-cell')
-    );
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-month-dropdown-cell'));
   });
 
   it('Should change calendarState', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getInstance(
       <DatePicker
         onChangeCalendarDate={() => {}}
         calendarDate={[parse('2017-08'), parse('2017-10')]}
@@ -94,7 +81,7 @@ describe('DatePicker', () => {
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<DatePicker classPrefix="custom-prefix" />);
-    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+    const instance = getDOMNode(<DatePicker classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

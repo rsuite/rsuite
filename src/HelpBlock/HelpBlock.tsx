@@ -22,8 +22,8 @@ class HelpBlock extends React.Component<HelpBlockProps> {
     if (tooltip) {
       return (
         <span className={classes} {...props}>
-        <Icon icon="question-circle2" />
-      </span>
+          <Icon icon="question-circle2" />
+        </span>
       );
     }
 

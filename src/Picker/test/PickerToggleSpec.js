@@ -4,8 +4,6 @@ import ReactTestUtils from 'react-dom/test-utils';
 import Toggle from '../PickerToggle';
 import { getDOMNode } from '@test/testUtils';
 
-const cleanClassName = `.rs-toggle-clean`;
-
 describe('Toggle', () => {
   it('Should output a toggle', () => {
     const Title = 'Title';
@@ -39,7 +37,7 @@ describe('Toggle', () => {
       </Toggle>
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelector(cleanClassName));
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
   });
 
   it('Should have a custom className', () => {

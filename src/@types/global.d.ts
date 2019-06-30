@@ -7,8 +7,7 @@ declare module 'dom-lib/lib/query/canUseDOM';
 declare module 'dom-lib/lib/animation/requestAnimationFramePolyfill';
 declare module 'rsuite-utils';
 declare module 'rsuite-utils/lib/utils';
-declare module 'rsuite-utils/lib/utils/shallowEqual'
+declare module 'rsuite-utils/lib/utils/shallowEqual';
 declare module 'rsuite-utils/lib/Animation';
 declare module 'rsuite-utils/lib/Animation/Transition';
 declare module 'rsuite-notification';
-

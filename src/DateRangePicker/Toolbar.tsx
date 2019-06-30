@@ -50,7 +50,7 @@ function hasLocaleKey(key: any) {
 }
 
 class Toolbar extends React.PureComponent<ToolbarProps> {
-  static propTyps = {
+  static propTypes = {
     ranges: PropTypes.array,
     className: PropTypes.string,
     classPrefix: PropTypes.string,

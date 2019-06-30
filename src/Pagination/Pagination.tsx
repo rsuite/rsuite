@@ -6,18 +6,9 @@ import PaginationButton from './PaginationButton';
 import SafeAnchor from '../SafeAnchor';
 import Icon from '../Icon';
 
-import withLocale from '../IntlProvider/withLocale';
 import { withStyleProps, defaultProps, getUnhandledProps } from '../utils';
 import { PAGINATION_ICON_NAMES } from '../constants';
 import { PaginationProps } from './Pagination.d';
-
-type Locale = {
-  more?: string;
-  prev?: string;
-  next?: string;
-  first?: string;
-  last?: string;
-};
 
 class Pagination extends React.Component<PaginationProps> {
   static propTypes = {
@@ -254,10 +245,9 @@ class Pagination extends React.Component<PaginationProps> {
   }
 }
 
-export default compose(
-  withLocale(['Pagination']),
-  withStyleProps({ hasSize: true }),
-  defaultProps({
+export default compose<any, PaginationProps>(
+  withStyleProps<PaginationProps>({ hasSize: true }),
+  defaultProps<PaginationProps>({
     classPrefix: 'pagination'
   })
 )(Pagination);

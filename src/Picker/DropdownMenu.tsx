@@ -5,7 +5,7 @@ import { getPosition, scrollTop, getHeight } from 'dom-lib';
 import classNames from 'classnames';
 import { shallowEqual } from 'rsuite-utils/lib/utils';
 
-import { getUnhandledProps, prefix } from '../utils';
+import { getUnhandledProps, prefix, defaultProps } from '../utils';
 import DropdownMenuGroup from './DropdownMenuGroup';
 
 export interface DropdownMenuProps {
@@ -57,6 +57,11 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
     valueKey: 'value',
     labelKey: 'label'
   };
+  menuBodyContainerRef: React.RefObject<HTMLDivElement>;
+  constructor(props) {
+    super(props);
+    this.menuBodyContainerRef = React.createRef();
+  }
 
   componentDidMount() {
     this.updateScrollPoistion();
@@ -69,29 +74,25 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
   }
 
   menuItems = {};
-  menuBodyContainer: any = {};
-
-  bindMenuBodyContainerRef = (ref: React.Ref<any>) => {
-    this.menuBodyContainer = ref;
-  };
 
   updateScrollPoistion() {
-    let activeItem = this.menuBodyContainer.querySelector(`.${this.addPrefix('item-focus')}`);
+    const container = this.menuBodyContainerRef.current;
+    let activeItem = container.querySelector(`.${this.addPrefix('item-focus')}`);
 
     if (!activeItem) {
-      activeItem = this.menuBodyContainer.querySelector(`.${this.addPrefix('item-active')}`);
+      activeItem = container.querySelector(`.${this.addPrefix('item-active')}`);
     }
 
     if (!activeItem) {
       return;
     }
-    const position = getPosition(activeItem, this.menuBodyContainer);
-    const sTop = scrollTop(this.menuBodyContainer);
-    const sHeight = getHeight(this.menuBodyContainer);
+    const position = getPosition(activeItem, container);
+    const sTop = scrollTop(container);
+    const sHeight = getHeight(container);
     if (sTop > position.top) {
-      scrollTop(this.menuBodyContainer, Math.max(0, position.top - 20));
+      scrollTop(container, Math.max(0, position.top - 20));
     } else if (position.top > sTop + sHeight) {
-      scrollTop(this.menuBodyContainer, Math.max(0, position.top - sHeight + 32));
+      scrollTop(container, Math.max(0, position.top - sHeight + 32));
     }
   }
 
@@ -197,11 +198,13 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
     };
 
     return (
-      <div {...unhandled} className={classes} ref={this.bindMenuBodyContainerRef} style={styles}>
+      <div {...unhandled} className={classes} ref={this.menuBodyContainerRef} style={styles}>
         <ul>{this.renderItems()}</ul>
       </div>
     );
   }
 }
 
-export default DropdownMenu;
+export default defaultProps<DropdownMenuProps>({
+  classPrefix: 'dropdown-menu'
+})(DropdownMenu);

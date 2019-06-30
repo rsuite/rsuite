@@ -3,7 +3,7 @@ import defaultProps from 'recompose/defaultProps';
 import compose from 'recompose/compose';
 import { Table, Column, Cell, HeaderCell } from 'rsuite-table';
 
-import withLocale from './IntlProvider/withLocale';
+import withLocale from '../IntlProvider/withLocale';
 import TablePagination from './TablePagination';
 
 const EnhancedLocaleTable = compose(withLocale(['Table']), defaultProps({ loadAnimation: true }))(

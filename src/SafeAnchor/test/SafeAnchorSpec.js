@@ -3,7 +3,6 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import SafeAnchor from '../SafeAnchor';
 
-
 describe('SafeAnchor', () => {
   it('Should output a Anchor', () => {
     const instance = getDOMNode(<SafeAnchor>Title</SafeAnchor>);
