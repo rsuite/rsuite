@@ -8,7 +8,7 @@
 // Check tree picker name space
 @ctpns: ~'@{ns}@{check-tree-picker-prefix}';
 
-.@{ctpns}-view {
+.@{ctpns} {
   background-color: @picker-tree-bg;
   max-height: 360px;
   height: 100%;
@@ -20,12 +20,12 @@
   }
 }
 
-.@{ctpns}-view-node {
+.@{ctpns}-node {
   position: relative;
   font-size: @picker-tree-node-font-size;
   line-height: @picker-tree-node-line-height;
 
-  > .@{ctpns}-view-checknode-label {
+  > .@{ctpns}-node-label {
     margin: 0;
     //padding-left: 16px;
     padding: @picker-tree-node-padding-vertical @picker-tree-node-padding-horizontal;
@@ -44,7 +44,7 @@
         margin-left: -36px;
       }
 
-      .@{ctpns}-view-input-wrapper {
+      .@{ctpns}-node-input-wrapper {
         left: 0;
       }
     }
@@ -59,7 +59,7 @@
       margin-left: -58px; // 10px + 36px + 12px
     }
 
-    &-active > .@{ctpns}-view-checknode-label,
+    &-active > .@{ctpns}-node-label,
     &:focus,
     &:hover {
       background-color: @picker-tree-node-hover-bg;
@@ -67,7 +67,7 @@
   }
 
   // Uncheckable state
-  &-all-uncheckable > .@{ctpns}-view-checknode-label {
+  &-all-uncheckable > .@{ctpns}-node-label {
     padding-left: 22px; // 10px + 12px
 
     &::before {
@@ -81,7 +81,7 @@
     color: @picker-menu-item-disabled-color;
     cursor: @cursor-disabled;
 
-    > .@{ctpns}-view-checknode-label {
+    > .@{ctpns}-node-label {
       cursor: @cursor-disabled;
 
       &,
@@ -91,13 +91,13 @@
     }
   }
 
-  &:not(&-disabled):focus > .@{ctpns}-view-checknode-label {
+  &:not(&-disabled):focus > .@{ctpns}-node-label {
     background-color: @picker-tree-node-hover-bg;
   }
 }
 
 // Checkbox
-.@{ctpns}-view-input-wrapper {
+.@{ctpns}-node-input-wrapper {
   position: absolute;
   width: @checkbox-width-height;
   height: @checkbox-width-height;
@@ -111,8 +111,8 @@
 
   &::before,
   &::after,
-  .@{ctpns}-view-inner::before,
-  .@{ctpns}-view-inner::after {
+  .@{ctpns}-node-inner::before,
+  .@{ctpns}-node-inner::after {
     content: '';
     position: absolute;
     left: 0;
@@ -121,8 +121,8 @@
   }
 
   &::before,
-  .@{ctpns}-view-inner::before,
-  .@{ctpns}-view-inner::after {
+  .@{ctpns}-node-inner::before,
+  .@{ctpns}-node-inner::after {
     width: @checkbox-width-height;
     height: @checkbox-width-height;
   }
@@ -136,33 +136,33 @@
   }
 
   // Frame
-  .@{ctpns}-view-inner::before {
+  .@{ctpns}-node-inner::before {
     .checkbox-inner-wrap(@checkbox-default-border-color);
 
-    .@{ctpns}-view-node-disabled & {
+    .@{ctpns}-node-disabled & {
       border-color: @checkbox-disabled-color;
       background-color: @checkbox-disabled-color;
     }
 
-    .@{ctpns}-view-node-indeterminate &,
-    .@{ctpns}-view-node-checked & {
+    .@{ctpns}-node-indeterminate &,
+    .@{ctpns}-node-checked & {
       border-color: @checkbox-checked-border-color;
       background-color: @checkbox-checked-border-color;
     }
 
-    .@{ctpns}-view-node-disabled.@{ctpns}-view-node-indeterminate &,
-    .@{ctpns}-view-node-disabled.@{ctpns}-view-node-checked &,
-    .@{ctpns}-view-node-disabled.@{ns}picker-check-menu-item-active & {
+    .@{ctpns}-node-disabled.@{ctpns}-node-indeterminate &,
+    .@{ctpns}-node-disabled.@{ctpns}-node-checked &,
+    .@{ctpns}-node-disabled.@{ns}picker-check-menu-item-active & {
       opacity: 0.3;
     }
   }
 
   // check mark
-  .@{ctpns}-view-inner::after {
+  .@{ctpns}-node-inner::after {
     opacity: 0;
     transform: rotate(45deg) scale(0);
 
-    .@{ctpns}-view-node-checked & {
+    .@{ctpns}-node-checked & {
       border: solid @B000;
       width: 6px;
       height: 9px;
@@ -173,7 +173,7 @@
       transform: rotate(45deg) scale(1);
     }
 
-    .@{ctpns}-view-node-indeterminate & {
+    .@{ctpns}-node-indeterminate & {
       opacity: 1;
       border: solid @B000;
       height: 9px;
@@ -189,7 +189,7 @@
   &:focus {
     outline: none;
 
-    .@{ctpns}-view-inner::before {
+    .@{ctpns}-node-inner::before {
       .checkbox-inner-active-shadow(@checkbox-default-border-color);
 
       @hover: ~':hover';
@@ -206,13 +206,13 @@
 }
 
 // expand icon
-.@{ctpns}-view-node-expand-icon-wrapper {
+.@{ctpns}-node-expand-icon-wrapper {
   display: inline-block;
   position: absolute;
   cursor: pointer;
   z-index: 1;
 
-  > .@{ctpns}-view-node-expand-icon {
+  > .@{ctpns}-node-expand-icon {
     display: inline-block;
     padding: @picker-tree-node-padding-vertical 0;
     padding-right: @picker-tree-arrow-down-gap;
@@ -232,30 +232,30 @@
     }
 
     // expand children tree
-    .@{ctpns}-view-open > .@{ctpns}-view-node & {
+    .@{ctpns}-open > .@{ctpns}-node & {
       transform: rotate(0deg);
       margin-left: 0;
       margin-top: 0;
     }
   }
 
-  > .@{ctpns}-view-node-expanded {
+  > .@{ctpns}-node-expanded {
     transform: rotate(0deg);
     margin-left: 0;
     margin-top: 0;
   }
 
-  > .@{ctpns}-view-custom-icon {
+  > .@{ctpns}-node-custom-icon {
     .node-item-prepend-icon;
   }
 }
 
 // node children
-.@{ctpns}-view-node-children {
-  > .@{ctpns}-view-children {
+.@{ctpns}-node-children {
+  > .@{ctpns}-children {
     display: none;
 
-    .@{ctpns}-view-open& {
+    .@{ctpns}-open& {
       display: block;
     }
   }
@@ -270,10 +270,10 @@
     }
   }
 
-  .@{ctpns}-view {
+  .@{ctpns} {
     padding: 0 @picker-menu-padding @picker-menu-padding 0;
 
-    &-node > .@{ctpns}-view-checknode-label {
+    &-node > .@{ctpns}-node-label {
       .ellipsis;
 
       display: block;

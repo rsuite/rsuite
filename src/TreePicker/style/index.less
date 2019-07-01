@@ -7,7 +7,7 @@
 // tree picker name space
 @tpns: ~'@{ns}@{tree-picker-prefix}';
 
-.@{tpns}-view {
+.@{tpns} {
   background-color: @picker-tree-bg;
   max-height: 360px;
   height: 100%;
@@ -19,17 +19,17 @@
   }
 }
 
-.@{tpns}-view-node {
+.@{tpns}-node {
   position: relative;
   font-size: @picker-tree-node-font-size;
   line-height: @picker-tree-node-line-height;
 
-  &-active > .@{tpns}-view-node-label {
+  &-active > .@{tpns}-node-label {
     color: @picker-tree-node-active-color;
     background-color: @picker-tree-node-active-bg;
   }
 
-  > .@{tpns}-view-node-label {
+  > .@{tpns}-node-label {
     margin: 0;
     padding: @picker-tree-node-padding-vertical @picker-tree-node-padding-horizontal;
     //text gap
@@ -57,7 +57,7 @@
     color: @picker-menu-item-disabled-color;
     cursor: @cursor-disabled;
 
-    > .@{tpns}-view-node-label {
+    > .@{tpns}-node-label {
       cursor: @cursor-disabled;
 
       &,
@@ -67,19 +67,19 @@
     }
   }
 
-  &:not(&-disabled):focus > .@{tpns}-view-node-label {
+  &:not(&-disabled):focus > .@{tpns}-node-label {
     background-color: @picker-tree-node-hover-bg;
   }
 }
 
 // expand icon
-.@{tpns}-view-node-expand-icon-wrapper {
+.@{tpns}-node-expand-icon-wrapper {
   display: inline-block;
   position: absolute;
   cursor: pointer;
   z-index: 1;
 
-  > .@{tpns}-view-node-expand-icon {
+  > .@{tpns}-node-expand-icon {
     display: inline-block;
     padding: @picker-tree-node-padding-vertical 0;
     padding-right: @picker-tree-arrow-down-gap;
@@ -98,30 +98,30 @@
     }
 
     // expand children tree
-    .@{tpns}-view-open > .@{tpns}-view-node & {
+    .@{tpns}-open > .@{tpns}-node & {
       transform: rotate(0deg);
       margin-left: 0;
       margin-top: 0;
     }
   }
 
-  > .@{tpns}-view-node-expanded {
+  > .@{tpns}-node-expanded {
     transform: rotate(0deg);
     margin-left: 0;
     margin-top: 0;
   }
 
-  > .@{tpns}-view-custom-icon {
+  > .@{tpns}-custom-icon {
     .node-item-prepend-icon;
   }
 }
 
 // node children
-.@{tpns}-view-node-children {
-  > .@{tpns}-view-children {
+.@{tpns}-node-children {
+  > .@{tpns}-children {
     display: none;
 
-    .@{tpns}-view-open& {
+    .@{tpns}-open& {
       display: block;
     }
   }
@@ -136,10 +136,10 @@
     }
   }
 
-  .@{tpns}-view {
+  .@{tpns} {
     padding: 0 @picker-menu-padding @picker-menu-padding 0;
 
-    &-node > .@{tpns}-view-node-label {
+    &-node > .@{tpns}-node-label {
       .ellipsis;
 
       display: block;
