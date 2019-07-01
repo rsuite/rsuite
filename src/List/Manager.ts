@@ -1,58 +1,59 @@
 import _ from 'lodash';
+import { Position } from './List';
 
-interface ManagerActive {
-  collection: number | string;
-  index: number;
+export type Collection = string | number;
+type Refs = Record<Collection, ManagerRef[]>;
+
+export interface ManagerRef {
+  node: HTMLElement,
+  edgeOffset: Position,
+  info: {
+    collection: Collection,
+    index: number,
+    disabled?: boolean,
+    manager: Manager
+  }
 }
 
 /*
 * Move manager
 * */
 class Manager {
-  refs = {};
-  active: ManagerActive | null;
+  refs: Refs = {};
+  active: ManagerRef;
 
-  add(collection, ref) {
+  add(collection: Collection, ref: ManagerRef) {
     if (!this.refs[collection]) {
       this.refs[collection] = [];
     }
-
     this.refs[collection].push(ref);
   }
 
-  remove(collection, ref) {
+  remove(collection: Collection, ref: ManagerRef) {
     const index = this.getIndex(collection, ref);
-
-    if (index !== -1) {
-      if (Array.isArray(this.refs[collection])) {
-        this.refs[collection].splice(index, 1);
-      }
+    if (index !== -1 && Array.isArray(this.refs[collection])) {
+      this.refs[collection].splice(index, 1);
     }
   }
 
-  getActive = () => {
-    const ActiveIndex = _.get(this.active, 'index', null);
-    const ActiveCollection = _.get(this.active, 'collection', null);
-    return (
-      ActiveIndex !== null &&
-      ActiveCollection !== null &&
-      this.refs[ActiveCollection].find(({ node }) => node.sortableInfo.index === ActiveIndex)
-    );
-  };
-  getIndex = (collection, ref) => this.refs[collection].indexOf(ref);
+  setActive = (payload: ManagerRef) => (this.active = payload);
+  getActive = (): ManagerRef => this.active;
 
-  getOrderedRefs(collection?: any) {
-    if (this.active !== null) {
-      if (collection === undefined) {
-        collection = this.active.collection;
-      }
-      return this.refs[collection].sort(
-        (nodeInfo1, nodeInfo2) =>
-          nodeInfo1.node.sortableInfo.index - nodeInfo2.node.sortableInfo.index
-      );
+  getIndex = (collection: Collection, ref: ManagerRef) => this.refs[collection].indexOf(ref);
+  getNodeManagerRef = (node: HTMLElement): any =>
+    _.flatten(Object.values(this.refs)).find((managerRef: any) => managerRef.node === node);
+
+  getOrderedRefs = (collection?: Collection) => {
+    if (collection === undefined) {
+      collection = this.active ? this.active.info.collection : null;
+    }
+    if (collection !== null) {
+      const sortedRefs = [...this.refs[collection]];
+      sortedRefs.sort((nodeInfo1, nodeInfo2) => nodeInfo1.info.index - nodeInfo2.info.index);
+      return sortedRefs;
     }
     return [];
-  }
+  };
 }
 
 export default Manager;

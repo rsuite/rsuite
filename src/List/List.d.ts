@@ -1,13 +1,17 @@
-import * as React from 'react';
+import React from 'react';
 import { StandardProps } from '../@types/common';
 import ListItem from './ListItem';
+import { Collection } from './Manager';
 
-export interface Payload {
-  collection: number | string;
-  index?: number;
-  node?: HTMLElement;
-  newIndex?: number;
-  oldIndex?: number;
+interface Payload {
+  collection: Collection,
+  node: HTMLElement;
+  newIndex: number;
+  oldIndex: number;
+}
+
+interface PayloadCallback {
+  (payload?: Payload, event?: MouseEvent): any
 }
 
 export interface ListProps extends StandardProps {
@@ -39,19 +43,16 @@ export interface ListProps extends StandardProps {
   transitionDuration?: number;
 
   /* Callback of beginning of sorting */
-  onSortStart?: (payload: Payload, event: React.SyntheticEvent<any>) => void;
+  onSortStart?: PayloadCallback;
 
   /* Callback of moving */
-  onSortMove?: (event: React.SyntheticEvent<any>) => void;
-
-  /* Callback of moving over a list items */
-  onSortOver?: (payload: Payload) => void;
+  onSortMove?: PayloadCallback;
 
   /* Callback of end of sorting */
-  onSortEnd?: (payload: Payload, event: React.SyntheticEvent<any>) => void;
+  onSortEnd?: PayloadCallback;
 
   /* Callback of end of sorting */
-  onSort?: (payload: Payload, event: React.SyntheticEvent<any>) => void;
+  onSort?: PayloadCallback;
 }
 
 interface ListComponent extends React.ComponentClass<ListProps> {

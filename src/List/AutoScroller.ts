@@ -1,10 +1,20 @@
+import { Axis, Position } from './List';
+
+export interface AutoScrollerUpdatePayload {
+  translate: Axis,
+  minTranslate: Axis,
+  maxTranslate: Axis,
+  width: number,
+  height: number
+}
+
 class AutoScroller {
-  container: Element;
-  onScrollCallback: Function = null;
+  container: HTMLElement;
+  onScrollCallback: (offset: Position) => any;
   interval = null;
   isAutoScrolling: boolean = true;
 
-  constructor(container, onScrollCallback) {
+  constructor(container: HTMLElement, onScrollCallback: (offset: Position) => any) {
     this.container = container;
     this.onScrollCallback = onScrollCallback;
   }
@@ -14,7 +24,7 @@ class AutoScroller {
     this.interval = null;
   }
 
-  update({ translate, minTranslate, maxTranslate, width, height }) {
+  update({ translate, minTranslate, maxTranslate, width, height }: AutoScrollerUpdatePayload) {
     const direction = {
       x: 0,
       y: 0

@@ -37,22 +37,22 @@ describe('List', () => {
   it('Should render different size', () => {
     const domNode = getDOMNode(
       <List>
-        <List.Item />
+        <List.Item index={1} />
       </List>
     );
     const domNodeSmall = getDOMNode(
       <List size="sm">
-        <List.Item />
+        <List.Item index={1} />
       </List>
     );
     const domNodeMedium = getDOMNode(
       <List size="md">
-        <List.Item />
+        <List.Item index={1} />
       </List>
     );
     const domNodeLarge = getDOMNode(
       <List size="lg">
-        <List.Item />
+        <List.Item index={1} />
       </List>
     );
     assert.include(domNode.firstChild.className, 'rs-list-item-md');
@@ -60,4 +60,49 @@ describe('List', () => {
     assert.include(domNodeMedium.firstChild.className, 'rs-list-item-md');
     assert.include(domNodeLarge.firstChild.className, 'rs-list-item-lg');
   });
+
+  it('should call onSortStart', (done) => {
+    const callback = () => done();
+    const domNode = getDOMNode(
+      <List sortable onSortStart={callback}>
+        <List.Item index={1}>item1</List.Item>
+        <List.Item index={2}>item2</List.Item>
+      </List>);
+    const event = new Event('mousedown', { bubbles: true });
+    domNode.firstChild.dispatchEvent(event);
+  });
+
+  it('should call onSortMove', (done) => {
+    const callback = () => done();
+    const mousedownEvent = new Event('mousedown', { bubbles: true });
+    const mousemoveEvent = new Event('mousemove', { bubbles: true });
+    const domNode = getDOMNode(
+      <List
+        sortable
+        onSortStart={() => window.dispatchEvent(mousemoveEvent)}
+        onSortMove={callback}>
+        <List.Item index={1}>item1</List.Item>
+        <List.Item index={2}>item2</List.Item>
+      </List>);
+    domNode.firstChild.dispatchEvent(mousedownEvent);
+  });
+
+  it('should call onSortEnd & onSort', (done) => {
+    let count = 0;
+    const callback = () => ++count > 1 && done();
+    const mousedownEvent = new Event('mousedown', { bubbles: true });
+    const mouseupEvent = new Event('mouseup', { bubbles: true });
+    const domNode = getDOMNode(
+      <List
+        sortable
+        onSortStart={() => window.dispatchEvent(mouseupEvent)}
+        onSortEnd={callback}
+        onSort={callback}
+      >
+        <List.Item index={1}>item1</List.Item>
+        <List.Item index={2}>item2</List.Item>
+      </List>);
+    domNode.firstChild.dispatchEvent(mousedownEvent);
+  });
+
 });
