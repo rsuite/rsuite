@@ -13,28 +13,28 @@ const babelrc = require('../.babelrc.js');
 
 const ES_DIR = '../es';
 const LIB_DIR = '../lib';
-const SOURCE_PATH = '../styles';
-const DIST_PATH = '../dist/styles';
-const MODULARIZED_DIST_PATH = '../lib/styles';
+const SOURCE_DIR = '../src/style';
+const DIST_DIR = '../dist/styles';
+const MODULARIZED_DIST_DIR = '../lib/styles';
 
 gulp.task('clean', () => {
-  del.sync(`${DIST_PATH}/**`, { force: true });
+  del.sync(`${DIST_DIR}/**`, { force: true });
   return gulp;
 });
 
 gulp.task('build-less', () => {
   return gulp
-    .src(`${SOURCE_PATH}/rsuite.less`)
+    .src(`${SOURCE_DIR}/rsuite.less`)
     .pipe(sourcemaps.init())
     .pipe(less({ javascriptEnabled: true }))
     .pipe(postcss([require('autoprefixer')]))
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest(`${DIST_PATH}`));
+    .pipe(gulp.dest(`${DIST_DIR}`));
 });
 
 gulp.task('min-css', () => {
   return gulp
-    .src(`${DIST_PATH}/rsuite.css`)
+    .src(`${DIST_DIR}/rsuite.css`)
     .pipe(sourcemaps.init())
     .pipe(postcss())
     .pipe(
@@ -43,7 +43,7 @@ gulp.task('min-css', () => {
       })
     )
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest(`${DIST_PATH}`));
+    .pipe(gulp.dest(`${DIST_DIR}`));
 });
 
 gulp.task('postcss', ['build-less'], () => {
@@ -51,12 +51,12 @@ gulp.task('postcss', ['build-less'], () => {
 });
 
 gulp.task('copy-fonts', () => {
-  return gulp.src(`${SOURCE_PATH}/fonts/**/*`).pipe(gulp.dest(`${DIST_PATH}/fonts`));
+  return gulp.src(`${SOURCE_DIR}/fonts/**/*`).pipe(gulp.dest(`${DIST_DIR}/fonts`));
 });
 
 gulp.task('generate-modularized-styles', () => {
   // Don't match the file name begin with "_".
-  return gulp.src(`${SOURCE_PATH}/!(_)*.less`).pipe(gulp.dest(MODULARIZED_DIST_PATH));
+  return gulp.src(`${SOURCE_DIR}/!(_)*.less`).pipe(gulp.dest(MODULARIZED_DIST_DIR));
 });
 
 gulp.task('build-style', ['clean'], () => {
