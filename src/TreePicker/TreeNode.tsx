@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { reactToString } from 'rsuite-utils/lib/utils';
 import { hasClass } from 'dom-lib';
-import { TREE_NODE_PADDING } from '../constants';
+import { TREE_NODE_PADDING, TREE_NODE_ROOT_PADDING } from '../constants';
 import { defaultProps, prefix } from '../utils';
 
 export interface TreeNodeProps {
@@ -19,6 +19,7 @@ export interface TreeNodeProps {
   className?: string;
   classPrefix?: string;
   style?: React.CSSProperties;
+  innerRef?: React.Ref<any>;
   onTreeToggle?: (nodeData: any, layer: number, event: React.SyntheticEvent<any>) => void;
   onSelect?: (nodeData: any, layer: number, event: React.SyntheticEvent<any>) => void;
   onRenderTreeIcon?: (nodeData: any) => React.ReactNode;
@@ -39,6 +40,7 @@ class TreeNode extends React.Component<TreeNodeProps> {
     className: PropTypes.string,
     classPrefix: PropTypes.string,
     style: PropTypes.object,
+    innerRef: PropTypes.func,
     onTreeToggle: PropTypes.func,
     onSelect: PropTypes.func,
     onRenderTreeIcon: PropTypes.func,
@@ -137,17 +139,26 @@ class TreeNode extends React.Component<TreeNodeProps> {
   };
 
   render() {
-    const { style, className, classPrefix, active, layer, disabled, visible } = this.props;
+    const {
+      style,
+      className,
+      classPrefix,
+      active,
+      layer,
+      disabled,
+      visible,
+      innerRef
+    } = this.props;
     const classes = classNames(className, classPrefix, {
       'text-muted': disabled,
       [this.addPrefix('disabled')]: disabled,
       [this.addPrefix('active')]: active
     });
 
-    const styles = { paddingLeft: layer * TREE_NODE_PADDING };
+    const styles = { paddingLeft: layer * TREE_NODE_PADDING + TREE_NODE_ROOT_PADDING };
 
     return visible ? (
-      <div style={{ ...style, ...styles }} className={classes}>
+      <div style={{ ...style, ...styles }} className={classes} ref={innerRef}>
         {this.renderIcon()}
         {this.renderLabel()}
       </div>

@@ -66,7 +66,7 @@ describe('Checkbox', () => {
   });
 
   it('Should call onClick callback', done => {
-    const doneOp = data => {
+    const doneOp = () => {
       done();
     };
     const instance = getDOMNode(<Checkbox onClick={doneOp}>Title</Checkbox>);

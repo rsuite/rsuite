@@ -22,7 +22,7 @@ export interface InputNumberProps extends StandardProps {
   value?: number | string;
 
   /** Initial value */
-  defaultValue?: number | string;
+  defaultValue?: string;
 
   /** Sets the element displayed to the left of the component */
   prefix?: React.ReactNode;

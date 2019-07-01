@@ -2,14 +2,14 @@ import { addDays, isAfter, isBefore, isSameDay } from 'date-fns';
 import composeFunctions from '../utils/composeFunctions';
 import { DisabledDateFunction } from './DateRangePicker.d';
 
-function isAfterDay(date1: Date, date2: Date) {
+function isAfterDay(date1: Date, date2: Date): boolean {
   return isAfter(
     new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()),
     new Date(date2.getFullYear(), date2.getMonth(), date2.getDate())
   );
 }
 
-function isBeforeDay(date1: Date, date2: Date) {
+function isBeforeDay(date1: Date, date2: Date): boolean {
   return isBefore(
     new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()),
     new Date(date2.getFullYear(), date2.getMonth(), date2.getDate())
@@ -20,7 +20,7 @@ function isBeforeDay(date1: Date, date2: Date) {
 Allow the maximum number of days specified, other dates are disabled.
  */
 export function allowedMaxDays(days: number): DisabledDateFunction {
-  return (date, selectValue, selectedDone, target) => {
+  return (date, selectValue, selectedDone, target): boolean => {
     let beforeLimit = false;
     let afterLimit = false;
 
@@ -48,7 +48,7 @@ export function allowedMaxDays(days: number): DisabledDateFunction {
 Only allowed days are specified, other dates are disabled.
  */
 export function allowedDays(days: number): DisabledDateFunction {
-  return (date, selectValue, selectedDone, target) => {
+  return (date, selectValue, selectedDone, target): boolean => {
     let beforeLimit = false;
     let afterLimit = false;
 
@@ -77,7 +77,7 @@ export function allowedRange(
   startDate: string | Date,
   endDate: string | Date
 ): DisabledDateFunction {
-  return (date: Date) => {
+  return (date: Date): boolean => {
     if (isBeforeDay(date, new Date(startDate)) || isAfterDay(date, new Date(endDate))) {
       return true;
     }
@@ -89,7 +89,7 @@ export function allowedRange(
  Disable dates after the specified date.
  */
 export function before(beforeDate: string | Date = new Date()): DisabledDateFunction {
-  return (date: Date) => {
+  return (date: Date): boolean => {
     if (isBeforeDay(date, new Date(beforeDate))) {
       return true;
     }
@@ -101,7 +101,7 @@ export function before(beforeDate: string | Date = new Date()): DisabledDateFunc
 Disable dates before the specified date.
  */
 export function after(afterDate: string | Date = new Date()): DisabledDateFunction {
-  return (date: Date) => {
+  return (date: Date): boolean => {
     if (isAfterDay(date, new Date(afterDate))) {
       return true;
     }
@@ -127,7 +127,7 @@ export function afterToday(): DisabledDateFunction {
 Used to combine multiple conditions.
  */
 export function combine(...args: any): DisabledDateFunction {
-  return (...disabledDateArgs: any) => {
+  return (...disabledDateArgs: any): boolean => {
     return args.reduce(
       (a: Function, b: Function) => a(...disabledDateArgs) || b(...disabledDateArgs)
     );

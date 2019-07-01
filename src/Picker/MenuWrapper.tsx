@@ -1,4 +1,5 @@
 import * as React from 'react';
+/* eslint-disable react/no-find-dom-node */
 import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import _ from 'lodash';

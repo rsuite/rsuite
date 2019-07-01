@@ -1,7 +1,5 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 import Ripple from '../Ripple';
 
 describe('Ripple', () => {

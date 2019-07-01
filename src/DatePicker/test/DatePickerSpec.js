@@ -194,7 +194,7 @@ describe('DatePicker', () => {
   });
 
   it('Should not change for the value  when it is controlled', done => {
-    const doneOp = date => {
+    const doneOp = () => {
       if (
         getDOMNode(instance).querySelector('.rs-picker-toggle-value').innerText === '2018-01-05'
       ) {

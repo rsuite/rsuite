@@ -11,7 +11,7 @@ const toJSX = (node: React.ReactNode, key: string | number) =>
 export default (pattern: string, ...data: any[]) =>
   pattern
     .split(/\{(\d+)\}/)
-    .map(
-      (item: string, index: number) => (index % 2 ? toJSX(data[+item], index) : toJSX(item, index))
+    .map((item: string, index: number) =>
+      index % 2 ? toJSX(data[+item], index) : toJSX(item, index)
     )
     .filter((item: string | React.ReactNode) => item !== '');

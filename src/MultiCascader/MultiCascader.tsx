@@ -349,7 +349,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
     return items;
   }
 
-  renderSearchRow = (item: Object, key: number) => {
+  renderSearchRow = (item: any, key: number) => {
     const { labelKey, valueKey, cascade, disabledItemValues = [] } = this.props;
     const { searchKeyword } = this.state;
     const values = this.getValue();

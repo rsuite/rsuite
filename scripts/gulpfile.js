@@ -113,19 +113,3 @@ gulp.task('dev', () => {
       .pipe(gulp.dest(libPath));
   });
 });
-
-gulp.task('dev-map', () => {
-  gulp.start(['babel-map']);
-  gulp.watch('../src/**/*.js', function(event) {
-    console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
-    const srcPath = `../${event.path.match(/src\/\S*/)[0]}`;
-    const libPath = srcPath.replace('/src/', '/lib/').replace(/\/[a-z|A-Z]+.js/, '');
-
-    gulp
-      .src(srcPath)
-      .pipe(sourcemaps.init())
-      .pipe(babel(babelrc()))
-      .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest(libPath));
-  });
-});

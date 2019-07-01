@@ -5,15 +5,10 @@ import classNames from 'classnames';
 import FormattedMessage from '../IntlProvider/FormattedMessage';
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
 import { addDays } from 'date-fns';
-
-export interface Range {
-  label: React.ReactNode;
-  closeOverlay?: boolean;
-  value: Date | ((pageDate?: Date) => Date);
-}
+import { RangeType } from './DatePicker.d';
 
 export interface ToolbarProps {
-  ranges: Array<Range>;
+  ranges: RangeType[];
   className?: string;
   classPrefix?: string;
   pageDate?: Date;
@@ -99,7 +94,7 @@ class Toolbar extends React.PureComponent<ToolbarProps> {
     return (
       <div {...unhandled} className={classes}>
         <div className={this.addPrefix('ranges')}>
-          {ranges.map((item: Range, index: number) => {
+          {ranges.map((item: RangeType, index: number) => {
             let value: any = typeof item.value === 'function' ? item.value(pageDate) : item.value;
             let disabled = disabledHandle && disabledHandle(value);
             let itemClassName = classNames(this.addPrefix('option'), {

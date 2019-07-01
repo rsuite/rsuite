@@ -15,7 +15,9 @@ describe('ListItem', () => {
   it('Should be disabled', () => {
     const domNode = getDOMNode(
       <List>
-        <List.Item index={1} disabled>Disabled</List.Item>
+        <List.Item index={1} disabled>
+          Disabled
+        </List.Item>
       </List>
     );
     assert.include(domNode.firstChild.className, 'rs-list-item-disabled');

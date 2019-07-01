@@ -20,7 +20,7 @@ export interface DropdownMenuProps {
   menuWidth: number;
   menuHeight: number;
   className?: string;
-  renderMenuItem?: (itemLabel: React.ReactNode, item: Object) => React.ReactNode;
+  renderMenuItem?: (itemLabel: React.ReactNode, item: any) => React.ReactNode;
   renderMenu?: (children: object[], menu: React.ReactNode, parentNode?: object) => React.ReactNode;
   onSelect?: (
     node: any,

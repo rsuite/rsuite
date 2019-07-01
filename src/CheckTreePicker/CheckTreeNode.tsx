@@ -4,7 +4,12 @@ import classNames from 'classnames';
 import { hasClass } from 'dom-lib';
 import { reactToString } from 'rsuite-utils/lib/utils';
 import { defaultProps, prefix } from '../utils';
-import { CHECK_STATE, CheckStateType, TREE_NODE_PADDING } from '../constants';
+import {
+  CHECK_STATE,
+  CheckStateType,
+  TREE_NODE_PADDING,
+  TREE_NODE_ROOT_PADDING
+} from '../constants';
 
 export interface TreeCheckNodeProps {
   classPrefix?: string;
@@ -22,6 +27,7 @@ export interface TreeCheckNodeProps {
   hasChildren?: boolean;
   uncheckable?: boolean;
   allUncheckable?: boolean;
+  innerRef?: React.Ref<any>;
   onTreeToggle?: (nodeData: any, layer: number, event: React.SyntheticEvent<any>) => void;
   onSelect?: (nodeData: any, event: React.SyntheticEvent<any>) => void;
   onRenderTreeIcon?: (nodeData: any, expandIcon?: React.ReactNode) => React.ReactNode;
@@ -48,6 +54,7 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
     hasChildren: PropTypes.bool,
     uncheckable: PropTypes.bool,
     allUncheckable: PropTypes.bool,
+    innerRef: PropTypes.func,
     onTreeToggle: PropTypes.func,
     onSelect: PropTypes.func,
     onRenderTreeIcon: PropTypes.func,
@@ -174,7 +181,8 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
       layer,
       disabled,
       checkState,
-      allUncheckable
+      allUncheckable,
+      innerRef
     } = this.props;
 
     const classes = classNames(className, classPrefix, {
@@ -186,9 +194,9 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
       [this.addPrefix('all-uncheckable')]: !!allUncheckable
     });
 
-    const styles = { paddingLeft: layer * TREE_NODE_PADDING };
+    const styles = { paddingLeft: layer * TREE_NODE_PADDING + TREE_NODE_ROOT_PADDING };
     return visible ? (
-      <div style={{ ...style, ...styles }} className={classes}>
+      <div style={{ ...style, ...styles }} className={classes} ref={innerRef}>
         {this.renderIcon()}
         {this.renderLabel()}
       </div>

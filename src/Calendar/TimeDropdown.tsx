@@ -111,7 +111,7 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
     show && this.scrollTo(time);
   }
 
-  scrollTo = (time: Object) => {
+  scrollTo = (time: object) => {
     Object.entries(time).forEach((item: any) => {
       let container: Element = this.container[item[0]];
       let node = container.querySelector(`[data-key="${item[0]}-${item[1]}"]`);

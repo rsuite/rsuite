@@ -5,19 +5,19 @@ export type Collection = string | number;
 type Refs = Record<Collection, ManagerRef[]>;
 
 export interface ManagerRef {
-  node: HTMLElement,
-  edgeOffset: Position,
+  node: HTMLElement;
+  edgeOffset: Position;
   info: {
-    collection: Collection,
-    index: number,
-    disabled?: boolean,
-    manager: Manager
-  }
+    collection: Collection;
+    index: number;
+    disabled?: boolean;
+    manager: Manager;
+  };
 }
 
 /*
-* Move manager
-* */
+ * Move manager
+ * */
 class Manager {
   refs: Refs = {};
   active: ManagerRef;

@@ -74,7 +74,7 @@ describe('DateRangePicker', () => {
       done();
     };
     let demo;
-    const instance = getDOMNode(<DateRangePicker onChange={doneOp} ref={ref => (demo = ref)} />);
+    getDOMNode(<DateRangePicker onChange={doneOp} ref={ref => (demo = ref)} />);
     demo.updateValue([new Date(), new Date()]);
   });
 

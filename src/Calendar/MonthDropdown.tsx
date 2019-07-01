@@ -24,7 +24,7 @@ export interface RowProps {
   isVisible: boolean; // This row is visible within the List (eg it is not an overscanned row)
   key?: any; // Unique key within array of rendered rows
   parent: any; // Reference to the parent List (instance)
-  style?: Object; // Style object to be applied to row (to position it);
+  style?: React.CSSProperties; // Style object to be applied to row (to position it);
 }
 
 const monthMap = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];

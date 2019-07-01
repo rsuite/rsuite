@@ -8,7 +8,13 @@ module.exports = {
     es6: true
   },
   parser: '@typescript-eslint/parser',
-  extends: ['plugin:@typescript-eslint/recommended', 'prettier', 'prettier/react'],
+  extends: [
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
+    'prettier/@typescript-eslint',
+    'plugin:prettier/recommended'
+  ],
+  parserOptions: {},
   plugins: ['@typescript-eslint', 'react'],
   rules: {
     quotes: [ERROR, 'single'],
@@ -26,12 +32,13 @@ module.exports = {
     'no-unused-expressions': [ERROR, { allowShortCircuit: true }],
     'arrow-parens': [ERROR, 'as-needed'],
     'no-mixed-operators': OFF,
-    '@typescript-eslint/no-explicit-any': OFF
+    '@typescript-eslint/no-explicit-any': OFF,
+    '@typescript-eslint/explicit-function-return-type': OFF,
+    '@typescript-eslint/explicit-member-accessibility': OFF
   },
   settings: {
-    'import/extensions': ['.js', '.jsx'],
-    'import/resolver': {
-      typescript: {}
+    react: {
+      version: 'detect'
     }
   }
 };

@@ -7,9 +7,9 @@ import setDisplayName from 'recompose/setDisplayName';
 import { prefix, defaultProps, getUnhandledProps, partitionHTMLProps } from '../utils';
 import { CheckboxProps } from './Checkbox.d';
 
-type CheckboxState = {
+interface CheckboxState {
   checked?: boolean;
-};
+}
 
 class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   static propTypes = {

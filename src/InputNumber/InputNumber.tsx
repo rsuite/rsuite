@@ -13,11 +13,11 @@ import Icon from '../Icon';
 import { prefix, defaultProps, getUnhandledProps, partitionHTMLProps } from '../utils';
 import { InputNumberProps } from './InputNumber.d';
 
-type State = {
+interface InputNumberState {
   value?: number | string;
   disabledUpButton?: boolean;
   disabledDownButton?: boolean;
-};
+}
 
 const isFloat = (value: string | number) => /(^-?|^\+?|^\d?)\d*\.\d+$/.test(value + '');
 
@@ -45,7 +45,7 @@ function getButtonStatus(value: number | string, min: number, max: number) {
   return status;
 }
 
-class InputNumber extends React.Component<InputNumberProps, State> {
+class InputNumber extends React.Component<InputNumberProps, InputNumberState> {
   static propTypes = {
     className: PropTypes.string,
     classPrefix: PropTypes.string,
@@ -204,7 +204,6 @@ class InputNumber extends React.Component<InputNumberProps, State> {
       classPrefix,
       step,
       buttonAppearance,
-      defaultValue,
       ...props
     } = this.props;
 
@@ -223,11 +222,10 @@ class InputNumber extends React.Component<InputNumberProps, State> {
           type="text"
           autoComplete="off"
           step={step}
-          defaultValue={defaultValue}
           inputRef={this.bindInputRef}
           onChange={this.handleOnChange}
           onBlur={this.handleBlur}
-          value={_.isNil(value) ? '' : value}
+          value={_.isNil(value) ? '' : `${value}`}
           disabled={disabled}
         />
 

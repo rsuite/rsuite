@@ -96,7 +96,7 @@ export const partitionHTMLProps = (
 ): [React.InputHTMLAttributes<any>, any] => {
   const { htmlProps = htmlInputProps, includeAria = true } = options;
 
-  const inputProps = {};
+  const inputProps: { [key: string]: string } = {};
   const rest = {};
 
   _.forEach(props, (val, prop) => {

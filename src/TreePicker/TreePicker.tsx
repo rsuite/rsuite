@@ -2,7 +2,6 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { findDOMNode } from 'react-dom';
 import { toggleClass, hasClass } from 'dom-lib';
 import List from 'react-virtualized/dist/commonjs/List';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
@@ -18,6 +17,7 @@ import {
   getUnhandledProps,
   createChainedFunction
 } from '../utils';
+
 import {
   flattenTree,
   shouldDisplay,
@@ -356,7 +356,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
   }
 
   getElementByDataKey = (dataKey: string) => {
-    const ele = findDOMNode(this.nodeRefs[dataKey]);
+    const ele = this.nodeRefs[dataKey];
     if (ele instanceof Element) {
       return ele.querySelector(`.${this.addTreePrefix('node-label')}`);
     }
@@ -541,8 +541,8 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     const { valueKey, onExpand, virtualized } = this.props;
     if (!virtualized) {
       const openClassName = this.addTreePrefix('open');
-      toggleClass(findDOMNode(this.nodeRefs[nodeData.refKey]), openClassName);
-      nodeData.expand = hasClass(findDOMNode(this.nodeRefs[nodeData.refKey]), openClassName);
+      toggleClass(this.nodeRefs[nodeData.refKey], openClassName);
+      nodeData.expand = hasClass(this.nodeRefs[nodeData.refKey], openClassName);
       this.nodes[nodeData.refKey].expand = nodeData.expand;
     } else {
       this.nodes[nodeData.refKey].expand = !nodeData.expand;
@@ -778,7 +778,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       );
     }
 
-    return <TreeNode key={key} ref={this.bindNodeRefs.bind(this, refKey)} {...props} />;
+    return <TreeNode key={key} innerRef={this.bindNodeRefs.bind(this, refKey)} {...props} />;
   }
 
   renderVirtualNode(node: any, options: any) {
@@ -819,7 +819,9 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       onRenderTreeIcon: renderTreeIcon
     };
 
-    return showNode && <TreeNode key={key} ref={this.bindNodeRefs.bind(this, refKey)} {...props} />;
+    return (
+      showNode && <TreeNode key={key} innerRef={this.bindNodeRefs.bind(this, refKey)} {...props} />
+    );
   }
 
   measureRowRenderer = nodes => ({ key, index, style, parent }) => {

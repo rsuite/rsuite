@@ -15,7 +15,7 @@ export interface PaginationButtonProps {
   className?: string;
   componentClass: React.ElementType;
   children?: React.ReactNode;
-  style?: Object;
+  style?: React.CSSProperties;
   onSelect?: (eventKey: any, event: React.MouseEvent) => void;
 }
 

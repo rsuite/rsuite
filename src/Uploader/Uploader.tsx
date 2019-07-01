@@ -12,15 +12,15 @@ import { prefix, ajaxUpload, defaultProps, getUnhandledProps } from '../utils';
 import { getFiles, guid } from './utils';
 import { UploaderProps, FileType } from './Uploader.d';
 
-type fileStatus = 'inited' | 'uploading' | 'error' | 'finished';
-type fileProgressType = {
-  status?: fileStatus;
+type FileStatusType = 'inited' | 'uploading' | 'error' | 'finished';
+interface FileProgressType {
+  status?: FileStatusType;
   progress?: number;
-};
+}
 
 interface UploaderState {
-  fileList: Array<FileType>;
-  fileMap: { [fileKey: string]: fileProgressType };
+  fileList: FileType[];
+  fileMap: { [fileKey: string]: FileProgressType };
 }
 
 class Uploader extends React.Component<UploaderProps, UploaderState> {
@@ -90,7 +90,7 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
     this.handleAjaxUpload();
   }
 
-  getFileList(): Array<FileType> {
+  getFileList(): FileType[] {
     const { fileList } = this.props;
     const { fileMap } = this.state;
 
@@ -173,7 +173,7 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
     this.cleanInputValue();
   }
 
-  handleAjaxUploadSuccess = (file: FileType, response: Object, event) => {
+  handleAjaxUploadSuccess = (file: FileType, response: object, event) => {
     const { onSuccess } = this.props;
     const nextFile: FileType = {
       ...file,
@@ -185,7 +185,7 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
     });
   };
 
-  handleAjaxUploadError = (file: FileType, status: Object, event) => {
+  handleAjaxUploadError = (file: FileType, status: object, event) => {
     const { onError } = this.props;
     const nextFile: FileType = {
       ...file,
@@ -241,9 +241,9 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
 
   updateFileList(nextFile: FileType, callback?: () => void) {
     const fileList = this.getFileList();
-    const nextFileList = fileList.map(
-      file => (file.fileKey === nextFile.fileKey ? nextFile : file)
-    );
+    const nextFileList = fileList.map(file => {
+      return file.fileKey === nextFile.fileKey ? nextFile : file;
+    });
 
     const nextState: any = {
       fileList: nextFileList

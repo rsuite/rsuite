@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StandardProps, TypeAttributes } from '../@types/common';
+import { StandardProps } from '../@types/common';
 
 export interface PopoverProps extends StandardProps {
   /** Primary content */

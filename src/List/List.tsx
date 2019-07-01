@@ -38,26 +38,26 @@ const interactiveElements = [
 ];
 
 export interface Axis {
-  x?: number,
-  y?: number
+  x?: number;
+  y?: number;
 }
 
 export interface Position {
-  top?: number,
-  left?: number,
-  bottom?: number,
-  right?: number
+  top?: number;
+  left?: number;
+  bottom?: number;
+  right?: number;
 }
 
 interface State {
-  sorting: boolean,
-  manager: Manager
+  sorting: boolean;
+  manager: Manager;
 }
 
 interface Context {
-  bordered?: boolean,
-  size?: 'lg' | 'md' | 'sm',
-  manager?: Manager
+  bordered?: boolean;
+  size?: 'lg' | 'md' | 'sm';
+  manager?: Manager;
 }
 
 export const ListContext = createContext({
@@ -128,7 +128,8 @@ class List extends React.Component<ListProps, State> {
 
   componentDidMount() {
     if (this.containerRef.current instanceof HTMLElement) {
-      this.scrollContainer = getScrollingParent(this.containerRef.current) || this.containerRef.current;
+      this.scrollContainer =
+        getScrollingParent(this.containerRef.current) || this.containerRef.current;
       this.autoScroller = new AutoScroller(this.scrollContainer, (offset: Position) => {
         this.activeNodeFlowBodyTranslate.x += offset.left;
         this.activeNodeFlowBodyTranslate.y += offset.top;
@@ -140,7 +141,9 @@ class List extends React.Component<ListProps, State> {
       this.windowMoveListener = on(this.containerRef.current, 'mousemove', this.handleMove, {
         passive: false
       });
-      this.windowEndListener = on(this.containerRef.current, 'mouseup', this.handleEnd, { passive: false });
+      this.windowEndListener = on(this.containerRef.current, 'mouseup', this.handleEnd, {
+        passive: false
+      });
     }
   }
 
@@ -287,12 +290,15 @@ class List extends React.Component<ListProps, State> {
     this.setState({ sorting: true });
 
     if (onSortStart) {
-      onSortStart({
-        collection,
-        node: activeNode,
-        oldIndex: this.activeNodeOldIndex,
-        newIndex: this.activeNodeNextIndex
-      }, event);
+      onSortStart(
+        {
+          collection,
+          node: activeNode,
+          oldIndex: this.activeNodeOldIndex,
+          newIndex: this.activeNodeNextIndex
+        },
+        event
+      );
     }
   };
 
@@ -316,12 +322,15 @@ class List extends React.Component<ListProps, State> {
     this.autoScroll();
 
     if (onSortMove) {
-      onSortMove({
-        collection: manager.getActive().info.collection,
-        node: manager.getActive().node,
-        oldIndex: this.activeNodeOldIndex,
-        newIndex: this.activeNodeNextIndex
-      }, event);
+      onSortMove(
+        {
+          collection: manager.getActive().info.collection,
+          node: manager.getActive().node,
+          oldIndex: this.activeNodeOldIndex,
+          newIndex: this.activeNodeNextIndex
+        },
+        event
+      );
     }
   };
 
@@ -345,7 +354,7 @@ class List extends React.Component<ListProps, State> {
       // Remove the helper from the DOM
       if (this.activeNodeFlowBody) {
         this.activeNodeFlowBody.parentNode &&
-        this.activeNodeFlowBody.parentNode.removeChild(this.activeNodeFlowBody);
+          this.activeNodeFlowBody.parentNode.removeChild(this.activeNodeFlowBody);
         this.activeNodeFlowBody = null;
       }
 
@@ -540,10 +549,10 @@ class List extends React.Component<ListProps, State> {
       const offsetY = node.offsetHeight + marginOffset.y;
 
       if (x) {
-        translateX += +x / Math.abs(+x) * offsetX;
+        translateX += (+x / Math.abs(+x)) * offsetX;
       }
       if (y) {
-        translateY += +y / Math.abs(+y) * offsetY;
+        translateY += (+y / Math.abs(+y)) * offsetY;
       }
     });
     return {

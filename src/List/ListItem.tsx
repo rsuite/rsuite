@@ -85,6 +85,8 @@ const EnhancedListItem = defaultProps<ListItemProps>({
 
 const Component = setDisplayName('ListItem')(EnhancedListItem);
 
-export default (props: ListItemProps) => (
+const WithContextListItem = (props: ListItemProps) => (
   <ListContext.Consumer>{context => <Component {...props} {...context} />}</ListContext.Consumer>
 );
+
+export default WithContextListItem;

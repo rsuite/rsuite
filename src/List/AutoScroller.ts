@@ -1,17 +1,18 @@
 import { Axis, Position } from './List';
 
 export interface AutoScrollerUpdatePayload {
-  translate: Axis,
-  minTranslate: Axis,
-  maxTranslate: Axis,
-  width: number,
-  height: number
+  translate: Axis;
+  minTranslate: Axis;
+  maxTranslate: Axis;
+  width: number;
+  height: number;
 }
 
 class AutoScroller {
-  container: HTMLElement;
-  onScrollCallback: (offset: Position) => any;
-  interval = null;
+  private container: HTMLElement;
+  private onScrollCallback: (offset: Position) => any;
+  private interval = null;
+
   isAutoScrolling: boolean = true;
 
   constructor(container: HTMLElement, onScrollCallback: (offset: Position) => any) {
@@ -19,12 +20,18 @@ class AutoScroller {
     this.onScrollCallback = onScrollCallback;
   }
 
-  clear() {
+  public clear() {
     clearInterval(this.interval);
     this.interval = null;
   }
 
-  update({ translate, minTranslate, maxTranslate, width, height }: AutoScrollerUpdatePayload) {
+  public update({
+    translate,
+    minTranslate,
+    maxTranslate,
+    width,
+    height
+  }: AutoScrollerUpdatePayload) {
     const direction = {
       x: 0,
       y: 0

@@ -7,4 +7,6 @@ const CheckTree = React.forwardRef((props: CheckTreeProps, ref: React.Ref<any>) 
   <CheckTreePicker ref={ref} inline {...props} />
 ));
 
+CheckTree.displayName = 'CheckTree';
+
 export default CheckTree;

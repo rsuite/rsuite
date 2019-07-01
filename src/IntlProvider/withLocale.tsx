@@ -28,6 +28,8 @@ function withLocale<T>(combineKeys: string[] = []) {
       );
     });
 
+    WithLocale.displayName = BaseComponent.displayName;
+
     if (process.env.NODE_ENV !== 'production') {
       return setDisplayName(wrapDisplayName(BaseComponent, 'withLocale'))(WithLocale);
     }

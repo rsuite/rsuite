@@ -10,7 +10,7 @@ export interface PickerToggleTriggerProps {
   placement?: string;
   pickerProps: any;
   open?: boolean;
-  trigger?: TriggerType | Array<TriggerType>;
+  trigger?: TriggerType | TriggerType[];
   children: React.ReactNode;
   speaker: React.ReactNode;
   positionRef?: React.RefObject<any>;
@@ -54,5 +54,6 @@ const PickerToggleTrigger = React.forwardRef(
     );
   }
 );
+PickerToggleTrigger.displayName = 'PickerToggleTrigger';
 
 export default PickerToggleTrigger;

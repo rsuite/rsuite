@@ -1,8 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import wrapDisplayName from 'recompose/wrapDisplayName';
-import { setPropTypes } from 'recompose';
+import { setPropTypes, wrapDisplayName } from 'recompose';
 
 import { TypeAttributes } from '../@types/common';
 

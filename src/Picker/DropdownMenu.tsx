@@ -22,9 +22,9 @@ export interface DropdownMenuProps {
   style?: React.CSSProperties;
   dropdownMenuItemComponentClass: React.ElementType;
   dropdownMenuItemClassPrefix?: string;
-  renderMenuItem?: (itemLabel: React.ReactNode, item: Object) => React.ReactNode;
-  renderMenuGroup?: (title: React.ReactNode, item: Object) => React.ReactNode;
-  onSelect?: (value: any, item: Object, event: React.MouseEvent, checked?: boolean) => void;
+  renderMenuItem?: (itemLabel: React.ReactNode, item: any) => React.ReactNode;
+  renderMenuGroup?: (title: React.ReactNode, item: any) => React.ReactNode;
+  onSelect?: (value: any, item: any, event: React.MouseEvent, checked?: boolean) => void;
   onGroupTitleClick?: (event: React.MouseEvent) => void;
 }
 
@@ -98,7 +98,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
-  handleSelect = (item: Object, value: any, event: React.MouseEvent, checked?: boolean) => {
+  handleSelect = (item: any, value: any, event: React.MouseEvent, checked?: boolean) => {
     const { onSelect } = this.props;
     onSelect && onSelect(value, item, event, checked);
   };
@@ -109,7 +109,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
     }
   };
 
-  getItemData = (itemData: Object) => {
+  getItemData = (itemData: any) => {
     return itemData;
   };
 

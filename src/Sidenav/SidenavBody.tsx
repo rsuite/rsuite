@@ -2,9 +2,9 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { defaultProps } from '../utils';
-import { SidenavBodyProps } from './SidenavBody.d';
+import { StandardProps } from '../@types/common';
 
-class SidenavBody extends React.Component<SidenavBodyProps> {
+class SidenavBody extends React.Component<StandardProps> {
   static propTypes = {
     classPrefix: PropTypes.string,
     className: PropTypes.string
@@ -17,6 +17,6 @@ class SidenavBody extends React.Component<SidenavBodyProps> {
   }
 }
 
-export default defaultProps<SidenavBodyProps>({
+export default defaultProps<StandardProps>({
   classPrefix: 'sidenav-body'
 })(SidenavBody);

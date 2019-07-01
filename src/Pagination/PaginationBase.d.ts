@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { StandardProps } from '../@types/common';
-import { ButtonProps } from '../Button/Button.d';
 
 export interface PaginationBaseProps extends StandardProps {
   /** Current page number */

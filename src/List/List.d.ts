@@ -4,14 +4,14 @@ import ListItem from './ListItem';
 import { Collection } from './Manager';
 
 interface Payload {
-  collection: Collection,
+  collection: Collection;
   node: HTMLElement;
   newIndex: number;
   oldIndex: number;
 }
 
 interface PayloadCallback {
-  (payload?: Payload, event?: MouseEvent): any
+  (payload?: Payload, event?: MouseEvent): any;
 }
 
 export interface ListProps extends StandardProps {

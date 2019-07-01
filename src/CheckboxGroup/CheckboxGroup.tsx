@@ -14,9 +14,9 @@ import {
 
 import { CheckboxGroupProps } from './CheckboxGroup.d';
 
-type State = {
+interface State {
   value: any[];
-};
+}
 
 class CheckboxGroup extends React.Component<CheckboxGroupProps, State> {
   static propTypes = {

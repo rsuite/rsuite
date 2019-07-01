@@ -47,7 +47,6 @@ describe('InputPicker', () => {
   });
 
   it('Should output a dropdown', () => {
-    const Title = 'Title';
     const instance = getDOMNode(<InputPicker />);
 
     assert.ok(instance.className.match(/\bpicker-input\b/));
@@ -212,7 +211,7 @@ describe('InputPicker', () => {
   });
 
   it('Should call `onChange` by keyCode=13 ', done => {
-    const doneOp = key => {
+    const doneOp = () => {
       done();
     };
     const instance = getDOMNode(

@@ -182,7 +182,7 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should focus item by keyCode=13 ', done => {
-    const doneOp = values => {
+    const doneOp = () => {
       done();
     };
 
@@ -216,8 +216,6 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should load data async', () => {
-    let activeNode = null;
-    let layer = 0;
     const data = [
       {
         label: 'Master',
@@ -237,9 +235,7 @@ describe('CheckTreePicker', () => {
     ];
 
     let newData = [];
-    const mockOnExpand = (node, l, concat) => {
-      activeNode = node;
-      layer = l;
+    const mockOnExpand = (_node, _l, concat) => {
       newData = concat(data, children);
     };
 

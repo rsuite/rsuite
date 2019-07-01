@@ -9,9 +9,9 @@ import { prefix, isOneOf, createChainedFunction, defaultProps, getUnhandledProps
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { DropdownMenuItemProps } from './DropdownMenuItem.d';
 
-type DropdownMenuItemState = {
+interface DropdownMenuItemState {
   open?: boolean;
-};
+}
 
 class DropdownMenuItem extends React.Component<DropdownMenuItemProps, DropdownMenuItemState> {
   static contextType = SidenavContext;

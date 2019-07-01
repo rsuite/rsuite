@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { StandardProps } from '../@types/common';
-import { ButtonProps } from '../Button/Button.d';
 import PaginationBaseProps from './PaginationBase';
 
 export interface PaginationProps extends StandardProps, PaginationBaseProps {

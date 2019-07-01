@@ -1,7 +1,7 @@
 import { startOfDay, endOfDay, addMonths, isSameMonth } from 'date-fns';
 import { ValueType } from './DateRangePicker.d';
 
-export const setTimingMargin = (date, way = 'left') =>
+export const setTimingMargin = (date, way = 'left'): Date =>
   way === 'right' ? endOfDay(date) : startOfDay(date);
 
 export function getCalendarDate(value: any[] = []): ValueType {

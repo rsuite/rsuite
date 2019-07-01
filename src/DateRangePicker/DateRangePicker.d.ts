@@ -7,7 +7,7 @@ export type DisabledDateFunction = (
   /** Date used to determine if disabling is required. */
   date: Date,
   /** Date selected. */
-  selectValue?: Array<Date>,
+  selectValue?: Date[],
   /**
    Whether to choose to finish now.
    If `false`, only the start date is selected, waiting for the selection end date.

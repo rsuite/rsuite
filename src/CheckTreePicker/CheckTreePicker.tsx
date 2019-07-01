@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { findDOMNode } from 'react-dom';
 import { toggleClass, hasClass } from 'dom-lib';
 import _ from 'lodash';
 import List from 'react-virtualized/dist/commonjs/List';
@@ -399,7 +398,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
   }
 
   getElementByDataKey = (dataKey: string) => {
-    const ele = findDOMNode(this.nodeRefs[dataKey]);
+    const ele = this.nodeRefs[dataKey];
     if (ele instanceof Element) {
       return ele.querySelector(`.${this.addTreePrefix('node-label')}`);
     }
@@ -804,7 +803,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       nodes[node.refKey].checkAll = false;
     } else {
       nodes[node.refKey].checkAll = isChecked;
-      node[childrenKey].forEach((child: Object) => {
+      node[childrenKey].forEach(child => {
         this.toggleDownChecked(nodes, child, isChecked);
       });
     }
@@ -847,11 +846,8 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
   handleToggle = (nodeData: any, layer: number) => {
     const { valueKey, onExpand, virtualized } = this.props;
     if (!virtualized) {
-      toggleClass(findDOMNode(this.nodeRefs[nodeData.refKey]), this.addTreePrefix('open'));
-      nodeData.expand = hasClass(
-        findDOMNode(this.nodeRefs[nodeData.refKey]),
-        this.addTreePrefix('open')
-      );
+      toggleClass(this.nodeRefs[nodeData.refKey], this.addTreePrefix('open'));
+      nodeData.expand = hasClass(this.nodeRefs[nodeData.refKey], this.addTreePrefix('open'));
       this.toggleExpand(nodeData, nodeData.expand);
     } else {
       this.toggleExpand(nodeData, !nodeData.expand);
@@ -1054,7 +1050,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       );
     }
 
-    return <CheckTreeNode key={key} ref={this.bindNodeRefs.bind(this, refKey)} {...props} />;
+    return <CheckTreeNode key={key} innerRef={this.bindNodeRefs.bind(this, refKey)} {...props} />;
   }
 
   renderVirtualNode(node: any, options: any) {
@@ -1092,7 +1088,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
         <CheckTreeNode
           style={style}
           key={key}
-          ref={this.bindNodeRefs.bind(this, refKey)}
+          innerRef={this.bindNodeRefs.bind(this, refKey)}
           {...props}
         />
       )

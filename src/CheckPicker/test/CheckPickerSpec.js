@@ -182,7 +182,7 @@ describe('CheckPicker', () => {
   });
 
   it('Should call `onChange` by keyCode=13 ', done => {
-    const doneOp = key => {
+    const doneOp = () => {
       done();
     };
     const instance = getInstance(

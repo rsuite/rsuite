@@ -1,4 +1,3 @@
-import * as React from 'react';
 import ProgressLine from './ProgressLine';
 import ProgressCircle from './ProgressCircle';
 

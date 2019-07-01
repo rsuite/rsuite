@@ -30,14 +30,14 @@ import { CheckPickerProps } from './CheckPicker.d';
 import { PLACEMENT } from '../constants';
 import { ItemDataType } from '../@types/common';
 
-type CheckPickerState = {
+interface CheckPickerState {
   value?: any[];
   // Used to focus the active item  when trigger `onKeydown`
   focusItemValue?: any;
   searchKeyword: string;
   stickyItems?: any[];
   active?: boolean;
-};
+}
 
 class SelectPicker extends React.Component<CheckPickerProps, CheckPickerState> {
   static propTypes = {

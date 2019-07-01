@@ -53,9 +53,10 @@ describe('Radio', () => {
   });
 
   it('Should call onClick callback', done => {
-    const doneOp = data => {
+    const doneOp = () => {
       done();
     };
+
     const instance = getDOMNode(<Radio onClick={doneOp}>Title</Radio>);
     ReactTestUtils.Simulate.click(instance.querySelector('label'));
   });

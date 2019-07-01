@@ -42,10 +42,10 @@ export interface TableProps extends StandardProps {
   defaultExpandAllRows?: boolean;
 
   /** Specify the default expanded row by  rowkey */
-  defaultExpandedRowKeys?: Array<string | number>;
+  defaultExpandedRowKeys?: string[] | number[];
 
   /** Specify the default expanded row by  rowkey (Controlled) */
-  expandedRowKeys?: Array<string | number>;
+  expandedRowKeys?: string[] | number[];
 
   /** Set the height of an expandable area */
   rowExpandedHeight?: number;

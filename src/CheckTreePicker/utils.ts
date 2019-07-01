@@ -18,7 +18,7 @@ export interface Nodes {
   [key: string]: Node;
 }
 
-export function isEveryChildChecked(node: Node, nodes: Nodes, props: Props) {
+export function isEveryChildChecked(node: Node, nodes: Nodes, props: Props): boolean {
   const { childrenKey } = props;
   let children = null;
   if (node[childrenKey]) {
@@ -38,7 +38,7 @@ export function isEveryChildChecked(node: Node, nodes: Nodes, props: Props) {
   return nodes[node.refKey].check;
 }
 
-export function isSomeChildChecked(node: Node, nodes: Nodes, props: Props) {
+export function isSomeChildChecked(node: Node, nodes: Nodes, props: Props): boolean {
   const { childrenKey } = props;
   if (!node[childrenKey]) {
     return false;
@@ -56,7 +56,7 @@ export function isSomeChildChecked(node: Node, nodes: Nodes, props: Props) {
  * 判断第一层节点是否存在有children的节点
  * @param {*} data
  */
-export function isSomeNodeHasChildren(data: any[], childrenKey: string) {
+export function isSomeNodeHasChildren(data: any[], childrenKey: string): boolean {
   return data.some((node: Node) => node[childrenKey]);
 }
 
@@ -65,7 +65,7 @@ export function isSomeNodeHasChildren(data: any[], childrenKey: string) {
  * @param {*} nodes
  * @param {*} node
  */
-export function getTopParentNodeCheckState(nodes: Nodes, node: Node) {
+export function getTopParentNodeCheckState(nodes: Nodes, node: Node): boolean {
   if (node.parentNode) {
     return getTopParentNodeCheckState(nodes, node.parentNode);
   }
@@ -76,7 +76,7 @@ export function getTopParentNodeCheckState(nodes: Nodes, node: Node) {
  * 获取该节点的兄弟节点是否都为 uncheckable
  * @param {*} node
  */
-export function getSiblingNodeUncheckable(node: Node, nodes: Nodes) {
+export function getSiblingNodeUncheckable(node: Node, nodes: Nodes): boolean {
   const list = [];
   const parentNodeRefkey = node.parentNode ? node.parentNode.refKey : '';
 

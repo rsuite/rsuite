@@ -8,7 +8,7 @@ import { RippleProps } from './Ripple.d';
 
 interface RippleState {
   rippling: boolean;
-  position: Object;
+  position: React.CSSProperties;
 }
 
 class Ripple extends React.Component<RippleProps, RippleState> {

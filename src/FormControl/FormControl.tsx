@@ -150,7 +150,7 @@ class FormControl extends React.Component<FormControlProps, FormControlState> {
     return null;
   }
 
-  renderError = (formError?: Object, errorMessage?: React.ReactNode) => {
+  renderError = (formError?: any, errorMessage?: React.ReactNode) => {
     const { errorPlacement, name } = this.props;
 
     if (formError) {

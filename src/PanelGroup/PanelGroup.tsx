@@ -6,9 +6,9 @@ import { ReactChildren, getUnhandledProps, defaultProps, prefix } from '../utils
 import { PanelGroupProps } from './PanelGroup.d';
 import { PanelProps } from '../Panel/Panel.d';
 
-type PanelGroupState = {
+interface PanelGroupState {
   activeKey?: boolean;
-};
+}
 
 class PanelGroup extends React.Component<PanelGroupProps, PanelGroupState> {
   static propTypes = {

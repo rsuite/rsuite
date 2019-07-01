@@ -61,33 +61,32 @@ describe('List', () => {
     assert.include(domNodeLarge.firstChild.className, 'rs-list-item-lg');
   });
 
-  it('should call onSortStart', (done) => {
+  it('should call onSortStart', done => {
     const callback = () => done();
     const domNode = getDOMNode(
       <List sortable onSortStart={callback}>
         <List.Item index={1}>item1</List.Item>
         <List.Item index={2}>item2</List.Item>
-      </List>);
+      </List>
+    );
     const event = new Event('mousedown', { bubbles: true });
     domNode.firstChild.dispatchEvent(event);
   });
 
-  it('should call onSortMove', (done) => {
+  it('should call onSortMove', done => {
     const callback = () => done();
     const mousedownEvent = new Event('mousedown', { bubbles: true });
     const mousemoveEvent = new Event('mousemove', { bubbles: true });
     const domNode = getDOMNode(
-      <List
-        sortable
-        onSortStart={() => window.dispatchEvent(mousemoveEvent)}
-        onSortMove={callback}>
+      <List sortable onSortStart={() => window.dispatchEvent(mousemoveEvent)} onSortMove={callback}>
         <List.Item index={1}>item1</List.Item>
         <List.Item index={2}>item2</List.Item>
-      </List>);
+      </List>
+    );
     domNode.firstChild.dispatchEvent(mousedownEvent);
   });
 
-  it('should call onSortEnd & onSort', (done) => {
+  it('should call onSortEnd & onSort', done => {
     let count = 0;
     const callback = () => ++count > 1 && done();
     const mousedownEvent = new Event('mousedown', { bubbles: true });
@@ -101,8 +100,8 @@ describe('List', () => {
       >
         <List.Item index={1}>item1</List.Item>
         <List.Item index={2}>item2</List.Item>
-      </List>);
+      </List>
+    );
     domNode.firstChild.dispatchEvent(mousedownEvent);
   });
-
 });

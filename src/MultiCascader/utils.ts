@@ -73,42 +73,68 @@ export default function(props: any): UtilType {
   }
 
   /**
-   * 在 value 中的值存在级联的情况下
-   * 通过 value 重新计算出一个新的 value
+   * 删除一个节点下所有已选择的值
+   * @param {*} value
+   * @param {*} item
    */
-  function transformValue(
-    value: ItemType[],
-    flattenData: ItemType[],
-    uncheckableItemValues?: ItemType[]
-  ): ItemType[] {
-    let tempRemovedValue = [];
-    let nextValue = [];
-
-    for (let i = 0; i < value.length; i++) {
-      // 如果当前 value 中的值已经在被删除列表中则不处理
-      if (tempRemovedValue.some(v => v === value[i])) {
-        continue;
-      }
-
-      let item: ItemType = flattenData.find(v => v[valueKey] === value[i]);
-      if (!item) {
-        continue;
-      }
-      let sv = splitValue(item, true, value, uncheckableItemValues);
-      tempRemovedValue = _.uniq(tempRemovedValue.concat(sv.removedValue));
-
-      // 获取到所有相关的值
-      nextValue = _.uniq(nextValue.concat(sv.value));
+  function removeAllChildrenValue(value: any, item: ItemType) {
+    let removedValue = [];
+    if (!item[childrenKey]) {
+      return;
     }
 
-    // 最后遍历所有的 nextValue, 如果它的父节点也在nextValue则删除
-    return nextValue.filter(v => {
-      const item = flattenData.find(n => n[valueKey] === v);
-      if (item && item.parent && nextValue.some(v => v === item.parent[valueKey])) {
-        return false;
+    item[childrenKey].forEach(n => {
+      removedValue = removedValue.concat(_.remove(value, v => v === n[valueKey]));
+      if (n[childrenKey]) {
+        removeAllChildrenValue(value, n);
       }
-      return true;
     });
+    return removedValue;
+  }
+
+  function getOtherItemValuesByUnselectChild(itemNode: ItemType, value: any) {
+    const parentValues = [];
+    const itemValues = [];
+
+    // 通过 value 找到当前节点的父节点
+    function findParent(item) {
+      parentValues.push(item[valueKey]);
+      if (value.some(v => v === item[valueKey])) {
+        return item;
+      }
+      if (item.parent) {
+        let p = findParent(item.parent);
+        if (p) {
+          return p;
+        }
+      }
+      return null;
+    }
+
+    // 通过父节点获取子节点
+    function pushChildValue(item) {
+      if (!item[childrenKey]) {
+        return;
+      }
+      item[childrenKey].forEach(n => {
+        //判断是否是直属父级
+        if (parentValues.some(v => v === n[valueKey]) && n[childrenKey]) {
+          pushChildValue(n);
+        } else if (n[valueKey] !== itemNode[valueKey]) {
+          itemValues.push(n[valueKey]);
+        }
+      });
+    }
+
+    const parent = findParent(itemNode);
+
+    if (!parent) {
+      return [];
+    }
+
+    pushChildValue(parent);
+
+    return itemValues;
   }
 
   /**
@@ -186,68 +212,42 @@ export default function(props: any): UtilType {
   }
 
   /**
-   * 删除一个节点下所有已选择的值
-   * @param {*} value
-   * @param {*} item
+   * 在 value 中的值存在级联的情况下
+   * 通过 value 重新计算出一个新的 value
    */
-  function removeAllChildrenValue(value: any, item: ItemType) {
-    let removedValue = [];
-    if (!item[childrenKey]) {
-      return;
+  function transformValue(
+    value: ItemType[],
+    flattenData: ItemType[],
+    uncheckableItemValues?: ItemType[]
+  ): ItemType[] {
+    let tempRemovedValue = [];
+    let nextValue = [];
+
+    for (let i = 0; i < value.length; i++) {
+      // 如果当前 value 中的值已经在被删除列表中则不处理
+      if (tempRemovedValue.some(v => v === value[i])) {
+        continue;
+      }
+
+      let item: ItemType = flattenData.find(v => v[valueKey] === value[i]);
+      if (!item) {
+        continue;
+      }
+      let sv = splitValue(item, true, value, uncheckableItemValues);
+      tempRemovedValue = _.uniq(tempRemovedValue.concat(sv.removedValue));
+
+      // 获取到所有相关的值
+      nextValue = _.uniq(nextValue.concat(sv.value));
     }
 
-    item[childrenKey].forEach(n => {
-      removedValue = removedValue.concat(_.remove(value, v => v === n[valueKey]));
-      if (n[childrenKey]) {
-        removeAllChildrenValue(value, n);
+    // 最后遍历所有的 nextValue, 如果它的父节点也在nextValue则删除
+    return nextValue.filter(v => {
+      const item = flattenData.find(n => n[valueKey] === v);
+      if (item && item.parent && nextValue.some(v => v === item.parent[valueKey])) {
+        return false;
       }
+      return true;
     });
-    return removedValue;
-  }
-
-  function getOtherItemValuesByUnselectChild(itemNode: ItemType, value: any) {
-    const parentValues = [];
-    const itemValues = [];
-
-    // 通过 value 找到当前节点的父节点
-    function findParent(item) {
-      parentValues.push(item[valueKey]);
-      if (value.some(v => v === item[valueKey])) {
-        return item;
-      }
-      if (item.parent) {
-        let p = findParent(item.parent);
-        if (p) {
-          return p;
-        }
-      }
-      return null;
-    }
-
-    // 通过父节点获取子节点
-    function pushChildValue(item) {
-      if (!item[childrenKey]) {
-        return;
-      }
-      item[childrenKey].forEach(n => {
-        //判断是否是直属父级
-        if (parentValues.some(v => v === n[valueKey]) && n[childrenKey]) {
-          pushChildValue(n);
-        } else if (n[valueKey] !== itemNode[valueKey]) {
-          itemValues.push(n[valueKey]);
-        }
-      });
-    }
-
-    const parent = findParent(itemNode);
-
-    if (!parent) {
-      return [];
-    }
-
-    pushChildValue(parent);
-
-    return itemValues;
   }
 
   function getItems(selectNode: any, flattenData: any[]): any[] {

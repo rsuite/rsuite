@@ -49,8 +49,7 @@ class Nav extends React.Component<NavProps> {
       expanded = false,
       activeKey = props.activeKey,
       onSelect = props.onSelect
-    } =
-      this.context || {};
+    } = this.context || {};
 
     const addPrefix = prefix(classPrefix);
     const globalClassNamePrefix = getClassNamePrefix();

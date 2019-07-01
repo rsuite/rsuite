@@ -25,7 +25,7 @@ import {
 import { CascaderProps } from './Cascader.d';
 import { PLACEMENT } from '../constants';
 
-type State = {
+interface CascaderState {
   selectNode?: any;
   value?: any;
   activePaths: any[];
@@ -35,9 +35,9 @@ type State = {
   active?: boolean;
   flattenData: any[];
   searchKeyword: string;
-};
+}
 
-class Dropdown extends React.Component<CascaderProps, State> {
+class Cascader extends React.Component<CascaderProps, CascaderState> {
   static propTypes = {
     appearance: PropTypes.oneOf(['default', 'subtle']),
     classPrefix: PropTypes.string,
@@ -140,7 +140,7 @@ class Dropdown extends React.Component<CascaderProps, State> {
     this.menuContainerRef = React.createRef();
   }
 
-  static getDerivedStateFromProps(nextProps: CascaderProps, prevState: State) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     const { value, data, labelKey, valueKey } = nextProps;
 
     if (data !== prevState.data) {
@@ -463,7 +463,7 @@ class Dropdown extends React.Component<CascaderProps, State> {
     } = this.props;
 
     const { activePaths, active } = this.state;
-    const unhandled = getUnhandledProps(Dropdown, rest);
+    const unhandled = getUnhandledProps(Cascader, rest);
     const value = this.getValue();
     const hasValue = !!value;
 
@@ -517,10 +517,10 @@ class Dropdown extends React.Component<CascaderProps, State> {
   }
 }
 
-polyfill(Dropdown);
+polyfill(Cascader);
 
 const enhance = defaultProps({
   classPrefix: 'picker'
 });
 
-export default enhance(Dropdown);
+export default enhance(Cascader);

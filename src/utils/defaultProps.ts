@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { getClassNamePrefix } from './prefix';
 
-type Props = {
+export interface Props {
   classPrefix: string;
   componentClass?: React.ElementType;
-};
+}
 
 function defaultProps<T>(props: Props) {
   const { classPrefix, ...rest } = props;

@@ -98,7 +98,7 @@ class Form extends React.Component<FormProps, FormState> {
   /**
    * public APIs
    */
-  checkForField = (fieldName: string, callback?: (checkResult: Object) => void) => {
+  checkForField = (fieldName: string, callback?: (checkResult: any) => void) => {
     const formValue = this.getFormValue() || {};
     const { model, onCheck, onError } = this.props;
     const checkResult = model.checkForField(fieldName, formValue[fieldName], formValue);

@@ -2,9 +2,9 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { defaultProps } from '../utils';
-import { SidenavHeaderProps } from './SidenavHeader.d';
+import { StandardProps } from '../@types/common';
 
-class SidenavHeader extends React.Component<SidenavHeaderProps> {
+class SidenavHeader extends React.Component<StandardProps> {
   static propTypes = {
     classPrefix: PropTypes.string,
     className: PropTypes.string
@@ -17,6 +17,6 @@ class SidenavHeader extends React.Component<SidenavHeaderProps> {
   }
 }
 
-export default defaultProps<SidenavHeaderProps>({
+export default defaultProps<StandardProps>({
   classPrefix: 'sidenav-header'
 })(SidenavHeader);
