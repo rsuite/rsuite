@@ -204,6 +204,7 @@ class InputNumber extends React.Component<InputNumberProps, State> {
       classPrefix,
       step,
       buttonAppearance,
+      defaultValue,
       ...props
     } = this.props;
 
@@ -222,6 +223,7 @@ class InputNumber extends React.Component<InputNumberProps, State> {
           type="text"
           autoComplete="off"
           step={step}
+          defaultValue={defaultValue}
           inputRef={this.bindInputRef}
           onChange={this.handleOnChange}
           onBlur={this.handleBlur}

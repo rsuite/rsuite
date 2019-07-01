@@ -63,13 +63,6 @@ gulp.task('build-style', ['clean'], () => {
   gulp.start(['postcss', 'copy-fonts']);
 });
 
-gulp.task('babel', () =>
-  gulp
-    .src('../src/**/*.js')
-    .pipe(babel(babelrc()))
-    .pipe(gulp.dest(LIB_DIR))
-);
-
 gulp.task('babel-map', () =>
   gulp
     .src('../src/**/*.js')
@@ -79,16 +72,44 @@ gulp.task('babel-map', () =>
     .pipe(gulp.dest(LIB_DIR))
 );
 
+gulp.task('copy-tsd', () => {
+  gulp.src('../src/**/*.d.ts').pipe(gulp.dest(LIB_DIR));
+});
+
+gulp.task('compile-js', () =>
+  gulp
+    .src('../src/**/*.js')
+    .pipe(babel(babelrc()))
+    .pipe(gulp.dest(LIB_DIR))
+);
+
+gulp.task('compile-ts', () => {
+  const source = ['../src/**/*.tsx', '../src/**/*.ts'];
+  const compilerOptions = tsConfig.compilerOptions;
+  const modules = process.env.MODULE === 'ES6';
+
+  if (modules) {
+    compilerOptions.module = 'ES6';
+  }
+
+  gulp
+    .src(source)
+    .pipe(ts(compilerOptions))
+    .pipe(gulp.dest(modules ? ES_DIR : LIB_DIR));
+});
+
 gulp.task('dev', () => {
-  gulp.start(['babel']);
-  gulp.watch('../src/**/*.js', function(event) {
+  const source = ['../src/**/*.tsx', '../src/**/*.ts'];
+  const compilerOptions = tsConfig.compilerOptions;
+  gulp.start(['compile-ts']);
+  gulp.watch(source, function(event) {
     console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
     const srcPath = `../${event.path.match(/src\/\S*/)[0]}`;
     const libPath = srcPath.replace('/src/', '/lib/').replace(/\/[a-z|A-Z]+.js/, '');
 
     gulp
       .src(srcPath)
-      .pipe(babel(babelrc()))
+      .pipe(ts(compilerOptions))
       .pipe(gulp.dest(libPath));
   });
 });
@@ -107,23 +128,4 @@ gulp.task('dev-map', () => {
       .pipe(sourcemaps.write('./'))
       .pipe(gulp.dest(libPath));
   });
-});
-
-gulp.task('copy-tsd', () => {
-  gulp.src('../src/**/*.d.ts').pipe(gulp.dest(LIB_DIR));
-});
-
-gulp.task('compile-ts', () => {
-  const source = ['../src/**/*.tsx', '../src/**/*.ts'];
-  const compilerOptions = tsConfig.compilerOptions;
-  const modules = process.env.MODULE === 'ES6';
-
-  if (modules) {
-    compilerOptions.module = 'ES6';
-  }
-
-  gulp
-    .src(source)
-    .pipe(ts(compilerOptions))
-    .pipe(gulp.dest(modules ? ES_DIR : LIB_DIR));
 });

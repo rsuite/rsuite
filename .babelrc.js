@@ -37,11 +37,7 @@ module.exports = api => {
           [
             'istanbul',
             {
-              exclude: [
-                'src/utils/deprecationWarning.js',
-                'src/utils/lowPriorityWarning.js',
-                'src/utils/ajaxUpload.js'
-              ]
+              exclude: ['src/utils/ajaxUpload.ts']
             }
           ]
         ]

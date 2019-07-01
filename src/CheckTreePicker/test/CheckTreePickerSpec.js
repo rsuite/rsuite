@@ -247,10 +247,7 @@ describe('CheckTreePicker', () => {
       <CheckTreePicker data={data} onExpand={mockOnExpand} inline cascade={false} expandAll />
     );
     instance.find('div[data-ref="0-1"]  > .rs-check-tree-node-expand-icon').simulate('click');
-
-    console.log(newData);
-    // TODO
-    //instance.setProps({ data: newData });
+    instance.setProps({ data: newData });
 
     assert.equal(instance.html().indexOf('data-key="0-1-0"') > -1, true);
 

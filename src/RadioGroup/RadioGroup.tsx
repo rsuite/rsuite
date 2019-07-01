@@ -47,7 +47,7 @@ class RadioGroup extends React.Component<RadioGroupProps, RadioGroupState> {
 
   handleChange = (
     nextValue: any,
-    itemChecked: boolean,
+    _itemChecked: boolean,
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { onChange } = this.props;

@@ -25,7 +25,7 @@ describe('ErrorMessage', () => {
 
   it('Should hava a `bottomStart` for placement', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <ErrorMessage show placement="bottomLeft" />
+      <ErrorMessage show placement="bottomStart" />
     );
     assert.include(findDOMNode(instance).className, 'rs-error-message-placement-bottom-start');
   });

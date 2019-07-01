@@ -1,15 +1,7 @@
 import '@babel/polyfill';
 
 function runAllTests(tests) {
- 
-
-  //tests('./AutoComplete/test/AutoCompleteSpec.js')
-  
-  tests.keys().forEach((a)=>{
-    console.log(a);
-    tests(a);
-  });
-
+  tests.keys().forEach(tests);
 }
 
 runAllTests(require.context('../src', true, /Spec.js$/));

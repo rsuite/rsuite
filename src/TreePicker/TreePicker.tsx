@@ -187,7 +187,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     return Object.keys(nextState).length ? nextState : null;
   }
 
-  componentDidUpdate(prevProps: TreePickerProps, prevState: TreePickerState) {
+  componentDidUpdate(_prevProps: TreePickerProps, prevState: TreePickerState) {
     const { filterData, searchKeyword } = this.state;
     const { value, data, valueKey } = this.props;
     if (prevState.data !== data) {

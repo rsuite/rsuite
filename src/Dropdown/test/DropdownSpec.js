@@ -41,7 +41,7 @@ describe('Dropdown', () => {
 
   it('Should have a className for placement', () => {
     const instance = ReactTestUtils.renderIntoDocument(
-      <Dropdown placement="topLeft">
+      <Dropdown placement="topStart">
         <Dropdown.Item>1</Dropdown.Item>
         <Dropdown.Item>2</Dropdown.Item>
       </Dropdown>

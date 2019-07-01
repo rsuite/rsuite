@@ -106,14 +106,14 @@ class MonthDropdown extends React.PureComponent<MonthDropdownProps> {
       <div className={rowClassName} key={key} style={style}>
         <div className={titleClassName}>{year}</div>
         <div className={this.addPrefix('list')}>
-          {monthMap.map((i, month) => {
+          {monthMap.map((item, month) => {
             return (
               <MonthDropdownItem
                 date={date}
                 onSelect={onSelect}
                 disabled={this.disabledMonth(year, month)}
                 active={isSelectedYear && month === selectedMonth}
-                key={month}
+                key={`${month}_${item}`}
                 month={month + 1}
                 year={year}
               />

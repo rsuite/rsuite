@@ -7,13 +7,9 @@ module.exports = {
     browser: true,
     es6: true
   },
-  extends: [
-    'airbnb-typescript',
-    'plugin:@typescript-eslint/recommended',
-    'prettier',
-    'prettier/react'
-  ],
-  plugins: ['@typescript-eslint', 'react', 'react-hooks'],
+  parser: '@typescript-eslint/parser',
+  extends: ['plugin:@typescript-eslint/recommended', 'prettier', 'prettier/react'],
+  plugins: ['@typescript-eslint', 'react'],
   rules: {
     quotes: [ERROR, 'single'],
     semi: [ERROR, 'always'],
@@ -30,8 +26,12 @@ module.exports = {
     'no-unused-expressions': [ERROR, { allowShortCircuit: true }],
     'arrow-parens': [ERROR, 'as-needed'],
     'no-mixed-operators': OFF,
-    '@typescript-eslint/no-explicit-any': OFF,
-    'react-hooks/rules-of-hooks': ERROR,
-    'react-hooks/exhaustive-deps': WARNING
+    '@typescript-eslint/no-explicit-any': OFF
+  },
+  settings: {
+    'import/extensions': ['.js', '.jsx'],
+    'import/resolver': {
+      typescript: {}
+    }
   }
 };

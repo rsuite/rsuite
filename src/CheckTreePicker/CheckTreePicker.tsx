@@ -51,7 +51,6 @@ import {
 } from '../utils/treeUtils';
 
 import { CheckTreePickerProps } from './CheckTreePicker.d';
-import { RowProps } from '../Tree/TreeBase.d';
 
 // default value for virtualized
 const defaultHeight = 360;
@@ -236,7 +235,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     return Object.keys(nextState).length ? nextState : null;
   }
 
-  componentDidUpdate(prevProps: CheckTreePickerProps, prevState: CheckTreePickerState) {
+  componentDidUpdate(_prevProps: CheckTreePickerProps, prevState: CheckTreePickerState) {
     const { filterData, searchKeyword, selectedValues, expandItemValues } = this.state;
     const { value, data = [], cascade, uncheckableItemValues, childrenKey } = this.props;
 
@@ -348,11 +347,10 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
   }
 
   getExpandState(node: any, props: CheckTreePickerProps) {
-    const { valueKey } = props;
+    const { valueKey, childrenKey } = props || this.props;
     const expandItemValues = _.isUndefined(this.state) ? [] : this.state.expandItemValues;
     const expandAll = this.getExpandAll(props);
     const expand = expandItemValues.some((value: any) => shallowEqual(node[valueKey], value));
-    const { childrenKey } = props;
     if (expandItemValues.length) {
       return expand;
     } else if (node[childrenKey] && node[childrenKey].length) {
@@ -644,7 +642,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     return list;
   }
 
-  unserializeLists(lists: object, nextProps?: CheckTreePickerProps) {
+  unserializeLists(lists: any, nextProps?: CheckTreePickerProps) {
     const { valueKey, cascade, uncheckableItemValues = [] } = nextProps || this.props;
     const expandAll = this.getExpandAll();
     // Reset values to false
@@ -1002,7 +1000,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     );
   }
 
-  renderNode(node: Node, index: number, layer: number) {
+  renderNode(node: Node, layer: number) {
     const { activeNode, expandAll } = this.state;
     const { valueKey, labelKey, childrenKey, renderTreeNode, renderTreeIcon, cascade } = this.props;
     const { visible, refKey } = node;
@@ -1050,7 +1048,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
         <div className={childrenClass} key={key} ref={this.bindNodeRefs.bind(this, refKey)}>
           <CheckTreeNode {...props} />
           <div className={this.addTreePrefix('children')}>
-            {nodes.map((child, i) => this.renderNode(child, i, layer))}
+            {nodes.map(child => this.renderNode(child, layer))}
           </div>
         </div>
       );
@@ -1125,9 +1123,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     let formattedNodes = [];
 
     if (!virtualized) {
-      formattedNodes = this.getFormattedTree(filterData).map((node, index) =>
-        this.renderNode(node, index, layer)
-      );
+      formattedNodes = this.getFormattedTree(filterData).map(node => this.renderNode(node, layer));
 
       if (!formattedNodes.some(v => v !== null)) {
         return <div className={this.addTreePrefix('none')}>{locale.noResultsText}</div>;

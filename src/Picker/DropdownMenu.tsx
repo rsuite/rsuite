@@ -12,12 +12,12 @@ export interface DropdownMenuProps {
   classPrefix: string;
   data?: any[];
   group?: boolean;
-  disabledItemValues: any[];
-  activeItemValues: any[];
+  disabledItemValues?: any[];
+  activeItemValues?: any[];
   focusItemValue?: any;
   maxHeight?: number;
-  valueKey: string;
-  labelKey: string;
+  valueKey?: string;
+  labelKey?: string;
   className?: string;
   style?: React.CSSProperties;
   dropdownMenuItemComponentClass: React.ElementType;

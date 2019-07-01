@@ -56,7 +56,7 @@ class DropdownMenuItem extends React.Component<DropdownMenuItemProps, DropdownMe
     return open;
   }
 
-  toggle = (event: React.SyntheticEvent<any>, isOpen?: boolean) => {
+  toggle = (_event: React.SyntheticEvent<any>, isOpen?: boolean) => {
     let open = _.isUndefined(isOpen) ? !this.getOpen() : isOpen;
     this.setState({ open });
   };

@@ -19,7 +19,7 @@ class Timeline extends React.Component<TimelineProps> {
     const count = React.Children.count(children);
     return (
       <Component className={classNames(classPrefix, className)} {...rest}>
-        {ReactChildren.mapCloneElement(children, (child: any, index: number) => ({
+        {ReactChildren.mapCloneElement(children, (_child: any, index: number) => ({
           last: index + 1 === count
         }))}
       </Component>

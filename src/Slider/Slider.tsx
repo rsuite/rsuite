@@ -1,6 +1,5 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { on, DOMMouseMoveTracker, addStyle, getWidth, getHeight, getOffset } from 'dom-lib';
@@ -189,7 +188,7 @@ class Slider extends React.Component<SliderProps, SliderState> {
     });
   };
 
-  handleDragMove = (deltaX: number, deltaY: number, event: React.DragEvent) => {
+  handleDragMove = (_deltaX: number, _deltaY: number, event: React.DragEvent) => {
     if (!this.mouseMoveTracker || !this.mouseMoveTracker.isDragging()) {
       return;
     }

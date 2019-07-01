@@ -25,7 +25,7 @@ class TableHeaderRow extends React.PureComponent<TableHeaderRowProps> {
     const classes = classNames(addPrefix('row'), addPrefix('header-row'), className);
     let items = weekKeys;
     if (isoWeek) {
-      items = weekKeys.filter((v, k) => k > 0);
+      items = weekKeys.filter(v => v !== 'sunday');
       items.push('sunday');
     }
 

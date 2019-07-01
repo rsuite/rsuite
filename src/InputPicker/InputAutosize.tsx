@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { partitionHTMLProps, createChainedFunction, isIE } from '../utils';
+import { partitionHTMLProps, isIE } from '../utils';
 
 const sizerStyle: React.CSSProperties = {
   position: 'absolute',
@@ -86,7 +86,7 @@ class InputAutosize extends React.Component<InputAutosizeProps, InputAutosizeSta
     this.updateInputWidth();
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(_prevProps, prevState) {
     const { inputWidth } = this.state;
     const { onAutosize } = this.props;
     if (prevState.inputWidth !== inputWidth) {

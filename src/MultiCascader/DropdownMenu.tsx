@@ -105,7 +105,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
 
   menus = [];
 
-  handleSelect = (layer: number, index: number, node: any, event: React.SyntheticEvent<any>) => {
+  handleSelect = (layer: number, node: any, event: React.SyntheticEvent<any>) => {
     const { onSelect, childrenKey } = this.props;
     const children = node[childrenKey];
     const isLeafNode = _.isUndefined(children) || _.isNull(children);
@@ -171,7 +171,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
         focus={focus}
         value={node}
         className={classes}
-        onSelectItem={this.handleSelect.bind(this, layer, index)}
+        onSelectItem={this.handleSelect.bind(this, layer, node)}
         onCheck={onCheck}
         checkable={!uncheckable}
       >

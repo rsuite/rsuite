@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Ripple from '../Ripple';
 import FormattedMessage from '../IntlProvider/FormattedMessage';
-import { getUnhandledProps, createChainedFunction, defaultProps, prefix } from '../utils';
+import { getUnhandledProps, defaultProps, prefix } from '../utils';
 
 export interface UploadTriggerProps {
   name?: string;
