@@ -17,12 +17,6 @@
   .button-ripple;
 }
 
-// Circle Button
-.@{ns}btn-icon-circle {
-  border-radius: 50% !important;
-  width: @padding-base-vertical*2 + @line-height-computed;
-}
-
 // Button Loading state
 .@{ns}btn-loading {
   color: transparent !important;
@@ -77,8 +71,6 @@
 // Default Button
 // Rewrite common button style
 .@{ns}btn-default {
-  .btn-icon-with-text(@btn-icon-with-text-bg);
-
   color: @btn-default-color;
   background: @btn-default-bg;
 
@@ -92,15 +84,11 @@
   &:focus {
     color: @btn-default-color;
     background-color: @btn-default-focus-bg;
-
-    .btn-icon-with-text(@btn-icon-with-text-focus-bg);
   }
 
   &:hover {
     color: @btn-default-hover-color;
     background-color: @btn-default-hover-bg;
-
-    .btn-icon-with-text(@btn-icon-with-text-hover-bg);
   }
 
   &:active,
@@ -110,15 +98,11 @@
     background-color: @btn-default-active-bg;
     background-image: none;
 
-    .btn-icon-with-text(@btn-icon-with-text-active-bg);
-
     &:hover,
     &:focus,
     &.focus {
       color: @btn-default-color;
       background-color: @btn-default-active-bg;
-
-      .btn-icon-with-text(@btn-icon-with-text-active-bg);
     }
   }
 
@@ -173,20 +157,6 @@
   .btn-ghost-variant(@btn-ghost-color, @btn-ghost-border-color);
 
   .generate-spectrum-ghost-btns();
-}
-
-// Icon Button
-// Icon Button text size increase 2 px
-.@{ns}btn-icon:not(.@{ns}btn-icon-with-text) {
-  .icon {
-    font-size: @font-size-large;
-    line-height: @line-height-large;
-  }
-
-  &.btn-xs {
-    font-size: @font-size-base;
-    line-height: @line-height-base;
-  }
 }
 
 // Button Sizes

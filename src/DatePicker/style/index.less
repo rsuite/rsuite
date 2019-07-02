@@ -5,6 +5,17 @@
 // DatePicker Picker
 // ----------------------
 
+// Change the <caret/> & <clean/> vertical position make it align middle.
+.@{ns}@{date-picker-prefix},
+.@{ns}@{date-range-picker-prefix} {
+  &.@{ns}picker-default {
+    .@{ns}picker-toggle-caret,
+    .@{ns}picker-toggle-clean {
+      top: @padding-base-vertical - @picker-default-toggle-border-width;
+    }
+  }
+}
+
 // Toolbar
 .@{ns}picker-toolbar {
   .clearfix;

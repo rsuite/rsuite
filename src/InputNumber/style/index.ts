@@ -1,3 +1,3 @@
 import '../../style/core.less';
-import '../../Form/style/index.less';
+import '../../Input/style/index.less';
 import './index.less';
