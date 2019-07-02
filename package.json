@@ -10,8 +10,10 @@
   "scripts": {
     "format": "prettier --write \"{src,test}/**/*.{tsx,ts,js}\"",
     "format:check": "prettier --list-different \"{src,test}/**/*.{tsx,ts,js}\"",
-    "build-tsd": "gulp copy-tsd --gulpfile scripts/gulpfile.js",
-    "build": "rm -rf lib && npx babel src --out-dir lib && npm run build-tsd && npm run dist",
+    "build-lib": "gulp compile-ts --gulpfile scripts/gulpfile.js",
+    "build-lib-tsd": "gulp copy-tsd --gulpfile scripts/gulpfile.js",
+    "build-es": "MODULE=ES6 npm run build-ts",
+    "build": "rm -rf lib && npm run build-lib && npm run build-lib-tsd && npm run dist",
     "dev": "gulp dev --gulpfile scripts/gulpfile.js",
     "dev-map": "gulp dev-map --gulpfile scripts/gulpfile.js",
     "dist-style": "gulp build-style --gulpfile scripts/gulpfile.js && npm run generate-styles",
