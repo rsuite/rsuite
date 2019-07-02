@@ -75,7 +75,11 @@ class UploadFileItem extends React.Component<UploadFileItemProps, UploadFileItem
 
     if (!file.url) {
       this.getThumbnail((previewImage: any) => {
-        this.setState({ previewImage });
+        return new Promise(resolve => {
+          this.setState({ previewImage }, () => {
+            resolve();
+          });
+        });
       });
     }
   }
