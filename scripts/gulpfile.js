@@ -1,3 +1,4 @@
+const path = require('path');
 const gulp = require('gulp');
 const del = require('del');
 const less = require('gulp-less');
@@ -104,7 +105,7 @@ gulp.task('dev', () => {
   gulp.start(['compile-ts']);
   gulp.watch(source, function(event) {
     console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
-    const srcPath = `../${event.path.match(/src\/\S*/)[0]}`;
+    const srcPath = path.relative(path.dirname(__filename), event.path);
     const libPath = srcPath.replace('/src/', '/lib/').replace(/\/[a-z|A-Z]+.js/, '');
 
     gulp
