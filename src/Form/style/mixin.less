@@ -32,9 +32,12 @@
 }
 
 .input-size( @padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius;) {
+  @ie-height: @padding-vertical * 2 + @font-size * @line-height;
+
   padding: (@padding-vertical - @input-border-width) (@padding-horizontal - @input-border-width);
   font-size: @font-size;
   line-height: @line-height;
+  .ie-height(@ie-height);
 
   textarea& {
     height: auto;
