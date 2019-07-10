@@ -23,6 +23,17 @@
   }
 }
 
+.ie-height(@value) when (@ie-polyfill = true) {
+  height: ~'@{value}@{ie-suffix}';
+
+  // IE 11
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      height: @value;
+    }
+  }
+}
+
 .ie-display(@value) when (@ie-polyfill = true) {
   display: ~'@{value}@{ie-suffix}';
 }
