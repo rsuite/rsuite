@@ -73,7 +73,6 @@
 
 // Graduator
 .@{ns}slider-graduator {
-  display: table;
   width: 100%;
 
   ul,
@@ -82,11 +81,12 @@
   }
 
   > ul {
-    display: table-row;
+    display: flex;
+    padding-left: 0;
     width: 100%;
 
     > li {
-      display: table-cell;
+      flex: 1 1 1%;
       position: relative;
 
       &:last-child::after,

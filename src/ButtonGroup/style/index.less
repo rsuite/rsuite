@@ -272,16 +272,13 @@
 // ----------------------
 
 .@{ns}btn-group-justified {
-  display: table;
+  display: flex;
   width: 100%;
-  table-layout: fixed;
-  border-collapse: separate;
 
   > .@{ns}btn,
   > .@{ns}btn-group {
-    float: none;
-    display: table-cell;
-    width: 1%;
+    flex: 1 1 1%;
+    .ellipsis-basic;
   }
 
   > .@{ns}btn-group .@{ns}btn {
@@ -316,7 +313,7 @@
     }
 
     &::after {
-      right: -1px;
+      right: 0;
     }
   }
 
