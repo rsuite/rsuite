@@ -98,8 +98,10 @@ function getDerivedStateForCascade(
   newChildren?: any[]
 ): Object {
   const { data, labelKey, valueKey, childrenKey, value } = nextProps;
+
   const activeItemValue =
     selectNodeValue || (typeof value === 'undefined' ? prevState.value : value);
+
   const nextItems = [];
   const nextPathItems = [];
   const findNode = items => {
@@ -145,7 +147,7 @@ function getDerivedStateForCascade(
    * 但是需要更新 items， 因为这里的目的就是把异步更新后的的数据展示出来
    */
   const cascadePathItems = nextPathItems.reverse();
-  if (selectNodeValue) {
+  if (newChildren) {
     return {
       items: [...nextItems.reverse(), newChildren],
       tempActivePaths: cascadePathItems
@@ -204,34 +206,41 @@ class Dropdown extends React.Component<Props, State> {
 
   static getDerivedStateFromProps(nextProps: Props, prevState: State) {
     const { value, data, labelKey, valueKey } = nextProps;
-
     if (data !== prevState.data) {
       /**
-       * 如果更新了 data,
-       * 首先获取到被点击节点的值 `selectNodeValue`， 然后再拿到新增后的 `newChildren`,
+       * First get the value of the clicked node `selectNodeValue`, and then get the new `newChildren`.
        */
       const selectNodeValue = _.get(prevState, ['selectNode', valueKey]);
-      const newChildren =
-        _.get(
-          findNodeOfTree(data, item => shallowEqual(item[valueKey], selectNodeValue)),
-          'children'
-        ) || [];
 
-      const nextState = getDerivedStateForCascade(
-        nextProps,
-        prevState,
-        selectNodeValue,
-        newChildren.map(item => stringToObject(item, labelKey, valueKey))
-      );
+      if (selectNodeValue) {
+        const newChildren =
+          _.get(
+            findNodeOfTree(data, item => shallowEqual(item[valueKey], selectNodeValue)),
+            'children'
+          ) || [];
+
+        return {
+          ...getDerivedStateForCascade(
+            nextProps,
+            prevState,
+            selectNodeValue,
+            newChildren.map(item => stringToObject(item, labelKey, valueKey))
+          ),
+          flattenData: flattenTree(data),
+          data
+        };
+      }
+
       return {
-        ...nextState,
-        data,
-        flattenData: flattenTree(data)
+        ...getDerivedStateForCascade(nextProps, prevState),
+        flattenData: flattenTree(data),
+        data
       };
-    } else if (typeof value !== 'undefined' && !shallowEqual(value, prevState.value)) {
-      const nextState = getDerivedStateForCascade(nextProps, prevState);
+    }
+
+    if (typeof value !== 'undefined' && !shallowEqual(value, prevState.value)) {
       return {
-        ...nextState,
+        ...getDerivedStateForCascade(nextProps, prevState),
         value
       };
     }
@@ -255,7 +264,7 @@ class Dropdown extends React.Component<Props, State> {
     const prevValue = this.getValue();
     const value = node[valueKey];
 
-    onSelect && onSelect(node, activePaths, createConcatChildrenFunction(node), event);
+    onSelect && onSelect(node, activePaths, createConcatChildrenFunction(node, value), event);
 
     /**
      * 只有在叶子节点的时候才当做是可以选择的值
@@ -265,7 +274,7 @@ class Dropdown extends React.Component<Props, State> {
       this.closeDropdown();
       const nextState: any = {
         selectNode: node,
-        ...getDerivedStateForCascade(this.props, { value })
+        ...getDerivedStateForCascade(this.props, this.state, value)
       };
 
       if (typeof this.props.value === 'undefined') {
@@ -291,7 +300,7 @@ class Dropdown extends React.Component<Props, State> {
   handleSearchRowSelect = (item: Object, event: DefaultEvent) => {
     const { valueKey, onChange } = this.props;
     const value = item[valueKey];
-    const { activePaths, items } = getDerivedStateForCascade(this.props, { value });
+    const { activePaths, items } = getDerivedStateForCascade(this.props, this.state, value);
 
     this.closeDropdown();
     this.setState({
