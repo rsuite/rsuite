@@ -49,8 +49,7 @@
       cursor: pointer;
       color: @nav-item-font-default-color;
       transition: @nav-item-transition;
-      overflow: hidden;
-      white-space: nowrap;
+      .ellipsis-basic;
 
       .safari-border-radius-overflow-hidden;
 
@@ -93,10 +92,13 @@
 
     // Justified
     &.@{ns}nav-justified {
+      > ul {
+        display: flex;
+      }
+
       .@{ns}nav-item,
       .@{ns}dropdown {
-        display: table-cell;
-        width: 1%;
+        flex: 1 1 1%;
       }
 
       .@{ns}dropdown .@{ns}dropdown-toggle {
