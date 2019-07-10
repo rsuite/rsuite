@@ -144,32 +144,38 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     const { value, data, labelKey, valueKey } = nextProps;
 
     if (data !== prevState.data) {
-      /**
-       * 如果更新了 data,
-       * 首先获取到被点击节点的值 `selectNodeValue`， 然后再拿到新增后的 `newChildren`,
-       */
+      // First get the value of the clicked node `selectNodeValue`, and then get the new `newChildren`.
       const selectNodeValue = _.get(prevState, ['selectNode', valueKey]);
-      const newChildren =
-        _.get(
-          findNodeOfTree(data, item => shallowEqual(item[valueKey], selectNodeValue)),
-          'children'
-        ) || [];
 
-      const nextState = getDerivedStateForCascade(
-        nextProps,
-        prevState,
-        selectNodeValue,
-        newChildren.map(item => stringToObject(item, labelKey, valueKey))
-      );
+      if (selectNodeValue) {
+        const newChildren =
+          _.get(
+            findNodeOfTree(data, item => shallowEqual(item[valueKey], selectNodeValue)),
+            'children'
+          ) || [];
+
+        return {
+          ...getDerivedStateForCascade(
+            nextProps,
+            prevState,
+            selectNodeValue,
+            newChildren.map(item => stringToObject(item, labelKey, valueKey))
+          ),
+          data,
+          flattenData: flattenTree(data)
+        };
+      }
+
       return {
-        ...nextState,
-        data,
-        flattenData: flattenTree(data)
+        ...getDerivedStateForCascade(nextProps, prevState),
+        flattenData: flattenTree(data),
+        data
       };
-    } else if (typeof value !== 'undefined' && !shallowEqual(value, prevState.value)) {
-      const nextState = getDerivedStateForCascade(nextProps, prevState);
+    }
+
+    if (typeof value !== 'undefined' && !shallowEqual(value, prevState.value)) {
       return {
-        ...nextState,
+        ...getDerivedStateForCascade(nextProps, prevState),
         value
       };
     }
@@ -193,7 +199,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     const prevValue = this.getValue();
     const value = node[valueKey];
 
-    onSelect && onSelect(node, activePaths, createConcatChildrenFunction(node), event);
+    onSelect && onSelect(node, activePaths, createConcatChildrenFunction(node, value), event);
 
     /**
      * 只有在叶子节点的时候才当做是可以选择的值
