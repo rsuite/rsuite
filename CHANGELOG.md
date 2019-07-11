@@ -1,3 +1,24 @@
+# 3.8.7
+
+> July 11, 2019
+
+* **Bugfix**: Fix `<Cascader>` option value is not correct under controlled conditions. ([#498])
+* **Bugfix**: Fix the style problem of `<MultiCascader>` text wrap. ([#511])
+* **Bugfix**: Fix `<MultiCascader>` When searching for result status error when not cascading. ([#513])
+* **Bugfix**: Fix an internationalization issue with a wrong title on the calendar panel ([#513])
+
+---
+
+* **Bugfix**: 修复 `<Cascader>` 选项值在受控条件下不正确。 ([#498])
+* **Bugfix**: 修复 `<MultiCascader>` 文本换行的样式问题。([#511])
+* **Bugfix**: 修复 `<MultiCascader>` 在不级联时候，搜索结果选项的状态错误。 ([#513])
+* **Bugfix**: 修复日历面板上标题错误的国际化问题。 ([#513])
+
+[#514]: https://github.com/rsuite/rsuite/pull/514
+[#513]: https://github.com/rsuite/rsuite/pull/513
+[#511]: https://github.com/rsuite/rsuite/pull/511
+[#498]: https://github.com/rsuite/rsuite/pull/498
+
 # 3.8.6
 
 > June 6, 2019
