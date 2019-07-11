@@ -925,7 +925,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     return (
       <PickerToggleTrigger
         pickerProps={this.props}
-        innerRef={this.triggerRef}
+        ref={this.triggerRef}
         positionRef={this.positionRef}
         onEntered={createChainedFunction(this.handleOnOpen, onEntered)}
         onExit={createChainedFunction(this.handleOnClose, onExited)}

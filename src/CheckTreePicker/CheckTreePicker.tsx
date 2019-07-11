@@ -1218,7 +1218,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     return (
       <PickerToggleTrigger
         pickerProps={this.props}
-        innerRef={this.triggerRef}
+        ref={this.triggerRef}
         positionRef={this.positionRef}
         onEntered={createChainedFunction(this.handleOnOpen, onEntered)}
         onExit={createChainedFunction(this.handleOnClose, onExited)}

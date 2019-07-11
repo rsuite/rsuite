@@ -481,7 +481,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
     return (
       <PickerToggleTrigger
         pickerProps={this.props}
-        innerRef={this.triggerRef}
+        ref={this.triggerRef}
         positionRef={this.positionRef}
         onEntered={createChainedFunction(this.handleOpen, onEntered)}
         onExit={createChainedFunction(this.handleExit, onExited)}

@@ -738,7 +738,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     return (
       <PickerToggleTrigger
         pickerProps={this.props}
-        innerRef={this.triggerRef}
+        ref={this.triggerRef}
         positionRef={this.positionRef}
         trigger="active"
         onEnter={createChainedFunction(this.handleEnter, onEnter)}

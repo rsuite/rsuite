@@ -529,7 +529,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
       <div className={classes} style={style} tabIndex={-1} role="menu">
         <PickerToggleTrigger
           pickerProps={this.props}
-          innerRef={this.triggerRef}
+          ref={this.triggerRef}
           positionRef={this.positionRef}
           onEnter={createChainedFunction(this.handleEntered, onEnter)}
           onExit={createChainedFunction(this.handleExit, onExited)}
