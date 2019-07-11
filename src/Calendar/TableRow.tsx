@@ -1,8 +1,11 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import classNames from 'classnames';
-import { getUnhandledProps, prefix, defaultProps } from '../utils';
 import { isSameDay, addDays, getDate, format } from 'date-fns';
+
+import { getUnhandledProps, prefix, defaultProps } from '../utils';
+import IntlContext from '../IntlProvider/IntlContext';
 
 export interface TableRowProps {
   weekendDate?: Date;
@@ -60,20 +63,25 @@ class TableRow extends React.PureComponent<TableRowProps> {
         [this.addPrefix('cell-disabled')]: disabled
       });
 
+      let title = format(thisDate, 'YYYY-MM-DD');
+
       days.push(
-        <div
-          className={classes}
-          role="menu"
-          tabIndex={-1}
-          title={isToday ? 'Today' : ''}
-          onClick={this.handleSelect.bind(this, thisDate, disabled)}
-          key={format(thisDate, 'YYYYMMMDD')}
-        >
-          <div className={this.addPrefix('cell-content')}>
-            <span className={this.addPrefix('cell-day')}>{getDate(thisDate)}</span>
-            {renderCell && renderCell(thisDate)}
-          </div>
-        </div>
+        <IntlContext.Consumer key={title}>
+          {context => (
+            <div
+              className={classes}
+              role="menu"
+              tabIndex={-1}
+              title={isToday ? `${title} (${_.get(context, 'today')})` : title}
+              onClick={this.handleSelect.bind(this, thisDate, disabled)}
+            >
+              <div className={this.addPrefix('cell-content')}>
+                <span className={this.addPrefix('cell-day')}>{getDate(thisDate)}</span>
+                {renderCell && renderCell(thisDate)}
+              </div>
+            </div>
+          )}
+        </IntlContext.Consumer>
       );
     }
     return days;

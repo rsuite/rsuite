@@ -6,6 +6,7 @@ import { addDays, isSameDay, isBefore, isAfter, getDate, format } from 'date-fns
 
 import { getUnhandledProps, prefix, defaultProps } from '../../utils';
 import { TYPE } from '../utils';
+import IntlContext from '../../IntlProvider/IntlContext';
 
 export interface TableRowProps {
   weekendDate?: Date;
@@ -103,19 +104,22 @@ class TableRow extends React.Component<TableRowProps> {
       let title = format(thisDate, 'YYYY-MM-DD');
 
       days.push(
-        <div
-          className={classes}
-          role="menu"
-          tabIndex={-1}
-          title={isToday ? `${title} (Today)` : title}
-          onMouseEnter={!disabled && onMouseMove ? onMouseMove.bind(null, thisDate) : undefined}
-          onClick={
-            !disabled && onSelect ? _.debounce(onSelect.bind(null, thisDate), 100) : undefined
-          }
-          key={title}
-        >
-          <span className={this.addPrefix('cell-content')}>{getDate(thisDate)}</span>
-        </div>
+        <IntlContext.Consumer key={title}>
+          {context => (
+            <div
+              className={classes}
+              role="menu"
+              tabIndex={-1}
+              title={isToday ? `${title} (${_.get(context, 'today')})` : title}
+              onMouseEnter={!disabled && onMouseMove ? onMouseMove.bind(null, thisDate) : undefined}
+              onClick={
+                !disabled && onSelect ? _.debounce(onSelect.bind(null, thisDate), 100) : undefined
+              }
+            >
+              <span className={this.addPrefix('cell-content')}>{getDate(thisDate)}</span>
+            </div>
+          )}
+        </IntlContext.Consumer>
       );
     }
     return days;
