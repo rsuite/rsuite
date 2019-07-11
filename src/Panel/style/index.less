@@ -1,7 +1,7 @@
 @import '../../style/common';
 
 //
-// Panels
+// Panel
 // --------------------------------------------------
 
 .@{ns}panel {
@@ -9,8 +9,7 @@
   box-shadow: black;
   overflow: hidden;
 
-  &-bordered,
-  &-group-bordered {
+  &-bordered {
     border: @panel-border;
   }
 
@@ -51,35 +50,11 @@
     padding-bottom: 30px;
   }
 
-  // The first panel and the last panel in a panel group need set border-radius.
-  &-group {
-    border-radius: @border-radius-base;
-    overflow: hidden;
-  }
-
-  // Panel in Panel group haven't border.
-  &-group & {
-    border: none;
-  }
-
-  // Draw a split line for panel
-  &-group & + & {
-    position: relative;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      border-top: 1px solid @panel-split-line-color;
-      left: @panel-padding;
-      right: @panel-padding;
-    }
-  }
-
   // Collapsible panel heading hover background
   &-collapsible &-heading {
     cursor: pointer;
-    transition: background-color @panel-accodion-transition, border-radius @panel-accodion-transition;
+    transition: background-color @panel-accodion-transition,
+      border-radius @panel-accodion-transition;
     position: relative;
 
     &::before {
