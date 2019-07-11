@@ -325,14 +325,14 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     let nodes = getNodeParents(item);
 
     nodes.push(item);
-    nodes.map(node => {
+    nodes = nodes.map(node => {
       let labelElements = [];
       let a = node[labelKey].split(regx);
       let b = node[labelKey].match(regx);
 
       for (let i = 0; i < a.length; i++) {
         labelElements.push(a[i]);
-        if (b[i]) {
+        if (b && b[i]) {
           labelElements.push(<strong key={i}>{b[i]}</strong>);
         }
       }

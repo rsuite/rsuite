@@ -56,7 +56,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
     disabled: PropTypes.bool,
     value: PropTypes.array,
     defaultValue: PropTypes.array,
-    placeholder: PropTypes.string,
+    placeholder: PropTypes.node,
     locale: PropTypes.object,
     cleanable: PropTypes.bool,
     open: PropTypes.bool,
