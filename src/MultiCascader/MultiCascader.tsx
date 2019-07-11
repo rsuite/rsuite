@@ -372,7 +372,12 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
       [labelKey]: labelElements
     });
 
-    const active = values.some(value => nodes.some(node => node[valueKey] === value));
+    const active = values.some(value => {
+      if (cascade) {
+        return nodes.some(node => node[valueKey] === value);
+      }
+      return item[valueKey] === value;
+    });
     const disabled = disabledItemValues.some(value => nodes.some(node => node[valueKey] === value));
     const itemClasses = classNames(this.addPrefix('cascader-row'), {
       [this.addPrefix('cascader-row-disabled')]: disabled
