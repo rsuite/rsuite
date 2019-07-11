@@ -1,6 +1,7 @@
 // @flow
 
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { getUnhandledProps, prefix, defaultProps } from '../../utils';
@@ -22,6 +23,9 @@ type Props = {
 };
 
 class TableRow extends React.Component<Props> {
+  static contextTypes = {
+    locale: PropTypes.object
+  };
   static defaultProps = {
     selected: [],
     hoverValue: []
@@ -98,7 +102,7 @@ class TableRow extends React.Component<Props> {
           className={classes}
           role="menu"
           tabIndex="-1"
-          title={isToday ? `${title} (Today)` : title}
+          title={isToday ? `${title} (${_.get(this.context, 'locale.today')})` : title}
           onMouseEnter={!disabled && onMouseMove ? onMouseMove.bind(null, thisDate) : undefined}
           onClick={
             !disabled && onSelect ? _.debounce(onSelect.bind(null, thisDate), 100) : undefined

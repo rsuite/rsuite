@@ -1,9 +1,11 @@
 // @flow
 
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import _ from 'lodash';
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
-import { isSameDay, addDays, getDate } from 'date-fns';
+import { isSameDay, addDays, getDate, format } from 'date-fns';
 
 type Props = {
   weekendDate?: Date,
@@ -16,6 +18,9 @@ type Props = {
 };
 
 class TableRow extends React.PureComponent<Props> {
+  static contextTypes = {
+    locale: PropTypes.object
+  };
   static defaultProps = {
     selected: new Date(),
     weekendDate: new Date()
@@ -46,12 +51,14 @@ class TableRow extends React.PureComponent<Props> {
         [this.addPrefix('cell-disabled')]: disabled
       });
 
+      let title = format(thisDate, 'YYYY-MM-DD');
+
       days.push(
         <div
           className={classes}
           role="menu"
           tabIndex="-1"
-          title={isToday ? 'Today' : ''}
+          title={isToday ? `${title} (${_.get(this.context, 'locale.today')})` : title}
           onClick={this.handleSelect.bind(this, thisDate, disabled)}
           key={i}
         >
