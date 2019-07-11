@@ -24,6 +24,7 @@ import {
 
 import { CascaderProps } from './Cascader.d';
 import { PLACEMENT } from '../constants';
+import { ItemDataType } from '../@types/common';
 
 interface CascaderState {
   selectNode?: any;
@@ -317,26 +318,28 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
-  renderSearchRow = (item: object, key: number) => {
+  renderSearchRow = (item: ItemDataType, key: number) => {
     const { labelKey, valueKey, disabledItemValues = [] } = this.props;
     const { searchKeyword } = this.state;
-    const nodes = getNodeParents(item);
     const regx = new RegExp(searchKeyword, 'ig');
-    const labelElements = [];
+    let nodes = getNodeParents(item);
 
-    let a = item[labelKey].split(regx);
-    let b = item[labelKey].match(regx);
+    nodes.push(item);
+    nodes.map(node => {
+      let labelElements = [];
+      let a = node[labelKey].split(regx);
+      let b = node[labelKey].match(regx);
 
-    for (let i = 0; i < a.length; i++) {
-      labelElements.push(a[i]);
-      if (b[i]) {
-        labelElements.push(<strong key={i}>{b[i]}</strong>);
+      for (let i = 0; i < a.length; i++) {
+        labelElements.push(a[i]);
+        if (b[i]) {
+          labelElements.push(<strong key={i}>{b[i]}</strong>);
+        }
       }
-    }
-
-    nodes.push({
-      ...item,
-      [labelKey]: labelElements
+      return {
+        ...node,
+        [labelKey]: labelElements
+      };
     });
 
     const disabled = disabledItemValues.some(value => nodes.some(node => node[valueKey] === value));
@@ -363,16 +366,31 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     );
   };
 
-  getSearchResult() {
+  someKeyword(item: ItemDataType) {
     const { labelKey } = this.props;
-    const { searchKeyword, flattenData } = this.state;
+    const { searchKeyword } = this.state;
+
+    if (item[labelKey].match(new RegExp(searchKeyword, 'i'))) {
+      return true;
+    }
+
+    if (item.parent && this.someKeyword(item.parent)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  getSearchResult() {
+    const { childrenKey } = this.props;
+    const { flattenData } = this.state;
     const items = [];
 
     const result = flattenData.filter(item => {
-      if (item[labelKey].match(new RegExp(searchKeyword, 'i'))) {
-        return true;
+      if (item[childrenKey]) {
+        return false;
       }
-      return false;
+      return this.someKeyword(item);
     });
 
     for (let i = 0; i < result.length; i++) {

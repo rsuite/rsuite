@@ -156,4 +156,6 @@ export interface ItemDataType {
   label: any;
   value: any;
   groupBy?: string;
+  parent?: ItemDataType;
+  children?: ItemDataType[];
 }
