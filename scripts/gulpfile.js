@@ -106,7 +106,7 @@ gulp.task('dev', () => {
   gulp.watch(source, function(event) {
     console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
     const srcPath = path.relative(path.dirname(__filename), event.path);
-    const libPath = srcPath.replace('/src/', '/lib/').replace(/\/[a-z|A-Z]+.js/, '');
+    const libPath = srcPath.replace('/src/', '/lib/').replace(/\/[a-z|A-Z]+.tsx/, '');
 
     gulp
       .src(srcPath)
