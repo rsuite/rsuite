@@ -8,6 +8,9 @@ import { ListItemProps } from './ListItem.d';
 import { ManagerRef } from './Manager';
 
 class ListItem extends React.Component<ListItemProps> {
+  static defaultProps = {
+    collection: 0
+  };
   static propTypes = {
     className: PropTypes.string,
     classPrefix: PropTypes.string,
@@ -37,7 +40,7 @@ class ListItem extends React.Component<ListItemProps> {
   }
 
   register = () => {
-    const { collection = 0, disabled, index, manager } = this.props;
+    const { collection, disabled, index, manager } = this.props;
     if (manager) {
       this.managerRef = {
         node: this.listItemRef.current,
