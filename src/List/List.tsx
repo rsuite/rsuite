@@ -355,7 +355,7 @@ class List extends React.Component<ListProps, State> {
       // Remove the helper from the DOM
       if (this.activeNodeFlowBody) {
         this.activeNodeFlowBody.parentNode &&
-        this.activeNodeFlowBody.parentNode.removeChild(this.activeNodeFlowBody);
+          this.activeNodeFlowBody.parentNode.removeChild(this.activeNodeFlowBody);
         this.activeNodeFlowBody = null;
       }
 
