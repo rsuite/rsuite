@@ -570,7 +570,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     onChange && onChange(nodeData[valueKey], event);
     onSelect && onSelect(nodeData, layer, event);
     this.handleCloseDropdown();
-    if (this.toggleRef) {
+    if (this.toggleRef.current) {
       this.toggleRef.current.onFocus();
     }
   };

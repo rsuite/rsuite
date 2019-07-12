@@ -15,7 +15,7 @@ class PanelGroup extends React.Component<PanelGroupProps, PanelGroupState> {
     accordion: PropTypes.bool,
     activeKey: PropTypes.any,
     bordered: PropTypes.bool,
-    defaultActiveKey: PropTypes.bool,
+    defaultActiveKey: PropTypes.any,
     className: PropTypes.string,
     children: PropTypes.node,
     classPrefix: PropTypes.string,
