@@ -299,4 +299,40 @@ describe('CheckTreePicker', () => {
 
     assert.equal(instance.find('.custom-label').length, 1);
   });
+
+  it('Should call `onOpen` callback', done => {
+    const doneOp = key => {
+      done();
+    };
+    let picker = null;
+    getDOMNode(
+      <CheckTreePicker
+        ref={ref => {
+          picker = ref;
+        }}
+        onOpen={doneOp}
+        data={data}
+      />
+    );
+
+    picker.open();
+  });
+
+  it('Should call `onClose` callback', done => {
+    const doneOp = key => {
+      done();
+    };
+    let picker = null;
+    getDOMNode(
+      <CheckTreePicker
+        defaultOpen
+        ref={ref => {
+          picker = ref;
+        }}
+        onClose={doneOp}
+        data={data}
+      />
+    );
+    picker.close();
+  });
 });

@@ -19,3 +19,4 @@ export { default as findNodesOfTree } from './findNodesOfTree';
 export { default as createContext } from './createContext';
 export { default as placementPolyfill } from './placementPolyfill';
 export { default as getMonthView } from './getMonthView';
+export { default as withPickerMethods } from './withPickerMethods';

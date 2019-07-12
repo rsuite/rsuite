@@ -1,6 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import compose from 'recompose/compose';
 import _ from 'lodash';
 import { reactToString, filterNodesOfTree, shallowEqual } from 'rsuite-utils/lib/utils';
 import {
@@ -8,7 +9,8 @@ import {
   prefix,
   getUnhandledProps,
   createChainedFunction,
-  getDataGroupBy
+  getDataGroupBy,
+  withPickerMethods
 } from '../utils';
 
 import IntlProvider from '../IntlProvider';
@@ -113,6 +115,7 @@ class SelectPicker extends React.Component<CheckPickerProps, CheckPickerState> {
   positionRef: React.RefObject<any>;
   menuContainerRef: React.RefObject<any>;
   toggleRef: React.RefObject<any>;
+  triggerRef: React.RefObject<any>;
 
   constructor(props: CheckPickerProps) {
     super(props);
@@ -130,6 +133,7 @@ class SelectPicker extends React.Component<CheckPickerProps, CheckPickerState> {
     this.positionRef = React.createRef();
     this.menuContainerRef = React.createRef();
     this.toggleRef = React.createRef();
+    this.triggerRef = React.createRef();
 
     if (groupBy === valueKey || groupBy === labelKey) {
       throw Error('`groupBy` can not be equal to `valueKey` and `labelKey`');
@@ -260,7 +264,7 @@ class SelectPicker extends React.Component<CheckPickerProps, CheckPickerState> {
 
     // enter
     if ((!focusItemValue || !active) && event.keyCode === 13) {
-      this.toggleDropdown();
+      this.handleToggleDropdown();
     }
 
     // delete
@@ -275,7 +279,7 @@ class SelectPicker extends React.Component<CheckPickerProps, CheckPickerState> {
       down: this.focusNextMenuItem,
       up: this.focusPrevMenuItem,
       enter: this.selectFocusMenuItem,
-      esc: this.closeDropdown
+      esc: this.handleCloseDropdown
     });
   };
 
@@ -327,29 +331,29 @@ class SelectPicker extends React.Component<CheckPickerProps, CheckPickerState> {
     onSearch && onSearch(searchKeyword, event);
   };
 
-  closeDropdown = () => {
+  handleCloseDropdown = () => {
     const value = this.getValue();
-    if (this.trigger) {
-      this.trigger.hide();
+    if (this.triggerRef.current) {
+      this.triggerRef.current.hide();
     }
     this.setState({
       focusItemValue: value ? value[0] : undefined
     });
   };
 
-  openDropdown = () => {
-    if (this.trigger) {
-      this.trigger.show();
+  handleOpenDropdown = () => {
+    if (this.triggerRef.current) {
+      this.triggerRef.current.show();
     }
   };
 
-  toggleDropdown = () => {
+  handleToggleDropdown = () => {
     const { active } = this.state;
     if (active) {
-      this.closeDropdown();
+      this.handleCloseDropdown();
       return;
     }
-    this.openDropdown();
+    this.handleOpenDropdown();
   };
 
   handleClean = (event: React.SyntheticEvent<any>) => {
@@ -383,12 +387,6 @@ class SelectPicker extends React.Component<CheckPickerProps, CheckPickerState> {
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
-
-  trigger = null;
-
-  bindTriggerRef = (ref: React.Ref<any>) => {
-    this.trigger = ref;
-  };
 
   menuContainer = {
     menuItems: null
@@ -540,7 +538,7 @@ class SelectPicker extends React.Component<CheckPickerProps, CheckPickerState> {
       <IntlProvider locale={locale}>
         <PickerToggleTrigger
           pickerProps={this.props}
-          innerRef={this.bindTriggerRef}
+          ref={this.triggerRef}
           positionRef={this.positionRef}
           onEnter={createChainedFunction(this.setStickyItems, onEnter)}
           onEntered={createChainedFunction(this.handleOpen, onEntered)}
@@ -567,8 +565,11 @@ class SelectPicker extends React.Component<CheckPickerProps, CheckPickerState> {
   }
 }
 
-const enhance = defaultProps<CheckPickerProps>({
-  classPrefix: 'picker'
-});
+const enhance = compose(
+  defaultProps<CheckPickerProps>({
+    classPrefix: 'picker'
+  }),
+  withPickerMethods<CheckPickerProps>()
+);
 
 export default enhance(SelectPicker);

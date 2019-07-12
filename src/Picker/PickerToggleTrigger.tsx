@@ -6,7 +6,6 @@ import { placementPolyfill } from '../utils';
 type TriggerType = 'click' | 'hover' | 'focus' | 'active';
 
 export interface PickerToggleTriggerProps {
-  innerRef?: React.Ref<any>;
   placement?: string;
   pickerProps: any;
   open?: boolean;

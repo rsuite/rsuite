@@ -2,12 +2,14 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
+import compose from 'recompose/compose';
 import {
   defaultProps,
   prefix,
   getUnhandledProps,
   createChainedFunction,
-  getDataGroupBy
+  getDataGroupBy,
+  withPickerMethods
 } from '../utils';
 
 import {
@@ -244,7 +246,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
       this.handleChange(focusItemValue, event);
     });
 
-    this.closeDropdown();
+    this.handleCloseDropdown();
   };
 
   handleKeyDown = (event: React.KeyboardEvent) => {
@@ -252,7 +254,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
 
     // enter
     if ((!focusItemValue || !active) && event.keyCode === 13) {
-      this.toggleDropdown();
+      this.handleToggleDropdown();
     }
 
     // delete
@@ -268,7 +270,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
       down: this.focusNextMenuItem,
       up: this.focusPrevMenuItem,
       enter: this.selectFocusMenuItem,
-      esc: this.closeDropdown
+      esc: this.handleCloseDropdown
     });
   };
 
@@ -281,7 +283,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
       this.handleSelect(value, item, event);
       this.handleChange(value, event);
     });
-    this.closeDropdown();
+    this.handleCloseDropdown();
   };
 
   handleSelect = (value: any, item: ItemDataType, event: React.SyntheticEvent<any>) => {
@@ -301,25 +303,25 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
     onSearch && onSearch(searchKeyword, event);
   };
 
-  closeDropdown = () => {
+  handleCloseDropdown = () => {
     if (this.triggerRef.current) {
       this.triggerRef.current.hide();
     }
   };
 
-  openDropdown = () => {
+  handleOpenDropdown = () => {
     if (this.triggerRef.current) {
       this.triggerRef.current.show();
     }
   };
 
-  toggleDropdown = () => {
+  handleToggleDropdown = () => {
     const { active } = this.state;
     if (active) {
-      this.closeDropdown();
+      this.handleCloseDropdown();
       return;
     }
-    this.openDropdown();
+    this.handleOpenDropdown();
   };
 
   handleChange = (value: any, event: React.SyntheticEvent<any>) => {
@@ -506,8 +508,11 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
   }
 }
 
-const enhance = defaultProps<SelectPickerProps>({
-  classPrefix: 'picker'
-});
+const enhance = compose(
+  defaultProps<SelectPickerProps>({
+    classPrefix: 'picker'
+  }),
+  withPickerMethods<SelectPickerProps>()
+);
 
 export default enhance(SelectPicker);

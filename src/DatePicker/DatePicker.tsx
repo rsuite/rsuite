@@ -1,6 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import compose from 'recompose/compose';
 import _ from 'lodash';
 import { polyfill } from 'react-lifecycles-compat';
 import {
@@ -17,11 +18,17 @@ import {
 import IntlProvider from '../IntlProvider';
 import Calendar from '../Calendar/Calendar';
 import Toolbar from './Toolbar';
-import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
 
 import disabledTime, { calendarOnlyProps } from '../utils/disabledTime';
 import { shouldOnlyTime } from '../utils/formatUtils';
 import composeFunctions from '../utils/composeFunctions';
+import {
+  defaultProps,
+  getUnhandledProps,
+  prefix,
+  createChainedFunction,
+  withPickerMethods
+} from '../utils';
 
 import {
   PickerToggle,
@@ -243,7 +250,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
 
     // `closeOverlay` default value is `true`
     if (closeOverlay !== false) {
-      this.close();
+      this.handleCloseDropdown();
     }
   }
 
@@ -255,17 +262,17 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     });
   }
 
-  open() {
-    if (this.triggerRef.current) {
-      this.triggerRef.current.show();
-    }
-  }
-
-  close() {
+  handleCloseDropdown = () => {
     if (this.triggerRef.current) {
       this.triggerRef.current.hide();
     }
-  }
+  };
+
+  handleOpenDropdown = () => {
+    if (this.triggerRef.current) {
+      this.triggerRef.current.show();
+    }
+  };
 
   showMonthDropdown() {
     this.setState({ calendarState: 'DROP_MONTH' });
@@ -476,8 +483,11 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
 
 polyfill(DatePicker);
 
-const enhance = defaultProps<DatePickerProps>({
-  classPrefix: 'picker'
-});
+const enhance = compose(
+  defaultProps<DatePickerProps>({
+    classPrefix: 'picker'
+  }),
+  withPickerMethods<DatePickerProps>()
+);
 
 export default enhance(DatePicker);

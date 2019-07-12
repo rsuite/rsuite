@@ -1,6 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import compose from 'recompose/compose';
 import { toggleClass, hasClass } from 'dom-lib';
 import _ from 'lodash';
 import List from 'react-virtualized/dist/commonjs/List';
@@ -17,7 +18,8 @@ import {
   prefix,
   defaultClassPrefix,
   getUnhandledProps,
-  createChainedFunction
+  createChainedFunction,
+  withPickerMethods
 } from '../utils';
 
 import {
@@ -732,25 +734,25 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     }
   };
 
-  closeDropdown = () => {
+  handleCloseDropdown = () => {
     if (this.triggerRef.current) {
       this.triggerRef.current.hide();
     }
   };
 
-  openDropdown = () => {
+  handleOpenDropdown = () => {
     if (this.triggerRef.current) {
       this.triggerRef.current.show();
     }
   };
 
-  toggleDropdown = () => {
+  handleToggleDropdown = () => {
     const { active } = this.state;
     if (active) {
-      this.closeDropdown();
+      this.handleCloseDropdown();
       return;
     }
-    this.openDropdown();
+    this.handleOpenDropdown();
   };
 
   everyChildChecked = (nodes: Nodes, node: Node) => {
@@ -874,7 +876,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
 
     // enter
     if ((!activeNode || !active) && event.keyCode === 13) {
-      this.toggleDropdown();
+      this.handleToggleDropdown();
     }
 
     // delete
@@ -1245,7 +1247,10 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
 
 polyfill(CheckTreePicker);
 
-const enhance = defaultProps<CheckTreePickerProps>({
-  classPrefix: 'picker'
-});
+const enhance = compose(
+  defaultProps<CheckTreePickerProps>({
+    classPrefix: 'picker'
+  }),
+  withPickerMethods<CheckTreePickerProps>()
+);
 export default enhance(CheckTreePicker);

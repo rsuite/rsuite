@@ -1,6 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import compose from 'recompose/compose';
 import _ from 'lodash';
 import { toggleClass, hasClass } from 'dom-lib';
 import List from 'react-virtualized/dist/commonjs/List';
@@ -15,7 +16,8 @@ import {
   prefix,
   defaultClassPrefix,
   getUnhandledProps,
-  createChainedFunction
+  createChainedFunction,
+  withPickerMethods
 } from '../utils';
 
 import {
@@ -516,25 +518,25 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     }
   };
 
-  closeDropdown = () => {
+  handleCloseDropdown = () => {
     if (this.triggerRef.current) {
       this.triggerRef.current.hide();
     }
   };
 
-  openDropdown = () => {
+  handleOpenDropdown = () => {
     if (this.triggerRef.current) {
       this.triggerRef.current.show();
     }
   };
 
-  toggleDropdown = () => {
+  handleToggleDropdown = () => {
     const { active } = this.state;
     if (active) {
-      this.closeDropdown();
+      this.handleCloseDropdown();
       return;
     }
-    this.openDropdown();
+    this.handleOpenDropdown();
   };
 
   handleToggle = (nodeData: any, layer: number) => {
@@ -567,7 +569,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
 
     onChange && onChange(nodeData[valueKey], event);
     onSelect && onSelect(nodeData, layer, event);
-    this.closeDropdown();
+    this.handleCloseDropdown();
     if (this.toggleRef) {
       this.toggleRef.current.onFocus();
     }
@@ -587,7 +589,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
 
     // enter
     if ((!activeNode || !active) && event.keyCode === 13) {
-      this.toggleDropdown();
+      this.handleToggleDropdown();
     }
 
     // delete
@@ -952,6 +954,9 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
 
 polyfill(TreePicker);
 
-export default defaultProps<TreePickerProps>({
-  classPrefix: 'picker'
-})(TreePicker);
+export default compose(
+  defaultProps<TreePickerProps>({
+    classPrefix: 'picker'
+  }),
+  withPickerMethods<TreePickerProps>()
+)(TreePicker);

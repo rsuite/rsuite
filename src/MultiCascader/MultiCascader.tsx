@@ -1,6 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import compose from 'recompose/compose';
 import _ from 'lodash';
 import { shallowEqualArray } from 'rsuite-utils/lib/utils';
 import { polyfill } from 'react-lifecycles-compat';
@@ -8,9 +9,15 @@ import { polyfill } from 'react-lifecycles-compat';
 import DropdownMenu from './DropdownMenu';
 import Checkbox from '../Checkbox';
 import createUtils, { UtilType } from './utils';
-import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 import { flattenTree, getNodeParents } from '../utils/treeUtils';
 import { PLACEMENT } from '../constants';
+import {
+  defaultProps,
+  prefix,
+  getUnhandledProps,
+  createChainedFunction,
+  withPickerMethods
+} from '../utils';
 
 import {
   PickerToggle,
@@ -282,9 +289,15 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
     onSearch && onSearch(searchKeyword, event);
   };
 
-  closeDropdown = () => {
+  handleCloseDropdown = () => {
     if (this.triggerRef.current) {
       this.triggerRef.current.hide();
+    }
+  };
+
+  handleOpenDropdown = () => {
+    if (this.triggerRef.current) {
+      this.triggerRef.current.show();
     }
   };
 
@@ -553,8 +566,11 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
 
 polyfill(MultiCascader);
 
-const enhance = defaultProps<MultiCascaderProps>({
-  classPrefix: 'picker'
-});
+const enhance = compose(
+  defaultProps<MultiCascaderProps>({
+    classPrefix: 'picker'
+  }),
+  withPickerMethods<MultiCascaderProps>()
+);
 
 export default enhance(MultiCascader);

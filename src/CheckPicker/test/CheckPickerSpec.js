@@ -152,6 +152,42 @@ describe('CheckPicker', () => {
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
   });
 
+  it('Should call `onOpen` callback', done => {
+    const doneOp = key => {
+      done();
+    };
+    let picker = null;
+    getDOMNode(
+      <Dropdown
+        ref={ref => {
+          picker = ref;
+        }}
+        onOpen={doneOp}
+        data={data}
+      />
+    );
+
+    picker.open();
+  });
+
+  it('Should call `onClose` callback', done => {
+    const doneOp = key => {
+      done();
+    };
+    let picker = null;
+    getDOMNode(
+      <Dropdown
+        defaultOpen
+        ref={ref => {
+          picker = ref;
+        }}
+        onClose={doneOp}
+        data={data}
+      />
+    );
+    picker.close();
+  });
+
   it('Should output a clean button', () => {
     const instance = getDOMNode(<Dropdown data={data} defaultValue={['Louisa']} />);
     assert.ok(instance.querySelector(cleanClassName));

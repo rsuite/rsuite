@@ -204,6 +204,43 @@ describe('SelectPicker', () => {
     ReactTestUtils.Simulate.keyDown(toggle, { keyCode: 13 });
   });
 
+  it('Should call `onOpen` callback', done => {
+    const doneOp = key => {
+      done();
+    };
+    let picker = null;
+    getDOMNode(
+      <Dropdown
+        ref={ref => {
+          picker = ref;
+        }}
+        onOpen={doneOp}
+        data={data}
+      />
+    );
+
+    picker.open();
+  });
+
+  it('Should call `onClose` callback', done => {
+    const doneOp = key => {
+      done();
+    };
+    let picker = null;
+
+    getDOMNode(
+      <Dropdown
+        defaultOpen
+        ref={ref => {
+          picker = ref;
+        }}
+        onClose={doneOp}
+        data={data}
+      />
+    );
+    picker.close();
+  });
+
   it('Should focus item by keyCode=40 ', done => {
     const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={'Eugenia'} />);
     const menu = findDOMNode(instance.menuContainerRef.current);

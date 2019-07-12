@@ -193,6 +193,40 @@ describe('DatePicker', () => {
     );
   });
 
+  it('Should call `onOpen` callback', done => {
+    const doneOp = key => {
+      done();
+    };
+    let picker = null;
+    getDOMNode(
+      <DatePicker
+        ref={ref => {
+          picker = ref;
+        }}
+        onOpen={doneOp}
+      />
+    );
+
+    picker.open();
+  });
+
+  it('Should call `onClose` callback', done => {
+    const doneOp = key => {
+      done();
+    };
+    let picker = null;
+    getDOMNode(
+      <DatePicker
+        defaultOpen
+        ref={ref => {
+          picker = ref;
+        }}
+        onClose={doneOp}
+      />
+    );
+    picker.close();
+  });
+
   it('Should not change for the value  when it is controlled', done => {
     const doneOp = () => {
       if (

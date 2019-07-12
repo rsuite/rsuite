@@ -189,6 +189,42 @@ describe('MultiCascader', () => {
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
   });
 
+  it('Should call `onOpen` callback', done => {
+    const doneOp = key => {
+      done();
+    };
+    let picker = null;
+    getDOMNode(
+      <Dropdown
+        ref={ref => {
+          picker = ref;
+        }}
+        onOpen={doneOp}
+        data={items}
+      />
+    );
+
+    picker.open();
+  });
+
+  it('Should call `onClose` callback', done => {
+    const doneOp = key => {
+      done();
+    };
+    let picker = null;
+    getDOMNode(
+      <Dropdown
+        defaultOpen
+        ref={ref => {
+          picker = ref;
+        }}
+        onClose={doneOp}
+        data={items}
+      />
+    );
+    picker.close();
+  });
+
   it('Should clean selected default value', () => {
     const instance = getDOMNode(<Dropdown defaultOpen data={items} defaultValue={['abcde-1']} />);
 

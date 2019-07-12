@@ -313,4 +313,40 @@ describe('TreePicker', () => {
     const instance = mount(<TreePicker data={customData} inline />);
     assert.equal(instance.find('.custom-label').length, 1);
   });
+
+  it('Should call `onOpen` callback', done => {
+    const doneOp = key => {
+      done();
+    };
+    let picker = null;
+    getDOMNode(
+      <TreePicker
+        ref={ref => {
+          picker = ref;
+        }}
+        onOpen={doneOp}
+        data={data}
+      />
+    );
+
+    picker.open();
+  });
+
+  it('Should call `onClose` callback', done => {
+    const doneOp = key => {
+      done();
+    };
+    let picker = null;
+    getDOMNode(
+      <TreePicker
+        defaultOpen
+        ref={ref => {
+          picker = ref;
+        }}
+        onClose={doneOp}
+        data={data}
+      />
+    );
+    picker.close();
+  });
 });

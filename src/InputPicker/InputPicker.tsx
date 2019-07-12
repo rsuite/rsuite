@@ -2,6 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
+import compose from 'recompose/compose';
 import { getWidth } from 'dom-lib';
 import {
   reactToString,
@@ -16,7 +17,8 @@ import {
   getUnhandledProps,
   createChainedFunction,
   tplTransform,
-  getDataGroupBy
+  getDataGroupBy,
+  withPickerMethods
 } from '../utils';
 
 import {
@@ -170,6 +172,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       this.setState({ maxWidth });
     }
   }
+
   getFocusableMenuItems = () => {
     const { labelKey } = this.props;
     const { menuItems } = this.menuContainerRef.current;
@@ -346,7 +349,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       down: this.focusNextMenuItem,
       up: this.focusPrevMenuItem,
       enter: multi ? this.selectFocusMenuCheckItem : this.selectFocusMenuItem,
-      esc: this.closeDropdown,
+      esc: this.handleCloseDropdown,
       del: multi ? this.removeLastItem : this.handleClean
     });
   };
@@ -378,7 +381,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     this.setState({ value: focusItemValue, searchKeyword: '' });
     this.handleSelect(focusItemValue, focusItem, event);
     this.handleChange(focusItemValue, event);
-    this.closeDropdown();
+    this.handleCloseDropdown();
   };
 
   selectFocusMenuCheckItem = (event: React.KeyboardEvent) => {
@@ -422,7 +425,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     this.setState(nextState);
     this.handleSelect(value, item, event);
     this.handleChange(value, event);
-    this.closeDropdown();
+    this.handleCloseDropdown();
   };
 
   handleCheckItemSelect = (
@@ -480,7 +483,13 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     onSearch && onSearch(searchKeyword, event);
   };
 
-  closeDropdown = () => {
+  handleOpenDropdown = () => {
+    if (this.triggerRef.current) {
+      this.triggerRef.current.show();
+    }
+  };
+
+  handleCloseDropdown = () => {
     if (this.triggerRef.current) {
       this.triggerRef.current.hide();
     }
@@ -774,8 +783,11 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   }
 }
 
-const enhance = defaultProps<InputPickerProps>({
-  classPrefix: 'picker'
-});
+const enhance = compose(
+  defaultProps<InputPickerProps>({
+    classPrefix: 'picker'
+  }),
+  withPickerMethods<InputPickerProps>()
+);
 
 export default enhance(InputPicker);

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import compose from 'recompose/compose';
 import _ from 'lodash';
 import { findNodeOfTree, shallowEqual } from 'rsuite-utils/lib/utils';
 import { polyfill } from 'react-lifecycles-compat';
@@ -8,10 +9,17 @@ import { polyfill } from 'react-lifecycles-compat';
 import IntlProvider from '../IntlProvider';
 import FormattedMessage from '../IntlProvider/FormattedMessage';
 import DropdownMenu from './DropdownMenu';
-import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 import stringToObject from '../utils/stringToObject';
 import { flattenTree, getNodeParents } from '../utils/treeUtils';
 import { getDerivedStateForCascade } from './utils';
+
+import {
+  defaultProps,
+  prefix,
+  getUnhandledProps,
+  createChainedFunction,
+  withPickerMethods
+} from '../utils';
 
 import {
   PickerToggle,
@@ -207,7 +215,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
      * 一个节点的 children 为 null 或者 undefined 的是就是叶子节点
      */
     if (isLeafNode) {
-      this.closeDropdown();
+      this.handleCloseDropdown();
       const nextState: any = {
         selectNode: node,
         ...getDerivedStateForCascade(this.props, this.state, value)
@@ -246,7 +254,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     const value = item[valueKey];
     const { activePaths, items } = getDerivedStateForCascade(this.props, this.state, value);
 
-    this.closeDropdown();
+    this.handleCloseDropdown();
     this.setState({
       selectNode: item,
       searchKeyword: '',
@@ -258,9 +266,15 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     onChange && onChange(value, event);
   };
 
-  closeDropdown = () => {
+  handleCloseDropdown = () => {
     if (this.triggerRef.current) {
       this.triggerRef.current.hide();
+    }
+  };
+
+  handleOpenDropdown = () => {
+    if (this.triggerRef.current) {
+      this.triggerRef.current.show();
     }
   };
 
@@ -543,8 +557,11 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
 
 polyfill(Cascader);
 
-const enhance = defaultProps({
-  classPrefix: 'picker'
-});
+const enhance = compose(
+  defaultProps<CascaderProps>({
+    classPrefix: 'picker'
+  }),
+  withPickerMethods<CascaderProps>()
+);
 
 export default enhance(Cascader);
