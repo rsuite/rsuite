@@ -21,20 +21,21 @@ import Manager from './Manager';
 import AutoScroller from './AutoScroller';
 
 const NodeType = {
+  Canvas: 'CANVAS',
   Anchor: 'A',
   Button: 'BUTTON',
-  Canvas: 'CANVAS',
   Input: 'INPUT',
   Option: 'OPTION',
   Textarea: 'TEXTAREA',
   Select: 'SELECT'
 };
 const interactiveElements = [
+  NodeType.Anchor,
+  NodeType.Button,
   NodeType.Input,
-  NodeType.Textarea,
-  NodeType.Select,
   NodeType.Option,
-  NodeType.Button
+  NodeType.Textarea,
+  NodeType.Select
 ];
 
 export interface Axis {
@@ -354,7 +355,7 @@ class List extends React.Component<ListProps, State> {
       // Remove the helper from the DOM
       if (this.activeNodeFlowBody) {
         this.activeNodeFlowBody.parentNode &&
-          this.activeNodeFlowBody.parentNode.removeChild(this.activeNodeFlowBody);
+        this.activeNodeFlowBody.parentNode.removeChild(this.activeNodeFlowBody);
         this.activeNodeFlowBody = null;
       }
 
