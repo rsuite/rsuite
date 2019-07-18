@@ -113,7 +113,11 @@ class Uploader extends React.Component<Props, State> {
   }
 
   // public API
-  start() {
+  start(file?: FileType) {
+    if (file) {
+      this.handleUploadFile(file);
+      return;
+    }
     this.handleAjaxUpload();
   }
 
@@ -261,8 +265,8 @@ class Uploader extends React.Component<Props, State> {
   };
 
   handleReupload = (file: FileType) => {
-    const { onReupload } = this.props;
-    this.handleUploadFile(file);
+    const { onReupload, autoUpload } = this.props;
+    autoUpload && this.handleUploadFile(file);
     onReupload && onReupload(file);
   };
 
