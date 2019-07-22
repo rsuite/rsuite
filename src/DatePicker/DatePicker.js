@@ -88,7 +88,8 @@ type Props = {
   style?: Object,
   // 一键选值
   oneTap?: boolean,
-  renderValue?: (value: Date, format: string) => React.Node
+  renderValue?: (value: Date, format: string) => React.Node,
+  showWeekNumbers?: boolean
 };
 
 type State = {
@@ -381,7 +382,7 @@ class DatePicker extends React.Component<Props, State> {
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderCalendar() {
-    const { format, isoWeek, limitEndYear, disabledDate } = this.props;
+    const { format, isoWeek, limitEndYear, disabledDate, showWeekNumbers } = this.props;
     const { calendarState, pageDate } = this.state;
     const calendarProps = _.pick(this.props, calendarOnlyProps);
 
@@ -402,6 +403,7 @@ class DatePicker extends React.Component<Props, State> {
         onChangePageDate={this.handleChangePageDate}
         onChangePageTime={this.handleChangePageTime}
         calendarRef={this.bindCalendarRef}
+        showWeekNumbers={showWeekNumbers}
       />
     );
   }

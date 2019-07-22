@@ -17,7 +17,8 @@ type Props = {
   disabledDate?: (date: Date, selectValue: Array<Date | null>, type: string) => boolean,
   isoWeek?: boolean,
   className?: string,
-  classPrefix?: string
+  classPrefix?: string,
+  showWeekNumbers?: boolean
 };
 
 class View extends React.Component<Props> {
@@ -40,6 +41,7 @@ class View extends React.Component<Props> {
       className,
       isoWeek,
       classPrefix,
+      showWeekNumbers,
       ...rest
     } = this.props;
 
@@ -57,6 +59,7 @@ class View extends React.Component<Props> {
           inSameMonth={this.inSameThisMonthDate}
           disabledDate={disabledDate}
           hoverValue={hoverValue}
+          showWeekNumbers={showWeekNumbers}
         />
       </div>
     );

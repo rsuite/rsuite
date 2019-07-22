@@ -26,7 +26,8 @@ type Props = {
   isoWeek?: boolean,
   className?: string,
   classPrefix?: string,
-  limitEndYear?: number
+  limitEndYear?: number,
+  showWeekNumbers?: boolean
 };
 
 class Calendar extends React.Component<Props> {
@@ -116,6 +117,7 @@ class Calendar extends React.Component<Props> {
       isoWeek,
       limitEndYear,
       classPrefix,
+      showWeekNumbers,
       ...rest
     } = this.props;
 
@@ -148,6 +150,7 @@ class Calendar extends React.Component<Props> {
           onMouseMove={onMouseMove}
           disabledDate={disabledDate}
           isoWeek={isoWeek}
+          showWeekNumbers={showWeekNumbers}
         />
 
         <MonthDropdown

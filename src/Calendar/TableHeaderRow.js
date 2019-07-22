@@ -9,14 +9,15 @@ import { FormattedMessage } from 'rsuite-intl';
 type Props = {
   isoWeek?: boolean,
   className?: string,
-  classPrefix?: string
+  classPrefix?: string,
+  showWeekNumbers?: boolean
 };
 
 const weekKeys = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
 class TableHeaderRow extends React.PureComponent<Props> {
   render() {
-    const { className, classPrefix, isoWeek, ...props } = this.props;
+    const { className, classPrefix, isoWeek, showWeekNumbers, ...props } = this.props;
     const addPrefix = prefix(classPrefix);
     const classes = classNames(addPrefix('row'), addPrefix('header-row'), className);
     let items = weekKeys;
@@ -27,6 +28,7 @@ class TableHeaderRow extends React.PureComponent<Props> {
 
     return (
       <div {...props} className={classes}>
+        {showWeekNumbers && <div className={addPrefix('cell')} />}
         {items.map(key => (
           <div key={key} className={addPrefix('cell')}>
             <span className={addPrefix('cell-content')}>

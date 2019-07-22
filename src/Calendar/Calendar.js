@@ -35,7 +35,8 @@ type Props = {
   isoWeek?: boolean,
   limitEndYear?: number,
   className?: string,
-  classPrefix?: string
+  classPrefix?: string,
+  showWeekNumbers?: boolean
 };
 
 class Calendar extends React.PureComponent<Props> {
@@ -74,6 +75,7 @@ class Calendar extends React.PureComponent<Props> {
       isoWeek,
       limitEndYear,
       classPrefix,
+      showWeekNumbers,
       ...rest
     } = this.props;
 
@@ -116,6 +118,7 @@ class Calendar extends React.PureComponent<Props> {
             onSelect={onSelect}
             isoWeek={isoWeek}
             disabledDate={this.disabledDate}
+            showWeekNumbers={showWeekNumbers}
           />
         )}
         {showMonth && (

@@ -29,4 +29,9 @@ describe('Calendar-TableHeaderRow', () => {
     );
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
   });
+
+  it('Should render an empty cell for a week number column', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<TableHeaderRow showWeekNumbers />);
+    assert.equal(findDOMNode(instance).childNodes.length, 8);
+  });
 });

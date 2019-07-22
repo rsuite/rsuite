@@ -14,7 +14,8 @@ type Props = {
   disabledDate?: (date: Date) => boolean,
   inSameMonth?: (date: Date) => boolean,
   className?: string,
-  classPrefix?: string
+  classPrefix?: string,
+  showWeekNumbers?: boolean
 };
 
 class TableRow extends React.PureComponent<Props> {
@@ -39,7 +40,8 @@ class TableRow extends React.PureComponent<Props> {
   renderDays() {
     const { weekendDate, disabledDate, inSameMonth, selected } = this.props;
 
-    let days = [];
+    const days = [];
+
     for (let i = 0; i < 7; i += 1) {
       let thisDate = addDays(weekendDate, i);
       let disabled = disabledDate && disabledDate(thisDate);
@@ -69,14 +71,20 @@ class TableRow extends React.PureComponent<Props> {
     return days;
   }
 
+  renderWeekNumber() {
+    const { weekendDate } = this.props;
+    return <div className={this.addPrefix('cell-week-number')}>{format(weekendDate, 'W')}</div>;
+  }
+
   render() {
-    const { className, ...rest } = this.props;
+    const { className, showWeekNumbers, ...rest } = this.props;
 
     const classes = classNames(this.addPrefix('row'), className);
     const unhandled = getUnhandledProps(TableRow, rest);
 
     return (
       <div {...unhandled} className={classes}>
+        {showWeekNumbers && this.renderWeekNumber()}
         {this.renderDays()}
       </div>
     );

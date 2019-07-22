@@ -89,7 +89,8 @@ type Props = {
   onExit?: () => void,
   onExiting?: () => void,
   onExited?: () => void,
-  renderValue?: (value: Array<Date>, format: string) => React.Node
+  renderValue?: (value: Array<Date>, format: string) => React.Node,
+  showWeekNumbers?: boolean
 };
 
 function getCalendarDate(value: Array<Date> = []) {
@@ -514,7 +515,15 @@ class DateRangePicker extends React.Component<Props, State> {
   };
 
   renderDropdownMenu() {
-    const { placement, menuClassName, ranges, isoWeek, limitEndYear, oneTap } = this.props;
+    const {
+      placement,
+      menuClassName,
+      ranges,
+      isoWeek,
+      limitEndYear,
+      oneTap,
+      showWeekNumbers
+    } = this.props;
     const { calendarDate, selectValue, hoverValue, doneSelected } = this.state;
 
     const classes = classNames(
@@ -544,8 +553,8 @@ class DateRangePicker extends React.Component<Props, State> {
               {this.getDateString(selectValue)}
             </div>
             <div className={this.addPrefix('daterange-calendar-group')}>
-              <DatePicker index={0} {...pickerProps} />
-              <DatePicker index={1} {...pickerProps} />
+              <DatePicker showWeekNumbers={showWeekNumbers} index={0} {...pickerProps} />
+              <DatePicker showWeekNumbers={showWeekNumbers} index={1} {...pickerProps} />
             </div>
           </div>
           <Toolbar

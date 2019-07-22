@@ -17,7 +17,8 @@ type Props = {
   disabledDate?: (date: Date, selectValue: Array<Date | null>, type: string) => boolean,
   inSameMonth?: (date: Date) => boolean,
   className?: string,
-  classPrefix?: string
+  classPrefix?: string,
+  showWeekNumbers?: boolean
 };
 
 class Table extends React.Component<Props> {
@@ -37,6 +38,7 @@ class Table extends React.Component<Props> {
       className,
       classPrefix,
       isoWeek,
+      showWeekNumbers,
       ...rest
     } = this.props;
 
@@ -44,7 +46,7 @@ class Table extends React.Component<Props> {
 
     return (
       <div {...rest} className={classes}>
-        <TableHeaderRow isoWeek={isoWeek} />
+        <TableHeaderRow isoWeek={isoWeek} showWeekNumbers={showWeekNumbers} />
         {rows.map((week, index) => (
           <TableRow
             /* eslint-disable */
@@ -56,6 +58,7 @@ class Table extends React.Component<Props> {
             onMouseMove={onMouseMove}
             inSameMonth={inSameMonth}
             disabledDate={disabledDate}
+            showWeekNumbers={showWeekNumbers}
           />
         ))}
       </div>

@@ -16,7 +16,8 @@ type Props = {
   onChangeCalendarDate?: (index: number, nextPageDate: Date) => void,
   isoWeek?: boolean,
   limitEndYear?: number,
-  classPrefix?: string
+  classPrefix?: string,
+  showWeekNumbers?: boolean
 };
 
 type State = {
@@ -85,7 +86,8 @@ class DatePicker extends React.Component<Props, State> {
       disabledDate,
       isoWeek,
       limitEndYear,
-      classPrefix
+      classPrefix,
+      showWeekNumbers
     } = this.props;
 
     const { calendarState } = this.state;
@@ -108,6 +110,7 @@ class DatePicker extends React.Component<Props, State> {
         onToggleMonthDropdown={this.toggleMonthDropdown}
         onChangePageDate={this.handleChangePageDate}
         limitEndYear={limitEndYear}
+        showWeekNumbers={showWeekNumbers}
       />
     );
   }

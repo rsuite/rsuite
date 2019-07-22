@@ -15,7 +15,8 @@ type Props = {
   disabledDate?: (date: Date) => boolean,
   inSameMonth?: (date: Date) => boolean,
   className?: string,
-  classPrefix?: string
+  classPrefix?: string,
+  showWeekNumbers?: boolean
 };
 
 class Table extends React.PureComponent<Props> {
@@ -32,6 +33,7 @@ class Table extends React.PureComponent<Props> {
       className,
       classPrefix,
       isoWeek,
+      showWeekNumbers,
       ...rest
     } = this.props;
 
@@ -39,7 +41,7 @@ class Table extends React.PureComponent<Props> {
 
     return (
       <div {...rest} className={classes}>
-        <TableHeaderRow isoWeek={isoWeek} />
+        <TableHeaderRow isoWeek={isoWeek} showWeekNumbers={showWeekNumbers} />
 
         {rows.map((week, index) => (
           <TableRow
@@ -50,6 +52,7 @@ class Table extends React.PureComponent<Props> {
             onSelect={onSelect}
             inSameMonth={inSameMonth}
             disabledDate={disabledDate}
+            showWeekNumbers={showWeekNumbers}
           />
         ))}
       </div>

@@ -19,7 +19,8 @@ type Props = {
   inSameMonth?: (date: Date) => boolean,
   onMouseMove?: (date: Date) => void,
   className?: string,
-  classPrefix?: string
+  classPrefix?: string,
+  showWeekNumbers?: boolean
 };
 
 class TableRow extends React.Component<Props> {
@@ -116,13 +117,19 @@ class TableRow extends React.Component<Props> {
     return days;
   }
 
+  renderWeekNumber() {
+    const { weekendDate } = this.props;
+    return <div className={this.addPrefix('cell-week-number')}>{format(weekendDate, 'W')}</div>;
+  }
+
   render() {
-    const { className, ...rest } = this.props;
+    const { className, showWeekNumbers, ...rest } = this.props;
     const classes = classNames(this.addPrefix('row'), className);
     const unhandled = getUnhandledProps(TableRow, rest);
 
     return (
       <div {...unhandled} className={classes}>
+        {showWeekNumbers && this.renderWeekNumber()}
         {this.renderDays()}
       </div>
     );
