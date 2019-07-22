@@ -121,7 +121,7 @@ export interface FormControlPickerProps<ValueType = any> extends PickerBaseProps
   onChange?: (value: ValueType, event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
-export namespace TypeAttributes {
+export declare namespace TypeAttributes {
   type Size = 'lg' | 'md' | 'sm' | 'xs';
   type Status = 'success' | 'warning' | 'error' | 'info';
   type Color = 'red' | 'orange' | 'yellow' | 'green' | 'cyan' | 'blue' | 'violet';
