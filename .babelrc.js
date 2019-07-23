@@ -1,36 +1,30 @@
-module.exports = api => {
+module.exports = (api, options) => {
+  const { NODE_ENV } = options || process.env;
+  const dev = NODE_ENV === 'development';
+  const modules = NODE_ENV === 'esm' ? false : 'commonjs';
+
   if (api) {
-    api.cache(() => process.env.NODE_ENV);
+    api.cache(() => NODE_ENV);
+  }
+
+  const plugins = [
+    ['@babel/plugin-proposal-class-properties', { loose: true }],
+    '@babel/plugin-proposal-export-namespace-from',
+    '@babel/plugin-proposal-export-default-from',
+    ['@babel/plugin-transform-runtime', { useESModules: !modules }]
+  ];
+
+  if (modules) {
+    plugins.push('add-module-exports');
   }
 
   return {
-    presets: ['@babel/preset-env', '@babel/preset-react', '@babel/typescript'],
-    plugins: [
-      '@babel/plugin-proposal-class-properties',
-      '@babel/proposal-object-rest-spread',
-      'transform-dev',
-      '@babel/plugin-transform-proto-to-assign',
-      '@babel/plugin-transform-runtime',
-      '@babel/plugin-syntax-dynamic-import',
-      '@babel/plugin-syntax-import-meta',
-      '@babel/plugin-proposal-json-strings',
-      '@babel/plugin-proposal-function-sent',
-      '@babel/plugin-proposal-export-namespace-from',
-      '@babel/plugin-proposal-numeric-separator',
-      '@babel/plugin-proposal-throw-expressions',
-      '@babel/plugin-proposal-export-default-from',
-      '@babel/plugin-proposal-logical-assignment-operators',
-      '@babel/plugin-proposal-optional-chaining',
-      [
-        '@babel/plugin-proposal-pipeline-operator',
-        {
-          proposal: 'minimal'
-        }
-      ],
-      '@babel/plugin-proposal-nullish-coalescing-operator',
-      '@babel/plugin-proposal-do-expressions',
-      '@babel/plugin-proposal-function-bind'
+    presets: [
+      ['@babel/preset-env', { modules, loose: true }],
+      ['@babel/preset-react', { development: dev }],
+      '@babel/typescript'
     ],
+    plugins,
     env: {
       coverage: {
         plugins: [

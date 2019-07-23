@@ -4,22 +4,20 @@
   "description": "A suite of react components",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
+  "module": "es/index.js",
   "directories": {
     "lib": "lib/"
   },
   "scripts": {
     "format": "prettier --write \"{src,test}/**/*.{tsx,ts,js}\"",
     "format:check": "prettier --list-different \"{src,test}/**/*.{tsx,ts,js}\"",
-    "build-lib": "gulp compile-ts --gulpfile scripts/gulpfile.js",
-    "build-lib-tsd": "gulp copy-tsd --gulpfile scripts/gulpfile.js",
-    "build-es": "MODULE=ES6 npm run build-ts",
-    "build": "rm -rf lib && npm run build-lib && npm run build-lib-tsd && npm run dist",
-    "dev": "gulp dev --gulpfile scripts/gulpfile.js",
-    "dev-map": "gulp dev-map --gulpfile scripts/gulpfile.js",
-    "dist-style": "gulp build-style --gulpfile scripts/gulpfile.js && npm run generate-styles",
-    "dist-map": "NODE_ENV=development  webpack --mode development --progress",
+    "dist-style": "gulp buildStyle",
+    "dist-dev": "NODE_ENV=development  webpack --mode development --progress",
     "dist-pro": "webpack --mode production --progress",
-    "dist": "rm -rf dist && npm run dist-map && npm run dist-pro && npm run dist-style",
+    "dist": "npm run dist-dev && npm run dist-pro",
+    "build-gulp": "gulp build",
+    "build": "npm run build-gulp && npm run dist",
+    "dev": "NODE_ENV=development gulp dev",
     "lint-style": "stylelint  \"styles/**/*.less\"",
     "lint-ts": "eslint src/**/*.{ts,tsx}",
     "lint-js": "eslint src/**/*.js",
@@ -27,8 +25,7 @@
     "tdd": "karma start",
     "test": "npm run format:check && npm run lint && NODE_ENV=coverage  karma start --single-run",
     "coveralls": "cat ./coverage/lcov/lcov.info | ./node_modules/.bin/coveralls",
-    "prepublishOnly": "npm run build",
-    "generate-styles": "rm -rf lib/styles && node scripts/generate-styles.js"
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "react",
@@ -48,6 +45,7 @@
     "dist",
     "lib",
     "src",
+    "es",
     "styles"
   ],
   "dependencies": {
@@ -74,20 +72,9 @@
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
-    "@babel/plugin-proposal-do-expressions": "^7.0.0",
     "@babel/plugin-proposal-export-default-from": "^7.0.0",
     "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
-    "@babel/plugin-proposal-function-bind": "^7.2.0",
-    "@babel/plugin-proposal-function-sent": "^7.0.0",
-    "@babel/plugin-proposal-json-strings": "^7.0.0",
-    "@babel/plugin-proposal-logical-assignment-operators": "^7.0.0",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.0.0",
-    "@babel/plugin-proposal-numeric-separator": "^7.0.0",
-    "@babel/plugin-proposal-optional-chaining": "^7.0.0",
-    "@babel/plugin-proposal-pipeline-operator": "^7.0.0",
-    "@babel/plugin-proposal-throw-expressions": "^7.0.0",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
-    "@babel/plugin-syntax-import-meta": "^7.0.0",
     "@babel/plugin-transform-proto-to-assign": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.1.0",
     "@babel/polyfill": "^7.0.0",
@@ -105,6 +92,7 @@
     "autoprefixer": "^8.3.0",
     "babel-eslint": "^8.2.2",
     "babel-loader": "^8.0.0",
+    "babel-plugin-add-module-exports": "^1.0.2",
     "babel-plugin-date-fns": "^0.2.1",
     "babel-plugin-istanbul": "^4.1.4",
     "babel-plugin-lodash": "^3.3.2",
@@ -124,7 +112,7 @@
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.7.0",
     "glob": "^7.1.2",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-less": "^4.0.0",
     "gulp-postcss": "^7.0.1",
@@ -164,6 +152,6 @@
     "ie >= 10"
   ],
   "sideEffects": [
-    "lib/styles/*"
+    "lib/**/style/*"
   ]
 }
