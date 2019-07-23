@@ -19,6 +19,7 @@ export interface CalendarProps {
   className?: string;
   classPrefix?: string;
   limitEndYear?: number;
+  showWeekNumbers?: boolean;
   disabledDate?: (date: Date, selectValue: Date[], type: string) => boolean;
   onMoveForword?: (nextPageDate: Date) => void;
   onMoveBackward?: (nextPageDate: Date) => void;
@@ -134,6 +135,7 @@ class Calendar extends React.Component<CalendarProps> {
       isoWeek,
       limitEndYear,
       classPrefix,
+      showWeekNumbers,
       ...rest
     } = this.props;
 
@@ -166,6 +168,7 @@ class Calendar extends React.Component<CalendarProps> {
           onMouseMove={onMouseMove}
           disabledDate={disabledDate}
           isoWeek={isoWeek}
+          showWeekNumbers={showWeekNumbers}
         />
 
         <MonthDropdown

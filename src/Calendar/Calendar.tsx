@@ -25,6 +25,7 @@ export interface CalendarProps {
   limitEndYear?: number;
   className?: string;
   classPrefix?: string;
+  showWeekNumbers?: boolean;
   disabledDate?: (date: Date) => boolean;
   disabledHours?: (hour: number, date: Date) => boolean;
   disabledMinutes?: (minute: number, date: Date) => boolean;
@@ -110,6 +111,7 @@ class Calendar extends React.Component<CalendarProps> {
       renderTitle,
       renderToolbar,
       renderCell,
+      showWeekNumbers,
       ...rest
     } = this.props;
 
@@ -155,6 +157,7 @@ class Calendar extends React.Component<CalendarProps> {
             isoWeek={isoWeek}
             disabledDate={this.disabledDate}
             renderCell={renderCell}
+            showWeekNumbers={showWeekNumbers}
           />
         )}
         {showMonth && (

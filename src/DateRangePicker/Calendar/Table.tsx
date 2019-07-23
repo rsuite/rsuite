@@ -13,6 +13,7 @@ export interface TableProps {
   hoverValue?: Date[];
   className?: string;
   classPrefix?: string;
+  showWeekNumbers?: boolean;
   onSelect?: (date: Date) => void;
   onMouseMove?: (date: Date) => void;
   disabledDate?: (date: Date, selectValue: Date[], type: string) => boolean;
@@ -48,6 +49,7 @@ class Table extends React.Component<TableProps> {
       className,
       classPrefix,
       isoWeek,
+      showWeekNumbers,
       ...rest
     } = this.props;
 
@@ -55,7 +57,7 @@ class Table extends React.Component<TableProps> {
 
     return (
       <div {...rest} className={classes}>
-        <TableHeaderRow isoWeek={isoWeek} />
+        <TableHeaderRow isoWeek={isoWeek} showWeekNumbers={showWeekNumbers} />
         {rows.map((week, index) => (
           <TableRow
             /* eslint-disable */
@@ -67,6 +69,7 @@ class Table extends React.Component<TableProps> {
             onMouseMove={onMouseMove}
             inSameMonth={inSameMonth}
             disabledDate={disabledDate}
+            showWeekNumbers={showWeekNumbers}
           />
         ))}
       </div>

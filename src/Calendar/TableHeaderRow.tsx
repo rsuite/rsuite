@@ -9,6 +9,7 @@ export interface TableHeaderRowProps {
   isoWeek?: boolean;
   className?: string;
   classPrefix?: string;
+  showWeekNumbers?: boolean;
 }
 
 const weekKeys = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
@@ -20,7 +21,7 @@ class TableHeaderRow extends React.PureComponent<TableHeaderRowProps> {
     classPrefix: PropTypes.string
   };
   render() {
-    const { className, classPrefix, isoWeek, ...props } = this.props;
+    const { className, classPrefix, isoWeek, showWeekNumbers, ...props } = this.props;
     const addPrefix = prefix(classPrefix);
     const classes = classNames(addPrefix('row'), addPrefix('header-row'), className);
     let items = weekKeys;
@@ -31,6 +32,7 @@ class TableHeaderRow extends React.PureComponent<TableHeaderRowProps> {
 
     return (
       <div {...props} className={classes}>
+        {showWeekNumbers && <div className={addPrefix('cell')} />}
         {items.map(key => (
           <div key={key} className={addPrefix('cell')}>
             <span className={addPrefix('cell-content')}>

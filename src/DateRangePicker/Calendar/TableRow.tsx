@@ -14,6 +14,7 @@ export interface TableRowProps {
   hoverValue: Date[];
   className?: string;
   classPrefix?: string;
+  showWeekNumbers?: boolean;
   onSelect?: (date: Date) => void;
   disabledDate?: (date: Date, selectValue: Date[], type: string) => boolean;
   inSameMonth?: (date: Date) => boolean;
@@ -125,13 +126,22 @@ class TableRow extends React.Component<TableRowProps> {
     return days;
   }
 
+  renderWeekNumber() {
+    return (
+      <div className={this.addPrefix('cell-week-number')}>
+        {format(this.props.weekendDate, 'W')}
+      </div>
+    );
+  }
+
   render() {
-    const { className, ...rest } = this.props;
+    const { className, showWeekNumbers, ...rest } = this.props;
     const classes = classNames(this.addPrefix('row'), className);
     const unhandled = getUnhandledProps(TableRow, rest);
 
     return (
       <div {...unhandled} className={classes}>
+        {showWeekNumbers && this.renderWeekNumber()}
         {this.renderDays()}
       </div>
     );
