@@ -1,9 +1,10 @@
-const path = require('path');
-
 /**
- * 执行全部测试用例: npm run tdd
- * 执行单个组件的测试用例: M=ButtonSpec.js npm run tdd
+ * Run all tests: `npm run tdd`
+ * Run a component test: `M=Button npm run tdd`
+ * Run a test of a file: `src/Picker/test/PickerToggleSpec.js npm run tdd`
  */
+
+const path = require('path');
 
 const webpackConfig = {
   output: {
