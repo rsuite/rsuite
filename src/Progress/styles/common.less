@@ -1,0 +1,163 @@
+@import '../../styles/common';
+
+.@{ns}progress {
+  // Remove whitespace.
+  &-info {
+    font-size: 0;
+  }
+
+  // Set base font-size && reset font-size
+  &,
+  &-icon-success,
+  &-icon-fail,
+  &-info-status {
+    font-size: @progress-font-size;
+    line-height: unit(@line-height-computed / @progress-font-size);
+  }
+}
+
+.@{ns}progress-circle {
+  position: relative;
+  font-size: 0;
+
+  // Setting status color
+  &-success &-info {
+    color: @progress-status-success-color !important;
+  }
+
+  &-success .@{ns}progress-stroke {
+    stroke: @progress-status-success-color !important;
+  }
+
+  &-fail &-info {
+    color: @progress-status-fail-color !important;
+  }
+
+  &-fail .@{ns}progress-stroke {
+    stroke: @progress-status-fail-color !important;
+  }
+
+  &-info {
+    @info-height: 36px;
+
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    font-size: @progress-font-size;
+    line-height: unit(@info-height / @progress-font-size);
+    height: @info-height;
+    color: @progress-info-text-color;
+  }
+
+  .@{ns}progress-trail {
+    stroke: @progress-bar-bg;
+  }
+
+  .@{ns}progress-stroke {
+    stroke: @progress-bar-fill-bg;
+    transition: stroke-dashoffset 0.3s ease, stroke-dasharray 0.2s ease-in-out, stroke 0.3s;
+  }
+}
+
+.@{ns}progress-line {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  padding: @progress-line-padding-vertical @progress-line-padding-horizontal;
+
+  // Setting status color
+  &-success {
+    color: @progress-status-success-color !important;
+  }
+
+  &-success &-bg {
+    background-color: @progress-status-success-color !important;
+  }
+
+  &-fail {
+    color: @progress-status-fail-color !important;
+  }
+
+  &-fail &-bg {
+    background-color: @progress-status-fail-color !important;
+  }
+
+  &-active &-bg {
+    position: relative;
+
+    &::before {
+      content: '';
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: @B000;
+      border-radius: 10px;
+      animation: progress-active 2s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+    }
+  }
+
+  &-outer,
+  .@{ns}progress-info {
+    display: table-cell;
+  }
+
+  .@{ns}progress-info {
+    width: 50px;
+    height: 20px;
+    padding-left: @progress-element-gap;
+  }
+
+  &-outer {
+    border-radius: @progress-bar-height / 2;
+    overflow: hidden;
+    // Make sure outer vertical-align:center;
+    vertical-align: middle;
+  }
+
+  &-inner {
+    background: @progress-bar-bg;
+    border-radius: @progress-bar-height / 2;
+  }
+
+  &-bg {
+    background-color: @progress-bar-fill-bg;
+    border-radius: @progress-bar-height / 2;
+    transition: width @progress-bg-transition, color @progress-bg-transition;
+  }
+
+  &-inner,
+  &-bg {
+    height: @progress-bar-height;
+  }
+}
+
+// Status icons styles
+.@{ns}progress-icon-success,
+.@{ns}progress-icon-fail {
+  display: inline-block;
+  font-family: @font-family-icon;
+
+  .@{ns}progress-circle & {
+    font-size: 36px;
+    line-height: 36px;
+  }
+}
+
+.@{ns}progress-icon-success {
+  &::before {
+    content: @progress-status-success-icon-content;
+  }
+}
+
+.@{ns}progress-icon-fail {
+  &::before {
+    content: @progress-status-fail-icon-content;
+  }
+}

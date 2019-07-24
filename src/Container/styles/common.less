@@ -1,0 +1,16 @@
+@import '../../styles/common';
+
+// Container styles
+// contains: <Container/> <Header/> <Content/> <Footer/> <Sidebar/>
+
+.@{ns}container {
+  display: flex;
+  flex-direction: column;
+  flex: auto;
+
+  // The sidebar only are combined and containers.
+  // When they combined , change flex-direction value to row.
+  &-has-sidebar {
+    flex-direction: row;
+  }
+}

@@ -1,0 +1,16 @@
+@import '../../styles/common';
+@import '../../Button/styles/mixin';
+
+//
+// Button toolbar
+// --------------------------------------------------
+
+.@{ns}btn-toolbar {
+  > * {
+    vertical-align: top;
+  }
+
+  > :not(:first-child):not(.@{ns}btn-block) {
+    margin-left: 5px;
+  }
+}
