@@ -1,0 +1,64 @@
+@import '../../styles/common';
+@import "./mixin";
+
+//
+// Placeholder
+// --------------------------------------------------
+
+.@{ns}placeholder {
+  display: flex;
+  background-color: @placeholder-bg;
+
+  &-active {
+    .placeholder-active-animation();
+  }
+
+  &-paragraph {
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    &-graph {
+      flex: 0 0 auto;
+      width: 60px;
+      height: 60px;
+      border-radius: 2px;
+      margin-right: 20px;
+      background-color: @placeholder-holder-bg;
+
+      &-circle {
+        border-radius: 50%;
+      }
+    }
+
+    &-rows {
+      width: 100%;
+
+      & > p {
+        background-color: @placeholder-holder-bg;
+      }
+    }
+  }
+
+  &-grid {
+    &-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+
+      & > p {
+        background-color: @placeholder-holder-bg;
+      }
+
+      &:first-child {
+        align-items: flex-start; //first col align left
+      }
+    }
+  }
+
+  &-graph {
+    display: inline-block;
+    width: 100%;
+    background-color: @placeholder-holder-bg;
+  }
+}

@@ -1,0 +1,38 @@
+@import '../../styles/common';
+@import 'mixin';
+
+// Slide
+.slide-out {
+  .animation-common(cubic-bezier(0.4, 0, 1, 1)); //Fast out
+}
+
+.slide-in {
+  .animation-common(ease-in-out);
+}
+
+.right {
+  .slide-animation-setting(slideInRight, slideOutRight);
+}
+
+.left {
+  .slide-animation-setting(slideInLeft, slideOutLeft);
+}
+
+.top {
+  .slide-animation-setting(slideInTop, slideOutTop);
+}
+
+.bottom {
+  .slide-animation-setting(slideInBottom, slideOutBottom);
+}
+
+// Bounce
+.bounce-in {
+  animation-name: bounceIn;
+  .animation-common(cubic-bezier(0.68, -0.55, 0.27, 1.55)); // Ease in out
+}
+
+.bounce-out {
+  animation-name: bounceOut;
+  .animation-common(cubic-bezier(0.4, 0, 1, 1)); //Fast out
+}

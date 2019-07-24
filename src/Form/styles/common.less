@@ -1,0 +1,23 @@
+@import '../../styles/common';
+@import 'mixin';
+
+// Form groups
+.@{ns}control-label {
+  margin-bottom: @control-label-margin-bottom;
+}
+
+.@{ns}form-inline {
+  > *,
+  > .@{ns}btn {
+    margin-right: 30px;
+    margin-bottom: 24px;
+    vertical-align: top;
+  }
+
+  .rs-control-label {
+    vertical-align: top;
+    margin-bottom: auto;
+    margin-top: @padding-base-vertical;
+    display: inline-block;
+  }
+}

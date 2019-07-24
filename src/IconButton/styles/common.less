@@ -1,0 +1,55 @@
+@import '../../styles/common';
+@import '../../Button/styles/mixin';
+
+//
+// IconButton
+// --------------------------------------------------
+
+// Alternate buttons
+// --------------------------------------------------
+
+// Default Button
+// Rewrite common button style
+.@{ns}btn-default {
+  .btn-icon-with-text(@btn-icon-with-text-bg);
+
+  &:focus {
+    .btn-icon-with-text(@btn-icon-with-text-focus-bg);
+  }
+
+  &:hover {
+    .btn-icon-with-text(@btn-icon-with-text-hover-bg);
+  }
+
+  &:active,
+  &.@{ns}btn-active,
+  .@{ns}open > .@{ns}dropdown-toggle& {
+    .btn-icon-with-text(@btn-icon-with-text-active-bg);
+
+    &:hover,
+    &:focus,
+    &.focus {
+      .btn-icon-with-text(@btn-icon-with-text-active-bg);
+    }
+  }
+}
+
+// Icon Button
+// Icon Button text size increase 2 px
+.@{ns}btn-icon:not(.@{ns}btn-icon-with-text) {
+  .icon {
+    font-size: @font-size-large;
+    line-height: @line-height-large;
+  }
+
+  &.btn-xs {
+    font-size: @font-size-base;
+    line-height: @line-height-base;
+  }
+}
+
+// Circle Button
+.@{ns}btn-icon-circle {
+  border-radius: 50% !important;
+  width: @padding-base-vertical*2 + @line-height-computed;
+}
