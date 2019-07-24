@@ -425,6 +425,32 @@
   }
 }
 
+.@{clpns}-table-cell-week-number {
+  display: table-cell;
+  width: 1%;
+  padding: @calendar-table-cell-padding;
+  text-align: center;
+  vertical-align: middle;
+  color: @calendar-table-cell-week-number-color;
+  background: @calendar-table-cell-week-number-bg;
+  font-size: @font-size-small;
+}
+
+.@{clpns}-table-row {
+  &:nth-child(2) {
+    .@{clpns}-table-cell-week-number {
+      border-top-left-radius: @calendar-panel-border-radius;
+      border-top-right-radius: @calendar-panel-border-radius;
+    }
+  }
+  &:last-child {
+    .@{clpns}-table-cell-week-number {
+      border-bottom-left-radius: @calendar-panel-border-radius;
+      border-bottom-right-radius: @calendar-panel-border-radius;
+    }
+  }
+}
+
 // Calendar month dropdown
 .@{clpns}-month-dropdown {
   display: none;

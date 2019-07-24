@@ -89,6 +89,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     defaultOpen: PropTypes.bool,
     placement: PropTypes.oneOf(PLACEMENT),
     preventOverflow: PropTypes.bool,
+    showWeekNumbers: PropTypes.bool,
     onChange: PropTypes.func,
     onOk: PropTypes.func,
     disabledDate: PropTypes.func,
@@ -499,7 +500,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderDropdownMenu() {
-    const { menuClassName, ranges, isoWeek, limitEndYear, oneTap } = this.props;
+    const { menuClassName, ranges, isoWeek, limitEndYear, oneTap, showWeekNumbers } = this.props;
     const { calendarDate, selectValue, hoverValue, doneSelected } = this.state;
 
     const classes = classNames(this.addPrefix('daterange-menu'), menuClassName);
@@ -510,6 +511,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       hoverValue,
       calendarDate,
       limitEndYear,
+      showWeekNumbers,
       value: selectValue,
       disabledDate: this.handleDisabledDate,
       onSelect: this.handleChangeSelectValue,

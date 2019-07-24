@@ -27,6 +27,9 @@ export interface DatePickerProps extends PickerBaseProps, FormControlBaseProps<D
   /** Set the lower limit of the available year relative to the current selection date */
   limitEndYear?: number;
 
+  /** Whether to show week numbers */
+  showWeekNumbers?: boolean;
+
   /** Disabled date */
   disabledDate?: (date?: Date) => boolean;
 

@@ -12,6 +12,7 @@ export interface TableProps {
   selected?: Date;
   className?: string;
   classPrefix?: string;
+  showWeekNumbers?: boolean;
   onSelect?: (date: Date, event: React.MouseEvent<HTMLDivElement>) => void;
   disabledDate?: (date: Date) => boolean;
   inSameMonth?: (date: Date) => boolean;
@@ -44,6 +45,7 @@ class Table extends React.PureComponent<TableProps> {
       classPrefix,
       isoWeek,
       renderCell,
+      showWeekNumbers,
       ...rest
     } = this.props;
 
@@ -51,7 +53,7 @@ class Table extends React.PureComponent<TableProps> {
 
     return (
       <div {...rest} className={classes}>
-        <TableHeaderRow isoWeek={isoWeek} />
+        <TableHeaderRow isoWeek={isoWeek} showWeekNumbers={showWeekNumbers} />
 
         {rows.map((week, index) => (
           <TableRow
@@ -63,6 +65,7 @@ class Table extends React.PureComponent<TableProps> {
             inSameMonth={inSameMonth}
             disabledDate={disabledDate}
             renderCell={renderCell}
+            showWeekNumbers={showWeekNumbers}
           />
         ))}
       </div>

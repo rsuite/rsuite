@@ -16,6 +16,7 @@ export interface ViewProps {
   isoWeek?: boolean;
   className?: string;
   classPrefix?: string;
+  showWeekNumbers?: boolean;
 }
 
 class View extends React.Component<ViewProps> {
@@ -49,6 +50,7 @@ class View extends React.Component<ViewProps> {
       className,
       isoWeek,
       classPrefix,
+      showWeekNumbers,
       ...rest
     } = this.props;
 
@@ -66,6 +68,7 @@ class View extends React.Component<ViewProps> {
           inSameMonth={this.inSameThisMonthDate}
           disabledDate={disabledDate}
           hoverValue={hoverValue}
+          showWeekNumbers={showWeekNumbers}
         />
       </div>
     );

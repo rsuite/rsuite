@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import TableRow from '../TableRow';
-import { getDate } from 'date-fns';
+import { getDate, format } from 'date-fns';
 
 describe('Calendar-TableRow', () => {
   it('Should render a div with `table-row` class', () => {
@@ -45,5 +45,13 @@ describe('Calendar-TableRow', () => {
   it('Should have a custom className prefix', () => {
     const instance = ReactTestUtils.renderIntoDocument(<TableRow classPrefix="custom-prefix" />);
     assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should render a week number', () => {
+    const instance = ReactTestUtils.renderIntoDocument(<TableRow showWeekNumbers />);
+    assert.equal(
+      findDOMNode(instance).querySelector('.rs-calendar-table-cell-week-number').innerText,
+      format(new Date(), 'W')
+    );
   });
 });

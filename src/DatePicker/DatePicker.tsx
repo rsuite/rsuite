@@ -75,6 +75,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     style: PropTypes.object,
     oneTap: PropTypes.bool,
     preventOverflow: PropTypes.bool,
+    showWeekNumbers: PropTypes.bool,
     disabledDate: PropTypes.func,
     disabledHours: PropTypes.func,
     disabledMinutes: PropTypes.func,
@@ -374,13 +375,14 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderCalendar() {
-    const { format, isoWeek, limitEndYear, disabledDate } = this.props;
+    const { format, isoWeek, limitEndYear, disabledDate, showWeekNumbers } = this.props;
     const { calendarState, pageDate } = this.state;
     const calendarProps = _.pick(this.props, calendarOnlyProps);
 
     return (
       <Calendar
         {...calendarProps}
+        showWeekNumbers={showWeekNumbers}
         disabledDate={disabledDate}
         limitEndYear={limitEndYear}
         format={format}

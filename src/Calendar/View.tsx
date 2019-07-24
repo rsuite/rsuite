@@ -12,6 +12,7 @@ export interface ViewProps {
   isoWeek?: boolean;
   className?: string;
   classPrefix?: string;
+  showWeekNumbers?: boolean;
   onSelect?: (date: Date, event: React.MouseEvent<HTMLDivElement>) => void;
   disabledDate?: (date: Date) => boolean;
   renderCell?: (date: Date) => React.ReactNode;
@@ -43,6 +44,7 @@ class View extends React.PureComponent<ViewProps> {
       classPrefix,
       isoWeek,
       renderCell,
+      showWeekNumbers,
       ...rest
     } = this.props;
 
@@ -59,6 +61,7 @@ class View extends React.PureComponent<ViewProps> {
           inSameMonth={this.inSameThisMonthDate}
           disabledDate={disabledDate}
           renderCell={renderCell}
+          showWeekNumbers={showWeekNumbers}
         />
       </div>
     );
