@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StandardProps } from '../@types/common';
 import { IconProps } from '../Icon/Icon.d';
 
-export interface NavItemProps extends StandardProps {
+export interface NavItemProps<T = any> extends StandardProps {
   /** Activation status */
   active?: boolean;
 
@@ -22,7 +22,7 @@ export interface NavItemProps extends StandardProps {
   children?: React.ReactChildren;
 
   /** The value of the current option */
-  eventKey?: any;
+  eventKey?: T;
 
   /** Whether NavItem have a tooltip  */
   hasTooltip?: boolean;
@@ -31,7 +31,7 @@ export interface NavItemProps extends StandardProps {
   componentClass?: React.ElementType;
 
   /** Select the callback function that the event triggers. */
-  onSelect?: (eventKey: any, event: React.SyntheticEvent<any>) => void;
+  onSelect?: (eventKey: T, event: React.SyntheticEvent<any>) => void;
 }
 
 declare const NavItem: React.ComponentType<NavItemProps>;

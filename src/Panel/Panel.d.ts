@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { AnimationEventProps, StandardProps } from '../@types/common';
 
-export interface PanelProps extends StandardProps, AnimationEventProps {
+export interface PanelProps<T = any> extends StandardProps, AnimationEventProps {
   /** Whether it is a collapsible panel */
   collapsible?: boolean;
 
@@ -24,7 +24,7 @@ export interface PanelProps extends StandardProps, AnimationEventProps {
   expanded?: boolean;
 
   /** The event key corresponding to the panel. */
-  eventKey?: any;
+  eventKey?: T;
 
   /** Role of header */
   headerRole?: string;
@@ -36,7 +36,7 @@ export interface PanelProps extends StandardProps, AnimationEventProps {
   children?: React.ReactNode;
 
   /** callback function for the panel clicked */
-  onSelect?: (eventKey: any, event: React.SyntheticEvent<any>) => void;
+  onSelect?: (eventKey: T, event: React.SyntheticEvent<any>) => void;
 }
 
 declare const Panel: React.ComponentType<PanelProps>;

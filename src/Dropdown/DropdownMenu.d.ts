@@ -3,7 +3,7 @@ import * as React from 'react';
 import { StandardProps } from '../@types/common';
 import { IconProps } from '../Icon/Icon.d';
 
-export interface DropdownMenuProps extends StandardProps {
+export interface DropdownMenuProps<T = any> extends StandardProps {
   /** Primary content */
   children?: React.ReactChildren;
 
@@ -14,7 +14,7 @@ export interface DropdownMenuProps extends StandardProps {
   pullLeft?: boolean;
 
   /** The value of the current option */
-  eventKey?: any;
+  eventKey?: T;
 
   /** Set the icon */
   icon?: React.ReactElement<IconProps>;

@@ -1,37 +1,38 @@
 import * as React from 'react';
 import { TreeBaseProps } from './TreeBase';
 
-interface DataItem {
-  value: any;
+interface DataItem<T> {
+  value: T;
   label: React.ReactNode;
-  children?: DataItem[];
+  children?: DataItem<T>[];
 }
 
-export interface TreeProps extends TreeBaseProps {
+export interface TreeProps<ValueType = any, DataType = DataItem<ValueType>> extends TreeBaseProps {
   /** Tree Data */
-  data?: DataItem[];
+  data?: DataType[];
 
   /** Selected value */
-  value?: any;
+  value?: ValueType;
 
   /** Whether using virtualized list */
   virtualized?: boolean;
 
   /** Tree data structure Label property name */
-  labelKey?: string;
+  labelKey?: keyof DataType;
 
   /** ree data Structure Value property name */
-  valueKey?: string;
+  valueKey?: keyof DataType;
 
   /** Tree data structure Children property name */
-  childrenKey?: string;
+  childrenKey?: keyof DataType;
 
   /** Default selected Value  */
-  defaultValue?: any;
+  defaultValue?: ValueType;
 
   /** Disabled items */
-  disabledItemValues?: any[];
+  disabledItemValues?: ValueType[];
 }
+
 declare const Tree: React.ComponentType<TreeBaseProps>;
 
 export default Tree;

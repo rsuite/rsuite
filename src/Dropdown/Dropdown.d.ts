@@ -7,7 +7,7 @@ import DropdownMenuItem from './DropdownMenuItem';
 
 export type Trigger = 'click' | 'hover' | 'contextMenu';
 
-export interface DropdownProps extends StandardProps {
+export interface DropdownProps<T = any> extends StandardProps {
   /** Primary content */
   children?: React.ReactChildren;
 
@@ -18,7 +18,7 @@ export interface DropdownProps extends StandardProps {
   icon?: React.ReactElement<IconProps>;
 
   /** The option to activate the state, corresponding to the eventkey in the Dropdown.item */
-  activeKey?: any;
+  activeKey?: T;
 
   /** Triggering events */
   trigger?: Trigger | Trigger[];
@@ -39,7 +39,7 @@ export interface DropdownProps extends StandardProps {
   onToggle?: (open?: boolean) => void;
 
   /** Selected callback function */
-  onSelect?: (eventKey: any, event: React.MouseEvent<HTMLElement>) => void;
+  onSelect?: (eventKey: T, event: React.MouseEvent<HTMLElement>) => void;
 
   /** The style of the menu */
   menuStyle?: object;
@@ -51,7 +51,7 @@ export interface DropdownProps extends StandardProps {
   renderTitle?: (children?: React.ReactNode) => React.ReactNode;
 
   /** The value of the current option */
-  eventKey?: any;
+  eventKey?: T;
 
   /** You can use a custom element type for this component */
   componentClass?: React.ElementType;

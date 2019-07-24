@@ -3,7 +3,8 @@ import * as React from 'react';
 import { StandardProps, TypeAttributes } from '../@types/common';
 import { Schema } from '../Schema/Schema.d';
 
-export interface FormProps extends StandardProps {
+export interface FormProps<T = Record<string, any>, E = { [P in keyof T]?: T[P] }>
+  extends StandardProps {
   /** Set the left and right columns of the layout of the elements within the form */
   layout?: 'horizontal' | 'vertical' | 'inline';
 
@@ -11,13 +12,13 @@ export interface FormProps extends StandardProps {
   fluid?: boolean;
 
   /** Current value of the input. Creates a controlled component */
-  formValue?: any;
+  formValue?: T;
 
   /** Initial value */
-  formDefaultValue?: any;
+  formDefaultValue?: T;
 
   /** Error message of form */
-  formError?: any;
+  formError?: E;
 
   /** Delayed processing when data check, unit: millisecond */
   checkDelay?: number;
@@ -35,13 +36,13 @@ export interface FormProps extends StandardProps {
   plaintext?: boolean;
 
   /** Callback fired when data changing */
-  onChange?: (formValue: any, event: React.SyntheticEvent<HTMLElement>) => void;
+  onChange?: (formValue: T, event: React.SyntheticEvent<HTMLElement>) => void;
 
   /** Callback fired when error checking */
-  onError?: (formError: any) => void;
+  onError?: (formError: E) => void;
 
   /** Callback fired when data cheking */
-  onCheck?: (formError: any) => void;
+  onCheck?: (formError: E) => void;
 }
 
 declare const Form: React.ComponentType<FormProps>;

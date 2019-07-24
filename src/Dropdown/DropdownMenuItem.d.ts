@@ -3,7 +3,7 @@ import * as React from 'react';
 import { StandardProps } from '../@types/common';
 import { IconProps } from '../Icon/Icon.d';
 
-export interface DropdownMenuItemProps extends StandardProps {
+export interface DropdownMenuItemProps<T = any> extends StandardProps {
   /** Active the current option */
   active?: boolean;
 
@@ -20,7 +20,7 @@ export interface DropdownMenuItemProps extends StandardProps {
   disabled?: boolean;
 
   /** The value of the current option */
-  eventKey?: any;
+  eventKey?: T;
 
   /** Displays a custom panel */
   panel?: boolean;
@@ -29,7 +29,7 @@ export interface DropdownMenuItemProps extends StandardProps {
   icon?: React.ReactElement<IconProps>;
 
   /** Select the callback function for the current option  */
-  onSelect?: (eventKey: any, event: React.SyntheticEvent<HTMLElement>) => void;
+  onSelect?: (eventKey: T, event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
 declare const DropdownMenuItem: React.ComponentType<DropdownMenuItemProps>;

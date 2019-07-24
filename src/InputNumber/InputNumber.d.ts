@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { StandardProps, TypeAttributes } from '../@types/common';
 
-export interface InputNumberProps extends StandardProps {
+export interface InputNumberProps<T = number | string> extends StandardProps {
   /** Button can have different appearances */
   buttonAppearance?: TypeAttributes.Appearance;
 
@@ -19,7 +19,7 @@ export interface InputNumberProps extends StandardProps {
   step?: number;
 
   /** Current value of the input. Creates a controlled component */
-  value?: number | string;
+  value?: T;
 
   /** Initial value */
   defaultValue?: string;
@@ -34,7 +34,7 @@ export interface InputNumberProps extends StandardProps {
   size?: TypeAttributes.Size;
 
   /** The callback function when value changes */
-  onChange?: (value: any, event?: React.SyntheticEvent<any>) => void;
+  onChange?: (value: T, event?: React.SyntheticEvent<any>) => void;
 }
 
 declare const InputNumber: React.ComponentType<InputNumberProps>;

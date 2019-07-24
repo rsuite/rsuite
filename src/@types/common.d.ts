@@ -95,21 +95,22 @@ export interface FormControlBaseProps<ValueType = any> {
   onChange?: (value: ValueType, event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
-export interface FormControlPickerProps<ValueType = any> extends PickerBaseProps {
+export interface FormControlPickerProps<ValueType = any, DataType = Record<string, any>>
+  extends PickerBaseProps {
   /** The data of component */
-  data: any[];
+  data: DataType[];
 
   /** Set option value 'key' in 'data' */
-  valueKey?: string;
+  valueKey?: keyof DataType;
 
   /** Set options to display the 'key' in 'data' */
-  labelKey?: string;
+  labelKey?: keyof DataType;
 
   /** Set children key in data */
-  childrenKey?: string;
+  childrenKey?: keyof DataType;
 
   /** Disabled items */
-  disabledItemValues?: any[];
+  disabledItemValues?: ValueType[];
 
   /** Initial value */
   defaultValue?: ValueType;

@@ -7,12 +7,13 @@ import { StandardProps } from '../@types/common';
 
 type SortType = 'desc' | 'asc';
 
-export interface TableProps extends StandardProps {
+export interface TableProps<RowKey = string | number | symbol, RowData = any>
+  extends StandardProps {
   /** width */
   width?: number;
 
   /** Table data */
-  data?: any[];
+  data?: RowData[];
 
   /** Table Height */
   height?: number;
@@ -27,13 +28,13 @@ export interface TableProps extends StandardProps {
   rowHeight?: number;
 
   /** Add an optional extra class name to row */
-  rowClassName?: string | ((rowData: object) => string);
+  rowClassName?: string | ((rowData: RowData) => string);
 
   /** Header height */
   headerHeight?: number;
 
   /** Each row corresponds to the unique key in  data */
-  rowKey?: string | number;
+  rowKey?: RowKey;
 
   /** Show as Tree table */
   isTree?: boolean;
@@ -42,10 +43,10 @@ export interface TableProps extends StandardProps {
   defaultExpandAllRows?: boolean;
 
   /** Specify the default expanded row by  rowkey */
-  defaultExpandedRowKeys?: string[] | number[];
+  defaultExpandedRowKeys?: RowKey[];
 
   /** Specify the default expanded row by  rowkey (Controlled) */
-  expandedRowKeys?: string[] | number[];
+  expandedRowKeys?: RowKey[];
 
   /** Set the height of an expandable area */
   rowExpandedHeight?: number;
@@ -79,10 +80,10 @@ export interface TableProps extends StandardProps {
   showHeader?: boolean;
 
   /** Custom Settings Row Height */
-  setRowHeight?: (rowData: object) => number;
+  setRowHeight?: (rowData: RowData) => number;
 
   /** Custom Settings Row Height */
-  onRowClick?: (rowData: object) => void;
+  onRowClick?: (rowData: RowData) => void;
 
   /** Callback function for scroll bar scrolling */
   onScroll?: (scrollX: number, scrollY: number) => void;
@@ -91,13 +92,13 @@ export interface TableProps extends StandardProps {
   onSortColumn?: (dataKey: string, sortType: SortType) => void;
 
   /** Tree table, the callback function in the expanded node */
-  onExpandChange?: (expanded: boolean, rowData: object) => void;
+  onExpandChange?: (expanded: boolean, rowData: RowData) => void;
 
   /** Tree table, the callback function in the expanded node */
-  renderTreeToggle?: (expandButton: React.ReactNode, rowData: object) => React.ReactNode;
+  renderTreeToggle?: (expandButton: React.ReactNode, rowData: RowData) => React.ReactNode;
 
   /** Customize what you can do to expand a zone */
-  renderRowExpanded?: (rowDate?: object) => React.ReactNode;
+  renderRowExpanded?: (rowDate?: RowData) => React.ReactNode;
 
   /** Customize data is empty display content  */
   renderEmpty?: (info: React.ReactNode) => React.ReactNode;

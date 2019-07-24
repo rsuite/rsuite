@@ -3,7 +3,7 @@ import * as React from 'react';
 import { FormControlPickerProps } from '../@types/common';
 import { TreeBaseProps } from '../Tree/TreeBase';
 
-export interface CheckTreeProps extends TreeBaseProps, FormControlPickerProps<any[]> {
+export interface CheckTreeProps extends TreeBaseProps, FormControlPickerProps {
   /** The height of Dropdown */
   height?: number;
 
