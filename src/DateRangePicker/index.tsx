@@ -5,7 +5,9 @@ import * as utils from './disabledDateUtils';
 const EnhancedDateRangePicker = withLocale(['DateRangePicker'])(DateRangePicker);
 
 Object.keys(utils).forEach(key => {
-  EnhancedDateRangePicker[key] = utils[key];
+  if (key !== '__esModule') {
+    EnhancedDateRangePicker[key] = utils[key];
+  }
 });
 
 export default EnhancedDateRangePicker;
