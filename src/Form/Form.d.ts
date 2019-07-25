@@ -2,9 +2,13 @@ import * as React from 'react';
 
 import { StandardProps, TypeAttributes } from '../@types/common';
 import { Schema } from '../Schema/Schema.d';
+import { CheckResult } from '../Schema/Type';
 
-export interface FormProps<T = Record<string, any>, E = { [P in keyof T]?: T[P] }>
-  extends StandardProps {
+export interface FormProps<
+  T = Record<string, any>,
+  errorMsgType = string,
+  E = { [P in keyof T]?: errorMsgType }
+> extends StandardProps {
   /** Set the left and right columns of the layout of the elements within the form */
   layout?: 'horizontal' | 'vertical' | 'inline';
 
@@ -43,6 +47,21 @@ export interface FormProps<T = Record<string, any>, E = { [P in keyof T]?: T[P] 
 
   /** Callback fired when data cheking */
   onCheck?: (formError: E) => void;
+}
+
+export interface FormInstance<
+  T = Record<string, any>,
+  errorMsg = string,
+  E = { [P in keyof T]?: errorMsg }
+> extends React.Component<FormProps<T, E>> {
+  check: (callback?: (formError: E) => void) => boolean;
+  checkForField: (
+    fieldName: keyof T,
+    callback?: (checkResult: CheckResult<errorMsg>) => void
+  ) => boolean;
+  cleanErrors: (callback?: () => void) => void;
+  cleanErrorForFiled: (fieldName: keyof E, callback?: () => void) => void;
+  resetErrors: (formError: E, callback?: () => void) => void;
 }
 
 declare const Form: React.ComponentType<FormProps>;
