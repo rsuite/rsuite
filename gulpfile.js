@@ -85,7 +85,7 @@ function watch() {
   const watcher = gulp.watch(TS_SOURCE);
   watcher.on('change', (filePath, stats) => {
     console.log('File ' + filePath + ' was changed, running tasks...');
-    const libPath = filePath.replace('src/', 'lib/').replace(/\/[a-z|A-Z]+.tsx/, '');
+    const libPath = filePath.replace('src/', 'lib/').replace(/\/[a-z|A-Z]+.(tsx|ts)/, '');
 
     return gulp
       .src(filePath)
