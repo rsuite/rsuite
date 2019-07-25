@@ -3,9 +3,11 @@ import { AnimationEventProps, StandardProps, TypeAttributes } from '../@types/co
 import { TooltipProps } from '../Tooltip/Tooltip.d';
 import { PopoverProps } from '../Popover/Popover.d';
 
+export type WhisperTrigger = 'click' | 'hover' | 'focus' | 'active';
+
 export interface WhisperProps extends AnimationEventProps, StandardProps {
   /** Triggering events */
-  trigger?: 'click' | 'hover' | 'focus' | 'active';
+  trigger?: WhisperTrigger | WhisperTrigger[];
 
   /** Ref of trigger */
   triggerRef?: React.Ref<any>;

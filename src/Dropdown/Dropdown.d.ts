@@ -5,7 +5,7 @@ import { IconProps } from '../Icon/Icon.d';
 import DropdownMenu from './DropdownMenu';
 import DropdownMenuItem from './DropdownMenuItem';
 
-export type Trigger = 'click' | 'hover' | 'contextMenu';
+export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 
 export interface DropdownProps<T = any> extends StandardProps {
   /** Primary content */
@@ -21,7 +21,7 @@ export interface DropdownProps<T = any> extends StandardProps {
   activeKey?: T;
 
   /** Triggering events */
-  trigger?: Trigger | Trigger[];
+  trigger?: DropdownTrigger | DropdownTrigger[];
 
   /** The placement of Menu */
   placement?: TypeAttributes.Placement8;
