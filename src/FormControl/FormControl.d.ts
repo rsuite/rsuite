@@ -2,12 +2,12 @@ import * as React from 'react';
 
 import { TypeAttributes, StandardProps } from '../@types/common';
 
-export type FormControlProps<P = {}> = StandardProps & {
+export type FormControlProps<P = {}, ValueType = any> = StandardProps & {
   /** Proxied components */
   accepter?: React.ComponentType<P>;
 
   /** Callback fired when data changing */
-  onChange?: (value: any, event: React.SyntheticEvent<HTMLElement>) => void;
+  onChange?: (value: ValueType, event: React.SyntheticEvent<HTMLElement>) => void;
 
   /** The name of form-control */
   name?: string;
@@ -31,8 +31,7 @@ export type FormControlProps<P = {}> = StandardProps & {
   plaintextDefaultValue?: React.ReactNode;
 
   /** Value */
-
-  value?: any;
+  value?: ValueType;
 } & P;
 
 declare function FormControl<P = {}>(props: FormControlProps<P>): React.ReactElement;

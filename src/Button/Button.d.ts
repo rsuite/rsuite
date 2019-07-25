@@ -32,6 +32,9 @@ export interface ButtonProps extends StandardProps {
 
   /** A button can show it is currently unable to be interacted with */
   disabled?: boolean;
+
+  /** Called when the button is clicked. */
+  onClick?: (event: React.SyntheticEvent) => void;
 }
 
 declare const Button: React.ComponentType<ButtonProps>;

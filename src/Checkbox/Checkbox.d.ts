@@ -22,7 +22,7 @@ export interface CheckboxProps<V = any> extends StandardProps {
   indeterminate?: boolean;
 
   /** Called when the user attempts to change the checked state. */
-  onChange?: (value: any, checked: boolean, event: React.SyntheticEvent<HTMLInputElement>) => void;
+  onChange?: (value: V, checked: boolean, event: React.SyntheticEvent<HTMLInputElement>) => void;
 
   /** Called when the checkbox or label is clicked. */
   onClick?: (event: React.SyntheticEvent<HTMLElement>) => void;

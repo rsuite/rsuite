@@ -3,7 +3,7 @@ import * as React from 'react';
 import { FormControlPickerProps } from '../@types/common';
 import { SelectProps } from '../SelectPicker/SelectPicker.d';
 
-export interface TagPickerProps extends FormControlPickerProps<any[]>, SelectProps<any[]> {
+export interface TagPickerProps extends FormControlPickerProps, SelectProps<any[]> {
   /** Option to cache value when searching asynchronously */
   cacheData?: any[];
 

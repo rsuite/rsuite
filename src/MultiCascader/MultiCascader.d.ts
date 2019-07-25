@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { FormControlPickerProps } from '../@types/common';
 
-export interface MultiCascaderProps extends FormControlPickerProps<any[]> {
+export interface MultiCascaderProps<ValueType = any> extends FormControlPickerProps {
   cascade?: boolean;
 
   /** A picker that can be counted */
@@ -15,7 +15,7 @@ export interface MultiCascaderProps extends FormControlPickerProps<any[]> {
   menuHeight?: number;
 
   /** Set the option value for the check box not to be rendered */
-  uncheckableItemValues?: any[];
+  uncheckableItemValues?: ValueType[];
 
   /** Whether dispaly search input box */
   searchable?: boolean;
@@ -28,14 +28,14 @@ export interface MultiCascaderProps extends FormControlPickerProps<any[]> {
 
   /** Custom render selected items */
   renderValue?: (
-    value: any[],
+    value: ValueType[],
     selectedItems: any[],
     selectedElement: React.ReactNode
   ) => React.ReactNode;
 
   /** Called when the option is selected */
   onSelect?: (
-    value: any,
+    value: ValueType,
     activePaths: any[],
     concat: (data: any, children: any) => any[],
     event: React.SyntheticEvent<HTMLElement>
