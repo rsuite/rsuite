@@ -19,7 +19,8 @@
 .@{ckpns}-menu-item {
   position: relative;
   display: block;
-  padding: @picker-item-content-padding-vertical @picker-item-content-padding-horizontal @picker-item-content-padding-vertical @picker-check-item-content-padding-left;
+  padding: @picker-item-content-padding-vertical @picker-item-content-padding-horizontal
+    @picker-item-content-padding-vertical @picker-check-item-content-padding-left;
   transition: @picker-item-transition;
   cursor: pointer;
   // Reset label styles
@@ -136,7 +137,7 @@
     transition: opacity 0.2s ease-in, transform 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46);
 
     .@{ckpns}-menu-item-active & {
-      border: solid @B000;
+      border: solid @checkbox-checked-mark-color;
       width: 6px;
       height: 9px;
       margin-top: 2px;
@@ -148,7 +149,7 @@
 
     .@{ckpns}-menu-item-indeterminate & {
       opacity: 1;
-      border: solid @B000;
+      border: solid @checkbox-checked-mark-color;
       height: 9px;
       border-width: 0 0 2px;
       transform: rotate(0deg) scale(1);
