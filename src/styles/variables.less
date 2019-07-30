@@ -73,7 +73,7 @@
 //## Font, line-height, and color for body text, headings, and more.
 
 @font-family-base: Avenir-Roman, Apple-System, Arial, Helvetica, 'PingFang SC', 'Hiragino Sans GB',
-  'Microsoft YaHei', STXihei, sans-serif;
+'Microsoft YaHei', STXihei, sans-serif;
 @font-family-icon: 'rsuite-icon-font';
 
 @font-size-large: 16px;
@@ -96,9 +96,7 @@
 @line-height-large: unit(@line-height-large-computed / @font-size-large); // ~1.375
 @line-height-base: unit(@line-height-computed / @font-size-base); // ~1.4285714285714286
 @line-height-small: unit(@line-height-computed / @font-size-small); // ~1.6666666666666667
-@line-height-extra-small: unit(
-  @line-height-computed / @font-size-extra-small
-); // ~1.6666666666666667
+@line-height-extra-small: unit(@line-height-computed / @font-size-extra-small); // ~1.6666666666666667
 
 //** By default, this inherits from the `<body>`.
 @headings-font-family: inherit;
@@ -319,10 +317,10 @@
 //** Border color for textual input addons
 @input-group-addon-border-color: @input-border;
 //** InputGroup padding for add-on
-@input-group-paading-for-add-on-large: 46px;
-@input-group-paading-for-add-on-base: 36px;
-@input-group-paading-for-add-on-small: 30px;
-@input-group-paading-for-add-on-extra-small: 26px;
+@input-group-padding-for-add-on-large: 46px;
+@input-group-padding-for-add-on-base: 36px;
+@input-group-padding-for-add-on-small: 30px;
+@input-group-padding-for-add-on-extra-small: 26px;
 
 //** Disabled cursor for form controls and buttons.
 @cursor-disabled: not-allowed;
@@ -425,9 +423,7 @@
 @toggle-md-handle-diameter: @toggle-md-height - @toggle-md-handle-gap*2;
 @toggle-md-handle-bg: @B000;
 @toggle-md-inner-line-height-computed: @toggle-md-height;
-@toggle-md-inner-line-height: unit(
-  @toggle-md-inner-line-height-computed / @toggle-md-inner-font-size
-);
+@toggle-md-inner-line-height: unit(@toggle-md-inner-line-height-computed / @toggle-md-inner-font-size);
 // The same to button
 @toggle-md-inner-margin: @padding-base-vertical;
 
@@ -1153,9 +1149,12 @@
 @calendar-month-dropdown-row-border-color: @B200;
 @calendar-month-dropdown-year-active-color: @H700;
 @calendar-dropdown-top: 40px; // @calendar-picker-padding + content-height + gap
+@calendar-month-dropdown-bg: @dropdown-bg;
+@calendar-title-dropdown-bg: @dropdown-bg;
 @calendar-time-dropdown-column-title-bg: @B050;
 @calendar-time-dropdown-column-title-font-color: @B600;
 @calendar-time-dropdown-column-cell-default-color: @B800;
+@calendar-time-dropdown-column-cell-hover-color: @B800;
 @calendar-time-dropdown-column-cell-active-color: @B000;
 @calendar-time-dropdown-column-cell-hover-bg: @H050;
 @calendar-time-dropdown-column-cell-active-bg: @H500;
