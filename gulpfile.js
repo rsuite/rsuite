@@ -95,7 +95,7 @@ function watch() {
 }
 
 exports.buildStyle = gulp.series(clean, buildLess, minCss, copyFontFiles);
-exports.dev = gulp.series(buildLib, watch);
+exports.dev = gulp.series(clean, buildLib, watch);
 exports.build = gulp.series(
   clean,
   gulp.parallel(buildLib, buildEsm, gulp.series(buildLess, minCss)),
