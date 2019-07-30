@@ -58,19 +58,7 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
     onSelect: PropTypes.func
   };
   static defaultProps = {
-    show: false,
-    ranges: [
-      {
-        label: 'today',
-        value: new Date(),
-        closeOverlay: true
-      },
-      {
-        label: 'yesterday',
-        value: addDays(new Date(), -1),
-        closeOverlay: true
-      }
-    ]
+    show: false
   };
 
   componentDidMount() {
