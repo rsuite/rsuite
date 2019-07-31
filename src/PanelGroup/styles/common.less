@@ -1,0 +1,36 @@
+@import '../../styles/common';
+
+//
+// PanelGroup
+// --------------------------------------------------
+
+.@{ns}panel {
+  // The first panel and the last panel in a panel group need set border-radius.
+  &-group {
+    border-radius: @border-radius-base;
+    overflow: hidden;
+  }
+
+  &-group-bordered {
+    border: @panel-border;
+  }
+
+  // Panel in Panel group haven't border.
+  &-group & {
+    border: none;
+  }
+
+  // Draw a split line for panel
+  &-group & + & {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      border-top: 1px solid @panel-split-line-color;
+      left: @panel-padding;
+      right: @panel-padding;
+    }
+  }
+}

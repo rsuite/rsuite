@@ -1,0 +1,35 @@
+@import '../../styles/common';
+
+.@{ns}badge {
+  display: inline-block;
+
+  &-wrapper {
+    position: relative;
+  }
+
+  &-independent,
+  &-content {
+    background-color: @badge-background;
+    border-radius: @badge-content-border-radius;
+    font-size: 12px;
+    line-height: 16px;
+    padding: 0 5px;
+    color: @badge-content-color;
+  }
+
+  &-independent&-dot,
+  &-wrapper &-content:empty {
+    width: @badge-dot-side-length;
+    height: @badge-dot-side-length;
+    border-radius: @badge-dot-side-length / 2;
+    padding: 0;
+  }
+
+  &-wrapper &-content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    z-index: @zindex-badge-content;
+  }
+}

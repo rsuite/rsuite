@@ -7,7 +7,7 @@ const filename = __DEV__ ? '[name].js' : '[name].min.js';
 
 module.exports = {
   entry: {
-    rsuite: path.join(__dirname, 'src/index.js')
+    rsuite: path.join(__dirname, 'src')
   },
   output: {
     path: path.join(__dirname, 'dist'),
@@ -32,7 +32,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.ts|tsx?$/,
         use: ['babel-loader?babelrc'],
         exclude: /node_modules/
       }
@@ -43,5 +43,8 @@ module.exports = {
     new webpack.SourceMapDevToolPlugin({
       filename: `${filename}.map`
     })
-  ]
+  ],
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js']
+  }
 };

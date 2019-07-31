@@ -1,0 +1,120 @@
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import setDisplayName from 'recompose/setDisplayName';
+
+import SafeAnchor from '../SafeAnchor';
+import Tooltip from '../Tooltip';
+import Whisper from '../Whisper';
+import Ripple from '../Ripple';
+
+import { createChainedFunction, defaultProps, prefix, getUnhandledProps } from '../utils';
+import { NavItemProps } from './NavItem.d';
+
+const addTooltip = (children, tip) => (
+  <Whisper speaker={<Tooltip>{tip}</Tooltip>} placement="right">
+    {children}
+  </Whisper>
+);
+
+class NavItem extends React.Component<NavItemProps> {
+  static propTypes = {
+    active: PropTypes.bool,
+    disabled: PropTypes.bool,
+    className: PropTypes.string,
+    classPrefix: PropTypes.string,
+    divider: PropTypes.bool,
+    panel: PropTypes.bool,
+    onClick: PropTypes.func,
+    style: PropTypes.object,
+    icon: PropTypes.node,
+    onSelect: PropTypes.func,
+    children: PropTypes.node,
+    eventKey: PropTypes.any,
+    tabIndex: PropTypes.number,
+    hasTooltip: PropTypes.bool,
+    componentClass: PropTypes.elementType
+  };
+  static defaultProps = {
+    tabIndex: 0
+  };
+
+  handleClick = (event: React.MouseEvent) => {
+    const { onSelect, disabled, eventKey } = this.props;
+    if (onSelect && !disabled) {
+      onSelect(eventKey, event);
+    }
+  };
+
+  render() {
+    const {
+      active,
+      disabled,
+      onClick,
+      className,
+      classPrefix,
+      style,
+      children,
+      icon,
+      tabIndex,
+      hasTooltip,
+      divider,
+      panel,
+      componentClass: Component,
+      ...rest
+    } = this.props;
+
+    const addPrefix = prefix(classPrefix);
+    const unhandled = getUnhandledProps(NavItem, rest);
+    const classes = classNames(classPrefix, className, {
+      [addPrefix('active')]: active,
+      [addPrefix('disabled')]: disabled
+    });
+
+    if (divider) {
+      return (
+        <li
+          role="separator"
+          style={style}
+          className={classNames(addPrefix('divider'), className)}
+        />
+      );
+    }
+
+    if (panel) {
+      return (
+        <li style={style} className={classNames(addPrefix('panel'), className)}>
+          {children}
+        </li>
+      );
+    }
+
+    const item = (
+      <Component
+        {...unhandled}
+        role="button"
+        tabIndex={tabIndex}
+        className={addPrefix('content')}
+        disabled={disabled}
+        onClick={createChainedFunction(onClick, this.handleClick)}
+      >
+        {icon}
+        <span className={addPrefix('text')}>{children}</span>
+        <Ripple />
+      </Component>
+    );
+
+    return (
+      <li role="presentation" className={classes} style={style}>
+        {hasTooltip ? addTooltip(item, children) : item}
+      </li>
+    );
+  }
+}
+
+const EnhancedNavItem = defaultProps<NavItemProps>({
+  classPrefix: 'nav-item',
+  componentClass: SafeAnchor
+})(NavItem);
+
+export default setDisplayName('NavItem')(EnhancedNavItem);

@@ -1,0 +1,62 @@
+@import '../../styles/common';
+@import 'mixin';
+
+// Flex-box grid wrapper
+.@{ns}flex-box-grid {
+  display: flex;
+  flex-flow: row wrap;
+
+  // Flex-box grid item
+  &-item {
+    flex: 0 0 auto;
+  }
+
+  //##==== Alignment (Y-Axis).
+
+  // At the top of the alignment.
+  &-top {
+    align-items: flex-start;
+  }
+
+  // Align center.
+  &-middle {
+    align-items: center;
+  }
+
+  // At the bottom of the alignment.
+  &-bottom {
+    align-items: flex-end;
+  }
+
+  //##==== Layout (X-Axis).
+
+  // Pack items from the start.
+  &-start {
+    justify-content: flex-start;
+  }
+
+  // Pack items around the center.
+  &-center {
+    justify-content: center;
+  }
+
+  // Pack items from the end.
+  &-end {
+    justify-content: flex-end;
+  }
+
+  // Distribute items evenly.
+  // The first item is flush with the start, the last is flush with the end.
+  &-space-between {
+    justify-content: space-between;
+  }
+
+  // Distribute items evenly.
+  // Items have a half-size space on either end.
+  &-space-around {
+    justify-content: space-around;
+  }
+}
+
+// Generate the flex grid.
+.make-flex-box-grid;

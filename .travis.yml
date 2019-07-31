@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-# - 7 # 7 is not supported by NPM, it will fallback to npm@3, which does not run prepublishOnly hook
+  # - 7 # 7 is not supported by NPM, it will fallback to npm@3, which does not run prepublishOnly hook
   - 8 # 8 is a LTS version with latest NPM packed
 
 env:
@@ -11,24 +11,20 @@ cache:
   directories:
     - node_modules
 
-
-before_install:
-  - export CHROME_BIN=chromium-browser
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
+services:
+  - xvfb
 
 on:
   branch: master
   tags: true
 
-
 jobs:
   include:
-    - stage: "NPM publish"
+    - stage: 'NPM publish'
       script: skip
       deploy:
         provider: npm
-        email: "simonguo.2009@gmail.com"
+        email: 'simonguo.2009@gmail.com'
         api_key: $NPM_AUTH_TOKEN
         skip_cleanup: true
         on:
@@ -36,5 +32,5 @@ jobs:
 
 stages:
   - test
-  - name: "NPM publish"
+  - name: 'NPM publish'
     if: tag IS present # only include deploy stage when it's a tagged commit

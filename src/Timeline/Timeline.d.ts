@@ -1,0 +1,19 @@
+import * as React from 'react';
+import TimelineItem from './TimelineItem';
+import { StandardProps } from '../@types/common';
+
+export interface TimelineProps extends StandardProps {
+  /** The content of the component */
+  children?: React.ReactChildren;
+
+  /** You can use a custom element type for this component */
+  componentClass?: React.ElementType;
+}
+
+interface TimelineComponent extends React.ComponentClass<TimelineProps> {
+  Item: typeof TimelineItem;
+}
+
+declare const Timeline: TimelineComponent;
+
+export default Timeline;

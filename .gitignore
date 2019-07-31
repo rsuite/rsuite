@@ -41,6 +41,7 @@ _build
 build
 .DS_Store
 lib/
+es/
 .idea
 karma.sauce.conf.js
 dev-publish.sh
