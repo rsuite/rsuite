@@ -8,7 +8,6 @@ import classNames from 'classnames';
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
 import scrollTopAnimation from '../utils/scrollTopAnimation';
 import {
-  addDays,
   getHours,
   getMinutes,
   getSeconds,
