@@ -1,24 +1,23 @@
 @import '../common';
-<<<<<<< HEAD
-=======
 
 // Button variants
 .button-primary-variant(@font-color; @primary-color) {
+  @color-light: color(~`palette('@{primary-color}', 400) `);
   @color-dark: color(~`palette('@{primary-color}', 600) `);
   @color-darker: color(~`palette('@{primary-color}', 700) `);
-  @color-even-darker: color(~`palette('@{primary-color}', 800) `);
+  @color-even-darker: color(~`palette('@{primary-color}', 900) `);
 
   color: @font-color;
-  background-color: @primary-color;
-  .btn-icon-with-text(@color-dark);
+  background-color: @color-darker;
+  .btn-icon-with-text(@color-even-darker);
 
-  .btn-loading-reset(@font-color, @primary-color);
+  .btn-loading-reset(@font-color, @color-darker);
 
   &:focus,
   &.@{ns}btn-focus {
     color: @font-color;
-    background-color: @color-dark;
-    .btn-icon-with-text(@color-darker);
+    background-color: @primary-color;
+    .btn-icon-with-text(@color-dark);
   }
 
   &:hover {
@@ -26,23 +25,23 @@
   }
 
   &:not(.@{ns}btn-disabled):hover {
-    background-color: @color-dark;
-    .btn-icon-with-text(@color-darker);
+    background-color: @primary-color;
+    .btn-icon-with-text(@color-dark);
   }
 
   &:active,
   &.@{ns}btn-active,
   .@{ns}open > .@{ns}dropdown-toggle& {
     color: @font-color;
-    background-color: @color-darker;
-    .btn-icon-with-text(@color-even-darker);
+    background-color: @color-light;
+    .btn-icon-with-text(@color-dark);
 
     &:hover,
     &:focus,
     &.focus {
       color: @font-color;
-      background-color: @color-darker;
-      .btn-icon-with-text(@color-even-darker);
+      background-color: @color-light;
+      .btn-icon-with-text(@color-dark);
     }
   }
 
@@ -56,14 +55,14 @@
     &:hover,
     &:focus,
     &.focus {
-      background: @primary-color;
+      background: @color-darker;
     }
   }
 }
 
 .btn-subtle-variant(@color) {
+  @color-light: color(~`palette('@{color}', 400) `);
   @color-dark: color(~`palette('@{color}', 600) `);
-  @color-darker: color(~`palette('@{color}', 700) `);
 
   color: @btn-subtle-color;
   background-color: transparent;
@@ -81,14 +80,14 @@
   &.@{ns}btn-active,
   .@{ns}open > .@{ns}dropdown-toggle& {
     color: @btn-subtle-active-color;
-    background-color: @color-dark;
+    background-color: @color-light;
     background-image: none;
 
     &:hover,
     &:focus,
     &.focus {
       color: @btn-subtle-active-color;
-      background-color: @color-dark;
+      background-color: @color-light;
     }
   }
 
@@ -106,10 +105,10 @@
 }
 
 .btn-ghost-variant(@color,@border-color) {
-  @color-dark: color(~`palette('@{color}', 800) `);
-  @color-darker: color(~`palette('@{color}', 900) `);
-  @color-border-dark: color(~`palette('@{color}', 800) `);
-  @color-border-darker: color(~`palette('@{color}', 900) `);
+  @color-light: color(~`palette('@{color}', 400) `);
+  @color-border-light: color(~`palette('@{color}', 400) `);
+  @color-lighter: color(~`palette('@{color}', 200) `);
+  @color-border-lighter: color(~`palette('@{color}', 200) `);
 
   color: @color;
   border: 1px solid @border-color;
@@ -119,27 +118,27 @@
 
   &:focus,
   &.@{ns}btn-focus {
-    color: @color-dark;
-    border-color: @color-border-dark;
+    color: @color-light;
+    border-color: @color-border-light;
   }
 
   &:hover {
-    color: @color-dark;
-    border-color: @color-border-dark;
+    color: @color-light;
+    border-color: @color-border-light;
   }
 
   &:active,
   &.@{ns}btn-active,
   .@{ns}open > .@{ns}dropdown-toggle& {
-    color: @color-darker;
-    border-color: @color-border-darker;
+    color: @color-lighter;
+    border-color: @color-border-lighter;
     background-image: none;
 
     &:hover,
     &:focus,
     &.@{ns}btn-focus {
-      color: @color-darker;
-      border-color: @color-border-darker;
+      color: @color-lighter;
+      border-color: @color-border-lighter;
     }
   }
 
@@ -153,8 +152,8 @@
 }
 
 .btn-link-variant(@color) {
-  @hover-color: color(~`palette('@{color}', 800)`);
-  @active-color: color(~`palette('@{color}', 900)`);
+  @hover-color: color(~`palette('@{color}', 400)`);
+  @active-color: color(~`palette('@{color}', 300)`);
 
   color: @color;
   font-weight: normal;
@@ -203,8 +202,8 @@
 
 // Use to hack button border in button-group set [justified].
 .btn-ghost-hack-variant(@border-color) {
-  @color-border-dark: color(~`palette('@{border-color}', 600) `);
-  @color-border-darker: color(~`palette('@{border-color}', 700) `);
+  @color-border-dark: color(~`palette('@{border-color}', 400) `);
+  @color-border-darker: color(~`palette('@{border-color}', 200) `);
 
   &::before,
   &::after {
@@ -243,4 +242,7 @@
     }
   }
 }
->>>>>>> 1329aef... Dark theme for <DateRangePicker>
+
+.@{ns}btn-loading > .@{ns}btn-spin::before {
+  opacity: 0.3;
+}
