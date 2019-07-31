@@ -57,7 +57,7 @@ function copyTypescriptDeclarationFiles() {
 
 function copyLessFiles() {
   return gulp
-    .src('./src/**/*.less')
+    .src(['./src/**/*.less', './src/**/fonts/**/*'])
     .pipe(gulp.dest(LIB_DIR))
     .pipe(gulp.dest(ESM_DIR));
 }
