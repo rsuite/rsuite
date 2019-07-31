@@ -10,7 +10,7 @@ const babelrc = require('./.babelrc.js');
 const ESM_DIR = './es';
 const LIB_DIR = './lib';
 const DIST_DIR = './dist';
-const STYLE_SOURCE_DIR = './src/style';
+const STYLE_SOURCE_DIR = './src/styles';
 const STYLE_DIST_DIR = './dist/styles';
 const TS_SOURCE = ['./src/**/*.tsx', './src/**/*.ts', '!./src/**/*.d.ts'];
 
@@ -21,11 +21,12 @@ function clean(done) {
 
 function buildLess() {
   return gulp
-    .src(`${STYLE_SOURCE_DIR}/rsuite.less`)
+    .src(`${STYLE_SOURCE_DIR}/index.less`)
     .pipe(sourcemaps.init())
     .pipe(less({ javascriptEnabled: true }))
     .pipe(postcss([require('autoprefixer')]))
     .pipe(sourcemaps.write('./'))
+    .pipe(rename('rsuite.css'))
     .pipe(gulp.dest(`${STYLE_DIST_DIR}`));
 }
 
