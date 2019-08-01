@@ -2,15 +2,18 @@
 
 > August 1, 2019
 
-* **Improve**: Improve `<Cascader>` search results, formatting options.  ([#515])
+* **Bugfix**: Fix `<Uploader>` showing file size issue ([#533])
 * **Bugfix**: Fix `<Uploader>` reset button will trigger automatic upload. ([#521])
+* **Improve**: Improve `<Cascader>` search results, formatting options.  ([#515])
 
 ---
 
-* **Improve**: 改进 `<Cascader>` 搜索结果，格式化选项。  ([#515])
+* **Bugfix**: 修复 `<Uploader>` 文件大小显示问题 ([#533])
 * **Bugfix**: 修复 `<Uploader>` 在手动上传的情况下，重新上传按钮会触发自动上传 ([#521])
+* **Improve**: 改进 `<Cascader>` 搜索结果，格式化选项。  ([#515])
 
 
+[#533]: https://github.com/rsuite/rsuite/pull/533
 [#521]: https://github.com/rsuite/rsuite/pull/521
 [#515]: https://github.com/rsuite/rsuite/pull/515
 
