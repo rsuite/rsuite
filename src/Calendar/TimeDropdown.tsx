@@ -7,14 +7,7 @@ import classNames from 'classnames';
 
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
 import scrollTopAnimation from '../utils/scrollTopAnimation';
-import {
-  getHours,
-  getMinutes,
-  getSeconds,
-  setSeconds,
-  setMinutes,
-  setHours
-} from 'date-fns';
+import { getHours, getMinutes, getSeconds, setSeconds, setMinutes, setHours } from 'date-fns';
 
 export interface TimeDropdownProps {
   date?: Date;
