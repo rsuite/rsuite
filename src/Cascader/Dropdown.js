@@ -395,23 +395,26 @@ class Dropdown extends React.Component<Props, State> {
   renderSearchRow = (item: Object, key: number) => {
     const { labelKey, valueKey, disabledItemValues = [] } = this.props;
     const { searchKeyword } = this.state;
-    const nodes = getNodeParents(item);
     const regx = new RegExp(searchKeyword, 'ig');
-    const labelElements = [];
+    let nodes = getNodeParents(item);
 
-    let a = item[labelKey].split(regx);
-    let b = item[labelKey].match(regx);
+    nodes.push(item);
+    nodes = nodes.map(node => {
+      let labelElements = [];
+      let a = node[labelKey].split(regx);
+      let b = node[labelKey].match(regx);
 
-    for (let i = 0; i < a.length; i++) {
-      labelElements.push(a[i]);
-      if (b[i]) {
-        labelElements.push(<strong key={i}>{b[i]}</strong>);
+      for (let i = 0; i < a.length; i++) {
+        labelElements.push(a[i]);
+        if (b && b[i]) {
+          labelElements.push(<strong key={i}>{b[i]}</strong>);
+        }
       }
-    }
 
-    nodes.push({
-      ...item,
-      [labelKey]: labelElements
+      return {
+        ...node,
+        [labelKey]: labelElements
+      };
     });
 
     const disabled = disabledItemValues.some(value => nodes.some(node => node[valueKey] === value));
@@ -438,16 +441,32 @@ class Dropdown extends React.Component<Props, State> {
     );
   };
 
-  getSearchResult() {
+  someKeyword(item) {
     const { labelKey } = this.props;
-    const { searchKeyword, flattenData } = this.state;
+    const { searchKeyword } = this.state;
+
+    if (item[labelKey].match(new RegExp(searchKeyword, 'i'))) {
+      return true;
+    }
+
+    if (item.parent && this.someKeyword(item.parent)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  getSearchResult() {
+    const { childrenKey } = this.props;
+    const { flattenData } = this.state;
     const items = [];
 
     const result = flattenData.filter(item => {
-      if (item[labelKey].match(new RegExp(searchKeyword, 'i'))) {
-        return true;
+      if (item[childrenKey]) {
+        return false;
       }
-      return false;
+
+      return this.someKeyword(item);
     });
 
     for (let i = 0; i < result.length; i++) {
