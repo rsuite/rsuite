@@ -39,7 +39,8 @@
     .@{ns}input-number,
     .@{ns}input-group-addon,
     .@{ns}input,
-    .@{ns}input-group-btn {
+    .@{ns}input-group-btn,
+    .@{ns}picker-date .@{ns}picker-toggle {
       border: none;
       border-radius: 0;
     }
@@ -60,12 +61,14 @@
 
     // @FIXED: first-child haven't border radius in ie10.
     & > :first-child,
-    .@{ns}auto-complete:first-child .@{ns}input {
+    .@{ns}auto-complete:first-child .@{ns}input,
+    .@{ns}picker-date:first-child .@{ns}picker-toggle {
       .border-left-radius(@input-border-radius);
     }
 
     & > :last-child,
-    .@{ns}auto-complete:last-child .@{ns}input {
+    .@{ns}auto-complete:last-child .@{ns}input,
+    .@{ns}picker-date:last-child .@{ns}picker-toggle {
       .border-right-radius(@input-border-radius);
     }
   }
@@ -338,6 +341,7 @@
     + .@{ns}btn {
       margin-left: -1px;
     }
+
     // Bring the "active" button to the front
     &:hover,
     &:focus,
