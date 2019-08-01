@@ -42,7 +42,7 @@ const getSize = (size: number = 0): string => {
   const G = 1024 * 1024 * 1024;
 
   if (size > G) {
-    return `${(size / M).toFixed(2)}GB`;
+    return `${(size / G).toFixed(2)}GB`;
   }
 
   if (size > M) {
