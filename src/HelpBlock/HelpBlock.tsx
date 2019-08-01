@@ -1,6 +1,9 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+
+import Tooltip from '../Tooltip';
+import Whisper from '../Whisper';
 import Icon from '../Icon';
 import { defaultProps, prefix } from '../utils';
 import { HelpBlockProps } from './HelpBlock.d';
@@ -21,9 +24,11 @@ class HelpBlock extends React.Component<HelpBlockProps> {
 
     if (tooltip) {
       return (
-        <span className={classes} {...props}>
-          <Icon icon="question-circle2" />
-        </span>
+        <Whisper placement="topEnd" speaker={<Tooltip>{children}</Tooltip>}>
+          <span className={classes} {...props}>
+            <Icon icon="question-circle2" />
+          </span>
+        </Whisper>
       );
     }
 
