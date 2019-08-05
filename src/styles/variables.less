@@ -549,9 +549,9 @@
 @nav-item-font-active-color: @H600;
 @nav-item-border-radius: 6px;
 @nav-item-default-hover-bg: @B200;
-@nav-item-hover-font-color: @B800;
+@nav-item-hover-font-color: @btn-default-hover-color;
 @nav-item-click-bg: @B200;
-@nav-item-click-font-color: @B900;
+@nav-item-click-font-color: @btn-default-color;
 @nav-item-active-font-color: @H700;
 @nav-item-disable-font-color: @B400;
 @nav-item-transition: color 0.3s linear, background-color 0.3s linear;
@@ -567,6 +567,7 @@
 @nav-subtle-waterline-width: 2px;
 @nav-subtle-waterline-default-color: @B050;
 @nav-subtle-waterline-active-color: @H700;
+@nav-subtle-hover-bg: @nav-item-default-hover-bg;
 @nav-subtle-default-waterline: @nav-subtle-waterline-width solid @nav-subtle-waterline-default-color;
 @nav-subtle-active-waterline: @nav-subtle-waterline-width solid @nav-subtle-default-waterline;
 @nav-subtle-content-transition: 0.3s ease-out;
@@ -624,13 +625,13 @@
 @sidenav-level6-retract: @sidenav-level2-retract + @sidenav-level-retract*4;
 @sidenav-collapse-transition-config: 0.2s ease-in;
 // ** Sidenav default
-@sidenav-deafult-bg: @B050;
-@sidenav-deafult-font-color: @nav-item-font-default-color;
-@sidenav-deafult-hover-font-color: @nav-item-hover-font-color;
-@sidenav-deafult-click-font-color: @nav-item-click-font-color;
-@sidenav-deafult-active-font-color: @nav-item-active-font-color;
-@sidenav-deafult-hover-bg: @nav-item-default-hover-bg;
-@sidenav-deafult-click-bg: @nav-item-click-bg;
+@sidenav-default-bg: @nav-bar-default-bg;
+@sidenav-default-font-color: @nav-item-font-default-color;
+@sidenav-default-hover-font-color: @nav-item-hover-font-color;
+@sidenav-default-click-font-color: @nav-item-click-font-color;
+@sidenav-default-active-font-color: @nav-item-active-font-color;
+@sidenav-default-hover-bg: @nav-item-default-hover-bg;
+@sidenav-default-click-bg: @nav-item-click-bg;
 // ** Sidenav inverse
 @sidenav-inverse-font-color: @B000;
 @sidenav-inverse-bg: @nav-bar-inverse-bg;
