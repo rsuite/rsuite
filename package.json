@@ -60,7 +60,7 @@
     "react-virtualized": "^9.21.0",
     "recompose": "^0.26.0",
     "rsuite-notification": "^3.0.4",
-    "rsuite-table": "^3.5.3",
+    "rsuite-table": "^3.5.5",
     "rsuite-utils": "^2.0.0-alpha.3",
     "schema-typed": "^1.0.0"
   },

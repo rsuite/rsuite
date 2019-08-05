@@ -83,7 +83,7 @@ export interface TableProps<RowKey = string | number | symbol, RowData = any>
   setRowHeight?: (rowData: RowData) => number;
 
   /** Custom Settings Row Height */
-  onRowClick?: (rowData: RowData) => void;
+  onRowClick?: (rowData: RowData, event: React.SyntheticEvent<any>) => void;
 
   /** Callback function for scroll bar scrolling */
   onScroll?: (scrollX: number, scrollY: number) => void;
