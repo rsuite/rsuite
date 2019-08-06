@@ -2,16 +2,13 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { on, DOMMouseMoveTracker, addStyle, getWidth, getHeight, getOffset } from 'dom-lib';
-
+import { DOMMouseMoveTracker, addStyle, getWidth, getHeight, getOffset } from 'dom-lib';
 import { getUnhandledProps, defaultProps, prefix } from '../utils';
 import Tooltip from '../Tooltip';
 import { SliderProps } from './Slider.d';
 
 interface SliderState {
   value: number;
-  barWidth: number;
-  barHeight: number;
   handleDown?: boolean;
 }
 
@@ -51,26 +48,16 @@ class Slider extends React.Component<SliderProps, SliderState> {
     super(props);
 
     this.state = {
-      value: this.checkValue(props.defaultValue, props),
-      barWidth: 0,
-      barHeight: 0
+      value: this.checkValue(props.defaultValue, props)
     };
 
     this.handleRef = React.createRef();
     this.barRef = React.createRef();
   }
 
-  componentDidMount() {
-    this.updateBar();
-    this.onWindowResizeListener = on(window, 'resize', _.debounce(this.handleWindowResize, 100));
-  }
-
   componentWillUnmount() {
     this.releaseMouseMoves();
-    this.onWindowResizeListener && this.onWindowResizeListener.off();
   }
-
-  onWindowResizeListener = null;
   getMouseMoveTracker() {
     return (
       this.mouseMoveTracker ||
@@ -131,13 +118,26 @@ class Slider extends React.Component<SliderProps, SliderState> {
     return value;
   }
 
+  getHeight() {
+    if (this.barRef.current) {
+      return getHeight(this.barRef.current);
+    }
+    return 0;
+  }
+
+  getWidth() {
+    if (this.barRef.current) {
+      return getWidth(this.barRef.current);
+    }
+    return 0;
+  }
+
   /**
    * 通过偏移量计算值
    * @param {number} offset 偏移量
    */
   calculateValue(offset: number) {
     const { step, vertical } = this.props;
-    const { barWidth, barHeight } = this.state;
     const count = this.getSplitCount();
 
     let value = 0;
@@ -147,8 +147,10 @@ class Slider extends React.Component<SliderProps, SliderState> {
     }
 
     if (vertical) {
+      const barHeight = this.getHeight();
       value = Math.round(offset / (barHeight / count)) * step;
     } else {
+      const barWidth = this.getWidth();
       value = Math.round(offset / (barWidth / count)) * step;
     }
 
@@ -211,17 +213,6 @@ class Slider extends React.Component<SliderProps, SliderState> {
     }
   };
 
-  handleWindowResize = () => {
-    this.updateBar();
-  };
-
-  updateBar() {
-    this.setState({
-      barWidth: getWidth(this.barRef.current),
-      barHeight: getHeight(this.barRef.current)
-    });
-  }
-
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderMark(mark: number, last?: boolean) {
@@ -242,30 +233,25 @@ class Slider extends React.Component<SliderProps, SliderState> {
   }
 
   renderGraduated() {
-    const { vertical, step, min } = this.props;
+    const { step, min } = this.props;
     const max = this.getMax();
     const count = this.getSplitCount();
-    const { barHeight } = this.state;
     const value = this.getValue();
     const graduatedItems = [];
     const pass = value / step - min / step;
     const active = Math.ceil(((value - min) / (max - min)) * count);
 
     for (let i = 0; i < count; i += 1) {
-      let style: React.CSSProperties = {};
       let classes = classNames({
         [this.addPrefix('pass')]: i <= pass,
         [this.addPrefix('active')]: i === active
       });
 
-      if (barHeight && vertical) {
-        style.height = barHeight / count;
-      }
       let mark = i * step + min;
       let last = i === count - 1;
 
       graduatedItems.push(
-        <li className={classes} style={style} key={i}>
+        <li className={classes} key={i}>
           {this.renderMark(mark)}
           {last && this.renderMark(max, true)}
         </li>
