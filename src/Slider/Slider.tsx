@@ -299,7 +299,7 @@ class Slider extends React.Component<SliderProps, SliderState> {
         ref={this.handleRef}
       >
         {tooltip && (
-          <Tooltip placement="top" className={this.addPrefix('tooltip')}>
+          <Tooltip className={classNames(this.addPrefix('tooltip'), 'placement-top')}>
             {renderTooltip ? renderTooltip(value) : value}
           </Tooltip>
         )}
