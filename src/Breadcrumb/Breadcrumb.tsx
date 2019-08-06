@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import setStatic from 'recompose/setStatic';
 
 import BreadcrumbItem from './BreadcrumbItem';
-import Icon from '../Icon';
 import { defaultProps, prefix } from '../utils';
 
 import { BreadcrumbProps } from './Breadcrumb.d';
@@ -18,7 +17,7 @@ class Breadcrumb extends React.Component<BreadcrumbProps> {
     classPrefix: PropTypes.string
   };
   static defaultProps = {
-    separator: <Icon icon="angle-right" />
+    separator: '/'
   };
 
   render() {
