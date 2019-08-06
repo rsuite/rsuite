@@ -76,7 +76,7 @@ class Panel extends React.Component<PanelProps, PanelState> {
     };
 
     const props: React.HTMLAttributes<HTMLDivElement> = {
-      id: `${id}`,
+      id: id ? `${id}` : null,
       className: this.addPrefix('collapse'),
       'aria-hidden': !this.isExpanded()
     };
