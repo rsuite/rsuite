@@ -24,7 +24,7 @@
     "lint": "npm run lint-ts && npm run lint-style",
     "tdd": "karma start",
     "test": "npm run format:check && npm run lint && NODE_ENV=coverage  karma start --single-run && npm run test-styles",
-    "test-styles": "node test/StylesSpec.js",
+    "test-styles": "node test/stylesSpec.js",
     "coveralls": "cat ./coverage/lcov/lcov.info | ./node_modules/.bin/coveralls",
     "prepublishOnly": "npm run build"
   },
