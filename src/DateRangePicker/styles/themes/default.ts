@@ -1,5 +1,5 @@
-import '../../../styles/core.less';
-import '../../../Picker/styles/index.less';
-import '../../../Calendar/styles/index.less';
-import '../../../DatePicker/styles/index.less';
+import '../../../styles/themes/default/core.less';
+import '../../../Picker/styles/themes/default';
+import '../../../Calendar/styles/themes/default';
+import '../../../DatePicker/styles/themes/default';
 import './default.less';

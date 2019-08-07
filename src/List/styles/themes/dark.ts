@@ -1,2 +1,2 @@
-import '../../../styles/themes/dark';
+import '../../../styles/themes/dark/core.less';
 import './dark.less';

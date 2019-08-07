@@ -1,3 +1,2 @@
-import '../../../styles/core.less';
-import '../../../CheckTreePicker/styles/index.less';
+import '../../../styles/themes/default/core.less';
 import './default.less';
