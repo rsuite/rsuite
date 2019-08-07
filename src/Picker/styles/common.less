@@ -30,7 +30,7 @@
   }
 
   &-disabled {
-    opacity: 0.3;
+    opacity: @btn-disabled-opacity;
   }
 
   &-toggle &-toggle-placeholder {
@@ -251,5 +251,13 @@
   /* stylelint-disable-next-line */ // This class name provide by Virtualized.
   .ReactVirtualized__Grid.ReactVirtualized__List:focus {
     outline: none;
+  }
+}
+
+// Make sure styles the same with input
+.@{ns}picker-default,
+.@{ns}picker-input {
+  &.@{ns}picker-disabled .@{ns}picker-toggle {
+    background: @input-bg-disabled !important;
   }
 }

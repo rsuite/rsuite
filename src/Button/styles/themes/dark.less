@@ -1,23 +1,29 @@
 @import '../common';
 
+.@{ns}btn-default,
+.@{ns}btn-primary,
+.@{ns}btn-subtle {
+  overflow: hidden;
+}
+
 // Button variants
 .button-primary-variant(@font-color; @primary-color) {
+  @color-event-light: color(~`palette('@{primary-color}', 300) `);
   @color-light: color(~`palette('@{primary-color}', 400) `);
   @color-dark: color(~`palette('@{primary-color}', 600) `);
   @color-darker: color(~`palette('@{primary-color}', 700) `);
-  @color-even-darker: color(~`palette('@{primary-color}', 900) `);
 
   color: @font-color;
   background-color: @color-darker;
-  .btn-icon-with-text(@color-even-darker);
+  .btn-icon-with-text(@color-dark);
 
   .btn-loading-reset(@font-color, @color-darker);
 
   &:focus,
   &.@{ns}btn-focus {
     color: @font-color;
-    background-color: @primary-color;
-    .btn-icon-with-text(@color-dark);
+    background-color: @color-dark;
+    .btn-icon-with-text(@primary-color);
   }
 
   &:hover {
@@ -25,8 +31,8 @@
   }
 
   &:not(.@{ns}btn-disabled):hover {
-    background-color: @primary-color;
-    .btn-icon-with-text(@color-dark);
+    background-color: @color-dark;
+    .btn-icon-with-text(@primary-color);
   }
 
   &:active,
@@ -34,14 +40,14 @@
   .@{ns}open > .@{ns}dropdown-toggle& {
     color: @font-color;
     background-color: @color-light;
-    .btn-icon-with-text(@color-dark);
+    .btn-icon-with-text(@color-event-light);
 
     &:hover,
     &:focus,
     &.focus {
       color: @font-color;
       background-color: @color-light;
-      .btn-icon-with-text(@color-dark);
+      .btn-icon-with-text(@color-event-light);
     }
   }
 
@@ -151,9 +157,52 @@
   }
 }
 
+// Use to hack button border in button-group set [justified].
+.btn-ghost-hack-variant(@border-color) {
+  @color-border-dark: color(~`palette('@{border-color}', 400) `);
+  @color-border-darker: color(~`palette('@{border-color}', 200) `);
+
+  &::before,
+  &::after {
+    background-color: @border-color;
+  }
+
+  &:focus,
+  &.@{ns}btn-focus {
+    &::before,
+    &::after {
+      background-color: @color-border-dark;
+    }
+  }
+
+  &:hover {
+    &::before,
+    &::after {
+      background-color: @color-border-dark;
+    }
+  }
+
+  &:active,
+  &.@{ns}btn-active {
+    &::before,
+    &::after {
+      background-color: @color-border-darker;
+    }
+
+    &:hover,
+    &:focus,
+    &.@{ns}btn-focus {
+      &::before,
+      &::after {
+        background-color: @color-border-darker;
+      }
+    }
+  }
+}
+
 .btn-link-variant(@color) {
-  @hover-color: color(~`palette('@{color}', 400)`);
-  @active-color: color(~`palette('@{color}', 300)`);
+  @hover-color: color(~`palette('@{color}', 400) `);
+  @active-color: color(~`palette('@{color}', 200) `);
 
   color: @color;
   font-weight: normal;
@@ -196,49 +245,6 @@
     &:focus {
       color: @color;
       text-decoration: none;
-    }
-  }
-}
-
-// Use to hack button border in button-group set [justified].
-.btn-ghost-hack-variant(@border-color) {
-  @color-border-dark: color(~`palette('@{border-color}', 400) `);
-  @color-border-darker: color(~`palette('@{border-color}', 200) `);
-
-  &::before,
-  &::after {
-    background-color: @border-color;
-  }
-
-  &:focus,
-  &.@{ns}btn-focus {
-    &::before,
-    &::after {
-      background-color: @color-border-dark;
-    }
-  }
-
-  &:hover {
-    &::before,
-    &::after {
-      background-color: @color-border-dark;
-    }
-  }
-
-  &:active,
-  &.@{ns}btn-active {
-    &::before,
-    &::after {
-      background-color: @color-border-darker;
-    }
-
-    &:hover,
-    &:focus,
-    &.@{ns}btn-focus {
-      &::before,
-      &::after {
-        background-color: @color-border-darker;
-      }
     }
   }
 }

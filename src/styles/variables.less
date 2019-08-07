@@ -73,7 +73,7 @@
 //## Font, line-height, and color for body text, headings, and more.
 
 @font-family-base: Avenir-Roman, Apple-System, Arial, Helvetica, 'PingFang SC', 'Hiragino Sans GB',
-  'Microsoft YaHei', STXihei, sans-serif;
+'Microsoft YaHei', STXihei, sans-serif;
 @font-family-icon: 'rsuite-icon-font';
 
 @font-size-large: 16px;
@@ -96,9 +96,7 @@
 @line-height-large: unit(@line-height-large-computed / @font-size-large); // ~1.375
 @line-height-base: unit(@line-height-computed / @font-size-base); // ~1.4285714285714286
 @line-height-small: unit(@line-height-computed / @font-size-small); // ~1.6666666666666667
-@line-height-extra-small: unit(
-  @line-height-computed / @font-size-extra-small
-); // ~1.6666666666666667
+@line-height-extra-small: unit(@line-height-computed / @font-size-extra-small); // ~1.6666666666666667
 
 //** By default, this inherits from the `<body>`.
 @headings-font-family: inherit;
@@ -174,6 +172,7 @@
 @table-loader-backdrop-color: @loader-backdrop-color;
 @table-loader-transition: 0.2s ease-in;
 @table-spanner-background: @table-head-background;
+@table-scrollbar-vertical-handle-background-color: fade(@table-scrollbar-background, 40);
 
 @icon-table-sense-width: 10px;
 @table-expand-icon-color: @B600;
@@ -182,6 +181,7 @@
 //
 @table-pagination-padding-vertical: 20px;
 @table-pagination-padding-horizontal: 20px;
+@table-pagination-font-color: @B600;
 
 //== Buttons
 //
@@ -276,7 +276,7 @@
 //** `<input>` background color
 @input-bg: #fff;
 //** `<input disabled>` background color
-@input-bg-disabled: @B050;
+@input-bg-disabled: @input-bg;
 
 //** Text color for `<input>`s
 @input-color: @B800;
@@ -416,7 +416,8 @@
 @toggle-checked-bg: @H500;
 @toggle-checked-hover-bg: @H600;
 //Disabled toggle checked background color
-@toggle-disabled-background-color: @H300;
+@toggle-disabled-default-background-color: @B050;
+@toggle-disabled-checked-background-color: @H100;
 @toggle-active-scale: 1.2;
 @toggle-transition: 0.2s ease-in-out;
 @toggle-md-height: 24px;
@@ -426,9 +427,7 @@
 @toggle-md-handle-diameter: @toggle-md-height - @toggle-md-handle-gap*2;
 @toggle-md-handle-bg: @B000;
 @toggle-md-inner-line-height-computed: @toggle-md-height;
-@toggle-md-inner-line-height: unit(
-  @toggle-md-inner-line-height-computed / @toggle-md-inner-font-size
-);
+@toggle-md-inner-line-height: unit(@toggle-md-inner-line-height-computed / @toggle-md-inner-font-size);
 // The same to button
 @toggle-md-inner-margin: @padding-base-vertical;
 
@@ -730,6 +729,8 @@
 @radio-bg: @B000;
 @radio-inner-checked-color: @B000;
 @radio-picker-active-color: @picker-selected-value-color;
+@radio-label-font-color: @B600;
+@radio-label-font-hover-color: @B800;
 
 //== Tooltips
 //
@@ -765,6 +766,7 @@
 @popover-max-width: 250px;
 //** Popover border-radius
 @popover-border-radius: 4px;
+@popover-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
 
 //** Popover arrow width
 @popover-arrow-width: 6px;
@@ -843,7 +845,7 @@
 //** Drawer backdrop background color
 @drawer-backdrop-bg: @modal-backdrop-bg;
 //** Drawer backdrop opacity
-@drawer-backdrop-opacity: 0.3; // 30%
+@drawer-backdrop-opacity: @modal-backdrop-opacity; // 30%
 //** Drawer title font-size
 @drawer-title-font-size: @font-size-large;
 //** Padding applied to the drawer content
@@ -928,7 +930,7 @@
 @notify-close-btn-font-size: 12px;
 @notify-close-btn-margin: 8px;
 @notify-close-button-content: @default-close-btn-content;
-@nofify-close-btn-color: @B600;
+@notify-close-btn-color: @B600;
 @notify-title-font-size: @font-size-large;
 @notify-title-icon-size: 24px;
 @notify-title-icon-margin: 10px;
@@ -1006,6 +1008,7 @@
 @uploader-picture-text-preview-side-length: 50px;
 @uploader-file-item-retry-icon-color: @B800;
 @uploader-picture-item-background: rgba(255, 255, 255, 0.8);
+@uploader-picture-item-btn-remove-background: @uploader-picture-item-background;
 
 //== Panels
 //
@@ -1087,7 +1090,7 @@
 @picker-content-min-width: 200px;
 @picker-search-bar-icon-width: @font-size-base;
 @picker-default-toggle-border-width: 1px;
-@picker-default-toggle-border-color: @B200;
+@picker-default-toggle-border-color: @input-border;
 @picker-default-toggle-hover-border-color: @H700;
 @picker-default-toggle-font-color: @B800;
 @picker-default-toggle-caret-color: @B600;
@@ -1160,6 +1163,7 @@
 @calendar-month-dropdown-year-active-color: @H700;
 @calendar-dropdown-top: 40px; // @calendar-picker-padding + content-height + gap
 @calendar-month-dropdown-bg: @dropdown-bg;
+@calendar-month-dropdown-border: @B200;
 @calendar-title-dropdown-bg: @dropdown-bg;
 @calendar-time-dropdown-column-title-bg: @B050;
 @calendar-time-dropdown-column-title-font-color: @B600;
@@ -1182,6 +1186,7 @@
 @calendar-panel-today-active-side-length: @line-height-computed;
 @calendar-panel-today-active-background-color: @H500;
 @calendar-table-cell-in-range-background: @H050;
+@calendar-toolbar-border-color: @B200;
 
 //== DateRange Picker
 @date-range-picker-header-padding-horizontal: 12px;

@@ -2,17 +2,13 @@
 
 //== Base
 //** Background color for `<body>`.
-@body-bg: @B900;
+@body-bg: @B800;
 //** Global text color on `<body>`.
 @text-color: @B050;
 //** border base color.
 @border-base-color: @B600;
 //** Background for the dropdown menu.
 @dropdown-bg: @B800;
-//** Hover state Font color for `<a>`.
-@link-hover-color: @H400;
-//** Active state font color for `<a>`.
-@link-active-color: @H300;
 
 //== Alert
 // Alternate colors
@@ -28,6 +24,9 @@
 //== Avatar
 @avatar-background: @B400;
 @avatar-content-color: @B000;
+
+//== Breadcrumb
+@breadcrumb-active-color: @B200;
 
 //== Buttons
 @btn-disabled-opacity: 0.4;
@@ -53,10 +52,10 @@
 
 // Subtle Button color set;
 @btn-subtle-color: @B200;
-@btn-subtle-hover-bg: @B500;
-@btn-subtle-default-hover-color: @B200;
-@btn-subtle-active-default-color: @B000;
+@btn-subtle-hover-bg: @B700;
+@btn-subtle-default-hover-color: @B050;
 @btn-subtle-active-default-bg: @B400;
+@btn-subtle-active-default-color: @B000;
 
 //== Calendar
 @calendar-panel-table-border-color: @B600;
@@ -66,20 +65,6 @@
 @cascader-search-panel-hover-color: @B000;
 @cascader-search-panel-hover-bg: @B600;
 @cascader-search-panel-highlight-word-color: @H500;
-
-//== Input
-//** Placeholder text color
-@input-color-placeholder: @B200;
-//** Text color for `<input>`
-@input-color: @B000;
-//** `<input>` border color
-@input-border: @B600;
-//** `<input>` background color
-@input-bg: @B800;
-//** `<input disabled>` background color
-@input-bg-disabled: @B700;
-//** Background color for textual input addons
-@input-group-addon-bg: @B700;
 
 //== Checkbox
 @checkbox-bg: @B800;
@@ -104,9 +89,14 @@
 @calendar-table-cell-week-number-color: @B000;
 @calendar-table-cell-content-selected-color: @H700;
 @calendar-right-btn-ok-bg: @H700;
+@calendar-table-cell-header-color: @B200;
+@calendar-month-dropdown-row-border-color: @B700;
+@calendar-table-cell-in-range-background: fade(@H900, 20);
+@calendar-toolbar-border-color: @B700;
+@calendar-month-dropdown-border: @B700;
 
 //== DateRangePicker
-@calendar-table-cell-in-range-background: fade(@H900, 20);
+@date-range-picker-inner-border: 1px solid @calendar-toolbar-border-color;
 
 //== Divider
 @divider-border-color: @B700;
@@ -119,11 +109,33 @@
 @dropdown-link-active-color: @H500;
 //** Active dropdown menu item background color.
 @dropdown-link-active-bg: fade(@H900, 20);
+@dropdown-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2), 0 4px 4px 3px rgba(0, 0, 0, 0.24);
+@dropdown-divider-bg: @divider-border-color;
 
 //== ErrorMessage
 @error-message-background-color: @error-color;
 @error-message-border-color: @error-color;
 @error-message-font-color: @B000;
+
+//== HelpBlock
+@help-block-color: @B200;
+
+//== Icon
+@icon-inverse: @B700;
+
+//== Input
+//** Placeholder text color
+@input-color-placeholder: @B200;
+//** Text color for `<input>`
+@input-color: @B000;
+//** `<input>` border color
+@input-border: @B600;
+//** `<input>` background color
+@input-bg: @B800;
+//** `<input disabled>` background color
+@input-bg-disabled: @B700;
+//** Background color for textual input addons
+@input-group-addon-bg: @B700;
 
 //== List
 @list-border-color: @B700;
@@ -154,20 +166,30 @@
 
 //== Modal
 @modal-content-bg: @B700;
+@modal-backdrop-opacity: 0.8; //80%
 
 //== Nav
 @nav-item-font-default-color: @B200;
+@nav-item-default-hover-bg: @btn-subtle-hover-bg;
+@nav-item-click-bg: @btn-subtle-active-default-bg;
 @nav-tab-default-bg: @B900;
-@nav-subtle-hover-bg: @B700;
 @nav-tab-waterline-color: @B600;
+@nav-subtle-hover-bg: @B700;
+@nav-subtle-waterline-default-color: @nav-tab-waterline-color;
 
 //== Navbar
 @nav-bar-default-bg: @B800;
 @nav-bar-default-font-color: @B200;
 @nav-bar-default-active-color: @H500;
+@nav-bar-subtle-bg: transparent;
+@nav-bar-subtle-font-color: @nav-bar-default-font-color;
+@nav-bar-subtle-font-active-color: @nav-bar-default-active-color;
+@nav-bar-subtle-hover-bg: @B700;
+@nav-bar-subtle-hover-font-color: @B050;
 
 //== Notification
 @notify-default-bg: @B600;
+@notify-close-btn-color: @B050;
 @notify-title-font-color: @B050;
 @notify-description-color: @B000;
 
@@ -185,17 +207,21 @@
 @picker-placeholder-color: @B200;
 @picker-default-toggle-font-color: @B200;
 @picker-default-toggle-caret-color: @picker-default-toggle-font-color;
+@picker-group-title-color: @B000;
+@picker-none-font-color: @B200;
 
 //== Placeholder
-@placeholder-bg: @B800;
+@placeholder-bg: transparent;
 @placeholder-holder-bg: @B700;
-@progress-info-text-color: @B000;
+@placeholder-active-bg: @B500;
 
 //== Popover
 @popover-bg: @B600;
+@popover-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 
 //== Progress
 @progress-bar-bg: @B700;
+@progress-info-text-color: @B000;
 
 //== Radio
 @radio-bg: @B800;
@@ -204,9 +230,12 @@
 @radio-checked-mark-color: @B800;
 //** Checkbox uncheck background
 @radio-disabled-color: @B500;
+@radio-inner-checked-color: @B800;
+@radio-label-font-color: @B200;
+@radio-label-font-hover-color: @B100;
 
 //== SideNav
-@sidenav-subtle-bg: @nav-bar-default-bg;
+@sidenav-subtle-bg: transparent;
 @sidenav-subtle-hover-bg: @sidenav-default-hover-bg;
 @sidenav-default-click-bg: @sidenav-subtle-hover-bg;
 
@@ -215,9 +244,11 @@
 @slider-bar-hover-bg: @B700;
 
 //== Step
+@steps-default-color: @B200;
+@steps-tail-default-color: @B200;
 @steps-bg: @B800;
 @steps-icon-process-color: @steps-bg;
-@steps-content-color: @B000;
+@steps-content-color: @B200;
 @steps-content-process-color: @B000;
 
 //== Table
@@ -225,9 +256,21 @@
 @table-head-font-color: @B050;
 @table-body-hover-background: @B600;
 @table-border-color: @B700;
+@table-scrollbar-handle-background: @B500;
+@table-scrollbar-background: @B700;
+@table-scrollbar-pressed-handle-background: @B400;
+@table-scrollbar-pressed-background: @B600;
+@table-scrollbar-vertical-handle-background-color: @table-scrollbar-background;
+@table-table-cell-fixed-shadow: 0 5px rgba(9, 9, 9, 0.99);
+@table-expand-icon-color: @B200;
+@table-pagination-font-color: @B200;
 
 //== Tooltip
 @tooltip-bg: @B500;
+
+//== Toggle
+@toggle-disabled-default-background-color: @B600;
+@toggle-disabled-checked-background-color: @H900;
 
 //== Tag
 @tag-default-background: @B600;
@@ -241,3 +284,4 @@
 @uploader-picture-background-color: @B600;
 @uploader-file-item-retry-icon-color: @B200;
 @uploader-picture-item-background: fade(@B600, 80);
+@uploader-picture-item-btn-remove-background: @B700;

@@ -163,13 +163,13 @@
   &-group-picker &-checker > label {
     .btn(base);
 
-    color: @B600;
+    color: @radio-label-font-color;
     transition: color 0.3s linear;
     padding: @padding-base-vertical - 1px @padding-base-horizontal - 1px;
 
     &:hover,
     &:active {
-      color: @B800;
+      color: @radio-label-font-hover-color;
     }
   }
 
@@ -183,6 +183,6 @@
   }
 
   &-group-picker &-disabled:not(&-checked) &-checker > label {
-    color: @B600;
+    color: @radio-label-font-color;
   }
 }
