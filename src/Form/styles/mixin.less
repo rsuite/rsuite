@@ -107,6 +107,7 @@
 
 .reset-input-group-children-size(@size-name) {
   @height: ~'input-height-@{size-name}';
+  @useable-height: @@height - 2px;
   @vertical: ~'padding-@{size-name}-vertical';
   @add-on-padding: ~'input-group-padding-for-add-on-@{size-name}';
 
@@ -116,11 +117,11 @@
 
   &.@{ns}input-group:not(.@{ns}input-group-inside) {
     > .@{ns}input {
-      height: @height;
+      height: @useable-height;
     }
 
     > .@{ns}input-group-addon {
-      height: @height;
+      height: @useable-height;
 
       > .@{ns}icon {
         font-size: inherit;

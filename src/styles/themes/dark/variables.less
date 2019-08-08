@@ -2,13 +2,11 @@
 
 //== Base
 //** Background color for `<body>`.
-@body-bg: @B800;
+@body-bg: #243867;
 //** Global text color on `<body>`.
 @text-color: @B050;
 //** border base color.
 @border-base-color: @B600;
-//** Background for the dropdown menu.
-@dropdown-bg: @B800;
 
 //== Alert
 // Alternate colors
@@ -60,6 +58,7 @@
 //== Calendar
 @calendar-panel-table-border-color: @B600;
 @calendar-table-cell-content-hover-bg: @B600;
+@calendar-panel-today-active-background-color: @H700;
 
 // == Cascader
 @cascader-search-panel-hover-color: @B000;
@@ -67,7 +66,6 @@
 @cascader-search-panel-highlight-word-color: @H500;
 
 //== Checkbox
-@checkbox-bg: @B800;
 @checkbox-default-border-color: @B400;
 //** Checkbox checked mark color
 @checkbox-checked-mark-color: @B800;
@@ -80,28 +78,30 @@
 @picker-tree-node-active-bg: @picker-select-menu-item-selected-bg;
 
 //== DatePicker
-@calendar-time-dropdown-column-title-bg: @B700;
+@calendar-time-dropdown-column-title-bg: @divider-border-color;
 @calendar-time-dropdown-column-title-font-color: @B200;
 @calendar-time-dropdown-column-cell-default-color: @B000;
 @calendar-time-dropdown-column-cell-hover-color: @B000;
 @calendar-time-dropdown-column-cell-hover-bg: @B600;
-@calendar-table-cell-week-number-bg: @B700;
+@calendar-time-dropdown-column-cell-active-bg: @H700;
+@calendar-table-cell-week-number-bg: @B900;
 @calendar-table-cell-week-number-color: @B000;
 @calendar-table-cell-content-selected-color: @H700;
 @calendar-right-btn-ok-bg: @H700;
 @calendar-table-cell-header-color: @B200;
-@calendar-month-dropdown-row-border-color: @B700;
-@calendar-table-cell-in-range-background: fade(@H900, 20);
-@calendar-toolbar-border-color: @B700;
-@calendar-month-dropdown-border: @B700;
+@calendar-table-cell-in-range-background: fade(@H900, 50);
+@calendar-month-dropdown-row-border-color: @divider-border-color;
+@calendar-toolbar-border-color: @divider-border-color;
+@calendar-month-dropdown-border: @divider-border-color;
 
 //== DateRangePicker
 @date-range-picker-inner-border: 1px solid @calendar-toolbar-border-color;
 
 //== Divider
-@divider-border-color: @B700;
+@divider-border-color: @B600;
 
 //== Dropdown
+@dropdown-bg: @B700;
 @dropdown-link-color: @text-color;
 @dropdown-link-hover-color: @text-color;
 @dropdown-link-hover-bg: @B600;
@@ -146,11 +146,13 @@
 
 //== Loader
 @loader-content-color: @B050;
+@loader-content-inverse-color: @B800;
 @loader-spin-ring-color: fade(@B050, 30);
 @loader-spin-ring-active-color: @B000;
 @loader-spin-ring-inverse-color: fade(@B050, 80);
 @loader-spin-ring-inverse-active-color: @B500;
 @loader-backdrop-color: fade(@B900, 83%);
+@loader-backdrop-inverse-color: fade(@B000, 90);
 
 //== Message
 // Alternate colors
@@ -165,14 +167,12 @@
 @message-header-color: @B000;
 
 //== Modal
-@modal-content-bg: @B700;
 @modal-backdrop-opacity: 0.8; //80%
 
 //== Nav
 @nav-item-font-default-color: @B200;
 @nav-item-default-hover-bg: @btn-subtle-hover-bg;
 @nav-item-click-bg: @btn-subtle-active-default-bg;
-@nav-tab-default-bg: @B900;
 @nav-tab-waterline-color: @B600;
 @nav-subtle-hover-bg: @B700;
 @nav-subtle-waterline-default-color: @nav-tab-waterline-color;
@@ -186,6 +186,9 @@
 @nav-bar-subtle-font-active-color: @nav-bar-default-active-color;
 @nav-bar-subtle-hover-bg: @B700;
 @nav-bar-subtle-hover-font-color: @B050;
+@nav-bar-inverse-bg: @H700;
+@nav-bar-inverse-hover-bg: @H600;
+@nav-bar-inverse-active-bg: @H400;
 
 //== Notification
 @notify-default-bg: @B600;
@@ -197,7 +200,7 @@
 @panel-border: 1px solid @B600;
 @panel-heading-color: @B000;
 @panel-font-color: @B050;
-@panel-split-line-color: @B600;
+@panel-split-line-color: @dropdown-divider-bg;
 
 //== Picker
 @picker-select-item-color: @B000;
@@ -209,6 +212,7 @@
 @picker-default-toggle-caret-color: @picker-default-toggle-font-color;
 @picker-group-title-color: @B000;
 @picker-none-font-color: @B200;
+@picker-value-count-background-color: @H700;
 
 //== Placeholder
 @placeholder-bg: transparent;
@@ -216,7 +220,6 @@
 @placeholder-active-bg: @B500;
 
 //== Popover
-@popover-bg: @B600;
 @popover-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 
 //== Progress
@@ -224,7 +227,6 @@
 @progress-info-text-color: @B000;
 
 //== Radio
-@radio-bg: @B800;
 @radio-default-border-color: @B400;
 //** Checkbox checked mark color
 @radio-checked-mark-color: @B800;

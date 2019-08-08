@@ -41,13 +41,12 @@ class StepItem extends React.Component<StepItemProps> {
       ...style
     };
 
-    const contentNode =
-      title || description ? (
-        <div className={addPrefix('content')}>
-          {title && <div className={addPrefix('title')}>{title}</div>}
-          {description && <div className={addPrefix('description')}>{description}</div>}
-        </div>
-      ) : null;
+    const contentNode = (
+      <div className={addPrefix('content')}>
+        {title && <div className={addPrefix('title')}>{title}</div>}
+        {description && <div className={addPrefix('description')}>{description}</div>}
+      </div>
+    );
 
     let iconNode = <span className={addPrefix(['icon', `icon-${status}`])}>{stepNumber}</span>;
 
