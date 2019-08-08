@@ -850,12 +850,12 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       nodes = filterData.map((dataItem, index) => this.renderNode(dataItem, index, layer));
 
       if (!nodes.some(v => v !== null)) {
-        return <div className={this.addTreePrefix('none')}>{locale.noResultsText}</div>;
+        return <div className={this.addPrefix('none')}>{locale.noResultsText}</div>;
       }
     } else {
       nodes = this.getFlattenTreeData(filterData).filter(n => n.showNode && n.visible);
       if (!nodes.length) {
-        return <div className={this.addTreePrefix('none')}>{locale.noResultsText}</div>;
+        return <div className={this.addPrefix('none')}>{locale.noResultsText}</div>;
       }
     }
 

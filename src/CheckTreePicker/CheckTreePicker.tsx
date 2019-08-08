@@ -1124,12 +1124,12 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       formattedNodes = this.getFormattedTree(filterData).map(node => this.renderNode(node, layer));
 
       if (!formattedNodes.some(v => v !== null)) {
-        return <div className={this.addTreePrefix('none')}>{locale.noResultsText}</div>;
+        return <div className={this.addPrefix('none')}>{locale.noResultsText}</div>;
       }
     } else {
       formattedNodes = this.getFlattenTreeData(filterData).filter(n => n.showNode && n.visible);
       if (!formattedNodes.length) {
-        return <div className={this.addTreePrefix('none')}>{locale.noResultsText}</div>;
+        return <div className={this.addPrefix('none')}>{locale.noResultsText}</div>;
       }
     }
 
