@@ -73,7 +73,7 @@
 //## Font, line-height, and color for body text, headings, and more.
 
 @font-family-base: Avenir-Roman, Apple-System, Arial, Helvetica, 'PingFang SC', 'Hiragino Sans GB',
-  'Microsoft YaHei', STXihei, sans-serif;
+'Microsoft YaHei', STXihei, sans-serif;
 @font-family-icon: 'rsuite-icon-font';
 
 @font-size-large: 16px;
@@ -96,9 +96,7 @@
 @line-height-large: unit(@line-height-large-computed / @font-size-large); // ~1.375
 @line-height-base: unit(@line-height-computed / @font-size-base); // ~1.4285714285714286
 @line-height-small: unit(@line-height-computed / @font-size-small); // ~1.6666666666666667
-@line-height-extra-small: unit(
-  @line-height-computed / @font-size-extra-small
-); // ~1.6666666666666667
+@line-height-extra-small: unit(@line-height-computed / @font-size-extra-small); // ~1.6666666666666667
 
 //** By default, this inherits from the `<body>`.
 @headings-font-family: inherit;
@@ -190,6 +188,7 @@
 //## For each of Bootstrap's buttons, define text, background and border color.
 
 @btn-font-weight: normal;
+@btn-disabled-opacity: 0.3;
 // Default Button color set;
 @btn-default-color: @text-color;
 @btn-default-bg: @B050;
@@ -429,9 +428,7 @@
 @toggle-md-handle-diameter: @toggle-md-height - @toggle-md-handle-gap*2;
 @toggle-md-handle-bg: @B000;
 @toggle-md-inner-line-height-computed: @toggle-md-height;
-@toggle-md-inner-line-height: unit(
-  @toggle-md-inner-line-height-computed / @toggle-md-inner-font-size
-);
+@toggle-md-inner-line-height: unit(@toggle-md-inner-line-height-computed / @toggle-md-inner-font-size);
 // The same to button
 @toggle-md-inner-margin: @padding-base-vertical;
 
