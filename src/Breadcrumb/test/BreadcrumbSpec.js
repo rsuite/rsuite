@@ -1,31 +1,25 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-
+import { getDOMNode, getInstance } from '@test/testUtils';
 import Breadcrumb from '../Breadcrumb';
 
 describe('Breadcrumb', () => {
   it('Should apply id to the wrapper ol element', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Breadcrumb id="custom-id" />);
-
+    const instance = getInstance(<Breadcrumb id="custom-id" />);
     const olNode = ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'ol');
 
     assert.equal(olNode.id, 'custom-id');
   });
 
   it('Should have breadcrumb class', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Breadcrumb />);
+    const instance = getInstance(<Breadcrumb />);
     const olNode = ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'ol');
     assert.include(olNode.className, 'breadcrumb');
   });
 
   it('Should have custom classes', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <Breadcrumb className="custom-one custom-two" />
-    );
-
-    const olNode = findDOMNode(instance);
-    const classes = olNode.className;
+    const instance = getDOMNode(<Breadcrumb className="custom-one custom-two" />);
+    const classes = instance.className;
 
     assert.include(classes, 'breadcrumb');
     assert.include(classes, 'custom-one');
@@ -33,59 +27,55 @@ describe('Breadcrumb', () => {
   });
 
   it('Should have a navigation role', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Breadcrumb />);
+    const instance = getDOMNode(<Breadcrumb />);
 
-    const olNode = findDOMNode(instance);
-    assert.equal(olNode.getAttribute('role'), 'navigation');
+    assert.equal(instance.getAttribute('role'), 'navigation');
   });
 
   it('Should have an aria-label in ol', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Breadcrumb />);
+    const instance = getDOMNode(<Breadcrumb />);
 
-    const olNode = findDOMNode(instance);
-    assert.equal(olNode.getAttribute('aria-label'), 'breadcrumbs');
+    assert.equal(instance.getAttribute('aria-label'), 'breadcrumbs');
   });
 
   it('Should have a default separator', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <Breadcrumb>
         <Breadcrumb.Item>1</Breadcrumb.Item>
         <Breadcrumb.Item>2</Breadcrumb.Item>
       </Breadcrumb>
     );
 
-    const olNode = findDOMNode(instance);
-    assert.equal(olNode.querySelectorAll('li')[1].className, 'rs-breadcrumb-separator');
-    assert.equal(olNode.querySelectorAll('li')[1].childNodes[0].tagName, 'I');
+    assert.equal(instance.querySelectorAll('li')[1].className, 'rs-breadcrumb-separator');
+    assert.equal(instance.querySelectorAll('li')[1].innerText, '/');
   });
 
   it('Should have a custom separator', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <Breadcrumb separator={<span>-</span>}>
         <Breadcrumb.Item>1</Breadcrumb.Item>
         <Breadcrumb.Item>2</Breadcrumb.Item>
       </Breadcrumb>
     );
 
-    const olNode = findDOMNode(instance);
-    assert.equal(olNode.querySelectorAll('li')[1].className, 'rs-breadcrumb-separator');
-    assert.equal(olNode.querySelectorAll('li')[1].childNodes[0].tagName, 'SPAN');
-    assert.equal(olNode.querySelectorAll('li')[1].childNodes[0].innerText, '-');
+    assert.equal(instance.querySelectorAll('li')[1].className, 'rs-breadcrumb-separator');
+    assert.equal(instance.querySelectorAll('li')[1].childNodes[0].tagName, 'SPAN');
+    assert.equal(instance.querySelectorAll('li')[1].childNodes[0].innerText, '-');
   });
 
   it('Should have a custom className', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Breadcrumb className="custom" />);
-    assert.include(findDOMNode(instance).className, 'custom');
+    const instance = getDOMNode(<Breadcrumb className="custom" />);
+    assert.include(instance.className, 'custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = ReactTestUtils.renderIntoDocument(<Breadcrumb style={{ fontSize }} />);
-    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
+    const instance = getDOMNode(<Breadcrumb style={{ fontSize }} />);
+    assert.equal(instance.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Breadcrumb classPrefix="custom-prefix" />);
-    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+    const instance = getDOMNode(<Breadcrumb classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

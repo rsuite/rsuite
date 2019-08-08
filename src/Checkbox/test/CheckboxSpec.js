@@ -1,5 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import Checkbox from '../Checkbox';
 import { getDOMNode } from '@test/testUtils';
