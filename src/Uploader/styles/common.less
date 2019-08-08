@@ -92,7 +92,7 @@
         font-family: @font-family-icon;
         content: @uploader-file-item-icon-content;
         font-style: normal;
-        color: @B800;
+        color: @uploader-default-font-color;
         font-size: @uploader-file-item-icon-font-size;
         line-height: unit(@line-height-computed / @uploader-file-item-icon-font-size);
       }
@@ -256,7 +256,7 @@
       height: @uploader-picture-side-length;
       text-align: center;
       z-index: @zindex-uploader-picture-error-wrapper;
-      background-color: rgba(255, 255, 255, 0.8);
+      background-color: @uploader-picture-item-background;
       cursor: default;
       color: @error-color;
       padding-top: 14px;
@@ -284,7 +284,7 @@
       height: @uploader-picture-remove-button-radius;
       line-height: @uploader-picture-remove-button-radius;
       text-align: center;
-      background-color: rgba(255, 255, 255, 0.8);
+      background-color: @uploader-picture-item-btn-remove-background;
       border-radius: 50%;
       visibility: hidden;
       opacity: 0;
@@ -317,7 +317,7 @@
       width: @uploader-picture-side-length;
       height: @uploader-picture-side-length;
       line-height: @uploader-picture-side-length;
-      background-color: rgba(255, 255, 255, 0.8);
+      background-color: @uploader-picture-item-background;
       position: absolute;
       top: 0;
       left: 0;
@@ -493,7 +493,7 @@
       width: @uploader-picture-text-preview-side-length;
       height: @uploader-picture-text-preview-side-length;
       z-index: 1;
-      background-color: rgba(255, 255, 255, 0.8);
+      background-color: @uploader-picture-item-background;
       text-align: center;
       line-height: 50px;
 

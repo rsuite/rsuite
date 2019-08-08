@@ -46,25 +46,29 @@
 
 .input-lg() {
   .input-size(
-    @padding-large-vertical; @padding-base-input-horizontal; @font-size-large; @line-height-large; @input-border-radius
+    @padding-large-vertical; @padding-base-input-horizontal; @font-size-large; @line-height-large;
+      @input-border-radius
   );
 }
 
 .input-md() {
   .input-size(
-    @padding-base-vertical; @padding-base-input-horizontal; @font-size-base; @line-height-base; @input-border-radius
+    @padding-base-vertical; @padding-base-input-horizontal; @font-size-base; @line-height-base;
+      @input-border-radius
   );
 }
 
 .input-sm() {
   .input-size(
-    @padding-small-vertical; @padding-base-input-horizontal; @font-size-base; @line-height-base; @input-border-radius
+    @padding-small-vertical; @padding-base-input-horizontal; @font-size-base; @line-height-base;
+      @input-border-radius
   );
 }
 
 .input-xs() {
   .input-size(
-    @padding-extra-small-vertical; @padding-base-input-horizontal; @font-size-extra-small; @line-height-extra-small; @input-border-radius
+    @padding-extra-small-vertical; @padding-base-input-horizontal; @font-size-extra-small;
+      @line-height-extra-small; @input-border-radius
   );
 }
 
@@ -103,9 +107,9 @@
 
 .reset-input-group-children-size(@size-name) {
   @height: ~'input-height-@{size-name}';
-  @useable-height: @@height - @input-border-width*2;
+  @useable-height: @@height - 2px;
   @vertical: ~'padding-@{size-name}-vertical';
-  @add-on-padding: ~'input-group-paading-for-add-on-@{size-name}';
+  @add-on-padding: ~'input-group-padding-for-add-on-@{size-name}';
 
   &.@{ns}input-group-inside > .@{ns}input {
     padding-right: @@add-on-padding;

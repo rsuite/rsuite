@@ -1,2 +1,2 @@
-import '../../../styles/core.less';
-import '../../../Grid/styles/index.less';
+import '../../../styles/themes/default/core.less';
+import '../../../Grid/styles/themes/default';

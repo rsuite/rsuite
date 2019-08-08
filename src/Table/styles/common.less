@@ -232,7 +232,7 @@
   &-column-resize-spanner {
     .column-resize-spanner;
 
-    border-left: @table-column-resize-spanner-gap-width solid @B000;
+    border-left: @table-column-resize-spanner-gap-width solid @table-spanner-background;
     box-sizing: content-box;
     margin-left: -1 * @table-column-resize-spanner-gap-width;
 
@@ -414,7 +414,7 @@
     width: @table-scrollbar-width;
     // Reserve scroll bar position.
     bottom: @table-scrollbar-width;
-    background-color: fade(@table-scrollbar-background, 40);
+    background-color: @table-scrollbar-vertical-handle-background-color;
   }
 
   &-vertical &-handle {

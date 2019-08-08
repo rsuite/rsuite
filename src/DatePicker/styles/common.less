@@ -21,7 +21,7 @@
   .clearfix;
 
   padding: @calendar-picker-padding;
-  border-top: 1px solid @B200;
+  border-top: 1px solid @calendar-toolbar-border-color;
 
   &-ranges {
     display: inline-block;
@@ -48,7 +48,7 @@
         content: '';
         width: 1px;
         height: 20px;
-        background-color: @B200;
+        background-color: @calendar-toolbar-border-color;
         position: absolute;
         top: 0;
         right: 0;
@@ -101,5 +101,39 @@
     .@{ns}@{calendar-picker-prefix} {
       height: 286px;
     }
+  }
+}
+
+// In picker menu
+.@{ns}picker-menu .@{ns}@{calendar-picker-prefix} {
+  width: @calendar-header-width;
+  // To make sure <Calendar/> horizontal align at center when toolbar  width is so long.
+  display: block;
+  margin: 0 auto;
+
+  .@{clpns}-month-dropdown-cell-content,
+  .@{clpns}-table-cell-content {
+    width: @calendar-in-menu-content-side-length;
+    height: @calendar-in-menu-content-side-length;
+  }
+
+  .@{clpns}-table-header-row .@{clpns}-table-cell-content {
+    height: 24px;
+    padding-top: 0;
+  }
+
+  .@{clpns}-table-cell-content {
+    padding-left: 0;
+    padding-right: 0;
+    display: inline-block;
+  }
+
+  .@{clpns}-month-dropdown-scroll {
+    height: 227px;
+  }
+
+  .@{clpns}-time-dropdown-column > ul {
+    height: 214px;
+    padding-bottom: 184px;
   }
 }

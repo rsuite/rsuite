@@ -1,3 +1,2 @@
-import '../../../styles/core.less';
-import '../../../Checkbox/styles/common.less';
+import '../../../styles/themes/default/core.less';
 import './default.less';

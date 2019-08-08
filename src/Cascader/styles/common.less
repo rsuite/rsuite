@@ -110,12 +110,21 @@
     &:hover,
     &:focus,
     &:hover:focus {
-      color: @picker-select-menu-item-selected-color;
+      //color: @picker-select-menu-item-selected-color;
       background-color: @picker-select-menu-item-selected-bg;
     }
 
     .@{cspns}-menu-caret {
       color: @text-color;
+    }
+  }
+
+  &&-active {
+    &,
+    &:hover,
+    &:focus,
+    &:hover:focus {
+      color: @picker-select-menu-item-selected-color;
     }
   }
 

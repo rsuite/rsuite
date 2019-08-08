@@ -200,15 +200,15 @@
 // Tab Nav
 .@{ns}nav-tabs {
   //Default style
-  .@{ns}nav-item > .@{ns}nav-item-content {
-    background-color: @nav-tab-default-bg;
-  }
+  //.@{ns}nav-item > .@{ns}nav-item-content {
+  //  background-color: @nav-tab-default-bg;
+  //}
 
   //:hover :active :focus
   .@{ns}nav-item:not(.@{ns}nav-item-active):not(.@{ns}nav-item-disabled) > .@{ns}nav-item-content {
     &:hover,
     &:focus {
-      background: @nav-item-default-hover-bg;
+      background: @nav-subtle-hover-bg;
     }
 
     &:active {
@@ -293,6 +293,7 @@
     .@{ns}nav-waterline {
       border-top: @nav-subtle-default-waterline;
     }
+
     // Active item
     .@{ns}nav-item {
       > .@{ns}nav-item-content {

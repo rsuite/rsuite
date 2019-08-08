@@ -38,6 +38,7 @@
     .@{ns}steps-item-status-error & {
       .@{ns}steps-item-icon {
         position: relative;
+        text-indent: -9999px;
 
         &::before {
           .icon-font;
@@ -51,6 +52,7 @@
           position: absolute;
           top: 0;
           left: 0;
+          text-indent: 0;
         }
       }
     }
@@ -112,7 +114,7 @@
 // Item content
 // --------------------------
 .@{ns}steps-item-content {
-  color: @steps-default-color;
+  color: @steps-content-color;
   display: inline-block;
   // Change static to relative, Make `z-index` more than Tail line
   position: relative;
@@ -131,7 +133,6 @@
   font-size: @steps-title-font-size;
   line-height: @steps-title-line-height;
   padding-right: @steps-icon-spacing;
-  background: @steps-bg;
   display: inline-block;
 }
 
@@ -140,7 +141,8 @@
   margin-top: @steps-description-margin-top;
 }
 
-.@{ns}steps-item-tail {
+.@{ns}steps-item-tail,
+.@{ns}steps-item-content::after {
   position: absolute;
   border-color: @steps-tail-default-color;
 
@@ -173,7 +175,7 @@
       flex-shrink: 0;
 
       // The last item hidden tail line
-      .@{ns}steps-item-tail {
+      .@{ns}steps-item-content::after {
         display: none;
       }
     }
@@ -185,19 +187,20 @@
       .@{ns}steps-item-icon-wrapper {
         left: @steps-item-spacing;
       }
-
-      .@{ns}steps-item-tail {
-        left: @steps-icon-space-width + @steps-item-spacing;
-      }
     }
   }
 
-  .@{ns}steps-item-tail {
-    top: @steps-icon-diameter / 2;
-    left: @steps-icon-space-width;
-    width: 100%;
-    border-top-width: 1px;
-    border-top-style: solid;
+  .@{ns}steps-item-content {
+    height: @steps-title-font-size * @steps-title-line-height;
+
+    &::after {
+      content: '';
+      top: @steps-icon-diameter / 2;
+      left: 100%;
+      width: 9999px;
+      border-top-width: 1px;
+      border-top-style: solid;
+    }
   }
 }
 
@@ -240,6 +243,10 @@
 
   &.@{ns}steps-vertical .@{ns}steps-item-tail {
     left: @small-steps-icon-diameter / 2;
+  }
+
+  &.@{ns}steps-horizontal .@{ns}steps-item-content::after {
+    top: 12px;
   }
 
   .@{ns}steps-item {

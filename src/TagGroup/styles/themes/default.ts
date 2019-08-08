@@ -1,1 +1,1 @@
-// This file use for babel-preset-rsuite
+import '../../../styles/themes/default/core.less';

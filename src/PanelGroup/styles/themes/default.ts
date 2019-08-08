@@ -1,2 +1,2 @@
-import '../../../styles/core.less';
-import '../../../Panel/styles/index.less';
+import '../../../styles/themes/default/core.less';
+import '../../../Panel/styles/themes/default';

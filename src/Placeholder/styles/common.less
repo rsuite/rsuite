@@ -1,5 +1,4 @@
 @import '../../styles/common';
-@import "./mixin";
 
 //
 // Placeholder
@@ -7,10 +6,9 @@
 
 .@{ns}placeholder {
   display: flex;
-  background-color: @placeholder-bg;
 
   &-active {
-    .placeholder-active-animation();
+    animation: placeholder-active 2s ease-in-out infinite;
   }
 
   &-paragraph {

@@ -18,8 +18,6 @@
   }
 
   &-toggle-custom.@{ns}btn {
-    background-color: transparent !important;
-
     .@{ns}ripple-pond {
       display: none !important;
     }
@@ -30,13 +28,14 @@
   }
 
   &-disabled {
-    opacity: 0.3;
+    opacity: @btn-disabled-opacity;
   }
 
   &-toggle &-toggle-placeholder {
     color: @picker-placeholder-color;
   }
 
+  &-has-value .@{ns}btn &-toggle-value,
   &-has-value &-toggle &-toggle-value {
     color: @picker-selected-value-color;
   }
@@ -81,7 +80,10 @@
 
     padding: @padding-vertical @padding-horizontal;
   }
+}
 
+.@{ns}btn,
+.@{ns}picker-toggle {
   .@{ns}picker-default:not(.@{ns}picker-disabled) & {
     &:hover,
     &.active {
@@ -226,7 +228,8 @@
       .default-input;
 
       min-width: @picker-content-min-width;
-      padding-right: @picker-search-bar-icon-width + (@padding-base-input-horizontal - @input-border-width) * 2;
+      padding-right: @picker-search-bar-icon-width +
+        (@padding-base-input-horizontal - @input-border-width) * 2;
     }
 
     &::after {
@@ -251,5 +254,19 @@
   /* stylelint-disable-next-line */ // This class name provide by Virtualized.
   .ReactVirtualized__Grid.ReactVirtualized__List:focus {
     outline: none;
+  }
+}
+
+// Make sure styles the same with <Input>
+.@{ns}picker-default,
+.@{ns}picker-input {
+  .@{ns}btn,
+  .@{ns}picker-toggle {
+    background: @input-bg !important;
+  }
+
+  &.@{ns}picker-disabled .@{ns}picker-toggle,
+  &.@{ns}picker-disabled .@{ns}btn {
+    background: @input-bg-disabled !important;
   }
 }

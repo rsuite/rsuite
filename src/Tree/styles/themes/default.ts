@@ -1,2 +1,2 @@
-import '../../../styles/core.less';
-import '../../../TreePicker/styles/index.less';
+import '../../../styles/themes/default/core.less';
+import '../../../TreePicker/styles/themes/default';

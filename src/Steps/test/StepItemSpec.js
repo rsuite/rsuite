@@ -9,6 +9,11 @@ describe('StepItem', () => {
     assert.equal(instance.className, 'rs-steps-item');
   });
 
+  it('Should render a content dom', () => {
+    const instance = getDOMNode(<StepItem />);
+    assert.equal(instance.querySelectorAll('.rs-steps-item-content').length, 1);
+  });
+
   it('Should have a status', () => {
     const instance = getDOMNode(<StepItem status="process" />);
     assert.ok(instance.className.match(/\brs-steps-item-status-process\b/));
