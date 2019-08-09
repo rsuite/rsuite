@@ -187,6 +187,7 @@
 //
 //## For each of Bootstrap's buttons, define text, background and border color.
 
+@btn-ripple-background-color: rgba(0, 0, 0, 0.2);
 @btn-font-weight: normal;
 @btn-disabled-opacity: 0.3;
 // Default Button color set;
@@ -1189,7 +1190,7 @@
 @calendar-panel-border-radius: 6px;
 @calendar-panel-today-active-side-length: @line-height-computed;
 @calendar-panel-today-active-background-color: @H500;
-@calendar-table-cell-in-range-background: @H050;
+@calendar-table-cell-in-range-background: fade(@H100, 50);
 @calendar-toolbar-border-color: @B200;
 
 //== DateRange Picker
