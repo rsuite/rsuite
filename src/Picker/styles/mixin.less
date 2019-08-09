@@ -187,6 +187,15 @@
   }
 }
 
+.date-picker-button-size(@size) {
+  @padding-name: 'padding-@{size}-vertical';
+  @padding-vertical: @@padding-name;
+
+  .@{ns}picker-default & {
+    .padding-vertical(@padding-vertical - @picker-default-toggle-border-width);
+  }
+}
+
 .tag-picker-search-input-size(@padding-vertical; @padding-horizontal; @font-size; @line-height;) {
   .@{ns}picker-input:not(.@{ns}picker-tag) & ~ .@{ns}picker-tag-wrapper .@{ns}picker-search-input {
     padding: @padding-vertical @padding-horizontal;
@@ -244,26 +253,33 @@
     padding-bottom: @padding-extra-small-vertical - 1px;
 
     .@{ns}tag {
-      margin-top: @padding-extra-small-vertical;
+      margin-top: 1px;
+    }
+
+    // Adjust search-input size the same with button
+    .@{ns}picker-search-input {
+      .padding-vertical(1px);
     }
   }
 }
 
 .input-picker-input-sizes() {
+  @border-width: 2 * @picker-default-toggle-border-width;
+
   .@{ns}picker-toggle-custom.@{ns}btn-lg {
-    height: @line-height-computed + @padding-large-vertical*2;
+    height: @line-height-computed + @padding-large-vertical*2 - @border-width;
   }
 
   .@{ns}picker-toggle-custom.@{ns}btn-md {
-    height: @line-height-computed + @padding-base-vertical*2;
+    height: @line-height-computed + @padding-base-vertical*2 - @border-width;
   }
 
   .@{ns}picker-toggle-custom.@{ns}btn-sm {
-    height: @line-height-computed + @padding-small-vertical*2;
+    height: @line-height-computed + @padding-small-vertical*2 - @border-width;
   }
 
   .@{ns}picker-toggle-custom.@{ns}btn-xs {
-    height: @line-height-computed + @padding-extra-small-vertical*2;
+    height: @line-height-computed + @padding-extra-small-vertical*2 - @border-width;
   }
 }
 
