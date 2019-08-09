@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { hasClass } from 'dom-lib';
 import { reactToString } from 'rsuite-utils/lib/utils';
 import { defaultProps, prefix } from '../utils';
 import {
@@ -11,6 +10,8 @@ import {
   TREE_NODE_ROOT_PADDING
 } from '../constants';
 
+import DropdownMenuCheckItem from '../Picker/DropdownMenuCheckItem';
+
 export interface TreeCheckNodeProps {
   classPrefix?: string;
   className?: string;
@@ -19,7 +20,7 @@ export interface TreeCheckNodeProps {
   label?: any;
   layer?: number;
   value?: any;
-  active?: boolean;
+  focus?: boolean;
   expand?: boolean;
   nodeData?: any;
   disabled?: boolean;
@@ -42,7 +43,7 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
     label: PropTypes.any,
     layer: PropTypes.number,
     value: PropTypes.any,
-    active: PropTypes.bool,
+    focus: PropTypes.bool,
     expand: PropTypes.bool,
     nodeData: PropTypes.object,
     disabled: PropTypes.bool,
@@ -85,18 +86,11 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
     onTreeToggle && onTreeToggle(nodeData, layer, event);
   };
 
-  handleSelect = (event: React.SyntheticEvent<any>) => {
+  handleSelect = (_value: any, event: React.SyntheticEvent<any>, _checked: boolean) => {
     const { onSelect, disabled, uncheckable, nodeData, checkState } = this.props;
 
     if (disabled || uncheckable) {
       return;
-    }
-
-    // 如果点击的是展开 icon 就 return
-    if (event.target instanceof HTMLElement) {
-      if (hasClass(event.target.parentNode, this.addPrefix('expand-icon-wrapper'))) {
-        return;
-      }
     }
 
     let isChecked = false;
@@ -107,8 +101,12 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
     if (checkState === CHECK_STATE.CHECK) {
       isChecked = false;
     }
-    nodeData.check = isChecked;
-    onSelect && onSelect(nodeData, event);
+
+    const nextNodeData = {
+      ...nodeData,
+      check: isChecked
+    };
+    onSelect && onSelect(nextNodeData, event);
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
@@ -142,32 +140,33 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
   };
 
   renderLabel = () => {
-    const { nodeData, onRenderTreeNode, label, layer, disabled, uncheckable } = this.props;
-    const input = (
-      <span className={this.addPrefix('input-wrapper')}>
-        <input
-          className={this.addPrefix('input')}
-          type="checkbox"
-          disabled={disabled}
-          onChange={this.handleSelect}
-        />
-        <span className={this.addPrefix('inner')} />
-      </span>
-    );
-    let custom = typeof onRenderTreeNode === 'function' ? onRenderTreeNode(nodeData) : label;
+    const {
+      nodeData,
+      focus,
+      onRenderTreeNode,
+      label,
+      layer,
+      disabled,
+      uncheckable,
+      checkState
+    } = this.props;
+
     return (
-      <span
-        role="button"
-        tabIndex={-1}
-        className={this.addPrefix('label')}
-        title={this.getTitle()}
+      <DropdownMenuCheckItem
+        componentClass="div"
+        active={checkState === CHECK_STATE.CHECK}
+        indeterminate={checkState === CHECK_STATE.INDETERMINATE}
+        focus={focus}
+        checkable={!uncheckable}
+        disabled={disabled}
         data-layer={layer}
         data-key={nodeData.refKey}
-        onClick={this.handleSelect}
+        className={this.addPrefix('label')}
+        title={this.getTitle()}
+        onSelect={this.handleSelect}
       >
-        {!uncheckable ? input : null}
-        {custom}
-      </span>
+        {typeof onRenderTreeNode === 'function' ? onRenderTreeNode(nodeData) : label}
+      </DropdownMenuCheckItem>
     );
   };
 
@@ -177,20 +176,14 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
       className,
       classPrefix,
       visible,
-      active,
       layer,
       disabled,
-      checkState,
       allUncheckable,
       innerRef
     } = this.props;
 
     const classes = classNames(className, classPrefix, {
       'text-muted': disabled,
-      [this.addPrefix('indeterminate')]: checkState === CHECK_STATE.INDETERMINATE,
-      [this.addPrefix('checked')]: checkState === CHECK_STATE.CHECK,
-      [this.addPrefix('disabled')]: disabled,
-      [this.addPrefix('active')]: active,
       [this.addPrefix('all-uncheckable')]: !!allUncheckable
     });
 

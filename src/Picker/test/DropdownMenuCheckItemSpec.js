@@ -7,42 +7,34 @@ import DropdownMenuItem from '../DropdownMenuCheckItem';
 describe('picker - DropdownMenuCheckItem', () => {
   it('Should output a li', () => {
     const Title = 'Title';
-    const instance = getDOMNode(
-      <DropdownMenuItem classPrefix="item" title="title">
-        {Title}
-      </DropdownMenuItem>
-    );
+    const instance = getDOMNode(<DropdownMenuItem title="title">{Title}</DropdownMenuItem>);
 
     assert.equal(instance.tagName, 'LI');
-    assert.include(instance.querySelector('label').className, 'item');
     assert.equal(instance.innerText, Title);
   });
 
   it('Should be active', () => {
-    const instance = getDOMNode(<DropdownMenuItem classPrefix="item" title="title" active />);
+    const instance = getDOMNode(<DropdownMenuItem title="title" active />);
 
-    assert.include(instance.querySelector('label').className, 'active');
+    assert.include(instance.querySelector('.rs-checkbox').className, 'rs-checkbox-checked');
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<DropdownMenuItem classPrefix="item" title="title" disabled />);
+    const instance = getDOMNode(<DropdownMenuItem title="title" disabled />);
 
-    assert.include(instance.querySelector('label').className, 'disabled');
+    assert.include(instance.querySelector('.rs-checkbox').className, 'rs-checkbox-disabled');
   });
 
   it('Should be focus', () => {
-    const instance = getDOMNode(<DropdownMenuItem classPrefix="item" title="title" focus />);
-
-    assert.include(instance.querySelector('label').className, 'focus');
+    const instance = getDOMNode(<DropdownMenuItem title="title" focus />);
+    assert.include(instance.querySelector('.rs-checkbox').className, 'item-focus');
   });
 
   it('Should call onSelect callback', done => {
     const doneOp = () => {
       done();
     };
-    const instance = getDOMNode(
-      <DropdownMenuItem classPrefix="item" title="title" onSelect={doneOp} />
-    );
+    const instance = getDOMNode(<DropdownMenuItem title="title" onSelect={doneOp} />);
 
     ReactTestUtils.Simulate.change(instance.querySelector('input'));
   });
@@ -51,11 +43,9 @@ describe('picker - DropdownMenuCheckItem', () => {
     const doneOp = () => {
       done();
     };
-    const instance = getDOMNode(
-      <DropdownMenuItem classPrefix="item" title="title" onKeyDown={doneOp} />
-    );
+    const instance = getDOMNode(<DropdownMenuItem title="title" onKeyDown={doneOp} />);
 
-    ReactTestUtils.Simulate.keyDown(instance.querySelector('label'));
+    ReactTestUtils.Simulate.keyDown(instance.querySelector('input'));
   });
 
   it('Should call onCheck callback', () => {
@@ -63,16 +53,10 @@ describe('picker - DropdownMenuCheckItem', () => {
     const onCheckeSpy = sinon.spy();
 
     const instance = getDOMNode(
-      <DropdownMenuItem
-        classPrefix="item"
-        title="title"
-        onCheck={onCheckeSpy}
-        onSelectItem={onSelectSpy}
-        labelComponentClass="div"
-      />
+      <DropdownMenuItem title="title" onCheck={onCheckeSpy} onSelectItem={onSelectSpy} />
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.item-wrapper'));
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-checkbox-wrapper'));
 
     assert.ok(onCheckeSpy.calledOnce);
     assert.ok(onSelectSpy.calledOnce);
@@ -82,31 +66,19 @@ describe('picker - DropdownMenuCheckItem', () => {
     const doneOp = () => {
       done();
     };
-    const instance = getDOMNode(
-      <DropdownMenuItem
-        classPrefix="item"
-        title="title"
-        onSelectItem={doneOp}
-        labelComponentClass="div"
-      />
-    );
+    const instance = getDOMNode(<DropdownMenuItem title="title" onSelectItem={doneOp} />);
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.item'));
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-checkbox'));
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<DropdownMenuItem classPrefix="item" className="custom" />);
+    const instance = getDOMNode(<DropdownMenuItem className="custom" />);
     assert.ok(instance.className.match(/\bcustom\b/));
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<DropdownMenuItem classPrefix="item" style={{ fontSize }} />);
+    const instance = getDOMNode(<DropdownMenuItem style={{ fontSize }} />);
     assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<DropdownMenuItem classPrefix="custom-prefix" />);
-    assert.ok(instance.querySelector('label').className.match(/\bcustom-prefix\b/));
   });
 });

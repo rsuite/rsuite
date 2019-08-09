@@ -152,21 +152,18 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
 
     value.some(item => shallowEqual(item, itemValue));
     const classes = classNames({
-      [this.addPrefix('cascader-menu-has-children')]: children,
-      [this.addPrefix('check-menu-item-indeterminate')]:
-        cascade && !active && this.utils.isSomeChildChecked(node, value)
+      [this.addPrefix('cascader-menu-has-children')]: children
     });
 
     return (
       <DropdownMenuCheckItem
-        labelComponentClass="div"
-        classPrefix={this.addPrefix('check-menu-item')}
         key={`${layer}-${onlyKey}`}
         disabled={disabled}
         active={active}
         focus={focus}
         value={node}
         className={classes}
+        indeterminate={cascade && !active && this.utils.isSomeChildChecked(node, value)}
         onSelectItem={this.handleSelect.bind(this, layer, node)}
         onCheck={onCheck}
         checkable={!uncheckable}

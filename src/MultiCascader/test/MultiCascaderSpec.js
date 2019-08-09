@@ -7,8 +7,7 @@ import Button from '../../Button';
 
 const namespace = `${globalKey}-picker`;
 const toggleClassName = `.${namespace}-toggle-placeholder`;
-const activeClassName = `.${namespace}-check-menu-item-active`;
-const itemClassName = `.${namespace}-check-menu-item`;
+const activeClassName = '.rs-dropdown-menu-item-active';
 
 const items = [
   {
@@ -145,14 +144,14 @@ describe('MultiCascader', () => {
     const value = ['abcd'];
     const instance = getInstance(<Dropdown defaultOpen data={items} value={value} />);
     const menu = findDOMNode(instance.menuContainerRef.current);
-    assert.equal(menu.querySelector(activeClassName).innerText, value);
+    assert.equal(menu.querySelector('.rs-checkbox-checked').innerText, value);
   });
 
   it('Should be active by defaultValue', () => {
     const value = ['abcd'];
     const instance = getInstance(<Dropdown defaultOpen data={items} defaultValue={value} />);
     const menu = findDOMNode(instance.menuContainerRef.current);
-    assert.equal(menu.querySelector(activeClassName).innerText, value);
+    assert.equal(menu.querySelector('.rs-checkbox-checked').innerText, value);
   });
 
   it('Should call onSelect callback ', done => {
@@ -162,7 +161,7 @@ describe('MultiCascader', () => {
 
     const instance = getInstance(<Dropdown data={items} defaultOpen onSelect={doneOp} />);
     const menu = findDOMNode(instance.menuContainerRef.current);
-    ReactTestUtils.Simulate.click(menu.querySelector(itemClassName));
+    ReactTestUtils.Simulate.click(menu.querySelector('.rs-checkbox'));
   });
 
   it('Should call onChange callback ', done => {
@@ -174,7 +173,7 @@ describe('MultiCascader', () => {
 
     const instance = getInstance(<Dropdown data={items} defaultOpen onChange={doneOp} />);
     const menu = findDOMNode(instance.menuContainerRef.current).querySelector(
-      `.${namespace}-check-menu-item-wrapper`
+      '.rs-checkbox-wrapper'
     );
 
     ReactTestUtils.Simulate.click(menu);

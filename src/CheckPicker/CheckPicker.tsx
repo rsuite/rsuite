@@ -451,7 +451,6 @@ class SelectPicker extends React.Component<CheckPickerProps, CheckPickerState> {
       <DropdownMenu
         {...menuProps}
         classPrefix={this.addPrefix('check-menu')}
-        dropdownMenuItemClassPrefix={this.addPrefix('check-menu-item')}
         dropdownMenuItemComponentClass={DropdownMenuItem}
         ref={this.menuContainerRef}
         activeItemValues={this.getValue()}
@@ -508,7 +507,7 @@ class SelectPicker extends React.Component<CheckPickerProps, CheckPickerState> {
 
     const unhandled = getUnhandledProps(SelectPicker, rest);
     const value = this.getValue();
-    const selectedItems: ItemDataType[] =
+    const selectedItems: any[] =
       data.filter(item => value.some(val => shallowEqual(item[valueKey], val))) || [];
 
     const count = selectedItems.length;

@@ -82,14 +82,14 @@ describe('CheckTreePicker', () => {
 
   it('Should active 4 node by `value` when cascade is true', () => {
     const instance = getDOMNode(<CheckTreePicker inline data={data} value={['Master']} />);
-    expect(instance.querySelectorAll('.rs-check-tree-node-checked').length).to.equal(4);
+    expect(instance.querySelectorAll('.rs-checkbox-checked').length).to.equal(4);
   });
 
   it('Should active 1 node by `value` when cascade is false', () => {
     const instance = getDOMNode(
       <CheckTreePicker inline cascade={false} data={data} value={['Master']} />
     );
-    expect(instance.querySelectorAll('.rs-check-tree-node-checked').length).to.equal(1);
+    expect(instance.querySelectorAll('.rs-checkbox-checked').length).to.equal(1);
   });
 
   it('Should expand children nodes', () => {
@@ -190,10 +190,11 @@ describe('CheckTreePicker', () => {
       <CheckTreePicker data={data} onChange={doneOp} inline cascade={false} expandAll />
     );
 
-    instance.find('span[data-key="0-0"]').simulate('click');
-    expect(instance.find('span[data-key="0-0"]').getElement() === document.activeElement);
+    instance.find('div[data-key="0-0"]').simulate('click');
 
-    instance.find('span[data-key="0-0"]').simulate('keydown', {
+    expect(instance.find('div[data-key="0-0"]').getElement() === document.activeElement);
+
+    instance.find('div[data-key="0-0"]').simulate('keydown', {
       keyCode: 13
     });
   });

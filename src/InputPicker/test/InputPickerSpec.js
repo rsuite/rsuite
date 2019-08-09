@@ -6,9 +6,9 @@ import { getDOMNode, getInstance } from '@test/testUtils';
 import InputPicker from '../InputPicker';
 import Button from '../../Button';
 const groupClassName = '.rs-picker-select-menu-group';
-const itemClassName = '.rs-picker-select-menu-item';
-const itemFocusClassName = '.rs-picker-select-menu-item-focus';
-const itemActiveClassName = '.rs-picker-select-menu-item-active';
+const itemClassName = '.rs-dropdown-menu-item';
+const itemFocusClassName = '.rs-dropdown-menu-item-focus';
+const itemActiveClassName = '.rs-dropdown-menu-item-active';
 const cleanClassName = '.rs-picker-toggle-clean';
 const placeholderClassName = '.rs-picker-toggle-placeholder';
 const valueClassName = '.rs-picker-toggle-value';
@@ -114,7 +114,7 @@ describe('InputPicker', () => {
       <InputPicker placeholder="test" data={[{ label: '', value: '1' }]} value={'1'} defaultOpen />
     );
     const menuContainer = getDOMNode(instance.menuContainerRef.current).querySelector(
-      '.rs-picker-select-menu-item-active'
+      itemActiveClassName
     );
     assert.equal(menuContainer.innerText, '');
   });

@@ -35,6 +35,10 @@ export interface CheckboxProps<V = any> extends StandardProps {
 
   /** A checkbox can receive focus. */
   tabIndex?: number;
+
+  checkable?: boolean;
+
+  onCheckboxClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
 declare const Checkbox: React.ComponentType<CheckboxProps>;
