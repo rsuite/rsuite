@@ -208,8 +208,10 @@ class UploadFileItem extends React.Component<UploadFileItemProps, UploadFileItem
   }
   renderFileSize() {
     const { file } = this.props;
-    if (file.status !== 'error' && file.blobFile && file.blobFile.size) {
-      return <span className={this.addPrefix('size')}>{getSize(file.blobFile.size)}</span>;
+    if (file.status !== 'error' && file.blobFile) {
+      return (
+        <span className={this.addPrefix('size')}>{getSize(_.get(file, 'blobFile.size'))}</span>
+      );
     }
     return null;
   }
