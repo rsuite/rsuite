@@ -4,6 +4,7 @@ import _ from 'lodash';
 
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
 import Checkbox from '../Checkbox';
+import classNames from 'classnames';
 
 export interface DropdownMenuCheckItemProps {
   classPrefix?: string;
@@ -88,6 +89,7 @@ class DropdownMenuCheckItem extends React.Component<DropdownMenuCheckItemProps> 
 
     const addPrefix = prefix(classPrefix);
     const unhandled = getUnhandledProps(DropdownMenuCheckItem, rest);
+    const checkBoxItemClasses = classNames(classPrefix, focus ? addPrefix('focus') : null);
 
     return (
       <Component {...unhandled} className={className} role="menuitem" tabIndex={-1}>
@@ -98,7 +100,7 @@ class DropdownMenuCheckItem extends React.Component<DropdownMenuCheckItemProps> 
           checked={active}
           checkable={checkable}
           indeterminate={indeterminate}
-          className={focus ? addPrefix('focus') : null}
+          className={checkBoxItemClasses}
           onKeyDown={disabled ? null : onKeyDown}
           onChange={this.handleChange}
           onClick={this.handleSelectItem}

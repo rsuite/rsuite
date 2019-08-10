@@ -270,3 +270,38 @@
     background: @input-bg-disabled !important;
   }
 }
+
+// Check Item
+.@{ns}check-item {
+  &:not(.@{ns}checkbox-disabled):hover,
+  &-focus {
+    .picker-item-hover;
+  }
+
+  .@{ns}checkbox-checker {
+    padding: 0;
+
+    > label {
+      position: relative;
+      cursor: pointer;
+      display: block;
+      padding: @picker-item-content-padding-vertical @picker-item-content-padding-horizontal
+        @picker-item-content-padding-vertical @picker-check-item-content-padding-left;
+      transition: @picker-item-transition;
+      line-height: @line-height-computed;
+
+      .@{ns}checkbox-wrapper {
+        left: @picker-item-content-padding-horizontal;
+
+        .@{ckpns}-menu-group-children & {
+          left: @picker-item-content-padding-horizontal + @picker-children-check-item-padding-left;
+        }
+      }
+
+      .@{ckpns}-menu-group-children & {
+        padding-left: @picker-check-item-content-padding-left +
+          @picker-children-check-item-padding-left;
+      }
+    }
+  }
+}
