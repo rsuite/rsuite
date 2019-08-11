@@ -89,7 +89,9 @@ class DropdownMenuCheckItem extends React.Component<DropdownMenuCheckItemProps> 
 
     const addPrefix = prefix(classPrefix);
     const unhandled = getUnhandledProps(DropdownMenuCheckItem, rest);
-    const checkBoxItemClasses = classNames(classPrefix, focus ? addPrefix('focus') : null);
+    const checkboxItemClasses = classNames(classPrefix, {
+      [addPrefix('focus')]: focus
+    });
 
     return (
       <Component {...unhandled} className={className} role="menuitem" tabIndex={-1}>
@@ -100,7 +102,7 @@ class DropdownMenuCheckItem extends React.Component<DropdownMenuCheckItemProps> 
           checked={active}
           checkable={checkable}
           indeterminate={indeterminate}
-          className={checkBoxItemClasses}
+          className={checkboxItemClasses}
           onKeyDown={disabled ? null : onKeyDown}
           onChange={this.handleChange}
           onClick={this.handleSelectItem}
