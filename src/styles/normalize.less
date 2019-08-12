@@ -352,7 +352,6 @@ th {
 input[type='button'],
 input[type='submit'],
 input[type='reset'],
-input[type='file']::-webkit-file-upload-button,
 button {
   border-width: 0;
 }
@@ -362,4 +361,14 @@ button {
 //
 input::-ms-clear {
   display: none;
+}
+
+//
+// Remove File button Style
+//
+input[type='file']::-webkit-file-upload-button,
+input[type='file']::-ms-browse {
+  border-width: 0;
+  background: transparent;
+  color: currentColor;
 }
