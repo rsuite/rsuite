@@ -13,6 +13,7 @@ const DIST_DIR = './dist';
 const STYLE_SOURCE_DIR = './src/styles';
 const STYLE_DIST_DIR = './dist/styles';
 const TS_SOURCE = ['./src/**/*.tsx', './src/**/*.ts', '!./src/**/*.d.ts'];
+const THEMES = ['default', 'dark'];
 
 function clean(done) {
   del.sync([LIB_DIR, ESM_DIR, DIST_DIR], { force: true });
@@ -20,46 +21,32 @@ function clean(done) {
 }
 
 function buildLess() {
-  return gulp
-    .src(`${STYLE_SOURCE_DIR}/index.less`)
-    .pipe(sourcemaps.init())
-    .pipe(less({ javascriptEnabled: true }))
-    .pipe(postcss([require('autoprefixer')]))
-    .pipe(sourcemaps.write('./'))
-    .pipe(rename('rsuite.css'))
-    .pipe(gulp.dest(`${STYLE_DIST_DIR}`));
+  return THEMES.map(theme => () =>
+    gulp
+      .src(`${STYLE_SOURCE_DIR}/themes/${theme}/index.less`)
+      .pipe(sourcemaps.init())
+      .pipe(less({ javascriptEnabled: true }))
+      .pipe(postcss([require('autoprefixer')]))
+      .pipe(sourcemaps.write('./'))
+      .pipe(rename(`rsuite-${theme}.css`))
+      .pipe(gulp.dest(`${STYLE_DIST_DIR}`))
+  );
 }
 
-function minCss() {
-  return gulp
-    .src(`${STYLE_DIST_DIR}/rsuite.css`)
-    .pipe(sourcemaps.init())
-    .pipe(postcss())
-    .pipe(
-      rename(path => {
-        path.basename += '.min';
-      })
-    )
-    .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest(`${STYLE_DIST_DIR}`));
-}
-
-function copyFontFiles() {
-  return gulp.src(`${STYLE_SOURCE_DIR}/fonts/**/*`).pipe(gulp.dest(`${STYLE_DIST_DIR}/fonts`));
-}
-
-function copyTypescriptDeclarationFiles() {
-  return gulp
-    .src('./src/**/*.d.ts')
-    .pipe(gulp.dest(LIB_DIR))
-    .pipe(gulp.dest(ESM_DIR));
-}
-
-function copyLessFiles() {
-  return gulp
-    .src(['./src/**/*.less', './src/**/fonts/**/*'])
-    .pipe(gulp.dest(LIB_DIR))
-    .pipe(gulp.dest(ESM_DIR));
+function buildCss() {
+  return THEMES.map(theme => () =>
+    gulp
+      .src(`${STYLE_DIST_DIR}/rsuite-${theme}.css`)
+      .pipe(sourcemaps.init())
+      .pipe(postcss())
+      .pipe(
+        rename(path => {
+          path.basename += '.min';
+        })
+      )
+      .pipe(sourcemaps.write('./'))
+      .pipe(gulp.dest(`${STYLE_DIST_DIR}`))
+  );
 }
 
 function buildLib() {
@@ -82,6 +69,24 @@ function buildEsm() {
     .pipe(gulp.dest(ESM_DIR));
 }
 
+function copyFontFiles() {
+  return gulp.src(`${STYLE_SOURCE_DIR}/fonts/**/*`).pipe(gulp.dest(`${STYLE_DIST_DIR}/fonts`));
+}
+
+function copyTypescriptDeclarationFiles() {
+  return gulp
+    .src('./src/**/*.d.ts')
+    .pipe(gulp.dest(LIB_DIR))
+    .pipe(gulp.dest(ESM_DIR));
+}
+
+function copyLessFiles() {
+  return gulp
+    .src(['./src/**/*.less', './src/**/fonts/**/*'])
+    .pipe(gulp.dest(LIB_DIR))
+    .pipe(gulp.dest(ESM_DIR));
+}
+
 function watch() {
   const watcher = gulp.watch(TS_SOURCE);
   watcher.on('change', (filePath, stats) => {
@@ -95,10 +100,10 @@ function watch() {
   });
 }
 
-exports.buildStyle = gulp.series(clean, buildLess, minCss, copyFontFiles);
+exports.buildStyle = gulp.series(clean, ...buildLess(), ...buildCss(), copyFontFiles);
 exports.dev = gulp.series(clean, buildLib, watch);
 exports.build = gulp.series(
   clean,
-  gulp.parallel(buildLib, buildEsm, gulp.series(buildLess, minCss)),
+  gulp.parallel(buildLib, buildEsm, gulp.series(...buildLess(), ...buildCss())),
   gulp.parallel(copyTypescriptDeclarationFiles, copyLessFiles, copyFontFiles)
 );
