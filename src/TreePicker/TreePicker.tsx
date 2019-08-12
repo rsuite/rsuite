@@ -453,7 +453,6 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       return [];
     }
 
-    layer += 1;
     nodes.map((node, index) => {
       const refKey = `${ref}-${index}`;
 
@@ -469,7 +468,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       if (parentNode) {
         this.nodes[refKey].parentNode = parentNode;
       }
-      this.flattenNodes(node[childrenKey], props, refKey, this.nodes[refKey], layer);
+      this.flattenNodes(node[childrenKey], props, refKey, this.nodes[refKey], layer + 1);
     });
   }
 
