@@ -1,5 +1,5 @@
 @import '../../styles/common';
-@import '../../Checkbox/styles/mixin';
+@import '../../Picker/styles/mixin';
 @import '../../TreePicker/styles/mixin';
 
 // Check Tree Picker
@@ -26,6 +26,10 @@
   line-height: @picker-tree-node-line-height;
 
   > .@{ctpns}-node-label {
+    &:focus .@{ns}check-item .@{ns}checkbox-checker > label {
+      .picker-item-hover;
+    }
+
     .@{ns}check-item .@{ns}checkbox-checker > label {
       position: relative;
       margin: 0;
