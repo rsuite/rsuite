@@ -579,7 +579,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     if (!Array.isArray(nodes) || nodes.length === 0) {
       return;
     }
-    layer += 1;
+
     nodes.forEach((node, index) => {
       const refKey = `${ref}-${index}`;
       node.refKey = refKey;
@@ -594,7 +594,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       if (parentNode) {
         this.nodes[refKey].parentNode = parentNode;
       }
-      this.flattenNodes(node[childrenKey], props, refKey, this.nodes[refKey], layer);
+      this.flattenNodes(node[childrenKey], props, refKey, this.nodes[refKey], layer + 1);
     });
   }
 
