@@ -9,9 +9,8 @@ import Button from '../../Button';
 const namespace = `${globalKey}-picker`;
 const classPrefix = `${namespace}-check`;
 const groupClassName = `.${classPrefix}-menu-group`;
-const itemClassName = `.${classPrefix}-menu-item`;
-const itemFocusClassName = `.${classPrefix}-menu-item-focus`;
-const itemActiveClassName = `.${classPrefix}-menu-item-active`;
+const itemFocusClassName = '.rs-check-item-focus';
+const itemActiveClassName = '.rs-checkbox-checked';
 const cleanClassName = `.${namespace}-toggle-clean`;
 const placeholderClassName = `.${namespace}-toggle-placeholder`;
 const valueClassName = `.${namespace}-value-list`;
@@ -138,7 +137,7 @@ describe('CheckPicker', () => {
     );
     const menu = findDOMNode(instance.menuContainerRef.current);
 
-    ReactTestUtils.Simulate.change(menu.querySelectorAll(`${itemClassName} input`)[0]);
+    ReactTestUtils.Simulate.change(menu.querySelectorAll('input')[0]);
   });
 
   it('Should call `onClean` callback', done => {
@@ -261,7 +260,7 @@ describe('CheckPicker', () => {
       <Dropdown placeholder="test" data={[{ label: '', value: '1' }]} value={['1']} defaultOpen />
     );
     const menu = findDOMNode(instance.menuContainerRef.current).querySelector(
-      '.rs-picker-check-menu-item-active'
+      '.rs-checkbox-checked'
     );
 
     assert.equal(menu.innerText, '');
@@ -277,9 +276,7 @@ describe('CheckPicker', () => {
       <Dropdown placeholder="test" sticky data={data} value={['Kariane']} defaultOpen />
     );
 
-    const menu = findDOMNode(instance.menuContainerRef.current).querySelector(
-      '.rs-picker-check-menu-item-checker'
-    );
+    const menu = findDOMNode(instance.menuContainerRef.current).querySelector('.rs-checkbox');
 
     assert.equal(menu.innerText, 'Kariane');
   });

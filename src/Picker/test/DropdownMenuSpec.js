@@ -6,7 +6,7 @@ import { getDOMNode } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
 import DropdownMenuItem from '../DropdownMenuItem';
 
-const classPrefix = `rs-picker-select-menu`;
+const classPrefix = `rs-dropdown-menu`;
 const groupClassName = `.${classPrefix}-group`;
 const titleClassName = `.${classPrefix}-group-title`;
 const childrenClassName = `.${classPrefix}-group-children`;
@@ -38,12 +38,11 @@ const items = [
 ];
 
 describe('picker -  DropdownMenu', () => {
-  it('Should output a `select-menu-items` ', () => {
+  it('Should output a `dropdown-menu-items` ', () => {
     const instance = getDOMNode(
       <DropdownMenu classPrefix={classPrefix} dropdownMenuItemComponentClass={DropdownMenuItem} />
     );
-
-    assert.ok(instance.className.match(/\bselect-menu-items\b/));
+    assert.ok(instance.className.match(/\brs-dropdown-menu-items\b/));
   });
 
   it('Should output 3 `menu-item` ', () => {
@@ -79,7 +78,6 @@ describe('picker -  DropdownMenu', () => {
         classPrefix={classPrefix}
         activeItemValues={['vv-abcd']}
         dropdownMenuItemComponentClass={DropdownMenuItem}
-        dropdownMenuItemClassPrefix="rs-picker-select-menu-item"
       />
     );
 
@@ -150,7 +148,6 @@ describe('picker -  DropdownMenu', () => {
         onSelect={doneOp}
         classPrefix={classPrefix}
         dropdownMenuItemComponentClass={DropdownMenuItem}
-        dropdownMenuItemClassPrefix="rs-picker-select-menu-item"
       />
     );
 
@@ -182,7 +179,6 @@ describe('picker -  DropdownMenu', () => {
         data={items}
         renderMenuItem={item => <i>{item}</i>}
         dropdownMenuItemComponentClass={DropdownMenuItem}
-        dropdownMenuItemClassPrefix="rs-picker-select-menu-item"
       />
     );
 

@@ -632,7 +632,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       <DropdownMenu
         {...menuProps}
         classPrefix={menuClassPrefix}
-        dropdownMenuItemClassPrefix={`${menuClassPrefix}-item`}
+        dropdownMenuItemClassPrefix={multi ? undefined : `${menuClassPrefix}-item`}
         dropdownMenuItemComponentClass={multi ? DropdownMenuCheckItem : DropdownMenuItem}
         ref={this.menuContainerRef}
         activeItemValues={multi ? value : [value]}

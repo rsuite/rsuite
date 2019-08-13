@@ -114,7 +114,7 @@ describe('InputPicker', () => {
       <InputPicker placeholder="test" data={[{ label: '', value: '1' }]} value={'1'} defaultOpen />
     );
     const menuContainer = getDOMNode(instance.menuContainerRef.current).querySelector(
-      '.rs-picker-select-menu-item-active'
+      itemActiveClassName
     );
     assert.equal(menuContainer.innerText, '');
   });

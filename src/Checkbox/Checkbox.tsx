@@ -26,9 +26,13 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     value: PropTypes.any,
     children: PropTypes.node,
     classPrefix: PropTypes.string,
-    tabIndex: PropTypes.number
+    tabIndex: PropTypes.number,
+
+    checkable: PropTypes.bool,
+    onCheckboxClick: PropTypes.func
   };
   static defaultProps = {
+    checkable: true,
     tabIndex: 0
   };
 
@@ -70,6 +74,8 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       tabIndex,
       classPrefix,
       onClick,
+      onCheckboxClick,
+      checkable,
       ...props
     } = this.props;
 
@@ -86,7 +92,11 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     const [htmlInputProps, rest] = partitionHTMLProps(unhandled);
 
     const input = (
-      <span tabIndex={disabled ? -1 : tabIndex} className={addPrefix('wrapper')}>
+      <span
+        tabIndex={disabled ? -1 : tabIndex}
+        className={addPrefix('wrapper')}
+        onClick={onCheckboxClick}
+      >
         <input
           {...htmlInputProps}
           defaultChecked={defaultChecked}
@@ -104,7 +114,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       <div {...rest} onClick={onClick} className={classes}>
         <div className={addPrefix('checker')}>
           <label title={title}>
-            {input}
+            {checkable ? input : null}
             {children}
           </label>
         </div>

@@ -7,8 +7,6 @@ import TagPicker from '../../InputPicker/InputPicker';
 import Button from '../../Button';
 
 const groupClassName = '.rs-picker-check-menu-group';
-const itemFocusClassName = '.rs-picker-check-menu-item-focus';
-const itemActiveClassName = '.rs-picker-check-menu-item-active';
 const cleanClassName = '.rs-picker-toggle-clean';
 const placeholderClassName = '.rs-picker-toggle-placeholder';
 
@@ -74,7 +72,8 @@ describe('TagPicker', () => {
     const instance = getInstance(<TagPicker multi defaultOpen data={data} value={[value]} />);
     const menuContainer = getDOMNode(instance.menuContainerRef.current);
     assert.equal(getDOMNode(instance).querySelector('.rs-tag').innerText, value);
-    assert.equal(menuContainer.querySelector(itemActiveClassName).innerText, value);
+
+    assert.equal(menuContainer.querySelector('.rs-checkbox-checked').innerText, value);
   });
 
   it('Should active item by `defaultValue`', () => {
@@ -85,7 +84,7 @@ describe('TagPicker', () => {
     const menuContainer = getDOMNode(instance.menuContainerRef.current);
 
     assert.equal(getDOMNode(instance).querySelector('.rs-tag').innerText, value);
-    assert.equal(menuContainer.querySelector(itemActiveClassName).innerText, value);
+    assert.equal(menuContainer.querySelector('.rs-checkbox-checked').innerText, value);
   });
 
   it('Should render a group', () => {
@@ -123,8 +122,9 @@ describe('TagPicker', () => {
       />
     );
     const menuContainer = getDOMNode(instance.menuContainerRef.current).querySelector(
-      '.rs-picker-check-menu-item-active'
+      '.rs-checkbox-checked'
     );
+
     assert.equal(menuContainer.innerText, '');
   });
 
@@ -151,7 +151,7 @@ describe('TagPicker', () => {
     );
     const instanceDOM = findDOMNode(instance.menuContainerRef.current);
 
-    ReactTestUtils.Simulate.change(instanceDOM.querySelector('.rs-picker-check-menu-item input'));
+    ReactTestUtils.Simulate.change(instanceDOM.querySelector('input'));
   });
 
   it('Should call `onClean` callback', done => {
@@ -205,7 +205,7 @@ describe('TagPicker', () => {
     const menuDOM = getDOMNode(instance.menuContainerRef.current);
     ReactTestUtils.Simulate.keyDown(getDOMNode(instance), { keyCode: 40 });
 
-    assert.equal(menuDOM.querySelector(itemFocusClassName).innerText, 'Kariane');
+    assert.equal(menuDOM.querySelector('.rs-check-item-focus').innerText, 'Kariane');
   });
 
   it('Should focus item by keyCode=38 ', () => {
@@ -216,7 +216,7 @@ describe('TagPicker', () => {
     const menuDOM = getDOMNode(instance.menuContainerRef.current);
     ReactTestUtils.Simulate.keyDown(getDOMNode(instance), { keyCode: 38 });
 
-    assert.equal(menuDOM.querySelector(itemFocusClassName).innerText, 'Eugenia');
+    assert.equal(menuDOM.querySelector('.rs-check-item-focus').innerText, 'Eugenia');
   });
 
   it('Should call `onChange` by keyCode=13 ', done => {

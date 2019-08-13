@@ -1,14 +1,17 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import _ from 'lodash';
-import { prefix, getUnhandledProps } from '../utils';
+
+import { prefix, getUnhandledProps, defaultProps } from '../utils';
+import Checkbox from '../Checkbox';
+import classNames from 'classnames';
 
 export interface DropdownMenuCheckItemProps {
-  classPrefix: string;
+  classPrefix?: string;
   active?: boolean;
   disabled?: boolean;
   checkable?: boolean;
+  indeterminate?: boolean;
   value?: any;
   onSelect?: (value: any, event: React.SyntheticEvent<HTMLElement>, checked: boolean) => void;
   onCheck?: (value: any, event: React.SyntheticEvent<HTMLElement>, checked: boolean) => void;
@@ -19,7 +22,8 @@ export interface DropdownMenuCheckItemProps {
   className?: string;
   children?: React.ReactNode;
   getItemData?: () => any;
-  labelComponentClass: React.ElementType;
+  componentClass?: React.ElementType;
+  checkboxComponentClass?: React.ElementType;
 }
 
 class DropdownMenuCheckItem extends React.Component<DropdownMenuCheckItemProps> {
@@ -28,6 +32,7 @@ class DropdownMenuCheckItem extends React.Component<DropdownMenuCheckItemProps> 
     active: PropTypes.bool,
     disabled: PropTypes.bool,
     checkable: PropTypes.bool,
+    indeterminate: PropTypes.bool,
     value: PropTypes.any,
     onSelect: PropTypes.func,
     onCheck: PropTypes.func,
@@ -38,18 +43,17 @@ class DropdownMenuCheckItem extends React.Component<DropdownMenuCheckItemProps> 
     className: PropTypes.string,
     children: PropTypes.node,
     getItemData: PropTypes.func,
-    labelComponentClass: PropTypes.elementType
+    checkboxComponentClass: PropTypes.elementType
   };
   static defaultProps = {
     checkable: true,
-    labelComponentClass: 'label'
+    componentClass: 'li',
+    checkboxComponentClass: Checkbox
   };
 
-  handleChange = (event: React.SyntheticEvent<HTMLElement>) => {
-    const { value, disabled, onSelect } = this.props;
-    if (!disabled && onSelect) {
-      onSelect(value, event, _.get(event, 'target.checked'));
-    }
+  handleChange = (value: any, checked: boolean, event: React.SyntheticEvent<HTMLElement>) => {
+    const { onSelect } = this.props;
+    onSelect && onSelect(value, event, checked);
   };
 
   handleCheck = (event: React.SyntheticEvent<HTMLElement>) => {
@@ -68,6 +72,7 @@ class DropdownMenuCheckItem extends React.Component<DropdownMenuCheckItemProps> 
 
   render() {
     const {
+      value,
       active,
       onKeyDown,
       disabled,
@@ -76,42 +81,40 @@ class DropdownMenuCheckItem extends React.Component<DropdownMenuCheckItemProps> 
       className,
       classPrefix,
       checkable,
-      labelComponentClass: Label,
+      indeterminate,
+      componentClass: Component,
+      checkboxComponentClass: CheckboxItem,
       ...rest
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, {
-      [addPrefix('active')]: active,
-      [addPrefix('focus')]: focus,
-      [addPrefix('disabled')]: disabled
+    const unhandled = getUnhandledProps(DropdownMenuCheckItem, rest);
+    const checkboxItemClasses = classNames(classPrefix, {
+      [addPrefix('focus')]: focus
     });
 
-    const unhandled = getUnhandledProps(DropdownMenuCheckItem, rest);
-    const input = (
-      <span className={addPrefix('wrapper')} onClick={this.handleCheck}>
-        <input checked={active} type="checkbox" disabled={disabled} onChange={this.handleChange} />
-        <span className={addPrefix('inner')} />
-      </span>
-    );
-
     return (
-      <li {...unhandled} className={className} role="menuitem">
-        <div className={addPrefix('checker')}>
-          <Label
-            className={classes}
-            tabIndex={-1}
-            role="presentation"
-            onKeyDown={disabled ? null : onKeyDown}
-            onClick={this.handleSelectItem}
-          >
-            {checkable ? input : null}
-            {children}
-          </Label>
-        </div>
-      </li>
+      <Component {...unhandled} className={className} role="menuitem" tabIndex={-1}>
+        <CheckboxItem
+          value={value}
+          role="presentation"
+          disabled={disabled}
+          checked={active}
+          checkable={checkable}
+          indeterminate={indeterminate}
+          className={checkboxItemClasses}
+          onKeyDown={disabled ? null : onKeyDown}
+          onChange={this.handleChange}
+          onClick={this.handleSelectItem}
+          onCheckboxClick={this.handleCheck}
+        >
+          {children}
+        </CheckboxItem>
+      </Component>
     );
   }
 }
 
-export default DropdownMenuCheckItem;
+export default defaultProps<DropdownMenuCheckItemProps>({
+  classPrefix: 'check-item'
+})(DropdownMenuCheckItem);
