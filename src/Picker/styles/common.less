@@ -295,6 +295,10 @@
       transition: @picker-item-transition;
       line-height: @line-height-computed;
 
+      .@{ns}checkbox-disabled& {
+        cursor: not-allowed;
+      }
+
       .@{ns}checkbox-wrapper {
         left: @picker-item-content-padding-horizontal;
 

@@ -1,8 +1,20 @@
 @import '../common';
 
 .@{ns}message {
+  .@{ns}btn-link,
+  a {
+    font-weight: bolder;
+
+    .reset-text-color(@message-link-color);
+  }
+
   &-warning &-header,
   &-warning &-body {
-    color: @B900;
+    color: @message-warning-text-color;
+
+    .@{ns}btn-link,
+    a {
+      .reset-text-color(@message-warning-text-color);
+    }
   }
 }
