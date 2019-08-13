@@ -1207,9 +1207,7 @@
 
 // == TagPicker
 @tag-picker-toggle-content-height: @input-height-extra-small;
-@tag-picker-content-padding-vertical: (
-    @input-picker-toggle-content-height - @tag-picker-toggle-content-height
-  )/2; // (34 -24)/2
+@tag-picker-content-padding-vertical: (@input-picker-toggle-content-height - @tag-picker-toggle-content-height)/2; // (34 -24)/2
 @tag-picker-content-padding-horizontal: 6px;
 @tag-picker: ~'@{ns}@{multi-input-picker-prefix}';
 
@@ -1284,4 +1282,4 @@
 //** Width of horizontal description list titles
 @dl-horizontal-offset: @component-offset-horizontal;
 //** Horizontal line color.
-@hr-border: @B050;
+@hr-border: @divider-border-color;
