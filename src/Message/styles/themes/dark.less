@@ -3,7 +3,11 @@
 .@{ns}message {
   .@{ns}btn-link,
   a {
-    font-weight: bolder;
+    text-decoration: underline;
+
+    &:hover {
+      font-weight: bolder;
+    }
 
     .reset-text-color(@message-link-color);
   }

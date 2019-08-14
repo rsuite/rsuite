@@ -6,8 +6,7 @@
 
 .@{ns}list {
   position: relative;
-  box-shadow: 0 1px 0 @list-border-color,
-    0 -1px 0 @list-border-color;
+  box-shadow: 0 1px 0 @list-border-color, 0 -1px 0 @list-border-color;
   overflow-x: hidden;
   overflow-y: auto;
 
@@ -70,7 +69,6 @@
 
   &-holder {
     background-color: @list-item-placeholder-bg-color;
-    z-index: -1;
 
     &::after {
       content: '';
