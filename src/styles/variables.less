@@ -72,7 +72,8 @@
 //
 //## Font, line-height, and color for body text, headings, and more.
 
-@font-family-base: Apple-System, Arial, Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', STXihei, sans-serif;
+@font-family-base: Apple-System, Arial, Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+  'Microsoft YaHei', STXihei, sans-serif;
 @font-family-icon: 'rsuite-icon-font';
 
 @font-size-large: 16px;
@@ -95,7 +96,9 @@
 @line-height-large: unit(@line-height-large-computed / @font-size-large); // ~1.375
 @line-height-base: unit(@line-height-computed / @font-size-base); // ~1.4285714285714286
 @line-height-small: unit(@line-height-computed / @font-size-small); // ~1.6666666666666667
-@line-height-extra-small: unit(@line-height-computed / @font-size-extra-small); // ~1.6666666666666667
+@line-height-extra-small: unit(
+  @line-height-computed / @font-size-extra-small
+); // ~1.6666666666666667
 
 //** By default, this inherits from the `<body>`.
 @headings-font-family: inherit;
@@ -205,7 +208,7 @@
 @btn-icon-with-text-focus-bg: @B300;
 @btn-icon-with-text-active-bg: @B400;
 // Primary Button color set;
-@btn-primary-color: #fff;
+@btn-primary-color: @B000;
 @btn-primary-bg: @H500;
 // Default Button color set;
 @btn-link-color: @link-color;
@@ -398,8 +401,6 @@
 @dropdown-item-content-submenu-icon-angle-size: @font-size-base;
 @dropdown-toggle-padding-right: @padding-base-horizontal+ @dropdown-caret-width+
   @dropdown-caret-padding;
-//** Deprecated `@dropdown-caret-color`
-@dropdown-caret-color: #000;
 //** Dropdown Caret Font Family
 @dropdown-caret-font-family: @font-family-icon;
 
@@ -428,7 +429,9 @@
 @toggle-md-handle-diameter: @toggle-md-height - @toggle-md-handle-gap*2;
 @toggle-md-handle-bg: @B000;
 @toggle-md-inner-line-height-computed: @toggle-md-height;
-@toggle-md-inner-line-height: unit(@toggle-md-inner-line-height-computed / @toggle-md-inner-font-size);
+@toggle-md-inner-line-height: unit(
+  @toggle-md-inner-line-height-computed / @toggle-md-inner-font-size
+);
 // The same to button
 @toggle-md-inner-margin: @padding-base-vertical;
 
@@ -742,7 +745,7 @@
 //** Tooltip max width
 @tooltip-max-width: 250px;
 //** Tooltip text color
-@tooltip-color: #fff;
+@tooltip-color: @B000;
 //** Tooltip background color
 @tooltip-bg: @B900;
 //** Tooltip opacity
@@ -783,15 +786,6 @@
 //** Distance of Arrow and frame.
 @popover-arrow-gap: 4px;
 
-//== Labels
-//
-//##
-
-//** Default label text color
-@label-color: #fff;
-//** Default text color of a linked label
-@label-link-hover-color: #fff;
-
 //== Modals
 //
 //##
@@ -819,10 +813,6 @@
 @modal-backdrop-bg: @B900;
 //** Modal backdrop opacity
 @modal-backdrop-opacity: 0.3; // 30%
-//** Modal header border color
-@modal-header-border-color: #e5e5e5;
-//** Modal footer border color
-@modal-footer-border-color: @modal-header-border-color;
 
 //** Modal close button
 @modal-close-btn-size: @font-size-small;
@@ -1251,14 +1241,6 @@
 @breadcrumb-color: @text-color;
 //** Text color of current page in the breadcrumb
 @breadcrumb-active-color: @B600;
-
-//== Close
-//
-//##
-
-@close-font-weight: bold;
-@close-color: #000;
-@close-text-shadow: 0 1px 0 #fff;
 
 //== Type
 //
