@@ -72,8 +72,7 @@
 //
 //## Font, line-height, and color for body text, headings, and more.
 
-@font-family-base: Avenir-Roman, Apple-System, Arial, Helvetica, 'PingFang SC', 'Hiragino Sans GB',
-'Microsoft YaHei', STXihei, sans-serif;
+@font-family-base: Avenir-Roman, Apple-System, Arial, Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', STXihei, sans-serif;
 @font-family-icon: 'rsuite-icon-font';
 
 @font-size-large: 16px;
@@ -276,7 +275,7 @@
 @input-border-width: 1px;
 
 //** `<input>` background color
-@input-bg: #fff;
+@input-bg: @B000;
 //** `<input disabled>` background color
 @input-bg-disabled: @input-bg;
 
@@ -367,7 +366,7 @@
 //** Background for the dropdown menu.
 @dropdown-bg: @B000;
 //** Divider color for between dropdown items.
-@dropdown-divider-bg: #e5e5e5;
+@dropdown-divider-bg: @divider-border-color;
 @dropdown-shadow: 0 0 10px rgba(0, 0, 0, 0.06), 0 4px 4px rgba(0, 0, 0, 0.12);
 
 //** Dropdown link text color.
@@ -965,7 +964,7 @@
 @loader-default-content-font-size: @font-size-small;
 // backdrop color
 @loader-backdrop-color: fade(@B000, 90);
-@loader-backdrop-inverse-color: fade(@B900, 83%);
+@loader-backdrop-inverse-color: fade(@B900, 83);
 // spin
 @loader-spin-ring-wide: 3px;
 @loader-spin-ring-color: fade(@B050, 80);
@@ -1020,7 +1019,7 @@
 //##
 @panel-padding: 20px;
 @panel-heading-font-size: 16px;
-@panel-split-line-color: @B200;
+@panel-split-line-color: @dropdown-divider-bg;
 @panel-group-panel-heading-hover-background: @B050;
 @panel-heading-color: @B900;
 @panel-accodion-transition: 0.3s linear;
@@ -1164,11 +1163,11 @@
 @calendar-table-cell-header-color: @B600;
 @calendar-table-cell-week-number-color: @B600;
 @calendar-table-cell-week-number-bg: @B050;
-@calendar-month-dropdown-row-border-color: @B200;
+@calendar-month-dropdown-row-border-color: @divider-border-color;
 @calendar-month-dropdown-year-active-color: @H700;
 @calendar-dropdown-top: 40px; // @calendar-picker-padding + content-height + gap
 @calendar-month-dropdown-bg: @dropdown-bg;
-@calendar-month-dropdown-border: @B200;
+@calendar-month-dropdown-border: @divider-border-color;
 @calendar-title-dropdown-bg: @dropdown-bg;
 @calendar-time-dropdown-column-title-bg: @B050;
 @calendar-time-dropdown-column-title-font-color: @B600;
@@ -1191,7 +1190,7 @@
 @calendar-panel-today-active-side-length: @line-height-computed;
 @calendar-panel-today-active-background-color: @H500;
 @calendar-table-cell-in-range-background: fade(@H100, 50);
-@calendar-toolbar-border-color: @B200;
+@calendar-toolbar-border-color: @divider-border-color;
 
 //== DateRange Picker
 @date-range-picker-header-padding-horizontal: 12px;
