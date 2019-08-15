@@ -55,12 +55,7 @@ type Props = {
   onExit?: () => void,
   onExiting?: () => void,
   onExited?: () => void,
-  onSelect?: (
-    value: any,
-    activePaths: any[],
-    concat: (data: any[], children: any[]) => any[],
-    event: DefaultEvent
-  ) => void,
+  onSelect?: (item: any, activePaths: any, concat: any, event: DefaultEvent) => void,
   onSearch?: (searchKeyword: string, event: DefaultEvent) => void,
   locale: Object,
   cleanable?: boolean,
@@ -156,6 +151,7 @@ function getDerivedStateForCascade(
 
   return {
     items: nextItems.reverse(),
+    tempActivePaths: null,
     activePaths: cascadePathItems
   };
 }
@@ -298,19 +294,18 @@ class Dropdown extends React.Component<Props, State> {
   };
 
   handleSearchRowSelect = (item: Object, event: DefaultEvent) => {
-    const { valueKey, onChange } = this.props;
+    const { valueKey, onChange, onSelect } = this.props;
     const value = item[valueKey];
-    const { activePaths, items } = getDerivedStateForCascade(this.props, this.state, value);
 
     this.closeDropdown();
     this.setState({
+      ...getDerivedStateForCascade(this.props, this.state, value),
       selectNode: item,
       searchKeyword: '',
-      activePaths,
-      items,
       value
     });
 
+    onSelect && onSelect(item, null, null, event);
     onChange && onChange(value, event);
   };
 
