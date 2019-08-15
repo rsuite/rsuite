@@ -84,6 +84,10 @@
   background-color: @picker-menu-item-hover-bg;
 }
 
+.picker-item-active() {
+  font-weight: @picker-select-menu-item-selected-font-weight;
+}
+
 .picker-calendar-cell-content() {
   display: inline-block;
   font-size: @calendar-table-cell-content-font-size;
@@ -246,7 +250,8 @@
 
 .tag-picker-search-input-xs() {
   .tag-picker-search-input-size(
-    @padding-extra-small-vertical; @padding-extra-small-horizontal; @font-size-extra-small; @line-height-extra-small
+    @padding-extra-small-vertical; @padding-extra-small-horizontal; @font-size-extra-small;
+      @line-height-extra-small
   );
 
   .@{ns}picker-input.@{ns}picker-tag & ~ .@{ns}picker-tag-wrapper {

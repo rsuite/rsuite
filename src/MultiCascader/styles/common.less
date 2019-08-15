@@ -14,14 +14,20 @@
     padding-right: 26px; // 12px + 8px + 6px
   }
 
+  &-menu .@{ns}check-item.@{ns}check-item-focus,
+  &-menu .@{ns}check-item.@{ns}checkbox-checked {
+    .@{ns}checkbox-checker > label {
+      .picker-item-active;
+    }
+  }
+
   &-menu-column&-menu-column-uncheckable {
     .@{ns}check-item .@{ns}checkbox-checker > label {
       padding-left: @picker-item-content-padding-horizontal;
     }
   }
-}
 
-.@{cmpns}-menu .@{cspns}-col {
-  padding: 0;
+  &-menu .@{cspns}-col {
+    padding: 0;
+  }
 }
-
