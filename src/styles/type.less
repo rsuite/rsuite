@@ -12,84 +12,47 @@ h2,
 h3,
 h4,
 h5,
-h6,
-.h1,
-.h2,
-.h3,
-.h4,
-.h5,
-.h6 {
+h6 {
   font-family: @headings-font-family;
   font-weight: @headings-font-weight;
-  line-height: @headings-line-height;
   color: @headings-color;
+  margin: 0;
 
-  small,
-  .small {
+  small {
     font-weight: normal;
     line-height: 1;
     color: @headings-small-color;
   }
 }
 
-h1,
-.h1,
-h2,
-.h2,
-h3,
-.h3 {
-  margin-top: @line-height-computed;
-  margin-bottom: (@line-height-computed / 2);
-
-  small,
-  .small {
-    font-size: 65%;
-  }
-}
-
-h4,
-.h4,
-h5,
-.h5,
-h6,
-.h6 {
-  margin-top: (@line-height-computed / 2);
-  margin-bottom: (@line-height-computed / 2);
-
-  small,
-  .small {
-    font-size: 75%;
-  }
-}
-
-h1,
-.h1 {
+h1 {
   font-size: @font-size-h1;
+  line-height: @line-height-h1;
 }
 
-h2,
-.h2 {
+h2 {
   font-size: @font-size-h2;
+  line-height: @line-height-h2;
 }
 
-h3,
-.h3 {
+h3 {
   font-size: @font-size-h3;
+  line-height: @line-height-h3;
 }
 
-h4,
-.h4 {
+h4 {
   font-size: @font-size-h4;
+  line-height: @line-height-h4;
 }
 
-h5,
-.h5 {
+h5 {
   font-size: @font-size-h5;
+  line-height: @line-height-h5;
 }
 
-h6,
-.h6 {
+h6 {
   font-size: @font-size-h6;
+  line-height: @line-height-h6;
 }
 
 // Body text
@@ -104,103 +67,18 @@ p {
   }
 }
 
-.lead {
-  margin-bottom: @line-height-computed;
-  font-size: floor((@font-size-base * 1.15));
-  font-weight: 300;
-  line-height: 1.4;
-
-  @media (min-width: @screen-tablet) {
-    font-size: (@font-size-base * 1.5);
-  }
-}
-
 // Emphasis & misc
 // -------------------------
 
 // Ex: (12px small font / 14px base font) * 100% = about 85%
-small,
-.small {
+small {
   font-size: floor((100% * @font-size-small / @font-size-base));
 }
 
-mark,
-.mark {
+mark {
   background-color: @state-warning-bg;
   padding: 0.2em;
-}
-
-// Alignment
-.text-left {
-  text-align: left;
-}
-
-.text-right {
-  text-align: right;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.text-justify {
-  text-align: justify;
-}
-
-.text-nowrap {
-  white-space: nowrap;
-}
-
-// Transformation
-.text-lowercase {
-  text-transform: lowercase;
-}
-
-.text-uppercase {
-  text-transform: uppercase;
-}
-
-.text-capitalize {
-  text-transform: capitalize;
-}
-
-// Ellipsis
-.text-ellipsis {
-  .ellipsis;
-}
-
-// Contextual colors
-.text-muted {
-  color: @text-muted;
-}
-
-.text-primary {
-  .text-emphasis-variant(@H050);
-}
-
-.text-success {
-  .text-emphasis-variant(@state-success-text);
-}
-
-.text-info {
-  .text-emphasis-variant(@state-info-text);
-}
-
-.text-warning {
-  .text-emphasis-variant(@state-warning-text);
-}
-
-.text-danger {
-  .text-emphasis-variant(@state-error-text);
-}
-
-// Page header
-// -------------------------
-
-.page-header {
-  padding-bottom: ((@line-height-computed / 2) - 1);
-  margin: (@line-height-computed * 2) 0 @line-height-computed;
-  border-bottom: 1px solid @page-header-border-color;
+  font-weight: bolder;
 }
 
 // Lists
@@ -215,27 +93,6 @@ ol {
   ul,
   ol {
     margin-bottom: 0;
-  }
-}
-
-// List options
-
-// Unstyled keeps list items block level, just removes default browser padding and list-style
-.list-unstyled {
-  padding-left: 0;
-  list-style: none;
-}
-
-// Inline turns list items into inline-block
-.list-inline {
-  .list-unstyled();
-
-  margin-left: -5px;
-
-  > li {
-    display: inline-block;
-    padding-left: 5px;
-    padding-right: 5px;
   }
 }
 
