@@ -37,13 +37,13 @@ import { ItemDataType } from '../@types/common';
 interface CascaderState {
   selectNode?: any;
   value?: any;
-  activePaths: any[];
+  activePaths?: any[];
   items?: any[];
   tempActivePaths?: any[];
-  data: any[];
+  data?: any[];
   active?: boolean;
-  flattenData: any[];
-  searchKeyword: string;
+  flattenData?: any[];
+  searchKeyword?: string;
 }
 
 class Cascader extends React.Component<CascaderProps, CascaderState> {
@@ -216,7 +216,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
      */
     if (isLeafNode) {
       this.handleCloseDropdown();
-      const nextState: any = {
+      const nextState: CascaderState = {
         selectNode: node,
         ...getDerivedStateForCascade(this.props, this.state, value)
       };
@@ -250,19 +250,19 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
   };
 
   handleSearchRowSelect = (item: object, event: React.SyntheticEvent<HTMLElement>) => {
-    const { valueKey, onChange } = this.props;
+    const { valueKey, onChange, onSelect } = this.props;
     const value = item[valueKey];
-    const { activePaths, items } = getDerivedStateForCascade(this.props, this.state, value);
 
     this.handleCloseDropdown();
-    this.setState({
+    const nextState = {
+      ...getDerivedStateForCascade(this.props, this.state, value),
       selectNode: item,
       searchKeyword: '',
-      activePaths,
-      items,
       value
-    });
+    };
+    this.setState(nextState);
 
+    onSelect && onSelect(item, null, null, event);
     onChange && onChange(value, event);
   };
 
