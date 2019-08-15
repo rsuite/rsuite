@@ -1113,7 +1113,6 @@
 @picker-select-item-color: @B800;
 @picker-menu-item-hover-bg: @H050;
 // Select picker
-@picker-select-menu-item-selected-bg: fade(@H050, 50);
 @picker-select-menu-item-selected-color: @H700;
 @picker-menu-item-disabled-color: @B400;
 @picker-selected-value-color: @H700;
@@ -1202,7 +1201,9 @@
 
 // == TagPicker
 @tag-picker-toggle-content-height: @input-height-extra-small;
-@tag-picker-content-padding-vertical: (@input-picker-toggle-content-height - @tag-picker-toggle-content-height)/2; // (34 -24)/2
+@tag-picker-content-padding-vertical: (
+    @input-picker-toggle-content-height - @tag-picker-toggle-content-height
+  )/2; // (34 -24)/2
 @tag-picker-content-padding-horizontal: 6px;
 @tag-picker: ~'@{ns}@{multi-input-picker-prefix}';
 
