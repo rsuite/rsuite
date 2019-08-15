@@ -55,12 +55,7 @@ type Props = {
   onExit?: () => void,
   onExiting?: () => void,
   onExited?: () => void,
-  onSelect?: (
-    value: any,
-    activePaths: any[],
-    concat: (data: any[], children: any[]) => any[],
-    event: DefaultEvent
-  ) => void,
+  onSelect?: (item: any, activePaths: any, concat: any, event: DefaultEvent) => void,
   onSearch?: (searchKeyword: string, event: DefaultEvent) => void,
   locale: Object,
   cleanable?: boolean,
