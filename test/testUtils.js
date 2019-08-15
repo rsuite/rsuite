@@ -41,3 +41,9 @@ export function innerText(node) {
   }
   return node.innerText;
 }
+
+export function createTestContainer() {
+  const container = document.createElement('div');
+  document.body.appendChild(container);
+  return container;
+}
