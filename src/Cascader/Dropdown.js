@@ -156,6 +156,7 @@ function getDerivedStateForCascade(
 
   return {
     items: nextItems.reverse(),
+    tempActivePaths: null,
     activePaths: cascadePathItems
   };
 }
@@ -298,19 +299,18 @@ class Dropdown extends React.Component<Props, State> {
   };
 
   handleSearchRowSelect = (item: Object, event: DefaultEvent) => {
-    const { valueKey, onChange } = this.props;
+    const { valueKey, onChange, onSelect } = this.props;
     const value = item[valueKey];
-    const { activePaths, items } = getDerivedStateForCascade(this.props, this.state, value);
 
     this.closeDropdown();
     this.setState({
+      ...getDerivedStateForCascade(this.props, this.state, value),
       selectNode: item,
       searchKeyword: '',
-      activePaths,
-      items,
       value
     });
 
+    onSelect && onSelect(item, null, null, event);
     onChange && onChange(value, event);
   };
 
