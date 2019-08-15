@@ -69,6 +69,7 @@ export function getDerivedStateForCascade(
 
   return {
     items: nextItems.reverse(),
+    tempActivePaths: null,
     activePaths: cascadePathItems
   };
 }
