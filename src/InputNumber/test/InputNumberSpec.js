@@ -126,7 +126,7 @@ describe('InputNumber', () => {
     ReactTestUtils.Simulate.blur(instance.querySelector('.rs-input'));
   });
 
-  it('Should call obFocus callback', done => {
+  it('Should call onFocus callback', done => {
     const doneOp = () => {
       done();
     };

@@ -241,6 +241,26 @@ describe('CheckPicker', () => {
     ReactTestUtils.Simulate.keyDown(toggle, { keyCode: 13 });
   });
 
+  it('Should call onBlur callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getInstance(<Dropdown data={data} onBlur={doneOp} />);
+    const toggle = instance.getToggleInstance().toggleRef.current;
+
+    ReactTestUtils.Simulate.blur(toggle);
+  });
+
+  it('Should call onFocus callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getInstance(<Dropdown data={data} onFocus={doneOp} />);
+    const toggle = instance.getToggleInstance().toggleRef.current;
+
+    ReactTestUtils.Simulate.focus(toggle);
+  });
+
   it('Should have a custom className', () => {
     const instance = getInstance(
       <Dropdown className="custom" defaultOpen data={[{ label: '', value: '1' }]} />

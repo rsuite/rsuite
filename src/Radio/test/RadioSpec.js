@@ -85,7 +85,7 @@ describe('Radio', () => {
     ReactTestUtils.Simulate.blur(instance.querySelector('input'));
   });
 
-  it('Should call obFocus callback', done => {
+  it('Should call onFocus callback', done => {
     const doneOp = () => {
       done();
     };

@@ -263,7 +263,7 @@ describe('SelectPicker', () => {
   });
 
   it('Should call `onChange` by keyCode=13 ', done => {
-    const doneOp = key => {
+    const doneOp = () => {
       done();
     };
     const instance = getInstance(
@@ -272,6 +272,26 @@ describe('SelectPicker', () => {
     const toggle = instance.getToggleInstance().toggleRef.current;
 
     ReactTestUtils.Simulate.keyDown(toggle, { keyCode: 13 });
+  });
+
+  it('Should call onBlur callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getInstance(<Dropdown defaultOpen data={data} onBlur={doneOp} />);
+    const toggle = instance.getToggleInstance().toggleRef.current;
+
+    ReactTestUtils.Simulate.blur(toggle);
+  });
+
+  it('Should call onFocus callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getInstance(<Dropdown defaultOpen data={data} onFocus={doneOp} />);
+    const toggle = instance.getToggleInstance().toggleRef.current;
+
+    ReactTestUtils.Simulate.focus(toggle);
   });
 
   it('Should have a custom className', () => {

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import Ripple from '../Ripple';
-import { prefix, getUnhandledProps, defaultProps } from '../utils';
+import { prefix, getUnhandledProps, defaultProps, createChainedFunction } from '../utils';
 
 export interface PickerToggleProps {
   classPrefix?: string;
@@ -114,8 +115,8 @@ class PickerToggle extends React.Component<PickerToggleProps, PickerToggleState>
         tabIndex={tabIndex}
         className={classes}
         ref={this.toggleRef}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
+        onFocus={createChainedFunction(this.handleFocus, _.get(unhandled, 'onFocus'))}
+        onBlur={createChainedFunction(this.handleBlur, _.get(unhandled, 'onBlur'))}
       >
         <span className={this.addPrefix(hasValue ? 'value' : 'placeholder')}>{children}</span>
         {hasValue && cleanable && this.renderToggleClean()}

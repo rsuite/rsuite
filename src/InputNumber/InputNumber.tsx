@@ -230,7 +230,7 @@ class InputNumber extends React.Component<InputNumberProps, InputNumberState> {
           step={step}
           inputRef={this.bindInputRef}
           onChange={this.handleOnChange}
-          onBlur={createChainedFunction(this.handleBlur, htmlInputProps.onBlur)}
+          onBlur={createChainedFunction(this.handleBlur, _.get(htmlInputProps, 'onBlur'))}
           value={_.isNil(value) ? '' : `${value}`}
           disabled={disabled}
         />
