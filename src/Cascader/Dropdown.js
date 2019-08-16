@@ -296,16 +296,17 @@ class Dropdown extends React.Component<Props, State> {
   handleSearchRowSelect = (item: Object, event: DefaultEvent) => {
     const { valueKey, onChange, onSelect } = this.props;
     const value = item[valueKey];
+    const nextState = getDerivedStateForCascade(this.props, this.state, value);
 
     this.closeDropdown();
     this.setState({
-      ...getDerivedStateForCascade(this.props, this.state, value),
+      ...nextState,
       selectNode: item,
       searchKeyword: '',
       value
     });
 
-    onSelect && onSelect(item, null, null, event);
+    onSelect && onSelect(item, nextState.activePaths, null, event);
     onChange && onChange(value, event);
   };
 
