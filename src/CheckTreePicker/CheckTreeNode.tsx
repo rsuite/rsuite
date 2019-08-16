@@ -86,7 +86,7 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
     onTreeToggle && onTreeToggle(nodeData, layer, event);
   };
 
-  handleSelect = (_value: any, event: React.SyntheticEvent<any>, _checked: boolean) => {
+  handleSelect = (_value: any, event: React.SyntheticEvent<any>) => {
     const { onSelect, disabled, uncheckable, nodeData, checkState } = this.props;
 
     if (disabled || uncheckable) {
