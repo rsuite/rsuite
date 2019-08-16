@@ -89,7 +89,7 @@ class Radio extends React.Component<RadioProps, RadioState> {
     const [htmlInputProps, rest] = partitionHTMLProps(unhandled);
 
     const input = (
-      <span className={addPrefix('wrapper')} tabIndex={disabled ? -1 : tabIndex}>
+      <span className={addPrefix('wrapper')}>
         <input
           {...htmlInputProps}
           type="radio"
@@ -97,6 +97,7 @@ class Radio extends React.Component<RadioProps, RadioState> {
           defaultChecked={defaultChecked}
           ref={inputRef}
           name={name}
+          tabIndex={tabIndex}
           disabled={disabled}
           onChange={this.handleChange}
           onClick={event => event.stopPropagation()}

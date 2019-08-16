@@ -14,6 +14,7 @@ export interface PickerToggleProps {
   componentClass: React.ElementType;
   onClean?: (event: React.MouseEvent) => void;
   active?: boolean;
+  tabIndex: number;
 }
 
 interface PickerToggleState {
@@ -35,6 +36,7 @@ class PickerToggle extends React.Component<PickerToggleProps, PickerToggleState>
 
   static defaultProps = {
     componentClass: 'a',
+    tabIndex: 0,
     caret: true
   };
 
@@ -95,6 +97,7 @@ class PickerToggle extends React.Component<PickerToggleProps, PickerToggleState>
       classPrefix,
       caret,
       active,
+      tabIndex,
       ...rest
     } = this.props;
 
@@ -108,7 +111,7 @@ class PickerToggle extends React.Component<PickerToggleProps, PickerToggleState>
       <Component
         {...unhandled}
         role="combobox"
-        tabIndex="0"
+        tabIndex={tabIndex}
         className={classes}
         ref={this.toggleRef}
         onFocus={this.handleFocus}

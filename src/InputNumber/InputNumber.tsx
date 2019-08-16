@@ -10,7 +10,13 @@ import InputGroupAddon from '../InputGroup/InputGroupAddon';
 import Input from '../Input';
 import Button from '../Button';
 import Icon from '../Icon';
-import { prefix, defaultProps, getUnhandledProps, partitionHTMLProps } from '../utils';
+import {
+  prefix,
+  defaultProps,
+  getUnhandledProps,
+  partitionHTMLProps,
+  createChainedFunction
+} from '../utils';
 import { InputNumberProps } from './InputNumber.d';
 
 interface InputNumberState {
@@ -224,7 +230,7 @@ class InputNumber extends React.Component<InputNumberProps, InputNumberState> {
           step={step}
           inputRef={this.bindInputRef}
           onChange={this.handleOnChange}
-          onBlur={this.handleBlur}
+          onBlur={createChainedFunction(this.handleBlur, htmlInputProps.onBlur)}
           value={_.isNil(value) ? '' : `${value}`}
           disabled={disabled}
         />

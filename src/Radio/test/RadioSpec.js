@@ -77,6 +77,22 @@ describe('Radio', () => {
     ReactTestUtils.Simulate.change(instance.querySelector('input'));
   });
 
+  it('Should call onBlur callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getDOMNode(<Radio onBlur={doneOp} />);
+    ReactTestUtils.Simulate.blur(instance.querySelector('input'));
+  });
+
+  it('Should call obFocus callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getDOMNode(<Radio onFocus={doneOp} />);
+    ReactTestUtils.Simulate.focus(instance.querySelector('input'));
+  });
+
   it('Should be checked with change', done => {
     const doneOp = checked => {
       if (checked === '100') {
