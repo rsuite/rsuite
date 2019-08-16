@@ -121,22 +121,17 @@
     }
   }
 
-  // Disabled checkbox can't focus
-  .@{ns}checkbox:not(.@{ns}checkbox-disabled) &:focus {
-    outline: none;
+  [type='checkbox']:focus ~ .@{ns}checkbox-inner::before {
+    .checkbox-inner-active-shadow(@checkbox-default-border-color);
 
-    .@{ns}checkbox-inner::before {
-      .checkbox-inner-active-shadow(@checkbox-default-border-color);
+    @hover: ~':hover';
 
-      @hover: ~':hover';
+    @{hover}& {
+      .checkbox-inner-active-shadow(@checkbox-checked-border-color);
+    }
 
-      @{hover}& {
-        .checkbox-inner-active-shadow(@checkbox-checked-border-color);
-      }
-
-      .@{ns}checkbox-checked & {
-        .checkbox-inner-active-shadow(@checkbox-checked-border-color);
-      }
+    .@{ns}checkbox-checked & {
+      .checkbox-inner-active-shadow(@checkbox-checked-border-color);
     }
   }
 }

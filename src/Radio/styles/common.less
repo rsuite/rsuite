@@ -4,6 +4,63 @@
 
 .@{ns}radio {
   .radio-checkbox-common;
+
+  &-group-inline {
+    display: inline-block;
+    margin-left: -1 * @radio-sense-width;
+  }
+
+  &-group-picker {
+    color: @picker-default-toggle-font-color;
+    border: 1px solid @picker-default-toggle-border-color;
+    border-radius: @border-radius-base;
+    margin-left: 0;
+
+    .@{ns}radio-inline {
+      margin-left: 0;
+    }
+
+    .@{ns}radio-inline + .@{ns}radio-inline {
+      margin-left: @radio-sense-width; // space out consecutive inline controls
+    }
+  }
+
+  // Reset checker padding value.
+  &-group-picker &-checker {
+    padding: 0;
+    min-height: auto;
+  }
+
+  // Picker Radio group hidden radio.
+  &-group-picker &-wrapper {
+    display: none;
+  }
+
+  &-group-picker &-checker > label {
+    .btn(base);
+
+    color: @radio-label-font-color;
+    transition: color 0.3s linear;
+    padding: @padding-base-vertical - 1px @padding-base-horizontal - 1px;
+
+    &:hover,
+    &:active {
+      color: @radio-label-font-hover-color;
+    }
+  }
+
+  &-group-picker &-checked &-checker > label {
+    color: @radio-picker-active-color;
+  }
+
+  &-group-picker &-disabled &-checker > label {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  &-group-picker &-disabled:not(&-checked) &-checker > label {
+    color: @radio-label-font-color;
+  }
 }
 
 .@{ns}radio-checker {
@@ -108,81 +165,17 @@
     }
   }
 
-  //Disabled radio can't focus
-  .@{ns}radio:not(.@{ns}radio-disabled) &:focus {
-    outline: none;
+  [type='radio']:focus ~ .@{ns}radio-inner::before {
+    .radio-inner-active-shadow(@radio-default-border-color);
 
-    .@{ns}radio-inner::before {
-      .radio-inner-active-shadow(@radio-default-border-color);
+    @hover: ~':hover';
 
-      @hover: ~':hover';
-
-      @{hover}& {
-        .radio-inner-active-shadow(@radio-checked-border-color);
-      }
-
-      .@{ns}radio-checked & {
-        .radio-inner-active-shadow(@radio-checked-border-color);
-      }
-    }
-  }
-}
-
-.@{ns}radio {
-  &-group-inline {
-    display: inline-block;
-    margin-left: -1 * @radio-sense-width;
-  }
-
-  &-group-picker {
-    color: @picker-default-toggle-font-color;
-    border: 1px solid @picker-default-toggle-border-color;
-    border-radius: @border-radius-base;
-    margin-left: 0;
-
-    .@{ns}radio-inline {
-      margin-left: 0;
+    @{hover}& {
+      .radio-inner-active-shadow(@radio-checked-border-color);
     }
 
-    .@{ns}radio-inline + .@{ns}radio-inline {
-      margin-left: @radio-sense-width; // space out consecutive inline controls
+    .@{ns}radio-checked & {
+      .radio-inner-active-shadow(@radio-checked-border-color);
     }
-  }
-
-  // Reset checker padding value.
-  &-group-picker &-checker {
-    padding: 0;
-    min-height: auto;
-  }
-
-  // Picker Radio group hidden radio.
-  &-group-picker &-wrapper {
-    display: none;
-  }
-
-  &-group-picker &-checker > label {
-    .btn(base);
-
-    color: @radio-label-font-color;
-    transition: color 0.3s linear;
-    padding: @padding-base-vertical - 1px @padding-base-horizontal - 1px;
-
-    &:hover,
-    &:active {
-      color: @radio-label-font-hover-color;
-    }
-  }
-
-  &-group-picker &-checked &-checker > label {
-    color: @radio-picker-active-color;
-  }
-
-  &-group-picker &-disabled &-checker > label {
-    opacity: 0.3;
-    cursor: not-allowed;
-  }
-
-  &-group-picker &-disabled:not(&-checked) &-checker > label {
-    color: @radio-label-font-color;
   }
 }
