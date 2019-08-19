@@ -72,7 +72,8 @@
 //
 //## Font, line-height, and color for body text, headings, and more.
 
-@font-family-base: Apple-System, Arial, Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', STXihei, sans-serif;
+@font-family-base: Apple-System, Arial, Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+  'Microsoft YaHei', STXihei, sans-serif;
 @font-family-icon: 'rsuite-icon-font';
 
 @font-size-large: 16px;
@@ -102,7 +103,9 @@
 @line-height-large: unit(@line-height-large-computed / @font-size-large); // ~1.375
 @line-height-base: unit(@line-height-computed / @font-size-base); // ~1.4285714285714286
 @line-height-small: unit(@line-height-computed / @font-size-small); // ~1.6666666666666667
-@line-height-extra-small: unit(@line-height-computed / @font-size-extra-small); // ~1.6666666666666667
+@line-height-extra-small: unit(
+  @line-height-computed / @font-size-extra-small
+); // ~1.6666666666666667
 
 //** By default, this inherits from the `<body>`.
 @headings-font-family: inherit;
@@ -432,7 +435,9 @@
 @toggle-md-handle-diameter: @toggle-md-height - @toggle-md-handle-gap*2;
 @toggle-md-handle-bg: @B000;
 @toggle-md-inner-line-height-computed: @toggle-md-height;
-@toggle-md-inner-line-height: unit(@toggle-md-inner-line-height-computed / @toggle-md-inner-font-size);
+@toggle-md-inner-line-height: unit(
+  @toggle-md-inner-line-height-computed / @toggle-md-inner-font-size
+);
 // The same to button
 @toggle-md-inner-margin: @padding-base-vertical;
 
@@ -1072,6 +1077,10 @@
 @date-picker-prefix: ~'picker-date';
 @input-picker-prefix: ~'picker-input';
 @multi-input-picker-prefix: ~'picker-tag';
+// Calendar Picker Name Space
+@clpns: ~'@{ns}@{calendar-picker-prefix}';
+// Check picker name space
+@ckpns: ~'@{ns}@{check-picker-prefix}';
 @picker-none-padding: 6px 12px 12px;
 @picker-none-font-color: @B600;
 //** Picker background
@@ -1153,7 +1162,9 @@
 @calendar-table-cell-content-selected-color: @H500;
 @calendar-table-cell-content-disabled-color: @B400;
 /* stylelint-disable-next-line */ // caclFontColor is hack function
-@calendar-table-cell-content-selected-font-color: color(~`caclFontColor('@{calendar-table-cell-content-selected-color}') `);
+@calendar-table-cell-content-selected-font-color: color(
+  ~`caclFontColor('@{calendar-table-cell-content-selected-color}') `
+);
 @calendar-table-cell-header-color: @B600;
 @calendar-table-cell-week-number-color: @B600;
 @calendar-table-cell-week-number-bg: @B050;
