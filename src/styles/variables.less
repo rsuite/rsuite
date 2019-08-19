@@ -426,6 +426,8 @@
 //Disabled toggle checked background color
 @toggle-disabled-default-background-color: @B050;
 @toggle-disabled-checked-background-color: @H100;
+/* stylelint-disable-next-line */ // calcFontColor is hack function
+@toggle-inner-text-color: color(~`calcFontColor('@{toggle-checked-bg}') `);
 @toggle-active-scale: 1.2;
 @toggle-transition: 0.2s ease-in-out;
 @toggle-md-height: 24px;
