@@ -602,8 +602,8 @@
 @nav-bar-default-font-color: @B800;
 
 //** Inverse
-/* stylelint-disable-next-line */ // caclFontColor is hack function
-@nav-bar-inverse-font-color: color(~`caclFontColor('@{nav-bar-inverse-bg}') `);
+/* stylelint-disable-next-line */ // calcFontColor is hack function
+@nav-bar-inverse-font-color: color(~`calcFontColor('@{nav-bar-inverse-bg}') `);
 @nav-bar-inverse-bg: @H500;
 @nav-bar-inverse-hover-bg: @H600;
 @nav-bar-inverse-active-bg: @H700;
@@ -648,8 +648,8 @@
 @sidenav-default-hover-bg: @nav-item-default-hover-bg;
 @sidenav-default-click-bg: @nav-item-click-bg;
 // ** Sidenav inverse
-/* stylelint-disable-next-line */ // caclFontColor is hack function
-@sidenav-inverse-font-color: color(~`caclFontColor('@{sidenav-inverse-bg}') `);
+/* stylelint-disable-next-line */ // calcFontColor is hack function
+@sidenav-inverse-font-color: color(~`calcFontColor('@{sidenav-inverse-bg}') `);
 @sidenav-inverse-bg: @nav-bar-inverse-bg;
 @sidenav-inverse-hover-bg: @nav-bar-inverse-hover-bg;
 @sidenav-inverse-active-bg: @nav-bar-inverse-active-bg;
@@ -1161,10 +1161,8 @@
 @calendar-table-cell-content-today-border-color: @H700;
 @calendar-table-cell-content-selected-color: @H500;
 @calendar-table-cell-content-disabled-color: @B400;
-/* stylelint-disable-next-line */ // caclFontColor is hack function
-@calendar-table-cell-content-selected-font-color: color(
-  ~`caclFontColor('@{calendar-table-cell-content-selected-color}') `
-);
+/* stylelint-disable-next-line */ // calcFontColor is hack function
+@calendar-table-cell-content-selected-font-color: color(~`calcFontColor('@{calendar-table-cell-content-selected-color}')`);
 @calendar-table-cell-header-color: @B600;
 @calendar-table-cell-week-number-color: @B600;
 @calendar-table-cell-week-number-bg: @B050;

@@ -3,8 +3,8 @@
   @color-dark: color(~`palette('@{primary-color}', 600) `);
   @color-darker: color(~`palette('@{primary-color}', 700) `);
   @color-even-darker: color(~`palette('@{primary-color}', 800) `);
-  /* stylelint-disable-next-line */ // caclFontColor is hack function
-  @readable-color: color(~`caclFontColor('@{color-darker}') `);
+  /* stylelint-disable-next-line */ // calcFontColor is hack function
+  @readable-color: color(~`calcFontColor('@{color-darker}') `);
   @font-color: if(boolean(@calc-readable-color), @readable-color, @font-base-color);
 
   color: @font-color;
