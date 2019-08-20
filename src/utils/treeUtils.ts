@@ -1,6 +1,9 @@
 import * as React from 'react';
 import _ from 'lodash';
 import { reactToString } from 'rsuite-utils/lib/utils';
+import { Node } from '../CheckTreePicker/utils';
+import { CheckTreePickerProps } from '../CheckTreePicker/CheckTreePicker';
+import { TreePickerProps } from '../TreePicker/TreePicker';
 
 const SEARCH_BAR_HEIGHT = 48;
 const MENU_PADDING = 12;
@@ -105,4 +108,31 @@ export function shouldDisplay(label: any, searchKeyword: string) {
  */
 export function getVirtualLisHeight(inline: boolean, height: number = 0) {
   return inline ? height - MENU_PADDING * 2 : height - SEARCH_BAR_HEIGHT - MENU_PADDING * 2;
+}
+
+/**
+ * 判断节点是否存在可见的子节点。
+ * @param node
+ */
+export function hasVisibleChildren(node: Node, childrenKey: string) {
+  if (!Array.isArray(node[childrenKey])) {
+    return false;
+  }
+
+  return node[childrenKey].some((child: Node) => child.visible);
+}
+
+/**
+ * 废弃 prop warning
+ * @param prop
+ */
+export function treeDeprecatedWarning(
+  props: CheckTreePickerProps | TreePickerProps,
+  keys: string[] = []
+) {
+  keys.forEach(key => {
+    if (!_.isUndefined(props[key])) {
+      console.warn(`'Warning: ${key} is deprecated and will be removed in a future release.'`);
+    }
+  });
 }

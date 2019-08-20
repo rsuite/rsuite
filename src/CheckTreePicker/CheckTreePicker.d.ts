@@ -22,6 +22,12 @@ export interface CheckTreePickerProps extends TreeBaseProps, FormControlPickerPr
   /** Set the option value for the check box not to be rendered */
   uncheckableItemValues?: any[];
 
+  /** Set the option value for the expand node */
+  defaultExpandItemValues?: any[];
+
+  /** Set the option value for the expand node with controlled*/
+  expandItemValues?: any[];
+
   /** Customizing the Rendering Menu list */
   renderMenu?: (menu: React.ReactNode) => React.ReactNode;
 

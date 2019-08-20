@@ -164,7 +164,7 @@ describe('TreePicker', () => {
       <TreePicker
         open
         data={data}
-        expandAll
+        defaultExpandAll
         value="tester1"
         onChange={value => {
           if (value === 'tester2') {
@@ -187,7 +187,7 @@ describe('TreePicker', () => {
       <TreePicker
         open
         data={data}
-        expandAll
+        defaultExpandAll
         value="tester1"
         onChange={value => {
           if (value === 'tester0') {
@@ -210,7 +210,7 @@ describe('TreePicker', () => {
     const doneOp = values => {
       done();
     };
-    const instance = mount(<TreePicker data={data} onChange={doneOp} inline expandAll />);
+    const instance = mount(<TreePicker data={data} onChange={doneOp} inline defaultExpandAll />);
     instance.find('span[data-key="0-0"]').simulate('click');
     instance.find('span[data-key="0-0"]').simulate('keydown', {
       keyCode: 13
@@ -263,7 +263,7 @@ describe('TreePicker', () => {
     };
 
     const instance = mount(
-      <TreePicker data={data} onExpand={mockOnExpand} inline cascade={false} expandAll />
+      <TreePicker data={data} onExpand={mockOnExpand} inline cascade={false} defaultExpandAll />
     );
     instance.find('div[data-ref="0-1"]  > .rs-tree-node-expand-icon').simulate('click');
 
@@ -273,21 +273,6 @@ describe('TreePicker', () => {
 
     assert.equal(instance.html().indexOf('data-key="0-1-0"') > -1, true);
 
-    instance.unmount();
-  });
-
-  it('Should expandAll nodes when `expandAll` setting true', () => {
-    const instance = mount(<TreePicker data={data} inline />);
-
-    instance.setProps({
-      expandAll: false
-    });
-    assert.equal(instance.find('.rs-tree-open').length, 0);
-
-    instance.setProps({
-      expandAll: true
-    });
-    assert.equal(instance.find('.rs-tree-open').length, 2);
     instance.unmount();
   });
 
@@ -348,5 +333,31 @@ describe('TreePicker', () => {
       />
     );
     picker.close();
+  });
+
+  it('should render with expand master node', () => {
+    const instance = mount(<TreePicker data={data} inline expandItemValues={['Master']} />);
+    assert.equal(instance.find('.rs-tree-node-expanded').length, 1);
+  });
+
+  it('should fold all the node when toggle master node', () => {
+    let expandItemValues = [];
+    const mockOnExpand = values => {
+      expandItemValues = values;
+    };
+    const instance = mount(
+      <TreePicker data={data} inline expandItemValues={['Master']} onExpand={mockOnExpand} />
+    );
+
+    assert.equal(instance.html().indexOf('rs-tree-node-expanded') > -1, true);
+
+    instance.find('div[data-ref="0-0"]  > .rs-tree-node-expand-icon').simulate('click');
+
+    instance.setProps({
+      expandItemValues
+    });
+    assert.equal(instance.html().indexOf('rs-tree-node-expanded') === -1, true);
+
+    instance.unmount();
   });
 });
