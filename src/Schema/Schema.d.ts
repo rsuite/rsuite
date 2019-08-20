@@ -7,7 +7,9 @@ export declare class Schema {
   getFieldType: (fieldName: string) => CheckType;
   getKeys: () => string[];
   checkForField: (fieldName: string, fieldValue: any, data: object) => CheckResult;
+  checkForFieldAsync: (fieldName: string, fieldValue: any, data: object) => Promise<any>;
   check: (data: object) => CheckResult;
+  checkAsync: (data: object) => Promise<any>;
 }
 
 declare function SchemaModel(schema: { [key: string]: CheckType }): Schema;
