@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Cascader from '../index';
+import MultiCascader from '../index';
 import { createTestContainer, getDOMNode, getStyle } from '@test/testUtils';
 
 import '../styles/index';
@@ -22,18 +22,23 @@ const data = [
   }
 ];
 
-describe('Cascader styles', () => {
+describe('MultiCascader styles', () => {
   it('Should render the correct caret', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Cascader ref={instanceRef} data={data} />, createTestContainer());
+    ReactDOM.render(<MultiCascader ref={instanceRef} data={data} />, createTestContainer());
     const toggleDom = getDOMNode(instanceRef.current).querySelector('.rs-picker-toggle');
     toggleDom.click();
 
-    const menuItemDom = document.body.querySelector('.rs-picker-cascader-menu-item');
-    const caretDom = menuItemDom.querySelector('.rs-picker-cascader-menu-caret');
-    assert.equal(getStyle(menuItemDom, 'padding'), '8px 28px 8px 12px');
+    const menuItemDom = document.body.querySelector('.rs-picker-cascader-menu-has-children');
     assert.equal(
-      window.getComputedStyle(caretDom, '::before').content,
+      getStyle(menuItemDom.querySelector('.rs-checkbox-checker label'), 'padding'),
+      '8px 26px 8px 38px'
+    );
+    assert.equal(
+      window.getComputedStyle(
+        menuItemDom.querySelector('.rs-picker-cascader-menu-caret'),
+        '::before'
+      ).content,
       `"${String.fromCharCode(0xea0c)}"`
     );
   });

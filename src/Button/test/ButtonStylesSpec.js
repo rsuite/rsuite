@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Button from '../Button';
+import Button from '../index';
 import ButtonToolbar from '../../ButtonToolbar';
 import {
   createTestContainer,

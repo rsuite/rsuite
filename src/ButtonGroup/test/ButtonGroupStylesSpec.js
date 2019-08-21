@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ButtonGroup from '../ButtonGroup';
+import ButtonGroup from '../index';
 import Button from '../../Button';
 import { createTestContainer, getDOMNode, getStyle } from '@test/testUtils';
 

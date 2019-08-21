@@ -14,11 +14,11 @@ import '../styles/index';
 const { H500, H700 } = getDefaultPalette();
 
 describe('Calendar styles', () => {
-  const instanceRef = React.createRef();
-  ReactDOM.render(<Calendar ref={instanceRef} />, createTestContainer());
-  const dom = getDOMNode(instanceRef.current);
-
   it('MonthToolbar should render correct styles', () => {
+    const instanceRef = React.createRef();
+    ReactDOM.render(<Calendar ref={instanceRef} />, createTestContainer());
+    const dom = getDOMNode(instanceRef.current);
+
     const monthToolbarDom = dom.querySelector('.rs-calendar-header-month-toolbar');
     assert.equal(getStyle(monthToolbarDom, 'float'), 'left');
     assert.equal(getStyle(monthToolbarDom, 'display'), 'block');
@@ -26,12 +26,20 @@ describe('Calendar styles', () => {
   });
 
   it('TodayButton should render correct styles', () => {
+    const instanceRef = React.createRef();
+    ReactDOM.render(<Calendar ref={instanceRef} />, createTestContainer());
+    const dom = getDOMNode(instanceRef.current);
+
     const todayButtonDom = dom.querySelector('.rs-calendar-btn-today');
     assert.equal(getStyle(todayButtonDom, 'backgroundColor'), toRGB('#f7f7fa'));
     assert.equal(getStyle(todayButtonDom, 'padding'), '8px 12px');
   });
 
   it('Selected item should render correct styles', () => {
+    const instanceRef = React.createRef();
+    ReactDOM.render(<Calendar ref={instanceRef} />, createTestContainer());
+    const dom = getDOMNode(instanceRef.current);
+
     const selectedDom = dom.querySelector(
       '.rs-calendar-table-cell-selected .rs-calendar-table-cell-content'
     );
@@ -42,6 +50,10 @@ describe('Calendar styles', () => {
   });
 
   it('Click date title button should render correct styles', () => {
+    const instanceRef = React.createRef();
+    ReactDOM.render(<Calendar ref={instanceRef} />, createTestContainer());
+    const dom = getDOMNode(instanceRef.current);
+
     const dateTitleDom = dom.querySelector('.rs-calendar-header-title-date');
     dateTitleDom.click();
     const headerBackward = dom.querySelector('.rs-calendar-header-backward');

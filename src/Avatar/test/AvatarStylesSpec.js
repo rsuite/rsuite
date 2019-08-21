@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Avatar from '../Avatar';
+import Avatar from '../index';
 import { createTestContainer, getDOMNode, getStyle, toRGB } from '@test/testUtils';
 
 import '../styles/index';
@@ -23,7 +23,7 @@ describe('Avatar styles', () => {
 
   it('Should render circle avatar', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Avatar circle />, createTestContainer());
+    ReactDOM.render(<Avatar ref={instanceRef} circle />, createTestContainer());
     assert.equal(getStyle(getDOMNode(instanceRef.current), 'borderRadius'), '50%');
   });
 });
