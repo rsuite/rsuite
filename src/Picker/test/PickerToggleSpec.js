@@ -40,6 +40,23 @@ describe('Toggle', () => {
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
   });
 
+  it('Should call onBlur callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getDOMNode(<Toggle onBlur={doneOp} />);
+    ReactTestUtils.Simulate.blur(instance);
+  });
+
+  it('Should call onFocus callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getDOMNode(<Toggle onFocus={doneOp} />);
+
+    ReactTestUtils.Simulate.focus(instance);
+  });
+
   it('Should have a custom className', () => {
     const instance = getDOMNode(<Toggle className="custom" />);
     assert.include(instance.className, 'custom');

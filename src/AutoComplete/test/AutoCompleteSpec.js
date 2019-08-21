@@ -61,6 +61,15 @@ describe('AutoComplete', () => {
     ReactTestUtils.Simulate.focus(input);
   });
 
+  it('Should call onBlur callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getDOMNode(<AutoComplete onBlur={doneOp} />);
+    const input = instance.querySelector('input');
+    ReactTestUtils.Simulate.blur(input);
+  });
+
   it('Should call onKeyDown callback on input', done => {
     const doneOp = () => {
       done();

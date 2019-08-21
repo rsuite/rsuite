@@ -257,6 +257,22 @@ describe('InputPicker', () => {
     ReactTestUtils.Simulate.keyDown(instance, { keyCode: 13 });
   });
 
+  it('Should call onBlur callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getDOMNode(<InputPicker onBlur={doneOp} />);
+    ReactTestUtils.Simulate.blur(instance.querySelector('input'));
+  });
+
+  it('Should call onFocus callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getDOMNode(<InputPicker onFocus={doneOp} />);
+    ReactTestUtils.Simulate.focus(instance.querySelector('input'));
+  });
+
   it('Should have a custom className', () => {
     const instance = getDOMNode(<InputPicker className="custom" defaultOpen />);
     assert.include(instance.className, 'custom');

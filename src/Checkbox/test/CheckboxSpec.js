@@ -72,6 +72,22 @@ describe('Checkbox', () => {
     ReactTestUtils.Simulate.click(instance.querySelector('label'));
   });
 
+  it('Should call onBlur callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getDOMNode(<Checkbox onBlur={doneOp} />);
+    ReactTestUtils.Simulate.blur(instance.querySelector('input'));
+  });
+
+  it('Should call onFocus callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getDOMNode(<Checkbox onFocus={doneOp} />);
+    ReactTestUtils.Simulate.focus(instance.querySelector('input'));
+  });
+
   it('Should be checked with change', done => {
     const doneOp = (value, checked) => {
       if (checked) {

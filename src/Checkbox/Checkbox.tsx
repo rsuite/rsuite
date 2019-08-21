@@ -92,16 +92,13 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     const [htmlInputProps, rest] = partitionHTMLProps(unhandled);
 
     const input = (
-      <span
-        tabIndex={disabled ? -1 : tabIndex}
-        className={addPrefix('wrapper')}
-        onClick={onCheckboxClick}
-      >
+      <span className={addPrefix('wrapper')} onClick={onCheckboxClick}>
         <input
           {...htmlInputProps}
           defaultChecked={defaultChecked}
           type="checkbox"
           ref={inputRef}
+          tabIndex={tabIndex}
           onClick={event => event.stopPropagation()}
           disabled={disabled}
           onChange={this.handleChange}

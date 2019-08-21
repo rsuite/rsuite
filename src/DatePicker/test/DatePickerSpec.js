@@ -248,6 +248,27 @@ describe('DatePicker', () => {
     );
   });
 
+  it('Should call onBlur callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getDOMNode(<DatePicker onBlur={doneOp} />);
+
+    const toggle = instance.querySelector('.rs-picker-toggle');
+
+    ReactTestUtils.Simulate.blur(toggle);
+  });
+
+  it('Should call onFocus callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getDOMNode(<DatePicker onFocus={doneOp} />);
+    const toggle = instance.querySelector('.rs-picker-toggle');
+
+    ReactTestUtils.Simulate.focus(toggle);
+  });
+
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<DatePicker classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));

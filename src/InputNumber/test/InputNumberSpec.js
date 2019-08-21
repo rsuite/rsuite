@@ -1,9 +1,8 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import InputNumber from '../InputNumber';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 
 describe('InputNumber', () => {
   it('Should render a input', () => {
@@ -117,6 +116,22 @@ describe('InputNumber', () => {
     ReactTestUtils.Simulate.change(input);
 
     assert.ok(!onChnageSpy.calledOnce);
+  });
+
+  it('Should call onBlur callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getDOMNode(<InputNumber onBlur={doneOp} />);
+    ReactTestUtils.Simulate.blur(instance.querySelector('.rs-input'));
+  });
+
+  it('Should call onFocus callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getDOMNode(<InputNumber onFocus={doneOp} />);
+    ReactTestUtils.Simulate.focus(instance.querySelector('.rs-input'));
   });
 
   it('Should have a custom className', () => {

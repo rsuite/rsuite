@@ -32,8 +32,8 @@ import {
   PickerToggleTrigger
 } from '../Picker';
 
-import InputAutosize, { InputAutosizeProps } from './InputAutosize';
-import InputSearch, { InputSearchProps } from './InputSearch';
+import InputAutosize from './InputAutosize';
+import InputSearch from './InputSearch';
 import Tag from '../Tag';
 import { InputPickerProps } from './InputPicker.d';
 import { PLACEMENT } from '../constants';
@@ -693,8 +693,10 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   }
 
   renderInputSearch() {
-    const { multi } = this.props;
-    const props: InputSearchProps & InputAutosizeProps & React.RefAttributes<any> = {
+    const { multi, onBlur, onFocus } = this.props;
+    const props: any = {
+      onBlur,
+      onFocus,
       componentClass: 'input',
       inputRef: this.inputRef
     };
@@ -765,6 +767,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
         >
           <PickerToggle
             {...unhandled}
+            tabIndex={null}
             ref={this.toggleRef}
             componentClass={toggleComponentClass}
             onClean={createChainedFunction(this.handleClean, onClean)}
