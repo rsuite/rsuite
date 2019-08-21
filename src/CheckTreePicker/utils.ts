@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import { shallowEqual } from 'rsuite-utils/lib/utils';
+import { CheckTreePickerProps } from './CheckTreePicker.d';
 
 interface Props {
   childrenKey?: string;
@@ -105,4 +107,47 @@ export function getEveryFisrtLevelNodeUncheckable(nodes: Nodes) {
   });
 
   return list.every(node => node.uncheckable);
+}
+
+/**
+ * 获取节点的是否需要隐藏checkbox
+ * @param {*} node
+ */
+export function getUncheckableState(node: any, props: CheckTreePickerProps) {
+  const { uncheckableItemValues = [], valueKey } = props;
+  return uncheckableItemValues.some((value: any) => shallowEqual(node[valueKey], value));
+}
+
+/**
+ * 获取格式化后的树
+ * @param data
+ * @param nodes
+ * @param props
+ */
+export function getFormattedTree(data: any[], nodes: Nodes, props: CheckTreePickerProps) {
+  const { childrenKey } = props;
+  return data.map((node: any) => {
+    const formatted: any = { ...node };
+    const curNode = nodes[node.refKey];
+    if (curNode) {
+      formatted.check = curNode.check;
+      formatted.expand = curNode.expand;
+      formatted.uncheckable = curNode.uncheckable;
+      formatted.parentNode = curNode.parentNode;
+      if (Array.isArray(node[childrenKey]) && node[childrenKey].length > 0) {
+        formatted[childrenKey] = getFormattedTree(formatted[childrenKey], nodes, props);
+      }
+    }
+
+    return formatted;
+  });
+}
+
+/**
+ * 获取每个节点的disable状态
+ * @param {*} node
+ */
+export function getDisabledState(nodes: Nodes, node: Node, props: CheckTreePickerProps) {
+  const { disabledItemValues = [], valueKey } = props;
+  return disabledItemValues.some((value: any) => shallowEqual(nodes[node.refKey][valueKey], value));
 }

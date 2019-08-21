@@ -8,7 +8,7 @@ import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import { CellMeasurerCache, CellMeasurer } from 'react-virtualized/dist/commonjs/CellMeasurer';
 import { polyfill } from 'react-lifecycles-compat';
 
-import { shallowEqual, shallowEqualArray } from 'rsuite-utils/lib/utils';
+import { shallowEqual } from 'rsuite-utils/lib/utils';
 import TreeNode from './TreeNode';
 import {
   defaultProps,
@@ -26,7 +26,11 @@ import {
   shouldShowNodeByExpanded,
   getVirtualLisHeight,
   treeDeprecatedWarning,
-  hasVisibleChildren
+  hasVisibleChildren,
+  compareArray,
+  getExpandAll,
+  getExpandItemValues,
+  getExpandState
 } from '../utils/treeUtils';
 
 import {
@@ -143,19 +147,14 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     super(props);
     const { value, data, valueKey, searchKeyword = '' } = props;
     const nextData = [...data];
-    const nextExpandItemValues = this.getExpandItemValues(props);
+    const nextExpandItemValues = getExpandItemValues(props);
     this.flattenNodes(nextData);
-    this.unserializeLists(
-      {
-        expand: nextExpandItemValues
-      },
-      props
-    );
+    this.unserializeLists('expand', nextExpandItemValues, props);
     this.state = {
       data: data,
       value: value,
       selectedValue: this.getValue(props),
-      expandAll: this.getExpandAll(props),
+      expandAll: getExpandAll(props),
       filterData: this.getFilterData(nextData, searchKeyword, props),
       activeNode: this.getActiveNode(this.getValue(props), valueKey),
       searchKeyword,
@@ -190,10 +189,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       nextState.selectedValue = value;
     }
 
-    if (
-      _.isArray(expandItemValues) &&
-      !shallowEqualArray(expandItemValues, prevState.expandItemValues)
-    ) {
+    if (compareArray(expandItemValues, prevState.expandItemValues)) {
       nextState.expandItemValues = expandItemValues;
     }
 
@@ -209,8 +205,19 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
   }
 
   componentDidUpdate(_prevProps: TreePickerProps, prevState: TreePickerState) {
-    const { filterData, searchKeyword } = this.state;
-    const { value, data, valueKey, expandItemValues } = this.props;
+    this.updateDataChange(prevState);
+    this.updateValueChange(prevState);
+    this.updateExpandItemValuesChange(prevState);
+    this.updateSearchKeywordChange(prevState);
+
+    if (this.listRef.current) {
+      this.listRef.current.forceUpdateGrid();
+    }
+  }
+
+  updateDataChange(prevState: TreePickerState) {
+    const { searchKeyword } = this.state;
+    const { data } = this.props;
     if (prevState.data !== data) {
       const nextData = [...data];
 
@@ -225,7 +232,10 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
         activeNode
       });
     }
+  }
 
+  updateValueChange(prevState: TreePickerState) {
+    const { value, valueKey } = this.props;
     if (!shallowEqual(prevState.value, value)) {
       let activeNode = null;
       if (this.node === null) {
@@ -252,20 +262,21 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       }
       this.setState(nextState);
     }
+  }
 
-    if (
-      _.isArray(expandItemValues) &&
-      !shallowEqualArray(prevState.expandItemValues, expandItemValues)
-    ) {
-      this.unserializeLists({
-        expand: expandItemValues
-      });
+  updateExpandItemValuesChange(prevState: TreePickerState) {
+    const { expandItemValues } = this.props;
+    if (compareArray(expandItemValues, prevState.expandItemValues)) {
+      this.unserializeLists('expand', expandItemValues);
 
       this.setState({
         expandItemValues
       });
     }
+  }
 
+  updateSearchKeywordChange(prevState: TreePickerState) {
+    const { filterData } = this.state;
     if (
       !_.isUndefined(this.props.searchKeyword) &&
       prevState.searchKeyword !== this.props.searchKeyword
@@ -274,27 +285,6 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
         filterData: this.getFilterData(filterData, this.props.searchKeyword)
       });
     }
-
-    if (this.listRef.current) {
-      this.listRef.current.forceUpdateGrid();
-    }
-  }
-
-  getExpandAll(props: TreePickerProps = this.props) {
-    const { expandAll, defaultExpandAll } = props;
-    return !_.isUndefined(expandAll) ? expandAll : defaultExpandAll;
-  }
-
-  getExpandItemValues(props: TreePickerProps = this.props) {
-    const { expandItemValues, defaultExpandItemValues } = props;
-    if (!_.isUndefined(expandItemValues) && Array.isArray(expandItemValues)) {
-      return expandItemValues;
-    }
-
-    if (!_.isUndefined(defaultExpandItemValues) && Array.isArray(defaultExpandItemValues)) {
-      return defaultExpandItemValues;
-    }
-    return [];
   }
 
   getValue(props: TreePickerProps = this.props) {
@@ -313,25 +303,6 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     }
 
     return activeNode;
-  }
-
-  getExpandState(node: any) {
-    const { valueKey, childrenKey, expandItemValues } = this.props;
-    const expandAll = this.getExpandAll();
-    const expand = this.getExpandItemValues().some((value: any) =>
-      shallowEqual(node[valueKey], value)
-    );
-    if (!_.isUndefined(expandItemValues)) {
-      return expand;
-    } else if (node[childrenKey] && node[childrenKey].length) {
-      if (expand) {
-        return !!node.expand;
-      } else if (expandAll) {
-        return true;
-      }
-      return false;
-    }
-    return false;
   }
 
   getActiveElementOption(options: any[], value: string) {
@@ -361,7 +332,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
         );
         if (!disabled) {
           items.push(node);
-          if (!this.getExpandState(node)) {
+          if (!getExpandState(node, this.props)) {
             return;
           }
           if (node[childrenKey]) {
@@ -441,14 +412,17 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     const { childrenKey, valueKey } = this.props;
 
     return flattenTree(nodes, childrenKey, (node: any) => {
-      const formatted = { ...node };
+      let formatted = {};
       const curNode = this.nodes[node.refKey];
       const parentKeys = getNodeParents(curNode, 'parentNode', valueKey);
       if (curNode) {
-        formatted.expand = curNode.expand;
-        formatted.layer = curNode.layer;
-        formatted.parentNode = curNode.parentNode;
-        formatted.showNode = shouldShowNodeByExpanded(expandItemValues, parentKeys);
+        formatted = {
+          ...node,
+          expand: curNode.expand,
+          layer: curNode.layer,
+          parentNode: curNode.parentNode,
+          showNode: shouldShowNodeByExpanded(expandItemValues, parentKeys)
+        };
       }
       return formatted;
     });
@@ -511,7 +485,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
         layer,
         [labelKey]: node[labelKey],
         [valueKey]: node[valueKey],
-        expand: this.getExpandState(node),
+        expand: getExpandState(node, props || this.props),
         refKey
       };
       if (parentNode) {
@@ -533,24 +507,20 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     return list;
   }
 
-  unserializeLists(lists: any, nextProps?: TreePickerProps) {
-    const { valueKey } = nextProps || this.props;
-    const expandAll = this.getExpandAll();
+  unserializeLists(key: string, value: any[] = [], props: TreePickerProps = this.props) {
+    const { valueKey } = props;
+    const expandAll = getExpandAll(props);
     Object.keys(this.nodes).forEach((refKey: string) => {
-      Object.keys(lists).forEach((listKey: string) => {
-        if (listKey === 'expand') {
-          this.nodes[refKey][listKey] = false;
-          if (lists[listKey].length) {
-            lists[listKey].forEach((value: any) => {
-              if (shallowEqual(this.nodes[refKey][valueKey], value)) {
-                this.nodes[refKey][listKey] = true;
-              }
-            });
-          } else {
-            this.nodes[refKey][listKey] = expandAll;
+      this.nodes[refKey][key] = false;
+      if (value.length) {
+        value.forEach((value: any) => {
+          if (shallowEqual(this.nodes[refKey][valueKey], value)) {
+            this.nodes[refKey][key] = true;
           }
-        }
-      });
+        });
+      } else {
+        this.nodes[refKey][key] = expandAll;
+      }
     });
   }
 
@@ -612,9 +582,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     const { valueKey, onExpand, expandItemValues } = this.props;
     const nextExpandItemValues = this.toggleExpand(nodeData, !nodeData.expand);
     if (_.isUndefined(expandItemValues)) {
-      this.unserializeLists({
-        expand: nextExpandItemValues
-      });
+      this.unserializeLists('expand', nextExpandItemValues);
       this.setState({
         expandItemValues: nextExpandItemValues
       });

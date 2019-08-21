@@ -1,9 +1,9 @@
 import * as React from 'react';
 import _ from 'lodash';
-import { reactToString } from 'rsuite-utils/lib/utils';
+import { reactToString, shallowEqual, shallowEqualArray } from 'rsuite-utils/lib/utils';
 import { Node } from '../CheckTreePicker/utils';
-import { CheckTreePickerProps } from '../CheckTreePicker/CheckTreePicker';
-import { TreePickerProps } from '../TreePicker/TreePicker';
+import { TreePickerProps } from '../TreePicker/TreePicker.d';
+import { CheckTreePickerProps } from '../CheckTreePicker/CheckTreePicker.d';
 
 const SEARCH_BAR_HEIGHT = 48;
 const MENU_PADDING = 12;
@@ -135,4 +135,63 @@ export function treeDeprecatedWarning(
       console.warn(`'Warning: ${key} is deprecated and will be removed in a future release.'`);
     }
   });
+}
+
+/**
+ * 浅比较两个数组是否不一样
+ * @param a
+ * @param b
+ */
+export function compareArray(a: any[], b: any[]) {
+  return _.isArray(a) && _.isArray(b) && !shallowEqualArray(a, b);
+}
+
+/**
+ * 获取 expandAll 的 value
+ * @param props
+ */
+export function getExpandAll(props: TreePickerProps | CheckTreePickerProps) {
+  const { expandAll, defaultExpandAll } = props;
+  return !_.isUndefined(expandAll) ? expandAll : defaultExpandAll;
+}
+
+/**
+ * 获取 expandItemValues 的 value
+ * @param props
+ */
+export function getExpandItemValues(props: TreePickerProps | CheckTreePickerProps) {
+  const { expandItemValues, defaultExpandItemValues } = props;
+  if (!_.isUndefined(expandItemValues) && Array.isArray(expandItemValues)) {
+    return expandItemValues;
+  }
+
+  if (!_.isUndefined(defaultExpandItemValues) && Array.isArray(defaultExpandItemValues)) {
+    return defaultExpandItemValues;
+  }
+  return [];
+}
+
+/**
+ * 获取节点展开状态
+ * @param node
+ * @param props
+ */
+export function getExpandState(node: any, props: CheckTreePickerProps | TreePickerProps) {
+  const { valueKey, childrenKey, expandItemValues } = props;
+
+  const expandAll = getExpandAll(props);
+  const expand = getExpandItemValues(props).some((value: any) =>
+    shallowEqual(node[valueKey], value)
+  );
+  if (!_.isUndefined(expandItemValues)) {
+    return expand;
+  } else if (node[childrenKey] && node[childrenKey].length) {
+    if (expand) {
+      return !!node.expand;
+    } else if (expandAll) {
+      return true;
+    }
+    return false;
+  }
+  return false;
 }
