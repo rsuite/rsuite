@@ -216,7 +216,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
   }
 
   updateDataChange(prevState: TreePickerState) {
-    const { searchKeyword } = this.state;
+    const { searchKeyword, expandItemValues } = this.state;
     const { data } = this.props;
     if (prevState.data !== data) {
       const nextData = [...data];
@@ -226,6 +226,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       const activeNode = this.getActiveNode(this.getValue());
 
       this.focusNode(activeNode);
+      this.unserializeLists('expand', expandItemValues);
       this.setState({
         data: nextData,
         filterData,
