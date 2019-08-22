@@ -41,7 +41,7 @@ interface CheckPickerState {
   active?: boolean;
 }
 
-class SelectPicker extends React.Component<CheckPickerProps, CheckPickerState> {
+class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
   static propTypes = {
     appearance: PropTypes.oneOf(['default', 'subtle']),
     data: PropTypes.array,
@@ -505,7 +505,7 @@ class SelectPicker extends React.Component<CheckPickerProps, CheckPickerState> {
       ...rest
     } = this.props;
 
-    const unhandled = getUnhandledProps(SelectPicker, rest);
+    const unhandled = getUnhandledProps(CheckPicker, rest);
     const value = this.getValue();
     const selectedItems: any[] =
       data.filter(item => value.some(val => shallowEqual(item[valueKey], val))) || [];
@@ -571,4 +571,4 @@ const enhance = compose(
   withPickerMethods<CheckPickerProps>()
 );
 
-export default enhance(SelectPicker);
+export default enhance(CheckPicker);
