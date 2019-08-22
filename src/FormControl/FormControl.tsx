@@ -24,6 +24,7 @@ class FormControl extends React.Component<FormControlProps, FormControlState> {
   static propTypes = {
     name: PropTypes.string,
     checkTrigger: PropTypes.oneOf(['change', 'blur', 'none']),
+    checkAsync: PropTypes.bool,
     accepter: PropTypes.elementType,
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
@@ -100,9 +101,11 @@ class FormControl extends React.Component<FormControlProps, FormControlState> {
     const { name, onChange } = this.props;
     const { onFieldChange } = this.context;
     const checkTrigger = this.getCheckTrigger();
-    const checkResult = this.handleFieldCheck(value, checkTrigger === 'change');
 
-    this.setState({ checkResult, value });
+    this.setState({ value });
+    this.handleFieldCheck(value, checkTrigger === 'change').then(checkResult => {
+      this.setState({ checkResult });
+    });
 
     onFieldChange(name, value, event);
     onChange && onChange(value, event);
@@ -118,19 +121,27 @@ class FormControl extends React.Component<FormControlProps, FormControlState> {
   };
 
   handleFieldCheck = (value: any, isCheckTrigger: boolean, callback?: Function) => {
-    const { name, formValue } = this.props;
+    const { name, formValue, checkAsync } = this.props;
     const { onFieldError, onFieldSuccess, model } = this.context;
-    const checkResult = model.checkForField(name, value, formValue);
 
-    if (isCheckTrigger) {
-      if (checkResult.hasError) {
-        onFieldError(name, checkResult.errorMessage, callback);
-      } else {
-        onFieldSuccess(name, callback);
+    const callbackEvents = checkResult => {
+      if (isCheckTrigger) {
+        if (checkResult.hasError) {
+          onFieldError(name, checkResult.errorMessage, callback);
+        } else {
+          onFieldSuccess(name, callback);
+        }
       }
+      return checkResult;
+    };
+
+    if (checkAsync) {
+      return model.checkForFieldAsync(name, value, formValue).then(checkResult => {
+        return callbackEvents(checkResult);
+      });
     }
 
-    return checkResult;
+    return Promise.resolve(callbackEvents(model.checkForField(name, value, formValue)));
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);

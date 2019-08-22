@@ -118,6 +118,67 @@ class Form extends React.Component<FormProps, FormState> {
   /**
    * public APIs
    */
+  checkAsync = () => {
+    const formValue = this.getFormValue() || {};
+    const { model, onCheck, onError } = this.props;
+
+    const promises = [];
+    const keys = [];
+
+    Object.keys(model.schema).forEach(key => {
+      keys.push(key);
+      promises.push(model.checkForFieldAsync(key, formValue[key], formValue));
+    });
+
+    return Promise.all(promises).then(values => {
+      const formError = {};
+      let errorCount = 0;
+
+      for (let i = 0; i < values.length; i++) {
+        if (values[i].hasError) {
+          errorCount += 1;
+          formError[keys[i]] = values[i].errorMessage;
+        }
+      }
+
+      onCheck && onCheck(formError);
+
+      if (errorCount > 0) {
+        onError && onError(formError);
+      }
+
+      this.setState({ formError });
+
+      return { hasError: errorCount > 0, formError };
+    });
+  };
+
+  /**
+   * public APIs
+   */
+  checkForFieldAsync = (fieldName: string) => {
+    const formValue = this.getFormValue() || {};
+    const { model, onCheck, onError } = this.props;
+    return model
+      .checkForFieldAsync(fieldName, formValue[fieldName], formValue)
+      .then(checkResult => {
+        this.setState((prvState, props) => {
+          const formError = {
+            ...this.getFormError(prvState, props),
+            [fieldName]: checkResult.errorMessage
+          };
+          onCheck && onCheck(formError);
+          checkResult.hasError && onError && onError(formError);
+          return { formError };
+        });
+
+        return checkResult;
+      });
+  };
+
+  /**
+   * public APIs
+   */
   cleanErrors(callback: () => void) {
     this.setState({ formError: {} }, callback);
   }

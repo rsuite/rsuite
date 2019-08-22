@@ -1,14 +1,14 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import _isNil from 'lodash/isNil';
 import _omit from 'lodash/omit';
+import { getDOMNode, getInstance } from '@test/testUtils';
 
 import Form from '../Form';
 import FormControl from '../../FormControl';
 import Schema from '../../Schema';
 
-const checkEmail = '请输入正确的邮箱';
+const checkEmail = 'Please input the correct email address';
 
 const model = Schema.Model({
   name: Schema.Types.StringType().addRule(value => {
@@ -18,24 +18,37 @@ const model = Schema.Model({
   }, checkEmail)
 });
 
+const modelAsync = Schema.Model({
+  name: Schema.Types.StringType().addRule(value => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        if (value != 'bac') {
+          resolve(false);
+        }
+        resolve(true);
+      }, 500);
+    });
+  }, 'Duplicate name')
+});
+
 describe('Form', () => {
   it('Should render a Form', () => {
     let title = 'Test';
-    let instance = ReactTestUtils.renderIntoDocument(<Form>{title}</Form>);
-    assert.equal(findDOMNode(instance).tagName, 'FORM');
-    assert.equal(findDOMNode(instance).innerHTML, title);
+    let instance = getDOMNode(<Form>{title}</Form>);
+    assert.equal(instance.tagName, 'FORM');
+    assert.equal(instance.innerHTML, title);
   });
 
   it('Should be horizontal', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Form layout="horizontal" />);
-    const element = findDOMNode(instance);
-    assert.include(element.className, 'rs-form-horizontal');
+    const instance = getDOMNode(<Form layout="horizontal" />);
+
+    assert.include(instance.className, 'rs-form-horizontal');
   });
 
   it('Should be inline', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Form layout="inline" />);
-    const element = findDOMNode(instance);
-    assert.include(element.className, 'rs-form-inline');
+    const instance = getDOMNode(<Form layout="inline" />);
+
+    assert.include(instance.className, 'rs-form-inline');
   });
 
   it('Should have a value', () => {
@@ -43,15 +56,14 @@ describe('Form', () => {
       name: 'abc',
       email: 'aa@ss.com'
     };
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <Form formValue={values}>
         <FormControl name="name" />
         <FormControl name="email" />
       </Form>
     );
-    const element = findDOMNode(instance);
-    assert.equal(element.querySelector('input[name="name"]').value, values.name);
-    assert.equal(element.querySelector('input[name="email"]').value, values.email);
+    assert.equal(instance.querySelector('input[name="name"]').value, values.name);
+    assert.equal(instance.querySelector('input[name="email"]').value, values.email);
   });
 
   it('Should have a default values', () => {
@@ -59,22 +71,21 @@ describe('Form', () => {
       name: 'abc',
       email: 'aa@ss.com'
     };
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <Form formDefaultValue={values}>
         <FormControl name="name" />
         <FormControl name="email" />
       </Form>
     );
-    const element = findDOMNode(instance);
-    assert.equal(element.querySelector('input[name="name"]').value, values.name);
-    assert.equal(element.querySelector('input[name="email"]').value, values.email);
+    assert.equal(instance.querySelector('input[name="name"]').value, values.name);
+    assert.equal(instance.querySelector('input[name="email"]').value, values.email);
   });
 
   it('Should be `false` for check status', () => {
     const values = {
       name: 'abc'
     };
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getInstance(
       <Form model={model} formDefaultValue={values}>
         <FormControl name="name" />
       </Form>
@@ -86,7 +97,7 @@ describe('Form', () => {
     const values = {
       name: 'abc'
     };
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getInstance(
       <Form
         model={model}
         formDefaultValue={values}
@@ -108,7 +119,7 @@ describe('Form', () => {
     const values = {
       name: 'abc@gmail.com'
     };
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getInstance(
       <Form model={model} formDefaultValue={values}>
         <FormControl name="name" />
       </Form>
@@ -120,7 +131,7 @@ describe('Form', () => {
     const values = {
       name: 'abc@gmail.com'
     };
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getInstance(
       <Form model={model} formDefaultValue={values}>
         <FormControl name="name" />
       </Form>
@@ -136,7 +147,7 @@ describe('Form', () => {
       name: 'abc.com'
     };
 
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getInstance(
       <Form model={model} formDefaultValue={values}>
         <FormControl name="name" />
       </Form>
@@ -157,7 +168,7 @@ describe('Form', () => {
       n2: Schema.Types.NumberType().min(2, 'error')
     });
 
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getInstance(
       <Form model={model} formDefaultValue={values}>
         <FormControl name="n1" />
         <FormControl name="n2" />
@@ -174,7 +185,7 @@ describe('Form', () => {
     const values = {
       name: 'abc.com'
     };
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getInstance(
       <Form model={model} formDefaultValue={values}>
         <FormControl name="name" />
       </Form>
@@ -194,13 +205,12 @@ describe('Form', () => {
         done();
       }
     };
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <Form formDefaultValue={values} onChange={doneOp}>
         <FormControl name="name" />
       </Form>
     );
-    const element = findDOMNode(instance);
-    ReactTestUtils.Simulate.change(element.querySelector('input[name="name"]'));
+    ReactTestUtils.Simulate.change(instance.querySelector('input[name="name"]'));
   });
 
   it('Should clear error', done => {
@@ -307,8 +317,8 @@ describe('Form', () => {
       }
     }
 
-    const instance = ReactTestUtils.renderIntoDocument(<Demo />);
-    const element = findDOMNode(instance.form);
+    const instance = getInstance(<Demo />);
+    const element = getDOMNode(instance.form);
     ReactTestUtils.Simulate.change(element.querySelector('input[name="name1"]'));
     ReactTestUtils.Simulate.change(element.querySelector('input[name="name2"]'));
     ReactTestUtils.Simulate.change(element.querySelector('input[name="name3"]'));
@@ -325,13 +335,12 @@ describe('Form', () => {
         done();
       }
     };
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <Form formDefaultValue={values} onError={doneOp} model={model}>
         <FormControl name="name" />
       </Form>
     );
-    const element = findDOMNode(instance);
-    ReactTestUtils.Simulate.change(element.querySelector('input[name="name"]'));
+    ReactTestUtils.Simulate.change(instance.querySelector('input[name="name"]'));
   });
 
   it('Should not call onError callback', done => {
@@ -350,13 +359,12 @@ describe('Form', () => {
       }
     }, 10);
 
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <Form formDefaultValue={values} onError={doneOp} model={model}>
         <FormControl name="name" />
       </Form>
     );
-    const element = findDOMNode(instance);
-    ReactTestUtils.Simulate.change(element.querySelector('input[name="name"]'));
+    ReactTestUtils.Simulate.change(instance.querySelector('input[name="name"]'));
   });
 
   it('Should call onCheck callback', done => {
@@ -369,13 +377,12 @@ describe('Form', () => {
         done();
       }
     };
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <Form formDefaultValue={values} onCheck={doneOp}>
         <FormControl name="name" />
       </Form>
     );
-    const element = findDOMNode(instance);
-    ReactTestUtils.Simulate.change(element.querySelector('input[name="name"]'));
+    ReactTestUtils.Simulate.change(instance.querySelector('input[name="name"]'));
   });
 
   it('Should call onCheck callback when blur', done => {
@@ -388,13 +395,12 @@ describe('Form', () => {
         done();
       }
     };
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <Form formDefaultValue={values} onCheck={doneOp} checkTrigger="blur">
         <FormControl name="name" />
       </Form>
     );
-    const element = findDOMNode(instance);
-    ReactTestUtils.Simulate.blur(element.querySelector('input[name="name"]'));
+    ReactTestUtils.Simulate.blur(instance.querySelector('input[name="name"]'));
   });
 
   it('Should not call onCheck callback when checkTrigger is null', done => {
@@ -413,14 +419,13 @@ describe('Form', () => {
       }
     }, 10);
 
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <Form formDefaultValue={values} onCheck={doneOp} checkTrigger={null}>
         <FormControl name="name" />
       </Form>
     );
-    const element = findDOMNode(instance);
-    ReactTestUtils.Simulate.blur(element.querySelector('input[name="name"]'));
-    ReactTestUtils.Simulate.change(element.querySelector('input[name="name"]'));
+    ReactTestUtils.Simulate.blur(instance.querySelector('input[name="name"]'));
+    ReactTestUtils.Simulate.change(instance.querySelector('input[name="name"]'));
   });
 
   it('Should call onCheck callback', done => {
@@ -433,7 +438,7 @@ describe('Form', () => {
         done();
       }
     };
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <Form
         formDefaultValue={values}
         onCheck={doneOp}
@@ -444,23 +449,72 @@ describe('Form', () => {
         <FormControl name="name" />
       </Form>
     );
-    const element = findDOMNode(instance);
-    ReactTestUtils.Simulate.change(element.querySelector('input[name="name"]'));
+    ReactTestUtils.Simulate.change(instance.querySelector('input[name="name"]'));
   });
 
   it('Should have a custom className', () => {
-    let instance = ReactTestUtils.renderIntoDocument(<Form className="custom" />);
-    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
+    let instance = getDOMNode(<Form className="custom" />);
+    assert.ok(instance.className.match(/\bcustom\b/));
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    let instance = ReactTestUtils.renderIntoDocument(<Form style={{ fontSize }} />);
-    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
+    let instance = getDOMNode(<Form style={{ fontSize }} />);
+    assert.equal(instance.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<Form classPrefix="custom-prefix" />);
-    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+    const instance = getDOMNode(<Form classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  /*** checkAsync */
+  it('Should call onError callback by checkAsync', done => {
+    const values = {
+      name: 'abc'
+    };
+    const doneOp = v => {
+      if (v.name === 'Duplicate name') {
+        done();
+      }
+    };
+    const instance = getDOMNode(
+      <Form formDefaultValue={values} onError={doneOp} model={modelAsync}>
+        <FormControl name="name" checkAsync />
+      </Form>
+    );
+    ReactTestUtils.Simulate.change(instance.querySelector('input[name="name"]'));
+  });
+
+  it('Check status should be fired on checkAsync ', done => {
+    const values = {
+      name: 'abc'
+    };
+    const instance = getInstance(
+      <Form formDefaultValue={values} model={modelAsync}>
+        <FormControl name="name" checkAsync />
+      </Form>
+    );
+    instance.checkAsync().then(result => {
+      if (result.hasError) {
+        done();
+      }
+    });
+  });
+
+  it('Check status should be fired on checkForFieldAsync', done => {
+    const values = {
+      name: 'abc'
+    };
+    const instance = getInstance(
+      <Form formDefaultValue={values} model={modelAsync}>
+        <FormControl name="name" checkAsync />
+      </Form>
+    );
+    instance.checkForFieldAsync('name').then(result => {
+      if (result.hasError) {
+        done();
+      }
+    });
   });
 });
