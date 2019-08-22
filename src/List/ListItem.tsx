@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { setDisplayName } from 'recompose';
 import classNames from 'classnames';
-import { defaultProps, getUnhandledProps, prefix } from '../utils';
+import { defaultProps, getUnhandledProps, prefix, getUUID, getNotNullValue } from '../utils';
 import { ListContext } from './List';
 import { ListItemProps } from './ListItem.d';
 import { ManagerRef } from './Manager';
@@ -14,7 +14,7 @@ class ListItem extends React.Component<ListItemProps> {
   static propTypes = {
     className: PropTypes.string,
     classPrefix: PropTypes.string,
-    index: PropTypes.number.isRequired,
+    index: PropTypes.number,
     collection: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     disabled: PropTypes.bool
   };

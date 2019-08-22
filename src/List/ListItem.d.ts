@@ -5,8 +5,8 @@ export interface ListItemProps extends StandardProps {
   /** Primary content */
   children?: React.ReactNode;
 
-  /* Index of list item */
-  index: number;
+  /* Index of list item, for sort */
+  index?: number;
 
   /* Symbol of collection*/
   collection?: number | string;
