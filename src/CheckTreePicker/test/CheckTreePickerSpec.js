@@ -167,7 +167,7 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should focus item by keyCode=40 ', () => {
-    const instance = getInstance(<CheckTreePicker defaultOpen data={data} expandAll />);
+    const instance = getInstance(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
     const toggle = instance.getToggleInstance().toggleRef.current;
     ReactTestUtils.Simulate.keyDown(toggle, { keyCode: 40 });
     ReactTestUtils.Simulate.keyDown(toggle, { keyCode: 40 });
@@ -187,7 +187,7 @@ describe('CheckTreePicker', () => {
     };
 
     const instance = mount(
-      <CheckTreePicker data={data} onChange={doneOp} inline cascade={false} expandAll />
+      <CheckTreePicker data={data} onChange={doneOp} inline cascade={false} defaultExpandAll />
     );
 
     instance.find('div[data-key="0-0"]').simulate('click');
@@ -236,33 +236,24 @@ describe('CheckTreePicker', () => {
     ];
 
     let newData = [];
-    const mockOnExpand = (_node, _l, concat) => {
+    const mockOnExpand = (_expandItemValues, _node, concat) => {
       newData = concat(data, children);
     };
 
     const instance = mount(
-      <CheckTreePicker data={data} onExpand={mockOnExpand} inline cascade={false} expandAll />
+      <CheckTreePicker
+        data={data}
+        onExpand={mockOnExpand}
+        inline
+        cascade={false}
+        defaultExpandAll
+      />
     );
     instance.find('div[data-ref="0-1"]  > .rs-check-tree-node-expand-icon').simulate('click');
     instance.setProps({ data: newData });
 
     assert.equal(instance.html().indexOf('data-key="0-1-0"') > -1, true);
 
-    instance.unmount();
-  });
-
-  it('Should expandAll nodes when `expandAll` setting true', () => {
-    const instance = mount(<CheckTreePicker data={data} inline />);
-
-    instance.setProps({
-      expandAll: false
-    });
-    assert.equal(instance.find('.rs-check-tree-open').length, 0);
-
-    instance.setProps({
-      expandAll: true
-    });
-    assert.equal(instance.find('.rs-check-tree-open').length, 2);
     instance.unmount();
   });
 
@@ -335,5 +326,31 @@ describe('CheckTreePicker', () => {
       />
     );
     picker.close();
+  });
+
+  it('should render with expand master node', () => {
+    const instance = mount(<CheckTreePicker data={data} inline expandItemValues={['Master']} />);
+    assert.equal(instance.find('.rs-check-tree-node-expanded').length, 1);
+  });
+
+  it('should fold all the node when toggle master node', () => {
+    let expandItemValues = [];
+    const mockOnExpand = values => {
+      expandItemValues = values;
+    };
+    const instance = mount(
+      <CheckTreePicker data={data} inline expandItemValues={['Master']} onExpand={mockOnExpand} />
+    );
+
+    assert.equal(instance.html().indexOf('rs-check-tree-node-expanded') > -1, true);
+
+    instance.find('div[data-ref="0-0"]  > .rs-check-tree-node-expand-icon').simulate('click');
+
+    instance.setProps({
+      expandItemValues
+    });
+    assert.equal(instance.html().indexOf('rs-check-tree-node-expanded') === -1, true);
+
+    instance.unmount();
   });
 });
