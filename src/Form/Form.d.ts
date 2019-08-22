@@ -55,10 +55,12 @@ export interface FormInstance<
   E = { [P in keyof T]?: errorMsg }
 > extends React.Component<FormProps<T, E>> {
   check: (callback?: (formError: E) => void) => boolean;
+  checkAsync: () => Promise<any>;
   checkForField: (
     fieldName: keyof T,
     callback?: (checkResult: CheckResult<errorMsg>) => void
   ) => boolean;
+  checkForFieldAsync: (fieldName: keyof T) => Promise<CheckResult>;
   cleanErrors: (callback?: () => void) => void;
   cleanErrorForFiled: (fieldName: keyof E, callback?: () => void) => void;
   resetErrors: (formError: E, callback?: () => void) => void;

@@ -32,6 +32,9 @@ export type FormControlProps<P = {}, ValueType = any> = StandardProps & {
 
   /** Value */
   value?: ValueType;
+
+  /** Asynchronous check value */
+  checkAsync?: boolean;
 } & P;
 
 declare function FormControl<P = {}>(props: FormControlProps<P>): React.ReactElement;
