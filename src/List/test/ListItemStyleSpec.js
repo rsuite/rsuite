@@ -9,12 +9,12 @@ describe('ListItem styles', () => {
   it('Should render correct toggle styles', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(
-      <List>
+      <List className="rs-list-styles-test">
         <List.Item ref={instanceRef} index={1} />
       </List>,
       createTestContainer()
     );
-    const dom = getDOMNode(instanceRef.current);
+    const dom = document.querySelector('.rs-list-styles-test .rs-list-item');
     assert.equal(getStyle(dom, 'position'), 'relative', 'List item position');
   });
 });

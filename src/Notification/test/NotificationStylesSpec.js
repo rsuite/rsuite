@@ -5,12 +5,12 @@ import { getStyle, toRGB } from '@test/testUtils';
 import '../styles/index';
 
 describe('Notification styles', () => {
-  it('Should render the correct background color', () => {
+  it('Should render the correct styles', () => {
     Notification.open({
       title: 'Notify',
       duration: 0
     });
-    const dom = document.body.querySelector('.rs-notification');
+    const dom = document.body.querySelector('.rs-notification.rs-notification-notify');
     assert.equal(getStyle(dom, 'position'), 'fixed', 'Notification position');
     assert.equal(getStyle(dom, 'zIndex'), '1080', 'Notification position');
     assert.equal(

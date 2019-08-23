@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Popover from '../index';
+import Steps from '../index';
 import {
   createTestContainer,
   getDOMNode,
@@ -11,17 +11,11 @@ import {
 
 import '../styles/index';
 
-describe('Popover styles', () => {
+describe('Steps styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(
-      <Popover ref={instanceRef} visible>
-        Text
-      </Popover>,
-      createTestContainer()
-    );
+    ReactDOM.render(<Steps ref={instanceRef} />, createTestContainer());
     const dom = getDOMNode(instanceRef.current);
-
-    assert.equal(getStyle(dom, 'backgroundColor'), toRGB('#fff'), 'Popover background-color');
+    assert.equal(getStyle(dom, 'display'), 'flex', 'Steps flex');
   });
 });
