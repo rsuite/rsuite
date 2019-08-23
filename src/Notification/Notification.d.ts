@@ -24,6 +24,10 @@ export interface NotificationConfigProps {
 
   /** Closes the callback function */
   onClose?: () => void;
+
+  classPrefix?: string;
+
+  getContainer?: () => HTMLElement;
 }
 
 export interface NotificationAPI {
@@ -32,7 +36,6 @@ export interface NotificationAPI {
   success(config: NotificationConfigProps): void;
   warning(config: NotificationConfigProps): void;
   error(config: NotificationConfigProps): void;
-  remove(key: string): void;
 }
 
 declare const Notification: NotificationAPI;

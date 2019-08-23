@@ -10,4 +10,3 @@ declare module 'rsuite-utils/lib/utils';
 declare module 'rsuite-utils/lib/utils/shallowEqual';
 declare module 'rsuite-utils/lib/Animation';
 declare module 'rsuite-utils/lib/Animation/Transition';
-declare module 'rsuite-notification';

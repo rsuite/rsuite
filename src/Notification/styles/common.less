@@ -8,9 +8,21 @@
 // Base styles
 // -------------------------
 .@{notification-ns} {
+  position: fixed;
+  z-index: @zindex-notification;
+  // Make sure the mouse can penetrate through the gap area.
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+
+  &-item {
+    // Recovery mouse event.
+    pointer-events: auto;
+  }
+
   .ie-text-align(right);
 
-  &-notify &-notice {
+  &-item {
     position: relative;
   }
 
@@ -20,13 +32,18 @@
   }
 
   // Fixed: The problem of wide width in IE browser.
-  &-notify,
-  &-notify &-notice-wrapper {
+  &,
+  &-item-wrapper {
     max-width: @notify-max-width;
+  }
+  // Multiple notification should have spacing
+  // Hiding notification haven't spacing.
+  &-item-wrapper:not(.@{notification-ns}-fade-exited) + .@{notification-ns}-item-wrapper {
+    margin-top: 10px;
   }
 
   // Notification content
-  &-notify &-notice-content {
+  &-item-content {
     background: @notify-default-bg;
     box-shadow: @notify-box-shadow;
     padding: @notify-padding;
@@ -37,7 +54,7 @@
   }
 
   // Title
-  &-notify &-title {
+  &-title {
     .ellipsis;
     .ie-text-align(left);
 
@@ -57,24 +74,24 @@
     }
   }
 
-  &-notify &-title-with-icon {
+  &-title-with-icon {
     .ellipsis;
   }
 
   // Description
-  &-notify &-description {
+  &-description {
     color: @notify-description-color;
     // Hack display:contents to make sure width adaptive content.
     .ie-display(table);
   }
 
   // Has title and description need to ajust distance
-  &-notify &-title + &-description {
+  &-title + &-description {
     margin-top: @notify-title-description-gap;
   }
 
   // Notification close button
-  &-notify &-notice-close {
+  &-item-close {
     position: absolute;
     top: @notify-close-btn-margin;
     right: @notify-close-btn-margin;
@@ -92,36 +109,30 @@
   }
 
   // Animations
-  &-notify &-fade-entered,
-  &-notify &-fade-leave-active {
+  &-fade-entered,
+  &-fade-leave-active {
     animation-fill-mode: forwards;
   }
 
-  &-notify &-fade-entered {
+  &-fade-entered {
     animation-duration: 0.4s;
     animation-timing-function: cubic-bezier(0.99, 0.44, 0.44, 1.35);
   }
 
-  &-notify &-fade-exited,
-  &-notify &-fade-entering {
+  &-fade-exited,
+  &-fade-entering {
     opacity: 0;
   }
 
   // The same to @keyframe notificationMoveOut  100%.
-  &-notify &-fade-exited {
+  &-fade-exited {
     transform-origin: 0% 0%;
     transform: scaleY(0.8);
     max-height: 0;
     overflow: hidden;
   }
 
-  // Solve the problem of inconsistent width of custom content.
-  &-notify {
-    display: flex;
-    flex-direction: column;
-  }
-
-  &-notify &-notice-wrapper {
+  &-item-wrapper {
     display: inline-block;
     flex: 0 0 auto;
   }
@@ -129,7 +140,7 @@
   &-bottom-left,
   &-top-left {
     align-items: flex-start;
-
+    left: 24px;
     .@{notification-ns}-fade-entered {
       animation-name: notificationMoveInLeft;
     }
@@ -138,13 +149,13 @@
   &-bottom-right,
   &-top-right {
     align-items: flex-end;
-
+    right: 24px;
     .@{notification-ns}-fade-entered {
       animation-name: notificationMoveInRight;
     }
   }
 
-  &-notify &-fade-leave-active {
+  &-fade-leave-active {
     animation-duration: 0.3s;
     animation-timing-function: cubic-bezier(0.64, 0.65, 0.57, 1.13);
     animation-name: notificationMoveOut;

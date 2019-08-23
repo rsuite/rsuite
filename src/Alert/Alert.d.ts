@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 export interface AlertConfigProps {
+  classPrefix?: string;
   top?: number;
   duration?: number;
   getContainer?: () => HTMLElement;
