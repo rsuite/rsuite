@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { setDisplayName } from 'recompose';
 import classNames from 'classnames';
-import { defaultProps, getUnhandledProps, prefix, getUUID, getNotNullValue } from '../utils';
+import { defaultProps, getUnhandledProps, prefix } from '../utils';
 import { ListContext } from './List';
 import { ListItemProps } from './ListItem.d';
 import { ManagerRef } from './Manager';
