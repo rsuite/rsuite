@@ -14,7 +14,7 @@ class ListItem extends React.Component<ListItemProps> {
   static propTypes = {
     className: PropTypes.string,
     classPrefix: PropTypes.string,
-    index: PropTypes.number.isRequired,
+    index: PropTypes.number,
     collection: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     disabled: PropTypes.bool
   };
