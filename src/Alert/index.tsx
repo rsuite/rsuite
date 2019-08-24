@@ -2,7 +2,7 @@ import * as React from 'react';
 import Icon from '../Icon';
 import Alert from './Alert';
 import { STATUS_ICON_NAMES } from '../constants';
-import { AlertConfigProps } from './Alert.d';
+import { AlertProps } from './Alert.d';
 
 const alert = new Alert();
 
@@ -36,7 +36,7 @@ export default {
   success: proxy('success'),
   warning: proxy('warning'),
   error: proxy('error'),
-  config(nextProps: AlertConfigProps) {
+  config(nextProps: AlertProps) {
     alert.setProps(nextProps);
   },
   ...closeActions

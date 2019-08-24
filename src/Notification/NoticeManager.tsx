@@ -46,39 +46,38 @@ class NoticeManager extends React.Component<NoticeManagerProps, NoticeManagerSta
     }
   };
 
-  static getInstance(props?: NoticeManagerProps, callback?: (options: InstanceType) => void) {
+  static getInstance(props: NoticeManagerProps, callback: (options: InstanceType) => void) {
     const { getContainer, ...rest } = props;
     const mountElement = document.createElement('div');
-    if (getContainer) {
-      const root = getContainer();
-      root.appendChild(mountElement);
-    } else {
-      document.body && document.body.appendChild(mountElement);
-    }
+    const container = typeof getContainer === 'function' ? getContainer() : document.body;
+
+    container.appendChild(mountElement);
 
     let called = false;
 
-    function ref(notification) {
+    function ref(ref) {
       if (called) {
         return;
       }
-      called = true;
-      callback({
-        push(noticeProps) {
-          notification.add(noticeProps);
+      const instance: InstanceType = {
+        push(item) {
+          ref.add(item);
         },
         remove(key: string) {
-          notification.actualRemove(key);
+          ref.actualRemove(key);
         },
         removeAll() {
-          notification.removeAll();
+          ref.removeAll();
         },
-        component: notification,
+        component: ref,
         destroy() {
           ReactDOM.unmountComponentAtNode(mountElement);
           document.removeChild(mountElement);
         }
-      });
+      };
+
+      called = true;
+      callback(instance);
     }
 
     ReactDOM.render(<NoticeManager {...rest} ref={ref} />, mountElement);
@@ -92,19 +91,15 @@ class NoticeManager extends React.Component<NoticeManagerProps, NoticeManagerSta
     };
   }
 
-  add = notice => {
+  add = item => {
     const { notices } = this.state;
-    let key;
-    if (notice.key === undefined || notice.key === null) {
-      key = getUid();
-    } else {
-      key = notice.key;
-    }
-    notice.key = key;
-    notice.animated = true;
-    if (!notices.filter(n => n.key === key).length) {
+
+    item.key = typeof item.key === 'undefined' ? getUid() : item.key;
+    item.animated = true;
+
+    if (!notices.find(n => n.key === item.key)) {
       this.setState({
-        notices: notices.concat(notice)
+        notices: [...notices, item]
       });
     }
   };
@@ -174,6 +169,7 @@ class NoticeManager extends React.Component<NoticeManagerProps, NoticeManagerSta
     const { className, style, classPrefix } = this.props;
     const elements = notices.map(item => {
       const { key, animated, onClose, ...rest } = item;
+
       return (
         <Transition
           key={key}

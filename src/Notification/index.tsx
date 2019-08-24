@@ -5,7 +5,7 @@ import Notification from './Notification';
 import Icon from '../Icon';
 import { STATUS_ICON_NAMES } from '../constants';
 import { getClassNamePrefix } from '../utils/prefix';
-import { NotificationConfigProps } from './Notification.d';
+import { NotificationProps } from './Notification.d';
 
 const classPrefix = `${getClassNamePrefix()}notification`;
 const notification = new Notification();
@@ -31,7 +31,7 @@ const closeActions = {
   }
 };
 
-function proxy(type: string, config: NotificationConfigProps) {
+function proxy(type: string, config: NotificationProps) {
   notification.open({
     ...config,
     type,

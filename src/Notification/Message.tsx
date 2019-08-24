@@ -1,21 +1,32 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { prefix } from 'rsuite-utils/lib/utils';
+import PropTypes from 'prop-types';
+import { prefix } from '../utils';
 
 export interface MessageProps {
   duration?: number;
   content?: any;
-  onClose?: () => void;
   closable?: boolean;
-  classPrefix: string;
+  classPrefix?: string;
   className?: string;
   style?: React.CSSProperties;
   type?: string;
+  onClose?: () => void;
 }
 
 class Message extends React.Component<MessageProps> {
-  closeTimer = null;
+  static propTypes = {
+    duration: PropTypes.number,
+    content: PropTypes.any,
+    closable: PropTypes.bool,
+    classPrefix: PropTypes.string,
+    className: PropTypes.string,
+    type: PropTypes.string,
+    onClose: PropTypes.func,
+    style: PropTypes.object
+  };
 
+  closeTimer = null;
   componentDidMount() {
     const { duration } = this.props;
     if (duration) {
@@ -46,19 +57,19 @@ class Message extends React.Component<MessageProps> {
 
   render() {
     const { classPrefix, closable, className, content, style, type = '' } = this.props;
-    const nc = this.addPrefix('item');
-    const classes = classNames(nc, {
+    const ns = this.addPrefix('item');
+    const classes = classNames(ns, {
       [this.addPrefix('item-closable')]: closable,
       [`${classPrefix}-${type}`]: !!type
     });
 
     return (
-      <div className={classNames(className, `${nc}-wrapper`)}>
-        <div className={classes} style={style}>
-          <div className={`${nc}-content`}>{content}</div>
+      <div style={style} className={classNames(className, `${ns}-wrapper`)}>
+        <div className={classes}>
+          <div className={`${ns}-content`}>{content}</div>
           {closable && (
-            <div role="button" tabIndex={-1} onClick={this.close} className={`${nc}-close`}>
-              <span className={`${nc}-close-x`} />
+            <div role="button" tabIndex={-1} onClick={this.close} className={`${ns}-close`}>
+              <span className={`${ns}-close-x`} />
             </div>
           )}
         </div>

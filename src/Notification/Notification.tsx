@@ -4,7 +4,8 @@ import _ from 'lodash';
 import { prefix } from '../utils';
 import { defaultClassPrefix } from '../utils/prefix';
 import NoticeManager, { NoticeManagerProps } from './NoticeManager';
-import { NotificationConfigProps } from './Notification.d';
+import { NotificationProps } from './Notification.d';
+import { MessageProps } from './Message';
 
 type placementType = 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight';
 
@@ -15,7 +16,7 @@ interface ConfigType {
 }
 
 class Notification {
-  props: NotificationConfigProps = {
+  props: NotificationProps = {
     top: 24,
     bottom: 24,
     duration: 4500,
@@ -27,7 +28,7 @@ class Notification {
   _instances: any = {};
   _cacheInstances: any[] = [];
 
-  setProps(nextProps: NotificationConfigProps) {
+  setProps(nextProps: NotificationProps) {
     this.props = {
       ...this.props,
       ...nextProps
@@ -65,40 +66,49 @@ class Notification {
 
     NoticeManager.getInstance(nextProps, callback);
   }
-  open(config) {
-    const description = config.description;
-    const placement = config.placement || this.props.placement;
-    const duration = config.duration || this.props.duration;
+  open(nextProps) {
+    const {
+      description,
+      onClose,
+      placement = this.props.placement,
+      duration = this.props.duration,
+      ...rest
+    } = nextProps;
+
     const content = (
       <div className={this.addPrefix('content')}>
-        <div className={this.addPrefix('title')}>{config.title}</div>
+        <div className={this.addPrefix('title')}>{nextProps.title}</div>
         <div className={this.addPrefix('description')}>
           {typeof description === 'function' ? description() : description}
         </div>
       </div>
     );
 
-    const nextProps: NotificationConfigProps = {
+    const config: ConfigType = {
+      placement,
+      top: nextProps.top,
+      bottom: nextProps.bottom
+    };
+
+    const itemProps: MessageProps = {
+      closable: true,
       content,
       duration,
-      closable: true,
-      onClose: config.onClose,
-      key: config.key,
-      type: config.type,
-      ...config
+      onClose,
+      ...rest
     };
 
     const instance = this._instances[placement];
     if (!instance) {
       this.getInstance(config, nextInstance => {
-        nextInstance.push(nextProps);
+        nextInstance.push(itemProps);
         this._instances[placement] = nextInstance;
       });
     } else {
-      instance.push(nextProps);
+      instance.push(itemProps);
     }
 
-    this._cacheInstances.push([placement, nextProps]);
+    this._cacheInstances.push([placement, itemProps]);
   }
   close(key: string) {
     if (!this._cacheInstances.length) {

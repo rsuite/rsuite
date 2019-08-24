@@ -1,6 +1,7 @@
 import * as React from 'react';
+import { StandardProps } from '../@types/common';
 
-export interface NotificationConfigProps {
+export interface NotificationProps extends StandardProps {
   /** The title of the message box */
   title?: React.ReactNode;
 
@@ -25,17 +26,16 @@ export interface NotificationConfigProps {
   /** Closes the callback function */
   onClose?: () => void;
 
-  classPrefix?: string;
-
+  /** The parent container of Notification */
   getContainer?: () => HTMLElement;
 }
 
 export interface NotificationAPI {
-  open(config: NotificationConfigProps): void;
-  info(config: NotificationConfigProps): void;
-  success(config: NotificationConfigProps): void;
-  warning(config: NotificationConfigProps): void;
-  error(config: NotificationConfigProps): void;
+  open(config: NotificationProps): void;
+  info(config: NotificationProps): void;
+  success(config: NotificationProps): void;
+  warning(config: NotificationProps): void;
+  error(config: NotificationProps): void;
 }
 
 declare const Notification: NotificationAPI;

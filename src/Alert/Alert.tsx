@@ -1,10 +1,10 @@
 import { prefix } from '../utils';
 import { defaultClassPrefix } from '../utils/prefix';
 import NoticeManager, { NoticeManagerProps } from '../Notification/NoticeManager';
-import { AlertConfigProps } from './Alert.d';
+import { AlertProps } from './Alert.d';
 
 class Alert {
-  props: AlertConfigProps = {
+  props: AlertProps = {
     duration: 2000,
     top: 5,
     classPrefix: defaultClassPrefix('alert'),
@@ -15,7 +15,7 @@ class Alert {
 
   addPrefix = name => prefix(this.props.classPrefix)(name);
 
-  setProps(nextProps: AlertConfigProps) {
+  setProps(nextProps: AlertProps) {
     this.props = {
       ...this.props,
       ...nextProps
@@ -37,14 +37,19 @@ class Alert {
     NoticeManager.getInstance(props, callback);
   }
 
-  open(content, duration = this.props.duration, onClose, type) {
+  open(
+    content: React.ReactNode | (() => React.ReactNode),
+    duration: number,
+    onClose: () => void,
+    type: string
+  ) {
     if (typeof content === 'function') {
       content = content();
     }
 
     const nextProps = {
       content,
-      duration,
+      duration: duration || this.props.duration,
       onClose,
       type,
       closable: true
