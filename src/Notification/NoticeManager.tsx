@@ -30,12 +30,12 @@ export interface InstanceType {
 
 interface NoticeType {
   key: string;
-  animated: boolean;
+  show: boolean;
   onClose?: () => void;
 }
 
 interface NoticeManagerState {
-  animated: boolean;
+  show: boolean;
   notices: NoticeType[];
 }
 
@@ -86,7 +86,7 @@ class NoticeManager extends React.Component<NoticeManagerProps, NoticeManagerSta
   constructor(props) {
     super(props);
     this.state = {
-      animated: false,
+      show: false,
       notices: []
     };
   }
@@ -95,7 +95,7 @@ class NoticeManager extends React.Component<NoticeManagerProps, NoticeManagerSta
     const { notices } = this.state;
 
     item.key = typeof item.key === 'undefined' ? getUid() : item.key;
-    item.animated = true;
+    item.show = true;
 
     if (!notices.find(n => n.key === item.key)) {
       this.setState({
@@ -110,7 +110,7 @@ class NoticeManager extends React.Component<NoticeManagerProps, NoticeManagerSta
       {
         notices: notices.map(n => ({
           ...n,
-          animated: false
+          show: false
         }))
       },
       () => {
@@ -136,7 +136,7 @@ class NoticeManager extends React.Component<NoticeManagerProps, NoticeManagerSta
 
     const nextNotices = notices.map(n => {
       if (n.key === key) {
-        n.animated = false;
+        n.show = false;
       }
       return n;
     });
@@ -168,14 +168,14 @@ class NoticeManager extends React.Component<NoticeManagerProps, NoticeManagerSta
     const { notices } = this.state;
     const { className, style, classPrefix } = this.props;
     const elements = notices.map(item => {
-      const { key, animated, onClose, ...rest } = item;
+      const { key, show, onClose, ...rest } = item;
 
       return (
         <Transition
           key={key}
-          in={animated}
+          in={show}
           exitedClassName={this.addPrefix('fade-exited')}
-          exitingClassName={this.addPrefix(['fade-entered', 'fade-leave-active'])}
+          exitingClassName={this.addPrefix('fade-leave-active')}
           enteringClassName={this.addPrefix('fade-entering')}
           enteredClassName={this.addPrefix('fade-entered')}
           timeout={300}

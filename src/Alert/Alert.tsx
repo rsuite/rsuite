@@ -38,10 +38,10 @@ class Alert {
   }
 
   open(
+    type: string,
     content: React.ReactNode | (() => React.ReactNode),
     duration: number,
-    onClose: () => void,
-    type: string
+    onClose: () => void
   ) {
     if (typeof content === 'function') {
       content = content();

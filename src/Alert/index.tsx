@@ -26,7 +26,7 @@ const closeActions = {
 
 function proxy(type: string) {
   return (content: string, duration?: number, onClose?: () => void) => {
-    alert.open(appendIcon(type, content), duration, onClose, type);
+    alert.open(type, appendIcon(type, content), duration, onClose);
     return closeActions;
   };
 }

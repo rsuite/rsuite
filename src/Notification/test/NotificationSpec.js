@@ -1,6 +1,4 @@
-import React from 'react';
 import Notification from '../Notification';
-import { getDOMNode } from '@test/testUtils';
 import ReactTestUtils from 'react-dom/test-utils';
 
 const notification = new Notification();
