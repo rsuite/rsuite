@@ -501,10 +501,13 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   };
 
   handleClean = (event: React.SyntheticEvent<any>) => {
-    const { disabled } = this.props;
-    if (disabled) {
+    const { disabled, onClean } = this.props;
+    const { searchKeyword } = this.state;
+
+    if (disabled || searchKeyword !== '') {
       return;
     }
+
     const nextState = {
       value: null,
       focusItemValue: null,
@@ -515,6 +518,8 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       this.handleChange(null, event);
       this.updatePosition();
     });
+
+    onClean && onClean(event);
   };
 
   handleEntered = () => {
@@ -770,7 +775,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
             tabIndex={null}
             ref={this.toggleRef}
             componentClass={toggleComponentClass}
-            onClean={createChainedFunction(this.handleClean, onClean)}
+            onClean={this.handleClean}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
           >
