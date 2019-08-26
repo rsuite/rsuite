@@ -196,7 +196,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       hasValue: this.hasValue(nextValue),
       expandAll: getExpandAll(props),
       filterData: this.getFilterData(searchKeyword, nextData, props),
-      searchKeyword,
+      searchKeyword: searchKeyword || '',
       selectedValues: nextValue,
       expandItemValues: this.serializeList('expand'),
       uncheckableItemValues: props.uncheckableItemValues,
@@ -960,6 +960,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     const classes = classNames(menuClassName, this.addPrefix('check-tree-menu'));
     const menu = this.renderCheckTree();
     const styles = virtualized ? { height, ...menuStyle } : menuStyle;
+
     return (
       <MenuWrapper
         autoWidth={menuAutoWidth}
