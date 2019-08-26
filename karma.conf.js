@@ -1,5 +1,6 @@
 /**
  * Run all tests: `npm run tdd`
+ * Run all styles tests: `M=styles npm run tdd`
  * Run a component test: `M=Button npm run tdd`
  * Run a test of a file: `src/Picker/test/PickerToggleSpec.js npm run tdd`
  */
@@ -77,6 +78,12 @@ module.exports = config => {
       ChromeCi: {
         base: 'Chrome',
         flags: ['--no-sandbox']
+      },
+      FirefoxAutoAllowGUM: {
+        base: 'Firefox',
+        prefs: {
+          'media.navigator.permission.disabled': true
+        }
       }
     },
     coverageReporter: {
