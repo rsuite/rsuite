@@ -1,13 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ProgressLine from '../ProgressLine';
-import {
-  createTestContainer,
-  getDOMNode,
-  getStyle,
-  toRGB,
-  getDefaultPalette
-} from '@test/testUtils';
+import { createTestContainer, getDOMNode, getStyle, toRGB, inChrome } from '@test/testUtils';
 
 import '../styles/index';
 
@@ -21,12 +15,14 @@ describe('ProgressLine styles', () => {
     const infoDom = dom.querySelector('.rs-progress-info');
     assert.equal(getStyle(dom, 'fontSize'), '16px', 'ProgressLine font-size');
     assert.equal(getStyle(dom, 'height'), '36px', 'ProgressLine height');
-    assert.equal(getStyle(outerDom, 'borderRadius'), '5px', 'ProgressLine outer border-radius');
+    inChrome &&
+      assert.equal(getStyle(outerDom, 'borderRadius'), '5px', 'ProgressLine outer border-radius');
     assert.equal(
       getStyle(innerDom, 'backgroundColor'),
       toRGB('#e5e5ea'),
       'ProgressLine inner border-radius'
     );
-    assert.equal(getStyle(infoDom, 'paddingLeft'), '12px', 'ProgressLine inner padding-left');
+    inChrome &&
+      assert.equal(getStyle(infoDom, 'paddingLeft'), '12px', 'ProgressLine inner padding-left');
   });
 });

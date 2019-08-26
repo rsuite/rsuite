@@ -6,7 +6,8 @@ import {
   getDOMNode,
   getStyle,
   toRGB,
-  getDefaultPalette
+  getDefaultPalette,
+  inChrome
 } from '@test/testUtils';
 
 import '../styles/index';
@@ -23,7 +24,7 @@ describe('NavItem styles', () => {
       createTestContainer()
     );
     const navItemContentDom = getDOMNode(instanceRef.current).querySelector('.rs-nav-item-content');
-    assert.equal(getStyle(navItemContentDom, 'padding'), '8px 12px', 'NavItem padding');
+    inChrome && assert.equal(getStyle(navItemContentDom, 'padding'), '8px 12px', 'NavItem padding');
     assert.equal(getStyle(navItemContentDom, 'color'), toRGB('#8e8e93'), 'NavItem color');
   });
 

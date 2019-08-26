@@ -2,7 +2,14 @@ import React from 'react';
 import ReactDOM, { findDOMNode } from 'react-dom';
 import SelectPicker from '../index';
 import Button from '../../Button';
-import { createTestContainer, getDOMNode, getStyle, toRGB } from '@test/testUtils';
+import {
+  createTestContainer,
+  getDOMNode,
+  getStyle,
+  toRGB,
+  inChrome,
+  itChrome
+} from '@test/testUtils';
 
 import '../styles/index';
 
@@ -27,13 +34,12 @@ const data = [
 describe('SelectPicker styles', () => {
   it('Default select picker should render correct toggle styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<SelectPicker ref={instanceRef} />, createTestContainer());
+    ReactDOM.render(<SelectPicker ref={instanceRef} open />, createTestContainer());
     const toggleDom = getDOMNode(instanceRef.current).querySelector('.rs-picker-toggle');
-    toggleDom.click();
     const pickerNoneDom = document.body.querySelector('.rs-picker-none');
-
-    assert.equal(getStyle(toggleDom, 'border'), `1px solid ${toRGB('#e5e5ea')}`, 'Toggle border');
-    assert.equal(getStyle(toggleDom, 'padding'), '7px 32px 7px 11px', 'Toggle padding');
+    inChrome &&
+      assert.equal(getStyle(toggleDom, 'border'), `1px solid ${toRGB('#e5e5ea')}`, 'Toggle border');
+    inChrome && assert.equal(getStyle(toggleDom, 'padding'), '7px 32px 7px 11px', 'Toggle padding');
     assert.equal(getStyle(toggleDom, 'backgroundColor'), toRGB('#fff'), 'Toggle background-color');
     assert.equal(
       window.getComputedStyle(toggleDom.querySelector('.rs-picker-toggle-caret'), '::before')
@@ -41,7 +47,8 @@ describe('SelectPicker styles', () => {
       `"${String.fromCharCode(0xea08)}"`,
       'Toggle caret content'
     );
-    assert.equal(getStyle(pickerNoneDom, 'padding'), '6px 12px 12px', 'Picker none item');
+    inChrome &&
+      assert.equal(getStyle(pickerNoneDom, 'padding'), '6px 12px 12px', 'Picker none item');
   });
 
   it('Subtle select picker should render correct toggle styles', () => {
@@ -49,12 +56,12 @@ describe('SelectPicker styles', () => {
     ReactDOM.render(<SelectPicker appearance="subtle" ref={instanceRef} />, createTestContainer());
     const toggleDom = getDOMNode(instanceRef.current).querySelector('.rs-picker-toggle');
 
-    assert.equal(getStyle(toggleDom, 'borderWidth'), '0px', 'Toggle border');
-    assert.equal(getStyle(toggleDom, 'padding'), '8px 32px 8px 12px', 'Toggle padding');
+    inChrome && assert.equal(getStyle(toggleDom, 'borderWidth'), '0px', 'Toggle border');
+    inChrome && assert.equal(getStyle(toggleDom, 'padding'), '8px 32px 8px 12px', 'Toggle padding');
     assert.equal(getStyle(toggleDom, 'backgroundColor'), toRGB('#0000'), 'Toggle background-color');
   });
 
-  it('Select picker should render correct size', () => {
+  itChrome('Select picker should render correct size', () => {
     const instanceRef = React.createRef();
     const instance = (
       <div ref={instanceRef}>
@@ -108,11 +115,12 @@ describe('SelectPicker styles', () => {
     const secondItemGroup = document.body.querySelector(
       '.rs-picker-select-menu-group:nth-child(2)'
     );
-    assert.equal(
-      getStyle(secondItemGroup, 'borderTop'),
-      `1px solid ${toRGB('#e5e5ea')}`,
-      'Picker menu group border'
-    );
+    inChrome &&
+      assert.equal(
+        getStyle(secondItemGroup, 'borderTop'),
+        `1px solid ${toRGB('#e5e5ea')}`,
+        'Picker menu group border'
+      );
     assert.equal(getStyle(secondItemGroup, 'marginTop'), '6px', 'Picker menu group margin');
   });
 

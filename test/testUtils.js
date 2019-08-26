@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import _ from 'lodash';
 import getPalette from './getPalette';
 import tinycolor from 'tinycolor2';
+export { getStyle } from 'dom-lib';
 
 export const globalKey = 'rs';
 const DEFAULT_PRIMARY_COLOR = '#3498ff';
@@ -57,4 +58,12 @@ export function createTestContainer() {
 
 export const toRGB = color => tinycolor(color).toRgbString();
 
-export const getStyle = (dom, styleName) => window.getComputedStyle(dom)[styleName];
+// export const getStyle = (dom, styleName) => window.getComputedStyle(dom)[styleName];
+
+export const inChrome = window.navigator.userAgent.includes('Chrome');
+
+export const itChrome = (...args) => {
+  if (inChrome) {
+    it(...args);
+  }
+};

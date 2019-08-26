@@ -73,11 +73,17 @@ module.exports = config => {
     webpackMiddleware: {
       noInfo: true
     },
-    browsers: env.BROWSER ? env.BROWSER.split(',') : ['Chrome'],
+    browsers: env.BROWSER ? env.BROWSER.split(',') : ['Chrome', 'Firefox'],
     customLaunchers: {
       ChromeCi: {
         base: 'Chrome',
         flags: ['--no-sandbox']
+      },
+      FirefoxAutoAllowGUM: {
+        base: 'Firefox',
+        prefs: {
+          'media.navigator.permission.disabled': true
+        }
       }
     },
     coverageReporter: {

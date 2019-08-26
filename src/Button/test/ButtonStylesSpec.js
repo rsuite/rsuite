@@ -7,7 +7,8 @@ import {
   getDOMNode,
   getDefaultPalette,
   toRGB,
-  getStyle
+  getStyle,
+  itChrome
 } from '@test/testUtils';
 
 import '../styles/index';
@@ -54,7 +55,7 @@ describe('Button styles', () => {
     assert.equal(getStyle(getDOMNode(instanceRef.current), 'color'), H700);
   });
 
-  it('Button should render the correct padding', () => {
+  itChrome('Button should render the correct padding', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(
       <ButtonToolbar ref={instanceRef}>

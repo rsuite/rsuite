@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PlaceholderGrid from '../PlaceholderGrid';
-import { createTestContainer, getDOMNode, getStyle, toRGB } from '@test/testUtils';
+import { createTestContainer, getDOMNode, getStyle, inChrome } from '@test/testUtils';
 
 import '../styles/index';
 
@@ -19,10 +19,11 @@ describe('PlaceholderGrid styles', () => {
       'The first placeholderGrid col align-items'
     );
 
-    assert.equal(
-      getStyle(theSecondColDom, 'flex'),
-      '1 1 0%',
-      'The first placeholderGrid col align-items'
-    );
+    inChrome &&
+      assert.equal(
+        getStyle(theSecondColDom, 'flex'),
+        '1 1 0%',
+        'The first placeholderGrid col align-items'
+      );
   });
 });

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Flexbox from '../index';
-import { createTestContainer, getDOMNode, getStyle } from '@test/testUtils';
+import { createTestContainer, getDOMNode, getStyle, inChrome } from '@test/testUtils';
 
 import '../styles/index';
 
@@ -10,11 +10,12 @@ describe('Flexbox styles', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<Flexbox ref={instanceRef} />, createTestContainer());
     assert.equal(getStyle(getDOMNode(instanceRef.current), 'display'), 'flex', 'Flexbox display');
-    assert.equal(
-      getStyle(getDOMNode(instanceRef.current), 'flexFlow'),
-      'row wrap',
-      'Flexbox flex-flow'
-    );
+    inChrome &&
+      assert.equal(
+        getStyle(getDOMNode(instanceRef.current), 'flexFlow'),
+        'row wrap',
+        'Flexbox flex-flow'
+      );
   });
 
   it('Should render the correct aligned', () => {

@@ -6,7 +6,8 @@ import {
   getDOMNode,
   getStyle,
   toRGB,
-  getDefaultPalette
+  inChrome,
+  itChrome
 } from '@test/testUtils';
 
 import '../styles/index';
@@ -16,11 +17,11 @@ describe('Panel styles', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<Panel ref={instanceRef} />, createTestContainer());
     const dom = getDOMNode(instanceRef.current);
-    assert.equal(getStyle(dom, 'borderRadius'), '6px', 'Panel border-radius');
+    inChrome && assert.equal(getStyle(dom, 'borderRadius'), '6px', 'Panel border-radius');
     assert.equal(getStyle(dom, 'overflow'), 'hidden', 'Panel overflow');
   });
 
-  it('Should render the correct border', () => {
+  itChrome('Should render the correct border', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<Panel ref={instanceRef} bordered />, createTestContainer());
     const dom = getDOMNode(instanceRef.current);

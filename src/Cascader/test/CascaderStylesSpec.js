@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Cascader from '../index';
-import { createTestContainer, getDOMNode, getStyle } from '@test/testUtils';
+import { createTestContainer, getDOMNode, getStyle, inChrome } from '@test/testUtils';
 
 import '../styles/index';
 
@@ -36,7 +36,7 @@ describe('Cascader styles', () => {
       '.rs-cascader-styles-test .rs-picker-cascader-menu-item'
     );
     const caretDom = menuItemDom.querySelector('.rs-picker-cascader-menu-caret');
-    assert.equal(getStyle(menuItemDom, 'padding'), '8px 28px 8px 12px');
+    inChrome && assert.equal(getStyle(menuItemDom, 'padding'), '8px 28px 8px 12px');
     assert.equal(
       window.getComputedStyle(caretDom, '::before').content,
       `"${String.fromCharCode(0xea0c)}"`

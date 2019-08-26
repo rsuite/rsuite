@@ -6,7 +6,9 @@ import {
   getDOMNode,
   getStyle,
   getDefaultPalette,
-  toRGB
+  toRGB,
+  itChrome,
+  inChrome
 } from '@test/testUtils';
 
 import '../styles/index';
@@ -32,7 +34,7 @@ describe('Calendar styles', () => {
 
     const todayButtonDom = dom.querySelector('.rs-calendar-btn-today');
     assert.equal(getStyle(todayButtonDom, 'backgroundColor'), toRGB('#f7f7fa'));
-    assert.equal(getStyle(todayButtonDom, 'padding'), '8px 12px');
+    inChrome && assert.equal(getStyle(todayButtonDom, 'padding'), '8px 12px');
   });
 
   it('Selected item should render correct styles', () => {
@@ -44,7 +46,8 @@ describe('Calendar styles', () => {
       '.rs-calendar-table-cell-selected .rs-calendar-table-cell-content'
     );
     const contentDom = selectedDom.children[0];
-    assert.equal(getStyle(selectedDom, 'borderColor'), H500, 'Selected item border-color');
+    inChrome &&
+      assert.equal(getStyle(selectedDom, 'borderColor'), H500, 'Selected item border-color');
     assert.equal(getStyle(contentDom, 'backgroundColor'), H500, 'Selected item background-color');
     assert.equal(getStyle(contentDom, 'color'), toRGB('#fff'), 'Selected item color');
   });
@@ -63,20 +66,29 @@ describe('Calendar styles', () => {
     const dropdownActiveCellDom = dom.querySelector(
       '.rs-calendar-month-dropdown-cell-active .rs-calendar-month-dropdown-cell-content'
     );
-    assert.equal(getStyle(headerBackward, 'visibility'), 'hidden');
-    assert.equal(getStyle(headerForward, 'visibility'), 'hidden');
-    assert.equal(getStyle(monthDropDown, 'display'), 'block');
-    assert.equal(getStyle(yearActiveDom, 'color'), H700);
+    assert.equal(
+      getStyle(headerBackward, 'visibility'),
+      'hidden',
+      'Header backward button visibility'
+    );
+    assert.equal(
+      getStyle(headerForward, 'visibility'),
+      'hidden',
+      'Header forward button visibility'
+    );
+    assert.equal(getStyle(monthDropDown, 'display'), 'block', 'MonthDropDown button display');
+    assert.equal(getStyle(yearActiveDom, 'color'), H700, 'Active year dom font-color');
     assert.equal(
       getStyle(dropdownActiveCellDom, 'color'),
       toRGB('#fff'),
       'DropdownActiveCellDom color'
     );
-    assert.equal(
-      getStyle(dropdownActiveCellDom, 'borderColor'),
-      H500,
-      'DropdownActiveCellDom border-color'
-    );
+    inChrome &&
+      assert.equal(
+        getStyle(dropdownActiveCellDom, 'borderColor'),
+        H500,
+        'DropdownActiveCellDom border-color'
+      );
     assert.equal(
       getStyle(dropdownActiveCellDom, 'backgroundColor'),
       H500,
@@ -84,7 +96,7 @@ describe('Calendar styles', () => {
     );
   });
 
-  it('Should render bordered calendar', () => {
+  itChrome('Should render bordered calendar', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<Calendar bordered ref={instanceRef} />, createTestContainer());
     const dom = getDOMNode(instanceRef.current);

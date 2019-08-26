@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import CheckPicker from '../index';
-import { createTestContainer, getDOMNode, getStyle } from '@test/testUtils';
+import { createTestContainer, getDOMNode, getStyle, inChrome } from '@test/testUtils';
 
 import '../styles/index';
 
@@ -32,6 +32,6 @@ describe('CheckPicker styles', () => {
     const menuItemLabel = document.body.querySelector(
       '.rs-picker-check-menu-items .rs-checkbox-checker label'
     );
-    assert.equal(getStyle(menuItemLabel, 'padding'), '8px 12px 8px 38px');
+    inChrome && assert.equal(getStyle(menuItemLabel, 'padding'), '8px 12px 8px 38px');
   });
 });

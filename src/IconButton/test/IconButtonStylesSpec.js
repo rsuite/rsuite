@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import IconButton from '../index';
-import { createTestContainer, getDOMNode, getStyle } from '@test/testUtils';
+import { createTestContainer, getDOMNode, getStyle, inChrome } from '@test/testUtils';
 
 import '../styles/index';
 
@@ -16,6 +16,6 @@ describe('IconButton styles', () => {
   it('Should render the correct border-raidus', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<IconButton circle ref={instanceRef} />, createTestContainer());
-    assert.equal(getStyle(getDOMNode(instanceRef.current), 'borderRadius'), '50%');
+    inChrome && assert.equal(getStyle(getDOMNode(instanceRef.current), 'borderRadius'), '50%');
   });
 });

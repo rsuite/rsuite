@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Dropdown from '../index';
-import { createTestContainer, getStyle, getDOMNode, toRGB } from '@test/testUtils';
+import { createTestContainer, getStyle, getDOMNode, inChrome } from '@test/testUtils';
 
 import '../styles/index';
 
@@ -18,11 +18,12 @@ describe('Dropdown styles', () => {
     const dom = getDOMNode(instanceRef.current);
     const toggleDom = dom.querySelector('.rs-dropdown-toggle');
     assert.equal(getStyle(dom, 'position'), 'relative', 'Dropdown  position');
-    assert.equal(
-      getStyle(toggleDom, 'padding'),
-      '8px 32px 8px 12px',
-      'Dropdown toggle button  padding'
-    );
+    inChrome &&
+      assert.equal(
+        getStyle(toggleDom, 'padding'),
+        '8px 32px 8px 12px',
+        'Dropdown toggle button  padding'
+      );
     assert.equal(
       window.getComputedStyle(toggleDom.querySelector('.rs-dropdown-toggle-caret'), '::before')
         .content,

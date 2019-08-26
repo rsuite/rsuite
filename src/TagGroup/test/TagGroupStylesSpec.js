@@ -1,18 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TagGroup from '../index';
-import {
-  createTestContainer,
-  getDOMNode,
-  getStyle,
-  toRGB,
-  getDefaultPalette
-} from '@test/testUtils';
+import { createTestContainer, getDOMNode, getStyle, itChrome } from '@test/testUtils';
 
 import '../styles/index';
 
 describe('TagGroup styles', () => {
-  it('Should render the correct styles', () => {
+  itChrome('Should render the correct styles', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<TagGroup ref={instanceRef} />, createTestContainer());
     const dom = getDOMNode(instanceRef.current);

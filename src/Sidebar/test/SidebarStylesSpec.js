@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Sidebar from '../index';
-import { createTestContainer, getDOMNode, getStyle, toRGB } from '@test/testUtils';
+import { createTestContainer, getDOMNode, getStyle, itChrome } from '@test/testUtils';
 
 import '../styles/index';
 
 describe('Sidebar styles', () => {
-  it('Should render the correct styles', () => {
+  itChrome('Should render the correct styles', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(
       <Sidebar ref={instanceRef} className="rs-sidebar-collapse" />,

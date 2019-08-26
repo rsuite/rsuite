@@ -6,7 +6,8 @@ import {
   getDOMNode,
   getStyle,
   toRGB,
-  getDefaultPalette
+  getDefaultPalette,
+  inChrome
 } from '@test/testUtils';
 
 import '../styles/index';
@@ -38,11 +39,13 @@ describe('InputPicker styles', () => {
     const dom = getDOMNode(instanceRef.current);
     const toggleDom = dom.querySelector('.rs-picker-toggle');
     const toggleInputDom = dom.querySelector('.rs-picker-search-input');
-    assert.equal(getStyle(dom, 'border'), `1px solid ${toRGB('#e5e5ea')}`, 'Picker border');
+    inChrome &&
+      assert.equal(getStyle(dom, 'border'), `1px solid ${toRGB('#e5e5ea')}`, 'Picker border');
 
     toggleDom.click();
-    assert.equal(getStyle(dom, 'border'), `1px solid ${H700}`, 'Picker active border');
+    inChrome && assert.equal(getStyle(dom, 'border'), `1px solid ${H700}`, 'Picker active border');
     assert.equal(getStyle(toggleDom, 'height'), '34px', 'Toggle height');
-    assert.equal(getStyle(toggleInputDom, 'border-style'), 'none', 'Toggle input border');
+    inChrome &&
+      assert.equal(getStyle(toggleInputDom, 'border-style'), 'none', 'Toggle input border');
   });
 });

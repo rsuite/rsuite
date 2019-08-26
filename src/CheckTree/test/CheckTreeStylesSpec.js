@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import CheckTree from '../index';
-import { createTestContainer, getDOMNode, getStyle } from '@test/testUtils';
+import { createTestContainer, getDOMNode, getStyle, inChrome } from '@test/testUtils';
 
 import '../styles/index';
 
@@ -37,6 +37,6 @@ describe('CheckTree styles', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<CheckTree data={data} ref={instanceRef} />, createTestContainer());
     const itemLabel = document.body.querySelector('.rs-check-tree .rs-checkbox-checker label');
-    assert.equal(getStyle(itemLabel, 'padding'), '8px 12px 8px 58px');
+    inChrome && assert.equal(getStyle(itemLabel, 'padding'), '8px 12px 8px 58px');
   });
 });

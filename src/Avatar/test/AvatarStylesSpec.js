@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Avatar from '../index';
-import { createTestContainer, getDOMNode, getStyle, toRGB } from '@test/testUtils';
+import { createTestContainer, getDOMNode, getStyle, toRGB, itChrome } from '@test/testUtils';
 
 import '../styles/index';
 
@@ -21,7 +21,8 @@ describe('Avatar styles', () => {
     assert.equal(getStyle(dom, 'font-size'), '26px');
   });
 
-  it('Should render circle avatar', () => {
+  // @description Can't get border-radius value in other browser except chrome
+  itChrome('Should render circle avatar', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<Avatar ref={instanceRef} circle />, createTestContainer());
     assert.equal(getStyle(getDOMNode(instanceRef.current), 'borderRadius'), '50%');

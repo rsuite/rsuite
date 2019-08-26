@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import MultiCascader from '../index';
-import { createTestContainer, getDOMNode, getStyle } from '@test/testUtils';
+import { createTestContainer, getDOMNode, getStyle, inChrome } from '@test/testUtils';
 
 import '../styles/index';
 
@@ -35,10 +35,11 @@ describe('MultiCascader styles', () => {
     const menuItemDom = document.body.querySelector(
       '.rs-multi-cascader-styles-test .rs-picker-cascader-menu-has-children'
     );
-    assert.equal(
-      getStyle(menuItemDom.querySelector('.rs-checkbox-checker label'), 'padding'),
-      '8px 26px 8px 38px'
-    );
+    inChrome &&
+      assert.equal(
+        getStyle(menuItemDom.querySelector('.rs-checkbox-checker label'), 'padding'),
+        '8px 26px 8px 38px'
+      );
     assert.equal(
       window.getComputedStyle(
         menuItemDom.querySelector('.rs-picker-cascader-menu-caret'),

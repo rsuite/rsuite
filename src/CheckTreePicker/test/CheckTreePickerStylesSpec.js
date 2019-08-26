@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import CheckTreePicker from '../index';
-import { createTestContainer, getDOMNode, getStyle } from '@test/testUtils';
+import { createTestContainer, getDOMNode, getStyle, itChrome } from '@test/testUtils';
 
 import '../styles/index';
 
@@ -33,7 +33,7 @@ const data = [
 ];
 
 describe('CheckTreePicker styles', () => {
-  it('Should render the correct styles', () => {
+  itChrome('Should render the correct styles', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<CheckTreePicker data={data} ref={instanceRef} />, createTestContainer());
     const toggleDom = getDOMNode(instanceRef.current).querySelector('.rs-picker-toggle');

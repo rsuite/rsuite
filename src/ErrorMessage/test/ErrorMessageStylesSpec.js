@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ErrorMessage from '../index';
-import { createTestContainer, getStyle, getDOMNode, toRGB } from '@test/testUtils';
+import { createTestContainer, getStyle, getDOMNode, toRGB, inChrome } from '@test/testUtils';
 
 import '../styles/index';
 
@@ -24,10 +24,11 @@ describe('ErrorMessage styles', () => {
       toRGB('#fff'),
       'ErrorMessage background-color'
     );
-    assert.equal(
-      getStyle(errorMessageDom, 'border'),
-      `1px solid ${toRGB('#e5e5ea')}`,
-      'ErrorMessage border'
-    );
+    inChrome &&
+      assert.equal(
+        getStyle(errorMessageDom, 'border'),
+        `1px solid ${toRGB('#e5e5ea')}`,
+        'ErrorMessage border'
+      );
   });
 });

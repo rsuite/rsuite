@@ -1,17 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Badge from '../index';
-import { createTestContainer, getDOMNode, getStyle, toRGB } from '@test/testUtils';
+import { createTestContainer, getDOMNode, getStyle, toRGB, itChrome } from '@test/testUtils';
 
 import '../styles/index';
 
 describe('Badge styles', () => {
-  it('Should render independent', () => {
+  it('Independent should render correct style ', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<Badge ref={instanceRef} />, createTestContainer());
     const dom = getDOMNode(instanceRef.current);
     assert.equal(getStyle(dom, 'width'), '8px');
     assert.equal(getStyle(dom, 'width'), getStyle(dom, 'height'));
+  });
+
+  // @description Can't get border-radius value in other browser except chrome
+  itChrome('Independent should render correct style ', () => {
+    const instanceRef = React.createRef();
+    ReactDOM.render(<Badge ref={instanceRef} />, createTestContainer());
+    const dom = getDOMNode(instanceRef.current);
     assert.equal(getStyle(dom, 'borderRadius'), '4px');
   });
 

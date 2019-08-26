@@ -1,13 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Tooltip from '../index';
-import {
-  createTestContainer,
-  getDOMNode,
-  getStyle,
-  toRGB,
-  getDefaultPalette
-} from '@test/testUtils';
+import { createTestContainer, getDOMNode, getStyle, toRGB, inChrome } from '@test/testUtils';
 
 import '../styles/index';
 
@@ -28,6 +22,6 @@ describe('Tooltip styles', () => {
       toRGB('#272c36'),
       'Tooltip inner background-color'
     );
-    assert.equal(getStyle(innerDom, 'padding'), '2px 10px', 'Tooltip inner padding');
+    inChrome && assert.equal(getStyle(innerDom, 'padding'), '2px 10px', 'Tooltip inner padding');
   });
 });

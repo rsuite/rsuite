@@ -1,13 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Tag from '../index';
-import {
-  createTestContainer,
-  getDOMNode,
-  getStyle,
-  toRGB,
-  getDefaultPalette
-} from '@test/testUtils';
+import { createTestContainer, getDOMNode, getStyle, toRGB, inChrome } from '@test/testUtils';
 
 import '../styles/index';
 
@@ -17,7 +11,7 @@ describe('Tag styles', () => {
     ReactDOM.render(<Tag ref={instanceRef}>Text</Tag>, createTestContainer());
     const dom = getDOMNode(instanceRef.current);
     assert.equal(getStyle(dom, 'backgroundColor'), toRGB('#f7f7fa'), 'Tag background-color');
-    assert.equal(getStyle(dom, 'padding'), '2px 8px', 'Tag padding');
+    inChrome && assert.equal(getStyle(dom, 'padding'), '2px 8px', 'Tag padding');
     assert.equal(getStyle(dom, 'fontSize'), '12px', 'Tag font-size');
     assert.equal(getStyle(dom, 'height'), '24px', 'Tag height');
   });

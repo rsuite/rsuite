@@ -10,7 +10,7 @@ describe('Notification styles', () => {
       title: 'Notify',
       duration: 0
     });
-    const dom = document.body.querySelector('.rs-notification.rs-notification-notify');
+    const dom = window.document.body.querySelector('.rs-notification.rs-notification-notify');
     assert.equal(getStyle(dom, 'position'), 'fixed', 'Notification position');
     assert.equal(getStyle(dom, 'zIndex'), '1080', 'Notification position');
     assert.equal(
