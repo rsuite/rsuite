@@ -19,10 +19,11 @@ describe('Loader styles', () => {
         `3px solid ${toRGB('#f7f7facc')}`,
         'Loader spin before border'
       );
-    assert.equal(
-      window.getComputedStyle(spinDom, '::after').borderColor,
-      `${toRGB('#a6a6a6')} ${toRGB('#0000')} ${toRGB('#0000')}`,
-      'Loader spin after border-color'
-    );
+    inChrome &&
+      assert.equal(
+        window.getComputedStyle(spinDom, '::after').borderColor,
+        `${toRGB('#a6a6a6')} ${toRGB('#0000')} ${toRGB('#0000')}`,
+        'Loader spin after border-color'
+      );
   });
 });
