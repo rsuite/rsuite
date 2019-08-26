@@ -10,11 +10,11 @@ describe('Notification styles', () => {
       title: 'Notify',
       duration: 0
     });
-    const dom = window.document.body.querySelector('.rs-notification.rs-notification-notify');
+    const dom = document.body.querySelector('.rs-notification');
     assert.equal(getStyle(dom, 'position'), 'fixed', 'Notification position');
     assert.equal(getStyle(dom, 'zIndex'), '1080', 'Notification position');
     assert.equal(
-      getStyle(dom.querySelector('.rs-notification-notice-content'), 'backgroundColor'),
+      getStyle(dom.querySelector('.rs-notification-item-content'), 'backgroundColor'),
       toRGB('#fff')
     );
   });
