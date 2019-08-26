@@ -36,9 +36,6 @@ export interface ListProps extends StandardProps {
   /* Delay before trigger sort */
   pressDelay?: number;
 
-  /* Threshold of trigger sort */
-  pressThreshold?: number;
-
   /* Duration of sort animation */
   transitionDuration?: number;
 
