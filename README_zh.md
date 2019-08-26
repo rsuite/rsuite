@@ -66,6 +66,11 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 - [国际化][rsuite-doc-guide-intl]
 - [组件][rsuite-components-overview]
 
+**历史版本:**
+
+- [3.\* 版本](https://v3.rsuitejs.com/)
+- [2.\* 版本](https://v2.rsuitejs.com/)
+
 ### 示例
 
 - [管理系统][demo-admin]

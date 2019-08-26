@@ -74,6 +74,11 @@ You can go through [full documentation][rsuite-doc-guide] or start with followin
 - [Internationalization][rsuite-doc-guide-intl]
 - [Components][rsuite-components-overview]
 
+**Previous old version**
+
+- [Version 3.\*](https://v3.rsuitejs.com/)
+- [Version 2.\*](https://v2.rsuitejs.com/)
+
 ### Examples
 
 - [Management system][demo-admin]
