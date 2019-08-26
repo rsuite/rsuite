@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { findDOMNode } from 'react-dom';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
 import InputPicker from '../InputPicker';
@@ -148,11 +147,20 @@ describe('InputPicker', () => {
     const doneOp = () => {
       done();
     };
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <InputPicker data={data} defaultValue={'Eugenia'} onClean={doneOp} />
     );
-    const instanceDOM = findDOMNode(instance);
-    ReactTestUtils.Simulate.click(instanceDOM.querySelector('.rs-picker-toggle-clean'));
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
+  });
+
+  it('Should call `onClean` callback by keyDown', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getDOMNode(
+      <InputPicker data={data} defaultOpen defaultValue={'Eugenia'} onClean={doneOp} />
+    );
+    ReactTestUtils.Simulate.keyDown(instance, { keyCode: 8 });
   });
 
   it('Should call `onSelect` by keyCode=13 ', done => {
@@ -171,7 +179,7 @@ describe('InputPicker', () => {
 
   it('Should output a clean button', () => {
     const instance = getDOMNode(<InputPicker data={data} defaultValue={'Louisa'} />);
-    assert.ok(findDOMNode(instance).querySelector(cleanClassName));
+    assert.ok(instance.querySelector(cleanClassName));
   });
 
   it('Should call `onSearch` callback', done => {
@@ -189,7 +197,7 @@ describe('InputPicker', () => {
   });
 
   it('Should call `onOpen` callback', done => {
-    const doneOp = key => {
+    const doneOp = () => {
       done();
     };
     let picker = null;
