@@ -1,46 +1,80 @@
-import * as React from 'react';
-import { Alert } from 'rsuite-notification';
+import { prefix } from '../utils';
+import { defaultClassPrefix } from '../utils/prefix';
+import NoticeManager, { NoticeManagerProps } from '../Notification/NoticeManager';
+import { AlertProps } from './Alert.d';
 
-import Icon from '../Icon';
-import { STATUS_ICON_NAMES } from '../constants';
-import { getClassNamePrefix } from '../utils/prefix';
-
-const defaultOptions = {
-  classPrefix: `${getClassNamePrefix()}notification`
-};
-
-Alert.config(defaultOptions);
-
-function appendIcon(type: string, content: string) {
-  return (
-    <div>
-      <Icon icon={STATUS_ICON_NAMES[type]} />
-      {content}
-    </div>
-  );
-}
-
-function proxy(type: string) {
-  return (content: string, duration?: number, onClose?: () => void) => {
-    Alert[type](appendIcon(type, content), duration, onClose);
+class Alert {
+  props: AlertProps = {
+    duration: 2000,
+    top: 5,
+    classPrefix: defaultClassPrefix('alert'),
+    getContainer: null
   };
-}
 
-interface Options {
-  top?: number;
-  duration?: number;
-  getContainer?: () => React.ElementType;
-}
+  _instance: any = null;
 
-export default {
-  info: proxy('info'),
-  success: proxy('success'),
-  warning: proxy('warning'),
-  error: proxy('error'),
-  config(options: Options) {
-    Alert.config({
-      ...defaultOptions,
-      ...options
-    });
+  addPrefix = name => prefix(this.props.classPrefix)(name);
+
+  setProps(nextProps: AlertProps) {
+    this.props = {
+      ...this.props,
+      ...nextProps
+    };
+
+    if (nextProps.top !== undefined) {
+      this._instance = null;
+    }
   }
-};
+  getInstance(callback) {
+    const { getContainer, top, duration, classPrefix } = this.props;
+    const props: NoticeManagerProps = {
+      style: { top },
+      duration,
+      classPrefix,
+      getContainer,
+      className: this.addPrefix('container')
+    };
+    NoticeManager.getInstance(props, callback);
+  }
+
+  open(
+    type: string,
+    content: React.ReactNode | (() => React.ReactNode),
+    duration: number,
+    onClose: () => void
+  ) {
+    if (typeof content === 'function') {
+      content = content();
+    }
+
+    const nextProps = {
+      content,
+      duration: duration || this.props.duration,
+      onClose,
+      type,
+      closable: true
+    };
+
+    if (!this._instance) {
+      this.getInstance(nextInstance => {
+        this._instance = nextInstance;
+        this._instance.push(nextProps);
+      });
+    } else {
+      this._instance.push(nextProps);
+    }
+  }
+  close(key: string) {
+    if (this._instance) {
+      this._instance.remove(key);
+    }
+  }
+
+  closeAll() {
+    if (this._instance) {
+      this._instance.removeAll();
+    }
+  }
+}
+
+export default Alert;

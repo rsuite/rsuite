@@ -904,7 +904,7 @@
 //== Alert
 //
 //##
-@notification-ns: ~'@{ns}notification';
+@alert-ns: ~'@{ns}alert';
 @alert-padding: 20px;
 @alert-border-radius: @border-radius-base;
 @alert-max-width: 400px;
@@ -925,6 +925,7 @@
 //== Notification
 //
 //##
+@notification-ns: ~'@{ns}notification';
 @notify-default-bg: @B000;
 @notify-padding: 20px;
 @notify-border-radius: @border-radius-base;
@@ -1164,7 +1165,9 @@
 @calendar-table-cell-content-selected-color: @H500;
 @calendar-table-cell-content-disabled-color: @B400;
 /* stylelint-disable-next-line */ // calcFontColor is hack function
-@calendar-table-cell-content-selected-font-color: color(~`calcFontColor('@{calendar-table-cell-content-selected-color}')`);
+@calendar-table-cell-content-selected-font-color: color(
+  ~`calcFontColor('@{calendar-table-cell-content-selected-color}') `
+);
 @calendar-table-cell-header-color: @B600;
 @calendar-table-cell-week-number-color: @B600;
 @calendar-table-cell-week-number-bg: @B050;

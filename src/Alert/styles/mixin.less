@@ -1,7 +1,7 @@
 .alert-variant(@background; @icon-color) {
-  .@{notification-ns}-alert & {
+  .@{alert-ns}-container & {
     // Content
-    .@{notification-ns}-notice-content {
+    .@{alert-ns}-item-content {
       background-color: @background;
       color: @text-color;
 
@@ -12,7 +12,7 @@
     }
 
     // Close button
-    .@{notification-ns}-notice-close {
+    .@{alert-ns}-item-close {
       color: @icon-color;
     }
   }
