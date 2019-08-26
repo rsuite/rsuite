@@ -49,7 +49,7 @@ class Alert {
 
     const nextProps = {
       content,
-      duration: duration || this.props.duration,
+      duration: typeof duration !== 'undefined' ? duration : this.props.duration,
       onClose,
       type,
       closable: true
