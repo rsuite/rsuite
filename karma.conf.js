@@ -73,7 +73,7 @@ module.exports = config => {
     webpackMiddleware: {
       noInfo: true
     },
-    browsers: env.BROWSER ? env.BROWSER.split(',') : ['Chrome', 'Firefox'],
+    browsers: env.BROWSER ? env.BROWSER.split(',') : ['Chrome'],
     customLaunchers: {
       ChromeCi: {
         base: 'Chrome',
