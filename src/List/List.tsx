@@ -77,7 +77,6 @@ class List extends React.Component<ListProps, State> {
     size: PropTypes.oneOf(['lg', 'md', 'sm']),
     autoScroll: PropTypes.bool,
     pressDelay: PropTypes.number,
-    pressThreshold: PropTypes.number,
     transitionDuration: PropTypes.number,
     onSortStart: PropTypes.func,
     onSortMove: PropTypes.func,
@@ -87,8 +86,7 @@ class List extends React.Component<ListProps, State> {
   static defaultProps = {
     size: 'md',
     autoScroll: true,
-    pressDelay: 0,
-    pressThreshold: 5,
+    pressDelay: 500,
     transitionDuration: 300
   };
 
@@ -118,14 +116,12 @@ class List extends React.Component<ListProps, State> {
   activeNodeTranslateMax: Axis;
   // events
   windowStartListener: { off: Function };
-  windowMoveListener: { off: Function };
   windowEndListener: { off: Function };
   sortMouseMoveListener: { off: Function };
   sortMouseEndListener: { off: Function };
   cursorInitialOffset: Axis;
   cursorCurrentPosition: Axis;
   pressTimer: any; // Timer ID
-  cancelTimer: any; // Timer ID
 
   componentDidMount() {
     if (this.containerRef.current instanceof HTMLElement) {
@@ -139,9 +135,6 @@ class List extends React.Component<ListProps, State> {
       this.windowStartListener = on(this.containerRef.current, 'mousedown', this.handleStart, {
         passive: false
       });
-      this.windowMoveListener = on(this.containerRef.current, 'mousemove', this.handleMove, {
-        passive: false
-      });
       this.windowEndListener = on(this.containerRef.current, 'mouseup', this.handleEnd, {
         passive: false
       });
@@ -150,7 +143,6 @@ class List extends React.Component<ListProps, State> {
 
   componentWillUnmount() {
     this.windowStartListener && this.windowStartListener.off();
-    this.windowMoveListener && this.windowMoveListener.off();
     this.windowEndListener && this.windowEndListener.off();
   }
 
@@ -192,32 +184,9 @@ class List extends React.Component<ListProps, State> {
     }
   };
 
-  handleMove = (event: MouseEvent) => {
-    event.preventDefault();
-    const { pressThreshold } = this.props;
-    const { sorting } = this.state;
-
-    if (!sorting && this.touched) {
-      const position = getPosition(event);
-      const delta = {
-        x: this.cursorCurrentPosition.x - _.get(position, 'x', 0),
-        y: this.cursorCurrentPosition.y - _.get(position, 'y', 0)
-      };
-      const combinedDelta = Math.abs(+delta.x) + Math.abs(+delta.y);
-      if (!pressThreshold || combinedDelta >= pressThreshold) {
-        clearTimeout(this.cancelTimer);
-        this.cancelTimer = setTimeout(this.cancel, 0);
-      }
-    }
-  };
-
   handleEnd = () => {
-    this.touched = false;
-    this.cancel();
-  };
-
-  cancel = () => {
     const { sorting, manager } = this.state;
+    this.touched = false;
     if (!sorting) {
       clearTimeout(this.pressTimer);
       manager.setActive(null);
@@ -225,7 +194,6 @@ class List extends React.Component<ListProps, State> {
   };
 
   handlePress = async (event: MouseEvent) => {
-    event.preventDefault();
     const { classPrefix, onSortStart } = this.props;
     const { manager } = this.state;
     const { node: activeNode, info } = manager.getActive();
@@ -304,7 +272,6 @@ class List extends React.Component<ListProps, State> {
   };
 
   handleSortMove = (event: MouseEvent) => {
-    event.preventDefault();
     const { onSortMove } = this.props;
     const { manager } = this.state;
 
