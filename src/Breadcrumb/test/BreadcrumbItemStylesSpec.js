@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Breadcrumb from '../index';
-import { createTestContainer, getDOMNode, getStyle, toRGB } from '@test/testUtils';
+import { createTestContainer, getDOMNode, getStyle, toRGB, inChrome } from '@test/testUtils';
 
 import '../styles/index';
 
@@ -16,10 +16,13 @@ describe('BreadcrumbItem styles', () => {
       createTestContainer()
     );
     const dom = getDOMNode(instanceRef.current);
-    const li = dom.firstElementChild;
-    const a = li.querySelector('a');
-    assert.equal(getStyle(li, 'fontSize'), '12px');
+    const itemDom = dom.firstElementChild;
+    const separatorDom = dom.querySelector('.rs-breadcrumb-separator');
+    const a = itemDom.querySelector('a');
+    assert.equal(getStyle(itemDom, 'fontSize'), '12px');
     assert.equal(getStyle(a, 'cursor'), 'pointer');
+    // @description Can't get margin value in other browser except chrome
+    inChrome && assert.equal(getStyle(separatorDom, 'margin'), '0px 4px');
   });
 
   it('Active item should render correct color', () => {
