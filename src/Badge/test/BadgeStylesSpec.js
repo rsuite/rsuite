@@ -15,7 +15,7 @@ describe('Badge styles', () => {
   });
 
   // @description Can't get border-radius value in other browser except chrome
-  itChrome('Independent should render correct style ', () => {
+  itChrome('Independent should render correct border-radius ', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<Badge ref={instanceRef} />, createTestContainer());
     const dom = getDOMNode(instanceRef.current);
@@ -27,5 +27,13 @@ describe('Badge styles', () => {
     ReactDOM.render(<Badge ref={instanceRef} />, createTestContainer());
     const dom = getDOMNode(instanceRef.current);
     assert.equal(getStyle(dom, 'color'), toRGB('#fff'));
+  });
+
+  it('Should render correct background color', () => {
+    const instanceRef = React.createRef();
+    const background = '#4caf50';
+    ReactDOM.render(<Badge ref={instanceRef} style={{ background }} />, createTestContainer());
+    const dom = getDOMNode(instanceRef.current);
+    assert.equal(getStyle(dom, 'backgroundColor'), toRGB(background));
   });
 });
