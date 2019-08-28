@@ -7,10 +7,9 @@ import '../styles/index';
 
 describe('ListItem styles', () => {
   it('Should render correct toggle styles', () => {
-    const instanceRef = React.createRef();
     ReactDOM.render(
       <List className="rs-list-styles-test">
-        <List.Item ref={instanceRef} index={1} />
+        <List.Item index={1} />
       </List>,
       createTestContainer()
     );
