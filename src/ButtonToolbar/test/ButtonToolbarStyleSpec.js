@@ -11,18 +11,8 @@ import '../styles/index';
 describe('ButtonToolbar styles', () => {
   it('Should render the correct vertical align', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(
-      <ButtonToolbar ref={instanceRef}>
-        <ButtonGroup>
-          <Button>Title</Button>
-        </ButtonGroup>
-      </ButtonToolbar>,
-      createTestContainer()
-    );
-    assert.equal(
-      getStyle(getDOMNode(instanceRef.current).firstElementChild, 'verticalAlign'),
-      'top'
-    );
+    ReactDOM.render(<ButtonToolbar ref={instanceRef} />, createTestContainer());
+    assert.equal(getStyle(getDOMNode(instanceRef.current), 'line-height'), '0px');
   });
 
   it('Should render the correct margin left', () => {
