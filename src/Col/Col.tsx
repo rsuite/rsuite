@@ -69,7 +69,7 @@ class Col extends React.Component<ColProps> {
 
     const elementProps = _.omit(props, omitKeys);
 
-    return <Component {...elementProps} className={classNames(classes, className)} />;
+    return <Component {...elementProps} className={classNames(className, classPrefix, classes)} />;
   }
 }
 

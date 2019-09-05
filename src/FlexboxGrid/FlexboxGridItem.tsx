@@ -10,21 +10,32 @@ class FlexboxGridItem extends React.Component<FlexboxGridItemProps> {
     className: PropTypes.string,
     colspan: PropTypes.number,
     order: PropTypes.number,
-    classPrefix: PropTypes.string
+    classPrefix: PropTypes.string,
+    componentClass: PropTypes.elementType
   };
   static defaultProps = {
+    componentClass: 'div',
     colspan: 0,
     order: 0
   };
 
   render() {
-    const { className, classPrefix, colspan, order, ...props } = this.props;
+    const {
+      className,
+      classPrefix,
+      colspan,
+      order,
+      componentClass: Component,
+      ...props
+    } = this.props;
+
     const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, className, addPrefix(colspan + ''), {
+    const classes = classNames(className, classPrefix, {
+      [addPrefix(`${colspan}`)]: colspan >= 0,
       [addPrefix(`order-${order}`)]: order
     });
 
-    return <div {...props} className={classes} />;
+    return <Component {...props} className={classes} />;
   }
 }
 
