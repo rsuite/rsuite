@@ -11,7 +11,7 @@
   overflow-y: auto;
 
   &-bordered {
-    border-radius: 6px;
+    border-radius: @border-radius-base;
     box-shadow: 0 0 0 1px @list-border-color;
   }
 
@@ -59,7 +59,7 @@
     background-color: @list-item-drag-bg-color;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     width: calc(100% - 2px);
-    border-radius: 6px;
+    border-radius: @border-radius-base;
     top: 0;
     left: 0;
     z-index: 99;
