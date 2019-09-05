@@ -242,3 +242,21 @@
     }
   }
 }
+
+// ie && edge
+.ie-edge-width(@value) when (@ie-polyfill = true) {
+  width: ~'@{value}@{ie-suffix}';
+
+  // IE 11
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      width: @value;
+    }
+  }
+
+  @supports (-ms-ime-align: auto) {
+    & {
+      width: @value;
+    }
+  }
+}
