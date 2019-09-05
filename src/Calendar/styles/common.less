@@ -508,6 +508,11 @@
     margin: 1px;
     text-align: center;
     vertical-align: middle;
+
+    // In IE and Edge need more minus 1px. @see https://github.com/rsuite/rsuite/issues/585
+    .ie-edge-width(
+      ~'calc((100% - @{calendar-table-cell-content-today-border-width} * 12 - 1px) / 6)'
+    );
   }
 
   &-cell-content {
