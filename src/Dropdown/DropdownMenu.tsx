@@ -36,7 +36,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
     collapsible: PropTypes.bool,
     onToggle: PropTypes.func
   };
-  getMenuItemsAndStatus(children?: React.ReactChildren): { items: any[]; active: boolean } {
+  getMenuItemsAndStatus(children?: React.ReactNode): { items: any[]; active: boolean } {
     let hasActiveItem: boolean;
 
     const { activeKey, onSelect, classPrefix, openKeys = [] } = this.props;

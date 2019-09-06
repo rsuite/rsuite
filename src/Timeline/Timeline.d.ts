@@ -4,7 +4,7 @@ import { StandardProps } from '../@types/common';
 
 export interface TimelineProps extends StandardProps {
   /** The content of the component */
-  children?: React.ReactChildren;
+  children?: React.ReactNode;
 
   /** You can use a custom element type for this component */
   componentClass?: React.ElementType;

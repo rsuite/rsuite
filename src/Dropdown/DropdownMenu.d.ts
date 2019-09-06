@@ -5,7 +5,7 @@ import { IconProps } from '../Icon/Icon.d';
 
 export interface DropdownMenuProps<T = any> extends StandardProps {
   /** Primary content */
-  children?: React.ReactChildren;
+  children?: React.ReactNode;
 
   /** Define the title as a submenu */
   title?: React.ReactNode;

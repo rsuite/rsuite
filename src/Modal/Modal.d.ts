@@ -11,7 +11,7 @@ export interface ModalProps extends StandardProps, AnimationEventProps {
   size?: TypeAttributes.Size;
 
   /** Primary content */
-  children?: React.ReactChildren;
+  children?: React.ReactNode;
 
   /** CSS class applied to Dialog DOM nodes */
   dialogClassName?: string;

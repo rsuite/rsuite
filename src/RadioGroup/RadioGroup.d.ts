@@ -15,7 +15,7 @@ export interface RadioGroupProps<V = any>
   inline?: boolean;
 
   /** Primary content */
-  children?: React.ReactChildren;
+  children?: React.ReactNode;
 }
 
 declare const RadioGroup: React.ComponentType<RadioGroupProps>;

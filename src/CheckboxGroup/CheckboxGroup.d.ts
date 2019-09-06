@@ -10,7 +10,7 @@ export interface CheckboxGroupProps<V = any>
   name?: string;
 
   /** Primary content */
-  children?: React.ReactChildren;
+  children?: React.ReactNode;
 
   /** Inline layout */
   inline?: boolean;

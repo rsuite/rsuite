@@ -45,7 +45,7 @@ import { PLACEMENT } from '../constants';
 
 interface DateRangePickerState {
   value: ValueType;
-  selectValue: ValueType;
+  selectValue: [Date?, Date?, Date?];
 
   // Two clicks, the second click ends
   doneSelected: boolean;
@@ -205,7 +205,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   }
 
   // hover range presets
-  getWeekHoverRange = (date: Date) => {
+  getWeekHoverRange = (date: Date): ValueType => {
     const { isoWeek } = this.props;
 
     if (isoWeek) {
@@ -215,7 +215,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
 
     return [startOfWeek(date), endOfWeek(date)];
   };
-  getMonthHoverRange = (date: Date) => [startOfMonth(date), endOfMonth(date)];
+  getMonthHoverRange = (date: Date): ValueType => [startOfMonth(date), endOfMonth(date)];
 
   getHoverRange(date: Date) {
     const { hoverRange } = this.props;
@@ -236,7 +236,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       return [];
     }
 
-    const hoverValues = hoverRangeFunc(date);
+    const hoverValues: ValueType = hoverRangeFunc(date);
     const isHoverRangeValid = hoverValues instanceof Array && hoverValues.length === 2;
     if (!isHoverRangeValid) {
       return [];
@@ -313,7 +313,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   handleOK = (event: React.SyntheticEvent<any>) => {
     const { onOk } = this.props;
     this.updateValue(event);
-    onOk && onOk(this.state.selectValue, event);
+    onOk && onOk(this.state.selectValue as ValueType, event);
   };
 
   handleChangeSelectValue = (date: Date, event: React.SyntheticEvent<any>) => {
@@ -350,8 +350,8 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
 
     const nextState = {
       doneSelected: !doneSelected,
-      selectValue: nextValue,
-      hoverValue: nextHoverValue
+      selectValue: nextValue as ValueType,
+      hoverValue: nextHoverValue as ValueType
     };
 
     this.setState(nextState, () => {
@@ -382,7 +382,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     if (doneSelected && !_.isUndefined(hoverRange)) {
       this.setState({
         currentHoverDate: date,
-        hoverValue: nextHoverValue
+        hoverValue: nextHoverValue as ValueType
       });
       return;
     } else if (doneSelected) {
@@ -457,7 +457,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     const { selectValue, doneSelected } = this.state;
     const selectStartDate = selectValue[0];
     const selectEndDate = selectValue[1];
-    const nextSelectValue = [selectStartDate, selectEndDate];
+    const nextSelectValue: ValueType = [selectStartDate, selectEndDate];
 
     // If the date is between the start and the end
     // the button is disabled
@@ -512,7 +512,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       calendarDate,
       limitEndYear,
       showWeekNumbers,
-      value: selectValue,
+      value: selectValue as ValueType,
       disabledDate: this.handleDisabledDate,
       onSelect: this.handleChangeSelectValue,
       onMouseMove: this.handleMouseMoveSelectValue,
@@ -524,7 +524,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
         <div className={this.addPrefix('daterange-panel')}>
           <div className={this.addPrefix('daterange-content')}>
             <div className={this.addPrefix('daterange-header')}>
-              {this.getDateString(selectValue)}
+              {this.getDateString(selectValue as ValueType)}
             </div>
             <div className={this.addPrefix('daterange-calendar-group')}>
               <DatePicker index={0} {...pickerProps} />
@@ -533,7 +533,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
           </div>
           <Toolbar
             ranges={ranges}
-            selectValue={selectValue}
+            selectValue={selectValue as ValueType}
             disabledOkButton={this.disabledOkButton}
             disabledShortcutButton={this.disabledShortcutButton}
             onShortcut={this.handleShortcutPageDate}
