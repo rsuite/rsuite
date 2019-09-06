@@ -18,6 +18,34 @@ describe('Calendar-MonthDropdown', () => {
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-month-dropdown-cell'));
   });
 
+  it('Should disable month', () => {
+    const instance = getDOMNode(
+      <MonthDropdown
+        date={new Date(2019, 8, 1)}
+        disabledMonth={d => {
+          let today = new Date(2019, 8, 6);
+          let d2 = new Date(today.getTime() - 240 * 60 * 60 * 1000);
+          if (d.getTime() > today.getTime() || d.getTime() < d2.getTime()) {
+            return true;
+          }
+          return false;
+        }}
+      />
+    );
+
+    const cells = instance
+      .querySelector('.rs-calendar-month-dropdown-year-active')
+      .parentNode.querySelectorAll('.rs-calendar-month-dropdown-cell');
+
+    assert.include(cells[6].className, 'disabled');
+    assert.equal(cells[7].className, 'rs-calendar-month-dropdown-cell');
+    assert.equal(
+      cells[8].className,
+      'rs-calendar-month-dropdown-cell rs-calendar-month-dropdown-cell-active'
+    );
+    assert.include(cells[9].className, 'disabled');
+  });
+
   it('Should have a custom className', () => {
     const instance = getDOMNode(<MonthDropdown className="custom" />);
     assert.ok(instance.className.match(/\bcustom\b/));
