@@ -5,8 +5,7 @@ import List from 'react-virtualized/dist/commonjs/List';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
 import MonthDropdownItem from './MonthDropdownItem';
-import { getYear, setYear, setMonth, getMonth } from 'date-fns';
-import composeFunctions from '../utils/composeFunctions';
+import { getYear, getMonth, getDaysInMonth } from 'date-fns';
 
 export interface MonthDropdownProps {
   date: Date;
@@ -79,10 +78,17 @@ class MonthDropdown extends React.PureComponent<MonthDropdownProps> {
     const { disabledMonth } = this.props;
 
     if (disabledMonth) {
-      return disabledMonth(
-        composeFunctions(d => setYear(d, year), d => setMonth(d, month))(new Date())
-      );
+      const days = getDaysInMonth(new Date(year, month));
+
+      // If all dates in a month are disabled, disable the current month
+      for (let i = 1; i <= days; i++) {
+        if (!disabledMonth(new Date(year, month, i))) {
+          return false;
+        }
+      }
+      return true;
     }
+
     return false;
   }
 
