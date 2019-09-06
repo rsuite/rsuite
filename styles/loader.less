@@ -35,6 +35,9 @@
 
   // Backdrop
   &-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     background: @loader-backdrop-color;
@@ -44,6 +47,10 @@
   &-vertical {
     width: auto;
     display: inline-block;
+
+    .@{ns}loader {
+      flex-direction: column;
+    }
 
     .@{ns}loader-spin {
       margin: 0 auto;
@@ -70,6 +77,10 @@
   &-inverse {
     .@{ns}loader-content {
       color: @loader-content-inverse-color;
+    }
+
+    .@{ns}loader-backdrop {
+      background: @loader-backdrop-inverse-color;
     }
 
     .@{ns}loader-spin::before {
@@ -105,48 +116,35 @@
     margin: auto;
     width: 100%;
     height: 100%;
-    // IE polyfill
-    .ie-vertical-align(middle);
-    .ie-text-align(center);
 
     .@{ns}loader {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      margin: auto;
-      // IE polyfill
-      .ie-display(inline-block) !important;
-
-      > * {
-        // IE polyfill
-        .ie-display(inline-block);
-        .ie-text-align(center);
-        .ie-float(none);
-
-        .loader-vertical& {
-          .ie-display(block);
-        }
-      }
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
     }
 
     // horizontal loader need set display table to set width auto
     &:not(.@{ns}loader-vertical) {
       .@{ns}loader {
-        display: table;
+        display: flex;
       }
     }
 
     // vertical content text align center
     &.@{ns}loader-vertical {
       .@{ns}loader {
-        height: @loader-default-diameter + @loader-content-spin-spacing-vertical + @line-height-computed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
       }
+    }
 
-      .@{ns}loader-content {
-        text-align: center;
-      }
+    .@{ns}loader-content {
+      z-index: 1;
     }
   }
 
@@ -172,4 +170,6 @@
 .@{ns}loader-wrapper {
   display: inline-block;
   width: auto;
+  // Clear white space
+  line-height: 0;
 }
