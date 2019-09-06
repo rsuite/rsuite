@@ -10,7 +10,7 @@ export interface StepsProps extends StandardProps {
   small?: boolean;
 
   /** Primary content */
-  children?: React.ReactChildren;
+  children?: React.ReactNode;
 
   /** Current execution step */
   current?: number;

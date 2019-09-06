@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export function find(children: React.ReactChildren, func: Function, context?: any) {
+export function find(children: React.ReactNode, func: Function, context?: any) {
   let index = 0;
   let result: React.ReactNode;
 
@@ -17,7 +17,7 @@ export function find(children: React.ReactChildren, func: Function, context?: an
   return result;
 }
 
-export function map(children: React.ReactChildren, func: Function, context?: any) {
+export function map(children: React.ReactNode, func: Function, context?: any) {
   let index = 0;
   return React.Children.map(children, child => {
     if (!React.isValidElement(child)) {
@@ -29,7 +29,7 @@ export function map(children: React.ReactChildren, func: Function, context?: any
   });
 }
 
-export function mapCloneElement(children: React.ReactChildren, func: Function, context?: any) {
+export function mapCloneElement(children: React.ReactNode, func: Function, context?: any) {
   return map(
     children,
     (child: React.DetailedReactHTMLElement<any, HTMLElement>, index: number) =>
@@ -41,7 +41,7 @@ export function mapCloneElement(children: React.ReactChildren, func: Function, c
   );
 }
 
-function some(children: React.ReactChildren, func: Function, context?: any) {
+function some(children: React.ReactNode, func: Function, context?: any) {
   let index = 0;
   let result = false;
 

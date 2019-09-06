@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { PickerBaseProps, FormControlBaseProps } from '../@types/common';
 
-export type ValueType = Date[];
+export type ValueType = [Date?, Date?];
 
 export type DisabledDateFunction = (
   /** Date used to determine if disabling is required. */
   date: Date,
   /** Date selected. */
-  selectValue?: Date[],
+  selectValue?: ValueType,
   /**
    Whether to choose to finish now.
    If `false`, only the start date is selected, waiting for the selection end date.
@@ -31,7 +31,7 @@ export interface DateRangePickerProps extends PickerBaseProps, FormControlBasePr
   format?: string;
 
   /** The date range that will be selected when you click on the date */
-  hoverRange?: 'week' | 'month' | ((date: Date) => Date[]);
+  hoverRange?: 'week' | 'month' | ((date: Date) => ValueType);
 
   /** Whether to click once on selected date range，Can be used with hoverRange */
   oneTap?: boolean;

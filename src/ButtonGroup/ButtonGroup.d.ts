@@ -4,7 +4,7 @@ import { StandardProps } from '../@types/common';
 
 export interface ButtonGroupProps extends StandardProps {
   /** Primary content */
-  children?: React.ReactChildren;
+  children?: React.ReactNode;
 
   /** Vertical layouts of button */
   vertical?: boolean;

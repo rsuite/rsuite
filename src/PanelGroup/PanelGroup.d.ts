@@ -15,7 +15,7 @@ export interface PanelGroupProps<T = any> extends StandardProps {
   defaultActiveKey?: T;
 
   /** Primary content */
-  children?: React.ReactChildren;
+  children?: React.ReactNode;
 
   /** Toggles the callback function for the expand panel */
   onSelect?: (eventKey: T, event: React.SyntheticEvent<any>) => void;

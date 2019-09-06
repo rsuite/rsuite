@@ -9,7 +9,7 @@ export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 
 export interface DropdownProps<T = any> extends StandardProps {
   /** Primary content */
-  children?: React.ReactChildren;
+  children?: React.ReactNode;
 
   /** Define the title as a submenu */
   title?: React.ReactNode;

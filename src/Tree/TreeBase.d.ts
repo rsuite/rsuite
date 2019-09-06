@@ -17,7 +17,11 @@ export interface TreeBaseProps extends StandardProps {
   searchKeyword?: string;
 
   /** Callback function for data change */
-  onExpand?: (expandItemValues: any[], activeNode: any, concat: (data, children) => any[]) => void;
+  onExpand?: (
+    expandItemValues: any[],
+    activeNode: any,
+    concat: (data: any[], children: React.ReactNode) => any[]
+  ) => void;
 
   /** Callback function after selecting tree node */
   onSelect?: (activeNode: any, value: any, event: React.SyntheticEvent<any>) => void;

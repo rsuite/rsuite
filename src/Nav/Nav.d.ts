@@ -4,7 +4,7 @@ import NavItem from './NavItem';
 
 export interface NavProps<T = any> extends StandardProps {
   /** Primary content */
-  children?: React.ReactChildren;
+  children?: React.ReactNode;
 
   /** sets appearance */
   appearance?: 'default' | 'subtle' | 'tabs';
