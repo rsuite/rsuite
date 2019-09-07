@@ -11,6 +11,12 @@ export interface ProgressLineProps extends StandardProps {
   /** Line width */
   strokeWidth?: number;
 
+  /** Trail color */
+  trailColor?: string;
+
+  /** Trail width */
+  trailWidth?: number;
+
   /** Show text */
   showInfo?: boolean;
 
