@@ -22,12 +22,6 @@ class Loader extends React.Component<Props> {
     speed: 'normal'
   };
 
-  loader = null;
-
-  loaderRef = ref => {
-    this.loader = ref;
-  };
-
   addPrefix(name: string) {
     return prefix(this.props.classPrefix)(name);
   }
