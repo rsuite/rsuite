@@ -52,7 +52,7 @@ class Loader extends React.Component<Props> {
     return (
       <div {...props} className={classes}>
         {backdrop && <div className={addPrefix('backdrop')} />}
-        <div className={classPrefix} ref={this.loaderRef}>
+        <div className={classPrefix}>
           <span className={addPrefix('spin')} />
           {hasContent && <span className={addPrefix('content')}>{content}</span>}
         </div>
