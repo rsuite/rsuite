@@ -151,7 +151,6 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const { value, data, labelKey, valueKey } = nextProps;
-
     if (data !== prevState.data) {
       // First get the value of the clicked node `selectNodeValue`, and then get the new `newChildren`.
       const selectNodeValue = _.get(prevState, ['selectNode', valueKey]);

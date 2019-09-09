@@ -239,7 +239,6 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
 
   handleReupload = (file: FileType) => {
     const { onReupload, autoUpload } = this.props;
-
     autoUpload && this.handleUploadFile(file);
     onReupload && onReupload(file);
   };

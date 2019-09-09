@@ -1,3 +1,89 @@
+# 3.8.10
+
+> September 9, 2019
+
+* **Bugfix**: Fixed alignment of Loader within its container. ([#599])
+
+[#599]: https://github.com/rsuite/rsuite/pull/599
+
+# 3.8.9
+
+> September 7, 2019
+
+* **Bugfix**: Update `<Loader>` styles replace table layout to flex. ([#593])
+* **Bugfix**: Fixed an issue with `<Cascader>` select search result. ([#561])
+* **Bugfix**: Fixed an issue with `<Cascader>` selected values. ([#558])
+
+---
+
+* **Bugfix**: 更新 `<Loader>` 样式将表布局替换为 flex。 ([#593])
+* **Bugfix**: 修复 `<Cascader>` 选择值后回调缺少参数的问题. ([#561])
+* **Bugfix**: 修复 `<Cascader>` 选择搜索结果值后没有触发 `onSelect` 回调的问题 ([#558])
+
+[#593]: https://github.com/rsuite/rsuite/pull/593
+[#561]: https://github.com/rsuite/rsuite/pull/561
+[#558]: https://github.com/rsuite/rsuite/pull/558
+
+# 3.8.8
+
+> August 1, 2019
+
+* **Bugfix**: Fix `<Uploader>` showing file size issue ([#533])
+* **Bugfix**: Fix `<Uploader>` reset button will trigger automatic upload. ([#521])
+* **Improve**: Improve `<Cascader>` search results, formatting options. ([#515])
+
+---
+
+* **Bugfix**: 修复 `<Uploader>` 文件大小显示问题 ([#533])
+* **Bugfix**: 修复 `<Uploader>` 在手动上传的情况下，重新上传按钮会触发自动上传 ([#521])
+* **Improve**: 改进 `<Cascader>` 搜索结果，格式化选项。 ([#515])
+
+[#533]: https://github.com/rsuite/rsuite/pull/533
+[#521]: https://github.com/rsuite/rsuite/pull/521
+[#515]: https://github.com/rsuite/rsuite/pull/515
+
+# 3.8.7
+
+> July 11, 2019
+
+* **Bugfix**: Fix `<Cascader>` option value is not correct under controlled conditions. ([#498])
+* **Bugfix**: Fix the style problem of `<MultiCascader>` text wrap. ([#511])
+* **Bugfix**: Fix `<MultiCascader>` When searching for result status error when not cascading. ([#513])
+* **Bugfix**: Fix an internationalization issue with a wrong title on the calendar panel ([#513])
+
+---
+
+* **Bugfix**: 修复 `<Cascader>` 选项值在受控条件下不正确。 ([#498])
+* **Bugfix**: 修复 `<MultiCascader>` 文本换行的样式问题。([#511])
+* **Bugfix**: 修复 `<MultiCascader>` 在不级联时候，搜索结果选项的状态错误。 ([#513])
+* **Bugfix**: 修复日历面板上标题错误的国际化问题。 ([#513])
+
+[#514]: https://github.com/rsuite/rsuite/pull/514
+[#513]: https://github.com/rsuite/rsuite/pull/513
+[#511]: https://github.com/rsuite/rsuite/pull/511
+[#498]: https://github.com/rsuite/rsuite/pull/498
+
+# 3.8.6
+
+> June 6, 2019
+
+* **Bugfix**: Fix the problem that `<TagPicker>` minimum width is inconsistent with design. ([#482])
+* **Bugfix**: Fix `<IconButton>` loading status style problem. ([#480])
+* **Bugfix**: Fixed TypeScript definition error. ([#478],[#479],[#483])
+* **Bugfix**: Fix `<Table>` setting `expandedRowKeys` value, there is a problem that child nodes cannot be expanded. ([#table-85])
+
+* **Bugfix**: 修复 `<TagPicker>` 最小宽度值与设计不一致的问题。 ([#482])
+* **Bugfix**: 修复 `<IconButton>` loading 状态样式问题. ([#480])
+* **Bugfix**: 修复一些 TypeScript 定义错误。 ([#478],[#479],[#483])
+* **Bugfix**: 修复 `<Table>` 设置 `expandedRowKeys` 值，存在子节点不能展开的问题。 ([#table-85])
+
+[#483]: https://github.com/rsuite/rsuite/pull/483
+[#482]: https://github.com/rsuite/rsuite/pull/482
+[#480]: https://github.com/rsuite/rsuite/pull/480
+[#479]: https://github.com/rsuite/rsuite/pull/479
+[#478]: https://github.com/rsuite/rsuite/pull/478
+[#table-85]: https://github.com/rsuite/rsuite-table/pull/85
+
 # 3.8.5
 
 > May 23, 2019

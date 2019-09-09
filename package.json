@@ -61,7 +61,7 @@
     "react-virtualized": "^9.21.0",
     "recompose": "^0.26.0",
     "rsuite-table": "^3.5.6",
-    "rsuite-utils": "^2.0.0-alpha.3",
+    "rsuite-utils": "^2.0.0",
     "schema-typed": "^1.2.1"
   },
   "peerDependencies": {
@@ -146,7 +146,6 @@
     "tinycolor2": "^1.4.1",
     "typescript": "^3.5.2",
     "webpack": "^4.5.0",
-    "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^3.1.1"
   },
   "browserslist": [
