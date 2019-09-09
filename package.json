@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "4.0.0-alpha.5",
+  "version": "4.0.0",
   "description": "A suite of react components",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -62,7 +62,7 @@
     "recompose": "^0.26.0",
     "rsuite-table": "^3.5.6",
     "rsuite-utils": "^2.0.0",
-    "schema-typed": "^1.2.1"
+    "schema-typed": "^1.2.2"
   },
   "peerDependencies": {
     "react": ">=16.6.0",
