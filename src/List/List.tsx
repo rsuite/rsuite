@@ -86,7 +86,7 @@ class List extends React.Component<ListProps, State> {
   static defaultProps = {
     size: 'md',
     autoScroll: true,
-    pressDelay: 500,
+    pressDelay: 0,
     transitionDuration: 300
   };
 
