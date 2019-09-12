@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { setDisplayName } from 'recompose';
 import classNames from 'classnames';
 import { defaultProps, getUnhandledProps, prefix } from '../utils';
-import { ListContext } from './List';
+import ListContext from './ListContext';
 import { ListItemProps } from './ListItem.d';
 import { ManagerRef } from './Manager';
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { createChainedFunction, defaultProps, prefix } from '../utils';
-import { ModalContext } from './Modal';
+import ModalContext from './ModalContext';
 import { ModalHeaderProps } from './ModalHeader.d';
 
 class ModalHeader extends React.Component<ModalHeaderProps> {

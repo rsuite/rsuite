@@ -14,11 +14,12 @@ import {
   getEdgeOffset,
   getScrollingParent
 } from './utils';
-import { prefix, defaultProps, getUnhandledProps, createContext } from '../utils';
+import { prefix, defaultProps, getUnhandledProps } from '../utils';
 import ListItem from './ListItem';
 import { ListProps } from './List.d';
 import Manager from './Manager';
 import AutoScroller from './AutoScroller';
+import ListContext from './ListContext';
 
 const NodeType = {
   Canvas: 'CANVAS',
@@ -60,12 +61,6 @@ interface Context {
   size?: 'lg' | 'md' | 'sm';
   manager?: Manager;
 }
-
-export const ListContext = createContext({
-  bordered: false,
-  size: 'md',
-  manager: null
-});
 
 class List extends React.Component<ListProps, State> {
   static propTypes = {
