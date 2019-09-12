@@ -33,22 +33,22 @@
 
 ---
 
-- **Feature**: 支持 `Placeholder` 组件。 ([#418],[#420],[#423])
-- **Feature**: 支持 `List` 组件。 ([#451])
+- **Feature**: 支持 `<Placeholder>` 组件。 ([#418],[#420],[#423])
+- **Feature**: 支持 `<List>` 组件。 ([#451])
 - **Feature**: 支持 `<Calendar>` 组件。([#492])
 - **Feature**: 支持 `<Avatar>` 组件。([#486])
 - **Feature**: 支持 `<Badge>` 组件。([#484])
-- **Feature**: `Picker` 组件支持 `size` 属性。([#494])
+- **Feature**: `<Picker>` 组件支持 `size` 属性。([#494])
 - **Feature**: 支持 dark 主题。([#544])
 - **Feature**: `<Form>`组件基于 Schema 支持异步校验。([#570])
 - **Feature**: `<TreePicker>` 与 `<CheckTreePicker>` 支持 expandItemValues 属性。([#569])
-- **Feature**: `FormControl` 组件支持 `readOnly` 属性。 ([#432])
-- **Feature**: `FormControl` 组件支持 `plaintext` 属性。 ([#448],[#449])
-- **Feature**: `Whisper` 组件与所有的 `Picker` 组件支持 `preventOverfow` 属性，防止溢出。
+- **Feature**: `<FormControl>` 组件支持 `readOnly` 属性。 ([#432])
+- **Feature**: `<FormControl>` 组件支持 `plaintext` 属性。 ([#448],[#449])
+- **Feature**: `<Whisper>` 组件与所有的 `Picker` 组件支持 `preventOverfow` 属性，防止溢出。
 - **Improve**: 调整色板算法，调整字体颜色对比度。 ([#433])
 - **Improve**: 从 Flow 迁移到 Typescript。 ([#531])
 - **Improve**: `<DatePicker>`和`<DateRangePicker>`组件支持 showWeekNumbers 属性，显示周数 。([#526] @viart)
-- **Breaking**: 调整 `Whisper` 组件与所有的 `Picker` 组件 `placement` 属性的值。([#443])
+- **Breaking**: 调整 `<Whisper>` 组件与所有的 `<Picker>` 组件 `placement` 属性的值。([#443])
 - **Bugfix**: 修复了 `<Uploader>` 上传文件大于 1GB 显示问题。([#536])
 - **Bugfix**: 修复了 `<Input>` 在 IE 浏览器显示上的兼容性问题。 ([#507])
 - **Bugfix**: 修复了 `<InputPicker>` 在键盘 Delete 键会清除输入值得问题。([#577])
