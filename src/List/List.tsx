@@ -2,7 +2,6 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import setStatic from 'recompose/setStatic';
 import classNames from 'classnames';
-import _ from 'lodash';
 import { setDisplayName } from 'recompose';
 import { on } from 'dom-lib';
 import {
@@ -105,11 +104,11 @@ class List extends React.Component<ListProps, State> {
   animatedNodeOffset: Axis[] = [];
   // activeNode
   activeNodeBoundingClientRect: ClientRect;
-  activeNodeGhost: HTMLElement;
+  activeNodeGhost: HTMLElement; // Placeholder
+  activeNodeFlowBody: HTMLElement; // flow block follow cursor
   activeNodeFlowBodyTranslate: Axis;
-  activeNodeFlowBody: HTMLElement;
-  activeNodeOffsetEdge: Position;
   activeNodeMarginOffset: Axis;
+  activeNodeOffsetEdge: Position;
   activeNodeOldIndex: number;
   activeNodeNextIndex: number;
   activeNodeTranslateMin: Axis;
@@ -121,7 +120,7 @@ class List extends React.Component<ListProps, State> {
   sortMouseEndListener: { off: Function };
   cursorInitialOffset: Axis;
   cursorCurrentPosition: Axis;
-  pressTimer: any; // Timer ID
+  pressTimer: NodeJS.Timeout;
 
   componentDidMount() {
     if (this.containerRef.current instanceof HTMLElement) {
@@ -130,7 +129,6 @@ class List extends React.Component<ListProps, State> {
       this.autoScroller = new AutoScroller(this.scrollContainer, (offset: Position) => {
         this.activeNodeFlowBodyTranslate.x += offset.left;
         this.activeNodeFlowBodyTranslate.y += offset.top;
-        this.animateNodes();
       });
       this.windowStartListener = on(this.containerRef.current, 'mousedown', this.handleStart, {
         passive: false
@@ -241,17 +239,19 @@ class List extends React.Component<ListProps, State> {
     });
     this.activeNodeGhost = activeNode;
     activeNode.classList.add(addItemPrefix('holder'));
-    this.activeNodeTranslateMin = {};
-    this.activeNodeTranslateMax = {};
-    this.activeNodeTranslateMin.y =
-      this.containerBoundingRect.top -
-      this.activeNodeBoundingClientRect.top -
-      this.activeNodeBoundingClientRect.height / 2;
-    this.activeNodeTranslateMax.y =
-      this.containerBoundingRect.top +
-      this.containerBoundingRect.height -
-      this.activeNodeBoundingClientRect.top -
-      this.activeNodeBoundingClientRect.height / 2;
+    this.activeNodeTranslateMin = {
+      y:
+        this.containerBoundingRect.top -
+        this.activeNodeBoundingClientRect.top -
+        this.activeNodeBoundingClientRect.height / 2
+    };
+    this.activeNodeTranslateMax = {
+      y:
+        this.containerBoundingRect.top +
+        this.containerBoundingRect.height -
+        this.activeNodeBoundingClientRect.top -
+        this.activeNodeBoundingClientRect.height / 2
+    };
 
     this.sortMouseMoveListener = on(window, 'mousemove', this.handleSortMove, { passive: false });
     this.sortMouseEndListener = on(window, 'mouseup', this.handleSortEnd, { passive: false });
@@ -272,22 +272,31 @@ class List extends React.Component<ListProps, State> {
   };
 
   handleSortMove = (event: MouseEvent) => {
-    const { onSortMove } = this.props;
+    const { onSortMove, autoScroll } = this.props;
     const { manager } = this.state;
 
     // Update helper position
     const offset = getPosition(event);
     const translate = {
-      x: _.get(offset, 'x', 0) - this.cursorInitialOffset.x,
-      y: _.get(offset, 'y', 0) - this.cursorInitialOffset.y
+      x: offset.x - this.cursorInitialOffset.x,
+      y: offset.y - this.cursorInitialOffset.y
     };
     // Adjust for window scroll
-    translate.y -= window.pageYOffset - (this.windowInitialScroll.top || 0);
-    translate.x -= window.pageXOffset - (this.windowInitialScroll.left || 0);
+    translate.x -= window.pageXOffset - this.windowInitialScroll.left;
+    translate.y -= window.pageYOffset - this.windowInitialScroll.top;
     this.activeNodeFlowBodyTranslate = translate;
     setTranslate3d(this.activeNodeFlowBody, translate);
     this.animateNodes();
-    this.autoScroll();
+    // auto scroll
+    if (autoScroll) {
+      this.autoScroller.update({
+        width: this.activeNodeBoundingClientRect.width,
+        height: this.activeNodeBoundingClientRect.height,
+        translate: this.activeNodeFlowBodyTranslate,
+        maxTranslate: this.activeNodeTranslateMax,
+        minTranslate: this.activeNodeTranslateMin
+      });
+    }
 
     if (onSortMove) {
       onSortMove(
@@ -314,8 +323,11 @@ class List extends React.Component<ListProps, State> {
     this.sortMouseMoveListener.off();
     this.sortMouseEndListener.off();
 
-    setTranslate3d(this.activeNodeFlowBody, this.holderTranslate);
     setTransitionDuration(this.activeNodeFlowBody, transitionDuration);
+    setTranslate3d(this.activeNodeFlowBody, {
+      x: this.holderTranslate.x - this.containerScrollDelta.left,
+      y: this.holderTranslate.y - this.containerScrollDelta.top
+    });
 
     // wait for animation
     setTimeout(() => {
@@ -390,7 +402,6 @@ class List extends React.Component<ListProps, State> {
         this.containerScrollDelta.top
     };
     this.activeNodeNextIndex = -1;
-
     for (let i = 0, len = listItemManagerRefs.length; i < len; i++) {
       const {
         node,
@@ -419,11 +430,14 @@ class List extends React.Component<ListProps, State> {
       const curEdgeOffset = edgeOffset || getEdgeOffset(node, this.containerRef.current);
       listItemManagerRefs[i].edgeOffset = curEdgeOffset;
 
-      // Get a reference to the next and previous node
+      // Get a reference to the next node
+      const prvNode = i > 0 && listItemManagerRefs[i - 1];
       const nextNode = i < len - 1 && listItemManagerRefs[i + 1];
 
-      // Also cache the next node's edge offset if needed.
-      // We need this for calculating the animation in a grid setup
+      // Also cache the node's edge offset if needed.
+      if (prvNode && !prvNode.edgeOffset) {
+        prvNode.edgeOffset = getEdgeOffset(prvNode.node, this.containerRef.current);
+      }
       if (nextNode && !nextNode.edgeOffset) {
         nextNode.edgeOffset = getEdgeOffset(nextNode.node, this.containerRef.current);
       }
@@ -433,25 +447,26 @@ class List extends React.Component<ListProps, State> {
         continue;
       }
 
-      setTransitionDuration(node, transitionDuration);
-      const offsetY = this.activeNodeBoundingClientRect.height + this.activeNodeMarginOffset.y;
-      const distanceTop = sortingOffset.top + this.windowScrollDelta.top || 0;
-
+      const distanceTop = sortingOffset.top + this.windowScrollDelta.top;
       if (
+        prvNode &&
         index > this.activeNodeOldIndex &&
-        distanceTop + offset.height >= (curEdgeOffset.top || 0)
+        distanceTop + offset.height >= curEdgeOffset.top
       ) {
-        translate.y = -offsetY;
+        translate.y = prvNode.edgeOffset.top - curEdgeOffset.top;
         this.activeNodeNextIndex = index;
       } else if (
+        nextNode &&
         index < this.activeNodeOldIndex &&
         distanceTop <= curEdgeOffset.top + offset.height
       ) {
-        translate.y = offsetY;
+        translate.y = nextNode.edgeOffset.top - curEdgeOffset.top;
         if (this.activeNodeNextIndex === -1) {
           this.activeNodeNextIndex = index;
         }
       }
+
+      setTransitionDuration(node, transitionDuration);
       setTranslate3d(node, translate);
 
       // translate holder
@@ -464,72 +479,28 @@ class List extends React.Component<ListProps, State> {
     }
   }
 
-  autoScroll = () =>
-    this.props.autoScroll &&
-    this.autoScroller.update({
-      width: this.activeNodeBoundingClientRect.width,
-      height: this.activeNodeBoundingClientRect.height,
-      translate: this.activeNodeFlowBodyTranslate,
-      maxTranslate: this.activeNodeTranslateMax,
-      minTranslate: this.activeNodeTranslateMin
-    });
-
   get containerScrollDelta(): Position {
     return {
-      left: this.scrollContainer.scrollLeft - (this.scrollContainerInitialScroll.left || 0),
-      top: this.scrollContainer.scrollTop - (this.scrollContainerInitialScroll.top || 0)
+      left: this.scrollContainer.scrollLeft - this.scrollContainerInitialScroll.left,
+      top: this.scrollContainer.scrollTop - this.scrollContainerInitialScroll.top
     };
   }
 
   get windowScrollDelta(): Position {
     return {
-      left: window.pageXOffset - (this.windowInitialScroll.left || 0),
-      top: window.pageYOffset - (this.windowInitialScroll.top || 0)
+      left: window.pageXOffset - this.windowInitialScroll.left,
+      top: window.pageYOffset - this.windowInitialScroll.top
     };
   }
 
   get holderTranslate(): Axis {
-    const { manager } = this.state;
-    let translateX = 0;
-    let translateY = 0;
-    this.animatedNodeOffset.forEach(({ x, y }: Axis, index) => {
-      const nodeItems = manager.getOrderedRefs();
-      const nodeItem = nodeItems.find(nodeInfo => nodeInfo.info.index === index);
-      const node = _.get(nodeItem, 'node');
-      if (!nodeItem || !node) {
-        return;
-      }
-      const style = window.getComputedStyle(node);
-      const margin = {
-        bottom: parseFloat(style.marginBottom),
-        left: parseFloat(style.marginLeft),
-        right: parseFloat(style.marginRight),
-        top: parseFloat(style.marginTop)
-      };
-      const marginOffset = {
-        x: margin.left + margin.right,
-        y: Math.max(margin.top, margin.bottom)
-      };
-      if (!nodeItem.edgeOffset) {
-        nodeItem.edgeOffset = getEdgeOffset(node, this.containerRef.current);
-      }
-      const offsetX = node.offsetWidth + marginOffset.x;
-      const offsetY = node.offsetHeight + marginOffset.y;
-
-      if (x) {
-        translateX += (+x / Math.abs(+x)) * offsetX;
-      }
-      if (y) {
-        translateY += (+y / Math.abs(+y)) * offsetY;
-      }
-    });
-    return {
-      x:
-        (this.scrollContainerInitialScroll.left || 0) -
-        this.scrollContainer.scrollLeft -
-        translateX,
-      y: (this.scrollContainerInitialScroll.top || 0) - this.scrollContainer.scrollTop - translateY
-    };
+    return this.animatedNodeOffset.reduce(
+      (acc, item) => ({
+        x: acc.x - item.x,
+        y: acc.y - item.y
+      }),
+      { x: 0, y: 0 }
+    );
   }
 
   render() {

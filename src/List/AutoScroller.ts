@@ -8,10 +8,12 @@ export interface AutoScrollerUpdatePayload {
   height: number;
 }
 
+const acceleration = 5; // for auto scroll
+
 class AutoScroller {
-  private container: HTMLElement;
-  private onScrollCallback: (offset: Position) => any;
-  private interval = null;
+  private readonly container: HTMLElement;
+  private readonly onScrollCallback: (offset: Position) => any;
+  private interval: NodeJS.Timeout = null;
 
   isAutoScrolling: boolean = true;
 
@@ -32,19 +34,8 @@ class AutoScroller {
     width,
     height
   }: AutoScrollerUpdatePayload) {
-    const direction = {
-      x: 0,
-      y: 0
-    };
-    const speed = {
-      x: 1,
-      y: 1
-    };
-    const acceleration = {
-      x: 10,
-      y: 10
-    };
-
+    const direction = { x: 0, y: 0 };
+    const speed = { x: 0, y: 0 };
     const {
       scrollTop,
       scrollLeft,
@@ -55,26 +46,26 @@ class AutoScroller {
     } = this.container;
 
     const isTop = scrollTop === 0;
-    const isBottom = scrollHeight - scrollTop - clientHeight === 0;
+    const isBottom = scrollTop === scrollHeight - clientHeight;
     const isLeft = scrollLeft === 0;
-    const isRight = scrollWidth - scrollLeft - clientWidth === 0;
+    const isRight = scrollLeft === scrollWidth - clientWidth;
 
     if (translate.y >= maxTranslate.y - height / 2 && !isBottom) {
       // Scroll Down
       direction.y = 1;
-      speed.y = acceleration.y * Math.abs((maxTranslate.y - height / 2 - translate.y) / height);
+      speed.y = acceleration * Math.abs((maxTranslate.y - height / 2 - translate.y) / height);
     } else if (translate.x >= maxTranslate.x - width / 2 && !isRight) {
       // Scroll Right
       direction.x = 1;
-      speed.x = acceleration.x * Math.abs((maxTranslate.x - width / 2 - translate.x) / width);
+      speed.x = acceleration * Math.abs((maxTranslate.x - width / 2 - translate.x) / width);
     } else if (translate.y <= minTranslate.y + height / 2 && !isTop) {
       // Scroll Up
       direction.y = -1;
-      speed.y = acceleration.y * Math.abs((translate.y - height / 2 - minTranslate.y) / height);
+      speed.y = acceleration * Math.abs((translate.y - height / 2 - minTranslate.y) / height);
     } else if (translate.x <= minTranslate.x + width / 2 && !isLeft) {
       // Scroll Left
       direction.x = -1;
-      speed.x = acceleration.x * Math.abs((translate.x - width / 2 - minTranslate.x) / width);
+      speed.x = acceleration * Math.abs((translate.x - width / 2 - minTranslate.x) / width);
     }
 
     if (this.interval) {
@@ -93,7 +84,7 @@ class AutoScroller {
         this.container.scrollTop += offset.top;
         this.container.scrollLeft += offset.left;
         this.onScrollCallback(offset);
-      }, 5);
+      }, 20);
     }
   }
 }

@@ -2,7 +2,7 @@ import { Axis, Position } from './List';
 
 type TargetNode = HTMLElement | null;
 
-export const setInlineStyles = (node: TargetNode, styles: any) => {
+export function setInlineStyles(node: TargetNode, styles: any) {
   if (styles !== null) {
     Object.keys(styles).forEach(key => {
       if (node !== null) {
@@ -10,24 +10,28 @@ export const setInlineStyles = (node: TargetNode, styles: any) => {
       }
     });
   }
-};
-export const setTranslate3d = (node: TargetNode, translate: Axis | null) => {
+}
+
+export function setTranslate3d(node: TargetNode, translate: Axis | null) {
   if (node !== null) {
     node.style['transform'] = translate ? `translate3d(${translate.x}px,${translate.y}px,0)` : '';
   }
-};
-export const setTransitionDuration = (node: TargetNode, duration?: number | null) => {
+}
+
+export function setTransitionDuration(node: TargetNode, duration?: number | null) {
   if (node !== null) {
     node.style['transitionDuration'] = duration ? `${duration}ms` : '';
   }
-};
-const isScrollable = el => {
+}
+
+function isScrollable(el) {
   const computedStyle = window.getComputedStyle(el);
   const overflowRegex = /(auto|scroll)/;
   const properties = ['overflow', 'overflowX', 'overflowY'];
   return properties.find(property => overflowRegex.test(computedStyle[property]));
-};
-export const closest: any = (el, fn) => {
+}
+
+export function closest(el, fn) {
   while (el) {
     if (fn(el)) {
       return el;
@@ -35,16 +39,20 @@ export const closest: any = (el, fn) => {
     el = el instanceof Element && el.parentNode;
   }
   return null;
-};
-export const getPosition = (event: MouseEvent) => ({
-  x: event.pageX || 0,
-  y: event.pageY || 0
-});
-export const getEdgeOffset = (
+}
+
+export function getPosition(event: MouseEvent) {
+  return {
+    x: event.pageX || 0,
+    y: event.pageY || 0
+  };
+}
+
+export function getEdgeOffset(
   node: TargetNode,
   parent: TargetNode,
   offset: Position = { left: 0, top: 0 }
-) => {
+) {
   if (!node || !parent) {
     return {};
   }
@@ -58,8 +66,9 @@ export const getEdgeOffset = (
     return nodeOffset;
   }
   return getEdgeOffset(node.parentNode as TargetNode, parent, nodeOffset);
-};
-export const getScrollingParent = (el: TargetNode): HTMLElement | null => {
+}
+
+export function getScrollingParent(el: TargetNode): HTMLElement | null {
   if (!(el instanceof HTMLElement)) {
     return null;
   } else if (isScrollable(el)) {
@@ -67,4 +76,4 @@ export const getScrollingParent = (el: TargetNode): HTMLElement | null => {
   } else {
     return getScrollingParent(el.parentNode as TargetNode);
   }
-};
+}
