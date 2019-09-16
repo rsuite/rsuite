@@ -71,7 +71,6 @@ class ListItem extends React.Component<ListItemProps> {
       disabled,
       children,
       size,
-      manager,
       ...rest
     } = this.props;
     const addPrefix = prefix(classPrefix);

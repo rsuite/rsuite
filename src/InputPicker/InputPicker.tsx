@@ -732,7 +732,6 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       onEntered,
       onExit,
       onExited,
-      onClean,
       searchable,
       multi,
       ...rest
