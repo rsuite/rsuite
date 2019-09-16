@@ -68,6 +68,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     ranges: PropTypes.array,
     value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     defaultValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
+    defaultCalendarValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     placeholder: PropTypes.node,
     format: PropTypes.string,
     disabled: PropTypes.bool,
@@ -138,6 +139,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     prevState: DateRangePickerState
   ) {
     const { value } = nextProps;
+
     if (typeof value === 'undefined') {
       return null;
     }
@@ -159,9 +161,9 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   constructor(props: DateRangePickerProps) {
     super(props);
 
-    const { defaultValue, value } = props;
+    const { defaultValue, value, defaultCalendarValue } = props;
     const activeValue: ValueType = value || defaultValue || [];
-    const calendarDate = getCalendarDate(activeValue);
+    const calendarDate: ValueType = getCalendarDate(value || defaultCalendarValue);
 
     this.state = {
       value: activeValue,
@@ -413,7 +415,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   };
 
   handleClean = event => {
-    this.setState({ calendarDate: [new Date(), addMonths(new Date(), 1)] });
+    this.setState({ calendarDate: getCalendarDate() });
     this.updateValue(event, []);
   };
 
@@ -426,7 +428,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       const [startDate, endData] = value;
       calendarDate = [startDate, isSameMonth(startDate, endData) ? addMonths(endData, 1) : endData];
     } else {
-      calendarDate = [new Date(), addMonths(new Date(), 1)];
+      calendarDate = getCalendarDate(this.props.defaultCalendarValue);
     }
 
     this.setState({
@@ -502,7 +504,6 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   renderDropdownMenu() {
     const { menuClassName, ranges, isoWeek, limitEndYear, oneTap, showWeekNumbers } = this.props;
     const { calendarDate, selectValue, hoverValue, doneSelected } = this.state;
-
     const classes = classNames(this.addPrefix('daterange-menu'), menuClassName);
 
     const pickerProps = {

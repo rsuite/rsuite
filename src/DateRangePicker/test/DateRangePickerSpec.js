@@ -1,5 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import { addDays, subDays, startOfWeek, isSameDay, endOfWeek, parse, format } from 'date-fns';
 import { getDOMNode, getInstance } from '@test/testUtils';
@@ -217,5 +216,18 @@ describe('DateRangePicker', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<DateRangePicker classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should show default calendar value', () => {
+    const instance = getInstance(
+      <DateRangePicker
+        open
+        defaultCalendarValue={[new Date('2019-01-01'), new Date('2019-09-01')]}
+      />
+    );
+    const picker = getDOMNode(instance.menuContainerRef.current);
+
+    assert.ok(picker.querySelector('div[title="2019-01-01"]'));
+    assert.ok(picker.querySelector('div[title="2019-09-01"]'));
   });
 });
