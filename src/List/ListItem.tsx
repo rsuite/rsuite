@@ -52,7 +52,6 @@ class ListItem extends React.Component<ListItemProps> {
           manager
         }
       };
-
       manager.add(collection, this.managerRef);
     }
   };
@@ -65,7 +64,16 @@ class ListItem extends React.Component<ListItemProps> {
   };
 
   render() {
-    const { className, classPrefix, bordered, disabled, children, size, ...rest } = this.props;
+    const {
+      className,
+      classPrefix,
+      bordered,
+      disabled,
+      children,
+      size,
+      manager,
+      ...rest
+    } = this.props;
     const addPrefix = prefix(classPrefix);
     const unhandled = getUnhandledProps(ListItem, rest);
     const classes = classNames(classPrefix, className, addPrefix(size), {
