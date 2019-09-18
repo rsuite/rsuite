@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://rsuitejs.com" target="_blank" rel="noopener noreferrer">
-   <img height="100" src="https://user-images.githubusercontent.com/15609339/39298633-53826e50-4979-11e8-99fa-fac162d0830e.png" alt="React Suite logo">
+   <img src="https://user-images.githubusercontent.com/1203827/65102389-7be3f100-d9fd-11e9-859e-ae9617ed2f91.png" alt="React Suite logo">
   </a>
 </p>
 

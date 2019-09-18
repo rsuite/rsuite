@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://rsuitejs.com" target="_blank" rel="noopener noreferrer">
-   <img src="https://user-images.githubusercontent.com/1203827/44192693-0440f400-a163-11e8-9d7c-0cc55797e0cb.png" alt="React Suite logo">
+   <img src="https://user-images.githubusercontent.com/1203827/65102389-7be3f100-d9fd-11e9-859e-ae9617ed2f91.png" alt="React Suite logo">
   </a>
 </p>
 
