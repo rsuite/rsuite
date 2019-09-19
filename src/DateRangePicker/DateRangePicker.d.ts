@@ -45,6 +45,9 @@ export interface DateRangePickerProps extends PickerBaseProps, FormControlBasePr
   /** Whether to show week numbers */
   showWeekNumbers?: boolean;
 
+  /** Set default date for calendar */
+  defaultCalendarValue: ValueType;
+
   /** Disabled date */
   disabledDate?: (
     date: Date,
