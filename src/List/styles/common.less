@@ -21,8 +21,14 @@
 
   &-sortable .@{ns}list-item {
     cursor: move;
+    cursor: grab;
+    
+    &:active {
+      cursor: grabbing;
+    }
 
-    &-disabled {
+    &-disabled,
+    &-disabled:active {
       cursor: not-allowed;
     }
   }
