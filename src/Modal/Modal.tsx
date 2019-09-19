@@ -8,13 +8,7 @@ import bindElementResize, { unbind as unbindElementResize } from 'element-resize
 import BaseModal from 'rsuite-utils/lib/Overlay/Modal';
 import Bounce from 'rsuite-utils/lib/Animation/Bounce';
 import { on, getHeight, isOverflowing, getScrollbarSize, ownerDocument } from 'dom-lib';
-import {
-  prefix,
-  ReactChildren,
-  defaultProps,
-  createChainedFunction,
-  createContext
-} from '../utils';
+import { prefix, ReactChildren, defaultProps, createChainedFunction } from '../utils';
 import ModalDialog from './ModalDialog';
 import ModalBody from './ModalBody';
 import ModalHeader from './ModalHeader';
@@ -22,8 +16,7 @@ import ModalTitle from './ModalTitle';
 import ModalFooter from './ModalFooter';
 import { ModalProps } from './Modal.d';
 import { SIZE } from '../constants';
-
-export const ModalContext = createContext(null);
+import ModalContext from './ModalContext';
 
 const BACKDROP_TRANSITION_DURATION = 150;
 
