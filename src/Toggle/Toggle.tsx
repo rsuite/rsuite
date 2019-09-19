@@ -70,6 +70,9 @@ class Toggle extends React.Component<ToggleProps, ToggleState> {
       <span
         {...unhandled}
         className={classes}
+        aria-pressed={checked}
+        aria-disabled={disabled}
+        aria-label={typeof inner === 'string' ? inner : null}
         role="button"
         tabIndex={-1}
         onClick={this.handleChange}
