@@ -1,3 +1,37 @@
+# 4.0.1
+
+> September 19, 2019
+
+- **Feature**: Support `defaultCalendarValue` on `<DateRangePicker>` ([#610])
+- **Improve**: Add ARIA for accessibility ([#612],[#613])
+- **Improve**: Use grab cursors for sortable List.Item ([#617])
+- **Bugfix**: Fixed ESM build error ([#611])
+- **Bugfix**: Fixed component not re-rendered after `sortType` update on `<Table>`. ([rsuite/rsuite-table#96])
+- **Bugfix**: Fixed the position of the scroll bar when the height of the `<Table>` changes. ([rsuite/rsuite-table#95])
+- **Bugfix**: Fixed validation of merged cells for custom children in `<Table>` ([rsuite/rsuite-table#94])
+- **Bugfix**: Fixed unable to find node on an unmounted component in `<Dropdown>` ([rsuite/rsuite-utils@f205799])
+
+---
+
+- **Feature**: `<DateRangePicker>` 支持 `defaultCalendarValue` 属性。([#610])
+- **Improve**: 为可访问性添加 ARIA。 ([#612],[#613])
+- **Improve**: 调整 List.Item 拖拽时候的光标为 grab。 ([#617])
+- **Bugfix**: 修复 ESM 构建时候报错。 ([#611])
+- **Bugfix**: 修复在 `<Table>` 上 `sortType` 更新后没有重新渲染的组件。 ([rsuite/rsuite-table#96])
+- **Bugfix**: 修复 `<Table>` 高度变化后更新滚动条位置 ([rsuite/rsuite-table#95])
+- **Bugfix**: 修复 `<Table>` 中自定义 `children` 后，合并单元格的校验逻辑 ([rsuite/rsuite-table#94])
+- **Bugfix**: 修复 `<Dropdown>` 中报错"无法在已卸载组件上找到节点"([rsuite/rsuite-utils@f205799])
+
+[#617]: https://github.com/rsuite/rsuite/pull/617
+[#613]: https://github.com/rsuite/rsuite/pull/613
+[#612]: https://github.com/rsuite/rsuite/pull/612
+[#611]: https://github.com/rsuite/rsuite/pull/611
+[#610]: https://github.com/rsuite/rsuite/pull/610
+[rsuite/rsuite-table#96]: https://github.com/rsuite/rsuite-table/pull/96
+[rsuite/rsuite-table#95]: https://github.com/rsuite/rsuite-table/pull/95
+[rsuite/rsuite-table#94]: https://github.com/rsuite/rsuite-table/pull/94
+[rsuite/rsuite-utils@f205799]: https://github.com/rsuite/rsuite-utils/commit/f205799796595d78dff990b0f740c8c4a9e3d581
+
 # 4.0.0
 
 > September 9, 2019
