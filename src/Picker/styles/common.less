@@ -84,6 +84,10 @@
 
 .@{ns}btn,
 .@{ns}picker-toggle {
+  .@{ns}picker-default & {
+    transition: @picker-transition;
+  }
+
   .@{ns}picker-default:not(.@{ns}picker-disabled) & {
     &:hover,
     &.active {
