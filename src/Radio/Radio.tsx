@@ -89,7 +89,7 @@ class Radio extends React.Component<RadioProps, RadioState> {
     const [htmlInputProps, rest] = partitionHTMLProps(unhandled);
 
     const input = (
-      <span className={addPrefix('wrapper')}>
+      <span className={addPrefix('wrapper')} aria-disabled={disabled}>
         <input
           {...htmlInputProps}
           type="radio"
@@ -102,13 +102,13 @@ class Radio extends React.Component<RadioProps, RadioState> {
           onChange={this.handleChange}
           onClick={event => event.stopPropagation()}
         />
-        <span className={addPrefix('inner')} />
+        <span className={addPrefix('inner')} aria-hidden={true} role="presentation" />
       </span>
     );
 
     return (
       <div {...rest} onClick={onClick} className={classes}>
-        <div className={addPrefix('checker')} role="button">
+        <div className={addPrefix('checker')}>
           <label title={title}>
             {input}
             {children}

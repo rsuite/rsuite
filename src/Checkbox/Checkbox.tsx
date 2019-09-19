@@ -92,7 +92,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     const [htmlInputProps, rest] = partitionHTMLProps(unhandled);
 
     const input = (
-      <span className={addPrefix('wrapper')} onClick={onCheckboxClick}>
+      <span className={addPrefix('wrapper')} onClick={onCheckboxClick} aria-disabled={disabled}>
         <input
           {...htmlInputProps}
           defaultChecked={defaultChecked}
@@ -103,7 +103,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
           disabled={disabled}
           onChange={this.handleChange}
         />
-        <span className={addPrefix('inner')} />
+        <span className={addPrefix('inner')} aria-hidden={true} role="presentation" />
       </span>
     );
 

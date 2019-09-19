@@ -52,7 +52,13 @@ class Button extends React.Component<ButtonProps> {
 
     if (href) {
       return (
-        <SafeAnchor {...unhandled} role="button" href={href} className={classes}>
+        <SafeAnchor
+          {...unhandled}
+          role="button"
+          aria-disabled={disabled}
+          href={href}
+          className={classes}
+        >
           {loading && spin}
           {children}
           {ripple}
