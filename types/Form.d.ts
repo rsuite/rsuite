@@ -37,6 +37,19 @@ export interface FormProps extends StandardProps {
   onCheck?: (formError: object) => void;
 }
 
-declare const Form: React.ComponentType<FormProps>;
+declare class Form extends React.Component<FormProps, any> {
+  /** Verify form data */
+  check(callback?: (formError: object) => void): boolean;
+
+  /** Check single field value */
+  checkForField(fieldName: string, callback?: (checkResult: object) => void): boolean;
+
+  /** Clean error message. */
+  cleanErrors(callback?: () => void): void;
+
+  cleanErrorForField(fieldName: string, callback?: () => void): void;
+
+  resetErrors(formError: object, callback?: () => void): void;
+}
 
 export default Form;
