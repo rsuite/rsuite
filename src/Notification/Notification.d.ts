@@ -36,6 +36,8 @@ export interface NotificationAPI {
   success(config: NotificationProps): void;
   warning(config: NotificationProps): void;
   error(config: NotificationProps): void;
+  close(key?: string): void;
+  closeAll(): void;
 }
 
 declare const Notification: NotificationAPI;

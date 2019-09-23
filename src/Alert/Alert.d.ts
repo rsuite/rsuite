@@ -29,6 +29,12 @@ export interface AlertAPI {
 
   /** Used to configure where the message is displayed */
   config(options: AlertProps): void;
+
+  /** Close the message */
+  close(key?: string): void;
+
+  /** Close all messages */
+  closeAll(): void;
 }
 
 declare const Alert: AlertAPI;
