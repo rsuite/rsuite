@@ -36,7 +36,6 @@ import {
   isEveryChildChecked,
   isSomeChildChecked,
   isSomeNodeHasChildren,
-  getTopParentNodeCheckState,
   getSiblingNodeUncheckable,
   Node,
   Nodes,
@@ -608,7 +607,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
         if (currentNode[key]) {
           if (!parentNode.checkAll) {
             list.push(nodes[refKey][valueKey]);
-          } else if (!getTopParentNodeCheckState(nodes, currentNode) && parentNode.uncheckable) {
+          } else if (parentNode.uncheckable) {
             list.push(nodes[refKey][valueKey]);
           }
         }
