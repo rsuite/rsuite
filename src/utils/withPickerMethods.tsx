@@ -8,6 +8,12 @@ export interface Props {
 function withPickerMethods<T>() {
   return (WrappedComponent: React.ComponentClass<any>): React.ComponentClass<T> => {
     class PickerComponent extends WrappedComponent {
+      // for IE9 & IE10 support
+      static defaultProps = WrappedComponent.defaultProps;
+      static contextTypes = WrappedComponent.contextTypes;
+      static childContextTypes = WrappedComponent.childContextTypes;
+      static getDerivedStateFromProps = WrappedComponent.getDerivedStateFromProps;
+
       [x: string]: any;
       open = () => {
         if (typeof this.handleOpenDropdown === 'function') {
