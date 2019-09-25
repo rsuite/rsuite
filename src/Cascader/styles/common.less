@@ -134,6 +134,13 @@
     text-decoration: none;
     cursor: @cursor-disabled;
   }
+
+  &&-active&-disabled {
+    &,
+    &:hover {
+      color: @picker-select-menu-item-selected-disabled-color;
+    }
+  }
 }
 
 .@{cspns}-menu-caret {
