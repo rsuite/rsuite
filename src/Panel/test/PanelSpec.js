@@ -30,7 +30,7 @@ describe('Panel', () => {
 
   it('Should have a role in header', () => {
     const instance = getDOMNode(<Panel headerRole="button" collapsible header={'abc'} />);
-    assert.equal(instance.querySelector('h4 span').getAttribute('role'), 'button');
+    assert.equal(instance.querySelector('.rs-panel-title span').getAttribute('role'), 'button');
   });
 
   it('Should have a role in header', () => {
