@@ -12,6 +12,7 @@ import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '
 import stringToObject from '../utils/stringToObject';
 import type { Placement } from '../utils/TypeDefinition';
 import { flattenTree, getNodeParents } from '../utils/treeUtils';
+import getSafeRegExpString from '../utils/getSafeRegExpString';
 
 import {
   PickerToggle,
@@ -391,7 +392,7 @@ class Dropdown extends React.Component<Props, State> {
   renderSearchRow = (item: Object, key: number) => {
     const { labelKey, valueKey, disabledItemValues = [] } = this.props;
     const { searchKeyword } = this.state;
-    const regx = new RegExp(searchKeyword, 'ig');
+    const regx = new RegExp(getSafeRegExpString(searchKeyword), 'ig');
     let nodes = getNodeParents(item);
 
     nodes.push(item);
@@ -441,7 +442,7 @@ class Dropdown extends React.Component<Props, State> {
     const { labelKey } = this.props;
     const { searchKeyword } = this.state;
 
-    if (item[labelKey].match(new RegExp(searchKeyword, 'i'))) {
+    if (item[labelKey].match(new RegExp(getSafeRegExpString(searchKeyword), 'i'))) {
       return true;
     }
 
