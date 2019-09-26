@@ -13,6 +13,7 @@ import type { Placement } from '../utils/TypeDefinition';
 
 import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 import { flattenTree, getNodeParents } from '../utils/treeUtils';
+import getSafeRegExpString from '../utils/getSafeRegExpString';
 
 import {
   PickerToggle,
@@ -344,7 +345,7 @@ class Dropdown extends React.Component<Props, State> {
         return false;
       }
 
-      if (item[labelKey].match(new RegExp(searchKeyword, 'i'))) {
+      if (item[labelKey].match(new RegExp(getSafeRegExpString(searchKeyword), 'i'))) {
         return true;
       }
       return false;
@@ -365,7 +366,7 @@ class Dropdown extends React.Component<Props, State> {
     const { searchKeyword } = this.state;
     const values = this.getValue();
     const nodes = getNodeParents(item);
-    const regx = new RegExp(searchKeyword, 'ig');
+    const regx = new RegExp(getSafeRegExpString(searchKeyword), 'ig');
     const labelElements = [];
 
     let a = item[labelKey].split(regx);
