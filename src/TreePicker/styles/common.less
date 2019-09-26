@@ -70,6 +70,13 @@
     }
   }
 
+  &-disabled&-active > .@{tpns}-node-label {
+    &,
+    &:hover {
+      color: @picker-select-menu-item-selected-disabled-color;
+    }
+  }
+
   &:not(&-disabled):focus > .@{tpns}-node-label {
     background-color: @picker-tree-node-hover-bg;
   }
