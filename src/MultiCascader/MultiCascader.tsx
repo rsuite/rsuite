@@ -18,6 +18,7 @@ import {
   createChainedFunction,
   withPickerMethods
 } from '../utils';
+import getSafeRegExpString from '../utils/getSafeRegExpString';
 
 import {
   PickerToggle,
@@ -346,7 +347,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
         return false;
       }
 
-      if (item[labelKey].match(new RegExp(searchKeyword, 'i'))) {
+      if (item[labelKey].match(new RegExp(getSafeRegExpString(searchKeyword), 'i'))) {
         return true;
       }
       return false;
@@ -367,7 +368,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
     const { searchKeyword } = this.state;
     const values = this.getValue();
     const nodes = getNodeParents(item);
-    const regx = new RegExp(searchKeyword, 'ig');
+    const regx = new RegExp(getSafeRegExpString(searchKeyword), 'ig');
     const labelElements = [];
 
     let a = item[labelKey].split(regx);
