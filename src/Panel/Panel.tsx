@@ -62,9 +62,9 @@ class Panel extends React.Component<PanelProps, PanelState> {
 
   renderCollapsibleTitle(header: React.ReactNode, headerRole?: string) {
     return (
-      <h4 className={this.addPrefix('title')} role="presentation">
+      <span className={this.addPrefix('title')} role="presentation">
         {this.renderAnchor(header, headerRole)}
-      </h4>
+      </span>
     );
   }
 
