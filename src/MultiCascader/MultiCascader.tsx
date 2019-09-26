@@ -130,7 +130,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
       data,
       searchKeyword: '',
       prevValue: value,
-      value: defaultValue,
+      value: defaultValue || [],
       selectNode: null,
       /**
        * 选中值的路径
@@ -225,8 +225,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
   }
 
   getValue() {
-    const { value } = this.state;
-    return value || [];
+    return this.state.value || [];
   }
 
   handleCheck = (item: any, event: React.SyntheticEvent<any>, checked: boolean) => {
@@ -246,9 +245,11 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
       }
     }
 
-    this.setState({
-      value
-    });
+    if (!this.isControlled) {
+      this.setState({
+        value
+      });
+    }
 
     onChange && onChange(value, event);
   };
@@ -307,12 +308,16 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
     if (disabled) {
       return;
     }
-    const nextState = {
+    const nextState: MultiCascaderState = {
       items: [data],
-      value: [],
       selectNode: null,
       activePaths: []
     };
+
+    if (!this.isControlled) {
+      nextState.value = [];
+    }
+
     this.setState(nextState, () => {
       onChange && onChange([], event);
     });
