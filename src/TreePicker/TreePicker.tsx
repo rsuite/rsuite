@@ -796,7 +796,6 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       index,
       layer,
       expand,
-      parent,
       active: shallowEqual(node[valueKey], selectedValue),
       visible: node.visible,
       children,

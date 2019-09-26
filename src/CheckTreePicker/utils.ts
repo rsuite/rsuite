@@ -63,18 +63,6 @@ export function isSomeNodeHasChildren(data: any[], childrenKey: string): boolean
 }
 
 /**
- * 获取每个节点的最顶层父节点的check值
- * @param {*} nodes
- * @param {*} node
- */
-export function getTopParentNodeCheckState(nodes: Nodes, node: Node): boolean {
-  if (node.parentNode) {
-    return getTopParentNodeCheckState(nodes, node.parentNode);
-  }
-  return nodes[node.refKey].check;
-}
-
-/**
  * 获取该节点的兄弟节点是否都为 uncheckable
  * @param {*} node
  */
