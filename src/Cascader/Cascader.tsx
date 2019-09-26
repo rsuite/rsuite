@@ -116,6 +116,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
   containerRef: React.RefObject<any>;
   positionRef: React.RefObject<any>;
   menuContainerRef: React.RefObject<any>;
+  isControlled: boolean;
 
   constructor(props: CascaderProps) {
     super(props);
@@ -142,6 +143,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
       flattenData: flattenTree(props.data)
     };
 
+    this.isControlled = !_.isUndefined(props.value);
     this.triggerRef = React.createRef();
     this.containerRef = React.createRef();
     this.positionRef = React.createRef();
@@ -216,13 +218,17 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
      */
     if (isLeafNode) {
       this.handleCloseDropdown();
-      const nextState: CascaderState = {
-        selectNode: node,
-        ...getDerivedStateForCascade(this.props, this.state, value)
+
+      let nextState: CascaderState = {
+        selectNode: node
       };
 
-      if (typeof this.props.value === 'undefined') {
-        nextState.value = value;
+      if (!this.isControlled) {
+        nextState = {
+          ...nextState,
+          value,
+          ...getDerivedStateForCascade(this.props, this.state, value)
+        };
       }
 
       this.setState(nextState);
@@ -254,12 +260,19 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     const value = item[valueKey];
 
     this.handleCloseDropdown();
-    const nextState = {
-      ...getDerivedStateForCascade(this.props, this.state, value),
+    let nextState: CascaderState = {
       selectNode: item,
-      searchKeyword: '',
-      value
+      searchKeyword: ''
     };
+
+    if (!this.isControlled) {
+      nextState = {
+        ...nextState,
+        ...getDerivedStateForCascade(this.props, this.state, value),
+        value
+      };
+    }
+
     this.setState(nextState);
 
     onSelect && onSelect(item, null, null, event);
