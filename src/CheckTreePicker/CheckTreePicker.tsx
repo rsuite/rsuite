@@ -465,15 +465,12 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     let items = [];
     const loop = (treeNodes: any[]) => {
       treeNodes.forEach((node: any) => {
+        const nodeData = { ...node, ...this.nodes[node.refKey] };
         if (!getDisabledState(this.nodes, node, this.props) && node.visible) {
           items.push(node);
-          const nodeData = { ...node, ...this.nodes[node.refKey] };
-          if (!getExpandState(nodeData, this.props)) {
-            return;
-          }
-          if (node[childrenKey]) {
-            loop(node[childrenKey]);
-          }
+        }
+        if (node[childrenKey] && getExpandState(nodeData, this.props)) {
+          loop(node[childrenKey]);
         }
       });
     };
@@ -837,6 +834,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       this.unserializeLists({
         expand: nextExpandItemValues
       });
+
       this.setState({
         expandItemValues: nextExpandItemValues
       });
