@@ -327,18 +327,16 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
 
     let items = [];
     const loop = (nodes: any[]) => {
-      nodes.forEach((node: object) => {
+      nodes.forEach((node: any) => {
+        const nodeData = { ...node, ...this.nodes[node.refKey] };
         const disabled = disabledItemValues.some(disabledItem =>
           shallowEqual(disabledItem, node[valueKey])
         );
         if (!disabled) {
           items.push(node);
-          if (!getExpandState(node, this.props)) {
-            return;
-          }
-          if (node[childrenKey]) {
-            loop(node[childrenKey]);
-          }
+        }
+        if (node[childrenKey] && getExpandState(nodeData, this.props)) {
+          loop(node[childrenKey]);
         }
       });
     };

@@ -186,7 +186,7 @@ export function getExpandState(node: any, props: CheckTreePickerProps | TreePick
   if (!_.isUndefined(expandItemValues)) {
     return expand;
   } else if (node[childrenKey] && node[childrenKey].length) {
-    if (expand) {
+    if (!_.isNil(node.expand)) {
       return !!node.expand;
     } else if (expandAll) {
       return true;
