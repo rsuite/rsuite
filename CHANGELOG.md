@@ -1,3 +1,55 @@
+# 4.0.2
+
+- **Feature**: Added language Traditional Chinese. ([#652])
+- **Feature**: Fixed an issue where the CheckTreePicker and TreePicker keyboard operations were invalid.
+- **Bugfix**: Fixed `<Cascader>` search styles ([#651])
+- **Bugfix**: Fixed uncontrolled issues with `<Cascader>` and `<MultiCascader>` ([#650])
+- **Bugfix**: Fixed `<Cascader>` crash while search RegExp special_characters. ([#648])
+- **Bugfix**: Fixed `<Panel>` title font size.([#644])
+- **Bugfix**: Fixed item styles when set active and disable. ([#641])
+- **Bugfix**: Fixed `<Sidebar>` can't collapse on Firefox browser ([#638])
+- **Bugfix**: Fixed `<Tree>` rendering error on the server side.([#637])
+- **Bugfix**: Fixed `<CheckTreePicker>` setting root node uncheckable error.([#637])
+- **Bugfix**: Fixed IE browser compatibility issue. ([#631],[#632])
+- **Bugfix**: Fixed a rendering error when the column in the `<Table>` was null. ([rsuite/rsuite-table#99])
+- **Bugfix**: Fixed a problem with scrolling white screen after changing height on `<Table>`. ([rsuite/rsuite-table#97])
+- **Bugfix**: [TS] Fixed type definitions for missing `Notification` and `Alert`. ([#633])
+- **Bugfix**: [TS] Fixed `List` component not exported. ([#625])
+
+---
+
+- **Feature**: 添加组件对繁体中文的支持. ([#652])
+- **Bugfix**: 修复了 CheckTreePicker 和 TreePicker 键盘操作无效的问题。
+- **Bugfix**: 修复了 `<Cascader>` 搜索列表样式问题 ([#651])
+- **Bugfix**: 修复了 `<Cascader>` 和 `<MultiCascader>` 不受控的问题 ([#650])
+- **Bugfix**: 修复了 `<Cascader>` 搜索正则表达元字符报错的问题. ([#648])
+- **Bugfix**: 修复了 `<Panel>` 标题字体大小与设计不符的问题.([#644])
+- **Bugfix**: 修复了选项在设置 `active` 或者 `disable` 后的样式问题. ([#641])
+- **Bugfix**: 修复了 `<Sidebar>`在 Firefox 浏览器不能收缩的问题 ([#638])
+- **Bugfix**: 修复了 `<Tree>` 在服务端渲染报错的问.([#637])
+- **Bugfix**: 修复了 `<CheckTreePicker>` 设置根节点不可点击后出现的渲染问题.([#637])
+- **Bugfix**: 修复了 IE 浏览器兼容性问题. ([#631],[#632])
+- **Bugfix**: 修复了 `<Table>` 的列设置中存在 `null` 时候，导致的渲染出错问题. ([rsuite/rsuite-table#99])
+- **Bugfix**: 修复了 `<Table>` 在改变高度后出现白屏的问题. ([rsuite/rsuite-table#97])
+- **Bugfix**: [TS] 修复了 `Notification` 和 `Alert` 中缺少的方法定义. ([#633])
+- **Bugfix**: [TS] 修复了 `List` 组件找不到定义. ([#625])
+
+[#653]: https://github.com/rsuite/rsuite/pull/653
+[#652]: https://github.com/rsuite/rsuite/pull/652
+[#651]: https://github.com/rsuite/rsuite/pull/651
+[#650]: https://github.com/rsuite/rsuite/pull/650
+[#648]: https://github.com/rsuite/rsuite/pull/648
+[#644]: https://github.com/rsuite/rsuite/pull/644
+[#641]: https://github.com/rsuite/rsuite/pull/641
+[#638]: https://github.com/rsuite/rsuite/pull/638
+[#637]: https://github.com/rsuite/rsuite/pull/637
+[#633]: https://github.com/rsuite/rsuite/pull/633
+[#632]: https://github.com/rsuite/rsuite/pull/632
+[#631]: https://github.com/rsuite/rsuite/pull/631
+[#625]: https://github.com/rsuite/rsuite/pull/625
+[rsuite/rsuite-table#99]: https://github.com/rsuite/rsuite-table/pull/99
+[rsuite/rsuite-table#97]: https://github.com/rsuite/rsuite-table/pull/97
+
 # 4.0.1
 
 > September 19, 2019
