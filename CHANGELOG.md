@@ -1,5 +1,7 @@
 # 4.0.2
 
+> September 29, 2019
+
 - **Feature**: Added language Traditional Chinese. ([#652])
 - **Feature**: Fixed an issue where the CheckTreePicker and TreePicker keyboard operations were invalid.
 - **Bugfix**: Fixed `<Cascader>` search styles ([#651])
