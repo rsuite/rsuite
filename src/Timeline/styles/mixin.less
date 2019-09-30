@@ -1,0 +1,13 @@
+.time-line-mode(@mode:left) {
+  &-mode-@{mode} &-item-dot {
+    @{mode}: 0;
+  }
+
+  &-mode-@{mode} &-item-tail {
+    @{mode}: (@time-line-dot-side-length - @time-line-tail-width)/2;
+  }
+
+  &-mode-@{mode} &-item {
+    padding-@{mode}: @time-line-item-padding-left;
+  }
+}

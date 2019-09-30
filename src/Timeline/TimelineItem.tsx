@@ -23,6 +23,7 @@ class TimelineItem extends React.Component<TimelineItemProps> {
       last,
       className,
       dot,
+      time,
       ...rest
     } = this.props;
     const addPrefix = prefix(classPrefix);
@@ -36,6 +37,7 @@ class TimelineItem extends React.Component<TimelineItemProps> {
         <span className={classNames(addPrefix('dot'), { [addPrefix('custom-dot')]: !!dot })}>
           {dot}
         </span>
+        {time && <div className={addPrefix('time')}>{time}</div>}
         <div className={addPrefix('content')}>{children}</div>
       </Component>
     );

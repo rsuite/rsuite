@@ -1,4 +1,5 @@
 @import '../../styles/common';
+@import 'mixin';
 
 //
 // Time lines
@@ -11,7 +12,6 @@
 
   &-item {
     position: relative;
-    padding-left: @time-line-item-padding-left;
   }
 
   &-item:not(:last-child) &-item-content {
@@ -21,7 +21,6 @@
   &-item-dot {
     position: absolute;
     top: @time-line-dot-center-gap;
-    left: 0;
 
     &::before {
       content: '';
@@ -49,7 +48,6 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    left: (@time-line-dot-side-length - @time-line-tail-width)/2;
     width: @time-line-tail-width;
     background-color: @time-line-tail-default-background-color;
   }
@@ -63,5 +61,54 @@
   &-item:last-child &-item-tail {
     bottom: auto;
     height: @time-line-dot-center-gap+ @time-line-dot-side-length;
+  }
+
+  // Item time
+  &-item-time {
+    position: absolute;
+    right: ~'calc(100% + @{time-line-item-content-margin-left})';
+    white-space: nowrap;
+  }
+
+  &-mode-left &-item {
+    padding-left: @time-line-item-padding-left;
+  }
+
+  // Mode left
+  .time-line-mode(left);
+
+  // Mode right
+  .time-line-mode(right);
+
+  &-mode-right &-item-content {
+    text-align: right;
+  }
+
+  &-mode-alternate &-item-dot {
+    left: 50%;
+  }
+
+  // Mode alternate
+  &-mode-alternate &-item-tail {
+    @item-tail-width: (@time-line-dot-side-length - @time-line-tail-width)/2;
+
+    left: ~'calc(50% + @{item-tail-width})';
+  }
+
+  &-mode-alternate &-item:nth-child(2n + 1) &-item-content {
+    text-align: right;
+    width: ~'calc(50% - 4px)';
+  }
+
+  &-mode-alternate &-item:nth-child(2n) {
+    text-align: right;
+  }
+
+  &-mode-alternate &-item:nth-child(2n) &-item-content {
+    @offset-width: @time-line-dot-side-length+ (@time-line-dot-side-length - @time-line-tail-width)/2;
+
+    display: inline-block;
+    text-align: left;
+    width: ~'calc(50% - @{offset-width})';
   }
 }
