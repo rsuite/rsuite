@@ -12,7 +12,8 @@ const Calendar = {
   hours: '時',
   minutes: '分',
   seconds: '秒',
-  titleFormat: 'YYYY 年 MM 月'
+  formattedMonthPattern: 'YYYY 年 MM 月',
+  formattedDayPattern: 'YYYY 年 MM 月 DD 日'
 };
 
 export default {

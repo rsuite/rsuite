@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { format } from 'date-fns';
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
+import IntlContext from '../IntlProvider/IntlContext';
 
 export interface HeaderProps {
   date: Date;
@@ -25,6 +26,7 @@ export interface HeaderProps {
 }
 
 class Header extends React.PureComponent<HeaderProps> {
+  static contextType = IntlContext;
   static propTypes = {
     date: PropTypes.instanceOf(Date),
     onMoveForword: PropTypes.func,
@@ -70,11 +72,11 @@ class Header extends React.PureComponent<HeaderProps> {
 
   getDateFormat() {
     const { showDate, showMonth } = this.props;
-
+    const { formattedDayPattern, formattedMonthPattern } = this.context || {};
     if (showDate) {
-      return 'YYYY-MM-DD';
+      return formattedDayPattern || 'YYYY-MM-DD';
     } else if (showMonth) {
-      return 'YYYY-MM';
+      return formattedMonthPattern || 'YYYY-MM';
     }
 
     return 'YYYY';
