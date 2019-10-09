@@ -47,26 +47,26 @@
   padding-left: (@gutter / 2);
   padding-right: (@gutter / 2);
 
-  @media (min-width: @screen-tablet) {
+  @media (min-width: @screen-phone) {
     float: left;
     width: percentage((@columns / @grid-columns));
   }
 }
 
 .make-sm-column-offset(@columns) {
-  @media (min-width: @screen-tablet) {
+  @media (min-width: @screen-phone) {
     margin-left: percentage((@columns / @grid-columns));
   }
 }
 
 .make-sm-column-push(@columns) {
-  @media (min-width: @screen-tablet) {
+  @media (min-width: @screen-phone) {
     left: percentage((@columns / @grid-columns));
   }
 }
 
 .make-sm-column-pull(@columns) {
-  @media (min-width: @screen-tablet) {
+  @media (min-width: @screen-phone) {
     right: percentage((@columns / @grid-columns));
   }
 }
