@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { Position } from './List';
 
-export type Collection = string | number;
+type Collection = string | number;
 type Refs = Record<Collection, ManagerRef[]>;
 
 export interface ManagerRef {
