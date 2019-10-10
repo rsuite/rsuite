@@ -12,6 +12,8 @@ interface SliderState {
   handleDown?: boolean;
 }
 
+const precisionMath = value => parseFloat(value.toFixed(10));
+
 class Slider extends React.Component<SliderProps, SliderState> {
   static propTypes = {
     min: PropTypes.number,
@@ -68,12 +70,12 @@ class Slider extends React.Component<SliderProps, SliderState> {
   getSplitCount() {
     const { min, step } = this.props;
     const max = this.getMax();
-    return (max - min) / step;
+    return precisionMath((max - min) / step);
   }
 
   getMax(props?: SliderProps) {
     const { max, min, step } = props || this.props;
-    return Math.floor((max - min) / step) * step + min;
+    return precisionMath(Math.floor((max - min) / step) * step + min);
   }
 
   getValue() {
@@ -154,7 +156,7 @@ class Slider extends React.Component<SliderProps, SliderState> {
       value = Math.round(offset / (barWidth / count)) * step;
     }
 
-    return value;
+    return precisionMath(value);
   }
 
   handleClick = (event: React.MouseEvent) => {
@@ -238,8 +240,8 @@ class Slider extends React.Component<SliderProps, SliderState> {
     const count = this.getSplitCount();
     const value = this.getValue();
     const graduatedItems = [];
-    const pass = value / step - min / step;
-    const active = Math.ceil(((value - min) / (max - min)) * count);
+    const pass = precisionMath(value / step - min / step);
+    const active = precisionMath(Math.ceil(((value - min) / (max - min)) * count));
 
     for (let i = 0; i < count; i += 1) {
       let classes = classNames({
@@ -247,7 +249,7 @@ class Slider extends React.Component<SliderProps, SliderState> {
         [this.addPrefix('active')]: i === active
       });
 
-      let mark = i * step + min;
+      let mark = precisionMath(i * step + min);
       let last = i === count - 1;
 
       graduatedItems.push(
