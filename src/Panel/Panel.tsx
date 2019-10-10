@@ -15,6 +15,7 @@ class Panel extends React.Component<PanelProps, PanelState> {
   static propTypes = {
     collapsible: PropTypes.bool,
     bordered: PropTypes.bool,
+    shaded: PropTypes.bool,
     bodyFill: PropTypes.bool,
     header: PropTypes.any,
     id: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
@@ -148,6 +149,7 @@ class Panel extends React.Component<PanelProps, PanelState> {
       className,
       collapsible,
       bordered,
+      shaded,
       classPrefix,
       id,
       ...props
@@ -156,7 +158,8 @@ class Panel extends React.Component<PanelProps, PanelState> {
     const classes = classNames(className, classPrefix, this.addPrefix('default'), {
       [this.addPrefix('in')]: this.isExpanded(),
       [this.addPrefix('collapsible')]: collapsible,
-      [this.addPrefix('bordered')]: bordered
+      [this.addPrefix('bordered')]: bordered,
+      [this.addPrefix('shaded')]: shaded
     });
 
     const unhandled = getUnhandledProps(Panel, props);

@@ -1025,6 +1025,7 @@
 @panel-heading-color: @B900;
 @panel-accodion-transition: 0.3s linear;
 @panel-border: 1px solid @B200;
+@panel-box-shadow: @default-box-shadow;
 
 //== Time lines
 //
@@ -1167,9 +1168,7 @@
 @calendar-table-cell-content-selected-color: @H500;
 @calendar-table-cell-content-disabled-color: @B400;
 /* stylelint-disable-next-line */ // calcFontColor is hack function
-@calendar-table-cell-content-selected-font-color: color(
-  ~`calcFontColor('@{calendar-table-cell-content-selected-color}') `
-);
+@calendar-table-cell-content-selected-font-color: color(~`calcFontColor('@{calendar-table-cell-content-selected-color}') `);
 @calendar-table-cell-header-color: @B600;
 @calendar-table-cell-week-number-color: @B600;
 @calendar-table-cell-week-number-bg: @B050;

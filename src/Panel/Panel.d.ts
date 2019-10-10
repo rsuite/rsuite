@@ -8,6 +8,9 @@ export interface PanelProps<T = any> extends StandardProps, AnimationEventProps 
   /** Show border */
   bordered?: boolean;
 
+  /** With shadow */
+  shaded?: boolean;
+
   /** Content area filled with containers */
   bodyFill?: boolean;
 
