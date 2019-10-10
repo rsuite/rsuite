@@ -10,7 +10,7 @@ const Calendar = {
   today: '오늘',
   yesterday: '어제',
   hours: '시간',
-  minutes: '의사록',
+  minutes: '분',
   seconds: '초',
   /**
    * Format of the string is based on Unicode Technical Standard #35:
@@ -24,7 +24,7 @@ export default {
     more: '더',
     prev: '이전',
     next: '다음',
-    first: '먼저',
+    first: '첫 페이지',
     last: '마지막'
   },
   Table: {
@@ -32,8 +32,8 @@ export default {
     loading: '로딩...'
   },
   TablePagination: {
-    lengthMenuInfo: '페이지 당 {0} 개',
-    totalInfo: '총 {0} 데이터'
+    lengthMenuInfo: '행 표시 {0}',
+    totalInfo: '전체 {0} 개'
   },
   Calendar,
   DatePicker: {
@@ -44,14 +44,14 @@ export default {
     last7Days: '지난 7 일'
   },
   Picker: {
-    noResultsText: '검색 결과가 없습니다',
-    placeholder: '고르다',
+    noResultsText: '일치하지 않습니다',
+    placeholder: '고르십시오',
     searchPlaceholder: '검색',
     checkAll: '모두'
   },
   InputPicker: {
-    newItem: '새로운 물품',
-    createOption: '새로운 옵션 "{0}"'
+    newItem: '새 옵션',
+    createOption: '+새 옵션 "{0}"'
   },
   Uploader: {
     inited: '머리 글자',
