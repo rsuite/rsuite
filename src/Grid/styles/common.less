@@ -13,7 +13,7 @@
 .@{ns}grid-container {
   .container-fixed();
 
-  @media (min-width: @screen-tablet) {
+  @media (min-width: @screen-phone) {
     width: @container-sm;
   }
 
@@ -51,9 +51,9 @@
 // Small grid
 //
 // Columns, offsets, pushes, and pulls for the small device range, from phones
-// to tablets.
+// to tablets / phones.
 
-@media (min-width: @screen-tablet) {
+@media (min-width: @screen-phone) {
   .make-grid(sm);
 }
 
