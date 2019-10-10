@@ -95,7 +95,7 @@
     "babel-plugin-add-module-exports": "^1.0.2",
     "babel-plugin-date-fns": "^0.2.1",
     "babel-plugin-istanbul": "^4.1.4",
-    "babel-plugin-lodash": "^3.3.2",
+    "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-transform-dev": "^2.0.1",
     "brfs": "^1.6.1",
     "chai": "^4.1.0",
