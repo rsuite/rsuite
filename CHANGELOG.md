@@ -1,3 +1,30 @@
+# 4.0.3
+
+> October 29, 2019
+
+- **Feature**: Added support for Korean ([#675])
+- **Improve**: The corresponding format date is displayed on the calendar according to different regional languages. ([#668])
+- **Bugfix**: Add the babel plugin for `lodash` and `date-fns`. ([#674])
+- **Bugfix**: Change the sm breakpoint to 480px in the Grid ([#671])
+- **Bugfix**: Fix the precision of floating point arithmetic in Slider. ([#660])
+- **Bugfix**: Fixed an issue with type definition errors in `List`. ([#676])
+
+---
+
+- **Feature**: 添加对韩语/朝鲜语的支持。 ([#675])
+- **Improve**: 根据不同地域语言在日历上显示对应格式日期。([#668])
+- **Bugfix**: 为 `lodash` 和 `date-fns` 添加 babel 插件,按需加载代码。 ([#674])
+- **Bugfix**: 在 `<Grid>` 中将 `sm` 断点更改为 `480px`。 ([#671])
+- **Bugfix**: 修复`<Slider>` 中浮点运算的精度问题。 ([#660])
+- **Bugfix**: [TS] 修复了 `List` 中类型定义错误的问题。 ([#676])
+
+[#676]: https://github.com/rsuite/rsuite/pull/676
+[#675]: https://github.com/rsuite/rsuite/pull/675
+[#674]: https://github.com/rsuite/rsuite/pull/674
+[#671]: https://github.com/rsuite/rsuite/pull/671
+[#668]: https://github.com/rsuite/rsuite/pull/668
+[#660]: https://github.com/rsuite/rsuite/pull/660
+
 # 4.0.2
 
 > September 29, 2019
@@ -20,21 +47,21 @@
 
 ---
 
-- **Feature**: 添加组件对繁体中文的支持. ([#652])
+- **Feature**: 添加组件对繁体中文的支持。 ([#652])
 - **Bugfix**: 修复了 CheckTreePicker 和 TreePicker 键盘操作无效的问题。
-- **Bugfix**: 修复了 `<Cascader>` 搜索列表样式问题 ([#651])
-- **Bugfix**: 修复了 `<Cascader>` 和 `<MultiCascader>` 不受控的问题 ([#650])
-- **Bugfix**: 修复了 `<Cascader>` 搜索正则表达元字符报错的问题. ([#648])
-- **Bugfix**: 修复了 `<Panel>` 标题字体大小与设计不符的问题.([#644])
-- **Bugfix**: 修复了选项在设置 `active` 或者 `disable` 后的样式问题. ([#641])
-- **Bugfix**: 修复了 `<Sidebar>`在 Firefox 浏览器不能收缩的问题 ([#638])
-- **Bugfix**: 修复了 `<Tree>` 在服务端渲染报错的问.([#637])
-- **Bugfix**: 修复了 `<CheckTreePicker>` 设置根节点不可点击后出现的渲染问题.([#637])
-- **Bugfix**: 修复了 IE 浏览器兼容性问题. ([#631],[#632])
-- **Bugfix**: 修复了 `<Table>` 的列设置中存在 `null` 时候，导致的渲染出错问题. ([rsuite/rsuite-table#99])
-- **Bugfix**: 修复了 `<Table>` 在改变高度后出现白屏的问题. ([rsuite/rsuite-table#97])
-- **Bugfix**: [TS] 修复了 `Notification` 和 `Alert` 中缺少的方法定义. ([#633])
-- **Bugfix**: [TS] 修复了 `List` 组件找不到定义. ([#625])
+- **Bugfix**: 修复了 `<Cascader>` 搜索列表样式问题。 ([#651])
+- **Bugfix**: 修复了 `<Cascader>` 和 `<MultiCascader>` 不受控的问题。 ([#650])
+- **Bugfix**: 修复了 `<Cascader>` 搜索正则表达元字符报错的问题。 ([#648])
+- **Bugfix**: 修复了 `<Panel>` 标题字体大小与设计不符的问题。([#644])
+- **Bugfix**: 修复了选项在设置 `active` 或者 `disable` 后的样式问题。 ([#641])
+- **Bugfix**: 修复了 `<Sidebar>`在 Firefox 浏览器不能收缩的问题。 ([#638])
+- **Bugfix**: 修复了 `<Tree>` 在服务端渲染报错的问。([#637])
+- **Bugfix**: 修复了 `<CheckTreePicker>` 设置根节点不可点击后出现的渲染问题。([#637])
+- **Bugfix**: 修复了 IE 浏览器兼容性问题。 ([#631],[#632])
+- **Bugfix**: 修复了 `<Table>` 的列设置中存在 `null` 时候，导致的渲染出错问题。 ([rsuite/rsuite-table#99])
+- **Bugfix**: 修复了 `<Table>` 在改变高度后出现白屏的问题。 ([rsuite/rsuite-table#97])
+- **Bugfix**: [TS] 修复了 `Notification` 和 `Alert` 中缺少的方法定义。 ([#633])
+- **Bugfix**: [TS] 修复了 `List` 组件找不到定义。 ([#625])
 
 [#653]: https://github.com/rsuite/rsuite/pull/653
 [#652]: https://github.com/rsuite/rsuite/pull/652
