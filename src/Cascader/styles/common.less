@@ -147,6 +147,6 @@
   .dropdown-toggle-caret-common;
 
   &::before {
-    content: @drop-right-caret-content;
+    content: @drop-right-caret-content ~'/* rtl: "@{drop-left-caret-content}" */';
   }
 }

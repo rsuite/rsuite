@@ -22,7 +22,7 @@
   &-sortable .@{ns}list-item {
     cursor: move;
     cursor: grab;
-    
+
     &:active {
       cursor: grabbing;
     }
@@ -59,7 +59,11 @@
     padding-top: 8px;
     padding-bottom: 8px;
   }
+}
 
+/* rtl:begin:ignore */
+/* stylelint-disable-next-line */ // For RTL Scope
+.@{ns}list-item {
   &-helper {
     position: absolute;
     background-color: @list-item-drag-bg-color;
@@ -91,3 +95,5 @@
     }
   }
 }
+
+/* rtl:end:ignore */
