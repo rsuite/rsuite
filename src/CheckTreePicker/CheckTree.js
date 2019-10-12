@@ -243,6 +243,7 @@ class CheckTree extends React.Component<Props, States> {
     const { value, data = [], cascade, uncheckableItemValues, childrenKey } = this.props;
     if (prevState.data !== data) {
       const nextData = [...data];
+      this.nodes = {};
       this.flattenNodes(nextData);
       this.unserializeLists({
         check: this.getValue(),
