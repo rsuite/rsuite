@@ -6,6 +6,10 @@ export interface IntlProviderProps {
 
   /** Language configuration */
   locale?: object;
+
+  /** Support right-to-left */
+
+  rtl?: boolean;
 }
 
 declare const IntlProvider: React.ComponentType<IntlProviderProps>;

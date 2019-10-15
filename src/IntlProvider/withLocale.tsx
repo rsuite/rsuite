@@ -17,10 +17,12 @@ function withLocale<T>(combineKeys: string[] = []) {
       return (
         <IntlContext.Consumer>
           {messages => {
-            const locales = combineKeys.map(key => _.get(messages || enGB, `${key}`));
+            let locale = mergeObject(combineKeys.map(key => _.get(messages || enGB, `${key}`)));
+            locale.rtl = messages.rtl;
+
             return factory({
               ref,
-              locale: mergeObject(locales),
+              locale,
               ...props
             });
           }}
