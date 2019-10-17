@@ -1,6 +1,30 @@
+# 4.0.4
+
+> October 17, 2019
+
+- **Bugfix**: Fixed a problem with the `Dropdown` and `Button`, the `ButtonGroup` is vertically aligned. ([#682])
+- **Bugfix**: Fixed an error when `CheckTreePicker` changed data. ([#681])
+- **Bugfix**: Fixed an issue where `isOneOf` was not valid in `Schema.Types.StringType`. ([schema-typed#18])
+- **Bugfix**: Fixed a misalignment of scroll position after `Table` data update. ([rsuite-table#100])
+- **Bugfix**: [TS] Fixed an issue with type definition errors in `List`. ([#678])
+
+---
+
+- **Bugfix**: 修复了 `Dropdown`, `Button` 与 `ButtonGroup` 垂直对齐的问题。 ([#682])
+- **Bugfix**: 修复了 `CheckTreePicker` 数据改变后出现错误的问题 ([#681])
+- **Bugfix**: 修复了 `Schema.Types.StringType` 中的 `isOneOf` 方法无效的问题。 ([schema-typed#18])
+- **Bugfix**: 修复了 `Table` 数据更新后滚动位置出现偏移。 ([rsuite-table#100])
+- **Bugfix**: [TS] 修复了 `List` 中类型定义错误的问题。 ([#678])
+
+[#682]: https://github.com/rsuite/rsuite/pull/682
+[#681]: https://github.com/rsuite/rsuite/pull/681
+[#678]: https://github.com/rsuite/rsuite/pull/678
+[schema-typed#18]: https://github.com/rsuite/schema-typed/pull/18
+[rsuite-table#100]: https://github.com/rsuite/rsuite-table/pull/100
+
 # 4.0.3
 
-> October 29, 2019
+> October 10, 2019
 
 - **Feature**: Added support for Korean ([#675])
 - **Improve**: The corresponding format date is displayed on the calendar according to different regional languages. ([#668])
