@@ -7,6 +7,7 @@ import { TREE_NODE_PADDING, TREE_NODE_ROOT_PADDING } from '../constants';
 import { defaultProps, prefix } from '../utils';
 
 export interface TreeNodeProps {
+  rtl?: boolean;
   layer: number;
   value?: any;
   label?: any;
@@ -140,6 +141,7 @@ class TreeNode extends React.Component<TreeNodeProps> {
 
   render() {
     const {
+      rtl,
       style,
       className,
       classPrefix,
@@ -155,7 +157,8 @@ class TreeNode extends React.Component<TreeNodeProps> {
       [this.addPrefix('active')]: active
     });
 
-    const styles = { paddingLeft: layer * TREE_NODE_PADDING + TREE_NODE_ROOT_PADDING };
+    const padding = layer * TREE_NODE_PADDING + TREE_NODE_ROOT_PADDING;
+    const styles = rtl ? { paddingRight: padding } : { paddingLeft: padding };
 
     return visible ? (
       <div style={{ ...style, ...styles }} className={classes} ref={innerRef}>

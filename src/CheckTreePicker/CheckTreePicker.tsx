@@ -983,7 +983,15 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
 
   renderNode(node: Node, layer: number) {
     const { activeNode, searchKeyword } = this.state;
-    const { valueKey, labelKey, childrenKey, renderTreeNode, renderTreeIcon, cascade } = this.props;
+    const {
+      valueKey,
+      labelKey,
+      childrenKey,
+      renderTreeNode,
+      renderTreeIcon,
+      cascade,
+      locale
+    } = this.props;
     const { expand, visible, refKey } = node;
 
     if (!visible) {
@@ -1003,6 +1011,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       label: node[labelKey],
       layer,
       expand,
+      rtl: locale.rtl,
       focus: activeNode ? shallowEqual(activeNode[valueKey], node[valueKey]) : false,
       visible: node.visible,
       disabled: getDisabledState(this.nodes, node, this.props),
@@ -1043,7 +1052,15 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
 
   renderVirtualNode(node: any, options: any) {
     const { activeNode, expandAll } = this.state;
-    const { valueKey, labelKey, childrenKey, renderTreeNode, renderTreeIcon, cascade } = this.props;
+    const {
+      valueKey,
+      labelKey,
+      childrenKey,
+      renderTreeNode,
+      renderTreeIcon,
+      cascade,
+      locale
+    } = this.props;
     const { key, style } = options;
     const { layer, refKey, expand, showNode } = node;
 
@@ -1054,6 +1071,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       label: node[labelKey],
       layer,
       expand,
+      rtl: locale.rtl,
       focus: activeNode ? shallowEqual(activeNode[valueKey], node[valueKey]) : false,
       visible: node.visible,
       disabled: getDisabledState(this.nodes, node, this.props),

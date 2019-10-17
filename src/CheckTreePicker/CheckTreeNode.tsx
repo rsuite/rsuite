@@ -16,6 +16,7 @@ export interface TreeCheckNodeProps {
   classPrefix?: string;
   className?: string;
   visible?: boolean;
+  rtl?: boolean;
   style?: React.CSSProperties;
   label?: any;
   layer?: number;
@@ -179,15 +180,17 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
       layer,
       disabled,
       allUncheckable,
-      innerRef
+      innerRef,
+      rtl
     } = this.props;
 
     const classes = classNames(className, classPrefix, {
       'text-muted': disabled,
       [this.addPrefix('all-uncheckable')]: !!allUncheckable
     });
+    const padding = layer * TREE_NODE_PADDING + TREE_NODE_ROOT_PADDING;
+    const styles = rtl ? { paddingRight: padding } : { paddingLeft: padding };
 
-    const styles = { paddingLeft: layer * TREE_NODE_PADDING + TREE_NODE_ROOT_PADDING };
     return visible ? (
       <div style={{ ...style, ...styles }} className={classes} ref={innerRef}>
         {this.renderIcon()}
