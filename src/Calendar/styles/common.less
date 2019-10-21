@@ -340,6 +340,17 @@
   }
 }
 
+/* rtl:begin:ignore */
+/* stylelint-disable-next-line */
+[dir='rtl'] .@{clpns}-header {
+  &-backward,
+  &-forward {
+    transform: rotate(180deg);
+  }
+}
+
+/* rtl:end:ignore */
+
 .@{clpns}-view {
   padding: @calendar-picker-view-padding-top @calendar-picker-padding @calendar-picker-padding;
 }
