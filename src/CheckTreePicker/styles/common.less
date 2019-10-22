@@ -26,6 +26,14 @@
   line-height: @picker-tree-node-line-height;
 
   > .@{ctpns}-node-label {
+    .@{ns}check-item {
+      display: inline-block;
+
+      .@{ns}picker-menu & {
+        display: block;
+      }
+    }
+
     &:focus .@{ns}check-item .@{ns}checkbox-checker > label {
       .picker-item-hover;
     }
