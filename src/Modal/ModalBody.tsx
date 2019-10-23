@@ -5,6 +5,7 @@ import setDisplayName from 'recompose/setDisplayName';
 
 import { defaultProps } from '../utils';
 import { ModalBodyProps } from './ModalBody.d';
+import ModalContext from './ModalContext';
 
 class ModalBody extends React.Component<ModalBodyProps> {
   static propTypes = {
@@ -12,10 +13,17 @@ class ModalBody extends React.Component<ModalBodyProps> {
     className: PropTypes.string
   };
   render() {
-    const { classPrefix, className, ...props } = this.props;
+    const { classPrefix, className, style, ...props } = this.props;
     const classes = classNames(classPrefix, className);
 
-    return <div {...props} className={classes} />;
+    return (
+      <ModalContext.Consumer>
+        {context => {
+          const bodyStyles = context ? context.getBodyStyles() : {};
+          return <div {...props} style={{ ...bodyStyles, ...style }} className={classes} />;
+        }}
+      </ModalContext.Consumer>
+    );
   }
 }
 
