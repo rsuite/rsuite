@@ -20,12 +20,8 @@
   }
 
   &-sortable .@{ns}list-item {
-    cursor: move;
+    cursor: move; // fallback
     cursor: grab;
-
-    &:active {
-      cursor: grabbing;
-    }
 
     &-disabled,
     &-disabled:active {
@@ -37,8 +33,6 @@
 // default list item ( axis-y )
 .@{ns}list-item {
   position: relative;
-  background-color: @list-item-drag-bg-color;
-  box-shadow: 0 -1px 0 @list-border-color, 0 1px 0 @list-border-color;
 
   &-bordered {
     padding-left: 20px;
@@ -64,6 +58,9 @@
 /* rtl:begin:ignore */
 /* stylelint-disable-next-line */ // For RTL Scope
 .@{ns}list-item {
+  background-color: @list-item-drag-bg-color;
+  box-shadow: 0 -1px 0 @list-border-color, 0 1px 0 @list-border-color;
+
   &-helper {
     position: absolute;
     background-color: @list-item-drag-bg-color;
