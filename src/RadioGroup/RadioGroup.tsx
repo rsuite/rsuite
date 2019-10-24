@@ -57,12 +57,12 @@ class RadioGroup extends React.Component<RadioGroupProps, RadioGroupState> {
 
   getContextProps = (): ContextProps => {
     const { inline, name } = this.props;
-    const value = this.getValue() || null;
+    const value = this.getValue();
 
     return {
       inline,
       name,
-      value,
+      value: _.isUndefined(value) ? null : value,
       onChange: this.handleChange
     };
   };
