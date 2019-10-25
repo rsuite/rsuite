@@ -103,6 +103,7 @@
 
     &-x::before {
       .icon-font;
+
       content: @default-close-btn-content;
     }
   }
@@ -139,7 +140,8 @@
   &-bottom-left,
   &-top-left {
     align-items: flex-start;
-    left: 24px;
+    left: 24px /* rtl:ignore */;
+
     .@{notification-ns}-fade-entered {
       animation-name: notificationMoveInLeft;
     }
@@ -148,7 +150,8 @@
   &-bottom-right,
   &-top-right {
     align-items: flex-end;
-    right: 24px;
+    right: 24px /* rtl:ignore */;
+
     .@{notification-ns}-fade-entered {
       animation-name: notificationMoveInRight;
     }
