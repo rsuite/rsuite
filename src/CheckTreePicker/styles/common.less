@@ -172,11 +172,15 @@
 /* stylelint-disable-next-line */
 .@{ctpns} {
   /* stylelint-disable-next-line */
-  &-node > &-node-label .@{ns}check-item .@{ns}checkbox-checker > label::before {
-    /* stylelint-disable-next-line */
-    [dir='rtl'] .ReactVirtualized__Grid__innerScrollContainer & {
-      padding-right: inherit;
-      right: 46px;
+  &-node > &-node-label .@{ns}check-item .@{ns}checkbox-checker > label{
+    text-align: right;
+
+    &::before {
+      /* stylelint-disable-next-line */
+      [dir='rtl'] .ReactVirtualized__Grid__innerScrollContainer & {
+        padding-right: inherit;
+        right: 46px;
+      }
     }
   }
 }

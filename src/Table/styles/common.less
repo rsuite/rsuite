@@ -398,7 +398,7 @@
 
   &-horizontal &-handle {
     height: @table-scrollbar-handle-width;
-    left: 0;
+    left: 0 /* rtl:ignore */;
     top: @table-scrollbar-handle-gap;
   }
 
@@ -421,7 +421,7 @@
     min-height: 20px;
     width: @table-scrollbar-handle-width;
     top: 0;
-    left: @table-scrollbar-handle-gap /* rtl:ignore */;
+    left: @table-scrollbar-handle-gap;
   }
 
   &-pressed&-vertical:hover,
