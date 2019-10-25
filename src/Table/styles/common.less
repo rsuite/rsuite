@@ -288,11 +288,11 @@
 
     &-shadow,
     &-left-shadow {
-      box-shadow: 3px @table-table-cell-fixed-shadow;
+      box-shadow: 3px @table-table-cell-fixed-shadow /* rtl:ignore */;
     }
 
     &-right-shadow {
-      box-shadow: -3px @table-table-cell-fixed-shadow;
+      box-shadow: -3px @table-table-cell-fixed-shadow /* rtl:ignore */;
     }
   }
 
@@ -410,7 +410,7 @@
 
   &-vertical {
     top: 0;
-    right: 0;
+    right: 0 /* rtl:ignore */;
     width: @table-scrollbar-width;
     // Reserve scroll bar position.
     bottom: @table-scrollbar-width;
@@ -421,7 +421,7 @@
     min-height: 20px;
     width: @table-scrollbar-handle-width;
     top: 0;
-    left: @table-scrollbar-handle-gap;
+    left: @table-scrollbar-handle-gap /* rtl:ignore */;
   }
 
   &-pressed&-vertical:hover,
