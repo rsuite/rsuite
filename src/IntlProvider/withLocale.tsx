@@ -1,7 +1,7 @@
 import * as React from 'react';
 import _ from 'lodash';
 import { setDisplayName, wrapDisplayName } from 'recompose';
-import enGB from './locales/en_GB';
+import defaultLocale from './locales/default';
 import IntlContext from './IntlContext';
 
 const mergeObject = (list: any[]) =>
@@ -16,9 +16,18 @@ function withLocale<T>(combineKeys: string[] = []) {
     const WithLocale = React.forwardRef((props: T, ref) => {
       return (
         <IntlContext.Consumer>
-          {messages => {
-            let locale = mergeObject(combineKeys.map(key => _.get(messages || enGB, `${key}`)));
-            locale.rtl = messages.rtl;
+          {value => {
+            const locale = mergeObject(
+              combineKeys.map(key => _.get(value || defaultLocale, `${key}`))
+            );
+            if (typeof value.rtl !== undefined) {
+              locale.rtl = value.rtl;
+            } else if (
+              typeof window !== 'undefined' &&
+              (document.body.getAttribute('dir') || document.dir) === 'rtl'
+            ) {
+              locale.rtl = true;
+            }
 
             return factory({
               ref,
