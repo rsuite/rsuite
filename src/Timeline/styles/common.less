@@ -1,4 +1,5 @@
 @import '../../styles/common';
+@import 'mixin';
 
 //
 // Time lines
@@ -11,7 +12,6 @@
 
   &-item {
     position: relative;
-    padding-left: @time-line-item-padding-left;
   }
 
   &-item:not(:last-child) &-item-content {
@@ -21,7 +21,6 @@
   &-item-dot {
     position: absolute;
     top: @time-line-dot-center-gap;
-    left: 0;
 
     &::before {
       content: '';
@@ -49,7 +48,6 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    left: (@time-line-dot-side-length - @time-line-tail-width)/2;
     width: @time-line-tail-width;
     background-color: @time-line-tail-default-background-color;
   }
@@ -63,5 +61,101 @@
   &-item:last-child &-item-tail {
     bottom: auto;
     height: @time-line-dot-center-gap+ @time-line-dot-side-length;
+  }
+
+  // Align left
+  .time-line-align(left);
+
+  &-align-left &-item {
+    padding-left: @time-line-item-padding-left;
+  }
+
+  // Align right
+  .time-line-align(right);
+
+  &-align-right &-item-content {
+    text-align: right;
+  }
+
+  // Align alternate
+  &-align-alternate &-item-dot {
+    @dot-offset: @time-line-dot-side-length / 2;
+
+    left: ~'calc(50% - @{dot-offset})';
+  }
+
+  &-align-alternate &-item-tail {
+    @tail-offset: @time-line-tail-width / 2;
+
+    left: ~'calc(50% - @{tail-offset})';
+  }
+
+  &-align-alternate &-item:nth-child(2n) &-item-content {
+    text-align: right;
+    width: ~'calc(50% - @{time-line-content-side-offset})';
+  }
+
+  &-align-alternate &-item:nth-child(2n + 1) {
+    text-align: right;
+  }
+
+  &-align-alternate &-item:nth-child(2n + 1) &-item-content {
+    display: inline-block;
+    text-align: left;
+    width: ~'calc(50% - @{time-line-content-side-offset})';
+  }
+
+  // With time
+  &-with-time &-item {
+    display: flex;
+    padding-left: 0;
+  }
+
+  &-with-time &-item-dot {
+    @dot-offset: @time-line-dot-side-length / 2;
+
+    left: ~'calc(50% - @{dot-offset})';
+  }
+
+  &-with-time &-item-tail {
+    @tail-offset: @time-line-tail-width / 2;
+
+    left: ~'calc(50% - @{tail-offset})';
+  }
+
+  &-with-time &-item-time,
+  &-with-time &-item-content {
+    flex: 1 0 50%;
+  }
+
+  &-align-alternate &-item:nth-child(2n),
+  &-with-time&-align-right &-item {
+    flex-direction: row-reverse;
+  }
+
+  &-with-time&-align-right &-item {
+    padding-right: 0;
+  }
+
+  &-with-time&-align-left &-item-time {
+    text-align: right;
+  }
+
+  &-with-time&-align-right &-item-time {
+    text-align: left;
+  }
+
+  &-with-time&-align-left &-item-time,
+  &-with-time&-align-right &-item-content,
+  &-align-alternate &-item:nth-child(2n + 1) &-item-time,
+  &-align-alternate &-item:nth-child(2n) &-item-content {
+    padding-right: @time-line-alternate-time-offset;
+  }
+
+  &-with-time&-align-left &-item-content,
+  &-with-time&-align-right &-item-time,
+  &-align-alternate &-item:nth-child(2n + 1) &-item-content,
+  &-align-alternate &-item:nth-child(2n) &-item-time {
+    padding-left: @time-line-alternate-time-offset;
   }
 }

@@ -8,6 +8,9 @@ export interface TimelineProps extends StandardProps {
 
   /** You can use a custom element type for this component */
   componentClass?: React.ElementType;
+
+  /** TimeLine content relative position  **/
+  align?: 'left' | 'right' | 'alternate';
 }
 
 interface TimelineComponent extends React.ComponentClass<TimelineProps> {
