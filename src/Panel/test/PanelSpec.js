@@ -18,6 +18,16 @@ describe('Panel', () => {
     assert.ok(instance.querySelector('.rs-panel-collapse.in'));
   });
 
+  it('Should show border', () => {
+    const instance = getDOMNode(<Panel bordered />);
+    assert.ok(instance.className.match(/\brs-panel-bordered\b/));
+  });
+
+  it('Should with shadow', () => {
+    const instance = getDOMNode(<Panel shaded />);
+    assert.ok(instance.className.match(/\brs-panel-shaded\b/));
+  });
+
   it('Should be expanded', () => {
     const instance = getDOMNode(<Panel collapsible expanded />);
     assert.ok(instance.querySelector('.rs-panel-collapse.in'));
