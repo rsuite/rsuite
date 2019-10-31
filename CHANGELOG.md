@@ -1,3 +1,24 @@
+# 4.0.5
+
+> October 31, 2019
+
+- **Improve**: Use context to refactor the logic of partial arguments. ([#695])
+- **Improve**: Adjust the implementation logic of `preventOverflow` in all Picker. ([rsuite-utils#14])
+- **Bugfix**: Fix `<Alert>` font color problem under dark theme. ([#697])
+- **Bugfix**: Fix the problem that can't extends in the ie10 browser. ([#694])
+
+---
+
+- **Improve**: 使用 context API 重构部分子父组件传参的逻辑。 ([#695])
+- **Improve**: 调整了所有 `Picker`组件的 `preventOverflow` 属性的实现方式。 ([rsuite-utils#14])
+- **Bugfix**: 修复 `<Alert>` 组件在 dark 主题下字体颜色问题。 ([#697])
+- **Bugfix**: 修复 ie10 兼容性问题，context API 在高价函数中未继承。 ([#694])
+
+[#697]: https://github.com/rsuite/rsuite/pull/697
+[#695]: https://github.com/rsuite/rsuite/pull/695
+[#694]: https://github.com/rsuite/rsuite/pull/694
+[rsuite-utils#14]: https://github.com/rsuite/rsuite-utils/pull/14
+
 # 4.0.4
 
 > October 17, 2019
