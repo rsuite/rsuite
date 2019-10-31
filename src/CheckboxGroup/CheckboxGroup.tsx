@@ -4,19 +4,23 @@ import _ from 'lodash';
 import classNames from 'classnames';
 import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
 
-import {
-  ReactChildren,
-  getUnhandledProps,
-  defaultProps,
-  prefix,
-  createChainedFunction
-} from '../utils';
+import { getUnhandledProps, defaultProps, prefix, createContext } from '../utils';
 
 import { CheckboxGroupProps } from './CheckboxGroup.d';
+
+export interface CheckboxContextProps {
+  inline?: boolean;
+  name?: string;
+  value?: any[];
+  controlled?: boolean;
+  onChange?: (value: any, checked: boolean, event: React.SyntheticEvent<HTMLInputElement>) => void;
+}
 
 interface State {
   value: any[];
 }
+
+export const CheckboxContext = createContext<CheckboxContextProps>({});
 
 class CheckboxGroup extends React.Component<CheckboxGroupProps, State> {
   static propTypes = {
@@ -41,6 +45,18 @@ class CheckboxGroup extends React.Component<CheckboxGroupProps, State> {
     return _.isUndefined(value) ? this.state.value : value;
   }
 
+  getContextProps = (): CheckboxContextProps => {
+    const { inline, name, value } = this.props;
+
+    return {
+      inline,
+      name,
+      value: this.getValue(),
+      controlled: !_.isUndefined(value),
+      onChange: this.handleChange
+    };
+  };
+
   handleChange = (
     itemValue: any,
     itemChecked: boolean,
@@ -60,33 +76,20 @@ class CheckboxGroup extends React.Component<CheckboxGroupProps, State> {
   };
 
   render() {
-    const { className, inline, name, value, children, classPrefix, ...props } = this.props;
-    const nextValue = this.getValue() || [];
+    const { className, inline, children, classPrefix, ...props } = this.props;
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, className, {
       [addPrefix('inline')]: inline
-    });
-    const checkedKey = _.isUndefined(value) ? 'defaultChecked' : 'checked';
-
-    const items = ReactChildren.mapCloneElement(children, child => {
-      if (child.type.displayName === 'Checkbox') {
-        return {
-          ...child.props,
-          name,
-          inline,
-          [checkedKey]: nextValue.some(i => i === child.props.value),
-          onChange: createChainedFunction(this.handleChange, child.props.onChange)
-        };
-      }
-      return child.props;
     });
 
     const unhandled = getUnhandledProps(CheckboxGroup, props);
 
     return (
-      <div {...unhandled} role="group" className={classes}>
-        {items}
-      </div>
+      <CheckboxContext.Provider value={this.getContextProps()}>
+        <div {...unhandled} role="group" className={classes}>
+          {children}
+        </div>
+      </CheckboxContext.Provider>
     );
   }
 }

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import setDisplayName from 'recompose/setDisplayName';
+import { RadioContext, ContextProps } from '../RadioGroup/RadioGroup';
 
 import { prefix, getUnhandledProps, partitionHTMLProps, defaultProps } from '../utils';
 import { RadioProps } from './Radio.d';
@@ -12,6 +13,7 @@ interface RadioState {
 }
 
 class Radio extends React.Component<RadioProps, RadioState> {
+  static contextType = RadioContext;
   static propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
@@ -32,6 +34,7 @@ class Radio extends React.Component<RadioProps, RadioState> {
   static defaultProps = {
     tabIndex: 0
   };
+  context: ContextProps = {};
 
   constructor(props) {
     super(props);
@@ -39,10 +42,12 @@ class Radio extends React.Component<RadioProps, RadioState> {
       checked: props.defaultChecked
     };
   }
-
-  isChecked() {
-    const { checked } = this.props;
-    return _.isUndefined(checked) ? this.state.checked : checked;
+  getCheckedByValue() {
+    const { value } = this.props;
+    if (!_.isUndefined(this.context.value)) {
+      return this.context.value === value;
+    }
+    return this.props.checked;
   }
 
   updateCheckedState(checked: boolean, callback?: () => void) {
@@ -51,6 +56,7 @@ class Radio extends React.Component<RadioProps, RadioState> {
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, disabled, onChange } = this.props;
+    const { onChange: onContextChange } = this.context;
     const checked = true;
     if (disabled) {
       return;
@@ -58,17 +64,15 @@ class Radio extends React.Component<RadioProps, RadioState> {
 
     this.setState({ checked }, () => {
       onChange && onChange(value, checked, event);
+      onContextChange && onContextChange(value, checked, event);
     });
   };
   render() {
     const {
-      inline,
       title,
-      name,
       className,
       children,
       disabled,
-      checked,
       defaultChecked,
       classPrefix,
       tabIndex,
@@ -77,12 +81,13 @@ class Radio extends React.Component<RadioProps, RadioState> {
       ...props
     } = this.props;
 
-    const nextChecked = this.isChecked();
+    const { inline = this.props.inline, name = this.props.name } = this.context;
+    const checked = this.getCheckedByValue();
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, className, {
       [addPrefix('inline')]: inline,
       [addPrefix('disabled')]: disabled,
-      [addPrefix('checked')]: nextChecked
+      [addPrefix('checked')]: _.isUndefined(checked) ? this.state.checked : checked
     });
 
     const unhandled = getUnhandledProps(Radio, props);
