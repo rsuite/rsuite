@@ -116,7 +116,12 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
       left: `-${active * 100}%`
     };
 
-    const classes = classNames(className, classPrefix, addPrefix(placement), addPrefix(shape));
+    const classes = classNames(
+      className,
+      classPrefix,
+      addPrefix(`placement-${placement}`),
+      addPrefix(`shape-${shape}`)
+    );
     const unhandled = getUnhandledProps(Carousel, rest);
 
     return (
@@ -130,7 +135,9 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
             <div className={addPrefix('slider')} style={sliderStyles}>
               {items}
             </div>
-            <div className={addPrefix('slider-after')}>{[items[items.length - 1], items[0]]}</div>
+            {count ? (
+              <div className={addPrefix('slider-after')}>{[items[items.length - 1], items[0]]}</div>
+            ) : null}
           </div>
           <div className={addPrefix('toolbar')}>
             <ul>{labels}</ul>
