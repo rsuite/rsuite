@@ -108,7 +108,7 @@ export type Props = {
     labyer: number,
     concat: (data: any[], children: any[]) => any[]
   ) => void,
-  onSelect?: (activeNode: any, layer: number, values: any) => void,
+  onSelect?: (activeNode: any, layer: number, values: any, event?: DefaultEvent) => void,
   onScroll?: (event: DefaultEvent) => void,
   onClean?: (event: DefaultEvent) => void,
   onExited?: () => void,
@@ -879,7 +879,7 @@ class CheckTree extends React.Component<Props, States> {
    * @param {object} activeNodeData   节点的数据
    * @param {number} layer            节点的层级
    */
-  handleSelect = (activeNode: Object, layer: number) => {
+  handleSelect = (activeNode: Object, layer: number, event?: DefaultEvent) => {
     const { onChange, onSelect } = this.props;
     const selectedValues = this.toggleChecked(activeNode, !this.nodes[activeNode.refKey].check);
     if (this.isControlled) {
@@ -896,7 +896,7 @@ class CheckTree extends React.Component<Props, States> {
     }
 
     onChange && onChange(selectedValues);
-    onSelect && onSelect(activeNode, layer, selectedValues);
+    onSelect && onSelect(activeNode, layer, selectedValues, event);
   };
 
   /**
