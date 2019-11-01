@@ -20,7 +20,7 @@ function withLocale<T>(combineKeys: string[] = []) {
             const locale = mergeObject(
               combineKeys.map(key => _.get(value || defaultLocale, `${key}`))
             );
-            if (typeof value.rtl !== undefined) {
+            if (value && typeof value.rtl !== undefined) {
               locale.rtl = value.rtl;
             } else if (
               typeof window !== 'undefined' &&
