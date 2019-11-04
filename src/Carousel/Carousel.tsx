@@ -84,7 +84,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
       (child: React.DetailedReactHTMLElement<any, HTMLElement>, index) => {
         const id = `${this._key}-${index}`;
         labels.push(
-          <li key={`label${index}`}>
+          <li key={`label${index}`} className={addPrefix('label-wrapper')}>
             <input
               name={this._key}
               id={id}
@@ -102,7 +102,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
             key: `slider-item${index}`,
             style: {
               ...child.props.style,
-              width: `calc(100% / ${count})`
+              width: `${100 / count}%`
             },
             className: classNames(addPrefix('slider-item'), child.props.className)
           })
@@ -113,7 +113,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     // index
     const sliderStyles = {
       width: `${items.length * 100}%`,
-      left: `-${active * 100}%`
+      transform: `translate3d(-${(100 / items.length) * active}%, 0 ,0)`
     };
 
     const classes = classNames(

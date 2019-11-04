@@ -1259,6 +1259,21 @@
 //** Text color of current page in the breadcrumb
 @breadcrumb-active-color: @B600;
 
+//== Carousel
+//
+//##
+@carousel-bg: @B600;
+@carousel-handler-transition: background 0.3s linear;
+@carousel-handler-bg: fade(@B000, 40);
+@carousel-handler-hover-bg: @B000;
+@carousel-handler-active-bg: @H500;
+@carousel-handler-sense-width: ~'calc( (@{carousel-dot-wrapper-side-length} - @{carousel-dot-side-length}) / -2 )';
+@carousel-dot-wrapper-side-length: 1.2vw; // 1.2% of the screen width.
+@carousel-dot-side-length: 10px;
+@carousel-bar-width: 18px;
+@carousel-bar-height: 4px;
+@carousel-bar-active-width: 28px;
+
 //== Type
 //
 //##
