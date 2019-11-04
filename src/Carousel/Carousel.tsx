@@ -78,6 +78,8 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     const count = React.Children.count(children);
     const labels = [];
     const items = [];
+    const vertical = placement === 'left' || placement === 'right';
+    const lengthKey = vertical ? 'height' : 'width';
 
     React.Children.forEach(
       children,
@@ -102,7 +104,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
             key: `slider-item${index}`,
             style: {
               ...child.props.style,
-              width: `${100 / count}%`
+              [lengthKey]: `${100 / count}%`
             },
             className: classNames(addPrefix('slider-item'), child.props.className)
           })
@@ -110,10 +112,12 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
       }
     );
 
-    // index
+    const activeRatio = `-${(100 / count) * active}%`;
     const sliderStyles = {
-      width: `${items.length * 100}%`,
-      transform: `translate3d(-${(100 / items.length) * active}%, 0 ,0)`
+      [lengthKey]: `${count * 100}%`,
+      transform: vertical
+        ? `translate3d(0, ${activeRatio} ,0)`
+        : `translate3d(${activeRatio}, 0 ,0)`
     };
 
     const classes = classNames(
