@@ -72,8 +72,7 @@
   }
 
   &-label-wrapper {
-    // Label wrapper width equal to  @carousel-dot-wrapper-side-length
-    margin: ~'calc( (@{carousel-dot-wrapper-side-length} - @{carousel-dot-side-length}) / 2 )';
+    margin: @carousel-handler-margin;
 
     input {
       width: 0;
@@ -98,10 +97,10 @@
     &::after {
       content: '';
       position: absolute;
-      top: @carousel-handler-sense-width;
-      right: @carousel-handler-sense-width;
-      bottom: @carousel-handler-sense-width;
-      left: @carousel-handler-sense-width;
+      top: -1 * @carousel-handler-sense-width;
+      right: -1 * @carousel-handler-sense-width;
+      bottom: -1 * @carousel-handler-sense-width;
+      left: -1 * @carousel-handler-sense-width;
     }
 
     &:hover {
@@ -154,11 +153,11 @@
   }
 
   &-placement-top &-toolbar {
-    top: 0;
+    top: @carousel-toolbar-wrapper-margin;
   }
 
   &-placement-bottom &-toolbar {
-    bottom: 0;
+    bottom: @carousel-toolbar-wrapper-margin;
   }
 
   &-placement-left &-toolbar,
@@ -175,11 +174,11 @@
   }
 
   &-placement-left &-toolbar {
-    left: 0;
+    left: @carousel-toolbar-wrapper-margin;
   }
 
   &-placement-right &-toolbar {
-    right: 0;
+    right: @carousel-toolbar-wrapper-margin;
   }
 }
 
