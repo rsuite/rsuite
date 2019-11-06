@@ -1,1 +1,1 @@
-import './themes/default';
+import './themes/default/index.less';
