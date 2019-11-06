@@ -34,7 +34,8 @@ class DropdownMenuItem extends React.Component<DropdownMenuItemProps, DropdownMe
     children: PropTypes.node,
     classPrefix: PropTypes.string,
     tabIndex: PropTypes.number,
-    componentClass: PropTypes.elementType
+    componentClass: PropTypes.elementType,
+    renderItem: PropTypes.func
   };
   static defaultProps = {
     tabIndex: -1,
@@ -98,6 +99,7 @@ class DropdownMenuItem extends React.Component<DropdownMenuItemProps, DropdownMe
       trigger,
       expanded,
       componentClass: Component,
+      renderItem,
       ...rest
     } = this.props;
 
@@ -145,17 +147,21 @@ class DropdownMenuItem extends React.Component<DropdownMenuItemProps, DropdownMe
       );
     }
 
+    const item = (
+      <Component
+        {...unhandled}
+        {...itemToggleProps}
+        className={addPrefix('content')}
+        tabIndex={tabIndex}
+      >
+        {icon && React.cloneElement(icon, { className: addPrefix('menu-icon') })}
+        {children}
+      </Component>
+    );
+
     return (
       <li {...itemProps} style={style} role="presentation" className={classes}>
-        <Component
-          {...unhandled}
-          {...itemToggleProps}
-          className={addPrefix('content')}
-          tabIndex={tabIndex}
-        >
-          {icon && React.cloneElement(icon, { className: addPrefix('menu-icon') })}
-          {children}
-        </Component>
+        {renderItem ? renderItem(item) : item}
       </li>
     );
   }

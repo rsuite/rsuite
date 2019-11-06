@@ -39,6 +39,17 @@ describe('PaginationButton', () => {
     ReactTestUtils.Simulate.click(instance.querySelector('a'));
   });
 
+  it('Should output a custom item', () => {
+    let instance = getDOMNode(
+      <PaginationButton
+        renderItem={() => {
+          return <span>custom</span>;
+        }}
+      />
+    );
+    assert.include(instance.querySelector('span').innerText, 'custom');
+  });
+
   it('Should have a custom className', () => {
     const instance = getDOMNode(<PaginationButton className="custom" />);
     assert.ok(instance.className.match(/\bcustom\b/));

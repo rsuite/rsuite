@@ -1,46 +1,37 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-
 import { SafeAnchorProps } from './SafeAnchor.d';
 
-const isTrivialHref = (href: string) => !href || href.trim() === '#';
+const SafeAnchor: React.FunctionComponent = React.forwardRef<'SafeAnchor', SafeAnchorProps>(
+  (props, ref) => {
+    const { componentClass: Component = 'a', disabled, ...rest } = props;
+    const handleClick = (event: React.MouseEvent) => {
+      const { onClick } = rest;
 
-class SafeAnchor extends React.Component<SafeAnchorProps> {
-  static propTypes = {
-    href: PropTypes.string,
-    disabled: PropTypes.bool,
-    tabIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    componentClass: PropTypes.elementType,
-    onClick: PropTypes.func
-  };
+      if (disabled) {
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
 
-  static defaultProps = {
-    componentClass: 'a'
-  };
-
-  handleClick = (event: React.MouseEvent) => {
-    let { disabled, href, onClick } = this.props;
-    if (disabled || isTrivialHref(href)) {
-      event.preventDefault();
-    }
+      onClick && onClick(event);
+    };
 
     if (disabled) {
-      event.stopPropagation();
-      return;
+      rest.tabIndex = -1;
+      rest['aria-disabled'] = true;
     }
 
-    onClick && onClick(event);
-  };
-
-  render() {
-    let { componentClass: Component, tabIndex, disabled, ...props } = this.props;
-
-    if (disabled) {
-      tabIndex = -1;
-    }
-
-    return <Component {...props} tabIndex={tabIndex} onClick={this.handleClick} />;
+    return <Component ref={ref} {...rest} onClick={handleClick} />;
   }
-}
+);
+
+SafeAnchor.displayName = 'SafeAnchor';
+SafeAnchor.propTypes = {
+  disabled: PropTypes.bool,
+
+  /** @default 'a' */
+  componentClass: PropTypes.elementType
+};
 
 export default SafeAnchor;

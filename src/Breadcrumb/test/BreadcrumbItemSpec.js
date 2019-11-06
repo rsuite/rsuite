@@ -111,6 +111,17 @@ describe('Breadcrumb.Item', () => {
     assert.equal(linkNode.target, '_blank');
   });
 
+  it('Should output a custom item', () => {
+    let instance = getDOMNode(
+      <Breadcrumb.Item
+        renderItem={() => {
+          return <span>custom</span>;
+        }}
+      />
+    );
+    assert.include(instance.querySelector('span').innerText, 'custom');
+  });
+
   it('Should have a custom className', () => {
     const instance = getDOMNode(<Breadcrumb.Item className="custom" />);
     assert.include(instance.className, 'custom');

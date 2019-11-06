@@ -32,6 +32,9 @@ export interface NavItemProps<T = any> extends StandardProps {
 
   /** Select the callback function that the event triggers. */
   onSelect?: (eventKey: T, event: React.SyntheticEvent<any>) => void;
+
+  /** Custom rendering item */
+  renderItem?: (item: React.ReactNode) => React.ReactNode;
 }
 
 declare const NavItem: React.ComponentType<NavItemProps>;

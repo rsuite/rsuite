@@ -15,7 +15,8 @@ class BreadcrumbItem extends React.Component<BreadcrumbItemProps> {
     title: PropTypes.string,
     target: PropTypes.string,
     classPrefix: PropTypes.string,
-    componentClass: PropTypes.elementType
+    componentClass: PropTypes.elementType,
+    renderItem: PropTypes.func
   };
   render() {
     const {
@@ -27,6 +28,7 @@ class BreadcrumbItem extends React.Component<BreadcrumbItemProps> {
       className,
       style,
       active,
+      renderItem,
       ...rest
     } = this.props;
 
@@ -37,9 +39,14 @@ class BreadcrumbItem extends React.Component<BreadcrumbItemProps> {
       [addPrefix('active')]: active
     });
 
+    let item: React.ReactNode = <Component {...rest} {...linkProps} />;
+    if (renderItem) {
+      item = renderItem(item);
+    }
+
     return (
       <li style={style} className={classes}>
-        {active ? <span {...rest} /> : <Component {...rest} {...linkProps} />}
+        {active ? <span {...rest} /> : item}
       </li>
     );
   }
