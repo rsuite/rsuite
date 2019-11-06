@@ -3,14 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
 import { defaultProps, getUnhandledProps, prefix, createContext } from '../utils';
-import { RadioGroupProps } from './RadioGroup.d';
-
-export interface ContextProps {
-  inline?: boolean;
-  name?: string;
-  value?: any;
-  onChange?: (value: any, checked: boolean, event: React.SyntheticEvent<HTMLInputElement>) => void;
-}
+import { RadioGroupProps, ContextProps } from './RadioGroup.d';
 
 interface RadioGroupState {
   value: any;

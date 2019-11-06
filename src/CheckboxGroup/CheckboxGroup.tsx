@@ -5,16 +5,7 @@ import classNames from 'classnames';
 import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
 
 import { getUnhandledProps, defaultProps, prefix, createContext } from '../utils';
-
-import { CheckboxGroupProps } from './CheckboxGroup.d';
-
-export interface CheckboxContextProps {
-  inline?: boolean;
-  name?: string;
-  value?: any[];
-  controlled?: boolean;
-  onChange?: (value: any, checked: boolean, event: React.SyntheticEvent<HTMLInputElement>) => void;
-}
+import { CheckboxGroupProps, CheckboxContextProps } from './CheckboxGroup.d';
 
 interface State {
   value: any[];
