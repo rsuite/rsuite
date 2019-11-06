@@ -141,6 +141,16 @@ describe('RadioGroup', () => {
     ReactTestUtils.Simulate.change(radios[2].querySelector('input'));
   });
 
+  it('Should be selected as false', () => {
+    const instance = getDOMNode(
+      <RadioGroup value={false}>
+        <Radio value={true}>true</Radio>
+        <Radio value={false}>false</Radio>
+      </RadioGroup>
+    );
+    assert.equal(instance.querySelector('.rs-radio-checked').innerText, 'false');
+  });
+
   it('Should have a custom className', () => {
     const instance = getDOMNode(<RadioGroup className="custom" />);
     assert.ok(instance.className.match(/\bcustom\b/));

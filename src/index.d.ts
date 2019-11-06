@@ -1,3 +1,4 @@
+export { default as Affix } from './Affix';
 export { default as Alert } from './Alert';
 export { default as Animation } from './Animation';
 export { default as AutoComplete } from './AutoComplete';

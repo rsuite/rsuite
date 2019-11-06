@@ -1,6 +1,51 @@
+# 4.0.5
+
+> October 31, 2019
+
+- **Improve**: Use context to refactor the logic of partial arguments. ([#695])
+- **Improve**: Adjust the implementation logic of `preventOverflow` in all Picker. ([rsuite-utils#14])
+- **Bugfix**: Fix `<Alert>` font color problem under dark theme. ([#697])
+- **Bugfix**: Fix the problem that can't extends in the ie10 browser. ([#694])
+
+---
+
+- **Improve**: 使用 context API 重构部分子父组件传参的逻辑。 ([#695])
+- **Improve**: 调整了所有 `Picker`组件的 `preventOverflow` 属性的实现方式。 ([rsuite-utils#14])
+- **Bugfix**: 修复 `<Alert>` 组件在 dark 主题下字体颜色问题。 ([#697])
+- **Bugfix**: 修复 ie10 兼容性问题，context API 在高价函数中未继承。 ([#694])
+
+[#697]: https://github.com/rsuite/rsuite/pull/697
+[#695]: https://github.com/rsuite/rsuite/pull/695
+[#694]: https://github.com/rsuite/rsuite/pull/694
+[rsuite-utils#14]: https://github.com/rsuite/rsuite-utils/pull/14
+
+# 4.0.4
+
+> October 17, 2019
+
+- **Bugfix**: Fixed a problem with the `Dropdown` and `Button`, the `ButtonGroup` is vertically aligned. ([#682])
+- **Bugfix**: Fixed an error when `CheckTreePicker` changed data. ([#681])
+- **Bugfix**: Fixed an issue where `isOneOf` was not valid in `Schema.Types.StringType`. ([schema-typed#18])
+- **Bugfix**: Fixed a misalignment of scroll position after `Table` data update. ([rsuite-table#100])
+- **Bugfix**: [TS] Fixed an issue with type definition errors in `List`. ([#678])
+
+---
+
+- **Bugfix**: 修复了 `Dropdown`, `Button` 与 `ButtonGroup` 垂直对齐的问题。 ([#682])
+- **Bugfix**: 修复了 `CheckTreePicker` 数据改变后出现错误的问题 ([#681])
+- **Bugfix**: 修复了 `Schema.Types.StringType` 中的 `isOneOf` 方法无效的问题。 ([schema-typed#18])
+- **Bugfix**: 修复了 `Table` 数据更新后滚动位置出现偏移。 ([rsuite-table#100])
+- **Bugfix**: [TS] 修复了 `List` 中类型定义错误的问题。 ([#678])
+
+[#682]: https://github.com/rsuite/rsuite/pull/682
+[#681]: https://github.com/rsuite/rsuite/pull/681
+[#678]: https://github.com/rsuite/rsuite/pull/678
+[schema-typed#18]: https://github.com/rsuite/schema-typed/pull/18
+[rsuite-table#100]: https://github.com/rsuite/rsuite-table/pull/100
+
 # 4.0.3
 
-> October 29, 2019
+> October 10, 2019
 
 - **Feature**: Added support for Korean ([#675])
 - **Improve**: The corresponding format date is displayed on the calendar according to different regional languages. ([#668])

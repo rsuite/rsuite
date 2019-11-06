@@ -6,12 +6,14 @@ import setDisplayName from 'recompose/setDisplayName';
 
 import { prefix, defaultProps, getUnhandledProps, partitionHTMLProps } from '../utils';
 import { CheckboxProps } from './Checkbox.d';
+import { CheckboxContext, CheckboxContextProps } from '../CheckboxGroup/CheckboxGroup';
 
 interface CheckboxState {
   checked?: boolean;
 }
 
 class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
+  static contextType = CheckboxContext;
   static propTypes = {
     title: PropTypes.string,
     className: PropTypes.string,
@@ -36,6 +38,8 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     tabIndex: 0
   };
 
+  context: CheckboxContextProps = {};
+
   constructor(props: CheckboxProps) {
     super(props);
     this.state = {
@@ -45,6 +49,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
   handleChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
     const { onChange, disabled, value } = this.props;
+    const { onChange: onContextChange } = this.context;
     const checked = !this.isChecked();
 
     if (disabled) {
@@ -53,23 +58,31 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
     this.setState({ checked }, () => {
       onChange && onChange(value, checked, event);
+      onContextChange && onContextChange(value, checked, event);
     });
   };
 
+  getCheckedByValue() {
+    const { value } = this.context;
+    if (!_.isUndefined(value) && !_.isUndefined(this.props.value)) {
+      return value.some(i => i === this.props.value);
+    }
+
+    return this.props.checked;
+  }
+
   isChecked() {
-    const { checked } = this.props;
+    const checked = this.getCheckedByValue();
     return _.isUndefined(checked) ? this.state.checked : checked;
   }
 
   render() {
     const {
-      inline,
       disabled,
       className,
       children,
       title,
       inputRef,
-      defaultChecked,
       indeterminate,
       tabIndex,
       classPrefix,
@@ -79,9 +92,11 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       ...props
     } = this.props;
 
-    const checked: boolean = this.isChecked();
+    const checked = this.isChecked();
+    const { inline = this.props.inline, name = this.props.name, controlled } = this.context;
+
     const addPrefix = prefix(classPrefix);
-    const classes: string = classNames(classPrefix, className, {
+    const classes = classNames(classPrefix, className, {
       [addPrefix('inline')]: inline,
       [addPrefix('indeterminate')]: indeterminate,
       [addPrefix('disabled')]: disabled,
@@ -91,11 +106,15 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     const unhandled = getUnhandledProps(Checkbox, props);
     const [htmlInputProps, rest] = partitionHTMLProps(unhandled);
 
+    if (!_.isUndefined(controlled)) {
+      htmlInputProps[controlled ? 'checked' : 'defaultChecked'] = checked;
+    }
+
     const input = (
       <span className={addPrefix('wrapper')} onClick={onCheckboxClick} aria-disabled={disabled}>
         <input
           {...htmlInputProps}
-          defaultChecked={defaultChecked}
+          name={name}
           type="checkbox"
           ref={inputRef}
           tabIndex={tabIndex}

@@ -296,9 +296,26 @@ describe('CheckPicker', () => {
       <Dropdown placeholder="test" sticky data={data} value={['Kariane']} defaultOpen />
     );
 
-    const menu = findDOMNode(instance.menuContainerRef.current).querySelector('.rs-checkbox');
+    const menu = getDOMNode(instance.menuContainerRef.current).querySelector('.rs-checkbox');
 
     assert.equal(menu.innerText, 'Kariane');
+  });
+
+  it('Should be render selected options be sticky', () => {
+    const instance = getInstance(
+      <Dropdown
+        placeholder="test"
+        sticky
+        data={data}
+        value={['Kariane', 'Louisa', 'Eugenia']}
+        defaultOpen
+      />
+    );
+
+    const count = getDOMNode(instance.menuContainerRef.current).querySelectorAll(
+      '.rs-checkbox-checked'
+    ).length;
+    assert.equal(count, 3);
   });
 
   it('Should render a button by toggleComponentClass={Button}', () => {

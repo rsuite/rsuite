@@ -277,6 +277,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
 
     if (prevState.data !== data) {
       const nextData = [...data];
+      this.nodes = {};
       this.flattenNodes(nextData);
       this.unserializeLists({
         check: this.getValue(),

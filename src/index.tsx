@@ -91,3 +91,4 @@ export { default as Animation } from './Animation';
 export { default as IntlProvider } from './IntlProvider';
 export { default as Portal } from './Portal';
 export { default as DOMHelper } from './DOMHelper';
+export { default as Affix } from './Affix';

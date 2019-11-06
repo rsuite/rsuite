@@ -57,7 +57,8 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
     style: PropTypes.object,
     toggleComponentClass: PropTypes.elementType,
     renderFileInfo: PropTypes.func,
-    removable: PropTypes.bool
+    removable: PropTypes.bool,
+    fileListVisible: PropTypes.bool
   };
   static defaultProps = {
     autoUpload: true,
@@ -68,7 +69,8 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
     withCredentials: false,
     data: {},
     listType: 'text',
-    removable: true
+    removable: true,
+    fileListVisible: true
   };
 
   inputRef: React.RefObject<any>;
@@ -343,9 +345,13 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
   }
 
   render() {
-    const { classPrefix, className, listType, locale, style } = this.props;
+    const { classPrefix, className, listType, fileListVisible, locale, style } = this.props;
     const classes = classNames(classPrefix, this.addPrefix(listType), className);
-    const renderList = [this.renderUploadTrigger(), this.renderFileItems()];
+    const renderList = [this.renderUploadTrigger()];
+
+    if (fileListVisible) {
+      renderList.push(this.renderFileItems());
+    }
 
     if (listType === 'picture') {
       renderList.reverse();
