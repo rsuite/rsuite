@@ -447,21 +447,22 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
       Object.keys(_.omit(DropdownMenu.propTypes, ['className', 'style', 'classPrefix']))
     );
 
-    const menu = filteredData.length ? (
-      <DropdownMenu
-        {...menuProps}
-        classPrefix={this.addPrefix('check-menu')}
-        dropdownMenuItemComponentClass={DropdownMenuItem}
-        ref={this.menuContainerRef}
-        activeItemValues={this.getValue()}
-        focusItemValue={focusItemValue}
-        data={[...filteredStickyItems, ...filteredData]}
-        group={!_.isUndefined(groupBy)}
-        onSelect={this.handleItemSelect}
-      />
-    ) : (
-      <div className={this.addPrefix('none')}>{locale.noResultsText}</div>
-    );
+    const menu =
+      filteredData.length || filteredStickyItems.length ? (
+        <DropdownMenu
+          {...menuProps}
+          classPrefix={this.addPrefix('check-menu')}
+          dropdownMenuItemComponentClass={DropdownMenuItem}
+          ref={this.menuContainerRef}
+          activeItemValues={this.getValue()}
+          focusItemValue={focusItemValue}
+          data={[...filteredStickyItems, ...filteredData]}
+          group={!_.isUndefined(groupBy)}
+          onSelect={this.handleItemSelect}
+        />
+      ) : (
+        <div className={this.addPrefix('none')}>{locale.noResultsText}</div>
+      );
 
     return (
       <MenuWrapper
