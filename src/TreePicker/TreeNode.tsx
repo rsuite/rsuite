@@ -92,7 +92,7 @@ class TreeNode extends React.Component<TreeNodeProps> {
 
   renderIcon = () => {
     const { expand, onRenderTreeIcon, hasChildren, nodeData } = this.props;
-    const classes = classNames(this.addPrefix('expand-icon'), 'icon', {
+    const classes = classNames(this.addPrefix('expand-icon'), {
       [this.addPrefix('expanded')]: !!expand
     });
 
