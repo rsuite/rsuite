@@ -27,7 +27,8 @@ export function getInstance(children) {
 
   if (
     displayName === 'withStyleProps(DefaultPropsComponent)' ||
-    displayName === 'withLocale(DefaultPropsComponent)'
+    displayName === 'withLocale(DefaultPropsComponent)' ||
+    displayName === 'SafeAnchor'
   ) {
     return ReactTestUtils.renderIntoDocument(<TestWrapper>{children}</TestWrapper>);
   }

@@ -20,6 +20,9 @@ export interface BreadcrumbItemProps extends StandardProps {
 
   /** Primary content */
   children?: React.ReactNode;
+
+  /** Custom rendering item */
+  renderItem?: (item: React.ReactNode) => React.ReactNode;
 }
 
 declare const BreadcrumbItem: React.ComponentType<BreadcrumbItemProps>;

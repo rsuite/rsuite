@@ -6,18 +6,7 @@ import SafeAnchor from '../SafeAnchor';
 import Ripple from '../Ripple';
 import { prefix, defaultProps, getUnhandledProps, createChainedFunction } from '../utils';
 
-export interface PaginationButtonProps {
-  classPrefix?: string;
-  eventKey?: any;
-  onClick?: React.MouseEventHandler;
-  disabled?: boolean;
-  active?: boolean;
-  className?: string;
-  componentClass: React.ElementType;
-  children?: React.ReactNode;
-  style?: React.CSSProperties;
-  onSelect?: (eventKey: any, event: React.MouseEvent) => void;
-}
+import { PaginationButtonProps } from './PaginationButton.d';
 
 class PaginationButton extends React.Component<PaginationButtonProps> {
   static propTypes = {
@@ -30,7 +19,8 @@ class PaginationButton extends React.Component<PaginationButtonProps> {
     className: PropTypes.string,
     componentClass: PropTypes.elementType,
     children: PropTypes.node,
-    style: PropTypes.object
+    style: PropTypes.object,
+    renderItem: PropTypes.func
   };
   handleClick = (event: React.MouseEvent) => {
     const { disabled, onSelect, eventKey } = this.props;
@@ -51,6 +41,7 @@ class PaginationButton extends React.Component<PaginationButtonProps> {
       style,
       componentClass: Component,
       children,
+      renderItem,
       ...rest
     } = this.props;
 
@@ -60,17 +51,20 @@ class PaginationButton extends React.Component<PaginationButtonProps> {
       [addPrefix('active')]: active,
       [addPrefix('disabled')]: disabled
     });
+    const item = (
+      <Component
+        {...unhandled}
+        disabled={disabled}
+        onClick={createChainedFunction(onClick, this.handleClick)}
+      >
+        {children}
+        <Ripple />
+      </Component>
+    );
 
     return (
       <li className={classes} style={style}>
-        <Component
-          {...unhandled}
-          disabled={disabled}
-          onClick={createChainedFunction(onClick, this.handleClick)}
-        >
-          {children}
-          <Ripple />
-        </Component>
+        {renderItem ? renderItem(item) : item}
       </li>
     );
   }

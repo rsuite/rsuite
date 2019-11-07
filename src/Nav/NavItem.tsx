@@ -33,7 +33,8 @@ class NavItem extends React.Component<NavItemProps> {
     eventKey: PropTypes.any,
     tabIndex: PropTypes.number,
     hasTooltip: PropTypes.bool,
-    componentClass: PropTypes.elementType
+    componentClass: PropTypes.elementType,
+    renderItem: PropTypes.func
   };
   static defaultProps = {
     tabIndex: 0
@@ -61,6 +62,7 @@ class NavItem extends React.Component<NavItemProps> {
       divider,
       panel,
       componentClass: Component,
+      renderItem,
       ...rest
     } = this.props;
 
@@ -89,20 +91,27 @@ class NavItem extends React.Component<NavItemProps> {
       );
     }
 
-    const item = (
+    if (Component === SafeAnchor) {
+      unhandled.disabled = disabled;
+    }
+
+    let item: React.ReactNode = (
       <Component
         {...unhandled}
         role="button"
         tabIndex={tabIndex}
         className={addPrefix('content')}
-        disabled={disabled}
         onClick={createChainedFunction(onClick, this.handleClick)}
       >
         {icon}
-        <span className={addPrefix('text')}>{children}</span>
+        {children}
         <Ripple />
       </Component>
     );
+
+    if (renderItem) {
+      item = renderItem(item);
+    }
 
     return (
       <li role="presentation" className={classes} style={style}>

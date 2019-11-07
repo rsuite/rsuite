@@ -68,6 +68,17 @@ describe('NavItem', () => {
     assert.ok(!onHideSpy.calledOnce);
   });
 
+  it('Should output a custom item', () => {
+    let instance = getDOMNode(
+      <NavItem
+        renderItem={() => {
+          return <span>custom</span>;
+        }}
+      />
+    );
+    assert.include(instance.querySelector('span').innerText, 'custom');
+  });
+
   it('Should have a custom className', () => {
     let instance = getDOMNode(<NavItem className="custom" />);
     assert.include(instance.className, 'custom');
