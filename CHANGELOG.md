@@ -1,3 +1,37 @@
+# 4.1.0
+
+- **Feature**: Add support for `<Carousel>`. ([#716])
+- **Feature**: Added Right-to-left supported. ([#715])
+- **Feature**: Add support for `renderItem` on the navigation component. ([#713])
+- **Feature**: Added for `fileListVisible` on `<Uploader>`. ([#709])
+- **Feature**: Added `shaded` props for `<Panel>`. ([#677])
+- **Feature**: Added support for `<Affix>` . ([#701])
+- **Feature**: Supported show mode and customizing time for `<Timeline>`. ([#666])
+- **Bugfix**: Fixed sideEffects configuration. ([#706])
+- **Bugfix**: Fixed when setting `sticky` and all options were selected to not render the menu. ([#710])
+
+---
+
+- **Feature**: 支持 `<Carousel>` 组件。 ([#716])
+- **Feature**: 支持 Right-to-left。 ([#715])
+- **Feature**: 导航相关组件添加 `renderItem` 属性。 ([#713])
+- **Feature**: 在 `<Uploader>` 组件上，添加支持 `fileListVisible` 属性，默认为 `true`, 设置 `false` 则不显示文件列表。 ([#709])
+- **Feature**: 在 `<Panel>`组件上，添加支持 `shaded`属性，用于显示阴影。 ([#677])
+- **Feature**: 支持 `<Affix>` 组件。 ([#701])
+- **Feature**: 在 `<Timeline>` 组件添加了更多显示模式。 ([#666])
+- **Bugfix**: 修复 sideEffects 配置错误导致样式文件丢失的问题。 ([#706])
+- **Bugfix**: 修复了当设置`sticky`并选择了所有选项的时候，不渲染菜单的问题。([#710])
+
+[#716]: https://github.com/rsuite/rsuite/pull/716
+[#715]: https://github.com/rsuite/rsuite/pull/715
+[#713]: https://github.com/rsuite/rsuite/pull/713
+[#710]: https://github.com/rsuite/rsuite/pull/710
+[#709]: https://github.com/rsuite/rsuite/pull/709
+[#706]: https://github.com/rsuite/rsuite/pull/706
+[#701]: https://github.com/rsuite/rsuite/pull/701
+[#677]: https://github.com/rsuite/rsuite/pull/677
+[#666]: https://github.com/rsuite/rsuite/pull/666
+
 # 4.0.5
 
 > October 31, 2019
