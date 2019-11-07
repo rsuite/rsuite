@@ -288,11 +288,11 @@
 
     &-shadow,
     &-left-shadow {
-      box-shadow: 3px @table-table-cell-fixed-shadow;
+      box-shadow: 3px @table-table-cell-fixed-shadow /* rtl:ignore */;
     }
 
     &-right-shadow {
-      box-shadow: -3px @table-table-cell-fixed-shadow;
+      box-shadow: -3px @table-table-cell-fixed-shadow /* rtl:ignore */;
     }
   }
 
@@ -398,7 +398,7 @@
 
   &-horizontal &-handle {
     height: @table-scrollbar-handle-width;
-    left: 0;
+    left: 0 /* rtl:ignore */;
     top: @table-scrollbar-handle-gap;
   }
 
@@ -410,7 +410,7 @@
 
   &-vertical {
     top: 0;
-    right: 0;
+    right: 0 /* rtl:ignore */;
     width: @table-scrollbar-width;
     // Reserve scroll bar position.
     bottom: @table-scrollbar-width;

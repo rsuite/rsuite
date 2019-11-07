@@ -34,14 +34,16 @@ class Slider extends React.Component<SliderProps, SliderState> {
     vertical: PropTypes.bool,
     onChange: PropTypes.func,
     renderMark: PropTypes.func,
-    renderTooltip: PropTypes.func
+    renderTooltip: PropTypes.func,
+    locale: PropTypes.object
   };
   static defaultProps = {
     min: 0,
     max: 100,
     step: 1,
     defaultValue: 0,
-    tooltip: true
+    tooltip: true,
+    locale: {}
   };
   handleRef: React.RefObject<HTMLDivElement>;
   barRef: React.RefObject<HTMLDivElement>;
@@ -159,15 +161,21 @@ class Slider extends React.Component<SliderProps, SliderState> {
     return precisionMath(value);
   }
 
+  updatePosition(event: React.MouseEvent) {
+    const { vertical, min, locale } = this.props;
+    const barOffset = getOffset(this.barRef.current);
+    const offset = vertical ? event.pageY - barOffset.top : event.pageX - barOffset.left;
+    const value = locale.rtl && !vertical ? barOffset.width - offset : offset;
+
+    this.setValue(this.calculateValue(value) + min);
+  }
+
   handleClick = (event: React.MouseEvent) => {
     if (this.props.disabled) {
       return;
     }
 
-    const { vertical, min } = this.props;
-    const barOffset = getOffset(this.barRef.current);
-    const offset = vertical ? event.pageY - barOffset.top : event.pageX - barOffset.left;
-    this.setValue(this.calculateValue(offset) + min);
+    this.updatePosition(event);
   };
 
   handleMouseDown = (event: React.MouseEvent) => {
@@ -197,11 +205,7 @@ class Slider extends React.Component<SliderProps, SliderState> {
       return;
     }
 
-    const { vertical, min } = this.props;
-    const barOffset = getOffset(this.barRef.current);
-    const offset = vertical ? event.pageY - barOffset.top : event.pageX - barOffset.left;
-
-    this.setValue(this.calculateValue(offset) + min);
+    this.updatePosition(event);
     this.setTooltipPosition();
   };
 
@@ -275,13 +279,15 @@ class Slider extends React.Component<SliderProps, SliderState> {
       vertical,
       tooltip,
       handleStyle,
-      renderTooltip
+      renderTooltip,
+      locale
     } = this.props;
     const max = this.getMax();
     const { handleDown } = this.state;
     const value = this.getValue();
 
-    const direction = vertical ? 'top' : 'left';
+    const horizontalKey = locale.rtl ? 'right' : 'left';
+    const direction = vertical ? 'top' : horizontalKey;
     const style = {
       ...handleStyle,
       // 通过 value 计算出手柄位置

@@ -162,7 +162,7 @@
         right: @dropdown-item-content-padding-horizontal;
 
         &::before {
-          content: @drop-right-caret-content;
+          content: @drop-right-caret-content ~'/* rtl: "@{drop-left-caret-content}" */';
         }
       }
     }
@@ -178,7 +178,7 @@
         left: @dropdown-item-content-padding-horizontal;
 
         &::before {
-          content: @drop-left-caret-content;
+          content: @drop-left-caret-content ~'/* rtl: "@{drop-right-caret-content}" */';
         }
       }
     }

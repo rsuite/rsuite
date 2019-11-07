@@ -29,17 +29,6 @@
   }
 
   &::before,
-  &::after,
-  .@{ns}checkbox-inner::before,
-  .@{ns}checkbox-inner::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    display: block;
-  }
-
-  &::before,
   .@{ns}checkbox-inner::before,
   .@{ns}checkbox-inner::after {
     width: @checkbox-width-height;
@@ -93,6 +82,35 @@
     }
   }
 
+  [type='checkbox']:focus ~ .@{ns}checkbox-inner::before {
+    .checkbox-inner-active-shadow(@checkbox-default-border-color);
+
+    @hover: ~':hover';
+
+    @{hover}& {
+      .checkbox-inner-active-shadow(@checkbox-checked-border-color);
+    }
+
+    .@{ns}checkbox-checked & {
+      .checkbox-inner-active-shadow(@checkbox-checked-border-color);
+    }
+  }
+}
+
+/* rtl:begin:ignore */
+/* stylelint-disable-next-line */ // For RTL Scope
+.@{ns}checkbox-wrapper {
+  &::before,
+  &::after,
+  .@{ns}checkbox-inner::before,
+  .@{ns}checkbox-inner::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+  }
+
   // Check mark
   .@{ns}checkbox-inner::after {
     opacity: 0;
@@ -122,18 +140,6 @@
       margin-left: 3px;
     }
   }
-
-  [type='checkbox']:focus ~ .@{ns}checkbox-inner::before {
-    .checkbox-inner-active-shadow(@checkbox-default-border-color);
-
-    @hover: ~':hover';
-
-    @{hover}& {
-      .checkbox-inner-active-shadow(@checkbox-checked-border-color);
-    }
-
-    .@{ns}checkbox-checked & {
-      .checkbox-inner-active-shadow(@checkbox-checked-border-color);
-    }
-  }
 }
+
+/* rtl:end:ignore */

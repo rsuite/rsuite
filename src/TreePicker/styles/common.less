@@ -24,6 +24,7 @@
   position: relative;
   font-size: @picker-tree-node-font-size;
   line-height: @picker-tree-node-line-height;
+  text-align: left;
 
   &-active > .@{tpns}-node-label {
     .picker-item-active;
@@ -96,7 +97,7 @@
     height: 36px;
     font-size: @picker-tree-node-font-size;
     line-height: @picker-tree-node-line-height;
-    transform: rotate(-90deg) translateX(-2px);
+    transform: rotate(-90deg) translateX(-2px) /* rtl: rotate(90deg) translateX(-6px) translateY(-8px) */;
     transform-origin: 3.5px 16px;
     margin-left: -2px;
     font-family: @font-family-icon;
@@ -156,3 +157,18 @@
     }
   }
 }
+
+/* rtl:begin:ignore */
+
+[dir='rtl'] .@{tpns}-node-expand-icon-wrapper {
+  right: 0;
+  padding-right: inherit;
+  background: @picker-tree-bg;
+}
+
+/* stylelint-disable-next-line */
+[dir='rtl'] .ReactVirtualized__Grid__innerScrollContainer .rs-tree-node > .rs-tree-node-label::before {
+  display: none;
+}
+
+/* rtl:end:ignore */

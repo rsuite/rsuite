@@ -16,6 +16,12 @@ describe('TimelineItem', () => {
     assert.equal(innerText(instance.querySelector('.rs-timeline-item-custom-dot')), 'test');
   });
 
+  it('Should render a time', () => {
+    const time = '2019-10-21';
+    const instance = getDOMNode(<TimelineItem time={time} />);
+    assert.equal(innerText(instance.querySelector('.rs-timeline-item-time')), time);
+  });
+
   it('Should output the last item', () => {
     const instance = getDOMNode(<TimelineItem last />);
     assert.ok(instance.className.match(/\brs-timeline-item-last\b/));

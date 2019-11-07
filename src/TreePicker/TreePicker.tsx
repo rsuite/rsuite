@@ -773,6 +773,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       disabledItemValues = [],
       valueKey,
       labelKey,
+      locale,
       childrenKey,
       renderTreeNode,
       renderTreeIcon
@@ -789,6 +790,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
         : hasVisibleChildren(node, childrenKey);
 
     const props = {
+      rtl: locale.rtl,
       value: node[valueKey],
       label: node[labelKey],
       index,
@@ -834,6 +836,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
   renderVirtualNode(node: any, options: any) {
     const { selectedValue } = this.state;
     const {
+      locale,
       disabledItemValues = [],
       valueKey,
       labelKey,
@@ -850,6 +853,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     const children = node[childrenKey];
 
     const props = {
+      rtl: locale.rtl,
       style,
       value: node[valueKey],
       label: node[labelKey],

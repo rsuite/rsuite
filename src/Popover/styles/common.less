@@ -6,7 +6,7 @@
 .@{ns}popover {
   position: absolute;
   top: 0;
-  left: 0;
+  left: 0 /* rtl:ignore */;
   z-index: @zindex-popover;
   display: none;
   padding: 12px;
@@ -83,6 +83,7 @@
   }
 }
 
+/* rtl:begin:ignore */
 // Common style for .placement-right*
 .@{ns}popover[class*='placement-right'] {
   margin-left: @popover-arrow-width;
@@ -102,25 +103,6 @@
   }
 }
 
-// Common style for .placement-bottom*
-.@{ns}popover[class*='placement-bottom'] {
-  margin-top: @popover-arrow-width;
-  .set-translate-transition(0, @popover-translate-distance);
-
-  > .arrow {
-    margin-left: -@popover-arrow-outer-width;
-    border-top-width: 0;
-    top: -@popover-arrow-outer-width;
-
-    &::after {
-      top: 1px;
-      margin-left: -@popover-arrow-width;
-      border-top-width: 0;
-      border-bottom-color: @popover-arrow-color;
-    }
-  }
-}
-
 // Common style for .placement-left*
 .@{ns}popover[class*='placement-left'] {
   margin-left: -@popover-arrow-width;
@@ -136,6 +118,27 @@
       border-right-width: 0;
       border-left-color: @popover-arrow-color;
       bottom: -@popover-arrow-width;
+    }
+  }
+}
+
+/* rtl:end:ignore */
+
+// Common style for .placement-bottom*
+.@{ns}popover[class*='placement-bottom'] {
+  margin-top: @popover-arrow-width;
+  .set-translate-transition(0, @popover-translate-distance);
+
+  > .arrow {
+    margin-left: -@popover-arrow-outer-width;
+    border-top-width: 0;
+    top: -@popover-arrow-outer-width;
+
+    &::after {
+      top: 1px;
+      margin-left: -@popover-arrow-width;
+      border-top-width: 0;
+      border-bottom-color: @popover-arrow-color;
     }
   }
 }
