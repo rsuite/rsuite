@@ -15,7 +15,7 @@ class AutoScroller {
   private readonly onScrollCallback: (offset: Position) => any;
   private interval: NodeJS.Timeout = null;
 
-  isAutoScrolling: boolean = true;
+  isAutoScrolling = true;
 
   constructor(container: HTMLElement, onScrollCallback: (offset: Position) => any) {
     this.container = container;

@@ -25,7 +25,7 @@ interface UploadFileItemState {
   previewImage?: string;
 }
 
-const getSize = (size: number = 0): string => {
+const getSize = (size = 0): string => {
   const K = 1024;
   const M = 1024 * 1024;
   const G = 1024 * 1024 * 1024;

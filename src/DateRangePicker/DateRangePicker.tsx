@@ -288,11 +288,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     this.updateValue(event, value, closeOverlay);
   };
 
-  updateValue(
-    event: React.SyntheticEvent<any>,
-    nextSelectValue?: ValueType,
-    closeOverlay: boolean = true
-  ) {
+  updateValue(event: React.SyntheticEvent<any>, nextSelectValue?: ValueType, closeOverlay = true) {
     const { value, selectValue } = this.state;
     const { onChange } = this.props;
     const nextValue: any = !_.isUndefined(nextSelectValue) ? nextSelectValue : selectValue;

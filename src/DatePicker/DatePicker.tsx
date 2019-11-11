@@ -230,11 +230,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     onOk && onOk(this.state.pageDate, event);
   };
 
-  updateValue(
-    event: React.SyntheticEvent<any>,
-    nextPageDate?: Date | null,
-    closeOverlay: boolean = true
-  ) {
+  updateValue(event: React.SyntheticEvent<any>, nextPageDate?: Date | null, closeOverlay = true) {
     const { pageDate } = this.state;
     const { onChange } = this.props;
     const value = this.getValue();

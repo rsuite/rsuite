@@ -394,7 +394,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     return CHECK_STATE.UNCHECK;
   }
 
-  getFilterData(searchKeyword: string = '', data: any[], props: CheckTreePickerProps = this.props) {
+  getFilterData(searchKeyword = '', data: any[], props: CheckTreePickerProps = this.props) {
     const { labelKey, childrenKey } = props;
     const setVisible = (nodes = []) =>
       nodes.forEach(item => {
@@ -542,13 +542,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
    * @param {*} nodes tree data
    * @param {*} ref 当前层级
    */
-  flattenNodes(
-    nodes: any[],
-    props?: CheckTreePickerProps,
-    ref: string = '0',
-    parentNode?: any,
-    layer: number = 0
-  ) {
+  flattenNodes(nodes: any[], props?: CheckTreePickerProps, ref = '0', parentNode?: any, layer = 0) {
     const { labelKey, valueKey, childrenKey } = props || this.props;
 
     if (!Array.isArray(nodes) || nodes.length === 0) {

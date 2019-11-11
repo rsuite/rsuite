@@ -29,7 +29,7 @@ export function shouldShowNodeByExpanded(expandItemValues: any[] = [], parentKey
  */
 export function flattenTree(
   tree: any[],
-  childrenKey: string = 'children',
+  childrenKey = 'children',
   executor?: (node: object, index: number) => object
 ) {
   const flattenData: any[] = [];
@@ -58,7 +58,7 @@ export function flattenTree(
  * 获取树节点所有的祖先节点
  * @param {*} node
  */
-export function getNodeParents(node: object, parentKey: string = 'parent', valueKey?: string) {
+export function getNodeParents(node: object, parentKey = 'parent', valueKey?: string) {
   const parents: any[] = [];
   const traverse = (node: any) => {
     if (node && node[parentKey]) {
@@ -106,7 +106,7 @@ export function shouldDisplay(label: any, searchKeyword: string) {
  * @param {*} inline
  * @param {*} height
  */
-export function getVirtualLisHeight(inline: boolean, height: number = 0) {
+export function getVirtualLisHeight(inline: boolean, height = 0) {
   return inline ? height - MENU_PADDING * 2 : height - SEARCH_BAR_HEIGHT - MENU_PADDING * 2;
 }
 

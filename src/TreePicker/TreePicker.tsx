@@ -384,7 +384,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     return null;
   };
 
-  getFilterData(data: any[], word: string = '', props?: TreePickerProps) {
+  getFilterData(data: any[], word = '', props?: TreePickerProps) {
     const { labelKey, childrenKey } = props || this.props;
 
     const setVisible = (nodes = []) =>
@@ -462,13 +462,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       }
     }
   }
-  flattenNodes(
-    nodes: any[],
-    props?: TreePickerProps,
-    ref: string = '0',
-    parentNode?: object,
-    layer: number = 0
-  ) {
+  flattenNodes(nodes: any[], props?: TreePickerProps, ref = '0', parentNode?: object, layer = 0) {
     const { labelKey, valueKey, childrenKey } = props || this.props;
 
     if (!Array.isArray(nodes) || nodes.length === 0) {
