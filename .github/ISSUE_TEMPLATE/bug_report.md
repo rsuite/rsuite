@@ -7,11 +7,15 @@ assignees: ''
 
 ---
 
-## Version
+### Versions
 <!-- 
 Please tell our you using react version and rsuite version.
 请提供你正在使用的 react 版本和 rsuite 版本。
 -->
+| package  | version |
+| -------- | ------- |
+| `react`  | `X.Y.Z` |
+| `rsuite` | `X.Y.Z` |
 
 
 ### What is the expected behavior?
