@@ -86,6 +86,13 @@
     z-index: @zindex-table-header-row-wrapper;
     position: relative;
   }
+  &-affix-header {
+    z-index: @zindex-table-header-row-wrapper+1;
+    visibility: hidden;
+    &.fixed {
+      visibility: visible;
+    }
+  }
 
   &-body-row-wrapper {
     position: relative;
