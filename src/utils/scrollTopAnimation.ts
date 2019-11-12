@@ -13,7 +13,7 @@ export default function scrollTopAnimation(
     if (top <= nextTop) {
       requestAnimationFramePolyfill(step);
     }
-    callback && callback(top);
+    callback?.(top);
     top += 20;
   };
   if (animation) {

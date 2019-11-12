@@ -6,7 +6,8 @@ import setDisplayName from 'recompose/setDisplayName';
 
 import { prefix, defaultProps, getUnhandledProps, partitionHTMLProps } from '../utils';
 import { CheckboxProps } from './Checkbox.d';
-import { CheckboxContext, CheckboxContextProps } from '../CheckboxGroup/CheckboxGroup';
+import { CheckboxContext } from '../CheckboxGroup/CheckboxGroup';
+import { CheckboxContextProps } from '../CheckboxGroup/CheckboxGroup.d';
 
 interface CheckboxState {
   checked?: boolean;
@@ -49,7 +50,6 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
   handleChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
     const { onChange, disabled, value } = this.props;
-    const { onChange: onContextChange } = this.context;
     const checked = !this.isChecked();
 
     if (disabled) {
@@ -57,8 +57,8 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     }
 
     this.setState({ checked }, () => {
-      onChange && onChange(value, checked, event);
-      onContextChange && onContextChange(value, checked, event);
+      onChange?.(value, checked, event);
+      this.context.onChange?.(value, checked, event);
     });
   };
 

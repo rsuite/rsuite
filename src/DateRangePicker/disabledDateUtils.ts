@@ -24,16 +24,18 @@ export function allowedMaxDays(days: number): DisabledDateFunction {
     let beforeLimit = false;
     let afterLimit = false;
 
-    if (selectValue && selectValue[0]) {
+    if (selectValue?.[0]) {
       const startDate = selectValue[0];
 
-      beforeLimit = composeFunctions(f => addDays(f, -days + 1), f => isAfterDay(f, date))(
-        startDate
-      );
+      beforeLimit = composeFunctions(
+        f => addDays(f, -days + 1),
+        f => isAfterDay(f, date)
+      )(startDate);
 
-      afterLimit = composeFunctions(f => addDays(f, days - 1), f => isBeforeDay(f, date))(
-        startDate
-      );
+      afterLimit = composeFunctions(
+        f => addDays(f, days - 1),
+        f => isBeforeDay(f, date)
+      )(startDate);
     }
 
     if (target === 'CALENDAR' && !selectedDone && (beforeLimit || afterLimit)) {
@@ -52,17 +54,21 @@ export function allowedDays(days: number): DisabledDateFunction {
     let beforeLimit = false;
     let afterLimit = false;
 
-    if (selectValue && selectValue[0]) {
+    if (selectValue?.[0]) {
       const startDate = selectValue[0];
 
-      beforeLimit = composeFunctions(f => addDays(f, -days + 1), f => !isSameDay(f, date))(
-        startDate
-      );
+      beforeLimit = composeFunctions(
+        f => addDays(f, -days + 1),
+        f => !isSameDay(f, date)
+      )(startDate);
 
-      afterLimit = composeFunctions(f => addDays(f, days - 1), f => !isSameDay(f, date))(startDate);
+      afterLimit = composeFunctions(
+        f => addDays(f, days - 1),
+        f => !isSameDay(f, date)
+      )(startDate);
     }
 
-    if (target === 'CALENDAR' && !selectedDone && (beforeLimit && afterLimit)) {
+    if (target === 'CALENDAR' && !selectedDone && beforeLimit && afterLimit) {
       return true;
     }
 

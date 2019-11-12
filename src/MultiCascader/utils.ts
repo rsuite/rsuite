@@ -243,7 +243,7 @@ export default function(props: any): UtilType {
     // 最后遍历所有的 nextValue, 如果它的父节点也在nextValue则删除
     return nextValue.filter(v => {
       const item = flattenData.find(n => n[valueKey] === v);
-      if (item && item.parent && nextValue.some(v => v === item.parent[valueKey])) {
+      if (item?.parent && nextValue.some(v => v === item.parent[valueKey])) {
         return false;
       }
       return true;
@@ -281,7 +281,7 @@ export default function(props: any): UtilType {
       if (value.some(n => n === child[valueKey])) {
         return true;
       }
-      if (child[childrenKey] && child[childrenKey].length) {
+      if (child[childrenKey]?.length) {
         return isSomeChildChecked(child, value);
       }
       return false;

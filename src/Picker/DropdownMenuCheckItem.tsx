@@ -51,21 +51,20 @@ class DropdownMenuCheckItem extends React.Component<DropdownMenuCheckItemProps> 
   };
 
   handleChange = (value: any, checked: boolean, event: React.SyntheticEvent<HTMLElement>) => {
-    const { onSelect } = this.props;
-    onSelect && onSelect(value, event, checked);
+    this.props.onSelect?.(value, event, checked);
   };
 
   handleCheck = (event: React.SyntheticEvent<HTMLElement>) => {
     const { value, disabled, onCheck, active } = this.props;
-    if (!disabled && onCheck) {
-      onCheck(value, event, !active);
+    if (!disabled) {
+      onCheck?.(value, event, !active);
     }
   };
 
   handleSelectItem = (event: React.SyntheticEvent<HTMLElement>) => {
     const { value, disabled, onSelectItem, active } = this.props;
-    if (!disabled && onSelectItem) {
-      onSelectItem(value, event, !active);
+    if (!disabled) {
+      onSelectItem?.(value, event, !active);
     }
   };
 

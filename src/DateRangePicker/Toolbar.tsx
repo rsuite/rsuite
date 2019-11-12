@@ -75,7 +75,7 @@ class Toolbar extends React.PureComponent<ToolbarProps> {
       return null;
     }
 
-    const disabled = disabledOkButton && disabledOkButton(pageDate);
+    const disabled = disabledOkButton?.(pageDate);
     const classes = classNames(this.addPrefix('right-btn-ok'), {
       [this.addPrefix('btn-disabled')]: disabled
     });
@@ -111,7 +111,7 @@ class Toolbar extends React.PureComponent<ToolbarProps> {
         <div className={this.addPrefix('ranges')}>
           {ranges.map((item, index) => {
             let value: any = typeof item.value === 'function' ? item.value(pageDate) : item.value;
-            let disabled = disabledShortcutButton && disabledShortcutButton(value);
+            let disabled = disabledShortcutButton?.(value);
             let itemClassName = classNames(this.addPrefix('option'), {
               [this.addPrefix('option-disabled')]: disabled
             });

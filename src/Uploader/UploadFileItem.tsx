@@ -101,7 +101,7 @@ class UploadFileItem extends React.Component<UploadFileItemProps, UploadFileItem
       return;
     }
 
-    onCancel && onCancel(file.fileKey, event);
+    onCancel?.(file.fileKey, event);
   };
 
   handlePreview = (event: React.MouseEvent) => {
@@ -109,7 +109,7 @@ class UploadFileItem extends React.Component<UploadFileItemProps, UploadFileItem
     if (disabled) {
       return;
     }
-    onPreview && onPreview(file, event);
+    onPreview?.(file, event);
   };
 
   handleReupload = (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -117,7 +117,7 @@ class UploadFileItem extends React.Component<UploadFileItemProps, UploadFileItem
     if (disabled) {
       return;
     }
-    onReupload && onReupload(file, event);
+    onReupload?.(file, event);
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);

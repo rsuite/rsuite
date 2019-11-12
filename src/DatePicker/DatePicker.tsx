@@ -166,21 +166,19 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   }
 
   onMoveForword = (nextPageDate: Date) => {
-    const { onNextMonth, onChangeCalendarDate } = this.props;
     this.setState({
       pageDate: nextPageDate
     });
-    onNextMonth && onNextMonth(nextPageDate);
-    onChangeCalendarDate && onChangeCalendarDate(nextPageDate);
+    this.props.onNextMonth?.(nextPageDate);
+    this.props.onChangeCalendarDate?.(nextPageDate);
   };
 
   onMoveBackward = (nextPageDate: Date) => {
-    const { onPrevMonth, onChangeCalendarDate } = this.props;
     this.setState({
       pageDate: nextPageDate
     });
-    onPrevMonth && onPrevMonth(nextPageDate);
-    onChangeCalendarDate && onChangeCalendarDate(nextPageDate);
+    this.props.onPrevMonth?.(nextPageDate);
+    this.props.onChangeCalendarDate?.(nextPageDate);
   };
 
   getValue = () => {
@@ -225,14 +223,12 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   };
 
   handleOK = (event: React.SyntheticEvent<any>) => {
-    const { onOk } = this.props;
     this.updateValue(event);
-    onOk && onOk(this.state.pageDate, event);
+    this.props.onOk?.(this.state.pageDate, event);
   };
 
   updateValue(event: React.SyntheticEvent<any>, nextPageDate?: Date | null, closeOverlay = true) {
     const { pageDate } = this.state;
-    const { onChange } = this.props;
     const value = this.getValue();
     const nextValue: Date = !_.isUndefined(nextPageDate) ? nextPageDate : pageDate;
 
@@ -242,7 +238,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     });
 
     if (nextValue !== value || !isSameDay(nextValue, value)) {
-      onChange && onChange(nextValue, event);
+      this.props.onChange?.(nextValue, event);
     }
 
     // `closeOverlay` default value is `true`
@@ -285,7 +281,6 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
 
   toggleMonthDropdown = () => {
     const { calendarState } = this.state;
-    const { onToggleMonthDropdown } = this.props;
     let toggle;
 
     if (calendarState === 'DROP_MONTH') {
@@ -295,12 +290,11 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
       this.showMonthDropdown();
       toggle = true;
     }
-    onToggleMonthDropdown && onToggleMonthDropdown(toggle);
+    this.props.onToggleMonthDropdown?.(toggle);
   };
 
   toggleTimeDropdown = () => {
     const { calendarState } = this.state;
-    const { onToggleTimeDropdown } = this.props;
     let toggle;
     if (calendarState === 'DROP_TIME') {
       this.hideDropdown();
@@ -310,7 +304,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
       toggle = true;
     }
 
-    onToggleTimeDropdown && onToggleTimeDropdown(toggle);
+    this.props.onToggleTimeDropdown?.(toggle);
   };
 
   handleClean = (event: React.SyntheticEvent<any>) => {
@@ -318,9 +312,8 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     this.updateValue(event, null);
   };
   handleAllSelect = (nextValue: Date, event?: React.SyntheticEvent<any>) => {
-    const { onSelect, onChangeCalendarDate } = this.props;
-    onSelect && onSelect(nextValue, event);
-    onChangeCalendarDate && onChangeCalendarDate(nextValue, event);
+    this.props.onSelect?.(nextValue, event);
+    this.props.onChangeCalendarDate?.(nextValue, event);
   };
 
   handleSelect = (nextValue: Date, event: React.SyntheticEvent<any>) => {
@@ -342,18 +335,14 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   };
 
   handleEntered = () => {
-    const { onOpen } = this.props;
-    onOpen && onOpen();
-
+    this.props.onOpen?.();
     this.setState({
       active: true
     });
   };
 
   handleExit = () => {
-    const { onClose } = this.props;
-    onClose && onClose();
-
+    this.props.onClose?.();
     this.setState({
       calendarState: undefined,
       active: false

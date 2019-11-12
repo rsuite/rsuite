@@ -70,8 +70,8 @@ class DropdownMenuItem extends React.Component<DropdownMenuItemProps, DropdownMe
       return;
     }
 
-    onSelect && onSelect(eventKey, event);
-    onClick && onClick(event);
+    onSelect?.(eventKey, event);
+    onClick?.(event);
   };
 
   handleMouseOver = (event: React.SyntheticEvent<any>) => {

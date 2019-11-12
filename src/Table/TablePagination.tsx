@@ -72,13 +72,11 @@ class TablePagination extends React.Component<TablePaginationProps> {
   };
 
   handleChangeLength = (eventKey: any) => {
-    const { onChangeLength } = this.props;
-    onChangeLength && onChangeLength(eventKey);
+    this.props.onChangeLength?.(eventKey);
   };
 
   handleChangePage = (eventKey: any) => {
-    const { onChangePage } = this.props;
-    onChangePage && onChangePage(eventKey);
+    this.props.onChangePage?.(eventKey);
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);

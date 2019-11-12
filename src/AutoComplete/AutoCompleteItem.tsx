@@ -20,7 +20,7 @@ class AutoCompleteItem extends React.Component<AutoCompleteItemProps> {
 
   handleClick = (event: React.SyntheticEvent<HTMLElement>) => {
     const { itemData, onSelect } = this.props;
-    onSelect && onSelect(itemData, event);
+    onSelect?.(itemData, event);
   };
 
   render() {

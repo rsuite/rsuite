@@ -108,8 +108,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
   }
 
   handleToggleChange = (eventKey: any, event: React.SyntheticEvent<any>) => {
-    const { onToggle } = this.props;
-    onToggle && onToggle(eventKey, event);
+    this.props.onToggle?.(eventKey, event);
   };
 
   isActive(props: any, activeKey: any) {

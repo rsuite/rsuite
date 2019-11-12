@@ -311,7 +311,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     for (let i = 0; i < options.length; i += 1) {
       if (options[i].value === value) {
         return options[i];
-      } else if (options[i][childrenKey] && options[i][childrenKey].length) {
+      } else if (options[i][childrenKey]?.length) {
         let active = this.getActiveElementOption(options[i][childrenKey], value);
         if (!_.isEmpty(active)) {
           return active;
@@ -457,9 +457,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     const { inline } = this.props;
     if (activeNode && inline) {
       const node: any = this.getElementByDataKey(activeNode.refKey);
-      if (node !== null && typeof node.focus === 'function') {
-        node.focus();
-      }
+      node?.focus?.();
     }
   }
   flattenNodes(nodes: any[], props?: TreePickerProps, ref = '0', parentNode?: object, layer = 0) {
@@ -530,9 +528,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     }
     const nextIndex = activeIndex === items.length - 1 ? 0 : activeIndex + 1;
     const node: any = this.getElementByDataKey(items[nextIndex].refKey);
-    if (node !== null && typeof node.focus === 'function') {
-      node.focus();
-    }
+    node?.focus?.();
   };
 
   focusPreviousItem = () => {
@@ -545,9 +541,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     let prevIndex = activeIndex === 0 ? items.length - 1 : activeIndex - 1;
     prevIndex = prevIndex >= 0 ? prevIndex : 0;
     const node: any = this.getElementByDataKey(items[prevIndex].refKey);
-    if (node !== null && typeof node.focus === 'function') {
-      node.focus();
-    }
+    node?.focus?.();
   };
 
   handleCloseDropdown = () => {
@@ -581,12 +575,11 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       });
     }
 
-    onExpand &&
-      onExpand(
-        nextExpandItemValues,
-        nodeData,
-        createConcatChildrenFunction(nodeData, nodeData[valueKey])
-      );
+    onExpand?.(
+      nextExpandItemValues,
+      nodeData,
+      createConcatChildrenFunction(nodeData, nodeData[valueKey])
+    );
   };
 
   toggleExpand(node: any, isExpand: boolean) {
@@ -610,12 +603,10 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       });
     }
 
-    onChange && onChange(nodeData[valueKey], event);
-    onSelect && onSelect(nodeData, layer, event);
+    onChange?.(nodeData[valueKey], event);
+    onSelect?.(nodeData, layer, event);
     this.handleCloseDropdown();
-    if (this.toggleRef.current) {
-      this.toggleRef.current.onFocus();
-    }
+    this.toggleRef.current?.onFocus();
   };
 
   handleKeyDown = (event: React.KeyboardEvent<any>) => {
@@ -668,11 +659,10 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
         filterData: this.getFilterData(filterData, value)
       });
     }
-    onSearch && onSearch(value, event);
+    onSearch?.(value, event);
   };
 
   handleClean = (event: React.SyntheticEvent<any>) => {
-    const { onChange } = this.props;
     this.setState({
       activeNode: null,
       selectedValue: null
@@ -680,21 +670,18 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
 
     this.node = null;
 
-    onChange && onChange(null, event);
+    this.props.onChange?.(null, event);
   };
 
   handleOnOpen = () => {
     const { activeNode } = this.state;
-    const { onOpen } = this.props;
+
     if (activeNode) {
       const node: any = this.getElementByDataKey(activeNode.refKey);
-      if (node !== null && typeof node.focus === 'function') {
-        node.focus();
-      }
+      node?.focus?.();
     }
 
-    onOpen && onOpen();
-
+    this.props.onOpen?.();
     this.setState({
       active: true
     });
@@ -709,7 +696,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
         filterData: this.getFilterData(filterData, '')
       });
     }
-    onClose && onClose();
+    onClose?.();
     this.setState({
       active: false
     });
@@ -751,7 +738,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
           />
         ) : null}
         {renderMenu ? renderMenu(this.renderTree()) : this.renderTree()}
-        {renderExtraFooter && renderExtraFooter()}
+        {renderExtraFooter?.()}
       </MenuWrapper>
     );
   }
@@ -958,7 +945,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     let selectedElement: React.ReactNode = placeholder;
     const hasValue = !!activeNode;
     if (hasValue) {
-      selectedElement = activeNode && activeNode[labelKey];
+      selectedElement = activeNode?.[labelKey];
       if (renderValue && activeNode) {
         selectedElement = renderValue(activeNode[valueKey], activeNode, selectedElement);
       }

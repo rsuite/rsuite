@@ -194,8 +194,8 @@ class InputNumber extends React.Component<InputNumberProps, InputNumberState> {
         value: currentValue
       });
 
-      if (!input && onChange) {
-        onChange(currentValue, event);
+      if (!input) {
+        onChange?.(currentValue, event);
       }
     }
   }

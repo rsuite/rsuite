@@ -53,12 +53,10 @@ class Sidenav extends React.Component<SidenavProps, SidenavState> {
   };
 
   handleSelect = (eventKey: any, event: React.MouseEvent) => {
-    const { onSelect } = this.props;
-    onSelect && onSelect(eventKey, event);
+    this.props.onSelect?.(eventKey, event);
   };
 
   handleOpenChange = (eventKey: any, event: React.MouseEvent) => {
-    const { onOpenChange } = this.props;
     const find = key => shallowEqual(key, eventKey);
     let openKeys = _.clone(this.getOpenKeys()) || [];
 
@@ -69,8 +67,7 @@ class Sidenav extends React.Component<SidenavProps, SidenavState> {
     }
 
     this.setState({ openKeys });
-
-    onOpenChange && onOpenChange(openKeys, event);
+    this.props.onOpenChange?.(openKeys, event);
   };
 
   render() {

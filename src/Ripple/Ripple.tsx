@@ -73,7 +73,7 @@ class Ripple extends React.Component<RippleProps, RippleState> {
       position
     });
 
-    onMouseDown && onMouseDown(position, event);
+    onMouseDown?.(position, event);
   };
 
   handleRippled = () => {

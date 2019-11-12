@@ -80,11 +80,9 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
     const { onTreeToggle, layer, nodeData } = this.props;
 
     // 异步加载数据自定义loading图标时，阻止原生冒泡，不触发 document.click
-    if (event.nativeEvent && event.nativeEvent.stopImmediatePropagation) {
-      event.nativeEvent.stopImmediatePropagation();
-    }
+    event?.nativeEvent?.stopImmediatePropagation?.();
 
-    onTreeToggle && onTreeToggle(nodeData, layer, event);
+    onTreeToggle?.(nodeData, layer, event);
   };
 
   handleSelect = (_value: any, event: React.SyntheticEvent<any>) => {
@@ -107,7 +105,7 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
       ...nodeData,
       check: isChecked
     };
-    onSelect && onSelect(nextNodeData, event);
+    onSelect?.(nextNodeData, event);
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);

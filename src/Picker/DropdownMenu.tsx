@@ -99,8 +99,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   handleSelect = (item: any, value: any, event: React.MouseEvent, checked?: boolean) => {
-    const { onSelect } = this.props;
-    onSelect && onSelect(value, item, event, checked);
+    this.props.onSelect?.(value, item, event, checked);
   };
 
   bindMenuItems = (disabled: boolean, key: string, ref: React.Ref<any>) => {

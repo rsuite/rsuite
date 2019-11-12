@@ -84,11 +84,11 @@ class Form extends React.Component<FormProps, FormState> {
 
     this.setState({ formError });
 
-    onCheck && onCheck(formError);
-    callback && callback(formError);
+    onCheck?.(formError);
+    callback?.(formError);
 
     if (errorCount > 0) {
-      onError && onError(formError);
+      onError?.(formError);
       return false;
     }
 
@@ -107,11 +107,14 @@ class Form extends React.Component<FormProps, FormState> {
         ...this.getFormError(prvState, props),
         [fieldName]: checkResult.errorMessage
       };
-      onCheck && onCheck(formError);
-      checkResult.hasError && onError && onError(formError);
+      onCheck?.(formError);
+
+      if (checkResult.hasError) {
+        onError?.(formError);
+      }
       return { formError };
     });
-    callback && callback(checkResult);
+    callback?.(checkResult);
     return !checkResult.hasError;
   };
 
@@ -141,10 +144,10 @@ class Form extends React.Component<FormProps, FormState> {
         }
       }
 
-      onCheck && onCheck(formError);
+      onCheck?.(formError);
 
       if (errorCount > 0) {
-        onError && onError(formError);
+        onError?.(formError);
       }
 
       this.setState({ formError });
@@ -167,8 +170,10 @@ class Form extends React.Component<FormProps, FormState> {
             ...this.getFormError(prvState, props),
             [fieldName]: checkResult.errorMessage
           };
-          onCheck && onCheck(formError);
-          checkResult.hasError && onError && onError(formError);
+          onCheck?.(formError);
+          if (checkResult.hasError) {
+            onError?.(formError);
+          }
           return { formError };
         });
 
@@ -203,29 +208,26 @@ class Form extends React.Component<FormProps, FormState> {
   }
 
   handleFieldError = (name: string, errorMessage: string) => {
-    const { onError, onCheck } = this.props;
     this.setState((prvState, props) => {
       const formError = {
         ...this.getFormError(prvState, props),
         [name]: errorMessage
       };
-      onError && onError(formError);
-      onCheck && onCheck(formError);
+      this.props.onError?.(formError);
+      this.props.onCheck?.(formError);
       return { formError };
     });
   };
 
   handleFieldSuccess = (name: string) => {
-    const { onCheck } = this.props;
     this.setState((prvState, props) => {
       const formError = _.omit(this.getFormError(prvState, props), [name]);
-      onCheck && onCheck(formError);
+      this.props.onCheck?.(formError);
       return { formError };
     });
   };
 
   handleFieldChange = (name: string, value: any, event: React.SyntheticEvent<any>) => {
-    const { onChange } = this.props;
     const formValue = this.getFormValue();
     const nextFormValue = {
       ...formValue,
@@ -234,7 +236,7 @@ class Form extends React.Component<FormProps, FormState> {
     this.setState({
       formValue: nextFormValue
     });
-    onChange && onChange(nextFormValue, event);
+    this.props.onChange?.(nextFormValue, event);
   };
 
   getFormContextValue() {

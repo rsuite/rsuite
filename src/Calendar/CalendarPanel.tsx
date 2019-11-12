@@ -54,48 +54,42 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
   };
 
   handleChangePageDate = (nextValue: Date) => {
-    const { onChange } = this.props;
     this.setState({
       value: nextValue,
       showMonth: false
     });
-    onChange && onChange(nextValue);
+    this.props.onChange?.(nextValue);
   };
 
   handleClickToday = () => {
-    const { onChange } = this.props;
     const nextValue = new Date();
     this.setState({
       showMonth: false,
       value: nextValue
     });
-    onChange && onChange(nextValue);
+    this.props.onChange?.(nextValue);
   };
 
   handleNextMonth = (nextValue: Date) => {
-    const { onChange } = this.props;
     this.setState({
       value: nextValue
     });
-    onChange && onChange(nextValue);
+    this.props.onChange?.(nextValue);
   };
 
   handlePrevMonth = (nextValue: Date) => {
-    const { onChange } = this.props;
     this.setState({
       value: nextValue
     });
-    onChange && onChange(nextValue);
+    this.props.onChange?.(nextValue);
   };
 
   handleSelect = (nextValue: Date) => {
-    const { onSelect, onChange } = this.props;
     this.setState({
       value: nextValue
     });
-
-    onSelect && onSelect(nextValue);
-    onChange && onChange(nextValue);
+    this.props.onSelect?.(nextValue);
+    this.props.onChange?.(nextValue);
   };
 
   addPrefix = (name: string): string => prefix(this.props.classPrefix)(name);

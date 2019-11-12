@@ -61,7 +61,7 @@ export function flattenTree(
 export function getNodeParents(node: object, parentKey = 'parent', valueKey?: string) {
   const parents: any[] = [];
   const traverse = (node: any) => {
-    if (node && node[parentKey]) {
+    if (node?.[parentKey]) {
       traverse(node[parentKey]);
 
       if (valueKey) {
@@ -185,7 +185,7 @@ export function getExpandState(node: any, props: CheckTreePickerProps | TreePick
   );
   if (!_.isUndefined(expandItemValues)) {
     return expand;
-  } else if (node[childrenKey] && node[childrenKey].length) {
+  } else if (node[childrenKey]?.length) {
     if (!_.isNil(node.expand)) {
       return !!node.expand;
     } else if (expandAll) {

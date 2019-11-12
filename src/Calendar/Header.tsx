@@ -112,11 +112,11 @@ class Header extends React.PureComponent<HeaderProps> {
     } = this.props;
 
     const dateTitleClasses = classNames(this.addPrefix('title'), this.addPrefix('title-date'), {
-      [this.addPrefix('error')]: disabledDate && disabledDate(date)
+      [this.addPrefix('error')]: disabledDate?.(date)
     });
 
     const timeTitleClasses = classNames(this.addPrefix('title'), this.addPrefix('title-time'), {
-      [this.addPrefix('error')]: disabledTime && disabledTime(date)
+      [this.addPrefix('error')]: disabledTime?.(date)
     });
 
     const backwardClass = classNames(this.addPrefix('backward'), {
@@ -175,7 +175,7 @@ class Header extends React.PureComponent<HeaderProps> {
           </div>
         )}
 
-        {renderToolbar && renderToolbar(date)}
+        {renderToolbar?.(date)}
       </div>
     );
   }

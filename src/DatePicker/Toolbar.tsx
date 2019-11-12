@@ -59,7 +59,7 @@ class Toolbar extends React.PureComponent<ToolbarProps> {
       return null;
     }
 
-    const disabled = disabledHandle && disabledHandle(pageDate);
+    const disabled = disabledHandle?.(pageDate);
     const classes = classNames(this.addPrefix('right-btn-ok'), {
       [this.addPrefix('btn-disabled')]: disabled
     });
@@ -96,7 +96,7 @@ class Toolbar extends React.PureComponent<ToolbarProps> {
         <div className={this.addPrefix('ranges')}>
           {ranges.map((item: RangeType, index: number) => {
             let value: any = typeof item.value === 'function' ? item.value(pageDate) : item.value;
-            let disabled = disabledHandle && disabledHandle(value);
+            let disabled = disabledHandle?.(value);
             let itemClassName = classNames(this.addPrefix('option'), {
               [this.addPrefix('option-disabled')]: disabled
             });
@@ -107,7 +107,10 @@ class Toolbar extends React.PureComponent<ToolbarProps> {
                 tabIndex={-1}
                 className={itemClassName}
                 onClick={event => {
-                  !disabled && onShortcut && onShortcut(value, item.closeOverlay, event);
+                  if (disabled) {
+                    return;
+                  }
+                  onShortcut?.(value, item.closeOverlay, event);
                 }}
               >
                 {hasLocaleKey(item.label) ? <FormattedMessage id={item.label} /> : item.label}

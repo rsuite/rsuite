@@ -135,8 +135,8 @@ class List extends React.Component<ListProps, State> {
   }
 
   componentWillUnmount() {
-    this.windowStartListener && this.windowStartListener.off();
-    this.windowEndListener && this.windowEndListener.off();
+    this.windowStartListener?.off();
+    this.windowEndListener?.off();
   }
 
   handleStart = (event: MouseEvent) => {
@@ -144,7 +144,7 @@ class List extends React.Component<ListProps, State> {
     const { sorting, manager } = this.state;
     const node = closest(event.target, el => !!manager.getNodeManagerRef(el));
     const curManager = manager.getNodeManagerRef(node);
-    if (!(event && event.target && node instanceof HTMLElement && curManager)) {
+    if (!(event?.target && node instanceof HTMLElement && curManager)) {
       return;
     }
     const {

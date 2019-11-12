@@ -1,6 +1,5 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import classNames from 'classnames';
 import { isSameDay, addDays, getDate, format } from 'date-fns';
 
@@ -42,11 +41,10 @@ class TableRow extends React.PureComponent<TableRowProps> {
     disabled: boolean | void,
     event: React.MouseEvent<HTMLDivElement>
   ) => {
-    const { onSelect } = this.props;
     if (disabled) {
       return;
     }
-    onSelect && onSelect(date, event);
+    this.props.onSelect?.(date, event);
   };
 
   renderDays() {
@@ -55,7 +53,7 @@ class TableRow extends React.PureComponent<TableRowProps> {
     let days = [];
     for (let i = 0; i < 7; i += 1) {
       let thisDate = addDays(weekendDate, i);
-      let disabled = disabledDate && disabledDate(thisDate);
+      let disabled = disabledDate?.(thisDate);
       let isToday = isSameDay(thisDate, new Date());
       let classes = classNames(this.addPrefix('cell'), {
         [this.addPrefix('cell-un-same-month')]: !(inSameMonth && inSameMonth(thisDate)),
@@ -73,7 +71,7 @@ class TableRow extends React.PureComponent<TableRowProps> {
               className={classes}
               role="menu"
               tabIndex={-1}
-              title={isToday ? `${title} (${_.get(context, 'today')})` : title}
+              title={isToday ? `${title} (${context?.today})` : title}
               onClick={this.handleSelect.bind(this, thisDate, disabled)}
             >
               <div className={this.addPrefix('cell-content')}>

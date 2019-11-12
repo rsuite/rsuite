@@ -109,7 +109,10 @@ describe('CheckTreePicker', () => {
   it('Should render value by `renderValue`', () => {
     const instance = getDOMNode(
       <CheckTreePicker
-        data={[{ label: '1', value: '1' }, { label: '2', value: '2' }]}
+        data={[
+          { label: '1', value: '1' },
+          { label: '2', value: '2' }
+        ]}
         value={['1', '2']}
         renderValue={value => value.join(',')}
       />

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StandardProps, FormControlBaseProps } from '../@types/common';
 import { RadioProps } from '../Radio/Radio.d';
 
-export interface ContextProps {
+export interface RadioContextProps {
   inline?: boolean;
   name?: string;
   value?: any;
@@ -27,5 +27,5 @@ export interface RadioGroupProps<V = any>
 
 declare const RadioGroup: React.ComponentType<RadioGroupProps>;
 
-export const RadioContext: React.Context<ContextProps>;
+export const RadioContext: React.Context<RadioContextProps>;
 export default RadioGroup;

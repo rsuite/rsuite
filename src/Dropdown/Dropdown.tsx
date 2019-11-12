@@ -95,10 +95,10 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
     let handleToggle = open ? onOpen : onClose;
 
     this.setState({ open }, () => {
-      handleToggle && handleToggle();
+      handleToggle?.();
     });
 
-    onToggle && onToggle(open);
+    onToggle?.(open);
   };
 
   handleClick = (event: React.SyntheticEvent<any>) => {
@@ -111,13 +111,11 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
 
   handleOpenChange = (event: React.SyntheticEvent<any>) => {
     const { eventKey } = this.props;
-    const onOpenChange = _.get(this.context, 'onOpenChange');
-    onOpenChange && onOpenChange(eventKey, event);
+    this.context?.onOpenChange?.(eventKey, event);
   };
 
   handleToggleChange = (eventKey: any, event: React.SyntheticEvent<any>) => {
-    const onOpenChange = _.get(this.context, 'onOpenChange');
-    onOpenChange && onOpenChange(eventKey, event);
+    this.context?.onOpenChange?.(eventKey, event);
   };
 
   handleMouseEnter = () => {
@@ -133,8 +131,7 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
   };
 
   handleSelect = (eventKey: any, event: React.MouseEvent<HTMLElement>) => {
-    const { onSelect } = this.props;
-    onSelect && onSelect(eventKey, event);
+    this.props.onSelect?.(eventKey, event);
     this.toggle(false);
   };
 

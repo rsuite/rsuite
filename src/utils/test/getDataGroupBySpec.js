@@ -21,7 +21,10 @@ describe('[utils] getDataGroupBy', () => {
       _.isEqual(groups, [
         {
           groupTitle: 'title',
-          children: [{ value: 'abc', group: 'title' }, { value: 'abcd', group: 'title' }]
+          children: [
+            { value: 'abc', group: 'title' },
+            { value: 'abcd', group: 'title' }
+          ]
         }
       ])
     );
@@ -78,11 +81,17 @@ describe('[utils] getDataGroupBy', () => {
       _.isEqual(groups, [
         {
           groupTitle: 'group-1',
-          children: [{ value: 'a', group: 'group-1' }, { value: 'd', group: 'group-1' }]
+          children: [
+            { value: 'a', group: 'group-1' },
+            { value: 'd', group: 'group-1' }
+          ]
         },
         {
           groupTitle: 'group-2',
-          children: [{ value: 'b', group: 'group-2' }, { value: 'c', group: 'group-2' }]
+          children: [
+            { value: 'b', group: 'group-2' },
+            { value: 'c', group: 'group-2' }
+          ]
         }
       ])
     );
