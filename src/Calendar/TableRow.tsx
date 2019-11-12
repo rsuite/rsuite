@@ -47,7 +47,7 @@ class TableRow extends React.PureComponent<TableRowProps> {
     this.props.onSelect?.(date, event);
   };
 
-  renderDays() {
+  renderDays(context) {
     const { weekendDate, disabledDate, inSameMonth, selected, renderCell } = this.props;
 
     let days = [];
@@ -62,25 +62,21 @@ class TableRow extends React.PureComponent<TableRowProps> {
         [this.addPrefix('cell-disabled')]: disabled
       });
 
-      let title = format(thisDate, 'YYYY-MM-DD');
-
+      let title = format(thisDate, context?.formattedDayPattern || 'YYYY-MM-DD');
       days.push(
-        <IntlContext.Consumer key={title}>
-          {context => (
-            <div
-              className={classes}
-              role="menu"
-              tabIndex={-1}
-              title={isToday ? `${title} (${context?.today})` : title}
-              onClick={this.handleSelect.bind(this, thisDate, disabled)}
-            >
-              <div className={this.addPrefix('cell-content')}>
-                <span className={this.addPrefix('cell-day')}>{getDate(thisDate)}</span>
-                {renderCell && renderCell(thisDate)}
-              </div>
-            </div>
-          )}
-        </IntlContext.Consumer>
+        <div
+          key={title}
+          className={classes}
+          role="menu"
+          tabIndex={-1}
+          title={isToday ? `${title} (${context?.today})` : title}
+          onClick={this.handleSelect.bind(this, thisDate, disabled)}
+        >
+          <div className={this.addPrefix('cell-content')}>
+            <span className={this.addPrefix('cell-day')}>{getDate(thisDate)}</span>
+            {renderCell && renderCell(thisDate)}
+          </div>
+        </div>
       );
     }
     return days;
@@ -103,7 +99,11 @@ class TableRow extends React.PureComponent<TableRowProps> {
     return (
       <div {...unhandled} className={classes}>
         {showWeekNumbers && this.renderWeekNumber()}
-        {this.renderDays()}
+        <IntlContext.Consumer>
+          {context => {
+            return this.renderDays(context);
+          }}
+        </IntlContext.Consumer>
       </div>
     );
   }
