@@ -130,37 +130,33 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
   };
 
   handleInputFocus = (event: React.SyntheticEvent<HTMLElement>) => {
-    const { onFocus } = this.props;
     this.open();
-    onFocus && onFocus(event);
+    this.props.onFocus?.(event);
   };
 
   handleInputBlur = (event: React.SyntheticEvent<HTMLElement>) => {
-    const { onBlur } = this.props;
     setTimeout(this.close, 300);
-    onBlur && onBlur(event);
+    this.props.onBlur?.(event);
   };
 
   focusNextMenuItem = (event: React.SyntheticEvent<HTMLElement>) => {
-    const { onMenuFocus } = this.props;
     this.findNode((items: any[], index: number) => {
       const item = items[index + 1];
       if (!_.isUndefined(item)) {
         const focusItemValue = item.value;
         this.setState({ focusItemValue });
-        onMenuFocus && onMenuFocus(focusItemValue, event);
+        this.props.onMenuFocus?.(focusItemValue, event);
       }
     });
   };
 
   focusPrevMenuItem = (event: React.SyntheticEvent<HTMLElement>) => {
-    const { onMenuFocus } = this.props;
     this.findNode((items: any[], index: number) => {
       const item = items[index - 1];
       if (!_.isUndefined(item)) {
         const focusItemValue = item.value;
         this.setState({ focusItemValue });
-        onMenuFocus && onMenuFocus(focusItemValue, event);
+        this.props.onMenuFocus?.(focusItemValue, event);
       }
     });
   };
@@ -176,7 +172,7 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
     };
 
     const data = this.getData();
-    const focusItem: any = data.find(item => _.get(item, 'value') === focusItemValue);
+    const focusItem: any = data.find(item => item?.item === focusItemValue);
 
     this.setState(nextState);
     this.handleSelect(focusItem, event);
@@ -208,17 +204,16 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
       esc: this.close
     });
 
-    onKeyDown && onKeyDown(event);
+    onKeyDown?.(event);
   };
 
   handleChangeValue = (value: any, event: React.SyntheticEvent<HTMLElement>) => {
     const { onChange } = this.props;
-    onChange && onChange(value, event);
+    onChange?.(value, event);
   };
 
   handleSelect = (item: ItemDataType, event: React.SyntheticEvent<HTMLElement>) => {
-    const { onSelect } = this.props;
-    onSelect && onSelect(item, event);
+    this.props.onSelect?.(item, event);
   };
 
   handleItemSelect = (item: ItemDataType, event: React.SyntheticEvent<HTMLElement>) => {

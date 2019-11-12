@@ -101,7 +101,10 @@ describe('InputPicker', () => {
     const instance = getDOMNode(
       <InputPicker
         placeholder="test"
-        data={[{ label: '1', value: '1' }, { label: '2', value: '2' }]}
+        data={[
+          { label: '1', value: '1' },
+          { label: '2', value: '2' }
+        ]}
         value={'4'}
       />
     );

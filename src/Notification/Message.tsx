@@ -48,9 +48,8 @@ class Message extends React.Component<MessageProps> {
   }
 
   close = () => {
-    const { onClose } = this.props;
     this.clearCloseTimer();
-    onClose && onClose();
+    this.props.onClose?.();
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);

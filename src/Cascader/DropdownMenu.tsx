@@ -111,7 +111,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
       isLeafNode
     );
 
-    onSelect && onSelect(node, cascadeItems, cascadePathItems, isLeafNode, event);
+    onSelect?.(node, cascadeItems, cascadePathItems, isLeafNode, event);
   };
 
   stringToObject(value: any) {

@@ -34,8 +34,7 @@ class DropdownMenuGroup extends React.Component<DropdownMenuGroupProps> {
   handleClickGroup = (event: React.MouseEvent) => {
     const { onClick, classPrefix } = this.props;
     toggleClass(this.groupRef.current, `${classPrefix}-closed`);
-
-    onClick && onClick(event);
+    onClick?.(event);
   };
 
   render() {

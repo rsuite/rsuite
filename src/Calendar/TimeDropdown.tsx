@@ -119,7 +119,7 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
         break;
     }
 
-    onSelect && onSelect(nextDate, event);
+    onSelect?.(nextDate, event);
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
@@ -136,8 +136,8 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
     const disabledFunc = this.props[_.camelCase(`disabled_${type}`)];
 
     for (let i = start; i <= end; i += 1) {
-      if (!(hideFunc && hideFunc(i, date))) {
-        let disabled = disabledFunc && disabledFunc(i, date);
+      if (!hideFunc?.(i, date)) {
+        let disabled = disabledFunc?.(i, date);
         let itemClasses = classNames(this.addPrefix('cell'), {
           [this.addPrefix('cell-active')]: active === i,
           [this.addPrefix('cell-disabled')]: disabled

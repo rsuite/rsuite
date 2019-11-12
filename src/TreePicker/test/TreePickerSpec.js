@@ -105,7 +105,10 @@ describe('TreePicker', () => {
   it('Should render value by `renderValue`', () => {
     const instance = getDOMNode(
       <TreePicker
-        data={[{ label: '1', value: '1' }, { label: '2', value: '2' }]}
+        data={[
+          { label: '1', value: '1' },
+          { label: '2', value: '2' }
+        ]}
         value={'2'}
         renderValue={(value, item, selectedElement) => `Selected: ${item.label}`}
       />

@@ -28,7 +28,7 @@ class PaginationButton extends React.Component<PaginationButtonProps> {
       return;
     }
 
-    onSelect && onSelect(eventKey, event);
+    onSelect?.(eventKey, event);
   };
 
   render() {

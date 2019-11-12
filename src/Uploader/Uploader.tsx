@@ -119,7 +119,6 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
   }
 
   handleRemoveFile = (fileKey: number | string) => {
-    const { onChange, onRemove } = this.props;
     const fileList = this.getFileList();
     const file: any = _.find(fileList, f => f.fileKey === fileKey);
     const nextFileList = fileList.filter(f => f.fileKey !== fileKey);
@@ -130,12 +129,12 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
 
     this.setState({ fileList: nextFileList });
 
-    onRemove && onRemove(file);
-    onChange && onChange(nextFileList);
+    this.props.onRemove?.(file);
+    this.props.onChange?.(nextFileList);
   };
 
   handleUploadTriggerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { autoUpload, shouldQueueUpdate, onChange } = this.props;
+    const { autoUpload, shouldQueueUpdate } = this.props;
     const fileList = this.getFileList();
     const files: File[] = getFiles(event);
     const newFileList: FileType[] = [];
@@ -151,13 +150,12 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
 
     const nextFileList = [...fileList, ...newFileList];
 
-    if (shouldQueueUpdate && shouldQueueUpdate(nextFileList, newFileList) === false) {
+    if (shouldQueueUpdate?.(nextFileList, newFileList) === false) {
       this.cleanInputValue();
       return;
     }
 
-    onChange && onChange(nextFileList);
-
+    this.props.onChange?.(nextFileList);
     this.setState({ fileList: nextFileList }, () => {
       autoUpload && this.handleAjaxUpload();
     });
@@ -167,7 +165,7 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
     const { shouldUpload } = this.props;
     const fileList = this.getFileList();
     fileList.forEach(file => {
-      if (shouldUpload && shouldUpload(file) === false) {
+      if (shouldUpload?.(file) === false) {
         return;
       }
 
@@ -180,30 +178,27 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
   }
 
   handleAjaxUploadSuccess = (file: FileType, response: object, event) => {
-    const { onSuccess } = this.props;
     const nextFile: FileType = {
       ...file,
       status: 'finished',
       progress: 100
     };
     this.updateFileList(nextFile, () => {
-      onSuccess && onSuccess(response, nextFile, event);
+      this.props.onSuccess?.(response, nextFile, event);
     });
   };
 
   handleAjaxUploadError = (file: FileType, status: object, event) => {
-    const { onError } = this.props;
     const nextFile: FileType = {
       ...file,
       status: 'error'
     };
     this.updateFileList(nextFile, () => {
-      onError && onError(status, nextFile, event);
+      this.props.onError?.(status, nextFile, event);
     });
   };
 
   handleAjaxUploadProgress = (file: FileType, percent: number, event) => {
-    const { onProgress } = this.props;
     const nextFile: FileType = {
       ...file,
       status: 'uploading',
@@ -211,7 +206,7 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
     };
 
     this.updateFileList(nextFile, () => {
-      onProgress && onProgress(percent, nextFile, event);
+      this.props.onProgress?.(percent, nextFile, event);
     });
   };
 
@@ -235,14 +230,13 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
       status: 'uploading'
     });
     this.xhrs[file.fileKey] = xhr;
-
-    onUpload && onUpload(file);
+    onUpload?.(file);
   };
 
   handleReupload = (file: FileType) => {
     const { onReupload, autoUpload } = this.props;
     autoUpload && this.handleUploadFile(file);
-    onReupload && onReupload(file);
+    onReupload?.(file);
   };
 
   updateFileList(nextFile: FileType, callback?: () => void) {

@@ -33,19 +33,15 @@ class Input extends React.Component<InputProps> {
   };
 
   handleChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
-    const { onChange } = this.props;
     const nextValue = _.get(event, 'target.value');
-    onChange && onChange(nextValue, event);
+    this.props.onChange?.(nextValue, event);
   };
 
   handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    const { onKeyDown, onPressEnter } = this.props;
-
     if (event.keyCode === 13) {
-      onPressEnter && onPressEnter(event);
+      this.props.onPressEnter?.(event);
     }
-
-    onKeyDown && onKeyDown(event);
+    this.props.onKeyDown?.(event);
   };
 
   render() {

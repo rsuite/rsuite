@@ -54,7 +54,6 @@ class CheckboxGroup extends React.Component<CheckboxGroupProps, State> {
     event: React.SyntheticEvent<HTMLElement>
   ) => {
     const nextValue = _.cloneDeep(this.getValue()) || [];
-    const { onChange } = this.props;
 
     if (itemChecked) {
       nextValue.push(itemValue);
@@ -63,7 +62,7 @@ class CheckboxGroup extends React.Component<CheckboxGroupProps, State> {
     }
 
     this.setState({ value: nextValue });
-    onChange && onChange(nextValue, event);
+    this.props.onChange?.(nextValue, event);
   };
 
   render() {

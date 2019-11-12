@@ -258,7 +258,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
     }
 
     // delete
-    if (event.keyCode === 8 && event.target === _.get(this, 'toggle.toggle')) {
+    if (event.keyCode === 8 && event.target === this.toggleRef?.current?.getToggleNode?.()) {
       this.handleClean(event);
     }
 
@@ -287,20 +287,16 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
   };
 
   handleSelect = (value: any, item: ItemDataType, event: React.SyntheticEvent<any>) => {
-    const { onSelect } = this.props;
-    onSelect && onSelect(value, item, event);
-    if (this.toggleRef.current) {
-      this.toggleRef.current.onFocus();
-    }
+    this.props.onSelect?.(value, item, event);
+    this.toggleRef.current?.onFocus();
   };
 
   handleSearch = (searchKeyword: string, event: React.SyntheticEvent<any>) => {
-    const { onSearch } = this.props;
     this.setState({
       searchKeyword,
       focusItemValue: undefined
     });
-    onSearch && onSearch(searchKeyword, event);
+    this.props.onSearch?.(searchKeyword, event);
   };
 
   handleCloseDropdown = () => {
@@ -325,8 +321,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
   };
 
   handleChange = (value: any, event: React.SyntheticEvent<any>) => {
-    const { onChange } = this.props;
-    onChange && onChange(value, event);
+    this.props.onChange?.(value, event);
   };
 
   handleClean = (event: React.SyntheticEvent<any>) => {
@@ -346,18 +341,15 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
   };
 
   handleExit = () => {
-    const { onClose } = this.props;
-
     this.setState({
       searchKeyword: '',
       active: false
     });
 
-    onClose && onClose();
+    this.props.onClose?.();
   };
 
   handleOpen = () => {
-    const { onOpen } = this.props;
     const value = this.getValue();
 
     this.setState({
@@ -365,7 +357,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
       focusItemValue: value
     });
 
-    onOpen && onOpen();
+    this.props.onOpen?.();
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
@@ -438,7 +430,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
         )}
 
         {renderMenu ? renderMenu(menu) : menu}
-        {renderExtraFooter && renderExtraFooter()}
+        {renderExtraFooter?.()}
       </MenuWrapper>
     );
   }
@@ -470,7 +462,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
 
     let selectedElement: React.ReactNode = placeholder;
 
-    if (activeItem && activeItem[labelKey]) {
+    if (activeItem?.[labelKey]) {
       selectedElement = activeItem[labelKey];
 
       if (renderValue) {

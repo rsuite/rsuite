@@ -104,7 +104,10 @@ describe('TagPicker', () => {
       <TagPicker
         multi
         placeholder="test"
-        data={[{ label: '1', value: '1' }, { label: '2', value: '2' }]}
+        data={[
+          { label: '1', value: '1' },
+          { label: '2', value: '2' }
+        ]}
         value={['4']}
       />
     );

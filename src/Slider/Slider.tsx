@@ -96,7 +96,7 @@ class Slider extends React.Component<SliderProps, SliderState> {
     }
 
     this.setState({ value });
-    onChange && onChange(value);
+    onChange?.(value);
   }
 
   setTooltipPosition() {

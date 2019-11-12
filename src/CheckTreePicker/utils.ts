@@ -31,7 +31,7 @@ export function isEveryChildChecked(node: Node, nodes: Nodes, props: Props): boo
       return nodes[node.refKey].check;
     }
     return children.every(child => {
-      if (child[childrenKey] && child[childrenKey].length) {
+      if (child[childrenKey]?.length) {
         return isEveryChildChecked(child, nodes, props);
       }
       return nodes[child.refKey].check;
@@ -47,7 +47,7 @@ export function isSomeChildChecked(node: Node, nodes: Nodes, props: Props): bool
   }
 
   return node[childrenKey].some(child => {
-    if (nodes[child.refKey] && nodes[child.refKey].check) {
+    if (nodes[child.refKey]?.check) {
       return true;
     }
     return isSomeChildChecked(child, nodes, props);
@@ -74,7 +74,7 @@ export function getSiblingNodeUncheckable(node: Node, nodes: Nodes): boolean {
     const curNode = nodes[refKey];
     if (_.isUndefined(node.parentNode) && _.isUndefined(curNode.parentNode)) {
       list.push(curNode);
-    } else if (curNode.parentNode && curNode.parentNode.refKey === parentNodeRefkey) {
+    } else if (curNode.parentNode?.refKey === parentNodeRefkey) {
       list.push(curNode);
     }
   });
@@ -122,7 +122,7 @@ export function getFormattedTree(data: any[], nodes: Nodes, props: CheckTreePick
       formatted.expand = curNode.expand;
       formatted.uncheckable = curNode.uncheckable;
       formatted.parentNode = curNode.parentNode;
-      if (Array.isArray(node[childrenKey]) && node[childrenKey].length > 0) {
+      if (node[childrenKey]?.length > 0) {
         formatted[childrenKey] = getFormattedTree(formatted[childrenKey], nodes, props);
       }
     }

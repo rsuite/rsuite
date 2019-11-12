@@ -28,8 +28,7 @@ class InputSearch extends React.Component<InputSearchProps> {
   };
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { onChange } = this.props;
-    onChange && onChange(_.get(event, 'target.value'), event);
+    this.props.onChange?.(_.get(event, 'target.value'), event);
   };
 
   render() {

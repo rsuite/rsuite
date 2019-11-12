@@ -70,7 +70,7 @@ class Affix extends React.Component<AffixProps, AffixState> {
 
     if (fixed !== this.state.fixed) {
       this.setState({ fixed });
-      onChange && onChange(fixed);
+      onChange?.(fixed);
     }
   };
 

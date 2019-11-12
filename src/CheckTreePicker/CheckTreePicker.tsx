@@ -394,7 +394,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     return CHECK_STATE.UNCHECK;
   }
 
-  getFilterData(searchKeyword: string = '', data: any[], props: CheckTreePickerProps = this.props) {
+  getFilterData(searchKeyword = '', data: any[], props: CheckTreePickerProps = this.props) {
     const { labelKey, childrenKey } = props;
     const setVisible = (nodes = []) =>
       nodes.forEach(item => {
@@ -418,7 +418,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     for (let i = 0; i < options.length; i += 1) {
       if (options[i].refKey === refKey) {
         return options[i];
-      } else if (options[i][childrenKey] && options[i][childrenKey].length) {
+      } else if (options[i][childrenKey]?.length) {
         let active = this.getActiveElementOption(options[i][childrenKey], refKey);
         if (!_.isEmpty(active)) {
           return active;
@@ -496,9 +496,10 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
 
   getActiveItem() {
     const { filterData } = this.state;
-    const activeItem = document.activeElement;
+    const activeItem = document.activeElement as HTMLElement;
     if (activeItem !== null) {
-      const { key, layer } = _.get(activeItem, 'dataset');
+      const key = activeItem?.dataset?.key;
+      const layer = activeItem?.dataset?.layer;
       const nodeData = this.getActiveElementOption(filterData, key);
       nodeData.check = !this.nodes[nodeData.refKey].check;
       nodeData.parentNode = this.nodes[nodeData.refKey].parentNode;
@@ -542,13 +543,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
    * @param {*} nodes tree data
    * @param {*} ref 当前层级
    */
-  flattenNodes(
-    nodes: any[],
-    props?: CheckTreePickerProps,
-    ref: string = '0',
-    parentNode?: any,
-    layer: number = 0
-  ) {
+  flattenNodes(nodes: any[], props?: CheckTreePickerProps, ref = '0', parentNode?: any, layer = 0) {
     const { labelKey, valueKey, childrenKey } = props || this.props;
 
     if (!Array.isArray(nodes) || nodes.length === 0) {
@@ -692,9 +687,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     const nextIndex = activeIndex === items.length - 1 ? 0 : activeIndex + 1;
     const node: any = this.getElementByDataKey(items[nextIndex].refKey);
 
-    if (node !== null && typeof node.focus === 'function') {
-      node.focus();
-    }
+    node?.focus?.();
   };
 
   focusPreviousItem = () => {
@@ -705,9 +698,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     let prevIndex = activeIndex === 0 ? items.length - 1 : activeIndex - 1;
     prevIndex = prevIndex >= 0 ? prevIndex : 0;
     const node: any = this.getElementByDataKey(items[prevIndex].refKey);
-    if (node !== null && typeof node.focus === 'function') {
-      node.focus();
-    }
+    node?.focus?.();
   };
 
   handleCloseDropdown = () => {
@@ -735,7 +726,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     const list = [];
     Object.keys(nodes).forEach((refKey: string) => {
       const curNode = nodes[refKey];
-      if (curNode.parentNode && curNode.parentNode.refKey === node.refKey && !curNode.uncheckable) {
+      if (curNode.parentNode?.refKey === node.refKey && !curNode.uncheckable) {
         list.push(curNode);
       }
     });
@@ -824,8 +815,8 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       });
     }
 
-    onChange && onChange(selectedValues, event);
-    onSelect && onSelect(activeNode, selectedValues, event);
+    onChange?.(selectedValues, event);
+    onSelect?.(activeNode, selectedValues, event);
   };
 
   handleToggle = (node: any) => {
@@ -841,8 +832,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       });
     }
 
-    onExpand &&
-      onExpand(nextExpandItemValues, node, createConcatChildrenFunction(node, node[valueKey]));
+    onExpand?.(nextExpandItemValues, node, createConcatChildrenFunction(node, node[valueKey]));
   };
 
   handleKeyDown = (event: React.KeyboardEvent) => {
@@ -893,11 +883,10 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
         searchKeyword: value
       });
     }
-    onSearch && onSearch(value, event);
+    onSearch?.(value, event);
   };
 
   handleClean = (evnet: React.SyntheticEvent<any>) => {
-    const { onChange } = this.props;
     this.setState({
       selectedValues: [],
       hasValue: false,
@@ -907,19 +896,16 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       check: []
     });
 
-    onChange && onChange([], evnet);
+    this.props.onChange?.([], evnet);
   };
 
   handleOnOpen = () => {
     const { activeNode } = this.state;
-    const { onOpen } = this.props;
     if (activeNode) {
       const node: any = this.getElementByDataKey(activeNode.refKey);
-      if (node !== null && typeof node.focus === 'function') {
-        node.focus();
-      }
+      node?.focus?.();
     }
-    onOpen && onOpen();
+    this.props.onOpen?.();
     this.setState({
       active: true
     });
@@ -934,7 +920,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
         searchKeyword: ''
       });
     }
-    onClose && onClose();
+    onClose?.();
     this.setState({
       active: false
     });
@@ -977,7 +963,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
           />
         ) : null}
         {renderMenu ? renderMenu(menu) : menu}
-        {renderExtraFooter && renderExtraFooter()}
+        {renderExtraFooter?.()}
       </MenuWrapper>
     );
   }

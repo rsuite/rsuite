@@ -117,7 +117,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
       isLeafNode
     );
 
-    onSelect && onSelect(node, cascadeItems, cascadePathItems, event);
+    onSelect?.(node, cascadeItems, cascadePathItems, event);
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);

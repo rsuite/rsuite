@@ -6,15 +6,13 @@ const SafeAnchor: React.FunctionComponent = React.forwardRef<'SafeAnchor', SafeA
   (props, ref) => {
     const { componentClass: Component = 'a', disabled, ...rest } = props;
     const handleClick = (event: React.MouseEvent) => {
-      const { onClick } = rest;
-
       if (disabled) {
         event.preventDefault();
         event.stopPropagation();
         return;
       }
 
-      onClick && onClick(event);
+      rest.onClick?.(event);
     };
 
     if (disabled) {

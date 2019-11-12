@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import setDisplayName from 'recompose/setDisplayName';
-import { RadioContext, ContextProps } from '../RadioGroup/RadioGroup';
+import { RadioContext } from '../RadioGroup/RadioGroup';
+import { RadioContextProps } from '../RadioGroup/RadioGroup.d';
 
 import { prefix, getUnhandledProps, partitionHTMLProps, defaultProps } from '../utils';
 import { RadioProps } from './Radio.d';
@@ -34,7 +35,7 @@ class Radio extends React.Component<RadioProps, RadioState> {
   static defaultProps = {
     tabIndex: 0
   };
-  context: ContextProps = {};
+  context: RadioContextProps = {};
 
   constructor(props) {
     super(props);
@@ -56,15 +57,14 @@ class Radio extends React.Component<RadioProps, RadioState> {
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, disabled, onChange } = this.props;
-    const { onChange: onContextChange } = this.context;
     const checked = true;
     if (disabled) {
       return;
     }
 
     this.setState({ checked }, () => {
-      onChange && onChange(value, checked, event);
-      onContextChange && onContextChange(value, checked, event);
+      onChange?.(value, checked, event);
+      this.context.onChange?.(value, checked, event);
     });
   };
   render() {

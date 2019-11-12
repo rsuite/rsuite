@@ -34,10 +34,12 @@ class Timeline extends React.Component<TimelineProps> {
     const addPrefix = prefix(classPrefix);
     const count = React.Children.count(children);
     const withTime = _.some(
-      React.Children.toArray<{ props: TimelineItemProps; [key: string]: any }>(children as {
-        props: TimelineItemProps;
-        [key: string]: any;
-      }),
+      React.Children.toArray<{ props: TimelineItemProps; [key: string]: any }>(
+        children as {
+          props: TimelineItemProps;
+          [key: string]: any;
+        }
+      ),
       ({ props }) => !!props.time
     );
 

@@ -16,7 +16,7 @@ class SidenavToggle extends React.Component<SidenavToggleProps> {
   };
   handleToggle = (event: React.SyntheticEvent<HTMLButtonElement>) => {
     const { onToggle, expanded } = this.props;
-    onToggle && onToggle(!expanded, event);
+    onToggle?.(!expanded, event);
   };
 
   render() {

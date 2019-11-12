@@ -19,7 +19,7 @@ class Sidebar extends React.Component<SidebarProps> {
     width: 260
   };
   componentDidMount() {
-    if (this.context && this.context.setContextState) {
+    if (this.context?.setContextState) {
       /** Notify the Container that the Sidebar is in the child node of the Container. */
       this.context.setContextState({ hasSidebar: true });
     }

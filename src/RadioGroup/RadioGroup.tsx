@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
 import { defaultProps, getUnhandledProps, prefix, createContext } from '../utils';
-import { RadioGroupProps, ContextProps } from './RadioGroup.d';
+import { RadioGroupProps, RadioContextProps } from './RadioGroup.d';
 
 interface RadioGroupState {
   value: any;
 }
 
-export const RadioContext = createContext<ContextProps>({});
+export const RadioContext = createContext<RadioContextProps>({});
 
 class RadioGroup extends React.Component<RadioGroupProps, RadioGroupState> {
   static propTypes = {
@@ -43,12 +43,11 @@ class RadioGroup extends React.Component<RadioGroupProps, RadioGroupState> {
     _itemChecked: boolean,
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const { onChange } = this.props;
     this.setState({ value: nextValue });
-    onChange && onChange(nextValue, event);
+    this.props.onChange?.(nextValue, event);
   };
 
-  getContextProps = (): ContextProps => {
+  getContextProps = (): RadioContextProps => {
     const { inline, name } = this.props;
     const value = this.getValue();
 

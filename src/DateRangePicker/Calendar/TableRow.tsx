@@ -60,11 +60,11 @@ class TableRow extends React.Component<TableRowProps> {
       let thisDate = addDays(weekendDate, i);
       let selectValue = [selectedStartDate, selectedEndDate];
 
-      let disabled = disabledDate && disabledDate(thisDate, selectValue, TYPE.CALENDAR);
+      let disabled = disabledDate?.(thisDate, selectValue, TYPE.CALENDAR);
       let isToday = isSameDay(thisDate, new Date());
       let inRange = false;
 
-      let unSameMonth = !(inSameMonth && inSameMonth(thisDate));
+      let unSameMonth = !inSameMonth?.(thisDate);
 
       const isStartSelected =
         !unSameMonth && selectedStartDate && isSameDay(thisDate, selectedStartDate);
@@ -111,7 +111,7 @@ class TableRow extends React.Component<TableRowProps> {
               className={classes}
               role="menu"
               tabIndex={-1}
-              title={isToday ? `${title} (${_.get(context, 'today')})` : title}
+              title={isToday ? `${title} (${context?.today})` : title}
               onMouseEnter={!disabled && onMouseMove ? onMouseMove.bind(null, thisDate) : undefined}
               onClick={
                 !disabled && onSelect ? _.debounce(onSelect.bind(null, thisDate), 100) : undefined

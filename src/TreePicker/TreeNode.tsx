@@ -67,11 +67,8 @@ class TreeNode extends React.Component<TreeNodeProps> {
     const { onTreeToggle, layer, nodeData } = this.props;
 
     // 异步加载数据自定义loading图标时，阻止原生冒泡，不触发 document.click
-    if (event.nativeEvent && event.nativeEvent.stopImmediatePropagation) {
-      event.nativeEvent.stopImmediatePropagation && event.nativeEvent.stopImmediatePropagation();
-    }
-
-    onTreeToggle && onTreeToggle(nodeData, layer, event);
+    event?.nativeEvent?.stopImmediatePropagation?.();
+    onTreeToggle?.(nodeData, layer, event);
   };
 
   handleSelect = (event: React.SyntheticEvent<any>) => {
@@ -87,7 +84,7 @@ class TreeNode extends React.Component<TreeNodeProps> {
       }
     }
 
-    onSelect && onSelect(nodeData, layer, event);
+    onSelect?.(nodeData, layer, event);
   };
 
   renderIcon = () => {

@@ -251,7 +251,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
       });
     }
 
-    onChange && onChange(value, event);
+    onChange?.(value, event);
   };
 
   handleChangeForSearchItem = (value: any, checked: boolean, event: React.SyntheticEvent<any>) => {
@@ -279,16 +279,14 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
       }
     );
 
-    onSelect &&
-      onSelect(node, activePaths, createConcatChildrenFunction(node, node[valueKey]), event);
+    onSelect?.(node, activePaths, createConcatChildrenFunction(node, node[valueKey]), event);
   };
 
   handleSearch = (searchKeyword: string, event: React.SyntheticEvent<any>) => {
-    const { onSearch } = this.props;
     this.setState({
       searchKeyword
     });
-    onSearch && onSearch(searchKeyword, event);
+    this.props.onSearch?.(searchKeyword, event);
   };
 
   handleCloseDropdown = () => {
@@ -319,21 +317,19 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
     }
 
     this.setState(nextState, () => {
-      onChange && onChange([], event);
+      onChange?.([], event);
     });
   };
 
   handleEntered = () => {
-    const { onOpen } = this.props;
-    onOpen && onOpen();
+    this.props.onOpen?.();
     this.setState({
       active: true
     });
   };
 
   handleExit = () => {
-    const { onClose } = this.props;
-    onClose && onClose();
+    this.props.onClose?.();
     this.setState({
       searchKeyword: '',
       active: false
@@ -489,7 +485,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
           />
         )}
 
-        {renderExtraFooter && renderExtraFooter()}
+        {renderExtraFooter?.()}
       </MenuWrapper>
     );
   }

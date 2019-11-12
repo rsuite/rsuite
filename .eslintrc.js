@@ -34,7 +34,9 @@ module.exports = {
     'no-mixed-operators': OFF,
     '@typescript-eslint/no-explicit-any': OFF,
     '@typescript-eslint/explicit-function-return-type': OFF,
-    '@typescript-eslint/explicit-member-accessibility': OFF
+    '@typescript-eslint/explicit-member-accessibility': OFF,
+    'no-unused-expressions': OFF,
+    '@typescript-eslint/no-unused-expressions': [ERROR, { allowShortCircuit: true }]
   },
   settings: {
     react: {
