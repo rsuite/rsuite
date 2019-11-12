@@ -93,7 +93,8 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     disabledItemValues: PropTypes.array,
     style: PropTypes.object,
     searchable: PropTypes.bool,
-    preventOverflow: PropTypes.bool
+    preventOverflow: PropTypes.bool,
+    inline: PropTypes.bool
   };
   static defaultProps = {
     appearance: 'default',
@@ -449,10 +450,13 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
       menuClassName,
       menuStyle,
       searchable,
-      locale
+      locale,
+      inline
     } = this.props;
 
-    const classes = classNames(this.addPrefix('cascader-menu'), menuClassName);
+    const classes = classNames(this.addPrefix('cascader-menu'), menuClassName, {
+      [this.addPrefix('inline')]: inline
+    });
 
     const menuProps = _.pick(
       this.props,
@@ -501,8 +505,13 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
       onEnter,
       onExited,
       onClean,
+      inline,
       ...rest
     } = this.props;
+
+    if (inline) {
+      return this.renderDropdownMenu();
+    }
 
     const { activePaths, active } = this.state;
     const unhandled = getUnhandledProps(Cascader, rest);
