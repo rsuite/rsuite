@@ -1,4 +1,37 @@
+# 4.1.1
+
+> November 14, 2019
+
+- **Feature**: Added support for `affixHeader` on `<Table>`. ([#720],[rsuite-table#105])
+- **Feature**: Added support for `inline` on Cascader and MultiCascader ([#724])
+- **Bugfix**: Fixed a problem where the Chinese formatting characters were too long to cause time wrap on the DatePicker. ([#722])
+- **Bugfix**: Fixed checktree menu item text-algin styles issue. ([#718])
+- **Bugfix**: Fixed DatePicker format issue. ([#723])
+- **Bugfix**: Fixed an issue where the Table scroll bar was out of control.([rsuite-table#105])
+- **Chore**: Upgrade to typescirpt 3.7. ([#721])
+
+---
+
+- **Feature**: 在 `<Table>` 组件上新增 `affixHeader` 属性，可以让表头页面级固定。([#720],[rsuite-table#105])
+- **Feature**: 在 `<Cascader>` 与 `<MultiCascader>` 组件上新增 `inline` 属性。 ([#724])
+- **Bugfix**: 修复了日期中文格式化字符过长而导致 `<DatePicker>` 上的时间换行的问题。 ([#722])
+- **Bugfix**: 修复了 `<CheckTree>` 菜单项文本对齐样式问题。 ([#718])
+- **Bugfix**: 修复了 `<DatePicker>` 日期格式化问题。 ([#723])
+- **Bugfix**: 修复了 `<Table>` 滚动条失控的问题。 ([rsuite-table#105])
+- **Chore**: 升级 Typescirpt 至 3.7 版本。 ([#721])
+
+[#724]: https://github.com/rsuite/rsuite/pull/724
+[#723]: https://github.com/rsuite/rsuite/pull/723
+[#722]: https://github.com/rsuite/rsuite/pull/722
+[#721]: https://github.com/rsuite/rsuite/pull/721
+[#720]: https://github.com/rsuite/rsuite/pull/720
+[#718]: https://github.com/rsuite/rsuite/pull/718
+[rsuite-table#106]: https://github.com/rsuite/rsuite-table/pull/106
+[rsuite-table#105]: https://github.com/rsuite/rsuite-table/pull/105
+
 # 4.1.0
+
+> November 7, 2019
 
 - **Feature**: Add support for `<Carousel>`. ([#716])
 - **Feature**: Added Right-to-left supported. ([#715])
