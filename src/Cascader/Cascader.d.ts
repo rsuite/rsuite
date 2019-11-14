@@ -38,6 +38,9 @@ export interface CascaderProps extends FormControlPickerProps<any> {
 
   /** Whether dispaly search input box */
   searchable?: boolean;
+
+  /** The menu is displayed directly when the component is initialized */
+  inline?: boolean;
 }
 
 declare const Cascader: React.ComponentType<CascaderProps>;

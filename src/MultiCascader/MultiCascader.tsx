@@ -93,7 +93,8 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
     onExit: PropTypes.func,
     onExiting: PropTypes.func,
     onExited: PropTypes.func,
-    onSelect: PropTypes.func
+    onSelect: PropTypes.func,
+    inline: PropTypes.bool
   };
 
   static defaultProps = {
@@ -448,13 +449,17 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
       menuStyle,
       classPrefix,
       searchable,
-      locale
+      locale,
+      inline
     } = this.props;
 
     const classes = classNames(
       this.addPrefix('cascader-menu'),
       this.addPrefix('multi-cascader-menu'),
-      menuClassName
+      menuClassName,
+      {
+        [this.addPrefix('inline')]: inline
+      }
     );
 
     const menuProps = _.pick(this.props, Object.keys(DropdownMenu.propTypes));
@@ -507,8 +512,13 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
       onClean,
       countable,
       cascade,
+      inline,
       ...rest
     } = this.props;
+
+    if (inline) {
+      return this.renderDropdownMenu();
+    }
 
     const { flattenData } = this.state;
     const unhandled = getUnhandledProps(MultiCascader, rest);

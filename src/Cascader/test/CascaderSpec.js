@@ -45,6 +45,13 @@ describe('Cascader', () => {
     assert.ok(instance.className.match(/\bdisabled\b/));
   });
 
+  it('Should be inline', () => {
+    const instance = getDOMNode(<Cascader inline />);
+
+    assert.ok(instance.className.match(/\brs-picker-inline\b/));
+    assert.ok(instance.querySelector('.rs-picker-cascader-menu-items'));
+  });
+
   it('Should output a placeholder', () => {
     const placeholder = 'foobar';
     const instance = getDOMNode(<Cascader placeholder={placeholder} />);

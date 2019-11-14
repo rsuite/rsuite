@@ -110,6 +110,13 @@ describe('MultiCascader', () => {
     assert.ok(instance.className.match(/\bdisabled\b/));
   });
 
+  it('Should be inline', () => {
+    const instance = getDOMNode(<Dropdown inline />);
+
+    assert.ok(instance.className.match(/\brs-picker-inline\b/));
+    assert.ok(instance.querySelector('.rs-picker-cascader-menu-items'));
+  });
+
   it('Should output a placeholder', () => {
     const placeholder = 'foobar';
     const instance = getDOMNode(<Dropdown placeholder={placeholder} />);
