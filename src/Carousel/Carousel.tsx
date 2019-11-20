@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { prefix, defaultProps, getUnhandledProps } from '../utils';
 import Animation from '../Animation';
+import IntlContext from '../IntlProvider/IntlContext';
 
 import { CarouselProps } from './Carousel.d';
 
@@ -112,14 +113,6 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
       }
     );
 
-    const activeRatio = `-${(100 / count) * active}%`;
-    const sliderStyles = {
-      [lengthKey]: `${count * 100}%`,
-      transform: vertical
-        ? `translate3d(0, ${activeRatio} ,0)`
-        : `translate3d(${activeRatio}, 0 ,0)`
-    };
-
     const classes = classNames(
       className,
       classPrefix,
@@ -136,9 +129,23 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
       >
         <Component className={classes} {...unhandled}>
           <div className={addPrefix('content')}>
-            <div className={addPrefix('slider')} style={sliderStyles}>
-              {items}
-            </div>
+            <IntlContext.Consumer>
+              {context => {
+                const activeRatio = `${!vertical && context?.rtl ? '' : '-'}${(100 / count) *
+                  active}%`;
+                const sliderStyles = {
+                  [lengthKey]: `${count * 100}%`,
+                  transform: vertical
+                    ? `translate3d(0, ${activeRatio} ,0)`
+                    : `translate3d(${activeRatio}, 0 ,0)`
+                };
+                return (
+                  <div className={addPrefix('slider')} style={sliderStyles}>
+                    {items}
+                  </div>
+                );
+              }}
+            </IntlContext.Consumer>
             {count ? (
               <div className={addPrefix('slider-after')}>{[items[items.length - 1], items[0]]}</div>
             ) : null}

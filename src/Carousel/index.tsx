@@ -1,3 +1,4 @@
 import Carousel from './Carousel';
+import withLocale from '../IntlProvider/withLocale';
 
-export default Carousel;
+export default withLocale([])(Carousel);
