@@ -1,16 +1,14 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { prefix } from '../utils';
+import { prefix, placementPolyfill } from '../utils';
 import { defaultClassPrefix } from '../utils/prefix';
 import NoticeManager, { NoticeManagerProps } from './NoticeManager';
-import { NotificationProps } from './Notification.d';
+import { NotificationProps, PlacementType } from './Notification.d';
 import { MessageProps } from './Message';
 
-type placementType = 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight';
-
 interface ConfigType {
-  placement: placementType;
+  placement: PlacementType;
   top?: number;
   bottom?: number;
 }
@@ -20,7 +18,7 @@ class Notification {
     top: 24,
     bottom: 24,
     duration: 4500,
-    placement: 'topRight',
+    placement: 'topEnd',
     classPrefix: defaultClassPrefix('notification'),
     getContainer: null
   };
@@ -39,9 +37,13 @@ class Notification {
   }
   addPrefix = name => prefix(this.props.classPrefix)(name);
 
+  getPlacement(placement: PlacementType): PlacementType {
+    return placementPolyfill<PlacementType>(placement || this.props.placement);
+  }
+
   getPlacementStyle(config: ConfigType): React.CSSProperties {
     const { top, bottom } = config;
-    const placement = config.placement || this.props.placement;
+    const placement = this.getPlacement(config.placement);
     const style: React.CSSProperties = {};
     const [vertical] = _.kebabCase(placement).split('-');
 
@@ -54,26 +56,29 @@ class Notification {
     return style;
   }
   getInstance(config: ConfigType, callback) {
-    const { placement, classPrefix, getContainer } = this.props;
+    const { classPrefix, getContainer } = this.props;
     const style = this.getPlacementStyle(config);
+    const placement = this.getPlacement(config.placement);
 
     const nextProps: NoticeManagerProps = {
       style,
-      className: classNames(this.addPrefix(_.kebabCase(config.placement || placement))),
+      className: classNames(this.addPrefix(_.kebabCase(placement))),
       classPrefix,
       getContainer
     };
 
     NoticeManager.getInstance(nextProps, callback);
   }
-  open(nextProps) {
+  open(nextProps: NotificationProps) {
     const {
       description,
       onClose,
-      placement = this.props.placement,
+      placement: priorPlacement,
       duration = this.props.duration,
       ...rest
     } = nextProps;
+
+    const placement = this.getPlacement(priorPlacement);
 
     const content = (
       <div className={this.addPrefix('content')}>
