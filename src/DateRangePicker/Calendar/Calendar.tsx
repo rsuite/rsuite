@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { addMonths, isAfter } from 'date-fns';
+import { addMonths, isAfter, setDate } from 'date-fns';
 
 import { getUnhandledProps, prefix, defaultProps } from '../../utils';
 import MonthDropdown from '../../Calendar/MonthDropdown';
@@ -69,7 +69,7 @@ class Calendar extends React.Component<CalendarProps> {
 
   disabledBackward = () => {
     const { calendarDate, index } = this.props;
-    const after = isAfter(calendarDate[1], addMonths(calendarDate[0], 1));
+    const after = isAfter(setDate(calendarDate[1], 1), setDate(addMonths(calendarDate[0], 1), 1));
 
     if (index === 0) {
       return false;
@@ -84,7 +84,7 @@ class Calendar extends React.Component<CalendarProps> {
 
   disabledForword = () => {
     const { calendarDate, index } = this.props;
-    const after = isAfter(calendarDate[1], addMonths(calendarDate[0], 1));
+    const after = isAfter(setDate(calendarDate[1], 1), setDate(addMonths(calendarDate[0], 1), 1));
 
     if (index === 1) {
       return false;
@@ -107,6 +107,7 @@ class Calendar extends React.Component<CalendarProps> {
 
     if (index === 1) {
       after = isAfter(date, calendarDate[0]);
+
       return !after;
     }
 
