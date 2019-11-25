@@ -204,11 +204,16 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     isLeafNode: boolean,
     event: React.SyntheticEvent<HTMLElement>
   ) => {
-    const { onChange, onSelect, valueKey } = this.props;
+    const { onChange, onSelect, valueKey, childrenKey } = this.props;
     const prevValue = this.getValue();
     const value = node[valueKey];
 
-    onSelect?.(node, activePaths, createConcatChildrenFunction(node, value), event);
+    onSelect?.(
+      node,
+      activePaths,
+      createConcatChildrenFunction(node, value, { valueKey, childrenKey }),
+      event
+    );
 
     /**
      * 只有在叶子节点的时候才当做是可以选择的值

@@ -566,7 +566,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
   };
 
   handleToggle = (nodeData: any) => {
-    const { valueKey, onExpand, expandItemValues } = this.props;
+    const { valueKey, childrenKey, onExpand, expandItemValues } = this.props;
     const nextExpandItemValues = this.toggleExpand(nodeData, !nodeData.expand);
     if (_.isUndefined(expandItemValues)) {
       this.unserializeLists('expand', nextExpandItemValues);
@@ -578,7 +578,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     onExpand?.(
       nextExpandItemValues,
       nodeData,
-      createConcatChildrenFunction(nodeData, nodeData[valueKey])
+      createConcatChildrenFunction(nodeData, nodeData[valueKey], { valueKey, childrenKey })
     );
   };
 

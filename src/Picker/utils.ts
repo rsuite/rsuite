@@ -3,12 +3,26 @@ import _ from 'lodash';
 import { findNodeOfTree } from 'rsuite-utils/lib/utils';
 import placementPolyfill from '../utils/placementPolyfill';
 
-export function createConcatChildrenFunction(node: any, nodeValue?: any) {
+interface NodeKeys {
+  valueKey: string;
+  childrenKey: string;
+}
+const defaultNodeKeys = {
+  valueKey: 'value',
+  childrenKey: 'children'
+};
+
+export function createConcatChildrenFunction(
+  node: any,
+  nodeValue?: any,
+  nodeKeys: NodeKeys = defaultNodeKeys
+) {
+  const { valueKey, childrenKey } = nodeKeys;
   return (data: any[], children: any[]): any[] => {
     if (nodeValue) {
-      node = findNodeOfTree(data, item => nodeValue === item.value);
+      node = findNodeOfTree(data, item => nodeValue === item[valueKey]);
     }
-    node.children = children;
+    node[childrenKey] = children;
     return data.concat([]);
   };
 }

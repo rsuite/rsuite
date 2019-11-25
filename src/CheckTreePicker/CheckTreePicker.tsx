@@ -820,7 +820,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
   };
 
   handleToggle = (node: any) => {
-    const { valueKey, onExpand, expandItemValues } = this.props;
+    const { valueKey, childrenKey, onExpand, expandItemValues } = this.props;
     const nextExpandItemValues = this.toggleExpand(node, !node.expand);
     if (_.isUndefined(expandItemValues)) {
       this.unserializeLists({
@@ -832,7 +832,11 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       });
     }
 
-    onExpand?.(nextExpandItemValues, node, createConcatChildrenFunction(node, node[valueKey]));
+    onExpand?.(
+      nextExpandItemValues,
+      node,
+      createConcatChildrenFunction(node, node[valueKey], { valueKey, childrenKey })
+    );
   };
 
   handleKeyDown = (event: React.KeyboardEvent) => {
