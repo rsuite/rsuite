@@ -1009,6 +1009,9 @@
 @uploader-file-item-retry-icon-color: @B800;
 @uploader-picture-item-background: rgba(255, 255, 255, 0.8);
 @uploader-picture-item-btn-remove-background: @uploader-picture-item-background;
+@uploader-drag-and-drop-background-color: @B000;
+@uploader-drag-and-drop-border-color: @B200;
+@uploader-drag-and-drop-border-hover-color: @H500;
 
 //== Panels
 //
@@ -1166,7 +1169,9 @@
 @calendar-table-cell-content-selected-color: @H500;
 @calendar-table-cell-content-disabled-color: @B400;
 /* stylelint-disable-next-line */ // calcFontColor is hack function
-@calendar-table-cell-content-selected-font-color: color(~`calcFontColor('@{calendar-table-cell-content-selected-color}') `);
+@calendar-table-cell-content-selected-font-color: color(
+  ~`calcFontColor('@{calendar-table-cell-content-selected-color}') `
+);
 @calendar-table-cell-header-color: @B600;
 @calendar-table-cell-week-number-color: @B600;
 @calendar-table-cell-week-number-bg: @B050;
