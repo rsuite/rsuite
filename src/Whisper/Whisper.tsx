@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import { createChainedFunction, placementPolyfill } from '../utils';
-
+import IntlContext from '../IntlProvider/IntlContext';
 import { WhisperProps } from './Whisper.d';
 
 class Whisper extends React.Component<WhisperProps> {
@@ -31,14 +31,18 @@ class Whisper extends React.Component<WhisperProps> {
     } = this.props;
 
     return (
-      <OverlayTrigger
-        preventOverflow={preventOverflow}
-        placement={placementPolyfill(placement)}
-        onEntered={createChainedFunction(onOpen, onEntered)}
-        onExited={createChainedFunction(onClose, onExited)}
-        ref={triggerRef} // for test
-        {...rest}
-      />
+      <IntlContext.Consumer>
+        {context => (
+          <OverlayTrigger
+            preventOverflow={preventOverflow}
+            placement={placementPolyfill(placement, context?.rtl)}
+            onEntered={createChainedFunction(onOpen, onEntered)}
+            onExited={createChainedFunction(onClose, onExited)}
+            ref={triggerRef} // for test
+            {...rest}
+          />
+        )}
+      </IntlContext.Consumer>
     );
   }
 }
