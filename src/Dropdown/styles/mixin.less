@@ -13,12 +13,12 @@
 .set-dropdown-caret(@prefix) {
   .@{prefix}-placement-left-end &::before,
   .@{prefix}-placement-left-start &::before {
-    content: @drop-left-caret-content;
+    content: @drop-left-caret-content ~'/* rtl: "@{drop-right-caret-content}" */';
   }
 
   .@{prefix}-placement-right-end &::before,
   .@{prefix}-placement-right-start &::before {
-    content: @drop-right-caret-content;
+    content: @drop-right-caret-content ~'/* rtl: "@{drop-left-caret-content}" */';
   }
 
   .@{prefix}-placement-top-start &::before,
