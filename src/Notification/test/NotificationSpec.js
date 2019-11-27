@@ -20,9 +20,9 @@ describe('Notification', () => {
     assert.equal(instance.querySelector('.rs-notification-description').innerText, 'description');
   });
 
-  it('Should be rendered at the bottom right', () => {
-    notification.open({ title: 'title', description: 'description', placement: 'bottomRight' });
-    const instance = document.body.querySelector('.rs-notification-top-right');
+  it('Should be rendered at the bottom end', () => {
+    notification.open({ title: 'title', description: 'description', placement: 'bottomEnd' });
+    const instance = document.body.querySelector('.rs-notification-top-end');
     assert.ok(instance);
   });
 
