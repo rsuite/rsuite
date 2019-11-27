@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 import { StandardProps, TypeAttributes } from '../@types/common';
-import { Schema } from '../Schema/Schema.d';
-import { CheckResult } from '../Schema/Type';
+import { Schema } from 'schema-typed';
+import { CheckResult } from 'schema-typed/types/Type';
 
 export interface FormProps<
   T = Record<string, any>,
