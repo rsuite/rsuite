@@ -57,6 +57,7 @@
 
 //** Placeholder
 @placeholder-holder-bg: @B100;
+@placeholder-image-color: @B000;
 
 //** Calendar
 @calendar-default-caret-content: @icon-calendar;
@@ -1166,7 +1167,9 @@
 @calendar-table-cell-content-selected-color: @H500;
 @calendar-table-cell-content-disabled-color: @B400;
 /* stylelint-disable-next-line */ // calcFontColor is hack function
-@calendar-table-cell-content-selected-font-color: color(~`calcFontColor('@{calendar-table-cell-content-selected-color}') `);
+@calendar-table-cell-content-selected-font-color: color(
+  ~`calcFontColor('@{calendar-table-cell-content-selected-color}') `
+);
 @calendar-table-cell-header-color: @B600;
 @calendar-table-cell-week-number-color: @B600;
 @calendar-table-cell-week-number-bg: @B050;
