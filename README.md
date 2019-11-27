@@ -70,6 +70,7 @@ You can go through [full documentation][rsuite-doc-guide] or start with followin
 - [Quick start][rsuite-doc-guide]
 - [Customizing themes][rsuite-doc-guide-themes]
 - [Internationalization][rsuite-doc-guide-intl]
+- [Right-to-left][rsuite-doc-guide-rtl]
 - [Components][rsuite-components-overview]
 
 **Previous old version**
@@ -155,6 +156,7 @@ React Suite is [MIT licensed][license]. Copyright (c) 2016-present, HYPERS.
 [rsuite-doc-guide]: https://rsuitejs.com/en/guide/introduction
 [rsuite-doc-guide-themes]: https://rsuitejs.com/en/guide/themes
 [rsuite-doc-guide-intl]: https://rsuitejs.com/en/guide/intl
+[rsuite-doc-guide-rtl]: https://rsuitejs.com/en/guide/rtl
 [rsuite-components-overview]: https://rsuitejs.com/en/components/overview
 [release-notes]: https://github.com/rsuite/rsuite/releases
 [contributing]: https://github.com/rsuite/rsuite/blob/master/CONTRIBUTING.md

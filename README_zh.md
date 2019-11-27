@@ -64,6 +64,7 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 - [如何使用？][rsuite-doc-guide]
 - [自定义主题][rsuite-doc-guide-themes]
 - [国际化][rsuite-doc-guide-intl]
+- [Right-to-left][rsuite-doc-guide-intl]
 - [组件][rsuite-components-overview]
 
 **历史版本:**
@@ -157,6 +158,7 @@ React Suite 基于 [MIT licensed][license] 发布。
 [rsuite-doc-guide]: https://rsuitejs.com/guide/introduction
 [rsuite-doc-guide-themes]: https://rsuitejs.com/guide/themes
 [rsuite-doc-guide-intl]: https://rsuitejs.com/guide/intl
+[rsuite-doc-guide-intl]: https://rsuitejs.com/en/guide/intl
 [rsuite-components-overview]: https://rsuitejs.com/components/overview
 [release-notes]: https://github.com/rsuite/rsuite/releases
 [contributing]: https://github.com/rsuite/rsuite/blob/master/CONTRIBUTING.zh-CN.md
