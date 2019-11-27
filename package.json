@@ -120,6 +120,7 @@
     "gulp-less": "^4.0.0",
     "gulp-postcss": "^7.0.1",
     "gulp-rename": "^1.2.2",
+    "gulp-rtlcss": "^1.4.0",
     "gulp-sourcemaps": "^2.6.4",
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",

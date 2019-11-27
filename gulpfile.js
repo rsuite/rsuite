@@ -4,6 +4,7 @@ const postcss = require('gulp-postcss');
 const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
 const babel = require('gulp-babel');
+const rtlcss = require('gulp-rtlcss');
 const gulp = require('gulp');
 const babelrc = require('./.babelrc.js');
 
@@ -33,17 +34,28 @@ function buildLess() {
   );
 }
 
-function buildCss() {
+function buildCSS() {
   return THEMES.map(theme => () =>
     gulp
       .src(`${STYLE_DIST_DIR}/rsuite-${theme}.css`)
       .pipe(sourcemaps.init())
       .pipe(postcss())
-      .pipe(
-        rename(path => {
-          path.basename += '.min';
-        })
-      )
+      .pipe(rename({ suffix: '.min' }))
+      .pipe(sourcemaps.write('./'))
+      .pipe(gulp.dest(`${STYLE_DIST_DIR}`))
+  );
+}
+
+function buildRTLCSS() {
+  return THEMES.map(theme => () =>
+    gulp
+      .src(`${STYLE_DIST_DIR}/rsuite-${theme}.css`)
+      .pipe(rtlcss()) // Convert to RTL.
+      .pipe(rename({ suffix: '-rtl' })) // Append "-rtl" to the filename.
+      .pipe(gulp.dest(`${STYLE_DIST_DIR}`))
+      .pipe(sourcemaps.init())
+      .pipe(postcss())
+      .pipe(rename({ suffix: '.min' }))
       .pipe(sourcemaps.write('./'))
       .pipe(gulp.dest(`${STYLE_DIST_DIR}`))
   );
@@ -100,10 +112,16 @@ function watch() {
   });
 }
 
-exports.buildStyle = gulp.series(clean, ...buildLess(), ...buildCss(), copyFontFiles);
+exports.buildStyle = gulp.series(
+  clean,
+  ...buildLess(),
+  ...buildCSS(),
+  ...buildRTLCSS(),
+  copyFontFiles
+);
 exports.dev = gulp.series(clean, buildLib, watch);
 exports.build = gulp.series(
   clean,
-  gulp.parallel(buildLib, buildEsm, gulp.series(...buildLess(), ...buildCss())),
+  gulp.parallel(buildLib, buildEsm, gulp.series(...buildLess(), ...buildCSS(), ...buildRTLCSS())),
   gulp.parallel(copyTypescriptDeclarationFiles, copyLessFiles, copyFontFiles)
 );
