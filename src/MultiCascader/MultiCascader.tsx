@@ -265,7 +265,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
     activePaths: any[],
     event: React.SyntheticEvent<any>
   ) => {
-    const { onSelect, valueKey } = this.props;
+    const { onSelect, valueKey, childrenKey } = this.props;
 
     this.setState(
       {
@@ -280,7 +280,12 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
       }
     );
 
-    onSelect?.(node, activePaths, createConcatChildrenFunction(node, node[valueKey]), event);
+    onSelect?.(
+      node,
+      activePaths,
+      createConcatChildrenFunction(node, node[valueKey], { valueKey, childrenKey }),
+      event
+    );
   };
 
   handleSearch = (searchKeyword: string, event: React.SyntheticEvent<any>) => {
