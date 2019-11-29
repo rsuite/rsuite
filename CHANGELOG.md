@@ -1,3 +1,38 @@
+# 4.1.2
+
+> November 29, 2019
+
+- **Bugfix**: Fixed the issue where `<DateRangePicker>` was not disabled in the previous month and the next month. ([#747])
+- **Bugfix**: Fixed `<DateRangePicker>` panel collapse issue. ([#746])
+- **Bugfix**: Fixed multiple picker count label vertical align issue when set `size=lg` ([#742])
+- **Bugfix**: Fix FormControl typescript type definition error ([#741])
+- **Bugfix**: Fix RTL related bugs ([#732],[#733],[#734],[#743],[#748],[#749])
+- **Chore**: Update Schema typescript definition. ([#754])
+- **Chore**: Add a default value for the variable in `createConcatChildrenFunction`. ([#753])
+
+---
+
+- **Bugfix**: 修复 `<DateRangePicker>` 上一月与下一月未禁用的问题。 ([#747])
+- **Bugfix**: 修复了 `<DateRangePicker>` 面板折叠的问题。 ([#746])
+- **Bugfix**: 修复了设置 `size = lg` 时 `Picker` 计数标签垂直对齐的问题 ([#742])
+- **Bugfix**: 修复 `FormControl` 的 `Typescript` 类型定义错误 ([#741])
+- **Bugfix**: 修复 RTL 相关 bug ([#732],[#733],[#734],[#743],[#748],[#749])
+- **Chore**: 更新 Schema typescript 类型定义。 ([#754])
+- **Chore**: 在 `createConcatChildrenFunction` 中为变量添加一个默认值。 ([#753])
+
+[#754]: https://github.com/rsuite/rsuite/pull/754
+[#753]: https://github.com/rsuite/rsuite/pull/753
+[#749]: https://github.com/rsuite/rsuite/pull/749
+[#748]: https://github.com/rsuite/rsuite/pull/748
+[#747]: https://github.com/rsuite/rsuite/pull/747
+[#746]: https://github.com/rsuite/rsuite/pull/746
+[#743]: https://github.com/rsuite/rsuite/pull/743
+[#742]: https://github.com/rsuite/rsuite/pull/742
+[#741]: https://github.com/rsuite/rsuite/pull/741
+[#734]: https://github.com/rsuite/rsuite/pull/734
+[#733]: https://github.com/rsuite/rsuite/pull/733
+[#732]: https://github.com/rsuite/rsuite/pull/732
+
 # 4.1.1
 
 > November 14, 2019
