@@ -157,9 +157,9 @@
 @table-table-cell-fixed-shadow: 0 5px rgba(9, 9, 9, 0.08);
 @table-resize-mouse-color: @H500;
 @table-sort-icon-color: @H500;
-@table-sort-icon-unsort: '\f0dc';
-@table-sort-icon-desc: '\f0dd';
-@table-sort-icon-asc: '\f0de';
+@table-sort-icon-unsort-content: @icon-sort;
+@table-sort-icon-desc-content: @icon-sort-desc;
+@table-sort-icon-asc-content: @icon-sort-up;
 @table-header-content-padding-vertical: 10px;
 @table-header-font-size: @font-size-small;
 @table-header-line-small: @line-height-small;
@@ -1124,9 +1124,10 @@
 // Select picker
 @picker-select-menu-item-selected-color: @H700;
 @picker-select-menu-item-selected-disabled-color: @H200;
+@picker-select-menu-item-selected-font-weight: bold;
 @picker-menu-item-disabled-color: @B400;
 @picker-selected-value-color: @H700;
-@picker-select-arrow-down: '\F0D7';
+@picker-select-arrow-down: @icon-caret-down;
 
 // Check Picker
 @picker-check-checkbox-gap: 10px;
@@ -1137,7 +1138,7 @@
 // Tree Picker
 @picker-tree-bg: @dropdown-bg;
 @picker-tree-padding: 12px;
-@picker-tree-arrow-down: '\F0D7';
+@picker-tree-arrow-down: @icon-caret-down;
 @picker-tree-node-padding-vertical: @padding-base-vertical;
 @picker-tree-node-padding-horizontal: @padding-base-horizontal;
 @picker-tree-node-font-size: @font-size-base;
