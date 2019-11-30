@@ -63,8 +63,6 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 
 ### Documentation
 
-[China Mirror 🇨🇳 ][rsuite-gitee]
-
 You can go through [full documentation][rsuite-doc-guide] or start with following sections
 
 - [Quick start][rsuite-doc-guide]
@@ -165,7 +163,6 @@ React Suite is [MIT licensed][license]. Copyright (c) 2016-present, HYPERS.
 [opencollective-svg]: https://opencollective.com/rsuite/tiers/backer.svg?avatarHeight=36
 [opencollective-home]: https://opencollective.com/rsuite
 [license]: https://github.com/rsuite/rsuite/blob/master/LICENSE
-[rsuite-gitee]: http://rsuite.gitee.io/
 [rsuite-sample]: https://sample.rsuitejs.com/
 [gitter]: https://gitter.im/rsuite/rsuite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
 [gitter-svg]: https://badges.gitter.im/rsuite/rsuite.svg
