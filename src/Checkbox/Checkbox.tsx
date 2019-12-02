@@ -56,10 +56,9 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       return;
     }
 
-    this.setState({ checked }, () => {
-      onChange?.(value, checked, event);
-      this.context.onChange?.(value, checked, event);
-    });
+    this.setState({ checked });
+    onChange?.(value, checked, event);
+    this.context.onChange?.(value, checked, event);
   };
 
   getCheckedByValue() {

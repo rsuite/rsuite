@@ -351,18 +351,19 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       hoverValue: nextHoverValue as ValueType
     };
 
+    event.persist();
+
     this.setState(nextState, () => {
       // 如果是单击模式，并且是第一次点选，再触发一次点击
       if (oneTap && !this.state.doneSelected) {
         this.handleChangeSelectValue(date, event);
       }
-
       // 如果是单击模式，并且是第二次点选，更新值，并关闭面板
       if (oneTap && this.state.doneSelected) {
         this.updateValue(event);
       }
 
-      onSelect && onSelect(date);
+      onSelect && onSelect(date, event);
     });
   };
 

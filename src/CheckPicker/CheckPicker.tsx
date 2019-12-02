@@ -253,10 +253,9 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
 
     const focusItem: any = data.find(item => shallowEqual(item?.[valueKey], focusItemValue));
 
-    this.setState({ value }, () => {
-      this.handleSelect(value, focusItem, event);
-      this.handleChangeValue(value, event);
-    });
+    this.setState({ value });
+    this.handleSelect(value, focusItem, event);
+    this.handleChangeValue(value, event);
   };
 
   handleKeyDown = (event: React.KeyboardEvent<any>) => {
@@ -302,10 +301,9 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
       focusItemValue: nextItemValue
     };
 
-    this.setState(nextState, () => {
-      this.handleSelect(value, item, event);
-      this.handleChangeValue(value, event);
-    });
+    this.setState(nextState);
+    this.handleSelect(value, item, event);
+    this.handleChangeValue(value, event);
   };
 
   handleSelect = (
@@ -360,9 +358,8 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
       return;
     }
 
-    this.setState({ value: [] }, () => {
-      this.handleChangeValue([], event);
-    });
+    this.setState({ value: [] });
+    this.handleChangeValue([], event);
   };
 
   handleExit = () => {

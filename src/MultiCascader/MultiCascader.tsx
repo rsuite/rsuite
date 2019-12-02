@@ -322,9 +322,8 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
       nextState.value = [];
     }
 
-    this.setState(nextState, () => {
-      onChange?.([], event);
-    });
+    this.setState(nextState);
+    onChange?.([], event);
   };
 
   handleEntered = () => {

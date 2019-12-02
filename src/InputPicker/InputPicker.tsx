@@ -512,10 +512,9 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       searchKeyword: ''
     };
 
-    this.setState(nextState, () => {
-      this.handleChange(null, event);
-      this.updatePosition();
-    });
+    this.setState(nextState);
+    this.handleChange(null, event);
+    this.updatePosition();
 
     onClean?.(event);
   };
