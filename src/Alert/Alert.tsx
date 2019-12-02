@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { prefix } from '../utils';
 import { defaultClassPrefix } from '../utils/prefix';
 import NoticeManager, { NoticeManagerProps } from '../Notification/NoticeManager';
@@ -26,13 +27,11 @@ class Alert {
     }
   }
   getInstance(callback) {
-    const { getContainer, top, duration, classPrefix } = this.props;
+    const { top, style, className, ...rest } = this.props;
     const props: NoticeManagerProps = {
-      style: { top },
-      duration,
-      classPrefix,
-      getContainer,
-      className: this.addPrefix('container')
+      style: { top, ...style },
+      className: classNames(className, this.addPrefix('container')),
+      ...rest
     };
     NoticeManager.getInstance(props, callback);
   }

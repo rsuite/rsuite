@@ -1,6 +1,8 @@
 import * as React from 'react';
 
-export interface AlertProps {
+import { TypeAttributes, StandardProps } from '../@types/common';
+
+export interface AlertProps extends StandardProps {
   /** The prefix of the component CSS class */
   classPrefix?: string;
 

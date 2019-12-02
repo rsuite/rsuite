@@ -14,7 +14,7 @@ const getUid = () => {
 
 export interface NoticeManagerProps {
   className?: string;
-  classPrefix: string;
+  classPrefix?: string;
   style?: React.CSSProperties;
   duration?: number;
   getContainer?: () => HTMLElement;
