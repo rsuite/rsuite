@@ -241,11 +241,9 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
     // Find active `MenuItem` by `value`
     const focusItem = findNodeOfTree(data, item => shallowEqual(item[valueKey], focusItemValue));
 
-    this.setState({ value: focusItemValue }, () => {
-      this.handleSelect(focusItemValue, focusItem, event);
-      this.handleChange(focusItemValue, event);
-    });
-
+    this.setState({ value: focusItemValue });
+    this.handleSelect(focusItemValue, focusItem, event);
+    this.handleChange(focusItemValue, event);
     this.handleCloseDropdown();
   };
 
@@ -279,10 +277,9 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
       value,
       focusItemValue: value
     };
-    this.setState(nextState, () => {
-      this.handleSelect(value, item, event);
-      this.handleChange(value, event);
-    });
+    this.setState(nextState);
+    this.handleSelect(value, item, event);
+    this.handleChange(value, event);
     this.handleCloseDropdown();
   };
 
@@ -335,9 +332,8 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
       focusItemValue: null
     };
 
-    this.setState(nextState, () => {
-      this.handleChange(null, event);
-    });
+    this.setState(nextState);
+    this.handleChange(null, event);
   };
 
   handleExit = () => {

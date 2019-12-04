@@ -62,10 +62,9 @@ class Radio extends React.Component<RadioProps, RadioState> {
       return;
     }
 
-    this.setState({ checked }, () => {
-      onChange?.(value, checked, event);
-      this.context.onChange?.(value, checked, event);
-    });
+    this.setState({ checked });
+    this.context.onChange?.(value, checked, event);
+    onChange?.(value, checked, event);
   };
   render() {
     const {

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import _ from 'lodash';
 import { addDays, isSameDay, isBefore, isAfter, getDate, format } from 'date-fns';
 
 import { getUnhandledProps, prefix, defaultProps } from '../../utils';
@@ -15,7 +14,7 @@ export interface TableRowProps {
   className?: string;
   classPrefix?: string;
   showWeekNumbers?: boolean;
-  onSelect?: (date: Date) => void;
+  onSelect?: (date: Date, event: React.MouseEvent) => void;
   disabledDate?: (date: Date, selectValue: Date[], type: string) => boolean;
   inSameMonth?: (date: Date) => boolean;
   onMouseMove?: (date: Date) => void;
@@ -46,8 +45,8 @@ class TableRow extends React.Component<TableRowProps> {
       inSameMonth,
       selected,
       hoverValue,
-      onSelect,
-      onMouseMove
+      onMouseMove,
+      onSelect
     } = this.props;
 
     const days = [];
@@ -113,9 +112,7 @@ class TableRow extends React.Component<TableRowProps> {
               tabIndex={-1}
               title={isToday ? `${title} (${context?.today})` : title}
               onMouseEnter={!disabled && onMouseMove ? onMouseMove.bind(null, thisDate) : undefined}
-              onClick={
-                !disabled && onSelect ? _.debounce(onSelect.bind(null, thisDate), 100) : undefined
-              }
+              onClick={!disabled && onSelect?.bind(null, thisDate)}
             >
               <span className={this.addPrefix('cell-content')}>{getDate(thisDate)}</span>
             </div>

@@ -91,13 +91,11 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
 
   toggle = (isOpen?: boolean) => {
     const { onOpen, onClose, onToggle } = this.props;
-    let open = _.isUndefined(isOpen) ? !this.getOpen() : isOpen;
-    let handleToggle = open ? onOpen : onClose;
+    const open = _.isUndefined(isOpen) ? !this.getOpen() : isOpen;
+    const handleToggle = open ? onOpen : onClose;
 
-    this.setState({ open }, () => {
-      handleToggle?.();
-    });
-
+    this.setState({ open });
+    handleToggle?.();
     onToggle?.(open);
   };
 
