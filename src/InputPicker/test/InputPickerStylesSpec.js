@@ -42,6 +42,7 @@ describe('InputPicker styles', () => {
     inChrome &&
       assert.equal(getStyle(dom, 'border'), `1px solid ${toRGB('#e5e5ea')}`, 'Picker border');
 
+    assert.equal(getStyle(dom, 'backgroundColor'), `${toRGB('#fff')}`, 'Toggle height');
     assert.equal(getStyle(toggleDom, 'height'), '34px', 'Toggle height');
     inChrome &&
       assert.equal(getStyle(toggleInputDom, 'border-style'), 'none', 'Toggle input border');
