@@ -96,17 +96,27 @@ describe('Calendar styles', () => {
     );
   });
 
-  itChrome('Should render bordered calendar', () => {
+  itChrome('Should be bordered on cell', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<Calendar bordered ref={instanceRef} />, createTestContainer());
     const dom = getDOMNode(instanceRef.current);
     const tableCellDom = dom.querySelector('.rs-calendar-table-cell');
-    const dropdownRowDom = dom.querySelector('.rs-calendar-month-dropdown-row');
     assert.equal(
       getStyle(tableCellDom, 'borderBottom'),
       `1px solid ${toRGB('#f2f2f5')}`,
       'TableCellDom border'
     );
+  });
+
+  itChrome('Should be bordered on month row', () => {
+    const instanceRef = React.createRef();
+    ReactDOM.render(
+      <Calendar calendarState={'DROP_MONTH'} bordered ref={instanceRef} />,
+      createTestContainer()
+    );
+    const dom = getDOMNode(instanceRef.current);
+    const dropdownRowDom = dom.querySelector('.rs-calendar-month-dropdown-row');
+
     assert.equal(
       getStyle(dropdownRowDom, 'borderBottom'),
       `1px dotted ${toRGB('#e5e5ea')}`,

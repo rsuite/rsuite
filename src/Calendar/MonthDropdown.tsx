@@ -91,7 +91,6 @@ class MonthDropdown extends React.PureComponent<MonthDropdownProps> {
 
     return false;
   }
-
   rowRenderer = ({ index, key, style }: RowProps) => {
     const { date, onSelect } = this.props;
     const selectedMonth = getMonth(date);
@@ -141,20 +140,22 @@ class MonthDropdown extends React.PureComponent<MonthDropdownProps> {
       <div {...unhandled} className={classes}>
         <div className={this.addPrefix('content')}>
           <div className={this.addPrefix('scroll')}>
-            <AutoSizer defaultHeight={defaultHeight} defaultWidth={defaultWidth}>
-              {({ height, width }) => (
-                <List
-                  className={this.addPrefix('row-wrapper')}
-                  ref={this.bindListRef}
-                  width={width || defaultWidth}
-                  height={height || defaultHeight}
-                  rowHeight={getRowHeight(count)}
-                  rowCount={count}
-                  scrollToIndex={getYear(date)}
-                  rowRenderer={this.rowRenderer}
-                />
-              )}
-            </AutoSizer>
+            {show && (
+              <AutoSizer defaultHeight={defaultHeight} defaultWidth={defaultWidth}>
+                {({ height, width }) => (
+                  <List
+                    className={this.addPrefix('row-wrapper')}
+                    ref={this.bindListRef}
+                    width={width || defaultWidth}
+                    height={height || defaultHeight}
+                    rowHeight={getRowHeight(count)}
+                    rowCount={count}
+                    scrollToIndex={getYear(date)}
+                    rowRenderer={this.rowRenderer}
+                  />
+                )}
+              </AutoSizer>
+            )}
           </div>
         </div>
       </div>

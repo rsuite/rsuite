@@ -60,6 +60,8 @@ describe('DatePicker', () => {
         }}
       />
     );
+
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-header-title-date'));
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-month-dropdown-cell'));
   });
 
