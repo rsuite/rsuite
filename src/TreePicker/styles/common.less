@@ -51,9 +51,12 @@
       margin-left: -24px;
     }
 
-    &:focus,
     &:hover {
       background-color: @picker-tree-node-hover-bg;
+    }
+
+    &:focus {
+      background-color: @picker-tree-node-active-bg;
     }
   }
 
@@ -79,7 +82,7 @@
   }
 
   &:not(&-disabled):focus > .@{tpns}-node-label {
-    background-color: @picker-tree-node-hover-bg;
+    background-color: @picker-tree-node-active-bg;
   }
 }
 
