@@ -133,6 +133,10 @@
 
     transition: background 0.2s linear, border 0.2s linear, box-shadow 0.2s linear;
 
+    .@{ns}radio-checker:hover & {
+      border-color: @radio-hover-border-color;
+    }
+
     .@{ns}radio-checked & {
       border-color: @radio-checked-border-color;
       background-color: @radio-checked-border-color;
