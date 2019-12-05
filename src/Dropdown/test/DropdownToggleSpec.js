@@ -1,7 +1,5 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
-import ReactTestUtils from 'react-dom/test-utils';
-
+import { getDOMNode } from '@test/testUtils';
 import DropdownToggle from '../DropdownToggle';
 import Icon from '../../Icon';
 import { innerText } from '@test/testUtils';
@@ -9,62 +7,54 @@ import { innerText } from '@test/testUtils';
 describe('DropdownToggle', () => {
   it('Should render a toggle', () => {
     const title = 'Test';
-    const instance = ReactTestUtils.renderIntoDocument(<DropdownToggle>{title}</DropdownToggle>);
+    const instance = getDOMNode(<DropdownToggle>{title}</DropdownToggle>);
 
-    assert.include(findDOMNode(instance).className, 'dropdown-toggle');
-    assert.ok(findDOMNode(instance).querySelector('.rs-dropdown-toggle-caret'));
-    assert.equal(innerText(findDOMNode(instance)), title);
+    assert.include(instance.className, 'dropdown-toggle');
+    assert.ok(instance.querySelector('.rs-dropdown-toggle-caret'));
+    assert.equal(innerText(instance), title);
   });
 
   it('Should have a title', () => {
     const title = 'Test';
-    const instance = ReactTestUtils.renderIntoDocument(<DropdownToggle>{title}</DropdownToggle>);
-    assert.equal(innerText(findDOMNode(instance)), title);
+    const instance = getDOMNode(<DropdownToggle>{title}</DropdownToggle>);
+    assert.equal(innerText(instance), title);
   });
 
   it('Should have a icon', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <DropdownToggle icon={<Icon icon="user" />}>abc</DropdownToggle>
-    );
-    assert.ok(findDOMNode(instance).querySelector('i.rs-icon-user'));
+    const instance = getDOMNode(<DropdownToggle icon={<Icon icon="user" />}>abc</DropdownToggle>);
+    assert.ok(instance.querySelector('i.rs-icon-user'));
   });
 
   it('Should render custom component', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <DropdownToggle componentClass={'div'}>abc</DropdownToggle>
-    );
-    assert.equal(findDOMNode(instance).tagName, 'DIV');
+    const instance = getDOMNode(<DropdownToggle componentClass={'div'}>abc</DropdownToggle>);
+    assert.equal(instance.tagName, 'DIV');
   });
 
   it('Should not show caret', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <DropdownToggle noCaret>abc</DropdownToggle>
-    );
-    assert.ok(!findDOMNode(instance).querySelector('.rs-dropdown-toggle-caret'));
+    const instance = getDOMNode(<DropdownToggle noCaret>abc</DropdownToggle>);
+    assert.ok(!instance.querySelector('.rs-dropdown-toggle-caret'));
   });
 
   it('Should render a custom title', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <DropdownToggle renderTitle={children => <b>{children}</b>}>abc</DropdownToggle>
     );
-    assert.equal(findDOMNode(instance).innerText, 'abc');
+    assert.equal(instance.innerText, 'abc');
   });
 
   it('Should have a custom className', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<DropdownToggle className="custom" />);
-    assert.include(findDOMNode(instance).className, 'custom');
+    const instance = getDOMNode(<DropdownToggle className="custom" />);
+    assert.include(instance.className, 'custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = ReactTestUtils.renderIntoDocument(<DropdownToggle style={{ fontSize }} />);
-    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
+    const instance = getDOMNode(<DropdownToggle style={{ fontSize }} />);
+    assert.equal(instance.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <DropdownToggle classPrefix="custom-prefix" />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+    const instance = getDOMNode(<DropdownToggle classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });
