@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
+import { innerText, getDOMNode } from '@test/testUtils';
 
 import DropdownMenuItem from '../DropdownMenuItem';
 import Sidenav from '../../Sidenav';
 import Icon from '../../Icon';
-
-import { innerText, getDOMNode, getInstance } from '@test/testUtils';
 
 describe('DropdownMenuItem', () => {
   it('Should render a li', () => {

@@ -62,6 +62,9 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
         const itemsAndStatus = this.getMenuItemsAndStatus(item.props.children);
         const { icon, open, trigger, pullLeft, eventKey, title } = item.props;
         const expanded = openKeys.some(key => shallowEqual(key, eventKey));
+        const itemClassName = classNames(this.addPrefix(`pull-${pullLeft ? 'left' : 'right'}`), {
+          [this.addPrefix('item-focus')]: this.isActive(item.props, activeKey)
+        });
 
         return (
           <DropdownMenuItem
@@ -69,8 +72,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
             open={open}
             trigger={trigger}
             expanded={expanded}
-            active={this.isActive(item.props, activeKey)}
-            className={this.addPrefix(`pull-${pullLeft ? 'left' : 'right'}`)}
+            className={itemClassName}
             pullLeft={pullLeft}
             componentClass="div"
             submenu

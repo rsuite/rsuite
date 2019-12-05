@@ -1,28 +1,26 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-
+import { getDOMNode } from '@test/testUtils';
 import Sidenav from '../../Sidenav';
 import DropdownMenu from '../DropdownMenu';
 import DropdownMenuItem from '../DropdownMenuItem';
 
 describe('DropdownMenu', () => {
   it('Should render a ul', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <DropdownMenu>
         <DropdownMenuItem>1</DropdownMenuItem>
         <DropdownMenuItem>2</DropdownMenuItem>
       </DropdownMenu>
     );
 
-    const node = findDOMNode(instance);
-    assert.ok(node.className.match(/\bdropdown-menu\b/));
-    assert.equal(node.tagName, 'UL');
-    assert.equal(node.children.length, 2);
+    assert.ok(instance.className.match(/\bdropdown-menu\b/));
+    assert.equal(instance.tagName, 'UL');
+    assert.equal(instance.children.length, 2);
   });
 
   it('Should render a submenu', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <DropdownMenu>
         <DropdownMenuItem>1</DropdownMenuItem>
         <DropdownMenu>
@@ -31,12 +29,12 @@ describe('DropdownMenu', () => {
         </DropdownMenu>
       </DropdownMenu>
     );
-    const node = findDOMNode(instance);
-    assert.ok(node.querySelector('.rs-dropdown-item-submenu'));
+
+    assert.ok(instance.querySelector('.rs-dropdown-item-submenu'));
   });
 
   it('Should be expanded when set openKeys in submenu', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <Sidenav>
         <DropdownMenu openKeys={['2']}>
           <DropdownMenu eventKey="2">
@@ -46,12 +44,12 @@ describe('DropdownMenu', () => {
         </DropdownMenu>
       </Sidenav>
     );
-    const node = findDOMNode(instance);
-    assert.ok(node.querySelector('.rs-dropdown-item-submenu.rs-dropdown-item-expand'));
+
+    assert.ok(instance.querySelector('.rs-dropdown-item-submenu.rs-dropdown-item-expand'));
   });
 
   it('Should be open when set `open` in submenu', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <DropdownMenu>
         <DropdownMenu open>
           <DropdownMenuItem>2.1</DropdownMenuItem>
@@ -59,12 +57,12 @@ describe('DropdownMenu', () => {
         </DropdownMenu>
       </DropdownMenu>
     );
-    const node = findDOMNode(instance);
-    assert.ok(node.querySelector('.rs-dropdown-item-submenu.rs-dropdown-item-open'));
+
+    assert.ok(instance.querySelector('.rs-dropdown-item-submenu.rs-dropdown-item-open'));
   });
 
   it('Should be active when set `activeKey` in submenu', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <DropdownMenu activeKey={'2'}>
         <DropdownMenu eventKey={'2'}>
           <DropdownMenuItem>2.1</DropdownMenuItem>
@@ -72,12 +70,12 @@ describe('DropdownMenu', () => {
         </DropdownMenu>
       </DropdownMenu>
     );
-    const node = findDOMNode(instance);
-    assert.ok(node.querySelector('.rs-dropdown-item-submenu.rs-dropdown-item-active'));
+
+    assert.ok(instance.querySelector('.rs-dropdown-item-submenu.rs-dropdown-menu-item-focus'));
   });
 
-  it('Should be active when set `activeKey` in submenu', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
+  it('Should be pull left', () => {
+    const instance = getDOMNode(
       <DropdownMenu>
         <DropdownMenu pullLeft>
           <DropdownMenuItem>2.1</DropdownMenuItem>
@@ -85,8 +83,8 @@ describe('DropdownMenu', () => {
         </DropdownMenu>
       </DropdownMenu>
     );
-    const node = findDOMNode(instance);
-    assert.ok(node.querySelector('.rs-dropdown-menu-pull-left.rs-dropdown-item-pull-left'));
+
+    assert.ok(instance.querySelector('.rs-dropdown-menu-pull-left.rs-dropdown-item-pull-left'));
   });
 
   it('Should call onSelect callback', done => {
@@ -95,7 +93,7 @@ describe('DropdownMenu', () => {
         done();
       }
     };
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <DropdownMenu onSelect={doneOp} activeKey={1}>
         <DropdownMenuItem eventKey={1}>1</DropdownMenuItem>
         <DropdownMenuItem eventKey={2}>2</DropdownMenuItem>
@@ -103,7 +101,7 @@ describe('DropdownMenu', () => {
       </DropdownMenu>
     );
 
-    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelectorAll('a')[2]);
+    ReactTestUtils.Simulate.click(instance.querySelectorAll('a')[2]);
   });
 
   it('Should call onSelect callback', done => {
@@ -112,7 +110,7 @@ describe('DropdownMenu', () => {
         done();
       }
     };
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <DropdownMenu activeKey={1}>
         <DropdownMenuItem eventKey={1}>1</DropdownMenuItem>
         <DropdownMenuItem eventKey={2}>2</DropdownMenuItem>
@@ -122,24 +120,22 @@ describe('DropdownMenu', () => {
       </DropdownMenu>
     );
 
-    ReactTestUtils.Simulate.click(findDOMNode(instance).querySelectorAll('a')[2]);
+    ReactTestUtils.Simulate.click(instance.querySelectorAll('a')[2]);
   });
 
   it('Should have a custom className', () => {
-    const instance = ReactTestUtils.renderIntoDocument(<DropdownMenu className="custom" />);
-    assert.include(findDOMNode(instance).className, 'custom');
+    const instance = getDOMNode(<DropdownMenu className="custom" />);
+    assert.include(instance.className, 'custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = ReactTestUtils.renderIntoDocument(<DropdownMenu style={{ fontSize }} />);
-    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
+    const instance = getDOMNode(<DropdownMenu style={{ fontSize }} />);
+    assert.equal(instance.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <DropdownMenu classPrefix="custom-prefix" />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+    const instance = getDOMNode(<DropdownMenu classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

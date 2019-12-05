@@ -216,14 +216,24 @@
 }
 
 // Active state
+.@{ns}dropdown-menu > .@{ns}dropdown-menu-item-focus > .@{ns}dropdown-item-content,
+.@{ns}dropdown-menu > .@{ns}dropdown-item-active > .@{ns}dropdown-item-content {
+  font-weight: @dropdown-selected-font-weight;
+  outline: 0;
+
+  &,
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    background-color: @dropdown-link-active-bg;
+  }
+}
+
 .@{ns}dropdown-menu > .@{ns}dropdown-item-active > .@{ns}dropdown-item-content {
   &,
   &:hover,
   &:focus {
     color: @dropdown-link-active-color;
-    text-decoration: none;
-    outline: 0;
-    background-color: @dropdown-link-active-bg;
   }
 }
 
