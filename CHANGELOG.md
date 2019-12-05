@@ -1,3 +1,28 @@
+# 4.1.3
+
+> December 5, 2019
+
+- **Bugfix**: Fixed some style issues. ([#770],[#771],[#767])
+- **Bugfix**: Fixed the issue that events cannot be accessed in asynchronous callbacks. ([#763])
+- **Bugfix**: Fix RTL related bugs ([#757],[#760],[#769])
+- **Improve**: Improved the speed at which `<DateRangePicker`> opens. ([#768])
+
+---
+
+- **Bugfix**: 修复了一些样式问题。 ([#770],[#771],[#767])
+- **Bugfix**: 修复了无法在组件的异步回调中获取 Event 对象的问题。 ([#763])
+- **Bugfix**: 修复 RTL 相关 Bug。 ([#757],[#760],[#769])
+- **Improve**: 优化了 `<DateRangePicker>` 打开的速度。 ([#768])
+
+[#771]: https://github.com/rsuite/rsuite/pull/771
+[#770]: https://github.com/rsuite/rsuite/pull/770
+[#769]: https://github.com/rsuite/rsuite/pull/769
+[#768]: https://github.com/rsuite/rsuite/pull/768
+[#767]: https://github.com/rsuite/rsuite/pull/767
+[#763]: https://github.com/rsuite/rsuite/pull/763
+[#760]: https://github.com/rsuite/rsuite/pull/760
+[#757]: https://github.com/rsuite/rsuite/pull/757
+
 # 4.1.2
 
 > November 29, 2019
@@ -16,7 +41,7 @@
 - **Bugfix**: 修复了 `<DateRangePicker>` 面板折叠的问题。 ([#746])
 - **Bugfix**: 修复了设置 `size = lg` 时 `Picker` 计数标签垂直对齐的问题 ([#742])
 - **Bugfix**: 修复 `FormControl` 的 `Typescript` 类型定义错误 ([#741])
-- **Bugfix**: 修复 RTL 相关 bug ([#732],[#733],[#734],[#743],[#748],[#749])
+- **Bugfix**: 修复 RTL 相关 Bug ([#732],[#733],[#734],[#743],[#748],[#749])
 - **Chore**: 更新 Schema typescript 类型定义。 ([#754])
 - **Chore**: 在 `createConcatChildrenFunction` 中为变量添加一个默认值。 ([#753])
 

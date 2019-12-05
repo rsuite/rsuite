@@ -88,7 +88,7 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 
 ## 开发
 
-您可以通过 [Trello](https://trello.com/b/nsaUoK7S/rsuite) 查看我们的开发计划，同时希望您能参与其中。
+您可以通过 [Projects](https://github.com/rsuite/rsuite/projects) 查看我们的开发计划，同时希望您能参与其中。
 
 1. Fork `https://github.com/rsuite/rsuite` 这个仓库。
 

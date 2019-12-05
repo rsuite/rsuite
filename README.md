@@ -94,7 +94,7 @@ Detailed changes for each release are documented in the [release notes][release-
 
 ## Development
 
-You can learn about our development plan through [Trello](https://trello.com/b/nsaUoK7S/rsuite) and hope that you can get involved.
+You can learn about our development plan through [Projects](https://github.com/rsuite/rsuite/projects) and hope that you can get involved.
 
 1. Fork `https://github.com/rsuite/rsuite` this repo.
 
