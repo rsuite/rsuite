@@ -27,11 +27,11 @@
 }
 
 .@{ns}icon-align-left::before {
-  content: @icon-align-left;
+  content: @icon-align-left ~'/* rtl: "@{icon-align-right}" */';
 }
 
 .@{ns}icon-align-right::before {
-  content: @icon-align-right;
+  content: @icon-align-right ~'/* rtl: "@{icon-align-left}" */';
 }
 
 .@{ns}icon-alipay::before {
