@@ -115,6 +115,7 @@ describe('SelectPicker styles', () => {
     const secondItemGroup = document.body.querySelector(
       '.rs-picker-select-menu-group:nth-child(2)'
     );
+
     inChrome &&
       assert.equal(
         getStyle(secondItemGroup, 'borderTop'),

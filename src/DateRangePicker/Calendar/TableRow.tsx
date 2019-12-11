@@ -112,7 +112,7 @@ class TableRow extends React.Component<TableRowProps> {
               tabIndex={-1}
               title={isToday ? `${title} (${context?.today})` : title}
               onMouseEnter={!disabled && onMouseMove ? onMouseMove.bind(null, thisDate) : undefined}
-              onClick={!disabled && onSelect?.bind(null, thisDate)}
+              onClick={!disabled ? onSelect?.bind(null, thisDate) : undefined}
             >
               <span className={this.addPrefix('cell-content')}>{getDate(thisDate)}</span>
             </div>

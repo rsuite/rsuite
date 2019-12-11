@@ -42,11 +42,12 @@ class DropdownMenuCheckItem extends React.Component<DropdownMenuCheckItemProps> 
     className: PropTypes.string,
     children: PropTypes.node,
     getItemData: PropTypes.func,
+    componentClass: PropTypes.elementType,
     checkboxComponentClass: PropTypes.elementType
   };
   static defaultProps = {
     checkable: true,
-    componentClass: 'li',
+    componentClass: 'div',
     checkboxComponentClass: Checkbox
   };
 

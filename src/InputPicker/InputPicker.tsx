@@ -100,7 +100,8 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     onEntered: PropTypes.func,
     onExit: PropTypes.func,
     onExiting: PropTypes.func,
-    onExited: PropTypes.func
+    onExited: PropTypes.func,
+    virtualized: PropTypes.bool
   };
   static defaultProps = {
     data: [],
@@ -115,10 +116,11 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       newItem: 'New item',
       createOption: 'Create option "{0}"'
     },
+    placement: 'bottomStart',
     searchable: true,
     cleanable: true,
     menuAutoWidth: true,
-    placement: 'bottomStart'
+    virtualized: true
   };
   menuContainerRef: React.RefObject<any>;
   positionRef: React.RefObject<any>;
@@ -597,7 +599,8 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       creatable,
       valueKey,
       multi,
-      sort
+      sort,
+      virtualized
     } = this.props;
 
     const { focusItemValue, searchKeyword } = this.state;
@@ -642,6 +645,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
         group={!_.isUndefined(groupBy)}
         onSelect={multi ? this.handleCheckItemSelect : this.handleItemSelect}
         renderMenuItem={this.renderMenuItem}
+        virtualized={virtualized}
       />
     ) : (
       <div className={this.addPrefix('none')}>{locale.noResultsText}</div>

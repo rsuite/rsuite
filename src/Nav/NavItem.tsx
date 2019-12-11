@@ -114,7 +114,7 @@ class NavItem extends React.Component<NavItemProps> {
     }
 
     return (
-      <li role="presentation" className={classes} style={style}>
+      <li className={classes} style={style}>
         {hasTooltip ? addTooltip(item, children) : item}
       </li>
     );
