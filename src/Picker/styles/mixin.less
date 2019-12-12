@@ -73,8 +73,10 @@
   transition: @picker-item-transition;
   text-decoration: none;
   width: 100%;
-  .grouped & {
-    padding-left: 26px;
+
+  /* stylelint-disable-next-line */ // This class name provide by Virtualized.
+  .ReactVirtualized__Grid & {
+    .ellipsis-basic;
   }
 }
 
