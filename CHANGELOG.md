@@ -1,3 +1,18 @@
+# 4.1.4
+
+> December 12, 2019
+
+- **Improve**: Improve the performance of virtualized table ([rsuite-table#120])
+- **Chore**: Adjusted the sideEffects configuration.. ([#774])
+
+---
+
+- **Improve**: 优化了 Table 组件在渲染大数据时候性能。 ([rsuite-table#120])
+- **Chore**: 调整了 sideEffects 配置。 ([#774])
+
+[#774]: https://github.com/rsuite/rsuite/pull/774
+[rsuite-table#120]: https://github.com/rsuite/rsuite-table/pull/120
+
 # 4.1.3
 
 > December 5, 2019
