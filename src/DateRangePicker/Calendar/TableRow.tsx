@@ -56,21 +56,17 @@ class TableRow extends React.Component<TableRowProps> {
     const hoverEndDate = hoverValue[1] || null;
 
     for (let i = 0; i < 7; i += 1) {
-      let thisDate = addDays(weekendDate, i);
-      let selectValue = [selectedStartDate, selectedEndDate];
-
-      let disabled = disabledDate?.(thisDate, selectValue, TYPE.CALENDAR);
-      let isToday = isSameDay(thisDate, new Date());
-      let inRange = false;
-
-      let unSameMonth = !inSameMonth?.(thisDate);
-
+      const thisDate = addDays(weekendDate, i);
+      const selectValue = [selectedStartDate, selectedEndDate];
+      const disabled = disabledDate?.(thisDate, selectValue, TYPE.CALENDAR);
+      const isToday = isSameDay(thisDate, new Date());
+      const unSameMonth = !inSameMonth?.(thisDate);
       const isStartSelected =
         !unSameMonth && selectedStartDate && isSameDay(thisDate, selectedStartDate);
       const isEndSelected = !unSameMonth && selectedEndDate && isSameDay(thisDate, selectedEndDate);
-
       const isSelected = isStartSelected || isEndSelected;
 
+      let inRange = false;
       // for Selected
       if (selectedStartDate && selectedEndDate) {
         if (isBefore(thisDate, selectedEndDate) && isAfter(thisDate, selectedStartDate)) {
@@ -91,7 +87,7 @@ class TableRow extends React.Component<TableRowProps> {
         }
       }
 
-      let classes = classNames(this.addPrefix('cell'), {
+      const classes = classNames(this.addPrefix('cell'), {
         [this.addPrefix('cell-un-same-month')]: unSameMonth,
         [this.addPrefix('cell-is-today')]: isToday,
         [this.addPrefix('cell-selected-start')]: isStartSelected,
@@ -101,7 +97,7 @@ class TableRow extends React.Component<TableRowProps> {
         [this.addPrefix('cell-disabled')]: disabled
       });
 
-      let title = format(thisDate, 'YYYY-MM-DD');
+      const title = format(thisDate, 'YYYY-MM-DD');
 
       days.push(
         <IntlContext.Consumer key={title}>
