@@ -52,7 +52,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
       }
 
       if (displayName === 'DropdownMenuItem') {
-        let { onSelect: onItemSelect } = item.props;
+        const { onSelect: onItemSelect } = item.props;
         return React.cloneElement(item, {
           key: index,
           active,

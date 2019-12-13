@@ -6,7 +6,7 @@ import { addDays, getDay } from 'date-fns';
  * @return date[]
  */
 export default function getMonthView(monthDate: Date, isoWeek: boolean) {
-  let firstDayOfMonth = getDay(monthDate);
+  const firstDayOfMonth = getDay(monthDate);
   let distance = 0 - firstDayOfMonth;
 
   if (isoWeek) {
@@ -17,8 +17,8 @@ export default function getMonthView(monthDate: Date, isoWeek: boolean) {
     }
   }
 
-  let firstWeekendDate = addDays(monthDate, distance);
-  let weeks = [firstWeekendDate];
+  const firstWeekendDate = addDays(monthDate, distance);
+  const weeks = [firstWeekendDate];
   let nextWeekendDate = addDays(firstWeekendDate, 7);
 
   weeks.push(nextWeekendDate);

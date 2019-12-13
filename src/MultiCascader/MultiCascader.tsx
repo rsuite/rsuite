@@ -180,8 +180,9 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
   static getDerivedStateFromProps(nextProps, prevState) {
     const { data, valueKey, childrenKey } = nextProps;
 
-    let value = nextProps.value || prevState.value || [];
-    let { prevValue, flattenData, selectNode = {}, items } = prevState;
+    const value = nextProps.value || prevState.value || [];
+    const { prevValue, selectNode = {}, items } = prevState;
+    let { flattenData } = prevState;
 
     const isChangedData = data !== prevState.data;
     const isChangedValue = !shallowEqualArray(prevValue, nextProps.value);
@@ -377,8 +378,8 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
     const regx = new RegExp(getSafeRegExpString(searchKeyword), 'ig');
     const labelElements = [];
 
-    let a = item[labelKey].split(regx);
-    let b = item[labelKey].match(regx);
+    const a = item[labelKey].split(regx);
+    const b = item[labelKey].match(regx);
 
     for (let i = 0; i < a.length; i++) {
       labelElements.push(a[i]);

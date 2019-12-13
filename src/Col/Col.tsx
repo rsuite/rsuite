@@ -54,11 +54,11 @@ class Col extends React.Component<ColProps> {
     const getPropValue = getValue(this.props);
 
     Sizes.forEach(size => {
-      let col = getPropValue(size);
-      let hidden = getPropValue(`${size}Hidden`);
-      let offset = getPropValue(`${size}Offset`);
-      let push = getPropValue(`${size}Push`);
-      let pull = getPropValue(`${size}Pull`);
+      const col = getPropValue(size);
+      const hidden = getPropValue(`${size}Hidden`);
+      const offset = getPropValue(`${size}Offset`);
+      const push = getPropValue(`${size}Push`);
+      const pull = getPropValue(`${size}Pull`);
 
       classes[defaultClassPrefix(`hidden-${size}`)] = hidden;
       classes[addPrefix(`${size}-${col}`)] = col >= 0;

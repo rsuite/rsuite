@@ -375,7 +375,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       return;
     }
 
-    let nextHoverValue = this.getHoverRange(date);
+    const nextHoverValue = this.getHoverRange(date);
 
     if (doneSelected && !_.isUndefined(hoverRange)) {
       this.setState({

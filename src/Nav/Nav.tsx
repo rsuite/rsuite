@@ -57,8 +57,8 @@ class Nav extends React.Component<NavProps> {
     const hasWaterline = appearance !== 'default';
 
     const items = ReactChildren.mapCloneElement(children, item => {
-      let { eventKey, active, ...rest } = item.props;
-      let displayName = _.get(item, ['type', 'displayName']);
+      const { eventKey, active, ...rest } = item.props;
+      const displayName = _.get(item, ['type', 'displayName']);
 
       if (displayName === 'NavItem') {
         return {
