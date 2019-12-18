@@ -58,12 +58,12 @@ class DropdownMenuItem extends React.Component<DropdownMenuItemProps, DropdownMe
   }
 
   toggle = (_event: React.SyntheticEvent<any>, isOpen?: boolean) => {
-    let open = _.isUndefined(isOpen) ? !this.getOpen() : isOpen;
+    const open = _.isUndefined(isOpen) ? !this.getOpen() : isOpen;
     this.setState({ open });
   };
 
   handleClick = (event: React.SyntheticEvent<any>) => {
-    let { onSelect, eventKey, disabled, onClick } = this.props;
+    const { onSelect, eventKey, disabled, onClick } = this.props;
 
     if (disabled) {
       event.preventDefault();

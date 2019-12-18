@@ -25,7 +25,7 @@ interface Options {
 }
 
 function withStyleProps<T>(options: Options = {}) {
-  return (Component: React.ComponentType<any>) => {
+  return (Component: React.ComponentType<any>): React.ComponentType<any> => {
     const { hasSize, hasStatus, hasColor, defaultColor } = options;
 
     const WithStyleComponent = React.forwardRef((props: RequiredProps & T, ref: React.Ref<any>) => {

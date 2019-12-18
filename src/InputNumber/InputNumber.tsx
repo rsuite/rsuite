@@ -40,7 +40,7 @@ function decimals(...values: number[]) {
 }
 
 function getButtonStatus(value: number | string, min: number, max: number) {
-  let status = {
+  const status = {
     disabledUpButton: false,
     disabledDownButton: false
   };

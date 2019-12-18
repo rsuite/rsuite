@@ -17,7 +17,7 @@ class Tooltip extends React.Component<TooltipProps> {
     onMouseEnter: PropTypes.func
   };
   render() {
-    let {
+    const {
       className,
       positionLeft,
       positionTop,

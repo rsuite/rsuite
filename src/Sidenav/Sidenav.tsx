@@ -58,7 +58,7 @@ class Sidenav extends React.Component<SidenavProps, SidenavState> {
 
   handleOpenChange = (eventKey: any, event: React.MouseEvent) => {
     const find = key => shallowEqual(key, eventKey);
-    let openKeys = _.clone(this.getOpenKeys()) || [];
+    const openKeys = _.clone(this.getOpenKeys()) || [];
 
     if (openKeys.some(find)) {
       _.remove(openKeys, find);

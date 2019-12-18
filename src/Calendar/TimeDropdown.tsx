@@ -63,8 +63,8 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
 
   getTime(props?: TimeDropdownProps): any {
     const { format, date } = props || this.props;
-    let time = date || new Date();
-    let nextTime: any = {};
+    const time = date || new Date();
+    const nextTime: any = {};
 
     if (!format) {
       return nextTime;
@@ -93,10 +93,10 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
 
   scrollTo = (time: object) => {
     Object.entries(time).forEach((item: any) => {
-      let container: Element = this.container[item[0]];
-      let node = container.querySelector(`[data-key="${item[0]}-${item[1]}"]`);
+      const container: Element = this.container[item[0]];
+      const node = container.querySelector(`[data-key="${item[0]}-${item[1]}"]`);
       if (node && container) {
-        let { top } = getPosition(node, container);
+        const { top } = getPosition(node, container);
         scrollTopAnimation(this.container[item[0]], top, scrollTop(this.container[item[0]]) !== 0);
       }
     });
@@ -137,8 +137,8 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
 
     for (let i = start; i <= end; i += 1) {
       if (!hideFunc?.(i, date)) {
-        let disabled = disabledFunc?.(i, date);
-        let itemClasses = classNames(this.addPrefix('cell'), {
+        const disabled = disabledFunc?.(i, date);
+        const itemClasses = classNames(this.addPrefix('cell'), {
           [this.addPrefix('cell-active')]: active === i,
           [this.addPrefix('cell-disabled')]: disabled
         });

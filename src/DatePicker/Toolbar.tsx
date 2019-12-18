@@ -95,9 +95,9 @@ class Toolbar extends React.PureComponent<ToolbarProps> {
       <div {...unhandled} className={classes}>
         <div className={this.addPrefix('ranges')}>
           {ranges.map((item: RangeType, index: number) => {
-            let value: any = typeof item.value === 'function' ? item.value(pageDate) : item.value;
-            let disabled = disabledHandle?.(value);
-            let itemClassName = classNames(this.addPrefix('option'), {
+            const value: any = typeof item.value === 'function' ? item.value(pageDate) : item.value;
+            const disabled = disabledHandle?.(value);
+            const itemClassName = classNames(this.addPrefix('option'), {
               [this.addPrefix('option-disabled')]: disabled
             });
             return (

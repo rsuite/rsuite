@@ -134,7 +134,7 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
   };
 
   render() {
-    let {
+    const {
       title,
       children,
       className,

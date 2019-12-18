@@ -248,13 +248,13 @@ class Slider extends React.Component<SliderProps, SliderState> {
     const active = precisionMath(Math.ceil(((value - min) / (max - min)) * count));
 
     for (let i = 0; i < count; i += 1) {
-      let classes = classNames({
+      const classes = classNames({
         [this.addPrefix('pass')]: i <= pass,
         [this.addPrefix('active')]: i === active
       });
 
-      let mark = precisionMath(i * step + min);
-      let last = i === count - 1;
+      const mark = precisionMath(i * step + min);
+      const last = i === count - 1;
 
       graduatedItems.push(
         <li className={classes} key={i}>

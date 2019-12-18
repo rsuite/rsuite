@@ -102,14 +102,14 @@ class Panel extends React.Component<PanelProps, PanelState> {
   }
 
   renderHeading(headerRole?: string) {
-    let { header, collapsible } = this.props;
+    let { header } = this.props;
 
     if (!header) {
       return null;
     }
 
     if (!React.isValidElement(header) || Array.isArray(header)) {
-      header = collapsible ? this.renderCollapsibleTitle(header, headerRole) : header;
+      header = this.props.collapsible ? this.renderCollapsibleTitle(header, headerRole) : header;
     } else {
       const className = classNames(this.addPrefix('title'), _.get(header, 'props.className'));
       header = React.cloneElement<any>(header, { className });

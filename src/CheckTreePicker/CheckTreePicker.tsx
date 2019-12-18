@@ -227,7 +227,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       uncheckableItemValues,
       expandItemValues
     } = nextProps;
-    let nextState: CheckTreePickerState = {};
+    const nextState: CheckTreePickerState = {};
     if (_.isArray(data) && _.isArray(prevState.data) && prevState.data !== data) {
       nextState.data = data;
     }
@@ -419,7 +419,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       if (options[i].refKey === refKey) {
         return options[i];
       } else if (options[i][childrenKey]?.length) {
-        let active = this.getActiveElementOption(options[i][childrenKey], refKey);
+        const active = this.getActiveElementOption(options[i][childrenKey], refKey);
         if (!_.isEmpty(active)) {
           return active;
         }
@@ -463,7 +463,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     const { filterData } = this.state;
     const { childrenKey } = this.props;
 
-    let items = [];
+    const items = [];
     const loop = (treeNodes: any[]) => {
       treeNodes.forEach((node: any) => {
         const nodeData = { ...node, ...this.nodes[node.refKey] };
@@ -1023,11 +1023,11 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       // 是否展开树节点且子节点不为空
       const openClass = this.addTreePrefix('open');
       const expandALlState = node.expand;
-      let childrenClass = classNames(this.addTreePrefix('node-children'), {
+      const childrenClass = classNames(this.addTreePrefix('node-children'), {
         [openClass]: expandALlState && visibleChildren
       });
 
-      let nodes = children || [];
+      const nodes = children || [];
       return (
         <div className={childrenClass} key={key} ref={this.bindNodeRefs.bind(this, refKey)}>
           <CheckTreeNode {...props} />
@@ -1107,7 +1107,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     const { inline, style, height, className = '', onScroll, locale, virtualized } = this.props;
 
     // 树节点的层级
-    let layer = 0;
+    const layer = 0;
     const classes = classNames(defaultClassPrefix('check-tree'), {
       [className]: inline,
       'without-children': !isSomeNodeHasChildren

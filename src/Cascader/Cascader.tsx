@@ -350,9 +350,9 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
 
     nodes.push(item);
     nodes = nodes.map(node => {
-      let labelElements = [];
-      let a = node[labelKey].split(regx);
-      let b = node[labelKey].match(regx);
+      const labelElements = [];
+      const a = node[labelKey].split(regx);
+      const b = node[labelKey].match(regx);
 
       for (let i = 0; i < a.length; i++) {
         labelElements.push(a[i]);
@@ -528,7 +528,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     if (activePaths.length > 0) {
       activeItemLabel = [];
       activePaths.forEach((item, index) => {
-        let key = item[valueKey] || item[labelKey];
+        const key = item[valueKey] || item[labelKey];
         activeItemLabel.push(<span key={key}>{item[labelKey]}</span>);
         if (index < activePaths.length - 1) {
           activeItemLabel.push(

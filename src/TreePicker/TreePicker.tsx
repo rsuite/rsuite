@@ -179,7 +179,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
 
   static getDerivedStateFromProps(nextProps: TreePickerProps, prevState: TreePickerState) {
     const { value, data, expandAll, searchKeyword, expandItemValues } = nextProps;
-    let nextState: TreePickerState = {};
+    const nextState: TreePickerState = {};
     if (_.isArray(data) && _.isArray(prevState.data) && prevState.data !== data) {
       nextState.data = data;
     }
@@ -312,7 +312,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       if (options[i].value === value) {
         return options[i];
       } else if (options[i][childrenKey]?.length) {
-        let active = this.getActiveElementOption(options[i][childrenKey], value);
+        const active = this.getActiveElementOption(options[i][childrenKey], value);
         if (!_.isEmpty(active)) {
           return active;
         }
@@ -325,7 +325,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     const { filterData } = this.state;
     const { childrenKey, disabledItemValues = [], valueKey } = this.props;
 
-    let items = [];
+    const items = [];
     const loop = (nodes: any[]) => {
       nodes.forEach((node: any) => {
         const nodeData = { ...node, ...this.nodes[node.refKey] };
@@ -796,11 +796,11 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       const expandALlState = this.nodes[node.refKey].expand;
       // 是否展开树节点且子节点不为空
       const openClass = this.addTreePrefix('open');
-      let childrenClass = classNames(this.addTreePrefix('node-children'), {
+      const childrenClass = classNames(this.addTreePrefix('node-children'), {
         [openClass]: expandALlState && visibleChildren
       });
 
-      let nodes = children || [];
+      const nodes = children || [];
       return (
         <div className={childrenClass} key={key} ref={this.bindNodeRefs.bind(this, refKey)}>
           <TreeNode {...props} />
@@ -872,7 +872,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     const { filterData } = this.state;
     const { height, className = '', inline, style, locale, virtualized } = this.props;
 
-    let layer = 0;
+    const layer = 0;
 
     const classes = classNames(defaultClassPrefix('tree'), {
       [className]: inline
