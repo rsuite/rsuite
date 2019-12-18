@@ -177,28 +177,43 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
     this.cleanInputValue();
   }
 
-  handleAjaxUploadSuccess = (file: FileType, response: object, event) => {
+  handleAjaxUploadSuccess = (
+    file: FileType,
+    response: object,
+    event: React.SyntheticEvent<any>,
+    xhr: XMLHttpRequest
+  ) => {
     const nextFile: FileType = {
       ...file,
       status: 'finished',
       progress: 100
     };
     this.updateFileList(nextFile, () => {
-      this.props.onSuccess?.(response, nextFile, event);
+      this.props.onSuccess?.(response, nextFile, event, xhr);
     });
   };
 
-  handleAjaxUploadError = (file: FileType, status: object, event) => {
+  handleAjaxUploadError = (
+    file: FileType,
+    status: object,
+    event: React.SyntheticEvent<any>,
+    xhr: XMLHttpRequest
+  ) => {
     const nextFile: FileType = {
       ...file,
       status: 'error'
     };
     this.updateFileList(nextFile, () => {
-      this.props.onError?.(status, nextFile, event);
+      this.props.onError?.(status, nextFile, event, xhr);
     });
   };
 
-  handleAjaxUploadProgress = (file: FileType, percent: number, event) => {
+  handleAjaxUploadProgress = (
+    file: FileType,
+    percent: number,
+    event: React.SyntheticEvent<any>,
+    xhr: XMLHttpRequest
+  ) => {
     const nextFile: FileType = {
       ...file,
       status: 'uploading',
@@ -206,7 +221,7 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
     };
 
     this.updateFileList(nextFile, () => {
-      this.props.onProgress?.(percent, nextFile, event);
+      this.props.onProgress?.(percent, nextFile, event, xhr);
     });
   };
 
