@@ -97,7 +97,8 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
     /**
      * Prevent floating element overflow
      */
-    preventOverflow: PropTypes.bool
+    preventOverflow: PropTypes.bool,
+    virtualized: PropTypes.bool
   };
   static defaultProps = {
     appearance: 'default',
@@ -111,10 +112,11 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
       searchPlaceholder: 'Search',
       noResultsText: 'No results found'
     },
+    placement: 'bottomStart',
     searchable: true,
     cleanable: true,
     menuAutoWidth: true,
-    placement: 'bottomStart'
+    virtualized: true
   };
   positionRef: React.RefObject<any>;
   menuContainerRef: React.RefObject<any>;
@@ -370,7 +372,8 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
       menuClassName,
       menuStyle,
       menuAutoWidth,
-      sort
+      sort,
+      virtualized
     } = this.props;
 
     const { focusItemValue } = this.state;
@@ -402,6 +405,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
         data={filteredData}
         group={!_.isUndefined(groupBy)}
         onSelect={this.handleItemSelect}
+        virtualized={virtualized}
       />
     ) : (
       <div className={this.addPrefix('none')}>{locale.noResultsText}</div>

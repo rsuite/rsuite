@@ -308,6 +308,11 @@
       transition: @picker-item-transition;
       line-height: @line-height-computed;
 
+      /* stylelint-disable-next-line */ // This class name provide by Virtualized.
+      .ReactVirtualized__Grid & {
+        .ellipsis-basic;
+      }
+
       .@{ns}checkbox-disabled& {
         cursor: not-allowed;
       }
@@ -315,11 +320,13 @@
       .@{ns}checkbox-wrapper {
         left: @picker-item-content-padding-horizontal;
 
+        .grouped &,
         .@{ckpns}-menu-group-children & {
           left: @picker-item-content-padding-horizontal + @picker-children-check-item-padding-left;
         }
       }
 
+      .grouped &,
       .@{ckpns}-menu-group-children & {
         padding-left: @picker-check-item-content-padding-left +
           @picker-children-check-item-padding-left;

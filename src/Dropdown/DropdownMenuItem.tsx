@@ -160,7 +160,7 @@ class DropdownMenuItem extends React.Component<DropdownMenuItemProps, DropdownMe
     );
 
     return (
-      <li {...itemProps} style={style} role="presentation" className={classes}>
+      <li {...itemProps} style={style} className={classes}>
         {renderItem ? renderItem(item) : item}
       </li>
     );

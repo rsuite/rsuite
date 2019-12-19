@@ -107,14 +107,18 @@ describe('SelectPicker styles', () => {
   it('Select picker group should render correct styles', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(
-      <SelectPicker ref={instanceRef} groupBy="role" data={data} />,
+      <SelectPicker
+        ref={instanceRef}
+        groupBy="role"
+        data={data}
+        menuClassName="group-test-menu"
+        open
+      />,
       createTestContainer()
     );
-    const toggleDom = getDOMNode(instanceRef.current).querySelector('.rs-picker-toggle');
-    toggleDom.click();
-    const secondItemGroup = document.body.querySelector(
-      '.rs-picker-select-menu-group:nth-child(2)'
-    );
+    const secondItemGroup = document.body.querySelectorAll(
+      '.group-test-menu .rs-picker-select-menu-group'
+    )[1];
     inChrome &&
       assert.equal(
         getStyle(secondItemGroup, 'borderTop'),

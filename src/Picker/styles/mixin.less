@@ -55,13 +55,9 @@
 
 // Group closed common styles
 .picker-menu-group-closed(@prefix) {
-  .@{ns}@{prefix}-menu-group-closed {
+  .@{ns}@{prefix}-menu-group.folded {
     .@{ns}@{prefix}-menu-group-caret {
       transform: rotate(90deg);
-    }
-
-    .@{ns}@{prefix}-menu-group-children {
-      display: none;
     }
   }
 }
@@ -77,6 +73,11 @@
   transition: @picker-item-transition;
   text-decoration: none;
   width: 100%;
+
+  /* stylelint-disable-next-line */ // This class name provide by Virtualized.
+  .ReactVirtualized__Grid & {
+    .ellipsis-basic;
+  }
 }
 
 .picker-item-hover() {

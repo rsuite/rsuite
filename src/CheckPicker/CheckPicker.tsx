@@ -92,7 +92,8 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
     placement: PropTypes.oneOf(PLACEMENT),
     style: PropTypes.object,
     sticky: PropTypes.bool,
-    preventOverflow: PropTypes.bool
+    preventOverflow: PropTypes.bool,
+    virtualized: PropTypes.bool
   };
   static defaultProps = {
     appearance: 'default',
@@ -106,11 +107,12 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
       searchPlaceholder: 'Search',
       noResultsText: 'No results found'
     },
+    placement: 'bottomStart',
     searchable: true,
     cleanable: true,
     countable: true,
     menuAutoWidth: true,
-    placement: 'bottomStart'
+    virtualized: true
   };
   positionRef: React.RefObject<any>;
   menuContainerRef: React.RefObject<any>;
@@ -405,7 +407,8 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
       menuClassName,
       menuStyle,
       menuAutoWidth,
-      sort
+      sort,
+      virtualized
     } = this.props;
 
     const { focusItemValue, stickyItems } = this.state;
@@ -451,6 +454,7 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
           data={[...filteredStickyItems, ...filteredData]}
           group={!_.isUndefined(groupBy)}
           onSelect={this.handleItemSelect}
+          virtualized={virtualized}
         />
       ) : (
         <div className={this.addPrefix('none')}>{locale.noResultsText}</div>

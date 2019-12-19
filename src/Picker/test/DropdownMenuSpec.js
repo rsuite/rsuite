@@ -1,39 +1,28 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { findDOMNode } from 'react-dom';
 
 import { getDOMNode } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
 import DropdownMenuItem from '../DropdownMenuItem';
+import getDataGroupBy from '../../utils/getDataGroupBy';
 
-const classPrefix = `rs-dropdown-menu`;
-const groupClassName = `.${classPrefix}-group`;
-const titleClassName = `.${classPrefix}-group-title`;
-const childrenClassName = `.${classPrefix}-group-children`;
-const itemClassName = `.${classPrefix}-item`;
-const itemActiveClassName = `.${classPrefix}-item-active`;
+const classPrefix = 'rs-dropdown-menu';
 
 const items = [
   {
-    value: 'abc',
-    label: 'abc'
+    value: 'a',
+    label: 'a',
+    groupKey: 'group-1'
   },
   {
-    value: 'abcd',
-    label: 'abcd'
+    value: 'b',
+    label: 'b',
+    groupKey: 'group-1'
   },
   {
-    groupTitle: 'vvv',
-    children: [
-      {
-        value: 'vv-abc',
-        label: 'vv-abc'
-      },
-      {
-        value: 'vv-abcd',
-        label: 'vv-abcd'
-      }
-    ]
+    value: 'c',
+    label: 'c',
+    groupKey: 'group-1'
   }
 ];
 
@@ -54,34 +43,34 @@ describe('picker -  DropdownMenu', () => {
       />
     );
 
-    assert.equal(instance.querySelectorAll('li').length, 3);
+    assert.equal(instance.querySelectorAll('a').length, 3);
   });
 
   it('Should output a item group ', () => {
     const instance = getDOMNode(
       <DropdownMenu
-        data={items}
+        data={getDataGroupBy(items, 'groupKey')}
         classPrefix={classPrefix}
         group
         dropdownMenuItemComponentClass={DropdownMenuItem}
       />
     );
 
-    assert.ok(instance.querySelector(`${childrenClassName}`));
+    assert.ok(instance.querySelector('.rs-dropdown-menu-group'));
   });
 
-  it('Should be active item for value of `vv-abcd', () => {
+  it('Should be active item for value of `c', () => {
     const instance = getDOMNode(
       <DropdownMenu
         data={items}
         group
         classPrefix={classPrefix}
-        activeItemValues={['vv-abcd']}
+        activeItemValues={['c']}
         dropdownMenuItemComponentClass={DropdownMenuItem}
       />
     );
 
-    assert.equal(instance.querySelector(itemActiveClassName).innerText, 'vv-abcd');
+    assert.equal(instance.querySelector('.rs-dropdown-menu-item-active').innerText, 'c');
   });
 
   it('Should have a maxHeight', () => {
@@ -93,31 +82,22 @@ describe('picker -  DropdownMenu', () => {
         dropdownMenuItemComponentClass={DropdownMenuItem}
       />
     );
-    assert.ok(findDOMNode(instance).style.maxHeight, '200px');
+    assert.ok(instance.style.maxHeight, '200px');
   });
 
   it('Should output 3 `menu-item` ', () => {
     const data = [
       {
-        myValue: 'abc',
-        myLabel: 'abc'
+        myValue: 'a',
+        myLabel: 'a'
       },
       {
-        myValue: 'abcd',
-        myLabel: 'abcd'
+        myValue: 'b',
+        myLabel: 'b'
       },
       {
-        myLabel: 'vvv',
-        children: [
-          {
-            myValue: 'vv-abc',
-            myLabel: 'vv-abc'
-          },
-          {
-            myValue: 'vv-abcd',
-            myLabel: 'vv-abcd'
-          }
-        ]
+        myValue: 'c',
+        myLabel: 'c'
       }
     ];
 
@@ -131,12 +111,12 @@ describe('picker -  DropdownMenu', () => {
       />
     );
 
-    assert.equal(instance.querySelectorAll('li').length, 3);
+    assert.equal(instance.querySelectorAll('a').length, 3);
   });
 
   it('Should call onSelect callback ', done => {
     const doneOp = value => {
-      if (value === 'abcd') {
+      if (value === 'b') {
         done();
       }
     };
@@ -151,7 +131,7 @@ describe('picker -  DropdownMenu', () => {
       />
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelectorAll(itemClassName)[1]);
+    ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-dropdown-menu-item')[1]);
   });
 
   it('Should call onGroupTitleClick callback ', done => {
@@ -160,18 +140,18 @@ describe('picker -  DropdownMenu', () => {
     };
     const instance = getDOMNode(
       <DropdownMenu
-        data={items}
         group
+        data={getDataGroupBy(items, 'groupKey')}
         onGroupTitleClick={doneOp}
         classPrefix={classPrefix}
         dropdownMenuItemComponentClass={DropdownMenuItem}
       />
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelector(titleClassName));
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-dropdown-menu-group'));
   });
 
-  it('Should call renderMenuItem callback ', () => {
+  it('Should render custom item', () => {
     const instance = getDOMNode(
       <DropdownMenu
         group
@@ -181,22 +161,21 @@ describe('picker -  DropdownMenu', () => {
         dropdownMenuItemComponentClass={DropdownMenuItem}
       />
     );
-
-    assert.equal(instance.querySelectorAll(`${itemClassName} i`).length, 4);
+    assert.equal(instance.querySelectorAll('.rs-dropdown-menu-item i').length, 3);
   });
 
-  it('Should call renderMenuGroup callback ', () => {
+  it('Should render custom group ', () => {
     const instance = getDOMNode(
       <DropdownMenu
         group
         classPrefix={classPrefix}
-        data={items}
+        data={getDataGroupBy(items, 'groupKey')}
         renderMenuGroup={item => <i>{item}</i>}
         dropdownMenuItemComponentClass={DropdownMenuItem}
       />
     );
 
-    assert.equal(instance.querySelectorAll(`${groupClassName} i`).length, 1);
+    assert.equal(instance.querySelectorAll('.rs-dropdown-menu-group i').length, 1);
   });
 
   it('Should have a custom className', () => {
