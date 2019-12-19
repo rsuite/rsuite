@@ -1,3 +1,32 @@
+# 4.1.5
+
+- **Feature**: Added support for virtualized on picker.([#786])
+- **Bugfix**: Fixed `<CheckTreePicker>` checkbox style issue.([#786])
+- **Bugfix**: Fixed RTL related bugs. ([#779])
+- **Bugfix**: Fixed `<Icon>` rotate props not working. ([#790])
+- **Improve**: Added parameter to Uploader's callback method. ([#781])
+- **Chore**: Added component prefix to `<Popover>` arrow. ([#791])
+- **Chore**: upgrade ESLint and format code. ([#780])
+
+---
+
+- **Feature**: Picker 相关组件添加了 `virtualized` 属性.([#786])
+- **Bugfix**: 修复了 `<CheckTreePicker>` 复选框样式问题。([#786])
+- **Bugfix**: 修复了 RTL 相关的 Bug。 ([#779])
+- **Bugfix**: 修复 `<Icon>` rotate 属性无效的问题。 ([#790])
+- **Improve**: 为 `<Uploader>` 的回调方法中添加参数。 `XMLHttpRequest`。 ([#781])
+- **Chore**: 调整 `<Popover>` 内部样式的命名。 ([#791])
+- **Chore**: 更新了 ESLint。 ([#780])
+
+[#792]: https://github.com/rsuite/rsuite/pull/792
+[#791]: https://github.com/rsuite/rsuite/pull/791
+[#790]: https://github.com/rsuite/rsuite/pull/790
+[#789]: https://github.com/rsuite/rsuite/pull/789
+[#786]: https://github.com/rsuite/rsuite/pull/786
+[#781]: https://github.com/rsuite/rsuite/pull/781
+[#780]: https://github.com/rsuite/rsuite/pull/780
+[#779]: https://github.com/rsuite/rsuite/pull/779
+
 # 4.1.4
 
 > December 12, 2019
