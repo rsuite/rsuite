@@ -33,6 +33,7 @@ class Icon extends React.Component<IconProps> {
       flip,
       stack,
       inverse,
+      style,
       svgStyle,
       componentClass: Component,
       ...props
@@ -48,15 +49,16 @@ class Icon extends React.Component<IconProps> {
       [addPrefix('pulse')]: pulse,
       [addPrefix(`size-${size || ''}`)]: size,
       [addPrefix(`flip-${flip || ''}`)]: flip,
-      [addPrefix(`rotate-${rotate || ''}`)]: rotate,
       [addPrefix(`stack-${stack || ''}`)]: stack,
       [addPrefix('inverse')]: inverse
     });
 
+    const styles = rotate ? { ...style, transform: `rotate(${rotate}deg)` } : style;
+
     if (isSvgIcon) {
       const svgIcon: any = icon;
       return (
-        <Component {...props} className={classes}>
+        <Component {...props} className={classes} style={styles}>
           <svg style={svgStyle} viewBox={svgIcon.viewBox}>
             <use xlinkHref={`#${svgIcon.id}`} />
           </svg>
@@ -64,7 +66,7 @@ class Icon extends React.Component<IconProps> {
       );
     }
 
-    return <Component {...props} className={classes} />;
+    return <Component {...props} className={classes} style={styles} />;
   }
 }
 
