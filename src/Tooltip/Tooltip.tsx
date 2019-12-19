@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { prefix, defaultProps, getUnhandledProps } from '../utils';
+import { prefix, defaultProps } from '../utils';
 import { TooltipProps } from './Tooltip.d';
 
 class Tooltip extends React.Component<TooltipProps> {
@@ -26,8 +26,7 @@ class Tooltip extends React.Component<TooltipProps> {
       style,
       visible,
       onMouseLeave,
-      onMouseEnter,
-      ...props
+      onMouseEnter
     } = this.props;
 
     const addPrefix = prefix(classPrefix);
@@ -38,7 +37,6 @@ class Tooltip extends React.Component<TooltipProps> {
       opacity: visible ? 1 : undefined,
       ...style
     };
-    const unhandled = getUnhandledProps(Tooltip, props);
 
     return (
       <div
@@ -47,7 +45,6 @@ class Tooltip extends React.Component<TooltipProps> {
         style={styles}
         onMouseLeave={onMouseLeave}
         onMouseEnter={onMouseEnter}
-        {...unhandled}
       >
         <div className={addPrefix('arrow')} />
         <div className={addPrefix('inner')}>{children}</div>

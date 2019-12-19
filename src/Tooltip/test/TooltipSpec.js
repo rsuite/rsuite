@@ -39,9 +39,4 @@ describe('Tooltip', () => {
     const instance = getDOMNode(<Tooltip classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
-
-  it('Should have a id props', () => {
-    const instance = getDOMNode(<Tooltip id="tooltip" />);
-    assert.equal(instance.id, 'tooltip');
-  });
 });
