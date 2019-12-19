@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { defaultProps, prefix } from '../utils';
 import { IconProps } from './Icon.d';
+import { SVGIcon } from '../@types/common';
 
 class Icon extends React.Component<IconProps> {
   static propTypes = {
@@ -53,10 +54,10 @@ class Icon extends React.Component<IconProps> {
       [addPrefix('inverse')]: inverse
     });
 
-    const styles = rotate ? { ...style, transform: `rotate(${rotate}deg)` } : style;
+    const styles = rotate ? { transform: `rotate(${rotate}deg)`, ...style } : style;
 
     if (isSvgIcon) {
-      const svgIcon: any = icon;
+      const svgIcon = icon as SVGIcon;
       return (
         <Component {...props} className={classes} style={styles}>
           <svg style={svgStyle} viewBox={svgIcon.viewBox}>
