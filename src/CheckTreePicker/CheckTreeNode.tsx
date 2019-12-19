@@ -164,7 +164,9 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
         title={this.getTitle()}
         onSelect={this.handleSelect}
       >
-        {typeof onRenderTreeNode === 'function' ? onRenderTreeNode(nodeData) : label}
+        <span className={this.addPrefix('text-wrapper')}>
+          {typeof onRenderTreeNode === 'function' ? onRenderTreeNode(nodeData) : label}
+        </span>
       </DropdownMenuCheckItem>
     );
   };

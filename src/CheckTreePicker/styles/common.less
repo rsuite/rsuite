@@ -166,10 +166,11 @@
   .@{ctpns} {
     padding: 0 @picker-menu-padding @picker-menu-padding 0;
 
-    &-node > .@{ctpns}-node-label {
+    &-node > .@{ctpns}-node-label .@{ctpns}-node-text-wrapper {
       .ellipsis;
 
-      display: block;
+      display: inline-block;
+      vertical-align: top;
     }
   }
 }
