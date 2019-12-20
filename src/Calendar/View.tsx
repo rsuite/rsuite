@@ -33,7 +33,10 @@ class View extends React.PureComponent<ViewProps> {
   };
 
   inSameThisMonthDate = (date: Date) =>
-    composeFunctions(d => setDate(d, 1), d => isSameMonth(d, date))(this.props.activeDate);
+    composeFunctions(
+      d => setDate(d, 1),
+      d => isSameMonth(d, date)
+    )(this.props.activeDate);
 
   render() {
     const {

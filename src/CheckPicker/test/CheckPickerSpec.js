@@ -107,7 +107,10 @@ describe('CheckPicker', () => {
     const instance = getDOMNode(
       <Dropdown
         placeholder="test"
-        data={[{ label: '1', value: '1' }, { label: '2', value: '2' }]}
+        data={[
+          { label: '1', value: '1' },
+          { label: '2', value: '2' }
+        ]}
         value={['1', '2']}
         renderValue={value => value.join(',')}
       />
@@ -120,7 +123,10 @@ describe('CheckPicker', () => {
     const instance = getDOMNode(
       <Dropdown
         placeholder="test"
-        data={[{ label: '1', value: '1' }, { label: '2', value: '2' }]}
+        data={[
+          { label: '1', value: '1' },
+          { label: '2', value: '2' }
+        ]}
         value={['4']}
       />
     );
@@ -296,9 +302,26 @@ describe('CheckPicker', () => {
       <Dropdown placeholder="test" sticky data={data} value={['Kariane']} defaultOpen />
     );
 
-    const menu = findDOMNode(instance.menuContainerRef.current).querySelector('.rs-checkbox');
+    const menu = getDOMNode(instance.menuContainerRef.current).querySelector('.rs-checkbox');
 
     assert.equal(menu.innerText, 'Kariane');
+  });
+
+  it('Should be render selected options be sticky', () => {
+    const instance = getInstance(
+      <Dropdown
+        placeholder="test"
+        sticky
+        data={data}
+        value={['Kariane', 'Louisa', 'Eugenia']}
+        defaultOpen
+      />
+    );
+
+    const count = getDOMNode(instance.menuContainerRef.current).querySelectorAll(
+      '.rs-checkbox-checked'
+    ).length;
+    assert.equal(count, 3);
   });
 
   it('Should render a button by toggleComponentClass={Button}', () => {

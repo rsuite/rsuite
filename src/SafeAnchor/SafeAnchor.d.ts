@@ -11,11 +11,13 @@ export interface SafeAnchorProps {
   tabIndex?: number | string;
 
   /** You can use a custom element for this component */
-  componentClass?: React.ElementType;
+  componentClass?: React.ElementType<any>;
 
   onClick?: (event: React.MouseEvent) => void;
+
+  [key: string]: any;
 }
 
-declare const SafeAnchor: React.ComponentType<SafeAnchorProps>;
+declare const SafeAnchor: React.FunctionComponent<SafeAnchorProps>;
 
 export default SafeAnchor;

@@ -192,8 +192,8 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   getDateString(value?: ValueType) {
     const { placeholder, format: formatType, renderValue } = this.props;
     const nextValue = value || this.getValue();
-    const startDate: Date = _.get(nextValue, '0');
-    const endDate: Date = _.get(nextValue, '1');
+    const startDate: Date = nextValue?.[0];
+    const endDate: Date = nextValue?.[1];
 
     if (startDate && endDate) {
       const displayValue: any = [startDate, endDate].sort(compareAsc);
@@ -288,11 +288,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     this.updateValue(event, value, closeOverlay);
   };
 
-  updateValue(
-    event: React.SyntheticEvent<any>,
-    nextSelectValue?: ValueType,
-    closeOverlay: boolean = true
-  ) {
+  updateValue(event: React.SyntheticEvent<any>, nextSelectValue?: ValueType, closeOverlay = true) {
     const { value, selectValue } = this.state;
     const { onChange } = this.props;
     const nextValue: any = !_.isUndefined(nextSelectValue) ? nextSelectValue : selectValue;
@@ -313,9 +309,8 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   }
 
   handleOK = (event: React.SyntheticEvent<any>) => {
-    const { onOk } = this.props;
     this.updateValue(event);
-    onOk && onOk(this.state.selectValue as ValueType, event);
+    this.props.onOk?.(this.state.selectValue as ValueType, event);
   };
 
   handleChangeSelectValue = (date: Date, event: React.SyntheticEvent<any>) => {
@@ -356,18 +351,19 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       hoverValue: nextHoverValue as ValueType
     };
 
+    event.persist();
+
     this.setState(nextState, () => {
       // 如果是单击模式，并且是第一次点选，再触发一次点击
       if (oneTap && !this.state.doneSelected) {
         this.handleChangeSelectValue(date, event);
       }
-
       // 如果是单击模式，并且是第二次点选，更新值，并关闭面板
       if (oneTap && this.state.doneSelected) {
         this.updateValue(event);
       }
 
-      onSelect && onSelect(date);
+      onSelect && onSelect(date, event);
     });
   };
 
@@ -379,7 +375,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       return;
     }
 
-    let nextHoverValue = this.getHoverRange(date);
+    const nextHoverValue = this.getHoverRange(date);
 
     if (doneSelected && !_.isUndefined(hoverRange)) {
       this.setState({
@@ -439,19 +435,16 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   };
 
   handleEntered = () => {
-    const { onOpen } = this.props;
-    onOpen && onOpen();
+    this.props.onOpen?.();
   };
 
   handleExit = () => {
-    const { onClose } = this.props;
-
     this.setState({
       active: false,
       doneSelected: true
     });
 
-    onClose && onClose();
+    this.props.onClose?.();
   };
 
   disabledByBetween(start: Date, end: Date, type: string) {
@@ -464,7 +457,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     // If the date is between the start and the end
     // the button is disabled
     while (isBefore(start, end) || isSameDay(start, end)) {
-      if (disabledDate && disabledDate(start, nextSelectValue, doneSelected, type)) {
+      if (disabledDate?.(start, nextSelectValue, doneSelected, type)) {
         return true;
       }
       start = addDays(start, 1);

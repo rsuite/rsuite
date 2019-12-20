@@ -5,6 +5,7 @@ import { prefix, getUnhandledProps, defaultProps } from '../utils';
 
 export interface DropdownMenuItemProps {
   classPrefix: string;
+  componentClass?: React.ElementType;
   active?: boolean;
   disabled?: boolean;
   value?: any;
@@ -29,7 +30,11 @@ class DropdownMenuItem extends React.Component<DropdownMenuItemProps> {
     title: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.node,
-    getItemData: PropTypes.func
+    getItemData: PropTypes.func,
+    componentClass: PropTypes.elementType
+  };
+  static defaultProps = {
+    componentClass: 'div'
   };
 
   handleClick = (event: React.MouseEvent) => {
@@ -49,6 +54,7 @@ class DropdownMenuItem extends React.Component<DropdownMenuItemProps> {
       children,
       className,
       classPrefix,
+      componentClass: Component,
       ...rest
     } = this.props;
 
@@ -62,17 +68,16 @@ class DropdownMenuItem extends React.Component<DropdownMenuItemProps> {
     const unhandled = getUnhandledProps(DropdownMenuItem, rest);
 
     return (
-      <li {...unhandled} className={className} role="menuitem">
+      <Component {...unhandled} className={className} role="listitem">
         <a
           className={classes}
           tabIndex={-1}
-          role="presentation"
           onKeyDown={disabled ? null : onKeyDown}
           onClick={this.handleClick}
         >
           {children}
         </a>
-      </li>
+      </Component>
     );
   }
 }

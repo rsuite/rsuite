@@ -42,8 +42,7 @@ class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
 
     this.setState({ checked });
-
-    onChange && onChange(checked, event);
+    onChange?.(checked, event);
   };
 
   render() {

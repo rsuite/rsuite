@@ -39,6 +39,9 @@ export interface SelectProps<ValueType = any> {
 
   /** Called when clean */
   onClean?: (event: React.SyntheticEvent<any>) => void;
+
+  /** Whether using virtualized list */
+  virtualized?: boolean;
 }
 
 export interface SelectPickerProps extends FormControlPickerProps<any>, SelectProps<any> {}

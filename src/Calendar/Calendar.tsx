@@ -18,7 +18,7 @@ const CalendarState = tuple('DROP_TIME', 'DROP_MONTH');
 
 export interface CalendarProps {
   pageDate: Date;
-  calendarState?: (typeof CalendarState)[number];
+  calendarState?: typeof CalendarState[number];
   calendarRef?: React.Ref<any>;
   format?: string;
   isoWeek?: boolean;
@@ -56,12 +56,12 @@ class Calendar extends React.Component<CalendarProps> {
     className: PropTypes.string,
     classPrefix: PropTypes.string,
     disabledDate: PropTypes.func,
-    //disabledHours: PropTypes.func,
-    //disabledMinutes: PropTypes.func,
-    //disabledSeconds: PropTypes.func,
-    //hideHours: PropTypes.func,
-    //hideMinutes: PropTypes.func,
-    //hideSeconds: PropTypes.func,
+    disabledHours: PropTypes.func,
+    disabledMinutes: PropTypes.func,
+    disabledSeconds: PropTypes.func,
+    hideHours: PropTypes.func,
+    hideMinutes: PropTypes.func,
+    hideSeconds: PropTypes.func,
     onMoveForword: PropTypes.func,
     onMoveBackward: PropTypes.func,
     onSelect: PropTypes.func,
@@ -74,8 +74,7 @@ class Calendar extends React.Component<CalendarProps> {
     renderCell: PropTypes.func
   };
   disabledDate = (date: Date) => {
-    const { disabledDate } = this.props;
-    if (disabledDate && disabledDate(date)) {
+    if (this.props.disabledDate?.(date)) {
       return true;
     }
     return false;
@@ -85,12 +84,12 @@ class Calendar extends React.Component<CalendarProps> {
 
   handleMoveForword = () => {
     const { onMoveForword, pageDate } = this.props;
-    onMoveForword && onMoveForword(addMonths(pageDate, 1));
+    onMoveForword?.(addMonths(pageDate, 1));
   };
 
   handleMoveBackward = () => {
     const { onMoveBackward, pageDate } = this.props;
-    onMoveBackward && onMoveBackward(addMonths(pageDate, -1));
+    onMoveBackward?.(addMonths(pageDate, -1));
   };
 
   render() {

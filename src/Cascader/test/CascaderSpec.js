@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { findDOMNode } from 'react-dom';
-
 import Cascader from '../Cascader';
 import Button from '../../Button';
 import { getDOMNode, getInstance } from '@test/testUtils';
@@ -45,6 +43,13 @@ describe('Cascader', () => {
     assert.ok(instance.className.match(/\bdisabled\b/));
   });
 
+  it('Should be inline', () => {
+    const instance = getDOMNode(<Cascader inline />);
+
+    assert.ok(instance.className.match(/\brs-picker-inline\b/));
+    assert.ok(instance.querySelector('.rs-picker-cascader-menu-items'));
+  });
+
   it('Should output a placeholder', () => {
     const placeholder = 'foobar';
     const instance = getDOMNode(<Cascader placeholder={placeholder} />);
@@ -78,14 +83,14 @@ describe('Cascader', () => {
   it('Should be active by value', () => {
     const value = 'abcd';
     const instance = getInstance(<Cascader defaultOpen data={items} value={value} />);
-    const menu = findDOMNode(instance.menuContainerRef.current);
+    const menu = getDOMNode(instance.menuContainerRef.current);
     assert.equal(menu.querySelector('.rs-picker-cascader-menu-item-active').innerText, value);
   });
 
   it('Should be active by defaultValue', () => {
     const value = 'abcd';
     const instance = getInstance(<Cascader defaultOpen data={items} defaultValue={value} />);
-    const menu = findDOMNode(instance.menuContainerRef.current);
+    const menu = getDOMNode(instance.menuContainerRef.current);
     assert.equal(menu.querySelector('.rs-picker-cascader-menu-item-active').innerText, value);
   });
 
@@ -97,7 +102,7 @@ describe('Cascader', () => {
     };
 
     const instance = getInstance(<Cascader data={items} defaultOpen onSelect={doneOp} />);
-    const menu = findDOMNode(instance.menuContainerRef.current);
+    const menu = getDOMNode(instance.menuContainerRef.current);
     ReactTestUtils.Simulate.click(menu.querySelectorAll('.rs-picker-cascader-menu-item')[1]);
   });
 
@@ -109,7 +114,7 @@ describe('Cascader', () => {
     };
 
     const instance = getInstance(<Cascader data={items} defaultOpen onChange={doneOp} />);
-    const menu = findDOMNode(instance.menuContainerRef.current);
+    const menu = getDOMNode(instance.menuContainerRef.current);
     ReactTestUtils.Simulate.click(menu.querySelectorAll('.rs-picker-cascader-menu-item')[1]);
   });
 

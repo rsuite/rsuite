@@ -7,6 +7,7 @@ import { TREE_NODE_PADDING, TREE_NODE_ROOT_PADDING } from '../constants';
 import { defaultProps, prefix } from '../utils';
 
 export interface TreeNodeProps {
+  rtl?: boolean;
   layer: number;
   value?: any;
   label?: any;
@@ -66,11 +67,8 @@ class TreeNode extends React.Component<TreeNodeProps> {
     const { onTreeToggle, layer, nodeData } = this.props;
 
     // 异步加载数据自定义loading图标时，阻止原生冒泡，不触发 document.click
-    if (event.nativeEvent && event.nativeEvent.stopImmediatePropagation) {
-      event.nativeEvent.stopImmediatePropagation && event.nativeEvent.stopImmediatePropagation();
-    }
-
-    onTreeToggle && onTreeToggle(nodeData, layer, event);
+    event?.nativeEvent?.stopImmediatePropagation?.();
+    onTreeToggle?.(nodeData, layer, event);
   };
 
   handleSelect = (event: React.SyntheticEvent<any>) => {
@@ -86,12 +84,12 @@ class TreeNode extends React.Component<TreeNodeProps> {
       }
     }
 
-    onSelect && onSelect(nodeData, layer, event);
+    onSelect?.(nodeData, layer, event);
   };
 
   renderIcon = () => {
     const { expand, onRenderTreeIcon, hasChildren, nodeData } = this.props;
-    const classes = classNames(this.addPrefix('expand-icon'), 'icon', {
+    const classes = classNames(this.addPrefix('expand-icon'), {
       [this.addPrefix('expanded')]: !!expand
     });
 
@@ -140,6 +138,7 @@ class TreeNode extends React.Component<TreeNodeProps> {
 
   render() {
     const {
+      rtl,
       style,
       className,
       classPrefix,
@@ -155,7 +154,8 @@ class TreeNode extends React.Component<TreeNodeProps> {
       [this.addPrefix('active')]: active
     });
 
-    const styles = { paddingLeft: layer * TREE_NODE_PADDING + TREE_NODE_ROOT_PADDING };
+    const padding = layer * TREE_NODE_PADDING + TREE_NODE_ROOT_PADDING;
+    const styles = rtl ? { paddingRight: padding } : { paddingLeft: padding };
 
     return visible ? (
       <div style={{ ...style, ...styles }} className={classes} ref={innerRef}>

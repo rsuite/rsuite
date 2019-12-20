@@ -100,7 +100,8 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     onEntered: PropTypes.func,
     onExit: PropTypes.func,
     onExiting: PropTypes.func,
-    onExited: PropTypes.func
+    onExited: PropTypes.func,
+    virtualized: PropTypes.bool
   };
   static defaultProps = {
     data: [],
@@ -115,10 +116,11 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       newItem: 'New item',
       createOption: 'Create option "{0}"'
     },
+    placement: 'bottomStart',
     searchable: true,
     cleanable: true,
     menuAutoWidth: true,
-    placement: 'bottomStart'
+    virtualized: true
   };
   menuContainerRef: React.RefObject<any>;
   positionRef: React.RefObject<any>;
@@ -365,7 +367,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     }
 
     // If the value is disabled in this option, it is returned.
-    if (disabledItemValues && disabledItemValues.some(item => item === focusItemValue)) {
+    if (disabledItemValues?.some(item => item === focusItemValue)) {
       return;
     }
 
@@ -395,7 +397,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     }
 
     // If the value is disabled in this option, it is returned.
-    if (disabledItemValues && disabledItemValues.some(item => item === focusItemValue)) {
+    if (disabledItemValues?.some(item => item === focusItemValue)) {
       return;
     }
 
@@ -458,7 +460,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     const { onSelect, creatable } = this.props;
     const { newData } = this.state;
 
-    onSelect && onSelect(value, item, event);
+    onSelect?.(value, item, event);
 
     if (creatable && item.create) {
       delete item.create;
@@ -479,8 +481,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     };
 
     this.setState(nextState, this.updatePosition);
-
-    onSearch && onSearch(searchKeyword, event);
+    onSearch?.(searchKeyword, event);
   };
 
   handleOpenDropdown = () => {
@@ -496,8 +497,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   };
 
   handleChange = (value: any, event: React.SyntheticEvent<any>) => {
-    const { onChange } = this.props;
-    onChange && onChange(value, event);
+    this.props.onChange?.(value, event);
   };
 
   handleClean = (event: React.SyntheticEvent<any>) => {
@@ -514,17 +514,15 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       searchKeyword: ''
     };
 
-    this.setState(nextState, () => {
-      this.handleChange(null, event);
-      this.updatePosition();
-    });
+    this.setState(nextState);
+    this.handleChange(null, event);
+    this.updatePosition();
 
-    onClean && onClean(event);
+    onClean?.(event);
   };
 
   handleEntered = () => {
-    const { onOpen } = this.props;
-    onOpen && onOpen();
+    this.props.onOpen?.();
   };
 
   handleExited = () => {
@@ -543,7 +541,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       nextState.searchKeyword = '';
     }
 
-    onClose && onClose();
+    onClose?.();
     this.setState(nextState);
   };
 
@@ -601,7 +599,8 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       creatable,
       valueKey,
       multi,
-      sort
+      sort,
+      virtualized
     } = this.props;
 
     const { focusItemValue, searchKeyword } = this.state;
@@ -646,6 +645,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
         group={!_.isUndefined(groupBy)}
         onSelect={multi ? this.handleCheckItemSelect : this.handleItemSelect}
         renderMenuItem={this.renderMenuItem}
+        virtualized={virtualized}
       />
     ) : (
       <div className={this.addPrefix('none')}>{locale.noResultsText}</div>
@@ -660,7 +660,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
         onKeyDown={this.handleKeyDown}
       >
         {renderMenu ? renderMenu(menu) : menu}
-        {renderExtraFooter && renderExtraFooter()}
+        {renderExtraFooter?.()}
       </MenuWrapper>
     );
   }

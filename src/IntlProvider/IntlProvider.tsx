@@ -3,8 +3,8 @@ import IntlContext from './IntlContext';
 
 import { IntlProviderProps } from './IntlProvider.d';
 
-const IntlProvider = ({ locale, children }: IntlProviderProps) => {
-  return <IntlContext.Provider value={locale}>{children}</IntlContext.Provider>;
+const IntlProvider = ({ locale, rtl, children }: IntlProviderProps) => {
+  return <IntlContext.Provider value={{ ...locale, rtl }}>{children}</IntlContext.Provider>;
 };
 
 export default IntlProvider;

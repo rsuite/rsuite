@@ -63,13 +63,12 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 
 ### Documentation
 
-[China Mirror 🇨🇳 ][rsuite-gitee]
-
 You can go through [full documentation][rsuite-doc-guide] or start with following sections
 
 - [Quick start][rsuite-doc-guide]
 - [Customizing themes][rsuite-doc-guide-themes]
 - [Internationalization][rsuite-doc-guide-intl]
+- [Right-to-left][rsuite-doc-guide-rtl]
 - [Components][rsuite-components-overview]
 
 **Previous old version**
@@ -95,7 +94,7 @@ Detailed changes for each release are documented in the [release notes][release-
 
 ## Development
 
-You can learn about our development plan through [Trello](https://trello.com/b/nsaUoK7S/rsuite) and hope that you can get involved.
+You can learn about our development plan through [Projects](https://github.com/rsuite/rsuite/projects) and hope that you can get involved.
 
 1. Fork `https://github.com/rsuite/rsuite` this repo.
 
@@ -155,6 +154,7 @@ React Suite is [MIT licensed][license]. Copyright (c) 2016-present, HYPERS.
 [rsuite-doc-guide]: https://rsuitejs.com/en/guide/introduction
 [rsuite-doc-guide-themes]: https://rsuitejs.com/en/guide/themes
 [rsuite-doc-guide-intl]: https://rsuitejs.com/en/guide/intl
+[rsuite-doc-guide-rtl]: https://rsuitejs.com/en/guide/rtl
 [rsuite-components-overview]: https://rsuitejs.com/en/components/overview
 [release-notes]: https://github.com/rsuite/rsuite/releases
 [contributing]: https://github.com/rsuite/rsuite/blob/master/CONTRIBUTING.md
@@ -163,7 +163,6 @@ React Suite is [MIT licensed][license]. Copyright (c) 2016-present, HYPERS.
 [opencollective-svg]: https://opencollective.com/rsuite/tiers/backer.svg?avatarHeight=36
 [opencollective-home]: https://opencollective.com/rsuite
 [license]: https://github.com/rsuite/rsuite/blob/master/LICENSE
-[rsuite-gitee]: http://rsuite.gitee.io/
 [rsuite-sample]: https://sample.rsuitejs.com/
 [gitter]: https://gitter.im/rsuite/rsuite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
 [gitter-svg]: https://badges.gitter.im/rsuite/rsuite.svg

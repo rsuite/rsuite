@@ -121,8 +121,13 @@
       }
     }
   }
+}
 
-  // == Left Top && Left Bottom Right && Top && Right Bottom
+/* rtl:begin:ignore */
+
+// == Left Top && Left Bottom Right && Top && Right Bottom
+/* stylelint-disable-next-line */ // For RTL Scope
+.@{ns}form-control-wrapper .@{ns}error-message {
   &-placement-left-start,
   &-placement-left-end {
     left: -1px;
@@ -211,3 +216,5 @@
     }
   }
 }
+
+/* rtl:end:ignore */

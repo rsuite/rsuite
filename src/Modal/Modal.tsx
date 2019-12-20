@@ -8,7 +8,7 @@ import bindElementResize, { unbind as unbindElementResize } from 'element-resize
 import BaseModal from 'rsuite-utils/lib/Overlay/Modal';
 import Bounce from 'rsuite-utils/lib/Animation/Bounce';
 import { on, getHeight, isOverflowing, getScrollbarSize, ownerDocument } from 'dom-lib';
-import { prefix, ReactChildren, defaultProps, createChainedFunction } from '../utils';
+import { prefix, defaultProps, createChainedFunction, isRTL } from '../utils';
 import ModalDialog from './ModalDialog';
 import ModalBody from './ModalBody';
 import ModalHeader from './ModalHeader';
@@ -108,8 +108,10 @@ class Modal extends React.Component<ModalProps, ModalState> {
       bodyStyles: React.CSSProperties;
     } = {
       modalStyles: {
-        paddingRight: bodyIsOverflowing && !modalIsOverflowing ? getScrollbarSize() : 0,
-        paddingLeft: !bodyIsOverflowing && modalIsOverflowing ? getScrollbarSize() : 0
+        [isRTL() ? 'paddingLeft' : 'paddingRight']:
+          bodyIsOverflowing && !modalIsOverflowing ? getScrollbarSize() : 0,
+        [isRTL() ? 'paddingRight' : 'paddingLeft']:
+          !bodyIsOverflowing && modalIsOverflowing ? getScrollbarSize() : 0
       },
       bodyStyles: {}
     };
@@ -156,6 +158,9 @@ class Modal extends React.Component<ModalProps, ModalState> {
 
   windowResizeListener = null;
   contentElement = null;
+  getBodyStyles = () => {
+    return this.state.bodyStyles;
+  };
 
   handleShow = () => {
     const dialogElement = this.dialogRef.current;
@@ -217,24 +222,11 @@ class Modal extends React.Component<ModalProps, ModalState> {
       ...rest
     } = this.props;
 
-    const { modalStyles, bodyStyles } = this.state;
+    const { modalStyles } = this.state;
     const inClass = { in: show && !animation };
     const Dialog: React.ElementType = dialogComponentClass;
 
     const parentProps = _.pick(rest, _.get(BaseModal, 'handledProps'));
-    let items = null;
-
-    if (children) {
-      items = ReactChildren.mapCloneElement(children, child => {
-        let displayName = child.type.displayName;
-        if (displayName && displayName.indexOf('Body') !== -1) {
-          return {
-            style: bodyStyles
-          };
-        }
-        return null;
-      });
-    }
 
     const classes = classNames(this.addPrefix(size), className, {
       [this.addPrefix('full')]: full
@@ -251,14 +243,15 @@ class Modal extends React.Component<ModalProps, ModalState> {
         onClick={rest.backdrop === true ? this.handleDialogClick : null}
         dialogRef={this.dialogRef}
       >
-        {items}
+        {children}
       </Dialog>
     );
 
     return (
       <ModalContext.Provider
         value={{
-          onModalHide: onHide
+          onModalHide: onHide,
+          getBodyStyles: this.getBodyStyles
         }}
       >
         <BaseModal

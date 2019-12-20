@@ -92,7 +92,8 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
     placement: PropTypes.oneOf(PLACEMENT),
     style: PropTypes.object,
     sticky: PropTypes.bool,
-    preventOverflow: PropTypes.bool
+    preventOverflow: PropTypes.bool,
+    virtualized: PropTypes.bool
   };
   static defaultProps = {
     appearance: 'default',
@@ -106,11 +107,12 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
       searchPlaceholder: 'Search',
       noResultsText: 'No results found'
     },
+    placement: 'bottomStart',
     searchable: true,
     cleanable: true,
     countable: true,
     menuAutoWidth: true,
-    placement: 'bottomStart'
+    virtualized: true
   };
   positionRef: React.RefObject<any>;
   menuContainerRef: React.RefObject<any>;
@@ -251,12 +253,11 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
       _.remove(value, itemVal => shallowEqual(itemVal, focusItemValue));
     }
 
-    const focusItem: any = data.find(item => shallowEqual(_.get(item, valueKey), focusItemValue));
+    const focusItem: any = data.find(item => shallowEqual(item?.[valueKey], focusItemValue));
 
-    this.setState({ value }, () => {
-      this.handleSelect(value, focusItem, event);
-      this.handleChangeValue(value, event);
-    });
+    this.setState({ value });
+    this.handleSelect(value, focusItem, event);
+    this.handleChangeValue(value, event);
   };
 
   handleKeyDown = (event: React.KeyboardEvent<any>) => {
@@ -268,7 +269,7 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
     }
 
     // delete
-    if (event.keyCode === 8 && event.target === _.get(this, 'toggle.toggle')) {
+    if (event.keyCode === 8 && event.target === this.toggleRef?.current?.getToggleNode?.()) {
       this.handleClean(event);
     }
 
@@ -302,10 +303,9 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
       focusItemValue: nextItemValue
     };
 
-    this.setState(nextState, () => {
-      this.handleSelect(value, item, event);
-      this.handleChangeValue(value, event);
-    });
+    this.setState(nextState);
+    this.handleSelect(value, item, event);
+    this.handleChangeValue(value, event);
   };
 
   handleSelect = (
@@ -313,22 +313,19 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
     item: ItemDataType,
     event: React.SyntheticEvent<HTMLElement>
   ) => {
-    const { onSelect } = this.props;
-    onSelect && onSelect(nextItemValue, item, event);
+    this.props.onSelect?.(nextItemValue, item, event);
   };
 
   handleChangeValue = (value: any, event: React.SyntheticEvent<HTMLElement>) => {
-    const { onChange } = this.props;
-    onChange && onChange(value, event);
+    this.props.onChange?.(value, event);
   };
 
   handleSearch = (searchKeyword: string, event: React.SyntheticEvent<HTMLElement>) => {
-    const { onSearch } = this.props;
     this.setState({
       searchKeyword,
       focusItemValue: undefined
     });
-    onSearch && onSearch(searchKeyword, event);
+    this.props.onSearch?.(searchKeyword, event);
   };
 
   handleCloseDropdown = () => {
@@ -363,14 +360,12 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
       return;
     }
 
-    this.setState({ value: [] }, () => {
-      this.handleChangeValue([], event);
-    });
+    this.setState({ value: [] });
+    this.handleChangeValue([], event);
   };
 
   handleExit = () => {
-    const { onClose } = this.props;
-    onClose && onClose();
+    this.props.onClose?.();
     this.setState({
       searchKeyword: '',
       focusItemValue: null,
@@ -379,8 +374,7 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
   };
 
   handleOpen = () => {
-    const { onOpen } = this.props;
-    onOpen && onOpen();
+    this.props.onOpen?.();
     this.setState({
       active: true
     });
@@ -413,7 +407,8 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
       menuClassName,
       menuStyle,
       menuAutoWidth,
-      sort
+      sort,
+      virtualized
     } = this.props;
 
     const { focusItemValue, stickyItems } = this.state;
@@ -447,21 +442,23 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
       Object.keys(_.omit(DropdownMenu.propTypes, ['className', 'style', 'classPrefix']))
     );
 
-    const menu = filteredData.length ? (
-      <DropdownMenu
-        {...menuProps}
-        classPrefix={this.addPrefix('check-menu')}
-        dropdownMenuItemComponentClass={DropdownMenuItem}
-        ref={this.menuContainerRef}
-        activeItemValues={this.getValue()}
-        focusItemValue={focusItemValue}
-        data={[...filteredStickyItems, ...filteredData]}
-        group={!_.isUndefined(groupBy)}
-        onSelect={this.handleItemSelect}
-      />
-    ) : (
-      <div className={this.addPrefix('none')}>{locale.noResultsText}</div>
-    );
+    const menu =
+      filteredData.length || filteredStickyItems.length ? (
+        <DropdownMenu
+          {...menuProps}
+          classPrefix={this.addPrefix('check-menu')}
+          dropdownMenuItemComponentClass={DropdownMenuItem}
+          ref={this.menuContainerRef}
+          activeItemValues={this.getValue()}
+          focusItemValue={focusItemValue}
+          data={[...filteredStickyItems, ...filteredData]}
+          group={!_.isUndefined(groupBy)}
+          onSelect={this.handleItemSelect}
+          virtualized={virtualized}
+        />
+      ) : (
+        <div className={this.addPrefix('none')}>{locale.noResultsText}</div>
+      );
 
     return (
       <MenuWrapper
@@ -480,7 +477,7 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
           />
         )}
         {renderMenu ? renderMenu(menu) : menu}
-        {renderExtraFooter && renderExtraFooter()}
+        {renderExtraFooter?.()}
       </MenuWrapper>
     );
   }

@@ -18,6 +18,16 @@ describe('Panel', () => {
     assert.ok(instance.querySelector('.rs-panel-collapse.in'));
   });
 
+  it('Should show border', () => {
+    const instance = getDOMNode(<Panel bordered />);
+    assert.ok(instance.className.match(/\brs-panel-bordered\b/));
+  });
+
+  it('Should with shadow', () => {
+    const instance = getDOMNode(<Panel shaded />);
+    assert.ok(instance.className.match(/\brs-panel-shaded\b/));
+  });
+
   it('Should be expanded', () => {
     const instance = getDOMNode(<Panel collapsible expanded />);
     assert.ok(instance.querySelector('.rs-panel-collapse.in'));
@@ -30,7 +40,7 @@ describe('Panel', () => {
 
   it('Should have a role in header', () => {
     const instance = getDOMNode(<Panel headerRole="button" collapsible header={'abc'} />);
-    assert.equal(instance.querySelector('h4 span').getAttribute('role'), 'button');
+    assert.equal(instance.querySelector('.rs-panel-title span').getAttribute('role'), 'button');
   });
 
   it('Should have a role in header', () => {

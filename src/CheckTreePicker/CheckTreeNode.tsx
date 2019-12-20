@@ -16,6 +16,7 @@ export interface TreeCheckNodeProps {
   classPrefix?: string;
   className?: string;
   visible?: boolean;
+  rtl?: boolean;
   style?: React.CSSProperties;
   label?: any;
   layer?: number;
@@ -79,11 +80,9 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
     const { onTreeToggle, layer, nodeData } = this.props;
 
     // 异步加载数据自定义loading图标时，阻止原生冒泡，不触发 document.click
-    if (event.nativeEvent && event.nativeEvent.stopImmediatePropagation) {
-      event.nativeEvent.stopImmediatePropagation();
-    }
+    event?.nativeEvent?.stopImmediatePropagation?.();
 
-    onTreeToggle && onTreeToggle(nodeData, layer, event);
+    onTreeToggle?.(nodeData, layer, event);
   };
 
   handleSelect = (_value: any, event: React.SyntheticEvent<any>) => {
@@ -106,7 +105,7 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
       ...nodeData,
       check: isChecked
     };
-    onSelect && onSelect(nextNodeData, event);
+    onSelect?.(nextNodeData, event);
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
@@ -165,7 +164,9 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
         title={this.getTitle()}
         onSelect={this.handleSelect}
       >
-        {typeof onRenderTreeNode === 'function' ? onRenderTreeNode(nodeData) : label}
+        <span className={this.addPrefix('text-wrapper')}>
+          {typeof onRenderTreeNode === 'function' ? onRenderTreeNode(nodeData) : label}
+        </span>
       </DropdownMenuCheckItem>
     );
   };
@@ -179,15 +180,17 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
       layer,
       disabled,
       allUncheckable,
-      innerRef
+      innerRef,
+      rtl
     } = this.props;
 
     const classes = classNames(className, classPrefix, {
       'text-muted': disabled,
       [this.addPrefix('all-uncheckable')]: !!allUncheckable
     });
+    const padding = layer * TREE_NODE_PADDING + TREE_NODE_ROOT_PADDING;
+    const styles = rtl ? { paddingRight: padding } : { paddingLeft: padding };
 
-    const styles = { paddingLeft: layer * TREE_NODE_PADDING + TREE_NODE_ROOT_PADDING };
     return visible ? (
       <div style={{ ...style, ...styles }} className={classes} ref={innerRef}>
         {this.renderIcon()}

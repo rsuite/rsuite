@@ -5,7 +5,7 @@ import MonthDropdown from '../MonthDropdown';
 
 describe('Calendar-MonthDropdown', () => {
   it('Should output year and month ', () => {
-    const instance = getDOMNode(<MonthDropdown date={new Date()} />);
+    const instance = getDOMNode(<MonthDropdown show date={new Date()} />);
     assert.equal(instance.querySelectorAll('.rs-calendar-month-dropdown-year').length, 8);
   });
 
@@ -14,13 +14,14 @@ describe('Calendar-MonthDropdown', () => {
       done();
     };
 
-    const instance = getDOMNode(<MonthDropdown date={new Date()} onSelect={doneOp} />);
+    const instance = getDOMNode(<MonthDropdown show date={new Date()} onSelect={doneOp} />);
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-month-dropdown-cell'));
   });
 
   it('Should disable month', () => {
     const instance = getDOMNode(
       <MonthDropdown
+        show
         date={new Date(2019, 8, 1)}
         disabledMonth={d => {
           let today = new Date(2019, 8, 6);

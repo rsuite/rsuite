@@ -111,7 +111,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
       isLeafNode
     );
 
-    onSelect && onSelect(node, cascadeItems, cascadePathItems, isLeafNode, event);
+    onSelect?.(node, cascadeItems, cascadePathItems, isLeafNode, event);
   };
 
   stringToObject(value: any) {
@@ -165,6 +165,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
     return (
       <DropdownMenuItem
         classPrefix={this.addPrefix('item')}
+        componentClass={'li'}
         key={`${layer}-${onlyKey}`}
         disabled={disabled}
         active={!_.isUndefined(activeItemValue) && shallowEqual(activeItemValue, value)}
@@ -195,7 +196,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
     const cascadeNodes = cascadeItems.map((children, layer) => {
       const onlyKey = `${layer}_${children.length}`;
       const menu = (
-        <ul>
+        <ul role="list">
           {children.map((item, index) =>
             this.renderCascadeNode(
               item,

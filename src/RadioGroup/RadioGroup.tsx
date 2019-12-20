@@ -2,21 +2,14 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
-import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
-
-import {
-  ReactChildren,
-  defaultProps,
-  getUnhandledProps,
-  prefix,
-  createChainedFunction
-} from '../utils';
-
-import { RadioGroupProps } from './RadioGroup.d';
+import { defaultProps, getUnhandledProps, prefix, createContext } from '../utils';
+import { RadioGroupProps, RadioContextProps } from './RadioGroup.d';
 
 interface RadioGroupState {
   value: any;
 }
+
+export const RadioContext = createContext<RadioContextProps>({});
 
 class RadioGroup extends React.Component<RadioGroupProps, RadioGroupState> {
   static propTypes = {
@@ -50,36 +43,37 @@ class RadioGroup extends React.Component<RadioGroupProps, RadioGroupState> {
     _itemChecked: boolean,
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const { onChange } = this.props;
     this.setState({ value: nextValue });
-    onChange && onChange(nextValue, event);
+    this.props.onChange?.(nextValue, event);
+  };
+
+  getContextProps = (): RadioContextProps => {
+    const { inline, name } = this.props;
+    const value = this.getValue();
+
+    return {
+      inline,
+      name,
+      value: _.isUndefined(value) ? null : value,
+      onChange: this.handleChange
+    };
   };
 
   render() {
-    const { className, inline, name, children, classPrefix, appearance, ...rest } = this.props;
+    const { className, inline, children, classPrefix, appearance, ...rest } = this.props;
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, addPrefix(appearance), className, {
       [addPrefix('inline')]: inline
-    });
-    const nextValue = this.getValue();
-    const items = ReactChildren.mapCloneElement(children, child => {
-      if (child.type.displayName === 'Radio') {
-        return {
-          inline,
-          name,
-          checked: shallowEqual(nextValue, child.props.value),
-          onChange: createChainedFunction(this.handleChange, child.props.onChange)
-        };
-      }
-      return child.props;
     });
 
     const unhandled = getUnhandledProps(RadioGroup, rest);
 
     return (
-      <div {...unhandled} className={classes} role="button">
-        {items}
-      </div>
+      <RadioContext.Provider value={this.getContextProps()}>
+        <div {...unhandled} className={classes} role="button">
+          {children}
+        </div>
+      </RadioContext.Provider>
     );
   }
 }

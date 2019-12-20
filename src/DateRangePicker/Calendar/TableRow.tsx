@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import _ from 'lodash';
 import { addDays, isSameDay, isBefore, isAfter, getDate, format } from 'date-fns';
 
 import { getUnhandledProps, prefix, defaultProps } from '../../utils';
@@ -15,7 +14,7 @@ export interface TableRowProps {
   className?: string;
   classPrefix?: string;
   showWeekNumbers?: boolean;
-  onSelect?: (date: Date) => void;
+  onSelect?: (date: Date, event: React.MouseEvent) => void;
   disabledDate?: (date: Date, selectValue: Date[], type: string) => boolean;
   inSameMonth?: (date: Date) => boolean;
   onMouseMove?: (date: Date) => void;
@@ -46,8 +45,8 @@ class TableRow extends React.Component<TableRowProps> {
       inSameMonth,
       selected,
       hoverValue,
-      onSelect,
-      onMouseMove
+      onMouseMove,
+      onSelect
     } = this.props;
 
     const days = [];
@@ -57,21 +56,17 @@ class TableRow extends React.Component<TableRowProps> {
     const hoverEndDate = hoverValue[1] || null;
 
     for (let i = 0; i < 7; i += 1) {
-      let thisDate = addDays(weekendDate, i);
-      let selectValue = [selectedStartDate, selectedEndDate];
-
-      let disabled = disabledDate && disabledDate(thisDate, selectValue, TYPE.CALENDAR);
-      let isToday = isSameDay(thisDate, new Date());
-      let inRange = false;
-
-      let unSameMonth = !(inSameMonth && inSameMonth(thisDate));
-
+      const thisDate = addDays(weekendDate, i);
+      const selectValue = [selectedStartDate, selectedEndDate];
+      const disabled = disabledDate?.(thisDate, selectValue, TYPE.CALENDAR);
+      const isToday = isSameDay(thisDate, new Date());
+      const unSameMonth = !inSameMonth?.(thisDate);
       const isStartSelected =
         !unSameMonth && selectedStartDate && isSameDay(thisDate, selectedStartDate);
       const isEndSelected = !unSameMonth && selectedEndDate && isSameDay(thisDate, selectedEndDate);
-
       const isSelected = isStartSelected || isEndSelected;
 
+      let inRange = false;
       // for Selected
       if (selectedStartDate && selectedEndDate) {
         if (isBefore(thisDate, selectedEndDate) && isAfter(thisDate, selectedStartDate)) {
@@ -92,7 +87,7 @@ class TableRow extends React.Component<TableRowProps> {
         }
       }
 
-      let classes = classNames(this.addPrefix('cell'), {
+      const classes = classNames(this.addPrefix('cell'), {
         [this.addPrefix('cell-un-same-month')]: unSameMonth,
         [this.addPrefix('cell-is-today')]: isToday,
         [this.addPrefix('cell-selected-start')]: isStartSelected,
@@ -102,7 +97,7 @@ class TableRow extends React.Component<TableRowProps> {
         [this.addPrefix('cell-disabled')]: disabled
       });
 
-      let title = format(thisDate, 'YYYY-MM-DD');
+      const title = format(thisDate, 'YYYY-MM-DD');
 
       days.push(
         <IntlContext.Consumer key={title}>
@@ -111,11 +106,9 @@ class TableRow extends React.Component<TableRowProps> {
               className={classes}
               role="menu"
               tabIndex={-1}
-              title={isToday ? `${title} (${_.get(context, 'today')})` : title}
+              title={isToday ? `${title} (${context?.today})` : title}
               onMouseEnter={!disabled && onMouseMove ? onMouseMove.bind(null, thisDate) : undefined}
-              onClick={
-                !disabled && onSelect ? _.debounce(onSelect.bind(null, thisDate), 100) : undefined
-              }
+              onClick={!disabled ? onSelect?.bind(null, thisDate) : undefined}
             >
               <span className={this.addPrefix('cell-content')}>{getDate(thisDate)}</span>
             </div>

@@ -10,6 +10,7 @@ import IntlProvider from '../IntlProvider';
 import FormattedMessage from '../IntlProvider/FormattedMessage';
 import DropdownMenu from './DropdownMenu';
 import stringToObject from '../utils/stringToObject';
+import getSafeRegExpString from '../utils/getSafeRegExpString';
 import { flattenTree, getNodeParents } from '../utils/treeUtils';
 import { getDerivedStateForCascade } from './utils';
 
@@ -92,7 +93,8 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     disabledItemValues: PropTypes.array,
     style: PropTypes.object,
     searchable: PropTypes.bool,
-    preventOverflow: PropTypes.bool
+    preventOverflow: PropTypes.bool,
+    inline: PropTypes.bool
   };
   static defaultProps = {
     appearance: 'default',
@@ -115,6 +117,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
   containerRef: React.RefObject<any>;
   positionRef: React.RefObject<any>;
   menuContainerRef: React.RefObject<any>;
+  isControlled: boolean;
 
   constructor(props: CascaderProps) {
     super(props);
@@ -141,6 +144,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
       flattenData: flattenTree(props.data)
     };
 
+    this.isControlled = !_.isUndefined(props.value);
     this.triggerRef = React.createRef();
     this.containerRef = React.createRef();
     this.positionRef = React.createRef();
@@ -153,15 +157,12 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     const { value, data, labelKey, valueKey } = nextProps;
     if (data !== prevState.data) {
       // First get the value of the clicked node `selectNodeValue`, and then get the new `newChildren`.
-      const selectNodeValue = _.get(prevState, ['selectNode', valueKey]);
+      const selectNodeValue = prevState?.selectNode?.[valueKey];
 
       if (selectNodeValue) {
         const newChildren =
-          _.get(
-            findNodeOfTree(data, item => shallowEqual(item[valueKey], selectNodeValue)),
-            'children'
-          ) || [];
-
+          findNodeOfTree(data, item => shallowEqual(item[valueKey], selectNodeValue))?.children ||
+          [];
         return {
           ...getDerivedStateForCascade(
             nextProps,
@@ -203,11 +204,16 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     isLeafNode: boolean,
     event: React.SyntheticEvent<HTMLElement>
   ) => {
-    const { onChange, onSelect, valueKey } = this.props;
+    const { onChange, onSelect, valueKey, childrenKey } = this.props;
     const prevValue = this.getValue();
     const value = node[valueKey];
 
-    onSelect && onSelect(node, activePaths, createConcatChildrenFunction(node, value), event);
+    onSelect?.(
+      node,
+      activePaths,
+      createConcatChildrenFunction(node, value, { valueKey, childrenKey }),
+      event
+    );
 
     /**
      * 只有在叶子节点的时候才当做是可以选择的值
@@ -215,19 +221,23 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
      */
     if (isLeafNode) {
       this.handleCloseDropdown();
-      const nextState: CascaderState = {
-        selectNode: node,
-        ...getDerivedStateForCascade(this.props, this.state, value)
+
+      let nextState: CascaderState = {
+        selectNode: node
       };
 
-      if (typeof this.props.value === 'undefined') {
-        nextState.value = value;
+      if (!this.isControlled) {
+        nextState = {
+          ...nextState,
+          value,
+          ...getDerivedStateForCascade(this.props, this.state, value)
+        };
       }
 
       this.setState(nextState);
 
       if (!shallowEqual(value, prevValue)) {
-        onChange && onChange(value, event);
+        onChange?.(value, event);
       }
 
       return;
@@ -240,10 +250,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
         tempActivePaths: activePaths
       },
       () => {
-        const updatePosition = _.get(this.positionRef, 'current.updatePosition');
-        if (typeof updatePosition === 'function') {
-          updatePosition();
-        }
+        this.positionRef.current?.updatePosition?.();
       }
     );
   };
@@ -253,16 +260,23 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     const value = item[valueKey];
 
     this.handleCloseDropdown();
-    const nextState = {
-      ...getDerivedStateForCascade(this.props, this.state, value),
+    let nextState: CascaderState = {
       selectNode: item,
-      searchKeyword: '',
-      value
+      searchKeyword: ''
     };
+
+    if (!this.isControlled) {
+      nextState = {
+        ...nextState,
+        ...getDerivedStateForCascade(this.props, this.state, value),
+        value
+      };
+    }
+
     this.setState(nextState);
 
-    onSelect && onSelect(item, null, null, event);
-    onChange && onChange(value, event);
+    onSelect?.(item, null, null, event);
+    onChange?.(value, event);
   };
 
   handleCloseDropdown = () => {
@@ -291,29 +305,26 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
       tempActivePaths: []
     };
     this.setState(nextState, () => {
-      onChange && onChange(null, event);
+      onChange?.(null, event);
     });
   };
 
   handleSearch = (searchKeyword: string, event: React.SyntheticEvent<HTMLElement>) => {
-    const { onSearch } = this.props;
     this.setState({
       searchKeyword
     });
-    onSearch && onSearch(searchKeyword, event);
+    this.props.onSearch?.(searchKeyword, event);
   };
 
   handleEntered = () => {
-    const { onOpen } = this.props;
-    onOpen && onOpen();
+    this.props.onOpen?.();
     this.setState({
       active: true
     });
   };
 
   handleExit = () => {
-    const { onClose } = this.props;
-    onClose && onClose();
+    this.props.onClose?.();
     this.setState({
       searchKeyword: '',
       active: false
@@ -334,14 +345,14 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
   renderSearchRow = (item: ItemDataType, key: number) => {
     const { labelKey, valueKey, disabledItemValues = [] } = this.props;
     const { searchKeyword } = this.state;
-    const regx = new RegExp(searchKeyword, 'ig');
+    const regx = new RegExp(getSafeRegExpString(searchKeyword), 'ig');
     let nodes = getNodeParents(item);
 
     nodes.push(item);
     nodes = nodes.map(node => {
-      let labelElements = [];
-      let a = node[labelKey].split(regx);
-      let b = node[labelKey].match(regx);
+      const labelElements = [];
+      const a = node[labelKey].split(regx);
+      const b = node[labelKey].match(regx);
 
       for (let i = 0; i < a.length; i++) {
         labelElements.push(a[i]);
@@ -383,7 +394,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     const { labelKey } = this.props;
     const { searchKeyword } = this.state;
 
-    if (item[labelKey].match(new RegExp(searchKeyword, 'i'))) {
+    if (item[labelKey].match(new RegExp(getSafeRegExpString(searchKeyword), 'i'))) {
       return true;
     }
 
@@ -444,10 +455,13 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
       menuClassName,
       menuStyle,
       searchable,
-      locale
+      locale,
+      inline
     } = this.props;
 
-    const classes = classNames(this.addPrefix('cascader-menu'), menuClassName);
+    const classes = classNames(this.addPrefix('cascader-menu'), menuClassName, {
+      [this.addPrefix('inline')]: inline
+    });
 
     const menuProps = _.pick(
       this.props,
@@ -477,7 +491,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
             renderMenu={renderMenu}
           />
         )}
-        {renderExtraFooter && renderExtraFooter()}
+        {renderExtraFooter?.()}
       </MenuWrapper>
     );
   }
@@ -496,8 +510,13 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
       onEnter,
       onExited,
       onClean,
+      inline,
       ...rest
     } = this.props;
+
+    if (inline) {
+      return this.renderDropdownMenu();
+    }
 
     const { activePaths, active } = this.state;
     const unhandled = getUnhandledProps(Cascader, rest);
@@ -509,7 +528,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     if (activePaths.length > 0) {
       activeItemLabel = [];
       activePaths.forEach((item, index) => {
-        let key = item[valueKey] || item[labelKey];
+        const key = item[valueKey] || item[labelKey];
         activeItemLabel.push(<span key={key}>{item[labelKey]}</span>);
         if (index < activePaths.length - 1) {
           activeItemLabel.push(

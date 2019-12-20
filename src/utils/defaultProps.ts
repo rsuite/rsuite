@@ -27,6 +27,11 @@ function defaultProps<T>(props: Props) {
       }
     }
 
+    // for IE9 & IE10 support
+    if (WrappedComponent.contextType) {
+      DefaultPropsComponent.contextType = WrappedComponent.contextType;
+    }
+
     return DefaultPropsComponent;
   };
 }

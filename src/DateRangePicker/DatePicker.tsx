@@ -56,17 +56,17 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
 
   onMoveForword = (nextPageDate: Date) => {
     const { onChangeCalendarDate, index } = this.props;
-    onChangeCalendarDate && onChangeCalendarDate(index, nextPageDate);
+    onChangeCalendarDate?.(index, nextPageDate);
   };
 
   onMoveBackward = (nextPageDate: Date) => {
     const { onChangeCalendarDate, index } = this.props;
-    onChangeCalendarDate && onChangeCalendarDate(index, nextPageDate);
+    onChangeCalendarDate?.(index, nextPageDate);
   };
 
   handleChangePageDate = (nextPageDate: Date) => {
     const { onChangeCalendarDate, index } = this.props;
-    onChangeCalendarDate && onChangeCalendarDate(index, nextPageDate);
+    onChangeCalendarDate?.(index, nextPageDate);
     this.setState({
       calendarState: undefined
     });

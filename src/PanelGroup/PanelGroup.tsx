@@ -34,9 +34,8 @@ class PanelGroup extends React.Component<PanelGroupProps, PanelGroupState> {
   }
 
   handleSelect = (activeKey: any, event: React.MouseEvent) => {
-    const { onSelect } = this.props;
     this.setState({ activeKey });
-    onSelect && onSelect(activeKey, event);
+    this.props.onSelect?.(activeKey, event);
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);

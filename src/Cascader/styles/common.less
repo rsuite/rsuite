@@ -134,12 +134,19 @@
     text-decoration: none;
     cursor: @cursor-disabled;
   }
+
+  &&-active&-disabled {
+    &,
+    &:hover {
+      color: @picker-select-menu-item-selected-disabled-color;
+    }
+  }
 }
 
 .@{cspns}-menu-caret {
   .dropdown-toggle-caret-common;
 
   &::before {
-    content: @drop-right-caret-content;
+    content: @drop-right-caret-content ~'/* rtl: "@{drop-left-caret-content}" */';
   }
 }

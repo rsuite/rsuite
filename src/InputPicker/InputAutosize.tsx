@@ -88,9 +88,8 @@ class InputAutosize extends React.Component<InputAutosizeProps, InputAutosizeSta
 
   componentDidUpdate(_prevProps, prevState) {
     const { inputWidth } = this.state;
-    const { onAutosize } = this.props;
     if (prevState.inputWidth !== inputWidth) {
-      onAutosize && onAutosize(inputWidth);
+      this.props.onAutosize?.(inputWidth);
     }
     this.updateInputWidth();
   }
@@ -176,7 +175,7 @@ class InputAutosize extends React.Component<InputAutosizeProps, InputAutosizeSta
       ...inputStyle
     };
 
-    let [htmlInputProps] = partitionHTMLProps(this.props);
+    const [htmlInputProps] = partitionHTMLProps(this.props);
 
     htmlInputProps.className = inputClassName;
     htmlInputProps.id = inputId;

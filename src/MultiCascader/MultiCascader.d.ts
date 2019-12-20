@@ -46,6 +46,9 @@ export interface MultiCascaderProps<ValueType = any> extends FormControlPickerPr
 
   /** Called when searching */
   onSearch?: (searchKeyword: string, event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** The menu is displayed directly when the component is initialized */
+  inline?: boolean;
 }
 
 declare const MultiCascader: React.ComponentType<MultiCascaderProps>;

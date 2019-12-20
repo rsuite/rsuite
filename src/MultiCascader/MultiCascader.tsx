@@ -18,6 +18,7 @@ import {
   createChainedFunction,
   withPickerMethods
 } from '../utils';
+import getSafeRegExpString from '../utils/getSafeRegExpString';
 
 import {
   PickerToggle,
@@ -92,7 +93,8 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
     onExit: PropTypes.func,
     onExiting: PropTypes.func,
     onExited: PropTypes.func,
-    onSelect: PropTypes.func
+    onSelect: PropTypes.func,
+    inline: PropTypes.bool
   };
 
   static defaultProps = {
@@ -129,7 +131,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
       data,
       searchKeyword: '',
       prevValue: value,
-      value: defaultValue,
+      value: defaultValue || [],
       selectNode: null,
       /**
        * 选中值的路径
@@ -178,8 +180,9 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
   static getDerivedStateFromProps(nextProps, prevState) {
     const { data, valueKey, childrenKey } = nextProps;
 
-    let value = nextProps.value || prevState.value || [];
-    let { prevValue, flattenData, selectNode = {}, items } = prevState;
+    const value = nextProps.value || prevState.value || [];
+    const { prevValue, selectNode = {}, items } = prevState;
+    let { flattenData } = prevState;
 
     const isChangedData = data !== prevState.data;
     const isChangedValue = !shallowEqualArray(prevValue, nextProps.value);
@@ -224,8 +227,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
   }
 
   getValue() {
-    const { value } = this.state;
-    return value || [];
+    return this.state.value || [];
   }
 
   handleCheck = (item: any, event: React.SyntheticEvent<any>, checked: boolean) => {
@@ -245,11 +247,13 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
       }
     }
 
-    this.setState({
-      value
-    });
+    if (!this.isControlled) {
+      this.setState({
+        value
+      });
+    }
 
-    onChange && onChange(value, event);
+    onChange?.(value, event);
   };
 
   handleChangeForSearchItem = (value: any, checked: boolean, event: React.SyntheticEvent<any>) => {
@@ -262,7 +266,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
     activePaths: any[],
     event: React.SyntheticEvent<any>
   ) => {
-    const { onSelect, valueKey } = this.props;
+    const { onSelect, valueKey, childrenKey } = this.props;
 
     this.setState(
       {
@@ -277,16 +281,19 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
       }
     );
 
-    onSelect &&
-      onSelect(node, activePaths, createConcatChildrenFunction(node, node[valueKey]), event);
+    onSelect?.(
+      node,
+      activePaths,
+      createConcatChildrenFunction(node, node[valueKey], { valueKey, childrenKey }),
+      event
+    );
   };
 
   handleSearch = (searchKeyword: string, event: React.SyntheticEvent<any>) => {
-    const { onSearch } = this.props;
     this.setState({
       searchKeyword
     });
-    onSearch && onSearch(searchKeyword, event);
+    this.props.onSearch?.(searchKeyword, event);
   };
 
   handleCloseDropdown = () => {
@@ -306,28 +313,29 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
     if (disabled) {
       return;
     }
-    const nextState = {
+    const nextState: MultiCascaderState = {
       items: [data],
-      value: [],
       selectNode: null,
       activePaths: []
     };
-    this.setState(nextState, () => {
-      onChange && onChange([], event);
-    });
+
+    if (!this.isControlled) {
+      nextState.value = [];
+    }
+
+    this.setState(nextState);
+    onChange?.([], event);
   };
 
   handleEntered = () => {
-    const { onOpen } = this.props;
-    onOpen && onOpen();
+    this.props.onOpen?.();
     this.setState({
       active: true
     });
   };
 
   handleExit = () => {
-    const { onClose } = this.props;
-    onClose && onClose();
+    this.props.onClose?.();
     this.setState({
       searchKeyword: '',
       active: false
@@ -346,7 +354,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
         return false;
       }
 
-      if (item[labelKey].match(new RegExp(searchKeyword, 'i'))) {
+      if (item[labelKey].match(new RegExp(getSafeRegExpString(searchKeyword), 'i'))) {
         return true;
       }
       return false;
@@ -367,11 +375,11 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
     const { searchKeyword } = this.state;
     const values = this.getValue();
     const nodes = getNodeParents(item);
-    const regx = new RegExp(searchKeyword, 'ig');
+    const regx = new RegExp(getSafeRegExpString(searchKeyword), 'ig');
     const labelElements = [];
 
-    let a = item[labelKey].split(regx);
-    let b = item[labelKey].match(regx);
+    const a = item[labelKey].split(regx);
+    const b = item[labelKey].match(regx);
 
     for (let i = 0; i < a.length; i++) {
       labelElements.push(a[i]);
@@ -446,13 +454,17 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
       menuStyle,
       classPrefix,
       searchable,
-      locale
+      locale,
+      inline
     } = this.props;
 
     const classes = classNames(
       this.addPrefix('cascader-menu'),
       this.addPrefix('multi-cascader-menu'),
-      menuClassName
+      menuClassName,
+      {
+        [this.addPrefix('inline')]: inline
+      }
     );
 
     const menuProps = _.pick(this.props, Object.keys(DropdownMenu.propTypes));
@@ -483,7 +495,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
           />
         )}
 
-        {renderExtraFooter && renderExtraFooter()}
+        {renderExtraFooter?.()}
       </MenuWrapper>
     );
   }
@@ -505,8 +517,13 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
       onClean,
       countable,
       cascade,
+      inline,
       ...rest
     } = this.props;
+
+    if (inline) {
+      return this.renderDropdownMenu();
+    }
 
     const { flattenData } = this.state;
     const unhandled = getUnhandledProps(MultiCascader, rest);

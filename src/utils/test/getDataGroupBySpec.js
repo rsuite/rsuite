@@ -17,14 +17,9 @@ describe('[utils] getDataGroupBy', () => {
 
     const groups = getDataGroupBy(items, 'group');
 
-    assert.ok(
-      _.isEqual(groups, [
-        {
-          groupTitle: 'title',
-          children: [{ value: 'abc', group: 'title' }, { value: 'abcd', group: 'title' }]
-        }
-      ])
-    );
+    assert.equal(groups[0].groupTitle, 'title');
+    assert.equal(groups[0].group, true);
+    assert.equal(groups.length, 3);
   });
 
   it('Should be grouped by title and sorted', () => {
@@ -74,17 +69,10 @@ describe('[utils] getDataGroupBy', () => {
 
     const groups = getDataGroupBy(items, 'group', sort);
 
-    assert.ok(
-      _.isEqual(groups, [
-        {
-          groupTitle: 'group-1',
-          children: [{ value: 'a', group: 'group-1' }, { value: 'd', group: 'group-1' }]
-        },
-        {
-          groupTitle: 'group-2',
-          children: [{ value: 'b', group: 'group-2' }, { value: 'c', group: 'group-2' }]
-        }
-      ])
-    );
+    assert.equal(groups[0].groupTitle, 'group-1');
+    assert.equal(groups[0].group, true);
+    assert.equal(groups[3].groupTitle, 'group-2');
+    assert.equal(groups[3].group, true);
+    assert.equal(groups.length, 6);
   });
 });

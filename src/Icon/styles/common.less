@@ -1,0 +1,117 @@
+@import '../../styles/common';
+@import './mixins';
+
+.@{ns}icon {
+  //* use !important to prevent issues with browser extensions that change fonts */
+  font-family: @font-family-icon !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  display: inline-block;
+  text-transform: none;
+  font-size: 14px;
+  line-height: 1;
+  //* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+///*!
+// *  Font Awesome 4.7.0
+// *  https://github.com/FortAwesome/Font-Awesome/tree/v4.7.0
+// */
+
+.@{icon-css-prefix} {
+  > svg {
+    height: @icon-font-size-base * @icon-line-height-base;
+  }
+}
+
+// Icon Sizes
+// -------------------------
+
+//* makes the font 33% larger relative to the icon container */
+.@{icon-css-prefix}-size-lg {
+  font-size: (4em / 3);
+
+  > svg {
+    vertical-align: middle;
+    height: floor(1.33 * @icon-font-size-base);
+    // Fixed bug that in IE browser  svg icon width is too long.
+    .ie-width(floor(1.33 * @icon-font-size-base));
+  }
+}
+
+.generate-icon-sizes();
+
+// Animated Icons
+// --------------------------
+
+.@{icon-css-prefix}-spin {
+  animation: icon-spin 2s infinite linear;
+}
+
+.@{icon-css-prefix}-pulse {
+  animation: icon-spin 1s infinite steps(8);
+}
+
+// Flipped Icons
+// -------------------------
+
+.@{icon-css-prefix}-flip-horizontal {
+  transform: scaleX(-1);
+}
+
+.@{icon-css-prefix}-flip-vertical {
+  transform: scaleY(-1);
+}
+
+// Stacked Icons
+// -------------------------
+
+.@{icon-css-prefix}-stack {
+  display: inline-block;
+  height: 2em;
+  line-height: 2em;
+  position: relative;
+  vertical-align: middle;
+  width: 2em;
+}
+
+.@{icon-css-prefix}-stack-size-lg {
+  font-size: (4em / 3);
+}
+
+.generate-stack-sizes();
+
+.@{icon-css-prefix}-stack-1x,
+.@{icon-css-prefix}-stack-2x {
+  left: 0;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+}
+
+.@{icon-css-prefix}-stack-1x {
+  font-size: 1em;
+  line-height: inherit;
+}
+
+.@{icon-css-prefix}-stack-2x {
+  font-size: 2em;
+}
+
+.@{icon-css-prefix}-inverse {
+  color: @icon-inverse;
+}
+
+.@{icon-css-prefix}-fw {
+  width: (30em / 14);
+  text-align: center;
+}
+
+& {
+  @import '../../styles/iconfont';
+  @import '../../styles/keyframes';
+}

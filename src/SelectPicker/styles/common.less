@@ -42,6 +42,14 @@
     text-decoration: none;
   }
 
+  &&-active&-disabled {
+    &,
+    &:hover {
+      color: @picker-select-menu-item-selected-disabled-color;
+    }
+  }
+
+  .grouped &,
   .@{slns}-menu-group-children & {
     padding-left: @picker-group-children-padding-left;
   }

@@ -3,12 +3,26 @@ import _ from 'lodash';
 import { findNodeOfTree } from 'rsuite-utils/lib/utils';
 import placementPolyfill from '../utils/placementPolyfill';
 
-export function createConcatChildrenFunction(node: any, nodeValue?: any) {
+interface NodeKeys {
+  valueKey: string;
+  childrenKey: string;
+}
+const defaultNodeKeys = {
+  valueKey: 'value',
+  childrenKey: 'children'
+};
+
+export function createConcatChildrenFunction(
+  node: any,
+  nodeValue?: any,
+  nodeKeys: NodeKeys = defaultNodeKeys
+) {
+  const { valueKey, childrenKey } = nodeKeys;
   return (data: any[], children: any[]): any[] => {
     if (nodeValue) {
-      node = findNodeOfTree(data, item => nodeValue === item.value);
+      node = findNodeOfTree(data, item => nodeValue === item[valueKey]);
     }
-    node.children = children;
+    node[childrenKey] = children;
     return data.concat([]);
   };
 }
@@ -38,27 +52,27 @@ export function onMenuKeyDown(event: React.KeyboardEvent, events) {
   switch (event.keyCode) {
     // down
     case 40:
-      down && down(event);
+      down?.(event);
       event.preventDefault();
       break;
     // up
     case 38:
-      up && up(event);
+      up?.(event);
       event.preventDefault();
       break;
     // enter
     case 13:
-      enter && enter(event);
+      enter?.(event);
       event.preventDefault();
       break;
     // delete
     case 8:
-      del && del(event);
+      del?.(event);
       break;
     // esc | tab
     case 27:
     case 9:
-      esc && esc(event);
+      esc?.(event);
       event.preventDefault();
       break;
     default:

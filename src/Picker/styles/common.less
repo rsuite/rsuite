@@ -84,6 +84,10 @@
 
 .@{ns}btn,
 .@{ns}picker-toggle {
+  .@{ns}picker-default & {
+    transition: @picker-transition;
+  }
+
   .@{ns}picker-default:not(.@{ns}picker-disabled) & {
     &:hover,
     &.active {
@@ -110,6 +114,10 @@
     .tag-picker-search-input-lg;
     .date-picker-button-caret-lg;
     .date-picker-button-size(large);
+
+    .@{ns}picker-value-count {
+      line-height: @line-height-large-computed;
+    }
   }
 
   &-md {
@@ -260,6 +268,11 @@
   .ReactVirtualized__Grid.ReactVirtualized__List:focus {
     outline: none;
   }
+
+  &.@{ns}picker-inline {
+    position: relative;
+    box-shadow: none;
+  }
 }
 
 // Make sure styles the same with <Input>
@@ -295,6 +308,11 @@
       transition: @picker-item-transition;
       line-height: @line-height-computed;
 
+      /* stylelint-disable-next-line */ // This class name provide by Virtualized.
+      .ReactVirtualized__Grid & {
+        .ellipsis-basic;
+      }
+
       .@{ns}checkbox-disabled& {
         cursor: not-allowed;
       }
@@ -302,11 +320,13 @@
       .@{ns}checkbox-wrapper {
         left: @picker-item-content-padding-horizontal;
 
+        .grouped &,
         .@{ckpns}-menu-group-children & {
           left: @picker-item-content-padding-horizontal + @picker-children-check-item-padding-left;
         }
       }
 
+      .grouped &,
       .@{ckpns}-menu-group-children & {
         padding-left: @picker-check-item-content-padding-left +
           @picker-children-check-item-padding-left;

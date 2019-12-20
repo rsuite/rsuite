@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
 import { placementPolyfill } from '../utils';
+import IntlContext from '../IntlProvider/IntlContext';
 
 type TriggerType = 'click' | 'hover' | 'focus' | 'active';
 
@@ -38,18 +39,22 @@ const PickerToggleTriggerProps = [
 const PickerToggleTrigger = React.forwardRef(
   (props: PickerToggleTriggerProps, ref: React.RefObject<any>) => {
     const { pickerProps, speaker, trigger = 'click', open, ...rest } = props;
-    const placement = placementPolyfill(pickerProps.placement);
+    const placement = pickerProps.placement;
 
     return (
-      <OverlayTrigger
-        trigger={trigger}
-        ref={ref}
-        open={open}
-        placement={placement}
-        speaker={speaker}
-        {..._.pick(pickerProps, PickerToggleTriggerProps)}
-        {...rest}
-      />
+      <IntlContext.Consumer>
+        {context => (
+          <OverlayTrigger
+            trigger={trigger}
+            ref={ref}
+            open={open}
+            placement={placementPolyfill(placement, context?.rtl)}
+            speaker={speaker}
+            {..._.pick(pickerProps, PickerToggleTriggerProps)}
+            {...rest}
+          />
+        )}
+      </IntlContext.Consumer>
     );
   }
 );

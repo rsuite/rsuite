@@ -103,6 +103,7 @@
 
     &-x::before {
       .icon-font;
+
       content: @default-close-btn-content;
     }
   }
@@ -136,19 +137,21 @@
     flex: 0 0 auto;
   }
 
-  &-bottom-left,
-  &-top-left {
+  &-bottom-start,
+  &-top-start {
     align-items: flex-start;
     left: 24px;
+
     .@{notification-ns}-fade-entered {
       animation-name: notificationMoveInLeft;
     }
   }
 
-  &-bottom-right,
-  &-top-right {
+  &-bottom-end,
+  &-top-end {
     align-items: flex-end;
     right: 24px;
+
     .@{notification-ns}-fade-entered {
       animation-name: notificationMoveInRight;
     }

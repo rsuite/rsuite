@@ -97,7 +97,8 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
     /**
      * Prevent floating element overflow
      */
-    preventOverflow: PropTypes.bool
+    preventOverflow: PropTypes.bool,
+    virtualized: PropTypes.bool
   };
   static defaultProps = {
     appearance: 'default',
@@ -111,10 +112,11 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
       searchPlaceholder: 'Search',
       noResultsText: 'No results found'
     },
+    placement: 'bottomStart',
     searchable: true,
     cleanable: true,
     menuAutoWidth: true,
-    placement: 'bottomStart'
+    virtualized: true
   };
   positionRef: React.RefObject<any>;
   menuContainerRef: React.RefObject<any>;
@@ -241,11 +243,9 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
     // Find active `MenuItem` by `value`
     const focusItem = findNodeOfTree(data, item => shallowEqual(item[valueKey], focusItemValue));
 
-    this.setState({ value: focusItemValue }, () => {
-      this.handleSelect(focusItemValue, focusItem, event);
-      this.handleChange(focusItemValue, event);
-    });
-
+    this.setState({ value: focusItemValue });
+    this.handleSelect(focusItemValue, focusItem, event);
+    this.handleChange(focusItemValue, event);
     this.handleCloseDropdown();
   };
 
@@ -258,7 +258,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
     }
 
     // delete
-    if (event.keyCode === 8 && event.target === _.get(this, 'toggle.toggle')) {
+    if (event.keyCode === 8 && event.target === this.toggleRef?.current?.getToggleNode?.()) {
       this.handleClean(event);
     }
 
@@ -279,28 +279,23 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
       value,
       focusItemValue: value
     };
-    this.setState(nextState, () => {
-      this.handleSelect(value, item, event);
-      this.handleChange(value, event);
-    });
+    this.setState(nextState);
+    this.handleSelect(value, item, event);
+    this.handleChange(value, event);
     this.handleCloseDropdown();
   };
 
   handleSelect = (value: any, item: ItemDataType, event: React.SyntheticEvent<any>) => {
-    const { onSelect } = this.props;
-    onSelect && onSelect(value, item, event);
-    if (this.toggleRef.current) {
-      this.toggleRef.current.onFocus();
-    }
+    this.props.onSelect?.(value, item, event);
+    this.toggleRef.current?.onFocus();
   };
 
   handleSearch = (searchKeyword: string, event: React.SyntheticEvent<any>) => {
-    const { onSearch } = this.props;
     this.setState({
       searchKeyword,
       focusItemValue: undefined
     });
-    onSearch && onSearch(searchKeyword, event);
+    this.props.onSearch?.(searchKeyword, event);
   };
 
   handleCloseDropdown = () => {
@@ -325,8 +320,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
   };
 
   handleChange = (value: any, event: React.SyntheticEvent<any>) => {
-    const { onChange } = this.props;
-    onChange && onChange(value, event);
+    this.props.onChange?.(value, event);
   };
 
   handleClean = (event: React.SyntheticEvent<any>) => {
@@ -340,24 +334,20 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
       focusItemValue: null
     };
 
-    this.setState(nextState, () => {
-      this.handleChange(null, event);
-    });
+    this.setState(nextState);
+    this.handleChange(null, event);
   };
 
   handleExit = () => {
-    const { onClose } = this.props;
-
     this.setState({
       searchKeyword: '',
       active: false
     });
 
-    onClose && onClose();
+    this.props.onClose?.();
   };
 
   handleOpen = () => {
-    const { onOpen } = this.props;
     const value = this.getValue();
 
     this.setState({
@@ -365,7 +355,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
       focusItemValue: value
     });
 
-    onOpen && onOpen();
+    this.props.onOpen?.();
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
@@ -382,7 +372,8 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
       menuClassName,
       menuStyle,
       menuAutoWidth,
-      sort
+      sort,
+      virtualized
     } = this.props;
 
     const { focusItemValue } = this.state;
@@ -414,6 +405,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
         data={filteredData}
         group={!_.isUndefined(groupBy)}
         onSelect={this.handleItemSelect}
+        virtualized={virtualized}
       />
     ) : (
       <div className={this.addPrefix('none')}>{locale.noResultsText}</div>
@@ -438,7 +430,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
         )}
 
         {renderMenu ? renderMenu(menu) : menu}
-        {renderExtraFooter && renderExtraFooter()}
+        {renderExtraFooter?.()}
       </MenuWrapper>
     );
   }
@@ -470,7 +462,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
 
     let selectedElement: React.ReactNode = placeholder;
 
-    if (activeItem && activeItem[labelKey]) {
+    if (activeItem?.[labelKey]) {
       selectedElement = activeItem[labelKey];
 
       if (renderValue) {

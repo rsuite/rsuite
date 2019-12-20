@@ -108,16 +108,15 @@ class FormControl extends React.Component<FormControlProps, FormControlState> {
     });
 
     onFieldChange(name, value, event);
-    onChange && onChange(value, event);
+    onChange?.(value, event);
   };
 
   handleFieldBlur = (event: React.SyntheticEvent<any>) => {
-    const { onBlur } = this.props;
     const checkTrigger = this.getCheckTrigger();
     const value = this.getValue() || this.state.value;
 
     this.handleFieldCheck(value, checkTrigger === 'blur');
-    onBlur && onBlur(event);
+    this.props.onBlur?.(event);
   };
 
   handleFieldCheck = (value: any, isCheckTrigger: boolean, callback?: Function) => {

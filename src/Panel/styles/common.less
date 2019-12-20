@@ -12,6 +12,10 @@
     border: @panel-border;
   }
 
+  &-shaded {
+    box-shadow: @panel-box-shadow;
+  }
+
   &-heading,
   &-body {
     padding: @panel-padding;
@@ -46,7 +50,6 @@
   &-heading + &-collapse &-body,
   &-heading + &-body {
     padding-top: 10px;
-    padding-bottom: 30px;
   }
 
   // Collapsible panel heading hover background

@@ -15,6 +15,7 @@
   position: relative;
   display: inline-block;
   font-size: 0;
+  vertical-align: middle; // Make sure dropdown vertical alignment with button,button group and so on.
 
   // Dropdown button style
   .@{ns}btn {
@@ -161,7 +162,7 @@
         right: @dropdown-item-content-padding-horizontal;
 
         &::before {
-          content: @drop-right-caret-content;
+          content: @drop-right-caret-content ~'/* rtl: "@{drop-left-caret-content}" */';
         }
       }
     }
@@ -177,7 +178,7 @@
         left: @dropdown-item-content-padding-horizontal;
 
         &::before {
-          content: @drop-left-caret-content;
+          content: @drop-left-caret-content ~'/* rtl: "@{drop-right-caret-content}" */';
         }
       }
     }
@@ -215,14 +216,24 @@
 }
 
 // Active state
+.@{ns}dropdown-menu > .@{ns}dropdown-menu-item-focus > .@{ns}dropdown-item-content,
+.@{ns}dropdown-menu > .@{ns}dropdown-item-active > .@{ns}dropdown-item-content {
+  font-weight: @dropdown-selected-font-weight;
+  outline: 0;
+
+  &,
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    background-color: @dropdown-link-active-bg;
+  }
+}
+
 .@{ns}dropdown-menu > .@{ns}dropdown-item-active > .@{ns}dropdown-item-content {
   &,
   &:hover,
   &:focus {
     color: @dropdown-link-active-color;
-    text-decoration: none;
-    outline: 0;
-    background-color: @dropdown-link-active-bg;
   }
 }
 

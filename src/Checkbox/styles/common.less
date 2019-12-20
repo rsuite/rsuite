@@ -14,18 +14,8 @@
   position: relative;
 }
 
+/* rtl:begin:ignore */
 .@{ns}checkbox-wrapper {
-  position: absolute;
-  width: @checkbox-width-height;
-  height: @checkbox-width-height;
-  display: inline-block;
-  left: @checkbox-sense-width;
-  top: @checkbox-sense-width;
-
-  [type='checkbox'] {
-    opacity: 0;
-  }
-
   &::before,
   &::after,
   .@{ns}checkbox-inner::before,
@@ -35,6 +25,54 @@
     left: 0;
     top: 0;
     display: block;
+  }
+
+  // Check mark
+  .@{ns}checkbox-inner::after {
+    opacity: 0;
+    transform: rotate(45deg) scale(0);
+    transition: opacity 0.2s ease-in, transform 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46);
+
+    .@{ns}checkbox-checked &,
+    .@{ns}checkbox-indeterminate & {
+      border: solid @checkbox-checked-mark-color;
+      width: 6px;
+      height: 9px;
+      margin-top: 2px;
+      margin-left: 5px;
+      opacity: 1;
+    }
+
+    .@{ns}checkbox-checked & {
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg) scale(1);
+    }
+
+    .@{ns}checkbox-indeterminate & {
+      border-width: 0 0 2px;
+      transform: rotate(0deg) scale(1);
+      width: 10px;
+      margin-top: 0;
+      margin-left: 3px;
+    }
+  }
+}
+
+/* rtl:end:ignore */
+
+/* stylelint-disable-next-line */ // For RTL Scope
+.@{ns}checkbox-wrapper {
+  position: absolute;
+  width: @checkbox-width-height;
+  height: @checkbox-width-height;
+  display: inline-block;
+  left: @checkbox-sense-width;
+  top: @checkbox-sense-width;
+
+  [type='checkbox'] {
+    width: 0;
+    height: 0;
+    opacity: 0;
   }
 
   &::before,
@@ -74,6 +112,10 @@
 
     transition: background 0.2s linear, border 0.2s linear, box-shadow 0.2s linear;
 
+    .@{ns}checkbox-checker:hover & {
+      border-color: @checkbox-hover-border-color;
+    }
+
     .@{ns}checkbox-checked &,
     .@{ns}checkbox-indeterminate & {
       border-color: @checkbox-checked-border-color;
@@ -88,36 +130,6 @@
     .@{ns}checkbox-disabled.@{ns}checkbox-checked &,
     .@{ns}checkbox-disabled.@{ns}checkbox-indeterminate & {
       opacity: 0.3;
-    }
-  }
-
-  // Check mark
-  .@{ns}checkbox-inner::after {
-    opacity: 0;
-    transform: rotate(45deg) scale(0);
-    transition: opacity 0.2s ease-in, transform 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46);
-
-    .@{ns}checkbox-checked &,
-    .@{ns}checkbox-indeterminate & {
-      border: solid @checkbox-checked-mark-color;
-      width: 6px;
-      height: 9px;
-      margin-top: 2px;
-      margin-left: 5px;
-      opacity: 1;
-    }
-
-    .@{ns}checkbox-checked & {
-      border-width: 0 2px 2px 0;
-      transform: rotate(45deg) scale(1);
-    }
-
-    .@{ns}checkbox-indeterminate & {
-      border-width: 0 0 2px;
-      transform: rotate(0deg) scale(1);
-      width: 10px;
-      margin-top: 0;
-      margin-left: 3px;
     }
   }
 

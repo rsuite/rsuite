@@ -1,3 +1,4 @@
+export { default as Affix } from './Affix';
 export { default as Alert } from './Alert';
 export { default as Animation } from './Animation';
 export { default as AutoComplete } from './AutoComplete';
@@ -8,6 +9,7 @@ export { default as Button } from './Button';
 export { default as ButtonGroup } from './ButtonGroup';
 export { default as ButtonToolbar } from './ButtonToolbar';
 export { default as Calendar } from './Calendar';
+export { default as Carousel } from './Carousel';
 export { default as Cascader } from './Cascader';
 export { default as Checkbox } from './Checkbox';
 export { default as CheckboxGroup } from './CheckboxGroup';

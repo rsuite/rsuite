@@ -368,6 +368,8 @@
 //
 //## Dropdown menu container and contents.
 
+@dropdown-selected-font-weight: bold;
+
 //**
 @dropdown-caret-width: 10px;
 @dropdown-caret-padding: 10px;
@@ -410,7 +412,7 @@
 //** Dropdown Caret Font Family
 @dropdown-caret-font-family: @font-family-icon;
 
-//** dropDownMenu的偏移量
+//** DropDownMenu offset value
 @dropdown-max-height: 280px;
 @dropdown-menu-lg-top: 40px;
 @dropdown-menu-sm-top: 27px;
@@ -505,10 +507,6 @@
 // @screen-xs
 @screen-phone: 480px;
 
-// Small screen / tablet
-// @screen-sm
-@screen-tablet: 768px;
-
 // Medium screen / desktop
 // @screen-md
 @screen-desktop: 992px;
@@ -518,8 +516,7 @@
 @screen-lg-desktop: 1200px;
 
 // So media queries don't overlap when required, provide a maximum
-@screen-phone-max: (@screen-tablet - 1);
-@screen-tablet-max: (@screen-desktop - 1);
+@screen-phone-max: (@screen-desktop - 1);
 @screen-desktop-max: (@screen-lg-desktop - 1);
 
 //== Grid system
@@ -535,10 +532,10 @@
 //
 //## Define the maximum width of `.container` for different screen sizes.
 
-// Small screen / tablet
-@container-tablet: (720px + @grid-gutter-width);
+// Small screen / phone / tablet
+@container-phone: (480px + @grid-gutter-width);
 //** For `@screen-sm-min` and up.
-@container-sm: @container-tablet;
+@container-sm: @container-phone;
 
 // Medium screen / desktop
 @container-desktop: (940px + @grid-gutter-width);
@@ -728,6 +725,7 @@
 @checkbox-sense-width: 10px;
 @checkbox-border-radius: 3px;
 @checkbox-default-border-color: @border-base-color;
+@checkbox-hover-border-color: @border-primary-color;
 @checkbox-checked-border-color: @border-primary-color;
 //** Checkbox checked mark color
 @checkbox-checked-mark-color: @B000;
@@ -741,6 +739,7 @@
 @radio-border-radius: 50%;
 @radio-default-border-color: @border-base-color;
 @radio-checked-border-color: @border-primary-color;
+@radio-hover-border-color: @border-primary-color;
 @radio-disabled-color: @B050;
 @radio-bg: transparent;
 @radio-inner-checked-color: @B000;
@@ -1025,19 +1024,23 @@
 @panel-heading-color: @B900;
 @panel-accodion-transition: 0.3s linear;
 @panel-border: 1px solid @B200;
+@panel-box-shadow: @default-box-shadow;
 
 //== Time lines
 //
 //##
 @time-line-item-content-margin-left: 12px;
 @time-line-dot-side-length: 10px;
-@time-line-item-padding-left: @time-line-item-content-margin-left+ @time-line-dot-side-length;
+@time-line-item-padding-left: @time-line-item-content-margin-left + @time-line-dot-side-length;
 @time-line-dot-default-background-color: @B300;
 @time-line-last-dot-default-background-color: @H500;
 @time-line-tail-width: 2px;
 @time-line-tail-default-background-color: @B300;
 @time-line-item-content-padding-bottom: 18px;
 @time-line-dot-center-gap: (@line-height-computed - @time-line-dot-side-length)/2;
+@time-line-content-side-offset: @time-line-dot-side-length / 2 + @time-line-item-content-margin-left;
+@time-line-alternate-time-offset: @time-line-dot-side-length / 2 +
+  @time-line-item-content-margin-left;
 
 //== Tags
 //
@@ -1088,6 +1091,7 @@
 @picker-none-font-color: @B600;
 //** Picker background
 @picker-bg: @dropdown-bg;
+@picker-transition: @input-transition;
 @picker-shadow: @dropdown-shadow;
 @picker-placeholder-color: @B600;
 @picker-value-count-background-color: @H500;
@@ -1123,6 +1127,7 @@
 @picker-menu-item-hover-bg: @H050;
 // Select picker
 @picker-select-menu-item-selected-color: @H700;
+@picker-select-menu-item-selected-disabled-color: @H200;
 @picker-menu-item-disabled-color: @B400;
 @picker-selected-value-color: @H700;
 @picker-select-arrow-down: '\F0D7';
@@ -1165,9 +1170,7 @@
 @calendar-table-cell-content-selected-color: @H500;
 @calendar-table-cell-content-disabled-color: @B400;
 /* stylelint-disable-next-line */ // calcFontColor is hack function
-@calendar-table-cell-content-selected-font-color: color(
-  ~`calcFontColor('@{calendar-table-cell-content-selected-color}') `
-);
+@calendar-table-cell-content-selected-font-color: color(~`calcFontColor('@{calendar-table-cell-content-selected-color}') `);
 @calendar-table-cell-header-color: @B600;
 @calendar-table-cell-week-number-color: @B600;
 @calendar-table-cell-week-number-bg: @B050;
@@ -1261,6 +1264,23 @@
 @breadcrumb-color: @text-color;
 //** Text color of current page in the breadcrumb
 @breadcrumb-active-color: @B600;
+
+//== Carousel
+//
+//##
+@carousel-bg: @B600;
+@carousel-toolbar-wrapper-margin: 17px; // @carousel-handler-margin + @carousel-handler-wrapper-margin = 20px
+@carousel-handler-transition: background 0.3s linear;
+@carousel-handler-bg: fade(@B000, 40);
+@carousel-handler-hover-bg: @B000;
+@carousel-handler-active-bg: @H500;
+@carousel-handler-margin: 3px;
+@carousel-handler-sense-width: @carousel-handler-margin;
+@carousel-dot-wrapper-side-length: 1.2vw; // 1.2% of the screen width.
+@carousel-dot-side-length: 10px;
+@carousel-bar-width: 18px;
+@carousel-bar-height: 4px;
+@carousel-bar-active-width: 28px;
 
 //== Type
 //

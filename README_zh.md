@@ -57,13 +57,12 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 
 ### 文档
 
-[国内镜像站点 🇨🇳 ][rsuite-gitee]
-
 您可以阅读[完整文档][rsuite-doc-guide]，或者从下面几个章节开始学习
 
 - [如何使用？][rsuite-doc-guide]
 - [自定义主题][rsuite-doc-guide-themes]
 - [国际化][rsuite-doc-guide-intl]
+- [Right-to-left][rsuite-doc-guide-intl]
 - [组件][rsuite-components-overview]
 
 **历史版本:**
@@ -89,7 +88,7 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 
 ## 开发
 
-您可以通过 [Trello](https://trello.com/b/nsaUoK7S/rsuite) 查看我们的开发计划，同时希望您能参与其中。
+您可以通过 [Projects](https://github.com/rsuite/rsuite/projects) 查看我们的开发计划，同时希望您能参与其中。
 
 1. Fork `https://github.com/rsuite/rsuite` 这个仓库。
 
@@ -157,6 +156,7 @@ React Suite 基于 [MIT licensed][license] 发布。
 [rsuite-doc-guide]: https://rsuitejs.com/guide/introduction
 [rsuite-doc-guide-themes]: https://rsuitejs.com/guide/themes
 [rsuite-doc-guide-intl]: https://rsuitejs.com/guide/intl
+[rsuite-doc-guide-intl]: https://rsuitejs.com/en/guide/intl
 [rsuite-components-overview]: https://rsuitejs.com/components/overview
 [release-notes]: https://github.com/rsuite/rsuite/releases
 [contributing]: https://github.com/rsuite/rsuite/blob/master/CONTRIBUTING.zh-CN.md
@@ -165,7 +165,6 @@ React Suite 基于 [MIT licensed][license] 发布。
 [opencollective-svg]: https://opencollective.com/rsuite/tiers/backer.svg?avatarHeight=36
 [opencollective-home]: https://opencollective.com/rsuite
 [license]: https://github.com/rsuite/rsuite/blob/master/LICENSE
-[rsuite-gitee]: http://rsuite.gitee.io/
 [gitter]: https://gitter.im/rsuite/rsuite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
 [gitter-svg]: https://badges.gitter.im/rsuite/rsuite.svg
 [demo-admin]: https://github.com/rsuite/rsuite-management-system

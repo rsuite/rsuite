@@ -40,8 +40,11 @@ class MonthDropdownItem extends React.PureComponent<MonthDropdownItemProps> {
     }
 
     if (year && month && date) {
-      const nextMonth = composeFunctions(d => setYear(d, year), d => setMonth(d, month - 1))(date);
-      onSelect && onSelect(nextMonth, event);
+      const nextMonth = composeFunctions(
+        d => setYear(d, year),
+        d => setMonth(d, month - 1)
+      )(date);
+      onSelect?.(nextMonth, event);
     }
   };
 

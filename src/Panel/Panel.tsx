@@ -15,6 +15,7 @@ class Panel extends React.Component<PanelProps, PanelState> {
   static propTypes = {
     collapsible: PropTypes.bool,
     bordered: PropTypes.bool,
+    shaded: PropTypes.bool,
     bodyFill: PropTypes.bool,
     header: PropTypes.any,
     id: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
@@ -62,9 +63,9 @@ class Panel extends React.Component<PanelProps, PanelState> {
 
   renderCollapsibleTitle(header: React.ReactNode, headerRole?: string) {
     return (
-      <h4 className={this.addPrefix('title')} role="presentation">
+      <span className={this.addPrefix('title')} role="presentation">
         {this.renderAnchor(header, headerRole)}
-      </h4>
+      </span>
     );
   }
 
@@ -101,14 +102,14 @@ class Panel extends React.Component<PanelProps, PanelState> {
   }
 
   renderHeading(headerRole?: string) {
-    let { header, collapsible } = this.props;
+    let { header } = this.props;
 
     if (!header) {
       return null;
     }
 
     if (!React.isValidElement(header) || Array.isArray(header)) {
-      header = collapsible ? this.renderCollapsibleTitle(header, headerRole) : header;
+      header = this.props.collapsible ? this.renderCollapsibleTitle(header, headerRole) : header;
     } else {
       const className = classNames(this.addPrefix('title'), _.get(header, 'props.className'));
       header = React.cloneElement<any>(header, { className });
@@ -148,6 +149,7 @@ class Panel extends React.Component<PanelProps, PanelState> {
       className,
       collapsible,
       bordered,
+      shaded,
       classPrefix,
       id,
       ...props
@@ -156,7 +158,8 @@ class Panel extends React.Component<PanelProps, PanelState> {
     const classes = classNames(className, classPrefix, this.addPrefix('default'), {
       [this.addPrefix('in')]: this.isExpanded(),
       [this.addPrefix('collapsible')]: collapsible,
-      [this.addPrefix('bordered')]: bordered
+      [this.addPrefix('bordered')]: bordered,
+      [this.addPrefix('shaded')]: shaded
     });
 
     const unhandled = getUnhandledProps(Panel, props);

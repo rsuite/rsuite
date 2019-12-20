@@ -1,10 +1,9 @@
-import React from 'react';
+import * as React from 'react';
 import { StandardProps } from '../@types/common';
 import ListItem from './ListItem';
-import { Collection } from './Manager';
 
 interface Payload {
-  collection: Collection;
+  collection: string | number;
   node: HTMLElement;
   newIndex: number;
   oldIndex: number;

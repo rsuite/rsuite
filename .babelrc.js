@@ -8,7 +8,10 @@ module.exports = (api, options) => {
   }
 
   const plugins = [
+    'lodash',
+    'date-fns',
     ['@babel/plugin-proposal-class-properties', { loose: true }],
+    '@babel/plugin-proposal-optional-chaining',
     '@babel/plugin-proposal-export-namespace-from',
     '@babel/plugin-proposal-export-default-from',
     ['@babel/plugin-transform-runtime', { useESModules: !modules }]

@@ -34,7 +34,8 @@ class DropdownMenuItem extends React.Component<DropdownMenuItemProps, DropdownMe
     children: PropTypes.node,
     classPrefix: PropTypes.string,
     tabIndex: PropTypes.number,
-    componentClass: PropTypes.elementType
+    componentClass: PropTypes.elementType,
+    renderItem: PropTypes.func
   };
   static defaultProps = {
     tabIndex: -1,
@@ -57,20 +58,20 @@ class DropdownMenuItem extends React.Component<DropdownMenuItemProps, DropdownMe
   }
 
   toggle = (_event: React.SyntheticEvent<any>, isOpen?: boolean) => {
-    let open = _.isUndefined(isOpen) ? !this.getOpen() : isOpen;
+    const open = _.isUndefined(isOpen) ? !this.getOpen() : isOpen;
     this.setState({ open });
   };
 
   handleClick = (event: React.SyntheticEvent<any>) => {
-    let { onSelect, eventKey, disabled, onClick } = this.props;
+    const { onSelect, eventKey, disabled, onClick } = this.props;
 
     if (disabled) {
       event.preventDefault();
       return;
     }
 
-    onSelect && onSelect(eventKey, event);
-    onClick && onClick(event);
+    onSelect?.(eventKey, event);
+    onClick?.(event);
   };
 
   handleMouseOver = (event: React.SyntheticEvent<any>) => {
@@ -98,6 +99,7 @@ class DropdownMenuItem extends React.Component<DropdownMenuItemProps, DropdownMe
       trigger,
       expanded,
       componentClass: Component,
+      renderItem,
       ...rest
     } = this.props;
 
@@ -145,17 +147,21 @@ class DropdownMenuItem extends React.Component<DropdownMenuItemProps, DropdownMe
       );
     }
 
+    const item = (
+      <Component
+        {...unhandled}
+        {...itemToggleProps}
+        className={addPrefix('content')}
+        tabIndex={tabIndex}
+      >
+        {icon && React.cloneElement(icon, { className: addPrefix('menu-icon') })}
+        {children}
+      </Component>
+    );
+
     return (
-      <li {...itemProps} style={style} role="presentation" className={classes}>
-        <Component
-          {...unhandled}
-          {...itemToggleProps}
-          className={addPrefix('content')}
-          tabIndex={tabIndex}
-        >
-          {icon && React.cloneElement(icon, { className: addPrefix('menu-icon') })}
-          {children}
-        </Component>
+      <li {...itemProps} style={style} className={classes}>
+        {renderItem ? renderItem(item) : item}
       </li>
     );
   }

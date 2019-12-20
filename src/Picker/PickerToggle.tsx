@@ -55,8 +55,7 @@ class PickerToggle extends React.Component<PickerToggleProps, PickerToggleState>
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   handleClean = (event: React.MouseEvent<HTMLSpanElement>) => {
-    const { onClean } = this.props;
-    onClean && onClean(event);
+    this.props.onClean?.(event);
     event.stopPropagation();
     this.handleBlur();
   };
@@ -68,9 +67,11 @@ class PickerToggle extends React.Component<PickerToggleProps, PickerToggleState>
   handleBlur = () => {
     this.setState({ active: false });
   };
-
+  getToggleNode = () => {
+    return this.toggleRef.current;
+  };
   onFocus = () => {
-    if (this.toggleRef.current && typeof this.toggleRef.current.focus === 'function') {
+    if (typeof this.toggleRef?.current?.focus === 'function') {
       this.toggleRef.current.focus();
     }
   };

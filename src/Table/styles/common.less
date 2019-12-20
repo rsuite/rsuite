@@ -86,6 +86,13 @@
     z-index: @zindex-table-header-row-wrapper;
     position: relative;
   }
+  &-affix-header {
+    z-index: @zindex-table-header-row-wrapper+1;
+    visibility: hidden;
+    &.fixed {
+      visibility: visible;
+    }
+  }
 
   &-body-row-wrapper {
     position: relative;
@@ -288,11 +295,11 @@
 
     &-shadow,
     &-left-shadow {
-      box-shadow: 3px @table-table-cell-fixed-shadow;
+      box-shadow: 3px @table-table-cell-fixed-shadow /* rtl:ignore */;
     }
 
     &-right-shadow {
-      box-shadow: -3px @table-table-cell-fixed-shadow;
+      box-shadow: -3px @table-table-cell-fixed-shadow /* rtl:ignore */;
     }
   }
 
@@ -398,7 +405,7 @@
 
   &-horizontal &-handle {
     height: @table-scrollbar-handle-width;
-    left: 0;
+    left: 0 /* rtl:ignore */;
     top: @table-scrollbar-handle-gap;
   }
 

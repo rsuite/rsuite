@@ -23,7 +23,7 @@ export function map(children: React.ReactNode, func: Function, context?: any) {
     if (!React.isValidElement(child)) {
       return child;
     }
-    let handle = func.call(context, child, index);
+    const handle = func.call(context, child, index);
     index += 1;
     return handle;
   });

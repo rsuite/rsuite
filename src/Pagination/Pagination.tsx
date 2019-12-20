@@ -49,7 +49,7 @@ class Pagination extends React.Component<PaginationProps> {
   static handledProps = [];
 
   renderPageButtons() {
-    let pageButtons = [];
+    const pageButtons = [];
     let startPage;
     let endPage;
     let hasHiddenPagesAfter;
@@ -57,7 +57,7 @@ class Pagination extends React.Component<PaginationProps> {
     const { maxButtons, activePage, pages, ellipsis, boundaryLinks, locale } = this.props;
 
     if (maxButtons) {
-      let hiddenPagesBefore = activePage - Math.floor(maxButtons / 2);
+      const hiddenPagesBefore = activePage - Math.floor(maxButtons / 2);
       startPage = hiddenPagesBefore > 1 ? hiddenPagesBefore : 1;
       hasHiddenPagesAfter = startPage + maxButtons <= pages;
 

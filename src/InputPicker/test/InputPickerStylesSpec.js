@@ -42,10 +42,30 @@ describe('InputPicker styles', () => {
     inChrome &&
       assert.equal(getStyle(dom, 'border'), `1px solid ${toRGB('#e5e5ea')}`, 'Picker border');
 
-    toggleDom.click();
-    inChrome && assert.equal(getStyle(dom, 'border'), `1px solid ${H700}`, 'Picker active border');
+    assert.equal(getStyle(dom, 'backgroundColor'), `${toRGB('#fff')}`, 'Toggle height');
     assert.equal(getStyle(toggleDom, 'height'), '34px', 'Toggle height');
     inChrome &&
       assert.equal(getStyle(toggleInputDom, 'border-style'), 'none', 'Toggle input border');
+  });
+
+  it('Should render correct toggle styles when open', done => {
+    const instanceRef = React.createRef();
+    let dom;
+    ReactDOM.render(
+      <InputPicker
+        ref={instanceRef}
+        data={data}
+        open
+        onOpen={() => {
+          inChrome &&
+            assert.equal(getStyle(dom, 'border'), `1px solid ${H700}`, 'Picker active border');
+          done();
+        }}
+        // For the test set transition to none.
+        style={{ transition: 'none' }}
+      />,
+      createTestContainer()
+    );
+    dom = getDOMNode(instanceRef.current);
   });
 });

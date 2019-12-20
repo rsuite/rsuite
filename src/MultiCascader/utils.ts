@@ -103,7 +103,7 @@ export default function(props: any): UtilType {
         return item;
       }
       if (item.parent) {
-        let p = findParent(item.parent);
+        const p = findParent(item.parent);
         if (p) {
           return p;
         }
@@ -169,10 +169,10 @@ export default function(props: any): UtilType {
        */
       for (let i = 0; i < parents.length; i++) {
         // 父节点是否可以选择
-        let isCheckableParent = !uncheckableItemValues.some(v => v === parents[i][valueKey]);
+        const isCheckableParent = !uncheckableItemValues.some(v => v === parents[i][valueKey]);
 
         if (isCheckableParent) {
-          let isCheckAll = parents[i][childrenKey]
+          const isCheckAll = parents[i][childrenKey]
             // 过滤掉被标识为不可选的选项
             .filter(n => !uncheckableItemValues.some(v => v === n[valueKey]))
             // 检查是否所有节点都被选中
@@ -229,11 +229,11 @@ export default function(props: any): UtilType {
         continue;
       }
 
-      let item: ItemType = flattenData.find(v => v[valueKey] === value[i]);
+      const item: ItemType = flattenData.find(v => v[valueKey] === value[i]);
       if (!item) {
         continue;
       }
-      let sv = splitValue(item, true, value, uncheckableItemValues);
+      const sv = splitValue(item, true, value, uncheckableItemValues);
       tempRemovedValue = _.uniq(tempRemovedValue.concat(sv.removedValue));
 
       // 获取到所有相关的值
@@ -243,7 +243,7 @@ export default function(props: any): UtilType {
     // 最后遍历所有的 nextValue, 如果它的父节点也在nextValue则删除
     return nextValue.filter(v => {
       const item = flattenData.find(n => n[valueKey] === v);
-      if (item && item.parent && nextValue.some(v => v === item.parent[valueKey])) {
+      if (item?.parent && nextValue.some(v => v === item.parent[valueKey])) {
         return false;
       }
       return true;
@@ -281,7 +281,7 @@ export default function(props: any): UtilType {
       if (value.some(n => n === child[valueKey])) {
         return true;
       }
-      if (child[childrenKey] && child[childrenKey].length) {
+      if (child[childrenKey]?.length) {
         return isSomeChildChecked(child, value);
       }
       return false;

@@ -30,6 +30,9 @@ export interface DropdownMenuItemProps<T = any> extends StandardProps {
 
   /** Select the callback function for the current option  */
   onSelect?: (eventKey: T, event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Custom rendering item */
+  renderItem?: (item: React.ReactNode) => React.ReactNode;
 }
 
 declare const DropdownMenuItem: React.ComponentType<DropdownMenuItemProps>;

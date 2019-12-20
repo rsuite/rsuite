@@ -9,7 +9,8 @@ const UN_STYLED_COMPONENTS = [
   'Whisper',
   'SafeAnchor',
   'Portal',
-  'IntlProvider'
+  'IntlProvider',
+  'Affix'
 ];
 
 const THEMES = ['default', 'dark'];

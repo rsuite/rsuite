@@ -26,6 +26,18 @@
   line-height: @picker-tree-node-line-height;
 
   > .@{ctpns}-node-label {
+    .@{ns}check-item {
+      display: inline-block;
+
+      .@{ns}picker-menu & {
+        display: block;
+      }
+
+      .@{ns}checkbox-checker > label {
+        text-align: left;
+      }
+    }
+
     &:focus .@{ns}check-item .@{ns}checkbox-checker > label {
       .picker-item-hover;
     }
@@ -100,7 +112,7 @@
     height: 36px;
     font-size: @picker-tree-node-font-size;
     line-height: @picker-tree-node-line-height;
-    transform: rotate(-90deg);
+    transform: rotate(-90deg) /* rtl: rotate(90deg) translateX(-8px) translateY(-10px) */;
     transform-origin: 3.5px 16px;
     margin-left: -2px;
     margin-top: 2px;
@@ -154,10 +166,32 @@
   .@{ctpns} {
     padding: 0 @picker-menu-padding @picker-menu-padding 0;
 
-    &-node > .@{ctpns}-node-label {
+    &-node > .@{ctpns}-node-label .@{ctpns}-node-text-wrapper {
       .ellipsis;
 
-      display: block;
+      display: inline-block;
+      vertical-align: top;
     }
   }
 }
+
+/* rtl:begin:ignore */
+
+[dir='rtl'] .@{ctpns}-node-expand-icon-wrapper {
+  right: 0;
+  padding-right: inherit;
+}
+
+/* stylelint-disable-next-line */
+.@{ctpns} {
+  /* stylelint-disable-next-line */
+  &-node > &-node-label .@{ns}check-item .@{ns}checkbox-checker > label::before {
+    /* stylelint-disable-next-line */
+    [dir='rtl'] .ReactVirtualized__Grid__innerScrollContainer & {
+      padding-right: inherit;
+      right: 46px;
+    }
+  }
+}
+
+/* rtl:end:ignore */

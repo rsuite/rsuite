@@ -47,7 +47,7 @@ class Popover extends React.Component<PopoverProps> {
         className={classes}
         style={styles}
       >
-        <div className="arrow" />
+        <div className={addPrefix('arrow')} />
         {title ? <h3 className={addPrefix('title')}>{title}</h3> : null}
         <div className={addPrefix('content')}>{children}</div>
       </div>

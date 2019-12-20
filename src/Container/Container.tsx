@@ -1,36 +1,44 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import _ from 'lodash';
 
-import { defaultProps, prefix } from '../utils';
+import { defaultProps, prefix, createContext } from '../utils';
 import { ContainerProps } from './Container.d';
 
-class Container extends React.Component<ContainerProps> {
+interface ContainerState {
+  hasSidebar: boolean;
+}
+
+export const ContainerContext = createContext({});
+
+class Container extends React.Component<ContainerProps, ContainerState> {
   static propTypes = {
     className: PropTypes.string,
     children: PropTypes.node,
     classPrefix: PropTypes.string
   };
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasSidebar: false
+    };
+  }
+  setContextState = nextState => {
+    this.setState(nextState);
+  };
   render() {
     const { className, children = [], classPrefix, ...props } = this.props;
     const addPrefix = prefix(classPrefix);
-    let hasSidebar = false;
-
-    React.Children.forEach(children, item => {
-      if (_.get(item, 'type.displayName') === 'Sidebar') {
-        hasSidebar = true;
-      }
-    });
-
     const classes = classNames(classPrefix, className, {
-      [addPrefix('has-sidebar')]: hasSidebar
+      [addPrefix('has-sidebar')]: this.state.hasSidebar
     });
 
     return (
-      <div {...props} className={classes}>
-        {children}
-      </div>
+      <ContainerContext.Provider value={{ setContextState: this.setContextState }}>
+        <div {...props} className={classes}>
+          {children}
+        </div>
+      </ContainerContext.Provider>
     );
   }
 }

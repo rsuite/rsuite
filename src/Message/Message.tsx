@@ -39,13 +39,12 @@ class Message extends React.Component<MessageProps, MessageState> {
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   handleClose = () => {
-    const { onClose } = this.props;
     this.setState({ display: 'hiding' });
 
     setTimeout(
       () =>
         this.setState({ display: 'hide' }, () => {
-          onClose && onClose();
+          this.props.onClose?.();
         }),
       1000
     );

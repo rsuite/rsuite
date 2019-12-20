@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { StandardProps } from '../@types/common';
 
+export type PlacementType = 'topStart' | 'topEnd' | 'bottomStart' | 'bottomEnd';
+
 export interface NotificationProps extends StandardProps {
   /** The title of the message box */
   title?: React.ReactNode;
@@ -12,7 +14,7 @@ export interface NotificationProps extends StandardProps {
   duration?: number;
 
   /** The placement of the message box. */
-  placement?: string;
+  placement?: PlacementType;
 
   /** The distance from the top of the message box */
   top?: number;
