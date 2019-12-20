@@ -288,7 +288,8 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
         data: nextData,
         filterData: this.getFilterData(searchKeyword, nextData),
         isSomeNodeHasChildren: isSomeNodeHasChildren(nextData, childrenKey),
-        hasValue: this.hasValue()
+        hasValue: this.hasValue(),
+        expandItemValues: this.serializeList('expand')
       });
     }
   }
@@ -1132,7 +1133,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
 
     // 当未定义 height 且 设置了 virtualized 为 true，treeHeight 设置默认高度
     const treeHeight = _.isUndefined(height) && virtualized ? defaultHeight : height;
-    const treeWidth = _.isUndefined(style.width) ? defaultWidth : style.width;
+    const treeWidth = _.isUndefined(style?.width) ? defaultWidth : style.width;
     const styles = inline ? { height: treeHeight, ...style } : {};
 
     const treeNodesClass = classNames(this.addTreePrefix('nodes'), {
