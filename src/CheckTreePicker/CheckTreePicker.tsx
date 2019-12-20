@@ -1132,6 +1132,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
 
     // 当未定义 height 且 设置了 virtualized 为 true，treeHeight 设置默认高度
     const treeHeight = _.isUndefined(height) && virtualized ? defaultHeight : height;
+    const treeWidth = _.isUndefined(style.width) ? defaultWidth : style.width;
     const styles = inline ? { height: treeHeight, ...style } : {};
 
     const treeNodesClass = classNames(this.addTreePrefix('nodes'), {
@@ -1148,11 +1149,11 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       >
         <div className={treeNodesClass}>
           {virtualized ? (
-            <AutoSizer defaultHeight={ListHeight} defaultWidth={defaultWidth}>
+            <AutoSizer defaultHeight={ListHeight} defaultWidth={treeWidth}>
               {({ height, width }) => (
                 <List
                   ref={this.listRef}
-                  width={width || defaultWidth}
+                  width={width || treeWidth}
                   height={height || ListHeight}
                   rowHeight={36}
                   rowCount={formattedNodes.length}

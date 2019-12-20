@@ -894,6 +894,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
 
     // 当未定义 height 且 设置了 virtualized 为 true，treeHeight 设置默认高度
     const treeHeight = _.isUndefined(height) && virtualized ? defaultHeight : height;
+    const treeWidth = _.isUndefined(style.width) ? defaultWidth : style.width;
     const styles = inline ? { height: treeHeight, ...style } : {};
 
     const ListHeight = getVirtualLisHeight(inline, treeHeight);
@@ -902,11 +903,11 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       <div ref={this.treeViewRef} className={classes} style={styles} onKeyDown={this.handleKeyDown}>
         <div className={this.addTreePrefix('nodes')}>
           {virtualized ? (
-            <AutoSizer defaultHeight={ListHeight} defaultWidth={defaultWidth}>
+            <AutoSizer defaultHeight={ListHeight} defaultWidth={treeWidth}>
               {({ height, width }) => (
                 <List
                   ref={this.listRef}
-                  width={width || defaultWidth}
+                  width={width || treeWidth}
                   height={height || ListHeight}
                   rowHeight={36}
                   rowCount={nodes.length}
