@@ -19,7 +19,7 @@ const Calendar = {
 export default {
   Pagination: {
     more: 'Больше',
-    prev: 'Предидущая',
+    prev: 'Предыдущая',
     next: 'Следующая',
     first: 'Первая',
     last: 'Последняя'
