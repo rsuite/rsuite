@@ -18,7 +18,7 @@ export interface DropdownMenuProps {
   valueKey: string;
   labelKey: string;
   menuWidth: number;
-  menuHeight: number;
+  menuHeight: number | string;
   className?: string;
   renderMenuItem?: (itemLabel: React.ReactNode, item: any) => React.ReactNode;
   renderMenu?: (children: object[], menu: React.ReactNode, parentNode?: object) => React.ReactNode;
@@ -44,7 +44,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
     valueKey: PropTypes.string,
     labelKey: PropTypes.string,
     menuWidth: PropTypes.number,
-    menuHeight: PropTypes.number,
+    menuHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     className: PropTypes.string,
     renderMenuItem: PropTypes.func,
     renderMenu: PropTypes.func,
