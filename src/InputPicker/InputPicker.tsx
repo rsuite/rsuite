@@ -79,6 +79,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     style: PropTypes.object,
     creatable: PropTypes.bool,
     multi: PropTypes.bool,
+    filter: PropTypes.bool,
     preventOverflow: PropTypes.bool,
     groupBy: PropTypes.any,
     sort: PropTypes.func,
@@ -469,16 +470,18 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   };
 
   handleSearch = (searchKeyword: string, event: React.ChangeEvent<HTMLInputElement>) => {
-    const { onSearch, labelKey, valueKey } = this.props;
-    const filteredData = filterNodesOfTree(this.getAllData(), item =>
-      this.shouldDisplay(item[labelKey], searchKeyword)
-    );
-    const nextState = {
-      searchKeyword,
-      focusItemValue: filteredData.length ? filteredData[0][valueKey] : searchKeyword
-    };
+    const { onSearch, labelKey, valueKey, filter } = this.props;
+    if (filter) {
+      const filteredData = filterNodesOfTree(this.getAllData(), item =>
+        this.shouldDisplay(item[labelKey], searchKeyword)
+      );
+      const nextState = {
+        searchKeyword,
+        focusItemValue: filteredData.length ? filteredData[0][valueKey] : searchKeyword
+      };
 
-    this.setState(nextState, this.updatePosition);
+      this.setState(nextState, this.updatePosition);
+    }
     onSearch?.(searchKeyword, event);
   };
 
@@ -644,8 +647,8 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
         renderMenuItem={this.renderMenuItem}
       />
     ) : (
-      <div className={this.addPrefix('none')}>{locale.noResultsText}</div>
-    );
+        <div className={this.addPrefix('none')}>{locale.noResultsText}</div>
+      );
 
     return (
       <MenuWrapper
