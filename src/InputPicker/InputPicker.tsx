@@ -606,7 +606,8 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       creatable,
       valueKey,
       multi,
-      sort
+      sort,
+      filter
     } = this.props;
 
     const { focusItemValue, searchKeyword } = this.state;
@@ -615,8 +616,12 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
 
     const allData = this.getAllData();
 
-    //let filteredData = filterNodesOfTree(allData, item => this.shouldDisplay(item[labelKey]));
     let filteredData = allData;
+
+    if(filter){
+      filteredData = filterNodesOfTree(allData, item => this.shouldDisplay(item[labelKey]));
+    }
+
 
     if (
       creatable &&
