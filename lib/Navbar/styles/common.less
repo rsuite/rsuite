@@ -1,0 +1,152 @@
+@import '../../styles/common';
+
+// NavBar
+// --------------------------------------------------
+
+.@{ns}navbar {
+  .clearfix;
+}
+
+.@{ns}navbar-header {
+  float: left;
+  display: inline-block;
+  height: @nav-bar-height;
+}
+
+// Common
+.@{ns}navbar-nav {
+  float: left;
+
+  &.@{ns}navbar-right {
+    float: right;
+  }
+
+  // Nav item content
+  .@{ns}nav-item > .@{ns}nav-item-content {
+    // Reset padding
+    padding: @nav-bar-padding-vertical @nav-bar-padding-horizontal;
+    height: @nav-bar-height;
+  }
+
+  // Reset border-radius
+  .@{ns}nav-item:not(.@{ns}nav-item-disabled) > .@{ns}nav-item-content,
+  .@{ns}dropdown > .@{ns}dropdown-toggle {
+    border-radius: 0;
+  }
+
+  // DropDown
+  .@{ns}dropdown > .@{ns}dropdown-toggle {
+    padding: @nav-bar-padding-vertical @nav-bar-padding-horizontal;
+    padding-right: @nav-bar-padding-horizontal+ @dropdown-caret-width+ @dropdown-caret-padding;
+    height: @nav-bar-height;
+  }
+
+  .@{ns}dropdown-toggle-caret {
+    top: @nav-bar-padding-vertical;
+    right: @nav-bar-padding-horizontal;
+  }
+}
+
+// Default Navbar
+.@{ns}navbar.@{ns}navbar-default {
+  background-color: @nav-bar-default-bg;
+
+  //font-color
+  &,
+  & .@{ns}navbar-header a {
+    color: @nav-bar-default-font-color;
+  }
+
+  .@{ns}dropdown .@{ns}dropdown-toggle,
+  .@{ns}nav-item > .@{ns}nav-item-content {
+    .navbar-default-item-content;
+  }
+
+  .@{ns}nav-item-active > .@{ns}nav-item-content,
+  .@{ns}dropdown .@{ns}dropdown-menu-active ~ .@{ns}dropdown-toggle {
+    &,
+    &:hover,
+    &:focus,
+    &:active {
+      color: @nav-bar-default-active-color;
+      background-color: @nav-bar-default-active-bg;
+    }
+  }
+}
+
+// Inverse Navbar
+.@{ns}navbar.@{ns}navbar-inverse {
+  background-color: @nav-bar-inverse-bg;
+
+  //font-color
+  &,
+  & .@{ns}navbar-header a {
+    color: @nav-bar-inverse-font-color;
+  }
+
+  .@{ns}dropdown .@{ns}dropdown-menu-active ~ .@{ns}dropdown-toggle,
+  .@{ns}dropdown .@{ns}dropdown-toggle,
+  .@{ns}nav-item-active > .@{ns}nav-item-content,
+  .@{ns}nav-item > .@{ns}nav-item-content {
+    .reset-font-color(@nav-bar-inverse-font-color);
+  }
+
+  .@{ns}nav-item-active > .@{ns}nav-item-content,
+  .@{ns}dropdown .@{ns}dropdown-menu-active ~ .@{ns}dropdown-toggle {
+    &,
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: @nav-bar-inverse-active-bg !important;
+    }
+  }
+
+  .@{ns}navbar-nav .@{ns}nav-item > .@{ns}nav-item-content,
+  .@{ns}navbar-nav .@{ns}dropdown .@{ns}dropdown-toggle {
+    &:hover,
+    &:focus {
+      background-color: @nav-bar-inverse-hover-bg;
+    }
+
+    &:active {
+      background-color: @nav-bar-inverse-active-bg;
+    }
+  }
+}
+
+// Subtle Navbar
+.@{ns}navbar.@{ns}navbar-subtle {
+  background-color: @nav-bar-subtle-bg;
+
+  //font-color
+  &,
+  & .@{ns}navbar-header a {
+    color: @nav-bar-subtle-font-color;
+  }
+
+  .@{ns}dropdown .@{ns}dropdown-toggle,
+  .@{ns}nav-item > .@{ns}nav-item-content {
+    .reset-font-color(@nav-bar-subtle-font-color);
+  }
+
+  .@{ns}navbar-nav .@{ns}nav-item:not(.@{ns}nav-item-active) > .@{ns}nav-item-content,
+  .@{ns}navbar-nav .@{ns}dropdown .@{ns}dropdown-toggle {
+    &:hover,
+    &:focus {
+      background-color: @nav-bar-subtle-hover-bg;
+      color: @nav-bar-subtle-hover-font-color;
+    }
+
+    &:active {
+      background-color: @nav-bar-subtle-active-bg;
+      color: @nav-bar-subtle-font-active-color;
+    }
+  }
+
+  // Active
+  .@{ns}navbar-nav .@{ns}nav-item-active > .@{ns}nav-item-content,
+  .@{ns}navbar-nav .@{ns}dropdown .@{ns}dropdown-menu-active ~ .@{ns}dropdown-toggle {
+    background-color: @nav-bar-subtle-active-bg;
+    .reset-font-color(@nav-bar-subtle-font-active-color);
+  }
+}

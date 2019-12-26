@@ -1,0 +1,22 @@
+.reset-sidenav-dropdown-menu() {
+  display: block;
+  position: static;
+  float: none;
+  box-shadow: none;
+  animation-name: none;
+  padding: 0;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+.dropdown-menu-icon-left-position(@left) {
+  &.@{ns}dropdown-item-with-icon > .@{ns}dropdown-item-content {
+    > .@{ns}dropdown-item-menu-icon {
+      left: @left;
+    }
+
+    > .@{ns}dropdown-menu-toggle {
+      padding-left: @left + 20px;
+    }
+  }
+}

@@ -1,0 +1,21 @@
+.notifocation-variant(@icon-color) {
+  .@{notification-ns} & {
+    // Content
+    .@{notification-ns}-item-content {
+      // Description
+      // Has title and description need to ajust distance
+      .@{notification-ns}-title + .@{notification-ns}-description {
+        margin-left: @notify-title-icon-size+ @notify-title-icon-margin;
+      }
+
+      // Tip icon
+      .@{ns}icon {
+        color: @icon-color;
+
+        &::before {
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,185 @@
+@import '../../styles/common';
+@import 'mixin';
+
+//
+// Notifications
+// --------------------------------------------------
+
+// Base styles
+// -------------------------
+.@{notification-ns} {
+  position: fixed;
+  z-index: @zindex-notification;
+  // Make sure the mouse can penetrate through the gap area.
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+
+  &-item {
+    // Recovery mouse event.
+    pointer-events: auto;
+  }
+
+  .ie-text-align(right);
+
+  &-item {
+    position: relative;
+  }
+
+  &-content {
+    // Hack display:contents to make sure width adaptive content.
+    .ie-display(table);
+  }
+
+  // Fixed: The problem of wide width in IE browser.
+  &,
+  &-item-wrapper {
+    max-width: @notify-max-width;
+  }
+  // Multiple notification should have spacing
+  // Hiding notification haven't spacing.
+  &-item-wrapper:not(.@{notification-ns}-fade-exited) + .@{notification-ns}-item-wrapper {
+    margin-top: 10px;
+  }
+
+  // Notification content
+  &-item-content {
+    background: @notify-default-bg;
+    box-shadow: @notify-box-shadow;
+    padding: @notify-padding;
+    border-radius: @notify-border-radius;
+    max-width: @notify-max-width;
+    // Hack display:contents to make sure width adaptive content.
+    .ie-display(table);
+  }
+
+  // Title
+  &-title {
+    .ellipsis;
+    .ie-text-align(left);
+
+    color: @notify-title-font-color;
+    font-size: @notify-title-font-size;
+    line-height: unit(@notify-title-icon-size / @notify-title-font-size);
+
+    > p {
+      margin: 0;
+    }
+
+    .@{ns}icon {
+      font-size: @notify-title-icon-size;
+      width: @notify-title-icon-size;
+      line-height: 1;
+      margin-right: @notify-title-icon-margin;
+    }
+  }
+
+  &-title-with-icon {
+    .ellipsis;
+  }
+
+  // Description
+  &-description {
+    color: @notify-description-color;
+    // Hack display:contents to make sure width adaptive content.
+    .ie-display(table);
+  }
+
+  // Has title and description need to ajust distance
+  &-title + &-description {
+    margin-top: @notify-title-description-gap;
+  }
+
+  // Notification close button
+  &-item-close {
+    position: absolute;
+    top: @notify-close-btn-margin;
+    right: @notify-close-btn-margin;
+    font-size: @notify-close-btn-font-size;
+    line-height: 1;
+    outline: none !important;
+    color: @notify-close-btn-color;
+    cursor: pointer;
+
+    &-x::before {
+      .icon-font;
+
+      content: @default-close-btn-content;
+    }
+  }
+
+  // Animations
+  &-fade-entered,
+  &-fade-leave-active {
+    animation-fill-mode: forwards;
+  }
+
+  &-fade-entered {
+    animation-duration: 0.4s;
+    animation-timing-function: cubic-bezier(0.99, 0.44, 0.44, 1.35);
+  }
+
+  &-fade-exited,
+  &-fade-entering {
+    opacity: 0;
+  }
+
+  // The same to @keyframe notificationMoveOut  100%.
+  &-fade-exited {
+    transform-origin: 0% 0%;
+    transform: scaleY(0.8);
+    max-height: 0;
+    overflow: hidden;
+  }
+
+  &-item-wrapper {
+    display: inline-block;
+    flex: 0 0 auto;
+  }
+
+  &-bottom-start,
+  &-top-start {
+    align-items: flex-start;
+    left: 24px;
+
+    .@{notification-ns}-fade-entered {
+      animation-name: notificationMoveInLeft;
+    }
+  }
+
+  &-bottom-end,
+  &-top-end {
+    align-items: flex-end;
+    right: 24px;
+
+    .@{notification-ns}-fade-entered {
+      animation-name: notificationMoveInRight;
+    }
+  }
+
+  &-fade-leave-active {
+    animation-duration: 0.3s;
+    animation-timing-function: cubic-bezier(0.64, 0.65, 0.57, 1.13);
+    animation-name: notificationMoveOut;
+  }
+}
+
+// Alternate styles
+// -------------------------
+// Generate contextual modifier classes for colorizing the alert.
+
+.@{notification-ns}-success {
+  .notifocation-variant(@notify-success-icon-color);
+}
+
+.@{notification-ns}-info {
+  .notifocation-variant(@notify-info-icon-color);
+}
+
+.@{notification-ns}-warning {
+  .notifocation-variant(@notify-warning-icon-color);
+}
+
+.@{notification-ns}-error {
+  .notifocation-variant(@notify-error-icon-color);
+}

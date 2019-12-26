@@ -1,0 +1,8 @@
+@import '../../Container/styles/index';
+
+.@{ns}sidebar-collapse {
+  transition: flex @sidenav-collapse-transition-config, width @sidenav-collapse-transition-config;
+  // Fixed firefox doesn't apply flex-basis if children width is so large.
+  // https://github.com/philipwalton/flexbugs/issues/41#issuecomment-111590394
+  min-width: 0;
+}

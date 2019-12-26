@@ -1,0 +1,15 @@
+@import '../../styles/common';
+@import '../../Button/styles/mixin';
+
+//
+// Button toolbar
+// --------------------------------------------------
+
+.@{ns}btn-toolbar {
+  // Clear whitespace
+  line-height: 0;
+
+  > :not(:first-child):not(.@{ns}btn-block) {
+    margin-left: 5px;
+  }
+}

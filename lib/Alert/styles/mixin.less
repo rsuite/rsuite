@@ -1,0 +1,19 @@
+.alert-variant(@background; @icon-color) {
+  .@{alert-ns}-container & {
+    // Content
+    .@{alert-ns}-item-content {
+      background-color: @background;
+      color: @text-color;
+
+      // Tip icon
+      .@{ns}icon {
+        color: @icon-color;
+      }
+    }
+
+    // Close button
+    .@{alert-ns}-item-close {
+      color: @icon-color;
+    }
+  }
+}

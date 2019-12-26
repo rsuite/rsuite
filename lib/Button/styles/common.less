@@ -1,0 +1,188 @@
+@import '../../styles/common';
+@import 'mixin';
+
+//
+// Buttons
+// --------------------------------------------------
+
+// Base styles
+// --------------------------------------------------
+.@{ns}btn {
+  .btn;
+}
+
+.@{ns}btn-default,
+.@{ns}btn-primary,
+.@{ns}btn-subtle {
+  .button-ripple;
+}
+
+// Button Loading state
+.@{ns}btn-loading {
+  color: transparent !important;
+  position: relative;
+  cursor: default;
+  pointer-events: none;
+
+  > .@{ns}btn-spin {
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      width: @btn-loading-spin-default-diameter;
+      height: @btn-loading-spin-default-diameter;
+      margin: auto;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      border-radius: 50%;
+
+      .@{ns}btn-xs& {
+        width: @btn-loading-spin-xs-diameter;
+        height: @btn-loading-spin-xs-diameter;
+      }
+    }
+
+    &::before {
+      border: @btn-loading-spin-ring-wide solid @btn-loading-spin-ring-color;
+
+      .@{ns}btn-primary& {
+        opacity: @btn-disabled-opacity;
+      }
+    }
+
+    &::after {
+      border-width: @btn-loading-spin-ring-wide;
+      border-color: @btn-spin-light-invert-color transparent transparent;
+      border-style: solid;
+      animation: buttonSpin 0.6s infinite linear;
+
+      .@{ns}btn-primary& {
+        border-top-color: @btn-spin-light-color;
+      }
+    }
+  }
+}
+
+// Alternate buttons
+// --------------------------------------------------
+
+// Default Button
+// Rewrite common button style
+.@{ns}btn-default {
+  color: @btn-default-color;
+  background: @btn-default-bg;
+
+  .btn-loading-reset(@btn-default-color, @btn-default-bg);
+
+  &,
+  & > .@{ns}icon {
+    .btn-transition();
+  }
+
+  &:focus {
+    color: @btn-default-color;
+    background-color: @btn-default-focus-bg;
+  }
+
+  &:hover {
+    color: @btn-default-hover-color;
+    background-color: @btn-default-hover-bg;
+  }
+
+  &:active,
+  &.@{ns}btn-active,
+  .@{ns}open > .@{ns}dropdown-toggle& {
+    color: @btn-default-color;
+    background-color: @btn-default-active-bg;
+    background-image: none;
+
+    &:hover,
+    &:focus,
+    &.focus {
+      color: @btn-default-color;
+      background-color: @btn-default-active-bg;
+    }
+  }
+
+  &.@{ns}btn-disabled,
+  .@{ns}dropdown-disabled & {
+    &,
+    &:hover,
+    &:focus,
+    &:active,
+    &:active:focus {
+      // Reset Opacity;
+      opacity: 1;
+      color: @btn-default-disabled-color;
+      background-color: @btn-default-disabled-bg;
+    }
+  }
+
+  .generate-spectrum-primary-btns();
+}
+
+// Primary Button
+.@{ns}btn-primary {
+  .button-primary-variant(@btn-primary-color; @btn-primary-bg; @calc-readable-color: true);
+
+  .btn-loading-reset(@btn-primary-color; @btn-primary-bg);
+
+  &,
+  & > .@{ns}icon {
+    .btn-transition();
+  }
+
+  .generate-spectrum-primary-btns();
+}
+
+// Link buttons
+.@{ns}btn-link {
+  .btn-transition(color);
+  .btn-link-variant(@btn-link-color);
+  .btn-loading-reset(@btn-link-color);
+
+  .generate-spectrum-link-btns();
+}
+
+// Subtle Button
+.@{ns}btn-subtle {
+  .btn-subtle;
+}
+
+// Ghost Button
+.@{ns}btn-ghost {
+  .btn-transition();
+  .btn-ghost-variant(@btn-ghost-color, @btn-ghost-border-color);
+
+  .generate-spectrum-ghost-btns();
+}
+
+// Button Sizes
+// --------------------------------------------------
+
+.@{ns}btn-lg {
+  .btn-lg;
+}
+
+.@{ns}btn-sm {
+  .btn-sm;
+}
+
+.@{ns}btn-xs {
+  .btn-xs;
+}
+
+// Block button
+// --------------------------------------------------
+
+.@{ns}btn-block {
+  display: block;
+  width: 100%;
+
+  // Vertically space out multiple block buttons
+  & + & {
+    margin-top: 5px;
+  }
+}

@@ -1,0 +1,81 @@
+@import 'core';
+
+//
+// Utility classes
+// --------------------------------------------------
+
+// Floats
+// -------------------------
+
+.clearfix {
+  .clearfix();
+}
+
+.pull-right {
+  float: right !important;
+}
+
+.pull-left {
+  float: left !important;
+}
+
+// Toggling content
+// -------------------------
+
+.hide {
+  display: none !important;
+}
+
+.show {
+  display: block !important;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+// Hide from screenreaders and browsers
+.hidden {
+  display: none !important;
+}
+
+// Animations
+// -------------------------
+.fade {
+  opacity: 0;
+  transition: opacity 0.15s linear;
+
+  &.in {
+    opacity: 1;
+  }
+}
+
+.collapse {
+  display: none;
+
+  &.in {
+    display: block;
+  }
+
+  tr&.in {
+    display: table-row;
+  }
+
+  tbody&.in {
+    display: table-row-group;
+  }
+}
+
+.collapsing {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  transition: height 0.35s ease, visibility 0.35s ease;
+}
+
+.sr-only {
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

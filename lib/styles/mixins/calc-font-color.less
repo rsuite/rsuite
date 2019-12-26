@@ -1,0 +1,17 @@
+/* stylelint-disable */
+@import 'tiny-color';
+
+.calc-font-color() {
+  @functions: ~`(function(){
+    this.calcFontColor = function(color){
+      var black = '#575757';
+      var white = '#ffffff';
+      var a = tinycolor.readability(color,black);
+      var b = tinycolor.readability(color,white);
+      return a > b ? black : white;
+    };
+  })()`;
+}
+
+// It's hack way to make this function will be compiled preferentially by less
+.calc-font-color();

@@ -1,0 +1,220 @@
+@import '../../styles/common';
+
+.@{ns}form-control-wrapper .@{ns}error-message {
+  position: absolute;
+  padding: @error-message-padding-vertical @error-message-padding-horizontal;
+  background-color: @error-message-background-color;
+  border: 1px solid @error-message-border-color;
+  border-radius: @border-radius-base;
+  filter: ~'drop-shadow(0 0 6px rgba(0,0,0,.1))';
+  z-index: @zindex-error-message;
+  color: @error-message-font-color;
+  font-size: @error-message-font-size;
+  display: none;
+  white-space: nowrap;
+
+  // Used to provide relation for error message
+  &-wrapper {
+    position: absolute;
+  }
+
+  &-show {
+    display: block;
+    animation-duration: 0.3s;
+    animation-timing-function: ease-out;
+  }
+
+  &-arrow {
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      border-color: transparent;
+      border-style: solid;
+    }
+  }
+
+  // Placement
+  // == Bottom Left && Bottom Right && Top Left && Top Right
+  &-placement-bottom-start,
+  &-placement-bottom-end {
+    bottom: -1px; // Error message width form-control has 1px gap
+
+    .@{ns}error-message {
+      top: 0;
+
+      &-show {
+        animation-name: errorMessageSlideDownIn;
+      }
+    }
+
+    .@{ns}error-message-arrow {
+      &::before,
+      &::after {
+        border-width: 0 @error-message-triangle-width @error-message-triangle-width;
+        border-bottom-color: @error-message-border-color;
+        top: -1 * @error-message-triangle-width;
+      }
+
+      &::after {
+        top: -1 * (@error-message-triangle-width - 1);
+        border-bottom-color: @error-message-background-color;
+      }
+    }
+  }
+
+  &-placement-top-start,
+  &-placement-top-end {
+    top: -1px; // Error message width form-control has 1px gap
+
+    .@{ns}error-message {
+      bottom: 0;
+
+      &-show {
+        animation-name: errorMessageSlideUpIn;
+      }
+    }
+
+    .@{ns}error-message-arrow {
+      &::before,
+      &::after {
+        border-width: @error-message-triangle-width @error-message-triangle-width 0;
+        border-top-color: @error-message-border-color;
+        bottom: -1 * @error-message-triangle-width;
+      }
+
+      &::after {
+        bottom: -1 * (@error-message-triangle-width - 1);
+        border-top-color: @error-message-background-color;
+      }
+    }
+  }
+
+  &-placement-bottom-start,
+  &-placement-top-start {
+    left: 0;
+
+    .@{ns}error-message {
+      left: 0;
+    }
+
+    .@{ns}error-message-arrow {
+      &::before,
+      &::after {
+        left: @error-message-triangle-gap;
+      }
+    }
+  }
+
+  &-placement-bottom-end,
+  &-placement-top-end {
+    right: 0;
+
+    .@{ns}error-message {
+      right: 0;
+    }
+
+    .@{ns}error-message-arrow {
+      &::before,
+      &::after {
+        right: @error-message-triangle-gap;
+      }
+    }
+  }
+}
+
+/* rtl:begin:ignore */
+
+// == Left Top && Left Bottom Right && Top && Right Bottom
+/* stylelint-disable-next-line */ // For RTL Scope
+.@{ns}form-control-wrapper .@{ns}error-message {
+  &-placement-left-start,
+  &-placement-left-end {
+    left: -1px;
+
+    .@{ns}error-message {
+      right: 0;
+
+      &-show {
+        animation-name: errorMessageSlideRightIn;
+      }
+    }
+
+    .@{ns}error-message-arrow {
+      &::before,
+      &::after {
+        border-width: @error-message-triangle-width 0 @error-message-triangle-width
+          @error-message-triangle-width;
+        border-left-color: @error-message-border-color;
+        right: -1 * @error-message-triangle-width;
+      }
+
+      &::after {
+        right: -1 * (@error-message-triangle-width - 1);
+        border-left-color: @error-message-background-color;
+      }
+    }
+  }
+
+  &-placement-right-start,
+  &-placement-right-end {
+    right: -1px;
+
+    .@{ns}error-message {
+      left: 0;
+
+      &-show {
+        animation-name: errorMessageSlideLeftIn;
+      }
+    }
+
+    .@{ns}error-message-arrow {
+      &::before,
+      &::after {
+        border-width: @error-message-triangle-width @error-message-triangle-width
+          @error-message-triangle-width 0;
+        border-right-color: @error-message-border-color;
+        left: -1 * @error-message-triangle-width;
+      }
+
+      &::after {
+        left: -1 * (@error-message-triangle-width - 1);
+        border-right-color: @error-message-background-color;
+      }
+    }
+  }
+
+  &-placement-left-start,
+  &-placement-right-start {
+    top: 0;
+
+    .@{ns}error-message {
+      top: 0;
+    }
+
+    .@{ns}error-message-arrow {
+      &::before,
+      &::after {
+        top: @error-message-triangle-vertical;
+      }
+    }
+  }
+
+  &-placement-left-end,
+  &-placement-right-end {
+    bottom: 0;
+
+    .@{ns}error-message {
+      bottom: 0;
+    }
+
+    .@{ns}error-message-arrow {
+      &::before,
+      &::after {
+        bottom: @error-message-triangle-vertical;
+      }
+    }
+  }
+}
+
+/* rtl:end:ignore */

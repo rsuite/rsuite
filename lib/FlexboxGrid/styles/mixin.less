@@ -1,0 +1,28 @@
+// Common styles for all sizes of grid columns.
+.calc-flex-box-item(@index) when (@index > 0) {
+  .@{ns}flex-box-grid-item-@{index} {
+    // Provide positioning for child elements.
+    position: relative;
+    display: block;
+    // To prevent the collapse when column is empty.
+    min-height: 1px;
+    width: percentage((@index / @grid-columns));
+  }
+}
+
+// Loop to generate flex grid.
+.loop-flex-box-items(@index) when (@index > 0) {
+  // Generate columns styles.
+  .calc-flex-box-item(@index);
+  .loop-flex-box-items((@index - 1));
+
+  // Generate order styles.
+  .@{ns}flex-box-grid-item-order-@{index} {
+    order: @index;
+  }
+}
+
+// Generate the flex grid.
+.make-flex-box-grid() {
+  .loop-flex-box-items(@grid-columns);
+}

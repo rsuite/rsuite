@@ -1,0 +1,79 @@
+@import '../../styles/common';
+@import 'mixin';
+@import 'grid-framework';
+
+//
+// Grid system
+// --------------------------------------------------
+
+// Container widths
+//
+// Set the container width, and override it for fixed navbars in media queries.
+
+.@{ns}grid-container {
+  .container-fixed();
+
+  @media (min-width: @screen-phone) {
+    width: @container-sm;
+  }
+
+  @media (min-width: @screen-desktop) {
+    width: @container-md;
+  }
+
+  @media (min-width: @screen-lg-desktop) {
+    width: @container-lg;
+  }
+}
+
+// Fluid container
+//
+// Utilizes the mixin meant for fixed width containers, but without any defined
+// width for fluid, full width layouts.
+
+.@{ns}grid-container-fluid {
+  .container-fixed();
+}
+
+// Columns
+//
+// Common styles for small and large grid columns
+
+.make-grid-columns();
+
+// Extra small grid
+//
+// Columns, offsets, pushes, and pulls for extra small devices like
+// smartphones.
+
+.make-grid(xs);
+
+// Small grid
+//
+// Columns, offsets, pushes, and pulls for the small device range, from phones
+// to tablets / phones.
+
+@media (min-width: @screen-phone) {
+  .make-grid(sm);
+}
+
+// Medium grid
+//
+// Columns, offsets, pushes, and pulls for the desktop device range.
+
+@media (min-width: @screen-desktop) {
+  .make-grid(md);
+}
+
+// Large grid
+//
+// Columns, offsets, pushes, and pulls for the large desktop device range.
+
+@media (min-width: @screen-lg-desktop) {
+  .make-grid(lg);
+}
+
+// Hiddens
+//
+// All hidden styles.
+.make-hidden;

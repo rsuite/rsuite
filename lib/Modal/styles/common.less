@@ -1,0 +1,185 @@
+@import '../../styles/common';
+@import 'mixin';
+
+//
+// Modals
+// --------------------------------------------------
+
+// Kill the scroll on the body
+.@{ns}modal-open {
+  overflow: hidden;
+}
+
+.@{ns}modal-wrapper {
+  position: fixed;
+  overflow: auto;
+  z-index: @zindex-modal;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+// Container that the modal scrolls within
+.@{ns}modal {
+  display: none;
+  overflow: visible;
+  // Prevent Chrome on Windows from adding a focus outline. For details, see
+  // https://github.com/twbs/bootstrap/pull/10951.
+  outline: 0;
+  margin: 30px auto 0 auto;
+  position: relative;
+  width: auto;
+  z-index: @zindex-modal;
+
+  // Scale up the modal
+  &-lg {
+    .content-width(@modal-lg);
+  }
+
+  &-md {
+    .content-width(@modal-md);
+  }
+
+  &-sm {
+    .content-width(@modal-sm);
+  }
+
+  &-xs {
+    .content-width(@modal-xs);
+  }
+
+  &-full {
+    @modal-full-size-margin-value: @modal-full-size-margin* 2;
+    .content-width(~'calc(100% - @{modal-full-size-margin-value})');
+
+    .@{ns}modal-dialog {
+      margin-left: @modal-full-size-margin;
+      margin-right: @modal-full-size-margin;
+    }
+  }
+}
+
+// Actual modal
+.@{ns}modal-content {
+  position: relative;
+  background-color: @modal-content-bg;
+  border-radius: @modal-border-radius;
+  // Remove focus outline from opened modal
+  outline: 0;
+  box-shadow: @modal-box-shadow;
+  padding: @modal-content-padding;
+}
+
+// Modal background
+.@{ns}modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: @modal-backdrop-bg;
+
+  // Fade for backdrop
+  &.fade {
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
+  }
+
+  &.in {
+    opacity: @modal-backdrop-opacity;
+  }
+}
+
+// Modal header
+// Top section of the modal w/ title and dismiss
+.@{ns}modal-header {
+  .clearfix;
+
+  padding-right: @line-height-computed;
+
+  .@{ns}modal-title {
+    font-size: @modal-title-font-size;
+    line-height: unit(@line-height-computed / @modal-title-font-size);
+    width: 100%;
+    display: block;
+    color: @modal-title-color;
+    .ellipsis;
+  }
+}
+
+// Close icon
+.@{ns}modal-header .@{ns}modal-header-close {
+  // button width the same to height
+  @padding-right: (@line-height-computed - @modal-close-btn-size)/2;
+
+  outline: 0;
+  position: absolute;
+  right: @modal-content-padding;
+  top: @modal-content-padding;
+  font-size: @modal-close-btn-size;
+  line-height: @modal-close-btn-line-height;
+  color: @modal-close-btn-color;
+  width: @line-height-computed;
+  padding: 0 @padding-right;
+  background: none;
+  // Remove border in IE/Firefox and so on.
+  border-style: none;
+
+  &::before {
+    .icon-font;
+
+    content: @default-close-btn-content;
+  }
+
+  [aria-hidden] {
+    display: none;
+  }
+}
+
+// Title text within header
+.@{ns}modal-header .title {
+  margin: 0;
+  color: @text-primary-color;
+  font-size: @modal-title-font-size;
+  line-height: @modal-title-line-height;
+}
+
+// Modal body
+// Where all modal content resides (sibling of .modal-header and .modal-footer)
+.@{ns}modal-body {
+  position: relative;
+  margin-top: @modal-body-margin;
+  // Make sure input error message don't overflow.
+  padding-bottom: @modal-body-margin;
+}
+
+// Footer (for actions)
+.@{ns}modal-footer {
+  text-align: right; // right align buttons
+  border-top: none;
+  .clearfix; // clear it in case folks use .pull-* classes on buttons
+
+  // Properly space out buttons
+  .@{ns}btn + .@{ns}btn {
+    margin-left: 10px;
+    margin-bottom: 0; // account for input[type="submit"] which gets the bottom margin like all other inputs
+  }
+  // but override that for button groups
+  .@{ns}btn-group .@{ns}btn + .@{ns}btn {
+    margin-left: -1px;
+  }
+  // and override it for block buttons as well
+  .@{ns}btn-block + .@{ns}btn-block {
+    margin-left: 0;
+  }
+}
+
+// Measure scrollbar width for padding body during modal show/hide
+.@{ns}modal-scrollbar-measure {
+  position: absolute;
+  top: -9999px;
+  width: 50px;
+  height: 50px;
+  overflow: scroll;
+}

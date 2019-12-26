@@ -1,0 +1,11 @@
+// Messages
+
+.message-variant(@background; @icon-color) {
+  background-color: @background;
+  color: @text-color;
+
+  .@{ns}message-icon-wrapper > .@{ns}icon,
+  .@{ns}message-btn-close {
+    color: @icon-color;
+  }
+}

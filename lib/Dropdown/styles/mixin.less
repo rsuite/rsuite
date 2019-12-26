@@ -1,0 +1,61 @@
+.dropdown-toggle-caret-common(@right:@padding-base-horizontal) {
+  display: inline-block;
+  margin-left: 2px;
+  position: absolute;
+  top: @padding-base-vertical;
+  right: @right;
+  font-weight: normal;
+
+  &::before {
+    font-family: @dropdown-caret-font-family !important;
+  }
+}
+
+.set-dropdown-caret(@prefix) {
+  .@{prefix}-placement-left-end &::before,
+  .@{prefix}-placement-left-start &::before {
+    content: @drop-left-caret-content ~'/* rtl: "@{drop-right-caret-content}" */';
+  }
+
+  .@{prefix}-placement-right-end &::before,
+  .@{prefix}-placement-right-start &::before {
+    content: @drop-right-caret-content ~'/* rtl: "@{drop-left-caret-content}" */';
+  }
+
+  .@{prefix}-placement-top-start &::before,
+  .@{prefix}-placement-top-end &::before {
+    content: @dropup-caret-content;
+  }
+
+  .@{prefix}-placement-bottom-start &::before,
+  .@{prefix}-placement-bottom-end &::before {
+    content: @dropdown-caret-content;
+  }
+}
+
+.dropdown-toggle() {
+  position: relative;
+  z-index: @zindex-dropdown;
+  padding-right: @dropdown-toggle-padding-right;
+  // Fixed: Content is not centered when customizing renderTitle.
+  display: inline-block;
+  // Rest `:focus` blue border.
+  outline: none;
+  cursor: pointer;
+
+  // Custom title toggle need reset padding.
+  &-custom-title {
+    padding: 0 !important;
+  }
+}
+
+// Horizontal dividers
+//
+// Dividers (basically an hr) within dropdowns and nav lists
+
+.nav-divider(@color: #e5e5e5) {
+  height: 1px;
+  margin: @nav-divider-margin-vertical 0;
+  overflow: hidden;
+  background-color: @color;
+}

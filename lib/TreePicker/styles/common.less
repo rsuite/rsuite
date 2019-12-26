@@ -1,0 +1,177 @@
+@import '../../styles/common';
+@import '../../Picker/styles/mixin';
+@import 'mixin';
+
+// Tree Picker
+// ----------------------
+
+// tree picker name space
+@tpns: ~'@{ns}@{tree-picker-prefix}';
+
+.@{tpns} {
+  background-color: @picker-tree-bg;
+  max-height: 360px;
+  height: 100%;
+  overflow-y: auto;
+
+  /* stylelint-disable-next-line */ // This class name provide by Virtualized.
+  .ReactVirtualized__Grid.ReactVirtualized__List:focus {
+    outline: none;
+  }
+}
+
+.@{tpns}-node {
+  position: relative;
+  font-size: @picker-tree-node-font-size;
+  line-height: @picker-tree-node-line-height;
+  text-align: left;
+
+  &-active > .@{tpns}-node-label {
+    .picker-item-active;
+
+    color: @picker-tree-node-active-color;
+    background-color: @picker-tree-node-active-bg;
+  }
+
+  > .@{tpns}-node-label {
+    margin: 0;
+    padding: @picker-tree-node-padding-vertical @picker-tree-node-padding-horizontal;
+    //text gap
+    padding-left: @picker-tree-arrow-down-width+ @picker-tree-arrow-down-gap+8px;
+    display: inline-block;
+    cursor: pointer;
+
+    &::before {
+      content: '';
+      position: absolute;
+      width: @picker-tree-arrow-down-width+ @picker-tree-arrow-down-gap;
+      height: 100%;
+      background-color: @picker-tree-bg;
+      top: 0;
+      margin-left: -24px;
+    }
+
+    &:hover {
+      background-color: @picker-tree-node-hover-bg;
+    }
+
+    &:focus {
+      background-color: @picker-tree-node-active-bg;
+    }
+  }
+
+  &-disabled {
+    color: @picker-menu-item-disabled-color;
+    cursor: @cursor-disabled;
+
+    > .@{tpns}-node-label {
+      cursor: @cursor-disabled;
+
+      &,
+      &:hover {
+        background: transparent;
+      }
+    }
+  }
+
+  &-disabled&-active > .@{tpns}-node-label {
+    &,
+    &:hover {
+      color: @picker-select-menu-item-selected-disabled-color;
+    }
+  }
+
+  &:not(&-disabled):focus > .@{tpns}-node-label {
+    background-color: @picker-tree-node-active-bg;
+  }
+}
+
+// expand icon
+.@{tpns}-node-expand-icon-wrapper {
+  display: inline-block;
+  position: absolute;
+  cursor: pointer;
+  z-index: 1;
+
+  > .@{tpns}-node-expand-icon {
+    display: inline-block;
+    padding: @picker-tree-node-padding-vertical 0;
+    padding-right: @picker-tree-arrow-down-gap;
+    height: 36px;
+    font-size: @picker-tree-node-font-size;
+    line-height: @picker-tree-node-line-height;
+    transform: rotate(-90deg) translateX(-2px) /* rtl: rotate(90deg) translateX(-6px) translateY(-8px) */;
+    transform-origin: 3.5px 16px;
+    margin-left: -2px;
+    font-family: @font-family-icon;
+    font-style: normal;
+    user-select: none;
+
+    &::before {
+      content: @picker-tree-arrow-down;
+    }
+
+    // expand children tree
+    .@{tpns}-open > .@{tpns}-node & {
+      transform: rotate(0deg);
+      margin-left: 0;
+      margin-top: 0;
+    }
+  }
+
+  > .@{tpns}-node-expanded {
+    transform: rotate(0deg);
+    margin-left: 0;
+    margin-top: 0;
+  }
+
+  > .@{tpns}-node-custom-icon {
+    .node-item-prepend-icon;
+  }
+}
+
+// node children
+.@{tpns}-node-children {
+  > .@{tpns}-children {
+    display: none;
+
+    .@{tpns}-open& {
+      display: block;
+    }
+  }
+}
+
+.@{ns}picker-menu {
+  &.@{tpns}-menu {
+    padding-top: @picker-menu-padding;
+
+    .@{ns}picker-search-bar {
+      padding-top: 0;
+    }
+  }
+
+  .@{tpns} {
+    padding: 0 @picker-menu-padding @picker-menu-padding 0;
+
+    &-node > .@{tpns}-node-label {
+      .ellipsis;
+
+      display: block;
+    }
+  }
+}
+
+/* rtl:begin:ignore */
+
+[dir='rtl'] .@{tpns}-node-expand-icon-wrapper {
+  right: 0;
+  padding-right: inherit;
+  background: @picker-tree-bg;
+}
+
+/* stylelint-disable-next-line */
+[dir='rtl'] .ReactVirtualized__Grid__innerScrollContainer .rs-tree-node > .rs-tree-node-label::before {
+  display: none;
+}
+
+/* rtl:end:ignore */

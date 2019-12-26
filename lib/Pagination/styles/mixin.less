@@ -1,0 +1,22 @@
+.pagination-active(@font-color) {
+  .active() {
+    color: @font-color;
+    background-color: transparent;
+  }
+  .active;
+
+  &:hover,
+  &:focus,
+  &.focus {
+    .active;
+  }
+
+  &:active {
+    &,
+    &:hover,
+    &:focus,
+    &.focus {
+      .active;
+    }
+  }
+}

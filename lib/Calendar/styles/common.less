@@ -1,0 +1,650 @@
+@import '../../styles/common';
+@import '../../Button/styles/mixin';
+@import '../../Picker/styles/mixin';
+
+// Calendar panel
+// ----------------------
+
+.@{clpns} {
+  background-color: @picker-bg;
+  padding-top: @calendar-picker-padding;
+  position: relative;
+  min-height: 266px;
+  overflow: hidden;
+
+  &-bordered &-table {
+    border: 1px solid @calendar-panel-table-border-color;
+    border-radius: @calendar-panel-border-radius;
+  }
+
+  &-bordered &-table-row:not(:last-child) &-table-cell,
+  &-bordered &-table-header-row &-table-cell {
+    border-bottom: 1px solid @calendar-panel-table-border-color;
+  }
+
+  &-bordered &-month-dropdown {
+    border: 1px solid @calendar-month-dropdown-row-border-color;
+    border-radius: @calendar-panel-border-radius;
+  }
+
+  &-panel &-header {
+    width: 100%;
+    padding-bottom: 6px;
+    .clearfix;
+  }
+
+  &-panel &-header &-btn-today {
+    float: right;
+  }
+
+  &-panel &-header-forward,
+  &-panel &-header-title,
+  &-panel &-header-backward {
+    .btn-md;
+  }
+
+  &-panel &-header-forward,
+  &-panel &-header-backward {
+    width: 31px;
+    float: none !important;
+  }
+
+  &-panel&-show-month-dropdown &-header-forward,
+  &-panel&-show-month-dropdown &-header-backward {
+    display: inline-block;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  &-panel &-header-month-toolbar {
+    width: auto !important;
+  }
+
+  &-panel&-show-month-dropdown &-header-month-toolbar {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  &-panel &-show-month-dropdown {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  &-panel &-table-header-row &-table-cell-content {
+    padding-top: 8px; // padding + border = 10px
+    padding-bottom: 8px;
+  }
+
+  &-panel &-table-cell-is-today &-table-cell-day {
+    color: @calendar-panel-today-active-font-color;
+    width: @calendar-panel-today-active-side-length;
+    height: @calendar-panel-today-active-side-length;
+    background-color: @calendar-panel-today-active-background-color;
+    border-radius: 50%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &-panel &-table-cell-is-today &-table-cell-content {
+    border-color: transparent;
+  }
+
+  &-panel &-table-cell-selected &-table-cell-content {
+    background-color: transparent;
+    color: inherit;
+    border: @calendar-table-cell-content-today-border-width solid
+      @calendar-panel-today-selected-border-color;
+    padding: @calendar-table-cell-content-padding - @calendar-table-cell-content-today-border-width;
+  }
+
+  &-panel &-table-cell-day {
+    margin-top: 3px;
+    display: block;
+    text-align: center;
+  }
+
+  &-panel &-month-dropdown {
+    margin-left: 12px;
+    margin-right: 12px;
+    top: 54px;
+    width: ~'calc(100% - 24px)';
+  }
+
+  &-panel:not(&-compact) &-month-dropdown-scroll {
+    height: 644px; // Flow design
+  }
+
+  &-panel&-compact &-month-dropdown-scroll {
+    height: 344px; // Flow design
+  }
+
+  &-panel:not(&-compact) &-table-row:not(&-table-header-row) &-table-cell-content {
+    width: 100%;
+    height: @calendar-panel-cell-height;
+    overflow: hidden;
+  }
+
+  &-panel:not(&-compact) &-table-cell {
+    vertical-align: top;
+  }
+
+  &-panel &-table-cell {
+    padding: 0 1px;
+    line-height: 0;
+  }
+
+  &-panel &-table-cell-content {
+    width: 100%;
+    border-radius: 0;
+  }
+
+  &-panel &-table-row:last-child :first-child &-table-cell-content {
+    border-bottom-left-radius: @calendar-panel-border-radius;
+  }
+
+  &-panel &-table-row:last-child :last-child &-table-cell-content {
+    border-bottom-right-radius: @calendar-panel-border-radius;
+  }
+
+  &-panel&-compact &-table-row:not(&-table-header-row) &-table-cell-content {
+    height: @calendar-panel-compact-cell-height;
+  }
+}
+
+// DatePicker
+// ----------------------
+
+// Show month dropdown
+.@{clpns}-show-month-dropdown {
+  .@{clpns}-header-month-toolbar {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .@{clpns}-header-backward,
+  .@{clpns}-header-forward {
+    display: none;
+  }
+
+  .@{clpns}-header-title-date {
+    .picker-calendar-title-show;
+
+    &.@{clpns}-header-error {
+      color: @error-color;
+
+      &:focus,
+      &:hover:active {
+        color: @B000 !important;
+      }
+    }
+  }
+}
+
+// Show time dropdown
+.@{clpns}-show-time-dropdown {
+  .@{clpns}-header-title-time {
+    .picker-calendar-title-show;
+
+    &.@{clpns}-header-error {
+      color: @error-color;
+
+      &:hover:active {
+        color: @B000;
+      }
+    }
+  }
+}
+
+// Calendar group
+.@{clpns}-table-cell-selected,
+.@{clpns}-table-cell-in-range {
+  position: relative;
+
+  &::before {
+    content: '';
+    display: block;
+    width: 100%;
+    margin-top: 3px;
+    height: 24px;
+    position: absolute;
+    z-index: @zindex-date-range-picker-table-cell-content - 1;
+    top: 0;
+  }
+
+  .@{clpns}-table-cell-content {
+    z-index: @zindex-date-range-picker-table-cell-content;
+    position: relative;
+  }
+}
+
+.@{clpns}-table-cell-in-range::before {
+  background-color: @calendar-table-cell-in-range-background;
+}
+
+// Reset outline for scroll list.
+.@{clpns}-month-dropdown-scroll div:focus {
+  outline: none;
+}
+
+.@{clpns}-header {
+  width: @calendar-header-width;
+  padding-left: @calendar-picker-padding;
+  padding-right: @calendar-picker-padding;
+  .clearfix;
+
+  // Month toolbar && Time toolbar
+  &-month-toolbar,
+  &-time-toolbar {
+    display: inline-block;
+  }
+
+  &-month-toolbar {
+    float: left;
+  }
+
+  &-time-toolbar {
+    float: right;
+  }
+
+  // Month toolbar title && button
+  &-title,
+  &-backward,
+  &-forward {
+    .btn(base);
+    .btn-subtle;
+    .btn-xs(base);
+
+    font-size: @font-size-base;
+    line-height: @line-height-base;
+  }
+
+  &-title {
+    margin: 0 @calendar-header-title-margin;
+  }
+
+  &-error {
+    .btn-subtle-variant(@calendar-header-title-error-color);
+
+    color: @calendar-header-title-error-color;
+  }
+
+  &-btn-disabled {
+    &,
+    &:hover,
+    &:hover:focus {
+      cursor: not-allowed;
+      opacity: 0.3;
+      background: none;
+    }
+
+    &::after {
+      display: none !important;
+    }
+  }
+
+  &-backward,
+  &-forward {
+    font-size: 0;
+    width: @padding-extra-small-vertical * 2 + @font-size-small * @line-height-small;
+
+    &::before {
+      font-family: @font-family-icon;
+      font-style: normal;
+      font-size: @font-size-base;
+    }
+  }
+
+  &-backward::before {
+    content: @drop-left-caret-content;
+  }
+
+  &-forward::before {
+    content: @drop-right-caret-content;
+  }
+
+  // Only Has month
+  &-has-month:not(&-has-time) {
+    margin: 0 auto;
+    padding-left: @calendar-picker-padding;
+    padding-right: @calendar-picker-padding;
+  }
+
+  &-has-month:not(&-has-time) &-month-toolbar {
+    display: block;
+    text-align: center;
+    width: 100%;
+    .clearfix;
+  }
+
+  &-has-month:not(&-has-time) &-backward {
+    float: left;
+  }
+
+  &-has-month:not(&-has-time) &-forward {
+    float: right;
+  }
+
+  // Only Has time
+  &-has-time:not(&-has-month) {
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  &-has-time:not(&-has-month) &-time-toolbar {
+    float: none;
+    display: inline-block;
+  }
+
+  // Has month && time
+  &-has-month&-has-time {
+    margin: 0 auto;
+  }
+}
+
+/* rtl:begin:ignore */
+/* stylelint-disable-next-line */
+[dir='rtl'] .@{clpns}-header {
+  &-backward,
+  &-forward {
+    transform: rotate(180deg);
+  }
+}
+
+/* rtl:end:ignore */
+
+.@{clpns}-view {
+  padding: @calendar-picker-view-padding-top @calendar-picker-padding @calendar-picker-padding;
+}
+
+// Calendar Table
+.@{clpns}-table {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.@{clpns}-table-row {
+  display: table-row;
+}
+
+.@{clpns}-table-cell {
+  display: table-cell;
+  width: 1%;
+  padding: @calendar-table-cell-padding;
+  text-align: center;
+  vertical-align: middle;
+
+  &-un-same-month &-content,
+  &-disabled &-content {
+    &,
+    &:hover {
+      color: @calendar-table-cell-content-disabled-color;
+    }
+  }
+
+  &-disabled &-content {
+    &,
+    &:hover {
+      background: none;
+      text-decoration: line-through;
+      cursor: not-allowed;
+    }
+  }
+
+  &-disabled&-is-today&-selected &-content {
+    &:hover {
+      .picker-calendar-cell-content-selected;
+    }
+  }
+
+  &-disabled&-is-today &-content,
+  &-disabled&-selected &-content {
+    opacity: 0.3;
+  }
+}
+
+.@{clpns}-table-cell-content {
+  .picker-calendar-cell-content;
+
+  .@{clpns}-table-cell-is-today & {
+    border: @calendar-table-cell-content-today-border-width solid
+      @calendar-table-cell-content-today-border-color;
+    padding: @calendar-table-cell-content-padding - @calendar-table-cell-content-today-border-width;
+  }
+
+  .@{clpns}-table-cell-selected & {
+    .picker-calendar-cell-content-selected;
+  }
+}
+
+// Table header row
+.@{clpns}-table-header-row {
+  .@{clpns}-table-cell-content {
+    color: @calendar-table-cell-header-color;
+    font-size: @font-size-small;
+    line-height: @line-height-small;
+    padding-top: 2px;
+    padding-bottom: 2px;
+
+    &,
+    &:hover,
+    &:focus,
+    &:hover:focus {
+      background: none;
+      cursor: auto;
+    }
+  }
+}
+
+.@{clpns}-table-cell-week-number {
+  display: table-cell;
+  width: 1%;
+  padding: @calendar-table-cell-padding;
+  text-align: center;
+  vertical-align: middle;
+  color: @calendar-table-cell-week-number-color;
+  background: @calendar-table-cell-week-number-bg;
+  font-size: @font-size-small;
+}
+
+.@{clpns}-table-row {
+  &:nth-child(2) {
+    .@{clpns}-table-cell-week-number {
+      border-top-left-radius: @calendar-panel-border-radius;
+      border-top-right-radius: @calendar-panel-border-radius;
+    }
+  }
+  &:last-child {
+    .@{clpns}-table-cell-week-number {
+      border-bottom-left-radius: @calendar-panel-border-radius;
+      border-bottom-right-radius: @calendar-panel-border-radius;
+    }
+  }
+}
+
+// Calendar month dropdown
+.@{clpns}-month-dropdown {
+  display: none;
+  position: absolute;
+  top: @calendar-dropdown-top;
+  border-top: 1px solid @calendar-month-dropdown-border;
+  margin-top: 4px;
+  width: 100%;
+  background-color: @calendar-month-dropdown-bg;
+  overflow: hidden;
+  z-index: @zindex-date-range-picker-table-cell-content;
+
+  .@{clpns}-show-month-dropdown & {
+    display: block;
+  }
+
+  .@{clpns}-show-month-dropdown &-content {
+    animation: 0.3s linear slideDown;
+  }
+
+  &-scroll {
+    height: 230px;
+  }
+
+  &-row {
+    position: relative;
+    padding-left: 40px + @calendar-picker-padding;
+    padding-right: @calendar-picker-padding;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    &:not(:last-child) {
+      border-bottom: 1px dotted @calendar-month-dropdown-row-border-color;
+    }
+  }
+
+  &-year {
+    position: absolute;
+    top: ~'calc(50% - 0.5em)';
+    left: @calendar-picker-padding;
+
+    &-active {
+      color: @calendar-month-dropdown-year-active-color;
+    }
+  }
+
+  &-list {
+    display: block;
+    .clearfix;
+  }
+
+  &-cell {
+    display: inline-block;
+    float: left;
+    width: ~'calc((100% - @{calendar-table-cell-content-today-border-width} * 12 ) / 6)';
+    margin: 1px;
+    text-align: center;
+    vertical-align: middle;
+
+    // In IE and Edge need more minus 1px. @see https://github.com/rsuite/rsuite/issues/585
+    .ie-edge-width(
+      ~'calc((100% - @{calendar-table-cell-content-today-border-width} * 12 - 1px) / 6)'
+    );
+  }
+
+  &-cell-content {
+    .picker-calendar-cell-content;
+  }
+
+  &-cell:not(&-cell-active).disabled &-cell-content {
+    color: @B400;
+    background: none;
+    text-decoration: line-through;
+    cursor: not-allowed;
+  }
+
+  &-cell-active.disabled &-cell-content {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  &-cell-active &-cell-content {
+    .picker-calendar-cell-content-selected;
+  }
+}
+
+// Calendar time dropdown
+.@{clpns}-time-dropdown {
+  display: none;
+  position: absolute;
+  top: @calendar-dropdown-top;
+  padding-left: @calendar-picker-padding;
+  padding-right: @calendar-picker-padding;
+  width: 100%;
+  background-color: @calendar-title-dropdown-bg;
+  overflow: hidden;
+  z-index: @zindex-date-range-picker-table-cell-content;
+
+  .@{clpns}-show-time-dropdown & {
+    display: block;
+  }
+
+  .@{clpns}-show-time-dropdown &-content {
+    animation: 0.3s linear slideDown;
+  }
+
+  &-row {
+    display: table;
+    width: 100%;
+  }
+
+  &-column {
+    display: table-cell;
+    width: 1%;
+
+    > ul,
+    > ul > li {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    > ul {
+      height: 230px;
+      overflow-y: auto;
+      padding-bottom: 200px;
+    }
+  }
+
+  &-column-title {
+    width: 100%;
+    background-color: @calendar-time-dropdown-column-title-bg;
+    color: @calendar-time-dropdown-column-title-font-color;
+    text-align: center;
+    font-size: @font-size-small;
+    line-height: @line-height-small;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+  &-cell {
+    font-size: @font-size-base;
+    line-height: @line-height-computed;
+    padding: 5px;
+    display: block;
+    color: @calendar-time-dropdown-column-cell-default-color;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s linear;
+
+    &-active& {
+      &,
+      &:hover {
+        background-color: @calendar-time-dropdown-column-cell-active-bg;
+        color: @calendar-time-dropdown-column-cell-active-color;
+      }
+    }
+
+    &,
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+
+    &:hover {
+      color: @calendar-time-dropdown-column-cell-default-color;
+      background-color: @calendar-time-dropdown-column-cell-hover-bg;
+    }
+
+    &-disabled {
+      &,
+      &:hover,
+      &:focus {
+        color: @calendar-table-cell-content-disabled-color;
+        background: none;
+        cursor: not-allowed;
+        text-decoration: line-through;
+      }
+    }
+
+    &-active&-disabled& {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+  }
+}

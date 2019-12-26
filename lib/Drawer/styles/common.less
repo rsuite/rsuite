@@ -1,0 +1,241 @@
+@import '../../styles/common';
+@import 'mixin';
+
+.@{ns}drawer-wrapper {
+  position: fixed;
+  z-index: @zindex-drawer;
+  top: 0;
+}
+
+// Container that the drawer scrolls within
+.@{ns}drawer {
+  display: none;
+  overflow: hidden;
+  position: fixed;
+  z-index: @zindex-drawer;
+  // Prevent Chrome on Windows from adding a focus outline. For details, see
+  // https://github.com/twbs/bootstrap/pull/10951.
+  outline: 0;
+
+  // Kill the scroll on the body
+  &-open&-has-backdrop {
+    overflow: hidden;
+  }
+
+  // Drawer sizes
+  &-left,
+  &-right {
+    top: 0;
+    height: 100%;
+
+    &.@{ns}drawer-lg {
+      .drawer-content-width(@drawer-horizontal-lg);
+    }
+
+    &.@{ns}drawer-md {
+      .drawer-content-width(@drawer-horizontal-md);
+    }
+
+    &.@{ns}drawer-sm {
+      .drawer-content-width(@drawer-horizontal-sm);
+    }
+
+    &.@{ns}drawer-xs {
+      .drawer-content-width(@drawer-horizontal-xs);
+    }
+  }
+
+  &-top,
+  &-bottom {
+    width: 100%;
+
+    &.@{ns}drawer-lg {
+      .drawer-content-height(@drawer-vertical-lg);
+    }
+
+    &.@{ns}drawer-md {
+      .drawer-content-height(@drawer-vertical-md);
+    }
+
+    &.@{ns}drawer-sm {
+      .drawer-content-height(@drawer-vertical-sm);
+    }
+
+    &.@{ns}drawer-xs {
+      .drawer-content-height(@drawer-vertical-xs);
+    }
+  }
+
+  // Full page
+  &-full {
+    @max-width: ~'calc(100% - @{drawer-full-size-margin})';
+    @max-height: @max-width;
+
+    &.@{ns}drawer-top,
+    &.@{ns}drawer-bottom {
+      .drawer-content-height(@max-height);
+
+      .@{ns}drawer-content {
+        height: 100%;
+      }
+    }
+
+    &.@{ns}drawer-left,
+    &.@{ns}drawer-right {
+      .drawer-content-width(@max-width);
+    }
+  }
+
+  // Drawer directions
+  &-right {
+    right: 0;
+  }
+
+  &-left {
+    left: 0;
+  }
+
+  &-top {
+    top: 0;
+  }
+
+  &-bottom {
+    bottom: 0;
+  }
+}
+
+// Make sure drawer can be show in Safari.
+.@{ns}drawer-open .@{ns}drawer {
+  overflow: visible;
+}
+
+.@{ns}drawer-dialog {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.@{ns}drawer-content {
+  position: absolute;
+  background-color: @drawer-content-bg;
+  outline: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: @drawer-box-shadow;
+}
+
+.@{ns}drawer-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: @zindex-drawer-background;
+  background-color: @drawer-backdrop-bg;
+
+  // Fade for backdrop
+  &.fade {
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
+  }
+
+  &.in {
+    opacity: @drawer-backdrop-opacity;
+  }
+}
+
+// Drawer body
+.@{ns}drawer-body {
+  position: relative;
+  margin: @drawer-body-margin @drawer-content-spacing;
+  // Javascript handle height
+  overflow: auto;
+}
+
+// Measure scrollbar width for padding body during modal show/hide
+.@{ns}drawer-scrollbar-measure {
+  position: absolute;
+  top: -9999px;
+  width: 50px;
+  height: 50px;
+  overflow: scroll;
+}
+
+// Drawer header
+// Top section of the modal title.
+.@{ns}drawer-header {
+  .clearfix;
+
+  padding-right: @line-height-computed;
+  position: relative;
+  margin: @drawer-content-spacing @drawer-content-spacing 0;
+
+  .@{ns}drawer-title {
+    font-size: @drawer-title-font-size;
+    line-height: unit(@line-height-computed / @drawer-title-font-size);
+    width: 100%;
+    display: block;
+    color: @drawer-title-color;
+    .ellipsis;
+  }
+}
+
+// Close Button
+.@{ns}drawer-header .@{ns}drawer-header-close {
+  // button width the same to height
+  @padding-right: (@line-height-computed - @drawer-close-btn-size)/2;
+
+  outline: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: @drawer-close-btn-size;
+  line-height: @drawer-close-btn-line-height;
+  color: @drawer-close-btn-color;
+  width: @line-height-computed;
+  padding: 0 @padding-right;
+  background: none;
+  // Remove border in IE/Firefox and so on.
+  border-style: none;
+
+  &::before {
+    .icon-font;
+
+    content: @default-close-btn-content;
+  }
+
+  [aria-hidden] {
+    display: none;
+  }
+}
+
+// Title text within header
+.@{ns}drawer-header .@{ns}title {
+  margin: 0;
+  color: @text-primary-color;
+  font-size: @modal-title-font-size;
+  line-height: @modal-title-line-height;
+}
+
+// Footer (for actions)
+.@{ns}drawer-footer {
+  .clearfix; // clear it in case folks use .pull-* classes on buttons
+
+  text-align: right; // right align buttons
+  border-top: none;
+  margin: 0 @drawer-content-spacing @drawer-content-spacing;
+
+  // Properly space out buttons
+  .@{ns}btn + .@{ns}btn {
+    margin-left: 10px;
+    margin-bottom: 0; // account for input[type="submit"] which gets the bottom margin like all other inputs
+  }
+  // but override that for button groups
+  .@{ns}btn-group .@{ns}btn + .@{ns}btn {
+    margin-left: -1px;
+  }
+  // and override it for block buttons as well
+  .@{ns}btn-block + .@{ns}btn-block {
+    margin-left: 0;
+  }
+}

@@ -1,0 +1,47 @@
+@import '../../styles/common';
+
+.@{ns}divider {
+  background-color: @divider-border-color;
+
+  &-vertical {
+    display: inline-block;
+    height: 1em;
+    width: 1px;
+    vertical-align: middle;
+    margin: 0 @divider-default-vertical-margin;
+  }
+
+  &-horizontal {
+    height: 1px;
+    margin: @divider-default-horizontal-margin 0;
+  }
+
+  &-horizontal&-with-text {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: transparent;
+    margin: @divider-with-text-horizontal-margin 0;
+
+    .ie-display(table);
+    .ie-text-align(center);
+
+    &::before,
+    &::after {
+      content: '';
+      flex: 1 1 auto;
+      border-top: 1px solid @divider-border-color;
+
+      .ie-position(relative);
+      .ie-display(table-cell);
+      .ie-top(50%);
+      .ie-width(50%);
+      .ie-transform(~'translateY(50%)');
+    }
+  }
+
+  &-inner-text {
+    padding: 0 @divider-text-space;
+    flex: 0 0 auto;
+  }
+}

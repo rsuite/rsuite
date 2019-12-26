@@ -1,0 +1,206 @@
+// Button variants
+.button-primary-variant(@font-base-color; @primary-color; @calc-readable-color:false) {
+  @color-event-light: color(~`palette('@{primary-color}', 300) `);
+  @color-light: color(~`palette('@{primary-color}', 400) `);
+  @color-dark: color(~`palette('@{primary-color}', 600) `);
+  @color-darker: color(~`palette('@{primary-color}', 700) `);
+  /* stylelint-disable-next-line */ // calcFontColor is hack function
+  @readable-color: color(~`calcFontColor('@{color-darker}') `);
+  @font-color: if(boolean(@calc-readable-color), @readable-color, @font-base-color);
+
+  color: @font-color;
+  background-color: @color-darker;
+  .btn-icon-with-text(@color-dark);
+
+  .btn-loading-reset(@font-color, @color-darker);
+
+  &:focus,
+  &.@{ns}btn-focus {
+    color: @font-color;
+    background-color: @color-dark;
+    .btn-icon-with-text(@primary-color);
+  }
+
+  &:hover {
+    color: @font-color;
+  }
+
+  &:not(.@{ns}btn-disabled):hover {
+    background-color: @color-dark;
+    .btn-icon-with-text(@primary-color);
+  }
+
+  &:active,
+  &.@{ns}btn-active,
+  .@{ns}open > .@{ns}dropdown-toggle& {
+    color: @font-color;
+    background-color: @color-light;
+    .btn-icon-with-text(@color-event-light);
+
+    &:hover,
+    &:focus,
+    &.focus {
+      color: @font-color;
+      background-color: @color-light;
+      .btn-icon-with-text(@color-event-light);
+    }
+  }
+
+  &:active,
+  &.@{ns}btn-active,
+  .open > .@{ns}dropdown-toggle& {
+    background-image: none;
+  }
+
+  &.@{ns}btn-disabled {
+    &:hover,
+    &:focus,
+    &.focus {
+      background: @color-darker;
+    }
+  }
+}
+
+.btn-subtle-variant(@color) {
+  @color-light: color(~`palette('@{color}', 400) `);
+  @color-dark: color(~`palette('@{color}', 600) `);
+
+  color: @btn-subtle-color;
+  background-color: transparent;
+
+  .btn-loading-reset(@btn-subtle-color);
+
+  &:focus,
+  &.@{ns}btn-focus,
+  &:hover {
+    color: @btn-subtle-hover-color;
+    background: @color;
+  }
+
+  &:active,
+  &.@{ns}btn-active,
+  .@{ns}open > .@{ns}dropdown-toggle& {
+    color: @btn-subtle-active-color;
+    background-color: @color-light;
+    background-image: none;
+
+    &:hover,
+    &:focus,
+    &.focus {
+      color: @btn-subtle-active-color;
+      background-color: @color-light;
+    }
+  }
+
+  &.@{ns}btn-disabled {
+    &,
+    &:hover,
+    &:focus,
+    &.focus,
+    &:active,
+    &:hover:active {
+      color: @btn-subtle-disabled-color;
+      background: none;
+    }
+  }
+}
+
+.btn-ghost-variant(@font-base-color,@border-base-color) {
+  @color: @font-base-color;
+  @color-light: color(~`palette('@{color}', 400) `);
+  @color-border-light: color(~`palette('@{color}', 400) `);
+  @border-color: @border-base-color;
+  @color-lighter: color(~`palette('@{border-color}', 200) `);
+  @color-border-lighter: color(~`palette('@{border-color}', 200) `);
+
+  color: @color;
+  border: 1px solid @border-color;
+  background-color: transparent;
+
+  .btn-loading-reset(@color);
+
+  &:focus,
+  &.@{ns}btn-focus {
+    color: @color-light;
+    border-color: @color-border-light;
+  }
+
+  &:hover {
+    color: @color-light;
+    border-color: @color-border-light;
+  }
+
+  &:active,
+  &.@{ns}btn-active,
+  .@{ns}open > .@{ns}dropdown-toggle& {
+    color: @color-lighter;
+    border-color: @color-border-lighter;
+    background-image: none;
+
+    &:hover,
+    &:focus,
+    &.@{ns}btn-focus {
+      color: @color-lighter;
+      border-color: @color-border-lighter;
+    }
+  }
+
+  &.@{ns}btn-disabled {
+    &:hover,
+    &:focus,
+    &.focus {
+      background: none;
+    }
+  }
+}
+
+.btn-link-variant(@base-color) {
+  @color: @base-color;
+  @hover-color: color(~`palette('@{base-color}', 400) `);
+  @active-color: color(~`palette('@{base-color}', 200) `);
+
+  color: @color;
+  font-weight: normal;
+  border-radius: 0;
+
+  .btn-loading-reset(@color);
+
+  &,
+  &:active,
+  &.@{ns}btn-active {
+    background-color: transparent;
+  }
+
+  &,
+  &:hover,
+  &:focus,
+  &:active {
+    border-color: transparent;
+  }
+
+  &:hover,
+  &:focus {
+    color: @hover-color;
+    text-decoration: @link-hover-decoration;
+    background-color: transparent;
+  }
+
+  &:active,
+  &.@{ns}btn-active {
+    color: @active-color;
+
+    &:hover,
+    &:focus,
+    &.focus {
+      color: @active-color;
+    }
+  }
+
+  &.@{ns}btn-disabled {
+    &:hover,
+    &:focus {
+      color: @color;
+      text-decoration: none;
+    }
+  }
+}

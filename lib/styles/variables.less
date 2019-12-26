@@ -1,0 +1,1306 @@
+@import 'iconfont-variables';
+@import 'constants';
+
+@primary-color: @H500;
+@primary-bg-color: @H050;
+@primary-border-color: @H300;
+
+//== Scaffolding
+//
+//## Settings for some of the most global styles.
+
+//** Background color for `<body>`.
+@body-bg: @B000;
+//** Global text color on `<body>`.
+@text-color: @B800;
+//** Global textual link color.
+@text-primary-color: @H500;
+
+//** Link hover decoration.
+@link-hover-decoration: underline;
+//** Link active decoration.
+@link-active-decoration: underline;
+//** border base color.
+@border-base-color: @B300;
+
+//== Common
+//
+//## base unit
+@base-unit-px: 18px;
+//## inline gap
+@inline-gap: 8px;
+
+//== All icon content sets.
+//** Close button content
+@default-close-btn-content: @icon-close;
+//** Check mark
+@check-mark-content: @icon-check;
+//** X mark
+@x-mark-content: @icon-close;
+//** Table expand
+@table-expand-content: @icon-caret-right;
+//** Table shrink
+@table-shrink-content: @icon-caret-down;
+//** DropLeft Caret Content
+@drop-left-caret-content: @icon-arrow-left-line;
+//** DropRight Caret Content
+@drop-right-caret-content: @icon-arrow-right-line;
+//** Dropup Caret Content
+@dropup-caret-content: @icon-arrow-up-line;
+//** Dropdown Caret Content
+@dropdown-caret-content: @icon-arrow-down-line;
+//** Uploder
+@uploader-file-item-icon-content: @icon-attachment;
+@uploader-file-item-retry-icon-content: @icon-reload;
+//** Picker
+@picker-search-bar-icon-content: @icon-search;
+
+//** Placeholder
+@placeholder-holder-bg: @B100;
+
+//** Calendar
+@calendar-default-caret-content: @icon-calendar;
+@calendar-only-time-caret-content: @icon-clock-o;
+//** Progress
+@progress-status-success-icon-content: @check-mark-content;
+@progress-status-fail-icon-content: @x-mark-content;
+//** Panel
+@panel-heading-accordion-icon-content: @dropdown-caret-content;
+@panel-heading-accordion-in-icon-content: @dropup-caret-content;
+
+//== Typography
+//
+//## Font, line-height, and color for body text, headings, and more.
+
+@font-family-base: Apple-System, Arial, Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+  'Microsoft YaHei', STXihei, sans-serif;
+@font-family-icon: 'rsuite-icon-font';
+
+@font-size-large: 16px;
+@font-size-base: 14px;
+@font-size-small: 12px;
+@font-size-extra-small: 12px;
+
+@font-size-h1: 46px;
+@font-size-h2: 36px;
+@font-size-h3: 28px;
+@font-size-h4: 22px;
+@font-size-h5: 18px;
+@font-size-h6: 16px; // The same to font-size-base
+
+@line-height-h1: 62px;
+@line-height-h2: 50px;
+@line-height-h3: 42px;
+@line-height-h4: 34px;
+@line-height-h5: 24px;
+@line-height-h6: 22px;
+
+//** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
+@line-height-computed: 20px;
+//** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
+@line-height-large-computed: 22px;
+//** Unit-less `line-height` for use in components like buttons.
+@line-height-large: unit(@line-height-large-computed / @font-size-large); // ~1.375
+@line-height-base: unit(@line-height-computed / @font-size-base); // ~1.4285714285714286
+@line-height-small: unit(@line-height-computed / @font-size-small); // ~1.6666666666666667
+@line-height-extra-small: unit(
+  @line-height-computed / @font-size-extra-small
+); // ~1.6666666666666667
+
+//** By default, this inherits from the `<body>`.
+@headings-font-family: inherit;
+@headings-font-weight: bolder;
+@headings-color: inherit;
+
+//** Box shadows
+@default-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+
+//== Iconography
+//
+//## Specify custom location and filename of the included Glyphicons icon font. Useful for those including Bootstrap via Bower.
+
+//** Load fonts from this directory.
+// default use cdn.jsdelivr.net
+// If you want to use local resource , please change it to "./fonts"
+@icon-font-path: '//cdn.jsdelivr.net/npm/rsuite/dist/styles/fonts';
+@icon-font-size-base: @font-size-base;
+@icon-line-height-base: 1;
+@icon-css-prefix: ~'@{ns}icon';
+@icon-inverse: @B000;
+@icon-font-sizes: 1, 2, 3, 4, 5;
+
+//== Components
+//
+//## Define common padding and border radius sizes and more. Values based on 14px text and 1.428 line-height (~20px to start).
+
+@padding-base-vertical: 8px;
+@padding-base-horizontal: 12px;
+
+@padding-large-vertical: 10px;
+@padding-large-horizontal: 16px;
+
+@padding-small-vertical: 5px;
+@padding-small-horizontal: 10px;
+
+@padding-extra-small-vertical: 2px;
+@padding-extra-small-horizontal: 8px;
+
+@border-radius-base: 6px;
+
+//== Tables
+//
+@table-border-color: @B100;
+@table-body-background: @B000;
+@table-head-background: @table-body-background;
+@table-head-font-color: @B600;
+@table-body-hover-background: @H050;
+@table-table-cell-fixed-shadow: 0 5px rgba(9, 9, 9, 0.08);
+@table-resize-mouse-color: @H500;
+@table-sort-icon-color: @H500;
+@table-sort-icon-unsort: '\f0dc';
+@table-sort-icon-desc: '\f0dd';
+@table-sort-icon-asc: '\f0de';
+@table-header-content-padding-vertical: 10px;
+@table-header-font-size: @font-size-small;
+@table-header-line-small: @line-height-small;
+@table-body-content-padding-vertical: 13px;
+@table-content-padding-horizontal: 10px;
+@table-scrollbar-handle-background: @B400;
+@table-scrollbar-pressed-handle-background: @B500;
+@table-scrollbar-background: @B200;
+@table-scrollbar-pressed-background: @B300;
+@table-scrollbar-timing-duration: 0.1s;
+@table-scrollbar-width: 10px;
+@table-scrollbar-handle-width: 8px;
+@table-scrollbar-handle-gap: (@table-scrollbar-width - @table-scrollbar-handle-width)/2;
+@table-column-resize-spanner-width: 3px;
+@table-column-resize-spanner-gap-width: 3px;
+@table-column-resize-spanner-triangle-side-length: 3px;
+@table-header-sort-wrapper-margin-left: 5px;
+@table-loader-backdrop-color: @loader-backdrop-color;
+@table-loader-transition: 0.2s ease-in;
+@table-spanner-background: @table-head-background;
+@table-scrollbar-vertical-handle-background-color: fade(@table-scrollbar-background, 40);
+
+@icon-table-sense-width: 10px;
+@table-expand-icon-color: @B600;
+
+//== Table Pagination
+//
+@table-pagination-padding-vertical: 20px;
+@table-pagination-padding-horizontal: 20px;
+@table-pagination-font-color: @B600;
+
+//== Buttons
+//
+//## For each of Bootstrap's buttons, define text, background and border color.
+
+@btn-ripple-background-color: rgba(0, 0, 0, 0.2);
+@btn-font-weight: normal;
+@btn-disabled-opacity: 0.3;
+// Default Button color set;
+@btn-default-color: @text-color;
+@btn-default-bg: @B050;
+@btn-default-hover-color: @text-color;
+@btn-default-hover-bg: @B200;
+@btn-default-active-bg: @B300;
+@btn-default-focus-bg: @B200;
+@btn-default-disabled-color: @B400;
+@btn-default-disabled-bg: @B050;
+
+// Button has icon color set
+@btn-icon-with-text-bg: @B100;
+@btn-icon-with-text-hover-bg: @B300;
+@btn-icon-with-text-focus-bg: @B300;
+@btn-icon-with-text-active-bg: @B400;
+// Primary Button color set;
+@btn-primary-color: @B000;
+@btn-primary-bg: @H500;
+// Default Button color set;
+@btn-link-color: @H500;
+// Subtle Button color set;
+@btn-subtle-primary-color: @primary-color;
+@btn-subtle-color: @B600;
+@btn-subtle-hover-color: @B000;
+@btn-subtle-default-hover-color: @B800;
+@btn-subtle-hover-bg: @B050;
+@btn-subtle-focus-bg: @btn-subtle-hover-bg;
+@btn-subtle-active-color: @B000;
+@btn-subtle-active-default-color: @B900;
+@btn-subtle-active-default-bg: @B200;
+@btn-subtle-disabled-color: @B400;
+// Ghost Button color set;
+@btn-ghost-color: @H500;
+@btn-ghost-border-color: @H500;
+@btn-ghost-border-width: 1px;
+
+// Allows for customizing button radius independently from global border radius
+@btn-border-radius-base: @border-radius-base;
+@btn-border-radius-large: @border-radius-base;
+@btn-border-radius-small: @border-radius-base;
+
+// Button Loading
+@btn-loading-spin-default-diameter: 18px;
+@btn-loading-spin-xs-diameter: 16px;
+@btn-loading-spin-ring-wide: 3px;
+@btn-loading-spin-ring-color: @B050;
+@btn-spin-light-color: @B000;
+@btn-spin-light-invert-color: @B500;
+//== Btn Group
+@btn-group-disabled-active-color: @B500;
+//== other
+@ripple-transition: 550ms, 1s;
+
+//== Badge
+@badge-background: @error-color;
+@badge-dot-side-length: 8px;
+@badge-content-border-radius: 8px;
+@badge-content-color: @B000;
+
+//== Avatar
+@avatar-background: @B300;
+@avatar-content-color: @B000;
+@avatar-border-radius: 4px;
+@avatar-lg-side-length: 60px;
+@avatar-md-side-length: 40px;
+@avatar-sm-side-length: 30px;
+@avatar-xs-side-length: 20px;
+@avatar-lg-font-size: 26px;
+@avatar-md-font-size: 18px;
+@avatar-sm-font-size: 14px;
+@avatar-xs-font-size: 12px;
+
+//== Forms
+//
+//##
+
+// “\00a0” = “ ”
+@form-plain-text-checkbox-divider-content: ',\00a0';
+@form-plain-text-border-color: fadeout(@B000, 100%);
+
+@padding-base-input-vertical: @padding-base-vertical;
+@padding-base-input-horizontal: @padding-base-horizontal;
+
+@input-border-width: 1px;
+
+//** `<input>` background color
+@input-bg: @B000;
+//** `<input disabled>` background color
+@input-bg-disabled: @B050;
+
+//** Text color for `<input>`s
+@input-color: @B800;
+//** Text disabled color
+@input-color-disabled: @B400;
+//** `<input>` border color
+@input-border: @B200;
+
+//** Default `.form-control` border radius
+// This has no effect on `<select>`s  in some browsers, due to the limited stylability of `<select>`s in CSS.
+@input-border-radius: @border-radius-base;
+//** Large `.form-control` border radius
+@input-border-radius-large: @border-radius-base;
+//** Small `.form-control` border radius
+@input-border-radius-small: @border-radius-base;
+
+//** Border color for inputs on focus
+@input-border-focus: @H700;
+
+//** Input transition
+@input-transition: border-color ease-in-out 0.3s;
+
+//** Placeholder text color
+@input-color-placeholder: @B600;
+
+//** Default `.input` height
+@input-height-base: @line-height-computed + (@padding-base-vertical * 2);
+//** Large `.input` height
+@input-height-large: @line-height-large-computed + (@padding-large-vertical * 2);
+//** Small `.input` height
+@input-height-small: @line-height-computed + (@padding-small-vertical * 2);
+//** Extra small `.input` height
+@input-height-extra-small: @line-height-computed + (@padding-extra-small-vertical * 2);
+
+//** `.form-group` margin
+@form-group-margin-bottom: 24px;
+@control-label-margin-bottom: 4px;
+
+//** Background color for textual input addons
+@input-group-addon-bg: @B050;
+//** Border color for textual input addons
+@input-group-addon-border-color: @input-border;
+//** InputGroup padding for add-on
+@input-group-padding-for-add-on-large: 46px;
+@input-group-padding-for-add-on-base: 36px;
+@input-group-padding-for-add-on-small: 30px;
+@input-group-padding-for-add-on-extra-small: 26px;
+
+//** Disabled cursor for form controls and buttons.
+@cursor-disabled: not-allowed;
+
+//== Form Layout
+@form-control-width: 300px;
+@help-block-color: @B600;
+@help-block-inline-gap: 10px;
+@control-label-width: 170px;
+@control-label-margin-right: 12px;
+@form-control-margin-left: 12px;
+// == Error Message
+@error-message-padding-vertical: 4px;
+@error-message-padding-horizontal: 8px;
+@error-message-background-color: @B000;
+@error-message-border-color: @B200;
+@error-message-height: @error-message-padding-vertical*2 + @line-height-computed;
+@error-message-font-color: @error-color;
+@error-message-font-size: @font-size-small;
+@error-message-triangle-width: 6px;
+@error-message-triangle-gap: 10px;
+@error-message-triangle-vertical: 4px;
+@error-message-translate-distance: 2px;
+
+//== Number input
+//
+//##
+@number-input-button-color: @B600;
+@number-input-touchspin-font-size: 12px;
+
+//== Dropdowns
+//
+//## Dropdown menu container and contents.
+
+@dropdown-selected-font-weight: bold;
+
+//**
+@dropdown-caret-width: 10px;
+@dropdown-caret-padding: 10px;
+
+//** Background for the dropdown menu.
+@dropdown-bg: @B000;
+//** Divider color for between dropdown items.
+@dropdown-divider-bg: @divider-border-color;
+@dropdown-shadow: 0 0 10px rgba(0, 0, 0, 0.06), 0 4px 4px rgba(0, 0, 0, 0.12);
+
+//** Dropdown link text color.
+@dropdown-link-color: @B800;
+//** Hover color for dropdown links.
+@dropdown-link-hover-color: @B800;
+//** Hover background for dropdown links.
+@dropdown-link-hover-bg: @H050;
+
+//** Active dropdown menu item text color.
+@dropdown-link-active-color: @H700;
+//** Active dropdown menu item background color.
+@dropdown-link-active-bg: fade(@H050, 50);
+
+//** Disabled dropdown menu item background color.
+@dropdown-link-disabled-color: @B200;
+
+//** Text color for headers within dropdown menus.
+@dropdown-header-color: @B500;
+
+//** Dropdown item content vertical padding
+@dropdown-item-content-padding-vertical: 8px;
+//** Dropdown item content horizontal padding
+@dropdown-item-content-padding-horizontal: 12px;
+//** Dropdown item content submenu icon
+@dropdown-item-content-submenu-icon-angle-spacing: 10px;
+@dropdown-item-content-submenu-icon-angle-width: 5px;
+@dropdown-item-content-submenu-icon-angle-line-height: @line-height-base;
+@dropdown-item-content-submenu-icon-angle-size: @font-size-base;
+@dropdown-toggle-padding-right: @padding-base-horizontal+ @dropdown-caret-width+
+  @dropdown-caret-padding;
+//** Dropdown Caret Font Family
+@dropdown-caret-font-family: @font-family-icon;
+
+//** DropDownMenu offset value
+@dropdown-max-height: 280px;
+@dropdown-menu-lg-top: 40px;
+@dropdown-menu-sm-top: 27px;
+@dropdown-menu-xs-top: 21px;
+
+//== Toggle
+@toggle-transition: 0.2s linear;
+@toggle-default-bg: @B300;
+@toggle-default-hover-bg: @B400;
+//Toggle checked background color
+@toggle-checked-bg: @H500;
+@toggle-checked-hover-bg: @H600;
+//Disabled toggle checked background color
+@toggle-disabled-default-background-color: @B050;
+@toggle-disabled-checked-background-color: @H100;
+/* stylelint-disable-next-line */ // calcFontColor is hack function
+@toggle-inner-text-color: color(~`calcFontColor('@{toggle-checked-bg}') `);
+@toggle-active-scale: 1.2;
+@toggle-transition: 0.2s ease-in-out;
+@toggle-md-height: 24px;
+@toggle-md-handle-gap: 3px;
+@toggle-md-min-width: 44px;
+@toggle-md-inner-font-size: @font-size-small;
+@toggle-md-handle-diameter: @toggle-md-height - @toggle-md-handle-gap*2;
+@toggle-md-handle-bg: @B000;
+@toggle-md-inner-line-height-computed: @toggle-md-height;
+@toggle-md-inner-line-height: unit(
+  @toggle-md-inner-line-height-computed / @toggle-md-inner-font-size
+);
+// The same to button
+@toggle-md-inner-margin: @padding-base-vertical;
+
+//# small size
+@toggle-sm-height: 14px;
+@toggle-sm-min-width: 26px;
+@toggle-sm-handle-gap: 2px;
+@toggle-sm-inner-margin: 6px;
+@toggle-sm-inner-font-size: @font-size-small;
+
+//# Large size
+@toggle-lg-height: 30px;
+@toggle-lg-min-width: 55px;
+@toggle-lg-handle-gap: 4px;
+@toggle-lg-inner-margin: @padding-small-horizontal;
+@toggle-lg-inner-font-size: @font-size-base;
+
+//-- Z-index master list
+//
+// Warning: Avoid customizing these values. They're used for a bird's eye view
+// of components dependent on the z-axis and are designed to all work together.
+//
+// Note: These variables are not generated into the Customizer.
+
+@zindex-date-range-picker-calendar-dropdown: 1;
+@zindex-date-range-picker-table-cell-content: 1;
+@zindex-badge-content: 1;
+@zindex-input: 2;
+@zindex-input-group-icon: 4;
+@zindex-dropdown: 5;
+@zindex-picker-toggle: 5; // The same with zindex-dropdown
+@zindex-picker-input: @zindex-picker-toggle + 1; // Greater than picker toggle
+@zindex-picker-menu: @zindex-picker-toggle+2; // Greater than picker toggle and input
+@zindex-dropdown-a: 10;
+@zindex-navbar: 1000;
+@zindex-navbar-fixed: 1030;
+@zindex-modal: 1050;
+@zindex-drawer: 1050;
+@zindex-drawer-background: @zindex-drawer;
+@zindex-popover: 1060;
+@zindex-tooltip: 1070;
+@zindex-notification: 1080;
+//#==== Uploader
+@zindex-uploader-picture-preview: 1;
+@zindex-uploader-picture-loading-wrapper: 2;
+@zindex-uploader-picture-error-wrapper: 3;
+@zindex-uploader-picture-remove-button: 4;
+//#==== Form
+@zindex-error-message: 5;
+//#==== Table
+@zindex-table-body-row-wrapper: 0;
+@zindex-table-header-row-wrapper: 2;
+@zindex-table-column-resize-spanner: 3;
+@zindex-table-cell-group-fixed: 4;
+@zindex-table-row-cell-group-shadow: 5;
+@zindex-table-mouse-area: 6;
+
+//== Media queries breakpoints
+//
+//## Define the breakpoints at which your layout will change, adapting to different screen sizes.
+
+// Extra small screen / phone
+// @screen-xs
+@screen-phone: 480px;
+
+// Medium screen / desktop
+// @screen-md
+@screen-desktop: 992px;
+
+// Large screen / wide desktop
+// @screen-lg
+@screen-lg-desktop: 1200px;
+
+// So media queries don't overlap when required, provide a maximum
+@screen-phone-max: (@screen-desktop - 1);
+@screen-desktop-max: (@screen-lg-desktop - 1);
+
+//== Grid system
+//
+//## Define your custom responsive grid.
+
+//** Number of columns in the grid.
+@grid-columns: 24;
+//** Padding between columns. Gets divided in half for the left and right.
+@grid-gutter-width: 10px;
+
+//== Container sizes
+//
+//## Define the maximum width of `.container` for different screen sizes.
+
+// Small screen / phone / tablet
+@container-phone: (480px + @grid-gutter-width);
+//** For `@screen-sm-min` and up.
+@container-sm: @container-phone;
+
+// Medium screen / desktop
+@container-desktop: (940px + @grid-gutter-width);
+//** For `@screen-md-min` and up.
+@container-md: @container-desktop;
+
+// Large screen / wide desktop
+@container-large-desktop: (1140px + @grid-gutter-width);
+//** For `@screen-lg-min` and up.
+@container-lg: @container-large-desktop;
+
+//== Navs
+//
+//##
+// Base
+@nav-item-font-size: @font-size-base;
+@nav-item-line-height: @line-height-base;
+@nav-item-padding-vertical: 8px;
+@nav-item-padding-horizontal: 12px;
+@nav-item-spacing: 6px;
+@nav-base-height: @line-height-computed+ @nav-item-padding-vertical*2;
+@nav-item-icon-spacing: 6px;
+@nav-item-font-default-color: @B600;
+@nav-item-font-active-color: @H600;
+@nav-item-border-radius: 6px;
+@nav-item-default-hover-bg: @B200;
+@nav-item-hover-font-color: @btn-default-hover-color;
+@nav-item-click-bg: @B200;
+@nav-item-click-font-color: @btn-default-color;
+@nav-item-active-font-color: @H700;
+@nav-item-disable-font-color: @B400;
+@nav-item-transition: color 0.3s linear, background-color 0.3s linear;
+
+// Variant
+//** Tab
+@nav-tab-default-bg: @body-bg;
+@nav-tab-waterline-width: 1px;
+@nav-tab-waterline-color: @B300;
+@nav-tab-waterline: @nav-tab-waterline-width solid @nav-tab-waterline-color;
+
+//** Subtle
+@nav-subtle-waterline-width: 2px;
+@nav-subtle-waterline-default-color: @B050;
+@nav-subtle-waterline-active-color: @H700;
+@nav-subtle-hover-bg: @nav-item-default-hover-bg;
+@nav-subtle-default-waterline: @nav-subtle-waterline-width solid @nav-subtle-waterline-default-color;
+@nav-subtle-active-waterline: @nav-subtle-waterline-width solid @nav-subtle-default-waterline;
+@nav-subtle-content-transition: 0.3s ease-out;
+
+//** Divider
+@nav-divider-margin-vertical: 6px;
+
+//== Navbar
+//
+//##
+@nav-bar-padding-vertical: 18px;
+@nav-bar-padding-horizontal: 16px;
+@nav-bar-height: @nav-bar-padding-vertical * 2 + @line-height-computed;
+//** Default
+@nav-bar-default-bg: @B050;
+@nav-bar-default-active-color: @H700;
+@nav-bar-default-active-bg: transparent;
+@nav-bar-default-font-color: @B800;
+
+//** Inverse
+/* stylelint-disable-next-line */ // calcFontColor is hack function
+@nav-bar-inverse-font-color: color(~`calcFontColor('@{nav-bar-inverse-bg}') `);
+@nav-bar-inverse-bg: @H500;
+@nav-bar-inverse-hover-bg: @H600;
+@nav-bar-inverse-active-bg: @H700;
+
+//** Subtle
+@nav-bar-subtle-bg: @B000;
+@nav-bar-subtle-font-color: @B700;
+@nav-bar-subtle-font-active-color: @H700;
+@nav-bar-subtle-hover-bg: @B050;
+@nav-bar-subtle-hover-font-color: @B800;
+@nav-bar-subtle-active-bg: fade(@B000, 0);
+
+//== Sidenav
+//
+//##
+@sidenav-padding-vertical: 15px;
+@sidenav-children-padding-vertical: 11px;
+@sidenav-padding-horizonal: 20px;
+@sidenav-collapse-in-width: 100%;
+@sidenav-default-width: 56px;
+@sidenav-item-height: @sidenav-padding-vertical*2 + @line-height-computed;
+@sidenav-menu-max-height: @sidenav-item-height*40;
+@sidenav-menu-animation-time: 1.5s;
+@sidenav-level1-item-font-size: @font-size-large;
+@sidenav-level1-item-line-height: unit(@line-height-computed / @font-size-large);
+@sidenav-icon-spacing: 20px;
+@sidenav-icon-width: @sidenav-level1-item-font-size;
+@sidenav-dropdown-toggle-caret-width: 20px;
+@sidenav-level-retract: 9px;
+@sidenav-level2-retract: @sidenav-padding-horizonal + @sidenav-icon-width + @sidenav-icon-spacing;
+@sidenav-level3-retract: @sidenav-level2-retract + @sidenav-level-retract; //60 px
+@sidenav-level4-retract: @sidenav-level2-retract + @sidenav-level-retract*2;
+@sidenav-level5-retract: @sidenav-level2-retract + @sidenav-level-retract*3;
+@sidenav-level6-retract: @sidenav-level2-retract + @sidenav-level-retract*4;
+@sidenav-collapse-transition-config: 0.2s ease-in;
+// ** Sidenav default
+@sidenav-default-bg: @nav-bar-default-bg;
+@sidenav-default-font-color: @nav-item-font-default-color;
+@sidenav-default-hover-font-color: @nav-item-hover-font-color;
+@sidenav-default-click-font-color: @nav-item-click-font-color;
+@sidenav-default-active-font-color: @nav-item-active-font-color;
+@sidenav-default-hover-bg: @nav-item-default-hover-bg;
+@sidenav-default-click-bg: @nav-item-click-bg;
+// ** Sidenav inverse
+/* stylelint-disable-next-line */ // calcFontColor is hack function
+@sidenav-inverse-font-color: color(~`calcFontColor('@{sidenav-inverse-bg}') `);
+@sidenav-inverse-bg: @nav-bar-inverse-bg;
+@sidenav-inverse-hover-bg: @nav-bar-inverse-hover-bg;
+@sidenav-inverse-active-bg: @nav-bar-inverse-active-bg;
+
+// ** Sidenav subtle
+@sidenav-subtle-bg: @B000;
+@sidenav-subtle-hover-bg: @B050;
+@sidenav-subtle-active-bg: @nav-bar-subtle-active-bg;
+@sidenav-subtle-active-color: @nav-bar-subtle-font-active-color;
+
+//== Pagination
+//
+//##
+
+@pagination-hover-color: @btn-subtle-default-hover-color;
+@pagination-active-color: @H700;
+@pagination-hover-bg: @btn-subtle-hover-bg;
+@pagination-active-bg: @btn-subtle-active-default-bg;
+@pagination-transition: @ripple-transition, color 0.3s linear;
+
+//== Steps
+//
+//##
+
+@steps-bg: @B000;
+@steps-icon-diameter: 30px;
+@steps-icon-size-default-font-size: 12px;
+@steps-default-color: @B600;
+@steps-tail-default-color: @B400;
+@steps-icon-process-bg: @H500;
+@steps-icon-process-color: @B000;
+@steps-content-process-color: @B800;
+@steps-error-color: @error-color;
+@steps-icon-finish-color: @H500;
+@steps-icon-error-color: @steps-error-color;
+@steps-content-color: @steps-default-color;
+@steps-icon-spacing: 10px;
+@steps-item-spacing: 10px;
+// This space place the steps-icon
+@steps-icon-space-width: @steps-icon-diameter+ @steps-icon-spacing;
+@steps-icon-size: @font-size-large;
+@steps-icon-line-height: unit((@steps-icon-diameter - 2px) / @font-size-large);
+@steps-title-font-size: @font-size-large;
+@steps-title-line-height: unit(@steps-icon-diameter / @font-size-large);
+@steps-description-margin-top: 12px;
+// Small
+@small-steps-icon-diameter: 24px;
+@small-steps-icon-space-width: @small-steps-icon-diameter + @steps-icon-spacing;
+@small-steps-icon-line-height: unit((@small-steps-icon-diameter - 2px) / @font-size-base);
+@small-steps-title-line-height: unit(@small-steps-icon-diameter / @font-size-base);
+@small-steps-icon-size: @font-size-base;
+@small-steps-description-font-size: @font-size-small;
+@small-steps-description-line-height: @line-height-small;
+@small-steps-description-margin-top: 12px;
+
+//== Form states and alerts
+//
+//## Define colors for form feedback states and, by default, alerts.
+
+@state-success-text: @success-color;
+@state-success-bg: @success-light-color;
+
+@state-info-text: @info-color;
+@state-info-bg: @info-light-color;
+
+@state-warning-text: @warning-color;
+@state-warning-bg: @warning-light-color;
+
+@state-error-text: @error-color;
+@state-error-bg: @error-light-color;
+
+//** Checkbox Styles
+@checkbox-width-height: 16px;
+@checkbox-sense-width: 10px;
+@checkbox-border-radius: 3px;
+@checkbox-default-border-color: @border-base-color;
+@checkbox-hover-border-color: @border-primary-color;
+@checkbox-checked-border-color: @border-primary-color;
+//** Checkbox checked mark color
+@checkbox-checked-mark-color: @B000;
+@checkbox-disabled-color: @B050;
+@checkbox-bg: transparent;
+
+//** Radio Checked width
+@radio-width-height: 16px;
+@radio-inner-width-height: 6px;
+@radio-sense-width: 10px;
+@radio-border-radius: 50%;
+@radio-default-border-color: @border-base-color;
+@radio-checked-border-color: @border-primary-color;
+@radio-hover-border-color: @border-primary-color;
+@radio-disabled-color: @B050;
+@radio-bg: transparent;
+@radio-inner-checked-color: @B000;
+@radio-picker-active-color: @picker-selected-value-color;
+@radio-label-font-color: @B600;
+@radio-label-font-hover-color: @B800;
+
+//== Tooltips
+//
+//##
+
+//** Tooltip max width
+@tooltip-max-width: 250px;
+//** Tooltip text color
+@tooltip-color: @B000;
+//** Tooltip background color
+@tooltip-bg: @B900;
+//** Tooltip opacity
+@tooltip-opacity: 1;
+//** Tooltip border radius
+@tooltip-border-radius: 4px;
+
+//** Tooltip arrow width
+@tooltip-arrow-width: 6px;
+//** Tooltip arrow color
+@tooltip-arrow-color: @tooltip-bg;
+//** Tooltip translate distance
+@tooltip-translate-distance: 2px;
+//** Distance of Arrow and frame.
+@tooltip-arrow-gap-lg: 10px;
+@tooltip-arrow-gap-sm: 4px;
+//== Popovers
+//
+//##
+
+//** Popover body background color
+@popover-bg: @dropdown-bg;
+//** Popover maximum width
+@popover-max-width: 250px;
+//** Popover border-radius
+@popover-border-radius: 4px;
+@popover-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
+
+//** Popover arrow width
+@popover-arrow-width: 6px;
+//** Popover arrow color
+@popover-arrow-color: @popover-bg;
+//** Popover translate distance
+@popover-translate-distance: 2px;
+
+//** Popover outer arrow width
+@popover-arrow-outer-width: @popover-arrow-width;
+//** Distance of Arrow and frame.
+@popover-arrow-gap: 4px;
+
+//== Modals
+//
+//##
+
+//** Padding applied to the modal content
+@modal-content-padding: 20px;
+//** Margin of modal header and body
+@modal-body-margin: 30px;
+//** Modal border-radius
+@modal-border-radius: @border-radius-base;
+//** Modal title font-size
+@modal-title-font-size: @font-size-large;
+//** Modal title color
+@modal-title-color: @text-color;
+//** Modal title line-height
+@modal-title-line-height: @line-height-large;
+
+//** Background color of modal content area
+@modal-content-bg: @dropdown-bg;
+
+//** Modal Box shadow
+@modal-box-shadow: @default-box-shadow;
+
+//** Modal backdrop background color
+@modal-backdrop-bg: @B900;
+//** Modal backdrop opacity
+@modal-backdrop-opacity: 0.3; // 30%
+
+//** Modal close button
+@modal-close-btn-size: @font-size-small;
+@modal-close-btn-line-height: @line-height-small;
+@modal-close-btn-color: @text-color;
+
+//** Modal sizes
+@modal-lg: 968px;
+@modal-md: 800px;
+@modal-sm: 600px;
+@modal-xs: 400px;
+
+//** Modal full size margin
+@modal-full-size-margin: 60px;
+
+//== Drawer
+//
+//##
+//** Background color of drawer content area
+@drawer-content-bg: @modal-content-bg;
+//** Font color of drawer title.
+@drawer-title-color: @text-color;
+//** Drawer backdrop background color
+@drawer-backdrop-bg: @modal-backdrop-bg;
+//** Drawer backdrop opacity
+@drawer-backdrop-opacity: @modal-backdrop-opacity; // 30%
+//** Drawer title font-size
+@drawer-title-font-size: @font-size-large;
+//** Padding applied to the drawer content
+@drawer-content-spacing: 20px;
+//** Margin of modal header and body
+@drawer-body-margin: 30px;
+//** Modal Box shadow
+@drawer-box-shadow: @default-box-shadow;
+//** Modal close button
+@drawer-close-btn-size: @font-size-small;
+@drawer-close-btn-line-height: @line-height-small;
+@drawer-close-btn-color: @modal-close-btn-color;
+
+//** Drawer sizes
+@drawer-horizontal-lg: @modal-lg;
+@drawer-horizontal-md: @modal-md;
+@drawer-horizontal-sm: @modal-sm;
+@drawer-horizontal-xs: @modal-xs;
+
+@drawer-vertical-lg: 568px;
+@drawer-vertical-md: 480px;
+@drawer-vertical-sm: 400px;
+@drawer-vertical-xs: 290px;
+
+//** Modal full size margin
+@drawer-full-size-margin: 60px;
+
+//== Message
+//
+//## Define alert colors, border radius, and padding.
+
+@message-padding: 20px;
+@message-icon-size: @font-size-small;
+@message-icon-large-size: 24px;
+@message-close-btn-size: 12px;
+@message-close-btn-padding: 8px 8px 0;
+@message-icon-margin-right: 10px;
+@message-title-size: @font-size-base;
+@message-border-radius: @border-radius-base;
+@message-link-font-weight: bold;
+@message-header-color: @B900;
+
+// Alternate colors
+@message-success-bg: @state-success-bg;
+@message-success-icon-color: @state-success-text;
+@message-info-bg: @state-info-bg;
+@message-info-icon-color: @state-info-text;
+@message-warning-bg: @state-warning-bg;
+@message-warning-icon-color: @state-warning-text;
+@message-error-bg: @state-error-bg;
+@message-error-icon-color: @state-error-text;
+
+//== Alert
+//
+//##
+@alert-ns: ~'@{ns}alert';
+@alert-padding: 20px;
+@alert-border-radius: @border-radius-base;
+@alert-max-width: 400px;
+@alert-box-shadow: @default-box-shadow;
+@alert-close-btn-size: 12px;
+@alert-close-btn-padding: 4px;
+
+// Alternate colors
+@alert-success-bg: @state-success-bg;
+@alert-success-icon-color: @state-success-text;
+@alert-info-bg: @state-info-bg;
+@alert-info-icon-color: @state-info-text;
+@alert-warning-bg: @state-warning-bg;
+@alert-warning-icon-color: @state-warning-text;
+@alert-error-bg: @state-error-bg;
+@alert-error-icon-color: @state-error-text;
+
+//== Notification
+//
+//##
+@notification-ns: ~'@{ns}notification';
+@notify-default-bg: @B000;
+@notify-padding: 20px;
+@notify-border-radius: @border-radius-base;
+@notify-box-shadow: @default-box-shadow;
+@notify-max-width: 400px;
+@notify-close-btn-font-size: 12px;
+@notify-close-btn-margin: 8px;
+@notify-close-button-content: @default-close-btn-content;
+@notify-close-btn-color: @B600;
+@notify-title-font-size: @font-size-large;
+@notify-title-icon-size: 24px;
+@notify-title-icon-margin: 10px;
+@notify-title-description-gap: 8px;
+@notify-title-font-color: @B900;
+@notify-description-color: @B800;
+
+// Alternate colors
+@notify-success-icon-color: @state-success-text;
+@notify-info-icon-color: @state-info-text;
+@notify-warning-icon-color: @state-warning-text;
+@notify-error-icon-color: @state-error-text;
+
+//== Loaders
+//
+//##
+@loader-lg-diameter: 64px;
+@loader-md-diameter: 36px;
+@loader-sm-diameter: 18px;
+@loader-xs-diameter: 16px;
+@loader-content-color: @B800;
+@loader-content-inverse-color: @B050;
+@loader-lg-content-font-size: @font-size-large;
+@loader-md-content-font-size: @font-size-base;
+@loader-sm-content-font-size: @font-size-base;
+@loader-xs-content-font-size: @font-size-small;
+@loader-default-diameter: @loader-sm-diameter;
+@loader-default-content-font-size: @font-size-small;
+// backdrop color
+@loader-backdrop-color: fade(@B000, 90);
+@loader-backdrop-inverse-color: fade(@B900, 83);
+// spin
+@loader-spin-ring-wide: 3px;
+@loader-spin-ring-color: fade(@B050, 80);
+@loader-spin-ring-active-color: @B500;
+@loader-spin-ring-inverse-color: fade(@B050, 30);
+@loader-spin-ring-inverse-active-color: @B000;
+// spin animation time
+@loader-duration-fast: 0.4s;
+@loader-duration-normal: 0.6s;
+@loader-duration-slow: 0.8s;
+// spacing
+@loader-content-spin-spacing-horizontal: 12px;
+@loader-content-spin-spacing-horizontal-xs: 10px;
+@loader-content-spin-spacing-vertical: 10px;
+//== Progress
+//
+//##
+@progress-line-padding-vertical: 8px;
+@progress-line-padding-horizontal: 12px;
+@progress-info-text-color: @B700;
+@progress-bar-color: @primary-color;
+@progress-bar-bg: @B200;
+@progress-bar-fill-bg: @H500;
+@progress-font-size: @font-size-large;
+@progress-bar-height: 10px;
+@progress-element-gap: 12px;
+@progress-status-success-color: @success-color;
+@progress-status-fail-color: @error-color;
+@progress-bg-transition: 0.2s ease-in-out;
+//== Uploader
+//
+//##
+@uploader-file-list-margin-top: 10px;
+@uploader-file-item-icon-font-size: 16px;
+@uploader-default-font-color: @B800;
+@uploader-light-font-color: @B600;
+@uploader-item-hover-background-color: @B050;
+@uploader-base-padding: 8px;
+@uploader-picture-side-length: 66px;
+@uploader-picture-item-gap: 10px;
+@uploader-picture-remove-button-radius: 24px;
+@uploader-picture-border-color: @B200;
+@uploader-picture-background-color: @B300;
+@uploader-picture-text-border-color: @B300;
+@uploader-picture-text-preview-side-length: 50px;
+@uploader-file-item-retry-icon-color: @B800;
+@uploader-picture-item-background: rgba(255, 255, 255, 0.8);
+@uploader-picture-item-btn-remove-background: @uploader-picture-item-background;
+
+//== Panels
+//
+//##
+@panel-padding: 20px;
+@panel-heading-font-size: 16px;
+@panel-split-line-color: @dropdown-divider-bg;
+@panel-group-panel-heading-hover-background: @B050;
+@panel-heading-color: @B900;
+@panel-accodion-transition: 0.3s linear;
+@panel-border: 1px solid @B200;
+@panel-box-shadow: @default-box-shadow;
+
+//== Time lines
+//
+//##
+@time-line-item-content-margin-left: 12px;
+@time-line-dot-side-length: 10px;
+@time-line-item-padding-left: @time-line-item-content-margin-left + @time-line-dot-side-length;
+@time-line-dot-default-background-color: @B300;
+@time-line-last-dot-default-background-color: @H500;
+@time-line-tail-width: 2px;
+@time-line-tail-default-background-color: @B300;
+@time-line-item-content-padding-bottom: 18px;
+@time-line-dot-center-gap: (@line-height-computed - @time-line-dot-side-length)/2;
+@time-line-content-side-offset: @time-line-dot-side-length / 2 + @time-line-item-content-margin-left;
+@time-line-alternate-time-offset: @time-line-dot-side-length / 2 +
+  @time-line-item-content-margin-left;
+
+//== Tags
+//
+//##
+@tag-default-background: @B050;
+@tag-default-color: @B800;
+@tag-gap: 10px;
+@tag-toggle-clean-hover-color: @error-color;
+
+//== List
+//
+//##
+@list-border-color: @B200;
+@list-hover-color: @H050;
+@list-border-width: 1px;
+@list-item-drag-bg-color: @B000;
+@list-item-placeholder-bg-color: @H050;
+@list-item-placeholder-border-color: @H500;
+
+//== Divider
+//
+//##
+@divider-border-color: @B200;
+@divider-default-horizontal-margin: 24px;
+@divider-with-text-horizontal-margin: 30px;
+@divider-text-space: 12px;
+@divider-default-vertical-margin: 12px;
+
+//== Picker
+//** prefixs
+@picker-prefix: ~'@{ns}picker';
+@select-picker-prefix: ~'picker-select';
+@check-picker-prefix: ~'picker-check';
+@calendar-picker-prefix: ~'calendar';
+@cascader-picker-prefix: ~'picker-cascader';
+@cascader-multi-picker-prefix: ~'picker-multi-cascader';
+@tree-picker-prefix: ~'tree';
+@check-tree-picker-prefix: ~'check-tree';
+@date-range-picker-prefix: ~'picker-daterange';
+@date-picker-prefix: ~'picker-date';
+@input-picker-prefix: ~'picker-input';
+@multi-input-picker-prefix: ~'picker-tag';
+// Calendar Picker Name Space
+@clpns: ~'@{ns}@{calendar-picker-prefix}';
+// Check picker name space
+@ckpns: ~'@{ns}@{check-picker-prefix}';
+@picker-none-padding: 6px 12px 12px;
+@picker-none-font-color: @B600;
+//** Picker background
+@picker-bg: @dropdown-bg;
+@picker-transition: @input-transition;
+@picker-shadow: @dropdown-shadow;
+@picker-placeholder-color: @B600;
+@picker-value-count-background-color: @H500;
+@picker-value-count-color: @B000;
+@picker-value-count-border-radius: 10px;
+@picker-value-count-padding: 10px;
+@picker-value-count-margin: 4px;
+//** Picker content width
+@picker-content-min-width: 200px;
+@picker-search-bar-icon-width: @font-size-base;
+@picker-default-toggle-border-width: 1px;
+@picker-default-toggle-border-color: @input-border;
+@picker-default-toggle-hover-border-color: @H700;
+@picker-default-toggle-font-color: @B800;
+@picker-default-toggle-caret-color: @B600;
+@picker-toggle-clean-width: 12px;
+@picker-toggle-clean-color: @B500;
+@picker-toggle-clean-hover-color: @error-color;
+@picker-toggle-clean-right: 30px;
+//** Picker menu padding
+@picker-menu-padding: 12px;
+//** Dropdown item content vertical padding
+@picker-item-content-padding-vertical: 8px;
+//** Dropdown item content horizontal padding
+@picker-item-content-padding-horizontal: @picker-menu-padding;
+//** group title
+@picker-group-title-color: @B900;
+@picker-group-children-padding-left: 26px;
+@picker-group-select-menu-gap: 6px;
+@picker-group-select-menu-lin-color: @dropdown-divider-bg;
+@picker-item-transition: color 0.3s linear, background-color 0.3s linear;
+@picker-select-item-color: @B800;
+@picker-menu-item-hover-bg: @H050;
+// Select picker
+@picker-select-menu-item-selected-color: @H700;
+@picker-select-menu-item-selected-disabled-color: @H200;
+@picker-menu-item-disabled-color: @B400;
+@picker-selected-value-color: @H700;
+@picker-select-arrow-down: '\F0D7';
+
+// Check Picker
+@picker-check-checkbox-gap: 10px;
+@picker-children-check-item-padding-left: 14px;
+@picker-check-item-content-padding-left: @picker-item-content-padding-horizontal+
+  @checkbox-width-height+ @picker-check-checkbox-gap;
+
+// Tree Picker
+@picker-tree-bg: @dropdown-bg;
+@picker-tree-padding: 12px;
+@picker-tree-arrow-down: '\F0D7';
+@picker-tree-node-padding-vertical: @padding-base-vertical;
+@picker-tree-node-padding-horizontal: @padding-base-horizontal;
+@picker-tree-node-font-size: @font-size-base;
+@picker-tree-node-active-color: @picker-select-menu-item-selected-color;
+@picker-select-menu-item-selected-bg: fade(@H900, 20);
+@picker-tree-node-active-bg: @picker-select-menu-item-selected-bg;
+@picker-tree-node-line-height: @line-height-base;
+@picker-tree-node-height: @line-height-computed + @picker-tree-node-padding-vertical*2;
+@picker-tree-arrow-down-width: 8px;
+@picker-tree-arrow-down-gap: 8px;
+@picker-tree-node-hover-bg: @H050;
+
+//== Calendar Picker
+@calendar-header-width: 280px;
+@calendar-picker-padding: 12px;
+@calendar-picker-view-padding-top: 4px;
+@calendar-header-title-margin: 4px;
+@calendar-header-title-error-color: @error-color;
+@calendar-table-cell-padding: 1px;
+@calendar-table-cell-content-font-size: @font-size-base;
+@calendar-table-cell-content-line-height: @line-height-base;
+@calendar-table-cell-content-padding: 5px;
+@calendar-table-cell-content-hover-bg: @H050;
+@calendar-table-cell-content-today-border-width: 1px;
+@calendar-table-cell-content-today-border-color: @H700;
+@calendar-table-cell-content-selected-color: @H500;
+@calendar-table-cell-content-disabled-color: @B400;
+/* stylelint-disable-next-line */ // calcFontColor is hack function
+@calendar-table-cell-content-selected-font-color: color(~`calcFontColor('@{calendar-table-cell-content-selected-color}') `);
+@calendar-table-cell-header-color: @B600;
+@calendar-table-cell-week-number-color: @B600;
+@calendar-table-cell-week-number-bg: @B050;
+@calendar-month-dropdown-row-border-color: @divider-border-color;
+@calendar-month-dropdown-year-active-color: @H700;
+@calendar-dropdown-top: 40px; // @calendar-picker-padding + content-height + gap
+@calendar-month-dropdown-bg: @dropdown-bg;
+@calendar-month-dropdown-border: @divider-border-color;
+@calendar-title-dropdown-bg: @dropdown-bg;
+@calendar-time-dropdown-column-title-bg: @B050;
+@calendar-time-dropdown-column-title-font-color: @B600;
+@calendar-time-dropdown-column-cell-default-color: @B800;
+@calendar-time-dropdown-column-cell-hover-color: @B800;
+@calendar-time-dropdown-column-cell-active-color: @B000;
+@calendar-time-dropdown-column-cell-hover-bg: @H050;
+@calendar-time-dropdown-column-cell-active-bg: @H500;
+@calendar-right-btn-ok-color: @btn-primary-color;
+@calendar-right-btn-ok-bg: @btn-primary-bg;
+@calendar-option-color: @H700;
+@calendar-in-menu-content-side-length: 30px;
+@calendar-panel-cell-height: 100px;
+@calendar-panel-table-border-color: @B100;
+@calendar-panel-compact-cell-height: 50px;
+@calendar-panel-today-active-font-color: @B000;
+@calendar-panel-today-selected-border-color: @H500;
+@picker-calendar-title-color: @H700;
+@calendar-panel-border-radius: 6px;
+@calendar-panel-today-active-side-length: @line-height-computed;
+@calendar-panel-today-active-background-color: @H500;
+@calendar-table-cell-in-range-background: fade(@H100, 50);
+@calendar-toolbar-border-color: @divider-border-color;
+
+//== DateRange Picker
+@date-range-picker-header-padding-horizontal: 12px;
+@date-range-picker-header-padding-vertical: 8px;
+@date-range-picker-header-font-size: @font-size-base;
+@date-range-picker-header-line-height: @line-height-base;
+@date-range-picker-inner-border: 1px solid @B200;
+
+//== Input Picker
+@input-picker-toggle-height: @line-height-computed + @padding-base-vertical*2; // 20px + 8px*2 = 36px  the same with md button
+@input-picker-toggle-content-height: @input-picker-toggle-height -
+  @picker-default-toggle-border-width*2;
+
+// == TagPicker
+@tag-picker-toggle-content-height: @input-height-extra-small;
+@tag-picker-content-padding-vertical-all: @input-picker-toggle-content-height -
+  @tag-picker-toggle-content-height;
+@tag-picker-content-padding-vertical: @tag-picker-content-padding-vertical-all / 2; // (34 -24)/2
+@tag-picker-content-padding-horizontal: 6px;
+@tag-picker: ~'@{ns}@{multi-input-picker-prefix}';
+
+// == Cascader
+@cascader-search-panel-max-height: 300px;
+@cascader-row-content-padding-horizontal: @picker-item-content-padding-horizontal;
+@cascader-search-panel-hover-color: @B800;
+@cascader-search-panel-hover-bg: @H050;
+@cascader-search-panel-highlight-word-color: @H500;
+
+//== Slider
+//
+//##
+@slider-bar-default-bg: @B100;
+@slider-bar-hover-bg: @B100;
+@slider-bar-side-length: 6px;
+@slider-handle-diameter: 12px;
+@slider-handle-border-width: 2px;
+@slider-handle-default-bg: @B000;
+@slider-handle-dragging-bg: @H500;
+@slider-handle-default-border-color: @H500;
+@slider-handle-hover-border-color: @H500;
+@slider-handle-hover-box-shadow: 0 0 0 4px fade(@H100, 40);
+@slider-handle-dragging-box-shadow: none;
+@slider-progress-bar-bg: @H500;
+@slider-calibration-diameter: 8px;
+@slider-calibration-border-width: 2px;
+@slider-calibration-bg: @B000;
+@slider-calibration-border-color: @B100;
+@slider-calibration-pass-border-color: @H500;
+@slider-mark-margin-top: 9px;
+@slider-handle-transition: 0.3s ease-in-out;
+
+//== Breadcrumbs
+//
+//##
+@breadcrumb-font-size: @font-size-small;
+@breadcrumb-padding-vertical: 8px;
+@breadcrumb-padding-horizontal: 15px;
+@breadcrumb-separator-margin: 4px;
+//** Breadcrumb text color
+@breadcrumb-color: @text-color;
+//** Text color of current page in the breadcrumb
+@breadcrumb-active-color: @B600;
+
+//== Carousel
+//
+//##
+@carousel-bg: @B600;
+@carousel-toolbar-wrapper-margin: 17px; // @carousel-handler-margin + @carousel-handler-wrapper-margin = 20px
+@carousel-handler-transition: background 0.3s linear;
+@carousel-handler-bg: fade(@B000, 40);
+@carousel-handler-hover-bg: @B000;
+@carousel-handler-active-bg: @H500;
+@carousel-handler-margin: 3px;
+@carousel-handler-sense-width: @carousel-handler-margin;
+@carousel-dot-wrapper-side-length: 1.2vw; // 1.2% of the screen width.
+@carousel-dot-side-length: 10px;
+@carousel-bar-width: 18px;
+@carousel-bar-height: 4px;
+@carousel-bar-active-width: 28px;
+
+//== Type
+//
+//##
+
+//** Horizontal offset for forms and lists.
+@component-offset-horizontal: 180px;
+//** Text muted color
+@text-muted: @B400;
+//** Headings small color
+@headings-small-color: @B400;
+//** Blockquote small color
+@blockquote-small-color: @B400;
+//** Blockquote font size
+@blockquote-font-size: (@font-size-base * 1.25);
+//** Blockquote border color
+@blockquote-border-color: @B050;
+//** Page header border color
+@page-header-border-color: @B050;
+//** Width of horizontal description list titles
+@dl-horizontal-offset: @component-offset-horizontal;
+//** Horizontal line color.
+@hr-border: @divider-border-color;

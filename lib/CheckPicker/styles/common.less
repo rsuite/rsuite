@@ -1,0 +1,16 @@
+@import '../../Checkbox/styles/mixin';
+
+// Check Picker
+// ----------------------
+
+// Menu Items
+.@{ckpns}-menu-items {
+  .picker-menu-items-reset;
+  .picker-menu-group-common(@check-picker-prefix);
+  .picker-menu-group-title(@check-picker-prefix);
+  .picker-menu-group-closed(@check-picker-prefix);
+
+  .@{ns}check-item.@{ns}checkbox-checked .@{ns}checkbox-checker > label {
+    .picker-item-active;
+  }
+}

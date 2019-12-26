@@ -1,0 +1,44 @@
+@import '../common';
+
+// Use to hack button border in button-group set [justified].
+.btn-ghost-hack-variant(@border-color) {
+  @color-border-dark: color(~`palette('@{border-color}', 400) `);
+  @color-border-darker: color(~`palette('@{border-color}', 200) `);
+
+  &::before,
+  &::after {
+    background-color: @border-color;
+  }
+
+  &:focus,
+  &.@{ns}btn-focus {
+    &::before,
+    &::after {
+      background-color: @color-border-dark;
+    }
+  }
+
+  &:hover {
+    &::before,
+    &::after {
+      background-color: @color-border-dark;
+    }
+  }
+
+  &:active,
+  &.@{ns}btn-active {
+    &::before,
+    &::after {
+      background-color: @color-border-darker;
+    }
+
+    &:hover,
+    &:focus,
+    &.@{ns}btn-focus {
+      &::before,
+      &::after {
+        background-color: @color-border-darker;
+      }
+    }
+  }
+}

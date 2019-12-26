@@ -1,0 +1,108 @@
+@import '../../styles/common';
+@import '../../Button/styles/mixin';
+@import 'mixin';
+
+//
+// Pagination (multiple pages)
+// --------------------------------------------------
+.@{ns}pagination {
+  display: inline-block;
+  padding-left: 0;
+  margin-bottom: 0;
+
+  > li {
+    display: inline; // Remove list-style and block-level defaults
+
+    &.@{ns}pagination-btn-active > a {
+      .pagination-active(@pagination-active-color);
+    }
+
+    &:not(.@{ns}pagination-btn-disabled) > a {
+      transition: @pagination-transition;
+      .button-ripple;
+    }
+
+    > a {
+      .btn-sm(base);
+      .btn-transition;
+      .btn-subtle-variant(@pagination-hover-bg);
+
+      position: relative;
+      float: left; // Collapse white-space
+      text-decoration: none;
+      cursor: pointer;
+      transition: @pagination-transition;
+      user-select: none;
+
+      &:focus,
+      &.focus,
+      &:hover {
+        color: @pagination-hover-color;
+      }
+
+      &:active {
+        color: @pagination-hover-color;
+        background-color: @pagination-active-bg;
+        background-image: none;
+
+        &:hover,
+        &:focus,
+        &.focus {
+          color: @btn-subtle-active-default-color;
+          background-color: @pagination-active-bg;
+        }
+      }
+    }
+  }
+
+  & > &-btn-disabled {
+    > a {
+      &,
+      &:hover,
+      &:active,
+      &:focus {
+        color: @btn-subtle-color;
+        opacity: @btn-disabled-opacity;
+        cursor: @cursor-disabled;
+        background: transparent;
+      }
+
+      &:active {
+        &:hover,
+        &:focus,
+        &.focus {
+          color: @btn-subtle-color;
+          opacity: @btn-disabled-opacity;
+          cursor: @cursor-disabled;
+          background: transparent;
+        }
+      }
+    }
+  }
+
+  // Pagination Sizes
+  // --------------------------------------------------
+
+  &-lg > li > a {
+    .btn-lg(base);
+  }
+
+  &-md > li > a {
+    .btn-md(base);
+  }
+
+  &-sm > li > a {
+    .btn-sm(base);
+  }
+
+  &-xs > li > a {
+    .btn-xs(base);
+  }
+}
+
+/* rtl:begin:ignore */
+[dir='rtl'] .@{ns}pagination-btn [class*='@{ns}icon-page'] {
+  transform: rotate(180deg);
+}
+
+/* rtl:end:ignore */

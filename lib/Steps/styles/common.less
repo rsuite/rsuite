@@ -1,0 +1,281 @@
+@import '../../styles/common';
+
+//
+// Steps
+// --------------------------------------------------
+.@{ns}steps {
+  min-height: @steps-icon-diameter;
+}
+
+// Item
+// --------------------------
+.@{ns}steps-item {
+  padding-left: @steps-icon-space-width;
+  position: relative;
+  overflow: hidden;
+}
+
+// Item icon
+.@{ns}steps-item-icon-wrapper {
+  display: block;
+  width: @steps-icon-diameter;
+  height: @steps-icon-diameter;
+  text-align: center;
+  font-size: @steps-icon-size;
+  line-height: @steps-icon-line-height;
+  color: @steps-default-color;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  &:not(.@{ns}steps-item-custom-icon) {
+    border-width: 1px;
+    border-style: solid;
+    border-color: @steps-default-color;
+    border-radius: 50%;
+
+    .@{ns}steps-item-status-finish &,
+    .@{ns}steps-item-status-error & {
+      .@{ns}steps-item-icon {
+        position: relative;
+        text-indent: -9999px;
+
+        &::before {
+          .icon-font;
+
+          width: @steps-icon-diameter - 2px;
+          height: @steps-icon-diameter - 2px;
+          font-size: @steps-icon-size-default-font-size;
+          // Minus 2px border width;
+          line-height: unit((@steps-icon-diameter - 2px)/12);
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          text-indent: 0;
+        }
+      }
+    }
+
+    .@{ns}steps-item-status-finish & {
+      border-color: @steps-icon-finish-color;
+      color: @steps-bg;
+
+      // Finish status show check mark.
+      .@{ns}steps-item-icon {
+        &::before {
+          content: @check-mark-content;
+          color: @steps-icon-finish-color;
+        }
+      }
+    }
+
+    .@{ns}steps-item-status-error & {
+      border-color: @steps-error-color;
+      color: @steps-bg;
+
+      // Error status show X mark.
+      .@{ns}steps-item-icon {
+        &::before {
+          content: @x-mark-content;
+          color: @steps-icon-error-color;
+        }
+      }
+    }
+
+    .@{ns}steps-item-status-process & {
+      border-color: @steps-icon-process-bg;
+      background: @steps-icon-process-bg;
+      color: @steps-bg;
+    }
+  }
+
+  .@{ns}steps-item-status-finish &,
+  .@{ns}steps-item-status-process & {
+    color: @steps-icon-finish-color;
+  }
+
+  .@{ns}steps-item-status-error & {
+    color: @steps-error-color;
+  }
+
+  // Icon content
+  > .@{ns}steps-item-icon {
+    width: 100%;
+    display: block;
+    text-align: center;
+
+    .@{ns}icon {
+      vertical-align: middle;
+    }
+  }
+}
+
+// Item content
+// --------------------------
+.@{ns}steps-item-content {
+  color: @steps-content-color;
+  display: inline-block;
+  // Change static to relative, Make `z-index` more than Tail line
+  position: relative;
+
+  .@{ns}steps-item-status-process & {
+    color: @steps-content-process-color;
+  }
+
+  .@{ns}steps-item-status-error & {
+    color: @steps-error-color;
+  }
+}
+
+// Item title
+.@{ns}steps-item-title {
+  font-size: @steps-title-font-size;
+  line-height: @steps-title-line-height;
+  padding-right: @steps-icon-spacing;
+  display: inline-block;
+}
+
+// Item description
+.@{ns}steps-item-description {
+  margin-top: @steps-description-margin-top;
+}
+
+.@{ns}steps-item-tail,
+.@{ns}steps-item-content::after {
+  position: absolute;
+  border-color: @steps-tail-default-color;
+
+  .@{ns}steps-item-status-process & {
+    border-color: @steps-tail-default-color;
+  }
+
+  .@{ns}steps-item-status-finish & {
+    border-color: @steps-icon-finish-color;
+  }
+
+  .@{ns}steps-next-error & {
+    border-color: @steps-error-color;
+  }
+}
+
+// Horizontal
+.@{ns}steps-horizontal {
+  display: flex;
+  justify-content: space-between;
+
+  .@{ns}steps-item {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-height: @steps-icon-diameter;
+
+    // The last node is self-adaptive width.
+    &:last-child {
+      flex-grow: 0;
+      flex-shrink: 0;
+
+      // The last item hidden tail line
+      .@{ns}steps-item-content::after {
+        display: none;
+      }
+    }
+
+    // There is a 10px spacing between each item.
+    &:not(:first-child) {
+      padding-left: @steps-icon-space-width + @steps-item-spacing;
+
+      .@{ns}steps-item-icon-wrapper {
+        left: @steps-item-spacing;
+      }
+    }
+  }
+
+  .@{ns}steps-item-content {
+    height: @steps-title-font-size * @steps-title-line-height;
+
+    &::after {
+      content: '';
+      top: @steps-icon-diameter / 2;
+      left: 100%;
+      width: 9999px;
+      border-top-width: 1px;
+      border-top-style: solid;
+    }
+  }
+}
+
+// Verticla
+.@{ns}steps-vertical {
+  .@{ns}steps-item {
+    padding-bottom: 20px;
+
+    // There is a 10px spacing between each item.
+    &:not(:first-child) {
+      margin-top: @steps-item-spacing;
+    }
+
+    &:last-child .@{ns}steps-item-tail {
+      display: none;
+    }
+  }
+
+  .@{ns}steps-item-tail {
+    top: @steps-icon-space-width;
+    bottom: 0;
+    left: @steps-icon-diameter / 2;
+    border-left-width: 1px;
+    border-left-style: solid;
+  }
+}
+
+// Small
+// Resize: Diameter、font-size and so on.
+.@{ns}steps-small {
+  min-height: @small-steps-icon-diameter;
+
+  &.@{ns}steps-horizontal .@{ns}steps-item {
+    min-height: @small-steps-icon-diameter;
+  }
+
+  &.@{ns}steps-horizontal .@{ns}steps-item:not(:first-child) {
+    padding-left: @small-steps-icon-space-width + @steps-icon-spacing;
+  }
+
+  &.@{ns}steps-vertical .@{ns}steps-item-tail {
+    left: @small-steps-icon-diameter / 2;
+  }
+
+  &.@{ns}steps-horizontal .@{ns}steps-item-content::after {
+    top: 12px;
+  }
+
+  .@{ns}steps-item {
+    padding-left: @small-steps-icon-space-width;
+  }
+
+  .@{ns}steps-item-icon-wrapper {
+    width: @small-steps-icon-diameter;
+    height: @small-steps-icon-diameter;
+    font-size: @small-steps-icon-size;
+    line-height: @small-steps-icon-line-height;
+  }
+
+  .@{ns}steps-item-title {
+    font-size: @small-steps-icon-size;
+    line-height: @small-steps-title-line-height;
+  }
+
+  .@{ns}steps-item-description {
+    margin-top: @small-steps-description-margin-top;
+    font-size: @small-steps-description-font-size;
+    line-height: @small-steps-description-line-height;
+  }
+
+  // Finish status show check mark.
+  .@{ns}steps-item-status-finish .@{ns}steps-item-icon-wrapper:not(.@{ns}steps-item-custom-icon) .@{ns}steps-item-icon::before,
+  .@{ns}steps-item-status-error .@{ns}steps-item-icon-wrapper:not(.@{ns}steps-item-custom-icon) .@{ns}steps-item-icon::before {
+    width: @small-steps-icon-diameter - 2px;
+    height: @small-steps-icon-diameter - 2px;
+    line-height: unit((@small-steps-icon-diameter - 2px)/12);
+  }
+}

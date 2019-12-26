@@ -1,0 +1,314 @@
+// Button base styles
+.btn(base) {
+  display: inline-block;
+  margin-bottom: 0; // For input.btn
+  font-weight: @btn-font-weight;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  outline: 0 !important;
+  white-space: nowrap;
+  // Reset border style in all browser
+  border: none;
+  user-select: none;
+
+  .btn-md;
+
+  &:hover,
+  &:focus {
+    color: @btn-default-color;
+    text-decoration: none;
+  }
+
+  &:active,
+  &.@{ns}btn-active {
+    outline: 0;
+    background-image: none;
+  }
+}
+
+// Button full styles
+.btn() {
+  .btn(base);
+
+  &.@{ns}btn-disabled {
+    cursor: @cursor-disabled !important;
+    opacity: 0.3;
+
+    .@{ns}ripple-pond {
+      display: none !important;
+    }
+  }
+}
+
+// When browser don't support `pointer-events`,need reset button styles.
+.btn-loading-reset(@color,@background-color:transparent) {
+  &.@{ns}btn-loading {
+    &:hover,
+    &:not(.@{ns}btn-disabled):hover,
+    &:focus,
+    &:active,
+    &:hover:active {
+      color: @color;
+      background-color: @background-color;
+    }
+  }
+}
+
+// Subtle  button style
+.btn-subtle() {
+  .btn-transition;
+  .btn-subtle-variant(@btn-subtle-hover-bg);
+  .btn-loading-reset(@btn-subtle-color);
+
+  &.@{ns}btn-disabled {
+    &,
+    &:hover,
+    &:focus,
+    &:active {
+      // Reset Opacity;
+      opacity: 1;
+    }
+  }
+
+  &:focus,
+  &.@{ns}btn-focus,
+  &:hover {
+    color: @btn-subtle-default-hover-color;
+  }
+
+  &:active,
+  &.@{ns}btn-active,
+  .@{ns}open > .@{ns}dropdown-toggle& {
+    color: @btn-subtle-active-default-color;
+    background-color: @btn-subtle-active-default-bg;
+    background-image: none;
+
+    &:hover,
+    &:focus,
+    &.focus {
+      color: @btn-subtle-active-default-color;
+      background-color: @btn-subtle-active-default-bg;
+    }
+  }
+
+  .generate-spectrum-subtle-btns();
+}
+
+// General spectrum buttons
+.generate-spectrum-primary-btns(@i:length(@spectrum)) when (@i>0) {
+  .generate-spectrum-primary-btns(@i - 1);
+  @name: extract(@spectrum, @i);
+  @backgroud-color: @@name;
+
+  &.@{ns}btn-@{name} {
+    .button-primary-variant(@btn-primary-color, @backgroud-color);
+
+    // Defalut button spectrum button need set opacity.
+    &.@{ns}btn-default.@{ns}btn-disabled,
+    .@{ns}dropdown-disabled &.@{ns}btn-default {
+      opacity: 0.3;
+    }
+  }
+}
+
+.generate-spectrum-link-btns(@i:length(@spectrum)) when (@i>0) {
+  .generate-spectrum-link-btns(@i - 1);
+  @name: extract(@spectrum, @i);
+  @base-color: @@name;
+  @color: color(~`palette('@{base-color}', 700) `);
+
+  &.@{ns}btn-@{name} {
+    .btn-link-variant(@color);
+  }
+}
+
+.generate-spectrum-subtle-btns(@i:length(@spectrum)) when (@i>0) {
+  .generate-spectrum-subtle-btns(@i - 1);
+  @name: extract(@spectrum, @i);
+  @color: @@name;
+
+  &.@{ns}btn-@{name} {
+    .btn-subtle-variant(@color);
+  }
+}
+
+.generate-spectrum-ghost-btns(@i:length(@spectrum)) when (@i>0) {
+  .generate-spectrum-ghost-btns(@i - 1);
+  @name: extract(@spectrum, @i);
+  @base-color: @@name;
+  @color: color(~`palette('@{base-color}', 700) `);
+  @border-color: @color;
+
+  &.@{ns}btn-@{name} {
+    .btn-ghost-variant(@color, @border-color);
+  }
+}
+
+// Base button size
+.button-size(base;@padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius) {
+  padding: @padding-vertical @padding-horizontal;
+  font-size: @font-size;
+  line-height: @line-height;
+  border-radius: @border-radius;
+}
+
+// Full button size
+.button-size(@padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius) {
+  @icon-side-length: @padding-vertical*2 + floor(@font-size* @line-height);
+  @ghost-icon-side-length: @icon-side-length - @btn-ghost-border-width*2;
+  @svg-icon-height: @font-size;
+
+  .button-size(
+    base; @padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius
+  );
+
+  &.@{ns}btn-ghost {
+    // Ghost button has 1px border
+    padding-top: (@padding-vertical - 1);
+    padding-bottom: (@padding-vertical - 1);
+  }
+
+  // Button icon
+  &.@{ns}btn-icon {
+    padding-left: @icon-side-length - @padding-horizontal;
+    height: @icon-side-length;
+    position: relative;
+
+    // Ghost button need minus border-width.
+    .@{ns}btn-ghost& {
+      padding-left: @icon-side-length - @padding-horizontal - @btn-ghost-border-width*2;
+    }
+
+    &.@{ns}btn-icon-with-text {
+      &.@{ns}btn-icon-placement-left {
+        padding-left: @icon-side-length + @padding-vertical;
+      }
+
+      &.@{ns}btn-icon-placement-right {
+        padding-left: @padding-base-input-horizontal;
+        padding-right: @icon-side-length + @padding-vertical;
+
+        > .@{ns}icon {
+          left: auto;
+          right: 0;
+        }
+      }
+    }
+
+    > .@{ns}icon {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      width: @icon-side-length;
+      height: @icon-side-length;
+      padding: @padding-vertical 0;
+      font-size: @font-size;
+      line-height: @line-height;
+
+      .@{ns}btn-ghost& {
+        width: @ghost-icon-side-length;
+        height: @ghost-icon-side-length;
+        padding: (@padding-vertical - @btn-ghost-border-width) 0;
+      }
+
+      > svg {
+        height: @svg-icon-height;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  &.@{ns}btn-icon-circle {
+    width: @icon-side-length;
+    padding: @padding-vertical;
+  }
+}
+
+// Base sizes
+.btn-sm(base) {
+  .button-size(base; @padding-small-vertical; @padding-small-horizontal; @font-size-base; @line-height-base; @btn-border-radius-small);
+}
+
+.btn-md(base) {
+  .button-size(base; @padding-base-vertical; @padding-base-horizontal; @font-size-base; @line-height-base; @btn-border-radius-base);
+}
+
+.btn-xs(base) {
+  .button-size(base; @padding-extra-small-vertical; @padding-extra-small-horizontal; @font-size-small; @line-height-small; @btn-border-radius-small);
+}
+
+.btn-lg(base) {
+  .button-size(base; @padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large; @btn-border-radius-large);
+}
+
+// Full sizes
+.btn-sm() {
+  .button-size(@padding-small-vertical; @padding-small-horizontal; @font-size-base; @line-height-base; @btn-border-radius-small);
+}
+
+.btn-md() {
+  .button-size(@padding-base-vertical; @padding-base-horizontal; @font-size-base; @line-height-base; @btn-border-radius-base);
+}
+
+.btn-xs() {
+  .button-size(@padding-extra-small-vertical; @padding-extra-small-horizontal; @font-size-small; @line-height-small; @btn-border-radius-small);
+}
+
+.btn-lg() {
+  .button-size(@padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large; @btn-border-radius-large);
+}
+
+// Button ripple
+.button-ripple(@prefix:~'@{ns}btn-') when (@button-ripple = true) {
+  overflow: hidden;
+  position: relative;
+
+  .safari-border-radius-overflow-hidden;
+
+  &:not(.@{prefix}disabled) {
+    .@{ns}ripple {
+      position: absolute;
+      display: block;
+      border-radius: 50%;
+      background-color: @btn-ripple-background-color;
+      transform: scale(0);
+      transition: 0s;
+
+      &-rippling {
+        transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: scale(1);
+        opacity: 0;
+      }
+
+      &-pond {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+      }
+    }
+  }
+}
+
+// Icon Button with text
+.btn-icon-with-text(@bg) {
+  &.@{ns}btn-icon.@{ns}btn-icon-with-text > .@{ns}icon {
+    background: @bg;
+  }
+}
+
+// Button transition
+.btn-transition() {
+  transition: color 0.2s linear, background-color 0.3s linear;
+}
+
+.btn-transition(color) {
+  transition: color 0.2s linear;
+}

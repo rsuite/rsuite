@@ -1,0 +1,25 @@
+@import '../common';
+@import '../../../styles/themes/dark/core';
+
+.@{ns}message {
+  .@{ns}btn-link,
+  a {
+    text-decoration: underline;
+
+    &:hover {
+      font-weight: bolder;
+    }
+
+    .reset-text-color(@message-link-color);
+  }
+
+  &-warning &-header,
+  &-warning &-body {
+    color: @message-warning-text-color;
+
+    .@{ns}btn-link,
+    a {
+      .reset-text-color(@message-warning-text-color);
+    }
+  }
+}

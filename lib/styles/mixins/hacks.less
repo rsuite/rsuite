@@ -1,0 +1,262 @@
+//
+// IE
+// -----------
+.ie-width(@value) when (@ie-polyfill = true) {
+  width: ~'@{value}@{ie-suffix}';
+
+  // IE 11
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      width: @value;
+    }
+  }
+}
+
+.ie-max-width(@value) when (@ie-polyfill = true) {
+  max-width: ~'@{value}@{ie-suffix}';
+
+  // IE 11
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      max-width: @value;
+    }
+  }
+}
+
+.ie-height(@value) when (@ie-polyfill = true) {
+  height: ~'@{value}@{ie-suffix}';
+
+  // IE 11
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      height: @value;
+    }
+  }
+}
+
+.ie-display(@value) when (@ie-polyfill = true) {
+  display: ~'@{value}@{ie-suffix}';
+}
+
+.ie-box-shadow(@value) when (@ie-polyfill = true) {
+  box-shadow: ~'@{value}@{ie-suffix}';
+}
+
+.ie-border-style(@value) when (@ie-polyfill = true) {
+  border-style: ~'@{value}@{ie-suffix}';
+
+  // IE 11
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      border-style: @value;
+    }
+  }
+}
+
+.ie-text-align(@value) when (@ie-polyfill = true) {
+  text-align: ~'@{value}@{ie-suffix}';
+
+  // IE 11
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      text-align: ~'@{value}@{ie-suffix}';
+    }
+  }
+}
+
+.ie-position(@value) when (@ie-polyfill = true) {
+  position: ~'@{value}@{ie-suffix}';
+
+  // IE 11
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      position: ~'@{value}@{ie-suffix}';
+    }
+  }
+}
+
+.ie-z-index(@value) when (@ie-polyfill = true) {
+  z-index: ~'@{value}@{ie-suffix}';
+
+  // IE 11
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      z-index: ~'@{value}@{ie-suffix}';
+    }
+  }
+}
+
+.ie-top(@value) when (@ie-polyfill = true) {
+  top: ~'@{value}@{ie-suffix}';
+
+  // IE 11
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      top: ~'@{value}@{ie-suffix}';
+    }
+  }
+}
+
+.ie-left(@value) when (@ie-polyfill = true) {
+  left: ~'@{value}@{ie-suffix}';
+
+  // IE 11
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      left: ~'@{value}@{ie-suffix}';
+    }
+  }
+}
+
+.ie-transform(@value) when (@ie-polyfill = true) {
+  transform: ~'@{value}@{ie-suffix}';
+
+  // IE 11
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      transform: ~'@{value}@{ie-suffix}';
+    }
+  }
+}
+
+.ie-float(@value) when (@ie-polyfill = true) {
+  float: ~'@{value}@{ie-suffix}';
+}
+
+.ie-animation-name(@value) when (@ie-polyfill = true) {
+  animation-name: ~'@{value}@{ie-suffix}';
+}
+
+.ie-vertical-align(@vertical-align) when (@ie-polyfill = true) {
+  vertical-align: ~'@{vertical-align}@{ie-suffix}';
+}
+
+//
+// IE 11
+// ---------------------
+.ie11-display(@value) {
+  // IE 11
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      display: @value;
+    }
+  }
+}
+
+.ie11-position(top,@value) {
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      top: @value;
+    }
+  }
+}
+
+.ie11-position(bottom,@value) {
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      bottom: @value;
+    }
+  }
+}
+
+.ie11-position(left,@value) {
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      left: @value;
+    }
+  }
+}
+
+.ie11-position(right,@value) {
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      right: @value;
+    }
+  }
+}
+
+//
+// Edge
+// -----------
+.edge-position(top,@value) {
+  @supports (-ms-ime-align: auto) {
+    & {
+      top: @value;
+    }
+  }
+}
+
+.edge-position(bottom,@value) {
+  @supports (-ms-ime-align: auto) {
+    & {
+      bottom: @value;
+    }
+  }
+}
+
+.edge-position(left,@value) {
+  @supports (-ms-ime-align: auto) {
+    & {
+      left: @value;
+    }
+  }
+}
+
+.edge-position(right,@value) {
+  @supports (-ms-ime-align: auto) {
+    & {
+      right: @value;
+    }
+  }
+}
+
+// Safari
+.safari-display(@value) {
+  @media not all and (min-resolution: 0.001dpcm) {
+    & {
+      display: @value;
+    }
+  }
+}
+
+// Safari border-radius + overflow: hidden + CSS transform fix
+// @link https://gist.github.com/ayamflow/b602ab436ac9f05660d9c15190f4fd7b
+.safari-border-radius-overflow-hidden() {
+  @media not all and (min-resolution: 0.001dpcm) {
+    & {
+      -webkit-mask-image: -webkit-radial-gradient(white, black); /* stylelint-disable-line property-no-vendor-prefix */
+    }
+  }
+}
+
+// ie10
+.ie10-visibility(@value) when (@ie-polyfill = true) {
+  visibility: ~'@{value}@{ie-suffix}';
+}
+
+// Safari
+.safari-visibility(@value) {
+  @media not all and (min-resolution: 0.001dpcm) {
+    & {
+      visibility: @value;
+    }
+  }
+}
+
+// ie && edge
+.ie-edge-width(@value) when (@ie-polyfill = true) {
+  width: ~'@{value}@{ie-suffix}';
+
+  // IE 11
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    & {
+      width: @value;
+    }
+  }
+
+  @supports (-ms-ime-align: auto) {
+    & {
+      width: @value;
+    }
+  }
+}

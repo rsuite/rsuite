@@ -1,0 +1,93 @@
+@import '../../styles/common';
+@import '../../Form/styles/mixin';
+@import '../../Picker/styles/mixin';
+
+.@{ns}@{input-picker-prefix} {
+  position: relative;
+  border: @picker-default-toggle-border-width solid @picker-default-toggle-border-color;
+  border-radius: @border-radius-base;
+  transition: @picker-transition;
+  background: @input-bg;
+
+  .@{ns}picker-toggle,
+  .@{ns}picker-toggle-custom {
+    border: none !important;
+    background: transparent !important;
+  }
+
+  .@{ns}picker-toggle {
+    height: @input-picker-toggle-content-height;
+
+    &-clean,
+    &-caret {
+      top: @padding-base-vertical - @picker-default-toggle-border-width;
+    }
+  }
+
+  .@{ns}picker-toggle-custom .@{ns}ripple-pond {
+    display: none;
+  }
+
+  .@{ns}picker-toggle-custom {
+    cursor: text;
+  }
+
+  &:not(.@{ns}picker-disabled) .@{ns}picker-toggle,
+  &:not(.@{ns}picker-disabled) .@{ns}picker-toggle-custom {
+    position: absolute !important;
+  }
+
+  .input-picker-input-sizes;
+
+  .@{ns}picker-toggle-custom.@{ns}btn-xs ~ .@{ns}picker-tag-wrapper .@{ns}tag {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  &:not(.@{ns}picker-disabled):hover,
+  &.@{ns}picker-focused {
+    border-color: @picker-default-toggle-hover-border-color;
+  }
+}
+
+.@{ns}picker-tag-wrapper {
+  padding-right: @dropdown-toggle-padding-right;
+
+  .@{ns}picker-cleanable & {
+    padding-right: @dropdown-toggle-padding-right + @picker-toggle-clean-width;
+  }
+}
+
+.@{ns}picker-search {
+  border: none;
+  width: 100%;
+
+  &-input {
+    .input-md;
+
+    .@{tag-picker} & {
+      font-size: @font-size-base;
+      line-height: @line-height-base;
+      padding: @padding-extra-small-vertical @padding-base-input-horizontal
+        @padding-extra-small-vertical @padding-base-horizontal - @picker-default-toggle-border-width;
+
+      > input {
+        background: none;
+        outline: none;
+        border: none;
+        width: 100%;
+      }
+    }
+
+    background: none;
+    outline: none;
+    border: none;
+    width: 100%;
+    position: relative;
+    padding-right: 0;
+
+    .@{ns}picker-focused & {
+      z-index: @zindex-picker-input;
+    }
+  }
+}

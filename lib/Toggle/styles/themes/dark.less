@@ -1,0 +1,15 @@
+@import '../common';
+
+.@{ns}btn-toggle {
+  &-disabled {
+    &::after {
+      background-color: @B500;
+    }
+  }
+
+  &-disabled&-checked {
+    &::after {
+      background-color: @B300;
+    }
+  }
+}

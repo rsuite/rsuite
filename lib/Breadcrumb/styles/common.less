@@ -1,0 +1,32 @@
+@import '../../styles/common';
+
+//
+// Breadcrumbs
+// --------------------------------------------------
+
+.@{ns}breadcrumb {
+  padding: @breadcrumb-padding-vertical @breadcrumb-padding-horizontal;
+  margin-bottom: @line-height-computed;
+  list-style: none;
+
+  // All breadcrumb display value need set to inline-block
+  > li {
+    display: inline-block;
+    font-size: @breadcrumb-font-size;
+  }
+
+  // If breadcrumbs has a ci
+  &-item > a {
+    cursor: pointer;
+    transition: color 0.3s linear;
+  }
+
+  // Separator has gap with text
+  &-separator {
+    margin: 0 @breadcrumb-separator-margin;
+  }
+
+  &-item-active {
+    color: @breadcrumb-active-color;
+  }
+}

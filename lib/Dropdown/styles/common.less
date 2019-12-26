@@ -1,0 +1,340 @@
+@import '../../styles/common';
+@import 'mixin';
+
+//
+// Dropdown menus
+// --------------------------------------------------
+
+.@{ns}dropdown-toggle-caret {
+  .dropdown-toggle-caret-common;
+  .set-dropdown-caret(~'@{ns}dropdown');
+}
+
+// The dropdown wrapper (div)
+.@{ns}dropdown {
+  position: relative;
+  display: inline-block;
+  font-size: 0;
+  vertical-align: middle; // Make sure dropdown vertical alignment with button,button group and so on.
+
+  // Dropdown button style
+  .@{ns}btn {
+    > .@{ns}icon {
+      margin-right: 6px;
+    }
+
+    > .@{ns}dropdown-toggle-caret {
+      margin-left: 4px;
+    }
+  }
+
+  & &-menu {
+    position: absolute;
+    // dropdown-menu zindex value is greater than dropdown-toggle
+    z-index: @zindex-dropdown + 1;
+    display: none; // none by default, but block on "open" of the menu
+    float: left;
+    box-shadow: @dropdown-shadow;
+  }
+
+  &-disabled &-toggle.@{ns}btn {
+    cursor: @cursor-disabled !important;
+
+    &.@{ns}btn-subtle {
+      &,
+      &:focus,
+      &:active {
+        color: @btn-subtle-disabled-color;
+        background: none;
+      }
+    }
+
+    &.@{ns}btn-primary {
+      &,
+      &:focus,
+      &:active {
+        opacity: 0.3;
+        background-color: @btn-primary-bg;
+      }
+    }
+
+    &.@{ns}btn-link {
+      &,
+      &:focus,
+      &:active {
+        opacity: 0.3;
+        text-decoration: none;
+      }
+    }
+
+    &.@{ns}btn-ghost {
+      &,
+      &:focus,
+      &:active {
+        opacity: 0.3;
+      }
+    }
+
+    .@{ns}ripple-pond {
+      display: none !important;
+    }
+  }
+}
+
+.@{ns}dropdown-toggle {
+  &,
+  &.@{ns}btn {
+    // Force set style even if has `.btn`.
+    .dropdown-toggle;
+  }
+}
+
+.@{ns}dropdown-no-caret .@{ns}dropdown-toggle {
+  padding-right: @padding-base-horizontal;
+}
+
+// The dropdown menu (ul)
+.@{ns}dropdown-menu {
+  margin: 0; // override default ul
+  list-style: none;
+  font-size: @font-size-base;
+  text-align: left; // Ensures proper alignment if parent has it changed (e.g., modal footer)
+  background-color: @dropdown-bg;
+  border-radius: @border-radius-base;
+  padding: @border-radius-base 0;
+
+  .@{ns}dropdown-item-divider {
+    .nav-divider(@dropdown-divider-bg);
+  }
+
+  // Links within the dropdown menu
+  .@{ns}dropdown-item-content {
+    display: block;
+    padding: @dropdown-item-content-padding-vertical @dropdown-item-content-padding-horizontal;
+    clear: both;
+    font-weight: normal;
+    line-height: @line-height-base;
+    color: @dropdown-link-color;
+    white-space: nowrap; // prevent links from randomly breaking onto new lines
+    cursor: pointer; //fixed link has not [href] style
+    transition: color 0.3s linear, background-color 0.3s linear;
+
+    > .@{ns}icon {
+      width: @font-size-base;
+      text-align: center;
+      margin-right: 6px;
+    }
+  }
+}
+
+// The dropdown submenu
+.@{ns}dropdown-item-submenu {
+  position: relative;
+
+  > .@{ns}dropdown-item-content {
+    position: relative;
+
+    > .@{ns}dropdown-menu-toggle {
+      display: inline-block;
+
+      .@{ns}dropdown-menu-toggle-icon {
+        position: absolute;
+        width: @dropdown-item-content-submenu-icon-angle-width;
+        line-height: @dropdown-item-content-submenu-icon-angle-line-height;
+        font-size: @dropdown-item-content-submenu-icon-angle-size;
+      }
+    }
+
+    > .@{ns}dropdown-menu {
+      position: absolute;
+      top: 0;
+    }
+  }
+
+  // Set submenu icon
+  &.@{ns}dropdown-menu-pull-right {
+    > .@{ns}dropdown-item-content {
+      padding-right: @dropdown-item-content-padding-horizontal+
+        @dropdown-item-content-submenu-icon-angle-spacing+
+        @dropdown-item-content-submenu-icon-angle-width;
+
+      > .@{ns}dropdown-menu-toggle .@{ns}dropdown-menu-toggle-icon {
+        right: @dropdown-item-content-padding-horizontal;
+
+        &::before {
+          content: @drop-right-caret-content ~'/* rtl: "@{drop-left-caret-content}" */';
+        }
+      }
+    }
+  }
+
+  &.@{ns}dropdown-menu-pull-left {
+    > .@{ns}dropdown-item-content {
+      padding-left: @dropdown-item-content-padding-horizontal+
+        @dropdown-item-content-submenu-icon-angle-spacing +
+        @dropdown-item-content-submenu-icon-angle-width;
+
+      > .@{ns}dropdown-menu-toggle .@{ns}dropdown-menu-toggle-icon {
+        left: @dropdown-item-content-padding-horizontal;
+
+        &::before {
+          content: @drop-left-caret-content ~'/* rtl: "@{drop-right-caret-content}" */';
+        }
+      }
+    }
+  }
+
+  // Pull right
+  &.@{ns}dropdown-menu-pull-right > .@{ns}dropdown-item-content > .@{ns}dropdown-menu {
+    left: 100%;
+  }
+
+  // Pull Left
+  &.@{ns}dropdown-menu-pull-left > .@{ns}dropdown-item-content > .@{ns}dropdown-menu {
+    right: 100%;
+  }
+
+  // Open
+  &.@{ns}dropdown-item-open > .@{ns}dropdown-item-content > .@{ns}dropdown-menu {
+    //use display table to fix-content
+    display: table;
+    animation-name: slideUpIn;
+    .ie-animation-name(none);
+
+    animation-play-state: running;
+  }
+}
+
+// Hover/Focus state
+.@{ns}dropdown-menu > .@{ns}dropdown-item > .@{ns}dropdown-item-content {
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    color: @dropdown-link-hover-color;
+    background-color: @dropdown-link-hover-bg;
+  }
+}
+
+// Active state
+.@{ns}dropdown-menu > .@{ns}dropdown-menu-item-focus > .@{ns}dropdown-item-content,
+.@{ns}dropdown-menu > .@{ns}dropdown-item-active > .@{ns}dropdown-item-content {
+  font-weight: @dropdown-selected-font-weight;
+  outline: 0;
+
+  &,
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    background-color: @dropdown-link-active-bg;
+  }
+}
+
+.@{ns}dropdown-menu > .@{ns}dropdown-item-active > .@{ns}dropdown-item-content {
+  &,
+  &:hover,
+  &:focus {
+    color: @dropdown-link-active-color;
+  }
+}
+
+// Disabled state
+//
+// Gray out text and ensure the hover/focus state remains gray
+.@{ns}dropdown-menu > .@{ns}dropdown-item-disabled > .@{ns}dropdown-item-content {
+  opacity: 0.3;
+
+  &,
+  &:hover,
+  &:focus {
+    color: @dropdown-link-color;
+  }
+
+  // Nuke hover/focus effects
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    background-color: transparent;
+    background-image: none; // Remove CSS gradient
+    cursor: @cursor-disabled;
+  }
+}
+
+// Open state for the dropdown
+.@{ns}dropdown-open {
+  > .@{ns}dropdown-menu {
+    display: block;
+    animation-play-state: running;
+  }
+
+  // Show the menu
+  &.@{ns}dropdown-placement-top-start,
+  &.@{ns}dropdown-placement-top-end {
+    > .@{ns}dropdown-menu {
+      bottom: 100%;
+    }
+  }
+
+  &.@{ns}dropdown-placement-left-start,
+  &.@{ns}dropdown-placement-left-end {
+    > .@{ns}dropdown-menu {
+      right: 100%;
+    }
+  }
+
+  &.@{ns}dropdown-placement-right-start,
+  &.@{ns}dropdown-placement-right-end {
+    > .@{ns}dropdown-menu {
+      left: 100%;
+    }
+  }
+
+  &.@{ns}dropdown-placement-bottom-start,
+  &.@{ns}dropdown-placement-bottom-end {
+    > .@{ns}dropdown-menu {
+      top: 100%;
+    }
+  }
+
+  &.@{ns}dropdown-placement-top-start,
+  &.@{ns}dropdown-placement-bottom-start {
+    > .@{ns}dropdown-menu {
+      left: 0;
+    }
+  }
+
+  &.@{ns}dropdown-placement-top-end,
+  &.@{ns}dropdown-placement-bottom-end {
+    > .@{ns}dropdown-menu {
+      right: 0;
+    }
+  }
+
+  &.@{ns}dropdown-placement-left-start,
+  &.@{ns}dropdown-placement-right-start {
+    > .@{ns}dropdown-menu {
+      top: 0;
+    }
+  }
+
+  &.@{ns}dropdown-placement-right-end,
+  &.@{ns}dropdown-placement-left-end {
+    > .@{ns}dropdown-menu {
+      bottom: 0;
+    }
+  }
+
+  // Remove the outline when :focus is triggered
+  > a {
+    outline: 0;
+  }
+}
+
+// Dropdown section headers
+.@{ns}dropdown-header {
+  display: block;
+  padding: 3px 20px;
+  font-size: @font-size-small;
+  line-height: @line-height-base;
+  color: @dropdown-header-color;
+  white-space: nowrap; // as with > li > a
+}

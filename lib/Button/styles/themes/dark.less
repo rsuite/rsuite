@@ -1,0 +1,12 @@
+@import '../common';
+@import '../mixins/dark';
+
+.@{ns}btn-default,
+.@{ns}btn-primary,
+.@{ns}btn-subtle {
+  overflow: hidden;
+}
+
+.@{ns}btn-loading > .@{ns}btn-spin::before {
+  opacity: 0.3;
+}

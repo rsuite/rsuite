@@ -1,0 +1,140 @@
+// WebKit-style focus
+.tab-focus() {
+  outline: 0;
+}
+
+.reset-link-text-decoration(@text-decoration:none) {
+  &,
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: @text-decoration;
+  }
+}
+
+.reset-text-color(@color) {
+  &,
+  &:hover,
+  &:focus,
+  &:active {
+    color: @color;
+  }
+}
+
+// Typography
+
+.text-emphasis-variant(@color) {
+  color: @color;
+
+  a&:hover,
+  a&:focus {
+    color: darken(@color, 10%);
+  }
+}
+
+// Text overflow
+// Requires inline-block or block for proper styling
+
+.text-overflow() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ellipsis-basic() {
+  .text-overflow;
+}
+
+.ellipsis(@substract:0) {
+  .ellipsis-basic();
+
+  width: 100% - @substract;
+}
+
+//drop-shadow
+.drop-shadow(@shadow) {
+  filter: drop-shadow(@shadow);
+  // IE don't support `drop-shadow`,replace it with `box-shadow`.
+  .ie-box-shadow(@shadow);
+}
+
+// Reset font color
+.reset-font-color(@font-color:@text-color) {
+  &,
+  &:hover,
+  &:focus,
+  &:active {
+    color: @font-color;
+  }
+}
+
+.icon-font() {
+  font-family: @font-family-icon;
+  font-style: normal;
+  line-height: 1;
+}
+
+.set-translate-transition(@translateX:0,@translateY:0) {
+  transform: translate(0, 0);
+
+  &.in {
+    transform: translate(@translateX, @translateY);
+  }
+}
+
+// Clearfix
+//
+// For modern browsers
+// 1. The space content is one way to avoid an Opera bug when the
+//    contenteditable attribute is included anywhere else in the document.
+//    Otherwise it causes space to appear at the top and bottom of elements
+//    that are clearfixed.
+// 2. The use of `table` rather than `block` is only necessary if using
+//    `:before` to contain the top-margins of child elements.
+//
+// Source: http://nicolasgallagher.com/micro-clearfix-hack/
+.clearfix() {
+  &::before,
+  &::after {
+    content: ' '; // 1
+    display: table; // 2
+  }
+
+  &::after {
+    clear: both;
+  }
+}
+
+// Single side border-radius
+.border-top-radius(@radius) {
+  border-top-right-radius: @radius;
+  border-top-left-radius: @radius;
+}
+
+.border-right-radius(@radius) {
+  border-bottom-right-radius: @radius;
+  border-top-right-radius: @radius;
+}
+
+.border-bottom-radius(@radius) {
+  border-bottom-right-radius: @radius;
+  border-bottom-left-radius: @radius;
+}
+
+.border-left-radius(@radius) {
+  border-bottom-left-radius: @radius;
+  border-top-left-radius: @radius;
+}
+
+.pointer-event-none() {
+  // Make sure events through
+  pointer-events: none;
+  .ie10-visibility(hidden);
+  // Fixed in safari, after multiple clicks , the loader still has not disappeared.
+  .safari-visibility(hidden);
+}
+
+.padding-vertical(@padding-vertical) {
+  padding-top: @padding-vertical;
+  padding-bottom: @padding-vertical;
+}

@@ -1,0 +1,175 @@
+@import '../../styles/common';
+@import 'mixin';
+
+.@{ns}loader {
+  .clearfix;
+  .loader-size(@loader-default-diameter, @loader-default-content-font-size);
+
+  height: @loader-default-diameter;
+  display: inline-block;
+
+  //Loader spin
+  &-spin {
+    position: relative;
+    display: inline-block;
+    float: left;
+
+    .loader-spin;
+  }
+
+  //Loader spin
+  &-content {
+    float: left;
+    display: inline-block;
+    color: @loader-content-color;
+  }
+
+  &-spin + &-content {
+    margin-left: @loader-content-spin-spacing-horizontal;
+
+    //Extra small size loader spacing is smaller.
+    .@{ns}loader-xs & {
+      margin-left: @loader-content-spin-spacing-horizontal-xs;
+    }
+  }
+
+  // Backdrop
+  &-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: @loader-backdrop-color;
+  }
+
+  // Vertical
+  &-vertical {
+    width: auto;
+    display: inline-block;
+
+    .@{ns}loader {
+      flex-direction: column;
+    }
+
+    .@{ns}loader-spin {
+      margin: 0 auto;
+    }
+
+    .@{ns}loader-content {
+      line-height: unit(@line-height-computed / @loader-default-content-font-size);
+      text-align: center;
+    }
+
+    .@{ns}loader-spin,
+    .@{ns}loader-content {
+      display: block;
+      float: none;
+    }
+
+    .@{ns}loader-spin + .@{ns}loader-content {
+      margin-left: 0;
+      margin-top: @loader-content-spin-spacing-vertical;
+    }
+  }
+
+  // inverse
+  &-inverse {
+    .@{ns}loader-content {
+      color: @loader-content-inverse-color;
+    }
+
+    .@{ns}loader-backdrop {
+      background: @loader-backdrop-inverse-color;
+    }
+
+    .@{ns}loader-spin::before {
+      border-color: @loader-spin-ring-inverse-color;
+    }
+
+    .@{ns}loader-spin::after {
+      border-top-color: @loader-spin-ring-inverse-active-color;
+    }
+  }
+
+  // Loader speeds
+  &-speed-fast &-spin::after {
+    animation-duration: @loader-duration-fast;
+  }
+
+  &-speed-normal &-spin::after {
+    animation-duration: @loader-duration-normal;
+  }
+
+  &-speed-slow &-spin::after {
+    animation-duration: @loader-duration-slow;
+  }
+
+  // Position center
+  &-center,
+  &-backdrop-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+
+    .@{ns}loader {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    // horizontal loader need set display table to set width auto
+    &:not(.@{ns}loader-vertical) {
+      .@{ns}loader {
+        display: flex;
+      }
+    }
+
+    // vertical content text align center
+    &.@{ns}loader-vertical {
+      .@{ns}loader {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .@{ns}loader-content {
+      z-index: 1;
+    }
+  }
+
+  //Sizes
+  &-lg {
+    .loader-size(@loader-lg-diameter, @loader-lg-content-font-size);
+  }
+
+  &-md {
+    .loader-size(@loader-md-diameter, @loader-md-content-font-size);
+  }
+
+  &-sm {
+    .loader-size(@loader-sm-diameter, @loader-sm-content-font-size);
+  }
+
+  &-xs {
+    .loader-size(@loader-xs-diameter, @loader-xs-content-font-size);
+  }
+}
+
+// Set loader width auto
+.@{ns}loader-wrapper {
+  display: inline-block;
+  width: auto;
+  // Clear white space
+  line-height: 0;
+}

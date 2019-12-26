@@ -1,0 +1,220 @@
+@import '../../styles/common';
+@import '../../Form/styles/mixin';
+
+// Full container.
+.@{ns}form-fluid .@{ns}form-control-wrapper {
+  width: 100%;
+
+  > .@{ns}input-number,
+  > .@{ns}input {
+    width: 100%;
+  }
+}
+
+// Fixed width.
+.@{ns}form-control-wrapper {
+  // Used to provide relation for error message
+  position: relative;
+
+  > .@{ns}input-number,
+  > .@{ns}input {
+    width: @form-control-width;
+  }
+
+  &.read-only,
+  &.plaintext {
+    pointer-events: none;
+    touch-action: none;
+  }
+}
+
+// Vertical forms
+.@{ns}form-vertical .@{ns}form-group .@{ns}form-control-wrapper {
+  display: inline-block;
+  // Make sure max width won't overflow.
+  max-width: 100%;
+}
+
+// Horizontal forms
+//
+// Horizontal forms are built on grid classes and allow you to create forms with
+// labels on the left and inputs on the right.
+
+.@{ns}form-horizontal .@{ns}form-group {
+  .@{ns}form-control-wrapper {
+    float: left;
+  }
+
+  .@{ns}form-control-wrapper + .@{ns}help-block {
+    clear: both;
+  }
+
+  // Help block
+  .@{ns}form-control-wrapper + .@{ns}help-block:not(.@{ns}help-block-tooltip) {
+    margin-left: @control-label-width + @control-label-margin-right;
+  }
+}
+
+// Inline
+.@{ns}form-inline .@{ns}form-group {
+  .@{ns}form-control-wrapper {
+    display: inline-block;
+    margin-left: @form-control-margin-left;
+  }
+
+  // Form control wrapper behind Screen only dom no need margin left.
+  .@{ns}sr-only + .@{ns}form-control-wrapper {
+    margin-left: 0;
+  }
+}
+
+// Plain text
+.@{ns}form-control-wrapper.plaintext {
+  display: block !important;
+  max-width: 100%;
+
+  & + .@{ns}help-block {
+    display: none;
+  }
+
+  .@{ns}form-control-default-value {
+    padding: @padding-base-input-vertical 0;
+  }
+
+  > .@{ns}input {
+    border: 1px solid @form-plain-text-border-color;
+    padding-left: 0;
+    padding-right: 0;
+    width: auto;
+  }
+
+  > .@{ns}checkbox-group {
+    .@{ns}checkbox-checker {
+      padding-left: 0;
+      display: inline-block;
+    }
+
+    .@{ns}checkbox-wrapper,
+    .@{ns}checkbox:not(.@{ns}checkbox-checked) {
+      display: none;
+    }
+
+    .@{ns}checkbox {
+      position: relative;
+      display: inline-block;
+      font-weight: normal;
+      margin-top: 0;
+      margin-bottom: 0;
+      margin-left: 0;
+    }
+
+    &-inline {
+      margin-left: 0;
+    }
+
+    .@{ns}checkbox.@{ns}checkbox-checked ~ .@{ns}checkbox.@{ns}checkbox-checked::before {
+      content: @form-plain-text-checkbox-divider-content;
+    }
+  }
+
+  > .@{ns}radio-group {
+    .@{ns}radio-checker {
+      padding-left: 0;
+    }
+
+    .@{ns}radio-wrapper,
+    .@{ns}radio:not(.@{ns}radio-checked) {
+      display: none;
+    }
+  }
+
+  > .@{ns}slider {
+    // Rewrite inline style.
+    margin: 0 !important;
+    width: auto !important;
+
+    .@{ns}tooltip {
+      display: inline;
+      position: static;
+      opacity: 1;
+    }
+
+    .@{ns}slider-bar,
+    .@{ns}slider-handle::before,
+    .@{ns}tooltip-arrow {
+      display: none;
+    }
+
+    .@{ns}slider-handle {
+      position: static;
+    }
+
+    .@{ns}tooltip-inner {
+      display: inline-block;
+      background: transparent;
+      color: @text-color;
+      font-size: @font-size-base;
+      line-height: @line-height-base;
+      padding: @padding-base-vertical 0;
+    }
+  }
+
+  > .@{ns}picker-default {
+    .@{ns}picker-toggle {
+      border: 1px solid @form-plain-text-border-color;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .@{ns}picker-toggle,
+    .@{ns}picker-toggle-value {
+      color: @text-color;
+
+      .@{ns}picker-value-list {
+        overflow: visible;
+        white-space: normal;
+      }
+    }
+
+    .@{ns}picker-toggle-clean,
+    .@{ns}picker-toggle-caret,
+    .@{ns}picker-value-count {
+      display: none;
+    }
+  }
+
+  > .@{ns}picker-input {
+    display: block;
+    border: 1px solid @form-plain-text-border-color;
+
+    .@{ns}picker-toggle-clean,
+    .@{ns}picker-toggle-caret {
+      display: none;
+    }
+
+    .@{ns}picker-tag-wrapper {
+      margin-left: -10px;
+    }
+
+    .@{ns}tag {
+      padding-right: @tag-picker-content-padding-horizontal;
+
+      .@{ns}tag-icon-close {
+        display: none;
+      }
+    }
+
+    .@{ns}picker-toggle {
+      padding-left: 0;
+      padding-right: @padding-base-horizontal;
+
+      .@{ns}picker-toggle-value {
+        color: @text-color;
+      }
+    }
+  }
+
+  .@{ns}picker-toggle {
+    user-select: auto;
+  }
+}

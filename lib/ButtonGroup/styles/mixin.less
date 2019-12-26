@@ -1,0 +1,33 @@
+.button-group-btn(@base-color,@hover-bg-color) {
+  &.btn-group {
+    .btn.disabled:hover {
+      background-color: @base-color;
+    }
+
+    .btn:hover {
+      background-color: darken(@base-color, 5%);
+    }
+
+    .dropdown-menu {
+      & > li > a:focus,
+      & > li > a:hover {
+        background: @hover-bg-color;
+      }
+
+      & > .active > a,
+      & > .active > a:focus,
+      & > .active > a:hover {
+        background-color: darken(@base-color, 10%);
+      }
+    }
+  }
+
+  &.btn-group.open {
+    .dropdown-toggle.btn,
+    .dropdown-toggle.btn:active,
+    .dropdown-toggle.btn:focus,
+    .dropdown-toggle.btn:hover {
+      color: darken(@base-color, 10%);
+    }
+  }
+}
