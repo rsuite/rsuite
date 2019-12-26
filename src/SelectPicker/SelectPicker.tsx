@@ -20,7 +20,6 @@ import {
 } from 'rsuite-utils/lib/utils';
 
 import {
-  DropdownMenu,
   DropdownMenuItem,
   PickerToggle,
   PickerToggleTrigger,
@@ -29,7 +28,7 @@ import {
   MenuWrapper,
   SearchBar
 } from '../Picker';
-
+import DropdownMenu, { dropdownMenuPropTypes } from '../Picker/DropdownMenu';
 import { SelectPickerProps } from './SelectPicker.d';
 import { PLACEMENT } from '../constants';
 import { ItemDataType } from '../@types/common';
@@ -390,7 +389,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
 
     const menuProps = _.pick(
       this.props,
-      Object.keys(_.omit(DropdownMenu.propTypes, ['className', 'style', 'classPrefix']))
+      Object.keys(_.omit(dropdownMenuPropTypes, ['className', 'style', 'classPrefix']))
     );
 
     const menu = filteredData.length ? (
