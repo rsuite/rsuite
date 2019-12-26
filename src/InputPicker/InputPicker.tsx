@@ -615,7 +615,8 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
 
     const allData = this.getAllData();
 
-    let filteredData = filterNodesOfTree(allData, item => this.shouldDisplay(item[labelKey]));
+    //let filteredData = filterNodesOfTree(allData, item => this.shouldDisplay(item[labelKey]));
+    let filteredData = allData;
 
     if (
       creatable &&
