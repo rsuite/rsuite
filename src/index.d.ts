@@ -59,6 +59,7 @@ export { default as Portal } from './Portal';
 export { default as Progress } from './Progress';
 export { default as Radio } from './Radio';
 export { default as RadioGroup } from './RadioGroup';
+export { default as RangeSlider } from './RangeSlider';
 export { default as SelectPicker } from './SelectPicker';
 export { default as Sidebar } from './Sidebar';
 export { default as Sidenav } from './Sidenav';
