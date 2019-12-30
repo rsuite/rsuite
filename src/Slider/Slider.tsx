@@ -12,7 +12,6 @@ import { precisionMath, checkValue } from './utils';
 
 interface SliderState {
   value: number;
-  dragging?: boolean;
 }
 
 export const sliderPropTypes = {
@@ -139,12 +138,6 @@ class Slider extends React.Component<SliderProps, SliderState> {
   handleDragMove = (event: React.MouseEvent) => {
     this.setValue(this.getValueByPosition(event), event);
   };
-  handleDragStart = () => {
-    this.setState({ dragging: true });
-  };
-  handleDragEnd = () => {
-    this.setState({ dragging: false });
-  };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
@@ -194,8 +187,6 @@ class Slider extends React.Component<SliderProps, SliderState> {
         rtl={locale.rtl}
         value={value}
         onDragMove={this.handleDragMove}
-        onDragStart={this.handleDragStart}
-        onDragEnd={this.handleDragEnd}
       >
         {handleTitle}
       </Handle>
@@ -229,12 +220,10 @@ class Slider extends React.Component<SliderProps, SliderState> {
       ...rest
     } = this.props;
 
-    const { dragging } = this.state;
     const classes = classNames(classPrefix, className, {
       [this.addPrefix('vertical')]: vertical,
       [this.addPrefix('disabled')]: disabled,
       [this.addPrefix('graduated')]: graduated,
-      [this.addPrefix('dragging')]: dragging,
       [this.addPrefix('with-mark')]: renderMark
     });
 

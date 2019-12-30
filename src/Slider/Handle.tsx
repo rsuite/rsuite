@@ -20,14 +20,14 @@ interface HandleProps extends StandardProps {
   onDragEnd?: (event: React.MouseEvent) => void;
 }
 interface HandleState {
-  down?: boolean;
+  active?: boolean;
 }
 
 class Handle extends React.Component<HandleProps, HandleState> {
   constructor(props) {
     super(props);
     this.state = {
-      down: false
+      active: false
     };
     this.handleRef = React.createRef();
   }
@@ -70,7 +70,7 @@ class Handle extends React.Component<HandleProps, HandleState> {
   handleDragEnd = (event: React.MouseEvent) => {
     this.releaseMouseMoves();
     this.setState({
-      down: false
+      active: false
     });
     this.props.onDragEnd?.(event);
   };
@@ -81,7 +81,7 @@ class Handle extends React.Component<HandleProps, HandleState> {
     this.mouseMoveTracker = this.getMouseMoveTracker();
     this.mouseMoveTracker.captureMouseMoves(event);
     this.setState({
-      down: true
+      active: true
     });
     this.props.onDragStart?.(event);
   };
@@ -101,7 +101,7 @@ class Handle extends React.Component<HandleProps, HandleState> {
       rtl,
       value
     } = this.props;
-    const { down } = this.state;
+    const { active } = this.state;
 
     const horizontalKey = rtl ? 'right' : 'left';
     const direction = vertical ? 'top' : horizontalKey;
@@ -110,7 +110,7 @@ class Handle extends React.Component<HandleProps, HandleState> {
       [direction]: `${position}%`
     };
     const handleClasses = classNames(this.addPrefix('handle'), className, {
-      [this.addPrefix('showtip')]: down
+      active
     });
 
     return (

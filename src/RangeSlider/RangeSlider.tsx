@@ -12,7 +12,6 @@ import { precisionMath, checkValue } from '../Slider/utils';
 
 interface RangeSliderState {
   value: ValueType;
-  dragging?: boolean;
 }
 
 const rangeSliderPropTypes = {
@@ -168,12 +167,6 @@ class RangeSlider extends React.Component<RangeSliderProps, RangeSliderState> {
 
     this.setValue([start, end], event);
   };
-  handleDragStart = () => {
-    this.setState({ dragging: true });
-  };
-  handleDragEnd = () => {
-    this.setState({ dragging: false });
-  };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
@@ -218,9 +211,7 @@ class RangeSlider extends React.Component<RangeSliderProps, RangeSliderState> {
       renderTooltip,
       rtl: locale.rtl,
       className: handleClassName,
-      style: handleStyle,
-      onDragStart: this.handleDragStart,
-      onDragEnd: this.handleDragEnd
+      style: handleStyle
     };
 
     const handleProps = [
@@ -276,12 +267,10 @@ class RangeSlider extends React.Component<RangeSliderProps, RangeSliderState> {
       ...rest
     } = this.props;
 
-    const { dragging } = this.state;
     const classes = classNames(classPrefix, className, {
       [this.addPrefix('vertical')]: vertical,
       [this.addPrefix('disabled')]: disabled,
       [this.addPrefix('graduated')]: graduated,
-      [this.addPrefix('dragging')]: dragging,
       [this.addPrefix('with-mark')]: renderMark
     });
 
