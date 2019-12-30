@@ -203,10 +203,17 @@ class Slider extends React.Component<SliderProps, SliderState> {
   }
 
   renderProgress() {
-    const { vertical, min } = this.props;
+    const { vertical, min, locale } = this.props;
     const max = this.getMax();
     const value = this.getValue();
-    return <ProgressBar vertical={vertical} start={0} end={((value - min) / (max - min)) * 100} />;
+    return (
+      <ProgressBar
+        rtl={locale.rtl}
+        vertical={vertical}
+        start={0}
+        end={((value - min) / (max - min)) * 100}
+      />
+    );
   }
 
   render() {

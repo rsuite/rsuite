@@ -5,14 +5,16 @@ import { StandardProps } from '../@types/common';
 
 interface ProgressBarProps extends StandardProps {
   vertical?: boolean;
+  rtl?: boolean;
   start?: number;
   end?: number;
 }
 
 function ProgressBar(props: ProgressBarProps) {
-  const { vertical, end = 0, start = 0, style, className } = props;
+  const { vertical, rtl, end = 0, start = 0, style, className } = props;
   const sizeKey = vertical ? 'height' : 'width';
-  const startKey = vertical ? 'top' : 'left';
+  const rltKey = rtl ? 'right' : 'left';
+  const startKey = vertical ? 'top' : rltKey;
   const styles = {
     ...style,
     [startKey]: `${start}%`,

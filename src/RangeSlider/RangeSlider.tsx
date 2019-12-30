@@ -250,11 +250,12 @@ class RangeSlider extends React.Component<RangeSliderProps, RangeSliderState> {
   }
 
   renderProgress() {
-    const { vertical, min } = this.props;
+    const { vertical, min, locale } = this.props;
     const max = this.getMax();
     const [start, end] = this.getValue();
     return (
       <ProgressBar
+        rtl={locale.rtl}
         vertical={vertical}
         start={((start - min) / (max - min)) * 100}
         end={((end - min) / (max - min)) * 100}
