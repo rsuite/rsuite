@@ -110,11 +110,6 @@ class UploadTrigger extends React.Component<UploadTriggerProps, UploaderTriggerS
       classPrefix,
       className,
       componentClass: Component,
-      dragable,
-      onDragEnter,
-      onDragLeave,
-      onDragOver,
-      onDrop,
       ...rest
     } = this.props;
 

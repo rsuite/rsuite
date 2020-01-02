@@ -111,7 +111,6 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     },
     cleanable: true,
     searchable: true,
-    parentSelectable: true,
     placement: 'bottomStart'
   };
 
