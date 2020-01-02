@@ -1,3 +1,44 @@
+# 4.2.0
+
+> January 2, 2020
+
+- **Feature**: Added support for `<RangeSlider>` ([#805])
+- **Feature**: Added support for `parentSelectable` on `<Cascader>`. ([#802])
+- **Feature**: Added support for Russian. ([#799])
+- **Feature**: Added option `image` to the `graph` property of `<Placeholder>` ([#755])
+- **Feature**: Added support for `dragable` on `<Uploader>`. ([#752])
+- **Improve**: Enhance `<Tooltip>` and `<Popover>` to support HTML attributes ([#806])
+- **Bugfix**: Fixed the height of the buttons in the `<InputGroup>`.([#807])
+- **Bugfix**: Fixed `Drawer` gap bug when in RTL mode.([#803])
+- **Bugfix**: Fixed `<TreePicker>` changing width does not work when setting `virtualized` props. ([#796])
+- **Bugfix**: Fixed `<TreePicker>` not showing child nodes when loading data asynchronously. ([#796])
+- **Bugfix**: Fixed `xsHidden` don't work as expected ([#795])
+
+---
+
+- **Feature**: 新增组件 `<RangeSlider>` ([#805])
+- **Feature**: `<Cascader>` 组件支持 `parentSelectable` 属性，让父节点可选择。([#802])
+- **Feature**: 添加对俄语支持。([#799])
+- **Feature**: `<Placeholder>`的 `graph` 属性值添加了 `image` 选项。 ([#755])
+- **Feature**: `<Uploader>` 组件支持 `dragable` 属性，可以拖拽上传文件。([#752])
+- **Improve**: `<Tooltip>` 和 `<Popover>` 支持 HTML 元素默认属性。 ([#806])
+- **Bugfix**: 修复了 `<InputGroup>` 内部按钮高度的问题。([#807])
+- **Bugfix**: 修复了 `<Drawer>` 在 RTL 模式下，左侧存在间隙的样式问题。([#803])
+- **Bugfix**: 修复了 `<TreePicker>` 在设置 `virtualized` 属性后，改变宽度无效的问题。 ([#796])
+- **Bugfix**: 修复了 `<TreePicker>` 在异步更新后，不能展示子节点的问题。 ([#796])
+- **Bugfix**: 修复了 `xsHidden` 属性不能按照预期显示的问题。 ([#795])
+
+[#807]: https://github.com/rsuite/rsuite/pull/807
+[#806]: https://github.com/rsuite/rsuite/pull/806
+[#805]: https://github.com/rsuite/rsuite/pull/805
+[#803]: https://github.com/rsuite/rsuite/pull/803
+[#802]: https://github.com/rsuite/rsuite/pull/802
+[#799]: https://github.com/rsuite/rsuite/pull/799
+[#796]: https://github.com/rsuite/rsuite/pull/796
+[#795]: https://github.com/rsuite/rsuite/pull/795
+[#755]: https://github.com/rsuite/rsuite/pull/755
+[#752]: https://github.com/rsuite/rsuite/pull/752
+
 # 4.1.5
 
 > December 19, 2019
