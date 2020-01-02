@@ -7,9 +7,9 @@ import setStatic from 'recompose/setStatic';
 import bindElementResize, { unbind as unbindElementResize } from 'element-resize-event';
 import BaseModal from 'rsuite-utils/lib/Overlay/Modal';
 import Bounce from 'rsuite-utils/lib/Animation/Bounce';
-import { on, getHeight, isOverflowing, getScrollbarSize, ownerDocument } from 'dom-lib';
-import { prefix, defaultProps, createChainedFunction, isRTL } from '../utils';
-import ModalDialog from './ModalDialog';
+import { on, getHeight } from 'dom-lib';
+import { prefix, defaultProps, createChainedFunction } from '../utils';
+import ModalDialog, { modalDialogPropTypes } from './ModalDialog';
 import ModalBody from './ModalBody';
 import ModalHeader from './ModalHeader';
 import ModalTitle from './ModalTitle';
@@ -21,7 +21,6 @@ import ModalContext from './ModalContext';
 const BACKDROP_TRANSITION_DURATION = 150;
 
 interface ModalState {
-  modalStyles?: React.CSSProperties;
   bodyStyles?: React.CSSProperties;
 }
 
@@ -82,7 +81,6 @@ class Modal extends React.Component<ModalProps, ModalState> {
   constructor(props) {
     super(props);
     this.state = {
-      modalStyles: {},
       bodyStyles: {}
     };
 
@@ -94,30 +92,13 @@ class Modal extends React.Component<ModalProps, ModalState> {
     this.destroyEvent();
   }
 
-  getStyles(dialogElement?: HTMLElement) {
-    const { container, overflow, drawer } = this.props;
+  getBodyStylesByDialog(dialogElement?: HTMLElement) {
+    const { overflow, drawer } = this.props;
     const node: any = dialogElement || this.dialogRef.current;
-    const doc: any = ownerDocument(node);
     const scrollHeight = node ? node.scrollHeight : 0;
 
-    const bodyIsOverflowing = isOverflowing(container || doc.body);
-    const modalIsOverflowing = scrollHeight > doc.documentElement.clientHeight;
-
-    const styles: {
-      modalStyles: React.CSSProperties;
-      bodyStyles: React.CSSProperties;
-    } = {
-      modalStyles: {
-        [isRTL() ? 'paddingLeft' : 'paddingRight']:
-          bodyIsOverflowing && !modalIsOverflowing ? getScrollbarSize() : 0,
-        [isRTL() ? 'paddingRight' : 'paddingLeft']:
-          !bodyIsOverflowing && modalIsOverflowing ? getScrollbarSize() : 0
-      },
-      bodyStyles: {}
-    };
-
     if (!overflow) {
-      return styles;
+      return {};
     }
 
     const bodyStyles: React.CSSProperties = {
@@ -151,9 +132,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
       }
     }
 
-    styles.bodyStyles = bodyStyles;
-
-    return styles;
+    return bodyStyles;
   }
 
   windowResizeListener = null;
@@ -197,7 +176,9 @@ class Modal extends React.Component<ModalProps, ModalState> {
   }
 
   updateModalStyles(dialogElement: HTMLElement) {
-    this.setState(this.getStyles(dialogElement));
+    this.setState({
+      bodyStyles: this.getBodyStylesByDialog(dialogElement)
+    });
   }
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
@@ -211,7 +192,6 @@ class Modal extends React.Component<ModalProps, ModalState> {
       dialogStyle,
       animation,
       classPrefix,
-      style,
       show,
       size,
       full,
@@ -222,10 +202,8 @@ class Modal extends React.Component<ModalProps, ModalState> {
       ...rest
     } = this.props;
 
-    const { modalStyles } = this.state;
     const inClass = { in: show && !animation };
     const Dialog: React.ElementType = dialogComponentClass;
-
     const parentProps = _.pick(rest, _.get(BaseModal, 'handledProps'));
 
     const classes = classNames(this.addPrefix(size), className, {
@@ -234,8 +212,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
 
     const modal = (
       <Dialog
-        {..._.pick(rest, Object.keys(ModalDialog.propTypes || {}))}
-        style={{ ...modalStyles, ...style }}
+        {..._.pick(rest, Object.keys(modalDialogPropTypes))}
         classPrefix={classPrefix}
         className={classes}
         dialogClassName={dialogClassName}
