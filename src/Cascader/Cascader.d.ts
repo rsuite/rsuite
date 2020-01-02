@@ -7,7 +7,7 @@ export interface CascaderProps extends FormControlPickerProps<any> {
   menuWidth?: number;
 
   /** Sets the height of the menu */
-  menuHeight?: number;
+  menuHeight?: number | string;
 
   /** Custom render menu */
   renderMenu?: (children: object[], menu: React.ReactNode, parentNode?: object) => React.ReactNode;
@@ -41,6 +41,9 @@ export interface CascaderProps extends FormControlPickerProps<any> {
 
   /** The menu is displayed directly when the component is initialized */
   inline?: boolean;
+
+  /** When true, make the parent node selectable */
+  parentSelectable?: boolean;
 }
 
 declare const Cascader: React.ComponentType<CascaderProps>;
