@@ -3,57 +3,43 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { getWidth, getHeight, getOffset } from 'dom-lib';
 import { getUnhandledProps, defaultProps, prefix } from '../utils';
-import { SliderProps } from './Slider.d';
-import ProgressBar from './ProgressBar';
-import Handle from './Handle';
-import Graduated from './Graduated';
+import { RangeSliderProps, ValueType } from './RangeSlider.d';
+import { sliderPropTypes } from '../Slider/Slider';
+import ProgressBar from '../Slider/ProgressBar';
+import Handle from '../Slider/Handle';
+import Graduated from '../Slider/Graduated';
+import { precisionMath, checkValue } from '../Slider/utils';
 
-import { precisionMath, checkValue } from './utils';
-
-interface SliderState {
-  value: number;
+interface RangeSliderState {
+  value: ValueType;
 }
 
-export const sliderPropTypes = {
-  min: PropTypes.number,
-  max: PropTypes.number,
-  step: PropTypes.number,
-  value: PropTypes.number,
-  defaultValue: PropTypes.number,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  handleClassName: PropTypes.string,
-  handleTitle: PropTypes.node,
-  barClassName: PropTypes.string,
-  handleStyle: PropTypes.object,
-  disabled: PropTypes.bool,
-  graduated: PropTypes.bool,
-  tooltip: PropTypes.bool,
-  progress: PropTypes.bool,
-  vertical: PropTypes.bool,
-  onChange: PropTypes.func,
-  renderMark: PropTypes.func,
-  renderTooltip: PropTypes.func,
-  locale: PropTypes.object
+const rangeSliderPropTypes = {
+  ...sliderPropTypes,
+  value: PropTypes.arrayOf(PropTypes.number),
+  defaultValue: PropTypes.arrayOf(PropTypes.number)
 };
 
-class Slider extends React.Component<SliderProps, SliderState> {
-  static propTypes = sliderPropTypes;
+class RangeSlider extends React.Component<RangeSliderProps, RangeSliderState> {
+  static propTypes = rangeSliderPropTypes;
   static defaultProps = {
     min: 0,
     max: 100,
     step: 1,
-    defaultValue: 0,
+    defaultValue: [0, 0],
     tooltip: true,
+    progress: true,
     locale: {}
   };
   barRef: React.RefObject<HTMLDivElement>;
   mouseMoveTracker = null;
+  handleIndexs = [0, 1]; // Define the parameter position of the handle
   constructor(props) {
     super(props);
     this.state = {
       value: this.checkValue(props.defaultValue, props)
     };
+
     this.barRef = React.createRef();
   }
 
@@ -63,7 +49,7 @@ class Slider extends React.Component<SliderProps, SliderState> {
     return precisionMath((max - min) / step);
   }
 
-  getMax(props?: SliderProps) {
+  getMax(props?: RangeSliderProps) {
     const { max, min, step } = props || this.props;
     return precisionMath(Math.floor((max - min) / step) * step + min);
   }
@@ -73,16 +59,17 @@ class Slider extends React.Component<SliderProps, SliderState> {
     return typeof value === 'undefined' ? this.state.value : this.checkValue(value);
   }
 
-  setValue(value: number, event: React.MouseEvent) {
+  setValue(value: ValueType, event: React.MouseEvent) {
     const nextValue = this.checkValue(value);
     this.setState({ value: nextValue });
     this.props.onChange?.(nextValue, event);
   }
 
-  checkValue(value: number, props?: SliderProps) {
+  checkValue(value: ValueType, props?: RangeSliderProps): ValueType {
     const { min } = props || this.props;
     const max = this.getMax(props);
-    return checkValue(value, min, max);
+    const [start, end] = value;
+    return [checkValue(start, min, max), checkValue(end, min, max)];
   }
 
   getHeight() {
@@ -98,6 +85,7 @@ class Slider extends React.Component<SliderProps, SliderState> {
     }
     return 0;
   }
+
   getValueByOffset(offset: number) {
     const { step, vertical } = this.props;
     const count = this.getSplitCount();
@@ -128,15 +116,56 @@ class Slider extends React.Component<SliderProps, SliderState> {
     return this.getValueByOffset(value) + min;
   };
 
+  getRangeValue = (key: 'start' | 'end', event: React.MouseEvent) => {
+    let [start, end] = this.getValue();
+    const value = this.getValueByPosition(event);
+
+    if (key === 'start') {
+      start = value;
+    } else if (key === 'end') {
+      end = value;
+    }
+
+    return [start, end];
+  };
+
   handleClick = (event: React.MouseEvent) => {
     if (this.props.disabled) {
       return;
     }
+
+    let [start, end] = this.getValue();
     const value = this.getValueByPosition(event);
-    this.setValue(value, event);
+
+    /**
+     * Judging that the current click value is closer to the values ​​of `start` and` end`.
+     */
+    if (Math.abs(start - value) < Math.abs(end - value)) {
+      start = value;
+    } else {
+      end = value;
+    }
+
+    this.setValue([start, end], event);
   };
-  handleDragMove = (event: React.MouseEvent) => {
-    this.setValue(this.getValueByPosition(event), event);
+
+  handleDragMove = (key: 'start' | 'end', event: React.MouseEvent) => {
+    let [start, end] = this.getRangeValue(key, event);
+
+    if (start >= end) {
+      /**
+       * When the value of `start` is greater than the value of` end`,
+       * the position of the handle is reversed.
+       */
+      this.handleIndexs.reverse();
+      if (key === 'start') {
+        start = this.getValue()[1];
+      } else {
+        end = this.getValue()[0];
+      }
+    }
+
+    this.setValue([start, end], event);
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
@@ -173,36 +202,54 @@ class Slider extends React.Component<SliderProps, SliderState> {
     } = this.props;
 
     const max = this.getMax();
-    const value = this.getValue();
+    const [start, end] = this.getValue();
+
+    const commonProps = {
+      disabled,
+      vertical,
+      tooltip,
+      renderTooltip,
+      rtl: locale.rtl,
+      className: handleClassName,
+      style: handleStyle
+    };
+
+    const handleProps = [
+      {
+        value: start,
+        position: ((start - min) / (max - min)) * 100,
+        onDragMove: this.handleDragMove.bind(this, 'start')
+      },
+      {
+        value: end,
+        position: ((end - min) / (max - min)) * 100,
+        onDragMove: this.handleDragMove.bind(this, 'end')
+      }
+    ];
 
     return (
-      <Handle
-        position={((value - min) / (max - min)) * 100}
-        className={handleClassName}
-        style={handleStyle}
-        disabled={disabled}
-        vertical={vertical}
-        tooltip={tooltip}
-        renderTooltip={renderTooltip}
-        rtl={locale.rtl}
-        value={value}
-        onDragMove={this.handleDragMove}
-      >
-        {handleTitle}
-      </Handle>
+      <React.Fragment>
+        <Handle {...commonProps} {...handleProps[this.handleIndexs[0]]}>
+          {handleTitle}
+        </Handle>
+
+        <Handle {...commonProps} {...handleProps[this.handleIndexs[1]]}>
+          {handleTitle}
+        </Handle>
+      </React.Fragment>
     );
   }
 
   renderProgress() {
     const { vertical, min, locale } = this.props;
     const max = this.getMax();
-    const value = this.getValue();
+    const [start, end] = this.getValue();
     return (
       <ProgressBar
         rtl={locale.rtl}
         vertical={vertical}
-        start={0}
-        end={((value - min) / (max - min)) * 100}
+        start={((start - min) / (max - min)) * 100}
+        end={((end - min) / (max - min)) * 100}
       />
     );
   }
@@ -227,7 +274,7 @@ class Slider extends React.Component<SliderProps, SliderState> {
       [this.addPrefix('with-mark')]: renderMark
     });
 
-    const unhandled = getUnhandledProps(Slider, rest);
+    const unhandled = getUnhandledProps(RangeSlider, rest);
 
     return (
       <div {...unhandled} className={classes} role="presentation">
@@ -245,6 +292,6 @@ class Slider extends React.Component<SliderProps, SliderState> {
   }
 }
 
-export default defaultProps<SliderProps>({
+export default defaultProps<RangeSliderProps>({
   classPrefix: 'slider'
-})(Slider);
+})(RangeSlider);

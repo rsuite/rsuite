@@ -10,7 +10,8 @@ const UN_STYLED_COMPONENTS = [
   'SafeAnchor',
   'Portal',
   'IntlProvider',
-  'Affix'
+  'Affix',
+  'RangeSlider'
 ];
 
 const THEMES = ['default', 'dark'];
