@@ -8,7 +8,7 @@ import { polyfill } from 'react-lifecycles-compat';
 
 import IntlProvider from '../IntlProvider';
 import FormattedMessage from '../IntlProvider/FormattedMessage';
-import DropdownMenu from './DropdownMenu';
+import DropdownMenu, { dropdownMenuPropTypes } from './DropdownMenu';
 import stringToObject from '../utils/stringToObject';
 import getSafeRegExpString from '../utils/getSafeRegExpString';
 import { flattenTree, getNodeParents } from '../utils/treeUtils';
@@ -477,7 +477,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
 
     const menuProps = _.pick(
       this.props,
-      Object.keys(_.omit(DropdownMenu.propTypes, ['classPrefix']))
+      Object.keys(_.omit(dropdownMenuPropTypes, ['classPrefix']))
     );
 
     return (

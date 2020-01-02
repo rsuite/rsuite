@@ -34,28 +34,29 @@ export interface DropdownMenuProps {
   onCheck?: (value: any, event: React.SyntheticEvent<any>, checked: boolean) => void;
 }
 
-class DropdownMenu extends React.Component<DropdownMenuProps> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    data: PropTypes.array,
-    disabledItemValues: PropTypes.array,
-    value: PropTypes.array,
-    childrenKey: PropTypes.string,
-    valueKey: PropTypes.string,
-    labelKey: PropTypes.string,
-    menuWidth: PropTypes.number,
-    menuHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    className: PropTypes.string,
-    cascade: PropTypes.bool,
-    cascadeItems: PropTypes.array,
-    cascadePathItems: PropTypes.array,
-    uncheckableItemValues: PropTypes.array,
-    renderMenuItem: PropTypes.func,
-    renderMenu: PropTypes.func,
-    onSelect: PropTypes.func,
-    onCheck: PropTypes.func
-  };
+export const dropdownMenuPropTypes = {
+  classPrefix: PropTypes.string,
+  data: PropTypes.array,
+  disabledItemValues: PropTypes.array,
+  value: PropTypes.array,
+  childrenKey: PropTypes.string,
+  valueKey: PropTypes.string,
+  labelKey: PropTypes.string,
+  menuWidth: PropTypes.number,
+  menuHeight: PropTypes.number,
+  className: PropTypes.string,
+  cascade: PropTypes.bool,
+  cascadeItems: PropTypes.array,
+  cascadePathItems: PropTypes.array,
+  uncheckableItemValues: PropTypes.array,
+  renderMenuItem: PropTypes.func,
+  renderMenu: PropTypes.func,
+  onSelect: PropTypes.func,
+  onCheck: PropTypes.func
+};
 
+class DropdownMenu extends React.Component<DropdownMenuProps> {
+  static propTypes = dropdownMenuPropTypes;
   static defaultProps = {
     data: [],
     disabledItemValues: [],

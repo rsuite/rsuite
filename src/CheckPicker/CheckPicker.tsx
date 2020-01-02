@@ -15,9 +15,7 @@ import {
 
 import IntlProvider from '../IntlProvider';
 import FormattedMessage from '../IntlProvider/FormattedMessage';
-
 import {
-  DropdownMenu,
   DropdownMenuCheckItem as DropdownMenuItem,
   PickerToggle,
   getToggleWrapperClassName,
@@ -27,7 +25,7 @@ import {
   SelectedElement,
   PickerToggleTrigger
 } from '../Picker';
-
+import DropdownMenu, { dropdownMenuPropTypes } from '../Picker/DropdownMenu';
 import { CheckPickerProps } from './CheckPicker.d';
 import { PLACEMENT } from '../constants';
 import { ItemDataType } from '../@types/common';
@@ -439,7 +437,7 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
 
     const menuProps = _.pick(
       this.props,
-      Object.keys(_.omit(DropdownMenu.propTypes, ['className', 'style', 'classPrefix']))
+      Object.keys(_.omit(dropdownMenuPropTypes, ['className', 'style', 'classPrefix']))
     );
 
     const menu =
