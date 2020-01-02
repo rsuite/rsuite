@@ -12,7 +12,7 @@ export interface MultiCascaderProps<ValueType = any> extends FormControlPickerPr
   menuWidth?: number;
 
   /** Sets the height of the menu */
-  menuHeight?: number;
+  menuHeight?: number | string;
 
   /** Set the option value for the check box not to be rendered */
   uncheckableItemValues?: ValueType[];

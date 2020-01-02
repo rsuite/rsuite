@@ -17,7 +17,7 @@ export interface DropdownMenuProps {
   valueKey: string;
   labelKey: string;
   menuWidth: number;
-  menuHeight: number;
+  menuHeight: number | string;
   className?: string;
   cascade?: boolean;
   cascadeItems: any[];

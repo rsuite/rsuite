@@ -252,7 +252,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState>
   }
 
   render() {
-    const { maxHeight, className, style, group, data, ...rest } = this.props;
+    const { maxHeight, className, style, group, ...rest } = this.props;
     const classes = classNames(className, this.addPrefix('items'), {
       grouped: group
     });

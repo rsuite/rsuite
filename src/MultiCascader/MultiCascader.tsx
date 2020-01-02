@@ -72,7 +72,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
     countable: PropTypes.bool,
     placement: PropTypes.oneOf(PLACEMENT),
     menuWidth: PropTypes.number,
-    menuHeight: PropTypes.number,
+    menuHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     style: PropTypes.object,
     uncheckableItemValues: PropTypes.array,
     searchable: PropTypes.bool,
