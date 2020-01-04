@@ -6,11 +6,21 @@ export interface Props {
   componentClass?: React.ElementType;
 }
 
+function getComponentName(Component) {
+  return (
+    Component.displayName ||
+    Component.name ||
+    typeof Component === 'string' ? Component : undefined
+  );
+}
+
 function defaultProps<T>(props: Props) {
   const { classPrefix, ...rest } = props;
 
   return (WrappedComponent: React.ComponentClass<any>): React.ComponentClass<T> => {
     class DefaultPropsComponent extends WrappedComponent {
+      static displayName = getComponentName(WrappedComponent) || 'DefaultPropsComponent';
+
       // for IE9 & IE10 support
       static contextTypes = WrappedComponent.contextTypes;
       static childContextTypes = WrappedComponent.childContextTypes;
