@@ -10,7 +10,7 @@ function getComponentName(Component) {
   return (
     Component.displayName ||
     Component.name ||
-    typeof Component === 'string' ? Component : undefined
+    (typeof Component === 'string' ? Component : undefined)
   );
 }
 
