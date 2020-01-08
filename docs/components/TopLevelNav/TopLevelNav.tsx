@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import Link from 'next/link';
 import { Button, Icon, Whisper, Tooltip } from 'rsuite';
 import { isMobile } from 'react-device-detect';
@@ -57,9 +56,7 @@ interface TopLevelNavState {
   search: boolean;
 }
 class TopLevelNav extends React.Component<TopLevelNavProps, TopLevelNavState> {
-  static contextTypes = {
-    locale: PropTypes.object
-  };
+  static contextType = ThemeContext;
 
   static propTypes = {
     showSubmenu: PropTypes.bool,
@@ -88,38 +85,44 @@ class TopLevelNav extends React.Component<TopLevelNavProps, TopLevelNavState> {
 
   render() {
     const { children, showSubmenu, hideToggle } = this.props;
-    const { locale } = this.context;
-    const localePath = _.get(locale, 'id') === 'en-US' ? '/en/' : '/';
+    const {
+      messages,
+      theme: [themeName, direction],
+      handleToggleDirection,
+      handleToggleTheme
+    } = this.context;
+
+    const localePath = messages?.id === 'en-US' ? '/en/' : '/';
     const menu = [
       {
         key: 'guide',
-        tip: _.get(locale, 'common.guide'),
+        tip: messages?.common?.guide,
         to: `${localePath}guide/introduction`,
         icon: <IconGuide />
       },
       {
         key: 'components',
-        tip: _.get(locale, 'common.components'),
+        tip: messages?.common?.components,
         to: `${localePath}components/overview`,
         icon: <IconComponent />
       },
 
       {
         key: 'tools',
-        tip: _.get(locale, 'common.tools'),
+        tip: messages?.common?.tools,
         to: `${localePath}tools/palette`,
         icon: <IconTools />
       },
       {
         key: 'extensions',
-        tip: _.get(locale, 'common.extension'),
+        tip: messages?.common?.extension,
         to: `${localePath}extensions`,
         icon: <IconExtension />
       }
     ];
     const renderSearchButton = className => (
       <WithTooltipButton
-        tip={_.get(locale, 'common.search')}
+        tip={messages?.common?.search}
         className={`icon-btn-circle ${className}`}
         onClick={this.showSearchDrawer}
       >
@@ -128,102 +131,92 @@ class TopLevelNav extends React.Component<TopLevelNavProps, TopLevelNavState> {
     );
 
     return (
-      <ThemeContext.Consumer>
-        {({ theme: [themeName, direction], handleToggleDirection, handleToggleTheme }) => {
-          return (
-            <div className="top-level-nav">
-              <Link href={`${localePath}`}>
-                <a>
-                  <Logo width={26} height={30} className="logo-sm" />
-                </a>
-              </Link>
+      <div className="top-level-nav">
+        <Link href={`${localePath}`}>
+          <a>
+            <Logo width={26} height={30} className="logo-sm" />
+          </a>
+        </Link>
 
-              <div className="top-level-nav-menu">
-                {renderSearchButton('visible-xs')}
+        <div className="top-level-nav-menu">
+          {renderSearchButton('visible-xs')}
 
-                {menu.map(item => (
-                  <WithTooltipButton
-                    tip={item.tip}
-                    key={item.key}
-                    className="icon-btn-circle"
-                    componentClass={Link}
-                    href={item.to}
-                    onClick={event => {
-                      this.handleToggleMenu(event, true);
-                    }}
-                  >
-                    {item.icon}
-                  </WithTooltipButton>
-                ))}
+          {menu.map(item => (
+            <WithTooltipButton
+              tip={item.tip}
+              key={item.key}
+              className="icon-btn-circle"
+              componentClass={Link}
+              href={item.to}
+              onClick={event => {
+                this.handleToggleMenu(event, true);
+              }}
+            >
+              {item.icon}
+            </WithTooltipButton>
+          ))}
 
-                <WithTooltipButton
-                  tip={_.get(locale, 'common.design')}
-                  className="icon-btn-circle"
-                  componentClass="a"
-                  target="_blank"
-                  href="/design/default/index.html"
-                >
-                  <IconDesign />
-                </WithTooltipButton>
+          <WithTooltipButton
+            tip={messages?.common?.design}
+            className="icon-btn-circle"
+            componentClass="a"
+            target="_blank"
+            href="/design/default/index.html"
+          >
+            <IconDesign />
+          </WithTooltipButton>
 
-                {renderSearchButton('hidden-xs')}
+          {renderSearchButton('hidden-xs')}
 
-                <div className="nav-menu-bottom">
-                  <WithTooltipButton
-                    tip="Toggle light/dark theme"
-                    className="icon-btn-circle"
-                    onClick={handleToggleTheme}
-                  >
-                    {themeName === 'dark' ? <IconLightOff /> : <IconLightOn />}
-                  </WithTooltipButton>
+          <div className="nav-menu-bottom">
+            <WithTooltipButton
+              tip="Toggle light/dark theme"
+              className="icon-btn-circle"
+              onClick={handleToggleTheme}
+            >
+              {themeName === 'dark' ? <IconLightOff /> : <IconLightOn />}
+            </WithTooltipButton>
 
-                  <WithTooltipButton
-                    tip="Toggle RTL/LTR"
-                    className="icon-btn-circle"
-                    onClick={handleToggleDirection}
-                  >
-                    {direction === 'ltr' ? <IconRtl /> : <IconLtr />}
-                  </WithTooltipButton>
+            <WithTooltipButton
+              tip="Toggle RTL/LTR"
+              className="icon-btn-circle"
+              onClick={handleToggleDirection}
+            >
+              {direction === 'rtl' ? <IconRtl /> : <IconLtr />}
+            </WithTooltipButton>
 
-                  <WithTooltipButton
-                    tip="GitHub"
-                    className="icon-btn-circle"
-                    href="https://github.com/rsuite/rsuite"
-                    target="_blank"
-                  >
-                    <Icon icon="github" size="lg" />
-                  </WithTooltipButton>
+            <WithTooltipButton
+              tip="GitHub"
+              className="icon-btn-circle"
+              href="https://github.com/rsuite/rsuite"
+              target="_blank"
+            >
+              <Icon icon="github" size="lg" />
+            </WithTooltipButton>
 
-                  <WithTooltipButton
-                    tip="码云"
-                    className="icon-btn-circle"
-                    href="https://gitee.com/rsuite/rsuite"
-                    target="_blank"
-                  >
-                    <IconGitee />
-                  </WithTooltipButton>
+            <WithTooltipButton
+              tip="码云"
+              className="icon-btn-circle"
+              href="https://gitee.com/rsuite/rsuite"
+              target="_blank"
+            >
+              <IconGitee />
+            </WithTooltipButton>
 
-                  {hideToggle ? null : (
-                    <WithTooltipButton
-                      tip={
-                        showSubmenu
-                          ? _.get(locale, 'common.closeMenu')
-                          : _.get(locale, 'common.openMenu')
-                      }
-                      className="icon-btn-circle"
-                      onClick={this.handleToggleMenu}
-                    >
-                      <Icon icon={showSubmenu ? 'angle-left' : 'angle-right'} size="lg" />
-                    </WithTooltipButton>
-                  )}
-                </div>
-              </div>
-              {children}
-              <SearchDrawer show={this.state.search} onHide={this.hideSearchDrawer} />
-            </div>
-          );
-        }}
-      </ThemeContext.Consumer>
+            {hideToggle ? null : (
+              <WithTooltipButton
+                tip={showSubmenu ? messages?.common?.closeMenu : messages?.common?.openMenu}
+                className="icon-btn-circle"
+                onClick={this.handleToggleMenu}
+              >
+                <Icon icon={showSubmenu ? 'angle-left' : 'angle-right'} size="lg" />
+              </WithTooltipButton>
+            )}
+          </div>
+        </div>
+        {children}
+        <SearchDrawer show={this.state.search} onHide={this.hideSearchDrawer} />
+      </div>
     );
   }
 }

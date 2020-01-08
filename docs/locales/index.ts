@@ -7,9 +7,9 @@ const dict = {
   zh: zh
 };
 
-export function getDict(locale?: any) {
+export function getMessages(locale?: any) {
   if (!canUseDOM) {
-    return null;
+    return zh;
   }
   const localeKey = localStorage?.getItem('localeKey');
   const key = locale ? locale : localeKey;

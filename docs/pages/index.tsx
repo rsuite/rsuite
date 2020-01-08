@@ -1,12 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import _ from 'lodash';
 import { Button, ButtonToolbar, FlexboxGrid, Grid, Row, Col } from 'rsuite';
 import Link from 'next/link';
 import TopLevelNav from '../components/TopLevelNav';
 import LanguageSwitchButton from '../components/LanguageSwitchButton';
 import Logo from '../components/Logo';
 import ReactLogo from '../components/ReactLogo';
+import { ThemeContext } from '../components/Context';
 
 import '../less/index.less';
 
@@ -15,9 +14,7 @@ interface HomePageState {
 }
 
 class HomePage extends React.Component<{}, HomePageState> {
-  static contextTypes = {
-    locale: PropTypes.object
-  };
+  static contextType = ThemeContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -25,15 +22,14 @@ class HomePage extends React.Component<{}, HomePageState> {
     };
   }
   componentDidMount() {
-    const setRunning = setTimeout(() => {
+    setTimeout(() => {
       this.setState({ running: true });
-      clearTimeout(setRunning);
     }, 1.7e3);
   }
 
   render() {
-    const { locale } = this.context;
-    const localePath = _.get(locale, 'id') === 'en-US' ? '/en/' : '/';
+    const { messages } = this.context;
+    const messagesPath = messages?.id === 'en-US' ? '/en/' : '/';
 
     return (
       <Grid className="page-home">
@@ -41,8 +37,8 @@ class HomePage extends React.Component<{}, HomePageState> {
         <span className="language-switch-button-wrapper">
           <LanguageSwitchButton
             size="lg"
-            language={_.get(locale, 'id')}
-            href={localePath}
+            language={messages?.id}
+            href={messagesPath}
             className="home-page"
           />
         </span>
@@ -52,7 +48,7 @@ class HomePage extends React.Component<{}, HomePageState> {
             <FlexboxGrid.Item componentClass={Col} colspan={24} md={12}>
               <section className="section">
                 <h1 className="title">React Suite</h1>
-                <p className="sub-title"> {_.get(locale, 'common.resume')}</p>
+                <p className="sub-title"> {messages?.common?.resume}</p>
                 <p className="home-page-badge-wrap">
                   <a
                     href="https://www.npmjs.com/package/rsuite"
@@ -78,9 +74,9 @@ class HomePage extends React.Component<{}, HomePageState> {
                     size="lg"
                     appearance="primary"
                     componentClass={Link}
-                    href={`${localePath}guide/introduction`}
+                    href={`${messagesPath}guide/introduction`}
                   >
-                    {_.get(locale, 'common.gettingStarted')}
+                    {messages?.common?.gettingStarted}
                   </Button>
                 </ButtonToolbar>
               </section>

@@ -5,7 +5,16 @@ module.exports = (api, options) => {
   }
 
   return {
-    presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
+    presets: [
+      '@babel/preset-react',
+      '@babel/preset-typescript',
+      [
+        'next/babel',
+        {
+          'preset-env': { targets: { node: true } }
+        }
+      ]
+    ],
     plugins: [
       ['@babel/plugin-proposal-class-properties', { loose: true }],
       '@babel/plugin-proposal-optional-chaining',
