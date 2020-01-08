@@ -7,7 +7,7 @@ import Paragraph from '../components/Paragraph';
 import MarkdownView from '../components/MarkdownView';
 import CodeView from '../components/CodeView';
 import components from '../component.config.json';
-import { getDict } from '../locales';
+import { getMessages } from '../locales';
 
 const babelOptions = {
   presets: ['env', 'stage-1', 'react'],
@@ -33,7 +33,7 @@ const createComponentExample = ({
 }) => {
   return locale => {
     const name = _.kebabCase(id);
-    const dist = getDict(locale);
+    const dist = getMessages(locale);
     const namePath = locale === 'en' ? `${name}/en/` : `${name}/`;
     const context = require(`@/pages/${category}/${namePath}index.md`);
     const componentExamples = examples.map(item => ({

@@ -1,103 +1,88 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Sidebar, Nav, Icon, IconButton } from 'rsuite';
-//import Link from 'next/link';
-import _ from 'lodash';
+import { useRouter } from 'next/router';
+import { Sidebar, Nav, Icon } from 'rsuite';
+import Link from 'next/link';
+import { ThemeContext } from '../Context';
 import getMenu from '../../utils/getMenu';
 
 interface SideNavbarProps {
   style: React.CSSProperties;
 }
-interface SideNavbarState {
-  mediaSidebarShow: boolean;
-}
 
-class SideNavbar extends React.PureComponent<SideNavbarProps, SideNavbarState> {
-  static contextTypes = {
-    locale: PropTypes.object,
-    router: PropTypes.object.isRequired
-  };
+function SideNavbar(props: SideNavbarProps) {
+  const router = useRouter();
+  const activeKey = router.pathname.split('/')?.[1];
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      mediaSidebarShow: false
-    };
-  }
+  return (
+    <ThemeContext.Consumer>
+      {({ messages }) => {
+        const navItems = [];
+        const menuList = getMenu(messages);
+        const data = menuList.find(item => item.id === activeKey);
 
-  getMenuItems() {
-    const { locale } = this.context;
-    return getMenu(locale);
-  }
+        const { name: activeTitle, icon, children = [] } = data;
 
-  getRootPath() {
-    return _.get(this.context.router, 'routes.0.path');
-  }
+        if (children) {
+          children.forEach(child => {
+            const pathname = child.url ? child.url : `/${data.id}/${child.id}`;
+            const active = router.pathname === pathname;
 
-  handleOpenMediaSidebarShow = () => {
-    this.setState({
-      mediaSidebarShow: true
-    });
-  };
+            if (child.group) {
+              navItems.push(
+                <Nav.Item panel key={child.id}>
+                  # {child.name}
+                </Nav.Item>
+              );
+              return;
+            }
 
-  handleCloseMediaSidebarShow = () => {
-    this.setState({
-      mediaSidebarShow: false
-    });
-  };
+            const title =
+              messages?.id === 'en-US' || !child.title ? null : (
+                <span className="title-zh">{child.title}</span>
+              );
 
-  render() {
-    const nodeItems = [];
-    //const menuItems = this.getMenuItems();
-    //const rootPath = this.getRootPath();
-    const { locale } = this.context;
-    const showMediaToggleButton = this.props.style.width !== 0;
+            if (child.target === '_blank' && child.url) {
+              navItems.push(
+                <Nav.Item key={child.id} href={child.url} target="_blank">
+                  {child.name} {title}
+                  <Icon icon="external-link-square" className="external-link" />
+                </Nav.Item>
+              );
+            } else {
+              navItems.push(
+                <Nav.Item
+                  key={child.id}
+                  active={active}
+                  renderItem={item => {
+                    return <Link href={pathname}>{item}</Link>;
+                  }}
+                >
+                  {child.name}
+                  {title}
+                </Nav.Item>
+              );
+            }
+          });
+        }
 
-    const menu = getMenu(locale);
-    const { mediaSidebarShow } = this.state;
-
-    const { name: activeTitle, icon } = menu[0];
-
-    return (
-      <>
-        {showMediaToggleButton && (
-          <IconButton
-            className="media-toggle-side-bar"
-            icon={<Icon icon="bars" />}
-            onClick={this.handleOpenMediaSidebarShow}
-          />
-        )}
-        <div
-          className={classnames('rs-sidebar-wrapper fixed', {
-            'media-sidebar-show': mediaSidebarShow
-          })}
-          onClick={this.handleCloseMediaSidebarShow}
-          {...this.props}
-        >
-          <Sidebar>
-            <IconButton
-              className="media-close-side-bar-button"
-              icon={<Icon icon="close" />}
-              onClick={this.handleCloseMediaSidebarShow}
-            />
-            <div className="title-wrapper">
-              {icon} {activeTitle}
+        return (
+          <>
+            <div className={classnames('rs-sidebar-wrapper fixed')} {...props}>
+              <Sidebar>
+                <div className="title-wrapper">
+                  {icon} {activeTitle}
+                </div>
+                <Nav className="nav-docs" vertical>
+                  {navItems}
+                </Nav>
+              </Sidebar>
             </div>
-            <Nav className="nav-docs" vertical>
-              {nodeItems}
-            </Nav>
-          </Sidebar>
-        </div>
-        <div
-          className={classnames('rs-sidebar-media-backdrop', {
-            'media-sidebar-show': mediaSidebarShow
-          })}
-          onClick={this.handleCloseMediaSidebarShow}
-        />
-      </>
-    );
-  }
+          </>
+        );
+      }}
+    </ThemeContext.Consumer>
+  );
 }
 
 export default SideNavbar;

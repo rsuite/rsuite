@@ -1,3 +1,3 @@
-import DocSidebar from './DocSidebar';
+import SideNavbar from './SideNavbar';
 
-export default DocSidebar;
+export default SideNavbar;

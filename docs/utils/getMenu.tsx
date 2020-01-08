@@ -1,79 +1,76 @@
 import * as React from 'react';
-import _ from 'lodash';
 import IconGuide from '../components/icons/Guide';
 import IconComponent from '../components/icons/Component';
 import IconTools from '../components/icons/Tools';
 import IconExtension from '../components/icons/Extension';
 import components from './component.config.json';
-import { getDict } from '../locales';
+import { getMessages } from '../locales';
 
-const dict = getDict();
-
-const getMenu = locale => {
+const getMenu = messages => {
   return [
     {
       id: 'guide',
-      name: _.get(locale, 'common.guide'),
+      name: messages?.common?.guide,
       icon: <IconGuide />,
       children: [
         {
           id: 'introduction',
-          name: _.get(locale, 'common.introduction')
+          name: messages?.common?.introduction
         },
         {
           id: 'usage',
-          name: _.get(locale, 'common.usage')
+          name: messages?.common?.usage
         },
 
         {
           id: 'use-with-create-react-app',
-          name: _.get(locale, 'common.useWithCreateReactApp')
+          name: messages?.common?.useWithCreateReactApp
         },
         {
           id: 'use-next-app',
-          name: _.get(locale, 'common.useNextApp')
+          name: messages?.common?.useNextApp
         },
 
         {
           id: 'modularized',
-          name: _.get(locale, 'common.modularized')
+          name: messages?.common?.modularized
         },
 
         {
           id: 'themes',
-          name: _.get(locale, 'common.customizeTheme')
+          name: messages?.common?.customizeTheme
         },
         {
           id: 'intl',
-          name: _.get(locale, 'common.intl')
+          name: messages?.common?.intl
         },
         {
           id: 'rtl',
-          name: _.get(locale, 'common.rtl')
+          name: messages?.common?.rtl
         },
         {
           id: 'html-elements',
-          name: _.get(locale, 'common.htmlElements')
+          name: messages?.common?.htmlElements
         },
         {
           id: 'v3-to-v4',
-          name: _.get(locale, 'common.v3ToV4')
+          name: messages?.common?.v3ToV4
         },
         {
           id: 'logs',
-          name: _.get(locale, 'common.v3'),
+          name: messages?.common?.v3,
           target: '_blank',
           url: 'https://v3.rsuitejs.com/'
         },
         {
           id: 'logs',
-          name: _.get(locale, 'common.v2'),
+          name: messages?.common?.v2,
           target: '_blank',
           url: 'https://v2.rsuitejs.com/'
         },
         {
           id: 'logs',
-          name: _.get(locale, 'common.changeLog'),
+          name: messages?.common?.changeLog,
           target: '_blank',
           url: 'https://github.com/rsuite/rsuite/releases'
         }
@@ -81,33 +78,33 @@ const getMenu = locale => {
     },
     {
       id: 'components',
-      name: _.get(locale, 'common.components'),
+      name: messages?.common?.components,
       icon: <IconComponent />,
       children: components
     },
     {
       id: 'tools',
-      name: _.get(locale, 'common.tools'),
+      name: messages?.common?.tools,
       icon: <IconTools />,
       children: [
         {
           id: 'palette',
-          name: _.get(locale, 'common.palette')
+          name: messages?.common?.palette
         },
         {
           id: 'icons',
-          name: _.get(locale, 'common.icons')
+          name: messages?.common?.icons
         }
       ]
     },
     {
       id: 'extensions',
       icon: <IconExtension />,
-      name: _.get(locale, 'common.extension')
+      name: messages?.common?.extension
     }
   ];
 };
 
-export const menu = getMenu(dict);
+export const menu = getMenu(getMessages());
 
 export default getMenu;
