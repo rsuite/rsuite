@@ -1,2 +1,4 @@
 node_modules
 .next
+/public/css/
+/less/themes-cache/
