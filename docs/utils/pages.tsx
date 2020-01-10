@@ -6,7 +6,7 @@ import IconExtension from '../components/icons/Extension';
 import components from './component.config.json';
 import { getMessages } from '../locales';
 
-const getMenu = messages => {
+export const getPages = messages => {
   return [
     {
       id: 'guide',
@@ -105,6 +105,4 @@ const getMenu = messages => {
   ];
 };
 
-export const menu = getMenu(getMessages());
-
-export default getMenu;
+export default getPages(getMessages());

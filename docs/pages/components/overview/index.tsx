@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { menu } from '../../../utils/getMenu';
+import pages from '../../../utils/pages';
 import PageContentWithExample from '../../../components/PageContentWithExample';
 import Frame from '../../../components/Frame';
 import Link from 'next/link';
@@ -13,7 +13,7 @@ interface ComponentType {
   apis?: string[];
 }
 
-const components = (menu[1]?.children as ComponentType[]).filter(item => item.id !== 'overview');
+const components = (pages[1]?.children as ComponentType[]).filter(item => item.id !== 'overview');
 
 const Item = ({ name, isComponent }: { name: string; isComponent?: boolean }) => (
   <li>

@@ -1,12 +1,12 @@
 import * as React from 'react';
 import _ from 'lodash';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 import { Divider, Icon, ButtonGroup, Button, IconButton, Tooltip, Whisper } from 'rsuite';
 import { canUseDOM } from 'dom-lib';
 import PageContainer from './PageContainer';
 import Paragraph from './Paragraph';
 import { Markdown } from 'react-markdown-reader';
-//import CodeView from './CodeView';
 import components from '../utils/component.config.json';
 import { getMessages } from '../locales';
 
@@ -16,9 +16,10 @@ const babelOptions = {
 };
 
 const CustomCodeView = ({ dependencies, ...rest }: any) => {
-  if (false) {
+  if (canUseDOM) {
+    const CodeView = dynamic(() => import('./CodeView'));
     return (
-      <div
+      <CodeView
         {...rest}
         theme="dark"
         babelOptions={babelOptions}

@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import { useRouter } from 'next/router';
 import { Sidebar, Nav, Icon } from 'rsuite';
 import { ThemeContext } from '../Context';
-import getMenu from '../../utils/getMenu';
+import { getPages } from '../../utils/pages';
 
 interface SideNavbarProps {
   style: React.CSSProperties;
@@ -17,7 +17,7 @@ function SideNavbar(props: SideNavbarProps) {
     <ThemeContext.Consumer>
       {({ messages }) => {
         const navItems = [];
-        const menuList = getMenu(messages);
+        const menuList = getPages(messages);
         const data = menuList.find(item => item.id === activeKey);
 
         const { name: activeTitle, icon, children = [] } = data;
