@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, ButtonToolbar, FlexboxGrid, Grid, Row, Col } from 'rsuite';
 import Link from 'next/link';
 import TopLevelNav from '../components/TopLevelNav';
-import LanguageSwitchButton from '../components/LanguageSwitchButton';
+import LanguageButton from '../components/LanguageButton';
 import Logo from '../components/Logo';
 import ReactLogo from '../components/ReactLogo';
 import { ThemeContext } from '../components/Context';
@@ -24,7 +24,7 @@ function HomePage() {
           <Grid className="page-home">
             <TopLevelNav hideToggle />
             <span className="language-switch-button-wrapper">
-              <LanguageSwitchButton
+              <LanguageButton
                 size="lg"
                 language={messages?.id}
                 href={messagesPath}

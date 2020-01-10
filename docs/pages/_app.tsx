@@ -3,7 +3,7 @@ import { Grid } from 'rsuite';
 import { ThemeContext } from '../components/Context';
 import { IntlProvider as RSIntlProvider } from 'rsuite';
 import zhCN from 'rsuite/lib/IntlProvider/locales/zh_CN';
-//import enUS from 'rsuite/lib/IntlProvider/locales/en_US';
+import enUS from 'rsuite/lib/IntlProvider/locales/en_US';
 
 import { getMessages } from '../locales';
 import { readTheme } from '../utils/themeHelpers';
@@ -24,13 +24,16 @@ function handleToggleTheme() {
 }
 
 function App({ Component, pageProps }: AppProps) {
+  const { userLanguage } = pageProps;
+  const locale = userLanguage === 'en' ? enUS : zhCN;
+
   return (
     <Grid fluid className="app-container">
-      <RSIntlProvider locale={zhCN} rtl={false}>
+      <RSIntlProvider locale={locale} rtl={false}>
         <ThemeContext.Provider
           value={{
             theme: readTheme(),
-            messages: getMessages(),
+            messages: getMessages(userLanguage),
             handleToggleDirection,
             handleToggleTheme
           }}
@@ -41,5 +44,19 @@ function App({ Component, pageProps }: AppProps) {
     </Grid>
   );
 }
+
+App.getInitialProps = ({ ctx }) => {
+  let pageProps = {};
+
+  if (!process.browser) {
+    pageProps = {
+      userLanguage: ctx.query.userLanguage
+    };
+  }
+
+  return {
+    pageProps
+  };
+};
 
 export default App;

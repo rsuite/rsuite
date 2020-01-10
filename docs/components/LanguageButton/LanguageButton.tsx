@@ -5,12 +5,12 @@ import { ButtonProps } from 'rsuite/lib/Button';
 
 export type LanguageType = 'en-US' | 'zh-CN';
 
-interface LanguageSwitchButtonProps extends ButtonProps {
+interface LanguageButtonProps extends ButtonProps {
   language?: LanguageType;
   onClick?: (event: React.MouseEvent) => void;
 }
 
-function LanguageSwitchButton(props: LanguageSwitchButtonProps) {
+function LanguageButton(props: LanguageButtonProps) {
   const { language, appearance = 'subtle', className, ...rest } = props;
 
   function handleChangeLanguage(event: React.MouseEvent) {
@@ -31,4 +31,4 @@ function LanguageSwitchButton(props: LanguageSwitchButtonProps) {
   );
 }
 
-export default LanguageSwitchButton;
+export default LanguageButton;

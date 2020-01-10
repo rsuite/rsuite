@@ -9,7 +9,7 @@ import { on } from 'dom-lib';
 
 import { Row, Col, IconButton, Icon, ButtonToolbar, Tooltip, Whisper } from 'rsuite';
 import IconDesign from '../icons/Design';
-import LanguageSwitchButton from '../LanguageSwitchButton';
+import LanguageButton from '../LanguageButton';
 import TypesDrawer from '../TypesDrawer';
 import { ThemeContext } from '../Context';
 
@@ -65,7 +65,7 @@ class PageContainer extends React.Component<ContainerProps, ContainerState> {
     });
   };
   getLocaleKey() {
-    return this.context.message?.id;
+    return this.context.messages?.id;
   }
   handleChangeLanguage = () => {
     const pathname = location.pathname.replace('/en/', '');
@@ -130,7 +130,7 @@ class PageContainer extends React.Component<ContainerProps, ContainerState> {
                 placement="bottom"
                 speaker={<Tooltip>{messages?.common?.changeLanguage}</Tooltip>}
               >
-                <LanguageSwitchButton language={messages?.id} onClick={this.handleChangeLanguage} />
+                <LanguageButton language={messages?.id} onClick={this.handleChangeLanguage} />
               </Whisper>
 
               <Whisper
