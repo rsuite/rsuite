@@ -2,14 +2,14 @@ import * as React from 'react';
 
 import { Button, IconButton, ButtonGroup, ButtonToolbar, Panel, Icon } from 'rsuite';
 
-import PageContentWithExample from '../../../components/PageContentWithExample';
-import Frame from '../../../components/Frame';
+import PageContent from '@/components/PageContent';
+import Frame from '@/components/Frame';
 
 export default function Page() {
   return (
     <Frame>
-      <PageContentWithExample
-        id="Button"
+      <PageContent
+        id="button"
         examples={[
           'basic',
           'appearance',

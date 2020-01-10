@@ -1,7 +1,7 @@
 import * as React from 'react';
-import pages from '../../../utils/pages';
-import PageContentWithExample from '../../../components/PageContentWithExample';
-import Frame from '../../../components/Frame';
+import pages from '@/utils/pages';
+import PageContent from '@/components/PageContent';
+import Frame from '@/components/Frame';
 import Link from 'next/link';
 
 interface ComponentType {
@@ -24,7 +24,7 @@ const Item = ({ name, isComponent }: { name: string; isComponent?: boolean }) =>
 export default function Page() {
   return (
     <Frame>
-      <PageContentWithExample id="overview">
+      <PageContent id="overview">
         <div className="component-overview">
           <ul>
             {components.map(item => {
@@ -58,7 +58,7 @@ export default function Page() {
             })}
           </ul>
         </div>
-      </PageContentWithExample>
+      </PageContent>
     </Frame>
   );
 }

@@ -19,9 +19,6 @@ class MyDocument extends Document<DocumentProps> {
     return (
       <Html lang={userLanguage}>
         <Head>
-          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-          <link rel="shortcut icon" href="/favicon.ico" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <script type="text/javascript" src="/js/babel.min.js"></script>
         </Head>
         <body>

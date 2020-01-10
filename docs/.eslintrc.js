@@ -32,6 +32,16 @@ module.exports = {
   settings: {
     react: {
       version: 'detect'
+    },
+    'import/resolver': {
+      alias: {
+        map: [
+          ['@/components', './components'],
+          ['@/pages', './pages'],
+          ['@/utils', './utils']
+        ],
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']
+      }
     }
   }
 };
