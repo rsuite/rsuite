@@ -1,8 +1,8 @@
 # Introduction
 
-[![npm][npm-svg]][npm-home] [![Travis][travis-svg]][travis-home] [![Coverage Status][coverage-svg]][coverage-home] [![Gitter][gitter-svg]][gitter]
-
 React Suite is a library of React components. Committed to creating intimate interactive designs while providing developers with a friendly development experience.
+
+[![npm][npm-svg]][npm-home] [![Travis][travis-svg]][travis-home] [![Coverage Status][coverage-svg]][coverage-home] [![Gitter][gitter-svg]][gitter]
 
 ## UI Design
 
