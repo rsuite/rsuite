@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Button, IconButton, ButtonGroup, ButtonToolbar, Panel, Icon } from 'rsuite';
 
-import PageContentWithExample from '../../../components/PageContentWithExample';
-import Frame from '../../../components/Frame';
+import PageContentWithExample from '@/components/PageContentWithExample';
+import Frame from '@/components/Frame';
 
 export default function Page() {
   return (

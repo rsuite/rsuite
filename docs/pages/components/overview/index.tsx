@@ -1,7 +1,7 @@
 import * as React from 'react';
-import pages from '../../../utils/pages';
-import PageContentWithExample from '../../../components/PageContentWithExample';
-import Frame from '../../../components/Frame';
+import pages from '@/utils/pages';
+import PageContentWithExample from '@/components/PageContentWithExample';
+import Frame from '@/components/Frame';
 import Link from 'next/link';
 
 interface ComponentType {

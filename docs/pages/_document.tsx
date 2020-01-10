@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+import { getPages } from '@/utils/pages';
 import { getMessages } from '../locales';
-import { getPages } from '../utils/pages';
 
 interface DocumentProps {
   userLanguage: string;

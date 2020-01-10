@@ -1,11 +1,11 @@
 import React from 'react';
 import { Button, ButtonToolbar, FlexboxGrid, Grid, Row, Col } from 'rsuite';
 import Link from 'next/link';
-import TopLevelNav from '../components/TopLevelNav';
-import LanguageButton from '../components/LanguageButton';
-import Logo from '../components/Logo';
-import ReactLogo from '../components/ReactLogo';
-import { ThemeContext } from '../components/Context';
+import TopLevelNav from '@/components/TopLevelNav';
+import LanguageButton from '@/components/LanguageButton';
+import Logo from '@/components/Logo';
+import ReactLogo from '@/components/ReactLogo';
+import { ThemeContext } from '@/components/Context';
 
 function HomePage() {
   const [running, setRuning] = React.useState(false);

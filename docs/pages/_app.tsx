@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useMemo, useState, useCallback } from 'react';
 import { Grid } from 'rsuite';
-import { ThemeContext } from '../components/Context';
+import { ThemeContext } from '@/components/Context';
 import { IntlProvider as RSIntlProvider } from 'rsuite';
 import zhCN from 'rsuite/lib/IntlProvider/locales/zh_CN';
 import enUS from 'rsuite/lib/IntlProvider/locales/en_US';

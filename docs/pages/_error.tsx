@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Link from 'next/link';
-import { ThemeContext } from '../components/Context';
+import { ThemeContext } from '@/components/Context';
 
 interface ErrorProps {
   statusCode: number;

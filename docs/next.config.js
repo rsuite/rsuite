@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const path = require('path');
 const withImages = require('next-images');
 const markdown = require('react-markdown-reader');
 const findPages = require('./scripts/findPages');
 const languages = ['javascript', 'bash', 'xml', 'css', 'less', 'json', 'diff', 'typescript'];
+
+const resolveToStaticPath = relativePath => path.resolve(__dirname, relativePath);
 
 module.exports = withImages({
   webpack(config) {
@@ -21,6 +24,9 @@ module.exports = withImages({
         }
       ]
     });
+    config.resolve.alias['@/components'] = resolveToStaticPath('./components');
+    config.resolve.alias['@/pages'] = resolveToStaticPath('./pages');
+    config.resolve.alias['@/utils'] = resolveToStaticPath('./utils');
     return config;
   },
   exportTrailingSlash: true,
