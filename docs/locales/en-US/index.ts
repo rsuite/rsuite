@@ -33,7 +33,7 @@ export default {
     v2: 'Version 2.*',
     v3: 'Version 3.*',
     v3ToV4: 'V3 upgrade to V4 considerations',
-    notFount: 'Page not found(404)',
+    notFount: 'Page not found',
     goHomePage: 'Return to homepage.'
   },
   table: {
