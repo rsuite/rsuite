@@ -29,18 +29,17 @@ interface WithTooltipButtonProps {
 }
 
 function WithTooltipButton({ children, tip, ...props }: WithTooltipButtonProps) {
+  const btn = (
+    <Button size="lg" {...props}>
+      {children}
+    </Button>
+  );
   if (isMobile) {
-    return (
-      <Button size="lg" {...props}>
-        {children}
-      </Button>
-    );
+    return btn;
   }
   return (
     <Whisper speaker={<Tooltip>{tip}</Tooltip>} placement="right" trigger="hover">
-      <Button size="lg" {...props}>
-        {children}
-      </Button>
+      {btn}
     </Whisper>
   );
 }
@@ -142,18 +141,19 @@ class TopLevelNav extends React.Component<TopLevelNavProps, TopLevelNavState> {
           {renderSearchButton('visible-xs')}
 
           {menu.map(item => (
-            <WithTooltipButton
-              tip={item.tip}
-              key={item.key}
-              className="icon-btn-circle"
-              componentClass={Link}
-              href={item.to}
-              onClick={event => {
-                this.handleToggleMenu(event, true);
-              }}
-            >
-              {item.icon}
-            </WithTooltipButton>
+            <Link href={item.to} key={item.key}>
+              <WithTooltipButton
+                tip={item.tip}
+                className="icon-btn-circle"
+                componentClass={'a'}
+                href={item.to}
+                onClick={event => {
+                  this.handleToggleMenu(event, true);
+                }}
+              >
+                {item.icon}
+              </WithTooltipButton>
+            </Link>
           ))}
 
           <WithTooltipButton

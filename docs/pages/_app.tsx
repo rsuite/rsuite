@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { useMemo, useState, useCallback } from 'react';
-import { Grid } from 'rsuite';
+import { Grid, IntlProvider as RSIntlProvider } from 'rsuite';
+import NProgress from 'nprogress';
+import Router from 'next/router';
 import { ThemeContext } from '@/components/Context';
-import { IntlProvider as RSIntlProvider } from 'rsuite';
 import zhCN from 'rsuite/lib/IntlProvider/locales/zh_CN';
 import enUS from 'rsuite/lib/IntlProvider/locales/en_US';
 
@@ -17,6 +18,13 @@ import {
 } from '../utils/themeHelpers';
 import loadCssFile from '../utils/loadCssFile';
 import StyleHead from '../components/StyleHead';
+
+Router.events.on('routeChangeStart', url => {
+  console.log(`Loading: ${url}`);
+  NProgress.start();
+});
+Router.events.on('routeChangeComplete', () => NProgress.done());
+Router.events.on('routeChangeError', () => NProgress.done());
 
 interface AppProps {
   Component: React.ElementType;

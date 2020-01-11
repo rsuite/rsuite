@@ -7,7 +7,7 @@ interface ReactLogoProps {
   running?: boolean;
 }
 
-function ReactLogo(props: ReactLogoProps) {
+export default function ReactLogo(props: ReactLogoProps) {
   const {
     pathFillColor = 'none',
     pathStrokeColor = '#555',
@@ -64,5 +64,3 @@ function ReactLogo(props: ReactLogoProps) {
     </div>
   );
 }
-
-export default ReactLogo;

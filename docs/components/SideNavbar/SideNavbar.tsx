@@ -2,6 +2,7 @@ import * as React from 'react';
 import classnames from 'classnames';
 import { useRouter } from 'next/router';
 import { Sidebar, Nav, Icon } from 'rsuite';
+import Link from 'next/link';
 import { ThemeContext } from '../Context';
 import { getPages } from '../../utils/pages';
 
@@ -52,7 +53,14 @@ function SideNavbar(props: SideNavbarProps) {
               const localePath = messages?.id === 'en-US' ? '/en' : '';
               const href = `${localePath}${pathname}`;
               navItems.push(
-                <Nav.Item key={child.id} active={active} href={href}>
+                <Nav.Item
+                  key={child.id}
+                  active={active}
+                  componentClass="a"
+                  renderItem={child => {
+                    return <Link href={href}>{child}</Link>;
+                  }}
+                >
                   {child.name}
                   {title}
                 </Nav.Item>

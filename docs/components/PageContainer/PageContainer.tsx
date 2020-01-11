@@ -8,7 +8,6 @@ import {
 import { on } from 'dom-lib';
 
 import { Row, Col, IconButton, Icon, ButtonToolbar, Tooltip, Whisper } from 'rsuite';
-import IconDesign from '../icons/Design';
 import LanguageButton from '../LanguageButton';
 import TypesDrawer from '../TypesDrawer';
 import { ThemeContext } from '../Context';
@@ -17,150 +16,132 @@ interface ContainerProps {
   hidePageNav?: boolean;
   designHash?: any;
   routerId?: string;
+  children: React.ReactNode;
 }
 
-interface ContainerState {
-  hideNav: boolean;
-  showTypes: boolean;
-}
+export default function PageContainer(props: ContainerProps) {
+  const { children, designHash: designHashConfig = {}, hidePageNav, routerId, ...rest } = props;
+  const [openPageNav, setOpenPageNav] = React.useState(!hidePageNav);
+  const [openTypesDrawer, setOpenTypesDrawer] = React.useState();
 
-class PageContainer extends React.Component<ContainerProps, ContainerState> {
-  static contextType = ThemeContext;
-  constructor(props) {
-    super(props);
-    this.state = {
-      hideNav: props.hidePageNav || false,
-      showTypes: false
-    };
-  }
-  documentListener = null;
-  componentDidMount() {
-    if (!this.documentListener) {
-      this.documentListener = on(document, 'click', this.handleDocumentClick, true);
-    }
-  }
-  componentWillUnmount() {
-    if (this.documentListener) {
-      this.documentListener.off();
-    }
-  }
-  handleDocumentClick = e => {
-    const href = e.target.getAttribute('href');
+  function handleDocumentClick(e) {
+    const href = e.target?.getAttribute('href');
     if (href === '#types') {
       e.stopPropagation();
       e.preventDefault();
-      this.setState({
-        showTypes: true
-      });
+      setOpenTypesDrawer(true);
     }
-  };
-  closeShowTypes = () => {
-    this.setState({
-      showTypes: false
-    });
-  };
-  handleNavicon = () => {
-    this.setState({
-      hideNav: !this.state.hideNav
-    });
-  };
-  getLocaleKey() {
-    return this.context.messages?.id;
   }
-  handleChangeLanguage = () => {
-    const pathname = location.pathname.replace('/en/', '');
-    const isEN = this.getLocaleKey() === 'en-US';
-    const nextPathName = isEN ? `/${pathname}` : `/en${pathname}`;
-    location.href = `${location.origin}${nextPathName}`;
-  };
 
-  render() {
-    const { children, designHash: designHashConfig = {}, routerId, ...rest } = this.props;
-    const { hideNav } = this.state;
-    const {
-      messages,
-      theme: [themeName, direction]
-    } = this.context;
-    const designHash = designHashConfig[themeName];
-    const rtl = direction === 'rtl';
+  React.useEffect(() => {
+    const documentListener = on(document, 'click', handleDocumentClick, true);
+    return () => {
+      documentListener.off();
+    };
+  }, []);
 
-    return (
-      <PageProvider>
-        <Row {...rest} className={classnames({ ['hide-page-nav']: hideNav })}>
-          <Col md={24} xs={24} sm={24} className="main-container">
-            <PageContent>{children}</PageContent>
-          </Col>
-          <Col md={8} xsHidden smHidden>
-            <ButtonToolbar className="menu-button">
-              {designHash ? (
-                <Whisper placement="bottom" speaker={<Tooltip>{messages?.common?.design}</Tooltip>}>
-                  <IconButton
-                    appearance="subtle"
-                    target="_blank"
-                    href={`/design/${themeName}/index.html#artboard${designHash}`}
+  return (
+    <ThemeContext.Consumer>
+      {({ messages, theme: [themeName, direction] }) => {
+        const designHash = designHashConfig[themeName];
+        const rtl = direction === 'rtl';
+
+        function handleChangeLanguage() {
+          const pathname = location.pathname.replace('/en/', '');
+          const isEN = messages?.id === 'en-US';
+          const nextPathName = isEN ? `/${pathname}` : `/en${pathname}`;
+          location.href = `${location.origin}${nextPathName}`;
+        }
+
+        return (
+          <PageProvider>
+            <Row {...rest} className={classnames({ ['hide-page-nav']: !openPageNav })}>
+              <Col md={24} xs={24} sm={24} className="main-container">
+                <PageContent>{children}</PageContent>
+              </Col>
+              <Col md={8} xsHidden smHidden>
+                <ButtonToolbar className="menu-button">
+                  {designHash ? (
+                    <Whisper
+                      placement="bottom"
+                      speaker={<Tooltip>{messages?.common?.design}</Tooltip>}
+                    >
+                      <IconButton
+                        appearance="subtle"
+                        target="_blank"
+                        icon={<Icon icon="diamond" />}
+                        href={`/design/${themeName}/index.html#artboard${designHash}`}
+                      />
+                    </Whisper>
+                  ) : null}
+                  {routerId ? (
+                    <Whisper
+                      placement="bottom"
+                      speaker={<Tooltip>{messages?.common?.edit}</Tooltip>}
+                    >
+                      <IconButton
+                        appearance="subtle"
+                        icon={<Icon icon="edit2" />}
+                        target="_blank"
+                        href={`https://github.com/rsuite/rsuite/edit/master/docs/pages/${routerId}/index.md`}
+                      />
+                    </Whisper>
+                  ) : null}
+
+                  <Whisper
+                    placement="bottom"
+                    speaker={<Tooltip>{messages?.common?.newIssues}</Tooltip>}
                   >
-                    <IconDesign />
-                  </IconButton>
-                </Whisper>
-              ) : null}
-              {routerId ? (
-                <Whisper placement="bottom" speaker={<Tooltip>{messages?.common?.edit}</Tooltip>}>
-                  <IconButton
-                    appearance="subtle"
-                    icon={<Icon icon="edit2" />}
-                    target="_blank"
-                    href={`https://github.com/rsuite/rsuite/edit/master/docs/pages/${routerId}/index.md`}
-                  />
-                </Whisper>
-              ) : null}
+                    <IconButton
+                      appearance="subtle"
+                      icon={<Icon icon="bug" />}
+                      target="_blank"
+                      href={'https://github.com/rsuite/rsuite/issues/new'}
+                    />
+                  </Whisper>
 
-              <Whisper
-                placement="bottom"
-                speaker={<Tooltip>{messages?.common?.newIssues}</Tooltip>}
-              >
-                <IconButton
-                  appearance="subtle"
-                  icon={<Icon icon="bug" />}
-                  target="_blank"
-                  href={'https://github.com/rsuite/rsuite/issues/new'}
+                  <Whisper
+                    placement="bottom"
+                    speaker={<Tooltip>{messages?.common?.changeLanguage}</Tooltip>}
+                  >
+                    <LanguageButton language={messages?.id} onClick={handleChangeLanguage} />
+                  </Whisper>
+
+                  <Whisper
+                    placement="bottom"
+                    speaker={<Tooltip>{messages?.common?.collapseMenu}</Tooltip>}
+                  >
+                    <IconButton
+                      appearance="subtle"
+                      icon={<Icon icon="bars" />}
+                      onClick={() => {
+                        setOpenPageNav(!openPageNav);
+                      }}
+                    />
+                  </Whisper>
+                </ButtonToolbar>
+
+                <PageNav
+                  showOrderNumber={false}
+                  width={150}
+                  scrollBar="left"
+                  rtl={rtl}
+                  offset={{
+                    top: 80,
+                    [rtl ? 'left' : 'right']: 10
+                  }}
                 />
-              </Whisper>
-
-              <Whisper
-                placement="bottom"
-                speaker={<Tooltip>{messages?.common?.changeLanguage}</Tooltip>}
-              >
-                <LanguageButton language={messages?.id} onClick={this.handleChangeLanguage} />
-              </Whisper>
-
-              <Whisper
-                placement="bottom"
-                speaker={<Tooltip>{messages?.common?.collapseMenu}</Tooltip>}
-              >
-                <IconButton
-                  appearance="subtle"
-                  icon={<Icon icon="bars" />}
-                  onClick={this.handleNavicon}
-                />
-              </Whisper>
-            </ButtonToolbar>
-
-            <PageNav
-              showOrderNumber={false}
-              width={150}
-              scrollBar="left"
-              rtl={rtl}
-              offset={{
-                top: 80,
-                [rtl ? 'left' : 'right']: 10
+              </Col>
+            </Row>
+            <TypesDrawer
+              onHide={() => {
+                setOpenTypesDrawer(false);
               }}
+              show={openTypesDrawer}
             />
-          </Col>
-        </Row>
-        <TypesDrawer onHide={this.closeShowTypes} show={this.state.showTypes} />
-      </PageProvider>
-    );
-  }
+          </PageProvider>
+        );
+      }}
+    </ThemeContext.Consumer>
+  );
 }
-
-export default PageContainer;

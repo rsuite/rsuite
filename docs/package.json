@@ -16,6 +16,7 @@
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.19.1",
     "loadsh": "0.0.4",
+    "nprogress": "^0.2.0",
     "react": "^16.12.0",
     "react-code-view": "^1.2.0",
     "react-device-detect": "^1.11.14",

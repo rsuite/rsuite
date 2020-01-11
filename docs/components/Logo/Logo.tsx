@@ -6,7 +6,7 @@ interface LogoProps {
   className?: string;
 }
 
-const Logo = ({ width, height, className = '' }: LogoProps) => {
+export default function Logo({ width, height, className = '' }: LogoProps) {
   const style = {
     width,
     height,
@@ -81,6 +81,4 @@ const Logo = ({ width, height, className = '' }: LogoProps) => {
       </svg>
     </div>
   );
-};
-
-export default Logo;
+}
