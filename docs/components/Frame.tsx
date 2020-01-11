@@ -20,8 +20,6 @@ export default function Frame(props: FrameProps) {
     setOpenSubmenu(typeof open === 'undefined' ? !openSubmenu : open);
   }
 
-  console.log('ddddd');
-
   return (
     <ThemeContext.Consumer>
       {({ theme: [, direction] }) => {
