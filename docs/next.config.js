@@ -6,9 +6,23 @@ const findPages = require('./scripts/findPages');
 const languages = ['javascript', 'bash', 'xml', 'css', 'less', 'json', 'diff', 'typescript'];
 
 const resolveToStaticPath = relativePath => path.resolve(__dirname, relativePath);
-
+const SVG_LOGO_PATH = resolveToStaticPath('./resources/images');
 module.exports = withImages({
   webpack(config) {
+    config.module.rules.unshift({
+      test: /\.svg$/,
+      include: SVG_LOGO_PATH,
+      use: [
+        {
+          loader: 'svg-sprite-loader',
+          options: {
+            symbolId: 'icon-[name]'
+          }
+        },
+        'svgo-loader'
+      ]
+    });
+
     config.module.rules.push({
       test: /\.md$/,
       use: [
@@ -24,6 +38,7 @@ module.exports = withImages({
         }
       ]
     });
+
     config.resolve.alias['@'] = resolveToStaticPath('./');
     return config;
   },
@@ -55,5 +70,6 @@ module.exports = withImages({
     traverse(pages, 'zh');
 
     return map;
-  }
+  },
+  exclude: SVG_LOGO_PATH
 });

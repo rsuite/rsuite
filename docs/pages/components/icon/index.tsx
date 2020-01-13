@@ -3,6 +3,8 @@ import { Icon, IconStack, Button, IconButton } from 'rsuite';
 
 import PageContent from '@/components/PageContent';
 import Frame from '@/components/Frame';
+import { IconLogo } from '@/components/SvgIcons';
+import * as SvgIcons from '@/components/SvgIcons';
 
 export default function Page() {
   return (
@@ -15,8 +17,8 @@ export default function Page() {
           IconStack,
           Button,
           IconButton,
-          // @todo Fixed it
-          SvgIcons: {}
+          SvgIcons,
+          IconLogo
         }}
       />
     </Frame>

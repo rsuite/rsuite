@@ -3,6 +3,7 @@ import { Button, IconButton, ButtonGroup, ButtonToolbar, Panel, Icon } from 'rsu
 
 import PageContent from '@/components/PageContent';
 import Frame from '@/components/Frame';
+import * as SvgIcons from '@/components/SvgIcons';
 
 export default function Page() {
   return (
@@ -31,7 +32,8 @@ export default function Page() {
           ButtonGroup,
           ButtonToolbar,
           Icon,
-          Panel
+          Panel,
+          SvgIcons
         }}
       />
     </Frame>

@@ -21,12 +21,12 @@ import fakeLargeData from './data/fakeLargeData.json';
 
 import PageContent from '@/components/PageContent';
 import Frame from '@/components/Frame';
-import { ThemeContext } from '@/components/Context';
+import AppContext from '@/components/AppContext';
 const { HeaderCell, Pagination, Cell, Column } = Table;
 const TablePagination = Pagination;
 
 export default function Page() {
-  const { messages } = React.useContext(ThemeContext);
+  const { messages } = React.useContext(AppContext);
 
   const localePath = messages?.id === 'en-US' ? './en/' : './';
 

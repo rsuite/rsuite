@@ -1,0 +1,13 @@
+export const { default: IconLogo } = require('@/resources/images/logo.svg');
+export const { default: guide } = require('@/resources/images/guide.svg');
+export const { default: component } = require('@/resources/images/component.svg');
+export const { default: tools } = require('@/resources/images/tools.svg');
+export const { default: search } = require('@/resources/images/search.svg');
+export const { default: discord } = require('@/resources/images/discord.svg');
+export const { default: design } = require('@/resources/images/design.svg');
+export const { default: extension } = require('@/resources/images/extension.svg');
+export const { default: gitee } = require('@/resources/images/gitee.svg');
+export const { default: lightOn } = require('@/resources/images/light-on.svg');
+export const { default: lightOff } = require('@/resources/images/light-off.svg');
+export const { default: rtl } = require('@/resources/images/rtl.svg');
+export const { default: ltr } = require('@/resources/images/ltr.svg');
