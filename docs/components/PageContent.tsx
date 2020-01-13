@@ -75,7 +75,7 @@ function Tabs(props: TabsProps) {
 }
 
 interface PageContentWithExampleProps {
-  id: string;
+  id?: string;
   category?: string;
   examples?: string[];
   dependencies?: any;
@@ -95,12 +95,12 @@ const PageContentWithExample = ({
 }: PageContentWithExampleProps) => {
   const router = useRouter();
   const userLanguage = router.query?.userLanguage;
-  const name = _.kebabCase(id);
   const dist = getMessages(userLanguage);
-  const namePath = userLanguage === 'en' ? `${name}/en/` : `${name}/`;
+  const localePath = userLanguage === 'en' ? '/en' : '';
+  const pathname = id ? `${category}/${_.kebabCase(id)}` : category;
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const context = require(`../pages/${category}/${namePath}index.md`);
+  const context = require(`../pages/${pathname}${localePath}/index.md`);
   const title = getTitle(context);
   const description = getDescription(context);
   const pageHead = <Head title={title} description={description} />;
@@ -116,8 +116,8 @@ const PageContentWithExample = ({
   }
 
   const componentExamples = examples.map(item => ({
-    source: require(`../pages/${category}/${namePath}${item}.md`),
-    path: `https://github.com/rsuite/rsuite/tree/master/docs/pages/${category}/${namePath}${item}.md`
+    source: require(`../pages/${pathname}${localePath}/${item}.md`),
+    path: `https://github.com/rsuite/rsuite/tree/master/docs/pages/${pathname}${localePath}/${item}.md`
   }));
 
   const extraDependencies = getDependencies ? getDependencies(userLanguage) : null;

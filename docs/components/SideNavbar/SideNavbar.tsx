@@ -2,8 +2,8 @@ import * as React from 'react';
 import classnames from 'classnames';
 import { useRouter } from 'next/router';
 import { Sidebar, Nav, Icon } from 'rsuite';
-import Link from 'next/link';
-import { ThemeContext } from '../Context';
+import Link from '@/components/Link';
+import AppContext from '../AppContext';
 import { getPages } from '../../utils/pages';
 
 interface SideNavbarProps {
@@ -15,8 +15,8 @@ function SideNavbar(props: SideNavbarProps) {
   const activeKey = router.pathname.split('/')?.[1];
 
   return (
-    <ThemeContext.Consumer>
-      {({ messages }) => {
+    <AppContext.Consumer>
+      {({ messages, localePath }) => {
         const navItems = [];
         const menuList = getPages(messages);
         const data = menuList.find(item => item.id === activeKey);
@@ -50,17 +50,9 @@ function SideNavbar(props: SideNavbarProps) {
                 </Nav.Item>
               );
             } else {
-              const localePath = messages?.id === 'en-US' ? '/en' : '';
               const href = `${localePath}${pathname}`;
               navItems.push(
-                <Nav.Item
-                  key={child.id}
-                  active={active}
-                  componentClass="a"
-                  renderItem={child => {
-                    return <Link href={href}>{child}</Link>;
-                  }}
-                >
+                <Nav.Item key={child.id} href={href} active={active} componentClass={Link}>
                   {child.name}
                   {title}
                 </Nav.Item>
@@ -84,7 +76,7 @@ function SideNavbar(props: SideNavbarProps) {
           </>
         );
       }}
-    </ThemeContext.Consumer>
+    </AppContext.Consumer>
   );
 }
 

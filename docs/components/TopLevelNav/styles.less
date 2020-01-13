@@ -20,7 +20,7 @@
     z-index: 10;
   }
 
-  &-menu {
+  &-header {
     //display: inline-block;
     float: right;
 
@@ -36,6 +36,21 @@
         background: inherit;
       }
     }
+  }
+  &-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 9px;
+    text-align: center;
+    display: none;
+
+    @media (min-width: @media-xs) {
+      display: block;
+    }
+  }
+  &-footer,
+  &-header {
     .rs-icon {
       color: #fff;
     }
@@ -103,19 +118,6 @@
     &:hover:focus {
       color: @H600;
       background: transparent;
-    }
-  }
-
-  .nav-menu-bottom {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    padding: 9px;
-    text-align: center;
-    display: none;
-
-    @media (min-width: @media-xs) {
-      display: block;
     }
   }
 }

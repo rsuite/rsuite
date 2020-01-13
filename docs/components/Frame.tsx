@@ -1,7 +1,7 @@
 import * as React from 'react';
 import SideNavbar from './SideNavbar';
 import TopLevelNav from './TopLevelNav';
-import { ThemeContext } from './Context';
+import AppContext from './AppContext';
 
 interface FrameProps {
   openSubmenu?: boolean;
@@ -21,7 +21,7 @@ export default function Frame(props: FrameProps) {
   }
 
   return (
-    <ThemeContext.Consumer>
+    <AppContext.Consumer>
       {({ theme: [, direction] }) => {
         const contextStyle = {
           [`margin${direction === 'rtl' ? 'Right' : 'Left'}`]: openSubmenu ? 324 : 80
@@ -36,6 +36,6 @@ export default function Frame(props: FrameProps) {
           </div>
         );
       }}
-    </ThemeContext.Consumer>
+    </AppContext.Consumer>
   );
 }

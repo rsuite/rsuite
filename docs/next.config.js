@@ -38,7 +38,8 @@ module.exports = withImages({
       const prefix = userLanguage === 'zh' ? '' : `/${userLanguage}`;
 
       nextPages.forEach(page => {
-        if (!page.children) {
+        if (page.children.length === 0) {
+          console.log(`router: ${prefix}${page.pathname}`);
           map[`${prefix}${page.pathname}`] = {
             page: page.pathname,
             query: {

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Button, ButtonToolbar, FlexboxGrid, Grid, Row, Col } from 'rsuite';
-import Link from 'next/link';
 import TopLevelNav from '@/components/TopLevelNav';
 import LanguageButton from '@/components/LanguageButton';
+import Link from '@/components/Link';
 import Logo from '@/components/Logo';
 import ReactLogo from '@/components/ReactLogo';
-import { ThemeContext } from '@/components/Context';
+import AppContext from '@/components/AppContext';
 
 function HomePage() {
   const [running, setRuning] = React.useState(false);
@@ -17,9 +17,8 @@ function HomePage() {
   }, []);
 
   return (
-    <ThemeContext.Consumer>
-      {({ messages }) => {
-        const messagesPath = messages?.id === 'en-US' ? '/en/' : '/';
+    <AppContext.Consumer>
+      {({ messages, localePath }) => {
         return (
           <Grid className="page-home">
             <TopLevelNav hideToggle />
@@ -27,7 +26,7 @@ function HomePage() {
               <LanguageButton
                 size="lg"
                 language={messages?.id}
-                href={messagesPath}
+                href={`${localePath}/`}
                 className="home-page"
               />
             </span>
@@ -63,7 +62,7 @@ function HomePage() {
                         size="lg"
                         appearance="primary"
                         componentClass={Link}
-                        href={`${messagesPath}guide/introduction`}
+                        href={`${localePath}/guide/introduction`}
                       >
                         {messages?.common?.gettingStarted}
                       </Button>
@@ -94,7 +93,7 @@ function HomePage() {
           </Grid>
         );
       }}
-    </ThemeContext.Consumer>
+    </AppContext.Consumer>
   );
 }
 

@@ -10,7 +10,7 @@ import { on } from 'dom-lib';
 import { Row, Col, IconButton, Icon, ButtonToolbar, Tooltip, Whisper } from 'rsuite';
 import LanguageButton from '../LanguageButton';
 import TypesDrawer from '../TypesDrawer';
-import { ThemeContext } from '../Context';
+import AppContext from '../AppContext';
 
 interface ContainerProps {
   hidePageNav?: boolean;
@@ -41,7 +41,7 @@ export default function PageContainer(props: ContainerProps) {
   }, []);
 
   return (
-    <ThemeContext.Consumer>
+    <AppContext.Consumer>
       {({ messages, theme: [themeName, direction] }) => {
         const designHash = designHashConfig[themeName];
         const rtl = direction === 'rtl';
@@ -142,6 +142,6 @@ export default function PageContainer(props: ContainerProps) {
           </PageProvider>
         );
       }}
-    </ThemeContext.Consumer>
+    </AppContext.Consumer>
   );
 }

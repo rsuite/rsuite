@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Link from 'next/link';
-import { ThemeContext } from '@/components/Context';
+import AppContext from '@/components/AppContext';
 
 interface ErrorProps {
   statusCode: number;
@@ -8,7 +8,7 @@ interface ErrorProps {
 
 function Error({ statusCode = 404 }: ErrorProps) {
   return (
-    <ThemeContext.Consumer>
+    <AppContext.Consumer>
       {({ messages }) => (
         <>
           <div className="error-wrapper">
@@ -50,7 +50,7 @@ function Error({ statusCode = 404 }: ErrorProps) {
           `}</style>
         </>
       )}
-    </ThemeContext.Consumer>
+    </AppContext.Consumer>
   );
 }
 

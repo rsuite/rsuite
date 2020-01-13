@@ -3,7 +3,7 @@ import { useMemo, useState, useCallback } from 'react';
 import { Grid, IntlProvider as RSIntlProvider } from 'rsuite';
 import NProgress from 'nprogress';
 import Router from 'next/router';
-import { ThemeContext } from '@/components/Context';
+import AppContext from '@/components/AppContext';
 import zhCN from 'rsuite/lib/IntlProvider/locales/zh_CN';
 import enUS from 'rsuite/lib/IntlProvider/locales/en_US';
 
@@ -64,20 +64,22 @@ function App({ Component, pageProps }: AppProps) {
     setDirection(newDirection);
     loadTheme(themeName, newDirection);
   }, [themeName, direction]);
+  const messages = getMessages(userLanguage);
   return (
     <Grid fluid className="app-container">
       <RSIntlProvider locale={locale} rtl={false}>
-        <ThemeContext.Provider
+        <AppContext.Provider
           value={{
+            messages,
+            localePath: messages?.id === 'en-US' ? '/en' : '',
             theme: [themeName, direction],
-            messages: getMessages(userLanguage),
             handleToggleDirection,
             handleToggleTheme
           }}
         >
           <StyleHead />
           <Component {...pageProps} />
-        </ThemeContext.Provider>
+        </AppContext.Provider>
       </RSIntlProvider>
     </Grid>
   );
