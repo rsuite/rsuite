@@ -51,7 +51,7 @@ module.exports = merge(
     },
     plugins: [
       new CleanWebpackPlugin({
-        cleanOnceBeforeBuildPatterns: [resolveDirName('public/css')],
+        cleanOnceBeforeBuildPatterns: [resolveDirName('public/css/theme-*.css')],
         cleanAfterEveryBuildPatterns: [resolveDirName('public/css/*.js')]
       }),
       new RTLCSSPlugin({

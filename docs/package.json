@@ -59,6 +59,6 @@
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.10.1",
     "webpack-merge": "^4.1.4",
-    "webpack-multiple-themes-compile": "^2.0.0-beta.2"
+    "webpack-multiple-themes-compile": "^2.0.0-beta.5"
   }
 }
