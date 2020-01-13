@@ -1,5 +1,5 @@
 import React from 'react';
-import { readTheme, readDirection } from '../utils/themeHelpers';
+import { readTheme, readDirection } from '@/utils/themeHelpers';
 
 interface AppContextProps {
   direction?: string;

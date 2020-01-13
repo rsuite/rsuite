@@ -20,9 +20,7 @@
     // Alias supported
     "baseUrl": ".",
     "paths": {
-      "@/components/*": ["components/*"],
-      "@/pages/*": ["pages/*"],
-      "@/utils/*": ["utils/*"]
+      "@/*": ["./*"]
     }
   },
   "exclude": ["node_modules"],

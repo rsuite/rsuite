@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import { Button, IconButton, ButtonGroup, ButtonToolbar, Panel, Icon } from 'rsuite';
 
 import PageContent from '@/components/PageContent';

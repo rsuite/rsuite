@@ -50,7 +50,7 @@ function Tabs(props: TabsProps) {
 
   const index = canUseDOM ? parseInt(sessionStorage.getItem(`${id}-tab-index`)) : 0;
   const [tabIndex, setTabIndex] = React.useState<number>(0 + index);
-  const { sorce } = tabExamples[tabIndex];
+  const { sorce } = tabExamples[tabIndex] ;
 
   return (
     <div>

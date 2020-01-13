@@ -24,9 +24,7 @@ module.exports = withImages({
         }
       ]
     });
-    config.resolve.alias['@/components'] = resolveToStaticPath('./components');
-    config.resolve.alias['@/pages'] = resolveToStaticPath('./pages');
-    config.resolve.alias['@/utils'] = resolveToStaticPath('./utils');
+    config.resolve.alias['@'] = resolveToStaticPath('./');
     return config;
   },
   exportTrailingSlash: true,

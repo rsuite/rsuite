@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { Sidebar, Nav, Icon } from 'rsuite';
 import Link from '@/components/Link';
 import AppContext from '../AppContext';
-import { getPages } from '../../utils/pages';
+import { getPages } from '@/utils/pages';
 
 interface SideNavbarProps {
   style: React.CSSProperties;
