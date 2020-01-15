@@ -9,19 +9,36 @@ import PageContainer from './PageContainer';
 import Head from './Head';
 import Paragraph from './Paragraph';
 import components from '../utils/component.config.json';
-import { getTitle, getDescription } from '../utils/parseHTML';
+import { getTitle, getDescription, replaceWithPlaceholder } from '../utils/parseHTML';
 
 const babelOptions = {
   presets: ['env', 'stage-1', 'react'],
   plugins: ['transform-class-properties']
 };
 
-const CustomCodeView = ({ dependencies, ...rest }: any) => {
+const CustomCodeView = ({ dependencies, source, onLoaded, ...rest }: any) => {
+  const placeholder = (
+    <div
+      dangerouslySetInnerHTML={{
+        __html: replaceWithPlaceholder(source ?? '')
+      }}
+    />
+  );
   if (canUseDOM) {
-    const CodeView = dynamic(() => import('./CodeView'));
+    const CodeView = dynamic(
+      () =>
+        import('./CodeView').then(Component => {
+          onLoaded?.();
+          return Component;
+        }),
+      {
+        loading: () => placeholder
+      }
+    );
     return (
       <CodeView
         {...rest}
+        source={source}
         theme="dark"
         babelOptions={babelOptions}
         buttonClassName="rs-btn-subtle rs-btn-icon-circle"
@@ -29,7 +46,7 @@ const CustomCodeView = ({ dependencies, ...rest }: any) => {
       />
     );
   }
-  return null;
+  return placeholder;
 };
 
 interface TabsProps {
@@ -48,7 +65,7 @@ function Tabs(props: TabsProps) {
 
   const index = canUseDOM ? parseInt(sessionStorage.getItem(`${id}-tab-index`)) : 0;
   const [tabIndex, setTabIndex] = React.useState<number>(0 + index);
-  const { sorce } = tabExamples[tabIndex];
+  const { source } = tabExamples[tabIndex];
 
   return (
     <div>
@@ -60,19 +77,19 @@ function Tabs(props: TabsProps) {
             appearance={index === tabIndex ? 'primary' : 'default'}
             onClick={() => {
               setTabIndex(index);
-              sessionStorage.setItem(`${id}-tab-index`, index + '');
+              sessionStorage.setItem(`${id}-tab-index`, `${index}`);
             }}
           >
             {item.title}
           </Button>
         ))}
       </ButtonGroup>
-      <CustomCodeView key={tabIndex} source={sorce} dependencies={dependencies} />
+      <CustomCodeView key={tabIndex} source={source} dependencies={dependencies} />
     </div>
   );
 }
 
-interface PageContentWithExampleProps {
+interface PageContentProps {
   id?: string;
   category?: string;
   examples?: string[];
@@ -82,7 +99,7 @@ interface PageContentWithExampleProps {
   children?: React.ReactNode;
 }
 
-const PageContentWithExample = ({
+const PageContent = ({
   id,
   category = 'components',
   examples = [],
@@ -90,7 +107,7 @@ const PageContentWithExample = ({
   dependencies,
   tabExamples,
   children
-}: PageContentWithExampleProps) => {
+}: PageContentProps) => {
   const { messages, language, localePath } = React.useContext(AppContext);
 
   const pathname = id ? `${category}/${_.kebabCase(id)}` : category;
@@ -173,4 +190,4 @@ const PageContentWithExample = ({
   );
 };
 
-export default PageContentWithExample;
+export default PageContent;

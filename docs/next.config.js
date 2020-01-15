@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const withImages = require('next-images');
-const markdown = require('react-markdown-reader');
 const findPages = require('./scripts/findPages');
+const markdownRenderer = require('./scripts/markdownRenderer');
 const languages = ['javascript', 'bash', 'xml', 'css', 'less', 'json', 'diff', 'typescript'];
 
 const resolveToStaticPath = relativePath => path.resolve(__dirname, relativePath);
 const SVG_LOGO_PATH = resolveToStaticPath('./resources/images');
+
 module.exports = withImages({
   webpack(config) {
     config.module.rules.unshift({
@@ -33,7 +34,7 @@ module.exports = withImages({
           loader: 'markdown-loader',
           options: {
             pedantic: true,
-            renderer: markdown.renderer(languages)
+            renderer: markdownRenderer(languages)
           }
         }
       ]

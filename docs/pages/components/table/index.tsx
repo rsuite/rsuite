@@ -48,7 +48,7 @@ export default function Page() {
     'affix-header'
   ].map(item => ({
     title: messages?.table[`tab.${item}`],
-    sorce: require(`${localePath}${item}.md`)
+    source: require(`${localePath}${item}.md`)
   }));
 
   return (
