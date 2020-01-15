@@ -3,7 +3,7 @@
   "version": "4.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "npm run dev-theme & NODE_ENV=development node server.js",
+    "dev": "cross-env NODE_ENV=development node server.js",
     "build": "npm run build-theme && next build",
     "start": "next start",
     "type-check": "tsc",

@@ -1,16 +1,14 @@
 import * as React from 'react';
 import _ from 'lodash';
-import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import { Divider, Icon, ButtonGroup, Button, IconButton, Tooltip, Whisper } from 'rsuite';
 import { canUseDOM } from 'dom-lib';
 import { Markdown } from 'react-markdown-reader';
-
+import AppContext from './AppContext';
 import PageContainer from './PageContainer';
 import Head from './Head';
 import Paragraph from './Paragraph';
 import components from '../utils/component.config.json';
-import { getMessages } from '../locales';
 import { getTitle, getDescription } from '../utils/parseHTML';
 
 const babelOptions = {
@@ -50,7 +48,7 @@ function Tabs(props: TabsProps) {
 
   const index = canUseDOM ? parseInt(sessionStorage.getItem(`${id}-tab-index`)) : 0;
   const [tabIndex, setTabIndex] = React.useState<number>(0 + index);
-  const { sorce } = tabExamples[tabIndex] ;
+  const { sorce } = tabExamples[tabIndex];
 
   return (
     <div>
@@ -93,10 +91,8 @@ const PageContentWithExample = ({
   tabExamples,
   children
 }: PageContentWithExampleProps) => {
-  const router = useRouter();
-  const userLanguage = router.query?.userLanguage;
-  const dist = getMessages(userLanguage);
-  const localePath = userLanguage === 'en' ? '/en' : '';
+  const { messages, language, localePath } = React.useContext(AppContext);
+
   const pathname = id ? `${category}/${_.kebabCase(id)}` : category;
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -120,7 +116,7 @@ const PageContentWithExample = ({
     path: `https://github.com/rsuite/rsuite/tree/master/docs/pages/${pathname}${localePath}/${item}.md`
   }));
 
-  const extraDependencies = getDependencies ? getDependencies(userLanguage) : null;
+  const extraDependencies = getDependencies ? getDependencies(language) : null;
 
   if (extraDependencies) {
     dependencies = Object.assign(dependencies, extraDependencies);
@@ -166,7 +162,7 @@ const PageContentWithExample = ({
       ))}
       <Tabs
         id={id}
-        title={dist.common.advanced}
+        title={messages?.common?.advanced}
         tabExamples={tabExamples}
         dependencies={dependencies}
       />

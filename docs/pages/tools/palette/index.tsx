@@ -99,73 +99,65 @@ export default function Page() {
     }
   }
 
+  const { localePath } = React.useContext(AppContext);
+
   return (
     <Frame>
-      <AppContext.Consumer>
-        {({ localePath }) => {
-          return (
-            <PageContainer hidePageNav>
-              <Row>
-                <Col md={24}>
-                  <Markdown>{require(`.${localePath}/index.md`)}</Markdown>
-                </Col>
-              </Row>
+      <PageContainer hidePageNav>
+        <Row>
+          <Col md={24}>
+            <Markdown>{require(`.${localePath}/index.md`)}</Markdown>
+          </Col>
+        </Row>
 
-              <div className="row-split">
-                <div className="col-side">
-                  <div className="circle-picker-wrapper">
-                    <CirclePicker
-                      color={color}
-                      colors={colors}
-                      onChangeComplete={handleChangeComplete}
-                    />
-                  </div>
-                  <SketchPicker color={color} onChangeComplete={handleChangeComplete} />
-                  <div className="panel-color-wrap">
-                    <ColorPanel colors={getPalette(color)} />
-                  </div>
-                </div>
-                <div className="col-content">
-                  <div className="palette-preview" id="palettePreview">
-                    <Panel header={<h3>Preview</h3>} bordered>
-                      <ButtonToolbar>
-                        <Button appearance="default">Default</Button>
-                        <Button appearance="primary">Primary</Button>
-                        <Button appearance="link">Link</Button>
-                        <Button appearance="ghost">Ghost</Button>
-                      </ButtonToolbar>
-                      <hr />
-                      <CheckboxGroup name="check" defaultValue={['1', '2']} inline>
-                        <Checkbox value="1">Javascript</Checkbox>
-                        <Checkbox value="2">CSS</Checkbox>
-                        <Checkbox value="3">HTML</Checkbox>
-                      </CheckboxGroup>
-                      <hr />
-                      <RadioGroup name="radio" defaultValue="1" inline>
-                        <Radio value="1">Front end</Radio>
-                        <Radio value="2">Back end </Radio>
-                      </RadioGroup>
-                      <hr />
-                      <Input />
-                      <hr />
-                      <Toggle defaultChecked />
-                      <hr />
-                      <Slider progress defaultValue={50} />
-                      {loading ? <Loader backdrop content="loading..." vertical /> : null}
-                    </Panel>
-                  </div>
-                </div>
-              </div>
+        <div className="row-split">
+          <div className="col-side">
+            <div className="circle-picker-wrapper">
+              <CirclePicker color={color} colors={colors} onChangeComplete={handleChangeComplete} />
+            </div>
+            <SketchPicker color={color} onChangeComplete={handleChangeComplete} />
+            <div className="panel-color-wrap">
+              <ColorPanel colors={getPalette(color)} />
+            </div>
+          </div>
+          <div className="col-content">
+            <div className="palette-preview" id="palettePreview">
+              <Panel header={<h3>Preview</h3>} bordered>
+                <ButtonToolbar>
+                  <Button appearance="default">Default</Button>
+                  <Button appearance="primary">Primary</Button>
+                  <Button appearance="link">Link</Button>
+                  <Button appearance="ghost">Ghost</Button>
+                </ButtonToolbar>
+                <hr />
+                <CheckboxGroup name="check" defaultValue={['1', '2']} inline>
+                  <Checkbox value="1">Javascript</Checkbox>
+                  <Checkbox value="2">CSS</Checkbox>
+                  <Checkbox value="3">HTML</Checkbox>
+                </CheckboxGroup>
+                <hr />
+                <RadioGroup name="radio" defaultValue="1" inline>
+                  <Radio value="1">Front end</Radio>
+                  <Radio value="2">Back end </Radio>
+                </RadioGroup>
+                <hr />
+                <Input />
+                <hr />
+                <Toggle defaultChecked />
+                <hr />
+                <Slider progress defaultValue={50} />
+                {loading ? <Loader backdrop content="loading..." vertical /> : null}
+              </Panel>
+            </div>
+          </div>
+        </div>
 
-              <ImageToColors
-                onColorChange={value => {
-                  handleChangeComplete({ hex: value['#'] });
-                }}
-              />
-            </PageContainer>
-          );
-        }}
-      </AppContext.Consumer>
+        <ImageToColors
+          onColorChange={value => {
+            handleChangeComplete({ hex: value['#'] });
+          }}
+        />
+      </PageContainer>
     </Frame>
   );
 }

@@ -69,31 +69,31 @@ interface TopLevelNavProps {
   children?: React.ReactNode;
 }
 
-function getNavItems(messages, localePath) {
+function getNavItems(messages) {
   return [
     {
       key: 'guide',
       tip: messages?.common?.guide,
-      to: `${localePath}/guide/introduction`,
+      to: '/guide/introduction',
       icon: <IconGuide />
     },
     {
       key: 'components',
       tip: messages?.common?.components,
-      to: `${localePath}/components/overview`,
+      to: '/components/overview',
       icon: <IconComponent />
     },
 
     {
       key: 'tools',
       tip: messages?.common?.tools,
-      to: `${localePath}/tools/palette`,
+      to: '/tools/palette',
       icon: <IconTools />
     },
     {
       key: 'extensions',
       tip: messages?.common?.extension,
-      to: `${localePath}/extensions`,
+      to: '/extensions',
       icon: <IconExtension />
     }
   ];
@@ -102,104 +102,93 @@ function getNavItems(messages, localePath) {
 export default function TopLevelNav(props: TopLevelNavProps) {
   const { children, showSubmenu, hideToggle } = props;
   const [search, setSearch] = React.useState();
-
-  function handleToggleMenu(_event, show) {
+  const onToggleMenu = (_event, show) => {
     props?.onToggleMenu?.(show);
-  }
+  };
+  const {
+    messages,
+    theme: [themeName, direction],
+    onChangeDirection,
+    onChangeTheme
+  } = React.useContext(AppContext);
+
+  const navItems = getNavItems(messages);
 
   return (
-    <AppContext.Consumer>
-      {({
-        messages,
-        localePath,
-        theme: [themeName, direction],
-        handleToggleDirection,
-        handleToggleTheme
-      }) => {
-        const navItems = getNavItems(messages, localePath);
+    <div className="top-level-nav">
+      <Link href="/">
+        <Logo width={26} height={30} className="logo-sm" />
+      </Link>
 
-        return (
-          <div className="top-level-nav">
-            <Link href={`${localePath}/`}>
-              <Logo width={26} height={30} className="logo-sm" />
-            </Link>
+      <div className="top-level-nav-header">
+        <SearchButton
+          className="visible-xs"
+          tip={messages?.common?.search}
+          onClick={() => {
+            setSearch(true);
+          }}
+        />
+        {navItems.map(item => (
+          <ButtonWithTooltip
+            tip={item.tip}
+            key={item.key}
+            href={item.to}
+            componentClass={Link}
+            onClick={event => {
+              onToggleMenu(event, true);
+            }}
+          >
+            {item.icon}
+          </ButtonWithTooltip>
+        ))}
+        <ButtonWithTooltip
+          tip={messages?.common?.design}
+          target="_blank"
+          href="/design/default/index.html"
+        >
+          <IconDesign />
+        </ButtonWithTooltip>
+        <SearchButton
+          className="hidden-xs"
+          tip={messages?.common?.search}
+          onClick={() => {
+            setSearch(true);
+          }}
+        />
+      </div>
+      <div className="top-level-nav-footer">
+        <ButtonWithTooltip tip="Toggle light/dark theme" onClick={onChangeTheme}>
+          {themeName === 'dark' ? <IconLightOff /> : <IconLightOn />}
+        </ButtonWithTooltip>
 
-            <div className="top-level-nav-header">
-              <SearchButton
-                className="visible-xs"
-                tip={messages?.common?.search}
-                onClick={() => {
-                  setSearch(true);
-                }}
-              />
-              {navItems.map(item => (
-                <ButtonWithTooltip
-                  tip={item.tip}
-                  key={item.key}
-                  href={item.to}
-                  componentClass={Link}
-                  onClick={event => {
-                    handleToggleMenu(event, true);
-                  }}
-                >
-                  {item.icon}
-                </ButtonWithTooltip>
-              ))}
-              <ButtonWithTooltip
-                tip={messages?.common?.design}
-                target="_blank"
-                href="/design/default/index.html"
-              >
-                <IconDesign />
-              </ButtonWithTooltip>
-              <SearchButton
-                className="hidden-xs"
-                tip={messages?.common?.search}
-                onClick={() => {
-                  setSearch(true);
-                }}
-              />
-            </div>
-            <div className="top-level-nav-footer">
-              <ButtonWithTooltip tip="Toggle light/dark theme" onClick={handleToggleTheme}>
-                {themeName === 'dark' ? <IconLightOff /> : <IconLightOn />}
-              </ButtonWithTooltip>
+        <ButtonWithTooltip tip="Toggle RTL/LTR" onClick={onChangeDirection}>
+          {direction === 'rtl' ? <IconRtl /> : <IconLtr />}
+        </ButtonWithTooltip>
 
-              <ButtonWithTooltip tip="Toggle RTL/LTR" onClick={handleToggleDirection}>
-                {direction === 'rtl' ? <IconRtl /> : <IconLtr />}
-              </ButtonWithTooltip>
+        <ButtonWithTooltip tip="GitHub" href="https://github.com/rsuite/rsuite" target="_blank">
+          <Icon icon="github" size="lg" />
+        </ButtonWithTooltip>
 
-              <ButtonWithTooltip
-                tip="GitHub"
-                href="https://github.com/rsuite/rsuite"
-                target="_blank"
-              >
-                <Icon icon="github" size="lg" />
-              </ButtonWithTooltip>
+        <ButtonWithTooltip tip="码云" href="https://gitee.com/rsuite/rsuite" target="_blank">
+          <IconGitee />
+        </ButtonWithTooltip>
 
-              <ButtonWithTooltip tip="码云" href="https://gitee.com/rsuite/rsuite" target="_blank">
-                <IconGitee />
-              </ButtonWithTooltip>
-
-              {hideToggle ? null : (
-                <ButtonWithTooltip
-                  tip={showSubmenu ? messages?.common?.closeMenu : messages?.common?.openMenu}
-                  onClick={handleToggleMenu}
-                >
-                  <Icon icon={showSubmenu ? 'angle-left' : 'angle-right'} size="lg" />
-                </ButtonWithTooltip>
-              )}
-            </div>
-            {children}
-            <SearchDrawer
-              show={search}
-              onHide={() => {
-                setSearch(false);
-              }}
-            />
-          </div>
-        );
-      }}
-    </AppContext.Consumer>
+        {hideToggle ? null : (
+          <ButtonWithTooltip
+            tip={showSubmenu ? messages?.common?.closeMenu : messages?.common?.openMenu}
+            onClick={onToggleMenu}
+          >
+            <Icon icon={showSubmenu ? 'angle-left' : 'angle-right'} size="lg" />
+          </ButtonWithTooltip>
+        )}
+      </div>
+      {children}
+      <SearchDrawer
+        show={search}
+        onHide={() => {
+          setSearch(false);
+        }}
+      />
+    </div>
   );
 }

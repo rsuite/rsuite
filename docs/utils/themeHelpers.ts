@@ -12,7 +12,7 @@ export const DIRECTION_DEFAULT = 'ltr';
 export const getThemeId = (themeName: ThemeType, direction: DirectionType) =>
   `theme-${themeName}-${direction}`;
 export const getThemeCssPath = (themeName: ThemeType, direction: DirectionType) =>
-  `${__DEBUG__ ? '//0.0.0.0:3001' : ''}/css/theme-${themeName}${
+  `${__DEBUG__ ? '//127.0.0.1:3001' : ''}/css/theme-${themeName}${
     direction === 'rtl' ? '.rtl' : ''
   }.css`;
 

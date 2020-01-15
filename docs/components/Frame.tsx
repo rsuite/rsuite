@@ -20,22 +20,21 @@ export default function Frame(props: FrameProps) {
     setOpenSubmenu(typeof open === 'undefined' ? !openSubmenu : open);
   }
 
+  const {
+    theme: [, direction]
+  } = React.useContext(AppContext);
+
+  const contextStyle = {
+    [`margin${direction === 'rtl' ? 'Right' : 'Left'}`]: openSubmenu ? 324 : 80
+  };
+
   return (
-    <AppContext.Consumer>
-      {({ theme: [, direction] }) => {
-        const contextStyle = {
-          [`margin${direction === 'rtl' ? 'Right' : 'Left'}`]: openSubmenu ? 324 : 80
-        };
-        return (
-          <div>
-            <TopLevelNav showSubmenu={openSubmenu} onToggleMenu={handleToggleMenu} />
-            <SideNavbar style={menuStyles} />
-            <div className="page-context" style={contextStyle}>
-              {props.children}
-            </div>
-          </div>
-        );
-      }}
-    </AppContext.Consumer>
+    <div>
+      <TopLevelNav showSubmenu={openSubmenu} onToggleMenu={handleToggleMenu} />
+      <SideNavbar style={menuStyles} />
+      <div className="page-context" style={contextStyle}>
+        {props.children}
+      </div>
+    </div>
   );
 }

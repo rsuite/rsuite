@@ -15,6 +15,7 @@ class MyDocument extends Document<DocumentProps> {
 
   render() {
     const { userLanguage } = this.props;
+    console.log('document', userLanguage);
 
     return (
       <Html lang={userLanguage}>

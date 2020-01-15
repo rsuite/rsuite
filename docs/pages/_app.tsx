@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useMemo, useState, useCallback } from 'react';
 import { Grid, IntlProvider as RSIntlProvider } from 'rsuite';
 import NProgress from 'nprogress';
 import Router from 'next/router';
@@ -32,14 +31,16 @@ interface AppProps {
 }
 
 function App({ Component, pageProps }: AppProps) {
-  const { userLanguage } = pageProps;
-  const locale = userLanguage === 'en' ? enUS : zhCN;
+  const [defaultThemeName, defaultDirection] = React.useMemo<[ThemeType, DirectionType]>(
+    readTheme,
+    []
+  );
+  const [themeName, setThemeName] = React.useState(defaultThemeName);
+  const [direction, setDirection] = React.useState(defaultDirection);
+  const [language, setLanguage] = React.useState(pageProps.userLanguage);
+  const locale = language === 'en' ? enUS : zhCN;
 
-  const [defaultThemeName, defaultDirection] = useMemo<[ThemeType, DirectionType]>(readTheme, []);
-  const [themeName, setThemeName] = useState(defaultThemeName);
-  const [direction, setDirection] = useState(defaultDirection);
-
-  const loadTheme = useCallback((themeName: ThemeType, direction: DirectionType) => {
+  const loadTheme = React.useCallback((themeName: ThemeType, direction: DirectionType) => {
     const themeId = getThemeId(themeName, direction);
     loadCssFile(getThemeCssPath(themeName, direction), themeId).then(() => {
       const html = document.querySelector('html');
@@ -53,18 +54,24 @@ function App({ Component, pageProps }: AppProps) {
     });
   }, []);
 
-  const handleToggleTheme = useCallback(() => {
+  const onChangeTheme = React.useCallback(() => {
     const newThemeName = themeName === 'default' ? 'dark' : 'default';
     setThemeName(newThemeName);
     loadTheme(newThemeName, direction);
   }, [themeName, direction]);
 
-  const handleToggleDirection = useCallback(() => {
+  const onChangeDirection = React.useCallback(() => {
     const newDirection = direction === 'ltr' ? 'rtl' : 'ltr';
     setDirection(newDirection);
     loadTheme(themeName, newDirection);
   }, [themeName, direction]);
-  const messages = getMessages(userLanguage);
+
+  const onChangeLanguage = React.useCallback((value: string) => {
+    setLanguage(value);
+  }, []);
+
+  const messages = getMessages(language);
+
   return (
     <Grid fluid className="app-container">
       <RSIntlProvider locale={locale} rtl={false}>
@@ -73,8 +80,10 @@ function App({ Component, pageProps }: AppProps) {
             messages,
             localePath: messages?.id === 'en-US' ? '/en' : '',
             theme: [themeName, direction],
-            handleToggleDirection,
-            handleToggleTheme
+            language,
+            onChangeDirection,
+            onChangeTheme,
+            onChangeLanguage
           }}
         >
           <StyleHead />

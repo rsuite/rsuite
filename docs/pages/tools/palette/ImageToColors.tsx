@@ -49,10 +49,9 @@ export default function ImageToColors(props: ImageToColorsProps) {
     top: imgPosition.y
   };
 
-  function handleChange(_value, event) {
+  const onChange = (_value, event) => {
     const file = event.target.files[0];
     const fileReader = new FileReader();
-
     fileReader.onload = e => {
       const imgData = e.target.result;
       const img = new Image();
@@ -68,41 +67,32 @@ export default function ImageToColors(props: ImageToColorsProps) {
       };
     };
     fileReader.readAsDataURL(file);
-  }
+  };
 
-  function handleClickImage(event: React.MouseEvent) {
+  const onClickImage = (event: React.MouseEvent) => {
     const offset = getOffset(imgRef.current);
     const y = event.pageY - offset.top;
     const x = event.pageX - offset.left;
     setImgPosition({ x, y });
     props?.onColorChange?.(imgColor.getColorByXY(x, y));
-  }
+  };
 
+  const { messages } = React.useContext(AppContext);
   return (
-    <AppContext.Consumer>
-      {({ messages }) => {
-        return (
-          <Panel
-            header={<h3>{messages?.palette?.title}</h3>}
-            bordered
-            className="palette-logo-tool"
-          >
-            <ul>
-              <li>{messages?.palette?.step1}</li>
-              <li>{messages?.palette?.step2}</li>
-              <li>{messages?.palette?.step3}</li>
-            </ul>
-            <hr />
-            <Input type="file" onChange={handleChange} style={{ width: 200 }} />
-            {imgData ? (
-              <div className="palette-image-preview">
-                <img src={imgData} ref={imgRef} onClick={handleClickImage} />
-                <div className="palette-image-position-dot" style={dotStyles} />
-              </div>
-            ) : null}
-          </Panel>
-        );
-      }}
-    </AppContext.Consumer>
+    <Panel header={<h3>{messages?.palette?.title}</h3>} bordered className="palette-logo-tool">
+      <ul>
+        <li>{messages?.palette?.step1}</li>
+        <li>{messages?.palette?.step2}</li>
+        <li>{messages?.palette?.step3}</li>
+      </ul>
+      <hr />
+      <Input type="file" onChange={onChange} style={{ width: 200 }} />
+      {imgData ? (
+        <div className="palette-image-preview">
+          <img src={imgData} ref={imgRef} onClick={onClickImage} />
+          <div className="palette-image-position-dot" style={dotStyles} />
+        </div>
+      ) : null}
+    </Panel>
   );
 }

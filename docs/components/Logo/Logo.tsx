@@ -12,7 +12,6 @@ export default function Logo({ width, height, className = '' }: LogoProps) {
     height,
     display: 'inline-block'
   };
-
   return (
     <div
       style={style}

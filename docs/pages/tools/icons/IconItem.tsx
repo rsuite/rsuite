@@ -10,19 +10,19 @@ interface IconItemProps {
 }
 
 export default function IconItem(props: IconItemProps) {
-  const { onCopy, newIcon, ...rest } = props;
+  const { onCopy, icon, newIcon, ...rest } = props;
 
-  function handleCopy(text, result) {
+  const handleCopy = React.useCallback((text, result) => {
     onCopy?.(text, result);
-  }
+  }, []);
 
   return (
-    <Clipboard text={this.props.icon} onCopy={handleCopy}>
+    <Clipboard text={icon} onCopy={handleCopy}>
       <div className={classnames('icon-item', { 'new-icon': newIcon })}>
         <div className="icon-wrapper">
-          <Icon {...rest} className="icon-content" />
+          <Icon icon={icon} {...rest} className="icon-content" />
         </div>
-        <p className="icon-name-text">{this.props.icon}</p>
+        <p className="icon-name-text">{icon}</p>
       </div>
     </Clipboard>
   );

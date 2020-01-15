@@ -1,32 +1,37 @@
 import * as React from 'react';
 import classnames from 'classnames';
+import { useRouter } from 'next/router';
 import { Button } from 'rsuite';
 import { ButtonProps } from 'rsuite/lib/Button';
+import AppContext from '../AppContext';
 
-export type LanguageType = 'en-US' | 'zh-CN';
+function LanguageButton(props: ButtonProps) {
+  const router = useRouter();
+  const { language, onChangeLanguage } = React.useContext(AppContext);
+  const { appearance = 'subtle', className, ...rest } = props;
+  const en = language === 'en';
 
-interface LanguageButtonProps extends ButtonProps {
-  language?: LanguageType;
-  onClick?: (event: React.MouseEvent) => void;
-}
+  const handleChangeLanguage = React.useCallback(
+    (event: React.MouseEvent) => {
+      event.preventDefault();
 
-function LanguageButton(props: LanguageButtonProps) {
-  const { language, appearance = 'subtle', className, ...rest } = props;
+      onChangeLanguage?.(en ? 'zh' : 'en');
+      const pathname = router.pathname;
+      const as = en ? pathname : `/en${pathname}`;
 
-  function handleChangeLanguage(event: React.MouseEvent) {
-    const isEN = language === 'en-US';
-    localStorage.setItem('localeKey', isEN ? 'zh-CN' : 'en-US');
-    props.onClick?.(event);
-  }
+      router.push(pathname, as);
+    },
+    [language]
+  );
 
   return (
     <Button
       {...rest}
-      className={classnames('language-switch-button', className)}
+      className={classnames('btn-switch-language', className)}
       appearance={appearance}
       onClick={handleChangeLanguage}
     >
-      {language === 'en-US' ? '中文' : 'EN'}
+      {en ? '中文' : 'EN'}
     </Button>
   );
 }

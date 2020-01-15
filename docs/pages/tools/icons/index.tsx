@@ -1,41 +1,28 @@
-import React from 'react';
+import * as React from 'react';
 import { Row, Col } from 'rsuite';
-import MarkdownView from '@/components/MarkdownView';
+import { Markdown } from 'react-markdown-reader';
 import PageContainer from '@/components/PageContainer';
-import getLocalePath from '@/utils/getLocalePath';
+import AppContext from '@/components/AppContext';
+import Frame from '@/components/Frame';
 import IconList from './IconList';
 
-export default getLocalePath(localePath => {
-  class IconPage extends React.Component {
-    constructor() {
-      super();
-      this.state = {
-        color: '#2196f3'
-      };
-    }
-    handleChangeComplete = color => {
-      this.setState({ color: color.hex });
-    };
-
-    render() {
-      const { color } = this.state;
-      return (
-        <PageContainer>
-          <Row>
-            <Col md={24}>
-              <MarkdownView>{require(`.${localePath}index.md`)}</MarkdownView>
-            </Col>
-          </Row>
-          <IconList />
-          <Row>
-            <Col md={24}>
-              <MarkdownView>{require(`.${localePath}footer.md`)}</MarkdownView>
-            </Col>
-          </Row>
-        </PageContainer>
-      );
-    }
-  }
-
-  return IconPage;
-});
+export default function Page() {
+  const { localePath } = React.useContext(AppContext);
+  return (
+    <Frame>
+      <PageContainer>
+        <Row>
+          <Col md={24}>
+            <Markdown>{require(`.${localePath}/index.md`)}</Markdown>
+          </Col>
+        </Row>
+        <IconList />
+        <Row>
+          <Col md={24}>
+            <Markdown>{require(`.${localePath}/footer.md`)}</Markdown>
+          </Col>
+        </Row>
+      </PageContainer>
+    </Frame>
+  );
+}
