@@ -8,13 +8,13 @@ exports.default = void 0;
 var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
 
 var Calendar = {
-  sunday: 'حد',
-  monday: 'ثن',
-  tuesday: 'ثل',
-  wednesday: 'اع',
-  thursday: 'خم',
-  friday: 'جم',
-  saturday: 'سب',
+  sunday: 'ح',
+  monday: 'ن',
+  tuesday: 'ث',
+  wednesday: 'ع',
+  thursday: 'خ',
+  friday: 'ج',
+  saturday: 'س',
   ok: 'حسناً',
   today: 'اليوم',
   yesterday: 'أمس',
