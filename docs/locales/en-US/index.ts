@@ -34,7 +34,10 @@ export default {
     v3: 'Version 3.*',
     v3ToV4: 'V3 upgrade to V4 considerations',
     notFount: 'Page not found',
-    goHomePage: 'Return to homepage.'
+    goHomePage: 'Return to homepage.',
+    searchIcon:'Search icon',
+    copySucceed: 'Copy success',
+    copyFailed: "Copy the failure, the browser doesn't support this feature"
   },
   table: {
     'tab.resizable': 'Resizable',

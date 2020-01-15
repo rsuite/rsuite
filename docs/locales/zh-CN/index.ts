@@ -33,7 +33,10 @@ export default {
     v3: '3.* 版本',
     v3ToV4: 'V3 升级到 V4 注意事项',
     notFount: '该页面无法显示',
-    goHomePage: '返回首页'
+    goHomePage: '返回首页',
+    searchIcon: '搜索图标',
+    copySucceed: '复制成功',
+    copyFailed: '复制失败，浏览器不支持此功能'
   },
   table: {
     'tab.resizable': '可调整列宽',
