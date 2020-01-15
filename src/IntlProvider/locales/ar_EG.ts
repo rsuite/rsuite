@@ -11,7 +11,7 @@ var Calendar = {
   sunday: 'ح',
   monday: 'ن',
   tuesday: 'ث',
-  wednesday: 'ع',
+  wednesday: 'ر',
   thursday: 'خ',
   friday: 'ج',
   saturday: 'س',
