@@ -1,17 +1,12 @@
 import * as React from 'react';
 import { Pagination, Button, Icon, Toggle, Divider } from 'rsuite';
-
-import PageContent from '@/components/PageContent';
-import Frame from '@/components/Frame';
+import DefaultPage from '@/components/Page';
 
 export default function Page() {
   return (
-    <Frame>
-      <PageContent
-        id="Pagination"
-        examples={['basic', 'size', 'disabled', 'advanced']}
-        dependencies={{ Pagination, Button, Icon, Toggle, Divider }}
-      />
-    </Frame>
+    <DefaultPage
+      examples={['basic', 'size', 'disabled', 'advanced']}
+      dependencies={{ Pagination, Button, Icon, Toggle, Divider }}
+    />
   );
 }

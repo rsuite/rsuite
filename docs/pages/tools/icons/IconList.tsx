@@ -87,8 +87,6 @@ export default function IconList() {
 
   const renderIcon = React.useCallback(() => {
     const nextIcons = icons.reduce(parseIconByCategory, {});
-    
-    console.log(nextIcons);
 
     return Object.keys(nextIcons)
       .sort((a, b) => a.localeCompare(b))

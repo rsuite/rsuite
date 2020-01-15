@@ -1,17 +1,12 @@
 import * as React from 'react';
 import { Loader } from 'rsuite';
-
-import PageContent from '@/components/PageContent';
-import Frame from '@/components/Frame';
+import DefaultPage from '@/components/Page';
 
 export default function Page() {
   return (
-    <Frame>
-      <PageContent
-        id="Loader"
-        examples={['basic', 'content', 'size', 'speed', 'center', 'backdrop', 'inverse']}
-        dependencies={{ Loader }}
-      />
-    </Frame>
+    <DefaultPage
+      examples={['basic', 'content', 'size', 'speed', 'center', 'backdrop', 'inverse']}
+      dependencies={{ Loader }}
+    />
   );
 }

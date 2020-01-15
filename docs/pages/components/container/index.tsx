@@ -23,42 +23,37 @@ import {
   Navbar
 } from 'rsuite';
 
-import PageContent from '@/components/PageContent';
-import Frame from '@/components/Frame';
+import DefaultPage from '@/components/Page';
 import Logo from '@/components/Logo';
-
 
 export default function Page() {
   return (
-    <Frame>
-      <PageContent
-        id="Container"
-        examples={['basic', 'sidebar-page', 'navbar-page', 'login-page']}
-        dependencies={{
-          Logo,
-          Divider,
-          Icon,
-          IconButton,
-          Button,
-          Container,
-          Header,
-          Footer,
-          Sidebar,
-          Content,
-          Sidenav,
-          Nav,
-          Toggle,
-          Dropdown,
-          FlexboxGrid,
-          Panel,
-          Form,
-          FormGroup,
-          ControlLabel,
-          FormControl,
-          ButtonToolbar,
-          Navbar
-        }}
-      />
-    </Frame>
+    <DefaultPage
+      examples={['basic', 'sidebar-page', 'navbar-page', 'login-page']}
+      dependencies={{
+        Logo,
+        Divider,
+        Icon,
+        IconButton,
+        Button,
+        Container,
+        Header,
+        Footer,
+        Sidebar,
+        Content,
+        Sidenav,
+        Nav,
+        Toggle,
+        Dropdown,
+        FlexboxGrid,
+        Panel,
+        Form,
+        FormGroup,
+        ControlLabel,
+        FormControl,
+        ButtonToolbar,
+        Navbar
+      }}
+    />
   );
 }

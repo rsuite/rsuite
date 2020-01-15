@@ -42,10 +42,12 @@ function App({ Component, pageProps }: AppProps) {
 
   const loadTheme = React.useCallback((themeName: ThemeType, direction: DirectionType) => {
     const themeId = getThemeId(themeName, direction);
+    NProgress.start();
     loadCssFile(getThemeCssPath(themeName, direction), themeId).then(() => {
       const html = document.querySelector('html');
       html.dir = direction;
       writeTheme(themeName, direction);
+      NProgress.done();
       Array.from(document.querySelectorAll('[id^=theme]')).forEach(css => {
         if (css.id !== themeId) {
           css.remove();

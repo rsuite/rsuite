@@ -1,13 +1,7 @@
 import * as React from 'react';
 import { Portal, Button } from 'rsuite';
-
-import PageContent from '@/components/PageContent';
-import Frame from '@/components/Frame';
+import DefaultPage from '@/components/Page';
 
 export default function Page() {
-  return (
-    <Frame>
-      <PageContent id="Portal" examples={['basic']} dependencies={{ Portal, Button }} />
-    </Frame>
-  );
+  return <DefaultPage examples={['basic']} dependencies={{ Portal, Button }} />;
 }

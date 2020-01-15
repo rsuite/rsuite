@@ -3,36 +3,23 @@
 <!--start-code-->
 
 ```js
+const MyBreadcrumb = ({ separator }) => (
+  <Breadcrumb separator={separator}>
+    <Breadcrumb.Item componentClass={Link} href="/">
+      Home
+    </Breadcrumb.Item>
+    <Breadcrumb.Item componentClass={Link} href="/components/overview">
+      Components
+    </Breadcrumb.Item>
+    <Breadcrumb.Item active>Breadcrumb</Breadcrumb.Item>
+  </Breadcrumb>
+);
+
 const instance = (
   <div>
-    <Breadcrumb separator={'-'}>
-      <Breadcrumb.Item componentClass={Link} href="/">
-        <a>Home</a>
-      </Breadcrumb.Item>
-      <Breadcrumb.Item componentClass={Link}>
-        <a>Components</a>
-      </Breadcrumb.Item>
-      <Breadcrumb.Item active>Breadcrumb</Breadcrumb.Item>
-    </Breadcrumb>
-    <Breadcrumb separator={'>'}>
-      <Breadcrumb.Item componentClass={Link} href="/">
-        <a>Home</a>
-      </Breadcrumb.Item>
-      <Breadcrumb.Item componentClass={Link}>
-        <a>Components</a>
-      </Breadcrumb.Item>
-      <Breadcrumb.Item active>Breadcrumb</Breadcrumb.Item>
-    </Breadcrumb>
-
-    <Breadcrumb separator={<Icon icon="angle-right" />}>
-      <Breadcrumb.Item componentClass={Link} href="/">
-        <a>Home</a>
-      </Breadcrumb.Item>
-      <Breadcrumb.Item componentClass={Link}>
-        <a>Components</a>
-      </Breadcrumb.Item>
-      <Breadcrumb.Item active>Breadcrumb</Breadcrumb.Item>
-    </Breadcrumb>
+    <MyBreadcrumb separator={'-'} />
+    <MyBreadcrumb separator={'>'} />
+    <MyBreadcrumb separator={<Icon icon="angle-right" />} />
   </div>
 );
 ReactDOM.render(instance);

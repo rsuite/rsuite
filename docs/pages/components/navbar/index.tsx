@@ -1,17 +1,12 @@
 import * as React from 'react';
 import { Navbar, Nav, Button, Icon, Dropdown } from 'rsuite';
-
-import PageContent from '@/components/PageContent';
-import Frame from '@/components/Frame';
+import DefaultPage from '@/components/Page';
 
 export default function Page() {
   return (
-    <Frame>
-      <PageContent
-        id="Navbar"
-        examples={['basic', 'appearance']}
-        dependencies={{ Navbar, Nav, Button, Icon, Dropdown }}
-      />
-    </Frame>
+    <DefaultPage
+      examples={['basic', 'appearance']}
+      dependencies={{ Navbar, Nav, Button, Icon, Dropdown }}
+    />
   );
 }

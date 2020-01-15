@@ -1,6 +1,6 @@
 import * as React from 'react';
-import _ from 'lodash';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import { Divider, Icon, ButtonGroup, Button, IconButton, Tooltip, Whisper } from 'rsuite';
 import { canUseDOM } from 'dom-lib';
 import { Markdown } from 'react-markdown-reader';
@@ -24,7 +24,7 @@ const CustomCodeView = ({ dependencies, source, onLoaded, ...rest }: any) => {
       }}
     />
   );
-  if (canUseDOM) {
+  if (canUseDOM && source) {
     const CodeView = dynamic(
       () =>
         import('./CodeView').then(Component => {
@@ -65,7 +65,7 @@ function Tabs(props: TabsProps) {
 
   const index = canUseDOM ? parseInt(sessionStorage.getItem(`${id}-tab-index`)) : 0;
   const [tabIndex, setTabIndex] = React.useState<number>(0 + index);
-  const { source } = tabExamples[tabIndex];
+  const activeExample = tabExamples[tabIndex];
 
   return (
     <div>
@@ -84,12 +84,12 @@ function Tabs(props: TabsProps) {
           </Button>
         ))}
       </ButtonGroup>
-      <CustomCodeView key={tabIndex} source={source} dependencies={dependencies} />
+      <CustomCodeView key={tabIndex} source={activeExample?.source} dependencies={dependencies} />
     </div>
   );
 }
 
-interface PageContentProps {
+export interface PageContentProps {
   id?: string;
   category?: string;
   examples?: string[];
@@ -109,11 +109,12 @@ const PageContent = ({
   children
 }: PageContentProps) => {
   const { messages, language, localePath } = React.useContext(AppContext);
+  const router = useRouter();
 
-  const pathname = id ? `${category}/${_.kebabCase(id)}` : category;
+  const pathname = id ? `/${category}/${id}` : router.pathname;
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const context = require(`../pages/${pathname}${localePath}/index.md`);
+  const context = require(`../pages${pathname}${localePath}/index.md`);
   const title = getTitle(context);
   const description = getDescription(context);
   const pageHead = <Head title={title} description={description} />;
@@ -129,8 +130,8 @@ const PageContent = ({
   }
 
   const componentExamples = examples.map(item => ({
-    source: require(`../pages/${pathname}${localePath}/${item}.md`),
-    path: `https://github.com/rsuite/rsuite/tree/master/docs/pages/${pathname}${localePath}/${item}.md`
+    source: require(`../pages${pathname}${localePath}/${item}.md`),
+    path: `https://github.com/rsuite/rsuite/tree/master/docs/pages${pathname}${localePath}/${item}.md`
   }));
 
   const extraDependencies = getDependencies ? getDependencies(language) : null;

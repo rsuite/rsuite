@@ -1,7 +1,6 @@
 import * as React from 'react';
 import pages from '@/utils/pages';
-import PageContent from '@/components/PageContent';
-import Frame from '@/components/Frame';
+import DefaultPage from '@/components/Page';
 import Link from 'next/link';
 
 interface ComponentType {
@@ -23,42 +22,40 @@ const Item = ({ name, isComponent }: { name: string; isComponent?: boolean }) =>
 
 export default function Page() {
   return (
-    <Frame>
-      <PageContent id="overview">
-        <div className="component-overview">
-          <ul>
-            {components.map(item => {
-              if (item.group) {
-                return (
-                  <li className="title" key={item.id}>
-                    <h4 id={item.name}># {item.name}</h4>
-                  </li>
-                );
-              } else {
-                return (
-                  <li key={item.id}>
-                    <Link href={`/components/${item.id}`}>
-                      <a className="header">
-                        {item.name}
-                        <span>
-                          <br /> ({item.title})
-                        </span>
-                      </a>
-                    </Link>
-                    <ul className="content">
-                      {item.components
-                        ? item.components.map(name => <Item name={name} key={name} isComponent />)
-                        : null}
+    <DefaultPage>
+      <div className="component-overview">
+        <ul>
+          {components.map(item => {
+            if (item.group) {
+              return (
+                <li className="title" key={item.id}>
+                  <h4 id={item.name}># {item.name}</h4>
+                </li>
+              );
+            } else {
+              return (
+                <li key={item.id}>
+                  <Link href={`/components/${item.id}`}>
+                    <a className="header">
+                      {item.name}
+                      <span>
+                        <br /> ({item.title})
+                      </span>
+                    </a>
+                  </Link>
+                  <ul className="content">
+                    {item.components
+                      ? item.components.map(name => <Item name={name} key={name} isComponent />)
+                      : null}
 
-                      {item.apis ? item.apis.map(name => <Item name={name} key={name} />) : null}
-                    </ul>
-                  </li>
-                );
-              }
-            })}
-          </ul>
-        </div>
-      </PageContent>
-    </Frame>
+                    {item.apis ? item.apis.map(name => <Item name={name} key={name} />) : null}
+                  </ul>
+                </li>
+              );
+            }
+          })}
+        </ul>
+      </div>
+    </DefaultPage>
   );
 }

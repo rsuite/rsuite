@@ -13,23 +13,19 @@ import {
   Dropdown
 } from 'rsuite';
 import clone from 'lodash/clone';
-
 import fakeData from './data/users';
 import fakeTreeData from './data/treeData';
 import fakeDataForColSpan from './data/usersForColSpan';
 import fakeLargeData from './data/fakeLargeData.json';
 
-import PageContent from '@/components/PageContent';
-import Frame from '@/components/Frame';
+import DefaultPage from '@/components/Page';
 import AppContext from '@/components/AppContext';
+
 const { HeaderCell, Pagination, Cell, Column } = Table;
 const TablePagination = Pagination;
 
 export default function Page() {
-  const { messages } = React.useContext(AppContext);
-
-  const localePath = messages?.id === 'en-US' ? './en/' : './';
-
+  const { messages, localePath } = React.useContext(AppContext);
   const tabExamples = [
     'resizable',
     'fluid-column',
@@ -48,38 +44,35 @@ export default function Page() {
     'affix-header'
   ].map(item => ({
     title: messages?.table[`tab.${item}`],
-    source: require(`${localePath}${item}.md`)
+    source: require(`.${localePath}/${item}.md`)
   }));
 
   return (
-    <Frame>
-      <PageContent
-        id="Table"
-        examples={['default', 'large']}
-        dependencies={{
-          _clone: clone,
-          Nav,
-          Checkbox,
-          Toggle,
-          fakeData,
-          fakeTreeData,
-          fakeDataForColSpan,
-          fakeLargeData,
-          TablePagination,
-          Popover,
-          Whisper,
-          Icon,
-          Divider,
-          IconButton,
-          Table,
-          Button,
-          HeaderCell,
-          Cell,
-          Column,
-          Dropdown
-        }}
-        tabExamples={tabExamples}
-      />
-    </Frame>
+    <DefaultPage
+      examples={['default', 'large']}
+      dependencies={{
+        _clone: clone,
+        Nav,
+        Checkbox,
+        Toggle,
+        fakeData,
+        fakeTreeData,
+        fakeDataForColSpan,
+        fakeLargeData,
+        TablePagination,
+        Popover,
+        Whisper,
+        Icon,
+        Divider,
+        IconButton,
+        Table,
+        Button,
+        HeaderCell,
+        Cell,
+        Column,
+        Dropdown
+      }}
+      tabExamples={tabExamples}
+    />
   );
 }

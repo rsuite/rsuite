@@ -1,11 +1,6 @@
 import * as React from 'react';
-import PageContent from '@/components/PageContent';
-import Frame from '@/components/Frame';
+import DefaultPage from '@/components/Page';
 
 export default function Page() {
-  return (
-    <Frame openSubmenu={false}>
-      <PageContent category="extensions" />
-    </Frame>
-  );
+  return <DefaultPage submenu={false} />;
 }

@@ -6,6 +6,7 @@
     "dev": "cross-env NODE_ENV=development node server.js",
     "build": "npm run build-theme && next build",
     "start": "next start",
+    "export": "next export",
     "type-check": "tsc",
     "dev-theme": "webpack-dev-server --mode development --progress --hot --config webpack.theme.config.js",
     "build-theme": "cross-env NODE_ENV=production webpack --progress --colors --mode=production --config webpack.theme.config.js"
