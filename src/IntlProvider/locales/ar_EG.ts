@@ -1,13 +1,4 @@
-"use strict";
-
-var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
-
-exports.__esModule = true;
-exports.default = void 0;
-
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/extends"));
-
-var Calendar = {
+const Calendar = {
   sunday: 'ح',
   monday: 'ن',
   tuesday: 'ث',
@@ -24,39 +15,43 @@ var Calendar = {
   formattedMonthPattern: 'MMM, YYYY',
   formattedDayPattern: 'MMM DD, YYYY'
 };
-var _default = {
+
+export default {
   Pagination: {
     more: 'المزيد',
     prev: 'السابق',
     next: 'التالي',
-    first: 'الاول',
-    last: 'الاخير'
+    first: 'الأول',
+    last: 'الأخير'
   },
   Table: {
-    emptyMessage: 'لا يوجد بيانات',
+    emptyMessage: 'لا يوجد المزيد من البيانات',
     loading: 'جاري التحميل...'
   },
   TablePagination: {
-    lengthMenuInfo: '{0} / صفحة',
-    totalInfo: 'الاجمالي: {0}'
+    lengthMenuInfo: 'صفحة / {0}',
+    totalInfo: 'الإجمالي: {0}'
   },
-  Calendar: Calendar,
-  DatePicker: (0, _extends2.default)({}, Calendar),
-  DateRangePicker: (0, _extends2.default)({}, Calendar, {
-    last7Days: 'اخر 7 ايام'
-  }),
+  Calendar,
+  DatePicker: {
+    ...Calendar
+  },
+  DateRangePicker: {
+    ...Calendar,
+    last7Days: 'أخر 7 أيام'
+  },
   Picker: {
     noResultsText: 'لا يوجد نتائج',
     placeholder: 'إختيار',
-    searchPlaceholder: 'بحث',
+    searchPlaceholder: 'البحث',
     checkAll: 'الجميع'
   },
   InputPicker: {
     newItem: 'عنصر جديد',
-    createOption: 'إنشاء خيار "{0}"'
+    createOption: 'إنشاء العنصر "{0}"'
   },
   Uploader: {
-    inited: 'البدء',
+    inited: 'تم البدء',
     progress: 'جاري الرفع',
     error: 'خطأ',
     complete: 'تم الإنتهاء',
@@ -64,5 +59,3 @@ var _default = {
     upload: 'رفع'
   }
 };
-exports.default = _default;
-module.exports = exports.default;
