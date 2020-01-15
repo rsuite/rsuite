@@ -1,5 +1,6 @@
 # InputNumber
 
+Use to input number.
 
 ## Usage
 

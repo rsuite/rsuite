@@ -6,24 +6,41 @@ import { Divider, Icon, ButtonGroup, Button, IconButton, Tooltip, Whisper } from
 import { canUseDOM } from 'dom-lib';
 import { Markdown } from 'react-markdown-reader';
 
+import components from '@/utils/component.config.json';
+import { getTitle, getDescription, replaceWithPlaceholder } from '@/utils/parseHTML';
+import { getMessages } from '@/locales';
 import PageContainer from './PageContainer';
 import Head from './Head';
 import Paragraph from './Paragraph';
-import components from '../utils/component.config.json';
-import { getMessages } from '../locales';
-import { getTitle, getDescription } from '../utils/parseHTML';
 
 const babelOptions = {
   presets: ['env', 'stage-1', 'react'],
   plugins: ['transform-class-properties']
 };
 
-const CustomCodeView = ({ dependencies, ...rest }: any) => {
+const CustomCodeView = ({ dependencies, source, onLoaded, ...rest }: any) => {
+  const placeholder = (
+    <div
+      dangerouslySetInnerHTML={{
+        __html: replaceWithPlaceholder(source ?? '')
+      }}
+    />
+  );
   if (canUseDOM) {
-    const CodeView = dynamic(() => import('./CodeView'));
+    const CodeView = dynamic(
+      () =>
+        import('./CodeView').then(Component => {
+          onLoaded?.();
+          return Component;
+        }),
+      {
+        loading: () => placeholder
+      }
+    );
     return (
       <CodeView
         {...rest}
+        source={source}
         theme="dark"
         babelOptions={babelOptions}
         buttonClassName="rs-btn-subtle rs-btn-icon-circle"
@@ -31,7 +48,7 @@ const CustomCodeView = ({ dependencies, ...rest }: any) => {
       />
     );
   }
-  return null;
+  return placeholder;
 };
 
 interface TabsProps {
@@ -50,7 +67,7 @@ function Tabs(props: TabsProps) {
 
   const index = canUseDOM ? parseInt(sessionStorage.getItem(`${id}-tab-index`)) : 0;
   const [tabIndex, setTabIndex] = React.useState<number>(0 + index);
-  const { sorce } = tabExamples[tabIndex] ;
+  const { sorce: source } = tabExamples[tabIndex];
 
   return (
     <div>
@@ -62,14 +79,14 @@ function Tabs(props: TabsProps) {
             appearance={index === tabIndex ? 'primary' : 'default'}
             onClick={() => {
               setTabIndex(index);
-              sessionStorage.setItem(`${id}-tab-index`, index + '');
+              sessionStorage.setItem(`${id}-tab-index`, `${index}`);
             }}
           >
             {item.title}
           </Button>
         ))}
       </ButtonGroup>
-      <CustomCodeView key={tabIndex} source={sorce} dependencies={dependencies} />
+      <CustomCodeView key={tabIndex} source={source} dependencies={dependencies} />
     </div>
   );
 }

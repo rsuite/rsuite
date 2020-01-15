@@ -1,5 +1,7 @@
 # InputNumber 数字输入框
 
+`<InputNumber>` 数字输入框
+
 ## 获取组件
 
 ```js

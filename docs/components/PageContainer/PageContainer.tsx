@@ -2,8 +2,8 @@ import * as React from 'react';
 import classnames from 'classnames';
 import {
   NavProvider as PageProvider,
-  Nav as PageNav,
-  Content as PageContent
+  Content as PageContent,
+  Nav as PageNav
 } from '@rsuite/document-nav';
 import { on } from 'dom-lib';
 
@@ -122,6 +122,7 @@ export default function PageContainer(props: ContainerProps) {
                 </ButtonToolbar>
 
                 <PageNav
+                  once={false}
                   showOrderNumber={false}
                   width={150}
                   scrollBar="left"

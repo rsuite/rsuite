@@ -65,6 +65,7 @@ function App({ Component, pageProps }: AppProps) {
     loadTheme(themeName, newDirection);
   }, [themeName, direction]);
   const messages = getMessages(userLanguage);
+
   return (
     <Grid fluid className="app-container">
       <RSIntlProvider locale={locale} rtl={false}>
