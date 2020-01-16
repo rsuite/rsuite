@@ -26,6 +26,7 @@ import PageContainer from '@/components/PageContainer';
 import loadJsFile from '@/utils/loadJsFile';
 import SketchPicker from './SketchPicker';
 import { readThemeName } from '@/utils/themeHelpers';
+import NextHead from 'next/head';
 
 const colors = [
   '#34C3FF',
@@ -103,6 +104,9 @@ export default function Page() {
 
   return (
     <Frame>
+      <NextHead>
+        <link rel="stylesheet/less" type="text/css" href="/less/palette.less" />
+      </NextHead>
       <PageContainer hidePageNav>
         <Row>
           <Col md={24}>
