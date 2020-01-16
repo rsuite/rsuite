@@ -12,11 +12,11 @@ import {
   Checkbox,
   Dropdown
 } from 'rsuite';
-import clone from 'lodash/clone';
-import fakeData from './data/users';
-import fakeTreeData from './data/treeData';
-import fakeDataForColSpan from './data/usersForColSpan';
-import fakeLargeData from './data/fakeLargeData.json';
+
+import fakeData from '@/resources/data/userList';
+import fakeTreeData from '@/resources/data/treeData';
+import fakeDataForColSpan from '@/resources/data/usersForColSpan';
+import fakeLargeData from '@/resources/data/fakeLargeData.json';
 
 import DefaultPage from '@/components/Page';
 import AppContext from '@/components/AppContext';
@@ -51,7 +51,6 @@ export default function Page() {
     <DefaultPage
       examples={['default', 'large']}
       dependencies={{
-        _clone: clone,
         Nav,
         Checkbox,
         Toggle,

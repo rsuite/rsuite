@@ -1,6 +1,4 @@
 import { canUseDOM } from 'dom-lib';
-import { __DEBUG__ } from '../pages/_config';
-
 export type ThemeType = 'default' | 'dark';
 export type DirectionType = 'rtl' | 'ltr';
 
@@ -9,10 +7,12 @@ export const THEME_DEFAULT = 'default';
 export const DIRECTION_KEY = 'direction';
 export const DIRECTION_DEFAULT = 'ltr';
 
+const __DEV__ = process.env.NODE_ENV !== 'production';
+
 export const getThemeId = (themeName: ThemeType, direction: DirectionType) =>
   `theme-${themeName}-${direction}`;
 export const getThemeCssPath = (themeName: ThemeType, direction: DirectionType) =>
-  `${__DEBUG__ ? '//127.0.0.1:3001' : ''}/css/theme-${themeName}${
+  `${__DEV__ ? '//127.0.0.1:3001' : ''}/css/theme-${themeName}${
     direction === 'rtl' ? '.rtl' : ''
   }.css`;
 

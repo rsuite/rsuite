@@ -25,9 +25,8 @@ function ImageColor(img) {
     let third = parseInt(arr[2]).toString(16);
     third = third.length === 2 ? third : third + third;
 
-    let last = parseInt(arr.pop()) / 255;
-
-    let color = {};
+    const last = parseInt(arr.pop()) / 255;
+    const color = {};
     color['rgba'] = 'rgba(' + arr.join(',') + ',' + last.toFixed(0) + ')';
     color['#'] = '#' + first + second + third;
 

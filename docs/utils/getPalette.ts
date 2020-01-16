@@ -41,7 +41,7 @@ function calculateBrightnessAdjustValue(brightness, step) {
   if (step < 0) {
     if (brightness > 40) {
       // basicGap 向上取整，避免为0 的情况
-      let basicGap = Math.ceil((brightness - 40) / 4 / 4);
+      const basicGap = Math.ceil((brightness - 40) / 4 / 4);
       const levels = Math.abs(step);
       // 大于40 时，明度更小 ，n 为减少基数的倍数（等差增加）
       const n = ((1 + levels) * levels) / 2;

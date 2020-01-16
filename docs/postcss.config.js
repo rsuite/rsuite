@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { NODE_ENV, STYLE_DEBUG } = process.env;
-const __DEBUG__ = NODE_ENV === 'development';
 const __PRO__ = NODE_ENV === 'production';
 
 const plugins = [];

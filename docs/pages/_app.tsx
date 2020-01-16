@@ -76,7 +76,7 @@ function App({ Component, pageProps }: AppProps) {
 
   return (
     <Grid fluid className="app-container">
-      <RSIntlProvider locale={locale} rtl={false}>
+      <RSIntlProvider locale={locale} rtl={direction === 'rtl'}>
         <AppContext.Provider
           value={{
             messages,

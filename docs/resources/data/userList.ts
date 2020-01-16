@@ -52,7 +52,6 @@ export default [
     sentence: 'Nam qui perferendis ut rem vitae saepe.',
     stars: 610,
     followers: 170
-
   },
   {
     id: 4,

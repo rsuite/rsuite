@@ -19,12 +19,12 @@ import { Markdown } from 'react-markdown-reader';
 import { canUseDOM } from 'dom-lib';
 import AppContext from '@/components/AppContext';
 import Frame from '@/components/Frame';
-import getPalette from './getPalette';
-import ColorPanel from './ColorPanel';
-import ImageToColors from './ImageToColors';
+import getPalette from '@/utils/getPalette';
+import ColorPanel from '@/components/ColorPanel';
+import ImageToColors from '@/components/ImageToColors';
 import PageContainer from '@/components/PageContainer';
 import loadJsFile from '@/utils/loadJsFile';
-import SketchPicker from './SketchPicker';
+import SketchPicker from '@/components/SketchPicker';
 import { readThemeName } from '@/utils/themeHelpers';
 
 const colors = [

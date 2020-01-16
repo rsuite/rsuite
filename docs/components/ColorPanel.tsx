@@ -77,12 +77,20 @@ function Speaker() {
     <Popover title="Contrast Ratio" style={{ width: 700 }}>
       <p>
         The latest accessibility guidelines (e.g.,
-        <a href="https://www.w3.org/TR/WCAG20/#visual-audio-contrast-contrast" target="_blank">
+        <a
+          href="https://www.w3.org/TR/WCAG20/#visual-audio-contrast-contrast"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           WCAG 2.0 1.4.3)
         </a>
         require that text (and images of text) provide adequate contrast for people who have visual
         impairments. Contrast is measured using a{' '}
-        <a href="https://www.w3.org/TR/WCAG20/#contrast-ratiodef" target="_blank">
+        <a
+          href="https://www.w3.org/TR/WCAG20/#contrast-ratiodef"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           formula
         </a>
         that gives a ratio ranging from 1:1 (no contrast, e.g., black text on a black background) to

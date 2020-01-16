@@ -1,14 +1,13 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import { useRouter } from 'next/router';
-import { Button } from 'rsuite';
-import { ButtonProps } from 'rsuite/lib/Button';
+import Button, { ButtonProps } from 'rsuite/lib/Button';
 import AppContext from '../AppContext';
 
 function LanguageButton(props: ButtonProps) {
   const router = useRouter();
   const { language, onChangeLanguage } = React.useContext(AppContext);
-  const { appearance = 'subtle', className, ...rest } = props;
+  const { className, ...rest } = props;
   const en = language === 'en';
 
   const handleChangeLanguage = React.useCallback(
@@ -28,7 +27,7 @@ function LanguageButton(props: ButtonProps) {
     <Button
       {...rest}
       className={classnames('btn-switch-language', className)}
-      appearance={appearance}
+      appearance="subtle"
       onClick={handleChangeLanguage}
     >
       {en ? '中文' : 'EN'}

@@ -1,15 +1,25 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
+const webpack = require('webpack');
 const withImages = require('next-images');
+const pkg = require('../package.json');
 const findPages = require('./scripts/findPages');
 const markdownRenderer = require('./scripts/markdownRenderer');
-const languages = ['javascript', 'bash', 'xml', 'css', 'less', 'json', 'diff', 'typescript'];
 
 const resolveToStaticPath = relativePath => path.resolve(__dirname, relativePath);
 const SVG_LOGO_PATH = resolveToStaticPath('./resources/images');
+const __DEV__ = process.env.NODE_ENV !== 'production';
 
 module.exports = withImages({
   webpack(config) {
+    const plugins = config.plugins.concat([
+      new webpack.DefinePlugin({
+        'process.env': {
+          VERSION: JSON.stringify(pkg.version)
+        }
+      })
+    ]);
+
     config.module.rules.unshift({
       test: /\.svg$/,
       include: SVG_LOGO_PATH,
@@ -34,13 +44,28 @@ module.exports = withImages({
           loader: 'markdown-loader',
           options: {
             pedantic: true,
-            renderer: markdownRenderer(languages)
+            renderer: markdownRenderer([
+              'javascript',
+              'bash',
+              'xml',
+              'css',
+              'less',
+              'json',
+              'diff',
+              'typescript'
+            ])
           }
         }
       ]
     });
 
     config.resolve.alias['@'] = resolveToStaticPath('./');
+    if (__DEV__) {
+      config.resolve.alias['rsuite'] = resolveToStaticPath('../');
+    }
+
+    config.plugins = plugins;
+
     return config;
   },
   exportTrailingSlash: true,

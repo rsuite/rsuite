@@ -1,21 +1,24 @@
-### Used with `Link` in `react-router`
+### Used with `next/link`
 
 <!--start-code-->
 
 ```js
-const NavLink = props => <Dropdown.Item componentClass={Link} {...props} />;
+const MyLink = React.forwardRef((props, ref) => {
+  const { href, as, ...rest } = props;
+  return (
+    <Link href={href} as={as}>
+      <a ref={ref} {...rest} />
+    </Link>
+  );
+});
+
+const NavLink = props => <Dropdown.Item componentClass={MyLink} {...props} />;
 
 const instance = (
   <Dropdown title="Menu">
-    <NavLink href="/en/guide/introduction">
-      <a>Guide</a>
-    </NavLink>
-    <NavLink href="/en/components/overview">
-      <a>Components</a>
-    </NavLink>
-    <NavLink href="/en/tools/palette">
-      <a>Tools</a>
-    </NavLink>
+    <NavLink href="/guide/introduction">Guide</NavLink>
+    <NavLink href="/components/overview">Components</NavLink>
+    <NavLink href="/tools/palette">Tools</NavLink>
   </Dropdown>
 );
 ReactDOM.render(instance);

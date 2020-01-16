@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Input, Alert } from 'rsuite';
 import IconItem from './IconItem';
 import allIcons from './icons.json';
-import newIcons from './newIcons';
+import newIcons from './icons-new.json';
 import AppContext from '@/components/AppContext';
 
 const parseIconByCategory = (obj, conf) => {

@@ -7,8 +7,8 @@ const NavLink = props => <Breadcrumb.Item componentClass={Link} {...props} />;
 
 const instance = (
   <Breadcrumb>
-    <NavLink to="/en/">Home</NavLink>
-    <NavLink to="/en/components/overview">Components</NavLink>
+    <NavLink href="/en/">Home</NavLink>
+    <NavLink href="/en/components/overview">Components</NavLink>
     <NavLink active>Breadcrumb</NavLink>
   </Breadcrumb>
 );

@@ -52,7 +52,7 @@ class EditTable extends React.Component {
   }
   handleChange(id, key, value) {
     const { data } = this.state;
-    const nextData = _clone(data);
+    const nextData = Object.assign({}, data);
     nextData.find(item => item.id === id)[key] = value;
     this.setState({
       data: nextData
@@ -60,7 +60,7 @@ class EditTable extends React.Component {
   }
   handleEditState(id) {
     const { data } = this.state;
-    const nextData = _clone(data);
+    const nextData = Object.assign({}, data);
     const activeItem = nextData.find(item => item.id === id);
     activeItem.status = activeItem.status ? null : 'EDIT';
 
