@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { InputPicker, Button, Icon } from 'rsuite';
-import fetch from 'isomorphic-fetch';
 
 import DefaultPage from '@/components/Page';
-import data from '@/resources/data/users';
+import useFetchData from '@/utils/useFetchData';
 
 export default function Page() {
+  const { response: data } = useFetchData('users-role');
+  console.log(data);
   return (
     <DefaultPage
       examples={[
@@ -19,7 +20,7 @@ export default function Page() {
         'async',
         'controlled'
       ]}
-      dependencies={{ fetch, InputPicker, Button, Icon, data }}
+      dependencies={{ data, InputPicker, Button, Icon }}
     />
   );
 }

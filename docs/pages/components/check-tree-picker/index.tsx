@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { CheckTreePicker, Button, Icon, Toggle } from 'rsuite';
-import { getCity } from '@/resources/data';
+
 import DefaultPage from '@/components/Page';
+import useFetchData from '@/utils/useFetchData';
 
 export default function Page() {
+  const { response: data } = useFetchData('city-simplified');
   return (
     <DefaultPage
       examples={[
@@ -17,8 +19,7 @@ export default function Page() {
         'async',
         'virtualized'
       ]}
-      dependencies={{ CheckTreePicker, Button, Icon, Toggle }}
-      getDependencies={getCity}
+      dependencies={{ data, CheckTreePicker, Button, Icon, Toggle }}
     />
   );
 }

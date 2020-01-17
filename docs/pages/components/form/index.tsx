@@ -39,9 +39,8 @@ import Loadable from 'react-loadable';
 import dateFns from 'date-fns';
 
 import DefaultPage from '@/components/Page';
-import pickerData from '@/resources/data/users';
-import { getProvince } from '@/resources/data';
 import { useState } from 'react';
+import useFetchData from '@/utils/useFetchData';
 
 function MyLoader() {
   return <div>loading...</div>;
@@ -73,6 +72,8 @@ const JSONView = ({ formValue, formError }: any) => (
   </Row>
 );
 export default function Page() {
+  const { response: data } = useFetchData('province-simplified');
+  const { response: pickerData } = useFetchData('users');
   return (
     <DefaultPage
       examples={[
@@ -130,9 +131,9 @@ export default function Page() {
         useState,
         pickerData,
         Cascader,
-        MultiCascader
+        MultiCascader,
+        data
       }}
-      getDependencies={getProvince}
     />
   );
 }

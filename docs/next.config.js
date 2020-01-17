@@ -15,6 +15,7 @@ module.exports = withImages({
     const plugins = config.plugins.concat([
       new webpack.DefinePlugin({
         'process.env': {
+          __DEV__: JSON.stringify(__DEV__),
           VERSION: JSON.stringify(pkg.version)
         }
       })

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import pages from '@/utils/pages';
 import DefaultPage from '@/components/Page';
+import AppContext from '@/components/AppContext';
 import Link from 'next/link';
 
 interface ComponentType {
@@ -21,6 +22,8 @@ const Item = ({ name, isComponent }: { name: string; isComponent?: boolean }) =>
 );
 
 export default function Page() {
+  const { language } = React.useContext(AppContext);
+
   return (
     <DefaultPage>
       <div className="component-overview">
@@ -38,9 +41,11 @@ export default function Page() {
                   <Link href={`/components/${item.id}`}>
                     <a className="header">
                       {item.name}
-                      <span>
-                        <br /> ({item.title})
-                      </span>
+                      {language === 'zh' ? (
+                        <span>
+                          <br /> ({item.title})
+                        </span>
+                      ) : null}
                     </a>
                   </Link>
                   <ul className="content">

@@ -19,8 +19,10 @@ import loadCssFile from '../utils/loadCssFile';
 import StyleHead from '../components/StyleHead';
 
 Router.events.on('routeChangeStart', url => {
-  console.log(`Loading: ${url}`);
   NProgress.start();
+  if (process.env.__DEV__) {
+    console.log(`Loading: ${url}`);
+  }
 });
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());

@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { Button, Icon, Panel, PanelGroup, Table, Grid, Row, Col } from 'rsuite';
 import DefaultPage from '@/components/Page';
-import tableData from '@/resources/data/userList';
+import useFetchData from '@/utils/useFetchData';
 
 const { HeaderCell, Pagination, Cell, Column } = Table;
 
 export default function Page() {
+  const { response: tableData } = useFetchData('users');
   return (
     <DefaultPage
       examples={[

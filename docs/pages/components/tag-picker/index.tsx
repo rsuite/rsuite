@@ -3,9 +3,10 @@ import { TagPicker, Button, Icon } from 'rsuite';
 import _remove from 'lodash/remove';
 import fetch from 'isomorphic-fetch';
 import DefaultPage from '@/components/Page';
-import data from '@/resources/data/users';
+import useFetchData from '@/utils/useFetchData';
 
 export default function Page() {
+  const { response: data } = useFetchData('users-role');
   return (
     <DefaultPage
       examples={['basic', 'size', 'block', 'group', 'creatable', 'custom', 'disabled', 'async']}
