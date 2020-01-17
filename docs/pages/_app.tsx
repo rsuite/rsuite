@@ -40,6 +40,14 @@ function App({ Component, pageProps }: AppProps) {
   const [language, setLanguage] = React.useState(pageProps.userLanguage);
   const locale = language === 'en' ? enUS : zhCN;
 
+  React.useEffect(() => {
+    NProgress.start();
+  }, []);
+
+  const handleStyleHeadLoaded = React.useCallback(() => {
+    NProgress.done();
+  }, []);
+
   const loadTheme = React.useCallback((themeName: ThemeType, direction: DirectionType) => {
     const themeId = getThemeId(themeName, direction);
     NProgress.start();
@@ -88,7 +96,7 @@ function App({ Component, pageProps }: AppProps) {
             onChangeLanguage
           }}
         >
-          <StyleHead />
+          <StyleHead onLoaded={handleStyleHeadLoaded} />
           <Component {...pageProps} />
         </AppContext.Provider>
       </RSIntlProvider>

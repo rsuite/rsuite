@@ -5,7 +5,11 @@ import { useState, useEffect } from 'react';
 import GlobalLoader from './GlobalLoader';
 import loadCssFile from '../utils/loadCssFile';
 
-const StyleHead = React.memo(() => {
+interface StyleHeadProps {
+  onLoaded?: () => void;
+}
+
+const StyleHead = React.memo((props: StyleHeadProps) => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const [defaultThemeName, defaultDirection] = readTheme();
@@ -16,6 +20,7 @@ const StyleHead = React.memo(() => {
       getThemeId(defaultThemeName, defaultDirection)
     ).then(() => {
       setLoading(false);
+      props.onLoaded?.();
     });
   }, [canUseDOM]);
   return <>{loading && <GlobalLoader />}</>;

@@ -18,6 +18,9 @@ export default function GlobalLoader() {
         body {
           overflow: hidden;
         }
+        #nprogress .bar{
+          z-index: 10001
+        }
       `}</style>
       <style jsx>{`
         .sk-cube-grid::before {
