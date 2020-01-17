@@ -7,14 +7,14 @@ interface ErrorProps {
 }
 
 function Error({ statusCode = 404 }: ErrorProps) {
-  const { messages } = React.useContext(AppContext);
+  const { language, messages } = React.useContext(AppContext);
   return (
     <>
       <div className="error-wrapper">
         <img alt="404" src="/images/error-404.svg" />
         <h2>{`${messages?.common.notFount}（${statusCode}）`}</h2>
         <div className="nav-help">
-          <Link href={messages?.id === 'en-US' ? '/en/' : '/'}>
+          <Link href={language === 'en' ? '/en/' : '/'}>
             <a>{messages?.common.goHomePage}</a>
           </Link>
         </div>

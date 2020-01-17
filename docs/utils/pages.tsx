@@ -4,9 +4,11 @@ import IconComponent from '../components/icons/Component';
 import IconTools from '../components/icons/Tools';
 import IconExtension from '../components/icons/Extension';
 import components from './component.config.json';
-import { getMessages } from '../locales';
+import AppContext from '@/components/AppContext';
 
-export const getPages = messages => {
+export default function getPages() {
+  const { messages } = React.useContext(AppContext);
+
   return [
     {
       id: 'guide',
@@ -103,6 +105,4 @@ export const getPages = messages => {
       name: messages?.common?.extension
     }
   ];
-};
-
-export default getPages(getMessages());
+}

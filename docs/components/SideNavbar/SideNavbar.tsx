@@ -4,19 +4,19 @@ import { useRouter } from 'next/router';
 import { Sidebar, Nav, Icon } from 'rsuite';
 import Link from '@/components/Link';
 import AppContext from '../AppContext';
-import { getPages } from '@/utils/pages';
+import getPages from '@/utils/pages';
 
 interface SideNavbarProps {
   style: React.CSSProperties;
 }
 
-function SideNavbar(props: SideNavbarProps) {
+export default React.memo(function SideNavbar(props: SideNavbarProps) {
   const router = useRouter();
   const activeKey = router.pathname.split('/')?.[1];
-  const { messages } = React.useContext(AppContext);
+  const { language } = React.useContext(AppContext);
 
   const navItems = [];
-  const menuList = getPages(messages);
+  const menuList = getPages();
   const data = menuList.find(item => item.id === activeKey);
 
   const { name: activeTitle, icon, children = [] } = data;
@@ -36,9 +36,7 @@ function SideNavbar(props: SideNavbarProps) {
       }
 
       const title =
-        messages?.id === 'en-US' || !child.title ? null : (
-          <span className="title-zh">{child.title}</span>
-        );
+        language === 'en' || !child.title ? null : <span className="title-zh">{child.title}</span>;
 
       if (child.target === '_blank' && child.url) {
         navItems.push(
@@ -72,6 +70,4 @@ function SideNavbar(props: SideNavbarProps) {
       </div>
     </>
   );
-}
-
-export default SideNavbar;
+});

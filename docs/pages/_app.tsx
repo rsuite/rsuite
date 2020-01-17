@@ -90,9 +90,9 @@ function App({ Component, pageProps }: AppProps) {
         <AppContext.Provider
           value={{
             messages,
-            localePath: messages?.id === 'en-US' ? '/en' : '',
-            theme: [themeName, direction],
             language,
+            localePath: language === 'en' ? '/en' : '',
+            theme: [themeName, direction],
             onChangeDirection,
             onChangeTheme,
             onChangeLanguage
