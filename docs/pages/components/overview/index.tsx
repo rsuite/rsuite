@@ -1,5 +1,5 @@
 import * as React from 'react';
-import pages from '@/utils/pages';
+import getPages from '@/utils/pages';
 import DefaultPage from '@/components/Page';
 import AppContext from '@/components/AppContext';
 import Link from 'next/link';
@@ -13,8 +13,6 @@ interface ComponentType {
   apis?: string[];
 }
 
-const components = (pages[1]?.children as ComponentType[]).filter(item => item.id !== 'overview');
-
 const Item = ({ name, isComponent }: { name: string; isComponent?: boolean }) => (
   <li>
     <span className="name">{isComponent ? `<${name}>` : name}</span>
@@ -23,6 +21,10 @@ const Item = ({ name, isComponent }: { name: string; isComponent?: boolean }) =>
 
 export default function Page() {
   const { language } = React.useContext(AppContext);
+
+  const components = (getPages()?.[1]?.children as ComponentType[]).filter(
+    item => item.id !== 'overview'
+  );
 
   return (
     <DefaultPage>
