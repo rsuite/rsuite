@@ -172,7 +172,7 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
     };
 
     const data = this.getData();
-    const focusItem: any = data.find(item => item?.item === focusItemValue);
+    const focusItem: any = data.find(item => item?.value === focusItemValue);
 
     this.setState(nextState);
     this.handleSelect(focusItem, event);
