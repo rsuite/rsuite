@@ -36,10 +36,10 @@ function ButtonWithTooltip({
 }: ButtonWithTooltipProps) {
   const btn = (
     <Button
+      {...props}
       size="lg"
       className={classNames('icon-btn-circle', className)}
       componentClass={componentClass}
-      {...props}
     >
       {children}
     </Button>
