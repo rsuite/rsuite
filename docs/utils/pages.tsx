@@ -1,10 +1,8 @@
 import * as React from 'react';
-import IconGuide from '../components/icons/Guide';
-import IconComponent from '../components/icons/Component';
-import IconTools from '../components/icons/Tools';
-import IconExtension from '../components/icons/Extension';
+import { Icon } from 'rsuite';
 import components from './component.config.json';
 import AppContext from '@/components/AppContext';
+import * as SvgIcons from '@/components/SvgIcons';
 
 export default function getPages() {
   const { messages } = React.useContext(AppContext);
@@ -13,7 +11,7 @@ export default function getPages() {
     {
       id: 'guide',
       name: messages?.common?.guide,
-      icon: <IconGuide />,
+      icon: <Icon icon={SvgIcons.Guide} size="lg" />,
       children: [
         {
           id: 'introduction',
@@ -81,13 +79,13 @@ export default function getPages() {
     {
       id: 'components',
       name: messages?.common?.components,
-      icon: <IconComponent />,
+      icon: <Icon icon={SvgIcons.Component} size="lg" />,
       children: components
     },
     {
       id: 'tools',
       name: messages?.common?.tools,
-      icon: <IconTools />,
+      icon: <Icon icon={SvgIcons.Tools} size="lg" />,
       children: [
         {
           id: 'palette',
@@ -101,7 +99,7 @@ export default function getPages() {
     },
     {
       id: 'extensions',
-      icon: <IconExtension />,
+      icon: <Icon icon={SvgIcons.Extension} size="lg" />,
       name: messages?.common?.extension
     }
   ];

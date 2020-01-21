@@ -40,6 +40,17 @@ function HomePage() {
                 </a>
                 <a
                   style={{ marginLeft: 10 }}
+                  href="https://gitee.com/rsuite/rsuite/stargazers"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    src="https://gitee.com/rsuite/rsuite/badge/star.svg?theme=gvp"
+                    alt="star"
+                  ></img>
+                </a>
+                <a
+                  style={{ marginLeft: 10 }}
                   href="https://github.com/rsuite/rsuite"
                   target="_blank"
                   rel="noopener noreferrer"

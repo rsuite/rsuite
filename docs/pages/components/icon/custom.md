@@ -14,10 +14,10 @@
 const instance = (
   <div className="icon-example-list">
     <Icon icon={IconLogo} size="lg" />
-    <Icon icon={SvgIcons.guide} size="lg" />
-    <Icon icon={SvgIcons.component} size="lg" />
-    <Icon icon={SvgIcons.tools} size="lg" />
-    <Icon icon={SvgIcons.search} size="lg" />
+    <Icon icon={SvgIcons.Guide} size="lg" />
+    <Icon icon={SvgIcons.Component} size="lg" />
+    <Icon icon={SvgIcons.Tools} size="lg" />
+    <Icon icon={SvgIcons.Search} size="lg" />
   </div>
 );
 ReactDOM.render(instance);

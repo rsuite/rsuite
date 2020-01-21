@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Avatar, Icon, Badge } from 'rsuite';
 import DefaultPage from '@/components/Page';
-import AvatarUser from '@/components/icons/AvatarUser';
+import { Avatar as AvatarUser } from '@/components/SvgIcons';
 
 export default function Page() {
   return (

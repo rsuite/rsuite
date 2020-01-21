@@ -20,13 +20,13 @@ const instance = (
 
     <ButtonToolbar>
       <IconButton size="lg" icon={<Icon icon="star" />} />
-      <IconButton size="lg" icon={<Icon icon={SvgIcons.search} />} />
+      <IconButton size="lg" icon={<Icon icon={SvgIcons.Search} />} />
       <IconButton size="md" icon={<Icon icon="star" />} />
-      <IconButton size="md" icon={<Icon icon={SvgIcons.search} />} />
+      <IconButton size="md" icon={<Icon icon={SvgIcons.Search} />} />
       <IconButton size="sm" icon={<Icon icon="star" />} />
-      <IconButton size="sm" icon={<Icon icon={SvgIcons.search} />} />
+      <IconButton size="sm" icon={<Icon icon={SvgIcons.Search} />} />
       <IconButton size="xs" icon={<Icon icon="star" />} />
-      <IconButton size="xs" icon={<Icon icon={SvgIcons.search} />} />
+      <IconButton size="xs" icon={<Icon icon={SvgIcons.Search} />} />
     </ButtonToolbar>
 
     <ButtonToolbar>

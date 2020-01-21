@@ -100,7 +100,6 @@ export interface PageContentProps {
 }
 
 const PageContent = ({
-  id,
   category = 'components',
   examples = [],
   getDependencies,
@@ -111,7 +110,8 @@ const PageContent = ({
   const { messages, language, localePath } = React.useContext(AppContext);
   const router = useRouter();
 
-  const pathname = id ? `/${category}/${id}` : router.pathname;
+  const pathname = router.pathname;
+  const id = router.pathname.match(new RegExp(`\/${category}\/(\\S*)`))?.[1];
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const context = require(`../pages${pathname}${localePath}/index.md`);

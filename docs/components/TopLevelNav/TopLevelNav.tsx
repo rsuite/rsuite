@@ -3,18 +3,7 @@ import { Icon, Whisper, Tooltip, Button } from 'rsuite';
 import classNames from 'classnames';
 import { isMobile } from 'react-device-detect';
 import Logo from '../Logo';
-import IconSearch from '../icons/Search';
-import IconGuide from '../icons/Guide';
-import IconGitee from '../icons/Gitee';
-import IconComponent from '../icons/Component';
-import IconTools from '../icons/Tools';
-import IconExtension from '../icons/Extension';
-import IconDesign from '../icons/Design';
-import IconLightOff from '../icons/LightOff';
-import IconLightOn from '../icons/LightOn';
-import IconRtl from '../icons/Rtl';
-import IconLtr from '../icons/Ltr';
-
+import * as SvgIcons from '@/components/SvgIcons';
 import SearchDrawer from '../SearchDrawer';
 import AppContext from '../AppContext';
 import Link from '@/components/Link';
@@ -57,7 +46,7 @@ function ButtonWithTooltip({
 function SearchButton({ tip, ...rest }: any) {
   return (
     <ButtonWithTooltip tip={tip} {...rest}>
-      <IconSearch />
+      <Icon icon={SvgIcons.Search} size="lg" />
     </ButtonWithTooltip>
   );
 }
@@ -75,26 +64,26 @@ function getNavItems(messages) {
       key: 'guide',
       tip: messages?.common?.guide,
       to: '/guide/introduction',
-      icon: <IconGuide />
+      icon: <Icon icon={SvgIcons.Guide} size="lg" />
     },
     {
       key: 'components',
       tip: messages?.common?.components,
       to: '/components/overview',
-      icon: <IconComponent />
+      icon: <Icon icon={SvgIcons.Component} size="lg" />
     },
 
     {
       key: 'tools',
       tip: messages?.common?.tools,
       to: '/tools/palette',
-      icon: <IconTools />
+      icon: <Icon icon={SvgIcons.Tools} size="lg" />
     },
     {
       key: 'extensions',
       tip: messages?.common?.extension,
       to: '/extensions',
-      icon: <IconExtension />
+      icon: <Icon icon={SvgIcons.Extension} size="lg" />
     }
   ];
 }
@@ -146,7 +135,7 @@ export default function TopLevelNav(props: TopLevelNavProps) {
           target="_blank"
           href="/design/default/index.html"
         >
-          <IconDesign />
+          <Icon icon={SvgIcons.Design} size="lg" />
         </ButtonWithTooltip>
         <SearchButton
           className="hidden-xs"
@@ -158,11 +147,11 @@ export default function TopLevelNav(props: TopLevelNavProps) {
       </div>
       <div className="top-level-nav-footer">
         <ButtonWithTooltip tip="Toggle light/dark theme" onClick={onChangeTheme}>
-          {themeName === 'dark' ? <IconLightOff /> : <IconLightOn />}
+          <Icon icon={themeName === 'dark' ? SvgIcons.LightOff : SvgIcons.LightOn} size="lg" />
         </ButtonWithTooltip>
 
         <ButtonWithTooltip tip="Toggle RTL/LTR" onClick={onChangeDirection}>
-          {direction === 'rtl' ? <IconRtl /> : <IconLtr />}
+          <Icon icon={direction === 'rtl' ? SvgIcons.Rtl : SvgIcons.Ltr} size="lg" />
         </ButtonWithTooltip>
 
         <ButtonWithTooltip tip="GitHub" href="https://github.com/rsuite/rsuite" target="_blank">
@@ -170,7 +159,7 @@ export default function TopLevelNav(props: TopLevelNavProps) {
         </ButtonWithTooltip>
 
         <ButtonWithTooltip tip="码云" href="https://gitee.com/rsuite/rsuite" target="_blank">
-          <IconGitee />
+          <Icon icon={SvgIcons.Gitee} size="lg" />
         </ButtonWithTooltip>
 
         {hideToggle ? null : (
