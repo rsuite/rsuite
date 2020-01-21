@@ -45,4 +45,3 @@ es/
 .idea
 karma.sauce.conf.js
 dev-publish.sh
-dist
