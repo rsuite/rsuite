@@ -1,10 +1,6 @@
 import * as React from 'react';
 import classnames from 'classnames';
-import {
-  NavProvider as PageProvider,
-  Content as PageContent,
-  Nav as PageNav
-} from '@rsuite/document-nav';
+import { Content as PageContent, Nav as PageNav } from '@rsuite/document-nav';
 import { on } from 'dom-lib';
 
 import { Row, Col, IconButton, Icon, ButtonToolbar, Tooltip, Whisper } from 'rsuite';
@@ -48,7 +44,7 @@ export default function PageContainer(props: ContainerProps) {
   const rtl = direction === 'rtl';
 
   return (
-    <PageProvider>
+    <>
       <Row {...rest} className={classnames({ ['hide-page-nav']: !openPageNav })}>
         <Col md={24} xs={24} sm={24} className="main-container">
           <PageContent>{children}</PageContent>
@@ -124,6 +120,6 @@ export default function PageContainer(props: ContainerProps) {
         }}
         show={openTypesDrawer}
       />
-    </PageProvider>
+    </>
   );
 }
