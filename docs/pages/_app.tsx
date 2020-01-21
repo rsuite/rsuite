@@ -24,7 +24,10 @@ Router.events.on('routeChangeStart', url => {
     console.log(`Loading: ${url}`);
   }
 });
-Router.events.on('routeChangeComplete', () => NProgress.done());
+Router.events.on('routeChangeComplete', () => {
+  NProgress.done();
+  window['_ha']?.('send', 'pageview');
+});
 Router.events.on('routeChangeError', () => NProgress.done());
 
 interface AppProps {
