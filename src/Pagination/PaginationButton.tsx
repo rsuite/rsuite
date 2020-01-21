@@ -54,6 +54,7 @@ class PaginationButton extends React.Component<PaginationButtonProps> {
     const item = (
       <Component
         {...unhandled}
+        active={active}
         disabled={disabled}
         onClick={createChainedFunction(onClick, this.handleClick)}
       >
