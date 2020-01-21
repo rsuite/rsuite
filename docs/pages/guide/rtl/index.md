@@ -4,44 +4,34 @@
 
 ## 使用步骤
 
-### 1.HTML
+### 1.HTML 设置
 
 确保在 body 上设置了 dir 属性：
 
 ```html
-<body dir="rtl"></body>
+<html dir="rtl"></html>
 ```
 
-## 2.IntlProvider
+### 2.配置 IntlProvider
 
 在 IntlProvider 组件上设置 rtl 属性，配置所有组件支持 RTL。
 
 ```jsx
-ReactDOM.render(
-  <IntlProvider rtl>
-    <App />
-  </IntlProvider>,
-  document.getElementById('root')
-);
+function RTL(props) {
+  return <IntlProvider rtl>{props.children}</IntlProvider>;
+}
 ```
 
-## 3.postcss-rtl
+### 3.引入 RTL 样式文件
 
-您需要这个通过 `postcss-rtl`插件来翻转样式。
+- 使用已编译的 RTL 版本的 CSS 文件
 
-```
-npm i postcss
-npm i postcss-rtl
-```
-
-配置 `postcss.config.js`
-
-```js
-module.exports = {
-  plugins: function() {
-    return [require('postcss-rtl')(options)];
-  }
-};
+```less
+@import '~rsuite/dist/styles/rsuite-default.rtl.css'; //or ~rsuite/dist/styles/rsuite-dark.rtl.css
 ```
 
-关于 `postcss-rtl` 详细的使用说明，请前往[插件 README](https://github.com/vkalinichev/postcss-rtl)
+- 如果使用 Less 版本，则通过 [rtlcss](https://rtlcss.com/) 处理最终成 CSS
+
+```less
+@import '~rsuite/lib/styles/themes/default/index.less'; // or ~rsuite/lib/styles/themes/dark/index.less
+```
