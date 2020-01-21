@@ -50,21 +50,19 @@ const CustomCodeView = ({ dependencies, source, onLoaded, ...rest }: any) => {
 };
 
 interface TabsProps {
-  id: string;
   title: string;
   tabExamples: any[];
   dependencies: any;
 }
 
 function Tabs(props: TabsProps) {
-  const { tabExamples, id, title, dependencies } = props;
+  const { tabExamples, title, dependencies } = props;
 
   if (!tabExamples?.length) {
     return null;
   }
 
-  const index = canUseDOM ? parseInt(sessionStorage.getItem(`${id}-tab-index`)) : 0;
-  const [tabIndex, setTabIndex] = React.useState<number>(0 + index);
+  const [tabIndex, setTabIndex] = React.useState<number>(0);
   const activeExample = tabExamples[tabIndex];
 
   return (
@@ -77,7 +75,6 @@ function Tabs(props: TabsProps) {
             appearance={index === tabIndex ? 'primary' : 'default'}
             onClick={() => {
               setTabIndex(index);
-              sessionStorage.setItem(`${id}-tab-index`, `${index}`);
             }}
           >
             {item.title}
@@ -94,7 +91,6 @@ export interface PageContentProps {
   category?: string;
   examples?: string[];
   dependencies?: any;
-  getDependencies?: any;
   tabExamples?: any[];
   children?: React.ReactNode;
 }
@@ -102,12 +98,11 @@ export interface PageContentProps {
 const PageContent = ({
   category = 'components',
   examples = [],
-  getDependencies,
   dependencies,
   tabExamples,
   children
 }: PageContentProps) => {
-  const { messages, language, localePath } = React.useContext(AppContext);
+  const { messages, localePath } = React.useContext(AppContext);
   const router = useRouter();
 
   const pathname = router.pathname;
@@ -133,12 +128,6 @@ const PageContent = ({
     source: require(`../pages${pathname}${localePath}/${item}.md`),
     path: `https://github.com/rsuite/rsuite/tree/master/docs/pages${pathname}${localePath}/${item}.md`
   }));
-
-  const extraDependencies = getDependencies ? getDependencies(language) : null;
-
-  if (extraDependencies) {
-    dependencies = Object.assign(dependencies, extraDependencies);
-  }
 
   const component = components.find(item => item.id === id || item.name === id);
   const designHash = component?.designHash;
@@ -179,7 +168,6 @@ const PageContent = ({
         />
       ))}
       <Tabs
-        id={id}
         title={messages?.common?.advanced}
         tabExamples={tabExamples}
         dependencies={dependencies}
