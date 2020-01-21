@@ -107,6 +107,8 @@ export default function PageContainer(props: ContainerProps) {
             width={150}
             scrollBar="left"
             rtl={rtl}
+            once={false}
+            deep={4}
             offset={{
               top: 80,
               [rtl ? 'left' : 'right']: 10
