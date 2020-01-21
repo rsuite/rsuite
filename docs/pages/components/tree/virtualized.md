@@ -5,7 +5,7 @@
 ```js
 /**
  * import data from
- * https://github.com/rsuite/rsuite.github.io/blob/master/src/resources/data/city-simplified.ts
+ * https://github.com/rsuite/rsuite/blob/master/docs/public/data/city-simplified.json
  */
 
 const instance = <Tree data={data} virtualized height={200} defaultExpandAll />;

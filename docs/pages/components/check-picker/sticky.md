@@ -7,7 +7,7 @@
 ```js
 /**
  * import data from
- * https://github.com/rsuite/rsuite.github.io/blob/master/src/resources/data/users.js
+ * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users.json
  */
 
 const instance = (

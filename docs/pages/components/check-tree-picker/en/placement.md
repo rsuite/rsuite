@@ -5,7 +5,7 @@
 ```js
 /**
  * import data from
- * https://github.com/rsuite/rsuite.github.io/blob/master/src/resources/data/en/city-simplified.ts
+ * https://github.com/rsuite/rsuite/blob/master/docs/public/data/en/city-simplified.json
  */
 
 const CustomTreePicker = ({ placement, ...rest }) => (

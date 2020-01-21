@@ -7,7 +7,7 @@ Positioned popover components in scrolling container
 ```js
 /**
  *  PreventOverflowContainer from
- *  https://github.com/rsuite/rsuite.github.io/blob/master/src/components/PreventOverflowContainer.js
+ *  https://github.com/rsuite/rsuite/blob/master/docs/components/PreventOverflowContainer.tsx
  */
 
 const speaker = (
