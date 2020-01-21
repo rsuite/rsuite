@@ -47,4 +47,3 @@ karma.sauce.conf.js
 dev-publish.sh
 dist
 yarn.lock
-.npmrc
