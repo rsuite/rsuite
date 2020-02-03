@@ -59,4 +59,9 @@ describe('Uploader', () => {
     const instance = getDOMNode(<Uploader action="" classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
+
+  it('Should have dragable className', () => {
+    const instance = getDOMNode(<Uploader action="" dragable />);
+    assert.include(instance.className, 'rs-uploader-dragable');
+  });
 });

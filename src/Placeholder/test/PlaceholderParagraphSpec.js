@@ -57,6 +57,15 @@ describe('PlaceholderParagraph', () => {
     );
   });
 
+  it('Should render image graph', () => {
+    const instance = getDOMNode(<PlaceholderParagraph graph="image" />);
+
+    assert.include(
+      Array.from(instance.firstElementChild.classList),
+      'rs-placeholder-paragraph-graph-image'
+    );
+  });
+
   it('Should has animation', () => {
     const instance = getDOMNode(<PlaceholderParagraph active />);
 

@@ -57,6 +57,7 @@
 
 //** Placeholder
 @placeholder-holder-bg: @B100;
+@placeholder-image-color: @B000;
 
 //** Calendar
 @calendar-default-caret-content: @icon-calendar;
@@ -450,7 +451,7 @@
 @toggle-sm-min-width: 26px;
 @toggle-sm-handle-gap: 2px;
 @toggle-sm-inner-margin: 6px;
-@toggle-sm-inner-font-size: @font-size-small;
+@toggle-sm-inner-font-size: @font-size-small - 2;
 
 //# Large size
 @toggle-lg-height: 30px;
@@ -476,6 +477,7 @@
 @zindex-picker-input: @zindex-picker-toggle + 1; // Greater than picker toggle
 @zindex-picker-menu: @zindex-picker-toggle+2; // Greater than picker toggle and input
 @zindex-dropdown-a: 10;
+@zindex-list-helper: 99;
 @zindex-navbar: 1000;
 @zindex-navbar-fixed: 1030;
 @zindex-modal: 1050;
@@ -516,6 +518,7 @@
 @screen-lg-desktop: 1200px;
 
 // So media queries don't overlap when required, provide a maximum
+@screen-phone-min: (@screen-phone - 1);
 @screen-phone-max: (@screen-desktop - 1);
 @screen-desktop-max: (@screen-lg-desktop - 1);
 
@@ -1013,6 +1016,9 @@
 @uploader-file-item-retry-icon-color: @B800;
 @uploader-picture-item-background: rgba(255, 255, 255, 0.8);
 @uploader-picture-item-btn-remove-background: @uploader-picture-item-background;
+@uploader-drag-and-drop-background-color: @B000;
+@uploader-drag-and-drop-border-color: @B200;
+@uploader-drag-and-drop-border-hover-color: @H500;
 
 //== Panels
 //
@@ -1170,7 +1176,9 @@
 @calendar-table-cell-content-selected-color: @H500;
 @calendar-table-cell-content-disabled-color: @B400;
 /* stylelint-disable-next-line */ // calcFontColor is hack function
-@calendar-table-cell-content-selected-font-color: color(~`calcFontColor('@{calendar-table-cell-content-selected-color}') `);
+@calendar-table-cell-content-selected-font-color: color(
+  ~`calcFontColor('@{calendar-table-cell-content-selected-color}') `
+);
 @calendar-table-cell-header-color: @B600;
 @calendar-table-cell-week-number-color: @B600;
 @calendar-table-cell-week-number-bg: @B050;

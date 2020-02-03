@@ -6,16 +6,18 @@ import compose from 'recompose/compose';
 import { withStyleProps, defaultProps, prefix } from '../utils';
 import { ModalDialogProps } from './ModalDialog.d';
 
+export const modalDialogPropTypes = {
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  dialogClassName: PropTypes.string,
+  style: PropTypes.object,
+  dialogStyle: PropTypes.object,
+  children: PropTypes.node,
+  dialogRef: PropTypes.object
+};
+
 class ModalDialog extends React.Component<ModalDialogProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    dialogClassName: PropTypes.string,
-    style: PropTypes.object,
-    dialogStyle: PropTypes.object,
-    children: PropTypes.node,
-    dialogRef: PropTypes.object
-  };
+  static propTypes = modalDialogPropTypes;
   render() {
     const {
       style,

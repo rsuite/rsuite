@@ -34,30 +34,31 @@ interface DropdownMenuState {
   foldedGroupKeys: string[];
 }
 
+export const dropdownMenuPropTypes = {
+  classPrefix: PropTypes.string,
+  className: PropTypes.string,
+  dropdownMenuItemComponentClass: PropTypes.elementType,
+  dropdownMenuItemClassPrefix: PropTypes.string,
+  data: PropTypes.array,
+  group: PropTypes.bool,
+  disabledItemValues: PropTypes.array,
+  activeItemValues: PropTypes.array,
+  focusItemValue: PropTypes.any,
+  maxHeight: PropTypes.number,
+  valueKey: PropTypes.string,
+  labelKey: PropTypes.string,
+  style: PropTypes.object,
+  renderMenuItem: PropTypes.func,
+  renderMenuGroup: PropTypes.func,
+  onSelect: PropTypes.func,
+  onGroupTitleClick: PropTypes.func,
+  virtualized: PropTypes.bool
+};
+
 const ROW_HEIGHT = 36;
 
 class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    className: PropTypes.string,
-    dropdownMenuItemComponentClass: PropTypes.elementType,
-    dropdownMenuItemClassPrefix: PropTypes.string,
-    data: PropTypes.array,
-    group: PropTypes.bool,
-    disabledItemValues: PropTypes.array,
-    activeItemValues: PropTypes.array,
-    focusItemValue: PropTypes.any,
-    maxHeight: PropTypes.number,
-    valueKey: PropTypes.string,
-    labelKey: PropTypes.string,
-    style: PropTypes.object,
-    renderMenuItem: PropTypes.func,
-    renderMenuGroup: PropTypes.func,
-    onSelect: PropTypes.func,
-    onGroupTitleClick: PropTypes.func,
-    virtualized: PropTypes.bool
-  };
-
+  static propTypes = dropdownMenuPropTypes;
   static defaultProps = {
     data: [],
     activeItemValues: [],
@@ -251,7 +252,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState>
   }
 
   render() {
-    const { maxHeight, className, style, group, data, ...rest } = this.props;
+    const { maxHeight, className, style, group, ...rest } = this.props;
     const classes = classNames(className, this.addPrefix('items'), {
       grouped: group
     });

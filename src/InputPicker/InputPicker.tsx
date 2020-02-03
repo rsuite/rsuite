@@ -22,7 +22,6 @@ import {
 } from '../utils';
 
 import {
-  DropdownMenu,
   DropdownMenuItem,
   DropdownMenuCheckItem,
   getToggleWrapperClassName,
@@ -31,7 +30,7 @@ import {
   MenuWrapper,
   PickerToggleTrigger
 } from '../Picker';
-
+import DropdownMenu, { dropdownMenuPropTypes } from '../Picker/DropdownMenu';
 import InputAutosize from './InputAutosize';
 import InputSearch from './InputSearch';
 import Tag from '../Tag';
@@ -628,7 +627,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
 
     const menuProps = _.pick(
       this.props,
-      Object.keys(_.omit(DropdownMenu.propTypes, ['className', 'style', 'classPrefix']))
+      Object.keys(_.omit(dropdownMenuPropTypes, ['className', 'style', 'classPrefix']))
     );
 
     const value = this.getValue();

@@ -6,7 +6,7 @@ import _ from 'lodash';
 import { shallowEqualArray } from 'rsuite-utils/lib/utils';
 import { polyfill } from 'react-lifecycles-compat';
 
-import DropdownMenu from './DropdownMenu';
+import DropdownMenu, { dropdownMenuPropTypes } from './DropdownMenu';
 import Checkbox from '../Checkbox';
 import createUtils, { UtilType } from './utils';
 import { flattenTree, getNodeParents } from '../utils/treeUtils';
@@ -72,7 +72,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
     countable: PropTypes.bool,
     placement: PropTypes.oneOf(PLACEMENT),
     menuWidth: PropTypes.number,
-    menuHeight: PropTypes.number,
+    menuHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     style: PropTypes.object,
     uncheckableItemValues: PropTypes.array,
     searchable: PropTypes.bool,
@@ -467,7 +467,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
       }
     );
 
-    const menuProps = _.pick(this.props, Object.keys(DropdownMenu.propTypes));
+    const menuProps = _.pick(this.props, Object.keys(dropdownMenuPropTypes));
 
     return (
       <MenuWrapper className={classes} style={menuStyle}>

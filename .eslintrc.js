@@ -24,6 +24,7 @@ module.exports = {
     'no-multi-spaces': ERROR,
     'class-methods-use-this': WARNING,
     'arrow-parens': [ERROR, 'as-needed'],
+    '@typescript-eslint/no-unused-vars': ERROR,
     '@typescript-eslint/no-explicit-any': OFF,
     '@typescript-eslint/explicit-function-return-type': OFF,
     '@typescript-eslint/explicit-member-accessibility': OFF
