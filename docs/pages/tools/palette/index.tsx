@@ -1,7 +1,5 @@
 import * as React from 'react';
 import {
-  Row,
-  Col,
   ButtonToolbar,
   Button,
   CheckboxGroup,
@@ -15,10 +13,7 @@ import {
   Loader
 } from 'rsuite';
 import Loadable from 'react-loadable';
-import { Markdown } from 'react-markdown-reader';
 import { canUseDOM } from 'dom-lib';
-import AppContext from '@/components/AppContext';
-import Frame from '@/components/Frame';
 import getPalette from '@/utils/getPalette';
 import ColorPanel from '@/components/ColorPanel';
 import ImageToColors from '@/components/ImageToColors';
@@ -27,6 +22,7 @@ import loadJsFile from '@/utils/loadJsFile';
 import SketchPicker from '@/components/SketchPicker';
 import { readThemeName } from '@/utils/themeHelpers';
 import NextHead from 'next/head';
+import DefaultPage from '@/components/Page';
 
 const colors = [
   '#34C3FF',
@@ -36,14 +32,12 @@ const colors = [
   '#1361AA',
   '#3F51B5',
   '#2487C2',
-
   '#FFEB3B',
   '#F5A623',
   '#F44336',
   '#e54304',
   '#e91e63',
   '#9c27b0',
-
   '#429321',
   '#4A148C',
   '#673AB7',
@@ -100,20 +94,12 @@ export default function Page() {
     }
   }
 
-  const { localePath } = React.useContext(AppContext);
-
   return (
-    <Frame>
+    <DefaultPage>
       <NextHead>
         <link rel="stylesheet/less" type="text/css" href="/less/palette.less" />
       </NextHead>
       <PageContainer hidePageNav>
-        <Row>
-          <Col md={24}>
-            <Markdown>{require(`.${localePath}/index.md`)}</Markdown>
-          </Col>
-        </Row>
-
         <div className="row-split">
           <div className="col-side">
             <div className="circle-picker-wrapper">
@@ -162,6 +148,6 @@ export default function Page() {
           }}
         />
       </PageContainer>
-    </Frame>
+    </DefaultPage>
   );
 }
