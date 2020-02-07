@@ -26,9 +26,9 @@ import { DateRangePicker } from 'rsuite';
 | block                | boolean                                                                                                                                                                                     | 堵塞整行                                                        |
 | cleanable            | boolean `(true)`                                                                                                                                                                            | 可以清除选择值                                                  |
 | container            | HTMLElement or (() => HTMLElement)                                                                                                                                                          | 设置渲染的容器                                                  |
+| defaultCalendarValue | Array&lt;Date&gt;                                                                                                                                                                           | 默认日历面板日期                                                |
 | defaultOpen          | boolean                                                                                                                                                                                     | 默认打开                                                        |
 | defaultValue         | Array&lt;Date&gt;                                                                                                                                                                           | 默认值                                                          |
-| defaultCalendarValue | Array&lt;Date&gt;                                                                                                                                                                           | 默认日历面板日期                                                |
 | disabled             | boolean                                                                                                                                                                                     | 禁用组件                                                        |
 | disabledDate         | (<br/>&nbsp;date: Date,<br/> &nbsp;selectDate: Array&lt;Date&gt;,<br/> &nbsp;selectedDone: boolean, <br/> &nbsp;target: 'CALENDAR', 'TOOLBAR_BUTTON_OK', 'TOOLBAR_SHORTCUT' <br/>)=>boolean | 禁用日期                                                        |
 | hoverRange           | unions: 'week', 'month' or (date: Date)=> Array&lt;Date&gt;                                                                                                                                 | 点击日期时将选中的日期范围                                      |
@@ -48,6 +48,7 @@ import { DateRangePicker } from 'rsuite';
 | placement            | enum: [Placement](#types) `('bottomStart')`                                                                                                                                                 | 显示位置                                                        |
 | preventOverflow      | boolean                                                                                                                                                                                     | 防止浮动元素溢出                                                |
 | ranges               | Array<[Range](#types)> [`(Ranges)`](#Ranges)                                                                                                                                                | 快捷项配置，默认 `今天`,`昨天`，`最近 7 天`                     |
+| renderValue          | (value: ValueType, format: string) => React.ReactNode                                                                                                                                       | 自定义被选中的选项                                              |
 | showWeekNumbers      | boolean                                                                                                                                                                                     | 显示周数量                                                      |
 | size                 | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                                                                                                                                       | 设置组件尺寸                                                    |
 | toggleComponentClass | React.ElementType `('a')`                                                                                                                                                                   | 为组件自定义元素类型                                            |
@@ -93,10 +94,7 @@ const Ranges = [
   },
   {
     label: 'last7Days',
-    value: [
-      dateFns.startOfDay(dateFns.subDays(new Date(), 6)),
-      dateFns.endOfDay(new Date())
-    ]
+    value: [dateFns.startOfDay(dateFns.subDays(new Date(), 6)), dateFns.endOfDay(new Date())]
   }
 ];
 ```

@@ -26,9 +26,9 @@ import { DateRangePicker } from 'rsuite';
 | block                | boolean                                                                                                                                                                                  | Blocking an entire row                                                                  |
 | cleanable            | boolean `(true)`                                                                                                                                                                         | Whether the selected value can be cleared                                               |
 | container            | HTMLElement or (() => HTMLElement)                                                                                                                                                       | Sets the rendering container                                                            |
+| defaultCalendarValue | Array&lt;Date&gt;                                                                                                                                                                        | Default calendar panel date                                                             |
 | defaultOpen          | boolean                                                                                                                                                                                  | Default value of open property                                                          |
 | defaultValue         | Array&lt;Date&gt;                                                                                                                                                                        | Default value                                                                           |
-| defaultCalendarValue | Array&lt;Date&gt;                                                                                                                                                                        | Default calendar panel date                                                                        |
 | disabled             | boolean                                                                                                                                                                                  | Whether disabled the component                                                          |
 | disabledDate         | (<br/>&nbsp;date: Date,<br/>&nbsp;selectDate: Array&lt;Date&gt;,<br/>&nbsp;selectedDone: boolean, <br/>&nbsp;target: 'CALENDAR', 'TOOLBAR_BUTTON_OK', 'TOOLBAR_SHORTCUT' <br/>)=>boolean | Disabled data                                                                           |
 | hoverRange           | unions: 'week', 'month' or (date: Date)=> Array&lt;Date&gt;                                                                                                                              | The date range that will be selected when you click on the date                         |
@@ -46,6 +46,7 @@ import { DateRangePicker } from 'rsuite';
 | placement            | enum: [Placement](#types) `('bottomStart')`                                                                                                                                              | The placement of component                                                              |
 | preventOverflow      | boolean                                                                                                                                                                                  | Prevent floating element overflow                                                       |
 | ranges               | Array<[Range](#types)> [`(Ranges)`](#Ranges)                                                                                                                                             | Whortcut config，defeult: `Today`,`Yesterday`，`Last 7 days`                            |
+| renderValue          | (value: ValueType, format: string) => React.ReactNode                                                                                                                                    | Custom render selected date range                                                       |
 | showWeekNumbers      | boolean                                                                                                                                                                                  | Whether to show week numbers                                                            |
 | size                 | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                                                                                                                                    | A picker can have different sizes                                                       |
 | toggleComponentClass | React.ElementType `('a')`                                                                                                                                                                | You can use a custom element for this component                                         |
@@ -91,10 +92,7 @@ const Ranges = [
   },
   {
     label: 'last7Days',
-    value: [
-      dateFns.startOfDay(dateFns.subDays(new Date(), 6)),
-      dateFns.endOfDay(new Date())
-    ]
+    value: [dateFns.startOfDay(dateFns.subDays(new Date(), 6)), dateFns.endOfDay(new Date())]
   }
 ];
 ```
