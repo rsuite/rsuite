@@ -19,7 +19,7 @@
 const instance = (
   <IconButton
     appearance="ghost"
-    icon={<Icon className="fill-color" icon={SvgIcons.search} size="lg" />}
+    icon={<Icon className="fill-color" icon={SvgIcons.Search} size="lg" />}
     size="lg"
   >
     Search
