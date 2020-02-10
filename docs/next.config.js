@@ -2,7 +2,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const withImages = require('next-images');
-const pkg = require('../package.json');
+const pkg = require('./package.json');
 const findPages = require('./scripts/findPages');
 const markdownRenderer = require('./scripts/markdownRenderer');
 
