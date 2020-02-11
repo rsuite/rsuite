@@ -4,9 +4,6 @@ import DefaultPage from '@/components/Page';
 
 export default function Page() {
   return (
-    <DefaultPage
-      examples={['basic', 'container']}
-      dependencies={{ ButtonToolbar, Button, Affix }}
-    />
+    <DefaultPage examples={['basic', 'top']} dependencies={{ ButtonToolbar, Button, Affix }} />
   );
 }

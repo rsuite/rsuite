@@ -1,6 +1,6 @@
 # CheckTree
 
-- `<CheckTree>` is used to display a tree structure data and supports Checkbox selection.
+`<CheckTree>` is used to display a tree structure data and supports Checkbox selection.
 
 ## Usage
 

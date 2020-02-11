@@ -1,7 +1,6 @@
 # Panel
 
-A content panel that supports folding panels.
-The Panel can have all the ' Data Display ' components and can be used as a container for the form.
+A content panel that supports folding panels. The Panel can have all the ' Data Display ' components and can be used as a container for the form.
 
 - `<Panel>`
 - `<PanelGroup>`
