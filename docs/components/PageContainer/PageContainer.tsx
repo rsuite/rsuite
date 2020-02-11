@@ -57,7 +57,7 @@ export default function PageContainer(props: ContainerProps) {
                   appearance="subtle"
                   target="_blank"
                   icon={<Icon icon="diamond" />}
-                  href={`/design/${themeName}/index.html#artboard${designHash}`}
+                  href={`/design/${themeName}/#artboard${designHash}`}
                 />
               </Whisper>
             ) : null}
