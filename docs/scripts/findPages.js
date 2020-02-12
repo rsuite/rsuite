@@ -2,7 +2,16 @@
 const fs = require('fs');
 const path = require('path');
 
-function findPages(options = {}, directory = path.resolve(__dirname, '../pages'), pages = []) {
+function findPages(
+  options = {},
+  directory = path.resolve(__dirname, '../pages'),
+  pages = [
+    {
+      pathname: '/',
+      children: []
+    }
+  ]
+) {
   fs.readdirSync(directory).forEach(item => {
     const itemPath = path.resolve(directory, item);
     const pathname = itemPath
