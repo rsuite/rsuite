@@ -25,6 +25,6 @@ export function getDescription(markdown) {
 export function replaceWithPlaceholder(source) {
   return source.replace(
     codeRegExp,
-    '<div class="code-view-wrapper" style="height:80px">Loading...</div>'
+    '<div class="code-view-wrapper" style="height:80px"><!-- Loading... --></div>'
   );
 }
