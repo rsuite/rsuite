@@ -105,7 +105,8 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     onExit: PropTypes.func,
     onExiting: PropTypes.func,
     onExited: PropTypes.func,
-    renderValue: PropTypes.func
+    renderValue: PropTypes.func,
+    showOneCalendar: PropTypes.bool
   };
   static defaultProps = {
     appearance: 'default',
@@ -128,7 +129,8 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       last7Days: 'Last 7 Days',
       hours: 'Hours',
       minutes: 'Minutes',
-      seconds: 'Seconds'
+      seconds: 'Seconds',
+      showOneCalendar: false
     }
   };
   menuContainerRef: React.RefObject<any>;
@@ -495,7 +497,15 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderDropdownMenu() {
-    const { menuClassName, ranges, isoWeek, limitEndYear, oneTap, showWeekNumbers } = this.props;
+    const {
+      menuClassName,
+      ranges,
+      isoWeek,
+      limitEndYear,
+      oneTap,
+      showWeekNumbers,
+      showOneCalendar
+    } = this.props;
     const { calendarDate, selectValue, hoverValue, doneSelected } = this.state;
     const classes = classNames(this.addPrefix('daterange-menu'), menuClassName);
 
@@ -506,6 +516,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       calendarDate,
       limitEndYear,
       showWeekNumbers,
+      showOneCalendar,
       value: selectValue as ValueType,
       disabledDate: this.handleDisabledDate,
       onSelect: this.handleChangeSelectValue,
@@ -520,10 +531,16 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
             <div className={this.addPrefix('daterange-header')}>
               {this.getDateString(selectValue as ValueType)}
             </div>
-            <div className={this.addPrefix('daterange-calendar-group')}>
-              <DatePicker index={0} {...pickerProps} />
-              <DatePicker index={1} {...pickerProps} />
-            </div>
+            {showOneCalendar ? (
+              <div className={this.addPrefix('daterange-calendar-single')}>
+                <DatePicker index={0} {...pickerProps} />
+              </div>
+            ) : (
+              <div className={this.addPrefix('daterange-calendar-group')}>
+                <DatePicker index={0} {...pickerProps} />
+                <DatePicker index={1} {...pickerProps} />
+              </div>
+            )}
           </div>
           <Toolbar
             ranges={ranges}

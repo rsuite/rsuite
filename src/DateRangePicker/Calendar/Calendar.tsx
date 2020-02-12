@@ -20,6 +20,7 @@ export interface CalendarProps {
   classPrefix?: string;
   limitEndYear?: number;
   showWeekNumbers?: boolean;
+  showOneCalendar?: boolean;
   disabledDate?: (date: Date, selectValue: Date[], type: string) => boolean;
   onMoveForword?: (nextPageDate: Date) => void;
   onMoveBackward?: (nextPageDate: Date) => void;
@@ -83,7 +84,8 @@ class Calendar extends React.Component<CalendarProps> {
   };
 
   disabledForword = () => {
-    const { calendarDate, index } = this.props;
+    const { calendarDate, index, showOneCalendar } = this.props;
+    if (showOneCalendar) return false;
     const after = isAfter(setDate(calendarDate[1], 1), setDate(addMonths(calendarDate[0], 1), 1));
 
     if (index === 1) {

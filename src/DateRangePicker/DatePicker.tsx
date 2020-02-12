@@ -15,6 +15,7 @@ export interface DatePickerProps {
   limitEndYear?: number;
   classPrefix?: string;
   showWeekNumbers?: boolean;
+  showOneCalendar?: boolean;
   disabledDate?: (date: Date, selectValue: ValueType, type: string) => boolean;
   onSelect?: (date: Date, event?: React.SyntheticEvent<any>) => void;
   onMouseMove?: (date: Date) => void;
@@ -93,7 +94,8 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
       isoWeek,
       limitEndYear,
       classPrefix,
-      showWeekNumbers
+      showWeekNumbers,
+      showOneCalendar
     } = this.props;
 
     const { calendarState } = this.state;
@@ -116,6 +118,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
         onToggleMonthDropdown={this.toggleMonthDropdown}
         onChangePageDate={this.handleChangePageDate}
         limitEndYear={limitEndYear}
+        showOneCalendar={showOneCalendar}
         showWeekNumbers={showWeekNumbers}
       />
     );
