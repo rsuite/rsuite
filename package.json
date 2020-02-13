@@ -103,7 +103,7 @@
     "coveralls": "^2.13.1",
     "cross-env": "^6.0.3",
     "css-loader": "^0.28.11",
-    "cssnano": "^3.10.0",
+    "cssnano": "^4.1.10",
     "del": "^3.0.0",
     "dtslint": "^0.3.0",
     "enzyme": "^3.3.0",
