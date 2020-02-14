@@ -19,7 +19,7 @@ import IntlProvider from '../IntlProvider';
 import Calendar from '../Calendar/Calendar';
 import Toolbar from './Toolbar';
 
-import disabledTime, { calendarOnlyProps } from '../utils/disabledTime';
+import { disabledTime, calendarOnlyProps } from '../utils/timeUtils';
 import { shouldOnlyTime } from '../utils/formatUtils';
 import composeFunctions from '../utils/composeFunctions';
 import {
