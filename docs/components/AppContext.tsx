@@ -10,6 +10,7 @@ interface AppContextProps {
   messages?: any;
   language?: string;
   localePath?: string;
+  styleLoaded?: boolean;
 }
 
 export const AppContext = React.createContext<AppContextProps>({
@@ -20,7 +21,8 @@ export const AppContext = React.createContext<AppContextProps>({
   onChangeLanguage: null,
   messages: null,
   language: 'zh',
-  localePath: ''
+  localePath: '',
+  styleLoaded: false
 });
 
 export default AppContext;

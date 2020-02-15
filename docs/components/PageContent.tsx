@@ -17,6 +17,7 @@ const babelOptions = {
 };
 
 const CustomCodeView = ({ dependencies, source, onLoaded, ...rest }: any) => {
+  const { styleLoaded } = React.useContext(AppContext);
   const placeholder = (
     <div
       dangerouslySetInnerHTML={{
@@ -24,7 +25,7 @@ const CustomCodeView = ({ dependencies, source, onLoaded, ...rest }: any) => {
       }}
     />
   );
-  if (canUseDOM && source) {
+  if (canUseDOM && source && styleLoaded) {
     const CodeView = dynamic(
       () =>
         import('./CodeView').then(Component => {
