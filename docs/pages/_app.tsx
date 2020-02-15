@@ -43,6 +43,7 @@ function App({ Component, pageProps }: AppProps) {
   const [themeName, setThemeName] = React.useState(defaultThemeName);
   const [direction, setDirection] = React.useState(defaultDirection);
   const [language, setLanguage] = React.useState(pageProps.userLanguage);
+  const [styleLoaded, setStyleLoaded] = React.useState(false);
   const locale = language === 'en' ? enUS : zhCN;
 
   React.useEffect(() => {
@@ -51,6 +52,7 @@ function App({ Component, pageProps }: AppProps) {
 
   const handleStyleHeadLoaded = React.useCallback(() => {
     NProgress.done();
+    setStyleLoaded(true);
   }, []);
 
   const loadTheme = React.useCallback((themeName: ThemeType, direction: DirectionType) => {
@@ -98,7 +100,8 @@ function App({ Component, pageProps }: AppProps) {
             theme: [themeName, direction],
             onChangeDirection,
             onChangeTheme,
-            onChangeLanguage
+            onChangeLanguage,
+            styleLoaded
           }}
         >
           <StyleHead onLoaded={handleStyleHeadLoaded} />
