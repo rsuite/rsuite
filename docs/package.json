@@ -3,14 +3,15 @@
   "version": "4.0.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"npm run dev-server\" \"npm run dev-theme\"",
-    "dev-server": "cross-env NODE_ENV=development node server.js",
-    "build": "npm run build-theme && next build && next export",
-    "start": "cross-env NODE_ENV=production node server.js",
-    "export": "next export",
-    "type-check": "tsc",
-    "dev-theme": "webpack-dev-server --mode development --progress --hot --config webpack.theme.config.js",
-    "build-theme": "cross-env NODE_ENV=production webpack --progress --colors --mode=production --config webpack.theme.config.js"
+    "check:type": "tsc",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:theme\"",
+    "dev:server": "cross-env NODE_ENV=development node server.js",
+    "dev:theme": "webpack-dev-server --mode development --progress --hot --config webpack.theme.config.js",
+    "build": "npm run build:theme && next build && next export",
+    "build:next": "next build",
+    "build:export": "next export",
+    "build:theme": "cross-env NODE_ENV=production webpack --progress --colors --mode=production --config webpack.theme.config.js",
+    "start": "cross-env NODE_ENV=production node server.js"
   },
   "author": "HYPERS Team",
   "license": "MIT",
