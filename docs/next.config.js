@@ -16,6 +16,7 @@ module.exports = withImages({
       new webpack.DefinePlugin({
         'process.env': {
           __DEV__: JSON.stringify(__DEV__),
+          __LOCALE_ENV__: JSON.stringify(process.env.LOCALE_ENV),
           VERSION: JSON.stringify(pkg.version)
         }
       })
