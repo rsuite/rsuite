@@ -13,6 +13,7 @@ const nextHandler = nextApp.getRequestHandler();
 async function run() {
   await nextApp.prepare();
   const app = express();
+  app.use('/design', express.static('public/design'));
   app.get('*', (req, res) => {
     const parsedUrl = url.parse(req.url, true);
     let { pathname } = parsedUrl;
