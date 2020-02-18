@@ -6,7 +6,7 @@ React Suite 组件中的语言默认为英语。 如果需要设置其他语言�
 
 ```jsx
 import { IntlProvider } from 'rsuite';
-import zhCN from 'rsuite/lib/IntlProvider/zh_CN';
+import zhCN from 'rsuite/lib/IntlProvider/locales/zh_CN';
 
 ReactDOM.render(
   <IntlProvider locale={zhCN}>
@@ -20,11 +20,14 @@ ReactDOM.render(
 
 | 语言名称 | 描述           |
 | -------- | -------------- |
+| da_DK    | 丹麦语         |
 | en_GB    | 英语           |
 | en_US    | 美式英语       |
+| fi_FI    | 芬兰语         |
 | ko_KR    | 韩语/朝鲜语    |
 | pt_BR    | 葡萄牙语(巴西) |
 | ru_RU    | 俄罗斯语       |
+| sv_SE    | 瑞典语         |
 | zh_CN    | 简体中文       |
 | zh_TW    | 繁体中文       |
 
