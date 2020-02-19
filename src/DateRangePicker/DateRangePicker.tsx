@@ -115,6 +115,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     format: 'YYYY-MM-DD',
     placeholder: '',
     cleanable: true,
+    showOneCalendar: false,
     locale: {
       sunday: 'Su',
       monday: 'Mo',
@@ -129,8 +130,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       last7Days: 'Last 7 Days',
       hours: 'Hours',
       minutes: 'Minutes',
-      seconds: 'Seconds',
-      showOneCalendar: false
+      seconds: 'Seconds'
     }
   };
   menuContainerRef: React.RefObject<any>;
@@ -516,7 +516,6 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       calendarDate,
       limitEndYear,
       showWeekNumbers,
-      showOneCalendar,
       value: selectValue as ValueType,
       disabledDate: this.handleDisabledDate,
       onSelect: this.handleChangeSelectValue,
