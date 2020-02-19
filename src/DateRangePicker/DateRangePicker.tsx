@@ -531,16 +531,14 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
             <div className={this.addPrefix('daterange-header')}>
               {this.getDateString(selectValue as ValueType)}
             </div>
-            {showOneCalendar ? (
-              <div className={this.addPrefix('daterange-calendar-single')}>
-                <DatePicker index={0} {...pickerProps} />
-              </div>
-            ) : (
-              <div className={this.addPrefix('daterange-calendar-group')}>
-                <DatePicker index={0} {...pickerProps} />
-                <DatePicker index={1} {...pickerProps} />
-              </div>
-            )}
+            <div
+              className={this.addPrefix(
+                `daterange-calendar-${showOneCalendar ? 'single' : 'group'}`
+              )}
+            >
+              <DatePicker index={0} {...pickerProps} />
+              {!showOneCalendar && <DatePicker index={1} {...pickerProps} />}
+            </div>
           </div>
           <Toolbar
             ranges={ranges}
