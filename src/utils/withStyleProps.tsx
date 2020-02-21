@@ -30,7 +30,6 @@ function withStyleProps<T>(options: Options = {}) {
   return (BaseComponent): React.ComponentType<any> => {
     const { hasSize, hasStatus, hasColor, defaultColor } = options;
 
-    const factory = React.createFactory(BaseComponent);
     const WithStyleComponent = React.forwardRef((props: RequiredProps & T, ref: React.Ref<any>) => {
       const { classPrefix, size, color, status, className, ...rest } = props;
       const addPrefix = prefix(classPrefix);
@@ -41,7 +40,7 @@ function withStyleProps<T>(options: Options = {}) {
         [addPrefix(status)]: hasStatus && status
       });
 
-      return factory({
+      return React.createElement(BaseComponent, {
         ...rest,
         ref,
         classPrefix,

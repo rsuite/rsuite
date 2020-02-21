@@ -12,7 +12,6 @@ const mergeObject = (list: any[]) =>
 
 function withLocale<T>(combineKeys: string[] = []) {
   return (BaseComponent: React.ComponentClass<any>) => {
-    const factory = React.createFactory(BaseComponent);
     const WithLocale = React.forwardRef((props: T, ref) => {
       return (
         <IntlContext.Consumer>
@@ -29,7 +28,7 @@ function withLocale<T>(combineKeys: string[] = []) {
               locale.rtl = true;
             }
 
-            return factory({
+            return React.createElement(BaseComponent, {
               ref,
               locale,
               ...props

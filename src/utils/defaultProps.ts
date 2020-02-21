@@ -12,10 +12,8 @@ function defaultProps<T>(props) {
   const { classPrefix, ...rest } = props;
 
   return BaseComponent => {
-    const factory = React.createFactory(BaseComponent);
-
     const DefaultProps = React.forwardRef((ownerProps: T, ref: React.RefObject<any>) => {
-      return factory({
+      return React.createElement(BaseComponent, {
         ref,
         ...ownerProps
       });
