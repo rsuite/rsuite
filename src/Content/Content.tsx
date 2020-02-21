@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import setDisplayName from 'recompose/setDisplayName';
 import { defaultProps } from '../utils';
 import { ContentProps } from './Content.d';
 
@@ -17,8 +16,6 @@ class Content extends React.Component<ContentProps> {
   }
 }
 
-const EnhancedContent = defaultProps<ContentProps>({
+export default defaultProps<ContentProps>({
   classPrefix: 'content'
 })(Content);
-
-export default setDisplayName('Content')(EnhancedContent);

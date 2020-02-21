@@ -2,7 +2,6 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import compose from 'recompose/compose';
 import { getWidth } from 'dom-lib';
 import {
   reactToString,
@@ -17,8 +16,7 @@ import {
   getUnhandledProps,
   createChainedFunction,
   tplTransform,
-  getDataGroupBy,
-  withPickerMethods
+  getDataGroupBy
 } from '../utils';
 
 import {
@@ -495,6 +493,13 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     }
   };
 
+  open = () => {
+    this.handleOpenDropdown?.();
+  };
+  close = () => {
+    this.handleCloseDropdown?.();
+  };
+
   handleChange = (value: any, event: React.SyntheticEvent<any>) => {
     this.props.onChange?.(value, event);
   };
@@ -789,11 +794,6 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   }
 }
 
-const enhance = compose(
-  defaultProps<InputPickerProps>({
-    classPrefix: 'picker'
-  }),
-  withPickerMethods<InputPickerProps>()
-);
-
-export default enhance(InputPicker);
+export default defaultProps({
+  classPrefix: 'picker'
+})(InputPicker);

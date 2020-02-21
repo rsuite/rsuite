@@ -168,37 +168,19 @@ describe('CheckTreePicker', () => {
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle'));
   });
 
-  it('Should call `onOpen` callback by open()', done => {
-    let picker = null;
-    getDOMNode(
-      <CheckTreePicker
-        ref={ref => {
-          picker = ref;
-        }}
-        onOpen={() => {
-          done();
-        }}
-        data={data}
-      />
-    );
-
+  it('Should call `onOpen` callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const picker = getInstance(<CheckTreePicker onOpen={doneOp} data={data} />);
     picker.open();
   });
 
-  it('Should call `onClose` callback by close()', done => {
-    let picker = null;
-    getDOMNode(
-      <CheckTreePicker
-        defaultOpen
-        ref={ref => {
-          picker = ref;
-        }}
-        onClose={() => {
-          done();
-        }}
-        data={data}
-      />
-    );
+  it('Should call `onClose` callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const picker = getInstance(<CheckTreePicker defaultOpen onClose={doneOp} data={data} />);
     picker.close();
   });
 

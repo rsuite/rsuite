@@ -2,7 +2,6 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import setDisplayName from 'recompose/setDisplayName';
 
 import { prefix, defaultProps, getUnhandledProps, partitionHTMLProps } from '../utils';
 import { CheckboxProps } from './Checkbox.d';
@@ -138,8 +137,6 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   }
 }
 
-const EnhancedCheckBox = defaultProps<CheckboxProps>({
+export default defaultProps<CheckboxProps>({
   classPrefix: 'checkbox'
 })(Checkbox);
-
-export default setDisplayName('Checkbox')(EnhancedCheckBox);

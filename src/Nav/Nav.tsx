@@ -60,14 +60,14 @@ class Nav extends React.Component<NavProps> {
       const { eventKey, active, ...rest } = item.props;
       const displayName = _.get(item, ['type', 'displayName']);
 
-      if (displayName === 'NavItem') {
+      if (~displayName?.indexOf('(NavItem)')) {
         return {
           ...rest,
           onSelect,
           hasTooltip: sidenav && !expanded,
           active: _.isUndefined(activeKey) ? active : shallowEqual(activeKey, eventKey)
         };
-      } else if (displayName === 'Dropdown') {
+      } else if (~displayName?.indexOf('(Dropdown)')) {
         return {
           ...rest,
           onSelect,

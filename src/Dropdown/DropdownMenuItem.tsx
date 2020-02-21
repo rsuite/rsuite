@@ -2,7 +2,6 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { setDisplayName } from 'recompose';
 
 import SafeAnchor from '../SafeAnchor';
 import { prefix, isOneOf, createChainedFunction, defaultProps, getUnhandledProps } from '../utils';
@@ -167,9 +166,7 @@ class DropdownMenuItem extends React.Component<DropdownMenuItemProps, DropdownMe
   }
 }
 
-const EnhancedDropdownMenuItem = defaultProps<DropdownMenuItemProps>({
+export default defaultProps<DropdownMenuItemProps>({
   classPrefix: 'dropdown-item',
   componentClass: SafeAnchor
 })(DropdownMenuItem);
-
-export default setDisplayName('DropdownMenuItem')(EnhancedDropdownMenuItem);

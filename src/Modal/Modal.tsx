@@ -2,7 +2,6 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import setDisplayName from 'recompose/setDisplayName';
 import setStatic from 'recompose/setStatic';
 import bindElementResize, { unbind as unbindElementResize } from 'element-resize-event';
 import BaseModal from 'rsuite-utils/lib/Overlay/Modal';
@@ -265,4 +264,4 @@ setStatic('Title', ModalTitle)(EnhancedModal);
 setStatic('Footer', ModalFooter)(EnhancedModal);
 setStatic('Dialog', ModalDialog)(EnhancedModal);
 
-export default setDisplayName('Modal')(EnhancedModal);
+export default EnhancedModal;

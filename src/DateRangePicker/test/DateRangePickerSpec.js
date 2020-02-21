@@ -72,9 +72,9 @@ describe('DateRangePicker', () => {
     const doneOp = () => {
       done();
     };
-    let demo;
-    getDOMNode(<DateRangePicker onChange={doneOp} ref={ref => (demo = ref)} />);
-    demo.updateValue([new Date(), new Date()]);
+
+    const instance = getInstance(<DateRangePicker onChange={doneOp} />);
+    instance.updateValue([new Date(), new Date()]);
   });
 
   it('Should call onClean callback', done => {
@@ -99,36 +99,18 @@ describe('DateRangePicker', () => {
   });
 
   it('Should call `onOpen` callback', done => {
-    const doneOp = key => {
+    const doneOp = () => {
       done();
     };
-    let picker = null;
-    getDOMNode(
-      <DateRangePicker
-        ref={ref => {
-          picker = ref;
-        }}
-        onOpen={doneOp}
-      />
-    );
-
+    const picker = getInstance(<DateRangePicker onOpen={doneOp} />);
     picker.open();
   });
 
   it('Should call `onClose` callback', done => {
-    const doneOp = key => {
+    const doneOp = () => {
       done();
     };
-    let picker = null;
-    getDOMNode(
-      <DateRangePicker
-        defaultOpen
-        ref={ref => {
-          picker = ref;
-        }}
-        onClose={doneOp}
-      />
-    );
+    const picker = getInstance(<DateRangePicker defaultOpen onClose={doneOp} />);
     picker.close();
   });
 

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import compose from 'recompose/compose';
 import _ from 'lodash';
 
 import {
@@ -25,13 +24,7 @@ import IntlProvider from '../IntlProvider';
 import Toolbar from './Toolbar';
 import DatePicker from './DatePicker';
 import { setTimingMargin, getCalendarDate, TYPE } from './utils';
-import {
-  defaultProps,
-  getUnhandledProps,
-  prefix,
-  createChainedFunction,
-  withPickerMethods
-} from '../utils';
+import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
 
 import {
   PickerToggle,
@@ -266,6 +259,13 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     if (this.triggerRef.current) {
       this.triggerRef.current.show();
     }
+  };
+
+  open = () => {
+    this.handleOpenDropdown?.();
+  };
+  close = () => {
+    this.handleCloseDropdown?.();
   };
 
   resetPageDate() {
@@ -585,11 +585,6 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   }
 }
 
-const enhance = compose(
-  defaultProps<DateRangePickerProps>({
-    classPrefix: 'picker'
-  }),
-  withPickerMethods<DateRangePickerProps>()
-);
-
-export default enhance(DateRangePicker);
+export default defaultProps({
+  classPrefix: 'picker'
+})(DateRangePicker);

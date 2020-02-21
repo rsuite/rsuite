@@ -1,8 +1,8 @@
 import setStatic from 'recompose/setStatic';
-import defaultProps from 'recompose/defaultProps';
 import compose from 'recompose/compose';
 import { Table, Column, Cell, HeaderCell } from 'rsuite-table';
 
+import { defaultProps } from '../utils';
 import withLocale from '../IntlProvider/withLocale';
 import TablePagination from './TablePagination';
 

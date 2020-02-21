@@ -1,3 +1,5 @@
+/* eslint-disable react/no-find-dom-node */
+
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
@@ -25,12 +27,14 @@ export class TestWrapper extends React.Component {
 export function getInstance(children) {
   const displayName = _.get(children, 'type.displayName') || _.get(children, 'displayName');
 
-  if (
-    displayName === 'withStyleProps(DefaultPropsComponent)' ||
-    displayName === 'withLocale(DefaultPropsComponent)' ||
-    displayName === 'SafeAnchor'
-  ) {
-    return ReactTestUtils.renderIntoDocument(<TestWrapper>{children}</TestWrapper>);
+  if (displayName && (displayName.indexOf('__test__(') === 0 || displayName === 'SafeAnchor')) {
+    const instanceRef = React.createRef();
+
+    ReactTestUtils.renderIntoDocument(
+      <TestWrapper>{React.cloneElement(children, { ref: instanceRef })}</TestWrapper>
+    );
+
+    return instanceRef.current;
   }
 
   return ReactTestUtils.renderIntoDocument(children);
@@ -58,8 +62,6 @@ export function createTestContainer() {
 }
 
 export const toRGB = color => tinycolor(color).toRgbString();
-
-// export const getStyle = (dom, styleName) => window.getComputedStyle(dom)[styleName];
 
 export const inChrome = window.navigator.userAgent.includes('Chrome');
 

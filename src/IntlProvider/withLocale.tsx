@@ -41,11 +41,11 @@ function withLocale<T>(combineKeys: string[] = []) {
 
     WithLocale.displayName = BaseComponent.displayName;
 
-    if (process.env.NODE_ENV !== 'production') {
-      return setDisplayName(wrapDisplayName(BaseComponent, 'withLocale'))(WithLocale);
+    if (process.env.RUN_ENV === 'test') {
+      return setDisplayName(wrapDisplayName(BaseComponent, '__test__'))(WithLocale);
     }
 
-    return WithLocale;
+    return setDisplayName(wrapDisplayName(BaseComponent, 'withLocale'))(WithLocale);
   };
 }
 
