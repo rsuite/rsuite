@@ -1,6 +1,6 @@
-import { loadCssFile, useDirection } from './utils';
+import { loadCssFile, readDirection } from './utils';
 
-const [direction] = useDirection();
+const direction = readDirection();
 
 export default function ready(callback) {
   const cssFile = direction === 'rtl' ? '/css/theme-default.rtl.css' : '/css/theme-default.css';
