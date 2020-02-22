@@ -13,14 +13,10 @@ export function loadCssFile(url, id = 'rsuite-theme') {
   });
 }
 
-const readDirection = () => localStorage.getItem('direction');
-const writeDirection = dir => {
+export const readDirection = () => localStorage.getItem('direction');
+export const writeDirection = dir => {
   localStorage.setItem('direction', dir);
   const cssFile = dir === 'rtl' ? '/css/theme-default.rtl.css' : '/css/theme-default.css';
   document.getElementById('rsuite-theme').href = cssFile;
   document.dir = dir;
 };
-
-export function useDirection() {
-  return [readDirection(), writeDirection];
-}

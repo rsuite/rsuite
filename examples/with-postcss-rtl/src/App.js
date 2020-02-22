@@ -5,18 +5,15 @@ import Progress from 'rsuite/es/Progress';
 import Slider from 'rsuite/es/Slider';
 import IntlProvider from 'rsuite/es/IntlProvider';
 
-import { writeDirection } from './utils';
-
 function App() {
-  const [direction, setDirection] = React.useState(false);
-  const onChangeDirection = dir => {
-    setDirection(dir);
-    writeDirection(dir);
+  const [rtl, setRtl] = React.useState(false);
+  const setDirection = dir => {
+    document.dir = dir;
+    setRtl(dir === 'rtl');
   };
-
   return (
     <div style={{ padding: 100 }}>
-      <IntlProvider rtl={direction === 'rtl'}>
+      <IntlProvider rtl={rtl}>
         <ButtonToolbar>
           <Progress.Line percent={30} status="active" />
           <hr />
@@ -24,7 +21,7 @@ function App() {
           <hr />
           <Button
             onClick={() => {
-              onChangeDirection('rtl');
+              setDirection('rtl');
             }}
           >
             Right to Left
@@ -32,7 +29,7 @@ function App() {
 
           <Button
             onClick={() => {
-              onChangeDirection('ltr');
+              setDirection('ltr');
             }}
           >
             Left to Right
