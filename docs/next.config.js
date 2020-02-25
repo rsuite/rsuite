@@ -2,6 +2,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const withImages = require('next-images');
+const withPlugins = require('next-compose-plugins');
 const pkg = require('./package.json');
 const findPages = require('./scripts/findPages');
 const markdownRenderer = require('./scripts/markdownRenderer');
@@ -10,18 +11,10 @@ const resolveToStaticPath = relativePath => path.resolve(__dirname, relativePath
 const SVG_LOGO_PATH = resolveToStaticPath('./resources/images');
 const __DEV__ = process.env.NODE_ENV !== 'production';
 
-module.exports = withImages({
-  webpack(config) {
-    const plugins = config.plugins.concat([
-      new webpack.DefinePlugin({
-        'process.env': {
-          __DEV__: JSON.stringify(__DEV__),
-          __LOCALE_ENV__: JSON.stringify(process.env.LOCALE_ENV),
-          VERSION: JSON.stringify(pkg.version)
-        }
-      })
-    ]);
+const rsuiteRoot = path.join(__dirname, '../src');
 
+module.exports = withPlugins([[withImages]], {
+  webpack(config) {
     config.module.rules.unshift({
       test: /\.svg$/,
       include: SVG_LOGO_PATH,
@@ -34,6 +27,13 @@ module.exports = withImages({
         },
         'svgo-loader'
       ]
+    });
+
+    config.module.rules.push({
+      test: /\.ts|tsx?$/,
+      use: ['babel-loader?babelrc'],
+      include: [rsuiteRoot, path.join(__dirname, './')],
+      exclude: /node_modules/
     });
 
     config.module.rules.push({
@@ -61,12 +61,15 @@ module.exports = withImages({
       ]
     });
 
-    config.resolve.alias['@'] = resolveToStaticPath('./');
-    if (__DEV__) {
-      config.resolve.alias['rsuite'] = resolveToStaticPath('../');
-    }
-
-    config.plugins = plugins;
+    config.plugins = config.plugins.concat([
+      new webpack.DefinePlugin({
+        'process.env': {
+          __DEV__: JSON.stringify(__DEV__),
+          __LOCALE_ENV__: JSON.stringify(process.env.LOCALE_ENV),
+          VERSION: JSON.stringify(pkg.version)
+        }
+      })
+    ]);
 
     return config;
   },
@@ -80,7 +83,7 @@ module.exports = withImages({
 
       nextPages.forEach(page => {
         if (page.children.length === 0) {
-          console.log(`router: ${prefix}${page.pathname}`);
+          //console.log(`router: ${prefix}${page.pathname}`);
           map[`${prefix}${page.pathname}`] = {
             page: page.pathname,
             query: {

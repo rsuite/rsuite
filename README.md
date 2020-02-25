@@ -94,22 +94,40 @@ Detailed changes for each release are documented in the [release notes][release-
 
 ## Development
 
-You can learn about our development plan through [Projects](https://github.com/rsuite/rsuite/projects) and hope that you can get involved.
+### Test-Driven Development（TDD）
 
 1. Fork `https://github.com/rsuite/rsuite` this repo.
 
 ```bash
 $ git clone git@github.com:<YOUR NAME>/rsuite.git
 $ cd rsuite
-$ npm install
-$ npm run dev
 ```
 
-2. Fork `https://github.com/rsuite/rsuite.github.io` this repo.
+2. Install it and run
 
 ```bash
-$ git clone git@github.com:<YOUR NAME>/rsuite.github.io.git
-$ cd rsuite.github.io
+$ npm install
+$ npm run tdd
+```
+
+3. Run a single component test case.
+
+```bash
+$ M=Button npm run tdd
+```
+
+### UI-Driven Development
+
+1. Fork `https://github.com/rsuite/rsuite` this repo.
+
+```bash
+$ git clone git@github.com:<YOUR NAME>/rsuite.git
+```
+
+2. Install it and run
+
+```bash
+$ cd rsuite/docs
 $ npm install
 $ npm run dev
 ```

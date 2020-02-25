@@ -90,27 +90,45 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 
 您可以通过 [Projects](https://github.com/rsuite/rsuite/projects) 查看我们的开发计划，同时希望您能参与其中。
 
+### 测试驱动开发（TDD）
+
 1. Fork `https://github.com/rsuite/rsuite` 这个仓库。
 
 ```bash
 $ git clone git@github.com:<YOUR NAME>/rsuite.git
 $ cd rsuite
-$ npm install
-$ npm run dev
 ```
 
-2. Fork `https://github.com/rsuite/rsuite.github.io` 这个仓库。
+2. 安装并运行
 
 ```bash
-$ git clone git@github.com:<YOUR NAME>/rsuite.github.io.git
-$ cd rsuite.github.io
+$ npm install
+$ npm run tdd
+```
+
+3. 运行单个组件
+
+```bash
+$ M=Button npm run tdd
+```
+
+### UI 驱动开发
+
+1. Fork `https://github.com/rsuite/rsuite` 这个仓库。
+
+```bash
+$ git clone git@github.com:<YOUR NAME>/rsuite.git
+```
+
+2. 安装并运行
+
+```bash
+$ cd rsuite/docs
 $ npm install
 $ npm run dev
 ```
 
-3. 您可以开始访问了， 在浏览器输入 http://127.0.0.1:3200/
-
-> `rsuite.github.io` 会依赖 `rsuite` 中的组件，并支持热更新。
+3. 您可以开始访问了， 在浏览器输入 http://127.0.0.1:3000/
 
 Gitee 用户访问地址: https://gitee.com/rsuite/rsuite
 
