@@ -17,8 +17,6 @@ function HomePage() {
     }, 1700);
   }, []);
 
-  console.log(process.env.__LOCALE_ENV__);
-
   return (
     <Grid className="page-home">
       <TopLevelNav hideToggle />
