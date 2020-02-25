@@ -33,7 +33,6 @@ React Suite 支持服务端渲染， 支持通过 [Next.js](https://github.com/z
 
 - 支持 React 16 +
 - 支持 [TypeScript](http://www.typescriptlang.org/)
-- 支持 [Flow](https://flow.org/)
 - 支持 [Electron](https://electronjs.org/)
 
 ## 示例
@@ -43,10 +42,12 @@ React Suite 支持服务端渲染， 支持通过 [Next.js](https://github.com/z
 - [CDN 引入][demo-cdn]
 - [国际化方案][demo-intl-app]
 - [多主题方案][demo-multiple-themes]
+- [RLT 方案 - rtlcss][demo-rtlcss]
+- [RLT 方案 - postcss-rtl][demo-postcss-rtl]
 - [在 create-react-app 中使用][demo-create-react-app]
 - [在 Flow 中使用][demo-flow-app]
 - [在 TypeScript 中使用][demo-typescript-app]
-- [在 Next.js 中使用][demo-ssr-app]
+- [在 Next.js 中使用][demo-nextjs]
 - [在 UmiJS 中使用][demo-umi-app]
 
 ## 更新日志
@@ -59,9 +60,51 @@ React Suite 支持服务端渲染， 支持通过 [Next.js](https://github.com/z
 
 编辑器的配置参考 [.prettierrc][prettierrc]， 下载编辑的插件 https://prettier.io/。
 
-### 开发计划
+## 开发
 
-您可以通过 [Trello](https://trello.com/b/nsaUoK7S/rsuite) 查看我们的开发计划，同时希望您能参与其中。
+您可以通过 [Projects](https://github.com/rsuite/rsuite/projects) 查看我们的开发计划，同时希望您能参与其中。
+
+### 测试驱动开发（TDD）
+
+1. Fork `https://github.com/rsuite/rsuite` 这个仓库。
+
+```bash
+$ git clone git@github.com:<YOUR NAME>/rsuite.git
+$ cd rsuite
+```
+
+2. 安装并运行
+
+```bash
+$ npm install
+$ npm run tdd
+```
+
+3. 运行单个组件
+
+```bash
+$ M=Button npm run tdd
+```
+
+### UI 驱动开发
+
+1. Fork `https://github.com/rsuite/rsuite` 这个仓库。
+
+```bash
+$ git clone git@github.com:<YOUR NAME>/rsuite.git
+```
+
+2. 安装并运行
+
+```bash
+$ cd rsuite
+$ npm install
+$ cd rsuite/docs
+$ npm install
+$ npm run dev
+```
+
+3. 您可以开始访问了， 在浏览器输入 http://127.0.0.1:3000/
 
 ## 支持 RSUITE
 
@@ -102,14 +145,16 @@ RSUITE 基于 [MIT licensed][license] 发布。
 [gitter]: https://gitter.im/rsuite/rsuite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
 [gitter-svg]: https://badges.gitter.im/rsuite/rsuite.svg
 [demo-admin]: https://github.com/rsuite/rsuite-management-system
-[demo-modular-import]: https://github.com/rsuite/examples/tree/master/modular-import
-[demo-cdn]: https://github.com/rsuite/examples/tree/master/cdn
-[demo-create-react-app]: https://github.com/rsuite/examples/tree/master/create-react-app
-[demo-intl-app]: https://github.com/rsuite/examples/tree/master/intl-app
-[demo-multiple-themes]: https://github.com/rsuite/examples/tree/master/multiple-themes
-[demo-flow-app]: https://github.com/rsuite/examples/tree/master/flow-app
-[demo-typescript-app]: https://github.com/rsuite/examples/tree/master/typescript-app
-[demo-ssr-app]: https://github.com/rsuite/rsuite-management-system-ssr
-[demo-umi-app]: https://github.com/rsuite/examples/tree/master/umi-app
+[demo-modular-import]: https://github.com/rsuite/rsuite/tree/master/examples/with-babel-preset-rsuite
+[demo-cdn]: https://github.com/rsuite/rsuite/tree/master/examples/cdn
+[demo-create-react-app]: https://github.com/rsuite/rsuite/tree/master/examples/create-react-app
+[demo-intl-app]: https://github.com/rsuite/rsuite/tree/master/examples/custom-i18n
+[demo-multiple-themes]: https://github.com/rsuite/rsuite/tree/master/examples/custom-multiple-themes
+[demo-flow-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-flow
+[demo-typescript-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-typescript
+[demo-nextjs]: https://github.com/rsuite/rsuite/tree/master/examples/with-nextjs
+[demo-umi-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-umi
+[demo-rtlcss]: https://github.com/rsuite/rsuite/tree/master/examples/with-rtlcss
+[demo-postcss-rtl]: https://github.com/rsuite/rsuite/tree/master/examples/with-postcss-rtl
 [babel-preset-env]: https://babeljs.io/docs/en/babel-preset-env
 [rsuite-stars]: https://img.shields.io/github/stars/rsuite/rsuite?style=social

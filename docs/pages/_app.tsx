@@ -3,8 +3,8 @@ import { Grid, IntlProvider as RSIntlProvider } from 'rsuite';
 import NProgress from 'nprogress';
 import Router from 'next/router';
 import AppContext from '@/components/AppContext';
-import zhCN from 'rsuite/lib/IntlProvider/locales/zh_CN';
-import enUS from 'rsuite/lib/IntlProvider/locales/en_US';
+import zhCN from '@rsuite-locales/zh_CN';
+import enUS from '@rsuite-locales/en_US';
 
 import { getMessages } from '../locales';
 import {

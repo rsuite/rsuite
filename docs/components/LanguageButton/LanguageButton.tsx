@@ -1,8 +1,13 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import { useRouter } from 'next/router';
-import Button, { ButtonProps } from 'rsuite/lib/Button';
+import { Button } from 'rsuite';
 import AppContext from '../AppContext';
+
+interface ButtonProps {
+  className?: string;
+  [key: string]: any;
+}
 
 function LanguageButton(props: ButtonProps) {
   const router = useRouter();
