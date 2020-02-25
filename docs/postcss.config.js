@@ -6,20 +6,17 @@ let plugins = [];
 
 if (STYLE_DEBUG === 'STYLE' || __PRO__) {
   plugins = [
-    'autoprefixer',
-    [
-      'cssnano',
-      {
-        preset: [
-          'default',
-          {
-            discardComments: {
-              removeAll: false
-            }
+    require('autoprefixer'),
+    require('cssnano')({
+      preset: [
+        'default',
+        {
+          discardComnments: {
+            removeAll: false
           }
-        ]
-      }
-    ]
+        }
+      ]
+    })
   ];
 }
 
