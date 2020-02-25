@@ -97,6 +97,8 @@ $ git clone git@github.com:<YOUR NAME>/rsuite.git
 2. 安装并运行
 
 ```bash
+$ cd rsuite
+$ npm install
 $ cd rsuite/docs
 $ npm install
 $ npm run dev
