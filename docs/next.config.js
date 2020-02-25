@@ -71,6 +71,11 @@ module.exports = withPlugins([[withImages]], {
       })
     ]);
 
+    config.resolve.alias['@'] = resolveToStaticPath('./');
+    config.resolve.alias['@rsuite-locales'] = resolveToStaticPath(
+      './node_modules/rsuite/lib/IntlProvider/locales'
+    );
+
     return config;
   },
   exportTrailingSlash: true,

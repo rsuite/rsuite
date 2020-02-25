@@ -11,7 +11,8 @@
     "build:next": "next build",
     "build:export": "next export",
     "build:theme": "cross-env NODE_ENV=production webpack --progress --colors --mode=production --config webpack.theme.config.js",
-    "start": "cross-env NODE_ENV=production LOCALE_ENV=CN node server.js"
+    "start": "cross-env NODE_ENV=production LOCALE_ENV=CN node server.js",
+    "start:next": "next start"
   },
   "author": "HYPERS Team",
   "license": "MIT",
