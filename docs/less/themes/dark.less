@@ -1,9 +1,8 @@
-// @rootPath inject by webpack.config.js
-
+// @rootPath inject by webpack.theme.config.js
 // modularized
 //@import '@{rootPath}rsuite/lib/styles/common';
 // integrated
-@import '~rsuite/src/styles/themes/dark/index';
+@import '@{rootPath}src/styles/themes/dark/index';
 
 @sidebar-wrapper-bg: @B800;
 @component-overview-content-name-color: @B300;
@@ -27,6 +26,7 @@
   background: @B000;
 }
 
+//noinspection Stylelint
 .code-view {
   .rs-nav-tabs:not(.rs-nav-reversed).rs-nav-horizontal
     .rs-nav-item.rs-nav-item-active

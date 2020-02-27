@@ -2,7 +2,8 @@
 const path = require('path');
 const rtlcss = require('rtlcss');
 const postcss = require('postcss');
-const { plugins } = require('../postcss.config');
+
+const { NODE_ENV, STYLE_DEBUG } = process.env;
 
 class RTLCSSPlugin {
   constructor(options) {
@@ -13,7 +14,23 @@ class RTLCSSPlugin {
     const taskQueue = [];
     compiler.hooks.emit.tapAsync('RTLCSSPlugin', (compilation, callback) => {
       const postCssProcess = (content, assetName) =>
-        postcss(plugins)
+        postcss(
+          STYLE_DEBUG === 'STYLE' || NODE_ENV === 'production'
+            ? [
+                require('autoprefixer'),
+                require('cssnano')({
+                  preset: [
+                    'default',
+                    {
+                      discardComnments: {
+                        removeAll: false
+                      }
+                    }
+                  ]
+                })
+              ]
+            : []
+        )
           .process(content)
           .then(result => {
             compilation.assets[assetName] = {

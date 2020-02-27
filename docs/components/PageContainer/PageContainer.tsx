@@ -77,7 +77,7 @@ export default function PageContainer(props: ContainerProps) {
                 appearance="subtle"
                 icon={<Icon icon="bug" />}
                 target="_blank"
-                href={'https://github.com/rsuite/rsuite/issues/new'}
+                href={'https://github.com/rsuite/rsuite/issues/new?template=bug_report.md'}
               />
             </Whisper>
 

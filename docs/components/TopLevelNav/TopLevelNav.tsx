@@ -154,10 +154,6 @@ export default function TopLevelNav(props: TopLevelNavProps) {
           <Icon icon="github" size="lg" />
         </ButtonWithTooltip>
 
-        <ButtonWithTooltip tip="码云" href="https://gitee.com/rsuite/rsuite" target="_blank">
-          <Icon icon={SvgIcons.Gitee} size="lg" />
-        </ButtonWithTooltip>
-
         {hideToggle ? null : (
           <ButtonWithTooltip
             tip={showSubmenu ? messages?.common?.closeMenu : messages?.common?.openMenu}

@@ -38,17 +38,20 @@ function HomePage() {
                 >
                   <img alt="npm" src="https://badge.fury.io/js/rsuite.svg" />
                 </a>
-                <a
-                  style={{ marginLeft: 10 }}
-                  href="https://gitee.com/rsuite/rsuite/stargazers"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src="https://gitee.com/rsuite/rsuite/badge/star.svg?theme=gvp"
-                    alt="star"
-                  ></img>
-                </a>
+                {process.env?.__LOCALE_ENV__ === 'CN' ? (
+                  <a
+                    style={{ marginLeft: 10 }}
+                    href="https://gitee.com/rsuite/rsuite"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      src="https://gitee.com/rsuite/rsuite/badge/star.svg?theme=gvp"
+                      alt="star"
+                    ></img>
+                  </a>
+                ) : null}
+
                 <a
                   style={{ marginLeft: 10 }}
                   href="https://github.com/rsuite/rsuite"
