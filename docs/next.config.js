@@ -6,6 +6,7 @@ const withPlugins = require('next-compose-plugins');
 const pkg = require('./package.json');
 const findPages = require('./scripts/findPages');
 const markdownRenderer = require('./scripts/markdownRenderer');
+const ip = require('ip');
 
 const resolveToStaticPath = relativePath => path.resolve(__dirname, relativePath);
 const SVG_LOGO_PATH = resolveToStaticPath('./resources/images');
@@ -15,6 +16,8 @@ const rsuiteRoot = path.join(__dirname, '../src');
 
 module.exports = withPlugins([[withImages]], {
   webpack(config) {
+    const originEntry = config.entry;
+
     config.module.rules.unshift({
       test: /\.svg$/,
       include: SVG_LOGO_PATH,
@@ -66,6 +69,8 @@ module.exports = withPlugins([[withImages]], {
         'process.env': {
           __DEV__: JSON.stringify(__DEV__),
           __LOCALE_ENV__: JSON.stringify(process.env.LOCALE_ENV),
+          // Use to load css when npm run dev,
+          __LOCAL_IP__: __DEV__ ? JSON.stringify(ip.address()) : null,
           VERSION: JSON.stringify(pkg.version)
         }
       })
@@ -75,6 +80,14 @@ module.exports = withPlugins([[withImages]], {
     config.resolve.alias['@rsuite-locales'] = resolveToStaticPath(
       './node_modules/rsuite/lib/IntlProvider/locales'
     );
+
+    config.entry = async () => {
+      const entries = await originEntry();
+      if (entries['main.js'] && !entries['main.js'].includes('./client/polyfills.ts')) {
+        entries['main.js'].unshift('./client/polyfills.ts');
+      }
+      return entries;
+    };
 
     return config;
   },

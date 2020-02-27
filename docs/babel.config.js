@@ -12,7 +12,15 @@ module.exports = (api, options) => {
     [
       'next/babel',
       {
-        'preset-env': { targets: { node: true } }
+        'preset-env': {
+          targets: {
+            node: true,
+            browsers: ['> 1%', 'last 2 versions', 'ie >= 10']
+          },
+          useBuiltIns: 'entry',
+          corejs: 2
+        },
+        'transform-runtime': { useESModules: false, corejs: 2 }
       }
     ]
   ];
@@ -23,7 +31,7 @@ module.exports = (api, options) => {
     '@babel/plugin-proposal-optional-chaining',
     '@babel/plugin-proposal-export-namespace-from',
     '@babel/plugin-proposal-export-default-from',
-    ['@babel/plugin-transform-runtime', { useESModules: false }],
+    '@babel/plugin-transform-object-assign',
     'add-module-exports'
   ];
 

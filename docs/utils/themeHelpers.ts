@@ -12,7 +12,7 @@ const __DEV__ = process.env.NODE_ENV !== 'production';
 export const getThemeId = (themeName: ThemeType, direction: DirectionType) =>
   `theme-${themeName}-${direction}`;
 export const getThemeCssPath = (themeName: ThemeType, direction: DirectionType) =>
-  `${__DEV__ ? '//127.0.0.1:3001' : ''}/css/theme-${themeName}${
+  `${__DEV__ ? `//${process.env.__LOCAL_IP__}:3001` : ''}/css/theme-${themeName}${
     direction === 'rtl' ? '.rtl' : ''
   }.css`;
 
