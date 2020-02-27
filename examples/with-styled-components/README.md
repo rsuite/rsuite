@@ -1,4 +1,4 @@
-# PostCSS-RTL example
+# styled-components example
 
 ## How to use
 
