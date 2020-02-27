@@ -45,7 +45,7 @@ module.exports = merge(
       disableHostCheck: true,
       historyApiFallback: true,
       compress: true,
-      host: '127.0.0.1',
+      host: '0.0.0.0',
       port: PORT
     },
     output: {
