@@ -22,6 +22,8 @@ function defaultProps<T>(props: Props) {
         ...rest
       };
 
+      static displayName = WrappedComponent.name;
+
       render() {
         return super.render();
       }
