@@ -23,13 +23,9 @@ export class TestWrapper extends React.Component {
 }
 
 export function getInstance(children) {
-  const displayName = _.get(children, 'type.displayName') || _.get(children, 'displayName');
-
-  if (
-    displayName === 'withStyleProps(DefaultPropsComponent)' ||
-    displayName === 'withLocale(DefaultPropsComponent)' ||
-    displayName === 'SafeAnchor'
-  ) {
+  // isReactComponent is only defined if children is of React.Component class
+  // so we can test against this to verify this is a functional component
+  if (!(children.type.prototype && children.type.prototype.isReactComponent)) {
     return ReactTestUtils.renderIntoDocument(<TestWrapper>{children}</TestWrapper>);
   }
 
