@@ -20,10 +20,6 @@
     .@{ns}radio-inline {
       margin-left: 0;
     }
-
-    .@{ns}radio-inline + .@{ns}radio-inline {
-      margin-left: @radio-sense-width; // space out consecutive inline controls
-    }
   }
 
   // Reset checker padding value.
@@ -42,7 +38,7 @@
 
     color: @radio-label-font-color;
     transition: color 0.3s linear;
-    padding: @padding-base-vertical - 1px @padding-base-horizontal - 1px;
+    padding: @padding-base-vertical - 1px 10px;
 
     &:hover,
     &:active {

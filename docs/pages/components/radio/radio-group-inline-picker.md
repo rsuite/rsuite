@@ -5,7 +5,7 @@
 ```js
 const styles = {
   radioGroupLabel: {
-    padding: '8px 12px',
+    padding: '8px 2px 8px 10px',
     display: 'inline-block',
     verticalAlign: 'middle'
   }
