@@ -17,6 +17,7 @@ import {
 } from '../utils';
 
 class DropdownMenu extends React.Component<DropdownMenuProps> {
+  static displayName = 'DropdownMenu';
   static propTypes = {
     activeKey: PropTypes.any,
     className: PropTypes.string,

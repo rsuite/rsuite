@@ -33,6 +33,7 @@ interface SidenavContextType {
 }
 
 class Dropdown extends React.Component<DropdownProps, DropdownState> {
+  static displayName = 'Dropdown';
   static contextType = SidenavContext;
   static propTypes = {
     activeKey: PropTypes.any,

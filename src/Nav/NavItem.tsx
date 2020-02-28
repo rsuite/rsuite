@@ -17,6 +17,7 @@ const addTooltip = (children, tip) => (
 );
 
 class NavItem extends React.Component<NavItemProps> {
+  static displayName = 'NavItem';
   static propTypes = {
     active: PropTypes.bool,
     disabled: PropTypes.bool,

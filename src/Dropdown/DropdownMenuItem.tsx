@@ -13,6 +13,7 @@ interface DropdownMenuItemState {
 }
 
 class DropdownMenuItem extends React.Component<DropdownMenuItemProps, DropdownMenuItemState> {
+  static displayName = 'DropdownMenuItem';
   static contextType = SidenavContext;
   static propTypes = {
     divider: PropTypes.bool,
