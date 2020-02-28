@@ -3,6 +3,7 @@ import setDisplayName from 'recompose/setDisplayName';
 import wrapDisplayName from 'recompose/wrapDisplayName';
 import { getClassNamePrefix } from './prefix';
 import { StandardProps } from '../@types/common';
+import extendReactStatics from './extendReactStatics';
 
 export interface Props extends StandardProps {
   componentClass?: React.ElementType;
@@ -25,6 +26,8 @@ function defaultProps<T>(props) {
       ...rest,
       classPrefix: classPrefix ? `${getClassNamePrefix()}${classPrefix}` : undefined
     };
+
+    extendReactStatics(DefaultProps, BaseComponent);
 
     if (process.env.RUN_ENV === 'test') {
       return setDisplayName(wrapDisplayName(BaseComponent, '__test__'))(DefaultProps);

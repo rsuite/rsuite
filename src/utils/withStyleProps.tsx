@@ -6,8 +6,8 @@ import wrapDisplayName from 'recompose/wrapDisplayName';
 import setPropTypes from 'recompose/setPropTypes';
 
 import { TypeAttributes } from '../@types/common';
-
 import prefix from './prefix';
+import extendReactStatics from './extendReactStatics';
 import { SIZE, STATUS, COLOR } from '../constants';
 
 export interface RequiredProps {
@@ -64,8 +64,7 @@ function withStyleProps<T>(options: Options = {}) {
       propTypes.status = PropTypes.oneOf(STATUS);
     }
 
-    WithStyleComponent.defaultProps = BaseComponent.defaultProps;
-
+    extendReactStatics(WithStyleComponent, BaseComponent);
     setPropTypes<any>(propTypes)(WithStyleComponent);
 
     if (process.env.RUN_ENV === 'test') {

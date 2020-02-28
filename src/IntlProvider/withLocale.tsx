@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { setDisplayName, wrapDisplayName } from 'recompose';
 import defaultLocale from './locales/default';
 import IntlContext from './IntlContext';
+import extendReactStatics from '../utils/extendReactStatics';
 
 const mergeObject = (list: any[]) =>
   list.reduce((a, b) => {
@@ -39,6 +40,7 @@ function withLocale<T>(combineKeys: string[] = []) {
     });
 
     WithLocale.displayName = BaseComponent.displayName;
+    extendReactStatics(WithLocale, BaseComponent);
 
     if (process.env.RUN_ENV === 'test') {
       return setDisplayName(wrapDisplayName(BaseComponent, '__test__'))(WithLocale);

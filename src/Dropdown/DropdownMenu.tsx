@@ -1,6 +1,5 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import classNames from 'classnames';
 import Collapse from 'rsuite-utils/lib/Animation/Collapse';
 import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
@@ -117,7 +116,10 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
   };
 
   isActive(props: any, activeKey: any) {
-    if (props.active || (!_.isUndefined(activeKey) && shallowEqual(props.eventKey, activeKey))) {
+    if (
+      props.active ||
+      (typeof activeKey !== 'undefined' && shallowEqual(props.eventKey, activeKey))
+    ) {
       return true;
     }
 
