@@ -1,0 +1,10 @@
+{
+  "name": "rsuite-docs",
+  "version": 2,
+  "routes": [
+    {
+      "src": "/design/(.*)/index.html",
+      "dest": "/design/$1/index.html"
+    }
+  ]
+}
