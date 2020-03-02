@@ -84,7 +84,7 @@ describe('Table-Pagination', () => {
 
   it('Should show info', () => {
     const instance = getDOMNode(<TablePagination showInfo total={100} />);
-    assert.equal(instance.querySelector('.rs-table-pagination-page-info').innerText, 'total: 100');
+    assert.equal(instance.querySelector('.rs-table-pagination-page-info').innerText, 'Total: 100');
   });
 
   it('Should call onChangePage callback', done => {

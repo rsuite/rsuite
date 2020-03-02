@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import setStatic from 'recompose/setStatic';
-import setDisplayName from 'recompose/setDisplayName';
 import { RootCloseWrapper } from 'rsuite-utils/lib/Overlay';
 import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
 
@@ -34,6 +33,7 @@ interface SidenavContextType {
 }
 
 class Dropdown extends React.Component<DropdownProps, DropdownState> {
+  static displayName = 'Dropdown';
   static contextType = SidenavContext;
   static propTypes = {
     activeKey: PropTypes.any,
@@ -253,4 +253,4 @@ const EnhancedDropdown = defaultProps({
 setStatic('Item', DropdownMenuItem)(EnhancedDropdown);
 setStatic('Menu', DropdownMenu)(EnhancedDropdown);
 
-export default setDisplayName('Dropdown')(EnhancedDropdown);
+export default EnhancedDropdown;

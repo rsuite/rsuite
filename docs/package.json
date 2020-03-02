@@ -5,6 +5,7 @@
   "scripts": {
     "check:type": "tsc",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:theme\"",
+    "dev:styles": "cross-env STYLE_DEBUG=STYLE npm run dev",
     "dev:server": "cross-env NODE_ENV=development node server.js",
     "dev:theme": "webpack-dev-server --mode development --hot --config webpack.theme.config.js",
     "build": "npm run build:theme && next build && next export",

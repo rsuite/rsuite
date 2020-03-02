@@ -1,20 +1,15 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-
+import { getDOMNode } from '@test/testUtils';
 import MonthDropdownItem from '../MonthDropdownItem';
 import { format } from 'date-fns';
 
 describe('Calendar-MonthDropdownItem', () => {
   it('Should output a  `1` ', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <MonthDropdownItem month={1} date={new Date()} />
-    );
+    const instance = getDOMNode(<MonthDropdownItem month={1} date={new Date()} />);
 
-    const instanceDOM = findDOMNode(instance);
-
-    assert.equal(instanceDOM.nodeName, 'DIV');
-    assert.equal(instanceDOM.innerText, '1');
+    assert.equal(instance.nodeName, 'DIV');
+    assert.equal(instance.innerText, '1');
   });
 
   it('Should call `onSelect` callback', done => {
@@ -24,34 +19,26 @@ describe('Calendar-MonthDropdownItem', () => {
       }
     };
 
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <MonthDropdownItem date={new Date()} month={1} year={2017} onSelect={doneOp} />
     );
 
-    const instanceDOM = findDOMNode(instance);
-
-    ReactTestUtils.Simulate.click(instanceDOM);
+    ReactTestUtils.Simulate.click(instance);
   });
 
   it('Should have a custom className', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <MonthDropdownItem className="custom" date={new Date()} />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bcustom\b/));
+    const instance = getDOMNode(<MonthDropdownItem className="custom" date={new Date()} />);
+    assert.ok(instance.className.match(/\bcustom\b/));
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = ReactTestUtils.renderIntoDocument(
-      <MonthDropdownItem style={{ fontSize }} date={new Date()} />
-    );
-    assert.equal(findDOMNode(instance).style.fontSize, fontSize);
+    const instance = getDOMNode(<MonthDropdownItem style={{ fontSize }} date={new Date()} />);
+    assert.equal(instance.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <MonthDropdownItem classPrefix="custom-prefix" />
-    );
-    assert.ok(findDOMNode(instance).className.match(/\bcustom-prefix\b/));
+    const instance = getDOMNode(<MonthDropdownItem classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

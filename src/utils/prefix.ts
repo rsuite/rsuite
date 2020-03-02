@@ -1,5 +1,5 @@
-import _ from 'lodash';
 import classNames from 'classnames';
+import curry from 'lodash/curry';
 
 export const globalKey = 'rs-';
 export const getClassNamePrefix = () => {
@@ -15,11 +15,11 @@ export function prefix(pre: string, className: string | string[]): string {
     return '';
   }
 
-  if (_.isArray(className)) {
+  if (Array.isArray(className)) {
     return classNames(className.filter(name => !!name).map(name => `${pre}-${name}`));
   }
 
   return `${pre}-${className}`;
 }
 
-export default _.curry(prefix);
+export default curry(prefix);
