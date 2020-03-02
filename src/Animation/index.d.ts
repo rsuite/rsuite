@@ -48,9 +48,11 @@ export interface CollapseProps extends TransitionProps {
 }
 
 export interface AnimationAPI {
-  Fade: React.StatelessComponent<TransitionProps>;
-  Collapse: React.StatelessComponent<CollapseProps>;
-  Transition: React.StatelessComponent<TransitionProps>;
+  Fade: React.FunctionComponent<TransitionProps>;
+  Collapse: React.FunctionComponent<CollapseProps>;
+  Transition: React.FunctionComponent<TransitionProps>;
+  Bounce: React.FunctionComponent<TransitionProps>;
+  Slide: React.FunctionComponent<TransitionProps>;
 }
 
 declare const Animation: AnimationAPI;

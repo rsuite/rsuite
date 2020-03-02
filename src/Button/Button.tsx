@@ -15,7 +15,6 @@ class Button extends React.Component<ButtonProps> {
     componentClass: PropTypes.elementType,
     children: PropTypes.node,
     block: PropTypes.bool,
-    href: PropTypes.string,
     loading: PropTypes.bool,
     disabled: PropTypes.bool
   };
@@ -26,7 +25,6 @@ class Button extends React.Component<ButtonProps> {
 
   render() {
     const {
-      href,
       active,
       disabled,
       loading,
@@ -50,23 +48,16 @@ class Button extends React.Component<ButtonProps> {
     const ripple = appearance !== 'link' && appearance !== 'ghost' ? <Ripple /> : null;
     const spin = <span className={addPrefix('spin')} />;
 
-    if (href) {
-      return (
-        <SafeAnchor
-          {...unhandled}
-          role="button"
-          aria-disabled={disabled}
-          href={href}
-          className={classes}
-        >
-          {loading && spin}
-          {children}
-          {ripple}
-        </SafeAnchor>
-      );
-    }
-
     if (Component === 'button') {
+      if (unhandled.href) {
+        return (
+          <SafeAnchor {...unhandled} aria-disabled={disabled} className={classes}>
+            {loading && spin}
+            {children}
+            {ripple}
+          </SafeAnchor>
+        );
+      }
       unhandled.type = unhandled.type || 'button';
     }
 

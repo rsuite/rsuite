@@ -1,13 +1,10 @@
 import _ from 'lodash';
 import classNames from 'classnames';
 
-const getGlobal = new Function('return this;');
-const globals = getGlobal();
-
 export const globalKey = 'rs-';
 export const getClassNamePrefix = () => {
-  if (globals && typeof globals.__RSUITE_CLASSNAME_PREFIX__ !== 'undefined') {
-    return globals.__RSUITE_CLASSNAME_PREFIX__;
+  if (typeof __RSUITE_CLASSNAME_PREFIX__ !== 'undefined') {
+    return __RSUITE_CLASSNAME_PREFIX__;
   }
   return globalKey;
 };

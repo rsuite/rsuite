@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="8px" height="9px" viewBox="0 0 8 9" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 58 (84663) - https://sketch.com -->
+    <title>Sequence</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Sequence" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
+        <path d="M4,1 L4,8" id="Line-7" stroke="#3498FF" stroke-width="2"></path>
+        <path d="M4,8 L1,5" id="Line-8" stroke="#3498FF" stroke-width="2"></path>
+        <path d="M7,8 L4,5" id="Line-8" stroke="#3498FF" stroke-width="2" transform="translate(5.500000, 6.500000) scale(-1, 1) translate(-5.500000, -6.500000) "></path>
+    </g>
+</svg>

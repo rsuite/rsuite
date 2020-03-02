@@ -1,3 +1,44 @@
+# 4.2.1
+
+February 2, 2020
+
+- **Bugfix**: Fixed "script-src" content security policy (CSP) failure ([#830])
+- **Bugfix**: Fixed an issue where `onSelect` was called undefined, when using `enter` on the `<AutoComplete>` to select it. ([#828])
+- **Bugfix**: Fixed vertical alignment of xs `<Datepicker>` icon. ([#817])
+- **Bugfix**: Fixed List and Modal combo setting has drag issue. ([#812])
+- **Bugfix**: Fixed toggle text/icon font size. ([#810])
+- **Bugfix**: Fixed an issue where `scrollTop` would not work in `<Table>`. ([rsuite-table#13da7a9])
+- **Bugfix**: Fixed `<Table>` style overlap problem, when there are both loading and empty states. ([rsuite-table#120])
+- **Bugfix**: [TS] Update ts type definition for Animation. ([#822])
+- **Improve**: Special handling of `<Button>` when it is used as a `link`. ([#831])
+- **Improve**: Remove defalut value of `parentSelectable` in `<Cascader>` ([#808])
+- **Chore**: Update eslint ([#808])
+
+---
+
+- **Bugfix**: 修复了 `script-src` 内容安全策略（CSP）失败的问题。 ([#830])
+- **Bugfix**: 修复了 `<AutoComplete>` 组件使用 `enter` 选择时候 `onSelect` 回调未被调用的问题。([#828])
+- **Bugfix**: 修复了 xs `<Datepicker>` 图标的垂直对齐方式。 ([#817])
+- **Bugfix**: 修复了 List 和 Modal 组合时候存在的拖拽问题。 ([#812])
+- **Bugfix**: 修复了 Toggle 字体大小的问题。 ([#810])
+- **Bugfix**: 修复了 `<Table>` 的 `scrollTop` API 调用无效的问题。([rsuite-table#13da7a9])
+- **Bugfix**: 修复了 `<Table>` 的加载中状态与数据为空状态的样式重叠的问题。 ([rsuite-table#120])
+- **Bugfix**: [TS] 更新了 Animation 的类型定义。 ([#822])
+- **Improve**: 当 `<Button>` 为 `link` 的时候的特殊处理。 ([#831])
+- **Improve**: 删除 `<Cascader>` 的 `parentSelectable` 属性的默认值。 ([#808])
+- **Chore**: 更新 eslint 配置。 ([#808])
+
+[#831]: https://github.com/rsuite/rsuite/pull/831
+[#830]: https://github.com/rsuite/rsuite/pull/830
+[#828]: https://github.com/rsuite/rsuite/pull/828
+[#822]: https://github.com/rsuite/rsuite/pull/822
+[#817]: https://github.com/rsuite/rsuite/pull/817
+[#812]: https://github.com/rsuite/rsuite/pull/812
+[#810]: https://github.com/rsuite/rsuite/pull/810
+[#808]: https://github.com/rsuite/rsuite/pull/808
+[rsuite-table#13da7a9]: https://github.com/rsuite/rsuite-table/commit/476c7573172205ba8df976035a1e770298a33367
+[rsuite-table#120]: https://github.com/rsuite/rsuite-table/pull/124
+
 # 4.2.0
 
 > January 2, 2020
