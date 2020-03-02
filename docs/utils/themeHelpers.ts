@@ -1,9 +1,20 @@
 import { canUseDOM } from 'dom-lib';
+
 export type ThemeType = 'default' | 'dark';
 export type DirectionType = 'rtl' | 'ltr';
 
+export const getDefaultTheme = (): ThemeType => {
+  if (!canUseDOM) {
+    return 'default';
+  }
+  if (matchMedia?.('(prefers-color-scheme: dark)').matches) {
+    return 'dark';
+  }
+  return 'default';
+};
+
 export const THEME_KEY = 'theme';
-export const THEME_DEFAULT = 'default';
+export const THEME_DEFAULT = getDefaultTheme();
 export const DIRECTION_KEY = 'direction';
 export const DIRECTION_DEFAULT = 'ltr';
 

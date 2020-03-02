@@ -9,6 +9,7 @@ import enUS from '@rsuite-locales/en_US';
 import { getMessages } from '../locales';
 import {
   DirectionType,
+  getDefaultTheme,
   getThemeCssPath,
   getThemeId,
   readTheme,
@@ -17,6 +18,7 @@ import {
 } from '../utils/themeHelpers';
 import loadCssFile from '../utils/loadCssFile';
 import StyleHead from '../components/StyleHead';
+import { canUseDOM } from 'dom-lib';
 
 Router.events.on('routeChangeStart', url => {
   NProgress.start();
@@ -38,14 +40,13 @@ interface AppProps {
 function App({ Component, pageProps }: AppProps) {
   const [defaultThemeName, defaultDirection] = React.useMemo<[ThemeType, DirectionType]>(
     readTheme,
-    []
+    [getDefaultTheme()]
   );
   const [themeName, setThemeName] = React.useState(defaultThemeName);
   const [direction, setDirection] = React.useState(defaultDirection);
   const [language, setLanguage] = React.useState(pageProps.userLanguage);
   const [styleLoaded, setStyleLoaded] = React.useState(false);
   const locale = language === 'en' ? enUS : zhCN;
-
   React.useEffect(() => {
     NProgress.start();
   }, []);
@@ -75,6 +76,17 @@ function App({ Component, pageProps }: AppProps) {
     const newThemeName = themeName === 'default' ? 'dark' : 'default';
     setThemeName(newThemeName);
     loadTheme(newThemeName, direction);
+  }, [themeName, direction]);
+
+  React.useEffect(() => {
+    if (!canUseDOM) {
+      return;
+    }
+    const media = matchMedia('(prefers-color-scheme: dark)');
+    media.addEventListener('change', onChangeTheme);
+    return () => {
+      media.removeEventListener('change', onChangeTheme);
+    };
   }, [themeName, direction]);
 
   const onChangeDirection = React.useCallback(() => {
