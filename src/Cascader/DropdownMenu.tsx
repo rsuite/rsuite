@@ -43,7 +43,7 @@ export const dropdownMenuPropTypes = {
   valueKey: PropTypes.string,
   labelKey: PropTypes.string,
   menuWidth: PropTypes.number,
-  menuHeight: PropTypes.number,
+  menuHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   className: PropTypes.string,
   renderMenuItem: PropTypes.func,
   renderMenu: PropTypes.func,

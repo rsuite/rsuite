@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import compose from 'recompose/compose';
 import _ from 'lodash';
 import { reactToString, filterNodesOfTree, shallowEqual } from 'rsuite-utils/lib/utils';
 import {
@@ -9,8 +8,7 @@ import {
   prefix,
   getUnhandledProps,
   createChainedFunction,
-  getDataGroupBy,
-  withPickerMethods
+  getDataGroupBy
 } from '../utils';
 
 import IntlProvider from '../IntlProvider';
@@ -342,6 +340,13 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
     }
   };
 
+  open = () => {
+    this.handleOpenDropdown?.();
+  };
+  close = () => {
+    this.handleCloseDropdown?.();
+  };
+
   handleToggleDropdown = () => {
     const { active } = this.state;
     if (active) {
@@ -559,11 +564,6 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
   }
 }
 
-const enhance = compose(
-  defaultProps<CheckPickerProps>({
-    classPrefix: 'picker'
-  }),
-  withPickerMethods<CheckPickerProps>()
-);
-
-export default enhance(CheckPicker);
+export default defaultProps({
+  classPrefix: 'picker'
+})(CheckPicker);

@@ -10,6 +10,7 @@ import 'core-js/modules/es7.array.includes';
 import 'core-js/modules/es6.array.iterator';
 import 'core-js/modules/es6.array.of';
 import 'core-js/modules/es6.array.species';
+import 'core-js/modules/es6.array.for-each';
 import 'core-js/modules/es6.function.has-instance';
 import 'core-js/modules/es6.map';
 import 'core-js/modules/es6.number.constructor';
@@ -61,3 +62,9 @@ import 'core-js/modules/es6.weak-set';
 
 // Specialized Packages:
 Object.assign = assign;
+
+// missing forEach on NodeList for IE11
+if (window.NodeList && !NodeList.prototype.forEach) {
+  // @ts-ignore
+  NodeList.prototype.forEach = Array.prototype.forEach;
+}

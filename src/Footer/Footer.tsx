@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import setDisplayName from 'recompose/setDisplayName';
 import { defaultProps } from '../utils';
 import { FooterProps } from './Footer.d';
 
@@ -18,8 +17,6 @@ class Footer extends React.Component<FooterProps> {
   }
 }
 
-const EnhancedFooter = defaultProps({
+export default defaultProps({
   classPrefix: 'footer'
 })(Footer);
-
-export default setDisplayName('Footer')(EnhancedFooter);

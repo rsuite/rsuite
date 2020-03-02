@@ -2,14 +2,12 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import compose from 'recompose/compose';
 import {
   defaultProps,
   prefix,
   getUnhandledProps,
   createChainedFunction,
-  getDataGroupBy,
-  withPickerMethods
+  getDataGroupBy
 } from '../utils';
 
 import {
@@ -308,6 +306,12 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
       this.triggerRef.current.show();
     }
   };
+  open = () => {
+    this.handleOpenDropdown?.();
+  };
+  close = () => {
+    this.handleCloseDropdown?.();
+  };
 
   handleToggleDropdown = () => {
     const { active } = this.state;
@@ -499,11 +503,6 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
   }
 }
 
-const enhance = compose(
-  defaultProps<SelectPickerProps>({
-    classPrefix: 'picker'
-  }),
-  withPickerMethods<SelectPickerProps>()
-);
-
-export default enhance(SelectPicker);
+export default defaultProps({
+  classPrefix: 'picker'
+})(SelectPicker);

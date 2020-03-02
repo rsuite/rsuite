@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import compose from 'recompose/compose';
 import _ from 'lodash';
 import List from 'react-virtualized/dist/commonjs/List';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
@@ -15,8 +14,7 @@ import {
   prefix,
   defaultClassPrefix,
   getUnhandledProps,
-  createChainedFunction,
-  withPickerMethods
+  createChainedFunction
 } from '../utils';
 
 import {
@@ -557,6 +555,13 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     }
   };
 
+  open = () => {
+    this.handleOpenDropdown?.();
+  };
+  close = () => {
+    this.handleCloseDropdown?.();
+  };
+
   handleToggleDropdown = () => {
     const { active } = this.state;
     if (active) {
@@ -989,9 +994,6 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
 
 polyfill(TreePicker);
 
-export default compose(
-  defaultProps<TreePickerProps>({
-    classPrefix: 'picker'
-  }),
-  withPickerMethods<TreePickerProps>()
-)(TreePicker);
+export default defaultProps<TreePickerProps>({
+  classPrefix: 'picker'
+})(TreePicker);
