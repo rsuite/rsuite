@@ -38,19 +38,17 @@ function HomePage() {
                 >
                   <img alt="npm" src="https://badge.fury.io/js/rsuite.svg" />
                 </a>
-                {process.env?.__LOCALE_ENV__ === 'CN' ? (
-                  <a
-                    style={{ marginLeft: 10 }}
-                    href="https://gitee.com/rsuite/rsuite"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <img
-                      src="https://gitee.com/rsuite/rsuite/badge/star.svg?theme=gvp"
-                      alt="star"
-                    ></img>
-                  </a>
-                ) : null}
+                <a
+                  style={{ marginLeft: 10 }}
+                  href="https://gitee.com/rsuite/rsuite"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    src="https://gitee.com/rsuite/rsuite/badge/star.svg?theme=gvp"
+                    alt="star"
+                  ></img>
+                </a>
 
                 <a
                   style={{ marginLeft: 10 }}
@@ -72,6 +70,15 @@ function HomePage() {
                   href={'/guide/introduction'}
                 >
                   {messages?.common?.gettingStarted}
+                </Button>
+                <Button
+                  size="lg"
+                  appearance="ghost"
+                  componentClass={Link}
+                  style={{ marginLeft: 10 }}
+                  href={'/guide/introduction'}
+                >
+                  {messages?.common?.components}
                 </Button>
               </ButtonToolbar>
             </section>

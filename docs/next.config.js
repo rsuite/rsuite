@@ -68,7 +68,6 @@ module.exports = withPlugins([[withImages]], {
       new webpack.DefinePlugin({
         'process.env': {
           __DEV__: JSON.stringify(__DEV__),
-          __LOCALE_ENV__: JSON.stringify(process.env.LOCALE_ENV),
           // Use to load css when npm run dev,
           __LOCAL_IP__: __DEV__ ? JSON.stringify(ip.address()) : null,
           VERSION: JSON.stringify(pkg.version)
