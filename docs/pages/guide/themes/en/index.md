@@ -230,4 +230,4 @@ If you use [`create-react-app`][cra] to create a project, you can modify it with
 [variables.less]: https://github.com/rsuite/rsuite/blob/master/src/styles/variables.less
 [use-with-create-app]: /en/guide/use-with-create-react-app#Customize%20Theme
 [webpack-multiple-themes-compile]: https://github.com/rsuite/webpack-multiple-themes-compile
-[multiple-themes]: https://github.com/rsuite/examples/tree/master/multiple-themes
+[multiple-themes]: https://github.com/rsuite/rsuite/tree/master/examples/custom-multiple-themes

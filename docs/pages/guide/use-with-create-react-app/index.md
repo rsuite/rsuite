@@ -111,7 +111,7 @@ module.exports = override(
 
 ## 源码
 
-- [create-react-app](https://github.com/rsuite/examples/tree/master/create-react-app)
+- [create-react-app](https://github.com/rsuite/rsuite/tree/master/examples/create-react-app)
 
 [yarn]: https://yarnpkg.com/
 [nvm]: https://github.com/creationix/nvm#installation
