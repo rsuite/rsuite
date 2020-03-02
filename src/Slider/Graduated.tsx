@@ -65,12 +65,13 @@ function Graduated(props: GraduatedProps) {
     });
 
     const mark = precisionMath(i * step + min);
+    const lastMark = Math.min(max, mark + step);
     const last = i === count - 1;
 
     graduatedItems.push(
       <li className={classes} key={i}>
         <Mark mark={mark} renderMark={renderMark} />
-        {last ? <Mark mark={mark} renderMark={renderMark} last={last} /> : null}
+        {last ? <Mark mark={lastMark} renderMark={renderMark} last={last} /> : null}
       </li>
     );
   }
