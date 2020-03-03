@@ -2,7 +2,6 @@ FROM node
 
 ENV NODE_ENV production
 ENV HOST 0.0.0.0
-ENV LOCALE_ENV CN
 
 RUN mkdir -p /usr/src/app
 
