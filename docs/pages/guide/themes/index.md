@@ -228,4 +228,4 @@ global.__RSUITE_CLASSNAME_PREFIX__ = 'custom-';
 [variables.less]: https://github.com/rsuite/rsuite/blob/master/src/styles/variables.less
 [use-with-create-app]: /guide/use-with-create-react-app#定制主题
 [webpack-multiple-themes-compile]: https://github.com/rsuite/webpack-multiple-themes-compile
-[multiple-themes]: https://github.com/rsuite/examples/tree/master/multiple-themes
+[multiple-themes]: https://github.com/rsuite/rsuite/tree/master/examples/custom-multiple-themes
