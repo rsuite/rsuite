@@ -7,6 +7,7 @@ import * as SvgIcons from '@/components/SvgIcons';
 import SearchDrawer from '../SearchDrawer';
 import AppContext from '../AppContext';
 import Link from '@/components/Link';
+import { canUseDOM } from 'dom-lib';
 
 interface ButtonWithTooltipProps {
   children: React.ReactNode;
@@ -90,6 +91,9 @@ function getNavItems(messages) {
 
 export default function TopLevelNav(props: TopLevelNavProps) {
   const { children, showSubmenu, hideToggle } = props;
+  // Resolve server render is not same with the client problem.
+  // reference https://itnext.io/tips-for-server-side-rendering-with-react-e42b1b7acd57
+  const [ssrDone, setSsrDone] = React.useState(false);
   const [search, setSearch] = React.useState();
   const onToggleMenu = (_event, show) => {
     props?.onToggleMenu?.(show);
@@ -101,10 +105,13 @@ export default function TopLevelNav(props: TopLevelNavProps) {
     onChangeTheme
   } = React.useContext(AppContext);
 
-  const navItems = getNavItems(messages);
+  React.useEffect(() => {
+    setSsrDone(canUseDOM);
+  }, [canUseDOM]);
 
+  const navItems = getNavItems(messages);
   return (
-    <div className="top-level-nav">
+    <div className="top-level-nav" key={ssrDone ? 'client' : 'server'}>
       <Link href="/">
         <Logo width={26} height={30} className="logo-sm" />
       </Link>
