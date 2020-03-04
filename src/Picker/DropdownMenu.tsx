@@ -116,7 +116,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState>
   getRowHeight(list: any[], { index }) {
     const item = list[index];
 
-    if (this.props.group && item.group && index !== 0) {
+    if (this.props.group && item._$grouped && index !== 0) {
       return 48;
     }
 
@@ -170,7 +170,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState>
     const value = item[valueKey];
     const label = item[labelKey];
 
-    if (_.isUndefined(label) && !item.group) {
+    if (_.isUndefined(label) && !item._$grouped) {
       throw Error(`labelKey "${labelKey}" is not defined in "data" : ${index}`);
     }
 
@@ -181,7 +181,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState>
      * Render <DropdownMenuGroup>
      * when if `group` is enabled and `itme.children` is array
      */
-    if (group && item.group) {
+    if (group && item._$grouped) {
       return (
         <DropdownMenuGroup
           style={style}
@@ -193,7 +193,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState>
           {renderMenuGroup ? renderMenuGroup(item.groupTitle, item) : item.groupTitle}
         </DropdownMenuGroup>
       );
-    } else if (_.isUndefined(value) && !_.isUndefined(item.group)) {
+    } else if (_.isUndefined(value) && !_.isUndefined(item._$grouped)) {
       throw Error(`valueKey "${valueKey}" is not defined in "data" : ${index} `);
     }
 

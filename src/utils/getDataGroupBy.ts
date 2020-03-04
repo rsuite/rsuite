@@ -13,9 +13,9 @@ export default function getDataGroupBy(data: any[] = [], key: string, sort: Func
   });
 
   let nextData = Object.entries(tempData).map(([groupTitle, children]: [string, any[]]) => ({
+    children: isSort ? children.sort(sort(false)) : children,
     groupTitle,
-    group: true,
-    children: isSort ? children.sort(sort(false)) : children
+    _$grouped: true
   }));
 
   if (isSort) {
