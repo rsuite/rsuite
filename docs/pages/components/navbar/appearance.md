@@ -9,6 +9,12 @@
 <!--start-code-->
 
 ```js
+/**
+ * .navbar-brand {
+ *   padding: 18px 20px;
+ *   display: inline-block;
+ * }
+ */
 const NavBarInstance = ({ onSelect, activeKey, ...props }) => {
   return (
     <Navbar {...props}>
