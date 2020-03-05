@@ -1,5 +1,3 @@
-## Validations
-
 ### Schema Model
 
 Form Check needs to be used `<Form>`, `<FormControl>` and `Schema.Model` 。
@@ -103,11 +101,7 @@ class CheckForm extends React.Component {
           <TextField name="age" label="Age" />
           <TextField name="password" label="Password" type="password" />
 
-          <TextField
-            name="verifyPassword"
-            label="Verify password"
-            type="password"
-          />
+          <TextField name="verifyPassword" label="Verify password" type="password" />
 
           <ButtonToolbar>
             <Button appearance="primary" onClick={this.handleSubmit}>
