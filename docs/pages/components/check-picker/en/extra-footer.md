@@ -7,7 +7,7 @@ Customize a select all function.
 ```js
 /**
  * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users.json
+ * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
  */
 
 const footerStyles = {
