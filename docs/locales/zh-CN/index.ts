@@ -53,7 +53,7 @@ export default {
     'tab.summary': '汇总',
     'tab.fixed': '锁定列',
     'tab.auto-height': '自动高度',
-    'tab.affix-header': '固定表头'
+    'tab.affix-header': '固定表头在页首'
   },
   palette: {
     title: '分析产品商标颜色',

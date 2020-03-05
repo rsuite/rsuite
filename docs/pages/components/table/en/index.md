@@ -24,43 +24,42 @@ const { Column, HeaderCell, Cell, Pagination } = Table;
 
 ### `<Table>`
 
-| Property               | Type `(Default)`                        | Description                                                                                   |
-| ---------------------- | --------------------------------------- | --------------------------------------------------------------------------------------------- |
-| affixHeader            | boolean,number                          | Affix the table header to the specified location on the page                                  |
-| autoHeight             | boolean                                 | Automatic height                                                                              |
-| bordered               | boolean                                 | Show border                                                                                   |
-| bodyRef                | React.ElementRef                        | A ref attached to the table body element                                                      |
-| cellBordered           | boolean                                 | Show cell border                                                                              |
-| data \*                | Array&lt;Object&gt;                     | Table data                                                                                    |
-| defaultExpandAllRows   | boolean                                 | Expand all nodes By default                                                                   |
-| defaultExpandedRowKeys | string[]                                | Specify the default expanded row by `rowkey`                                                  |
-| defaultSortType        | enum: 'desc', 'asc'                     | Sort type                                                                                     |
-| expandedRowKeys        | string[]                                | Specify the default expanded row by `rowkey` (Controlled)                                     |
-| headerHeight           | number`(40)`                            | Table Header Height                                                                           |
-| height                 | number`(200)`                           | Table height                                                                                  |
-| hover                  | boolean `(true)`                        | The row of the table has a mouseover effect                                                   |
-| isTree                 | boolean                                 | Show as Tree table                                                                            |
-| loading                | boolean                                 | Show loading                                                                                  |
-| minHeight              | number `(0)`                            | Minimum height                                                                                |
-| onExpandChange         | (expanded:boolean,rowData:object)=>void | Tree table, the callback function in the expanded node                                        |
-| onRowClick             | (rowData:object)=>void                  | Click the callback function after the row and return to `rowDate`                             |
-| onScroll               | (scrollX:object, scrollY:object)=>void  | Callback function for scroll bar scrolling                                                    |
-| onSortColumn           | (dataKey:string, sortType:string)=>void | Click the callback function of the sort sequence to return the value `sortColumn`, `sortType` |
-| renderRowExpanded      | (rowDate?: Object) => React.Node        | Customize what you can do to expand a zone                                                    |
-| renderTreeToggle       | (icon:node,rowData:object)=> node       | Tree table, the callback function in the expanded node                                        |
-| renderEmpty            | (info: React.Node) => React.Node        | Customized data is empty display content                                                      |
-| renderLoading          | (loading: React.Node) => React.Node     | Customize the display content in the data load                                                |
-| rowClassName           | string , (rowData:object)=>string       | Add an optional extra class name to row                                                       |
-| rowExpandedHeight      | number `(100)`                          | Set the height of an expandable area                                                          |
-| rowHeight              | number`(46)`                            | Row height                                                                                    |
-| rowKey                 | string `('key')`                        | Each row corresponds to the unique `key` in `data`                                            |
-| setRowHeight           | (rowData:object)=> number               | Custom Settings Row Height                                                                    |
-| showHeader             | boolean `(true)`                        | Display header                                                                                |
-| sortColumn             | string                                  | Sort column name                                                                              |
-| sortType               | enum: 'desc', 'asc'                     | Sort type (Controlled)                                                                        |
-| virtualized            | boolean                                 | Effectively render large tabular data                                                         |
-| width                  | number                                  | Table width                                                                                   |
-| wordWrap               | boolean                                 | The cell wraps automatically                                                                  |
+| Property               | Type `(Default)`                                   | Description                                                                                   |
+| ---------------------- | -------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| affixHeader            | boolean,number                                     | Affix the table header to the specified location on the page                                  |
+| autoHeight             | boolean                                            | Automatic height                                                                              |
+| bodyRef                | React.ElementRef                                   | A ref attached to the table body element                                                      |
+| bordered               | boolean                                            | Show border                                                                                   |
+| cellBordered           | boolean                                            | Show cell border                                                                              |
+| data \*                | Array&lt;Object&gt;                                | Table data                                                                                    |
+| defaultExpandAllRows   | boolean                                            | Expand all nodes By default                                                                   |
+| defaultExpandedRowKeys | string[]                                           | Specify the default expanded row by `rowkey`                                                  |
+| defaultSortType        | enum: 'desc', 'asc'                                | Sort type                                                                                     |
+| expandedRowKeys        | string[]                                           | Specify the default expanded row by `rowkey` (Controlled)                                     |
+| headerHeight           | number`(40)`                                       | Table Header Height                                                                           |
+| height                 | number`(200)`                                      | Table height                                                                                  |
+| hover                  | boolean `(true)`                                   | The row of the table has a mouseover effect                                                   |
+| isTree                 | boolean                                            | Show as Tree table                                                                            |
+| loading                | boolean                                            | Show loading                                                                                  |
+| minHeight              | number `(0)`                                       | Minimum height                                                                                |
+| onExpandChange         | (expanded:boolean,rowData:object)=>void            | Tree table, the callback function in the expanded node                                        |
+| onRowClick             | (rowData:object)=>void                             | Click the callback function after the row and return to `rowDate`                             |
+| onScroll               | (scrollX:object, scrollY:object)=>void             | Callback function for scroll bar scrolling                                                    |
+| onSortColumn           | (dataKey:string, sortType:string)=>void            | Click the callback function of the sort sequence to return the value `sortColumn`, `sortType` |
+| renderEmpty            | (info: React.Node) => React.Node                   | Customized data is empty display content                                                      |
+| renderLoading          | (loading: React.Node) => React.Node                | Customize the display content in the data load                                                |
+| renderRowExpanded      | (rowDate?: Object) => React.Node                   | Customize what you can do to expand a zone                                                    |
+| renderTreeToggle       | (icon:node,rowData:object,expanded:boolean)=> node | Tree table, the callback function in the expanded node                                        |
+| rowClassName           | string , (rowData:object)=>string                  | Add an optional extra class name to row                                                       |
+| rowExpandedHeight      | number `(100)`                                     | Set the height of an expandable area                                                          |
+| rowHeight              | (rowData:object)=> number,number`(46)`             | Row height                                                                                    |
+| rowKey                 | string `('key')`                                   | Each row corresponds to the unique `key` in `data`                                            |
+| showHeader             | boolean `(true)`                                   | Display header                                                                                |
+| sortColumn             | string                                             | Sort column name                                                                              |
+| sortType               | enum: 'desc', 'asc'                                | Sort type (Controlled)                                                                        |
+| virtualized            | boolean                                            | Effectively render large tabular data                                                         |
+| width                  | number                                             | Table width                                                                                   |
+| wordWrap               | boolean                                            | The cell wraps automatically                                                                  |
 
 ### `<Table.Column>`
 
@@ -74,6 +73,7 @@ const { Column, HeaderCell, Cell, Pagination } = Table;
 | onResize      | (columnWidth?: number, dataKey?: string) => void | Callback after column width change                                                                          |
 | resizable     | boolean                                          | Customizable Resize Column width                                                                            |
 | sortable      | boolean                                          | Sortable                                                                                                    |
+| treeCol       | boolean                                          | A column of a tree.                                                                                         |
 | verticalAlign | enum: 'top', 'middle', 'bottom'                  | Vertical alignment                                                                                          |
 | width         | number                                           | Column width                                                                                                |
 
