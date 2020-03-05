@@ -1,6 +1,62 @@
+# 4.3.0
+
+> March 5, 2020
+
+- **Feature**: Added Arabic, Finnish, Swedish and Danish locales. ([#849],[#821])
+- **Feature**: Added `expanded` parameter in `renderTreeToggle` of `<Table>`. ([rsuite-table#130])
+- **Feature**: Added support `treeCol` on `<Table.Column>`. ([rsuite-table#129])
+- **Bugfix**: Fixed `<CheckPicker>` rendering error when setting `groupBy`. ([#887])
+- **Bugfix**: Fixed `<Slider>` bar is invisible on Drawer in dark mode. ([#876])
+- **Bugfix**: Fixed disabled `<InputNumber>` in `<InputGroup>` shows unexpected border radius. ([#875])
+- **Bugfix**: Fixed radio-group inline item styles. ([#872])
+- **Bugfix**: Fixed missing typescript declaration files \*.d.ts in `/locales`. ([#856])
+- **Bugfix**: Fixed mark cannot be customized rendering in `<Slider>` correctly. ([#840])
+- **Improve**: Updated check rules for disabled times on `<DatePicker>`. ([#852])
+- **Improve**: Support for getting the `active` property when the Pagination button is a custom element. ([#833])
+- **Breaking**: The `rowHeight` property of Table supports function values. Remove the`setRowHeight` property.
+- **Chore**: Improved HoC to support ref passing. ([#862],[#872])
+- **Chore**: Added some integrated examples. ([#860],[examples])
+- **Chore**: The Table component migrates Typescript from Flow. ([rsuite-table#127])
+
+---
+
+- **Feature**: 新增支持阿拉伯语，芬兰语，瑞典语和丹麦语。 ([#849],[#821])
+- **Feature**: `<Table>` 的 `renderTreeToggle`属性新增 `expanded` 参数。 ([rsuite-table#130])
+- **Feature**: `<Table.Column>` 上新增 `treeCol` 属性，指定 Tree 显示的列。 ([rsuite-table#129])
+- **Bugfix**: 修复了 `<CheckPicker>` 当设置 `groupBy='group'`渲染出错。 ([#887])
+- **Bugfix**: 修复了 `<Slider>` 在 dark 主题下选择栏不可见的问题。 ([#876])
+- **Bugfix**: 修复了 `<InputGroup>` 里禁用的 `<InputNumber>` 显示错误的边框。 ([#875])
+- **Bugfix**: 修复了 `<RadioGroup>` 单行显示时的样式问题。 ([#872])
+- **Bugfix**: 修复了 locales 目录下语言包缺少 Typescript 类型定义。 ([#856])
+- **Bugfix**: 修复了 `<Slider>` 的标记在自定义时候无法正确呈现。 ([#840])
+- **Improve**: 更新了 `<DatePicker>` 上禁用时间的检查规则。 ([#852])
+- **Improve**: 支持在 `<Pagination>` 按钮是自定义元素时获取 `active` 属性 。 ([#833])
+- **Breaking**: `<Table>` 的 `rowHeight` 属性值支持函数，同时删除了 `setRowHeight` 属性。
+- **Chore**: 改进了高阶组件以支持 ref 传递。 ([#862],[#872])
+- **Chore**: 新增了一些集成的示例项目。 ([#860],[examples])
+- **Chore**: Table 组件库从 Flow 迁移到 Typescript。 ([rsuite-table#127])
+
+[#887]: https://github.com/rsuite/rsuite/pull/887
+[#876]: https://github.com/rsuite/rsuite/pull/876
+[#875]: https://github.com/rsuite/rsuite/pull/875
+[#873]: https://github.com/rsuite/rsuite/pull/873
+[#872]: https://github.com/rsuite/rsuite/pull/872
+[#862]: https://github.com/rsuite/rsuite/pull/862
+[#860]: https://github.com/rsuite/rsuite/pull/860
+[#856]: https://github.com/rsuite/rsuite/pull/856
+[#852]: https://github.com/rsuite/rsuite/pull/852
+[#849]: https://github.com/rsuite/rsuite/pull/849
+[#840]: https://github.com/rsuite/rsuite/pull/840
+[#833]: https://github.com/rsuite/rsuite/pull/831
+[#821]: https://github.com/rsuite/rsuite/pull/821
+[rsuite-table#130]: https://github.com/rsuite/rsuite-table/pull/130
+[rsuite-table#129]: https://github.com/rsuite/rsuite-table/pull/129
+[rsuite-table#127]: https://github.com/rsuite/rsuite-table/pull/127
+[examples]: https://github.com/rsuite/rsuite/tree/master/examples
+
 # 4.2.1
 
-February 2, 2020
+> February 2, 2020
 
 - **Bugfix**: Fixed "script-src" content security policy (CSP) failure ([#830])
 - **Bugfix**: Fixed an issue where `onSelect` was called undefined, when using `enter` on the `<AutoComplete>` to select it. ([#828])
