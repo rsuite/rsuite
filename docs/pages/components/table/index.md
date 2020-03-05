@@ -24,43 +24,43 @@ const { Column, HeaderCell, Cell, Pagination } = Table;
 
 ### `<Table>`
 
-| 属性名称               | 类型 `(默认值)`                                    | 描述                                                         |
-| ---------------------- | -------------------------------------------------- | ------------------------------------------------------------ |
-| affixHeader            | boolean,number                                     | 将标头固定到页面上的指定位置                                 |
-| autoHeight             | boolean                                            | 自动高度                                                     |
-| bodyRef                | React.ElementRef                                   | 表格主体部分上的 ref                                         |
-| bordered               | boolean                                            | 表格边框                                                     |
-| cellBordered           | boolean                                            | 单元格边框                                                   |
-| data \*                | Array&lt;Object&gt;                                | 表格数据                                                     |
-| defaultExpandAllRows   | boolean                                            | 默认展开所有节点                                             |
-| defaultExpandedRowKeys | string[]                                           | 通过 rowKey 指定默认展开的行                                 |
-| defaultSortType        | enum: 'desc', 'asc'                                | 排序类型                                                     |
-| expandedRowKeys        | string[]                                           | 通过 rowKey 指定展开的行 (受控)                              |
-| headerHeight           | number`(40)`                                       | 表头高度                                                     |
-| height                 | number`(200)`                                      | 高度                                                         |
-| hover                  | boolean `(true)`                                   | 表格的行设置鼠标悬停效果                                     |
-| isTree                 | boolean                                            | 是否展示为树表格                                             |
-| loading                | boolean                                            | 显示 loading 状态                                            |
-| locale                 | object                                             | 本地化语言配置                                               |
-| minHeight              | number `(0)`                                       | 最小高度                                                     |
-| onExpandChange         | (expanded:boolean,rowData:object)=>void            | 树形表格，在展开节点的回调函数                               |
-| onRowClick             | (rowData:object)=>void                             | 行点击后的回调函数， 返回 `rowDate`                          |
-| onScroll               | (scrollX:object, scrollY:object)=>void             | 滚动条滚动时候的回调函数                                     |
-| onSortColumn           | (dataKey:string, sortType:string)=>void            | 点击排序列的回调函数，返回 `sortColumn`, `sortType` 这两个值 |
-| renderEmpty            | (info: React.Node) => React.Node                   | 自定义渲染数据为空的状态                                     |
-| renderLoading          | (loading: React.Node) => React.Node                | 自定义渲染数据加载中的状态                                   |
-| renderRowExpanded      | (rowDate?: Object) => React.Node                   | 自定义可以展开区域的内容                                     |
-| renderTreeToggle       | (icon:node,rowData:object,expanded:boolean)=> node | 树形表格，在展开节点的回调函数                               |
-| rowClassName           | string , (rowData:object)=>string                  | 为行自定义 className                                         |
-| rowExpandedHeight      | number `(100)`                                     | 设置可展开区域的高度                                         |
-| rowHeight              | (rowData:object)=> number,number`(46)`             | 行高                                                         |
-| rowKey                 | string `('key')`                                   | 每一个行对应的 `data` 中的唯一 `key`                         |
-| showHeader             | boolean `(true)`                                   | 显示表头                                                     |
-| sortColumn             | string                                             | 排序列名称                                                   |
-| sortType               | enum: 'desc', 'asc'                                | 排序类型（受控）                                             |
-| virtualized            | boolean                                            | 呈现大表格数据                                               |
-| width                  | number                                             | 宽度                                                         |
-| wordWrap               | boolean                                            | 单元格自动换行                                               |
+| 属性名称               | 类型 `(默认值)`                                      | 描述                                                         |
+| ---------------------- | ---------------------------------------------------- | ------------------------------------------------------------ |
+| affixHeader            | boolean,number                                       | 将标头固定到页面上的指定位置                                 |
+| autoHeight             | boolean                                              | 自动高度                                                     |
+| bodyRef                | React.ElementRef                                     | 表格主体部分上的 ref                                         |
+| bordered               | boolean                                              | 表格边框                                                     |
+| cellBordered           | boolean                                              | 单元格边框                                                   |
+| data \*                | Array&lt;Object&gt;                                  | 表格数据                                                     |
+| defaultExpandAllRows   | boolean                                              | 默认展开所有节点                                             |
+| defaultExpandedRowKeys | string[]                                             | 通过 rowKey 指定默认展开的行                                 |
+| defaultSortType        | enum: 'desc', 'asc'                                  | 排序类型                                                     |
+| expandedRowKeys        | string[]                                             | 通过 rowKey 指定展开的行 (受控)                              |
+| headerHeight           | number`(40)`                                         | 表头高度                                                     |
+| height                 | number`(200)`                                        | 高度                                                         |
+| hover                  | boolean `(true)`                                     | 表格的行设置鼠标悬停效果                                     |
+| isTree                 | boolean                                              | 是否展示为树表格                                             |
+| loading                | boolean                                              | 显示 loading 状态                                            |
+| locale                 | object                                               | 本地化语言配置                                               |
+| minHeight              | number `(0)`                                         | 最小高度                                                     |
+| onExpandChange         | (expanded:boolean, rowData:object)=>void             | 树形表格，在展开节点的回调函数                               |
+| onRowClick             | (rowData:object)=>void                               | 行点击后的回调函数， 返回 `rowDate`                          |
+| onScroll               | (scrollX:object, scrollY:object)=>void               | 滚动条滚动时候的回调函数                                     |
+| onSortColumn           | (dataKey:string, sortType:string)=>void              | 点击排序列的回调函数，返回 `sortColumn`, `sortType` 这两个值 |
+| renderEmpty            | (info: React.Node) => React.Node                     | 自定义渲染数据为空的状态                                     |
+| renderLoading          | (loading: React.Node) => React.Node                  | 自定义渲染数据加载中的状态                                   |
+| renderRowExpanded      | (rowDate?: Object) => React.Node                     | 自定义可以展开区域的内容                                     |
+| renderTreeToggle       | (icon:node, rowData:object, expanded:boolean)=> node | 树形表格，在展开节点的回调函数                               |
+| rowClassName           | string , (rowData:object)=>string                    | 为行自定义 className                                         |
+| rowExpandedHeight      | number `(100)`                                       | 设置可展开区域的高度                                         |
+| rowHeight              | (rowData:object)=> number, number`(46)`              | 行高                                                         |
+| rowKey                 | string `('key')`                                     | 每一个行对应的 `data` 中的唯一 `key`                         |
+| showHeader             | boolean `(true)`                                     | 显示表头                                                     |
+| sortColumn             | string                                               | 排序列名称                                                   |
+| sortType               | enum: 'desc', 'asc'                                  | 排序类型（受控）                                             |
+| virtualized            | boolean                                              | 呈现大表格数据                                               |
+| width                  | number                                               | 宽度                                                         |
+| wordWrap               | boolean                                              | 单元格自动换行                                               |
 
 ### `<Table.Column>`
 
@@ -74,6 +74,7 @@ const { Column, HeaderCell, Cell, Pagination } = Table;
 | onResize      | (columnWidth?: number, dataKey?: string) => void | 列宽改变后的回调                                                                      |
 | resizable     | boolean                                          | 可自定义调整列宽                                                                      |
 | sortable      | boolean                                          | 可排序                                                                                |
+| treeCol       | boolean                                          | 指定列现在为 Tree                                                                     |
 | verticalAlign | enum: 'top', 'middle', 'bottom'                  | 垂直对齐方式                                                                          |
 | width         | number                                           | 列宽                                                                                  |
 

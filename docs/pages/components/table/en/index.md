@@ -42,17 +42,17 @@ const { Column, HeaderCell, Cell, Pagination } = Table;
 | isTree                 | boolean                                            | Show as Tree table                                                                            |
 | loading                | boolean                                            | Show loading                                                                                  |
 | minHeight              | number `(0)`                                       | Minimum height                                                                                |
-| onExpandChange         | (expanded:boolean,rowData:object)=>void            | Tree table, the callback function in the expanded node                                        |
+| onExpandChange         | (expanded:boolean, rowData:object)=>void            | Tree table, the callback function in the expanded node                                        |
 | onRowClick             | (rowData:object)=>void                             | Click the callback function after the row and return to `rowDate`                             |
 | onScroll               | (scrollX:object, scrollY:object)=>void             | Callback function for scroll bar scrolling                                                    |
 | onSortColumn           | (dataKey:string, sortType:string)=>void            | Click the callback function of the sort sequence to return the value `sortColumn`, `sortType` |
 | renderEmpty            | (info: React.Node) => React.Node                   | Customized data is empty display content                                                      |
 | renderLoading          | (loading: React.Node) => React.Node                | Customize the display content in the data load                                                |
 | renderRowExpanded      | (rowDate?: Object) => React.Node                   | Customize what you can do to expand a zone                                                    |
-| renderTreeToggle       | (icon:node,rowData:object,expanded:boolean)=> node | Tree table, the callback function in the expanded node                                        |
+| renderTreeToggle       | (icon:node, rowData:object, expanded:boolean)=> node | Tree table, the callback function in the expanded node                                        |
 | rowClassName           | string , (rowData:object)=>string                  | Add an optional extra class name to row                                                       |
 | rowExpandedHeight      | number `(100)`                                     | Set the height of an expandable area                                                          |
-| rowHeight              | (rowData:object)=> number,number`(46)`             | Row height                                                                                    |
+| rowHeight              | (rowData:object)=> number, number`(46)`            | Row height                                                                                    |
 | rowKey                 | string `('key')`                                   | Each row corresponds to the unique `key` in `data`                                            |
 | showHeader             | boolean `(true)`                                   | Display header                                                                                |
 | sortColumn             | string                                             | Sort column name                                                                              |
