@@ -1,3 +1,4 @@
+export const arEG: object;
 export const azAZ: object;
 export const daDK: object;
 export const enGB: object;
