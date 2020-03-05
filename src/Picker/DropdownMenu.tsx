@@ -8,6 +8,7 @@ import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import { shallowEqual } from 'rsuite-utils/lib/utils';
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
 import DropdownMenuGroup from './DropdownMenuGroup';
+import { KEY_GROUP, KEY_GROUP_TITLE } from '../utils/getDataGroupBy';
 
 export interface DropdownMenuProps {
   classPrefix: string;
@@ -116,7 +117,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState>
   getRowHeight(list: any[], { index }) {
     const item = list[index];
 
-    if (this.props.group && item._$grouped && index !== 0) {
+    if (this.props.group && item[KEY_GROUP] && index !== 0) {
       return 48;
     }
 
@@ -170,7 +171,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState>
     const value = item[valueKey];
     const label = item[labelKey];
 
-    if (_.isUndefined(label) && !item._$grouped) {
+    if (_.isUndefined(label) && !item[KEY_GROUP]) {
       throw Error(`labelKey "${labelKey}" is not defined in "data" : ${index}`);
     }
 
@@ -179,21 +180,24 @@ class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState>
 
     /**
      * Render <DropdownMenuGroup>
-     * when if `group` is enabled and `itme.children` is array
+     * when if `group` is enabled
      */
-    if (group && item._$grouped) {
+    if (group && item[KEY_GROUP]) {
+      const groupValue = item[KEY_GROUP_TITLE];
       return (
         <DropdownMenuGroup
           style={style}
           classPrefix={this.addPrefix('group')}
-          className={classNames({ folded: foldedGroupKeys.some(key => key === item.groupTitle) })}
-          key={item.groupTitle}
-          onClick={this.handleGroupTitleClick.bind(null, item.groupTitle)}
+          className={classNames({
+            folded: foldedGroupKeys.some(key => key === groupValue)
+          })}
+          key={groupValue}
+          onClick={this.handleGroupTitleClick.bind(null, groupValue)}
         >
-          {renderMenuGroup ? renderMenuGroup(item.groupTitle, item) : item.groupTitle}
+          {renderMenuGroup ? renderMenuGroup(groupValue, item) : groupValue}
         </DropdownMenuGroup>
       );
-    } else if (_.isUndefined(value) && !_.isUndefined(item._$grouped)) {
+    } else if (_.isUndefined(value) && !_.isUndefined(item[KEY_GROUP])) {
       throw Error(`valueKey "${valueKey}" is not defined in "data" : ${index} `);
     }
 
@@ -223,7 +227,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState>
     const { data = [], group, maxHeight, activeItemValues, valueKey, virtualized } = this.props;
     const { foldedGroupKeys } = this.state;
     const filteredItems = group
-      ? data.filter(item => !foldedGroupKeys?.some(key => key === item.parent?.groupTitle))
+      ? data.filter(item => !foldedGroupKeys?.some(key => key === item.parent?.[KEY_GROUP_TITLE]))
       : data;
     const rowCount = filteredItems.length;
 
