@@ -20,6 +20,7 @@ ReactDOM.render(
 
 | Language name | Description         |
 | ------------- | ------------------- |
+| ar_EG         | Arabic              |
 | da_DK         | Danish              |
 | en_GB         | English             |
 | en_US         | American English    |
