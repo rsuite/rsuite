@@ -185,13 +185,10 @@ class FormControl extends React.Component<FormControlProps, FormControlState> {
     const value = this.getValue();
     const readOnly = this.getReadOnly();
 
-    if (_.get(Component, 'defaultProps.componentClass') === 'input' && readOnly) {
-      unhandled.readOnly = readOnly;
-    }
-
     return (
       <Component
         {...unhandled}
+        readOnly={readOnly}
         name={name}
         onChange={this.handleFieldChange}
         onBlur={this.handleFieldBlur}
