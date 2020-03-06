@@ -1,6 +1,6 @@
 # Introduction
 
-React Suite is a library of React components. Committed to creating intimate interactive designs while providing developers with a friendly development experience.
+React Suite is a library of React components, designed for middle platform and back-end products. Committed to creating intimate interactive designs while providing developers with a friendly development experience.
 
 [![npm][npm-svg]][npm-home] [![Travis][travis-svg]][travis-home] [![Coverage Status][coverage-svg]][coverage-home] [![Gitter][gitter-svg]][gitter]
 
