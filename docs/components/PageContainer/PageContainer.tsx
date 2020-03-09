@@ -67,7 +67,7 @@ export default function PageContainer(props: ContainerProps) {
                   appearance="subtle"
                   icon={<Icon icon="edit2" />}
                   target="_blank"
-                  href={`https://github.com/rsuite/rsuite/edit/master/docs/pages/${routerId}/index.md`}
+                  href={`https://github.com/rsuite/rsuite/edit/master/docs/pages${routerId}/index.md`}
                 />
               </Whisper>
             ) : null}

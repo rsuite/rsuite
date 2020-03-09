@@ -76,7 +76,7 @@ function HomePage() {
                   appearance="ghost"
                   componentClass={Link}
                   style={{ marginLeft: 10 }}
-                  href={'/guide/introduction'}
+                  href={'/components/overview'}
                 >
                   {messages?.common?.components}
                 </Button>
