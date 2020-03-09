@@ -25,6 +25,7 @@
   font-size: @picker-tree-node-font-size;
   line-height: @picker-tree-node-line-height;
   text-align: left;
+  margin: 0 0 4px 0;
 
   &-active > .@{tpns}-node-label {
     .picker-item-active;
@@ -40,6 +41,8 @@
     padding-left: @picker-tree-arrow-down-width+ @picker-tree-arrow-down-gap+8px;
     display: inline-block;
     cursor: pointer;
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent;
 
     &::before {
       content: '';
@@ -57,6 +60,20 @@
 
     &:focus {
       background-color: @picker-tree-node-active-bg;
+    }
+  }
+
+  &-drag-over {
+    background-color: @picker-tree-node-hover-bg;
+  }
+  &-drag-over-top {
+    &.@{tpns}-node-label {
+      border-top: 2px solid @picker-tree-node-active-color;
+    }
+  }
+  &-drag-over-bottom {
+    &.@{tpns}-node-label {
+      border-bottom: 2px solid @picker-tree-node-active-color;
     }
   }
 
@@ -100,7 +117,8 @@
     height: 36px;
     font-size: @picker-tree-node-font-size;
     line-height: @picker-tree-node-line-height;
-    transform: rotate(-90deg) translateX(-2px) /* rtl: rotate(90deg) translateX(-6px) translateY(-8px) */;
+    transform: rotate(-90deg) translateX(-2px)
+      /* rtl: rotate(90deg) translateX(-6px) translateY(-8px) */;
     transform-origin: 3.5px 16px;
     margin-left: -2px;
     font-family: @font-family-icon;
@@ -170,7 +188,10 @@
 }
 
 /* stylelint-disable-next-line */
-[dir='rtl'] .ReactVirtualized__Grid__innerScrollContainer .rs-tree-node > .rs-tree-node-label::before {
+[dir='rtl']
+  .ReactVirtualized__Grid__innerScrollContainer
+  .rs-tree-node
+  > .rs-tree-node-label::before {
   display: none;
 }
 

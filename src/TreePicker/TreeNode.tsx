@@ -16,15 +16,25 @@ export interface TreeNodeProps {
   visible: boolean;
   nodeData: any;
   disabled?: boolean;
+  draggable?: boolean;
+  dragOver?: boolean;
+  dragOverTop?: boolean;
+  dragOverBottom?: boolean;
   hasChildren?: boolean;
   className?: string;
   classPrefix?: string;
   style?: React.CSSProperties;
   innerRef?: React.Ref<any>;
-  onTreeToggle?: (nodeData: any, layer: number, event: React.SyntheticEvent<any>) => void;
-  onSelect?: (nodeData: any, layer: number, event: React.SyntheticEvent<any>) => void;
+  onTreeToggle?: (nodeData: any) => void;
+  onSelect?: (nodeData: any, event: React.SyntheticEvent<any>) => void;
   onRenderTreeIcon?: (nodeData: any) => React.ReactNode;
   onRenderTreeNode?: (nodeData: any) => React.ReactNode;
+  onDragStart?: (data: any, event: React.MouseEvent<any>) => void;
+  onDragEnter?: (data: any, event: React.MouseEvent<any>) => void;
+  onDragOver?: (data: any, event: React.MouseEvent<any>) => void;
+  onDragLeave?: (data: any, event: React.MouseEvent<any>) => void;
+  onDragEnd?: (data: any, event: React.MouseEvent<any>) => void;
+  onDrop?: (data: any, event: React.MouseEvent<any>) => void;
 }
 
 class TreeNode extends React.Component<TreeNodeProps> {
@@ -37,6 +47,8 @@ class TreeNode extends React.Component<TreeNodeProps> {
     visible: PropTypes.bool,
     nodeData: PropTypes.any,
     disabled: PropTypes.bool,
+    draggable: PropTypes.bool,
+    dragOver: PropTypes.bool,
     hasChildren: PropTypes.bool,
     className: PropTypes.string,
     classPrefix: PropTypes.string,
@@ -45,7 +57,13 @@ class TreeNode extends React.Component<TreeNodeProps> {
     onTreeToggle: PropTypes.func,
     onSelect: PropTypes.func,
     onRenderTreeIcon: PropTypes.func,
-    onRenderTreeNode: PropTypes.func
+    onRenderTreeNode: PropTypes.func,
+    onDragStart: PropTypes.func,
+    onDragEnter: PropTypes.func,
+    onDragOver: PropTypes.func,
+    onDragLeave: PropTypes.func,
+    onDragEnd: PropTypes.func,
+    onDrop: PropTypes.func
   };
   static defaultProps = {
     visible: true
@@ -64,15 +82,15 @@ class TreeNode extends React.Component<TreeNodeProps> {
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   handleTreeToggle = (event: React.SyntheticEvent<any>) => {
-    const { onTreeToggle, layer, nodeData } = this.props;
+    const { onTreeToggle, nodeData } = this.props;
 
     // 异步加载数据自定义loading图标时，阻止原生冒泡，不触发 document.click
     event?.nativeEvent?.stopImmediatePropagation?.();
-    onTreeToggle?.(nodeData, layer, event);
+    onTreeToggle?.(nodeData);
   };
 
   handleSelect = (event: React.SyntheticEvent<any>) => {
-    const { onSelect, layer, disabled, nodeData } = this.props;
+    const { onSelect, disabled, nodeData } = this.props;
 
     if (disabled) {
       return;
@@ -84,7 +102,51 @@ class TreeNode extends React.Component<TreeNodeProps> {
       }
     }
 
-    onSelect?.(nodeData, layer, event);
+    onSelect?.(nodeData, event);
+  };
+
+  handleDragStart = (event: React.MouseEvent) => {
+    const { nodeData, onDragStart } = this.props;
+    onDragStart?.(nodeData, event);
+  };
+
+  handleDragEnter = (event: React.MouseEvent) => {
+    const { nodeData, onDragEnter } = this.props;
+    event.persist();
+    event.stopPropagation();
+    event.preventDefault();
+    onDragEnter?.(nodeData, event);
+  };
+
+  handleDragOver = (event: React.MouseEvent) => {
+    const { nodeData, onDragOver } = this.props;
+    event.persist();
+    event.stopPropagation();
+    event.preventDefault();
+    onDragOver?.(nodeData, event);
+  };
+
+  handleDragLeave = (event: React.MouseEvent) => {
+    const { nodeData, onDragLeave } = this.props;
+    event.persist();
+    event.stopPropagation();
+    event.preventDefault();
+    onDragLeave?.(nodeData, event);
+  };
+
+  handleDragEnd = (event: React.MouseEvent) => {
+    const { nodeData, onDragEnd } = this.props;
+    event.persist();
+    event.stopPropagation();
+    event.preventDefault();
+    onDragEnd?.(nodeData, event);
+  };
+
+  handleDrop = (event: React.MouseEvent) => {
+    const { nodeData, onDrop } = this.props;
+    event.stopPropagation();
+    event.preventDefault();
+    onDrop?.(nodeData, event);
   };
 
   renderIcon = () => {
@@ -118,12 +180,25 @@ class TreeNode extends React.Component<TreeNodeProps> {
   };
 
   renderLabel = () => {
-    const { nodeData, onRenderTreeNode, label, layer } = this.props;
+    const {
+      nodeData,
+      onRenderTreeNode,
+      label,
+      layer,
+      dragOver,
+      dragOverTop,
+      dragOverBottom
+    } = this.props;
     const key = nodeData ? nodeData.refKey : '';
-
+    const classes = classNames('', {
+      [this.addPrefix('label')]: true,
+      [this.addPrefix('drag-over')]: dragOver,
+      [this.addPrefix('drag-over-top')]: dragOverTop,
+      [this.addPrefix('drag-over-bottom')]: dragOverBottom
+    });
     return (
       <span
-        className={this.addPrefix('label')}
+        className={classes}
         title={this.getTitle()}
         data-layer={layer}
         data-key={key}
@@ -146,7 +221,8 @@ class TreeNode extends React.Component<TreeNodeProps> {
       layer,
       disabled,
       visible,
-      innerRef
+      innerRef,
+      draggable
     } = this.props;
     const classes = classNames(className, classPrefix, {
       'text-muted': disabled,
@@ -158,7 +234,18 @@ class TreeNode extends React.Component<TreeNodeProps> {
     const styles = rtl ? { paddingRight: padding } : { paddingLeft: padding };
 
     return visible ? (
-      <div style={{ ...style, ...styles }} className={classes} ref={innerRef}>
+      <div
+        style={{ ...style, ...styles }}
+        className={classes}
+        ref={innerRef}
+        draggable={draggable}
+        onDragStart={this.handleDragStart}
+        onDragEnter={this.handleDragEnter}
+        onDragOver={this.handleDragOver}
+        onDragLeave={this.handleDragLeave}
+        onDragEnd={this.handleDragEnd}
+        onDrop={this.handleDrop}
+      >
         {this.renderIcon()}
         {this.renderLabel()}
       </div>

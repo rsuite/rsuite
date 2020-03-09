@@ -1109,7 +1109,16 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
 
   renderCheckTree() {
     const { filterData, isSomeNodeHasChildren } = this.state;
-    const { inline, style, height, className = '', onScroll, locale, virtualized } = this.props;
+    const {
+      inline,
+      style,
+      height,
+      className = '',
+      onScroll,
+      locale,
+      virtualized,
+      searchable
+    } = this.props;
 
     // 树节点的层级
     const layer = 0;
@@ -1143,7 +1152,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     const treeNodesClass = classNames(this.addTreePrefix('nodes'), {
       [this.addTreePrefix('all-uncheckable')]: getEveryFisrtLevelNodeUncheckable(this.nodes)
     });
-    const ListHeight = getVirtualLisHeight(inline, treeHeight);
+    const ListHeight = getVirtualLisHeight(inline, searchable, treeHeight);
     return (
       <div
         ref={this.treeViewRef}

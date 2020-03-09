@@ -51,3 +51,12 @@ export type CheckStateType = CHECK_STATE.UNCHECK | CHECK_STATE.CHECK | CHECK_STA
 
 export const TREE_NODE_PADDING = 16;
 export const TREE_NODE_ROOT_PADDING = 12;
+
+/**
+ * Tree Node Drag Type
+ */
+export enum TREE_NODE_DROP_POSITION {
+  DRAG_OVER = 0, // drag node in tree node
+  DRAG_OVER_TOP = 1, // drag node on tree node
+  DRAG_OVER_BOTTOM = 2 // drag node under tree node
+}
