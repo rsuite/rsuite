@@ -230,4 +230,15 @@ describe('DateRangePicker', () => {
     assert.ok(picker.querySelector('div[title="2019-01-01"]'));
     assert.ok(picker.querySelector('div[title="2019-09-01"]'));
   });
+
+  it('Should have only one calendar', () => {
+    const instance = getInstance(<DateRangePicker showOneCalendar open />);
+
+    assert.equal(
+      getDOMNode(instance.menuContainerRef.current).querySelectorAll(
+        '.rs-picker-daterange-calendar-single'
+      ).length,
+      1
+    );
+  });
 });
