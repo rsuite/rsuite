@@ -1,6 +1,7 @@
 export default {
   id: 'zh-CN',
   common: {
+    home: '首页',
     search: '搜索',
     resume: '一套 React 的 UI 组件库，贴心的 UI 设计，友好的开发体验。',
     advanced: '高级功能',
