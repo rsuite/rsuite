@@ -1,7 +1,7 @@
 module.exports = (api, options) => {
   const { NODE_ENV } = options || process.env;
   const __PRO__ = NODE_ENV === 'production';
-
+  const __PUBLISH__ = process.env.NOW_GITHUB_COMMIT_REF === 'master';
   if (api) {
     api.cache(() => NODE_ENV);
   }
@@ -35,7 +35,8 @@ module.exports = (api, options) => {
     'add-module-exports'
   ];
 
-  if (__PRO__) {
+  // Only on master branch needed published rsuite , other branch(eg: some pr) should use local version.
+  if (__PRO__ && __PUBLISH__) {
     presets.unshift('rsuite');
   } else {
     plugins.push([
