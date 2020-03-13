@@ -1,3 +1,33 @@
+# 4.3.1
+
+> March 13, 2020
+
+- **Bugfix**: Fixed rendering error in local language. ([#903])
+- **Bugfix**: Fixed the problem that the `resizable` property of the columns of the table would not work. ([rsuite-table#135])
+- **Bugfix**: Fix Icon issue when Panel is nested. ([#894])
+- **Bugfix**: Fix incorrect value passing. ([#888])
+- **Bugfix**: [docs] Fixed issue that website can't load in safari and ie. ([#901])
+- **Bugfix**: [docs] Add title to home page. ([#898])
+- **Example**: Add with-gatsby example. ([#897])
+
+---
+
+- **Bugfix**: 修复本地语言渲染错误的问题。 ([#903])
+- **Bugfix**: 修复 Table 列设置 `resizable` 以后拖拽列宽不工作的问题。 ([rsuite-table#135])
+- **Bugfix**: 修复 Panel 组件嵌套 Icon 重复显示的问题 ([#894])
+- **Bugfix**: 修复 PaginationButton 中传递的错误值。 ([#888])
+- **Bugfix**: [docs] 修复文档不能再 safari 和 ie 浏览器正常访问的问题。 ([#901])
+- **Bugfix**: [docs] 修复文档首页缺失 title 的问题 ([#898])
+- **Example**: 添加 rsuite 与 gatsby 集成的示例 ([#897])
+
+[#903]: https://github.com/rsuite/rsuite/pull/903
+[#901]: https://github.com/rsuite/rsuite/pull/901
+[#898]: https://github.com/rsuite/rsuite/pull/898
+[#894]: https://github.com/rsuite/rsuite/pull/894
+[#888]: https://github.com/rsuite/rsuite/pull/888
+[#897]: https://github.com/rsuite/rsuite/pull/897
+[rsuite-table#135]: https://github.com/rsuite/rsuite-table/pull/135
+
 # 4.3.0
 
 > March 5, 2020
