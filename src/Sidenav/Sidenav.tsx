@@ -113,7 +113,7 @@ class Sidenav extends React.Component<SidenavProps, SidenavState> {
 
 const EnhancedSidenav = defaultProps<SidenavProps>({
   classPrefix: 'sidenav',
-  componentClass: 'div'
+  componentClass: 'nav'
 })(Sidenav);
 
 setStatic('Header', SidenavHeader)(EnhancedSidenav);
