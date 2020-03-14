@@ -108,6 +108,11 @@ export interface TableProps<RowKey = string | number | symbol, RowData = any>
   renderLoading?: (loading: React.ReactNode) => React.ReactNode;
 }
 
+export interface TableInstance extends React.Component<TableProps> {
+  scrollTop: (top: number) => void;
+  scrollLeft: (left: number) => void;
+}
+
 interface TableComponent extends React.ComponentClass<TableProps> {
   Column: typeof TableColumn;
   Cell: typeof TableCell;

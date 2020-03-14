@@ -62,6 +62,24 @@ const { Column, HeaderCell, Cell, Pagination } = Table;
 | width                  | number                                               | 宽度                                                         |
 | wordWrap               | boolean                                              | 单元格自动换行                                               |
 
+### Form methods
+
+- scrollTop
+
+垂直滚动条滚动到指定位置
+
+```ts
+scrollTop: (top: number) => void;
+```
+
+- scrollLeft
+
+横向滚动条滚动到指定位置
+
+```ts
+scrollLeft: (left: number) => void;
+```
+
 ### `<Table.Column>`
 
 | 属性名称      | 类型 `(默认值)`                                  | 描述                                                                                  |
