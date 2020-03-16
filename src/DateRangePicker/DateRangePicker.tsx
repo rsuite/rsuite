@@ -520,7 +520,8 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       disabledDate: this.handleDisabledDate,
       onSelect: this.handleChangeSelectValue,
       onMouseMove: this.handleMouseMoveSelectValue,
-      onChangeCalendarDate: this.handleChangeCalendarDate
+      onChangeCalendarDate: this.handleChangeCalendarDate,
+      showOneCalendar
     };
 
     return (

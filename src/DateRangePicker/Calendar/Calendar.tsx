@@ -48,7 +48,8 @@ class Calendar extends React.Component<CalendarProps> {
     onSelect: PropTypes.func,
     onMouseMove: PropTypes.func,
     onToggleMonthDropdown: PropTypes.func,
-    onChangePageDate: PropTypes.func
+    onChangePageDate: PropTypes.func,
+    showOneCalendar: PropTypes.bool
   };
   static defaultProps = {
     calendarDate: [new Date(), addMonths(new Date(), 1)],
