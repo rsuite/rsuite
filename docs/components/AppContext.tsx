@@ -1,5 +1,6 @@
 import React from 'react';
 import { readTheme, readDirection } from '@/utils/themeHelpers';
+import { ZHDict } from '@/locales';
 
 interface AppContextProps {
   direction?: string;
@@ -7,7 +8,7 @@ interface AppContextProps {
   onChangeDirection?: () => void;
   onChangeTheme?: () => void;
   onChangeLanguage?: (value: string) => void;
-  messages?: any;
+  messages?: ZHDict;
   language?: string;
   localePath?: string;
   styleLoaded?: boolean;
