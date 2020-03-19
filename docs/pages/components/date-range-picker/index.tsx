@@ -14,11 +14,12 @@ export default function Page() {
         'placeholder',
         'hover-range',
         'one-tap',
+        'show-week-numbers',
+        'show-only-calendar',
         'disabled',
         'toolbar',
         'value',
-        'intl',
-        'show-week-numbers'
+        'intl'
       ]}
       dependencies={{ DateRangePicker, Button, Divider, dateFns }}
     />
