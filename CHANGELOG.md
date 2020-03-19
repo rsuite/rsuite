@@ -1,3 +1,28 @@
+# 4.3.2
+
+> March 19, 2020
+
+- **Feature**: Support `showOneCalendar` on `<DateRangePicker>`. ([#911],[#848])
+- **Bugfix**: Fixed an issue where the scroll bar would not reset after the table was updated with data. ([rsuite-table#136])
+- **Bugfix**: Fixed missing typescript type definition in table.
+- **Example**: Added example for `Nav.Item` with `react-router-dom/link`. ([#909])
+- **Example**: Added example for `Nav.Item` with `next/link`. ([#907])
+
+---
+
+- **Feature**: `<DateRangePicker>` 新增 `showOneCalendar` 属性，支持只显示一个日历。([#911],[#848])
+- **Bugfix**: 修复了 `<Table>` 在数据更新后，滚动条位置未重重的问题。 ([rsuite-table#136])
+- **Bugfix**: 修复了 `<Table>` 缺少 Typescript 的类型定义。
+- **Example**: 新增 `Nav.Item` 与 `react-router-dom/link`组合的示例 ([#909])
+- **Example**: 新增 `Nav.Item` 与 `next/link`组合的示例 ([#907])
+
+[#911]: https://github.com/rsuite/rsuite/pull/911
+[#909]: https://github.com/rsuite/rsuite/pull/909
+[#907]: https://github.com/rsuite/rsuite/pull/907
+[#904]: https://github.com/rsuite/rsuite/pull/904
+[#848]: https://github.com/rsuite/rsuite/pull/848
+[rsuite-table#136]: https://github.com/rsuite/rsuite-table/pull/136
+
 # 4.3.1
 
 > March 13, 2020
