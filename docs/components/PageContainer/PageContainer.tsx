@@ -45,7 +45,10 @@ export default function PageContainer(props: ContainerProps) {
 
   return (
     <>
-      <Row {...rest} className={classnames({ ['hide-page-nav']: !openPageNav })}>
+      <Row
+        {...rest}
+        className={classnames('page-context-wrapper', { ['hide-page-nav']: !openPageNav })}
+      >
         <Col md={24} xs={24} sm={24} className="main-container">
           <PageContent>{children}</PageContent>
         </Col>
