@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { on, getOffset } from 'dom-lib';
 import bindElementResize, { unbind as unbindElementResize } from 'element-resize-event';
-import { defaultProps } from '../utils';
+import { defaultProps, getUnhandledProps } from '../utils';
 import { AffixProps } from './Affix.d';
 
 interface Offset {
@@ -17,56 +17,77 @@ interface Offset {
 interface AffixState {
   offset?: Offset;
   fixed?: boolean;
+  containerOffset?: Offset;
 }
 
 class Affix extends React.Component<AffixProps, AffixState> {
   static propTypes = {
     top: PropTypes.number,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    container: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
   };
 
   static defaultProps = {
     top: 0
   };
 
-  containerRef: React.RefObject<any> = null;
+  mountRef: React.RefObject<any> = null;
   scrollListener = null;
 
   constructor(props) {
     super(props);
     this.state = {
       offset: null,
-      fixed: false
+      fixed: false,
+      containerOffset: null
     };
-    this.containerRef = React.createRef();
+    this.mountRef = React.createRef();
   }
 
   componentDidMount() {
-    this.setContainerOffset();
+    this.updateMountNodeOffset();
     this.scrollListener = on(window, 'scroll', this.updatePosition);
-    bindElementResize(this.containerRef.current, this.setContainerOffset);
+    bindElementResize(this.mountRef.current, this.updateMountNodeOffset);
   }
 
   componentWillUnmount() {
     if (this.scrollListener) {
       this.scrollListener.off();
     }
-    if (this.containerRef.current) {
-      unbindElementResize(this.containerRef.current);
+    if (this.mountRef.current) {
+      unbindElementResize(this.mountRef.current);
     }
   }
+  getContainerOffset = () => {
+    const { container } = this.props;
+    const { containerOffset: offset } = this.state;
+    if (offset) {
+      return offset;
+    }
 
-  setContainerOffset = () => {
+    const node = typeof container === 'function' ? container() : container;
+    const containerOffset = node ? getOffset(node) : null;
+    this.setState({ containerOffset });
+
+    return containerOffset;
+  };
+
+  updateMountNodeOffset = () => {
     this.setState(() => {
-      return { offset: getOffset(this.containerRef.current) };
+      return { offset: getOffset(this.mountRef.current) };
     });
   };
 
   updatePosition = () => {
-    const offset = this.state.offset;
+    const { offset } = this.state;
     const { top, onChange } = this.props;
     const scrollY = window.scrollY || window.pageYOffset;
-    const fixed = scrollY - (offset.top - top) >= 0;
+    const containerOffset = this.getContainerOffset();
+    let fixed = scrollY - (offset.top - top) >= 0;
+
+    if (containerOffset) {
+      fixed = fixed && scrollY < containerOffset.top + containerOffset.height;
+    }
 
     if (fixed !== this.state.fixed) {
       this.setState({ fixed });
@@ -75,9 +96,9 @@ class Affix extends React.Component<AffixProps, AffixState> {
   };
 
   render() {
-    const { classPrefix, children, top, className, style } = this.props;
+    const { classPrefix, children, top, ...rest } = this.props;
     const { fixed, offset } = this.state;
-    const classes = classNames(className, {
+    const classes = classNames({
       [classPrefix]: fixed
     });
 
@@ -88,18 +109,19 @@ class Affix extends React.Component<AffixProps, AffixState> {
           top,
           left: offset.left,
           width: offset.width,
-          zIndex: 10,
-          ...style
+          zIndex: 10
         }
-      : style;
+      : null;
+
+    const unhandledProps = getUnhandledProps(Affix, rest);
 
     return (
-      <React.Fragment>
-        <div className={classes} style={affixStyle} ref={this.containerRef}>
+      <div ref={this.mountRef} {...unhandledProps}>
+        <div className={classes} style={affixStyle}>
           {children}
         </div>
         {fixed && <div aria-hidden="true" style={placeholderStyles}></div>}
-      </React.Fragment>
+      </div>
     );
   }
 }
