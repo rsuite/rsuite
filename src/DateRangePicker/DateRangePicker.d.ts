@@ -61,7 +61,7 @@ export interface DateRangePickerProps extends PickerBaseProps, FormControlBasePr
     date: Date,
     selectDate: ValueType,
     selectedDone: boolean,
-    type: TargetDisabledDate
+    target: TargetDisabledDate
   ) => boolean;
 
   /** Called when the option is selected */
