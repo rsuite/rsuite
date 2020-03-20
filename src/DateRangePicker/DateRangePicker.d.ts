@@ -5,8 +5,8 @@ export type ValueType = [Date?, Date?];
 export enum TargetDisabledDate {
   CALENDAR = 'CALENDAR',
   TOOLBAR_BUTTON_OK = 'TOOLBAR_BUTTON_OK',
-  TOOLBAR_SHORTCUT = 'TOOLBAR_SHORTCUT',
-};
+  TOOLBAR_SHORTCUT = 'TOOLBAR_SHORTCUT'
+}
 
 export type DisabledDateFunction = (
   /** Date used to determine if disabling is required. */
