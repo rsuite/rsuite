@@ -2,9 +2,11 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
-import { setYear } from 'date-fns';
-import { setMonth } from 'date-fns';
+import setYear from 'date-fns/setYear';
+import setMonth from 'date-fns/setMonth';
 import composeFunctions from '../utils/composeFunctions';
+
+import { legacyParse } from '@date-fns/upgrade/v2';
 
 export interface MonthDropdownItemProps {
   date?: Date;
@@ -41,8 +43,8 @@ class MonthDropdownItem extends React.PureComponent<MonthDropdownItemProps> {
 
     if (year && month && date) {
       const nextMonth = composeFunctions(
-        d => setYear(d, year),
-        d => setMonth(d, month - 1)
+        d => setYear(legacyParse(d), year),
+        d => setMonth(legacyParse(d), month - 1)
       )(date);
       onSelect?.(nextMonth, event);
     }

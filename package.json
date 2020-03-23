@@ -51,8 +51,9 @@
   ],
   "dependencies": {
     "@babel/runtime": "^7.0.0",
+    "@date-fns/upgrade": "^1.0.1",
     "classnames": ">=2.0.0",
-    "date-fns": "^1.30.1",
+    "date-fns": "2.10.0",
     "dom-lib": "^1.2.1",
     "element-resize-event": "^3.0.3",
     "lodash": "^4.17.11",

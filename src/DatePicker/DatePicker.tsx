@@ -4,16 +4,14 @@ import classNames from 'classnames';
 import compose from 'recompose/compose';
 import _ from 'lodash';
 import { polyfill } from 'react-lifecycles-compat';
-import {
-  format,
-  getMinutes,
-  getHours,
-  isSameDay,
-  getSeconds,
-  setHours,
-  setMinutes,
-  setSeconds
-} from 'date-fns';
+import { format } from 'date-fns';
+import getMinutes from 'date-fns/getMinutes';
+import getHours from 'date-fns/getHours';
+import isSameDay from 'date-fns/isSameDay';
+import getSeconds from 'date-fns/getSeconds';
+import setHours from 'date-fns/setHours';
+import setMinutes from 'date-fns/setMinutes';
+import setSeconds from 'date-fns/setSeconds';
 
 import IntlProvider from '../IntlProvider';
 import Calendar from '../Calendar/Calendar';
@@ -39,6 +37,8 @@ import {
 
 import { DatePickerProps } from './DatePicker.d';
 import { PLACEMENT } from '../constants';
+
+import { legacyParse, convertTokens } from '@date-fns/upgrade/v2';
 
 interface DatePickerState {
   value?: Date;
@@ -150,7 +150,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     if (typeof nextProps.value !== 'undefined') {
       const { value } = nextProps;
 
-      if (value && !isSameDay(value, prevState.value)) {
+      if (value && !isSameDay(legacyParse(value), legacyParse(prevState.value))) {
         return {
           value,
           pageDate: value
@@ -190,7 +190,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     const value = this.getValue();
 
     if (value) {
-      return renderValue ? renderValue(value, formatType) : format(value, formatType);
+      return renderValue ? renderValue(value, formatType) : format(legacyParse(value), convertTokens(formatType));
     }
 
     return placeholder || formatType;
@@ -237,7 +237,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
       value: nextValue
     });
 
-    if (nextValue !== value || !isSameDay(nextValue, value)) {
+    if (nextValue !== value || !isSameDay(legacyParse(nextValue), legacyParse(value))) {
       this.props.onChange?.(nextValue, event);
     }
 
@@ -322,9 +322,9 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
 
     this.setState({
       pageDate: composeFunctions(
-        d => setHours(d, getHours(pageDate)),
-        d => setMinutes(d, getMinutes(pageDate)),
-        d => setSeconds(d, getSeconds(pageDate))
+        d => setHours(legacyParse(d), getHours(legacyParse(pageDate))),
+        d => setMinutes(legacyParse(d), getMinutes(legacyParse(pageDate))),
+        d => setSeconds(legacyParse(d), getSeconds(legacyParse(pageDate)))
       )(nextValue)
     });
 

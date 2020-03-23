@@ -1,5 +1,9 @@
 import _ from 'lodash';
-import { getHours, getMinutes, getSeconds } from 'date-fns';
+import getMinutes from 'date-fns/getMinutes';
+import getHours from 'date-fns/getHours';
+import getSeconds from 'date-fns/getSeconds';
+
+import { legacyParse } from '@date-fns/upgrade/v2';
 
 export const calendarOnlyProps = [
   'disabledHours',
@@ -20,13 +24,13 @@ export default function disabledTime(props: object, date: Date) {
 
   return Object.keys(calendarProps).some(key => {
     if (/(Hours)/.test(key)) {
-      return calendarProps[key](getHours(date), date);
+      return calendarProps[key](getHours(legacyParse(date)), date);
     }
     if (/(Minutes)/.test(key)) {
-      return calendarProps[key](getMinutes(date), date);
+      return calendarProps[key](getMinutes(legacyParse(date)), date);
     }
     if (/(Seconds)/.test(key)) {
-      return calendarProps[key](getSeconds(date), date);
+      return calendarProps[key](getSeconds(legacyParse(date)), date);
     }
     return false;
   });

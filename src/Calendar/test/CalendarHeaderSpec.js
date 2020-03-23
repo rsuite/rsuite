@@ -5,6 +5,8 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import Header from '../Header';
 
+import { legacyParse, convertTokens } from '@date-fns/upgrade/v2';
+
 describe('Calendar-Header', () => {
   it('Should render a div with "calendar-header" class', () => {
     const instance = ReactTestUtils.renderIntoDocument(<Header date={new Date()} />);
@@ -24,7 +26,7 @@ describe('Calendar-Header', () => {
     const instanceDOM = findDOMNode(instance);
     assert.equal(
       instanceDOM.querySelector('.rs-calendar-header-title-time').innerText,
-      format(new Date('2019-04-01 12:20:00'), formatType)
+      format(legacyParse(new Date('2019-04-01 12:20:00')), convertTokens(formatType))
     );
   });
 
@@ -38,7 +40,7 @@ describe('Calendar-Header', () => {
     const instanceDOM = findDOMNode(instance);
     assert.equal(
       instanceDOM.querySelector('.rs-calendar-header-title-date').innerText,
-      format(new Date(), formatType)
+      format(legacyParse(new Date()), convertTokens(formatType))
     );
   });
 
@@ -52,7 +54,7 @@ describe('Calendar-Header', () => {
     const instanceDOM = findDOMNode(instance);
     assert.equal(
       instanceDOM.querySelector('.rs-calendar-header-title-date').innerText,
-      format(new Date(), formatType)
+      format(legacyParse(new Date()), convertTokens(formatType))
     );
   });
 

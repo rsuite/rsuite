@@ -4,6 +4,8 @@ import { getDOMNode, getInstance } from '@test/testUtils';
 import DatePicker from '../DatePicker';
 import { parse } from 'date-fns';
 
+import { legacyParse } from '@date-fns/upgrade/v2';
+
 describe('DatePicker', () => {
   it('Should render a div with "rs-calendar" class', () => {
     const instance = getDOMNode(<DatePicker onChangeCalendarDate={() => {}} />);
@@ -15,7 +17,7 @@ describe('DatePicker', () => {
   it('Should output a date', () => {
     const instance = getDOMNode(
       <DatePicker
-        calendarDate={[parse('2017-08'), parse('2017-09')]}
+        calendarDate={[parse(legacyParse('2017-08')), parse(legacyParse('2017-09'))]}
         index={0}
         onChangeCalendarDate={() => {}}
       />
@@ -26,7 +28,7 @@ describe('DatePicker', () => {
   it('Should call `onChangeCalendarDate` callback', done => {
     const instance = getDOMNode(
       <DatePicker
-        calendarDate={[parse('2017-08'), parse('2017-09')]}
+        calendarDate={[parse(legacyParse('2017-08')), parse(legacyParse('2017-09'))]}
         index={0}
         onChangeCalendarDate={() => {
           done();
@@ -40,7 +42,7 @@ describe('DatePicker', () => {
   it('Should call `onChangeCalendarDate` callback', done => {
     const instance = getDOMNode(
       <DatePicker
-        calendarDate={[parse('2017-08'), parse('2017-10')]}
+        calendarDate={[parse(legacyParse('2017-08')), parse(legacyParse('2017-10'))]}
         index={0}
         onChangeCalendarDate={() => {
           done();
@@ -53,7 +55,7 @@ describe('DatePicker', () => {
   it('Should call `onChangeCalendarDate` callback', done => {
     const instance = getDOMNode(
       <DatePicker
-        calendarDate={[parse('2017-08'), parse('2017-10')]}
+        calendarDate={[parse(legacyParse('2017-08')), parse(legacyParse('2017-10'))]}
         index={0}
         onChangeCalendarDate={() => {
           done();
@@ -69,7 +71,7 @@ describe('DatePicker', () => {
     const instance = getInstance(
       <DatePicker
         onChangeCalendarDate={() => {}}
-        calendarDate={[parse('2017-08'), parse('2017-10')]}
+        calendarDate={[parse(legacyParse('2017-08')), parse(legacyParse('2017-10'))]}
         index={0}
       />
     );

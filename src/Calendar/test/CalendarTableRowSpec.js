@@ -5,6 +5,8 @@ import ReactTestUtils from 'react-dom/test-utils';
 import TableRow from '../TableRow';
 import { getDate, format } from 'date-fns';
 
+import { legacyParse, convertTokens } from '@date-fns/upgrade/v2';
+
 describe('Calendar-TableRow', () => {
   it('Should render a div with `table-row` class', () => {
     const instance = ReactTestUtils.renderIntoDocument(<TableRow />);
@@ -18,7 +20,7 @@ describe('Calendar-TableRow', () => {
 
     assert.equal(
       instanceDOM.querySelector('.rs-calendar-table-cell-is-today').innerText,
-      getDate(new Date()) + ''
+      getDate(legacyParse(new Date())) + ''
     );
   });
 
@@ -51,7 +53,7 @@ describe('Calendar-TableRow', () => {
     const instance = ReactTestUtils.renderIntoDocument(<TableRow showWeekNumbers />);
     assert.equal(
       findDOMNode(instance).querySelector('.rs-calendar-table-cell-week-number').innerText,
-      format(new Date(), 'W')
+      format(legacyParse(new Date()), convertTokens('W'))
     );
   });
 });

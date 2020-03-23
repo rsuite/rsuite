@@ -4,6 +4,8 @@ import { parse } from 'date-fns';
 import { getDOMNode } from '@test/testUtils';
 import CalendarPanel from '../CalendarPanel';
 
+import { legacyParse } from '@date-fns/upgrade/v2';
+
 describe('Calendar - Panel', () => {
   it('Should render a div with `calendar` class', () => {
     const instance = getDOMNode(<CalendarPanel />);
@@ -20,7 +22,7 @@ describe('Calendar - Panel', () => {
   it('Should be rendered custom elements', () => {
     const instance = getDOMNode(
       <CalendarPanel
-        defaultValue={parse('2018-07-01')}
+        defaultValue={parse(legacyParse('2018-07-01'))}
         renderCell={() => {
           return <i className="text">test</i>;
         }}
@@ -36,7 +38,7 @@ describe('Calendar - Panel', () => {
 
   it('Should output valid one day', () => {
     const instance = getDOMNode(
-      <CalendarPanel format="YYYY-MM-DD" defaultValue={parse('2018-07-01')} />
+      <CalendarPanel format="YYYY-MM-DD" defaultValue={parse(legacyParse('2018-07-01'))} />
     );
     assert.equal(
       instance

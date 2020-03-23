@@ -5,6 +5,8 @@ import { getDOMNode, getInstance } from '@test/testUtils';
 
 import DatePicker from '../DatePicker';
 
+import { legacyParse, convertTokens } from '@date-fns/upgrade/v2';
+
 describe('DatePicker', () => {
   it('Should render a div with "rs-picker-date" class', () => {
     const instance = getDOMNode(<DatePicker />);
@@ -41,16 +43,16 @@ describe('DatePicker', () => {
   });
 
   it('Should output a date', () => {
-    const instance = getDOMNode(<DatePicker defaultValue={parse('2017-08-14')} />);
+    const instance = getDOMNode(<DatePicker defaultValue={parse(legacyParse('2017-08-14'))} />);
     assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, '2017-08-14');
   });
 
   it('Should output custom value', () => {
     const instance = getDOMNode(
       <DatePicker
-        value={parse('2017-08-14')}
+        value={parse(legacyParse('2017-08-14'))}
         renderValue={value => {
-          return format(value, 'MM/DD/YYYY');
+          return format(legacyParse(value), convertTokens('MM/DD/YYYY'));
         }}
       />
     );
@@ -59,7 +61,7 @@ describe('DatePicker', () => {
   });
 
   it('Should output a date', () => {
-    const instance = getDOMNode(<DatePicker value={parse('2017-08-14')} />);
+    const instance = getDOMNode(<DatePicker value={parse(legacyParse('2017-08-14'))} />);
     assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, '2017-08-14');
   });
 
@@ -237,7 +239,7 @@ describe('DatePicker', () => {
     };
 
     let instance = getInstance(
-      <DatePicker value={parse('2018-01-05')} onChange={doneOp} defaultOpen />
+      <DatePicker value={parse(legacyParse('2018-01-05'))} onChange={doneOp} defaultOpen />
     );
 
     let allCell = instance.menuContainerRef.current.querySelectorAll('.rs-calendar-table-cell');
@@ -276,7 +278,7 @@ describe('DatePicker', () => {
 
   it('Should call onChange after setting oneTap', done => {
     const doneOp = value => {
-      if (isSameDay(value, new Date())) {
+      if (isSameDay(legacyParse(value), legacyParse(new Date()))) {
         done();
       }
     };

@@ -10,9 +10,11 @@ import Header from './Header';
 import { getUnhandledProps, defaultProps, prefix } from '../utils';
 import disabledTime, { calendarOnlyProps } from '../utils/disabledTime';
 import { shouldTime, shouldDate, shouldMonth } from '../utils/formatUtils';
-import { addMonths } from 'date-fns';
+import addMonths from 'date-fns/addMonths';
 
 import { tuple } from '../@types/utils';
+
+import { legacyParse } from '@date-fns/upgrade/v2';
 
 const CalendarState = tuple('DROP_TIME', 'DROP_MONTH');
 
@@ -84,12 +86,12 @@ class Calendar extends React.Component<CalendarProps> {
 
   handleMoveForword = () => {
     const { onMoveForword, pageDate } = this.props;
-    onMoveForword?.(addMonths(pageDate, 1));
+    onMoveForword?.(addMonths(legacyParse(pageDate), 1));
   };
 
   handleMoveBackward = () => {
     const { onMoveBackward, pageDate } = this.props;
-    onMoveBackward?.(addMonths(pageDate, -1));
+    onMoveBackward?.(addMonths(legacyParse(pageDate), -1));
   };
 
   render() {

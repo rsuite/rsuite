@@ -1,18 +1,24 @@
-import { addDays, isAfter, isBefore, isSameDay } from 'date-fns';
+import addDays from 'date-fns/addDays';
+import isAfter from 'date-fns/isAfter';
+import isBefore from 'date-fns/isBefore';
+import isSameDay from 'date-fns/isSameDay';
+
 import composeFunctions from '../utils/composeFunctions';
 import { DisabledDateFunction } from './DateRangePicker.d';
 
+import { legacyParse } from '@date-fns/upgrade/v2';
+
 function isAfterDay(date1: Date, date2: Date): boolean {
   return isAfter(
-    new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()),
-    new Date(date2.getFullYear(), date2.getMonth(), date2.getDate())
+    legacyParse(new Date(date1.getFullYear(), date1.getMonth(), date1.getDate())),
+    legacyParse(new Date(date2.getFullYear(), date2.getMonth(), date2.getDate()))
   );
 }
 
 function isBeforeDay(date1: Date, date2: Date): boolean {
   return isBefore(
-    new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()),
-    new Date(date2.getFullYear(), date2.getMonth(), date2.getDate())
+    legacyParse(new Date(date1.getFullYear(), date1.getMonth(), date1.getDate())),
+    legacyParse(new Date(date2.getFullYear(), date2.getMonth(), date2.getDate()))
   );
 }
 
@@ -28,12 +34,12 @@ export function allowedMaxDays(days: number): DisabledDateFunction {
       const startDate = selectValue[0];
 
       beforeLimit = composeFunctions(
-        f => addDays(f, -days + 1),
+        f => addDays(legacyParse(f), -days + 1),
         f => isAfterDay(f, date)
       )(startDate);
 
       afterLimit = composeFunctions(
-        f => addDays(f, days - 1),
+        f => addDays(legacyParse(f), days - 1),
         f => isBeforeDay(f, date)
       )(startDate);
     }
@@ -58,13 +64,13 @@ export function allowedDays(days: number): DisabledDateFunction {
       const startDate = selectValue[0];
 
       beforeLimit = composeFunctions(
-        f => addDays(f, -days + 1),
-        f => !isSameDay(f, date)
+        f => addDays(legacyParse(f), -days + 1),
+        f => !isSameDay(legacyParse(f), legacyParse(date))
       )(startDate);
 
       afterLimit = composeFunctions(
-        f => addDays(f, days - 1),
-        f => !isSameDay(f, date)
+        f => addDays(legacyParse(f), days - 1),
+        f => !isSameDay(legacyParse(f), legacyParse(date))
       )(startDate);
     }
 

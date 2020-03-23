@@ -1,9 +1,11 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { addMonths } from 'date-fns';
+import addMonths from 'date-fns/addMonths';
 import Calendar from './Calendar';
 
 import { ValueType } from './DateRangePicker.d';
+
+import { legacyParse } from '@date-fns/upgrade/v2';
 
 export interface DatePickerProps {
   value?: ValueType;
@@ -42,7 +44,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   };
   static defaultProps = {
     value: [],
-    calendarDate: [new Date(), addMonths(new Date(), 1)],
+    calendarDate: [new Date(), addMonths(legacyParse(new Date()), 1)],
     format: 'YYYY-MM-DD',
     index: 0
   };
