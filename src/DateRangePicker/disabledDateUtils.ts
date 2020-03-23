@@ -34,12 +34,12 @@ export function allowedMaxDays(days: number): DisabledDateFunction {
       const startDate = selectValue[0];
 
       beforeLimit = composeFunctions(
-        f => addDays(legacyParse(f), -days + 1),
+        f => addDays(f, -days + 1),
         f => isAfterDay(f, date)
       )(startDate);
 
       afterLimit = composeFunctions(
-        f => addDays(legacyParse(f), days - 1),
+        f => addDays(f, days - 1),
         f => isBeforeDay(f, date)
       )(startDate);
     }

@@ -186,16 +186,21 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
 
   getDateString(value?: ValueType) {
     const { placeholder, format: formatType, renderValue } = this.props;
+    const replaceFormat = formatType.replace(/D|Y/gi, function(x) {
+      return x.toLowerCase();
+    });
+    console.log('replaceFormat: ', replaceFormat);
     const nextValue = value || this.getValue();
     const startDate: Date = nextValue?.[0];
     const endDate: Date = nextValue?.[1];
 
     if (startDate && endDate) {
       const displayValue: any = [startDate, endDate].sort(compareAsc);
+      console.log('displayValue: ', displayValue);
 
       return renderValue
-        ? renderValue(displayValue, formatType)
-        : `${format(displayValue[0], formatType)} ~ ${format(displayValue[1], formatType)}`;
+        ? renderValue(displayValue, replaceFormat)
+        : `${format(displayValue[0], replaceFormat)} ~ ${format(displayValue[1], replaceFormat)}`;
     }
 
     return placeholder || `${formatType} ~ ${formatType}`;
