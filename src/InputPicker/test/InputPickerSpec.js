@@ -203,35 +203,15 @@ describe('InputPicker', () => {
     const doneOp = () => {
       done();
     };
-    let picker = null;
-    getDOMNode(
-      <InputPicker
-        ref={ref => {
-          picker = ref;
-        }}
-        onOpen={doneOp}
-        data={data}
-      />
-    );
-
+    const picker = getInstance(<InputPicker onOpen={doneOp} data={data} />);
     picker.open();
   });
 
   it('Should call `onClose` callback', done => {
-    const doneOp = key => {
+    const doneOp = () => {
       done();
     };
-    let picker = null;
-    getDOMNode(
-      <InputPicker
-        defaultOpen
-        ref={ref => {
-          picker = ref;
-        }}
-        onClose={doneOp}
-        data={data}
-      />
-    );
+    const picker = getInstance(<InputPicker defaultOpen onClose={doneOp} data={data} />);
     picker.close();
   });
 
@@ -301,9 +281,8 @@ describe('InputPicker', () => {
   });
 
   it('Should render a button by toggleComponentClass={Button}', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <InputPicker open data={data} toggleComponentClass={Button} />
-    );
-    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-btn');
+    const instance = getDOMNode(<InputPicker open data={data} toggleComponentClass={Button} />);
+
+    assert.ok(instance.querySelector('.rs-btn'));
   });
 });

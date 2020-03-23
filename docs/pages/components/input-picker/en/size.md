@@ -5,7 +5,7 @@
 ```js
 /**
  * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users.json
+ * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
  */
 
 const styles = { width: 224, display: 'block', marginBottom: 10 };

@@ -1,6 +1,117 @@
+# 4.3.2
+
+> March 19, 2020
+
+- **Feature**: Support `showOneCalendar` on `<DateRangePicker>`. ([#911],[#848])
+- **Bugfix**: Fixed an issue where the scroll bar would not reset after the table was updated with data. ([rsuite-table#136])
+- **Bugfix**: Fixed missing typescript type definition in table.
+- **Example**: Added example for `Nav.Item` with `react-router-dom/link`. ([#909])
+- **Example**: Added example for `Nav.Item` with `next/link`. ([#907])
+
+---
+
+- **Feature**: `<DateRangePicker>` 新增 `showOneCalendar` 属性，支持只显示一个日历。([#911],[#848])
+- **Bugfix**: 修复了 `<Table>` 在数据更新后，滚动条位置未重重的问题。 ([rsuite-table#136])
+- **Bugfix**: 修复了 `<Table>` 缺少 Typescript 的类型定义。
+- **Example**: 新增 `Nav.Item` 与 `react-router-dom/link`组合的示例 ([#909])
+- **Example**: 新增 `Nav.Item` 与 `next/link`组合的示例 ([#907])
+
+[#911]: https://github.com/rsuite/rsuite/pull/911
+[#909]: https://github.com/rsuite/rsuite/pull/909
+[#907]: https://github.com/rsuite/rsuite/pull/907
+[#904]: https://github.com/rsuite/rsuite/pull/904
+[#848]: https://github.com/rsuite/rsuite/pull/848
+[rsuite-table#136]: https://github.com/rsuite/rsuite-table/pull/136
+
+# 4.3.1
+
+> March 13, 2020
+
+- **Bugfix**: Fixed rendering error in local language. ([#903])
+- **Bugfix**: Fixed the problem that the `resizable` property of the columns of the table would not work. ([rsuite-table#135])
+- **Bugfix**: Fix Icon issue when Panel is nested. ([#894])
+- **Bugfix**: Fix incorrect value passing. ([#888])
+- **Bugfix**: [docs] Fixed issue that website can't load in safari and ie. ([#901])
+- **Bugfix**: [docs] Add title to home page. ([#898])
+- **Example**: Add with-gatsby example. ([#897])
+
+---
+
+- **Bugfix**: 修复本地语言渲染错误的问题。 ([#903])
+- **Bugfix**: 修复 Table 列设置 `resizable` 以后拖拽列宽不工作的问题。 ([rsuite-table#135])
+- **Bugfix**: 修复 Panel 组件嵌套 Icon 重复显示的问题 ([#894])
+- **Bugfix**: 修复 PaginationButton 中传递的错误值。 ([#888])
+- **Bugfix**: [docs] 修复文档不能再 safari 和 ie 浏览器正常访问的问题。 ([#901])
+- **Bugfix**: [docs] 修复文档首页缺失 title 的问题 ([#898])
+- **Example**: 添加 rsuite 与 gatsby 集成的示例 ([#897])
+
+[#903]: https://github.com/rsuite/rsuite/pull/903
+[#901]: https://github.com/rsuite/rsuite/pull/901
+[#898]: https://github.com/rsuite/rsuite/pull/898
+[#894]: https://github.com/rsuite/rsuite/pull/894
+[#888]: https://github.com/rsuite/rsuite/pull/888
+[#897]: https://github.com/rsuite/rsuite/pull/897
+[rsuite-table#135]: https://github.com/rsuite/rsuite-table/pull/135
+
+# 4.3.0
+
+> March 5, 2020
+
+- **Feature**: Added Arabic, Finnish, Swedish and Danish locales. ([#849],[#821])
+- **Feature**: Added `expanded` parameter in `renderTreeToggle` of `<Table>`. ([rsuite-table#130])
+- **Feature**: Added support `treeCol` on `<Table.Column>`. ([rsuite-table#129])
+- **Bugfix**: Fixed `<CheckPicker>` rendering error when setting `groupBy`. ([#887])
+- **Bugfix**: Fixed `<Slider>` bar is invisible on Drawer in dark mode. ([#876])
+- **Bugfix**: Fixed disabled `<InputNumber>` in `<InputGroup>` shows unexpected border radius. ([#875])
+- **Bugfix**: Fixed radio-group inline item styles. ([#872])
+- **Bugfix**: Fixed missing typescript declaration files \*.d.ts in `/locales`. ([#856])
+- **Bugfix**: Fixed mark cannot be customized rendering in `<Slider>` correctly. ([#840])
+- **Improve**: Updated check rules for disabled times on `<DatePicker>`. ([#852])
+- **Improve**: Support for getting the `active` property when the Pagination button is a custom element. ([#833])
+- **Breaking**: The `rowHeight` property of Table supports function values. Remove the`setRowHeight` property.
+- **Chore**: Improved HoC to support ref passing. ([#862],[#872])
+- **Chore**: Added some integrated examples. ([#860],[examples])
+- **Chore**: The Table component migrates Typescript from Flow. ([rsuite-table#127])
+
+---
+
+- **Feature**: 新增支持阿拉伯语，芬兰语，瑞典语和丹麦语。 ([#849],[#821])
+- **Feature**: `<Table>` 的 `renderTreeToggle`属性新增 `expanded` 参数。 ([rsuite-table#130])
+- **Feature**: `<Table.Column>` 上新增 `treeCol` 属性，指定 Tree 显示的列。 ([rsuite-table#129])
+- **Bugfix**: 修复了 `<CheckPicker>` 当设置 `groupBy='group'`渲染出错。 ([#887])
+- **Bugfix**: 修复了 `<Slider>` 在 dark 主题下选择栏不可见的问题。 ([#876])
+- **Bugfix**: 修复了 `<InputGroup>` 里禁用的 `<InputNumber>` 显示错误的边框。 ([#875])
+- **Bugfix**: 修复了 `<RadioGroup>` 单行显示时的样式问题。 ([#872])
+- **Bugfix**: 修复了 locales 目录下语言包缺少 Typescript 类型定义。 ([#856])
+- **Bugfix**: 修复了 `<Slider>` 的标记在自定义时候无法正确呈现。 ([#840])
+- **Improve**: 更新了 `<DatePicker>` 上禁用时间的检查规则。 ([#852])
+- **Improve**: 支持在 `<Pagination>` 按钮是自定义元素时获取 `active` 属性 。 ([#833])
+- **Breaking**: `<Table>` 的 `rowHeight` 属性值支持函数，同时删除了 `setRowHeight` 属性。
+- **Chore**: 改进了高阶组件以支持 ref 传递。 ([#862],[#872])
+- **Chore**: 新增了一些集成的示例项目。 ([#860],[examples])
+- **Chore**: Table 组件库从 Flow 迁移到 Typescript。 ([rsuite-table#127])
+
+[#887]: https://github.com/rsuite/rsuite/pull/887
+[#876]: https://github.com/rsuite/rsuite/pull/876
+[#875]: https://github.com/rsuite/rsuite/pull/875
+[#873]: https://github.com/rsuite/rsuite/pull/873
+[#872]: https://github.com/rsuite/rsuite/pull/872
+[#862]: https://github.com/rsuite/rsuite/pull/862
+[#860]: https://github.com/rsuite/rsuite/pull/860
+[#856]: https://github.com/rsuite/rsuite/pull/856
+[#852]: https://github.com/rsuite/rsuite/pull/852
+[#849]: https://github.com/rsuite/rsuite/pull/849
+[#840]: https://github.com/rsuite/rsuite/pull/840
+[#833]: https://github.com/rsuite/rsuite/pull/831
+[#821]: https://github.com/rsuite/rsuite/pull/821
+[rsuite-table#130]: https://github.com/rsuite/rsuite-table/pull/130
+[rsuite-table#129]: https://github.com/rsuite/rsuite-table/pull/129
+[rsuite-table#127]: https://github.com/rsuite/rsuite-table/pull/127
+[examples]: https://github.com/rsuite/rsuite/tree/master/examples
+
 # 4.2.1
 
-February 2, 2020
+> February 2, 2020
 
 - **Bugfix**: Fixed "script-src" content security policy (CSP) failure ([#830])
 - **Bugfix**: Fixed an issue where `onSelect` was called undefined, when using `enter` on the `<AutoComplete>` to select it. ([#828])

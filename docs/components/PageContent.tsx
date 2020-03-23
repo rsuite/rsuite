@@ -17,6 +17,7 @@ const babelOptions = {
 };
 
 const CustomCodeView = ({ dependencies, source, onLoaded, ...rest }: any) => {
+  const { styleLoaded } = React.useContext(AppContext);
   const placeholder = (
     <div
       dangerouslySetInnerHTML={{
@@ -24,7 +25,7 @@ const CustomCodeView = ({ dependencies, source, onLoaded, ...rest }: any) => {
       }}
     />
   );
-  if (canUseDOM && source) {
+  if (canUseDOM && source && styleLoaded) {
     const CodeView = dynamic(
       () =>
         import('./CodeView').then(Component => {
@@ -106,7 +107,7 @@ const PageContent = ({
   const router = useRouter();
 
   const pathname = router.pathname;
-  const id = router.pathname.match(new RegExp(`\/${category}\/(\\S*)`))?.[1];
+  const id = pathname.match(new RegExp(`\/${category}\/(\\S*)`))?.[1];
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const context = require(`../pages${pathname}${localePath}/index.md`);
@@ -116,7 +117,7 @@ const PageContent = ({
 
   if (!examples?.length) {
     return (
-      <PageContainer routerId={`${category}/${id}`}>
+      <PageContainer routerId={pathname}>
         {pageHead}
         <Markdown>{context}</Markdown>
         {children}
@@ -131,14 +132,13 @@ const PageContent = ({
 
   const component = components.find(item => item.id === id || item.name === id);
   const designHash = component?.designHash;
-  const routerId = component?.id;
 
   const docs = context.split('<!--{demo}-->');
   const header = docs[0];
   const footer = docs[1];
 
   return (
-    <PageContainer designHash={designHash} routerId={routerId ? `components/${routerId}` : null}>
+    <PageContainer designHash={designHash} routerId={pathname}>
       {pageHead}
       <Markdown>{header}</Markdown>
       {componentExamples.map((item, index) => (

@@ -112,7 +112,7 @@ We uses [react-app-rewired][react-app-rewired] and [customize-cra][customize-cra
 
 ## Source code
 
-- [create-react-app](https://github.com/rsuite/examples/tree/master/create-react-app)
+- [create-react-app](https://github.com/rsuite/rsuite/tree/master/examples/create-react-app)
 
 [yarn]: https://yarnpkg.com/
 [nvm]: https://github.com/creationix/nvm#installation

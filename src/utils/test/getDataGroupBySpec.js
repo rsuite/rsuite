@@ -1,6 +1,4 @@
-import _ from 'lodash';
-
-import getDataGroupBy from '../getDataGroupBy';
+import getDataGroupBy, { KEY_GROUP } from '../getDataGroupBy';
 
 describe('[utils] getDataGroupBy', () => {
   it('Should be grouped by title', () => {
@@ -18,7 +16,7 @@ describe('[utils] getDataGroupBy', () => {
     const groups = getDataGroupBy(items, 'group');
 
     assert.equal(groups[0].groupTitle, 'title');
-    assert.equal(groups[0].group, true);
+    assert.equal(groups[0][KEY_GROUP], true);
     assert.equal(groups.length, 3);
   });
 
@@ -70,9 +68,9 @@ describe('[utils] getDataGroupBy', () => {
     const groups = getDataGroupBy(items, 'group', sort);
 
     assert.equal(groups[0].groupTitle, 'group-1');
-    assert.equal(groups[0].group, true);
+    assert.equal(groups[0][KEY_GROUP], true);
     assert.equal(groups[3].groupTitle, 'group-2');
-    assert.equal(groups[3].group, true);
+    assert.equal(groups[3][KEY_GROUP], true);
     assert.equal(groups.length, 6);
   });
 });

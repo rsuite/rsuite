@@ -303,38 +303,18 @@ describe('TreePicker', () => {
   });
 
   it('Should call `onOpen` callback', done => {
-    const doneOp = key => {
+    const doneOp = () => {
       done();
     };
-    let picker = null;
-    getDOMNode(
-      <TreePicker
-        ref={ref => {
-          picker = ref;
-        }}
-        onOpen={doneOp}
-        data={data}
-      />
-    );
-
+    const picker = getInstance(<TreePicker onOpen={doneOp} data={data} />);
     picker.open();
   });
 
   it('Should call `onClose` callback', done => {
-    const doneOp = key => {
+    const doneOp = () => {
       done();
     };
-    let picker = null;
-    getDOMNode(
-      <TreePicker
-        defaultOpen
-        ref={ref => {
-          picker = ref;
-        }}
-        onClose={doneOp}
-        data={data}
-      />
-    );
+    const picker = getInstance(<TreePicker defaultOpen onClose={doneOp} data={data} />);
     picker.close();
   });
 

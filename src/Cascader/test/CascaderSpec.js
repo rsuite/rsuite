@@ -142,38 +142,18 @@ describe('Cascader', () => {
   });
 
   it('Should call `onOpen` callback', done => {
-    const doneOp = key => {
+    const doneOp = () => {
       done();
     };
-    let picker = null;
-    getDOMNode(
-      <Cascader
-        ref={ref => {
-          picker = ref;
-        }}
-        onOpen={doneOp}
-        data={items}
-      />
-    );
-
+    const picker = getInstance(<Cascader onOpen={doneOp} data={items} />);
     picker.open();
   });
 
   it('Should call `onClose` callback', done => {
-    const doneOp = key => {
+    const doneOp = () => {
       done();
     };
-    let picker = null;
-    getDOMNode(
-      <Cascader
-        defaultOpen
-        ref={ref => {
-          picker = ref;
-        }}
-        onClose={doneOp}
-        data={items}
-      />
-    );
+    const picker = getInstance(<Cascader defaultOpen onClose={doneOp} data={items} />);
     picker.close();
   });
 

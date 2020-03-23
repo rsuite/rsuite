@@ -6,7 +6,6 @@ import useFetchData from '@/utils/useFetchData';
 
 export default function Page() {
   const { response: data } = useFetchData('users-role');
-  console.log(data);
   return (
     <DefaultPage
       examples={[

@@ -226,8 +226,8 @@ If you use [`create-react-app`][cra] to create a project, you can modify it with
 [less]: http://lesscss.org/
 [modify variables]: http://lesscss.org/usage/#using-less-in-the-browser-modify-variables
 [rsuite-theme-pallete]: https://github.com/rsuite/rsuite/blob/master/src/styles/constants.less#L32
-[issue]: https://github.com/rsuite/rsuite/issues/new
+[issue]: https://github.com/rsuite/rsuite/issues/new?template=bug_report.md
 [variables.less]: https://github.com/rsuite/rsuite/blob/master/src/styles/variables.less
 [use-with-create-app]: /en/guide/use-with-create-react-app#Customize%20Theme
 [webpack-multiple-themes-compile]: https://github.com/rsuite/webpack-multiple-themes-compile
-[multiple-themes]: https://github.com/rsuite/examples/tree/master/multiple-themes
+[multiple-themes]: https://github.com/rsuite/rsuite/tree/master/examples/custom-multiple-themes

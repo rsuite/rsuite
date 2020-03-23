@@ -15,10 +15,6 @@ interface FormState {
   formValue?: any;
 }
 
-function preventDefaultEvent(event) {
-  event.preventDefault();
-}
-
 class Form extends React.Component<FormProps, FormState> {
   static propTypes = {
     className: PropTypes.string,
@@ -32,6 +28,7 @@ class Form extends React.Component<FormProps, FormState> {
     onChange: PropTypes.func,
     onError: PropTypes.func,
     onCheck: PropTypes.func,
+    onSubmit: PropTypes.func,
     model: PropTypes.object,
     classPrefix: PropTypes.string,
     errorFromContext: PropTypes.bool,
@@ -277,6 +274,14 @@ class Form extends React.Component<FormProps, FormState> {
     return children;
   }
 
+  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const checkStatus = this.check();
+    this.props.onSubmit?.(checkStatus, event);
+  };
+
   render() {
     const {
       formValue = {},
@@ -298,7 +303,7 @@ class Form extends React.Component<FormProps, FormState> {
     const contextDefalutValue: any = this.getFormContextValue();
 
     return (
-      <form onSubmit={preventDefaultEvent} {...unhandled} className={classes}>
+      <form onSubmit={this.handleSubmit} {...unhandled} className={classes}>
         <FormContext.Provider value={contextDefalutValue}>
           <FormValueContext.Provider value={formValue}>
             {this.checkErrorFromContext(children)}

@@ -8,6 +8,7 @@ const { resolve } = require('path');
 const resolveDirName = path => resolve(__dirname, path);
 
 const PORT = process.env.PORT || 3001;
+const __PRO__ = process.env.NODE_ENV === 'production';
 const CSS_PATH = 'css';
 
 const themesConfig = multipleThemesCompile({
@@ -20,7 +21,10 @@ const themesConfig = multipleThemesCompile({
     {
       loader: 'less-loader',
       options: {
-        javascriptEnabled: true
+        javascriptEnabled: true,
+        globalVars: {
+          rootPath: __PRO__ ? '~rsuite/' : '../../../'
+        }
       }
     }
   ],
@@ -41,7 +45,7 @@ module.exports = merge(
       disableHostCheck: true,
       historyApiFallback: true,
       compress: true,
-      host: '127.0.0.1',
+      host: '0.0.0.0',
       port: PORT
     },
     output: {
@@ -59,5 +63,14 @@ module.exports = merge(
       })
     ]
   },
-  themesConfig
+  themesConfig,
+  __PRO__
+    ? {}
+    : {
+        resolve: {
+          alias: {
+            rsuite: resolveDirName('../')
+          }
+        }
+      }
 );

@@ -1,6 +1,7 @@
 export default {
   id: 'zh-CN',
   common: {
+    home: '首页',
     search: '搜索',
     resume: '一套 React 的 UI 组件库，贴心的 UI 设计，友好的开发体验。',
     advanced: '高级功能',
@@ -53,7 +54,7 @@ export default {
     'tab.summary': '汇总',
     'tab.fixed': '锁定列',
     'tab.auto-height': '自动高度',
-    'tab.affix-header': '固定表头'
+    'tab.affix-header': '固定表头在页首'
   },
   palette: {
     title: '分析产品商标颜色',

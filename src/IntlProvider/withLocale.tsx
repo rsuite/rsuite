@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { setDisplayName, wrapDisplayName } from 'recompose';
 import defaultLocale from './locales/default';
 import IntlContext from './IntlContext';
+import extendReactStatics from '../utils/extendReactStatics';
 
 const mergeObject = (list: any[]) =>
   list.reduce((a, b) => {
@@ -12,7 +13,6 @@ const mergeObject = (list: any[]) =>
 
 function withLocale<T>(combineKeys: string[] = []) {
   return (BaseComponent: React.ComponentClass<any>) => {
-    const factory = React.createFactory(BaseComponent);
     const WithLocale = React.forwardRef((props: T, ref) => {
       return (
         <IntlContext.Consumer>
@@ -20,6 +20,7 @@ function withLocale<T>(combineKeys: string[] = []) {
             const locale = mergeObject(
               combineKeys.map(key => _.get(value || defaultLocale, `${key}`))
             );
+
             if (value && typeof value.rtl !== undefined) {
               locale.rtl = value.rtl;
             } else if (
@@ -29,7 +30,7 @@ function withLocale<T>(combineKeys: string[] = []) {
               locale.rtl = true;
             }
 
-            return factory({
+            return React.createElement(BaseComponent, {
               ref,
               locale,
               ...props
@@ -40,12 +41,13 @@ function withLocale<T>(combineKeys: string[] = []) {
     });
 
     WithLocale.displayName = BaseComponent.displayName;
+    extendReactStatics(WithLocale, BaseComponent, ['defaultProps']);
 
-    if (process.env.NODE_ENV !== 'production') {
-      return setDisplayName(wrapDisplayName(BaseComponent, 'withLocale'))(WithLocale);
+    if (process.env.RUN_ENV === 'test') {
+      return setDisplayName(wrapDisplayName(BaseComponent, '__test__'))(WithLocale);
     }
 
-    return WithLocale;
+    return setDisplayName(wrapDisplayName(BaseComponent, 'withLocale'))(WithLocale);
   };
 }
 

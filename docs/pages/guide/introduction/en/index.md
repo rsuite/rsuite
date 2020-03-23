@@ -1,6 +1,6 @@
 # Introduction
 
-React Suite is a library of React components. Committed to creating intimate interactive designs while providing developers with a friendly development experience.
+React Suite is a library of React components, designed for middle platform and back-end products. Committed to creating intimate interactive designs while providing developers with a friendly development experience.
 
 [![npm][npm-svg]][npm-home] [![Travis][travis-svg]][travis-home] [![Coverage Status][coverage-svg]][coverage-home] [![Gitter][gitter-svg]][gitter]
 
@@ -33,7 +33,6 @@ React Suite supports server side rendering. Support [Next.js](https://github.com
 
 - Supports React 16 +
 - Supports [TypeScript](http://www.typescriptlang.org/)
-- Supports [Flow](https://flow.org/)
 - Supports [Electron](https://electronjs.org/)
 
 ## Examples
@@ -43,10 +42,12 @@ React Suite supports server side rendering. Support [Next.js](https://github.com
 - [Use CDN][demo-cdn]
 - [Internationalization][demo-intl-app]
 - [Themes][demo-multiple-themes]
+- [RLT - RTLCSS][demo-rtlcss]
+- [RLT - PostCSS-RTL][demo-postcss-rtl]
 - [Use in create-react-app][demo-create-react-app]
 - [Use in Flow][demo-flow-app]
 - [Use in TypeScript][demo-typescript-app]
-- [Use in Next.js][demo-ssr-app]
+- [Use in Next.js][demo-nextjs]
 - [Use in UmiJS][demo-umi-app]
 
 ## Changelog
@@ -59,9 +60,49 @@ Make sure you've read the [guidelines][contributing] before you start contributi
 
 Editor preferences are available in the [.prettierrc][prettierrc] for easy use in common code editors. Read more and download plugins at https://prettier.io/.
 
-### Development plan
+## Development
 
-You can learn about our development plan through [Trello](https://trello.com/b/nsaUoK7S/rsuite) and hope that you can get involved.
+### Test-Driven Development（TDD）
+
+1. Fork `https://github.com/rsuite/rsuite` this repo.
+
+```bash
+$ git clone git@github.com:<YOUR NAME>/rsuite.git
+$ cd rsuite
+```
+
+2. Install it and run
+
+```bash
+$ npm install
+$ npm run tdd
+```
+
+3. Run a single component test case.
+
+```bash
+$ M=Button npm run tdd
+```
+
+### UI-Driven Development
+
+1. Fork `https://github.com/rsuite/rsuite` this repo.
+
+```bash
+$ git clone git@github.com:<YOUR NAME>/rsuite.git
+```
+
+2. Install it and run
+
+```bash
+$ cd rsuite
+$ npm install
+$ cd rsuite/docs
+$ npm install
+$ npm run dev
+```
+
+3. Your show time. Open url http://127.0.0.1:3200/ in browser.
 
 ## Supporting RSUITE
 
@@ -102,14 +143,16 @@ RSUITE is [MIT licensed][license]. Copyright (c) 2016-present, HYPERS.
 [gitter]: https://gitter.im/rsuite/rsuite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
 [gitter-svg]: https://badges.gitter.im/rsuite/rsuite.svg
 [demo-admin]: https://github.com/rsuite/rsuite-management-system
-[demo-modular-import]: https://github.com/rsuite/examples/tree/master/modular-import
-[demo-cdn]: https://github.com/rsuite/examples/tree/master/cdn
-[demo-create-react-app]: https://github.com/rsuite/examples/tree/master/create-react-app
-[demo-intl-app]: https://github.com/rsuite/examples/tree/master/intl-app
-[demo-multiple-themes]: https://github.com/rsuite/examples/tree/master/multiple-themes
-[demo-flow-app]: https://github.com/rsuite/examples/tree/master/flow-app
-[demo-typescript-app]: https://github.com/rsuite/examples/tree/master/typescript-app
-[demo-ssr-app]: https://github.com/rsuite/rsuite-management-system-ssr
-[demo-umi-app]: https://github.com/rsuite/examples/tree/master/umi-app
+[demo-modular-import]: https://github.com/rsuite/rsuite/tree/master/examples/with-babel-preset-rsuite
+[demo-cdn]: https://github.com/rsuite/rsuite/tree/master/examples/cdn
+[demo-create-react-app]: https://github.com/rsuite/rsuite/tree/master/examples/create-react-app
+[demo-intl-app]: https://github.com/rsuite/rsuite/tree/master/examples/custom-i18n
+[demo-multiple-themes]: https://github.com/rsuite/rsuite/tree/master/examples/custom-multiple-themes
+[demo-flow-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-flow
+[demo-typescript-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-typescript
+[demo-nextjs]: https://github.com/rsuite/rsuite/tree/master/examples/with-nextjs
+[demo-umi-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-umi
+[demo-rtlcss]: https://github.com/rsuite/rsuite/tree/master/examples/with-rtlcss
+[demo-postcss-rtl]: https://github.com/rsuite/rsuite/tree/master/examples/with-postcss-rtl
 [babel-preset-env]: https://babeljs.io/docs/en/babel-preset-env
 [rsuite-stars]: https://img.shields.io/github/stars/rsuite/rsuite?style=social

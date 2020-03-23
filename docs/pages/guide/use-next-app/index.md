@@ -135,5 +135,5 @@ function Navigation() {
 
 ## 示例
 
-- [next-app](https://github.com/rsuite/examples/tree/master/next-app)
+- [next-app](https://github.com/rsuite/rsuite/tree/master/examples/with-nextjs)
 - [rsuite-management-system-ssr](https://github.com/rsuite/rsuite-management-system-ssr)

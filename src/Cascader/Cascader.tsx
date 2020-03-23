@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import compose from 'recompose/compose';
 import _ from 'lodash';
 import { findNodeOfTree, shallowEqual } from 'rsuite-utils/lib/utils';
 import { polyfill } from 'react-lifecycles-compat';
@@ -13,14 +12,7 @@ import stringToObject from '../utils/stringToObject';
 import getSafeRegExpString from '../utils/getSafeRegExpString';
 import { flattenTree, getNodeParents } from '../utils/treeUtils';
 import { getDerivedStateForCascade } from './utils';
-
-import {
-  defaultProps,
-  prefix,
-  getUnhandledProps,
-  createChainedFunction,
-  withPickerMethods
-} from '../utils';
+import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 
 import {
   PickerToggle,
@@ -301,6 +293,13 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     if (this.triggerRef.current) {
       this.triggerRef.current.show();
     }
+  };
+
+  open = () => {
+    this.handleOpenDropdown?.();
+  };
+  close = () => {
+    this.handleCloseDropdown?.();
   };
 
   handleClean = (event: React.SyntheticEvent<HTMLElement>) => {
@@ -587,11 +586,6 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
 
 polyfill(Cascader);
 
-const enhance = compose(
-  defaultProps<CascaderProps>({
-    classPrefix: 'picker'
-  }),
-  withPickerMethods<CascaderProps>()
-);
-
-export default enhance(Cascader);
+export default defaultProps<CascaderProps>({
+  classPrefix: 'picker'
+})(Cascader);

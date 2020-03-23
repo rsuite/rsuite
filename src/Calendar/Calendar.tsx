@@ -8,7 +8,7 @@ import TimeDropdown from './TimeDropdown';
 import View from './View';
 import Header from './Header';
 import { getUnhandledProps, defaultProps, prefix } from '../utils';
-import disabledTime, { calendarOnlyProps } from '../utils/disabledTime';
+import { disabledTime, calendarOnlyProps } from '../utils/timeUtils';
 import { shouldTime, shouldDate, shouldMonth } from '../utils/formatUtils';
 import addMonths from 'date-fns/addMonths';
 

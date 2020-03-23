@@ -1,5 +1,6 @@
 import React from 'react';
 import { readTheme, readDirection } from '@/utils/themeHelpers';
+import { ZHDict } from '@/locales';
 
 interface AppContextProps {
   direction?: string;
@@ -7,9 +8,10 @@ interface AppContextProps {
   onChangeDirection?: () => void;
   onChangeTheme?: () => void;
   onChangeLanguage?: (value: string) => void;
-  messages?: any;
+  messages?: ZHDict;
   language?: string;
   localePath?: string;
+  styleLoaded?: boolean;
 }
 
 export const AppContext = React.createContext<AppContextProps>({
@@ -20,7 +22,8 @@ export const AppContext = React.createContext<AppContextProps>({
   onChangeLanguage: null,
   messages: null,
   language: 'zh',
-  localePath: ''
+  localePath: '',
+  styleLoaded: false
 });
 
 export default AppContext;

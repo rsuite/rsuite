@@ -17,10 +17,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "lib": ["dom", "dom.iterable", "esnext"],
-    // Alias supported
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@rsuite-locales/*": ["./node_modules/rsuite/lib/IntlProvider/locales/*"]
     }
   },
   "exclude": ["node_modules"],

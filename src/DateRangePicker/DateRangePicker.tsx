@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import compose from 'recompose/compose';
 import _ from 'lodash';
 
 import { format } from 'date-fns';
@@ -23,13 +22,7 @@ import IntlProvider from '../IntlProvider';
 import Toolbar from './Toolbar';
 import DatePicker from './DatePicker';
 import { setTimingMargin, getCalendarDate, TYPE } from './utils';
-import {
-  defaultProps,
-  getUnhandledProps,
-  prefix,
-  createChainedFunction,
-  withPickerMethods
-} from '../utils';
+import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
 
 import {
   PickerToggle,
@@ -105,7 +98,8 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     onExit: PropTypes.func,
     onExiting: PropTypes.func,
     onExited: PropTypes.func,
-    renderValue: PropTypes.func
+    renderValue: PropTypes.func,
+    showOneCalendar: PropTypes.bool
   };
   static defaultProps = {
     appearance: 'default',
@@ -114,6 +108,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     format: 'YYYY-MM-DD',
     placeholder: '',
     cleanable: true,
+    showOneCalendar: false,
     locale: {
       sunday: 'Su',
       monday: 'Mo',
@@ -266,6 +261,13 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     if (this.triggerRef.current) {
       this.triggerRef.current.show();
     }
+  };
+
+  open = () => {
+    this.handleOpenDropdown?.();
+  };
+  close = () => {
+    this.handleCloseDropdown?.();
   };
 
   resetPageDate() {
@@ -495,7 +497,15 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderDropdownMenu() {
-    const { menuClassName, ranges, isoWeek, limitEndYear, oneTap, showWeekNumbers } = this.props;
+    const {
+      menuClassName,
+      ranges,
+      isoWeek,
+      limitEndYear,
+      oneTap,
+      showWeekNumbers,
+      showOneCalendar
+    } = this.props;
     const { calendarDate, selectValue, hoverValue, doneSelected } = this.state;
     const classes = classNames(this.addPrefix('daterange-menu'), menuClassName);
 
@@ -510,7 +520,8 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       disabledDate: this.handleDisabledDate,
       onSelect: this.handleChangeSelectValue,
       onMouseMove: this.handleMouseMoveSelectValue,
-      onChangeCalendarDate: this.handleChangeCalendarDate
+      onChangeCalendarDate: this.handleChangeCalendarDate,
+      showOneCalendar
     };
 
     return (
@@ -520,9 +531,13 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
             <div className={this.addPrefix('daterange-header')}>
               {this.getDateString(selectValue as ValueType)}
             </div>
-            <div className={this.addPrefix('daterange-calendar-group')}>
+            <div
+              className={this.addPrefix(
+                `daterange-calendar-${showOneCalendar ? 'single' : 'group'}`
+              )}
+            >
               <DatePicker index={0} {...pickerProps} />
-              <DatePicker index={1} {...pickerProps} />
+              {!showOneCalendar && <DatePicker index={1} {...pickerProps} />}
             </div>
           </div>
           <Toolbar
@@ -585,11 +600,6 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   }
 }
 
-const enhance = compose(
-  defaultProps<DateRangePickerProps>({
-    classPrefix: 'picker'
-  }),
-  withPickerMethods<DateRangePickerProps>()
-);
-
-export default enhance(DateRangePicker);
+export default defaultProps({
+  classPrefix: 'picker'
+})(DateRangePicker);

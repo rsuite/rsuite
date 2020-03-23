@@ -2,6 +2,12 @@
 
 <!--start-code-->
 ```js
+/**
+ * .navbar-brand {
+ *   padding: 18px 20px;
+ *   display: inline-block;
+ * }
+ */
 const instance = (
   <Navbar>
     <Navbar.Header>

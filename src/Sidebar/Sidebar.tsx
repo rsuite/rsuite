@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import setDisplayName from 'recompose/setDisplayName';
 import { defaultProps, prefix } from '../utils';
 import { SidebarProps } from './Sidebar.d';
 import { ContainerContext } from '../Container/Container';
@@ -41,8 +40,6 @@ class Sidebar extends React.Component<SidebarProps> {
   }
 }
 
-const EnhancedSidebar = defaultProps<SidebarProps>({
+export default defaultProps<SidebarProps>({
   classPrefix: 'sidebar'
 })(Sidebar);
-
-export default setDisplayName('Sidebar')(EnhancedSidebar);

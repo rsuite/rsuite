@@ -25,7 +25,7 @@ export interface TableProps<RowKey = string | number | symbol, RowData = any>
   minHeight?: number;
 
   /** Row height */
-  rowHeight?: number;
+  rowHeight: number | ((rowData: object) => number);
 
   /** Add an optional extra class name to row */
   rowClassName?: string | ((rowData: RowData) => string);
@@ -80,9 +80,6 @@ export interface TableProps<RowKey = string | number | symbol, RowData = any>
   showHeader?: boolean;
 
   /** Custom Settings Row Height */
-  setRowHeight?: (rowData: RowData) => number;
-
-  /** Custom Settings Row Height */
   onRowClick?: (rowData: RowData, event: React.SyntheticEvent<any>) => void;
 
   /** Callback function for scroll bar scrolling */
@@ -95,7 +92,11 @@ export interface TableProps<RowKey = string | number | symbol, RowData = any>
   onExpandChange?: (expanded: boolean, rowData: RowData) => void;
 
   /** Tree table, the callback function in the expanded node */
-  renderTreeToggle?: (expandButton: React.ReactNode, rowData: RowData) => React.ReactNode;
+  renderTreeToggle?: (
+    expandButton: React.ReactNode,
+    rowData?: RowData,
+    expanded?: boolean
+  ) => React.ReactNode;
 
   /** Customize what you can do to expand a zone */
   renderRowExpanded?: (rowDate?: RowData) => React.ReactNode;
@@ -105,6 +106,11 @@ export interface TableProps<RowKey = string | number | symbol, RowData = any>
 
   /** Customize the display content in the data load  */
   renderLoading?: (loading: React.ReactNode) => React.ReactNode;
+}
+
+export interface TableInstance extends React.Component<TableProps> {
+  scrollTop: (top: number) => void;
+  scrollLeft: (left: number) => void;
 }
 
 interface TableComponent extends React.ComponentClass<TableProps> {

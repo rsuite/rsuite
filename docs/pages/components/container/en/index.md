@@ -6,7 +6,7 @@ The container layout can define the main frame of the page.
 * `<Header>` Container header.
 * `<Content>` Container content.
 * `<Footer>` Container footer.
-* `<Sidebar>` COntainer sidebar.
+* `<Sidebar>` Container sidebar.
 
 ## Usage
 

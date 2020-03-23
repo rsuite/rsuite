@@ -45,7 +45,10 @@ export default function PageContainer(props: ContainerProps) {
 
   return (
     <>
-      <Row {...rest} className={classnames({ ['hide-page-nav']: !openPageNav })}>
+      <Row
+        {...rest}
+        className={classnames('page-context-wrapper', { ['hide-page-nav']: !openPageNav })}
+      >
         <Col md={24} xs={24} sm={24} className="main-container">
           <PageContent>{children}</PageContent>
         </Col>
@@ -67,7 +70,7 @@ export default function PageContainer(props: ContainerProps) {
                   appearance="subtle"
                   icon={<Icon icon="edit2" />}
                   target="_blank"
-                  href={`https://github.com/rsuite/rsuite/edit/master/docs/pages/${routerId}/index.md`}
+                  href={`https://github.com/rsuite/rsuite/edit/master/docs/pages${routerId}/index.md`}
                 />
               </Whisper>
             ) : null}
@@ -77,7 +80,7 @@ export default function PageContainer(props: ContainerProps) {
                 appearance="subtle"
                 icon={<Icon icon="bug" />}
                 target="_blank"
-                href={'https://github.com/rsuite/rsuite/issues/new'}
+                href={'https://github.com/rsuite/rsuite/issues/new?template=bug_report.md'}
               />
             </Whisper>
 

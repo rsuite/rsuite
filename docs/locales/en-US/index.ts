@@ -1,6 +1,7 @@
 export default {
   id: 'en-US',
   common: {
+    home: 'Home',
     search: 'Search',
     resume:
       'A suite of React components, sensible UI design, and a friendly development experience.',
@@ -35,7 +36,7 @@ export default {
     v3ToV4: 'V3 upgrade to V4 considerations',
     notFount: 'Page not found',
     goHomePage: 'Return to homepage.',
-    searchIcon:'Search icon',
+    searchIcon: 'Search icon',
     copySucceed: 'Copy success',
     copyFailed: "Copy the failure, the browser doesn't support this feature"
   },

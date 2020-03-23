@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import compose from 'recompose/compose';
 import _ from 'lodash';
 import List from 'react-virtualized/dist/commonjs/List';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
@@ -17,8 +16,7 @@ import {
   prefix,
   defaultClassPrefix,
   getUnhandledProps,
-  createChainedFunction,
-  withPickerMethods
+  createChainedFunction
 } from '../utils';
 
 import {
@@ -713,6 +711,12 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       this.triggerRef.current.show();
     }
   };
+  open = () => {
+    this.handleOpenDropdown?.();
+  };
+  close = () => {
+    this.handleCloseDropdown?.();
+  };
 
   handleToggleDropdown = () => {
     const { active } = this.state;
@@ -1246,10 +1250,6 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
 
 polyfill(CheckTreePicker);
 
-const enhance = compose(
-  defaultProps<CheckTreePickerProps>({
-    classPrefix: 'picker'
-  }),
-  withPickerMethods<CheckTreePickerProps>()
-);
-export default enhance(CheckTreePicker);
+export default defaultProps<CheckTreePickerProps>({
+  classPrefix: 'picker'
+})(CheckTreePicker);
