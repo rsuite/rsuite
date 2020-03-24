@@ -4,6 +4,7 @@
     margin: 0;
     list-style: none;
   }
+
   li.title {
     display: block !important;
     clear: both;
@@ -11,14 +12,16 @@
     margin: 10px 0 !important;
     width: 100%;
   }
+
   > ul {
     margin-left: -10px;
+
     > li {
       display: inline-table;
       border-left: 1px solid @divider-border-color;
       margin: 10px 0 10px 10px;
       padding: 0 10px;
-      width: 160px;
+      width: 150px;
 
       @media (min-width: @media-xs) {
         width: 180px;
@@ -29,10 +32,12 @@
       }
     }
   }
+
   .header {
     margin: 4px 0;
     display: block;
   }
+
   .content {
     .name {
       font-size: 12px;
