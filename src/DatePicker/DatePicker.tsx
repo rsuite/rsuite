@@ -180,10 +180,15 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
 
   getDateString() {
     const { placeholder, format: formatType, renderValue } = this.props;
+    const replaceFormat = formatType.replace(/D|Y/gi, function(x) {
+      return x.toLowerCase();
+    });
     const value = this.getValue();
 
     if (value) {
-      return renderValue ? renderValue(value, formatType) : format(legacyParse(value), convertTokens(formatType));
+      return renderValue
+        ? renderValue(value, formatType)
+        : format(legacyParse(value), replaceFormat);
     }
 
     return placeholder || formatType;

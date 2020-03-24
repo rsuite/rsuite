@@ -26,9 +26,9 @@ describe('Calendar-Header', () => {
     );
   });
 
-  it('Should output a date for `YYYY-MM-DD`', () => {
+  it('Should output a date for `yyyy-MM-dd`', () => {
     const date = new Date();
-    const formatType = 'YYYY-MM-DD';
+    const formatType = 'yyyy-MM-dd';
     const instance = getDOMNode(<Header showDate date={date} format={formatType} />);
 
     assert.equal(
@@ -37,9 +37,9 @@ describe('Calendar-Header', () => {
     );
   });
 
-  it('Should output a date for `YYYY-MM`', () => {
+  it('Should output a date for `yyyy-MM`', () => {
     const date = new Date();
-    const formatType = 'YYYY-MM';
+    const formatType = 'yyyy-MM';
     const instance = getDOMNode(<Header showMonth date={date} format={formatType} />);
 
     assert.equal(

@@ -67,7 +67,7 @@ class Toolbar extends React.PureComponent<ToolbarProps> {
     });
     return (
       <div className={this.addPrefix('right')}>
-        <button className={classes} onClick={disabled ? undefined : onOk}>
+        <button type="button" className={classes} onClick={disabled ? undefined : onOk}>
           <FormattedMessage id="ok" />
         </button>
       </div>
