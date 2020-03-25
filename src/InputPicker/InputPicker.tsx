@@ -474,7 +474,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     );
     const nextState = {
       searchKeyword,
-      focusItemValue: filteredData.length ? filteredData[0][valueKey] : searchKeyword
+      focusItemValue: filteredData?.[0]?.[valueKey] || searchKeyword
     };
 
     this.setState(nextState, this.updatePosition);
