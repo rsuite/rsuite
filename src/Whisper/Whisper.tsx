@@ -5,14 +5,7 @@ import { createChainedFunction, placementPolyfill } from '../utils';
 import IntlContext from '../IntlProvider/IntlContext';
 import { WhisperProps } from './Whisper.d';
 
-export const overlayProps = [
-  'placement',
-  'shouldUpdatePosition',
-  'arrowOffsetLeft',
-  'arrowOffsetTop',
-  'positionLeft',
-  'positionTop'
-];
+export const overlayProps = ['placement', 'shouldUpdatePosition'];
 
 class Whisper extends React.Component<WhisperProps> {
   static propTypes = {
