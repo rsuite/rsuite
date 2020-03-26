@@ -21,11 +21,7 @@ import { Tooltip, Whisper } from 'rsuite';
 
 | 属性名称        | 类型 `(默认值)`      | 描述                       |
 | --------------- | -------------------- | -------------------------- |
-| arrowOffsetLeft | number or string     | 箭头相对 `left` 位置偏移量 |
-| arrowOffsetTop  | number or string     | 箭头相对 `top` 位置偏移量  |
 | classPrefix     | string `('tooltip')` | 组件 CSS 类的前缀          |
-| positionLeft    | number               | 相对 `left` 位置偏移量     |
-| positionTop     | number               | 相对 `top` 位置偏移量      |
 
 ### `<Whisper>`
 
