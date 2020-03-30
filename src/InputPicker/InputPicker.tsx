@@ -3,12 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { getWidth } from 'dom-lib';
-import {
-  reactToString,
-  filterNodesOfTree,
-  findNodeOfTree,
-  shallowEqual
-} from 'rsuite-utils/lib/utils';
+import { filterNodesOfTree, findNodeOfTree, shallowEqual } from 'rsuite-utils/lib/utils';
 
 import {
   defaultProps,
@@ -26,7 +21,8 @@ import {
   onMenuKeyDown,
   PickerToggle,
   MenuWrapper,
-  PickerToggleTrigger
+  PickerToggleTrigger,
+  shouldDisplay
 } from '../Picker';
 import DropdownMenu, { dropdownMenuPropTypes } from '../Picker/DropdownMenu';
 import InputAutosize from './InputAutosize';
@@ -34,6 +30,7 @@ import InputSearch from './InputSearch';
 import Tag from '../Tag';
 import { InputPickerProps } from './InputPicker.d';
 import { PLACEMENT } from '../constants';
+import { ItemDataType } from '../@types/common';
 
 interface InputPickerState {
   data?: any[];
@@ -98,7 +95,8 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     onExit: PropTypes.func,
     onExiting: PropTypes.func,
     onExited: PropTypes.func,
-    virtualized: PropTypes.bool
+    virtualized: PropTypes.bool,
+    searchBy: PropTypes.func
   };
   static defaultProps = {
     data: [],
@@ -173,14 +171,13 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   }
 
   getFocusableMenuItems = () => {
-    const { labelKey } = this.props;
     const { menuItems } = this.menuContainerRef.current;
     if (!menuItems) {
       return [];
     }
 
     const items = Object.values(menuItems).map((item: any) => item.props.getItemData());
-    return filterNodesOfTree(items, item => this.shouldDisplay(item[labelKey]));
+    return filterNodesOfTree(items, item => this.shouldDisplay(item));
   };
 
   getValue() {
@@ -275,27 +272,15 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
    * Index of keyword  in `label`
    * @param {node} label
    */
-  shouldDisplay(label: any, searchKeyword?: string) {
+  shouldDisplay(item: ItemDataType, searchKeyword?: string) {
+    const { searchBy, labelKey } = this.props;
+    const label = item?.[labelKey];
     const word = typeof searchKeyword === 'undefined' ? this.state.searchKeyword : searchKeyword;
-    if (!_.trim(word)) {
-      return true;
+
+    if (typeof searchBy === 'function') {
+      return searchBy(word, label, item);
     }
-
-    const keyword = word.toLocaleLowerCase();
-
-    if (typeof label === 'string' || typeof label === 'number') {
-      return `${label}`.toLocaleLowerCase().indexOf(keyword) >= 0;
-    } else if (React.isValidElement(label)) {
-      const nodes = reactToString(label);
-      return (
-        nodes
-          .join('')
-          .toLocaleLowerCase()
-          .indexOf(keyword) >= 0
-      );
-    }
-
-    return false;
+    return shouldDisplay(label, word);
   }
 
   findNode(focus: Function) {
@@ -468,9 +453,9 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   };
 
   handleSearch = (searchKeyword: string, event: React.ChangeEvent<HTMLInputElement>) => {
-    const { onSearch, labelKey, valueKey } = this.props;
+    const { onSearch, valueKey } = this.props;
     const filteredData = filterNodesOfTree(this.getAllData(), item =>
-      this.shouldDisplay(item[labelKey], searchKeyword)
+      this.shouldDisplay(item, searchKeyword)
     );
     const nextState = {
       searchKeyword,
@@ -592,7 +577,6 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
 
   renderDropdownMenu() {
     const {
-      labelKey,
       groupBy,
       locale,
       renderMenu,
@@ -613,7 +597,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
 
     const allData = this.getAllData();
 
-    let filteredData = filterNodesOfTree(allData, item => this.shouldDisplay(item[labelKey]));
+    let filteredData = filterNodesOfTree(allData, item => this.shouldDisplay(item));
 
     if (
       creatable &&

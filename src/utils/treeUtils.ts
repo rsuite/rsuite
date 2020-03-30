@@ -1,6 +1,5 @@
-import * as React from 'react';
 import _ from 'lodash';
-import { reactToString, shallowEqual, shallowEqualArray } from 'rsuite-utils/lib/utils';
+import { shallowEqual, shallowEqualArray } from 'rsuite-utils/lib/utils';
 import { Node } from '../CheckTreePicker/utils';
 import { TreePickerProps } from '../TreePicker/TreePicker.d';
 import { CheckTreePickerProps } from '../CheckTreePicker/CheckTreePicker.d';
@@ -75,30 +74,6 @@ export function getNodeParents(node: object, parentKey = 'parent', valueKey?: st
   traverse(node);
 
   return parents;
-}
-
-/**
- * 判断当前节点是否显示
- * @param {*} label
- * @param {*} searchKeyword
- */
-export function shouldDisplay(label: any, searchKeyword: string) {
-  if (!_.trim(searchKeyword)) {
-    return true;
-  }
-  const keyword = searchKeyword.toLocaleLowerCase();
-  if (typeof label === 'string') {
-    return label.toLocaleLowerCase().indexOf(keyword) >= 0;
-  } else if (React.isValidElement(label)) {
-    const nodes = reactToString(label);
-    return (
-      nodes
-        .join('')
-        .toLocaleLowerCase()
-        .indexOf(keyword) >= 0
-    );
-  }
-  return false;
 }
 
 /**

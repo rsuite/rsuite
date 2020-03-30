@@ -29,8 +29,8 @@ import { CheckTreePicker } from 'rsuite';
 | countable               | boolean `(true)`                                                                                    | whether display counts of checkItems                                      |
 | data \*                 | Array&lt;[DataItemType](#types)&gt;                                                                 | tree data                                                                 |
 | defaultExpandAll        | boolean                                                                                             | expand all tree node                                                      |
-| defaultValue            | string[]                                                                                            | (UnControlled) default values of the selected tree node                   |
 | defaultExpandItemValues | any []                                                                                              | Set the value of the default expanded node                                |
+| defaultValue            | string[]                                                                                            | (UnControlled) default values of the selected tree node                   |
 | disabled                | boolean                                                                                             | Whether to disable Picker                                                 |
 | disabledItemValues      | string[]                                                                                            | Disable item by value                                                     |
 | expandItemValues        | any []                                                                                              | Set the value of the expanded node (controlled)                           |
@@ -39,8 +39,8 @@ import { CheckTreePicker } from 'rsuite';
 | menuClassName           | string                                                                                              | className for Menu                                                        |
 | menuStyle               | React.CSSProperties                                                                                 | style for Menu                                                            |
 | onChange                | (values:string[])=>void                                                                             | callback fired when value change                                          |
-| onClose                 | ()=>void                                                                                            | callback fired when close component                                       |
 | onClean                 | (event:SyntheticEvent)=>void                                                                        | Callback fired when value clean                                           |
+| onClose                 | ()=>void                                                                                            | callback fired when close component                                       |
 | onExpand                | (expandItemValues: any [], activeNode:[DataItemType](#types), concat:(data, children)=>Array)=>void | callback fired when tree node expand state changed                        |
 | onOpen                  | ()=>void                                                                                            | callback fired when open component                                        |
 | onSearch                | (searchKeyword:string, event)=>void                                                                 | callback fired when search                                                |
@@ -53,6 +53,7 @@ import { CheckTreePicker } from 'rsuite';
 | renderTreeIcon          | (nodeData:Array&lt;Object&gt;)=>React.Node                                                          | custom render the icon of tree node                                       |
 | renderTreeNode          | (nodeData:Array&lt;[DataItemType](#types)&gt;)=>React.Node                                          | custom render tree node                                                   |
 | renderValue             | (values:any[], checkedItems:any[],selectedElement:React.Node)=>React.Node                           | custom render placeholder                                                 |
+| searchBy                | (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean                            | Custom search rules                                                       |
 | seasrchable             | boolean `(true)`                                                                                    | whether display search input box                                          |
 | size                    | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                                               | A picker can have different sizes                                         |
 | toggleComponentClass    | React.ElementType `('a')`                                                                           | You can use a custom element for this component                           |

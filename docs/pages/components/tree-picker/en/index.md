@@ -26,9 +26,9 @@ import { TreePicker } from 'rsuite';
 | container               | HTMLElement or (() => HTMLElement)                                                                  | Sets the rendering container                                              |
 | data \*                 | Array&lt;[DataItemType](#types)&gt;                                                                 | Tree data                                                                 |
 | defaultExpandAll        | boolean                                                                                             | Expand all nodes By default                                               |
+| defaultExpandItemValues | any []                                                                                              | Set the value of the default expanded node                                |
 | defaultOpen             | boolean                                                                                             | Open by default                                                           |
 | defaultValue            | string                                                                                              | Default selected Value                                                    |
-| defaultExpandItemValues | any []                                                                                              | Set the value of the default expanded node                                |
 | disabled                | boolean                                                                                             | Whether to disable Picker                                                 |
 | disabledItemValues      | string[]                                                                                            | Disable item by value                                                     |
 | expandItemValues        | any []                                                                                              | Set the value of the expanded node (controlled)                           |
@@ -37,8 +37,8 @@ import { TreePicker } from 'rsuite';
 | menuClassName           | string                                                                                              | A css class to apply to the Menu DOM node                                 |
 | menuStyle               | React.CSSProperties                                                                                 | style for Menu                                                            |
 | onChange                | (value:string)=>void                                                                                | Callback function for data change                                         |
-| onClose                 | ()=>void                                                                                            | Close Dropdown callback functions                                         |
 | onClean                 | (event:SyntheticEvent)=>void                                                                        | Callback fired when value clean                                           |
+| onClose                 | ()=>void                                                                                            | Close Dropdown callback functions                                         |
 | onExpand                | (expandItemValues: any [], activeNode:[DataItemType](#types), concat:(data, children)=>Array)=>void | Callback When tree node is displayed                                      |
 | onOpen                  | ()=>void                                                                                            | Open Dropdown callback function                                           |
 | onSearch                | (searchKeyword:string, event)=>void                                                                 | Search callback function                                                  |
@@ -50,6 +50,7 @@ import { TreePicker } from 'rsuite';
 | renderTreeIcon          | (nodeData:[DataItemType](#types))=>React.Node                                                       | Custom Render icon                                                        |
 | renderTreeNode          | (nodeData:[DataItemType](#types))=>React.Node                                                       | Custom Render tree Node                                                   |
 | renderValue             | (value:string,item:[DataItemType](#types), selectedElement:React.Node)=>React.Node                  | Custom Render Placeholder                                                 |
+| searchBy                | (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean                            | Custom search rules                                                       |
 | seasrchable             | boolean `(true)`                                                                                    | Set whether you can search                                                |
 | size                    | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                                               | A picker can have different sizes                                         |
 | toggleComponentClass    | React.ElementType `('a')`                                                                           | You can use a custom element for this component                           |

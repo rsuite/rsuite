@@ -19,7 +19,6 @@ import {
 
 import {
   flattenTree,
-  shouldDisplay,
   getNodeParents,
   shouldShowNodeByExpanded,
   getVirtualLisHeight,
@@ -38,7 +37,8 @@ import {
   MenuWrapper,
   SearchBar,
   PickerToggleTrigger,
-  createConcatChildrenFunction
+  createConcatChildrenFunction,
+  shouldDisplay
 } from '../Picker';
 
 import { TreePickerProps } from './TreePicker.d';
@@ -114,7 +114,8 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     renderValue: PropTypes.func,
     renderTreeNode: PropTypes.func,
     renderTreeIcon: PropTypes.func,
-    renderExtraFooter: PropTypes.func
+    renderExtraFooter: PropTypes.func,
+    searchBy: PropTypes.func
   };
   static defaultProps = {
     locale: {
@@ -384,11 +385,13 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
   };
 
   getFilterData(data: any[], word = '', props?: TreePickerProps) {
-    const { labelKey, childrenKey } = props || this.props;
+    const { labelKey, childrenKey, searchBy } = props || this.props;
 
     const setVisible = (nodes = []) =>
       nodes.forEach((item: any) => {
-        item.visible = shouldDisplay(item[labelKey], word);
+        item.visible = searchBy
+          ? searchBy(word, item[labelKey], item)
+          : shouldDisplay(item[labelKey], word);
         if (_.isArray(item[childrenKey])) {
           setVisible(item[childrenKey]);
           item[childrenKey].forEach((child: any) => {
