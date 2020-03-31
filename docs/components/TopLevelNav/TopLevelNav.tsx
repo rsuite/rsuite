@@ -149,7 +149,11 @@ export default function TopLevelNav(props: TopLevelNavProps) {
             )}
           </ButtonWithTooltip>
         ))}
-        <ButtonWithTooltip tip={messages?.common?.design} target="_blank" href="/design/default/">
+        <ButtonWithTooltip
+          tip={messages?.common?.design}
+          target="_blank"
+          href={`/design/${themeName === 'dark' ? 'dark' : 'default'}/`}
+        >
           <Icon icon={SvgIcons.Design} size="lg" />
         </ButtonWithTooltip>
         <SearchButton
