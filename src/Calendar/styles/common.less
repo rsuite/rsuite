@@ -248,18 +248,31 @@
 
   // Month toolbar title && button
   &-title,
+  &-meridian,
   &-backward,
   &-forward {
     .btn(base);
     .btn-subtle;
     .btn-xs(base);
-
+    padding: 2px 2px;
     font-size: @font-size-base;
     line-height: @line-height-base;
   }
 
   &-title {
     margin: 0 @calendar-header-title-margin;
+  }
+  &-meridian {
+    border: 1px solid @input-border;
+    font-size: 12px;
+    padding: 0 12px 0 2px;
+    margin-left: 4px;
+    &::after {
+      transform: scale(0.7, 0.9);
+      position: absolute;
+      font-family: 'rsuite-icon-font';
+      content: @icon-sort;
+    }
   }
 
   &-error {
