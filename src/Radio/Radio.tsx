@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { RadioContext } from '../RadioGroup/RadioGroup';
 import { RadioContextProps } from '../RadioGroup/RadioGroup.d';
 
-import { prefix, getUnhandledProps, partitionHTMLProps, defaultProps } from '../utils';
+import { prefix, getUnhandledProps, partitionHTMLProps, defaultProps, refType } from '../utils';
 import { RadioProps } from './Radio.d';
 
 interface RadioState {
@@ -22,7 +22,7 @@ class Radio extends React.Component<RadioProps, RadioState> {
     disabled: PropTypes.bool,
     checked: PropTypes.bool,
     defaultChecked: PropTypes.bool,
-    inputRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+    inputRef: refType,
     children: PropTypes.node,
     className: PropTypes.string,
     classPrefix: PropTypes.string,
