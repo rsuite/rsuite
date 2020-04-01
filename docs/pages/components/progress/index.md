@@ -2,8 +2,8 @@
 
 用于显示某个操作进度的状态。
 
-* `<Progress.Line>` 线性进度
-* `<Progress.Circle>` 圆形进度
+- `<Progress.Line>` 线性进度
+- `<Progress.Circle>` 圆形进度
 
 ## 获取组件
 
@@ -27,6 +27,7 @@ import { Progress } from 'rsuite';
 | status      | enum: 'success', 'fail', 'active' | 进度状态          |
 | strokeColor | string                            | 线条颜色          |
 | strokeWidth | number                            | 线条宽度          |
+| vertical    | boolean                           | 垂直显示进度条    |
 
 ### `<Progress.Circle>`
 
