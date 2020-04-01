@@ -16,6 +16,8 @@ class MyDocument extends Document<DocumentProps> {
   render() {
     const { userLanguage } = this.props;
 
+    console.log(userLanguage);
+
     return (
       <Html lang={userLanguage}>
         <Head>
@@ -41,7 +43,7 @@ class MyDocument extends Document<DocumentProps> {
             dangerouslySetInnerHTML={{
               __html: `
               ((window.gitter = {}).chat = {}).options = {
-                room: 'rsuite/rsuite'
+                room: 'rsuite/${userLanguage === 'zh' ? 'rsuite-CN' : 'rsuite'}'
               };
               `
             }}
