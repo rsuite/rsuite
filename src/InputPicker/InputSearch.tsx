@@ -22,7 +22,7 @@ class InputSearch extends React.Component<InputSearchProps> {
     className: PropTypes.string,
     children: PropTypes.node,
     style: PropTypes.object,
-    inputRef: PropTypes.object,
+    inputRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     componentClass: PropTypes.elementType,
     onChange: PropTypes.func
   };

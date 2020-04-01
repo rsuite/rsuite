@@ -22,7 +22,7 @@ class Radio extends React.Component<RadioProps, RadioState> {
     disabled: PropTypes.bool,
     checked: PropTypes.bool,
     defaultChecked: PropTypes.bool,
-    inputRef: PropTypes.func,
+    inputRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     children: PropTypes.node,
     className: PropTypes.string,
     classPrefix: PropTypes.string,

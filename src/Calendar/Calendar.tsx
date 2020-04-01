@@ -49,7 +49,7 @@ class Calendar extends React.Component<CalendarProps> {
   static propTypes = {
     pageDate: PropTypes.instanceOf(Date),
     calendarState: PropTypes.oneOf(CalendarState),
-    calendarRef: PropTypes.func,
+    calendarRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     format: PropTypes.string,
     isoWeek: PropTypes.bool,
     limitEndYear: PropTypes.number,

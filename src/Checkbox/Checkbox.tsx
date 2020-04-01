@@ -24,7 +24,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     indeterminate: PropTypes.bool,
     onChange: PropTypes.func,
     onClick: PropTypes.func,
-    inputRef: PropTypes.func,
+    inputRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     value: PropTypes.any,
     children: PropTypes.node,
     classPrefix: PropTypes.string,

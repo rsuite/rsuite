@@ -21,7 +21,7 @@ class Input extends React.Component<InputProps> {
     disabled: PropTypes.bool,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    inputRef: PropTypes.func,
+    inputRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,

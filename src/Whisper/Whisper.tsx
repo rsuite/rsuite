@@ -16,7 +16,7 @@ export const overlayProps = [
 
 class Whisper extends React.Component<WhisperProps> {
   static propTypes = {
-    triggerRef: PropTypes.func,
+    triggerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     onOpen: PropTypes.func,
     onClose: PropTypes.func,
     onEntered: PropTypes.func,
