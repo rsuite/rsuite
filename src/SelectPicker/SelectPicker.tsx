@@ -174,8 +174,8 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
    * Index of keyword  in `label`
    * @param {node} label
    */
-  shouldDisplay(label: any) {
-    const { searchKeyword } = this.state;
+  shouldDisplay(label: any, word?: string) {
+    const searchKeyword = typeof word === 'undefined' ? this.state.searchKeyword : word;
     if (!_.trim(searchKeyword)) {
       return true;
     }
@@ -288,11 +288,15 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
   };
 
   handleSearch = (searchKeyword: string, event: React.SyntheticEvent<any>) => {
+    const { onSearch, labelKey, valueKey, data } = this.props;
+    const filteredData = filterNodesOfTree(data, item =>
+      this.shouldDisplay(item[labelKey], searchKeyword)
+    );
     this.setState({
       searchKeyword,
-      focusItemValue: undefined
+      focusItemValue: filteredData?.[0]?.[valueKey]
     });
-    this.props.onSearch?.(searchKeyword, event);
+    onSearch?.(searchKeyword, event);
   };
 
   handleCloseDropdown = () => {

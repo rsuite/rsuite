@@ -25,7 +25,7 @@ export interface TableProps<RowKey = string | number | symbol, RowData = any>
   minHeight?: number;
 
   /** Row height */
-  rowHeight: number | ((rowData: object) => number);
+  rowHeight?: number | ((rowData: object) => number);
 
   /** Add an optional extra class name to row */
   rowClassName?: string | ((rowData: RowData) => string);
