@@ -16,7 +16,6 @@ class Tooltip extends React.Component<TooltipProps> {
   };
   render() {
     const { className, classPrefix, children, style, visible, ...rest } = this.props;
-
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, className);
     const styles = {
