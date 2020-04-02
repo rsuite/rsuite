@@ -34,7 +34,7 @@ import {
 import { DateRangePickerProps, ValueType } from './DateRangePicker.d';
 import { PLACEMENT } from '../constants';
 
-import { legacyParse, convertTokens } from '@date-fns/upgrade/v2';
+import { legacyParse } from '@date-fns/upgrade/v2';
 
 interface DateRangePickerState {
   value: ValueType;

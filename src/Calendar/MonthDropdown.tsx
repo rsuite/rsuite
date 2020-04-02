@@ -65,7 +65,7 @@ class MonthDropdown extends React.PureComponent<MonthDropdownProps> {
 
   getRowCount = () => {
     const { limitEndYear } = this.props;
-    return getYear(legacyParse(new Date())) + limitEndYear;
+    return getYear(new Date()) + limitEndYear;
   };
 
   list = null;

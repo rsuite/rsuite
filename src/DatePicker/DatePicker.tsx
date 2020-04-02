@@ -31,7 +31,7 @@ import {
 import { DatePickerProps } from './DatePicker.d';
 import { PLACEMENT } from '../constants';
 
-import { legacyParse, convertTokens } from '@date-fns/upgrade/v2';
+import { legacyParse } from '@date-fns/upgrade/v2';
 
 interface DatePickerState {
   value?: Date;
