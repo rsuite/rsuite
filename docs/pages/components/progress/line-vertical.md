@@ -5,7 +5,7 @@
 ```js
 const { Line } = Progress;
 const instance = (
-  <div>
+  <div className="line-vertical-wrapper" style={{ height: 500 }}>
     <Line vertical />
     <Line vertical percent={30} strokeColor="#ffc107" />
     <Line vertical percent={30} status="active" />

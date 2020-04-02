@@ -41,12 +41,12 @@ class ProgressLine extends React.Component<ProgressLineProps> {
     const unhandled = getUnhandledProps(ProgressLine, rest);
     const lineInnerStyle = {
       backgroundColor: trailColor,
-      height: trailWidth || strokeWidth
+      [vertical ? 'width' : 'height']: trailWidth || strokeWidth
     };
     const percentStyle = {
-      width: `${percent}%`,
+      [vertical ? 'height' : 'width']: `${percent}%`,
       backgroundColor: strokeColor,
-      height: strokeWidth
+      [vertical ? 'width' : 'height']: strokeWidth
     };
 
     const classes = classNames(classPrefix, addPrefix('line'), className, {
