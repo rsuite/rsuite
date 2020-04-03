@@ -54,6 +54,7 @@ export default function PageContainer(props: ContainerProps) {
 
   const {
     messages,
+    language,
     theme: [themeName, direction],
     onChangeDirection,
     onChangeTheme
@@ -109,7 +110,9 @@ export default function PageContainer(props: ContainerProps) {
                     icon={<Icon icon="edit2" />}
                     disabled={!routerId}
                     target="_blank"
-                    href={`https://github.com/rsuite/rsuite/edit/master/docs/pages${routerId}/index.md`}
+                    href={`https://github.com/rsuite/rsuite/edit/master/docs/pages${
+                      language === 'zh' ? routerId : routerId + '/' + language
+                    }/index.md`}
                   >
                     {messages?.common?.edit}
                   </Dropdown.Item>
