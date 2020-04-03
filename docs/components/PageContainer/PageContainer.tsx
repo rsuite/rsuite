@@ -1,9 +1,20 @@
 import * as React from 'react';
-import classnames from 'classnames';
 import { Content as PageContent, Nav as PageNav } from '@rsuite/document-nav';
 import { on } from 'dom-lib';
+import canUseDOM from 'dom-lib/lib/query/canUseDOM';
+import * as SvgIcons from '@/components/SvgIcons';
 
-import { Row, Col, IconButton, Icon, ButtonToolbar, Tooltip, Whisper } from 'rsuite';
+import {
+  Row,
+  Col,
+  IconButton,
+  Icon,
+  ButtonToolbar,
+  Tooltip,
+  Whisper,
+  Dropdown,
+  Popover
+} from 'rsuite';
 import LanguageButton from '../LanguageButton';
 import TypesDrawer from '../TypesDrawer';
 import AppContext from '../AppContext';
@@ -15,10 +26,15 @@ interface ContainerProps {
   children: React.ReactNode;
 }
 
+const MenuPopover = ({ children, ...rest }: any) => (
+  <Popover {...rest} full>
+    <Dropdown.Menu>{children}</Dropdown.Menu>
+  </Popover>
+);
+
 export default function PageContainer(props: ContainerProps) {
-  const { children, designHash: designHashConfig = {}, hidePageNav, routerId, ...rest } = props;
-  const [openPageNav, setOpenPageNav] = React.useState(!hidePageNav);
-  const [openTypesDrawer, setOpenTypesDrawer] = React.useState();
+  const { children, designHash: designHashConfig = {}, routerId, ...rest } = props;
+  const [openTypesDrawer, setOpenTypesDrawer] = React.useState<boolean>();
 
   const onDocumentClick = React.useCallback(e => {
     const href = e.target?.getAttribute('href');
@@ -38,70 +54,85 @@ export default function PageContainer(props: ContainerProps) {
 
   const {
     messages,
-    theme: [themeName, direction]
+    theme: [themeName, direction],
+    onChangeDirection,
+    onChangeTheme
   } = React.useContext(AppContext);
+
   const designHash = designHashConfig[themeName];
   const rtl = direction === 'rtl';
 
   return (
     <>
-      <Row
-        {...rest}
-        className={classnames('page-context-wrapper', { ['hide-page-nav']: !openPageNav })}
-      >
+      <Row {...rest} className="page-context-wrapper">
         <Col md={24} xs={24} sm={24} className="main-container">
           <PageContent>{children}</PageContent>
         </Col>
         <Col md={8} xsHidden smHidden>
           <ButtonToolbar className="menu-button">
-            {designHash ? (
-              <Whisper placement="bottom" speaker={<Tooltip>{messages?.common?.design}</Tooltip>}>
-                <IconButton
-                  appearance="subtle"
-                  target="_blank"
-                  icon={<Icon icon="diamond" />}
-                  href={`/design/${themeName}/#artboard${designHash}`}
-                />
-              </Whisper>
-            ) : null}
-            {routerId ? (
-              <Whisper placement="bottom" speaker={<Tooltip>{messages?.common?.edit}</Tooltip>}>
-                <IconButton
-                  appearance="subtle"
-                  icon={<Icon icon="edit2" />}
-                  target="_blank"
-                  href={`https://github.com/rsuite/rsuite/edit/master/docs/pages${routerId}/index.md`}
-                />
-              </Whisper>
-            ) : null}
-
-            <Whisper placement="bottom" speaker={<Tooltip>{messages?.common?.newIssues}</Tooltip>}>
-              <IconButton
-                appearance="subtle"
-                icon={<Icon icon="bug" />}
-                target="_blank"
-                href={'https://github.com/rsuite/rsuite/issues/new?template=bug_report.md'}
-              />
-            </Whisper>
-
             <Whisper
               placement="bottom"
               speaker={<Tooltip>{messages?.common?.changeLanguage}</Tooltip>}
             >
               <LanguageButton />
             </Whisper>
-
-            <Whisper
-              placement="bottom"
-              speaker={<Tooltip>{messages?.common?.collapseMenu}</Tooltip>}
-            >
+            <Whisper placement="bottom" speaker={<Tooltip>Toggle light/dark theme</Tooltip>}>
               <IconButton
                 appearance="subtle"
-                icon={<Icon icon="bars" />}
-                onClick={() => {
-                  setOpenPageNav(!openPageNav);
-                }}
+                icon={<Icon icon={themeName === 'dark' ? SvgIcons.Light : SvgIcons.Dark} />}
+                onClick={onChangeTheme}
               />
+            </Whisper>
+            <Whisper placement="bottom" speaker={<Tooltip>Toggle RTL/LTR</Tooltip>}>
+              <IconButton
+                appearance="subtle"
+                icon={<Icon icon={direction === 'rtl' ? SvgIcons.Rtl : SvgIcons.Ltr} />}
+                onClick={onChangeDirection}
+              />
+            </Whisper>
+            <Whisper
+              placement="bottomEnd"
+              trigger="click"
+              speaker={
+                <MenuPopover>
+                  {designHash && (
+                    <Dropdown.Item
+                      icon={<Icon icon="diamond" />}
+                      target="_blank"
+                      href={`/design/${themeName}/#artboard${designHash}`}
+                    >
+                      {messages?.common?.design}
+                    </Dropdown.Item>
+                  )}
+
+                  <Dropdown.Item
+                    icon={<Icon icon="edit2" />}
+                    disabled={!routerId}
+                    target="_blank"
+                    href={`https://github.com/rsuite/rsuite/edit/master/docs/pages${routerId}/index.md`}
+                  >
+                    {messages?.common?.edit}
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    icon={<Icon icon="bug" />}
+                    target="_blank"
+                    href={'https://github.com/rsuite/rsuite/issues/new?template=bug_report.md'}
+                  >
+                    {messages?.common?.newIssues}
+                  </Dropdown.Item>
+                  {canUseDOM && (
+                    <Dropdown.Item
+                      icon={<Icon icon="twitter" />}
+                      target="_blank"
+                      href={`https://twitter.com/share?text=${document?.title}&url=${location?.href}`}
+                    >
+                      {messages.common.shareTwitter}
+                    </Dropdown.Item>
+                  )}
+                </MenuPopover>
+              }
+            >
+              <IconButton appearance="subtle" icon={<Icon icon={SvgIcons.More} />} />
             </Whisper>
           </ButtonToolbar>
 

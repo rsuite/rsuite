@@ -37,7 +37,8 @@ export default {
     goHomePage: '返回首页',
     searchIcon: '搜索图标',
     copySucceed: '复制成功',
-    copyFailed: '复制失败，浏览器不支持此功能'
+    copyFailed: '复制失败，浏览器不支持此功能',
+    shareTwitter: '分享到 Twitter'
   },
   table: {
     'tab.resizable': '可调整列宽',
