@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Grid, IntlProvider as RSIntlProvider } from 'rsuite';
+import { Grid, IntlProvider as RSIntlProvider, DOMHelper } from 'rsuite';
 import NProgress from 'nprogress';
 import Router from 'next/router';
 import AppContext from '@/components/AppContext';
 import zhCN from '@rsuite-locales/zh_CN';
 import enUS from '@rsuite-locales/en_US';
+import { default as dateFns } from 'date-fns';
 
 import { getMessages } from '../locales';
 import {
@@ -77,6 +78,12 @@ function App({ Component, pageProps }: AppProps) {
     setThemeName(newThemeName);
     loadTheme(newThemeName, direction);
   }, [themeName, direction]);
+  React.useEffect(() => {
+    if (dateFns.isAfter(new Date(), new Date(2020, 4, 5, 0, 0, 0, 0)) || !canUseDOM) {
+      return;
+    }
+    DOMHelper.addClass(document.body, 'mourning-theme');
+  }, []);
 
   React.useEffect(() => {
     if (!canUseDOM) {
