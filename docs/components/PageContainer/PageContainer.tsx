@@ -35,6 +35,9 @@ const MenuPopover = ({ children, ...rest }: any) => (
 export default function PageContainer(props: ContainerProps) {
   const { children, designHash: designHashConfig = {}, routerId, ...rest } = props;
   const [openTypesDrawer, setOpenTypesDrawer] = React.useState<boolean>();
+  // Resolve server render is not same with the client problem.
+  // reference https://itnext.io/tips-for-server-side-rendering-with-react-e42b1b7acd57
+  const [ssrDone, setSsrDone] = React.useState(false);
 
   const onDocumentClick = React.useCallback(e => {
     const href = e.target?.getAttribute('href');
@@ -52,6 +55,10 @@ export default function PageContainer(props: ContainerProps) {
     };
   }, []);
 
+  React.useEffect(() => {
+    setSsrDone(canUseDOM);
+  }, [canUseDOM]);
+
   const {
     messages,
     language,
@@ -65,7 +72,7 @@ export default function PageContainer(props: ContainerProps) {
 
   return (
     <>
-      <Row {...rest} className="page-context-wrapper">
+      <Row {...rest} className="page-context-wrapper" key={ssrDone ? 'client' : 'server'}>
         <Col md={24} xs={24} sm={24} className="main-container">
           <PageContent>{children}</PageContent>
         </Col>

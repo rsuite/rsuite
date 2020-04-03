@@ -7,7 +7,6 @@ import * as SvgIcons from '@/components/SvgIcons';
 import SearchDrawer from '../SearchDrawer';
 import AppContext from '../AppContext';
 import Link from '@/components/Link';
-import { canUseDOM } from 'dom-lib';
 import { useRouter } from 'next/router';
 
 interface ButtonWithTooltipProps {
@@ -93,23 +92,16 @@ function getNavItems(messages) {
 export default function TopLevelNav(props: TopLevelNavProps) {
   const { children, showSubmenu, hideToggle } = props;
   const router = useRouter();
-  // Resolve server render is not same with the client problem.
-  // reference https://itnext.io/tips-for-server-side-rendering-with-react-e42b1b7acd57
-  const [ssrDone, setSsrDone] = React.useState(false);
   const [search, setSearch] = React.useState<boolean>();
   const onToggleMenu = (_event, show?: boolean) => {
     props?.onToggleMenu?.(show);
   };
   const { messages } = React.useContext(AppContext);
 
-  React.useEffect(() => {
-    setSsrDone(canUseDOM);
-  }, [canUseDOM]);
-
   const navItems = getNavItems(messages);
 
   return (
-    <div className="top-level-nav" key={ssrDone ? 'client' : 'server'}>
+    <div className="top-level-nav">
       {!hideToggle && (
         <IconButton
           circle
