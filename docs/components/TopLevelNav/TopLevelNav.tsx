@@ -100,12 +100,7 @@ export default function TopLevelNav(props: TopLevelNavProps) {
   const onToggleMenu = (_event, show?: boolean) => {
     props?.onToggleMenu?.(show);
   };
-  const {
-    messages,
-    theme: [themeName, direction],
-    onChangeDirection,
-    onChangeTheme
-  } = React.useContext(AppContext);
+  const { messages } = React.useContext(AppContext);
 
   React.useEffect(() => {
     setSsrDone(canUseDOM);
@@ -174,14 +169,6 @@ export default function TopLevelNav(props: TopLevelNavProps) {
         />
       </div>
       <div className="top-level-nav-footer">
-        <ButtonWithTooltip tip="Toggle light/dark theme" onClick={onChangeTheme}>
-          <Icon icon={themeName === 'dark' ? SvgIcons.LightOff : SvgIcons.LightOn} size="lg" />
-        </ButtonWithTooltip>
-
-        <ButtonWithTooltip tip="Toggle RTL/LTR" onClick={onChangeDirection}>
-          <Icon icon={direction === 'rtl' ? SvgIcons.Rtl : SvgIcons.Ltr} size="lg" />
-        </ButtonWithTooltip>
-
         <ButtonWithTooltip tip="GitHub" href="https://github.com/rsuite/rsuite" target="_blank">
           <Icon icon="github" size="lg" />
         </ButtonWithTooltip>
