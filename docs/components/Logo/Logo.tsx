@@ -1,10 +1,14 @@
 import React from 'react';
-import { isSameDay } from 'date-fns';
+import { isAfter, isEqual, isBefore } from 'date-fns';
 
 interface LogoProps {
   width?: number;
   height?: number;
   className?: string;
+}
+
+function isEqualOrAfter(date, dateComparison) {
+  return isEqual(date, dateComparison) || isAfter(date, dateComparison);
 }
 
 export default function Logo({ width, height, className = '' }: LogoProps) {
@@ -13,7 +17,13 @@ export default function Logo({ width, height, className = '' }: LogoProps) {
     height,
     display: 'inline-block'
   };
-  if (isSameDay(new Date(), new Date(2020, 3, 4))) {
+
+  const now = new Date();
+
+  if (
+    isEqualOrAfter(now, new Date('2020-04-03T16:00:00.000Z')) &&
+    isBefore(now, new Date('2020-04-04T16:00:00.000Z'))
+  ) {
     style.filter = 'grayscale(100%) opacity(.7)';
   }
   return (
