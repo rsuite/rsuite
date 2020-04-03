@@ -1,4 +1,5 @@
 import React from 'react';
+import { isSameDay } from 'date-fns';
 
 interface LogoProps {
   width?: number;
@@ -7,11 +8,14 @@ interface LogoProps {
 }
 
 export default function Logo({ width, height, className = '' }: LogoProps) {
-  const style = {
+  const style: any = {
     width,
     height,
     display: 'inline-block'
   };
+  if (isSameDay(new Date(), new Date(2020, 3, 4))) {
+    style.filter = 'grayscale(100%) opacity(.7)';
+  }
   return (
     <div
       style={style}
