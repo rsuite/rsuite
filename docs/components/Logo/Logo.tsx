@@ -1,5 +1,4 @@
 import React from 'react';
-import { isAfter, isEqual, isBefore } from 'date-fns';
 
 interface LogoProps {
   width?: number;
@@ -7,25 +6,12 @@ interface LogoProps {
   className?: string;
 }
 
-function isEqualOrAfter(date, dateComparison) {
-  return isEqual(date, dateComparison) || isAfter(date, dateComparison);
-}
-
 export default function Logo({ width, height, className = '' }: LogoProps) {
-  const style: any = {
+  const style = {
     width,
     height,
     display: 'inline-block'
   };
-
-  const now = new Date();
-
-  if (
-    isEqualOrAfter(now, new Date('2020-04-03T16:00:00.000Z')) &&
-    isBefore(now, new Date('2020-04-04T16:00:00.000Z'))
-  ) {
-    style.filter = 'grayscale(100%) opacity(.7)';
-  }
   return (
     <div
       style={style}
