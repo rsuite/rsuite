@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { getUnhandledProps, prefix, defaultProps } from '../utils';
+import { getUnhandledProps, prefix, defaultProps, refType } from '../utils';
 
 export interface InputSearchProps {
   classPrefix?: string;
@@ -22,7 +22,7 @@ class InputSearch extends React.Component<InputSearchProps> {
     className: PropTypes.string,
     children: PropTypes.node,
     style: PropTypes.object,
-    inputRef: PropTypes.object,
+    inputRef: refType,
     componentClass: PropTypes.elementType,
     onChange: PropTypes.func
   };
