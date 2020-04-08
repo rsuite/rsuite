@@ -92,7 +92,8 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
     placement: PropTypes.oneOf(PLACEMENT),
     style: PropTypes.object,
     sticky: PropTypes.bool,
-    preventOverflow: PropTypes.bool
+    preventOverflow: PropTypes.bool,
+    filter: PropTypes.bool
   };
   static defaultProps = {
     appearance: 'default',
@@ -182,25 +183,31 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
    * @param {node} label
    */
   shouldDisplay(label: any) {
-    const { searchKeyword } = this.state;
-    if (!_.trim(searchKeyword)) {
+    const { filter } = this.props;
+    if(filter){
+      const { searchKeyword } = this.state;
+      if (!_.trim(searchKeyword)) {
+        return true;
+      }
+  
+      const keyword = searchKeyword.toLocaleLowerCase();
+  
+      if (typeof label === 'string' || typeof label === 'number') {
+        return `${label}`.toLocaleLowerCase().indexOf(keyword) >= 0;
+      } else if (React.isValidElement(label)) {
+        const nodes = reactToString(label);
+        return (
+          nodes
+            .join('')
+            .toLocaleLowerCase()
+            .indexOf(keyword) >= 0
+        );
+      }
+      return false;
+    }
+    else{
       return true;
     }
-
-    const keyword = searchKeyword.toLocaleLowerCase();
-
-    if (typeof label === 'string' || typeof label === 'number') {
-      return `${label}`.toLocaleLowerCase().indexOf(keyword) >= 0;
-    } else if (React.isValidElement(label)) {
-      const nodes = reactToString(label);
-      return (
-        nodes
-          .join('')
-          .toLocaleLowerCase()
-          .indexOf(keyword) >= 0
-      );
-    }
-    return false;
   }
 
   findNode(focus: Function) {
