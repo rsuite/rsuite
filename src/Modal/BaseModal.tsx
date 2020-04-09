@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { findDOMNode } from 'react-dom';
 import { ownerDocument, activeElement, contains, getContainer, on } from 'dom-lib';
 import canUseDom from 'dom-lib/lib/query/canUseDOM';
 import Portal from '../Portal';
 import ModalManager from './ModalManager';
 import Fade from '../Animation/Fade';
 import { ModalProps } from './Modal.d';
+import getDOMNode from '../utils/getDOMNode';
 
 class RefHolder extends React.Component<any> {
   render() {
@@ -119,8 +119,7 @@ class BaseModal extends React.Component<BaseModalProps, BaseModalState> {
   onFocusinListener = null;
 
   getDialogElement(): any {
-    // eslint-disable-next-line react/no-find-dom-node
-    return findDOMNode(this.dialogRef.current);
+    return getDOMNode(this.dialogRef.current);
   }
 
   setMountNodeRef = (ref: any) => {

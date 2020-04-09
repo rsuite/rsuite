@@ -149,7 +149,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
   }
 
   render() {
-    const { children, className, classPrefix, expanded, ...props } = this.props;
+    const { children, className, classPrefix, expanded, htmlElementRef, ...props } = this.props;
     const { items, active } = this.getMenuItemsAndStatus(children);
     const unhandled = getUnhandledProps(DropdownMenu, props);
     const classes = classNames(classPrefix, className, {
@@ -157,7 +157,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
     });
 
     return this.renderCollapse(
-      <ul {...unhandled} className={classes} role="menu">
+      <ul {...unhandled} className={classes} role="menu" ref={htmlElementRef}>
         {items}
       </ul>,
       expanded

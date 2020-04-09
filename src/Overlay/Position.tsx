@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { ownerDocument, getContainer, on } from 'dom-lib';
 import positionUtils from './positionUtils';
 import shallowEqual from '../utils/shallowEqual';
+import getDOMNode from '../utils/getDOMNode';
 import { TypeAttributes } from '../@types/common';
 
 interface PositionProps {
@@ -39,6 +39,7 @@ class Position extends React.Component<PositionProps, PositionState> {
   needsFlush = null;
   container = null;
   containerScrollListener = null;
+  childRef: React.RefObject<any>;
 
   constructor(props: PositionProps) {
     super(props);
@@ -53,6 +54,11 @@ class Position extends React.Component<PositionProps, PositionState> {
       preventOverflow: props.preventOverflow,
       padding: props.containerPadding
     });
+    this.childRef = React.createRef();
+  }
+
+  getHTMLElement() {
+    return getDOMNode(this.childRef.current);
   }
 
   componentDidMount() {
@@ -131,8 +137,7 @@ class Position extends React.Component<PositionProps, PositionState> {
       return;
     }
 
-    /* eslint-disable */
-    const overlay = findDOMNode(this);
+    const overlay = getDOMNode(this);
     const container = getContainer(this.props.container, ownerDocument(this).body);
     const nextPosition = this.utils.calcOverlayPosition(overlay, target, container);
 
@@ -151,6 +156,7 @@ class Position extends React.Component<PositionProps, PositionState> {
       positionLeft,
       positionTop,
       className: classNames(className, positionClassName, child.props.className),
+      htmlElementRef: this.childRef,
       style: {
         ...child.props.style,
         left: positionLeft,

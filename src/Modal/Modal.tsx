@@ -74,7 +74,8 @@ class Modal extends React.Component<ModalProps, ModalState> {
     dialogComponentClass: ModalDialog,
     overflow: true
   };
-  dialogRef: React.RefObject<any>;
+
+  dialogElement: HTMLDivElement;
 
   // for test
   modalRef: React.Ref<any>;
@@ -85,7 +86,6 @@ class Modal extends React.Component<ModalProps, ModalState> {
       bodyStyles: {}
     };
 
-    this.dialogRef = React.createRef();
     this.modalRef = React.createRef();
   }
 
@@ -95,7 +95,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
 
   getBodyStylesByDialog(dialogElement?: HTMLElement) {
     const { overflow, drawer } = this.props;
-    const node: any = dialogElement || this.dialogRef.current;
+    const node = dialogElement || this.dialogElement;
     const scrollHeight = node ? node.scrollHeight : 0;
 
     if (!overflow) {
@@ -141,9 +141,12 @@ class Modal extends React.Component<ModalProps, ModalState> {
   getBodyStyles = () => {
     return this.state.bodyStyles;
   };
+  bindDialogRef = ref => {
+    this.dialogElement = ref;
+  };
 
   handleShow = () => {
-    const dialogElement = this.dialogRef.current;
+    const dialogElement = this.dialogElement;
 
     this.updateModalStyles(dialogElement);
     this.contentElement = dialogElement.querySelector(`.${this.addPrefix('content')}`);
@@ -164,7 +167,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
   };
 
   handleResize = () => {
-    this.updateModalStyles(this.dialogRef.current);
+    this.updateModalStyles(this.dialogElement);
   };
 
   destroyEvent() {
@@ -218,7 +221,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
         dialogClassName={dialogClassName}
         dialogStyle={dialogStyle}
         onClick={rest.backdrop === true ? this.handleDialogClick : null}
-        dialogRef={this.dialogRef}
+        dialogRef={this.bindDialogRef}
       >
         {children}
       </Dialog>

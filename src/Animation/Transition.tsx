@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { on, transition } from 'dom-lib';
 import classNames from 'classnames';
 import getUnhandledProps from '../utils/getUnhandledProps';
+import getDOMNode from '../utils/getDOMNode';
 import getAnimationEnd from './getAnimationEnd';
 
 import { TransitionProps } from './Animation.d';
@@ -51,7 +51,6 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
   instanceElement = null;
   nextCallback: any = null;
   needsUpdate = null;
-  childRef: React.RefObject<any>;
 
   constructor(props: TransitionProps) {
     super(props);
@@ -68,7 +67,6 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
     };
 
     this.nextCallback = null;
-    this.childRef = React.createRef();
   }
 
   static getDerivedStateFromProps(nextProps: TransitionProps, prevState: TransitionState) {
@@ -131,9 +129,7 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
   onTransitionEnd(node: React.ReactNode, handler: React.AnimationEventHandler) {
     this.setNextCallback(handler);
 
-    if (this.animationEventListener) {
-      this.animationEventListener.off();
-    }
+    this.animationEventListener?.off();
 
     if (node) {
       const { timeout, animation } = this.props;
@@ -179,13 +175,7 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
     return this.nextCallback;
   }
   getChildElement() {
-    const element = this.childRef.current;
-
-    if (element?.tagName) {
-      return element;
-    }
-
-    return findDOMNode(element);
+    return getDOMNode(this);
   }
 
   performEnter(props: TransitionProps) {
@@ -274,7 +264,6 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
 
     return React.cloneElement(child, {
       ...childProps,
-      ref: this.childRef,
       className: classNames(child.props.className, className, transitionClassName)
     });
   }

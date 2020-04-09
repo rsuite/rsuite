@@ -5,6 +5,7 @@ import compose from 'recompose/compose';
 
 import { withStyleProps, defaultProps, prefix } from '../utils';
 import { ModalDialogProps } from './ModalDialog.d';
+import mergeRefs from '../utils/mergeRefs';
 
 export const modalDialogPropTypes = {
   className: PropTypes.string,
@@ -13,11 +14,19 @@ export const modalDialogPropTypes = {
   style: PropTypes.object,
   dialogStyle: PropTypes.object,
   children: PropTypes.node,
-  dialogRef: PropTypes.object
+  dialogRef: PropTypes.func
 };
 
 class ModalDialog extends React.Component<ModalDialogProps> {
   static propTypes = modalDialogPropTypes;
+
+  htmlElement: HTMLDivElement = null;
+  getHTMLElement() {
+    return this.htmlElement;
+  }
+  bindHtmlRef = ref => {
+    this.htmlElement = ref;
+  };
   render() {
     const {
       style,
@@ -43,7 +52,7 @@ class ModalDialog extends React.Component<ModalDialogProps> {
         {...props}
         title={null}
         role="dialog"
-        ref={dialogRef}
+        ref={mergeRefs(this.bindHtmlRef, dialogRef)}
         className={classNames(classPrefix, className)}
         style={modalStyle}
       >

@@ -1,10 +1,11 @@
 import * as React from 'react';
-import ReactDOM, { findDOMNode } from 'react-dom';
+import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import { contains } from 'dom-lib';
 import Overlay, { OverlayProps } from './Overlay';
 import createChainedFunction from '../utils/createChainedFunction';
 import isOneOf from '../utils/isOneOf';
+import getDOMNode from '../utils/getDOMNode';
 import Portal from '../Portal';
 import { OverlayTriggerProps } from './OverlayTrigger.d';
 
@@ -90,13 +91,11 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
     }
   }
 
-  getOverlayTarget = (): any => findDOMNode(this); // eslint-disable-line react/no-find-dom-node
+  getOverlayTarget = (): any => getDOMNode(this);
 
   getOverlay() {
     const { open, speaker, trigger, onHide } = this.props;
-
     const { isOverlayShown } = this.state;
-
     const overlayProps: OverlayProps = {
       ..._.pick(this.props, Object.keys(Overlay.propTypes)),
       show: _.isUndefined(open) ? isOverlayShown : open,

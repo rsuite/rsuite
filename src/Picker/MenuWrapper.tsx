@@ -1,11 +1,12 @@
 import * as React from 'react';
-/* eslint-disable react/no-find-dom-node */
-import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { addStyle, getWidth } from 'dom-lib';
 import { defaultProps } from '../utils';
 import bindElementResize, { unbind as unbindElementResize } from 'element-resize-event';
+import getDOMNode from '../utils/getDOMNode';
+import mergeRefs from '../utils/mergeRefs';
+import { StandardProps } from '../@types/common';
 
 const omitProps = [
   'placement',
@@ -30,12 +31,9 @@ const resizePlacement = [
   'autoHorizontalEnd'
 ];
 
-export interface MenuWrapperProps {
-  classPrefix?: string;
-  className?: string;
+export interface MenuWrapperProps extends StandardProps {
   placement?: string;
   autoWidth?: boolean;
-  style?: React.CSSProperties;
   children?: React.ReactNode;
   getPositionInstance?: () => any;
   getToggleInstance?: () => any;
@@ -70,7 +68,7 @@ class MenuWrapper extends React.Component<MenuWrapperProps> {
     if (this.menuElementRef.current && getToggleInstance) {
       const instance = getToggleInstance();
       if (instance?.toggleRef?.current) {
-        const width = getWidth(findDOMNode(instance.toggleRef.current));
+        const width = getWidth(getDOMNode(instance.toggleRef.current));
         addStyle(this.menuElementRef.current, 'min-width', `${width}px`);
       }
     }
@@ -83,11 +81,11 @@ class MenuWrapper extends React.Component<MenuWrapperProps> {
     }
   };
   render() {
-    const { className, classPrefix, ...rest } = this.props;
+    const { className, classPrefix, htmlElementRef, ...rest } = this.props;
     return (
       <div
         {..._.omit(rest, omitProps)}
-        ref={this.menuElementRef}
+        ref={mergeRefs(this.menuElementRef, htmlElementRef)}
         className={classNames(classPrefix, className)}
       />
     );
