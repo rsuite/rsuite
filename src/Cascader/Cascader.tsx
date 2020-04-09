@@ -2,9 +2,9 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { findNodeOfTree, shallowEqual } from 'rsuite-utils/lib/utils';
+import shallowEqual from '../utils/shallowEqual';
 import { polyfill } from 'react-lifecycles-compat';
-
+import { findNodeOfTree } from '../utils/treeUtils';
 import IntlProvider from '../IntlProvider';
 import FormattedMessage from '../IntlProvider/FormattedMessage';
 import DropdownMenu, { dropdownMenuPropTypes } from './DropdownMenu';

@@ -4,8 +4,8 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import setStatic from 'recompose/setStatic';
 import bindElementResize, { unbind as unbindElementResize } from 'element-resize-event';
-import BaseModal from 'rsuite-utils/lib/Overlay/Modal';
-import Bounce from 'rsuite-utils/lib/Animation/Bounce';
+import BaseModal from './BaseModal';
+import Bounce from '../Animation/Bounce';
 import { on, getHeight } from 'dom-lib';
 import { prefix, defaultProps, createChainedFunction } from '../utils';
 import ModalDialog, { modalDialogPropTypes } from './ModalDialog';
@@ -75,7 +75,9 @@ class Modal extends React.Component<ModalProps, ModalState> {
     overflow: true
   };
   dialogRef: React.RefObject<any>;
-  modalRef: React.RefObject<unknown>;
+
+  // for test
+  modalRef: React.Ref<any>;
 
   constructor(props) {
     super(props);
@@ -203,7 +205,6 @@ class Modal extends React.Component<ModalProps, ModalState> {
 
     const inClass = { in: show && !animation };
     const Dialog: React.ElementType = dialogComponentClass;
-    const parentProps = _.pick(rest, _.get(BaseModal, 'handledProps'));
 
     const classes = classNames(this.addPrefix(size), className, {
       [this.addPrefix('full')]: full
@@ -231,6 +232,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
         }}
       >
         <BaseModal
+          {...rest}
           ref={this.modalRef}
           show={show}
           onHide={onHide}
@@ -245,7 +247,6 @@ class Modal extends React.Component<ModalProps, ModalState> {
           animationProps={animationProps}
           dialogTransitionTimeout={animationTimeout}
           backdropTransitionTimeout={BACKDROP_TRANSITION_DURATION}
-          {...parentProps}
         >
           {modal}
         </BaseModal>

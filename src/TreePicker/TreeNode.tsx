@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { reactToString } from 'rsuite-utils/lib/utils';
+import reactToString from '../utils/reactToString';
 import { hasClass } from 'dom-lib';
 import { TREE_NODE_PADDING, TREE_NODE_ROOT_PADDING } from '../constants';
 import { defaultProps, prefix } from '../utils';

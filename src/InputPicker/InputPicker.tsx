@@ -3,13 +3,9 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { getWidth } from 'dom-lib';
-import {
-  reactToString,
-  filterNodesOfTree,
-  findNodeOfTree,
-  shallowEqual
-} from 'rsuite-utils/lib/utils';
-
+import reactToString from '../utils/reactToString';
+import shallowEqual from '../utils/shallowEqual';
+import { filterNodesOfTree, findNodeOfTree } from '../utils/treeUtils';
 import {
   defaultProps,
   prefix,

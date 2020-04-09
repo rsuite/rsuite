@@ -1,7 +1,7 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
-import { Transition } from 'rsuite-utils/lib/Animation';
+import Transition from '../Animation/Transition';
 import { prefix, createChainedFunction } from '../utils';
 import { defaultClassPrefix } from '../utils/prefix';
 import Message from './Message';

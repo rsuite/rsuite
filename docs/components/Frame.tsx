@@ -29,12 +29,14 @@ export default function Frame(props: FrameProps) {
   };
 
   return (
-    <div className={submenu ? '' : 'submenu-close'}>
-      <TopLevelNav showSubmenu={submenu} onToggleMenu={handleToggleMenu} />
-      <SideNavbar style={menuStyles} />
-      <div className="page-context" style={contextStyle}>
-        {props.children}
+    <React.StrictMode>
+      <div className={submenu ? '' : 'submenu-close'}>
+        <TopLevelNav showSubmenu={submenu} onToggleMenu={handleToggleMenu} />
+        <SideNavbar style={menuStyles} />
+        <div className="page-context" style={contextStyle}>
+          {props.children}
+        </div>
       </div>
-    </div>
+    </React.StrictMode>
   );
 }

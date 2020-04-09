@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import setStatic from 'recompose/setStatic';
-import { RootCloseWrapper } from 'rsuite-utils/lib/Overlay';
-import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
+import RootCloseWrapper from '../Overlay/RootCloseWrapper';
+import shallowEqual from '../utils/shallowEqual';
 
 import DropdownToggle from './DropdownToggle';
 import DropdownMenu from './DropdownMenu';

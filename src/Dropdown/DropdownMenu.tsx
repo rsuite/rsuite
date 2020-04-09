@@ -1,8 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Collapse from 'rsuite-utils/lib/Animation/Collapse';
-import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
+import Collapse from '../Animation/Collapse';
+import shallowEqual from '../utils/shallowEqual';
 
 import DropdownMenuItem from './DropdownMenuItem';
 import { DropdownMenuProps } from './DropdownMenu.d';

@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import Collapse from 'rsuite-utils/lib/Animation/Collapse';
+import Collapse from '../Animation/Collapse';
 
 import { getUnhandledProps, defaultProps, prefix } from '../utils';
 import { PanelProps } from './Panel.d';
@@ -72,7 +72,7 @@ class Panel extends React.Component<PanelProps, PanelState> {
   renderCollapsibleBody(panelRole?: string) {
     const { id } = this.props;
     const collapseProps = {
-      ..._.pick(this.props, _.get(Collapse, 'handledProps')),
+      ..._.pick(this.props, Object.keys(Collapse.propTypes)),
       in: this.isExpanded()
     };
 
