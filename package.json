@@ -61,7 +61,7 @@
     "react-lifecycles-compat": "^3.0.4",
     "react-virtualized": "^9.21.0",
     "recompose": "^0.30.0",
-    "rsuite-table": "^3.9.5",
+    "rsuite-table": "^3.10.1",
     "rsuite-utils": "^2.2.1",
     "schema-typed": "^1.4.0"
   },

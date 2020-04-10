@@ -42,7 +42,8 @@ export default function Page() {
     'colspan',
     'summary',
     'auto-height',
-    'affix-header'
+    'affix-header',
+    'affix-horizontal-scrollbar'
   ].map(item => ({
     title: messages?.table[`tab.${item}`],
     source: require(`.${localePath}/${item}.md`)
