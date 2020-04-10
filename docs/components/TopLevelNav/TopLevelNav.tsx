@@ -96,7 +96,8 @@ export default function TopLevelNav(props: TopLevelNavProps) {
   const onToggleMenu = (_event, show?: boolean) => {
     props?.onToggleMenu?.(show);
   };
-  const { messages } = React.useContext(AppContext);
+  const { messages, theme } = React.useContext(AppContext);
+  const [themeName] = theme;
 
   const navItems = getNavItems(messages);
 
