@@ -189,7 +189,7 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
       return searchBy(searchKeyword, label, item);
     }
 
-    return shouldDisplay(label, word);
+    return shouldDisplay(label, searchKeyword);
   }
 
   findNode(focus: Function) {
