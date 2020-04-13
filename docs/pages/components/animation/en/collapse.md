@@ -3,9 +3,10 @@
 <!--start-code-->
 
 ```js
-const Panel = ({ ...props }) => (
+const Panel = React.forwardRef(({ ...props }, ref) => (
   <div
     {...props}
+    ref={ref}
     style={{
       background: '#000',
       width: 100,
@@ -15,7 +16,7 @@ const Panel = ({ ...props }) => (
     <p>Panel</p>
     <p>Content Content Content</p>
   </div>
-);
+));
 
 class CollapseDemo extends React.Component {
   constructor(props) {
@@ -37,9 +38,7 @@ class CollapseDemo extends React.Component {
       <div className="row">
         <Button onClick={this.handleToggle}>toggle</Button>
         <hr />
-        <Collapse in={this.state.show}>
-          <Panel />
-        </Collapse>
+        <Collapse in={this.state.show}>{(props, ref) => <Panel {...props} ref={ref} />}</Collapse>
       </div>
     );
   }

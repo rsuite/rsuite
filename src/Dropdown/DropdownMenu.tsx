@@ -15,6 +15,7 @@ import {
   getUnhandledProps,
   defaultProps
 } from '../utils';
+import mergeRefs from '../utils/mergeRefs';
 
 class DropdownMenu extends React.Component<DropdownMenuProps> {
   static displayName = 'DropdownMenu';
@@ -94,9 +95,11 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
               <Ripple />
             </div>
             {this.renderCollapse(
-              <ul role="menu" className={classPrefix}>
-                {itemsAndStatus.items}
-              </ul>,
+              (transitionProps, ref) => (
+                <ul {...transitionProps} ref={ref} role="menu" className={classPrefix}>
+                  {itemsAndStatus.items}
+                </ul>
+              ),
               expanded
             )}
           </DropdownMenuItem>
@@ -132,7 +135,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
   }
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
-  renderCollapse(children: React.ReactNode, expanded?: boolean) {
+  renderCollapse(children: Function, expanded?: boolean) {
     return this.props.collapsible ? (
       <Collapse
         in={expanded}
@@ -144,7 +147,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
         {children}
       </Collapse>
     ) : (
-      children
+      children()
     );
   }
 
@@ -157,9 +160,17 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
     });
 
     return this.renderCollapse(
-      <ul {...unhandled} className={classes} role="menu" ref={htmlElementRef}>
-        {items}
-      </ul>,
+      (transitionProps, ref) => (
+        <ul
+          {...unhandled}
+          {...transitionProps}
+          className={classes}
+          role="menu"
+          ref={mergeRefs(htmlElementRef, ref)}
+        >
+          {items}
+        </ul>
+      ),
       expanded
     );
   }

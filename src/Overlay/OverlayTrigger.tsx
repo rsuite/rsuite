@@ -1,6 +1,7 @@
 import * as React from 'react';
-import ReactDOM from 'react-dom';
-import _ from 'lodash';
+import get from 'lodash/get';
+import pick from 'lodash/pick';
+
 import { contains } from 'dom-lib';
 import Overlay, { OverlayProps } from './Overlay';
 import createChainedFunction from '../utils/createChainedFunction';
@@ -9,15 +10,13 @@ import getDOMNode from '../utils/getDOMNode';
 import Portal from '../Portal';
 import { OverlayTriggerProps } from './OverlayTrigger.d';
 
-const unsupportedCreatePortal = !ReactDOM.createPortal;
-
 function isNullOrUndefined(value: any): boolean {
-  return _.isNull(value) || _.isUndefined(value);
+  return value === null || typeof value === 'undefined';
 }
 
-function handleMouseOverOut(handler: React.MouseEventHandler, event: React.MouseEvent) {
+function onMouseEventHandler(handler: React.MouseEventHandler, event: React.MouseEvent) {
   const target = event.currentTarget;
-  const related = event.relatedTarget || _.get(event, ['nativeEvent', 'toElement']);
+  const related = event.relatedTarget || get(event, ['nativeEvent', 'toElement']);
 
   if ((!related || related !== target) && !contains(target, related)) {
     handler(event);
@@ -47,58 +46,38 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
     rootClose: true
   };
 
-  speaker = null;
-  handleMouseOver = null;
-  handleMouseOut = null;
-  hoverShowDelay = null;
-  hoverHideDelay = null;
-  target = null;
-  mountNode = null;
+  onMouseOverListener;
+  onMouseOutListener;
 
-  enterSpeaker = false;
-  enterTrigger = false;
+  hoverShowDelayTimer;
+  hoverHideDelayTimer;
+
+  mouseEnteredToSpeaker = false;
+  mouseEnteredToTrigger = false;
 
   constructor(props: OverlayTriggerProps) {
     super(props);
 
-    this.handleMouseOver = (e: React.MouseEvent) => handleMouseOverOut(this.handleDelayedShow, e);
-    this.handleMouseOut = (e: React.MouseEvent) => handleMouseOverOut(this.handleDelayedHide, e);
+    this.onMouseOverListener = e => onMouseEventHandler(this.handleDelayedShow, e);
+    this.onMouseOutListener = e => onMouseEventHandler(this.handleDelayedHide, e);
     this.state = {
       isOverlayShown: props.defaultOpen
     };
   }
 
-  componentDidMount() {
-    if (unsupportedCreatePortal) {
-      this.mountNode = document.createElement('div');
-      this.renderOverlay();
-    }
-  }
-
-  componentDidUpdate() {
-    if (unsupportedCreatePortal && this.mountNode) {
-      this.renderOverlay();
-    }
-  }
-
   componentWillUnmount() {
-    clearTimeout(this.hoverShowDelay);
-    clearTimeout(this.hoverHideDelay);
-
-    if (unsupportedCreatePortal) {
-      ReactDOM.unmountComponentAtNode(this.mountNode);
-      this.mountNode = null;
-    }
+    clearTimeout(this.hoverShowDelayTimer);
+    clearTimeout(this.hoverHideDelayTimer);
   }
 
-  getOverlayTarget = (): any => getDOMNode(this);
+  getOverlayTarget = () => getDOMNode(this);
 
   getOverlay() {
     const { open, speaker, trigger, onHide } = this.props;
     const { isOverlayShown } = this.state;
     const overlayProps: OverlayProps = {
-      ..._.pick(this.props, Object.keys(Overlay.propTypes)),
-      show: _.isUndefined(open) ? isOverlayShown : open,
+      ...pick(this.props, Object.keys(Overlay.propTypes)),
+      show: typeof open === 'undefined' ? isOverlayShown : open,
       target: this.getOverlayTarget
     };
 
@@ -118,12 +97,12 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
   }
 
   handleSpeakerMouseEnter = () => {
-    this.enterSpeaker = true;
+    this.mouseEnteredToSpeaker = true;
   };
 
   handleSpeakerMouseLeave = () => {
     const { trigger } = this.props;
-    this.enterSpeaker = false;
+    this.mouseEnteredToSpeaker = false;
     if (!isOneOf('click', trigger) && !isOneOf('active', trigger)) {
       this.handleHide();
     }
@@ -138,7 +117,7 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
   };
 
   handleHide = () => {
-    if (!this.enterSpeaker && !this.enterTrigger) {
+    if (!this.mouseEnteredToSpeaker && !this.mouseEnteredToTrigger) {
       this.hide();
     }
   };
@@ -154,10 +133,10 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
   handleDelayedShow = () => {
     const { delayShow, delay } = this.props;
 
-    this.enterTrigger = true;
-    if (!isNullOrUndefined(this.hoverHideDelay)) {
-      clearTimeout(this.hoverHideDelay);
-      this.hoverHideDelay = null;
+    this.mouseEnteredToTrigger = true;
+    if (!isNullOrUndefined(this.hoverHideDelayTimer)) {
+      clearTimeout(this.hoverHideDelayTimer);
+      this.hoverHideDelayTimer = null;
       this.show();
       return;
     }
@@ -173,22 +152,22 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
       return;
     }
 
-    this.hoverShowDelay = setTimeout(() => {
-      this.hoverShowDelay = null;
+    this.hoverShowDelayTimer = setTimeout(() => {
+      this.hoverShowDelayTimer = null;
       this.show();
     }, nextDelay);
   };
 
   handleDelayedHide = () => {
     const { delayHide, delay } = this.props;
-    this.enterTrigger = false;
-    if (!isNullOrUndefined(this.hoverShowDelay)) {
-      clearTimeout(this.hoverShowDelay);
-      this.hoverShowDelay = null;
+    this.mouseEnteredToTrigger = false;
+    if (!isNullOrUndefined(this.hoverShowDelayTimer)) {
+      clearTimeout(this.hoverShowDelayTimer);
+      this.hoverShowDelayTimer = null;
       return;
     }
 
-    if (!this.state.isOverlayShown || !isNullOrUndefined(this.hoverHideDelay)) {
+    if (!this.state.isOverlayShown || !isNullOrUndefined(this.hoverHideDelayTimer)) {
       return;
     }
 
@@ -199,24 +178,16 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
       return;
     }
 
-    this.hoverHideDelay = setTimeout(() => {
-      const { isOnSpeaker } = this.state;
-
-      if (isOnSpeaker) {
+    this.hoverHideDelayTimer = setTimeout(() => {
+      if (this.state.isOnSpeaker) {
         return;
       }
 
-      clearTimeout(this.hoverHideDelay);
-      this.hoverHideDelay = null;
+      clearTimeout(this.hoverHideDelayTimer);
+      this.hoverHideDelayTimer = null;
       this.handleHide();
     }, nextDelay);
   };
-
-  renderOverlay() {
-    if (this.speaker) {
-      ReactDOM.unstable_renderSubtreeIntoContainer(this, this.speaker, this.mountNode);
-    }
-  }
 
   render() {
     const {
@@ -235,14 +206,14 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
       any,
       HTMLElement
     >;
+
     const triggerProps = triggerComponent.props;
 
     const props: TriggerProps = {
       key: 'triggerComponent',
-      'aria-describedby': _.get(speaker, ['props', 'id'])
+      onClick: createChainedFunction(triggerProps.onClick, onClick),
+      'aria-describedby': get(speaker, ['props', 'id'])
     };
-
-    props.onClick = createChainedFunction(triggerProps.onClick, onClick);
 
     if (!disabled) {
       if (isOneOf('click', trigger)) {
@@ -255,31 +226,26 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
 
       if (isOneOf('hover', trigger)) {
         props.onMouseOver = createChainedFunction(
-          this.handleMouseOver,
-          onMouseOver,
-          triggerProps.onMouseOver
+          this.onMouseOverListener,
+          triggerProps.onMouseOver,
+          onMouseOver
         );
         props.onMouseOut = createChainedFunction(
-          this.handleMouseOut,
-          onMouseOut,
-          triggerProps.onMouseOut
+          this.onMouseOutListener,
+          triggerProps.onMouseOut,
+          onMouseOut
         );
       }
 
       if (isOneOf('focus', trigger)) {
         props.onFocus = createChainedFunction(
           this.handleDelayedShow,
-          onFocus,
-          triggerProps.onFocus
+          triggerProps.onFocus,
+          onFocus
         );
 
-        props.onBlur = createChainedFunction(this.handleDelayedHide, onBlur, triggerProps.onBlur);
+        props.onBlur = createChainedFunction(this.handleDelayedHide, triggerProps.onBlur, onBlur);
       }
-    }
-
-    if (unsupportedCreatePortal) {
-      this.speaker = this.getOverlay();
-      return React.cloneElement(triggerComponent, props);
     }
 
     return [

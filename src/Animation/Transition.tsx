@@ -20,7 +20,7 @@ interface TransitionState {
 
 export const transitionPropTypes = {
   animation: PropTypes.bool,
-  children: PropTypes.node,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   className: PropTypes.string,
   in: PropTypes.bool,
   unmountOnExit: PropTypes.bool,
@@ -51,6 +51,7 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
   instanceElement = null;
   nextCallback: any = null;
   needsUpdate = null;
+  childRef: React.RefObject<any>;
 
   constructor(props: TransitionProps) {
     super(props);
@@ -67,6 +68,7 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
     };
 
     this.nextCallback = null;
+    this.childRef = React.createRef();
   }
 
   static getDerivedStateFromProps(nextProps: TransitionProps, prevState: TransitionState) {
@@ -175,6 +177,9 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
     return this.nextCallback;
   }
   getChildElement() {
+    if (this.childRef.current) {
+      return getDOMNode(this.childRef.current);
+    }
     return getDOMNode(this);
   }
 
@@ -258,6 +263,16 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
       transitionClassName = enteredClassName;
     } else if (status === EXITING) {
       transitionClassName = exitingClassName;
+    }
+
+    if (typeof children === 'function') {
+      return children(
+        {
+          ...childProps,
+          className: classNames(className, transitionClassName)
+        },
+        this.childRef
+      );
     }
 
     const child = React.Children.only(children) as React.DetailedReactHTMLElement<any, HTMLElement>;

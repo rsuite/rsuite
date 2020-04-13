@@ -104,7 +104,9 @@ class Sidenav extends React.Component<SidenavProps, SidenavState> {
           enteredClassName={addPrefix('collapse-in')}
           enteringClassName={addPrefix(['collapse-in', 'collapsing'])}
         >
-          <Component {...unhandled} className={classes} role="navigation" />
+          {(props, ref) => (
+            <Component {...props} {...unhandled} ref={ref} className={classes} role="navigation" />
+          )}
         </Transition>
       </SidenavContext.Provider>
     );

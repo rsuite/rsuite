@@ -16,6 +16,7 @@ import ModalFooter from './ModalFooter';
 import { ModalProps } from './Modal.d';
 import { SIZE } from '../constants';
 import ModalContext from './ModalContext';
+import mergeRefs from '../utils/mergeRefs';
 
 const BACKDROP_TRANSITION_DURATION = 150;
 
@@ -213,20 +214,6 @@ class Modal extends React.Component<ModalProps, ModalState> {
       [this.addPrefix('full')]: full
     });
 
-    const modal = (
-      <Dialog
-        {..._.pick(rest, Object.keys(modalDialogPropTypes))}
-        classPrefix={classPrefix}
-        className={classes}
-        dialogClassName={dialogClassName}
-        dialogStyle={dialogStyle}
-        onClick={rest.backdrop === true ? this.handleDialogClick : null}
-        dialogRef={this.bindDialogRef}
-      >
-        {children}
-      </Dialog>
-    );
-
     return (
       <ModalContext.Provider
         value={{
@@ -251,7 +238,23 @@ class Modal extends React.Component<ModalProps, ModalState> {
           dialogTransitionTimeout={animationTimeout}
           backdropTransitionTimeout={BACKDROP_TRANSITION_DURATION}
         >
-          {modal}
+          {(transitionProps, ref) => {
+            const { className: transitionClassName, ...transitionRest } = transitionProps;
+            return (
+              <Dialog
+                {...transitionRest}
+                {..._.pick(rest, Object.keys(modalDialogPropTypes))}
+                classPrefix={classPrefix}
+                className={classNames(classes, transitionClassName)}
+                dialogClassName={dialogClassName}
+                dialogStyle={dialogStyle}
+                onClick={rest.backdrop === true ? this.handleDialogClick : null}
+                dialogRef={mergeRefs(this.bindDialogRef, ref)}
+              >
+                {children}
+              </Dialog>
+            );
+          }}
         </BaseModal>
       </ModalContext.Provider>
     );

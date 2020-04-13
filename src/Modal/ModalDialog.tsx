@@ -57,9 +57,7 @@ class ModalDialog extends React.Component<ModalDialogProps> {
         style={modalStyle}
       >
         <div className={dialogClasses} style={dialogStyle}>
-          <div className={addPrefix('content')} role="document">
-            {children}
-          </div>
+          <div className={addPrefix('content')}>{children}</div>
         </div>
       </div>
     );

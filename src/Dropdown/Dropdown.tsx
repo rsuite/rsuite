@@ -195,37 +195,27 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
         dropdownProps.onMouseLeave = createChainedFunction(this.handleMouseLeave, onMouseLeave);
       }
     }
-
-    const Toggle = (
-      <DropdownToggle
-        {...toggleProps}
-        noCaret={noCaret}
-        tabIndex={tabIndex}
-        className={toggleClassName}
-        renderTitle={renderTitle}
-        icon={icon}
-        componentClass={toggleComponentClass}
-      >
-        {this.state.title || title}
-      </DropdownToggle>
-    );
-
-    let Menu = (
-      <DropdownMenu
-        expanded={menuExpanded}
-        collapsible={collapsible}
-        activeKey={activeKey}
-        onSelect={this.handleSelect}
-        style={menuStyle}
-        onToggle={this.handleToggleChange}
-        openKeys={openKeys}
-      >
-        {children}
-      </DropdownMenu>
-    );
+    const menuProps = {
+      collapsible,
+      activeKey,
+      openKeys,
+      expanded: menuExpanded,
+      style: menuStyle,
+      onSelect: this.handleSelect,
+      onToggle: this.handleToggleChange
+    };
+    let menu = <DropdownMenu {...menuProps}>{children}</DropdownMenu>;
 
     if (open) {
-      Menu = <RootCloseWrapper onRootClose={this.toggle}>{Menu}</RootCloseWrapper>;
+      menu = (
+        <RootCloseWrapper onRootClose={this.toggle}>
+          {(props, ref) => (
+            <DropdownMenu {...props} {...menuProps} htmlElementRef={ref}>
+              {children}
+            </DropdownMenu>
+          )}
+        </RootCloseWrapper>
+      );
     }
 
     const classes = classNames(classPrefix, className, {
@@ -238,8 +228,18 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
 
     return (
       <Component {...dropdownProps} style={style} className={classes} role="menu">
-        {Menu}
-        {Toggle}
+        {menu}
+        <DropdownToggle
+          {...toggleProps}
+          noCaret={noCaret}
+          tabIndex={tabIndex}
+          className={toggleClassName}
+          renderTitle={renderTitle}
+          icon={icon}
+          componentClass={toggleComponentClass}
+        >
+          {this.state.title || title}
+        </DropdownToggle>
       </Component>
     );
   }

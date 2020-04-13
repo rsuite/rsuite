@@ -6,7 +6,7 @@ export interface TransitionProps extends AnimationEventProps {
   animation?: boolean;
 
   /** Primary content */
-  children?: React.ReactNode;
+  children?: React.ReactNode | ((props: any, ref: any) => React.ReactNode);
 
   /** Additional classes */
   className?: string;

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { findDOMNode } from 'react-dom';
 import { on, contains } from 'dom-lib';
+import getDOMNode from '../utils/getDOMNode';
 
 function isLeftClickEvent(event: React.MouseEvent) {
   return event?.button === 0;
@@ -19,6 +19,12 @@ interface RootCloseWrapperProps {
 class RootCloseWrapper extends React.Component<RootCloseWrapperProps> {
   onDocumentClickListener = null;
   onDocumentKeyupListener = null;
+  childRef: React.RefObject<any>;
+
+  constructor(props) {
+    super(props);
+    this.childRef = React.createRef();
+  }
 
   componentDidMount() {
     const doc = window.document;
@@ -32,8 +38,7 @@ class RootCloseWrapper extends React.Component<RootCloseWrapperProps> {
   }
 
   handleDocumentClick = (event: React.MouseEvent) => {
-    /* eslint-disable */
-    if (contains(findDOMNode(this), event.target)) {
+    if (contains(getDOMNode(this.childRef.current || this), event.target)) {
       return;
     }
     if (isModifiedEvent(event) || !isLeftClickEvent(event)) {
@@ -57,7 +62,13 @@ class RootCloseWrapper extends React.Component<RootCloseWrapperProps> {
   };
 
   render() {
-    return this.props.children;
+    const { children } = this.props;
+
+    if (typeof children === 'function') {
+      return children({}, this.childRef);
+    }
+
+    return children;
   }
 }
 

@@ -87,7 +87,11 @@ class Panel extends React.Component<PanelProps, PanelState> {
 
     return (
       <Collapse {...collapseProps}>
-        <div {...props}>{this.renderBody()}</div>
+        {(transitionProps, ref) => (
+          <div {...props} {...transitionProps} ref={ref}>
+            {this.renderBody()}
+          </div>
+        )}
       </Collapse>
     );
   }

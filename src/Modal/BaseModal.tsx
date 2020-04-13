@@ -1,4 +1,5 @@
 import * as React from 'react';
+import classNames from 'classnames';
 import { ownerDocument, activeElement, contains, getContainer, on } from 'dom-lib';
 import canUseDom from 'dom-lib/lib/query/canUseDOM';
 import Portal from '../Portal';
@@ -6,6 +7,7 @@ import ModalManager from './ModalManager';
 import Fade from '../Animation/Fade';
 import { ModalProps } from './Modal.d';
 import getDOMNode from '../utils/getDOMNode';
+import mergeRefs from '../utils/mergeRefs';
 
 class RefHolder extends React.Component<any> {
   render() {
@@ -46,6 +48,8 @@ class BaseModal extends React.Component<BaseModalProps, BaseModalState> {
   backdropRef = null;
   dialogRef: React.RefObject<any> = null;
   lastFocus = null;
+  onDocumentKeyupListener = null;
+  onFocusinListener = null;
 
   constructor(props: BaseModalProps) {
     super(props);
@@ -114,9 +118,6 @@ class BaseModal extends React.Component<BaseModalProps, BaseModalState> {
     this.onFocusinListener?.off();
     this.restoreLastFocus();
   }
-
-  onDocumentKeyupListener = null;
-  onFocusinListener = null;
 
   getDialogElement(): any {
     return getDOMNode(this.dialogRef.current);
@@ -193,26 +194,30 @@ class BaseModal extends React.Component<BaseModalProps, BaseModalState> {
       backdropClassName
     } = this.props;
 
-    let backdropNode = (
-      <div
-        ref={this.backdropRef}
-        style={backdropStyle}
-        className={backdropClassName}
-        onClick={backdrop === true ? this.handleBackdropClick : undefined}
-        role="button"
-        tabIndex={-1}
-      />
-    );
+    const backdropPorps = {
+      style: backdropStyle,
+      onClick: backdrop === true ? this.handleBackdropClick : undefined
+    };
 
     if (transition) {
-      backdropNode = (
+      return (
         <Fade transitionAppear in={this.props.show} timeout={backdropTransitionTimeout}>
-          {backdropNode}
+          {(props, ref) => {
+            const { className, ...rest } = props;
+            return (
+              <div
+                {...rest}
+                {...backdropPorps}
+                className={classNames(backdropClassName, className)}
+                ref={mergeRefs(this.backdropRef, ref)}
+              />
+            );
+          }}
         </Fade>
       );
     }
 
-    return backdropNode;
+    return <div ref={this.backdropRef} className={backdropClassName} {...backdropPorps} />;
   }
 
   render() {
@@ -240,15 +245,7 @@ class BaseModal extends React.Component<BaseModalProps, BaseModalState> {
       return null;
     }
 
-    let dialog: any = React.Children.only(children);
-    const { role, tabIndex } = dialog.props;
-
-    if (role === undefined || tabIndex === undefined) {
-      dialog = React.cloneElement(dialog, {
-        role: role === undefined ? 'document' : role,
-        tabIndex: tabIndex === null ? '-1' : tabIndex
-      });
-    }
+    let dialog = children;
 
     if (Transition) {
       dialog = (

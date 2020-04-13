@@ -94,9 +94,7 @@ class Position extends React.Component<PositionProps, PositionState> {
 
   componentWillUnmount() {
     this.lastTarget = null;
-    if (this.containerScrollListener) {
-      this.containerScrollListener.off();
-    }
+    this.containerScrollListener?.off();
   }
 
   getTargetSafe() {

@@ -180,11 +180,15 @@ class NoticeManager extends React.Component<NoticeManagerProps, NoticeManagerSta
           enteredClassName={this.addPrefix('fade-entered')}
           timeout={300}
         >
-          <Message
-            {...rest}
-            classPrefix={classPrefix}
-            onClose={createChainedFunction(() => this.remove(key), onClose)}
-          />
+          {(props, ref) => (
+            <Message
+              {...rest}
+              {...props}
+              htmlElementRef={ref}
+              classPrefix={classPrefix}
+              onClose={createChainedFunction(() => this.remove(key), onClose)}
+            />
+          )}
         </Transition>
       );
     });
