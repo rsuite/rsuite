@@ -47,6 +47,9 @@ export interface FormProps<
 
   /** Callback fired when data cheking */
   onCheck?: (formError: E) => void;
+
+  /** Callback fired when form submit */
+  onSubmit?: (checkStatus: boolean, event: React.FormEvent<HTMLFormElement>) => void;
 }
 
 export interface FormInstance<

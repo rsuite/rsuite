@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import compose from 'recompose/compose';
 import _ from 'lodash';
 import { reactToString, filterNodesOfTree, shallowEqual } from 'rsuite-utils/lib/utils';
 import {
@@ -9,15 +8,12 @@ import {
   prefix,
   getUnhandledProps,
   createChainedFunction,
-  getDataGroupBy,
-  withPickerMethods
+  getDataGroupBy
 } from '../utils';
 
 import IntlProvider from '../IntlProvider';
 import FormattedMessage from '../IntlProvider/FormattedMessage';
-
 import {
-  DropdownMenu,
   DropdownMenuCheckItem as DropdownMenuItem,
   PickerToggle,
   getToggleWrapperClassName,
@@ -27,7 +23,7 @@ import {
   SelectedElement,
   PickerToggleTrigger
 } from '../Picker';
-
+import DropdownMenu, { dropdownMenuPropTypes } from '../Picker/DropdownMenu';
 import { CheckPickerProps } from './CheckPicker.d';
 import { PLACEMENT } from '../constants';
 import { ItemDataType } from '../@types/common';
@@ -183,8 +179,8 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
    * Index of keyword  in `label`
    * @param {node} label
    */
-  shouldDisplay(label: any) {
-    const { searchKeyword } = this.state;
+  shouldDisplay(label: any, word?: string) {
+    const searchKeyword = typeof word === 'undefined' ? this.state.searchKeyword : word;
     if (!_.trim(searchKeyword)) {
       return true;
     }
@@ -321,11 +317,16 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
   };
 
   handleSearch = (searchKeyword: string, event: React.SyntheticEvent<HTMLElement>) => {
+    const { onSearch, labelKey, valueKey, data } = this.props;
+    const filteredData = filterNodesOfTree(data, item =>
+      this.shouldDisplay(item[labelKey], searchKeyword)
+    );
     this.setState({
       searchKeyword,
-      focusItemValue: undefined
+      focusItemValue: filteredData?.[0]?.[valueKey]
     });
-    this.props.onSearch?.(searchKeyword, event);
+
+    onSearch?.(searchKeyword, event);
   };
 
   handleCloseDropdown = () => {
@@ -342,6 +343,13 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
     if (this.triggerRef.current) {
       this.triggerRef.current.show();
     }
+  };
+
+  open = () => {
+    this.handleOpenDropdown?.();
+  };
+  close = () => {
+    this.handleCloseDropdown?.();
   };
 
   handleToggleDropdown = () => {
@@ -439,7 +447,7 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
 
     const menuProps = _.pick(
       this.props,
-      Object.keys(_.omit(DropdownMenu.propTypes, ['className', 'style', 'classPrefix']))
+      Object.keys(_.omit(dropdownMenuPropTypes, ['className', 'style', 'classPrefix']))
     );
 
     const menu =
@@ -561,11 +569,6 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
   }
 }
 
-const enhance = compose(
-  defaultProps<CheckPickerProps>({
-    classPrefix: 'picker'
-  }),
-  withPickerMethods<CheckPickerProps>()
-);
-
-export default enhance(CheckPicker);
+export default defaultProps({
+  classPrefix: 'picker'
+})(CheckPicker);

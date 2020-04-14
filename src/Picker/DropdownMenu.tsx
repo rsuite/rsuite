@@ -8,6 +8,7 @@ import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import { shallowEqual } from 'rsuite-utils/lib/utils';
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
 import DropdownMenuGroup from './DropdownMenuGroup';
+import { KEY_GROUP, KEY_GROUP_TITLE } from '../utils/getDataGroupBy';
 
 export interface DropdownMenuProps {
   classPrefix: string;
@@ -34,30 +35,31 @@ interface DropdownMenuState {
   foldedGroupKeys: string[];
 }
 
+export const dropdownMenuPropTypes = {
+  classPrefix: PropTypes.string,
+  className: PropTypes.string,
+  dropdownMenuItemComponentClass: PropTypes.elementType,
+  dropdownMenuItemClassPrefix: PropTypes.string,
+  data: PropTypes.array,
+  group: PropTypes.bool,
+  disabledItemValues: PropTypes.array,
+  activeItemValues: PropTypes.array,
+  focusItemValue: PropTypes.any,
+  maxHeight: PropTypes.number,
+  valueKey: PropTypes.string,
+  labelKey: PropTypes.string,
+  style: PropTypes.object,
+  renderMenuItem: PropTypes.func,
+  renderMenuGroup: PropTypes.func,
+  onSelect: PropTypes.func,
+  onGroupTitleClick: PropTypes.func,
+  virtualized: PropTypes.bool
+};
+
 const ROW_HEIGHT = 36;
 
 class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    className: PropTypes.string,
-    dropdownMenuItemComponentClass: PropTypes.elementType,
-    dropdownMenuItemClassPrefix: PropTypes.string,
-    data: PropTypes.array,
-    group: PropTypes.bool,
-    disabledItemValues: PropTypes.array,
-    activeItemValues: PropTypes.array,
-    focusItemValue: PropTypes.any,
-    maxHeight: PropTypes.number,
-    valueKey: PropTypes.string,
-    labelKey: PropTypes.string,
-    style: PropTypes.object,
-    renderMenuItem: PropTypes.func,
-    renderMenuGroup: PropTypes.func,
-    onSelect: PropTypes.func,
-    onGroupTitleClick: PropTypes.func,
-    virtualized: PropTypes.bool
-  };
-
+  static propTypes = dropdownMenuPropTypes;
   static defaultProps = {
     data: [],
     activeItemValues: [],
@@ -115,7 +117,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState>
   getRowHeight(list: any[], { index }) {
     const item = list[index];
 
-    if (this.props.group && item.group && index !== 0) {
+    if (this.props.group && item[KEY_GROUP] && index !== 0) {
       return 48;
     }
 
@@ -169,7 +171,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState>
     const value = item[valueKey];
     const label = item[labelKey];
 
-    if (_.isUndefined(label) && !item.group) {
+    if (_.isUndefined(label) && !item[KEY_GROUP]) {
       throw Error(`labelKey "${labelKey}" is not defined in "data" : ${index}`);
     }
 
@@ -178,21 +180,24 @@ class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState>
 
     /**
      * Render <DropdownMenuGroup>
-     * when if `group` is enabled and `itme.children` is array
+     * when if `group` is enabled
      */
-    if (group && item.group) {
+    if (group && item[KEY_GROUP]) {
+      const groupValue = item[KEY_GROUP_TITLE];
       return (
         <DropdownMenuGroup
           style={style}
           classPrefix={this.addPrefix('group')}
-          className={classNames({ folded: foldedGroupKeys.some(key => key === item.groupTitle) })}
-          key={item.groupTitle}
-          onClick={this.handleGroupTitleClick.bind(null, item.groupTitle)}
+          className={classNames({
+            folded: foldedGroupKeys.some(key => key === groupValue)
+          })}
+          key={groupValue}
+          onClick={this.handleGroupTitleClick.bind(null, groupValue)}
         >
-          {renderMenuGroup ? renderMenuGroup(item.groupTitle, item) : item.groupTitle}
+          {renderMenuGroup ? renderMenuGroup(groupValue, item) : groupValue}
         </DropdownMenuGroup>
       );
-    } else if (_.isUndefined(value) && !_.isUndefined(item.group)) {
+    } else if (_.isUndefined(value) && !_.isUndefined(item[KEY_GROUP])) {
       throw Error(`valueKey "${valueKey}" is not defined in "data" : ${index} `);
     }
 
@@ -222,7 +227,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState>
     const { data = [], group, maxHeight, activeItemValues, valueKey, virtualized } = this.props;
     const { foldedGroupKeys } = this.state;
     const filteredItems = group
-      ? data.filter(item => !foldedGroupKeys?.some(key => key === item.parent?.groupTitle))
+      ? data.filter(item => !foldedGroupKeys?.some(key => key === item.parent?.[KEY_GROUP_TITLE]))
       : data;
     const rowCount = filteredItems.length;
 
@@ -251,7 +256,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState>
   }
 
   render() {
-    const { maxHeight, className, style, group, data, ...rest } = this.props;
+    const { maxHeight, className, style, group, ...rest } = this.props;
     const classes = classNames(className, this.addPrefix('items'), {
       grouped: group
     });

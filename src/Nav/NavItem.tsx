@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import setDisplayName from 'recompose/setDisplayName';
 
 import SafeAnchor from '../SafeAnchor';
 import Tooltip from '../Tooltip';
@@ -18,6 +17,7 @@ const addTooltip = (children, tip) => (
 );
 
 class NavItem extends React.Component<NavItemProps> {
+  static displayName = 'NavItem';
   static propTypes = {
     active: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -121,9 +121,7 @@ class NavItem extends React.Component<NavItemProps> {
   }
 }
 
-const EnhancedNavItem = defaultProps<NavItemProps>({
+export default defaultProps<NavItemProps>({
   classPrefix: 'nav-item',
   componentClass: SafeAnchor
 })(NavItem);
-
-export default setDisplayName('NavItem')(EnhancedNavItem);

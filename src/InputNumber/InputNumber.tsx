@@ -135,7 +135,7 @@ class InputNumber extends React.Component<InputNumberProps, InputNumberState> {
     } else {
       value = '';
     }
-    return value;
+    return value.toString();
   }
 
   handleOnChange = (value: any, event: React.SyntheticEvent<any>) => {

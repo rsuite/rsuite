@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import _ from 'lodash';
 import setStatic from 'recompose/setStatic';
 import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
 
@@ -58,16 +57,16 @@ class Nav extends React.Component<NavProps> {
 
     const items = ReactChildren.mapCloneElement(children, item => {
       const { eventKey, active, ...rest } = item.props;
-      const displayName = _.get(item, ['type', 'displayName']);
+      const displayName = item?.type?.displayName;
 
-      if (displayName === 'NavItem') {
+      if (~displayName?.indexOf('(NavItem)')) {
         return {
           ...rest,
           onSelect,
           hasTooltip: sidenav && !expanded,
-          active: _.isUndefined(activeKey) ? active : shallowEqual(activeKey, eventKey)
+          active: typeof activeKey === 'undefined' ? active : shallowEqual(activeKey, eventKey)
         };
-      } else if (displayName === 'Dropdown') {
+      } else if (~displayName?.indexOf('(Dropdown)')) {
         return {
           ...rest,
           onSelect,

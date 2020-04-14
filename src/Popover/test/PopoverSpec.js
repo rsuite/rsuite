@@ -18,6 +18,11 @@ describe('Popover', () => {
     assert.ok(ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-popover-full'));
   });
 
+  it('Should have a id', () => {
+    const instance = getDOMNode(<Popover id="popover" />);
+    assert.equal(instance.id, 'popover');
+  });
+
   it('Should have a custom className', () => {
     const instance = getDOMNode(<Popover className="custom" />);
     assert.ok(instance.className.match(/\bcustom\b/));

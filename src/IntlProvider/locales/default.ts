@@ -34,7 +34,7 @@ export default {
   },
   TablePagination: {
     lengthMenuInfo: '{0} / page',
-    totalInfo: 'total: {0}'
+    totalInfo: 'Total: {0}'
   },
   Calendar,
   DatePicker: {

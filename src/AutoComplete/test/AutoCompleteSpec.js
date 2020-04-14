@@ -135,8 +135,9 @@ describe('AutoComplete', () => {
     });
   });
 
-  it('Should call onSelect callback when keyCode=13', done => {
-    const doneOp = () => {
+  it('Should call onSelect callback with selected item when keyCode=13', done => {
+    const doneOp = ({ value }) => {
+      assert.equal(value, 'ab');
       done();
     };
     const instance = getInstance(

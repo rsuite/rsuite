@@ -1,0 +1,86 @@
+.show-container {
+  > .@{ns}container {
+    margin-bottom: 40px;
+  }
+
+  .@{ns}header,
+  .@{ns}content,
+  .@{ns}footer,
+  .@{ns}sidebar {
+    background: @H500;
+    color: @B000;
+    text-align: center;
+  }
+
+  .@{ns}header,
+  .@{ns}footer {
+    line-height: 56px;
+    background: @H400;
+  }
+  .@{ns}content {
+    line-height: 120px;
+    background: @H300;
+  }
+  .@{ns}sidebar {
+    line-height: 120px;
+  }
+}
+
+.show-fake-browser {
+  border: 1px solid @divider-border-color;
+  box-shadow: 0 0.1em 0.5em 0 rgba(0, 0, 0, 0.28);
+  border-radius: 4px;
+  background: @show-fake-browser-bg;
+
+  &.sidebar-page {
+    .@{ns}sidebar {
+      height: 700px;
+      box-shadow: @default-box-shadow;
+    }
+    .@{ns}sidenav {
+      flex: 1 1 auto;
+      width: 100%;
+
+      &-collapse-in {
+        overflow-y: auto;
+      }
+    }
+    .@{ns}header {
+      padding: 0 20px;
+    }
+
+    .@{ns}content {
+      padding: 20px;
+      margin: 20px;
+      background: @show-fake-browser-content-bg;
+    }
+    .nav-toggle {
+      border-top: 1px solid @divider-border-color;
+    }
+  }
+  &.navbar-page {
+    .@{ns}content {
+      padding: 20px;
+      margin: 20px;
+      height: 500px;
+      background: @show-fake-browser-content-bg;
+    }
+    .@{ns}footer {
+      padding: 20px;
+    }
+  }
+  &.login-page {
+    .@{ns}content {
+      padding: 20px;
+      margin: 20px;
+      height: 500px;
+    }
+    .@{ns}footer {
+      padding: 20px;
+    }
+    .@{ns}panel {
+      background: @body-bg;
+      margin-top: 70px;
+    }
+  }
+}

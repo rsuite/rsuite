@@ -2,14 +2,12 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import compose from 'recompose/compose';
 import {
   defaultProps,
   prefix,
   getUnhandledProps,
   createChainedFunction,
-  getDataGroupBy,
-  withPickerMethods
+  getDataGroupBy
 } from '../utils';
 
 import {
@@ -20,7 +18,6 @@ import {
 } from 'rsuite-utils/lib/utils';
 
 import {
-  DropdownMenu,
   DropdownMenuItem,
   PickerToggle,
   PickerToggleTrigger,
@@ -29,7 +26,7 @@ import {
   MenuWrapper,
   SearchBar
 } from '../Picker';
-
+import DropdownMenu, { dropdownMenuPropTypes } from '../Picker/DropdownMenu';
 import { SelectPickerProps } from './SelectPicker.d';
 import { PLACEMENT } from '../constants';
 import { ItemDataType } from '../@types/common';
@@ -177,8 +174,8 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
    * Index of keyword  in `label`
    * @param {node} label
    */
-  shouldDisplay(label: any) {
-    const { searchKeyword } = this.state;
+  shouldDisplay(label: any, word?: string) {
+    const searchKeyword = typeof word === 'undefined' ? this.state.searchKeyword : word;
     if (!_.trim(searchKeyword)) {
       return true;
     }
@@ -291,11 +288,15 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
   };
 
   handleSearch = (searchKeyword: string, event: React.SyntheticEvent<any>) => {
+    const { onSearch, labelKey, valueKey, data } = this.props;
+    const filteredData = filterNodesOfTree(data, item =>
+      this.shouldDisplay(item[labelKey], searchKeyword)
+    );
     this.setState({
       searchKeyword,
-      focusItemValue: undefined
+      focusItemValue: filteredData?.[0]?.[valueKey]
     });
-    this.props.onSearch?.(searchKeyword, event);
+    onSearch?.(searchKeyword, event);
   };
 
   handleCloseDropdown = () => {
@@ -308,6 +309,12 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
     if (this.triggerRef.current) {
       this.triggerRef.current.show();
     }
+  };
+  open = () => {
+    this.handleOpenDropdown?.();
+  };
+  close = () => {
+    this.handleCloseDropdown?.();
   };
 
   handleToggleDropdown = () => {
@@ -390,7 +397,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
 
     const menuProps = _.pick(
       this.props,
-      Object.keys(_.omit(DropdownMenu.propTypes, ['className', 'style', 'classPrefix']))
+      Object.keys(_.omit(dropdownMenuPropTypes, ['className', 'style', 'classPrefix']))
     );
 
     const menu = filteredData.length ? (
@@ -500,11 +507,6 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
   }
 }
 
-const enhance = compose(
-  defaultProps<SelectPickerProps>({
-    classPrefix: 'picker'
-  }),
-  withPickerMethods<SelectPickerProps>()
-);
-
-export default enhance(SelectPicker);
+export default defaultProps({
+  classPrefix: 'picker'
+})(SelectPicker);

@@ -1,23 +1,16 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import compose from 'recompose/compose';
 import _ from 'lodash';
 import { shallowEqualArray } from 'rsuite-utils/lib/utils';
 import { polyfill } from 'react-lifecycles-compat';
 
-import DropdownMenu from './DropdownMenu';
+import DropdownMenu, { dropdownMenuPropTypes } from './DropdownMenu';
 import Checkbox from '../Checkbox';
 import createUtils, { UtilType } from './utils';
 import { flattenTree, getNodeParents } from '../utils/treeUtils';
 import { PLACEMENT } from '../constants';
-import {
-  defaultProps,
-  prefix,
-  getUnhandledProps,
-  createChainedFunction,
-  withPickerMethods
-} from '../utils';
+import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 import getSafeRegExpString from '../utils/getSafeRegExpString';
 
 import {
@@ -72,7 +65,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
     countable: PropTypes.bool,
     placement: PropTypes.oneOf(PLACEMENT),
     menuWidth: PropTypes.number,
-    menuHeight: PropTypes.number,
+    menuHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     style: PropTypes.object,
     uncheckableItemValues: PropTypes.array,
     searchable: PropTypes.bool,
@@ -307,6 +300,12 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
       this.triggerRef.current.show();
     }
   };
+  open = () => {
+    this.handleOpenDropdown?.();
+  };
+  close = () => {
+    this.handleCloseDropdown?.();
+  };
 
   handleClean = (event: React.SyntheticEvent<any>) => {
     const { disabled, onChange, data } = this.props;
@@ -467,7 +466,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
       }
     );
 
-    const menuProps = _.pick(this.props, Object.keys(DropdownMenu.propTypes));
+    const menuProps = _.pick(this.props, Object.keys(dropdownMenuPropTypes));
 
     return (
       <MenuWrapper className={classes} style={menuStyle}>
@@ -583,11 +582,6 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
 
 polyfill(MultiCascader);
 
-const enhance = compose(
-  defaultProps<MultiCascaderProps>({
-    classPrefix: 'picker'
-  }),
-  withPickerMethods<MultiCascaderProps>()
-);
-
-export default enhance(MultiCascader);
+export default defaultProps({
+  classPrefix: 'picker'
+})(MultiCascader);

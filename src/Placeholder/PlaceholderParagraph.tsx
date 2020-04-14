@@ -11,7 +11,7 @@ class PlaceholderParagraph extends React.Component<PlaceholderParagraphProps> {
     rows: PropTypes.number,
     rowHeight: PropTypes.number,
     rowMargin: PropTypes.number,
-    graph: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['circle', 'square'])]),
+    graph: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['circle', 'square', 'image'])]),
     active: PropTypes.bool
   };
   static defaultProps = {
@@ -31,33 +31,36 @@ class PlaceholderParagraph extends React.Component<PlaceholderParagraphProps> {
       classPrefix,
       ...rest
     } = this.props;
+
     const addPrefix = prefix(classPrefix);
     const unhandled = getUnhandledProps(PlaceholderParagraph, rest);
-    const classes = classNames(classPrefix, addPrefix('paragraph'), className, {
-      [addPrefix('active')]: active
-    });
     const graphShape = graph === true ? 'square' : graph;
     const rowArr = [];
+
     for (let i = 0; i < rows; i++) {
-      rowArr.push(
-        <p
-          key={i}
-          style={{
-            width: `${Math.random() * 75 + 25}%`,
-            height: rowHeight,
-            marginTop: i > 0 ? rowMargin : Number(rowMargin) / 2
-          }}
-        />
-      );
+      const styles = {
+        width: `${Math.random() * 75 + 25}%`,
+        height: rowHeight,
+        marginTop: i > 0 ? rowMargin : Number(rowMargin) / 2
+      };
+      rowArr.push(<p key={i} style={styles} />);
     }
+
+    const classes = classNames(className, classPrefix, addPrefix('paragraph'), {
+      [addPrefix('active')]: active
+    });
+
+    const graphClasses = classNames(
+      addPrefix('paragraph-graph'),
+      addPrefix(`paragraph-graph-${graphShape}`)
+    );
+
     return (
       <div className={classes} {...unhandled}>
         {graphShape && (
-          <div
-            className={classNames(addPrefix('paragraph-graph'), {
-              [addPrefix('paragraph-graph-circle')]: graph === 'circle'
-            })}
-          />
+          <div className={graphClasses}>
+            <span className={addPrefix('paragraph-graph-inner')} />
+          </div>
         )}
         <div className={addPrefix('paragraph-rows')}>{rowArr}</div>
       </div>

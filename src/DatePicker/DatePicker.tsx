@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import compose from 'recompose/compose';
 import _ from 'lodash';
 import { polyfill } from 'react-lifecycles-compat';
 import {
@@ -19,16 +18,10 @@ import IntlProvider from '../IntlProvider';
 import Calendar from '../Calendar/Calendar';
 import Toolbar from './Toolbar';
 
-import disabledTime, { calendarOnlyProps } from '../utils/disabledTime';
+import { disabledTime, calendarOnlyProps } from '../utils/timeUtils';
 import { shouldOnlyTime } from '../utils/formatUtils';
 import composeFunctions from '../utils/composeFunctions';
-import {
-  defaultProps,
-  getUnhandledProps,
-  prefix,
-  createChainedFunction,
-  withPickerMethods
-} from '../utils';
+import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
 
 import {
   PickerToggle,
@@ -266,6 +259,12 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
       this.triggerRef.current.show();
     }
   };
+  open = () => {
+    this.handleOpenDropdown?.();
+  };
+  close = () => {
+    this.handleCloseDropdown?.();
+  };
 
   showMonthDropdown() {
     this.setState({ calendarState: 'DROP_MONTH' });
@@ -470,11 +469,6 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
 
 polyfill(DatePicker);
 
-const enhance = compose(
-  defaultProps<DatePickerProps>({
-    classPrefix: 'picker'
-  }),
-  withPickerMethods<DatePickerProps>()
-);
-
-export default enhance(DatePicker);
+export default defaultProps({
+  classPrefix: 'picker'
+})(DatePicker);

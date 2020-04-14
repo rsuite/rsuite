@@ -2,7 +2,6 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import compose from 'recompose/compose';
 import { getWidth } from 'dom-lib';
 import {
   reactToString,
@@ -17,12 +16,10 @@ import {
   getUnhandledProps,
   createChainedFunction,
   tplTransform,
-  getDataGroupBy,
-  withPickerMethods
+  getDataGroupBy
 } from '../utils';
 
 import {
-  DropdownMenu,
   DropdownMenuItem,
   DropdownMenuCheckItem,
   getToggleWrapperClassName,
@@ -31,7 +28,7 @@ import {
   MenuWrapper,
   PickerToggleTrigger
 } from '../Picker';
-
+import DropdownMenu, { dropdownMenuPropTypes } from '../Picker/DropdownMenu';
 import InputAutosize from './InputAutosize';
 import InputSearch from './InputSearch';
 import Tag from '../Tag';
@@ -133,6 +130,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     if (nextProps.data && !shallowEqual(nextProps.data, prevState.data)) {
       return {
         data: nextProps.data,
+        newData: [],
         focusItemValue: _.get(nextProps, `data.0.${nextProps.valueKey}`)
       };
     }
@@ -477,7 +475,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     );
     const nextState = {
       searchKeyword,
-      focusItemValue: filteredData.length ? filteredData[0][valueKey] : searchKeyword
+      focusItemValue: filteredData?.[0]?.[valueKey] || searchKeyword
     };
 
     this.setState(nextState, this.updatePosition);
@@ -494,6 +492,13 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     if (this.triggerRef.current) {
       this.triggerRef.current.hide();
     }
+  };
+
+  open = () => {
+    this.handleOpenDropdown?.();
+  };
+  close = () => {
+    this.handleCloseDropdown?.();
   };
 
   handleChange = (value: any, event: React.SyntheticEvent<any>) => {
@@ -628,7 +633,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
 
     const menuProps = _.pick(
       this.props,
-      Object.keys(_.omit(DropdownMenu.propTypes, ['className', 'style', 'classPrefix']))
+      Object.keys(_.omit(dropdownMenuPropTypes, ['className', 'style', 'classPrefix']))
     );
 
     const value = this.getValue();
@@ -790,11 +795,6 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   }
 }
 
-const enhance = compose(
-  defaultProps<InputPickerProps>({
-    classPrefix: 'picker'
-  }),
-  withPickerMethods<InputPickerProps>()
-);
-
-export default enhance(InputPicker);
+export default defaultProps({
+  classPrefix: 'picker'
+})(InputPicker);

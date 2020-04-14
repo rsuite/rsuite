@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { findDOMNode } from 'react-dom';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
 import TagPicker from '../../InputPicker/InputPicker';
@@ -146,13 +145,14 @@ describe('TagPicker', () => {
   });
 
   it('Should call `onChange` callback', done => {
-    const doneOp = value => {
+    const doneOp = () => {
       done();
     };
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getInstance(
       <TagPicker multi defaultOpen onChange={doneOp} data={[{ label: '1', value: '1' }]} />
     );
-    const instanceDOM = findDOMNode(instance.menuContainerRef.current);
+
+    const instanceDOM = getDOMNode(instance.menuContainerRef.current);
 
     ReactTestUtils.Simulate.change(instanceDOM.querySelector('input'));
   });
@@ -161,11 +161,10 @@ describe('TagPicker', () => {
     const doneOp = () => {
       done();
     };
-    const instance = ReactTestUtils.renderIntoDocument(
+    const instance = getDOMNode(
       <TagPicker multi data={data} defaultValue={['Kariane']} onClean={doneOp} />
     );
-    const instanceDOM = findDOMNode(instance);
-    ReactTestUtils.Simulate.click(instanceDOM.querySelector('.rs-picker-toggle-clean'));
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
   });
 
   it('Should call `onSelect` by keyCode=13 ', done => {
@@ -183,8 +182,8 @@ describe('TagPicker', () => {
   });
 
   it('Should output a clean button', () => {
-    const instance = getDOMNode(<TagPicker multi data={data} defaultValue={['Louisa']} />);
-    assert.ok(findDOMNode(instance).querySelector(cleanClassName));
+    const instance = getInstance(<TagPicker multi data={data} defaultValue={['Louisa']} />);
+    assert.ok(getDOMNode(instance).querySelector(cleanClassName));
   });
 
   it('Should call `onSearch` callback', done => {
@@ -288,9 +287,7 @@ describe('TagPicker', () => {
   });
 
   it('Should render a button by toggleComponentClass={Button}', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <TagPicker multi open data={data} toggleComponentClass={Button} />
-    );
-    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-btn');
+    const instance = getDOMNode(<TagPicker multi open data={data} toggleComponentClass={Button} />);
+    assert.ok(instance.querySelector('.rs-btn'));
   });
 });

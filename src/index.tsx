@@ -57,6 +57,7 @@ export { default as DateRangePicker } from './DateRangePicker';
 export { default as AutoComplete } from './AutoComplete';
 export { default as Uploader } from './Uploader';
 export { default as Slider } from './Slider';
+export { default as RangeSlider } from './RangeSlider';
 
 // Data display
 

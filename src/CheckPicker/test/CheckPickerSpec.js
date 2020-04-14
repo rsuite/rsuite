@@ -158,38 +158,18 @@ describe('CheckPicker', () => {
   });
 
   it('Should call `onOpen` callback', done => {
-    const doneOp = key => {
+    const doneOp = () => {
       done();
     };
-    let picker = null;
-    getDOMNode(
-      <Dropdown
-        ref={ref => {
-          picker = ref;
-        }}
-        onOpen={doneOp}
-        data={data}
-      />
-    );
-
+    const picker = getInstance(<Dropdown onOpen={doneOp} data={data} />);
     picker.open();
   });
 
   it('Should call `onClose` callback', done => {
-    const doneOp = key => {
+    const doneOp = () => {
       done();
     };
-    let picker = null;
-    getDOMNode(
-      <Dropdown
-        defaultOpen
-        ref={ref => {
-          picker = ref;
-        }}
-        onClose={doneOp}
-        data={data}
-      />
-    );
+    const picker = getInstance(<Dropdown defaultOpen onClose={doneOp} data={data} />);
     picker.close();
   });
 

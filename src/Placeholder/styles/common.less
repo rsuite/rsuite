@@ -26,6 +26,46 @@
       &-circle {
         border-radius: 50%;
       }
+
+      &-image {
+        width: 80px;
+        height: 60px;
+        position: relative;
+        overflow: hidden;
+        &::after {
+          content: '';
+          width: 0;
+          height: 0;
+          left: 10px;
+          bottom: 10px;
+          position: absolute;
+          border-bottom: 36px solid @placeholder-image-color;
+          border-left: 20px solid transparent;
+          border-right: 30px solid transparent;
+        }
+
+        &::before {
+          content: '';
+          width: 0;
+          height: 0;
+          left: 40px;
+          bottom: 10px;
+          position: absolute;
+          border-bottom: 22px solid @placeholder-image-color;
+          border-left: 16px solid transparent;
+          border-right: 16px solid transparent;
+        }
+      }
+
+      &-image &-inner {
+        width: 12px;
+        height: 12px;
+        right: 18px;
+        top: 10px;
+        border-radius: 50%;
+        background: @placeholder-image-color;
+        position: absolute;
+      }
     }
 
     &-rows {

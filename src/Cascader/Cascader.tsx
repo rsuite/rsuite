@@ -1,26 +1,18 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import compose from 'recompose/compose';
 import _ from 'lodash';
 import { findNodeOfTree, shallowEqual } from 'rsuite-utils/lib/utils';
 import { polyfill } from 'react-lifecycles-compat';
 
 import IntlProvider from '../IntlProvider';
 import FormattedMessage from '../IntlProvider/FormattedMessage';
-import DropdownMenu from './DropdownMenu';
+import DropdownMenu, { dropdownMenuPropTypes } from './DropdownMenu';
 import stringToObject from '../utils/stringToObject';
 import getSafeRegExpString from '../utils/getSafeRegExpString';
 import { flattenTree, getNodeParents } from '../utils/treeUtils';
 import { getDerivedStateForCascade } from './utils';
-
-import {
-  defaultProps,
-  prefix,
-  getUnhandledProps,
-  createChainedFunction,
-  withPickerMethods
-} from '../utils';
+import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 
 import {
   PickerToggle,
@@ -89,12 +81,13 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     placement: PropTypes.oneOf(PLACEMENT),
     renderMenuItem: PropTypes.func,
     menuWidth: PropTypes.number,
-    menuHeight: PropTypes.number,
+    menuHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     disabledItemValues: PropTypes.array,
     style: PropTypes.object,
     searchable: PropTypes.bool,
     preventOverflow: PropTypes.bool,
-    inline: PropTypes.bool
+    inline: PropTypes.bool,
+    parentSelectable: PropTypes.bool
   };
   static defaultProps = {
     appearance: 'default',
@@ -204,7 +197,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     isLeafNode: boolean,
     event: React.SyntheticEvent<HTMLElement>
   ) => {
-    const { onChange, onSelect, valueKey, childrenKey } = this.props;
+    const { onChange, onSelect, valueKey, childrenKey, parentSelectable } = this.props;
     const prevValue = this.getValue();
     const value = node[valueKey];
 
@@ -216,8 +209,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     );
 
     /**
-     * 只有在叶子节点的时候才当做是可以选择的值
-     * 一个节点的 children 为 null 或者 undefined 的是就是叶子节点
+     Determines whether the option is a leaf node, and if so, closes the picker.
      */
     if (isLeafNode) {
       this.handleCloseDropdown();
@@ -243,18 +235,30 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
       return;
     }
 
-    this.setState(
-      {
-        selectNode: node,
-        items: cascadeItems,
-        tempActivePaths: activePaths
-      },
-      () => {
-        this.positionRef.current?.updatePosition?.();
+    const nextState: CascaderState = {
+      selectNode: node,
+      items: cascadeItems,
+      tempActivePaths: activePaths
+    };
+
+    /** When the parent is optional, the value and the displayed path are updated. */
+    if (parentSelectable) {
+      nextState.value = value;
+      nextState.activePaths = activePaths;
+      if (!shallowEqual(value, prevValue)) {
+        onChange?.(value, event);
       }
-    );
+    }
+
+    this.setState(nextState, () => {
+      // Update menu position
+      this.positionRef.current?.updatePosition?.();
+    });
   };
 
+  /**
+   * The search structure option is processed after being selected.
+   */
   handleSearchRowSelect = (item: object, event: React.SyntheticEvent<HTMLElement>) => {
     const { valueKey, onChange, onSelect } = this.props;
     const value = item[valueKey];
@@ -289,6 +293,13 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     if (this.triggerRef.current) {
       this.triggerRef.current.show();
     }
+  };
+
+  open = () => {
+    this.handleOpenDropdown?.();
+  };
+  close = () => {
+    this.handleCloseDropdown?.();
   };
 
   handleClean = (event: React.SyntheticEvent<HTMLElement>) => {
@@ -465,7 +476,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
 
     const menuProps = _.pick(
       this.props,
-      Object.keys(_.omit(DropdownMenu.propTypes, ['classPrefix']))
+      Object.keys(_.omit(dropdownMenuPropTypes, ['classPrefix']))
     );
 
     return (
@@ -575,11 +586,6 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
 
 polyfill(Cascader);
 
-const enhance = compose(
-  defaultProps<CascaderProps>({
-    classPrefix: 'picker'
-  }),
-  withPickerMethods<CascaderProps>()
-);
-
-export default enhance(Cascader);
+export default defaultProps<CascaderProps>({
+  classPrefix: 'picker'
+})(Cascader);

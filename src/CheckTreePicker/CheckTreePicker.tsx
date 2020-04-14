@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import compose from 'recompose/compose';
 import _ from 'lodash';
 import List from 'react-virtualized/dist/commonjs/List';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
@@ -17,8 +16,7 @@ import {
   prefix,
   defaultClassPrefix,
   getUnhandledProps,
-  createChainedFunction,
-  withPickerMethods
+  createChainedFunction
 } from '../utils';
 
 import {
@@ -288,7 +286,8 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
         data: nextData,
         filterData: this.getFilterData(searchKeyword, nextData),
         isSomeNodeHasChildren: isSomeNodeHasChildren(nextData, childrenKey),
-        hasValue: this.hasValue()
+        hasValue: this.hasValue(),
+        expandItemValues: this.serializeList('expand')
       });
     }
   }
@@ -712,6 +711,12 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       this.triggerRef.current.show();
     }
   };
+  open = () => {
+    this.handleOpenDropdown?.();
+  };
+  close = () => {
+    this.handleCloseDropdown?.();
+  };
 
   handleToggleDropdown = () => {
     const { active } = this.state;
@@ -1132,6 +1137,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
 
     // 当未定义 height 且 设置了 virtualized 为 true，treeHeight 设置默认高度
     const treeHeight = _.isUndefined(height) && virtualized ? defaultHeight : height;
+    const treeWidth = _.isUndefined(style?.width) ? defaultWidth : style.width;
     const styles = inline ? { height: treeHeight, ...style } : {};
 
     const treeNodesClass = classNames(this.addTreePrefix('nodes'), {
@@ -1148,11 +1154,11 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       >
         <div className={treeNodesClass}>
           {virtualized ? (
-            <AutoSizer defaultHeight={ListHeight} defaultWidth={defaultWidth}>
+            <AutoSizer defaultHeight={ListHeight} defaultWidth={treeWidth}>
               {({ height, width }) => (
                 <List
                   ref={this.listRef}
-                  width={width || defaultWidth}
+                  width={width || treeWidth}
                   height={height || ListHeight}
                   rowHeight={36}
                   rowCount={formattedNodes.length}
@@ -1244,10 +1250,6 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
 
 polyfill(CheckTreePicker);
 
-const enhance = compose(
-  defaultProps<CheckTreePickerProps>({
-    classPrefix: 'picker'
-  }),
-  withPickerMethods<CheckTreePickerProps>()
-);
-export default enhance(CheckTreePicker);
+export default defaultProps<CheckTreePickerProps>({
+  classPrefix: 'picker'
+})(CheckTreePicker);
