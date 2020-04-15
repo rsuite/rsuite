@@ -94,6 +94,7 @@ export interface PageContentProps {
   dependencies?: any;
   tabExamples?: any[];
   children?: React.ReactNode;
+  hidePageNav?: boolean;
 }
 
 const PageContent = ({
@@ -101,7 +102,8 @@ const PageContent = ({
   examples = [],
   dependencies,
   tabExamples,
-  children
+  children,
+  hidePageNav
 }: PageContentProps) => {
   const { messages, localePath } = React.useContext(AppContext);
   const router = useRouter();
@@ -117,7 +119,7 @@ const PageContent = ({
 
   if (!examples?.length) {
     return (
-      <PageContainer routerId={pathname}>
+      <PageContainer routerId={pathname} hidePageNav={hidePageNav}>
         {pageHead}
         <Markdown>{context}</Markdown>
         {children}
@@ -138,7 +140,7 @@ const PageContent = ({
   const footer = docs[1];
 
   return (
-    <PageContainer designHash={designHash} routerId={pathname}>
+    <PageContainer designHash={designHash} routerId={pathname} hidePageNav={hidePageNav}>
       {pageHead}
       <Markdown>{header}</Markdown>
       {componentExamples.map((item, index) => (
