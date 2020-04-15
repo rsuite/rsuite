@@ -78,7 +78,6 @@ class Panel extends React.Component<PanelProps, PanelState> {
 
     const props: React.HTMLAttributes<HTMLDivElement> = {
       id: id ? `${id}` : null,
-      className: this.addPrefix('collapse'),
       'aria-hidden': !this.isExpanded()
     };
     if (panelRole) {
@@ -87,11 +86,19 @@ class Panel extends React.Component<PanelProps, PanelState> {
 
     return (
       <Collapse {...collapseProps}>
-        {(transitionProps, ref) => (
-          <div {...props} {...transitionProps} ref={ref}>
-            {this.renderBody()}
-          </div>
-        )}
+        {(transitionProps, ref) => {
+          const { className, ...rest } = transitionProps;
+          return (
+            <div
+              {...props}
+              {...rest}
+              className={classNames(this.addPrefix('collapse'), className)}
+              ref={ref}
+            >
+              {this.renderBody()}
+            </div>
+          );
+        }}
       </Collapse>
     );
   }

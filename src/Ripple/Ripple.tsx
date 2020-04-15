@@ -97,7 +97,17 @@ class Ripple extends React.Component<RippleProps, RippleState> {
           enteringClassName={this.addPrefix('rippling')}
           onEntered={this.handleRippled}
         >
-          {(props, ref) => <span {...props} ref={ref} className={classPrefix} style={position} />}
+          {(props, ref) => {
+            const { className, ...transitionRest } = props;
+            return (
+              <span
+                {...transitionRest}
+                ref={ref}
+                className={classNames(classPrefix, className)}
+                style={position}
+              />
+            );
+          }}
         </Transition>
       </span>
     );

@@ -31,6 +31,7 @@ export interface InstanceType {
 interface NoticeType {
   key: string;
   show: boolean;
+  className?: string;
   onClose?: () => void;
 }
 
@@ -168,7 +169,7 @@ class NoticeManager extends React.Component<NoticeManagerProps, NoticeManagerSta
     const { notices } = this.state;
     const { className, style, classPrefix } = this.props;
     const elements = notices.map(item => {
-      const { key, show, onClose, ...rest } = item;
+      const { key, show, onClose, className: itemClassName, ...itemRest } = item;
 
       return (
         <Transition
@@ -180,15 +181,19 @@ class NoticeManager extends React.Component<NoticeManagerProps, NoticeManagerSta
           enteredClassName={this.addPrefix('fade-entered')}
           timeout={300}
         >
-          {(props, ref) => (
-            <Message
-              {...rest}
-              {...props}
-              htmlElementRef={ref}
-              classPrefix={classPrefix}
-              onClose={createChainedFunction(() => this.remove(key), onClose)}
-            />
-          )}
+          {(props, ref) => {
+            const { className: transitionClassName, ...rest } = props;
+            return (
+              <Message
+                {...itemRest}
+                {...rest}
+                className={classNames(itemClassName, transitionClassName)}
+                htmlElementRef={ref}
+                classPrefix={classPrefix}
+                onClose={createChainedFunction(() => this.remove(key), onClose)}
+              />
+            );
+          }}
         </Transition>
       );
     });
