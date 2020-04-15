@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import OverlayTrigger from '../Overlay/OverlayTrigger';
-import { createChainedFunction, placementPolyfill } from '../utils';
+import { createChainedFunction, placementPolyfill, refType } from '../utils';
 import IntlContext from '../IntlProvider/IntlContext';
 import { WhisperProps } from './Whisper.d';
 
@@ -16,7 +16,7 @@ export const overlayProps = [
 
 class Whisper extends React.Component<WhisperProps> {
   static propTypes = {
-    triggerRef: PropTypes.func,
+    triggerRef: refType,
     onOpen: PropTypes.func,
     onClose: PropTypes.func,
     onEntered: PropTypes.func,

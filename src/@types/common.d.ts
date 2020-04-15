@@ -1,3 +1,5 @@
+import React from 'react';
+
 export interface StandardProps {
   /** The prefix of the component CSS class */
   classPrefix?: string;
@@ -57,7 +59,7 @@ export interface PickerBaseProps extends StandardProps, AnimationEventProps {
   menuStyle?: object;
 
   /** Placeholder text */
-  placeholder?: string;
+  placeholder?: React.ReactNode;
 
   /** The placement of picker */
   placement?: TypeAttributes.Placement;

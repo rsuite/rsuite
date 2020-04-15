@@ -96,7 +96,8 @@ export default function TopLevelNav(props: TopLevelNavProps) {
   const onToggleMenu = (_event, show?: boolean) => {
     props?.onToggleMenu?.(show);
   };
-  const { messages } = React.useContext(AppContext);
+  const { messages, theme } = React.useContext(AppContext);
+  const [themeName] = theme;
 
   const navItems = getNavItems(messages);
 
@@ -149,7 +150,11 @@ export default function TopLevelNav(props: TopLevelNavProps) {
             )}
           </ButtonWithTooltip>
         ))}
-        <ButtonWithTooltip tip={messages?.common?.design} target="_blank" href="/design/default/">
+        <ButtonWithTooltip
+          tip={messages?.common?.design}
+          target="_blank"
+          href={`/design/${themeName === 'dark' ? 'dark' : 'default'}/`}
+        >
           <Icon icon={SvgIcons.Design} size="lg" />
         </ButtonWithTooltip>
         <SearchButton

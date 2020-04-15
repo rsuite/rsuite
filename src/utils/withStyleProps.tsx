@@ -9,6 +9,7 @@ import { TypeAttributes } from '../@types/common';
 import prefix from './prefix';
 import extendReactStatics from './extendReactStatics';
 import { SIZE, STATUS, COLOR } from '../constants';
+import refType from './refType';
 
 export interface RequiredProps {
   className?: string;
@@ -49,7 +50,7 @@ function withStyleProps<T>(options: Options = {}) {
     });
 
     const propTypes: any = {
-      innerRef: PropTypes.func
+      innerRef: refType
     };
 
     if (hasSize) {

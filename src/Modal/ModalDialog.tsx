@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import compose from 'recompose/compose';
 
-import { withStyleProps, defaultProps, prefix } from '../utils';
+import { withStyleProps, defaultProps, prefix, refType } from '../utils';
 import { ModalDialogProps } from './ModalDialog.d';
 import mergeRefs from '../utils/mergeRefs';
 
@@ -14,7 +14,7 @@ export const modalDialogPropTypes = {
   style: PropTypes.object,
   dialogStyle: PropTypes.object,
   children: PropTypes.node,
-  dialogRef: PropTypes.func
+  dialogRef: refType
 };
 
 class ModalDialog extends React.Component<ModalDialogProps> {
