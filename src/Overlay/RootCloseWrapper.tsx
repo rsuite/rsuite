@@ -38,7 +38,6 @@ class RootCloseWrapper extends React.Component<RootCloseWrapperProps> {
   }
 
   handleDocumentClick = (event: React.MouseEvent) => {
-    console.log('......');
     if (contains(getDOMNode(this.childRef.current || this), event.target)) {
       return;
     }
