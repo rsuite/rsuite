@@ -1,10 +1,12 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { setDate, isSameMonth } from 'date-fns';
-
+import isSameMonth from 'date-fns/isSameMonth';
+import setDate from 'date-fns/setDate';
 import Table from './Table';
 import { defaultProps, getMonthView } from '../../utils';
+
+import { legacyParse } from '@date-fns/upgrade/v2';
 
 export interface ViewProps {
   activeDate: Date;
@@ -36,8 +38,8 @@ class View extends React.Component<ViewProps> {
   };
 
   inSameThisMonthDate = (date: Date) => {
-    const thisMonthDate = setDate(this.props.activeDate, 1);
-    return isSameMonth(date, thisMonthDate);
+    const thisMonthDate = setDate(legacyParse(this.props.activeDate), 1);
+    return isSameMonth(legacyParse(date), legacyParse(thisMonthDate));
   };
   render() {
     const {
@@ -54,7 +56,7 @@ class View extends React.Component<ViewProps> {
       ...rest
     } = this.props;
 
-    const thisMonthDate = setDate(activeDate, 1);
+    const thisMonthDate = setDate(legacyParse(activeDate), 1);
     const classes = classNames(classPrefix, className);
 
     return (

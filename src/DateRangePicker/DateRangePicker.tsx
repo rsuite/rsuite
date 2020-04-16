@@ -3,22 +3,20 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 
-import {
-  format,
-  addDays,
-  isBefore,
-  isAfter,
-  isSameDay,
-  isSameMonth,
-  addMonths,
-  startOfISOWeek,
-  endOfISOWeek,
-  startOfWeek,
-  endOfWeek,
-  startOfMonth,
-  endOfMonth,
-  compareAsc
-} from 'date-fns';
+import { format } from 'date-fns';
+import addDays from 'date-fns/addDays';
+import isSameDay from 'date-fns/isSameDay';
+import isBefore from 'date-fns/isBefore';
+import isAfter from 'date-fns/isAfter';
+import isSameMonth from 'date-fns/isSameMonth';
+import addMonths from 'date-fns/addMonths';
+import startOfISOWeek from 'date-fns/startOfISOWeek';
+import endOfISOWeek from 'date-fns/endOfISOWeek';
+import startOfWeek from 'date-fns/startOfWeek';
+import endOfWeek from 'date-fns/endOfWeek';
+import startOfMonth from 'date-fns/startOfMonth';
+import endOfMonth from 'date-fns/endOfMonth';
+import compareAsc from 'date-fns/compareAsc';
 
 import IntlProvider from '../IntlProvider';
 import Toolbar from './Toolbar';
@@ -35,6 +33,8 @@ import {
 
 import { DateRangePickerProps, ValueType } from './DateRangePicker.d';
 import { PLACEMENT } from '../constants';
+
+import { legacyParse } from '@date-fns/upgrade/v2';
 
 interface DateRangePickerState {
   value: ValueType;
@@ -140,8 +140,8 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     }
 
     if (
-      (value[0] && !isSameDay(value[0], prevState.value[0])) ||
-      (value[1] && !isSameDay(value[1], prevState.value[1]))
+      (value[0] && !isSameDay(legacyParse(value[0]), legacyParse(prevState.value[0]))) ||
+      (value[1] && !isSameDay(legacyParse(value[1]), legacyParse(prevState.value[1])))
     ) {
       return {
         value,
@@ -186,6 +186,9 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
 
   getDateString(value?: ValueType) {
     const { placeholder, format: formatType, renderValue } = this.props;
+    const replaceFormat = formatType.replace(/D|Y/gi, function(x) {
+      return x.toLowerCase();
+    });
     const nextValue = value || this.getValue();
     const startDate: Date = nextValue?.[0];
     const endDate: Date = nextValue?.[1];
@@ -194,8 +197,8 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       const displayValue: any = [startDate, endDate].sort(compareAsc);
 
       return renderValue
-        ? renderValue(displayValue, formatType)
-        : `${format(displayValue[0], formatType)} ~ ${format(displayValue[1], formatType)}`;
+        ? renderValue(displayValue, replaceFormat)
+        : `${format(legacyParse(displayValue[0]), replaceFormat)} ~ ${format(legacyParse(displayValue[1]), replaceFormat)}`;
     }
 
     return placeholder || `${formatType} ~ ${formatType}`;
@@ -207,12 +210,12 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
 
     if (isoWeek) {
       // set to the first day of this week according to ISO 8601, 12:00 am
-      return [startOfISOWeek(date), endOfISOWeek(date)];
+      return [startOfISOWeek(legacyParse(date)), endOfISOWeek(legacyParse(date))];
     }
 
-    return [startOfWeek(date), endOfWeek(date)];
+    return [startOfWeek(legacyParse(date)), endOfWeek(legacyParse(date))];
   };
-  getMonthHoverRange = (date: Date): ValueType => [startOfMonth(date), endOfMonth(date)];
+  getMonthHoverRange = (date: Date): ValueType => [startOfMonth(legacyParse(date)), endOfMonth(legacyParse(date))];
 
   getHoverRange(date: Date) {
     const { hoverRange } = this.props;
@@ -238,7 +241,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     if (!isHoverRangeValid) {
       return [];
     }
-    if (isAfter(hoverValues[0], hoverValues[1])) {
+    if (isAfter(legacyParse(hoverValues[0]), legacyParse(hoverValues[1]))) {
       hoverValues.reverse();
     }
     return hoverValues;
@@ -300,7 +303,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       value: nextValue
     });
 
-    if (onChange && (!isSameDay(nextValue[0], value[0]) || !isSameDay(nextValue[1], value[1]))) {
+    if (onChange && (!isSameDay(legacyParse(nextValue[0]), legacyParse(value[0])) || !isSameDay(legacyParse(nextValue[1]), legacyParse(value[1])))) {
       onChange(nextValue, event);
     }
 
@@ -335,7 +338,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
         nextValue = [selectValue[0], date];
       }
 
-      if (isAfter(nextValue[0], nextValue[1])) {
+      if (isAfter(legacyParse(nextValue[0]), legacyParse(nextValue[1]))) {
         nextValue.reverse();
       }
 
@@ -373,7 +376,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     const { doneSelected, selectValue, hoverValue, currentHoverDate } = this.state;
     const { hoverRange } = this.props;
 
-    if (currentHoverDate && isSameDay(date, currentHoverDate)) {
+    if (currentHoverDate && isSameDay(legacyParse(date), legacyParse(currentHoverDate))) {
       return;
     }
 
@@ -395,14 +398,14 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       nextValue[1] = date;
     } else if (hoverValue) {
       nextValue = [
-        isBefore(nextHoverValue[0], hoverValue[0]) ? nextHoverValue[0] : hoverValue[0],
-        isAfter(nextHoverValue[1], hoverValue[1]) ? nextHoverValue[1] : hoverValue[1],
+        isBefore(legacyParse(nextHoverValue[0]), legacyParse(hoverValue[0])) ? nextHoverValue[0] : hoverValue[0],
+        isAfter(legacyParse(nextHoverValue[1]), legacyParse(hoverValue[1])) ? nextHoverValue[1] : hoverValue[1],
         nextValue[2]
       ];
     }
 
     // If `nextValue[0]` is greater than `nextValue[1]` then reverse order
-    if (isAfter(nextValue[0], nextValue[1])) {
+    if (isAfter(legacyParse(nextValue[0]), legacyParse(nextValue[1]))) {
       nextValue.reverse();
     }
 
@@ -424,7 +427,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
 
     if (value && value.length) {
       const [startDate, endData] = value;
-      calendarDate = [startDate, isSameMonth(startDate, endData) ? addMonths(endData, 1) : endData];
+      calendarDate = [startDate, isSameMonth(legacyParse(startDate), legacyParse(endData)) ? addMonths(legacyParse(endData), 1) : endData];
     } else {
       calendarDate = getCalendarDate(this.props.defaultCalendarValue);
     }
@@ -458,11 +461,11 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
 
     // If the date is between the start and the end
     // the button is disabled
-    while (isBefore(start, end) || isSameDay(start, end)) {
+    while (isBefore(legacyParse(start), legacyParse(end)) || isSameDay(legacyParse(start), legacyParse(end))) {
       if (disabledDate?.(start, nextSelectValue, doneSelected, type)) {
         return true;
       }
-      start = addDays(start, 1);
+      start = addDays(legacyParse(start), 1);
     }
 
     return false;

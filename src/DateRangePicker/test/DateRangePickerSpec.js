@@ -5,6 +5,8 @@ import { getDOMNode, getInstance } from '@test/testUtils';
 
 import DateRangePicker from '../DateRangePicker';
 
+import { legacyParse, convertTokens } from '@date-fns/upgrade/v2';
+
 describe('DateRangePicker', () => {
   it('Should render a div with "rs-picker-daterange" class', () => {
     const instance = getDOMNode(<DateRangePicker />);
@@ -24,7 +26,7 @@ describe('DateRangePicker', () => {
         ranges={[
           {
             label: 'Yesterday',
-            value: [addDays(new Date(), -1), addDays(new Date(), -1)]
+            value: [addDays(legacyParse(new Date()), -1), addDays(legacyParse(new Date()), -1)]
           },
           {
             label: 'Today',
@@ -32,11 +34,11 @@ describe('DateRangePicker', () => {
           },
           {
             label: 'Tomorrow',
-            value: [addDays(new Date(), 1), addDays(new Date(), 1)]
+            value: [addDays(legacyParse(new Date()), 1), addDays(legacyParse(new Date()), 1)]
           },
           {
             label: 'Last 7 days',
-            value: [subDays(new Date(), 6), new Date()]
+            value: [subDays(legacyParse(new Date()), 6), new Date()]
           }
         ]}
         disabledDate={() => true}
@@ -55,9 +57,9 @@ describe('DateRangePicker', () => {
   it('Should output custom value', () => {
     const instance = getDOMNode(
       <DateRangePicker
-        value={[parse('2019-04-01'), parse('2019-04-02')]}
+        value={[parse(legacyParse('2019-04-01')), parse(legacyParse('2019-04-02'))]}
         renderValue={value => {
-          return `${format(value[0], 'MM/DD/YYYY')}~${format(value[1], 'MM/DD/YYYY')}`;
+          return `${format(legacyParse(value[0]), convertTokens('MM/DD/YYYY'))}~${format(legacyParse(value[1]), convertTokens('MM/DD/YYYY'))}`;
         }}
       />
     );
@@ -147,8 +149,8 @@ describe('DateRangePicker', () => {
     let today = null;
     const doneOp = values => {
       if (
-        isSameDay(startOfWeek(new Date()), values[0]) &&
-        isSameDay(endOfWeek(new Date()), values[1])
+        isSameDay(legacyParse(startOfWeek(legacyParse(new Date()))), legacyParse(values[0])) &&
+        isSameDay(legacyParse(endOfWeek(legacyParse(new Date()))), legacyParse(values[1]))
       ) {
         done();
       }
@@ -180,8 +182,8 @@ describe('DateRangePicker', () => {
   it('Should fire onChange if click ok after only select one date in oneTap mode', done => {
     const doneOp = values => {
       if (
-        isSameDay(startOfWeek(new Date()), values[0]) &&
-        isSameDay(endOfWeek(new Date()), values[1])
+        isSameDay(legacyParse(startOfWeek(legacyParse(new Date()))), legacyParse(values[0])) &&
+        isSameDay(legacyParse(endOfWeek(legacyParse(new Date()))), legacyParse(values[1]))
       ) {
         done();
       }
