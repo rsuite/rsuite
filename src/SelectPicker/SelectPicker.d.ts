@@ -44,7 +44,7 @@ export interface SelectProps<ValueType = any> {
   virtualized?: boolean;
 
   /** Custom search rules. */
-  searchBy: (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean;
+  searchBy?: (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean;
 }
 
 export interface SelectPickerProps extends FormControlPickerProps<any>, SelectProps<any> {}
