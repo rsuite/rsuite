@@ -4,10 +4,8 @@ import classNames from 'classnames';
 
 import FormattedMessage from '../IntlProvider/FormattedMessage';
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
-import addDays from 'date-fns/addDays';
+import { addDays } from 'date-fns';
 import { RangeType } from './DatePicker.d';
-
-import { legacyParse } from '@date-fns/upgrade/v2';
 
 export interface ToolbarProps {
   ranges: RangeType[];
@@ -28,7 +26,7 @@ const defaultRanges = [
   },
   {
     label: 'yesterday',
-    value: addDays(legacyParse(new Date()), -1),
+    value: addDays(new Date(), -1),
     closeOverlay: true
   }
 ];
@@ -67,7 +65,7 @@ class Toolbar extends React.PureComponent<ToolbarProps> {
     });
     return (
       <div className={this.addPrefix('right')}>
-        <button type="button" className={classes} onClick={disabled ? undefined : onOk}>
+        <button className={classes} onClick={disabled ? undefined : onOk}>
           <FormattedMessage id="ok" />
         </button>
       </div>

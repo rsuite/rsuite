@@ -1,24 +1,18 @@
-import addDays from 'date-fns/addDays';
-import isAfter from 'date-fns/isAfter';
-import isBefore from 'date-fns/isBefore';
-import isSameDay from 'date-fns/isSameDay';
-
+import { addDays, isAfter, isBefore, isSameDay } from 'date-fns';
 import composeFunctions from '../utils/composeFunctions';
 import { DisabledDateFunction } from './DateRangePicker.d';
 
-import { legacyParse } from '@date-fns/upgrade/v2';
-
 function isAfterDay(date1: Date, date2: Date): boolean {
   return isAfter(
-    legacyParse(new Date(date1.getFullYear(), date1.getMonth(), date1.getDate())),
-    legacyParse(new Date(date2.getFullYear(), date2.getMonth(), date2.getDate()))
+    new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()),
+    new Date(date2.getFullYear(), date2.getMonth(), date2.getDate())
   );
 }
 
 function isBeforeDay(date1: Date, date2: Date): boolean {
   return isBefore(
-    legacyParse(new Date(date1.getFullYear(), date1.getMonth(), date1.getDate())),
-    legacyParse(new Date(date2.getFullYear(), date2.getMonth(), date2.getDate()))
+    new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()),
+    new Date(date2.getFullYear(), date2.getMonth(), date2.getDate())
   );
 }
 
@@ -64,13 +58,13 @@ export function allowedDays(days: number): DisabledDateFunction {
       const startDate = selectValue[0];
 
       beforeLimit = composeFunctions(
-        f => addDays(legacyParse(f), -days + 1),
-        f => !isSameDay(legacyParse(f), legacyParse(date))
+        f => addDays(f, -days + 1),
+        f => !isSameDay(f, date)
       )(startDate);
 
       afterLimit = composeFunctions(
-        f => addDays(legacyParse(f), days - 1),
-        f => !isSameDay(legacyParse(f), legacyParse(date))
+        f => addDays(f, days - 1),
+        f => !isSameDay(f, date)
       )(startDate);
     }
 

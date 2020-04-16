@@ -1,16 +1,12 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import addMonths from 'date-fns/addMonths';
-import isAfter from 'date-fns/isAfter';
-import setDate from 'date-fns/setDate';
+import { addMonths, isAfter, setDate } from 'date-fns';
 
 import { getUnhandledProps, prefix, defaultProps } from '../../utils';
 import MonthDropdown from '../../Calendar/MonthDropdown';
 import Header from '../../Calendar/Header';
 import View from './View';
-
-import { legacyParse } from '@date-fns/upgrade/v2';
 
 export interface CalendarProps {
   calendarState?: 'DROP_MONTH' | 'DROP_TIME';
@@ -56,7 +52,7 @@ class Calendar extends React.Component<CalendarProps> {
     showOneCalendar: PropTypes.bool
   };
   static defaultProps = {
-    calendarDate: [new Date(), addMonths(legacyParse(new Date()), 1)],
+    calendarDate: [new Date(), addMonths(new Date(), 1)],
     index: 0
   };
 
@@ -66,19 +62,16 @@ class Calendar extends React.Component<CalendarProps> {
   }
 
   handleMoveForword = () => {
-    this.props.onMoveForword?.(addMonths(legacyParse(this.getPageDate()), 1));
+    this.props.onMoveForword?.(addMonths(this.getPageDate(), 1));
   };
 
   handleMoveBackward = () => {
-    this.props.onMoveBackward?.(addMonths(legacyParse(this.getPageDate()), -1));
+    this.props.onMoveBackward?.(addMonths(this.getPageDate(), -1));
   };
 
   disabledBackward = () => {
     const { calendarDate, index } = this.props;
-    const after = isAfter(
-      legacyParse(setDate(legacyParse(calendarDate[1]), 1)),
-      legacyParse(setDate(legacyParse(addMonths(legacyParse(calendarDate[0]), 1)), 1))
-    );
+    const after = isAfter(setDate(calendarDate[1], 1), setDate(addMonths(calendarDate[0], 1), 1));
 
     if (index === 0) {
       return false;
@@ -94,10 +87,7 @@ class Calendar extends React.Component<CalendarProps> {
   disabledForword = () => {
     const { calendarDate, index, showOneCalendar } = this.props;
     if (showOneCalendar) return false;
-    const after = isAfter(
-      legacyParse(setDate(legacyParse(calendarDate[1]), 1)),
-      legacyParse(setDate(legacyParse(addMonths(legacyParse(calendarDate[0]), 1)), 1))
-    );
+    const after = isAfter(setDate(calendarDate[1], 1), setDate(addMonths(calendarDate[0], 1), 1));
 
     if (index === 1) {
       return false;
@@ -119,12 +109,12 @@ class Calendar extends React.Component<CalendarProps> {
     }
 
     if (index === 1) {
-      after = isAfter(legacyParse(date), legacyParse(calendarDate[0]));
+      after = isAfter(date, calendarDate[0]);
 
       return !after;
     }
 
-    after = isAfter(legacyParse(calendarDate[1]), legacyParse(date));
+    after = isAfter(calendarDate[1], date);
 
     return !after;
   };
