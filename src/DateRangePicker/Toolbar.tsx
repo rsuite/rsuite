@@ -1,15 +1,12 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import addDays from 'date-fns/addDays';
-import subDays from 'date-fns/subDays';
+import { addDays, subDays } from 'date-fns';
 
 import FormattedMessage from '../IntlProvider/FormattedMessage';
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
 import { setTimingMargin } from './utils';
 import { ValueType } from './DateRangePicker.d';
-
-import { legacyParse } from '@date-fns/upgrade/v2';
 
 export interface Range {
   label: React.ReactNode;
@@ -38,13 +35,13 @@ const defaultRanges = [
   {
     label: 'yesterday',
     value: [
-      setTimingMargin(addDays(legacyParse(new Date()), -1)),
-      setTimingMargin(addDays(legacyParse(new Date()), -1), 'right')
+      setTimingMargin(addDays(new Date(), -1)),
+      setTimingMargin(addDays(new Date(), -1), 'right')
     ]
   },
   {
     label: 'last7Days',
-    value: [setTimingMargin(subDays(legacyParse(new Date()), 6)), setTimingMargin(new Date(), 'right')]
+    value: [setTimingMargin(subDays(new Date(), 6)), setTimingMargin(new Date(), 'right')]
   }
 ];
 
@@ -84,7 +81,7 @@ class Toolbar extends React.PureComponent<ToolbarProps> {
     });
     return (
       <div className={this.addPrefix('right')}>
-        <button type="button" className={classes} onClick={disabled ? undefined : onOk}>
+        <button className={classes} onClick={disabled ? undefined : onOk}>
           <FormattedMessage id="ok" />
         </button>
       </div>

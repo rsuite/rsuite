@@ -4,8 +4,6 @@ import { getDOMNode } from '@test/testUtils';
 import TableRow from '../TableRow';
 import { getDate, format } from 'date-fns';
 
-import { legacyParse, convertTokens } from '@date-fns/upgrade/v2';
-
 describe('Calendar-TableRow', () => {
   it('Should render a div with `table-row` class', () => {
     const instance = getDOMNode(<TableRow />);
@@ -19,7 +17,7 @@ describe('Calendar-TableRow', () => {
 
     assert.equal(
       instanceDOM.querySelector('.rs-calendar-table-cell-is-today').innerText,
-      getDate(legacyParse(new Date())) + ''
+      getDate(new Date()) + ''
     );
   });
 
@@ -51,8 +49,8 @@ describe('Calendar-TableRow', () => {
   it('Should render a week number', () => {
     const instance = getDOMNode(<TableRow showWeekNumbers />);
     assert.equal(
-      findDOMNode(instance).querySelector('.rs-calendar-table-cell-week-number').innerText,
-      format(legacyParse(new Date()), convertTokens('W'))
+      instance.querySelector('.rs-calendar-table-cell-week-number').innerText,
+      format(new Date(), 'W')
     );
   });
 });

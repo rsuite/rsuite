@@ -1,7 +1,4 @@
-import addDays from 'date-fns/addDays';
-import getDay from 'date-fns/getDay';
-
-import { legacyParse } from '@date-fns/upgrade/v2';
+import { addDays, getDay } from 'date-fns';
 
 /**
  * Get all weeks of this month
@@ -9,7 +6,7 @@ import { legacyParse } from '@date-fns/upgrade/v2';
  * @return date[]
  */
 export default function getMonthView(monthDate: Date, isoWeek: boolean) {
-  const firstDayOfMonth = getDay(legacyParse(monthDate));
+  const firstDayOfMonth = getDay(monthDate);
   let distance = 0 - firstDayOfMonth;
 
   if (isoWeek) {
@@ -20,13 +17,13 @@ export default function getMonthView(monthDate: Date, isoWeek: boolean) {
     }
   }
 
-  const firstWeekendDate = addDays(legacyParse(monthDate), distance);
+  const firstWeekendDate = addDays(monthDate, distance);
   const weeks = [firstWeekendDate];
-  let nextWeekendDate = addDays(legacyParse(firstWeekendDate), 7);
+  let nextWeekendDate = addDays(firstWeekendDate, 7);
 
   weeks.push(nextWeekendDate);
   while (weeks.length < 6) {
-    nextWeekendDate = addDays(legacyParse(nextWeekendDate), 7);
+    nextWeekendDate = addDays(nextWeekendDate, 7);
     weeks.push(nextWeekendDate);
   }
 

@@ -5,8 +5,6 @@ import { getDOMNode } from '@test/testUtils';
 
 import Header from '../Header';
 
-import { legacyParse, convertTokens } from '@date-fns/upgrade/v2';
-
 describe('Calendar-Header', () => {
   it('Should render a div with "calendar-header" class', () => {
     const instance = getDOMNode(<Header date={new Date()} />);
@@ -21,30 +19,30 @@ describe('Calendar-Header', () => {
     const instance = getDOMNode(<Header showTime date={date} format={formatType} />);
 
     assert.equal(
-      instanceDOM.querySelector('.rs-calendar-header-title-time').innerText,
-      format(legacyParse(new Date('2019-04-01 12:20:00')), convertTokens(formatType))
+      instance.querySelector('.rs-calendar-header-title-time').innerText,
+      format(new Date('2019-04-01 12:20:00'), formatType)
     );
   });
 
-  it('Should output a date for `yyyy-MM-dd`', () => {
+  it('Should output a date for `YYYY-MM-DD`', () => {
     const date = new Date();
-    const formatType = 'yyyy-MM-dd';
+    const formatType = 'YYYY-MM-DD';
     const instance = getDOMNode(<Header showDate date={date} format={formatType} />);
 
     assert.equal(
-      instanceDOM.querySelector('.rs-calendar-header-title-date').innerText,
-      format(legacyParse(new Date()), convertTokens(formatType))
+      instance.querySelector('.rs-calendar-header-title-date').innerText,
+      format(new Date(), formatType)
     );
   });
 
-  it('Should output a date for `yyyy-MM`', () => {
+  it('Should output a date for `YYYY-MM`', () => {
     const date = new Date();
-    const formatType = 'yyyy-MM';
+    const formatType = 'YYYY-MM';
     const instance = getDOMNode(<Header showMonth date={date} format={formatType} />);
 
     assert.equal(
-      instanceDOM.querySelector('.rs-calendar-header-title-date').innerText,
-      format(legacyParse(new Date()), convertTokens(formatType))
+      instance.querySelector('.rs-calendar-header-title-date').innerText,
+      format(new Date(), formatType)
     );
   });
 

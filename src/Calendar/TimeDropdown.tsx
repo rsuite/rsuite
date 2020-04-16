@@ -7,13 +7,7 @@ import classNames from 'classnames';
 
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
 import scrollTopAnimation from '../utils/scrollTopAnimation';
-import getHours from 'date-fns/getHours';
-import getMinutes from 'date-fns/getMinutes';
-import getSeconds from 'date-fns/getSeconds';
-import setSeconds from 'date-fns/setSeconds';
-import setMinutes from 'date-fns/setMinutes';
-import setHours from 'date-fns/setHours';
-import { legacyParse } from '@date-fns/upgrade/v2';
+import { getHours, getMinutes, getSeconds, setSeconds, setMinutes, setHours } from 'date-fns';
 
 export interface TimeDropdownProps {
   date?: Date;
@@ -77,13 +71,13 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
     }
 
     if (/(H|h)/.test(format)) {
-      nextTime.hours = getHours(legacyParse(time));
+      nextTime.hours = getHours(time);
     }
     if (/m/.test(format)) {
-      nextTime.minutes = getMinutes(legacyParse(time));
+      nextTime.minutes = getMinutes(time);
     }
     if (/s/.test(format)) {
-      nextTime.seconds = getSeconds(legacyParse(time));
+      nextTime.seconds = getSeconds(time);
     }
     return nextTime;
   }
@@ -115,13 +109,13 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
 
     switch (type) {
       case 'hours':
-        nextDate = setHours(legacyParse(date), d);
+        nextDate = setHours(date, d);
         break;
       case 'minutes':
-        nextDate = setMinutes(legacyParse(date), d);
+        nextDate = setMinutes(date, d);
         break;
       case 'seconds':
-        nextDate = setSeconds(legacyParse(date), d);
+        nextDate = setSeconds(date, d);
         break;
     }
 
