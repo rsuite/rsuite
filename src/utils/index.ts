@@ -20,3 +20,4 @@ export { default as createContext } from './createContext';
 export { default as placementPolyfill } from './placementPolyfill';
 export { default as getMonthView } from './getMonthView';
 export { default as isRTL } from './directionUtil';
+export { default as refType } from './refType';

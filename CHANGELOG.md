@@ -1,3 +1,18 @@
+# 4.3.4
+
+> April 10, 2020
+
+- **Bugfix**: Fixed `<DatePciker>` onlyTime icon to clock icon. ([#933])
+- **Bugfix**: Fixed an issue where the cache was not reset after the data was updated in `<InputPicker>`. ([#948])
+
+---
+
+- **Bugfix**: 修复了 `<DatePciker>` 在只显示时间时图标错误的问题。([#933])
+- **Bugfix**: 修复了 `<InputPicker>` 在更新数据后未重置缓存的问题，导致新建项重复。 ([#948])
+
+[#948]: https://github.com/rsuite/rsuite/pull/948
+[#933]: https://github.com/rsuite/rsuite/pull/933
+
 # 4.3.3
 
 > March 26, 2020

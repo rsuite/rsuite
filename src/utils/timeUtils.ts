@@ -1,5 +1,7 @@
 import _ from 'lodash';
-import { getHours, getMinutes, getSeconds } from 'date-fns';
+import getHours from 'date-fns/getHours';
+import getMinutes from 'date-fns/getMinutes';
+import getSeconds from 'date-fns/getSeconds';
 
 const disabledTimeProps = ['disabledHours', 'disabledMinutes', 'disabledSeconds'];
 const hideTimeProps = ['hideHours', 'hideMinutes', 'hideSeconds'];

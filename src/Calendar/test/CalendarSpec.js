@@ -4,6 +4,8 @@ import { parse } from 'date-fns';
 import { getDOMNode } from '@test/testUtils';
 import Calendar from '../Calendar';
 
+import { legacyParse } from '@date-fns/upgrade/v2';
+
 describe('Calendar', () => {
   it('Should render a div with `calendar` class', () => {
     const instance = getDOMNode(<Calendar pageDate={new Date()} />);
@@ -13,7 +15,7 @@ describe('Calendar', () => {
   });
 
   it('Should output valid one day', () => {
-    const instance = getDOMNode(<Calendar format="YYYY-MM-DD" pageDate={parse('2018-07-01')} />);
+    const instance = getDOMNode(<Calendar format="YYYY-MM-DD" pageDate={parse(legacyParse('2018-07-01'))} />);
     assert.equal(
       instance
         .querySelectorAll('.rs-calendar-table-row')[1]

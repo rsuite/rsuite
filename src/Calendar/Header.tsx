@@ -5,6 +5,8 @@ import { format } from 'date-fns';
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
 import IntlContext from '../IntlProvider/IntlContext';
 
+import { legacyParse, convertTokens } from '@date-fns/upgrade/v2';
+
 export interface HeaderProps {
   date: Date;
   showMonth?: boolean;
@@ -93,7 +95,7 @@ class Header extends React.PureComponent<HeaderProps> {
       return renderTitle(date);
     }
 
-    return date && format(date, this.getDateFormat());
+    return date && format(legacyParse(date), convertTokens(this.getDateFormat()));
   }
   render() {
     const {
@@ -176,7 +178,7 @@ class Header extends React.PureComponent<HeaderProps> {
               className={timeTitleClasses}
               onClick={onToggleTimeDropdown}
             >
-              {date && format(date, this.getTimeFormat())}
+              {date && format(legacyParse(date), convertTokens(this.getTimeFormat()))}
             </span>
 
             {showMeridian ? (

@@ -41,7 +41,7 @@ class MyDocument extends Document<DocumentProps> {
             dangerouslySetInnerHTML={{
               __html: `
               ((window.gitter = {}).chat = {}).options = {
-                room: 'rsuite/rsuite'
+                room: 'rsuite/${userLanguage === 'zh' ? 'rsuite-CN' : 'rsuite'}'
               };
               `
             }}
