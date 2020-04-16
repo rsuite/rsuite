@@ -4,8 +4,6 @@ import { getDOMNode } from '@test/testUtils';
 import MonthDropdownItem from '../MonthDropdownItem';
 import { format } from 'date-fns';
 
-import { legacyParse, convertTokens } from '@date-fns/upgrade/v2';
-
 describe('Calendar-MonthDropdownItem', () => {
   it('Should output a  `1` ', () => {
     const instance = getDOMNode(<MonthDropdownItem month={1} date={new Date()} />);
@@ -16,7 +14,7 @@ describe('Calendar-MonthDropdownItem', () => {
 
   it('Should call `onSelect` callback', done => {
     const doneOp = date => {
-      if (format(legacyParse(date), convertTokens('YYYY-MM')) === '2017-01') {
+      if (format(date, 'YYYY-MM') === '2017-01') {
         done();
       }
     };

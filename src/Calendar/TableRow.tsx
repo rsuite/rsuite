@@ -1,14 +1,10 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { format } from 'date-fns';
-import addDays from 'date-fns/addDays';
-import isSameDay from 'date-fns/isSameDay';
-import getDate from 'date-fns/getDate';
+import { isSameDay, addDays, getDate, format } from 'date-fns';
+
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
 import IntlContext from '../IntlProvider/IntlContext';
-
-import { legacyParse, convertTokens } from '@date-fns/upgrade/v2';
 
 export interface TableRowProps {
   weekendDate?: Date;
@@ -56,20 +52,17 @@ class TableRow extends React.PureComponent<TableRowProps> {
     const days = [];
 
     for (let i = 0; i < 7; i += 1) {
-      const thisDate = addDays(legacyParse(weekendDate), i);
+      const thisDate = addDays(weekendDate, i);
       const disabled = disabledDate?.(thisDate);
-      const isToday = isSameDay(legacyParse(thisDate), legacyParse(new Date()));
+      const isToday = isSameDay(thisDate, new Date());
       const classes = classNames(this.addPrefix('cell'), {
         [this.addPrefix('cell-un-same-month')]: !(inSameMonth && inSameMonth(thisDate)),
         [this.addPrefix('cell-is-today')]: isToday,
-        [this.addPrefix('cell-selected')]: isSameDay(legacyParse(thisDate), legacyParse(selected)),
+        [this.addPrefix('cell-selected')]: isSameDay(thisDate, selected),
         [this.addPrefix('cell-disabled')]: disabled
       });
 
-      const title = format(
-        legacyParse(thisDate),
-        convertTokens(context?.formattedDayPattern || 'YYYY-MM-DD')
-      );
+      const title = format(thisDate, context?.formattedDayPattern || 'YYYY-MM-DD');
       days.push(
         <div
           key={title}
@@ -80,7 +73,7 @@ class TableRow extends React.PureComponent<TableRowProps> {
           onClick={this.handleSelect.bind(this, thisDate, disabled)}
         >
           <div className={this.addPrefix('cell-content')}>
-            <span className={this.addPrefix('cell-day')}>{getDate(legacyParse(thisDate))}</span>
+            <span className={this.addPrefix('cell-day')}>{getDate(thisDate)}</span>
             {renderCell && renderCell(thisDate)}
           </div>
         </div>
@@ -92,7 +85,7 @@ class TableRow extends React.PureComponent<TableRowProps> {
   renderWeekNumber() {
     return (
       <div className={this.addPrefix('cell-week-number')}>
-        {format(legacyParse(this.props.weekendDate), 'w')}
+        {format(this.props.weekendDate, 'W')}
       </div>
     );
   }

@@ -5,11 +5,7 @@ import List from 'react-virtualized/dist/commonjs/List';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
 import MonthDropdownItem from './MonthDropdownItem';
-import getYear from 'date-fns/getYear';
-import getMonth from 'date-fns/getMonth';
-import getDaysInMonth from 'date-fns/getDaysInMonth';
-
-import { legacyParse } from '@date-fns/upgrade/v2';
+import { getYear, getMonth, getDaysInMonth } from 'date-fns';
 
 export interface MonthDropdownProps {
   date: Date;
@@ -80,7 +76,7 @@ class MonthDropdown extends React.PureComponent<MonthDropdownProps> {
     const { disabledMonth } = this.props;
 
     if (disabledMonth) {
-      const days = getDaysInMonth(legacyParse(new Date(year, month)));
+      const days = getDaysInMonth(new Date(year, month));
 
       // If all dates in a month are disabled, disable the current month
       for (let i = 1; i <= days; i++) {
@@ -95,8 +91,8 @@ class MonthDropdown extends React.PureComponent<MonthDropdownProps> {
   }
   rowRenderer = ({ index, key, style }: RowProps) => {
     const { date, onSelect } = this.props;
-    const selectedMonth = getMonth(legacyParse(date));
-    const selectedYear = getYear(legacyParse(date));
+    const selectedMonth = getMonth(date);
+    const selectedYear = getYear(date);
     const year = index + 1;
     const isSelectedYear = year === selectedYear;
     const count = this.getRowCount();
@@ -152,7 +148,7 @@ class MonthDropdown extends React.PureComponent<MonthDropdownProps> {
                     height={height || defaultHeight}
                     rowHeight={getRowHeight(count)}
                     rowCount={count}
-                    scrollToIndex={getYear(legacyParse(date))}
+                    scrollToIndex={getYear(date)}
                     rowRenderer={this.rowRenderer}
                   />
                 )}

@@ -1,18 +1,11 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { format } from 'date-fns';
-import addDays from 'date-fns/addDays';
-import isSameDay from 'date-fns/isSameDay';
-import isBefore from 'date-fns/isBefore';
-import isAfter from 'date-fns/isAfter';
-import getDate from 'date-fns/getDate';
+import { addDays, isSameDay, isBefore, isAfter, getDate, format } from 'date-fns';
 
 import { getUnhandledProps, prefix, defaultProps } from '../../utils';
 import { TYPE } from '../utils';
 import IntlContext from '../../IntlProvider/IntlContext';
-
-import { legacyParse, convertTokens } from '@date-fns/upgrade/v2';
 
 export interface TableRowProps {
   weekendDate?: Date;
@@ -63,33 +56,33 @@ class TableRow extends React.Component<TableRowProps> {
     const hoverEndDate = hoverValue[1] || null;
 
     for (let i = 0; i < 7; i += 1) {
-      const thisDate = addDays(legacyParse(weekendDate), i);
+      const thisDate = addDays(weekendDate, i);
       const selectValue = [selectedStartDate, selectedEndDate];
       const disabled = disabledDate?.(thisDate, selectValue, TYPE.CALENDAR);
-      const isToday = isSameDay(legacyParse(thisDate), legacyParse(new Date()));
+      const isToday = isSameDay(thisDate, new Date());
       const unSameMonth = !inSameMonth?.(thisDate);
       const isStartSelected =
-        !unSameMonth && selectedStartDate && isSameDay(legacyParse(thisDate), legacyParse(selectedStartDate));
-      const isEndSelected = !unSameMonth && selectedEndDate && isSameDay(legacyParse(thisDate), legacyParse(selectedEndDate));
+        !unSameMonth && selectedStartDate && isSameDay(thisDate, selectedStartDate);
+      const isEndSelected = !unSameMonth && selectedEndDate && isSameDay(thisDate, selectedEndDate);
       const isSelected = isStartSelected || isEndSelected;
 
       let inRange = false;
       // for Selected
       if (selectedStartDate && selectedEndDate) {
-        if (isBefore(legacyParse(thisDate), legacyParse(selectedEndDate)) && isAfter(legacyParse(thisDate), legacyParse(selectedStartDate))) {
+        if (isBefore(thisDate, selectedEndDate) && isAfter(thisDate, selectedStartDate)) {
           inRange = true;
         }
-        if (isBefore(legacyParse(thisDate), legacyParse(selectedStartDate)) && isAfter(legacyParse(thisDate), legacyParse(selectedEndDate))) {
+        if (isBefore(thisDate, selectedStartDate) && isAfter(thisDate, selectedEndDate)) {
           inRange = true;
         }
       }
 
       // for Hovering
       if (!isSelected && hoverEndDate && hoverStartDate) {
-        if (!isAfter(legacyParse(thisDate), legacyParse(hoverEndDate)) && !isBefore(legacyParse(thisDate), legacyParse(hoverStartDate))) {
+        if (!isAfter(thisDate, hoverEndDate) && !isBefore(thisDate, hoverStartDate)) {
           inRange = true;
         }
-        if (!isAfter(legacyParse(thisDate), legacyParse(hoverStartDate)) && !isBefore(legacyParse(thisDate), legacyParse(hoverEndDate))) {
+        if (!isAfter(thisDate, hoverStartDate) && !isBefore(thisDate, hoverEndDate)) {
           inRange = true;
         }
       }
@@ -104,7 +97,7 @@ class TableRow extends React.Component<TableRowProps> {
         [this.addPrefix('cell-disabled')]: disabled
       });
 
-      const title = format(legacyParse(thisDate), convertTokens('YYYY-MM-DD'));
+      const title = format(thisDate, 'YYYY-MM-DD');
 
       days.push(
         <IntlContext.Consumer key={title}>
@@ -117,7 +110,7 @@ class TableRow extends React.Component<TableRowProps> {
               onMouseEnter={!disabled && onMouseMove ? onMouseMove.bind(null, thisDate) : undefined}
               onClick={!disabled ? onSelect?.bind(null, thisDate) : undefined}
             >
-              <span className={this.addPrefix('cell-content')}>{getDate(legacyParse(thisDate))}</span>
+              <span className={this.addPrefix('cell-content')}>{getDate(thisDate)}</span>
             </div>
           )}
         </IntlContext.Consumer>
@@ -129,7 +122,7 @@ class TableRow extends React.Component<TableRowProps> {
   renderWeekNumber() {
     return (
       <div className={this.addPrefix('cell-week-number')}>
-        {format(legacyParse(this.props.weekendDate), 'w')}
+        {format(this.props.weekendDate, 'W')}
       </div>
     );
   }
