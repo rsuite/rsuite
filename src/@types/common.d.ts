@@ -141,8 +141,10 @@ export declare namespace TypeAttributes {
     | 'rightEnd';
   type PlacementAuto =
     | 'auto'
+    | 'autoVertical'
     | 'autoVerticalStart'
     | 'autoVerticalEnd'
+    | 'autoHorizontal'
     | 'autoHorizontalStart'
     | 'autoHorizontalEnd';
 
