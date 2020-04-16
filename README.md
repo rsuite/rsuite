@@ -6,7 +6,7 @@
 
 English | [中文版][readm-cn]
 
-[![npm][npm-svg]][npm-home] [![Travis][travis-svg]][travis-home] [![Coverage Status][coverage-svg]][coverage-home] [![Discord][discord-svg]][discord-invite] [![Gitter][gitter-svg]][gitter]
+[![npm][npm-svg]][npm-home] [![Travis][travis-svg]][travis-home] [![Coverage Status][coverage-svg]][coverage-home] [![Discord][discord-svg]][discord-invite] [![Gitter][gitter-svg]][gitter] [![Gitter][gitter-cn-svg]][gitter-cn]
 
 React Suite is a set of react component libraries for enterprise system products. It is a well-thought-out and developer-friendly UI framework.
 
@@ -188,7 +188,9 @@ React Suite is [MIT licensed][license]. Copyright (c) 2016-present, HYPERS.
 [license]: https://github.com/rsuite/rsuite/blob/master/LICENSE
 [rsuite-sample]: https://sample.rsuitejs.com/
 [gitter]: https://gitter.im/rsuite/rsuite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
-[gitter-svg]: https://badges.gitter.im/rsuite/rsuite.svg
+[gitter-svg]: https://img.shields.io/gitter/room/rsuite/rsuite?label=chat-english
+[gitter-cn]: https://gitter.im/rsuite/rsuite-CN?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
+[gitter-cn-svg]: https://img.shields.io/gitter/room/rsuite/rsuite?label=chat-chinese
 [demo-admin]: https://github.com/rsuite/rsuite-management-system
 [demo-modular-import]: https://github.com/rsuite/rsuite/tree/master/examples/with-babel-preset-rsuite
 [demo-cdn]: https://github.com/rsuite/rsuite/tree/master/examples/cdn

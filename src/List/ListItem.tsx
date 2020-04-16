@@ -16,7 +16,8 @@ class ListItem extends React.Component<ListItemProps> {
     classPrefix: PropTypes.string,
     index: PropTypes.number,
     collection: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    manager: PropTypes.object
   };
   managerRef: ManagerRef;
   listItemRef = React.createRef<HTMLElement>();

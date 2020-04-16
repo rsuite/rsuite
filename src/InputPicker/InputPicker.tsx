@@ -130,6 +130,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     if (nextProps.data && !shallowEqual(nextProps.data, prevState.data)) {
       return {
         data: nextProps.data,
+        newData: [],
         focusItemValue: _.get(nextProps, `data.0.${nextProps.valueKey}`)
       };
     }

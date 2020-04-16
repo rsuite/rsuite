@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Icon, Whisper, Tooltip, Button } from 'rsuite';
+import { Icon, Whisper, Tooltip, Button, IconButton } from 'rsuite';
 import classNames from 'classnames';
 import { isMobile } from 'react-device-detect';
 import Logo from '../Logo';
@@ -7,7 +7,6 @@ import * as SvgIcons from '@/components/SvgIcons';
 import SearchDrawer from '../SearchDrawer';
 import AppContext from '../AppContext';
 import Link from '@/components/Link';
-import { canUseDOM } from 'dom-lib';
 import { useRouter } from 'next/router';
 
 interface ButtonWithTooltipProps {
@@ -93,28 +92,30 @@ function getNavItems(messages) {
 export default function TopLevelNav(props: TopLevelNavProps) {
   const { children, showSubmenu, hideToggle } = props;
   const router = useRouter();
-  // Resolve server render is not same with the client problem.
-  // reference https://itnext.io/tips-for-server-side-rendering-with-react-e42b1b7acd57
-  const [ssrDone, setSsrDone] = React.useState(false);
-  const [search, setSearch] = React.useState();
-  const onToggleMenu = (_event, show) => {
+  const [search, setSearch] = React.useState<boolean>();
+  const onToggleMenu = (_event, show?: boolean) => {
     props?.onToggleMenu?.(show);
   };
-  const {
-    messages,
-    theme: [themeName, direction],
-    onChangeDirection,
-    onChangeTheme
-  } = React.useContext(AppContext);
-
-  React.useEffect(() => {
-    setSsrDone(canUseDOM);
-  }, [canUseDOM]);
+  const { messages, theme } = React.useContext(AppContext);
+  const [themeName] = theme;
 
   const navItems = getNavItems(messages);
 
   return (
-    <div className="top-level-nav" key={ssrDone ? 'client' : 'server'}>
+    <div className="top-level-nav">
+      {!hideToggle && (
+        <IconButton
+          circle
+          className="btn-nav-toggle"
+          appearance="default"
+          icon={<Icon icon={showSubmenu ? 'angle-left' : 'angle-right'} />}
+          size="xs"
+          style={{ left: showSubmenu ? 310 : 70 }}
+          tip={showSubmenu ? messages?.common?.closeMenu : messages?.common?.openMenu}
+          onClick={onToggleMenu}
+        />
+      )}
+
       <Link href="/">
         <Logo width={26} height={30} className="logo-sm" />
       </Link>
@@ -149,7 +150,11 @@ export default function TopLevelNav(props: TopLevelNavProps) {
             )}
           </ButtonWithTooltip>
         ))}
-        <ButtonWithTooltip tip={messages?.common?.design} target="_blank" href="/design/default/">
+        <ButtonWithTooltip
+          tip={messages?.common?.design}
+          target="_blank"
+          href={`/design/${themeName === 'dark' ? 'dark' : 'default'}/`}
+        >
           <Icon icon={SvgIcons.Design} size="lg" />
         </ButtonWithTooltip>
         <SearchButton
@@ -161,26 +166,9 @@ export default function TopLevelNav(props: TopLevelNavProps) {
         />
       </div>
       <div className="top-level-nav-footer">
-        <ButtonWithTooltip tip="Toggle light/dark theme" onClick={onChangeTheme}>
-          <Icon icon={themeName === 'dark' ? SvgIcons.LightOff : SvgIcons.LightOn} size="lg" />
-        </ButtonWithTooltip>
-
-        <ButtonWithTooltip tip="Toggle RTL/LTR" onClick={onChangeDirection}>
-          <Icon icon={direction === 'rtl' ? SvgIcons.Rtl : SvgIcons.Ltr} size="lg" />
-        </ButtonWithTooltip>
-
         <ButtonWithTooltip tip="GitHub" href="https://github.com/rsuite/rsuite" target="_blank">
           <Icon icon="github" size="lg" />
         </ButtonWithTooltip>
-
-        {hideToggle ? null : (
-          <ButtonWithTooltip
-            tip={showSubmenu ? messages?.common?.closeMenu : messages?.common?.openMenu}
-            onClick={onToggleMenu}
-          >
-            <Icon icon={showSubmenu ? 'angle-left' : 'angle-right'} size="lg" />
-          </ButtonWithTooltip>
-        )}
       </div>
       {children}
       <SearchDrawer

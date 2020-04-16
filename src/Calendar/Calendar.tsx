@@ -7,7 +7,7 @@ import MonthDropdown from './MonthDropdown';
 import TimeDropdown from './TimeDropdown';
 import View from './View';
 import Header from './Header';
-import { getUnhandledProps, defaultProps, prefix } from '../utils';
+import { getUnhandledProps, defaultProps, prefix, refType } from '../utils';
 import { disabledTime, calendarOnlyProps } from '../utils/timeUtils';
 import { shouldTime, shouldDate, shouldMonth } from '../utils/formatUtils';
 import { addMonths } from 'date-fns';
@@ -49,7 +49,7 @@ class Calendar extends React.Component<CalendarProps> {
   static propTypes = {
     pageDate: PropTypes.instanceOf(Date),
     calendarState: PropTypes.oneOf(CalendarState),
-    calendarRef: PropTypes.func,
+    calendarRef: refType,
     format: PropTypes.string,
     isoWeek: PropTypes.bool,
     limitEndYear: PropTypes.number,

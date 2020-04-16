@@ -24,7 +24,7 @@ export const getThemeId = (themeName: ThemeType, direction: DirectionType) =>
   `theme-${themeName}-${direction}`;
 export const getThemeCssPath = (themeName: ThemeType, direction: DirectionType) =>
   `${__DEV__ ? `//${process.env.__LOCAL_IP__}:3001` : ''}/css/theme-${themeName}${
-    direction === 'rtl' ? '.rtl' : ''
+    !__DEV__ && direction === 'rtl' ? '.rtl' : ''
   }.css`;
 
 export const readThemeName = (): ThemeType => {
