@@ -5,7 +5,9 @@ import { PopoverProps } from '../Popover/Popover.d';
 
 export interface WhisperProps extends TriggerProps {
   /** display element */
-  speaker?: React.ReactElement<TooltipProps | PopoverProps>;
+  speaker?:
+    | React.ReactElement<TooltipProps | PopoverProps>
+    | ((props: any, ref: React.RefObject<any>) => React.ReactElement);
 }
 
 declare const Whisper: React.ComponentType<WhisperProps>;
