@@ -28,7 +28,7 @@ const { Column, HeaderCell, Cell, Pagination } = Table;
 | ---------------------- | ---------------------------------------------------- | ------------------------------------------------------------ |
 | affixHeader            | boolean,number                                       | 将标头固定到页面上的指定位置                                 |
 | autoHeight             | boolean                                              | 自动高度                                                     |
-| bodyRef                | React.ElementRef                                     | 表格主体部分上的 ref                                         |
+| bodyRef                | React.Ref                                            | 表格主体部分上的 ref                                         |
 | bordered               | boolean                                              | 表格边框                                                     |
 | cellBordered           | boolean                                              | 单元格边框                                                   |
 | data \*                | Array&lt;Object&gt;                                  | 表格数据                                                     |
