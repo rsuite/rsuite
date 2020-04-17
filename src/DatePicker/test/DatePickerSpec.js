@@ -218,7 +218,7 @@ describe('DatePicker', () => {
         done();
       }
     };
-    
+
     instance = getInstance(
       <DatePicker value={parse('2018-01-05')} onChange={doneOp} defaultOpen />
     );
