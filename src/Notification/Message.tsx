@@ -12,6 +12,7 @@ export interface MessageProps {
   style?: React.CSSProperties;
   type?: string;
   onClose?: () => void;
+  htmlElementRef?: React.RefObject<any>;
 }
 
 class Message extends React.Component<MessageProps> {
@@ -55,7 +56,15 @@ class Message extends React.Component<MessageProps> {
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   render() {
-    const { classPrefix, closable, className, content, style, type = '' } = this.props;
+    const {
+      classPrefix,
+      closable,
+      className,
+      content,
+      style,
+      htmlElementRef,
+      type = ''
+    } = this.props;
     const ns = this.addPrefix('item');
     const classes = classNames(ns, {
       [this.addPrefix('item-closable')]: closable,
@@ -63,7 +72,7 @@ class Message extends React.Component<MessageProps> {
     });
 
     return (
-      <div style={style} className={classNames(className, `${ns}-wrapper`)}>
+      <div style={style} className={classNames(className, `${ns}-wrapper`)} ref={htmlElementRef}>
         <div className={classes}>
           <div className={`${ns}-content`}>{content}</div>
           {closable && (

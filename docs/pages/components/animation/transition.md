@@ -12,9 +12,10 @@ enteringClassName="custom-entering"
 <!--start-code-->
 
 ```js
-const Panel = ({ ...props }) => (
+const Panel = React.forwardRef(({ ...props }, ref) => (
   <div
     {...props}
+    ref={ref}
     style={{
       background: '#000',
       width: 100,
@@ -24,7 +25,7 @@ const Panel = ({ ...props }) => (
     <p>Panel</p>
     <p>Content Content Content</p>
   </div>
-);
+));
 
 class TransitionDemo extends React.Component {
   constructor(props) {
@@ -71,7 +72,7 @@ class TransitionDemo extends React.Component {
           }}
           in={this.state.show}
         >
-          <Panel />
+          {(props, ref) => <Panel {...props} ref={ref} />}
         </Transition>
       </div>
     );

@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { shallowEqualArray } from 'rsuite-utils/lib/utils';
+import shallowEqualArray from '../utils/shallowEqualArray';
 import { polyfill } from 'react-lifecycles-compat';
 
 import DropdownMenu, { dropdownMenuPropTypes } from './DropdownMenu';

@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import _ from 'lodash';
-import { findNodeOfTree } from 'rsuite-utils/lib/utils';
+import { findNodeOfTree } from '../utils/treeUtils';
 import placementPolyfill from '../utils/placementPolyfill';
 
 interface NodeKeys {

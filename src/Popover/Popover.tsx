@@ -17,7 +17,17 @@ class Popover extends React.Component<PopoverProps> {
     full: PropTypes.bool
   };
   render() {
-    const { classPrefix, title, children, style, visible, className, full, ...rest } = this.props;
+    const {
+      classPrefix,
+      title,
+      children,
+      style,
+      visible,
+      className,
+      full,
+      htmlElementRef,
+      ...rest
+    } = this.props;
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, className, {
       [addPrefix('full')]: full
@@ -30,7 +40,7 @@ class Popover extends React.Component<PopoverProps> {
     };
 
     return (
-      <div {..._.omit(rest, overlayProps)} className={classes} style={styles}>
+      <div {..._.omit(rest, overlayProps)} className={classes} style={styles} ref={htmlElementRef}>
         <div className={addPrefix('arrow')} />
         {title ? <h3 className={addPrefix('title')}>{title}</h3> : null}
         <div className={addPrefix('content')}>{children}</div>
