@@ -9,7 +9,7 @@ import { CheckTreePickerProps } from '../CheckTreePicker/CheckTreePicker.d';
 const SEARCH_BAR_HEIGHT = 48;
 const MENU_PADDING = 12;
 // Tree Node 之间的 间隔
-const TREE_NODE_GAP = 8;
+const TREE_NODE_GAP = 4;
 
 /**
  * 判断当前节点是否应该显示
@@ -224,22 +224,25 @@ export function getDragNodeKeys(dragNode: any, childrenKey: string, valueKey: st
   return dragNodeKeys;
 }
 
-export function calDropNodePosition(event: React.MouseEvent, treeNodeElement: Element) {
+export function calDropNodePosition(event: React.DragEvent, treeNodeElement: Element) {
   const { clientY } = event;
   const { top, bottom } = treeNodeElement.getBoundingClientRect();
   const gap = TREE_NODE_GAP;
 
   // 处于节点下方
-  if (clientY >= bottom - gap) {
+  if (clientY >= bottom - gap && clientY <= bottom) {
     return TREE_NODE_DROP_POSITION.DRAG_OVER_BOTTOM;
   }
 
   // 处于节点上方
-  if (clientY < top + gap) {
+  if (clientY <= top + gap && clientY >= top) {
     return TREE_NODE_DROP_POSITION.DRAG_OVER_TOP;
   }
 
-  return TREE_NODE_DROP_POSITION.DRAG_OVER;
+  if (clientY >= top + gap && clientY <= bottom - gap) {
+    return TREE_NODE_DROP_POSITION.DRAG_OVER;
+  }
+  return -1;
 }
 
 export function removeDragNode(data: any[], params: any, { valueKey, childrenKey }) {

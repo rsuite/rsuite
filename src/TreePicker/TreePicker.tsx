@@ -123,7 +123,8 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     renderValue: PropTypes.func,
     renderTreeNode: PropTypes.func,
     renderTreeIcon: PropTypes.func,
-    renderExtraFooter: PropTypes.func
+    renderExtraFooter: PropTypes.func,
+    renderDragNode: PropTypes.func
   };
   static defaultProps = {
     locale: {
@@ -442,6 +443,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
 
   getTreeNodeProps(node: any, layer: number, index?: number) {
     const { dragOverNodeKey, selectedValue, dropNodePosition } = this.state;
+    const dragNode = this.dragNode || {};
     const {
       locale,
       valueKey,
@@ -464,11 +466,10 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       active: shallowEqual(node[valueKey], selectedValue),
       visible: node.visible,
       draggable,
+      dragging: shallowEqual(node[valueKey], dragNode[valueKey]),
       children: node[childrenKey],
       nodeData: { ...node, expand },
-      disabled:
-        disabledItemValues.filter(disabledItem => shallowEqual(disabledItem, node[valueKey]))
-          .length > 0,
+      disabled: disabledItemValues.some(disabledItem => shallowEqual(disabledItem, node[valueKey])),
       dragOver:
         shallowEqual(node[valueKey], dragOverNodeKey) &&
         dropNodePosition === TREE_NODE_DROP_POSITION.DRAG_OVER,
@@ -479,12 +480,12 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
         shallowEqual(node[valueKey], dragOverNodeKey) &&
         dropNodePosition === TREE_NODE_DROP_POSITION.DRAG_OVER_BOTTOM,
       onSelect: this.handleSelect,
-      onDragStart: this.handleNodeDragStart,
-      onDragEnter: this.handleNodeDragEnter,
-      onDragOver: this.handleNodeDragOver,
-      onDragLeave: this.handleNodeDragLeave,
-      onDragEnd: this.handleNodeDragEnd,
-      onDrop: this.handleNodeDrop,
+      onDragStart: this.handleDragStart,
+      onDragEnter: this.handleDragEnter,
+      onDragOver: this.handleDragOver,
+      onDragLeave: this.handleDragLeave,
+      onDragEnd: this.handleDragEnd,
+      onDrop: this.handleDrop,
       onTreeToggle: this.handleToggle,
       onRenderTreeNode: renderTreeNode,
       onRenderTreeIcon: renderTreeIcon
@@ -807,7 +808,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     });
   };
 
-  handleNodeDragStart = (nodeData: any, event: React.MouseEvent) => {
+  handleDragStart = (nodeData: any, event: React.DragEvent) => {
     const { valueKey, childrenKey, onDragStart } = this.props;
 
     this.setState({
@@ -819,19 +820,16 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     onDragStart?.(nodeData, event);
   };
 
-  handleNodeDragEnter = (nodeData: any, event: React.MouseEvent) => {
+  handleDragEnter = (nodeData: any, event: React.DragEvent) => {
     const { dragging, dragNodeKeys } = this.state;
     const { valueKey, onDragEnter } = this.props;
 
-    const dropNodePosition = calDropNodePosition(event, this.nodeRefs[nodeData.refKey]);
-    if (
-      dragNodeKeys.some(d => shallowEqual(d, nodeData[valueKey])) &&
-      dropNodePosition === TREE_NODE_DROP_POSITION.DRAG_OVER
-    ) {
+    if (dragNodeKeys.some(d => shallowEqual(d, nodeData[valueKey]))) {
       return;
     }
 
     if (dragging && this.dragNode) {
+      const dropNodePosition = calDropNodePosition(event, this.nodeRefs[nodeData.refKey]);
       this.setState({
         dragOverNodeKey: nodeData[valueKey],
         dropNodePosition
@@ -840,9 +838,13 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     onDragEnter?.(nodeData, event);
   };
 
-  handleNodeDragOver = (nodeData: any, event: React.MouseEvent) => {
-    const { dragOverNodeKey, dropNodePosition } = this.state;
+  handleDragOver = (nodeData: any, event: React.DragEvent) => {
+    const { dragNodeKeys, dragOverNodeKey, dropNodePosition } = this.state;
     const { valueKey, onDragOver } = this.props;
+
+    if (dragNodeKeys.some(d => shallowEqual(d, nodeData[valueKey]))) {
+      return;
+    }
 
     if (this.dragNode && shallowEqual(nodeData[valueKey], dragOverNodeKey)) {
       const lastDropNodePosition = calDropNodePosition(event, this.nodeRefs[nodeData.refKey]);
@@ -855,15 +857,12 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     onDragOver?.(nodeData, event);
   };
 
-  handleNodeDragLeave = (nodeData: any, event: React.MouseEvent) => {
+  handleDragLeave = (nodeData: any, event: React.DragEvent) => {
     const { onDragLeave } = this.props;
-    this.setState({
-      dragOverNodeKey: ''
-    });
     onDragLeave?.(nodeData, event);
   };
 
-  handleNodeDragEnd = (nodeData: any, event: React.MouseEvent) => {
+  handleDragEnd = (nodeData: any, event: React.DragEvent) => {
     const { onDragEnd } = this.props;
     this.setState({
       dragging: false,
@@ -873,7 +872,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     onDragEnd?.(nodeData, event);
   };
 
-  handleNodeDrop = (nodeData: any, event: React.MouseEvent) => {
+  handleDrop = (nodeData: any, event: React.DragEvent) => {
     const { dragNodeKeys } = this.state;
     const { valueKey, onDrop } = this.props;
     if (dragNodeKeys.some(d => shallowEqual(d, nodeData[valueKey]))) {
@@ -1040,27 +1039,52 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     const ListHeight = getVirtualLisHeight(inline, searchable, treeHeight);
 
     return (
-      <div ref={this.treeViewRef} className={classes} style={styles} onKeyDown={this.handleKeyDown}>
-        <div className={this.addTreePrefix('nodes')}>
-          {virtualized ? (
-            <AutoSizer defaultHeight={ListHeight} defaultWidth={treeWidth}>
-              {({ height, width }) => (
-                <List
-                  ref={this.listRef}
-                  width={width || treeWidth}
-                  height={height || ListHeight}
-                  rowHeight={36}
-                  rowCount={nodes.length}
-                  rowRenderer={this.measureRowRenderer(nodes)}
-                />
-              )}
-            </AutoSizer>
-          ) : (
-            nodes
-          )}
+      <React.Fragment>
+        <div
+          ref={this.treeViewRef}
+          className={classes}
+          style={styles}
+          onKeyDown={this.handleKeyDown}
+        >
+          <div className={this.addTreePrefix('nodes')}>
+            {virtualized ? (
+              <AutoSizer defaultHeight={ListHeight} defaultWidth={treeWidth}>
+                {({ height, width }) => (
+                  <List
+                    ref={this.listRef}
+                    width={width || treeWidth}
+                    height={height || ListHeight}
+                    rowHeight={38}
+                    rowCount={nodes.length}
+                    rowRenderer={this.measureRowRenderer(nodes)}
+                  />
+                )}
+              </AutoSizer>
+            ) : (
+              nodes
+            )}
+          </div>
         </div>
-      </div>
+        {this.renderDragNode()}
+      </React.Fragment>
     );
+  }
+
+  renderDragNode() {
+    const { labelKey, draggable, renderDragNode } = this.props;
+    const dragNode = this.dragNode || {};
+    if (draggable) {
+      let dragNodeContent = dragNode[labelKey];
+      if (_.isFunction(renderDragNode)) {
+        dragNodeContent = renderDragNode(dragNode);
+      }
+      return (
+        <span id="drag-node" className={this.addTreePrefix('drag-node-mover')}>
+          {dragNodeContent}
+        </span>
+      );
+    }
+    return null;
   }
 
   render() {

@@ -17,6 +17,7 @@ export interface TreeNodeProps {
   nodeData: any;
   disabled?: boolean;
   draggable?: boolean;
+  dragging?: boolean;
   dragOver?: boolean;
   dragOverTop?: boolean;
   dragOverBottom?: boolean;
@@ -29,12 +30,12 @@ export interface TreeNodeProps {
   onSelect?: (nodeData: any, event: React.SyntheticEvent<any>) => void;
   onRenderTreeIcon?: (nodeData: any) => React.ReactNode;
   onRenderTreeNode?: (nodeData: any) => React.ReactNode;
-  onDragStart?: (data: any, event: React.MouseEvent<any>) => void;
-  onDragEnter?: (data: any, event: React.MouseEvent<any>) => void;
-  onDragOver?: (data: any, event: React.MouseEvent<any>) => void;
-  onDragLeave?: (data: any, event: React.MouseEvent<any>) => void;
-  onDragEnd?: (data: any, event: React.MouseEvent<any>) => void;
-  onDrop?: (data: any, event: React.MouseEvent<any>) => void;
+  onDragStart?: (data: any, event: React.DragEvent<any>) => void;
+  onDragEnter?: (data: any, event: React.DragEvent<any>) => void;
+  onDragOver?: (data: any, event: React.DragEvent<any>) => void;
+  onDragLeave?: (data: any, event: React.DragEvent<any>) => void;
+  onDragEnd?: (data: any, event: React.DragEvent<any>) => void;
+  onDrop?: (data: any, event: React.DragEvent<any>) => void;
 }
 
 class TreeNode extends React.Component<TreeNodeProps> {
@@ -105,47 +106,42 @@ class TreeNode extends React.Component<TreeNodeProps> {
     onSelect?.(nodeData, event);
   };
 
-  handleDragStart = (event: React.MouseEvent) => {
+  handleDragStart = (event: React.DragEvent) => {
     const { nodeData, onDragStart } = this.props;
+    event.dataTransfer.setDragImage(document.getElementById('drag-node'), 0, 0);
     onDragStart?.(nodeData, event);
   };
 
-  handleDragEnter = (event: React.MouseEvent) => {
+  handleDragEnter = (event: React.DragEvent) => {
     const { nodeData, onDragEnter } = this.props;
-    event.persist();
-    event.stopPropagation();
     event.preventDefault();
+    event.stopPropagation();
     onDragEnter?.(nodeData, event);
   };
 
-  handleDragOver = (event: React.MouseEvent) => {
+  handleDragOver = (event: React.DragEvent) => {
     const { nodeData, onDragOver } = this.props;
-    event.persist();
-    event.stopPropagation();
     event.preventDefault();
+    event.stopPropagation();
     onDragOver?.(nodeData, event);
   };
 
-  handleDragLeave = (event: React.MouseEvent) => {
+  handleDragLeave = (event: React.DragEvent) => {
     const { nodeData, onDragLeave } = this.props;
-    event.persist();
     event.stopPropagation();
-    event.preventDefault();
     onDragLeave?.(nodeData, event);
   };
 
-  handleDragEnd = (event: React.MouseEvent) => {
+  handleDragEnd = (event: React.DragEvent) => {
     const { nodeData, onDragEnd } = this.props;
-    event.persist();
     event.stopPropagation();
-    event.preventDefault();
     onDragEnd?.(nodeData, event);
   };
 
-  handleDrop = (event: React.MouseEvent) => {
+  handleDrop = (event: React.DragEvent) => {
     const { nodeData, onDrop } = this.props;
-    event.stopPropagation();
     event.preventDefault();
+    event.stopPropagation();
     onDrop?.(nodeData, event);
   };
 
@@ -185,13 +181,19 @@ class TreeNode extends React.Component<TreeNodeProps> {
       onRenderTreeNode,
       label,
       layer,
+      dragging,
       dragOver,
       dragOverTop,
       dragOverBottom
     } = this.props;
     const key = nodeData ? nodeData.refKey : '';
     const classes = classNames('', {
-      [this.addPrefix('label')]: true,
+      [this.addPrefix('label')]: true
+    });
+
+    const contentClasses = classNames('', {
+      [this.addPrefix('label-content')]: true,
+      [this.addPrefix('dragging')]: dragging,
       [this.addPrefix('drag-over')]: dragOver,
       [this.addPrefix('drag-over-top')]: dragOverTop,
       [this.addPrefix('drag-over-bottom')]: dragOverBottom
@@ -206,7 +208,9 @@ class TreeNode extends React.Component<TreeNodeProps> {
         tabIndex={-1}
         onClick={this.handleSelect}
       >
-        {onRenderTreeNode ? onRenderTreeNode(nodeData) : label}
+        <span className={contentClasses}>
+          {onRenderTreeNode ? onRenderTreeNode(nodeData) : label}
+        </span>
       </span>
     );
   };

@@ -56,22 +56,24 @@ export interface TreePickerProps extends TreeBaseProps, FormControlPickerProps {
   onScroll?: (event: React.SyntheticEvent<HTMLElement>) => void;
 
   /** Called when node drag start */
-  onDragStart?: (nodeData: any, e: React.MouseEvent) => void;
+  onDragStart?: (nodeData: any, e: React.DragEvent) => void;
 
   /** Called when node drag enter */
-  onDragEnter?: (nodeData: any, e: React.MouseEvent) => void;
+  onDragEnter?: (nodeData: any, e: React.DragEvent) => void;
 
   /** Called when node drag over */
-  onDragOver?: (nodeData: any, e: React.MouseEvent) => void;
+  onDragOver?: (nodeData: any, e: React.DragEvent) => void;
 
   /** Called when node drag leave */
-  onDragLeave?: (nodeData: any, e: React.MouseEvent) => void;
+  onDragLeave?: (nodeData: any, e: React.DragEvent) => void;
 
   /** Called when node drag end */
-  onDragEnd?: (nodeData: any, e: React.MouseEvent) => void;
+  onDragEnd?: (nodeData: any, e: React.DragEvent) => void;
 
   /** Called when node drop */
-  onDrop?: (dropData: DropData, e: React.MouseEvent) => void;
+  onDrop?: (dropData: DropData, e: React.DragEvent) => void;
+
+  renderDragNode?: (dragNode: any) => React.ReactNode;
 }
 
 declare const TreePicker: React.ComponentType<TreePickerProps>;
