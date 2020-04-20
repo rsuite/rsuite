@@ -13,7 +13,7 @@ export default function Frame(props: FrameProps) {
     typeof props.submenu !== 'undefined' ? props.submenu : true
   );
   const menuStyles = {
-    width: submenu ? 260 : 0
+    width: submenu ? 260 : 20
   };
 
   function handleToggleMenu(open) {
@@ -29,7 +29,7 @@ export default function Frame(props: FrameProps) {
   };
 
   return (
-    <div>
+    <div className={submenu ? '' : 'submenu-close'}>
       <TopLevelNav showSubmenu={submenu} onToggleMenu={handleToggleMenu} />
       <SideNavbar style={menuStyles} />
       <div className="page-context" style={contextStyle}>

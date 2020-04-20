@@ -1,3 +1,42 @@
+# 4.3.4
+
+> April 10, 2020
+
+- **Bugfix**: Fixed `<DatePciker>` onlyTime icon to clock icon. ([#933])
+- **Bugfix**: Fixed an issue where the cache was not reset after the data was updated in `<InputPicker>`. ([#948])
+
+---
+
+- **Bugfix**: 修复了 `<DatePciker>` 在只显示时间时图标错误的问题。([#933])
+- **Bugfix**: 修复了 `<InputPicker>` 在更新数据后未重置缓存的问题，导致新建项重复。 ([#948])
+
+[#948]: https://github.com/rsuite/rsuite/pull/948
+[#933]: https://github.com/rsuite/rsuite/pull/933
+
+# 4.3.3
+
+> March 26, 2020
+
+- **Bugfix**: Fixed `<InputNumber>` triggering `onChange` event incorrectly when losing focus. ([#923])
+- **Bugfix**: Update broken types in `<DateRangePicker>`. ([#916])
+- **Bugfix**: `rowHeight` should be optional on `<Table>`. ([#913])
+- **Improve**: The `content` props value supports `false` on `<Badge>`. ([#915])
+- **Improve**: Support keyboard enter key selection after the search is completed on Picker. ([#914])
+
+---
+
+- **Bugfix**: 修复了 `<InputNumber>` 在失去焦点时候，值未改变的情况下也触发了 `onChange` 事件。 ([#923])
+- **Bugfix**: 修复了 `<DateRangePicker>` 中错误的 typescript 类型定义。 ([#916])
+- **Bugfix**: 修复了 `<Table>` 错误的 typescript 类型定义, `rowHeight` 应该是可选属性。 ([#913])
+- **Improve**: 更新 `<Badge>` 组件 `content` 属性的值可以设置为 `false`。 ([#915])
+- **Improve**: 改进了 `Picker` 组件在搜索后，支持键盘 `Enter` 键直接选中第一个结果。 ([#914])
+
+[#923]: https://github.com/rsuite/rsuite/pull/923
+[#916]: https://github.com/rsuite/rsuite/pull/916
+[#915]: https://github.com/rsuite/rsuite/pull/915
+[#914]: https://github.com/rsuite/rsuite/pull/914
+[#913]: https://github.com/rsuite/rsuite/pull/913
+
 # 4.3.2
 
 > March 19, 2020

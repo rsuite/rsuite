@@ -2,7 +2,9 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { reactToString, filterNodesOfTree, shallowEqual } from 'rsuite-utils/lib/utils';
+import shallowEqual from '../utils/shallowEqual';
+import reactToString from '../utils/reactToString';
+import { filterNodesOfTree } from '../utils/treeUtils';
 import {
   defaultProps,
   prefix,
@@ -179,8 +181,8 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
    * Index of keyword  in `label`
    * @param {node} label
    */
-  shouldDisplay(label: any) {
-    const { searchKeyword } = this.state;
+  shouldDisplay(label: any, word?: string) {
+    const searchKeyword = typeof word === 'undefined' ? this.state.searchKeyword : word;
     if (!_.trim(searchKeyword)) {
       return true;
     }
@@ -317,11 +319,16 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
   };
 
   handleSearch = (searchKeyword: string, event: React.SyntheticEvent<HTMLElement>) => {
+    const { onSearch, labelKey, valueKey, data } = this.props;
+    const filteredData = filterNodesOfTree(data, item =>
+      this.shouldDisplay(item[labelKey], searchKeyword)
+    );
     this.setState({
       searchKeyword,
-      focusItemValue: undefined
+      focusItemValue: filteredData?.[0]?.[valueKey]
     });
-    this.props.onSearch?.(searchKeyword, event);
+
+    onSearch?.(searchKeyword, event);
   };
 
   handleCloseDropdown = () => {

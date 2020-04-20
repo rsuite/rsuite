@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classnames from 'classnames';
 import { useRouter } from 'next/router';
-import { Sidebar, Nav, Icon } from 'rsuite';
+import { Sidebar, Nav, Icon, IconButton } from 'rsuite';
 import Link from '@/components/Link';
 import AppContext from '../AppContext';
 import getPages from '@/utils/pages';
@@ -13,13 +13,23 @@ interface SideNavbarProps {
 export default React.memo(function SideNavbar(props: SideNavbarProps) {
   const router = useRouter();
   const activeKey = router.pathname.split('/')?.[1];
+  const [mediaSidebarShow, setMediaSidebarShow] = React.useState<boolean>(false);
   const { language } = React.useContext(AppContext);
+  const showMediaToggleButton = props.style.width !== 0;
 
   const navItems = [];
   const menuList = getPages();
   const data = menuList.find(item => item.id === activeKey);
 
   const { name: activeTitle, icon, children = [] } = data;
+
+  const handleOpenMediaSidebar = React.useCallback(() => {
+    setMediaSidebarShow(true);
+  }, [setMediaSidebarShow]);
+
+  const handleCloseMediaSidebar = React.useCallback(() => {
+    setMediaSidebarShow(false);
+  }, [setMediaSidebarShow]);
 
   if (children) {
     children.forEach(child => {
@@ -58,7 +68,19 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
 
   return (
     <>
-      <div className={classnames('rs-sidebar-wrapper fixed')} {...props}>
+      {showMediaToggleButton && (
+        <IconButton
+          className="media-toggle-side-bar"
+          icon={<Icon icon="bars" />}
+          onClick={handleOpenMediaSidebar}
+        />
+      )}
+      <div
+        className={classnames('rs-sidebar-wrapper fixed', {
+          'media-sidebar-show': mediaSidebarShow
+        })}
+        {...props}
+      >
         <Sidebar>
           <div className="title-wrapper">
             {icon} {activeTitle}
@@ -68,6 +90,12 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
           </Nav>
         </Sidebar>
       </div>
+      <div
+        className={classnames('rs-sidebar-media-backdrop', {
+          'media-sidebar-show': mediaSidebarShow
+        })}
+        onClick={handleCloseMediaSidebar}
+      />
     </>
   );
 });

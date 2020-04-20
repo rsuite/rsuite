@@ -12,7 +12,7 @@ describe('Affix', () => {
       </Affix>
     );
 
-    assert.equal(instance.children[0].tagName, 'BUTTON');
+    assert.equal(instance.children[0].children[0].tagName, 'BUTTON');
   });
 
   it('Should call onChange callback', done => {
@@ -27,7 +27,10 @@ describe('Affix', () => {
           ref={affixRef}
           onChange={() => {
             const affixDOM = getDOMNode(affixRef.current);
-            if (affixDOM.className === 'rs-affix' && affixDOM.style.position === 'fixed') {
+            if (
+              affixDOM.children[0].className === 'rs-affix' &&
+              affixDOM.children[0].style.position === 'fixed'
+            ) {
               done();
             }
           }}
@@ -35,6 +38,40 @@ describe('Affix', () => {
           <button ref={buttonRef}>button</button>
         </Affix>
       </div>,
+      createTestContainer()
+    );
+    const top = getOffset(buttonRef.current).top;
+    window.scrollTo({ top });
+  });
+
+  it('Should call onChange callback when set container', done => {
+    const buttonRef = React.createRef();
+    const affixRef = React.createRef();
+    const containerRef = React.createRef();
+
+    ReactDOM.render(
+      <div style={{ height: 3000 }} ref={containerRef}>
+        <div style={{ height: 100 }}>--</div>
+        <Affix
+          top={10}
+          ref={affixRef}
+          container={() => {
+            return containerRef.current;
+          }}
+          onChange={() => {
+            const affixDOM = getDOMNode(affixRef.current);
+            if (
+              affixDOM.children[0].className === 'rs-affix' &&
+              affixDOM.children[0].style.position === 'fixed'
+            ) {
+              done();
+            }
+          }}
+        >
+          <button ref={buttonRef}>button</button>
+        </Affix>
+      </div>,
+
       createTestContainer()
     );
     const top = getOffset(buttonRef.current).top;

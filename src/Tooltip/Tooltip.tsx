@@ -25,6 +25,7 @@ class Tooltip extends React.Component<TooltipProps> {
       children,
       style,
       visible,
+      htmlElementRef,
       ...rest
     } = this.props;
 
@@ -38,7 +39,13 @@ class Tooltip extends React.Component<TooltipProps> {
     };
 
     return (
-      <div {..._.omit(rest, overlayProps)} role="tooltip" className={classes} style={styles}>
+      <div
+        {..._.omit(rest, overlayProps)}
+        role="tooltip"
+        className={classes}
+        style={styles}
+        ref={htmlElementRef}
+      >
         <div className={addPrefix('arrow')} />
         <div className={addPrefix('inner')}>{children}</div>
       </div>

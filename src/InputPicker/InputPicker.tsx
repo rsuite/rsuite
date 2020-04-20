@@ -3,13 +3,9 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { getWidth } from 'dom-lib';
-import {
-  reactToString,
-  filterNodesOfTree,
-  findNodeOfTree,
-  shallowEqual
-} from 'rsuite-utils/lib/utils';
-
+import reactToString from '../utils/reactToString';
+import shallowEqual from '../utils/shallowEqual';
+import { filterNodesOfTree, findNodeOfTree } from '../utils/treeUtils';
 import {
   defaultProps,
   prefix,
@@ -130,6 +126,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     if (nextProps.data && !shallowEqual(nextProps.data, prevState.data)) {
       return {
         data: nextProps.data,
+        newData: [],
         focusItemValue: _.get(nextProps, `data.0.${nextProps.valueKey}`)
       };
     }
@@ -474,7 +471,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     );
     const nextState = {
       searchKeyword,
-      focusItemValue: filteredData.length ? filteredData[0][valueKey] : searchKeyword
+      focusItemValue: filteredData?.[0]?.[valueKey] || searchKeyword
     };
 
     this.setState(nextState, this.updatePosition);

@@ -3,9 +3,10 @@
 <!--start-code-->
 
 ```js
-const Panel = ({ ...props }) => (
+const Panel = React.forwardRef(({ ...props }, ref) => (
   <div
     {...props}
+    ref={ref}
     style={{
       background: '#000',
       width: 100,
@@ -16,7 +17,7 @@ const Panel = ({ ...props }) => (
     <p>Panel</p>
     <p>Content Content Content</p>
   </div>
-);
+));
 
 class FadeDemo extends React.Component {
   constructor(props) {
@@ -39,22 +40,14 @@ class FadeDemo extends React.Component {
     return (
       <div className="row">
         <ButtonToolbar>
-          <Button onClick={this.handleToggle.bind(this, 'left')}>
-            Slide Left
-          </Button>
-          <Button onClick={this.handleToggle.bind(this, 'right')}>
-            Slide Right
-          </Button>
-          <Button onClick={this.handleToggle.bind(this, 'top')}>
-            Slide Top
-          </Button>
-          <Button onClick={this.handleToggle.bind(this, 'bottom')}>
-            Slide Bottom
-          </Button>
+          <Button onClick={this.handleToggle.bind(this, 'left')}>Slide Left</Button>
+          <Button onClick={this.handleToggle.bind(this, 'right')}>Slide Right</Button>
+          <Button onClick={this.handleToggle.bind(this, 'top')}>Slide Top</Button>
+          <Button onClick={this.handleToggle.bind(this, 'bottom')}>Slide Bottom</Button>
         </ButtonToolbar>
         <hr />
         <Slide in={this.state.show} placement={this.state.placement}>
-          <Panel />
+          {(props, ref) => <Panel {...props} ref={ref} />}
         </Slide>
       </div>
     );

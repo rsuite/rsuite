@@ -5,7 +5,7 @@ import { getPosition, scrollTop, getHeight } from 'dom-lib';
 import classNames from 'classnames';
 import List, { ListProps } from 'react-virtualized/dist/commonjs/List';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
-import { shallowEqual } from 'rsuite-utils/lib/utils';
+import shallowEqual from '../utils/shallowEqual';
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
 import DropdownMenuGroup from './DropdownMenuGroup';
 import { KEY_GROUP, KEY_GROUP_TITLE } from '../utils/getDataGroupBy';
