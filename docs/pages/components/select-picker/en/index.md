@@ -31,6 +31,7 @@ import { SelectPicker } from 'rsuite';
 | disabledItemValues   | string[]                                                                            | Disable optional                                       |
 | groupBy              | string                                                                              | Set grouping criteria 'key' in 'data'                  |
 | labelKey             | string `('label')`                                                                  | Set options to display the 'key' in 'data'             |
+| listProps            | [listprops]                                                                         | List-related properties in `react-virtualized`         |
 | maxHeight            | number `(320)`                                                                      | Set the max height of the Dropdown                     |
 | menuClassName        | string                                                                              | A css class to apply to the Menu DOM node.             |
 | menuStyle            | React.CSSProperties                                                                 | A style to apply to the Menu DOM node.                 |
@@ -57,3 +58,5 @@ import { SelectPicker } from 'rsuite';
 | value                | string                                                                              | Value (Controlled)                                     |
 | valueKey             | string `('value')`                                                                  | Set option value 'key' in 'data'                       |
 | virtualized          | boolean `(true)`                                                                    | Whether using Virtualized List                         |
+
+[listprops]: https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types

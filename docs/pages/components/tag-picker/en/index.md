@@ -31,6 +31,7 @@ import { TagPicker } from 'rsuite';
 | disabledItemValues   | string[]                                                              | Disable item by value                                   |
 | groupBy              | string                                                                | Set group condition key in data                         |
 | labelKey             | string `('label')`                                                    | Set label key in data                                   |
+| listProps            | [listprops]                                                           | List-related properties in `react-virtualized`          |
 | maxHeight            | number `(320)`                                                        | The max height of Dropdown                              |
 | menuClassName        | string                                                                | A css class to apply to the Menu DOM node.              |
 | menuStyle            | React.CSSProperties                                                   | A style to apply to the Menu DOM node.                  |
@@ -58,4 +59,5 @@ import { TagPicker } from 'rsuite';
 | valueKey             | string `('value')`                                                    | Set value key in data                                   |
 | virtualized          | boolean `(true)`                                                      | Whether using Virtualized List                          |
 
+[listprops]: https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
 [tagprops]: https://rsuitejs.com/en/components/tag#Props
