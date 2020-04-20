@@ -44,7 +44,7 @@ import { Popover, Whisper } from 'rsuite';
 | preventOverflow | boolean                                                          | 防止浮动元素溢出                |
 | speaker \*      | union: Tooltip, Popover                                          | 展示的元素                      |
 | trigger         | union: 'click', 'hover', 'focus', 'active' `(['hover','focus'])` | 触发事件,可以通过数组配置多事件 |
-| triggerRef      | React.ElementRef                                                 | trigger 的 ref                  |
+| triggerRef      | React.Ref                                                        | trigger 的 ref                  |
 
 ## 相关组件
 
