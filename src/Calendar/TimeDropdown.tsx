@@ -81,7 +81,7 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
     }
 
     if (/(H|h)/.test(format)) {
-      nextTime.hours = getHours(time);
+      const hours = getHours(time);
       nextTime.hours = showMeridian ? getMeridianHours(hours) : hours;
     }
     if (/m/.test(format)) {
