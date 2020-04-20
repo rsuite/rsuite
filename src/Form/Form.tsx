@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { SchemaModel } from 'schema-typed';
 import classNames from 'classnames';
-import { shallowEqual } from 'rsuite-utils/lib/utils';
+import shallowEqual from '../utils/shallowEqual';
 
 import { getUnhandledProps, prefix } from '../utils';
 import { defaultClassPrefix } from '../utils/prefix';

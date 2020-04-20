@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { reactToString, findNodeOfTree } from 'rsuite-utils/lib/utils';
+import { findNodeOfTree } from '../utils/treeUtils';
 import placementPolyfill from '../utils/placementPolyfill';
 
 interface NodeKeys {

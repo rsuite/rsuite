@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { shallowEqual } from 'rsuite-utils/lib/utils';
+import shallowEqual from '../utils/shallowEqual';
 import { CheckTreePickerProps } from './CheckTreePicker.d';
 
 interface Props {

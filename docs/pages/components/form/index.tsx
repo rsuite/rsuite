@@ -73,7 +73,7 @@ const JSONView = ({ formValue, formError }: any) => (
 );
 export default function Page() {
   const { response: data } = useFetchData('province-simplified');
-  const { response: pickerData } = useFetchData('users');
+  const { response: pickerData } = useFetchData('users-role');
   return (
     <DefaultPage
       examples={[

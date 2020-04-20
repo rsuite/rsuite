@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { getWidth } from 'dom-lib';
-import { filterNodesOfTree, findNodeOfTree, shallowEqual } from 'rsuite-utils/lib/utils';
-
+import reactToString from '../utils/reactToString';
+import shallowEqual from '../utils/shallowEqual';
+import { filterNodesOfTree, findNodeOfTree } from '../utils/treeUtils';
 import {
   defaultProps,
   prefix,
@@ -96,7 +97,8 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     onExiting: PropTypes.func,
     onExited: PropTypes.func,
     virtualized: PropTypes.bool,
-    searchBy: PropTypes.func
+    searchBy: PropTypes.func,
+    tagProps: PropTypes.object
   };
   static defaultProps = {
     data: [],
@@ -128,6 +130,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     if (nextProps.data && !shallowEqual(nextProps.data, prevState.data)) {
       return {
         data: nextProps.data,
+        newData: [],
         focusItemValue: _.get(nextProps, `data.0.${nextProps.valueKey}`)
       };
     }
@@ -659,24 +662,28 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   }
 
   renderMultiValue() {
-    const { multi, disabled } = this.props;
+    const { multi, disabled, tagProps = {} } = this.props;
     if (!multi) {
       return null;
     }
 
+    const { closable = true, onClose, ...tagRest } = tagProps;
     const tags = this.getValue() || [];
+
     return tags
       .map(tag => {
         const { isValid, displayElement } = this.getLabelByValue(tag);
         if (!isValid) {
           return null;
         }
+
         return (
           <Tag
+            {...tagRest}
             key={tag}
-            closable={!disabled}
+            closable={!disabled && closable}
             title={typeof displayElement === 'string' ? displayElement : undefined}
-            onClose={this.handleRemoveItemByTag.bind(this, tag)}
+            onClose={createChainedFunction(this.handleRemoveItemByTag.bind(this, tag), onClose)}
           >
             {displayElement}
           </Tag>

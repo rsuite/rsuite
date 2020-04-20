@@ -4,8 +4,8 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import setStatic from 'recompose/setStatic';
 import bindElementResize, { unbind as unbindElementResize } from 'element-resize-event';
-import BaseModal from 'rsuite-utils/lib/Overlay/Modal';
-import Bounce from 'rsuite-utils/lib/Animation/Bounce';
+import BaseModal from './BaseModal';
+import Bounce from '../Animation/Bounce';
 import { on, getHeight } from 'dom-lib';
 import { prefix, defaultProps, createChainedFunction } from '../utils';
 import ModalDialog, { modalDialogPropTypes } from './ModalDialog';
@@ -16,6 +16,7 @@ import ModalFooter from './ModalFooter';
 import { ModalProps } from './Modal.d';
 import { SIZE } from '../constants';
 import ModalContext from './ModalContext';
+import mergeRefs from '../utils/mergeRefs';
 
 const BACKDROP_TRANSITION_DURATION = 150;
 
@@ -74,8 +75,11 @@ class Modal extends React.Component<ModalProps, ModalState> {
     dialogComponentClass: ModalDialog,
     overflow: true
   };
-  dialogRef: React.RefObject<any>;
-  modalRef: React.RefObject<unknown>;
+
+  dialogElement: HTMLDivElement;
+
+  // for test
+  modalRef: React.Ref<any>;
 
   constructor(props) {
     super(props);
@@ -83,7 +87,6 @@ class Modal extends React.Component<ModalProps, ModalState> {
       bodyStyles: {}
     };
 
-    this.dialogRef = React.createRef();
     this.modalRef = React.createRef();
   }
 
@@ -93,7 +96,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
 
   getBodyStylesByDialog(dialogElement?: HTMLElement) {
     const { overflow, drawer } = this.props;
-    const node: any = dialogElement || this.dialogRef.current;
+    const node = dialogElement || this.dialogElement;
     const scrollHeight = node ? node.scrollHeight : 0;
 
     if (!overflow) {
@@ -139,9 +142,12 @@ class Modal extends React.Component<ModalProps, ModalState> {
   getBodyStyles = () => {
     return this.state.bodyStyles;
   };
+  bindDialogRef = ref => {
+    this.dialogElement = ref;
+  };
 
   handleShow = () => {
-    const dialogElement = this.dialogRef.current;
+    const dialogElement = this.dialogElement;
 
     this.updateModalStyles(dialogElement);
     this.contentElement = dialogElement.querySelector(`.${this.addPrefix('content')}`);
@@ -162,7 +168,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
   };
 
   handleResize = () => {
-    this.updateModalStyles(this.dialogRef.current);
+    this.updateModalStyles(this.dialogElement);
   };
 
   destroyEvent() {
@@ -203,25 +209,10 @@ class Modal extends React.Component<ModalProps, ModalState> {
 
     const inClass = { in: show && !animation };
     const Dialog: React.ElementType = dialogComponentClass;
-    const parentProps = _.pick(rest, _.get(BaseModal, 'handledProps'));
 
     const classes = classNames(this.addPrefix(size), className, {
       [this.addPrefix('full')]: full
     });
-
-    const modal = (
-      <Dialog
-        {..._.pick(rest, Object.keys(modalDialogPropTypes))}
-        classPrefix={classPrefix}
-        className={classes}
-        dialogClassName={dialogClassName}
-        dialogStyle={dialogStyle}
-        onClick={rest.backdrop === true ? this.handleDialogClick : null}
-        dialogRef={this.dialogRef}
-      >
-        {children}
-      </Dialog>
-    );
 
     return (
       <ModalContext.Provider
@@ -231,6 +222,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
         }}
       >
         <BaseModal
+          {...rest}
           ref={this.modalRef}
           show={show}
           onHide={onHide}
@@ -245,9 +237,24 @@ class Modal extends React.Component<ModalProps, ModalState> {
           animationProps={animationProps}
           dialogTransitionTimeout={animationTimeout}
           backdropTransitionTimeout={BACKDROP_TRANSITION_DURATION}
-          {...parentProps}
         >
-          {modal}
+          {(transitionProps, ref) => {
+            const { className: transitionClassName, ...transitionRest } = transitionProps;
+            return (
+              <Dialog
+                {...transitionRest}
+                {..._.pick(rest, Object.keys(modalDialogPropTypes))}
+                classPrefix={classPrefix}
+                className={classNames(classes, transitionClassName)}
+                dialogClassName={dialogClassName}
+                dialogStyle={dialogStyle}
+                onClick={rest.backdrop === true ? this.handleDialogClick : null}
+                dialogRef={mergeRefs(this.bindDialogRef, ref)}
+              >
+                {children}
+              </Dialog>
+            );
+          }}
         </BaseModal>
       </ModalContext.Provider>
     );

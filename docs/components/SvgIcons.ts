@@ -13,3 +13,7 @@ export const { default: LightOff } = require('@/resources/images/light-off.svg')
 export const { default: Rtl } = require('@/resources/images/rtl.svg');
 export const { default: Ltr } = require('@/resources/images/ltr.svg');
 export const { default: Avatar } = require('@/resources/images/avatar-user.svg');
+export const { default: Light } = require('@/resources/images/light.svg');
+export const { default: Dark } = require('@/resources/images/dark.svg');
+export const { default: More } = require('@/resources/images/more.svg');
+export const { default: Language } = require('@/resources/images/language.svg');

@@ -1,5 +1,7 @@
 import _ from 'lodash';
-import { shallowEqual, shallowEqualArray } from 'rsuite-utils/lib/utils';
+import reactToString from '../utils/reactToString';
+import shallowEqual from '../utils/shallowEqual';
+import shallowEqualArray from '../utils/shallowEqualArray';
 import { Node } from '../CheckTreePicker/utils';
 import { TreePickerProps } from '../TreePicker/TreePicker.d';
 import { CheckTreePickerProps } from '../CheckTreePicker/CheckTreePicker.d';
@@ -169,4 +171,51 @@ export function getExpandState(node: any, props: CheckTreePickerProps | TreePick
     return false;
   }
   return false;
+}
+
+export function findNodeOfTree(data, check) {
+  const findNode = (nodes = []) => {
+    for (let i = 0; i < nodes.length; i += 1) {
+      const item = nodes[i];
+      if (_.isArray(item.children)) {
+        const node = findNode(item.children);
+        if (node) {
+          return node;
+        }
+      }
+
+      if (check(item)) {
+        return item;
+      }
+    }
+
+    return undefined;
+  };
+
+  return findNode(data);
+}
+
+export function filterNodesOfTree(data, check) {
+  const findNodes = (nodes = []) => {
+    const nextNodes = [];
+    for (let i = 0; i < nodes.length; i += 1) {
+      if (_.isArray(nodes[i].children)) {
+        const nextChildren = findNodes(nodes[i].children);
+        if (nextChildren.length) {
+          const item = _.clone(nodes[i]);
+          item.children = nextChildren;
+          nextNodes.push(item);
+          continue;
+        }
+      }
+
+      if (check(nodes[i])) {
+        nextNodes.push(nodes[i]);
+      }
+    }
+
+    return nextNodes;
+  };
+
+  return findNodes(data);
 }
