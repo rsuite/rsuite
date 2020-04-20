@@ -31,12 +31,12 @@ import { TagPicker } from 'rsuite';
 | disabledItemValues   | string[]                                                              | 禁用选项                              |
 | groupBy              | string                                                                | 设置分组条件在 `data` 中的 `key`      |
 | labelKey             | string `('label')`                                                    | 设置选项显示内容在 `data` 中的 `key`  |
+| maxHeight            | number `(320)`                                                        | 设置 Dropdown 的最大高度              |
 | menuClassName        | string                                                                | 应用于菜单 DOM 节点的 css class       |
 | menuStyle            | React.CSSProperties                                                   | 应用于菜单 DOM 节点的 style           |
-| maxHeight            | number `(320)`                                                        | 设置 Dropdown 的最大高度              |
 | onChange             | (value:string, event)=>void                                           | `value` 发生改变时的回调函数          |
-| onClose              | ()=>void                                                              | 关闭回调函数                          |
 | onClean              | (event:SyntheticEvent)=>void                                          | 值清理时触发回调                      |
+| onClose              | ()=>void                                                              | 关闭回调函数                          |
 | onGroupTitleClick    | (event)=>void                                                         | 点击分组标题的回调函数                |
 | onOpen               | ()=>void                                                              | 打开回调函数                          |
 | onSearch             | (searchKeyword:string, event)=>void                                   | 搜索的回调函数                        |
@@ -49,9 +49,12 @@ import { TagPicker } from 'rsuite';
 | renderMenuItem       | (label:React.Node, item: [DataItemType](#types))=>React.Node          | 自定义选项                            |
 | renderValue          | (value: any[], items: any[],selectedElement:React.Node) => React.Node | 自定义被选中的选项                    |
 | searchable           | boolean `(true)`                                                      | 可以搜索                              |
-| sort                 | (isGroup: boolean) => (a: any, b: any) => number                      | 对选项排序                            |
 | size                 | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                 | 设置组件尺寸                          |
+| sort                 | (isGroup: boolean) => (a: any, b: any) => number                      | 对选项排序                            |
+| tagProps             | [tagprops]                                                            | 设置 Tag 的属性                       |
 | toggleComponentClass | React.ElementType `('a')`                                             | 为组件自定义元素类型                  |
 | value                | string[]                                                              | 设置值 `受控`                         |
 | valueKey             | string `('value')`                                                    | 设置选项值在 `data` 中的 `key`        |
 | virtualized          | boolean `(true)`                                                      | 是否开启虚拟列表                      |
+
+[tagprops]: https://rsuitejs.com/components/tag#Props

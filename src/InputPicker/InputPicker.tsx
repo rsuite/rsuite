@@ -3,13 +3,9 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { getWidth } from 'dom-lib';
-import {
-  reactToString,
-  filterNodesOfTree,
-  findNodeOfTree,
-  shallowEqual
-} from 'rsuite-utils/lib/utils';
-
+import reactToString from '../utils/reactToString';
+import shallowEqual from '../utils/shallowEqual';
+import { filterNodesOfTree, findNodeOfTree } from '../utils/treeUtils';
 import {
   defaultProps,
   prefix,
@@ -98,7 +94,8 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     onExit: PropTypes.func,
     onExiting: PropTypes.func,
     onExited: PropTypes.func,
-    virtualized: PropTypes.bool
+    virtualized: PropTypes.bool,
+    tagProps: PropTypes.object
   };
   static defaultProps = {
     data: [],
@@ -676,24 +673,28 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   }
 
   renderMultiValue() {
-    const { multi, disabled } = this.props;
+    const { multi, disabled, tagProps = {} } = this.props;
     if (!multi) {
       return null;
     }
 
+    const { closable = true, onClose, ...tagRest } = tagProps;
     const tags = this.getValue() || [];
+
     return tags
       .map(tag => {
         const { isValid, displayElement } = this.getLabelByValue(tag);
         if (!isValid) {
           return null;
         }
+
         return (
           <Tag
+            {...tagRest}
             key={tag}
-            closable={!disabled}
+            closable={!disabled && closable}
             title={typeof displayElement === 'string' ? displayElement : undefined}
-            onClose={this.handleRemoveItemByTag.bind(this, tag)}
+            onClose={createChainedFunction(this.handleRemoveItemByTag.bind(this, tag), onClose)}
           >
             {displayElement}
           </Tag>

@@ -9,7 +9,7 @@ export interface ModalDialogProps extends StandardProps {
   dialogClassName?: string;
   dialogStyle?: React.CSSProperties;
 
-  dialogRef?: React.Ref<any>;
+  dialogRef?: (instance: HTMLDivElement) => void;
 }
 
 declare const ModalDialog: React.ComponentType<ModalDialogProps>;

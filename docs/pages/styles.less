@@ -19,20 +19,24 @@
 .page-home {
   position: relative;
 
-  @media (max-width: @media-xs) {
-    padding-top: @top-level-nav-height;
-
-    .btn-switch-language-wrapper {
-      display: block;
-      text-align: right;
-      margin-top: 10px;
-      margin-bottom: 20px;
-    }
-  }
-
   @media (min-width: @media-xs) {
     &.rs-grid-container {
       padding-left: 64px;
+    }
+  }
+  @media (max-width: @media-xs) {
+    .footerbar {
+      display: none;
+    }
+    .banner {
+      margin-top: 100px;
+    }
+    .home-page-badge-wrap a {
+      display: block;
+      line-height: 36px;
+    }
+    .primary-toolbar {
+      margin-bottom: 20px;
     }
   }
 
