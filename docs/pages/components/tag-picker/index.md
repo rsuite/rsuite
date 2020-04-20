@@ -48,6 +48,7 @@ import { TagPicker } from 'rsuite';
 | renderMenuGroup      | (groupTitle:React.Node, item:[DataItemType](#types))=>React.Node      | 自定义选项组                          |
 | renderMenuItem       | (label:React.Node, item: [DataItemType](#types))=>React.Node          | 自定义选项                            |
 | renderValue          | (value: any[], items: any[],selectedElement:React.Node) => React.Node | 自定义被选中的选项                    |
+| searchBy             | (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean | 自定义搜索规则                        |
 | searchable           | boolean `(true)`                                                      | 可以搜索                              |
 | size                 | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                 | 设置组件尺寸                          |
 | sort                 | (isGroup: boolean) => (a: any, b: any) => number                      | 对选项排序                            |

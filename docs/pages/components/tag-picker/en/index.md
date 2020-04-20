@@ -48,6 +48,7 @@ import { TagPicker } from 'rsuite';
 | renderMenuGroup      | (groupTitle:React.Node, item:[DataItemType](#types))=>React.Node      | Custom render menu group                                |
 | renderMenuItem       | (label:React.Node, item: [DataItemType](#types))=>React.Node          | Custom render menu items                                |
 | renderValue          | (value: any[], items: any[],selectedElement:React.Node) => React.Node | Custom render selected items                            |
+| searchBy             | (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean | Custom search rules                                     |
 | searchable           | boolean `(true)`                                                      | Whether dispaly search input box                        |
 | size                 | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                 | A picker can have different sizes                       |
 | sort                 | (isGroup: boolean) => (a: any, b: any) => number                      | Sort options                                            |
