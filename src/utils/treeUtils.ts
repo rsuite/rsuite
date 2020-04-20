@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import reactToString from '../utils/reactToString';
 import shallowEqual from '../utils/shallowEqual';
 import shallowEqualArray from '../utils/shallowEqualArray';
 import { Node } from '../CheckTreePicker/utils';

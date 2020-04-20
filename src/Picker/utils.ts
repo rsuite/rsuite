@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import { findNodeOfTree } from '../utils/treeUtils';
 import placementPolyfill from '../utils/placementPolyfill';
+import reactToString from '../utils/reactToString';
 
 interface NodeKeys {
   valueKey: string;

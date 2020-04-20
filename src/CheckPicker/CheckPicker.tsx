@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import shallowEqual from '../utils/shallowEqual';
-import reactToString from '../utils/reactToString';
 import { filterNodesOfTree } from '../utils/treeUtils';
 import {
   defaultProps,
