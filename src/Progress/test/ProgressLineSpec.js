@@ -56,4 +56,9 @@ describe('Progress - Line', () => {
     const instance = getDOMNode(<ProgressLine classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
+
+  it('Should be vertical', () => {
+    const instance = getDOMNode(<ProgressLine vertical />);
+    assert.ok(instance.className.match(/\brs-progress-line-vertical\b/));
+  });
 });

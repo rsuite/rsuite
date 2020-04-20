@@ -1,4 +1,4 @@
-### 与 Popover 组合使用
+### 与 Dropdown 组合使用
 
 <!--start-code-->
 
@@ -17,7 +17,7 @@ const MenuPopover = ({ onSelect, ...rest }) => (
   </Popover>
 );
 
-const WithPopover = () => {
+const WithDropdown = () => {
   const triggerRef = React.createRef();
   function handleSelectMenu(eventKey, event) {
     console.log(eventKey);
@@ -35,7 +35,7 @@ const WithPopover = () => {
   );
 };
 
-ReactDOM.render(<WithPopover />);
+ReactDOM.render(<WithDropdown />);
 ```
 
 <!--end-code-->

@@ -2,8 +2,8 @@
 
 常用的单选框。 如果选项只有两个的情况下，也可以使用 Toggle 组件。
 
-* `<Radio>`
-* `<RadioGroup>`
+- `<Radio>`
+- `<RadioGroup>`
 
 ## 获取组件
 
@@ -25,7 +25,7 @@ import { Radio, RadioGroup } from 'rsuite';
 | defaultChecked | boolean                                                          | 默认被选中                             |
 | disabled       | boolean                                                          | 禁用                                   |
 | inline         | boolean                                                          | 内联布局                               |
-| inputRef       | React.ElementRef                                                 | 对应 input 元素的 ref                  |
+| inputRef       | React.Ref                                                        | 对应 input 元素的 ref                  |
 | name           | string                                                           | 用于表单对应的名称                     |
 | onChange       | (value: any, checked: boolean, event: SyntheticInputEvent)=>void | checked 状态发生改变的回调函数         |
 | title          | string                                                           | HTML title                             |

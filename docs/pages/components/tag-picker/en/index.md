@@ -52,9 +52,11 @@ import { TagPicker } from 'rsuite';
 | searchable           | boolean `(true)`                                                      | Whether dispaly search input box                        |
 | size                 | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                 | A picker can have different sizes                       |
 | sort                 | (isGroup: boolean) => (a: any, b: any) => number                      | Sort options                                            |
+| tagProps             | [tagprops]                                                            | Set the props of the Tag                                |
 | toggleComponentClass | React.ElementType `('a')`                                             | You can use a custom element for this component         |
 | value                | any                                                                   | Specifies the values of the selected items (Controlled) |
 | valueKey             | string `('value')`                                                    | Set value key in data                                   |
 | virtualized          | boolean `(true)`                                                      | Whether using Virtualized List                          |
 
 [listprops]: https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
+[tagprops]: https://rsuitejs.com/en/components/tag#Props

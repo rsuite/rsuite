@@ -19,14 +19,15 @@ import { Progress } from 'rsuite';
 
 ### `<Progress.Line>`
 
-| Property    | Type `(Default)`                  | Description                           |
-| ----------- | --------------------------------- | ------------------------------------- |
-| classPrefix | string `('progress')`             | The prefix of the component CSS class |
-| percent     | number `(0)`                      | Percent of progress                   |
-| showInfo    | boolean `(true)`                  | Show text                             |
-| status      | enum: 'success', 'fail', 'active' | Progress status                       |
-| strokeColor | string                            | Line Color                            |
-| strokeWidth | number                            | Line width                            |
+| Property    | Type `(Default)`                  | Description                              |
+| ----------- | --------------------------------- | ---------------------------------------- |
+| classPrefix | string `('progress')`             | The prefix of the component CSS class    |
+| percent     | number `(0)`                      | Percent of progress                      |
+| showInfo    | boolean `(true)`                  | Show text                                |
+| status      | enum: 'success', 'fail', 'active' | Progress status                          |
+| strokeColor | string                            | Line Color                               |
+| strokeWidth | number                            | Line width                               |
+| vertical    | boolean                           | The progress bar is displayed vertically |
 
 ### `<Progress.Circle>`
 
