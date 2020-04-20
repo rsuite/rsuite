@@ -22,6 +22,9 @@ export interface ProgressLineProps extends StandardProps {
 
   /** Progress status */
   status?: 'success' | 'fail' | 'active';
+
+  /**  The progress bar is displayed vertically */
+  vertical?: boolean;
 }
 
 declare const ProgressLine: React.ComponentType<ProgressLineProps>;
