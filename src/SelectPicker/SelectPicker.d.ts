@@ -49,6 +49,9 @@ export interface SelectProps<ValueType = any> {
    * https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
    */
   listProps?: ListProps;
+
+  /** Custom search rules. */
+  searchBy?: (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean;
 }
 
 export interface SelectPickerProps extends FormControlPickerProps<any>, SelectProps<any> {}

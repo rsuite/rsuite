@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { findDOMNode } from 'react-dom';
 import { globalKey, getDOMNode, getInstance } from '@test/testUtils';
 
 import Dropdown from '../CheckPicker';
@@ -75,7 +74,7 @@ describe('CheckPicker', () => {
   it('Should active item by `value`', () => {
     const value = ['Louisa'];
     const instance = getInstance(<Dropdown defaultOpen data={data} value={value} />);
-    const menu = findDOMNode(instance.menuContainerRef.current);
+    const menu = getDOMNode(instance.menuContainerRef.current);
 
     assert.equal(getDOMNode(instance).querySelector(valueClassName).innerText, 'Louisa');
     assert.equal(menu.querySelector(itemActiveClassName).innerText, value);
@@ -85,7 +84,7 @@ describe('CheckPicker', () => {
     const value = ['Louisa'];
     const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={value} />);
 
-    const menu = findDOMNode(instance.menuContainerRef.current);
+    const menu = getDOMNode(instance.menuContainerRef.current);
 
     assert.equal(getDOMNode(instance).querySelector(valueClassName).innerText, 'Louisa');
     assert.equal(menu.querySelector(itemActiveClassName).innerText, value);
@@ -93,7 +92,7 @@ describe('CheckPicker', () => {
 
   it('Should render a group', () => {
     const instance = getInstance(<Dropdown defaultOpen groupBy="role" data={data} />);
-    const menu = findDOMNode(instance.menuContainerRef.current);
+    const menu = getDOMNode(instance.menuContainerRef.current);
     assert.ok(menu.querySelector(groupClassName));
   });
 
@@ -141,7 +140,7 @@ describe('CheckPicker', () => {
     const instance = getInstance(
       <Dropdown defaultOpen onChange={doneOp} data={[{ label: '1', value: '1' }]} />
     );
-    const menu = findDOMNode(instance.menuContainerRef.current);
+    const menu = getDOMNode(instance.menuContainerRef.current);
 
     ReactTestUtils.Simulate.change(menu.querySelectorAll('input')[0]);
   });
@@ -180,7 +179,7 @@ describe('CheckPicker', () => {
 
   it('Should focus item by keyCode=40 ', done => {
     const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={['Eugenia']} />);
-    const menu = findDOMNode(instance.menuContainerRef.current);
+    const menu = getDOMNode(instance.menuContainerRef.current);
     const toggle = instance.getToggleInstance().toggleRef.current;
     ReactTestUtils.Simulate.keyDown(toggle, { keyCode: 40 });
 
@@ -192,7 +191,7 @@ describe('CheckPicker', () => {
   it('Should focus item by keyCode=38 ', done => {
     const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={['Kariane']} />);
 
-    const menuDOM = findDOMNode(instance.menuContainerRef.current);
+    const menuDOM = getDOMNode(instance.menuContainerRef.current);
     ReactTestUtils.Simulate.keyDown(instance.getToggleInstance().toggleRef.current, {
       keyCode: 38
     });
@@ -252,7 +251,7 @@ describe('CheckPicker', () => {
       <Dropdown className="custom" defaultOpen data={[{ label: '', value: '1' }]} />
     );
     assert.include(getDOMNode(instance).className, 'custom');
-    expect(findDOMNode(instance.menuContainerRef.current).className).to.not.include('custom');
+    expect(getDOMNode(instance.menuContainerRef.current).className).to.not.include('custom');
   });
 
   it('Should have a custom style', () => {
@@ -265,7 +264,7 @@ describe('CheckPicker', () => {
     const instance = getInstance(
       <Dropdown placeholder="test" data={[{ label: '', value: '1' }]} value={['1']} defaultOpen />
     );
-    const menu = findDOMNode(instance.menuContainerRef.current).querySelector(
+    const menu = getDOMNode(instance.menuContainerRef.current).querySelector(
       '.rs-checkbox-checked'
     );
 
@@ -307,5 +306,14 @@ describe('CheckPicker', () => {
   it('Should render a button by toggleComponentClass={Button}', () => {
     const instance = getInstance(<Dropdown open data={data} toggleComponentClass={Button} />);
     ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-btn');
+  });
+
+  it('Should render the specified menu content by `searchBy`', () => {
+    const instance = getInstance(
+      <Dropdown defaultOpen data={data} searchBy={(a, b, c) => c.value === 'Louisa'} />
+    );
+    const list = getDOMNode(instance.menuContainerRef.current).querySelectorAll('.rs-check-item');
+    assert.equal(list.length, 1);
+    assert.ok(list[0].innerText, 'Louisa');
   });
 });

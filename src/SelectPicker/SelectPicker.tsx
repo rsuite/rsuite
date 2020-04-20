@@ -20,7 +20,8 @@ import {
   getToggleWrapperClassName,
   onMenuKeyDown,
   MenuWrapper,
-  SearchBar
+  SearchBar,
+  shouldDisplay
 } from '../Picker';
 import DropdownMenu, { dropdownMenuPropTypes } from '../Picker/DropdownMenu';
 import { SelectPickerProps } from './SelectPicker.d';
@@ -91,7 +92,8 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
      * Prevent floating element overflow
      */
     preventOverflow: PropTypes.bool,
-    virtualized: PropTypes.bool
+    virtualized: PropTypes.bool,
+    searchBy: PropTypes.func
   };
   static defaultProps = {
     appearance: 'default',
@@ -143,14 +145,13 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
   }
 
   getFocusableMenuItems = () => {
-    const { labelKey } = this.props;
     const { menuItems } = this.menuContainerRef.current;
     if (!menuItems) {
       return [];
     }
 
     const items = Object.values(menuItems).map((item: any) => item.props.getItemData());
-    return filterNodesOfTree(items, item => this.shouldDisplay(item[labelKey]));
+    return filterNodesOfTree(items, item => this.shouldDisplay(item));
   };
 
   getValue() {
@@ -170,27 +171,16 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
    * Index of keyword  in `label`
    * @param {node} label
    */
-  shouldDisplay(label: any, word?: string) {
+  shouldDisplay(item: ItemDataType, word?: string) {
+    const { searchBy, labelKey } = this.props;
+    const label = item?.[labelKey];
     const searchKeyword = typeof word === 'undefined' ? this.state.searchKeyword : word;
-    if (!_.trim(searchKeyword)) {
-      return true;
+
+    if (typeof searchBy === 'function') {
+      return searchBy(searchKeyword, label, item);
     }
 
-    const keyword = searchKeyword.toLocaleLowerCase();
-
-    if (typeof label === 'string' || typeof label === 'number') {
-      return `${label}`.toLocaleLowerCase().indexOf(keyword) >= 0;
-    } else if (React.isValidElement(label)) {
-      const nodes = reactToString(label);
-      return (
-        nodes
-          .join('')
-          .toLocaleLowerCase()
-          .indexOf(keyword) >= 0
-      );
-    }
-
-    return false;
+    return shouldDisplay(label, searchKeyword);
   }
 
   findNode(focus: Function) {
@@ -284,14 +274,9 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
   };
 
   handleSearch = (searchKeyword: string, event: React.SyntheticEvent<any>) => {
-    const { onSearch, labelKey, valueKey, data } = this.props;
-    const filteredData = filterNodesOfTree(data, item =>
-      this.shouldDisplay(item[labelKey], searchKeyword)
-    );
-    this.setState({
-      searchKeyword,
-      focusItemValue: filteredData?.[0]?.[valueKey]
-    });
+    const { onSearch, valueKey, data } = this.props;
+    const filteredData = filterNodesOfTree(data, item => this.shouldDisplay(item, searchKeyword));
+    this.setState({ searchKeyword, focusItemValue: filteredData?.[0]?.[valueKey] });
     onSearch?.(searchKeyword, event);
   };
 
@@ -366,7 +351,6 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
   renderDropdownMenu() {
     const {
       data,
-      labelKey,
       groupBy,
       searchable,
       locale,
@@ -382,7 +366,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
     const { focusItemValue } = this.state;
     const classes = classNames(this.addPrefix('select-menu'), menuClassName);
 
-    let filteredData = filterNodesOfTree(data, item => this.shouldDisplay(item[labelKey]));
+    let filteredData = filterNodesOfTree(data, item => this.shouldDisplay(item));
 
     // Create a tree structure data when set `groupBy`
     if (groupBy) {

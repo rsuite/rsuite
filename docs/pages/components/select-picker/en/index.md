@@ -50,6 +50,7 @@ import { SelectPicker } from 'rsuite';
 | renderMenuGroup      | (groupTitle:React.Node, item:[DataItemType](#types))=>React.Node                    | Custom Render Options Group                            |
 | renderMenuItem       | (label:React.Node, item:[DataItemType](#types))=>React.Node                         | Custom Render Options                                  |
 | renderValue          | (value:string, item: [DataItemType](#types),selectedElement:React.Node)=>React.Node | Custom Render selected options                         |
+| searchBy             | (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean            | Custom search rules                                    |
 | searchable           | boolean `(true)`                                                                    | Whether you can search for options.                    |
 | size                 | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                               | A picker can have different sizes                      |
 | sort                 | (isGroup: boolean) => (a: any, b: any) => number                                    | Sort options                                           |

@@ -27,7 +27,8 @@ import {
   SearchBar,
   SelectedElement,
   PickerToggleTrigger,
-  createConcatChildrenFunction
+  createConcatChildrenFunction,
+  shouldDisplay
 } from '../Picker';
 
 import {
@@ -45,7 +46,6 @@ import {
 
 import {
   compareArray,
-  shouldDisplay,
   shouldShowNodeByExpanded,
   flattenTree,
   getNodeParents,
@@ -138,7 +138,8 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     renderValue: PropTypes.func,
     renderTreeNode: PropTypes.func,
     renderTreeIcon: PropTypes.func,
-    renderExtraFooter: PropTypes.func
+    renderExtraFooter: PropTypes.func,
+    searchBy: PropTypes.func
   };
   static defaultProps = {
     locale: {
@@ -394,10 +395,12 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
   }
 
   getFilterData(searchKeyword = '', data: any[], props: CheckTreePickerProps = this.props) {
-    const { labelKey, childrenKey } = props;
+    const { labelKey, childrenKey, searchBy } = props;
     const setVisible = (nodes = []) =>
       nodes.forEach(item => {
-        item.visible = shouldDisplay(item[labelKey], searchKeyword);
+        item.visible = searchBy
+          ? searchBy(searchKeyword, item[labelKey], item)
+          : shouldDisplay(item[labelKey], searchKeyword);
         if (_.isArray(item[childrenKey])) {
           setVisible(item[childrenKey]);
           item[childrenKey].forEach(child => {
