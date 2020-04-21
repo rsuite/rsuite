@@ -23,11 +23,9 @@ const PreventOverflowContainer = ({ children, height = 500 }: PreventOverflowCon
   const contentRef = React.createRef<HTMLDivElement>();
 
   React.useEffect(() => {
-    /*
     containerRef.current.scrollTop = contentRef.current.clientHeight / 2 - 60;
     containerRef.current.scrollLeft =
       contentRef.current.clientWidth / 2 - containerRef.current.clientWidth / 2;
-      */
   }, []);
 
   return (

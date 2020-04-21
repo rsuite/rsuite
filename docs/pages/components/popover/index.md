@@ -24,6 +24,7 @@ import { Popover, Whisper } from 'rsuite';
 | children \* | React.Node           | 组件的内容        |
 | classPrefix | string `('popover')` | 组件 CSS 类的前缀 |
 | title       | React.Node           | 标题              |
+| visible     | boolean              | 组件默认可见的    |
 
 ### `<Whisper>`
 
@@ -36,10 +37,10 @@ import { Popover, Whisper } from 'rsuite';
 | full            | boolean                                                          | 撑满容器                        |
 | onBlur          | () => void                                                       | 失去焦点回调函数                |
 | onClick         | () => void                                                       | 点击的回调函数                  |
-| onClose         | ()=>void                                                         | 关闭回调函数                    |
+| onClose         | () => void                                                       | 关闭回调函数                    |
 | onFocus         | () => void                                                       | 获取焦点的回调函数              |
 | onMouseOut      | () => void                                                       | 鼠标离开的回调函数              |
-| onOpen          | ()=>void                                                         | 打开回调函数                    |
+| onOpen          | () => void                                                         | 打开回调函数                    |
 | placement       | enum: [PlacementAll](#types) `('right')`                         | 显示位置                        |
 | preventOverflow | boolean                                                          | 防止浮动元素溢出                |
 | speaker \*      | union: Tooltip, Popover                                          | 展示的元素                      |

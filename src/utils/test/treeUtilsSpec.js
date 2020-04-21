@@ -1,6 +1,6 @@
 import { findNodeOfTree, filterNodesOfTree } from '../treeUtils';
 
-describe('Tree utils', () => {
+describe('[utils] Tree utils', () => {
   it('Should find the valid node', () => {
     const items = [
       {

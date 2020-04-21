@@ -19,9 +19,11 @@ import { Tooltip, Whisper } from 'rsuite';
 
 ### `<Tooltip>`
 
-| 属性名称        | 类型 `(默认值)`      | 描述                       |
-| --------------- | -------------------- | -------------------------- |
-| classPrefix     | string `('tooltip')` | 组件 CSS 类的前缀          |
+| 属性名称    | 类型 `(默认值)`      | 描述              |
+| ----------- | -------------------- | ----------------- |
+| children \* | React.Node           | 组件的内容        |
+| classPrefix | string `('tooltip')` | 组件 CSS 类的前缀 |
+| visible     | boolean              | 组件默认可见的    |
 
 ### `<Whisper>`
 

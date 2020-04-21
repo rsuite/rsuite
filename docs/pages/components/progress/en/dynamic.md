@@ -40,10 +40,16 @@ class DynamicProgress extends React.Component {
         </ButtonGroup>
         <hr />
         <Line percent={percent} strokeColor={color} status={status} />
-        <div style={{ width: 120, marginTop: 10 }}>
-          <Line vertical percent={percent} strokeColor={color} status={status} />
-          <Circle percent={percent} strokeColor={color} status={status} />
-        </div>
+        <Row>
+          <Col md={6}>
+            <Line vertical percent={percent} strokeColor={color} status={status} />
+          </Col>
+          <Col md={6}>
+            <div style={{ width: 120, marginTop: 10 }}>
+              <Circle percent={percent} strokeColor={color} status={status} />
+            </div>
+          </Col>
+        </Row>
       </div>
     );
   }

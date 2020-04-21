@@ -15,11 +15,8 @@ class Tooltip extends React.Component<TooltipProps> {
     children: PropTypes.node
   };
   render() {
-
     const {
       className,
-      positionLeft,
-      positionTop,
       classPrefix,
       children,
       style,

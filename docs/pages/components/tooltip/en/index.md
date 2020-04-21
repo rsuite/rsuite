@@ -19,14 +19,11 @@ import { Tooltip, Whisper } from 'rsuite';
 
 ### `<Tooltip>`
 
-| Property        | Type `(Default)`     | Description                              |
-| --------------- | -------------------- | ---------------------------------------- |
-| arrowOffsetLeft | number or string     | Arrow relative to 'left' position offset |
-| arrowOffsetTop  | number or string     | Arrow relative to 'top' position offset  |
-| children \*     | React.Node           | The content of the component.            |
-| classPrefix     | string `('tooltip')` | The prefix of the component CSS class    |
-| positionLeft    | number               | Relative 'left' position offset          |
-| positionTop     | number               | Relative 'top' position offset           |
+| Property    | Type `(Default)`     | Description                           |
+| ----------- | -------------------- | ------------------------------------- |
+| children \* | React.Node           | The content of the component.         |
+| classPrefix | string `('tooltip')` | The prefix of the component CSS class |
+| visible     | boolean              | The component is visible by default   |
 
 ### `<Whisper>`
 
