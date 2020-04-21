@@ -16,12 +16,13 @@ import { Timeline } from 'rsuite';
 
 ### `<Timeline>`
 
-| 属性名称       | 类型`(默认值)`                              | 描述                 |
-| -------------- | ------------------------------------------- | -------------------- |
-| children \*    | React.ChildrenArray&lt;Timeline.Item&gt;    | 组件的内容           |
-| classPrefix    | string `('timeline')`                       | 组件 CSS 类的前缀    |
-| componentClass | React.ElementType `('ul')`                  | 为组件自定义元素类型 |
+| 属性名称       | 类型`(默认值)`                                  | 描述                 |
+| -------------- | ----------------------------------------------- | -------------------- |
 | align          | enum: 'left' , 'right' , 'alternate' `('left')` | 时间轴内容的对齐方式 |
+| children \*    | React.ChildrenArray&lt;Timeline.Item&gt;        | 组件的内容           |
+| classPrefix    | string `('timeline')`                           | 组件 CSS 类的前缀    |
+| componentClass | React.ElementType `('ul')`                      | 为组件自定义元素类型 |
+| endless        | boolean                                         | 时间轴无止境的       |
 
 ### `<Timeline.Item>`
 
