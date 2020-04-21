@@ -9,37 +9,29 @@
   transition: @picker-transition;
   background: @input-bg;
 
-  .@{ns}picker-toggle,
-  .@{ns}picker-toggle-custom {
+  .@{ns}picker-toggle {
     border: none !important;
     background: transparent !important;
-  }
-
-  .@{ns}picker-toggle {
     height: @input-picker-toggle-content-height;
+    cursor: text;
 
     &-clean,
     &-caret {
       top: @padding-base-vertical - @picker-default-toggle-border-width;
     }
+
+    .@{ns}ripple-pond {
+      display: none;
+    }
   }
 
-  .@{ns}picker-toggle-custom .@{ns}ripple-pond {
-    display: none;
-  }
-
-  .@{ns}picker-toggle-custom {
-    cursor: text;
-  }
-
-  &:not(.@{ns}picker-disabled) .@{ns}picker-toggle,
-  &:not(.@{ns}picker-disabled) .@{ns}picker-toggle-custom {
+  &:not(.@{ns}picker-disabled) .@{ns}picker-toggle {
     position: absolute !important;
   }
 
   .input-picker-input-sizes;
 
-  .@{ns}picker-toggle-custom.@{ns}btn-xs ~ .@{ns}picker-tag-wrapper .@{ns}tag {
+  .@{ns}picker-toggle.@{ns}btn-xs ~ .@{ns}picker-tag-wrapper .@{ns}tag {
     padding-top: 0;
     padding-bottom: 0;
   }

@@ -4,6 +4,7 @@ import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import CheckTreePicker from '../CheckTreePicker';
+import { findDOMNode } from 'react-dom';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -186,7 +187,7 @@ describe('CheckTreePicker', () => {
 
   it('Should focus item by keyCode=40 ', () => {
     const instance = getInstance(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
-    const toggle = instance.getToggleInstance().toggleRef.current;
+    const toggle = findDOMNode(instance.getToggleInstance().toggleRef.current);
     ReactTestUtils.Simulate.keyDown(toggle, { keyCode: 40 });
     ReactTestUtils.Simulate.keyDown(toggle, { keyCode: 40 });
     assert.equal(document.activeElement.innerText, 'tester0');
