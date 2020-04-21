@@ -1,22 +1,16 @@
-# with-preact
-
-## CLI Commands
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# test the production build locally
-npm run serve
-
-# run tests with jest and preact-render-spy 
-npm run test
+# Preact example
+# How to use
+Download the example
+```shell script
+curl https://codeload.github.com/rsuite/rsuite/tar.gz/master | tar -xz --strip=2 rsuite-master/examples/with-preact
+cd with-preact
 ```
 
-For detailed explanation on how things work, checkout the [CLI Readme](https://github.com/developit/preact-cli/blob/master/README.md).
+install and run
+```shell script
+npm install
+npm run dev
+# or
+yarn
+yarn dev
+```
