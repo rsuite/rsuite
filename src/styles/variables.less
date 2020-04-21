@@ -1177,10 +1177,11 @@
 @calendar-table-cell-content-today-border-color: @H700;
 @calendar-table-cell-content-selected-color: @H500;
 @calendar-table-cell-content-disabled-color: @B400;
-/* stylelint-disable-next-line */ // calcFontColor is hack function
+/* stylelint-disable */ // calcFontColor is hack function
 @calendar-table-cell-content-selected-font-color: color(
   ~`calcFontColor('@{calendar-table-cell-content-selected-color}') `
 );
+/* stylelint-enable */
 @calendar-table-cell-header-color: @B600;
 @calendar-table-cell-week-number-color: @B600;
 @calendar-table-cell-week-number-bg: @B050;
