@@ -19,7 +19,7 @@
     "build:gulp": "gulp build",
     "dev": "cross-env NODE_ENV=development gulp dev",
     "lint": "npm run lint:ts && npm run lint:style",
-    "lint:style": "stylelint  \"styles/**/*.less\"",
+    "lint:style": "stylelint  \"src/**/*.less\"",
     "lint:ts": "eslint src/**/*.{ts,tsx}",
     "lint:js": "eslint src/**/*.js",
     "tdd": "cross-env RUN_ENV=test karma start",
