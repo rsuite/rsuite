@@ -212,7 +212,7 @@
 
 .tag-picker-search-input-size(@padding-vertical; @padding-horizontal; @font-size; @line-height;) {
   .@{ns}picker-input:not(.@{ns}picker-tag) & ~ .@{ns}picker-tag-wrapper .@{ns}picker-search-input {
-    padding: @padding-vertical @padding-horizontal;
+    padding: (@padding-vertical - 1px) @padding-horizontal;
     font-size: @font-size;
     line-height: @line-height;
   }

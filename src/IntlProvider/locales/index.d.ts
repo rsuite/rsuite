@@ -4,6 +4,7 @@ export const daDK: object;
 export const enGB: object;
 export const enUS: object;
 export const fiFI: object;
+export const itIT: object;
 export const koKR: object;
 export const ptBR: object;
 export const ruRU: object;

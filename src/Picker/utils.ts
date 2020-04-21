@@ -1,7 +1,9 @@
+import * as React from 'react';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { findNodeOfTree } from 'rsuite-utils/lib/utils';
+import { findNodeOfTree } from '../utils/treeUtils';
 import placementPolyfill from '../utils/placementPolyfill';
+import reactToString from '../utils/reactToString';
 
 interface NodeKeys {
   valueKey: string;
@@ -25,6 +27,25 @@ export function createConcatChildrenFunction(
     node[childrenKey] = children;
     return data.concat([]);
   };
+}
+
+export function shouldDisplay(label: React.ReactNode, searchKeyword: string) {
+  if (!_.trim(searchKeyword)) {
+    return true;
+  }
+  const keyword = searchKeyword.toLocaleLowerCase();
+  if (typeof label === 'string' || typeof label === 'number') {
+    return `${label}`.toLocaleLowerCase().indexOf(keyword) >= 0;
+  } else if (React.isValidElement(label)) {
+    const nodes = reactToString(label);
+    return (
+      nodes
+        .join('')
+        .toLocaleLowerCase()
+        .indexOf(keyword) >= 0
+    );
+  }
+  return false;
 }
 
 export function getToggleWrapperClassName(

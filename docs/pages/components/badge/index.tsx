@@ -1,9 +1,12 @@
 import * as React from 'react';
-import { Badge, Button } from 'rsuite';
+import { Badge, Button, Toggle } from 'rsuite';
 import DefaultPage from '@/components/Page';
 
 export default function Page() {
   return (
-    <DefaultPage examples={['basic', 'content', 'independent']} dependencies={{ Badge, Button }} />
+    <DefaultPage
+      examples={['basic', 'content', 'invisible', 'independent']}
+      dependencies={{ Badge, Button, Toggle }}
+    />
   );
 }

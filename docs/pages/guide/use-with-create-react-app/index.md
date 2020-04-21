@@ -7,7 +7,7 @@
 在开始之前，您可能需要安装 [yarn][yarn]。
 
 ```bash
-$ yarn create-react-app test-app
+$ yarn create react-app test-app
 ```
 
 执行后，工具将自动生成一个 `react` 开发脚手架，并安装开发 `react` 所必须的所有依赖。安装完成后执行

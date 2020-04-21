@@ -98,7 +98,8 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     onExit: PropTypes.func,
     onExiting: PropTypes.func,
     onExited: PropTypes.func,
-    renderValue: PropTypes.func
+    renderValue: PropTypes.func,
+    showOneCalendar: PropTypes.bool
   };
   static defaultProps = {
     appearance: 'default',
@@ -107,6 +108,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     format: 'YYYY-MM-DD',
     placeholder: '',
     cleanable: true,
+    showOneCalendar: false,
     locale: {
       sunday: 'Su',
       monday: 'Mo',
@@ -495,7 +497,15 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderDropdownMenu() {
-    const { menuClassName, ranges, isoWeek, limitEndYear, oneTap, showWeekNumbers } = this.props;
+    const {
+      menuClassName,
+      ranges,
+      isoWeek,
+      limitEndYear,
+      oneTap,
+      showWeekNumbers,
+      showOneCalendar
+    } = this.props;
     const { calendarDate, selectValue, hoverValue, doneSelected } = this.state;
     const classes = classNames(this.addPrefix('daterange-menu'), menuClassName);
 
@@ -510,7 +520,8 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       disabledDate: this.handleDisabledDate,
       onSelect: this.handleChangeSelectValue,
       onMouseMove: this.handleMouseMoveSelectValue,
-      onChangeCalendarDate: this.handleChangeCalendarDate
+      onChangeCalendarDate: this.handleChangeCalendarDate,
+      showOneCalendar
     };
 
     return (
@@ -520,9 +531,13 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
             <div className={this.addPrefix('daterange-header')}>
               {this.getDateString(selectValue as ValueType)}
             </div>
-            <div className={this.addPrefix('daterange-calendar-group')}>
+            <div
+              className={this.addPrefix(
+                `daterange-calendar-${showOneCalendar ? 'single' : 'group'}`
+              )}
+            >
               <DatePicker index={0} {...pickerProps} />
-              <DatePicker index={1} {...pickerProps} />
+              {!showOneCalendar && <DatePicker index={1} {...pickerProps} />}
             </div>
           </div>
           <Toolbar

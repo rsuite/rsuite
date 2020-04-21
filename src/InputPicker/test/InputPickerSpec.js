@@ -285,4 +285,13 @@ describe('InputPicker', () => {
 
     assert.ok(instance.querySelector('.rs-btn'));
   });
+
+  it('Should render the specified menu content by `searchBy`', () => {
+    const instance = getInstance(
+      <InputPicker defaultOpen data={data} searchBy={(a, b, c) => c.value === 'Louisa'} />
+    );
+    const list = getDOMNode(instance.menuContainerRef.current).querySelectorAll('a');
+    assert.equal(list.length, 1);
+    assert.ok(list[0].innerText, 'Louisa');
+  });
 });

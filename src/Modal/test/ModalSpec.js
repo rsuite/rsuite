@@ -41,7 +41,7 @@ describe('Modal', () => {
         <Modal.Body style={{ height: 2000 }} />
       </Modal>
     );
-    assert.ok(instance.dialogRef.current.querySelector('.rs-modal-body').style.overflow, 'auto');
+    assert.ok(instance.dialogElement.querySelector('.rs-modal-body').style.overflow, 'auto');
   });
 
   it('Should call onHide callback', done => {
@@ -53,7 +53,7 @@ describe('Modal', () => {
         <Modal.Header />
       </Modal>
     );
-    const closeButton = instance.dialogRef.current.querySelector('.rs-modal-header-close');
+    const closeButton = instance.dialogElement.querySelector('.rs-modal-header-close');
     ReactTestUtils.Simulate.click(closeButton);
   });
 
@@ -92,23 +92,23 @@ describe('Modal', () => {
       }
     }
     const instance = getInstance(<Demo />);
-    const closeButton = instance.demo.dialogRef.current.querySelector('.rs-modal-header-close');
+    const closeButton = instance.demo.dialogElement.querySelector('.rs-modal-header-close');
     ReactTestUtils.Simulate.click(closeButton);
   });
 
   it('Should have a custom className', () => {
     const instance = getInstance(<Modal className="custom" show />);
-    assert.ok(instance.dialogRef.current.className.match(/\bcustom\b/));
+    assert.ok(instance.dialogElement.className.match(/\bcustom\b/));
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
     const instance = getInstance(<Modal style={{ fontSize }} show />);
-    assert.equal(instance.dialogRef.current.style.fontSize, fontSize);
+    assert.equal(instance.dialogElement.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
     const instance = getInstance(<Modal classPrefix="custom-prefix" show />);
-    assert.ok(instance.dialogRef.current.className.match(/\bcustom-prefix\b/));
+    assert.ok(instance.dialogElement.className.match(/\bcustom-prefix\b/));
   });
 });

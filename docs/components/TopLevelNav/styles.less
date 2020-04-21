@@ -120,4 +120,24 @@
       background: transparent;
     }
   }
+
+  .btn-nav-toggle {
+    position: fixed !important;
+    left: 310px;
+    top: 10px;
+    z-index: 6;
+    box-shadow: rgba(9, 30, 66, 0.08) 0px 0px 0px 1px, rgba(9, 30, 66, 0.08) 0px 2px 4px 1px;
+    transition: none;
+    i {
+      transition: none;
+    }
+    &:hover,
+    &:focus,
+    &:active {
+      color: #fff !important;
+    }
+    @media (max-width: @media-xs) {
+      display: none;
+    }
+  }
 }

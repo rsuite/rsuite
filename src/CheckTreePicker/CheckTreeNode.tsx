@@ -1,8 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { reactToString } from 'rsuite-utils/lib/utils';
-import { defaultProps, prefix } from '../utils';
+import { defaultProps, prefix, refType } from '../utils';
+import reactToString from '../utils/reactToString';
 import {
   CHECK_STATE,
   CheckStateType,
@@ -56,7 +56,7 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
     hasChildren: PropTypes.bool,
     uncheckable: PropTypes.bool,
     allUncheckable: PropTypes.bool,
-    innerRef: PropTypes.func,
+    innerRef: refType,
     onTreeToggle: PropTypes.func,
     onSelect: PropTypes.func,
     onRenderTreeIcon: PropTypes.func,

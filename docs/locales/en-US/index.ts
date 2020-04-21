@@ -38,7 +38,8 @@ export default {
     goHomePage: 'Return to homepage.',
     searchIcon: 'Search icon',
     copySucceed: 'Copy success',
-    copyFailed: "Copy the failure, the browser doesn't support this feature"
+    copyFailed: "Copy the failure, the browser doesn't support this feature",
+    shareTwitter: 'Share on Twitter'
   },
   table: {
     'tab.resizable': 'Resizable',
@@ -55,7 +56,8 @@ export default {
     'tab.summary': 'Summary',
     'tab.fixed': 'Fixed Column',
     'tab.auto-height': 'Auto Height',
-    'tab.affix-header': 'Affix Header'
+    'tab.affix-header': 'Affix Header',
+    'tab.affix-horizontal-scrollbar': 'Affix Horizontal Scrollbar'
   },
   palette: {
     title: 'Get the product color',

@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { getPosition, scrollTop } from 'dom-lib';
 import _ from 'lodash';
 import classNames from 'classnames';
-import { shallowEqual } from 'rsuite-utils/lib/utils';
-
+import shallowEqual from '../utils/shallowEqual';
 import { getUnhandledProps, prefix } from '../utils';
 import stringToObject from '../utils/stringToObject';
 import { DropdownMenuItem } from '../Picker';

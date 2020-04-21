@@ -1,12 +1,13 @@
 import React from 'react';
 import { Button, ButtonToolbar, FlexboxGrid, Grid, Row, Col } from 'rsuite';
 import TopLevelNav from '@/components/TopLevelNav';
-import LanguageButton from '@/components/LanguageButton';
 import Link from '@/components/Link';
 import Logo from '@/components/Logo';
 import ReactLogo from '@/components/ReactLogo';
 import AppContext from '@/components/AppContext';
 import Head from '@/components/Head';
+
+import PageToolbar from '@/components/PageToolbar';
 
 function HomePage() {
   const [running, setRuning] = React.useState(false);
@@ -23,9 +24,7 @@ function HomePage() {
       <Head title={messages?.common?.home} description={messages?.common?.resume}></Head>
       <Grid className="page-home">
         <TopLevelNav hideToggle />
-        <span className="btn-switch-language-wrapper">
-          <LanguageButton className="fixed" size="lg" />
-        </span>
+        <PageToolbar />
 
         <Row>
           <FlexboxGrid align="middle" className="banner">
@@ -65,7 +64,7 @@ function HomePage() {
                     />
                   </a>
                 </p>
-                <ButtonToolbar>
+                <ButtonToolbar className="primary-toolbar">
                   <Button
                     size="lg"
                     appearance="primary"
