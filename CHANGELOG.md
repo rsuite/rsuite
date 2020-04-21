@@ -1,3 +1,36 @@
+# next
+
+- **Feature**: Added support for Italian ([#971])
+- **Feature**: Added support for custom overlay. ([#969])
+- **Feature**: Support `vertical` on `<Progress.Line>`. ([#938])
+- **Feature**: Support `showMeridian` on `<DatePicker>`. ([#932])
+- **Feature**: Support `searchBy` on all picker. ([#928],[#965])
+- **Feature**: Support `tagProps` on `<TagPicker>`. ([#927])
+- **Feature**: Support `container` on `<Affix>`. ([#912])
+- **Feature**: Support `onDataUpdated` on `<Table>`. ([rsuite-table#140])
+- **Feature**: Support `affixHorizontalScrollbar` on `<Table>`. ([rsuite-table#137])
+- **Improve**: Picker support size props at default. ([#917])
+- **Improve** Improved animation of `<Placeholder>` active state.
+- **Improve**: Improved `wordWrap` property for compatibility with `rowHeight`. ([rsuite-table#138])
+- **Bugfix**: Fix Types.PlacementAuto definition. ([#962])
+- **Chore**: Migrating `rsuite-utils` to `rsuite`. ([#963])
+
+[#971]: https://github.com/rsuite/rsuite/pull/971
+[#969]: https://github.com/rsuite/rsuite/pull/969
+[#965]: https://github.com/rsuite/rsuite/pull/965
+[#963]: https://github.com/rsuite/rsuite/pull/963
+[#962]: https://github.com/rsuite/rsuite/pull/962
+[#938]: https://github.com/rsuite/rsuite/pull/938
+[#933]: https://github.com/rsuite/rsuite/pull/933
+[#932]: https://github.com/rsuite/rsuite/pull/932
+[#928]: https://github.com/rsuite/rsuite/pull/928
+[#927]: https://github.com/rsuite/rsuite/pull/927
+[#917]: https://github.com/rsuite/rsuite/pull/917
+[#912]: https://github.com/rsuite/rsuite/pull/912
+[rsuite-table#140]: https://github.com/rsuite/rsuite-table/pull/140
+[rsuite-table#138]: https://github.com/rsuite/rsuite-table/pull/138
+[rsuite-table#137]: https://github.com/rsuite/rsuite-table/pull/137
+
 # 4.3.4
 
 > April 10, 2020
