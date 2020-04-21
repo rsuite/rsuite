@@ -181,7 +181,7 @@ describe('CheckPicker', () => {
   it('Should focus item by keyCode=40 ', done => {
     const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={['Eugenia']} />);
     const menu = findDOMNode(instance.menuContainerRef.current);
-    const toggle = instance.getToggleInstance().toggleRef.current;
+    const toggle = findDOMNode(instance.getToggleInstance().toggleRef.current);
     ReactTestUtils.Simulate.keyDown(toggle, { keyCode: 40 });
 
     if (menu.querySelector(itemFocusClassName).innerText === 'Kariane') {
@@ -193,7 +193,7 @@ describe('CheckPicker', () => {
     const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={['Kariane']} />);
 
     const menuDOM = findDOMNode(instance.menuContainerRef.current);
-    ReactTestUtils.Simulate.keyDown(instance.getToggleInstance().toggleRef.current, {
+    ReactTestUtils.Simulate.keyDown(findDOMNode(instance.getToggleInstance().toggleRef.current), {
       keyCode: 38
     });
 
@@ -209,7 +209,7 @@ describe('CheckPicker', () => {
     const instance = getInstance(
       <Dropdown defaultOpen data={data} onChange={doneOp} defaultValue={['Kariane']} />
     );
-    const toggle = instance.getToggleInstance().toggleRef.current;
+    const toggle = findDOMNode(instance.getToggleInstance().toggleRef.current);
     ReactTestUtils.Simulate.keyDown(toggle, { keyCode: 13 });
   });
 
@@ -222,7 +222,7 @@ describe('CheckPicker', () => {
     const instance = getInstance(
       <Dropdown defaultOpen data={data} onSelect={doneOp} defaultValue={['Kariane']} />
     );
-    const toggle = instance.getToggleInstance().toggleRef.current;
+    const toggle = findDOMNode(instance.getToggleInstance().toggleRef.current);
     ReactTestUtils.Simulate.keyDown(toggle, { keyCode: 40 });
     ReactTestUtils.Simulate.keyDown(toggle, { keyCode: 13 });
   });
@@ -232,7 +232,7 @@ describe('CheckPicker', () => {
       done();
     };
     const instance = getInstance(<Dropdown data={data} onBlur={doneOp} />);
-    const toggle = instance.getToggleInstance().toggleRef.current;
+    const toggle = findDOMNode(instance.getToggleInstance().toggleRef.current);
 
     ReactTestUtils.Simulate.blur(toggle);
   });
@@ -242,7 +242,7 @@ describe('CheckPicker', () => {
       done();
     };
     const instance = getInstance(<Dropdown data={data} onFocus={doneOp} />);
-    const toggle = instance.getToggleInstance().toggleRef.current;
+    const toggle = findDOMNode(instance.getToggleInstance().toggleRef.current);
 
     ReactTestUtils.Simulate.focus(toggle);
   });
