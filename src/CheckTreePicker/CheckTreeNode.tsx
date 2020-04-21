@@ -1,8 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { reactToString } from 'rsuite-utils/lib/utils';
 import { defaultProps, prefix, refType } from '../utils';
+import reactToString from '../utils/reactToString';
 import {
   CHECK_STATE,
   CheckStateType,

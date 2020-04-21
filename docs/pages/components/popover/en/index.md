@@ -44,7 +44,7 @@ import { Popover, Whisper } from 'rsuite';
 | preventOverflow | boolean                                                          | Prevent floating element overflow   |
 | speaker \*      | union: Tooltip, Popover                                          | Displayed component                 |
 | trigger         | union: 'click', 'hover', 'focus', 'active' `(['hover','focus'])` | Triggering events                   |
-| triggerRef      | React.ElementRef                                                 | Ref of trigger                      |
+| triggerRef      | React.Ref                                                        | Ref of trigger                      |
 
 ## Related components
 

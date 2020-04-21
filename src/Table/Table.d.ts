@@ -106,6 +106,12 @@ export interface TableProps<RowKey = string | number | symbol, RowData = any>
 
   /** Customize the display content in the data load  */
   renderLoading?: (loading: React.ReactNode) => React.ReactNode;
+
+  /** Affix the table header to the specified position on the page */
+  affixHeader?: boolean | number;
+
+  /** Affix the table horizontal scrollbar to the specified position on the page */
+  affixHorizontalScrollbar?: boolean | number;
 }
 
 export interface TableInstance extends React.Component<TableProps> {

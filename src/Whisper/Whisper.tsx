@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
+import OverlayTrigger from '../Overlay/OverlayTrigger';
 import { createChainedFunction, placementPolyfill, refType } from '../utils';
 import IntlContext from '../IntlProvider/IntlContext';
 import { WhisperProps } from './Whisper.d';

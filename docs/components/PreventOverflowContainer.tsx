@@ -18,40 +18,29 @@ interface PreventOverflowContainerProps {
   height?: number;
 }
 
-class PreventOverflowContainer extends React.Component<PreventOverflowContainerProps> {
-  content: HTMLDivElement;
-  container: HTMLDivElement;
+const PreventOverflowContainer = ({ children, height = 500 }: PreventOverflowContainerProps) => {
+  const containerRef = React.createRef<HTMLDivElement>();
+  const contentRef = React.createRef<HTMLDivElement>();
 
-  componentDidMount() {
-    if (!this.content) {
-      return;
-    }
-    this.container.scrollTop = this.content.clientHeight / 2 - 60;
-    this.container.scrollLeft = this.content.clientWidth / 2 - this.container.clientWidth / 2;
-  }
-  render() {
-    const { children, height = 500 } = this.props;
-    return (
-      <div
-        id="preventOverflowContainer"
-        style={{ ...containerStyle, height } as CSSProperties}
-        ref={ref => {
-          this.container = ref as HTMLDivElement;
-        }}
-      >
-        <div
-          style={contentStyle}
-          ref={ref => {
-            this.content = ref;
-          }}
-        >
-          {(children as any)(() => {
-            return this.container;
-          })}
-        </div>
+  React.useEffect(() => {
+    /*
+    containerRef.current.scrollTop = contentRef.current.clientHeight / 2 - 60;
+    containerRef.current.scrollLeft =
+      contentRef.current.clientWidth / 2 - containerRef.current.clientWidth / 2;
+      */
+  }, []);
+
+  return (
+    <div
+      id="preventOverflowContainer"
+      style={{ ...containerStyle, height } as CSSProperties}
+      ref={containerRef}
+    >
+      <div style={contentStyle} ref={contentRef}>
+        {(children as any)(() => containerRef.current)}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default PreventOverflowContainer;

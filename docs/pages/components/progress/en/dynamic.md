@@ -41,6 +41,7 @@ class DynamicProgress extends React.Component {
         <hr />
         <Line percent={percent} strokeColor={color} status={status} />
         <div style={{ width: 120, marginTop: 10 }}>
+          <Line vertical percent={percent} strokeColor={color} status={status} />
           <Circle percent={percent} strokeColor={color} status={status} />
         </div>
       </div>

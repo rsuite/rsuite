@@ -5,7 +5,7 @@ import DefaultPage from '@/components/Page';
 export default function Page() {
   return (
     <DefaultPage
-      examples={['line', 'circle', 'dynamic']}
+      examples={['line', 'line-vertical', 'circle', 'dynamic']}
       dependencies={{ Progress, Button, ButtonGroup }}
     />
   );
