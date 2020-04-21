@@ -2,7 +2,8 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { reactToString, filterNodesOfTree, shallowEqual } from 'rsuite-utils/lib/utils';
+import shallowEqual from '../utils/shallowEqual';
+import { filterNodesOfTree } from '../utils/treeUtils';
 import {
   defaultProps,
   prefix,
@@ -21,7 +22,8 @@ import {
   MenuWrapper,
   SearchBar,
   SelectedElement,
-  PickerToggleTrigger
+  PickerToggleTrigger,
+  shouldDisplay
 } from '../Picker';
 import DropdownMenu, { dropdownMenuPropTypes } from '../Picker/DropdownMenu';
 import { CheckPickerProps } from './CheckPicker.d';
@@ -89,7 +91,8 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
     style: PropTypes.object,
     sticky: PropTypes.bool,
     preventOverflow: PropTypes.bool,
-    virtualized: PropTypes.bool
+    virtualized: PropTypes.bool,
+    searchBy: PropTypes.func
   };
   static defaultProps = {
     appearance: 'default',
@@ -139,14 +142,13 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
   }
 
   getFocusableMenuItems = () => {
-    const { labelKey } = this.props;
     const { menuItems } = this.menuContainerRef.current;
     if (!menuItems) {
       return [];
     }
     const items = Object.values(menuItems).map((item: any) => item.props.getItemData());
 
-    return filterNodesOfTree(items, item => this.shouldDisplay(item[labelKey]));
+    return filterNodesOfTree(items, item => this.shouldDisplay(item));
   };
 
   getValue() {
@@ -179,26 +181,16 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
    * Index of keyword  in `label`
    * @param {node} label
    */
-  shouldDisplay(label: any, word?: string) {
+  shouldDisplay(item: ItemDataType, word?: string) {
+    const { labelKey, searchBy } = this.props;
+    const label = item?.[labelKey];
     const searchKeyword = typeof word === 'undefined' ? this.state.searchKeyword : word;
-    if (!_.trim(searchKeyword)) {
-      return true;
+
+    if (typeof searchBy === 'function') {
+      return searchBy(searchKeyword, label, item);
     }
 
-    const keyword = searchKeyword.toLocaleLowerCase();
-
-    if (typeof label === 'string' || typeof label === 'number') {
-      return `${label}`.toLocaleLowerCase().indexOf(keyword) >= 0;
-    } else if (React.isValidElement(label)) {
-      const nodes = reactToString(label);
-      return (
-        nodes
-          .join('')
-          .toLocaleLowerCase()
-          .indexOf(keyword) >= 0
-      );
-    }
-    return false;
+    return shouldDisplay(label, searchKeyword);
   }
 
   findNode(focus: Function) {
@@ -317,10 +309,8 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
   };
 
   handleSearch = (searchKeyword: string, event: React.SyntheticEvent<HTMLElement>) => {
-    const { onSearch, labelKey, valueKey, data } = this.props;
-    const filteredData = filterNodesOfTree(data, item =>
-      this.shouldDisplay(item[labelKey], searchKeyword)
-    );
+    const { onSearch, valueKey, data } = this.props;
+    const filteredData = filterNodesOfTree(data, item => this.shouldDisplay(item, searchKeyword));
     this.setState({
       searchKeyword,
       focusItemValue: filteredData?.[0]?.[valueKey]
@@ -405,7 +395,6 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
   renderDropdownMenu() {
     const {
       data,
-      labelKey,
       valueKey,
       groupBy,
       searchable,
@@ -425,17 +414,12 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
     let filteredStickyItems = [];
 
     if (stickyItems) {
-      filteredStickyItems = filterNodesOfTree(stickyItems, item =>
-        this.shouldDisplay(item[labelKey])
-      );
+      filteredStickyItems = filterNodesOfTree(stickyItems, item => this.shouldDisplay(item));
       filteredData = filterNodesOfTree(data, item => {
-        return (
-          this.shouldDisplay(item[labelKey]) &&
-          !stickyItems.some(v => v[valueKey] === item[valueKey])
-        );
+        return this.shouldDisplay(item) && !stickyItems.some(v => v[valueKey] === item[valueKey]);
       });
     } else {
-      filteredData = filterNodesOfTree(data, item => this.shouldDisplay(item[labelKey]));
+      filteredData = filterNodesOfTree(data, item => this.shouldDisplay(item));
     }
 
     // Create a tree structure data when set `groupBy`

@@ -26,9 +26,9 @@ import { TreePicker } from 'rsuite';
 | container               | HTMLElement or (() => HTMLElement)                                                                  | 设置渲染的容器                                                                  |
 | data \*                 | Array&lt;[DataItemType](#types)&gt;                                                                 | tree 数据                                                                       |
 | defaultExpandAll        | boolean                                                                                             | 默认展开所有节点                                                                |
+| defaultExpandItemValues | any []                                                                                              | 设置默认展开节点的值                                                            |
 | defaultOpen             | boolean                                                                                             | 默认打开                                                                        |
 | defaultValue            | string                                                                                              | 默认选中的值                                                                    |
-| defaultExpandItemValues | any []                                                                                              | 设置默认展开节点的值                                                            |
 | disabled                | boolean                                                                                             | 是否禁用 Picker                                                                 |
 | disabledItemValues      | string[]                                                                                            | 禁用选项                                                                        |
 | expandItemValues        | any []                                                                                              | 设置展开节点的值（受控）                                                        |
@@ -39,8 +39,8 @@ import { TreePicker } from 'rsuite';
 | menuClassName           | string                                                                                              | 应用于菜单 DOM 节点的 css class                                                 |
 | menuStyle               | React.CSSProperties                                                                                 | 应用于菜单 DOM 节点的 style                                                     |
 | onChange                | (value:string)=>void                                                                                | 数据改变的回调函数                                                              |
-| onClose                 | ()=>void                                                                                            | 关闭 Dropdown 的回调函数                                                        |
 | onClean                 | (event:SyntheticEvent)=>void                                                                        | 值清理时触发回调                                                                |
+| onClose                 | ()=>void                                                                                            | 关闭 Dropdown 的回调函数                                                        |
 | onExpand                | (expandItemValues: any [], activeNode:[DataItemType](#types), concat:(data, children)=>Array)=>void | 树节点展示时的回调                                                              |
 | onOpen                  | ()=>void                                                                                            | 展开 Dropdown 的回调函数                                                        |
 | onSearch                | (searchKeyword:string, event)=>void                                                                 | 搜索回调函数                                                                    |
@@ -52,6 +52,7 @@ import { TreePicker } from 'rsuite';
 | renderTreeIcon          | (nodeData:[DataItemType](#types))=>React.Node                                                       | 自定义渲染 图标                                                                 |
 | renderTreeNode          | (nodeData:[DataItemType](#types))=>React.Node                                                       | 自定义渲染 tree 节点                                                            |
 | renderValue             | (value:string,item:[DataItemType](#types), selectedElement:React.Node)=>React.Node                  | 自定义渲染 placeholder                                                          |
+| searchBy                | (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean                            | 自定义搜索规则                                                                  |
 | seasrchable             | boolean `(true)`                                                                                    | 是否可以搜索                                                                    |
 | size                    | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                                               | 设置组件尺寸                                                                    |
 | toggleComponentClass    | React.ElementType `('a')`                                                                           | 为组件自定义元素类型                                                            |

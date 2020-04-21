@@ -1,8 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Collapse from 'rsuite-utils/lib/Animation/Collapse';
-import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
+import Collapse from '../Animation/Collapse';
+import shallowEqual from '../utils/shallowEqual';
 
 import DropdownMenuItem from './DropdownMenuItem';
 import { DropdownMenuProps } from './DropdownMenu.d';
@@ -15,6 +15,7 @@ import {
   getUnhandledProps,
   defaultProps
 } from '../utils';
+import mergeRefs from '../utils/mergeRefs';
 
 class DropdownMenu extends React.Component<DropdownMenuProps> {
   static displayName = 'DropdownMenu';
@@ -94,9 +95,11 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
               <Ripple />
             </div>
             {this.renderCollapse(
-              <ul role="menu" className={classPrefix}>
-                {itemsAndStatus.items}
-              </ul>,
+              (transitionProps, ref) => (
+                <ul {...transitionProps} ref={ref} role="menu" className={classPrefix}>
+                  {itemsAndStatus.items}
+                </ul>
+              ),
               expanded
             )}
           </DropdownMenuItem>
@@ -132,7 +135,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
   }
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
-  renderCollapse(children: React.ReactNode, expanded?: boolean) {
+  renderCollapse(children: Function, expanded?: boolean) {
     return this.props.collapsible ? (
       <Collapse
         in={expanded}
@@ -144,12 +147,12 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
         {children}
       </Collapse>
     ) : (
-      children
+      children()
     );
   }
 
   render() {
-    const { children, className, classPrefix, expanded, ...props } = this.props;
+    const { children, className, classPrefix, expanded, htmlElementRef, ...props } = this.props;
     const { items, active } = this.getMenuItemsAndStatus(children);
     const unhandled = getUnhandledProps(DropdownMenu, props);
     const classes = classNames(classPrefix, className, {
@@ -157,9 +160,17 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
     });
 
     return this.renderCollapse(
-      <ul {...unhandled} className={classes} role="menu">
-        {items}
-      </ul>,
+      (transitionProps, ref) => (
+        <ul
+          {...unhandled}
+          {...transitionProps}
+          className={classes}
+          role="menu"
+          ref={mergeRefs(htmlElementRef, ref)}
+        >
+          {items}
+        </ul>
+      ),
       expanded
     );
   }

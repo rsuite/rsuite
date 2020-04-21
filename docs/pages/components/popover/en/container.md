@@ -17,27 +17,23 @@ const speaker = (
   </Popover>
 );
 
-class Demo extends React.Component {
-  render() {
-    return (
-      <PreventOverflowContainer height={300}>
-        {getContainer => (
-          <Whisper
-            preventOverflow
-            trigger="click"
-            container={getContainer}
-            speaker={speaker}
-            placement="auto"
-          >
-            <Button appearance="primary">Click</Button>
-          </Whisper>
-        )}
-      </PreventOverflowContainer>
-    );
-  }
-}
+const App = () => (
+  <PreventOverflowContainer height={300}>
+    {getContainer => (
+      <Whisper
+        preventOverflow
+        trigger="click"
+        container={getContainer}
+        speaker={speaker}
+        placement="auto"
+      >
+        <Button appearance="primary">Click</Button>
+      </Whisper>
+    )}
+  </PreventOverflowContainer>
+);
 
-ReactDOM.render(<Demo />);
+ReactDOM.render(<App />);
 ```
 
 <!--end-code-->

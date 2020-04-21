@@ -25,6 +25,7 @@ ReactDOM.render(
 | en_GB    | 英语           |
 | en_US    | 美式英语       |
 | fi_FI    | 芬兰语         |
+| it_IT    |              |
 | ko_KR    | 韩语/朝鲜语    |
 | pt_BR    | 葡萄牙语(巴西) |
 | ru_RU    | 俄罗斯语       |

@@ -15,7 +15,16 @@ class Tooltip extends React.Component<TooltipProps> {
     children: PropTypes.node
   };
   render() {
-    const { className, classPrefix, children, style, visible, ...rest } = this.props;
+    const {
+      className,
+      classPrefix,
+      children,
+      style,
+      visible,
+      htmlElementRef,
+      ...rest
+    } = this.props;
+
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, className);
     const styles = {
@@ -24,7 +33,13 @@ class Tooltip extends React.Component<TooltipProps> {
     };
 
     return (
-      <div {..._.omit(rest, overlayProps)} role="tooltip" className={classes} style={styles}>
+      <div
+        {..._.omit(rest, overlayProps)}
+        role="tooltip"
+        className={classes}
+        style={styles}
+        ref={htmlElementRef}
+      >
         <div className={addPrefix('arrow')} />
         <div className={addPrefix('inner')}>{children}</div>
       </div>

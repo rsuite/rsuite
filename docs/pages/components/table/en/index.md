@@ -27,8 +27,9 @@ const { Column, HeaderCell, Cell, Pagination } = Table;
 | Property               | Type `(Default)`                                     | Description                                                                                   |
 | ---------------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | affixHeader            | boolean,number                                       | Affix the table header to the specified location on the page                                  |
+| affixHorizontalScrollbar | boolean,number                                       | Affix the table horizontal scrollbar to the specified position on the page                    |
 | autoHeight             | boolean                                              | Automatic height                                                                              |
-| bodyRef                | React.ElementRef                                     | A ref attached to the table body element                                                      |
+| bodyRef                | React.Ref                                            | A ref attached to the table body element                                                      |
 | bordered               | boolean                                              | Show border                                                                                   |
 | cellBordered           | boolean                                              | Show cell border                                                                              |
 | data \*                | Array&lt;Object&gt;                                  | Table data                                                                                    |

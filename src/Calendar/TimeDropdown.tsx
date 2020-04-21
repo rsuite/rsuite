@@ -15,6 +15,7 @@ export interface TimeDropdownProps {
   format?: string;
   className?: string;
   classPrefix?: string;
+  showMeridian?: boolean;
   disabledDate?: (date: Date) => boolean;
   disabledHours?: (hour: number, date: Date) => boolean;
   disabledMinutes?: (minute: number, date: Date) => boolean;
@@ -27,16 +28,23 @@ export interface TimeDropdownProps {
 
 type TimeType = 'hours' | 'minutes' | 'seconds';
 
-const ranges = {
-  hours: { start: 0, end: 23 },
-  minutes: { start: 0, end: 59 },
-  seconds: { start: 0, end: 59 }
-};
+function getRanges(meridian) {
+  return {
+    hours: { start: 0, end: meridian ? 11 : 23 },
+    minutes: { start: 0, end: 59 },
+    seconds: { start: 0, end: 59 }
+  };
+}
+
+export function getMeridianHours(hours) {
+  return hours >= 12 ? hours - 12 : hours;
+}
 
 class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
   static propTypes = {
     date: PropTypes.instanceOf(Date),
     show: PropTypes.bool,
+    showMeridian: PropTypes.bool,
     format: PropTypes.string,
     className: PropTypes.string,
     classPrefix: PropTypes.string,
@@ -53,6 +61,8 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
     show: false
   };
 
+  container = {};
+
   componentDidMount() {
     this.updatePosition();
   }
@@ -62,7 +72,7 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
   }
 
   getTime(props?: TimeDropdownProps): any {
-    const { format, date } = props || this.props;
+    const { format, date, showMeridian } = props || this.props;
     const time = date || new Date();
     const nextTime: any = {};
 
@@ -71,7 +81,8 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
     }
 
     if (/(H|h)/.test(format)) {
-      nextTime.hours = getHours(time);
+      const hours = getHours(time);
+      nextTime.hours = showMeridian ? getMeridianHours(hours) : hours;
     }
     if (/m/.test(format)) {
       nextTime.minutes = getMinutes(time);
@@ -81,9 +92,6 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
     }
     return nextTime;
   }
-
-  container = {};
-  content = {};
 
   updatePosition(props?: TimeDropdownProps) {
     const { show } = props || this.props;
@@ -125,11 +133,12 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderColumn(type: TimeType, active: any) {
+    const { showMeridian } = this.props;
     if (!_.isNumber(active)) {
       return null;
     }
     const { date } = this.props;
-    const { start, end } = ranges[type];
+    const { start, end } = getRanges(showMeridian)[type];
     const items = [];
 
     const hideFunc = this.props[_.camelCase(`hide_${type}`)];
@@ -150,11 +159,9 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
               className={itemClasses}
               tabIndex={-1}
               data-key={`${type}-${i}`}
-              onClick={event => {
-                !disabled && this.handleClick(type, i, event);
-              }}
+              onClick={!disabled ? this.handleClick.bind(this, type, i) : null}
             >
-              {i}
+              {showMeridian && type === 'hours' && i === 0 ? '12' : i}
             </a>
           </li>
         );
@@ -185,12 +192,7 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
 
     return (
       <div {...unhandled} className={classes}>
-        <div
-          className={this.addPrefix('content')}
-          ref={ref => {
-            this.content = ref;
-          }}
-        >
+        <div className={this.addPrefix('content')}>
           <div className={this.addPrefix('row')}>
             {this.renderColumn('hours', time.hours)}
             {this.renderColumn('minutes', time.minutes)}

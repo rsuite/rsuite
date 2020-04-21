@@ -2,8 +2,8 @@
 
 常用的多选框。
 
-* `<Checkbox>`
-* `<CheckboxGroup>`
+- `<Checkbox>`
+- `<CheckboxGroup>`
 
 ## 获取组件
 
@@ -27,7 +27,7 @@ import { Checkbox, CheckboxGroup } from 'rsuite';
 | id             | React.ElementType                                                | 为组件自定义元素类型                         |
 | indeterminate  | boolean                                                          | 作为一个全选框时，子项部分被选择后的样式设置 |
 | inline         | boolean                                                          | 内联布局                                     |
-| inputRef       | React.ElementRef                                                 | 对应 input 元素的 ref                        |
+| inputRef       | React.Ref                                                        | 对应 input 元素的 ref                        |
 | name           | string                                                           | 用于表单对应的名称                           |
 | onChange       | (value: any, checked: boolean, event: SyntheticInputEvent)=>void | checked 状态发生改变的回调函数               |
 | title          | string                                                           | HTML title                                   |
