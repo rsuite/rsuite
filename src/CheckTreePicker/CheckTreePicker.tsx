@@ -500,7 +500,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       const key = activeItem?.dataset?.key;
       const layer = activeItem?.dataset?.layer;
       const nodeData = this.getActiveElementOption(filterData, key);
-      nodeData.check = !this.nodes[nodeData.refKey].check;
+      nodeData.check = !this.nodes[nodeData.refKey]?.check;
       nodeData.parentNode = this.nodes[nodeData.refKey]?.parentNode;
       return {
         nodeData,
