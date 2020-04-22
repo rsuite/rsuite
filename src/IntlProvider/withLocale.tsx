@@ -20,6 +20,7 @@ function withLocale<T>(combineKeys: string[] = []) {
             const locale = mergeObject(
               combineKeys.map(key => _.get(value || defaultLocale, `${key}`))
             );
+
             if (value && typeof value.rtl !== undefined) {
               locale.rtl = value.rtl;
             } else if (
@@ -40,7 +41,7 @@ function withLocale<T>(combineKeys: string[] = []) {
     });
 
     WithLocale.displayName = BaseComponent.displayName;
-    extendReactStatics(WithLocale, BaseComponent);
+    extendReactStatics(WithLocale, BaseComponent, ['defaultProps']);
 
     if (process.env.RUN_ENV === 'test') {
       return setDisplayName(wrapDisplayName(BaseComponent, '__test__'))(WithLocale);

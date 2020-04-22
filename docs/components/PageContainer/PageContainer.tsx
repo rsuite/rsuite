@@ -1,12 +1,12 @@
 import * as React from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import { Content as PageContent, Nav as PageNav } from '@rsuite/document-nav';
 import { on } from 'dom-lib';
-
-import { Row, Col, IconButton, Icon, ButtonToolbar, Tooltip, Whisper } from 'rsuite';
-import LanguageButton from '../LanguageButton';
+import canUseDOM from 'dom-lib/lib/query/canUseDOM';
+import { Row, Col } from 'rsuite';
 import TypesDrawer from '../TypesDrawer';
 import AppContext from '../AppContext';
+import PageToolbar from '../PageToolbar';
 
 interface ContainerProps {
   hidePageNav?: boolean;
@@ -16,9 +16,11 @@ interface ContainerProps {
 }
 
 export default function PageContainer(props: ContainerProps) {
-  const { children, designHash: designHashConfig = {}, hidePageNav, routerId, ...rest } = props;
-  const [openPageNav, setOpenPageNav] = React.useState(!hidePageNav);
-  const [openTypesDrawer, setOpenTypesDrawer] = React.useState();
+  const { children, designHash: designHashConfig = {}, routerId, hidePageNav, ...rest } = props;
+  const [openTypesDrawer, setOpenTypesDrawer] = React.useState<boolean>();
+  // Resolve server render is not same with the client problem.
+  // reference https://itnext.io/tips-for-server-side-rendering-with-react-e42b1b7acd57
+  const [ssrDone, setSsrDone] = React.useState(false);
 
   const onDocumentClick = React.useCallback(e => {
     const href = e.target?.getAttribute('href');
@@ -36,84 +38,43 @@ export default function PageContainer(props: ContainerProps) {
     };
   }, []);
 
+  React.useEffect(() => {
+    setSsrDone(canUseDOM);
+  }, [canUseDOM]);
+
   const {
-    messages,
     theme: [themeName, direction]
   } = React.useContext(AppContext);
+
   const designHash = designHashConfig[themeName];
   const rtl = direction === 'rtl';
 
+  const classes = classNames('page-context-wrapper', {
+    'hide-page-nav': hidePageNav
+  });
+
   return (
     <>
-      <Row {...rest} className={classnames({ ['hide-page-nav']: !openPageNav })}>
+      <Row {...rest} className={classes} key={ssrDone ? 'client' : 'server'}>
         <Col md={24} xs={24} sm={24} className="main-container">
           <PageContent>{children}</PageContent>
         </Col>
         <Col md={8} xsHidden smHidden>
-          <ButtonToolbar className="menu-button">
-            {designHash ? (
-              <Whisper placement="bottom" speaker={<Tooltip>{messages?.common?.design}</Tooltip>}>
-                <IconButton
-                  appearance="subtle"
-                  target="_blank"
-                  icon={<Icon icon="diamond" />}
-                  href={`/design/${themeName}/#artboard${designHash}`}
-                />
-              </Whisper>
-            ) : null}
-            {routerId ? (
-              <Whisper placement="bottom" speaker={<Tooltip>{messages?.common?.edit}</Tooltip>}>
-                <IconButton
-                  appearance="subtle"
-                  icon={<Icon icon="edit2" />}
-                  target="_blank"
-                  href={`https://github.com/rsuite/rsuite/edit/master/docs/pages/${routerId}/index.md`}
-                />
-              </Whisper>
-            ) : null}
-
-            <Whisper placement="bottom" speaker={<Tooltip>{messages?.common?.newIssues}</Tooltip>}>
-              <IconButton
-                appearance="subtle"
-                icon={<Icon icon="bug" />}
-                target="_blank"
-                href={'https://github.com/rsuite/rsuite/issues/new?template=bug_report.md'}
-              />
-            </Whisper>
-
-            <Whisper
-              placement="bottom"
-              speaker={<Tooltip>{messages?.common?.changeLanguage}</Tooltip>}
-            >
-              <LanguageButton />
-            </Whisper>
-
-            <Whisper
-              placement="bottom"
-              speaker={<Tooltip>{messages?.common?.collapseMenu}</Tooltip>}
-            >
-              <IconButton
-                appearance="subtle"
-                icon={<Icon icon="bars" />}
-                onClick={() => {
-                  setOpenPageNav(!openPageNav);
-                }}
-              />
-            </Whisper>
-          </ButtonToolbar>
-
-          <PageNav
-            showOrderNumber={false}
-            width={150}
-            scrollBar="left"
-            rtl={rtl}
-            once={false}
-            deep={4}
-            offset={{
-              top: 80,
-              [rtl ? 'left' : 'right']: 10
-            }}
-          />
+          <PageToolbar designHash={designHash} routerId={routerId} />
+          {hidePageNav ? null : (
+            <PageNav
+              showOrderNumber={false}
+              width={150}
+              scrollBar="left"
+              rtl={rtl}
+              once={false}
+              deep={4}
+              offset={{
+                top: 80,
+                [rtl ? 'left' : 'right']: 10
+              }}
+            />
+          )}
         </Col>
       </Row>
       <TypesDrawer

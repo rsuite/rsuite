@@ -9,7 +9,7 @@ describe('Toggle', () => {
     const Title = 'Title';
     const instance = getDOMNode(<Toggle title="title">{Title}</Toggle>);
 
-    assert.equal(instance.tagName, 'A');
+    assert.equal(instance.tagName, 'BUTTON');
     assert.include(instance.className, 'toggle');
     assert.equal(instance.innerText, Title);
   });
@@ -23,7 +23,7 @@ describe('Toggle', () => {
     );
 
     assert.equal(instance.tagName, 'BUTTON');
-    assert.include(instance.className, 'toggle-custom');
+    assert.include(instance.className, 'toggle');
     assert.equal(instance.innerText, Title);
   });
 

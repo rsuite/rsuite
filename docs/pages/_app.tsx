@@ -83,9 +83,9 @@ function App({ Component, pageProps }: AppProps) {
       return;
     }
     const media = matchMedia('(prefers-color-scheme: dark)');
-    media.addEventListener('change', onChangeTheme);
+    media?.addEventListener?.('change', onChangeTheme);
     return () => {
-      media.removeEventListener('change', onChangeTheme);
+      media?.removeEventListener?.('change', onChangeTheme);
     };
   }, [themeName, direction]);
 

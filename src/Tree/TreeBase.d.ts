@@ -43,4 +43,7 @@ export interface TreeBaseProps extends StandardProps {
 
   /** Called when clean */
   onClean?: (event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Custom search rules. */
+  searchBy?: (keyword: string, label: React.ReactNode, item: any) => boolean;
 }

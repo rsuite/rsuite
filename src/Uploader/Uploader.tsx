@@ -59,7 +59,7 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
     renderFileInfo: PropTypes.func,
     removable: PropTypes.bool,
     fileListVisible: PropTypes.bool,
-    dragable: PropTypes.bool
+    draggable: PropTypes.bool
   };
   static defaultProps = {
     autoUpload: true,
@@ -332,7 +332,7 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
       accept,
       children,
       toggleComponentClass,
-      dragable,
+      draggable,
       ...rest
     } = this.props;
     const unhandled = getUnhandledProps(Uploader, rest);
@@ -342,7 +342,7 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
         name={name}
         key="trigger"
         multiple={multiple}
-        dragable={dragable}
+        draggable={draggable}
         disabled={disabled}
         accept={accept}
         ref={this.inputRef}
@@ -362,10 +362,10 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
       fileListVisible,
       locale,
       style,
-      dragable
+      draggable
     } = this.props;
     const classes = classNames(className, classPrefix, this.addPrefix(listType), {
-      [this.addPrefix('dragable')]: dragable
+      [this.addPrefix('draggable')]: draggable
     });
     const renderList = [this.renderUploadTrigger()];
 

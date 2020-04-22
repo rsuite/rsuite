@@ -1,3 +1,130 @@
+# next
+
+- **Feature**: Added support for Italian ([#971])
+- **Feature**: Added support for custom overlay. ([#969])
+- **Feature**: Support `vertical` on `<Progress.Line>`. ([#938])
+- **Feature**: Support `showMeridian` on `<DatePicker>`. ([#932])
+- **Feature**: Support `searchBy` on all picker. ([#928],[#965])
+- **Feature**: Support `tagProps` on `<TagPicker>`. ([#927])
+- **Feature**: Support `container` on `<Affix>`. ([#912])
+- **Feature**: Support `onDataUpdated` on `<Table>`. ([rsuite-table#140])
+- **Feature**: Support `affixHorizontalScrollbar` on `<Table>`. ([rsuite-table#137])
+- **Improve**: Picker support size props at default. ([#917])
+- **Improve** Improved animation of `<Placeholder>` active state.
+- **Improve**: Improved `wordWrap` property for compatibility with `rowHeight`. ([rsuite-table#138])
+- **Bugfix**: Fix Types.PlacementAuto definition. ([#962])
+- **Chore**: Migrating `rsuite-utils` to `rsuite`. ([#963])
+
+[#971]: https://github.com/rsuite/rsuite/pull/971
+[#969]: https://github.com/rsuite/rsuite/pull/969
+[#965]: https://github.com/rsuite/rsuite/pull/965
+[#963]: https://github.com/rsuite/rsuite/pull/963
+[#962]: https://github.com/rsuite/rsuite/pull/962
+[#938]: https://github.com/rsuite/rsuite/pull/938
+[#933]: https://github.com/rsuite/rsuite/pull/933
+[#932]: https://github.com/rsuite/rsuite/pull/932
+[#928]: https://github.com/rsuite/rsuite/pull/928
+[#927]: https://github.com/rsuite/rsuite/pull/927
+[#917]: https://github.com/rsuite/rsuite/pull/917
+[#912]: https://github.com/rsuite/rsuite/pull/912
+[rsuite-table#140]: https://github.com/rsuite/rsuite-table/pull/140
+[rsuite-table#138]: https://github.com/rsuite/rsuite-table/pull/138
+[rsuite-table#137]: https://github.com/rsuite/rsuite-table/pull/137
+
+# 4.3.4
+
+> April 10, 2020
+
+- **Bugfix**: Fixed `<DatePciker>` onlyTime icon to clock icon. ([#933])
+- **Bugfix**: Fixed an issue where the cache was not reset after the data was updated in `<InputPicker>`. ([#948])
+
+---
+
+- **Bugfix**: 修复了 `<DatePciker>` 在只显示时间时图标错误的问题。([#933])
+- **Bugfix**: 修复了 `<InputPicker>` 在更新数据后未重置缓存的问题，导致新建项重复。 ([#948])
+
+[#948]: https://github.com/rsuite/rsuite/pull/948
+[#933]: https://github.com/rsuite/rsuite/pull/933
+
+# 4.3.3
+
+> March 26, 2020
+
+- **Bugfix**: Fixed `<InputNumber>` triggering `onChange` event incorrectly when losing focus. ([#923])
+- **Bugfix**: Update broken types in `<DateRangePicker>`. ([#916])
+- **Bugfix**: `rowHeight` should be optional on `<Table>`. ([#913])
+- **Improve**: The `content` props value supports `false` on `<Badge>`. ([#915])
+- **Improve**: Support keyboard enter key selection after the search is completed on Picker. ([#914])
+
+---
+
+- **Bugfix**: 修复了 `<InputNumber>` 在失去焦点时候，值未改变的情况下也触发了 `onChange` 事件。 ([#923])
+- **Bugfix**: 修复了 `<DateRangePicker>` 中错误的 typescript 类型定义。 ([#916])
+- **Bugfix**: 修复了 `<Table>` 错误的 typescript 类型定义, `rowHeight` 应该是可选属性。 ([#913])
+- **Improve**: 更新 `<Badge>` 组件 `content` 属性的值可以设置为 `false`。 ([#915])
+- **Improve**: 改进了 `Picker` 组件在搜索后，支持键盘 `Enter` 键直接选中第一个结果。 ([#914])
+
+[#923]: https://github.com/rsuite/rsuite/pull/923
+[#916]: https://github.com/rsuite/rsuite/pull/916
+[#915]: https://github.com/rsuite/rsuite/pull/915
+[#914]: https://github.com/rsuite/rsuite/pull/914
+[#913]: https://github.com/rsuite/rsuite/pull/913
+
+# 4.3.2
+
+> March 19, 2020
+
+- **Feature**: Support `showOneCalendar` on `<DateRangePicker>`. ([#911],[#848])
+- **Bugfix**: Fixed an issue where the scroll bar would not reset after the table was updated with data. ([rsuite-table#136])
+- **Bugfix**: Fixed missing typescript type definition in table.
+- **Example**: Added example for `Nav.Item` with `react-router-dom/link`. ([#909])
+- **Example**: Added example for `Nav.Item` with `next/link`. ([#907])
+
+---
+
+- **Feature**: `<DateRangePicker>` 新增 `showOneCalendar` 属性，支持只显示一个日历。([#911],[#848])
+- **Bugfix**: 修复了 `<Table>` 在数据更新后，滚动条位置未重重的问题。 ([rsuite-table#136])
+- **Bugfix**: 修复了 `<Table>` 缺少 Typescript 的类型定义。
+- **Example**: 新增 `Nav.Item` 与 `react-router-dom/link`组合的示例 ([#909])
+- **Example**: 新增 `Nav.Item` 与 `next/link`组合的示例 ([#907])
+
+[#911]: https://github.com/rsuite/rsuite/pull/911
+[#909]: https://github.com/rsuite/rsuite/pull/909
+[#907]: https://github.com/rsuite/rsuite/pull/907
+[#904]: https://github.com/rsuite/rsuite/pull/904
+[#848]: https://github.com/rsuite/rsuite/pull/848
+[rsuite-table#136]: https://github.com/rsuite/rsuite-table/pull/136
+
+# 4.3.1
+
+> March 13, 2020
+
+- **Bugfix**: Fixed rendering error in local language. ([#903])
+- **Bugfix**: Fixed the problem that the `resizable` property of the columns of the table would not work. ([rsuite-table#135])
+- **Bugfix**: Fix Icon issue when Panel is nested. ([#894])
+- **Bugfix**: Fix incorrect value passing. ([#888])
+- **Bugfix**: [docs] Fixed issue that website can't load in safari and ie. ([#901])
+- **Bugfix**: [docs] Add title to home page. ([#898])
+- **Example**: Add with-gatsby example. ([#897])
+
+---
+
+- **Bugfix**: 修复本地语言渲染错误的问题。 ([#903])
+- **Bugfix**: 修复 Table 列设置 `resizable` 以后拖拽列宽不工作的问题。 ([rsuite-table#135])
+- **Bugfix**: 修复 Panel 组件嵌套 Icon 重复显示的问题 ([#894])
+- **Bugfix**: 修复 PaginationButton 中传递的错误值。 ([#888])
+- **Bugfix**: [docs] 修复文档不能再 safari 和 ie 浏览器正常访问的问题。 ([#901])
+- **Bugfix**: [docs] 修复文档首页缺失 title 的问题 ([#898])
+- **Example**: 添加 rsuite 与 gatsby 集成的示例 ([#897])
+
+[#903]: https://github.com/rsuite/rsuite/pull/903
+[#901]: https://github.com/rsuite/rsuite/pull/901
+[#898]: https://github.com/rsuite/rsuite/pull/898
+[#894]: https://github.com/rsuite/rsuite/pull/894
+[#888]: https://github.com/rsuite/rsuite/pull/888
+[#897]: https://github.com/rsuite/rsuite/pull/897
+[rsuite-table#135]: https://github.com/rsuite/rsuite-table/pull/135
+
 # 4.3.0
 
 > March 5, 2020
@@ -103,7 +230,7 @@
 - **Feature**: Added support for `parentSelectable` on `<Cascader>`. ([#802])
 - **Feature**: Added support for Russian. ([#799])
 - **Feature**: Added option `image` to the `graph` property of `<Placeholder>` ([#755])
-- **Feature**: Added support for `dragable` on `<Uploader>`. ([#752])
+- **Feature**: Added support for `draggable` on `<Uploader>`. ([#752])
 - **Improve**: Enhance `<Tooltip>` and `<Popover>` to support HTML attributes ([#806])
 - **Bugfix**: Fixed the height of the buttons in the `<InputGroup>`.([#807])
 - **Bugfix**: Fixed `Drawer` gap bug when in RTL mode.([#803])
@@ -117,7 +244,7 @@
 - **Feature**: `<Cascader>` 组件支持 `parentSelectable` 属性，让父节点可选择。([#802])
 - **Feature**: 添加对俄语支持。([#799])
 - **Feature**: `<Placeholder>`的 `graph` 属性值添加了 `image` 选项。 ([#755])
-- **Feature**: `<Uploader>` 组件支持 `dragable` 属性，可以拖拽上传文件。([#752])
+- **Feature**: `<Uploader>` 组件支持 `draggable` 属性，可以拖拽上传文件。([#752])
 - **Improve**: `<Tooltip>` 和 `<Popover>` 支持 HTML 元素默认属性。 ([#806])
 - **Bugfix**: 修复了 `<InputGroup>` 内部按钮高度的问题。([#807])
 - **Bugfix**: 修复了 `<Drawer>` 在 RTL 模式下，左侧存在间隙的样式问题。([#803])

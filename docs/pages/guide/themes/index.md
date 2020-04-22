@@ -20,6 +20,8 @@ React Suite 默认提供了 Light 与 Dark 两套主题，您可以根据产品�
 // @import '~rsuite/dist/styles/rsuite-dark.css' 或者引入 CSS
 ```
 
+> 在定制主题中可参考的原型及规范: [Light 主题](/design/default/)， [Dark 主题](/design/dark/)
+
 ## 进行定制
 
 React Suite 的样式使用了 [Less][less] 作为样式的预处理，并且定义了一系列的变量，可使用 [Modify Variables][modify variables] 的方式进行定制化。包括但不限定于[定制主题色](#定制主题色)、[调整组件圆角半径](#调整组件圆角半径)、[修改字体样式](#修改字体样式)、[替换辅助色](#替换辅助色)等。下面示例中的代码均为在`custom-theme.less`进行新增操作。
@@ -52,9 +54,8 @@ React Suite 的样式使用了 [Less][less] 作为样式的预处理，并且定
 ### 修改字体样式
 
 ```less
-@font-family-base: 'Lucida Grande', 'Avenir Next', 'Helvetica Neue', Helvetica,
-  Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', STXihei,
-  sans-serif;
+@font-family-base: 'Lucida Grande', 'Avenir Next', 'Helvetica Neue', Helvetica, Arial,
+  'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', STXihei, sans-serif;
 @font-size-base: 14px;
 ```
 
@@ -103,10 +104,7 @@ module.exports = {
       {
         test: /\.less$/,
         loader: extractLess.extract({
-          use: [
-            { loader: 'css-loader' },
-            { loader: 'less-loader?javascriptEnabled=true' }
-          ]
+          use: [{ loader: 'css-loader' }, { loader: 'less-loader?javascriptEnabled=true' }]
         })
       }
     ]

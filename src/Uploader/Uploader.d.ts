@@ -127,7 +127,7 @@ export interface UploaderProps extends StandardProps {
   fileListVisible?: boolean;
 
   /** Supported Drag and drop upload **/
-  dragable?: boolean;
+  draggable?: boolean;
 }
 
 declare const Uploader: React.ComponentType<UploaderProps>;

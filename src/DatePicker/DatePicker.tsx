@@ -69,6 +69,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     oneTap: PropTypes.bool,
     preventOverflow: PropTypes.bool,
     showWeekNumbers: PropTypes.bool,
+    showMeridian: PropTypes.bool,
     disabledDate: PropTypes.func,
     disabledHours: PropTypes.func,
     disabledMinutes: PropTypes.func,
@@ -200,10 +201,15 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   };
 
   handleChangePageTime = (nextPageTime: Date) => {
-    this.setState({
-      pageDate: nextPageTime
-    });
+    this.setState({ pageDate: nextPageTime });
     this.handleAllSelect(nextPageTime);
+  };
+  handleToggleMeridian = () => {
+    const { pageDate } = this.state;
+    const hours = getHours(pageDate);
+    const nextHours = hours >= 12 ? hours - 12 : hours + 12;
+    const nextDate = setHours(pageDate, nextHours);
+    this.setState({ pageDate: nextDate });
   };
 
   handleShortcutPageDate = (
@@ -359,7 +365,14 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderCalendar() {
-    const { format, isoWeek, limitEndYear, disabledDate, showWeekNumbers } = this.props;
+    const {
+      format,
+      isoWeek,
+      limitEndYear,
+      disabledDate,
+      showWeekNumbers,
+      showMeridian
+    } = this.props;
     const { calendarState, pageDate } = this.state;
     const calendarProps = _.pick(this.props, calendarOnlyProps);
 
@@ -367,6 +380,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
       <Calendar
         {...calendarProps}
         showWeekNumbers={showWeekNumbers}
+        showMeridian={showMeridian}
         disabledDate={disabledDate}
         limitEndYear={limitEndYear}
         format={format}
@@ -380,6 +394,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
         onToggleTimeDropdown={this.toggleTimeDropdown}
         onChangePageDate={this.handleChangePageDate}
         onChangePageTime={this.handleChangePageTime}
+        onToggleMeridian={this.handleToggleMeridian}
       />
     );
   }

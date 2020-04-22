@@ -7,7 +7,7 @@ import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import { CellMeasurerCache, CellMeasurer } from 'react-virtualized/dist/commonjs/CellMeasurer';
 import { polyfill } from 'react-lifecycles-compat';
 
-import { shallowEqual } from 'rsuite-utils/lib/utils';
+import shallowEqual from '../utils/shallowEqual';
 import TreeNode from './TreeNode';
 import {
   defaultProps,
@@ -19,7 +19,6 @@ import {
 
 import {
   flattenTree,
-  shouldDisplay,
   getNodeParents,
   shouldShowNodeByExpanded,
   getVirtualLisHeight,
@@ -41,7 +40,8 @@ import {
   MenuWrapper,
   SearchBar,
   PickerToggleTrigger,
-  createConcatChildrenFunction
+  createConcatChildrenFunction,
+  shouldDisplay
 } from '../Picker';
 
 import { TreePickerProps } from './TreePicker.d';
@@ -124,7 +124,8 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     renderTreeNode: PropTypes.func,
     renderTreeIcon: PropTypes.func,
     renderExtraFooter: PropTypes.func,
-    renderDragNode: PropTypes.func
+    renderDragNode: PropTypes.func,
+    searchBy: PropTypes.func
   };
   static defaultProps = {
     locale: {
@@ -399,11 +400,13 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
   };
 
   getFilterData(data: any[], word = '', props?: TreePickerProps) {
-    const { labelKey, childrenKey } = props || this.props;
+    const { labelKey, childrenKey, searchBy } = props || this.props;
 
     const setVisible = (nodes = []) =>
       nodes.forEach((item: any) => {
-        item.visible = shouldDisplay(item[labelKey], word);
+        item.visible = searchBy
+          ? searchBy(word, item[labelKey], item)
+          : shouldDisplay(item[labelKey], word);
         if (_.isArray(item[childrenKey])) {
           setVisible(item[childrenKey]);
           item[childrenKey].forEach((child: any) => {

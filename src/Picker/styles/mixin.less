@@ -201,9 +201,18 @@
   }
 }
 
+.picker-default-button-reset-padding-left(@size) {
+  @padding-name: 'padding-@{size}-horizontal';
+  @padding-horizontal: @@padding-name;
+
+  .@{ns}picker-default & {
+    padding-left: @padding-horizontal - @picker-default-toggle-border-width;
+  }
+}
+
 .tag-picker-search-input-size(@padding-vertical; @padding-horizontal; @font-size; @line-height;) {
   .@{ns}picker-input:not(.@{ns}picker-tag) & ~ .@{ns}picker-tag-wrapper .@{ns}picker-search-input {
-    padding: @padding-vertical @padding-horizontal;
+    padding: (@padding-vertical - 1px) @padding-horizontal;
     font-size: @font-size;
     line-height: @line-height;
   }
@@ -251,8 +260,7 @@
 
 .tag-picker-search-input-xs() {
   .tag-picker-search-input-size(
-    @padding-extra-small-vertical; @padding-extra-small-horizontal; @font-size-extra-small;
-      @line-height-extra-small
+    @padding-extra-small-vertical; @padding-extra-small-horizontal; @font-size-extra-small; @line-height-extra-small
   );
 
   .@{ns}picker-input.@{ns}picker-tag & ~ .@{ns}picker-tag-wrapper {
@@ -272,19 +280,19 @@
 .input-picker-input-sizes() {
   @border-width: 2 * @picker-default-toggle-border-width;
 
-  .@{ns}picker-toggle-custom.@{ns}btn-lg {
-    height: @line-height-computed + @padding-large-vertical*2 - @border-width;
+  .@{ns}picker-toggle.@{ns}btn-lg {
+    height: @line-height-large-computed + @padding-large-vertical*2 - @border-width;
   }
 
-  .@{ns}picker-toggle-custom.@{ns}btn-md {
+  .@{ns}picker-toggle.@{ns}btn-md {
     height: @line-height-computed + @padding-base-vertical*2 - @border-width;
   }
 
-  .@{ns}picker-toggle-custom.@{ns}btn-sm {
+  .@{ns}picker-toggle.@{ns}btn-sm {
     height: @line-height-computed + @padding-small-vertical*2 - @border-width;
   }
 
-  .@{ns}picker-toggle-custom.@{ns}btn-xs {
+  .@{ns}picker-toggle.@{ns}btn-xs {
     height: @line-height-computed + @padding-extra-small-vertical*2 - @border-width;
   }
 }

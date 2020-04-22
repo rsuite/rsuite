@@ -5,7 +5,7 @@ import DefaultPage from '@/components/Page';
 export default function Page() {
   return (
     <DefaultPage
-      examples={['basic', 'align', 'time', 'custom']}
+      examples={['basic', 'align', 'time', 'endless', 'custom']}
       dependencies={{ Timeline, Icon, Grid, Row, Col }}
     />
   );

@@ -25,6 +25,7 @@ ReactDOM.render(
 | en_GB         | English             |
 | en_US         | American English    |
 | fi_FI         | Finnish             |
+| it_IT         | Italian             |
 | ko_KR         | Korean              |
 | pt_BR         | Portuguese (Brazil) |
 | ru_RU         | Russian             |
@@ -34,7 +35,7 @@ ReactDOM.render(
 
 ## Expand or modify language
 
-You can refer to the configuration in the [default language](https://github.com/rsuite/rsuite/blob/master/src/IntlProvider/locales/default.js) file to make a new language pack passed to the `<IntlProvider>` component via the locale property.
+You can refer to the configuration in the [default language](https://github.com/rsuite/rsuite/blob/master/src/IntlProvider/locales/default.ts) file to make a new language pack passed to the `<IntlProvider>` component via the locale property.
 
 ## Used with react-intl
 

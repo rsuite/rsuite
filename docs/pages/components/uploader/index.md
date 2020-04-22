@@ -26,7 +26,7 @@ import { Uploader } from 'rsuite';
 | defaultFileList      | Array<[FileType](#types)>                                                                                | 已经上传的文件列表                                                            |
 | disabled             | boolean                                                                                                  | 禁用                                                                          |
 | disabledFileItem     | boolean                                                                                                  | 禁用文件列表                                                                  |
-| dragable             | boolean                                                                                                  | 允许拖拽上传                                                                  |
+| draggable             | boolean                                                                                                  | 允许拖拽上传                                                                  |
 | fileList             | Array<[FileType](#types)>                                                                                | 已经上传的文件列表 （受控）                                                   |
 | fileListVisible      | boolean`(true)`                                                                                          | 显示文件列表                                                                  |
 | headers              | Object                                                                                                   | 设置上传的请求头部                                                            |

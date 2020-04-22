@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { reactToString } from 'rsuite-utils/lib/utils';
+import reactToString from '../utils/reactToString';
 
 export interface SelectedElementProps {
   selectedItems: any[];

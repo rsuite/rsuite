@@ -19,6 +19,15 @@ describe('Badge', () => {
     assert.equal(instance.innerText, content);
   });
 
+  it('Should be invisible', () => {
+    const instance = getDOMNode(
+      <Badge content={false}>
+        <button>test</button>
+      </Badge>
+    );
+    assert.equal(instance.tagName, 'BUTTON');
+  });
+
   it('MaxCount is invalid', () => {
     const content = '999';
     const instance = getDOMNode(<Badge content={content} />);

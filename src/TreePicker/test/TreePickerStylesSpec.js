@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM, { findDOMNode } from 'react-dom';
 import TreePicker from '../index';
 import { createTestContainer, getStyle, inChrome } from '@test/testUtils';
 

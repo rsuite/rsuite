@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import setStatic from 'recompose/setStatic';
-import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
+import shallowEqual from '../utils/shallowEqual';
 
 import NavItem from './NavItem';
 import { prefix, getUnhandledProps, defaultProps, ReactChildren } from '../utils';

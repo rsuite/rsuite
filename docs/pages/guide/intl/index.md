@@ -25,6 +25,7 @@ ReactDOM.render(
 | en_GB    | 英语           |
 | en_US    | 美式英语       |
 | fi_FI    | 芬兰语         |
+| it_IT    | 意大利语       |
 | ko_KR    | 韩语/朝鲜语    |
 | pt_BR    | 葡萄牙语(巴西) |
 | ru_RU    | 俄罗斯语       |
@@ -34,7 +35,7 @@ ReactDOM.render(
 
 ## 扩展或者修改语言
 
-您可以参考 [默认语言文件](https://github.com/rsuite/rsuite/blob/master/src/IntlProvider/locales/default.js) 中的配置，做一个新的语言包通过 `locale` 属性传递给 `<IntlProvider>` 组件。
+您可以参考 [默认语言文件](https://github.com/rsuite/rsuite/blob/master/src/IntlProvider/locales/default.ts) 中的配置，做一个新的语言包通过 `locale` 属性传递给 `<IntlProvider>` 组件。
 
 ## 与 react-intl 同时使用
 
