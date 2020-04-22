@@ -48,7 +48,7 @@ describe('TreePicker styles', () => {
         '0px 12px 12px 0px',
         'Picker tree wrapper padding'
       );
-    assert.equal(getStyle(treeNodeDom, 'fontSize'), '14px', 'Picker tree node font-size');
+    assert.equal(getStyle(treeNodeDom, 'fontSize'), '0px', 'Picker tree node font-size');
     assert.equal(getStyle(treeNodeDom, 'height'), '36px', 'Picker tree node height');
   });
 });
