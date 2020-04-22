@@ -8,7 +8,7 @@
  * https://github.com/rsuite/rsuite/blob/master/docs/public/data/city-simplified.json
  */
 
-const Basic = () => {
+const App = () => {
   const [treeData, setTreeData] = useState(data);
   return (
     <Tree
@@ -20,7 +20,7 @@ const Basic = () => {
     />
   );
 };
-ReactDOM.render(<Basic />);
+ReactDOM.render(<App />);
 ```
 
 <!--end-code-->

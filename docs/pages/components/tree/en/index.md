@@ -25,7 +25,7 @@ import { Tree } from 'rsuite';
 | defaultExpandItemValues | any []                                                                                              | Set the value of the default expanded node                                |
 | defaultValue            | string                                                                                              | Default selected Value                                                    |
 | disabledItemValues      | string[]                                                                                            | Disable item by value                                                     |
-| draggable               | boolean `(false)`                                                                                   | Setting drag node                                                         |
+| draggable               | boolean                                                                                             | Setting drag node                                                         |
 | expandItemValues        | any []                                                                                              | Set the value of the expanded node (controlled)                           |
 | height                  | number `(360px)`                                                                                    | height of menu. When `virtualize` is true, you can set the height of menu |
 | labelKey                | string `('label')`                                                                                  | Tree data structure Label property name                                   |

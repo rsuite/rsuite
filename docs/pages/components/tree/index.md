@@ -25,7 +25,7 @@ import { Tree } from 'rsuite';
 | defaultValue            | string                                                                                              | 默认选中的值                                                                    |
 | defaultExpandItemValues | any []                                                                                              | 设置默认展开节点的值                                                            |
 | disabledItemValues      | string[]                                                                                            | 禁用选项                                                                        |
-| draggable               | boolean `(false)`                                                                                   | 是否可以拖拽                                                                    |
+| draggable               | boolean                                                                                             | 是否可以拖拽                                                                    |
 | expandItemValues        | any []                                                                                              | 设置展开节点的值（受控）                                                        |
 | height                  | number `(360px)`                                                                                    | menu 的高度。当设置了 virtualized 为 true 时， 可以通过 height 控制 menu 的高度 |
 | labelKey                | string `('label')`                                                                                  | tree 数据结构 label 属性名称                                                    |
