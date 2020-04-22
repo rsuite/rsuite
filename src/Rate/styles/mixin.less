@@ -1,0 +1,9 @@
+.generate-spectrum-rates(@i:length(@spectrum)) when (@i>0) {
+  .generate-spectrum-rates(@i - 1);
+  @name: extract(@spectrum, @i);
+  @color: @@name;
+
+  .@{ns}rate-@{name} {
+    color: @color;
+  }
+}
