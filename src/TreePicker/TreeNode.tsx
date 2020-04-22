@@ -186,7 +186,6 @@ class TreeNode extends React.Component<TreeNodeProps> {
       dragOverTop,
       dragOverBottom
     } = this.props;
-    const key = nodeData?.refKey ?? '';
     const contentClasses = classNames(this.addPrefix('label-content'), {
       [this.addPrefix('dragging')]: dragging,
       [this.addPrefix('drag-over')]: dragOver,
@@ -198,7 +197,7 @@ class TreeNode extends React.Component<TreeNodeProps> {
         className={this.addPrefix('label')}
         title={this.getTitle()}
         data-layer={layer}
-        data-key={key}
+        data-key={nodeData?.refKey || ''}
         role="button"
         tabIndex={-1}
         onClick={this.handleSelect}
