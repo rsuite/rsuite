@@ -133,16 +133,13 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       searchPlaceholder: 'Search',
       noResultsText: 'No results found'
     },
-    inline: false,
     valueKey: 'value',
     labelKey: 'label',
     cleanable: true,
     placement: 'bottomStart',
     searchable: true,
-    draggable: false,
     appearance: 'default',
     childrenKey: 'children',
-    virtualized: false,
     menuAutoWidth: true
   };
 
@@ -458,7 +455,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       renderTreeIcon
     } = this.props;
 
-    const expand = this.nodes[node.refKey].expand;
+    const expand = this.nodes[node.refKey]?.expand;
     return {
       rtl: locale.rtl,
       value: node[valueKey],
@@ -1012,7 +1009,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
 
   renderTree() {
     const { filterData } = this.state;
-    const { height, className = '', inline, style, locale, virtualized, searchable } = this.props;
+    const { height, className, inline, style, locale, virtualized, searchable } = this.props;
 
     const layer = 0;
 
@@ -1039,7 +1036,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     const treeWidth = _.isUndefined(style?.width) ? defaultWidth : style.width;
     const styles = inline ? { height: treeHeight, ...style } : {};
 
-    const ListHeight = getVirtualLisHeight(inline, searchable, treeHeight);
+    const listHeight = getVirtualLisHeight(inline, searchable, treeHeight);
 
     return (
       <React.Fragment>
@@ -1051,12 +1048,12 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
         >
           <div className={this.addTreePrefix('nodes')}>
             {virtualized ? (
-              <AutoSizer defaultHeight={ListHeight} defaultWidth={treeWidth}>
+              <AutoSizer defaultHeight={listHeight} defaultWidth={treeWidth}>
                 {({ height, width }) => (
                   <List
                     ref={this.listRef}
                     width={width || treeWidth}
-                    height={height || ListHeight}
+                    height={height || listHeight}
                     rowHeight={38}
                     rowCount={nodes.length}
                     rowRenderer={this.measureRowRenderer(nodes)}

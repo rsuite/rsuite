@@ -186,13 +186,8 @@ class TreeNode extends React.Component<TreeNodeProps> {
       dragOverTop,
       dragOverBottom
     } = this.props;
-    const key = nodeData ? nodeData.refKey : '';
-    const classes = classNames('', {
-      [this.addPrefix('label')]: true
-    });
-
-    const contentClasses = classNames('', {
-      [this.addPrefix('label-content')]: true,
+    const key = nodeData?.refKey ?? '';
+    const contentClasses = classNames(this.addPrefix('label-content'), {
       [this.addPrefix('dragging')]: dragging,
       [this.addPrefix('drag-over')]: dragOver,
       [this.addPrefix('drag-over-top')]: dragOverTop,
@@ -200,7 +195,7 @@ class TreeNode extends React.Component<TreeNodeProps> {
     });
     return (
       <span
-        className={classes}
+        className={this.addPrefix('label')}
         title={this.getTitle()}
         data-layer={layer}
         data-key={key}
@@ -235,11 +230,13 @@ class TreeNode extends React.Component<TreeNodeProps> {
     });
 
     const padding = layer * TREE_NODE_PADDING + TREE_NODE_ROOT_PADDING;
-    const styles = rtl ? { paddingRight: padding } : { paddingLeft: padding };
-
+    const styles = {
+      ...style,
+      [rtl ? 'paddingRight' : 'paddingLeft']: padding
+    };
     return visible ? (
       <div
-        style={{ ...style, ...styles }}
+        style={styles}
         className={classes}
         ref={innerRef}
         draggable={draggable}
