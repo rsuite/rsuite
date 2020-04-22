@@ -51,3 +51,13 @@ export type CheckStateType = CHECK_STATE.UNCHECK | CHECK_STATE.CHECK | CHECK_STA
 
 export const TREE_NODE_PADDING = 16;
 export const TREE_NODE_ROOT_PADDING = 12;
+
+export const KEY_CODE = {
+  BACKSPACE: 8,
+  ENTER: 13,
+  ESC: 27,
+  LEFT: 37,
+  UP: 38,
+  RIGHT: 39,
+  DOWN: 40
+};
