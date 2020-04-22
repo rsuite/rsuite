@@ -22,9 +22,10 @@ import { Rate } from 'rsuite';
 | character       | React.ReactNode                                                        | 自定义字符                       |     |
 | cleanable       | boolean`(true)`                                                        | 是否支持清除                     |     |
 | defaultValue    | number`(0)`                                                            | 默认值                           |     |
-| disabled        | boolean`(false)`                                                       | 是否只读，为 true 时无法进行交互 |     |
+| disabled        | boolean`(false)`                                                       | 是否禁用，为 true 时无法进行交互 |     |
 | max             | number`(5)`                                                            | 最大分数                         |     |
 | renderCharacter | (value: number,index: number) => React.ReactNode                       | 自定义渲染 character 函数        |     |
+| readonly        | boolean`(false)`                                                       | 是否只读，为 true 时无法进行交互 |     |
 | size            | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                  | 设置组件尺寸                     |     |
 | color           | enum: 'red', 'orange','yellow', 'green', <br/>'cyan', 'blue', 'violet' | 设置颜色                         |     |
 | value           | number                                                                 | 设置值 `受控`                    |     |
