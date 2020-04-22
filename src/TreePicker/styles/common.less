@@ -37,8 +37,8 @@
 
 .@{tpns}-node {
   position: relative;
-  font-size: @picker-tree-node-font-size;
-  line-height: @picker-tree-node-line-height;
+  // Clear host whitespace
+  font-size: 0;
   text-align: left;
   margin: 0 0 4px 0;
 
@@ -56,6 +56,8 @@
     padding-left: @picker-tree-arrow-down-width + 8px;
     display: inline-block;
     cursor: pointer;
+    font-size: @picker-tree-node-font-size;
+    line-height: @picker-tree-node-line-height;
 
     > .@{tpns}-node-label-content {
       padding: @custom-picker-tree-node-padding-vertical @picker-tree-node-padding-horizontal
