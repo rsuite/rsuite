@@ -69,7 +69,11 @@
     height: auto;
     min-height: @time-line-tail-min-height;
   }
-
+  
+  &-item:only-child &-item-tail {
+    display: none;
+  }
+  
   // Align left
   .time-line-align(left);
 
