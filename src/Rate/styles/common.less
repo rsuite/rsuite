@@ -20,7 +20,7 @@
     cursor: pointer;
     outline: none;
 
-    &-first {
+    &-before {
       position: absolute;
       width: 50%;
       height: 100%;
@@ -35,22 +35,22 @@
       bottom: 0;
     }
 
-    &-second {
+    &-after {
       color: @rate-default-color;
     }
 
-    &-first,
-    &-second {
+    &-before,
+    &-after {
       transition: all 0.3s;
       display: flex;
     }
 
-    &-half &-first,
-    &-half &-second {
+    &-half &-before,
+    &-half &-after {
       opacity: 1;
     }
 
-    &-full &-second {
+    &-full &-after {
       color: inherit;
     }
   }
@@ -66,6 +66,7 @@
   &-disabled &-character,
   &-readonly &-character {
     cursor: default;
+    pointer-events: none;
   }
 
   &-xs {

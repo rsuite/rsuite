@@ -3,7 +3,7 @@
 <!--start-code-->
 
 ```js
-const instance = <Rate defaultValue={2.5} allowHalf readonly />;
+const instance = <Rate defaultValue={2.5} allowHalf readOnly />;
 
 ReactDOM.render(instance);
 ```
