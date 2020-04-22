@@ -14,6 +14,7 @@ const App = () => {
     <Tree
       data={treeData}
       draggable
+      defaultExpandAll
       onDrop={({ createUpdateDataFunction }, event) =>
         setTreeData(createUpdateDataFunction(treeData))
       }
