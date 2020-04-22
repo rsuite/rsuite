@@ -65,6 +65,10 @@
     height: @time-line-dot-center-gap+ @time-line-dot-side-length;
   }
 
+  &-item:only-child &-item-tail {
+    display: none;
+  }
+
   // Align left
   .time-line-align(left);
 
