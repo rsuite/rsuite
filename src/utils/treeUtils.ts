@@ -283,6 +283,7 @@ export function createUpdateTreeDataFunction(params: any, { valueKey, childrenKe
     updateTree(data);
     return [...data];
   };
+}
 
 export function findNodeOfTree(data, check) {
   const findNode = (nodes = []) => {
