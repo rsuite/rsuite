@@ -411,7 +411,7 @@
   {
     "id": "rate",
     "name": "Rate",
-    "title": "评分控件",
+    "title": "评分",
     "components": ["Rate"],
     "designHash": {
       "default": "73",

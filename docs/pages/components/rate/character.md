@@ -1,29 +1,38 @@
-### 其他字符
+### 字符
 
 你可以使用其他 icon、数字、中文或是其他自定义的图案
 
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+const App = () => {
+  const [value, setValue] = React.useState(2.5);
+  const onChnage = value => {
+    setValue(value);
+  };
+  return (
     <div>
-      <Rate
-        defaultValue={2.5}
-        character={<Icon icon="heart" size="2x" style={{ color: 'red' }} />}
-      />
-    </div>
-    <div>
-      <Rate defaultValue={2.5} character="鼎" />
-    </div>
+      <div>
+        <Rate
+          allowHalf
+          value={value}
+          character={<Icon icon="heart" size="2x" />}
+          color="red"
+          onChange={onChnage}
+        />
+      </div>
+      <div>
+        <Rate allowHalf value={value} character="鼎" color="blue" onChange={onChnage} />
+      </div>
 
-    <div>
-      <Rate defaultValue={2.5} character="A" />
+      <div>
+        <Rate allowHalf value={value} character="A" onChange={onChnage} />
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />);
 ```
 
 <!--end-code-->

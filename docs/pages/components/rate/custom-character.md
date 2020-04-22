@@ -1,4 +1,4 @@
-### 自定义渲染 character (renderCharacter)
+### 自定义渲染
 
 当有多级评价时，你可以自定义每级展现的 character，不过这需要你自己实现
 
@@ -18,7 +18,14 @@ const renderCharacter = (value, index) => {
   }
   return <Icon icon="smile-o" size="2x" style={{ color: '#F4CA1D' }} />;
 };
-const instance = <Rate defaultValue={2.5} renderCharacter={renderCharacter} />;
+
+const instance = (
+  <div>
+    <Rate defaultValue={2.5} renderCharacter={renderCharacter} />
+    <hr />
+    <Rate max={10} defaultValue={2} />
+  </div>
+);
 
 ReactDOM.render(instance);
 ```
