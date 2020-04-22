@@ -10,6 +10,7 @@ import { SIZE, KEY_CODE } from '../constants';
 import { FormPlaintextContext } from '../Form/FormContext';
 import Icon from '../Icon';
 import { transformValueToCharacterValue, transformCharacterValueToValue } from './utils';
+import shallowEqualArray from '../utils/shallowEqualArray';
 
 interface RateStates {
   value: number;
@@ -25,6 +26,7 @@ export const ratePropTypes = {
   disabled: PropTypes.bool,
   max: PropTypes.number,
   renderCharacter: PropTypes.func,
+  readonly: PropTypes.bool,
   size: PropTypes.oneOf(SIZE),
   value: PropTypes.number,
   vertical: PropTypes.bool,
@@ -64,15 +66,24 @@ class Rate extends React.Component<RateProps, RateStates> {
     return transformValueToCharacterValue(value, max, allowHalf);
   };
 
+  static getDerivedStateFromProps(nextProps: RateProps, nextState: RateStates) {
+    const { value, max, allowHalf } = nextProps;
+    const characterValue = transformValueToCharacterValue(value, max, allowHalf);
+    if (nextProps.hasOwnProperty('value') && value !== nextState.value) {
+      return { value, characterValue };
+    }
+    return null;
+  }
+
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   resetCharacterValue = () => {
     this.setState({ characterValue: this.getCharacterValue(this.getValue()) });
   };
 
-  handleMouseLeave = _.debounce(() => {
+  handleMouseLeave = () => {
     this.resetCharacterValue();
-  }, 100);
+  };
 
   handleChangeValue = (index: number, event: React.SyntheticEvent<HTMLElement>) => {
     const { allowHalf, cleanable, onChange } = this.props;
@@ -127,26 +138,30 @@ class Rate extends React.Component<RateProps, RateStates> {
     this.setState({ characterValue: this.getCharacterValue(nextValue) });
   };
 
-  handleFirstMouseEnter = _.throttle(index => {
+  handleFirstMouseEnter = index => {
+    const { characterValue } = this.state;
     if (this.props.allowHalf) {
-      const newCharacterValue = _.map(this.state.characterValue, (_item, itemIndex) => {
+      const newCharacterValue = _.map(characterValue, (_item, itemIndex) => {
         if (itemIndex === index) {
           return 0.5;
         }
         return itemIndex < index ? 1 : 0;
       });
-      this.setState({ characterValue: newCharacterValue });
+      !shallowEqualArray(characterValue, newCharacterValue) &&
+        this.setState({ characterValue: newCharacterValue });
     } else {
       this.handleSecondMouseEnter(index);
     }
-  }, 100);
+  };
 
-  handleSecondMouseEnter = _.throttle(index => {
+  handleSecondMouseEnter = index => {
+    const { characterValue } = this.state;
     const newCharacterValue = _.map(this.state.characterValue, (_item, itemIndex) =>
       index < itemIndex ? 0 : 1
     );
-    this.setState({ characterValue: newCharacterValue });
-  }, 100);
+    !shallowEqualArray(characterValue, newCharacterValue) &&
+      this.setState({ characterValue: newCharacterValue });
+  };
 
   render() {
     const {
@@ -156,15 +171,18 @@ class Rate extends React.Component<RateProps, RateStates> {
       disabled,
       max,
       renderCharacter,
+      readonly,
       vertical,
       ...rest
     } = this.props;
 
     const { characterValue } = this.state;
     const hoverValue = transformCharacterValueToValue(characterValue);
+    const interactive = !(disabled || readonly);
 
     const characterWrapperClass = classNames(classPrefix, className, {
-      [this.addPrefix('disabled')]: disabled
+      [this.addPrefix('disabled')]: disabled,
+      [this.addPrefix('readonly')]: readonly
     });
 
     const unhandled = getUnhandledProps(Rate, rest);
@@ -184,20 +202,20 @@ class Rate extends React.Component<RateProps, RateStates> {
               [this.addPrefix('character-empty')]: item === 0
             })}
             tabIndex={0}
-            onClick={!disabled ? _.partial(this.handleClick, index) : undefined}
-            onKeyDown={!disabled ? _.partial(this.handleKeyDown, index) : undefined}
+            onClick={interactive ? _.partial(this.handleClick, index) : undefined}
+            onKeyDown={interactive ? _.partial(this.handleKeyDown, index) : undefined}
           >
             <div
               className={classNames(this.addPrefix('character-first'), {
                 [this.addPrefix('character-vertical')]: vertical
               })}
-              onMouseMove={!disabled ? _.partial(this.handleFirstMouseEnter, index) : undefined}
+              onMouseMove={interactive ? _.partial(this.handleFirstMouseEnter, index) : undefined}
             >
               {renderCharacter ? renderCharacter(hoverValue, index) : character}
             </div>
             <div
               className={this.addPrefix('character-second')}
-              onMouseMove={!disabled ? _.partial(this.handleSecondMouseEnter, index) : undefined}
+              onMouseMove={interactive ? _.partial(this.handleSecondMouseEnter, index) : undefined}
             >
               {renderCharacter ? renderCharacter(hoverValue, index) : character}
             </div>

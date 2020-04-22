@@ -55,11 +55,16 @@
     }
   }
 
-  &-character:hover {
+  &:not(&-readonly)&:not(&-disabled) &-character:hover {
     transform: scale(1.1);
   }
 
-  &-disabled &-character {
+  &-disabled {
+    opacity: 0.3;
+  }
+
+  &-disabled &-character,
+  &-readonly &-character {
     cursor: default;
   }
 
