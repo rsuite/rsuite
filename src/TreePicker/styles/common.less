@@ -71,10 +71,6 @@
         background-color: @picker-tree-node-active-bg;
       }
     }
-
-    &-content {
-      pointer-events: none;
-    }
   }
 
   &-drag-over {
@@ -129,7 +125,7 @@
     color: @picker-menu-item-disabled-color;
     cursor: @cursor-disabled;
 
-    > .@{tpns}-node-label {
+    > .@{tpns}-node-label > .@{tpns}-node-label-content {
       cursor: @cursor-disabled;
 
       &,
@@ -139,14 +135,18 @@
     }
   }
 
-  &-disabled&-active > .@{tpns}-node-label {
+  &-disabled&-active > .@{tpns}-node-label > .@{tpns}-node-label-content {
     &,
     &:hover {
       color: @picker-select-menu-item-selected-disabled-color;
     }
   }
 
-  &:not(&-disabled):focus > .@{tpns}-node-label {
+  &:not(&-disabled):focus > .@{tpns}-node-label > .@{tpns}-node-label-content {
+    background-color: @picker-tree-node-active-bg;
+  }
+
+  &:not(&-disabled) > .@{tpns}-node-label:focus > .@{tpns}-node-label-content {
     background-color: @picker-tree-node-active-bg;
   }
 }
@@ -219,10 +219,12 @@
   .@{tpns} {
     padding: 0 @picker-menu-padding @picker-menu-padding 0;
 
-    &-node > .@{tpns}-node-label {
-      .ellipsis;
-
-      display: block;
+    &-node {
+      margin: 0;
+      > .@{tpns}-node-label > .@{tpns}-node-label-content {
+        .ellipsis;
+        display: block;
+      }
     }
   }
 }
