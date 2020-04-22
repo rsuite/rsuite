@@ -9,7 +9,7 @@ export interface UploadTriggerProps {
   name?: string;
   multiple?: boolean;
   disabled?: boolean;
-  dragable?: boolean;
+  draggable?: boolean;
   accept?: string;
   classPrefix?: string;
   className?: string;
@@ -39,7 +39,7 @@ class UploadTrigger extends React.Component<UploadTriggerProps, UploaderTriggerS
     className: PropTypes.string,
     children: PropTypes.node,
     componentClass: PropTypes.elementType,
-    dragable: PropTypes.bool,
+    draggable: PropTypes.bool,
     onDragEnter: PropTypes.func,
     onDragLeave: PropTypes.func,
     onDragOver: PropTypes.func,
@@ -64,7 +64,7 @@ class UploadTrigger extends React.Component<UploadTriggerProps, UploaderTriggerS
   };
 
   handleDragEnter = event => {
-    if (this.props.dragable) {
+    if (this.props.draggable) {
       event.preventDefault();
       this.setState({
         dragOver: true
@@ -74,7 +74,7 @@ class UploadTrigger extends React.Component<UploadTriggerProps, UploaderTriggerS
   };
 
   handleDragLeave = event => {
-    if (this.props.dragable) {
+    if (this.props.draggable) {
       event.preventDefault();
       this.setState({
         dragOver: false
@@ -84,12 +84,12 @@ class UploadTrigger extends React.Component<UploadTriggerProps, UploaderTriggerS
   };
 
   handleDragOver = event => {
-    this.props.dragable && event.preventDefault();
+    this.props.draggable && event.preventDefault();
     this.props.onDragOver?.(event);
   };
 
   handleDrop = event => {
-    if (this.props.dragable) {
+    if (this.props.draggable) {
       event.preventDefault();
       this.setState({
         dragOver: false
