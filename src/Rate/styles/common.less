@@ -1,0 +1,83 @@
+@import '../../styles/common';
+@import './mixin';
+
+// Rate
+// ----------------------
+
+.@{ns}rate {
+  position: relative;
+  display: inline-block;
+  color: @rate-selected-color;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  transition: all 0.3s;
+
+  &-character {
+    position: relative;
+    display: inline-block;
+    margin: 3px 10px 3px 0;
+    cursor: pointer;
+    outline: none;
+
+    &-first {
+      position: absolute;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+      opacity: 0;
+    }
+
+    &-vertical {
+      width: 100%;
+      height: 50%;
+      flex-direction: column-reverse;
+      bottom: 0;
+    }
+
+    &-second {
+      color: @rate-default-color;
+    }
+
+    &-first,
+    &-second {
+      transition: all 0.3s;
+      display: flex;
+    }
+
+    &-half &-first,
+    &-half &-second {
+      opacity: 1;
+    }
+
+    &-full &-second {
+      color: inherit;
+    }
+  }
+
+  &-character:hover {
+    transform: scale(1.1);
+  }
+
+  &-disabled &-character {
+    cursor: default;
+  }
+
+  &-xs {
+    font-size: @rate-xs-font-size;
+  }
+
+  &-sm {
+    font-size: @rate-sm-font-size;
+  }
+
+  &-md {
+    font-size: @rate-md-font-size;
+  }
+
+  &-lg {
+    font-size: @rate-lg-font-size;
+  }
+}
+
+.generate-spectrum-rates;

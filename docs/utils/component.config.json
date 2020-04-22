@@ -409,6 +409,16 @@
     }
   },
   {
+    "id": "rate",
+    "name": "Rate",
+    "title": "评分",
+    "components": ["Rate"],
+    "designHash": {
+      "default": "73",
+      "dark": "73"
+    }
+  },
+  {
     "group": true,
     "id": "display",
     "name": "Data Display",
