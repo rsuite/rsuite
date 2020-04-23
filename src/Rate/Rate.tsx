@@ -37,7 +37,7 @@ class Rate extends React.Component<RateProps, RateState> {
   };
 
   static defaultProps = {
-    character: <Icon icon="star" style={{ fontSize: 'inherit' }} />,
+    character: <Icon icon="star" />,
     cleanable: true,
     defaultValue: 0,
     max: 5,

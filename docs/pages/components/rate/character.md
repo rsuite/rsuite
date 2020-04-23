@@ -5,6 +5,16 @@
 <!--start-code-->
 
 ```js
+/**
+ * import * as SvgIcons from '@/components/SvgIcons'
+ * SvgIcons 是 import 的外部资源。
+ *
+ * <style>
+ *   .rs-icon.fill-color use{
+ *       fill: currentColor;
+ *   }
+ * </style>
+ */
 const App = () => {
   const [value, setValue] = React.useState(2.5);
   const onChnage = value => {
@@ -16,7 +26,7 @@ const App = () => {
         <Rate
           allowHalf
           value={value}
-          character={<Icon icon="heart" size="2x" />}
+          character={<Icon icon="heart" />}
           color="red"
           onChange={onChnage}
         />
@@ -27,6 +37,16 @@ const App = () => {
 
       <div>
         <Rate allowHalf value={value} character="A" onChange={onChnage} />
+      </div>
+
+      <div>
+        <Rate
+          allowHalf
+          vertical
+          value={value}
+          character={<Icon className="fill-color" icon={SvgIcons.Dark} />}
+          onChange={onChnage}
+        />
       </div>
     </div>
   );

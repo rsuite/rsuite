@@ -10,7 +10,7 @@ const instance = (
     defaultValue={2.5}
     allowHalf
     vertical
-    character={<Icon icon="beer" size="2x" />}
+    character={<Icon icon="beer"  />}
     color="blue"
   />
 );
