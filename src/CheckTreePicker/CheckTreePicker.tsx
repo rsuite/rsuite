@@ -148,7 +148,6 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       noResultsText: 'No results found',
       checkAll: 'All'
     },
-    inline: false,
     cascade: true,
     valueKey: 'value',
     labelKey: 'label',
@@ -157,11 +156,9 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     placement: 'bottomStart',
     appearance: 'default',
     searchable: true,
-    virtualized: false,
     menuAutoWidth: true,
     defaultValue: [],
     childrenKey: 'children',
-    defaultExpandAll: false,
     uncheckableItemValues: []
   };
   menuRef: React.RefObject<any>;
@@ -503,8 +500,8 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       const key = activeItem?.dataset?.key;
       const layer = activeItem?.dataset?.layer;
       const nodeData = this.getActiveElementOption(filterData, key);
-      nodeData.check = !this.nodes[nodeData.refKey].check;
-      nodeData.parentNode = this.nodes[nodeData.refKey].parentNode;
+      nodeData.check = !this.nodes[nodeData.refKey]?.check;
+      nodeData.parentNode = this.nodes[nodeData.refKey]?.parentNode;
       return {
         nodeData,
         layer
@@ -598,11 +595,11 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     Object.keys(nodes).forEach((refKey: string) => {
       const currentNode = nodes[refKey];
       if (currentNode.parentNode) {
-        const parentNode = nodes[currentNode.parentNode.refKey];
+        const parentNode = nodes[currentNode.parentNode?.refKey];
         if (currentNode[key]) {
-          if (!parentNode.checkAll) {
+          if (!parentNode?.checkAll) {
             list.push(nodes[refKey][valueKey]);
-          } else if (parentNode.uncheckable) {
+          } else if (parentNode?.uncheckable) {
             list.push(nodes[refKey][valueKey]);
           }
         }
@@ -1112,7 +1109,16 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
 
   renderCheckTree() {
     const { filterData, isSomeNodeHasChildren } = this.state;
-    const { inline, style, height, className = '', onScroll, locale, virtualized } = this.props;
+    const {
+      inline,
+      style,
+      height,
+      className,
+      onScroll,
+      locale,
+      virtualized,
+      searchable
+    } = this.props;
 
     // 树节点的层级
     const layer = 0;
@@ -1146,7 +1152,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     const treeNodesClass = classNames(this.addTreePrefix('nodes'), {
       [this.addTreePrefix('all-uncheckable')]: getEveryFisrtLevelNodeUncheckable(this.nodes)
     });
-    const ListHeight = getVirtualLisHeight(inline, treeHeight);
+    const listHeight = getVirtualLisHeight(inline, searchable, treeHeight);
     return (
       <div
         ref={this.treeViewRef}
@@ -1157,12 +1163,12 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       >
         <div className={treeNodesClass}>
           {virtualized ? (
-            <AutoSizer defaultHeight={ListHeight} defaultWidth={treeWidth}>
+            <AutoSizer defaultHeight={listHeight} defaultWidth={treeWidth}>
               {({ height, width }) => (
                 <List
                   ref={this.listRef}
                   width={width || treeWidth}
-                  height={height || ListHeight}
+                  height={height || listHeight}
                   rowHeight={36}
                   rowCount={formattedNodes.length}
                   rowRenderer={this.measureRowRenderer(formattedNodes)}
