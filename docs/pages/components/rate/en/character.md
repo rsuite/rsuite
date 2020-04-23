@@ -5,6 +5,16 @@ You can use other icons, numbers, Chinese or other custom patterns
 <!--start-code-->
 
 ```js
+/**
+ * import * as SvgIcons from '@/components/SvgIcons'
+ * SvgIcons is external resources.
+ *
+ * <style>
+ *   .rs-icon.fill-color use{
+ *       fill: currentColor;
+ *   }
+ * </style>
+ */
 const App = () => {
   const [value, setValue] = React.useState(2.5);
   const onChnage = value => {
@@ -16,7 +26,7 @@ const App = () => {
         <Rate
           allowHalf
           value={value}
-          character={<Icon icon="heart" size="2x" />}
+          character={<Icon icon="heart" />}
           color="red"
           onChange={onChnage}
         />
@@ -27,6 +37,15 @@ const App = () => {
 
       <div>
         <Rate allowHalf value={value} character="A" onChange={onChnage} />
+      </div>
+
+      <div>
+        <Rate
+          allowHalf
+          value={value}
+          character={<Icon className="fill-color" icon={SvgIcons.LightOn} />}
+          onChange={onChnage}
+        />
       </div>
     </div>
   );
