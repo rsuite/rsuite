@@ -65,6 +65,7 @@
       display: inline-block;
       border-top: 2px solid transparent;
       border-bottom: 2px solid transparent;
+
       &:hover {
         background-color: @picker-tree-node-hover-bg;
       }
@@ -86,6 +87,7 @@
   &-drag-over-top {
     &.@{tpns}-node-label-content {
       border-top: 2px solid @picker-tree-node-active-color !important;
+
       &::after {
         content: '';
         position: absolute;
@@ -103,6 +105,7 @@
   &-drag-over-bottom {
     &.@{tpns}-node-label-content {
       border-bottom: 2px solid @picker-tree-node-active-color !important;
+
       &::after {
         content: '';
         position: absolute;
@@ -223,8 +226,10 @@
 
     &-node {
       margin: 0;
+
       > .@{tpns}-node-label > .@{tpns}-node-label-content {
         .ellipsis;
+
         display: block;
       }
     }
