@@ -55,8 +55,11 @@
     }
   }
 
-  &:not(&-readonly)&:not(&-disabled) &-character:hover {
-    transform: scale(1.1);
+  &:not(&-readonly)&:not(&-disabled) &-character {
+    &:hover,
+    &:focus {
+      transform: scale(1.1);
+    }
   }
 
   &-disabled {

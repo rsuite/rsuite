@@ -23,14 +23,14 @@ describe('Rate', () => {
 
   it('Should allow clean half value', () => {
     const instance = getDOMNode(<Rate defaultValue={0.5} allowHalf />);
-    ReactTestUtils.Simulate.mouseMove(instance.querySelector('.rs-rate-character-first'));
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-rate-character-half'));
+    ReactTestUtils.Simulate.mouseMove(instance.querySelector('.rs-rate-character-before'));
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-rate-character-before'));
     assert.equal(instance.querySelectorAll('.rs-rate-character-full').length, 0);
   });
 
   it('Should render A character', () => {
     const instance = getDOMNode(<Rate defaultValue={1} character="A" />);
-    assert.equal(instance.querySelector('.rs-rate-character-first').innerText, 'A');
+    assert.equal(instance.querySelector('.rs-rate-character-before').innerText, 'A');
   });
 
   it('Should render a custom character', () => {
@@ -39,14 +39,14 @@ describe('Rate', () => {
         defaultValue={4}
         renderCharacter={value => {
           if (value > 2) {
-            return <Icon Icon="camera-retro" className="custom" />;
+            return <Icon icon="camera-retro" className="custom" />;
           }
-          return <Icon Icon="star" />;
+          return <Icon icon="star" />;
         }}
       />
     );
     assert.include(
-      instance.querySelector('.rs-rate-character-first').firstChild.className,
+      instance.querySelector('.rs-rate-character-before').firstChild.className,
       'custom'
     );
   });
@@ -79,8 +79,22 @@ describe('Rate', () => {
         done();
       }
     };
-    const instance = getDOMNode(<Rate value={1} onChange={doneOp} />);
+    const instance = getDOMNode(<Rate defaultValue={1} onChange={doneOp} />);
+    ReactTestUtils.Simulate.mouseMove(instance.querySelectorAll('.rs-rate-character-before')[2]);
     ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-rate-character')[2]);
+  });
+
+  it('Should call onChange callback by KeyDown event', done => {
+    const doneOp = value => {
+      if (value === 3) {
+        done();
+      }
+    };
+    const instance = getDOMNode(<Rate defaultValue={1} onChange={doneOp} />);
+    const characters = instance.querySelectorAll('.rs-rate-character');
+    ReactTestUtils.Simulate.keyDown(characters[1], { keyCode: 39 });
+    ReactTestUtils.Simulate.keyDown(characters[2], { keyCode: 39 });
+    ReactTestUtils.Simulate.keyDown(characters[2], { keyCode: 13 });
   });
 
   it('Should be vertical', () => {

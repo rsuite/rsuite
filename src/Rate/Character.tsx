@@ -1,6 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { defaultProps, prefix } from '../utils';
+import { prefix, defaultClassPrefix } from '../utils';
+import { contains } from 'dom-lib';
 
 const characterStatus = {
   [0]: 'empty',
@@ -12,42 +13,62 @@ interface CharacterProps {
   children?: React.ReactNode;
   vertical?: boolean;
   status?: number;
-  classPrefix?: string;
-  onBeforeMouseMove?: () => void;
-  onAfterMouseMove?: () => void;
-  [key: string]: any;
+  disabled?: boolean;
+  onMouseMove?: (key, event: React.MouseEvent) => void;
+  onClick?: (key, event: React.MouseEvent) => void;
+  onKeyDown?: (event: React.KeyboardEvent) => void;
 }
 
-class Character extends React.Component<CharacterProps> {
-  render() {
-    const {
+const getKey = (a, b) => (contains(a, b) ? 'before' : 'after');
+
+const Character = React.forwardRef(
+  (
+    {
       children,
       vertical,
-      classPrefix,
-      onBeforeMouseMove,
-      onAfterMouseMove,
+      onClick,
+      onKeyDown,
       status,
+      disabled,
+      onMouseMove,
       ...rest
-    } = this.props;
-
+    }: CharacterProps,
+    ref: React.Ref<any>
+  ) => {
+    const classPrefix = defaultClassPrefix('rate-character');
     const addPrefix = prefix(classPrefix);
+    const beforeRef = React.createRef<HTMLDivElement>();
+
+    const handleMouseMove = (event: React.MouseEvent) => {
+      onMouseMove?.(getKey(beforeRef.current, event.target), event);
+    };
+
+    const handleClick = (event: React.MouseEvent) => {
+      onClick?.(getKey(beforeRef.current, event.target), event);
+    };
 
     return (
-      <li {...rest} className={classNames(classPrefix, addPrefix(characterStatus[status]))}>
+      <li
+        {...rest}
+        ref={ref}
+        tabIndex={0}
+        onClick={disabled ? null : handleClick}
+        onKeyDown={disabled ? null : onKeyDown}
+        onMouseMove={disabled ? null : handleMouseMove}
+        className={classNames(classPrefix, addPrefix(characterStatus[status]))}
+      >
         <div
+          ref={beforeRef}
           className={classNames(addPrefix('before'), { [addPrefix('vertical')]: vertical })}
-          onMouseMove={onBeforeMouseMove}
         >
           {children}
         </div>
-        <div className={addPrefix('after')} onMouseMove={onAfterMouseMove}>
-          {children}
-        </div>
+        <div className={addPrefix('after')}>{children}</div>
       </li>
     );
   }
-}
+);
 
-export default defaultProps<CharacterProps>({
-  classPrefix: 'rate-character'
-})(Character);
+Character.displayName = 'Character';
+
+export default Character;
