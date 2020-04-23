@@ -1,5 +1,7 @@
 # next
 
+- **Feature**: Support `draggable` on `<Tree>` ([#987])
+- **Feature**: Added `<Rete>`. ([#981])
 - **Feature**: Added support for Italian ([#971])
 - **Feature**: Added support for custom overlay. ([#969])
 - **Feature**: Support `vertical` on `<Progress.Line>`. ([#938])
@@ -9,12 +11,39 @@
 - **Feature**: Support `container` on `<Affix>`. ([#912])
 - **Feature**: Support `onDataUpdated` on `<Table>`. ([rsuite-table#140])
 - **Feature**: Support `affixHorizontalScrollbar` on `<Table>`. ([rsuite-table#137])
+- **Breaking**: Fix misspelling of Uploader props `dragable`, modify to`draggable`.
 - **Improve**: Picker support size props at default. ([#917])
 - **Improve** Improved animation of `<Placeholder>` active state.
 - **Improve**: Improved `wordWrap` property for compatibility with `rowHeight`. ([rsuite-table#138])
 - **Bugfix**: Fix Types.PlacementAuto definition. ([#962])
 - **Chore**: Migrating `rsuite-utils` to `rsuite`. ([#963])
+- **Example**: Add with-preact example. ([#977])
 
+---
+
+- **Feature**: `<Tree>` 组件新增 `draggable`属性， 支持拖拽。 ([#987])
+- **Feature**: 新增 `<Rete>` 组件。 ([#981])
+- **Feature**: 新增对意大利语言支持。 ([#971])
+- **Feature**: 支持自定义浮层。 ([#969])
+- **Feature**: `<Progress.Line>` 组件新增 `vertical` 属性，垂直显示进度条。 ([#938])
+- **Feature**: `<DatePicker>` 组件新增 `showMeridian` 属性，支持时间 12 小时格式显示。 ([#932])
+- **Feature**: `<TagPicker>` 组件支持 `tagProps`，设置 Tag 属性。 ([#927])
+- **Feature**: `<Affix>` 支持 `container` 属性，把元素只在容器可见范围内才固定。 ([#912])
+- **Feature**: `<Table>` 支持 `onDataUpdated` 属性，在表格数据加载完成以后的回调函数。 ([rsuite-table#140])
+- **Feature**: `<Table>` 支持 `affixHorizontalScrollbar` 属性，让表格底部横向滚动条固定在可视范围内。 ([rsuite-table#137])
+- **Feature**: 所有带搜索功能的 Picker 组件 `searchBy`属性，可以自定义搜索规则。 ([#928],[#965])
+- **Breaking**: 修复 Uploader 属性 `dragable` 拼写错误，修改为 `draggable`。 ([#984])
+- **Improve**: 改进所有的 Picker 组件，默认支持 `size` 属性。([#917])
+- **Improve** 改进 `<Placeholder>` 的动画效果。
+- **Bugfix**: 修复 `<Table>` 的 `wordWrap` 属性与 `rowHeight`不兼容的问题。 ([rsuite-table#138])
+- **Bugfix**: 修复 Typescript 一些定义错误。([#962])
+- **Example**: 新增示例项目 with-preact。 ([#977])
+- **Chore**: 迁移 `rsuite-utils` 库到 `rsuite`，方便维护。 ([#963])
+
+[#987]: https://github.com/rsuite/rsuite/pull/987
+[#984]: https://github.com/rsuite/rsuite/pull/984
+[#981]: https://github.com/rsuite/rsuite/pull/981
+[#977]: https://github.com/rsuite/rsuite/pull/977
 [#971]: https://github.com/rsuite/rsuite/pull/971
 [#969]: https://github.com/rsuite/rsuite/pull/969
 [#965]: https://github.com/rsuite/rsuite/pull/965
