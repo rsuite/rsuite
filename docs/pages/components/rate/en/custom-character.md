@@ -7,7 +7,7 @@ When there are multiple levels of rating, you can customize the character displa
 ```js
 const renderCharacter = (value, index) => {
   // unselected character
-  if (value <= index) {
+  if (value < index + 1) {
     return <Icon icon="meh-o" />;
   }
   if (value < 3) {

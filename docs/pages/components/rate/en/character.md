@@ -1,6 +1,6 @@
 ### Characters
 
-You can use other icons, numbers, Chinese or other custom patterns
+You can use other icons, emoji, numbers, Chinese or other custom patterns
 
 <!--start-code-->
 
@@ -34,11 +34,12 @@ const App = () => {
       <div>
         <Rate allowHalf value={value} character="鼎" color="blue" onChange={onChnage} />
       </div>
-
       <div>
         <Rate allowHalf value={value} character="A" onChange={onChnage} />
       </div>
-
+      <div>
+        <Rate allowHalf value={value} character="😀" onChange={onChnage} />
+      </div>
       <div>
         <Rate
           allowHalf

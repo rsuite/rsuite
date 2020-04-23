@@ -29,6 +29,7 @@
 
     &-after {
       color: @rate-default-color;
+      filter: grayscale(1);
     }
 
     &-before,
@@ -42,10 +43,13 @@
 
     &-half &-before {
       opacity: 1;
+      filter: none;
+      z-index: @zindex-rate-character-before;
     }
 
     &-full &-after {
       color: inherit;
+      filter: none;
     }
 
     &-vertical {
