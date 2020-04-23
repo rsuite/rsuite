@@ -1,18 +1,22 @@
-export const transformValueToCharacterValue = (value: number, max: number, allowHalf: boolean) => {
-  const characterValue = [];
+export const transformValueToCharacterMap = (
+  value: number,
+  max: number,
+  allowHalf: boolean
+): number[] => {
+  const characterMap = [];
   for (let i = 0; i < max; i++) {
     if (i < value) {
       if (allowHalf && i + 1 > value) {
-        value && characterValue.push(0.5);
+        value && characterMap.push(0.5);
       } else {
-        characterValue.push(1);
+        characterMap.push(1);
       }
     } else {
-      characterValue.push(0);
+      characterMap.push(0);
     }
   }
-  return characterValue;
+  return characterMap;
 };
 
-export const transformCharacterValueToValue = (value: number[]) =>
+export const transformCharacterMapToValue = (value: number[]): number =>
   value.reduce((total, currentValue) => total + currentValue);

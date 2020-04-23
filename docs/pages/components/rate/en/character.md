@@ -5,22 +5,34 @@ You can use other icons, numbers, Chinese or other custom patterns
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+const App = () => {
+  const [value, setValue] = React.useState(2.5);
+  const onChnage = value => {
+    setValue(value);
+  };
+  return (
     <div>
-      <Rate allowHalf defaultValue={2.5} character={<Icon icon="heart" size="2x" />} color="red" />
-    </div>
-    <div>
-      <Rate allowHalf defaultValue={2.5} character="鼎" color="blue" />
-    </div>
+      <div>
+        <Rate
+          allowHalf
+          value={value}
+          character={<Icon icon="heart" size="2x" />}
+          color="red"
+          onChange={onChnage}
+        />
+      </div>
+      <div>
+        <Rate allowHalf value={value} character="鼎" color="blue" onChange={onChnage} />
+      </div>
 
-    <div>
-      <Rate allowHalf defaultValue={2.5} character="A" />
+      <div>
+        <Rate allowHalf value={value} character="A" onChange={onChnage} />
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />);
 ```
 
 <!--end-code-->

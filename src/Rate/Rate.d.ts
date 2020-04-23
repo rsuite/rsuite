@@ -17,11 +17,14 @@ export interface RateProps<ValueType = number> extends StandardProps {
   // Default value
   defaultValue?: ValueType;
 
-  // read only,unable to select
+  // disabled,unable to select
   disabled?: boolean;
 
   // Maximum rate
   max?: number;
+
+  // read only,unable to select
+  readOnly: boolean;
 
   // render coutom character
   renderCharacter?: (value: number, index: number) => React.ReactNode;
