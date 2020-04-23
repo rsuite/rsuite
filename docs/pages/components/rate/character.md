@@ -1,6 +1,6 @@
 ### 字符
 
-你可以使用其他 icon、数字、中文或是其他自定义的图案
+你可以使用其他 icon、emoji、数字、中文或是其他自定义的图案
 
 <!--start-code-->
 
@@ -34,16 +34,17 @@ const App = () => {
       <div>
         <Rate allowHalf value={value} character="鼎" color="blue" onChange={onChnage} />
       </div>
-
       <div>
         <Rate allowHalf value={value} character="A" onChange={onChnage} />
       </div>
-
+      <div>
+        <Rate allowHalf value={value} character="😀" onChange={onChnage} />
+      </div>
       <div>
         <Rate
           allowHalf
-          vertical
           value={value}
+          vertical
           character={<Icon className="fill-color" icon={SvgIcons.Dark} />}
           onChange={onChnage}
         />
