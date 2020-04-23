@@ -22,13 +22,15 @@
     font-size: @font-size-small;
     line-height: @line-height-small;
 
+    &-caret::before {
+      vertical-align: middle;
+    }
+  }
+
+  &-length-menu .@{ns}picker-toggle.@{ns}btn .@{ns}picker-toggle {
     &-caret {
       top: 0;
       right: 8px;
-
-      &::before {
-        vertical-align: middle;
-      }
     }
   }
 
