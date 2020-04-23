@@ -17,7 +17,7 @@ const instance = (
       <Button color="violet">Violet</Button>
     </ButtonToolbar>
 
-    <ButtonToolbar style={{ background: '#000',padding:10 }}>
+    <ButtonToolbar style={{ background: '#000', padding: 10 }}>
       <Button color="red" appearance="ghost">
         Red
       </Button>

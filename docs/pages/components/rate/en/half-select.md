@@ -1,4 +1,4 @@
-### Allow half select
+### Half ratings
 
 <!--start-code-->
 

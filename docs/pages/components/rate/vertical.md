@@ -6,7 +6,13 @@
 
 ```js
 const instance = (
-  <Rate defaultValue={2.5} allowHalf vertical character={<Icon icon="beer" size="2x" />} />
+  <Rate
+    defaultValue={2.5}
+    allowHalf
+    vertical
+    character={<Icon icon="beer" size="2x" />}
+    color="blue"
+  />
 );
 
 ReactDOM.render(instance);

@@ -1,4 +1,4 @@
-### Size
+### Sizes
 
 The size of the rate component
 

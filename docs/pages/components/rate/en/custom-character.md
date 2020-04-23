@@ -1,8 +1,6 @@
-### Custom character
+### Customized rates
 
 When there are multiple levels of rating, you can customize the character displayed at each level, but you need to implement this yourself
-
-<!--start-code-->
 
 <!--start-code-->
 

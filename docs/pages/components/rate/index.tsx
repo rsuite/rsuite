@@ -11,9 +11,9 @@ export default function Page() {
         'size',
         'color',
         'half-select',
+        'vertical',
         'disabled',
         'readonly',
-        'vertical',
         'character',
         'custom-character'
       ]}

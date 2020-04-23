@@ -36,9 +36,7 @@ const instance = (
     <div>
       <Rate defaultValue={5} renderCharacter={renderCharacter} />
     </div>
-
     <hr />
-
     <Rate max={10} defaultValue={2} />
   </div>
 );
