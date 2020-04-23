@@ -32,7 +32,8 @@ class Rate extends React.Component<RateProps, RateState> {
     size: PropTypes.oneOf(SIZE),
     value: PropTypes.number,
     vertical: PropTypes.bool,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    onChangeActive: PropTypes.func
   };
 
   static defaultProps = {
@@ -78,8 +79,9 @@ class Rate extends React.Component<RateProps, RateState> {
     this.setState({ characterMap: this.getCharacterMap(this.getValue()) });
   };
 
-  handleMouseLeave = () => {
+  handleMouseLeave = (event: React.SyntheticEvent<HTMLElement>) => {
     this.resetCharacterMap();
+    this.props.onChangeActive?.(this.getValue(), event);
   };
 
   handleChangeValue = (index: number, event: React.SyntheticEvent<HTMLElement>) => {
@@ -127,7 +129,12 @@ class Rate extends React.Component<RateProps, RateState> {
     });
   };
 
-  handleChangeCharacterMap(index: number, key: string, _event: React.SyntheticEvent, callback) {
+  handleChangeCharacterMap(
+    index: number,
+    key: string,
+    event: React.SyntheticEvent<HTMLElement>,
+    callback
+  ) {
     const { characterMap } = this.state;
     const nextCharacterMap = characterMap.map((_item, i) => {
       if (i === index && key === 'before' && this.props.allowHalf) {
@@ -138,6 +145,8 @@ class Rate extends React.Component<RateProps, RateState> {
 
     if (!shallowEqualArray(characterMap, nextCharacterMap)) {
       this.setState({ characterMap: nextCharacterMap }, callback);
+      this.props.onChangeActive?.(transformCharacterMapToValue(nextCharacterMap), event);
+
       return;
     }
     callback?.();

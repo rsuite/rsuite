@@ -12,6 +12,7 @@ export default function Page() {
         'color',
         'half-select',
         'vertical',
+        'hover',
         'disabled',
         'readonly',
         'character',
