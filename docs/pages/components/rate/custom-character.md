@@ -21,8 +21,24 @@ const renderCharacter = (value, index) => {
 
 const instance = (
   <div>
-    <Rate defaultValue={2.5} renderCharacter={renderCharacter} />
+    <div>
+      <Rate defaultValue={1} renderCharacter={renderCharacter} />
+    </div>
+    <div>
+      <Rate defaultValue={2} renderCharacter={renderCharacter} />
+    </div>
+    <div>
+      <Rate defaultValue={3} renderCharacter={renderCharacter} />
+    </div>
+    <div>
+      <Rate defaultValue={4} renderCharacter={renderCharacter} />
+    </div>
+    <div>
+      <Rate defaultValue={5} renderCharacter={renderCharacter} />
+    </div>
+
     <hr />
+
     <Rate max={10} defaultValue={2} />
   </div>
 );

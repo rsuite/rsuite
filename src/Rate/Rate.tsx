@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { getOffsetParent, hasClass } from 'dom-lib';
 import compose from 'recompose/compose';
 
 import { defaultProps, prefix, getUnhandledProps, withStyleProps } from '../utils';
@@ -35,6 +34,7 @@ class Rate extends React.Component<RateProps, RateState> {
     vertical: PropTypes.bool,
     onChange: PropTypes.func
   };
+
   static defaultProps = {
     character: <Icon icon="star" style={{ fontSize: 'inherit' }} />,
     cleanable: true,
@@ -47,7 +47,7 @@ class Rate extends React.Component<RateProps, RateState> {
     const { value, max, allowHalf } = nextProps;
     const characterMap = transformValueToCharacterMap(value, max, allowHalf);
     if (typeof value !== 'undefined' && value !== nextState.prevPropsValue) {
-      return { value, characterMap };
+      return { prevPropsValue: value, characterMap };
     }
     return null;
   }
@@ -83,7 +83,7 @@ class Rate extends React.Component<RateProps, RateState> {
   };
 
   handleChangeValue = (index: number, event: React.SyntheticEvent<HTMLElement>) => {
-    const { allowHalf, cleanable, onChange } = this.props;
+    const { cleanable, onChange } = this.props;
     const { characterMap } = this.state;
     const value = this.getValue();
     let nextValue = transformCharacterMapToValue(characterMap);
@@ -96,23 +96,10 @@ class Rate extends React.Component<RateProps, RateState> {
       nextValue = 0;
     }
 
-    if (cleanable && value === 0) {
-      nextValue =
-        allowHalf &&
-        hasClass(getOffsetParent(event.target), `${this.addPrefix('character-before')}`)
-          ? index + 0.5
-          : index + 1;
-    }
-
-    this.setState({ prevPropsValue: nextValue, characterMap: this.getCharacterMap(nextValue) });
-
     if (nextValue !== value) {
+      this.setState({ prevPropsValue: nextValue, characterMap: this.getCharacterMap(nextValue) });
       onChange?.(nextValue, event);
     }
-  };
-
-  handleClick = (index: number, event: React.MouseEvent<HTMLElement>) => {
-    this.handleChangeValue(index, event);
   };
 
   handleKeyDown = (index: number, event: React.KeyboardEvent<HTMLElement>) => {
@@ -127,39 +114,34 @@ class Rate extends React.Component<RateProps, RateState> {
       nextValue = allowHalf ? nextValue - 0.5 : nextValue - 1;
     }
 
+    this.setState({ characterMap: this.getCharacterMap(nextValue) });
+
     if (keyCode === KEY_CODE.ENTER) {
       this.handleChangeValue(index, event);
     }
-
-    this.setState({ characterMap: this.getCharacterMap(nextValue) });
   };
 
-  handleBeforeMouseMove = (index: number) => {
-    if (!this.props.allowHalf) {
-      return this.handleAfterMouseMove(index);
-    }
+  handleClick = (index: number, key: string, event: React.MouseEvent<HTMLElement>) => {
+    this.handleChangeCharacterMap(index, key, event, () => {
+      this.handleChangeValue(index, event);
+    });
+  };
 
+  handleChangeCharacterMap(index: number, key: string, _event: React.SyntheticEvent, callback) {
     const { characterMap } = this.state;
     const nextCharacterMap = characterMap.map((_item, i) => {
-      if (i === index) {
+      if (i === index && key === 'before' && this.props.allowHalf) {
         return 0.5;
       }
-      return i < index ? 1 : 0;
+      return index >= i ? 1 : 0;
     });
 
     if (!shallowEqualArray(characterMap, nextCharacterMap)) {
-      this.setState({ characterMap: nextCharacterMap });
+      this.setState({ characterMap: nextCharacterMap }, callback);
+      return;
     }
-  };
-
-  handleAfterMouseMove = (index: number) => {
-    const { characterMap } = this.state;
-    const nextCharacterMap = characterMap.map((_item, i) => (index < i ? 0 : 1));
-
-    if (!shallowEqualArray(characterMap, nextCharacterMap)) {
-      this.setState({ characterMap: nextCharacterMap });
-    }
-  };
+    callback?.();
+  }
 
   render() {
     const {
@@ -195,8 +177,7 @@ class Rate extends React.Component<RateProps, RateState> {
             vertical={vertical}
             onClick={this.handleClick.bind(this, index)}
             onKeyDown={this.handleKeyDown.bind(this, index)}
-            onBeforeMouseMove={this.handleBeforeMouseMove.bind(this, index)}
-            onAfterMouseMove={this.handleAfterMouseMove.bind(this, index)}
+            onMouseMove={this.handleChangeCharacterMap.bind(this, index)}
           >
             {renderCharacter ? renderCharacter(hoverValue, index) : character}
           </Character>
