@@ -28,6 +28,26 @@ describe('Rate', () => {
     assert.equal(instance.querySelectorAll('.rs-rate-character-full').length, 0);
   });
 
+  it('Should cant clean value', () => {
+    const instance = getDOMNode(<Rate defaultValue={0.5} allowHalf cleanable={false} />);
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-rate-character-before'));
+    assert.equal(instance.querySelectorAll('.rs-rate-character-half').length, 1);
+  });
+
+  it('Should render same value when click again after clean', () => {
+    // half
+    const instance1 = getDOMNode(<Rate defaultValue={0.5} allowHalf />);
+    ReactTestUtils.Simulate.click(instance1.querySelector('.rs-rate-character-before'));
+    ReactTestUtils.Simulate.click(instance1.querySelector('.rs-rate-character-before'));
+    assert.equal(instance1.querySelectorAll('.rs-rate-character-half').length, 1);
+
+    // full
+    const instance2 = getDOMNode(<Rate defaultValue={1} />);
+    ReactTestUtils.Simulate.click(instance2.querySelector('.rs-rate-character'));
+    ReactTestUtils.Simulate.click(instance2.querySelector('.rs-rate-character'));
+    assert.equal(instance2.querySelectorAll('.rs-rate-character-full').length, 1);
+  });
+
   it('Should render A character', () => {
     const instance = getDOMNode(<Rate defaultValue={1} character="A" />);
     assert.equal(instance.querySelector('.rs-rate-character-before').innerText, 'A');

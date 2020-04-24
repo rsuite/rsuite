@@ -35,6 +35,7 @@
     &-before,
     &-after {
       display: flex;
+      z-index: @zindex-rate-character-before;
 
       > .@{ns}icon {
         font-size: inherit;
@@ -44,7 +45,6 @@
     &-half &-before {
       opacity: 1;
       filter: none;
-      z-index: @zindex-rate-character-before;
     }
 
     &-full &-after {
