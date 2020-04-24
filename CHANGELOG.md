@@ -1,4 +1,4 @@
-# next
+# 4.4.0
 
 - **Feature**: Support `draggable` on `<Tree>` ([#987])
 - **Feature**: Added `<Rete>`. ([#981])
