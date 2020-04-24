@@ -8,13 +8,13 @@
 const instance = (
   <div>
     <div>
-      <Rate defaultValue={4} size="xs" />
+      <Rate defaultValue={1} size="xs" />
     </div>
     <div>
-      <Rate defaultValue={4} size="sm" />
+      <Rate defaultValue={2} size="sm" />
     </div>
     <div>
-      <Rate defaultValue={4} size="md" />
+      <Rate defaultValue={3} size="md" />
     </div>
     <div>
       <Rate defaultValue={4} size="lg" />
