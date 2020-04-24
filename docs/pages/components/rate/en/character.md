@@ -38,7 +38,7 @@ const App = () => {
         <Rate allowHalf value={value} character="A" onChange={onChnage} />
       </div>
       <div>
-        <Rate allowHalf value={value} character="😀" onChange={onChnage} />
+        <Rate allowHalf value={value} character="👍" onChange={onChnage} />
       </div>
       <div>
         <Rate
