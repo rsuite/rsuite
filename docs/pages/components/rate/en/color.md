@@ -8,25 +8,25 @@ The color of the rate component
 const instance = (
   <div>
     <div>
-      <Rate defaultValue={4} color="red" />
+      <Rate defaultValue={5} color="red" />
     </div>
     <div>
       <Rate defaultValue={4} color="orange" />
     </div>
     <div>
-      <Rate defaultValue={4} color="yellow" />
+      <Rate defaultValue={3} color="yellow" />
     </div>
     <div>
-      <Rate defaultValue={4} color="green"/>
+      <Rate defaultValue={2} color="green" />
     </div>
     <div>
-      <Rate defaultValue={4} color="cyan" />
+      <Rate defaultValue={3} color="cyan" />
     </div>
     <div>
       <Rate defaultValue={4} color="blue" />
     </div>
     <div>
-      <Rate defaultValue={4} color="violet" />
+      <Rate defaultValue={5} color="violet" />
     </div>
   </div>
 );
