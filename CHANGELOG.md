@@ -1,5 +1,7 @@
 # 4.4.0
 
+> April 24, 2020
+
 - **Feature**: Support `draggable` on `<Tree>` ([#987])
 - **Feature**: Added `<Rete>`. ([#981])
 - **Feature**: Added support for Italian ([#971])

@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { Badge, Button, Toggle, Icon } from 'rsuite';
-import Rate from '../../../../src/Rate';
+import { Badge, Button, Toggle, Icon, Rate } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import * as SvgIcons from '@/components/SvgIcons';
 
