@@ -1,0 +1,28 @@
+.generate-spectrum-rates(@i:length(@spectrum)) when (@i>0) {
+  .generate-spectrum-rates(@i - 1);
+  @name: extract(@spectrum, @i);
+  @color: @@name;
+
+  .@{ns}rate-@{name} {
+    color: @color;
+  }
+}
+
+.rate-size(@name,@font-size) {
+  .@{ns}rate-@{name} {
+    font-size: @font-size;
+
+    .@{ns}icon > svg {
+      height: @font-size;
+      // Fixed bug that ie svg width too long.
+      .ie-width(@font-size);
+    }
+  }
+}
+
+.generate-sizes-rate() {
+  .rate-size(xs, @rate-xs-font-size);
+  .rate-size(sm, @rate-sm-font-size);
+  .rate-size(md, @rate-md-font-size);
+  .rate-size(lg, @rate-lg-font-size);
+}

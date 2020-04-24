@@ -19,13 +19,11 @@ import { Tooltip, Whisper } from 'rsuite';
 
 ### `<Tooltip>`
 
-| 属性名称        | 类型 `(默认值)`      | 描述                       |
-| --------------- | -------------------- | -------------------------- |
-| arrowOffsetLeft | number or string     | 箭头相对 `left` 位置偏移量 |
-| arrowOffsetTop  | number or string     | 箭头相对 `top` 位置偏移量  |
-| classPrefix     | string `('tooltip')` | 组件 CSS 类的前缀          |
-| positionLeft    | number               | 相对 `left` 位置偏移量     |
-| positionTop     | number               | 相对 `top` 位置偏移量      |
+| 属性名称    | 类型 `(默认值)`      | 描述              |
+| ----------- | -------------------- | ----------------- |
+| children \* | React.Node           | 组件的内容        |
+| classPrefix | string `('tooltip')` | 组件 CSS 类的前缀 |
+| visible     | boolean              | 组件默认可见的    |
 
 ### `<Whisper>`
 

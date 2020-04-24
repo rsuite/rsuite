@@ -1,7 +1,7 @@
 import React from 'react';
 import reactToString from '../reactToString';
 
-describe('reactToString', () => {
+describe('[utils] reactToString', () => {
   it('reactToString', () => {
     const str = reactToString(
       <div>

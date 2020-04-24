@@ -58,6 +58,11 @@ class Position extends React.Component<PositionProps, PositionState> {
   }
 
   getHTMLElement() {
+    /**
+     * findDOMNode is deprecated in StrictMode.
+     * Replace findDOMNode with ref. Provided for `Transition` calls.
+     * https://fb.me/react-strict-mode-find-node
+     */
     return getDOMNode(this.childRef.current);
   }
 
@@ -146,6 +151,18 @@ class Position extends React.Component<PositionProps, PositionState> {
   render() {
     const { children, className, ...rest } = this.props;
     const { positionLeft, positionTop, positionClassName, ...arrowPosition } = this.state;
+
+    if (typeof children === 'function') {
+      return children(
+        {
+          className: classNames(className, positionClassName),
+          left: positionLeft,
+          top: positionTop
+        },
+        this.childRef
+      );
+    }
+
     const child = React.Children.only(children) as React.DetailedReactHTMLElement<any, HTMLElement>;
 
     return React.cloneElement(child, {

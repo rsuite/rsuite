@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Ripple from '../Ripple';
+import Button from '../Button';
 import { prefix, getUnhandledProps, defaultProps, createChainedFunction } from '../utils';
 
 export interface PickerToggleProps {
@@ -36,7 +37,7 @@ class PickerToggle extends React.Component<PickerToggleProps, PickerToggleState>
   };
 
   static defaultProps = {
-    componentClass: 'a',
+    componentClass: Button,
     tabIndex: 0,
     caret: true
   };
@@ -103,8 +104,7 @@ class PickerToggle extends React.Component<PickerToggleProps, PickerToggleState>
       ...rest
     } = this.props;
 
-    const defaultClassName = Component === 'a' ? classPrefix : this.addPrefix('custom');
-    const classes = classNames(defaultClassName, className, {
+    const classes = classNames(classPrefix, className, {
       active: active || this.state.active
     });
     const unhandled = getUnhandledProps(PickerToggle, rest);

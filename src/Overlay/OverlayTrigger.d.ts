@@ -26,7 +26,9 @@ export interface TriggerProps extends AnimationEventProps, StandardProps {
   container?: HTMLElement | (() => HTMLElement);
 
   /** display element */
-  speaker?: React.ReactElement<any>;
+  speaker?:
+    | React.ReactElement<any>
+    | ((props: any, ref: React.RefObject<any>) => React.ReactElement);
 
   /**
    * Prevent floating element overflow

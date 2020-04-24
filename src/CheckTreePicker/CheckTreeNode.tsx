@@ -189,10 +189,12 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
       [this.addPrefix('all-uncheckable')]: !!allUncheckable
     });
     const padding = layer * TREE_NODE_PADDING + TREE_NODE_ROOT_PADDING;
-    const styles = rtl ? { paddingRight: padding } : { paddingLeft: padding };
-
+    const styles = {
+      ...style,
+      [rtl ? 'paddingRight' : 'paddingLeft']: padding
+    };
     return visible ? (
-      <div style={{ ...style, ...styles }} className={classes} ref={innerRef}>
+      <div style={styles} className={classes} ref={innerRef}>
         {this.renderIcon()}
         {this.renderLabel()}
       </div>

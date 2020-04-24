@@ -8,8 +8,6 @@ import { overlayProps } from '../Whisper/Whisper';
 
 class Tooltip extends React.Component<TooltipProps> {
   static propTypes = {
-    positionLeft: PropTypes.number,
-    positionTop: PropTypes.number,
     visible: PropTypes.bool,
     classPrefix: PropTypes.string,
     className: PropTypes.string,
@@ -19,8 +17,6 @@ class Tooltip extends React.Component<TooltipProps> {
   render() {
     const {
       className,
-      positionLeft,
-      positionTop,
       classPrefix,
       children,
       style,
@@ -32,8 +28,6 @@ class Tooltip extends React.Component<TooltipProps> {
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, className);
     const styles = {
-      left: positionLeft,
-      top: positionTop,
       opacity: visible ? 1 : undefined,
       ...style
     };

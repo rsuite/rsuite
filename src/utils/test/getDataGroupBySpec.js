@@ -41,8 +41,8 @@ describe('[utils] getDataGroupBy', () => {
     ];
 
     function compare(a, b) {
-      let nameA = a.toUpperCase();
-      let nameB = b.toUpperCase();
+      const nameA = a.toUpperCase();
+      const nameB = b.toUpperCase();
 
       if (nameA < nameB) {
         return -1;

@@ -24,6 +24,7 @@ import { Popover, Whisper } from 'rsuite';
 | children \* | React.Node           | The content of the component.          |
 | classPrefix | string `('popover')` | The prefix of the component CSS class. |
 | title       | React.Node           | The title of the component.            |
+| visible     | boolean              | The component is visible by default.   |
 
 ### `<Whisper>`
 
@@ -36,15 +37,15 @@ import { Popover, Whisper } from 'rsuite';
 | full            | boolean                                                          | The content full the container      |
 | onBlur          | () => void                                                       | Lose Focus callback function        |
 | onClick         | () => void                                                       | Click on the callback function      |
-| onClose         | ()=>void                                                         | Callback fired when close component |
+| onClose         | () => void                                                       | Callback fired when close component |
 | onFocus         | () => void                                                       | Callback function to get focus      |
 | onMouseOut      | () => void                                                       | Mouse leave callback function       |
-| onOpen          | ()=>void                                                         | Callback fired when open component  |
+| onOpen          | () => void                                                         | Callback fired when open component  |
 | placement       | enum: [PlacementAll](#types) `('right')`                         | Dispaly placement                   |
 | preventOverflow | boolean                                                          | Prevent floating element overflow   |
 | speaker \*      | union: Tooltip, Popover                                          | Displayed component                 |
 | trigger         | union: 'click', 'hover', 'focus', 'active' `(['hover','focus'])` | Triggering events                   |
-| triggerRef      | React.ElementRef                                                 | Ref of trigger                      |
+| triggerRef      | React.Ref                                                        | Ref of trigger                      |
 
 ## Related components
 

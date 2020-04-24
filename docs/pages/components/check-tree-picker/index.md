@@ -53,6 +53,7 @@ import { CheckTreePicker } from 'rsuite';
 | renderTreeIcon          | (nodeData:[DataItemType](#types))=>React.Node                                                              | 自定义渲染 图标                                                                 |
 | renderTreeNode          | (nodeData:[DataItemType](#types))=>React.Node                                                              | 自定义渲染 tree 节点                                                            |
 | renderValue             | (values:string[], checkedItems:Array&lt;[DataItemType](#types)&gt;,selectedElement:React.Node)=>React.Node | 自定义渲染 placeholder                                                          |
+| searchBy                | (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean                                   | 自定义搜索规则                                                                  |
 | searchable              | boolean `(true)`                                                                                           | 是否显示搜索框                                                                  |
 | size                    | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                                                      | 设置组件尺寸                                                                    |
 | toggleComponentClass    | React.ElementType `('a')`                                                                                  | 为组件自定义元素类型                                                            |

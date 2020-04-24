@@ -65,6 +65,15 @@
     height: @time-line-dot-center-gap+ @time-line-dot-side-length;
   }
 
+  &-endless &-item:last-child &-item-tail {
+    height: auto;
+    min-height: @time-line-tail-min-height;
+  }
+
+  &-item:only-child &-item-tail {
+    display: none;
+  }
+
   // Align left
   .time-line-align(left);
 
@@ -128,6 +137,9 @@
   &-with-time &-item-time,
   &-with-time &-item-content {
     flex: 1 0 50%;
+    // In IE flex item box-sizing is invalid .
+    // Reference https://github.com/philipwalton/flexbugs/issues/3
+    .ie-max-width(50%);
   }
 
   &-align-alternate &-item:nth-child(2n),

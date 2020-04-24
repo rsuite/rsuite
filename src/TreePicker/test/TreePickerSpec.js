@@ -343,4 +343,18 @@ describe('TreePicker', () => {
 
     instance.unmount();
   });
+
+  it('Should render the specified menu content by `searchBy`', () => {
+    const instance = getInstance(
+      <TreePicker
+        defaultOpen
+        defaultExpandAll
+        data={data}
+        searchBy={(a, b, c) => c.value === 'Master'}
+      />
+    );
+    const list = getDOMNode(instance.menuRef.current).querySelectorAll('.rs-tree-node');
+    assert.equal(list.length, 1);
+    assert.ok(list[0].innerText, 'Louisa');
+  });
 });

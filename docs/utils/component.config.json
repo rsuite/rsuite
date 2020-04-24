@@ -178,7 +178,7 @@
     "title": "侧导航",
     "components": ["Sidenav", "Sidenav.Header", "Sidenav.Body"],
     "designHash": {
-      "default": null,
+      "default": "30",
       "dark": "30"
     }
   },
@@ -224,8 +224,8 @@
     "title": "表单",
     "components": ["Form", "FormControl", "FormGroup", "ControlLabel", "HelpBlock"],
     "designHash": {
-      "default": "45",
-      "dark": "45"
+      "default": "46",
+      "dark": "46"
     }
   },
   {
@@ -244,8 +244,8 @@
     "title": "单选框",
     "components": ["Radio", "RadioGroup"],
     "designHash": {
-      "default": "58",
-      "dark": "58"
+      "default": "59",
+      "dark": "59"
     }
   },
   {
@@ -254,8 +254,8 @@
     "title": "输入框",
     "components": ["Input", "InputGroup", "InputGroup.Button", "InputGroup.Addon"],
     "designHash": {
-      "default": "50",
-      "dark": "50"
+      "default": "51",
+      "dark": "51"
     }
   },
   {
@@ -264,8 +264,8 @@
     "title": "数字输入框",
     "components": ["InputNumber"],
     "designHash": {
-      "default": "53",
-      "dark": "53"
+      "default": "54",
+      "dark": "54"
     }
   },
   {
@@ -284,8 +284,8 @@
     "title": "开关",
     "components": ["Toggle"],
     "designHash": {
-      "default": "63",
-      "dark": "63"
+      "default": "66",
+      "dark": "66"
     }
   },
   {
@@ -294,8 +294,8 @@
     "title": "输入选择器",
     "components": ["InputPicker"],
     "designHash": {
-      "default": "54",
-      "dark": "54"
+      "default": "55",
+      "dark": "55"
     }
   },
   {
@@ -304,8 +304,8 @@
     "title": "标签选择器",
     "components": ["TagPicker"],
     "designHash": {
-      "default": "62",
-      "dark": "62"
+      "default": "65",
+      "dark": "65"
     }
   },
   {
@@ -314,8 +314,8 @@
     "title": "单项选择器",
     "components": ["SelectPicker"],
     "designHash": {
-      "default": "60",
-      "dark": "60"
+      "default": "63",
+      "dark": "63"
     }
   },
   {
@@ -334,8 +334,8 @@
     "title": "树形单项选择器",
     "components": ["TreePicker"],
     "designHash": {
-      "default": "64",
-      "dark": "64"
+      "default": "68",
+      "dark": "68"
     }
   },
   {
@@ -364,8 +364,8 @@
     "title": "级联多项选择器",
     "components": ["MultiCascader"],
     "designHash": {
-      "default": "56",
-      "dark": "56"
+      "default": "57",
+      "dark": "57"
     }
   },
   {
@@ -374,8 +374,8 @@
     "title": "日期选择器",
     "components": ["DatePicker"],
     "designHash": {
-      "default": "40",
-      "dark": "40"
+      "default": "41",
+      "dark": "41"
     }
   },
   {
@@ -384,8 +384,8 @@
     "title": "日期范围选择器",
     "components": ["DateRangePicker"],
     "designHash": {
-      "default": "44",
-      "dark": "44"
+      "default": "45",
+      "dark": "45"
     }
   },
   {
@@ -394,8 +394,8 @@
     "title": "滑动输入控件",
     "components": ["Slider", "RangeSlider"],
     "designHash": {
-      "default": "61",
-      "dark": "61"
+      "default": "64",
+      "dark": "64"
     }
   },
   {
@@ -404,8 +404,18 @@
     "title": "上传控件",
     "components": ["Uploader"],
     "designHash": {
-      "default": "65",
-      "dark": "65"
+      "default": "69",
+      "dark": "69"
+    }
+  },
+  {
+    "id": "rate",
+    "name": "Rate",
+    "title": "评分",
+    "components": ["Rate"],
+    "designHash": {
+      "default": "73",
+      "dark": "73"
     }
   },
   {
@@ -420,8 +430,8 @@
     "title": "头像",
     "components": ["Avatar"],
     "designHash": {
-      "default": "66",
-      "dark": "66"
+      "default": "70",
+      "dark": "70"
     }
   },
   {
@@ -430,8 +440,8 @@
     "title": "徽标",
     "components": ["Badge"],
     "designHash": {
-      "default": "67",
-      "dark": "67"
+      "default": "71",
+      "dark": "71"
     }
   },
   {
@@ -440,8 +450,8 @@
     "title": "表格",
     "components": ["Table", "Table.Column", "Table.HeaderCell", "Table.Cell", "Table.Pagination"],
     "designHash": {
-      "default": "72",
-      "dark": "71"
+      "default": "76",
+      "dark": "76"
     }
   },
   {
@@ -462,8 +472,8 @@
     "title": "面板",
     "components": ["Panel", "PanelGroup"],
     "designHash": {
-      "default": "71",
-      "dark": "70"
+      "default": "75",
+      "dark": "75"
     }
   },
   {
@@ -472,8 +482,8 @@
     "title": "时间轴",
     "components": ["Timeline", "Timeline.Item"],
     "designHash": {
-      "default": "81",
-      "dark": "80"
+      "default": "85",
+      "dark": "85"
     }
   },
   {
@@ -482,8 +492,8 @@
     "title": "标签",
     "components": ["Tag"],
     "designHash": {
-      "default": "80",
-      "dark": "79"
+      "default": "84",
+      "dark": "84"
     }
   },
   {
@@ -492,8 +502,8 @@
     "title": "列表",
     "components": ["List", "List.Item"],
     "designHash": {
-      "default": "69",
-      "dark": "68"
+      "default": "73",
+      "dark": "73"
     }
   },
   {
@@ -502,8 +512,8 @@
     "title": "日历",
     "components": ["Calendar"],
     "designHash": {
-      "default": "83",
-      "dark": "82"
+      "default": "87",
+      "dark": "87"
     }
   },
   {
@@ -512,8 +522,8 @@
     "title": "轮播",
     "components": ["Carousel"],
     "designHash": {
-      "default": "68",
-      "dark": null
+      "default": "72",
+      "dark": "72"
     }
   },
   {

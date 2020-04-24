@@ -2,8 +2,8 @@
 
 Commonly used checkboxes
 
-* `<Checkbox>`
-* `<CheckboxGroup>`
+- `<Checkbox>`
+- `<CheckboxGroup>`
 
 ## Usage
 
@@ -27,7 +27,7 @@ import { Checkbox, CheckboxGroup } from 'rsuite';
 | id             | React.ElementType                                                | Custom element type for the component                                   |
 | indeterminate  | boolean                                                          | When being a checkbox , setting styles after the child part is selected |
 | inline         | boolean                                                          | Inline layout                                                           |
-| inputRef       | React.ElementRef                                                 | Ref of input element                                                    |
+| inputRef       | React.Ref                                                        | Ref of input element                                                    |
 | name           | string                                                           | Used for the name of the form                                           |
 | onChange       | (value: any, checked: boolean, event: SyntheticInputEvent)=>void | Callback fired when checkbox is triggered and state changes             |
 | title          | string                                                           | HTML title                                                              |

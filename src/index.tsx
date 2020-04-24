@@ -58,6 +58,7 @@ export { default as AutoComplete } from './AutoComplete';
 export { default as Uploader } from './Uploader';
 export { default as Slider } from './Slider';
 export { default as RangeSlider } from './RangeSlider';
+export { default as Rate } from './Rate';
 
 // Data display
 

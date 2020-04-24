@@ -1,6 +1,6 @@
 import shallowEqualArray from '../shallowEqualArray';
 
-describe('shallowEqualArray', () => {
+describe('[utils] shallowEqualArray', () => {
   it('Compare two arrays with the same value', () => {
     const a = [{ a: 1, b: 1 }, { a: 2 }];
     const b = [{ a: 1, b: 1 }, { a: 2 }];
