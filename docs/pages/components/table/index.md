@@ -26,7 +26,7 @@ const { Column, HeaderCell, Cell, Pagination } = Table;
 
 | 属性名称                 | 类型 `(默认值)`                                                                   | 描述                                                         |
 | ------------------------ | --------------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| affixHeader              | boolean,number                                                                    | 将标头固定到页面上的指定位置                                 |
+| affixHeader              | boolean,number                                                                    | 将表头固定到页面上的指定位置                                 |
 | affixHorizontalScrollbar | boolean,number                                                                    | 将横向滚动条固定在页面底部的指定位置                         |
 | autoHeight               | boolean                                                                           | 自动高度                                                     |
 | bodyRef                  | React.Ref                                                                         | 表格主体部分上的 ref                                         |

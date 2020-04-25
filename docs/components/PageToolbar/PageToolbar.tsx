@@ -56,7 +56,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
                 {messages?.common?.design}
               </Dropdown.Item>
             )}
-            {routerId && (
+            {routerId && language && (
               <Dropdown.Item
                 icon={<Icon icon="edit2" />}
                 target="_blank"
