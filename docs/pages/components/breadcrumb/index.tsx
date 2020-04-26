@@ -6,7 +6,7 @@ import DefaultPage from '@/components/Page';
 export default function Page() {
   return (
     <DefaultPage
-      examples={['basic', 'separator', 'with-router']}
+      examples={['basic', 'separator', 'max-items', 'with-router']}
       dependencies={{ Breadcrumb, Icon, Link }}
     />
   );
