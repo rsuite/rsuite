@@ -6,6 +6,7 @@
 - **Feature**: Added `<Rete>`. ([#981])
 - **Feature**: Added support for Italian ([#971])
 - **Feature**: Added support for custom overlay. ([#969])
+- **Feature**: Support `endless` on `<Timeline>` ([#982])
 - **Feature**: Support `vertical` on `<Progress.Line>`. ([#938])
 - **Feature**: Support `showMeridian` on `<DatePicker>`. ([#932])
 - **Feature**: Support `searchBy` on all picker. ([#928],[#965])
@@ -27,6 +28,7 @@
 - **Feature**: 新增 `<Rete>` 组件。 ([#981])
 - **Feature**: 新增对意大利语言支持。 ([#971])
 - **Feature**: 支持自定义浮层。 ([#969])
+- **Feature**: `<Timeline>` 组件新增 `endless` 属性。 ([#982])
 - **Feature**: `<Progress.Line>` 组件新增 `vertical` 属性，垂直显示进度条。 ([#938])
 - **Feature**: `<DatePicker>` 组件新增 `showMeridian` 属性，支持时间 12 小时格式显示。 ([#932])
 - **Feature**: `<TagPicker>` 组件支持 `tagProps`，设置 Tag 属性。 ([#927])
@@ -44,6 +46,7 @@
 
 [#987]: https://github.com/rsuite/rsuite/pull/987
 [#984]: https://github.com/rsuite/rsuite/pull/984
+[#987]: https://github.com/rsuite/rsuite/pull/982
 [#981]: https://github.com/rsuite/rsuite/pull/981
 [#977]: https://github.com/rsuite/rsuite/pull/977
 [#971]: https://github.com/rsuite/rsuite/pull/971
