@@ -1,3 +1,24 @@
+# 4.4.1
+
+> April 29, 2020
+
+- **Bugfix**: Fix the clear button of picker not clickable in IE11. ([#1017])
+- **Bugfix**: Fix toggle clean button styles issue. ([#1016])
+- **Bugfix**: Fix missing typescript type definitions. ([#1008])
+- **Bugfix**: Fix the expanded state of the menu. ([#1007])
+
+---
+
+- **Bugfix**: 修复了 IE11 的一个兼容性问题，Picker 的清除按钮不可点击 ([#1017])
+- **Bugfix**: 修复了 Toggle 按钮样式问题。 ([#1016])
+- **Bugfix**: 修复了遗漏的 Typescript 类型定义。 ([#1008])
+- **Bugfix**: 修复了 Dropdown 中的菜单状态错误的问题。([#1007])
+
+[#1017]: https://github.com/rsuite/rsuite/pull/1017
+[#1016]: https://github.com/rsuite/rsuite/pull/1016
+[#1008]: https://github.com/rsuite/rsuite/pull/1008
+[#1007]: https://github.com/rsuite/rsuite/pull/1007
+
 # 4.4.0
 
 > April 24, 2020
