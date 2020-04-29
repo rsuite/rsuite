@@ -1,5 +1,5 @@
 import * as React from 'react';
-import algoliasearch from 'algoliasearch';
+import algoliasearch from 'algoliasearch/lite';
 import { Drawer, Input } from 'rsuite';
 import Link from '@/components/Link';
 import AppContext from '@/components/AppContext';
@@ -32,8 +32,9 @@ export default function SearchDrawer(props: SearchDrawerProps) {
       setList([]);
       return;
     }
-    client.search({ keyword, hitsPerPage: 6 }, (_err, res) => {
-      setList(res?.hits || []);
+
+    client.search(keyword, { hitsPerPage: 6 }).then(({ hits }) => {
+      setList(hits || []);
     });
   }, []);
 
