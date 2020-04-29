@@ -3,8 +3,8 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Ripple from '../Ripple';
-import Button from '../Button';
 import { prefix, getUnhandledProps, defaultProps, createChainedFunction } from '../utils';
+import DefaultToggleButton from './DefaultToggleButton';
 
 export interface PickerToggleProps {
   classPrefix?: string;
@@ -37,7 +37,7 @@ class PickerToggle extends React.Component<PickerToggleProps, PickerToggleState>
   };
 
   static defaultProps = {
-    componentClass: Button,
+    componentClass: DefaultToggleButton,
     tabIndex: 0,
     caret: true
   };
