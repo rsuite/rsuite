@@ -64,11 +64,15 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
         });
       } else if (~displayName?.indexOf('(DropdownMenu)')) {
         const itemsAndStatus = this.getMenuItemsAndStatus(item.props.children);
-        const { icon, open, trigger, pullLeft, eventKey, title } = item.props;
+        const { icon, open, trigger, pullLeft, eventKey, title, className } = item.props;
         const expanded = openKeys.some(key => shallowEqual(key, eventKey));
-        const itemClassName = classNames(this.addPrefix(`pull-${pullLeft ? 'left' : 'right'}`), {
-          [this.addPrefix('item-focus')]: this.isActive(item.props, activeKey)
-        });
+        const itemClassName = classNames(
+          className,
+          this.addPrefix(`pull-${pullLeft ? 'left' : 'right'}`),
+          {
+            [this.addPrefix('item-focus')]: this.isActive(item.props, activeKey)
+          }
+        );
 
         return (
           <DropdownMenuItem
@@ -94,14 +98,19 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
               />
               <Ripple />
             </div>
-            {this.renderCollapse(
-              (transitionProps, ref) => (
-                <ul {...transitionProps} ref={ref} role="menu" className={classPrefix}>
+            {this.renderCollapse((transitionProps, ref) => {
+              const { className, ...transitionRestProps } = transitionProps || {};
+              return (
+                <ul
+                  {...transitionRestProps}
+                  ref={ref}
+                  role="menu"
+                  className={classNames(classPrefix, className)}
+                >
                   {itemsAndStatus.items}
                 </ul>
-              ),
-              expanded
-            )}
+              );
+            }, expanded)}
           </DropdownMenuItem>
         );
       }
@@ -159,20 +168,21 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
       [this.addPrefix('active')]: active
     });
 
-    return this.renderCollapse(
-      (transitionProps, ref) => (
+    return this.renderCollapse((transitionProps, ref) => {
+      const { className: transitionClassName, ...transitionRestProps } = transitionProps || {};
+
+      return (
         <ul
           {...unhandled}
-          {...transitionProps}
-          className={classes}
+          {...transitionRestProps}
+          className={classNames(classes, transitionClassName)}
           role="menu"
           ref={mergeRefs(htmlElementRef, ref)}
         >
           {items}
         </ul>
-      ),
-      expanded
-    );
+      );
+    }, expanded);
   }
 }
 
