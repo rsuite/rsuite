@@ -113,24 +113,38 @@
   background: transparent;
 }
 
-.picker-custom-button-caret-size(@padding-horizontal,@padding-vertical) {
+.picker-custom-button-caret-size(@padding-horizontal,@padding-vertical,@clean-btn-margin:2px) {
+  @clean-btn-width: @dropdown-caret-width;
+
   .@{ns}picker-cleanable & {
-    padding-right: @padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding + 10px;
+    padding-right: @padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding +
+      @clean-btn-width + @clean-btn-margin;
+  }
+
+  .@{ns}picker-toggle-caret,
+  .@{ns}picker-toggle-clean {
+    top: @padding-vertical;
+
+    .@{ns}picker-default & {
+      top: @padding-vertical - @picker-default-toggle-border-width;
+    }
   }
 
   .@{ns}picker-toggle-caret {
-    top: @padding-vertical;
     right: @padding-horizontal;
   }
 
   .@{ns}picker-toggle-clean {
-    top: @padding-vertical;
-    right: @dropdown-caret-width + @padding-horizontal + 10px;
+    right: @dropdown-caret-width + @padding-horizontal + @clean-btn-width - @clean-btn-margin;
   }
 }
 
 .picker-button-caret-lg() {
-  .picker-custom-button-caret-size(@padding-large-horizontal, @padding-large-vertical);
+  .picker-custom-button-caret-size(
+    @padding-large-horizontal,
+    @padding-large-vertical,
+    @clean-btn-margin:4px
+  );
 }
 
 .picker-button-caret-md() {
@@ -142,7 +156,11 @@
 }
 
 .picker-button-caret-xs() {
-  .picker-custom-button-caret-size(@padding-extra-small-horizontal, @padding-extra-small-vertical);
+  .picker-custom-button-caret-size(
+    @padding-extra-small-horizontal,
+    @padding-extra-small-vertical,
+    @clean-btn-margin:2px
+  );
 }
 
 .date-picker-custom-button-caret-size(@padding-horizontal,@top) {
@@ -259,9 +277,12 @@
 }
 
 .tag-picker-search-input-xs() {
+  /* stylelint-disable */ //Formatted by prettier
   .tag-picker-search-input-size(
-    @padding-extra-small-vertical; @padding-extra-small-horizontal; @font-size-extra-small; @line-height-extra-small
+    @padding-extra-small-vertical; @padding-extra-small-horizontal; @font-size-extra-small;
+      @line-height-extra-small
   );
+  /* stylelint-enable */
 
   .@{ns}picker-input.@{ns}picker-tag & ~ .@{ns}picker-tag-wrapper {
     padding-bottom: @padding-extra-small-vertical - 1px;
