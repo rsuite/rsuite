@@ -10,7 +10,7 @@ interface SearchDrawerProps {
 }
 
 function createAlgoliaClient(language: string) {
-  const indexKey = language === 'en-US' ? 'rsuite-en' : 'rsuite-zh';
+  const indexKey = `rsuite-${language}`;
   const client = algoliasearch('PTK5IGAK3K', 'dd3a62fc583bb0749dafa15cc61588bf');
   return client.initIndex(indexKey);
 }
@@ -19,12 +19,12 @@ export default function SearchDrawer(props: SearchDrawerProps) {
   const { show, onHide } = props;
   const [list, setList] = React.useState([]);
   const [keyword, setKeyword] = React.useState('');
-  const { messages } = React.useContext(AppContext);
+  const { messages, language } = React.useContext(AppContext);
 
   let client = null;
   React.useEffect(() => {
-    client = createAlgoliaClient(messages?.id);
-  }, []);
+    client = createAlgoliaClient(language);
+  }, [language]);
 
   const onSearch = React.useCallback(keyword => {
     setKeyword(keyword);
@@ -33,7 +33,7 @@ export default function SearchDrawer(props: SearchDrawerProps) {
       return;
     }
 
-    client.search(keyword, { hitsPerPage: 6 }).then(({ hits }) => {
+    client?.search?.(keyword, { hitsPerPage: 6 }).then(({ hits }) => {
       setList(hits || []);
     });
   }, []);
