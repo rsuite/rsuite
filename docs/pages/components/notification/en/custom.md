@@ -11,8 +11,20 @@ function open() {
       <div>
         <p>Simon wants to add you as a friend .</p>
         <ButtonToolbar>
-          <Button>Accept</Button>
-          <Button>Cancel</Button>
+          <Button
+            onClick={() => {
+              Notification.close();
+            }}
+          >
+            Accept
+          </Button>
+          <Button
+            onClick={() => {
+              Notification.close();
+            }}
+          >
+            Cancel
+          </Button>
         </ButtonToolbar>
       </div>
     )

@@ -16,9 +16,9 @@ const instance = (
     data={data}
     renderItem={item => {
       return (
-        <p>
+        <div>
           <Icon icon="star" /> {item.label}
-        </p>
+        </div>
       );
     }}
   />
