@@ -75,6 +75,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     placement: PropTypes.oneOf(PLACEMENT),
     style: PropTypes.object,
     creatable: PropTypes.bool,
+    valueInSearch: PropTypes.bool,
     multi: PropTypes.bool,
     preventOverflow: PropTypes.bool,
     groupBy: PropTypes.any,
@@ -114,6 +115,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       createOption: 'Create option "{0}"'
     },
     placement: 'bottomStart',
+    valueInSearch: false,
     searchable: true,
     cleanable: true,
     menuAutoWidth: true,
@@ -359,7 +361,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
 
   selectFocusMenuItem = (event: React.KeyboardEvent) => {
     const { focusItemValue, searchKeyword } = this.state;
-    const { valueKey, data, disabledItemValues } = this.props;
+    const { valueKey, labelKey, data, disabledItemValues, valueInSearch } = this.props;
     if (!focusItemValue || !data) {
       return;
     }
@@ -378,14 +380,20 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       focusItem = this.createOption(searchKeyword);
     }
 
-    this.setState({ value: focusItemValue, searchKeyword: '' });
+    const nextState = { value: focusItemValue, searchKeyword: '' }
+
+    if(valueInSearch){
+      nextState.searchKeyword = focusItem[labelKey]
+    }
+
+    this.setState(nextState);
     this.handleSelect(focusItemValue, focusItem, event);
     this.handleChange(focusItemValue, event);
     this.handleCloseDropdown();
   };
 
   selectFocusMenuCheckItem = (event: React.KeyboardEvent) => {
-    const { valueKey, disabledItemValues } = this.props;
+    const { valueKey, labelKey, disabledItemValues, valueInSearch } = this.props;
     const { focusItemValue } = this.state;
     const value: any = this.getValue();
     const data = this.getAllData();
@@ -411,17 +419,29 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       focusItem = this.createOption(focusItemValue);
     }
 
-    this.setState({ value, searchKeyword: '' }, this.updatePosition);
+    const nextState = { value: value, searchKeyword: '' }
+
+    if(valueInSearch){
+      nextState.searchKeyword = focusItem[labelKey]
+    }
+
+    this.setState(nextState, this.updatePosition);
     this.handleSelect(value, focusItem, event);
     this.handleChange(value, event);
   };
 
   handleItemSelect = (value: any, item: any, event: React.MouseEvent) => {
+    const { valueInSearch, labelKey } = this.props;
     const nextState = {
       value,
       focusItemValue: value,
       searchKeyword: ''
     };
+
+    if(valueInSearch){
+      nextState.searchKeyword = item[labelKey]
+    }
+
     this.setState(nextState);
     this.handleSelect(value, item, event);
     this.handleChange(value, event);
@@ -435,6 +455,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     checked: boolean
   ) => {
     const value: any = this.getValue();
+    const { valueInSearch, labelKey } = this.props
 
     if (checked) {
       value.push(nextItemValue);
@@ -447,6 +468,10 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       searchKeyword: '',
       focusItemValue: nextItemValue
     };
+
+    if(valueInSearch){
+      nextState.searchKeyword = item[labelKey]
+    }
 
     this.setState(nextState, this.updatePosition);
     this.handleSelect(value, item, event);
@@ -506,10 +531,12 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   };
 
   handleClean = (event: React.SyntheticEvent<any>) => {
-    const { disabled, onClean } = this.props;
+    const { disabled, onClean, valueInSearch } = this.props;
     const { searchKeyword } = this.state;
 
-    if (disabled || searchKeyword !== '') {
+    console.log(event.nativeEvent instanceof KeyboardEvent);
+
+    if (disabled || (searchKeyword !== '' && !valueInSearch)) {
       return;
     }
 
@@ -518,6 +545,10 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       focusItemValue: null,
       searchKeyword: ''
     };
+
+    if(valueInSearch && event.nativeEvent instanceof KeyboardEvent) {
+      nextState.searchKeyword = searchKeyword;
+    }
 
     this.setState(nextState);
     this.handleChange(null, event);
