@@ -361,7 +361,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
 
   selectFocusMenuItem = (event: React.KeyboardEvent) => {
     const { focusItemValue, searchKeyword } = this.state;
-    const { valueKey, labelKey, data, disabledItemValues, valueInSearch } = this.props;
+    const { valueKey, labelKey, data, disabledItemValues, valueInSearch, multi } = this.props;
     if (!focusItemValue || !data) {
       return;
     }
@@ -382,7 +382,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
 
     const nextState = { value: focusItemValue, searchKeyword: '' }
 
-    if(valueInSearch){
+    if(valueInSearch && !multi){
       nextState.searchKeyword = focusItem[labelKey]
     }
 
@@ -393,7 +393,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   };
 
   selectFocusMenuCheckItem = (event: React.KeyboardEvent) => {
-    const { valueKey, labelKey, disabledItemValues, valueInSearch } = this.props;
+    const { valueKey, labelKey, disabledItemValues, valueInSearch, multi } = this.props;
     const { focusItemValue } = this.state;
     const value: any = this.getValue();
     const data = this.getAllData();
@@ -415,7 +415,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
 
     let focusItem: any = data.find(item => shallowEqual(_.get(item, valueKey), focusItemValue));
 
-    if (!focusItem) {
+    if (!focusItem  && !multi) {
       focusItem = this.createOption(focusItemValue);
     }
 
@@ -431,14 +431,14 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   };
 
   handleItemSelect = (value: any, item: any, event: React.MouseEvent) => {
-    const { valueInSearch, labelKey } = this.props;
+    const { valueInSearch, labelKey, multi } = this.props;
     const nextState = {
       value,
       focusItemValue: value,
       searchKeyword: ''
     };
 
-    if(valueInSearch){
+    if(valueInSearch && !multi){
       nextState.searchKeyword = item[labelKey]
     }
 
@@ -455,7 +455,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     checked: boolean
   ) => {
     const value: any = this.getValue();
-    const { valueInSearch, labelKey } = this.props
+    const { valueInSearch, labelKey, multi } = this.props
 
     if (checked) {
       value.push(nextItemValue);
@@ -469,7 +469,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       focusItemValue: nextItemValue
     };
 
-    if(valueInSearch){
+    if(valueInSearch  && !multi){
       nextState.searchKeyword = item[labelKey]
     }
 
