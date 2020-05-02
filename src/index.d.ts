@@ -79,3 +79,4 @@ export { default as Whisper } from './Whisper';
 export { default as Navbar } from './Navbar';
 export { default as Row } from './Row';
 export { default as Schema } from './Schema';
+export { default as Rate } from './Rate';

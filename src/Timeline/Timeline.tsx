@@ -7,7 +7,6 @@ import setStatic from 'recompose/setStatic';
 import TimelineItem from './TimelineItem';
 import { defaultProps, prefix, ReactChildren } from '../utils';
 import { TimelineProps } from './Timeline.d';
-import { TimelineItemProps } from './TimelineItem.d';
 
 class Timeline extends React.Component<TimelineProps> {
   static propTypes = {
@@ -15,7 +14,8 @@ class Timeline extends React.Component<TimelineProps> {
     classPrefix: PropTypes.string,
     children: PropTypes.node,
     componentClass: PropTypes.elementType,
-    align: PropTypes.oneOf(['left', 'right', 'alternate'])
+    align: PropTypes.oneOf(['left', 'right', 'alternate']),
+    endless: PropTypes.bool
   };
 
   static defaultProps = {
@@ -29,32 +29,20 @@ class Timeline extends React.Component<TimelineProps> {
       classPrefix,
       className,
       align,
+      endless,
       ...rest
     } = this.props;
+
     const addPrefix = prefix(classPrefix);
     const count = React.Children.count(children);
-    const withTime = _.some(
-      React.Children.toArray<{ props: TimelineItemProps; [key: string]: any }>(
-        children as {
-          props: TimelineItemProps;
-          [key: string]: any;
-        }
-      ),
-      ({ props }) => !!props.time
-    );
+    const withTime = _.some(React.Children.toArray(children), ({ props }: any) => !!props.time);
+    const classes = classNames(classPrefix, className, addPrefix(`align-${align}`), {
+      [addPrefix('with-time')]: withTime,
+      [addPrefix('endless')]: endless
+    });
 
     return (
-      <Component
-        className={classNames(
-          classPrefix,
-          addPrefix(`align-${align}`),
-          {
-            [addPrefix('with-time')]: withTime
-          },
-          className
-        )}
-        {...rest}
-      >
+      <Component className={classes} {...rest}>
         {ReactChildren.mapCloneElement(children, (_child: any, index: number) => ({
           last: index + 1 === count,
           align

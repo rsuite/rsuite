@@ -16,6 +16,7 @@ export default function Page() {
         'format',
         'format-month',
         'format-time',
+        'format-time-meridian',
         'iso-week',
         'disabled',
         'intl',

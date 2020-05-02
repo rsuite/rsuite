@@ -17,7 +17,6 @@ import { canUseDOM } from 'dom-lib';
 import getPalette from '@/utils/getPalette';
 import ColorPanel from '@/components/ColorPanel';
 import ImageToColors from '@/components/ImageToColors';
-import PageContainer from '@/components/PageContainer';
 import loadJsFile from '@/utils/loadJsFile';
 import SketchPicker from '@/components/SketchPicker';
 import { readThemeName } from '@/utils/themeHelpers';
@@ -95,59 +94,58 @@ export default function Page() {
   }
 
   return (
-    <DefaultPage>
+    <DefaultPage hidePageNav>
       <NextHead>
         <link rel="stylesheet/less" type="text/css" href="/less/palette.less" />
       </NextHead>
-      <PageContainer hidePageNav>
-        <div className="row-split">
-          <div className="col-side">
-            <div className="circle-picker-wrapper">
-              <CirclePicker color={color} colors={colors} onChangeComplete={handleChangeComplete} />
-            </div>
-            <SketchPicker color={color} onChangeComplete={handleChangeComplete} />
-            <div className="panel-color-wrap">
-              <ColorPanel colors={getPalette(color)} />
-            </div>
+
+      <div className="row-split">
+        <div className="col-side">
+          <div className="circle-picker-wrapper">
+            <CirclePicker color={color} colors={colors} onChangeComplete={handleChangeComplete} />
           </div>
-          <div className="col-content">
-            <div className="palette-preview" id="palettePreview">
-              <Panel header={<h3>Preview</h3>} bordered>
-                <ButtonToolbar>
-                  <Button appearance="default">Default</Button>
-                  <Button appearance="primary">Primary</Button>
-                  <Button appearance="link">Link</Button>
-                  <Button appearance="ghost">Ghost</Button>
-                </ButtonToolbar>
-                <hr />
-                <CheckboxGroup name="check" defaultValue={['1', '2']} inline>
-                  <Checkbox value="1">Javascript</Checkbox>
-                  <Checkbox value="2">CSS</Checkbox>
-                  <Checkbox value="3">HTML</Checkbox>
-                </CheckboxGroup>
-                <hr />
-                <RadioGroup name="radio" defaultValue="1" inline>
-                  <Radio value="1">Front end</Radio>
-                  <Radio value="2">Back end </Radio>
-                </RadioGroup>
-                <hr />
-                <Input />
-                <hr />
-                <Toggle defaultChecked />
-                <hr />
-                <Slider progress defaultValue={50} />
-                {loading ? <Loader backdrop content="loading..." vertical /> : null}
-              </Panel>
-            </div>
+          <SketchPicker color={color} onChangeComplete={handleChangeComplete} />
+          <div className="panel-color-wrap">
+            <ColorPanel colors={getPalette(color)} />
           </div>
         </div>
+        <div className="col-content">
+          <div className="palette-preview" id="palettePreview">
+            <Panel header={<h3>Preview</h3>} bordered>
+              <ButtonToolbar>
+                <Button appearance="default">Default</Button>
+                <Button appearance="primary">Primary</Button>
+                <Button appearance="link">Link</Button>
+                <Button appearance="ghost">Ghost</Button>
+              </ButtonToolbar>
+              <hr />
+              <CheckboxGroup name="check" defaultValue={['1', '2']} inline>
+                <Checkbox value="1">Javascript</Checkbox>
+                <Checkbox value="2">CSS</Checkbox>
+                <Checkbox value="3">HTML</Checkbox>
+              </CheckboxGroup>
+              <hr />
+              <RadioGroup name="radio" defaultValue="1" inline>
+                <Radio value="1">Front end</Radio>
+                <Radio value="2">Back end </Radio>
+              </RadioGroup>
+              <hr />
+              <Input />
+              <hr />
+              <Toggle defaultChecked />
+              <hr />
+              <Slider progress defaultValue={50} />
+              {loading ? <Loader backdrop content="loading..." vertical /> : null}
+            </Panel>
+          </div>
+        </div>
+      </div>
 
-        <ImageToColors
-          onColorChange={value => {
-            handleChangeComplete({ hex: value['#'] });
-          }}
-        />
-      </PageContainer>
+      <ImageToColors
+        onColorChange={value => {
+          handleChangeComplete({ hex: value['#'] });
+        }}
+      />
     </DefaultPage>
   );
 }

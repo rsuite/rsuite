@@ -4,7 +4,6 @@ const express = require('express');
 const url = require('url');
 const next = require('next');
 const { pathnameToLanguage } = require('./scripts/languageHelpers');
-
 const nextApp = next({
   dev: process.env.NODE_ENV !== 'production'
 });
@@ -13,6 +12,8 @@ const nextHandler = nextApp.getRequestHandler();
 async function run() {
   await nextApp.prepare();
   const app = express();
+  const rootPaths = ['components/', 'extensions/', 'guide/', '/tools'];
+
   app.use('/design', express.static('public/design'));
   app.get('*', (req, res) => {
     const parsedUrl = url.parse(req.url, true);
@@ -24,7 +25,7 @@ async function run() {
       pathname = pathname.replace(/\/$/, '');
     }
 
-    if (userLanguage !== 'zh') {
+    if (userLanguage !== 'zh' || rootPaths.some(path => ~pathname.indexOf(path))) {
       nextApp.render(req, res, pathname, {
         userLanguage,
         ...parsedUrl.query
@@ -32,7 +33,7 @@ async function run() {
       return;
     }
 
-    nextHandler(req, res);
+    nextHandler(req, res, parsedUrl);
   });
 
   const server = http.createServer(app);

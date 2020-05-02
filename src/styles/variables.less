@@ -57,6 +57,7 @@
 
 //** Placeholder
 @placeholder-holder-bg: @B100;
+@placeholder-holder-bg-active: @B200;
 @placeholder-image-color: @B000;
 
 //** Calendar
@@ -123,7 +124,7 @@
 //** Load fonts from this directory.
 // default use cdn.jsdelivr.net
 // If you want to use local resource , please change it to "./fonts"
-@icon-font-path: '//cdn.jsdelivr.net/npm/rsuite/dist/styles/fonts';
+@icon-font-path: 'https://cdn.jsdelivr.net/npm/rsuite/dist/styles/fonts';
 @icon-font-size-base: @font-size-base;
 @icon-line-height-base: 1;
 @icon-css-prefix: ~'@{ns}icon';
@@ -166,8 +167,8 @@
 @table-header-line-small: @line-height-small;
 @table-body-content-padding-vertical: 13px;
 @table-content-padding-horizontal: 10px;
-@table-scrollbar-handle-background: @B400;
-@table-scrollbar-pressed-handle-background: @B500;
+@table-scrollbar-handle-background: @B800;
+@table-scrollbar-pressed-handle-background: @B900;
 @table-scrollbar-background: @B200;
 @table-scrollbar-pressed-background: @B300;
 @table-scrollbar-timing-duration: 0.1s;
@@ -500,6 +501,8 @@
 @zindex-table-cell-group-fixed: 4;
 @zindex-table-row-cell-group-shadow: 5;
 @zindex-table-mouse-area: 6;
+//#=== Rate
+@zindex-rate-character-before: 1;
 
 //== Media queries breakpoints
 //
@@ -1048,6 +1051,7 @@
 @time-line-content-side-offset: @time-line-dot-side-length / 2 + @time-line-item-content-margin-left;
 @time-line-alternate-time-offset: @time-line-dot-side-length / 2 +
   @time-line-item-content-margin-left;
+@time-line-tail-min-height: @line-height-computed + @time-line-item-content-padding-bottom; // 20 + 18 = 38
 
 //== Tags
 //
@@ -1104,7 +1108,7 @@
 @picker-value-count-background-color: @H500;
 @picker-value-count-color: @B000;
 @picker-value-count-border-radius: 10px;
-@picker-value-count-padding: 10px;
+@picker-value-count-padding: 8px;
 @picker-value-count-margin: 4px;
 //** Picker content width
 @picker-content-min-width: 200px;
@@ -1165,8 +1169,9 @@
 @calendar-header-width: 280px;
 @calendar-picker-padding: 12px;
 @calendar-picker-view-padding-top: 4px;
-@calendar-header-title-margin: 4px;
+@calendar-header-title-margin: 0;
 @calendar-header-title-error-color: @error-color;
+@calendar-meridian-border-width: 1px;
 @calendar-table-cell-padding: 1px;
 @calendar-table-cell-content-font-size: @font-size-base;
 @calendar-table-cell-content-line-height: @line-height-base;
@@ -1176,10 +1181,11 @@
 @calendar-table-cell-content-today-border-color: @H700;
 @calendar-table-cell-content-selected-color: @H500;
 @calendar-table-cell-content-disabled-color: @B400;
-/* stylelint-disable-next-line */ // calcFontColor is hack function
+/* stylelint-disable */ // calcFontColor is hack function
 @calendar-table-cell-content-selected-font-color: color(
   ~`calcFontColor('@{calendar-table-cell-content-selected-color}') `
 );
+/* stylelint-enable */
 @calendar-table-cell-header-color: @B600;
 @calendar-table-cell-week-number-color: @B600;
 @calendar-table-cell-week-number-bg: @B050;
@@ -1290,6 +1296,16 @@
 @carousel-bar-width: 18px;
 @carousel-bar-height: 4px;
 @carousel-bar-active-width: 28px;
+
+//== Rate
+//
+//##
+@rate-default-color: @B200;
+@rate-selected-color: @yellow;
+@rate-xs-font-size: 18px;
+@rate-sm-font-size: 24px;
+@rate-md-font-size: 30px;
+@rate-lg-font-size: 36px;
 
 //== Type
 //

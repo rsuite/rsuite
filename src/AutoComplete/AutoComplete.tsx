@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import setStatic from 'recompose/setStatic';
-import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
-
+import shallowEqual from '../utils/shallowEqual';
 import Input from '../Input';
 import AutoCompleteItem from './AutoCompleteItem';
 import { defaultProps, getUnhandledProps, prefix } from '../utils';
