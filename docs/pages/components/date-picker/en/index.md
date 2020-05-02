@@ -59,6 +59,7 @@ import { DatePicker } from 'rsuite';
 | placement             | enum: [Placement](#types) `('bottomStart')`  | The placement of component                                                           |
 | preventOverflow       | boolean                                      | Prevent floating element overflow                                                    |
 | ranges                | Array<[Range](#types)> [`(Ranges)`](#Ranges) | Shortcut config                                                                      |
+| showMeridian          | boolean                                      | Display hours in 12 format                                                           |
 | showWeekNumbers       | boolean                                      | Whether to show week numbers                                                         |
 | toggleComponentClass  | React.ElementType `('a')`                    | You can use a custom element for this component                                      |
 | value                 | Date                                         | Value (Controlled)                                                                   |

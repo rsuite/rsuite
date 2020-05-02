@@ -9,6 +9,12 @@ type SortType = 'desc' | 'asc';
 
 export interface TableProps<RowKey = string | number | symbol, RowData = any>
   extends StandardProps {
+  /** Affix the table header to the specified position on the page */
+  affixHeader?: boolean | number;
+
+  /** Affix the table horizontal scrollbar to the specified position on the page */
+  affixHorizontalScrollbar?: boolean | number;
+
   /** width */
   width?: number;
 
@@ -79,6 +85,9 @@ export interface TableProps<RowKey = string | number | symbol, RowData = any>
   /** Display header */
   showHeader?: boolean;
 
+  /** Whether to update the scroll bar after data update */
+  shouldUpdateScroll: boolean;
+
   /** Custom Settings Row Height */
   onRowClick?: (rowData: RowData, event: React.SyntheticEvent<any>) => void;
 
@@ -90,6 +99,9 @@ export interface TableProps<RowKey = string | number | symbol, RowData = any>
 
   /** Tree table, the callback function in the expanded node */
   onExpandChange?: (expanded: boolean, rowData: RowData) => void;
+
+  /** Callback after table data update. */
+  onDataUpdated: (nextData: object[], scrollTo: (coord: { x: number; y: number }) => void) => void;
 
   /** Tree table, the callback function in the expanded node */
   renderTreeToggle?: (

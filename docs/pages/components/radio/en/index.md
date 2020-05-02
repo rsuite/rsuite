@@ -2,8 +2,8 @@
 
 A common radio box. If there are only two options, you can also use the Toggle component.
 
-* `<Radio>`
-* `<RadioGroup>`
+- `<Radio>`
+- `<RadioGroup>`
 
 ## Usage
 
@@ -25,7 +25,7 @@ import { Radio, RadioGroup } from 'rsuite';
 | defaultChecked | boolean                                                          | Specifies the initial state: whether or not the radio is selected             |
 | disabled       | boolean                                                          | The disable of component                                                      |
 | inline         | boolean                                                          | Inline layout                                                                 |
-| inputRef       | React.ElementRef                                                 | Ref for the input element                                                     |
+| inputRef       | React.Ref                                                        | Ref for the input element                                                     |
 | name           | string                                                           | Name to use for form                                                          |
 | onChange       | (value: any, checked: boolean, event: SyntheticInputEvent)=>void | callback function that has been checked for changes in state                  |
 | title          | string                                                           | HTML title                                                                    |

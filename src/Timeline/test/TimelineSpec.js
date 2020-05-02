@@ -19,6 +19,11 @@ describe('Timeline', () => {
     assert.ok(instance.className.match(/\bcustom\b/));
   });
 
+  it('Should be endless', () => {
+    const instance = getDOMNode(<Timeline endless />);
+    assert.ok(instance.className.match(/\bendless\b/));
+  });
+
   it('Should have a custom style', () => {
     const fontSize = '12px';
     const instance = getDOMNode(<Timeline style={{ fontSize }} />);

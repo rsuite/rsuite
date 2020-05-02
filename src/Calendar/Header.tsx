@@ -15,10 +15,12 @@ export interface HeaderProps {
   className?: string;
   disabledBackward?: boolean;
   disabledForword?: boolean;
+  showMeridian?: boolean;
   onMoveForword?: () => void;
   onMoveBackward?: () => void;
   onToggleMonthDropdown?: (event: React.MouseEvent) => void;
   onToggleTimeDropdown?: (event: React.MouseEvent) => void;
+  onToggleMeridian?: (event: React.MouseEvent) => void;
   disabledDate?: (date: Date) => boolean;
   disabledTime?: (date: Date) => boolean;
   renderTitle?: (date: Date) => React.ReactNode;
@@ -33,6 +35,7 @@ class Header extends React.PureComponent<HeaderProps> {
     onMoveBackward: PropTypes.func,
     onToggleMonthDropdown: PropTypes.func,
     onToggleTimeDropdown: PropTypes.func,
+    onToggleMeridian: PropTypes.func,
     showMonth: PropTypes.bool,
     showDate: PropTypes.bool,
     showTime: PropTypes.bool,
@@ -43,6 +46,7 @@ class Header extends React.PureComponent<HeaderProps> {
     className: PropTypes.string,
     disabledBackward: PropTypes.bool,
     disabledForword: PropTypes.bool,
+    showMeridian: PropTypes.bool,
     renderTitle: PropTypes.func,
     renderToolbar: PropTypes.func
   };
@@ -50,7 +54,7 @@ class Header extends React.PureComponent<HeaderProps> {
     date: new Date()
   };
   getTimeFormat() {
-    const { format } = this.props;
+    const { format, showMeridian } = this.props;
     const timeFormat = [];
 
     if (!format) {
@@ -58,7 +62,7 @@ class Header extends React.PureComponent<HeaderProps> {
     }
 
     if (/(H|h)/.test(format)) {
-      timeFormat.push('HH');
+      timeFormat.push(showMeridian ? 'hh' : 'HH');
     }
     if (/m/.test(format)) {
       timeFormat.push('mm');
@@ -98,6 +102,7 @@ class Header extends React.PureComponent<HeaderProps> {
       onMoveBackward,
       onToggleMonthDropdown,
       onToggleTimeDropdown,
+      onToggleMeridian,
       showTime,
       showDate,
       showMonth,
@@ -108,6 +113,7 @@ class Header extends React.PureComponent<HeaderProps> {
       disabledBackward,
       disabledForword,
       renderToolbar,
+      showMeridian,
       ...rest
     } = this.props;
 
@@ -172,6 +178,17 @@ class Header extends React.PureComponent<HeaderProps> {
             >
               {date && format(date, this.getTimeFormat())}
             </span>
+
+            {showMeridian ? (
+              <span
+                role="button"
+                tabIndex={-1}
+                className={this.addPrefix('meridian')}
+                onClick={onToggleMeridian}
+              >
+                {date && format(date, 'A')}
+              </span>
+            ) : null}
           </div>
         )}
 

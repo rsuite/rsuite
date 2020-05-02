@@ -9,7 +9,7 @@ const styles = {
 
 const App = () => {
   return (
-    <Uploader action="//jsonplaceholder.typicode.com/posts/" dragable>
+    <Uploader action="//jsonplaceholder.typicode.com/posts/" draggable>
       <div style={styles}>Click or Drag files to this area to upload</div>
     </Uploader>
   );

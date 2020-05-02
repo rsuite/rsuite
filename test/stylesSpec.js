@@ -11,7 +11,8 @@ const UN_STYLED_COMPONENTS = [
   'Portal',
   'IntlProvider',
   'Affix',
-  'RangeSlider'
+  'RangeSlider',
+  'Overlay'
 ];
 
 const THEMES = ['default', 'dark'];

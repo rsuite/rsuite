@@ -10,6 +10,12 @@ export interface RowProps {
 }
 
 export interface TreeBaseProps extends StandardProps {
+  /** Display inline */
+  inline?: boolean;
+
+  /** Expand all nodes(Controlled) */
+  expandAll?: boolean;
+
   /** Expand all nodes By default */
   defaultExpandAll?: boolean;
 
@@ -37,4 +43,7 @@ export interface TreeBaseProps extends StandardProps {
 
   /** Called when clean */
   onClean?: (event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Custom search rules. */
+  searchBy?: (keyword: string, label: React.ReactNode, item: any) => boolean;
 }

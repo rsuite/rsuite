@@ -34,6 +34,9 @@ export interface AnimationEventProps {
 }
 
 export interface PickerBaseProps extends StandardProps, AnimationEventProps {
+  /** locale */
+  locale?: boolean;
+
   /** A picker can have different appearances. */
   appearance?: 'default' | 'subtle';
 
@@ -75,6 +78,9 @@ export interface PickerBaseProps extends StandardProps, AnimationEventProps {
 
   /** A picker that can clear values */
   cleanable?: boolean;
+
+  /** Picker menu auto width */
+  menuAutoWidth?: boolean;
 
   /** Called when Modal is displayed */
   onOpen?: () => void;
@@ -141,8 +147,10 @@ export declare namespace TypeAttributes {
     | 'rightEnd';
   type PlacementAuto =
     | 'auto'
+    | 'autoVertical'
     | 'autoVerticalStart'
     | 'autoVerticalEnd'
+    | 'autoHorizontal'
     | 'autoHorizontalStart'
     | 'autoHorizontalEnd';
 

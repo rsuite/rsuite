@@ -58,6 +58,30 @@ describe('Sidenav', () => {
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-dropdown-toggle'));
   });
 
+  it('Should open the default menu', () => {
+    const instance = getDOMNode(
+      <Sidenav defaultOpenKeys={['1', '2']}>
+        <Sidenav.Body>
+          <Nav>
+            <Dropdown eventKey="1" title="1" className="m-1">
+              <Dropdown.Item eventKey="1-1">Geo</Dropdown.Item>
+            </Dropdown>
+            <Dropdown eventKey="2" title="2" className="m-2">
+              <Dropdown.Item eventKey="2-1">2-1</Dropdown.Item>
+              <Dropdown.Menu eventKey="2-2" title="2-2" className="m-2-2">
+                <Dropdown.Item eventKey="2-2-1">2-2-1</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </Nav>
+        </Sidenav.Body>
+      </Sidenav>
+    );
+
+    assert.ok(instance.querySelector('.m-1 .rs-dropdown-menu-collapse-in'));
+    assert.ok(instance.querySelector('.m-2 .rs-dropdown-menu-collapse-in'));
+    assert.ok(instance.querySelector('.m-2-2 .rs-dropdown-menu-collapse-out'));
+  });
+
   it('Should have a custom className', () => {
     const instance = getDOMNode(<Sidenav className="custom" />);
     assert.include(instance.className, 'custom');
