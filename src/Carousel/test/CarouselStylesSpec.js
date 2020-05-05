@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Carousel from '../index';
-import { createTestContainer, getDOMNode, getStyle, toRGB, itChrome } from '@test/testUtils';
+import { createTestContainer, getDOMNode, getStyle, toRGB } from '@test/testUtils';
 
 import '../styles/index';
 
