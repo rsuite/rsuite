@@ -80,6 +80,7 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 - [RLT 方案 - rtlcss][demo-rtlcss]
 - [RLT 方案 - postcss-rtl][demo-postcss-rtl]
 - [在 create-react-app 中使用][demo-create-react-app]
+- [在 Electron 中使用][demo-electron]
 - [在 Flow 中使用][demo-flow-app]
 - [在 TypeScript 中使用][demo-typescript-app]
 - [在 Next.js 中使用][demo-nextjs]

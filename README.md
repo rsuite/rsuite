@@ -86,6 +86,7 @@ You can go through [full documentation][rsuite-doc-guide] or start with followin
 - [RLT - RTLCSS][demo-rtlcss]
 - [RLT - PostCSS-RTL][demo-postcss-rtl]
 - [Use in create-react-app][demo-create-react-app]
+- [Use in Electron][demo-electron]
 - [Use in Flow][demo-flow-app]
 - [Use in TypeScript][demo-typescript-app]
 - [Use in Next.js][demo-nextjs]
