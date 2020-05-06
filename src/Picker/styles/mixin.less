@@ -116,6 +116,10 @@
 .picker-custom-button-caret-size(@padding-horizontal,@padding-vertical,@clean-btn-margin:2px) {
   @clean-btn-width: @dropdown-caret-width;
 
+  .@{ns}picker-toggle-wrapper & {
+    padding-right: @padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding;
+  }
+
   .@{ns}picker-cleanable & {
     padding-right: @padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding +
       @clean-btn-width + @clean-btn-margin;
@@ -163,50 +167,77 @@
   );
 }
 
-.date-picker-custom-button-caret-size(@padding-horizontal,@top) {
-  @calendar-caret-width: 14px;
+.date-picker-custom-button-caret-size(@calendar-caret-width: 14px,@padding-horizontal, @top, @clean-btn-margin:2px) {
+  @toggle-clean-padding: 4px;
+  @clean-btn-width: @dropdown-caret-width;
+
+  padding-right: @padding-horizontal + @calendar-caret-width + @dropdown-caret-padding;
 
   .@{ns}picker-cleanable& {
-    padding-right: @padding-horizontal + @calendar-caret-width + @dropdown-caret-padding +
-      @dropdown-caret-width;
+    padding-right: @padding-horizontal + @calendar-caret-width + @toggle-clean-padding +
+      @clean-btn-width + @clean-btn-margin;
+  }
+
+  .@{ns}picker-toggle-clean,
+  .@{ns}picker-toggle-caret {
+    top: @top;
+
+    .@{ns}picker-subtle & {
+      top: @top - @picker-default-toggle-border-width;
+    }
   }
 
   .@{ns}picker-toggle-caret {
-    top: @top;
     right: @padding-horizontal;
   }
 
   .@{ns}picker-toggle-clean {
-    top: @top;
-    right: @padding-horizontal + @dropdown-caret-padding + @calendar-caret-width;
+    right: @padding-horizontal + @toggle-clean-padding + @calendar-caret-width;
   }
 }
 
 .date-picker-button-caret-lg() {
   .@{ns}picker-date &,
   .@{ns}picker-daterange & {
-    .date-picker-custom-button-caret-size(@padding-large-horizontal, 10px);
+    .date-picker-custom-button-caret-size(
+      @calendar-caret-width: @font-size-large,
+      @padding-large-horizontal,
+      @top: 10px,
+      @clean-btn-margin: 4px
+    );
   }
 }
 
 .date-picker-button-caret-md() {
   .@{ns}picker-date &,
   .@{ns}picker-daterange & {
-    .date-picker-custom-button-caret-size(@padding-base-horizontal, 8px);
+    .date-picker-custom-button-caret-size(
+      @calendar-caret-width: @font-size-base,
+      @padding-base-horizontal,
+      @top: 8px
+    );
   }
 }
 
 .date-picker-button-caret-sm() {
   .@{ns}picker-date &,
   .@{ns}picker-daterange & {
-    .date-picker-custom-button-caret-size(@padding-small-horizontal, 4px);
+    .date-picker-custom-button-caret-size(
+      @calendar-caret-width: @font-size-base,
+      @padding-small-horizontal,
+      @top: 4px
+    );
   }
 }
 
 .date-picker-button-caret-xs() {
   .@{ns}picker-date &,
   .@{ns}picker-daterange & {
-    .date-picker-custom-button-caret-size(@padding-extra-small-horizontal, 0);
+    .date-picker-custom-button-caret-size(
+      @calendar-caret-width: @font-size-extra-small,
+      @padding-extra-small-horizontal,
+      @top: 2px
+    );
   }
 }
 

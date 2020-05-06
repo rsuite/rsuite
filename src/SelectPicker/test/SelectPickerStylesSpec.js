@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM, { findDOMNode } from 'react-dom';
 import SelectPicker from '../index';
-import Button from '../../Button';
 import {
   createTestContainer,
   getDOMNode,
@@ -78,7 +77,7 @@ describe('SelectPicker styles', () => {
     const pickerToggles = findDOMNode(instanceRef.current).querySelectorAll('.rs-picker-toggle');
     assert.equal(
       getStyle(pickerToggles[0], 'padding'),
-      '9px 32px 9px 15px',
+      '9px 36px 9px 15px',
       'Large Toggle padding'
     );
     assert.equal(
@@ -86,10 +85,10 @@ describe('SelectPicker styles', () => {
       '7px 32px 7px 11px',
       'Medium Toggle padding'
     );
-    assert.equal(getStyle(pickerToggles[2], 'padding'), '4px 32px 4px 9px', 'Small Toggle padding');
+    assert.equal(getStyle(pickerToggles[2], 'padding'), '4px 30px 4px 9px', 'Small Toggle padding');
     assert.equal(
       getStyle(pickerToggles[3], 'padding'),
-      '1px 32px 1px 7px',
+      '1px 28px 1px 7px',
       'Xsmall Toggle padding'
     );
   });
@@ -109,7 +108,7 @@ describe('SelectPicker styles', () => {
     const pickerToggles = findDOMNode(instanceRef.current).querySelectorAll('.rs-picker-toggle');
     assert.equal(
       getStyle(pickerToggles[0], 'padding'),
-      '10px 32px 10px 16px',
+      '10px 36px 10px 16px',
       'Large Toggle padding'
     );
     assert.equal(
@@ -119,12 +118,12 @@ describe('SelectPicker styles', () => {
     );
     assert.equal(
       getStyle(pickerToggles[2], 'padding'),
-      '5px 32px 5px 10px',
+      '5px 30px 5px 10px',
       'Small Toggle padding'
     );
     assert.equal(
       getStyle(pickerToggles[3], 'padding'),
-      '2px 32px 2px 8px',
+      '2px 28px 2px 8px',
       'Xsmall Toggle padding'
     );
   });
