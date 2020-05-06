@@ -199,11 +199,11 @@ class FormControl extends React.Component<FormControlProps, FormControlState> {
   };
 
   render() {
-    const { plaintextDefaultValue } = this.props;
+    const { plaintextDefaultValue, className } = this.props;
     const readOnly = this.getReadOnly();
     const plaintext = this.getPlaintext();
     const value = this.getValue();
-    const classes = classNames(this.addPrefix('wrapper'), {
+    const classes = classNames(className, this.addPrefix('wrapper'), {
       'read-only': readOnly,
       plaintext
     });

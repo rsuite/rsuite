@@ -157,4 +157,13 @@ describe('FormControl', () => {
 
     assert.ok(!instance.querySelector('.rs-form-control-message-wrapper'));
   });
+
+  it('Should have a custom className', () => {
+    const instance = getDOMNode(
+      <Form>
+        <FormControl className="custom" />
+      </Form>
+    );
+    assert.ok(instance.querySelector('.custom.rs-form-control-wrapper'));
+  });
 });
