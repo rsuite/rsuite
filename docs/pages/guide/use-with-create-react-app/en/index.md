@@ -66,7 +66,7 @@ To use the custom theme feature, you must modify the default configuration of th
 1.  Installation dependencies.
 
 ```bash
-yarn add react-app-rewired customize-cra less less-loader
+yarn add react-app-rewired customize-cra@next less less-loader
 ```
 
 2.  Modify scripts in `package.json`
@@ -100,8 +100,11 @@ const { override, addLessLoader } = require('customize-cra');
 
 module.exports = override(
   addLessLoader({
-    javascriptEnabled: true,
-    modifyVars: { '@base-color': '#f44336' }
+    // If you are using less-loader@5 or older version, please spread the lessOptions to options directly.
+    lessOptions: {
+      javascriptEnabled: true,
+      modifyVars: { '@base-color': '#f44336' }
+    }
   })
 );
 ```
