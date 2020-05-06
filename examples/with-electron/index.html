@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>React Suite & Electron example</title>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/react/16.13.1/umd/react.production.min.js" crossorigin></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/react-dom/16.13.1/umd/react-dom.production.min.js" crossorigin></script>
+    <!--
+      indicate to a browser that the script is meant to be executed after the document has been parsed, but before firing DOMContentLoaded,
+      because `utils/directionUtil(isRTL)` check needs executing document.body.getAttribute(), so the rsuite script needs defer
+     -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/rsuite/4.4.1/rsuite.min.js" defer></script>
+    <link
+      href="https://cdn.bootcdn.net/ajax/libs/rsuite/4.4.1/styles/rsuite-default.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="example"></div>
+    <script type="text/babel">
+      const { Button } = rsuite;
+      const Hello = function() {
+        const [clickTime, setClickTime] = React.useState(0);
+        const handleClick = React.useCallback(() => {
+          setClickTime(c => c + 1);
+        }, []);
+
+        return (
+          <>
+            <Button appearance='primary' onClick={handleClick}>Click Me</Button><br />
+            <span>You clicked {clickTime}</span>
+          </>
+        );
+      };
+      ReactDOM.render(<Hello />, document.getElementById('example'));
+    </script>
+  </body>
+</html>

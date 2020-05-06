@@ -195,6 +195,7 @@ React Suite is [MIT licensed][license]. Copyright (c) 2016-present, HYPERS.
 [demo-modular-import]: https://github.com/rsuite/rsuite/tree/master/examples/with-babel-preset-rsuite
 [demo-cdn]: https://github.com/rsuite/rsuite/tree/master/examples/cdn
 [demo-create-react-app]: https://github.com/rsuite/rsuite/tree/master/examples/create-react-app
+[demo-electron]: https://github.com/rsuite/rsuite/tree/master/examples/with-electron
 [demo-intl-app]: https://github.com/rsuite/rsuite/tree/master/examples/custom-i18n
 [demo-multiple-themes]: https://github.com/rsuite/rsuite/tree/master/examples/custom-multiple-themes
 [demo-flow-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-flow

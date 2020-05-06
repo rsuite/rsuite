@@ -1,0 +1,26 @@
+{
+  "name": "rsuite-with-electron",
+  "version": "1.0.0",
+  "description": "An example that use Rsuite in Electron application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "keywords": [
+    "rsuite",
+    "electron",
+    "react"
+  ],
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^8.2.5",
+    "electron-builder": "^22.6.0"
+  },
+  "build": {
+    "appId": "your.id",
+    "mac": {
+      "category": "your.app.category.type"
+    }
+  }
+}
