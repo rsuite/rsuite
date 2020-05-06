@@ -45,6 +45,7 @@ React Suite supports server side rendering. Support [Next.js](https://github.com
 - [RLT - RTLCSS][demo-rtlcss]
 - [RLT - PostCSS-RTL][demo-postcss-rtl]
 - [Use in create-react-app][demo-create-react-app]
+- [Use in Electron][demo-electron]
 - [Use in Flow][demo-flow-app]
 - [Use in TypeScript][demo-typescript-app]
 - [Use in Next.js][demo-nextjs]
@@ -146,6 +147,7 @@ RSUITE is [MIT licensed][license]. Copyright (c) 2016-present, HYPERS.
 [demo-modular-import]: https://github.com/rsuite/rsuite/tree/master/examples/with-babel-preset-rsuite
 [demo-cdn]: https://github.com/rsuite/rsuite/tree/master/examples/cdn
 [demo-create-react-app]: https://github.com/rsuite/rsuite/tree/master/examples/create-react-app
+[demo-electron]: https://github.com/rsuite/rsuite/tree/master/examples/with-electron
 [demo-intl-app]: https://github.com/rsuite/rsuite/tree/master/examples/custom-i18n
 [demo-multiple-themes]: https://github.com/rsuite/rsuite/tree/master/examples/custom-multiple-themes
 [demo-flow-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-flow
