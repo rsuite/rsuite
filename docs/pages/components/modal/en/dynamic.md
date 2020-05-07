@@ -13,9 +13,13 @@ class Demo extends React.Component {
     };
     this.close = this.close.bind(this);
     this.open = this.open.bind(this);
+    this.resetRows = this.resetRows.bind(this);
   }
   close() {
-    this.setState({ show: false, rows: 0 });
+    this.setState({ show: false });
+  }
+  resetRows() {
+    this.setState({ rows: 0 });
   }
   open(event) {
     this.setState({ show: true });
@@ -33,7 +37,7 @@ class Demo extends React.Component {
           <Button onClick={this.open}>Open</Button>
         </ButtonToolbar>
 
-        <Modal show={show} onHide={this.close}>
+        <Modal show={show} onHide={this.close} onExited={this.resetRows}>
           <Modal.Header>
             <Modal.Title>Modal Title</Modal.Title>
           </Modal.Header>

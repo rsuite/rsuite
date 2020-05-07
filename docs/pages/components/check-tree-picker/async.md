@@ -75,9 +75,7 @@ class AsynExample extends React.Component {
         this.setState(prevState => {
           return {
             data: concat(data, children),
-            loadingValues: prevState.loadingValues.filter(
-              value => value !== node.value
-            )
+            loadingValues: prevState.loadingValues.filter(value => value !== node.value)
           };
         });
       });
@@ -87,7 +85,7 @@ class AsynExample extends React.Component {
   renderTreeIcon(node, expandIcon) {
     const { loadingValues } = this.state;
     if (loadingValues.includes(node.value)) {
-      return <Icon icon="spinner" spin />;
+      return <Icon style={{ verticalAlign: 'middle' }} icon="spinner" spin />;
     }
     return null;
   }

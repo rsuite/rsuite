@@ -1,22 +1,33 @@
-
 ### 自定义
 
 <!--start-code-->
-```js
 
-function open(){
+```js
+function open() {
   Notification.open({
-      title: 'Message',
-      duration: 10000,
-      description: (
-        <div>
-          <p>Simon wants to add you as a friend .</p>
-          <ButtonToolbar>
-            <Button>Accept</Button>
-            <Button>Cancel</Button>
-          </ButtonToolbar>
-        </div>
-      )
+    title: 'Message',
+    duration: 10000,
+    description: (
+      <div>
+        <p>Simon wants to add you as a friend .</p>
+        <ButtonToolbar>
+          <Button
+            onClick={() => {
+              Notification.close();
+            }}
+          >
+            Accept
+          </Button>
+          <Button
+            onClick={() => {
+              Notification.close();
+            }}
+          >
+            Cancel
+          </Button>
+        </ButtonToolbar>
+      </div>
+    )
   });
 }
 
@@ -27,4 +38,5 @@ const instance = (
 );
 ReactDOM.render(instance);
 ```
+
 <!--end-code-->

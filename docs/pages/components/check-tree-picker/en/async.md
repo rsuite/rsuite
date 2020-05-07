@@ -87,7 +87,7 @@ class AsynExample extends React.Component {
   renderTreeIcon(node, expandIcon) {
     const { loadingValues } = this.state;
     if (loadingValues.includes(node.value)) {
-      return <Icon icon="spinner" spin />;
+      return <Icon style={{ verticalAlign: 'middle' }} icon="spinner" spin />;
     }
     return null;
   }
