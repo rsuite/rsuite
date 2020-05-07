@@ -21,8 +21,7 @@ const commonConfig = {
     port: 3000
   },
   entry: {
-    app: './src/index.js',
-    themes: './src/themes.js'
+    app: './src/index.js'
   },
   output: {
     filename: '[name].bundle.js?[hash]',
@@ -62,7 +61,7 @@ const commonConfig = {
       title: 'RSUITE multiple themes examples',
       template: 'src/index.html',
       inject: true,
-      excludeChunks: ['themes']
+      excludeChunks: Object.keys(themes)
     }),
     new webpack.DefinePlugin({
       'process.env.themes': JSON.stringify(Object.keys(themes))
@@ -75,7 +74,12 @@ const themeConfig = multipleThemesCompile({
   styleLoaders: [
     { loader: 'css-loader' },
     {
-      loader: 'less-loader?javascriptEnabled=true'
+      loader: 'less-loader',
+      options: {
+        lessOptions: {
+          javascriptEnabled: true
+        }
+      }
     }
   ],
   cwd: path.resolve('./')
