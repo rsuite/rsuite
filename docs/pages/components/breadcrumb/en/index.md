@@ -19,10 +19,12 @@ import { Breadcrumb } from 'rsuite';
 
 ### `<Breadcrumb>`
 
-| Property    | Type `(Default)`                                       | Description                           |
-| ----------- | ------------------------------------------------------ | ------------------------------------- |
-| classPrefix | string `('breadcrumb')`                                | The prefix of the component CSS class |
-| separator   | React.Node `(<i className="icon icon-angle-right" />)` | Custom separator                      |
+| Property    | Type `(Default)`                  | Description                                                                       |
+| ----------- | --------------------------------- | --------------------------------------------------------------------------------- |
+| classPrefix | string `('breadcrumb')`           | The prefix of the component CSS class                                             |
+| maxItems    | numner`(5)`                       | Set the maximum number of breadcrumbs to display                                  |
+| onExpand    | (event: React.MouseEvent) => void | A function to be called when you are in the collapsed view and click the ellipsis |
+| separator   | React.Node `('/')`                | Custom separator                                                                  |
 
 ### `<Breadcrumb.Item>`
 
