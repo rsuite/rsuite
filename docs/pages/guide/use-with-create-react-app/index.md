@@ -65,7 +65,7 @@ $ yarn add rsuite
 1.  安装必要依赖。
 
 ```bash
-yarn add react-app-rewired customize-cra less less-loader
+yarn add react-app-rewired customize-cra@next less less-loader
 ```
 
 2.  修改 `package.json` 中的脚本
@@ -99,8 +99,11 @@ const { override, addLessLoader } = require('customize-cra');
 
 module.exports = override(
   addLessLoader({
-    javascriptEnabled: true,
-    modifyVars: { '@base-color': '#f44336' }
+    // 如果使用 less-loader@5 或者更老的版本 ，请移除 lessOptions 这一级直接配置选项。
+    lessOptions: {
+      javascriptEnabled: true,
+      modifyVars: { '@base-color': '#f44336' }
+    }
   })
 );
 ```
