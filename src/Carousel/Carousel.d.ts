@@ -17,6 +17,9 @@ export interface CarouselProps extends StandardProps {
 
   /** Button shape */
   shape: 'dot' | 'bar';
+
+  /** Carousel elements */
+  children: React.ReactChildren;
 }
 
 declare const Col: React.ComponentType<CarouselProps>;

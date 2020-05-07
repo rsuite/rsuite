@@ -2,9 +2,9 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { prefix, defaultProps, getUnhandledProps } from '../utils';
-import Animation from '../Animation';
+import Transition from '../Animation/Transition';
 import IntlContext from '../IntlProvider/IntlContext';
-
+import ReactChildren from '../utils/ReactChildren';
 import { CarouselProps } from './Carousel.d';
 
 interface CarouselState {
@@ -41,7 +41,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
 
   componentDidMount() {
     const { autoplay, autoplayInterval, children } = this.props;
-    const count = React.Children.count(children);
+    const count = ReactChildren.count(children);
 
     if (autoplay && count) {
       this._timeListener = setInterval(() => {
@@ -60,7 +60,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     }
   }
 
-  handleChange = event => {
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const active = +event.target.value;
     this.setState({ active });
   };
@@ -74,17 +74,20 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
       shape,
       ...rest
     } = this.props;
+
     const { active, last } = this.state;
     const addPrefix = prefix(classPrefix);
-    const count = React.Children.count(children);
+    const count = ReactChildren.count(children);
     const labels = [];
-    const items = [];
     const vertical = placement === 'left' || placement === 'right';
     const lengthKey = vertical ? 'height' : 'width';
 
-    React.Children.forEach(
+    const items = React.Children.map(
       children,
       (child: React.DetailedReactHTMLElement<any, HTMLElement>, index) => {
+        if (!child) {
+          return;
+        }
         const id = `${this._key}-${index}`;
         labels.push(
           <li key={`label${index}`} className={addPrefix('label-wrapper')}>
@@ -100,16 +103,14 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
           </li>
         );
 
-        items.push(
-          React.cloneElement(child, {
-            key: `slider-item${index}`,
-            style: {
-              ...child.props.style,
-              [lengthKey]: `${100 / count}%`
-            },
-            className: classNames(addPrefix('slider-item'), child.props.className)
-          })
-        );
+        return React.cloneElement(child, {
+          key: `slider-item${index}`,
+          style: {
+            ...child.props.style,
+            [lengthKey]: `${100 / count}%`
+          },
+          className: classNames(addPrefix('slider-item'), child.props.className)
+        });
       }
     );
 
@@ -122,7 +123,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     const unhandled = getUnhandledProps(Carousel, rest);
 
     return (
-      <Animation.Transition
+      <Transition
         enteredClassName={addPrefix('last')}
         exitingClassName={addPrefix('reset')}
         in={last}
@@ -154,7 +155,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
             <ul>{labels}</ul>
           </div>
         </Component>
-      </Animation.Transition>
+      </Transition>
     );
   }
 }
