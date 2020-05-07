@@ -86,7 +86,7 @@ export interface TableProps<RowKey = string | number | symbol, RowData = any>
   showHeader?: boolean;
 
   /** Whether to update the scroll bar after data update */
-  shouldUpdateScroll: boolean;
+  shouldUpdateScroll?: boolean;
 
   /** Custom Settings Row Height */
   onRowClick?: (rowData: RowData, event: React.SyntheticEvent<any>) => void;
@@ -101,7 +101,7 @@ export interface TableProps<RowKey = string | number | symbol, RowData = any>
   onExpandChange?: (expanded: boolean, rowData: RowData) => void;
 
   /** Callback after table data update. */
-  onDataUpdated: (nextData: object[], scrollTo: (coord: { x: number; y: number }) => void) => void;
+  onDataUpdated?: (nextData: object[], scrollTo: (coord: { x: number; y: number }) => void) => void;
 
   /** Tree table, the callback function in the expanded node */
   renderTreeToggle?: (
