@@ -1,3 +1,27 @@
+# 4.5.0
+
+> May 7, 2020
+
+- **Feature**: Support `maxItems` and `onExpand` on `<Breadcrumb>`.([#1009])
+- **Bugfix**: Fixed TableProps onDataUpdated & shouldUpdateScroll optional. ([#1035])
+- **Bugfix**: Fixed Carousel unable to render invalid children. ([#1027])
+- **Bugfix**: Fixed the clear button style issue on Picker. ([#1029])
+- **Bugfix**: Fixed Sidenav style issue. ([#1020])
+
+---
+
+- **Feature**: `<Breadcrumb>` 新增属性 `maxItems` 和 `onExpand` 。([#1009])
+- **Bugfix**: 修复 TableProps 的属性 `onDataUpdated` 与 `shouldUpdateScroll` 为可选属性. ([#1035])
+- **Bugfix**: 修复 `<Carousel>` 出现无效子项导致组件渲染错误的问题. ([#1027])
+- **Bugfix**: 修复了 `Picker` 上清除按钮样式问题。 ([#1029])
+- **Bugfix**: 修复了 `<Sidenav>` 样式问题。([#1020])
+
+[#1035]: https://github.com/rsuite/rsuite/pull/1035
+[#1029]: https://github.com/rsuite/rsuite/pull/1029
+[#1027]: https://github.com/rsuite/rsuite/pull/1027
+[#1020]: https://github.com/rsuite/rsuite/pull/1020
+[#1009]: https://github.com/rsuite/rsuite/pull/1009
+
 # 4.4.1
 
 > April 29, 2020
