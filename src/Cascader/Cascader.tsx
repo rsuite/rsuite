@@ -5,7 +5,7 @@ import _ from 'lodash';
 import shallowEqual from '../utils/shallowEqual';
 import { polyfill } from 'react-lifecycles-compat';
 import { findNodeOfTree } from '../utils/treeUtils';
-import IntlProvider from '../IntlProvider';
+import IntlContext from '../IntlProvider/IntlContext';
 import FormattedMessage from '../IntlProvider/FormattedMessage';
 import DropdownMenu, { dropdownMenuPropTypes } from './DropdownMenu';
 import stringToObject from '../utils/stringToObject';
@@ -557,7 +557,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     const classes = getToggleWrapperClassName('cascader', this.addPrefix, this.props, hasValue);
 
     return (
-      <IntlProvider locale={locale}>
+      <IntlContext.Provider value={locale}>
         <div className={classes} style={style} tabIndex={-1} role="menu" ref={this.containerRef}>
           <PickerToggleTrigger
             pickerProps={this.props}
@@ -579,7 +579,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
             </PickerToggle>
           </PickerToggleTrigger>
         </div>
-      </IntlProvider>
+      </IntlContext.Provider>
     );
   }
 }

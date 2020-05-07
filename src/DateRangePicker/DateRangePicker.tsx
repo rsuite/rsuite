@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import _ from 'lodash';
 
 import {
-  format,
   addDays,
   isBefore,
   isAfter,
@@ -20,10 +19,11 @@ import {
   compareAsc
 } from 'date-fns';
 
-import IntlProvider from '../IntlProvider';
+import IntlContext from '../IntlProvider/IntlContext';
+import FormattedDate from '../IntlProvider/FormattedDate';
 import Toolbar from './Toolbar';
 import DatePicker from './DatePicker';
-import { setTimingMargin, getCalendarDate, TYPE } from './utils';
+import { setTimingMargin, getCalendarDate } from './utils';
 import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
 
 import {
@@ -33,7 +33,7 @@ import {
   getToggleWrapperClassName
 } from '../Picker';
 
-import { DateRangePickerProps, ValueType } from './DateRangePicker.d';
+import { DateRangePickerProps, ValueType, TargetEnum } from './DateRangePicker.d';
 import { PLACEMENT } from '../constants';
 
 interface DateRangePickerState {
@@ -193,9 +193,14 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     if (startDate && endDate) {
       const displayValue: any = [startDate, endDate].sort(compareAsc);
 
-      return renderValue
-        ? renderValue(displayValue, formatType)
-        : `${format(displayValue[0], formatType)} ~ ${format(displayValue[1], formatType)}`;
+      return renderValue ? (
+        renderValue(displayValue, formatType)
+      ) : (
+        <>
+          <FormattedDate date={displayValue[0]} formatStr={formatType} /> ~{' '}
+          <FormattedDate date={displayValue[1]} formatStr={formatType} />
+        </>
+      );
     }
 
     return placeholder || `${formatType} ~ ${formatType}`;
@@ -449,7 +454,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     this.props.onClose?.();
   };
 
-  disabledByBetween(start: Date, end: Date, type: string) {
+  disabledByBetween(start: Date, end: Date, type: TargetEnum) {
     const { disabledDate } = this.props;
     const { selectValue, doneSelected } = this.state;
     const selectStartDate = selectValue[0];
@@ -475,7 +480,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       return true;
     }
 
-    return this.disabledByBetween(selectValue[0], selectValue[1], TYPE.TOOLBAR_BUTTON_OK);
+    return this.disabledByBetween(selectValue[0], selectValue[1], TargetEnum.TOOLBAR_BUTTON_OK);
   };
 
   disabledShortcutButton = (value: ValueType = []) => {
@@ -483,10 +488,10 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       return true;
     }
 
-    return this.disabledByBetween(value[0], value[1], TYPE.TOOLBAR_SHORTCUT);
+    return this.disabledByBetween(value[0], value[1], TargetEnum.TOOLBAR_SHORTCUT);
   };
 
-  handleDisabledDate = (date: Date, values: ValueType, type: string) => {
+  handleDisabledDate = (date: Date, values: ValueType, type: TargetEnum) => {
     const { disabledDate } = this.props;
     const { doneSelected } = this.state;
     if (disabledDate) {
@@ -573,7 +578,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     const classes = getToggleWrapperClassName('daterange', this.addPrefix, this.props, hasValue);
 
     return (
-      <IntlProvider locale={locale}>
+      <IntlContext.Provider value={locale}>
         <div className={classes} style={style}>
           <PickerToggleTrigger
             pickerProps={this.props}
@@ -595,7 +600,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
             </PickerToggle>
           </PickerToggleTrigger>
         </div>
-      </IntlProvider>
+      </IntlContext.Provider>
     );
   }
 }

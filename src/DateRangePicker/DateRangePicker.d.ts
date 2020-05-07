@@ -2,7 +2,7 @@ import * as React from 'react';
 import { PickerBaseProps, FormControlBaseProps } from '../@types/common';
 
 export type ValueType = [Date?, Date?];
-export enum TargetDisabledDate {
+export enum TargetEnum {
   CALENDAR = 'CALENDAR',
   TOOLBAR_BUTTON_OK = 'TOOLBAR_BUTTON_OK',
   TOOLBAR_SHORTCUT = 'TOOLBAR_SHORTCUT'
@@ -19,7 +19,7 @@ export type DisabledDateFunction = (
    */
   selectedDone?: boolean,
   // Call the target of the `disabledDate` function
-  target?: TargetDisabledDate
+  target?: TargetEnum
 ) => boolean;
 
 export interface RangeType {
@@ -61,7 +61,7 @@ export interface DateRangePickerProps extends PickerBaseProps, FormControlBasePr
     date: Date,
     selectDate: ValueType,
     selectedDone: boolean,
-    target: TargetDisabledDate
+    target: TargetEnum
   ) => boolean;
 
   /** Called when the option is selected */
