@@ -79,3 +79,23 @@ import { Button } from 'rsuite';
 require('rsuite/lib/Button/styles/themes/dark.less');
 var _Button = require('rsuite/lib/Button');
 ```
+
+## Disabled HTML styles reset
+
+We reset some HTML styles in rsuite by default.But you may not need these styles when you use modularized. So you should [disable import it][config-reset-import] . This is the example config for `less-loader` :
+
+```
+{
+    test: /\.less$/,
+    loader: 'less-loader',
+    options: {
+        // If you are using less-loader@5 or older version, please spread the lessOptions to options directly.
+        lessOptions: {
+          javascriptEnabled: true,
+          modifyVars: { '@reset-import': false }
+        }
+    }
+}
+```
+
+[config-reset-import]: /en/guide/themes#Disable%20styles%20reset

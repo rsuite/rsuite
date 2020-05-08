@@ -83,6 +83,18 @@ React Suite 的样式使用了 [Less][less] 作为样式的预处理，并且定
 @button-ripple: false;
 ```
 
+### 禁用 IE polyfill
+
+```less
+@ie-polyfill: false;
+```
+
+### 禁用 reset 相关样式引用
+
+```less
+@reset-import: false;
+```
+
 ### 更多自定义配置
 
 我们提供了[各种场景的变量][variables.less]，如果依然不能满足您的定制需求，欢迎给我们提 [issue][issue]。

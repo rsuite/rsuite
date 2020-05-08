@@ -591,5 +591,16 @@
     "name": "DOMHelper",
     "title": "DOM 助手",
     "apis": ["DOMHelper"]
+  },
+  {
+    "group": true,
+    "id": "css-packs",
+    "name": "CSS Packs",
+    "title": "CSS 相关"
+  },
+  {
+    "id": "css-reset",
+    "name": "CSS Reset",
+    "title": "基础样式"
   }
 ]

@@ -85,6 +85,18 @@ Information, successes, warnings, errors, respectively, the corresponding color,
 @button-ripple: false;
 ```
 
+### Disable IE polyfill
+
+```less
+@ie-polyfill: false;
+```
+
+### Disable HTML styles reset
+
+```less
+@reset-import: false;
+```
+
 ### More Custom Configurations
 
 We provide a rich [variable][variables.less], if still unable to meet your customized needs, welcome to our [issue][issue].

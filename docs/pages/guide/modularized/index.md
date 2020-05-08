@@ -80,3 +80,23 @@ import { Button } from 'rsuite';
 require('rsuite/lib/Button/styles/themes/dark.less');
 var _Button = require('rsuite/lib/Button');
 ```
+
+## 禁用 HTML 相关样式的 reset
+
+在 rsuite 中我们默认修改了一些 HTML 样式，如果您不需要这些样式，则需要[配置不引入这些样式][config-reset-import]，这里以 `less-loader` 配置为例：
+
+```
+{
+    test: /\.less$/,
+    loader: 'less-loader',
+    options: {
+        // 如果使用 less-loader@5 或者更老的版本 ，请移除 lessOptions 这一级直接配置选项。
+        lessOptions: {
+          javascriptEnabled: true,
+          modifyVars: { '@reset-import': false }
+        }
+    }
+}
+```
+
+[config-reset-import]: /guide/themes#禁用%20reset%20相关样式引用
