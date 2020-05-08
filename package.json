@@ -27,6 +27,7 @@
     "test:component": "cross-env NODE_ENV=coverage RUN_ENV=test karma start --single-run",
     "test:styles": "node test/stylesSpec.js",
     "coveralls": "cat ./coverage/lcov/lcov.info | ./node_modules/.bin/coveralls",
+    "prebuild": "npm run test",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
