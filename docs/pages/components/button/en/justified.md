@@ -5,8 +5,8 @@ The buttons are laid out horizontally in the button set and are equally wide.
 <!--start-code-->
 
 ```js
-const CustomButtonGroup = ({ appearance })=>(
-  <ButtonGroup style={{marginTop:12}} justified>
+const CustomButtonGroup = ({ appearance }) => (
+  <ButtonGroup style={{ marginTop: 12 }} justified>
     <Button appearance={appearance}>Top</Button>
     <Button appearance={appearance}>Middle</Button>
     <Button appearance={appearance}>Bottom</Button>
@@ -24,4 +24,5 @@ const instance = (
 );
 ReactDOM.render(instance);
 ```
+
 <!--end-code-->

@@ -530,7 +530,7 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
           positionRef={this.positionRef}
           onEnter={createChainedFunction(this.setStickyItems, onEnter)}
           onEntered={createChainedFunction(this.handleOpen, onEntered)}
-          onExit={createChainedFunction(this.handleExit, onExited)}
+          onExited={createChainedFunction(this.handleExit, onExited)}
           speaker={this.renderDropdownMenu()}
         >
           <div className={classes} style={style}>

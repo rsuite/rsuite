@@ -464,7 +464,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
         ref={this.triggerRef}
         positionRef={this.positionRef}
         onEntered={createChainedFunction(this.handleOpen, onEntered)}
-        onExit={createChainedFunction(this.handleExit, onExited)}
+        onExited={createChainedFunction(this.handleExit, onExited)}
         speaker={this.renderDropdownMenu()}
       >
         <div className={classes} style={style} tabIndex={-1} role="menu">

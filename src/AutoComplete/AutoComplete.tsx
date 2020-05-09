@@ -40,7 +40,13 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
     renderItem: PropTypes.func,
     style: PropTypes.object,
     open: PropTypes.bool,
-    selectOnEnter: PropTypes.bool
+    selectOnEnter: PropTypes.bool,
+    onEnter: PropTypes.func,
+    onEntering: PropTypes.func,
+    onEntered: PropTypes.func,
+    onExit: PropTypes.func,
+    onExiting: PropTypes.func,
+    onExited: PropTypes.func
   };
   static defaultProps = {
     data: [],

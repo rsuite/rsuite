@@ -81,17 +81,17 @@ interface NotificationProps {
 }
 ```
 
-| 属性名称       | 类型 `(默认值)`                                  | 描述                                                 |
-| -------------- | ------------------------------------------------ | ---------------------------------------------------- |
-| bottom         | number `(24)`                                    | 消息框距离底部的距离                                 |
-| description \* | React.Node                                       | 描述                                                 |
-| duration       | number `(4500)`                                  | 消息框持续时间 (单位：毫秒)                          |
-| key            | string                                           | 消息框唯一标识，如果要手动移除消息框，必须填写该字段 |
-| onClose        | ()=>void                                         | 关闭回调函数                                         |
+| 属性名称       | 类型 `(默认值)`                                   | 描述                                                 |
+| -------------- | ------------------------------------------------- | ---------------------------------------------------- |
+| bottom         | number `(24)`                                     | 消息框距离底部的距离                                 |
+| description \* | React.Node                                        | 描述                                                 |
+| duration       | number `(4500)`                                   | 消息框持续时间 (单位：毫秒)                          |
+| key            | string                                            | 消息框唯一标识，如果要手动移除消息框，必须填写该字段 |
+| onClose        | () => void                                        | 关闭回调函数                                         |
 | placement      | enum: [NotificationPlacement](#types)`('topEnd')` | 消息框的位置                                         |
-| style          | React.CSSProperties                              | 自定义样式                                           |
-| title \*       | string                                           | 标题                                                 |
-| top            | number `(24)`                                    | 消息框距离顶部的距离                                 |
+| style          | React.CSSProperties                               | 自定义样式                                           |
+| title \*       | string                                            | 标题                                                 |
+| top            | number `(24)`                                     | 消息框距离顶部的距离                                 |
 
 ## 相关组件
 

@@ -84,5 +84,5 @@ const data = [
 - defaultExpandAllRows:boolean :Expand all nodes By default
 - expandedRowKeys (controlled) and defaultExpandedRowKeys are used to configure the rows that need to be expanded. Note that the parameters that these two properties receive are an array of Rowkey in the array.。
 - rowKey : Give each row of data to a unique key, corresponding to a unique value in the key. (You can set the rowKey in `<Table>`, the default value is 'key')
-- renderTreeToggle:()=>React.Node : Custom Toggle
-- onExpandChange:(expanded:boolean,rowData:object)=>void: To open/close a node's callback function
+- renderTreeToggle:() => React.Node : Custom Toggle
+- onExpandChange:(expanded:boolean,rowData:object) => void: To open/close a node's callback function

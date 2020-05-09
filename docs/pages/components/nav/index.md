@@ -44,4 +44,4 @@ import { Nav, Dropdown } from 'rsuite';
 | href           | string                                                     | 链接                   |
 | icon           | React.Element&lt;typeof Icon&gt;                           | 设置图标               |
 | onSelect       | (eventKey: any, event: SyntheticEvent&lt;any&gt;) => void, | 选择事件触发的回调函数 |
-| renderItem     | (item:React.Node)=>React.Node                              | 自定义渲染选项         |
+| renderItem     | (item:React.Node) => React.Node                            | 自定义渲染选项         |

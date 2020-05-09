@@ -35,6 +35,12 @@ import { Tooltip, Whisper } from 'rsuite';
 | delayShow       | number                                                           | 展示的延迟时间                  |     |
 | onBlur          | () => void                                                       | 失去焦点回调函数                |     |
 | onClick         | () => void                                                       | 点击的回调函数                  |     |
+| onEnter         | () => void                                                       | 显示前动画过渡的回调函数        |
+| onEntered       | () => void                                                       | 显示后动画过渡的回调函数        |
+| onEntering      | () => void                                                       | 显示中动画过渡的回调函数        |
+| onExit          | () => void                                                       | 退出前动画过渡的回调函数        |
+| onExited        | () => void                                                       | 退出后动画过渡的回调函数        |
+| onExiting       | () => void                                                       | 退出中动画过渡的回调函数        |
 | onFocus         | () => void                                                       | 获取焦点的回调函数              |     |
 | onMouseOut      | () => void                                                       | 鼠标离开的回调函数              |     |
 | placement       | enum: [PlacementAll](#types) `('right')`                         | 显示位置                        |     |

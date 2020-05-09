@@ -28,8 +28,8 @@ import { Breadcrumb } from 'rsuite';
 
 ### `<Breadcrumb.Item>`
 
-| 属性名称       | 类型 `(默认值)`               | 描述                 |
-| -------------- | ----------------------------- | -------------------- |
-| active         | boolean                       | 激活状态             |
-| componentClass | React.ElementType `('ol')`    | 为组件自定义元素类型 |
-| renderItem     | (item:React.Node)=>React.Node | 自定义渲染选项       |
+| 属性名称       | 类型 `(默认值)`                 | 描述                 |
+| -------------- | ------------------------------- | -------------------- |
+| active         | boolean                         | 激活状态             |
+| componentClass | React.ElementType `('ol')`      | 为组件自定义元素类型 |
+| renderItem     | (item:React.Node) => React.Node | 自定义渲染选项       |

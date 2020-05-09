@@ -45,17 +45,17 @@ const { Column, HeaderCell, Cell, Pagination } = Table;
 | locale                   | object                                                                            | 本地化语言配置                                               |
 | minHeight                | number `(0)`                                                                      | 最小高度                                                     |
 | onDataUpdated            | (nextData: object[], scrollTo: (coord: { x: number; y: number }) => void) => void | 数据更新后的回调函数                                         |
-| onExpandChange           | (expanded:boolean, rowData:object)=>void                                          | 树形表格，在展开节点的回调函数                               |
-| onRowClick               | (rowData:object)=>void                                                            | 行点击后的回调函数， 返回 `rowDate`                          |
-| onScroll                 | (scrollX:object, scrollY:object)=>void                                            | 滚动条滚动时候的回调函数                                     |
-| onSortColumn             | (dataKey:string, sortType:string)=>void                                           | 点击排序列的回调函数，返回 `sortColumn`, `sortType` 这两个值 |
+| onExpandChange           | (expanded:boolean, rowData:object) => void                                        | 树形表格，在展开节点的回调函数                               |
+| onRowClick               | (rowData:object) => void                                                          | 行点击后的回调函数， 返回 `rowDate`                          |
+| onScroll                 | (scrollX:object, scrollY:object) => void                                          | 滚动条滚动时候的回调函数                                     |
+| onSortColumn             | (dataKey:string, sortType:string) => void                                         | 点击排序列的回调函数，返回 `sortColumn`, `sortType` 这两个值 |
 | renderEmpty              | (info: React.Node) => React.Node                                                  | 自定义渲染数据为空的状态                                     |
 | renderLoading            | (loading: React.Node) => React.Node                                               | 自定义渲染数据加载中的状态                                   |
 | renderRowExpanded        | (rowDate?: Object) => React.Node                                                  | 自定义可以展开区域的内容                                     |
-| renderTreeToggle         | (icon:node, rowData:object, expanded:boolean)=> node                              | 树形表格，在展开节点的回调函数                               |
-| rowClassName             | string , (rowData:object)=>string                                                 | 为行自定义 className                                         |
+| renderTreeToggle         | (icon:node, rowData:object, expanded:boolean) => node                             | 树形表格，在展开节点的回调函数                               |
+| rowClassName             | string , (rowData:object) => string                                               | 为行自定义 className                                         |
 | rowExpandedHeight        | number `(100)`                                                                    | 设置可展开区域的高度                                         |
-| rowHeight                | (rowData:object)=> number, number`(46)`                                           | 行高                                                         |
+| rowHeight                | (rowData:object) => number, number`(46)`                                          | 行高                                                         |
 | rowKey                   | string `('key')`                                                                  | 每一个行对应的 `data` 中的唯一 `key`                         |
 | shouldUpdateScroll       | boolean`(true)`                                                                   | 数据更新后更新滚动条位置                                     |
 | showHeader               | boolean `(true)`                                                                  | 显示表头                                                     |
@@ -122,8 +122,8 @@ scrollLeft: (left: number) => void;
 | lengthMenu       | Array                                             | 分页显示行数配置，默认为 30, 50, 100        |
 | maxButtons       | number `(5)`                                      | 配置最多显示按钮数量                        |
 | next             | boolean `(true)`                                  | 显示下一页按钮                              |
-| onChangeLength   | (eventKey: number)=>void                          | `lengthMenu` 值发生改变的时候触发的回调函数 |
-| onChangePage     | (eventKey: number)=>void                          | page 改变时候触发的回调函数                 |
+| onChangeLength   | (eventKey: number) => void                        | `lengthMenu` 值发生改变的时候触发的回调函数 |
+| onChangePage     | (eventKey: number) => void                        | page 改变时候触发的回调函数                 |
 | prev             | boolean `(true)`                                  | 显示上一页按钮                              |
 | renderLengthMenu | (picker: React.Node) => React.Node                | 自定义菜单                                  |
 | renderTotal      | (total: number, activePage: number) => React.Node | 自定义总数                                  |
