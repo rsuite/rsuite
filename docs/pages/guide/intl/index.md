@@ -8,11 +8,29 @@ React Suite 组件中的语言默认为英语。 如果需要设置其他语言�
 import { IntlProvider } from 'rsuite';
 import zhCN from 'rsuite/lib/IntlProvider/locales/zh_CN';
 
-ReactDOM.render(
+return (
   <IntlProvider locale={zhCN}>
     <App />
-  </IntlProvider>,
-  document.getElementById('root')
+  </IntlProvider>
+);
+```
+
+## 日期格式化
+
+```jsx
+import { IntlProvider } from 'rsuite';
+import ruRU from 'rsuite/lib/IntlProvider/locales/ru_RU';
+import format from 'date-fns/format';
+import ru from 'date-fns/locale/ru';
+
+function formatDate(data, formatStr) {
+  return format(data, formatStr, { locale: ru });
+}
+
+return (
+  <IntlProvider locale={ruRU} formatDate={formatDate}>
+    <App />
+  </IntlProvider>
 );
 ```
 
@@ -41,17 +59,26 @@ ReactDOM.render(
 
 ```jsx
 import { IntlProvider } from 'react-intl';
-import RSIntlProvider from 'rsuite/lib/IntlProvider';
+import LocaleProvider from 'rsuite/lib/IntlProvider';
 import zhCN from 'rsuite/lib/IntlProvider/locales/zh_CN';
 
-ReactDOM.render(
+return (
   <IntlProvider locale="zh">
-    <RSIntlProvider locale={zhCN}>
+    <LocaleProvider locale={zhCN}>
       <App />
-    </RSIntlProvider>
-  </IntlProvider>,
-  document.getElementById('root')
+    </LocaleProvider>
+  </IntlProvider>
 );
 ```
 
 更多配置参考: [react-intl](https://github.com/yahoo/react-intl)
+
+## Props
+
+### `<IntlProvider>`
+
+| 属性名称   | 类型`(默认值)`                                                        | 描述                                     |
+| ---------- | --------------------------------------------------------------------- | ---------------------------------------- |
+| locale     | object`(rsuite/lib/IntlProvider/locales/en_GB)`                       | 语言包配置                               |
+| rtl        | boolean                                                               | 可设置文本和其他元素的默认方向是从左到右 |
+| formatDate | (date: Date ,format?: string, options?: {locale?: object;}) => string | 格式化日期                               |
