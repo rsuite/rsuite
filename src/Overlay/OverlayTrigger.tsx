@@ -135,7 +135,12 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
   };
 
   handleDelayedShow = () => {
-    const { delayShow, delay } = this.props;
+    const { delayShow, delay, enterable } = this.props;
+
+    if (!enterable) {
+      this.show();
+      return;
+    }
 
     this.mouseEnteredToTrigger = true;
     if (!isNullOrUndefined(this.hoverHideDelayTimer)) {
@@ -163,7 +168,13 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
   };
 
   handleDelayedHide = () => {
-    const { delayHide, delay } = this.props;
+    const { delayHide, delay, enterable } = this.props;
+
+    if (!enterable) {
+      this.hide();
+      return;
+    }
+
     this.mouseEnteredToTrigger = false;
     if (!isNullOrUndefined(this.hoverShowDelayTimer)) {
       clearTimeout(this.hoverShowDelayTimer);

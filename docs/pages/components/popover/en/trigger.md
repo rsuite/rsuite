@@ -9,43 +9,30 @@ const speaker = (
   <Popover title="Title">
     <p>This is a defalut Popover </p>
     <p>Content</p>
+    <p>
+      <a>link</a>
+    </p>
   </Popover>
 );
 
-class TriggerDemo extends React.Component {
-  render() {
-    return (
-      <div>
-        <Whisper
-          placement="top"
-          speaker={speaker}
-          triggerRef={ref => {
-            this.trigger = ref;
-          }}
-        >
-          <span>Popover</span>
-        </Whisper>
-        <hr />
-        <ButtonToolbar>
-          <Button
-            onClick={() => {
-              this.trigger.show();
-            }}
-          >
-            Trigger Show
-          </Button>
-          <Button
-            onClick={() => {
-              this.trigger.hide();
-            }}
-          >
-            Trigger Hide
-          </Button>
-        </ButtonToolbar>
-      </div>
-    );
-  }
-}
+const TriggerDemo = () => {
+  let trigger = null;
+  const triggerRef = ref => (trigger = ref);
+  const showPopover = () => trigger.show();
+  const hidePopover = () => trigger.hide();
+  return (
+    <div>
+      <Whisper placement="top" speaker={speaker} triggerRef={triggerRef}>
+        <span>Popover</span>
+      </Whisper>
+      <hr />
+      <ButtonToolbar>
+        <Button onClick={showPopover}>Show</Button>
+        <Button onClick={hidePopover}>Hide</Button>
+      </ButtonToolbar>
+    </div>
+  );
+};
 
 const instance = (
   <div>
@@ -56,11 +43,14 @@ const instance = (
       <Whisper placement="top" trigger="focus" speaker={speaker}>
         <Button>Focus</Button>
       </Whisper>
+      <Whisper placement="top" trigger="active" speaker={speaker}>
+        <Button>Active</Button>
+      </Whisper>
       <Whisper placement="top" trigger="hover" speaker={speaker}>
         <Button>Hover</Button>
       </Whisper>
-      <Whisper placement="top" trigger="active" speaker={speaker}>
-        <Button>Active</Button>
+      <Whisper placement="top" trigger="hover" speaker={speaker} enterable>
+        <Button>Hover + Enterable</Button>
       </Whisper>
     </ButtonToolbar>
     <hr />

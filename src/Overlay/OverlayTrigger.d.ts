@@ -30,13 +30,14 @@ export interface TriggerProps extends AnimationEventProps, StandardProps {
     | React.ReactElement<any>
     | ((props: any, ref: React.RefObject<any>) => React.ReactElement);
 
-  /**
-   * Prevent floating element overflow
-   */
+  /** Prevent floating element overflow */
   preventOverflow?: boolean;
 
   /** Show speaker */
   open?: boolean;
+
+  /** Whether mouse is allowed to enter the floating layer of popover, whose default value is false. */
+  enterable?: boolean;
 
   /** Lose Focus callback function */
   onBlur?: () => void;
