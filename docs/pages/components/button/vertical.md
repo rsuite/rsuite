@@ -1,14 +1,15 @@
 ### 垂直按钮组
-<!--start-code-->
-```js
 
-const CustomButtonGroup = ({ appearance })=>(
+<!--start-code-->
+
+```js
+const CustomButtonGroup = ({ appearance }) => (
   <ButtonGroup vertical>
     <Button appearance={appearance}>Top</Button>
     <Button appearance={appearance}>Middle</Button>
     <Button appearance={appearance}>Bottom</Button>
   </ButtonGroup>
-)
+);
 
 const instance = (
   <ButtonToolbar>
@@ -21,4 +22,5 @@ const instance = (
 );
 ReactDOM.render(instance);
 ```
+
 <!--end-code-->

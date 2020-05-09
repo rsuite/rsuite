@@ -28,8 +28,8 @@ import { Breadcrumb } from 'rsuite';
 
 ### `<Breadcrumb.Item>`
 
-| Property       | Type `(Default)`              | Description                                     |
-| -------------- | ----------------------------- | ----------------------------------------------- |
-| active         | boolean                       | Active state                                    |
-| componentClass | React.ElementType `('ol')`    | You can use a custom element for this component |
-| renderItem     | (item:React.Node)=>React.Node | Custom rendering item                           |
+| Property       | Type `(Default)`                | Description                                     |
+| -------------- | ------------------------------- | ----------------------------------------------- |
+| active         | boolean                         | Active state                                    |
+| componentClass | React.ElementType `('ol')`      | You can use a custom element for this component |
+| renderItem     | (item:React.Node) => React.Node | Custom rendering item                           |

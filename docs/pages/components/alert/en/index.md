@@ -51,7 +51,7 @@ Alert.error(content: string, duration?: number, onClose?: () => void);
 | ---------- | --------------- | --------------------------------------------------------------------------------------------------------- |
 | content \* | string          | The content of alert                                                                                      |
 | duration   | number `(2000)` | The duration of the display, automatically closes the reminder box after the duration (unit:milliseconds) |
-| onClose    | ()=>void        | Callback when Alert is closed                                                                             |
+| onClose    | () => void      | Callback when Alert is closed                                                                             |
 
 ### `Alert.close`
 
@@ -70,11 +70,13 @@ Alert.closeAll();
 Global config
 
 ```js
-Alert.config(options:{
-  top?: number;
-  duration?: number;
-  getContainer?: () => HTMLElement;
-});
+Alert.config(
+  (options: {
+    top?: number,
+    duration?: number,
+    getContainer?: () => HTMLElement
+  })
+);
 ```
 
 - top - Distance from the top of the page (unit:px, default:5)

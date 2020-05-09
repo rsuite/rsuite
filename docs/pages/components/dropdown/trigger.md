@@ -9,9 +9,9 @@
 > 同时支持多个事件 `Array<click, hover, contextMenu>`
 
 <!--start-code-->
-```js
 
-const CustomDropdown = ({...props})=>(
+```js
+const CustomDropdown = ({ ...props }) => (
   <Dropdown {...props}>
     <Dropdown.Item>New File</Dropdown.Item>
     <Dropdown.Item>New File with Current Profile</Dropdown.Item>
@@ -21,17 +21,17 @@ const CustomDropdown = ({...props})=>(
     <Dropdown.Item>Settings</Dropdown.Item>
     <Dropdown.Item>About</Dropdown.Item>
   </Dropdown>
-)
-
+);
 
 const instance = (
   <ButtonToolbar>
     <CustomDropdown title="Hover" trigger="hover" />
     <CustomDropdown title="Click" trigger="click" />
     <CustomDropdown title="Right Click" trigger="contextMenu" />
-    <CustomDropdown title="Click and Hover" trigger={['click','hover']} />
+    <CustomDropdown title="Click and Hover" trigger={['click', 'hover']} />
   </ButtonToolbar>
 );
 ReactDOM.render(instance);
 ```
+
 <!--end-code-->

@@ -18,9 +18,8 @@ import { Portal } from 'rsuite';
 
 ### `<Portal>`
 
-
 | Property   | Type `(Default)`              | Description                    |
 | ---------- | ----------------------------- | ------------------------------ |
 | children   | React.Node                    | Subcomponents                  |
 | container  | HTMLElement,() => HTMLElement | Render subcomponents Container |
-| onRendered | ()=>void                      | Rendered callback function     |
+| onRendered | () => void                    | Rendered callback function     |

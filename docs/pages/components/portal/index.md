@@ -22,4 +22,4 @@ import { Portal } from 'rsuite';
 | ---------- | ----------------------------- | ---------------- |
 | children   | React.Node                    | 子组件           |
 | container  | HTMLElement,() => HTMLElement | 渲染子组件的容器 |
-| onRendered | ()=>void                      | 渲染后的回调函数 |
+| onRendered | () => void                    | 渲染后的回调函数 |
