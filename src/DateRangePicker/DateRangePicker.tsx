@@ -580,7 +580,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
             ref={this.triggerRef}
             onEnter={createChainedFunction(this.handleEnter, onEnter)}
             onEntered={createChainedFunction(this.handleEntered, onEntered)}
-            onExit={createChainedFunction(this.handleExit, onExited)}
+            onExited={createChainedFunction(this.handleExit, onExited)}
             speaker={this.renderDropdownMenu()}
           >
             <PickerToggle

@@ -1235,7 +1235,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
         ref={this.triggerRef}
         positionRef={this.positionRef}
         onEntered={createChainedFunction(this.handleOnOpen, onEntered)}
-        onExit={createChainedFunction(this.handleOnClose, onExited)}
+        onExited={createChainedFunction(this.handleOnClose, onExited)}
         speaker={this.renderDropdownMenu()}
       >
         <div className={classes} style={style}>

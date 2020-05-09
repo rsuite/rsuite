@@ -561,7 +561,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
           ref={this.triggerRef}
           positionRef={this.positionRef}
           onEnter={createChainedFunction(this.handleEntered, onEnter)}
-          onExit={createChainedFunction(this.handleExit, onExited)}
+          onExited={createChainedFunction(this.handleExit, onExited)}
           speaker={this.renderDropdownMenu()}
         >
           <PickerToggle

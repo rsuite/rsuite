@@ -462,7 +462,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
             pickerProps={this.props}
             ref={this.triggerRef}
             onEntered={createChainedFunction(this.handleEntered, onEntered)}
-            onExit={createChainedFunction(this.handleExit, onExited)}
+            onExited={createChainedFunction(this.handleExit, onExited)}
             speaker={this.renderDropdownMenu(calendar)}
           >
             <PickerToggle

@@ -1128,7 +1128,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
         ref={this.triggerRef}
         positionRef={this.positionRef}
         onEntered={createChainedFunction(this.handleOnOpen, onEntered)}
-        onExit={createChainedFunction(this.handleOnClose, onExited)}
+        onExited={createChainedFunction(this.handleOnClose, onExited)}
         speaker={this.renderDropdownMenu()}
       >
         <div className={classes} style={style}>
