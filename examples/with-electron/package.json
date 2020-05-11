@@ -11,7 +11,12 @@
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\""
   },
-  "keywords": ["Rsuite", "Electron", "React", "Example"],
+  "keywords": [
+    "Rsuite",
+    "Electron",
+    "React",
+    "Example"
+  ],
   "license": "MIT",
   "config": {
     "forge": {
@@ -66,6 +71,7 @@
     "@electron-forge/maker-zip": "^6.0.0-beta.51",
     "@electron-forge/plugin-webpack": "^6.0.0-beta.51",
     "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
+    "babel-preset-rsuite": "^4.0.1",
     "css-loader": "^3.5.3",
     "electron": "8.2.5",
     "less": "^3.11.1",
