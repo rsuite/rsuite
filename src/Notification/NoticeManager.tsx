@@ -116,7 +116,8 @@ class NoticeManager extends React.Component<NoticeManagerProps, NoticeManagerSta
       },
       () => {
         setTimeout(() => {
-          this.setState({ notices: [] });
+          const notices = this.state.notices.filter(notice => notice.show === true);
+          this.setState({ notices: notices });
         }, 1000);
       }
     );
