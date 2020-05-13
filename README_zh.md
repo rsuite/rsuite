@@ -80,6 +80,7 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 - [RLT 方案 - rtlcss][demo-rtlcss]
 - [RLT 方案 - postcss-rtl][demo-postcss-rtl]
 - [在 create-react-app 中使用][demo-create-react-app]
+- [在 Electron 中使用][demo-electron]
 - [在 Flow 中使用][demo-flow-app]
 - [在 TypeScript 中使用][demo-typescript-app]
 - [在 Next.js 中使用][demo-nextjs]
@@ -196,6 +197,7 @@ React Suite 基于 [MIT licensed][license] 发布。
 [demo-modular-import]: https://github.com/rsuite/rsuite/tree/master/examples/with-babel-preset-rsuite
 [demo-cdn]: https://github.com/rsuite/rsuite/tree/master/examples/cdn
 [demo-create-react-app]: https://github.com/rsuite/rsuite/tree/master/examples/create-react-app
+[demo-electron]: https://github.com/rsuite/rsuite/tree/master/examples/with-electron
 [demo-intl-app]: https://github.com/rsuite/rsuite/tree/master/examples/custom-i18n
 [demo-multiple-themes]: https://github.com/rsuite/rsuite/tree/master/examples/custom-multiple-themes
 [demo-flow-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-flow
