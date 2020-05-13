@@ -20,18 +20,6 @@ const instance = (
       <a href="tel:+123456789">Phone</a>
     </p>
     <hr />
-    <p>Link created by Button:</p>
-    <ButtonToolbar>
-      <Button appearance="link" href="https://example.com">
-        Website
-      </Button>
-      <Button appearance="link" href="mailto:m.bluth@example.com">
-        Email
-      </Button>
-      <Button appearance="link" href="tel:+123456789">
-        Phone
-      </Button>
-    </ButtonToolbar>
   </div>
 );
 ReactDOM.render(instance);

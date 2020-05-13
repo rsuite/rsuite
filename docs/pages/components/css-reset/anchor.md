@@ -17,19 +17,6 @@ const instance = (
     <p>
       <a href="tel:+123456789">电话</a>
     </p>
-    <hr />
-    <p>通过 Button 创建的链接:</p>
-    <ButtonToolbar>
-      <Button appearance="link" href="https://example.com">
-        网站
-      </Button>
-      <Button appearance="link" href="mailto:m.bluth@example.com">
-        邮箱
-      </Button>
-      <Button appearance="link" href="tel:+123456789">
-        电话
-      </Button>
-    </ButtonToolbar>
   </div>
 );
 ReactDOM.render(instance);

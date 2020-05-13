@@ -5,9 +5,26 @@ import { Sidebar, Nav, Icon, IconButton } from 'rsuite';
 import Link from '@/components/Link';
 import AppContext from '../AppContext';
 import getPages from '@/utils/pages';
+import debounce from 'lodash/debounce';
+import { scrollTop } from 'dom-lib';
 
 interface SideNavbarProps {
   style: React.CSSProperties;
+}
+
+function setSidebarScrollTop() {
+  const sidebar = document.getElementById('sidebar');
+  const top = scrollTop(sidebar);
+
+  sessionStorage.setItem('SIDEBAR-TOP', top);
+}
+
+function initSidebarScrollTop() {
+  const sidebar = document.getElementById('sidebar');
+  const top = sessionStorage.getItem('SIDEBAR-TOP') || 0;
+  if (sidebar) {
+    scrollTop(sidebar, top);
+  }
 }
 
 export default React.memo(function SideNavbar(props: SideNavbarProps) {
@@ -30,6 +47,8 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
   const handleCloseMediaSidebar = React.useCallback(() => {
     setMediaSidebarShow(false);
   }, [setMediaSidebarShow]);
+
+  React.useEffect(initSidebarScrollTop, []);
 
   if (children) {
     children.forEach(child => {
@@ -85,7 +104,12 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
           <div className="title-wrapper">
             {icon} {activeTitle}
           </div>
-          <Nav className="nav-docs" vertical>
+          <Nav
+            id="sidebar"
+            className="nav-docs"
+            vertical
+            onScroll={debounce(setSidebarScrollTop, 500)}
+          >
             {navItems}
           </Nav>
         </Sidebar>

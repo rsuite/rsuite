@@ -49,10 +49,6 @@ export default function getPages() {
           name: messages?.common?.rtl
         },
         {
-          id: 'html-elements',
-          name: messages?.common?.htmlElements
-        },
-        {
           id: 'v3-to-v4',
           name: messages?.common?.v3ToV4
         },
