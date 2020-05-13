@@ -44,7 +44,17 @@ const config = {
             loader: MiniCssExtractPlugin.loader
           },
           'css-loader',
-          'less-loader?javascriptEnabled=true'
+          {
+            loader: 'less-loader',
+            options: {
+              // 如果使用 less-loader@5 或者更老的版本 ，请移除 lessOptions 这一级直接配置选项。
+              // If you are using less-loader@5 or older version, please spread the lessOptions to options directly.
+              lessOptions: {
+                javascriptEnabled: true,
+                modifyVars: { '@reset-import': false }
+              }
+            }
+          }
         ]
       }
     ]
