@@ -3,6 +3,8 @@ export const azAZ: object;
 export const daDK: object;
 export const enGB: object;
 export const enUS: object;
+export const esAR: object;
+export const esES: object;
 export const fiFI: object;
 export const itIT: object;
 export const koKR: object;
