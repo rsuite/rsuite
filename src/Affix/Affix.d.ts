@@ -12,7 +12,7 @@ export interface AffixProps extends StandardProps {
   onChange?: (fixed: boolean) => void;
 
   /** Specify the container. */
-  container: HTMLElement | (() => HTMLElement);
+  container?: HTMLElement | (() => HTMLElement);
 }
 
 declare const Affix: React.ComponentType<AffixProps>;
