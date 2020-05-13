@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import compose from 'recompose/compose';
 
-import IntlProvider from '../IntlProvider';
+import IntlContext from '../IntlProvider/IntlContext';
 import withLocale from '../IntlProvider/withLocale';
 import FileItem from './UploadFileItem';
 import UploadTrigger from './UploadTrigger';
@@ -378,11 +378,11 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
     }
 
     return (
-      <IntlProvider locale={locale}>
+      <IntlContext.Provider value={locale}>
         <div className={classes} style={style}>
           {renderList}
         </div>
-      </IntlProvider>
+      </IntlContext.Provider>
     );
   }
 }

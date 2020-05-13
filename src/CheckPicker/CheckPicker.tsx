@@ -12,7 +12,7 @@ import {
   getDataGroupBy
 } from '../utils';
 
-import IntlProvider from '../IntlProvider';
+import IntlContext from '../IntlProvider/IntlContext';
 import FormattedMessage from '../IntlProvider/FormattedMessage';
 import {
   DropdownMenuCheckItem as DropdownMenuItem,
@@ -523,7 +523,7 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
     const classes = getToggleWrapperClassName('check', this.addPrefix, this.props, hasValue);
 
     return (
-      <IntlProvider locale={locale}>
+      <IntlContext.Provider value={locale}>
         <PickerToggleTrigger
           pickerProps={this.props}
           ref={this.triggerRef}
@@ -548,7 +548,7 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
             </PickerToggle>
           </div>
         </PickerToggleTrigger>
-      </IntlProvider>
+      </IntlContext.Provider>
     );
   }
 }

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { format } from 'date-fns';
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
 import IntlContext from '../IntlProvider/IntlContext';
+import FormattedDate from '../IntlProvider/FormattedDate';
 
 export interface HeaderProps {
   date: Date;
@@ -93,7 +93,7 @@ class Header extends React.PureComponent<HeaderProps> {
       return renderTitle(date);
     }
 
-    return date && format(date, this.getDateFormat());
+    return date && <FormattedDate date={date} formatStr={this.getDateFormat()} />;
   }
   render() {
     const {
@@ -176,7 +176,7 @@ class Header extends React.PureComponent<HeaderProps> {
               className={timeTitleClasses}
               onClick={onToggleTimeDropdown}
             >
-              {date && format(date, this.getTimeFormat())}
+              {date && <FormattedDate date={date} formatStr={this.getTimeFormat()} />}
             </span>
 
             {showMeridian ? (
@@ -186,7 +186,7 @@ class Header extends React.PureComponent<HeaderProps> {
                 className={this.addPrefix('meridian')}
                 onClick={onToggleMeridian}
               >
-                {date && format(date, 'A')}
+                {date && <FormattedDate date={date} formatStr="A" />}
               </span>
             ) : null}
           </div>

@@ -7,7 +7,7 @@ export default function createContext<T = any>(defaultValue: any) {
   };
 
   const ReactContext: React.Context<T> = React.createContext
-    ? React.createContext(defaultValue)
+    ? React.createContext<T>(defaultValue)
     : context;
 
   return ReactContext;

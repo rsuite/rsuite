@@ -35,7 +35,7 @@ export interface AnimationEventProps {
 
 export interface PickerBaseProps extends StandardProps, AnimationEventProps {
   /** locale */
-  locale?: boolean;
+  locale?: any;
 
   /** A picker can have different appearances. */
   appearance?: 'default' | 'subtle';

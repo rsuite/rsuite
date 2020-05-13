@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import { polyfill } from 'react-lifecycles-compat';
 import {
-  format,
   getMinutes,
   getHours,
   isSameDay,
@@ -14,7 +13,8 @@ import {
   setSeconds
 } from 'date-fns';
 
-import IntlProvider from '../IntlProvider';
+import IntlContext from '../IntlProvider/IntlContext';
+import FormattedDate from '../IntlProvider/FormattedDate';
 import Calendar from '../Calendar/Calendar';
 import Toolbar from './Toolbar';
 
@@ -184,7 +184,11 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     const value = this.getValue();
 
     if (value) {
-      return renderValue ? renderValue(value, formatType) : format(value, formatType);
+      return renderValue ? (
+        renderValue(value, formatType)
+      ) : (
+        <FormattedDate date={value} formatStr={formatType} />
+      );
     }
 
     return placeholder || formatType;
@@ -443,11 +447,11 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
 
     if (inline) {
       return (
-        <IntlProvider locale={locale}>
+        <IntlContext.Provider value={locale}>
           <div className={classNames(classPrefix, this.addPrefix('date-inline'), className)}>
             {calendar}
           </div>
-        </IntlProvider>
+        </IntlContext.Provider>
       );
     }
 
@@ -456,7 +460,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     });
 
     return (
-      <IntlProvider locale={locale}>
+      <IntlContext.Provider value={locale}>
         <div className={classes} style={style}>
           <PickerToggleTrigger
             pickerProps={this.props}
@@ -477,7 +481,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
             </PickerToggle>
           </PickerToggleTrigger>
         </div>
-      </IntlProvider>
+      </IntlContext.Provider>
     );
   }
 }
