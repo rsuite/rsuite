@@ -1,6 +1,6 @@
 {
   "name": "typescript-app",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "example",
   "main": "index.js",
   "scripts": {
@@ -14,24 +14,27 @@
   "author": "simonguo.2009@gmail.com",
   "license": "MIT",
   "dependencies": {
-    "@types/react": "^16.4.18",
-    "@types/react-dom": "^16.0.9",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
-    "rsuite": "^3.4.1"
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "rsuite": "^4.5.0"
   },
   "devDependencies": {
-    "awesome-typescript-loader": "^5.2.1",
-    "babel-loader": "^8.0.4",
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.6.0",
+    "@babel/plugin-proposal-export-default-from": "^7.8.3",
     "css-loader": "^1.0.1",
     "html-webpack-plugin": "^3.2.0",
-    "less": "^3.8.1",
+    "less": "^3.11.1",
     "less-loader": "^4.1.0",
-    "mini-css-extract-plugin": "^0.4.4",
+    "mini-css-extract-plugin": "^0.4.5",
     "source-map-loader": "^0.2.4",
-    "typescript": "^3.1.5",
-    "webpack": "^4.23.1",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.10"
+    "typescript": "^3.9.2",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0"
   }
 }

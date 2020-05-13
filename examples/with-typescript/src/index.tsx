@@ -1,11 +1,11 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 
-import { Hello } from "./components/Hello";
+import { Hello } from './components/Hello';
 
-import 'rsuite/styles/index.less';
+import 'rsuite/lib/styles/index.less';
 
 ReactDOM.render(
   <Hello compiler="TypeScript" framework="React" />,
-  document.getElementById("example")
+  document.getElementById('example')
 );
