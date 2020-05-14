@@ -1,3 +1,48 @@
+# 4.6.0
+
+> May 14, 2020
+
+- **Feature**: Support `formatDate` on `<IntlProvider>`. ([#1036])
+- **Feature**: Support `onRowContextMenu` on `<Table>`. ([rsuite-table#150])
+- **Feature**: Support animation related callbacks on Picker ([#1042])
+- **Feature**: Add `<Table.ColumnGroup>`. ([rsuite-table#146])
+- **Improve**: The basic styles of HTML elements support import on demand. ([#1039])
+- **Bugfix**: Fixed an issue that caused data inconsistency when uncheckableItemValues changed in `<CheckTreePicker>`. ([#1053])
+- **Bugfix**: Fixed `<Sidenav>` style issues. ([#1052])
+- **Bugfix**: Fixed `Notification` closeAll sync problem. ([#1047])
+- **Bugfix**: Fixed performance issues caused by arrays in `Col`. ([#1037])
+- **Bugfix**: Fixed `Affix` typings definition wrong. ([#1051])
+- **Bugfix**: Fixed Table `scrollTop` method not working, when setting`virtualized`. ([rsuite-table#152])
+- **Example**: Add with-electron example. ([#977])
+
+---
+
+- **Feature**: `<IntlProvider>` 新增支持 `formatDate` 属性，用于对日期格式。 ([#1036])
+- **Feature**: `<Table>`新增支持 `onRowContextMenu` 属性，行点击右键的回调。 ([rsuite-table#150])
+- **Feature**: 所有 Picker 组件支持动画相关的回调。 ([#1042])
+- **Feature**: 新增 `<Table.ColumnGroup>` 组件，用于表头分组。 ([rsuite-table#146])
+- **Improve**: HTML 元素的基础样式支持按需导入。 ([#1039])
+- **Bugfix**: 修复了 `<CheckTreePicker>` 的 `uncheckableItemValues` 更新后导致的数据不一致问题。 ([#1053])
+- **Bugfix**: 修复了 `<Sidenav>` 中存在的样式问题。 ([#1052])
+- **Bugfix**: 修复了 `Notification` 的 `closeAll` 方法同步执行的问题。 ([#1047])
+- **Bugfix**: 修复了 `<Col>` 中数组导致的性能问题。 ([#1037])
+- **Bugfix**: 修复了 `<Affix>` 中 typescript 类型定义错误的问题。 ([#1051])
+- **Bugfix**: 修复了 `Table`在设置 `virtualized` 属性后，`scrollTop` 方法导致白屏的问题。 ([rsuite-table#152])
+- **Example**: 新增示例 `with-electron`。 ([#977])
+
+[#1053]: https://github.com/rsuite/rsuite/pull/1053
+[#1052]: https://github.com/rsuite/rsuite/pull/1052
+[#1051]: https://github.com/rsuite/rsuite/pull/1051
+[#1047]: https://github.com/rsuite/rsuite/pull/1047
+[#1045]: https://github.com/rsuite/rsuite/pull/1045
+[#1042]: https://github.com/rsuite/rsuite/pull/1042
+[#1039]: https://github.com/rsuite/rsuite/pull/1039
+[#1037]: https://github.com/rsuite/rsuite/pull/1037
+[#1036]: https://github.com/rsuite/rsuite/pull/1036
+[rsuite-table#152]: https://github.com/rsuite/rsuite-table/pull/152
+[rsuite-table#150]: https://github.com/rsuite/rsuite-table/pull/150
+[rsuite-table#146]: https://github.com/rsuite/rsuite-table/pull/146
+
 # 4.5.0
 
 > May 7, 2020

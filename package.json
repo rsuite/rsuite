@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "4.5.0",
+  "version": "4.6.0",
   "description": "A suite of react components",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -62,7 +62,7 @@
     "react-lifecycles-compat": "^3.0.4",
     "react-virtualized": "^9.21.0",
     "recompose": "^0.30.0",
-    "rsuite-table": "^3.12.1",
+    "rsuite-table": "^3.13.0",
     "schema-typed": "^1.5.1"
   },
   "peerDependencies": {
@@ -87,8 +87,8 @@
     "@types/classnames": "^2.2.8",
     "@types/lodash": "^4.14.134",
     "@types/prop-types": "^15.7.1",
-    "@types/react": "^16.9.21",
-    "@types/react-dom": "^16.9.5",
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
     "@types/react-virtualized": "^9.21.8",
     "@types/recompose": "^0.30.6",
     "@typescript-eslint/eslint-plugin": "^2.11.0",
