@@ -10,11 +10,6 @@ jobs:
   publish:
     name: 'Publish'
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        browser: [ChromeCi, Firefox]
-
     steps:
       - uses: actions/checkout@v2
       # Setup .npmrc file to publish to npm
