@@ -319,10 +319,10 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
   }
 
   updateUncheckableItemValuesChange(prevState: CheckTreePickerState) {
-    const { filterData, selectedValues, expandItemValues } = this.state;
+    const { data, selectedValues, expandItemValues } = this.state;
     const { uncheckableItemValues } = this.props;
     if (compareArray(uncheckableItemValues, prevState.uncheckableItemValues)) {
-      this.flattenNodes(filterData);
+      this.flattenNodes(data);
       this.unserializeLists({
         check: selectedValues,
         expand: expandItemValues
@@ -335,11 +335,11 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
   }
 
   updateCascadeChange(prevState: CheckTreePickerState) {
-    const { filterData, selectedValues, expandItemValues } = this.state;
+    const { data, selectedValues, expandItemValues } = this.state;
     const { cascade } = this.props;
     // cascade 改变时，重新初始化
     if (cascade !== prevState.cascade && cascade) {
-      this.flattenNodes(filterData);
+      this.flattenNodes(data);
       this.unserializeLists({
         check: selectedValues,
         expand: expandItemValues
