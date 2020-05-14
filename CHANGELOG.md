@@ -25,7 +25,7 @@
 - **Bugfix**: Fixed performance issues caused by arrays in `Col`. ([#1037])
 - **Bugfix**: Fixed `Affix` typings definition wrong. ([#1051])
 - **Bugfix**: Fixed Table `scrollTop` method not working, when setting`virtualized`. ([rsuite-table#152])
-- **Example**: Add with-electron example. ([#977])
+- **Example**: Add with-electron example. ([#1045])
 
 ---
 
@@ -38,7 +38,7 @@
 - **Bugfix**: 修复了 `<Col>` 中数组导致的性能问题。 ([#1037])
 - **Bugfix**: 修复了 `<Affix>` 中 typescript 类型定义错误的问题。 ([#1051])
 - **Bugfix**: 修复了 `Table`在设置 `virtualized` 属性后，`scrollTop` 方法导致白屏的问题。 ([rsuite-table#152])
-- **Example**: 新增示例 `with-electron`。 ([#977])
+- **Example**: 新增示例 `with-electron`。 ([#1045])
 
 [#1053]: https://github.com/rsuite/rsuite/pull/1053
 [#1052]: https://github.com/rsuite/rsuite/pull/1052
