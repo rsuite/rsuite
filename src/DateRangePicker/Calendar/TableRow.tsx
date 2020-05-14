@@ -5,7 +5,7 @@ import { addDays, isSameDay, isBefore, isAfter, getDate, format } from 'date-fns
 
 import { getUnhandledProps, prefix, defaultProps } from '../../utils';
 import IntlContext from '../../IntlProvider/IntlContext';
-import { TargetEnum } from '../DateRangePicker.d';
+import { DATERANGE_DISABLED_TARGET } from '../../constants';
 
 export interface TableRowProps {
   weekendDate?: Date;
@@ -62,7 +62,7 @@ class TableRow extends React.Component<TableRowProps> {
     for (let i = 0; i < 7; i += 1) {
       const thisDate = addDays(weekendDate, i);
       const selectValue = [selectedStartDate, selectedEndDate];
-      const disabled = disabledDate?.(thisDate, selectValue, TargetEnum.CALENDAR);
+      const disabled = disabledDate?.(thisDate, selectValue, DATERANGE_DISABLED_TARGET.CALENDAR);
       const isToday = isSameDay(thisDate, new Date());
       const unSameMonth = !inSameMonth?.(thisDate);
       const isStartSelected =

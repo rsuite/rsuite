@@ -33,8 +33,8 @@ import {
   getToggleWrapperClassName
 } from '../Picker';
 
-import { DateRangePickerProps, ValueType, TargetEnum } from './DateRangePicker.d';
-import { PLACEMENT } from '../constants';
+import { DateRangePickerProps, ValueType } from './DateRangePicker.d';
+import { PLACEMENT, DATERANGE_DISABLED_TARGET } from '../constants';
 
 interface DateRangePickerState {
   value: ValueType;
@@ -454,7 +454,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     this.props.onClose?.();
   };
 
-  disabledByBetween(start: Date, end: Date, type: TargetEnum) {
+  disabledByBetween(start: Date, end: Date, type: DATERANGE_DISABLED_TARGET) {
     const { disabledDate } = this.props;
     const { selectValue, doneSelected } = this.state;
     const selectStartDate = selectValue[0];
@@ -480,7 +480,11 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       return true;
     }
 
-    return this.disabledByBetween(selectValue[0], selectValue[1], TargetEnum.TOOLBAR_BUTTON_OK);
+    return this.disabledByBetween(
+      selectValue[0],
+      selectValue[1],
+      DATERANGE_DISABLED_TARGET.TOOLBAR_BUTTON_OK
+    );
   };
 
   disabledShortcutButton = (value: ValueType = []) => {
@@ -488,10 +492,10 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       return true;
     }
 
-    return this.disabledByBetween(value[0], value[1], TargetEnum.TOOLBAR_SHORTCUT);
+    return this.disabledByBetween(value[0], value[1], DATERANGE_DISABLED_TARGET.TOOLBAR_SHORTCUT);
   };
 
-  handleDisabledDate = (date: Date, values: ValueType, type: TargetEnum) => {
+  handleDisabledDate = (date: Date, values: ValueType, type: DATERANGE_DISABLED_TARGET) => {
     const { disabledDate } = this.props;
     const { doneSelected } = this.state;
     if (disabledDate) {
