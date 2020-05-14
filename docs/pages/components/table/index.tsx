@@ -17,7 +17,7 @@ import DefaultPage from '@/components/Page';
 import AppContext from '@/components/AppContext';
 import useFetchData from '@/utils/useFetchData';
 
-const { HeaderCell, Pagination, Cell, Column } = Table;
+const { HeaderCell, Pagination, Cell, Column, ColumnGroup } = Table;
 const TablePagination = Pagination;
 
 export default function Page() {
@@ -71,6 +71,7 @@ export default function Page() {
         HeaderCell,
         Cell,
         Column,
+        ColumnGroup,
         Dropdown
       }}
       tabExamples={tabExamples}

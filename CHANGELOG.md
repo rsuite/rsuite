@@ -1,11 +1,23 @@
+# next
+
+- **Feature**: Support `onRowContextMenu` on `<Table>`. ([rsuite-table#150])
+- **Feature**: Add `<Table.ColumnGroup>`. ([rsuite-table#146])
+
+---
+
+- **Feature**: `<Table>`新增支持 `onRowContextMenu` 属性，行点击右键的回调。 ([rsuite-table#150])
+- **Feature**: 新增 `<Table.ColumnGroup>` 组件，用于表头分组。 ([rsuite-table#146])
+
+[rsuite-table#150]: https://github.com/rsuite/rsuite-table/pull/150
+[rsuite-table#146]: https://github.com/rsuite/rsuite-table/pull/146
+
 # 4.6.0
 
 > May 14, 2020
 
 - **Feature**: Support `formatDate` on `<IntlProvider>`. ([#1036])
-- **Feature**: Support `onRowContextMenu` on `<Table>`. ([rsuite-table#150])
+
 - **Feature**: Support animation related callbacks on Picker ([#1042])
-- **Feature**: Add `<Table.ColumnGroup>`. ([rsuite-table#146])
 - **Improve**: The basic styles of HTML elements support import on demand. ([#1039])
 - **Bugfix**: Fixed an issue that caused data inconsistency when uncheckableItemValues changed in `<CheckTreePicker>`. ([#1053])
 - **Bugfix**: Fixed `<Sidenav>` style issues. ([#1052])
@@ -18,9 +30,7 @@
 ---
 
 - **Feature**: `<IntlProvider>` 新增支持 `formatDate` 属性，用于对日期格式。 ([#1036])
-- **Feature**: `<Table>`新增支持 `onRowContextMenu` 属性，行点击右键的回调。 ([rsuite-table#150])
 - **Feature**: 所有 Picker 组件支持动画相关的回调。 ([#1042])
-- **Feature**: 新增 `<Table.ColumnGroup>` 组件，用于表头分组。 ([rsuite-table#146])
 - **Improve**: HTML 元素的基础样式支持按需导入。 ([#1039])
 - **Bugfix**: 修复了 `<CheckTreePicker>` 的 `uncheckableItemValues` 更新后导致的数据不一致问题。 ([#1053])
 - **Bugfix**: 修复了 `<Sidenav>` 中存在的样式问题。 ([#1052])
@@ -40,8 +50,6 @@
 [#1037]: https://github.com/rsuite/rsuite/pull/1037
 [#1036]: https://github.com/rsuite/rsuite/pull/1036
 [rsuite-table#152]: https://github.com/rsuite/rsuite-table/pull/152
-[rsuite-table#150]: https://github.com/rsuite/rsuite-table/pull/150
-[rsuite-table#146]: https://github.com/rsuite/rsuite-table/pull/146
 
 # 4.5.0
 

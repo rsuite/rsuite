@@ -1,5 +1,6 @@
 import * as React from 'react';
 import TableColumn from './TableColumn';
+import TableColumnGroup from './TableColumnGroup';
 import TableCell from './TableCell';
 import TableHeaderCell from './TableHeaderCell';
 import TablePagination from './TablePagination';
@@ -88,8 +89,11 @@ export interface TableProps<RowKey = string | number | symbol, RowData = any>
   /** Whether to update the scroll bar after data update */
   shouldUpdateScroll?: boolean;
 
-  /** Custom Settings Row Height */
+  /** Callback after click row */
   onRowClick?: (rowData: RowData, event: React.SyntheticEvent<any>) => void;
+
+  /** Callback after right-click row */
+  onRowContextMenu?: (rowData: object, event: React.MouseEvent) => void;
 
   /** Callback function for scroll bar scrolling */
   onScroll?: (scrollX: number, scrollY: number) => void;
@@ -127,6 +131,7 @@ export interface TableInstance extends React.Component<TableProps> {
 
 interface TableComponent extends React.ComponentClass<TableProps> {
   Column: typeof TableColumn;
+  ColumnGroup: typeof TableColumnGroup;
   Cell: typeof TableCell;
   HeaderCell: typeof TableHeaderCell;
   Pagination: typeof TablePagination;
