@@ -63,7 +63,7 @@ export default function SearchDrawer(props: SearchDrawerProps) {
                 {title.indexOf('<em>') !== -1 ? (
                   <div onClick={onHide}>
                     <Link href={url}>
-                      <a
+                      <div
                         dangerouslySetInnerHTML={{
                           __html: `${title}<p>${content}</p>`
                         }}
