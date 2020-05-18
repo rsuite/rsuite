@@ -22,6 +22,8 @@ import { AutoComplete } from 'rsuite';
 | data \*       | string[], Array&lt;[DataItemType](#types)&gt;        | The data of component                                                            |
 | defaultValue  | string                                               | Default value                                                                    |
 | disabled      | boolean                                              | Whether disabled select                                                          |
+| filterBy      | (value: string, item: [DataItemType](#types)) => boolean       | Custom filter rules (will only display items that value is a substring of which by default)|
+| menuClassName | string                                               | A css class to apply to the Menu DOM                                   |
 | onChange      | (value:string, event) => void                        | Called when select an option or input value change, or value of input is changed |
 | onClose       | () => void                                           | Callback fired when hidden                                                       |
 | onEnter       | () => void                                           | Callback fired before the overlay transitions in                                 |

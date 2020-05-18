@@ -15,6 +15,9 @@ export interface AutoCompleteProps extends StandardProps {
   /** Initial value */
   defaultValue?: string;
 
+  /** Custom filter function to determine whether the item will be displayed */
+  filterBy?: (value: string, item: ItemDataType) => boolean;
+
   /** Current value of the input. Creates a controlled component */
   value?: string;
 
