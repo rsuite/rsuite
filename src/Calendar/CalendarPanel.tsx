@@ -119,15 +119,15 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
           className={classes}
           isoWeek={isoWeek}
           onSelect={this.handleSelect}
-          format="YYYY-MM-DD"
+          format="yyyy-MM-dd"
           calendarState={showMonth ? 'DROP_MONTH' : null}
           pageDate={value}
           renderTitle={date => (
-            <FormattedDate date={date} formatStr={locale.formattedMonthPattern || 'MMMM  YYYY'} />
+            <FormattedDate date={date} formatStr={locale.formattedMonthPattern || 'MMMM  yyyy'} />
           )}
           renderToolbar={this.renderToolbar}
           renderCell={renderCell}
-          onMoveForword={this.handleNextMonth}
+          onMoveForward={this.handleNextMonth}
           onMoveBackward={this.handlePrevMonth}
           onToggleMonthDropdown={this.handleToggleMonthDropdown}
           onChangePageDate={this.handleChangePageDate}

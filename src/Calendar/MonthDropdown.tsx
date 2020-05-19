@@ -5,7 +5,7 @@ import List from 'react-virtualized/dist/commonjs/List';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
 import MonthDropdownItem from './MonthDropdownItem';
-import { getYear, getMonth, getDaysInMonth } from 'date-fns';
+import { getYear, getMonth, getDaysInMonth } from '../utils/dateUtils';
 
 export interface MonthDropdownProps {
   date: Date;

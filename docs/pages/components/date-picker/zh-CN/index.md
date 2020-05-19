@@ -34,7 +34,7 @@ import { DatePicker } from 'rsuite';
 | disabledHours         | (hour:number, date:Date) => boolean          | 禁用小时                                                  |
 | disabledMinutes       | (minute:number, date:Date) => boolean        | 禁用分钟                                                  |
 | disabledSeconds       | (second:number, date:Date) => boolean        | 禁用秒                                                    |
-| format                | string `('YYYY-MM-DD')`                      | 日期显示格式化                                            |
+| format                | string `('yyyy-MM-dd')`                      | 日期显示格式化                                            |
 | hideHours             | (hour:number, date:Date) => boolean          | 隐藏小时                                                  |
 | hideMinutes           | (minute:number, date:Date) => boolean        | 隐藏分钟                                                  |
 | hideSeconds           | (second:number, date:Date) => boolean        | 隐藏秒                                                    |

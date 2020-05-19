@@ -1,7 +1,7 @@
 import * as React from 'react';
 import _ from 'lodash';
 import { setDisplayName, wrapDisplayName } from 'recompose';
-import format from 'date-fns/format';
+import { format } from '../utils/dateUtils';
 import defaultLocale from './locales/default';
 import extendReactStatics from '../utils/extendReactStatics';
 import { IntlGlobalContext } from './IntlProvider';

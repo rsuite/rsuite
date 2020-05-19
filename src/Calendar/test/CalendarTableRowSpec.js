@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import TableRow from '../TableRow';
-import { getDate, format } from 'date-fns';
+import { getDate, format } from '../../utils/dateUtils';
 
 describe('Calendar-TableRow', () => {
   it('Should render a div with `table-row` class', () => {
@@ -50,7 +50,7 @@ describe('Calendar-TableRow', () => {
     const instance = getDOMNode(<TableRow showWeekNumbers />);
     assert.equal(
       instance.querySelector('.rs-calendar-table-cell-week-number').innerText,
-      format(new Date(), 'W')
+      format(new Date(), 'I')
     );
   });
 });

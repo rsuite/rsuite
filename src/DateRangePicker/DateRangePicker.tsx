@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-
+import { convertTokenV1, convertTokenV2 } from '../utils/dateFnsPolyfill';
 import {
   addDays,
   isBefore,
@@ -17,8 +17,7 @@ import {
   startOfMonth,
   endOfMonth,
   compareAsc
-} from 'date-fns';
-
+} from '../utils/dateUtils';
 import IntlContext from '../IntlProvider/IntlContext';
 import FormattedDate from '../IntlProvider/FormattedDate';
 import Toolbar from './Toolbar';
@@ -78,7 +77,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   static defaultProps = {
     ...pickerDefaultProps,
     limitEndYear: 1000,
-    format: 'YYYY-MM-DD',
+    format: 'yyyy-MM-dd',
     placeholder: '',
     showOneCalendar: false,
     locale: {
@@ -159,6 +158,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   getDateString(value?: ValueType) {
     const { placeholder, format: formatType, renderValue } = this.props;
     const nextValue = value || this.getValue();
+    const v2FormatType = convertTokenV2(formatType);
     const startDate: Date = nextValue?.[0];
     const endDate: Date = nextValue?.[1];
 
@@ -166,16 +166,16 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       const displayValue: any = [startDate, endDate].sort(compareAsc);
 
       return renderValue ? (
-        renderValue(displayValue, formatType)
+        renderValue(displayValue, convertTokenV1(formatType))
       ) : (
         <>
-          <FormattedDate date={displayValue[0]} formatStr={formatType} /> ~{' '}
-          <FormattedDate date={displayValue[1]} formatStr={formatType} />
+          <FormattedDate date={displayValue[0]} formatStr={v2FormatType} /> ~{' '}
+          <FormattedDate date={displayValue[1]} formatStr={v2FormatType} />
         </>
       );
     }
 
-    return placeholder || `${formatType} ~ ${formatType}`;
+    return placeholder || `${v2FormatType} ~ ${v2FormatType}`;
   }
 
   // hover range presets

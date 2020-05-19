@@ -2,8 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
-import { setYear } from 'date-fns';
-import { setMonth } from 'date-fns';
+import { setYear, setMonth } from '../utils/dateUtils';
 import composeFunctions from '../utils/composeFunctions';
 
 export interface MonthDropdownItemProps {

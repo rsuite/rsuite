@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { isSameDay, addDays, getDate, format } from 'date-fns';
+import { isSameDay, addDays, getDate, format } from '../utils/dateUtils';
 
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
 import IntlContext from '../IntlProvider/IntlContext';
@@ -51,7 +51,7 @@ class TableRow extends React.PureComponent<TableRowProps> {
   renderDays() {
     const { weekendDate, disabledDate, inSameMonth, selected, renderCell } = this.props;
     const { formatDate, formattedDayPattern, today } = this.context || {};
-    const formatStr = formattedDayPattern || 'YYYY-MM-DD';
+    const formatStr = formattedDayPattern || 'yyyy-MM-dd';
     const days = [];
 
     for (let i = 0; i < 7; i += 1) {
@@ -88,7 +88,7 @@ class TableRow extends React.PureComponent<TableRowProps> {
   renderWeekNumber() {
     return (
       <div className={this.addPrefix('cell-week-number')}>
-        {format(this.props.weekendDate, 'W')}
+        {format(this.props.weekendDate, 'I')}
       </div>
     );
   }

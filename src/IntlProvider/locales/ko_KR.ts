@@ -16,8 +16,8 @@ const Calendar = {
    * Format of the string is based on Unicode Technical Standard #35:
    * https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table
    **/
-  formattedMonthPattern: 'YYYY 년 MM 월',
-  formattedDayPattern: 'YYYY 년 MM 월 DD 일'
+  formattedMonthPattern: 'yyyy 년 MM 월',
+  formattedDayPattern: 'yyyy 년 MM 월 dd 일'
 };
 export default {
   Pagination: {

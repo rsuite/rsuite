@@ -8,7 +8,7 @@
 const DatePickerIntl = props => (
   <div className="field only-date">
     <DatePicker
-      format="YYYY-MM-DD HH:mm:ss"
+      format="yyyy-MM-dd HH:mm:ss"
       locale={{
         sunday: 'Su',
         monday: 'Mo',

@@ -11,9 +11,9 @@ const ranges = [
 ];
 const App = () => (
   <div>
-    <DatePicker format="YYYY-MM-DD hh:mm:ss A" showMeridian ranges={ranges} />
+    <DatePicker format="yyyy-MM-dd hh:mm:ss a" showMeridian ranges={ranges} />
     <hr />
-    <DatePicker format="hh:mm:ss A" showMeridian ranges={ranges} />
+    <DatePicker format="hh:mm:ss a" showMeridian ranges={ranges} />
   </div>
 );
 
