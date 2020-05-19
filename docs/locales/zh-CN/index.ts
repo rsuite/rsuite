@@ -56,7 +56,8 @@ export default {
     'tab.fixed': '锁定列',
     'tab.auto-height': '自动高度',
     'tab.affix-header': '固定表头在页首',
-    'tab.affix-horizontal-scrollbar': '固定横向滚动条在页尾'
+    'tab.affix-horizontal-scrollbar': '固定横向滚动条在页尾',
+    'tab.draggable': '可拖拽(与 react-dnd 组合)'
   },
   palette: {
     title: '分析产品商标颜色',

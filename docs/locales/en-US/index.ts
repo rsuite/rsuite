@@ -57,7 +57,8 @@ export default {
     'tab.fixed': 'Fixed Column',
     'tab.auto-height': 'Auto Height',
     'tab.affix-header': 'Affix Header',
-    'tab.affix-horizontal-scrollbar': 'Affix Horizontal Scrollbar'
+    'tab.affix-horizontal-scrollbar': 'Affix Horizontal Scrollbar',
+    'tab.draggable': 'Draggable(with react-dnd)'
   },
   palette: {
     title: 'Get the product color',
