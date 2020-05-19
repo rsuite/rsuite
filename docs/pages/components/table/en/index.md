@@ -101,6 +101,15 @@ scrollLeft: (left: number) => void;
 > `sortable` is used to define whether the column is sortable, but depending on what `key` sort needs to set a `dataKey` in `Cell`.
 > The sort here is the service-side sort, so you need to handle the logic in the ' Onsortcolumn ' callback function of `<Table>`, and the callback function returns `sortColumn`, `sortType` values.
 
+### `<Table.ColumnGroup>`
+
+| Property      | Type `(Default)`                | Description        |
+| ------------- | ------------------------------- | ------------------ |
+| align         | enum: 'left','center','right'   | Alignment          |
+| fixed         | boolean, 'left', 'right'        | Fixed column group |
+| verticalAlign | enum: 'top', 'middle', 'bottom' | Vertical alignment |
+| header        | React.ReactNode                 | Group header       |
+
 ### `<Table.Cell>`
 
 | Property | Type `(Default)` | Description                                  |

@@ -335,6 +335,35 @@
   &-cell-bordered &-cell {
     border-width: 0 1px 0 0;
   }
+
+  &-column-group {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    width: 100%;
+
+    &-header {
+      border-bottom: 1px solid @table-border-color;
+      position: absolute;
+      width: 100%;
+
+      &-content {
+        display: table-cell;
+        padding: 10px;
+      }
+    }
+
+    &-cell {
+      position: absolute;
+      border-right: 1px solid @table-border-color;
+
+      &-content {
+        display: table-cell;
+        padding: 10px;
+      }
+    }
+  }
 }
 
 // Tree Table
