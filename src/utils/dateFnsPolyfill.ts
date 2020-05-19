@@ -3,8 +3,7 @@
  * Upgrading from v1 to v2: https://github.com/date-fns/date-fns/blob/master/CHANGELOG.md#200---2019-08-20
  * date-fns-upgrade: https://github.com/date-fns/date-fns-upgrade/blob/master/src/v2/convertTokens/index.ts
  * */
-
-declare const useDateFnsPolyfill: boolean;
+const useDateFnsPolyfill = false;
 
 type TokensMap = {
   [v1token: string]: string;
@@ -109,30 +108,14 @@ function convertTokens(format: string, reverse = false): string {
  * @params {force} force to convert, for test
  */
 export function convertTokenV2(rawToken: string, force = false) {
-  if (force) {
-    return convertTokens(rawToken);
-  }
-  try {
-    return useDateFnsPolyfill ? convertTokens(rawToken) : rawToken;
-  } catch (e) {
-    // no injection
-    return rawToken;
-  }
+  return force || useDateFnsPolyfill ? convertTokens(rawToken) : rawToken;
 }
 
 /**
  * convert v2 token to v1 token
  * @params {rawToken} source token
- * @params {force} force to convert, for test
+ * @params {force} force to convert
  */
 export function convertTokenV1(rawToken: string, force = false) {
-  if (force) {
-    return convertTokens(rawToken, true);
-  }
-  try {
-    return useDateFnsPolyfill ? convertTokens(rawToken, true) : rawToken;
-  } catch (e) {
-    // no injection
-    return rawToken;
-  }
+  return force || useDateFnsPolyfill ? convertTokens(rawToken, true) : rawToken;
 }
