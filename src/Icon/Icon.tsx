@@ -75,3 +75,5 @@ export default defaultProps<IconProps>({
   componentClass: 'i',
   classPrefix: 'icon'
 })(Icon);
+
+export { IconProps };

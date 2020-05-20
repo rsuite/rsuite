@@ -59,3 +59,4 @@ class Badge extends React.Component<BadgeProps> {
 export default defaultProps<BadgeProps>({
   classPrefix: 'badge'
 })(Badge);
+export { BadgeProps };

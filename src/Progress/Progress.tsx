@@ -1,7 +1,8 @@
-import ProgressCircle from './ProgressCircle';
-import ProgressLine from './ProgressLine';
+import ProgressCircle, { ProgressCircleProps } from './ProgressCircle';
+import ProgressLine, { ProgressLineProps } from './ProgressLine';
 
 export default {
   Line: ProgressLine,
   Circle: ProgressCircle
 };
+export { ProgressCircleProps, ProgressLineProps };

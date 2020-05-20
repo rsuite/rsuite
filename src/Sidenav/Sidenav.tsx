@@ -132,3 +132,4 @@ setStatic('Body', SidenavBody)(EnhancedSidenav);
 setStatic('Toggle', SidenavToggle)(EnhancedSidenav);
 
 export default EnhancedSidenav;
+export { SidenavProps };

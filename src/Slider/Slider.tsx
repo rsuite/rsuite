@@ -248,3 +248,4 @@ class Slider extends React.Component<SliderProps, SliderState> {
 export default defaultProps<SliderProps>({
   classPrefix: 'slider'
 })(Slider);
+export { SliderProps };

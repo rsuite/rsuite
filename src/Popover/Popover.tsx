@@ -52,3 +52,5 @@ class Popover extends React.Component<PopoverProps> {
 export default defaultProps<PopoverProps>({
   classPrefix: 'popover'
 })(Popover);
+
+export { PopoverProps };

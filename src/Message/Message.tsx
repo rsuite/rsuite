@@ -114,3 +114,5 @@ class Message extends React.Component<MessageProps, MessageState> {
 export default defaultProps<MessageProps>({
   classPrefix: 'message'
 })(Message);
+
+export { MessageProps };

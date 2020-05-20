@@ -171,3 +171,4 @@ export default defaultProps<DropdownMenuItemProps>({
   classPrefix: 'dropdown-item',
   componentClass: SafeAnchor
 })(DropdownMenuItem);
+export { DropdownMenuItemProps };

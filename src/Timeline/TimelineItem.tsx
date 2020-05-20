@@ -53,3 +53,4 @@ export default compose<any, TimelineItemProps>(
     classPrefix: 'timeline-item'
   })
 )(TimelineItem);
+export { TimelineItemProps };

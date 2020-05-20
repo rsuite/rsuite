@@ -10,3 +10,4 @@ const CheckTree = React.forwardRef((props: CheckTreeProps, ref: React.Ref<any>) 
 CheckTree.displayName = 'CheckTree';
 
 export default CheckTree;
+export { CheckTreeProps };

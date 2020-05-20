@@ -50,3 +50,5 @@ const EnhancedDrawer = defaultProps<DrawerProps>({
 })(Drawer);
 
 export default EnhancedDrawer;
+export { DrawerProps };
+

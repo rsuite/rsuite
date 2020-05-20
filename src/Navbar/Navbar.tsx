@@ -51,3 +51,4 @@ setStatic('Header', NavbarHeader)(EnhancedNavbar);
 setStatic('Body', NavbarBody)(EnhancedNavbar);
 
 export default EnhancedNavbar;
+export { NavbarProps };

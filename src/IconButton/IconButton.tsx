@@ -40,3 +40,5 @@ class IconButton extends React.Component<IconButtonProps> {
 export default defaultProps<IconButtonProps>({
   classPrefix: 'btn-icon'
 })(IconButton);
+
+export { IconButtonProps };

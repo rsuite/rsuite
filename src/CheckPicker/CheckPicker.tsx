@@ -556,3 +556,4 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
 export default defaultProps({
   classPrefix: 'picker'
 })(CheckPicker);
+export { CheckPickerProps };

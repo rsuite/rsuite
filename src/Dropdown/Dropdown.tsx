@@ -254,3 +254,4 @@ setStatic('Item', DropdownMenuItem)(EnhancedDropdown);
 setStatic('Menu', DropdownMenu)(EnhancedDropdown);
 
 export default EnhancedDropdown;
+export { DropdownProps };

@@ -33,3 +33,4 @@ const EnhancedFlexboxGrid = defaultProps<FlexboxGridProps>({
 setStatic('Item', FlexboxGridItem)(EnhancedFlexboxGrid);
 
 export default EnhancedFlexboxGrid;
+export { FlexboxGridProps };

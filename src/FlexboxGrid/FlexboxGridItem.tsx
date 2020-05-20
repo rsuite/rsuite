@@ -42,3 +42,4 @@ class FlexboxGridItem extends React.Component<FlexboxGridItemProps> {
 export default defaultProps<FlexboxGridItemProps>({
   classPrefix: 'flex-box-grid-item'
 })(FlexboxGridItem);
+export { FlexboxGridItemProps };

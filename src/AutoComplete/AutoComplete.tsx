@@ -313,3 +313,4 @@ const EnhancedAutoComplete = defaultProps<AutoCompleteProps>({
 setStatic('Item', AutoCompleteItem)(AutoComplete);
 
 export default EnhancedAutoComplete;
+export { AutoCompleteProps };

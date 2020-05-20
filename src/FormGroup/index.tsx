@@ -1,3 +1,4 @@
-import FormGroup from './FormGroup';
+import FormGroup, { FormGroupProps } from './FormGroup';
 
 export default FormGroup;
+export { FormGroupProps };

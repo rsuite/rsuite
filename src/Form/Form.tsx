@@ -315,3 +315,4 @@ class Form extends React.Component<FormProps, FormState> {
 }
 
 export default Form;
+export { FormProps };

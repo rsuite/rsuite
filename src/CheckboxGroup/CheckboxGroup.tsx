@@ -87,3 +87,4 @@ class CheckboxGroup extends React.Component<CheckboxGroupProps, State> {
 export default defaultProps<CheckboxGroupProps>({
   classPrefix: 'checkbox-group'
 })(CheckboxGroup);
+export { CheckboxGroupProps };

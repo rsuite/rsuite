@@ -26,3 +26,4 @@ const Slide = React.forwardRef(
 Slide.displayName = 'Slide';
 
 export default Slide;
+export { SlideProps };

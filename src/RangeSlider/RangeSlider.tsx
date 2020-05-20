@@ -295,3 +295,4 @@ class RangeSlider extends React.Component<RangeSliderProps, RangeSliderState> {
 export default defaultProps<RangeSliderProps>({
   classPrefix: 'slider'
 })(RangeSlider);
+export { RangeSliderProps };

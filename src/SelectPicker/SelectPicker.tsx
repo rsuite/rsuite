@@ -489,3 +489,4 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
 export default defaultProps({
   classPrefix: 'picker'
 })(SelectPicker);
+export { SelectPickerProps };

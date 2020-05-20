@@ -1,3 +1,4 @@
-import HelpBlock from './HelpBlock';
+import HelpBlock, { HelpBlockProps } from './HelpBlock';
 
 export default HelpBlock;
+export { HelpBlockProps };
