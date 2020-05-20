@@ -16,11 +16,10 @@ import {
 import DefaultPage from '@/components/Page';
 import AppContext from '@/components/AppContext';
 import useFetchData from '@/utils/useFetchData';
-
 import { useDrag, useDrop, DndProvider } from 'react-dnd';
 import Backend from 'react-dnd-html5-backend';
 
-const { HeaderCell, Pagination, Cell, Column } = Table;
+const { HeaderCell, Pagination, Cell, Column, ColumnGroup } = Table;
 const TablePagination = Pagination;
 
 export default function Page() {
@@ -80,6 +79,7 @@ export default function Page() {
         useDrop,
         DndProvider,
         Backend
+        ColumnGroup
       }}
       tabExamples={tabExamples}
     />

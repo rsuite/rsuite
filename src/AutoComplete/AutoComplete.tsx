@@ -41,6 +41,7 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
     style: PropTypes.object,
     open: PropTypes.bool,
     selectOnEnter: PropTypes.bool,
+    filterBy: PropTypes.func,
     onEnter: PropTypes.func,
     onEntering: PropTypes.func,
     onEntered: PropTypes.func,
@@ -116,7 +117,13 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
   }
 
   shouldDisplay = (item: any) => {
+    const { filterBy } = this.props;
     const value = this.getValue();
+
+    if (typeof filterBy === 'function') {
+      return filterBy(value, item);
+    }
+
     if (!_.trim(value)) {
       return false;
     }

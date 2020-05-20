@@ -7,7 +7,7 @@ export interface TableColumnProps {
   /** Vertical alignment */
   verticalAlign?: 'top' | 'middle' | 'bottom';
 
-  /** 	Column width */
+  /** Column width */
   width?: number;
 
   /** Fixed column */
