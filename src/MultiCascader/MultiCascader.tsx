@@ -585,4 +585,3 @@ polyfill(MultiCascader);
 export default defaultProps({
   classPrefix: 'picker'
 })(MultiCascader);
-export { MultiCascaderProps };

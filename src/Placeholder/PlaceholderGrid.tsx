@@ -76,4 +76,3 @@ class PlaceholderGrid extends React.Component<PlaceholderGridProps> {
 export default defaultProps<PlaceholderGridProps>({
   classPrefix: 'placeholder'
 })(PlaceholderGrid);
-export { PlaceholderGridProps };

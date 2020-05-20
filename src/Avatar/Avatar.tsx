@@ -39,4 +39,3 @@ export default compose<any, AvatarProps>(
     classPrefix: 'avatar'
   })
 )(Avatar);
-export { AvatarProps };

@@ -58,4 +58,3 @@ const enhance = defaultProps<BreadcrumbItemProps>({
 });
 
 export default enhance(BreadcrumbItem);
-export { BreadcrumbItemProps };

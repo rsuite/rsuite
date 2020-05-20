@@ -1,4 +1,3 @@
-import Tag, { TagProps } from './Tag';
+import Tag from './Tag';
 
 export default Tag;
-export { TagProps };

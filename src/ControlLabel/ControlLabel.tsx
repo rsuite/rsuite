@@ -30,4 +30,3 @@ class ControlLabel extends React.Component<ControlLabelProps> {
 export default defaultProps<ControlLabelProps>({
   classPrefix: 'control-label'
 })(ControlLabel);
-export { ControlLabelProps };

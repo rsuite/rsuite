@@ -9,4 +9,3 @@ const Tree = React.forwardRef((props: TreeProps, ref: React.Ref<any>) => (
 ));
 
 export default Tree;
-export { TreeProps };

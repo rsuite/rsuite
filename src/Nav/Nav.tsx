@@ -111,4 +111,3 @@ const EnhancedNav = defaultProps<NavProps>({
 setStatic('Item', NavItem)(EnhancedNav);
 
 export default EnhancedNav;
-export { NavProps };

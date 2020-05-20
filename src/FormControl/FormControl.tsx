@@ -242,4 +242,3 @@ const EnhancedFormControl = defaultProps<FormControlProps>({
 })(FormControlWrapper);
 
 export default EnhancedFormControl;
-export { FormControlProps };

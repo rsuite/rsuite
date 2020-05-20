@@ -41,4 +41,3 @@ export default defaultProps<DividerProps>({
   componentClass: 'div',
   classPrefix: 'divider'
 })(Divider);
-export { DividerProps };

@@ -1,5 +1,3 @@
-import Timeline, { TimelineProps } from './Timeline';
-import { TimelineItemProps } from './TimelineItem';
+import Timeline from './Timeline';
 
 export default Timeline;
-export { TimelineProps, TimelineItemProps };

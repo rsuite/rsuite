@@ -25,5 +25,3 @@ class IconStack extends React.Component<IconStackProps> {
 export default defaultProps<IconStackProps>({
   classPrefix: 'icon-stack'
 })(IconStack);
-
-export { IconStackProps };

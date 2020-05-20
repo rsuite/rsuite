@@ -60,4 +60,3 @@ const EnhancedTimeline = defaultProps<TimelineProps>({
 setStatic('Item', TimelineItem)(EnhancedTimeline);
 
 export default EnhancedTimeline;
-export { TimelineProps };

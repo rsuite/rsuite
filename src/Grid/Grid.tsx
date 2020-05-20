@@ -24,4 +24,3 @@ export default defaultProps<GridProps>({
   componentClass: 'div',
   classPrefix: 'grid-container'
 })(Grid);
-export { GridProps };

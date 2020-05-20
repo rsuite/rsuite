@@ -1,4 +1,3 @@
-import Loader, { LoaderProps } from './Loader';
+import Loader from './Loader';
 
 export default Loader;
-export { LoaderProps };

@@ -85,4 +85,3 @@ setStatic('Addon', InputGroupAddon)(EnhancedInputGroup);
 setStatic('Button', InputGroupButton)(EnhancedInputGroup);
 
 export default EnhancedInputGroup;
-export { InputGroupProps };

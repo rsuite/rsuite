@@ -264,4 +264,3 @@ polyfill(InputNumber);
 export default defaultProps<InputNumberProps>({
   classPrefix: 'input-number'
 })(InputNumber);
-export { InputNumberProps };

@@ -5,7 +5,6 @@ import { Table, Column, Cell, HeaderCell, ColumnGroup } from 'rsuite-table';
 import { defaultProps } from '../utils';
 import withLocale from '../IntlProvider/withLocale';
 import TablePagination from './TablePagination';
-import { TableProps } from './Table.d';
 
 const EnhancedLocaleTable = compose(
   withLocale(['Table']),
@@ -19,4 +18,3 @@ setStatic('HeaderCell', HeaderCell)(EnhancedLocaleTable);
 setStatic('Pagination', TablePagination)(EnhancedLocaleTable);
 
 export default EnhancedLocaleTable;
-export { TableProps };

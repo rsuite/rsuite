@@ -1,4 +1,3 @@
-import Message, { MessageProps } from './Message';
+import Message from './Message';
 
 export default Message;
-export { MessageProps };

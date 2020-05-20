@@ -81,5 +81,3 @@ export default compose<any, ButtonProps>(
     componentClass: 'button'
   })
 )(Button);
-
-export { ButtonProps };

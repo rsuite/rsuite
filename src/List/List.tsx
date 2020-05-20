@@ -539,4 +539,3 @@ const EnhancedList = defaultProps({
 setStatic('Item', ListItem)(EnhancedList);
 
 export default EnhancedList;
-export { ListProps };

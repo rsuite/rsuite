@@ -1,4 +1,3 @@
-import Progress, { ProgressCircleProps, ProgressLineProps } from './Progress';
+import Progress from './Progress';
 
 export default Progress;
-export { ProgressCircleProps, ProgressLineProps };

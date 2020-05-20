@@ -1,4 +1,3 @@
-import Affix, { AffixProps } from './Affix';
+import Affix from './Affix';
 
 export default Affix;
-export { AffixProps };

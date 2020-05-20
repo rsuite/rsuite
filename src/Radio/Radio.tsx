@@ -125,4 +125,3 @@ class Radio extends React.Component<RadioProps, RadioState> {
 export default defaultProps<RadioProps>({
   classPrefix: 'radio'
 })(Radio);
-export { RadioProps };

@@ -1,4 +1,3 @@
-import Radio, { RadioProps } from './Radio';
+import Radio from './Radio';
 
 export default Radio;
-export { RadioProps };

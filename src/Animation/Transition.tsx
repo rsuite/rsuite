@@ -284,4 +284,3 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
 }
 
 export default Transition;
-export { TransitionProps };

@@ -189,4 +189,3 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
 export default defaultProps<DropdownMenuProps>({
   classPrefix: 'dropdown-menu'
 })(DropdownMenu);
-export { DropdownMenuProps };

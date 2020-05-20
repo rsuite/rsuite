@@ -251,4 +251,3 @@ export default compose<any, PaginationProps>(
     classPrefix: 'pagination'
   })
 )(Pagination);
-export { PaginationProps };
