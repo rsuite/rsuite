@@ -3,7 +3,7 @@ import compose from 'recompose/compose';
 import { defaultProps } from '../utils';
 import InputPicker from '../InputPicker/InputPicker';
 import withLocale from '../IntlProvider/withLocale';
-import { TagPickerProps } from './TagPicker';
+import { TagPickerProps } from './TagPicker.d';
 
 export default compose(
   withLocale(['Picker', 'InputPicker']),
