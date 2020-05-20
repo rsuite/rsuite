@@ -16,6 +16,8 @@ import {
 import DefaultPage from '@/components/Page';
 import AppContext from '@/components/AppContext';
 import useFetchData from '@/utils/useFetchData';
+import { useDrag, useDrop, DndProvider } from 'react-dnd';
+import Backend from 'react-dnd-html5-backend';
 
 const { HeaderCell, Pagination, Cell, Column, ColumnGroup } = Table;
 const TablePagination = Pagination;
@@ -43,7 +45,8 @@ export default function Page() {
     'summary',
     'auto-height',
     'affix-header',
-    'affix-horizontal-scrollbar'
+    'affix-horizontal-scrollbar',
+    'draggable'
   ].map(item => ({
     title: messages?.table[`tab.${item}`],
     source: require(`.${localePath}/${item}.md`)
@@ -71,8 +74,12 @@ export default function Page() {
         HeaderCell,
         Cell,
         Column,
-        ColumnGroup,
-        Dropdown
+        Dropdown,
+        useDrag,
+        useDrop,
+        DndProvider,
+        Backend
+        ColumnGroup
       }}
       tabExamples={tabExamples}
     />
