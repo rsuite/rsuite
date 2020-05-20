@@ -1,5 +1,3 @@
-import List, { ListProps } from './List';
-import { ListItemProps } from './ListItem';
+import List from './List';
 
 export default List;
-export { ListProps, ListItemProps };

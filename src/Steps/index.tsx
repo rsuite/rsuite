@@ -1,4 +1,3 @@
-import Steps, { StepsProps } from './Steps';
+import Steps from './Steps';
 
 export default Steps;
-export { StepsProps };

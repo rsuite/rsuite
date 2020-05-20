@@ -1,4 +1,3 @@
-import Col, { ColProps } from './Col';
+import Col from './Col';
 
 export default Col;
-export { ColProps };

@@ -1,4 +1,3 @@
-import ControlLabel, { ControlLabelProps } from './ControlLabel';
+import ControlLabel from './ControlLabel';
 
 export default ControlLabel;
-export { ControlLabelProps };

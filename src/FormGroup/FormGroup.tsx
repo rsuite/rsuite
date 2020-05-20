@@ -42,4 +42,3 @@ export default compose<any, FormGroupProps>(
     classPrefix: 'form-group'
   })
 )(FormGroup);
-export { FormGroupProps };

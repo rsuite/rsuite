@@ -57,5 +57,3 @@ class Whisper extends React.Component<WhisperProps> {
 }
 
 export default Whisper;
-
-export { WhisperProps };

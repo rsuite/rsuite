@@ -393,4 +393,3 @@ export default compose<any, UploaderProps>(
     classPrefix: 'uploader'
   })
 )(Uploader);
-export { UploaderProps };

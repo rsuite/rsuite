@@ -1,4 +1,3 @@
-import Uploader, { UploaderProps } from './Uploader';
+import Uploader from './Uploader';
 
 export default Uploader;
-export { UploaderProps };

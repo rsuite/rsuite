@@ -1,4 +1,3 @@
-import FormControl, { FormControlProps } from './FormControl';
+import FormControl from './FormControl';
 
 export default FormControl;
-export { FormControlProps };

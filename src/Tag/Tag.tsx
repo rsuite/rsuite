@@ -51,4 +51,3 @@ export default compose<any, TagProps>(
     classPrefix: 'tag'
   })
 )(Tag);
-export { TagProps };

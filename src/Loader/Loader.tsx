@@ -64,5 +64,3 @@ export default compose<any, LoaderProps>(
     classPrefix: 'loader'
   })
 )(Loader);
-
-export { LoaderProps };

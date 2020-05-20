@@ -90,4 +90,3 @@ export default compose<any, ToggleProps>(
     classPrefix: 'btn-toggle'
   })
 )(Toggle);
-export { ToggleProps };

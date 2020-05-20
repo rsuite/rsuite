@@ -20,5 +20,3 @@ class ButtonToolbar extends React.Component<ButtonToolbarProps> {
 export default defaultProps({
   classPrefix: 'btn-toolbar'
 })(ButtonToolbar);
-
-export { ButtonToolbarProps };

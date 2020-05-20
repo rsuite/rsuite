@@ -1,4 +1,3 @@
-import Panel, { PanelProps } from './Panel';
+import Panel from './Panel';
 
 export default Panel;
-export { PanelProps };

@@ -88,4 +88,3 @@ const EnhancedSteps = defaultProps<StepsProps>({
 setStatic('Item', StepItem)(EnhancedSteps);
 
 export default EnhancedSteps;
-export { StepsProps };

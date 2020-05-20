@@ -143,4 +143,3 @@ class ProgressCircle extends React.Component<ProgressCircleProps> {
 export default defaultProps<ProgressCircleProps>({
   classPrefix: 'progress'
 })(ProgressCircle);
-export { ProgressCircleProps };

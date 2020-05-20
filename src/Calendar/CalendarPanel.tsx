@@ -142,4 +142,3 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
 export default defaultProps<CalendarPanelProps>({
   classPrefix: 'calendar'
 })(CalendarPanel);
-export { CalendarPanelProps };

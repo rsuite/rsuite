@@ -1,4 +1,3 @@
-import Row, { RowProps } from './Row';
+import Row from './Row';
 
 export default Row;
-export { RowProps };

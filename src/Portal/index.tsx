@@ -1,4 +1,3 @@
-import Portal, { PortalProps } from './Portal';
+import Portal from './Portal';
 
 export default Portal;
-export { PortalProps };

@@ -77,4 +77,3 @@ export default defaultProps<ColProps>({
   classPrefix: 'col',
   componentClass: 'div'
 })(Col);
-export { ColProps };

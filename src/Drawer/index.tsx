@@ -2,7 +2,7 @@ import setStatic from 'recompose/setStatic';
 import setDisplayName from 'recompose/setDisplayName';
 
 import { defaultProps } from '../utils';
-import Drawer, { DrawerProps } from './Drawer';
+import Drawer from './Drawer';
 import ModalBody from '../Modal/ModalBody';
 import ModalHeader from '../Modal/ModalHeader';
 import ModalTitle from '../Modal/ModalTitle';
@@ -16,4 +16,3 @@ setStatic('Title', defaultProps({ classPrefix: 'drawer-title' })(ModalTitle))(Dr
 setStatic('Footer', defaultProps({ classPrefix: 'drawer-footer' })(ModalFooter))(Drawer);
 
 export default Drawer;
-export { DrawerProps };

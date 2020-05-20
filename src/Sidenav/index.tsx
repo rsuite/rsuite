@@ -1,4 +1,3 @@
-import Sidenav, { SidenavProps } from './Sidenav';
+import Sidenav from './Sidenav';
 
 export default Sidenav;
-export { SidenavProps };

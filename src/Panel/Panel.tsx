@@ -187,4 +187,3 @@ class Panel extends React.Component<PanelProps, PanelState> {
 export default defaultProps<PanelProps>({
   classPrefix: 'panel'
 })(Panel);
-export { PanelProps };

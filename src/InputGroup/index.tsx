@@ -1,4 +1,3 @@
-import InputGroup, { InputGroupProps } from './InputGroup';
+import InputGroup from './InputGroup';
 
 export default InputGroup;
-export { InputGroupProps };

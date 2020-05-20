@@ -62,4 +62,3 @@ export default defaultProps<RowProps>({
   classPrefix: 'row',
   componentClass: 'div'
 })(Row);
-export { RowProps };

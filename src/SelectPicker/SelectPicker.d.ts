@@ -54,8 +54,8 @@ export interface SelectProps<ValueType = any> {
   searchBy?: (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean;
 }
 
-export interface SelectPickerProps<V = any> extends FormControlPickerProps<V>, SelectProps<V> {}
+export interface SelectPickerProps extends FormControlPickerProps<any>, SelectProps<any> {}
 
-declare class SelectPicker<V = any> extends React.Component<SelectPickerProps<V>> {}
+declare const SelectPicker: React.ComponentType<SelectPickerProps>;
 
 export default SelectPicker;

@@ -43,4 +43,3 @@ class Portal extends React.Component<PortalProps> {
 }
 
 export default Portal;
-export { PortalProps };

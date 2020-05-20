@@ -87,4 +87,3 @@ class PanelGroup extends React.Component<PanelGroupProps, PanelGroupState> {
 export default defaultProps<PanelGroupProps>({
   classPrefix: 'panel-group'
 })(PanelGroup);
-export { PanelGroupProps };

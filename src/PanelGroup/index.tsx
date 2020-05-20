@@ -1,4 +1,3 @@
-import PanelGroup, { PanelGroupProps } from './PanelGroup';
+import PanelGroup from './PanelGroup';
 
 export default PanelGroup;
-export { PanelGroupProps };

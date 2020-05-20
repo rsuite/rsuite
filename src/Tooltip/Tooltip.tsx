@@ -50,5 +50,3 @@ class Tooltip extends React.Component<TooltipProps> {
 export default defaultProps<TooltipProps>({
   classPrefix: 'tooltip'
 })(Tooltip);
-
-export { TooltipProps };
