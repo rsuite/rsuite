@@ -25,7 +25,12 @@ export { default as DateRangePicker, DateRangePickerProps } from './DateRangePic
 export { default as Divider, DividerProps } from './Divider';
 export { default as DOMHelper } from './DOMHelper';
 export { default as Drawer, DrawerProps } from './Drawer';
-export { default as Dropdown, DropdownProps, DropdownMenuProps, DropdownMenuItemProps } from './Dropdown';
+export {
+  default as Dropdown,
+  DropdownProps,
+  DropdownMenuProps,
+  DropdownMenuItemProps
+} from './Dropdown';
 export { default as ErrorMessage } from './ErrorMessage';
 export { default as FlexboxGrid, FlexboxGridProps, FlexboxGridItemProps } from './FlexboxGrid';
 export { default as Footer } from './Footer';
@@ -54,7 +59,12 @@ export { default as Notification } from './Notification';
 export { default as Pagination, PaginationProps } from './Pagination';
 export { default as Panel, PanelProps } from './Panel';
 export { default as PanelGroup, PanelGroupProps } from './PanelGroup';
-export { default as Placeholder, PlaceholderGraphProps, PlaceholderGridProps, PlaceholderParagraphProps } from './Placeholder';
+export {
+  default as Placeholder,
+  PlaceholderGraphProps,
+  PlaceholderGridProps,
+  PlaceholderParagraphProps
+} from './Placeholder';
 export { default as Popover, PopoverProps } from './Popover';
 export { default as Portal, PortalProps } from './Portal';
 export { default as Progress, ProgressCircleProps, ProgressLineProps } from './Progress';
@@ -69,7 +79,13 @@ export { default as Sidebar } from './Sidebar';
 export { default as Sidenav, SidenavProps } from './Sidenav';
 export { default as Slider, SliderProps } from './Slider';
 export { default as Steps, StepsProps } from './Steps';
-export { default as Table, TableProps, TableColumnProps, TableCellProps, TablePaginationProps } from './Table';
+export {
+  default as Table,
+  TableProps,
+  TableColumnProps,
+  TableCellProps,
+  TablePaginationProps
+} from './Table';
 export { default as Tag, TagProps } from './Tag';
 export { default as TagGroup } from './TagGroup';
 export { default as TagPicker, TagPickerProps } from './TagPicker';
