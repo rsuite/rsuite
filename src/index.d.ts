@@ -79,6 +79,7 @@ export {
   default as Table,
   TableProps,
   TableColumnProps,
+  ColumnGroupProps as TableColumnGroupProps,
   TableCellProps,
   TablePaginationProps
 } from './Table';
