@@ -42,6 +42,8 @@ return (
 | da_DK         | Danish              |
 | en_GB         | English             |
 | en_US         | American English    |
+| es_AR         | Spanish (Argentina) |
+| es_ES         | Spanish (Spain)     |
 | fi_FI         | Finnish             |
 | it_IT         | Italian             |
 | ko_KR         | Korean              |
