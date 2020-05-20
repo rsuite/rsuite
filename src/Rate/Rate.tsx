@@ -211,3 +211,4 @@ export default compose<any, RateProps>(
     classPrefix: 'rate'
   })
 )(Rate);
+export { RateProps };

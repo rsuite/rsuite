@@ -43,3 +43,4 @@ class HelpBlock extends React.Component<HelpBlockProps> {
 export default defaultProps<HelpBlockProps>({
   classPrefix: 'help-block'
 })(HelpBlock);
+export { HelpBlockProps };

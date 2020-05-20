@@ -612,3 +612,4 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
 export default defaultProps({
   classPrefix: 'picker'
 })(DateRangePicker);
+export { DateRangePickerProps };

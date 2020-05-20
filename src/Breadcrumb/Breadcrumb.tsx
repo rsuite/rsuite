@@ -96,3 +96,4 @@ const EnhancedBreadcrumb = defaultProps({
 setStatic('Item', BreadcrumbItem)(EnhancedBreadcrumb);
 
 export default EnhancedBreadcrumb;
+export { BreadcrumbProps };

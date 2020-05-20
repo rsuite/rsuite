@@ -71,3 +71,4 @@ class PlaceholderParagraph extends React.Component<PlaceholderParagraphProps> {
 export default defaultProps({
   classPrefix: 'placeholder'
 })(PlaceholderParagraph);
+export { PlaceholderParagraphProps };

@@ -1,4 +1,4 @@
-import DateRangePicker from './DateRangePicker';
+import DateRangePicker, { DateRangePickerProps } from './DateRangePicker';
 import withLocale from '../IntlProvider/withLocale';
 import * as utils from './disabledDateUtils';
 
@@ -11,3 +11,4 @@ Object.keys(utils).forEach(key => {
 });
 
 export default EnhancedDateRangePicker;
+export { DateRangePickerProps };

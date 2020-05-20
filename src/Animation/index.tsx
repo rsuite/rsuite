@@ -1,8 +1,8 @@
-import Transition from './Transition';
+import Transition, { TransitionProps } from './Transition';
 import Fade from './Fade';
-import Collapse from './Collapse';
+import Collapse, { CollapseProps } from './Collapse';
 import Bounce from './Bounce';
-import Slide from './Slide';
+import Slide, { SlideProps } from './Slide';
 
 const Animation = {
   Transition,
@@ -13,3 +13,4 @@ const Animation = {
 };
 
 export default Animation;
+export { TransitionProps, CollapseProps, SlideProps };

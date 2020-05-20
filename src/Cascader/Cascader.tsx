@@ -589,3 +589,4 @@ polyfill(Cascader);
 export default defaultProps<CascaderProps>({
   classPrefix: 'picker'
 })(Cascader);
+export { CascaderProps };

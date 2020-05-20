@@ -41,3 +41,4 @@ class PlaceholderGraph extends React.Component<PlaceholderGraphProps> {
 export default defaultProps<PlaceholderGraphProps>({
   classPrefix: 'placeholder'
 })(PlaceholderGraph);
+export { PlaceholderGraphProps };

@@ -164,3 +164,4 @@ export default defaultProps<CarouselProps>({
   classPrefix: 'carousel',
   componentClass: 'div'
 })(Carousel);
+export { CarouselProps };

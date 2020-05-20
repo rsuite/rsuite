@@ -787,3 +787,4 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
 export default defaultProps({
   classPrefix: 'picker'
 })(InputPicker);
+export { InputPickerProps };

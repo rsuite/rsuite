@@ -140,3 +140,4 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 export default defaultProps<CheckboxProps>({
   classPrefix: 'checkbox'
 })(Checkbox);
+export { CheckboxProps };

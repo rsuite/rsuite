@@ -77,3 +77,4 @@ class ProgressLine extends React.Component<ProgressLineProps> {
 export default defaultProps<ProgressLineProps>({
   classPrefix: 'progress'
 })(ProgressLine);
+export { ProgressLineProps };

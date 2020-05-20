@@ -1,4 +1,5 @@
-import RangeSlider from './RangeSlider';
+import RangeSlider, { RangeSliderProps } from './RangeSlider';
 import withLocale from '../IntlProvider/withLocale';
 
 export default withLocale([])(RangeSlider);
+export { RangeSliderProps };

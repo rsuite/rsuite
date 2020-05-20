@@ -1262,3 +1262,4 @@ polyfill(CheckTreePicker);
 export default defaultProps<CheckTreePickerProps>({
   classPrefix: 'picker'
 })(CheckTreePicker);
+export { CheckTreePickerProps };

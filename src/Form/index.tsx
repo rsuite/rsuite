@@ -1,3 +1,4 @@
-import Form from './Form';
+import Form, { FormProps } from './Form';
 
 export default Form;
+export { FormProps };

@@ -54,3 +54,5 @@ export default compose<any, ButtonGroupProps>(
     classPrefix: 'btn-group'
   })
 )(ButtonGroup);
+
+export { ButtonGroupProps };

@@ -129,3 +129,5 @@ class Affix extends React.Component<AffixProps, AffixState> {
 export default defaultProps<AffixProps>({
   classPrefix: 'affix'
 })(Affix);
+
+export { AffixProps };

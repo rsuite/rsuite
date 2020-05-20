@@ -1,3 +1,4 @@
-import AutoComplete from './AutoComplete';
+import AutoComplete, { AutoCompleteProps } from './AutoComplete';
 
 export default AutoComplete;
+export { AutoCompleteProps };

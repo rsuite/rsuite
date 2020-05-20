@@ -272,3 +272,4 @@ setStatic('Footer', ModalFooter)(EnhancedModal);
 setStatic('Dialog', ModalDialog)(EnhancedModal);
 
 export default EnhancedModal;
+export { ModalProps };

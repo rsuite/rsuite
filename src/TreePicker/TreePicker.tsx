@@ -1155,3 +1155,4 @@ polyfill(TreePicker);
 export default defaultProps<TreePickerProps>({
   classPrefix: 'picker'
 })(TreePicker);
+export { TreePickerProps };

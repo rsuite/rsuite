@@ -112,3 +112,4 @@ export default compose<any, InputProps>(
     componentClass: 'input'
   })
 )(Input);
+export { InputProps };

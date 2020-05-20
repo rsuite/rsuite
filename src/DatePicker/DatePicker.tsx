@@ -491,3 +491,4 @@ polyfill(DatePicker);
 export default defaultProps({
   classPrefix: 'picker'
 })(DatePicker);
+export { DatePickerProps };

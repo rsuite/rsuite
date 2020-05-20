@@ -93,3 +93,4 @@ const WithContextListItem = (props: ListItemProps) => (
 );
 
 export default WithContextListItem;
+export { ListItemProps };

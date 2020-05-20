@@ -81,3 +81,4 @@ class RadioGroup extends React.Component<RadioGroupProps, RadioGroupState> {
 export default defaultProps<RadioGroupProps>({
   classPrefix: 'radio-group'
 })(RadioGroup);
+export { RadioGroupProps };

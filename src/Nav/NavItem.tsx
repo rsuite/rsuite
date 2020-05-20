@@ -125,3 +125,4 @@ export default defaultProps<NavItemProps>({
   classPrefix: 'nav-item',
   componentClass: SafeAnchor
 })(NavItem);
+export { NavItemProps };
