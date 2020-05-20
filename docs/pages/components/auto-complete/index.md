@@ -22,6 +22,7 @@ import { AutoComplete } from 'rsuite';
 | data \*       | string[], Array&lt;[DataItemType](#types)&gt;                  | 组件数据                                |
 | defaultValue  | string                                                         | 设置默认值 `非受控`                     |
 | disabled      | boolean                                                        | 禁用组件                                |
+| filterBy      | (value: string, item: [DataItemType](#types)) => boolean       | 自定义每个item是否显示（默认只会显示data中value是它的子字符串的项）|
 | menuClassName | string                                                         | 选项菜单的 className                    |
 | onChange      | (value:string, event) => void                                  | `value` 发生改变时的回调函数            |
 | onClose       | () => void                                                     | 隐藏时的回调函数                        |
