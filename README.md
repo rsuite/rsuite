@@ -168,7 +168,7 @@ React Suite is [MIT licensed][license]. Copyright (c) 2016-present, HYPERS.
 [npm-svg]: https://badge.fury.io/js/rsuite.svg
 [npm-home]: https://www.npmjs.com/package/rsuite
 [actions-svg]: https://github.com/rsuite/rsuite/workflows/Node.js%20CI/badge.svg?branch=master
-[actions-home]: https://github.com/rsuite/rsuite/actions?query=branch%3Agithub-actions+workflow%3A%22Node.js+CI%22
+[actions-home]: https://github.com/rsuite/rsuite/actions?query=branch%3Amaster+workflow%3A%22Node.js+CI%22
 [coverage-svg]: https://coveralls.io/repos/github/rsuite/rsuite/badge.svg?branch=master
 [coverage-home]: https://coveralls.io/github/rsuite/rsuite?branch=master
 [discord-svg]: https://img.shields.io/badge/Discord-Join%20chat%20%E2%86%92-738bd7.svg
