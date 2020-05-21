@@ -119,10 +119,6 @@ class Calendar extends React.Component<CalendarProps> {
     return !after;
   };
 
-  shouldMountDate(props: CalendarProps) {
-    const { format } = props || this.props;
-    return /Y/.test(format) && /M/.test(format) && /D/.test(format);
-  }
   render() {
     const {
       calendarState,

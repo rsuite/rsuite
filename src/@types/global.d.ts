@@ -1,4 +1,5 @@
 declare const __RSUITE_CLASSNAME_PREFIX__: boolean;
+declare const __RSUITE_ENABLE_DATE_FNS_POLYFILL__: boolean;
 declare const __DEV__: boolean;
 
 declare module 'dom-lib';

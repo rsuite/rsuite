@@ -3,18 +3,14 @@
  * Upgrading from v1 to v2: https://github.com/date-fns/date-fns/blob/master/CHANGELOG.md#200---2019-08-20
  * date-fns-upgrade: https://github.com/date-fns/date-fns-upgrade/blob/master/src/v2/convertTokens/index.ts
  * */
-const useDateFnsPolyfill = false;
+const useDateFnsPolyfill = typeof __RSUITE_ENABLE_DATE_FNS_POLYFILL__ !== 'undefined';
 
 type TokensMap = {
   [v1token: string]: string;
 };
 
 const tokensMapV1ToV2: TokensMap = {
-  // 'D MMMM': '',
-  // 'Do MMMM': '',
-  // 'DD MMMM': '',
   M: 'L',
-  Mo: 'Mo',
   MM: 'LL',
   MMM: 'LLL',
   MMMM: 'LLLL',
