@@ -78,7 +78,7 @@ export default function Page() {
         useDrag,
         useDrop,
         DndProvider,
-        Backend
+        Backend,
         ColumnGroup
       }}
       tabExamples={tabExamples}
