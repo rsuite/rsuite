@@ -36,20 +36,22 @@ return (
 
 ## 目前支持的语言
 
-| 语言名称 | 描述           |
-| -------- | -------------- |
-| ar_EG    | 阿拉伯语       |
-| da_DK    | 丹麦语         |
-| en_GB    | 英语           |
-| en_US    | 美式英语       |
-| fi_FI    | 芬兰语         |
-| it_IT    | 意大利语       |
-| ko_KR    | 韩语/朝鲜语    |
-| pt_BR    | 葡萄牙语(巴西) |
-| ru_RU    | 俄罗斯语       |
-| sv_SE    | 瑞典语         |
-| zh_CN    | 简体中文       |
-| zh_TW    | 繁体中文       |
+| 语言名称 | 描述              |
+| -------- | ----------------- |
+| ar_EG    | 阿拉伯语          |
+| da_DK    | 丹麦语            |
+| en_GB    | 英语              |
+| en_US    | 美式英语          |
+| es_AR    | 西班牙语 (阿根廷) |
+| es_ES    | 西班牙语 (西班牙) |
+| fi_FI    | 芬兰语            |
+| it_IT    | 意大利语          |
+| ko_KR    | 韩语/朝鲜语       |
+| pt_BR    | 葡萄牙语(巴西)    |
+| ru_RU    | 俄罗斯语          |
+| sv_SE    | 瑞典语            |
+| zh_CN    | 简体中文          |
+| zh_TW    | 繁体中文          |
 
 ## 扩展或者修改语言
 
@@ -79,6 +81,6 @@ return (
 
 | 属性名称   | 类型`(默认值)`                                                        | 描述                                     |
 | ---------- | --------------------------------------------------------------------- | ---------------------------------------- |
+| formatDate | (date: Date ,format?: string, options?: {locale?: object;}) => string | 格式化日期                               |
 | locale     | object`(rsuite/lib/IntlProvider/locales/en_GB)`                       | 语言包配置                               |
 | rtl        | boolean                                                               | 可设置文本和其他元素的默认方向是从左到右 |
-| formatDate | (date: Date ,format?: string, options?: {locale?: object;}) => string | 格式化日期                               |

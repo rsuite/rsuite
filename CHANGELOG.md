@@ -1,13 +1,26 @@
-# next
+# 4.7.0
+
+> May 21, 2020
 
 - **Feature**: Support `onRowContextMenu` on `<Table>`. ([rsuite-table#150])
 - **Feature**: Add `<Table.ColumnGroup>`. ([rsuite-table#146])
+- **Feature**: Support `filterBy` on `<AutoComplete>`. ([#1063])
+- **Feature**: Added support for Spanish ([#1054])
+- **Bugfix**: Fixed `<Loader>` spinner not centered when given size. ([#1059])
+- **Example**: Add example for draggable table. ([#1045])
 
 ---
 
-- **Feature**: `<Table>`新增支持 `onRowContextMenu` 属性，行点击右键的回调。 ([rsuite-table#150])
+- **Feature**: `<Table>`新增 `onRowContextMenu` 属性，行点击右键的回调。 ([rsuite-table#150])
 - **Feature**: 新增 `<Table.ColumnGroup>` 组件，用于表头分组。 ([rsuite-table#146])
+- **Feature**: `<AutoComplete>` 新增 `filterBy`属性，用于自定义过滤显示的选项. ([#1063])
+- **Feature**: 新增了对西班牙语的支持 ([#1054])
+- **Bugfix**: 修复 `<Loader>` 当设置 `size` 时候，未居中的问题。 ([#1059])
+- **Example**: 添加了表格可可拖拽行与列的示例. ([#1045])
 
+[#1063]: https://github.com/rsuite/rsuite/pull/1063
+[#1059]: https://github.com/rsuite/rsuite/pull/1059
+[#1054]: https://github.com/rsuite/rsuite/pull/1054
 [rsuite-table#150]: https://github.com/rsuite/rsuite-table/pull/150
 [rsuite-table#146]: https://github.com/rsuite/rsuite-table/pull/146
 

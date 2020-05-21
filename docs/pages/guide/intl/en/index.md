@@ -81,6 +81,6 @@ More Configuration references: [react-intl](https://github.com/yahoo/react-intl)
 
 | Property   | Type`(Default)`                                                       | Description                                    |
 | ---------- | --------------------------------------------------------------------- | ---------------------------------------------- |
+| formatDate | (date: Date ,format?: string, options?: {locale?: object;}) => string | Format date                                    |
 | locale     | object`(rsuite/lib/IntlProvider/locales/en_GB)`                       | Configure Language Pack                        |
 | rtl        | boolean                                                               | Text and other elements go from left to right. |
-| formatDate | (date: Date ,format?: string, options?: {locale?: object;}) => string | Format date                                    |
