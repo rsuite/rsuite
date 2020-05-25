@@ -331,3 +331,12 @@ export function filterNodesOfTree(data, check) {
 
   return findNodes(data);
 }
+
+/**
+ * 根据是否处于搜索状态来返回 expand 的值。如果处于搜索状态下，则展开所有的节点
+ * @param searchKeyword
+ * @param expand
+ */
+export function getExpandWhenSearching(searchKeyword: string, expand: boolean) {
+  return !_.isEmpty(searchKeyword) ? true : expand;
+}
