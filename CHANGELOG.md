@@ -7,7 +7,7 @@
 - **Feature**: Support `filterBy` on `<AutoComplete>`. ([#1063])
 - **Feature**: Added support for Spanish ([#1054])
 - **Bugfix**: Fixed `<Loader>` spinner not centered when given size. ([#1059])
-- **Example**: Add example for draggable table. ([#1045])
+- **Example**: Add example for draggable table. ([#1065])
 
 ---
 
@@ -16,8 +16,9 @@
 - **Feature**: `<AutoComplete>` 新增 `filterBy`属性，用于自定义过滤显示的选项。 ([#1063])
 - **Feature**: 新增对西班牙语的支持。 ([#1054])
 - **Bugfix**: 修复 `<Loader>` 当设置 `size` 时候，未居中的问题。 ([#1059])
-- **Example**: 添加了表格可拖拽行与列的示例。 ([#1045])
+- **Example**: 添加了表格可拖拽行与列的示例。 ([#1065])
 
+[#1065]: https://github.com/rsuite/rsuite/pull/1065
 [#1063]: https://github.com/rsuite/rsuite/pull/1063
 [#1059]: https://github.com/rsuite/rsuite/pull/1059
 [#1054]: https://github.com/rsuite/rsuite/pull/1054
