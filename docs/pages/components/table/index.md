@@ -95,7 +95,7 @@ scrollLeft: (left: number) => void;
 | onResize      | (columnWidth?: number, dataKey?: string) => void | 列宽改变后的回调                                                                      |
 | resizable     | boolean                                          | 可自定义调整列宽                                                                      |
 | sortable      | boolean                                          | 可排序                                                                                |
-| treeCol       | boolean                                          | 指定列现在为 Tree                                                                     |
+| treeCol       | boolean                                          | 指定列显示为 Tree                                                                     |
 | verticalAlign | enum: 'top', 'middle', 'bottom'                  | 垂直对齐方式                                                                          |
 | width         | number                                           | 列宽                                                                                  |
 
