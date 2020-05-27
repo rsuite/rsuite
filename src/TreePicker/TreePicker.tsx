@@ -19,6 +19,7 @@ import {
 
 import {
   flattenTree,
+  getExpandWhenSearching,
   getNodeParents,
   shouldShowNodeByExpanded,
   getVirtualLisHeight,
@@ -455,20 +456,19 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       renderTreeIcon
     } = this.props;
 
-    const expand = this.nodes[node.refKey]?.expand;
     return {
       rtl: locale.rtl,
       value: node[valueKey],
       label: node[labelKey],
       index,
       layer,
-      expand,
+      expand: node.expand,
       active: shallowEqual(node[valueKey], selectedValue),
       visible: node.visible,
       draggable,
       dragging: shallowEqual(node[valueKey], dragNode[valueKey]),
       children: node[childrenKey],
-      nodeData: { ...node, expand },
+      nodeData: node,
       disabled: disabledItemValues.some(disabledItem => shallowEqual(disabledItem, node[valueKey])),
       dragOver:
         shallowEqual(node[valueKey], dragOverNodeKey) &&
@@ -940,6 +940,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     }
 
     const refKey = node.refKey;
+    const expand = getExpandWhenSearching(searchKeyword, this.nodes[refKey].expand);
     const key = _.isString(node[valueKey]) || _.isNumber(node[valueKey]) ? node[valueKey] : refKey;
     const children = node[childrenKey];
     // 当用户进行搜索时，hasChildren的判断要变成判断是否存在 visible 为 true 的子节点
@@ -949,17 +950,16 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
         : hasVisibleChildren(node, childrenKey);
 
     const nodeProps = {
-      ...this.getTreeNodeProps(node, layer, index),
+      ...this.getTreeNodeProps({ ...node, expand }, layer, index),
       hasChildren: visibleChildren
     };
 
     if (nodeProps.hasChildren) {
       layer += 1;
-      const expandALlState = this.nodes[refKey].expand;
       // 是否展开树节点且子节点不为空
       const openClass = this.addTreePrefix('open');
       const childrenClass = classNames(this.addTreePrefix('node-children'), {
-        [openClass]: expandALlState && visibleChildren
+        [openClass]: expand && visibleChildren
       });
 
       const nodes = children || [];
@@ -977,16 +977,18 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
   }
 
   renderVirtualNode(node: any, options: any) {
+    const { searchKeyword } = this.state;
     const { childrenKey } = this.props;
     const { key, style } = options;
     const { layer, refKey, showNode } = node;
 
+    const expand = getExpandWhenSearching(searchKeyword, this.nodes[refKey].expand);
     if (!node.visible) {
       return null;
     }
 
     const nodeProps = {
-      ...this.getTreeNodeProps(node, layer),
+      ...this.getTreeNodeProps({ ...node, expand }, layer),
       style,
       hasChildren: !!node[childrenKey]
     };

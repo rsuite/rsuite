@@ -54,7 +54,8 @@ import {
   treeDeprecatedWarning,
   getExpandItemValues,
   getExpandAll,
-  getExpandState
+  getExpandState,
+  getExpandWhenSearching
 } from '../utils/treeUtils';
 
 import { CheckTreePickerProps } from './CheckTreePicker.d';
@@ -988,8 +989,10 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       cascade,
       locale
     } = this.props;
-    const { expand, visible, refKey } = node;
+    const { visible, refKey } = node;
 
+    // 当处于搜索时，需要将所有节点都展开
+    const expand = getExpandWhenSearching(searchKeyword, node.expand);
     if (!visible) {
       return null;
     }
@@ -1027,9 +1030,8 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
 
       // 是否展开树节点且子节点不为空
       const openClass = this.addTreePrefix('open');
-      const expandALlState = node.expand;
       const childrenClass = classNames(this.addTreePrefix('node-children'), {
-        [openClass]: expandALlState && visibleChildren
+        [openClass]: expand && visibleChildren
       });
 
       const nodes = children || [];
@@ -1047,7 +1049,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
   }
 
   renderVirtualNode(node: any, options: any) {
-    const { activeNode, expandAll } = this.state;
+    const { activeNode, expandAll, searchKeyword } = this.state;
     const {
       valueKey,
       labelKey,
@@ -1058,7 +1060,8 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       locale
     } = this.props;
     const { key, style } = options;
-    const { layer, refKey, expand, showNode } = node;
+    const { layer, refKey, showNode } = node;
+    const expand = getExpandWhenSearching(searchKeyword, node.expand);
 
     const children = node[childrenKey];
 
