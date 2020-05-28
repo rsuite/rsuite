@@ -1,3 +1,33 @@
+# 4.7.1
+
+> May 28, 2020
+
+- **Improve**: Improved `<TreePicker>` and `<CheckTreePicker>` to expand nodes when searching. ([#1075])
+- **Improve**: Export component props from `rsuite`. ([#1068])
+- **Bugfix**: Fixed the content of the last marker of `<Slider>` not being dot-aligned. ([#1079])
+- **Bugfix**: Fixed `<Slider>` drag handle error ([#1082])
+- **Bugfix**: Fixed errors in the docs. ([#1080])
+- **Bugfix**: Fixed type errors defined by Typescript. ([#1081])
+- **Chore**: Added `commintlint` to check git meesage. ([#1078])
+
+---
+
+- **Improve**: 改进 `<TreePicker>` 和 `<CheckTreePicker>` 在搜索时展开节点。 ([#1075])
+- **Improve**: 导出 `rsuite` 所有组件的 `props`。 ([#1068])
+- **Bugfix**: 修复了 `<Slider>` 的最后一个标记的内容未点对齐的问题。([#1079])
+- **Bugfix**: 修复了 `<Slider>` 拖拽手柄报错的问题。 ([#1082])
+- **Bugfix**: 修复了一些文档中的错误。 ([#1080])
+- **Bugfix**: 修复了一些 Typescript 类型定义错误。 ([#1081])
+- **Chore**: 添加 `commintlint`，用于对 git meesage 的格式进行检查。 ([#1078])
+
+[#1082]: https://github.com/rsuite/rsuite/pull/1082
+[#1081]: https://github.com/rsuite/rsuite/pull/1081
+[#1080]: https://github.com/rsuite/rsuite/pull/1080
+[#1079]: https://github.com/rsuite/rsuite/pull/1079
+[#1078]: https://github.com/rsuite/rsuite/pull/1078
+[#1075]: https://github.com/rsuite/rsuite/pull/1075
+[#1068]: https://github.com/rsuite/rsuite/pull/1068
+
 # 4.7.0
 
 > May 21, 2020
