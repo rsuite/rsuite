@@ -29,9 +29,9 @@ class Handle extends React.Component<HandleProps, HandleState> {
     this.state = {
       active: false
     };
-    this.handleRef = React.createRef();
+    this.tooltipRef = React.createRef();
   }
-  handleRef: React.RefObject<HTMLDivElement>;
+  tooltipRef: React.RefObject<HTMLDivElement>;
   mouseMoveTracker = null;
   componentWillUnmount() {
     this.releaseMouseMoves();
@@ -51,12 +51,11 @@ class Handle extends React.Component<HandleProps, HandleState> {
   };
   setTooltipPosition() {
     const { tooltip } = this.props;
+    const tooltipElement = this.tooltipRef.current;
 
-    if (tooltip) {
-      const handle = this.handleRef.current;
-      const tip = handle.querySelector(`.${this.addPrefix('tooltip')}`);
-      const width = getWidth(tip);
-      addStyle(tip, 'left', `-${width / 2}px`);
+    if (tooltip && tooltipElement) {
+      const width = getWidth(tooltipElement);
+      addStyle(tooltipElement, 'left', `-${width / 2}px`);
     }
   }
   handleDragMove = (_deltaX: number, _deltaY: number, event: React.DragEvent) => {
@@ -120,10 +119,12 @@ class Handle extends React.Component<HandleProps, HandleState> {
         onMouseDown={this.handleMouseDown}
         onMouseEnter={this.handleMouseEnter}
         style={styles}
-        ref={this.handleRef}
       >
         {tooltip && (
-          <Tooltip className={classNames(this.addPrefix('tooltip'), 'placement-top')}>
+          <Tooltip
+            htmlElementRef={this.tooltipRef}
+            className={classNames(this.addPrefix('tooltip'), 'placement-top')}
+          >
             {renderTooltip ? renderTooltip(value) : value}
           </Tooltip>
         )}
