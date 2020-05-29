@@ -10,6 +10,7 @@
   },
   "scripts": {
     "format": "prettier --write \"{src,test}/**/*.{tsx,ts,js}\"",
+    "format:style": "stylelint \"src/**/*.less\" --fix",
     "format:check": "prettier --list-different \"{src,test}/**/*.{tsx,ts,js}\"",
     "dist": "npm run dist:dev && npm run dist:pro",
     "dist:style": "gulp buildStyle",

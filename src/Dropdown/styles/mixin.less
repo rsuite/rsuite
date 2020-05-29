@@ -13,6 +13,7 @@
 
 .dropdown-toggle-caret-size(@vertical,@horizontal) {
   padding-right: @horizontal+ @dropdown-caret-width+ @dropdown-caret-padding !important;
+
   .@{ns}dropdown-toggle-caret {
     top: @vertical;
     right: @horizontal;
@@ -23,9 +24,11 @@
   &.@{ns}btn-lg {
     .dropdown-toggle-caret-size(@padding-large-vertical, @padding-large-horizontal);
   }
+
   &.@{ns}btn-sm {
     .dropdown-toggle-caret-size(@padding-small-vertical, @padding-small-horizontal);
   }
+
   &.@{ns}btn-xs {
     .dropdown-toggle-caret-size(@padding-extra-small-vertical, @padding-extra-small-horizontal);
   }
