@@ -4,7 +4,7 @@
 
 ```js
 const instance = (
-  <Dropdown title="Default" size="sm">
+  <Dropdown title="Default">
     <Dropdown.Item>New File</Dropdown.Item>
     <Dropdown.Item>New File with Current Profile</Dropdown.Item>
     <Dropdown.Item>Download As...</Dropdown.Item>
