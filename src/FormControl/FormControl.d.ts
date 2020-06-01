@@ -56,6 +56,8 @@ export type FormControlProps<P = {}, ValueType = any> = StandardProps & {
 };
 
 // FormControl also takes accepter's props and passes them down
-declare function FormControl<P = {}, ValueType = any>(props: FormControlProps<P, ValueType> & P): React.ReactElement;
+declare function FormControl<P = {}, ValueType = any>(
+  props: FormControlProps<P, ValueType> & P
+): React.ReactElement;
 
 export default FormControl;
