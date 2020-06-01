@@ -33,6 +33,12 @@ export type FormControlProps<P = {}, ValueType = any> = StandardProps & {
   /** The name of form-control */
   name?: string;
 
+  /** Value */
+  value?: ValueType;
+
+  /** Callback fired when data changing */
+  onChange?(value: ValueType, event: React.SyntheticEvent<HTMLElement>): void;
+
   /** The data validation trigger type, and it wiill overrides the setting on <Form> */
   checkTrigger?: TypeAttributes.CheckTrigger;
 
