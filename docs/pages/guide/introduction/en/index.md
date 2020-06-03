@@ -34,6 +34,7 @@ React Suite supports server side rendering. Support [Next.js](https://github.com
 - Supports React 16 +
 - Supports [TypeScript](http://www.typescriptlang.org/)
 - Supports [Electron](https://electronjs.org/)
+- Supports [Reason](https://github.com/shurygindv/bs-rsuite-ui-react)
 
 ## Examples
 

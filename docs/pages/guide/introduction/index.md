@@ -34,6 +34,7 @@ React Suite 支持服务端渲染， 支持通过 [Next.js](https://github.com/z
 - 支持 React 16 +
 - 支持 [TypeScript](http://www.typescriptlang.org/)
 - 支持 [Electron](https://electronjs.org/)
+- 支持 [Reason](https://github.com/shurygindv/bs-rsuite-ui-react)
 
 ## 示例
 
