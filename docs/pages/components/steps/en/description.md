@@ -5,10 +5,10 @@
 ```js
 const instance = (
   <Steps current={1}>
-    <Steps.Item title="Finished" description="Description" />
-    <Steps.Item title="In Progress" description="Description" />
-    <Steps.Item title="Waiting" description="Description" />
-    <Steps.Item title="Waiting" description="Description" />
+    <Steps.Item title="Finished" description="This is a description." />
+    <Steps.Item title="In Progress" description="This is a description." />
+    <Steps.Item title="Waiting" description="This is a description." />
+    <Steps.Item title="Waiting" description="This is a description." />
   </Steps>
 );
 ReactDOM.render(instance);
