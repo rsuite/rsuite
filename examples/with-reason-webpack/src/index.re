@@ -1,0 +1,1 @@
+ReactDOMRe.renderToElementWithId(<App />, "app");
