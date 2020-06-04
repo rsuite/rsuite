@@ -5,7 +5,7 @@ import compose from 'recompose/compose';
 import SafeAnchor from '../SafeAnchor';
 import Ripple from '../Ripple';
 
-import { withStyleProps, getUnhandledProps, defaultProps, prefix } from '../utils';
+import { withStyleProps, getUnhandledProps, defaultProps, prefix, isOneOf } from '../utils';
 import { ButtonProps } from './Button.d';
 
 class Button extends React.Component<ButtonProps> {
@@ -16,11 +16,13 @@ class Button extends React.Component<ButtonProps> {
     children: PropTypes.node,
     block: PropTypes.bool,
     loading: PropTypes.bool,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    ripple: PropTypes.bool
   };
 
   static defaultProps = {
-    appearance: 'default'
+    appearance: 'default',
+    ripple: true
   };
 
   render() {
@@ -33,6 +35,7 @@ class Button extends React.Component<ButtonProps> {
       classPrefix,
       appearance,
       children,
+      ripple,
       componentClass: Component,
       ...props
     } = this.props;
@@ -45,7 +48,8 @@ class Button extends React.Component<ButtonProps> {
       [addPrefix('loading')]: loading,
       [addPrefix('block')]: block
     });
-    const ripple = appearance !== 'link' && appearance !== 'ghost' ? <Ripple /> : null;
+
+    const rippleElement = ripple && !isOneOf(appearance, ['link', 'ghost']) ? <Ripple /> : null;
     const spin = <span className={addPrefix('spin')} />;
 
     if (Component === 'button') {
@@ -54,7 +58,7 @@ class Button extends React.Component<ButtonProps> {
           <SafeAnchor {...unhandled} aria-disabled={disabled} className={classes}>
             {loading && spin}
             {children}
-            {ripple}
+            {rippleElement}
           </SafeAnchor>
         );
       }
@@ -65,7 +69,7 @@ class Button extends React.Component<ButtonProps> {
       <Component {...unhandled} disabled={disabled} className={classes}>
         {loading && spin}
         {children}
-        {ripple}
+        {rippleElement}
       </Component>
     );
   }
