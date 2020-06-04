@@ -2,7 +2,6 @@ import * as React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import Ripple from '../Ripple';
 import { prefix, getUnhandledProps, defaultProps, createChainedFunction } from '../utils';
 import DefaultToggleButton from './DefaultToggleButton';
 
@@ -122,7 +121,6 @@ class PickerToggle extends React.Component<PickerToggleProps, PickerToggleState>
         <span className={this.addPrefix(hasValue ? 'value' : 'placeholder')}>{children}</span>
         {hasValue && cleanable && this.renderToggleClean()}
         {caret && <span className={this.addPrefix('caret')} />}
-        <Ripple />
       </Component>
     );
   }
