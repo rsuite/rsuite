@@ -58,12 +58,13 @@ class Nav extends React.Component<NavProps> {
     const items = ReactChildren.mapCloneElement(children, item => {
       const { eventKey, active, ...rest } = item.props;
       const displayName = item?.type?.displayName;
+      const hasTooltip = sidenav && !expanded;
 
       if (~displayName?.indexOf('(NavItem)')) {
         return {
           ...rest,
           onSelect,
-          hasTooltip: sidenav && !expanded,
+          hasTooltip,
           active: typeof activeKey === 'undefined' ? active : shallowEqual(activeKey, eventKey)
         };
       } else if (~displayName?.indexOf('(Dropdown)')) {
@@ -71,6 +72,7 @@ class Nav extends React.Component<NavProps> {
           ...rest,
           onSelect,
           activeKey,
+          hasTooltip,
           componentClass: 'li'
         };
       }

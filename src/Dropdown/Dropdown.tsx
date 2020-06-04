@@ -20,9 +20,9 @@ import {
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { PLACEMENT_8 } from '../constants';
 import { DropdownProps } from './Dropdown.d';
+import appendTooltip from '../utils/appendTooltip';
 
 interface DropdownState {
-  title?: React.ReactNode;
   open?: boolean;
 }
 
@@ -56,6 +56,7 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
     componentClass: PropTypes.elementType,
     toggleComponentClass: PropTypes.elementType,
     noCaret: PropTypes.bool,
+    hasTooltip: PropTypes.bool,
     style: PropTypes.object,
     onClose: PropTypes.func,
     onOpen: PropTypes.func,
@@ -76,7 +77,6 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
   constructor(props: DropdownProps) {
     super(props);
     this.state = {
-      title: null,
       open: props.open
     };
   }
@@ -157,6 +157,7 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
       toggleComponentClass,
       noCaret,
       style,
+      hasTooltip,
       ...props
     } = this.props;
 
@@ -218,6 +219,20 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
       );
     }
 
+    const toggle = (
+      <DropdownToggle
+        {...toggleProps}
+        noCaret={noCaret}
+        tabIndex={tabIndex}
+        className={toggleClassName}
+        renderTitle={renderTitle}
+        icon={icon}
+        componentClass={toggleComponentClass}
+      >
+        {title}
+      </DropdownToggle>
+    );
+
     const classes = classNames(classPrefix, className, {
       [addPrefix(`placement-${_.kebabCase(placementPolyfill(placement))}`)]: placement,
       [addPrefix('disabled')]: disabled,
@@ -229,17 +244,9 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
     return (
       <Component {...dropdownProps} style={style} className={classes} role="menu">
         {menu}
-        <DropdownToggle
-          {...toggleProps}
-          noCaret={noCaret}
-          tabIndex={tabIndex}
-          className={toggleClassName}
-          renderTitle={renderTitle}
-          icon={icon}
-          componentClass={toggleComponentClass}
-        >
-          {this.state.title || title}
-        </DropdownToggle>
+        {hasTooltip
+          ? appendTooltip({ children: toggle, message: title, placement: 'right' })
+          : toggle}
       </Component>
     );
   }
