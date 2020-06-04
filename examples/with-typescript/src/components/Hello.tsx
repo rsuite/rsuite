@@ -1,7 +1,6 @@
-import * as React from "react";
-import { Grid, IntlProvider } from "rsuite";
-import zhCN from "rsuite/lib/IntlProvider/locales/zh_CN";
-import Button from "rsuite/lib/Button";
+import * as React from 'react';
+import { Grid, IntlProvider, Button } from 'rsuite';
+import zhCN from 'rsuite/lib/IntlProvider/locales/zh_CN';
 
 export interface HelloProps {
   compiler: string;

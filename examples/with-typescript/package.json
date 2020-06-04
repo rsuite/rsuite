@@ -18,7 +18,7 @@
     "@types/react-dom": "^16.9.8",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "rsuite": "^4.5.0"
+    "rsuite": "^4.7.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
