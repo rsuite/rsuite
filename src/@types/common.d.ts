@@ -103,6 +103,8 @@ export interface FormControlBaseProps<ValueType = any> {
   onChange?: (value: ValueType, event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
+type ToArray<V> = V extends any[] ? V : V[];
+
 export interface FormControlPickerProps<ValueType = any, DataType = Record<string, any>>
   extends PickerBaseProps {
   /** The data of component */
@@ -118,7 +120,7 @@ export interface FormControlPickerProps<ValueType = any, DataType = Record<strin
   childrenKey?: keyof DataType;
 
   /** Disabled items */
-  disabledItemValues?: ValueType[];
+  disabledItemValues?: ToArray<ValueType>;
 
   /** Initial value */
   defaultValue?: ValueType;
