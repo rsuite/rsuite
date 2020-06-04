@@ -20,6 +20,7 @@ export default function Page() {
         'trigger',
         'active',
         'disabled',
+        'size',
         'no-caret',
         'icons',
         'divider',
