@@ -2,7 +2,15 @@ import * as React from 'react';
 
 import { FormControlPickerProps } from '../@types/common';
 import { TreeBaseProps } from '../Tree/TreeBase';
-import { TREE_NODE_DROP_POSITION } from '../constants';
+
+/**
+ * Tree Node Drag Type
+ */
+export enum TREE_NODE_DROP_POSITION {
+  DRAG_OVER = 0, // drag node in tree node
+  DRAG_OVER_TOP = 1, // drag node on tree node
+  DRAG_OVER_BOTTOM = 2 // drag node under tree node
+}
 
 export interface DropData {
   /** drag node data */
