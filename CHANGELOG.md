@@ -1,3 +1,37 @@
+# 4.7.2
+
+> June 4, 2020
+
+- **Bugfix** fix(steps): fixed the description of Steps will break layout. ([#1100])
+- **Bugfix** fix(inputpicker): fix InputNumber will not trigger onChange when input. ([#1096])
+- **Bugfix** fix(ts): fix errors in Typescript. ([#1095],[#1103])
+- **Bugfix** fix(dropdown): fix incorrect Dropdown caret position. ([#1094])
+- **Bugfix** fix(picker): remove redundant ripple elements in PickerToggle ([#1092])
+- **Bugfix** fix(sidenav): fixed display issue when sidenav was collapsed. ([#1090])
+- **Bugfix**: fix(buttongroup): fixed Button componentClass not work with ButtonGroup. ([#1087])
+- **Example**: docs(example): add example of Reason app. ([#1101])
+
+---
+
+- **Bugfix** 修复 Steps 组件描述过长后导致布局异常。 ([#1100])
+- **Bugfix** 修复 InputNumber 键盘输入未触发 onChange 事件。 ([#1096])
+- **Bugfix** 修复 Typescript 中存在的类型定义错误。 ([#1095],[#1103])
+- **Bugfix** 修复 Dropdown 内 caret 图标的位置。 ([#1094])
+- **Bugfix** 修复 PickerToggle 内冗余的涟漪元素。 ([#1092])
+- **Bugfix** 修复 Sidenav 折叠以后存在的显示问题。 ([#1090])
+- **Bugfix**: 修复 ButtonGroup 内 Button 的 componentClass 属性无效的问题。 ([#1087])
+- **Example**: 新增 ReasonML 的示例项目 ([#1101])
+
+[#1103]: https://github.com/rsuite/rsuite/pull/1103
+[#1101]: https://github.com/rsuite/rsuite/pull/1101
+[#1100]: https://github.com/rsuite/rsuite/pull/1100
+[#1096]: https://github.com/rsuite/rsuite/pull/1096
+[#1095]: https://github.com/rsuite/rsuite/pull/1095
+[#1094]: https://github.com/rsuite/rsuite/pull/1094
+[#1092]: https://github.com/rsuite/rsuite/pull/1092
+[#1090]: https://github.com/rsuite/rsuite/pull/1090
+[#1087]: https://github.com/rsuite/rsuite/pull/1087
+
 # 4.7.1
 
 > May 28, 2020
