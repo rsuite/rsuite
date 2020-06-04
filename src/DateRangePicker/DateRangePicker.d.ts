@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { PickerBaseProps, FormControlBaseProps } from '../@types/common';
-import { DATERANGE_DISABLED_TARGET } from '../constants';
+
+export enum DATERANGE_DISABLED_TARGET {
+  CALENDAR = 'CALENDAR',
+  TOOLBAR_BUTTON_OK = 'TOOLBAR_BUTTON_OK',
+  TOOLBAR_SHORTCUT = 'TOOLBAR_SHORTCUT'
+}
 
 export type ValueType = [Date?, Date?];
 
