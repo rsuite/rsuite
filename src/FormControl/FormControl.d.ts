@@ -28,7 +28,7 @@ export interface FormControlAccepterProps<ValueType = any> {
  */
 export type FormControlProps<P = {}, ValueType = any> = StandardProps & {
   /** Proxied components */
-  accepter?: React.ComponentType<P & FormControlAccepterProps<ValueType>>;
+  accepter?: React.ElementType<P & FormControlAccepterProps<ValueType>>;
 
   /** The name of form-control */
   name?: string;
