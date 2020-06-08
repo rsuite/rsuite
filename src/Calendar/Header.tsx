@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { prefix, getUnhandledProps, defaultProps } from '../utils';
 import IntlContext from '../IntlProvider/IntlContext';
 import FormattedDate from '../IntlProvider/FormattedDate';
+import { formatNewDate } from '../utils/formatUtils';
 
 import { convertTokens } from '@date-fns/upgrade/v2';
 
@@ -80,12 +81,12 @@ class Header extends React.PureComponent<HeaderProps> {
     const { showDate, showMonth } = this.props;
     const { formattedDayPattern, formattedMonthPattern } = this.context || {};
     if (showDate) {
-      return formattedDayPattern || 'yyyy-MM-dd';
+      return formatNewDate(formattedDayPattern) || 'yyyy-MM-dd';
     } else if (showMonth) {
-      return formattedMonthPattern || 'yyyy-MM';
+      return formatNewDate(formattedMonthPattern) || 'yyyy-MM';
     }
 
-    return 'YYYY';
+    return 'yyyy';
   }
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
   renderTitle() {
@@ -95,7 +96,7 @@ class Header extends React.PureComponent<HeaderProps> {
       return renderTitle(date);
     }
 
-    return date && <FormattedDate date={date} formatStr={convertTokens(this.getDateFormat())} />;
+    return date && <FormattedDate date={date} formatStr={this.getDateFormat()} />;
   }
   render() {
     const {
@@ -178,7 +179,7 @@ class Header extends React.PureComponent<HeaderProps> {
               className={timeTitleClasses}
               onClick={onToggleTimeDropdown}
             >
-              {date && <FormattedDate date={date} formatStr={convertTokens(this.getTimeFormat())} />}
+              {date && <FormattedDate date={date} formatStr={this.getTimeFormat()} />}
             </span>
 
             {showMeridian ? (

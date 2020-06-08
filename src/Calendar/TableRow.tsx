@@ -7,6 +7,7 @@ import isSameDay from 'date-fns/isSameDay';
 import getDate from 'date-fns/getDate';
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
 import IntlContext from '../IntlProvider/IntlContext';
+import { formatNewDate } from '../utils/formatUtils';
 
 import { legacyParse, convertTokens } from '@date-fns/upgrade/v2';
 
@@ -55,10 +56,7 @@ class TableRow extends React.PureComponent<TableRowProps> {
   renderDays() {
     const { weekendDate, disabledDate, inSameMonth, selected, renderCell } = this.props;
     const { formatDate, formattedDayPattern, today } = this.context || {};
-    const replaceFormat = formattedDayPattern.replace(/D|Y/gi, function(x) {
-      return x.toLowerCase();
-    });
-    const formatStr = replaceFormat || 'yyyy-MM-dd';
+    const formatStr = formatNewDate(formattedDayPattern) || 'yyyy-MM-dd';
     const days = [];
 
     for (let i = 0; i < 7; i += 1) {

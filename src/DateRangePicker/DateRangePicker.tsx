@@ -23,6 +23,7 @@ import Toolbar from './Toolbar';
 import DatePicker from './DatePicker';
 import { setTimingMargin, getCalendarDate } from './utils';
 import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
+import { formatNewDate } from '../utils/formatUtils';
 
 import {
   PickerToggle,
@@ -186,9 +187,6 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
 
   getDateString(value?: ValueType) {
     const { placeholder, format: formatType, renderValue } = this.props;
-    const replaceFormat = formatType.replace(/D|Y/gi, function(x) {
-      return x.toLowerCase();
-    });
     const nextValue = value || this.getValue();
     const startDate: Date = nextValue?.[0];
     const endDate: Date = nextValue?.[1];
@@ -197,11 +195,11 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       const displayValue: any = [startDate, endDate].sort(compareAsc);
 
       return renderValue ? (
-        renderValue(displayValue, replaceFormat)
+        renderValue(displayValue, formatNewDate(formatType))
       ) : (
         <>
-          <FormattedDate date={displayValue[0]} formatStr={replaceFormat} /> ~{' '}
-          <FormattedDate date={displayValue[1]} formatStr={replaceFormat} />
+          <FormattedDate date={displayValue[0]} formatStr={formatNewDate(formatType)} /> ~{' '}
+          <FormattedDate date={displayValue[1]} formatStr={formatNewDate(formatType)} />
         </>
       );
     }

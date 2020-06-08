@@ -18,7 +18,7 @@ import Calendar from '../Calendar/Calendar';
 import Toolbar from './Toolbar';
 
 import { disabledTime, calendarOnlyProps } from '../utils/timeUtils';
-import { shouldOnlyTime } from '../utils/formatUtils';
+import { shouldOnlyTime, formatNewDate } from '../utils/formatUtils';
 import composeFunctions from '../utils/composeFunctions';
 import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
 
@@ -103,7 +103,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     placement: 'bottomStart',
     limitEndYear: 1000,
     format: 'yyyy-MM-dd',
-    placeholder: '',
+    placeholder: 'YYYY-MM-DD',
     locale: {
       sunday: 'Su',
       monday: 'Mo',
@@ -182,16 +182,13 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
 
   getDateString() {
     const { placeholder, format: formatType, renderValue } = this.props;
-    const replaceFormat = formatType.replace(/D|Y/gi, function(x) {
-      return x.toLowerCase();
-    });
     const value = this.getValue();
 
     if (value) {
       return renderValue ? (
-        renderValue(value, formatType)
+        renderValue(value, formatNewDate(formatType))
       ) : (
-        <FormattedDate date={value} formatStr={replaceFormat} />
+        <FormattedDate date={value} formatStr={formatNewDate(formatType)} />
       );
     }
 
@@ -391,7 +388,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
         showMeridian={showMeridian}
         disabledDate={disabledDate}
         limitEndYear={limitEndYear}
-        format={format}
+        format={formatNewDate(format)}
         isoWeek={isoWeek}
         calendarState={calendarState}
         pageDate={pageDate}
