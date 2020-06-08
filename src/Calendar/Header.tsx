@@ -80,9 +80,9 @@ class Header extends React.PureComponent<HeaderProps> {
     const { showDate, showMonth } = this.props;
     const { formattedDayPattern, formattedMonthPattern } = this.context || {};
     if (showDate) {
-      return formattedDayPattern || 'YYYY-MM-DD';
+      return formattedDayPattern || 'yyyy-MM-dd';
     } else if (showMonth) {
-      return formattedMonthPattern || 'YYYY-MM';
+      return formattedMonthPattern || 'yyyy-MM';
     }
 
     return 'YYYY';

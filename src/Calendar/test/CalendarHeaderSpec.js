@@ -26,7 +26,7 @@ describe('Calendar-Header', () => {
     );
   });
 
-  it('Should output a date for `yyyy-MM-dd`', () => {
+  it('Should output a date for `yyyy-MM-dd', () => {
     const date = new Date();
     const formatType = 'yyyy-MM-dd';
     const instance = getDOMNode(<Header showDate date={date} format={formatType} />);
@@ -54,7 +54,7 @@ describe('Calendar-Header', () => {
     };
 
     const date = new Date();
-    const formatType = 'YYYY-MM';
+    const formatType = 'yyyy-MM';
     const instance = getDOMNode(
       <Header showMonth date={date} format={formatType} onMoveForword={doneOp} />
     );
@@ -68,7 +68,7 @@ describe('Calendar-Header', () => {
     };
 
     const date = new Date();
-    const formatType = 'YYYY-MM';
+    const formatType = 'yyyy-MM';
     const instance = getDOMNode(
       <Header showMonth date={date} format={formatType} onMoveBackward={doneOp} />
     );
@@ -82,7 +82,7 @@ describe('Calendar-Header', () => {
     };
 
     const date = new Date();
-    const formatType = 'YYYY-MM';
+    const formatType = 'yyyy-MM';
     const instance = getDOMNode(
       <Header showMonth date={date} format={formatType} onToggleMonthDropdown={doneOp} />
     );

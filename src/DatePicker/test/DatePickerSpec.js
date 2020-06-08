@@ -134,7 +134,7 @@ describe('DatePicker', () => {
     };
 
     const instance = getDOMNode(
-      <DatePicker onToggleMonthDropdown={doneOp} inline format="YYYY-MM-DD HH:mm:ss" />
+      <DatePicker onToggleMonthDropdown={doneOp} inline format="yyyy-MM-dd HH:mm:ss" />
     );
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-header-title'));
   });
@@ -145,7 +145,7 @@ describe('DatePicker', () => {
     };
 
     const instance = getDOMNode(
-      <DatePicker onToggleTimeDropdown={doneOp} inline format="YYYY-MM-DD HH:mm:ss" />
+      <DatePicker onToggleTimeDropdown={doneOp} inline format="yyyy-MM-dd HH:mm:ss" />
     );
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-header-title-time'));
   });

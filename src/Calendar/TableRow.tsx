@@ -55,7 +55,10 @@ class TableRow extends React.PureComponent<TableRowProps> {
   renderDays() {
     const { weekendDate, disabledDate, inSameMonth, selected, renderCell } = this.props;
     const { formatDate, formattedDayPattern, today } = this.context || {};
-    const formatStr = formattedDayPattern || 'YYYY-MM-DD';
+    const replaceFormat = formattedDayPattern.replace(/D|Y/gi, function(x) {
+      return x.toLowerCase();
+    });
+    const formatStr = replaceFormat || 'yyyy-MM-dd';
     const days = [];
 
     for (let i = 0; i < 7; i += 1) {

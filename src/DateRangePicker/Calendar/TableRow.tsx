@@ -58,7 +58,10 @@ class TableRow extends React.Component<TableRowProps> {
     } = this.props;
 
     const { formatDate, formattedDayPattern, today } = this.context || {};
-    const formatStr = formattedDayPattern || 'YYYY-MM-DD';
+    const replaceFormat = formattedDayPattern.replace(/D|Y/gi, function(x) {
+      return x.toLowerCase();
+    });
+    const formatStr = replaceFormat || 'yyyy-MM-dd';
 
     const days = [];
     const selectedStartDate = selected[0];

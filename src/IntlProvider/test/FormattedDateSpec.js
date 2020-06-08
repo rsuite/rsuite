@@ -17,7 +17,7 @@ describe('FormattedDate', () => {
       <div>
         <IntlContext.Provider value={{ formatDate }}>
           <div>
-            <FormattedDate date={new Date('2020-01-01')} formatStr="MMM DD, YYYY" />
+            <FormattedDate date={new Date('2020-01-01')} formatStr="MMM dd, yyyy" />
           </div>
         </IntlContext.Provider>
       </div>
@@ -28,7 +28,7 @@ describe('FormattedDate', () => {
   it('Should render default formatted date', () => {
     const domNode = getDOMNode(
       <div>
-        <FormattedDate date={new Date('2020-01-01')} formatStr="MMM DD, YYYY" />
+        <FormattedDate date={new Date('2020-01-01')} formatStr="MMM dd, yyyy" />
       </div>
     );
     assert.equal(domNode.innerText, 'Jan 01, 2020');

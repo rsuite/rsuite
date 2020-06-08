@@ -105,8 +105,8 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     appearance: 'default',
     placement: 'bottomStart',
     limitEndYear: 1000,
-    format: 'YYYY-MM-DD',
-    placeholder: '',
+    format: 'yyyy-MM-dd',
+    placeholder: 'YYYY-MM-DD',
     cleanable: true,
     showOneCalendar: false,
     locale: {

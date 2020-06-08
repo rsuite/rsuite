@@ -38,7 +38,7 @@ describe('Calendar - Panel', () => {
 
   it('Should output valid one day', () => {
     const instance = getDOMNode(
-      <CalendarPanel format="YYYY-MM-DD" defaultValue={parse(legacyParse('2018-07-01'))} />
+      <CalendarPanel format="yyyy-MM-dd" defaultValue={parse(legacyParse('2018-07-01'))} />
     );
     assert.equal(
       instance
@@ -53,7 +53,7 @@ describe('Calendar - Panel', () => {
       done();
     };
 
-    const instance = getDOMNode(<CalendarPanel format="YYYY-MM-DD" onSelect={doneOp} />);
+    const instance = getDOMNode(<CalendarPanel format="yyyy-MM-dd" onSelect={doneOp} />);
     const instanceDOM = instance;
     ReactTestUtils.Simulate.click(instanceDOM.querySelector('.rs-calendar-table-cell-is-today'));
   });

@@ -46,7 +46,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   static defaultProps = {
     value: [],
     calendarDate: [new Date(), addMonths(legacyParse(new Date()), 1)],
-    format: 'YYYY-MM-DD',
+    format: 'yyyy-MM-dd',
     index: 0
   };
 

@@ -102,7 +102,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     appearance: 'default',
     placement: 'bottomStart',
     limitEndYear: 1000,
-    format: 'YYYY-MM-DD',
+    format: 'yyyy-MM-dd',
     placeholder: '',
     locale: {
       sunday: 'Su',
