@@ -2,21 +2,20 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import {
-  addDays,
-  isBefore,
-  isAfter,
-  isSameDay,
-  isSameMonth,
-  addMonths,
-  startOfISOWeek,
-  endOfISOWeek,
-  startOfWeek,
-  endOfWeek,
-  startOfMonth,
-  endOfMonth,
-  compareAsc
-} from 'date-fns';
+
+import addDays from 'date-fns/addDays';
+import isSameDay from 'date-fns/isSameDay';
+import isBefore from 'date-fns/isBefore';
+import isAfter from 'date-fns/isAfter';
+import isSameMonth from 'date-fns/isSameMonth';
+import addMonths from 'date-fns/addMonths';
+import startOfISOWeek from 'date-fns/startOfISOWeek';
+import endOfISOWeek from 'date-fns/endOfISOWeek';
+import startOfWeek from 'date-fns/startOfWeek';
+import endOfWeek from 'date-fns/endOfWeek';
+import startOfMonth from 'date-fns/startOfMonth';
+import endOfMonth from 'date-fns/endOfMonth';
+import compareAsc from 'date-fns/compareAsc';
 
 import IntlContext from '../IntlProvider/IntlContext';
 import FormattedDate from '../IntlProvider/FormattedDate';

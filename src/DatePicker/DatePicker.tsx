@@ -3,15 +3,14 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { polyfill } from 'react-lifecycles-compat';
-import {
-  getMinutes,
-  getHours,
-  isSameDay,
-  getSeconds,
-  setHours,
-  setMinutes,
-  setSeconds
-} from 'date-fns';
+
+import getMinutes from 'date-fns/getMinutes';
+import getHours from 'date-fns/getHours';
+import isSameDay from 'date-fns/isSameDay';
+import getSeconds from 'date-fns/getSeconds';
+import setHours from 'date-fns/setHours';
+import setMinutes from 'date-fns/setMinutes';
+import setSeconds from 'date-fns/setSeconds';
 
 import IntlContext from '../IntlProvider/IntlContext';
 import FormattedDate from '../IntlProvider/FormattedDate';
