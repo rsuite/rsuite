@@ -125,7 +125,10 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
           calendarState={showMonth ? 'DROP_MONTH' : null}
           pageDate={value}
           renderTitle={date => (
-            <FormattedDate date={date} formatStr={convertTokens(locale.formattedMonthPattern || 'MMMM  yyyy')} />
+            <FormattedDate
+              date={date}
+              formatStr={convertTokens(locale.formattedMonthPattern || 'MMMM  yyyy')}
+            />
           )}
           renderToolbar={this.renderToolbar}
           renderCell={renderCell}

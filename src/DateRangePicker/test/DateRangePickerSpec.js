@@ -59,7 +59,10 @@ describe('DateRangePicker', () => {
       <DateRangePicker
         value={[parse(legacyParse('2019-04-01')), parse(legacyParse('2019-04-02'))]}
         renderValue={value => {
-          return `${format(legacyParse(value[0]), convertTokens('MM/DD/YYYY'))}~${format(legacyParse(value[1]), convertTokens('MM/DD/YYYY'))}`;
+          return `${format(legacyParse(value[0]), convertTokens('MM/DD/YYYY'))}~${format(
+            legacyParse(value[1]),
+            convertTokens('MM/DD/YYYY')
+          )}`;
         }}
       />
     );

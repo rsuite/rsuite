@@ -74,27 +74,44 @@ class TableRow extends React.Component<TableRowProps> {
       const isToday = isSameDay(legacyParse(thisDate), legacyParse(new Date()));
       const unSameMonth = !inSameMonth?.(thisDate);
       const isStartSelected =
-        !unSameMonth && selectedStartDate && isSameDay(legacyParse(thisDate), legacyParse(selectedStartDate));
-      const isEndSelected = !unSameMonth && selectedEndDate && isSameDay(legacyParse(thisDate), legacyParse(selectedEndDate));
+        !unSameMonth &&
+        selectedStartDate &&
+        isSameDay(legacyParse(thisDate), legacyParse(selectedStartDate));
+      const isEndSelected =
+        !unSameMonth &&
+        selectedEndDate &&
+        isSameDay(legacyParse(thisDate), legacyParse(selectedEndDate));
       const isSelected = isStartSelected || isEndSelected;
 
       let inRange = false;
       // for Selected
       if (selectedStartDate && selectedEndDate) {
-        if (isBefore(legacyParse(thisDate), legacyParse(selectedEndDate)) && isAfter(legacyParse(thisDate), legacyParse(selectedStartDate))) {
+        if (
+          isBefore(legacyParse(thisDate), legacyParse(selectedEndDate)) &&
+          isAfter(legacyParse(thisDate), legacyParse(selectedStartDate))
+        ) {
           inRange = true;
         }
-        if (isBefore(legacyParse(thisDate), legacyParse(selectedStartDate)) && isAfter(legacyParse(thisDate), legacyParse(selectedEndDate))) {
+        if (
+          isBefore(legacyParse(thisDate), legacyParse(selectedStartDate)) &&
+          isAfter(legacyParse(thisDate), legacyParse(selectedEndDate))
+        ) {
           inRange = true;
         }
       }
 
       // for Hovering
       if (!isSelected && hoverEndDate && hoverStartDate) {
-        if (!isAfter(legacyParse(thisDate), legacyParse(hoverEndDate)) && !isBefore(legacyParse(thisDate), legacyParse(hoverStartDate))) {
+        if (
+          !isAfter(legacyParse(thisDate), legacyParse(hoverEndDate)) &&
+          !isBefore(legacyParse(thisDate), legacyParse(hoverStartDate))
+        ) {
           inRange = true;
         }
-        if (!isAfter(legacyParse(thisDate), legacyParse(hoverStartDate)) && !isBefore(legacyParse(thisDate), legacyParse(hoverEndDate))) {
+        if (
+          !isAfter(legacyParse(thisDate), legacyParse(hoverStartDate)) &&
+          !isBefore(legacyParse(thisDate), legacyParse(hoverEndDate))
+        ) {
           inRange = true;
         }
       }
@@ -109,7 +126,9 @@ class TableRow extends React.Component<TableRowProps> {
         [this.addPrefix('cell-disabled')]: disabled
       });
 
-      const title = formatDate ? formatDate(thisDate, formatStr) : format(legacyParse(thisDate), convertTokens(formatStr));
+      const title = formatDate
+        ? formatDate(thisDate, formatStr)
+        : format(legacyParse(thisDate), convertTokens(formatStr));
 
       days.push(
         <div

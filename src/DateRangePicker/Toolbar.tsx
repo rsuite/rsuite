@@ -44,7 +44,10 @@ const defaultRanges = [
   },
   {
     label: 'last7Days',
-    value: [setTimingMargin(subDays(legacyParse(new Date()), 6)), setTimingMargin(new Date(), 'right')]
+    value: [
+      setTimingMargin(subDays(legacyParse(new Date()), 6)),
+      setTimingMargin(new Date(), 'right')
+    ]
   }
 ];
 

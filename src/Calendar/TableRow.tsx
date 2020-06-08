@@ -70,7 +70,9 @@ class TableRow extends React.PureComponent<TableRowProps> {
         [this.addPrefix('cell-disabled')]: disabled
       });
 
-      const title = formatDate ? formatDate(thisDate, formatStr) : format(legacyParse(thisDate), convertTokens(formatStr));
+      const title = formatDate
+        ? formatDate(thisDate, formatStr)
+        : format(legacyParse(thisDate), convertTokens(formatStr));
       days.push(
         <div
           key={title}

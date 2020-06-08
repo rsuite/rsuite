@@ -15,7 +15,9 @@ describe('Calendar', () => {
   });
 
   it('Should output valid one day', () => {
-    const instance = getDOMNode(<Calendar format="yyyy-MM-dd" pageDate={parse(legacyParse('2018-07-01'))} />);
+    const instance = getDOMNode(
+      <Calendar format="yyyy-MM-dd" pageDate={parse(legacyParse('2018-07-01'))} />
+    );
     assert.equal(
       instance
         .querySelectorAll('.rs-calendar-table-row')[1]

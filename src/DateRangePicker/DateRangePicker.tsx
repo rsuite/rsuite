@@ -218,7 +218,10 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
 
     return [startOfWeek(legacyParse(date)), endOfWeek(legacyParse(date))];
   };
-  getMonthHoverRange = (date: Date): ValueType => [startOfMonth(legacyParse(date)), endOfMonth(legacyParse(date))];
+  getMonthHoverRange = (date: Date): ValueType => [
+    startOfMonth(legacyParse(date)),
+    endOfMonth(legacyParse(date))
+  ];
 
   getHoverRange(date: Date) {
     const { hoverRange } = this.props;
@@ -306,7 +309,11 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       value: nextValue
     });
 
-    if (onChange && (!isSameDay(legacyParse(nextValue[0]), legacyParse(value[0])) || !isSameDay(legacyParse(nextValue[1]), legacyParse(value[1])))) {
+    if (
+      onChange &&
+      (!isSameDay(legacyParse(nextValue[0]), legacyParse(value[0])) ||
+        !isSameDay(legacyParse(nextValue[1]), legacyParse(value[1])))
+    ) {
       onChange(nextValue, event);
     }
 
@@ -430,7 +437,12 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
 
     if (value && value.length) {
       const [startDate, endData] = value;
-      calendarDate = [startDate, isSameMonth(legacyParse(startDate), legacyParse(endData)) ? addMonths(legacyParse(endData), 1) : endData];
+      calendarDate = [
+        startDate,
+        isSameMonth(legacyParse(startDate), legacyParse(endData))
+          ? addMonths(legacyParse(endData), 1)
+          : endData
+      ];
     } else {
       calendarDate = getCalendarDate(this.props.defaultCalendarValue);
     }
@@ -464,7 +476,10 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
 
     // If the date is between the start and the end
     // the button is disabled
-    while (isBefore(legacyParse(start), legacyParse(end)) || isSameDay(legacyParse(start), legacyParse(end))) {
+    while (
+      isBefore(legacyParse(start), legacyParse(end)) ||
+      isSameDay(legacyParse(start), legacyParse(end))
+    ) {
       if (disabledDate?.(start, nextSelectValue, doneSelected, type)) {
         return true;
       }

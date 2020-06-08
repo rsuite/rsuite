@@ -7,16 +7,56 @@ describe('DateRangePicker - disabledDate - utils', () => {
   it('allowedMaxDays', () => {
     const func = utils.allowedMaxDays(5);
 
-    assert.equal(func(parse(legacyParse('2018-12-07')), [parse(legacyParse('2018-12-01')), null], false, 'CALENDAR'), true);
-    assert.equal(func(parse(legacyParse('2018-12-04')), [parse(legacyParse('2018-12-01')), null], false, 'CALENDAR'), false);
+    assert.equal(
+      func(
+        parse(legacyParse('2018-12-07')),
+        [parse(legacyParse('2018-12-01')), null],
+        false,
+        'CALENDAR'
+      ),
+      true
+    );
+    assert.equal(
+      func(
+        parse(legacyParse('2018-12-04')),
+        [parse(legacyParse('2018-12-01')), null],
+        false,
+        'CALENDAR'
+      ),
+      false
+    );
   });
 
   it('allowedDays', () => {
     const func = utils.allowedDays(5);
 
-    assert.equal(func(parse(legacyParse('2018-12-06')), [parse(legacyParse('2018-12-01')), null], false, 'CALENDAR'), true);
-    assert.equal(func(parse(legacyParse('2018-12-04')), [parse(legacyParse('2018-12-01')), null], false, 'CALENDAR'), true);
-    assert.equal(func(parse(legacyParse('2018-12-05')), [parse(legacyParse('2018-12-01')), null], false, 'CALENDAR'), false);
+    assert.equal(
+      func(
+        parse(legacyParse('2018-12-06')),
+        [parse(legacyParse('2018-12-01')), null],
+        false,
+        'CALENDAR'
+      ),
+      true
+    );
+    assert.equal(
+      func(
+        parse(legacyParse('2018-12-04')),
+        [parse(legacyParse('2018-12-01')), null],
+        false,
+        'CALENDAR'
+      ),
+      true
+    );
+    assert.equal(
+      func(
+        parse(legacyParse('2018-12-05')),
+        [parse(legacyParse('2018-12-01')), null],
+        false,
+        'CALENDAR'
+      ),
+      false
+    );
   });
 
   it('allowedRange', () => {
@@ -47,8 +87,32 @@ describe('DateRangePicker - disabledDate - utils', () => {
     assert.equal(func(parse(legacyParse('2018-12-01'))), false);
     assert.equal(func(parse(legacyParse('2018-11-30'))), false);
 
-    assert.equal(func(parse(legacyParse('2018-12-07')), [parse(legacyParse('2018-12-01')), null], false, 'CALENDAR'), true);
-    assert.equal(func(parse(legacyParse('2018-11-26')), [parse(legacyParse('2018-12-01')), null], false, 'CALENDAR'), true);
-    assert.equal(func(parse(legacyParse('2018-11-27')), [parse(legacyParse('2018-12-01')), null], false, 'CALENDAR'), false);
+    assert.equal(
+      func(
+        parse(legacyParse('2018-12-07')),
+        [parse(legacyParse('2018-12-01')), null],
+        false,
+        'CALENDAR'
+      ),
+      true
+    );
+    assert.equal(
+      func(
+        parse(legacyParse('2018-11-26')),
+        [parse(legacyParse('2018-12-01')), null],
+        false,
+        'CALENDAR'
+      ),
+      true
+    );
+    assert.equal(
+      func(
+        parse(legacyParse('2018-11-27')),
+        [parse(legacyParse('2018-12-01')), null],
+        false,
+        'CALENDAR'
+      ),
+      false
+    );
   });
 });
