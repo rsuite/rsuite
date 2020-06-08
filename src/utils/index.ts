@@ -2,9 +2,8 @@ export * from './BrowserDetection';
 export * from './htmlPropsUtils';
 
 export { default as withStyleProps } from './withStyleProps';
-export * from './prefix';
 
-export { default as prefix } from './prefix';
+export { default as prefix, defaultClassPrefix, getClassNamePrefix, globalKey } from './prefix';
 export { default as createChainedFunction } from './createChainedFunction';
 export { default as defaultProps } from './defaultProps';
 export { default as getUnhandledProps } from './getUnhandledProps';
