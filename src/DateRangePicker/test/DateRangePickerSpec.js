@@ -64,7 +64,7 @@ describe('DateRangePicker', () => {
   it('Should output custom value', () => {
     const instance = getDOMNode(
       <DateRangePicker
-        value={[parse(legacyParse('2019-04-01')), parse(legacyParse('2019-04-02'))]}
+        value={[legacyParse('2019-04-01'), legacyParse('2019-04-02')]}
         renderValue={value => {
           return `${format(legacyParse(value[0]), convertTokens('MM/DD/YYYY'))}~${format(
             legacyParse(value[1]),

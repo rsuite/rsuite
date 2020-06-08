@@ -22,7 +22,7 @@ describe('Calendar - Panel', () => {
   it('Should be rendered custom elements', () => {
     const instance = getDOMNode(
       <CalendarPanel
-        defaultValue={parse(legacyParse('2018-07-01'))}
+        defaultValue={legacyParse('2018-07-01')}
         renderCell={() => {
           return <i className="text">test</i>;
         }}
@@ -38,7 +38,7 @@ describe('Calendar - Panel', () => {
 
   it('Should output valid one day', () => {
     const instance = getDOMNode(
-      <CalendarPanel format="yyyy-MM-dd" defaultValue={parse(legacyParse('2018-07-01'))} />
+      <CalendarPanel format="yyyy-MM-dd" defaultValue={legacyParse('2018-07-01')} />
     );
     assert.equal(
       instance

@@ -1,10 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { parse } from 'date-fns';
 import { getDOMNode } from '@test/testUtils';
 import Calendar from '../Calendar';
-
-import { legacyParse } from '@date-fns/upgrade/v2';
 
 describe('Calendar', () => {
   it('Should render a div with `calendar` class', () => {
@@ -16,7 +13,7 @@ describe('Calendar', () => {
 
   it('Should output valid one day', () => {
     const instance = getDOMNode(
-      <Calendar format="yyyy-MM-dd" pageDate={parse(legacyParse('2018-07-01'))} />
+      <Calendar format="yyyy-MM-dd" defaultValue={new Date('2018-07-01')} />
     );
     assert.equal(
       instance

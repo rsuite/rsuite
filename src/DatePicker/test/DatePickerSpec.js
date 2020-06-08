@@ -45,14 +45,14 @@ describe('DatePicker', () => {
   });
 
   it('Should output a date', () => {
-    const instance = getDOMNode(<DatePicker defaultValue={parse(legacyParse('2017-08-14'))} />);
+    const instance = getDOMNode(<DatePicker defaultValue={legacyParse('2017-08-14')} />);
     assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, '2017-08-14');
   });
 
   it('Should output custom value', () => {
     const instance = getDOMNode(
       <DatePicker
-        value={parse(legacyParse('2017-08-14'))}
+        value={legacyParse('2017-08-14')}
         renderValue={value => {
           return format(legacyParse(value), convertTokens('MM/DD/YYYY'));
         }}
@@ -63,7 +63,7 @@ describe('DatePicker', () => {
   });
 
   it('Should output a date', () => {
-    const instance = getDOMNode(<DatePicker value={parse(legacyParse('2017-08-14'))} />);
+    const instance = getDOMNode(<DatePicker value={legacyParse('2017-08-14')} />);
     assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, '2017-08-14');
   });
 
@@ -224,7 +224,7 @@ describe('DatePicker', () => {
     };
 
     instance = getInstance(
-      <DatePicker value={parse(legacyParse('2018-01-05'))} onChange={doneOp} defaultOpen />
+      <DatePicker value={legacyParse('2018-01-05')} onChange={doneOp} defaultOpen />
     );
 
     const allCells = instance.menuContainerRef.current.querySelectorAll('.rs-calendar-table-cell');

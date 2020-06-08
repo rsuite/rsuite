@@ -1,7 +1,6 @@
 import * as React from 'react';
 import IntlContext from './IntlContext';
 import format from 'date-fns/format';
-import { legacyParse } from '@date-fns/upgrade/v2';
 
 interface FormattedDateProps {
   date: Date;
@@ -13,7 +12,8 @@ function FormattedDate({ date, formatStr }: FormattedDateProps) {
     <IntlContext.Consumer>
       {options => {
         const formatDate = options?.formatDate;
-        return formatDate ? formatDate(date, formatStr) : format(legacyParse(date), formatStr);
+        console.log('date: ', date, typeof date);
+        return formatDate ? formatDate(date, formatStr) : format(date, formatStr);
       }}
     </IntlContext.Consumer>
   );

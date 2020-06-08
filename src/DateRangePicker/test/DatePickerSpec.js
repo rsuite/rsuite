@@ -17,7 +17,7 @@ describe('DatePicker', () => {
   it('Should output a date', () => {
     const instance = getDOMNode(
       <DatePicker
-        calendarDate={[parse(legacyParse('2017-08')), parse(legacyParse('2017-09'))]}
+        calendarDate={[legacyParse('2017-08'), legacyParse('2017-09')]}
         index={0}
         onChangeCalendarDate={() => {}}
       />
@@ -28,7 +28,7 @@ describe('DatePicker', () => {
   it('Should call `onChangeCalendarDate` callback', done => {
     const instance = getDOMNode(
       <DatePicker
-        calendarDate={[parse(legacyParse('2017-08')), parse(legacyParse('2017-09'))]}
+        calendarDate={[legacyParse('2017-08'), legacyParse('2017-09')]}
         index={0}
         onChangeCalendarDate={() => {
           done();
@@ -42,7 +42,7 @@ describe('DatePicker', () => {
   it('Should call `onChangeCalendarDate` callback', done => {
     const instance = getDOMNode(
       <DatePicker
-        calendarDate={[parse(legacyParse('2017-08')), parse(legacyParse('2017-10'))]}
+        calendarDate={[legacyParse('2017-08'), legacyParse('2017-10')]}
         index={0}
         onChangeCalendarDate={() => {
           done();
@@ -55,7 +55,7 @@ describe('DatePicker', () => {
   it('Should call `onChangeCalendarDate` callback', done => {
     const instance = getDOMNode(
       <DatePicker
-        calendarDate={[parse(legacyParse('2017-08')), parse(legacyParse('2017-10'))]}
+        calendarDate={[legacyParse('2017-08'), legacyParse('2017-10')]}
         index={0}
         onChangeCalendarDate={() => {
           done();
@@ -71,7 +71,7 @@ describe('DatePicker', () => {
     const instance = getInstance(
       <DatePicker
         onChangeCalendarDate={() => {}}
-        calendarDate={[parse(legacyParse('2017-08')), parse(legacyParse('2017-10'))]}
+        calendarDate={[legacyParse('2017-08'), legacyParse('2017-10')]}
         index={0}
       />
     );
