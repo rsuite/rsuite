@@ -1,3 +1,11 @@
+# 4.7.3
+
+> June 8, 2020
+
+- **Bugfix**: fix TypeError Cannot redefine property: prefix. ([#1115])
+
+[#1115]: https://github.com/rsuite/rsuite/pull/1115
+
 # 4.7.2
 
 > June 4, 2020
