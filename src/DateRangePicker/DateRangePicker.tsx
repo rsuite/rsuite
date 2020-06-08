@@ -408,8 +408,12 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       nextValue[1] = date;
     } else if (hoverValue) {
       nextValue = [
-        isBefore(legacyParse(nextHoverValue[0]), legacyParse(hoverValue[0])) ? nextHoverValue[0] : hoverValue[0],
-        isAfter(legacyParse(nextHoverValue[1]), legacyParse(hoverValue[1])) ? nextHoverValue[1] : hoverValue[1],
+        isBefore(legacyParse(nextHoverValue[0]), legacyParse(hoverValue[0]))
+          ? nextHoverValue[0]
+          : hoverValue[0],
+        isAfter(legacyParse(nextHoverValue[1]), legacyParse(hoverValue[1]))
+          ? nextHoverValue[1]
+          : hoverValue[1],
         nextValue[2]
       ];
     }

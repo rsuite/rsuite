@@ -2,7 +2,9 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import TableRow from '../TableRow';
-import { getDate, format } from 'date-fns';
+
+import getDate from 'date-fns/getDate';
+import format from 'date-fns/format';
 
 import { legacyParse, convertTokens } from '@date-fns/upgrade/v2';
 

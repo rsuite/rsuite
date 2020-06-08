@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { parse, isSameDay, format } from 'date-fns';
+import parse from 'date-fns/parse';
+import isSameDay from 'date-fns/isSameDay';
+import format from 'date-fns/format';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
 import DatePicker from '../DatePicker';

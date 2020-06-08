@@ -1,6 +1,13 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { addDays, subDays, startOfWeek, isSameDay, endOfWeek, parse, format } from 'date-fns';
+
+import addDays from 'date-fns/addDays';
+import subDays from 'date-fns/subDays';
+import isSameDay from 'date-fns/isSameDay';
+import startOfWeek from 'date-fns/startOfWeek';
+import endOfWeek from 'date-fns/endOfWeek';
+import parse from 'date-fns/parse';
+import format from 'date-fns/format';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
 import DateRangePicker from '../DateRangePicker';

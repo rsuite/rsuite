@@ -5,7 +5,7 @@ import { getDOMNode } from '@test/testUtils';
 
 import Header from '../Header';
 
-import { legacyParse, convertTokens } from '@date-fns/upgrade/v2';
+import { legacyParse } from '@date-fns/upgrade/v2';
 
 describe('Calendar-Header', () => {
   it('Should render a div with "calendar-header" class', () => {
@@ -22,7 +22,7 @@ describe('Calendar-Header', () => {
 
     assert.equal(
       instanceDOM.querySelector('.rs-calendar-header-title-time').innerText,
-      format(legacyParse(new Date('2019-04-01 12:20:00')), convertTokens(formatType))
+      format(legacyParse(new Date('2019-04-01 12:20:00')), formatType)
     );
   });
 
@@ -33,7 +33,7 @@ describe('Calendar-Header', () => {
 
     assert.equal(
       instanceDOM.querySelector('.rs-calendar-header-title-date').innerText,
-      format(legacyParse(new Date()), convertTokens(formatType))
+      format(legacyParse(new Date()), formatType)
     );
   });
 
@@ -44,7 +44,7 @@ describe('Calendar-Header', () => {
 
     assert.equal(
       instanceDOM.querySelector('.rs-calendar-header-title-date').innerText,
-      format(legacyParse(new Date()), convertTokens(formatType))
+      format(legacyParse(new Date()), formatType)
     );
   });
 

@@ -140,6 +140,7 @@ class Calendar extends React.Component<CalendarProps> {
 
     const unhandled = getUnhandledProps(Calendar, rest);
     const timeDropdownProps = _.pick(rest, calendarOnlyProps);
+
     return (
       <div {...unhandled} className={calendarClasses} ref={calendarRef}>
         <Header

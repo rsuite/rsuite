@@ -13,7 +13,7 @@ import IntlContext from '../../IntlProvider/IntlContext';
 import { DATERANGE_DISABLED_TARGET } from '../../constants';
 import { formatNewDate } from '../../utils/formatUtils';
 
-import { legacyParse, convertTokens } from '@date-fns/upgrade/v2';
+import { legacyParse } from '@date-fns/upgrade/v2';
 
 export interface TableRowProps {
   weekendDate?: Date;
@@ -128,7 +128,7 @@ class TableRow extends React.Component<TableRowProps> {
 
       const title = formatDate
         ? formatDate(thisDate, formatStr)
-        : format(legacyParse(thisDate), convertTokens(formatStr));
+        : format(legacyParse(thisDate), formatStr);
 
       days.push(
         <div

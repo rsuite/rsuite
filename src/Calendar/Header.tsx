@@ -6,8 +6,6 @@ import IntlContext from '../IntlProvider/IntlContext';
 import FormattedDate from '../IntlProvider/FormattedDate';
 import { formatNewDate } from '../utils/formatUtils';
 
-import { convertTokens } from '@date-fns/upgrade/v2';
-
 export interface HeaderProps {
   date: Date;
   showMonth?: boolean;
@@ -88,7 +86,9 @@ class Header extends React.PureComponent<HeaderProps> {
 
     return 'yyyy';
   }
+
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
+
   renderTitle() {
     const { date, renderTitle } = this.props;
 
@@ -98,6 +98,7 @@ class Header extends React.PureComponent<HeaderProps> {
 
     return date && <FormattedDate date={date} formatStr={this.getDateFormat()} />;
   }
+
   render() {
     const {
       date,
