@@ -5,12 +5,6 @@ export interface TooltipProps extends StandardProps {
   /** Dispaly placement */
   placement?: TypeAttributes.Placement;
 
-  /** Value of positionLeft */
-  positionLeft?: number;
-
-  /** Value of positionTop */
-  positionTop?: number;
-
   /** Wheather visible */
   visible?: boolean;
 

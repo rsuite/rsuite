@@ -22,43 +22,55 @@ function clean(done) {
 }
 
 function buildLess() {
-  return THEMES.map(theme => () =>
-    gulp
-      .src(`${STYLE_SOURCE_DIR}/themes/${theme}/index.less`)
-      .pipe(sourcemaps.init())
-      .pipe(less({ javascriptEnabled: true }))
-      .pipe(postcss([require('autoprefixer')]))
-      .pipe(sourcemaps.write('./'))
-      .pipe(rename(`rsuite-${theme}.css`))
-      .pipe(gulp.dest(`${STYLE_DIST_DIR}`))
-  );
+  return THEMES.map(theme => {
+    const taskName = `buildLess:${theme}`;
+    gulp.task(taskName, () =>
+      gulp
+        .src(`${STYLE_SOURCE_DIR}/themes/${theme}/index.less`)
+        .pipe(sourcemaps.init())
+        .pipe(less({ javascriptEnabled: true }))
+        .pipe(postcss([require('autoprefixer')]))
+        .pipe(sourcemaps.write('./'))
+        .pipe(rename(`rsuite-${theme}.css`))
+        .pipe(gulp.dest(`${STYLE_DIST_DIR}`))
+    );
+    return taskName;
+  });
 }
 
 function buildCSS() {
-  return THEMES.map(theme => () =>
-    gulp
-      .src(`${STYLE_DIST_DIR}/rsuite-${theme}.css`)
-      .pipe(sourcemaps.init())
-      .pipe(postcss())
-      .pipe(rename({ suffix: '.min' }))
-      .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest(`${STYLE_DIST_DIR}`))
-  );
+  return THEMES.map(theme => {
+    const taskName = `buildCSS:${theme}`;
+    gulp.task(taskName, () =>
+      gulp
+        .src(`${STYLE_DIST_DIR}/rsuite-${theme}.css`)
+        .pipe(sourcemaps.init())
+        .pipe(postcss())
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest(`${STYLE_DIST_DIR}`))
+    );
+    return taskName;
+  });
 }
 
 function buildRTLCSS() {
-  return THEMES.map(theme => () =>
-    gulp
-      .src(`${STYLE_DIST_DIR}/rsuite-${theme}.css`)
-      .pipe(rtlcss()) // Convert to RTL.
-      .pipe(rename({ suffix: '-rtl' })) // Append "-rtl" to the filename.
-      .pipe(gulp.dest(`${STYLE_DIST_DIR}`))
-      .pipe(sourcemaps.init())
-      .pipe(postcss())
-      .pipe(rename({ suffix: '.min' }))
-      .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest(`${STYLE_DIST_DIR}`))
-  );
+  return THEMES.map(theme => {
+    const taskName = `buildRTLCSS:${theme}`;
+    gulp.task(taskName, () =>
+      gulp
+        .src(`${STYLE_DIST_DIR}/rsuite-${theme}.css`)
+        .pipe(rtlcss()) // Convert to RTL.
+        .pipe(rename({ suffix: '-rtl' })) // Append "-rtl" to the filename.
+        .pipe(gulp.dest(`${STYLE_DIST_DIR}`))
+        .pipe(sourcemaps.init())
+        .pipe(postcss())
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest(`${STYLE_DIST_DIR}`))
+    );
+    return taskName;
+  });
 }
 
 function buildLib() {

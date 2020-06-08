@@ -26,6 +26,43 @@ describe('Breadcrumb', () => {
     assert.include(classes, 'custom-two');
   });
 
+  it('Should automatically collapse if there are more than 5 items', () => {
+    const instance = getDOMNode(
+      <Breadcrumb>
+        <Breadcrumb.Item>1</Breadcrumb.Item>
+        <Breadcrumb.Item>2</Breadcrumb.Item>
+        <Breadcrumb.Item>3</Breadcrumb.Item>
+        <Breadcrumb.Item>4</Breadcrumb.Item>
+        <Breadcrumb.Item>5</Breadcrumb.Item>
+        <Breadcrumb.Item>6</Breadcrumb.Item>
+      </Breadcrumb>
+    );
+
+    assert.equal(instance.querySelectorAll('.rs-breadcrumb-item').length, 3);
+    assert.equal(instance.querySelectorAll('.rs-breadcrumb-item')[1].innerText, '...');
+  });
+
+  it('Should call onExpand callback', done => {
+    const instance = getDOMNode(
+      <Breadcrumb
+        onExpand={() => {
+          done();
+        }}
+      >
+        <Breadcrumb.Item>1</Breadcrumb.Item>
+        <Breadcrumb.Item>2</Breadcrumb.Item>
+        <Breadcrumb.Item>3</Breadcrumb.Item>
+        <Breadcrumb.Item>4</Breadcrumb.Item>
+        <Breadcrumb.Item>5</Breadcrumb.Item>
+        <Breadcrumb.Item>6</Breadcrumb.Item>
+      </Breadcrumb>
+    );
+
+    ReactTestUtils.Simulate.click(
+      instance.querySelectorAll('.rs-breadcrumb-item')[1].querySelector('a')
+    );
+  });
+
   it('Should have a navigation role', () => {
     const instance = getDOMNode(<Breadcrumb />);
 

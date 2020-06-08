@@ -51,7 +51,7 @@ Alert.error(content: string, duration?: number, onClose?: () => void);
 | ---------- | --------------- | ------------------------------------------------- |
 | content \* | string          | 信息内容                                          |
 | duration   | number `(2000)` | 显示的时长，超过时长后自定关闭提醒框（单位:毫秒） |
-| onClose    | ()=>void        | 隐藏提醒框后的回调函数                            |
+| onClose    | () => void      | 隐藏提醒框后的回调函数                            |
 
 ### `Alert.close`
 

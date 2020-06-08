@@ -37,7 +37,8 @@ export default {
     goHomePage: '返回首页',
     searchIcon: '搜索图标',
     copySucceed: '复制成功',
-    copyFailed: '复制失败，浏览器不支持此功能'
+    copyFailed: '复制失败，浏览器不支持此功能',
+    shareTwitter: '分享到 Twitter'
   },
   table: {
     'tab.resizable': '可调整列宽',
@@ -54,7 +55,9 @@ export default {
     'tab.summary': '汇总',
     'tab.fixed': '锁定列',
     'tab.auto-height': '自动高度',
-    'tab.affix-header': '固定表头在页首'
+    'tab.affix-header': '固定表头在页首',
+    'tab.affix-horizontal-scrollbar': '固定横向滚动条在页尾',
+    'tab.draggable': '可拖拽(与 react-dnd 组合)'
   },
   palette: {
     title: '分析产品商标颜色',

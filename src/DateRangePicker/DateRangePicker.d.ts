@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { PickerBaseProps, FormControlBaseProps } from '../@types/common';
 
-export type ValueType = [Date?, Date?];
-export enum TargetDisabledDate {
+export enum DATERANGE_DISABLED_TARGET {
   CALENDAR = 'CALENDAR',
   TOOLBAR_BUTTON_OK = 'TOOLBAR_BUTTON_OK',
   TOOLBAR_SHORTCUT = 'TOOLBAR_SHORTCUT'
 }
+
+export type ValueType = [Date?, Date?];
 
 export type DisabledDateFunction = (
   /** Date used to determine if disabling is required. */
@@ -19,7 +20,7 @@ export type DisabledDateFunction = (
    */
   selectedDone?: boolean,
   // Call the target of the `disabledDate` function
-  target?: TargetDisabledDate
+  target?: DATERANGE_DISABLED_TARGET
 ) => boolean;
 
 export interface RangeType {
@@ -61,7 +62,7 @@ export interface DateRangePickerProps extends PickerBaseProps, FormControlBasePr
     date: Date,
     selectDate: ValueType,
     selectedDone: boolean,
-    target: TargetDisabledDate
+    target: DATERANGE_DISABLED_TARGET
   ) => boolean;
 
   /** Called when the option is selected */

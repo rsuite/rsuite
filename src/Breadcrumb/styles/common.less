@@ -19,6 +19,23 @@
   &-item > a {
     cursor: pointer;
     transition: color 0.3s linear;
+    color: @link-color;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      color: @link-hover-color;
+      text-decoration: @link-hover-decoration;
+    }
+
+    &:active {
+      color: @link-active-color;
+      text-decoration: @link-active-decoration;
+    }
+
+    &:focus {
+      .tab-focus();
+    }
   }
 
   // Separator has gap with text

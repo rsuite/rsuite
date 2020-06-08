@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import setStatic from 'recompose/setStatic';
-import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
-
+import shallowEqual from '../utils/shallowEqual';
 import Input from '../Input';
 import AutoCompleteItem from './AutoCompleteItem';
 import { defaultProps, getUnhandledProps, prefix } from '../utils';
@@ -41,7 +40,14 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
     renderItem: PropTypes.func,
     style: PropTypes.object,
     open: PropTypes.bool,
-    selectOnEnter: PropTypes.bool
+    selectOnEnter: PropTypes.bool,
+    filterBy: PropTypes.func,
+    onEnter: PropTypes.func,
+    onEntering: PropTypes.func,
+    onEntered: PropTypes.func,
+    onExit: PropTypes.func,
+    onExiting: PropTypes.func,
+    onExited: PropTypes.func
   };
   static defaultProps = {
     data: [],
@@ -111,7 +117,13 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
   }
 
   shouldDisplay = (item: any) => {
+    const { filterBy } = this.props;
     const value = this.getValue();
+
+    if (typeof filterBy === 'function') {
+      return filterBy(value, item);
+    }
+
     if (!_.trim(value)) {
       return false;
     }

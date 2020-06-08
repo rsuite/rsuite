@@ -18,9 +18,3 @@ export function getCalendarDate(value: any = []): ValueType {
   }
   return [new Date(), addMonths(legacyParse(new Date()), 1)];
 }
-
-export enum TYPE {
-  CALENDAR = 'CALENDAR',
-  TOOLBAR_BUTTON_OK = 'TOOLBAR_BUTTON_OK',
-  TOOLBAR_SHORTCUT = 'TOOLBAR_SHORTCUT'
-}

@@ -41,6 +41,10 @@ export function mapCloneElement(children: React.ReactNode, func: Function, conte
   );
 }
 
+export function count(children: React.ReactChildren) {
+  return React.Children.count(Array.isArray(children) ? children.filter(child => child) : children);
+}
+
 function some(children: React.ReactNode, func: Function, context?: any) {
   let index = 0;
   let result = false;
@@ -64,6 +68,7 @@ function some(children: React.ReactNode, func: Function, context?: any) {
 
 export default {
   mapCloneElement,
+  count,
   some,
   map,
   find

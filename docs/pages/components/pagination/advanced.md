@@ -1,12 +1,12 @@
 ### 更多设置
 
 <!--start-code-->
-```js
 
-class PaginationAdvanced extends React.Component{
-  constructor(props){
+```js
+class PaginationAdvanced extends React.Component {
+  constructor(props) {
     super(props);
-    this.state={
+    this.state = {
       prev: true,
       next: true,
       first: true,
@@ -14,39 +14,40 @@ class PaginationAdvanced extends React.Component{
       ellipsis: true,
       boundaryLinks: true,
       activePage: 1
-    }
+    };
     this.handleSelect = this.handleSelect.bind(this);
   }
 
   handleSelect(eventKey) {
     this.setState({ activePage: eventKey });
   }
-  handleSetProp(key,value){
-    this.setState({[key]: value});
+  handleSetProp(key, value) {
+    this.setState({ [key]: value });
   }
-  renderToggle(type){
+  renderToggle(type) {
     return (
       <span>
         {type}：
         <Toggle
           checked={this.state[type]}
-          onChange={()=>{this.handleSetProp(type, !this.state[type])}}
+          onChange={() => {
+            this.handleSetProp(type, !this.state[type]);
+          }}
         />
       </span>
-    )
+    );
   }
 
   render() {
-
     return (
       <div>
-
         <div>
           {this.renderToggle('first')}
           {this.renderToggle('last')}
           {this.renderToggle('prev')}
           {this.renderToggle('next')}
-          <br /><br />
+          <br />
+          <br />
           {this.renderToggle('ellipsis')}
           {this.renderToggle('boundaryLinks')}
         </div>
@@ -62,10 +63,9 @@ class PaginationAdvanced extends React.Component{
       </div>
     );
   }
-
-
 }
 
 ReactDOM.render(<PaginationAdvanced />);
 ```
+
 <!--end-code-->

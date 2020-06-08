@@ -4,7 +4,13 @@ import classNames from 'classnames';
 import compose from 'recompose/compose';
 import _ from 'lodash';
 
-import { withStyleProps, defaultProps, createChainedFunction, getUnhandledProps } from '../utils';
+import {
+  withStyleProps,
+  defaultProps,
+  createChainedFunction,
+  getUnhandledProps,
+  refType
+} from '../utils';
 import { FormPlaintextContext } from '../Form/FormContext';
 import { FormGroupContext } from '../FormGroup/FormGroup';
 import { InputGroupContext } from '../InputGroup/InputGroup';
@@ -21,7 +27,7 @@ class Input extends React.Component<InputProps> {
     disabled: PropTypes.bool,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    inputRef: PropTypes.func,
+    inputRef: refType,
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,

@@ -63,7 +63,7 @@ export interface ModalProps extends StandardProps, AnimationEventProps {
   onShow?: () => void;
 
   /** Called when Modal is closed */
-  onHide?: (event: React.MouseEvent) => void;
+  onHide?: (event: React.SyntheticEvent) => void;
 }
 
 interface ModalComponent extends React.ComponentClass<ModalProps> {

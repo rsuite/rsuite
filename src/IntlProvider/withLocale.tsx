@@ -1,9 +1,10 @@
 import * as React from 'react';
 import _ from 'lodash';
 import { setDisplayName, wrapDisplayName } from 'recompose';
+import format from 'date-fns/format';
 import defaultLocale from './locales/default';
-import IntlContext from './IntlContext';
 import extendReactStatics from '../utils/extendReactStatics';
+import { IntlGlobalContext } from './IntlProvider';
 
 const mergeObject = (list: any[]) =>
   list.reduce((a, b) => {
@@ -12,17 +13,17 @@ const mergeObject = (list: any[]) =>
   }, {});
 
 function withLocale<T>(combineKeys: string[] = []) {
-  return (BaseComponent: React.ComponentClass<any>) => {
+  return (BaseComponent: React.ComponentType<any>) => {
     const WithLocale = React.forwardRef((props: T, ref) => {
       return (
-        <IntlContext.Consumer>
-          {value => {
+        <IntlGlobalContext.Consumer>
+          {options => {
             const locale = mergeObject(
-              combineKeys.map(key => _.get(value || defaultLocale, `${key}`))
+              combineKeys.map(key => _.get(options || defaultLocale, `${key}`))
             );
 
-            if (value && typeof value.rtl !== undefined) {
-              locale.rtl = value.rtl;
+            if (options && typeof options.rtl !== undefined) {
+              locale.rtl = options.rtl;
             } else if (
               typeof window !== 'undefined' &&
               (document.body.getAttribute('dir') || document.dir) === 'rtl'
@@ -30,13 +31,15 @@ function withLocale<T>(combineKeys: string[] = []) {
               locale.rtl = true;
             }
 
+            locale.formatDate = options?.formatDate || format;
+
             return React.createElement(BaseComponent, {
               ref,
               locale,
               ...props
             });
           }}
-        </IntlContext.Consumer>
+        </IntlGlobalContext.Consumer>
       );
     });
 

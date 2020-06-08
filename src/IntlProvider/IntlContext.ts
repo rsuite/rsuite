@@ -1,3 +1,3 @@
 import createContext from '../utils/createContext';
 
-export default createContext(null);
+export default createContext<any>(null);

@@ -8,11 +8,29 @@ The language in the React Suite component defaults to English. If you need to se
 import { IntlProvider } from 'rsuite';
 import zhCN from 'rsuite/lib/IntlProvider/locales/zh_CN';
 
-ReactDOM.render(
+return (
   <IntlProvider locale={zhCN}>
     <App />
-  </IntlProvider>,
-  document.getElementById('root')
+  </IntlProvider>
+);
+```
+
+## Format date
+
+```jsx
+import { IntlProvider } from 'rsuite';
+import ruRU from 'rsuite/lib/IntlProvider/locales/ru_RU';
+import format from 'date-fns/format';
+import ru from 'date-fns/locale/ru';
+
+function formatDate(data, formatStr) {
+  return format(data, formatStr, { locale: ru });
+}
+
+return (
+  <IntlProvider locale={ruRU} formatDate={formatDate}>
+    <App />
+  </IntlProvider>
 );
 ```
 
@@ -24,7 +42,10 @@ ReactDOM.render(
 | da_DK         | Danish              |
 | en_GB         | English             |
 | en_US         | American English    |
+| es_AR         | Spanish (Argentina) |
+| es_ES         | Spanish (Spain)     |
 | fi_FI         | Finnish             |
+| it_IT         | Italian             |
 | ko_KR         | Korean              |
 | pt_BR         | Portuguese (Brazil) |
 | ru_RU         | Russian             |
@@ -40,17 +61,26 @@ You can refer to the configuration in the [default language](https://github.com/
 
 ```jsx
 import { IntlProvider } from 'react-intl';
-import { IntlProvider as RSIntlProvider } from 'rsuite';
+import LocaleProvider from 'rsuite/lib/IntlProvider';
 import zhCN from 'rsuite/lib/IntlProvider/locales/zh_CN';
 
-ReactDOM.render(
+return (
   <IntlProvider locale="zh">
-    <RSIntlProvider locale={zhCN}>
+    <LocaleProvider locale={zhCN}>
       <App />
-    </RSIntlProvider>
-  </IntlProvider>,
-  document.getElementById('root')
+    </LocaleProvider>
+  </IntlProvider>
 );
 ```
 
 More Configuration references: [react-intl](https://github.com/yahoo/react-intl)
+
+## Props
+
+### `<IntlProvider>`
+
+| Property   | Type`(Default)`                                                       | Description                                    |
+| ---------- | --------------------------------------------------------------------- | ---------------------------------------------- |
+| formatDate | (date: Date ,format?: string, options?: {locale?: object;}) => string | Format date                                    |
+| locale     | object`(rsuite/lib/IntlProvider/locales/en_GB)`                       | Configure Language Pack                        |
+| rtl        | boolean                                                               | Text and other elements go from left to right. |

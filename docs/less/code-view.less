@@ -7,13 +7,22 @@
   pre {
     margin: 0;
   }
+  code {
+    padding: 0 !important;
+    margin: 0 !important;
+    color: @text-color !important;
+  }
 }
 
 code:not(.doc-highlight) {
-  font-size: 87.5%;
+  border-radius: 2px;
+  color: #e96900;
+  font-size: 0.8rem;
+  margin: 0 2px;
+  padding: 3px 5px;
+  white-space: pre-wrap;
   background-color: @doc-highlight-bg;
-  border-radius: 3px;
-  white-space: pre;
+  font-family: Roboto Mono, Monaco, courier, monospace;
 }
 
 a code {
@@ -36,7 +45,6 @@ a code {
 .code-view > div > .tree-view {
   border: 1px solid #eee;
 }
-
 
 .code-view .field p {
   line-height: 32px;

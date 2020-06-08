@@ -19,13 +19,11 @@ import { Tooltip, Whisper } from 'rsuite';
 
 ### `<Tooltip>`
 
-| 属性名称        | 类型 `(默认值)`      | 描述                       |
-| --------------- | -------------------- | -------------------------- |
-| arrowOffsetLeft | number or string     | 箭头相对 `left` 位置偏移量 |
-| arrowOffsetTop  | number or string     | 箭头相对 `top` 位置偏移量  |
-| classPrefix     | string `('tooltip')` | 组件 CSS 类的前缀          |
-| positionLeft    | number               | 相对 `left` 位置偏移量     |
-| positionTop     | number               | 相对 `top` 位置偏移量      |
+| 属性名称    | 类型 `(默认值)`      | 描述              |
+| ----------- | -------------------- | ----------------- |
+| children \* | React.Node           | 组件的内容        |
+| classPrefix | string `('tooltip')` | 组件 CSS 类的前缀 |
+| visible     | boolean              | 组件默认可见的    |
 
 ### `<Whisper>`
 
@@ -37,6 +35,12 @@ import { Tooltip, Whisper } from 'rsuite';
 | delayShow       | number                                                           | 展示的延迟时间                  |     |
 | onBlur          | () => void                                                       | 失去焦点回调函数                |     |
 | onClick         | () => void                                                       | 点击的回调函数                  |     |
+| onEnter         | () => void                                                       | 显示前动画过渡的回调函数        |
+| onEntered       | () => void                                                       | 显示后动画过渡的回调函数        |
+| onEntering      | () => void                                                       | 显示中动画过渡的回调函数        |
+| onExit          | () => void                                                       | 退出前动画过渡的回调函数        |
+| onExited        | () => void                                                       | 退出后动画过渡的回调函数        |
+| onExiting       | () => void                                                       | 退出中动画过渡的回调函数        |
 | onFocus         | () => void                                                       | 获取焦点的回调函数              |     |
 | onMouseOut      | () => void                                                       | 鼠标离开的回调函数              |     |
 | placement       | enum: [PlacementAll](#types) `('right')`                         | 显示位置                        |     |

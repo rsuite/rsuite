@@ -118,6 +118,7 @@
   display: inline-block;
   // Change static to relative, Make `z-index` more than Tail line
   position: relative;
+  width: 100%;
 
   .@{ns}steps-item-status-process & {
     color: @steps-content-process-color;
@@ -130,10 +131,16 @@
 
 // Item title
 .@{ns}steps-item-title {
+  position: relative;
   font-size: @steps-title-font-size;
   line-height: @steps-title-line-height;
+  min-height: @steps-title-font-size;
   padding-right: @steps-icon-spacing;
   display: inline-block;
+
+  &:empty {
+    padding-right: 0;
+  }
 }
 
 // Item description
@@ -142,7 +149,7 @@
 }
 
 .@{ns}steps-item-tail,
-.@{ns}steps-item-content::after {
+.@{ns}steps-item-title::after {
   position: absolute;
   border-color: @steps-tail-default-color;
 
@@ -175,7 +182,7 @@
       flex-shrink: 0;
 
       // The last item hidden tail line
-      .@{ns}steps-item-content::after {
+      .@{ns}steps-item-title::after {
         display: none;
       }
     }
@@ -192,7 +199,9 @@
 
   .@{ns}steps-item-content {
     height: @steps-title-font-size * @steps-title-line-height;
+  }
 
+  .@{ns}steps-item-title {
     &::after {
       content: '';
       top: @steps-icon-diameter / 2;
@@ -245,7 +254,7 @@
     left: @small-steps-icon-diameter / 2;
   }
 
-  &.@{ns}steps-horizontal .@{ns}steps-item-content::after {
+  &.@{ns}steps-horizontal .@{ns}steps-item-title::after {
     top: 12px;
   }
 

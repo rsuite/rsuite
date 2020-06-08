@@ -16,9 +16,10 @@ import { Affix } from 'rsuite';
 
 ### `<Affix>`
 
-| Property    | Type`(Default)`         | Description                                               |
-| ----------- | ----------------------- | --------------------------------------------------------- |
-| children    | string, React.ReactNode | Fixed element.                                            |
-| classPrefix | string `('affix')`      | The prefix of the component CSS class.                    |
-| onChange    | (fixed:boolean)=>voide  | Callback function when non-fixed and fixed state changes. |
-| top         | numbser (0)             | Set the fixed top height.                                 |
+| Property    | Type`(Default)`                   | Description                                                                                     |
+| ----------- | --------------------------------- | ----------------------------------------------------------------------------------------------- |
+| children    | string, React.ReactNode           | Fixed element.                                                                                  |
+| classPrefix | string `('affix')`                | The prefix of the component CSS class.                                                          |
+| container   | HTMLElement , (() => HTMLElement) | Specify the container. An element can only be fixed when the container is in the visible range. |
+| onChange    | (fixed:boolean) => voide          | Callback function when non-fixed and fixed state changes.                                       |
+| top         | numbser (0)                       | Set the fixed top height.                                                                       |

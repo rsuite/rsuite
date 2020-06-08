@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "4.3.3",
+  "version": "4.7.3",
   "description": "A suite of react components",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -10,6 +10,7 @@
   },
   "scripts": {
     "format": "prettier --write \"{src,test}/**/*.{tsx,ts,js}\"",
+    "format:style": "stylelint \"src/**/*.less\" --fix",
     "format:check": "prettier --list-different \"{src,test}/**/*.{tsx,ts,js}\"",
     "dist": "npm run dist:dev && npm run dist:pro",
     "dist:style": "gulp buildStyle",
@@ -19,7 +20,7 @@
     "build:gulp": "gulp build",
     "dev": "cross-env NODE_ENV=development gulp dev",
     "lint": "npm run lint:ts && npm run lint:style",
-    "lint:style": "stylelint  \"styles/**/*.less\"",
+    "lint:style": "stylelint  \"src/**/*.less\"",
     "lint:ts": "eslint src/**/*.{ts,tsx}",
     "lint:js": "eslint src/**/*.js",
     "tdd": "cross-env RUN_ENV=test karma start",
@@ -62,9 +63,8 @@
     "react-lifecycles-compat": "^3.0.4",
     "react-virtualized": "^9.21.0",
     "recompose": "^0.30.0",
-    "rsuite-table": "^3.9.5",
-    "rsuite-utils": "^2.2.1",
-    "schema-typed": "^1.4.0"
+    "rsuite-table": "^3.13.1",
+    "schema-typed": "^1.5.1"
   },
   "peerDependencies": {
     "react": ">=16.6.0",
@@ -85,11 +85,14 @@
     "@babel/preset-react": "^7.7.0",
     "@babel/preset-typescript": "^7.7.2",
     "@babel/runtime-corejs2": "^7.8.4",
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
     "@types/classnames": "^2.2.8",
     "@types/lodash": "^4.14.134",
     "@types/prop-types": "^15.7.1",
-    "@types/react": "^16.9.21",
-    "@types/react-dom": "^16.9.5",
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
+    "@types/react-virtualized": "^9.21.8",
     "@types/recompose": "^0.30.6",
     "@typescript-eslint/eslint-plugin": "^2.11.0",
     "@typescript-eslint/parser": "^2.11.0",
@@ -125,6 +128,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-rtlcss": "^1.4.0",
     "gulp-sourcemaps": "^2.6.4",
+    "husky": "^4.2.5",
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",
     "karma-cli": "^1.0.1",
@@ -165,5 +169,10 @@
     "dist/*",
     "*.less",
     "*.css"
-  ]
+  ],
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  }
 }

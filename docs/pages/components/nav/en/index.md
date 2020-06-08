@@ -45,4 +45,4 @@ import { Nav, Dropdown } from 'rsuite';
 | href           | string                                                     | Link                                                  |
 | icon           | React.Element&lt;typeof Icon&gt;                           | Sets the icon for the component                       |
 | onSelect       | (eventKey: any, event: SyntheticEvent&lt;any&gt;) => void, | Select the callback function that the event triggers. |
-| renderItem     | (item:React.Node)=>React.Node                              | Custom rendering item                                 |
+| renderItem     | (item:React.Node) => React.Node                            | Custom rendering item                                 |

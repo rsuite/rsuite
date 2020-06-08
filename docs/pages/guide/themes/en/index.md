@@ -20,6 +20,8 @@ React Suite offers Light and Dark 2 sets of themes that you can use depending on
 // @import '~rsuite/dist/styles/rsuite-dark.css'
 ```
 
+> Design standards that can be referenced in custom themes: [Light theme](/design/default/), [Dark theme](/design/dark/).
+
 ## For customization
 
 The React Suite style uses [Less][less] as the development language and defines a series of variables that can be customized using [Modify Variables][modify variables]. This includes but is not limited to customizing theme colors, resizing component fillet radii, modifying font styles, replacing auxiliary colors, and so on. The code in the following example is a new action in `custom-theme.less`.
@@ -54,9 +56,8 @@ Now go to the [palette](/tools/palette) to select the appropriate color or uploa
 ### Modify the font style.
 
 ```less
-@font-family-base: 'Lucida Grande', 'Avenir Next', 'Helvetica Neue', Helvetica,
-  Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', STXihei,
-  sans-serif;
+@font-family-base: 'Lucida Grande', 'Avenir Next', 'Helvetica Neue', Helvetica, Arial,
+  'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', STXihei, sans-serif;
 @font-size-base: 14px;
 ```
 
@@ -84,6 +85,18 @@ Information, successes, warnings, errors, respectively, the corresponding color,
 @button-ripple: false;
 ```
 
+### Disable IE polyfill
+
+```less
+@ie-polyfill: false;
+```
+
+### Disable HTML styles reset
+
+```less
+@reset-import: false;
+```
+
 ### More Custom Configurations
 
 We provide a rich [variable][variables.less], if still unable to meet your customized needs, welcome to our [issue][issue].
@@ -104,10 +117,7 @@ module.exports = {
       {
         test: /\.less$/,
         loader: extractLess.extract({
-          use: [
-            { loader: 'css-loader' },
-            { loader: 'less-loader?javascriptEnabled=true' }
-          ]
+          use: [{ loader: 'css-loader' }, { loader: 'less-loader?javascriptEnabled=true' }]
         })
       }
     ]

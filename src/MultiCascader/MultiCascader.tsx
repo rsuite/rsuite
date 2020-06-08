@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { shallowEqualArray } from 'rsuite-utils/lib/utils';
+import shallowEqualArray from '../utils/shallowEqualArray';
 import { polyfill } from 'react-lifecycles-compat';
 
 import DropdownMenu, { dropdownMenuPropTypes } from './DropdownMenu';
@@ -561,7 +561,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
           ref={this.triggerRef}
           positionRef={this.positionRef}
           onEnter={createChainedFunction(this.handleEntered, onEnter)}
-          onExit={createChainedFunction(this.handleExit, onExited)}
+          onExited={createChainedFunction(this.handleExit, onExited)}
           speaker={this.renderDropdownMenu()}
         >
           <PickerToggle

@@ -75,7 +75,7 @@ TreePicker 组件与 CheckTreePicker 组件废弃了 expandAll 属性，同时�
 ## 5.CheckTreePicker onSelect 方法参数变更
 
 ```diff
-- onSelect (activeNode:DataItemType, layer:number, values:string[])=>void
+- onSelect (activeNode:DataItemType, layer:number, values:string[]) => void
 + onSelect (activeNode: any, value: any, event: React.SyntheticEvent<any>) => void;
 ```
 

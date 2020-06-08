@@ -1,15 +1,15 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
 import classNames from 'classnames';
 
 import Calendar from './Calendar';
 import Button from '../Button';
-import IntlProvider from '../IntlProvider';
+import IntlContext from '../IntlProvider/IntlContext';
+import FormattedDate from '../IntlProvider/FormattedDate';
 import { defaultProps, prefix } from '../utils';
 import { CalendarPanelProps } from './CalendarPanel.d';
 
-import { legacyParse, convertTokens } from '@date-fns/upgrade/v2';
+import { convertTokens } from '@date-fns/upgrade/v2';
 
 interface State {
   value?: Date;
@@ -116,7 +116,7 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
     });
 
     return (
-      <IntlProvider locale={locale}>
+      <IntlContext.Provider value={locale}>
         <Calendar
           className={classes}
           isoWeek={isoWeek}
@@ -124,9 +124,8 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
           format="YYYY-MM-DD"
           calendarState={showMonth ? 'DROP_MONTH' : null}
           pageDate={value}
-          renderTitle={date => format(
-            legacyParse(date),
-            convertTokens(locale.formattedMonthPattern || 'MMMM  YYYY')
+          renderTitle={date => (
+            <FormattedDate date={date} formatStr={convertTokens(locale.formattedMonthPattern || 'MMMM  YYYY')} />
           )}
           renderToolbar={this.renderToolbar}
           renderCell={renderCell}
@@ -137,7 +136,7 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
           limitEndYear={1000}
           {...rest}
         />
-      </IntlProvider>
+      </IntlContext.Provider>
     );
   }
 }

@@ -1,3 +1,5 @@
+import React from 'react';
+
 export interface StandardProps {
   /** The prefix of the component CSS class */
   classPrefix?: string;
@@ -32,6 +34,9 @@ export interface AnimationEventProps {
 }
 
 export interface PickerBaseProps extends StandardProps, AnimationEventProps {
+  /** locale */
+  locale?: any;
+
   /** A picker can have different appearances. */
   appearance?: 'default' | 'subtle';
 
@@ -57,7 +62,7 @@ export interface PickerBaseProps extends StandardProps, AnimationEventProps {
   menuStyle?: object;
 
   /** Placeholder text */
-  placeholder?: string;
+  placeholder?: React.ReactNode;
 
   /** The placement of picker */
   placement?: TypeAttributes.Placement;
@@ -73,6 +78,9 @@ export interface PickerBaseProps extends StandardProps, AnimationEventProps {
 
   /** A picker that can clear values */
   cleanable?: boolean;
+
+  /** Picker menu auto width */
+  menuAutoWidth?: boolean;
 
   /** Called when Modal is displayed */
   onOpen?: () => void;
@@ -95,6 +103,8 @@ export interface FormControlBaseProps<ValueType = any> {
   onChange?: (value: ValueType, event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
+type ToArray<V> = V extends any[] ? V : V[];
+
 export interface FormControlPickerProps<ValueType = any, DataType = Record<string, any>>
   extends PickerBaseProps {
   /** The data of component */
@@ -110,7 +120,7 @@ export interface FormControlPickerProps<ValueType = any, DataType = Record<strin
   childrenKey?: keyof DataType;
 
   /** Disabled items */
-  disabledItemValues?: ValueType[];
+  disabledItemValues?: ToArray<ValueType>;
 
   /** Initial value */
   defaultValue?: ValueType;
@@ -139,8 +149,10 @@ export declare namespace TypeAttributes {
     | 'rightEnd';
   type PlacementAuto =
     | 'auto'
+    | 'autoVertical'
     | 'autoVerticalStart'
     | 'autoVerticalEnd'
+    | 'autoHorizontal'
     | 'autoHorizontalStart'
     | 'autoHorizontalEnd';
 

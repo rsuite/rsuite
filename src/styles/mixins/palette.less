@@ -12,16 +12,16 @@
     var BRIGHTNESS_MAX = 100;
 
     var COLOR_NUMBER_SET = [
-      '50',
-      '100',
-      '200',
-      '300',
-      '400',
-      '500',
-      '600',
-      '700',
-      '800',
-      '900'
+    '50',
+    '100',
+    '200',
+    '300',
+    '400',
+    '500',
+    '600',
+    '700',
+    '800',
+    '900'
     ];
 
     function calculateHue(originalHue, index) {
@@ -42,15 +42,15 @@
       const step = index - PRIMARY_INDEX;
       const gap = Math.round(
         (step > 0 && (100 - originalSaturation) / 4) ||
-          (originalSaturation > SATURATION_MIN && (originalSaturation - 5) / 5) ||
-          1
+        (originalSaturation > SATURATION_MIN && (originalSaturation - 5) / 5) ||
+        1
       );
       const saturation = originalSaturation + step * gap;
       return (
         // The value range of saturation is [5,100]
         ((saturation < SATURATION_MIN && SATURATION_MIN) ||
-          (saturation > SATURATION_MAX && SATURATION_MAX) ||
-          saturation) / 100
+        (saturation > SATURATION_MAX && SATURATION_MAX) ||
+        saturation) / 100
       );
     }
 
@@ -86,8 +86,8 @@
       return (
         // The range of brightness is [20,100]
         ((brightness < BRIGHTNESS_MIN && BRIGHTNESS_MIN) ||
-          (brightness > BRIGHTNESS_MAX && BRIGHTNESS_MAX) ||
-          brightness) / 100
+        (brightness > BRIGHTNESS_MAX && BRIGHTNESS_MAX) ||
+        brightness) / 100
       );
     }
     /**

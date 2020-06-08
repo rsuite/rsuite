@@ -138,13 +138,12 @@ class InputNumber extends React.Component<InputNumberProps, InputNumberState> {
     return value.toString();
   }
 
-  handleOnChange = (value: any, event: React.SyntheticEvent<any>) => {
+  handleChange = (value: any, event: React.SyntheticEvent<any>) => {
     if (!/^-?(?:\d+)?(\.)?(\d+)*$/.test(value) && value !== '') {
       return;
     }
-    const isUnControl = _.isUndefined(this.props.value);
 
-    this.handleValue(value, event, isUnControl);
+    this.handleValue(value, event);
   };
 
   handleBlur = (event: React.SyntheticEvent<any>) => {
@@ -184,7 +183,7 @@ class InputNumber extends React.Component<InputNumberProps, InputNumberState> {
 
     this.handleValue(this.getSafeValue(nextValue), event);
   };
-  handleValue(currentValue: number | string, event?: React.SyntheticEvent<any>, input?: boolean) {
+  handleValue(currentValue: number | string, event?: React.SyntheticEvent<any>) {
     const { value } = this.state;
     const { onChange, min, max } = this.props;
 
@@ -194,9 +193,7 @@ class InputNumber extends React.Component<InputNumberProps, InputNumberState> {
         value: currentValue
       });
 
-      if (!input) {
-        onChange?.(currentValue, event);
-      }
+      onChange?.(currentValue, event);
     }
   }
 
@@ -229,7 +226,7 @@ class InputNumber extends React.Component<InputNumberProps, InputNumberState> {
           autoComplete="off"
           step={step}
           inputRef={this.bindInputRef}
-          onChange={this.handleOnChange}
+          onChange={this.handleChange}
           onBlur={createChainedFunction(this.handleBlur, _.get(htmlInputProps, 'onBlur'))}
           value={_.isNil(value) ? '' : `${value}`}
           disabled={disabled}

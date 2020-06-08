@@ -6,9 +6,13 @@ const RTLCSSPlugin = require('./scripts/RTLCSSPlugin');
 const { resolve } = require('path');
 
 const resolveDirName = path => resolve(__dirname, path);
+const filterEmpty = array => Array.from(array).filter(Boolean);
 
 const PORT = process.env.PORT || 3001;
 const __PRO__ = process.env.NODE_ENV === 'production';
+const __DEV_STYLES__ = process.env.STYLE_DEBUG === 'STYLE';
+const __DEV__ = !__PRO__;
+const sourceMap = __DEV__;
 const CSS_PATH = 'css';
 
 const themesConfig = multipleThemesCompile({
@@ -16,18 +20,43 @@ const themesConfig = multipleThemesCompile({
     default: {},
     dark: {}
   },
-  styleLoaders: [
-    { loader: 'css-loader' },
+  styleLoaders: filterEmpty([
+    { loader: 'css-loader', options: { sourceMap } },
+    __DEV__ && {
+      loader: 'postcss-loader',
+      options: {
+        sourceMap,
+        plugins: [
+          ...(__DEV_STYLES__
+            ? [
+                require('autoprefixer'),
+                require('cssnano')({
+                  preset: [
+                    'default',
+                    {
+                      discardComnments: {
+                        removeAll: false
+                      }
+                    }
+                  ]
+                })
+              ]
+            : []),
+          require('postcss-rtl')({})
+        ]
+      }
+    },
     {
       loader: 'less-loader',
       options: {
+        sourceMap,
         javascriptEnabled: true,
         globalVars: {
           rootPath: __PRO__ ? '~rsuite/' : '../../../'
         }
       }
     }
-  ],
+  ]),
   lessContent: themeName => `// Generate by Script.
 @import '../index.less';
 @import '../themes/${themeName}.less';
@@ -40,6 +69,8 @@ const themesConfig = multipleThemesCompile({
 
 module.exports = merge(
   {
+    // https://webpack.js.org/configuration/devtool/#devtool
+    devtool: sourceMap && 'source-map',
     devServer: {
       contentBase: resolveDirName('public'),
       disableHostCheck: true,
@@ -53,15 +84,16 @@ module.exports = merge(
       filename: 'css/theme-[name].js',
       publicPath: '/'
     },
-    plugins: [
+    plugins: filterEmpty([
       new CleanWebpackPlugin({
         cleanOnceBeforeBuildPatterns: [resolveDirName('public/css/theme-*.css')],
         cleanAfterEveryBuildPatterns: [resolveDirName('public/css/*.js')]
       }),
-      new RTLCSSPlugin({
-        path: CSS_PATH
-      })
-    ]
+      __PRO__ &&
+        new RTLCSSPlugin({
+          path: CSS_PATH
+        })
+    ])
   },
   themesConfig,
   __PRO__

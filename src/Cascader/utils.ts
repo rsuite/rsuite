@@ -1,4 +1,4 @@
-import { shallowEqual } from 'rsuite-utils/lib/utils';
+import shallowEqual from '../utils/shallowEqual';
 import stringToObject from '../utils/stringToObject';
 import { CascaderProps } from './Cascader.d';
 

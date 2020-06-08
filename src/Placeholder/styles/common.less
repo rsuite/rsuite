@@ -8,7 +8,20 @@
   display: flex;
 
   &-active {
-    animation: placeholder-active 2s ease-in-out infinite;
+    &.@{ns}placeholder-graph,
+    .@{ns}placeholder-paragraph-graph-image,
+    .@{ns}placeholder-grid-col > p,
+      //noinspection Stylelint
+    .@{ns}placeholder-paragraph-rows > p {
+      background: linear-gradient(
+        -45deg,
+        @placeholder-holder-bg 25%,
+        @placeholder-holder-bg-active 37%,
+        @placeholder-holder-bg 63%
+      );
+      background-size: 400% 100% !important;
+      animation: placeholder-active 3s ease infinite;
+    }
   }
 
   &-paragraph {
@@ -32,6 +45,7 @@
         height: 60px;
         position: relative;
         overflow: hidden;
+
         &::after {
           content: '';
           width: 0;

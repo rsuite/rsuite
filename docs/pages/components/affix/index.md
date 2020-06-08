@@ -16,9 +16,10 @@ import { Affix } from 'rsuite';
 
 ### `<Affix>`
 
-| 属性名称    | 类型`(默认值)`          | 描述                                     |
-| ----------- | ----------------------- | ---------------------------------------- |
-| classPrefix | string `('affix')`      | 组件 CSS 类的前缀                        |
-| children    | string, React.ReactNode | 需要固定位置的元素                       |
-| top         | numbser (0)             | 设置固定高度                             |
-| onChange    | (fixed:boolean)=>voide  | 当非固定与固定状态发生改变时候的回调函数 |
+| 属性名称    | 类型`(默认值)`                    | 描述                                     |
+| ----------- | --------------------------------- | ---------------------------------------- |
+| children    | string, React.ReactNode           | 需要固定位置的元素                       |
+| classPrefix | string `('affix')`                | 组件 CSS 类的前缀                        |
+| container   | HTMLElement , (() => HTMLElement) | 指定容器, 容器在可视范围内才固定元素     |
+| onChange    | (fixed:boolean) => voide          | 当非固定与固定状态发生改变时候的回调函数 |
+| top         | numbser (0)                       | 设置固定高度                             |

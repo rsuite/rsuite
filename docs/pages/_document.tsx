@@ -8,9 +8,7 @@ interface DocumentProps {
 class MyDocument extends Document<DocumentProps> {
   static async getInitialProps(ctx) {
     const initialProps = await Document.getInitialProps(ctx);
-    const userLanguage = ctx.query.userLanguage;
-
-    return { userLanguage, ...initialProps };
+    return { ...initialProps, userLanguage: ctx.query.userLanguage || 'zh' };
   }
 
   render() {
@@ -41,7 +39,7 @@ class MyDocument extends Document<DocumentProps> {
             dangerouslySetInnerHTML={{
               __html: `
               ((window.gitter = {}).chat = {}).options = {
-                room: 'rsuite/rsuite'
+                room: 'rsuite/${userLanguage === 'zh' ? 'rsuite-CN' : 'rsuite'}'
               };
               `
             }}

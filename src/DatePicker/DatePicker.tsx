@@ -3,16 +3,18 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { polyfill } from 'react-lifecycles-compat';
-import { format } from 'date-fns';
-import getMinutes from 'date-fns/getMinutes';
-import getHours from 'date-fns/getHours';
-import isSameDay from 'date-fns/isSameDay';
-import getSeconds from 'date-fns/getSeconds';
-import setHours from 'date-fns/setHours';
-import setMinutes from 'date-fns/setMinutes';
-import setSeconds from 'date-fns/setSeconds';
+import {
+  getMinutes,
+  getHours,
+  isSameDay,
+  getSeconds,
+  setHours,
+  setMinutes,
+  setSeconds
+} from 'date-fns';
 
-import IntlProvider from '../IntlProvider';
+import IntlContext from '../IntlProvider/IntlContext';
+import FormattedDate from '../IntlProvider/FormattedDate';
 import Calendar from '../Calendar/Calendar';
 import Toolbar from './Toolbar';
 
@@ -69,6 +71,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     oneTap: PropTypes.bool,
     preventOverflow: PropTypes.bool,
     showWeekNumbers: PropTypes.bool,
+    showMeridian: PropTypes.bool,
     disabledDate: PropTypes.func,
     disabledHours: PropTypes.func,
     disabledMinutes: PropTypes.func,
@@ -186,9 +189,11 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     const value = this.getValue();
 
     if (value) {
-      return renderValue
-        ? renderValue(value, formatType)
-        : format(legacyParse(value), replaceFormat);
+      return renderValue ? (
+        renderValue(value, formatType)
+      ) : (
+        <FormattedDate date={value} formatStr={replaceFormat} />
+      );
     }
 
     return placeholder || formatType;
@@ -205,10 +210,15 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   };
 
   handleChangePageTime = (nextPageTime: Date) => {
-    this.setState({
-      pageDate: nextPageTime
-    });
+    this.setState({ pageDate: nextPageTime });
     this.handleAllSelect(nextPageTime);
+  };
+  handleToggleMeridian = () => {
+    const { pageDate } = this.state;
+    const hours = getHours(pageDate);
+    const nextHours = hours >= 12 ? hours - 12 : hours + 12;
+    const nextDate = setHours(pageDate, nextHours);
+    this.setState({ pageDate: nextDate });
   };
 
   handleShortcutPageDate = (
@@ -364,7 +374,14 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderCalendar() {
-    const { format, isoWeek, limitEndYear, disabledDate, showWeekNumbers } = this.props;
+    const {
+      format,
+      isoWeek,
+      limitEndYear,
+      disabledDate,
+      showWeekNumbers,
+      showMeridian
+    } = this.props;
     const { calendarState, pageDate } = this.state;
     const calendarProps = _.pick(this.props, calendarOnlyProps);
 
@@ -372,6 +389,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
       <Calendar
         {...calendarProps}
         showWeekNumbers={showWeekNumbers}
+        showMeridian={showMeridian}
         disabledDate={disabledDate}
         limitEndYear={limitEndYear}
         format={format}
@@ -385,6 +403,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
         onToggleTimeDropdown={this.toggleTimeDropdown}
         onChangePageDate={this.handleChangePageDate}
         onChangePageTime={this.handleChangePageTime}
+        onToggleMeridian={this.handleToggleMeridian}
       />
     );
   }
@@ -433,11 +452,11 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
 
     if (inline) {
       return (
-        <IntlProvider locale={locale}>
+        <IntlContext.Provider value={locale}>
           <div className={classNames(classPrefix, this.addPrefix('date-inline'), className)}>
             {calendar}
           </div>
-        </IntlProvider>
+        </IntlContext.Provider>
       );
     }
 
@@ -446,13 +465,13 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     });
 
     return (
-      <IntlProvider locale={locale}>
+      <IntlContext.Provider value={locale}>
         <div className={classes} style={style}>
           <PickerToggleTrigger
             pickerProps={this.props}
             ref={this.triggerRef}
             onEntered={createChainedFunction(this.handleEntered, onEntered)}
-            onExit={createChainedFunction(this.handleExit, onExited)}
+            onExited={createChainedFunction(this.handleExit, onExited)}
             speaker={this.renderDropdownMenu(calendar)}
           >
             <PickerToggle
@@ -467,7 +486,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
             </PickerToggle>
           </PickerToggleTrigger>
         </div>
-      </IntlProvider>
+      </IntlContext.Provider>
     );
   }
 }

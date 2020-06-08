@@ -1,26 +1,32 @@
 ### 外观
 
 `appearance` 属性设置导航栏外观:
+
 - 'default'(默认值) 默认导航栏。
-- 'inverse'  反色的导航栏。
-- 'subtle'  弱化的导航栏。
+- 'inverse' 反色的导航栏。
+- 'subtle' 弱化的导航栏。
 
 <!--start-code-->
+
 ```js
 const styles = {
-  width:250,
-  display:'inline-table',
-  marginRight:10
+  width: 250,
+  display: 'inline-table',
+  marginRight: 10
 };
 
-const SidenavInstance = ({...props})=>{
+const SidenavInstance = ({ ...props }) => {
   return (
     <div style={styles}>
-      <Sidenav {...props} defaultOpenKeys={["3","4"]}>
+      <Sidenav {...props} defaultOpenKeys={['3', '4']}>
         <Sidenav.Body>
           <Nav>
-            <Nav.Item eventKey="1" active icon={<Icon icon="dashboard" />}>Dashboard</Nav.Item>
-            <Nav.Item eventKey="2" icon={<Icon icon="group" />}>User Group</Nav.Item>
+            <Nav.Item eventKey="1" active icon={<Icon icon="dashboard" />}>
+              Dashboard
+            </Nav.Item>
+            <Nav.Item eventKey="2" icon={<Icon icon="group" />}>
+              User Group
+            </Nav.Item>
             <Dropdown eventKey="3" title="Advanced" icon={<Icon icon="magic" />}>
               <Dropdown.Item eventKey="3-1">Geo</Dropdown.Item>
               <Dropdown.Item eventKey="3-2">Devices</Dropdown.Item>
@@ -28,11 +34,11 @@ const SidenavInstance = ({...props})=>{
               <Dropdown.Item eventKey="3-4">Visit Depth</Dropdown.Item>
             </Dropdown>
             <Dropdown eventKey="4" title="Settings" icon={<Icon icon="gear-circle" />}>
-              <Dropdown.Item eventKey="4-1" >Applications</Dropdown.Item>
+              <Dropdown.Item eventKey="4-1">Applications</Dropdown.Item>
               <Dropdown.Item eventKey="4-2">Channels</Dropdown.Item>
               <Dropdown.Item eventKey="4-3">Versions</Dropdown.Item>
               <Dropdown.Menu eventKey="4-5" title="Custom Action">
-                <Dropdown.Item eventKey="4-5-1" >Action Name</Dropdown.Item>
+                <Dropdown.Item eventKey="4-5-1">Action Name</Dropdown.Item>
                 <Dropdown.Item eventKey="4-5-2">Action Params</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
@@ -41,8 +47,7 @@ const SidenavInstance = ({...props})=>{
       </Sidenav>
     </div>
   );
-}
-
+};
 
 const instance = (
   <div className="nav-wrapper">
@@ -53,4 +58,5 @@ const instance = (
 );
 ReactDOM.render(instance);
 ```
+
 <!--end-code-->

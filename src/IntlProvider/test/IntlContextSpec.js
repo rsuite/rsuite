@@ -13,7 +13,6 @@ describe('IntlProvider', () => {
         </IntlProvider>
       </div>
     );
-    console.log(domNode.querySelectorAll('li span')[0].title);
     assert.equal(domNode.querySelectorAll('li span')[0].title, '第一页');
   });
 });

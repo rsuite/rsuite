@@ -25,22 +25,9 @@ class ButtonGroup extends React.Component<ButtonGroupProps> {
       [addPrefix('justified')]: justified
     });
 
-    /**
-     * After you set up justified, you use the table layout.
-     * display:table-cell not working on button element.
-     * So change 'a'
-     */
-    let items: React.ReactNode = children;
-
-    if (justified) {
-      items = React.Children.map(children, (child: React.FunctionComponentElement<any>) =>
-        React.cloneElement<any>(child, { componentClass: 'a', role: 'button' })
-      );
-    }
-
     return (
       <div role="group" {...props} className={classes}>
-        {items}
+        {children}
       </div>
     );
   }

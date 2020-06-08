@@ -32,9 +32,9 @@ import { Form, FormGroup, FormControl, ControlLabel, HelpBlock } from 'rsuite';
 | formValue        | Object                                                  | Value of form (Controlled)                                                                                 |
 | layout           | enum: 'horizontal', 'vertical', 'inline' `('vertical')` | Set the left and right columns of the layout of the elements within the form                               |
 | model            | Schema                                                  | SchemaModel Object                                                                                         |
-| onChange         | (formValue:Object, event:Object)=>void                  | Callback fired when data changing                                                                          |
-| onCheck          | (formError:Object)=>void                                | Callback fired when data cheking                                                                           |
-| onError          | (formError:Object)=>void                                | Callback fired when error checking                                                                         |
+| onChange         | (formValue:Object, event:Object) => void                | Callback fired when data changing                                                                          |
+| onCheck          | (formError:Object) => void                              | Callback fired when data cheking                                                                           |
+| onError          | (formError:Object) => void                              | Callback fired when error checking                                                                         |
 
 ### Form methods
 

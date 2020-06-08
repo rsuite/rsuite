@@ -11,8 +11,8 @@
 @import '../components/Logo/styles';
 @import '../components/SideNavbar/styles';
 @import '../components/ReactLogo/styles';
-@import '../components/LanguageButton/styles';
 @import '../components/PageContainer/styles';
+@import '../components/PageToolbar/styles';
 
 /** Pages **/
 @import '../pages/styles';
@@ -153,4 +153,12 @@ html[dir='rtl'] .document-nav {
 
 .nav-wrapper {
   padding: 20px;
+}
+
+// Horizontal rules
+hr {
+  margin-top: @line-height-computed;
+  margin-bottom: @line-height-computed;
+  border: 0;
+  border-top: 1px solid @hr-border;
 }

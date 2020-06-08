@@ -12,6 +12,16 @@ export interface BreadcrumbProps extends StandardProps {
 
   /** Primary content */
   children?: React.ReactNode;
+
+  /**
+   * Set the maximum number of breadcrumbs to display.
+   * When there are more than the maximum number,
+   * only the first and last will be shown, with an ellipsis in between.
+   * */
+  maxItems?: number;
+
+  /** A function to be called when you are in the collapsed view and click the ellipsis. */
+  onExpand?: (event: React.MouseEvent) => void;
 }
 
 interface BreadcrumbComponent extends React.ComponentClass<BreadcrumbProps> {

@@ -53,7 +53,7 @@ import { Dropdown } from 'rsuite';
 | icon           | React.Element&lt;typeof Icon&gt;                          | Set the icon                                         |
 | onSelect       | (eventKey: any, event: SyntheticEvent&lt;any&gt;) => void | Select the callback function for the current option  |
 | panel          | boolean                                                   | Displays a custom panel                              |
-| renderItem     | (item:React.Node)=>React.Node                             | Custom rendering item                                |
+| renderItem     | (item:React.Node) => React.Node                           | Custom rendering item                                |
 
 ### `<Dropdown.Menu>`
 

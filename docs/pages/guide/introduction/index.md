@@ -34,6 +34,7 @@ React Suite 支持服务端渲染， 支持通过 [Next.js](https://github.com/z
 - 支持 React 16 +
 - 支持 [TypeScript](http://www.typescriptlang.org/)
 - 支持 [Electron](https://electronjs.org/)
+- 支持 [Reason](https://github.com/shurygindv/bs-rsuite-ui-react)
 
 ## 示例
 
@@ -45,6 +46,7 @@ React Suite 支持服务端渲染， 支持通过 [Next.js](https://github.com/z
 - [RLT 方案 - rtlcss][demo-rtlcss]
 - [RLT 方案 - postcss-rtl][demo-postcss-rtl]
 - [在 create-react-app 中使用][demo-create-react-app]
+- [在 Electron 中使用][demo-electron]
 - [在 Flow 中使用][demo-flow-app]
 - [在 TypeScript 中使用][demo-typescript-app]
 - [在 Next.js 中使用][demo-nextjs]
@@ -129,7 +131,7 @@ RSUITE 基于 [MIT licensed][license] 发布。
 [coverage-home]: https://coveralls.io/github/rsuite/rsuite?branch=master
 [discord-svg]: https://img.shields.io/badge/Discord-Join%20chat%20%E2%86%92-738bd7.svg
 [discord-invite]: https://discord.gg/R8mnjwh
-[rsuite-design]: https://rsuitejs.com/design/default/index.html
+[rsuite-design]: https://rsuitejs.com/design/default
 [live-preview-on-codesandbox]: https://codesandbox.io/s/mo7jxvr9x9?from-embed
 [rsuite-doc-guide]: https://rsuitejs.com/guide/introduction
 [rsuite-doc-guide-themes]: https://rsuitejs.com/guide/themes
@@ -142,12 +144,13 @@ RSUITE 基于 [MIT licensed][license] 发布。
 [opencollective-svg]: https://opencollective.com/rsuite/tiers/backer.svg?avatarHeight=36
 [opencollective-home]: https://opencollective.com/rsuite
 [license]: https://github.com/rsuite/rsuite/blob/master/LICENSE
-[gitter]: https://gitter.im/rsuite/rsuite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
+[gitter]: https://gitter.im/rsuite/rsuite-CN?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
 [gitter-svg]: https://badges.gitter.im/rsuite/rsuite.svg
 [demo-admin]: https://github.com/rsuite/rsuite-management-system
 [demo-modular-import]: https://github.com/rsuite/rsuite/tree/master/examples/with-babel-preset-rsuite
 [demo-cdn]: https://github.com/rsuite/rsuite/tree/master/examples/cdn
 [demo-create-react-app]: https://github.com/rsuite/rsuite/tree/master/examples/create-react-app
+[demo-electron]: https://github.com/rsuite/rsuite/tree/master/examples/with-electron
 [demo-intl-app]: https://github.com/rsuite/rsuite/tree/master/examples/custom-i18n
 [demo-multiple-themes]: https://github.com/rsuite/rsuite/tree/master/examples/custom-multiple-themes
 [demo-flow-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-flow

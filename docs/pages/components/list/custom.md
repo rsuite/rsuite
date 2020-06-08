@@ -1,8 +1,8 @@
 ### 自定义列表
 
 <!--start-code-->
-```js
 
+```js
 const data = [
   {
     title: '20170923-香港自由行@尖沙咀',
@@ -90,10 +90,12 @@ class ListDemo extends React.Component {
     const isPositive = number > 0;
     const isNegative = number < 0;
     return (
-      <span style={{
-        paddingLeft: 15,
-        color: isNegative ? 'red' : 'green'
-      }}>
+      <span
+        style={{
+          paddingLeft: 15,
+          color: isNegative ? 'red' : 'green'
+        }}
+      >
         <span>{isPositive ? '+' : null}</span>
         <span>{number}</span>
       </span>
@@ -103,26 +105,35 @@ class ListDemo extends React.Component {
   render() {
     return (
       <List hover>
-        {data.map((item,index)=>
+        {data.map((item, index) => (
           <List.Item key={item['title']} index={index}>
             <FlexboxGrid>
               {/*icon*/}
               <FlexboxGrid.Item colspan={2} style={styleCenter}>
-                <Icon icon={item['icon']} style={{
-                  color: 'darkgrey',
-                  fontSize: '1.5em'
-                }} />
+                <Icon
+                  icon={item['icon']}
+                  style={{
+                    color: 'darkgrey',
+                    fontSize: '1.5em'
+                  }}
+                />
               </FlexboxGrid.Item>
               {/*base info*/}
-              <FlexboxGrid.Item colspan={6} style={{
-                ...styleCenter,
-                flexDirection: 'column',
-                alignItems: 'flex-start',
-                overflow: 'hidden'
-              }}>
+              <FlexboxGrid.Item
+                colspan={6}
+                style={{
+                  ...styleCenter,
+                  flexDirection: 'column',
+                  alignItems: 'flex-start',
+                  overflow: 'hidden'
+                }}
+              >
                 <div style={titleStyle}>{item['title']}</div>
                 <div style={slimText}>
-                  <div><Icon icon='user-circle-o' />{' ' + item['creator']}</div>
+                  <div>
+                    <Icon icon="user-circle-o" />
+                    {' ' + item['creator']}
+                  </div>
                   <div>{item['date']}</div>
                 </div>
               </FlexboxGrid.Item>
@@ -143,22 +154,25 @@ class ListDemo extends React.Component {
                 {this.renderRaise(item['uvRaise'])}
               </FlexboxGrid.Item>
               {/*uv data*/}
-              <FlexboxGrid.Item colspan={4} style={{
-                ...styleCenter
-              }}>
+              <FlexboxGrid.Item
+                colspan={4}
+                style={{
+                  ...styleCenter
+                }}
+              >
                 <a href="#">查看</a>
                 <span style={{ padding: 5 }}>|</span>
                 <a href="#">编辑</a>
               </FlexboxGrid.Item>
             </FlexboxGrid>
           </List.Item>
-        )}
+        ))}
       </List>
     );
   }
 }
 
-ReactDOM.render(<ListDemo/>);
-
+ReactDOM.render(<ListDemo />);
 ```
+
 <!--end-code-->

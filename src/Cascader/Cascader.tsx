@@ -2,10 +2,10 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { findNodeOfTree, shallowEqual } from 'rsuite-utils/lib/utils';
+import shallowEqual from '../utils/shallowEqual';
 import { polyfill } from 'react-lifecycles-compat';
-
-import IntlProvider from '../IntlProvider';
+import { findNodeOfTree } from '../utils/treeUtils';
+import IntlContext from '../IntlProvider/IntlContext';
 import FormattedMessage from '../IntlProvider/FormattedMessage';
 import DropdownMenu, { dropdownMenuPropTypes } from './DropdownMenu';
 import stringToObject from '../utils/stringToObject';
@@ -557,14 +557,14 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     const classes = getToggleWrapperClassName('cascader', this.addPrefix, this.props, hasValue);
 
     return (
-      <IntlProvider locale={locale}>
+      <IntlContext.Provider value={locale}>
         <div className={classes} style={style} tabIndex={-1} role="menu" ref={this.containerRef}>
           <PickerToggleTrigger
             pickerProps={this.props}
             ref={this.triggerRef}
             positionRef={this.positionRef}
             onEnter={createChainedFunction(this.handleEntered, onEnter)}
-            onExit={createChainedFunction(this.handleExit, onExited)}
+            onExited={createChainedFunction(this.handleExit, onExited)}
             speaker={this.renderDropdownMenu()}
           >
             <PickerToggle
@@ -579,7 +579,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
             </PickerToggle>
           </PickerToggleTrigger>
         </div>
-      </IntlProvider>
+      </IntlContext.Provider>
     );
   }
 }

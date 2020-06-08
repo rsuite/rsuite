@@ -49,8 +49,7 @@
   right: -2px;
 
   .@{ns}slider-mark-content {
-    margin-left: auto;
-    margin-right: -50%;
+    margin-left: 50%;
   }
 }
 
@@ -136,6 +135,7 @@
   .@{ns}slider-vertical & {
     display: block;
     height: 100%;
+
     > ul {
       width: @slider-bar-side-length;
       display: flex;
@@ -179,8 +179,10 @@
     background-color: @slider-handle-default-bg;
     margin-left: -@slider-handle-diameter / 2;
     cursor: pointer;
+    /* stylelint-disable */ //Formatted by prettier
     transition: box-shadow @slider-handle-transition, background-color @slider-handle-transition,
       transform @slider-handle-transition;
+    /* stylelint-enable */
   }
 
   &:hover::before {

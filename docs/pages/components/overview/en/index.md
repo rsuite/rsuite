@@ -1,5 +1,5 @@
 # Overview
 
-All components and tools provided by React Suite.
+All components and utils provided by React Suite.
 
 ---

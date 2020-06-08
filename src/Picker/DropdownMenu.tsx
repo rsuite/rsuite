@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { getPosition, scrollTop, getHeight } from 'dom-lib';
 import classNames from 'classnames';
-import List from 'react-virtualized/dist/commonjs/List';
+import List, { ListProps } from 'react-virtualized/dist/commonjs/List';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
-import { shallowEqual } from 'rsuite-utils/lib/utils';
+import shallowEqual from '../utils/shallowEqual';
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
 import DropdownMenuGroup from './DropdownMenuGroup';
 import { KEY_GROUP, KEY_GROUP_TITLE } from '../utils/getDataGroupBy';
@@ -25,6 +25,8 @@ export interface DropdownMenuProps {
   dropdownMenuItemComponentClass: React.ElementType;
   dropdownMenuItemClassPrefix?: string;
   virtualized?: boolean;
+  // https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
+  listProps?: ListProps;
   renderMenuItem?: (itemLabel: React.ReactNode, item: any) => React.ReactNode;
   renderMenuGroup?: (title: React.ReactNode, item: any) => React.ReactNode;
   onSelect?: (value: any, item: any, event: React.MouseEvent, checked?: boolean) => void;
@@ -53,7 +55,8 @@ export const dropdownMenuPropTypes = {
   renderMenuGroup: PropTypes.func,
   onSelect: PropTypes.func,
   onGroupTitleClick: PropTypes.func,
-  virtualized: PropTypes.bool
+  virtualized: PropTypes.bool,
+  listProps: PropTypes.object
 };
 
 const ROW_HEIGHT = 36;
@@ -224,7 +227,15 @@ class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState>
   }
   renderMenuItems() {
     this.menuItems = {};
-    const { data = [], group, maxHeight, activeItemValues, valueKey, virtualized } = this.props;
+    const {
+      data = [],
+      group,
+      maxHeight,
+      activeItemValues,
+      valueKey,
+      virtualized,
+      listProps
+    } = this.props;
     const { foldedGroupKeys } = this.state;
     const filteredItems = group
       ? data.filter(item => !foldedGroupKeys?.some(key => key === item.parent?.[KEY_GROUP_TITLE]))
@@ -236,6 +247,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState>
         <AutoSizer defaultHeight={maxHeight} style={{ width: 'auto', height: 'auto' }}>
           {({ height, width }) => (
             <List
+              {...listProps}
               width={width}
               height={height || maxHeight}
               scrollToIndex={_.findIndex(data, item => item[valueKey] === activeItemValues?.[0])}

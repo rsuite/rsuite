@@ -115,7 +115,7 @@ describe('InputNumber', () => {
     const input = instance.querySelector('.rs-input');
     ReactTestUtils.Simulate.change(input);
 
-    assert.ok(!onChnageSpy.calledOnce);
+    assert.ok(onChnageSpy.calledOnce);
   });
 
   it('Should call onBlur callback', done => {

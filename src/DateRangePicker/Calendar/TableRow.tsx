@@ -9,8 +9,8 @@ import isAfter from 'date-fns/isAfter';
 import getDate from 'date-fns/getDate';
 
 import { getUnhandledProps, prefix, defaultProps } from '../../utils';
-import { TYPE } from '../utils';
 import IntlContext from '../../IntlProvider/IntlContext';
+import { DATERANGE_DISABLED_TARGET } from '../../constants';
 
 import { legacyParse, convertTokens } from '@date-fns/upgrade/v2';
 
@@ -28,6 +28,7 @@ export interface TableRowProps {
 }
 
 class TableRow extends React.Component<TableRowProps> {
+  static contextType = IntlContext;
   static propTypes = {
     weekendDate: PropTypes.instanceOf(Date),
     selected: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
@@ -56,6 +57,9 @@ class TableRow extends React.Component<TableRowProps> {
       onSelect
     } = this.props;
 
+    const { formatDate, formattedDayPattern, today } = this.context || {};
+    const formatStr = formattedDayPattern || 'YYYY-MM-DD';
+
     const days = [];
     const selectedStartDate = selected[0];
     const selectedEndDate = selected[1];
@@ -65,7 +69,7 @@ class TableRow extends React.Component<TableRowProps> {
     for (let i = 0; i < 7; i += 1) {
       const thisDate = addDays(legacyParse(weekendDate), i);
       const selectValue = [selectedStartDate, selectedEndDate];
-      const disabled = disabledDate?.(thisDate, selectValue, TYPE.CALENDAR);
+      const disabled = disabledDate?.(thisDate, selectValue, DATERANGE_DISABLED_TARGET.CALENDAR);
       const isToday = isSameDay(legacyParse(thisDate), legacyParse(new Date()));
       const unSameMonth = !inSameMonth?.(thisDate);
       const isStartSelected =
@@ -104,23 +108,20 @@ class TableRow extends React.Component<TableRowProps> {
         [this.addPrefix('cell-disabled')]: disabled
       });
 
-      const title = format(legacyParse(thisDate), convertTokens('YYYY-MM-DD'));
+      const title = formatDate ? formatDate(thisDate, formatStr) : format(legacyParse(thisDate), convertTokens(formatStr));
 
       days.push(
-        <IntlContext.Consumer key={title}>
-          {context => (
-            <div
-              className={classes}
-              role="menu"
-              tabIndex={-1}
-              title={isToday ? `${title} (${context?.today})` : title}
-              onMouseEnter={!disabled && onMouseMove ? onMouseMove.bind(null, thisDate) : undefined}
-              onClick={!disabled ? onSelect?.bind(null, thisDate) : undefined}
-            >
-              <span className={this.addPrefix('cell-content')}>{getDate(legacyParse(thisDate))}</span>
-            </div>
-          )}
-        </IntlContext.Consumer>
+        <div
+          key={title}
+          className={classes}
+          role="menu"
+          tabIndex={-1}
+          title={isToday ? `${title} (${today})` : title}
+          onMouseEnter={!disabled && onMouseMove ? onMouseMove.bind(null, thisDate) : undefined}
+          onClick={!disabled ? onSelect?.bind(null, thisDate) : undefined}
+        >
+          <span className={this.addPrefix('cell-content')}>{getDate(legacyParse(thisDate))}</span>
+        </div>
       );
     }
     return days;

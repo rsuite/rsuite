@@ -9,10 +9,10 @@ import { defaultClassPrefix } from '../utils/prefix';
 import { ColProps } from './Col.d';
 
 const Sizes = ['xs', 'sm', 'md', 'lg'];
-const omitKeys = [];
+const omitKeys = {};
 
 const getValue = _.curry((obj: any, key: string): number => {
-  omitKeys.push(key);
+  omitKeys[key] = null;
   return obj[key];
 });
 
@@ -67,7 +67,7 @@ class Col extends React.Component<ColProps> {
       classes[addPrefix(`${size}-pull-${pull}`)] = pull >= 0;
     });
 
-    const elementProps = _.omit(props, omitKeys);
+    const elementProps = _.omit(props, Object.keys(omitKeys));
 
     return <Component {...elementProps} className={classNames(className, classPrefix, classes)} />;
   }

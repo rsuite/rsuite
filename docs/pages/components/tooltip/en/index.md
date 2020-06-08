@@ -19,31 +19,34 @@ import { Tooltip, Whisper } from 'rsuite';
 
 ### `<Tooltip>`
 
-| Property        | Type `(Default)`     | Description                              |
-| --------------- | -------------------- | ---------------------------------------- |
-| arrowOffsetLeft | number or string     | Arrow relative to 'left' position offset |
-| arrowOffsetTop  | number or string     | Arrow relative to 'top' position offset  |
-| children \*     | React.Node           | The content of the component.            |
-| classPrefix     | string `('tooltip')` | The prefix of the component CSS class    |
-| positionLeft    | number               | Relative 'left' position offset          |
-| positionTop     | number               | Relative 'top' position offset           |
+| Property    | Type `(Default)`     | Description                           |
+| ----------- | -------------------- | ------------------------------------- |
+| children \* | React.Node           | The content of the component.         |
+| classPrefix | string `('tooltip')` | The prefix of the component CSS class |
+| visible     | boolean              | The component is visible by default   |
 
 ### `<Whisper>`
 
-| Property        | Type `(Default)`                                                 | Description                       |
-| --------------- | ---------------------------------------------------------------- | --------------------------------- |
-| container       | HTMLElement or (() => HTMLElement)                               | Sets the rendering container      |
-| delay           | number                                                           | Delay Time                        |
-| delayHide       | number                                                           | Hidden delay Time                 |
-| delayShow       | number                                                           | Show Delay Time                   |
-| onBlur          | () => void                                                       | Lose Focus callback function      |
-| onClick         | () => void                                                       | Click on the callback function    |
-| onFocus         | () => void                                                       | Callback function to get focus    |
-| onMouseOut      | () => void                                                       | Mouse leave callback function     |
-| placement       | enum: [PlacementAll](#types) `('right')`                         | Dispaly placement                 |
-| preventOverflow | boolean                                                          | Prevent floating element overflow |
-| speaker \*      | union: Tooltip, Popover                                          | Displayed component               |
-| trigger         | union: 'click', 'hover', 'focus', 'active' `(['hover','focus'])` | Triggering events                 |
+| Property        | Type `(Default)`                                                 | Description                                                 |
+| --------------- | ---------------------------------------------------------------- | ----------------------------------------------------------- |
+| container       | HTMLElement or (() => HTMLElement)                               | Sets the rendering container                                |
+| delay           | number                                                           | Delay Time                                                  |
+| delayHide       | number                                                           | Hidden delay Time                                           |
+| delayShow       | number                                                           | Show Delay Time                                             |
+| onBlur          | () => void                                                       | Lose Focus callback function                                |
+| onClick         | () => void                                                       | Click on the callback function                              |
+| onEnter         | () => void                                                       | Callback fired before the overlay transitions in            |
+| onEntered       | () => void                                                       | Callback fired after the overlay finishes transitioning in  |
+| onEntering      | () => void                                                       | Callback fired as the overlay begins to transition in       |
+| onExit          | () => void                                                       | Callback fired right before the overlay transitions out     |
+| onExited        | () => void                                                       | Callback fired after the overlay finishes transitioning out |
+| onExiting       | () => void                                                       | Callback fired as the overlay begins to transition out      |
+| onFocus         | () => void                                                       | Callback function to get focus                              |
+| onMouseOut      | () => void                                                       | Mouse leave callback function                               |
+| placement       | enum: [PlacementAll](#types) `('right')`                         | Dispaly placement                                           |
+| preventOverflow | boolean                                                          | Prevent floating element overflow                           |
+| speaker \*      | union: Tooltip, Popover                                          | Displayed component                                         |
+| trigger         | union: 'click', 'hover', 'focus', 'active' `(['hover','focus'])` | Triggering events                                           |
 
 ## Related components
 
