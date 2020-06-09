@@ -280,7 +280,7 @@ describe('DatePicker', () => {
     const instance = getInstance(
       <DatePicker
         value={legacyParse('2017-08-14 13:00:00')}
-        format="DD MMM YYYY hh:mm:ss A"
+        format="dd MMM yyyy hh:mm:ss a"
         defaultOpen
         showMeridian
       />

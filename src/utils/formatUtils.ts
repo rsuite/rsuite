@@ -8,4 +8,5 @@ export const shouldDate = (format: string): boolean =>
 export const shouldOnlyTime = (format: string) =>
   /(H|h|m|s)/.test(format) && !/(y|M|d)/.test(format);
 
-export const formatNewDate = (date: string) => date && date.replace(/D|Y/gi, x => x.toLowerCase());
+export const formatNewDate = (date: string) =>
+  date && date.replace(/A|D|Y/gi, x => x.toLowerCase());
