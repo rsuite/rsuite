@@ -101,12 +101,13 @@ class Calendar extends React.Component<CalendarProps> {
   };
 
   disabledMonth = (date: Date) => {
-    const { calendarDate, value, index, disabledDate } = this.props;
+    const { calendarDate, value, index, disabledDate, showOneCalendar } = this.props;
     let after = true;
 
     if (disabledDate?.(date, value, 'MONTH')) {
       return true;
     }
+    if (showOneCalendar) return false;
 
     if (index === 1) {
       after = isAfter(date, calendarDate[0]);
