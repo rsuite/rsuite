@@ -279,7 +279,7 @@ describe('DatePicker', () => {
   it('Should be show meridian', () => {
     const instance = getInstance(
       <DatePicker
-        value={parse('2017-08-14 13:00:00')}
+        value={legacyParse('2017-08-14 13:00:00')}
         format="DD MMM YYYY hh:mm:ss A"
         defaultOpen
         showMeridian

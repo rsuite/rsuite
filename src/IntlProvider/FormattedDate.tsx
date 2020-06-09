@@ -12,7 +12,6 @@ function FormattedDate({ date, formatStr }: FormattedDateProps) {
     <IntlContext.Consumer>
       {options => {
         const formatDate = options?.formatDate;
-        console.log('date: ', date, typeof date);
         return formatDate ? formatDate(date, formatStr) : format(date, formatStr);
       }}
     </IntlContext.Consumer>
