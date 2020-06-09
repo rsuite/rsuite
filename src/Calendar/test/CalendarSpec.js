@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
+<<<<<<< HEAD
 import { legacyParse } from '@date-fns/upgrade/v2';
+=======
+>>>>>>> 38bc584a4ee6502d88daf522a3595cc2b90d22b6
 import Calendar from '../Calendar';
 
 describe('Calendar', () => {
