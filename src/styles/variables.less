@@ -1284,8 +1284,9 @@
 //
 //##
 @carousel-bg: @B600;
+@carousel-animation-duration: 0.3s;
 @carousel-toolbar-wrapper-margin: 17px; // @carousel-handler-margin + @carousel-handler-wrapper-margin = 20px
-@carousel-handler-transition: background 0.3s linear;
+@carousel-handler-transition: background @carousel-animation-duration linear;
 @carousel-handler-bg: fade(@B000, 40);
 @carousel-handler-hover-bg: @B000;
 @carousel-handler-active-bg: @H500;

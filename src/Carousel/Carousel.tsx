@@ -2,14 +2,13 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { prefix, defaultProps, getUnhandledProps } from '../utils';
-import Transition from '../Animation/Transition';
 import IntlContext from '../IntlProvider/IntlContext';
 import ReactChildren from '../utils/ReactChildren';
 import { CarouselProps } from './Carousel.d';
 
 interface CarouselState {
-  active: number;
-  last?: boolean;
+  activeIndex: number;
+  lastIndex: number;
 }
 
 class Carousel extends React.Component<CarouselProps, CarouselState> {
@@ -29,41 +28,60 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     shape: 'dot'
   };
 
-  _key: string = (Math.random() * 1e18).toString(36).slice(0, 6);
-  _timeListener = null;
+  _autoplayTimer = null;
+
   constructor(props) {
     super(props);
     this.state = {
-      active: 0,
-      last: false
+      activeIndex: 0,
+      lastIndex: 0
     };
   }
 
   componentDidMount() {
-    const { autoplay, autoplayInterval, children } = this.props;
-    const count = ReactChildren.count(children);
+    this.triggerAutoPlay();
+  }
 
-    if (autoplay && count) {
-      this._timeListener = setInterval(() => {
-        const { active } = this.state;
-        const nextActive = active === count - 1 ? 0 : active + 1;
-        this.setState({
-          last: nextActive === count - 1,
-          active: nextActive
-        });
-      }, autoplayInterval);
-    }
+  componentDidUpdate() {
+    this.triggerAutoPlay();
   }
+
   componentWillUnmount() {
-    if (this._timeListener) {
-      clearInterval(this._timeListener);
+    this.clearTimer();
+  }
+
+  triggerAutoPlay() {
+    const { autoplay, autoplayInterval, children } = this.props;
+    const count = ReactChildren.count(children as React.ReactChildren);
+
+    if (!this._autoplayTimer && autoplay && count > 1) {
+      this._autoplayTimer = setTimeout(this.handleAutoplay, autoplayInterval);
     }
   }
+
+  clearTimer() {
+    clearTimeout(this._autoplayTimer);
+    this._autoplayTimer = null;
+  }
+
+  handleAutoplay = (nextActiveIndex?: number) => {
+    const { children } = this.props;
+    const { activeIndex } = this.state;
+    this.clearTimer();
+    const count = ReactChildren.count(children as React.ReactChildren);
+    const nextIndex = nextActiveIndex ?? activeIndex + 1;
+    this.setState({
+      activeIndex: nextIndex % count,
+      lastIndex: nextActiveIndex == null ? activeIndex : nextIndex % count
+    });
+    this.triggerAutoPlay();
+  };
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const active = +event.target.value;
-    this.setState({ active });
+    const activeIndex = +event.target.value;
+    this.handleAutoplay(activeIndex);
   };
+
   render() {
     const {
       componentClass: Component,
@@ -75,9 +93,9 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
       ...rest
     } = this.props;
 
-    const { active, last } = this.state;
+    const { activeIndex, lastIndex } = this.state;
     const addPrefix = prefix(classPrefix);
-    const count = ReactChildren.count(children);
+    const count = ReactChildren.count(children as React.ReactChildren);
     const labels = [];
     const vertical = placement === 'left' || placement === 'right';
     const lengthKey = vertical ? 'height' : 'width';
@@ -88,18 +106,18 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
         if (!child) {
           return;
         }
-        const id = `${this._key}-${index}`;
+        const inputKey = `indicator_${index}`;
         labels.push(
           <li key={`label${index}`} className={addPrefix('label-wrapper')}>
             <input
-              name={this._key}
-              id={id}
+              name={inputKey}
+              id={inputKey}
               type="radio"
               onChange={this.handleChange}
               value={index}
-              checked={active === index}
+              checked={activeIndex === index}
             />
-            <label htmlFor={id} className={addPrefix('label')} />
+            <label htmlFor={inputKey} className={addPrefix('label')} />
           </li>
         );
 
@@ -123,39 +141,53 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     const unhandled = getUnhandledProps(Carousel, rest);
 
     return (
-      <Transition
-        enteredClassName={addPrefix('last')}
-        exitingClassName={addPrefix('reset')}
-        in={last}
-      >
-        <Component className={classes} {...unhandled}>
-          <div className={addPrefix('content')}>
-            <IntlContext.Consumer>
-              {context => {
-                const activeRatio = `${!vertical && context?.rtl ? '' : '-'}${(100 / count) *
-                  active}%`;
-                const sliderStyles = {
-                  [lengthKey]: `${count * 100}%`,
-                  transform: vertical
-                    ? `translate3d(0, ${activeRatio} ,0)`
-                    : `translate3d(${activeRatio}, 0 ,0)`
-                };
-                return (
-                  <div className={addPrefix('slider')} style={sliderStyles}>
-                    {items}
+      <IntlContext.Consumer>
+        {context => {
+          const positiveOrder = vertical || !context?.rtl;
+          const sign = positiveOrder ? '-' : '';
+          const activeRatio = `${sign}${(100 / count) * activeIndex}%`;
+          const sliderStyles = {
+            [lengthKey]: `${count * 100}%`,
+            transform: vertical
+              ? `translate3d(0, ${activeRatio} ,0)`
+              : `translate3d(${activeRatio}, 0 ,0)`
+          };
+          const firstIndex = positiveOrder ? 0 : count - 1;
+          const showMask = count > 1 && activeIndex === firstIndex && activeIndex !== lastIndex;
+          return (
+            <Component className={classes} {...unhandled}>
+              <div className={addPrefix('content')}>
+                <div className={addPrefix('slider')} style={sliderStyles}>
+                  {items}
+                </div>
+                {showMask && (
+                  <div
+                    className={classNames(addPrefix('slider-after'), {
+                      [addPrefix('slider-after-vertical')]: vertical
+                    })}
+                    style={{
+                      [lengthKey]: '200%'
+                    }}
+                  >
+                    {[items[items.length - 1], items[0]].map(node =>
+                      React.cloneElement(node, {
+                        key: node.key,
+                        style: {
+                          ...node.props.style,
+                          [lengthKey]: '50%'
+                        }
+                      })
+                    )}
                   </div>
-                );
-              }}
-            </IntlContext.Consumer>
-            {count ? (
-              <div className={addPrefix('slider-after')}>{[items[items.length - 1], items[0]]}</div>
-            ) : null}
-          </div>
-          <div className={addPrefix('toolbar')}>
-            <ul>{labels}</ul>
-          </div>
-        </Component>
-      </Transition>
+                )}
+              </div>
+              <div className={addPrefix('toolbar')}>
+                <ul>{labels}</ul>
+              </div>
+            </Component>
+          );
+        }}
+      </IntlContext.Consumer>
     );
   }
 }
