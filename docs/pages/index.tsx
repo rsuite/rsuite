@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ButtonToolbar, FlexboxGrid, Grid, Row, Col } from 'rsuite';
+import { Button, ButtonToolbar, FlexboxGrid, Grid, Row, Col, Message } from 'rsuite';
 import TopLevelNav from '@/components/TopLevelNav';
 import Link from '@/components/Link';
 import Logo from '@/components/Logo';
@@ -27,6 +27,22 @@ function HomePage() {
         <PageToolbar />
 
         <Row>
+          <Message
+            style={{ marginTop: 20 }}
+            description={
+              <h5>
+                Black Lives Matter.{' '}
+                <a
+                  href="https://support.eji.org/give/153413/#!/donation/checkout"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  id="blm-link"
+                >
+                  Support the Equal Justice Initiative.
+                </a>
+              </h5>
+            }
+          />
           <FlexboxGrid align="middle" className="banner">
             <FlexboxGrid.Item componentClass={Col} colspan={24} md={12}>
               <section className="section">
