@@ -1,3 +1,16 @@
+# 4.7.4
+
+> June 11, 2020
+
+- **Bugfix**: Fix autoplay can't be interrupted in `Carousel`. ([#1120])
+- **Bugfix**: Fixed `ShowOneCalendar` disabled Months after date. ([#1118])
+- **Bugfix**: Fixed type errors defined by Typescript. ([#1098],[#1106])
+
+[#1120]: https://github.com/rsuite/rsuite/pull/1120
+[#1118]: https://github.com/rsuite/rsuite/pull/1118
+[#1106]: https://github.com/rsuite/rsuite/pull/1106
+[#1098]: https://github.com/rsuite/rsuite/pull/1098
+
 # 4.7.3
 
 > June 8, 2020
