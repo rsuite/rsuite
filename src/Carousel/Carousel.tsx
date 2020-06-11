@@ -2,7 +2,6 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { prefix, defaultProps, getUnhandledProps } from '../utils';
-import IntlContext from '../IntlProvider/IntlContext';
 import ReactChildren from '../utils/ReactChildren';
 import { CarouselProps } from './Carousel.d';
 
