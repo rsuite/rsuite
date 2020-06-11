@@ -25,10 +25,12 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
   static defaultProps = {
     autoplayInterval: 4000,
     placement: 'bottom',
-    shape: 'dot'
+    shape: 'dot',
+    locale: {}
   };
 
   _autoplayTimer = null;
+  _key: string = (Math.random() * 1e18).toString(36).slice(0, 6);
 
   constructor(props) {
     super(props);
@@ -90,6 +92,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
       className,
       placement,
       shape,
+      locale,
       ...rest
     } = this.props;
 
@@ -106,7 +109,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
         if (!child) {
           return;
         }
-        const inputKey = `indicator_${index}`;
+        const inputKey = `indicator_${this._key}_${index}`;
         labels.push(
           <li key={`label${index}`} className={addPrefix('label-wrapper')}>
             <input
@@ -140,54 +143,47 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
     );
     const unhandled = getUnhandledProps(Carousel, rest);
 
+    const positiveOrder = vertical || !locale?.rtl;
+    const sign = positiveOrder ? '-' : '';
+    const activeRatio = `${sign}${(100 / count) * activeIndex}%`;
+    const sliderStyles = {
+      [lengthKey]: `${count * 100}%`,
+      transform: vertical
+        ? `translate3d(0, ${activeRatio} ,0)`
+        : `translate3d(${activeRatio}, 0 ,0)`
+    };
+    const showMask = count > 1 && activeIndex === 0 && activeIndex !== lastIndex;
     return (
-      <IntlContext.Consumer>
-        {context => {
-          const positiveOrder = vertical || !context?.rtl;
-          const sign = positiveOrder ? '-' : '';
-          const activeRatio = `${sign}${(100 / count) * activeIndex}%`;
-          const sliderStyles = {
-            [lengthKey]: `${count * 100}%`,
-            transform: vertical
-              ? `translate3d(0, ${activeRatio} ,0)`
-              : `translate3d(${activeRatio}, 0 ,0)`
-          };
-          const firstIndex = positiveOrder ? 0 : count - 1;
-          const showMask = count > 1 && activeIndex === firstIndex && activeIndex !== lastIndex;
-          return (
-            <Component className={classes} {...unhandled}>
-              <div className={addPrefix('content')}>
-                <div className={addPrefix('slider')} style={sliderStyles}>
-                  {items}
-                </div>
-                {showMask && (
-                  <div
-                    className={classNames(addPrefix('slider-after'), {
-                      [addPrefix('slider-after-vertical')]: vertical
-                    })}
-                    style={{
-                      [lengthKey]: '200%'
-                    }}
-                  >
-                    {[items[items.length - 1], items[0]].map(node =>
-                      React.cloneElement(node, {
-                        key: node.key,
-                        style: {
-                          ...node.props.style,
-                          [lengthKey]: '50%'
-                        }
-                      })
-                    )}
-                  </div>
-                )}
-              </div>
-              <div className={addPrefix('toolbar')}>
-                <ul>{labels}</ul>
-              </div>
-            </Component>
-          );
-        }}
-      </IntlContext.Consumer>
+      <Component className={classes} {...unhandled}>
+        <div className={addPrefix('content')}>
+          <div className={addPrefix('slider')} style={sliderStyles}>
+            {items}
+          </div>
+          {showMask && (
+            <div
+              className={classNames(addPrefix('slider-after'), {
+                [addPrefix('slider-after-vertical')]: vertical
+              })}
+              style={{
+                [lengthKey]: '200%'
+              }}
+            >
+              {[items[items.length - 1], items[0]].map(node =>
+                React.cloneElement(node, {
+                  key: node.key,
+                  style: {
+                    ...node.props.style,
+                    [lengthKey]: '50%'
+                  }
+                })
+              )}
+            </div>
+          )}
+        </div>
+        <div className={addPrefix('toolbar')}>
+          <ul>{labels}</ul>
+        </div>
+      </Component>
     );
   }
 }
