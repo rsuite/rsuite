@@ -6,17 +6,24 @@ interface MyLinkProps extends LinkProps {
   children?: React.ReactNode;
 }
 
+const paths = {
+  en: '',
+  zh: '/zh'
+};
+
+export const languageToPath = language => paths[language] || '';
+
 export default React.forwardRef(function Link(
   props: MyLinkProps,
   ref: React.RefObject<HTMLAnchorElement>
 ) {
   const { as, href, prefetch, scroll, passHref, replace, shallow, ...rest } = props;
-  const { localePath } = React.useContext(AppContext);
+  const { language } = React.useContext(AppContext);
   return (
     <NextLink
       href={href}
       prefetch={prefetch}
-      as={as ? as : `${localePath}${href}`}
+      as={as ? as : `${languageToPath(language)}${href}`}
       scroll={scroll}
       passHref={passHref}
       replace={replace}

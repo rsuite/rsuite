@@ -1,18 +1,12 @@
 const LANGUAGES = ['en', 'zh'];
 
 function pathnameToLanguage(pathname) {
-  const userLanguage = pathname.substring(1, 3);
-
-  if (LANGUAGES.indexOf(userLanguage) !== -1 && pathname.indexOf(`/${userLanguage}/`) === 0) {
-    return {
-      userLanguage,
-      canonical: userLanguage === 'zh' ? pathname : pathname.substring(3)
-    };
-  }
+  const results = pathname.match(new RegExp('/(' + LANGUAGES.join('|') + ')/', 'i'));
+  const userLanguage = results ? results[1] : 'en';
 
   return {
-    userLanguage: 'zh',
-    canonical: pathname
+    userLanguage,
+    canonical: userLanguage === 'en' ? pathname : pathname.substring(3)
   };
 }
 module.exports = {

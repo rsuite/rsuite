@@ -14,6 +14,13 @@ const __DEV__ = process.env.NODE_ENV !== 'production';
 
 const rsuiteRoot = path.join(__dirname, '../src');
 
+const paths = {
+  en: '',
+  zh: '/zh'
+};
+
+const languageToPath = language => paths[language] || '';
+
 module.exports = withPlugins([[withImages]], {
   webpack(config) {
     const originEntry = config.entry;
@@ -96,12 +103,12 @@ module.exports = withPlugins([[withImages]], {
     const map = {};
 
     function traverse(nextPages, userLanguage) {
-      const prefix = userLanguage === 'zh' ? '' : `/${userLanguage}`;
+      const rootPath = languageToPath(userLanguage);
 
       nextPages.forEach(page => {
         if (page.children.length === 0) {
-          //console.log(`router: ${prefix}${page.pathname}`);
-          map[`${prefix}${page.pathname}`] = {
+          //console.log(`router: ${rootPath}${page.pathname}`, userLanguage);
+          map[`${rootPath}${page.pathname}`] = {
             page: page.pathname,
             query: {
               userLanguage

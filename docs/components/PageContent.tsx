@@ -106,6 +106,7 @@ const PageContent = ({
   hidePageNav
 }: PageContentProps) => {
   const { messages, localePath } = React.useContext(AppContext);
+
   const router = useRouter();
 
   const pathname = router.pathname;

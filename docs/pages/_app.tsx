@@ -46,7 +46,7 @@ function App({ Component, pageProps }: AppProps) {
   const [direction, setDirection] = React.useState(defaultDirection);
   const [language, setLanguage] = React.useState(pageProps.userLanguage);
   const [styleLoaded, setStyleLoaded] = React.useState(false);
-  const locale = language === 'en' ? enUS : zhCN;
+  const locale = language === 'zh' ? zhCN : enUS;
   React.useEffect(() => {
     NProgress.start();
   }, []);
@@ -108,7 +108,7 @@ function App({ Component, pageProps }: AppProps) {
           value={{
             messages,
             language,
-            localePath: language === 'en' ? '/en' : '',
+            localePath: language === 'zh' ? '/zh-CN' : '/en-US',
             theme: [themeName, direction],
             onChangeDirection,
             onChangeTheme,
@@ -125,7 +125,9 @@ function App({ Component, pageProps }: AppProps) {
 }
 
 App.getInitialProps = ({ ctx }) => {
-  let pageProps = {};
+  let pageProps = {
+    userLanguage: 'en'
+  };
 
   if (!process.browser) {
     pageProps = {

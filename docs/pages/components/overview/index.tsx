@@ -2,6 +2,7 @@ import * as React from 'react';
 import getPages from '@/utils/pages';
 import DefaultPage from '@/components/Page';
 import AppContext from '@/components/AppContext';
+import { languageToPath } from '@/components/Link';
 import Link from 'next/link';
 
 interface ComponentType {
@@ -25,7 +26,7 @@ export default function Page() {
   const components = (getPages()?.[1]?.children as ComponentType[]).filter(
     item => item.id !== 'overview'
   );
-  const rootPath = language === 'zh' ? '/' : '/en/';
+  const rootPath = languageToPath(language);
 
   return (
     <DefaultPage>
@@ -41,7 +42,7 @@ export default function Page() {
             } else {
               return (
                 <li key={item.id}>
-                  <Link href={`${rootPath}components/${item.id}`}>
+                  <Link href={`${rootPath}/components/${item.id}`}>
                     <a className="header">
                       {item.name}
                       {language === 'zh' ? (

@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { Button, Icon } from 'rsuite';
 import AppContext from '../AppContext';
 import * as SvgIcons from '@/components/SvgIcons';
+import { languageToPath } from '@/components/Link';
 
 interface ButtonProps {
   className?: string;
@@ -14,17 +15,17 @@ function LanguageButton(props: ButtonProps) {
   const router = useRouter();
   const { language, onChangeLanguage } = React.useContext(AppContext);
   const { className, ...rest } = props;
-  const en = language === 'en';
+  const isZH = language === 'zh';
 
   const handleChangeLanguage = React.useCallback(
     (event: React.MouseEvent) => {
       event.preventDefault();
+      const nextLanguage = isZH ? 'en' : 'zh';
 
-      onChangeLanguage?.(en ? 'zh' : 'en');
+      onChangeLanguage?.(nextLanguage);
       const pathname = router.pathname;
-      const as = en ? pathname : `/en${pathname}`;
 
-      router.push(pathname, as);
+      router.push(pathname, `${languageToPath(nextLanguage)}${pathname}`);
     },
     [language]
   );
@@ -36,7 +37,7 @@ function LanguageButton(props: ButtonProps) {
       appearance="subtle"
       onClick={handleChangeLanguage}
     >
-      <Icon icon={SvgIcons.Language} /> {en ? '中文' : 'English'}
+      <Icon icon={SvgIcons.Language} /> {isZH ? 'English' : '中文'}
     </Button>
   );
 }

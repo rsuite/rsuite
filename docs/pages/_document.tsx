@@ -8,7 +8,7 @@ interface DocumentProps {
 class MyDocument extends Document<DocumentProps> {
   static async getInitialProps(ctx) {
     const initialProps = await Document.getInitialProps(ctx);
-    return { ...initialProps, userLanguage: ctx.query.userLanguage || 'zh' };
+    return { ...initialProps, userLanguage: ctx.query.userLanguage || 'en' };
   }
 
   render() {
