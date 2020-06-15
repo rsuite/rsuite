@@ -12,14 +12,15 @@ const resolveToStaticPath = relativePath => path.resolve(__dirname, relativePath
 const SVG_LOGO_PATH = resolveToStaticPath('./resources/images');
 const __DEV__ = process.env.NODE_ENV !== 'production';
 
-const rsuiteRoot = path.join(__dirname, '../src');
-
-const paths = {
-  en: '',
-  zh: '/zh'
+const RSUITE_ROOT = path.join(__dirname, '../src');
+const LANGUAGES = {
+  // key: [language, path]
+  default: ['en', ''],
+  en: ['en', '/en'],
+  zh: ['zh', '/zh']
 };
 
-const languageToPath = language => paths[language] || '';
+const useLanguage = language => LANGUAGES[language] || '';
 
 module.exports = withPlugins([[withImages]], {
   webpack(config) {
@@ -42,7 +43,7 @@ module.exports = withPlugins([[withImages]], {
     config.module.rules.push({
       test: /\.ts|tsx?$/,
       use: ['babel-loader?babelrc'],
-      include: [rsuiteRoot, path.join(__dirname, './')],
+      include: [RSUITE_ROOT, path.join(__dirname, './')],
       exclude: /node_modules/
     });
 
@@ -103,16 +104,13 @@ module.exports = withPlugins([[withImages]], {
     const map = {};
 
     function traverse(nextPages, userLanguage) {
-      const rootPath = languageToPath(userLanguage);
+      const [language, rootPath] = useLanguage(userLanguage);
 
       nextPages.forEach(page => {
         if (page.children.length === 0) {
-          //console.log(`router: ${rootPath}${page.pathname}`, userLanguage);
           map[`${rootPath}${page.pathname}`] = {
             page: page.pathname,
-            query: {
-              userLanguage
-            }
+            query: { userLanguage: language }
           };
           return;
         }
@@ -121,8 +119,7 @@ module.exports = withPlugins([[withImages]], {
       });
     }
 
-    traverse(pages, 'en');
-    traverse(pages, 'zh');
+    Object.keys(LANGUAGES).forEach(key => traverse(pages, key));
 
     return map;
   },

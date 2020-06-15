@@ -3,6 +3,7 @@ import NextLink, { LinkProps } from 'next/link';
 import AppContext from './AppContext';
 
 interface MyLinkProps extends LinkProps {
+  className?: string;
   children?: React.ReactNode;
 }
 
@@ -17,7 +18,7 @@ export default React.forwardRef(function Link(
   props: MyLinkProps,
   ref: React.RefObject<HTMLAnchorElement>
 ) {
-  const { as, href, prefetch, scroll, passHref, replace, shallow, ...rest } = props;
+  const { as, href, prefetch, scroll, passHref, replace, shallow, className, ...rest } = props;
   const { language } = React.useContext(AppContext);
   return (
     <NextLink
@@ -29,7 +30,7 @@ export default React.forwardRef(function Link(
       replace={replace}
       shallow={shallow}
     >
-      <a ref={ref} {...rest} />
+      <a ref={ref} className={className} {...rest} />
     </NextLink>
   );
 });
