@@ -809,15 +809,16 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
   };
 
   handleDragStart = (nodeData: any, event: React.DragEvent) => {
-    const { valueKey, childrenKey, onDragStart } = this.props;
+    const { valueKey, childrenKey, onDragStart, draggable } = this.props;
+    if (draggable) {
+      this.setState({
+        dragging: true,
+        dragNodeKeys: getDragNodeKeys(nodeData, childrenKey, valueKey)
+      });
 
-    this.setState({
-      dragging: true,
-      dragNodeKeys: getDragNodeKeys(nodeData, childrenKey, valueKey)
-    });
-
-    this.dragNode = this.nodes[nodeData.refKey];
-    onDragStart?.(nodeData, event);
+      this.dragNode = this.nodes[nodeData.refKey];
+      onDragStart?.(nodeData, event);
+    }
   };
 
   handleDragEnter = (nodeData: any, event: React.DragEvent) => {
