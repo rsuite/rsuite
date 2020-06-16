@@ -19,11 +19,11 @@ const dict: Dict = {
 };
 
 export function getMessages(key?: any) {
-  if (key === 'en' || key === 'en-US') {
-    return en as ENDict;
+  if (key === 'zh' || key === 'zh-CN') {
+    return zh as ZHDict;
   }
 
-  return zh as ZHDict;
+  return en as ENDict;
 }
 
 export default dict;

@@ -12,7 +12,7 @@ const nextHandler = nextApp.getRequestHandler();
 async function run() {
   await nextApp.prepare();
   const app = express();
-  const rootPaths = ['components/', 'extensions/', 'guide/', '/tools'];
+  const rootPaths = ['/components/', '/extensions/', '/guide/', '/tools/'];
 
   app.use('/design', express.static('public/design'));
   app.get('*', (req, res) => {
@@ -22,10 +22,10 @@ async function run() {
 
     pathname = canonical;
     if (pathname !== '/') {
-      pathname = pathname.replace(/\/$/, '');
+      pathname = pathname.replace(/\/en\//, '/').replace(/\/$/, '');
     }
 
-    if (userLanguage !== 'zh' || rootPaths.some(path => ~pathname.indexOf(path))) {
+    if (pathname === '/' || rootPaths.some(path => ~pathname.indexOf(path))) {
       nextApp.render(req, res, pathname, {
         userLanguage,
         ...parsedUrl.query

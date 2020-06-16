@@ -21,7 +21,7 @@ function findPages(
       .replace(/^\/index$/, '/') // Replace `index` by `/`.
       .replace(/\/index$/, '');
 
-    if (pathname.indexOf('/en') !== -1) {
+    if (pathname.indexOf('/en-US') !== -1 || pathname.indexOf('/zh-CN') !== -1) {
       return;
     }
 
