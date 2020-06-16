@@ -9,9 +9,18 @@
   .cls-2 {
     fill-rule: evenodd;
   }
+
+  .polyline-limb {
+    animation: limbLineMove 3s ease-out 1;
+  }
+  .polyline-axis {
+    animation: axisLineMove 2s ease-out 1;
+  }
+
+  .circle {
+    animation: circleMove 2s ease-out 1;
+  }
 }
-
-
 
 .logo-animated {
   animation-duration: 1s;
@@ -40,13 +49,13 @@
     transform: scale3d(0.3, 0.3, 0.3);
   }
   20% {
+    opacity: 1;
     transform: scale3d(1.1, 1.1, 1.1);
   }
   40% {
     transform: scale3d(0.9, 0.9, 0.9);
   }
   60% {
-    opacity: 1;
     transform: scale3d(1.03, 1.03, 1.03);
   }
   80% {
@@ -55,5 +64,36 @@
   to {
     opacity: 1;
     transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes axisLineMove {
+  0% {
+    stroke-dasharray: 0, 500;
+  }
+  100% {
+    stroke-dasharray: 500, 500;
+  }
+}
+
+@keyframes limbLineMove {
+  0% {
+    stroke-dasharray: 0, 200;
+    stroke: transparent;
+  }
+  50% {
+    stroke-dasharray: 0, 200;
+  }
+  100% {
+    stroke-dasharray: 200, 200;
+  }
+}
+
+@keyframes circleMove {
+  0% {
+    fill: transparent;
+  }
+  50% {
+    fill: transparent;
   }
 }
