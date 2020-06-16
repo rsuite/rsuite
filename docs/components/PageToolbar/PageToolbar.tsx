@@ -19,6 +19,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
   const {
     messages,
     language,
+    localePath,
     theme: [themeName, direction],
     onChangeDirection,
     onChangeTheme
@@ -60,9 +61,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
               <Dropdown.Item
                 icon={<Icon icon="edit2" />}
                 target="_blank"
-                href={`https://github.com/rsuite/rsuite/edit/master/docs/pages${
-                  language === 'zh' ? routerId : routerId + '/' + language
-                }/index.md`}
+                href={`https://github.com/rsuite/rsuite/edit/master/docs/pages${routerId}${localePath}/index.md`}
               >
                 {messages?.common?.edit}
               </Dropdown.Item>
