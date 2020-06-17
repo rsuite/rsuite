@@ -13,8 +13,8 @@ interface ProgressBarProps extends StandardProps {
 function ProgressBar(props: ProgressBarProps) {
   const { vertical, rtl, end = 0, start = 0, style, className } = props;
   const sizeKey = vertical ? 'height' : 'width';
-  const rltKey = rtl ? 'right' : 'left';
-  const startKey = vertical ? 'top' : rltKey;
+  const dirKey = rtl ? 'right' : 'left';
+  const startKey = vertical ? 'top' : dirKey;
   const styles = {
     ...style,
     [startKey]: `${start}%`,
