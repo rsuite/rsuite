@@ -20,7 +20,6 @@ import {
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { PLACEMENT_8 } from '../constants';
 import { DropdownProps } from './Dropdown.d';
-import appendTooltip from '../utils/appendTooltip';
 
 interface DropdownState {
   open?: boolean;
@@ -56,7 +55,7 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
     componentClass: PropTypes.elementType,
     toggleComponentClass: PropTypes.elementType,
     noCaret: PropTypes.bool,
-    hasTooltip: PropTypes.bool,
+    showHeader: PropTypes.bool,
     style: PropTypes.object,
     onClose: PropTypes.func,
     onOpen: PropTypes.func,
@@ -157,7 +156,7 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
       toggleComponentClass,
       noCaret,
       style,
-      hasTooltip,
+      showHeader,
       ...props
     } = this.props;
 
@@ -212,6 +211,7 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
         <RootCloseWrapper onRootClose={this.toggle}>
           {(props, ref) => (
             <DropdownMenu {...props} {...menuProps} htmlElementRef={ref}>
+              {showHeader && <li className={addPrefix('header')}>{title}</li>}
               {children}
             </DropdownMenu>
           )}
@@ -244,9 +244,7 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
     return (
       <Component {...dropdownProps} style={style} className={classes} role="menu">
         {menu}
-        {hasTooltip
-          ? appendTooltip({ children: toggle, message: title, placement: 'right' })
-          : toggle}
+        {toggle}
       </Component>
     );
   }
