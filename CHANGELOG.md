@@ -1,3 +1,13 @@
+# 4.7.5
+
+> June 18, 2020
+
+- **Bugfix**: fix(dropdown): fixed an issue where the menu and tooltip overlapped. ([#1132])
+- **Bugfix**: fix(treepicker): called onDragStart only when the node is draggable. ([#1124])
+
+[#1132]: https://github.com/rsuite/rsuite/pull/1132
+[#1124]: https://github.com/rsuite/rsuite/pull/1124
+
 # 4.7.4
 
 > June 11, 2020
