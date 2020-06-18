@@ -214,6 +214,30 @@
   },
   {
     "group": true,
+    "id": "layout",
+    "name": "Layout",
+    "title": "布局"
+  },
+  {
+    "id": "grid",
+    "name": "Grid",
+    "title": "栅格",
+    "components": ["Grid", "Row", "Col"]
+  },
+  {
+    "id": "flexbox-grid",
+    "name": "FlexboxGrid",
+    "title": "弹性栅格",
+    "components": ["FlexboxGrid", "FlexboxGrid.Item"]
+  },
+  {
+    "id": "container",
+    "name": "Container",
+    "title": "容器布局",
+    "components": ["Container", "Header", "Footer", "Content", "Sidebar"]
+  },
+  {
+    "group": true,
     "id": "entry",
     "name": "Data Entry",
     "title": "数据录入"
@@ -526,30 +550,7 @@
       "dark": "72"
     }
   },
-  {
-    "group": true,
-    "id": "layout",
-    "name": "Layout",
-    "title": "布局"
-  },
-  {
-    "id": "grid",
-    "name": "Grid",
-    "title": "栅格",
-    "components": ["Grid", "Row", "Col"]
-  },
-  {
-    "id": "flexbox-grid",
-    "name": "FlexboxGrid",
-    "title": "弹性栅格",
-    "components": ["FlexboxGrid", "FlexboxGrid.Item"]
-  },
-  {
-    "id": "container",
-    "name": "Container",
-    "title": "容器布局",
-    "components": ["Container", "Header", "Footer", "Content", "Sidebar"]
-  },
+  
   {
     "group": true,
     "id": "utils",

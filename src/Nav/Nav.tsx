@@ -72,7 +72,7 @@ class Nav extends React.Component<NavProps> {
           ...rest,
           onSelect,
           activeKey,
-          hasTooltip,
+          showHeader: hasTooltip,
           componentClass: 'li'
         };
       }
