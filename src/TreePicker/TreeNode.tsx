@@ -108,7 +108,10 @@ class TreeNode extends React.Component<TreeNodeProps> {
 
   handleDragStart = (event: React.DragEvent) => {
     const { nodeData, onDragStart } = this.props;
-    event.dataTransfer.setDragImage(document.getElementById('drag-node'), 0, 0);
+    const dragNode = document.getElementById('drag-node');
+    if (dragNode) {
+      event.dataTransfer.setDragImage(dragNode, 0, 0);
+    }
     onDragStart?.(nodeData, event);
   };
 
