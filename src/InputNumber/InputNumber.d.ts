@@ -33,6 +33,9 @@ export interface InputNumberProps<T = number | string> extends StandardProps {
   /** An Input can have different sizes */
   size?: TypeAttributes.Size;
 
+  /** Whether the value can be changed through the wheel event */
+  scrollable?: boolean;
+
   /** The callback function when value changes */
   onChange?: (value: T, event?: React.SyntheticEvent<any>) => void;
 }

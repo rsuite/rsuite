@@ -63,6 +63,7 @@ class InputNumber extends React.Component<InputNumberProps, InputNumberState> {
     prefix: PropTypes.node,
     postfix: PropTypes.node,
     disabled: PropTypes.bool,
+    scrollable: PropTypes.bool,
     size: PropTypes.oneOf(['lg', 'md', 'sm', 'xs']),
     buttonAppearance: PropTypes.oneOf(['default', 'primary', 'link', 'subtle', 'ghost']),
     onWheel: PropTypes.func,
@@ -72,7 +73,8 @@ class InputNumber extends React.Component<InputNumberProps, InputNumberState> {
     min: -Infinity,
     max: Infinity,
     step: 1,
-    buttonAppearance: 'subtle'
+    buttonAppearance: 'subtle',
+    scrollable: true
   };
 
   constructor(props: InputNumberProps) {
@@ -102,7 +104,7 @@ class InputNumber extends React.Component<InputNumberProps, InputNumberState> {
   input = null;
   inputWheelListener = null;
   componentDidMount() {
-    if (this.input) {
+    if (this.input && this.props.scrollable) {
       this.inputWheelListener = on(this.input, 'wheel', this.handleWheel, {
         passive: false
       });
