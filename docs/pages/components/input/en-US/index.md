@@ -2,10 +2,10 @@
 
 Instead of HTML native controls, input, textarea.
 
-* `<Input>` The input box component.
-* `<InputGroup>` The input box combination component.
-* `<InputGroup.Button>` Combined with the button.
-* `<InputGroup.Addon>` Custom additional elements.
+- `<Input>` The input box component.
+- `<InputGroup>` The input box combination component.
+- `<InputGroup.Button>` Combined with the button.
+- `<InputGroup.Addon>` Custom additional elements.
 
 ## Usage
 
@@ -33,7 +33,8 @@ import { Input, InputGroup } from 'rsuite';
 
 ### `<InputGroup>`
 
-| Property    | Type `(Default)`         | Description                             |
-| ----------- | ------------------------ | --------------------------------------- |
-| classPrefix | string `('input-group')` | The prefix of the component CSS class   |
-| inside      | boolean                  | Sets the composition content internally |
+| Property    | Type `(Default)`                      | Description                             |
+| ----------- | ------------------------------------- | --------------------------------------- |
+| classPrefix | string `('input-group')`              | The prefix of the component CSS class   |
+| inside      | boolean                               | Sets the composition content internally |
+| size        | enum: 'lg', 'md', 'sm', 'xs' `('md')` | An input group can have different sizes |

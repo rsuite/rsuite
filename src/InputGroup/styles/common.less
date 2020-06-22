@@ -10,11 +10,13 @@
 // -------------------------
 .@{ns}input-group {
   position: relative; // For dropdowns
-  display: table;
+  display: flex;
   border-radius: @input-border-radius;
   overflow: hidden;
   transition: @input-transition;
   width: 100%;
+  // Make sure all element vertical align center.
+  align-items: stretch;
 
   &-disabled {
     &,
@@ -267,13 +269,9 @@
   .reset-inside-input-group-btn-size(extra-small);
 }
 
-// Display as table-cell
-// -------------------------
 .@{ns}input-group-addon,
 .@{ns}input-group-btn,
 .@{ns}input-group:not(.@{ns}input-group-inside) .@{ns}input {
-  display: table-cell;
-
   &:not(:first-child):not(:last-child) {
     border-radius: 0;
   }
@@ -282,10 +280,15 @@
 // Addon and addon wrapper for buttons
 .@{ns}input-group-addon,
 .@{ns}input-group-btn {
-  width: 1%;
   white-space: nowrap;
-  vertical-align: middle; // Match the inputs
   color: @input-color;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.@{ns}input-group:not(.@{ns}input-group-inside) .@{ns}input {
+  flex: 1 1 auto;
 }
 
 // Text input groups

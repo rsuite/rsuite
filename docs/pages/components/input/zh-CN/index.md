@@ -37,3 +37,5 @@ import { Input, InputGroup } from 'rsuite';
 | ----------- | ------------------------ | ----------------- |
 | classPrefix | string `('input-group')` | 组件 CSS 类的前缀 |
 | inside      | boolean                  | 组合内容在内部    |
+| size         | enum: 'lg', 'md', 'sm', 'xs' `('md')`                              | 设置输入框组尺寸           |
+
