@@ -66,7 +66,7 @@ To use the custom theme feature, you must modify the default configuration of th
 1.  Installation dependencies.
 
 ```bash
-yarn add react-app-rewired customize-cra@next less less-loader
+yarn add react-app-rewired customize-cra less less-loader
 ```
 
 2.  Modify scripts in `package.json`

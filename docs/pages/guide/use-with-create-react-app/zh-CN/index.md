@@ -65,7 +65,7 @@ $ yarn add rsuite
 1.  安装必要依赖。
 
 ```bash
-yarn add react-app-rewired customize-cra@next less less-loader
+yarn add react-app-rewired customize-cra less less-loader
 ```
 
 2.  修改 `package.json` 中的脚本
