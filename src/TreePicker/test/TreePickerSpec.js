@@ -110,7 +110,7 @@ describe('TreePicker', () => {
           { label: '2', value: '2' }
         ]}
         value={'2'}
-        renderValue={(value, item, selectedElement) => `Selected: ${item.label}`}
+        renderValue={(value, item) => `Selected: ${item.label}`}
       />
     );
 

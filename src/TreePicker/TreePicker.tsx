@@ -239,11 +239,18 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
 
       this.focusNode(activeNode);
       this.unserializeLists('expand', expandItemValues);
+
+      let newState = {};
+      if (activeNode) {
+        newState = { activeNode: activeNode };
+      }
       this.setState({
-        data: nextData,
-        filterData,
-        activeNode,
-        expandItemValues: this.serializeList('expand')
+        ...{
+          data: nextData,
+          filterData,
+          expandItemValues: this.serializeList('expand')
+        },
+        ...newState
       });
     }
   }
@@ -1107,15 +1114,22 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       style,
       ...rest
     } = this.props;
-    const { activeNode } = this.state;
+    const { selectedValue, activeNode } = this.state;
     const classes = getToggleWrapperClassName('tree', this.addPrefix, this.props, !!activeNode);
 
     let selectedElement: React.ReactNode = placeholder;
     const hasValue = !!activeNode;
-    if (hasValue) {
-      selectedElement = activeNode?.[labelKey];
-      if (renderValue && activeNode) {
-        selectedElement = renderValue(activeNode[valueKey], activeNode, selectedElement);
+    /**
+     * 如果 value 不合法，同时没有设置 renderValue， 则忽略值，显示 placeholder
+     * 如果 value 不合法，但是设置了 renderValue， 则执行 renderValue 并显示
+     */
+    if (!_.isNil(selectedValue)) {
+      if (hasValue) {
+        selectedElement = activeNode[labelKey];
+      }
+      if (_.isFunction(renderValue)) {
+        const node = activeNode ?? {};
+        selectedElement = renderValue(node[valueKey], node, selectedElement);
       }
     }
 

@@ -1210,19 +1210,25 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     const selectedItems = this.getSelectedItems(selectedValues);
     let selectedElement: React.ReactNode = placeholder;
 
-    if (hasValue && selectedValues.length) {
-      selectedElement = (
-        <SelectedElement
-          selectedItems={selectedItems}
-          countable={countable}
-          valueKey={valueKey}
-          labelKey={labelKey}
-          prefix={this.addPrefix}
-          cascade={cascade}
-          locale={locale}
-        />
-      );
-      if (renderValue) {
+    /**
+     * 如果 value 不合法，同时没有设置 renderValue， 则忽略值，显示 placeholder
+     * 如果 value 不合法，但是设置了 renderValue， 则执行 renderValue 并显示
+     */
+    if (selectedValues.length) {
+      if (hasValue) {
+        selectedElement = (
+          <SelectedElement
+            selectedItems={selectedItems}
+            countable={countable}
+            valueKey={valueKey}
+            labelKey={labelKey}
+            prefix={this.addPrefix}
+            cascade={cascade}
+            locale={locale}
+          />
+        );
+      }
+      if (_.isFunction(renderValue)) {
         selectedElement = renderValue(selectedValues, selectedItems, selectedElement);
       }
     }
