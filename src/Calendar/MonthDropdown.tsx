@@ -80,7 +80,7 @@ class MonthDropdown extends React.PureComponent<MonthDropdownProps> {
     const { disabledMonth } = this.props;
 
     if (disabledMonth) {
-      const days = getDaysInMonth(legacyParse(new Date(year, month)));
+      const days = getDaysInMonth(new Date(year, month));
 
       // If all dates in a month are disabled, disable the current month
       for (let i = 1; i <= days; i++) {
