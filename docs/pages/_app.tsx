@@ -28,7 +28,11 @@ Router.events.on('routeChangeStart', url => {
 });
 Router.events.on('routeChangeComplete', () => {
   NProgress.done();
-  window['_ha']?.('send', 'pageview');
+
+  window['_ha']?.('send', 'pageview', {
+    title: document.title,
+    url: document.location.href
+  });
 });
 Router.events.on('routeChangeError', () => NProgress.done());
 
