@@ -61,7 +61,7 @@ class Toolbar extends React.PureComponent<
     this.defaultRanges = getDefaultRanges(timeZone);
     this.state = {
       ranges:
-        ranges === undefined
+        typeof ranges === 'undefined'
           ? this.defaultRanges
           : ranges.map(({ value, ...rest }) => ({
               value: toTimeZone(value, timeZone),

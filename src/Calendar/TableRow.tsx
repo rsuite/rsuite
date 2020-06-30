@@ -5,7 +5,7 @@ import { isSameDay, addDays, getDate, format } from '../utils/dateUtils';
 
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
 import IntlContext from '../IntlProvider/IntlContext';
-import { zonedDate } from '../utils/timeZone';
+import { toLocalTimeZone, zonedDate } from '../utils/timeZone';
 
 export interface TableRowProps {
   weekendDate?: Date;
@@ -81,7 +81,7 @@ class TableRow extends React.PureComponent<TableRowProps> {
         >
           <div className={this.addPrefix('cell-content')}>
             <span className={this.addPrefix('cell-day')}>{getDate(thisDate)}</span>
-            {renderCell && renderCell(thisDate)}
+            {renderCell && renderCell(toLocalTimeZone(thisDate, timeZone))}
           </div>
         </div>
       );
@@ -98,7 +98,7 @@ class TableRow extends React.PureComponent<TableRowProps> {
   }
 
   render() {
-    const { className, showWeekNumbers, timeZone, ...rest } = this.props;
+    const { className, showWeekNumbers, ...rest } = this.props;
 
     const classes = classNames(this.addPrefix('row'), className);
     const unhandled = getUnhandledProps(TableRow, rest);
