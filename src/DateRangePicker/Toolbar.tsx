@@ -48,7 +48,12 @@ const getDefaultRanges = (timeZone: string) => {
   ];
 };
 
-class Toolbar extends React.PureComponent<ToolbarProps> {
+class Toolbar extends React.PureComponent<
+  ToolbarProps,
+  {
+    ranges: Range[];
+  }
+> {
   static propTypes = {
     ranges: PropTypes.array,
     className: PropTypes.string,
@@ -107,7 +112,6 @@ class Toolbar extends React.PureComponent<ToolbarProps> {
   }
   render() {
     const {
-      ranges,
       onShortcut,
       disabledShortcutButton,
       className,
@@ -116,6 +120,7 @@ class Toolbar extends React.PureComponent<ToolbarProps> {
       hideOkButton,
       ...rest
     } = this.props;
+    const { ranges } = this.state;
 
     if (hideOkButton && ranges.length === 0) {
       return null;

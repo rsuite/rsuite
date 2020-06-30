@@ -6,6 +6,7 @@ import FormattedMessage from '../IntlProvider/FormattedMessage';
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
 import { addDays } from '../utils/dateUtils';
 import { RangeType } from './DatePicker.d';
+import { toTimeZone, zonedDate } from '../utils/timeZone';
 
 export interface ToolbarProps {
   ranges: RangeType[];
@@ -18,24 +19,28 @@ export interface ToolbarProps {
   hideOkButton?: boolean;
 }
 
-const defaultRanges = [
+const getDefaultRanges = (timeZoned: string) => {
+  const todayDate = zonedDate(timeZoned);
+  return [
+    {
+      label: 'today',
+      value: todayDate,
+      closeOverlay: true
+    },
+    {
+      label: 'yesterday',
+      value: addDays(todayDate, -1),
+      closeOverlay: true
+    }
+  ];
+};
+
+class Toolbar extends React.PureComponent<
+  ToolbarProps,
   {
-    label: 'today',
-    value: new Date(),
-    closeOverlay: true
-  },
-  {
-    label: 'yesterday',
-    value: addDays(new Date(), -1),
-    closeOverlay: true
+    ranges: RangeType[];
   }
-];
-
-function hasLocaleKey(key: any) {
-  return defaultRanges.some(item => item.label === key);
-}
-
-class Toolbar extends React.PureComponent<ToolbarProps> {
+> {
   static propTypes = {
     ranges: PropTypes.array,
     className: PropTypes.string,
@@ -46,8 +51,27 @@ class Toolbar extends React.PureComponent<ToolbarProps> {
     disabledHandle: PropTypes.func,
     hideOkButton: PropTypes.bool
   };
-  static defaultProps = {
-    ranges: defaultRanges
+  static defaultProps = {};
+
+  defaultRanges = [];
+
+  constructor(props) {
+    super(props);
+    const { timeZone, ranges } = props;
+    this.defaultRanges = getDefaultRanges(timeZone);
+    this.state = {
+      ranges:
+        ranges === undefined
+          ? this.defaultRanges
+          : ranges.map(({ value, ...rest }) => ({
+              value: toTimeZone(value, timeZone),
+              ...rest
+            }))
+    };
+  }
+
+  hasLocaleKey = (key: any) => {
+    return this.defaultRanges.some(item => item.label === key);
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
@@ -74,7 +98,6 @@ class Toolbar extends React.PureComponent<ToolbarProps> {
 
   render() {
     const {
-      ranges,
       onShortcut,
       disabledHandle,
       className,
@@ -83,6 +106,7 @@ class Toolbar extends React.PureComponent<ToolbarProps> {
       hideOkButton,
       ...rest
     } = this.props;
+    const { ranges } = this.state;
 
     if (hideOkButton && ranges.length === 0) {
       return null;
@@ -113,7 +137,7 @@ class Toolbar extends React.PureComponent<ToolbarProps> {
                   onShortcut?.(value, item.closeOverlay, event);
                 }}
               >
-                {hasLocaleKey(item.label) ? <FormattedMessage id={item.label} /> : item.label}
+                {this.hasLocaleKey(item.label) ? <FormattedMessage id={item.label} /> : item.label}
               </a>
             );
           })}

@@ -32,6 +32,7 @@ import startOfMonthFns from 'date-fns/startOfMonth';
 import startOfWeekFns from 'date-fns/startOfWeek';
 import subDaysFns from 'date-fns/subDays';
 import _ from 'lodash';
+import { toLocalTimeZone } from './timeZone';
 
 /*
  * Getter
@@ -118,7 +119,7 @@ function validTime(calendarProps: object, date: Date) {
  * @param props
  * @param date
  */
-export function disabledTime(props: object, date: Date) {
+export function disabledTime(props: any, date: Date) {
   const calendarProps = _.pick(props, disabledTimeProps);
-  return validTime(calendarProps, date);
+  return validTime(calendarProps, toLocalTimeZone(date, props.timeZone));
 }

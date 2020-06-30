@@ -12,6 +12,7 @@ import { shouldTime, shouldDate, shouldMonth } from '../utils/formatUtils';
 import { disabledTime, calendarOnlyProps, addMonths } from '../utils/dateUtils';
 
 import { tuple } from '../@types/utils';
+import { toLocalTimeZone } from '../utils/timeZone';
 
 const CalendarState = tuple('DROP_TIME', 'DROP_MONTH');
 
@@ -80,7 +81,7 @@ class Calendar extends React.Component<CalendarProps> {
     renderCell: PropTypes.func
   };
   disabledDate = (date: Date) => {
-    if (this.props.disabledDate?.(date)) {
+    if (this.props.disabledDate?.(toLocalTimeZone(date, this.props.timeZone))) {
       return true;
     }
     return false;
