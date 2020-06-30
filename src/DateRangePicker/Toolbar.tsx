@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { addDays, subDays } from '../utils/dateUtils';
 import FormattedMessage from '../IntlProvider/FormattedMessage';
-import { getUnhandledProps, prefix, defaultProps } from '../utils';
-import { setTimingMargin } from './utils';
+import { defaultProps, getUnhandledProps, prefix } from '../utils';
+import { setTimingMargin, toZonedValue } from './utils';
 import { ValueType } from './DateRangePicker.d';
+import { zonedDate } from '../utils/timeZone';
 
 export interface Range {
   label: React.ReactNode;
@@ -26,27 +27,26 @@ export interface ToolbarProps {
   hideOkButton?: boolean;
 }
 
-const defaultRanges = [
-  {
-    label: 'today',
-    value: [setTimingMargin(new Date()), setTimingMargin(new Date(), 'right')]
-  },
-  {
-    label: 'yesterday',
-    value: [
-      setTimingMargin(addDays(new Date(), -1)),
-      setTimingMargin(addDays(new Date(), -1), 'right')
-    ]
-  },
-  {
-    label: 'last7Days',
-    value: [setTimingMargin(subDays(new Date(), 6)), setTimingMargin(new Date(), 'right')]
-  }
-];
-
-function hasLocaleKey(key: any) {
-  return defaultRanges.some(item => item.label === key);
-}
+const getDefaultRanges = (timeZone: string) => {
+  const todayDate = zonedDate(timeZone);
+  return [
+    {
+      label: 'today',
+      value: [setTimingMargin(todayDate), setTimingMargin(todayDate, 'right')]
+    },
+    {
+      label: 'yesterday',
+      value: [
+        setTimingMargin(addDays(todayDate, -1)),
+        setTimingMargin(addDays(todayDate, -1), 'right')
+      ]
+    },
+    {
+      label: 'last7Days',
+      value: [setTimingMargin(subDays(todayDate, 6)), setTimingMargin(todayDate, 'right')]
+    }
+  ];
+};
 
 class Toolbar extends React.PureComponent<ToolbarProps> {
   static propTypes = {
@@ -61,8 +61,27 @@ class Toolbar extends React.PureComponent<ToolbarProps> {
     selectValue: PropTypes.array,
     hideOkButton: PropTypes.bool
   };
-  static defaultProps = {
-    ranges: defaultRanges
+  static defaultProps = {};
+
+  defaultRanges = [];
+
+  constructor(props) {
+    super(props);
+    const { timeZone, ranges } = props;
+    this.defaultRanges = getDefaultRanges(timeZone);
+    this.state = {
+      ranges:
+        ranges === undefined
+          ? this.defaultRanges
+          : ranges.map(({ value, ...rest }) => ({
+              value: toZonedValue(value, timeZone),
+              ...rest
+            }))
+    };
+  }
+
+  hasLocaleKey = (key: any) => {
+    return this.defaultRanges.some(item => item.label === key);
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
@@ -125,7 +144,7 @@ class Toolbar extends React.PureComponent<ToolbarProps> {
                   !disabled && onShortcut(value, item.closeOverlay, event);
                 }}
               >
-                {hasLocaleKey(item.label) ? <FormattedMessage id={item.label} /> : item.label}
+                {this.hasLocaleKey(item.label) ? <FormattedMessage id={item.label} /> : item.label}
               </a>
             );
           })}

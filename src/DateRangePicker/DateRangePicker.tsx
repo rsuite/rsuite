@@ -21,7 +21,7 @@ import IntlContext from '../IntlProvider/IntlContext';
 import FormattedDate from '../IntlProvider/FormattedDate';
 import Toolbar from './Toolbar';
 import DatePicker from './DatePicker';
-import { getCalendarDate, toLocalValue } from './utils';
+import { getCalendarDate, toLocalValue, toZonedValue } from './utils';
 import { createChainedFunction, defaultProps, getUnhandledProps, prefix } from '../utils';
 
 import {
@@ -34,6 +34,7 @@ import {
 import { DateRangePickerProps, ValueType } from './DateRangePicker.d';
 import { DATERANGE_DISABLED_TARGET } from '../constants';
 import { pickerDefaultProps, pickerPropTypes } from '../Picker/propTypes';
+import { toLocalTimeZone } from '../utils/timeZone';
 
 interface DateRangePickerState {
   value: ValueType;
@@ -127,9 +128,9 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     super(props);
 
     const { defaultValue, value, defaultCalendarValue, timeZone } = props;
-    const activeValue: ValueType = value || defaultValue || [];
+    const activeValue: ValueType = toZonedValue(value || defaultValue || [], timeZone);
     const calendarDate: ValueType = getCalendarDate({
-      value: value || defaultCalendarValue,
+      value: toZonedValue(value || defaultCalendarValue, timeZone),
       timeZone
     });
 
@@ -196,7 +197,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   getMonthHoverRange = (date: Date): ValueType => [startOfMonth(date), endOfMonth(date)];
 
   getHoverRange(date: Date) {
-    const { hoverRange } = this.props;
+    const { hoverRange, timeZone } = this.props;
     if (!hoverRange) {
       return [];
     }
@@ -214,7 +215,10 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       return [];
     }
 
-    const hoverValues: ValueType = hoverRangeFunc(date);
+    const hoverValues: ValueType = toZonedValue(
+      hoverRangeFunc(toLocalTimeZone(date, timeZone)),
+      timeZone
+    );
     const isHoverRangeValid = hoverValues instanceof Array && hoverValues.length === 2;
     if (!isHoverRangeValid) {
       return [];
@@ -269,7 +273,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
 
   updateValue(event: React.SyntheticEvent<any>, nextSelectValue?: ValueType, closeOverlay = true) {
     const { value, selectValue } = this.state;
-    const { onChange } = this.props;
+    const { onChange, timeZone } = this.props;
     const nextValue: any = !_.isUndefined(nextSelectValue) ? nextSelectValue : selectValue;
 
     this.setState({
@@ -278,7 +282,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     });
 
     if (onChange && (!isSameDay(nextValue[0], value[0]) || !isSameDay(nextValue[1], value[1]))) {
-      onChange(nextValue, event);
+      onChange(toLocalValue(nextValue, timeZone), event);
     }
 
     // `closeOverlay` default value is `true`
@@ -289,7 +293,10 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
 
   handleOK = (event: React.SyntheticEvent<any>) => {
     this.updateValue(event);
-    this.props.onOk?.(this.state.selectValue as ValueType, event);
+    this.props.onOk?.(
+      toLocalValue(this.state.selectValue as ValueType, this.props.timeZone),
+      event
+    );
   };
 
   handleChangeSelectValue = (date: Date, event: React.SyntheticEvent<any>) => {
@@ -342,7 +349,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
         this.updateValue(event);
       }
 
-      onSelect?.(date, event);
+      onSelect?.(toLocalTimeZone(date, timeZone), event);
     });
   };
 
@@ -428,7 +435,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   };
 
   disabledByBetween(start: Date, end: Date, type: DATERANGE_DISABLED_TARGET) {
-    const { disabledDate } = this.props;
+    const { disabledDate, timeZone } = this.props;
     const { selectValue, doneSelected } = this.state;
     const selectStartDate = selectValue[0];
     const selectEndDate = selectValue[1];
@@ -437,7 +444,14 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     // If the date is between the start and the end
     // the button is disabled
     while (isBefore(start, end) || isSameDay(start, end)) {
-      if (disabledDate?.(start, nextSelectValue, doneSelected, type)) {
+      if (
+        disabledDate?.(
+          toLocalTimeZone(start, timeZone),
+          toLocalValue(nextSelectValue, timeZone),
+          doneSelected,
+          type
+        )
+      ) {
         return true;
       }
       start = addDays(start, 1);
@@ -469,10 +483,15 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   };
 
   handleDisabledDate = (date: Date, values: ValueType, type: DATERANGE_DISABLED_TARGET) => {
-    const { disabledDate } = this.props;
+    const { disabledDate, timeZone } = this.props;
     const { doneSelected } = this.state;
     if (disabledDate) {
-      return disabledDate(date, values, doneSelected, type);
+      return disabledDate(
+        toLocalTimeZone(date, timeZone),
+        toLocalValue(values, timeZone),
+        doneSelected,
+        type
+      );
     }
     return false;
   };

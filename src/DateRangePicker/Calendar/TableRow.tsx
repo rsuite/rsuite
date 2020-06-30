@@ -5,7 +5,7 @@ import { addDays, isSameDay, isBefore, isAfter, getDate, format } from '../../ut
 import { getUnhandledProps, prefix, defaultProps } from '../../utils';
 import IntlContext from '../../IntlProvider/IntlContext';
 import { DATERANGE_DISABLED_TARGET } from '../../constants';
-import { zonedDate, format as timeZoneFormat } from '../../utils/timeZone';
+import { zonedDate } from '../../utils/timeZone';
 
 export interface TableRowProps {
   weekendDate?: Date;

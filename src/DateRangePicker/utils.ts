@@ -1,12 +1,15 @@
 import { addMonths, endOfDay, isSameMonth, startOfDay } from '../utils/dateUtils';
 import { ValueType } from './DateRangePicker.d';
-import { toLocalTimeZone, zonedDate } from '../utils/timeZone';
+import { toLocalTimeZone, toTimeZone, zonedDate } from '../utils/timeZone';
 
 export const setTimingMargin = (date, way = 'left'): Date =>
   way === 'right' ? endOfDay(date) : startOfDay(date);
 
 export const toLocalValue = (value: ValueType, timeZone: string): ValueType =>
-  value.map(item => toLocalTimeZone(item, timeZone)) as ValueType;
+  (value ?? []).map(item => toLocalTimeZone(item, timeZone)) as ValueType;
+
+export const toZonedValue = (value: ValueType, timeZone: string): ValueType =>
+  (value ?? []).map(item => toTimeZone(item, timeZone)) as ValueType;
 
 export function getCalendarDate({
   value,
