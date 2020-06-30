@@ -15,6 +15,8 @@ module.exports = (api, options) => {
         'preset-env': {
           targets: {
             node: true,
+            // https://github.com/babel/babel/issues/9849#issuecomment-592668815
+            esmodules: true,
             browsers: ['> 1%', 'last 2 versions', 'ie >= 10']
           },
           useBuiltIns: 'entry',
