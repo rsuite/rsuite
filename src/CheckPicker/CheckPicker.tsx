@@ -9,7 +9,8 @@ import {
   prefix,
   getUnhandledProps,
   createChainedFunction,
-  getDataGroupBy
+  getDataGroupBy,
+  mergeRefs
 } from '../utils';
 
 import IntlContext from '../IntlProvider/IntlContext';
@@ -27,8 +28,8 @@ import {
 } from '../Picker';
 import DropdownMenu, { dropdownMenuPropTypes } from '../Picker/DropdownMenu';
 import { CheckPickerProps } from './CheckPicker.d';
-import { PLACEMENT } from '../constants';
 import { ItemDataType } from '../@types/common';
+import { listPickerPropTypes, listPickerDefaultProps } from '../Picker/propTypes';
 
 interface CheckPickerState {
   value?: any[];
@@ -41,74 +42,32 @@ interface CheckPickerState {
 
 class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
   static propTypes = {
-    appearance: PropTypes.oneOf(['default', 'subtle']),
-    data: PropTypes.array,
-    locale: PropTypes.object,
-    classPrefix: PropTypes.string,
-    className: PropTypes.string,
-    container: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-    containerPadding: PropTypes.number,
-    block: PropTypes.bool,
-    toggleComponentClass: PropTypes.elementType,
-    menuClassName: PropTypes.string,
-    menuStyle: PropTypes.object,
+    ...listPickerPropTypes,
     menuAutoWidth: PropTypes.bool,
-    disabled: PropTypes.bool,
-    disabledItemValues: PropTypes.array,
     maxHeight: PropTypes.number,
-    valueKey: PropTypes.string,
-    labelKey: PropTypes.string,
-    value: PropTypes.array,
-    defaultValue: PropTypes.array,
     renderMenu: PropTypes.func,
     renderMenuItem: PropTypes.func,
     renderMenuGroup: PropTypes.func,
-    renderValue: PropTypes.func,
-    renderExtraFooter: PropTypes.func,
-    onChange: PropTypes.func,
     onSelect: PropTypes.func,
     onGroupTitleClick: PropTypes.func,
     onSearch: PropTypes.func,
-    onClean: PropTypes.func,
-    onOpen: PropTypes.func,
-    onClose: PropTypes.func,
-    onHide: PropTypes.func,
-    onEnter: PropTypes.func,
-    onEntering: PropTypes.func,
-    onEntered: PropTypes.func,
-    onExit: PropTypes.func,
-    onExiting: PropTypes.func,
-    onExited: PropTypes.func,
     groupBy: PropTypes.any,
     sort: PropTypes.func,
-    placeholder: PropTypes.node,
     searchable: PropTypes.bool,
-    cleanable: PropTypes.bool,
     countable: PropTypes.bool,
-    open: PropTypes.bool,
-    defaultOpen: PropTypes.bool,
-    placement: PropTypes.oneOf(PLACEMENT),
-    style: PropTypes.object,
     sticky: PropTypes.bool,
-    preventOverflow: PropTypes.bool,
     virtualized: PropTypes.bool,
     searchBy: PropTypes.func
   };
   static defaultProps = {
-    appearance: 'default',
-    data: [],
-    disabledItemValues: [],
+    ...listPickerDefaultProps,
     maxHeight: 320,
-    valueKey: 'value',
-    labelKey: 'label',
     locale: {
       placeholder: 'Select',
       searchPlaceholder: 'Search',
       noResultsText: 'No results found'
     },
-    placement: 'bottomStart',
     searchable: true,
-    cleanable: true,
     countable: true,
     menuAutoWidth: true,
     virtualized: true
@@ -321,18 +280,14 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
 
   handleCloseDropdown = () => {
     const value = this.getValue();
-    if (this.triggerRef.current) {
-      this.triggerRef.current.hide();
-    }
+    this.triggerRef.current?.hide?.();
     this.setState({
       focusItemValue: value ? value[0] : undefined
     });
   };
 
   handleOpenDropdown = () => {
-    if (this.triggerRef.current) {
-      this.triggerRef.current.show();
-    }
+    this.triggerRef.current?.show?.();
   };
 
   open = () => {
@@ -491,6 +446,7 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
       onExited,
       onClean,
       countable,
+      positionRef,
       ...rest
     } = this.props;
 
@@ -527,7 +483,7 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
         <PickerToggleTrigger
           pickerProps={this.props}
           ref={this.triggerRef}
-          positionRef={this.positionRef}
+          positionRef={mergeRefs(this.positionRef, positionRef)}
           onEnter={createChainedFunction(this.setStickyItems, onEnter)}
           onEntered={createChainedFunction(this.handleOpen, onEntered)}
           onExited={createChainedFunction(this.handleExit, onExited)}

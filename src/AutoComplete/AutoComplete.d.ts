@@ -56,6 +56,9 @@ export interface AutoCompleteProps extends StandardProps {
 
   /** Custom selected option */
   renderItem?: (itemData: ItemDataType) => React.ReactNode;
+
+  /** Position of ref */
+  positionRef?: React.RefObject<any>;
 }
 
 declare const AutoComplete: React.ComponentType<AutoCompleteProps>;

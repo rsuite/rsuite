@@ -7,6 +7,7 @@ import getDOMNode from '../utils/getDOMNode';
 import getAnimationEnd from './getAnimationEnd';
 
 import { TransitionProps } from './Animation.d';
+import { animationPropTypes } from './propTypes';
 
 export const UNMOUNTED = 0;
 export const EXITED = 1;
@@ -19,6 +20,7 @@ interface TransitionState {
 }
 
 export const transitionPropTypes = {
+  ...animationPropTypes,
   animation: PropTypes.bool,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   className: PropTypes.string,
@@ -30,14 +32,7 @@ export const transitionPropTypes = {
   exitedClassName: PropTypes.string,
   exitingClassName: PropTypes.string,
   enteredClassName: PropTypes.string,
-  enteringClassName: PropTypes.string,
-
-  onEnter: PropTypes.func,
-  onEntering: PropTypes.func,
-  onEntered: PropTypes.func,
-  onExit: PropTypes.func,
-  onExiting: PropTypes.func,
-  onExited: PropTypes.func
+  enteringClassName: PropTypes.string
 };
 
 class Transition extends React.Component<TransitionProps, TransitionState> {

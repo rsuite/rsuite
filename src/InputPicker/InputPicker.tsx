@@ -11,7 +11,8 @@ import {
   getUnhandledProps,
   createChainedFunction,
   tplTransform,
-  getDataGroupBy
+  getDataGroupBy,
+  mergeRefs
 } from '../utils';
 
 import {
@@ -29,8 +30,8 @@ import InputAutosize from './InputAutosize';
 import InputSearch from './InputSearch';
 import Tag from '../Tag';
 import { InputPickerProps } from './InputPicker.d';
-import { PLACEMENT } from '../constants';
 import { ItemDataType } from '../@types/common';
+import { listPickerPropTypes, listPickerDefaultProps } from '../Picker/propTypes';
 
 interface InputPickerState {
   data?: any[];
@@ -45,76 +46,36 @@ interface InputPickerState {
 
 class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   static propTypes = {
-    data: PropTypes.array,
+    ...listPickerPropTypes,
     cacheData: PropTypes.array,
-    locale: PropTypes.object,
-    classPrefix: PropTypes.string,
-    className: PropTypes.string,
-    container: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-    containerPadding: PropTypes.number,
-    block: PropTypes.bool,
-    toggleComponentClass: PropTypes.elementType,
-    menuClassName: PropTypes.string,
-    menuStyle: PropTypes.object,
     menuAutoWidth: PropTypes.bool,
-    disabled: PropTypes.bool,
-    disabledItemValues: PropTypes.array,
     maxHeight: PropTypes.number,
-    valueKey: PropTypes.string,
-    labelKey: PropTypes.string,
-    value: PropTypes.any,
-    defaultValue: PropTypes.any,
-    placeholder: PropTypes.node,
     searchable: PropTypes.bool,
-    cleanable: PropTypes.bool,
-    open: PropTypes.bool,
-    defaultOpen: PropTypes.bool,
-    placement: PropTypes.oneOf(PLACEMENT),
-    style: PropTypes.object,
     creatable: PropTypes.bool,
     multi: PropTypes.bool,
-    preventOverflow: PropTypes.bool,
     groupBy: PropTypes.any,
     sort: PropTypes.func,
     renderMenu: PropTypes.func,
     renderMenuItem: PropTypes.func,
     renderMenuGroup: PropTypes.func,
-    renderValue: PropTypes.func,
-    renderExtraFooter: PropTypes.func,
-    onChange: PropTypes.func,
     onSelect: PropTypes.func,
     onGroupTitleClick: PropTypes.func,
     onSearch: PropTypes.func,
-    onClean: PropTypes.func,
-    onOpen: PropTypes.func,
-    onClose: PropTypes.func,
-    onHide: PropTypes.func,
-    onEnter: PropTypes.func,
-    onEntering: PropTypes.func,
-    onEntered: PropTypes.func,
-    onExit: PropTypes.func,
-    onExiting: PropTypes.func,
-    onExited: PropTypes.func,
     virtualized: PropTypes.bool,
     searchBy: PropTypes.func,
     tagProps: PropTypes.object
   };
   static defaultProps = {
-    data: [],
+    ...listPickerDefaultProps,
     cacheData: [],
-    disabledItemValues: [],
     maxHeight: 320,
-    valueKey: 'value',
-    labelKey: 'label',
     locale: {
       placeholder: 'Select',
       noResultsText: 'No results found',
       newItem: 'New item',
       createOption: 'Create option "{0}"'
     },
-    placement: 'bottomStart',
     searchable: true,
-    cleanable: true,
     menuAutoWidth: true,
     virtualized: true
   };
@@ -260,7 +221,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   getInput() {
     const { multi } = this.props;
     if (multi) {
-      return this.inputRef.current.getInputInstance();
+      return this.inputRef.current?.getInputInstance?.();
     }
 
     return this.inputRef.current;
@@ -319,9 +280,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   };
 
   updatePosition() {
-    if (this.positionRef.current) {
-      this.positionRef.current.updatePosition(true);
-    }
+    this.positionRef.current?.updatePosition?.(true);
   }
 
   handleKeyDown = (event: React.KeyboardEvent) => {
@@ -469,15 +428,11 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   };
 
   handleOpenDropdown = () => {
-    if (this.triggerRef.current) {
-      this.triggerRef.current.show();
-    }
+    this.triggerRef.current?.show?.();
   };
 
   handleCloseDropdown = () => {
-    if (this.triggerRef.current) {
-      this.triggerRef.current.hide();
-    }
+    this.triggerRef.current?.hide?.();
   };
 
   open = () => {
@@ -728,6 +683,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       onExited,
       searchable,
       multi,
+      positionRef,
       ...rest
     } = this.props;
 
@@ -748,7 +704,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       <PickerToggleTrigger
         pickerProps={this.props}
         ref={this.triggerRef}
-        positionRef={this.positionRef}
+        positionRef={mergeRefs(this.positionRef, positionRef)}
         trigger="active"
         onEnter={createChainedFunction(this.handleEnter, onEnter)}
         onEntered={createChainedFunction(this.handleEntered, onEntered)}

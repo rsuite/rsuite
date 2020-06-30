@@ -6,11 +6,12 @@ import setStatic from 'recompose/setStatic';
 import shallowEqual from '../utils/shallowEqual';
 import Input from '../Input';
 import AutoCompleteItem from './AutoCompleteItem';
-import { defaultProps, getUnhandledProps, prefix } from '../utils';
+import { defaultProps, getUnhandledProps, prefix, refType } from '../utils';
 import { PickerToggleTrigger, onMenuKeyDown, MenuWrapper } from '../Picker';
 import { AutoCompleteProps } from './AutoComplete.d';
 import { ItemDataType } from '../@types/common';
 import { PLACEMENT } from '../constants';
+import { animationPropTypes } from '../Animation/propTypes';
 
 interface State {
   value: string;
@@ -20,6 +21,7 @@ interface State {
 
 class AutoComplete extends React.Component<AutoCompleteProps, State> {
   static propTypes = {
+    ...animationPropTypes,
     data: PropTypes.array,
     disabled: PropTypes.bool,
     onSelect: PropTypes.func,
@@ -42,12 +44,7 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
     open: PropTypes.bool,
     selectOnEnter: PropTypes.bool,
     filterBy: PropTypes.func,
-    onEnter: PropTypes.func,
-    onEntering: PropTypes.func,
-    onEntered: PropTypes.func,
-    onExit: PropTypes.func,
-    onExiting: PropTypes.func,
-    onExited: PropTypes.func
+    positionRef: refType
   };
   static defaultProps = {
     data: [],
@@ -220,8 +217,7 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
   };
 
   handleChangeValue = (value: any, event: React.SyntheticEvent<HTMLElement>) => {
-    const { onChange } = this.props;
-    onChange?.(value, event);
+    this.props.onChange?.(value, event);
   };
 
   handleSelect = (item: ItemDataType, event: React.SyntheticEvent<HTMLElement>) => {

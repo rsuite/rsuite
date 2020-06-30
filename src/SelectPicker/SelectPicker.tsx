@@ -9,7 +9,8 @@ import {
   prefix,
   getUnhandledProps,
   createChainedFunction,
-  getDataGroupBy
+  getDataGroupBy,
+  mergeRefs
 } from '../utils';
 
 import {
@@ -24,8 +25,8 @@ import {
 } from '../Picker';
 import DropdownMenu, { dropdownMenuPropTypes } from '../Picker/DropdownMenu';
 import { SelectPickerProps } from './SelectPicker.d';
-import { PLACEMENT } from '../constants';
 import { ItemDataType } from '../@types/common';
+import { listPickerPropTypes, listPickerDefaultProps } from '../Picker/propTypes';
 
 interface SelectPickerState {
   value?: any;
@@ -37,80 +38,35 @@ interface SelectPickerState {
 
 class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState> {
   static propTypes = {
-    appearance: PropTypes.oneOf(['default', 'subtle']),
-    data: PropTypes.array,
-    locale: PropTypes.object,
-    classPrefix: PropTypes.string,
-    className: PropTypes.string,
-    container: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-    containerPadding: PropTypes.number,
-    block: PropTypes.bool,
-    toggleComponentClass: PropTypes.elementType,
-    menuClassName: PropTypes.string,
-    menuStyle: PropTypes.object,
+    ...listPickerPropTypes,
     menuAutoWidth: PropTypes.bool,
-    disabled: PropTypes.bool,
-    disabledItemValues: PropTypes.array,
     maxHeight: PropTypes.number,
-    valueKey: PropTypes.string,
-    labelKey: PropTypes.string,
-    value: PropTypes.any,
-    defaultValue: PropTypes.any,
     renderMenu: PropTypes.func,
     renderMenuItem: PropTypes.func,
     renderMenuGroup: PropTypes.func,
-    renderValue: PropTypes.func,
-    renderExtraFooter: PropTypes.func,
-    onChange: PropTypes.func,
     onSelect: PropTypes.func,
     onGroupTitleClick: PropTypes.func,
     onSearch: PropTypes.func,
-    onClean: PropTypes.func,
-    onOpen: PropTypes.func,
-    onClose: PropTypes.func,
-    onHide: PropTypes.func,
-    onEnter: PropTypes.func,
-    onEntering: PropTypes.func,
-    onEntered: PropTypes.func,
-    onExit: PropTypes.func,
-    onExiting: PropTypes.func,
-    onExited: PropTypes.func,
     /**
      * group by key in `data`
      */
     groupBy: PropTypes.any,
     sort: PropTypes.func,
-    placeholder: PropTypes.node,
     searchable: PropTypes.bool,
-    cleanable: PropTypes.bool,
-    open: PropTypes.bool,
-    defaultOpen: PropTypes.bool,
-    placement: PropTypes.oneOf(PLACEMENT),
-    style: PropTypes.object,
-    /**
-     * Prevent floating element overflow
-     */
-    preventOverflow: PropTypes.bool,
     virtualized: PropTypes.bool,
     searchBy: PropTypes.func
   };
   static defaultProps = {
-    appearance: 'default',
-    data: [],
-    disabledItemValues: [],
+    ...listPickerDefaultProps,
+    searchable: true,
+    menuAutoWidth: true,
+    virtualized: true,
     maxHeight: 320,
-    valueKey: 'value',
-    labelKey: 'label',
     locale: {
       placeholder: 'Select',
       searchPlaceholder: 'Search',
       noResultsText: 'No results found'
-    },
-    placement: 'bottomStart',
-    searchable: true,
-    cleanable: true,
-    menuAutoWidth: true,
-    virtualized: true
+    }
   };
   positionRef: React.RefObject<any>;
   menuContainerRef: React.RefObject<any>;
@@ -280,15 +236,11 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
   };
 
   handleCloseDropdown = () => {
-    if (this.triggerRef.current) {
-      this.triggerRef.current.hide();
-    }
+    this.triggerRef.current?.hide?.();
   };
 
   handleOpenDropdown = () => {
-    if (this.triggerRef.current) {
-      this.triggerRef.current.show();
-    }
+    this.triggerRef.current?.show?.();
   };
   open = () => {
     this.handleOpenDropdown?.();
@@ -436,6 +388,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
       onEntered,
       onExited,
       onClean,
+      positionRef,
       ...rest
     } = this.props;
 
@@ -462,7 +415,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
       <PickerToggleTrigger
         pickerProps={this.props}
         ref={this.triggerRef}
-        positionRef={this.positionRef}
+        positionRef={mergeRefs(this.positionRef, positionRef)}
         onEntered={createChainedFunction(this.handleOpen, onEntered)}
         onExited={createChainedFunction(this.handleExit, onExited)}
         speaker={this.renderDropdownMenu()}
