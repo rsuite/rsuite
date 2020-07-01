@@ -14,7 +14,8 @@ import {
   prefix,
   defaultClassPrefix,
   getUnhandledProps,
-  createChainedFunction
+  createChainedFunction,
+  mergeRefs
 } from '../utils';
 
 import {
@@ -46,7 +47,8 @@ import {
 } from '../Picker';
 
 import { TreePickerProps } from './TreePicker.d';
-import { PLACEMENT, TREE_NODE_DROP_POSITION } from '../constants';
+import { TREE_NODE_DROP_POSITION } from '../constants';
+import { listPickerPropTypes, listPickerDefaultProps } from '../Picker/propTypes';
 
 // default value for virtualized
 const defaultHeight = 360;
@@ -71,57 +73,22 @@ interface TreePickerState {
 
 class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
   static propTypes = {
-    appearance: PropTypes.oneOf(['default', 'subtle']),
-    data: PropTypes.array,
-    open: PropTypes.bool,
-    style: PropTypes.object,
-    block: PropTypes.bool,
-    value: PropTypes.any,
+    ...listPickerPropTypes,
     height: PropTypes.number,
     inline: PropTypes.bool,
-    locale: PropTypes.object,
-    labelKey: PropTypes.string,
-    valueKey: PropTypes.string,
     draggable: PropTypes.bool,
-    container: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-    placement: PropTypes.oneOf(PLACEMENT),
-    disabled: PropTypes.bool,
-    className: PropTypes.string,
     expandAll: PropTypes.bool,
-    cleanable: PropTypes.bool,
     virtualized: PropTypes.bool,
     searchable: PropTypes.bool,
-    classPrefix: PropTypes.string,
-    childrenKey: PropTypes.string,
-    placeholder: PropTypes.node,
-    defaultOpen: PropTypes.bool,
-    defaultValue: PropTypes.any,
-    menuStyle: PropTypes.object,
-    menuClassName: PropTypes.string,
     menuAutoWidth: PropTypes.bool,
     searchKeyword: PropTypes.string,
     defaultExpandAll: PropTypes.bool,
-    containerPadding: PropTypes.number,
-    disabledItemValues: PropTypes.array,
     expandItemValues: PropTypes.array,
     defaultExpandItemValues: PropTypes.array,
-    toggleComponentClass: PropTypes.elementType,
-    onOpen: PropTypes.func,
-    onExit: PropTypes.func,
-    onEnter: PropTypes.func,
-    onClose: PropTypes.func,
-    onHide: PropTypes.func,
     onSearch: PropTypes.func,
-    onClean: PropTypes.func,
-    onChange: PropTypes.func,
     onExpand: PropTypes.func,
     onSelect: PropTypes.func,
-    onExited: PropTypes.func,
-    onEntered: PropTypes.func,
-    onExiting: PropTypes.func,
-    onEntering: PropTypes.func,
     renderMenu: PropTypes.func,
-    renderValue: PropTypes.func,
     renderTreeNode: PropTypes.func,
     renderTreeIcon: PropTypes.func,
     renderExtraFooter: PropTypes.func,
@@ -129,19 +96,14 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     searchBy: PropTypes.func
   };
   static defaultProps = {
+    ...listPickerDefaultProps,
+    searchable: true,
+    menuAutoWidth: true,
     locale: {
       placeholder: 'Select',
       searchPlaceholder: 'Search',
       noResultsText: 'No results found'
-    },
-    valueKey: 'value',
-    labelKey: 'label',
-    cleanable: true,
-    placement: 'bottomStart',
-    searchable: true,
-    appearance: 'default',
-    childrenKey: 'children',
-    menuAutoWidth: true
+    }
   };
 
   menuRef: React.RefObject<any>;
@@ -644,15 +606,11 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
   };
 
   handleCloseDropdown = () => {
-    if (this.triggerRef.current) {
-      this.triggerRef.current.hide();
-    }
+    this.triggerRef.current?.hide?.();
   };
 
   handleOpenDropdown = () => {
-    if (this.triggerRef.current) {
-      this.triggerRef.current.show();
-    }
+    this.triggerRef.current?.show?.();
   };
 
   open = () => {
@@ -1105,6 +1063,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       onExited,
       onClean,
       style,
+      positionRef,
       ...rest
     } = this.props;
     const { activeNode } = this.state;
@@ -1129,7 +1088,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       <PickerToggleTrigger
         pickerProps={this.props}
         ref={this.triggerRef}
-        positionRef={this.positionRef}
+        positionRef={mergeRefs(this.positionRef, positionRef)}
         onEntered={createChainedFunction(this.handleOnOpen, onEntered)}
         onExited={createChainedFunction(this.handleOnClose, onExited)}
         speaker={this.renderDropdownMenu()}

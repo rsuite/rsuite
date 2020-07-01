@@ -13,7 +13,7 @@ export interface PickerToggleTriggerProps {
   trigger?: TriggerType | TriggerType[];
   children: React.ReactNode;
   speaker: React.ReactElement<any>;
-  positionRef?: React.RefObject<any>;
+  positionRef?: React.Ref<any>;
   onEnter?: (node: null | Element | Text) => void;
   onEntered?: (node: null | Element | Text) => void;
   onExit?: (node: null | Element | Text) => void;
@@ -33,7 +33,8 @@ const PickerToggleTriggerProps = [
   'onHide',
   'container',
   'containerPadding',
-  'preventOverflow'
+  'preventOverflow',
+  'positionRef'
 ];
 
 const PickerToggleTrigger = React.forwardRef(

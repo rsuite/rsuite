@@ -31,7 +31,7 @@ import {
 } from '../Picker';
 
 import { DatePickerProps } from './DatePicker.d';
-import { PLACEMENT } from '../constants';
+import { pickerPropTypes, pickerDefaultProps } from '../Picker/propTypes';
 
 interface DatePickerState {
   value?: Date;
@@ -42,32 +42,16 @@ interface DatePickerState {
 
 class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   static propTypes = {
-    appearance: PropTypes.oneOf(['default', 'subtle']),
+    ...pickerPropTypes,
     ranges: PropTypes.array,
     defaultValue: PropTypes.instanceOf(Date),
     value: PropTypes.instanceOf(Date),
     calendarDefaultDate: PropTypes.instanceOf(Date),
-    placeholder: PropTypes.string,
     format: PropTypes.string,
-    disabled: PropTypes.bool,
-    locale: PropTypes.object,
     inline: PropTypes.bool,
-    cleanable: PropTypes.bool,
     isoWeek: PropTypes.bool,
     limitEndYear: PropTypes.number,
-    className: PropTypes.string,
-    menuClassName: PropTypes.string,
-    classPrefix: PropTypes.string,
-    container: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-    containerPadding: PropTypes.number,
-    block: PropTypes.bool,
-    toggleComponentClass: PropTypes.elementType,
-    open: PropTypes.bool,
-    defaultOpen: PropTypes.bool,
-    placement: PropTypes.oneOf(PLACEMENT),
-    style: PropTypes.object,
     oneTap: PropTypes.bool,
-    preventOverflow: PropTypes.bool,
     showWeekNumbers: PropTypes.bool,
     showMeridian: PropTypes.bool,
     disabledDate: PropTypes.func,
@@ -84,22 +68,10 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     onSelect: PropTypes.func,
     onPrevMonth: PropTypes.func,
     onNextMonth: PropTypes.func,
-    onOk: PropTypes.func,
-    onClean: PropTypes.func,
-    onEnter: PropTypes.func,
-    onEntering: PropTypes.func,
-    onEntered: PropTypes.func,
-    onExit: PropTypes.func,
-    onExiting: PropTypes.func,
-    onExited: PropTypes.func,
-    onOpen: PropTypes.func,
-    onClose: PropTypes.func,
-    onHide: PropTypes.func,
-    renderValue: PropTypes.func
+    onOk: PropTypes.func
   };
   static defaultProps = {
-    appearance: 'default',
-    placement: 'bottomStart',
+    ...pickerDefaultProps,
     limitEndYear: 1000,
     format: 'YYYY-MM-DD',
     placeholder: '',
@@ -117,8 +89,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
       hours: 'Hours',
       minutes: 'Minutes',
       seconds: 'Seconds'
-    },
-    cleanable: true
+    }
   };
   menuContainerRef: React.RefObject<any>;
   triggerRef: React.RefObject<any>;
@@ -259,15 +230,11 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   }
 
   handleCloseDropdown = () => {
-    if (this.triggerRef.current) {
-      this.triggerRef.current.hide();
-    }
+    this.triggerRef.current?.hide?.();
   };
 
   handleOpenDropdown = () => {
-    if (this.triggerRef.current) {
-      this.triggerRef.current.show();
-    }
+    this.triggerRef.current?.show?.();
   };
   open = () => {
     this.handleOpenDropdown?.();

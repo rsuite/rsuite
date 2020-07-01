@@ -34,7 +34,8 @@ import {
 } from '../Picker';
 
 import { DateRangePickerProps, ValueType } from './DateRangePicker.d';
-import { PLACEMENT, DATERANGE_DISABLED_TARGET } from '../constants';
+import { DATERANGE_DISABLED_TARGET } from '../constants';
+import { pickerPropTypes, pickerDefaultProps } from '../Picker/propTypes';
 
 interface DateRangePickerState {
   value: ValueType;
@@ -57,57 +58,28 @@ interface DateRangePickerState {
 
 class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePickerState> {
   static propTypes = {
-    appearance: PropTypes.oneOf(['default', 'subtle']),
+    ...pickerPropTypes,
     ranges: PropTypes.array,
     value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     defaultValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     defaultCalendarValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-    placeholder: PropTypes.node,
-    format: PropTypes.string,
-    disabled: PropTypes.bool,
-    locale: PropTypes.object,
     hoverRange: PropTypes.oneOfType([PropTypes.oneOf(['week', 'month']), PropTypes.func]),
-    cleanable: PropTypes.bool,
+    format: PropTypes.string,
     isoWeek: PropTypes.bool,
     oneTap: PropTypes.bool,
     limitEndYear: PropTypes.number,
-    className: PropTypes.string,
-    menuClassName: PropTypes.string,
-    classPrefix: PropTypes.string,
-    container: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-    containerPadding: PropTypes.number,
-    block: PropTypes.bool,
-    toggleComponentClass: PropTypes.elementType,
-    style: PropTypes.object,
-    open: PropTypes.bool,
-    defaultOpen: PropTypes.bool,
-    placement: PropTypes.oneOf(PLACEMENT),
-    preventOverflow: PropTypes.bool,
     showWeekNumbers: PropTypes.bool,
     onChange: PropTypes.func,
     onOk: PropTypes.func,
     disabledDate: PropTypes.func,
     onSelect: PropTypes.func,
-    onOpen: PropTypes.func,
-    onClose: PropTypes.func,
-    onHide: PropTypes.func,
-    onClean: PropTypes.func,
-    onEnter: PropTypes.func,
-    onEntering: PropTypes.func,
-    onEntered: PropTypes.func,
-    onExit: PropTypes.func,
-    onExiting: PropTypes.func,
-    onExited: PropTypes.func,
-    renderValue: PropTypes.func,
     showOneCalendar: PropTypes.bool
   };
   static defaultProps = {
-    appearance: 'default',
-    placement: 'bottomStart',
+    ...pickerDefaultProps,
     limitEndYear: 1000,
     format: 'YYYY-MM-DD',
     placeholder: '',
-    cleanable: true,
     showOneCalendar: false,
     locale: {
       sunday: 'Su',
@@ -257,15 +229,11 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   };
 
   handleCloseDropdown = () => {
-    if (this.triggerRef.current) {
-      this.triggerRef.current.hide();
-    }
+    this.triggerRef.current?.hide?.();
   };
 
   handleOpenDropdown = () => {
-    if (this.triggerRef.current) {
-      this.triggerRef.current.show();
-    }
+    this.triggerRef.current?.show?.();
   };
 
   open = () => {
@@ -370,7 +338,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
         this.updateValue(event);
       }
 
-      onSelect && onSelect(date, event);
+      onSelect?.(date, event);
     });
   };
 

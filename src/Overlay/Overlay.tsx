@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 import BaseOverlay, { BaseOverlayProps } from './BaseOverlay';
 import Fade from '../Animation/Fade';
+import refType from '../utils/refType';
 
 export interface OverlayProps extends BaseOverlayProps {
   animation?: boolean;
@@ -42,7 +43,7 @@ Overlay.propTypes = {
   show: PropTypes.bool,
   rootClose: PropTypes.bool,
   transition: PropTypes.elementType,
-  positionRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+  positionRef: refType,
   target: PropTypes.func,
   onHide: PropTypes.func,
   onEnter: PropTypes.func,

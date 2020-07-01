@@ -53,6 +53,9 @@ export interface TriggerProps extends AnimationEventProps, StandardProps {
 
   /** Mouse over callback function */
   onMouseOver?: () => void;
+
+  /** Position of ref */
+  positionRef?: React.Ref<any>;
 }
 
 export interface OverlayTriggerProps extends TriggerProps {

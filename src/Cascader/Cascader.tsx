@@ -12,7 +12,13 @@ import stringToObject from '../utils/stringToObject';
 import getSafeRegExpString from '../utils/getSafeRegExpString';
 import { flattenTree, getNodeParents } from '../utils/treeUtils';
 import { getDerivedStateForCascade } from './utils';
-import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
+import {
+  defaultProps,
+  prefix,
+  getUnhandledProps,
+  createChainedFunction,
+  mergeRefs
+} from '../utils';
 
 import {
   PickerToggle,
@@ -24,8 +30,8 @@ import {
 } from '../Picker';
 
 import { CascaderProps } from './Cascader.d';
-import { PLACEMENT } from '../constants';
 import { ItemDataType } from '../@types/common';
+import { listPickerPropTypes, listPickerDefaultProps } from '../Picker/propTypes';
 
 interface CascaderState {
   selectNode?: any;
@@ -41,69 +47,26 @@ interface CascaderState {
 
 class Cascader extends React.Component<CascaderProps, CascaderState> {
   static propTypes = {
-    appearance: PropTypes.oneOf(['default', 'subtle']),
-    classPrefix: PropTypes.string,
-    data: PropTypes.array,
-    className: PropTypes.string,
-    container: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-    containerPadding: PropTypes.number,
-    block: PropTypes.bool,
-    toggleComponentClass: PropTypes.elementType,
-    menuClassName: PropTypes.string,
-    menuStyle: PropTypes.object,
-    childrenKey: PropTypes.string,
-    valueKey: PropTypes.string,
-    labelKey: PropTypes.string,
+    ...listPickerPropTypes,
     renderMenu: PropTypes.func,
-    renderValue: PropTypes.func,
-    renderExtraFooter: PropTypes.func,
-    disabled: PropTypes.bool,
-    value: PropTypes.any,
-    defaultValue: PropTypes.any,
-    placeholder: PropTypes.string,
-    onChange: PropTypes.func,
-    onClean: PropTypes.func,
-    onOpen: PropTypes.func,
-    onClose: PropTypes.func,
-    onHide: PropTypes.func,
-    onEnter: PropTypes.func,
-    onEntering: PropTypes.func,
-    onEntered: PropTypes.func,
-    onExit: PropTypes.func,
-    onExiting: PropTypes.func,
-    onExited: PropTypes.func,
     onSelect: PropTypes.func,
     onSearch: PropTypes.func,
-    locale: PropTypes.object,
     cleanable: PropTypes.bool,
-    open: PropTypes.bool,
-    defaultOpen: PropTypes.bool,
-    placement: PropTypes.oneOf(PLACEMENT),
     renderMenuItem: PropTypes.func,
     menuWidth: PropTypes.number,
     menuHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    disabledItemValues: PropTypes.array,
-    style: PropTypes.object,
     searchable: PropTypes.bool,
-    preventOverflow: PropTypes.bool,
     inline: PropTypes.bool,
     parentSelectable: PropTypes.bool
   };
   static defaultProps = {
-    appearance: 'default',
-    data: [],
-    disabledItemValues: [],
-    childrenKey: 'children',
-    valueKey: 'value',
-    labelKey: 'label',
+    ...listPickerDefaultProps,
+    searchable: true,
     locale: {
       placeholder: 'Select',
       searchPlaceholder: 'Search',
       noResultsText: 'No results found'
-    },
-    cleanable: true,
-    searchable: true,
-    placement: 'bottomStart'
+    }
   };
 
   triggerRef: React.RefObject<any>;
@@ -284,15 +247,11 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
   };
 
   handleCloseDropdown = () => {
-    if (this.triggerRef.current) {
-      this.triggerRef.current.hide();
-    }
+    this.triggerRef.current?.hide?.();
   };
 
   handleOpenDropdown = () => {
-    if (this.triggerRef.current) {
-      this.triggerRef.current.show();
-    }
+    this.triggerRef.current?.show?.();
   };
 
   open = () => {
@@ -522,6 +481,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
       onExited,
       onClean,
       inline,
+      positionRef,
       ...rest
     } = this.props;
 
@@ -562,7 +522,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
           <PickerToggleTrigger
             pickerProps={this.props}
             ref={this.triggerRef}
-            positionRef={this.positionRef}
+            positionRef={mergeRefs(this.positionRef, positionRef)}
             onEnter={createChainedFunction(this.handleEntered, onEnter)}
             onExited={createChainedFunction(this.handleExit, onExited)}
             speaker={this.renderDropdownMenu()}
