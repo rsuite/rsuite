@@ -397,16 +397,21 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
 
     // Find active `MenuItem` by `value`
     const activeItem = findNodeOfTree(data, item => shallowEqual(item[valueKey], value));
-    const hasValue = !!activeItem;
+
+    /**
+     * 1.Have a value and the value is valid.
+     * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
+     */
+    const hasValue = !!activeItem || (!_.isNil(value) && _.isFunction(renderValue));
 
     let selectedElement: React.ReactNode = placeholder;
 
     if (activeItem?.[labelKey]) {
       selectedElement = activeItem[labelKey];
+    }
 
-      if (renderValue) {
-        selectedElement = renderValue(value, activeItem, selectedElement);
-      }
+    if (!_.isNil(value) && _.isFunction(renderValue)) {
+      selectedElement = renderValue(value, activeItem, selectedElement);
     }
 
     const classes = getToggleWrapperClassName('select', this.addPrefix, this.props, hasValue);

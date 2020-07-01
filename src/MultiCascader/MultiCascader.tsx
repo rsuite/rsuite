@@ -481,12 +481,17 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
     const value = this.getValue();
 
     const selectedItems = flattenData.filter(item => value.some(v => v === item[valueKey])) || [];
-    const count = selectedItems.length;
-    const hasValue = !!count;
+
+    /**
+     * 1.Have a value and the value is valid.
+     * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
+     */
+    const hasValue =
+      selectedItems.length > 0 || (this.props.value?.length > 0 && _.isFunction(renderValue));
 
     let selectedElement: React.ReactNode = placeholder;
 
-    if (count > 0) {
+    if (selectedItems.length > 0) {
       selectedElement = (
         <SelectedElement
           selectedItems={selectedItems}
@@ -499,9 +504,14 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
           locale={locale}
         />
       );
-      if (renderValue) {
-        selectedElement = renderValue(value, selectedItems, selectedElement);
-      }
+    }
+
+    if (hasValue && _.isFunction(renderValue)) {
+      selectedElement = renderValue(
+        value?.length > 0 ? value : this.props.value,
+        selectedItems,
+        selectedElement
+      );
     }
 
     const classes = getToggleWrapperClassName('cascader', this.addPrefix, this.props, hasValue);

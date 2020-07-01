@@ -68,16 +68,35 @@ describe('Cascader', () => {
     assert.ok(instance.className.match(/\bblock\b/));
   });
 
-  it('Should output a placeholder by renderValue()', () => {
-    const placeholder = 'foobar';
+  it('Should output a value by renderValue()', () => {
+    const placeholder = 'value';
+
+    // Valid value
     const instance = getDOMNode(
-      <Cascader renderValue={() => placeholder} data={items} value={'1'} />
+      <Cascader renderValue={v => [v, placeholder]} data={[{ value: 1, label: '1' }]} value={1} />
     );
 
-    assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, placeholder);
+    // Invalid value
+    const instance2 = getDOMNode(
+      <Cascader renderValue={v => [v, placeholder]} data={[]} value={2} />
+    );
 
-    const instance2 = getDOMNode(<Cascader renderValue={() => placeholder} />);
-    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    // Invalid value
+    const instance3 = getDOMNode(<Cascader renderValue={v => [v, placeholder]} value={''} />);
+
+    assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, `1${placeholder}`);
+    assert.equal(instance2.querySelector('.rs-picker-toggle-value').innerText, `2${placeholder}`);
+    assert.equal(instance3.querySelector('.rs-picker-toggle-value').innerText, placeholder);
+  });
+
+  it('Should not be call renderValue()', () => {
+    const instance = getDOMNode(<Cascader renderValue={() => 'value'} />);
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+  });
+
+  it('Should render a placeholder when value error', () => {
+    const instance = getDOMNode(<Cascader value={2} placeholder={'test'} />);
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'test');
   });
 
   it('Should be active by value', () => {
@@ -136,7 +155,7 @@ describe('Cascader', () => {
     const doneOp = () => {
       done();
     };
-    const instance = getDOMNode(<Cascader data={items} defaultValue={['3-1']} onClean={doneOp} />);
+    const instance = getDOMNode(<Cascader data={items} defaultValue={'3-1'} onClean={doneOp} />);
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
   });
@@ -158,7 +177,7 @@ describe('Cascader', () => {
   });
 
   it('Should clean selected default value', () => {
-    const instance = getDOMNode(<Cascader defaultOpen data={items} defaultValue={['3-1']} />);
+    const instance = getDOMNode(<Cascader defaultOpen data={items} defaultValue={'3-1'} />);
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
     expect(instance.querySelector('.rs-picker-toggle-placeholder').innerText).to.equal('Select');

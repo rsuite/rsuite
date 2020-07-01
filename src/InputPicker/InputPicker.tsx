@@ -165,8 +165,8 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     return [].concat(data, cacheData);
   }
 
-  getLabelByValue(value: any) {
-    const { renderValue, placeholder, valueKey, labelKey } = this.props;
+  getDateItem(value: any) {
+    const { placeholder, valueKey, labelKey } = this.props;
     // Find active `MenuItem` by `value`
     const activeItem = findNodeOfTree(this.getAllDataAndCache(), item =>
       shallowEqual(item[valueKey], value)
@@ -175,14 +175,11 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
 
     if (_.get(activeItem, labelKey)) {
       displayElement = _.get(activeItem, labelKey);
-
-      if (renderValue) {
-        displayElement = renderValue(value, activeItem, displayElement);
-      }
     }
 
     return {
       isValid: !!activeItem,
+      activeItem,
       displayElement
     };
   }
@@ -611,22 +608,37 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   }
 
   renderSingleValue() {
+    const { renderValue, multi, placeholder } = this.props;
+    if (multi) {
+      return { isValid: false, displayElement: placeholder };
+    }
     const value = this.getValue();
-    return this.getLabelByValue(value);
+    const dataItem = this.getDateItem(value);
+
+    let displayElement = dataItem.displayElement;
+
+    if (!_.isNil(value) && _.isFunction(renderValue)) {
+      displayElement = renderValue(value, dataItem.activeItem, displayElement);
+    }
+
+    return { isValid: dataItem.isValid, displayElement };
   }
 
   renderMultiValue() {
-    const { multi, disabled, tagProps = {} } = this.props;
+    const { multi, disabled, tagProps = {}, renderValue } = this.props;
     if (!multi) {
       return null;
     }
 
     const { closable = true, onClose, ...tagRest } = tagProps;
     const tags = this.getValue() || [];
+    const items = [];
 
-    return tags
+    const tagElements = tags
       .map(tag => {
-        const { isValid, displayElement } = this.getLabelByValue(tag);
+        const { isValid, displayElement, activeItem } = this.getDateItem(tag);
+        items.push(activeItem);
+
         if (!isValid) {
           return null;
         }
@@ -644,6 +656,12 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
         );
       })
       .filter(item => item !== null);
+
+    if (tags.length > 0 && _.isFunction(renderValue)) {
+      return renderValue(this.getValue(), items, tagElements);
+    }
+
+    return tagElements;
   }
 
   renderInputSearch() {
@@ -684,13 +702,24 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       searchable,
       multi,
       positionRef,
+      value,
+      renderValue,
       ...rest
     } = this.props;
 
     const unhandled = getUnhandledProps(InputPicker, rest);
     const { isValid, displayElement } = this.renderSingleValue();
     const tagElements = this.renderMultiValue();
-    const hasValue = multi ? !!_.get(tagElements, 'length') : isValid;
+
+    /**
+     * 1.Have a value and the value is valid.
+     * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
+     */
+    const hasSingleValue = !_.isNil(value) && _.isFunction(renderValue);
+    const hasMultiValue = _.isArray(value) && value.length > 0 && _.isFunction(renderValue);
+    const hasValue = multi
+      ? !!_.get(tagElements, 'length') || hasMultiValue
+      : isValid || hasSingleValue;
 
     const classes = getToggleWrapperClassName('input', this.addPrefix, this.props, hasValue, {
       [this.addPrefix('tag')]: multi,

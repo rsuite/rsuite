@@ -103,21 +103,6 @@ describe('SelectPicker', () => {
     assert.equal(instanceDom.querySelector(placeholderClassName).innerText, 'test');
   });
 
-  it('Should render a placeholder when value error', () => {
-    const instance = getDOMNode(
-      <Dropdown
-        placeholder="test"
-        data={[
-          { label: '1', value: '1' },
-          { label: '2', value: '2' }
-        ]}
-        value={'4'}
-      />
-    );
-    const instanceDom = instance;
-    assert.equal(instanceDom.querySelector(placeholderClassName).innerText, 'test');
-  });
-
   it('Allow `label` to be an empty string', () => {
     const instance = getInstance(
       <Dropdown placeholder="test" data={[{ label: '', value: '1' }]} value={'1'} defaultOpen />
@@ -140,6 +125,37 @@ describe('SelectPicker', () => {
     );
     const instanceDom = instance;
     assert.equal(instanceDom.querySelector(valueClassName).innerText, 'foo-bar');
+  });
+
+  it('Should output a value by renderValue()', () => {
+    const placeholder = 'value';
+
+    // Valid value
+    const instance = getDOMNode(
+      <Dropdown renderValue={v => [v, placeholder]} data={[{ value: 1, label: '1' }]} value={1} />
+    );
+
+    // Invalid value
+    const instance2 = getDOMNode(
+      <Dropdown renderValue={v => [v, placeholder]} data={[]} value={2} />
+    );
+
+    // Invalid value
+    const instance3 = getDOMNode(<Dropdown renderValue={v => [v, placeholder]} value={''} />);
+
+    assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, `1${placeholder}`);
+    assert.equal(instance2.querySelector('.rs-picker-toggle-value').innerText, `2${placeholder}`);
+    assert.equal(instance3.querySelector('.rs-picker-toggle-value').innerText, placeholder);
+  });
+
+  it('Should not be call renderValue()', () => {
+    const instance = getDOMNode(<Dropdown renderValue={() => 'value'} />);
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+  });
+
+  it('Should render a placeholder when value error', () => {
+    const instance = getDOMNode(<Dropdown value={2} placeholder={'test'} />);
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'test');
   });
 
   it('Should call `onChange` callback', done => {
