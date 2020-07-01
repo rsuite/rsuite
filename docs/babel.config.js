@@ -15,8 +15,6 @@ module.exports = (api, options) => {
         'preset-env': {
           targets: {
             node: true,
-            // https://github.com/babel/babel/issues/9849#issuecomment-592668815
-            esmodules: true,
             browsers: ['> 1%', 'last 2 versions', 'ie >= 10']
           },
           useBuiltIns: 'entry',
@@ -29,6 +27,10 @@ module.exports = (api, options) => {
 
   const plugins = [
     'lodash',
+    /**
+     * https://github.com/babel/babel/issues/9849#issuecomment-596415994
+     */
+    '@babel/plugin-transform-runtime',
     ['@babel/plugin-proposal-class-properties', { loose: true }],
     '@babel/plugin-proposal-optional-chaining',
     '@babel/plugin-proposal-export-namespace-from',
