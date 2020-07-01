@@ -702,7 +702,6 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       searchable,
       multi,
       positionRef,
-      value,
       renderValue,
       ...rest
     } = this.props;
@@ -710,6 +709,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     const unhandled = getUnhandledProps(InputPicker, rest);
     const { isValid, displayElement } = this.renderSingleValue();
     const tagElements = this.renderMultiValue();
+    const value = this.getValue();
 
     /**
      * 1.Have a value and the value is valid.
