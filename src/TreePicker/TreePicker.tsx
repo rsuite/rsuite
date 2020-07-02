@@ -1106,7 +1106,6 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       placeholder,
       cleanable,
       renderValue,
-      valueKey,
       labelKey,
       onEntered,
       onExited,
