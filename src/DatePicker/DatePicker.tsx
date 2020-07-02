@@ -93,6 +93,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   };
   menuContainerRef: React.RefObject<any>;
   triggerRef: React.RefObject<any>;
+  calendar = null;
 
   constructor(props: DatePickerProps) {
     super(props);
@@ -164,8 +165,6 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
 
     return placeholder || formatType;
   }
-
-  calendar = null;
 
   handleChangePageDate = (nextPageDate: Date) => {
     this.setState({

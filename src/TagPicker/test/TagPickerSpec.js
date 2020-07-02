@@ -128,10 +128,42 @@ describe('TagPicker', () => {
         placeholder="test"
         data={[{ label: 'foo', value: 'bar' }]}
         value={['bar']}
-        renderValue={(value, item) => `${item.label}-${value}`}
+        renderValue={(value, items) => `${items[0].label}-${items[0].value}`}
       />
     );
-    assert.equal(instance.querySelector('.rs-tag').innerText, 'foo-bar');
+
+    assert.equal(instance.querySelector('.rs-picker-tag-wrapper').innerText, 'foo-bar');
+  });
+
+  it('Should output a value by renderValue()', () => {
+    const placeholder = 'value';
+
+    // Valid value
+    const instance = getDOMNode(
+      <TagPicker
+        renderValue={v => [v, placeholder]}
+        data={[{ value: 1, label: '1' }]}
+        value={[1]}
+      />
+    );
+
+    // Invalid value
+    const instance2 = getDOMNode(
+      <TagPicker renderValue={v => [v, placeholder]} data={[]} value={[2]} />
+    );
+
+    assert.equal(instance.querySelector('.rs-picker-tag-wrapper').innerText, `1${placeholder}`);
+    assert.equal(instance2.querySelector('.rs-picker-tag-wrapper').innerText, `2${placeholder}`);
+  });
+
+  it('Should not be call renderValue()', () => {
+    const instance = getDOMNode(<TagPicker renderValue={() => 'value'} />);
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+  });
+
+  it('Should render a placeholder when value error', () => {
+    const instance = getDOMNode(<TagPicker value={[2]} placeholder={'test'} />);
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'test');
   });
 
   it('Should call `onChange` callback', done => {

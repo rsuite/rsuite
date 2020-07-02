@@ -455,12 +455,15 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
     const selectedItems: any[] =
       data.filter(item => value.some(val => shallowEqual(item[valueKey], val))) || [];
 
-    const count = selectedItems.length;
-    const hasValue = !!count;
+    /**
+     * 1.Have a value and the value is valid.
+     * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
+     */
+    const hasValue = selectedItems.length > 0 || (value?.length > 0 && _.isFunction(renderValue));
 
     let selectedElement: React.ReactNode = placeholder;
 
-    if (count > 0) {
+    if (selectedItems.length > 0) {
       selectedElement = (
         <SelectedElement
           selectedItems={selectedItems}
@@ -470,10 +473,10 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
           prefix={this.addPrefix}
         />
       );
+    }
 
-      if (renderValue) {
-        selectedElement = renderValue(value, selectedItems, selectedElement);
-      }
+    if (value?.length > 0 && _.isFunction(renderValue)) {
+      selectedElement = renderValue(value, selectedItems, selectedElement);
     }
 
     const classes = getToggleWrapperClassName('check', this.addPrefix, this.props, hasValue);
