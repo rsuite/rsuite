@@ -1,7 +1,7 @@
 import * as React from 'react';
 import get from 'lodash/get';
 import pick from 'lodash/pick';
-
+import isNil from 'lodash/isNil';
 import { contains } from 'dom-lib';
 import Overlay, { OverlayProps } from './Overlay';
 import createChainedFunction from '../utils/createChainedFunction';
@@ -9,10 +9,6 @@ import isOneOf from '../utils/isOneOf';
 import getDOMNode from '../utils/getDOMNode';
 import Portal from '../Portal';
 import { OverlayTriggerProps } from './OverlayTrigger.d';
-
-function isNullOrUndefined(value: any): boolean {
-  return value === null || typeof value === 'undefined';
-}
 
 function onMouseEventHandler(handler: React.MouseEventHandler, event: React.MouseEvent) {
   const target = event.currentTarget;
@@ -49,8 +45,8 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
   onMouseOverListener;
   onMouseOutListener;
 
-  hoverShowDelayTimer;
-  hoverHideDelayTimer;
+  delayShowTimer;
+  delayHideTimer;
 
   mouseEnteredToSpeaker = false;
   mouseEnteredToTrigger = false;
@@ -60,14 +56,12 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
 
     this.onMouseOverListener = e => onMouseEventHandler(this.handleDelayedShow, e);
     this.onMouseOutListener = e => onMouseEventHandler(this.handleDelayedHide, e);
-    this.state = {
-      isOverlayShown: props.defaultOpen
-    };
+    this.state = { isOverlayShown: props.defaultOpen };
   }
 
   componentWillUnmount() {
-    clearTimeout(this.hoverShowDelayTimer);
-    clearTimeout(this.hoverHideDelayTimer);
+    clearTimeout(this.delayShowTimer);
+    clearTimeout(this.delayHideTimer);
   }
 
   getOverlayTarget = () => getDOMNode(this);
@@ -108,100 +102,100 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
     const { trigger } = this.props;
     this.mouseEnteredToSpeaker = false;
     if (!isOneOf('click', trigger) && !isOneOf('active', trigger)) {
-      this.handleHide();
+      this.hideWithCheck();
     }
   };
 
-  hide = () => {
-    this.setState({ isOverlayShown: false });
-  };
-
-  show = () => {
+  show = (delay?: number) => {
+    if (delay) {
+      return (this.delayShowTimer = setTimeout(() => {
+        this.delayShowTimer = null;
+        this.setState({ isOverlayShown: true });
+      }, delay));
+    }
     this.setState({ isOverlayShown: true });
   };
 
-  handleHide = () => {
+  hide = (delay?: number) => {
+    if (delay) {
+      return (this.delayHideTimer = setTimeout(() => {
+        this.delayHideTimer = null;
+        this.setState({ isOverlayShown: false });
+      }, delay));
+    }
+
+    this.setState({ isOverlayShown: false });
+  };
+
+  hideWithCheck = (delay?: number) => {
     if (!this.mouseEnteredToSpeaker && !this.mouseEnteredToTrigger) {
-      this.hide();
+      this.hide(delay);
     }
   };
 
-  handleToggle = () => {
+  toggleHideAndShow = () => {
+    const { delayShow, delay, delayHide } = this.props;
     if (this.state.isOverlayShown) {
-      this.handleHide();
+      this.hideWithCheck(isNil(delayHide) ? delay : delayHide);
     } else {
-      this.show();
+      this.show(isNil(delayShow) ? delay : delayShow);
     }
   };
 
   handleDelayedShow = () => {
-    const { delayShow, delay, enterable } = this.props;
+    const { delayShow, enterable } = this.props;
+    const delay = isNil(delayShow) ? this.props.delay : delayShow;
 
     if (!enterable) {
-      this.show();
-      return;
+      return this.show(delay);
     }
 
     this.mouseEnteredToTrigger = true;
-    if (!isNullOrUndefined(this.hoverHideDelayTimer)) {
-      clearTimeout(this.hoverHideDelayTimer);
-      this.hoverHideDelayTimer = null;
-      this.show();
-      return;
+    if (!isNil(this.delayHideTimer)) {
+      clearTimeout(this.delayHideTimer);
+      this.delayHideTimer = null;
+      return this.show(delay);
     }
 
     if (this.state.isOverlayShown) {
       return;
     }
 
-    const nextDelay = !isNullOrUndefined(delayShow) ? delayShow : delay;
-
-    if (!nextDelay) {
-      this.show();
-      return;
-    }
-
-    this.hoverShowDelayTimer = setTimeout(() => {
-      this.hoverShowDelayTimer = null;
-      this.show();
-    }, nextDelay);
+    this.show(delay);
   };
 
   handleDelayedHide = () => {
-    const { delayHide, delay, enterable } = this.props;
+    const { delayHide, enterable } = this.props;
+    const delay = isNil(delayHide) ? this.props.delay : delayHide;
 
     if (!enterable) {
-      this.hide();
-      return;
+      this.hide(delay);
     }
 
     this.mouseEnteredToTrigger = false;
-    if (!isNullOrUndefined(this.hoverShowDelayTimer)) {
-      clearTimeout(this.hoverShowDelayTimer);
-      this.hoverShowDelayTimer = null;
+    if (!isNil(this.delayShowTimer)) {
+      clearTimeout(this.delayShowTimer);
+      this.delayShowTimer = null;
       return;
     }
 
-    if (!this.state.isOverlayShown || !isNullOrUndefined(this.hoverHideDelayTimer)) {
+    if (!this.state.isOverlayShown || !isNil(this.delayHideTimer)) {
       return;
     }
 
-    const nextDelay = !isNullOrUndefined(delayHide) ? delayHide : delay;
-
-    if (!nextDelay) {
-      this.handleHide();
-      return;
+    if (!delay) {
+      return this.hideWithCheck();
     }
 
-    this.hoverHideDelayTimer = setTimeout(() => {
+    this.delayHideTimer = setTimeout(() => {
       if (this.state.isOnSpeaker) {
         return;
       }
 
-      clearTimeout(this.hoverHideDelayTimer);
-      this.hoverHideDelayTimer = null;
-      this.handleHide();
-    }, nextDelay);
+      clearTimeout(this.delayHideTimer);
+      this.delayHideTimer = null;
+      this.hideWithCheck();
+    }, delay);
   };
 
   render() {
@@ -232,11 +226,11 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
 
     if (!disabled) {
       if (isOneOf('click', trigger)) {
-        props.onClick = createChainedFunction(this.handleToggle, props.onClick);
+        props.onClick = createChainedFunction(this.toggleHideAndShow, props.onClick);
       }
 
       if (isOneOf('active', trigger)) {
-        props.onClick = createChainedFunction(this.show, props.onClick);
+        props.onClick = createChainedFunction(this.handleDelayedShow, props.onClick);
       }
 
       if (isOneOf('hover', trigger)) {
