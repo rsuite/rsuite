@@ -201,11 +201,18 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
 
       this.focusNode(activeNode);
       this.unserializeLists('expand', expandItemValues);
+
+      let newState = {};
+      if (activeNode) {
+        newState = { activeNode: activeNode };
+      }
       this.setState({
-        data: nextData,
-        filterData,
-        activeNode,
-        expandItemValues: this.serializeList('expand')
+        ...{
+          data: nextData,
+          filterData,
+          expandItemValues: this.serializeList('expand')
+        },
+        ...newState
       });
     }
   }
@@ -1057,7 +1064,6 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       placeholder,
       cleanable,
       renderValue,
-      valueKey,
       labelKey,
       onEntered,
       onExited,
@@ -1066,15 +1072,25 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       positionRef,
       ...rest
     } = this.props;
-    const { activeNode } = this.state;
-    const classes = getToggleWrapperClassName('tree', this.addPrefix, this.props, !!activeNode);
+    const { selectedValue, activeNode } = this.state;
+    const hasValidValue =
+      !_.isNil(activeNode) || (!_.isNil(selectedValue) && _.isFunction(renderValue));
+    const classes = getToggleWrapperClassName('tree', this.addPrefix, this.props, hasValidValue);
 
     let selectedElement: React.ReactNode = placeholder;
     const hasValue = !!activeNode;
-    if (hasValue) {
-      selectedElement = activeNode?.[labelKey];
-      if (renderValue && activeNode) {
-        selectedElement = renderValue(activeNode[valueKey], activeNode, selectedElement);
+
+    /**
+     * if value is invalid and renderValue is undefined, then using placeholder.
+     * if value is valid and renderValue is't undefined, then using renderValue()
+     */
+    if (!_.isNil(selectedValue)) {
+      if (hasValue) {
+        selectedElement = activeNode[labelKey];
+      }
+      if (_.isFunction(renderValue)) {
+        const node = activeNode ?? {};
+        selectedElement = renderValue(selectedValue, node, selectedElement);
       }
     }
 
@@ -1101,7 +1117,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
             onClean={createChainedFunction(this.handleClean, onClean)}
             cleanable={cleanable && !disabled}
             componentClass={toggleComponentClass}
-            hasValue={hasValue}
+            hasValue={hasValidValue}
             active={this.state.active}
           >
             {selectedElement || locale.placeholder}

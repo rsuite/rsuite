@@ -1165,23 +1165,35 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       ...rest
     } = this.props;
     const { hasValue, selectedValues } = this.state;
-    const classes = getToggleWrapperClassName('check-tree', this.addPrefix, this.props, hasValue);
+    const hasValidValue = hasValue || (selectedValues.length > 0 && _.isFunction(renderValue));
+    const classes = getToggleWrapperClassName(
+      'check-tree',
+      this.addPrefix,
+      this.props,
+      hasValidValue
+    );
     const selectedItems = this.getSelectedItems(selectedValues);
     let selectedElement: React.ReactNode = placeholder;
 
-    if (hasValue && selectedValues.length) {
-      selectedElement = (
-        <SelectedElement
-          selectedItems={selectedItems}
-          countable={countable}
-          valueKey={valueKey}
-          labelKey={labelKey}
-          prefix={this.addPrefix}
-          cascade={cascade}
-          locale={locale}
-        />
-      );
-      if (renderValue) {
+    /**
+     * if value is invalid and renderValue is undefined, then using placeholder.
+     * if value is valid and renderValue is't undefined, then using renderValue()
+     */
+    if (selectedValues.length) {
+      if (hasValue) {
+        selectedElement = (
+          <SelectedElement
+            selectedItems={selectedItems}
+            countable={countable}
+            valueKey={valueKey}
+            labelKey={labelKey}
+            prefix={this.addPrefix}
+            cascade={cascade}
+            locale={locale}
+          />
+        );
+      }
+      if (_.isFunction(renderValue)) {
         selectedElement = renderValue(selectedValues, selectedItems, selectedElement);
       }
     }
@@ -1208,7 +1220,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
             onClean={createChainedFunction(this.handleClean, onClean)}
             componentClass={toggleComponentClass}
             cleanable={cleanable && !disabled}
-            hasValue={hasValue}
+            hasValue={hasValidValue}
             active={this.state.active}
           >
             {selectedElement || locale.placeholder}
