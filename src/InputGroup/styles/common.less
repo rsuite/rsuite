@@ -95,14 +95,16 @@
     }
   }
 
-  input.@{ns}input ~ .@{ns}input-group-addon {
+  input.@{ns}input ~ .@{ns}input-group-addon,
+  .@{ns}form-control-wrapper ~ .@{ns}input-group-addon {
     border-left: none;
     left: auto;
     right: 0;
   }
 
   //FIXED: The icon between two input has 1px border.
-  input.@{ns}input ~ .@{ns}input-group-addon:not(:last-child) {
+  input.@{ns}input ~ .@{ns}input-group-addon:not(:last-child),
+  .@{ns}form-control-wrapper ~ .@{ns}input-group-addon:not(:last-child) {
     border-right: 0;
   }
 
@@ -153,19 +155,23 @@
     .@{ns}input-group-btn ~ .@{ns}auto-complete > input.@{ns}input,
     .@{ns}input-group-addon ~ .@{ns}auto-complete > input.@{ns}input,
     .@{ns}input-group-btn ~ input.@{ns}input,
-    .@{ns}input-group-addon ~ input.@{ns}input {
+    .@{ns}input-group-addon ~ input.@{ns}input,
+    .@{ns}input-group-addon ~ .@{ns}form-control-wrapper > input.@{ns}input,
+    .@{ns}input-group-btn ~ .@{ns}form-control-wrapper > input.@{ns}input {
       padding-left: @input-group-padding-for-add-on-base;
       padding-right: 12px;
     }
 
     input.@{ns}input ~ .@{ns}input-group-btn,
-    .@{ns}auto-complete ~ .@{ns}input-group-addon {
+    .@{ns}auto-complete ~ .@{ns}input-group-addon,
+    .@{ns}form-control-wrapper ~ .@{ns}input-group-addon {
       left: inherit;
       right: 0;
     }
 
     input.@{ns}input ~ .@{ns}input-group-btn,
-    .@{ns}auto-complete ~ .@{ns}input-group-btn {
+    .@{ns}auto-complete ~ .@{ns}input-group-btn,
+    .@{ns}form-control-wrapper ~ .@{ns}input-group-btn {
       left: inherit;
       right: @input-border-width;
     }
