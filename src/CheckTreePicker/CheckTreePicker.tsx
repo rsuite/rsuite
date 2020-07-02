@@ -1206,13 +1206,19 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       ...rest
     } = this.props;
     const { hasValue, selectedValues } = this.state;
-    const classes = getToggleWrapperClassName('check-tree', this.addPrefix, this.props, hasValue);
+    const hasValidValue = hasValue || (selectedValues.length > 0 && _.isFunction(renderValue));
+    const classes = getToggleWrapperClassName(
+      'check-tree',
+      this.addPrefix,
+      this.props,
+      hasValidValue
+    );
     const selectedItems = this.getSelectedItems(selectedValues);
     let selectedElement: React.ReactNode = placeholder;
 
     /**
-     * 如果 value 不合法，同时没有设置 renderValue， 则忽略值，显示 placeholder
-     * 如果 value 不合法，但是设置了 renderValue， 则执行 renderValue 并显示
+     * if value is invalid and renderValue is undefined, then using placeholder.
+     * if value is valid and renderValue is't undefined, then using renderValue()
      */
     if (selectedValues.length) {
       if (hasValue) {
@@ -1255,7 +1261,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
             onClean={createChainedFunction(this.handleClean, onClean)}
             componentClass={toggleComponentClass}
             cleanable={cleanable && !disabled}
-            hasValue={hasValue}
+            hasValue={hasValidValue}
             active={this.state.active}
           >
             {selectedElement || locale.placeholder}

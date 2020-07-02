@@ -107,24 +107,48 @@ describe('CheckTreePicker', () => {
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'test');
   });
 
-  it('Should render value by `renderValue`', () => {
+  it('Should output a value by renderValue()', () => {
+    const placeholder = 'value';
+
+    // Valid value
     const instance = getDOMNode(
       <CheckTreePicker
         data={[
-          { label: '1', value: '1' },
-          { label: '2', value: '2' }
+          { value: 1, label: '1' },
+          { value: 2, label: '2' }
         ]}
-        value={['1', '2']}
+        value={[1, 2]}
         renderValue={value => value.join(',')}
       />
     );
 
+    // Invalid value
+    const instance2 = getDOMNode(
+      <CheckTreePicker renderValue={v => [v, placeholder]} data={[]} value={[2]} />
+    );
+
+    // Invalid value
+    const instance3 = getDOMNode(
+      <CheckTreePicker
+        placeholder={placeholder}
+        renderValue={v => [v, placeholder]}
+        data={[]}
+        value={[]}
+      />
+    );
+
     assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, '1,2');
+    assert.equal(instance2.querySelector('.rs-picker-toggle-value').innerText, `2${placeholder}`);
+    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, placeholder);
+  });
+
+  it('Should not be call renderValue()', () => {
+    const instance = getDOMNode(<CheckTreePicker data={[]} renderValue={() => 'value'} />);
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
   });
 
   it('Should render a placeholder when value error', () => {
     const instance = getDOMNode(<CheckTreePicker placeholder="test" data={data} value={['4']} />);
-
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'test');
   });
 

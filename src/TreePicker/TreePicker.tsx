@@ -1115,13 +1115,16 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       ...rest
     } = this.props;
     const { selectedValue, activeNode } = this.state;
-    const classes = getToggleWrapperClassName('tree', this.addPrefix, this.props, !!activeNode);
+    const hasValidValue =
+      !_.isNil(activeNode) || (!_.isNil(selectedValue) && _.isFunction(renderValue));
+    const classes = getToggleWrapperClassName('tree', this.addPrefix, this.props, hasValidValue);
 
     let selectedElement: React.ReactNode = placeholder;
     const hasValue = !!activeNode;
+
     /**
-     * 如果 value 不合法，同时没有设置 renderValue， 则忽略值，显示 placeholder
-     * 如果 value 不合法，但是设置了 renderValue， 则执行 renderValue 并显示
+     * if value is invalid and renderValue is undefined, then using placeholder.
+     * if value is valid and renderValue is't undefined, then using renderValue()
      */
     if (!_.isNil(selectedValue)) {
       if (hasValue) {
@@ -1129,7 +1132,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       }
       if (_.isFunction(renderValue)) {
         const node = activeNode ?? {};
-        selectedElement = renderValue(node[valueKey], node, selectedElement);
+        selectedElement = renderValue(selectedValue, node, selectedElement);
       }
     }
 
@@ -1156,7 +1159,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
             onClean={createChainedFunction(this.handleClean, onClean)}
             cleanable={cleanable && !disabled}
             componentClass={toggleComponentClass}
-            hasValue={hasValue}
+            hasValue={hasValidValue}
             active={this.state.active}
           >
             {selectedElement || locale.placeholder}
