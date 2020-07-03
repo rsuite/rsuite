@@ -152,8 +152,10 @@ class Modal extends React.Component<ModalProps, ModalState> {
     this.updateModalStyles(dialogElement);
     this.contentElement = dialogElement.querySelector(`.${this.addPrefix('content')}`);
     this.windowResizeListener = on(window, 'resize', this.handleResize);
-
     bindElementResize(this.contentElement, this.handleResize);
+  };
+  handleShowing = () => {
+    this.updateModalStyles(this.dialogElement);
   };
   handleHide = () => {
     this.destroyEvent();
@@ -163,8 +165,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
       return;
     }
 
-    const { onHide } = this.props;
-    onHide && onHide(event);
+    this.props?.onHide?.(event);
   };
 
   handleResize = () => {
@@ -172,18 +173,14 @@ class Modal extends React.Component<ModalProps, ModalState> {
   };
 
   destroyEvent() {
-    if (this.windowResizeListener) {
-      this.windowResizeListener.off();
-    }
+    this.windowResizeListener?.off?.();
     if (this.contentElement) {
       unbindElementResize(this.contentElement);
     }
   }
 
   updateModalStyles(dialogElement: HTMLElement) {
-    this.setState({
-      bodyStyles: this.getBodyStylesByDialog(dialogElement)
-    });
+    this.setState({ bodyStyles: this.getBodyStylesByDialog(dialogElement) });
   }
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
@@ -227,7 +224,8 @@ class Modal extends React.Component<ModalProps, ModalState> {
           show={show}
           onHide={onHide}
           className={this.addPrefix('wrapper')}
-          onEntering={createChainedFunction(this.handleShow, this.props.onEntering)}
+          onEntered={createChainedFunction(this.handleShow, this.props.onEntered)}
+          onEntering={createChainedFunction(this.handleShowing, this.props.onEntering)}
           onExited={createChainedFunction(this.handleHide, this.props.onExited)}
           backdropClassName={classNames(this.addPrefix('backdrop'), backdropClassName, inClass)}
           containerClassName={classNames(this.addPrefix('open'), {
