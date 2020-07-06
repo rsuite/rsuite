@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Ripple from '../Ripple';
 import FormattedMessage from '../IntlProvider/FormattedMessage';
-import { getUnhandledProps, defaultProps, prefix } from '../utils';
+import { getUnhandledProps, defaultProps, prefix, isIE11 } from '../utils';
 
 export interface UploadTriggerProps {
   name?: string;
@@ -92,13 +92,18 @@ class UploadTrigger extends React.Component<UploadTriggerProps, UploaderTriggerS
   };
 
   handleChange = event => {
-    /**
-     * IE11 triggers onChange event of file input when element.value is assigned
-     * https://github.com/facebook/react/issues/8793
-     */
-    if (event.target?.files?.length) {
-      this.props.onChange?.(event);
+    if (isIE11()) {
+      /**
+       * IE11 triggers onChange event of file input when element.value is assigned
+       * https://github.com/facebook/react/issues/8793
+       */
+      if (event.target?.files?.length > 0) {
+        this.props.onChange?.(event);
+      }
+      return;
     }
+
+    this.props.onChange?.(event);
   };
 
   render() {
