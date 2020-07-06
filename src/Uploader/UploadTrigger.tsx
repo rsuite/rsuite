@@ -15,11 +15,11 @@ export interface UploadTriggerProps {
   className?: string;
   children?: React.FunctionComponentElement<any>;
   componentClass: React.ElementType;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onDragEnter?: (event: React.DragEvent<HTMLInputElement>) => void;
-  onDragLeave?: (event: React.DragEvent<HTMLInputElement>) => void;
-  onDragOver?: (event: React.DragEvent<HTMLInputElement>) => void;
-  onDrop?: (event: React.DragEvent<HTMLInputElement>) => void;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onDragEnter?: React.DragEventHandler<HTMLInputElement>;
+  onDragLeave?: React.DragEventHandler<HTMLInputElement>;
+  onDragOver?: React.DragEventHandler<HTMLInputElement>;
+  onDrop?: React.DragEventHandler<HTMLInputElement>;
 }
 
 interface UploaderTriggerState {
@@ -50,9 +50,7 @@ class UploadTrigger extends React.Component<UploadTriggerProps, UploaderTriggerS
   constructor(props) {
     super(props);
     this.inputRef = React.createRef();
-    this.state = {
-      dragOver: false
-    };
+    this.state = { dragOver: false };
   }
 
   getInputInstance() {
@@ -66,9 +64,7 @@ class UploadTrigger extends React.Component<UploadTriggerProps, UploaderTriggerS
   handleDragEnter = event => {
     if (this.props.draggable) {
       event.preventDefault();
-      this.setState({
-        dragOver: true
-      });
+      this.setState({ dragOver: true });
     }
     this.props.onDragEnter?.(event);
   };
@@ -76,9 +72,7 @@ class UploadTrigger extends React.Component<UploadTriggerProps, UploaderTriggerS
   handleDragLeave = event => {
     if (this.props.draggable) {
       event.preventDefault();
-      this.setState({
-        dragOver: false
-      });
+      this.setState({ dragOver: false });
     }
     this.props.onDragLeave?.(event);
   };
@@ -91,12 +85,20 @@ class UploadTrigger extends React.Component<UploadTriggerProps, UploaderTriggerS
   handleDrop = event => {
     if (this.props.draggable) {
       event.preventDefault();
-      this.setState({
-        dragOver: false
-      });
+      this.setState({ dragOver: false });
       this.props.onChange?.(event);
     }
     this.props.onDrop?.(event);
+  };
+
+  handleChange = event => {
+    /**
+     * IE11 triggers onChange event of file input when element.value is assigned
+     * https://github.com/facebook/react/issues/8793
+     */
+    if (event.target?.files?.length) {
+      this.props.onChange?.(event);
+    }
   };
 
   render() {
@@ -105,7 +107,6 @@ class UploadTrigger extends React.Component<UploadTriggerProps, UploaderTriggerS
       accept,
       multiple,
       disabled,
-      onChange,
       children,
       classPrefix,
       className,
@@ -149,7 +150,7 @@ class UploadTrigger extends React.Component<UploadTriggerProps, UploaderTriggerS
           disabled={disabled}
           accept={accept}
           ref={this.inputRef}
-          onChange={onChange}
+          onChange={this.handleChange}
         />
         {trigger}
       </div>
