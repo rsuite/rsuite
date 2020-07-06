@@ -32,6 +32,7 @@ export const pickerPropTypes = {
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
   onClean: PropTypes.func,
+  /** @deprecated Use `onClose` instead */
   onHide: PropTypes.func
 };
 

@@ -38,6 +38,7 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
     onKeyDown: PropTypes.func,
     onOpen: PropTypes.func,
     onClose: PropTypes.func,
+    /** @deprecated Use `onClose` instead */
     onHide: PropTypes.func,
     renderItem: PropTypes.func,
     style: PropTypes.object,

@@ -1,6 +1,12 @@
 ### Triggering events
 
-There are three kinds of events that can trigger the message `Popover`: `click`、`focus`、`hover`、`active`
+`Whisper` provides a `trigger` props, which is used to control the display of `Popover` in different business scenarios. Props values ​​include:
+
+- `click`: It will be triggered when the element is clicked, and closed when clicked again.
+- `focus`: It is generally triggered when the user clicks or taps on an element or selects it with the keyboard's `tab` key.
+- `hover`: Will be triggered when the cursor (mouse pointer) is hovering over the element.
+- `active`: It is triggered when the element is activated.
+- `none`: No trigger event, generally used when it needs to be triggered by a method.
 
 <!--start-code-->
 
@@ -15,26 +21,26 @@ const speaker = (
   </Popover>
 );
 
-const TriggerDemo = () => {
-  let trigger = null;
-  const triggerRef = ref => (trigger = ref);
-  const showPopover = () => trigger.show();
-  const hidePopover = () => trigger.hide();
+const TriggerMethod = () => {
+  const triggerRef = React.createRef();
+  const open = () => triggerRef.current.open();
+  const close = () => triggerRef.current.close();
+
   return (
     <div>
-      <Whisper placement="top" speaker={speaker} triggerRef={triggerRef}>
-        <span>Popover</span>
+      <Whisper placement="top" speaker={speaker} ref={triggerRef} trigger="none">
+        <span>Click the `Open` and `Close` buttons.</span>
       </Whisper>
       <hr />
       <ButtonToolbar>
-        <Button onClick={showPopover}>Show</Button>
-        <Button onClick={hidePopover}>Hide</Button>
+        <Button onClick={open}>Open</Button>
+        <Button onClick={close}>Close</Button>
       </ButtonToolbar>
     </div>
   );
 };
 
-const instance = (
+const App = () => (
   <div>
     <ButtonToolbar>
       <Whisper placement="top" trigger="click" speaker={speaker}>
@@ -54,11 +60,11 @@ const instance = (
       </Whisper>
     </ButtonToolbar>
     <hr />
-    <TriggerDemo />
+    <TriggerMethod />
   </div>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />);
 ```
 
 <!--end-code-->

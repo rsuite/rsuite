@@ -1,6 +1,12 @@
 ### 触发事件
 
-有三种状态可以触发提示 `Popover` 的信息: `click`、`focus`、`hover`、`active`
+`Whisper` 提供了一个 `trigger` 属性，用于在各种场景下控制 `Popover` 显示。属性值包括：
+
+- `click`: 当用户点击元素时会被触发，再点击会关闭。
+- `focus`: 当用户点击或触摸元素或通过键盘的 `tab` 键选择它时会被触发。
+- `hover`: 鼠标悬停到元素上时触发，鼠标离开则关闭。
+- `active`: 激活元素时会被触发。
+- `none`: 无触发事件，一般用于需要通过方法触发时候使用。
 
 <!--start-code-->
 
@@ -15,26 +21,26 @@ const speaker = (
   </Popover>
 );
 
-const TriggerDemo = () => {
-  let trigger = null;
-  const triggerRef = ref => (trigger = ref);
-  const showPopover = () => trigger.show();
-  const hidePopover = () => trigger.hide();
+const TriggerMethod = () => {
+  const triggerRef = React.createRef();
+  const open = () => triggerRef.current.open();
+  const close = () => triggerRef.current.close();
+
   return (
     <div>
-      <Whisper placement="top" speaker={speaker} triggerRef={triggerRef}>
-        <span>Popover</span>
+      <Whisper placement="top" speaker={speaker} ref={triggerRef} trigger="none">
+        <span>Click the `Open` and `Close` buttons.</span>
       </Whisper>
       <hr />
       <ButtonToolbar>
-        <Button onClick={showPopover}>Show</Button>
-        <Button onClick={hidePopover}>Hide</Button>
+        <Button onClick={open}>Open</Button>
+        <Button onClick={close}>Close</Button>
       </ButtonToolbar>
     </div>
   );
 };
 
-const instance = (
+const App = () => (
   <div>
     <ButtonToolbar>
       <Whisper placement="top" trigger="click" speaker={speaker}>
@@ -54,11 +60,11 @@ const instance = (
       </Whisper>
     </ButtonToolbar>
     <hr />
-    <TriggerDemo />
+    <TriggerMethod />
   </div>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />);
 ```
 
 <!--end-code-->

@@ -1,14 +1,11 @@
 import * as React from 'react';
 import { AnimationEventProps, StandardProps, TypeAttributes } from '../@types/common';
 
-export type OverlayTriggerTrigger = 'click' | 'hover' | 'focus' | 'active';
+export type OverlayTriggerTrigger = 'click' | 'hover' | 'focus' | 'active' | 'none';
 
 export interface TriggerProps extends AnimationEventProps, StandardProps {
   /** Triggering events */
   trigger?: OverlayTriggerTrigger | OverlayTriggerTrigger[];
-
-  /** Ref of trigger */
-  triggerRef?: React.Ref<any>;
 
   /** Display placement */
   placement?: TypeAttributes.Placement | TypeAttributes.Placement4;
@@ -39,6 +36,9 @@ export interface TriggerProps extends AnimationEventProps, StandardProps {
   /** Whether mouse is allowed to enter the floating layer of popover, whose default value is false. */
   enterable?: boolean;
 
+  /** Position of ref */
+  positionRef?: React.Ref<any>;
+
   /** Lose Focus callback function */
   onBlur?: () => void;
 
@@ -54,8 +54,11 @@ export interface TriggerProps extends AnimationEventProps, StandardProps {
   /** Mouse over callback function */
   onMouseOver?: () => void;
 
-  /** Position of ref */
-  positionRef?: React.Ref<any>;
+  /** Callback fired when open component */
+  onOpen?: () => void;
+
+  /** Callback fired when close component */
+  onClose?: () => void;
 }
 
 export interface OverlayTriggerProps extends TriggerProps {
