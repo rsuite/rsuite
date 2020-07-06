@@ -66,34 +66,6 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
 
   getOverlayTarget = () => getDOMNode(this);
 
-  getOverlay() {
-    const { open, speaker, trigger, onHide } = this.props;
-    const { isOverlayShown } = this.state;
-    const overlayProps: OverlayProps = {
-      ...pick(this.props, Object.keys(Overlay.propTypes)),
-      show: typeof open === 'undefined' ? isOverlayShown : open,
-      target: this.getOverlayTarget
-    };
-
-    if (isOneOf('click', trigger)) {
-      overlayProps.onHide = createChainedFunction(this.hide, onHide);
-    } else if (isOneOf('active', trigger)) {
-      overlayProps.onHide = createChainedFunction(this.hide, onHide);
-    }
-
-    const speakerProps = {
-      onMouseEnter: this.handleSpeakerMouseEnter,
-      onMouseLeave: this.handleSpeakerMouseLeave,
-      placement: overlayProps.placement
-    };
-
-    if (typeof speaker === 'function') {
-      return <Overlay {...overlayProps}>{speaker}</Overlay>;
-    }
-
-    return <Overlay {...overlayProps}>{React.cloneElement(speaker, speakerProps)}</Overlay>;
-  }
-
   handleSpeakerMouseEnter = () => {
     this.mouseEnteredToSpeaker = true;
   };
@@ -198,6 +170,34 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
     }, delay);
   };
 
+  renderOverlay() {
+    const { open, speaker, trigger, onHide } = this.props;
+    const { isOverlayShown } = this.state;
+    const overlayProps: OverlayProps = {
+      ...pick(this.props, Object.keys(Overlay.propTypes)),
+      show: typeof open === 'undefined' ? isOverlayShown : open,
+      target: this.getOverlayTarget
+    };
+
+    if (isOneOf('click', trigger)) {
+      overlayProps.onHide = createChainedFunction(this.hide, onHide);
+    } else if (isOneOf('active', trigger)) {
+      overlayProps.onHide = createChainedFunction(this.hide, onHide);
+    }
+
+    const speakerProps = {
+      onMouseEnter: this.handleSpeakerMouseEnter,
+      onMouseLeave: this.handleSpeakerMouseLeave,
+      placement: overlayProps.placement
+    };
+
+    if (typeof speaker === 'function') {
+      return <Overlay {...overlayProps}>{speaker}</Overlay>;
+    }
+
+    return <Overlay {...overlayProps}>{React.cloneElement(speaker, speakerProps)}</Overlay>;
+  }
+
   render() {
     const {
       children,
@@ -259,7 +259,7 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
 
     return [
       React.cloneElement(triggerComponent, props),
-      <Portal key="portal">{this.getOverlay()}</Portal>
+      <Portal key="portal">{this.renderOverlay()}</Portal>
     ];
   }
 }
