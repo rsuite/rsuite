@@ -33,7 +33,7 @@ ReactDOM.render(instance);
   use: [{
     loader: 'svg-sprite-loader',
     options: {
-      symbolId: 'icon-[name]'
+      symbolId: 'icon-[name]-[hash]'
     }
   }]
 }

@@ -33,7 +33,7 @@ You also need to configure SVG loader in webpack to use [svg-sprite-loader](http
   use: [{
     loader: 'svg-sprite-loader',
     options: {
-      symbolId: 'icon-[name]'
+      symbolId: 'icon-[name]-[hash]'
     }
   }]
 }

@@ -36,6 +36,7 @@
     "react-dom": "^16.12.0",
     "react-json-tree": "^0.11.2",
     "react-loadable": "^5.5.0",
+    "react-sortablejs": "^2.0.11",
     "react-text-mask": "^5.4.3",
     "rsuite": "^4.7.5",
     "rsuite-clipboard": "^2.0.1",
