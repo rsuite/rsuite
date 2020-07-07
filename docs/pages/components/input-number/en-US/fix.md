@@ -3,43 +3,37 @@
 <!--start-code-->
 
 ```js
-class Demo extends React.Component {
-  render() {
-    return (
-      <div>
-        <div style={{width: 160}}>
-          <InputNumber prefix="$"/>
-          <hr/>
-          <InputNumber postfix="￥"/>
-          <hr/>
-          <InputNumber postfix="%"/>
-        </div>
-        <hr/>
-        <InputGroup style={{width: 180}}>
-          <InputGroup.Addon
-            style={{cursor: "pointer"}}
-            onClick={(e: any) => {
-              this._InputNumber.handleMinus();
-            }}
-          >-</InputGroup.Addon>
-          <InputNumber
-            className={'custom-input-number'}
-            ref={ref => (this._InputNumber = ref)}
-            max={99}
-            min={1}
-          />
-          <InputGroup.Addon
-            style={{cursor: "pointer"}}
-            onClick={(e: any) => {
-              this._InputNumber.handlePlus();
-            }}
-          >+</InputGroup.Addon>
-        </InputGroup>
-      </div>
+const App = () => {
+  const inputRef = React.createRef();
+  const handleMinus = () => {
+    inputRef.current.handleMinus();
+  };
+  const handlePlus = () => {
+    inputRef.current.handlePlus();
+  };
+  return (
+     <div style={{width: 160}}>
+       <InputNumber prefix="$"/>
+       <hr/>
+       <InputNumber postfix="￥"/>
+       <hr/>
+       <InputNumber postfix="%"/>
+       <hr/>
+       <InputGroup>
+         <InputGroup.Button onClick={handleMinus}>-</InputGroup.Button>
+         <InputNumber
+           className={'custom-input-number'}
+           ref={inputRef}
+           max={99}
+           min={1}
+         />
+         <InputGroup.Button onClick={handlePlus}>+</InputGroup.Button>
+       </InputGroup>
+     </div>
     )
-  }
 }
-ReactDOM.render(<Demo/>);
+ReactDOM.render(<App/>);
+
 
 /**
 .custom-input-number {
