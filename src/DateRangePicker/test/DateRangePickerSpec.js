@@ -215,12 +215,14 @@ describe('DateRangePicker', () => {
 
   it('Should have only one calendar', () => {
     const instance = getInstance(<DateRangePicker showOneCalendar open />);
+    const menuContainer = getDOMNode(instance.menuContainerRef.current);
 
-    assert.equal(
-      getDOMNode(instance.menuContainerRef.current).querySelectorAll(
-        '.rs-picker-daterange-calendar-single'
-      ).length,
-      1
+    assert.ok(
+      menuContainer
+        .querySelector('.rs-picker-daterange-panel')
+        .className.match(/\brs-picker-daterange-panel-show-one-calendar\b/)
     );
+
+    assert.equal(menuContainer.querySelectorAll('.rs-picker-daterange-calendar-single').length, 1);
   });
 });
