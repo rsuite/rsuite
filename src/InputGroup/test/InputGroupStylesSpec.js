@@ -11,6 +11,6 @@ describe('InputGroup styles', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<InputGroup ref={instanceRef} />, createTestContainer());
     const dom = getDOMNode(instanceRef.current);
-    assert.equal(getStyle(dom, 'display'), 'table', 'InputGroup display');
+    assert.equal(getStyle(dom, 'display'), 'flex', 'InputGroup display');
   });
 });
