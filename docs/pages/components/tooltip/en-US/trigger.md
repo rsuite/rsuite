@@ -1,6 +1,12 @@
 ### Triggering events
 
-There are three kinds of events that can trigger the message `tooltip`: `click`、`focus`、`hover`、`active`
+`Whisper` provides a `trigger` props, which is used to control the display of `Tooltip` in different business scenarios. Props values ​​include:
+
+- `click`: It will be triggered when the element is clicked, and closed when clicked again.
+- `focus`: It is generally triggered when the user clicks or taps on an element or selects it with the keyboard's `tab` key.
+- `hover`: Will be triggered when the cursor (mouse pointer) is hovering over the element.
+- `active`: It is triggered when the element is activated.
+- `none`: No trigger event, generally used when it needs to be triggered by a method.
 
 <!--start-code-->
 

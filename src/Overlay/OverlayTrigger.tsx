@@ -9,7 +9,7 @@ import isOneOf from '../utils/isOneOf';
 import getDOMNode from '../utils/getDOMNode';
 import Portal from '../Portal';
 import { OverlayTriggerProps } from './OverlayTrigger.d';
-
+import { TypeAttributes } from '../@types/common';
 function onMouseEventHandler(handler: React.MouseEventHandler, event: React.MouseEvent) {
   const target = event.currentTarget;
   const related = event.relatedTarget || get(event, ['nativeEvent', 'toElement']);
@@ -27,6 +27,12 @@ interface TriggerProps {
   onBlur?: React.MouseEventHandler;
   onClick?: React.MouseEventHandler;
   onFocus?: React.MouseEventHandler;
+}
+
+interface SpeakerProps {
+  placement: TypeAttributes.Placement | TypeAttributes.Placement4;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 }
 
 interface OverlayTriggerState {
@@ -54,8 +60,10 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
   constructor(props: OverlayTriggerProps) {
     super(props);
 
-    this.onMouseOverListener = e => onMouseEventHandler(this.handleDelayedShow, e);
-    this.onMouseOutListener = e => onMouseEventHandler(this.handleDelayedHide, e);
+    if (props.trigger !== 'none') {
+      this.onMouseOverListener = e => onMouseEventHandler(this.handleDelayedShow, e);
+      this.onMouseOutListener = e => onMouseEventHandler(this.handleDelayedHide, e);
+    }
     this.state = { isOverlayShown: props.defaultOpen };
   }
 
@@ -76,6 +84,14 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
     if (!isOneOf('click', trigger) && !isOneOf('active', trigger)) {
       this.hideWithCheck();
     }
+  };
+
+  open = (delay?: number) => {
+    this.show(delay);
+  };
+
+  close = (delay?: number) => {
+    this.hide(delay);
   };
 
   show = (delay?: number) => {
@@ -185,11 +201,14 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
       overlayProps.onHide = createChainedFunction(this.hide, onHide);
     }
 
-    const speakerProps = {
-      onMouseEnter: this.handleSpeakerMouseEnter,
-      onMouseLeave: this.handleSpeakerMouseLeave,
+    const speakerProps: SpeakerProps = {
       placement: overlayProps.placement
     };
+
+    if (trigger !== 'none') {
+      speakerProps.onMouseEnter = this.handleSpeakerMouseEnter;
+      speakerProps.onMouseLeave = this.handleSpeakerMouseLeave;
+    }
 
     if (typeof speaker === 'function') {
       return <Overlay {...overlayProps}>{speaker}</Overlay>;
