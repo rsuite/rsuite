@@ -7,7 +7,7 @@ There are three kinds of events that can trigger the message `Popover`: `click`ã
 ```js
 const speaker = (
   <Popover title="Title">
-    <p>This is a defalut Popover </p>
+    <p>This is a default Popover </p>
     <p>Content</p>
     <p>
       <a>link</a>
