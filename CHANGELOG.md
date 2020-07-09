@@ -1,3 +1,44 @@
+# 4.8.0
+
+> July 9, 2020
+
+- **Feature**: Added support for `none` in `trigger` props on `<Whisper>`. [#1155]
+- **Feature**: Support `scrollable` on `<InputNumber>`. ([#1133])
+- **Improve**: Impove `<DateRangePicker>` panel range layout styles. ([#1164])
+- **Improve**: Improve all Pickers renderValue methods. ([#1151],[#1139])
+- **Bugfix**: Fix Uploader repeatedly triggering onChange event in IE11. ([#1156])
+- **Bugfix**: Fix `<Whisper>` delay not working. ([#1153])
+- **Bugfix**: Fix the issue of height reduction when reopening `<Modal>`. ([#1152])
+- **Bugfix**: Fix the style problem of various combinations of `<InputGroup>`. ([#1149],[#1150],[#1158],[#1163])
+- **Bugfix**: Fix `<Carousel>` autoplay direction error on RTL. ([#1136])
+
+---
+
+- **Feature**: `<InputNumber>` 新增支持 `scrollable` 属性，默认值为 `true`, 设置为 `false` 则禁用滚动更新值。 ([#1133])
+- **Feature**: `<Whisper>` 的 `trigger` 属性值新增 `none` 。 [#1155]
+- **Improve**: 改进 `<DateRangePicker>` 的面板样式，可以容纳更多自定义选项。 ([#1164])
+- **Improve**: 改进所有 Picker 的 `renderValue` 方法，解决值与数据不匹配时也能自定义显示。 ([#1151],[#1139])
+- **Bugfix**: 修复 `Uploader` 在 IE11 浏览器会触发两次 `onChange` 的问题. ([#1156])
+- **Bugfix**: 修复 `<Whisper>` 的 `delay` 值属性无效的问题。 ([#1153])
+- **Bugfix**: 修复 `<Modal>` 在再一次打开后高度计算不一致的问题。 ([#1152])
+- **Bugfix**: 修复 `<InputGroup>` 在多种组合场景下存在的样式问题。 ([#1149],[#1150],[#1158],[#1163])
+- **Bugfix**: 修复 `<Carousel>` RTL 视图下自动播放方向错误的问题。 ([#1136])
+
+[#1164]: https://github.com/rsuite/rsuite/pull/1164
+[#1156]: https://github.com/rsuite/rsuite/pull/1156
+[#1155]: https://github.com/rsuite/rsuite/pull/1153
+[#1153]: https://github.com/rsuite/rsuite/pull/1153
+[#1152]: https://github.com/rsuite/rsuite/pull/1152
+[#1163]: https://github.com/rsuite/rsuite/pull/1163
+[#1158]: https://github.com/rsuite/rsuite/pull/1158
+[#1150]: https://github.com/rsuite/rsuite/pull/1150
+[#1149]: https://github.com/rsuite/rsuite/pull/1149
+[#1148]: https://github.com/rsuite/rsuite/pull/1148
+[#1139]: https://github.com/rsuite/rsuite/pull/1139
+[#1151]: https://github.com/rsuite/rsuite/pull/1151
+[#1136]: https://github.com/rsuite/rsuite/pull/1136
+[#1133]: https://github.com/rsuite/rsuite/pull/1133
+
 # 4.7.5
 
 > June 18, 2020
