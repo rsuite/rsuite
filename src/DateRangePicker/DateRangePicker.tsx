@@ -485,6 +485,9 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     } = this.props;
     const { calendarDate, selectValue, hoverValue, doneSelected } = this.state;
     const classes = classNames(this.addPrefix('daterange-menu'), menuClassName);
+    const panelClasses = classNames(this.addPrefix('daterange-panel'), {
+      [this.addPrefix('daterange-panel-show-one-calendar')]: showOneCalendar
+    });
 
     const pickerProps = {
       isoWeek,
@@ -503,7 +506,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
 
     return (
       <MenuWrapper className={classes} ref={this.menuContainerRef}>
-        <div className={this.addPrefix('daterange-panel')}>
+        <div className={panelClasses}>
           <div className={this.addPrefix('daterange-content')}>
             <div className={this.addPrefix('daterange-header')}>
               {this.getDateString(selectValue as ValueType)}
