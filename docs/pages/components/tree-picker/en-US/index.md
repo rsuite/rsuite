@@ -57,7 +57,7 @@ import { TreePicker } from 'rsuite';
 | renderTreeNode          | (nodeData:[DataItemType](#types)) => React.Node                                                         | Custom render tree Node                                                   |
 | renderValue             | (value:string,item:[DataItemType](#types), selectedElement:React.Node) => React.Node                    | Custom render selected value                                              |
 | searchBy                | (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean                                | Custom search rules                                                       |
-| seasrchable             | boolean `(true)`                                                                                        | Set whether you can search                                                |
+| searchable              | boolean `(true)`                                                                                        | Set whether you can search                                                |
 | size                    | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                                                   | A picker can have different sizes                                         |
 | toggleComponentClass    | React.ElementType `('a')`                                                                               | You can use a custom element for this component                           |
 | value                   | string                                                                                                  | Selected value                                                            |
