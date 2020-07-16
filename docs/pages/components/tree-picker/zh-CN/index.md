@@ -59,7 +59,7 @@ import { TreePicker } from 'rsuite';
 | renderTreeNode          | (nodeData:[DataItemType](#types)) => React.Node                                                         | 自定义渲染 tree 节点                                                            |
 | renderValue             | (value:string,item:[DataItemType](#types), selectedElement:React.Node) => React.Node                    | 自定义渲染选中的值                                                              |
 | searchBy                | (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean                                | 自定义搜索规则                                                                  |
-| seasrchable             | boolean `(true)`                                                                                        | 是否可以搜索                                                                    |
+| searchable              | boolean `(true)`                                                                                        | 是否可以搜索                                                                    |
 | size                    | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                                                   | 设置组件尺寸                                                                    |
 | toggleComponentClass    | React.ElementType `('a')`                                                                               | 为组件自定义元素类型                                                            |
 | value                   | string                                                                                                  | 当前选中的值                                                                    |
