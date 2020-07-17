@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { polyfill } from 'react-lifecycles-compat';
-import { convertTokenV1, convertTokenV2 } from '../utils/dateFnsPolyfill';
 import IntlContext from '../IntlProvider/IntlContext';
 import FormattedDate from '../IntlProvider/FormattedDate';
 import Calendar from '../Calendar/Calendar';
@@ -148,22 +147,22 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     return this.props.value || this.state.value;
   };
 
-  getFormat = () => (this.props.format ? convertTokenV2(this.props.format) : 'yyyy-MM-dd');
+  getFormat = () => this.props.format ?? 'yyyy-MM-dd';
 
   getDateString() {
     const { placeholder, renderValue } = this.props;
     const value = this.getValue();
-    const v2FormatType = this.getFormat();
+    const formatType = this.getFormat();
 
     if (value) {
       return renderValue ? (
-        renderValue(value, convertTokenV1(v2FormatType))
+        renderValue(value, formatType)
       ) : (
-        <FormattedDate date={value} formatStr={v2FormatType} />
+        <FormattedDate date={value} formatStr={formatType} />
       );
     }
 
-    return placeholder || v2FormatType;
+    return placeholder || formatType;
   }
 
   handleChangePageDate = (nextPageDate: Date) => {

@@ -2,7 +2,6 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { convertTokenV1, convertTokenV2 } from '../utils/dateFnsPolyfill';
 import {
   addDays,
   isBefore,
@@ -154,12 +153,12 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     return this.state.value || [];
   };
 
-  getFormat = () => (this.props.format ? convertTokenV2(this.props.format) : 'yyyy-MM-dd');
+  getFormat = () => this.props.format ?? 'yyyy-MM-dd';
 
   getDateString(value?: ValueType) {
     const { placeholder, renderValue } = this.props;
     const nextValue = value || this.getValue();
-    const v2FormatType = this.getFormat();
+    const formatType = this.getFormat();
     const startDate: Date = nextValue?.[0];
     const endDate: Date = nextValue?.[1];
 
@@ -167,16 +166,16 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       const displayValue: any = [startDate, endDate].sort(compareAsc);
 
       return renderValue ? (
-        renderValue(displayValue, convertTokenV1(v2FormatType))
+        renderValue(displayValue, formatType)
       ) : (
         <>
-          <FormattedDate date={displayValue[0]} formatStr={v2FormatType} /> ~{' '}
-          <FormattedDate date={displayValue[1]} formatStr={v2FormatType} />
+          <FormattedDate date={displayValue[0]} formatStr={formatType} /> ~{' '}
+          <FormattedDate date={displayValue[1]} formatStr={formatType} />
         </>
       );
     }
 
-    return placeholder || `${v2FormatType} ~ ${v2FormatType}`;
+    return placeholder || `${formatType} ~ ${formatType}`;
   }
 
   // hover range presets
