@@ -122,7 +122,7 @@ class TableRow extends React.Component<TableRowProps> {
   renderWeekNumber() {
     return (
       <div className={this.addPrefix('cell-week-number')}>
-        {format(this.props.weekendDate, 'I')}
+        {format(this.props.weekendDate, 'w')}
       </div>
     );
   }
