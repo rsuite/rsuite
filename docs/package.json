@@ -81,7 +81,7 @@
     "html-loader": "^0.4.3",
     "ip": "^1.1.5",
     "less": "^3.9.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "markdown-loader": "2.0.0",
     "next": "^9.4.4",
     "next-compose-plugins": "^2.2.0",
