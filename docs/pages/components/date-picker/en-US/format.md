@@ -5,7 +5,7 @@
 ```js
 const instance = (
   <DatePicker
-    format="YYYY-MM-DD HH:mm:ss"
+    format="yyyy-MM-dd HH:mm:ss"
     ranges={[
       {
         label: 'Now',

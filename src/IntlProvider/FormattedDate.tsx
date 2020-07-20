@@ -1,6 +1,6 @@
 import * as React from 'react';
 import IntlContext from './IntlContext';
-import format from 'date-fns/format';
+import { format } from '../utils/dateUtils';
 
 interface FormattedDateProps {
   date: Date;

@@ -3,33 +3,30 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { polyfill } from 'react-lifecycles-compat';
-import {
-  getMinutes,
-  getHours,
-  isSameDay,
-  getSeconds,
-  setHours,
-  setMinutes,
-  setSeconds
-} from 'date-fns';
-
 import IntlContext from '../IntlProvider/IntlContext';
 import FormattedDate from '../IntlProvider/FormattedDate';
 import Calendar from '../Calendar/Calendar';
 import Toolbar from './Toolbar';
-
-import { disabledTime, calendarOnlyProps } from '../utils/timeUtils';
 import { shouldOnlyTime } from '../utils/formatUtils';
 import composeFunctions from '../utils/composeFunctions';
 import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
-
 import {
   PickerToggle,
   MenuWrapper,
   PickerToggleTrigger,
   getToggleWrapperClassName
 } from '../Picker';
-
+import {
+  getHours,
+  getMinutes,
+  getSeconds,
+  isSameDay,
+  setHours,
+  setMinutes,
+  setSeconds,
+  calendarOnlyProps,
+  disabledTime
+} from '../utils/dateUtils';
 import { DatePickerProps } from './DatePicker.d';
 import { pickerPropTypes, pickerDefaultProps } from '../Picker/propTypes';
 
@@ -73,7 +70,6 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   static defaultProps = {
     ...pickerDefaultProps,
     limitEndYear: 1000,
-    format: 'YYYY-MM-DD',
     placeholder: '',
     locale: {
       sunday: 'Su',
@@ -131,7 +127,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     return null;
   }
 
-  onMoveForword = (nextPageDate: Date) => {
+  onMoveForward = (nextPageDate: Date) => {
     this.setState({
       pageDate: nextPageDate
     });
@@ -151,9 +147,12 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     return this.props.value || this.state.value;
   };
 
+  getFormat = () => this.props.format ?? 'yyyy-MM-dd';
+
   getDateString() {
-    const { placeholder, format: formatType, renderValue } = this.props;
+    const { placeholder, renderValue } = this.props;
     const value = this.getValue();
+    const formatType = this.getFormat();
 
     if (value) {
       return renderValue ? (
@@ -297,9 +296,9 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
 
     this.setState({
       pageDate: composeFunctions(
-        d => setHours(d, getHours(pageDate)),
-        d => setMinutes(d, getMinutes(pageDate)),
-        d => setSeconds(d, getSeconds(pageDate))
+        (d: Date) => setHours(d, getHours(pageDate)),
+        (d: Date) => setMinutes(d, getMinutes(pageDate)),
+        (d: Date) => setSeconds(d, getSeconds(pageDate))
       )(nextValue)
     });
 
@@ -335,14 +334,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderCalendar() {
-    const {
-      format,
-      isoWeek,
-      limitEndYear,
-      disabledDate,
-      showWeekNumbers,
-      showMeridian
-    } = this.props;
+    const { isoWeek, limitEndYear, disabledDate, showWeekNumbers, showMeridian } = this.props;
     const { calendarState, pageDate } = this.state;
     const calendarProps = _.pick(this.props, calendarOnlyProps);
 
@@ -353,11 +345,11 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
         showMeridian={showMeridian}
         disabledDate={disabledDate}
         limitEndYear={limitEndYear}
-        format={format}
+        format={this.getFormat()}
         isoWeek={isoWeek}
         calendarState={calendarState}
         pageDate={pageDate}
-        onMoveForword={this.onMoveForword}
+        onMoveForward={this.onMoveForward}
         onMoveBackward={this.onMoveBackward}
         onSelect={this.handleSelect}
         onToggleMonthDropdown={this.toggleMonthDropdown}
@@ -368,6 +360,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
       />
     );
   }
+
   renderDropdownMenu(calendar: React.ReactNode) {
     const { ranges, menuClassName, oneTap } = this.props;
     const { pageDate } = this.state;
@@ -389,6 +382,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
       </MenuWrapper>
     );
   }
+
   render() {
     const {
       inline,
@@ -396,7 +390,6 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
       disabled,
       cleanable,
       classPrefix,
-      format,
       locale,
       toggleComponentClass,
       style,
@@ -422,7 +415,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     }
 
     const classes = getToggleWrapperClassName('date', this.addPrefix, this.props, hasValue, {
-      [this.addPrefix('date-only-time')]: shouldOnlyTime(format)
+      [this.addPrefix('date-only-time')]: shouldOnlyTime(this.getFormat())
     });
 
     return (

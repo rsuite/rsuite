@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import DatePicker from '../DatePicker';
-import { parse } from 'date-fns';
+import { parseISO } from '../../utils/dateUtils';
 
 describe('DatePicker', () => {
   it('Should render a div with "rs-calendar" class', () => {
@@ -15,7 +15,7 @@ describe('DatePicker', () => {
   it('Should output a date', () => {
     const instance = getDOMNode(
       <DatePicker
-        calendarDate={[parse('2017-08'), parse('2017-09')]}
+        calendarDate={[parseISO('2017-08'), parseISO('2017-09')]}
         index={0}
         onChangeCalendarDate={() => {}}
       />
@@ -26,7 +26,7 @@ describe('DatePicker', () => {
   it('Should call `onChangeCalendarDate` callback', done => {
     const instance = getDOMNode(
       <DatePicker
-        calendarDate={[parse('2017-08'), parse('2017-09')]}
+        calendarDate={[parseISO('2017-08'), parseISO('2017-09')]}
         index={0}
         onChangeCalendarDate={() => {
           done();
@@ -40,7 +40,7 @@ describe('DatePicker', () => {
   it('Should call `onChangeCalendarDate` callback', done => {
     const instance = getDOMNode(
       <DatePicker
-        calendarDate={[parse('2017-08'), parse('2017-10')]}
+        calendarDate={[parseISO('2017-08'), parseISO('2017-10')]}
         index={0}
         onChangeCalendarDate={() => {
           done();
@@ -53,7 +53,7 @@ describe('DatePicker', () => {
   it('Should call `onChangeCalendarDate` callback', done => {
     const instance = getDOMNode(
       <DatePicker
-        calendarDate={[parse('2017-08'), parse('2017-10')]}
+        calendarDate={[parseISO('2017-08'), parseISO('2017-10')]}
         index={0}
         onChangeCalendarDate={() => {
           done();
@@ -69,7 +69,7 @@ describe('DatePicker', () => {
     const instance = getInstance(
       <DatePicker
         onChangeCalendarDate={() => {}}
-        calendarDate={[parse('2017-08'), parse('2017-10')]}
+        calendarDate={[parseISO('2017-08'), parseISO('2017-10')]}
         index={0}
       />
     );

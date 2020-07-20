@@ -9,7 +9,6 @@ module.exports = (api, options) => {
 
   const plugins = [
     'lodash',
-    'date-fns',
     ['@babel/plugin-proposal-class-properties', { loose: true }],
     '@babel/plugin-proposal-optional-chaining',
     '@babel/plugin-proposal-nullish-coalescing-operator',

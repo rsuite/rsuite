@@ -1,8 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { addDays, isSameDay, isBefore, isAfter, getDate, format } from 'date-fns';
-
+import { addDays, isSameDay, isBefore, isAfter, getDate, format } from '../../utils/dateUtils';
 import { getUnhandledProps, prefix, defaultProps } from '../../utils';
 import IntlContext from '../../IntlProvider/IntlContext';
 import { DATERANGE_DISABLED_TARGET } from '../../constants';
@@ -51,7 +50,7 @@ class TableRow extends React.Component<TableRowProps> {
     } = this.props;
 
     const { formatDate, formattedDayPattern, today } = this.context || {};
-    const formatStr = formattedDayPattern || 'YYYY-MM-DD';
+    const formatStr = formattedDayPattern || 'yyyy-MM-dd';
 
     const days = [];
     const selectedStartDate = selected[0];
@@ -123,7 +122,7 @@ class TableRow extends React.Component<TableRowProps> {
   renderWeekNumber() {
     return (
       <div className={this.addPrefix('cell-week-number')}>
-        {format(this.props.weekendDate, 'W')}
+        {format(this.props.weekendDate, 'w')}
       </div>
     );
   }

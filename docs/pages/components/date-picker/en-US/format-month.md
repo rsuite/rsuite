@@ -3,7 +3,7 @@
 <!--start-code-->
 ```js
 const DatePickerInstance = props => (
-   <DatePicker format="YYYY-MM" ranges={[]} />
+   <DatePicker format="yyyy-MM" ranges={[]} />
 );
 
 ReactDOM.render(<DatePickerInstance />);

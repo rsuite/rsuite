@@ -1,13 +1,19 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { getPosition, scrollTop } from 'dom-lib';
-import FormattedMessage from '../IntlProvider/FormattedMessage';
-import _ from 'lodash';
 import classNames from 'classnames';
-
-import { prefix, getUnhandledProps, defaultProps } from '../utils';
+import _ from 'lodash';
+import FormattedMessage from '../IntlProvider/FormattedMessage';
+import { defaultProps, getUnhandledProps, prefix } from '../utils';
+import {
+  getHours,
+  getMinutes,
+  getSeconds,
+  setHours,
+  setMinutes,
+  setSeconds
+} from '../utils/dateUtils';
 import scrollTopAnimation from '../utils/scrollTopAnimation';
-import { getHours, getMinutes, getSeconds, setSeconds, setMinutes, setHours } from 'date-fns';
 
 export interface TimeDropdownProps {
   date?: Date;
