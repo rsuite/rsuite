@@ -61,7 +61,7 @@ const App = () => {
       <div className={'rs-form-control-wrapper'} style={{width: 300}}>
         <Input placeholder="Custom error messages"/>
         <ErrorMessage show={errorVisible} placement={errorPlacement}>
-              {errorMessage}
+            {errorMessage}
         </ErrorMessage>
       </div>
       <hr />
