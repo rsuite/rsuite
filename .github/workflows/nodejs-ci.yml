@@ -5,9 +5,15 @@ name: Node.js CI
 
 on:
   push:
-    branches: [master]
+    branches:
+      - master
+      - next
+      - v4
   pull_request:
-    branches: [master]
+    branches:
+      - master
+      - next
+      - v4
 
 jobs:
   test:
@@ -20,23 +26,23 @@ jobs:
         browser: [ChromeCi, Firefox]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js 12.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
-    - name: Cache Node.js modules
-      uses: actions/cache@v1
-      with:
-        path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
-        key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.OS }}-node-
-          ${{ runner.OS }}-
-    - name: Install dependencies
-      run: npm ci
-    - name: Run headless tests
-      run: xvfb-run --auto-servernum npm test
-      env:
-        CI: true
-        BROWSER: ${{ matrix.browser }}
+      - uses: actions/checkout@v2
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Cache Node.js modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
+          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-node-
+            ${{ runner.OS }}-
+      - name: Install dependencies
+        run: npm ci
+      - name: Run headless tests
+        run: xvfb-run --auto-servernum npm test
+        env:
+          CI: true
+          BROWSER: ${{ matrix.browser }}
