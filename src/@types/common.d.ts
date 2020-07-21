@@ -103,7 +103,7 @@ export interface FormControlBaseProps<ValueType = any> {
   value?: ValueType;
 
   /** Called after the value has been changed */
-  onChange?: (value: ValueType, event: React.SyntheticEvent<HTMLElement>) => void;
+  onChange?: (value: ValueType, event?: React.SyntheticEvent<HTMLElement>) => void;
 }
 
 type ToArray<V> = V extends any[] ? V : V[];
@@ -132,7 +132,7 @@ export interface FormControlPickerProps<ValueType = any, DataType = Record<strin
   value?: ValueType;
 
   /** Called after the value has been changed */
-  onChange?: (value: ValueType, event: React.SyntheticEvent<HTMLElement>) => void;
+  onChange?: (value: ValueType, event?: React.SyntheticEvent<HTMLElement>) => void;
 }
 
 export declare namespace TypeAttributes {
