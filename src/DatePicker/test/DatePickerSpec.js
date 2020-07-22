@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { parseISO, isSameDay, format } from '../../utils/dateUtils';
+import { format, isSameDay, parseISO } from '../../utils/dateUtils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
 import DatePicker from '../DatePicker';
+import { zonedDate } from '../../utils/timeZone';
 
 describe('DatePicker', () => {
   it('Should render a div with "rs-picker-date" class', () => {
@@ -291,5 +292,20 @@ describe('DatePicker', () => {
       12
     );
     assert.equal(picker.querySelector('.rs-calendar-time-dropdown-column li').innerText, '12');
+  });
+
+  it('Should be zoned date', done => {
+    const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
+    const template = 'yyyy-MM-dd HH:mm:ss';
+    const handleSelect = date => {
+      assert.equal(format(date, template), format(zonedDate(timeZone), template));
+      done();
+    };
+    const instance = getInstance(
+      <DatePicker onSelect={handleSelect} timeZone={timeZone} defaultOpen />
+    );
+    const calendarPanel = instance.menuContainerRef.current;
+
+    ReactTestUtils.Simulate.click(calendarPanel.querySelector('.rs-calendar-table-cell-is-today'));
   });
 });
