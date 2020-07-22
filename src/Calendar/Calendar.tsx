@@ -174,6 +174,7 @@ class Calendar extends React.Component<CalendarProps> {
         {showMonth && (
           <MonthDropdown
             date={pageDate}
+            timeZone={timeZone}
             onSelect={onChangePageDate}
             show={dropMonth}
             limitEndYear={limitEndYear}

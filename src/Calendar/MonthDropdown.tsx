@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import List from 'react-virtualized/dist/commonjs/List';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
-import { prefix, getUnhandledProps, defaultProps } from '../utils';
+import { defaultProps, getUnhandledProps, prefix } from '../utils';
 import MonthDropdownItem from './MonthDropdownItem';
-import { getYear, getMonth, getDaysInMonth } from '../utils/dateUtils';
+import { getDaysInMonth, getMonth, getYear } from '../utils/dateUtils';
 
 export interface MonthDropdownProps {
   date: Date;
+  timeZone?: string;
   limitEndYear?: number;
   className?: string;
   classPrefix?: string;
@@ -42,6 +43,7 @@ function getRowHeight(count: number) {
 class MonthDropdown extends React.PureComponent<MonthDropdownProps> {
   static propTypes = {
     date: PropTypes.instanceOf(Date),
+    timeZone: PropTypes.string,
     limitEndYear: PropTypes.number,
     className: PropTypes.string,
     classPrefix: PropTypes.string,
@@ -90,7 +92,7 @@ class MonthDropdown extends React.PureComponent<MonthDropdownProps> {
     return false;
   }
   rowRenderer = ({ index, key, style }: RowProps) => {
-    const { date, onSelect } = this.props;
+    const { date, onSelect, timeZone } = this.props;
     const selectedMonth = getMonth(date);
     const selectedYear = getYear(date);
     const year = index + 1;
@@ -113,6 +115,7 @@ class MonthDropdown extends React.PureComponent<MonthDropdownProps> {
             return (
               <MonthDropdownItem
                 date={date}
+                timeZone={timeZone}
                 onSelect={onSelect}
                 disabled={this.disabledMonth(year, month)}
                 active={isSelectedYear && month === selectedMonth}

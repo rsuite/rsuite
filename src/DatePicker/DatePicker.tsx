@@ -29,6 +29,7 @@ import {
 } from '../utils/dateUtils';
 import { DatePickerProps } from './DatePicker.d';
 import { pickerPropTypes, pickerDefaultProps } from '../Picker/propTypes';
+import { toLocalTimeZone } from '../utils/timeZone';
 
 interface DatePickerState {
   value?: Date;
@@ -168,7 +169,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
 
   handleChangePageDate = (nextPageDate: Date) => {
     this.setState({
-      pageDate: nextPageDate,
+      pageDate: toLocalTimeZone(nextPageDate, this.props.timeZone),
       calendarState: undefined
     });
     this.handleAllSelect(nextPageDate);
