@@ -4,9 +4,11 @@ import classNames from 'classnames';
 import Table from './Table';
 import { setDate, isSameMonth } from '../../utils/dateUtils';
 import { defaultProps, getMonthView } from '../../utils';
+import { toTimeZone } from '../../utils/timeZone';
 
 export interface ViewProps {
   activeDate: Date;
+  timeZone: string;
   value?: Date[];
   hoverValue?: Date[];
   onSelect?: (date: Date) => void;
@@ -21,6 +23,7 @@ export interface ViewProps {
 class View extends React.Component<ViewProps> {
   static propTypes = {
     activeDate: PropTypes.instanceOf(Date),
+    timeZone: PropTypes.string,
     value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     hoverValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     onSelect: PropTypes.func,
@@ -50,6 +53,7 @@ class View extends React.Component<ViewProps> {
       isoWeek,
       classPrefix,
       showWeekNumbers,
+      timeZone,
       ...rest
     } = this.props;
 
@@ -59,7 +63,8 @@ class View extends React.Component<ViewProps> {
     return (
       <div {...rest} className={classes}>
         <Table
-          rows={getMonthView(thisMonthDate, isoWeek)}
+          rows={getMonthView(toTimeZone(thisMonthDate, timeZone), isoWeek)}
+          timeZone={timeZone}
           isoWeek={isoWeek}
           selected={value}
           onSelect={onSelect}

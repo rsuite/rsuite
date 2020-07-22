@@ -63,6 +63,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     defaultCalendarValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     hoverRange: PropTypes.oneOfType([PropTypes.oneOf(['week', 'month']), PropTypes.func]),
     format: PropTypes.string,
+    timeZone: PropTypes.string,
     isoWeek: PropTypes.bool,
     oneTap: PropTypes.bool,
     limitEndYear: PropTypes.number,
@@ -481,7 +482,8 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       limitEndYear,
       oneTap,
       showWeekNumbers,
-      showOneCalendar
+      showOneCalendar,
+      timeZone
     } = this.props;
     const { calendarDate, selectValue, hoverValue, doneSelected } = this.state;
     const classes = classNames(this.addPrefix('daterange-menu'), menuClassName);
@@ -501,7 +503,8 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       onSelect: this.handleChangeSelectValue,
       onMouseMove: this.handleMouseMoveSelectValue,
       onChangeCalendarDate: this.handleChangeCalendarDate,
-      showOneCalendar
+      showOneCalendar,
+      timeZone
     };
 
     return (
@@ -545,6 +548,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       onEnter,
       onExited,
       onClean,
+      timeZone,
       ...rest
     } = this.props;
 
@@ -553,6 +557,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     const hasValue = value && value.length > 1;
     const classes = getToggleWrapperClassName('daterange', this.addPrefix, this.props, hasValue);
 
+    locale.timeZone = timeZone;
     return (
       <IntlContext.Provider value={locale}>
         <div className={classes} style={style}>

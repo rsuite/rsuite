@@ -10,6 +10,7 @@ export interface DatePickerProps {
   calendarDate?: ValueType;
   index: number;
   format: string;
+  timeZone: string;
   isoWeek?: boolean;
   limitEndYear?: number;
   classPrefix?: string;
@@ -32,6 +33,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     calendarDate: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     index: PropTypes.number,
     format: PropTypes.string,
+    timeZone: PropTypes.string,
     isoWeek: PropTypes.bool,
     limitEndYear: PropTypes.number,
     classPrefix: PropTypes.string,
@@ -95,7 +97,8 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
       limitEndYear,
       classPrefix,
       showWeekNumbers,
-      showOneCalendar
+      showOneCalendar,
+      timeZone
     } = this.props;
 
     const { calendarState } = this.state;
@@ -105,6 +108,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
         classPrefix={classPrefix}
         disabledDate={disabledDate}
         format={format}
+        timeZone={timeZone}
         value={value}
         isoWeek={isoWeek}
         hoverValue={hoverValue}

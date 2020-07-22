@@ -36,6 +36,9 @@ export interface DateRangePickerProps extends PickerBaseProps, FormControlBasePr
   /** Format date */
   format?: string;
 
+  /** IANA time zone */
+  timeZone?: string;
+
   /** The date range that will be selected when you click on the date */
   hoverRange?: 'week' | 'month' | ((date: Date) => ValueType);
 

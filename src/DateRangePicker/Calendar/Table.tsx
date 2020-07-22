@@ -8,6 +8,7 @@ import TableHeaderRow from '../../Calendar/TableHeaderRow';
 
 export interface TableProps {
   rows: any[];
+  timeZone: string;
   isoWeek?: boolean;
   selected?: Date[];
   hoverValue?: Date[];
@@ -50,6 +51,7 @@ class Table extends React.Component<TableProps> {
       classPrefix,
       isoWeek,
       showWeekNumbers,
+      timeZone,
       ...rest
     } = this.props;
 
@@ -63,6 +65,7 @@ class Table extends React.Component<TableProps> {
             /* eslint-disable */
             key={index}
             weekendDate={week}
+            timeZone={timeZone}
             selected={selected}
             hoverValue={hoverValue}
             onSelect={onSelect}

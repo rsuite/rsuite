@@ -5,9 +5,11 @@ import { addDays, isSameDay, isBefore, isAfter, getDate, format } from '../../ut
 import { getUnhandledProps, prefix, defaultProps } from '../../utils';
 import IntlContext from '../../IntlProvider/IntlContext';
 import { DATERANGE_DISABLED_TARGET } from '../../constants';
+import { zonedDate } from '../../utils/timeZone';
 
 export interface TableRowProps {
   weekendDate?: Date;
+  timeZone?: string;
   selected: Date[];
   hoverValue: Date[];
   className?: string;
@@ -23,6 +25,7 @@ class TableRow extends React.Component<TableRowProps> {
   static contextType = IntlContext;
   static propTypes = {
     weekendDate: PropTypes.instanceOf(Date),
+    timeZone: PropTypes.string,
     selected: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     hoverValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     className: PropTypes.string,
@@ -46,7 +49,8 @@ class TableRow extends React.Component<TableRowProps> {
       selected,
       hoverValue,
       onMouseMove,
-      onSelect
+      onSelect,
+      timeZone
     } = this.props;
 
     const { formatDate, formattedDayPattern, today } = this.context || {};
@@ -57,12 +61,13 @@ class TableRow extends React.Component<TableRowProps> {
     const selectedEndDate = selected[1];
     const hoverStartDate = hoverValue[0] || null;
     const hoverEndDate = hoverValue[1] || null;
+    const todayDate = zonedDate(timeZone);
 
     for (let i = 0; i < 7; i += 1) {
       const thisDate = addDays(weekendDate, i);
       const selectValue = [selectedStartDate, selectedEndDate];
       const disabled = disabledDate?.(thisDate, selectValue, DATERANGE_DISABLED_TARGET.CALENDAR);
-      const isToday = isSameDay(thisDate, new Date());
+      const isToday = isSameDay(thisDate, todayDate);
       const unSameMonth = !inSameMonth?.(thisDate);
       const isStartSelected =
         !unSameMonth && selectedStartDate && isSameDay(thisDate, selectedStartDate);
