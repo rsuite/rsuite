@@ -4,6 +4,7 @@ import { formatToTimeZone } from 'date-fns-timezone';
 import { format, parseISO } from '../../utils/dateUtils';
 import { getDOMNode } from '@test/testUtils';
 import CalendarPanel from '../CalendarPanel';
+import {toTimeZone, zonedDate} from '../../utils/timeZone';
 
 describe('Calendar - Panel', () => {
   it('Should render a div with `calendar` class', () => {
@@ -77,7 +78,7 @@ describe('Calendar - Panel', () => {
     const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
     const template = 'yyyy-MM-dd HH:mm:ss';
     const handleSelect = date => {
-      assert.equal(format(date, template), formatToTimeZone(date, template, { timeZone }));
+      assert.equal(format(date, template), format(zonedDate(timeZone), template));
       done();
     };
     const instance = getDOMNode(<CalendarPanel onSelect={handleSelect} timeZone={timeZone} />);
