@@ -55,6 +55,7 @@
     "@babel/runtime": "^7.8.4",
     "classnames": ">=2.0.0",
     "date-fns": "^2.13.0",
+    "date-fns-timezone": "^0.1.4",
     "dom-lib": "^1.2.1",
     "element-resize-event": "^3.0.3",
     "lodash": "^4.17.11",

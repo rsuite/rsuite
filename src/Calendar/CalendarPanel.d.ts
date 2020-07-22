@@ -11,6 +11,9 @@ export interface CalendarPanelProps extends StandardProps {
   /** ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day  */
   isoWeek?: boolean;
 
+  /** IANA time zone */
+  timeZone?: string;
+
   /** Display a compact calendar   */
   compact?: boolean;
 

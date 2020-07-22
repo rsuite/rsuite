@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { parseISO } from '../../utils/dateUtils';
+import { formatToTimeZone } from 'date-fns-timezone';
+import { format, parseISO } from '../../utils/dateUtils';
 import { getDOMNode } from '@test/testUtils';
 import CalendarPanel from '../CalendarPanel';
 
@@ -70,5 +71,16 @@ describe('Calendar - Panel', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<CalendarPanel classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should be zoned date', done => {
+    const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
+    const template = 'yyyy-MM-dd HH:mm:ss';
+    const handleSelect = date => {
+      assert.equal(format(date, template), formatToTimeZone(date, template, { timeZone }));
+      done();
+    };
+    const instance = getDOMNode(<CalendarPanel onSelect={handleSelect} timeZone={timeZone} />);
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-table-cell-is-today'));
   });
 });

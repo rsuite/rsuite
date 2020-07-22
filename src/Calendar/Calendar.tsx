@@ -20,6 +20,7 @@ export interface CalendarProps {
   calendarState?: typeof CalendarState[number];
   calendarRef?: React.Ref<any>;
   format?: string;
+  timeZone?: string;
   isoWeek?: boolean;
   limitEndYear?: number;
   className?: string;
@@ -52,6 +53,7 @@ class Calendar extends React.Component<CalendarProps> {
     calendarState: PropTypes.oneOf(CalendarState),
     calendarRef: refType,
     format: PropTypes.string,
+    timeZone: PropTypes.string,
     isoWeek: PropTypes.bool,
     limitEndYear: PropTypes.number,
     className: PropTypes.string,
@@ -117,6 +119,7 @@ class Calendar extends React.Component<CalendarProps> {
       renderCell,
       showWeekNumbers,
       showMeridian,
+      timeZone,
       ...rest
     } = this.props;
 
@@ -160,6 +163,7 @@ class Calendar extends React.Component<CalendarProps> {
           <View
             key="MonthView"
             activeDate={pageDate}
+            timeZone={timeZone}
             onSelect={onSelect}
             isoWeek={isoWeek}
             disabledDate={this.disabledDate}

@@ -8,6 +8,7 @@ import IntlContext from '../IntlProvider/IntlContext';
 import FormattedDate from '../IntlProvider/FormattedDate';
 import { defaultProps, prefix } from '../utils';
 import { CalendarPanelProps } from './CalendarPanel.d';
+import {toLocalTimeZone, zonedDate} from '../utils/timeZone';
 
 interface State {
   value?: Date;
@@ -19,6 +20,7 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
     value: PropTypes.instanceOf(Date),
     defaultValue: PropTypes.instanceOf(Date),
     isoWeek: PropTypes.bool,
+    timeZone: PropTypes.string,
     compact: PropTypes.bool,
     bordered: PropTypes.bool,
     locale: PropTypes.object,
@@ -62,7 +64,7 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
   };
 
   handleClickToday = () => {
-    const nextValue = new Date();
+    const nextValue = zonedDate(this.props.timeZone);
     this.setState({
       showMonth: false,
       value: nextValue
@@ -86,7 +88,7 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
 
   handleSelect = (nextValue: Date) => {
     this.setState({
-      value: nextValue
+      value: toLocalTimeZone(nextValue, this.props.timeZone)
     });
     this.props.onSelect?.(nextValue);
     this.props.onChange?.(nextValue);
@@ -104,7 +106,16 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
   };
 
   render() {
-    const { locale, renderCell, compact, className, isoWeek, bordered, ...rest } = this.props;
+    const {
+      locale,
+      renderCell,
+      compact,
+      className,
+      isoWeek,
+      bordered,
+      timeZone,
+      ...rest
+    } = this.props;
 
     const { showMonth } = this.state;
     const value = this.getValue();
@@ -113,6 +124,7 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
       [this.addPrefix('compact')]: compact
     });
 
+    locale.timeZone = rest.timeZone;
     return (
       <IntlContext.Provider value={locale}>
         <Calendar
@@ -122,6 +134,7 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
           format="yyyy-MM-dd"
           calendarState={showMonth ? 'DROP_MONTH' : null}
           pageDate={value}
+          timeZone={timeZone}
           renderTitle={date => (
             <FormattedDate date={date} formatStr={locale.formattedMonthPattern || 'MMMM  yyyy'} />
           )}

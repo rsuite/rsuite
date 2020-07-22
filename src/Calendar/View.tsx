@@ -6,9 +6,11 @@ import { isSameMonth, setDate } from '../utils/dateUtils';
 import { defaultProps, getMonthView } from '../utils';
 import Table from './Table';
 import composeFunctions from '../utils/composeFunctions';
+import { toTimeZone } from '../utils/timeZone';
 
 export interface ViewProps {
   activeDate: Date;
+  timeZone?: string;
   isoWeek?: boolean;
   className?: string;
   classPrefix?: string;
@@ -21,6 +23,7 @@ export interface ViewProps {
 class View extends React.PureComponent<ViewProps> {
   static propTypes = {
     activeDate: PropTypes.instanceOf(Date),
+    timeZone: PropTypes.string,
     isoWeek: PropTypes.bool,
     className: PropTypes.string,
     classPrefix: PropTypes.string,
@@ -48,6 +51,7 @@ class View extends React.PureComponent<ViewProps> {
       isoWeek,
       renderCell,
       showWeekNumbers,
+      timeZone,
       ...rest
     } = this.props;
 
@@ -57,8 +61,9 @@ class View extends React.PureComponent<ViewProps> {
     return (
       <div {...rest} className={classes}>
         <Table
-          rows={getMonthView(thisMonthDate, isoWeek)}
+          rows={getMonthView(toTimeZone(thisMonthDate, timeZone), isoWeek)}
           isoWeek={isoWeek}
+          timeZone={timeZone}
           selected={activeDate}
           onSelect={onSelect}
           inSameMonth={this.inSameThisMonthDate}
