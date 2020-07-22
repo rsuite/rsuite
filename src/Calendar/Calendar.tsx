@@ -185,6 +185,7 @@ class Calendar extends React.Component<CalendarProps> {
             {...timeDropdownProps}
             date={pageDate}
             format={format}
+            timeZone={timeZone}
             show={dropTime}
             showMeridian={showMeridian}
             onSelect={onChangePageTime}

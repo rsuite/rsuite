@@ -14,11 +14,13 @@ import {
   setSeconds
 } from '../utils/dateUtils';
 import scrollTopAnimation from '../utils/scrollTopAnimation';
+import { toTimeZone } from '../utils/timeZone';
 
 export interface TimeDropdownProps {
   date?: Date;
   show: boolean;
   format?: string;
+  timeZone?: string;
   className?: string;
   classPrefix?: string;
   showMeridian?: boolean;
@@ -52,6 +54,7 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
     show: PropTypes.bool,
     showMeridian: PropTypes.bool,
     format: PropTypes.string,
+    timeZone: PropTypes.string,
     className: PropTypes.string,
     classPrefix: PropTypes.string,
     disabledDate: PropTypes.func,
@@ -78,8 +81,8 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
   }
 
   getTime(props?: TimeDropdownProps): any {
-    const { format, date, showMeridian } = props || this.props;
-    const time = date || new Date();
+    const { format, timeZone, date, showMeridian } = props || this.props;
+    const time = toTimeZone(date || new Date(), timeZone);
     const nextTime: any = {};
 
     if (!format) {

@@ -45,6 +45,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     value: PropTypes.instanceOf(Date),
     calendarDefaultDate: PropTypes.instanceOf(Date),
     format: PropTypes.string,
+    timeZone: PropTypes.string,
     inline: PropTypes.bool,
     isoWeek: PropTypes.bool,
     limitEndYear: PropTypes.number,
@@ -334,7 +335,14 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderCalendar() {
-    const { isoWeek, limitEndYear, disabledDate, showWeekNumbers, showMeridian } = this.props;
+    const {
+      isoWeek,
+      limitEndYear,
+      disabledDate,
+      showWeekNumbers,
+      showMeridian,
+      timeZone
+    } = this.props;
     const { calendarState, pageDate } = this.state;
     const calendarProps = _.pick(this.props, calendarOnlyProps);
 
@@ -346,6 +354,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
         disabledDate={disabledDate}
         limitEndYear={limitEndYear}
         format={this.getFormat()}
+        timeZone={timeZone}
         isoWeek={isoWeek}
         calendarState={calendarState}
         pageDate={pageDate}
@@ -396,6 +405,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
       onEntered,
       onExited,
       onClean,
+      timeZone,
       ...rest
     } = this.props;
 
@@ -418,6 +428,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
       [this.addPrefix('date-only-time')]: shouldOnlyTime(this.getFormat())
     });
 
+    locale.timeZone = timeZone;
     return (
       <IntlContext.Provider value={locale}>
         <div className={classes} style={style}>

@@ -18,6 +18,9 @@ export interface DatePickerProps extends PickerBaseProps, FormControlBaseProps<D
   /** Format date */
   format?: string;
 
+  /** IANA Time zone */
+  timeZone?: string;
+
   /** Display date panel when component initial */
   inline?: boolean;
 
