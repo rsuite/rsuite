@@ -9,10 +9,20 @@ import FormattedDate from '../IntlProvider/FormattedDate';
 import { defaultProps, prefix } from '../utils';
 import { CalendarPanelProps } from './CalendarPanel.d';
 import { toLocalTimeZone, toTimeZone, zonedDate } from '../utils/timeZone';
+import composeFunctions from '../utils/composeFunctions';
+import {
+  getHours,
+  getMinutes,
+  getSeconds,
+  setHours,
+  setMinutes,
+  setSeconds
+} from '../utils/dateUtils';
 
 interface State {
   value?: Date;
   showMonth?: boolean;
+  pageDate: Date;
 }
 
 class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
@@ -40,6 +50,7 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
     const { defaultValue, value, timeZone } = props;
     this.state = {
       value: toTimeZone(value ?? defaultValue, timeZone),
+      pageDate: toTimeZone(value ?? defaultValue ?? new Date(), timeZone),
       showMonth: false
     };
   }
@@ -48,15 +59,16 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
     this.setState({ showMonth: !this.state.showMonth });
   };
 
-  buildNextValue = (nextValue: Date) => toLocalTimeZone(nextValue, this.props.timeZone);
+  handleChange = (nextValue: Date) => {
+    this.props.onChange?.(toLocalTimeZone(nextValue, this.props.timeZone));
+  };
 
   handleChangePageDate = (nextValue: Date) => {
-    nextValue = this.buildNextValue(nextValue);
     this.setState({
       value: nextValue,
       showMonth: false
     });
-    this.props.onChange?.(nextValue);
+    this.handleChange(nextValue);
   };
 
   handleClickToday = () => {
@@ -65,32 +77,38 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
       showMonth: false,
       value: nextValue
     });
-    this.props.onChange?.(nextValue);
+    this.handleChange(nextValue);
   };
 
   handleNextMonth = (nextValue: Date) => {
-    nextValue = this.buildNextValue(nextValue);
     this.setState({
       value: nextValue
     });
-    this.props.onChange?.(nextValue);
+    this.handleChange(nextValue);
   };
 
   handlePrevMonth = (nextValue: Date) => {
-    nextValue = this.buildNextValue(nextValue);
     this.setState({
       value: nextValue
     });
-    this.props.onChange?.(nextValue);
+    this.handleChange(nextValue);
   };
 
   handleSelect = (nextValue: Date) => {
-    nextValue = this.buildNextValue(nextValue);
+    const { onSelect, timeZone } = this.props;
+    const { pageDate } = this.state;
+
     this.setState({
-      value: nextValue
+      value: nextValue,
+      pageDate: composeFunctions(
+        (d: Date) => setHours(d, getHours(pageDate)),
+        (d: Date) => setMinutes(d, getMinutes(pageDate)),
+        (d: Date) => setSeconds(d, getSeconds(pageDate))
+      )(nextValue)
     });
-    this.props.onSelect?.(nextValue);
-    this.props.onChange?.(nextValue);
+
+    onSelect?.(toLocalTimeZone(nextValue, timeZone));
+    this.handleChange(nextValue);
   };
 
   addPrefix = (name: string): string => prefix(this.props.classPrefix)(name);
@@ -116,13 +134,12 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
       ...rest
     } = this.props;
 
-    const { showMonth, value } = this.state;
+    const { showMonth, pageDate } = this.state;
     const classes = classNames(this.addPrefix('panel'), className, {
       [this.addPrefix('bordered')]: bordered,
       [this.addPrefix('compact')]: compact
     });
 
-    console.log(value);
     locale.timeZone = rest.timeZone;
     return (
       <IntlContext.Provider value={locale}>
@@ -132,7 +149,7 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
           onSelect={this.handleSelect}
           format="yyyy-MM-dd"
           calendarState={showMonth ? 'DROP_MONTH' : null}
-          pageDate={value}
+          pageDate={pageDate}
           timeZone={timeZone}
           renderTitle={date => (
             <FormattedDate date={date} formatStr={locale.formattedMonthPattern || 'MMMM  yyyy'} />
