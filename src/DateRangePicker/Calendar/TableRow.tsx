@@ -113,8 +113,7 @@ class TableRow extends React.Component<TableRowProps> {
           className={classes}
           role="menu"
           tabIndex={-1}
-          // title={isToday ? `${title} (${today})` : title}
-          title={format(thisDate, 'yyyy-MM-dd HH:mm:ss')}
+          title={isToday ? `${title} (${today})` : title}
           onMouseEnter={!disabled && onMouseMove ? onMouseMove.bind(null, thisDate) : undefined}
           onClick={!disabled ? onSelect?.bind(null, thisDate) : undefined}
         >

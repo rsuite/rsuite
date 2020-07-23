@@ -2,16 +2,17 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import {
   addDays,
-  subDays,
-  startOfWeek,
-  isSameDay,
   endOfWeek,
+  format,
+  isSameDay,
   parseISO,
-  format
+  startOfWeek,
+  subDays
 } from '../../utils/dateUtils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
 import DateRangePicker from '../DateRangePicker';
+import { zonedDate } from '../../utils/timeZone';
 
 describe('DateRangePicker', () => {
   it('Should render a div with "rs-picker-daterange" class', () => {
@@ -232,5 +233,28 @@ describe('DateRangePicker', () => {
     );
 
     assert.equal(menuContainer.querySelectorAll('.rs-picker-daterange-calendar-single').length, 1);
+  });
+
+  it('Should be zoned date', done => {
+    const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
+    const template = 'yyyy-MM-dd HH:mm:ss';
+    const handleChange = dateRange => {
+      const date = zonedDate(timeZone);
+      assert.equal(format(dateRange[0], template), format(date, template));
+      assert.equal(format(dateRange[1], template), format(addDays(date, 1), template));
+
+      done();
+    };
+    const instance = getInstance(
+      <DateRangePicker onChange={handleChange} timeZone={timeZone} defaultOpen />
+    );
+    const menuContainer = getDOMNode(instance.menuContainerRef.current);
+    const today = menuContainer.querySelector('.rs-calendar-table-cell-is-today');
+    const nextDay = today.nextElementSibling;
+    const okBtn = menuContainer.querySelector('.rs-picker-toolbar-right-btn-ok');
+
+    ReactTestUtils.Simulate.click(today);
+    ReactTestUtils.Simulate.click(nextDay);
+    ReactTestUtils.Simulate.click(okBtn);
   });
 });
