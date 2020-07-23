@@ -4,36 +4,36 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import {
   addDays,
-  isBefore,
+  addMonths,
+  compareAsc,
+  endOfISOWeek,
+  endOfMonth,
+  endOfWeek,
   isAfter,
+  isBefore,
   isSameDay,
   isSameMonth,
-  addMonths,
   startOfISOWeek,
-  endOfISOWeek,
-  startOfWeek,
-  endOfWeek,
   startOfMonth,
-  endOfMonth,
-  compareAsc
+  startOfWeek
 } from '../utils/dateUtils';
 import IntlContext from '../IntlProvider/IntlContext';
 import FormattedDate from '../IntlProvider/FormattedDate';
 import Toolbar from './Toolbar';
 import DatePicker from './DatePicker';
-import { setTimingMargin, getCalendarDate } from './utils';
-import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
+import { getCalendarDate, toLocalValue } from './utils';
+import { createChainedFunction, defaultProps, getUnhandledProps, prefix } from '../utils';
 
 import {
-  PickerToggle,
+  getToggleWrapperClassName,
   MenuWrapper,
-  PickerToggleTrigger,
-  getToggleWrapperClassName
+  PickerToggle,
+  PickerToggleTrigger
 } from '../Picker';
 
 import { DateRangePickerProps, ValueType } from './DateRangePicker.d';
 import { DATERANGE_DISABLED_TARGET } from '../constants';
-import { pickerPropTypes, pickerDefaultProps } from '../Picker/propTypes';
+import { pickerDefaultProps, pickerPropTypes } from '../Picker/propTypes';
 
 interface DateRangePickerState {
   value: ValueType;
@@ -103,7 +103,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     nextProps: DateRangePickerProps,
     prevState: DateRangePickerState
   ) {
-    const { value } = nextProps;
+    const { value, timeZone } = nextProps;
 
     if (typeof value === 'undefined') {
       return null;
@@ -116,7 +116,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       return {
         value,
         selectValue: value,
-        calendarDate: getCalendarDate(value)
+        calendarDate: getCalendarDate({ value, timeZone })
       };
     }
 
@@ -126,9 +126,12 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   constructor(props: DateRangePickerProps) {
     super(props);
 
-    const { defaultValue, value, defaultCalendarValue } = props;
+    const { defaultValue, value, defaultCalendarValue, timeZone } = props;
     const activeValue: ValueType = value || defaultValue || [];
-    const calendarDate: ValueType = getCalendarDate(value || defaultCalendarValue);
+    const calendarDate: ValueType = getCalendarDate({
+      value: value || defaultCalendarValue,
+      timeZone
+    });
 
     this.state = {
       value: activeValue,
@@ -157,8 +160,8 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   getFormat = () => this.props.format ?? 'yyyy-MM-dd';
 
   getDateString(value?: ValueType) {
-    const { placeholder, renderValue } = this.props;
-    const nextValue = value || this.getValue();
+    const { placeholder, renderValue, timeZone } = this.props;
+    const nextValue = toLocalValue(value || this.getValue(), timeZone);
     const formatType = this.getFormat();
     const startDate: Date = nextValue?.[0];
     const endDate: Date = nextValue?.[1];
@@ -246,7 +249,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
 
   resetPageDate() {
     const selectValue = this.getValue();
-    const calendarDate = getCalendarDate(selectValue);
+    const calendarDate = getCalendarDate({ value: selectValue, timeZone: this.props.timeZone });
     this.setState({
       selectValue,
       calendarDate
@@ -291,7 +294,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
 
   handleChangeSelectValue = (date: Date, event: React.SyntheticEvent<any>) => {
     const { selectValue, doneSelected } = this.state;
-    const { onSelect, oneTap } = this.props;
+    const { onSelect, oneTap, timeZone } = this.props;
     let nextValue = [];
     let nextHoverValue = this.getHoverRange(date);
 
@@ -313,11 +316,11 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
         nextValue.reverse();
       }
 
-      nextValue[0] = setTimingMargin(nextValue[0]);
-      nextValue[1] = setTimingMargin(nextValue[1]);
+      // nextValue[0] = setTimingMargin(nextValue[0]);
+      // nextValue[1] = setTimingMargin(nextValue[1]);
 
       this.setState({
-        calendarDate: getCalendarDate(nextValue)
+        calendarDate: getCalendarDate({ value: nextValue as ValueType, timeZone })
       });
     }
 
@@ -387,11 +390,12 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   };
 
   handleClean = event => {
-    this.setState({ calendarDate: getCalendarDate() });
+    this.setState({ calendarDate: getCalendarDate({ timeZone: this.props.timeZone }) });
     this.updateValue(event, []);
   };
 
   handleEnter = () => {
+    const { defaultCalendarValue, timeZone } = this.props;
     const value = this.getValue();
 
     let calendarDate;
@@ -400,7 +404,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       const [startDate, endData] = value;
       calendarDate = [startDate, isSameMonth(startDate, endData) ? addMonths(endData, 1) : endData];
     } else {
-      calendarDate = getCalendarDate(this.props.defaultCalendarValue);
+      calendarDate = getCalendarDate({ value: defaultCalendarValue, timeZone });
     }
 
     this.setState({

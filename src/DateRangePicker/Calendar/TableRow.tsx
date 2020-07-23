@@ -5,7 +5,7 @@ import { addDays, isSameDay, isBefore, isAfter, getDate, format } from '../../ut
 import { getUnhandledProps, prefix, defaultProps } from '../../utils';
 import IntlContext from '../../IntlProvider/IntlContext';
 import { DATERANGE_DISABLED_TARGET } from '../../constants';
-import { zonedDate } from '../../utils/timeZone';
+import { zonedDate, format as timeZoneFormat } from '../../utils/timeZone';
 
 export interface TableRowProps {
   weekendDate?: Date;
@@ -113,7 +113,8 @@ class TableRow extends React.Component<TableRowProps> {
           className={classes}
           role="menu"
           tabIndex={-1}
-          title={isToday ? `${title} (${today})` : title}
+          // title={isToday ? `${title} (${today})` : title}
+          title={format(thisDate, 'yyyy-MM-dd HH:mm:ss')}
           onMouseEnter={!disabled && onMouseMove ? onMouseMove.bind(null, thisDate) : undefined}
           onClick={!disabled ? onSelect?.bind(null, thisDate) : undefined}
         >

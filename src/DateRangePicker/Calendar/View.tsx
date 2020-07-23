@@ -2,9 +2,8 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Table from './Table';
-import { setDate, isSameMonth } from '../../utils/dateUtils';
+import { isSameMonth, setDate } from '../../utils/dateUtils';
 import { defaultProps, getMonthView } from '../../utils';
-import { toTimeZone } from '../../utils/timeZone';
 
 export interface ViewProps {
   activeDate: Date;
@@ -63,7 +62,7 @@ class View extends React.Component<ViewProps> {
     return (
       <div {...rest} className={classes}>
         <Table
-          rows={getMonthView(toTimeZone(thisMonthDate, timeZone), isoWeek)}
+          rows={getMonthView(thisMonthDate, isoWeek)}
           timeZone={timeZone}
           isoWeek={isoWeek}
           selected={value}

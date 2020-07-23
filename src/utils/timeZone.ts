@@ -9,7 +9,7 @@ export const toTimeZone = (date: Date, timeZone: string): Date => {
 };
 
 export const toLocalTimeZone = (date: Date, timeZone: string): Date => {
-  if (!timeZone) {
+  if (!(date instanceof Date) || !timeZone) {
     return date;
   }
   return convertToLocalTime(date, { timeZone });
