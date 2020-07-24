@@ -25,7 +25,8 @@ export default function Page() {
         'control',
         'range',
         'show-week-numbers',
-        'time-zone'
+        'time-zone',
+        'time-zone-with-picker'
       ]}
       dependencies={{ DatePicker, Button, InputGroup, dateFns }}
     />
