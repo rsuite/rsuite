@@ -76,9 +76,9 @@ describe('Calendar - Panel', () => {
 
   it('Should be zoned date', () => {
     const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
-    const template = 'yyyy-MM-dd HH:mm:ss';
+    const template = 'yyyy-MM-dd HH:mm';
     const instance = getDOMNode(<CalendarPanel format={template} timeZone={timeZone} />);
-    const zonedTime = format(zonedDate(timeZone), 'HH:mm:ss');
+    const zonedTime = format(zonedDate(timeZone), 'HH:mm');
     const calendarTime = instance.querySelector('.rs-calendar-header-title-time').innerHTML;
 
     assert.equal(calendarTime, zonedTime);
