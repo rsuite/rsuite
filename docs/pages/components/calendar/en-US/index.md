@@ -28,3 +28,4 @@ import { Calendar } from 'rsuite';
 | onSelect     | (date:Date) => void        | Callback fired before the date selected                                              |
 | renderCell   | (date: Date) => React.Node | Custom render calendar cells                                                         |
 | value        | Date                       | Controlled value                                                                     |
+| timeZone     | string                     | [IANA Time zone name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)  |

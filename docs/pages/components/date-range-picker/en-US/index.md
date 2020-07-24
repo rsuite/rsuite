@@ -58,6 +58,7 @@ import { DateRangePicker } from 'rsuite';
 | size                 | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                                                                                                                                      | A picker can have different sizes                                                       |
 | toggleComponentClass | React.ElementType `('a')`                                                                                                                                                                  | You can use a custom element for this component                                         |
 | value                | Array&lt;Date&gt;                                                                                                                                                                          | Value (Controlled)                                                                      |
+| timeZone             | string                                                                                                                                                                                     | [IANA Time zone name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)  |
 
 ## Default
 
