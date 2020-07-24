@@ -12,7 +12,8 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
     'prettier/@typescript-eslint',
-    'plugin:prettier/recommended'
+    'plugin:prettier/recommended',
+    'plugin:react-hooks/recommended'
   ],
   parserOptions: {},
   plugins: ['@typescript-eslint', 'react'],
@@ -27,7 +28,9 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ERROR,
     '@typescript-eslint/no-explicit-any': OFF,
     '@typescript-eslint/explicit-function-return-type': OFF,
-    '@typescript-eslint/explicit-member-accessibility': OFF
+    '@typescript-eslint/explicit-member-accessibility': OFF,
+    '@typescript-eslint/no-namespace': OFF,
+    '@typescript-eslint/explicit-module-boundary-types': OFF
   },
   settings: {
     react: {

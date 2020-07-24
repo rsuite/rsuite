@@ -41,6 +41,15 @@ export function getInstance(children) {
 }
 
 export function getDOMNode(children) {
+  // Check whether it is a DOM object?
+  if (
+    children &&
+    typeof children === 'object' &&
+    children.nodeType === 1 &&
+    typeof children.nodeName === 'string'
+  ) {
+    return children;
+  }
   if (ReactTestUtils.isCompositeComponent(children)) {
     return findDOMNode(children);
   }

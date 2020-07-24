@@ -23,8 +23,8 @@ export interface DropdownMenuProps {
   cascadeItems: any[];
   cascadePathItems: any[];
   uncheckableItemValues: any[];
-  renderMenuItem?: (itemLabel: React.MouseEventHandler, item: object) => React.ReactNode;
-  renderMenu?: (children: any[], menu: React.ReactNode, parentNode?: object) => React.ReactNode;
+  renderMenuItem?: (itemLabel: React.MouseEventHandler, item: any) => React.ReactNode;
+  renderMenu?: (children: any[], menu: React.ReactNode, parentNode?: any) => React.ReactNode;
   onSelect?: (
     node: any,
     cascadeItems: any[],

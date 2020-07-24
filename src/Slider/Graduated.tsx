@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import prefix, { defaultClassPrefix } from '../utils/prefix';
 import { precisionMath } from './utils';
@@ -27,6 +28,12 @@ function Mark(props: MarkProps) {
 
   return null;
 }
+
+Mark.propTypes = {
+  mark: PropTypes.number,
+  last: PropTypes.bool,
+  renderMark: PropTypes.func
+};
 
 interface GraduatedProps {
   step?: number;
@@ -82,5 +89,14 @@ function Graduated(props: GraduatedProps) {
     </div>
   );
 }
+
+Graduated.propTypes = {
+  step: PropTypes.number,
+  min: PropTypes.number,
+  max: PropTypes.number,
+  count: PropTypes.number,
+  value: PropTypes.oneOfType([PropTypes.number, PropTypes.arrayOf(PropTypes.number)]),
+  renderMark: PropTypes.func
+};
 
 export default Graduated;

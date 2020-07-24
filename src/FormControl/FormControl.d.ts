@@ -26,7 +26,7 @@ export interface FormControlAccepterProps<ValueType = any> {
 /**
  * Props that <FormControl> itself takes
  */
-export type FormControlProps<P = {}, ValueType = any> = StandardProps & {
+export type FormControlProps<P = any, ValueType = any> = StandardProps & {
   /** Proxied components */
   accepter?: React.ElementType<P & FormControlAccepterProps<ValueType>>;
 
@@ -62,7 +62,7 @@ export type FormControlProps<P = {}, ValueType = any> = StandardProps & {
 };
 
 // FormControl also takes accepter's props and passes them down
-declare function FormControl<P = {}, ValueType = any>(
+declare function FormControl<P = any, ValueType = any>(
   props: FormControlProps<P, ValueType> & P
 ): React.ReactElement;
 

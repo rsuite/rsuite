@@ -33,7 +33,6 @@ node_modules
 # Optional REPL history
 .node_repl_history
 
-
 # custom
 
 .vscode
@@ -47,3 +46,4 @@ karma.sauce.conf.js
 dev-publish.sh
 dist
 docs/out/
+types

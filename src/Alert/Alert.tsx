@@ -2,7 +2,21 @@ import classNames from 'classnames';
 import { prefix } from '../utils';
 import { defaultClassPrefix } from '../utils/prefix';
 import NoticeManager, { NoticeManagerProps } from '../Notification/NoticeManager';
-import { AlertProps } from './Alert.d';
+import { StandardProps } from '../@types/common';
+
+export interface AlertProps extends StandardProps {
+  /** The prefix of the component CSS class */
+  classPrefix?: string;
+
+  /** The distance from the top of the message box */
+  top?: number;
+
+  /** message box duration (Unit: milliseconds) */
+  duration?: number;
+
+  /** The parent container of Alert */
+  getContainer?: () => HTMLElement;
+}
 
 class Alert {
   props: AlertProps = {
@@ -64,15 +78,11 @@ class Alert {
     }
   }
   close(key: string) {
-    if (this._instance) {
-      this._instance.remove(key);
-    }
+    this._instance?.remove?.(key);
   }
 
   closeAll() {
-    if (this._instance) {
-      this._instance.removeAll();
-    }
+    this._instance?.removeAll?.();
   }
 }
 

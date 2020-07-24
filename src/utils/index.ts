@@ -21,3 +21,7 @@ export { default as getMonthView } from './getMonthView';
 export { default as isRTL } from './directionUtil';
 export { default as refType } from './refType';
 export { default as mergeRefs } from './mergeRefs';
+
+export { default as useClassNames } from './useClassNames';
+export { default as useEventListener } from './useEventListener';
+export { default as useElementResize } from './useElementResize';

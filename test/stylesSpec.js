@@ -12,7 +12,8 @@ const UN_STYLED_COMPONENTS = [
   'IntlProvider',
   'Affix',
   'RangeSlider',
-  'Overlay'
+  'Overlay',
+  'CustomProvider'
 ];
 
 const THEMES = ['default', 'dark'];

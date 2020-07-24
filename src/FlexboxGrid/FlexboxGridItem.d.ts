@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { StandardProps } from '../@types/common';
 
-export type FlexboxGridItemProps<P = {}> = StandardProps & {
+export type FlexboxGridItemProps<P = any> = StandardProps & {
   /** spacing between grids */
   colspan?: number;
 
@@ -13,6 +13,6 @@ export type FlexboxGridItemProps<P = {}> = StandardProps & {
   componentClass?: React.ElementType<P>;
 } & P;
 
-declare function FlexboxGridItem<P = {}>(props: FlexboxGridItemProps<P>): React.ReactElement;
+declare function FlexboxGridItem<P = any>(props: FlexboxGridItemProps<P>): React.ReactElement;
 
 export default FlexboxGridItem;

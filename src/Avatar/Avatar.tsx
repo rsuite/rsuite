@@ -18,7 +18,7 @@ class Avatar extends React.Component<AvatarProps> {
   };
   render() {
     const { classPrefix, className, children, src, circle, alt, ...rest } = this.props;
-    const addPrefix: Function = prefix(classPrefix);
+    const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, className, {
       [addPrefix('circle')]: circle
     });

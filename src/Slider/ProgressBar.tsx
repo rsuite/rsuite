@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { defaultClassPrefix } from '../utils/prefix';
 import { StandardProps } from '../@types/common';
@@ -28,5 +29,14 @@ function ProgressBar(props: ProgressBarProps) {
     />
   );
 }
+
+ProgressBar.propTypes = {
+  style: PropTypes.object,
+  className: PropTypes.string,
+  vertical: PropTypes.bool,
+  rtl: PropTypes.bool,
+  start: PropTypes.number,
+  end: PropTypes.number
+};
 
 export default ProgressBar;

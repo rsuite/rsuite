@@ -152,7 +152,7 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
     return shouldDisplay(label, searchKeyword);
   }
 
-  findNode(focus: Function) {
+  findNode(focus) {
     const items = this.getFocusableMenuItems();
     const { valueKey } = this.props;
     const { focusItemValue } = this.state;

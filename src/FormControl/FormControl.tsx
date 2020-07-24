@@ -119,7 +119,7 @@ class FormControl extends React.Component<FormControlProps, FormControlState> {
     this.props.onBlur?.(event);
   };
 
-  handleFieldCheck = (value: any, isCheckTrigger: boolean, callback?: Function) => {
+  handleFieldCheck = (value: any, isCheckTrigger: boolean, callback) => {
     const { name, formValue, checkAsync } = this.props;
     const { onFieldError, onFieldSuccess, model } = this.context;
 

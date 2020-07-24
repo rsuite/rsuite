@@ -200,7 +200,7 @@ class Form extends React.Component<FormProps, FormState> {
   /**
    * public APIs
    */
-  resetErrors(formError: object = {}, callback: () => void) {
+  resetErrors(formError: any = {}, callback: () => void) {
     this.setState({ formError }, callback);
   }
 
