@@ -4,7 +4,7 @@ import { format, isSameDay, parseISO } from '../../utils/dateUtils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
 import DatePicker from '../DatePicker';
-import { zonedDate } from '../../utils/timeZone';
+import { toTimeZone, zonedDate } from '../../utils/timeZone';
 
 describe('DatePicker', () => {
   it('Should render a div with "rs-picker-date" class', () => {
@@ -294,18 +294,15 @@ describe('DatePicker', () => {
     assert.equal(picker.querySelector('.rs-calendar-time-dropdown-column li').innerText, '12');
   });
 
-  it('Should be zoned date', done => {
+  it('Should be zoned date', () => {
     const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
     const template = 'yyyy-MM-dd HH:mm:ss';
-    const handleSelect = date => {
-      assert.equal(format(date, template), format(zonedDate(timeZone), template));
-      done();
-    };
+    const date = new Date(2020, 5, 30, 23, 30, 0);
     const instance = getInstance(
-      <DatePicker onSelect={handleSelect} timeZone={timeZone} defaultOpen />
+      <DatePicker format={template} timeZone={timeZone} value={date} defaultOpen />
     );
-    const calendarPanel = instance.menuContainerRef.current;
+    const ret = getDOMNode(instance).querySelector('.rs-picker-toggle-value').innerHTML;
 
-    ReactTestUtils.Simulate.click(calendarPanel.querySelector('.rs-calendar-table-cell-is-today'));
+    assert.equal(ret, format(toTimeZone(date, timeZone), template));
   });
 });

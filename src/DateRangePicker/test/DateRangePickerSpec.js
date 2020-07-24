@@ -235,18 +235,11 @@ describe('DateRangePicker', () => {
     assert.equal(menuContainer.querySelectorAll('.rs-picker-daterange-calendar-single').length, 1);
   });
 
-  it('Should be zoned date', done => {
+  it('Should be zoned date', () => {
     const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
     const template = 'yyyy-MM-dd HH:mm:ss';
-    const handleChange = dateRange => {
-      const date = zonedDate(timeZone);
-      assert.equal(format(dateRange[0], template), format(date, template));
-      assert.equal(format(dateRange[1], template), format(addDays(date, 1), template));
-
-      done();
-    };
     const instance = getInstance(
-      <DateRangePicker onChange={handleChange} timeZone={timeZone} defaultOpen />
+      <DateRangePicker format={template} timeZone={timeZone} defaultOpen />
     );
     const menuContainer = getDOMNode(instance.menuContainerRef.current);
     const today = menuContainer.querySelector('.rs-calendar-table-cell-is-today');
@@ -256,5 +249,13 @@ describe('DateRangePicker', () => {
     ReactTestUtils.Simulate.click(today);
     ReactTestUtils.Simulate.click(nextDay);
     ReactTestUtils.Simulate.click(okBtn);
+
+    const ret = getDOMNode(instance).querySelector('.rs-picker-toggle-value').innerHTML;
+    const zonedTodayDate = zonedDate(timeZone);
+
+    assert.equal(
+      ret,
+      `${format(zonedTodayDate, template)} ~ ${format(addDays(zonedTodayDate, 1), template)}`
+    );
   });
 });

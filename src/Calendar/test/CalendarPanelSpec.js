@@ -4,7 +4,7 @@ import { formatToTimeZone } from 'date-fns-timezone';
 import { format, parseISO } from '../../utils/dateUtils';
 import { getDOMNode } from '@test/testUtils';
 import CalendarPanel from '../CalendarPanel';
-import {toTimeZone, zonedDate} from '../../utils/timeZone';
+import { toTimeZone, zonedDate } from '../../utils/timeZone';
 
 describe('Calendar - Panel', () => {
   it('Should render a div with `calendar` class', () => {
@@ -74,14 +74,13 @@ describe('Calendar - Panel', () => {
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
-  it('Should be zoned date', done => {
+  it('Should be zoned date', () => {
     const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
     const template = 'yyyy-MM-dd HH:mm:ss';
-    const handleSelect = date => {
-      assert.equal(format(date, template), format(zonedDate(timeZone), template));
-      done();
-    };
-    const instance = getDOMNode(<CalendarPanel onSelect={handleSelect} timeZone={timeZone} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-table-cell-is-today'));
+    const instance = getDOMNode(<CalendarPanel format={template} timeZone={timeZone} />);
+    const zonedTime = format(zonedDate(timeZone), 'HH:mm:ss');
+    const calendarTime = instance.querySelector('.rs-calendar-header-title-time').innerHTML;
+
+    assert.equal(calendarTime, zonedTime);
   });
 });
