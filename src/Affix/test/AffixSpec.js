@@ -15,7 +15,7 @@ describe('Affix', () => {
     assert.equal(instance.children[0].children[0].tagName, 'BUTTON');
   });
 
-  it('Should call onChange callback', done => {
+  itChrome('Should call onChange callback', done => {
     const buttonRef = React.createRef();
     const affixRef = React.createRef();
 
@@ -44,7 +44,7 @@ describe('Affix', () => {
     window.scrollTo({ top });
   });
 
-  itChrome('Should have a custom style', () => {
+  it('Should have a custom style', () => {
     const fontSize = '12px';
     const instance = getDOMNode(<Affix style={{ fontSize }} />);
     assert.equal(instance.style.fontSize, fontSize);
