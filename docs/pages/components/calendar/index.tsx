@@ -6,7 +6,7 @@ import DefaultPage from '@/components/Page';
 export default function Page() {
   return (
     <DefaultPage
-      examples={['basic', 'compact']}
+      examples={['basic', 'compact', 'time-zone']}
       dependencies={{ dateFns, Calendar, Button, Tag, Popover, Whisper, Badge }}
     />
   );
