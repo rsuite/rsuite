@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Affix from '../Affix';
-import { getDOMNode, createTestContainer } from '@test/testUtils';
+import { getDOMNode, createTestContainer, itChrome } from '@test/testUtils';
 import { getOffset } from 'dom-lib';
 
 describe('Affix', () => {
@@ -44,7 +44,7 @@ describe('Affix', () => {
     window.scrollTo({ top });
   });
 
-  it('Should have a custom style', () => {
+  itChrome('Should have a custom style', () => {
     const fontSize = '12px';
     const instance = getDOMNode(<Affix style={{ fontSize }} />);
     assert.equal(instance.style.fontSize, fontSize);
