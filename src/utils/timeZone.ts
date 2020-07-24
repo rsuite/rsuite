@@ -2,7 +2,7 @@ import { convertToLocalTime, convertToTimeZone } from 'date-fns-timezone';
 import { format as dateFnsFormat } from './dateUtils';
 
 export const toTimeZone = (date: Date, timeZone: string): Date => {
-  if (!timeZone) {
+  if (!(date instanceof Date) || !timeZone) {
     return date;
   }
   return convertToTimeZone(date, { timeZone });

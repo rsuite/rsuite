@@ -101,7 +101,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
 
     this.state = {
       value: toTimeZone(activeValue, timeZone),
-      pageDate: toTimeZone(activeValue || calendarDefaultDate || new Date(), timeZone) // display calendar date
+      pageDate: activeValue || calendarDefaultDate || new Date() // display calendar date
     };
 
     this.triggerRef = React.createRef();
