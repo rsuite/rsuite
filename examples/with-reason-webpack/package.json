@@ -22,7 +22,7 @@
     "reason-react": "^0.8.0"
   },
   "devDependencies": {
-    "bs-platform": "^7.3.2",
+    "bs-platform": "^8.0.3",
     "concurrently": "^4.0.1",
     "css-loader": "^3.5.3",
     "html-webpack-plugin": "^3.2.0",
