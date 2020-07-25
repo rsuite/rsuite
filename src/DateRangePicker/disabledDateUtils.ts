@@ -1,5 +1,5 @@
+import { addDays, isAfter, isBefore, isSameDay } from 'date-fns';
 import composeFunctions from '../utils/composeFunctions';
-import { addDays, isAfter, isBefore, isSameDay } from '../utils/dateUtils';
 import { DisabledDateFunction } from './DateRangePicker.d';
 
 function isAfterDay(date1: Date, date2: Date): boolean {
@@ -17,7 +17,7 @@ function isBeforeDay(date1: Date, date2: Date): boolean {
 }
 
 /**
- Allow the maximum number of days specified, other dates are disabled.
+Allow the maximum number of days specified, other dates are disabled.
  */
 export function allowedMaxDays(days: number): DisabledDateFunction {
   return (date, selectValue, selectedDone, target): boolean => {
@@ -47,7 +47,7 @@ export function allowedMaxDays(days: number): DisabledDateFunction {
 }
 
 /**
- Only allowed days are specified, other dates are disabled.
+Only allowed days are specified, other dates are disabled.
  */
 export function allowedDays(days: number): DisabledDateFunction {
   return (date, selectValue, selectedDone, target): boolean => {
@@ -104,7 +104,7 @@ export function before(beforeDate: string | Date = new Date()): DisabledDateFunc
 }
 
 /**
- Disable dates before the specified date.
+Disable dates before the specified date.
  */
 export function after(afterDate: string | Date = new Date()): DisabledDateFunction {
   return (date: Date): boolean => {
@@ -130,7 +130,7 @@ export function afterToday(): DisabledDateFunction {
 }
 
 /**
- Used to combine multiple conditions.
+Used to combine multiple conditions.
  */
 export function combine(...args: any): DisabledDateFunction {
   return (...disabledDateArgs: any): boolean => {

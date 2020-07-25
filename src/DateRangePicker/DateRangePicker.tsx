@@ -2,6 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
+
 import {
   addDays,
   isBefore,
@@ -16,7 +17,8 @@ import {
   startOfMonth,
   endOfMonth,
   compareAsc
-} from '../utils/dateUtils';
+} from 'date-fns';
+
 import IntlContext from '../IntlProvider/IntlContext';
 import FormattedDate from '../IntlProvider/FormattedDate';
 import Toolbar from './Toolbar';
@@ -76,6 +78,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   static defaultProps = {
     ...pickerDefaultProps,
     limitEndYear: 1000,
+    format: 'YYYY-MM-DD',
     placeholder: '',
     showOneCalendar: false,
     locale: {
@@ -153,12 +156,9 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     return this.state.value || [];
   };
 
-  getFormat = () => this.props.format ?? 'yyyy-MM-dd';
-
   getDateString(value?: ValueType) {
-    const { placeholder, renderValue } = this.props;
+    const { placeholder, format: formatType, renderValue } = this.props;
     const nextValue = value || this.getValue();
-    const formatType = this.getFormat();
     const startDate: Date = nextValue?.[0];
     const endDate: Date = nextValue?.[1];
 
@@ -533,7 +533,6 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       </MenuWrapper>
     );
   }
-
   render() {
     const {
       disabled,

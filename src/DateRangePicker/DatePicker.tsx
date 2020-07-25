@@ -1,7 +1,8 @@
-import PropTypes from 'prop-types';
 import * as React from 'react';
-import { addMonths } from '../utils/dateUtils';
+import PropTypes from 'prop-types';
+import { addMonths } from 'date-fns';
 import Calendar from './Calendar';
+
 import { ValueType } from './DateRangePicker.d';
 
 export interface DatePickerProps {
@@ -43,7 +44,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   static defaultProps = {
     value: [],
     calendarDate: [new Date(), addMonths(new Date(), 1)],
-    format: 'yyyy-MM-dd',
+    format: 'YYYY-MM-DD',
     index: 0
   };
 
@@ -54,7 +55,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     };
   }
 
-  onMoveForward = (nextPageDate: Date) => {
+  onMoveForword = (nextPageDate: Date) => {
     const { onChangeCalendarDate, index } = this.props;
     onChangeCalendarDate?.(index, nextPageDate);
   };
@@ -111,7 +112,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
         calendarState={calendarState}
         calendarDate={calendarDate}
         index={index}
-        onMoveForward={this.onMoveForward}
+        onMoveForword={this.onMoveForword}
         onMoveBackward={this.onMoveBackward}
         onSelect={onSelect}
         onMouseMove={onMouseMove}

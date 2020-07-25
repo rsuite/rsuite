@@ -16,7 +16,7 @@ const DatePickerInstance = props => (
     <p> 禁用月份</p>
     <DatePicker
       disabledDate={date => dateFns.isBefore(date, new Date())}
-      format="yyyy-MM"
+      format="YYYY-MM"
     />
 
     <p> 禁用时间</p>

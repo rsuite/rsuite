@@ -16,8 +16,8 @@ const Calendar = {
    * Format of the string is based on Unicode Technical Standard #35:
    * https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table
    **/
-  formattedMonthPattern: 'MMM yyyy',
-  formattedDayPattern: 'dd MMM yyyy'
+  formattedMonthPattern: 'MMM YYYY',
+  formattedDayPattern: 'DD MMM YYYY'
 };
 
 export default {

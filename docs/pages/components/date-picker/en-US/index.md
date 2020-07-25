@@ -34,7 +34,7 @@ import { DatePicker } from 'rsuite';
 | disabledHours         | (hour:number, date:Date) => boolean          | Disabled hours                                                                       |
 | disabledMinutes       | (minute:number, date:Date) => boolean        | Disabled minutes                                                                     |
 | disabledSeconds       | (second:number, date:Date) => boolean        | Disabled seconds                                                                     |
-| format                | string `('yyyy-MM-dd')`                      | Format date                                                                          |
+| format                | string `('YYYY-MM-DD')`                      | Format date                                                                          |
 | hideHours             | (hour:number, date:Date) => boolean          | Hidden hours                                                                         |
 | hideMinutes           | (minute:number, date:Date) => boolean        | Hidden minutes                                                                       |
 | hideSeconds           | (second:number, date:Date) => boolean        | Hidden seconds                                                                       |

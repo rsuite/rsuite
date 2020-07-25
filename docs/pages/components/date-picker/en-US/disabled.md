@@ -16,7 +16,7 @@ const DatePickerInstance = props => (
     <p> Disable Month</p>
     <DatePicker
       disabledDate={date => dateFns.isBefore(date, new Date())}
-      format="yyyy-MM"
+      format="YYYY-MM"
     />
 
     <p> Disable Time</p>
