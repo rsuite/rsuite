@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { parseISO } from '../../utils/dateUtils';
+import { parse } from 'date-fns';
 import { getDOMNode } from '@test/testUtils';
 import Calendar from '../Calendar';
 
@@ -13,7 +13,7 @@ describe('Calendar', () => {
   });
 
   it('Should output valid one day', () => {
-    const instance = getDOMNode(<Calendar format="yyyy-MM-dd" pageDate={parseISO('2018-07-01')} />);
+    const instance = getDOMNode(<Calendar format="YYYY-MM-DD" pageDate={parse('2018-07-01')} />);
     assert.equal(
       instance
         .querySelectorAll('.rs-calendar-table-row')[1]
@@ -28,9 +28,10 @@ describe('Calendar', () => {
     };
 
     const instance = getDOMNode(
-      <Calendar format="yyyy-MM-dd" pageDate={new Date()} onSelect={doneOp} />
+      <Calendar format="YYYY-MM-DD" pageDate={new Date()} onSelect={doneOp} />
     );
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-table-cell-is-today'));
+    const instanceDOM = instance;
+    ReactTestUtils.Simulate.click(instanceDOM.querySelector('.rs-calendar-table-cell-is-today'));
   });
 
   it('Should have a custom className', () => {

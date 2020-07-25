@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { isSameMonth, setDate } from '../utils/dateUtils';
+import { isSameMonth, setDate } from 'date-fns';
 
 import { defaultProps, getMonthView } from '../utils';
 import Table from './Table';

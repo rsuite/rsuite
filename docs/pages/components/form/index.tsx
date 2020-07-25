@@ -36,7 +36,7 @@ import {
   MultiCascader
 } from 'rsuite';
 import Loadable from 'react-loadable';
-import * as dateFns from 'date-fns';
+import dateFns from 'date-fns';
 
 import DefaultPage from '@/components/Page';
 import { useState } from 'react';

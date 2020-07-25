@@ -24,9 +24,12 @@ describe('Calendar-MonthDropdown', () => {
         show
         date={new Date(2019, 8, 1)}
         disabledMonth={d => {
-          const today = new Date(2019, 8, 6);
-          const d2 = new Date(today.getTime() - 240 * 60 * 60 * 1000);
-          return d.getTime() > today.getTime() || d.getTime() < d2.getTime();
+          let today = new Date(2019, 8, 6);
+          let d2 = new Date(today.getTime() - 240 * 60 * 60 * 1000);
+          if (d.getTime() > today.getTime() || d.getTime() < d2.getTime()) {
+            return true;
+          }
+          return false;
         }}
       />
     );

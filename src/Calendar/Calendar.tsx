@@ -8,8 +8,9 @@ import TimeDropdown from './TimeDropdown';
 import View from './View';
 import Header from './Header';
 import { getUnhandledProps, defaultProps, prefix, refType } from '../utils';
+import { disabledTime, calendarOnlyProps } from '../utils/timeUtils';
 import { shouldTime, shouldDate, shouldMonth } from '../utils/formatUtils';
-import { disabledTime, calendarOnlyProps, addMonths } from '../utils/dateUtils';
+import { addMonths } from 'date-fns';
 
 import { tuple } from '../@types/utils';
 
@@ -33,7 +34,7 @@ export interface CalendarProps {
   hideHours?: (hour: number, date: Date) => boolean;
   hideMinutes?: (minute: number, date: Date) => boolean;
   hideSeconds?: (second: number, date: Date) => boolean;
-  onMoveForward?: (nextPageDate: Date) => void;
+  onMoveForword?: (nextPageDate: Date) => void;
   onMoveBackward?: (nextPageDate: Date) => void;
   onSelect?: (date: Date, event: React.MouseEvent<HTMLDivElement>) => void;
   onToggleMonthDropdown?: (event: React.MouseEvent) => void;
@@ -65,7 +66,7 @@ class Calendar extends React.Component<CalendarProps> {
     hideHours: PropTypes.func,
     hideMinutes: PropTypes.func,
     hideSeconds: PropTypes.func,
-    onMoveForward: PropTypes.func,
+    onMoveForword: PropTypes.func,
     onMoveBackward: PropTypes.func,
     onSelect: PropTypes.func,
     onToggleMonthDropdown: PropTypes.func,
@@ -86,9 +87,9 @@ class Calendar extends React.Component<CalendarProps> {
 
   disabledTime = (date: Date) => disabledTime(this.props, date);
 
-  handleMoveForward = () => {
-    const { onMoveForward, pageDate } = this.props;
-    onMoveForward?.(addMonths(pageDate, 1));
+  handleMoveForword = () => {
+    const { onMoveForword, pageDate } = this.props;
+    onMoveForword?.(addMonths(pageDate, 1));
   };
 
   handleMoveBackward = () => {
@@ -148,7 +149,7 @@ class Calendar extends React.Component<CalendarProps> {
           showMeridian={showMeridian}
           disabledDate={this.disabledDate}
           disabledTime={this.disabledTime}
-          onMoveForward={this.handleMoveForward}
+          onMoveForword={this.handleMoveForword}
           onMoveBackward={this.handleMoveBackward}
           onToggleMonthDropdown={onToggleMonthDropdown}
           onToggleTimeDropdown={onToggleTimeDropdown}

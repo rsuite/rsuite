@@ -21,7 +21,7 @@ const instance = (
           label: '前一天',
           closeOverlay: false,
           value: datePage => {
-            return dateFns.addDays(dateFns.parseISO(datePage), -1);
+            return dateFns.addDays(dateFns.parse(datePage), -1);
           }
         }
       ]}

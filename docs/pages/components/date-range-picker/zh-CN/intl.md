@@ -6,7 +6,7 @@
 const DateRangePickerIntl = props => (
   <div className="field only-date">
     <DateRangePicker
-      format="yyyy-MM-dd"
+      format="YYYY-MM-DD"
       locale={{
         sunday: '日',
         monday: '一',

@@ -1,4 +1,4 @@
-import { addDays, getDay } from '../utils/dateUtils';
+import { addDays, getDay } from 'date-fns';
 
 /**
  * Get all weeks of this month

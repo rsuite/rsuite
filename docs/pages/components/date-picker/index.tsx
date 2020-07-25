@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as dateFns from 'date-fns';
+import dateFns from 'date-fns';
 import { DatePicker, Button, InputGroup } from 'rsuite';
 import DefaultPage from '@/components/Page';
 

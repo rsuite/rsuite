@@ -1,14 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import {
-  addDays,
-  subDays,
-  startOfWeek,
-  isSameDay,
-  endOfWeek,
-  parseISO,
-  format
-} from '../../utils/dateUtils';
+import { addDays, subDays, startOfWeek, isSameDay, endOfWeek, parse, format } from 'date-fns';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
 import DateRangePicker from '../DateRangePicker';
@@ -63,9 +55,9 @@ describe('DateRangePicker', () => {
   it('Should output custom value', () => {
     const instance = getDOMNode(
       <DateRangePicker
-        value={[parseISO('2019-04-01'), parseISO('2019-04-02')]}
+        value={[parse('2019-04-01'), parse('2019-04-02')]}
         renderValue={value => {
-          return `${format(value[0], 'MM/dd/yyyy')}~${format(value[1], 'MM/dd/yyyy')}`;
+          return `${format(value[0], 'MM/DD/YYYY')}~${format(value[1], 'MM/DD/YYYY')}`;
         }}
       />
     );

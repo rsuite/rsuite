@@ -14,9 +14,9 @@ export interface HeaderProps {
   classPrefix?: string;
   className?: string;
   disabledBackward?: boolean;
-  disabledForward?: boolean;
+  disabledForword?: boolean;
   showMeridian?: boolean;
-  onMoveForward?: () => void;
+  onMoveForword?: () => void;
   onMoveBackward?: () => void;
   onToggleMonthDropdown?: (event: React.MouseEvent) => void;
   onToggleTimeDropdown?: (event: React.MouseEvent) => void;
@@ -31,7 +31,7 @@ class Header extends React.PureComponent<HeaderProps> {
   static contextType = IntlContext;
   static propTypes = {
     date: PropTypes.instanceOf(Date),
-    onMoveForward: PropTypes.func,
+    onMoveForword: PropTypes.func,
     onMoveBackward: PropTypes.func,
     onToggleMonthDropdown: PropTypes.func,
     onToggleTimeDropdown: PropTypes.func,
@@ -45,7 +45,7 @@ class Header extends React.PureComponent<HeaderProps> {
     classPrefix: PropTypes.string,
     className: PropTypes.string,
     disabledBackward: PropTypes.bool,
-    disabledForward: PropTypes.bool,
+    disabledForword: PropTypes.bool,
     showMeridian: PropTypes.bool,
     renderTitle: PropTypes.func,
     renderToolbar: PropTypes.func
@@ -61,7 +61,7 @@ class Header extends React.PureComponent<HeaderProps> {
       return '';
     }
 
-    if (/([Hh])/.test(format)) {
+    if (/(H|h)/.test(format)) {
       timeFormat.push(showMeridian ? 'hh' : 'HH');
     }
     if (/m/.test(format)) {
@@ -78,12 +78,12 @@ class Header extends React.PureComponent<HeaderProps> {
     const { showDate, showMonth } = this.props;
     const { formattedDayPattern, formattedMonthPattern } = this.context || {};
     if (showDate) {
-      return formattedDayPattern || 'yyyy-MM-dd';
+      return formattedDayPattern || 'YYYY-MM-DD';
     } else if (showMonth) {
-      return formattedMonthPattern || 'yyyy-MM';
+      return formattedMonthPattern || 'YYYY-MM';
     }
 
-    return 'yyyy';
+    return 'YYYY';
   }
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
   renderTitle() {
@@ -98,7 +98,7 @@ class Header extends React.PureComponent<HeaderProps> {
   render() {
     const {
       date,
-      onMoveForward,
+      onMoveForword,
       onMoveBackward,
       onToggleMonthDropdown,
       onToggleTimeDropdown,
@@ -111,7 +111,7 @@ class Header extends React.PureComponent<HeaderProps> {
       disabledDate,
       disabledTime,
       disabledBackward,
-      disabledForward,
+      disabledForword,
       renderToolbar,
       showMeridian,
       ...rest
@@ -130,7 +130,7 @@ class Header extends React.PureComponent<HeaderProps> {
     });
 
     const forwardClass = classNames(this.addPrefix('forward'), {
-      [this.addPrefix('btn-disabled')]: disabledForward
+      [this.addPrefix('btn-disabled')]: disabledForword
     });
 
     const monthToolbar = (
@@ -153,7 +153,7 @@ class Header extends React.PureComponent<HeaderProps> {
           className={forwardClass}
           role="button"
           tabIndex={-1}
-          onClick={disabledForward ? undefined : onMoveForward}
+          onClick={disabledForword ? undefined : onMoveForword}
         />
       </div>
     );
@@ -186,7 +186,7 @@ class Header extends React.PureComponent<HeaderProps> {
                 className={this.addPrefix('meridian')}
                 onClick={onToggleMeridian}
               >
-                {date && <FormattedDate date={date} formatStr="a" />}
+                {date && <FormattedDate date={date} formatStr="A" />}
               </span>
             ) : null}
           </div>

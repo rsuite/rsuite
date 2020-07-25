@@ -1,7 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { addDays, subDays } from '../utils/dateUtils';
+import { addDays, subDays } from 'date-fns';
+
 import FormattedMessage from '../IntlProvider/FormattedMessage';
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
 import { setTimingMargin } from './utils';

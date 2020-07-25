@@ -1,4 +1,4 @@
-import { addMonths, endOfDay, isSameMonth, startOfDay } from '../utils/dateUtils';
+import { startOfDay, endOfDay, addMonths, isSameMonth } from 'date-fns';
 import { ValueType } from './DateRangePicker.d';
 
 export const setTimingMargin = (date, way = 'left'): Date =>
