@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import MonthDropdownItem from '../MonthDropdownItem';
-import { format } from 'date-fns';
+import { format } from '../../utils/dateUtils';
 
 describe('Calendar-MonthDropdownItem', () => {
   it('Should output a  `1` ', () => {
@@ -14,7 +14,7 @@ describe('Calendar-MonthDropdownItem', () => {
 
   it('Should call `onSelect` callback', done => {
     const doneOp = date => {
-      if (format(date, 'YYYY-MM') === '2017-01') {
+      if (format(date, 'yyyy-MM') === '2017-01') {
         done();
       }
     };

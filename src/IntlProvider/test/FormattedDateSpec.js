@@ -1,9 +1,9 @@
 import React from 'react';
+import ru from 'date-fns/locale/ru';
 import IntlContext from '../IntlContext';
 import FormattedDate from '../FormattedDate';
 import { getDOMNode } from '@test/testUtils';
-import format from 'date-fns/format';
-import ru from 'date-fns/locale/ru';
+import { format } from '../../utils/dateUtils';
 
 function formatDate(data, formatStr) {
   return format(data, formatStr, {
@@ -17,7 +17,7 @@ describe('FormattedDate', () => {
       <div>
         <IntlContext.Provider value={{ formatDate }}>
           <div>
-            <FormattedDate date={new Date('2020-01-01')} formatStr="MMM DD, YYYY" />
+            <FormattedDate date={new Date('2020-01-01')} formatStr="MMM dd, yyyy" />
           </div>
         </IntlContext.Provider>
       </div>
@@ -28,7 +28,7 @@ describe('FormattedDate', () => {
   it('Should render default formatted date', () => {
     const domNode = getDOMNode(
       <div>
-        <FormattedDate date={new Date('2020-01-01')} formatStr="MMM DD, YYYY" />
+        <FormattedDate date={new Date('2020-01-01')} formatStr="MMM dd, yyyy" />
       </div>
     );
     assert.equal(domNode.innerText, 'Jan 01, 2020');

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { parse, isSameDay, format } from 'date-fns';
+import { parseISO, isSameDay, format } from '../../utils/dateUtils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
 import DatePicker from '../DatePicker';
@@ -41,16 +41,16 @@ describe('DatePicker', () => {
   });
 
   it('Should output a date', () => {
-    const instance = getDOMNode(<DatePicker defaultValue={parse('2017-08-14')} />);
+    const instance = getDOMNode(<DatePicker defaultValue={parseISO('2017-08-14')} />);
     assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, '2017-08-14');
   });
 
   it('Should output custom value', () => {
     const instance = getDOMNode(
       <DatePicker
-        value={parse('2017-08-14')}
+        value={parseISO('2017-08-14')}
         renderValue={value => {
-          return format(value, 'MM/DD/YYYY');
+          return format(value, 'MM/dd/yyyy');
         }}
       />
     );
@@ -59,7 +59,7 @@ describe('DatePicker', () => {
   });
 
   it('Should output a date', () => {
-    const instance = getDOMNode(<DatePicker value={parse('2017-08-14')} />);
+    const instance = getDOMNode(<DatePicker value={parseISO('2017-08-14')} />);
     assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, '2017-08-14');
   });
 
@@ -132,7 +132,7 @@ describe('DatePicker', () => {
     };
 
     const instance = getDOMNode(
-      <DatePicker onToggleMonthDropdown={doneOp} inline format="YYYY-MM-DD HH:mm:ss" />
+      <DatePicker onToggleMonthDropdown={doneOp} inline format="yyyy-MM-dd HH:mm:ss" />
     );
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-header-title'));
   });
@@ -143,7 +143,7 @@ describe('DatePicker', () => {
     };
 
     const instance = getDOMNode(
-      <DatePicker onToggleTimeDropdown={doneOp} inline format="YYYY-MM-DD HH:mm:ss" />
+      <DatePicker onToggleTimeDropdown={doneOp} inline format="yyyy-MM-dd HH:mm:ss" />
     );
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-header-title-time'));
   });
@@ -220,7 +220,7 @@ describe('DatePicker', () => {
     };
 
     instance = getInstance(
-      <DatePicker value={parse('2018-01-05')} onChange={doneOp} defaultOpen />
+      <DatePicker value={parseISO('2018-01-05')} onChange={doneOp} defaultOpen />
     );
 
     const allCells = instance.menuContainerRef.current.querySelectorAll('.rs-calendar-table-cell');
@@ -275,8 +275,8 @@ describe('DatePicker', () => {
   it('Should be show meridian', () => {
     const instance = getInstance(
       <DatePicker
-        value={parse('2017-08-14 13:00:00')}
-        format="DD MMM YYYY hh:mm:ss A"
+        value={parseISO('2017-08-14 13:00:00')}
+        format="dd MMM yyyy hh:mm:ss a"
         defaultOpen
         showMeridian
       />

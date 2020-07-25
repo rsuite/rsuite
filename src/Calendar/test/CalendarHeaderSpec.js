@@ -1,5 +1,5 @@
 import React from 'react';
-import { format } from 'date-fns';
+import { format, parseISO } from '../../utils/dateUtils';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 
@@ -20,13 +20,13 @@ describe('Calendar-Header', () => {
 
     assert.equal(
       instance.querySelector('.rs-calendar-header-title-time').innerText,
-      format(new Date('2019-04-01 12:20:00'), formatType)
+      format(parseISO('2019-04-01 12:20:00'), formatType)
     );
   });
 
-  it('Should output a date for `YYYY-MM-DD`', () => {
+  it('Should output a date for `yyyy-MM-dd`', () => {
     const date = new Date();
-    const formatType = 'YYYY-MM-DD';
+    const formatType = 'yyyy-MM-dd';
     const instance = getDOMNode(<Header showDate date={date} format={formatType} />);
 
     assert.equal(
@@ -35,9 +35,9 @@ describe('Calendar-Header', () => {
     );
   });
 
-  it('Should output a date for `YYYY-MM`', () => {
+  it('Should output a date for `yyyy-MM`', () => {
     const date = new Date();
-    const formatType = 'YYYY-MM';
+    const formatType = 'yyyy-MM';
     const instance = getDOMNode(<Header showMonth date={date} format={formatType} />);
 
     assert.equal(
@@ -46,15 +46,15 @@ describe('Calendar-Header', () => {
     );
   });
 
-  it('Should call `onMoveForword` callback', done => {
+  it('Should call `onMoveForward` callback', done => {
     const doneOp = () => {
       done();
     };
 
     const date = new Date();
-    const formatType = 'YYYY-MM';
+    const formatType = 'yyyy-MM';
     const instance = getDOMNode(
-      <Header showMonth date={date} format={formatType} onMoveForword={doneOp} />
+      <Header showMonth date={date} format={formatType} onMoveForward={doneOp} />
     );
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-header-forward'));
@@ -66,7 +66,7 @@ describe('Calendar-Header', () => {
     };
 
     const date = new Date();
-    const formatType = 'YYYY-MM';
+    const formatType = 'yyyy-MM';
     const instance = getDOMNode(
       <Header showMonth date={date} format={formatType} onMoveBackward={doneOp} />
     );
@@ -80,7 +80,7 @@ describe('Calendar-Header', () => {
     };
 
     const date = new Date();
-    const formatType = 'YYYY-MM';
+    const formatType = 'yyyy-MM';
     const instance = getDOMNode(
       <Header showMonth date={date} format={formatType} onToggleMonthDropdown={doneOp} />
     );

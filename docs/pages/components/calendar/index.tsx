@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { default as dateFns } from 'date-fns';
+import * as dateFns from 'date-fns';
 import { Calendar, Button, Tag, Popover, Whisper, Badge } from 'rsuite';
 import DefaultPage from '@/components/Page';
 

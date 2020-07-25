@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { parse } from 'date-fns';
+import { parseISO } from '../../utils/dateUtils';
 import { getDOMNode } from '@test/testUtils';
 import CalendarPanel from '../CalendarPanel';
 
@@ -20,7 +20,7 @@ describe('Calendar - Panel', () => {
   it('Should be rendered custom elements', () => {
     const instance = getDOMNode(
       <CalendarPanel
-        defaultValue={parse('2018-07-01')}
+        defaultValue={parseISO('2018-07-01')}
         renderCell={() => {
           return <i className="text">test</i>;
         }}
@@ -36,7 +36,7 @@ describe('Calendar - Panel', () => {
 
   it('Should output valid one day', () => {
     const instance = getDOMNode(
-      <CalendarPanel format="YYYY-MM-DD" defaultValue={parse('2018-07-01')} />
+      <CalendarPanel format="yyyy-MM-dd" defaultValue={parseISO('2018-07-01')} />
     );
     assert.equal(
       instance
@@ -51,7 +51,7 @@ describe('Calendar - Panel', () => {
       done();
     };
 
-    const instance = getDOMNode(<CalendarPanel format="YYYY-MM-DD" onSelect={doneOp} />);
+    const instance = getDOMNode(<CalendarPanel format="yyyy-MM-dd" onSelect={doneOp} />);
     const instanceDOM = instance;
     ReactTestUtils.Simulate.click(instanceDOM.querySelector('.rs-calendar-table-cell-is-today'));
   });

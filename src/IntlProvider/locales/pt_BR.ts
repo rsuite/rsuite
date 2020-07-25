@@ -12,8 +12,8 @@ const Calendar = {
   hours: 'Horas',
   minutes: 'Minutos',
   seconds: 'Segundos',
-  formattedMonthPattern: 'MMM, YYYY',
-  formattedDayPattern: 'DD MMM, YYYY'
+  formattedMonthPattern: 'MMM, yyyy',
+  formattedDayPattern: 'dd MMM, yyyy'
 };
 
 export default {

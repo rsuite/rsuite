@@ -1,8 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { addMonths, isAfter, setDate } from 'date-fns';
-
+import { addMonths, isAfter, setDate } from '../../utils/dateUtils';
 import { getUnhandledProps, prefix, defaultProps } from '../../utils';
 import MonthDropdown from '../../Calendar/MonthDropdown';
 import Header from '../../Calendar/Header';
@@ -22,7 +21,7 @@ export interface CalendarProps {
   showWeekNumbers?: boolean;
   showOneCalendar?: boolean;
   disabledDate?: (date: Date, selectValue: Date[], type: string) => boolean;
-  onMoveForword?: (nextPageDate: Date) => void;
+  onMoveForward?: (nextPageDate: Date) => void;
   onMoveBackward?: (nextPageDate: Date) => void;
   onSelect?: (date: Date) => void;
   onMouseMove?: (date: Date) => void;
@@ -43,7 +42,7 @@ class Calendar extends React.Component<CalendarProps> {
     classPrefix: PropTypes.string,
     limitEndYear: PropTypes.number,
     disabledDate: PropTypes.func,
-    onMoveForword: PropTypes.func,
+    onMoveForward: PropTypes.func,
     onMoveBackward: PropTypes.func,
     onSelect: PropTypes.func,
     onMouseMove: PropTypes.func,
@@ -61,8 +60,8 @@ class Calendar extends React.Component<CalendarProps> {
     return calendarDate[index];
   }
 
-  handleMoveForword = () => {
-    this.props.onMoveForword?.(addMonths(this.getPageDate(), 1));
+  handleMoveForward = () => {
+    this.props.onMoveForward?.(addMonths(this.getPageDate(), 1));
   };
 
   handleMoveBackward = () => {
@@ -84,7 +83,7 @@ class Calendar extends React.Component<CalendarProps> {
     return false;
   };
 
-  disabledForword = () => {
+  disabledForward = () => {
     const { calendarDate, index, showOneCalendar } = this.props;
     if (showOneCalendar) return false;
     const after = isAfter(setDate(calendarDate[1], 1), setDate(addMonths(calendarDate[0], 1), 1));
@@ -120,10 +119,6 @@ class Calendar extends React.Component<CalendarProps> {
     return !after;
   };
 
-  shouldMountDate(props: CalendarProps) {
-    const { format } = props || this.props;
-    return /Y/.test(format) && /M/.test(format) && /D/.test(format);
-  }
   render() {
     const {
       calendarState,
@@ -157,8 +152,8 @@ class Calendar extends React.Component<CalendarProps> {
           showMonth={true}
           date={pageDate}
           disabledBackward={this.disabledBackward()}
-          disabledForword={this.disabledForword()}
-          onMoveForword={this.handleMoveForword}
+          disabledForward={this.disabledForward()}
+          onMoveForward={this.handleMoveForward}
           onMoveBackward={this.handleMoveBackward}
           onToggleMonthDropdown={onToggleMonthDropdown}
         />
