@@ -29,7 +29,7 @@ function useOffset(mountRef: React.RefObject<HTMLDivElement>) {
   const [offset, setOffset] = useState<Offset>(null);
   const updateOffset = React.useCallback(() => {
     setOffset(getOffset(mountRef.current));
-  }, [offset, mountRef]);
+  }, [mountRef]);
 
   // Update after the element size changes
   useElementResize(() => mountRef.current, updateOffset);
