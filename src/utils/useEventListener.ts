@@ -8,19 +8,16 @@ import { on } from 'dom-lib';
  * @param event The DOM event name
  * @param handler An event handler
  * @param capture Whether or not to listen during the capture event phase
- * @param effect Conditionally firing an effect
  */
 export default function useEventListener<K extends keyof DocumentEventMap>(
   eventTarget: EventTarget | (() => EventTarget),
   event: K,
   listener: EventListenerOrEventListenerObject,
-  capture: boolean | AddEventListenerOptions = false,
-  effect: any[] = []
+  capture: boolean | AddEventListenerOptions = false
 ) {
   useEffect(() => {
     const target = typeof eventTarget === 'function' ? eventTarget() : eventTarget;
     const controller = on(target, event, listener, capture);
-
     return () => controller.off();
-  }, [eventTarget, event, listener, capture, ...effect]);
+  }, [eventTarget, event, listener, capture]);
 }

@@ -7,17 +7,15 @@ import bindElementResize, { unbind } from 'element-resize-event';
  *
  * @param eventTarget The target to listen for events on
  * @param listener An event handler
- * @param effect Conditionally firing an effect
  */
 export default function useElementResize(
   eventTarget: EventTarget | (() => EventTarget),
-  listener: EventListenerOrEventListenerObject,
-  effect: any[] = []
+  listener: EventListenerOrEventListenerObject
 ) {
   useEffect(() => {
     const target = typeof eventTarget === 'function' ? eventTarget() : eventTarget;
     bindElementResize(target, listener);
 
     return () => unbind(target);
-  }, [eventTarget, listener, ...effect]);
+  }, [eventTarget, listener]);
 }

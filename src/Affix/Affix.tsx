@@ -27,12 +27,12 @@ interface Offset {
  */
 function useOffset(mountRef: React.RefObject<HTMLDivElement>) {
   const [offset, setOffset] = useState<Offset>(null);
-  const updateOffset = () => {
+  const updateOffset = React.useCallback(() => {
     setOffset(getOffset(mountRef.current));
-  };
+  }, [offset, mountRef]);
 
   // Update after the element size changes
-  useElementResize(() => mountRef.current, updateOffset, [offset, mountRef]);
+  useElementResize(() => mountRef.current, updateOffset);
 
   // Initialize after the first render
   useEffect(updateOffset, [mountRef]);
@@ -89,7 +89,7 @@ function useFixed(offset: Offset, containerOffset: Offset, props: AffixProps) {
   }, [fixed, offset, containerOffset, onChange, top]);
 
   // Add scroll event to window
-  useEventListener(window, 'scroll', handleScroll, false, [fixed, offset]);
+  useEventListener(window, 'scroll', handleScroll, false);
 
   return fixed;
 }
