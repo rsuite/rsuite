@@ -3,7 +3,6 @@
 <!--start-code-->
 
 ```js
-// Time zone selectable list reference https://rsuitejs.com/components/date-picker#Time%20Zone%20List
 
 const instance = (
   <DateRangePicker
@@ -16,3 +15,6 @@ ReactDOM.render(instance);
 ```
 
 <!--end-code-->
+
+- [Time zone selectable list reference](https://rsuitejs.com/components/date-picker#Time%20Zone%20List)
+- [Notes on using time zone attributes](https://rsuitejs.com/components/date-picker#Time%20Zone%20Tips)

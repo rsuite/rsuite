@@ -69,7 +69,7 @@ import { DatePicker } from 'rsuite';
 | showWeekNumbers       | boolean                                      | Whether to show week numbers                                                         |
 | toggleComponentClass  | React.ElementType `('a')`                    | You can use a custom element for this component                                      |
 | value                 | Date                                         | Value (Controlled)                                                                   |
-| timeZone              | string                                       | [IANA Time zone name](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)  |
+| timeZone              | string                                       | [IANA Time zone name](#Time%20Zone%20List)  |
 
 ## Default
 
@@ -110,7 +110,15 @@ const Ranges = [
 ];
 ```
 
-## Time Zone List
+## Time Zone
+
+#### Time Zone Tips
+The `timeZone` property in principle only affects the UI display to facilitate the user to select the time or date in the specified time zone, and does not affect the `date` object returned by the component **other APIs** to the outer component.
+> For example: `disabledDate: (date: Date) => boolean` property, after setting the `timeZone` property, the `date` object passed in by the `disabledDate` property callback is still based on the corresponding time in the current time zone, not the specified time zone.
+
+#### Time Zone List
+> [IANA Time Zone List](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+
 ```json
 [
     "Africa/Abidjan",

@@ -70,7 +70,7 @@ import { DatePicker } from 'rsuite';
 | showWeekNumbers       | boolean                                      | 显示周数量                                                |
 | toggleComponentClass  | React.ElementType `('a')`                    | 为组件自定义元素类型                                      |
 | value                 | Date                                         | 值`受控`                                                  |
-| timeZone              | string                                       | [IANA 时区名](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)  |
+| timeZone              | string                                       | [IANA 时区名](#Time%20Zone%20List)                      |
 
 ## Default
 
@@ -111,7 +111,15 @@ const Ranges = [
 ];
 ```
 
-## Time Zone List
+## Time Zone
+
+#### Time Zone Tips
+`timeZone` 属性原则上只影响 UI 显示以方便使用者选择到指定时区的时间或日期，不影响组件**其他 API 回传**给外层组件的 `date` 对象。
+> 例如: `disabledDate: (date: Date) => boolean` 属性，在设定 `timeZone` 属性之后，`disabledDate` 属性回调传入的 `date` 对象仍然是基于当前时区的对应时间, 而不是指定时区下的时间。
+
+#### Time Zone List
+> [IANA 时区名](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+
 ```json
 [
     "Africa/Abidjan",
