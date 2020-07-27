@@ -826,7 +826,7 @@ export interface IconProps extends StandardProps {
   fixedWidth?: boolean;
 
   /** Set SVG style when using custom SVG Icon */
-  svgStyle?: object;
+  svgStyle?: React.CSSProperties;
 
   /** Dynamic rotation icon */
 

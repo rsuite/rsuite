@@ -21,10 +21,10 @@ export interface MultiCascaderProps<ValueType = any> extends FormControlPickerPr
   searchable?: boolean;
 
   /** Custom render menu */
-  renderMenu?: (children: object[], menu: React.ReactNode, parentNode?: object) => React.ReactNode;
+  renderMenu?: (children: any[], menu: React.ReactNode, parentNode?: any) => React.ReactNode;
 
   /** Custom render menu items */
-  renderMenuItem?: (itemLabel: React.ReactNode, item: object) => React.ReactNode;
+  renderMenuItem?: (itemLabel: React.ReactNode, item: any) => React.ReactNode;
 
   /** Custom render selected items */
   renderValue?: (

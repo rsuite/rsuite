@@ -22,7 +22,7 @@ class Drawer extends React.Component<DrawerProps> {
 
   render() {
     const { show, full, className, placement, classPrefix, ...props } = this.props;
-    const addPrefix: Function = prefix(classPrefix);
+    const addPrefix = prefix(classPrefix);
     const classes = classNames(addPrefix(placement), className, {
       [addPrefix('full')]: full
     });

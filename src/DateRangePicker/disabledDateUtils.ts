@@ -134,8 +134,6 @@ export function afterToday(): DisabledDateFunction {
  */
 export function combine(...args: any): DisabledDateFunction {
   return (...disabledDateArgs: any): boolean => {
-    return args.reduce(
-      (a: Function, b: Function) => a(...disabledDateArgs) || b(...disabledDateArgs)
-    );
+    return args.reduce((a, b) => a(...disabledDateArgs) || b(...disabledDateArgs));
   };
 }

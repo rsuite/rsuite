@@ -9,7 +9,7 @@ export interface TableCellProps extends StandardProps {
   rowIndex?: number;
 
   /** Row Data */
-  rowData?: object;
+  rowData?: any;
 }
 
 declare const TableCell: React.ComponentType<TableCellProps>;

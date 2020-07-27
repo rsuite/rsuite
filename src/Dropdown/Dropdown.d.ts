@@ -42,7 +42,7 @@ export interface DropdownProps<T = any> extends StandardProps {
   onSelect?: (eventKey: T, event: React.MouseEvent<HTMLElement>) => void;
 
   /** The style of the menu */
-  menuStyle?: object;
+  menuStyle?: React.CSSProperties;
 
   /** A css class to apply to the Toggle DOM node */
   toggleClassName?: string;

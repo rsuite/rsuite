@@ -38,13 +38,14 @@ describe('Button', () => {
 
   it('Should be disabled', () => {
     const instance = getDOMNode(<Button disabled>Title</Button>);
+
     assert.ok(instance.disabled);
   });
 
   it('Should be loading', () => {
     const instance = getInstance(<Button loading>Title</Button>);
-    assert.include(getDOMNode(instance).className, 'rs-btn-loading');
-    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-btn-spin');
+    assert.include(instance.className, 'rs-btn-loading');
+    assert.ok(instance.querySelector('.rs-btn-spin'));
   });
 
   it('Should be disabled link', () => {

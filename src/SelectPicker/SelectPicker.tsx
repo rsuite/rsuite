@@ -138,7 +138,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
     return shouldDisplay(label, searchKeyword);
   }
 
-  findNode(focus: Function) {
+  findNode(focus) {
     const items = this.getFocusableMenuItems();
     const { valueKey } = this.props;
     const { focusItemValue } = this.state;

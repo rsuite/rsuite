@@ -6,7 +6,7 @@ import { TypeAttributes, AnimationEventProps } from '../@types/common';
 
 export interface BaseOverlayProps extends AnimationEventProps {
   container?: HTMLElement | (() => HTMLElement);
-  onRendered?: Function;
+  onRendered?: any;
   children?: React.ReactNode;
   className?: string;
   containerPadding?: number;

@@ -1,3 +1,5 @@
+/* eslint react/prop-types: 0 */
+
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -14,7 +16,7 @@ import refType from './refType';
 export interface RequiredProps {
   className?: string;
   classPrefix?: string;
-  innerRef?: Function;
+  innerRef?: React.Ref<any>;
   size?: TypeAttributes.Size;
   color?: TypeAttributes.Color;
   status?: TypeAttributes.Status;

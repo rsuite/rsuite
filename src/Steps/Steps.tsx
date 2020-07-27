@@ -35,7 +35,7 @@ class Steps extends React.Component<StepsProps> {
       ...rest
     } = this.props;
 
-    const addPrefix: Function = prefix(classPrefix);
+    const addPrefix = prefix(classPrefix);
     const horizontal = !vertical;
     const classes = classNames(classPrefix, className, {
       [addPrefix('small')]: small,

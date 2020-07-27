@@ -144,7 +144,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
   }
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
-  renderCollapse(children: Function, expanded?: boolean) {
+  renderCollapse(children, expanded?: boolean) {
     return this.props.collapsible ? (
       <Collapse
         in={expanded}

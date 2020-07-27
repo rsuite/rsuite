@@ -55,11 +55,7 @@ class InputAutosize extends React.Component<InputAutosizeProps, InputAutosizeSta
   };
   static defaultProps = {
     minWidth: 1,
-    inputId:
-      '_' +
-      Math.random()
-        .toString(36)
-        .substr(2, 12)
+    inputId: '_' + Math.random().toString(36).substr(2, 12)
   };
 
   inputRef: React.RefObject<any>;

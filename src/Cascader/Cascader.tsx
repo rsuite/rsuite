@@ -222,7 +222,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
   /**
    * The search structure option is processed after being selected.
    */
-  handleSearchRowSelect = (item: object, event: React.SyntheticEvent<HTMLElement>) => {
+  handleSearchRowSelect = (item: any, event: React.SyntheticEvent<HTMLElement>) => {
     const { valueKey, onChange, onSelect } = this.props;
     const value = item[valueKey];
 

@@ -342,7 +342,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
   }
 
   getActiveItem() {
-    let nodeData: object = {};
+    let nodeData: any = {};
     const activeItem = document.activeElement;
     if (activeItem !== null) {
       const { key, layer } = _.get(activeItem, 'dataset');
@@ -527,7 +527,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     }
   }
 
-  flattenNodes(nodes: any[], props?: TreePickerProps, ref = '0', parentNode?: object, layer = 0) {
+  flattenNodes(nodes: any[], props?: TreePickerProps, ref = '0', parentNode?: any, layer = 0) {
     const { labelKey, valueKey, childrenKey } = props || this.props;
 
     if (!Array.isArray(nodes) || nodes.length === 0) {
@@ -554,7 +554,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     });
   }
 
-  serializeList(key: string, nodes: object = this.nodes) {
+  serializeList(key: string, nodes = this.nodes) {
     const { valueKey } = this.props;
     const list = [];
 

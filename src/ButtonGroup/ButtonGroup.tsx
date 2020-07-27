@@ -1,43 +1,67 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import compose from 'recompose/compose';
+import { useClassNames } from '../utils';
+import { StandardProps, TypeAttributes } from '../@types/common';
 
-import { withStyleProps, defaultProps, prefix } from '../utils';
-import { ButtonGroupProps } from './ButtonGroup.d';
+export interface ButtonGroupProps extends StandardProps, React.HTMLAttributes<HTMLDivElement> {
+  /** Display block buttongroups */
+  block?: boolean;
 
-class ButtonGroup extends React.Component<ButtonGroupProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    vertical: PropTypes.bool,
-    justified: PropTypes.bool,
-    block: PropTypes.bool,
-    classPrefix: PropTypes.string,
-    children: PropTypes.node
-  };
-  render() {
-    const { className, vertical, children, block, justified, classPrefix, ...props } = this.props;
-    const addPrefix = prefix(classPrefix);
+  /** A button can show it is currently unable to be interacted with */
+  disabled?: boolean;
 
-    const classes = classNames(classPrefix, className, {
-      [addPrefix('block')]: block,
-      [addPrefix('vertical')]: vertical,
-      [addPrefix('justified')]: justified
-    });
+  /** Vertical layouts of button */
+  vertical?: boolean;
 
-    return (
-      <div role="group" {...props} className={classes}>
-        {children}
-      </div>
-    );
-  }
+  /** Horizontal constant width layout */
+  justified?: boolean;
+
+  /**
+   * An ARIA role describing the button group. Usually the default
+   * "group" role is fine. An `aria-label` or `aria-labelledby`
+   * prop is also recommended.
+   */
+  role: string;
+
+  /** A button group can have different sizes */
+  size?: TypeAttributes.Size;
 }
 
-export default compose<any, ButtonGroupProps>(
-  withStyleProps<ButtonGroupProps>({
-    hasSize: true
-  }),
-  defaultProps<ButtonGroupProps>({
-    classPrefix: 'btn-group'
-  })
-)(ButtonGroup);
+const ButtonGroup = React.forwardRef((props: ButtonGroupProps, ref: React.Ref<HTMLDivElement>) => {
+  const {
+    classPrefix = 'btn-group',
+    componentClass: Component = 'div',
+    role = 'group',
+    className,
+    children,
+    block,
+    vertical,
+    justified,
+    size,
+    ...rest
+  } = props;
+
+  const [withPrifix, merge] = useClassNames(classPrefix);
+  const classes = merge(className, withPrifix(size, { block, vertical, justified }));
+
+  return (
+    <Component {...rest} role={role} ref={ref} className={classes}>
+      {children}
+    </Component>
+  );
+});
+
+ButtonGroup.displayName = 'ButtonGroup';
+ButtonGroup.propTypes = {
+  className: PropTypes.string,
+  componentClass: PropTypes.elementType,
+  classPrefix: PropTypes.string,
+  children: PropTypes.node,
+  block: PropTypes.bool,
+  vertical: PropTypes.bool,
+  justified: PropTypes.bool,
+  role: PropTypes.string,
+  size: PropTypes.oneOf(['lg', 'md', 'sm', 'xs'])
+};
+
+export default ButtonGroup;

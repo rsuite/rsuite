@@ -29,7 +29,7 @@ export interface UtilType {
   isSomeParentChecked?: (node: any, value: any[]) => boolean;
 }
 
-export default function(props: any): UtilType {
+export default function (props: any): UtilType {
   const { valueKey, childrenKey } = props;
 
   /**

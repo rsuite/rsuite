@@ -32,7 +32,7 @@ export interface TableProps<RowKey = string | number | symbol, RowData = any>
   minHeight?: number;
 
   /** Row height */
-  rowHeight?: number | ((rowData: object) => number);
+  rowHeight?: number | ((rowData: any) => number);
 
   /** Add an optional extra class name to row */
   rowClassName?: string | ((rowData: RowData) => string);
@@ -93,7 +93,7 @@ export interface TableProps<RowKey = string | number | symbol, RowData = any>
   onRowClick?: (rowData: RowData, event: React.SyntheticEvent<any>) => void;
 
   /** Callback after right-click row */
-  onRowContextMenu?: (rowData: object, event: React.MouseEvent) => void;
+  onRowContextMenu?: (rowData: any, event: React.MouseEvent) => void;
 
   /** Callback function for scroll bar scrolling */
   onScroll?: (scrollX: number, scrollY: number) => void;
@@ -105,7 +105,7 @@ export interface TableProps<RowKey = string | number | symbol, RowData = any>
   onExpandChange?: (expanded: boolean, rowData: RowData) => void;
 
   /** Callback after table data update. */
-  onDataUpdated?: (nextData: object[], scrollTo: (coord: { x: number; y: number }) => void) => void;
+  onDataUpdated?: (nextData: any[], scrollTo: (coord: { x: number; y: number }) => void) => void;
 
   /** Tree table, the callback function in the expanded node */
   renderTreeToggle?: (
