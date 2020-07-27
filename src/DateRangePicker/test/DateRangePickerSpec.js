@@ -4,6 +4,7 @@ import {
   addDays,
   endOfWeek,
   format,
+  isAfter,
   isSameDay,
   parseISO,
   startOfWeek,
@@ -257,5 +258,23 @@ describe('DateRangePicker', () => {
       ret,
       `${format(zonedTodayDate, template)} ~ ${format(addDays(zonedTodayDate, 1), template)}`
     );
+  });
+
+  it('Should disable from next day with time zone', function() {
+    const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
+    const template = 'yyyy-MM-dd HH:mm:ss';
+    const tomorrow = addDays(new Date(), 1);
+    const instance = getInstance(
+      <DateRangePicker
+        format={template}
+        timeZone={timeZone}
+        defaultOpen
+        disabledDate={date => isAfter(date, tomorrow)}
+      />
+    );
+    const menuContainer = getDOMNode(instance.menuContainerRef.current);
+    const firstDisabledCell = menuContainer.querySelector('.rs-calendar-table-cell-disabled');
+
+    assert.equal(firstDisabledCell.getAttribute('title'), format(tomorrow, 'yyyy-MM-dd'));
   });
 });
