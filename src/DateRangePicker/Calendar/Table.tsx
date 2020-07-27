@@ -70,6 +70,7 @@ class Table extends React.Component<TableProps> {
             inSameMonth={inSameMonth}
             disabledDate={disabledDate}
             showWeekNumbers={showWeekNumbers}
+            isoWeek={isoWeek}
           />
         ))}
       </div>

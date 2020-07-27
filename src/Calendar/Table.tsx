@@ -66,6 +66,7 @@ class Table extends React.PureComponent<TableProps> {
             disabledDate={disabledDate}
             renderCell={renderCell}
             showWeekNumbers={showWeekNumbers}
+            isoWeek={isoWeek}
           />
         ))}
       </div>
