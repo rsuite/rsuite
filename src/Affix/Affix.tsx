@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { getOffset } from 'dom-lib';
 import { StandardProps } from '../@types/common';
@@ -27,7 +27,7 @@ interface Offset {
  */
 function useOffset(mountRef: React.RefObject<HTMLDivElement>) {
   const [offset, setOffset] = useState<Offset>(null);
-  const updateOffset = React.useCallback(() => {
+  const updateOffset = useCallback(() => {
     setOffset(getOffset(mountRef.current));
   }, [mountRef]);
 
@@ -35,7 +35,7 @@ function useOffset(mountRef: React.RefObject<HTMLDivElement>) {
   useElementResize(() => mountRef.current, updateOffset);
 
   // Initialize after the first render
-  useEffect(updateOffset, [mountRef]);
+  useEffect(updateOffset, [updateOffset]);
 
   return offset;
 }
@@ -47,12 +47,10 @@ function useOffset(mountRef: React.RefObject<HTMLDivElement>) {
 function useContainerOffset(container) {
   const [offset, setOffset] = useState<Offset>(null);
 
-  const updateOffset = () => {
+  useEffect(() => {
     const node = typeof container === 'function' ? container() : container;
     setOffset(node ? getOffset(node) : null);
-  };
-
-  useEffect(updateOffset, [container]);
+  }, [container]);
 
   return offset;
 }
@@ -67,7 +65,7 @@ function useFixed(offset: Offset, containerOffset: Offset, props: AffixProps) {
   const { top, onChange } = props;
   const [fixed, setFixed] = useState<boolean>(false);
 
-  const handleScroll = React.useCallback(() => {
+  const handleScroll = useCallback(() => {
     if (!offset) {
       return;
     }
