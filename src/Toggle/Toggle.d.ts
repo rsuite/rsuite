@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {StandardProps, TypeAttributes} from '../@types/common';
+import { StandardProps, TypeAttributes } from '../@types/common';
 import Size = TypeAttributes.Size;
 
 export interface ToggleProps extends StandardProps {
@@ -22,7 +22,7 @@ export interface ToggleProps extends StandardProps {
   onChange?: (checked: boolean, event: React.SyntheticEvent<HTMLInputElement>) => void;
 
   /** */
-  size?: Omit<Size, 'xs'>
+  size?: Omit<Size, 'xs'>;
 }
 
 declare const Toggle: React.ComponentType<ToggleProps>;
