@@ -32,7 +32,8 @@ class TableRow extends React.PureComponent<TableRowProps> {
     onSelect: PropTypes.func,
     disabledDate: PropTypes.func,
     inSameMonth: PropTypes.func,
-    renderCell: PropTypes.func
+    renderCell: PropTypes.func,
+    isoWeek: PropTypes.bool
   };
   static defaultProps = {
     selected: new Date(),
