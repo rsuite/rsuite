@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { formatToTimeZone } from 'date-fns-timezone';
 import { format, parseISO } from '../../utils/dateUtils';
 import { getDOMNode } from '@test/testUtils';
 import CalendarPanel from '../CalendarPanel';
@@ -77,9 +76,12 @@ describe('Calendar - Panel', () => {
   it('Should be zoned date', () => {
     const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
     const template = 'yyyy-MM-dd HH:mm';
-    const instance = getDOMNode(<CalendarPanel format={template} timeZone={timeZone} />);
-    const zonedTime = format(zonedDate(timeZone), 'HH:mm');
+    const date = new Date(2020, 5, 1, 0, 0, 0, 0);
+    const instance = getDOMNode(
+      <CalendarPanel value={date} format={template} timeZone={timeZone} />
+    );
     const calendarTime = instance.querySelector('.rs-calendar-header-title-time').innerHTML;
+    const zonedTime = format(toTimeZone(date, timeZone), 'HH:mm');
 
     assert.equal(calendarTime, zonedTime);
   });
