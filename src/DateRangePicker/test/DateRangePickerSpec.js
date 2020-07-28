@@ -260,7 +260,7 @@ describe('DateRangePicker', () => {
     );
   });
 
-  it('Should disable from next day with time zone', function() {
+  it('Should disable from next day with time zone', function () {
     const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
     const template = 'yyyy-MM-dd HH:mm:ss';
     const tomorrow = addDays(new Date(), 1);
