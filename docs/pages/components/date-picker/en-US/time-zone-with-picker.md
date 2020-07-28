@@ -8,7 +8,7 @@ const Instance = () => {
   return (
     <div>
       <TimeZonePicker onChange={value => setTimeZone(value)} />
-      <DatePicker format="yyyy-MM-dd HH:mm:ss" timeZone={timeZone} />
+      <DatePicker format="yyyy-MM-dd HH:mm:ss" timeZone={timeZone} style={{ marginLeft: '15px' }} />
     </div>
   );
 };

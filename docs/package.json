@@ -20,6 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@rsuite/responsive-nav": "0.0.10",
+    "@rsuite/timezone-picker": "^0.2.1",
     "color": "^3.1.2",
     "date-fns": "^2.13.0",
     "eslint-import-resolver-alias": "^1.1.2",
