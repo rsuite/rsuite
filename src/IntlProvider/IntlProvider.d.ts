@@ -5,7 +5,7 @@ export interface IntlProviderProps {
   children?: React.ReactNode;
 
   /** Language configuration */
-  locale?: object;
+  locale?: any;
 
   /** Support right-to-left */
   rtl?: boolean;
@@ -15,7 +15,7 @@ export interface IntlProviderProps {
     date: Date | string | number,
     format?: string,
     options?: {
-      locale?: object;
+      locale?: any;
     }
   ) => string;
 }

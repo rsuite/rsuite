@@ -13,7 +13,7 @@ export interface SafeAnchorProps {
   /** You can use a custom element for this component */
   componentClass?: React.ElementType<any>;
 
-  onClick?: (event: React.MouseEvent) => void;
+  onClick?: React.MouseEventHandler;
 
   [key: string]: any;
 }

@@ -17,7 +17,7 @@ class RefHolder extends React.Component<any> {
 
 interface BaseModalProps extends ModalProps {
   container?: HTMLElement | (() => HTMLElement);
-  onRendered?: Function;
+  onRendered?: any;
   transition: React.ElementType;
   onEscapeKeyUp?: React.KeyboardEventHandler;
   onBackdropClick?: React.MouseEventHandler;

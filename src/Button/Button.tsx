@@ -1,87 +1,110 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import compose from 'recompose/compose';
 import SafeAnchor from '../SafeAnchor';
 import Ripple from '../Ripple';
+import { isOneOf, useClassNames } from '../utils';
+import { TypeAttributes, StandardProps } from '../@types/common';
 
-import { withStyleProps, getUnhandledProps, defaultProps, prefix, isOneOf } from '../utils';
-import { ButtonProps } from './Button.d';
+export interface ButtonProps extends StandardProps, React.ButtonHTMLAttributes<HTMLButtonElement> {
+  /** A button can have different appearances. */
+  appearance?: TypeAttributes.Appearance;
 
-class Button extends React.Component<ButtonProps> {
-  static propTypes = {
-    appearance: PropTypes.oneOf(['default', 'primary', 'link', 'subtle', 'ghost']),
-    active: PropTypes.bool,
-    componentClass: PropTypes.elementType,
-    children: PropTypes.node,
-    block: PropTypes.bool,
-    loading: PropTypes.bool,
-    disabled: PropTypes.bool,
-    ripple: PropTypes.bool
-  };
+  /** A button can show it is currently the active user selection */
+  active?: boolean;
 
-  static defaultProps = {
-    appearance: 'default',
-    ripple: true
-  };
+  /** A button can have different sizes */
+  size?: TypeAttributes.Size;
 
-  render() {
-    const {
+  /** A button can have different colors */
+  color?: TypeAttributes.Color;
+
+  /** Format button to appear inside a content bloc */
+  block?: boolean;
+
+  /** Providing a `href` will render an `<a>` element, _styled_ as a button */
+  href?: string;
+
+  /** A button can show a loading indicator */
+  loading?: boolean;
+
+  /** A button can show it is currently unable to be interacted with */
+  disabled?: boolean;
+
+  /** Called when the button is clicked. */
+  onClick?: (event: React.SyntheticEvent) => void;
+
+  /** Ripple after button click */
+  ripple?: boolean;
+
+  /** Defines HTML button type attribute */
+  type?: 'button' | 'reset' | 'submit';
+}
+
+const Button = React.forwardRef((props: ButtonProps, ref: React.Ref<HTMLButtonElement>) => {
+  const {
+    active,
+    appearance = 'default',
+    block,
+    className,
+    children,
+    classPrefix = 'btn',
+    color,
+    componentClass: Component = 'button',
+    disabled,
+    loading,
+    ripple = true,
+    size,
+    type = 'button',
+    ...rest
+  } = props;
+
+  const [withPrifix, merge] = useClassNames(classPrefix);
+  const classes = merge(
+    className,
+    withPrifix(appearance, color, size, {
       active,
       disabled,
       loading,
-      block,
-      className,
-      classPrefix,
-      appearance,
-      children,
-      ripple,
-      componentClass: Component,
-      ...props
-    } = this.props;
+      block
+    })
+  );
 
-    const unhandled = getUnhandledProps(Button, props);
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, addPrefix(appearance), className, {
-      [addPrefix('active')]: active,
-      [addPrefix('disabled')]: disabled,
-      [addPrefix('loading')]: loading,
-      [addPrefix('block')]: block
-    });
+  const rippleElement = ripple && !isOneOf(appearance, ['link', 'ghost']) ? <Ripple /> : null;
+  const spin = <span className={withPrifix`spin`} />;
 
-    const rippleElement = ripple && !isOneOf(appearance, ['link', 'ghost']) ? <Ripple /> : null;
-    const spin = <span className={addPrefix('spin')} />;
-
-    if (Component === 'button') {
-      if (unhandled.href) {
-        return (
-          <SafeAnchor {...unhandled} aria-disabled={disabled} className={classes}>
-            {loading && spin}
-            {children}
-            {rippleElement}
-          </SafeAnchor>
-        );
-      }
-      unhandled.type = unhandled.type || 'button';
-    }
-
+  if (Component === 'button' && rest.href) {
     return (
-      <Component {...unhandled} disabled={disabled} className={classes}>
+      <SafeAnchor {...rest} ref={ref} aria-disabled={disabled} className={classes}>
         {loading && spin}
         {children}
         {rippleElement}
-      </Component>
+      </SafeAnchor>
     );
   }
-}
 
-export default compose<any, ButtonProps>(
-  withStyleProps<ButtonProps>({
-    hasSize: true,
-    hasColor: true
-  }),
-  defaultProps<ButtonProps>({
-    classPrefix: 'btn',
-    componentClass: 'button'
-  })
-)(Button);
+  return (
+    <Component {...rest} type={type} ref={ref} disabled={disabled} className={classes}>
+      {loading && spin}
+      {children}
+      {rippleElement}
+    </Component>
+  );
+});
+
+Button.displayName = 'Button';
+Button.propTypes = {
+  active: PropTypes.bool,
+  appearance: PropTypes.oneOf(['default', 'primary', 'link', 'subtle', 'ghost']),
+  block: PropTypes.bool,
+  children: PropTypes.node,
+  componentClass: PropTypes.elementType,
+  color: PropTypes.oneOf(['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet']),
+  disabled: PropTypes.bool,
+  href: PropTypes.string,
+  loading: PropTypes.bool,
+  ripple: PropTypes.bool,
+  size: PropTypes.oneOf(['lg', 'md', 'sm', 'xs']),
+  type: PropTypes.oneOf(['button', 'reset', 'submit'])
+};
+
+export default Button;

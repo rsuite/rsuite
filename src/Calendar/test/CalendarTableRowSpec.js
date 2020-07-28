@@ -50,6 +50,14 @@ describe('Calendar-TableRow', () => {
     const instance = getDOMNode(<TableRow showWeekNumbers />);
     assert.equal(
       instance.querySelector('.rs-calendar-table-cell-week-number').innerText,
+      format(new Date(), 'w')
+    );
+  });
+
+  it('Should render a ISO week number', () => {
+    const instance = getDOMNode(<TableRow showWeekNumbers isoWeek />);
+    assert.equal(
+      instance.querySelector('.rs-calendar-table-cell-week-number').innerText,
       format(new Date(), 'I')
     );
   });

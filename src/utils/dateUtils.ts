@@ -95,7 +95,7 @@ const disabledTimeProps = ['disabledHours', 'disabledMinutes', 'disabledSeconds'
 const hideTimeProps = ['hideHours', 'hideMinutes', 'hideSeconds'];
 export const calendarOnlyProps = disabledTimeProps.concat(hideTimeProps);
 
-function validTime(calendarProps: object, date: Date) {
+function validTime(calendarProps: any, date: Date) {
   if (!date) {
     return false;
   }

@@ -38,12 +38,7 @@ export function shouldDisplay(label: React.ReactNode, searchKeyword: string) {
     return `${label}`.toLocaleLowerCase().indexOf(keyword) >= 0;
   } else if (React.isValidElement(label)) {
     const nodes = reactToString(label);
-    return (
-      nodes
-        .join('')
-        .toLocaleLowerCase()
-        .indexOf(keyword) >= 0
-    );
+    return nodes.join('').toLocaleLowerCase().indexOf(keyword) >= 0;
   }
   return false;
 }

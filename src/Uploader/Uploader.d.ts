@@ -39,7 +39,7 @@ export interface UploaderProps extends StandardProps {
   fileList?: FileType[];
 
   /** Upload the parameters with */
-  data?: object;
+  data?: any;
 
   /** Allow multiple file uploads to be selected at a time */
 
@@ -61,7 +61,7 @@ export interface UploaderProps extends StandardProps {
   withCredentials?: boolean;
 
   /** Set Upload request Header */
-  headers?: object;
+  headers?: any;
 
   /** Upload list Style */
   listType?: 'text' | 'picture-text' | 'picture';
@@ -86,7 +86,7 @@ export interface UploaderProps extends StandardProps {
 
   /** Upload callback function with erro */
   onError?: (
-    status: object,
+    status: any,
     file: FileType,
     event: React.SyntheticEvent<any>,
     xhr: XMLHttpRequest
@@ -94,7 +94,7 @@ export interface UploaderProps extends StandardProps {
 
   /** callback function after successful upload */
   onSuccess?: (
-    response: object,
+    response: any,
     file: FileType,
     event: React.SyntheticEvent<any>,
     xhr: XMLHttpRequest

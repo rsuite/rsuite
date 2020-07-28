@@ -14,6 +14,7 @@ export interface TableRowProps {
   className?: string;
   classPrefix?: string;
   showWeekNumbers?: boolean;
+  isoWeek?: boolean;
   onSelect?: (date: Date, event: React.MouseEvent<HTMLDivElement>) => void;
   disabledDate?: (date: Date) => boolean;
   inSameMonth?: (date: Date) => boolean;
@@ -92,7 +93,7 @@ class TableRow extends React.PureComponent<TableRowProps> {
   renderWeekNumber() {
     return (
       <div className={this.addPrefix('cell-week-number')}>
-        {format(this.props.weekendDate, 'w')}
+        {format(this.props.weekendDate, this.props.isoWeek ? 'I' : 'w')}
       </div>
     );
   }

@@ -100,7 +100,7 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
     return data.filter(this.shouldDisplay);
   };
 
-  findNode(focus: Function) {
+  findNode(focus) {
     const items = this.getFocusableMenuItems();
     const { focusItemValue } = this.state;
 

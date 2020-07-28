@@ -4,7 +4,7 @@ import curry from 'lodash/curry';
 export const globalKey = 'rs-';
 export const getClassNamePrefix = () => {
   if (typeof __RSUITE_CLASSNAME_PREFIX__ !== 'undefined') {
-    return __RSUITE_CLASSNAME_PREFIX__;
+    return (__RSUITE_CLASSNAME_PREFIX__ as any) as string;
   }
   return globalKey;
 };

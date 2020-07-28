@@ -243,7 +243,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     return shouldDisplay(label, word);
   }
 
-  findNode(focus: Function) {
+  findNode(focus) {
     const items = this.getFocusableMenuItems();
     const { valueKey } = this.props;
     const { focusItemValue } = this.state;

@@ -23,10 +23,10 @@ export interface ModalProps extends StandardProps, AnimationEventProps {
   backdropClassName?: string;
 
   /** CSS style applied to dialog DOM nodes */
-  dialogStyle?: object;
+  dialogStyle?: React.CSSProperties;
 
   /** CSS style applied to backdrop DOM nodes  */
-  backdropStyle?: object;
+  backdropStyle?: React.CSSProperties;
 
   /** Show modal */
   show?: boolean;

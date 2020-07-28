@@ -180,7 +180,7 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
 
   handleAjaxUploadSuccess = (
     file: FileType,
-    response: object,
+    response: any,
     event: React.SyntheticEvent<any>,
     xhr: XMLHttpRequest
   ) => {
@@ -196,7 +196,7 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
 
   handleAjaxUploadError = (
     file: FileType,
-    status: object,
+    status: any,
     event: React.SyntheticEvent<any>,
     xhr: XMLHttpRequest
   ) => {

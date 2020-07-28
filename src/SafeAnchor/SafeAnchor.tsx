@@ -2,27 +2,25 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { SafeAnchorProps } from './SafeAnchor.d';
 
-const SafeAnchor: React.FunctionComponent = React.forwardRef<'SafeAnchor', SafeAnchorProps>(
-  (props, ref) => {
-    const { componentClass: Component = 'a', disabled, ...rest } = props;
-    const handleClick = (event: React.MouseEvent) => {
-      if (disabled) {
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-      }
-
-      rest.onClick?.(event);
-    };
-
+const SafeAnchor = React.forwardRef((props: SafeAnchorProps, ref: React.Ref<HTMLElement>) => {
+  const { componentClass: Component = 'a', disabled, ...rest } = props;
+  const handleClick = (event: React.MouseEvent) => {
     if (disabled) {
-      rest.tabIndex = -1;
-      rest['aria-disabled'] = true;
+      event.preventDefault();
+      event.stopPropagation();
+      return;
     }
 
-    return <Component ref={ref} {...rest} onClick={handleClick} />;
+    rest.onClick?.(event);
+  };
+
+  if (disabled) {
+    rest.tabIndex = -1;
+    rest['aria-disabled'] = true;
   }
-);
+
+  return <Component {...rest} ref={ref} onClick={handleClick} />;
+});
 
 SafeAnchor.displayName = 'SafeAnchor';
 SafeAnchor.propTypes = {

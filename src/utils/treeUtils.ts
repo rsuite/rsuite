@@ -33,10 +33,10 @@ export function shouldShowNodeByExpanded(expandItemValues: any[] = [], parentKey
 export function flattenTree(
   tree: any[],
   childrenKey = 'children',
-  executor?: (node: object, index: number) => object
+  executor?: (node: any, index: number) => any
 ) {
   const flattenData: any[] = [];
-  const traverse = (data: any[], parent: object | null) => {
+  const traverse = (data: any[], parent: any | null) => {
     if (!_.isArray(data)) {
       return;
     }
@@ -61,7 +61,7 @@ export function flattenTree(
  * 获取树节点所有的祖先节点
  * @param {*} node
  */
-export function getNodeParents(node: object, parentKey = 'parent', valueKey?: string) {
+export function getNodeParents(node: any, parentKey = 'parent', valueKey?: string) {
   const parents: any[] = [];
   const traverse = (node: any) => {
     if (node?.[parentKey]) {
@@ -249,7 +249,7 @@ export function removeDragNode(data: any[], params: any, { valueKey, childrenKey
  * @param params
  */
 export function createUpdateTreeDataFunction(params: any, { valueKey, childrenKey }) {
-  return function(tree: any[]) {
+  return function (tree: any[]) {
     const data = [...tree];
     const { dragNode, dropNode, dropNodePosition } = params;
     removeDragNode(data, params, { valueKey, childrenKey });

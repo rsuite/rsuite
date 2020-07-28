@@ -108,10 +108,10 @@ class List extends React.Component<ListProps, State> {
   activeNodeTranslateMin: Axis;
   activeNodeTranslateMax: Axis;
   // events
-  windowStartListener: { off: Function };
-  windowEndListener: { off: Function };
-  sortMouseMoveListener: { off: Function };
-  sortMouseEndListener: { off: Function };
+  windowStartListener: { off };
+  windowEndListener: { off };
+  sortMouseMoveListener: { off };
+  sortMouseEndListener: { off };
   cursorInitialOffset: Axis;
   cursorCurrentPosition: Axis;
   pressTimer: NodeJS.Timeout;
