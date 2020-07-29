@@ -140,7 +140,7 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
       [this.addPrefix('compact')]: compact
     });
 
-    locale.timeZone = rest.timeZone;
+    locale.timeZone = timeZone;
     return (
       <IntlContext.Provider value={locale}>
         <Calendar

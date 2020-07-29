@@ -16,7 +16,7 @@ export function getCalendarDate({
   timeZone
 }: {
   value?: ValueType;
-  timeZone: string;
+  timeZone: string | undefined;
 }): ValueType {
   // Update calendarDate if the value is not null
   value = value ?? [];

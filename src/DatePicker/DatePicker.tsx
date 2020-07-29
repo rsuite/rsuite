@@ -101,7 +101,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
 
     this.state = {
       value: toTimeZone(activeValue, timeZone),
-      pageDate: activeValue || calendarDefaultDate || new Date() // display calendar date
+      pageDate: toTimeZone(activeValue || calendarDefaultDate || new Date(), timeZone) // display calendar date
     };
 
     this.triggerRef = React.createRef();
@@ -111,42 +111,45 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   }
 
   static getDerivedStateFromProps(nextProps: DatePickerProps, prevState: DatePickerState) {
-    if (typeof nextProps.value !== 'undefined') {
-      const { value } = nextProps;
-
-      if (value && !isSameDay(value, prevState.value)) {
-        return {
-          value,
-          pageDate: value
-        };
-      }
-
-      return {
+    const { value, timeZone } = nextProps;
+    if (typeof value !== 'undefined') {
+      const nextState = {
         value
       };
+
+      if (!isSameDay(value, prevState.value)) {
+        _.set(nextState, 'pageDate', toTimeZone(value, timeZone));
+      }
+
+      return nextState;
     }
 
     return null;
   }
 
+  getLocalPageDate = (pageDate = this.state.pageDate) =>
+    toLocalTimeZone(pageDate, this.props.timeZone);
+
   onMoveForward = (nextPageDate: Date) => {
     this.setState({
       pageDate: nextPageDate
     });
-    const { onNextMonth, onChangeCalendarDate, timeZone } = this.props;
+    const { onNextMonth, onChangeCalendarDate } = this.props;
 
-    onNextMonth?.(toLocalTimeZone(nextPageDate, timeZone));
-    onChangeCalendarDate?.(toLocalTimeZone(nextPageDate, timeZone));
+    nextPageDate = this.getLocalPageDate(nextPageDate);
+    onNextMonth?.(nextPageDate);
+    onChangeCalendarDate?.(nextPageDate);
   };
 
   onMoveBackward = (nextPageDate: Date) => {
     this.setState({
       pageDate: nextPageDate
     });
-    const { onPrevMonth, onChangeCalendarDate, timeZone } = this.props;
+    const { onPrevMonth, onChangeCalendarDate } = this.props;
 
-    onPrevMonth?.(toLocalTimeZone(nextPageDate, timeZone));
-    onChangeCalendarDate?.(toLocalTimeZone(nextPageDate, timeZone));
+    nextPageDate = this.getLocalPageDate(nextPageDate);
+    onPrevMonth?.(nextPageDate);
+    onChangeCalendarDate?.(nextPageDate);
   };
 
   getValue = () => {
@@ -173,7 +176,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
 
   handleChangePageDate = (nextPageDate: Date) => {
     this.setState({
-      pageDate: toLocalTimeZone(nextPageDate, this.props.timeZone),
+      pageDate: nextPageDate,
       calendarState: undefined
     });
     this.handleAllSelect(nextPageDate);
@@ -202,12 +205,11 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
 
   handleOK = (event: React.SyntheticEvent<any>) => {
     this.updateValue(event);
-    this.props.onOk?.(toLocalTimeZone(this.state.pageDate, this.props.timeZone), event);
+    this.props.onOk?.(this.getLocalPageDate(), event);
   };
 
   updateValue(event: React.SyntheticEvent<any>, nextPageDate?: Date | null, closeOverlay = true) {
     const { pageDate } = this.state;
-    const { timeZone } = this.props;
     const value = this.getValue();
     const nextValue: Date = !_.isUndefined(nextPageDate) ? nextPageDate : pageDate;
 
@@ -217,7 +219,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     });
 
     if (nextValue !== value || !isSameDay(nextValue, value)) {
-      this.props.onChange?.(toLocalTimeZone(nextValue, timeZone), event);
+      this.props.onChange?.(this.getLocalPageDate(nextValue), event);
     }
 
     // `closeOverlay` default value is `true`
@@ -227,10 +229,10 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   }
 
   resetPageDate() {
-    const { calendarDefaultDate } = this.props;
+    const { calendarDefaultDate, timeZone } = this.props;
     const value = this.getValue();
     this.setState({
-      pageDate: value || calendarDefaultDate || new Date()
+      pageDate: toTimeZone(value || calendarDefaultDate || new Date(), timeZone)
     });
   }
 
@@ -289,9 +291,10 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   };
 
   handleClean = (event: React.SyntheticEvent<any>) => {
-    this.setState({ pageDate: new Date() });
+    this.setState({ pageDate: toTimeZone(new Date(), this.props.timeZone) });
     this.updateValue(event, null);
   };
+
   handleAllSelect = (nextValue: Date, event?: React.SyntheticEvent<any>) => {
     const { onSelect, onChangeCalendarDate, timeZone } = this.props;
 

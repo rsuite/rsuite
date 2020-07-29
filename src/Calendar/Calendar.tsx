@@ -7,12 +7,11 @@ import MonthDropdown from './MonthDropdown';
 import TimeDropdown from './TimeDropdown';
 import View from './View';
 import Header from './Header';
-import { getUnhandledProps, defaultProps, prefix, refType } from '../utils';
-import { shouldTime, shouldDate, shouldMonth } from '../utils/formatUtils';
-import { disabledTime, calendarOnlyProps, addMonths } from '../utils/dateUtils';
+import { defaultProps, getUnhandledProps, prefix, refType } from '../utils';
+import { shouldDate, shouldMonth, shouldTime } from '../utils/formatUtils';
+import { addMonths, calendarOnlyProps, disabledTime } from '../utils/dateUtils';
 
 import { tuple } from '../@types/utils';
-import { toLocalTimeZone } from '../utils/timeZone';
 
 const CalendarState = tuple('DROP_TIME', 'DROP_MONTH');
 
@@ -81,7 +80,7 @@ class Calendar extends React.Component<CalendarProps> {
     renderCell: PropTypes.func
   };
   disabledDate = (date: Date) => {
-    if (this.props.disabledDate?.(toLocalTimeZone(date, this.props.timeZone))) {
+    if (this.props.disabledDate?.(date)) {
       return true;
     }
     return false;

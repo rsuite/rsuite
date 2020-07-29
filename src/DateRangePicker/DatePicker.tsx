@@ -10,7 +10,7 @@ export interface DatePickerProps {
   calendarDate?: ValueType;
   index: number;
   format: string;
-  timeZone: string;
+  timeZone?: string;
   isoWeek?: boolean;
   limitEndYear?: number;
   classPrefix?: string;

@@ -16,9 +16,6 @@ export const toLocalTimeZone = (date: Date, timeZone: string): Date => {
 };
 
 export const format = (date: Date, template: string, timeZone: string): string => {
-  if (!template) {
-    return '--';
-  }
   if (!timeZone) {
     return dateFnsFormat(date, template);
   }

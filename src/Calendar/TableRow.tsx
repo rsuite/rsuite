@@ -1,11 +1,11 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { isSameDay, addDays, getDate, format } from '../utils/dateUtils';
+import { addDays, format, getDate, isSameDay } from '../utils/dateUtils';
 
-import { getUnhandledProps, prefix, defaultProps } from '../utils';
+import { defaultProps, getUnhandledProps, prefix } from '../utils';
 import IntlContext from '../IntlProvider/IntlContext';
-import { toLocalTimeZone, zonedDate } from '../utils/timeZone';
+import { zonedDate } from '../utils/timeZone';
 
 export interface TableRowProps {
   weekendDate?: Date;
@@ -83,7 +83,7 @@ class TableRow extends React.PureComponent<TableRowProps> {
         >
           <div className={this.addPrefix('cell-content')}>
             <span className={this.addPrefix('cell-day')}>{getDate(thisDate)}</span>
-            {renderCell && renderCell(toLocalTimeZone(thisDate, timeZone))}
+            {renderCell && renderCell(thisDate)}
           </div>
         </div>
       );
