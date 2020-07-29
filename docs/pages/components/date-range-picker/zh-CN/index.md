@@ -60,7 +60,7 @@ import { DateRangePicker } from 'rsuite';
 | size                 | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                                                                                                                                         | 设置组件尺寸                                                    |
 | toggleComponentClass | React.ElementType `('a')`                                                                                                                                                                     | 为组件自定义元素类型                                            |
 | value                | Array&lt;Date&gt;                                                                                                                                                                             | 值 `受控`                                                       |
-| timeZone             | string                                                                                                                                                                                        | [IANA 时区名](https://rsuitejs.com/components/date-picker#Time%20Zone%20List)  |
+| timeZone             | string                                                                                                                                                                                        | [IANA 时区名](/components/date-picker#Time%20Zone%20List)  |
 
 ## Default
 

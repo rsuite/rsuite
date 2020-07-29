@@ -10,5 +10,5 @@ ReactDOM.render(instance);
 
 <!--end-code-->
 
-- [时区可选择列表参考](https://rsuitejs.com/components/date-picker#Time%20Zone%20List)
-- [使用时区注意事项](https://rsuitejs.com/components/date-picker#Time%20Zone%20Tips)
+- [时区可选择列表参考](/zh/components/date-picker#Time%20Zone%20List)
+- [使用时区注意事项](/zh/components/date-picker#Time%20Zone%20Tips)
