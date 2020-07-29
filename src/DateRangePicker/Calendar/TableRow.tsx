@@ -31,6 +31,7 @@ class TableRow extends React.Component<TableRowProps> {
     hoverValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     className: PropTypes.string,
     classPrefix: PropTypes.string,
+    isoWeek: PropTypes.bool,
     onSelect: PropTypes.func,
     disabledDate: PropTypes.func,
     inSameMonth: PropTypes.func,
