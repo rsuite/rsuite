@@ -554,6 +554,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
             onShortcut={this.handleShortcutPageDate}
             onOk={this.handleOK}
             hideOkButton={oneTap}
+            timeZone={timeZone}
           />
         </div>
       </MenuWrapper>

@@ -15,7 +15,7 @@ const instance = (
         },
         {
           label: 'yesterday',
-          value: [dateFns.addDays(1), dateFns.addDays(1)]
+          value: [dateFns.subDays(new Date(), 1), dateFns.subDays(new Date(), 1)]
         }
       ]}
     />

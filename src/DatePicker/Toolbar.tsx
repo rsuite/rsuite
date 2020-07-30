@@ -17,6 +17,7 @@ export interface ToolbarProps {
   onOk?: (event: React.SyntheticEvent<any>) => void;
   disabledHandle?: (date?: Date) => boolean;
   hideOkButton?: boolean;
+  timeZone?: string;
 }
 
 const getDefaultRanges = (timeZone: string) => {
@@ -35,7 +36,7 @@ const getDefaultRanges = (timeZone: string) => {
   ];
 };
 
-class Toolbar extends React.PureComponent<
+class Toolbar extends React.Component<
   ToolbarProps,
   {
     ranges: RangeType[];
@@ -49,29 +50,39 @@ class Toolbar extends React.PureComponent<
     onShortcut: PropTypes.func,
     onOk: PropTypes.func,
     disabledHandle: PropTypes.func,
-    hideOkButton: PropTypes.bool
+    hideOkButton: PropTypes.bool,
+    timeZone: PropTypes.string
   };
   static defaultProps = {};
 
-  defaultRanges = [];
-
   constructor(props) {
     super(props);
-    const { timeZone, ranges } = props;
-    this.defaultRanges = getDefaultRanges(timeZone);
     this.state = {
-      ranges:
-        typeof ranges === 'undefined'
-          ? this.defaultRanges
-          : ranges.map(({ value, ...rest }) => ({
-              value: toTimeZone(value, timeZone),
-              ...rest
-            }))
+      ranges: this.getRanges(props)
     };
   }
 
+  getRanges = (props: ToolbarProps) => {
+    const { ranges, timeZone, pageDate } = props;
+    return typeof ranges === 'undefined'
+      ? getDefaultRanges(timeZone)
+      : ranges.map(({ value, ...rest }) => ({
+          value: toTimeZone(typeof value === 'function' ? value(pageDate) : value, timeZone),
+          ...rest
+        }));
+  };
+
+  componentDidUpdate(prevProps: Readonly<ToolbarProps>) {
+    const { timeZone } = this.props;
+    if (timeZone !== prevProps.timeZone) {
+      this.setState({
+        ranges: this.getRanges(this.props)
+      });
+    }
+  }
+
   hasLocaleKey = (key: any) => {
-    return this.defaultRanges.some(item => item.label === key);
+    return getDefaultRanges(this.props.timeZone).some(item => item.label === key);
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);

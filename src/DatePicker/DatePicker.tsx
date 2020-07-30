@@ -128,6 +128,20 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     return null;
   }
 
+  componentDidUpdate(prevProps: Readonly<DatePickerProps>, prevState: Readonly<DatePickerState>) {
+    const { timeZone, value } = this.props;
+    if (prevProps.timeZone !== timeZone) {
+      const nextValue = toTimeZone(
+        value ?? toLocalTimeZone(prevState.value, prevProps.timeZone),
+        timeZone
+      );
+      this.setState({
+        value: nextValue,
+        pageDate: nextValue
+      });
+    }
+  }
+
   getLocalPageDate = (pageDate = this.state.pageDate) =>
     toLocalTimeZone(pageDate, this.props.timeZone);
 
@@ -154,7 +168,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   };
 
   getValue = () => {
-    return this.props.value || this.state.value;
+    return toTimeZone(this.props.value, this.props.timeZone) || this.state.value;
   };
 
   getFormat = () => this.props.format ?? 'yyyy-MM-dd';
@@ -383,7 +397,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   }
 
   renderDropdownMenu(calendar: React.ReactNode) {
-    const { ranges, menuClassName, oneTap } = this.props;
+    const { ranges, menuClassName, oneTap, timeZone } = this.props;
     const { pageDate } = this.state;
     const classes = classNames(this.addPrefix('date-menu'), menuClassName);
 
@@ -392,6 +406,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
         <div ref={this.menuContainerRef}>
           {calendar}
           <Toolbar
+            timeZone={timeZone}
             ranges={ranges}
             pageDate={pageDate}
             disabledHandle={this.disabledToolbarHandle}

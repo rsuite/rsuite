@@ -25,9 +25,10 @@ export interface ToolbarProps {
   disabledShortcutButton: (value?: ValueType) => boolean;
   selectValue?: ValueType;
   hideOkButton?: boolean;
+  timeZone?: string;
 }
 
-const getDefaultRanges = (timeZone: string) => {
+const getDefaultRanges = (timeZone: string): Range[] => {
   const todayDate = zonedDate(timeZone);
   return [
     {
@@ -64,29 +65,40 @@ class Toolbar extends React.PureComponent<
     disabledOkButton: PropTypes.func,
     disabledShortcutButton: PropTypes.func,
     selectValue: PropTypes.array,
-    hideOkButton: PropTypes.bool
+    hideOkButton: PropTypes.bool,
+    timeZone: PropTypes.string
   };
   static defaultProps = {};
 
-  defaultRanges = [];
-
   constructor(props) {
     super(props);
-    const { timeZone, ranges } = props;
-    this.defaultRanges = getDefaultRanges(timeZone);
     this.state = {
-      ranges:
-        typeof ranges === 'undefined'
-          ? this.defaultRanges
-          : ranges.map(({ value, ...rest }) => ({
-              value: toZonedValue(value, timeZone),
-              ...rest
-            }))
+      ranges: this.getRanges(props)
     };
   }
 
+  componentDidUpdate(prevProps: Readonly<ToolbarProps>) {
+    const { timeZone } = this.props;
+    console.log(timeZone, prevProps.timeZone);
+    if (timeZone !== prevProps.timeZone) {
+      this.setState({
+        ranges: this.getRanges(this.props)
+      });
+    }
+  }
+
+  getRanges = (props: ToolbarProps): Range[] => {
+    const { ranges, timeZone, pageDate } = props;
+    return typeof ranges === 'undefined'
+      ? getDefaultRanges(timeZone)
+      : ranges.map(({ value, ...rest }) => ({
+          value: toZonedValue(typeof value === 'function' ? value(pageDate) : value, timeZone),
+          ...rest
+        }));
+  };
+
   hasLocaleKey = (key: any) => {
-    return this.defaultRanges.some(item => item.label === key);
+    return getDefaultRanges(this.props.timeZone).some(item => item.label === key);
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
