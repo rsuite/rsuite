@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { format, isSameDay, parseISO } from '../../utils/dateUtils';
+import { format, getHours, getMinutes, isSameDay, parseISO } from '../../utils/dateUtils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
 import DatePicker from '../DatePicker';
@@ -320,6 +320,30 @@ describe('DatePicker', () => {
           assert.equal(format(value, 'HH:mm:ss'), dateFormatted);
           return value.valueOf() > date.valueOf();
         }}
+      />
+    );
+  });
+
+  it('Should `disabledHours` `disabledMinutes` `disabledSecond` callback params is correct in zoned date', function () {
+    const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
+    const template = 'yyyy-MM-dd HH:mm:ss';
+    const timeTemplate = 'HH:mm:ss';
+    const dateFormatted = format(new Date(), timeTemplate);
+    const disabledOrHideTimeFunc = (next, date) => {
+      assert.equal(format(date, timeTemplate), dateFormatted);
+      return true;
+    };
+    const instance = getInstance(
+      <DatePicker
+        format={template}
+        timeZone={timeZone}
+        defaultOpen
+        disabledHours={disabledOrHideTimeFunc}
+        disabledMinutes={disabledOrHideTimeFunc}
+        disabledSeconds={disabledOrHideTimeFunc}
+        hideHours={disabledOrHideTimeFunc}
+        hideMinutes={disabledOrHideTimeFunc}
+        hideSeconds={disabledOrHideTimeFunc}
       />
     );
   });

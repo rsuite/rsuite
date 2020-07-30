@@ -14,7 +14,7 @@ import {
   setSeconds
 } from '../utils/dateUtils';
 import scrollTopAnimation from '../utils/scrollTopAnimation';
-import { toLocalTimeZone, toTimeZone } from '../utils/timeZone';
+import { zonedDate } from '../utils/timeZone';
 
 export interface TimeDropdownProps {
   date?: Date;
@@ -82,7 +82,7 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
 
   getTime(props?: TimeDropdownProps): any {
     const { format, timeZone, date, showMeridian } = props || this.props;
-    const time = toTimeZone(date || new Date(), timeZone);
+    const time = date || zonedDate(timeZone);
     const nextTime: any = {};
 
     if (!format) {
@@ -146,8 +146,7 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
     if (!_.isNumber(active)) {
       return null;
     }
-    const { date, timeZone } = this.props;
-    const localDate = toLocalTimeZone(date, timeZone);
+    const { date } = this.props;
     const { start, end } = getRanges(showMeridian)[type];
     const items = [];
 
@@ -155,8 +154,8 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
     const disabledFunc = this.props[_.camelCase(`disabled_${type}`)];
 
     for (let i = start; i <= end; i += 1) {
-      if (!hideFunc?.(i, localDate)) {
-        const disabled = disabledFunc?.(i, localDate);
+      if (!hideFunc?.(i, date)) {
+        const disabled = disabledFunc?.(i, date);
         const itemClasses = classNames(this.addPrefix('cell'), {
           [this.addPrefix('cell-active')]: active === i,
           [this.addPrefix('cell-disabled')]: disabled

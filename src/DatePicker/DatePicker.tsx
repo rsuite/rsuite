@@ -18,6 +18,7 @@ import {
 } from '../Picker';
 import {
   calendarOnlyProps,
+  CalendarOnlyPropsType,
   disabledTime,
   getHours,
   getMinutes,
@@ -340,9 +341,9 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     this.props.disabledDate?.(toLocalTimeZone(date, this.props.timeZone));
 
   disabledToolbarHandle = (date?: Date): boolean => {
-    const { disabledDate } = this.props;
+    const { disabledDate, timeZone } = this.props;
     const allowDate = disabledDate ? this.disabledDate(date) : false;
-    const allowTime = disabledTime(this.props, date);
+    const allowTime = disabledTime(this.props, toLocalTimeZone(date, timeZone));
 
     return allowDate || allowTime;
   };
@@ -352,8 +353,11 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   renderCalendar() {
     const { isoWeek, limitEndYear, showWeekNumbers, showMeridian, timeZone } = this.props;
     const { calendarState, pageDate } = this.state;
-    const calendarProps = _.pick(this.props, calendarOnlyProps);
-    // @todo 检查 disabledDate/disabledHours/disabledMinutes/disabledSecond/hideHours/hideMinutes/hideSeconds 的回传值
+    const calendarProps = _.mapValues(
+      _.pick<DatePickerProps, CalendarOnlyPropsType>(this.props, calendarOnlyProps),
+      disabledOrHiddenTimeFunc => (next: number, date: Date): boolean =>
+        disabledOrHiddenTimeFunc(next, toLocalTimeZone(date, timeZone))
+    );
     return (
       <Calendar
         {...calendarProps}

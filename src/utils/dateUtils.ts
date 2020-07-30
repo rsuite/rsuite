@@ -32,7 +32,6 @@ import startOfMonthFns from 'date-fns/startOfMonth';
 import startOfWeekFns from 'date-fns/startOfWeek';
 import subDaysFns from 'date-fns/subDays';
 import _ from 'lodash';
-import { toLocalTimeZone } from './timeZone';
 
 /*
  * Getter
@@ -93,7 +92,14 @@ export const compareAsc = compareAscFns;
 
 const disabledTimeProps = ['disabledHours', 'disabledMinutes', 'disabledSeconds'];
 const hideTimeProps = ['hideHours', 'hideMinutes', 'hideSeconds'];
-export const calendarOnlyProps = disabledTimeProps.concat(hideTimeProps);
+export type CalendarOnlyPropsType =
+  | 'disabledHours'
+  | 'disabledMinutes'
+  | 'disabledSeconds'
+  | 'hideHours'
+  | 'hideMinutes'
+  | 'hideSeconds';
+export const calendarOnlyProps = disabledTimeProps.concat(hideTimeProps) as CalendarOnlyPropsType[];
 
 function validTime(calendarProps: any, date: Date) {
   if (!date) {
@@ -121,5 +127,5 @@ function validTime(calendarProps: any, date: Date) {
  */
 export function disabledTime(props: any, date: Date) {
   const calendarProps = _.pick(props, disabledTimeProps);
-  return validTime(calendarProps, toLocalTimeZone(date, props.timeZone));
+  return validTime(calendarProps, date);
 }
