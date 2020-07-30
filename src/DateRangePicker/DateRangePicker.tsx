@@ -149,10 +149,10 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   }
 
   getValue = (): ValueType => {
-    const { value } = this.props;
+    const { value, timeZone } = this.props;
 
     if (typeof value !== 'undefined') {
-      return value;
+      return toZonedValue(value, timeZone);
     }
 
     return this.state.value || [];
@@ -162,7 +162,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
 
   getDateString(value?: ValueType) {
     const { placeholder, renderValue, timeZone } = this.props;
-    const nextValue = toLocalValue(value || this.getValue(), timeZone);
+    const nextValue = value || this.getValue();
     const formatType = this.getFormat();
     const startDate: Date = nextValue?.[0];
     const endDate: Date = nextValue?.[1];
@@ -171,7 +171,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       const displayValue: any = [startDate, endDate].sort(compareAsc);
 
       return renderValue ? (
-        renderValue(displayValue, formatType)
+        renderValue(toLocalValue(displayValue, timeZone), formatType)
       ) : (
         <>
           <FormattedDate date={displayValue[0]} formatStr={formatType} /> ~{' '}
@@ -323,9 +323,6 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
         nextValue.reverse();
       }
 
-      // nextValue[0] = setTimingMargin(nextValue[0]);
-      // nextValue[1] = setTimingMargin(nextValue[1]);
-
       this.setState({
         calendarDate: getCalendarDate({ value: nextValue as ValueType, timeZone })
       });
@@ -411,7 +408,10 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       const [startDate, endData] = value;
       calendarDate = [startDate, isSameMonth(startDate, endData) ? addMonths(endData, 1) : endData];
     } else {
-      calendarDate = getCalendarDate({ value: defaultCalendarValue, timeZone });
+      calendarDate = getCalendarDate({
+        value: toZonedValue(defaultCalendarValue, timeZone),
+        timeZone
+      });
     }
 
     this.setState({
@@ -434,8 +434,22 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     this.props.onClose?.();
   };
 
-  disabledByBetween(start: Date, end: Date, type: DATERANGE_DISABLED_TARGET) {
+  disabledDate = (
+    date: Date,
+    selectDate: ValueType,
+    selectedDone: boolean,
+    target: DATERANGE_DISABLED_TARGET
+  ): boolean => {
     const { disabledDate, timeZone } = this.props;
+    return disabledDate?.(
+      toLocalTimeZone(date, timeZone),
+      toLocalValue(selectDate, timeZone),
+      selectedDone,
+      target
+    );
+  };
+
+  disabledByBetween(start: Date, end: Date, type: DATERANGE_DISABLED_TARGET) {
     const { selectValue, doneSelected } = this.state;
     const selectStartDate = selectValue[0];
     const selectEndDate = selectValue[1];
@@ -444,14 +458,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     // If the date is between the start and the end
     // the button is disabled
     while (isBefore(start, end) || isSameDay(start, end)) {
-      if (
-        disabledDate?.(
-          toLocalTimeZone(start, timeZone),
-          toLocalValue(nextSelectValue, timeZone),
-          doneSelected,
-          type
-        )
-      ) {
+      if (this.disabledDate(start, nextSelectValue, doneSelected, type)) {
         return true;
       }
       start = addDays(start, 1);
@@ -483,18 +490,11 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   };
 
   handleDisabledDate = (date: Date, values: ValueType, type: DATERANGE_DISABLED_TARGET) => {
-    const { disabledDate, timeZone } = this.props;
     const { doneSelected } = this.state;
-    if (disabledDate) {
-      return disabledDate(
-        toLocalTimeZone(date, timeZone),
-        toLocalValue(values, timeZone),
-        doneSelected,
-        type
-      );
-    }
-    return false;
+
+    return !!this.disabledDate(date, values, doneSelected, type);
   };
+
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderDropdownMenu() {
@@ -571,7 +571,6 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       onEnter,
       onExited,
       onClean,
-      timeZone,
       ...rest
     } = this.props;
 
@@ -580,7 +579,6 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     const hasValue = value && value.length > 1;
     const classes = getToggleWrapperClassName('daterange', this.addPrefix, this.props, hasValue);
 
-    locale.timeZone = timeZone;
     return (
       <IntlContext.Provider value={locale}>
         <div className={classes} style={style}>

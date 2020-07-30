@@ -417,7 +417,6 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
       onEntered,
       onExited,
       onClean,
-      timeZone,
       ...rest
     } = this.props;
 
@@ -440,7 +439,6 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
       [this.addPrefix('date-only-time')]: shouldOnlyTime(this.getFormat())
     });
 
-    locale.timeZone = timeZone;
     return (
       <IntlContext.Provider value={locale}>
         <div className={classes} style={style}>
