@@ -73,16 +73,18 @@ describe('Calendar - Panel', () => {
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
-  it('Should be zoned date', () => {
+  it('Should call `onSelect` callback in zoned date', done => {
     const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
-    const template = 'yyyy-MM-dd HH:mm';
-    const date = new Date(2020, 5, 1, 0, 0, 0, 0);
     const instance = getDOMNode(
-      <CalendarPanel value={date} format={template} timeZone={timeZone} />
+      <CalendarPanel
+        timeZone={timeZone}
+        onSelect={value => {
+          assert.equal(format(value, 'HH:mm'), format(new Date(), 'HH:mm'));
+          done();
+        }}
+      />
     );
-    const calendarTime = instance.querySelector('.rs-calendar-header-title-time').innerHTML;
-    const zonedTime = format(toTimeZone(date, timeZone), 'HH:mm');
 
-    assert.equal(calendarTime, zonedTime);
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-table-cell-is-today'));
   });
 });

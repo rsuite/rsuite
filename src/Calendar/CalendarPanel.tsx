@@ -153,7 +153,6 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
         <Calendar
           className={classes}
           isoWeek={isoWeek}
-          onSelect={this.handleSelect}
           format="yyyy-MM-dd"
           calendarState={showMonth ? 'DROP_MONTH' : null}
           pageDate={pageDate}
@@ -168,6 +167,7 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
           onChangePageDate={this.handleChangePageDate}
           limitEndYear={1000}
           {...rest}
+          onSelect={this.handleSelect}
           renderCell={this.renderCell}
         />
       </IntlContext.Provider>
