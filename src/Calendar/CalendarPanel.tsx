@@ -55,6 +55,20 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
     };
   }
 
+  componentDidUpdate(prevProps: Readonly<CalendarPanelProps>, prevState: Readonly<State>) {
+    const { timeZone, value } = this.props;
+    if (prevProps.timeZone !== timeZone) {
+      const nextValue = toTimeZone(
+        value ?? toLocalTimeZone(prevState.value, prevProps.timeZone),
+        timeZone
+      );
+      this.setState({
+        value: nextValue,
+        pageDate: nextValue
+      });
+    }
+  }
+
   handleToggleMonthDropdown = () => {
     this.setState({ showMonth: !this.state.showMonth });
   };
@@ -122,17 +136,10 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
     );
   };
 
+  renderCell = (date: Date) => this.props.renderCell?.(toLocalTimeZone(date, this.props.timeZone));
+
   render() {
-    const {
-      locale,
-      renderCell,
-      compact,
-      className,
-      isoWeek,
-      bordered,
-      timeZone,
-      ...rest
-    } = this.props;
+    const { locale, compact, className, isoWeek, bordered, timeZone, ...rest } = this.props;
 
     const { showMonth, pageDate } = this.state;
     const classes = classNames(this.addPrefix('panel'), className, {
@@ -155,13 +162,13 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
             <FormattedDate date={date} formatStr={locale.formattedMonthPattern || 'MMMM  yyyy'} />
           )}
           renderToolbar={this.renderToolbar}
-          renderCell={renderCell}
           onMoveForward={this.handleNextMonth}
           onMoveBackward={this.handlePrevMonth}
           onToggleMonthDropdown={this.handleToggleMonthDropdown}
           onChangePageDate={this.handleChangePageDate}
           limitEndYear={1000}
           {...rest}
+          renderCell={this.renderCell}
         />
       </IntlContext.Provider>
     );
