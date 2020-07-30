@@ -79,7 +79,6 @@ class Toolbar extends React.PureComponent<
 
   componentDidUpdate(prevProps: Readonly<ToolbarProps>) {
     const { timeZone } = this.props;
-    console.log(timeZone, prevProps.timeZone);
     if (timeZone !== prevProps.timeZone) {
       this.setState({
         ranges: this.getRanges(this.props)
