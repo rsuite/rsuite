@@ -17,7 +17,7 @@ const ButtonToolbar = React.forwardRef(
     const {
       className,
       classPrefix = 'btn-toolbar',
-      componentClass: Component = 'div',
+      as: Component = 'div',
       role = 'toolbar',
       ...rest
     } = props;
@@ -30,7 +30,7 @@ const ButtonToolbar = React.forwardRef(
 
 ButtonToolbar.displayName = 'ButtonToolbar';
 ButtonToolbar.propTypes = {
-  componentClass: PropTypes.elementType,
+  as: PropTypes.elementType,
   classPrefix: PropTypes.string
 };
 

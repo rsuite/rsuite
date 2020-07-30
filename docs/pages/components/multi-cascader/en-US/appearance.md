@@ -10,19 +10,9 @@
 
 const instance = (
   <div>
-    <MultiCascader
-      data={data}
-      appearance="default"
-      placeholder="Default"
-      style={{ width: 224 }}
-    />
+    <MultiCascader data={data} appearance="default" placeholder="Default" style={{ width: 224 }} />
     <hr />
-    <MultiCascader
-      data={data}
-      appearance="subtle"
-      placeholder="Subtle"
-      style={{ width: 224 }}
-    />
+    <MultiCascader data={data} appearance="subtle" placeholder="Subtle" style={{ width: 224 }} />
   </div>
 );
 ReactDOM.render(instance);

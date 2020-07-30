@@ -21,7 +21,7 @@ class Pagination extends React.Component<PaginationProps> {
     last: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
     prev: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
     next: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
-    buttonComponentClass: PropTypes.elementType,
+    buttonAs: PropTypes.elementType,
     className: PropTypes.string,
     classPrefix: PropTypes.string,
     locale: PropTypes.object,
@@ -32,7 +32,7 @@ class Pagination extends React.Component<PaginationProps> {
     activePage: 1,
     pages: 1,
     maxButtons: 0,
-    buttonComponentClass: SafeAnchor,
+    buttonAs: SafeAnchor,
     locale: {
       more: 'More',
       prev: 'Previous',
@@ -209,7 +209,7 @@ class Pagination extends React.Component<PaginationProps> {
   }
 
   renderItem(props) {
-    const { onSelect, buttonComponentClass, disabled } = this.props;
+    const { onSelect, buttonAs, disabled } = this.props;
 
     let disabledButton = props.disabled;
 
@@ -224,7 +224,7 @@ class Pagination extends React.Component<PaginationProps> {
         {...props}
         disabled={disabledButton}
         onSelect={disabledButton ? null : onSelect}
-        componentClass={buttonComponentClass}
+        as={buttonAs}
       />
     );
   }

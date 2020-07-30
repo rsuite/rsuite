@@ -7,13 +7,13 @@ var instance = (
   <div>
     <Form layout="inline">
       <FormGroup>
-        <ControlLabel>Username</ControlLabel>
+        <FormControlLabel>Username</FormControlLabel>
         <FormControl name="username" style={{ width: 160 }} />
         <HelpBlock tooltip>Required</HelpBlock>
       </FormGroup>
 
       <FormGroup>
-        <ControlLabel>Password</ControlLabel>
+        <FormControlLabel>Password</FormControlLabel>
         <FormControl name="password" type="password" style={{ width: 160 }} />
       </FormGroup>
 
@@ -23,12 +23,12 @@ var instance = (
 
     <Form layout="inline">
       <FormGroup>
-        <ControlLabel srOnly>Username</ControlLabel>
+        <FormControlLabel>Username</FormControlLabel>
         <FormControl placeholder="Username" name="username" />
       </FormGroup>
 
       <FormGroup>
-        <ControlLabel srOnly>Username</ControlLabel>
+        <FormControlLabel>Username</FormControlLabel>
         <FormControl placeholder="Password" name="password" type="password" />
       </FormGroup>
 

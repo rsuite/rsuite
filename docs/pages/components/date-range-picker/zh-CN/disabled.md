@@ -70,9 +70,7 @@ import { DateRangePicker } from 'rsuite';
 
 const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 
-ReactDOM.render(
-  <DateRangePicker disabledDate={combine(allowedMaxDays(7), beforeToday())} />
-);
+ReactDOM.render(<DateRangePicker disabledDate={combine(allowedMaxDays(7), beforeToday())} />);
 ```
 
 **allowedMaxDays**

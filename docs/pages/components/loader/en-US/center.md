@@ -1,7 +1,7 @@
-
 ### Center
 
 <!--start-code-->
+
 ```js
 const instance = (
   <Paragraph rows={8}>
@@ -10,4 +10,5 @@ const instance = (
 );
 ReactDOM.render(instance);
 ```
+
 <!--end-code-->

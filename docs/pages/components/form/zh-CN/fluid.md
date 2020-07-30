@@ -8,22 +8,22 @@
 const instance = (
   <Form fluid>
     <FormGroup>
-      <ControlLabel>Username</ControlLabel>
+      <FormControlLabel>Username</FormControlLabel>
       <FormControl name="name" />
       <HelpBlock>Required</HelpBlock>
     </FormGroup>
     <FormGroup>
-      <ControlLabel>Email</ControlLabel>
+      <FormControlLabel>Email</FormControlLabel>
       <FormControl name="email" type="email" />
       <HelpBlock>Required</HelpBlock>
     </FormGroup>
     <FormGroup>
-      <ControlLabel>Password</ControlLabel>
+      <FormControlLabel>Password</FormControlLabel>
       <FormControl name="password" type="password" />
     </FormGroup>
     <FormGroup>
-      <ControlLabel>Textarea</ControlLabel>
-      <FormControl rows={5} name="textarea" componentClass="textarea" />
+      <FormControlLabel>Textarea</FormControlLabel>
+      <FormControl rows={5} name="textarea" as="textarea" />
     </FormGroup>
     <FormGroup>
       <ButtonToolbar>

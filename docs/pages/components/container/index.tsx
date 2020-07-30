@@ -17,7 +17,7 @@ import {
   Panel,
   Form,
   FormGroup,
-  ControlLabel,
+  FormControlLabel,
   FormControl,
   ButtonToolbar,
   Navbar
@@ -49,7 +49,7 @@ export default function Page() {
         Panel,
         Form,
         FormGroup,
-        ControlLabel,
+        FormControlLabel,
         FormControl,
         ButtonToolbar,
         Navbar

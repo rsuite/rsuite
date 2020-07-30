@@ -6,7 +6,7 @@ import { HashRouter as Router, Switch, Route, Link, useLocation } from 'react-ro
 const NavLink = React.forwardRef((props, ref) => {
   const location = useLocation();
   return (
-    <Nav.Item {...props} ref={ref} active={props.to === location.pathname} componentClass={Link} />
+    <Nav.Item {...props} ref={ref} active={props.to === location.pathname} as={Link} />
   );
 });
 

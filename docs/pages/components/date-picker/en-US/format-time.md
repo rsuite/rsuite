@@ -1,6 +1,7 @@
 ### Show Time
 
 <!--start-code-->
+
 ```js
 const DatePickerInstance = props => (
   <div className="field">
@@ -12,6 +13,6 @@ const DatePickerInstance = props => (
 );
 
 ReactDOM.render(<DatePickerInstance />);
-
 ```
+
 <!--end-code-->

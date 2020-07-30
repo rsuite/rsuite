@@ -20,11 +20,7 @@ const { StringType, NumberType } = Schema.Types;
 const userModel = Schema.Model({
   username: StringType().isRequired('User name is required'),
   email: StringType().isEmail('Please enter the correct email'),
-  age: NumberType('Age should be a number').range(
-    18,
-    30,
-    'Age should be 18-30 years old'
-  )
+  age: NumberType('Age should be a number').range(18, 30, 'Age should be 18-30 years old')
 });
 
 const checkResult = userModel.check({
@@ -66,10 +62,7 @@ const model = Schema.Model({
   field1: StringType().addRule((value, data) => {
     return /^[1-9][0-9]{3}\s?[a-zA-Z]{2}$/.test(value);
   }, 'Please enter legal characters'),
-  field2: StringType().pattern(
-    /^[1-9][0-9]{3}\s?[a-zA-Z]{2}$/,
-    'Please enter legal characters'
-  )
+  field2: StringType().pattern(/^[1-9][0-9]{3}\s?[a-zA-Z]{2}$/, 'Please enter legal characters')
 });
 
 model.check({ field1: '', field2: '' });
@@ -258,10 +251,7 @@ StringType().isURL('Please enter the correct URL address');
 - isOneOf(items: Array, errorMessage: string)
 
 ```js
-StringType().isOneOf(
-  ['Javascript', 'CSS'],
-  'Can only type `Javascript` and `CSS`'
-);
+StringType().isOneOf(['Javascript', 'CSS'], 'Can only type `Javascript` and `CSS`');
 ```
 
 - containsLetter(errorMessage: string)
@@ -273,17 +263,13 @@ StringType().containsLetter('Must contain English characters');
 - containsUppercaseLetter(errorMessage: string)
 
 ```js
-StringType().containsUppercaseLetter(
-  'Must contain uppercase English characters'
-);
+StringType().containsUppercaseLetter('Must contain uppercase English characters');
 ```
 
 - containsLowercaseLetter(errorMessage: string)
 
 ```js
-StringType().containsLowercaseLetter(
-  'Must contain lowercase English characters'
-);
+StringType().containsLowercaseLetter('Must contain lowercase English characters');
 ```
 
 - containsLetterOnly(errorMessage: string)
@@ -301,20 +287,13 @@ StringType().containsNumber('Must contain numbers');
 - pattern(regExp: RegExp, errorMessage: string)
 
 ```js
-StringType().pattern(
-  /^[1-9][0-9]{3}\s?[a-zA-Z]{2}$/,
-  'Please enter legal characters'
-);
+StringType().pattern(/^[1-9][0-9]{3}\s?[a-zA-Z]{2}$/, 'Please enter legal characters');
 ```
 
 - rangeLength(minLength: number, maxLength: number, errorMessage: string)
 
 ```js
-StringType().rangeLength(
-  6,
-  30,
-  'The number of characters can only be between 6 and 30'
-);
+StringType().rangeLength(6, 30, 'The number of characters can only be between 6 and 30');
 ```
 
 - minLength(minLength: number, errorMessage: string)

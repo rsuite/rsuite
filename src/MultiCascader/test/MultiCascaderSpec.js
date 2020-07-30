@@ -125,7 +125,7 @@ describe('MultiCascader', () => {
   });
 
   it('Should output a button', () => {
-    const instance = getInstance(<Dropdown toggleComponentClass="button" />);
+    const instance = getInstance(<Dropdown toggleAs="button" />);
     assert.ok(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'button'));
   });
 
@@ -271,8 +271,8 @@ describe('MultiCascader', () => {
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
-  it('Should render a button by toggleComponentClass={Button}', () => {
-    const instance = getInstance(<Dropdown open data={items} toggleComponentClass={Button} />);
+  it('Should render a button by toggleAs={Button}', () => {
+    const instance = getInstance(<Dropdown open data={items} toggleAs={Button} />);
     ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-btn');
   });
 });

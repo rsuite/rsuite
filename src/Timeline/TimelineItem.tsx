@@ -13,12 +13,12 @@ class TimelineItem extends React.Component<TimelineItemProps> {
     className: PropTypes.string,
     children: PropTypes.node,
     classPrefix: PropTypes.string,
-    componentClass: PropTypes.elementType
+    as: PropTypes.elementType
   };
   render() {
     const {
       children,
-      componentClass: Component,
+      as: Component,
       classPrefix,
       last,
       className,
@@ -49,7 +49,7 @@ export default compose<any, TimelineItemProps>(
     hasColor: true
   }),
   defaultProps<TimelineItemProps>({
-    componentClass: 'li',
+    as: 'li',
     classPrefix: 'timeline-item'
   })
 )(TimelineItem);

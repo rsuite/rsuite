@@ -16,12 +16,12 @@ import { Carousel } from 'rsuite';
 
 ### `<Carousel>`
 
-| Property       | Type `(Default)`                                | Description                 |
-| -------------- | ----------------------------------------------- | --------------------------- |
-| autoplay       | boolean                                         | Automatic carousel element. |
-| autoplayInterval| number (`4000`)                                         | Delay in ms until navigating to the next item. |
-| children       | string, React.ReactNode                         | Carousel elements           |
-| classPrefix    | string `('carousel')`                           | Component CSS class prefix  |
-| componentClass | React.ElementType `('div')`                     | Custom element type         |
-| placement      | enum:'top','bottom','left','right' `('bottom')` | Button placement            |
-| shape          | enum:'dot','bar' `('dot')`                      | Button shape                |
+| Property         | Type `(Default)`                                | Description                                    |
+| ---------------- | ----------------------------------------------- | ---------------------------------------------- |
+| autoplay         | boolean                                         | Automatic carousel element.                    |
+| autoplayInterval | number (`4000`)                                 | Delay in ms until navigating to the next item. |
+| children         | string, React.ReactNode                         | Carousel elements                              |
+| classPrefix      | string `('carousel')`                           | Component CSS class prefix                     |
+| as               | React.ElementType `('div')`                     | Custom element type                            |
+| placement        | enum:'top','bottom','left','right' `('bottom')` | Button placement                               |
+| shape            | enum:'dot','bar' `('dot')`                      | Button shape                                   |

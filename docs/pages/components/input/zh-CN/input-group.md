@@ -1,13 +1,12 @@
 ### 输入框组合
 
-
 <!--start-code-->
-```js
 
-const styles={
-  width:300,
-  marginBottom:10
-}
+```js
+const styles = {
+  width: 300,
+  marginBottom: 10
+};
 
 const instance = (
   <div>
@@ -21,11 +20,11 @@ const instance = (
       <InputGroup.Addon>.com</InputGroup.Addon>
     </InputGroup>
 
-   <InputGroup style={styles}>
-     <InputGroup.Addon>$</InputGroup.Addon>
-     <InputNumber />
-     <InputGroup.Addon>.00</InputGroup.Addon>
-   </InputGroup>
+    <InputGroup style={styles}>
+      <InputGroup.Addon>$</InputGroup.Addon>
+      <InputNumber />
+      <InputGroup.Addon>.00</InputGroup.Addon>
+    </InputGroup>
 
     <InputGroup style={styles}>
       <Input />
@@ -35,11 +34,15 @@ const instance = (
 
     <InputGroup style={styles}>
       <Input />
-      <InputGroup.Addon><Icon icon="search" /></InputGroup.Addon>
+      <InputGroup.Addon>
+        <Icon icon="search" />
+      </InputGroup.Addon>
     </InputGroup>
 
     <InputGroup style={styles}>
-      <InputGroup.Addon><Icon icon="avatar" /></InputGroup.Addon>
+      <InputGroup.Addon>
+        <Icon icon="avatar" />
+      </InputGroup.Addon>
       <Input />
     </InputGroup>
   </div>
@@ -47,4 +50,5 @@ const instance = (
 
 ReactDOM.render(instance);
 ```
+
 <!--end-code-->

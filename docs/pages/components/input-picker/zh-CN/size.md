@@ -11,34 +11,10 @@
 const styles = { width: 224, display: 'block', marginBottom: 10 };
 const instance = (
   <div>
-    <InputPicker
-      toggleComponentClass={Button}
-      size="lg"
-      placeholder="Large"
-      data={data}
-      style={styles}
-    />
-    <InputPicker
-      toggleComponentClass={Button}
-      size="md"
-      placeholder="Medium"
-      data={data}
-      style={styles}
-    />
-    <InputPicker
-      toggleComponentClass={Button}
-      size="sm"
-      placeholder="Small"
-      data={data}
-      style={styles}
-    />
-    <InputPicker
-      toggleComponentClass={Button}
-      size="xs"
-      placeholder="Xsmall"
-      data={data}
-      style={styles}
-    />
+    <InputPicker toggleAs={Button} size="lg" placeholder="Large" data={data} style={styles} />
+    <InputPicker toggleAs={Button} size="md" placeholder="Medium" data={data} style={styles} />
+    <InputPicker toggleAs={Button} size="sm" placeholder="Small" data={data} style={styles} />
+    <InputPicker toggleAs={Button} size="xs" placeholder="Xsmall" data={data} style={styles} />
   </div>
 );
 ReactDOM.render(instance);

@@ -805,7 +805,7 @@ export type IconNames =
 
 export interface IconProps extends StandardProps {
   /** You can use a custom element for this component */
-  componentClass?: React.ElementType;
+  as?: React.ElementType;
 
   /** Icon name */
   icon: IconNames | SVGIcon;

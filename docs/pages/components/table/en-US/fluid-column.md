@@ -65,12 +65,12 @@ If you need to set a column to automatic width, you need to configure the `flexG
 > Note: After setting `flexGrow`, you cannot set the `width` and `resizable` properties. You can set a minimum width by `minwidth`.
 
 ```html
-<Column flexGrow={1}>
+<Column flexGrow="{1}">
   <HeaderCell>City <code>flexGrow={1}</code></HeaderCell>
   <Cell dataKey="city" />
 </Column>
 
-<Column flexGrow={2}>
+<Column flexGrow="{2}">
   <HeaderCell>Company Name <code>flexGrow={2}</code></HeaderCell>
   <Cell dataKey="companyName" />
 </Column>

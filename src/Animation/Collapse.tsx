@@ -2,23 +2,37 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { getStyle, addStyle } from 'dom-lib';
-import _ from 'lodash';
-
-import Transition, { transitionPropTypes } from './Transition';
+import get from 'lodash/get';
+import capitalize from 'lodash/capitalize';
+import pick from 'lodash/pick';
+import Transition, { transitionPropTypes, TransitionProps } from './Transition';
 import createChainedFunction from '../utils/createChainedFunction';
-import { CollapseProps } from './Animation.d';
 
-type Dimension = 'height' | 'width';
+export enum DIMENSION {
+  HEIGHT = 'height',
+  WIDTH = 'width'
+}
 
-const triggerBrowserReflow = node => _.get(node, 'offsetHeight');
+export interface CollapseProps extends TransitionProps {
+  /** The dimension used when collapsing */
+  dimension?: DIMENSION | (() => DIMENSION);
+
+  /** Function that returns the height or width of the animating DOM node */
+  getDimensionValue?: (dimension: DIMENSION, elem: Element) => number;
+
+  /** ARIA role of collapsible element */
+  role?: string;
+}
+
+const triggerBrowserReflow = node => get(node, 'offsetHeight');
 
 const MARGINS = {
   height: ['marginTop', 'marginBottom'],
   width: ['marginLeft', 'marginRight']
 };
 
-function defaultGetDimensionValue(dimension: Dimension, elem: Element): number {
-  const value = _.get(elem, `offset${_.capitalize(dimension)}`);
+function defaultGetDimensionValue(dimension: DIMENSION, elem: Element): number {
+  const value = get(elem, `offset${capitalize(dimension)}`);
   const margins = MARGINS[dimension];
 
   return (
@@ -26,22 +40,22 @@ function defaultGetDimensionValue(dimension: Dimension, elem: Element): number {
   );
 }
 
-function getScrollDimensionValue(elem: Element, dimension: Dimension) {
-  const value = _.get(elem, `scroll${_.capitalize(dimension)}`);
+function getScrollDimensionValue(elem: Element, dimension: DIMENSION) {
+  const value = get(elem, `scroll${capitalize(dimension)}`);
   return `${value}px`;
 }
 
 class Collapse extends React.Component<CollapseProps> {
   static propTypes = {
     ...transitionPropTypes,
-    dimension: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    dimension: PropTypes.any,
     getDimensionValue: PropTypes.func,
     role: PropTypes.string
   };
   static displayName = 'Collapse';
   static defaultProps = {
     timeout: 300,
-    dimension: 'height',
+    dimension: DIMENSION.HEIGHT,
     exitedClassName: 'collapse',
     exitingClassName: 'collapsing',
     enteredClassName: 'collapse in',
@@ -89,7 +103,7 @@ class Collapse extends React.Component<CollapseProps> {
     addStyle(elem, dimension, 0);
   };
 
-  dimension(): Dimension {
+  dimension(): DIMENSION {
     const { dimension } = this.props;
 
     return typeof dimension === 'function' ? dimension() : dimension;
@@ -115,7 +129,7 @@ class Collapse extends React.Component<CollapseProps> {
 
     return (
       <Transition
-        {..._.pick(this.props, Object.keys(transitionPropTypes))}
+        {...pick(this.props, Object.keys(transitionPropTypes))}
         ref={this.transitionRef}
         aria-expanded={role ? this.props.in : null}
         className={classNames(className, { width: this.dimension() === 'width' })}

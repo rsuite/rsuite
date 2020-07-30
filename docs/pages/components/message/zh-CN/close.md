@@ -1,7 +1,7 @@
-
 ### 可关闭的
 
 <!--start-code-->
+
 ```js
 const instance = (
   <div>
@@ -12,9 +12,9 @@ const instance = (
       title="Informational"
       description="Detailed description and advices about successful copywriting."
     />
-
   </div>
 );
 ReactDOM.render(instance);
 ```
+
 <!--end-code-->

@@ -2,9 +2,9 @@
 
 `appearance` values include:
 
-* 'default'
-* 'inverse'
-* 'subtle'
+- 'default'
+- 'inverse'
+- 'subtle'
 
 <!--start-code-->
 

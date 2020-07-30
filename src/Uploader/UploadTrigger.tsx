@@ -14,7 +14,7 @@ export interface UploadTriggerProps {
   classPrefix?: string;
   className?: string;
   children?: React.FunctionComponentElement<any>;
-  componentClass: React.ElementType;
+  as: React.ElementType;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   onDragEnter?: React.DragEventHandler<HTMLInputElement>;
   onDragLeave?: React.DragEventHandler<HTMLInputElement>;
@@ -38,7 +38,7 @@ class UploadTrigger extends React.Component<UploadTriggerProps, UploaderTriggerS
     classPrefix: PropTypes.string,
     className: PropTypes.string,
     children: PropTypes.node,
-    componentClass: PropTypes.elementType,
+    as: PropTypes.elementType,
     draggable: PropTypes.bool,
     onDragEnter: PropTypes.func,
     onDragLeave: PropTypes.func,
@@ -115,7 +115,7 @@ class UploadTrigger extends React.Component<UploadTriggerProps, UploaderTriggerS
       children,
       classPrefix,
       className,
-      componentClass: Component,
+      as: Component,
       ...rest
     } = this.props;
 
@@ -164,6 +164,6 @@ class UploadTrigger extends React.Component<UploadTriggerProps, UploaderTriggerS
 }
 
 export default defaultProps<UploadTriggerProps>({
-  componentClass: Button,
+  as: Button,
   classPrefix: 'uploader-trigger'
 })(UploadTrigger);

@@ -1,7 +1,7 @@
 ### Divider and Panel
 
-* `divider` Sets the divider options.
-* `panel` Set up a panel.
+- `divider` Sets the divider options.
+- `panel` Set up a panel.
 
 <!--start-code-->
 

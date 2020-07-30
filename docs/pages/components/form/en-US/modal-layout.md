@@ -38,32 +38,24 @@ class ModalDemo extends React.Component {
             <Modal.Title>New User</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form
-              fluid
-              onChange={this.handleChange}
-              formValue={this.state.formValue}
-            >
+            <Form fluid onChange={this.handleChange} formValue={this.state.formValue}>
               <FormGroup>
-                <ControlLabel>Username</ControlLabel>
+                <FormControlLabel>Username</FormControlLabel>
                 <FormControl name="name" />
                 <HelpBlock>Required</HelpBlock>
               </FormGroup>
               <FormGroup>
-                <ControlLabel>Email</ControlLabel>
+                <FormControlLabel>Email</FormControlLabel>
                 <FormControl name="email" type="email" />
                 <HelpBlock>Required</HelpBlock>
               </FormGroup>
               <FormGroup>
-                <ControlLabel>Password</ControlLabel>
+                <FormControlLabel>Password</FormControlLabel>
                 <FormControl name="password" type="password" />
               </FormGroup>
               <FormGroup>
-                <ControlLabel>Textarea</ControlLabel>
-                <FormControl
-                  rows={5}
-                  name="textarea"
-                  componentClass="textarea"
-                />
+                <FormControlLabel>Textarea</FormControlLabel>
+                <FormControl rows={5} name="textarea" as="textarea" />
               </FormGroup>
             </Form>
           </Modal.Body>

@@ -1,7 +1,7 @@
 ### Custom Side Navigation
 
-* Set the `panel` property to customize a panel area.
-* Set the `divider` property and set a split line.
+- Set the `panel` property to customize a panel area.
+- Set the `divider` property and set a split line.
 
 <!--start-code-->
 

@@ -41,7 +41,7 @@ class TextField extends React.PureComponent {
     const { name, label, accepter, ...props } = this.props;
     return (
       <FormGroup>
-        <ControlLabel>{label} </ControlLabel>
+        <FormControlLabel>{label} </FormControlLabel>
         <FormControl name={name} accepter={accepter} {...props} />
       </FormGroup>
     );

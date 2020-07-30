@@ -69,16 +69,10 @@ const instance = (
     <hr />
     <CustomTreePicker placement="auto" />
     <hr />
-    <CustomTreePicker
-      placement="autoVerticalStart"
-      style={{ width: 200 }}
-    />{' '}
+    <CustomTreePicker placement="autoVerticalStart" style={{ width: 200 }} />{' '}
     <CustomTreePicker placement="autoVerticalEnd" style={{ width: 200 }} />
     <hr />
-    <CustomTreePicker
-      placement="autoHorizontalStart"
-      style={{ width: 200 }}
-    />{' '}
+    <CustomTreePicker placement="autoHorizontalStart" style={{ width: 200 }} />{' '}
     <CustomTreePicker placement="autoHorizontalEnd" style={{ width: 200 }} />
   </div>
 );

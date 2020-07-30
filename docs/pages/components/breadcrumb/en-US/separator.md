@@ -5,10 +5,10 @@
 ```js
 const MyBreadcrumb = ({ separator }) => (
   <Breadcrumb separator={separator}>
-    <Breadcrumb.Item componentClass={Link} href="/">
+    <Breadcrumb.Item as={Link} href="/">
       Home
     </Breadcrumb.Item>
-    <Breadcrumb.Item componentClass={Link} href="/components/overview">
+    <Breadcrumb.Item as={Link} href="/components/overview">
       Components
     </Breadcrumb.Item>
     <Breadcrumb.Item active>Breadcrumb</Breadcrumb.Item>

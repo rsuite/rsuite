@@ -5,13 +5,13 @@
 - `<Form>` 定义一个表单。
 - `<FormControl>` 表单控件，定义一个表单字段。
 - `<FormGroup>` 表单控件组，用于表单控件布局
-- `<ControlLabel>` 表单控件对应的标题。
+- `<FormControlLabel>` 表单控件对应的标题。
 - `<HelpBlock>` 表单控件对应帮助信息。
 
 ## 获取组件
 
 ```js
-import { Form, FormGroup, FormControl, ControlLabel, HelpBlock } from 'rsuite';
+import { Form, FormGroup, FormControl, FormControlLabel, HelpBlock } from 'rsuite';
 ```
 
 <!--{demo}-->
@@ -97,13 +97,12 @@ cleanErrorForFiled: (fieldName: keyof E, callback?: () => void) => void;
 | classPrefix | string `('form-group')` | 组件 CSS 类的前缀 |
 | controlId   | string                  | 设置控件的 ID     |
 
-### `<ControlLabel>`
+### `<FormControlLabel>`
 
-| 属性名称    | 类型`(默认值)`             | 描述                                                           |
-| ----------- | -------------------------- | -------------------------------------------------------------- |
-| classPrefix | string `('control-label')` | 组件 CSS 类的前缀                                              |
-| htmlFor     | string                     | 对应 html label 标签的 for 属性，默认为 FormGroup 的 controlId |
-| srOnly      | boolean                    | screen reader only                                             |
+| 属性名称    | 类型`(默认值)`                  | 描述                                                           |
+| ----------- | ------------------------------- | -------------------------------------------------------------- |
+| classPrefix | string `('form-control-label')` | 组件 CSS 类的前缀                                              |
+| htmlFor     | string                          | 对应 html label 标签的 for 属性，默认为 FormGroup 的 controlId |
 
 ### `<HelpBlock>`
 

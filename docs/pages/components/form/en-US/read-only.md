@@ -57,7 +57,7 @@ const Example = () => {
 
   return (
     <Form formValue={formValue} onChange={formValue => setFormValue(formValue)}>
-      <ControlLabel>Change show mode</ControlLabel>
+      <FormControlLabel>Change show mode</FormControlLabel>
       <RadioGroup inline value={mode} onChange={value => setMode(value)}>
         <Radio value="normal">normal</Radio>
         <Radio value="readonly">readonly</Radio>
@@ -66,18 +66,13 @@ const Example = () => {
       </RadioGroup>
 
       <FormGroup>
-        <ControlLabel>Input</ControlLabel>
-        <FormControl
-          name="input"
-          disabled={disabled}
-          readOnly={readOnly}
-          plaintext={plaintext}
-        />
+        <FormControlLabel>Input</FormControlLabel>
+        <FormControl name="input" disabled={disabled} readOnly={readOnly} plaintext={plaintext} />
         <HelpBlock tooltip>This is a tooltip description.</HelpBlock>
       </FormGroup>
 
       <FormGroup>
-        <ControlLabel>Checkbox</ControlLabel>
+        <FormControlLabel>Checkbox</FormControlLabel>
         <FormControl
           name="checkbox"
           accepter={CheckboxGroup}
@@ -106,7 +101,7 @@ const Example = () => {
       </FormGroup>
 
       <FormGroup>
-        <ControlLabel>Radio</ControlLabel>
+        <FormControlLabel>Radio</FormControlLabel>
         <FormControl
           name="radio"
           accepter={RadioGroup}
@@ -133,7 +128,7 @@ const Example = () => {
       </FormGroup>
 
       <FormGroup>
-        <ControlLabel>Slider</ControlLabel>
+        <FormControlLabel>Slider</FormControlLabel>
         <FormControl
           accepter={Slider}
           min={0}
@@ -148,7 +143,7 @@ const Example = () => {
       </FormGroup>
 
       <FormGroup>
-        <ControlLabel>DatePicker</ControlLabel>
+        <FormControlLabel>DatePicker</FormControlLabel>
         <FormControl
           name="datePicker"
           accepter={DatePicker}
@@ -159,7 +154,7 @@ const Example = () => {
       </FormGroup>
 
       <FormGroup>
-        <ControlLabel>DateRangePicker</ControlLabel>
+        <FormControlLabel>DateRangePicker</FormControlLabel>
         <FormControl
           name="dateRangePicker"
           accepter={DateRangePicker}
@@ -170,7 +165,7 @@ const Example = () => {
       </FormGroup>
 
       <FormGroup>
-        <ControlLabel>CheckPicker</ControlLabel>
+        <FormControlLabel>CheckPicker</FormControlLabel>
         <FormControl
           name="checkPicker"
           accepter={CheckPicker}
@@ -182,7 +177,7 @@ const Example = () => {
       </FormGroup>
 
       <FormGroup>
-        <ControlLabel>SelectPicker</ControlLabel>
+        <FormControlLabel>SelectPicker</FormControlLabel>
         <FormControl
           name="selectPicker"
           accepter={SelectPicker}
@@ -194,7 +189,7 @@ const Example = () => {
       </FormGroup>
 
       <FormGroup>
-        <ControlLabel>TagPicker</ControlLabel>
+        <FormControlLabel>TagPicker</FormControlLabel>
         <FormControl
           name="tagPicker"
           accepter={TagPicker}
@@ -206,7 +201,7 @@ const Example = () => {
       </FormGroup>
 
       <FormGroup>
-        <ControlLabel>InputPicker</ControlLabel>
+        <FormControlLabel>InputPicker</FormControlLabel>
         <FormControl
           name="inputPicker"
           accepter={InputPicker}
@@ -218,7 +213,7 @@ const Example = () => {
       </FormGroup>
 
       <FormGroup>
-        <ControlLabel>Cascader</ControlLabel>
+        <FormControlLabel>Cascader</FormControlLabel>
         <FormControl
           name="cascader"
           accepter={Cascader}
@@ -230,7 +225,7 @@ const Example = () => {
       </FormGroup>
 
       <FormGroup>
-        <ControlLabel>MultiCascader</ControlLabel>
+        <FormControlLabel>MultiCascader</FormControlLabel>
         <FormControl
           name="multiCascader"
           accepter={MultiCascader}

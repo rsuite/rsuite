@@ -67,17 +67,10 @@ const instance = (
     <hr />
     <CustomCheckPicker placement="auto" />
     <hr />
-     <CustomCheckPicker placement="autoVerticalStart" style={{ width: 200 }} />{' '}
-    <CustomCheckPicker
-      placement="autoVerticalEnd"
-      style={{ width: 200 }}
-    />
-   
+    <CustomCheckPicker placement="autoVerticalStart" style={{ width: 200 }} />{' '}
+    <CustomCheckPicker placement="autoVerticalEnd" style={{ width: 200 }} />
     <hr />
-    <CustomCheckPicker
-      placement="autoHorizontalStart"
-      style={{ width: 200 }}
-    />{' '}
+    <CustomCheckPicker placement="autoHorizontalStart" style={{ width: 200 }} />{' '}
     <CustomCheckPicker placement="autoHorizontalEnd" style={{ width: 200 }} />
   </div>
 );

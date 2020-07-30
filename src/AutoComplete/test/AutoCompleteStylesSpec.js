@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM, { findDOMNode } from 'react-dom';
+import ReactDOM from 'react-dom';
 import AutoComplete from '../index';
 import {
   createTestContainer,
@@ -18,7 +18,7 @@ describe('AutoComplete styles', () => {
   it('Input should render the correct styles', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<AutoComplete ref={instanceRef} />, createTestContainer());
-    const dom = getDOMNode(instanceRef.current).querySelector('input');
+    const dom = instanceRef.current.root.querySelector('input');
     assert.equal(getStyle(dom, 'backgroundColor'), toRGB('#fff'), 'AutoComplete background-color');
     // @description Can't get border-radius value in other browser except chrome
     inChrome &&
@@ -33,7 +33,7 @@ describe('AutoComplete styles', () => {
       <AutoComplete ref={instanceRef} data={['a', 'b', 'ab']} open defaultValue="a" />,
       createTestContainer()
     );
-    const dom = getDOMNode(instanceRef.current).querySelector('input');
+    const dom = instanceRef.current.root.querySelector('input');
     const focusItemDom = document.querySelector('.rs-auto-complete-item-focus');
     const unFocusItemDom = document.querySelector(
       '.rs-auto-complete-item:not(.rs-auto-complete-item-focus)'
@@ -54,7 +54,7 @@ describe('AutoComplete styles', () => {
   it('Disabled should render the correct styles', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<AutoComplete ref={instanceRef} disabled />, createTestContainer());
-    const dom = getDOMNode(instanceRef.current).querySelector('input');
+    const dom = instanceRef.current.root.querySelector('input');
     assert.equal(
       getStyle(dom, 'backgroundColor'),
       toRGB('#f7f7fa'),

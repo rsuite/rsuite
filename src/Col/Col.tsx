@@ -45,10 +45,10 @@ class Col extends React.Component<ColProps> {
     mdHidden: PropTypes.bool,
     lgHidden: PropTypes.bool,
 
-    componentClass: PropTypes.elementType
+    as: PropTypes.elementType
   };
   render() {
-    const { className, componentClass: Component, classPrefix, ...props } = this.props;
+    const { className, as: Component, classPrefix, ...props } = this.props;
     const addPrefix = prefix(classPrefix);
     const classes = {};
     const getPropValue = getValue(this.props);
@@ -75,5 +75,5 @@ class Col extends React.Component<ColProps> {
 
 export default defaultProps<ColProps>({
   classPrefix: 'col',
-  componentClass: 'div'
+  as: 'div'
 })(Col);

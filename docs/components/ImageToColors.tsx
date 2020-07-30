@@ -12,7 +12,7 @@ function ImageColor(img) {
   this.context.drawImage(img, 0, 0);
   this.accuracy = 5;
   this.progress = '';
-  this.getColorByXY = function(x, y) {
+  this.getColorByXY = function (x, y) {
     const imageData = this.context.getImageData(x, y, 1, 1);
     const arr = imageData.data.toString().split(',');
 

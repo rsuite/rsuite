@@ -10,7 +10,7 @@ export interface DividerProps extends StandardProps {
   vertical?: boolean;
 
   /** You can use a custom element for this component */
-  componentClass?: React.ElementType;
+  as?: React.ElementType;
 }
 
 declare const Divider: React.ComponentType<DividerProps>;

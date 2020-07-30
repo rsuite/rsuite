@@ -21,7 +21,7 @@ export interface SidenavProps<T = any> extends StandardProps {
   activeKey?: T;
 
   /** You can use a custom element type for this component */
-  componentClass?: React.ElementType;
+  as?: React.ElementType;
 
   /** Menu opening callback function that changed */
   onOpenChange?: (openKeys: T[], event: React.SyntheticEvent<any>) => void;

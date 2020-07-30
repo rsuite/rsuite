@@ -7,10 +7,14 @@ Instead of HTML native controls, input, textarea.
 - `<InputGroup.Button>` Combined with the button.
 - `<InputGroup.Addon>` Custom additional elements.
 
-## Usage
+## Import
 
 ```js
 import { Input, InputGroup } from 'rsuite';
+
+// or
+import Input from 'rsuite/lib/Input';
+import InputGroup from 'rsuite/lib/InputGroup';
 ```
 
 ## Examples

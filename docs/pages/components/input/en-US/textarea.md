@@ -5,10 +5,10 @@
 ```js
 const instance = (
   <div>
-    <Input componentClass="textarea" rows={3} style={{ width: 300 }} placeholder="Textarea" />
+    <Input as="textarea" rows={3} style={{ width: 300 }} placeholder="Textarea" />
     <hr />
     <Input
-      componentClass="textarea"
+      as="textarea"
       rows={3}
       style={{ width: 300, resize: 'auto' }}
       placeholder="resize: 'auto'"

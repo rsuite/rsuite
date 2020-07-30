@@ -19,7 +19,7 @@ export { default as CheckTreePicker, CheckTreePickerProps } from './CheckTreePic
 export { default as Col, ColProps } from './Col';
 export { default as Container, ContainerProps } from './Container';
 export { default as Content, ContentProps } from './Content';
-export { default as ControlLabel, ControlLabelProps } from './ControlLabel';
+export { default as FormControlLabel, FormControlLabelProps } from './FormControlLabel';
 export { default as DatePicker, DatePickerProps } from './DatePicker';
 export { default as DateRangePicker, DateRangePickerProps } from './DateRangePicker';
 export { default as Divider, DividerProps } from './Divider';

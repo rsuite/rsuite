@@ -57,11 +57,11 @@ const App = () => {
           <div style={errorStyles(errorVisible)}>{errorMessage}</div>
         </FormGroup>
       </Form>
-      <hr/>
-      <div className={'rs-form-control-wrapper'} style={{width: 300}}>
-        <Input placeholder="Custom error messages"/>
+      <hr />
+      <div className={'rs-form-control-wrapper'} style={{ width: 300 }}>
+        <Input placeholder="Custom error messages" />
         <ErrorMessage show={errorVisible} placement={errorPlacement}>
-            {errorMessage}
+          {errorMessage}
         </ErrorMessage>
       </div>
       <hr />

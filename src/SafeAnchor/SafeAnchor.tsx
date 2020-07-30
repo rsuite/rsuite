@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { SafeAnchorProps } from './SafeAnchor.d';
 
 const SafeAnchor = React.forwardRef((props: SafeAnchorProps, ref: React.Ref<HTMLElement>) => {
-  const { componentClass: Component = 'a', disabled, ...rest } = props;
+  const { as: Component = 'a', disabled, ...rest } = props;
   const handleClick = (event: React.MouseEvent) => {
     if (disabled) {
       event.preventDefault();
@@ -27,7 +27,7 @@ SafeAnchor.propTypes = {
   disabled: PropTypes.bool,
 
   /** @default 'a' */
-  componentClass: PropTypes.elementType
+  as: PropTypes.elementType
 };
 
 export default SafeAnchor;

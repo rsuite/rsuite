@@ -6,7 +6,6 @@
  * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users.json
  */
 
-
 class FluidColumnTable extends React.Component {
   constructor(props) {
     super(props);
@@ -66,12 +65,12 @@ ReactDOM.render(<FluidColumnTable />);
 > 注意: 设置 `flexGrow` 以后，就不能设置 `width` 和 `resizable` 属性。 可以通过 `minWidth` 设置一个最小宽度
 
 ```html
-<Column flexGrow={1}>
+<Column flexGrow="{1}">
   <HeaderCell>City <code>flexGrow={1}</code></HeaderCell>
   <Cell dataKey="city" />
 </Column>
 
-<Column flexGrow={2}>
+<Column flexGrow="{2}">
   <HeaderCell>Company Name <code>flexGrow={2}</code></HeaderCell>
   <Cell dataKey="companyName" />
 </Column>

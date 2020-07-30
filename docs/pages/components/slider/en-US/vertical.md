@@ -8,7 +8,7 @@ export const VerticalSlider = () => {
     height: 400
   };
   return (
-    <div >
+    <div>
       <Row>
         <Col md={2}>
           <div style={style}>
@@ -28,27 +28,12 @@ export const VerticalSlider = () => {
         </Col>
         <Col md={2}>
           <div style={style}>
-            <Slider
-              defaultValue={50}
-              min={0}
-              step={10}
-              max={100}
-              graduated
-              vertical
-              progress
-            />
+            <Slider defaultValue={50} min={0} step={10} max={100} graduated vertical progress />
           </div>
         </Col>
         <Col md={2}>
           <div style={style}>
-            <RangeSlider
-              min={0}
-              step={10}
-              max={100}
-              defaultValue={[10, 50]}
-              vertical
-              graduated
-            />
+            <RangeSlider min={0} step={10} max={100} defaultValue={[10, 50]} vertical graduated />
           </div>
         </Col>
         <Col md={2}>

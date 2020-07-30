@@ -24,7 +24,7 @@ describe('DatePicker', () => {
   });
 
   it('Should output a button', () => {
-    const instance = getInstance(<DatePicker toggleComponentClass="button" />);
+    const instance = getInstance(<DatePicker toggleAs="button" />);
     assert.ok(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'button'));
   });
 

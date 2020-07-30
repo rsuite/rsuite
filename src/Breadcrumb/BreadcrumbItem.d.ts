@@ -16,7 +16,7 @@ export interface BreadcrumbItemProps extends StandardProps {
   target?: string;
 
   // You can use a custom element for this component
-  componentClass?: React.ElementType;
+  as?: React.ElementType;
 
   /** Primary content */
   children?: React.ReactNode;

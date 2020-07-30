@@ -30,7 +30,7 @@ describe('InputPicker - InputSearch', () => {
   });
 
   it('Should have a InputAutosize', () => {
-    const instance = getInstance(<InputSearch componentClass={InputAutosize} />);
+    const instance = getInstance(<InputSearch as={InputAutosize} />);
     ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-picker-search-input');
     ReactTestUtils.findRenderedComponentWithType(instance, InputAutosize);
   });

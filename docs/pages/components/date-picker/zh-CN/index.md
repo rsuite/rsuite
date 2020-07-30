@@ -68,7 +68,7 @@ import { DatePicker } from 'rsuite';
 | ranges                | Array<[Range](#types)> [`(Ranges)`](#Ranges) | 快捷项配置                                                |
 | showMeridian          | boolean                                      | 显示 12 小时制的时间格式                                  |
 | showWeekNumbers       | boolean                                      | 显示周数量                                                |
-| toggleComponentClass  | React.ElementType `('a')`                    | 为组件自定义元素类型                                      |
+| toggleAs              | React.ElementType `('a')`                    | 为组件自定义元素类型                                      |
 | value                 | Date                                         | 值`受控`                                                  |
 
 ## Default

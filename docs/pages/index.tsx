@@ -47,7 +47,7 @@ function HomePage() {
         </Row>
         <Row>
           <FlexboxGrid align="middle" className="banner">
-            <FlexboxGrid.Item componentClass={Col} colspan={24} md={12}>
+            <FlexboxGrid.Item as={Col} colspan={24} md={12}>
               <section className="section">
                 <h1 className="title">React Suite</h1>
                 <p className="sub-title"> {messages?.common?.resume}</p>
@@ -84,18 +84,13 @@ function HomePage() {
                   </a>
                 </p>
                 <ButtonToolbar className="primary-toolbar">
-                  <Button
-                    size="lg"
-                    appearance="primary"
-                    componentClass={Link}
-                    href={'/guide/introduction'}
-                  >
+                  <Button size="lg" appearance="primary" as={Link} href={'/guide/introduction'}>
                     {messages?.common?.gettingStarted}
                   </Button>
                   <Button
                     size="lg"
                     appearance="ghost"
-                    componentClass={Link}
+                    as={Link}
                     style={{ marginLeft: 10 }}
                     href={'/components/overview'}
                   >
@@ -105,12 +100,7 @@ function HomePage() {
               </section>
             </FlexboxGrid.Item>
 
-            <FlexboxGrid.Item
-              className="logo-react-suite-wrapper"
-              componentClass={Col}
-              colspan={24}
-              md={12}
-            >
+            <FlexboxGrid.Item className="logo-react-suite-wrapper" as={Col} colspan={24} md={12}>
               <div className="section logo-react-suite">
                 <Logo width={120} height={138} />
                 <ReactLogo running={running} />

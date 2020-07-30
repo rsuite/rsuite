@@ -1156,7 +1156,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       cleanable,
       countable,
       placeholder,
-      toggleComponentClass,
+      toggleAs,
       onExited,
       onEntered,
       onClean,
@@ -1218,7 +1218,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
             ref={this.toggleRef}
             onKeyDown={this.handleToggleKeyDown}
             onClean={createChainedFunction(this.handleClean, onClean)}
-            componentClass={toggleComponentClass}
+            as={toggleAs}
             cleanable={cleanable && !disabled}
             hasValue={hasValidValue}
             active={this.state.active}

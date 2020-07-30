@@ -5,13 +5,13 @@ A set of components and models that process form data.
 - `<Form>` Define a form.
 - `<FormControl>` Define form-control.
 - `<FormGroup>` Define form groups, used for form layout.
-- `<ControlLabel>` title of form-control.
+- `<FormControlLabel>` title of form-control.
 - `<HelpBlock>` help infomation of form-controll
 
 ## Usage
 
 ```js
-import { Form, FormGroup, FormControl, ControlLabel, HelpBlock } from 'rsuite';
+import { Form, FormGroup, FormControl, FormControlLabel, HelpBlock } from 'rsuite';
 ```
 
 <!--{demo}-->
@@ -109,13 +109,12 @@ cleanErrorForFiled: (fieldName: keyof E, callback?: () => void) => void;
 | classPrefix | string `('form-group')` | The prefix of the component CSS class |
 | controlId   | string                  | Sets id for controlled component      |
 
-### `<ControlLabel>`
+### `<FormControlLabel>`
 
-| Property    | Type`(default)`            | Description                                                                 |
-| ----------- | -------------------------- | --------------------------------------------------------------------------- |
-| classPrefix | string `('control-label')` | The prefix of the component CSS class                                       |
-| htmlFor     | string                     | Attribute of the html label tag, defaults to the controlId of the FormGroup |
-| srOnly      | boolean                    | Screen reader only                                                          |
+| Property    | Type`(default)`                 | Description                                                                 |
+| ----------- | ------------------------------- | --------------------------------------------------------------------------- |
+| classPrefix | string `('form-control-label')` | The prefix of the component CSS class                                       |
+| htmlFor     | string                          | Attribute of the html label tag, defaults to the controlId of the FormGroup |
 
 ### `<HelpBlock>`
 

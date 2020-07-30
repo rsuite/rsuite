@@ -98,7 +98,7 @@ const Affix = React.forwardRef((props: AffixProps, ref: React.Ref<HTMLDivElement
     children,
     container,
     classPrefix = 'affix',
-    componentClass: Component = 'div',
+    as: Component = 'div',
     top = 0,
     onChange,
     ...rest

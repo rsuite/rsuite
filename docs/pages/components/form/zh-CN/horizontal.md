@@ -6,22 +6,22 @@
 const instance = (
   <Form layout="horizontal">
     <FormGroup>
-      <ControlLabel>Username</ControlLabel>
+      <FormControlLabel>Username</FormControlLabel>
       <FormControl name="name" />
       <HelpBlock>Required</HelpBlock>
     </FormGroup>
     <FormGroup>
-      <ControlLabel>Email</ControlLabel>
+      <FormControlLabel>Email</FormControlLabel>
       <FormControl name="email" type="email" />
       <HelpBlock tooltip>Required</HelpBlock>
     </FormGroup>
     <FormGroup>
-      <ControlLabel>Password</ControlLabel>
+      <FormControlLabel>Password</FormControlLabel>
       <FormControl name="password" type="password" />
     </FormGroup>
     <FormGroup>
-      <ControlLabel>Textarea</ControlLabel>
-      <FormControl name="textarea" rows={5} componentClass="textarea" />
+      <FormControlLabel>Textarea</FormControlLabel>
+      <FormControl name="textarea" rows={5} as="textarea" />
     </FormGroup>
     <FormGroup>
       <ButtonToolbar>

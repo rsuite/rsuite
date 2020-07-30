@@ -4,12 +4,13 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import AutoCompleteItem from '../AutoCompleteItem';
 import { getDOMNode, getInstance } from '@test/testUtils';
+import { assert } from 'chai';
 
 describe('AutoCompleteItem', () => {
   it('Should render `a` as inner element', () => {
-    const instance = getInstance(<AutoCompleteItem itemData={{ value: '1', label: '1' }} />);
-
-    assert.ok(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'a'));
+    const instance = getDOMNode(<AutoCompleteItem itemData={{ value: '1', label: '1' }} />);
+    assert.equal(instance.tagName, 'LI');
+    assert.ok(instance.querySelector('a'));
   });
 
   it('Should be focus', () => {

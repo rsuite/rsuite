@@ -77,11 +77,7 @@ class Page extends React.Component {
                 <span style={{ marginLeft: 12 }}> BRAND</span>
               </div>
             </Sidenav.Header>
-            <Sidenav
-              expanded={expand}
-              defaultOpenKeys={['3']}
-              appearance="subtle"
-            >
+            <Sidenav expanded={expand} defaultOpenKeys={['3']} appearance="subtle">
               <Sidenav.Body>
                 <Nav>
                   <Nav.Item eventKey="1" active icon={<Icon icon="dashboard" />}>

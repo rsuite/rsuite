@@ -13,5 +13,5 @@ const { addClass } = DOMHelper;
 
 ### Reference
 
-* https://github.com/react-bootstrap/react-bootstrap
-* https://github.com/facebook/fbjs
+- https://github.com/react-bootstrap/react-bootstrap
+- https://github.com/facebook/fbjs

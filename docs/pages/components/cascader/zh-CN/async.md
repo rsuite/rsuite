@@ -5,10 +5,7 @@
 ```js
 function createNode() {
   return {
-    label: `Node ${(Math.random() * 1e18)
-      .toString(36)
-      .slice(0, 3)
-      .toUpperCase()}`,
+    label: `Node ${(Math.random() * 1e18).toString(36).slice(0, 3).toUpperCase()}`,
     value: Math.random() * 1e18,
     children: Math.random() > 0.5 ? [] : null
   };

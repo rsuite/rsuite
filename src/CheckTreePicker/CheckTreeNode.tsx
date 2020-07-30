@@ -152,7 +152,7 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
 
     return (
       <DropdownMenuCheckItem
-        componentClass="div"
+        as="div"
         active={checkState === CHECK_STATE.CHECK}
         indeterminate={checkState === CHECK_STATE.INDETERMINATE}
         focus={focus}

@@ -28,7 +28,7 @@ class Sidenav extends React.Component<SidenavProps, SidenavState> {
     onOpenChange: PropTypes.func,
     activeKey: PropTypes.any,
     onSelect: PropTypes.func,
-    componentClass: PropTypes.elementType
+    as: PropTypes.elementType
   };
   static defaultProps = {
     appearance: 'default',
@@ -77,7 +77,7 @@ class Sidenav extends React.Component<SidenavProps, SidenavState> {
       appearance,
       expanded,
       activeKey,
-      componentClass: Component,
+      as: Component,
       ...props
     } = this.props;
 
@@ -124,7 +124,7 @@ class Sidenav extends React.Component<SidenavProps, SidenavState> {
 
 const EnhancedSidenav = defaultProps<SidenavProps>({
   classPrefix: 'sidenav',
-  componentClass: 'div'
+  as: 'div'
 })(Sidenav);
 
 setStatic('Header', SidenavHeader)(EnhancedSidenav);

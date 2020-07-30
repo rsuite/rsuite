@@ -13,7 +13,7 @@ export interface DorpdownToggleProps {
   children?: React.ReactNode;
   icon?: React.ReactElement<IconProps>;
   noCaret?: boolean;
-  componentClass: React.ElementType;
+  as: React.ElementType;
   renderTitle?: (children?: React.ReactNode) => React.ReactNode;
 }
 
@@ -24,7 +24,7 @@ class DorpdownToggle extends React.Component<DorpdownToggleProps> {
     icon: PropTypes.node,
     classPrefix: PropTypes.string,
     noCaret: PropTypes.bool,
-    componentClass: PropTypes.elementType,
+    as: PropTypes.elementType,
     renderTitle: PropTypes.func
   };
   render() {
@@ -35,7 +35,7 @@ class DorpdownToggle extends React.Component<DorpdownToggleProps> {
       children,
       icon,
       noCaret,
-      componentClass: Component,
+      as: Component,
       ...props
     } = this.props;
     const addPrefix = prefix(classPrefix);
@@ -52,7 +52,7 @@ class DorpdownToggle extends React.Component<DorpdownToggleProps> {
     let buttonProps = {};
     if (Component === Button) {
       buttonProps = {
-        componentClass: 'a',
+        as: 'a',
         appearance: 'subtle'
       };
     }
@@ -68,6 +68,6 @@ class DorpdownToggle extends React.Component<DorpdownToggleProps> {
 }
 
 export default defaultProps<DorpdownToggleProps>({
-  componentClass: Button,
+  as: Button,
   classPrefix: 'dropdown-toggle'
 })(DorpdownToggle);

@@ -2,9 +2,9 @@
 
 `appearance` value include::
 
-* 'default'
-* 'inverse'
-* 'subtle'
+- 'default'
+- 'inverse'
+- 'subtle'
 
 <!--start-code-->
 

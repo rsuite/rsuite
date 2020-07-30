@@ -55,7 +55,7 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
     onRemove: PropTypes.func,
     maxPreviewFileSize: PropTypes.number,
     style: PropTypes.object,
-    toggleComponentClass: PropTypes.elementType,
+    toggleAs: PropTypes.elementType,
     renderFileInfo: PropTypes.func,
     removable: PropTypes.bool,
     fileListVisible: PropTypes.bool,
@@ -325,16 +325,7 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
   }
 
   renderUploadTrigger() {
-    const {
-      name,
-      multiple,
-      disabled,
-      accept,
-      children,
-      toggleComponentClass,
-      draggable,
-      ...rest
-    } = this.props;
+    const { name, multiple, disabled, accept, children, toggleAs, draggable, ...rest } = this.props;
     const unhandled = getUnhandledProps(Uploader, rest);
     return (
       <UploadTrigger
@@ -347,7 +338,7 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
         accept={accept}
         ref={this.inputRef}
         onChange={this.handleUploadTriggerChange}
-        componentClass={toggleComponentClass}
+        as={toggleAs}
       >
         {children}
       </UploadTrigger>

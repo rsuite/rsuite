@@ -69,8 +69,7 @@ class FixedColumnTable extends React.Component {
                 }
                 return (
                   <span>
-                    <a onClick={handleAction}> Edit </a> |{' '}
-                    <a onClick={handleAction}> Remove </a>
+                    <a onClick={handleAction}> Edit </a> | <a onClick={handleAction}> Remove </a>
                   </span>
                 );
               }}

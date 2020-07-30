@@ -75,9 +75,7 @@ class AsynExample extends React.Component {
         this.setState(prevState => {
           return {
             data: concat(data, children),
-            loadingValues: prevState.loadingValues.filter(
-              value => value !== node.value
-            )
+            loadingValues: prevState.loadingValues.filter(value => value !== node.value)
           };
         });
       });

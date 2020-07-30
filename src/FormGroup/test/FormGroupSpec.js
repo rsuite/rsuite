@@ -3,7 +3,7 @@ import { getDOMNode } from '@test/testUtils';
 
 import FormGroup from '../FormGroup';
 import Input from '../../Input';
-import ControlLabel from '../../ControlLabel';
+import FormControlLabel from '../../FormControlLabel';
 
 describe('FormGroup', () => {
   it('Should render a FormGroup', () => {
@@ -66,12 +66,12 @@ describe('FormGroup', () => {
     let instance = getDOMNode(
       <FormGroup controlId="name">
         <div>
-          <ControlLabel />
+          <FormControlLabel />
           <Input />
         </div>
       </FormGroup>
     );
-    assert.equal(instance.querySelector('.rs-control-label').getAttribute('for'), 'name');
+    assert.equal(instance.querySelector('.rs-form-control-label').getAttribute('for'), 'name');
     assert.equal(instance.querySelector('.rs-input').getAttribute('id'), 'name');
   });
 
@@ -79,12 +79,12 @@ describe('FormGroup', () => {
     let instance = getDOMNode(
       <FormGroup controlId="name">
         <div>
-          <ControlLabel htmlFor="email" />
+          <FormControlLabel htmlFor="email" />
           <Input id="email" />
         </div>
       </FormGroup>
     );
-    assert.equal(instance.querySelector('.rs-control-label').getAttribute('for'), 'email');
+    assert.equal(instance.querySelector('.rs-form-control-label').getAttribute('for'), 'email');
     assert.equal(instance.querySelector('.rs-input').getAttribute('id'), 'email');
   });
 });

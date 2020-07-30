@@ -1,6 +1,6 @@
 ### With Button
 
-The default value of the `toggleComponentClass` property of`Dropdown` is `Button`. You can set the button-related props (eg. size, appearance) and display it in the style of a button.
+The default value of the `toggleAs` property of`Dropdown` is `Button`. You can set the button-related props (eg. size, appearance) and display it in the style of a button.
 
 <!--start-code-->
 

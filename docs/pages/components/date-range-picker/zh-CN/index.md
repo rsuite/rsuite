@@ -58,7 +58,7 @@ import { DateRangePicker } from 'rsuite';
 | showWeekNumbers      | boolean                                                                                                                                                                                       | 显示周数量                                                      |
 | showOneCalendar      | boolen                                                                                                                                                                                        | 显示一个日历                                                    |
 | size                 | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                                                                                                                                         | 设置组件尺寸                                                    |
-| toggleComponentClass | React.ElementType `('a')`                                                                                                                                                                     | 为组件自定义元素类型                                            |
+| toggleAs             | React.ElementType `('a')`                                                                                                                                                                     | 为组件自定义元素类型                                            |
 | value                | Array&lt;Date&gt;                                                                                                                                                                             | 值 `受控`                                                       |
 
 ## Default

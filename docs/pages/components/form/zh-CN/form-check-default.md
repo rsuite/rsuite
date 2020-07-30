@@ -20,7 +20,7 @@ function TextField(props) {
   const { name, label, accepter, ...rest } = props;
   return (
     <FormGroup>
-      <ControlLabel>{label} </ControlLabel>
+      <FormControlLabel>{label} </FormControlLabel>
       <FormControl name={name} accepter={accepter} {...rest} />
     </FormGroup>
   );

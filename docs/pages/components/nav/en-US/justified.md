@@ -1,11 +1,14 @@
 ### Justified
 
 <!--start-code-->
+
 ```js
 const instance = (
   <div>
     <Nav justified>
-      <Nav.Item active icon={<Icon icon="home" />}  >Home</Nav.Item>
+      <Nav.Item active icon={<Icon icon="home" />}>
+        Home
+      </Nav.Item>
       <Nav.Item>News</Nav.Item>
       <Nav.Item>Solutions</Nav.Item>
       <Nav.Item>Products</Nav.Item>
@@ -13,7 +16,9 @@ const instance = (
     </Nav>
     <br />
     <Nav appearance="tabs" justified>
-      <Nav.Item active icon={<Icon icon="home" />}  >Home</Nav.Item>
+      <Nav.Item active icon={<Icon icon="home" />}>
+        Home
+      </Nav.Item>
       <Nav.Item>News</Nav.Item>
       <Nav.Item>Solutions</Nav.Item>
       <Nav.Item>Products</Nav.Item>
@@ -21,7 +26,9 @@ const instance = (
     </Nav>
     <br />
     <Nav appearance="subtle" justified>
-      <Nav.Item active icon={<Icon icon="home" />}  >Home</Nav.Item>
+      <Nav.Item active icon={<Icon icon="home" />}>
+        Home
+      </Nav.Item>
       <Nav.Item>News</Nav.Item>
       <Nav.Item>Solutions</Nav.Item>
       <Nav.Item>Products</Nav.Item>
@@ -31,4 +38,5 @@ const instance = (
 );
 ReactDOM.render(instance);
 ```
+
 <!--end-code-->

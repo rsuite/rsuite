@@ -59,7 +59,7 @@ import { TreePicker } from 'rsuite';
 | searchBy                | (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean                                | Custom search rules                                                       |
 | searchable              | boolean `(true)`                                                                                        | Set whether you can search                                                |
 | size                    | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                                                   | A picker can have different sizes                                         |
-| toggleComponentClass    | React.ElementType `('a')`                                                                               | You can use a custom element for this component                           |
+| toggleAs                | React.ElementType `('a')`                                                                               | You can use a custom element for this component                           |
 | value                   | string                                                                                                  | Selected value                                                            |
 | valueKey                | string `('value')`                                                                                      | Tree data Structure Value property name                                   |
 | virtualized             | boolean `(false)`                                                                                       | Whether using Virtualized List                                            |

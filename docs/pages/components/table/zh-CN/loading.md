@@ -6,7 +6,6 @@
  * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users.json
  */
 
-
 class LoadingTable extends React.Component {
   constructor(props) {
     super(props);
@@ -17,11 +16,11 @@ class LoadingTable extends React.Component {
     };
     this.handleToggle = this.handleToggle.bind(this);
   }
-  handleToggle(loading){
+  handleToggle(loading) {
     this.setState({ loading });
   }
   render() {
-    const {loading} = this.state;
+    const { loading } = this.state;
     return (
       <div>
         <Table loading={loading} height={400} data={this.state.data}>
@@ -75,9 +74,10 @@ class LoadingTable extends React.Component {
             <Cell dataKey="email" />
           </Column>
         </Table>
-        <hr/>
+        <hr />
         <div>
-          加载状态：<Toggle
+          加载状态：
+          <Toggle
             checkedChildren="开启"
             unCheckedChildren="关闭"
             checked={loading}

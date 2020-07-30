@@ -14,7 +14,8 @@ const instance = (
       data={data}
       defaultValue={['Julius']}
       disabled
-      style={{ width: 300 }} menuStyle={{width: 300}}
+      style={{ width: 300 }}
+      menuStyle={{ width: 300 }}
     />
     <hr />
     <p>Disabled option</p>
@@ -22,7 +23,8 @@ const instance = (
       data={data}
       defaultValue={['Julius']}
       disabledItemValues={['Eugenia', 'Travon', 'Vincenza']}
-      style={{ width: 300 }} menuStyle={{width: 300}}
+      style={{ width: 300 }}
+      menuStyle={{ width: 300 }}
     />
   </div>
 );

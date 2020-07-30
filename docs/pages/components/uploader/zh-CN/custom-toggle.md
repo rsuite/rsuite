@@ -4,11 +4,7 @@
 
 ```js
 const instance = (
-  <Uploader
-    toggleComponentClass={Button}
-    appearance="ghost"
-    action="//jsonplaceholder.typicode.com/posts/"
-  />
+  <Uploader toggleAs={Button} appearance="ghost" action="//jsonplaceholder.typicode.com/posts/" />
 );
 
 ReactDOM.render(instance);

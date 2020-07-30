@@ -23,13 +23,8 @@ class CustomField extends React.PureComponent {
     const { name, message, label, accepter, error, ...props } = this.props;
     return (
       <FormGroup className={error ? 'has-error' : ''}>
-        <ControlLabel>{label} </ControlLabel>
-        <FormControl
-          name={name}
-          accepter={accepter}
-          errorMessage={error}
-          {...props}
-        />
+        <FormControlLabel>{label} </FormControlLabel>
+        <FormControl name={name} accepter={accepter} errorMessage={error} {...props} />
         <HelpBlock>{message}</HelpBlock>
       </FormGroup>
     );
@@ -89,12 +84,7 @@ class CustomCheckForm extends React.Component {
           model={model}
           checkTrigger={checkTrigger}
         >
-          <CustomField
-            name="name"
-            label="Email"
-            error={formError.name}
-            message="Email address"
-          />
+          <CustomField name="name" label="Email" error={formError.name} message="Email address" />
           <Button appearance="primary" onClick={this.handleSubmit}>
             Submit
           </Button>

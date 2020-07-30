@@ -67,7 +67,7 @@ import { DatePicker } from 'rsuite';
 | ranges                | Array<[Range](#types)> [`(Ranges)`](#Ranges) | Shortcut config                                                                      |
 | showMeridian          | boolean                                      | Display hours in 12 format                                                           |
 | showWeekNumbers       | boolean                                      | Whether to show week numbers                                                         |
-| toggleComponentClass  | React.ElementType `('a')`                    | You can use a custom element for this component                                      |
+| toggleAs              | React.ElementType `('a')`                    | You can use a custom element for this component                                      |
 | value                 | Date                                         | Value (Controlled)                                                                   |
 
 ## Default

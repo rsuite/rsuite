@@ -68,7 +68,7 @@ class CheckForm extends React.Component {
           model={model}
         >
           <FormGroup>
-            <ControlLabel>Username </ControlLabel>
+            <FormControlLabel>Username </FormControlLabel>
             <FormControl checkAsync name="name" />
           </FormGroup>
 

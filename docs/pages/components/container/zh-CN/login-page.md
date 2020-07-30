@@ -19,11 +19,11 @@ const instance = (
             <Panel header={<h3>Login</h3>} bordered>
               <Form fluid>
                 <FormGroup>
-                  <ControlLabel>Username or email address</ControlLabel>
+                  <FormControlLabel>Username or email address</FormControlLabel>
                   <FormControl name="name" />
                 </FormGroup>
                 <FormGroup>
-                  <ControlLabel>Password</ControlLabel>
+                  <FormControlLabel>Password</FormControlLabel>
                   <FormControl name="password" type="password" />
                 </FormGroup>
                 <FormGroup>

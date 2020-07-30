@@ -15,7 +15,7 @@ class BreadcrumbItem extends React.Component<BreadcrumbItemProps> {
     title: PropTypes.string,
     target: PropTypes.string,
     classPrefix: PropTypes.string,
-    componentClass: PropTypes.elementType,
+    as: PropTypes.elementType,
     renderItem: PropTypes.func
   };
   render() {
@@ -24,7 +24,7 @@ class BreadcrumbItem extends React.Component<BreadcrumbItemProps> {
       classPrefix,
       title,
       target,
-      componentClass: Component,
+      as: Component,
       className,
       style,
       active,
@@ -54,7 +54,7 @@ class BreadcrumbItem extends React.Component<BreadcrumbItemProps> {
 
 const enhance = defaultProps<BreadcrumbItemProps>({
   classPrefix: 'breadcrumb-item',
-  componentClass: SafeAnchor
+  as: SafeAnchor
 });
 
 export default enhance(BreadcrumbItem);

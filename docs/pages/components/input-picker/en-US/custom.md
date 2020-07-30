@@ -14,7 +14,6 @@ const instance = (
     groupBy="role"
     placeholder="Select User"
     style={{ width: 224 }}
-
     renderMenuItem={(label, item) => {
       return (
         <div>
@@ -25,8 +24,7 @@ const instance = (
     renderMenuGroup={(label, item) => {
       return (
         <div>
-          <i className="rs-icon rs-icon-group" /> {label} - (
-          {item.children.length})
+          <i className="rs-icon rs-icon-group" /> {label} - ({item.children.length})
         </div>
       );
     }}

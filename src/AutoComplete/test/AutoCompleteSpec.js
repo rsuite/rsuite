@@ -2,22 +2,24 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import AutoComplete from '../AutoComplete';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode, renderIntoDocument } from '@test/testUtils';
 
 describe('AutoComplete', () => {
   it('Should render input', () => {
-    const instance = getInstance(<AutoComplete />);
-    assert.ok(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'input'));
+    const instance = getDOMNode(<AutoComplete />);
+    assert.ok(instance.querySelector('input'));
   });
 
   it('Should render 2 `li` when set `open` and `defaultValue`', () => {
-    const instance = getInstance(<AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" />);
-    assert.equal(findDOMNode(instance.menuContainerRef.current).querySelectorAll('li').length, 2);
+    const ref = React.createRef();
+    renderIntoDocument(<AutoComplete ref={ref} data={['a', 'b', 'ab']} open defaultValue="a" />);
+    assert.equal(findDOMNode(ref.current.menu).querySelectorAll('li').length, 2);
   });
 
   it('Should be a `top-end` for placement', () => {
-    const instance = getInstance(<AutoComplete open placement="topEnd" />);
-    const classes = findDOMNode(instance.menuContainerRef.current).className;
+    const ref = React.createRef();
+    renderIntoDocument(<AutoComplete ref={ref} open placement="topEnd" />);
+    const classes = findDOMNode(ref.current.menu).className;
     assert.include(classes, 'placement-top-end');
   });
 
@@ -32,12 +34,11 @@ describe('AutoComplete', () => {
         done();
       }
     };
-    const instance = getInstance(
-      <AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" onSelect={doneOp} />
+    const ref = React.createRef();
+    renderIntoDocument(
+      <AutoComplete ref={ref} data={['a', 'b', 'ab']} open defaultValue="a" onSelect={doneOp} />
     );
-    ReactTestUtils.Simulate.click(
-      findDOMNode(instance.menuContainerRef.current).querySelectorAll('a')[0]
-    );
+    ReactTestUtils.Simulate.click(findDOMNode(ref.current.menu).querySelectorAll('a')[0]);
   });
 
   it('Should call onChange callback', done => {
@@ -83,20 +84,22 @@ describe('AutoComplete', () => {
     const doneOp = () => {
       done();
     };
-    const instance = getInstance(
-      <AutoComplete defaultValue="a" onKeyDown={doneOp} data={['a', 'b']} open />
+    const ref = React.createRef();
+    renderIntoDocument(
+      <AutoComplete ref={ref} defaultValue="a" onKeyDown={doneOp} data={['a', 'b']} open />
     );
-    ReactTestUtils.Simulate.keyDown(findDOMNode(instance.menuContainerRef.current));
+    ReactTestUtils.Simulate.keyDown(findDOMNode(ref.current.menu));
   });
 
   it('Should call onMenuFocus callback when keyCode=40', done => {
     const doneOp = () => {
       done();
     };
-    const instance = getInstance(
-      <AutoComplete defaultValue="a" onMenuFocus={doneOp} data={['a', 'ab', 'ac']} open />
+    const ref = React.createRef();
+    renderIntoDocument(
+      <AutoComplete ref={ref} defaultValue="a" onMenuFocus={doneOp} data={['a', 'ab', 'ac']} open />
     );
-    ReactTestUtils.Simulate.keyDown(findDOMNode(instance.menuContainerRef.current), {
+    ReactTestUtils.Simulate.keyDown(findDOMNode(ref.current.menu), {
       keyCode: 40
     });
   });
@@ -109,13 +112,14 @@ describe('AutoComplete', () => {
         done();
       }
     };
-    const instance = getInstance(
-      <AutoComplete defaultValue="a" onMenuFocus={doneOp} data={['a', 'ab', 'ac']} open />
+    const ref = React.createRef();
+    renderIntoDocument(
+      <AutoComplete ref={ref} defaultValue="a" onMenuFocus={doneOp} data={['a', 'ab', 'ac']} open />
     );
-    ReactTestUtils.Simulate.keyDown(findDOMNode(instance.menuContainerRef.current), {
+    ReactTestUtils.Simulate.keyDown(findDOMNode(ref.current.menu), {
       keyCode: 40
     });
-    ReactTestUtils.Simulate.keyDown(findDOMNode(instance.menuContainerRef.current), {
+    ReactTestUtils.Simulate.keyDown(findDOMNode(ref.current.menu), {
       keyCode: 38
     });
   });
@@ -124,13 +128,14 @@ describe('AutoComplete', () => {
     const doneOp = () => {
       done();
     };
-    const instance = getInstance(
-      <AutoComplete defaultValue="a" onChange={doneOp} data={['a', 'ab', 'ac']} open />
+    const ref = React.createRef();
+    renderIntoDocument(
+      <AutoComplete ref={ref} defaultValue="a" onChange={doneOp} data={['a', 'ab', 'ac']} open />
     );
-    ReactTestUtils.Simulate.keyDown(findDOMNode(instance.menuContainerRef.current), {
+    ReactTestUtils.Simulate.keyDown(findDOMNode(ref.current.menu), {
       keyCode: 40
     });
-    ReactTestUtils.Simulate.keyDown(findDOMNode(instance.menuContainerRef.current), {
+    ReactTestUtils.Simulate.keyDown(findDOMNode(ref.current.menu), {
       keyCode: 13
     });
   });
@@ -140,21 +145,24 @@ describe('AutoComplete', () => {
       assert.equal(value, 'ab');
       done();
     };
-    const instance = getInstance(
-      <AutoComplete defaultValue="a" onSelect={doneOp} data={['a', 'ab', 'ac']} open />
+    const ref = React.createRef();
+    renderIntoDocument(
+      <AutoComplete ref={ref} defaultValue="a" onSelect={doneOp} data={['a', 'ab', 'ac']} open />
     );
-    ReactTestUtils.Simulate.keyDown(findDOMNode(instance.menuContainerRef.current), {
+    ReactTestUtils.Simulate.keyDown(findDOMNode(ref.current.menu), {
       keyCode: 40
     });
-    ReactTestUtils.Simulate.keyDown(findDOMNode(instance.menuContainerRef.current), {
+    ReactTestUtils.Simulate.keyDown(findDOMNode(ref.current.menu), {
       keyCode: 13
     });
   });
 
   it("Shouldn't call onSelect nor onChange callback on Enter pressed if selectOnEnter=false", () => {
     const onSelectSpy = sinon.spy();
-    const instance = getInstance(
+    const ref = React.createRef();
+    renderIntoDocument(
       <AutoComplete
+        ref={ref}
         defaultValue="a"
         onSelect={onSelectSpy}
         onChange={onSelectSpy}
@@ -163,10 +171,10 @@ describe('AutoComplete', () => {
         open
       />
     );
-    ReactTestUtils.Simulate.keyDown(findDOMNode(instance.menuContainerRef.current), {
+    ReactTestUtils.Simulate.keyDown(findDOMNode(ref.current.menu), {
       keyCode: 40
     });
-    ReactTestUtils.Simulate.keyDown(findDOMNode(instance.menuContainerRef.current), {
+    ReactTestUtils.Simulate.keyDown(findDOMNode(ref.current.menu), {
       keyCode: 13
     });
 
@@ -177,10 +185,11 @@ describe('AutoComplete', () => {
     const doneOp = () => {
       done();
     };
-    const instance = getInstance(
-      <AutoComplete defaultValue="a" onClose={doneOp} data={['a', 'ab', 'ac']} open />
+    const ref = React.createRef();
+    renderIntoDocument(
+      <AutoComplete ref={ref} defaultValue="a" onClose={doneOp} data={['a', 'ab', 'ac']} open />
     );
-    ReactTestUtils.Simulate.keyDown(findDOMNode(instance.menuContainerRef.current), {
+    ReactTestUtils.Simulate.keyDown(findDOMNode(ref.current.menu), {
       keyCode: 27
     });
   });
@@ -195,8 +204,10 @@ describe('AutoComplete', () => {
   });
 
   it('Should render a icon in li', () => {
-    const instance = getInstance(
+    const ref = React.createRef();
+    renderIntoDocument(
       <AutoComplete
+        ref={ref}
         data={['a', 'b', 'ab']}
         open
         defaultValue="a"
@@ -204,7 +215,7 @@ describe('AutoComplete', () => {
       />
     );
 
-    assert.equal(findDOMNode(instance.menuContainerRef.current).querySelectorAll('a i').length, 2);
+    assert.equal(findDOMNode(ref.current.menu).querySelectorAll('a i').length, 2);
   });
 
   it('Should have a custom className', () => {
@@ -213,10 +224,11 @@ describe('AutoComplete', () => {
   });
 
   it('Should have a menuClassName', () => {
-    const instance = getInstance(
-      <AutoComplete menuClassName="custom" data={['a', 'b', 'ab']} open />
+    const ref = React.createRef();
+    renderIntoDocument(
+      <AutoComplete ref={ref} menuClassName="custom" data={['a', 'b', 'ab']} open />
     );
-    assert.include(findDOMNode(instance.menuContainerRef.current).className, 'custom');
+    assert.include(findDOMNode(ref.current.menu).className, 'custom');
   });
 
   it('Should have a custom style', () => {
@@ -231,20 +243,36 @@ describe('AutoComplete', () => {
   });
 
   it('Should have a custom filter function', () => {
-    const instance1 = getInstance(
-      <AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" filterBy={() => true} />
-    );
-
-    assert.equal(findDOMNode(instance1.menuContainerRef.current).querySelectorAll('li').length, 3);
-
-    const instance2 = getInstance(
-      <AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" filterBy={() => false} />
-    );
-
-    assert.equal(findDOMNode(instance2.menuContainerRef.current).querySelectorAll('li').length, 0);
-
-    const instance3 = getInstance(
+    const ref1 = React.createRef();
+    renderIntoDocument(
       <AutoComplete
+        ref={ref1}
+        data={['a', 'b', 'ab']}
+        open
+        defaultValue="a"
+        filterBy={() => true}
+      />
+    );
+
+    assert.equal(findDOMNode(ref1.current.menu).querySelectorAll('li').length, 3);
+
+    const ref2 = React.createRef();
+    renderIntoDocument(
+      <AutoComplete
+        ref={ref2}
+        data={['a', 'b', 'ab']}
+        open
+        defaultValue="a"
+        filterBy={() => false}
+      />
+    );
+
+    assert.equal(findDOMNode(ref2.current.menu).querySelectorAll('li').length, 0);
+
+    const ref3 = React.createRef();
+    renderIntoDocument(
+      <AutoComplete
+        ref={ref3}
         data={['a', 'b', 'ab']}
         open
         defaultValue="a"
@@ -253,10 +281,12 @@ describe('AutoComplete', () => {
       />
     );
 
-    assert.equal(findDOMNode(instance3.menuContainerRef.current).querySelectorAll('li').length, 3);
+    assert.equal(findDOMNode(ref3.current.menu).querySelectorAll('li').length, 3);
 
-    const instance4 = getInstance(
+    const ref4 = React.createRef();
+    renderIntoDocument(
       <AutoComplete
+        ref={ref4}
         data={['a', 'b', 'ab']}
         open
         defaultValue="a"
@@ -264,6 +294,31 @@ describe('AutoComplete', () => {
       />
     );
 
-    assert.equal(findDOMNode(instance4.menuContainerRef.current).querySelectorAll('li').length, 1);
+    assert.equal(findDOMNode(ref4.current.menu).querySelectorAll('li').length, 1);
+  });
+
+  describe('ref testing', () => {
+    it('Should call onOpen', done => {
+      const doneOp = () => {
+        done();
+      };
+      const ref = React.createRef();
+      renderIntoDocument(
+        <AutoComplete ref={ref} defaultValue="a" onOpen={doneOp} data={['a', 'ab', 'ac']} open />
+      );
+      ref.current.open();
+    });
+
+    it('Should call onClose', done => {
+      const doneOp = () => {
+        done();
+      };
+      const ref = React.createRef();
+      renderIntoDocument(
+        <AutoComplete ref={ref} defaultValue="a" onClose={doneOp} data={['a', 'ab', 'ac']} open />
+      );
+      ref.current.open();
+      ref.current.close();
+    });
   });
 });

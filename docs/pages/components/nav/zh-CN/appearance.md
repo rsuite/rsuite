@@ -2,9 +2,9 @@
 
 `appearance` 属性设置导航外观:
 
-* 'default'(默认值) 默认导航。
-* 'tabs' 标签式的导航。
-* 'subtle' 弱化的导航。
+- 'default'(默认值) 默认导航。
+- 'tabs' 标签式的导航。
+- 'subtle' 弱化的导航。
 
 <!--start-code-->
 

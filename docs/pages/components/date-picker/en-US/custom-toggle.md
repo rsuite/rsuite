@@ -5,9 +5,9 @@
 ```js
 const instance = (
   <div>
-    <DatePicker toggleComponentClass={Button} />
+    <DatePicker toggleAs={Button} />
     <hr />
-    <DatePicker block toggleComponentClass={Button} />
+    <DatePicker block toggleAs={Button} />
   </div>
 );
 ReactDOM.render(instance);

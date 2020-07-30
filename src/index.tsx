@@ -34,7 +34,7 @@ export { default as Toggle } from './Toggle';
 export { default as Form } from './Form';
 export { default as FormGroup } from './FormGroup';
 export { default as ErrorMessage } from './ErrorMessage';
-export { default as ControlLabel } from './ControlLabel';
+export { default as FormControlLabel } from './FormControlLabel';
 export { default as HelpBlock } from './HelpBlock';
 export { default as FormControl } from './FormControl';
 export { default as Input } from './Input';

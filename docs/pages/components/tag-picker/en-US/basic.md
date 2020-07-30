@@ -8,9 +8,7 @@
  * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
  */
 
-const instance = (
-  <TagPicker data={data} style={{ width: 300 }}  />
-);
+const instance = <TagPicker data={data} style={{ width: 300 }} />;
 ReactDOM.render(instance);
 ```
 

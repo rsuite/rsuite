@@ -65,8 +65,7 @@ const Home = () => (
     <div className="hero">
       <h1 className="title">Welcome to React Suite</h1>
       <p className="description">
-        A suite of React components, intimate UI design, and a friendly
-        development experience.
+        A suite of React components, intimate UI design, and a friendly development experience.
         <br />
       </p>
       <Button appearance="primary" href="https://rsuitejs.com/">

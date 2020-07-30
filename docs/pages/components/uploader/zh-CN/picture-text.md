@@ -4,10 +4,7 @@
 
 ```js
 const instance = (
-  <Uploader
-    listType="picture-text"
-    action="//jsonplaceholder.typicode.com/posts/"
-  />
+  <Uploader listType="picture-text" action="//jsonplaceholder.typicode.com/posts/" />
 );
 
 ReactDOM.render(instance);

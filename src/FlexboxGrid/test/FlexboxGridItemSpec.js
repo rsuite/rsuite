@@ -20,7 +20,7 @@ describe('FlexboxGridItem', () => {
   });
 
   it('Should render a col', () => {
-    const instance = getDOMNode(<FlexboxGridItem componentClass={Col} md={1} />);
+    const instance = getDOMNode(<FlexboxGridItem as={Col} md={1} />);
     assert.include(instance.className, 'rs-col');
     assert.include(instance.className, 'rs-col-md-1');
   });

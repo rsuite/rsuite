@@ -460,7 +460,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
       disabled,
       cleanable,
       locale,
-      toggleComponentClass,
+      toggleAs,
       style,
       onEnter,
       onExited,
@@ -528,7 +528,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
         >
           <PickerToggle
             {...unhandled}
-            componentClass={toggleComponentClass}
+            as={toggleAs}
             onClean={createChainedFunction(this.handleClean, onClean)}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}

@@ -336,7 +336,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
         {...menuProps}
         classPrefix={this.addPrefix('select-menu')}
         dropdownMenuItemClassPrefix={this.addPrefix('select-menu-item')}
-        dropdownMenuItemComponentClass={DropdownMenuItem}
+        dropdownMenuItemAs={DropdownMenuItem}
         ref={this.menuContainerRef}
         activeItemValues={[this.getValue()]}
         focusItemValue={focusItemValue}
@@ -383,7 +383,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
       disabled,
       cleanable,
       locale,
-      toggleComponentClass,
+      toggleAs,
       style,
       onEntered,
       onExited,
@@ -431,7 +431,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
             ref={this.toggleRef}
             onClean={createChainedFunction(this.handleClean, onClean)}
             onKeyDown={this.handleKeyDown}
-            componentClass={toggleComponentClass}
+            as={toggleAs}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
             active={this.state.active}

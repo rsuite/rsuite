@@ -34,13 +34,7 @@ const instance = (
       <p>上海市虹口区公司派送员：李先生, 当前正在为您派件</p>
     </Timeline.Item>
     <Timeline.Item
-      dot={
-        <Icon
-          icon="check"
-          size="2x"
-          style={{ background: '#15b215', color: '#fff' }}
-        />
-      }
+      dot={<Icon icon="check" size="2x" style={{ background: '#15b215', color: '#fff' }} />}
     >
       <p>03-03 17:50</p>
       <p>[已签收]]</p>

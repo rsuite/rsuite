@@ -21,8 +21,8 @@ export interface DropdownMenuCheckItemProps {
   className?: string;
   children?: React.ReactNode;
   getItemData?: () => any;
-  componentClass?: React.ElementType;
-  checkboxComponentClass?: React.ElementType;
+  as?: React.ElementType;
+  checkboxAs?: React.ElementType;
 }
 
 class DropdownMenuCheckItem extends React.Component<DropdownMenuCheckItemProps> {
@@ -42,13 +42,13 @@ class DropdownMenuCheckItem extends React.Component<DropdownMenuCheckItemProps> 
     className: PropTypes.string,
     children: PropTypes.node,
     getItemData: PropTypes.func,
-    componentClass: PropTypes.elementType,
-    checkboxComponentClass: PropTypes.elementType
+    as: PropTypes.elementType,
+    checkboxAs: PropTypes.elementType
   };
   static defaultProps = {
     checkable: true,
-    componentClass: 'div',
-    checkboxComponentClass: Checkbox
+    as: 'div',
+    checkboxAs: Checkbox
   };
 
   handleChange = (value: any, checked: boolean, event: React.SyntheticEvent<HTMLElement>) => {
@@ -81,8 +81,8 @@ class DropdownMenuCheckItem extends React.Component<DropdownMenuCheckItemProps> 
       classPrefix,
       checkable,
       indeterminate,
-      componentClass: Component,
-      checkboxComponentClass: CheckboxItem,
+      as: Component,
+      checkboxAs: CheckboxItem,
       ...rest
     } = this.props;
 

@@ -27,7 +27,7 @@ class FormGroup extends React.Component<FormGroupProps> {
     });
 
     return (
-      <FormGroupContext.Provider value={controlId}>
+      <FormGroupContext.Provider value={{ controlId }}>
         <div {...rest} className={classes} role="group" />
       </FormGroupContext.Provider>
     );

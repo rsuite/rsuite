@@ -391,7 +391,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
       cleanable,
       classPrefix,
       locale,
-      toggleComponentClass,
+      toggleAs,
       style,
       onEntered,
       onExited,
@@ -430,7 +430,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
           >
             <PickerToggle
               {...unhandled}
-              componentClass={toggleComponentClass}
+              as={toggleAs}
               onClean={createChainedFunction(this.handleClean, onClean)}
               cleanable={cleanable && !disabled}
               hasValue={hasValue}

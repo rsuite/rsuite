@@ -14,7 +14,7 @@ class Navbar extends React.Component<NavbarProps> {
     classPrefix: PropTypes.string,
     className: PropTypes.string,
     appearance: PropTypes.oneOf(['default', 'inverse', 'subtle']),
-    componentClass: PropTypes.elementType,
+    as: PropTypes.elementType,
     hasChildContext: PropTypes.bool
   };
   static defaultProps = {
@@ -25,7 +25,7 @@ class Navbar extends React.Component<NavbarProps> {
   render() {
     const {
       className,
-      componentClass: Component,
+      as: Component,
       hasChildContext,
       classPrefix,
       appearance,
@@ -43,7 +43,7 @@ class Navbar extends React.Component<NavbarProps> {
 }
 
 const EnhancedNavbar = defaultProps<NavbarProps>({
-  componentClass: 'div',
+  as: 'div',
   classPrefix: 'navbar'
 })(Navbar);
 

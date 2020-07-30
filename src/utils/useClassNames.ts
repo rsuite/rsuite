@@ -30,17 +30,17 @@ export interface ClassDictionary {
  */
 function useClassNames(prefix: string) {
   const { classPrefix = 'rs' } = useContext(CustomContext) || {};
-  const componentClassName = addPrefix(classPrefix, prefix);
+  const className = addPrefix(classPrefix, prefix);
 
   const withPrifix = (...classes: ClassValue[]) => {
     const mergeClasses = classes.length
       ? classNames(...classes)
           .split(' ')
-          .map(item => addPrefix(componentClassName, item))
+          .map(item => addPrefix(className, item))
       : [];
-    mergeClasses.unshift(componentClassName);
+    mergeClasses.unshift(className);
 
-    return mergeClasses.join(' ');
+    return mergeClasses.filter(cls => cls).join(' ');
   };
 
   return [withPrifix, classNames];

@@ -1060,7 +1060,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       inline,
       locale,
       disabled,
-      toggleComponentClass,
+      toggleAs,
       placeholder,
       cleanable,
       renderValue,
@@ -1116,7 +1116,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
             onKeyDown={this.handleToggleKeyDown}
             onClean={createChainedFunction(this.handleClean, onClean)}
             cleanable={cleanable && !disabled}
-            componentClass={toggleComponentClass}
+            as={toggleAs}
             hasValue={hasValidValue}
             active={this.state.active}
           >

@@ -22,7 +22,6 @@ const instance = (
     }}
     placeholder="选择地区"
     renderValue={(value, item, selectedElement) => {
-
       return (
         <span>
           <i className="rs-icon rs-icon-map-marker" /> {item.label}

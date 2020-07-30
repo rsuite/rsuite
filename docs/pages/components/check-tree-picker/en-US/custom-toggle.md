@@ -10,18 +10,9 @@
 
 const instance = (
   <div>
-    <CheckTreePicker
-      data={data}
-      style={{ width: 280 }}
-      toggleComponentClass={Button}
-    />
+    <CheckTreePicker data={data} style={{ width: 280 }} toggleAs={Button} />
     <hr />
-    <CheckTreePicker
-      data={data}
-      block
-      style={{ width: 280 }}
-      toggleComponentClass={Button}
-    />
+    <CheckTreePicker data={data} block style={{ width: 280 }} toggleAs={Button} />
   </div>
 );
 ReactDOM.render(instance);

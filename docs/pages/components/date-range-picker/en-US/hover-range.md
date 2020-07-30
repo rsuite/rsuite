@@ -8,8 +8,8 @@ const instance = (
     <p>Select Whole Week</p>
     <DateRangePicker hoverRange="week" ranges={[]} />
     <p>
-      -Select Whole Week, ISO 8601 standard, each calendar week begins on Monday
-      and Sunday is the seventh day
+      -Select Whole Week, ISO 8601 standard, each calendar week begins on Monday and Sunday is the
+      seventh day
     </p>
     <DateRangePicker hoverRange="week" isoWeek ranges={[]} />
     <p>Select Whole Month</p>

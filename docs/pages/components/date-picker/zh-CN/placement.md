@@ -58,7 +58,6 @@ const instance = (
     <hr />
     <CustomDatePicker placement="autoVerticalStart" />{' '}
     <CustomDatePicker placement="autoVerticalEnd" />
-    
     <hr />
     <CustomDatePicker placement="autoHorizontalStart" />{' '}
     <CustomDatePicker placement="autoHorizontalEnd" />
