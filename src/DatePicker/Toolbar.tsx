@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import FormattedMessage from '../IntlProvider/FormattedMessage';
-import { getUnhandledProps, prefix, defaultProps } from '../utils';
+import { defaultProps, getUnhandledProps, prefix } from '../utils';
 import { addDays } from '../utils/dateUtils';
 import { RangeType } from './DatePicker.d';
-import { toTimeZone, zonedDate } from '../utils/timeZone';
+import { toTimeZone } from '../utils/timeZone';
 
 export interface ToolbarProps {
   ranges: RangeType[];
@@ -19,8 +19,8 @@ export interface ToolbarProps {
   hideOkButton?: boolean;
 }
 
-const getDefaultRanges = (timeZoned: string) => {
-  const todayDate = zonedDate(timeZoned);
+const getDefaultRanges = (pageDate: Date, timeZone: string) => {
+  const todayDate = toTimeZone(pageDate ?? new Date(), timeZone);
   return [
     {
       label: 'today',
@@ -57,8 +57,8 @@ class Toolbar extends React.PureComponent<
 
   constructor(props) {
     super(props);
-    const { timeZone, ranges } = props;
-    this.defaultRanges = getDefaultRanges(timeZone);
+    const { timeZone, ranges, pageDate } = props;
+    this.defaultRanges = getDefaultRanges(pageDate, timeZone);
     this.state = {
       ranges:
         typeof ranges === 'undefined'

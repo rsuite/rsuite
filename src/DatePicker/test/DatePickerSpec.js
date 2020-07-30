@@ -4,7 +4,7 @@ import { format, isSameDay, parseISO } from '../../utils/dateUtils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
 import DatePicker from '../DatePicker';
-import { toTimeZone, zonedDate } from '../../utils/timeZone';
+import { toTimeZone } from '../../utils/timeZone';
 
 describe('DatePicker', () => {
   it('Should render a div with "rs-picker-date" class', () => {
@@ -304,5 +304,23 @@ describe('DatePicker', () => {
     const ret = getDOMNode(instance).querySelector('.rs-picker-toggle-value').innerHTML;
 
     assert.equal(ret, format(toTimeZone(date, timeZone), template));
+  });
+
+  it('Should `disabledDate` callback params is correct in zoned date', function () {
+    const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
+    const template = 'yyyy-MM-dd HH:mm:ss';
+    const date = new Date();
+    const dateFormatted = format(date, 'HH:mm:ss');
+    const instance = getInstance(
+      <DatePicker
+        format={template}
+        timeZone={timeZone}
+        defaultOpen
+        disabledDate={value => {
+          assert.equal(format(value, 'HH:mm:ss'), dateFormatted);
+          return value.valueOf() > date.valueOf();
+        }}
+      />
+    );
   });
 });
