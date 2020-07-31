@@ -23,18 +23,18 @@ export interface ClassDictionary {
 /**
  * Add a prefix to all classNames.
  *
- * @param prefix prefix of className
+ * @param str prefix of className
  * @returns { withClassPrefix, merge, prefix }
  *  - withClassPrefix: A function of combining className and adding a prefix to each className.
  *    At the same time, the default `classPrefix` is the first className.
  *  - merge: A merge className function.
  *  - prefix: Add a prefix to className
  */
-function useClassNames(prefix: string) {
+function useClassNames(str: string) {
   const { classPrefix = 'rs' } = useContext(CustomContext) || {};
-  const componentName = addPrefix(classPrefix, prefix);
+  const componentName = addPrefix(classPrefix, str);
 
-  const append = (...classes: ClassValue[]) => {
+  const prefix = (...classes: ClassValue[]) => {
     const mergeClasses = classes.length
       ? classNames(...classes)
           .split(' ')
@@ -45,19 +45,13 @@ function useClassNames(prefix: string) {
   };
 
   const withClassPrefix = (...classes: ClassValue[]) => {
-    const mergeClasses = classes.length
-      ? classNames(...classes)
-          .split(' ')
-          .map(item => addPrefix(componentName, item))
-      : [];
-    mergeClasses.unshift(componentName);
-
-    return mergeClasses.filter(cls => cls).join(' ');
+    const mergeClasses = prefix(classes);
+    return mergeClasses ? `${componentName} ${mergeClasses}` : componentName;
   };
 
   return {
     merge: classNames,
-    prefix: append,
+    prefix,
     withClassPrefix
   };
 }
