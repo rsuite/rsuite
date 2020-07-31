@@ -201,8 +201,8 @@ const AutoComplete = React.forwardRef(
       });
     };
 
-    const [withPrifix, merge] = useClassNames(classPrefix);
-    const classes = merge(className, withPrifix({ disabled }));
+    const { withClassPrefix, merge } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix({ disabled }));
     const rootRef = useRef(null);
 
     useImperativeHandle(ref, (): any => ({

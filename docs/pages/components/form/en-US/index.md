@@ -6,12 +6,12 @@ A set of components and models that process form data.
 - `<FormControl>` Define form-control.
 - `<FormGroup>` Define form groups, used for form layout.
 - `<FormControlLabel>` title of form-control.
-- `<HelpBlock>` help infomation of form-controll
+- `<FormHelpText>` help infomation of form-controll
 
 ## Usage
 
 ```js
-import { Form, FormGroup, FormControl, FormControlLabel, HelpBlock } from 'rsuite';
+import { Form, FormGroup, FormControl, FormControlLabel, FormHelpText } from 'rsuite';
 ```
 
 <!--{demo}-->
@@ -116,10 +116,10 @@ cleanErrorForFiled: (fieldName: keyof E, callback?: () => void) => void;
 | classPrefix | string `('form-control-label')` | The prefix of the component CSS class                                       |
 | htmlFor     | string                          | Attribute of the html label tag, defaults to the controlId of the FormGroup |
 
-### `<HelpBlock>`
+### `<FormHelpText>`
 
-| Property    | Type`(default)`         | Description                                                                 |
-| ----------- | ----------------------- | --------------------------------------------------------------------------- |
-| classPrefix | string `('help-block')` | The prefix of the component CSS class                                       |
-| htmlFor     | string                  | Attribute of the html label tag, defaults to the controlId of the FormGroup |
-| tooltip     | boolean                 | Whether to show through the Tooltip component                               |
+| Property    | Type`(default)`             | Description                                                                 |
+| ----------- | --------------------------- | --------------------------------------------------------------------------- |
+| classPrefix | string `('form-help-text')` | The prefix of the component CSS class                                       |
+| htmlFor     | string                      | Attribute of the html label tag, defaults to the controlId of the FormGroup |
+| tooltip     | boolean                     | Whether to show through the Tooltip component                               |

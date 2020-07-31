@@ -68,7 +68,7 @@ const Example = () => {
       <FormGroup>
         <FormControlLabel>Input</FormControlLabel>
         <FormControl name="input" disabled={disabled} readOnly={readOnly} plaintext={plaintext} />
-        <HelpBlock tooltip>This is a tooltip description.</HelpBlock>
+        <FormHelpText tooltip>This is a tooltip description.</FormHelpText>
       </FormGroup>
 
       <FormGroup>
@@ -97,7 +97,7 @@ const Example = () => {
             HTML5
           </Checkbox>
         </FormControl>
-        <HelpBlock>This default description.</HelpBlock>
+        <FormHelpText>This default description.</FormHelpText>
       </FormGroup>
 
       <FormGroup>

@@ -60,9 +60,9 @@ const App = () => {
       <hr />
       <div className={'rs-form-control-wrapper'} style={{ width: 300 }}>
         <Input placeholder="Custom error messages" />
-        <ErrorMessage show={errorVisible} placement={errorPlacement}>
+        <FormErrorMessage show={errorVisible} placement={errorPlacement}>
           {errorMessage}
-        </ErrorMessage>
+        </FormErrorMessage>
       </div>
       <hr />
       Show Error: <Toggle onChange={setErrorVisible} checked={errorVisible} />

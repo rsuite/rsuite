@@ -6,12 +6,12 @@
 - `<FormControl>` 表单控件，定义一个表单字段。
 - `<FormGroup>` 表单控件组，用于表单控件布局
 - `<FormControlLabel>` 表单控件对应的标题。
-- `<HelpBlock>` 表单控件对应帮助信息。
+- `<FormHelpText>` 表单控件对应帮助信息。
 
 ## 获取组件
 
 ```js
-import { Form, FormGroup, FormControl, FormControlLabel, HelpBlock } from 'rsuite';
+import { Form, FormGroup, FormControl, FormControlLabel, FormHelpText } from 'rsuite';
 ```
 
 <!--{demo}-->
@@ -104,13 +104,13 @@ cleanErrorForFiled: (fieldName: keyof E, callback?: () => void) => void;
 | classPrefix | string `('form-control-label')` | 组件 CSS 类的前缀                                              |
 | htmlFor     | string                          | 对应 html label 标签的 for 属性，默认为 FormGroup 的 controlId |
 
-### `<HelpBlock>`
+### `<FormHelpText>`
 
-| 属性名称    | 类型`(默认值)`          | 描述                                                           |
-| ----------- | ----------------------- | -------------------------------------------------------------- |
-| classPrefix | string `('help-block')` | 组件 CSS 类的前缀                                              |
-| htmlFor     | string                  | 对应 html label 标签的 for 属性，默认为 FormGroup 的 controlId |
-| tooltip     | boolean                 | 是否通过 Tooltip 组件显示                                      |
+| 属性名称    | 类型`(默认值)`              | 描述                                                           |
+| ----------- | --------------------------- | -------------------------------------------------------------- |
+| classPrefix | string `('form-help-text')` | 组件 CSS 类的前缀                                              |
+| htmlFor     | string                      | 对应 html label 标签的 for 属性，默认为 FormGroup 的 controlId |
+| tooltip     | boolean                     | 是否通过 Tooltip 组件显示                                      |
 
 ```js
 type Placement =

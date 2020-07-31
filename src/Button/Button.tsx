@@ -58,10 +58,10 @@ const Button = React.forwardRef((props: ButtonProps, ref: React.Ref<HTMLButtonEl
     ...rest
   } = props;
 
-  const [withPrifix, merge] = useClassNames(classPrefix);
+  const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
   const classes = merge(
     className,
-    withPrifix(appearance, color, size, {
+    withClassPrefix(appearance, color, size, {
       active,
       disabled,
       loading,
@@ -70,7 +70,7 @@ const Button = React.forwardRef((props: ButtonProps, ref: React.Ref<HTMLButtonEl
   );
 
   const rippleElement = ripple && !isOneOf(appearance, ['link', 'ghost']) ? <Ripple /> : null;
-  const spin = <span className={withPrifix`spin`} />;
+  const spin = <span className={prefix`spin`} />;
 
   if (Component === 'button' && rest.href) {
     return (
@@ -83,7 +83,14 @@ const Button = React.forwardRef((props: ButtonProps, ref: React.Ref<HTMLButtonEl
   }
 
   return (
-    <Component {...rest} type={type} ref={ref} disabled={disabled} className={classes}>
+    <Component
+      {...rest}
+      type={type}
+      ref={ref}
+      disabled={disabled}
+      aria-disabled={disabled}
+      className={classes}
+    >
       {loading && spin}
       {children}
       {rippleElement}

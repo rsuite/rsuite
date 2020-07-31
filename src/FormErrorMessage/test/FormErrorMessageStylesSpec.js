@@ -1,34 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ErrorMessage from '../index';
+import FormErrorMessage from '../index';
 import { createTestContainer, getStyle, getDOMNode, toRGB, inChrome } from '@test/testUtils';
 
 import '../styles/index';
 
-describe('ErrorMessage styles', () => {
+describe('FormErrorMessage styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(
       <div className="rs-form-control-wrapper">
-        <ErrorMessage show ref={instanceRef}>
+        <FormErrorMessage show ref={instanceRef}>
           Text
-        </ErrorMessage>
+        </FormErrorMessage>
       </div>,
       createTestContainer()
     );
     const dom = getDOMNode(instanceRef.current);
-    const errorMessageDom = dom.querySelector('.rs-error-message');
-    assert.equal(getStyle(errorMessageDom, 'color'), toRGB('#f44336'), 'ErrorMessage color');
+    const errorMessageDom = dom.querySelector('.rs-form-error-message');
+    assert.equal(getStyle(errorMessageDom, 'color'), toRGB('#f44336'), 'FormErrorMessage color');
     assert.equal(
       getStyle(errorMessageDom, 'backgroundColor'),
       toRGB('#fff'),
-      'ErrorMessage background-color'
+      'FormErrorMessage background-color'
     );
     inChrome &&
       assert.equal(
         getStyle(errorMessageDom, 'border'),
         `1px solid ${toRGB('#e5e5ea')}`,
-        'ErrorMessage border'
+        'FormErrorMessage border'
       );
   });
 });

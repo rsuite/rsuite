@@ -36,8 +36,8 @@ const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref: React.Ref<
     ...rest
   } = props;
 
-  const [withPrifix, merge] = useClassNames(classPrefix);
-  const classes = merge(className, withPrifix());
+  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix());
 
   return (
     <MenuWrapper {...rest} className={classes} onKeyDown={onKeyDown} ref={ref}>

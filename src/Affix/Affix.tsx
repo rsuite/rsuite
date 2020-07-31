@@ -109,9 +109,9 @@ const Affix = React.forwardRef((props: AffixProps, ref: React.Ref<HTMLDivElement
   const containerOffset = useContainerOffset(container);
   const fixed = useFixed(offset, containerOffset, { top, onChange });
 
-  const [withPrifix, merge] = useClassNames(classPrefix);
+  const { withClassPrefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, {
-    [withPrifix()]: fixed
+    [withClassPrefix()]: fixed
   });
 
   const placeholderStyles = fixed ? { width: offset.width, height: offset.height } : undefined;

@@ -42,8 +42,8 @@ const InputGroup = React.forwardRef((props: InputGroupProps, ref: React.Ref<HTML
     setFocus(false);
   }, []);
 
-  const [withPrifix, merge] = useClassNames(classPrefix);
-  const classes = merge(className, withPrifix(size, { inside, focus, disabled }));
+  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix(size, { inside, focus, disabled }));
 
   const disabledChildren = () => {
     return React.Children.map(children, item => {

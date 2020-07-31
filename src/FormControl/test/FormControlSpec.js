@@ -41,12 +41,11 @@ describe('FormControl', () => {
 
   it('Should be readOnly', () => {
     const instance = getDOMNode(
-      <Form>
-        <FormControl name="username" readOnly />
+      <Form readOnly>
+        <FormControl name="username" />
       </Form>
     );
 
-    assert.ok(instance.querySelector('.rs-form-control-wrapper.read-only'));
     assert.ok(instance.querySelector('input[readonly]'));
   });
 
@@ -58,8 +57,8 @@ describe('FormControl', () => {
       return <input {...props} />;
     }
     getDOMNode(
-      <Form>
-        <FormControl name="username" readOnly accepter={Input} />
+      <Form readOnly>
+        <FormControl name="username" accepter={Input} />
       </Form>
     );
   });
@@ -84,7 +83,7 @@ describe('FormControl', () => {
       </Form>
     );
 
-    assert.include(instance.querySelector('input').className, 'custom');
+    assert.include(instance.querySelector('.rs-form-control').className, 'custom');
   });
 
   it('Should have a custom style', () => {

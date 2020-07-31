@@ -41,8 +41,8 @@ const ButtonGroup = React.forwardRef((props: ButtonGroupProps, ref: React.Ref<HT
     ...rest
   } = props;
 
-  const [withPrifix, merge] = useClassNames(classPrefix);
-  const classes = merge(className, withPrifix(size, { block, vertical, justified }));
+  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix(size, { block, vertical, justified }));
 
   return (
     <Component {...rest} role={role} ref={ref} className={classes}>

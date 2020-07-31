@@ -75,8 +75,8 @@ const Input = React.forwardRef((props: InputProps, ref: React.Ref<HTMLInputEleme
     [onChange]
   );
 
-  const [withPrifix, merge] = useClassNames(classPrefix);
-  const classes = merge(className, withPrifix(size));
+  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix(size));
   const inputGroupContext = useContext(InputGroupContext);
   const formGroupContext = useContext(FormGroupContext);
   const formPlaintextContext = useContext(FormPlaintextContext);

@@ -41,8 +41,8 @@ const AutoCompleteItem = React.forwardRef(
       [itemData, onSelect]
     );
 
-    const [withPrifix] = useClassNames(classPrefix);
-    const classes = withPrifix({ focus });
+    const { withClassPrefix } = useClassNames(classPrefix);
+    const classes = withClassPrefix({ focus });
 
     return (
       <li {...rest} ref={ref} className={className} role="menuitem">

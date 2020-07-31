@@ -31,7 +31,7 @@ export {
   DropdownMenuProps,
   DropdownMenuItemProps
 } from './Dropdown';
-export { default as ErrorMessage, ErrorMessageProps } from './ErrorMessage';
+export { default as FormErrorMessage, FormErrorMessageProps } from './FormErrorMessage';
 export { default as FlexboxGrid, FlexboxGridProps } from './FlexboxGrid';
 export { default as Footer, FooterProps } from './Footer';
 export { default as Form, FormProps } from './Form';
@@ -39,7 +39,7 @@ export { default as FormControl, FormControlProps } from './FormControl';
 export { default as FormGroup, FormGroupProps } from './FormGroup';
 export { default as Grid, GridProps } from './Grid';
 export { default as Header, HeaderProps } from './Header';
-export { default as HelpBlock, HelpBlockProps } from './HelpBlock';
+export { default as FormHelpText, FormHelpTextProps } from './FormHelpText';
 export { default as Icon, IconProps } from './Icon';
 export { default as IconButton, IconButtonProps } from './IconButton';
 export { default as IconStack, IconStackProps } from './IconStack';

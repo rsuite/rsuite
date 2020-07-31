@@ -13,39 +13,6 @@ describe('FormGroup', () => {
     assert.equal(instance.innerHTML, title);
   });
 
-  it('Should have a validation State', () => {
-    let instance = getDOMNode(<FormGroup validationState="warning" />);
-    assert.ok(instance.className.match(/\bhas-warning\b/));
-  });
-
-  it('Should have a warning State', () => {
-    let instance = getDOMNode(<FormGroup validationState="warning" isValid />);
-    assert.ok(instance.className.match(/\bhas-warning\b/));
-    assert.ok(!instance.className.match(/\bhas-success\b/));
-  });
-
-  it('Should have a warning State', () => {
-    let instance = getDOMNode(<FormGroup validationState="warning" isValid={false} />);
-
-    assert.ok(instance.className.match(/\bhas-warning\b/));
-    assert.ok(!instance.className.match(/\bhas-error\b/));
-  });
-
-  it('Should have a error State', () => {
-    let instance = getDOMNode(<FormGroup isValid={false} />);
-    assert.ok(instance.className.match(/\bhas-error\b/));
-  });
-
-  it('Should have a success State', () => {
-    let instance = getDOMNode(<FormGroup isValid />);
-    assert.ok(instance.className.match(/\bhas-success\b/));
-  });
-
-  it('Should add size', () => {
-    let instance = getDOMNode(<FormGroup size="lg" />);
-    assert.ok(instance.className.match(/\bform-group-lg\b/));
-  });
-
   it('Should have a custom className', () => {
     let instance = getDOMNode(<FormGroup className="custom" />);
     assert.ok(instance.className.match(/\bcustom\b/));

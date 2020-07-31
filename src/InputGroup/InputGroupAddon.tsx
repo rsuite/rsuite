@@ -12,8 +12,8 @@ const InputGroupAddon = React.forwardRef(
   (props: InputGroupAddonProps, ref: React.Ref<HTMLSpanElement>) => {
     const { classPrefix = 'input-group-addon', className, disabled, ...rest } = props;
 
-    const [withPrifix, merge] = useClassNames(classPrefix);
-    const classes = merge(className, withPrifix({ disabled }));
+    const { withClassPrefix, merge } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix({ disabled }));
 
     return <span {...rest} ref={ref} className={classes} />;
   }

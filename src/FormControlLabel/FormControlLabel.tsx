@@ -14,25 +14,18 @@ export interface FormControlLabelProps
 const FormControlLabel = React.forwardRef(
   (props: FormControlLabelProps, ref: React.Ref<HTMLLabelElement>) => {
     const {
-      classPrefix = 'form-control-label',
       as: Component = 'label',
+      classPrefix = 'form-control-label',
       htmlFor,
       className,
       ...rest
     } = props;
 
-    const formGroupContext = useContext(FormGroupContext);
-    const [withPrifix, merge] = useClassNames(classPrefix);
-    const classes = merge(className, withPrifix());
+    const { controlId } = useContext(FormGroupContext) || {};
+    const { withClassPrefix, merge } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix());
 
-    return (
-      <Component
-        {...rest}
-        ref={ref}
-        htmlFor={htmlFor || formGroupContext?.controlId}
-        className={classes}
-      />
-    );
+    return <Component {...rest} ref={ref} htmlFor={htmlFor || controlId} className={classes} />;
   }
 );
 

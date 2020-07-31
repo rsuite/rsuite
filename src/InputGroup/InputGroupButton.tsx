@@ -5,8 +5,8 @@ import Button, { ButtonProps } from '../Button';
 const InputGroupButton = React.forwardRef(
   (props: ButtonProps, ref: React.Ref<HTMLButtonElement>) => {
     const { classPrefix = 'input-group-btn', className, ...rest } = props;
-    const [withPrifix, merge] = useClassNames(classPrefix);
-    const classes = merge(className, withPrifix());
+    const { withClassPrefix, merge } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix());
 
     return <Button {...rest} ref={ref} as="a" className={classes} />;
   }

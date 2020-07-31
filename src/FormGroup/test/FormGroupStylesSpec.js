@@ -14,7 +14,7 @@ describe('FormGroup styles', () => {
     ReactDOM.render(
       <Form layout="horizontal" ref={inputInstanceRef}>
         <FormGroup>
-          <FormControl />
+          <FormControl name="name" />
         </FormGroup>
       </Form>,
       createTestContainer()

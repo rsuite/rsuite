@@ -25,7 +25,7 @@ class CustomField extends React.PureComponent {
       <FormGroup className={error ? 'has-error' : ''}>
         <FormControlLabel>{label} </FormControlLabel>
         <FormControl name={name} accepter={accepter} errorMessage={error} {...props} />
-        <HelpBlock>{message}</HelpBlock>
+        <FormHelpText>{message}</FormHelpText>
       </FormGroup>
     );
   }

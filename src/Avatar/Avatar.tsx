@@ -52,10 +52,10 @@ const Avatar = React.forwardRef((props: AvatarProps, ref: React.Ref<HTMLDivEleme
     ...rest
   } = props;
 
-  const [withPrifix, merge] = useClassNames(classPrefix);
+  const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
   const classes = merge(
     className,
-    withPrifix(size, {
+    withClassPrefix(size, {
       circle
     })
   );
@@ -65,7 +65,7 @@ const Avatar = React.forwardRef((props: AvatarProps, ref: React.Ref<HTMLDivEleme
       {src || srcSet ? (
         <img
           {...imgProps}
-          className={withPrifix('image')}
+          className={prefix`image`}
           src={src}
           sizes={sizes}
           srcSet={srcSet}

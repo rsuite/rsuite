@@ -9,7 +9,7 @@ var instance = (
       <FormGroup>
         <FormControlLabel>Username</FormControlLabel>
         <FormControl name="username" style={{ width: 160 }} />
-        <HelpBlock tooltip>Required</HelpBlock>
+        <FormHelpText tooltip>Required</FormHelpText>
       </FormGroup>
 
       <FormGroup>
