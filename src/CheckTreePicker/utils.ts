@@ -85,7 +85,7 @@ export function getSiblingNodeUncheckable(node: Node, nodes: Nodes): boolean {
 /**
  * 获取第一层节点是否全部都为 uncheckable
  */
-export function getEveryFisrtLevelNodeUncheckable(nodes: Nodes) {
+export function getEveryFirstLevelNodeUncheckable(nodes: Nodes) {
   const list = [];
   Object.keys(nodes).forEach((refKey: string) => {
     const curNode = nodes[refKey];
