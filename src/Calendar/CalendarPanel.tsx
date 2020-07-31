@@ -74,43 +74,8 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
   };
 
   handleChange = (nextValue: Date) => {
-    this.props.onChange?.(toLocalTimeZone(nextValue, this.props.timeZone));
-  };
-
-  handleChangePageDate = (nextValue: Date) => {
-    this.setState({
-      value: nextValue,
-      showMonth: false
-    });
-    this.handleChange(nextValue);
-  };
-
-  handleClickToday = () => {
-    const nextValue = zonedDate(this.props.timeZone);
-    this.setState({
-      showMonth: false,
-      value: nextValue
-    });
-    this.handleChange(nextValue);
-  };
-
-  handleNextMonth = (nextValue: Date) => {
-    this.setState({
-      value: nextValue
-    });
-    this.handleChange(nextValue);
-  };
-
-  handlePrevMonth = (nextValue: Date) => {
-    this.setState({
-      value: nextValue
-    });
-    this.handleChange(nextValue);
-  };
-
-  handleSelect = (nextValue: Date) => {
-    const { onSelect, timeZone } = this.props;
     const { pageDate } = this.state;
+    const { onChange, timeZone } = this.props;
 
     this.setState({
       value: nextValue,
@@ -120,6 +85,35 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
         (d: Date) => setSeconds(d, getSeconds(pageDate))
       )(nextValue)
     });
+
+    onChange?.(toLocalTimeZone(nextValue, timeZone));
+  };
+
+  handleChangePageDate = (nextValue: Date) => {
+    this.setState({
+      showMonth: false
+    });
+    this.handleChange(nextValue);
+  };
+
+  handleClickToday = () => {
+    const nextValue = zonedDate(this.props.timeZone);
+    this.setState({
+      showMonth: false
+    });
+    this.handleChange(nextValue);
+  };
+
+  handleNextMonth = (nextValue: Date) => {
+    this.handleChange(nextValue);
+  };
+
+  handlePrevMonth = (nextValue: Date) => {
+    this.handleChange(nextValue);
+  };
+
+  handleSelect = (nextValue: Date) => {
+    const { onSelect, timeZone } = this.props;
 
     onSelect?.(toLocalTimeZone(nextValue, timeZone));
     this.handleChange(nextValue);
