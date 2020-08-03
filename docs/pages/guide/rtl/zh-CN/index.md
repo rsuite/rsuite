@@ -27,7 +27,7 @@ function RTL(props) {
 - 使用已编译的 RTL 版本的 CSS 文件
 
 ```less
-@import '~rsuite/dist/styles/rsuite-default.rtl.css'; //or ~rsuite/dist/styles/rsuite-dark.rtl.css
+@import '~rsuite/dist/styles/rsuite-default-rtl.css'; //or ~rsuite/dist/styles/rsuite-dark-rtl.css
 ```
 
 - 如果使用 Less 版本，则通过 [rtlcss](https://rtlcss.com/) 处理最终成 CSS
