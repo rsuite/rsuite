@@ -310,14 +310,15 @@ describe('DatePicker', () => {
     const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
     const template = 'yyyy-MM-dd HH:mm:ss';
     const date = new Date();
-    const dateFormatted = format(date, 'HH:mm:ss');
+    const dateFormatted = format(date, 'HH:mm');
     const instance = getInstance(
       <DatePicker
         format={template}
         timeZone={timeZone}
         defaultOpen
+        value={date}
         disabledDate={value => {
-          assert.equal(format(value, 'HH:mm:ss'), dateFormatted);
+          assert.equal(format(value, 'HH:mm'), dateFormatted);
           return value.valueOf() > date.valueOf();
         }}
       />
