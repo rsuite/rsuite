@@ -6,31 +6,31 @@
 var instance = (
   <div>
     <Form layout="inline">
-      <FormGroup>
-        <FormControlLabel>Username</FormControlLabel>
-        <FormControl name="username" style={{ width: 160 }} />
-        <FormHelpText tooltip>Required</FormHelpText>
-      </FormGroup>
+      <Form.Group>
+        <Form.ControlLabel>Username</Form.ControlLabel>
+        <Form.Control name="username" style={{ width: 160 }} />
+        <Form.HelpText tooltip>Required</Form.HelpText>
+      </Form.Group>
 
-      <FormGroup>
-        <FormControlLabel>Password</FormControlLabel>
-        <FormControl name="password" type="password" style={{ width: 160 }} />
-      </FormGroup>
+      <Form.Group>
+        <Form.ControlLabel>Password</Form.ControlLabel>
+        <Form.Control name="password" type="password" style={{ width: 160 }} />
+      </Form.Group>
 
       <Button>Login</Button>
     </Form>
     <hr />
 
     <Form layout="inline">
-      <FormGroup>
-        <FormControlLabel>Username</FormControlLabel>
-        <FormControl placeholder="Username" name="username" />
-      </FormGroup>
+      <Form.Group>
+        <Form.ControlLabel>Username</Form.ControlLabel>
+        <Form.Control placeholder="Username" name="username" />
+      </Form.Group>
 
-      <FormGroup>
-        <FormControlLabel>Username</FormControlLabel>
-        <FormControl placeholder="Password" name="password" type="password" />
-      </FormGroup>
+      <Form.Group>
+        <Form.ControlLabel>Username</Form.ControlLabel>
+        <Form.Control placeholder="Password" name="password" type="password" />
+      </Form.Group>
 
       <Button>Login</Button>
     </Form>

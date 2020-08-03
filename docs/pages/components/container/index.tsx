@@ -16,9 +16,6 @@ import {
   FlexboxGrid,
   Panel,
   Form,
-  FormGroup,
-  FormControlLabel,
-  FormControl,
   ButtonToolbar,
   Navbar
 } from 'rsuite';
@@ -48,9 +45,6 @@ export default function Page() {
         FlexboxGrid,
         Panel,
         Form,
-        FormGroup,
-        FormControlLabel,
-        FormControl,
         ButtonToolbar,
         Navbar
       }}

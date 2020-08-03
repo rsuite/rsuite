@@ -22,51 +22,58 @@ export interface InputGroupProps extends StandardProps {
   size?: TypeAttributes.Size;
 }
 
-const InputGroup = React.forwardRef((props: InputGroupProps, ref: React.Ref<HTMLDivElement>) => {
-  const {
-    classPrefix = 'input-group',
-    className,
-    disabled,
-    inside,
-    size,
-    children,
-    ...rest
-  } = props;
-  const [focus, setFocus] = useState(false);
+export interface InputGroupInterface extends React.FunctionComponent<InputGroupProps> {
+  Addon?: typeof InputGroupAddon;
+  Button?: typeof InputGroupButton;
+}
 
-  const handleFocus = useCallback(() => {
-    setFocus(true);
-  }, []);
+const InputGroup: InputGroupInterface = React.forwardRef(
+  (props: InputGroupProps, ref: React.Ref<HTMLDivElement>) => {
+    const {
+      classPrefix = 'input-group',
+      className,
+      disabled,
+      inside,
+      size,
+      children,
+      ...rest
+    } = props;
+    const [focus, setFocus] = useState(false);
 
-  const handleBlur = useCallback(() => {
-    setFocus(false);
-  }, []);
+    const handleFocus = useCallback(() => {
+      setFocus(true);
+    }, []);
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(size, { inside, focus, disabled }));
+    const handleBlur = useCallback(() => {
+      setFocus(false);
+    }, []);
 
-  const disabledChildren = () => {
-    return React.Children.map(children, item => {
-      if (React.isValidElement(item)) {
-        return React.cloneElement(item, { disabled: true });
-      }
-      return item;
-    });
-  };
+    const { withClassPrefix, merge } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix(size, { inside, focus, disabled }));
 
-  const contextValue = useMemo(() => ({ onFocus: handleFocus, onBlur: handleBlur }), [
-    handleFocus,
-    handleBlur
-  ]);
+    const disabledChildren = () => {
+      return React.Children.map(children, item => {
+        if (React.isValidElement(item)) {
+          return React.cloneElement(item, { disabled: true });
+        }
+        return item;
+      });
+    };
 
-  return (
-    <InputGroupContext.Provider value={contextValue}>
-      <div {...rest} ref={ref} className={classes}>
-        {disabled ? disabledChildren() : children}
-      </div>
-    </InputGroupContext.Provider>
-  );
-});
+    const contextValue = useMemo(() => ({ onFocus: handleFocus, onBlur: handleBlur }), [
+      handleFocus,
+      handleBlur
+    ]);
+
+    return (
+      <InputGroupContext.Provider value={contextValue}>
+        <div {...rest} ref={ref} className={classes}>
+          {disabled ? disabledChildren() : children}
+        </div>
+      </InputGroupContext.Provider>
+    );
+  }
+);
 
 InputGroup.displayName = 'InputGroup';
 InputGroup.propTypes = {
@@ -78,10 +85,7 @@ InputGroup.propTypes = {
   size: PropTypes.oneOf(['lg', 'md', 'sm', 'xs'])
 };
 
-const InputGroupWithExtras = {
-  ...InputGroup,
-  Addon: InputGroupAddon,
-  Button: InputGroupButton
-};
+InputGroup.Addon = InputGroupAddon;
+InputGroup.Button = InputGroupButton;
 
-export default InputGroupWithExtras;
+export default InputGroup;

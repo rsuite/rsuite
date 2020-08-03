@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import isUndefined from 'lodash/isUndefined';
-
 import Input from '../Input';
 import FormErrorMessage from '../FormErrorMessage';
 import { useClassNames } from '../utils';
 import { TypeAttributes, StandardProps, FormControlBaseProps } from '../@types/common';
-import FormContext, { FormValueContext, FormErrorContext } from '../Form/FormContext';
+import FormContext, { FormValueContext } from '../Form/FormContext';
 import { FormGroupContext } from '../FormGroup/FormGroup';
 
 /**
@@ -50,7 +49,6 @@ export interface FormControlProps<P = any, ValueType = any>
 
 const FormControl = React.forwardRef((props: FormControlProps, ref: React.Ref<HTMLDivElement>) => {
   const {
-    as: Component = 'div',
     accepter: AccepterComponent = Input,
     classPrefix = 'form-control',
     className,
@@ -70,6 +68,7 @@ const FormControl = React.forwardRef((props: FormControlProps, ref: React.Ref<HT
     plaintext,
     errorFromContext,
     formDefaultValue = {},
+    formError,
     onFieldChange,
     onFieldError,
     onFieldSuccess,
@@ -126,36 +125,32 @@ const FormControl = React.forwardRef((props: FormControlProps, ref: React.Ref<HT
     return Promise.resolve(callbackEvents(model.checkForField(name, value, formValue)));
   };
 
-  const renderFormErrorMessage = (formError?: any, errorMessage?: React.ReactNode) => {
-    if (formError) {
-      errorMessage = formError[name];
+  const renderErrorMessage = () => {
+    let messageNode = null;
+
+    if (!isUndefined(errorMessage)) {
+      messageNode = errorMessage;
+    } else if (errorFromContext) {
+      messageNode = formError?.[name];
+    }
+
+    if (!messageNode) {
+      return null;
     }
 
     return (
       <FormErrorMessage
-        show={!!errorMessage}
+        show={!!messageNode}
         className={prefix`message-wrapper`}
         placement={errorPlacement}
       >
-        {errorMessage}
+        {messageNode}
       </FormErrorMessage>
     );
   };
 
-  const renderError = () => {
-    if (!isUndefined(errorMessage)) {
-      return renderFormErrorMessage(undefined, errorMessage);
-    }
-
-    if (errorFromContext) {
-      return <FormErrorContext.Consumer>{renderFormErrorMessage}</FormErrorContext.Consumer>;
-    }
-
-    return null;
-  };
-
   return (
-    <Component className={classes} ref={ref}>
+    <div className={classes} ref={ref}>
       <AccepterComponent
         {...rest}
         aria-labelledby={controlId ? `${controlId}-control-label` : null}
@@ -169,8 +164,8 @@ const FormControl = React.forwardRef((props: FormControlProps, ref: React.Ref<HT
         value={val}
       />
 
-      {renderError()}
-    </Component>
+      {renderErrorMessage()}
+    </div>
   );
 });
 

@@ -1,9 +1,9 @@
-### Custom FormControl
+### Custom Form.Control
 
-All Data Entry-related components can be used in forms such as `Checkbox`, `SelectPicker`, `Slider`, and so on. But you need to use the `FormControl` component for data management and data association with the `Form` component.
+All Data Entry-related components can be used in forms such as `Checkbox`, `SelectPicker`, `Slider`, and so on. But you need to use the `Form.Control` component for data management and data association with the `Form` component.
 
-- `FormControl` used to bind data fields in a Form, passing the `name` attribute to the `key` of the Schema.Model object.
-- `FormControl` the default is an `Input` component, which can be set through the ʻaccepter` component.
+- `Form.Control` used to bind data fields in a Form, passing the `name` attribute to the `key` of the Schema.Model object.
+- `Form.Control` the default is an `Input` component, which can be set through the ʻaccepter` component.
 
 <!--start-code-->
 
@@ -23,11 +23,11 @@ class CustomField extends React.PureComponent {
   render() {
     const { name, message, label, accepter, error, ...props } = this.props;
     return (
-      <FormGroup className={error ? 'has-error' : ''}>
-        <FormControlLabel>{label} </FormControlLabel>
-        <FormControl name={name} accepter={accepter} errorMessage={error} {...props} />
-        <FormHelpText>{message}</FormHelpText>
-      </FormGroup>
+      <Form.Group className={error ? 'has-error' : ''}>
+        <Form.ControlLabel>{label} </Form.ControlLabel>
+        <Form.Control name={name} accepter={accepter} errorMessage={error} {...props} />
+        <Form.HelpText>{message}</Form.HelpText>
+      </Form.Group>
     );
   }
 }
@@ -142,11 +142,11 @@ class CustomFieldForm extends React.Component {
             errorMessage={formError.createDate}
           />
 
-          <FormGroup>
+          <Form.Group>
             <Button appearance="primary" onClick={this.handleSubmit}>
               Submit
             </Button>
-          </FormGroup>
+          </Form.Group>
         </Form>
       </div>
     );
@@ -158,4 +158,4 @@ ReactDOM.render(<CustomFieldForm />);
 
 <!--end-code-->
 
-> For example: `<FormControl accepter={CheckboxGroup} />` , FormControl renders a `<CheckboxGroup>` component and binds to the Schema.Model instance in the Form. The rich text editor in the following example, using [react-quill](https://github.com/zenoamaro/react-quill)
+> For example: `<Form.Control accepter={CheckboxGroup} />` , Form.Control renders a `<CheckboxGroup>` component and binds to the Schema.Model instance in the Form. The rich text editor in the following example, using [react-quill](https://github.com/zenoamaro/react-quill)

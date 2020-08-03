@@ -2,7 +2,7 @@
 
 Error message can be set in 2 ways:
 
-- The `<FormControl>` component passes an `errorMessage` property setting error message, and `errorPlacement` sets the location of the error message display.
+- The `<Form.Control>` component passes an `errorMessage` property setting error message, and `errorPlacement` sets the location of the error message display.
 - Customize a prompt message.
 
 <!--start-code-->
@@ -31,19 +31,19 @@ const App = () => {
   return (
     <div>
       <Form>
-        <FormGroup>
-          <FormControl
+        <Form.Group>
+          <Form.Control
             name="input-2"
-            placeholder="FormControl"
+            placeholder="Form.Control"
             errorMessage={errorMessage}
             errorPlacement={errorPlacement}
           />
-        </FormGroup>
-        <FormGroup>
+        </Form.Group>
+        <Form.Group>
           <InputGroup inside>
-            <FormControl
+            <Form.Control
               name="input-1"
-              placeholder="FormControl in InputGroup"
+              placeholder="Form.Control in InputGroup"
               errorMessage={errorMessage}
               errorPlacement={errorPlacement}
             />
@@ -51,18 +51,18 @@ const App = () => {
               <Icon icon="avatar" />
             </InputGroup.Addon>
           </InputGroup>
-        </FormGroup>
-        <FormGroup>
-          <FormControl name="input-3" placeholder="Custom error messages" />
+        </Form.Group>
+        <Form.Group>
+          <Form.Control name="input-3" placeholder="Custom error messages" />
           <div style={errorStyles(errorVisible)}>{errorMessage}</div>
-        </FormGroup>
+        </Form.Group>
       </Form>
       <hr />
       <div className={'rs-form-control-wrapper'} style={{ width: 300 }}>
         <Input placeholder="Custom error messages" />
-        <FormErrorMessage show={errorVisible} placement={errorPlacement}>
+        <Form.ErrorMessage show={errorVisible} placement={errorPlacement}>
           {errorMessage}
-        </FormErrorMessage>
+        </Form.ErrorMessage>
       </div>
       <hr />
       Show Error: <Toggle onChange={setErrorVisible} checked={errorVisible} />

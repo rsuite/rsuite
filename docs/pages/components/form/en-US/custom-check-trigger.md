@@ -8,7 +8,7 @@ The default value of `checkTrigger` is `'change'`, options includes:
 - `'blur'` : trigger verification when component blur
 - `'none'` : Only valid when calling the `check()` method of `<Form>`
 
-There are `checkTrigger` properties on the `<Form>` and `<FormControl>` components. You can define the entire form's validation method in `<Form>`. If there is a form component that needs to handle the validation independently, you can Set it on `<FormControl>`.
+There are `checkTrigger` properties on the `<Form>` and `<Form.Control>` components. You can define the entire form's validation method in `<Form>`. If there is a form component that needs to handle the validation independently, you can Set it on `<Form.Control>`.
 
 <!--start-code-->
 
@@ -22,11 +22,11 @@ class CustomField extends React.PureComponent {
   render() {
     const { name, message, label, accepter, error, ...props } = this.props;
     return (
-      <FormGroup className={error ? 'has-error' : ''}>
-        <FormControlLabel>{label} </FormControlLabel>
-        <FormControl name={name} accepter={accepter} errorMessage={error} {...props} />
-        <FormHelpText>{message}</FormHelpText>
-      </FormGroup>
+      <Form.Group className={error ? 'has-error' : ''}>
+        <Form.ControlLabel>{label} </Form.ControlLabel>
+        <Form.Control name={name} accepter={accepter} errorMessage={error} {...props} />
+        <Form.HelpText>{message}</Form.HelpText>
+      </Form.Group>
     );
   }
 }
@@ -98,5 +98,3 @@ ReactDOM.render(<CustomCheckForm />);
 ```
 
 <!--end-code-->
-
-> You can also set the check delay time `checkDelay`, the default value is `500` milliseconds.

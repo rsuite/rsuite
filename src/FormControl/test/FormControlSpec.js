@@ -125,10 +125,19 @@ describe('FormControl', () => {
   });
 
   it('Should render correctly when errorMessage was null', () => {
-    const fontSize = '12px';
     const instance = getDOMNode(
       <Form formError={{ username: 'error' }}>
-        <FormControl errorMessage={null} style={{ fontSize }} name="username" />
+        <FormControl errorMessage={null} name="username" />
+      </Form>
+    );
+
+    assert.ok(!instance.querySelector('.rs-form-control-message-wrapper'));
+  });
+
+  it('Should render correctly when errorMessage was null 2', () => {
+    const instance = getDOMNode(
+      <Form formError={{ username: 'error' }} errorFromContext={false}>
+        <FormControl name="username" />
       </Form>
     );
 
@@ -136,24 +145,12 @@ describe('FormControl', () => {
   });
 
   it('Should the priority of errorMessage be higher than formError', () => {
-    const fontSize = '12px';
     const instance = getDOMNode(
       <Form formError={{ username: 'error1' }}>
-        <FormControl errorMessage={'error2'} style={{ fontSize }} name="username" />
+        <FormControl errorMessage={'error2'} name="username" />
       </Form>
     );
 
     assert.equal(instance.querySelector('.rs-form-control-message-wrapper').innerText, 'error2');
-  });
-
-  it('Should render correctly when errorMessage was null', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(
-      <Form formError={{ username: 'error' }} errorFromContext={false}>
-        <FormControl style={{ fontSize }} name="username" />
-      </Form>
-    );
-
-    assert.ok(!instance.querySelector('.rs-form-control-message-wrapper'));
   });
 });

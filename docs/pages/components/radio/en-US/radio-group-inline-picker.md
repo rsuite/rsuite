@@ -12,7 +12,7 @@ const styles = {
 };
 
 const instance = (
-  <FormGroup controlId="radioList">
+  <Form.Group controlId="radioList">
     <RadioGroup name="radioList" inline appearance="picker" defaultValue="A">
       <Radio value="A">Item A</Radio>
       <Radio value="B">Item B</Radio>
@@ -29,7 +29,7 @@ const instance = (
       <Radio value="B">Enbaled</Radio>
       <Radio value="C">Disabled</Radio>
     </RadioGroup>
-  </FormGroup>
+  </Form.Group>
 );
 ReactDOM.render(instance);
 ```

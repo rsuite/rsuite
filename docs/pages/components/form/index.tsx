@@ -1,11 +1,6 @@
 import * as React from 'react';
 import {
   Form,
-  FormGroup,
-  FormControl,
-  FormControlLabel,
-  FormHelpText,
-  FormErrorMessage,
   Dropdown,
   Icon,
   Button,
@@ -98,11 +93,6 @@ export default function Page() {
         Col,
         Schema,
         Form,
-        FormGroup,
-        FormControl,
-        FormControlLabel,
-        FormHelpText,
-        FormErrorMessage,
         Input,
         InputGroup,
         InputNumber,

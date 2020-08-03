@@ -57,7 +57,7 @@ const Example = () => {
 
   return (
     <Form formValue={formValue} onChange={formValue => setFormValue(formValue)}>
-      <FormControlLabel>Change show mode</FormControlLabel>
+      <Form.ControlLabel>Change show mode</Form.ControlLabel>
       <RadioGroup inline value={mode} onChange={value => setMode(value)}>
         <Radio value="normal">normal</Radio>
         <Radio value="readonly">readonly</Radio>
@@ -65,15 +65,15 @@ const Example = () => {
         <Radio value="plaintext">plaintext</Radio>
       </RadioGroup>
 
-      <FormGroup>
-        <FormControlLabel>Input</FormControlLabel>
-        <FormControl name="input" disabled={disabled} readOnly={readOnly} plaintext={plaintext} />
-        <FormHelpText tooltip>This is a tooltip description.</FormHelpText>
-      </FormGroup>
+      <Form.Group>
+        <Form.ControlLabel>Input</Form.ControlLabel>
+        <Form.Control name="input" disabled={disabled} readOnly={readOnly} plaintext={plaintext} />
+        <Form.HelpText tooltip>This is a tooltip description.</Form.HelpText>
+      </Form.Group>
 
-      <FormGroup>
-        <FormControlLabel>Checkbox</FormControlLabel>
-        <FormControl
+      <Form.Group>
+        <Form.ControlLabel>Checkbox</Form.ControlLabel>
+        <Form.Control
           name="checkbox"
           accepter={CheckboxGroup}
           inline
@@ -96,13 +96,13 @@ const Example = () => {
           <Checkbox disabled={disabled} value="HTML5">
             HTML5
           </Checkbox>
-        </FormControl>
-        <FormHelpText>This default description.</FormHelpText>
-      </FormGroup>
+        </Form.Control>
+        <Form.HelpText>This default description.</Form.HelpText>
+      </Form.Group>
 
-      <FormGroup>
-        <FormControlLabel>Radio</FormControlLabel>
-        <FormControl
+      <Form.Group>
+        <Form.ControlLabel>Radio</Form.ControlLabel>
+        <Form.Control
           name="radio"
           accepter={RadioGroup}
           disabled={disabled}
@@ -124,12 +124,12 @@ const Example = () => {
           <Radio disabled={disabled} value="HTML5">
             HTML5
           </Radio>
-        </FormControl>
-      </FormGroup>
+        </Form.Control>
+      </Form.Group>
 
-      <FormGroup>
-        <FormControlLabel>Slider</FormControlLabel>
-        <FormControl
+      <Form.Group>
+        <Form.ControlLabel>Slider</Form.ControlLabel>
+        <Form.Control
           accepter={Slider}
           min={0}
           max={20}
@@ -140,33 +140,33 @@ const Example = () => {
           readOnly={readOnly}
           plaintext={plaintext}
         />
-      </FormGroup>
+      </Form.Group>
 
-      <FormGroup>
-        <FormControlLabel>DatePicker</FormControlLabel>
-        <FormControl
+      <Form.Group>
+        <Form.ControlLabel>DatePicker</Form.ControlLabel>
+        <Form.Control
           name="datePicker"
           accepter={DatePicker}
           disabled={disabled}
           readOnly={readOnly}
           plaintext={plaintext}
         />
-      </FormGroup>
+      </Form.Group>
 
-      <FormGroup>
-        <FormControlLabel>DateRangePicker</FormControlLabel>
-        <FormControl
+      <Form.Group>
+        <Form.ControlLabel>DateRangePicker</Form.ControlLabel>
+        <Form.Control
           name="dateRangePicker"
           accepter={DateRangePicker}
           disabled={disabled}
           readOnly={readOnly}
           plaintext={plaintext}
         />
-      </FormGroup>
+      </Form.Group>
 
-      <FormGroup>
-        <FormControlLabel>CheckPicker</FormControlLabel>
-        <FormControl
+      <Form.Group>
+        <Form.ControlLabel>CheckPicker</Form.ControlLabel>
+        <Form.Control
           name="checkPicker"
           accepter={CheckPicker}
           data={pickerData}
@@ -174,11 +174,11 @@ const Example = () => {
           readOnly={readOnly}
           plaintext={plaintext}
         />
-      </FormGroup>
+      </Form.Group>
 
-      <FormGroup>
-        <FormControlLabel>SelectPicker</FormControlLabel>
-        <FormControl
+      <Form.Group>
+        <Form.ControlLabel>SelectPicker</Form.ControlLabel>
+        <Form.Control
           name="selectPicker"
           accepter={SelectPicker}
           data={pickerData}
@@ -186,11 +186,11 @@ const Example = () => {
           readOnly={readOnly}
           plaintext={plaintext}
         />
-      </FormGroup>
+      </Form.Group>
 
-      <FormGroup>
-        <FormControlLabel>TagPicker</FormControlLabel>
-        <FormControl
+      <Form.Group>
+        <Form.ControlLabel>TagPicker</Form.ControlLabel>
+        <Form.Control
           name="tagPicker"
           accepter={TagPicker}
           data={pickerData}
@@ -198,11 +198,11 @@ const Example = () => {
           readOnly={readOnly}
           plaintext={plaintext}
         />
-      </FormGroup>
+      </Form.Group>
 
-      <FormGroup>
-        <FormControlLabel>InputPicker</FormControlLabel>
-        <FormControl
+      <Form.Group>
+        <Form.ControlLabel>InputPicker</Form.ControlLabel>
+        <Form.Control
           name="inputPicker"
           accepter={InputPicker}
           data={pickerData}
@@ -210,11 +210,11 @@ const Example = () => {
           readOnly={readOnly}
           plaintext={plaintext}
         />
-      </FormGroup>
+      </Form.Group>
 
-      <FormGroup>
-        <FormControlLabel>Cascader</FormControlLabel>
-        <FormControl
+      <Form.Group>
+        <Form.ControlLabel>Cascader</Form.ControlLabel>
+        <Form.Control
           name="cascader"
           accepter={Cascader}
           data={cascaderData}
@@ -222,11 +222,11 @@ const Example = () => {
           readOnly={readOnly}
           plaintext={plaintext}
         />
-      </FormGroup>
+      </Form.Group>
 
-      <FormGroup>
-        <FormControlLabel>MultiCascader</FormControlLabel>
-        <FormControl
+      <Form.Group>
+        <Form.ControlLabel>MultiCascader</Form.ControlLabel>
+        <Form.Control
           name="multiCascader"
           accepter={MultiCascader}
           data={cascaderData}
@@ -234,7 +234,7 @@ const Example = () => {
           readOnly={readOnly}
           plaintext={plaintext}
         />
-      </FormGroup>
+      </Form.Group>
     </Form>
   );
 };

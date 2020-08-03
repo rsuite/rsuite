@@ -11,6 +11,13 @@ import { StandardProps, TypeAttributes, ItemDataType } from '../@types/common';
 import DropdownMenu from './DropdownMenu';
 import { transformData, shouldDisplay } from './utils';
 
+export interface AutoCompleteInstance extends React.HTMLAttributes<HTMLDivElement> {
+  root?: HTMLDivElement;
+  menu?: HTMLDivElement;
+  open?: () => void;
+  close?: () => void;
+}
+
 export interface AutoCompleteProps extends StandardProps, Omit<InputProps, 'onSelect'> {
   /** The data of component */
   data?: any[];

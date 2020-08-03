@@ -7,30 +7,30 @@ The `fluid` property allows the Input 100% of the form to fill the container, va
 ```js
 const instance = (
   <Form fluid>
-    <FormGroup>
-      <FormControlLabel>Username</FormControlLabel>
-      <FormControl name="name" />
-      <FormHelpText>Required</FormHelpText>
-    </FormGroup>
-    <FormGroup>
-      <FormControlLabel>Email</FormControlLabel>
-      <FormControl name="email" type="email" />
-      <FormHelpText>Required</FormHelpText>
-    </FormGroup>
-    <FormGroup>
-      <FormControlLabel>Password</FormControlLabel>
-      <FormControl name="password" type="password" />
-    </FormGroup>
-    <FormGroup>
-      <FormControlLabel>Textarea</FormControlLabel>
-      <FormControl rows={5} name="textarea" as="textarea" />
-    </FormGroup>
-    <FormGroup>
+    <Form.Group>
+      <Form.ControlLabel>Username</Form.ControlLabel>
+      <Form.Control name="name" />
+      <Form.HelpText>Required</Form.HelpText>
+    </Form.Group>
+    <Form.Group>
+      <Form.ControlLabel>Email</Form.ControlLabel>
+      <Form.Control name="email" type="email" />
+      <Form.HelpText>Required</Form.HelpText>
+    </Form.Group>
+    <Form.Group>
+      <Form.ControlLabel>Password</Form.ControlLabel>
+      <Form.Control name="password" type="password" />
+    </Form.Group>
+    <Form.Group>
+      <Form.ControlLabel>Textarea</Form.ControlLabel>
+      <Form.Control rows={5} name="textarea" as="textarea" />
+    </Form.Group>
+    <Form.Group>
       <ButtonToolbar>
         <Button appearance="primary">Submit</Button>
         <Button appearance="default">Cancel</Button>
       </ButtonToolbar>
-    </FormGroup>
+    </Form.Group>
   </Form>
 );
 ReactDOM.render(instance);

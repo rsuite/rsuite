@@ -222,6 +222,7 @@ describe('Form', () => {
       number: Schema.Types.StringType().isRequired(tip)
     });
 
+    const formRef = React.createRef();
     class Demo extends React.Component {
       constructor(props) {
         super(props);
@@ -301,7 +302,7 @@ describe('Form', () => {
         const { formValue, formError } = this.state;
         return (
           <Form
-            ref={ref => (this.form = ref)}
+            ref={formRef}
             model={curModel}
             formValue={formValue}
             formError={formError}
@@ -318,7 +319,7 @@ describe('Form', () => {
     }
 
     const instance = getInstance(<Demo />);
-    const element = getDOMNode(instance.form);
+    const element = formRef.current.root;
     ReactTestUtils.Simulate.change(element.querySelector('input[name="name1"]'));
     ReactTestUtils.Simulate.change(element.querySelector('input[name="name2"]'));
     ReactTestUtils.Simulate.change(element.querySelector('input[name="name3"]'));

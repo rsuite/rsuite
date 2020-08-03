@@ -2,7 +2,6 @@ import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import isUndefined from 'lodash/isUndefined';
 import { createChainedFunction, refType, mergeRefs, useClassNames } from '../utils';
-import { FormPlaintextContext } from '../Form/FormContext';
 import { FormGroupContext } from '../FormGroup/FormGroup';
 import { InputGroupContext } from '../InputGroup/InputGroup';
 import { StandardProps, TypeAttributes, FormControlBaseProps } from '../@types/common';
@@ -79,11 +78,10 @@ const Input = React.forwardRef((props: InputProps, ref: React.Ref<HTMLInputEleme
   const classes = merge(className, withClassPrefix(size));
   const inputGroupContext = useContext(InputGroupContext);
   const formGroupContext = useContext(FormGroupContext);
-  const formPlaintextContext = useContext(FormPlaintextContext);
 
   // Make the Input component display in plain text,
   // and display default characters when there is no value.
-  if (plaintext || formPlaintextContext?.plaintext) {
+  if (plaintext) {
     const val = isUndefined(value) ? defaultValue : value;
     return (
       <div {...rest} className={classes}>

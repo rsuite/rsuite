@@ -19,10 +19,10 @@ const model = Schema.Model({
 function TextField(props) {
   const { name, label, accepter, ...rest } = props;
   return (
-    <FormGroup>
-      <FormControlLabel>{label} </FormControlLabel>
-      <FormControl name={name} accepter={accepter} {...rest} />
-    </FormGroup>
+    <Form.Group>
+      <Form.ControlLabel>{label} </Form.ControlLabel>
+      <Form.Control name={name} accepter={accepter} {...rest} />
+    </Form.Group>
   );
 }
 function CheckForm() {

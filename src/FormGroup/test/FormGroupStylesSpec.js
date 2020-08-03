@@ -19,7 +19,7 @@ describe('FormGroup styles', () => {
       </Form>,
       createTestContainer()
     );
-    const dom = getDOMNode(inputInstanceRef.current);
+    const dom = inputInstanceRef.current.root;
     const formControlWrapperDom = dom.querySelector('.rs-form-control-wrapper');
     assert.equal(getStyle(formControlWrapperDom, 'float'), 'left', 'FormControl wrapper float');
   });

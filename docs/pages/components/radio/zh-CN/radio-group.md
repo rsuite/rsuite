@@ -4,7 +4,7 @@
 
 ```js
 const instance = (
-  <FormGroup controlId="radioList">
+  <Form.Group controlId="radioList">
     <RadioGroup name="radioList">
       <p>Group1</p>
       <Radio value="A">Item A</Radio>
@@ -15,7 +15,7 @@ const instance = (
         Item D
       </Radio>
     </RadioGroup>
-  </FormGroup>
+  </Form.Group>
 );
 ReactDOM.render(instance);
 ```

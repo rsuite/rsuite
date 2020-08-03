@@ -17,7 +17,7 @@ describe('Form styles', () => {
       </Form>,
       createTestContainer()
     );
-    const dom = getDOMNode(instanceRef.current);
+    const dom = instanceRef.current.root;
     const buttonDom = dom.children[0];
     const controlLabelDom = dom.children[1];
     assert.equal(getStyle(buttonDom, 'verticalAlign'), 'top', 'Button vertical-align');

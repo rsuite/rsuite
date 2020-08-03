@@ -18,20 +18,20 @@ const instance = (
           <FlexboxGrid.Item colspan={12}>
             <Panel header={<h3>Login</h3>} bordered>
               <Form fluid>
-                <FormGroup>
-                  <FormControlLabel>Username or email address</FormControlLabel>
-                  <FormControl name="name" />
-                </FormGroup>
-                <FormGroup>
-                  <FormControlLabel>Password</FormControlLabel>
-                  <FormControl name="password" type="password" />
-                </FormGroup>
-                <FormGroup>
+                <Form.Group>
+                  <Form.ControlLabel>Username or email address</Form.ControlLabel>
+                  <Form.Control name="name" />
+                </Form.Group>
+                <Form.Group>
+                  <Form.ControlLabel>Password</Form.ControlLabel>
+                  <Form.Control name="password" type="password" />
+                </Form.Group>
+                <Form.Group>
                   <ButtonToolbar>
                     <Button appearance="primary">Sign in</Button>
                     <Button appearance="link">Forgot password?</Button>
                   </ButtonToolbar>
-                </FormGroup>
+                </Form.Group>
               </Form>
             </Panel>
           </FlexboxGrid.Item>

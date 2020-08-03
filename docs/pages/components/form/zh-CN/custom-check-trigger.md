@@ -8,7 +8,7 @@
 - `'blur'` : 组件失去焦点触发校验
 - `'none'` : 不触发校验，只会在调用 `<Form>` 的 `check()` 方法的时候才会校验
 
-在 `<Form>` 和 `<FormControl>` 组件上都有 `checkTrigger` 属性， 在 `<Form>` 中可以定义整个表单的校验方式，如果有个表单组件需要单独处理校验方式，可以在 `<FormControl>` 上进行设置。
+在 `<Form>` 和 `<Form.Control>` 组件上都有 `checkTrigger` 属性， 在 `<Form>` 中可以定义整个表单的校验方式，如果有个表单组件需要单独处理校验方式，可以在 `<Form.Control>` 上进行设置。
 
 <!--start-code-->
 
@@ -23,11 +23,11 @@ class CustomField extends React.PureComponent {
   render() {
     const { name, message, label, accepter, error, ...props } = this.props;
     return (
-      <FormGroup className={error ? 'has-error' : ''}>
-        <FormControlLabel>{label} </FormControlLabel>
-        <FormControl name={name} accepter={accepter} errorMessage={error} {...props} />
-        <FormHelpText>{message}</FormHelpText>
-      </FormGroup>
+      <Form.Group className={error ? 'has-error' : ''}>
+        <Form.ControlLabel>{label} </Form.ControlLabel>
+        <Form.Control name={name} accepter={accepter} errorMessage={error} {...props} />
+        <Form.HelpText>{message}</Form.HelpText>
+      </Form.Group>
     );
   }
 }
@@ -99,5 +99,3 @@ ReactDOM.render(<CustomCheckForm />);
 ```
 
 <!--end-code-->
-
-> 还可以设置校验延迟时间 `checkDelay`, 默认值为 `500` 毫秒。
