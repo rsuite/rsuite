@@ -39,7 +39,7 @@ import {
   getSiblingNodeUncheckable,
   Node,
   Nodes,
-  getEveryFisrtLevelNodeUncheckable,
+  getEveryFirstLevelNodeUncheckable,
   getUncheckableState,
   getFormattedTree,
   getDisabledState
@@ -50,7 +50,6 @@ import {
   shouldShowNodeByExpanded,
   flattenTree,
   getNodeParents,
-  getVirtualLisHeight,
   hasVisibleChildren,
   treeDeprecatedWarning,
   getExpandItemValues,
@@ -80,6 +79,7 @@ interface CheckTreePickerState {
   uncheckableItemValues?: any[];
   isSomeNodeHasChildren?: boolean;
   active?: boolean;
+  virtualizedTreeHeight?: number;
 }
 
 class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePickerState> {
@@ -157,6 +157,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       searchKeyword: searchKeyword || '',
       selectedValues: nextValue,
       expandItemValues: this.serializeList('expand'),
+      virtualizedTreeHeight: defaultHeight,
       uncheckableItemValues: props.uncheckableItemValues,
       isSomeNodeHasChildren: isSomeNodeHasChildren(data, childrenKey)
     };
@@ -743,7 +744,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
   }
 
   toggleNode(key: string, node: Node, toggleValue: boolean) {
-    // 如果该节点处于 disabledChecbox，则忽略该值
+    // 如果该节点处于 disabledCheckbox，则忽略该值
     if (!node.uncheckable) {
       this.nodes[node.refKey][key] = toggleValue;
     }
@@ -854,7 +855,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     onSearch?.(value, event);
   };
 
-  handleClean = (evnet: React.SyntheticEvent<any>) => {
+  handleClean = (event: React.SyntheticEvent<any>) => {
     this.setState({
       selectedValues: [],
       hasValue: false,
@@ -864,7 +865,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       check: []
     });
 
-    this.props.onChange?.([], evnet);
+    this.props.onChange?.([], event);
   };
 
   handleOnOpen = () => {
@@ -877,6 +878,12 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     this.setState({
       active: true
     });
+
+    if (this.treeViewRef?.current) {
+      this.setState({
+        virtualizedTreeHeight: this.treeViewRef.current.getBoundingClientRect().height
+      });
+    }
   };
 
   handleOnClose = () => {
@@ -1069,23 +1076,15 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
   };
 
   renderCheckTree() {
-    const { filterData, isSomeNodeHasChildren } = this.state;
-    const {
-      inline,
-      style,
-      height,
-      className,
-      onScroll,
-      locale,
-      virtualized,
-      searchable
-    } = this.props;
+    const { filterData, isSomeNodeHasChildren, virtualizedTreeHeight } = this.state;
+    const { inline, style, height, className, onScroll, locale, virtualized } = this.props;
 
     // 树节点的层级
     const layer = 0;
     const classes = classNames(defaultClassPrefix('check-tree'), {
       [className]: inline,
-      'without-children': !isSomeNodeHasChildren
+      'without-children': !isSomeNodeHasChildren,
+      [`${defaultClassPrefix('check-tree')}-virtualized`]: virtualized
     });
 
     let formattedNodes = [];
@@ -1105,15 +1104,15 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       }
     }
 
-    // 当未定义 height 且 设置了 virtualized 为 true，treeHeight 设置默认高度
-    const treeHeight = _.isUndefined(height) && virtualized ? defaultHeight : height;
-    const treeWidth = _.isUndefined(style?.width) ? defaultWidth : style.width;
-    const styles = inline ? { height: treeHeight, ...style } : {};
+    // 当未定义 height 且 设置了 virtualized 为 true，listHeight 设置默认高度
+    const listHeight = _.isUndefined(height) && virtualized ? virtualizedTreeHeight : height;
+    const listWidth = _.isUndefined(style?.width) ? defaultWidth : style.width;
+    const styles = inline ? { height: listHeight, ...style } : {};
 
     const treeNodesClass = classNames(this.addTreePrefix('nodes'), {
-      [this.addTreePrefix('all-uncheckable')]: getEveryFisrtLevelNodeUncheckable(this.nodes)
+      [this.addTreePrefix('all-uncheckable')]: getEveryFirstLevelNodeUncheckable(this.nodes)
     });
-    const listHeight = getVirtualLisHeight(inline, searchable, treeHeight);
+
     return (
       <div
         ref={this.treeViewRef}
@@ -1124,11 +1123,11 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       >
         <div className={treeNodesClass}>
           {virtualized ? (
-            <AutoSizer defaultHeight={listHeight} defaultWidth={treeWidth}>
+            <AutoSizer defaultHeight={listHeight} defaultWidth={listWidth}>
               {({ height, width }) => (
                 <List
                   ref={this.listRef}
-                  width={width || treeWidth}
+                  width={width || listWidth}
                   height={height || listHeight}
                   rowHeight={36}
                   rowCount={formattedNodes.length}

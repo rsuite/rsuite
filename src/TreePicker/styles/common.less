@@ -14,11 +14,7 @@
   max-height: 360px;
   height: 100%;
   overflow-y: auto;
-
-  /* stylelint-disable-next-line */ // This class name provide by Virtualized.
-  .ReactVirtualized__Grid.ReactVirtualized__List:focus {
-    outline: none;
-  }
+  flex: 1 1 auto;
 
   &-drag-node-mover {
     position: absolute;
@@ -32,6 +28,19 @@
     box-shadow: 0 1px 8px #00000012;
     z-index: 1060;
     cursor: move;
+  }
+
+  &.@{tpns}-virtualized {
+    overflow: hidden;
+
+    /* stylelint-disable-next-line */ // This class name provide by Virtualized.
+    .ReactVirtualized__Grid.ReactVirtualized__List {
+      padding: 0 @picker-menu-padding @picker-menu-padding 0;
+
+      &:focus {
+        outline: none;
+      }
+    }
   }
 }
 
@@ -213,6 +222,9 @@
 }
 
 .@{ns}picker-menu {
+  display: flex;
+  flex-direction: column;
+
   &.@{tpns}-menu {
     padding-top: @picker-menu-padding;
 
@@ -223,6 +235,10 @@
 
   .@{tpns} {
     padding: 0 @picker-menu-padding @picker-menu-padding 0;
+
+    &.@{tpns}-virtualized {
+      padding: 0;
+    }
 
     &-node {
       margin: 0;
@@ -246,9 +262,9 @@
 
 /* stylelint-disable */
 [dir='rtl']
-.ReactVirtualized__Grid__innerScrollContainer
-.rs-tree-node
-> .rs-tree-node-label::before {
+  .ReactVirtualized__Grid__innerScrollContainer
+  .rs-tree-node
+  > .rs-tree-node-label::before {
   display: none;
 }
 
