@@ -1382,6 +1382,11 @@
     element-resize-event "^3.0.3"
     prop-types "^15.6.2"
 
+"@rsuite/timezone-picker@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.npmjs.org/@rsuite/timezone-picker/-/timezone-picker-0.3.0.tgz#a88b36fa8cbe97389f6564d64f60c689d2eba51e"
+  integrity sha512-Zv8gzdUuvy20VEohr9CdYOPrH/LQvbDr519E2nLePbSYodcPhpqBTLjTpOsBPCImso3zdqKFnSNe0kbvJHAlZQ==
+
 "@svgr/babel-plugin-add-jsx-attribute@^5.4.0":
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/@svgr/babel-plugin-add-jsx-attribute/-/babel-plugin-add-jsx-attribute-5.4.0.tgz#81ef61947bb268eb9d50523446f9c638fb355906"

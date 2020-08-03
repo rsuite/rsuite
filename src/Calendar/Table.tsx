@@ -10,6 +10,7 @@ export interface TableProps {
   rows: any[];
   isoWeek?: boolean;
   selected?: Date;
+  timeZone?: string;
   className?: string;
   classPrefix?: string;
   showWeekNumbers?: boolean;
@@ -23,6 +24,7 @@ class Table extends React.PureComponent<TableProps> {
   static propTypes = {
     rows: PropTypes.array,
     isoWeek: PropTypes.bool,
+    timeZone: PropTypes.string,
     selected: PropTypes.instanceOf(Date),
     onSelect: PropTypes.func,
     disabledDate: PropTypes.func,
@@ -46,6 +48,7 @@ class Table extends React.PureComponent<TableProps> {
       isoWeek,
       renderCell,
       showWeekNumbers,
+      timeZone,
       ...rest
     } = this.props;
 
@@ -60,6 +63,7 @@ class Table extends React.PureComponent<TableProps> {
             /* eslint-disable */
             key={index}
             weekendDate={week}
+            timeZone={timeZone}
             selected={selected}
             onSelect={onSelect}
             inSameMonth={inSameMonth}

@@ -28,3 +28,4 @@ import { Calendar } from 'rsuite';
 | onSelect     | (date:Date) => void        | 选择日期后的回调函数                                      |
 | renderCell   | (date: Date) => React.Node | 自定义渲染日历单元格                                      |
 | value        | Date                       | 值 (`受控`)                                               |
+| timeZone     | string                     | [IANA 时区名](/zh/components/date-picker#Time%20Zone%20List)  |

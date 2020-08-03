@@ -92,7 +92,14 @@ export const compareAsc = compareAscFns;
 
 const disabledTimeProps = ['disabledHours', 'disabledMinutes', 'disabledSeconds'];
 const hideTimeProps = ['hideHours', 'hideMinutes', 'hideSeconds'];
-export const calendarOnlyProps = disabledTimeProps.concat(hideTimeProps);
+export type CalendarOnlyPropsType =
+  | 'disabledHours'
+  | 'disabledMinutes'
+  | 'disabledSeconds'
+  | 'hideHours'
+  | 'hideMinutes'
+  | 'hideSeconds';
+export const calendarOnlyProps = disabledTimeProps.concat(hideTimeProps) as CalendarOnlyPropsType[];
 
 function validTime(calendarProps: any, date: Date) {
   if (!date) {

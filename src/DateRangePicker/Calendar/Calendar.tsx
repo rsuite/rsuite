@@ -14,6 +14,7 @@ export interface CalendarProps {
   value?: Date[];
   hoverValue?: Date[];
   format: string;
+  timeZone: string;
   isoWeek?: boolean;
   className?: string;
   classPrefix?: string;
@@ -37,6 +38,7 @@ class Calendar extends React.Component<CalendarProps> {
     value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     hoverValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     format: PropTypes.string,
+    timeZone: PropTypes.string,
     isoWeek: PropTypes.bool,
     className: PropTypes.string,
     classPrefix: PropTypes.string,
@@ -134,6 +136,7 @@ class Calendar extends React.Component<CalendarProps> {
       limitEndYear,
       classPrefix,
       showWeekNumbers,
+      timeZone,
       ...rest
     } = this.props;
 
@@ -161,6 +164,7 @@ class Calendar extends React.Component<CalendarProps> {
         <View
           activeDate={pageDate}
           value={value}
+          timeZone={timeZone}
           hoverValue={hoverValue}
           onSelect={onSelect}
           onMouseMove={onMouseMove}
@@ -171,6 +175,7 @@ class Calendar extends React.Component<CalendarProps> {
 
         <MonthDropdown
           date={pageDate}
+          timeZone={timeZone}
           show={dropMonth}
           disabledMonth={this.disabledMonth}
           onSelect={onChangePageDate}

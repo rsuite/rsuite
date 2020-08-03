@@ -7,9 +7,9 @@ import MonthDropdown from './MonthDropdown';
 import TimeDropdown from './TimeDropdown';
 import View from './View';
 import Header from './Header';
-import { getUnhandledProps, defaultProps, prefix, refType } from '../utils';
-import { shouldTime, shouldDate, shouldMonth } from '../utils/formatUtils';
-import { disabledTime, calendarOnlyProps, addMonths } from '../utils/dateUtils';
+import { defaultProps, getUnhandledProps, prefix, refType } from '../utils';
+import { shouldDate, shouldMonth, shouldTime } from '../utils/formatUtils';
+import { addMonths, calendarOnlyProps, disabledTime } from '../utils/dateUtils';
 
 import { tuple } from '../@types/utils';
 
@@ -20,6 +20,7 @@ export interface CalendarProps {
   calendarState?: typeof CalendarState[number];
   calendarRef?: React.Ref<any>;
   format?: string;
+  timeZone?: string;
   isoWeek?: boolean;
   limitEndYear?: number;
   className?: string;
@@ -52,6 +53,7 @@ class Calendar extends React.Component<CalendarProps> {
     calendarState: PropTypes.oneOf(CalendarState),
     calendarRef: refType,
     format: PropTypes.string,
+    timeZone: PropTypes.string,
     isoWeek: PropTypes.bool,
     limitEndYear: PropTypes.number,
     className: PropTypes.string,
@@ -117,6 +119,7 @@ class Calendar extends React.Component<CalendarProps> {
       renderCell,
       showWeekNumbers,
       showMeridian,
+      timeZone,
       ...rest
     } = this.props;
 
@@ -160,6 +163,7 @@ class Calendar extends React.Component<CalendarProps> {
           <View
             key="MonthView"
             activeDate={pageDate}
+            timeZone={timeZone}
             onSelect={onSelect}
             isoWeek={isoWeek}
             disabledDate={this.disabledDate}
@@ -170,6 +174,7 @@ class Calendar extends React.Component<CalendarProps> {
         {showMonth && (
           <MonthDropdown
             date={pageDate}
+            timeZone={timeZone}
             onSelect={onChangePageDate}
             show={dropMonth}
             limitEndYear={limitEndYear}
@@ -181,6 +186,7 @@ class Calendar extends React.Component<CalendarProps> {
             {...timeDropdownProps}
             date={pageDate}
             format={format}
+            timeZone={timeZone}
             show={dropTime}
             showMeridian={showMeridian}
             onSelect={onChangePageTime}

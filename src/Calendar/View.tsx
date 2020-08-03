@@ -9,6 +9,7 @@ import composeFunctions from '../utils/composeFunctions';
 
 export interface ViewProps {
   activeDate: Date;
+  timeZone?: string;
   isoWeek?: boolean;
   className?: string;
   classPrefix?: string;
@@ -21,6 +22,7 @@ export interface ViewProps {
 class View extends React.PureComponent<ViewProps> {
   static propTypes = {
     activeDate: PropTypes.instanceOf(Date),
+    timeZone: PropTypes.string,
     isoWeek: PropTypes.bool,
     className: PropTypes.string,
     classPrefix: PropTypes.string,
@@ -48,6 +50,7 @@ class View extends React.PureComponent<ViewProps> {
       isoWeek,
       renderCell,
       showWeekNumbers,
+      timeZone,
       ...rest
     } = this.props;
 
@@ -59,6 +62,7 @@ class View extends React.PureComponent<ViewProps> {
         <Table
           rows={getMonthView(thisMonthDate, isoWeek)}
           isoWeek={isoWeek}
+          timeZone={timeZone}
           selected={activeDate}
           onSelect={onSelect}
           inSameMonth={this.inSameThisMonthDate}

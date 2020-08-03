@@ -1,14 +1,16 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { isSameDay, addDays, getDate, format } from '../utils/dateUtils';
+import { addDays, format, getDate, isSameDay } from '../utils/dateUtils';
 
-import { getUnhandledProps, prefix, defaultProps } from '../utils';
+import { defaultProps, getUnhandledProps, prefix } from '../utils';
 import IntlContext from '../IntlProvider/IntlContext';
+import { zonedDate } from '../utils/timeZone';
 
 export interface TableRowProps {
   weekendDate?: Date;
   selected?: Date;
+  timeZone?: string;
   className?: string;
   classPrefix?: string;
   showWeekNumbers?: boolean;
@@ -24,12 +26,14 @@ class TableRow extends React.PureComponent<TableRowProps> {
   static propTypes = {
     weekendDate: PropTypes.instanceOf(Date),
     selected: PropTypes.instanceOf(Date),
+    timeZone: PropTypes.string,
     className: PropTypes.string,
     classPrefix: PropTypes.string,
     onSelect: PropTypes.func,
     disabledDate: PropTypes.func,
     inSameMonth: PropTypes.func,
-    renderCell: PropTypes.func
+    renderCell: PropTypes.func,
+    isoWeek: PropTypes.bool
   };
   static defaultProps = {
     selected: new Date(),
@@ -50,15 +54,16 @@ class TableRow extends React.PureComponent<TableRowProps> {
   };
 
   renderDays() {
-    const { weekendDate, disabledDate, inSameMonth, selected, renderCell } = this.props;
+    const { weekendDate, disabledDate, inSameMonth, selected, renderCell, timeZone } = this.props;
     const { formatDate, formattedDayPattern, today } = this.context || {};
     const formatStr = formattedDayPattern || 'yyyy-MM-dd';
     const days = [];
+    const todayDate = zonedDate(timeZone);
 
     for (let i = 0; i < 7; i += 1) {
       const thisDate = addDays(weekendDate, i);
       const disabled = disabledDate?.(thisDate);
-      const isToday = isSameDay(thisDate, new Date());
+      const isToday = isSameDay(thisDate, todayDate);
       const classes = classNames(this.addPrefix('cell'), {
         [this.addPrefix('cell-un-same-month')]: !(inSameMonth && inSameMonth(thisDate)),
         [this.addPrefix('cell-is-today')]: isToday,

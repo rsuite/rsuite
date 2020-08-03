@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { addDays, subDays } from '../utils/dateUtils';
 import FormattedMessage from '../IntlProvider/FormattedMessage';
-import { getUnhandledProps, prefix, defaultProps } from '../utils';
-import { setTimingMargin } from './utils';
+import { defaultProps, getUnhandledProps, prefix } from '../utils';
+import { setTimingMargin, toZonedValue } from './utils';
 import { ValueType } from './DateRangePicker.d';
+import { zonedDate } from '../utils/timeZone';
 
 export interface Range {
   label: React.ReactNode;
@@ -24,31 +25,36 @@ export interface ToolbarProps {
   disabledShortcutButton: (value?: ValueType) => boolean;
   selectValue?: ValueType;
   hideOkButton?: boolean;
+  timeZone?: string;
 }
 
-const defaultRanges = [
+const getDefaultRanges = (timeZone: string): Range[] => {
+  const todayDate = zonedDate(timeZone);
+  return [
+    {
+      label: 'today',
+      value: [setTimingMargin(todayDate), setTimingMargin(todayDate, 'right')]
+    },
+    {
+      label: 'yesterday',
+      value: [
+        setTimingMargin(addDays(todayDate, -1)),
+        setTimingMargin(addDays(todayDate, -1), 'right')
+      ]
+    },
+    {
+      label: 'last7Days',
+      value: [setTimingMargin(subDays(todayDate, 6)), setTimingMargin(todayDate, 'right')]
+    }
+  ];
+};
+
+class Toolbar extends React.PureComponent<
+  ToolbarProps,
   {
-    label: 'today',
-    value: [setTimingMargin(new Date()), setTimingMargin(new Date(), 'right')]
-  },
-  {
-    label: 'yesterday',
-    value: [
-      setTimingMargin(addDays(new Date(), -1)),
-      setTimingMargin(addDays(new Date(), -1), 'right')
-    ]
-  },
-  {
-    label: 'last7Days',
-    value: [setTimingMargin(subDays(new Date(), 6)), setTimingMargin(new Date(), 'right')]
+    ranges: Range[];
   }
-];
-
-function hasLocaleKey(key: any) {
-  return defaultRanges.some(item => item.label === key);
-}
-
-class Toolbar extends React.PureComponent<ToolbarProps> {
+> {
   static propTypes = {
     ranges: PropTypes.array,
     className: PropTypes.string,
@@ -59,10 +65,39 @@ class Toolbar extends React.PureComponent<ToolbarProps> {
     disabledOkButton: PropTypes.func,
     disabledShortcutButton: PropTypes.func,
     selectValue: PropTypes.array,
-    hideOkButton: PropTypes.bool
+    hideOkButton: PropTypes.bool,
+    timeZone: PropTypes.string
   };
-  static defaultProps = {
-    ranges: defaultRanges
+  static defaultProps = {};
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      ranges: this.getRanges(props)
+    };
+  }
+
+  componentDidUpdate(prevProps: Readonly<ToolbarProps>) {
+    const { timeZone } = this.props;
+    if (timeZone !== prevProps.timeZone) {
+      this.setState({
+        ranges: this.getRanges(this.props)
+      });
+    }
+  }
+
+  getRanges = (props: ToolbarProps): Range[] => {
+    const { ranges, timeZone, pageDate } = props;
+    return typeof ranges === 'undefined'
+      ? getDefaultRanges(timeZone)
+      : ranges.map(({ value, ...rest }) => ({
+          value: toZonedValue(typeof value === 'function' ? value(pageDate) : value, timeZone),
+          ...rest
+        }));
+  };
+
+  hasLocaleKey = (key: any) => {
+    return getDefaultRanges(this.props.timeZone).some(item => item.label === key);
   };
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
@@ -88,7 +123,6 @@ class Toolbar extends React.PureComponent<ToolbarProps> {
   }
   render() {
     const {
-      ranges,
       onShortcut,
       disabledShortcutButton,
       className,
@@ -97,6 +131,7 @@ class Toolbar extends React.PureComponent<ToolbarProps> {
       hideOkButton,
       ...rest
     } = this.props;
+    const { ranges } = this.state;
 
     if (hideOkButton && ranges.length === 0) {
       return null;
@@ -125,7 +160,7 @@ class Toolbar extends React.PureComponent<ToolbarProps> {
                   !disabled && onShortcut(value, item.closeOverlay, event);
                 }}
               >
-                {hasLocaleKey(item.label) ? <FormattedMessage id={item.label} /> : item.label}
+                {this.hasLocaleKey(item.label) ? <FormattedMessage id={item.label} /> : item.label}
               </a>
             );
           })}

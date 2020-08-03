@@ -1,6 +1,8 @@
 import * as React from 'react';
 import * as dateFns from 'date-fns';
 import { DatePicker, Button, InputGroup } from 'rsuite';
+import TimeZonePicker from '@rsuite/timezone-picker';
+
 import DefaultPage from '@/components/Page';
 
 export default function Page() {
@@ -24,9 +26,11 @@ export default function Page() {
         'custom',
         'control',
         'range',
-        'show-week-numbers'
+        'show-week-numbers',
+        'time-zone',
+        'time-zone-with-picker'
       ]}
-      dependencies={{ DatePicker, Button, InputGroup, dateFns }}
+      dependencies={{ DatePicker, Button, InputGroup, dateFns, TimeZonePicker }}
     />
   );
 }

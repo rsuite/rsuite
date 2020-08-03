@@ -12,6 +12,7 @@
 | [@rsuite/react-frame][frame]                   | [View][frame-docs]             | 基于 `rsuite` UI 的管理后端布局框架。                                                 |
 | [@rsuite/multi-date-picker][multi-date-picker] | [View][multi-date-picker-docs] | 一个可以选择多个日期的日期选择器。                                                    |
 | [@rsuite/document-nav][document-nav]           | [View][document-nav-docs]      | 基于 HTML 标题（h1-h6）标签自动生成文档导航。                                         |
+| [@rsuite/timezone-picker][timezone-picker]     | [View][timezone-picker-docs]   | 基于 `rsuite` UI 的时区选择器。                                         |
 | [rsuite-color-picker][color-picker]            | [View][color-picker-docs]      | 一个颜色选择器 `ColorPicker`, 可以在 `rsuite` 中使用。 [@cXiaof][color-picker-author] |
 
 [schema-form]: https://github.com/rsuite/schema-form
@@ -26,6 +27,8 @@
 [multi-date-picker-docs]: https://rsuite.github.io/multi-date-picker
 [document-nav]: https://github.com/rsuite/document-nav
 [document-nav-docs]: https://rsuite.github.io/document-nav/
+[timezone-picker]: https://github.com/rsuite/timezone-picker
+[timezone-picker-docs]: https://rsuite.github.io/timezone-picker/
 [color-picker]: https://github.com/cXiaof/rsuite-color-picker
 [color-picker-docs]: https://cxiaof.github.io/rsuite-color-picker/assets/
 [color-picker-author]: https://github.com/cXiaof

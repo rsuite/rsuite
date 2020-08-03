@@ -19,7 +19,8 @@ export default function Page() {
         'disabled',
         'toolbar',
         'value',
-        'intl'
+        'intl',
+        'time-zone'
       ]}
       dependencies={{ DateRangePicker, Button, Divider, dateFns }}
     />

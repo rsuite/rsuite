@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { parseISO, isSameDay, format } from '../../utils/dateUtils';
+import { format, getHours, getMinutes, isSameDay, parseISO } from '../../utils/dateUtils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
 import DatePicker from '../DatePicker';
+import { toTimeZone } from '../../utils/timeZone';
 
 describe('DatePicker', () => {
   it('Should render a div with "rs-picker-date" class', () => {
@@ -291,5 +292,60 @@ describe('DatePicker', () => {
       12
     );
     assert.equal(picker.querySelector('.rs-calendar-time-dropdown-column li').innerText, '12');
+  });
+
+  it('Should be zoned date', () => {
+    const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
+    const template = 'yyyy-MM-dd HH:mm:ss';
+    const date = new Date(2020, 5, 30, 23, 30, 0);
+    const instance = getInstance(
+      <DatePicker format={template} timeZone={timeZone} value={date} defaultOpen />
+    );
+    const ret = getDOMNode(instance).querySelector('.rs-picker-toggle-value').innerHTML;
+
+    assert.equal(ret, format(toTimeZone(date, timeZone), template));
+  });
+
+  it('Should `disabledDate` callback params is correct in zoned date', function () {
+    const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
+    const template = 'yyyy-MM-dd HH:mm:ss';
+    const date = new Date();
+    const dateFormatted = format(date, 'HH:mm');
+    const instance = getInstance(
+      <DatePicker
+        format={template}
+        timeZone={timeZone}
+        defaultOpen
+        value={date}
+        disabledDate={value => {
+          assert.equal(format(value, 'HH:mm'), dateFormatted);
+          return value.valueOf() > date.valueOf();
+        }}
+      />
+    );
+  });
+
+  it('Should `disabledHours` `disabledMinutes` `disabledSecond` callback params is correct in zoned date', function () {
+    const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
+    const template = 'yyyy-MM-dd HH:mm:ss';
+    const timeTemplate = 'HH:mm:ss';
+    const dateFormatted = format(new Date(), timeTemplate);
+    const disabledOrHideTimeFunc = (next, date) => {
+      assert.equal(format(date, timeTemplate), dateFormatted);
+      return true;
+    };
+    const instance = getInstance(
+      <DatePicker
+        format={template}
+        timeZone={timeZone}
+        defaultOpen
+        disabledHours={disabledOrHideTimeFunc}
+        disabledMinutes={disabledOrHideTimeFunc}
+        disabledSeconds={disabledOrHideTimeFunc}
+        hideHours={disabledOrHideTimeFunc}
+        hideMinutes={disabledOrHideTimeFunc}
+        hideSeconds={disabledOrHideTimeFunc}
+      />
+    );
   });
 });

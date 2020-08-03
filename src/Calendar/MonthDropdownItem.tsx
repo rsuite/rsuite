@@ -1,14 +1,15 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { prefix, getUnhandledProps, defaultProps } from '../utils';
-import { setYear, setMonth } from '../utils/dateUtils';
+import { defaultProps, getUnhandledProps, prefix } from '../utils';
+import { setMonth, setYear } from '../utils/dateUtils';
 import composeFunctions from '../utils/composeFunctions';
 
 export interface MonthDropdownItemProps {
   date?: Date;
   month?: number;
   year?: number;
+  timeZone?: string;
   onSelect?: (date: Date, event: React.MouseEvent) => void;
   className?: string;
   classPrefix?: string;
@@ -21,6 +22,7 @@ class MonthDropdownItem extends React.PureComponent<MonthDropdownItemProps> {
     date: PropTypes.instanceOf(Date),
     month: PropTypes.number,
     year: PropTypes.number,
+    timeZone: PropTypes.string,
     onSelect: PropTypes.func,
     className: PropTypes.string,
     classPrefix: PropTypes.string,

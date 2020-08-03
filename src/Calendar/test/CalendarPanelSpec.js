@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { parseISO } from '../../utils/dateUtils';
+import { format, parseISO } from '../../utils/dateUtils';
 import { getDOMNode } from '@test/testUtils';
 import CalendarPanel from '../CalendarPanel';
+import { toTimeZone, zonedDate } from '../../utils/timeZone';
 
 describe('Calendar - Panel', () => {
   it('Should render a div with `calendar` class', () => {
@@ -70,5 +71,20 @@ describe('Calendar - Panel', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<CalendarPanel classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should call `onSelect` callback in zoned date', done => {
+    const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
+    const instance = getDOMNode(
+      <CalendarPanel
+        timeZone={timeZone}
+        onSelect={value => {
+          assert.equal(format(value, 'HH:mm'), format(new Date(), 'HH:mm'));
+          done();
+        }}
+      />
+    );
+
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-table-cell-is-today'));
   });
 });

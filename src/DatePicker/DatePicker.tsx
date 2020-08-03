@@ -9,26 +9,28 @@ import Calendar from '../Calendar/Calendar';
 import Toolbar from './Toolbar';
 import { shouldOnlyTime } from '../utils/formatUtils';
 import composeFunctions from '../utils/composeFunctions';
-import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
+import { createChainedFunction, defaultProps, getUnhandledProps, prefix } from '../utils';
 import {
-  PickerToggle,
+  getToggleWrapperClassName,
   MenuWrapper,
-  PickerToggleTrigger,
-  getToggleWrapperClassName
+  PickerToggle,
+  PickerToggleTrigger
 } from '../Picker';
 import {
+  calendarOnlyProps,
+  CalendarOnlyPropsType,
+  disabledTime,
   getHours,
   getMinutes,
   getSeconds,
   isSameDay,
   setHours,
   setMinutes,
-  setSeconds,
-  calendarOnlyProps,
-  disabledTime
+  setSeconds
 } from '../utils/dateUtils';
 import { DatePickerProps } from './DatePicker.d';
-import { pickerPropTypes, pickerDefaultProps } from '../Picker/propTypes';
+import { pickerDefaultProps, pickerPropTypes } from '../Picker/propTypes';
+import { toLocalTimeZone, toTimeZone, zonedDate } from '../utils/timeZone';
 
 interface DatePickerState {
   value?: Date;
@@ -45,6 +47,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     value: PropTypes.instanceOf(Date),
     calendarDefaultDate: PropTypes.instanceOf(Date),
     format: PropTypes.string,
+    timeZone: PropTypes.string,
     inline: PropTypes.bool,
     isoWeek: PropTypes.bool,
     limitEndYear: PropTypes.number,
@@ -94,12 +97,12 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   constructor(props: DatePickerProps) {
     super(props);
 
-    const { defaultValue, value, calendarDefaultDate } = props;
+    const { defaultValue, value, calendarDefaultDate, timeZone } = props;
     const activeValue = value || defaultValue;
 
     this.state = {
-      value: activeValue,
-      pageDate: activeValue || calendarDefaultDate || new Date() // display calendar date
+      value: toTimeZone(activeValue, timeZone),
+      pageDate: toTimeZone(activeValue || calendarDefaultDate || new Date(), timeZone) // display calendar date
     };
 
     this.triggerRef = React.createRef();
@@ -109,42 +112,63 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   }
 
   static getDerivedStateFromProps(nextProps: DatePickerProps, prevState: DatePickerState) {
-    if (typeof nextProps.value !== 'undefined') {
-      const { value } = nextProps;
-
-      if (value && !isSameDay(value, prevState.value)) {
-        return {
-          value,
-          pageDate: value
-        };
-      }
-
-      return {
+    const { value, timeZone } = nextProps;
+    if (typeof value !== 'undefined') {
+      const nextState = {
         value
       };
+
+      if (!isSameDay(value, prevState.value)) {
+        _.set(nextState, 'pageDate', toTimeZone(value, timeZone));
+      }
+
+      return nextState;
     }
 
     return null;
   }
 
+  componentDidUpdate(prevProps: Readonly<DatePickerProps>, prevState: Readonly<DatePickerState>) {
+    const { timeZone, value } = this.props;
+    if (prevProps.timeZone !== timeZone) {
+      const nextValue = toTimeZone(
+        value ?? toLocalTimeZone(prevState.value, prevProps.timeZone),
+        timeZone
+      );
+      this.setState({
+        value: nextValue,
+        pageDate: nextValue ?? zonedDate(timeZone)
+      });
+    }
+  }
+
+  getLocalPageDate = (pageDate = this.state.pageDate) =>
+    toLocalTimeZone(pageDate, this.props.timeZone);
+
   onMoveForward = (nextPageDate: Date) => {
     this.setState({
       pageDate: nextPageDate
     });
-    this.props.onNextMonth?.(nextPageDate);
-    this.props.onChangeCalendarDate?.(nextPageDate);
+    const { onNextMonth, onChangeCalendarDate } = this.props;
+
+    nextPageDate = this.getLocalPageDate(nextPageDate);
+    onNextMonth?.(nextPageDate);
+    onChangeCalendarDate?.(nextPageDate);
   };
 
   onMoveBackward = (nextPageDate: Date) => {
     this.setState({
       pageDate: nextPageDate
     });
-    this.props.onPrevMonth?.(nextPageDate);
-    this.props.onChangeCalendarDate?.(nextPageDate);
+    const { onPrevMonth, onChangeCalendarDate } = this.props;
+
+    nextPageDate = this.getLocalPageDate(nextPageDate);
+    onPrevMonth?.(nextPageDate);
+    onChangeCalendarDate?.(nextPageDate);
   };
 
   getValue = () => {
-    return this.props.value || this.state.value;
+    return toTimeZone(this.props.value, this.props.timeZone) || this.state.value;
   };
 
   getFormat = () => this.props.format ?? 'yyyy-MM-dd';
@@ -196,7 +220,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
 
   handleOK = (event: React.SyntheticEvent<any>) => {
     this.updateValue(event);
-    this.props.onOk?.(this.state.pageDate, event);
+    this.props.onOk?.(this.getLocalPageDate(), event);
   };
 
   updateValue(event: React.SyntheticEvent<any>, nextPageDate?: Date | null, closeOverlay = true) {
@@ -210,7 +234,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     });
 
     if (nextValue !== value || !isSameDay(nextValue, value)) {
-      this.props.onChange?.(nextValue, event);
+      this.props.onChange?.(this.getLocalPageDate(nextValue), event);
     }
 
     // `closeOverlay` default value is `true`
@@ -220,10 +244,10 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   }
 
   resetPageDate() {
-    const { calendarDefaultDate } = this.props;
+    const { calendarDefaultDate, timeZone } = this.props;
     const value = this.getValue();
     this.setState({
-      pageDate: value || calendarDefaultDate || new Date()
+      pageDate: toTimeZone(value || calendarDefaultDate || new Date(), timeZone)
     });
   }
 
@@ -282,12 +306,16 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   };
 
   handleClean = (event: React.SyntheticEvent<any>) => {
-    this.setState({ pageDate: new Date() });
+    this.setState({ pageDate: toTimeZone(new Date(), this.props.timeZone) });
     this.updateValue(event, null);
   };
+
   handleAllSelect = (nextValue: Date, event?: React.SyntheticEvent<any>) => {
-    this.props.onSelect?.(nextValue, event);
-    this.props.onChangeCalendarDate?.(nextValue, event);
+    const { onSelect, onChangeCalendarDate, timeZone } = this.props;
+
+    nextValue = toLocalTimeZone(nextValue, timeZone);
+    onSelect?.(nextValue, event);
+    onChangeCalendarDate?.(nextValue, event);
   };
 
   handleSelect = (nextValue: Date, event: React.SyntheticEvent<any>) => {
@@ -323,10 +351,13 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
     });
   };
 
+  disabledDate = (date?: Date) =>
+    this.props.disabledDate?.(toLocalTimeZone(date, this.props.timeZone));
+
   disabledToolbarHandle = (date?: Date): boolean => {
-    const { disabledDate } = this.props;
-    const allowDate = disabledDate ? disabledDate(date) : false;
-    const allowTime = disabledTime(this.props, date);
+    const { disabledDate, timeZone } = this.props;
+    const allowDate = disabledDate ? this.disabledDate(date) : false;
+    const allowTime = disabledTime(this.props, toLocalTimeZone(date, timeZone));
 
     return allowDate || allowTime;
   };
@@ -334,18 +365,22 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderCalendar() {
-    const { isoWeek, limitEndYear, disabledDate, showWeekNumbers, showMeridian } = this.props;
+    const { isoWeek, limitEndYear, showWeekNumbers, showMeridian, timeZone } = this.props;
     const { calendarState, pageDate } = this.state;
-    const calendarProps = _.pick(this.props, calendarOnlyProps);
-
+    const calendarProps = _.mapValues(
+      _.pick<DatePickerProps, CalendarOnlyPropsType>(this.props, calendarOnlyProps),
+      disabledOrHiddenTimeFunc => (next: number, date: Date): boolean =>
+        disabledOrHiddenTimeFunc(next, toLocalTimeZone(date, timeZone))
+    );
     return (
       <Calendar
         {...calendarProps}
         showWeekNumbers={showWeekNumbers}
         showMeridian={showMeridian}
-        disabledDate={disabledDate}
+        disabledDate={this.disabledDate}
         limitEndYear={limitEndYear}
         format={this.getFormat()}
+        timeZone={timeZone}
         isoWeek={isoWeek}
         calendarState={calendarState}
         pageDate={pageDate}
@@ -362,7 +397,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
   }
 
   renderDropdownMenu(calendar: React.ReactNode) {
-    const { ranges, menuClassName, oneTap } = this.props;
+    const { ranges, menuClassName, oneTap, timeZone } = this.props;
     const { pageDate } = this.state;
     const classes = classNames(this.addPrefix('date-menu'), menuClassName);
 
@@ -371,6 +406,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
         <div ref={this.menuContainerRef}>
           {calendar}
           <Toolbar
+            timeZone={timeZone}
             ranges={ranges}
             pageDate={pageDate}
             disabledHandle={this.disabledToolbarHandle}
