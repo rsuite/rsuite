@@ -2,9 +2,9 @@
 
 Set the trigger event with the `trigger` attribute, support the event:
 
-* `click` (default)
-* `hover`
-* `contextMenu`
+- `click` (default)
+- `hover`
+- `contextMenu`
 
 > Support multiple events: `Array<click, hover, contextMenu>`
 

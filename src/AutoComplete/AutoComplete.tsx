@@ -1,312 +1,285 @@
-import * as React from 'react';
+import React, { useState, useImperativeHandle, useRef } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import _ from 'lodash';
-import setStatic from 'recompose/setStatic';
+import isUndefined from 'lodash/isUndefined';
 import shallowEqual from '../utils/shallowEqual';
-import Input from '../Input';
-import AutoCompleteItem from './AutoCompleteItem';
-import { defaultProps, getUnhandledProps, prefix, refType } from '../utils';
-import { PickerToggleTrigger, onMenuKeyDown, MenuWrapper } from '../Picker';
-import { AutoCompleteProps } from './AutoComplete.d';
-import { ItemDataType } from '../@types/common';
+import Input, { InputProps } from '../Input';
+import { refType, useClassNames } from '../utils';
+import { PickerToggleTrigger, onMenuKeyDown } from '../Picker';
 import { PLACEMENT } from '../constants';
-import { animationPropTypes } from '../Animation/propTypes';
+import { getAnimationPropTypes } from '../Animation/utils';
+import { StandardProps, TypeAttributes, ItemDataType } from '../@types/common';
+import DropdownMenu from './DropdownMenu';
+import { transformData, shouldDisplay } from './utils';
 
-interface State {
-  value: string;
-  focus?: boolean;
-  focusItemValue?: string;
+export interface AutoCompleteInstance extends React.HTMLAttributes<HTMLDivElement> {
+  root?: HTMLDivElement;
+  menu?: HTMLDivElement;
+  open?: () => void;
+  close?: () => void;
 }
 
-class AutoComplete extends React.Component<AutoCompleteProps, State> {
-  static propTypes = {
-    ...animationPropTypes,
-    data: PropTypes.array,
-    disabled: PropTypes.bool,
-    onSelect: PropTypes.func,
-    onChange: PropTypes.func,
-    classPrefix: PropTypes.string,
-    value: PropTypes.string,
-    defaultValue: PropTypes.string,
-    className: PropTypes.string,
-    menuClassName: PropTypes.string,
-    placement: PropTypes.oneOf(PLACEMENT),
-    onFocus: PropTypes.func,
-    onMenuFocus: PropTypes.func,
-    onBlur: PropTypes.func,
-    onKeyDown: PropTypes.func,
-    onOpen: PropTypes.func,
-    onClose: PropTypes.func,
-    /** @deprecated Use `onClose` instead */
-    onHide: PropTypes.func,
-    renderItem: PropTypes.func,
-    style: PropTypes.object,
-    open: PropTypes.bool,
-    selectOnEnter: PropTypes.bool,
-    filterBy: PropTypes.func,
-    positionRef: refType
-  };
-  static defaultProps = {
-    data: [],
-    placement: 'bottomStart',
-    selectOnEnter: true
-  };
-  menuContainerRef: React.RefObject<any>;
-  triggerRef: React.RefObject<any>;
+export interface AutoCompleteProps extends StandardProps, Omit<InputProps, 'onSelect'> {
+  /** The data of component */
+  data?: any[];
 
-  constructor(props: AutoCompleteProps) {
-    super(props);
-    const { defaultValue } = props;
+  /** Custom filter function to determine whether the item will be displayed */
+  filterBy?: (value: string, item: ItemDataType) => boolean;
 
-    this.state = {
-      value: defaultValue || '',
-      focus: false,
-      focusItemValue: defaultValue
-    };
-    this.menuContainerRef = React.createRef();
-    this.triggerRef = React.createRef();
-  }
+  /** Additional classes for menu */
+  menuClassName?: string;
 
-  getValue() {
-    const { value } = this.props;
-    return _.isUndefined(value) ? this.state.value : value;
-  }
+  /** The placement of component */
+  placement?: TypeAttributes.Placement;
 
-  getData(props?: AutoCompleteProps) {
-    const { data } = props || this.props;
-    if (!data) {
-      return [];
-    }
-    return data.map(item => {
-      if (typeof item === 'string') {
-        return {
-          value: item,
-          label: item
-        };
-      }
+  /** When set to false, the Enter key selection function is invalid */
+  selectOnEnter?: boolean;
 
-      if (typeof item === 'object') {
-        return item;
-      }
-    });
-  }
+  /** Called when a option is selected */
+  onSelect?: (item: ItemDataType, event: React.SyntheticEvent<HTMLElement>) => void;
 
-  getFocusableMenuItems = () => {
-    const data = this.getData();
-    if (!data) {
-      return [];
-    }
-    return data.filter(this.shouldDisplay);
-  };
+  /** Called on focus */
+  onFocus?: (event: React.SyntheticEvent<HTMLElement>) => void;
 
-  findNode(focus) {
-    const items = this.getFocusableMenuItems();
-    const { focusItemValue } = this.state;
+  /** Called on blur */
+  onBlur?: (event: React.SyntheticEvent<HTMLElement>) => void;
 
-    for (let i = 0; i < items.length; i += 1) {
-      if (shallowEqual(focusItemValue, items[i].value)) {
-        focus(items, i);
+  /** Called on menu focus */
+  onMenuFocus?: (focusItemValue: any, event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** The callback triggered by keyboard events. */
+  onKeyDown?: (event: React.KeyboardEvent) => void;
+
+  /** Called on open */
+  onOpen?: () => void;
+
+  /** Called on close */
+  onClose?: () => void;
+
+  /** Custom selected option */
+  renderItem?: (itemData: ItemDataType) => React.ReactNode;
+
+  /** Open the menu and control it */
+  open?: boolean;
+
+  /** Position of ref */
+  positionRef?: React.Ref<any>;
+}
+
+const AutoComplete = React.forwardRef(
+  (props: AutoCompleteProps, ref: React.Ref<HTMLDivElement>) => {
+    const {
+      disabled,
+      className,
+      placement = 'bottomStart',
+      selectOnEnter = true,
+      classPrefix = 'auto-complete',
+      defaultValue = '',
+      data,
+      value,
+      open,
+      style,
+      menuClassName,
+      renderItem,
+      onSelect,
+      filterBy,
+      onKeyDown,
+      onChange,
+      onClose,
+      onOpen,
+      onFocus,
+      onBlur,
+      onMenuFocus,
+      ...rest
+    } = props;
+
+    const datalist = transformData(data);
+    const [val, setValue] = useState(value || defaultValue);
+    const [focusItemValue, setFocusItemValue] = useState(value || defaultValue);
+    const [focus, setFocus] = useState(false);
+    const items = datalist?.filter(shouldDisplay(filterBy, val)) || [];
+    const hasItems = items.length > 0;
+    const menuRef = useRef(null);
+
+    const handleKeyDown = (event: React.KeyboardEvent) => {
+      if (!menuRef.current) {
         return;
       }
-    }
+      onMenuKeyDown(event, {
+        down: focusNextMenuItem,
+        up: focusPrevMenuItem,
+        enter: selectOnEnter ? selectFocusMenuItem : undefined,
+        esc: handleClose
+      });
 
-    focus(items, -1);
-  }
-
-  shouldDisplay = (item: any) => {
-    const { filterBy } = this.props;
-    const value = this.getValue();
-
-    if (typeof filterBy === 'function') {
-      return filterBy(value, item);
-    }
-
-    if (!_.trim(value)) {
-      return false;
-    }
-    const keyword = (value || '').toLocaleLowerCase();
-    return item.label.toLocaleLowerCase().indexOf(keyword) >= 0;
-  };
-
-  handleChange = (value: string, event: React.FormEvent<HTMLInputElement>) => {
-    const nextState = {
-      focus: true,
-      focusItemValue: '',
-      value
+      onKeyDown?.(event);
     };
-    this.setState(nextState);
-    this.handleChangeValue(value, event);
-  };
 
-  handleInputFocus = (event: React.SyntheticEvent<HTMLElement>) => {
-    this.open();
-    this.props.onFocus?.(event);
-  };
-
-  handleInputBlur = (event: React.SyntheticEvent<HTMLElement>) => {
-    setTimeout(this.close, 300);
-    this.props.onBlur?.(event);
-  };
-
-  focusNextMenuItem = (event: React.SyntheticEvent<HTMLElement>) => {
-    this.findNode((items: any[], index: number) => {
-      const item = items[index + 1];
-      if (!_.isUndefined(item)) {
-        const focusItemValue = item.value;
-        this.setState({ focusItemValue });
-        this.props.onMenuFocus?.(focusItemValue, event);
+    const selectFocusMenuItem = (event: React.SyntheticEvent<HTMLElement>) => {
+      if (!focusItemValue) {
+        return;
       }
-    });
-  };
 
-  focusPrevMenuItem = (event: React.SyntheticEvent<HTMLElement>) => {
-    this.findNode((items: any[], index: number) => {
-      const item = items[index - 1];
-      if (!_.isUndefined(item)) {
-        const focusItemValue = item.value;
-        this.setState({ focusItemValue });
-        this.props.onMenuFocus?.(focusItemValue, event);
+      const focusItem = datalist.find(item => item?.value === focusItemValue);
+      setValue(focusItemValue);
+      setFocusItemValue(focusItemValue);
+
+      handleSelect(focusItem, event);
+      if (val !== focusItemValue) {
+        handleChangeValue(focusItemValue, event);
       }
-    });
-  };
 
-  selectFocusMenuItem = (event: React.SyntheticEvent<HTMLElement>) => {
-    const { focusItemValue, value: prevValue } = this.state;
-    if (!focusItemValue) {
-      return;
-    }
-    const nextState = {
-      value: focusItemValue,
-      focusItemValue
+      handleClose();
     };
 
-    const data = this.getData();
-    const focusItem: any = data.find(item => item?.value === focusItemValue);
+    const handleItemSelect = (item: ItemDataType, event: React.SyntheticEvent<HTMLElement>) => {
+      const value = item.value;
 
-    this.setState(nextState);
-    this.handleSelect(focusItem, event);
-    if (prevValue !== focusItemValue) {
-      this.handleChangeValue(focusItemValue, event);
-    }
+      setValue(value);
+      setFocusItemValue(value);
+      handleSelect(item, event);
 
-    this.close();
-  };
-
-  close = () => {
-    this.setState({ focus: false }, this.props.onClose);
-  };
-  open = () => {
-    this.setState({ focus: true }, this.props.onOpen);
-  };
-
-  handleKeyDown = (event: React.KeyboardEvent) => {
-    if (!this.menuContainerRef.current) {
-      return;
-    }
-
-    const { onKeyDown, selectOnEnter } = this.props;
-
-    onMenuKeyDown(event, {
-      down: this.focusNextMenuItem,
-      up: this.focusPrevMenuItem,
-      enter: selectOnEnter ? this.selectFocusMenuItem : undefined,
-      esc: this.close
-    });
-
-    onKeyDown?.(event);
-  };
-
-  handleChangeValue = (value: any, event: React.SyntheticEvent<HTMLElement>) => {
-    this.props.onChange?.(value, event);
-  };
-
-  handleSelect = (item: ItemDataType, event: React.SyntheticEvent<HTMLElement>) => {
-    this.props.onSelect?.(item, event);
-  };
-
-  handleItemSelect = (item: ItemDataType, event: React.SyntheticEvent<HTMLElement>) => {
-    const value = item.value;
-    const prevValue = this.state.value;
-    const nextState = {
-      value,
-      focusItemValue: value
+      if (val !== value) {
+        handleChangeValue(value, event);
+      }
+      handleClose();
     };
-    this.setState(nextState);
-    this.handleSelect(item, event);
-    if (prevValue !== value) {
-      this.handleChangeValue(value, event);
-    }
-    this.close();
-  };
 
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
+    const handleSelect = (item: ItemDataType, event: React.SyntheticEvent<HTMLElement>) => {
+      onSelect?.(item, event);
+    };
 
-  renderDropdownMenu() {
-    const { renderItem, menuClassName } = this.props;
-    const data = this.getData();
-    const { focusItemValue } = this.state;
-    const classes = classNames(this.addPrefix('menu'), menuClassName);
-    const items: ItemDataType[] = data.filter(this.shouldDisplay);
+    const handleChangeValue = (value: any, event: React.SyntheticEvent<HTMLElement>) => {
+      onChange?.(value, event);
+    };
+
+    const handleChange = (value: string, event: React.FormEvent<HTMLInputElement>) => {
+      setFocusItemValue('');
+      setValue(value);
+      setFocus(true);
+      handleChangeValue(value, event);
+    };
+
+    const handleInputFocus = (event: React.SyntheticEvent<HTMLElement>) => {
+      handleOpen();
+      onFocus?.(event);
+    };
+
+    const handleInputBlur = (event: React.SyntheticEvent<HTMLElement>) => {
+      setTimeout(handleClose, 300);
+      onBlur?.(event);
+    };
+
+    const handleClose = () => {
+      setFocus(false);
+      onClose?.();
+    };
+    const handleOpen = () => {
+      setFocus(true);
+      onOpen?.();
+    };
+
+    const findNode = (focus: (items: any[], index: number) => void) => {
+      for (let i = 0; i < items.length; i += 1) {
+        if (shallowEqual(focusItemValue, items[i].value)) {
+          focus(items, i);
+          return;
+        }
+      }
+      focus(items, -1);
+    };
+
+    const focusNextMenuItem = (event: React.SyntheticEvent<HTMLElement>) => {
+      findNode((items: any[], index: number) => {
+        const item = items[index + 1];
+        if (!isUndefined(item)) {
+          setFocusItemValue(item.value);
+          onMenuFocus?.(item.value, event);
+        }
+      });
+    };
+
+    const focusPrevMenuItem = (event: React.SyntheticEvent<HTMLElement>) => {
+      findNode((items: any[], index: number) => {
+        const item = items[index - 1];
+        if (!isUndefined(item)) {
+          setFocusItemValue(item.value);
+          onMenuFocus?.(item.value, event);
+        }
+      });
+    };
+
+    const { withClassPrefix, merge } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix({ disabled }));
+    const rootRef = useRef(null);
+
+    useImperativeHandle(ref, (): any => ({
+      root: rootRef.current,
+      get menu() {
+        return menuRef.current;
+      },
+      open: handleOpen,
+      close: handleClose
+    }));
 
     return (
-      <MenuWrapper className={classes} onKeyDown={this.handleKeyDown} ref={this.menuContainerRef}>
-        <ul role="menu">
-          {items.map((item: ItemDataType) => (
-            <AutoCompleteItem
-              key={item.value}
-              focus={focusItemValue === item.value}
-              itemData={item}
-              onSelect={this.handleItemSelect}
-              renderItem={renderItem}
-            >
-              {item.label}
-            </AutoCompleteItem>
-          ))}
-        </ul>
-      </MenuWrapper>
-    );
-  }
-  render() {
-    const { disabled, className, classPrefix, open, style, ...rest } = this.props;
-
-    const data = this.getData();
-    const value = this.getValue();
-    const unhandled = getUnhandledProps(AutoComplete, rest);
-    const classes = classNames(classPrefix, className, {
-      [this.addPrefix('disabled')]: disabled
-    });
-
-    const hasItems = data.filter(this.shouldDisplay).length > 0;
-
-    return (
-      <div className={classes} style={style}>
+      <div ref={rootRef} className={classes} style={style}>
         <PickerToggleTrigger
-          pickerProps={this.props}
-          ref={this.triggerRef}
+          placement={placement}
+          pickerProps={props}
           trigger={['click', 'focus']}
-          open={open || (this.state.focus && hasItems)}
-          speaker={this.renderDropdownMenu()}
+          open={open || (focus && hasItems)}
+          speaker={
+            <DropdownMenu
+              focusItemValue={focusItemValue}
+              ref={menuRef}
+              onKeyDown={handleKeyDown}
+              onSelect={handleItemSelect}
+              renderItem={renderItem}
+              data={items}
+              className={menuClassName}
+            />
+          }
         >
           <Input
-            {...unhandled}
+            {...rest}
             disabled={disabled}
-            value={value}
-            onBlur={this.handleInputBlur}
-            onFocus={this.handleInputFocus}
-            onChange={this.handleChange}
-            onKeyDown={this.handleKeyDown}
+            value={val}
+            onBlur={handleInputBlur}
+            onFocus={handleInputFocus}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
           />
         </PickerToggleTrigger>
       </div>
     );
   }
-}
+);
 
-const EnhancedAutoComplete = defaultProps<AutoCompleteProps>({
-  classPrefix: 'auto-complete'
-})(AutoComplete);
+AutoComplete.displayName = 'AutoComplete';
+AutoComplete.propTypes = {
+  ...getAnimationPropTypes(),
+  data: PropTypes.array,
+  disabled: PropTypes.bool,
+  onSelect: PropTypes.func,
+  onChange: PropTypes.func,
+  classPrefix: PropTypes.string,
+  value: PropTypes.string,
+  defaultValue: PropTypes.string,
+  className: PropTypes.string,
+  menuClassName: PropTypes.string,
+  placement: PropTypes.oneOf(PLACEMENT),
+  onFocus: PropTypes.func,
+  onMenuFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  onKeyDown: PropTypes.func,
+  onOpen: PropTypes.func,
+  onClose: PropTypes.func,
+  renderItem: PropTypes.func,
+  style: PropTypes.object,
+  open: PropTypes.bool,
+  selectOnEnter: PropTypes.bool,
+  filterBy: PropTypes.func,
+  positionRef: refType
+};
 
-setStatic('Item', AutoCompleteItem)(AutoComplete);
-
-export default EnhancedAutoComplete;
+export default AutoComplete;

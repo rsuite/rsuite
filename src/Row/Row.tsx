@@ -11,19 +11,11 @@ class Row extends React.Component<RowProps> {
     classPrefix: PropTypes.string,
     gutter: PropTypes.number,
     style: PropTypes.object,
-    componentClass: PropTypes.elementType,
+    as: PropTypes.elementType,
     children: PropTypes.node
   };
   render() {
-    const {
-      className,
-      gutter,
-      children,
-      componentClass: Component,
-      classPrefix,
-      style,
-      ...props
-    } = this.props;
+    const { className, gutter, children, as: Component, classPrefix, style, ...props } = this.props;
 
     const classes = classNames(classPrefix, className);
 
@@ -60,5 +52,5 @@ class Row extends React.Component<RowProps> {
 
 export default defaultProps<RowProps>({
   classPrefix: 'row',
-  componentClass: 'div'
+  as: 'div'
 })(Row);

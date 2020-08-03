@@ -63,7 +63,7 @@ describe('SelectPicker', () => {
   });
 
   it('Should output a button', () => {
-    const instance = getInstance(<Dropdown toggleComponentClass="button" />);
+    const instance = getInstance(<Dropdown toggleAs="button" />);
     assert.ok(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'button'));
   });
 
@@ -310,8 +310,8 @@ describe('SelectPicker', () => {
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
-  it('Should render a button by toggleComponentClass={Button}', () => {
-    const instance = getInstance(<Dropdown open data={data} toggleComponentClass={Button} />);
+  it('Should render a button by toggleAs={Button}', () => {
+    const instance = getInstance(<Dropdown open data={data} toggleAs={Button} />);
     ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-btn');
   });
 

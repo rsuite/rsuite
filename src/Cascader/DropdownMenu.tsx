@@ -166,7 +166,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
     return (
       <DropdownMenuItem
         classPrefix={this.addPrefix('item')}
-        componentClass={'li'}
+        as={'li'}
         key={`${layer}-${onlyKey}`}
         disabled={disabled}
         active={!_.isUndefined(activeItemValue) && shallowEqual(activeItemValue, value)}

@@ -16,11 +16,11 @@ class LoadingTable extends React.Component {
     };
     this.handleToggle = this.handleToggle.bind(this);
   }
-  handleToggle(loading){
+  handleToggle(loading) {
     this.setState({ loading });
   }
   render() {
-    const {loading} = this.state;
+    const { loading } = this.state;
     return (
       <div>
         <Table loading={loading} height={400} data={this.state.data}>
@@ -74,9 +74,10 @@ class LoadingTable extends React.Component {
             <Cell dataKey="email" />
           </Column>
         </Table>
-        <hr/>
+        <hr />
         <div>
-          Loading：<Toggle
+          Loading：
+          <Toggle
             checkedChildren="On"
             unCheckedChildren="Off"
             checked={loading}

@@ -2,7 +2,7 @@
 
 在某些条件下，我们需对数据进行异步校验，比如校验用户名是否重名，下面一个示例将说明异步校验的处理。
 
-- 在需要异步校验的 `<FormControl>` 上设置 `checkAsync` 属性。
+- 在需要异步校验的 `<Form.Control>` 上设置 `checkAsync` 属性。
 - 异步校验的验证规则通过 `schema` 的 `addRule` 方法添加一个返回值为 Promise 的对象。
 - 通过调用 `<Form>` 的 `checkAsync` 与 `checkForFieldAsync` 的访问，可以手动触发校验。
 
@@ -67,10 +67,10 @@ class CheckForm extends React.Component {
           formValue={formValue}
           model={model}
         >
-          <FormGroup>
-            <ControlLabel>Username </ControlLabel>
-            <FormControl checkAsync name="name" />
-          </FormGroup>
+          <Form.Group>
+            <Form.ControlLabel>Username </Form.ControlLabel>
+            <Form.Control checkAsync name="name" />
+          </Form.Group>
 
           <ButtonToolbar>
             <Button appearance="primary" onClick={this.handleSubmit}>

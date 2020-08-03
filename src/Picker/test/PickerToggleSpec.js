@@ -17,7 +17,7 @@ describe('Toggle', () => {
   it('Should output a button', () => {
     const Title = 'Title';
     const instance = getDOMNode(
-      <Toggle title="title" componentClass="button">
+      <Toggle title="title" as="button">
         {Title}
       </Toggle>
     );

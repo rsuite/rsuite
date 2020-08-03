@@ -60,14 +60,12 @@ describe('Dropdown', () => {
   });
 
   it('Should render custom component', () => {
-    const instance = getDOMNode(<Dropdown toggleComponentClass={'div'} />);
+    const instance = getDOMNode(<Dropdown toggleAs={'div'} />);
     assert.equal(instance.querySelector('.rs-dropdown-toggle').tagName, 'DIV');
   });
 
   it('Should render a Button', () => {
-    const instance = getDOMNode(
-      <Dropdown toggleComponentClass={Button} size="xs" appearance="link" />
-    );
+    const instance = getDOMNode(<Dropdown toggleAs={Button} size="xs" appearance="link" />);
 
     const toggle = instance.querySelector('.rs-dropdown-toggle');
     assert.include(toggle.className, 'rs-btn-link');

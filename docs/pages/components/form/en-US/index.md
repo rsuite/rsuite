@@ -3,15 +3,18 @@
 A set of components and models that process form data.
 
 - `<Form>` Define a form.
-- `<FormControl>` Define form-control.
-- `<FormGroup>` Define form groups, used for form layout.
-- `<ControlLabel>` title of form-control.
-- `<HelpBlock>` help infomation of form-controll
+- `<Form.Group>` Define form groups, used for form layout.
+- `<Form.Control>` Define form-control.
+- `<Form.ControlLabel>` title of form-control.
+- `<Form.HelpText>` help infomation of form-controll
 
-## Usage
+## Import
 
 ```js
-import { Form, FormGroup, FormControl, ControlLabel, HelpBlock } from 'rsuite';
+import { Form } from 'rsuite';
+
+// or
+import Form from 'rsuite/lib/Form';
 ```
 
 <!--{demo}-->
@@ -22,10 +25,9 @@ import { Form, FormGroup, FormControl, ControlLabel, HelpBlock } from 'rsuite';
 
 | Property         | Type `(default)`                                        | Description                                                                                                |
 | ---------------- | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| checkDelay       | number `(500)`                                          | Delayed processing when data check, unit: millisecond                                                      |
 | checkTrigger     | enum: 'change','blur','none' `('change')`               | Trigger the type of form validation                                                                        |
 | classPrefix      | string `('form')`                                       | The prefix of the component CSS class                                                                      |
-| errorFromContext | boolean `(true)`                                        | Error reminders in FormControl are defaulted from Context                                                  |
+| errorFromContext | boolean `(true)`                                        | Error reminders in Form.Control are defaulted from Context                                                  |
 | fluid            | boolean                                                 | The fluid property allows the Input 100% of the form to fill the container, valid only in vertical layouts |
 | formDefaultValue | Object                                                  | Default value of form                                                                                      |
 | formError        | Object                                                  | Error message of form                                                                                      |
@@ -89,7 +91,7 @@ Clear single field error message
 cleanErrorForFiled: (fieldName: keyof E, callback?: () => void) => void;
 ```
 
-### `<FormControl>`
+### `<Form.Control>`
 
 | Property       | Type`(default)`                              | Description                                                                      |
 | -------------- | -------------------------------------------- | -------------------------------------------------------------------------------- |
@@ -102,25 +104,24 @@ cleanErrorForFiled: (fieldName: keyof E, callback?: () => void) => void;
 | readOnly       | boolean                                      | Make the control readonly                                                        |
 | plaintext      | boolean                                      | Make the control plaintext                                                       |
 
-### `<FormGroup>`
+### `<Form.Group>`
 
 | Property    | Type`(default)`         | Description                           |
 | ----------- | ----------------------- | ------------------------------------- |
 | classPrefix | string `('form-group')` | The prefix of the component CSS class |
 | controlId   | string                  | Sets id for controlled component      |
 
-### `<ControlLabel>`
+### `<Form.ControlLabel>`
 
-| Property    | Type`(default)`            | Description                                                                 |
-| ----------- | -------------------------- | --------------------------------------------------------------------------- |
-| classPrefix | string `('control-label')` | The prefix of the component CSS class                                       |
-| htmlFor     | string                     | Attribute of the html label tag, defaults to the controlId of the FormGroup |
-| srOnly      | boolean                    | Screen reader only                                                          |
+| Property    | Type`(default)`                 | Description                                                                 |
+| ----------- | ------------------------------- | --------------------------------------------------------------------------- |
+| classPrefix | string `('form-control-label')` | The prefix of the component CSS class                                       |
+| htmlFor     | string                          | Attribute of the html label tag, defaults to the controlId of the Form.Group |
 
-### `<HelpBlock>`
+### `<Form.HelpText>`
 
-| Property    | Type`(default)`         | Description                                                                 |
-| ----------- | ----------------------- | --------------------------------------------------------------------------- |
-| classPrefix | string `('help-block')` | The prefix of the component CSS class                                       |
-| htmlFor     | string                  | Attribute of the html label tag, defaults to the controlId of the FormGroup |
-| tooltip     | boolean                 | Whether to show through the Tooltip component                               |
+| Property    | Type`(default)`             | Description                                                                 |
+| ----------- | --------------------------- | --------------------------------------------------------------------------- |
+| classPrefix | string `('form-help-text')` | The prefix of the component CSS class                                       |
+| htmlFor     | string                      | Attribute of the html label tag, defaults to the controlId of the Form.Group |
+| tooltip     | boolean                     | Whether to show through the Tooltip component                               |

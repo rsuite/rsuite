@@ -6,7 +6,7 @@ import { StandardProps } from '../@types/common';
 import extendReactStatics from './extendReactStatics';
 
 export interface Props extends StandardProps {
-  componentClass?: React.ElementType;
+  as?: React.ElementType;
 }
 
 function defaultProps<T>(props) {

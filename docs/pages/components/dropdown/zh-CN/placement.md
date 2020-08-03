@@ -1,16 +1,16 @@
 ### 菜单位置
 
 <!--start-code-->
-```js
 
-const items=[
+```js
+const items = [
   <Dropdown.Item key={1}>New File</Dropdown.Item>,
   <Dropdown.Item key={2}>New File with Current Profile</Dropdown.Item>,
   <Dropdown.Item key={3}>Download As...</Dropdown.Item>,
   <Dropdown.Item key={4}>Export PDF</Dropdown.Item>,
   <Dropdown.Item key={5}>Export HTML</Dropdown.Item>,
   <Dropdown.Item key={6}>Settings</Dropdown.Item>,
-  <Dropdown.Item key={7}>About</Dropdown.Item>,
+  <Dropdown.Item key={7}>About</Dropdown.Item>
 ];
 
 const instance = (
@@ -46,7 +46,6 @@ const instance = (
       </tr>
       <tr>
         <td>
-
           <Dropdown title="leftEnd" placement="leftEnd">
             {items}
           </Dropdown>
@@ -67,7 +66,6 @@ const instance = (
           </Dropdown>
         </td>
         <td>
-
           <Dropdown title="bottomEnd" placement="bottomEnd">
             {items}
           </Dropdown>
@@ -76,8 +74,8 @@ const instance = (
       </tr>
     </tbody>
   </table>
-
 );
 ReactDOM.render(instance);
 ```
+
 <!--end-code-->

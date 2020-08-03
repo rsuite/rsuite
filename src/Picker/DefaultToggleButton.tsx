@@ -4,7 +4,7 @@ import { ButtonProps } from '../Button/Button.d';
 
 const DefaultToggleButton = React.forwardRef<ButtonProps>(
   (props: ButtonProps, ref: React.RefObject<any>) => (
-    <Button componentClass="a" ripple={false} {...props} ref={ref} />
+    <Button as="a" ripple={false} {...props} ref={ref} />
   )
 );
 DefaultToggleButton.displayName = 'DefaultToggleButton';

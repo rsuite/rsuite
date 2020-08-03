@@ -1,9 +1,9 @@
 ### 自定义表单组件
 
-所有的 Data Entry 相关的组件都可以在表单中使用，例如 `Checkbox`,`SelectPicker`,`Slider` 等等。 但是需要通过 `FormControl` 组件进行数据管理，实现与 `Form` 组件的数据关联。
+所有的 Data Entry 相关的组件都可以在表单中使用，例如 `Checkbox`,`SelectPicker`,`Slider` 等等。 但是需要通过 `Form.Control` 组件进行数据管理，实现与 `Form` 组件的数据关联。
 
-- FormControl 用于绑定 Form 中的数据字段，通过 `name` 属性和 Schema.Model 对象的 `key` 对应。
-- FormControl 默认是个 `Input` 组件，可以通过 `accepter` 设置需要的数据录入组件。
+- Form.Control 用于绑定 Form 中的数据字段，通过 `name` 属性和 Schema.Model 对象的 `key` 对应。
+- Form.Control 默认是个 `Input` 组件，可以通过 `accepter` 设置需要的数据录入组件。
 
 <!--start-code-->
 
@@ -23,16 +23,11 @@ class CustomField extends React.PureComponent {
   render() {
     const { name, message, label, accepter, error, ...props } = this.props;
     return (
-      <FormGroup className={error ? 'has-error' : ''}>
-        <ControlLabel>{label} </ControlLabel>
-        <FormControl
-          name={name}
-          accepter={accepter}
-          errorMessage={error}
-          {...props}
-        />
-        <HelpBlock>{message}</HelpBlock>
-      </FormGroup>
+      <Form.Group className={error ? 'has-error' : ''}>
+        <Form.ControlLabel>{label} </Form.ControlLabel>
+        <Form.Control name={name} accepter={accepter} errorMessage={error} {...props} />
+        <Form.HelpText>{message}</Form.HelpText>
+      </Form.Group>
     );
   }
 }
@@ -147,11 +142,11 @@ class CustomFieldForm extends React.Component {
             errorMessage={formError.createDate}
           />
 
-          <FormGroup>
+          <Form.Group>
             <Button appearance="primary" onClick={this.handleSubmit}>
               Submit
             </Button>
-          </FormGroup>
+          </Form.Group>
         </Form>
       </div>
     );
@@ -163,4 +158,4 @@ ReactDOM.render(<CustomFieldForm />);
 
 <!--end-code-->
 
-> 例如: `<FormControl accepter={CheckboxGroup} />` , FormControl 会渲染一个 `<CheckboxGroup>` 组件, 同时与 Form 中的 Schema.Model 实例绑定。以下示例中的富文本编辑器，用的是 [react-quill](https://github.com/zenoamaro/react-quill)
+> 例如: `<Form.Control accepter={CheckboxGroup} />` , Form.Control 会渲染一个 `<CheckboxGroup>` 组件, 同时与 Form 中的 Schema.Model 实例绑定。以下示例中的富文本编辑器，用的是 [react-quill](https://github.com/zenoamaro/react-quill)

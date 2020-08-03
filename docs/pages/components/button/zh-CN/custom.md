@@ -1,30 +1,31 @@
 ### 自定义组合按钮
 
 <!--start-code-->
+
 ```js
 const instance = (
   <ButtonToolbar>
-    <Button color="blue" >
-      <Icon icon="facebook-official"  /> Facebook
+    <Button color="blue">
+      <Icon icon="facebook-official" /> Facebook
     </Button>
-    <Button color="red" >
-      <Icon icon="google-plus-circle"  /> Google Plus
+    <Button color="red">
+      <Icon icon="google-plus-circle" /> Google Plus
     </Button>
-    <Button color="cyan" >
-      <Icon icon="twitter"  /> Twitter
+    <Button color="cyan">
+      <Icon icon="twitter" /> Twitter
     </Button>
-    <Button color="blue" >
-      <Icon icon="linkedin"  /> LinkedIn
+    <Button color="blue">
+      <Icon icon="linkedin" /> LinkedIn
     </Button>
-    <Button color="green" >
-      <Icon icon="wechat"  /> WeChat
+    <Button color="green">
+      <Icon icon="wechat" /> WeChat
     </Button>
-    <Button color="yellow" >
-      <Icon icon="weibo"  /> WeiBo
+    <Button color="yellow">
+      <Icon icon="weibo" /> WeiBo
     </Button>
-
   </ButtonToolbar>
 );
 ReactDOM.render(instance);
 ```
+
 <!--end-code-->

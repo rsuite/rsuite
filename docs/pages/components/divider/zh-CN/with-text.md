@@ -5,7 +5,7 @@
 ```js
 const instance = (
   <div>
-    <Paragraph  />
+    <Paragraph />
     <Divider>Divider</Divider>
     <Paragraph />
   </div>

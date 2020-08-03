@@ -1,6 +1,5 @@
 ### Backdrop
 
-
 When set to true, the Modal will display the background when it is opened. Clicking on the background will close the Modal. If you do not want to close the Modal, set it to 'static'.
 
 <!--start-code-->

@@ -30,7 +30,7 @@ export interface ButtonGroupProps extends StandardProps, React.HTMLAttributes<HT
 const ButtonGroup = React.forwardRef((props: ButtonGroupProps, ref: React.Ref<HTMLDivElement>) => {
   const {
     classPrefix = 'btn-group',
-    componentClass: Component = 'div',
+    as: Component = 'div',
     role = 'group',
     className,
     children,
@@ -41,8 +41,8 @@ const ButtonGroup = React.forwardRef((props: ButtonGroupProps, ref: React.Ref<HT
     ...rest
   } = props;
 
-  const [withPrifix, merge] = useClassNames(classPrefix);
-  const classes = merge(className, withPrifix(size, { block, vertical, justified }));
+  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix(size, { block, vertical, justified }));
 
   return (
     <Component {...rest} role={role} ref={ref} className={classes}>
@@ -54,7 +54,7 @@ const ButtonGroup = React.forwardRef((props: ButtonGroupProps, ref: React.Ref<HT
 ButtonGroup.displayName = 'ButtonGroup';
 ButtonGroup.propTypes = {
   className: PropTypes.string,
-  componentClass: PropTypes.elementType,
+  as: PropTypes.elementType,
   classPrefix: PropTypes.string,
   children: PropTypes.node,
   block: PropTypes.bool,

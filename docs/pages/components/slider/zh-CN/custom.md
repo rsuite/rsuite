@@ -21,7 +21,7 @@ class CustomSlider extends React.Component {
     };
 
     return (
-      <div >
+      <div>
         <div style={{ width: 200, marginLeft: 20 }}>
           <Slider
             min={0}

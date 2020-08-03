@@ -1,63 +1,75 @@
-import * as React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import { useClassNames } from '../utils';
+import { StandardProps, ItemDataType } from '../@types/common';
 
-import { getUnhandledProps, defaultProps, prefix } from '../utils';
+export interface AutoCompleteItemProps extends StandardProps {
+  /** The current item data. */
+  itemData: ItemDataType;
 
-import { AutoCompleteItemProps } from './AutoCompleteItem.d';
+  /** Whether the current item has focus */
+  focus?: boolean;
 
-class AutoCompleteItem extends React.Component<AutoCompleteItemProps> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    itemData: PropTypes.object,
-    onSelect: PropTypes.func,
-    onKeyDown: PropTypes.func,
-    focus: PropTypes.bool,
-    className: PropTypes.string,
-    children: PropTypes.node,
-    renderItem: PropTypes.func
-  };
+  /** The triggered callback is after clicking the item. */
+  onSelect?: (itemData: ItemDataType, event: React.SyntheticEvent<HTMLElement>) => void;
 
-  handleClick = (event: React.SyntheticEvent<HTMLElement>) => {
-    const { itemData, onSelect } = this.props;
-    onSelect?.(itemData, event);
-  };
+  /** The callback triggered by keyboard events. */
+  onKeyDown?: (event: React.KeyboardEvent) => void;
 
-  render() {
+  /** Custom rendering item */
+  renderItem?: (itemData: ItemDataType) => React.ReactNode;
+}
+
+const AutoCompleteItem = React.forwardRef(
+  (props: AutoCompleteItemProps, ref: React.Ref<HTMLLIElement>) => {
     const {
-      onKeyDown,
-      focus,
       children,
       className,
-      classPrefix,
-      renderItem,
+      classPrefix = 'auto-complete-item',
+      focus,
       itemData,
+      renderItem,
+      onKeyDown,
+      onSelect,
       ...rest
-    } = this.props;
+    } = props;
 
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, {
-      [addPrefix('focus')]: focus
-    });
+    const handleClick = useCallback(
+      (event: React.MouseEvent<HTMLAnchorElement>) => {
+        onSelect?.(itemData, event);
+      },
+      [itemData, onSelect]
+    );
 
-    const unhandled = getUnhandledProps(AutoCompleteItem, rest);
+    const { withClassPrefix } = useClassNames(classPrefix);
+    const classes = withClassPrefix({ focus });
 
     return (
-      <li {...unhandled} className={className} role="menuitem">
+      <li {...rest} ref={ref} className={className} role="menuitem">
         <a
           className={classes}
           tabIndex={-1}
           role="button"
           onKeyDown={onKeyDown}
-          onClick={this.handleClick}
+          onClick={handleClick}
         >
           {renderItem ? renderItem(itemData) : children}
         </a>
       </li>
     );
   }
-}
+);
 
-export default defaultProps<AutoCompleteItemProps>({
-  classPrefix: 'auto-complete-item'
-})(AutoCompleteItem);
+AutoCompleteItem.displayName = 'AutoCompleteItem';
+AutoCompleteItem.propTypes = {
+  classPrefix: PropTypes.string,
+  itemData: PropTypes.any,
+  onSelect: PropTypes.func,
+  onKeyDown: PropTypes.func,
+  focus: PropTypes.bool,
+  className: PropTypes.string,
+  children: PropTypes.node,
+  renderItem: PropTypes.func
+};
+
+export default AutoCompleteItem;

@@ -62,7 +62,7 @@ import { MultiCascader } from 'rsuite';
 | renderValue           | (value:string[],selectedItems: Array&lt;[DataItemType](#types)&gt;,selectedElement:React.Node ) => React.Nodee | 自定义被选中的选项                   |
 | searchable            | boolean `(true)`                                                                                               | 可以搜索                             |
 | size                  | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                                                          | 设置组件尺寸                         |
-| toggleComponentClass  | React.ElementType `('a')`                                                                                      | 为组件自定义元素类型                 |
+| toggleAs              | React.ElementType `('a')`                                                                                      | 为组件自定义元素类型                 |
 | uncheckableItemValues | string[]                                                                                                       | 设置不显示复选框的选项值             |
 | value                 | string[]                                                                                                       | 设置值（受控）                       |
 | valueKey              | string `('value')`                                                                                             | 设置选项值在 `data` 中的 `key`       |

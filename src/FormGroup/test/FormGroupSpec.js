@@ -3,7 +3,7 @@ import { getDOMNode } from '@test/testUtils';
 
 import FormGroup from '../FormGroup';
 import Input from '../../Input';
-import ControlLabel from '../../ControlLabel';
+import FormControlLabel from '../../FormControlLabel';
 
 describe('FormGroup', () => {
   it('Should render a FormGroup', () => {
@@ -11,39 +11,6 @@ describe('FormGroup', () => {
     let instance = getDOMNode(<FormGroup>{title}</FormGroup>);
     assert.equal(instance.className, 'rs-form-group');
     assert.equal(instance.innerHTML, title);
-  });
-
-  it('Should have a validation State', () => {
-    let instance = getDOMNode(<FormGroup validationState="warning" />);
-    assert.ok(instance.className.match(/\bhas-warning\b/));
-  });
-
-  it('Should have a warning State', () => {
-    let instance = getDOMNode(<FormGroup validationState="warning" isValid />);
-    assert.ok(instance.className.match(/\bhas-warning\b/));
-    assert.ok(!instance.className.match(/\bhas-success\b/));
-  });
-
-  it('Should have a warning State', () => {
-    let instance = getDOMNode(<FormGroup validationState="warning" isValid={false} />);
-
-    assert.ok(instance.className.match(/\bhas-warning\b/));
-    assert.ok(!instance.className.match(/\bhas-error\b/));
-  });
-
-  it('Should have a error State', () => {
-    let instance = getDOMNode(<FormGroup isValid={false} />);
-    assert.ok(instance.className.match(/\bhas-error\b/));
-  });
-
-  it('Should have a success State', () => {
-    let instance = getDOMNode(<FormGroup isValid />);
-    assert.ok(instance.className.match(/\bhas-success\b/));
-  });
-
-  it('Should add size', () => {
-    let instance = getDOMNode(<FormGroup size="lg" />);
-    assert.ok(instance.className.match(/\bform-group-lg\b/));
   });
 
   it('Should have a custom className', () => {
@@ -66,12 +33,12 @@ describe('FormGroup', () => {
     let instance = getDOMNode(
       <FormGroup controlId="name">
         <div>
-          <ControlLabel />
+          <FormControlLabel />
           <Input />
         </div>
       </FormGroup>
     );
-    assert.equal(instance.querySelector('.rs-control-label').getAttribute('for'), 'name');
+    assert.equal(instance.querySelector('.rs-form-control-label').getAttribute('for'), 'name');
     assert.equal(instance.querySelector('.rs-input').getAttribute('id'), 'name');
   });
 
@@ -79,12 +46,12 @@ describe('FormGroup', () => {
     let instance = getDOMNode(
       <FormGroup controlId="name">
         <div>
-          <ControlLabel htmlFor="email" />
+          <FormControlLabel htmlFor="email" />
           <Input id="email" />
         </div>
       </FormGroup>
     );
-    assert.equal(instance.querySelector('.rs-control-label').getAttribute('for'), 'email');
+    assert.equal(instance.querySelector('.rs-form-control-label').getAttribute('for'), 'email');
     assert.equal(instance.querySelector('.rs-input').getAttribute('id'), 'email');
   });
 });

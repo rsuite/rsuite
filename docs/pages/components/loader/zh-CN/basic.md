@@ -1,11 +1,10 @@
-
 ### 默认
 
 <!--start-code-->
+
 ```js
-const instance = (
-  <Loader />
-);
+const instance = <Loader />;
 ReactDOM.render(instance);
 ```
+
 <!--end-code-->

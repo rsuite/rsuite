@@ -12,12 +12,7 @@ Set the `sticky` property to put the selected in the options to the top.
 
 const instance = (
   <div>
-    <CheckPicker
-      sticky
-      data={data}
-      defaultValue={['Kenya', 'Julius']}
-      style={{ width: 224 }}
-    />
+    <CheckPicker sticky data={data} defaultValue={['Kenya', 'Julius']} style={{ width: 224 }} />
     <hr />
     <CheckPicker
       sticky

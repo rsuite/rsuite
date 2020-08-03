@@ -10,20 +10,9 @@
 
 const instance = (
   <div>
-    <CheckPicker
-      data={data}
-      groupBy="role"
-      placeholder="Select User"
-      toggleComponentClass={Button}
-    />
+    <CheckPicker data={data} groupBy="role" placeholder="Select User" toggleAs={Button} />
     <hr />
-    <CheckPicker
-      data={data}
-      groupBy="role"
-      block
-      placeholder="Select User"
-      toggleComponentClass={Button}
-    />
+    <CheckPicker data={data} groupBy="role" block placeholder="Select User" toggleAs={Button} />
   </div>
 );
 ReactDOM.render(instance);

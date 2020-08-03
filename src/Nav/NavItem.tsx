@@ -26,7 +26,7 @@ class NavItem extends React.Component<NavItemProps> {
     eventKey: PropTypes.any,
     tabIndex: PropTypes.number,
     hasTooltip: PropTypes.bool,
-    componentClass: PropTypes.elementType,
+    as: PropTypes.elementType,
     renderItem: PropTypes.func
   };
   static defaultProps = {
@@ -54,7 +54,7 @@ class NavItem extends React.Component<NavItemProps> {
       hasTooltip,
       divider,
       panel,
-      componentClass: Component,
+      as: Component,
       renderItem,
       ...rest
     } = this.props;
@@ -118,5 +118,5 @@ class NavItem extends React.Component<NavItemProps> {
 
 export default defaultProps<NavItemProps>({
   classPrefix: 'nav-item',
-  componentClass: SafeAnchor
+  as: SafeAnchor
 })(NavItem);

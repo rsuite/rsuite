@@ -2,8 +2,8 @@
 
 Steps is a navigation bar that guides users through the steps of a task.
 
-* `<Steps>`
-* `<Steps.Item>`
+- `<Steps>`
+- `<Steps.Item>`
 
 ## Usage
 

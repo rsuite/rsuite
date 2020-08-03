@@ -10,7 +10,7 @@ export interface PaginationProps extends StandardProps, PaginationBaseProps {
   ellipsis?: boolean | React.ReactNode;
 
   /** Customizes the element type for the component */
-  buttonComponentClass?: React.ElementType;
+  buttonAs?: React.ElementType;
 
   /** callback function for pagination clicked */
   onSelect?: (eventKey: any, event: React.MouseEvent) => void;

@@ -5,7 +5,7 @@ import { prefix, getUnhandledProps, defaultProps } from '../utils';
 
 export interface DropdownMenuItemProps {
   classPrefix: string;
-  componentClass?: React.ElementType;
+  as?: React.ElementType;
   active?: boolean;
   disabled?: boolean;
   value?: any;
@@ -31,10 +31,10 @@ class DropdownMenuItem extends React.Component<DropdownMenuItemProps> {
     className: PropTypes.string,
     children: PropTypes.node,
     getItemData: PropTypes.func,
-    componentClass: PropTypes.elementType
+    as: PropTypes.elementType
   };
   static defaultProps = {
-    componentClass: 'div'
+    as: 'div'
   };
 
   handleClick = (event: React.MouseEvent) => {
@@ -54,7 +54,7 @@ class DropdownMenuItem extends React.Component<DropdownMenuItemProps> {
       children,
       className,
       classPrefix,
-      componentClass: Component,
+      as: Component,
       ...rest
     } = this.props;
 

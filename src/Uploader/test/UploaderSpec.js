@@ -37,9 +37,7 @@ describe('Uploader', () => {
   });
 
   it('Should render custom component', () => {
-    const instance = getDOMNode(
-      <Uploader action="" toggleComponentClass={Button} appearance="link" />
-    );
+    const instance = getDOMNode(<Uploader action="" toggleAs={Button} appearance="link" />);
     assert.equal(instance.querySelector('.rs-uploader-trigger-btn.rs-btn-link').tagName, 'BUTTON');
   });
 

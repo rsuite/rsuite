@@ -26,16 +26,11 @@ class CustomField extends React.PureComponent {
   render() {
     const { name, message, label, accepter, error, ...props } = this.props;
     return (
-      <FormGroup className={error ? 'has-error' : ''}>
-        <ControlLabel>{label} </ControlLabel>
-        <FormControl
-          name={name}
-          accepter={accepter}
-          errorMessage={error}
-          {...props}
-        />
-        <HelpBlock>{message}</HelpBlock>
-      </FormGroup>
+      <Form.Group className={error ? 'has-error' : ''}>
+        <Form.ControlLabel>{label} </Form.ControlLabel>
+        <Form.Control name={name} accepter={accepter} errorMessage={error} {...props} />
+        <Form.HelpText>{message}</Form.HelpText>
+      </Form.Group>
     );
   }
 }
@@ -102,11 +97,11 @@ class CustomFieldForm extends React.Component {
             error={formError.phone}
           />
 
-          <FormGroup>
+          <Form.Group>
             <Button appearance="primary" onClick={this.handleSubmit}>
               Submit
             </Button>
-          </FormGroup>
+          </Form.Group>
         </Form>
       </div>
     );

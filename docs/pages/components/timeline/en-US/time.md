@@ -5,21 +5,11 @@
 ```js
 const TimelineWithTime = ({ align }) => (
   <Timeline align={align}>
-    <Timeline.Item time="November 5, 2019 16:27">
-      Your order starts processing
-    </Timeline.Item>
-    <Timeline.Item time="November 5, 2019 18:00">
-      Your order to be ready for delivery
-    </Timeline.Item>
-    <Timeline.Item time="Yesterday 16:28">
-      Your parcel has been out of the library
-    </Timeline.Item>
-    <Timeline.Item time="Today 02:34">
-      Send to Shanghai Hongkou Company
-    </Timeline.Item>
-    <Timeline.Item time="Today 15:05">
-      Sending you a piece
-    </Timeline.Item>
+    <Timeline.Item time="November 5, 2019 16:27">Your order starts processing</Timeline.Item>
+    <Timeline.Item time="November 5, 2019 18:00">Your order to be ready for delivery</Timeline.Item>
+    <Timeline.Item time="Yesterday 16:28">Your parcel has been out of the library</Timeline.Item>
+    <Timeline.Item time="Today 02:34">Send to Shanghai Hongkou Company</Timeline.Item>
+    <Timeline.Item time="Today 15:05">Sending you a piece</Timeline.Item>
   </Timeline>
 );
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Form, FormGroup, Button, Checkbox, CheckboxGroup, Icon } from 'rsuite';
+import { Form, Button, Checkbox, CheckboxGroup, Icon } from 'rsuite';
 import DefaultPage from '@/components/Page';
 
 export default function Page() {
@@ -13,7 +13,7 @@ export default function Page() {
         'checkbox-groupinline',
         'checkbox-group-controller'
       ]}
-      dependencies={{ Form, FormGroup, Button, Checkbox, CheckboxGroup, Icon }}
+      dependencies={{ Form, Button, Checkbox, CheckboxGroup, Icon }}
     />
   );
 }

@@ -4,7 +4,7 @@ import { StandardProps } from '../@types/common';
 
 export interface CarouselProps extends StandardProps {
   /** You can use a custom element for this component */
-  componentClass?: React.ElementType;
+  as?: React.ElementType;
 
   /** Autoplay element */
   autoplay?: boolean;

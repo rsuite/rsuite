@@ -9,13 +9,7 @@
  */
 
 const instance = (
-  <Cascader
-    inline
-    data={data}
-    searchable={false}
-    menuHeight="auto"
-    menuWidth={180}
-  />
+  <Cascader inline data={data} searchable={false} menuHeight="auto" menuWidth={180} />
 );
 ReactDOM.render(instance);
 ```

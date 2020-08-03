@@ -95,7 +95,7 @@ const instance = (
     <CustomComponent placement="autoVertical" />
     <CustomComponent placement="autoVerticalStart" />
     <CustomComponent placement="autoVerticalEnd" />
-    
+
     <br />
     <CustomComponent placement="autoHorizontal" />
     <CustomComponent placement="autoHorizontalStart" />

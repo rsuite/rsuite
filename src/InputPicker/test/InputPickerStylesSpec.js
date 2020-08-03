@@ -52,7 +52,7 @@ describe('InputPicker styles', () => {
   it('Should render correct large size', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(
-      <InputPicker toggleComponentClass={Button} size="lg" ref={instanceRef} data={data} />,
+      <InputPicker toggleAs={Button} size="lg" ref={instanceRef} data={data} />,
       createTestContainer()
     );
     const dom = getDOMNode(instanceRef.current);
@@ -62,7 +62,7 @@ describe('InputPicker styles', () => {
   it('Should render correct middle size ', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(
-      <InputPicker toggleComponentClass={Button} size="md" ref={instanceRef} data={data} />,
+      <InputPicker toggleAs={Button} size="md" ref={instanceRef} data={data} />,
       createTestContainer()
     );
     const dom = getDOMNode(instanceRef.current);
@@ -72,7 +72,7 @@ describe('InputPicker styles', () => {
   it('Should render correct small size ', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(
-      <InputPicker toggleComponentClass={Button} size="sm" ref={instanceRef} data={data} />,
+      <InputPicker toggleAs={Button} size="sm" ref={instanceRef} data={data} />,
       createTestContainer()
     );
     const dom = getDOMNode(instanceRef.current);
@@ -82,7 +82,7 @@ describe('InputPicker styles', () => {
   it('Should render correct xsmall size ', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(
-      <InputPicker toggleComponentClass={Button} size="xs" ref={instanceRef} data={data} />,
+      <InputPicker toggleAs={Button} size="xs" ref={instanceRef} data={data} />,
       createTestContainer()
     );
     const dom = getDOMNode(instanceRef.current);

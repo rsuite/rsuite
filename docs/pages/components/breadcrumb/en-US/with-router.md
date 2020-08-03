@@ -3,7 +3,7 @@
 <!--start-code-->
 
 ```js
-const NavLink = props => <Breadcrumb.Item componentClass={Link} {...props} />;
+const NavLink = props => <Breadcrumb.Item as={Link} {...props} />;
 
 const instance = (
   <Breadcrumb>

@@ -36,13 +36,13 @@ import { Nav, Dropdown } from 'rsuite';
 
 ### `<Nav.Item>`
 
-| Property       | Type `(Default)`                                           | Description                                           |
-| -------------- | ---------------------------------------------------------- | ----------------------------------------------------- |
-| active         | boolean                                                    | Activation status                                     |
-| children \*    | React.Node                                                 | The contents of the component                         |
-| componentClass | React.ElementType `('a')`                                  | You can use a custom element type for this component  |
-| disabled       | boolean                                                    | Disabled status                                       |
-| href           | string                                                     | Link                                                  |
-| icon           | React.Element&lt;typeof Icon&gt;                           | Sets the icon for the component                       |
-| onSelect       | (eventKey: any, event: SyntheticEvent&lt;any&gt;) => void, | Select the callback function that the event triggers. |
-| renderItem     | (item:React.Node) => React.Node                            | Custom rendering item                                 |
+| Property    | Type `(Default)`                                           | Description                                           |
+| ----------- | ---------------------------------------------------------- | ----------------------------------------------------- |
+| active      | boolean                                                    | Activation status                                     |
+| children \* | React.Node                                                 | The contents of the component                         |
+| as          | React.ElementType `('a')`                                  | You can use a custom element type for this component  |
+| disabled    | boolean                                                    | Disabled status                                       |
+| href        | string                                                     | Link                                                  |
+| icon        | React.Element&lt;typeof Icon&gt;                           | Sets the icon for the component                       |
+| onSelect    | (eventKey: any, event: SyntheticEvent&lt;any&gt;) => void, | Select the callback function that the event triggers. |
+| renderItem  | (item:React.Node) => React.Node                            | Custom rendering item                                 |

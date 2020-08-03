@@ -14,12 +14,7 @@ const instance = (
     <CheckTreePicker defaultExpandAll data={data} style={{ width: 280 }} />
     <hr />
     <p>非级联：</p>
-    <CheckTreePicker
-      defaultExpandAll
-      data={data}
-      cascade={false}
-      style={{ width: 280 }}
-    />
+    <CheckTreePicker defaultExpandAll data={data} cascade={false} style={{ width: 280 }} />
   </div>
 );
 ReactDOM.render(instance);

@@ -15,7 +15,7 @@ interface BreadcrumbState {
 class Breadcrumb extends React.Component<BreadcrumbProps, BreadcrumbState> {
   static propTypes = {
     separator: PropTypes.node,
-    componentClass: PropTypes.elementType,
+    as: PropTypes.elementType,
     children: PropTypes.node,
     className: PropTypes.string,
     classPrefix: PropTypes.string,
@@ -61,7 +61,7 @@ class Breadcrumb extends React.Component<BreadcrumbProps, BreadcrumbState> {
   };
 
   render() {
-    const { classPrefix, componentClass: Component, className, children, ...rest } = this.props;
+    const { classPrefix, as: Component, className, children, ...rest } = this.props;
     const unhandledProps = getUnhandledProps(Breadcrumb, rest);
     const total = React.Children.count(children);
     const items = [];
@@ -90,7 +90,7 @@ class Breadcrumb extends React.Component<BreadcrumbProps, BreadcrumbState> {
 
 const EnhancedBreadcrumb = defaultProps({
   classPrefix: 'breadcrumb',
-  componentClass: 'ol'
+  as: 'ol'
 })(Breadcrumb);
 
 setStatic('Item', BreadcrumbItem)(EnhancedBreadcrumb);

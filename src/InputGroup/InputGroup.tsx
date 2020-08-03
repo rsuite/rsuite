@@ -1,87 +1,91 @@
-import * as React from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import setStatic from 'recompose/setStatic';
-import compose from 'recompose/compose';
+
 import InputGroupAddon from './InputGroupAddon';
 import InputGroupButton from './InputGroupButton';
-import { prefix, withStyleProps, defaultProps, createContext } from '../utils';
-import { InputGroupProps } from './InputGroup.d';
+import { createContext, useClassNames } from '../utils';
+import { StandardProps, TypeAttributes } from '../@types/common';
 
 export const InputGroupContext = createContext(null);
 
-interface InputGroupState {
-  focus?: boolean;
+export interface InputGroupProps extends StandardProps {
+  /** Sets the composition content internally */
+  inside?: boolean;
+
+  /** An Input group can show that it is disabled */
+  disabled?: boolean;
+
+  /** Primary content */
+  children?: React.ReactNode;
+
+  /** A component can have different sizes */
+  size?: TypeAttributes.Size;
 }
 
-class InputGroup extends React.Component<InputGroupProps, InputGroupState> {
-  static propTypes = {
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    inside: PropTypes.bool,
-    disabled: PropTypes.bool,
-    children: PropTypes.node
-  };
-  constructor(props) {
-    super(props);
-    this.state = {
-      focus: false
+export interface InputGroupInterface extends React.FunctionComponent<InputGroupProps> {
+  Addon?: typeof InputGroupAddon;
+  Button?: typeof InputGroupButton;
+}
+
+const InputGroup: InputGroupInterface = React.forwardRef(
+  (props: InputGroupProps, ref: React.Ref<HTMLDivElement>) => {
+    const {
+      classPrefix = 'input-group',
+      className,
+      disabled,
+      inside,
+      size,
+      children,
+      ...rest
+    } = props;
+    const [focus, setFocus] = useState(false);
+
+    const handleFocus = useCallback(() => {
+      setFocus(true);
+    }, []);
+
+    const handleBlur = useCallback(() => {
+      setFocus(false);
+    }, []);
+
+    const { withClassPrefix, merge } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix(size, { inside, focus, disabled }));
+
+    const disabledChildren = () => {
+      return React.Children.map(children, item => {
+        if (React.isValidElement(item)) {
+          return React.cloneElement(item, { disabled: true });
+        }
+        return item;
+      });
     };
-  }
 
-  handleFocus = () => {
-    this.setState({ focus: true });
-  };
-
-  handleBlur = () => {
-    this.setState({ focus: false });
-  };
-
-  disabledChildren() {
-    const { children } = this.props;
-    return React.Children.map(children, item => {
-      if (React.isValidElement(item)) {
-        return React.cloneElement(item, { disabled: true });
-      }
-      return item;
-    });
-  }
-
-  render() {
-    const { className, classPrefix, disabled, inside, children, ...props } = this.props;
-    const { focus } = this.state;
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, className, {
-      [addPrefix('inside')]: inside,
-      [addPrefix('focus')]: focus,
-      [addPrefix('disabled')]: disabled
-    });
+    const contextValue = useMemo(() => ({ onFocus: handleFocus, onBlur: handleBlur }), [
+      handleFocus,
+      handleBlur
+    ]);
 
     return (
-      <InputGroupContext.Provider
-        value={{
-          onFocus: this.handleFocus,
-          onBlur: this.handleBlur
-        }}
-      >
-        <div {...props} className={classes}>
-          {disabled ? this.disabledChildren() : children}
+      <InputGroupContext.Provider value={contextValue}>
+        <div {...rest} ref={ref} className={classes}>
+          {disabled ? disabledChildren() : children}
         </div>
       </InputGroupContext.Provider>
     );
   }
-}
+);
 
-const EnhancedInputGroup = compose<any, InputGroupProps>(
-  withStyleProps<InputGroupProps>({
-    hasSize: true
-  }),
-  defaultProps<InputGroupProps>({
-    classPrefix: 'input-group'
-  })
-)(InputGroup);
+InputGroup.displayName = 'InputGroup';
+InputGroup.propTypes = {
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  children: PropTypes.node,
+  disabled: PropTypes.bool,
+  inside: PropTypes.bool,
+  size: PropTypes.oneOf(['lg', 'md', 'sm', 'xs'])
+};
 
-setStatic('Addon', InputGroupAddon)(EnhancedInputGroup);
-setStatic('Button', InputGroupButton)(EnhancedInputGroup);
+InputGroup.Addon = InputGroupAddon;
+InputGroup.Button = InputGroupButton;
 
-export default EnhancedInputGroup;
+export default InputGroup;

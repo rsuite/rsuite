@@ -10,18 +10,12 @@
 
 const instance = (
   <div>
-    <InputPicker
-      creatable
-      data={data}
-      style={{ width: 224 }}
-
-    />
+    <InputPicker creatable data={data} style={{ width: 224 }} />
     <hr />
     <InputPicker
       creatable
       data={data}
       style={{ width: 224 }}
-
       groupBy="role"
       placeholder="Group Select"
     />

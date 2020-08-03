@@ -13,10 +13,7 @@ const CustomComponent = ({ placement }) => (
     trigger="click"
     placement={placement}
     speaker={
-      <Tooltip>
-        This is a ToolTip for simple text hints. It can replace the title
-        property
-      </Tooltip>
+      <Tooltip>This is a ToolTip for simple text hints. It can replace the title property</Tooltip>
     }
   >
     <Button appearance="subtle">{placement}</Button>

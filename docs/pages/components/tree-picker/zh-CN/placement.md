@@ -9,12 +9,7 @@
  */
 
 const CustomTreePicker = ({ placement }) => (
-  <TreePicker
-    defaultExpandAll
-    data={data}
-    placement={placement}
-    placeholder={placement}
-  />
+  <TreePicker defaultExpandAll data={data} placement={placement} placeholder={placement} />
 );
 
 const instance = (
@@ -68,7 +63,6 @@ const instance = (
     <hr />
     <CustomTreePicker placement="autoVerticalStart" />{' '}
     <CustomTreePicker placement="autoVerticalEnd" />
-
     <hr />
     <CustomTreePicker placement="autoHorizontalStart" />{' '}
     <CustomTreePicker placement="autoHorizontalEnd" />

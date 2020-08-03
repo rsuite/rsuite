@@ -64,7 +64,7 @@ describe('TreePicker', () => {
   });
 
   it('Should output a button', () => {
-    const instance = getInstance(<TreePicker toggleComponentClass="button" data={[]} />);
+    const instance = getInstance(<TreePicker toggleAs="button" data={[]} />);
 
     assert.ok(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'button'));
   });

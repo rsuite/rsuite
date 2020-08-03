@@ -13,11 +13,7 @@ const instance = (
     <Cascader data={data} style={{ width: 224 }} disabled />
     <hr />
     <p>禁用选项</p>
-    <Cascader
-      data={data}
-      style={{ width: 224 }}
-      disabledItemValues={['2', '1-1']}
-    />
+    <Cascader data={data} style={{ width: 224 }} disabledItemValues={['2', '1-1']} />
   </div>
 );
 ReactDOM.render(instance);

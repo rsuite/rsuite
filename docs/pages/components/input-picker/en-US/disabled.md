@@ -10,13 +10,7 @@
 
 const instance = (
   <div>
-    <InputPicker
-      data={data}
-      defaultValue={'Julius'}
-      disabled
-      style={{ width: 224 }}
-
-    />
+    <InputPicker data={data} defaultValue={'Julius'} disabled style={{ width: 224 }} />
     <hr />
     <p>Disabled option</p>
     <InputPicker
@@ -24,7 +18,6 @@ const instance = (
       defaultValue={'Julius'}
       disabledItemValues={['Eugenia', 'Travon', 'Vincenza']}
       style={{ width: 224 }}
-
     />
   </div>
 );

@@ -2,7 +2,7 @@
 
 Used to show important tips on a page.
 
-* `<Message>`
+- `<Message>`
 
 ## Usage
 
@@ -30,11 +30,9 @@ import { Message } from 'rsuite';
 | title       | React.Node                                             | The title of the message.                       |
 | type        | enum: 'info', 'success', 'warning', 'error' `('info')` | The type of the message box.                    |
 
-
-
 ## Related components
 
-* [`<Popover>`](./popover)
-* [`<Tooltip>`](./tooltip)
-* [`<Alert`>](./alert)
-* [`<Notification>`](./notification)
+- [`<Popover>`](./popover)
+- [`<Tooltip>`](./tooltip)
+- [`<Alert`>](./alert)
+- [`<Notification>`](./notification)

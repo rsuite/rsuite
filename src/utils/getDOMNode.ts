@@ -5,7 +5,7 @@ export default function getDOMNode(element: any) {
    * Native HTML elements
    */
 
-  if (element?.nodeType) {
+  if (element?.nodeType && typeof element?.nodeName === 'string') {
     return element;
   }
 

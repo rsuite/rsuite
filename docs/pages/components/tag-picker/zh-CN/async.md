@@ -59,7 +59,6 @@ class AsynExample extends React.Component {
         cacheData={this.state.cacheData}
         value={this.state.value}
         style={{ width: 300 }}
-        
         labelKey="login"
         valueKey="id"
         onChange={this.handleChange}

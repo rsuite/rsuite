@@ -6,7 +6,7 @@
 const instance = (
   <Uploader multiple listType="picture" action="//jsonplaceholder.typicode.com/posts/">
     <button>
-      <Icon icon='camera-retro' size="lg" />
+      <Icon icon="camera-retro" size="lg" />
     </button>
   </Uploader>
 );

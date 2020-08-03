@@ -15,7 +15,7 @@ describe('Pagination', () => {
   });
 
   it('Should render 20 button', () => {
-    const instance = getDOMNode(<Pagination pages={20} buttonComponentClass="button" />);
+    const instance = getDOMNode(<Pagination pages={20} buttonAs="button" />);
     assert.equal(instance.querySelectorAll('button').length, 20);
   });
 

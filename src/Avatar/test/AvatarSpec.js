@@ -34,6 +34,25 @@ describe('Avatar', () => {
     assert.include(instance.className, 'rs-avatar-circle');
   });
 
+  it('Should render srcSet', () => {
+    const srcSet = 'elva-fairy-320w.jpg 320w,elva-fairy-480w.jpg 480w';
+    const instance = getDOMNode(<Avatar srcSet={srcSet} />);
+    assert.equal(instance.querySelector('img').getAttribute('srcset'), srcSet);
+  });
+
+  it('Should render sizes', () => {
+    const srcSet = 'elva-fairy-320w.jpg 320w,elva-fairy-480w.jpg 480w';
+    const sizes = '(max-width: 320px) 280px,(max-width: 480px) 440px, 800px';
+    const instance = getDOMNode(<Avatar srcSet={srcSet} sizes={sizes} />);
+    assert.equal(instance.querySelector('img').getAttribute('sizes'), sizes);
+  });
+
+  it('Should render imgProps', () => {
+    const instance = getDOMNode(<Avatar src="bac.jpg" imgProps={{ id: 'img', title: 'Avatar' }} />);
+    assert.equal(instance.querySelector('img').getAttribute('id'), 'img');
+    assert.equal(instance.querySelector('img').getAttribute('title'), 'Avatar');
+  });
+
   it('Should apply size class', () => {
     const instance = getDOMNode(<Avatar size="lg">RS</Avatar>);
     assert.include(instance.className, 'rs-avatar-lg');

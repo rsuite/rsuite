@@ -12,27 +12,22 @@ const App = () => {
     inputRef.current.handlePlus();
   };
   return (
-     <div style={{width: 160}}>
-       <InputNumber prefix="$"/>
-       <hr/>
-       <InputNumber postfix="￥"/>
-       <hr/>
-       <InputNumber postfix="%"/>
-       <hr/>
-       <InputGroup>
-         <InputGroup.Button onClick={handleMinus}>-</InputGroup.Button>
-         <InputNumber
-           className={'custom-input-number'}
-           ref={inputRef}
-           max={99}
-           min={1}
-         />
-         <InputGroup.Button onClick={handlePlus}>+</InputGroup.Button>
-       </InputGroup>
-     </div>
-    )
-}
-ReactDOM.render(<App/>);
+    <div style={{ width: 160 }}>
+      <InputNumber prefix="$" />
+      <hr />
+      <InputNumber postfix="￥" />
+      <hr />
+      <InputNumber postfix="%" />
+      <hr />
+      <InputGroup>
+        <InputGroup.Button onClick={handleMinus}>-</InputGroup.Button>
+        <InputNumber className={'custom-input-number'} ref={inputRef} max={99} min={1} />
+        <InputGroup.Button onClick={handlePlus}>+</InputGroup.Button>
+      </InputGroup>
+    </div>
+  );
+};
+ReactDOM.render(<App />);
 
 /**
 .custom-input-number {
@@ -45,7 +40,6 @@ ReactDOM.render(<App/>);
   }
 }
 **/
-
 ```
 
 <!--end-code-->

@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import { PLACEMENT } from '../constants';
 import { refType } from '../utils';
-import { animationPropTypes } from '../Animation/propTypes';
+import { getAnimationPropTypes } from '../Animation/utils';
 
 export const pickerPropTypes = {
-  ...animationPropTypes,
+  ...getAnimationPropTypes(),
   classPrefix: PropTypes.string,
   className: PropTypes.string,
   style: PropTypes.object,
@@ -14,7 +14,7 @@ export const pickerPropTypes = {
   containerPadding: PropTypes.number,
   container: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   disabled: PropTypes.bool,
-  toggleComponentClass: PropTypes.elementType,
+  toggleAs: PropTypes.elementType,
   menuClassName: PropTypes.string,
   menuStyle: PropTypes.object,
   placeholder: PropTypes.node,

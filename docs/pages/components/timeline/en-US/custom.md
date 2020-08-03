@@ -26,26 +26,15 @@ const instance = (
     <Timeline.Item dot={<Icon icon="truck" size="2x" />}>
       <p>March 2, 09:20</p>
       <p>[In transit]</p>
-      <p>
-        Sended from the Shanghai Container Center to the distribution center
-      </p>
+      <p>Sended from the Shanghai Container Center to the distribution center</p>
     </Timeline.Item>
     <Timeline.Item dot={<Icon icon="user" size="2x" />}>
       <p>March 3, 14:20</p>
       <p>[Delivery]</p>
-      <p>
-        Shanghai Hongkou District Company Deliverer: Mr. Li, currently sending
-        you a shipment
-      </p>
+      <p>Shanghai Hongkou District Company Deliverer: Mr. Li, currently sending you a shipment</p>
     </Timeline.Item>
     <Timeline.Item
-      dot={
-        <Icon
-          icon="check"
-          size="2x"
-          style={{ background: '#15b215', color: '#fff' }}
-        />
-      }
+      dot={<Icon icon="check" size="2x" style={{ background: '#15b215', color: '#fff' }} />}
     >
       <p>March 3, 17:50</p>
       <p>[Received]]</p>

@@ -164,7 +164,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
         focus={focus}
         value={node}
         className={classes}
-        componentClass="li"
+        as="li"
         indeterminate={cascade && !active && this.utils.isSomeChildChecked(node, value)}
         onSelectItem={this.handleSelect.bind(this, layer, node)}
         onCheck={onCheck}

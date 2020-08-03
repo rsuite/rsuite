@@ -54,10 +54,10 @@ export interface DropdownProps<T = any> extends StandardProps {
   eventKey?: T;
 
   /** You can use a custom element type for this component */
-  componentClass?: React.ElementType;
+  as?: React.ElementType;
 
   /** You can use a custom element type for this toggle component */
-  toggleComponentClass?: React.ElementType;
+  toggleAs?: React.ElementType;
 
   /** No caret variation */
   noCaret?: boolean;

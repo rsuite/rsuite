@@ -583,7 +583,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       disabled,
       cleanable,
       locale,
-      toggleComponentClass,
+      toggleAs,
       style,
       onEntered,
       onEnter,
@@ -610,7 +610,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
           >
             <PickerToggle
               {...unhandled}
-              componentClass={toggleComponentClass}
+              as={toggleAs}
               onClean={createChainedFunction(this.handleClean, onClean)}
               cleanable={cleanable && !disabled}
               hasValue={hasValue}

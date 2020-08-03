@@ -1,7 +1,7 @@
 ### Option Status
 
-* active
-* disabled
+- active
+- disabled
 
 <!--start-code-->
 

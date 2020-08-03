@@ -2,7 +2,7 @@
 
 用于页面中展示重要的提示信息。
 
-* `<Message>` 消息框
+- `<Message>` 消息框
 
 ## 获取组件
 
@@ -32,7 +32,7 @@ import { Message } from 'rsuite';
 
 ## 相关组件
 
-* [`<Popover>`](./popover) 弹出框
-* [`<Tooltip>`](./tooltip) 文字提示
-* [`<Alert`>](./alert) 提醒框
-* [`<Notification>`](./notification) 通知框
+- [`<Popover>`](./popover) 弹出框
+- [`<Tooltip>`](./tooltip) 文字提示
+- [`<Alert`>](./alert) 提醒框
+- [`<Notification>`](./notification) 通知框

@@ -1,26 +1,29 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { defaultProps, prefix } from '../utils';
-import { InputGroupAddonProps } from './InputGroupAddon.d';
+import { useClassNames } from '../utils';
+import { StandardProps } from '../@types/common';
 
-class InputGroupAddon extends React.Component<InputGroupAddonProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    disabled: PropTypes.bool
-  };
-  render() {
-    const { className, classPrefix, disabled, ...props } = this.props;
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, className, {
-      [addPrefix('disabled')]: disabled
-    });
-
-    return <span {...props} className={classes} />;
-  }
+export interface InputGroupAddonProps extends StandardProps {
+  /** An Input group addon can show that it is disabled */
+  disabled?: boolean;
 }
 
-export default defaultProps<InputGroupAddonProps>({
-  classPrefix: 'input-group-addon'
-})(InputGroupAddon);
+const InputGroupAddon = React.forwardRef(
+  (props: InputGroupAddonProps, ref: React.Ref<HTMLSpanElement>) => {
+    const { classPrefix = 'input-group-addon', className, disabled, ...rest } = props;
+
+    const { withClassPrefix, merge } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix({ disabled }));
+
+    return <span {...rest} ref={ref} className={classes} />;
+  }
+);
+
+InputGroupAddon.displayName = 'InputGroupAddon';
+InputGroupAddon.propTypes = {
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  disabled: PropTypes.bool
+};
+
+export default InputGroupAddon;

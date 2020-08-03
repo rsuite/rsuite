@@ -22,11 +22,11 @@
 
 // Vertical forms
 .@{ns}form-vertical .@{ns}form-group {
-  .@{ns}control-label {
+  .@{ns}form-control-label {
     display: block;
   }
 
-  .@{ns}help-block:not(.@{ns}help-block-tooltip) {
+  .@{ns}form-help-text:not(.@{ns}form-help-text-tooltip) {
     padding-top: 4px;
   }
 }
@@ -39,7 +39,7 @@
 .@{ns}form-horizontal .@{ns}form-group {
   .clearfix;
 
-  .@{ns}control-label {
+  .@{ns}form-control-label {
     float: left;
     display: inline-block;
     //Sometimes help info is more than one line，so height can't set a fixed value
@@ -47,13 +47,13 @@
     line-height: @line-height-base;
     font-size: @font-size-base;
     padding: @padding-base-vertical 0;
-    width: @control-label-width;
-    margin-right: @control-label-margin-right;
+    width: @form-control-label-width;
+    margin-right: @form-control-label-margin-right;
     text-align: right;
   }
 
   .@{ns}btn-toolbar {
-    padding-left: @control-label-width + @control-label-margin-right;
+    padding-left: @form-control-label-width + @form-control-label-margin-right;
   }
 }
 

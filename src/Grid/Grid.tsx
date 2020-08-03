@@ -10,10 +10,10 @@ class Grid extends React.Component<GridProps> {
     className: PropTypes.string,
     fluid: PropTypes.bool,
     classPrefix: PropTypes.string,
-    componentClass: PropTypes.elementType
+    as: PropTypes.elementType
   };
   render() {
-    const { fluid, componentClass: Component, className, classPrefix, ...props } = this.props;
+    const { fluid, as: Component, className, classPrefix, ...props } = this.props;
     const addPrefix = prefix(classPrefix);
     const classes = classNames(fluid ? addPrefix('fluid') : classPrefix, className);
     return <Component {...props} className={classes} />;
@@ -21,6 +21,6 @@ class Grid extends React.Component<GridProps> {
 }
 
 export default defaultProps<GridProps>({
-  componentClass: 'div',
+  as: 'div',
   classPrefix: 'grid-container'
 })(Grid);

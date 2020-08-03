@@ -5,7 +5,7 @@ export interface StandardProps {
   classPrefix?: string;
 
   /** You can use a custom element for this component */
-  componentClass?: React.ElementType | string;
+  as?: React.ElementType | string;
 
   /** Additional classes */
   className?: string;
@@ -57,7 +57,7 @@ export interface PickerBaseProps extends StandardProps, AnimationEventProps {
   disabled?: boolean;
 
   /** You can use a custom element for this component */
-  toggleComponentClass?: React.ElementType;
+  toggleAs?: React.ElementType;
 
   /** A CSS class to apply to the Menu DOM node. */
   menuClassName?: string;
@@ -108,6 +108,15 @@ export interface FormControlBaseProps<ValueType = any> {
 
   /** Called after the value has been changed */
   onChange?: (value: ValueType, event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Set the component to be disabled and cannot be entered */
+  disabled?: boolean;
+
+  /** Render the control as plain text */
+  plaintext?: boolean;
+
+  /** Make the control readonly */
+  readOnly?: boolean;
 }
 
 type ToArray<V> = V extends any[] ? V : V[];

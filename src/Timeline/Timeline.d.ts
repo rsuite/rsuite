@@ -7,7 +7,7 @@ export interface TimelineProps extends StandardProps {
   children?: React.ReactNode;
 
   /** You can use a custom element type for this component */
-  componentClass?: React.ElementType;
+  as?: React.ElementType;
 
   /** TimeLine content relative position  **/
   align?: 'left' | 'right' | 'alternate';

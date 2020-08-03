@@ -1,42 +1,41 @@
 ### Indeterminate 状态
 
-`indeterminate` 该状态主要在全选或者树形结构Checkbox 上使用。
+`indeterminate` 该状态主要在全选或者树形结构 Checkbox 上使用。
 
 <!--start-code-->
+
 ```js
+const options = ['A', 'B', 'C', 'D'];
 
-const options = ['A','B','C','D'] ;
-
-class Demo extends React.Component{
-  constructor(props){
+class Demo extends React.Component {
+  constructor(props) {
     super(props);
-    this.state={
+    this.state = {
       indeterminate: true,
       checkAll: false,
-      value:['A', 'C']
+      value: ['A', 'C']
     };
-    this.handleCheckAll=this.handleCheckAll.bind(this);
-    this.handleChange=this.handleChange.bind(this);
-
+    this.handleCheckAll = this.handleCheckAll.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
-  handleCheckAll(value,checked){
+  handleCheckAll(value, checked) {
     const nextValue = checked ? options : [];
-    console.log(nextValue,'handleCheckAll');
+    console.log(nextValue, 'handleCheckAll');
     this.setState({
       value: nextValue,
-      indeterminate:false,
+      indeterminate: false,
       checkAll: checked
     });
   }
-  handleChange(value){
-    console.log(value,'handleChange');
+  handleChange(value) {
+    console.log(value, 'handleChange');
     this.setState({
       value,
-      indeterminate:(value.length > 0 && value.length < options.length),
+      indeterminate: value.length > 0 && value.length < options.length,
       checkAll: value.length === options.length
     });
   }
-  render(){
+  render() {
     return (
       <div>
         <Checkbox
@@ -46,24 +45,24 @@ class Demo extends React.Component{
         >
           Check all
         </Checkbox>
-        <hr/>
+        <hr />
         <CheckboxGroup
-            inline
-            name="checkboxList"
-            value={this.state.value}
-            onChange={this.handleChange}
-          >
+          inline
+          name="checkboxList"
+          value={this.state.value}
+          onChange={this.handleChange}
+        >
           <Checkbox value="A">Item A</Checkbox>
           <Checkbox value="B">Item B</Checkbox>
           <Checkbox value="C">Item C</Checkbox>
           <Checkbox value="D">Item D</Checkbox>
         </CheckboxGroup>
       </div>
-    )
+    );
   }
 }
 
-ReactDOM.render(<Demo/>);
-
+ReactDOM.render(<Demo />);
 ```
+
 <!--end-code-->

@@ -22,7 +22,7 @@ export interface DropdownMenuProps {
   labelKey?: string;
   className?: string;
   style?: React.CSSProperties;
-  dropdownMenuItemComponentClass: React.ElementType;
+  dropdownMenuItemAs: React.ElementType;
   dropdownMenuItemClassPrefix?: string;
   virtualized?: boolean;
   // https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
@@ -40,7 +40,7 @@ interface DropdownMenuState {
 export const dropdownMenuPropTypes = {
   classPrefix: PropTypes.string,
   className: PropTypes.string,
-  dropdownMenuItemComponentClass: PropTypes.elementType,
+  dropdownMenuItemAs: PropTypes.elementType,
   dropdownMenuItemClassPrefix: PropTypes.string,
   data: PropTypes.array,
   group: PropTypes.bool,
@@ -166,7 +166,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState>
       focusItemValue,
       renderMenuItem,
       dropdownMenuItemClassPrefix,
-      dropdownMenuItemComponentClass: DropdownMenuItem
+      dropdownMenuItemAs: DropdownMenuItem
     } = this.props;
 
     const { foldedGroupKeys } = this.state;

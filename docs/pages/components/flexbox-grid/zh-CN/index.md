@@ -27,9 +27,9 @@ import { FlexboxGrid } from 'rsuite';
 
 ### `<FlexboxGrid.Item>`
 
-| 属性名称       | 类型`(默认值)`                  | 描述                 |
-| -------------- | ------------------------------- | -------------------- |
-| classPrefix    | string `('flex-box-grid-item')` | 组件 CSS 类的前缀    |
-| colspan        | number `(0)`                    | 栅格占位格数         |
-| order          | number `(0)`                    | 栅格顺序，用于排序   |
-| componentClass | React.ElementType `('div')`     | 为组件自定义元素类型 |
+| 属性名称    | 类型`(默认值)`                  | 描述                 |
+| ----------- | ------------------------------- | -------------------- |
+| classPrefix | string `('flex-box-grid-item')` | 组件 CSS 类的前缀    |
+| colspan     | number `(0)`                    | 栅格占位格数         |
+| order       | number `(0)`                    | 栅格顺序，用于排序   |
+| as          | React.ElementType `('div')`     | 为组件自定义元素类型 |

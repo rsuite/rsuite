@@ -14,8 +14,7 @@ const CustomMultiCascader = ({ placement }) => (
 
 const instance = (
   <div>
-    <CustomMultiCascader placement="topStart" />{' '}
-    <CustomMultiCascader placement="bottomStart" />{' '}
+    <CustomMultiCascader placement="topStart" /> <CustomMultiCascader placement="bottomStart" />{' '}
     <CustomMultiCascader placement="autoVerticalStart" />
   </div>
 );

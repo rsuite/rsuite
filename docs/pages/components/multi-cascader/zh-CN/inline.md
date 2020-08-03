@@ -9,13 +9,7 @@
  */
 
 const instance = (
-  <MultiCascader
-    inline
-    data={data}
-    searchable={false}
-    menuHeight="auto"
-    menuWidth={180}
-  />
+  <MultiCascader inline data={data} searchable={false} menuHeight="auto" menuWidth={180} />
 );
 ReactDOM.render(instance);
 ```

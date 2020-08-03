@@ -62,10 +62,7 @@ const model = Schema.Model({
   field1: StringType().addRule(value => {
     return /^[1-9][0-9]{3}\s?[a-zA-Z]{2}$/.test(value);
   }, '请输入合法字符'),
-  field2: StringType().pattern(
-    /^[1-9][0-9]{3}\s?[a-zA-Z]{2}$/,
-    '请输入合法字符'
-  )
+  field2: StringType().pattern(/^[1-9][0-9]{3}\s?[a-zA-Z]{2}$/, '请输入合法字符')
 });
 
 model.check({ field1: '', field2: '' });

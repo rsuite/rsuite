@@ -394,7 +394,7 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
         <DropdownMenu
           {...menuProps}
           classPrefix={this.addPrefix('check-menu')}
-          dropdownMenuItemComponentClass={DropdownMenuItem}
+          dropdownMenuItemAs={DropdownMenuItem}
           ref={this.menuContainerRef}
           activeItemValues={this.getValue()}
           focusItemValue={focusItemValue}
@@ -439,7 +439,7 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
       disabled,
       cleanable,
       locale,
-      toggleComponentClass,
+      toggleAs,
       style,
       onEnter,
       onEntered,
@@ -498,7 +498,7 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
               ref={this.toggleRef}
               onClean={createChainedFunction(this.handleClean, onClean)}
               onKeyDown={this.handleKeyDown}
-              componentClass={toggleComponentClass}
+              as={toggleAs}
               cleanable={cleanable && !disabled}
               hasValue={hasValue}
               active={this.state.active}

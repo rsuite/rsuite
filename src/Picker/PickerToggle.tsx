@@ -12,7 +12,7 @@ export interface PickerToggleProps {
   className?: string;
   children?: React.ReactNode;
   caret?: boolean;
-  componentClass: React.ElementType;
+  as: React.ElementType;
   onClean?: (event: React.MouseEvent) => void;
   active?: boolean;
   tabIndex: number;
@@ -30,13 +30,13 @@ class PickerToggle extends React.Component<PickerToggleProps, PickerToggleState>
     className: PropTypes.string,
     children: PropTypes.node,
     caret: PropTypes.bool,
-    componentClass: PropTypes.elementType,
+    as: PropTypes.elementType,
     onClean: PropTypes.func,
     active: PropTypes.bool
   };
 
   static defaultProps = {
-    componentClass: DefaultToggleButton,
+    as: DefaultToggleButton,
     tabIndex: 0,
     caret: true
   };
@@ -91,7 +91,7 @@ class PickerToggle extends React.Component<PickerToggleProps, PickerToggleState>
 
   render() {
     const {
-      componentClass: Component,
+      as: Component,
       children,
       className,
       hasValue,
