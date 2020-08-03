@@ -148,6 +148,23 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     this.triggerRef = React.createRef();
   }
 
+  componentDidUpdate(
+    prevProps: Readonly<DateRangePickerProps>,
+    prevState: Readonly<DateRangePickerState>
+  ) {
+    const { timeZone, value } = this.props;
+    if (prevProps.timeZone !== timeZone) {
+      const nextValue = toZonedValue(
+        value ?? toLocalValue(prevState.value, prevProps.timeZone),
+        timeZone
+      );
+      this.setState({
+        value: nextValue,
+        calendarDate: getCalendarDate({ value: nextValue, timeZone })
+      });
+    }
+  }
+
   getValue = (): ValueType => {
     const { value, timeZone } = this.props;
 

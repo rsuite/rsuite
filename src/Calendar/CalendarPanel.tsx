@@ -64,7 +64,7 @@ class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {
       );
       this.setState({
         value: nextValue,
-        pageDate: nextValue
+        pageDate: nextValue ?? zonedDate(timeZone)
       });
     }
   }

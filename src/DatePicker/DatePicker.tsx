@@ -30,7 +30,7 @@ import {
 } from '../utils/dateUtils';
 import { DatePickerProps } from './DatePicker.d';
 import { pickerDefaultProps, pickerPropTypes } from '../Picker/propTypes';
-import { toLocalTimeZone, toTimeZone } from '../utils/timeZone';
+import { toLocalTimeZone, toTimeZone, zonedDate } from '../utils/timeZone';
 
 interface DatePickerState {
   value?: Date;
@@ -137,7 +137,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
       );
       this.setState({
         value: nextValue,
-        pageDate: nextValue
+        pageDate: nextValue ?? zonedDate(timeZone)
       });
     }
   }
