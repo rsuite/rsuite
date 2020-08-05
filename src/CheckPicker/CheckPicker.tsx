@@ -1,21 +1,21 @@
-import * as React from 'react';
+import React, { useRef, useState, useCallback, useImperativeHandle } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import _ from 'lodash';
-import shallowEqual from '../utils/shallowEqual';
+import clone from 'lodash/clone';
+import isUndefined from 'lodash/isUndefined';
+import isFunction from 'lodash/isFunction';
+import remove from 'lodash/remove';
+import omit from 'lodash/omit';
+import pick from 'lodash/pick';
 import { filterNodesOfTree } from '../utils/treeUtils';
 import {
-  defaultProps,
-  prefix,
-  getUnhandledProps,
   createChainedFunction,
   getDataGroupBy,
-  mergeRefs
+  useClassNames,
+  shallowEqual,
+  useCustom
 } from '../utils';
-
-import IntlContext from '../IntlProvider/IntlContext';
-import FormattedMessage from '../IntlProvider/FormattedMessage';
 import {
+  DropdownMenu,
   DropdownMenuCheckItem as DropdownMenuItem,
   PickerToggle,
   getToggleWrapperClassName,
@@ -24,357 +24,331 @@ import {
   SearchBar,
   SelectedElement,
   PickerToggleTrigger,
-  shouldDisplay
+  shouldDisplay,
+  useFocusItemValue
 } from '../Picker';
-import DropdownMenu, { dropdownMenuPropTypes } from '../Picker/DropdownMenu';
-import { CheckPickerProps } from './CheckPicker.d';
-import { ItemDataType } from '../@types/common';
-import { listPickerPropTypes, listPickerDefaultProps } from '../Picker/propTypes';
+import { pickerToggleTriggerProps } from '../Picker/PickerToggleTrigger';
+import { ItemDataType, FormControlPickerProps } from '../@types/common';
+import { listPickerPropTypes } from '../Picker/propTypes';
+import { SelectProps } from '../SelectPicker/SelectPicker.d';
+import { KEY_CODE } from '../constants';
 
-interface CheckPickerState {
-  value?: any[];
-  // Used to focus the active item  when trigger `onKeydown`
-  focusItemValue?: any;
-  searchKeyword: string;
-  stickyItems?: any[];
-  active?: boolean;
+export interface CheckPickerProps<T = (number | string)[]>
+  extends FormControlPickerProps<T>,
+    SelectProps<T> {
+  /** Top the selected option in the options */
+  sticky?: boolean;
+
+  /** A picker that can be counted */
+  countable?: boolean;
 }
 
-class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
-  static propTypes = {
-    ...listPickerPropTypes,
-    menuAutoWidth: PropTypes.bool,
-    maxHeight: PropTypes.number,
-    renderMenu: PropTypes.func,
-    renderMenuItem: PropTypes.func,
-    renderMenuGroup: PropTypes.func,
-    onSelect: PropTypes.func,
-    onGroupTitleClick: PropTypes.func,
-    onSearch: PropTypes.func,
-    groupBy: PropTypes.any,
-    sort: PropTypes.func,
-    searchable: PropTypes.bool,
-    countable: PropTypes.bool,
-    sticky: PropTypes.bool,
-    virtualized: PropTypes.bool,
-    searchBy: PropTypes.func
-  };
-  static defaultProps = {
-    ...listPickerDefaultProps,
-    maxHeight: 320,
-    locale: {
-      placeholder: 'Select',
-      searchPlaceholder: 'Search',
-      noResultsText: 'No results found'
-    },
-    searchable: true,
-    countable: true,
-    menuAutoWidth: true,
-    virtualized: true
-  };
-  positionRef: React.RefObject<any>;
-  menuContainerRef: React.RefObject<any>;
-  toggleRef: React.RefObject<any>;
-  triggerRef: React.RefObject<any>;
+export interface CheckPickerInstance extends React.HTMLAttributes<HTMLDivElement> {
+  root?: HTMLDivElement;
+  menu?: HTMLDivElement;
+  toggle?: HTMLButtonElement;
+  open?: () => void;
+  close?: () => void;
+}
 
-  constructor(props: CheckPickerProps) {
-    super(props);
+interface Locale {
+  placeholder?: string;
+  searchPlaceholder?: string;
+  noResultsText?: string;
+}
 
-    const { value, defaultValue, groupBy, valueKey, labelKey } = props;
-    const nextValue = _.clone(value || defaultValue) || [];
+const defaultProps: CheckPickerProps = {
+  appearance: 'default',
+  classPrefix: 'picker',
+  childrenKey: 'children',
+  countable: true,
+  searchable: true,
+  virtualized: true,
+  cleanable: true,
+  data: [],
+  disabledItemValues: [],
+  valueKey: 'value',
+  labelKey: 'label',
+  placement: 'bottomStart',
+  menuAutoWidth: true,
+  menuMaxHeight: 320
+};
 
-    this.state = {
-      value: nextValue,
-      // Used to hover the active item  when trigger `onKeydown`
-      focusItemValue: nextValue ? nextValue[0] : undefined,
-      searchKeyword: ''
-    };
+const CheckPicker = React.forwardRef((props: CheckPickerProps, ref) => {
+  const {
+    classPrefix,
+    countable,
+    data,
+    disabledItemValues,
+    valueKey,
+    labelKey,
+    searchable,
+    virtualized,
+    cleanable,
+    placement,
+    menuAutoWidth,
+    menuMaxHeight,
+    menuClassName,
+    menuStyle,
+    locale: overrideLocale,
+    placeholder,
+    disabled,
+    toggleAs,
+    style,
+    sticky,
+    value,
+    defaultValue,
+    groupBy,
+    listProps,
+    renderMenuItem,
+    renderMenuGroup,
+    onSearch,
+    onEnter,
+    onEntered,
+    onExited,
+    onClean,
+    onChange,
+    onSelect,
+    onClose,
+    onOpen,
+    onGroupTitleClick,
+    renderValue,
+    renderExtraFooter,
+    renderMenu,
+    sort,
+    searchBy,
+    ...rest
+  } = props;
 
-    this.positionRef = React.createRef();
-    this.menuContainerRef = React.createRef();
-    this.toggleRef = React.createRef();
-    this.triggerRef = React.createRef();
+  const rootRef = useRef<HTMLDivElement>();
+  const triggerRef = useRef<any>();
+  const positionRef = useRef();
+  const toggleRef = useRef<HTMLButtonElement>();
+  const menuRef = useRef<HTMLDivElement>();
+  const menuWrapperRef = useRef<HTMLDivElement>();
+  const { locale } = useCustom<Locale>('Picker', overrideLocale);
 
-    if (groupBy === valueKey || groupBy === labelKey) {
-      throw Error('`groupBy` can not be equal to `valueKey` and `labelKey`');
-    }
-  }
+  const [valueState, setValue] = useState(clone(defaultValue) || []);
+  const val = isUndefined(value) ? valueState : value;
+  const [stickyItems, setStickyItems] = useState([]);
 
-  getFocusableMenuItems = () => {
-    const { menuItems } = this.menuContainerRef.current;
-    if (!menuItems) {
-      return [];
-    }
-    const items = Object.values(menuItems).map((item: any) => item.props.getItemData());
-
-    return filterNodesOfTree(items, item => this.shouldDisplay(item));
-  };
-
-  getValue() {
-    const { value } = this.props;
-    const nextValue = _.isUndefined(value) ? this.state.value : value;
-    return _.clone(nextValue) || [];
-  }
-
-  setStickyItems = () => {
-    const { sticky, data, valueKey } = this.props;
-    const value = this.getValue();
-
+  // Used to hover the focuse item  when trigger `onKeydown`
+  const [focusItemValue, setFocusItemValue] = useFocusItemValue(
+    val?.[0],
+    [() => toggleRef.current, () => menuWrapperRef.current],
+    { data, valueKey }
+  );
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [active, setActive] = useState(false);
+  const { prefix, merge } = useClassNames(classPrefix);
+  const initStickyItems = () => {
     if (!sticky) {
       return;
     }
 
-    let stickyItems = [];
-    if (data && value.length) {
-      stickyItems = data.filter(item => {
-        return value.some(v => v === item[valueKey]);
+    let nextStickyItems = [];
+    if (data && val.length) {
+      nextStickyItems = data.filter(item => {
+        return val.some(v => v === item[valueKey]);
       });
     }
 
-    this.setState({
-      stickyItems
-    });
+    setStickyItems(nextStickyItems);
   };
 
   /**
    * Index of keyword  in `label`
    * @param {node} label
    */
-  shouldDisplay(item: ItemDataType, word?: string) {
-    const { labelKey, searchBy } = this.props;
-    const label = item?.[labelKey];
-    const searchKeyword = typeof word === 'undefined' ? this.state.searchKeyword : word;
+  const checkShouldDisplay = useCallback(
+    (item: ItemDataType, keyword?: string) => {
+      const label = item?.[labelKey];
+      const _keyword = isUndefined(keyword) ? searchKeyword : keyword;
 
-    if (typeof searchBy === 'function') {
-      return searchBy(searchKeyword, label, item);
+      if (typeof searchBy === 'function') {
+        return searchBy(_keyword, label, item);
+      }
+      return shouldDisplay(label, _keyword);
+    },
+    [searchBy, labelKey, searchKeyword]
+  );
+
+  const handleClose = useCallback(() => {
+    triggerRef.current?.hide?.();
+    setFocusItemValue(val ? val[0] : undefined);
+  }, [triggerRef, setFocusItemValue, val]);
+
+  const handleOpen = useCallback(() => {
+    triggerRef.current?.show?.();
+  }, [triggerRef]);
+
+  const handleToggleDropdown = () => {
+    if (active) {
+      handleClose();
+      return;
     }
+    handleOpen();
+  };
 
-    return shouldDisplay(label, searchKeyword);
-  }
+  const handleChangeValue = useCallback(
+    (value: any, event: React.SyntheticEvent<HTMLElement>) => {
+      onChange?.(value, event);
+    },
+    [onChange]
+  );
 
-  findNode(focus) {
-    const items = this.getFocusableMenuItems();
-    const { valueKey } = this.props;
-    const { focusItemValue } = this.state;
-
-    for (let i = 0; i < items.length; i += 1) {
-      if (shallowEqual(focusItemValue, items[i][valueKey])) {
-        focus(items, i);
+  const handleClean = useCallback(
+    (event: React.SyntheticEvent<any>) => {
+      if (disabled || !cleanable) {
         return;
       }
-    }
+      setValue([]);
+      handleChangeValue([], event);
+    },
+    [disabled, cleanable, handleChangeValue]
+  );
 
-    focus(items, -1);
-  }
-  focusNextMenuItem = () => {
-    const { valueKey } = this.props;
-    this.findNode((items, index) => {
-      const focusItem = items[index + 1];
-      if (!_.isUndefined(focusItem)) {
-        this.setState({ focusItemValue: focusItem[valueKey] });
-      }
-    });
-  };
-  focusPrevMenuItem = () => {
-    const { valueKey } = this.props;
-    this.findNode((items, index) => {
-      const focusItem = items[index - 1];
-      if (!_.isUndefined(focusItem)) {
-        this.setState({ focusItemValue: focusItem[valueKey] });
-      }
-    });
-  };
+  const handleSearch = useCallback(
+    (searchKeyword: string, event: React.SyntheticEvent<HTMLElement>) => {
+      const filteredData = filterNodesOfTree(data, item => checkShouldDisplay(item, searchKeyword));
+      setSearchKeyword(searchKeyword);
+      setFocusItemValue(filteredData?.[0]?.[valueKey]);
+      onSearch?.(searchKeyword, event);
+    },
+    [data, valueKey, onSearch, checkShouldDisplay, setFocusItemValue]
+  );
 
-  selectFocusMenuItem = (event: React.SyntheticEvent<HTMLElement>) => {
-    const value = this.getValue();
-    const { data, valueKey } = this.props;
-    const { focusItemValue } = this.state;
+  const selectFocusMenuItem = (event: React.KeyboardEvent<HTMLElement>) => {
+    const nextValue = clone(val);
 
     if (!focusItemValue) {
       return;
     }
 
-    if (!value.some(v => shallowEqual(v, focusItemValue))) {
-      value.push(focusItemValue);
+    if (!nextValue.some(v => shallowEqual(v, focusItemValue))) {
+      nextValue.push(focusItemValue);
     } else {
-      _.remove(value, itemVal => shallowEqual(itemVal, focusItemValue));
+      remove(nextValue, itemVal => shallowEqual(itemVal, focusItemValue));
     }
 
     const focusItem: any = data.find(item => shallowEqual(item?.[valueKey], focusItemValue));
-
-    this.setState({ value });
-    this.handleSelect(value, focusItem, event);
-    this.handleChangeValue(value, event);
+    setValue(nextValue);
+    handleSelect(nextValue, focusItem, event);
+    handleChangeValue(nextValue, event);
   };
 
-  handleKeyDown = (event: React.KeyboardEvent<any>) => {
-    const { focusItemValue, active } = this.state;
-
+  const handleKeyDown = (event: React.KeyboardEvent<any>) => {
     // enter
-    if ((!focusItemValue || !active) && event.keyCode === 13) {
-      this.handleToggleDropdown();
+    if ((!focusItemValue || !active) && event.keyCode === KEY_CODE.ENTER) {
+      handleToggleDropdown();
     }
 
     // delete
-    if (event.keyCode === 8 && event.target === this.toggleRef?.current?.getToggleNode?.()) {
-      this.handleClean(event);
+    if (event.keyCode === KEY_CODE.BACKSPACE && event.target === toggleRef?.current) {
+      handleClean(event);
     }
 
-    if (!this.menuContainerRef.current) {
+    if (!menuRef.current) {
       return;
     }
+
     onMenuKeyDown(event, {
-      down: this.focusNextMenuItem,
-      up: this.focusPrevMenuItem,
-      enter: this.selectFocusMenuItem,
-      esc: this.handleCloseDropdown
+      enter: selectFocusMenuItem,
+      esc: handleClose
     });
   };
 
-  handleItemSelect = (
-    nextItemValue: any,
-    item: ItemDataType,
-    event: React.MouseEvent<any>,
-    checked: boolean
-  ) => {
-    const value = this.getValue();
+  const handleSelect = useCallback(
+    (nextItemValue: any, item: ItemDataType, event: React.SyntheticEvent<HTMLElement>) => {
+      onSelect?.(nextItemValue, item, event);
+    },
+    [onSelect]
+  );
 
-    if (checked) {
-      value.push(nextItemValue);
-    } else {
-      _.remove(value, itemVal => shallowEqual(itemVal, nextItemValue));
-    }
+  const handleItemSelect = useCallback(
+    (nextItemValue: any, item: ItemDataType, event: React.MouseEvent<any>, checked: boolean) => {
+      const nextValue = clone(val);
 
-    const nextState = {
-      value,
-      focusItemValue: nextItemValue
-    };
+      if (checked) {
+        nextValue.push(nextItemValue);
+      } else {
+        remove(nextValue, itemVal => shallowEqual(itemVal, nextItemValue));
+      }
 
-    this.setState(nextState);
-    this.handleSelect(value, item, event);
-    this.handleChangeValue(value, event);
-  };
+      setValue(nextValue);
+      setFocusItemValue(nextItemValue);
 
-  handleSelect = (
-    nextItemValue: any,
-    item: ItemDataType,
-    event: React.SyntheticEvent<HTMLElement>
-  ) => {
-    this.props.onSelect?.(nextItemValue, item, event);
-  };
+      handleSelect(nextValue, item, event);
+      handleChangeValue(nextValue, event);
+    },
+    [val, handleSelect, handleChangeValue, setFocusItemValue]
+  );
 
-  handleChangeValue = (value: any, event: React.SyntheticEvent<HTMLElement>) => {
-    this.props.onChange?.(value, event);
-  };
+  const handleExited = useCallback(() => {
+    setSearchKeyword('');
+    setFocusItemValue(null);
+    setActive(false);
+    onClose?.();
+  }, [onClose, setFocusItemValue]);
 
-  handleSearch = (searchKeyword: string, event: React.SyntheticEvent<HTMLElement>) => {
-    const { onSearch, valueKey, data } = this.props;
-    const filteredData = filterNodesOfTree(data, item => this.shouldDisplay(item, searchKeyword));
-    this.setState({
-      searchKeyword,
-      focusItemValue: filteredData?.[0]?.[valueKey]
-    });
+  const handleEntered = useCallback(() => {
+    setActive(true);
+    onOpen?.();
+  }, [onOpen]);
 
-    onSearch?.(searchKeyword, event);
-  };
+  useImperativeHandle(ref, () => ({
+    root: rootRef.current,
+    get menu() {
+      return menuRef.current;
+    },
+    get toggle() {
+      return toggleRef.current;
+    },
+    open: handleOpen,
+    close: handleClose
+  }));
 
-  handleCloseDropdown = () => {
-    const value = this.getValue();
-    this.triggerRef.current?.hide?.();
-    this.setState({
-      focusItemValue: value ? value[0] : undefined
-    });
-  };
+  const selectedItems: any[] =
+    data.filter(item => val.some(val => shallowEqual(item[valueKey], val))) || [];
 
-  handleOpenDropdown = () => {
-    this.triggerRef.current?.show?.();
-  };
+  /**
+   * 1.Have a value and the value is valid.
+   * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
+   */
+  const hasValue = selectedItems.length > 0 || (val?.length > 0 && isFunction(renderValue));
 
-  open = () => {
-    this.handleOpenDropdown?.();
-  };
-  close = () => {
-    this.handleCloseDropdown?.();
-  };
+  let selectedElement: React.ReactNode = placeholder;
 
-  handleToggleDropdown = () => {
-    const { active } = this.state;
-    if (active) {
-      this.handleCloseDropdown();
-      return;
-    }
-    this.handleOpenDropdown();
-  };
+  if (selectedItems.length > 0) {
+    selectedElement = (
+      <SelectedElement
+        selectedItems={selectedItems}
+        countable={countable}
+        valueKey={valueKey}
+        labelKey={labelKey}
+        prefix={prefix}
+      />
+    );
+  }
 
-  handleClean = (event: React.SyntheticEvent<any>) => {
-    const { disabled, cleanable } = this.props;
+  if (val?.length > 0 && isFunction(renderValue)) {
+    selectedElement = renderValue(val, selectedItems, selectedElement);
+  }
 
-    if (disabled || !cleanable) {
-      return;
-    }
+  const classes = getToggleWrapperClassName('check', prefix, props, hasValue);
 
-    this.setState({ value: [] });
-    this.handleChangeValue([], event);
-  };
-
-  handleExit = () => {
-    this.props.onClose?.();
-    this.setState({
-      searchKeyword: '',
-      focusItemValue: null,
-      active: false
-    });
-  };
-
-  handleOpen = () => {
-    this.props.onOpen?.();
-    this.setState({
-      active: true
-    });
-  };
-
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
-
-  menuContainer = {
-    menuItems: null
-  };
-
-  getPositionInstance = () => {
-    return this.positionRef.current;
-  };
-
-  getToggleInstance = () => {
-    return this.toggleRef.current;
-  };
-
-  renderDropdownMenu() {
-    const {
-      data,
-      valueKey,
-      groupBy,
-      searchable,
-      renderExtraFooter,
-      locale,
-      renderMenu,
-      menuClassName,
-      menuStyle,
-      menuAutoWidth,
-      sort,
-      virtualized
-    } = this.props;
-
-    const { focusItemValue, stickyItems } = this.state;
-    const classes = classNames(this.addPrefix('check-menu'), menuClassName);
+  const renderDropdownMenu = () => {
+    const classes = merge(prefix('check-menu'), menuClassName);
     let filteredData = [];
     let filteredStickyItems = [];
 
     if (stickyItems) {
-      filteredStickyItems = filterNodesOfTree(stickyItems, item => this.shouldDisplay(item));
+      filteredStickyItems = filterNodesOfTree(stickyItems, item => checkShouldDisplay(item));
       filteredData = filterNodesOfTree(data, item => {
-        return this.shouldDisplay(item) && !stickyItems.some(v => v[valueKey] === item[valueKey]);
+        return checkShouldDisplay(item) && !stickyItems.some(v => v[valueKey] === item[valueKey]);
       });
     } else {
-      filteredData = filterNodesOfTree(data, item => this.shouldDisplay(item));
+      filteredData = filterNodesOfTree(data, item => checkShouldDisplay(item));
     }
 
     // Create a tree structure data when set `groupBy`
@@ -384,134 +358,105 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
       filteredData = filteredData.sort(sort(false));
     }
 
-    const menuProps = _.pick(
-      this.props,
-      Object.keys(_.omit(dropdownMenuPropTypes, ['className', 'style', 'classPrefix']))
-    );
-
     const menu =
       filteredData.length || filteredStickyItems.length ? (
         <DropdownMenu
-          {...menuProps}
-          classPrefix={this.addPrefix('check-menu')}
+          ref={menuRef}
+          listProps={listProps}
+          disabledItemValues={disabledItemValues}
+          valueKey={valueKey}
+          labelKey={labelKey}
+          renderMenuGroup={renderMenuGroup}
+          renderMenuItem={renderMenuItem}
+          maxHeight={menuMaxHeight}
+          classPrefix={'picker-check-menu'}
           dropdownMenuItemAs={DropdownMenuItem}
-          ref={this.menuContainerRef}
-          activeItemValues={this.getValue()}
+          activeItemValues={val}
           focusItemValue={focusItemValue}
           data={[...filteredStickyItems, ...filteredData]}
-          group={!_.isUndefined(groupBy)}
-          onSelect={this.handleItemSelect}
+          group={!isUndefined(groupBy)}
+          onSelect={handleItemSelect}
+          onGroupTitleClick={onGroupTitleClick}
           virtualized={virtualized}
         />
       ) : (
-        <div className={this.addPrefix('none')}>{locale.noResultsText}</div>
+        <div className={prefix`none`}>{locale?.noResultsText}</div>
       );
 
     return (
       <MenuWrapper
+        ref={menuWrapperRef}
         autoWidth={menuAutoWidth}
         className={classes}
         style={menuStyle}
-        onKeyDown={this.handleKeyDown}
-        getToggleInstance={this.getToggleInstance}
-        getPositionInstance={this.getPositionInstance}
+        onKeyDown={handleKeyDown}
+        getToggleInstance={() => toggleRef.current}
+        getPositionInstance={() => positionRef.current}
       >
         {searchable && (
           <SearchBar
-            placeholder={locale.searchPlaceholder}
-            onChange={this.handleSearch}
-            value={this.state.searchKeyword}
+            placeholder={locale?.searchPlaceholder}
+            onChange={handleSearch}
+            value={searchKeyword}
           />
         )}
         {renderMenu ? renderMenu(menu) : menu}
         {renderExtraFooter?.()}
       </MenuWrapper>
     );
-  }
+  };
 
-  render() {
-    const {
-      data,
-      valueKey,
-      labelKey,
-      placeholder,
-      renderValue,
-      disabled,
-      cleanable,
-      locale,
-      toggleAs,
-      style,
-      onEnter,
-      onEntered,
-      onExited,
-      onClean,
-      countable,
-      positionRef,
-      ...rest
-    } = this.props;
-
-    const unhandled = getUnhandledProps(CheckPicker, rest);
-    const value = this.getValue();
-    const selectedItems: any[] =
-      data.filter(item => value.some(val => shallowEqual(item[valueKey], val))) || [];
-
-    /**
-     * 1.Have a value and the value is valid.
-     * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
-     */
-    const hasValue = selectedItems.length > 0 || (value?.length > 0 && _.isFunction(renderValue));
-
-    let selectedElement: React.ReactNode = placeholder;
-
-    if (selectedItems.length > 0) {
-      selectedElement = (
-        <SelectedElement
-          selectedItems={selectedItems}
-          countable={countable}
-          valueKey={valueKey}
-          labelKey={labelKey}
-          prefix={this.addPrefix}
-        />
-      );
-    }
-
-    if (value?.length > 0 && _.isFunction(renderValue)) {
-      selectedElement = renderValue(value, selectedItems, selectedElement);
-    }
-
-    const classes = getToggleWrapperClassName('check', this.addPrefix, this.props, hasValue);
-
-    return (
-      <IntlContext.Provider value={locale}>
-        <PickerToggleTrigger
-          pickerProps={this.props}
-          ref={this.triggerRef}
-          positionRef={mergeRefs(this.positionRef, positionRef)}
-          onEnter={createChainedFunction(this.setStickyItems, onEnter)}
-          onEntered={createChainedFunction(this.handleOpen, onEntered)}
-          onExited={createChainedFunction(this.handleExit, onExited)}
-          speaker={this.renderDropdownMenu()}
+  return (
+    <PickerToggleTrigger
+      pickerProps={pick(props, pickerToggleTriggerProps)}
+      ref={triggerRef}
+      positionRef={positionRef}
+      placement={placement}
+      onEnter={createChainedFunction(initStickyItems, onEnter)}
+      onEntered={createChainedFunction(handleEntered, onEntered)}
+      onExited={createChainedFunction(handleExited, onExited)}
+      speaker={renderDropdownMenu()}
+    >
+      <div ref={rootRef} className={classes} style={style}>
+        <PickerToggle
+          {...omit(rest, pickerToggleTriggerProps)}
+          ref={toggleRef}
+          onClean={createChainedFunction(handleClean, onClean)}
+          onKeyDown={handleKeyDown}
+          as={toggleAs}
+          cleanable={cleanable && !disabled}
+          hasValue={hasValue}
+          active={active}
         >
-          <div className={classes} style={style}>
-            <PickerToggle
-              {...unhandled}
-              ref={this.toggleRef}
-              onClean={createChainedFunction(this.handleClean, onClean)}
-              onKeyDown={this.handleKeyDown}
-              as={toggleAs}
-              cleanable={cleanable && !disabled}
-              hasValue={hasValue}
-              active={this.state.active}
-            >
-              {selectedElement || <FormattedMessage id="placeholder" />}
-            </PickerToggle>
-          </div>
-        </PickerToggleTrigger>
-      </IntlContext.Provider>
-    );
-  }
-}
+          {selectedElement || locale.placeholder}
+        </PickerToggle>
+      </div>
+    </PickerToggleTrigger>
+  );
+});
 
-export default defaultProps({
-  classPrefix: 'picker'
-})(CheckPicker);
+CheckPicker.displayName = 'CheckPicker';
+CheckPicker.propTypes = {
+  ...listPickerPropTypes,
+  locale: PropTypes.any,
+  appearance: PropTypes.oneOf(['default', 'subtle']),
+  menuAutoWidth: PropTypes.bool,
+  menuMaxHeight: PropTypes.number,
+  renderMenu: PropTypes.func,
+  renderMenuItem: PropTypes.func,
+  renderMenuGroup: PropTypes.func,
+  onSelect: PropTypes.func,
+  onGroupTitleClick: PropTypes.func,
+  onSearch: PropTypes.func,
+  groupBy: PropTypes.any,
+  sort: PropTypes.func,
+  searchable: PropTypes.bool,
+  countable: PropTypes.bool,
+  sticky: PropTypes.bool,
+  virtualized: PropTypes.bool,
+  searchBy: PropTypes.func
+};
+
+CheckPicker.defaultProps = defaultProps;
+
+export default CheckPicker;

@@ -57,13 +57,19 @@ export interface PickerBaseProps extends StandardProps, AnimationEventProps {
   disabled?: boolean;
 
   /** You can use a custom element for this component */
-  toggleAs?: React.ElementType;
+  toggleAs?: React.ElementType | string;
 
   /** A CSS class to apply to the Menu DOM node. */
   menuClassName?: string;
 
   /** A style to apply to the Menu DOM node. */
   menuStyle?: React.CSSProperties;
+
+  /** Picker menu auto width */
+  menuAutoWidth?: boolean;
+
+  /** Picker menu max Height */
+  menuMaxHeight?: number;
 
   /** Placeholder text */
   placeholder?: React.ReactNode;
@@ -82,9 +88,6 @@ export interface PickerBaseProps extends StandardProps, AnimationEventProps {
 
   /** A picker that can clear values */
   cleanable?: boolean;
-
-  /** Picker menu auto width */
-  menuAutoWidth?: boolean;
 
   /** Called when Modal is displayed */
   onOpen?: () => void;

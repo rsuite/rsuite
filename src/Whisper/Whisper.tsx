@@ -2,8 +2,11 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import OverlayTrigger from '../Overlay/OverlayTrigger';
 import { createChainedFunction, placementPolyfill, refType, mergeRefs } from '../utils';
-import IntlContext from '../IntlProvider/IntlContext';
-import { WhisperProps } from './Whisper.d';
+import { CustomConsumer } from '../CustomProvider';
+import { PLACEMENT } from '../constants';
+import { TriggerProps } from '../Overlay/OverlayTrigger.d';
+import { TooltipProps } from '../Tooltip/Tooltip.d';
+import { PopoverProps } from '../Popover/Popover.d';
 
 export const overlayProps = [
   'placement',
@@ -13,6 +16,21 @@ export const overlayProps = [
   'positionLeft',
   'positionTop'
 ];
+
+export interface WhisperProps extends TriggerProps {
+  /** display element */
+  speaker?:
+    | React.ReactElement<TooltipProps | PopoverProps>
+    | ((props: any, ref: React.RefObject<any>) => React.ReactElement);
+
+  /** @deprecated Use `ref` instead */
+  triggerRef?: React.Ref<any>;
+}
+
+export interface WhisperInstance extends React.Component<WhisperProps> {
+  open: (delay?: number) => void;
+  close: (delay?: number) => void;
+}
 
 const Whisper = React.forwardRef((props: WhisperProps, ref) => {
   const {
@@ -26,7 +44,7 @@ const Whisper = React.forwardRef((props: WhisperProps, ref) => {
     ...rest
   } = props;
   return (
-    <IntlContext.Consumer>
+    <CustomConsumer>
       {context => (
         <OverlayTrigger
           preventOverflow={preventOverflow}
@@ -37,7 +55,7 @@ const Whisper = React.forwardRef((props: WhisperProps, ref) => {
           {...rest}
         />
       )}
-    </IntlContext.Consumer>
+    </CustomConsumer>
   );
 });
 
@@ -48,7 +66,7 @@ Whisper.propTypes = {
   onClose: PropTypes.func,
   onEntered: PropTypes.func,
   onExited: PropTypes.func,
-  placement: PropTypes.string,
+  placement: PropTypes.oneOf(PLACEMENT),
   /**
    * Prevent floating element overflow
    */

@@ -6,7 +6,7 @@ import DropdownMenu from '../DropdownMenu';
 import DropdownMenuItem from '../DropdownMenuItem';
 import getDataGroupBy from '../../utils/getDataGroupBy';
 
-const classPrefix = 'rs-dropdown-menu';
+const classPrefix = 'dropdown-menu';
 
 const items = [
   {
@@ -46,13 +46,12 @@ describe('picker -  DropdownMenu', () => {
     const instance = getDOMNode(
       <DropdownMenu
         data={getDataGroupBy(items, 'groupKey')}
-        classPrefix={classPrefix}
         group
         dropdownMenuItemAs={DropdownMenuItem}
       />
     );
 
-    assert.ok(instance.querySelector('.rs-dropdown-menu-group'));
+    assert.ok(instance.querySelector('.rs-picker-menu-group'));
   });
 
   it('Should be active item for value of `c', () => {
@@ -130,7 +129,7 @@ describe('picker -  DropdownMenu', () => {
     ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-dropdown-menu-item')[1]);
   });
 
-  it('Should call onGroupTitleClick callback ', done => {
+  it('Should call onGroupTitleClick callback', done => {
     const doneOp = () => {
       done();
     };
@@ -144,7 +143,7 @@ describe('picker -  DropdownMenu', () => {
       />
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-dropdown-menu-group'));
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-menu-group'));
   });
 
   it('Should render custom item', () => {
@@ -170,8 +169,7 @@ describe('picker -  DropdownMenu', () => {
         dropdownMenuItemAs={DropdownMenuItem}
       />
     );
-
-    assert.equal(instance.querySelectorAll('.rs-dropdown-menu-group i').length, 1);
+    assert.equal(instance.querySelectorAll('.rs-picker-menu-group i').length, 1);
   });
 
   it('Should have a custom className', () => {

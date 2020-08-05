@@ -1,3 +1,3 @@
-import CustomProvider from './CustomProvider';
-
+import CustomProvider, { CustomContext, CustomConsumer } from './CustomProvider';
+export { CustomContext, CustomConsumer };
 export default CustomProvider;

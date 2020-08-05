@@ -17,7 +17,10 @@ export default function useEventListener<K extends keyof DocumentEventMap>(
 ) {
   useEffect(() => {
     const target = typeof eventTarget === 'function' ? eventTarget() : eventTarget;
-    const controller = on(target, event, listener, capture);
-    return () => controller.off();
+    const controller = target ? on(target, event, listener, capture) : null;
+
+    return () => {
+      controller?.off();
+    };
   }, [eventTarget, event, listener, capture]);
 }

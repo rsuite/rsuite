@@ -1,133 +1,106 @@
-import * as React from 'react';
-import classNames from 'classnames';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
-import { prefix, getUnhandledProps, defaultProps, createChainedFunction } from '../utils';
-import DefaultToggleButton from './DefaultToggleButton';
+import get from 'lodash/get';
+import { StandardProps } from '../@types/common';
+import ToggleButton, { ToggleButtonProps } from './ToggleButton';
+import { createChainedFunction, useClassNames } from '../utils';
 
-export interface PickerToggleProps {
+export interface PickerToggleProps extends StandardProps, ToggleButtonProps {
   classPrefix?: string;
   hasValue?: boolean;
   cleanable?: boolean;
   className?: string;
-  children?: React.ReactNode;
   caret?: boolean;
-  as: React.ElementType;
   onClean?: (event: React.MouseEvent) => void;
+  cleanButtonTitle?: string;
   active?: boolean;
-  tabIndex: number;
+  tabIndex?: number;
 }
 
-interface PickerToggleState {
-  active?: boolean;
-}
-
-class PickerToggle extends React.Component<PickerToggleProps, PickerToggleState> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    hasValue: PropTypes.bool,
-    cleanable: PropTypes.bool,
-    className: PropTypes.string,
-    children: PropTypes.node,
-    caret: PropTypes.bool,
-    as: PropTypes.elementType,
-    onClean: PropTypes.func,
-    active: PropTypes.bool
-  };
-
-  static defaultProps = {
-    as: DefaultToggleButton,
-    tabIndex: 0,
-    caret: true
-  };
-
-  toggleRef: React.RefObject<any>;
-
-  constructor(props: PickerToggleProps) {
-    super(props);
-    this.state = {
-      active: false
-    };
-
-    this.toggleRef = React.createRef();
-  }
-
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
-
-  handleClean = (event: React.MouseEvent<HTMLSpanElement>) => {
-    this.props.onClean?.(event);
-    event.stopPropagation();
-    this.handleBlur();
-  };
-
-  handleFocus = () => {
-    this.setState({ active: true });
-  };
-
-  handleBlur = () => {
-    this.setState({ active: false });
-  };
-  getToggleNode = () => {
-    return this.toggleRef.current;
-  };
-  onFocus = () => {
-    if (typeof this.toggleRef?.current?.focus === 'function') {
-      this.toggleRef.current.focus();
-    }
-  };
-
-  renderToggleClean() {
-    return (
-      <span
-        className={this.addPrefix('clean')}
-        role="button"
-        tabIndex={-1}
-        onClick={this.handleClean}
-      >
-        ✕
-      </span>
-    );
-  }
-
-  render() {
+const PickerToggle = React.forwardRef(
+  (props: PickerToggleProps, ref: React.Ref<HTMLButtonElement>) => {
     const {
-      as: Component,
+      active,
+      as: Component = ToggleButton,
+      classPrefix = 'picker-toggle',
       children,
+      caret = true,
       className,
       hasValue,
       cleanable,
-      classPrefix,
-      caret,
-      active,
-      tabIndex,
+      tabIndex = 0,
+      cleanButtonTitle,
+      onClean,
       ...rest
-    } = this.props;
+    } = props;
 
-    const classes = classNames(classPrefix, className, {
-      active: active || this.state.active
-    });
-    const unhandled = getUnhandledProps(PickerToggle, rest);
+    const [activeState, setActive] = useState(false);
+    const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+
+    const classes = merge(
+      className,
+      withClassPrefix({
+        active: active || activeState
+      })
+    );
+
+    const handleFocus = useCallback(() => {
+      setActive(true);
+    }, []);
+
+    const handleBlur = useCallback(() => {
+      setActive(false);
+    }, []);
+
+    const handleClean = useCallback(
+      (event: React.MouseEvent<HTMLSpanElement>) => {
+        event.stopPropagation();
+        onClean?.(event);
+        handleBlur();
+      },
+      [onClean, handleBlur]
+    );
 
     return (
       <Component
-        {...unhandled}
         role="combobox"
+        {...rest}
+        ref={ref}
         tabIndex={tabIndex}
         className={classes}
-        ref={this.toggleRef}
-        onFocus={createChainedFunction(this.handleFocus, _.get(unhandled, 'onFocus'))}
-        onBlur={createChainedFunction(this.handleBlur, _.get(unhandled, 'onBlur'))}
+        onFocus={createChainedFunction(handleFocus, get(rest, 'onFocus'))}
+        onBlur={createChainedFunction(handleBlur, get(rest, 'onBlur'))}
       >
-        <span className={this.addPrefix(hasValue ? 'value' : 'placeholder')}>{children}</span>
-        {hasValue && cleanable && this.renderToggleClean()}
-        {caret && <span className={this.addPrefix('caret')} />}
+        <span className={prefix(hasValue ? 'value' : 'placeholder')}>{children}</span>
+        {hasValue && cleanable && (
+          <span
+            className={prefix`clean`}
+            role="button"
+            tabIndex={-1}
+            onClick={handleClean}
+            title={cleanButtonTitle}
+            aria-label={cleanButtonTitle}
+          >
+            <span aria-hidden="true">×</span>
+          </span>
+        )}
+        {caret && <span className={prefix`caret`} />}
       </Component>
     );
   }
-}
+);
 
-const enhance = defaultProps<PickerToggleProps>({
-  classPrefix: 'picker-toggle'
-});
+PickerToggle.displayName = 'PickerToggle';
+PickerToggle.propTypes = {
+  classPrefix: PropTypes.string,
+  hasValue: PropTypes.bool,
+  cleanable: PropTypes.bool,
+  className: PropTypes.string,
+  children: PropTypes.node,
+  caret: PropTypes.bool,
+  as: PropTypes.elementType,
+  onClean: PropTypes.func,
+  active: PropTypes.bool
+};
 
-export default enhance(PickerToggle);
+export default PickerToggle;

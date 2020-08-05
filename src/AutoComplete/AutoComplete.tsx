@@ -114,7 +114,7 @@ const AutoComplete = React.forwardRef(
       onKeyDown?.(event);
     };
 
-    const selectFocusMenuItem = (event: React.SyntheticEvent<HTMLElement>) => {
+    const selectFocusMenuItem = (event: React.KeyboardEvent<HTMLElement>) => {
       if (!focusItemValue) {
         return;
       }
@@ -188,7 +188,7 @@ const AutoComplete = React.forwardRef(
       focus(items, -1);
     };
 
-    const focusNextMenuItem = (event: React.SyntheticEvent<HTMLElement>) => {
+    const focusNextMenuItem = (event: React.KeyboardEvent<HTMLElement>) => {
       findNode((items: any[], index: number) => {
         const item = items[index + 1];
         if (!isUndefined(item)) {
@@ -198,7 +198,7 @@ const AutoComplete = React.forwardRef(
       });
     };
 
-    const focusPrevMenuItem = (event: React.SyntheticEvent<HTMLElement>) => {
+    const focusPrevMenuItem = (event: React.KeyboardEvent<HTMLElement>) => {
       findNode((items: any[], index: number) => {
         const item = items[index - 1];
         if (!isUndefined(item)) {

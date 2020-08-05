@@ -225,7 +225,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
 
   handleSelect = (value: any, item: ItemDataType, event: React.SyntheticEvent<any>) => {
     this.props.onSelect?.(value, item, event);
-    this.toggleRef.current?.onFocus();
+    this.toggleRef.current?.focus();
   };
 
   handleSearch = (searchKeyword: string, event: React.SyntheticEvent<any>) => {

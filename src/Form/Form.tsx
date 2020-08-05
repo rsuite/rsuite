@@ -66,15 +66,28 @@ export interface FormInstance<
   errorMsg = string,
   E = { [P in keyof T]?: errorMsg }
 > extends React.ForwardRefExoticComponent<FormProps<T, errorMsg, E>> {
+  /** Verify form data */
   check?: (callback?: (formError: E) => void) => boolean;
+
+  /** Asynchronously check form data */
   checkAsync?: () => Promise<any>;
+
+  /** Check the data field */
   checkForField?: (
     fieldName: keyof T,
     callback?: (checkResult: CheckResult<errorMsg>) => void
   ) => boolean;
+
+  /** Asynchronous verification as a data field */
   checkForFieldAsync?: (fieldName: keyof T) => Promise<CheckResult>;
+
+  /** Clear all error messages */
   cleanErrors?: (callback?: () => void) => void;
+
+  /** Clear the error message of the specified field */
   cleanErrorForFiled?: (fieldName: keyof E, callback?: () => void) => void;
+
+  /** All error messages are reset, and an initial value can be set */
   resetErrors?: (formError: E, callback?: () => void) => void;
 }
 
@@ -125,6 +138,11 @@ const Form: FormInterface = React.forwardRef(
       return isUndefined(formError) ? _formError : formError;
     }, [formError, _formError]);
 
+    /**
+     * Validate the form data and return a boolean.
+     * The error message after verification is returned in the callback.
+     * @param callback
+     */
     const check = useCallback(
       (callback?: (formError: any) => void) => {
         const formValue = getFormValue() || {};
@@ -153,27 +171,38 @@ const Form: FormInterface = React.forwardRef(
       [onCheck, onError, model, getFormValue]
     );
 
-    const checkForField = (fieldName: string, callback?: (checkResult: any) => void) => {
-      const formValue = getFormValue() || {};
-      const checkResult = model.checkForField(fieldName, formValue[fieldName], formValue);
+    /**
+     * Check the data field
+     * @param fieldName
+     * @param callback
+     */
+    const checkForField = useCallback(
+      (fieldName: string, callback?: (checkResult: any) => void) => {
+        const formValue = getFormValue() || {};
+        const checkResult = model.checkForField(fieldName, formValue[fieldName], formValue);
 
-      const formError = {
-        ...getFormError(),
-        [fieldName]: checkResult.errorMessage
-      };
+        const formError = {
+          ...getFormError(),
+          [fieldName]: checkResult.errorMessage
+        };
 
-      setFormError(formError);
-      onCheck?.(formError);
-      callback?.(checkResult);
+        setFormError(formError);
+        onCheck?.(formError);
+        callback?.(checkResult);
 
-      if (checkResult.hasError) {
-        onError?.(formError);
-      }
+        if (checkResult.hasError) {
+          onError?.(formError);
+        }
 
-      return !checkResult.hasError;
-    };
+        return !checkResult.hasError;
+      },
+      [model, getFormValue, getFormError, onCheck, onError]
+    );
 
-    const checkAsync = () => {
+    /**
+     * Check form data asynchronously and return a Promise
+     */
+    const checkAsync = useCallback(() => {
       const formValue = getFormValue() || {};
       const promises = [];
       const keys = [];
@@ -203,39 +232,49 @@ const Form: FormInterface = React.forwardRef(
 
         return { hasError: errorCount > 0, formError };
       });
-    };
+    }, [model, getFormValue, onCheck, onError]);
 
-    const checkForFieldAsync = (fieldName: string) => {
-      const formValue = getFormValue() || {};
-      return model
-        .checkForFieldAsync(fieldName, formValue[fieldName], formValue)
-        .then(checkResult => {
-          const formError = {
-            ...getFormError(),
-            [fieldName]: checkResult.errorMessage
-          };
-          onCheck?.(formError);
-          setFormError(formError);
+    /**
+     * Asynchronously check form fields and return Promise
+     * @param fieldName
+     */
+    const checkForFieldAsync = useCallback(
+      (fieldName: string) => {
+        const formValue = getFormValue() || {};
+        return model
+          .checkForFieldAsync(fieldName, formValue[fieldName], formValue)
+          .then(checkResult => {
+            const formError = {
+              ...getFormError(),
+              [fieldName]: checkResult.errorMessage
+            };
+            onCheck?.(formError);
+            setFormError(formError);
 
-          if (checkResult.hasError) {
-            onError?.(formError);
-          }
+            if (checkResult.hasError) {
+              onError?.(formError);
+            }
 
-          return checkResult;
-        });
-    };
+            return checkResult;
+          });
+      },
+      [model, getFormValue, getFormError, onCheck, onError]
+    );
 
-    const cleanErrors = () => {
+    const cleanErrors = useCallback(() => {
       setFormError({});
-    };
+    }, []);
 
-    const cleanErrorForFiled = (fieldName: string) => {
-      setFormError(omit(_formError, [fieldName]));
-    };
+    const cleanErrorForFiled = useCallback(
+      (fieldName: string) => {
+        setFormError(omit(_formError, [fieldName]));
+      },
+      [_formError]
+    );
 
-    const resetErrors = (formError: any = {}) => {
+    const resetErrors = useCallback((formError: any = {}) => {
       setFormError(formError);
-    };
+    }, []);
 
     useImperativeHandle(ref, (): any => ({
       root: rootRef.current,
@@ -295,8 +334,7 @@ const Form: FormInterface = React.forwardRef(
     );
 
     const rootRef = React.useRef();
-
-    const contextDefalutValue = useMemo(
+    const formContextValue = useMemo(
       () => ({
         model,
         checkTrigger,
@@ -325,7 +363,7 @@ const Form: FormInterface = React.forwardRef(
 
     return (
       <form {...rest} ref={rootRef} onSubmit={handleSubmit} className={classes}>
-        <FormContext.Provider value={contextDefalutValue}>
+        <FormContext.Provider value={formContextValue}>
           <FormValueContext.Provider value={formValue}>{children}</FormValueContext.Provider>
         </FormContext.Provider>
       </form>

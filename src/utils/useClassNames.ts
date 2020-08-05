@@ -29,11 +29,18 @@ export interface ClassDictionary {
  *    At the same time, the default `classPrefix` is the first className.
  *  - merge: A merge className function.
  *  - prefix: Add a prefix to className
+ *  - rootPrefix
  */
 function useClassNames(str: string) {
   const { classPrefix = 'rs' } = useContext(CustomContext) || {};
   const componentName = addPrefix(classPrefix, str);
 
+  /**
+   * @example
+   *
+   * if str = 'button':
+   * prefix('red', { active: true }) => 'rs-button-red rs-button-active'
+   */
   const prefix = (...classes: ClassValue[]) => {
     const mergeClasses = classes.length
       ? classNames(...classes)
@@ -44,15 +51,28 @@ function useClassNames(str: string) {
     return mergeClasses.filter(cls => cls).join(' ');
   };
 
+  /**
+   * @example
+   *
+   * if str = 'button':
+   * withClassPrefix('red', { active: true }) => 'rs-button rs-button-red rs-button-active'
+   */
   const withClassPrefix = (...classes: ClassValue[]) => {
     const mergeClasses = prefix(classes);
     return mergeClasses ? `${componentName} ${mergeClasses}` : componentName;
   };
 
+  /**
+   * @example
+   * rootPrefix('btn') => 'rs-btn'
+   */
+  const rootPrefix = (name: string) => addPrefix(classPrefix, name);
+
   return {
+    withClassPrefix,
     merge: classNames,
     prefix,
-    withClassPrefix
+    rootPrefix
   };
 }
 
