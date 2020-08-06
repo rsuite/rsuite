@@ -27,34 +27,21 @@ import {
   useFocusItemValue,
   usePickerClassName
 } from '../Picker';
+import { PickerInstance, PickerLocaleType } from '../Picker/types';
 import { pickerToggleTriggerProps } from '../Picker/PickerToggleTrigger';
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
 import { listPickerPropTypes } from '../Picker/propTypes';
-import { SelectProps } from '../SelectPicker/SelectPicker.d';
+import { SelectProps } from '../SelectPicker';
 import { KEY_CODE } from '../constants';
 
-export interface LocaleType {
-  placeholder?: string;
-  searchPlaceholder?: string;
-  noResultsText?: string;
-}
-
 export interface CheckPickerProps<T = (number | string)[]>
-  extends FormControlPickerProps<T, LocaleType, ItemDataType>,
+  extends FormControlPickerProps<T, PickerLocaleType, ItemDataType>,
     SelectProps<T> {
   /** Top the selected option in the options */
   sticky?: boolean;
 
   /** A picker that can be counted */
   countable?: boolean;
-}
-
-export interface CheckPickerInstance {
-  root?: HTMLDivElement;
-  menu?: HTMLDivElement;
-  toggle?: HTMLButtonElement;
-  open?: () => void;
-  close?: () => void;
 }
 
 const defaultProps: Partial<CheckPickerProps> = {
@@ -73,7 +60,7 @@ const defaultProps: Partial<CheckPickerProps> = {
   menuMaxHeight: 320
 };
 
-const CheckPicker = React.forwardRef((props: CheckPickerProps, ref) => {
+const CheckPicker = React.forwardRef((props: CheckPickerProps, ref: React.Ref<PickerInstance>) => {
   const {
     classPrefix,
     countable,
@@ -124,7 +111,7 @@ const CheckPicker = React.forwardRef((props: CheckPickerProps, ref) => {
   const positionRef = useRef();
   const toggleRef = useRef<HTMLButtonElement>();
   const menuRef = useRef<HTMLDivElement>();
-  const { locale } = useCustom<LocaleType>('Picker', overrideLocale);
+  const { locale } = useCustom<PickerLocaleType>('Picker', overrideLocale);
 
   const [valueState, setValue] = useState(clone(defaultValue) || []);
   const val = isUndefined(value) ? valueState : value;
@@ -436,7 +423,7 @@ const CheckPicker = React.forwardRef((props: CheckPickerProps, ref) => {
           hasValue={hasValue}
           active={active}
         >
-          {selectedElement || locale.placeholder}
+          {selectedElement || locale?.placeholder}
         </PickerToggle>
       </div>
     </PickerToggleTrigger>

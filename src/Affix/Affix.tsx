@@ -4,7 +4,9 @@ import { getOffset } from 'dom-lib';
 import { StandardProps } from '../@types/common';
 import { useClassNames, useEventListener, useElementResize, mergeRefs } from '../utils';
 
-export interface AffixProps extends StandardProps {
+export interface AffixProps
+  extends StandardProps,
+    Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   /** Distance from top */
   top?: number;
 
