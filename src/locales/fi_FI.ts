@@ -50,6 +50,9 @@ export default {
     searchPlaceholder: 'Etsi',
     checkAll: 'Kaikki'
   },
+  Input: {
+    emptyPlaintext: 'täyttämättömät'
+  },
   InputPicker: {
     newItem: 'Uusi nimike',
     createOption: 'Luo vaihtoehto "{0}"'

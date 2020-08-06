@@ -69,6 +69,16 @@ describe('CheckPicker', () => {
     assert.ok(instance.className.match(/\bblock\b/));
   });
 
+  it('Should be readOnly', () => {
+    const instance = getDOMNode(<Dropdown readOnly />);
+    assert.include(instance.className, 'rs-picker-read-only');
+  });
+
+  it('Should be plaintext', () => {
+    const instance = getDOMNode(<Dropdown plaintext />);
+    assert.include(instance.className, 'rs-picker-plaintext');
+  });
+
   it('Should active item by `value`', () => {
     const value = ['Louisa'];
     const instance = getInstance(<Dropdown defaultOpen data={data} value={value} />);
@@ -154,7 +164,7 @@ describe('CheckPicker', () => {
     const instance = getInstance(
       <Dropdown defaultOpen onChange={doneOp} data={[{ label: '1', value: '1' }]} />
     );
-    ReactTestUtils.Simulate.change(instance.menu.querySelectorAll('input')[0]);
+    ReactTestUtils.Simulate.change(instance.menu.querySelectorAll('input')[1]);
   });
 
   it('Should call `onClean` callback', done => {

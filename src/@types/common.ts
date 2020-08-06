@@ -37,9 +37,9 @@ export interface AnimationEventProps {
   onExited?: (node: null | Element | Text) => void;
 }
 
-export interface PickerBaseProps extends StandardProps, AnimationEventProps {
+export interface PickerBaseProps<LocaleType = any> extends StandardProps, AnimationEventProps {
   /** locale */
-  locale?: any;
+  locale?: LocaleType;
 
   /** A picker can have different appearances. */
   appearance?: 'default' | 'subtle';
@@ -124,19 +124,22 @@ export interface FormControlBaseProps<ValueType = any> {
 
 type ToArray<V> = V extends any[] ? V : V[];
 
-export interface FormControlPickerProps<ValueType = any, DataType = Record<string, any>>
-  extends PickerBaseProps {
+export interface FormControlPickerProps<
+  ValueType = any,
+  LocaleType = any,
+  DataType = Record<string, any>
+> extends PickerBaseProps<LocaleType>, FormControlBaseProps<ValueType> {
   /** The data of component */
   data: DataType[];
 
   /** Set option value 'key' in 'data' */
-  valueKey?: keyof DataType;
+  valueKey?: string;
 
   /** Set options to display the 'key' in 'data' */
-  labelKey?: keyof DataType;
+  labelKey?: string;
 
   /** Set children key in data */
-  childrenKey?: keyof DataType;
+  childrenKey?: string;
 
   /** Disabled items */
   disabledItemValues?: ToArray<ValueType>;
@@ -185,8 +188,8 @@ export interface SVGIcon {
 }
 
 export interface ItemDataType {
-  label: any;
-  value: any;
+  label?: string | React.ReactNode;
+  value?: string | number;
   groupBy?: string;
   parent?: ItemDataType;
   children?: ItemDataType[];

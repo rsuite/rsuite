@@ -1,17 +1,23 @@
-import React, { useState, useImperativeHandle, useRef } from 'react';
+import React, { useState, useImperativeHandle, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import isUndefined from 'lodash/isUndefined';
-import shallowEqual from '../utils/shallowEqual';
+import pick from 'lodash/pick';
 import Input, { InputProps } from '../Input';
 import { refType, useClassNames } from '../utils';
-import { PickerToggleTrigger, onMenuKeyDown } from '../Picker';
+import {
+  PickerToggleTrigger,
+  onMenuKeyDown,
+  DropdownMenu,
+  DropdownMenuItem,
+  MenuWrapper,
+  useFocusItemValue
+} from '../Picker';
+import { pickerToggleTriggerProps } from '../Picker/PickerToggleTrigger';
 import { PLACEMENT } from '../constants';
 import { getAnimationPropTypes } from '../Animation/utils';
 import { StandardProps, TypeAttributes, ItemDataType } from '../@types/common';
-import DropdownMenu from './DropdownMenu';
 import { transformData, shouldDisplay } from './utils';
 
-export interface AutoCompleteInstance extends React.HTMLAttributes<HTMLDivElement> {
+export interface AutoCompleteInstance {
   root?: HTMLDivElement;
   menu?: HTMLDivElement;
   open?: () => void;
@@ -20,7 +26,7 @@ export interface AutoCompleteInstance extends React.HTMLAttributes<HTMLDivElemen
 
 export interface AutoCompleteProps extends StandardProps, Omit<InputProps, 'onSelect'> {
   /** The data of component */
-  data?: any[];
+  data?: string[] | ItemDataType[];
 
   /** Custom filter function to determine whether the item will be displayed */
   filterBy?: (value: string, item: ItemDataType) => boolean;
@@ -35,7 +41,7 @@ export interface AutoCompleteProps extends StandardProps, Omit<InputProps, 'onSe
   selectOnEnter?: boolean;
 
   /** Called when a option is selected */
-  onSelect?: (item: ItemDataType, event: React.SyntheticEvent<HTMLElement>) => void;
+  onSelect?: (value: any, item: ItemDataType, event: React.SyntheticEvent) => void;
 
   /** Called on focus */
   onFocus?: (event: React.SyntheticEvent<HTMLElement>) => void;
@@ -44,7 +50,7 @@ export interface AutoCompleteProps extends StandardProps, Omit<InputProps, 'onSe
   onBlur?: (event: React.SyntheticEvent<HTMLElement>) => void;
 
   /** Called on menu focus */
-  onMenuFocus?: (focusItemValue: any, event: React.SyntheticEvent<HTMLElement>) => void;
+  onMenuFocus?: (focusItemValue: any, event: React.KeyboardEvent) => void;
 
   /** The callback triggered by keyboard events. */
   onKeyDown?: (event: React.KeyboardEvent) => void;
@@ -65,15 +71,22 @@ export interface AutoCompleteProps extends StandardProps, Omit<InputProps, 'onSe
   positionRef?: React.Ref<any>;
 }
 
+const defaultProps: Partial<AutoCompleteProps> = {
+  classPrefix: 'auto-complete',
+  defaultValue: '',
+  placement: 'bottomStart',
+  selectOnEnter: true
+};
+
 const AutoComplete = React.forwardRef(
   (props: AutoCompleteProps, ref: React.Ref<HTMLDivElement>) => {
     const {
       disabled,
       className,
-      placement = 'bottomStart',
-      selectOnEnter = true,
-      classPrefix = 'auto-complete',
-      defaultValue = '',
+      placement,
+      selectOnEnter,
+      classPrefix,
+      defaultValue,
       data,
       value,
       open,
@@ -94,27 +107,31 @@ const AutoComplete = React.forwardRef(
 
     const datalist = transformData(data);
     const [val, setValue] = useState(value || defaultValue);
-    const [focusItemValue, setFocusItemValue] = useState(value || defaultValue);
     const [focus, setFocus] = useState(false);
     const items = datalist?.filter(shouldDisplay(filterBy, val)) || [];
     const hasItems = items.length > 0;
-    const menuRef = useRef(null);
+    const menuRef = useRef<HTMLDivElement>(null);
 
-    const handleKeyDown = (event: React.KeyboardEvent) => {
+    // Used to hover the focuse item  when trigger `onKeydown`
+    const [focusItemValue, setFocusItemValue, onKeyDownFocus] = useFocusItemValue(
+      value || defaultValue,
+      () => menuRef.current,
+      { data: datalist, callback: onMenuFocus }
+    );
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (!menuRef.current) {
         return;
       }
       onMenuKeyDown(event, {
-        down: focusNextMenuItem,
-        up: focusPrevMenuItem,
         enter: selectOnEnter ? selectFocusMenuItem : undefined,
         esc: handleClose
       });
-
+      onKeyDownFocus(event);
       onKeyDown?.(event);
     };
 
-    const selectFocusMenuItem = (event: React.KeyboardEvent<HTMLElement>) => {
+    const selectFocusMenuItem = (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (!focusItemValue) {
         return;
       }
@@ -131,26 +148,19 @@ const AutoComplete = React.forwardRef(
       handleClose();
     };
 
-    const handleItemSelect = (item: ItemDataType, event: React.SyntheticEvent<HTMLElement>) => {
-      const value = item.value;
+    const handleSelect = useCallback(
+      (item: ItemDataType, event: React.SyntheticEvent) => {
+        onSelect?.(item.value, item, event);
+      },
+      [onSelect]
+    );
 
-      setValue(value);
-      setFocusItemValue(value);
-      handleSelect(item, event);
-
-      if (val !== value) {
-        handleChangeValue(value, event);
-      }
-      handleClose();
-    };
-
-    const handleSelect = (item: ItemDataType, event: React.SyntheticEvent<HTMLElement>) => {
-      onSelect?.(item, event);
-    };
-
-    const handleChangeValue = (value: any, event: React.SyntheticEvent<HTMLElement>) => {
-      onChange?.(value, event);
-    };
+    const handleChangeValue = useCallback(
+      (value: any, event: React.SyntheticEvent<any>) => {
+        onChange?.(value, event);
+      },
+      [onChange]
+    );
 
     const handleChange = (value: string, event: React.FormEvent<HTMLInputElement>) => {
       setFocusItemValue('');
@@ -159,54 +169,45 @@ const AutoComplete = React.forwardRef(
       handleChangeValue(value, event);
     };
 
-    const handleInputFocus = (event: React.SyntheticEvent<HTMLElement>) => {
-      handleOpen();
-      onFocus?.(event);
-    };
-
-    const handleInputBlur = (event: React.SyntheticEvent<HTMLElement>) => {
-      setTimeout(handleClose, 300);
-      onBlur?.(event);
-    };
-
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
       setFocus(false);
       onClose?.();
-    };
-    const handleOpen = () => {
+    }, [onClose]);
+
+    const handleOpen = useCallback(() => {
       setFocus(true);
       onOpen?.();
-    };
+    }, [onOpen]);
 
-    const findNode = (focus: (items: any[], index: number) => void) => {
-      for (let i = 0; i < items.length; i += 1) {
-        if (shallowEqual(focusItemValue, items[i].value)) {
-          focus(items, i);
-          return;
-        }
-      }
-      focus(items, -1);
-    };
+    const handleItemSelect = useCallback(
+      (nextItemValue: string | number, item: ItemDataType, event: React.SyntheticEvent) => {
+        setValue(nextItemValue);
+        setFocusItemValue(nextItemValue);
+        handleSelect(item, event);
 
-    const focusNextMenuItem = (event: React.KeyboardEvent<HTMLElement>) => {
-      findNode((items: any[], index: number) => {
-        const item = items[index + 1];
-        if (!isUndefined(item)) {
-          setFocusItemValue(item.value);
-          onMenuFocus?.(item.value, event);
+        if (val !== nextItemValue) {
+          handleChangeValue(nextItemValue, event);
         }
-      });
-    };
+        handleClose();
+      },
+      [handleSelect, handleChangeValue, handleClose, setFocusItemValue, val]
+    );
 
-    const focusPrevMenuItem = (event: React.KeyboardEvent<HTMLElement>) => {
-      findNode((items: any[], index: number) => {
-        const item = items[index - 1];
-        if (!isUndefined(item)) {
-          setFocusItemValue(item.value);
-          onMenuFocus?.(item.value, event);
-        }
-      });
-    };
+    const handleInputFocus = useCallback(
+      (event: React.SyntheticEvent<HTMLElement>) => {
+        handleOpen();
+        onFocus?.(event);
+      },
+      [onFocus, handleOpen]
+    );
+
+    const handleInputBlur = useCallback(
+      (event: React.SyntheticEvent<HTMLElement>) => {
+        setTimeout(handleClose, 300);
+        onBlur?.(event);
+      },
+      [onBlur, handleClose]
+    );
 
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ disabled }));
@@ -225,19 +226,23 @@ const AutoComplete = React.forwardRef(
       <div ref={rootRef} className={classes} style={style}>
         <PickerToggleTrigger
           placement={placement}
-          pickerProps={props}
+          pickerProps={pick(props, pickerToggleTriggerProps)}
           trigger={['click', 'focus']}
           open={open || (focus && hasItems)}
           speaker={
-            <DropdownMenu
-              focusItemValue={focusItemValue}
-              ref={menuRef}
-              onKeyDown={handleKeyDown}
-              onSelect={handleItemSelect}
-              renderItem={renderItem}
-              data={items}
-              className={menuClassName}
-            />
+            <MenuWrapper ref={menuRef} onKeyDown={handleKeyDown}>
+              <DropdownMenu
+                classPrefix="auto-complete-menu"
+                dropdownMenuItemClassPrefix="auto-complete-item"
+                dropdownMenuItemAs={DropdownMenuItem}
+                focusItemValue={focusItemValue}
+                ref={menuRef}
+                onSelect={handleItemSelect}
+                renderMenuItem={renderItem}
+                data={items}
+                className={menuClassName}
+              />
+            </MenuWrapper>
           }
         >
           <Input
@@ -256,6 +261,7 @@ const AutoComplete = React.forwardRef(
 );
 
 AutoComplete.displayName = 'AutoComplete';
+AutoComplete.defaultProps = defaultProps;
 AutoComplete.propTypes = {
   ...getAnimationPropTypes(),
   data: PropTypes.array,

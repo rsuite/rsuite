@@ -4,12 +4,14 @@ import kebabCase from 'lodash/kebabCase';
 import trim from 'lodash/trim';
 import isFunction from 'lodash/isFunction';
 import isUndefined from 'lodash/isUndefined';
+import omit from 'lodash/omit';
 import { findNodeOfTree, filterNodesOfTree } from '../utils/treeUtils';
 import placementPolyfill from '../utils/placementPolyfill';
 import reactToString from '../utils/reactToString';
-import useEventListener from '../utils/useEventListener';
 import shallowEqual from '../utils/shallowEqual';
+import useClassNames from '../utils/useClassNames';
 import { KEY_CODE } from '../constants';
+import { TypeAttributes } from '../@types/common';
 
 interface NodeKeys {
   valueKey: string;
@@ -64,17 +66,85 @@ export function getToggleWrapperClassName(
   hasValue: boolean,
   classes?: any
 ) {
-  const { className, placement, appearance, cleanable, block, disabled, countable } = props;
+  const {
+    className,
+    placement,
+    appearance,
+    cleanable,
+    block,
+    disabled,
+    countable,
+    readOnly,
+    plaintext
+  } = props;
 
   return classNames(className, prefix(name), prefix(appearance), prefix('toggle-wrapper'), {
     [prefix(`placement-${kebabCase(placementPolyfill(placement))}`)]: placement,
     [prefix('block')]: block,
     [prefix('has-value')]: hasValue,
-    [prefix('disabled')]: disabled,
     [prefix('cleanable')]: hasValue && cleanable,
+    [prefix('disabled')]: disabled,
     [prefix('countable')]: countable,
+    [prefix('read-only')]: readOnly,
+    [prefix('plaintext')]: plaintext,
     ...classes
   });
+}
+
+interface PickerClassNameProps {
+  name?: string;
+  classPrefix?: string;
+  className?: string;
+  placement?: TypeAttributes.Placement;
+  appearance?: 'default' | 'subtle';
+  cleanable?: boolean;
+  block?: boolean;
+  disabled?: boolean;
+  countable?: boolean;
+  readOnly?: boolean;
+  plaintext?: boolean;
+  hasValue?: boolean;
+  classes?: any;
+}
+
+/**
+ * The className of the assembled Toggle is on the Picker.
+ */
+export function usePickerClassName(props: PickerClassNameProps): [string, string[]] {
+  const {
+    name,
+    classPrefix,
+    className,
+    placement,
+    appearance,
+    cleanable,
+    block,
+    disabled,
+    countable,
+    readOnly,
+    plaintext,
+    hasValue,
+    ...rest
+  } = props;
+
+  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const classes = merge(
+    className,
+    withClassPrefix(name, appearance, 'toggle-wrapper', {
+      [`placement-${kebabCase(placementPolyfill(placement))}`]: placement,
+      'read-only': readOnly,
+      'has-value': hasValue,
+      cleanable: hasValue && cleanable,
+      block,
+      disabled,
+      countable,
+      plaintext
+    })
+  );
+
+  const usedClassNameProps = Object.keys(omit(props, Object.keys(rest || {})));
+
+  return [classes, usedClassNameProps];
 }
 
 interface EventsProps {
@@ -129,20 +199,23 @@ export function onMenuKeyDown(event: React.KeyboardEvent, events: EventsProps) {
  * @param props
  */
 export const useFocusItemValue = (
-  defaultFocusItemValue: number | string,
-  targets: HTMLElement[] | (() => HTMLElement)[],
-  props: { data: any[]; valueKey: string }
+  defaultFocusItemValue: number | string | readonly string[],
+  target: HTMLElement | (() => HTMLElement),
+  props: {
+    data?: any[];
+    valueKey?: string;
+    callback?: (value: any, evnet: React.KeyboardEvent) => void;
+  }
 ) => {
-  const { data, valueKey } = props;
-  const [toggle, menuWrapper] = targets;
+  const { data, valueKey = 'value', callback } = props;
   const [focusItemValue, setFocusItemValue] = useState<any>(defaultFocusItemValue);
 
   // Get the elements visible in all options.
   const getFocusableMenuItems = () => {
-    if (!menuWrapper) {
+    if (!target) {
       return [];
     }
-    const menu = isFunction(menuWrapper) ? menuWrapper() : menuWrapper;
+    const menu = isFunction(target) ? target() : target;
     const keys = Array.from(menu?.querySelectorAll('[role="listitem"]'))?.map(
       (item: HTMLDivElement) => item?.dataset?.key
     );
@@ -154,31 +227,33 @@ export const useFocusItemValue = (
     return filterNodesOfTree(data, item => keys.some(key => key === item[valueKey]));
   };
 
-  const findNode = focus => {
+  const findNode = callback => {
     const items = getFocusableMenuItems();
     for (let i = 0; i < items.length; i += 1) {
       if (shallowEqual(focusItemValue, items[i][valueKey])) {
-        focus(items, i);
+        callback(items, i);
         return;
       }
     }
-    focus(items, -1);
+    callback(items, -1);
   };
 
-  const focusNextMenuItem = () => {
+  const focusNextMenuItem = (event: React.KeyboardEvent) => {
     findNode((items, index) => {
       const focusItem = items[index + 1];
       if (!isUndefined(focusItem)) {
         setFocusItemValue(focusItem[valueKey]);
+        callback?.(focusItem[valueKey], event);
       }
     });
   };
 
-  const focusPrevMenuItem = () => {
+  const focusPrevMenuItem = (event: React.KeyboardEvent) => {
     findNode((items, index) => {
       const focusItem = items[index - 1];
       if (!isUndefined(focusItem)) {
         setFocusItemValue(focusItem[valueKey]);
+        callback?.(focusItem[valueKey], event);
       }
     });
   };
@@ -190,8 +265,5 @@ export const useFocusItemValue = (
     });
   };
 
-  useEventListener(toggle, 'keydown', handleKeyDown);
-  useEventListener(menuWrapper, 'keydown', handleKeyDown);
-
-  return [focusItemValue, setFocusItemValue];
+  return [focusItemValue, setFocusItemValue, handleKeyDown];
 };

@@ -46,6 +46,9 @@ export default {
     searchPlaceholder: '搜索',
     checkAll: '全部'
   },
+  Input: {
+    emptyPlaintext: '未填写'
+  },
   InputPicker: {
     newItem: '新选项',
     createOption: '新建选项 "{0}"'

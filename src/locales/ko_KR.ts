@@ -49,6 +49,9 @@ export default {
     searchPlaceholder: '검색',
     checkAll: '모두'
   },
+  Input: {
+    emptyPlaintext: '채워지지 않은'
+  },
   InputPicker: {
     newItem: '새 옵션',
     createOption: '+새 옵션 "{0}"'

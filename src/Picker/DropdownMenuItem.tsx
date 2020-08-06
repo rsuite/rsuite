@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import { StandardProps } from '../@types/common';
 
-export interface DropdownMenuItemProps extends StandardProps {
+export interface DropdownMenuItemProps
+  extends StandardProps,
+    Omit<React.HTMLAttributes<HTMLDivElement>, 'onSelect'> {
   active?: boolean;
   disabled?: boolean;
   value?: any;
@@ -11,6 +13,7 @@ export interface DropdownMenuItemProps extends StandardProps {
   title?: string;
   onSelect?: (value: any, event: React.MouseEvent) => void;
   onKeyDown?: (event: React.KeyboardEvent) => void;
+  renderItem?: (value: any) => React.ReactNode;
 }
 
 const DropdownMenuItem = React.forwardRef(
@@ -26,6 +29,7 @@ const DropdownMenuItem = React.forwardRef(
       value,
       onKeyDown,
       onSelect,
+      renderItem,
       ...rest
     } = props;
 
@@ -43,14 +47,21 @@ const DropdownMenuItem = React.forwardRef(
     const classes = withClassPrefix({ active, focus, disabled });
 
     return (
-      <Component role="listitem" {...rest} ref={ref} className={className}>
+      <Component
+        role="listitem"
+        {...rest}
+        ref={ref}
+        className={className}
+        tabIndex={-1}
+        data-key={value}
+      >
         <a
           className={classes}
           tabIndex={-1}
           onKeyDown={disabled ? null : onKeyDown}
           onClick={handleClick}
         >
-          {children}
+          {renderItem ? renderItem(value) : children}
         </a>
       </Component>
     );

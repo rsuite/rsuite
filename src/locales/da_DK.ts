@@ -50,6 +50,9 @@ export default {
     searchPlaceholder: 'Søg',
     checkAll: 'Alle'
   },
+  Input: {
+    emptyPlaintext: 'ubesatte'
+  },
   InputPicker: {
     newItem: 'Ny besked',
     createOption: 'Opret mulighed "{0}"'

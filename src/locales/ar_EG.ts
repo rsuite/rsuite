@@ -46,6 +46,9 @@ export default {
     searchPlaceholder: 'البحث',
     checkAll: 'الجميع'
   },
+  Input: {
+    emptyPlaintext: 'شاغرة'
+  },
   InputPicker: {
     newItem: 'عنصر جديد',
     createOption: 'إنشاء العنصر "{0}"'

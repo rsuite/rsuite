@@ -46,6 +46,9 @@ export default {
     searchPlaceholder: 'Pesquisar',
     checkAll: 'Todos'
   },
+  Input: {
+    emptyPlaintext: 'sin llenar'
+  },
   InputPicker: {
     newItem: 'Novo item',
     createOption: 'Criar opção "{0}"'

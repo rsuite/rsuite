@@ -40,6 +40,9 @@ export default {
     ...Calendar,
     last7Days: 'Последние 7 дней'
   },
+  Input: {
+    emptyPlaintext: 'незаполненной'
+  },
   Picker: {
     noResultsText: 'Результаты не найдены',
     placeholder: 'Выбрать',

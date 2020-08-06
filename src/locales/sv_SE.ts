@@ -50,6 +50,9 @@ export default {
     searchPlaceholder: 'Sök',
     checkAll: 'Alla'
   },
+  Input: {
+    emptyPlaintext: 'Ofylld'
+  },
   InputPicker: {
     newItem: 'Ny inkorg',
     createOption: 'Skapa meddelande "{0}"'

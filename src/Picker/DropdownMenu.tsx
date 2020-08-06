@@ -11,10 +11,13 @@ import shallowEqual from '../utils/shallowEqual';
 import { mergeRefs, useClassNames } from '../utils';
 import DropdownMenuGroup from './DropdownMenuGroup';
 import { KEY_GROUP, KEY_GROUP_TITLE } from '../utils/getDataGroupBy';
+import { StandardProps, ItemDataType } from '../@types/common';
 
-export interface DropdownMenuProps {
+export interface DropdownMenuProps
+  extends StandardProps,
+    Omit<React.HTMLAttributes<HTMLDivElement>, 'onSelect'> {
   classPrefix: string;
-  data?: any[];
+  data?: ItemDataType[];
   group?: boolean;
   disabledItemValues?: any[];
   activeItemValues?: any[];
@@ -31,6 +34,8 @@ export interface DropdownMenuProps {
   virtualized?: boolean;
   // https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
   listProps?: ListProps;
+  /** Custom selected option */
+
   renderMenuItem?: (itemLabel: React.ReactNode, item: any) => React.ReactNode;
   renderMenuGroup?: (title: React.ReactNode, item: any) => React.ReactNode;
   onSelect?: (value: any, item: any, event: React.MouseEvent, checked?: boolean) => void;
