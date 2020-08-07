@@ -82,6 +82,9 @@ export interface PickerBaseProps extends StandardProps, AnimationEventProps {
   /** Picker menu auto width */
   menuAutoWidth?: boolean;
 
+  /** Picker menu max Height */
+  menuMaxHeight?: number;
+
   /** Called when Modal is displayed */
   onOpen?: () => void;
 

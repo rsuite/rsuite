@@ -8,6 +8,9 @@ Used for multiple data selection, support grouping.
 
 ```js
 import { CheckPicker } from 'rsuite';
+
+// or
+import CheckPicker from 'rsuite/lib/CheckPicker';
 ```
 
 ## Examples

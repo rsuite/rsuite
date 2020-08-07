@@ -1,53 +1,59 @@
-import * as React from 'react';
-import _ from 'lodash';
+import React, { useCallback } from 'react';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { prefix, defaultProps, getUnhandledProps } from '../utils';
+import { useClassNames } from '../utils';
+import { StandardProps } from '../@types/common';
 
-export interface SearchBarProps {
-  classPrefix?: string;
+export interface SearchBarProps
+  extends StandardProps,
+    Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   value?: string;
   placeholder?: string;
   className?: string;
-  children?: React.ReactNode;
   onChange?: (value: string, event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
-class SearchBar extends React.Component<SearchBarProps> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    value: PropTypes.string,
-    placeholder: PropTypes.string,
-    className: PropTypes.string,
-    children: PropTypes.node,
-    onChange: PropTypes.func
-  };
-
-  handleChange = (event: React.SyntheticEvent<HTMLElement>) => {
-    this.props.onChange?.(_.get(event, 'target.value'), event);
-  };
-
-  render() {
-    const { value, children, className, classPrefix, placeholder, ...rest } = this.props;
-    const addPrefix = prefix(classPrefix);
-    const unhandled = getUnhandledProps(SearchBar, rest);
-
-    return (
-      <div {...unhandled} className={classNames(classPrefix, className)}>
-        <input
-          className={addPrefix('input')}
-          value={value}
-          onChange={this.handleChange}
-          placeholder={placeholder}
-        />
-        {children}
-      </div>
-    );
-  }
-}
-
-const enhance = defaultProps<SearchBarProps>({
-  classPrefix: 'picker-search-bar'
+const SearchBar = React.forwardRef((props: SearchBarProps, ref: React.Ref<HTMLDivElement>) => {
+  const {
+    as: Component = 'div',
+    classPrefix = 'picker-search-bar',
+    value,
+    children,
+    className,
+    placeholder,
+    onChange,
+    ...rest
+  } = props;
+  const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix());
+  const handleChange = useCallback(
+    (event: React.SyntheticEvent<HTMLElement>) => {
+      onChange?.(get(event, 'target.value'), event);
+    },
+    [onChange]
+  );
+  return (
+    <Component {...rest} ref={ref} className={classes}>
+      <input
+        className={prefix('input')}
+        value={value}
+        onChange={handleChange}
+        placeholder={placeholder}
+      />
+      {children}
+    </Component>
+  );
 });
 
-export default enhance(SearchBar);
+SearchBar.displayName = 'SearchBar';
+SearchBar.propTypes = {
+  as: PropTypes.elementType,
+  classPrefix: PropTypes.string,
+  value: PropTypes.string,
+  placeholder: PropTypes.string,
+  className: PropTypes.string,
+  children: PropTypes.node,
+  onChange: PropTypes.func
+};
+
+export default SearchBar;

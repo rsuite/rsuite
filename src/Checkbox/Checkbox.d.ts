@@ -2,7 +2,9 @@ import * as React from 'react';
 
 import { StandardProps } from '../@types/common';
 
-export interface CheckboxProps<V = any> extends StandardProps {
+export interface CheckboxProps<V = any>
+  extends StandardProps,
+    Omit<React.HTMLAttributes<HTMLInputElement>, 'onChange'> {
   /** HTML title */
   title?: string;
 

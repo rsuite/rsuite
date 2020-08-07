@@ -1,19 +1,19 @@
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import isUndefined from 'lodash/isUndefined';
-import { createChainedFunction, refType, mergeRefs, useClassNames } from '../utils';
+import { createChainedFunction, refType, mergeRefs, useClassNames, useCustom } from '../utils';
 import { FormGroupContext } from '../FormGroup/FormGroup';
 import { InputGroupContext } from '../InputGroup/InputGroup';
 import { StandardProps, TypeAttributes, FormControlBaseProps } from '../@types/common';
 import { KEY_CODE } from '../constants';
 
-export interface InputLocale {
+export interface LocaleType {
   emptyPlaintext: string;
 }
 
 export interface InputProps
   extends StandardProps,
-    Omit<Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>, 'size'>,
+    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'size'>,
     FormControlBaseProps<string | number | ReadonlyArray<string>> {
   /** The HTML input type */
   type?: string;
@@ -31,15 +31,21 @@ export interface InputProps
   onPressEnter?: React.KeyboardEventHandler<HTMLInputElement>;
 
   /** Language configuration */
-  locale?: InputLocale;
+  locale?: LocaleType;
 }
+
+const defaultProps: Partial<InputProps> = {
+  as: 'input',
+  classPrefix: 'input',
+  type: 'type'
+};
 
 const Input = React.forwardRef((props: InputProps, ref: React.Ref<HTMLInputElement>) => {
   const {
     className,
-    classPrefix = 'input',
-    as: Component = 'input',
-    locale = { emptyPlaintext: 'Unfilled' },
+    classPrefix,
+    as: Component,
+    locale: overrideLocale,
     type = 'text',
     disabled,
     value,
@@ -57,6 +63,7 @@ const Input = React.forwardRef((props: InputProps, ref: React.Ref<HTMLInputEleme
     ...rest
   } = props;
 
+  const { locale } = useCustom<LocaleType>('Input', overrideLocale);
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
       if (event.keyCode === KEY_CODE.ENTER) {
@@ -110,6 +117,7 @@ const Input = React.forwardRef((props: InputProps, ref: React.Ref<HTMLInputEleme
 });
 
 Input.displayName = 'Input';
+Input.defaultProps = defaultProps;
 Input.propTypes = {
   type: PropTypes.string,
   as: PropTypes.elementType,

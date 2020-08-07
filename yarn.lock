@@ -1221,7 +1221,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-virtualized@^9.21.8":
+"@types/react-virtualized@^9.21.10":
   version "9.21.10"
   resolved "https://registry.yarnpkg.com/@types/react-virtualized/-/react-virtualized-9.21.10.tgz#cd072dc9c889291ace2c4c9de8e8c050da8738b7"
   integrity sha512-f5Ti3A7gGdLkPPFNHTrvKblpsPNBiQoSorOEOD+JPx72g/Ng2lOt4MYfhvQFQNgyIrAro+Z643jbcKafsMW2ag==
@@ -3752,7 +3752,7 @@ dashdash@^1.12.0:
 
 date-fns-timezone@^0.1.4:
   version "0.1.4"
-  resolved "https://registry.npmjs.org/date-fns-timezone/-/date-fns-timezone-0.1.4.tgz#bc9fac78aae9a7bdb847f3ab4ce6d14f9fb9a55f"
+  resolved "https://registry.yarnpkg.com/date-fns-timezone/-/date-fns-timezone-0.1.4.tgz#bc9fac78aae9a7bdb847f3ab4ce6d14f9fb9a55f"
   integrity sha512-npnZn1eIeHV8A3Hqw86mn6CjH+qMe0TSCs4anpD4Rouf+mE9eIJuaHviIpNmGL9GiDmcUoiaKdkX5ihf+yZQZA==
   dependencies:
     date-fns "^1.29.0"

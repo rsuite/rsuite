@@ -8,11 +8,11 @@ export const pickerPropTypes = {
   classPrefix: PropTypes.string,
   className: PropTypes.string,
   style: PropTypes.object,
-  locale: PropTypes.object,
+  locale: PropTypes.any,
   appearance: PropTypes.oneOf(['default', 'subtle']),
   block: PropTypes.bool,
   containerPadding: PropTypes.number,
-  container: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  container: PropTypes.oneOfType([PropTypes.any, PropTypes.func]),
   disabled: PropTypes.bool,
   toggleAs: PropTypes.elementType,
   menuClassName: PropTypes.string,
@@ -31,9 +31,7 @@ export const pickerPropTypes = {
   positionRef: refType,
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
-  onClean: PropTypes.func,
-  /** @deprecated Use `onClose` instead */
-  onHide: PropTypes.func
+  onClean: PropTypes.func
 };
 
 export const listPickerPropTypes = {

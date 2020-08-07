@@ -49,6 +49,11 @@ describe('picker - DropdownMenuItem', () => {
     ReactTestUtils.Simulate.keyDown(instance.querySelector('a'));
   });
 
+  it('Should have a role', () => {
+    const instance = getDOMNode(<DropdownMenuItem>item</DropdownMenuItem>);
+    assert.equal(instance.getAttribute('role'), 'listitem');
+  });
+
   it('Should have a custom className', () => {
     const instance = getDOMNode(<DropdownMenuItem className="custom" />);
     assert.ok(instance.className.match(/\bcustom\b/));

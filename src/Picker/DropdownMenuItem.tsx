@@ -1,87 +1,86 @@
-import * as React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { prefix, getUnhandledProps, defaultProps } from '../utils';
+import { useClassNames } from '../utils';
+import { StandardProps } from '../@types/common';
 
-export interface DropdownMenuItemProps {
-  classPrefix: string;
-  as?: React.ElementType;
+export interface DropdownMenuItemProps
+  extends StandardProps,
+    Omit<React.HTMLAttributes<HTMLDivElement>, 'onSelect'> {
   active?: boolean;
   disabled?: boolean;
   value?: any;
-  onSelect?: (value: any, event: React.MouseEvent) => void;
-  onKeyDown?: (event: React.KeyboardEvent) => void;
   focus?: boolean;
   title?: string;
-  className?: string;
-  children?: React.ReactNode;
-  getItemData?: () => any;
+  onSelect?: (value: any, event: React.MouseEvent) => void;
+  onKeyDown?: (event: React.KeyboardEvent) => void;
+  renderItem?: (value: any) => React.ReactNode;
 }
 
-class DropdownMenuItem extends React.Component<DropdownMenuItemProps> {
-  static propTypes = {
-    classPrefix: PropTypes.string.isRequired,
-    active: PropTypes.bool,
-    disabled: PropTypes.bool,
-    value: PropTypes.any,
-    onSelect: PropTypes.func,
-    onKeyDown: PropTypes.func,
-    focus: PropTypes.bool,
-    title: PropTypes.string,
-    className: PropTypes.string,
-    children: PropTypes.node,
-    getItemData: PropTypes.func,
-    as: PropTypes.elementType
-  };
-  static defaultProps = {
-    as: 'div'
-  };
-
-  handleClick = (event: React.MouseEvent) => {
-    const { value, disabled, onSelect } = this.props;
-    event.preventDefault();
-    if (!disabled && onSelect) {
-      onSelect(value, event);
-    }
-  };
-
-  render() {
+const DropdownMenuItem = React.forwardRef(
+  (props: DropdownMenuItemProps, ref: React.Ref<HTMLDivElement>) => {
     const {
+      as: Component = 'div',
       active,
-      onKeyDown,
-      disabled,
-      focus,
+      classPrefix = 'dropdown-menu-item',
       children,
       className,
-      classPrefix,
-      as: Component,
+      disabled,
+      focus,
+      value,
+      onKeyDown,
+      onSelect,
+      renderItem,
       ...rest
-    } = this.props;
+    } = props;
 
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, {
-      [addPrefix('active')]: active,
-      [addPrefix('focus')]: focus,
-      [addPrefix('disabled')]: disabled
-    });
+    const handleClick = useCallback(
+      (event: React.MouseEvent) => {
+        event.preventDefault();
+        if (!disabled) {
+          onSelect?.(value, event);
+        }
+      },
+      [onSelect, disabled, value]
+    );
 
-    const unhandled = getUnhandledProps(DropdownMenuItem, rest);
+    const { withClassPrefix } = useClassNames(classPrefix);
+    const classes = withClassPrefix({ active, focus, disabled });
 
     return (
-      <Component {...unhandled} className={className} role="listitem">
+      <Component
+        role="listitem"
+        {...rest}
+        ref={ref}
+        className={className}
+        tabIndex={-1}
+        data-key={value}
+      >
         <a
           className={classes}
           tabIndex={-1}
           onKeyDown={disabled ? null : onKeyDown}
-          onClick={this.handleClick}
+          onClick={handleClick}
         >
-          {children}
+          {renderItem ? renderItem(value) : children}
         </a>
       </Component>
     );
   }
-}
+);
 
-export default defaultProps<DropdownMenuItemProps>({
-  classPrefix: 'dropdown-menu-item'
-})(DropdownMenuItem);
+DropdownMenuItem.displayName = 'DropdownMenuItem';
+DropdownMenuItem.propTypes = {
+  classPrefix: PropTypes.string,
+  active: PropTypes.bool,
+  disabled: PropTypes.bool,
+  value: PropTypes.any,
+  onSelect: PropTypes.func,
+  onKeyDown: PropTypes.func,
+  focus: PropTypes.bool,
+  title: PropTypes.string,
+  className: PropTypes.string,
+  children: PropTypes.node,
+  as: PropTypes.elementType
+};
+
+export default DropdownMenuItem;

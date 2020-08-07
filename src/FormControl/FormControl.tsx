@@ -15,7 +15,7 @@ export type FormControlAccepterProps<ValueType = any> = FormControlBaseProps<Val
 
 export interface FormControlProps<P = any, ValueType = any>
   extends StandardProps,
-    Omit<Omit<React.HTMLAttributes<HTMLFormElement>, 'value'>, 'onChange'> {
+    Omit<React.HTMLAttributes<HTMLFormElement>, 'value' | 'onChange'> {
   /** Proxied components */
   accepter?: React.ElementType<P & FormControlBaseProps<ValueType>>;
 

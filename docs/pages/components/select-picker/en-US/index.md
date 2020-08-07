@@ -4,10 +4,13 @@ For a single data selection, support grouping.
 
 - `<SelectPicker>`
 
-## Usage
+## Import
 
 ```js
 import { SelectPicker } from 'rsuite';
+
+// or
+import SelectPicker from 'rsuite/lib/SelectPicker';
 ```
 
 ## Examples

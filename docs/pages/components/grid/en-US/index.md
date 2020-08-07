@@ -15,10 +15,15 @@ Corresponds to the screen width:
 - md, medium: ≥ `992px`
 - lg, large: ≥ `1200px`
 
-## Usage
+## Import
 
 ```js
 import { Grid, Row, Col } from 'rsuite';
+
+//or
+import Grid from 'rsuite/lib/Grid';
+import Row from 'rsuite/lib/Row';
+import Col from 'rsuite/lib/Col';
 ```
 
 ## Examples
