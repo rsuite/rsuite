@@ -113,13 +113,13 @@ const AutoComplete = React.forwardRef(
     const menuRef = useRef<HTMLDivElement>(null);
 
     // Used to hover the focuse item  when trigger `onKeydown`
-    const [focusItemValue, setFocusItemValue, onKeyDownFocus] = useFocusItemValue(
-      value || defaultValue,
-      () => menuRef.current,
-      { data: datalist, callback: onMenuFocus }
-    );
+    const { focusItemValue, setFocusItemValue, onKeyDown: handleKeyDown } = useFocusItemValue(val, {
+      data: datalist,
+      callback: onMenuFocus,
+      target: () => menuRef.current
+    });
 
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const handleKeyDownEvent = (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (!menuRef.current) {
         return;
       }
@@ -127,7 +127,7 @@ const AutoComplete = React.forwardRef(
         enter: selectOnEnter ? selectFocusMenuItem : undefined,
         esc: handleClose
       });
-      onKeyDownFocus(event);
+      handleKeyDown(event);
       onKeyDown?.(event);
     };
 
@@ -230,7 +230,7 @@ const AutoComplete = React.forwardRef(
           trigger={['click', 'focus']}
           open={open || (focus && hasItems)}
           speaker={
-            <MenuWrapper ref={menuRef} onKeyDown={handleKeyDown}>
+            <MenuWrapper ref={menuRef} onKeyDown={handleKeyDownEvent}>
               <DropdownMenu
                 classPrefix="auto-complete-menu"
                 dropdownMenuItemClassPrefix="auto-complete-item"
@@ -252,7 +252,7 @@ const AutoComplete = React.forwardRef(
             onBlur={handleInputBlur}
             onFocus={handleInputFocus}
             onChange={handleChange}
-            onKeyDown={handleKeyDown}
+            onKeyDown={handleKeyDownEvent}
           />
         </PickerToggleTrigger>
       </div>

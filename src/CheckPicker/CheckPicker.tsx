@@ -23,9 +23,9 @@ import {
   SelectedElement,
   PickerToggleTrigger,
   onMenuKeyDown,
-  shouldDisplay,
   useFocusItemValue,
-  usePickerClassName
+  usePickerClassName,
+  useSearch
 } from '../Picker';
 import { PickerInstance, PickerLocaleType } from '../Picker/types';
 import { pickerToggleTriggerProps } from '../Picker/PickerToggleTrigger';
@@ -117,14 +117,34 @@ const CheckPicker = React.forwardRef((props: CheckPickerProps, ref: React.Ref<Pi
   const val = isUndefined(value) ? valueState : value;
 
   // Used to hover the focuse item  when trigger `onKeydown`
-  const [focusItemValue, setFocusItemValue, onKeyDown] = useFocusItemValue(
-    val?.[0],
-    () => menuRef.current,
-    { data, valueKey }
+  const { focusItemValue, setFocusItemValue, onKeyDown } = useFocusItemValue(val?.[0], {
+    data,
+    valueKey,
+    target: () => menuRef.current
+  });
+
+  const handleSearchCallback = useCallback(
+    (searchKeyword: string, filteredData: ItemDataType[], event: React.SyntheticEvent<any>) => {
+      // The first option after filtering is the focus.
+      setFocusItemValue(filteredData?.[0]?.[valueKey]);
+      onSearch?.(searchKeyword, event);
+    },
+    [setFocusItemValue, onSearch, valueKey]
   );
 
   // Use search keywords to filter options.
-  const [searchKeyword, setSearchKeyword] = useState('');
+  const {
+    searchKeyword,
+    filteredData,
+    setSearchKeyword,
+    handleSearch,
+    checkShouldDisplay
+  } = useSearch({
+    labelKey,
+    data,
+    searchBy,
+    callback: handleSearchCallback
+  });
 
   // Use component active state to support keyboard events.
   const [active, setActive] = useState(false);
@@ -147,23 +167,6 @@ const CheckPicker = React.forwardRef((props: CheckPickerProps, ref: React.Ref<Pi
 
     setStickyItems(nextStickyItems);
   };
-
-  /**
-   * Index of keyword  in `label`
-   * @param {node} label
-   */
-  const checkShouldDisplay = useCallback(
-    (item: ItemDataType, keyword?: string) => {
-      const label = item?.[labelKey];
-      const _keyword = isUndefined(keyword) ? searchKeyword : keyword;
-
-      if (typeof searchBy === 'function') {
-        return searchBy(_keyword, label, item);
-      }
-      return shouldDisplay(label, _keyword);
-    },
-    [searchBy, labelKey, searchKeyword]
-  );
 
   const handleClose = useCallback(() => {
     triggerRef.current?.hide?.();
@@ -198,18 +201,6 @@ const CheckPicker = React.forwardRef((props: CheckPickerProps, ref: React.Ref<Pi
       handleChangeValue([], event);
     },
     [disabled, cleanable, handleChangeValue]
-  );
-
-  const handleSearch = useCallback(
-    (searchKeyword: string, event: React.SyntheticEvent<HTMLElement>) => {
-      const filteredData = filterNodesOfTree(data, item => checkShouldDisplay(item, searchKeyword));
-      setSearchKeyword(searchKeyword);
-
-      // The first option after filtering is the focus.
-      setFocusItemValue(filteredData?.[0]?.[valueKey]);
-      onSearch?.(searchKeyword, event);
-    },
-    [data, valueKey, onSearch, checkShouldDisplay, setFocusItemValue]
   );
 
   const selectFocusMenuItem = (event: React.KeyboardEvent<HTMLElement>) => {
@@ -283,7 +274,7 @@ const CheckPicker = React.forwardRef((props: CheckPickerProps, ref: React.Ref<Pi
     setFocusItemValue(null);
     setActive(false);
     onClose?.();
-  }, [onClose, setFocusItemValue]);
+  }, [onClose, setFocusItemValue, setSearchKeyword]);
 
   const handleEntered = useCallback(() => {
     setActive(true);
@@ -333,27 +324,25 @@ const CheckPicker = React.forwardRef((props: CheckPickerProps, ref: React.Ref<Pi
 
   const renderDropdownMenu = () => {
     const classes = merge(prefix('check-menu'), menuClassName);
-    let filteredData = [];
+    let items = filteredData;
     let filteredStickyItems = [];
 
     if (stickyItems) {
       filteredStickyItems = filterNodesOfTree(stickyItems, item => checkShouldDisplay(item));
-      filteredData = filterNodesOfTree(data, item => {
+      items = filterNodesOfTree(data, item => {
         return checkShouldDisplay(item) && !stickyItems.some(v => v[valueKey] === item[valueKey]);
       });
-    } else {
-      filteredData = filterNodesOfTree(data, item => checkShouldDisplay(item));
     }
 
     // Create a tree structure data when set `groupBy`
     if (groupBy) {
-      filteredData = getDataGroupBy(filteredData, groupBy, sort);
+      items = getDataGroupBy(items, groupBy, sort);
     } else if (typeof sort === 'function') {
-      filteredData = filteredData.sort(sort(false));
+      items = items.sort(sort(false));
     }
 
     const menu =
-      filteredData.length || filteredStickyItems.length ? (
+      items.length || filteredStickyItems.length ? (
         <DropdownMenu
           listProps={listProps}
           disabledItemValues={disabledItemValues}
@@ -366,7 +355,7 @@ const CheckPicker = React.forwardRef((props: CheckPickerProps, ref: React.Ref<Pi
           dropdownMenuItemAs={DropdownMenuItem}
           activeItemValues={val}
           focusItemValue={focusItemValue}
-          data={[...filteredStickyItems, ...filteredData]}
+          data={[...filteredStickyItems, ...items]}
           group={!isUndefined(groupBy)}
           onSelect={handleItemSelect}
           onGroupTitleClick={onGroupTitleClick}

@@ -290,6 +290,7 @@ describe('SelectPicker', () => {
       <Dropdown defaultOpen data={data} searchBy={(a, b, c) => c.value === 'Louisa'} />
     );
     const list = instance.menu.querySelectorAll('a');
+
     assert.equal(list.length, 1);
     assert.ok(list[0].innerText, 'Louisa');
   });

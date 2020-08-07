@@ -6,7 +6,7 @@ import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import omit from 'lodash/omit';
 import shallowEqual from '../utils/shallowEqual';
-import { filterNodesOfTree, findNodeOfTree } from '../utils/treeUtils';
+import { findNodeOfTree } from '../utils/treeUtils';
 import { createChainedFunction, getDataGroupBy, useCustom, useClassNames } from '../utils';
 import {
   DropdownMenu,
@@ -16,9 +16,9 @@ import {
   onMenuKeyDown,
   MenuWrapper,
   SearchBar,
-  shouldDisplay,
   useFocusItemValue,
-  usePickerClassName
+  usePickerClassName,
+  useSearch
 } from '../Picker';
 import { PickerInstance, PickerLocaleType } from '../Picker/types';
 import { pickerToggleTriggerProps } from '../Picker/PickerToggleTrigger';
@@ -31,11 +31,23 @@ export interface SelectProps<ValueType = any> {
   /** Set group condition key in data */
   groupBy?: string;
 
-  /** Sort options */
-  sort?: (isGroup: boolean) => (a: any, b: any) => number;
-
   /** Whether dispaly search input box */
   searchable?: boolean;
+
+  /** Whether using virtualized list */
+  virtualized?: boolean;
+
+  /**
+   * List-related properties in `react-virtualized`
+   * https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
+   */
+  listProps?: ListProps;
+
+  /** Custom search rules. */
+  searchBy?: (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean;
+
+  /** Sort options */
+  sort?: (isGroup: boolean) => (a: any, b: any) => number;
 
   /** Customizing the Rendering Menu list */
   renderMenu?: (menu: React.ReactNode) => React.ReactNode;
@@ -64,18 +76,6 @@ export interface SelectProps<ValueType = any> {
 
   /** Called when clean */
   onClean?: (event: React.SyntheticEvent<any>) => void;
-
-  /** Whether using virtualized list */
-  virtualized?: boolean;
-
-  /**
-   * List-related properties in `react-virtualized`
-   * https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
-   */
-  listProps?: ListProps;
-
-  /** Custom search rules. */
-  searchBy?: (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean;
 }
 
 export interface SelectPickerProps<T = number | string>
@@ -152,34 +152,30 @@ const SelectPicker = React.forwardRef(
     const val = isUndefined(value) ? valueState : value;
 
     // Used to hover the focuse item  when trigger `onKeydown`
-    const [focusItemValue, setFocusItemValue, onKeyDown] = useFocusItemValue(
-      val,
-      () => menuRef.current,
-      { data, valueKey }
-    );
+    const { focusItemValue, setFocusItemValue, onKeyDown } = useFocusItemValue(val, {
+      data,
+      valueKey,
+      target: () => menuRef.current
+    });
 
     // Use search keywords to filter options.
-    const [searchKeyword, setSearchKeyword] = useState('');
+    const { searchKeyword, filteredData, setSearchKeyword, handleSearch } = useSearch({
+      labelKey,
+      data,
+      searchBy,
+      callback: (
+        searchKeyword: string,
+        filteredData: ItemDataType[],
+        event: React.SyntheticEvent<any>
+      ) => {
+        // The first option after filtering is the focus.
+        setFocusItemValue(filteredData?.[0]?.[valueKey]);
+        onSearch?.(searchKeyword, event);
+      }
+    });
 
     // Use component active state to support keyboard events.
     const [active, setActive] = useState(false);
-
-    /**
-     * Index of keyword  in `label`
-     * @param {node} label
-     */
-    const checkShouldDisplay = useCallback(
-      (item: ItemDataType, keyword?: string) => {
-        const label = item?.[labelKey];
-        const _keyword = isUndefined(keyword) ? searchKeyword : keyword;
-
-        if (typeof searchBy === 'function') {
-          return searchBy(_keyword, label, item);
-        }
-        return shouldDisplay(label, _keyword);
-      },
-      [searchBy, labelKey, searchKeyword]
-    );
 
     const handleKeyDown = (event: React.KeyboardEvent) => {
       // enter
@@ -254,24 +250,16 @@ const SelectPicker = React.forwardRef(
       [onChange]
     );
 
-    const handleSearch = (searchKeyword: string, event: React.SyntheticEvent<any>) => {
-      const filteredData = filterNodesOfTree(data, item => checkShouldDisplay(item, searchKeyword));
-
-      // The first option after filtering is the focus.
-      setFocusItemValue(filteredData?.[0]?.[valueKey]);
-      setSearchKeyword(searchKeyword);
-      onSearch?.(searchKeyword, event);
-    };
-
     const handleClean = useCallback(
       (event: React.SyntheticEvent<any>) => {
         if (disabled || !cleanable) {
           return;
         }
         setValue(null);
+        setFocusItemValue(val);
         handleChangeValue(null, event);
       },
-      [disabled, cleanable, handleChangeValue]
+      [disabled, cleanable, handleChangeValue, setFocusItemValue]
     );
 
     const handleExited = () => {
@@ -321,16 +309,16 @@ const SelectPicker = React.forwardRef(
 
     const renderDropdownMenu = () => {
       const classes = merge(prefix('check-menu'), menuClassName);
-      let filteredData = filterNodesOfTree(data, item => checkShouldDisplay(item));
+      let items = filteredData;
 
       // Create a tree structure data when set `groupBy`
       if (groupBy) {
-        filteredData = getDataGroupBy(filteredData, groupBy, sort);
+        items = getDataGroupBy(items, groupBy, sort);
       } else if (typeof sort === 'function') {
-        filteredData = filteredData.sort(sort(false));
+        items = items.sort(sort(false));
       }
 
-      const menu = filteredData.length ? (
+      const menu = items.length ? (
         <DropdownMenu
           listProps={listProps}
           disabledItemValues={disabledItemValues}
@@ -344,7 +332,7 @@ const SelectPicker = React.forwardRef(
           dropdownMenuItemAs={DropdownMenuItem}
           activeItemValues={[val]}
           focusItemValue={focusItemValue}
-          data={filteredData}
+          data={items}
           group={!isUndefined(groupBy)}
           onSelect={handleItemSelect}
           onGroupTitleClick={onGroupTitleClick}

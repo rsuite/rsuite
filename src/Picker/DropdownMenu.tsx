@@ -32,10 +32,11 @@ export interface DropdownMenuProps
   rowHeight?: number;
   rowGroupHeight?: number;
   virtualized?: boolean;
+
   // https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
   listProps?: ListProps;
-  /** Custom selected option */
 
+  /** Custom selected option */
   renderMenuItem?: (itemLabel: React.ReactNode, item: any) => React.ReactNode;
   renderMenuGroup?: (title: React.ReactNode, item: any) => React.ReactNode;
   onSelect?: (value: any, item: any, event: React.MouseEvent, checked?: boolean) => void;
@@ -65,7 +66,7 @@ const DropdownMenu = React.forwardRef(
       onGroupTitleClick,
       onSelect,
       rowHeight = 36,
-      rowGroupHeight = 40,
+      rowGroupHeight = 48,
       ...rest
     } = props;
 

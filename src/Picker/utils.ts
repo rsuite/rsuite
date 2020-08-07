@@ -5,13 +5,14 @@ import trim from 'lodash/trim';
 import isFunction from 'lodash/isFunction';
 import isUndefined from 'lodash/isUndefined';
 import omit from 'lodash/omit';
+import find from 'lodash/find';
 import { findNodeOfTree, filterNodesOfTree } from '../utils/treeUtils';
 import placementPolyfill from '../utils/placementPolyfill';
 import reactToString from '../utils/reactToString';
 import shallowEqual from '../utils/shallowEqual';
 import useClassNames from '../utils/useClassNames';
 import { KEY_CODE } from '../constants';
-import { TypeAttributes } from '../@types/common';
+import { TypeAttributes, ItemDataType } from '../@types/common';
 
 interface NodeKeys {
   valueKey: string;
@@ -192,22 +193,23 @@ export function onMenuKeyDown(event: React.KeyboardEvent, events: EventsProps) {
   }
 }
 
+interface FocusItemValueProps {
+  target: HTMLElement | (() => HTMLElement);
+  data?: any[];
+  valueKey?: string;
+  callback?: (value: any, evnet: React.KeyboardEvent) => void;
+}
+
 /**
  * A hook that manages the focus state of the option.
  * @param defaultFocusItemValue
- * @param targets
  * @param props
  */
 export const useFocusItemValue = (
   defaultFocusItemValue: number | string | readonly string[],
-  target: HTMLElement | (() => HTMLElement),
-  props: {
-    data?: any[];
-    valueKey?: string;
-    callback?: (value: any, evnet: React.KeyboardEvent) => void;
-  }
+  props: FocusItemValueProps
 ) => {
-  const { data, valueKey = 'value', callback } = props;
+  const { data, valueKey = 'value', target, callback } = props;
   const [focusItemValue, setFocusItemValue] = useState<any>(defaultFocusItemValue);
 
   // Get the elements visible in all options.
@@ -216,7 +218,7 @@ export const useFocusItemValue = (
       return [];
     }
     const menu = isFunction(target) ? target() : target;
-    const keys = Array.from(menu?.querySelectorAll('[role="listitem"]'))?.map(
+    const keys = Array.from(menu?.querySelectorAll('[data-key]'))?.map(
       (item: HTMLDivElement) => item?.dataset?.key
     );
 
@@ -224,7 +226,8 @@ export const useFocusItemValue = (
       return [];
     }
 
-    return filterNodesOfTree(data, item => keys.some(key => key === item[valueKey]));
+    // It is necessary to traverse the keys instead of data here to preserve the order of the array.
+    return keys.map(key => find(data, [valueKey, key]));
   };
 
   const findNode = callback => {
@@ -265,5 +268,55 @@ export const useFocusItemValue = (
     });
   };
 
-  return [focusItemValue, setFocusItemValue, handleKeyDown];
+  return { focusItemValue, setFocusItemValue, onKeyDown: handleKeyDown };
 };
+
+interface SearchProps {
+  labelKey: string;
+  data: ItemDataType[];
+  searchBy: (keyword, label, item) => boolean;
+  callback?: (keyword: string, data: ItemDataType[], event: React.SyntheticEvent<any>) => void;
+}
+
+/**
+ * A hook that handles search filter options
+ * @param props
+ */
+export function useSearch(props: SearchProps) {
+  const { labelKey, data, searchBy, callback } = props;
+
+  /**
+   * Index of keyword  in `label`
+   * @param {node} label
+   */
+  const checkShouldDisplay = (item: ItemDataType, keyword?: string) => {
+    const label = item?.[labelKey];
+    const _keyword = isUndefined(keyword) ? searchKeyword : keyword;
+
+    if (typeof searchBy === 'function') {
+      return searchBy(_keyword, label, item);
+    }
+    return shouldDisplay(label, _keyword);
+  };
+
+  // Use search keywords to filter options.
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [filteredData, setFilteredData] = useState(
+    filterNodesOfTree(data, item => checkShouldDisplay(item))
+  );
+
+  const handleSearch = (searchKeyword: string, event: React.SyntheticEvent<any>) => {
+    const filteredData = filterNodesOfTree(data, item => checkShouldDisplay(item, searchKeyword));
+    setFilteredData(filteredData);
+    setSearchKeyword(searchKeyword);
+    callback?.(searchKeyword, filteredData, event);
+  };
+
+  return {
+    searchKeyword,
+    filteredData,
+    setSearchKeyword,
+    checkShouldDisplay,
+    handleSearch
+  };
+}
