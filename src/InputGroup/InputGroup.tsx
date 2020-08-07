@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import InputGroupAddon from './InputGroupAddon';
 import InputGroupButton from './InputGroupButton';
 import { createContext, useClassNames } from '../utils';
-import { StandardProps, TypeAttributes } from '../@types/common';
+import { StandardProps, TypeAttributes, RefForwardingComponent } from '../@types/common';
 
 export const InputGroupContext = createContext(null);
 
-export interface InputGroupProps extends StandardProps {
+export interface InputGroupProps extends StandardProps, React.HTMLAttributes<HTMLDivElement> {
   /** Sets the composition content internally */
   inside?: boolean;
 
@@ -22,14 +22,15 @@ export interface InputGroupProps extends StandardProps {
   size?: TypeAttributes.Size;
 }
 
-export interface InputGroupInterface extends React.FunctionComponent<InputGroupProps> {
+export interface InputGroupComponent extends RefForwardingComponent<InputGroupProps> {
   Addon?: typeof InputGroupAddon;
   Button?: typeof InputGroupButton;
 }
 
-const InputGroup: InputGroupInterface = React.forwardRef(
+const InputGroup: InputGroupComponent = React.forwardRef(
   (props: InputGroupProps, ref: React.Ref<HTMLDivElement>) => {
     const {
+      as: Component = 'div',
       classPrefix = 'input-group',
       className,
       disabled,
@@ -67,9 +68,9 @@ const InputGroup: InputGroupInterface = React.forwardRef(
 
     return (
       <InputGroupContext.Provider value={contextValue}>
-        <div {...rest} ref={ref} className={classes}>
+        <Component {...rest} ref={ref} className={classes}>
           {disabled ? disabledChildren() : children}
-        </div>
+        </Component>
       </InputGroupContext.Provider>
     );
   }
