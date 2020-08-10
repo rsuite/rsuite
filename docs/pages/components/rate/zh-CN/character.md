@@ -17,7 +17,7 @@
  */
 const App = () => {
   const [value, setValue] = React.useState(2.5);
-  const onChnage = value => {
+  const handleChange = value => {
     setValue(value);
   };
   return (
@@ -28,17 +28,17 @@ const App = () => {
           value={value}
           character={<Icon icon="heart" />}
           color="red"
-          onChange={onChnage}
+          onChange={handleChange}
         />
       </div>
       <div>
-        <Rate allowHalf value={value} character="鼎" color="blue" onChange={onChnage} />
+        <Rate allowHalf value={value} character="鼎" color="blue" onChange={handleChange} />
       </div>
       <div>
-        <Rate allowHalf value={value} character="A" onChange={onChnage} />
+        <Rate allowHalf value={value} character="A" onChange={handleChange} />
       </div>
       <div>
-        <Rate allowHalf value={value} character="👍" onChange={onChnage} />
+        <Rate allowHalf value={value} character="👍" onChange={handleChange} />
       </div>
       <div>
         <Rate
@@ -46,7 +46,7 @@ const App = () => {
           value={value}
           vertical
           character={<Icon className="fill-color" icon={SvgIcons.Dark} />}
-          onChange={onChnage}
+          onChange={handleChange}
         />
       </div>
     </div>
