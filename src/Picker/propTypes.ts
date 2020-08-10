@@ -1,20 +1,20 @@
 import PropTypes from 'prop-types';
 import { PLACEMENT } from '../constants';
 import { refType } from '../utils';
-import { animationPropTypes } from '../Animation/propTypes';
+import { getAnimationPropTypes } from '../Animation/utils';
 
 export const pickerPropTypes = {
-  ...animationPropTypes,
+  ...getAnimationPropTypes(),
   classPrefix: PropTypes.string,
   className: PropTypes.string,
   style: PropTypes.object,
-  locale: PropTypes.object,
+  locale: PropTypes.any,
   appearance: PropTypes.oneOf(['default', 'subtle']),
   block: PropTypes.bool,
   containerPadding: PropTypes.number,
-  container: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  container: PropTypes.oneOfType([PropTypes.any, PropTypes.func]),
   disabled: PropTypes.bool,
-  toggleComponentClass: PropTypes.elementType,
+  toggleAs: PropTypes.elementType,
   menuClassName: PropTypes.string,
   menuStyle: PropTypes.object,
   placeholder: PropTypes.node,
@@ -31,9 +31,7 @@ export const pickerPropTypes = {
   positionRef: refType,
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
-  onClean: PropTypes.func,
-  /** @deprecated Use `onClose` instead */
-  onHide: PropTypes.func
+  onClean: PropTypes.func
 };
 
 export const listPickerPropTypes = {

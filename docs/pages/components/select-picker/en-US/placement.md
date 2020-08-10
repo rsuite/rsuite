@@ -63,7 +63,6 @@ const instance = (
     <hr />
     <CustomSelectPicker placement="autoVerticalStart" />{' '}
     <CustomSelectPicker placement="autoVerticalEnd" />
-    
     <hr />
     <CustomSelectPicker placement="autoHorizontalStart" />{' '}
     <CustomSelectPicker placement="autoHorizontalEnd" />

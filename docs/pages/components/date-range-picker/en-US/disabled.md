@@ -43,8 +43,8 @@ const Demo = props => (
 
     <hr />
     <p>
-      Combination: Allow maximum selection for 7 days, while disabling dates
-      before today, other dates are disabled
+      Combination: Allow maximum selection for 7 days, while disabling dates before today, other
+      dates are disabled
     </p>
     <DateRangePicker disabledDate={combine(allowedMaxDays(7), beforeToday())} />
   </div>
@@ -73,9 +73,7 @@ import { DateRangePicker } from 'rsuite';
 
 const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 
-ReactDOM.render(
-  <DateRangePicker disabledDate={combine(allowedMaxDays(7), beforeToday())} />
-);
+ReactDOM.render(<DateRangePicker disabledDate={combine(allowedMaxDays(7), beforeToday())} />);
 ```
 
 **allowedMaxDays**

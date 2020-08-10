@@ -125,7 +125,7 @@ describe('DateRangePicker', () => {
   });
 
   it('Should output a button', () => {
-    const instance = getInstance(<DateRangePicker toggleComponentClass="button" />);
+    const instance = getInstance(<DateRangePicker toggleAs="button" />);
     assert.ok(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'button'));
   });
 

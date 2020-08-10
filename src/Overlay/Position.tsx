@@ -171,7 +171,6 @@ class Position extends React.Component<PositionProps, PositionState> {
       positionLeft,
       positionTop,
       className: classNames(className, positionClassName, child.props.className),
-      htmlElementRef: this.childRef,
       style: {
         ...child.props.style,
         left: positionLeft,

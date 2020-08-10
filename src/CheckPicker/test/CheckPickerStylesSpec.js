@@ -27,7 +27,7 @@ describe('CheckPicker styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<CheckPicker data={data} ref={instanceRef} />, createTestContainer());
-    const toggleDom = getDOMNode(instanceRef.current).querySelector('.rs-picker-toggle');
+    const toggleDom = instanceRef.current.root.querySelector('.rs-picker-toggle');
     toggleDom.click();
     const menuItemLabel = document.body.querySelector(
       '.rs-picker-check-menu-items .rs-checkbox-checker label'

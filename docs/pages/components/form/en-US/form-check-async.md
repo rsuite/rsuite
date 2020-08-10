@@ -2,7 +2,7 @@
 
 Under certain conditions, we need to perform asynchronous verification on the data, such as verifying whether the username is duplicated. The following example will illustrate the processing of asynchronous verification.
 
-- Set the `checkAsync` property on `<FormControl>` that requires asynchronous validation.
+- Set the `checkAsync` property on `<Form.Control>` that requires asynchronous validation.
 - The validation rules for asynchronous validation add an object with a return value of Promise via the `addRule` method of `schema`.
 - The check can be triggered manually by calling `checkAsync` and `checkForFieldAsync` of `<Form>`.
 
@@ -67,10 +67,10 @@ class CheckForm extends React.Component {
           formValue={formValue}
           model={model}
         >
-          <FormGroup>
-            <ControlLabel>Username </ControlLabel>
-            <FormControl checkAsync name="name" />
-          </FormGroup>
+          <Form.Group>
+            <Form.ControlLabel>Username </Form.ControlLabel>
+            <Form.Control checkAsync name="name" />
+          </Form.Group>
 
           <ButtonToolbar>
             <Button appearance="primary" onClick={this.handleSubmit}>

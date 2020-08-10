@@ -38,33 +38,25 @@ class ModalDemo extends React.Component {
             <Modal.Title>New User</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form
-              fluid
-              onChange={this.handleChange}
-              formValue={this.state.formValue}
-            >
-              <FormGroup>
-                <ControlLabel>Username</ControlLabel>
-                <FormControl name="name" />
-                <HelpBlock>Required</HelpBlock>
-              </FormGroup>
-              <FormGroup>
-                <ControlLabel>Email</ControlLabel>
-                <FormControl name="email" type="email" />
-                <HelpBlock>Required</HelpBlock>
-              </FormGroup>
-              <FormGroup>
-                <ControlLabel>Password</ControlLabel>
-                <FormControl name="password" type="password" />
-              </FormGroup>
-              <FormGroup>
-                <ControlLabel>Textarea</ControlLabel>
-                <FormControl
-                  rows={5}
-                  name="textarea"
-                  componentClass="textarea"
-                />
-              </FormGroup>
+            <Form fluid onChange={this.handleChange} formValue={this.state.formValue}>
+              <Form.Group>
+                <Form.ControlLabel>Username</Form.ControlLabel>
+                <Form.Control name="name" />
+                <Form.HelpText>Required</Form.HelpText>
+              </Form.Group>
+              <Form.Group>
+                <Form.ControlLabel>Email</Form.ControlLabel>
+                <Form.Control name="email" type="email" />
+                <Form.HelpText>Required</Form.HelpText>
+              </Form.Group>
+              <Form.Group>
+                <Form.ControlLabel>Password</Form.ControlLabel>
+                <Form.Control name="password" type="password" />
+              </Form.Group>
+              <Form.Group>
+                <Form.ControlLabel>Textarea</Form.ControlLabel>
+                <Form.Control rows={5} name="textarea" as="textarea" />
+              </Form.Group>
             </Form>
           </Modal.Body>
           <Modal.Footer>

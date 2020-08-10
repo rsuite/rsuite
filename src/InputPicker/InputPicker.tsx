@@ -579,7 +579,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
         {...menuProps}
         classPrefix={menuClassPrefix}
         dropdownMenuItemClassPrefix={multi ? undefined : `${menuClassPrefix}-item`}
-        dropdownMenuItemComponentClass={multi ? DropdownMenuCheckItem : DropdownMenuItem}
+        dropdownMenuItemAs={multi ? DropdownMenuCheckItem : DropdownMenuItem}
         ref={this.menuContainerRef}
         activeItemValues={multi ? value : [value]}
         focusItemValue={focusItemValue}
@@ -669,12 +669,12 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     const props: any = {
       onBlur,
       onFocus,
-      componentClass: 'input',
+      as: 'input',
       inputRef: this.inputRef
     };
 
     if (multi) {
-      props.componentClass = InputAutosize;
+      props.as = InputAutosize;
       // 52 = 55 (right padding)  - 2 (border) - 6 (left padding)
       props.inputStyle = { maxWidth: this.state.maxWidth - 63 };
     }
@@ -693,7 +693,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       disabled,
       cleanable,
       locale,
-      toggleComponentClass,
+      toggleAs,
       style,
       onEnter,
       onEntered,
@@ -752,7 +752,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
             {...unhandled}
             tabIndex={null}
             ref={this.toggleRef}
-            componentClass={toggleComponentClass}
+            as={toggleAs}
             onClean={this.handleClean}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}

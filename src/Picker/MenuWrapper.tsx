@@ -1,9 +1,7 @@
-import * as React from 'react';
-import classNames from 'classnames';
-import _ from 'lodash';
+import React, { useRef, useCallback, useEffect } from 'react';
+import omit from 'lodash/omit';
 import { addStyle, getWidth } from 'dom-lib';
-import { defaultProps } from '../utils';
-import bindElementResize, { unbind as unbindElementResize } from 'element-resize-event';
+import { useElementResize, useClassNames } from '../utils';
 import getDOMNode from '../utils/getDOMNode';
 import mergeRefs from '../utils/mergeRefs';
 import { StandardProps } from '../@types/common';
@@ -40,60 +38,48 @@ export interface MenuWrapperProps extends StandardProps {
   onKeyDown?: (event: React.KeyboardEvent) => void;
 }
 
-class MenuWrapper extends React.Component<MenuWrapperProps> {
-  menuElementRef: React.RefObject<HTMLDivElement>;
+const MenuWrapper = React.forwardRef((props: MenuWrapperProps, ref: React.Ref<HTMLDivElement>) => {
+  const {
+    as: Component = 'div',
+    classPrefix = 'picker-menu',
+    className,
+    placement,
+    getPositionInstance,
+    getToggleInstance,
+    ...rest
+  } = props;
 
-  constructor(props: MenuWrapperProps) {
-    super(props);
-    this.menuElementRef = React.createRef();
-  }
-
-  componentDidMount() {
-    const { autoWidth } = this.props;
-    if (resizePlacement.includes(this.props.placement)) {
-      bindElementResize(this.menuElementRef.current, this.handleResize);
-    }
-    if (autoWidth) {
-      this.updateMenuStyle();
-    }
-  }
-  componentWillUnmount() {
-    if (this.menuElementRef.current) {
-      unbindElementResize(this.menuElementRef.current);
-    }
-  }
-  updateMenuStyle() {
-    const { getToggleInstance } = this.props;
-
-    if (this.menuElementRef.current && getToggleInstance) {
-      const instance = getToggleInstance();
-      if (instance?.toggleRef?.current) {
-        const width = getWidth(getDOMNode(instance.toggleRef.current));
-        addStyle(this.menuElementRef.current, 'min-width', `${width}px`);
-      }
-    }
-  }
-  handleResize = () => {
-    const { getPositionInstance } = this.props;
-    const instance = getPositionInstance ? getPositionInstance() : null;
-    if (instance) {
+  const menuElementRef = useRef();
+  const handleResize = useCallback(() => {
+    const instance = getPositionInstance?.();
+    if (instance && resizePlacement.includes(placement)) {
       instance.updatePosition(true);
     }
-  };
-  render() {
-    const { className, classPrefix, htmlElementRef, ...rest } = this.props;
-    return (
-      <div
-        {..._.omit(rest, omitProps)}
-        ref={mergeRefs(this.menuElementRef, htmlElementRef)}
-        className={classNames(classPrefix, className)}
-      />
-    );
-  }
-}
+  }, [getPositionInstance, placement]);
 
-const enhance = defaultProps<MenuWrapperProps>({
-  classPrefix: 'picker-menu'
+  useElementResize(() => menuElementRef.current, handleResize);
+  useEffect(() => {
+    const instance = getToggleInstance?.();
+    if (instance?.toggleRef?.current) {
+      // Get the width value of the button,
+      // and then set it to the menu to make their width consistent.
+      const width = getWidth(getDOMNode(instance.toggleRef.current));
+      addStyle(menuElementRef.current, 'min-width', `${width}px`);
+    }
+  }, [getToggleInstance, menuElementRef]);
+
+  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix());
+
+  return (
+    <Component
+      {...omit(rest, omitProps)}
+      ref={mergeRefs(menuElementRef, ref)}
+      className={classes}
+    />
+  );
 });
 
-export default enhance(MenuWrapper);
+MenuWrapper.displayName = 'MenuWrapper';
+
+export default MenuWrapper;

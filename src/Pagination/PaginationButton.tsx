@@ -17,7 +17,7 @@ class PaginationButton extends React.Component<PaginationButtonProps> {
     disabled: PropTypes.bool,
     active: PropTypes.bool,
     className: PropTypes.string,
-    componentClass: PropTypes.elementType,
+    as: PropTypes.elementType,
     children: PropTypes.node,
     style: PropTypes.object,
     renderItem: PropTypes.func
@@ -39,7 +39,7 @@ class PaginationButton extends React.Component<PaginationButtonProps> {
       className,
       classPrefix,
       style,
-      componentClass: Component,
+      as: Component,
       children,
       renderItem,
       ...rest
@@ -79,5 +79,5 @@ class PaginationButton extends React.Component<PaginationButtonProps> {
 
 export default defaultProps<PaginationButtonProps>({
   classPrefix: 'pagination-btn',
-  componentClass: SafeAnchor
+  as: SafeAnchor
 })(PaginationButton);

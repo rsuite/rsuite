@@ -34,7 +34,7 @@ class DropdownMenuItem extends React.Component<DropdownMenuItemProps, DropdownMe
     children: PropTypes.node,
     classPrefix: PropTypes.string,
     tabIndex: PropTypes.number,
-    componentClass: PropTypes.elementType,
+    as: PropTypes.elementType,
     renderItem: PropTypes.func
   };
   static defaultProps = {
@@ -98,7 +98,7 @@ class DropdownMenuItem extends React.Component<DropdownMenuItemProps, DropdownMe
       icon,
       trigger,
       expanded,
-      componentClass: Component,
+      as: Component,
       renderItem,
       ...rest
     } = this.props;
@@ -169,5 +169,5 @@ class DropdownMenuItem extends React.Component<DropdownMenuItemProps, DropdownMe
 
 export default defaultProps<DropdownMenuItemProps>({
   classPrefix: 'dropdown-item',
-  componentClass: SafeAnchor
+  as: SafeAnchor
 })(DropdownMenuItem);

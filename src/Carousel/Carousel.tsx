@@ -14,7 +14,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
   static propTypes = {
     className: PropTypes.string,
     classPrefix: PropTypes.string,
-    componentClass: PropTypes.elementType,
+    as: PropTypes.elementType,
     autoplay: PropTypes.bool,
     autoplayInterval: PropTypes.number,
     placement: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
@@ -85,7 +85,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
 
   render() {
     const {
-      componentClass: Component,
+      as: Component,
       children,
       classPrefix,
       className,
@@ -189,5 +189,5 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
 
 export default defaultProps<CarouselProps>({
   classPrefix: 'carousel',
-  componentClass: 'div'
+  as: 'div'
 })(Carousel);

@@ -52,8 +52,8 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
     tabIndex: PropTypes.number,
     open: PropTypes.bool,
     eventKey: PropTypes.any,
-    componentClass: PropTypes.elementType,
-    toggleComponentClass: PropTypes.elementType,
+    as: PropTypes.elementType,
+    toggleAs: PropTypes.elementType,
     noCaret: PropTypes.bool,
     showHeader: PropTypes.bool,
     style: PropTypes.object,
@@ -152,8 +152,8 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
       onMouseLeave,
       onContextMenu,
       eventKey,
-      componentClass: Component,
-      toggleComponentClass,
+      as: Component,
+      toggleAs,
       noCaret,
       style,
       showHeader,
@@ -227,7 +227,7 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
         className={toggleClassName}
         renderTitle={renderTitle}
         icon={icon}
-        componentClass={toggleComponentClass}
+        as={toggleAs}
       >
         {title}
       </DropdownToggle>
@@ -251,7 +251,7 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
 }
 
 const EnhancedDropdown = defaultProps({
-  componentClass: 'div',
+  as: 'div',
   classPrefix: 'dropdown'
 })(Dropdown);
 

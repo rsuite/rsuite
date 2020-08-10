@@ -1,9 +1,9 @@
 ### 数据模型
 
-表单校验需要用到 `<Form>`, `<FormControl>` 组件， 和 `Schema.Model` 。
+表单校验需要用到 `<Form>`, `<Form.Control>` 组件， 和 `Schema.Model` 。
 
 - `<Form>` 定义一个表单，可以给表单设置 `value` 和 `model`，`model` 是由 `Schema.Model` 创建的数据模型。
-- `<FormControl>` 定义一个 Filed，通过 `name` 属性和 `Schema.Model` 对象的 `key` 对应, 详细参考： 自定义表单组件。
+- `<Form.Control>` 定义一个 Filed，通过 `name` 属性和 `Schema.Model` 对象的 `key` 对应, 详细参考： 自定义表单组件。
 - `Schema.Model` 定义一个数据模型，详细使用参考 [schema](/components/schema)。
 - 自定义触发校验： `<Form>` 实例提供 [check()](#methods) 与 [checkForField()](#methods) 方法，分别用于触发表单校验和字段校验。
 
@@ -40,10 +40,10 @@ class TextField extends React.PureComponent {
   render() {
     const { name, label, accepter, ...props } = this.props;
     return (
-      <FormGroup>
-        <ControlLabel>{label} </ControlLabel>
-        <FormControl name={name} accepter={accepter} {...props} />
-      </FormGroup>
+      <Form.Group>
+        <Form.ControlLabel>{label} </Form.ControlLabel>
+        <Form.Control name={name} accepter={accepter} {...props} />
+      </Form.Group>
     );
   }
 }

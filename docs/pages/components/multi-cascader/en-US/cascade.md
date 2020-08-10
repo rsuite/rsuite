@@ -27,8 +27,7 @@ class Demo extends React.Component {
   render() {
     return (
       <div>
-        Cascade:{' '}
-        <Toggle checked={this.state.cascade} onChange={this.handleToggle} />
+        Cascade: <Toggle checked={this.state.cascade} onChange={this.handleToggle} />
         <hr />
         <MultiCascader
           style={{ width: 280 }}

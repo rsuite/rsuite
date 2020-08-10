@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Form, FormGroup, RadioGroup, Icon, Button, Radio } from 'rsuite';
+import { Form, RadioGroup, Icon, Button, Radio } from 'rsuite';
 import DefaultPage from '@/components/Page';
 
 export default function Page() {
@@ -13,7 +13,7 @@ export default function Page() {
         'radio-group-inline-picker',
         'radio-group-controller'
       ]}
-      dependencies={{ Form, FormGroup, RadioGroup, Icon, Button, Radio }}
+      dependencies={{ Form, RadioGroup, Icon, Button, Radio }}
     />
   );
 }

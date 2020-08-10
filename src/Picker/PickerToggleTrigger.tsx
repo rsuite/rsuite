@@ -1,13 +1,13 @@
 import React from 'react';
-import _ from 'lodash';
+import pick from 'lodash/pick';
 import OverlayTrigger from '../Overlay/OverlayTrigger';
 import { placementPolyfill } from '../utils';
-import IntlContext from '../IntlProvider/IntlContext';
-
+import { CustomConsumer } from '../CustomProvider';
+import { TypeAttributes } from '../@types/common';
 type TriggerType = 'click' | 'hover' | 'focus' | 'active';
 
 export interface PickerToggleTriggerProps {
-  placement?: string;
+  placement?: TypeAttributes.Placement;
   pickerProps: any;
   open?: boolean;
   trigger?: TriggerType | TriggerType[];
@@ -20,16 +20,16 @@ export interface PickerToggleTriggerProps {
   onExited?: (node: null | Element | Text) => void;
 }
 
-const PickerToggleTriggerProps = [
+export const pickerToggleTriggerProps = [
   'onEntered',
   'onExited',
-  'open',
-  'defaultOpen',
-  'disabled',
   'onEnter',
   'onEntering',
   'onExit',
   'onExiting',
+  'open',
+  'defaultOpen',
+  'disabled',
   'onHide',
   'container',
   'containerPadding',
@@ -38,24 +38,23 @@ const PickerToggleTriggerProps = [
 ];
 
 const PickerToggleTrigger = React.forwardRef(
-  (props: PickerToggleTriggerProps, ref: React.RefObject<any>) => {
-    const { pickerProps, speaker, trigger = 'click', open, ...rest } = props;
-    const placement = pickerProps.placement;
+  (props: PickerToggleTriggerProps, ref: React.Ref<any>) => {
+    const { pickerProps, speaker, placement, trigger = 'click', open, ...rest } = props;
 
     return (
-      <IntlContext.Consumer>
+      <CustomConsumer>
         {context => (
           <OverlayTrigger
-            trigger={trigger}
             ref={ref}
+            trigger={trigger}
             open={open}
             placement={placementPolyfill(placement, context?.rtl)}
             speaker={speaker}
-            {..._.pick(pickerProps, PickerToggleTriggerProps)}
+            {...pick(pickerProps, pickerToggleTriggerProps)}
             {...rest}
           />
         )}
-      </IntlContext.Consumer>
+      </CustomConsumer>
     );
   }
 );

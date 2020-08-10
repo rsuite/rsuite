@@ -10,7 +10,7 @@ class Icon extends React.Component<IconProps> {
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     className: PropTypes.string,
     classPrefix: PropTypes.string,
-    componentClass: PropTypes.elementType,
+    as: PropTypes.elementType,
     size: PropTypes.oneOf(['lg', '2x', '3x', '4x', '5x']),
     flip: PropTypes.oneOf(['horizontal', 'vertical']),
     stack: PropTypes.oneOf(['1x', '2x']),
@@ -36,7 +36,7 @@ class Icon extends React.Component<IconProps> {
       inverse,
       style,
       svgStyle,
-      componentClass: Component,
+      as: Component,
       ...props
     } = this.props;
 
@@ -72,6 +72,6 @@ class Icon extends React.Component<IconProps> {
 }
 
 export default defaultProps<IconProps>({
-  componentClass: 'i',
+  as: 'i',
   classPrefix: 'icon'
 })(Icon);

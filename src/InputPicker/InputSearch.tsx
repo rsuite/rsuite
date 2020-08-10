@@ -11,7 +11,7 @@ export interface InputSearchProps {
   children?: React.ReactNode;
   style?: React.CSSProperties;
   inputRef?: React.RefObject<any>;
-  componentClass: React.ElementType;
+  as: React.ElementType;
   onChange?: (value: string, event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -23,7 +23,7 @@ class InputSearch extends React.Component<InputSearchProps> {
     children: PropTypes.node,
     style: PropTypes.object,
     inputRef: refType,
-    componentClass: PropTypes.elementType,
+    as: PropTypes.elementType,
     onChange: PropTypes.func
   };
 
@@ -34,7 +34,7 @@ class InputSearch extends React.Component<InputSearchProps> {
   render() {
     const {
       value,
-      componentClass: Component,
+      as: Component,
       children,
       className,
       classPrefix,
@@ -62,7 +62,7 @@ class InputSearch extends React.Component<InputSearchProps> {
 
 const enhance = defaultProps<InputSearchProps>({
   classPrefix: 'picker-search',
-  componentClass: 'input'
+  as: 'input'
 });
 
 export default enhance(InputSearch);

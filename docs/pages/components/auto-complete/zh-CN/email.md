@@ -16,9 +16,11 @@ class CustomizedAutoComplete extends React.Component {
   handleChange(value) {
     const at = value.match(/@[\S]*/);
     const nextData = at
-      ? data.filter(item => item.indexOf(at[0]) >= 0).map(item => {
-          return `${value}${item.replace(at[0], '')}`;
-        })
+      ? data
+          .filter(item => item.indexOf(at[0]) >= 0)
+          .map(item => {
+            return `${value}${item.replace(at[0], '')}`;
+          })
       : data.map(item => `${value}${item}`);
 
     this.setState({

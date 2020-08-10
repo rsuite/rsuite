@@ -12,12 +12,12 @@ class Tag extends React.Component<TagProps> {
     onClose: PropTypes.func,
     children: PropTypes.node,
     className: PropTypes.string,
-    componentClass: PropTypes.elementType
+    as: PropTypes.elementType
   };
   render() {
     const {
       children,
-      componentClass: Component,
+      as: Component,
       onClose,
       classPrefix,
       closable,
@@ -47,7 +47,7 @@ export default compose<any, TagProps>(
     defaultColor: 'default'
   }),
   defaultProps<TagProps>({
-    componentClass: 'div',
+    as: 'div',
     classPrefix: 'tag'
   })
 )(Tag);

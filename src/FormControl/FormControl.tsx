@@ -1,134 +1,116 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
-import classNames from 'classnames';
-
+import isUndefined from 'lodash/isUndefined';
 import Input from '../Input';
-import ErrorMessage from '../ErrorMessage';
-import { getUnhandledProps, defaultProps, prefix } from '../utils';
-import { PLACEMENT_8 } from '../constants';
-import { FormControlProps } from './FormControl.d';
-import FormContext, {
-  FormValueContext,
-  FormErrorContext,
-  FormPlaintextContext
-} from '../Form/FormContext';
+import FormErrorMessage from '../FormErrorMessage';
+import { useClassNames } from '../utils';
+import { TypeAttributes, StandardProps, FormControlBaseProps } from '../@types/common';
+import FormContext, { FormValueContext } from '../Form/FormContext';
+import { FormGroupContext } from '../FormGroup/FormGroup';
 
-interface FormControlState {
-  checkResult?: any;
-  value?: any;
+/**
+ * Props that FormControl passes to its accepter
+ */
+export type FormControlAccepterProps<ValueType = any> = FormControlBaseProps<ValueType>;
+
+export interface FormControlProps<P = any, ValueType = any>
+  extends StandardProps,
+    Omit<React.HTMLAttributes<HTMLFormElement>, 'value' | 'onChange'> {
+  /** Proxied components */
+  accepter?: React.ElementType<P & FormControlBaseProps<ValueType>>;
+
+  /** The name of form-control */
+  name: string;
+
+  /** Value */
+  value?: ValueType;
+
+  /** Callback fired when data changing */
+  onChange?(value: ValueType, event: React.SyntheticEvent<HTMLElement>): void;
+
+  /** The data validation trigger type, and it wiill overrides the setting on <Form> */
+  checkTrigger?: TypeAttributes.CheckTrigger;
+
+  /** Show error messages */
+  errorMessage?: React.ReactNode;
+
+  /** The placement of error messages */
+  errorPlacement?: TypeAttributes.Placement8;
+
+  /** Make the control readonly */
+  readOnly?: boolean;
+
+  /** Render the control as plain text */
+  plaintext?: boolean;
+
+  /** Asynchronous check value */
+  checkAsync?: boolean;
 }
 
-class FormControl extends React.Component<FormControlProps, FormControlState> {
-  static contextType = FormContext;
-  static propTypes = {
-    name: PropTypes.string,
-    checkTrigger: PropTypes.oneOf(['change', 'blur', 'none']),
-    checkAsync: PropTypes.bool,
-    accepter: PropTypes.elementType,
-    onChange: PropTypes.func,
-    onBlur: PropTypes.func,
-    classPrefix: PropTypes.string,
-    errorMessage: PropTypes.node,
-    errorPlacement: PropTypes.oneOf(PLACEMENT_8),
-    formValue: PropTypes.object,
-    readOnly: PropTypes.bool,
-    plaintext: PropTypes.bool,
-    plaintextDefaultValue: PropTypes.node,
-    value: PropTypes.any
-  };
-  static defaultProps = {
-    accepter: Input,
-    errorPlacement: 'bottomStart',
-    plaintextDefaultValue: '--'
-  };
+const FormControl = React.forwardRef((props: FormControlProps, ref: React.Ref<HTMLDivElement>) => {
+  const {
+    accepter: AccepterComponent = Input,
+    classPrefix = 'form-control',
+    className,
+    checkAsync,
+    checkTrigger,
+    errorPlacement = 'bottomStart',
+    errorMessage,
+    name,
+    value,
+    onChange,
+    onBlur,
+    ...rest
+  } = props;
 
-  constructor(props: FormControlProps, context: any) {
-    super(props, context);
-    if (!context || !context.onFieldChange) {
-      throw new Error(`
-        <FormControl> must be inside a component decorated with <Form>.
-        And need to update React to 16.6.0 +.
-      `);
-    }
+  const {
+    readOnly,
+    plaintext,
+    errorFromContext,
+    formDefaultValue = {},
+    formError,
+    onFieldChange,
+    onFieldError,
+    onFieldSuccess,
+    model,
+    checkTrigger: contextCheckTrigger
+  } = useContext(FormContext) || {};
 
-    const { formDefaultValue = {} } = context;
-    const name = props.name;
-    this.state = {
-      checkResult: {},
-      value: this.getValue(props) || formDefaultValue[name]
-    };
+  const { controlId } = useContext(FormGroupContext) || {};
+
+  if (!onFieldChange) {
+    throw new Error(`
+      <FormControl> must be inside a component decorated with <Form>.
+      And need to update React to 16.6.0 +.
+    `);
   }
 
-  getValue(props?: FormControlProps) {
-    const { formValue, name, value } = props || this.props;
+  const trigger = checkTrigger || contextCheckTrigger;
+  const formValue = useContext(FormValueContext);
+  const val = isUndefined(value) ? formValue?.[name] : value;
 
-    if (!_.isUndefined(value)) {
-      return value;
-    }
+  const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix('wrapper'));
 
-    if (!formValue) {
-      return;
-    }
-
-    return formValue[name];
-  }
-
-  getCheckTrigger() {
-    const { checkTrigger } = this.context;
-
-    return this.props.checkTrigger || checkTrigger;
-  }
-
-  getReadOnly() {
-    const { readOnly } = this.context;
-    if (!_.isUndefined(readOnly)) {
-      return readOnly;
-    }
-
-    return this.props.readOnly;
-  }
-
-  getPlaintext() {
-    const { plaintext } = this.context;
-    if (!_.isUndefined(plaintext)) {
-      return plaintext;
-    }
-    return this.props.plaintext;
-  }
-
-  handleFieldChange = (value: any, event: React.SyntheticEvent<any>) => {
-    const { name, onChange } = this.props;
-    const { onFieldChange } = this.context;
-    const checkTrigger = this.getCheckTrigger();
-
-    this.setState({ value });
-    this.handleFieldCheck(value, checkTrigger === 'change').then(checkResult => {
-      this.setState({ checkResult });
-    });
-
-    onFieldChange(name, value, event);
+  const handleFieldChange = (value: any, event: React.SyntheticEvent<any>) => {
+    handleFieldCheck(value, trigger === 'change');
+    onFieldChange?.(name, value, event);
     onChange?.(value, event);
   };
 
-  handleFieldBlur = (event: React.SyntheticEvent<any>) => {
-    const checkTrigger = this.getCheckTrigger();
-    const value = this.getValue() || this.state.value;
-
-    this.handleFieldCheck(value, checkTrigger === 'blur');
-    this.props.onBlur?.(event);
+  const handleFieldBlur = (event: React.FocusEvent<HTMLFormElement>) => {
+    handleFieldCheck(val, trigger === 'blur');
+    onBlur?.(event);
   };
 
-  handleFieldCheck = (value: any, isCheckTrigger: boolean, callback) => {
-    const { name, formValue, checkAsync } = this.props;
-    const { onFieldError, onFieldSuccess, model } = this.context;
-
+  const handleFieldCheck = (value: any, isCheckTrigger: boolean) => {
     const callbackEvents = checkResult => {
+      // The relevant event is triggered only when the inspection is allowed.
       if (isCheckTrigger) {
         if (checkResult.hasError) {
-          onFieldError(name, checkResult.errorMessage, callback);
+          onFieldError?.(name, checkResult.errorMessage);
         } else {
-          onFieldSuccess(name, callback);
+          onFieldSuccess?.(name);
         }
       }
       return checkResult;
@@ -143,102 +125,71 @@ class FormControl extends React.Component<FormControlProps, FormControlState> {
     return Promise.resolve(callbackEvents(model.checkForField(name, value, formValue)));
   };
 
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
+  const renderErrorMessage = () => {
+    let messageNode = null;
 
-  checkErrorFromContext() {
-    const { errorFromContext } = this.context;
-    const { errorMessage } = this.props;
-
-    if (typeof errorMessage !== 'undefined') {
-      return this.renderError(undefined, errorMessage);
+    if (!isUndefined(errorMessage)) {
+      messageNode = errorMessage;
+    } else if (errorFromContext) {
+      messageNode = formError?.[name];
     }
 
-    if (errorFromContext) {
-      return <FormErrorContext.Consumer>{this.renderError}</FormErrorContext.Consumer>;
-    }
-
-    return null;
-  }
-
-  renderError = (formError?: any, errorMessage?: React.ReactNode) => {
-    const { errorPlacement, name } = this.props;
-
-    if (formError) {
-      errorMessage = formError[name];
+    if (!messageNode) {
+      return null;
     }
 
     return (
-      <ErrorMessage
-        show={!!errorMessage}
-        className={this.addPrefix('message-wrapper')}
+      <FormErrorMessage
+        show={!!messageNode}
+        className={prefix`message-wrapper`}
         placement={errorPlacement}
       >
-        {errorMessage}
-      </ErrorMessage>
+        {messageNode}
+      </FormErrorMessage>
     );
   };
 
-  renderAccepter = () => {
-    const { name, accepter: Component, ...props } = this.props;
-    const { formDefaultValue = {} } = this.context;
-    const unhandled = getUnhandledProps(FormControl, props);
-    const value = this.getValue();
-    const readOnly = this.getReadOnly();
-
-    return (
-      <Component
-        {...unhandled}
+  return (
+    <div className={classes} ref={ref}>
+      <AccepterComponent
+        {...rest}
+        aria-labelledby={controlId ? `${controlId}-control-label` : null}
+        aria-describedby={controlId ? `${controlId}-control-label` : null}
         readOnly={readOnly}
+        plaintext={plaintext}
         name={name}
-        onChange={this.handleFieldChange}
-        onBlur={this.handleFieldBlur}
+        onChange={handleFieldChange}
+        onBlur={handleFieldBlur}
         defaultValue={formDefaultValue[name]}
-        value={value}
+        value={val}
       />
-    );
-  };
 
-  render() {
-    const { plaintextDefaultValue } = this.props;
-    const readOnly = this.getReadOnly();
-    const plaintext = this.getPlaintext();
-    const value = this.getValue();
-    const classes = classNames(this.addPrefix('wrapper'), {
-      'read-only': readOnly,
-      plaintext
-    });
+      {renderErrorMessage()}
+    </div>
+  );
+});
 
-    if (plaintext && (_.isUndefined(value) || _.isNull(value))) {
-      return (
-        <div className={classes}>
-          <div className={this.addPrefix('default-value')}>{plaintextDefaultValue}</div>
-        </div>
-      );
-    }
+FormControl.displayName = 'FormControl';
+FormControl.propTypes = {
+  name: PropTypes.string.isRequired,
+  checkTrigger: PropTypes.oneOf(['change', 'blur', 'none']),
+  checkAsync: PropTypes.bool,
+  accepter: PropTypes.any,
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func,
+  classPrefix: PropTypes.string,
+  errorMessage: PropTypes.node,
+  errorPlacement: PropTypes.oneOf([
+    'bottomStart',
+    'bottomEnd',
+    'topStart',
+    'topEnd',
+    'leftStart',
+    'rightStart',
+    'leftEnd',
+    'rightEnd'
+  ]),
+  value: PropTypes.any
+};
 
-    return (
-      <div className={classes}>
-        <FormPlaintextContext.Provider value={plaintext}>
-          {this.renderAccepter()}
-        </FormPlaintextContext.Provider>
-        {this.checkErrorFromContext()}
-      </div>
-    );
-  }
-}
-
-class FormControlWrapper extends React.Component<any> {
-  render() {
-    return (
-      <FormValueContext.Consumer>
-        {formValue => <FormControl {...this.props} formValue={formValue} />}
-      </FormValueContext.Consumer>
-    );
-  }
-}
-
-const EnhancedFormControl = defaultProps<FormControlProps>({
-  classPrefix: 'form-control'
-})(FormControlWrapper);
-
-export default EnhancedFormControl;
+export default FormControl;

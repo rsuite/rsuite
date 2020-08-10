@@ -11,7 +11,7 @@ describe('Form control styles', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(
       <Form>
-        <FormControl ref={instanceRef} />
+        <FormControl ref={instanceRef} name="name" />
       </Form>,
       createTestContainer()
     );

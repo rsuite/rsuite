@@ -58,7 +58,7 @@ describe('InputPicker', () => {
   });
 
   it('Should output a button', () => {
-    const instance = getInstance(<InputPicker toggleComponentClass="button" />);
+    const instance = getInstance(<InputPicker toggleAs="button" />);
     ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'button');
   });
 
@@ -297,8 +297,8 @@ describe('InputPicker', () => {
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
-  it('Should render a button by toggleComponentClass={Button}', () => {
-    const instance = getDOMNode(<InputPicker open data={data} toggleComponentClass={Button} />);
+  it('Should render a button by toggleAs={Button}', () => {
+    const instance = getDOMNode(<InputPicker open data={data} toggleAs={Button} />);
 
     assert.ok(instance.querySelector('.rs-btn'));
   });

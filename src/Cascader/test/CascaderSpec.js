@@ -58,7 +58,7 @@ describe('Cascader', () => {
   });
 
   it('Should output a button', () => {
-    const instance = getInstance(<Cascader toggleComponentClass="button" />);
+    const instance = getInstance(<Cascader toggleAs="button" />);
     assert.ok(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'button'));
   });
 
@@ -199,8 +199,8 @@ describe('Cascader', () => {
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
-  it('Should render a button by toggleComponentClass={Button}', () => {
-    const instance = getInstance(<Cascader open data={items} toggleComponentClass={Button} />);
+  it('Should render a button by toggleAs={Button}', () => {
+    const instance = getInstance(<Cascader open data={items} toggleAs={Button} />);
     ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-btn');
   });
 });

@@ -48,7 +48,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
     enforceFocus: PropTypes.bool,
     overflow: PropTypes.bool,
     drawer: PropTypes.bool,
-    dialogComponentClass: PropTypes.elementType,
+    dialogAs: PropTypes.elementType,
     animation: PropTypes.any,
     animationProps: PropTypes.object,
     animationTimeout: PropTypes.number,
@@ -72,7 +72,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
     enforceFocus: true,
     animation: Bounce,
     animationTimeout: 300,
-    dialogComponentClass: ModalDialog,
+    dialogAs: ModalDialog,
     overflow: true
   };
 
@@ -197,7 +197,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
       show,
       size,
       full,
-      dialogComponentClass,
+      dialogAs,
       animationProps,
       animationTimeout,
       onHide,
@@ -205,7 +205,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
     } = this.props;
 
     const inClass = { in: show && !animation };
-    const Dialog: React.ElementType = dialogComponentClass;
+    const Dialog: React.ElementType = dialogAs;
 
     const classes = classNames(this.addPrefix(size), className, {
       [this.addPrefix('full')]: full

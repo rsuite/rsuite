@@ -8,7 +8,7 @@ export interface TriggerProps extends AnimationEventProps, StandardProps {
   trigger?: OverlayTriggerTrigger | OverlayTriggerTrigger[];
 
   /** Display placement */
-  placement?: TypeAttributes.Placement | TypeAttributes.Placement4;
+  placement?: TypeAttributes.Placement;
 
   /** Delay Time */
   delay?: number;

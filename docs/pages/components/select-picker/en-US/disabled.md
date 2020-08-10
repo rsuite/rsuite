@@ -10,12 +10,7 @@
 
 const instance = (
   <div>
-    <SelectPicker
-      data={data}
-      defaultValue={'Julius'}
-      disabled
-      style={{ width: 224 }}
-    />
+    <SelectPicker data={data} defaultValue={'Julius'} disabled style={{ width: 224 }} />
     <hr />
     <p>Disable Option</p>
     <SelectPicker

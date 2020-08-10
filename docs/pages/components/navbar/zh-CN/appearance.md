@@ -63,17 +63,9 @@ class Demo extends React.Component {
       <div className="nav-wrapper">
         <NavBarInstance activeKey={activeKey} onSelect={this.handleSelect} />
         <hr />
-        <NavBarInstance
-          appearance="inverse"
-          activeKey={activeKey}
-          onSelect={this.handleSelect}
-        />
+        <NavBarInstance appearance="inverse" activeKey={activeKey} onSelect={this.handleSelect} />
         <hr />
-        <NavBarInstance
-          appearance="subtle"
-          activeKey={activeKey}
-          onSelect={this.handleSelect}
-        />
+        <NavBarInstance appearance="subtle" activeKey={activeKey} onSelect={this.handleSelect} />
       </div>
     );
   }

@@ -1,9 +1,10 @@
 ### Option Active State
 
 <!--start-code-->
+
 ```js
 const instance = (
-   <ButtonToolbar>
+  <ButtonToolbar>
     <Dropdown title="Default" activeKey="a">
       <Dropdown.Item eventKey="a">Active Item</Dropdown.Item>
       <Dropdown.Item eventKey="b">Item B</Dropdown.Item>
@@ -21,8 +22,9 @@ const instance = (
         <Dropdown.Item eventKey="e-2">Active Item</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
-   </ButtonToolbar>
+  </ButtonToolbar>
 );
 ReactDOM.render(instance);
 ```
+
 <!--end-code-->

@@ -2,9 +2,9 @@
 
 `appearance` values include:
 
-* 'default'
-* 'tabs'
-* 'subtle'
+- 'default'
+- 'tabs'
+- 'subtle'
 
 <!--start-code-->
 

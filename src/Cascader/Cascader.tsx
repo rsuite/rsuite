@@ -475,7 +475,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
       disabled,
       cleanable,
       locale,
-      toggleComponentClass,
+      toggleAs,
       style,
       onEnter,
       onExited,
@@ -535,7 +535,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
           >
             <PickerToggle
               {...unhandled}
-              componentClass={toggleComponentClass}
+              as={toggleAs}
               onClean={createChainedFunction(this.handleClean, onClean)}
               cleanable={cleanable && !disabled}
               hasValue={hasValue}

@@ -1,7 +1,10 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import Transition from './Transition';
-import { SlideProps } from './Animation.d';
+import Transition, { TransitionProps } from './Transition';
+
+export interface SlideProps extends TransitionProps {
+  placement?: 'top' | 'right' | 'bottom' | 'left';
+}
 
 const Slide = React.forwardRef(
   ({ timeout = 300, placement = 'right', ...props }: SlideProps, ref: React.Ref<any>) => {

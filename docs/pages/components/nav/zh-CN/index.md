@@ -35,13 +35,13 @@ import { Nav, Dropdown } from 'rsuite';
 
 ### `<Nav.Item>`
 
-| 属性名称       | 类型                                                       | 描述                   |
-| -------------- | ---------------------------------------------------------- | ---------------------- |
-| active         | boolean                                                    | 激活状态               |
-| children \*    | React.Node                                                 | 组件内容               |
-| componentClass | React.ElementType`('a')`                                   | 为组件自定义元素类型   |
-| disabled       | boolean                                                    | 禁用状态               |
-| href           | string                                                     | 链接                   |
-| icon           | React.Element&lt;typeof Icon&gt;                           | 设置图标               |
-| onSelect       | (eventKey: any, event: SyntheticEvent&lt;any&gt;) => void, | 选择事件触发的回调函数 |
-| renderItem     | (item:React.Node) => React.Node                            | 自定义渲染选项         |
+| 属性名称    | 类型                                                       | 描述                   |
+| ----------- | ---------------------------------------------------------- | ---------------------- |
+| active      | boolean                                                    | 激活状态               |
+| children \* | React.Node                                                 | 组件内容               |
+| as          | React.ElementType`('a')`                                   | 为组件自定义元素类型   |
+| disabled    | boolean                                                    | 禁用状态               |
+| href        | string                                                     | 链接                   |
+| icon        | React.Element&lt;typeof Icon&gt;                           | 设置图标               |
+| onSelect    | (eventKey: any, event: SyntheticEvent&lt;any&gt;) => void, | 选择事件触发的回调函数 |
+| renderItem  | (item:React.Node) => React.Node                            | 自定义渲染选项         |

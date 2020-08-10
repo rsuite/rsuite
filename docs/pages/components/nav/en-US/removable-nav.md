@@ -18,12 +18,7 @@ const defaultItems = [
 ];
 
 function getKey() {
-  return (
-    (Math.random() * 1e18)
-      .toString(36)
-      .slice(0, 5)
-      .toUpperCase() + ''
-  );
+  return (Math.random() * 1e18).toString(36).slice(0, 5).toUpperCase() + '';
 }
 
 const App = () => {
@@ -41,10 +36,7 @@ const App = () => {
         onSelect={setActiveKey}
         onItemRemove={eventKey => {
           const nextItems = [...items];
-          nextItems.splice(
-            nextItems.map(item => item.eventKey).indexOf(eventKey),
-            1
-          );
+          nextItems.splice(nextItems.map(item => item.eventKey).indexOf(eventKey), 1);
           setItems(nextItems);
           setActiveKey(nextItems[0] ? nextItems[0].eventKey : null);
         }}

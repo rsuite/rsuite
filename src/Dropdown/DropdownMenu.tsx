@@ -82,7 +82,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
             expanded={expanded}
             className={itemClassName}
             pullLeft={pullLeft}
-            componentClass="div"
+            as="div"
             submenu
           >
             <div

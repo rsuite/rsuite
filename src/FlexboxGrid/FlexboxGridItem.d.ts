@@ -10,7 +10,7 @@ export type FlexboxGridItemProps<P = any> = StandardProps & {
   order?: number;
 
   /** You can use a custom element for this component */
-  componentClass?: React.ElementType<P>;
+  as?: React.ElementType<P>;
 } & P;
 
 declare function FlexboxGridItem<P = any>(props: FlexboxGridItemProps<P>): React.ReactElement;

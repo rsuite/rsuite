@@ -10,12 +10,7 @@
 
 const instance = (
   <div>
-    <CheckPicker
-      data={data}
-      style={{ width: 224 }}
-      defaultValue={['Julius']}
-      disabled
-    />
+    <CheckPicker data={data} style={{ width: 224 }} defaultValue={['Julius']} disabled />
     <hr />
     <p>禁用选项</p>
     <CheckPicker

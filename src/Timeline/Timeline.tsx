@@ -13,7 +13,7 @@ class Timeline extends React.Component<TimelineProps> {
     className: PropTypes.string,
     classPrefix: PropTypes.string,
     children: PropTypes.node,
-    componentClass: PropTypes.elementType,
+    as: PropTypes.elementType,
     align: PropTypes.oneOf(['left', 'right', 'alternate']),
     endless: PropTypes.bool
   };
@@ -23,15 +23,7 @@ class Timeline extends React.Component<TimelineProps> {
   };
 
   render() {
-    const {
-      children,
-      componentClass: Component,
-      classPrefix,
-      className,
-      align,
-      endless,
-      ...rest
-    } = this.props;
+    const { children, as: Component, classPrefix, className, align, endless, ...rest } = this.props;
 
     const addPrefix = prefix(classPrefix);
     const count = React.Children.count(children);
@@ -54,7 +46,7 @@ class Timeline extends React.Component<TimelineProps> {
 
 const EnhancedTimeline = defaultProps<TimelineProps>({
   classPrefix: 'timeline',
-  componentClass: 'ul'
+  as: 'ul'
 })(Timeline);
 
 setStatic('Item', TimelineItem)(EnhancedTimeline);

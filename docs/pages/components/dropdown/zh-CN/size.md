@@ -1,6 +1,6 @@
 ### 与按钮组合
 
-`Dropdown` 的 `toggleComponentClass` 属性默认值为是 `Button`, 可以设置按钮相关的属性（例如: size, appearance）, 以按钮的样式展示。
+`Dropdown` 的 `toggleAs` 属性默认值为是 `Button`, 可以设置按钮相关的属性（例如: size, appearance）, 以按钮的样式展示。
 
 <!--start-code-->
 

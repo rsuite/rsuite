@@ -66,7 +66,7 @@ type DropDataType = {
   /** dropNode data */
   dropNode: any;
 
-  /** node drop postion */
+  /** node drop position */
   dropNodePosition: TREE_NODE_DROP_POSITION;
 
   /** Update Data when drop node */

@@ -33,11 +33,7 @@ const App = () => {
   return (
     <div>
       <div style={{ width, border: '1px solid #ddd', padding: 10 }}>
-        <ResponsiveNav
-          activeKey={activeKey}
-          onSelect={setActiveKey}
-          appearance="tabs"
-        >
+        <ResponsiveNav activeKey={activeKey} onSelect={setActiveKey} appearance="tabs">
           {items.map(item => (
             <ResponsiveNav.Item key={item.eventKey} eventKey={item.eventKey}>
               {item.label}
@@ -46,14 +42,7 @@ const App = () => {
         </ResponsiveNav>
       </div>
       <hr />
-      <Slider
-        style={{ width: 500 }}
-        min={500}
-        max={1000}
-        progress
-        step={50}
-        onChange={setWidth}
-      />
+      <Slider style={{ width: 500 }} min={500} max={1000} progress step={50} onChange={setWidth} />
     </div>
   );
 };

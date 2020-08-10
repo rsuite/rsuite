@@ -26,7 +26,7 @@ describe('UploadTrigger', () => {
   });
 
   it('Should render custom component', () => {
-    const instance = getDOMNode(<UploadTrigger componentClass={'a'} />);
+    const instance = getDOMNode(<UploadTrigger as={'a'} />);
     assert.equal(instance.querySelector('.rs-uploader-trigger-btn').tagName, 'A');
   });
 

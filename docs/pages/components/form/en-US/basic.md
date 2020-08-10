@@ -11,30 +11,30 @@ The default is the vertical layout
 ```js
 const instance = (
   <Form>
-    <FormGroup>
-      <ControlLabel>Username</ControlLabel>
-      <FormControl name="name" />
-      <HelpBlock>Required</HelpBlock>
-    </FormGroup>
-    <FormGroup>
-      <ControlLabel>Email</ControlLabel>
-      <FormControl name="email" type="email" />
-      <HelpBlock tooltip>Required</HelpBlock>
-    </FormGroup>
-    <FormGroup>
-      <ControlLabel>Password</ControlLabel>
-      <FormControl name="password" type="password" />
-    </FormGroup>
-    <FormGroup>
-      <ControlLabel>Textarea</ControlLabel>
-      <FormControl rows={5} name="textarea" componentClass="textarea" />
-    </FormGroup>
-    <FormGroup>
+    <Form.Group>
+      <Form.ControlLabel>Username</Form.ControlLabel>
+      <Form.Control name="name" />
+      <Form.HelpText>Required</Form.HelpText>
+    </Form.Group>
+    <Form.Group>
+      <Form.ControlLabel>Email</Form.ControlLabel>
+      <Form.Control name="email" type="email" />
+      <Form.HelpText tooltip>Required</Form.HelpText>
+    </Form.Group>
+    <Form.Group>
+      <Form.ControlLabel>Password</Form.ControlLabel>
+      <Form.Control name="password" type="password" />
+    </Form.Group>
+    <Form.Group>
+      <Form.ControlLabel>Textarea</Form.ControlLabel>
+      <Form.Control rows={5} name="textarea" as="textarea" />
+    </Form.Group>
+    <Form.Group>
       <ButtonToolbar>
         <Button appearance="primary">Submit</Button>
         <Button appearance="default">Cancel</Button>
       </ButtonToolbar>
-    </FormGroup>
+    </Form.Group>
   </Form>
 );
 ReactDOM.render(instance);

@@ -1,7 +1,7 @@
 ### 设置本地语言
 
-
 <!--start-code-->
+
 ```js
 const DateRangePickerIntl = props => (
   <div className="field only-date">
@@ -18,13 +18,13 @@ const DateRangePickerIntl = props => (
         ok: '确定',
         today: '今天',
         yesterday: '昨天',
-        last7Days: '最近 7 天',
+        last7Days: '最近 7 天'
       }}
     />
   </div>
 );
 
-
 ReactDOM.render(<DateRangePickerIntl />);
 ```
+
 <!--end-code-->

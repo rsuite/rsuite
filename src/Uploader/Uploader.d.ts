@@ -115,7 +115,7 @@ export interface UploaderProps extends StandardProps {
   maxPreviewFileSize?: number;
 
   /** You can use a custom element for this component */
-  toggleComponentClass?: React.ElementType;
+  toggleAs?: React.ElementType;
 
   /** Custom render file information */
   renderFileInfo?: (file: FileType, fileElement: React.ReactNode) => React.ReactNode;

@@ -2,7 +2,7 @@
 
 A component that provides state during data loading.
 
-* `<Loader>`
+- `<Loader>`
 
 ## Usage
 

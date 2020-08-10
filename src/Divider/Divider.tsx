@@ -10,17 +10,10 @@ class Divider extends React.Component<DividerProps> {
     vertical: PropTypes.bool,
     classPrefix: PropTypes.string,
     children: PropTypes.node,
-    componentClass: PropTypes.elementType
+    as: PropTypes.elementType
   };
   render() {
-    const {
-      vertical,
-      componentClass: Component,
-      className,
-      children,
-      classPrefix,
-      ...props
-    } = this.props;
+    const { vertical, as: Component, className, children, classPrefix, ...props } = this.props;
 
     const addPrefix = prefix(classPrefix);
     const classes = classNames(classPrefix, className, {
@@ -38,6 +31,6 @@ class Divider extends React.Component<DividerProps> {
 }
 
 export default defaultProps<DividerProps>({
-  componentClass: 'div',
+  as: 'div',
   classPrefix: 'divider'
 })(Divider);

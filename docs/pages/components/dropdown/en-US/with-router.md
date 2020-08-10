@@ -12,7 +12,7 @@ const MyLink = React.forwardRef((props, ref) => {
   );
 });
 
-const NavLink = props => <Dropdown.Item componentClass={MyLink} {...props} />;
+const NavLink = props => <Dropdown.Item as={MyLink} {...props} />;
 
 const instance = (
   <Dropdown title="Menu">

@@ -13,24 +13,19 @@ interface ButtonWithTooltipProps {
   children: React.ReactNode;
   tip: React.ReactNode;
   className?: string;
-  componentClass?: React.ElementType;
+  as?: React.ElementType;
   [key: string]: any;
 }
 
 function ButtonWithTooltip({
   children,
-  componentClass = 'a',
+  as = 'a',
   tip,
   className,
   ...props
 }: ButtonWithTooltipProps) {
   const btn = (
-    <Button
-      {...props}
-      size="lg"
-      className={classNames('icon-btn-circle', className)}
-      componentClass={componentClass}
-    >
+    <Button {...props} size="lg" className={classNames('icon-btn-circle', className)} as={as}>
       {children}
     </Button>
   );
@@ -133,7 +128,7 @@ export default function TopLevelNav(props: TopLevelNavProps) {
             tip={item.tip}
             key={item.key}
             href={item.to}
-            componentClass={Link}
+            as={Link}
             onClick={event => {
               onToggleMenu(event, true);
             }}

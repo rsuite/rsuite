@@ -28,7 +28,7 @@ type NotificationPlacement = 'topStart' | 'topEnd' | 'bottomStart' | 'bottomEnd'
 
 ```ts
 type DataItemType = {
-  value: string; // property value is the value of valueKey 
+  value: string; // property value is the value of valueKey
   label: React.Node; // property value is the vaue of labelKey
   children?: Array<DataItemType>; // property value is the value of childrenKey
   groupBy?: string;
@@ -48,11 +48,7 @@ type Range = {
 #### Trigger
 
 ```js
-type Trigger =
-  | 'click'
-  | 'hover'
-  | 'contextMenu'
-  | Array<'click' | 'hover' | 'contextMenu'>;
+type Trigger = 'click' | 'hover' | 'contextMenu' | Array<'click' | 'hover' | 'contextMenu'>;
 ```
 
 #### FileType

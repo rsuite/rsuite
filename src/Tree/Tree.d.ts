@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { TreeBaseProps } from './TreeBase';
+import { TreeDragProps } from './TreeDrag';
 
 interface DataItem<T> {
   value: T;
@@ -7,7 +8,9 @@ interface DataItem<T> {
   children?: DataItem<T>[];
 }
 
-export interface TreeProps<ValueType = any, DataType = DataItem<ValueType>> extends TreeBaseProps {
+export interface TreeProps<ValueType = any, DataType = DataItem<ValueType>>
+  extends TreeBaseProps,
+    TreeDragProps {
   /** Tree Data */
   data?: DataType[];
 

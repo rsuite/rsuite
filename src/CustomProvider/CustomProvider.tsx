@@ -1,19 +1,9 @@
 import * as React from 'react';
-import createContext from '../utils/createContext';
 import { getClassNamePrefix } from '../utils/prefix';
 
-export interface CustomProviderProps {
-  /** Supported themes */
-  theme?: 'default' | 'dark' | 'high-contrast';
-
-  /** The prefix of the component CSS class */
-  classPrefix?: string;
-
-  /** Primary content */
-  children?: React.ReactNode;
-
+export interface CustomValue<T = any> {
   /** Language configuration */
-  locale?: any;
+  locale?: T;
 
   /** Support right-to-left */
   rtl?: boolean;
@@ -28,7 +18,18 @@ export interface CustomProviderProps {
   ) => string;
 }
 
-const CustomContext = createContext<CustomProviderProps>(null);
+export interface CustomProviderProps<T = any> extends CustomValue<T> {
+  /** Supported themes */
+  theme?: 'default' | 'dark' | 'high-contrast';
+
+  /** The prefix of the component CSS class */
+  classPrefix?: string;
+
+  /** Primary content */
+  children?: React.ReactNode;
+}
+
+const CustomContext = React.createContext<CustomProviderProps>(null);
 const { Consumer, Provider } = CustomContext;
 
 const CustomProvider = (props: CustomProviderProps) => {

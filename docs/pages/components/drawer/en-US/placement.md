@@ -27,37 +27,21 @@ class Demo extends React.Component {
     return (
       <div>
         <ButtonToolbar>
-          <IconButton
-            icon={<Icon icon="angle-right" />}
-            onClick={() => this.toggleDrawer('left')}
-          >
+          <IconButton icon={<Icon icon="angle-right" />} onClick={() => this.toggleDrawer('left')}>
             Left
           </IconButton>
-          <IconButton
-            icon={<Icon icon="angle-left" />}
-            onClick={() => this.toggleDrawer('right')}
-          >
+          <IconButton icon={<Icon icon="angle-left" />} onClick={() => this.toggleDrawer('right')}>
             Right
           </IconButton>
-          <IconButton
-            icon={<Icon icon="angle-down" />}
-            onClick={() => this.toggleDrawer('top')}
-          >
+          <IconButton icon={<Icon icon="angle-down" />} onClick={() => this.toggleDrawer('top')}>
             Top
           </IconButton>
-          <IconButton
-            icon={<Icon icon="angle-up" />}
-            onClick={() => this.toggleDrawer('bottom')}
-          >
+          <IconButton icon={<Icon icon="angle-up" />} onClick={() => this.toggleDrawer('bottom')}>
             Bottom
           </IconButton>
         </ButtonToolbar>
 
-        <Drawer
-          placement={this.state.placement}
-          show={this.state.show}
-          onHide={this.close}
-        >
+        <Drawer placement={this.state.placement} show={this.state.show} onHide={this.close}>
           <Drawer.Header>
             <Drawer.Title>Drawer Title</Drawer.Title>
           </Drawer.Header>

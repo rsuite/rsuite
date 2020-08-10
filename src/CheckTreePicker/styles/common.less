@@ -13,10 +13,19 @@
   max-height: 360px;
   height: 100%;
   overflow-y: auto;
+  flex: 1 1 auto;
 
-  /* stylelint-disable-next-line */ // This class name provide by Virtualized.
-  .ReactVirtualized__Grid.ReactVirtualized__List:focus {
-    outline: none;
+  &.@{ctpns}-virtualized {
+    overflow: hidden;
+
+    /* stylelint-disable-next-line */ // This class name provide by Virtualized.
+    .ReactVirtualized__Grid.ReactVirtualized__List {
+      padding: 0 @picker-menu-padding @picker-menu-padding 0;
+
+      &:focus {
+        outline: none;
+      }
+    }
   }
 }
 
@@ -152,6 +161,9 @@
 }
 
 .@{ns}picker-menu {
+  display: flex;
+  flex-direction: column;
+
   &.@{ctpns}-menu {
     padding-top: @picker-menu-padding;
 
@@ -162,6 +174,10 @@
 
   .@{ctpns} {
     padding: 0 @picker-menu-padding @picker-menu-padding 0;
+
+    &.@{ctpns}-virtualized {
+      padding: 0;
+    }
 
     &-node > .@{ctpns}-node-label .@{ctpns}-node-text-wrapper {
       .ellipsis;

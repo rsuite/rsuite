@@ -8,9 +8,7 @@
  * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
  */
 
-const instance = (
-  <CheckPicker data={data} style={{ width: 224 }} searchable={false} />
-);
+const instance = <CheckPicker data={data} style={{ width: 224 }} searchable={false} />;
 ReactDOM.render(instance);
 ```
 

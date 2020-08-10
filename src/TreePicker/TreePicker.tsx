@@ -23,7 +23,6 @@ import {
   getExpandWhenSearching,
   getNodeParents,
   shouldShowNodeByExpanded,
-  getVirtualLisHeight,
   treeDeprecatedWarning,
   hasVisibleChildren,
   compareArray,
@@ -69,6 +68,7 @@ interface TreePickerState {
   dragNodeKeys?: any[];
   dragOverNodeKey?: any;
   dropNodePosition?: TREE_NODE_DROP_POSITION;
+  virtualizedTreeHeight?: number;
 }
 
 class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
@@ -132,7 +132,8 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       expandItemValues: this.serializeList('expand'),
       dragNodeKeys: [],
       dragOverNodeKey: null,
-      dropNodePosition: null
+      dropNodePosition: null,
+      virtualizedTreeHeight: defaultHeight
     };
 
     this.treeViewRef = React.createRef();
@@ -677,7 +678,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     onChange?.(nodeData[valueKey], event);
     onSelect?.(nodeData, nodeData[valueKey], event);
     this.handleCloseDropdown();
-    this.toggleRef.current?.onFocus();
+    this.toggleRef.current?.focus();
   };
 
   handleKeyDown = (event: React.KeyboardEvent<any>) => {
@@ -756,6 +757,12 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     this.setState({
       active: true
     });
+
+    if (this.treeViewRef?.current) {
+      this.setState({
+        virtualizedTreeHeight: this.treeViewRef?.current?.getBoundingClientRect().height
+      });
+    }
   };
 
   handleOnClose = () => {
@@ -976,13 +983,14 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
   };
 
   renderTree() {
-    const { filterData } = this.state;
-    const { height, className, inline, style, locale, virtualized, searchable } = this.props;
+    const { filterData, virtualizedTreeHeight } = this.state;
+    const { height, className, inline, style, locale, virtualized } = this.props;
 
     const layer = 0;
 
     const classes = classNames(defaultClassPrefix('tree'), {
-      [className]: inline
+      [className]: inline,
+      [`${defaultClassPrefix('tree')}-virtualized`]: virtualized
     });
 
     let nodes = [];
@@ -999,12 +1007,10 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       }
     }
 
-    // 当未定义 height 且 设置了 virtualized 为 true，treeHeight 设置默认高度
-    const treeHeight = _.isUndefined(height) && virtualized ? defaultHeight : height;
-    const treeWidth = _.isUndefined(style?.width) ? defaultWidth : style.width;
-    const styles = inline ? { height: treeHeight, ...style } : {};
-
-    const listHeight = getVirtualLisHeight(inline, searchable, treeHeight);
+    // 当未定义 height 且 设置了 virtualized 为 true，listHeight 设置默认高度
+    const listHeight = _.isUndefined(height) && virtualized ? virtualizedTreeHeight : height;
+    const listWidth = _.isUndefined(style?.width) ? defaultWidth : style.width;
+    const styles = inline ? { height: listHeight, ...style } : {};
 
     return (
       <React.Fragment>
@@ -1016,11 +1022,11 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
         >
           <div className={this.addTreePrefix('nodes')}>
             {virtualized ? (
-              <AutoSizer defaultHeight={listHeight} defaultWidth={treeWidth}>
+              <AutoSizer defaultHeight={listHeight} defaultWidth={listWidth}>
                 {({ height, width }) => (
                   <List
                     ref={this.listRef}
-                    width={width || treeWidth}
+                    width={width || listWidth}
                     height={height || listHeight}
                     rowHeight={38}
                     rowCount={nodes.length}
@@ -1060,7 +1066,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       inline,
       locale,
       disabled,
-      toggleComponentClass,
+      toggleAs,
       placeholder,
       cleanable,
       renderValue,
@@ -1116,7 +1122,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
             onKeyDown={this.handleToggleKeyDown}
             onClean={createChainedFunction(this.handleClean, onClean)}
             cleanable={cleanable && !disabled}
-            componentClass={toggleComponentClass}
+            as={toggleAs}
             hasValue={hasValidValue}
             active={this.state.active}
           >

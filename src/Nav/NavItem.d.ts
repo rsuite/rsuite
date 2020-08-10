@@ -28,7 +28,7 @@ export interface NavItemProps<T = any> extends StandardProps {
   hasTooltip?: boolean;
 
   /** You can use a custom element type for this component */
-  componentClass?: React.ElementType;
+  as?: React.ElementType;
 
   /** Select the callback function that the event triggers. */
   onSelect?: (eventKey: T, event: React.SyntheticEvent<any>) => void;

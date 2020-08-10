@@ -5,7 +5,7 @@ export interface StandardProps {
   classPrefix?: string;
 
   /** You can use a custom element for this component */
-  componentClass?: React.ElementType | string;
+  as?: React.ElementType | string;
 
   /** Additional classes */
   className?: string;
@@ -37,9 +37,9 @@ export interface AnimationEventProps {
   onExited?: (node: null | Element | Text) => void;
 }
 
-export interface PickerBaseProps extends StandardProps, AnimationEventProps {
+export interface PickerBaseProps<LocaleType = any> extends StandardProps, AnimationEventProps {
   /** locale */
-  locale?: any;
+  locale?: LocaleType;
 
   /** A picker can have different appearances. */
   appearance?: 'default' | 'subtle';
@@ -57,13 +57,19 @@ export interface PickerBaseProps extends StandardProps, AnimationEventProps {
   disabled?: boolean;
 
   /** You can use a custom element for this component */
-  toggleComponentClass?: React.ElementType;
+  toggleAs?: React.ElementType | string;
 
   /** A CSS class to apply to the Menu DOM node. */
   menuClassName?: string;
 
   /** A style to apply to the Menu DOM node. */
   menuStyle?: React.CSSProperties;
+
+  /** Picker menu auto width */
+  menuAutoWidth?: boolean;
+
+  /** Picker menu max Height */
+  menuMaxHeight?: number;
 
   /** Placeholder text */
   placeholder?: React.ReactNode;
@@ -82,9 +88,6 @@ export interface PickerBaseProps extends StandardProps, AnimationEventProps {
 
   /** A picker that can clear values */
   cleanable?: boolean;
-
-  /** Picker menu auto width */
-  menuAutoWidth?: boolean;
 
   /** Called when Modal is displayed */
   onOpen?: () => void;
@@ -108,23 +111,35 @@ export interface FormControlBaseProps<ValueType = any> {
 
   /** Called after the value has been changed */
   onChange?: (value: ValueType, event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Set the component to be disabled and cannot be entered */
+  disabled?: boolean;
+
+  /** Render the control as plain text */
+  plaintext?: boolean;
+
+  /** Make the control readonly */
+  readOnly?: boolean;
 }
 
 type ToArray<V> = V extends any[] ? V : V[];
 
-export interface FormControlPickerProps<ValueType = any, DataType = Record<string, any>>
-  extends PickerBaseProps {
+export interface FormControlPickerProps<
+  ValueType = any,
+  LocaleType = any,
+  DataType = Record<string, any>
+> extends PickerBaseProps<LocaleType>, FormControlBaseProps<ValueType> {
   /** The data of component */
   data: DataType[];
 
   /** Set option value 'key' in 'data' */
-  valueKey?: keyof DataType;
+  valueKey?: string;
 
   /** Set options to display the 'key' in 'data' */
-  labelKey?: keyof DataType;
+  labelKey?: string;
 
   /** Set children key in data */
-  childrenKey?: keyof DataType;
+  childrenKey?: string;
 
   /** Disabled items */
   disabledItemValues?: ToArray<ValueType>;
@@ -173,8 +188,8 @@ export interface SVGIcon {
 }
 
 export interface ItemDataType {
-  label: any;
-  value: any;
+  label?: string | React.ReactNode;
+  value?: string | number;
   groupBy?: string;
   parent?: ItemDataType;
   children?: ItemDataType[];

@@ -64,7 +64,7 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should output a button', () => {
-    const instance = getInstance(<CheckTreePicker toggleComponentClass="button" data={[]} />);
+    const instance = getInstance(<CheckTreePicker toggleAs="button" data={[]} />);
     assert.ok(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'button'));
   });
 

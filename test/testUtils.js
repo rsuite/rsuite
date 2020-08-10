@@ -15,13 +15,31 @@ const DARK_PRIMARY_COLOR = '#34c3ff';
 export const getDefaultPalette = () => getPalette(DEFAULT_PRIMARY_COLOR);
 export const getDarkPalette = () => getPalette(DARK_PRIMARY_COLOR);
 
-/**
- * https://stackoverflow.com/questions/36682241/testing-functional-components-with-renderintodocument
- */
-export class TestWrapper extends React.Component {
-  render() {
-    return this.props.children;
-  }
+// Check whether it is a DOM object?
+function isDOMElement(node) {
+  return (
+    node && typeof node === 'object' && node.nodeType === 1 && typeof node.nodeName === 'string'
+  );
+}
+
+const toFnRef = ref =>
+  !ref || typeof ref === 'function'
+    ? ref
+    : value => {
+        ref.current = value;
+      };
+
+function mergeRefs(refA, refB) {
+  const a = toFnRef(refA);
+  const b = toFnRef(refB);
+  return value => {
+    if (typeof a === 'function') a(value);
+    if (typeof b === 'function') b(value);
+  };
+}
+
+export function renderIntoDocument(children) {
+  return ReactTestUtils.renderIntoDocument(children);
 }
 
 export function getInstance(children) {
@@ -29,10 +47,10 @@ export function getInstance(children) {
   // so we can test against this to verify this is a functional component
   if (!(children.type.prototype && children.type.prototype.isReactComponent)) {
     const instanceRef = React.createRef();
-
-    ReactTestUtils.renderIntoDocument(
-      <TestWrapper>{React.cloneElement(children, { ref: instanceRef })}</TestWrapper>
-    );
+    /**
+     * https://stackoverflow.com/questions/36682241/testing-functional-components-with-renderintodocument
+     */
+    ReactTestUtils.renderIntoDocument(React.cloneElement(children, { ref: instanceRef }));
 
     return instanceRef.current;
   }
@@ -41,17 +59,20 @@ export function getInstance(children) {
 }
 
 export function getDOMNode(children) {
-  // Check whether it is a DOM object?
-  if (
-    children &&
-    typeof children === 'object' &&
-    children.nodeType === 1 &&
-    typeof children.nodeName === 'string'
-  ) {
+  if (isDOMElement(children)) {
     return children;
   }
+
   if (ReactTestUtils.isCompositeComponent(children)) {
     return findDOMNode(children);
+  }
+
+  if (isDOMElement(getInstance(children))) {
+    return getInstance(children);
+  }
+
+  if (getInstance(children) && isDOMElement(getInstance(children).root)) {
+    return getInstance(children).root;
   }
 
   return findDOMNode(getInstance(children));

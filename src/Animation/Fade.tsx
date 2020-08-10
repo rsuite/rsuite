@@ -1,10 +1,11 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import Transition from './Transition';
-import { TransitionProps } from './Animation.d';
+import Transition, { TransitionProps } from './Transition';
+
+export type FadeProps = TransitionProps;
 
 const Fade = React.forwardRef(
-  ({ timeout = 300, className, ...props }: TransitionProps, ref: React.Ref<any>) => (
+  ({ timeout = 300, className, ...props }: FadeProps, ref: React.Ref<any>) => (
     <Transition
       {...props}
       ref={ref}

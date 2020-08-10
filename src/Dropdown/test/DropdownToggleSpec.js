@@ -26,7 +26,7 @@ describe('DropdownToggle', () => {
   });
 
   it('Should render custom component', () => {
-    const instance = getDOMNode(<DropdownToggle componentClass={'div'}>abc</DropdownToggle>);
+    const instance = getDOMNode(<DropdownToggle as={'div'}>abc</DropdownToggle>);
     assert.equal(instance.tagName, 'DIV');
   });
 

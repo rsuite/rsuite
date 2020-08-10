@@ -47,7 +47,6 @@ class AsynExample extends React.Component {
       <InputPicker
         data={items}
         style={{ width: 224 }}
-       
         labelKey="login"
         valueKey="id"
         onSearch={this.handleSearch}

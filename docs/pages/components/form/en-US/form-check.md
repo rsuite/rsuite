@@ -1,9 +1,9 @@
 ### Schema Model
 
-Form Check needs to be used `<Form>`, `<FormControl>` and `Schema.Model` 。
+Form Check needs to be used `<Form>`, `<Form.Control>` and `Schema.Model` 。
 
 - `<Form>` To define a form, you can set `value` and `model` for the form, and `model` is the data model created by `Schema.Model`.
-- `<FormControl>` Define a Filed that corresponds to the `key` of the `Schema.Model` object via the `name` property. For detailed reference: Custom Form Components.
+- `<Form.Control>` Define a Filed that corresponds to the `key` of the `Schema.Model` object via the `name` property. For detailed reference: Custom Form Components.
 - `Schema.Model` Define a data model, using the reference [schema](/components/schema).
 - Custom trigger check: `<Form>` instance provides `check` and `checkForField` methods, used to trigger form checksum field validation
 
@@ -40,10 +40,10 @@ class TextField extends React.PureComponent {
   render() {
     const { name, label, accepter, ...props } = this.props;
     return (
-      <FormGroup>
-        <ControlLabel>{label} </ControlLabel>
-        <FormControl name={name} accepter={accepter} {...props} />
-      </FormGroup>
+      <Form.Group>
+        <Form.ControlLabel>{label} </Form.ControlLabel>
+        <Form.Control name={name} accepter={accepter} {...props} />
+      </Form.Group>
     );
   }
 }

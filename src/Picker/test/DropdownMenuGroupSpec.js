@@ -4,15 +4,12 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import DropdownMenuGroup from '../DropdownMenuGroup';
 
-const classPrefix = 'dropdown-menu-group';
-const titleClassName = `.${classPrefix}-title`;
-
 describe('picker - DropdownMenuGroup', () => {
   it('Should output a `menu-item-group`', () => {
     const Title = 'Title';
     const instance = getDOMNode(<DropdownMenuGroup>{Title}</DropdownMenuGroup>);
 
-    assert.equal(instance.className, classPrefix);
+    assert.equal(instance.className, 'rs-dropdown-menu-group');
     assert.equal(instance.innerText, Title);
   });
 
@@ -23,7 +20,12 @@ describe('picker - DropdownMenuGroup', () => {
       </DropdownMenuGroup>
     );
 
-    assert.equal(instance.querySelector(titleClassName).innerText, 'title');
+    assert.equal(instance.querySelector('.rs-dropdown-menu-group-title').innerText, 'title');
+  });
+
+  it('Should have a role', () => {
+    const instance = getDOMNode(<DropdownMenuGroup>group</DropdownMenuGroup>);
+    assert.equal(instance.getAttribute('role'), 'listitem');
   });
 
   it('Should have a custom className', () => {

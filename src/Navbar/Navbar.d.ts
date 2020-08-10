@@ -7,7 +7,7 @@ type AppearanceType = 'default' | 'inverse' | 'subtle';
 export interface NavbarProps extends StandardProps {
   appearance?: AppearanceType;
   classPrefix?: string;
-  componentClass?: React.ElementType;
+  as?: React.ElementType;
 }
 
 interface InstanceInterface {

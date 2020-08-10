@@ -1,5 +1,3 @@
 import SelectPicker from './SelectPicker';
-import withLocale from '../IntlProvider/withLocale';
-import { SelectPickerProps } from './SelectPicker.d';
-
-export default withLocale<SelectPickerProps>(['Picker'])(SelectPicker);
+export type { SelectProps, SelectPickerProps } from './SelectPicker';
+export default SelectPicker;

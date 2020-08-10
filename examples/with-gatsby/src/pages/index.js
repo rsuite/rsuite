@@ -23,7 +23,7 @@ const IndexPage = () => (
       <Image />
     </div>
     <bt />
-    <Button appearance="link" componentClass={Link} to="/page-2/">
+    <Button appearance="link" as={Link} to="/page-2/">
       Go to page 2
     </Button>
   </Layout>

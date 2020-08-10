@@ -15,7 +15,7 @@ export interface PaginationButtonProps extends StandardProps {
   active?: boolean;
 
   /** You can use a custom element for this component */
-  componentClass: React.ElementType;
+  as: React.ElementType;
 
   /** Primary content */
   children?: React.ReactNode;

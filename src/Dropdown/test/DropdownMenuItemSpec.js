@@ -16,9 +16,7 @@ describe('DropdownMenuItem', () => {
 
   it('Should render a Button', () => {
     const title = 'Test';
-    const instance = getDOMNode(
-      <DropdownMenuItem componentClass="button">{title}</DropdownMenuItem>
-    );
+    const instance = getDOMNode(<DropdownMenuItem as="button">{title}</DropdownMenuItem>);
     assert.equal(instance.children[0].tagName, 'BUTTON');
     assert.equal(innerText(instance), title);
   });

@@ -62,13 +62,22 @@ export enum TREE_NODE_DROP_POSITION {
 }
 
 export const KEY_CODE = {
+  /** value: 8 */
   BACKSPACE: 8,
+  /** value: 13 */
   ENTER: 13,
+  /** value: 27 */
   ESC: 27,
+  /** value: 37 */
   LEFT: 37,
+  /** value: 38 */
   UP: 38,
+  /** value: 39 */
   RIGHT: 39,
-  DOWN: 40
+  /** value: 40 */
+  DOWN: 40,
+  /** value: 9 */
+  TAB: 9
 };
 
 export enum DATERANGE_DISABLED_TARGET {

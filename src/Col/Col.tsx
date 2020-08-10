@@ -1,79 +1,133 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import _ from 'lodash';
+import omit from 'lodash/omit';
+import { useClassNames } from '../utils';
+import { SIZE } from '../constants';
+import { StandardProps } from '../@types/common';
 
-import { prefix, defaultProps } from '../utils';
-import { defaultClassPrefix } from '../utils/prefix';
+export interface ColProps extends StandardProps, React.HTMLAttributes<HTMLDivElement> {
+  /** The number of columns you wish to span for Extra small devices Phones (< 480px) */
+  xs?: number;
 
-import { ColProps } from './Col.d';
+  /** The number of columns you wish to span for Small devices Tablets (≥ 480px) */
+  sm?: number;
 
-const Sizes = ['xs', 'sm', 'md', 'lg'];
-const omitKeys = {};
+  /** The number of columns you wish to span for Medium devices Desktops (≥ 992px) */
+  md?: number;
 
-const getValue = _.curry((obj: any, key: string): number => {
-  omitKeys[key] = null;
-  return obj[key];
-});
+  /** The number of columns you wish to span for Large devices Desktops (≥ 1200px) */
+  lg?: number;
 
-class Col extends React.Component<ColProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
+  /** Move columns to the right for Extra small devices Phones */
+  xsOffset?: number;
 
-    xs: PropTypes.number,
-    sm: PropTypes.number,
-    md: PropTypes.number,
-    lg: PropTypes.number,
+  /** Move columns to the right for Small devices Tablets */
+  smOffset?: number;
 
-    xsOffset: PropTypes.number,
-    smOffset: PropTypes.number,
-    mdOffset: PropTypes.number,
-    lgOffset: PropTypes.number,
+  /** Move columns to the right for Medium devices Desktops */
+  mdOffset?: number;
 
-    xsPush: PropTypes.number,
-    smPush: PropTypes.number,
-    mdPush: PropTypes.number,
-    lgPush: PropTypes.number,
-    xsPull: PropTypes.number,
-    smPull: PropTypes.number,
-    mdPull: PropTypes.number,
-    lgPull: PropTypes.number,
+  /** Move columns to the right for Medium devices Desktops */
+  lgOffset?: number;
 
-    xsHidden: PropTypes.bool,
-    smHidden: PropTypes.bool,
-    mdHidden: PropTypes.bool,
-    lgHidden: PropTypes.bool,
+  /** Change the order of grid columns to the right for Extra small devices Phones */
+  xsPush?: number;
 
-    componentClass: PropTypes.elementType
-  };
-  render() {
-    const { className, componentClass: Component, classPrefix, ...props } = this.props;
-    const addPrefix = prefix(classPrefix);
-    const classes = {};
-    const getPropValue = getValue(this.props);
+  /** Change the order of grid columns to the right for Small devices Tablets */
+  smPush?: number;
 
-    Sizes.forEach(size => {
-      const col = getPropValue(size);
-      const hidden = getPropValue(`${size}Hidden`);
-      const offset = getPropValue(`${size}Offset`);
-      const push = getPropValue(`${size}Push`);
-      const pull = getPropValue(`${size}Pull`);
+  /** Change the order of grid columns to the right for Medium devices Desktops */
+  mdPush?: number;
 
-      classes[defaultClassPrefix(`hidden-${size}`)] = hidden;
-      classes[addPrefix(`${size}-${col}`)] = col >= 0;
-      classes[addPrefix(`${size}-offset-${offset}`)] = offset >= 0;
-      classes[addPrefix(`${size}-push-${push}`)] = push >= 0;
-      classes[addPrefix(`${size}-pull-${pull}`)] = pull >= 0;
-    });
+  /** Change the order of grid columns to the right for Large devices Desktops */
+  lgPush?: number;
 
-    const elementProps = _.omit(props, Object.keys(omitKeys));
+  /** Change the order of grid columns to the left for Extra small devices Phones */
+  xsPull?: number;
 
-    return <Component {...elementProps} className={classNames(className, classPrefix, classes)} />;
-  }
+  /** Change the order of grid columns to the left for Small devices Tablets */
+  smPull?: number;
+
+  /** Change the order of grid columns to the left for Medium devices Desktops */
+  mdPull?: number;
+
+  /** Change the order of grid columns to the left for Large devices Desktops */
+  lgPull?: number;
+
+  /** Hide column on Extra small devices Phones */
+  xsHidden?: boolean;
+
+  /** Hide column on Small devices Tablets */
+  smHidden?: boolean;
+
+  /** Hide column on Medium devices Desktops */
+  mdHidden?: boolean;
+
+  /** Hide column on Large devices Desktops */
+  lgHidden?: boolean;
 }
 
-export default defaultProps<ColProps>({
-  classPrefix: 'col',
-  componentClass: 'div'
-})(Col);
+const Col = React.forwardRef((props: ColProps, ref: React.Ref<HTMLDivElement>) => {
+  const { as: Component = 'div', classPrefix = 'col', className, ...rest } = props;
+  const { prefix, merge, rootPrefix } = useClassNames(classPrefix);
+
+  const colClasses = {};
+  const omitKeys = {};
+  const getPropValue = (key: string): number => {
+    omitKeys[key] = null;
+    return rest[key];
+  };
+
+  SIZE.forEach(size => {
+    const col = getPropValue(size);
+    const hidden = getPropValue(`${size}Hidden`);
+    const offset = getPropValue(`${size}Offset`);
+    const push = getPropValue(`${size}Push`);
+    const pull = getPropValue(`${size}Pull`);
+
+    colClasses[rootPrefix(`hidden-${size}`)] = hidden;
+    colClasses[prefix(`${size}-${col}`)] = col >= 0;
+    colClasses[prefix(`${size}-offset-${offset}`)] = offset >= 0;
+    colClasses[prefix(`${size}-push-${push}`)] = push >= 0;
+    colClasses[prefix(`${size}-pull-${pull}`)] = pull >= 0;
+  });
+
+  const classes = merge(className, classPrefix, colClasses);
+  const unhandledProps = omit(rest, Object.keys(omitKeys));
+
+  return <Component role="gridcell" {...unhandledProps} ref={ref} className={classes} />;
+});
+
+Col.displayName = 'Col';
+Col.propTypes = {
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+
+  xs: PropTypes.number,
+  sm: PropTypes.number,
+  md: PropTypes.number,
+  lg: PropTypes.number,
+
+  xsOffset: PropTypes.number,
+  smOffset: PropTypes.number,
+  mdOffset: PropTypes.number,
+  lgOffset: PropTypes.number,
+
+  xsPush: PropTypes.number,
+  smPush: PropTypes.number,
+  mdPush: PropTypes.number,
+  lgPush: PropTypes.number,
+  xsPull: PropTypes.number,
+  smPull: PropTypes.number,
+  mdPull: PropTypes.number,
+  lgPull: PropTypes.number,
+
+  xsHidden: PropTypes.bool,
+  smHidden: PropTypes.bool,
+  mdHidden: PropTypes.bool,
+  lgHidden: PropTypes.bool,
+
+  as: PropTypes.elementType
+};
+
+export default Col;

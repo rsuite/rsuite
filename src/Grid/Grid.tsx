@@ -1,26 +1,34 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import { useClassNames } from '../utils';
+import { StandardProps } from '../@types/common';
 
-import { defaultProps, prefix } from '../utils';
-import { GridProps } from './Grid.d';
-
-class Grid extends React.Component<GridProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    fluid: PropTypes.bool,
-    classPrefix: PropTypes.string,
-    componentClass: PropTypes.elementType
-  };
-  render() {
-    const { fluid, componentClass: Component, className, classPrefix, ...props } = this.props;
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(fluid ? addPrefix('fluid') : classPrefix, className);
-    return <Component {...props} className={classes} />;
-  }
+export interface GridProps extends StandardProps, React.HTMLAttributes<HTMLDivElement> {
+  /** Fluid layout */
+  fluid?: boolean;
 }
 
-export default defaultProps<GridProps>({
-  componentClass: 'div',
-  classPrefix: 'grid-container'
-})(Grid);
+const Grid = React.forwardRef((props: GridProps, ref: React.Ref<HTMLDivElement>) => {
+  const {
+    as: Component = 'div',
+    classPrefix = 'grid-container',
+    className,
+    fluid,
+    ...rest
+  } = props;
+
+  const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
+  const classes = merge(className, fluid ? prefix({ fluid }) : withClassPrefix());
+
+  return <Component role="grid" {...rest} ref={ref} className={classes} />;
+});
+
+Grid.displayName = 'Grid';
+Grid.propTypes = {
+  className: PropTypes.string,
+  fluid: PropTypes.bool,
+  classPrefix: PropTypes.string,
+  as: PropTypes.elementType
+};
+
+export default Grid;

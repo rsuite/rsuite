@@ -1,9 +1,10 @@
 ### Default
 
 <!--start-code-->
+
 ```js
 const instance = (
-   <Dropdown title="Default">
+  <Dropdown title="Default">
     <Dropdown.Item>New File</Dropdown.Item>
     <Dropdown.Item>New File with Current Profile</Dropdown.Item>
     <Dropdown.Item>Download As...</Dropdown.Item>
@@ -15,4 +16,5 @@ const instance = (
 );
 ReactDOM.render(instance);
 ```
+
 <!--end-code-->

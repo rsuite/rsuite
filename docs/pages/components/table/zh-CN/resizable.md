@@ -6,7 +6,6 @@
  * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users.json
  */
 
-
 class ResizableColumnTable extends React.Component {
   constructor(props) {
     super(props);

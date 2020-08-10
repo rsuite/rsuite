@@ -11,7 +11,7 @@ export interface DropdownMenuItemProps<T = any> extends StandardProps {
   children?: React.ReactNode;
 
   /** You can use a custom element for this component */
-  componentClass?: React.ElementType;
+  as?: React.ElementType;
 
   /** Whether to display the divider */
   divider?: boolean;

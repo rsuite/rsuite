@@ -62,7 +62,7 @@ import { CheckTreePicker } from 'rsuite';
 | searchBy                | (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean                                | Custom search rules                                                       |
 | searchable              | boolean `(true)`                                                                                        | Whether display search input box                                          |
 | size                    | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                                                   | A picker can have different sizes                                         |
-| toggleComponentClass    | React.ElementType `('a')`                                                                               | You can use a custom element for this component                           |
+| toggleAs                | React.ElementType `('a')`                                                                               | You can use a custom element for this component                           |
 | uncheckableItemValues   | string[]                                                                                                | Set the option value for the check box not to be rendered                 |
 | value                   | string[]                                                                                                | (Controlled) specifies the values of the selected tree node               |
 | valueKey                | string `('value')`                                                                                      | Set value key in data                                                     |

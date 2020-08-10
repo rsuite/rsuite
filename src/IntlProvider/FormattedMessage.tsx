@@ -3,11 +3,11 @@ import IntlContext from './IntlContext';
 
 export interface FormattedMessageProps {
   id: string | React.ReactNode;
-  componentClass?: React.ElementType;
+  as?: React.ElementType;
 }
 
-const FormattedMessage = ({ id, componentClass }: FormattedMessageProps) => {
-  const Component = componentClass || 'span';
+const FormattedMessage = ({ id, as }: FormattedMessageProps) => {
+  const Component = as || 'span';
   return (
     <Component>
       <IntlContext.Consumer>

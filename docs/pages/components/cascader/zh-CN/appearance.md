@@ -10,19 +10,9 @@
 
 const instance = (
   <div>
-    <Cascader
-      data={data}
-      appearance="default"
-      placeholder="Default"
-      style={{ width: 224 }}
-    />
+    <Cascader data={data} appearance="default" placeholder="Default" style={{ width: 224 }} />
     <hr />
-    <Cascader
-      data={data}
-      appearance="subtle"
-      placeholder="Subtle"
-      style={{ width: 224 }}
-    />
+    <Cascader data={data} appearance="subtle" placeholder="Subtle" style={{ width: 224 }} />
   </div>
 );
 ReactDOM.render(instance);
