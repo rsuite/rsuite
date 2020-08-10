@@ -28,7 +28,7 @@
 [document-nav]: https://github.com/rsuite/document-nav
 [document-nav-docs]: https://rsuite.github.io/document-nav/
 [timezone-picker]: https://github.com/rsuite/timezone-picker
-[timezone-picker-docs]: https://rsuite.github.io/timezone-picker/
+[timezone-picker-docs]: https://rsuite.github.io/timezone-picker/assets/
 [color-picker]: https://github.com/cXiaof/rsuite-color-picker
 [color-picker-docs]: https://cxiaof.github.io/rsuite-color-picker/assets/
 [color-picker-author]: https://github.com/cXiaof
