@@ -1,4 +1,5 @@
 @import '../../styles/common';
+@import 'mixin';
 
 .@{ns}badge {
   display: inline-block;
@@ -15,6 +16,8 @@
     line-height: 16px;
     padding: 0 5px;
     color: @badge-content-color;
+
+    .generate-spectrum-content();
   }
 
   &-independent&-dot,
