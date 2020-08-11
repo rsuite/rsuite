@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StandardProps } from '../@types/common';
+import {StandardProps, TypeAttributes} from '../@types/common';
 
 export interface BadgeProps extends StandardProps {
   /** The content of the wrapped */
@@ -10,6 +10,9 @@ export interface BadgeProps extends StandardProps {
 
   /** Max count */
   maxCount?: number;
+
+  /** A badge can have different colors */
+  color?: TypeAttributes.Color;
 }
 
 declare const Badge: React.ComponentType<BadgeProps>;
