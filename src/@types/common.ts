@@ -194,3 +194,10 @@ export interface ItemDataType {
   parent?: ItemDataType;
   children?: ItemDataType[];
 }
+
+export interface RefForwardingComponent<P, I = HTMLDivElement>
+  extends React.ForwardRefExoticComponent<P> {
+  (
+    props: React.PropsWithChildren<{ children?: React.ReactNode; ref?: React.Ref<I> }>
+  ): React.ReactElement | null;
+}

@@ -259,7 +259,7 @@ const SelectPicker = React.forwardRef(
         setFocusItemValue(val);
         handleChangeValue(null, event);
       },
-      [disabled, cleanable, handleChangeValue, setFocusItemValue]
+      [val, disabled, cleanable, handleChangeValue, setFocusItemValue]
     );
 
     const handleExited = () => {

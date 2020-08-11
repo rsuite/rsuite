@@ -3,19 +3,25 @@ import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import { StandardProps } from '../@types/common';
 
-export interface InputGroupAddonProps extends StandardProps {
+export interface InputGroupAddonProps extends StandardProps, React.HTMLAttributes<HTMLSpanElement> {
   /** An Input group addon can show that it is disabled */
   disabled?: boolean;
 }
 
 const InputGroupAddon = React.forwardRef(
   (props: InputGroupAddonProps, ref: React.Ref<HTMLSpanElement>) => {
-    const { classPrefix = 'input-group-addon', className, disabled, ...rest } = props;
+    const {
+      as: Component = 'span',
+      classPrefix = 'input-group-addon',
+      className,
+      disabled,
+      ...rest
+    } = props;
 
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ disabled }));
 
-    return <span {...rest} ref={ref} className={classes} />;
+    return <Component {...rest} ref={ref} className={classes} />;
   }
 );
 
