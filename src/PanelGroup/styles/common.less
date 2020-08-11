@@ -16,12 +16,12 @@
   }
 
   // Panel in Panel group haven't border.
-  &-group & {
+  &-group > & {
     border: none;
   }
 
   // Draw a split line for panel
-  &-group & + & {
+  &-group > & + & {
     position: relative;
 
     &::before {
