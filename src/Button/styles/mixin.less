@@ -99,10 +99,10 @@
 .generate-spectrum-primary-btns(@i:length(@spectrum)) when (@i>0) {
   .generate-spectrum-primary-btns(@i - 1);
   @name: extract(@spectrum, @i);
-  @backgroud-color: @@name;
+  @background-color: @@name;
 
   &.@{ns}btn-@{name} {
-    .button-primary-variant(@btn-primary-color, @backgroud-color);
+    .button-primary-variant(@btn-primary-color, @background-color);
 
     // Defalut button spectrum button need set opacity.
     &.@{ns}btn-default.@{ns}btn-disabled,
