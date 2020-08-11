@@ -1,7 +1,18 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { defaultProps, useClassNames } from '../utils';
-import { BadgeProps } from './Badge.d';
+import { StandardProps, TypeAttributes } from '../@types/common';
+
+export interface BadgeProps extends StandardProps, React.HTMLAttributes<HTMLDivElement> {
+  /** Main content */
+  content?: string | number | React.ReactNode | boolean;
+
+  /** Max count */
+  maxCount?: number;
+
+  /** A badge can have different colors */
+  color?: TypeAttributes.Color;
+}
 
 const Badge = (props: BadgeProps) => {
   const {
