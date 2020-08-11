@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { defaultProps, useClassNames } from '../utils';
+import { useClassNames } from '../utils';
 import { StandardProps, TypeAttributes } from '../@types/common';
 
 export interface BadgeProps extends StandardProps, React.HTMLAttributes<HTMLDivElement> {
@@ -14,11 +14,17 @@ export interface BadgeProps extends StandardProps, React.HTMLAttributes<HTMLDivE
   color?: TypeAttributes.Color;
 }
 
-const Badge = (props: BadgeProps) => {
+const defaultProps: Partial<BadgeProps> = {
+  maxCount: 99,
+  classPrefix: 'badge'
+};
+
+const Badge = React.forwardRef<HTMLDivElement, BadgeProps>((props, ref) => {
   const {
     className,
     classPrefix,
     children,
+    as: Component = 'div',
     content: contentText,
     maxCount,
     color,
@@ -26,11 +32,12 @@ const Badge = (props: BadgeProps) => {
   } = props;
   const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
   const dot = contentText === undefined || contentText === null;
-  const classes: string = merge(
+  const classes = merge(
     className,
-    withClassPrefix(color, dot, {
+    withClassPrefix(color, {
       independent: !children,
-      wrapper: children
+      wrapper: children,
+      dot
     })
   );
 
@@ -39,35 +46,32 @@ const Badge = (props: BadgeProps) => {
   }
 
   const content =
-    // $FlowFixMe I'm sure contenxtText is number type and maxCount is number type.
     typeof contentText === 'number' && contentText > maxCount ? `${maxCount}+` : contentText;
   if (!children) {
     return (
-      <div {...rest} className={classes}>
+      <Component {...rest} ref={ref} className={classes}>
         {content}
-      </div>
+      </Component>
     );
   }
   return (
-    <div {...rest} className={classes}>
+    <Component {...rest} ref={ref} className={classes}>
       {children}
       <div className={prefix('content')}>{content}</div>
-    </div>
+    </Component>
   );
-};
+});
 
+Badge.displayName = 'Badge';
 Badge.propTypes = {
   className: PropTypes.string,
   classPrefix: PropTypes.string,
   children: PropTypes.node,
+  as: PropTypes.elementType,
   content: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
   maxCount: PropTypes.number,
   color: PropTypes.oneOf(['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet'])
 };
-Badge.defaultProps = {
-  maxCount: 99
-};
+Badge.defaultProps = defaultProps;
 
-export default defaultProps<BadgeProps>({
-  classPrefix: 'badge'
-})(Badge);
+export default Badge;
