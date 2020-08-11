@@ -158,7 +158,7 @@ describe('Form', () => {
     });
   });
 
-  it('Should be {n1} for formError when call cleanErrorForFiled', () => {
+  it('Should be {n1} for formError when call cleanErrorForField', () => {
     const values = {
       n1: 1,
       n2: 1
@@ -175,7 +175,7 @@ describe('Form', () => {
       </Form>
     );
     instance.check();
-    instance.cleanErrorForFiled('n2', () => {
+    instance.cleanErrorForField('n2', () => {
       assert.equal(instance.state.formError.n1, 'error');
       assert.equal(instance.state.formError.n2, undefined);
     });

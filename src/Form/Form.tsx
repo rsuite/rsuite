@@ -89,7 +89,7 @@ export interface FormInstance<
   cleanErrors?: (callback?: () => void) => void;
 
   /** Clear the error message of the specified field */
-  cleanErrorForFiled?: (fieldName: keyof E, callback?: () => void) => void;
+  cleanErrorForField?: (fieldName: keyof E, callback?: () => void) => void;
 
   /** All error messages are reset, and an initial value can be set */
   resetErrors?: (formError: E, callback?: () => void) => void;
@@ -277,7 +277,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
     setFormError({});
   }, []);
 
-  const cleanErrorForFiled = useCallback(
+  const cleanErrorForField = useCallback(
     (fieldName: string) => {
       setFormError(omit(_formError, [fieldName]));
     },
@@ -295,7 +295,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
     checkAsync,
     checkForFieldAsync,
     cleanErrors,
-    cleanErrorForFiled,
+    cleanErrorForField,
     resetErrors
   }));
 
