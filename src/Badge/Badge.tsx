@@ -42,7 +42,7 @@ const Badge = React.forwardRef<HTMLDivElement, BadgeProps>((props, ref) => {
   );
 
   if (contentText === false) {
-    return children;
+    return React.cloneElement(children as React.ReactElement, { ref });
   }
 
   const content =
