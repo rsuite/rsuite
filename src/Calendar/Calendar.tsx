@@ -159,6 +159,8 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>((props, ref) =>
     </div>
   );
 });
+
+Calendar.displayName = 'Calendar';
 Calendar.propTypes = {
   pageDate: PropTypes.instanceOf(Date),
   calendarState: PropTypes.oneOf(CalendarState),

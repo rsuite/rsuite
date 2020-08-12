@@ -176,6 +176,7 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>((props, ref) => {
   );
 });
 
+Header.displayName = 'Header';
 Header.propTypes = {
   date: PropTypes.instanceOf(Date),
   onMoveForward: PropTypes.func,
