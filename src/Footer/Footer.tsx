@@ -1,22 +1,6 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { defaultProps } from '../utils';
-import { FooterProps } from './Footer.d';
+import createComponent, { ComponentProps } from '../utils/createComponent';
+export type FooterProps = ComponentProps;
 
-class Footer extends React.Component<FooterProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    classPrefix: PropTypes.string
-  };
-  render() {
-    const { className, classPrefix, ...props } = this.props;
-    const classes = classNames(classPrefix, className);
+const Footer = createComponent({ name: 'Footer', componentAs: 'footer' });
 
-    return <div {...props} className={classes} />;
-  }
-}
-
-export default defaultProps({
-  classPrefix: 'footer'
-})(Footer);
+export default Footer;

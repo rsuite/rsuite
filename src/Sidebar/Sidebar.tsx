@@ -1,45 +1,49 @@
-import * as React from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { defaultProps, prefix } from '../utils';
-import { SidebarProps } from './Sidebar.d';
+import { useClassNames } from '../utils';
+import { StandardProps } from '../@types/common';
 import { ContainerContext } from '../Container/Container';
 
-class Sidebar extends React.Component<SidebarProps> {
-  static contextType = ContainerContext;
-  static propTypes = {
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    collapsible: PropTypes.bool,
-    style: PropTypes.object
-  };
-  static defaultProps = {
-    width: 260
-  };
-  componentDidMount() {
-    if (this.context?.setContextState) {
-      /** Notify the Container that the Sidebar is in the child node of the Container. */
-      this.context.setContextState({ hasSidebar: true });
-    }
-  }
+export interface SidebarProps extends StandardProps, React.HTMLAttributes<HTMLDivElement> {
+  /** Width */
+  width?: number | string;
 
-  render() {
-    const { className, classPrefix, collapsible, width, style, ...props } = this.props;
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, className, {
-      [addPrefix('collapse')]: collapsible
-    });
-
-    const styles = {
-      flex: `0 0 ${width}px`,
-      width,
-      ...style
-    };
-    return <div {...props} className={classes} style={styles} />;
-  }
+  /** Sidebar can be collapsed */
+  collapsible?: boolean;
 }
 
-export default defaultProps<SidebarProps>({
-  classPrefix: 'sidebar'
-})(Sidebar);
+const defaultProps: Partial<SidebarProps> = {
+  as: 'aside',
+  classPrefix: 'sidebar',
+  width: 260
+};
+
+const Sidebar = React.forwardRef((props: SidebarProps, ref: React.Ref<HTMLDivElement>) => {
+  const { as: Component, classPrefix, className, collapsible, width, style, ...rest } = props;
+  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix({ collapse: collapsible }));
+  const { setHasSidebar } = useContext(ContainerContext);
+
+  useEffect(() => {
+    /** Notify the Container that the Sidebar is in the child node of the Container. */
+    setHasSidebar?.(true);
+  }, [setHasSidebar]);
+
+  const styles = {
+    flex: `0 0 ${width}px`,
+    width,
+    ...style
+  };
+  return <Component {...rest} ref={ref} className={classes} style={styles} />;
+});
+
+Sidebar.displayName = 'Sidebar';
+Sidebar.defaultProps = defaultProps;
+Sidebar.propTypes = {
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  collapsible: PropTypes.bool,
+  style: PropTypes.object
+};
+export default Sidebar;
