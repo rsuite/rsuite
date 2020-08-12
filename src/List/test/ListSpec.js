@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactTestUtils from 'react-dom/test-utils';
 import List from '../List';
 import { getDOMNode } from '@test/testUtils';
 
@@ -69,13 +70,11 @@ describe('List', () => {
         <List.Item index={2}>item2</List.Item>
       </List>
     );
-    const event = new Event('mousedown', { bubbles: true });
-    domNode.firstChild.dispatchEvent(event);
+    setTimeout(() => ReactTestUtils.SimulateNative.mouseDown(domNode.firstChild), 0);
   });
 
   it('should call onSortMove', done => {
     const callback = () => done();
-    const mousedownEvent = new Event('mousedown', { bubbles: true });
     const mousemoveEvent = new Event('mousemove', { bubbles: true });
     const domNode = getDOMNode(
       <List sortable onSortStart={() => window.dispatchEvent(mousemoveEvent)} onSortMove={callback}>
@@ -83,13 +82,12 @@ describe('List', () => {
         <List.Item index={2}>item2</List.Item>
       </List>
     );
-    domNode.firstChild.dispatchEvent(mousedownEvent);
+    setTimeout(() => ReactTestUtils.SimulateNative.mouseDown(domNode.firstChild), 0);
   });
 
   it('should call onSortEnd & onSort', done => {
     let count = 0;
     const callback = () => ++count > 1 && done();
-    const mousedownEvent = new Event('mousedown', { bubbles: true });
     const mouseupEvent = new Event('mouseup', { bubbles: true });
     const domNode = getDOMNode(
       <List
@@ -102,6 +100,6 @@ describe('List', () => {
         <List.Item index={2}>item2</List.Item>
       </List>
     );
-    domNode.firstChild.dispatchEvent(mousedownEvent);
+    setTimeout(() => ReactTestUtils.SimulateNative.mouseDown(domNode.firstChild), 0);
   });
 });

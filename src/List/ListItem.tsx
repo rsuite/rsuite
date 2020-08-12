@@ -1,95 +1,72 @@
-import * as React from 'react';
+import React, { HTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
-import { setDisplayName } from 'recompose';
-import classNames from 'classnames';
-import { defaultProps, getUnhandledProps, prefix } from '../utils';
+import { useContext, useEffect, useRef } from 'react';
+import { StandardProps } from '../@types/common';
+import { mergeRefs, useClassNames } from '../utils';
 import ListContext from './ListContext';
-import { ListItemProps } from './ListItem.d';
-import { ManagerRef } from './Manager';
+import { Collection } from './helper/useManager';
 
-class ListItem extends React.Component<ListItemProps> {
-  static defaultProps = {
-    collection: 0
-  };
-  static propTypes = {
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    index: PropTypes.number,
-    collection: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    disabled: PropTypes.bool,
-    manager: PropTypes.object
-  };
-  managerRef: ManagerRef;
-  listItemRef = React.createRef<HTMLElement>();
+export interface ListItemProps extends StandardProps, HTMLAttributes<HTMLDivElement> {
+  /* Index of list item, for sort */
+  index?: number;
 
-  componentDidMount() {
-    this.register();
-  }
+  /* Symbol of collection*/
+  collection?: Collection;
 
-  componentDidUpdate(prevProps) {
-    this.managerRef.info.index = this.props.index;
-    this.managerRef.info.disabled = this.props.disabled;
-
-    if (prevProps.collection !== this.props.collection) {
-      this.unregister(prevProps.collection);
-      this.register();
-    }
-  }
-
-  componentWillUnmount() {
-    this.unregister();
-  }
-
-  register = () => {
-    const { collection, disabled, index, manager } = this.props;
-    if (manager) {
-      this.managerRef = {
-        node: this.listItemRef.current,
-        edgeOffset: null,
-        info: {
-          collection,
-          disabled,
-          index,
-          manager
-        }
-      };
-      manager.add(collection, this.managerRef);
-    }
-  };
-
-  unregister = (collection = this.props.collection) => {
-    const { manager } = this.props;
-    if (manager) {
-      manager.remove(collection, this.managerRef);
-    }
-  };
-
-  render() {
-    const { className, classPrefix, bordered, disabled, children, size, ...rest } = this.props;
-    const addPrefix = prefix(classPrefix);
-    const unhandled = getUnhandledProps(ListItem, rest);
-    const classes = classNames(classPrefix, className, addPrefix(size), {
-      [addPrefix('disabled')]: disabled,
-      [addPrefix('bordered')]: bordered
-    });
-    const itemContent = <div className={addPrefix('content')}>{children}</div>;
-
-    return (
-      <div ref={this.listItemRef} className={classes} {...unhandled}>
-        {itemContent}
-      </div>
-    );
-  }
+  /* disable drag */
+  disabled?: boolean;
 }
 
-const EnhancedListItem = defaultProps<ListItemProps>({
-  classPrefix: 'list-item'
-})(ListItem);
+const ListItem = React.forwardRef((props: ListItemProps, ref: React.Ref<HTMLDivElement>) => {
+  const {
+    children,
+    className,
+    classPrefix = 'list-item',
+    collection = 0,
+    disabled,
+    index,
+    ...rest
+  } = props;
+  const { bordered, register, size } = useContext(ListContext);
+  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const listItemRef = useRef(null);
+  useEffect(() => {
+    const { unregister } = register({
+      node: listItemRef.current,
+      edgeOffset: null,
+      info: {
+        collection,
+        disabled,
+        index
+      }
+    });
+    return unregister;
+  }, [collection, disabled, index, register]);
+  const classes = merge(
+    className,
+    withClassPrefix(size, {
+      disabled,
+      bordered
+    })
+  );
+  return (
+    <div
+      {...rest}
+      role="listitem"
+      aria-disabled={disabled}
+      ref={mergeRefs(listItemRef, ref)}
+      className={classes}
+    >
+      {children}
+    </div>
+  );
+});
 
-const Component = setDisplayName('ListItem')(EnhancedListItem);
-
-const WithContextListItem = (props: ListItemProps) => (
-  <ListContext.Consumer>{context => <Component {...props} {...context} />}</ListContext.Consumer>
-);
-
-export default WithContextListItem;
+ListItem.displayName = 'ListItem';
+ListItem.propTypes = {
+  index: PropTypes.number,
+  collection: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  disabled: PropTypes.bool,
+  children: PropTypes.node
+};
+export default ListItem;

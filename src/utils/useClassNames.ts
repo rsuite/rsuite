@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import classNames from 'classnames';
 import { prefix as addPrefix } from './prefix';
 import { CustomContext } from '../CustomProvider/CustomProvider';
@@ -41,15 +41,18 @@ function useClassNames(str: string) {
    * if str = 'button':
    * prefix('red', { active: true }) => 'rs-button-red rs-button-active'
    */
-  const prefix = (...classes: ClassValue[]) => {
-    const mergeClasses = classes.length
-      ? classNames(...classes)
-          .split(' ')
-          .map(item => addPrefix(componentName, item))
-      : [];
+  const prefix = useCallback(
+    (...classes: ClassValue[]) => {
+      const mergeClasses = classes.length
+        ? classNames(...classes)
+            .split(' ')
+            .map(item => addPrefix(componentName, item))
+        : [];
 
-    return mergeClasses.filter(cls => cls).join(' ');
-  };
+      return mergeClasses.filter(cls => cls).join(' ');
+    },
+    [componentName]
+  );
 
   /**
    * @example
@@ -57,16 +60,19 @@ function useClassNames(str: string) {
    * if str = 'button':
    * withClassPrefix('red', { active: true }) => 'rs-button rs-button-red rs-button-active'
    */
-  const withClassPrefix = (...classes: ClassValue[]) => {
-    const mergeClasses = prefix(classes);
-    return mergeClasses ? `${componentName} ${mergeClasses}` : componentName;
-  };
+  const withClassPrefix = useCallback(
+    (...classes: ClassValue[]) => {
+      const mergeClasses = prefix(classes);
+      return mergeClasses ? `${componentName} ${mergeClasses}` : componentName;
+    },
+    [componentName, prefix]
+  );
 
   /**
    * @example
    * rootPrefix('btn') => 'rs-btn'
    */
-  const rootPrefix = (name: string) => addPrefix(classPrefix, name);
+  const rootPrefix = useCallback((name: string) => addPrefix(classPrefix, name), [classPrefix]);
 
   return {
     withClassPrefix,

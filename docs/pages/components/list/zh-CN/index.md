@@ -13,7 +13,37 @@ import { List } from 'rsuite';
 
 ## 演示
 
-<!--{demo}-->
+### 默认
+
+<!--{include:`default.md`}-->
+
+### 列表尺寸
+
+<!--{include:`size.md`}-->
+
+### 边框
+
+<!--{include:`bordered.md`}-->
+
+### 悬停效果
+
+<!--{include:`hover.md`}-->
+
+### 可排序
+
+> 必须给 List.Item 传入 `index` (组内唯一)
+
+<!--{include:`sortable.md`}-->
+
+### 分组排序
+
+> 每个 `collection` 的位置独立， 必须给 List.Item 传入 `index` (组内唯一)
+
+<!--{include:`collection.md`}-->
+
+### 自定义列表
+
+<!--{include:`custom.md`}-->
 
 ## Props
 

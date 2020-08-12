@@ -1,11 +1,9 @@
-### Custom
-
 <!--start-code-->
 
 ```js
 const data = [
   {
-    title: '20170923-Hong Kong independent travel',
+    title: '20170923-香港自由行@尖沙咀',
     icon: 'image',
     creator: 'Yvnonne',
     date: '2017.10.13 14:50',
@@ -15,7 +13,7 @@ const data = [
     uvRaise: 33
   },
   {
-    title: 'Celebration of the Mid-Autumn festival',
+    title: '庆中秋',
     icon: 'image',
     creator: 'Daibiao',
     date: '2017.10.13 14:50',
@@ -25,7 +23,7 @@ const data = [
     uvRaise: 28
   },
   {
-    title: 'Live to play basketball',
+    title: '直播打篮球',
     icon: 'film',
     creator: 'Bidetoo',
     date: '2017.10.13 14:50',
@@ -35,7 +33,7 @@ const data = [
     uvRaise: 29
   },
   {
-    title: '2018 the legislature meeting broadcast live',
+    title: '2018立法院会议直播',
     icon: 'film',
     creator: 'Yvnonne',
     date: '2017.10.13 14:50',
@@ -45,7 +43,7 @@ const data = [
     uvRaise: 91
   },
   {
-    title: 'Aiwanke paster',
+    title: '爱玩客贴片',
     icon: 'image',
     creator: 'Tony',
     date: '2017.10.13 14:50',
@@ -106,7 +104,7 @@ class ListDemo extends React.Component {
     return (
       <List hover>
         {data.map((item, index) => (
-          <List.Item key={item['title']} index={index}>
+          <List.Item key={item['title']} index={index+1}>
             <FlexboxGrid>
               {/*icon*/}
               <FlexboxGrid.Item colspan={2} style={styleCenter}>
@@ -140,7 +138,7 @@ class ListDemo extends React.Component {
               {/*peak data*/}
               <FlexboxGrid.Item colspan={6} style={styleCenter}>
                 <div style={{ textAlign: 'right' }}>
-                  <div style={slimText}>Top Value</div>
+                  <div style={slimText}>峰值</div>
                   <div style={dataStyle}>{item['peak'].toLocaleString()}</div>
                 </div>
                 {this.renderRaise(item['peakRaise'])}
@@ -148,7 +146,7 @@ class ListDemo extends React.Component {
               {/*uv data*/}
               <FlexboxGrid.Item colspan={6} style={styleCenter}>
                 <div style={{ textAlign: 'right' }}>
-                  <div style={slimText}>UV</div>
+                  <div style={slimText}>独立访问量（UV）</div>
                   <div style={dataStyle}>{item['uv'].toLocaleString()}</div>
                 </div>
                 {this.renderRaise(item['uvRaise'])}
@@ -160,9 +158,9 @@ class ListDemo extends React.Component {
                   ...styleCenter
                 }}
               >
-                <a href="#">View</a>
+                <a href="#">查看</a>
                 <span style={{ padding: 5 }}>|</span>
-                <a href="#">Edit</a>
+                <a href="#">编辑</a>
               </FlexboxGrid.Item>
             </FlexboxGrid>
           </List.Item>
