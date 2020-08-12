@@ -14,7 +14,6 @@ const instance = (
     <Badge color="cyan">Cyan</Badge>
     <Badge color="blue">Blue</Badge>
     <Badge color="violet">Violet</Badge>
-    <br />
     <Badge color="red" />
     <Badge color="orange" />
     <Badge color="yellow" />
@@ -22,7 +21,6 @@ const instance = (
     <Badge color="cyan" />
     <Badge color="blue" />
     <Badge color="violet" />
-    <br />
     <Badge color="blue" content="99+" />
     <Badge color="violet" content="NEW" />
   </div>
