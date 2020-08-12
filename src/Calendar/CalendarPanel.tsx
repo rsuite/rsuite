@@ -1,11 +1,10 @@
-import React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Calendar from './Calendar';
 import Button from '../Button';
 import FormattedDate from '../IntlProvider/FormattedDate';
-import { prefix } from '../utils';
+import { prefix, useCustom } from '../utils';
 import { toLocalTimeZone, toTimeZone, zonedDate } from '../utils/timeZone';
 import composeFunctions from '../utils/composeFunctions';
 import {
@@ -17,7 +16,6 @@ import {
   setSeconds
 } from '../utils/dateUtils';
 import { StandardProps } from '../@types/common';
-import { CustomContext } from '../CustomProvider';
 
 export interface CalendarPanelProps extends Omit<StandardProps, 'as'> {
   /** Controlled value */
@@ -46,6 +44,8 @@ export interface CalendarPanelProps extends Omit<StandardProps, 'as'> {
 
   /** Custom render calendar cells  */
   renderCell?: (date: Date) => React.ReactNode;
+
+  locale?: Record<string, any>;
 }
 
 const defaultProps: Partial<CalendarPanelProps> = {
@@ -60,6 +60,7 @@ const CalendarPanel = React.forwardRef<HTMLDivElement, CalendarPanelProps>((prop
     timeZone,
     onChange,
     onSelect,
+    locale: propsLocale,
     classPrefix,
     compact,
     className,
@@ -72,7 +73,7 @@ const CalendarPanel = React.forwardRef<HTMLDivElement, CalendarPanelProps>((prop
     toTimeZone(propsValue ?? defaultValue ?? new Date(), timeZone)
   );
   const [showMonth, setShowMonth] = useState<boolean>(false);
-  const { locale = {} } = useContext(CustomContext) || {};
+  const { locale } = useCustom('Calendar', propsLocale) || {};
 
   useEffect(() => {
     const nextValue = toTimeZone(propsValue ?? toLocalTimeZone(value, timeZone), timeZone);
@@ -169,6 +170,7 @@ CalendarPanel.propTypes = {
   timeZone: PropTypes.string,
   compact: PropTypes.bool,
   bordered: PropTypes.bool,
+  locale: PropTypes.object,
   className: PropTypes.string,
   classPrefix: PropTypes.string,
   onChange: PropTypes.func,
