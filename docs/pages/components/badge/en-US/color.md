@@ -1,4 +1,4 @@
-### colorful indicator
+### Colorful indicator
 
 `color` attribute sets the indicator style, options include: 'red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet'
 
