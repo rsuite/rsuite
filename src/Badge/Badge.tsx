@@ -34,11 +34,14 @@ const Badge = React.forwardRef<HTMLDivElement, BadgeProps>((props, ref) => {
   const dot = contentText === undefined || contentText === null;
   const classes = merge(
     className,
-    withClassPrefix(color, {
-      independent: !children,
-      wrapper: children,
-      dot
-    })
+    withClassPrefix(
+      {
+        independent: !children,
+        wrapper: children,
+        dot
+      },
+      color
+    )
   );
 
   if (contentText === false) {
