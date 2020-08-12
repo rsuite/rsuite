@@ -45,6 +45,7 @@ export interface CheckPickerProps<T = (number | string)[]>
 }
 
 const defaultProps: Partial<CheckPickerProps> = {
+  as: 'div',
   appearance: 'default',
   classPrefix: 'picker',
   countable: true,
@@ -62,6 +63,7 @@ const defaultProps: Partial<CheckPickerProps> = {
 
 const CheckPicker = React.forwardRef((props: CheckPickerProps, ref: React.Ref<PickerInstance>) => {
   const {
+    as: Component,
     classPrefix,
     countable,
     data,
@@ -401,7 +403,7 @@ const CheckPicker = React.forwardRef((props: CheckPickerProps, ref: React.Ref<Pi
       onExited={createChainedFunction(handleExited, onExited)}
       speaker={renderDropdownMenu()}
     >
-      <div ref={rootRef} className={classes} style={style}>
+      <Component ref={rootRef} className={classes} style={style}>
         <PickerToggle
           {...omit(rest, [...pickerToggleTriggerProps, ...usedClassNameProps])}
           ref={toggleRef}
@@ -414,7 +416,7 @@ const CheckPicker = React.forwardRef((props: CheckPickerProps, ref: React.Ref<Pi
         >
           {selectedElement || locale?.placeholder}
         </PickerToggle>
-      </div>
+      </Component>
     </PickerToggleTrigger>
   );
 });

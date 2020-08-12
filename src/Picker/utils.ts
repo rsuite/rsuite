@@ -226,12 +226,14 @@ export const useFocusItemValue = (
       return [];
     }
 
-    // It is necessary to traverse the keys instead of data here to preserve the order of the array.
-    return keys.map(key => find(data, [valueKey, key]));
+    // 1. It is necessary to traverse the `keys` instead of `data` here to preserve the order of the array.
+    // 2. The values ​​in `keys` are all string, so the corresponding value of `data` should also be converted to string
+    return keys.map(key => find(data, i => `${i[valueKey]}` === key));
   };
 
   const findNode = callback => {
     const items = getFocusableMenuItems();
+
     for (let i = 0; i < items.length; i += 1) {
       if (shallowEqual(focusItemValue, items[i][valueKey])) {
         callback(items, i);

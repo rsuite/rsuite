@@ -37,7 +37,7 @@ describe('InputPicker styles', () => {
   it('Should render correct toggle styles', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<InputPicker ref={instanceRef} data={data} />, createTestContainer());
-    const dom = getDOMNode(instanceRef.current);
+    const dom = instanceRef.current.root;
     const toggleDom = dom.querySelector('.rs-picker-toggle');
     const toggleInputDom = dom.querySelector('.rs-picker-search-input');
     inChrome &&
@@ -55,7 +55,7 @@ describe('InputPicker styles', () => {
       <InputPicker toggleAs={Button} size="lg" ref={instanceRef} data={data} />,
       createTestContainer()
     );
-    const dom = getDOMNode(instanceRef.current);
+    const dom = instanceRef.current.root;
     assert.equal(getStyle(dom, 'height'), '42px', 'Toggle height');
   });
 
@@ -65,7 +65,7 @@ describe('InputPicker styles', () => {
       <InputPicker toggleAs={Button} size="md" ref={instanceRef} data={data} />,
       createTestContainer()
     );
-    const dom = getDOMNode(instanceRef.current);
+    const dom = instanceRef.current.root;
     assert.equal(getStyle(dom, 'height'), '36px', 'Toggle height');
   });
 
@@ -75,7 +75,7 @@ describe('InputPicker styles', () => {
       <InputPicker toggleAs={Button} size="sm" ref={instanceRef} data={data} />,
       createTestContainer()
     );
-    const dom = getDOMNode(instanceRef.current);
+    const dom = instanceRef.current.root;
     assert.equal(getStyle(dom, 'height'), '30px', 'Toggle height');
   });
 
@@ -85,7 +85,7 @@ describe('InputPicker styles', () => {
       <InputPicker toggleAs={Button} size="xs" ref={instanceRef} data={data} />,
       createTestContainer()
     );
-    const dom = getDOMNode(instanceRef.current);
+    const dom = instanceRef.current.root;
     assert.equal(getStyle(dom, 'height'), '24px', 'Toggle height');
   });
 
@@ -107,6 +107,6 @@ describe('InputPicker styles', () => {
       />,
       createTestContainer()
     );
-    dom = getDOMNode(instanceRef.current);
+    dom = instanceRef.current.root;
   });
 });

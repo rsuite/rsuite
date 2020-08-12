@@ -83,6 +83,7 @@ export interface SelectPickerProps<T = number | string>
     SelectProps<T> {}
 
 const defaultProps: Partial<SelectPickerProps> = {
+  as: 'div',
   appearance: 'default',
   classPrefix: 'picker',
   searchable: true,
@@ -100,6 +101,7 @@ const defaultProps: Partial<SelectPickerProps> = {
 const SelectPicker = React.forwardRef(
   (props: SelectPickerProps, ref: React.Ref<PickerInstance>) => {
     const {
+      as: Component,
       data,
       valueKey,
       labelKey,
@@ -382,7 +384,7 @@ const SelectPicker = React.forwardRef(
         onExited={createChainedFunction(handleExited, onExited)}
         speaker={renderDropdownMenu()}
       >
-        <div ref={rootRef} className={classes} style={style}>
+        <Component ref={rootRef} className={classes} style={style}>
           <PickerToggle
             {...omit(rest, [...pickerToggleTriggerProps, ...usedClassNameProps])}
             ref={toggleRef}
@@ -395,7 +397,7 @@ const SelectPicker = React.forwardRef(
           >
             {selectedElement || locale?.placeholder}
           </PickerToggle>
-        </div>
+        </Component>
       </PickerToggleTrigger>
     );
   }
