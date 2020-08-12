@@ -22,3 +22,4 @@ import { Badge } from 'rsuite';
 | classPrefix | string `('badge')`       | The prefix of the component CSS class                      |
 | content     | string,number,React.Node | Content info                                               |
 | maxCount    | number`99`               | Max count number（Only valid if `content` is type number） |
+| color       | enum: 'red', 'orange','yellow', 'green', <br/>'cyan', 'blue', 'violet'   | A button can have different colors   |

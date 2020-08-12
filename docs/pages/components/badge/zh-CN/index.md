@@ -22,3 +22,4 @@ import { Badge } from 'rsuite';
 | classPrefix | string `('badge')`       | 组件 CSS 类的前缀                               |
 | content     | string,number,React.Node | 内容                                            |
 | maxCount    | number`99`               | 最大计数（仅当 `content` 为 number 类型时有效） |
+| color       | enum: 'red', 'orange','yellow', 'green', <br/>'cyan', 'blue', 'violet'   | 设置颜色 |
