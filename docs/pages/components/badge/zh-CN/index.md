@@ -16,10 +16,10 @@ import { Badge } from 'rsuite';
 
 ### `<Badge>`
 
-| 属性名称    | 类型`(默认值)`           | 描述                                            |
-| ----------- | ------------------------ | ----------------------------------------------- |
-| children    | React.Node               | 包裹的组件                                      |
-| classPrefix | string `('badge')`       | 组件 CSS 类的前缀                               |
-| content     | string,number,React.Node | 内容                                            |
-| maxCount    | number`99`               | 最大计数（仅当 `content` 为 number 类型时有效） |
-| color       | enum: 'red', 'orange','yellow', 'green', <br/>'cyan', 'blue', 'violet'   | 设置颜色 |
+| 属性名称    | 类型`(默认值)`                                                         | 描述                                            |
+| ----------- | ---------------------------------------------------------------------- | ----------------------------------------------- |
+| children    | React.Node                                                             | 包裹的组件                                      |
+| classPrefix | string `('badge')`                                                     | 组件 CSS 类的前缀                               |
+| content     | string,number,React.Node                                               | 内容                                            |
+| color       | enum: 'red', 'orange','yellow', 'green', <br/>'cyan', 'blue', 'violet' | 设置颜色                                        |
+| maxCount    | number`99`                                                             | 最大计数（仅当 `content` 为 number 类型时有效） |
