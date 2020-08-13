@@ -1,6 +1,5 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import _ from 'lodash';
 import { addDays, format, getDate, isSameDay } from '../utils/dateUtils';
 import { getUnhandledProps, useClassNames, useCustom } from '../utils';
@@ -41,7 +40,7 @@ const TableRow = React.forwardRef<HTMLDivElement, TableRowProps>((props, ref) =>
     ...rest
   } = props;
   const { formatDate, formattedDayPattern, today } = useCustom<CalendarLocaleTypes>('Calendar');
-  const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
+  const { prefix, merge } = useClassNames(classPrefix);
 
   const handleSelect = (
     date: Date,
