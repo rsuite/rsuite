@@ -26,3 +26,4 @@ export { default as useClassNames } from './useClassNames';
 export { default as useEventListener } from './useEventListener';
 export { default as useElementResize } from './useElementResize';
 export { default as useCustom } from './useCustom';
+export { default as createComponent } from './createComponent';

@@ -1,8 +1,7 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 import InputAutosize from '../InputAutosize';
 import InputSearch from '../InputSearch';
 
@@ -14,8 +13,8 @@ describe('InputPicker - InputSearch', () => {
   });
 
   it('Should render a input', () => {
-    const instance = getInstance(<InputSearch />);
-    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-picker-search-input');
+    const instance = getDOMNode(<InputSearch />);
+    assert.ok(instance.querySelector('.rs-picker-search-input'));
   });
 
   it('Should have a custom className', () => {
@@ -30,9 +29,10 @@ describe('InputPicker - InputSearch', () => {
   });
 
   it('Should have a InputAutosize', () => {
-    const instance = getInstance(<InputSearch as={InputAutosize} />);
-    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-picker-search-input');
-    ReactTestUtils.findRenderedComponentWithType(instance, InputAutosize);
+    const instance = getDOMNode(<InputSearch as={InputAutosize} />);
+    assert.ok(instance.querySelector('.rs-picker-search-input'));
+    assert.ok(instance.querySelector('.rs-picker-search-input input'));
+    assert.equal(instance.querySelector('.rs-picker-search-input input').style.width, '1px');
   });
 
   it('Should call onChange callback', done => {

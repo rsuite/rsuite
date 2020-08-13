@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useRef, useImperativeHandle, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { partitionHTMLProps, isIE } from '../utils';
 
@@ -28,120 +28,61 @@ export interface InputAutosizeProps {
   inputClassName?: string;
   inputStyle?: React.CSSProperties;
   minWidth?: number;
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
   placeholder?: string;
   style?: React.CSSProperties;
-  value?: any;
+  value?: string;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
   onAutosize?: (inputWidth: number) => void;
 }
 
-interface InputAutosizeState {
-  inputWidth: number;
+export interface InputInstance {
+  root: HTMLDivElement;
+  input: HTMLInputElement;
 }
 
-class InputAutosize extends React.Component<InputAutosizeProps, InputAutosizeState> {
-  static propTypes = {
-    className: PropTypes.string,
-    defaultValue: PropTypes.any,
-    inputId: PropTypes.string,
-    inputClassName: PropTypes.string,
-    inputStyle: PropTypes.object,
-    minWidth: PropTypes.number,
-    onChange: PropTypes.func,
-    placeholder: PropTypes.string,
-    style: PropTypes.object,
-    value: PropTypes.any,
-    onAutosize: PropTypes.func
-  };
-  static defaultProps = {
-    minWidth: 1,
-    inputId: '_' + Math.random().toString(36).substr(2, 12)
-  };
+/**
+ * Use a dynamic input width.
+ * The width is automatically adjusted according to the length of the input text characters.
+ * @param props
+ * @param sizerRef
+ * @param placeholderRef
+ */
+const useInputWidth = (
+  props: Partial<InputAutosizeProps>,
+  sizerRef: React.RefObject<HTMLDivElement>,
+  placeholderRef: React.RefObject<HTMLDivElement>
+) => {
+  const { minWidth, placeholder, value, onAutosize } = props;
+  const [inputWidth, setInputWidth] = useState(minWidth);
 
-  inputRef: React.RefObject<any>;
-  sizerRef: React.RefObject<any>;
-  placeHolderSizerRef: React.RefObject<any>;
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      inputWidth: props.minWidth
-    };
-
-    this.inputRef = React.createRef();
-    this.sizerRef = React.createRef();
-    this.placeHolderSizerRef = React.createRef();
-  }
-
-  getInputInstance() {
-    return this.inputRef.current;
-  }
-
-  componentDidMount() {
-    this.copyInputStyles();
-    this.updateInputWidth();
-  }
-
-  componentDidUpdate(_prevProps, prevState) {
-    const { inputWidth } = this.state;
-    if (prevState.inputWidth !== inputWidth) {
-      this.props.onAutosize?.(inputWidth);
-    }
-    this.updateInputWidth();
-  }
-  copyInputStyles() {
-    if (!this.inputRef.current || !window.getComputedStyle) {
+  useEffect(() => {
+    if (!sizerRef.current || typeof sizerRef.current.scrollWidth === 'undefined') {
       return;
     }
-    const inputStyles: CSSStyleDeclaration =
-      this.inputRef.current && window.getComputedStyle(this.inputRef.current);
-    if (!inputStyles) {
-      return;
-    }
-    if (this.sizerRef.current) {
-      copyStyles(inputStyles, this.sizerRef.current);
-    }
 
-    if (this.placeHolderSizerRef.current) {
-      copyStyles(inputStyles, this.placeHolderSizerRef.current);
-    }
-  }
-  updateInputWidth() {
-    if (!this.sizerRef.current || typeof this.sizerRef.current.scrollWidth === 'undefined') {
-      return;
-    }
-    const { minWidth, placeholder, value } = this.props;
-    let newInputWidth: number;
-    if (placeholder && !value && this.placeHolderSizerRef.current) {
-      newInputWidth =
-        Math.max(this.sizerRef.current.scrollWidth, this.placeHolderSizerRef.current.scrollWidth) +
-        2;
+    let width = minWidth;
+    if (placeholder && !value && placeholderRef.current) {
+      width = Math.max(sizerRef.current.scrollWidth, placeholderRef.current.scrollWidth) + 2;
     } else {
-      newInputWidth = this.sizerRef.current.scrollWidth + 2;
+      width = sizerRef.current.scrollWidth + 2;
     }
 
-    if (newInputWidth < minWidth) {
-      newInputWidth = minWidth;
+    if (width < minWidth) {
+      width = minWidth;
     }
-    if (newInputWidth !== this.state.inputWidth) {
-      this.setState({
-        inputWidth: newInputWidth
-      });
-    }
-  }
 
-  renderStyles() {
-    const { inputId } = this.props;
-    return isIE() ? (
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `input#${inputId}::-ms-clear {display: none;}`
-        }}
-      />
-    ) : null;
-  }
-  render() {
-    const { inputWidth } = this.state;
+    if (width !== inputWidth) {
+      setInputWidth(width);
+      onAutosize?.(width);
+    }
+  }, [minWidth, placeholder, inputWidth, value, placeholderRef, sizerRef, onAutosize]);
+
+  return inputWidth;
+};
+
+const InputAutosize = React.forwardRef(
+  (props: InputAutosizeProps, ref: React.Ref<InputInstance>) => {
+    const uniqueId = useMemo(() => '_' + Math.random().toString(36).substr(2, 12), []);
     const {
       defaultValue,
       value,
@@ -150,8 +91,18 @@ class InputAutosize extends React.Component<InputAutosizeProps, InputAutosizeSta
       placeholder,
       inputClassName,
       inputStyle,
-      inputId
-    } = this.props;
+      inputId = uniqueId
+    } = props;
+
+    const rootRef = useRef();
+    const inputRef = useRef();
+    const sizerRef = useRef();
+    const placeholderRef = useRef();
+
+    useImperativeHandle(ref, () => ({
+      root: rootRef.current,
+      input: inputRef.current
+    }));
 
     const sizerValue = [defaultValue, value, ''].reduce((previousValue, currentValue) => {
       if (previousValue !== null && previousValue !== undefined) {
@@ -160,38 +111,79 @@ class InputAutosize extends React.Component<InputAutosizeProps, InputAutosizeSta
       return currentValue;
     });
 
-    const wrapperStyle: React.CSSProperties = { ...style };
-    if (!wrapperStyle.display) {
-      wrapperStyle.display = 'inline-block';
-    }
-
+    const inputWidth = useInputWidth(props, sizerRef, placeholderRef);
+    const wrapperStyle: React.CSSProperties = { display: 'inline-block', ...style };
     const nextInputStyle: React.CSSProperties = {
       boxSizing: 'content-box',
       width: `${inputWidth}px`,
       ...inputStyle
     };
 
-    const [htmlInputProps] = partitionHTMLProps(this.props);
+    useEffect(() => {
+      if (!window.getComputedStyle) {
+        return;
+      }
+
+      const input = inputRef.current;
+      const inputStyles: CSSStyleDeclaration = input && window.getComputedStyle(input);
+      if (!inputStyles) {
+        return;
+      }
+
+      copyStyles(inputStyles, sizerRef.current);
+      if (placeholderRef.current) {
+        copyStyles(inputStyles, placeholderRef.current);
+      }
+    }, []);
+
+    const [htmlInputProps] = partitionHTMLProps(props);
 
     htmlInputProps.className = inputClassName;
-    htmlInputProps.id = inputId;
     htmlInputProps.style = nextInputStyle;
 
+    if (isIE()) {
+      // On Internet Explorer, an `x` symbol will appear in the input box.
+      // By setting an id, matching the style, hiding the `x` symbol by the style.
+      htmlInputProps.id = inputId;
+    }
+
     return (
-      <div className={className} style={wrapperStyle}>
-        {this.renderStyles()}
-        <input {...htmlInputProps} ref={this.inputRef} type="text" />
-        <div ref={this.sizerRef} style={sizerStyle}>
+      <div ref={rootRef} className={className} style={wrapperStyle}>
+        {isIE() ? (
+          <style
+            dangerouslySetInnerHTML={{ __html: `input#${inputId}::-ms-clear {display: none;}` }}
+          />
+        ) : null}
+        <input {...htmlInputProps} ref={inputRef} type="text" />
+        <div ref={sizerRef} style={sizerStyle}>
           {sizerValue}
         </div>
         {placeholder ? (
-          <div ref={this.placeHolderSizerRef} style={sizerStyle}>
+          <div ref={placeholderRef} style={sizerStyle}>
             {placeholder}
           </div>
         ) : null}
       </div>
     );
   }
-}
+);
+
+InputAutosize.displayName = 'InputAutosize';
+InputAutosize.propTypes = {
+  className: PropTypes.string,
+  defaultValue: PropTypes.any,
+  inputId: PropTypes.string,
+  inputClassName: PropTypes.string,
+  inputStyle: PropTypes.object,
+  minWidth: PropTypes.number,
+  onChange: PropTypes.func,
+  placeholder: PropTypes.string,
+  style: PropTypes.object,
+  value: PropTypes.any,
+  onAutosize: PropTypes.func
+};
+InputAutosize.defaultProps = {
+  minWidth: 1
+};
 
 export default InputAutosize;

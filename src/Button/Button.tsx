@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import SafeAnchor from '../SafeAnchor';
 import Ripple from '../Ripple';
@@ -30,7 +30,7 @@ export interface ButtonProps extends StandardProps, React.ButtonHTMLAttributes<H
   /** A button can show it is currently unable to be interacted with */
   disabled?: boolean;
 
-  /** Called when the button is clicked. */
+  /** Called when the button is clicked */
   onClick?: (event: React.SyntheticEvent) => void;
 
   /** Ripple after button click */

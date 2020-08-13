@@ -34,7 +34,7 @@ export interface MenuWrapperProps extends StandardProps {
   autoWidth?: boolean;
   children?: React.ReactNode;
   getPositionInstance?: () => any;
-  getToggleInstance?: () => any;
+  getToggleInstance?: () => HTMLElement;
   onKeyDown?: (event: React.KeyboardEvent) => void;
 }
 
@@ -42,6 +42,7 @@ const MenuWrapper = React.forwardRef((props: MenuWrapperProps, ref: React.Ref<HT
   const {
     as: Component = 'div',
     classPrefix = 'picker-menu',
+    autoWidth,
     className,
     placement,
     getPositionInstance,
@@ -59,14 +60,14 @@ const MenuWrapper = React.forwardRef((props: MenuWrapperProps, ref: React.Ref<HT
 
   useElementResize(() => menuElementRef.current, handleResize);
   useEffect(() => {
-    const instance = getToggleInstance?.();
-    if (instance?.toggleRef?.current) {
+    const toggle = getToggleInstance?.();
+    if (autoWidth && toggle) {
       // Get the width value of the button,
       // and then set it to the menu to make their width consistent.
-      const width = getWidth(getDOMNode(instance.toggleRef.current));
+      const width = getWidth(getDOMNode(toggle));
       addStyle(menuElementRef.current, 'min-width', `${width}px`);
     }
-  }, [getToggleInstance, menuElementRef]);
+  }, [autoWidth, getToggleInstance, menuElementRef]);
 
   const { withClassPrefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix());

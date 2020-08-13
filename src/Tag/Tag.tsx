@@ -1,53 +1,55 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import compose from 'recompose/compose';
-import { prefix, withStyleProps, defaultProps } from '../utils';
-import { TagProps } from './Tag.d';
+import { useClassNames } from '../utils';
+import { StandardProps, TypeAttributes } from '../@types/common';
 
-class Tag extends React.Component<TagProps> {
-  static propTypes = {
-    closable: PropTypes.bool,
-    classPrefix: PropTypes.string,
-    onClose: PropTypes.func,
-    children: PropTypes.node,
-    className: PropTypes.string,
-    as: PropTypes.elementType
-  };
-  render() {
-    const {
-      children,
-      as: Component,
-      onClose,
-      classPrefix,
-      closable,
-      className,
-      ...rest
-    } = this.props;
+export interface TagProps extends StandardProps, React.HTMLAttributes<HTMLDivElement> {
+  /** A tag can have different colors */
+  color?: TypeAttributes.Color;
 
-    const addPrefix = prefix(classPrefix);
-    const classes = classnames(classPrefix, className, {
-      [addPrefix('closeable')]: closable
-    });
+  /** Whether to close */
+  closable?: boolean;
 
-    return (
-      <Component className={classes} {...rest}>
-        <span className={addPrefix('text')}>{children}</span>
-        {closable && (
-          <i role="button" tabIndex={-1} className={addPrefix('icon-close')} onClick={onClose} />
-        )}
-      </Component>
-    );
-  }
+  /** The content of the component */
+  children?: React.ReactNode;
+
+  /** Click the callback function for the Close button */
+  onClose?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
-export default compose<any, TagProps>(
-  withStyleProps<TagProps>({
-    hasColor: true,
-    defaultColor: 'default'
-  }),
-  defaultProps<TagProps>({
-    as: 'div',
-    classPrefix: 'tag'
-  })
-)(Tag);
+const Tag = React.forwardRef((props: TagProps, ref: React.Ref<HTMLDivElement>) => {
+  const {
+    as: Component = 'div',
+    classPrefix = 'tag',
+    color = 'default',
+    children,
+    closable,
+    className,
+    onClose,
+    ...rest
+  } = props;
+
+  const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix(color, { closable }));
+
+  return (
+    <Component {...rest} ref={ref} className={classes}>
+      <span className={prefix`text`}>{children}</span>
+      {closable && (
+        <i role="button" tabIndex={-1} className={prefix`icon-close`} onClick={onClose} />
+      )}
+    </Component>
+  );
+});
+
+Tag.displayName = 'Tag';
+Tag.propTypes = {
+  closable: PropTypes.bool,
+  classPrefix: PropTypes.string,
+  onClose: PropTypes.func,
+  children: PropTypes.node,
+  className: PropTypes.string,
+  as: PropTypes.elementType
+};
+
+export default Tag;

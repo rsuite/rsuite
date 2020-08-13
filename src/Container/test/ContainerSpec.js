@@ -27,7 +27,10 @@ describe('Container', () => {
         <Sidebar />
       </Container>
     );
-    assert.include(instance.className, 'rs-container-has-sidebar');
+    // TODO: This is a temporary solution and will be deleted after the component style is updated.
+    setTimeout(() => {
+      assert.include(instance.className, 'rs-container-has-sidebar');
+    }, 0);
   });
 
   it('Should have a custom className', () => {
