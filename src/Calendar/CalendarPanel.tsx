@@ -16,7 +16,7 @@ import {
 } from '../utils/dateUtils';
 import { StandardProps } from '../@types/common';
 import { CalendarProvider } from './CalendarContext';
-import {CalendarLocaleTypes} from "./types";
+import { CalendarLocaleTypes } from './types';
 
 export interface CalendarPanelProps extends Omit<StandardProps, 'as'> {
   /** Controlled value */
