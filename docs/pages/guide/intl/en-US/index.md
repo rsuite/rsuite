@@ -1,25 +1,25 @@
 # Internationalization
 
-The language in the React Suite component defaults to English. If you need to set another language, you can configure it with `<IntlProvider>`.
+The language in the React Suite component defaults to English. If you need to set another language, you can configure it with `<CustomProvider>`.
 
 ## Usage
 
 ```jsx
-import { IntlProvider } from 'rsuite';
-import zhCN from 'rsuite/lib/IntlProvider/locales/zh_CN';
+import CustomProvider from 'rsuite/lib/CustomProvider';
+import zhCN from 'rsuite/lib/locales/zh_CN';
 
 return (
-  <IntlProvider locale={zhCN}>
+  <CustomProvider locale={zhCN}>
     <App />
-  </IntlProvider>
+  </CustomProvider>
 );
 ```
 
 ## Format date
 
 ```jsx
-import { IntlProvider } from 'rsuite';
-import ruRU from 'rsuite/lib/IntlProvider/locales/ru_RU';
+import CustomProvider from 'rsuite/lib/CustomProvider';
+import ruRU from 'rsuite/lib/locales/ru_RU';
 import format from 'date-fns/format';
 import ru from 'date-fns/locale/ru';
 
@@ -28,9 +28,9 @@ function formatDate(data, formatStr) {
 }
 
 return (
-  <IntlProvider locale={ruRU} formatDate={formatDate}>
+  <CustomProvider locale={ruRU} formatDate={formatDate}>
     <App />
-  </IntlProvider>
+  </CustomProvider>
 );
 ```
 
@@ -55,20 +55,20 @@ return (
 
 ## Expand or modify language
 
-You can refer to the configuration in the [default language](https://github.com/rsuite/rsuite/blob/master/src/IntlProvider/locales/default.ts) file to make a new language pack passed to the `<IntlProvider>` component via the locale property.
+You can refer to the configuration in the [default language](https://github.com/rsuite/rsuite/blob/master/src/locales/default.ts) file to make a new language pack passed to the `<CustomProvider>` component via the locale property.
 
 ## Used with react-intl
 
 ```jsx
 import { IntlProvider } from 'react-intl';
-import LocaleProvider from 'rsuite/lib/IntlProvider';
-import zhCN from 'rsuite/lib/IntlProvider/locales/zh_CN';
+import CustomProvider from 'rsuite/lib/CustomProvider';
+import zhCN from 'rsuite/lib/locales/zh_CN';
 
 return (
   <IntlProvider locale="zh">
-    <LocaleProvider locale={zhCN}>
+    <CustomProvider locale={zhCN}>
       <App />
-    </LocaleProvider>
+    </CustomProvider>
   </IntlProvider>
 );
 ```
@@ -77,10 +77,10 @@ More Configuration references: [react-intl](https://github.com/yahoo/react-intl)
 
 ## Props
 
-### `<IntlProvider>`
+### `<CustomProvider>`
 
 | Property   | Type`(Default)`                                                       | Description                                    |
 | ---------- | --------------------------------------------------------------------- | ---------------------------------------------- |
 | formatDate | (date: Date ,format?: string, options?: {locale?: object;}) => string | Format date                                    |
-| locale     | object`(rsuite/lib/IntlProvider/locales/en_GB)`                       | Configure Language Pack                        |
+| locale     | object`(rsuite/lib/locales/default)`                                    | Configure Language Pack                        |
 | rtl        | boolean                                                               | Text and other elements go from left to right. |
