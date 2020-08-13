@@ -1,9 +1,10 @@
 import * as React from 'react';
+import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import List from 'react-virtualized/dist/commonjs/List';
-import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
-import { defaultProps, getUnhandledProps, prefix } from '../utils';
+import { List } from 'react-virtualized/dist/commonjs/List';
+import { AutoSizer } from 'react-virtualized/dist/commonjs/AutoSizer';
+import { getUnhandledProps, prefix } from '../utils';
 import MonthDropdownItem from './MonthDropdownItem';
 import { getDaysInMonth, getMonth, getYear } from '../utils/dateUtils';
 
@@ -40,43 +41,29 @@ function getRowHeight(count: number) {
   };
 }
 
-class MonthDropdown extends React.PureComponent<MonthDropdownProps> {
-  static propTypes = {
-    date: PropTypes.instanceOf(Date),
-    timeZone: PropTypes.string,
-    limitEndYear: PropTypes.number,
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    show: PropTypes.bool,
-    onSelect: PropTypes.func,
-    disabledMonth: PropTypes.func
-  };
-  static defaultProps = {
-    show: false,
-    limitEndYear: 5,
-    date: new Date()
-  };
+const defaultProps = {
+  show: false,
+  limitEndYear: 5,
+  date: new Date(),
+  classPrefix: 'calendar-month-dropdown'
+};
 
-  componentDidUpdate() {
-    this.list?.forceUpdateGrid();
-  }
+const MonthDropdown = React.forwardRef<HTMLDivElement, MonthDropdownProps>((props, ref) => {
+  const { classPrefix, disabledMonth, date, onSelect, timeZone, className, show, ...rest } = props;
+  const listRef = useRef(null);
 
-  getRowCount = () => {
-    const { limitEndYear } = this.props;
+  useEffect(() => {
+    listRef.current?.forceUpdateGrid();
+  }, [props]);
+
+  const getRowCount = () => {
+    const { limitEndYear } = props;
     return getYear(new Date()) + limitEndYear;
   };
 
-  list = null;
+  const addPrefix = (name: string) => prefix(classPrefix)(name);
 
-  bindListRef = ref => {
-    this.list = ref;
-  };
-
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
-
-  disabledMonth(year, month) {
-    const { disabledMonth } = this.props;
-
+  const isMonthDisabled = (year, month) => {
     if (disabledMonth) {
       const days = getDaysInMonth(new Date(year, month));
 
@@ -90,19 +77,18 @@ class MonthDropdown extends React.PureComponent<MonthDropdownProps> {
     }
 
     return false;
-  }
-  rowRenderer = ({ index, key, style }: RowProps) => {
-    const { date, onSelect, timeZone } = this.props;
+  };
+  const rowRenderer = ({ index, key, style }: RowProps) => {
     const selectedMonth = getMonth(date);
     const selectedYear = getYear(date);
     const year = index + 1;
     const isSelectedYear = year === selectedYear;
-    const count = this.getRowCount();
-    const titleClassName = classNames(this.addPrefix('year'), {
-      [this.addPrefix('year-active')]: isSelectedYear
+    const count = getRowCount();
+    const titleClassName = classNames(addPrefix('year'), {
+      [addPrefix('year-active')]: isSelectedYear
     });
 
-    const rowClassName = classNames(this.addPrefix('row'), {
+    const rowClassName = classNames(addPrefix('row'), {
       'first-row': index === 0,
       'last-row': index === count - 1
     });
@@ -110,14 +96,14 @@ class MonthDropdown extends React.PureComponent<MonthDropdownProps> {
     return (
       <div className={rowClassName} key={key} style={style}>
         <div className={titleClassName}>{year}</div>
-        <div className={this.addPrefix('list')}>
+        <div className={addPrefix('list')}>
           {monthMap.map((item, month) => {
             return (
               <MonthDropdownItem
                 date={date}
                 timeZone={timeZone}
                 onSelect={onSelect}
-                disabled={this.disabledMonth(year, month)}
+                disabled={isMonthDisabled(year, month)}
                 active={isSelectedYear && month === selectedMonth}
                 key={`${month}_${item}`}
                 month={month + 1}
@@ -129,42 +115,49 @@ class MonthDropdown extends React.PureComponent<MonthDropdownProps> {
       </div>
     );
   };
-  render() {
-    const { classPrefix, className, date, show, ...rest } = this.props;
-    const unhandled = getUnhandledProps(MonthDropdown, rest);
-    const count = this.getRowCount();
-    const classes = classNames(classPrefix, className, {
-      show
-    });
+  const unhandled = getUnhandledProps(MonthDropdown, rest);
+  const count = getRowCount();
+  const classes = classNames(classPrefix, className, {
+    show
+  });
 
-    return (
-      <div {...unhandled} className={classes}>
-        <div className={this.addPrefix('content')}>
-          <div className={this.addPrefix('scroll')}>
-            {show && (
-              <AutoSizer defaultHeight={defaultHeight} defaultWidth={defaultWidth}>
-                {({ height, width }) => (
-                  <List
-                    className={this.addPrefix('row-wrapper')}
-                    ref={this.bindListRef}
-                    width={width || defaultWidth}
-                    height={height || defaultHeight}
-                    rowHeight={getRowHeight(count)}
-                    rowCount={count}
-                    scrollToIndex={getYear(date)}
-                    rowRenderer={this.rowRenderer}
-                  />
-                )}
-              </AutoSizer>
-            )}
-          </div>
+  return (
+    <div {...unhandled} ref={ref} className={classes}>
+      <div className={addPrefix('content')}>
+        <div className={addPrefix('scroll')}>
+          {show && (
+            <AutoSizer defaultHeight={defaultHeight} defaultWidth={defaultWidth}>
+              {({ height, width }) => (
+                <List
+                  className={addPrefix('row-wrapper')}
+                  ref={listRef}
+                  width={width || defaultWidth}
+                  height={height || defaultHeight}
+                  rowHeight={getRowHeight(count)}
+                  rowCount={count}
+                  scrollToIndex={getYear(date)}
+                  rowRenderer={rowRenderer}
+                />
+              )}
+            </AutoSizer>
+          )}
         </div>
       </div>
-    );
-  }
-}
-
-const enhance = defaultProps<MonthDropdownProps>({
-  classPrefix: 'calendar-month-dropdown'
+    </div>
+  );
 });
-export default enhance(MonthDropdown);
+
+MonthDropdown.displayName = 'MonthDropdown';
+MonthDropdown.propTypes = {
+  date: PropTypes.instanceOf(Date),
+  timeZone: PropTypes.string,
+  limitEndYear: PropTypes.number,
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  show: PropTypes.bool,
+  onSelect: PropTypes.func,
+  disabledMonth: PropTypes.func
+};
+MonthDropdown.defaultProps = defaultProps;
+
+export default MonthDropdown;
