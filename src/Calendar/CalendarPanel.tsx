@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Calendar from './Calendar';
 import Button from '../Button';
@@ -69,18 +69,31 @@ const CalendarPanel = React.forwardRef<HTMLDivElement, CalendarPanelProps>((prop
     bordered,
     ...rest
   } = props;
-  const [value, setValue] = useState<Date>(toTimeZone(propsValue ?? defaultValue, timeZone));
+  const [value, updateValue] = useState<Date>(toTimeZone(propsValue ?? defaultValue, timeZone));
   const [pageDate, setPageDate] = useState(
     toTimeZone(propsValue ?? defaultValue ?? new Date(), timeZone)
   );
   const [showMonth, setShowMonth] = useState<boolean>(false);
   const { locale } = useCustom('Calendar', propsLocale);
+  const prevValueRef = useRef<Date>(value);
+  const prevTimeZoneRef = useRef<string>(timeZone);
+
+  const setValue = useCallback((nextValue: Date) => {
+    updateValue(prevValue => {
+      prevValueRef.current = prevValue;
+      return nextValue;
+    });
+  }, []);
 
   useEffect(() => {
-    const nextValue = toTimeZone(propsValue ?? toLocalTimeZone(value, timeZone), timeZone);
+    const nextValue = toTimeZone(
+      propsValue ?? toLocalTimeZone(prevValueRef.current, prevTimeZoneRef.current),
+      timeZone
+    );
+    prevTimeZoneRef.current = timeZone;
     setValue(nextValue);
     setPageDate(nextValue ?? zonedDate(timeZone));
-  }, [value, timeZone, propsValue]);
+  }, [setValue, timeZone, propsValue]);
 
   const handleToggleMonthDropdown = () => {
     setShowMonth(prevShowMonth => !prevShowMonth);
