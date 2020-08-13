@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Badge from '../index';
-import { createTestContainer, getDOMNode, getStyle, itChrome, toRGB } from '@test/testUtils';
+import { createTestContainer, getStyle, itChrome, toRGB } from '@test/testUtils';
 
 import '../styles/index';
 
@@ -9,7 +9,7 @@ describe('Badge styles', () => {
   it('Independent should render correct style ', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<Badge ref={instanceRef} />, createTestContainer());
-    const dom = getDOMNode(instanceRef.current);
+    const dom = instanceRef.current;
     assert.equal(getStyle(dom, 'width'), '8px');
     assert.equal(getStyle(dom, 'width'), getStyle(dom, 'height'));
   });
@@ -18,14 +18,14 @@ describe('Badge styles', () => {
   itChrome('Independent should render correct border-radius ', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<Badge ref={instanceRef} />, createTestContainer());
-    const dom = getDOMNode(instanceRef.current);
+    const dom = instanceRef.current;
     assert.equal(getStyle(dom, 'borderRadius'), '4px');
   });
 
   it('Should render correct color', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<Badge ref={instanceRef} />, createTestContainer());
-    const dom = getDOMNode(instanceRef.current);
+    const dom = instanceRef.current;
     assert.equal(getStyle(dom, 'color'), toRGB('#fff'));
   });
 
@@ -33,7 +33,7 @@ describe('Badge styles', () => {
     const instanceRef = React.createRef();
     const background = '#4caf50';
     ReactDOM.render(<Badge ref={instanceRef} style={{ background }} />, createTestContainer());
-    const dom = getDOMNode(instanceRef.current);
+    const dom = instanceRef.current;
     assert.equal(getStyle(dom, 'backgroundColor'), toRGB(background));
   });
 
@@ -45,7 +45,7 @@ describe('Badge styles', () => {
       </Badge>,
       createTestContainer()
     );
-    const content = getDOMNode(instanceRef.current).querySelector('.rs-badge-content');
+    const content = instanceRef.current.querySelector('.rs-badge-content');
     assert.equal(
       getStyle(content, 'backgroundColor'),
       toRGB('#00bcd4'),
@@ -56,7 +56,7 @@ describe('Badge styles', () => {
   it('Color Badge independent should render the correct color', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<Badge color="cyan" ref={instanceRef} />, createTestContainer());
-    const dom = getDOMNode(instanceRef.current);
+    const dom = instanceRef.current;
     assert.equal(
       getStyle(dom, 'backgroundColor'),
       toRGB('#00bcd4'),
