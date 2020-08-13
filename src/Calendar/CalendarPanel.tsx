@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import Calendar from './Calendar';
 import Button from '../Button';
 import FormattedDate from '../IntlProvider/FormattedDate';
-import { prefix, useCustom } from '../utils';
+import { useClassNames, useCustom } from '../utils';
 import { toLocalTimeZone, toTimeZone, zonedDate } from '../utils/timeZone';
 import composeFunctions from '../utils/composeFunctions';
 import {
@@ -73,7 +72,7 @@ const CalendarPanel = React.forwardRef<HTMLDivElement, CalendarPanelProps>((prop
     toTimeZone(propsValue ?? defaultValue ?? new Date(), timeZone)
   );
   const [showMonth, setShowMonth] = useState<boolean>(false);
-  const { locale } = useCustom('Calendar', propsLocale) || {};
+  const { locale } = useCustom('Calendar', propsLocale);
 
   useEffect(() => {
     const nextValue = toTimeZone(propsValue ?? toLocalTimeZone(value, timeZone), timeZone);
@@ -122,21 +121,25 @@ const CalendarPanel = React.forwardRef<HTMLDivElement, CalendarPanelProps>((prop
     handleChange(nextValue);
   };
 
-  const addPrefix = (name: string): string => prefix(classPrefix)(name);
+  const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
 
   const renderToolbar = () => {
     return (
-      <Button className={addPrefix('btn-today')} onClick={handleClickToday}>
+      <Button className={prefix('btn-today')} onClick={handleClickToday}>
         {locale.today || 'Today'}
       </Button>
     );
   };
 
   const renderCell = (date: Date) => props.renderCell?.(toLocalTimeZone(date, timeZone));
-  const classes = classNames(addPrefix('panel'), className, {
-    [addPrefix('bordered')]: bordered,
-    [addPrefix('compact')]: compact
-  });
+  const classes = merge(
+    prefix('panel'),
+    className,
+    withClassPrefix({
+      bordered,
+      compact
+    })
+  );
 
   return (
     <Calendar

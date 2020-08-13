@@ -2,9 +2,8 @@ import * as React from 'react';
 import { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { getPosition, scrollTop } from 'dom-lib';
-import classNames from 'classnames';
 import _ from 'lodash';
-import { getUnhandledProps, prefix, useCustom } from '../utils';
+import { getUnhandledProps, useClassNames, useCustom } from '../utils';
 import {
   getHours,
   getMinutes,
@@ -89,7 +88,7 @@ const scrollTo = (time: Time, ulRefs: UListRefs) => {
     const node = container.querySelector(`[data-key="${item[0]}-${item[1]}"]`);
     if (node && container) {
       const { top } = getPosition(node, container);
-      scrollTopAnimation(container[item[0]], top, scrollTop(container[item[0]]) !== 0);
+      scrollTopAnimation(ulRefs[item[0]], top, scrollTop(ulRefs[item[0]]) !== 0);
     }
   });
 };
@@ -137,7 +136,7 @@ const TimeDropdown = React.forwardRef<HTMLDivElement, TimeDropdownProps>((props,
     onSelect?.(nextDate, event);
   };
 
-  const addPrefix = (name: string) => prefix(classPrefix)(name);
+  const { prefix, rootPrefix, merge } = useClassNames(classPrefix);
 
   const renderColumn = (type: TimeType, active: any) => {
     if (!_.isNumber(active)) {
@@ -151,9 +150,9 @@ const TimeDropdown = React.forwardRef<HTMLDivElement, TimeDropdownProps>((props,
     for (let i = start; i <= end; i += 1) {
       if (!hideFunc?.(i, date)) {
         const disabled = disabledFunc?.(i, date);
-        const itemClasses = classNames(addPrefix('cell'), {
-          [addPrefix('cell-active')]: active === i,
-          [addPrefix('cell-disabled')]: disabled
+        const itemClasses = merge(prefix('cell'), {
+          [prefix('cell-active')]: active === i,
+          [prefix('cell-disabled')]: disabled
         });
 
         items.push(
@@ -173,8 +172,8 @@ const TimeDropdown = React.forwardRef<HTMLDivElement, TimeDropdownProps>((props,
     }
 
     return (
-      <div className={addPrefix('column')}>
-        <div className={addPrefix('column-title')}>{locale?.[type]}</div>
+      <div className={prefix('column')}>
+        <div className={prefix('column-title')}>{locale?.[type]}</div>
         <ul
           ref={ref => {
             ulRefs.current[type] = ref;
@@ -187,7 +186,7 @@ const TimeDropdown = React.forwardRef<HTMLDivElement, TimeDropdownProps>((props,
   };
 
   const time = getTime(props);
-  const classes = classNames(classPrefix, className);
+  const classes = merge(rootPrefix(classPrefix), className);
   const unhandled = getUnhandledProps(TimeDropdown, rest);
 
   useEffect(() => {
@@ -196,8 +195,8 @@ const TimeDropdown = React.forwardRef<HTMLDivElement, TimeDropdownProps>((props,
 
   return (
     <div {...unhandled} ref={ref} className={classes}>
-      <div className={addPrefix('content')}>
-        <div className={addPrefix('row')}>
+      <div className={prefix('content')}>
+        <div className={prefix('row')}>
           {renderColumn('hours', time.hours)}
           {renderColumn('minutes', time.minutes)}
           {renderColumn('seconds', time.seconds)}

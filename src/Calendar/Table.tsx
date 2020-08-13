@@ -1,8 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import TableRow from './TableRow';
 import TableHeaderRow from './TableHeaderRow';
+import { useClassNames } from '../utils';
 
 export interface TableProps {
   rows: any[];
@@ -38,8 +38,8 @@ const Table = React.forwardRef<HTMLDivElement, TableProps>((props, ref) => {
     timeZone,
     ...rest
   } = props;
-
-  const classes = classNames(classPrefix, className);
+  const { merge, rootPrefix } = useClassNames(classPrefix);
+  const classes = merge(rootPrefix(classPrefix), className);
 
   return (
     <div {...rest} ref={ref} className={classes}>

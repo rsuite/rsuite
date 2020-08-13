@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { prefix, useCustom } from '../utils';
+import { useClassNames, useCustom } from '../utils';
 import { CalendarLocaleTypes } from './types';
 
 export interface TableHeaderRowProps {
@@ -20,8 +19,8 @@ const weekKeys = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'frida
 const TableHeaderRow = React.forwardRef<HTMLDivElement, TableHeaderRowProps>((props, ref) => {
   const { className, classPrefix, isoWeek, showWeekNumbers, ...rest } = props;
   const { locale } = useCustom<CalendarLocaleTypes>('Calendar');
-  const addPrefix = prefix(classPrefix);
-  const classes = classNames(addPrefix('row'), addPrefix('header-row'), className);
+  const { merge, prefix } = useClassNames(classPrefix);
+  const classes = merge(prefix('row'), prefix('header-row'), className);
   let items = weekKeys;
 
   if (isoWeek) {
@@ -31,10 +30,10 @@ const TableHeaderRow = React.forwardRef<HTMLDivElement, TableHeaderRowProps>((pr
 
   return (
     <div {...rest} ref={ref} className={classes}>
-      {showWeekNumbers && <div className={addPrefix('cell')} />}
+      {showWeekNumbers && <div className={prefix('cell')} />}
       {items.map(key => (
-        <div key={key} className={addPrefix('cell')}>
-          <span className={addPrefix('cell-content')}>{locale?.[key]}</span>
+        <div key={key} className={prefix('cell')}>
+          <span className={prefix('cell-content')}>{locale?.[key]}</span>
         </div>
       ))}
     </div>

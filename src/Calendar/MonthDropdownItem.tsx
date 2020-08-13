@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { getUnhandledProps, prefix } from '../utils';
+import { getUnhandledProps, useClassNames } from '../utils';
 import { setMonth, setYear } from '../utils/dateUtils';
 import composeFunctions from '../utils/composeFunctions';
 
@@ -39,10 +38,12 @@ const MonthDropdownItem = React.forwardRef<HTMLDivElement, MonthDropdownItemProp
     }
   };
 
-  const addPrefix = prefix(classPrefix);
+  const { prefix, merge, rootPrefix } = useClassNames(classPrefix);
+
   const unhandled = getUnhandledProps(MonthDropdownItem, rest);
-  const classes = classNames(classPrefix, className, {
-    [addPrefix('active')]: active,
+
+  const classes = merge(rootPrefix(classPrefix), className, {
+    [prefix('active')]: active,
     disabled
   });
 
@@ -56,7 +57,7 @@ const MonthDropdownItem = React.forwardRef<HTMLDivElement, MonthDropdownItemProp
       role="button"
       tabIndex="-1"
     >
-      <span className={addPrefix('content')}>{month}</span>
+      <span className={prefix('content')}>{month}</span>
     </div>
   );
 });

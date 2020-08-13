@@ -1,12 +1,11 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import MonthDropdown from './MonthDropdown';
 import TimeDropdown from './TimeDropdown';
 import View from './View';
 import Header from './Header';
-import { getUnhandledProps, prefix } from '../utils';
+import { getUnhandledProps, useClassNames } from '../utils';
 import { shouldDate, shouldMonth, shouldTime } from '../utils/formatUtils';
 import { addMonths, calendarOnlyProps, disabledTime } from '../utils/dateUtils';
 import { tuple } from '../@types/utils';
@@ -74,6 +73,7 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>((props, ref) =>
     onMoveBackward,
     ...rest
   } = props;
+  const { withClassPrefix, merge } = useClassNames(classPrefix);
 
   const disabledDate = (date: Date) => props.disabledDate?.(date);
 
@@ -94,12 +94,14 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>((props, ref) =>
   const onlyShowMonth = showMonth && !showDate && !showTime;
   const dropTime = calendarState === 'DROP_TIME' || onlyShowTime;
   const dropMonth = calendarState === 'DROP_MONTH' || onlyShowMonth;
-  const addPrefix = prefix(classPrefix);
 
-  const calendarClasses = classNames(className, classPrefix, {
-    [addPrefix('show-time-dropdown')]: dropTime,
-    [addPrefix('show-month-dropdown')]: dropMonth
-  });
+  const calendarClasses = merge(
+    className,
+    withClassPrefix({
+      'show-time-dropdown': dropTime,
+      'show-month-dropdown': dropMonth
+    })
+  );
 
   const unhandled = getUnhandledProps(Calendar, rest);
   const timeDropdownProps = _.pick(rest, calendarOnlyProps);

@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { List } from 'react-virtualized/dist/commonjs/List';
 import { AutoSizer } from 'react-virtualized/dist/commonjs/AutoSizer';
-import { getUnhandledProps, prefix } from '../utils';
+import { getUnhandledProps, useClassNames } from '../utils';
 import MonthDropdownItem from './MonthDropdownItem';
 import { getDaysInMonth, getMonth, getYear } from '../utils/dateUtils';
 
@@ -49,19 +48,26 @@ const defaultProps = {
 };
 
 const MonthDropdown = React.forwardRef<HTMLDivElement, MonthDropdownProps>((props, ref) => {
-  const { classPrefix, disabledMonth, date, onSelect, timeZone, className, show, ...rest } = props;
+  const {
+    classPrefix,
+    disabledMonth,
+    date,
+    onSelect,
+    timeZone,
+    className,
+    show,
+    limitEndYear,
+    ...rest
+  } = props;
   const listRef = useRef(null);
 
   useEffect(() => {
     listRef.current?.forceUpdateGrid();
   }, [props]);
 
-  const getRowCount = () => {
-    const { limitEndYear } = props;
-    return getYear(new Date()) + limitEndYear;
-  };
+  const getRowCount = () => getYear(new Date()) + limitEndYear;
 
-  const addPrefix = (name: string) => prefix(classPrefix)(name);
+  const { prefix, merge, rootPrefix } = useClassNames(classPrefix);
 
   const isMonthDisabled = (year, month) => {
     if (disabledMonth) {
@@ -84,11 +90,11 @@ const MonthDropdown = React.forwardRef<HTMLDivElement, MonthDropdownProps>((prop
     const year = index + 1;
     const isSelectedYear = year === selectedYear;
     const count = getRowCount();
-    const titleClassName = classNames(addPrefix('year'), {
-      [addPrefix('year-active')]: isSelectedYear
+    const titleClassName = merge(prefix('year'), {
+      [prefix('year-active')]: isSelectedYear
     });
 
-    const rowClassName = classNames(addPrefix('row'), {
+    const rowClassName = merge(prefix('row'), {
       'first-row': index === 0,
       'last-row': index === count - 1
     });
@@ -96,7 +102,7 @@ const MonthDropdown = React.forwardRef<HTMLDivElement, MonthDropdownProps>((prop
     return (
       <div className={rowClassName} key={key} style={style}>
         <div className={titleClassName}>{year}</div>
-        <div className={addPrefix('list')}>
+        <div className={prefix('list')}>
           {monthMap.map((item, month) => {
             return (
               <MonthDropdownItem
@@ -117,19 +123,19 @@ const MonthDropdown = React.forwardRef<HTMLDivElement, MonthDropdownProps>((prop
   };
   const unhandled = getUnhandledProps(MonthDropdown, rest);
   const count = getRowCount();
-  const classes = classNames(classPrefix, className, {
+  const classes = merge(rootPrefix(classPrefix), className, {
     show
   });
 
   return (
     <div {...unhandled} ref={ref} className={classes}>
-      <div className={addPrefix('content')}>
-        <div className={addPrefix('scroll')}>
+      <div className={prefix('content')}>
+        <div className={prefix('scroll')}>
           {show && (
             <AutoSizer defaultHeight={defaultHeight} defaultWidth={defaultWidth}>
               {({ height, width }) => (
                 <List
-                  className={addPrefix('row-wrapper')}
+                  className={prefix('row-wrapper')}
                   ref={listRef}
                   width={width || defaultWidth}
                   height={height || defaultHeight}

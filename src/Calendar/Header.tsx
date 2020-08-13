@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { getUnhandledProps, prefix, useCustom } from '../utils';
+import { getUnhandledProps, useClassNames, useCustom } from '../utils';
 import FormattedDate from '../IntlProvider/FormattedDate';
 import { CalendarLocaleTypes } from './types';
 
@@ -86,8 +85,7 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>((props, ref) => {
 
     return 'yyyy';
   };
-
-  const addPrefix = (name: string) => prefix(classPrefix)(name);
+  const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
 
   const renderTitle = () => {
     return (
@@ -96,24 +94,24 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>((props, ref) => {
     );
   };
 
-  const dateTitleClasses = classNames(addPrefix('title'), addPrefix('title-date'), {
-    [addPrefix('error')]: disabledDate?.(date)
+  const dateTitleClasses = merge(prefix('title'), prefix('title-date'), {
+    [prefix('error')]: disabledDate?.(date)
   });
 
-  const timeTitleClasses = classNames(addPrefix('title'), addPrefix('title-time'), {
-    [addPrefix('error')]: disabledTime?.(date)
+  const timeTitleClasses = merge(prefix('title'), prefix('title-time'), {
+    [prefix('error')]: disabledTime?.(date)
   });
 
-  const backwardClass = classNames(addPrefix('backward'), {
-    [addPrefix('btn-disabled')]: disabledBackward
+  const backwardClass = merge(prefix('backward'), {
+    [prefix('btn-disabled')]: disabledBackward
   });
 
-  const forwardClass = classNames(addPrefix('forward'), {
-    [addPrefix('btn-disabled')]: disabledForward
+  const forwardClass = merge(prefix('forward'), {
+    [prefix('btn-disabled')]: disabledForward
   });
 
   const monthToolbar = (
-    <div className={addPrefix('month-toolbar')}>
+    <div className={prefix('month-toolbar')}>
       <i
         className={backwardClass}
         role="button"
@@ -138,17 +136,20 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>((props, ref) => {
   );
 
   const hasMonth = showDate || showMonth;
-  const classes = classNames(classPrefix, className, {
-    [addPrefix('has-month')]: hasMonth,
-    [addPrefix('has-time')]: showTime
-  });
+  const classes = merge(
+    className,
+    withClassPrefix({
+      'has-month': hasMonth,
+      'has-time': showTime
+    })
+  );
   const unhandled = getUnhandledProps(Header, rest);
 
   return (
     <div {...unhandled} ref={ref} className={classes}>
       {hasMonth && monthToolbar}
       {showTime && (
-        <div className={addPrefix('time-toolbar')}>
+        <div className={prefix('time-toolbar')}>
           <span
             role="button"
             tabIndex={-1}
@@ -162,7 +163,7 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>((props, ref) => {
             <span
               role="button"
               tabIndex={-1}
-              className={addPrefix('meridian')}
+              className={prefix('meridian')}
               onClick={onToggleMeridian}
             >
               {date && <FormattedDate date={date} formatStr="a" />}

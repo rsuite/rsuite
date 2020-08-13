@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { isSameMonth, setDate } from '../utils/dateUtils';
-import { getMonthView } from '../utils';
+import { getMonthView, useClassNames } from '../utils';
 import Table from './Table';
 import composeFunctions from '../utils/composeFunctions';
 
@@ -43,7 +42,8 @@ const View = React.forwardRef<HTMLDivElement, ViewProps>((props, ref) => {
     )(activeDate);
 
   const thisMonthDate = setDate(activeDate, 1);
-  const classes = classNames(classPrefix, className);
+  const { merge, rootPrefix } = useClassNames(classPrefix);
+  const classes = merge(rootPrefix(classPrefix), className);
 
   return (
     <div {...rest} ref={ref} className={classes}>

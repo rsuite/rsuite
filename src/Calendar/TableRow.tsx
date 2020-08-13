@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { addDays, format, getDate, isSameDay } from '../utils/dateUtils';
-import { getUnhandledProps, prefix, useCustom } from '../utils';
+import { getUnhandledProps, useClassNames, useCustom } from '../utils';
 import { zonedDate } from '../utils/timeZone';
 import { CalendarLocaleTypes } from './types';
 
@@ -41,8 +41,7 @@ const TableRow = React.forwardRef<HTMLDivElement, TableRowProps>((props, ref) =>
     ...rest
   } = props;
   const { formatDate, formattedDayPattern, today } = useCustom<CalendarLocaleTypes>('Calendar');
-
-  const addPrefix = (name: string) => prefix(classPrefix)(name);
+  const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
 
   const handleSelect = (
     date: Date,
@@ -64,11 +63,11 @@ const TableRow = React.forwardRef<HTMLDivElement, TableRowProps>((props, ref) =>
       const thisDate = addDays(weekendDate, i);
       const disabled = disabledDate?.(thisDate);
       const isToday = isSameDay(thisDate, todayDate);
-      const classes = classNames(addPrefix('cell'), {
-        [addPrefix('cell-un-same-month')]: !(inSameMonth && inSameMonth(thisDate)),
-        [addPrefix('cell-is-today')]: isToday,
-        [addPrefix('cell-selected')]: isSameDay(thisDate, selected),
-        [addPrefix('cell-disabled')]: disabled
+      const classes = merge(prefix('cell'), {
+        [prefix('cell-un-same-month')]: !(inSameMonth && inSameMonth(thisDate)),
+        [prefix('cell-is-today')]: isToday,
+        [prefix('cell-selected')]: isSameDay(thisDate, selected),
+        [prefix('cell-disabled')]: disabled
       });
 
       const title = formatDate ? formatDate(thisDate, formatStr) : format(thisDate, formatStr);
@@ -81,8 +80,8 @@ const TableRow = React.forwardRef<HTMLDivElement, TableRowProps>((props, ref) =>
           title={isToday ? `${title} (${today})` : title}
           onClick={_.partial(handleSelect, thisDate, disabled)}
         >
-          <div className={addPrefix('cell-content')}>
-            <span className={addPrefix('cell-day')}>{getDate(thisDate)}</span>
+          <div className={prefix('cell-content')}>
+            <span className={prefix('cell-day')}>{getDate(thisDate)}</span>
             {renderCell && renderCell(thisDate)}
           </div>
         </div>
@@ -93,13 +92,13 @@ const TableRow = React.forwardRef<HTMLDivElement, TableRowProps>((props, ref) =>
 
   const renderWeekNumber = () => {
     return (
-      <div className={addPrefix('cell-week-number')}>
+      <div className={prefix('cell-week-number')}>
         {format(props.weekendDate, props.isoWeek ? 'I' : 'w')}
       </div>
     );
   };
 
-  const classes = classNames(addPrefix('row'), className);
+  const classes = merge(prefix('row'), className);
   const unhandled = getUnhandledProps(TableRow, rest);
 
   return (
