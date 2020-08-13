@@ -1,8 +1,10 @@
 import * as React from 'react';
+import { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { getUnhandledProps, useClassNames, useCustom } from '../utils';
+import { getUnhandledProps, useClassNames } from '../utils';
 import FormattedDate from '../IntlProvider/FormattedDate';
-import { CalendarLocaleTypes } from './types';
+import { CalendarContextValue } from './types';
+import CalendarContext from './CalendarContext';
 
 export interface HeaderProps {
   date: Date;
@@ -53,8 +55,7 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>((props, ref) => {
     format,
     ...rest
   } = props;
-  const { locale } = useCustom<CalendarLocaleTypes>('Calendar');
-  const { formattedDayPattern, formattedMonthPattern } = locale;
+  const { locale } = useContext<CalendarContextValue>(CalendarContext) || {};
 
   const getTimeFormat = () => {
     const timeFormat = [];
@@ -78,9 +79,9 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>((props, ref) => {
 
   const getDateFormat = () => {
     if (showDate) {
-      return formattedDayPattern || 'yyyy-MM-dd';
+      return locale?.formattedDayPattern || 'yyyy-MM-dd';
     } else if (showMonth) {
-      return formattedMonthPattern || 'yyyy-MM';
+      return locale?.formattedMonthPattern || 'yyyy-MM';
     }
 
     return 'yyyy';

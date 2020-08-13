@@ -19,3 +19,7 @@ export interface CalendarLocaleTypes {
   formattedMonthPattern?: string;
   formattedDayPattern?: string;
 }
+
+export interface CalendarContextValue {
+  locale: CalendarLocaleTypes;
+}
