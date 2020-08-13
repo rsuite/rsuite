@@ -1,9 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
-import { prefix, defaultProps } from '../utils';
-import FormattedMessage from '../IntlProvider/FormattedMessage';
+import { prefix, useCustom } from '../utils';
+import { CalendarLocaleTypes } from './types';
 
 export interface TableHeaderRowProps {
   isoWeek?: boolean;
@@ -12,41 +11,43 @@ export interface TableHeaderRowProps {
   showWeekNumbers?: boolean;
 }
 
+const defaultProps = {
+  classPrefix: 'calendar-table'
+};
+
 const weekKeys = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
-class TableHeaderRow extends React.PureComponent<TableHeaderRowProps> {
-  static propTypes = {
-    isoWeek: PropTypes.bool,
-    className: PropTypes.string,
-    classPrefix: PropTypes.string
-  };
-  render() {
-    const { className, classPrefix, isoWeek, showWeekNumbers, ...props } = this.props;
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(addPrefix('row'), addPrefix('header-row'), className);
-    let items = weekKeys;
-    if (isoWeek) {
-      items = weekKeys.filter(v => v !== 'sunday');
-      items.push('sunday');
-    }
+const TableHeaderRow = React.forwardRef<HTMLDivElement, TableHeaderRowProps>((props, ref) => {
+  const { className, classPrefix, isoWeek, showWeekNumbers, ...rest } = props;
+  const { locale } = useCustom<CalendarLocaleTypes>('Calendar');
+  const addPrefix = prefix(classPrefix);
+  const classes = classNames(addPrefix('row'), addPrefix('header-row'), className);
+  let items = weekKeys;
 
-    return (
-      <div {...props} className={classes}>
-        {showWeekNumbers && <div className={addPrefix('cell')} />}
-        {items.map(key => (
-          <div key={key} className={addPrefix('cell')}>
-            <span className={addPrefix('cell-content')}>
-              <FormattedMessage id={key} />
-            </span>
-          </div>
-        ))}
-      </div>
-    );
+  if (isoWeek) {
+    items = weekKeys.filter(v => v !== 'sunday');
+    items.push('sunday');
   }
-}
 
-const enhance = defaultProps<TableHeaderRowProps>({
-  classPrefix: 'calendar-table'
+  return (
+    <div {...rest} ref={ref} className={classes}>
+      {showWeekNumbers && <div className={addPrefix('cell')} />}
+      {items.map(key => (
+        <div key={key} className={addPrefix('cell')}>
+          <span className={addPrefix('cell-content')}>{locale?.[key]}</span>
+        </div>
+      ))}
+    </div>
+  );
 });
 
-export default enhance(TableHeaderRow);
+TableHeaderRow.displayName = 'TableHeaderRow';
+TableHeaderRow.propTypes = {
+  isoWeek: PropTypes.bool,
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  showWeekNumbers: PropTypes.bool
+};
+TableHeaderRow.defaultProps = defaultProps;
+
+export default TableHeaderRow;

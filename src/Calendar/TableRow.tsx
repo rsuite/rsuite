@@ -1,11 +1,11 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import _ from 'lodash';
 import { addDays, format, getDate, isSameDay } from '../utils/dateUtils';
-
-import { defaultProps, getUnhandledProps, prefix } from '../utils';
-import IntlContext from '../IntlProvider/IntlContext';
+import { getUnhandledProps, prefix, useCustom } from '../utils';
 import { zonedDate } from '../utils/timeZone';
+import { CalendarLocaleTypes } from './types';
 
 export interface TableRowProps {
   weekendDate?: Date;
@@ -20,29 +20,31 @@ export interface TableRowProps {
   inSameMonth?: (date: Date) => boolean;
   renderCell?: (date: Date) => React.ReactNode;
 }
+const defaultProps = {
+  selected: new Date(),
+  weekendDate: new Date(),
+  classPrefix: 'calendar-table'
+};
 
-class TableRow extends React.PureComponent<TableRowProps> {
-  static contextType = IntlContext;
-  static propTypes = {
-    weekendDate: PropTypes.instanceOf(Date),
-    selected: PropTypes.instanceOf(Date),
-    timeZone: PropTypes.string,
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    onSelect: PropTypes.func,
-    disabledDate: PropTypes.func,
-    inSameMonth: PropTypes.func,
-    renderCell: PropTypes.func,
-    isoWeek: PropTypes.bool
-  };
-  static defaultProps = {
-    selected: new Date(),
-    weekendDate: new Date()
-  };
+const TableRow = React.forwardRef<HTMLDivElement, TableRowProps>((props, ref) => {
+  const {
+    classPrefix,
+    onSelect,
+    weekendDate,
+    disabledDate,
+    inSameMonth,
+    selected,
+    renderCell,
+    timeZone,
+    className,
+    showWeekNumbers,
+    ...rest
+  } = props;
+  const { formatDate, formattedDayPattern, today } = useCustom<CalendarLocaleTypes>('Calendar');
 
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
+  const addPrefix = (name: string) => prefix(classPrefix)(name);
 
-  handleSelect = (
+  const handleSelect = (
     date: Date,
     disabled: boolean | void,
     event: React.MouseEvent<HTMLDivElement>
@@ -50,12 +52,10 @@ class TableRow extends React.PureComponent<TableRowProps> {
     if (disabled) {
       return;
     }
-    this.props.onSelect?.(date, event);
+    onSelect?.(date, event);
   };
 
-  renderDays() {
-    const { weekendDate, disabledDate, inSameMonth, selected, renderCell, timeZone } = this.props;
-    const { formatDate, formattedDayPattern, today } = this.context || {};
+  const renderDays = () => {
     const formatStr = formattedDayPattern || 'yyyy-MM-dd';
     const days = [];
     const todayDate = zonedDate(timeZone);
@@ -64,11 +64,11 @@ class TableRow extends React.PureComponent<TableRowProps> {
       const thisDate = addDays(weekendDate, i);
       const disabled = disabledDate?.(thisDate);
       const isToday = isSameDay(thisDate, todayDate);
-      const classes = classNames(this.addPrefix('cell'), {
-        [this.addPrefix('cell-un-same-month')]: !(inSameMonth && inSameMonth(thisDate)),
-        [this.addPrefix('cell-is-today')]: isToday,
-        [this.addPrefix('cell-selected')]: isSameDay(thisDate, selected),
-        [this.addPrefix('cell-disabled')]: disabled
+      const classes = classNames(addPrefix('cell'), {
+        [addPrefix('cell-un-same-month')]: !(inSameMonth && inSameMonth(thisDate)),
+        [addPrefix('cell-is-today')]: isToday,
+        [addPrefix('cell-selected')]: isSameDay(thisDate, selected),
+        [addPrefix('cell-disabled')]: disabled
       });
 
       const title = formatDate ? formatDate(thisDate, formatStr) : format(thisDate, formatStr);
@@ -79,43 +79,52 @@ class TableRow extends React.PureComponent<TableRowProps> {
           role="menu"
           tabIndex={-1}
           title={isToday ? `${title} (${today})` : title}
-          onClick={this.handleSelect.bind(this, thisDate, disabled)}
+          onClick={_.partial(handleSelect, thisDate, disabled)}
         >
-          <div className={this.addPrefix('cell-content')}>
-            <span className={this.addPrefix('cell-day')}>{getDate(thisDate)}</span>
+          <div className={addPrefix('cell-content')}>
+            <span className={addPrefix('cell-day')}>{getDate(thisDate)}</span>
             {renderCell && renderCell(thisDate)}
           </div>
         </div>
       );
     }
     return days;
-  }
+  };
 
-  renderWeekNumber() {
+  const renderWeekNumber = () => {
     return (
-      <div className={this.addPrefix('cell-week-number')}>
-        {format(this.props.weekendDate, this.props.isoWeek ? 'I' : 'w')}
+      <div className={addPrefix('cell-week-number')}>
+        {format(props.weekendDate, props.isoWeek ? 'I' : 'w')}
       </div>
     );
-  }
+  };
 
-  render() {
-    const { className, showWeekNumbers, ...rest } = this.props;
+  const classes = classNames(addPrefix('row'), className);
+  const unhandled = getUnhandledProps(TableRow, rest);
 
-    const classes = classNames(this.addPrefix('row'), className);
-    const unhandled = getUnhandledProps(TableRow, rest);
-
-    return (
-      <div {...unhandled} className={classes}>
-        {showWeekNumbers && this.renderWeekNumber()}
-        {this.renderDays()}
-      </div>
-    );
-  }
-}
-
-const enhance = defaultProps<TableRowProps>({
-  classPrefix: 'calendar-table'
+  return (
+    <div {...unhandled} ref={ref} className={classes}>
+      {showWeekNumbers && renderWeekNumber()}
+      {renderDays()}
+    </div>
+  );
 });
 
-export default enhance(TableRow);
+TableRow.displayName = 'TableRow';
+TableRow.propTypes = {
+  weekendDate: PropTypes.instanceOf(Date),
+  selected: PropTypes.instanceOf(Date),
+  timeZone: PropTypes.string,
+  showWeekNumbers: PropTypes.bool,
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  onSelect: PropTypes.func,
+  disabledDate: PropTypes.func,
+  inSameMonth: PropTypes.func,
+  renderCell: PropTypes.func,
+  isoWeek: PropTypes.bool
+};
+
+TableRow.defaultProps = defaultProps;
+
+export default TableRow;
