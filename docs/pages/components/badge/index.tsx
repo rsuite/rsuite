@@ -5,7 +5,7 @@ import DefaultPage from '@/components/Page';
 export default function Page() {
   return (
     <DefaultPage
-      examples={['basic', 'content', 'invisible', 'independent']}
+      examples={['basic', 'content', 'invisible', 'independent', 'color']}
       dependencies={{ Badge, Button, Toggle }}
     />
   );

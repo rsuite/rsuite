@@ -1,0 +1,13 @@
+// General spectrum badge indicator
+.generate-spectrum(@i:length(@spectrum)) when (@i>0) {
+  .generate-spectrum(@i - 1);
+  @name: extract(@spectrum, @i);
+  @background-color: @@name;
+
+  &.@{ns}badge-@{name} {
+    &.@{ns}badge-independent,
+    .@{ns}badge-content {
+      background-color: @background-color;
+    }
+  }
+}

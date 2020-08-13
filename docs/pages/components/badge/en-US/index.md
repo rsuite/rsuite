@@ -16,9 +16,10 @@ import { Badge } from 'rsuite';
 
 ### `<Badge>`
 
-| Property    | Type`(Default)`          | Description                                                |
-| ----------- | ------------------------ | ---------------------------------------------------------- |
-| children    | React.Node               | Be wrapped component                                       |
-| classPrefix | string `('badge')`       | The prefix of the component CSS class                      |
-| content     | string,number,React.Node | Content info                                               |
-| maxCount    | number`99`               | Max count number（Only valid if `content` is type number） |
+| Property    | Type`(Default)`                                                        | Description                                                |
+| ----------- | ---------------------------------------------------------------------- | ---------------------------------------------------------- |
+| children    | React.Node                                                             | Be wrapped component                                       |
+| classPrefix | string `('badge')`                                                     | The prefix of the component CSS class                      |
+| content     | React.Node                                                             | Content info                                               |
+| color       | enum: 'red', 'orange','yellow', 'green', <br/>'cyan', 'blue', 'violet' | A indicator can have different colors                      |
+| maxCount    | number`99`                                                             | Max count number（Only valid if `content` is type number） |

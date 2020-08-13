@@ -1,4 +1,5 @@
 @import '../../styles/common';
+@import 'mixin';
 
 .@{ns}badge {
   display: inline-block;
@@ -16,6 +17,8 @@
     padding: 0 5px;
     color: @badge-content-color;
   }
+
+  .generate-spectrum();
 
   &-independent&-dot,
   &-wrapper &-content:empty {

@@ -1,61 +1,80 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { defaultProps, prefix } from '../utils';
-import classNames from 'classnames';
-import { BadgeProps } from './Badge.d';
+import { useClassNames } from '../utils';
+import { StandardProps, TypeAttributes } from '../@types/common';
 
-class Badge extends React.Component<BadgeProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    children: PropTypes.node,
-    content: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
-    maxCount: PropTypes.number
-  };
-  static defaultProps = {
-    maxCount: 99
-  };
+export interface BadgeProps extends StandardProps, React.HTMLAttributes<HTMLDivElement> {
+  /** Main content */
+  content?: React.ReactNode;
 
-  render() {
-    const {
-      className,
-      classPrefix,
-      children,
-      content: contentText,
-      maxCount,
-      ...rest
-    } = this.props;
-    const addPrefix: (className: string) => string = prefix(classPrefix);
-    const dot = contentText === undefined || contentText === null;
-    const classes: string = classNames(classPrefix, className, {
-      [addPrefix('independent')]: !children,
-      [addPrefix('wrapper')]: children,
-      [addPrefix('dot')]: dot
-    });
+  /** Max count */
+  maxCount?: number;
 
-    if (contentText === false) {
-      return children;
-    }
-
-    const content =
-      // $FlowFixMe I'm sure contenxtText is number type and maxCount is number type.
-      typeof contentText === 'number' && contentText > maxCount ? `${maxCount}+` : contentText;
-    if (!children) {
-      return (
-        <div {...rest} className={classes}>
-          {content}
-        </div>
-      );
-    }
-    return (
-      <div {...rest} className={classes}>
-        {children}
-        <div className={addPrefix('content')}>{content}</div>
-      </div>
-    );
-  }
+  /** A badge can have different colors */
+  color?: TypeAttributes.Color;
 }
 
-export default defaultProps<BadgeProps>({
+const defaultProps: Partial<BadgeProps> = {
+  maxCount: 99,
   classPrefix: 'badge'
-})(Badge);
+};
+
+const Badge = React.forwardRef<HTMLDivElement, BadgeProps>((props, ref) => {
+  const {
+    className,
+    classPrefix,
+    children,
+    as: Component = 'div',
+    content: contentText,
+    maxCount,
+    color,
+    ...rest
+  } = props;
+  const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
+  const dot = contentText === undefined || contentText === null;
+  const classes = merge(
+    className,
+    withClassPrefix(
+      {
+        independent: !children,
+        wrapper: children,
+        dot
+      },
+      color
+    )
+  );
+
+  if (contentText === false) {
+    return React.cloneElement(children as React.ReactElement, { ref });
+  }
+
+  const content =
+    typeof contentText === 'number' && contentText > maxCount ? `${maxCount}+` : contentText;
+  if (!children) {
+    return (
+      <Component {...rest} ref={ref} className={classes}>
+        {content}
+      </Component>
+    );
+  }
+  return (
+    <Component {...rest} ref={ref} className={classes}>
+      {children}
+      <div className={prefix('content')}>{content}</div>
+    </Component>
+  );
+});
+
+Badge.displayName = 'Badge';
+Badge.propTypes = {
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  children: PropTypes.node,
+  as: PropTypes.elementType,
+  content: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
+  maxCount: PropTypes.number,
+  color: PropTypes.oneOf(['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet'])
+};
+Badge.defaultProps = defaultProps;
+
+export default Badge;
