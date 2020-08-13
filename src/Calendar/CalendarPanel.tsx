@@ -163,6 +163,7 @@ const CalendarPanel = React.forwardRef<HTMLDivElement, CalendarPanelProps>((prop
   );
 });
 
+CalendarPanel.displayName = 'CalendarPanel';
 CalendarPanel.propTypes = {
   value: PropTypes.instanceOf(Date),
   defaultValue: PropTypes.instanceOf(Date),
