@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { getPosition, scrollTop } from 'dom-lib';
 import _ from 'lodash';
-import { getUnhandledProps, useClassNames, useCustom } from '../utils';
+import { getUnhandledProps, useClassNames } from '../utils';
 import {
   getHours,
   getMinutes,
@@ -14,7 +14,7 @@ import {
 } from '../utils/dateUtils';
 import scrollTopAnimation from '../utils/scrollTopAnimation';
 import { zonedDate } from '../utils/timeZone';
-import { CalendarLocaleTypes } from './types';
+import { useCalendarContext } from './CalendarContext';
 
 export interface TimeDropdownProps {
   date?: Date;
@@ -105,7 +105,7 @@ const TimeDropdown = React.forwardRef<HTMLDivElement, TimeDropdownProps>((props,
     showMeridian,
     ...rest
   } = props;
-  const { locale } = useCustom<CalendarLocaleTypes>('Calendar');
+  const { locale } = useCalendarContext();
   const ulRefs = useRef<UListRefs>({} as UListRefs);
 
   const updatePosition = useCallback(() => {

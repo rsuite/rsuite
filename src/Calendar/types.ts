@@ -22,4 +22,11 @@ export interface CalendarLocaleTypes {
 
 export interface CalendarContextValue {
   locale: CalendarLocaleTypes;
+  formatDate?: (
+    date: Date | string | number,
+    format?: string,
+    options?: {
+      locale?: any;
+    }
+  ) => string;
 }

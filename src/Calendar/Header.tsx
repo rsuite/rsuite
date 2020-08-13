@@ -1,10 +1,8 @@
 import * as React from 'react';
-import { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { getUnhandledProps, useClassNames } from '../utils';
 import FormattedDate from '../IntlProvider/FormattedDate';
-import { CalendarContextValue } from './types';
-import CalendarContext from './CalendarContext';
+import { useCalendarContext } from './CalendarContext';
 
 export interface HeaderProps {
   date: Date;
@@ -55,7 +53,7 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>((props, ref) => {
     format,
     ...rest
   } = props;
-  const { locale } = useContext<CalendarContextValue>(CalendarContext) || {};
+  const { locale } = useCalendarContext();
 
   const getTimeFormat = () => {
     const timeFormat = [];

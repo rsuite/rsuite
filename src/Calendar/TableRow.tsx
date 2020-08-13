@@ -2,9 +2,9 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { addDays, format, getDate, isSameDay } from '../utils/dateUtils';
-import { getUnhandledProps, useClassNames, useCustom } from '../utils';
+import { getUnhandledProps, useClassNames } from '../utils';
 import { zonedDate } from '../utils/timeZone';
-import { CalendarLocaleTypes } from './types';
+import { useCalendarContext } from './CalendarContext';
 
 export interface TableRowProps {
   weekendDate?: Date;
@@ -39,7 +39,7 @@ const TableRow = React.forwardRef<HTMLDivElement, TableRowProps>((props, ref) =>
     showWeekNumbers,
     ...rest
   } = props;
-  const { formatDate, formattedDayPattern, today } = useCustom<CalendarLocaleTypes>('Calendar');
+  const { formatDate, locale: { formattedDayPattern, today } = {} } = useCalendarContext();
   const { prefix, merge } = useClassNames(classPrefix);
 
   const handleSelect = (
