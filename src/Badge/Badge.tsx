@@ -5,7 +5,7 @@ import { StandardProps, TypeAttributes } from '../@types/common';
 
 export interface BadgeProps extends StandardProps, React.HTMLAttributes<HTMLDivElement> {
   /** Main content */
-  content?: string | number | React.ReactNode | boolean;
+  content?: React.ReactNode;
 
   /** Max count */
   maxCount?: number;
