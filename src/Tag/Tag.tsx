@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
-import { StandardProps, TypeAttributes } from '../@types/common';
+import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 
-export interface TagProps extends StandardProps, React.HTMLAttributes<HTMLDivElement> {
+export interface TagProps extends WithAsProps {
   /** A tag can have different colors */
   color?: TypeAttributes.Color;
 
@@ -17,7 +17,7 @@ export interface TagProps extends StandardProps, React.HTMLAttributes<HTMLDivEle
   onClose?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
-const Tag = React.forwardRef((props: TagProps, ref: React.Ref<HTMLDivElement>) => {
+const Tag: RsRefForwardingComponent<'div', TagProps> = React.forwardRef((props: TagProps, ref) => {
   const {
     as: Component = 'div',
     classPrefix = 'tag',

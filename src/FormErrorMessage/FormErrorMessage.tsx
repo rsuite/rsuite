@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import kebabCase from 'lodash/kebabCase';
 import { placementPolyfill, useClassNames } from '../utils';
-import { TypeAttributes, StandardProps } from '../@types/common';
+import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-export interface FormErrorMessageProps extends StandardProps, React.HTMLAttributes<HTMLDivElement> {
+export interface FormErrorMessageProps extends WithAsProps {
   /** Show error messages */
   show?: boolean;
 
@@ -12,7 +12,7 @@ export interface FormErrorMessageProps extends StandardProps, React.HTMLAttribut
   placement?: TypeAttributes.Placement8;
 }
 
-const FormErrorMessage = React.forwardRef(
+const FormErrorMessage: RsRefForwardingComponent<'div', FormErrorMessageProps> = React.forwardRef(
   (props: FormErrorMessageProps, ref: React.Ref<HTMLDivElement>) => {
     const {
       as: Component = 'div',

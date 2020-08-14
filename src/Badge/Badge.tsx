@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
-import { StandardProps, TypeAttributes } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 
-export interface BadgeProps extends StandardProps, React.HTMLAttributes<HTMLDivElement> {
+export interface BadgeProps extends WithAsProps {
   /** Main content */
   content?: React.ReactNode;
 
@@ -19,53 +19,54 @@ const defaultProps: Partial<BadgeProps> = {
   classPrefix: 'badge'
 };
 
-const Badge = React.forwardRef<HTMLDivElement, BadgeProps>((props, ref) => {
-  const {
-    className,
-    classPrefix,
-    children,
-    as: Component = 'div',
-    content: contentText,
-    maxCount,
-    color,
-    ...rest
-  } = props;
-  const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
-  const dot = contentText === undefined || contentText === null;
-  const classes = merge(
-    className,
-    withClassPrefix(
-      {
+const Badge: RsRefForwardingComponent<'div', BadgeProps> = React.forwardRef(
+  (props: BadgeProps, ref) => {
+    const {
+      as: Component = 'div',
+      content: contentText,
+      color,
+      className,
+      classPrefix,
+      children,
+      maxCount,
+      ...rest
+    } = props;
+
+    const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
+    const dot = contentText === undefined || contentText === null;
+    const classes = merge(
+      className,
+      withClassPrefix(color, {
         independent: !children,
         wrapper: children,
         dot
-      },
-      color
-    )
-  );
+      })
+    );
 
-  if (contentText === false) {
-    return React.cloneElement(children as React.ReactElement, { ref });
-  }
+    if (contentText === false) {
+      return React.cloneElement(children as React.ReactElement, { ref });
+    }
 
-  const content =
-    typeof contentText === 'number' && contentText > maxCount ? `${maxCount}+` : contentText;
-  if (!children) {
+    const content =
+      typeof contentText === 'number' && contentText > maxCount ? `${maxCount}+` : contentText;
+    if (!children) {
+      return (
+        <Component {...rest} ref={ref} className={classes}>
+          {content}
+        </Component>
+      );
+    }
     return (
       <Component {...rest} ref={ref} className={classes}>
-        {content}
+        {children}
+        <div className={prefix('content')}>{content}</div>
       </Component>
     );
   }
-  return (
-    <Component {...rest} ref={ref} className={classes}>
-      {children}
-      <div className={prefix('content')}>{content}</div>
-    </Component>
-  );
-});
+);
 
 Badge.displayName = 'Badge';
+Badge.defaultProps = defaultProps;
 Badge.propTypes = {
   className: PropTypes.string,
   classPrefix: PropTypes.string,
@@ -75,6 +76,5 @@ Badge.propTypes = {
   maxCount: PropTypes.number,
   color: PropTypes.oneOf(['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet'])
 };
-Badge.defaultProps = defaultProps;
 
 export default Badge;

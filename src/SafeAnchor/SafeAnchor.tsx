@@ -1,32 +1,43 @@
-import * as React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { SafeAnchorProps } from './SafeAnchor.d';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-const SafeAnchor = React.forwardRef((props: SafeAnchorProps, ref: React.Ref<HTMLElement>) => {
-  const { as: Component = 'a', disabled, ...rest } = props;
-  const handleClick = (event: React.MouseEvent) => {
+export interface SafeAnchorProps extends WithAsProps, React.HTMLAttributes<HTMLAnchorElement> {
+  /** Link specified url */
+  href?: string;
+
+  /** A link can show it is currently unable to be interacted with */
+  disabled?: boolean;
+}
+
+const SafeAnchor: RsRefForwardingComponent<'a', SafeAnchorProps> = React.forwardRef(
+  (props: SafeAnchorProps, ref) => {
+    const { as: Component = 'a', disabled, onClick, ...rest } = props;
+    const handleClick = useCallback(
+      (event: React.MouseEvent<HTMLAnchorElement>) => {
+        if (disabled) {
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+
+        onClick?.(event);
+      },
+      [onClick, disabled]
+    );
+
     if (disabled) {
-      event.preventDefault();
-      event.stopPropagation();
-      return;
+      rest.tabIndex = -1;
+      rest['aria-disabled'] = true;
     }
 
-    rest.onClick?.(event);
-  };
-
-  if (disabled) {
-    rest.tabIndex = -1;
-    rest['aria-disabled'] = true;
+    return <Component {...rest} ref={ref} onClick={handleClick} />;
   }
-
-  return <Component {...rest} ref={ref} onClick={handleClick} />;
-});
+);
 
 SafeAnchor.displayName = 'SafeAnchor';
 SafeAnchor.propTypes = {
   disabled: PropTypes.bool,
-
-  /** @default 'a' */
   as: PropTypes.elementType
 };
 

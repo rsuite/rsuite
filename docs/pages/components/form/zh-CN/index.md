@@ -73,10 +73,10 @@ checkForFieldAsync: (fieldName: keyof T) => Promise<CheckResult>;
 cleanErrors(callback: () => void) => void
 ```
 
-- cleanErrorForFiled 清除单个字段错误信息
+- cleanErrorForField 清除单个字段错误信息
 
 ```js
-cleanErrorForFiled: (fieldName: keyof E, callback?: () => void) => void;
+cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
 ```
 
 ### `<Form.Control>`

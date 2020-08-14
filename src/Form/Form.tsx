@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useState, useImperativeHandle } from 'react';
+import React, { useMemo, useCallback, useState, useImperativeHandle, useRef } from 'react';
 import PropTypes from 'prop-types';
 import isUndefined from 'lodash/isUndefined';
 import omit from 'lodash/omit';
@@ -6,19 +6,19 @@ import { Schema, SchemaModel } from 'schema-typed';
 import { CheckResult } from 'schema-typed/types/Type';
 import { useClassNames } from '../utils';
 import FormContext, { FormValueContext } from './FormContext';
-import { StandardProps, TypeAttributes, RefForwardingComponent } from '../@types/common';
 import FormControl from '../FormControl';
 import FormControlLabel from '../FormControlLabel';
 import FormErrorMessage from '../FormErrorMessage';
 import FormGroup from '../FormGroup';
 import FormHelpText from '../FormHelpText';
+import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 
 export interface FormProps<
   T = Record<string, any>,
   errorMsgType = string,
   E = { [P in keyof T]?: errorMsgType }
 >
-  extends StandardProps,
+  extends WithAsProps,
     Omit<React.FormHTMLAttributes<HTMLFormElement>, 'onChange' | 'onSubmit' | 'onError'> {
   /** Set the left and right columns of the layout of the elements within the form */
   layout?: 'horizontal' | 'vertical' | 'inline';
@@ -95,7 +95,8 @@ export interface FormInstance<
   resetErrors?: (formError: E, callback?: () => void) => void;
 }
 
-export interface FormComponent extends RefForwardingComponent<FormProps, FormInstance> {
+export interface FormComponent
+  extends RsRefForwardingComponent<'form', FormProps & { ref: React.Ref<FormInstance> }> {
   Control?: typeof FormControl;
   ControlLabel?: typeof FormControlLabel;
   ErrorMessage?: typeof FormErrorMessage;
@@ -112,7 +113,7 @@ const defaultProps: Partial<FormProps> = {
   model: SchemaModel({})
 };
 
-const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<FormInstance>) => {
+const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
   const {
     checkTrigger,
     classPrefix,
@@ -393,6 +394,9 @@ Form.displayName = 'Form';
 Form.defaultProps = defaultProps;
 Form.propTypes = {
   className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  children: PropTypes.node,
+  errorFromContext: PropTypes.bool,
   layout: PropTypes.oneOf(['horizontal', 'vertical', 'inline']),
   fluid: PropTypes.bool,
   formValue: PropTypes.object,
@@ -404,11 +408,15 @@ Form.propTypes = {
   onCheck: PropTypes.func,
   onSubmit: PropTypes.func,
   model: PropTypes.any,
-  classPrefix: PropTypes.string,
-  errorFromContext: PropTypes.bool,
-  children: PropTypes.node,
   readOnly: PropTypes.bool,
   plaintext: PropTypes.bool
+};
+
+const App = () => {
+  const ref = useRef<FormInstance>();
+
+  ref.current.check();
+  return <Form ref={ref} />;
 };
 
 export default Form;

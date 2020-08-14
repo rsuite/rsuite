@@ -83,12 +83,12 @@ Clean error message.
 cleanErrors(callback: () => void) => void
 ```
 
-- cleanErrorForFiled
+- cleanErrorForField
 
 Clear single field error message
 
 ```js
-cleanErrorForFiled: (fieldName: keyof E, callback?: () => void) => void;
+cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
 ```
 
 ### `<Form.Control>`

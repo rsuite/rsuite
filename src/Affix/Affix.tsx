@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { getOffset } from 'dom-lib';
-import { StandardProps } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { useClassNames, useEventListener, useElementResize, mergeRefs } from '../utils';
 
-export interface AffixProps
-  extends StandardProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface AffixProps extends WithAsProps {
   /** Distance from top */
   top?: number;
 
@@ -94,48 +92,50 @@ function useFixed(offset: Offset, containerOffset: Offset, props: AffixProps) {
   return fixed;
 }
 
-const Affix = React.forwardRef((props: AffixProps, ref: React.Ref<HTMLDivElement>) => {
-  const {
-    className,
-    children,
-    container,
-    classPrefix = 'affix',
-    as: Component = 'div',
-    top = 0,
-    onChange,
-    ...rest
-  } = props;
+const Affix: RsRefForwardingComponent<'div', AffixProps> = React.forwardRef(
+  (props: AffixProps, ref) => {
+    const {
+      as: Component = 'div',
+      classPrefix = 'affix',
+      className,
+      children,
+      container,
+      top = 0,
+      onChange,
+      ...rest
+    } = props;
 
-  const mountRef = useRef(null);
-  const offset = useOffset(mountRef);
-  const containerOffset = useContainerOffset(container);
-  const fixed = useFixed(offset, containerOffset, { top, onChange });
+    const mountRef = useRef(null);
+    const offset = useOffset(mountRef);
+    const containerOffset = useContainerOffset(container);
+    const fixed = useFixed(offset, containerOffset, { top, onChange });
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, {
-    [withClassPrefix()]: fixed
-  });
+    const { withClassPrefix, merge } = useClassNames(classPrefix);
+    const classes = merge(className, {
+      [withClassPrefix()]: fixed
+    });
 
-  const placeholderStyles = fixed ? { width: offset.width, height: offset.height } : undefined;
-  const fixedStyles: React.CSSProperties = {
-    position: 'fixed',
-    top,
-    left: offset?.left,
-    width: offset?.width,
-    zIndex: 10
-  };
+    const placeholderStyles = fixed ? { width: offset.width, height: offset.height } : undefined;
+    const fixedStyles: React.CSSProperties = {
+      position: 'fixed',
+      top,
+      left: offset?.left,
+      width: offset?.width,
+      zIndex: 10
+    };
 
-  const affixStyles = fixed ? fixedStyles : null;
+    const affixStyles = fixed ? fixedStyles : null;
 
-  return (
-    <Component {...rest} ref={mergeRefs(mountRef, ref)}>
-      <div className={classes} style={affixStyles}>
-        {children}
-      </div>
-      {fixed && <div aria-hidden="true" style={placeholderStyles}></div>}
-    </Component>
-  );
-});
+    return (
+      <Component {...rest} ref={mergeRefs(mountRef, ref)}>
+        <div className={classes} style={affixStyles}>
+          {children}
+        </div>
+        {fixed && <div aria-hidden="true" style={placeholderStyles}></div>}
+      </Component>
+    );
+  }
+);
 
 Affix.displayName = 'Affix';
 Affix.propTypes = {

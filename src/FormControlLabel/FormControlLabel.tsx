@@ -2,17 +2,17 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import { FormGroupContext } from '../FormGroup/FormGroup';
-import { StandardProps } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export interface FormControlLabelProps
-  extends StandardProps,
+  extends WithAsProps,
     React.LabelHTMLAttributes<HTMLLabelElement> {
   /** Attribute of the html label tag, defaults to the controlId of the FormGroup */
   htmlFor?: string;
 }
 
-const FormControlLabel = React.forwardRef(
-  (props: FormControlLabelProps, ref: React.Ref<HTMLLabelElement>) => {
+const FormControlLabel: RsRefForwardingComponent<'label', FormControlLabelProps> = React.forwardRef(
+  (props: FormControlLabelProps, ref) => {
     const {
       as: Component = 'label',
       classPrefix = 'form-control-label',
