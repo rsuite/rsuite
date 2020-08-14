@@ -3,11 +3,11 @@ import { HTMLAttributes, useState } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Collapse from '../Animation/Collapse';
-import { getUnhandledProps, useClassNames } from '../utils';
+import { useClassNames } from '../utils';
 import { AnimationEventProps, StandardProps } from '../@types/common';
 
 export interface PanelProps<T = any>
-  extends Omit<StandardProps, 'as'>,
+  extends StandardProps,
     AnimationEventProps,
     Omit<HTMLAttributes<HTMLDivElement>, 'id' | 'onSelect'> {
   /** Whether it is a collapsible panel */
@@ -48,14 +48,17 @@ export interface PanelProps<T = any>
 }
 
 const defaultProps: Partial<PanelProps> = {
-  classPrefix: 'panel'
+  classPrefix: 'panel',
+  as: 'div'
 };
 
 const Panel = React.forwardRef((props: PanelProps, ref: React.Ref<HTMLDivElement>) => {
   const {
+    as: Component,
+    className,
+    children,
     headerRole,
     panelRole,
-    className,
     collapsible,
     bordered,
     shaded,
@@ -63,12 +66,14 @@ const Panel = React.forwardRef((props: PanelProps, ref: React.Ref<HTMLDivElement
     id,
     onSelect,
     eventKey,
-    children,
     bodyFill,
+    defaultExpanded,
+    expanded: overrideExpand,
+    header,
     ...rest
   } = props;
   const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-  const [expanded, setExpanded] = useState(props.defaultExpanded);
+  const [expanded, setExpanded] = useState(defaultExpanded);
 
   const handleSelect = (event: React.MouseEvent) => {
     event.persist();
@@ -80,7 +85,7 @@ const Panel = React.forwardRef((props: PanelProps, ref: React.Ref<HTMLDivElement
     setExpanded(prevState => !prevState);
   };
 
-  const isExpanded = () => (_.isUndefined(props.expanded) ? expanded : props.expanded);
+  const isExpanded = () => (_.isUndefined(overrideExpand) ? expanded : overrideExpand);
   const renderCollapsibleTitle = (header: React.ReactNode, headerRole?: string) => {
     return (
       <span className={prefix('title')} role="presentation">
@@ -101,10 +106,10 @@ const Panel = React.forwardRef((props: PanelProps, ref: React.Ref<HTMLDivElement
           const { className, ...rest } = transitionProps;
           return (
             <div
+              {...rest}
               id={id ? `${id}` : null}
               aria-hidden={!isExpanded()}
               role={panelRole}
-              {...rest}
               className={merge(prefix('collapse'), className)}
               ref={ref}
             >
@@ -125,21 +130,20 @@ const Panel = React.forwardRef((props: PanelProps, ref: React.Ref<HTMLDivElement
   };
 
   const renderHeading = (headerRole?: string) => {
-    let { header } = props;
-
     if (!header) {
       return null;
     }
+    let content = header;
 
     if (!React.isValidElement(header) || Array.isArray(header)) {
-      header = props.collapsible ? renderCollapsibleTitle(header, headerRole) : header;
+      content = collapsible ? renderCollapsibleTitle(header, headerRole) : header;
     } else {
       const className = merge(prefix('title'), _.get(header, 'props.className'));
-      header = React.cloneElement<any>(header, { className });
+      content = React.cloneElement<any>(header, { className });
     }
     return (
       <div role="rowheader" className={prefix('heading')} onClick={handleSelect} tabIndex={-1}>
-        {header}
+        {content}
       </div>
     );
   };
@@ -165,13 +169,11 @@ const Panel = React.forwardRef((props: PanelProps, ref: React.Ref<HTMLDivElement
     shaded
   });
 
-  const unhandled = getUnhandledProps(Panel, rest);
-
   return (
-    <div {...unhandled} className={classes} ref={ref} id={collapsible ? null : id}>
+    <Component {...rest} className={classes} ref={ref} id={collapsible ? null : id}>
       {renderHeading(headerRole)}
       {collapsible ? renderCollapsibleBody(panelRole) : renderBody()}
-    </div>
+    </Component>
   );
 });
 
