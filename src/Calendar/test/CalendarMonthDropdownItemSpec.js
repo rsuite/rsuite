@@ -1,8 +1,11 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import MonthDropdownItem from '../MonthDropdownItem';
 import { format } from '../../utils/dateUtils';
+import { CalendarProvider } from '../CalendarContext';
+import { createTestContainer } from '../../../test/testUtils';
 
 describe('Calendar-MonthDropdownItem', () => {
   it('Should output a  `1` ', () => {
@@ -13,17 +16,20 @@ describe('Calendar-MonthDropdownItem', () => {
   });
 
   it('Should call `onSelect` callback', done => {
-    const doneOp = date => {
+    const onChangePageDate = date => {
       if (format(date, 'yyyy-MM') === '2017-01') {
         done();
       }
     };
-
-    const instance = getDOMNode(
-      <MonthDropdownItem date={new Date()} month={1} year={2017} onSelect={doneOp} />
+    const ref = React.createRef();
+    ReactDOM.render(
+      <CalendarProvider value={{ date: new Date(), onChangePageDate }}>
+        <MonthDropdownItem month={1} year={2017} ref={ref} />
+      </CalendarProvider>,
+      createTestContainer()
     );
 
-    ReactTestUtils.Simulate.click(instance);
+    ReactTestUtils.Simulate.click(ref.current);
   });
 
   it('Should have a custom className', () => {
