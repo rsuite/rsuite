@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import { StandardProps } from '../@types/common';
 
-export interface DividerProps extends StandardProps {
+export interface DividerProps extends StandardProps, HTMLAttributes<HTMLDivElement> {
   /** Vertical dividing line */
   vertical?: boolean;
 }
 
 const defaultProps = {
-  classPrefix: 'divider'
+  classPrefix: 'divider',
+  as: 'div'
 };
 
 const propTypes = {
@@ -20,13 +21,13 @@ const propTypes = {
   as: PropTypes.elementType
 };
 
-const Divider = React.forwardRef<HTMLDivElement, DividerProps>((props, ref) => {
-  const { vertical, as: Component = 'div', className, children, classPrefix, ...rest } = props;
-  const { merge, prefix, rootPrefix } = useClassNames(classPrefix);
-  const classes = merge(rootPrefix(classPrefix), className, {
-    [prefix('vertical')]: vertical,
-    [prefix('horizontal')]: !vertical,
-    [prefix('with-text')]: !!children
+const Divider = React.forwardRef((props: DividerProps, ref: React.Ref<HTMLDivElement>) => {
+  const { vertical, as: Component, className, children, classPrefix, ...rest } = props;
+  const { prefix, withClassPrefix } = useClassNames(classPrefix);
+  const classes = withClassPrefix(className, {
+    vertical,
+    horizontal: !vertical,
+    'with-text': !!children
   });
 
   return (
