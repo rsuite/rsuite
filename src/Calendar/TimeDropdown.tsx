@@ -172,7 +172,7 @@ const TimeDropdown = React.forwardRef<HTMLDivElement, TimeDropdownProps>((props,
     );
   };
 
-  const time = getTime(props);
+  const time = getTime({ format, timeZone, date, showMeridian });
   const classes = merge(rootPrefix(classPrefix), className);
   const unhandled = getUnhandledProps(TimeDropdown, rest);
 
