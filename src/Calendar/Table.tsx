@@ -6,16 +6,9 @@ import { useClassNames } from '../utils';
 
 export interface TableProps {
   rows: any[];
-  isoWeek?: boolean;
-  selected?: Date;
-  timeZone?: string;
   className?: string;
   classPrefix?: string;
-  showWeekNumbers?: boolean;
-  onSelect?: (date: Date, event: React.MouseEvent<HTMLDivElement>) => void;
-  disabledDate?: (date: Date) => boolean;
   inSameMonth?: (date: Date) => boolean;
-  renderCell?: (date: Date) => React.ReactNode;
 }
 
 const defaultProps = {
@@ -24,40 +17,15 @@ const defaultProps = {
 };
 
 const Table = React.forwardRef<HTMLDivElement, TableProps>((props, ref) => {
-  const {
-    rows,
-    selected,
-    onSelect,
-    disabledDate,
-    inSameMonth,
-    className,
-    classPrefix,
-    isoWeek,
-    renderCell,
-    showWeekNumbers,
-    timeZone,
-    ...rest
-  } = props;
+  const { rows, inSameMonth, className, classPrefix, ...rest } = props;
   const { merge, rootPrefix } = useClassNames(classPrefix);
   const classes = merge(rootPrefix(classPrefix), className);
 
   return (
     <div {...rest} ref={ref} className={classes}>
-      <TableHeaderRow isoWeek={isoWeek} showWeekNumbers={showWeekNumbers} />
-
+      <TableHeaderRow />
       {rows.map((week, index) => (
-        <TableRow
-          key={index}
-          weekendDate={week}
-          timeZone={timeZone}
-          selected={selected}
-          onSelect={onSelect}
-          inSameMonth={inSameMonth}
-          disabledDate={disabledDate}
-          renderCell={renderCell}
-          showWeekNumbers={showWeekNumbers}
-          isoWeek={isoWeek}
-        />
+        <TableRow key={index} weekendDate={week} inSameMonth={inSameMonth} />
       ))}
     </div>
   );
@@ -66,16 +34,9 @@ const Table = React.forwardRef<HTMLDivElement, TableProps>((props, ref) => {
 Table.displayName = 'Table';
 Table.propTypes = {
   rows: PropTypes.array,
-  isoWeek: PropTypes.bool,
-  timeZone: PropTypes.string,
-  selected: PropTypes.instanceOf(Date),
-  onSelect: PropTypes.func,
-  disabledDate: PropTypes.func,
-  showWeekNumbers: PropTypes.bool,
   inSameMonth: PropTypes.func,
   className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  renderCell: PropTypes.func
+  classPrefix: PropTypes.string
 };
 Table.defaultProps = defaultProps;
 

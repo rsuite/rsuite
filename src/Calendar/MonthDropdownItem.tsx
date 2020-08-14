@@ -3,13 +3,11 @@ import PropTypes from 'prop-types';
 import { getUnhandledProps, useClassNames } from '../utils';
 import { setMonth, setYear } from '../utils/dateUtils';
 import composeFunctions from '../utils/composeFunctions';
+import { useCalendarContext } from './CalendarContext';
 
 export interface MonthDropdownItemProps {
-  date?: Date;
   month?: number;
   year?: number;
-  timeZone?: string;
-  onSelect?: (date: Date, event: React.MouseEvent) => void;
   className?: string;
   classPrefix?: string;
   active?: boolean;
@@ -22,7 +20,8 @@ const defaultProps = {
 };
 
 const MonthDropdownItem = React.forwardRef<HTMLDivElement, MonthDropdownItemProps>((props, ref) => {
-  const { className, classPrefix, month, active, disabled, onSelect, year, date, ...rest } = props;
+  const { className, classPrefix, month, active, disabled, year, ...rest } = props;
+  const { date, onChangePageDate: onSelect } = useCalendarContext();
 
   const handleClick = (event: React.MouseEvent) => {
     if (disabled) {
@@ -63,11 +62,8 @@ const MonthDropdownItem = React.forwardRef<HTMLDivElement, MonthDropdownItemProp
 });
 MonthDropdownItem.displayName = 'MonthDropdownItem';
 MonthDropdownItem.propTypes = {
-  date: PropTypes.instanceOf(Date),
   month: PropTypes.number,
   year: PropTypes.number,
-  timeZone: PropTypes.string,
-  onSelect: PropTypes.func,
   className: PropTypes.string,
   classPrefix: PropTypes.string,
   active: PropTypes.bool,

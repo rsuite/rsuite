@@ -10,6 +10,8 @@ import { shouldDate, shouldMonth, shouldTime } from '../utils/formatUtils';
 import { addMonths, calendarOnlyProps, disabledTime } from '../utils/dateUtils';
 import { tuple } from '../@types/utils';
 import { StandardProps } from '../@types/common';
+import { CalendarLocaleTypes } from './types';
+import { CalendarProvider } from './CalendarContext';
 
 const CalendarState = tuple('DROP_TIME', 'DROP_MONTH');
 
@@ -42,6 +44,7 @@ export interface CalendarProps extends Omit<StandardProps, 'as'> {
   renderTitle?: (date: Date) => React.ReactNode;
   renderToolbar?: (date: Date) => React.ReactNode;
   renderCell?: (date: Date) => React.ReactNode;
+  locale?: CalendarLocaleTypes;
 }
 
 const defaultProps: Partial<CalendarProps> = {
@@ -71,6 +74,7 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>((props, ref) =>
     timeZone,
     onMoveForward,
     onMoveBackward,
+    locale,
     ...rest
   } = props;
   const { withClassPrefix, merge } = useClassNames(classPrefix);
@@ -106,59 +110,49 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>((props, ref) =>
   const unhandled = getUnhandledProps(Calendar, rest);
   const timeDropdownProps = _.pick(rest, calendarOnlyProps);
 
+  const contextValue = {
+    locale,
+    date: pageDate,
+    format,
+    disabledDate,
+    timeZone,
+    showWeekNumbers,
+    isoWeek,
+    onSelect,
+    renderCell,
+    onChangePageDate,
+    onChangePageTime
+  };
   return (
-    <div {...unhandled} className={calendarClasses} ref={ref}>
-      <Header
-        date={pageDate}
-        format={format}
-        showMonth={showMonth}
-        showDate={showDate}
-        showTime={showTime}
-        showMeridian={showMeridian}
-        disabledDate={disabledDate}
-        disabledTime={isTimeDisabled}
-        onMoveForward={handleMoveForward}
-        onMoveBackward={handleMoveBackward}
-        onToggleMonthDropdown={onToggleMonthDropdown}
-        onToggleTimeDropdown={onToggleTimeDropdown}
-        onToggleMeridian={onToggleMeridian}
-        renderTitle={renderTitle}
-        renderToolbar={renderToolbar}
-      />
-      {showDate && (
-        <View
-          key="MonthView"
-          activeDate={pageDate}
-          timeZone={timeZone}
-          onSelect={onSelect}
-          isoWeek={isoWeek}
-          disabledDate={disabledDate}
-          renderCell={renderCell}
-          showWeekNumbers={showWeekNumbers}
-        />
-      )}
-      {showMonth && (
-        <MonthDropdown
-          date={pageDate}
-          timeZone={timeZone}
-          onSelect={onChangePageDate}
-          show={dropMonth}
-          limitEndYear={limitEndYear}
-          disabledMonth={disabledDate}
-        />
-      )}
-      {showTime && (
-        <TimeDropdown
-          {...timeDropdownProps}
-          date={pageDate}
-          format={format}
-          timeZone={timeZone}
-          show={dropTime}
+    <CalendarProvider value={contextValue}>
+      <div {...unhandled} className={calendarClasses} ref={ref}>
+        <Header
+          showMonth={showMonth}
+          showDate={showDate}
+          showTime={showTime}
           showMeridian={showMeridian}
-          onSelect={onChangePageTime}
+          disabledTime={isTimeDisabled}
+          onMoveForward={handleMoveForward}
+          onMoveBackward={handleMoveBackward}
+          onToggleMonthDropdown={onToggleMonthDropdown}
+          onToggleTimeDropdown={onToggleTimeDropdown}
+          onToggleMeridian={onToggleMeridian}
+          renderTitle={renderTitle}
+          renderToolbar={renderToolbar}
         />
-      )}
-    </div>
+        {showDate && <View key="MonthView" />}
+        {showMonth && (
+          <MonthDropdown
+            show={dropMonth}
+            limitEndYear={limitEndYear}
+            disabledMonth={disabledDate}
+          />
+        )}
+        {showTime && (
+          <TimeDropdown {...timeDropdownProps} show={dropTime} showMeridian={showMeridian} />
+        )}
+      </div>
+    </CalendarProvider>
   );
 });
 
@@ -191,7 +185,8 @@ Calendar.propTypes = {
   onToggleMeridian: PropTypes.func,
   renderTitle: PropTypes.func,
   renderToolbar: PropTypes.func,
-  renderCell: PropTypes.func
+  renderCell: PropTypes.func,
+  locale: PropTypes.object
 };
 Calendar.defaultProps = defaultProps;
 

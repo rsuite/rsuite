@@ -5,11 +5,9 @@ import FormattedDate from '../IntlProvider/FormattedDate';
 import { useCalendarContext } from './CalendarContext';
 
 export interface HeaderProps {
-  date: Date;
   showMonth?: boolean;
   showDate?: boolean;
   showTime?: boolean;
-  format?: string;
   classPrefix?: string;
   className?: string;
   disabledBackward?: boolean;
@@ -20,20 +18,17 @@ export interface HeaderProps {
   onToggleMonthDropdown?: (event: React.MouseEvent) => void;
   onToggleTimeDropdown?: (event: React.MouseEvent) => void;
   onToggleMeridian?: (event: React.MouseEvent) => void;
-  disabledDate?: (date: Date) => boolean;
   disabledTime?: (date: Date) => boolean;
   renderTitle?: (date: Date) => React.ReactNode;
   renderToolbar?: (date: Date) => React.ReactNode;
 }
 
 const defaultProps = {
-  date: new Date(),
   classPrefix: 'calendar-header'
 };
 
 const Header = React.forwardRef<HTMLDivElement, HeaderProps>((props, ref) => {
   const {
-    date,
     onMoveForward,
     onMoveBackward,
     onToggleMonthDropdown,
@@ -44,17 +39,14 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>((props, ref) => {
     showMonth,
     classPrefix,
     className,
-    disabledDate,
     disabledTime,
     disabledBackward,
     disabledForward,
     renderToolbar,
     showMeridian,
-    format,
     ...rest
   } = props;
-  const { locale } = useCalendarContext();
-
+  const { locale, date = new Date(), format, disabledDate } = useCalendarContext();
   const getTimeFormat = () => {
     const timeFormat = [];
 
@@ -178,7 +170,6 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>((props, ref) => {
 
 Header.displayName = 'Header';
 Header.propTypes = {
-  date: PropTypes.instanceOf(Date),
   onMoveForward: PropTypes.func,
   onMoveBackward: PropTypes.func,
   onToggleMonthDropdown: PropTypes.func,
@@ -187,8 +178,6 @@ Header.propTypes = {
   showMonth: PropTypes.bool,
   showDate: PropTypes.bool,
   showTime: PropTypes.bool,
-  format: PropTypes.string,
-  disabledDate: PropTypes.func,
   disabledTime: PropTypes.func,
   classPrefix: PropTypes.string,
   className: PropTypes.string,

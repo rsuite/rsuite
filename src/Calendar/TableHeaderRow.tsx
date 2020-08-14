@@ -4,10 +4,8 @@ import { useClassNames } from '../utils';
 import { useCalendarContext } from './CalendarContext';
 
 export interface TableHeaderRowProps {
-  isoWeek?: boolean;
   className?: string;
   classPrefix?: string;
-  showWeekNumbers?: boolean;
 }
 
 const defaultProps = {
@@ -17,8 +15,8 @@ const defaultProps = {
 const weekKeys = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
 const TableHeaderRow = React.forwardRef<HTMLDivElement, TableHeaderRowProps>((props, ref) => {
-  const { className, classPrefix, isoWeek, showWeekNumbers, ...rest } = props;
-  const { locale } = useCalendarContext();
+  const { className, classPrefix, ...rest } = props;
+  const { locale, showWeekNumbers, isoWeek } = useCalendarContext();
   const { merge, prefix } = useClassNames(classPrefix);
   const classes = merge(prefix('row'), prefix('header-row'), className);
   let items = weekKeys;
@@ -42,10 +40,8 @@ const TableHeaderRow = React.forwardRef<HTMLDivElement, TableHeaderRowProps>((pr
 
 TableHeaderRow.displayName = 'TableHeaderRow';
 TableHeaderRow.propTypes = {
-  isoWeek: PropTypes.bool,
   className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  showWeekNumbers: PropTypes.bool
+  classPrefix: PropTypes.string
 };
 TableHeaderRow.defaultProps = defaultProps;
 

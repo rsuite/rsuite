@@ -8,38 +8,28 @@ import { useCalendarContext } from './CalendarContext';
 
 export interface TableRowProps {
   weekendDate?: Date;
-  selected?: Date;
-  timeZone?: string;
   className?: string;
   classPrefix?: string;
-  showWeekNumbers?: boolean;
-  isoWeek?: boolean;
-  onSelect?: (date: Date, event: React.MouseEvent<HTMLDivElement>) => void;
-  disabledDate?: (date: Date) => boolean;
   inSameMonth?: (date: Date) => boolean;
-  renderCell?: (date: Date) => React.ReactNode;
 }
 const defaultProps = {
-  selected: new Date(),
   weekendDate: new Date(),
   classPrefix: 'calendar-table'
 };
 
 const TableRow = React.forwardRef<HTMLDivElement, TableRowProps>((props, ref) => {
+  const { classPrefix, weekendDate, inSameMonth, className, ...rest } = props;
   const {
-    classPrefix,
-    onSelect,
-    weekendDate,
-    disabledDate,
-    inSameMonth,
-    selected,
-    renderCell,
+    date: selected = new Date(),
+    formatDate,
+    locale: { formattedDayPattern, today } = {},
     timeZone,
-    className,
+    isoWeek,
+    disabledDate,
     showWeekNumbers,
-    ...rest
-  } = props;
-  const { formatDate, locale: { formattedDayPattern, today } = {} } = useCalendarContext();
+    onSelect,
+    renderCell
+  } = useCalendarContext();
   const { prefix, merge } = useClassNames(classPrefix);
 
   const handleSelect = (
@@ -92,7 +82,7 @@ const TableRow = React.forwardRef<HTMLDivElement, TableRowProps>((props, ref) =>
   const renderWeekNumber = () => {
     return (
       <div className={prefix('cell-week-number')}>
-        {format(props.weekendDate, props.isoWeek ? 'I' : 'w')}
+        {format(props.weekendDate, isoWeek ? 'I' : 'w')}
       </div>
     );
   };
@@ -111,16 +101,9 @@ const TableRow = React.forwardRef<HTMLDivElement, TableRowProps>((props, ref) =>
 TableRow.displayName = 'TableRow';
 TableRow.propTypes = {
   weekendDate: PropTypes.instanceOf(Date),
-  selected: PropTypes.instanceOf(Date),
-  timeZone: PropTypes.string,
-  showWeekNumbers: PropTypes.bool,
   className: PropTypes.string,
   classPrefix: PropTypes.string,
-  onSelect: PropTypes.func,
-  disabledDate: PropTypes.func,
-  inSameMonth: PropTypes.func,
-  renderCell: PropTypes.func,
-  isoWeek: PropTypes.bool
+  inSameMonth: PropTypes.func
 };
 
 TableRow.defaultProps = defaultProps;

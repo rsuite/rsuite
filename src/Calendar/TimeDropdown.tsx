@@ -15,12 +15,10 @@ import {
 import scrollTopAnimation from '../utils/scrollTopAnimation';
 import { zonedDate } from '../utils/timeZone';
 import { useCalendarContext } from './CalendarContext';
+import { CalendarInnerContextValue } from './types';
 
 export interface TimeDropdownProps {
-  date?: Date;
   show: boolean;
-  format?: string;
-  timeZone?: string;
   className?: string;
   classPrefix?: string;
   showMeridian?: boolean;
@@ -31,7 +29,6 @@ export interface TimeDropdownProps {
   hideHours?: (hour: number, date: Date) => boolean;
   hideMinutes?: (minute: number, date: Date) => boolean;
   hideSeconds?: (second: number, date: Date) => boolean;
-  onSelect?: (nextDate: Date, event: React.MouseEvent) => void;
 }
 
 const defaultProps = {
@@ -60,7 +57,7 @@ interface Time {
   minutes?: number;
   seconds?: number;
 }
-const getTime = (props: Partial<TimeDropdownProps>): Time => {
+const getTime = (props: Partial<TimeDropdownProps> & Partial<CalendarInnerContextValue>): Time => {
   const { format, timeZone, date, showMeridian } = props;
   const time = date || zonedDate(timeZone);
   const nextTime = {} as Time;
@@ -85,7 +82,7 @@ const getTime = (props: Partial<TimeDropdownProps>): Time => {
 const scrollTo = (time: Time, ulRefs: UListRefs) => {
   Object.entries(time).forEach((item: [string, number]) => {
     const container: Element = ulRefs[item[0]];
-    const node = container.querySelector(`[data-key="${item[0]}-${item[1]}"]`);
+    const node = container?.querySelector(`[data-key="${item[0]}-${item[1]}"]`);
     if (node && container) {
       const { top } = getPosition(node, container);
       scrollTopAnimation(ulRefs[item[0]], top, scrollTop(ulRefs[item[0]]) !== 0);
@@ -94,18 +91,8 @@ const scrollTo = (time: Time, ulRefs: UListRefs) => {
 };
 
 const TimeDropdown = React.forwardRef<HTMLDivElement, TimeDropdownProps>((props, ref) => {
-  const {
-    className,
-    classPrefix,
-    onSelect,
-    show,
-    format,
-    timeZone,
-    date,
-    showMeridian,
-    ...rest
-  } = props;
-  const { locale } = useCalendarContext();
+  const { className, classPrefix, show, showMeridian, ...rest } = props;
+  const { locale, format, timeZone, date, onChangePageTime: onSelect } = useCalendarContext();
   const ulRefs = useRef<UListRefs>({} as UListRefs);
 
   const updatePosition = useCallback(() => {
@@ -208,11 +195,8 @@ const TimeDropdown = React.forwardRef<HTMLDivElement, TimeDropdownProps>((props,
 
 TimeDropdown.displayName = 'TimeDropdown';
 TimeDropdown.propTypes = {
-  date: PropTypes.instanceOf(Date),
   show: PropTypes.bool,
   showMeridian: PropTypes.bool,
-  format: PropTypes.string,
-  timeZone: PropTypes.string,
   className: PropTypes.string,
   classPrefix: PropTypes.string,
   disabledDate: PropTypes.func,
@@ -221,8 +205,7 @@ TimeDropdown.propTypes = {
   disabledSeconds: PropTypes.func,
   hideHours: PropTypes.func,
   hideMinutes: PropTypes.func,
-  hideSeconds: PropTypes.func,
-  onSelect: PropTypes.func
+  hideSeconds: PropTypes.func
 };
 TimeDropdown.defaultProps = defaultProps;
 

@@ -1,3 +1,5 @@
+import React from 'react';
+
 export interface CalendarLocaleTypes {
   sunday?: string;
   monday?: string;
@@ -20,7 +22,20 @@ export interface CalendarLocaleTypes {
   formattedDayPattern?: string;
 }
 
-export interface CalendarContextValue {
+export interface CalendarInnerContextValue {
+  date: Date;
+  format?: string;
+  disabledDate?: (date: Date) => boolean;
+  timeZone?: string;
+  showWeekNumbers?: boolean;
+  isoWeek?: boolean;
+  onSelect?: (date: Date, event: React.MouseEvent<HTMLDivElement>) => void;
+  renderCell?: (date: Date) => React.ReactNode;
+  onChangePageDate?: (nextPageDate: Date, event: React.MouseEvent) => void;
+  onChangePageTime?: (nextPageTime: Date, event: React.MouseEvent) => void;
+}
+
+export interface CalendarContextValue extends CalendarInnerContextValue {
   locale: CalendarLocaleTypes;
   formatDate?: (
     date: Date | string | number,

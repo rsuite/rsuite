@@ -15,7 +15,6 @@ import {
   setSeconds
 } from '../utils/dateUtils';
 import { StandardProps } from '../@types/common';
-import { CalendarProvider } from './CalendarContext';
 import { CalendarLocaleTypes } from './types';
 
 export interface CalendarPanelProps extends Omit<StandardProps, 'as'> {
@@ -157,29 +156,28 @@ const CalendarPanel = React.forwardRef<HTMLDivElement, CalendarPanelProps>((prop
   );
 
   return (
-    <CalendarProvider value={{ locale }}>
-      <Calendar
-        className={classes}
-        ref={ref}
-        isoWeek={isoWeek}
-        format="yyyy-MM-dd"
-        calendarState={showMonth ? 'DROP_MONTH' : null}
-        pageDate={pageDate}
-        timeZone={timeZone}
-        renderTitle={date => (
-          <FormattedDate date={date} formatStr={locale.formattedMonthPattern || 'MMMM  yyyy'} />
-        )}
-        renderToolbar={renderToolbar}
-        onMoveForward={handleNextMonth}
-        onMoveBackward={handlePrevMonth}
-        onToggleMonthDropdown={handleToggleMonthDropdown}
-        onChangePageDate={handleChangePageDate}
-        limitEndYear={1000}
-        {...rest}
-        onSelect={handleSelect}
-        renderCell={renderCell}
-      />
-    </CalendarProvider>
+    <Calendar
+      className={classes}
+      ref={ref}
+      isoWeek={isoWeek}
+      format="yyyy-MM-dd"
+      calendarState={showMonth ? 'DROP_MONTH' : null}
+      pageDate={pageDate}
+      timeZone={timeZone}
+      renderTitle={date => (
+        <FormattedDate date={date} formatStr={locale.formattedMonthPattern || 'MMMM  yyyy'} />
+      )}
+      renderToolbar={renderToolbar}
+      onMoveForward={handleNextMonth}
+      onMoveBackward={handlePrevMonth}
+      onToggleMonthDropdown={handleToggleMonthDropdown}
+      onChangePageDate={handleChangePageDate}
+      limitEndYear={1000}
+      {...rest}
+      onSelect={handleSelect}
+      renderCell={renderCell}
+      locale={locale}
+    />
   );
 });
 

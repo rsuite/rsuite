@@ -6,15 +6,13 @@ import { AutoSizer } from 'react-virtualized/dist/commonjs/AutoSizer';
 import { getUnhandledProps, useClassNames } from '../utils';
 import MonthDropdownItem from './MonthDropdownItem';
 import { getDaysInMonth, getMonth, getYear } from '../utils/dateUtils';
+import { useCalendarContext } from './CalendarContext';
 
 export interface MonthDropdownProps {
-  date: Date;
-  timeZone?: string;
   limitEndYear?: number;
   className?: string;
   classPrefix?: string;
   show: boolean;
-  onSelect?: (month: Date, event: React.MouseEvent) => void;
   disabledMonth?: (date: Date) => boolean;
 }
 
@@ -48,17 +46,8 @@ const defaultProps = {
 };
 
 const MonthDropdown = React.forwardRef<HTMLDivElement, MonthDropdownProps>((props, ref) => {
-  const {
-    classPrefix,
-    disabledMonth,
-    date,
-    onSelect,
-    timeZone,
-    className,
-    show,
-    limitEndYear,
-    ...rest
-  } = props;
+  const { classPrefix, disabledMonth, className, show, limitEndYear, ...rest } = props;
+  const { date } = useCalendarContext();
   const listRef = useRef(null);
 
   useEffect(() => {
@@ -106,9 +95,6 @@ const MonthDropdown = React.forwardRef<HTMLDivElement, MonthDropdownProps>((prop
           {monthMap.map((item, month) => {
             return (
               <MonthDropdownItem
-                date={date}
-                timeZone={timeZone}
-                onSelect={onSelect}
                 disabled={isMonthDisabled(year, month)}
                 active={isSelectedYear && month === selectedMonth}
                 key={`${month}_${item}`}
@@ -155,13 +141,10 @@ const MonthDropdown = React.forwardRef<HTMLDivElement, MonthDropdownProps>((prop
 
 MonthDropdown.displayName = 'MonthDropdown';
 MonthDropdown.propTypes = {
-  date: PropTypes.instanceOf(Date),
-  timeZone: PropTypes.string,
   limitEndYear: PropTypes.number,
   className: PropTypes.string,
   classPrefix: PropTypes.string,
   show: PropTypes.bool,
-  onSelect: PropTypes.func,
   disabledMonth: PropTypes.func
 };
 MonthDropdown.defaultProps = defaultProps;
