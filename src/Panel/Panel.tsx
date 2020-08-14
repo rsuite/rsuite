@@ -1,12 +1,15 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { HTMLAttributes, useState } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Collapse from '../Animation/Collapse';
 import { getUnhandledProps, useClassNames } from '../utils';
 import { AnimationEventProps, StandardProps } from '../@types/common';
 
-export interface PanelProps<T = any> extends Omit<StandardProps, 'as'>, AnimationEventProps {
+export interface PanelProps<T = any>
+  extends Omit<StandardProps, 'as'>,
+    AnimationEventProps,
+    Omit<HTMLAttributes<HTMLDivElement>, 'id' | 'onSelect'> {
   /** Whether it is a collapsible panel */
   collapsible?: boolean;
 
@@ -48,7 +51,7 @@ const defaultProps: Partial<PanelProps> = {
   classPrefix: 'panel'
 };
 
-const Panel = React.forwardRef<HTMLDivElement, PanelProps>((props, ref) => {
+const Panel = React.forwardRef((props: PanelProps, ref: React.Ref<HTMLDivElement>) => {
   const {
     headerRole,
     panelRole,
@@ -64,7 +67,7 @@ const Panel = React.forwardRef<HTMLDivElement, PanelProps>((props, ref) => {
     bodyFill,
     ...rest
   } = props;
-  const { merge, prefix, rootPrefix } = useClassNames(classPrefix);
+  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
   const [expanded, setExpanded] = useState(props.defaultExpanded);
 
   const handleSelect = (event: React.MouseEvent) => {
@@ -155,11 +158,11 @@ const Panel = React.forwardRef<HTMLDivElement, PanelProps>((props, ref) => {
     );
   };
 
-  const classes = merge(className, rootPrefix(classPrefix), prefix('default'), {
-    [prefix('in')]: isExpanded(),
-    [prefix('collapsible')]: collapsible,
-    [prefix('bordered')]: bordered,
-    [prefix('shaded')]: shaded
+  const classes = withClassPrefix(className, 'default', {
+    in: isExpanded(),
+    collapsible,
+    bordered,
+    shaded
   });
 
   const unhandled = getUnhandledProps(Panel, rest);
