@@ -4,15 +4,15 @@ import Tooltip from '../Tooltip';
 import Whisper from '../Whisper';
 import Icon from '../Icon';
 import { useClassNames } from '../utils';
-import { StandardProps } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-export interface FormHelpTextProps extends StandardProps, React.HTMLAttributes<HTMLSpanElement> {
+export interface FormHelpTextProps extends WithAsProps {
   /** Whether to show through the Tooltip component */
   tooltip?: boolean;
 }
 
-const FormHelpText = React.forwardRef(
-  (props: FormHelpTextProps, ref: React.Ref<HTMLSpanElement>) => {
+const FormHelpText: RsRefForwardingComponent<'span', FormHelpTextProps> = React.forwardRef(
+  (props: FormHelpTextProps, ref) => {
     const {
       as: Component = 'span',
       classPrefix = 'form-help-text',

@@ -2,13 +2,13 @@ import React from 'react';
 import kebabCase from 'lodash/kebabCase';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
-import { StandardProps } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-export type ComponentProps = StandardProps & React.HTMLAttributes<HTMLDivElement>;
+export type ComponentProps = WithAsProps & React.HTMLAttributes<HTMLDivElement>;
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   name: string;
-  componentAs?: React.ElementType | string;
+  componentAs?: React.ElementType;
   componentClassPrefix?: string;
 }
 
@@ -19,13 +19,15 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 function createComponent(defaultProps: Props) {
   const { name, componentAs, componentClassPrefix, ...componentRestProps } = defaultProps;
 
-  const Component = React.forwardRef((props: ComponentProps, ref: React.Ref<HTMLDivElement>) => {
-    const { as: Component, classPrefix, className, role, ...rest } = props;
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix());
+  const Component: RsRefForwardingComponent<'div', ComponentProps> = React.forwardRef(
+    (props: ComponentProps, ref) => {
+      const { as: Component, classPrefix, className, role, ...rest } = props;
+      const { withClassPrefix, merge } = useClassNames(classPrefix);
+      const classes = merge(className, withClassPrefix());
 
-    return <Component {...rest} role={role} ref={ref} className={classes} />;
-  });
+      return <Component {...rest} role={role} ref={ref} className={classes} />;
+    }
+  );
 
   Component.displayName = name;
   Component.propTypes = {

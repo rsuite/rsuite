@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
-import { StandardProps, TypeAttributes } from '../@types/common';
+import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 
-export interface ButtonGroupProps extends StandardProps, React.HTMLAttributes<HTMLDivElement> {
+export interface ButtonGroupProps extends WithAsProps {
   /** Display block buttongroups */
   block?: boolean;
 
@@ -21,35 +21,37 @@ export interface ButtonGroupProps extends StandardProps, React.HTMLAttributes<HT
    * "group" role is fine. An `aria-label` or `aria-labelledby`
    * prop is also recommended.
    */
-  role: string;
+  role?: string;
 
   /** A button group can have different sizes */
   size?: TypeAttributes.Size;
 }
 
-const ButtonGroup = React.forwardRef((props: ButtonGroupProps, ref: React.Ref<HTMLDivElement>) => {
-  const {
-    classPrefix = 'btn-group',
-    as: Component = 'div',
-    role = 'group',
-    className,
-    children,
-    block,
-    vertical,
-    justified,
-    size,
-    ...rest
-  } = props;
+const ButtonGroup: RsRefForwardingComponent<'div', ButtonGroupProps> = React.forwardRef(
+  (props: ButtonGroupProps, ref) => {
+    const {
+      classPrefix = 'btn-group',
+      as: Component = 'div',
+      role = 'group',
+      className,
+      children,
+      block,
+      vertical,
+      justified,
+      size,
+      ...rest
+    } = props;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(size, { block, vertical, justified }));
+    const { withClassPrefix, merge } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix(size, { block, vertical, justified }));
 
-  return (
-    <Component {...rest} role={role} ref={ref} className={classes}>
-      {children}
-    </Component>
-  );
-});
+    return (
+      <Component {...rest} role={role} ref={ref} className={classes}>
+        {children}
+      </Component>
+    );
+  }
+);
 
 ButtonGroup.displayName = 'ButtonGroup';
 ButtonGroup.propTypes = {

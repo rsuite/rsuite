@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
-import { StandardProps } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-export interface ButtonToolbarProps extends StandardProps, React.HTMLAttributes<HTMLDivElement> {
+export interface ButtonToolbarProps extends WithAsProps {
   /**
    * The ARIA role describing the button toolbar. Generally the default
    * "toolbar" role is correct. An `aria-label` or `aria-labelledby`
@@ -12,8 +12,8 @@ export interface ButtonToolbarProps extends StandardProps, React.HTMLAttributes<
   role?: string;
 }
 
-const ButtonToolbar = React.forwardRef(
-  (props: ButtonToolbarProps, ref: React.Ref<HTMLDivElement>) => {
+const ButtonToolbar: RsRefForwardingComponent<'div', ButtonToolbarProps> = React.forwardRef(
+  (props: ButtonToolbarProps, ref) => {
     const {
       className,
       classPrefix = 'btn-toolbar',

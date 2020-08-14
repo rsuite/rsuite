@@ -20,7 +20,7 @@ import {
   usePickerClassName,
   useSearch
 } from '../Picker';
-import { PickerInstance, PickerLocaleType } from '../Picker/types';
+import { PickerComponent, PickerLocaleType } from '../Picker/types';
 import { pickerToggleTriggerProps } from '../Picker/PickerToggleTrigger';
 import { listPickerPropTypes } from '../Picker/propTypes';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
@@ -98,8 +98,8 @@ const defaultProps: Partial<SelectPickerProps> = {
   menuMaxHeight: 320
 };
 
-const SelectPicker = React.forwardRef(
-  (props: SelectPickerProps, ref: React.Ref<PickerInstance>) => {
+const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
+  (props: SelectPickerProps, ref) => {
     const {
       as: Component,
       data,

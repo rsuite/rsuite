@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import InputGroupAddon from './InputGroupAddon';
 import InputGroupButton from './InputGroupButton';
 import { createContext, useClassNames } from '../utils';
-import { StandardProps, TypeAttributes, RefForwardingComponent } from '../@types/common';
+import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 
 export const InputGroupContext = createContext(null);
 
-export interface InputGroupProps extends StandardProps, React.HTMLAttributes<HTMLDivElement> {
+export interface InputGroupProps extends WithAsProps {
   /** Sets the composition content internally */
   inside?: boolean;
 
@@ -22,59 +22,57 @@ export interface InputGroupProps extends StandardProps, React.HTMLAttributes<HTM
   size?: TypeAttributes.Size;
 }
 
-export interface InputGroupComponent extends RefForwardingComponent<InputGroupProps> {
+export interface InputGroupComponent extends RsRefForwardingComponent<'div', InputGroupProps> {
   Addon?: typeof InputGroupAddon;
   Button?: typeof InputGroupButton;
 }
 
-const InputGroup: InputGroupComponent = React.forwardRef(
-  (props: InputGroupProps, ref: React.Ref<HTMLDivElement>) => {
-    const {
-      as: Component = 'div',
-      classPrefix = 'input-group',
-      className,
-      disabled,
-      inside,
-      size,
-      children,
-      ...rest
-    } = props;
-    const [focus, setFocus] = useState(false);
+const InputGroup: InputGroupComponent = React.forwardRef((props: InputGroupProps, ref) => {
+  const {
+    as: Component = 'div',
+    classPrefix = 'input-group',
+    className,
+    disabled,
+    inside,
+    size,
+    children,
+    ...rest
+  } = props;
+  const [focus, setFocus] = useState(false);
 
-    const handleFocus = useCallback(() => {
-      setFocus(true);
-    }, []);
+  const handleFocus = useCallback(() => {
+    setFocus(true);
+  }, []);
 
-    const handleBlur = useCallback(() => {
-      setFocus(false);
-    }, []);
+  const handleBlur = useCallback(() => {
+    setFocus(false);
+  }, []);
 
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix(size, { inside, focus, disabled }));
+  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix(size, { inside, focus, disabled }));
 
-    const disabledChildren = () => {
-      return React.Children.map(children, item => {
-        if (React.isValidElement(item)) {
-          return React.cloneElement(item, { disabled: true });
-        }
-        return item;
-      });
-    };
+  const disabledChildren = () => {
+    return React.Children.map(children, item => {
+      if (React.isValidElement(item)) {
+        return React.cloneElement(item, { disabled: true });
+      }
+      return item;
+    });
+  };
 
-    const contextValue = useMemo(() => ({ onFocus: handleFocus, onBlur: handleBlur }), [
-      handleFocus,
-      handleBlur
-    ]);
+  const contextValue = useMemo(() => ({ onFocus: handleFocus, onBlur: handleBlur }), [
+    handleFocus,
+    handleBlur
+  ]);
 
-    return (
-      <InputGroupContext.Provider value={contextValue}>
-        <Component {...rest} ref={ref} className={classes}>
-          {disabled ? disabledChildren() : children}
-        </Component>
-      </InputGroupContext.Provider>
-    );
-  }
-);
+  return (
+    <InputGroupContext.Provider value={contextValue}>
+      <Component {...rest} ref={ref} className={classes}>
+        {disabled ? disabledChildren() : children}
+      </Component>
+    </InputGroupContext.Provider>
+  );
+});
 
 InputGroup.displayName = 'InputGroup';
 InputGroup.propTypes = {

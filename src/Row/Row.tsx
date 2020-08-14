@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ReactChildren, useClassNames } from '../utils';
-import { StandardProps } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-export interface RowProps extends StandardProps, React.HTMLAttributes<HTMLDivElement> {
+export interface RowProps extends WithAsProps {
   gutter?: number;
 }
 
-const Row = React.forwardRef((props: RowProps, ref: React.Ref<HTMLDivElement>) => {
+const Row: RsRefForwardingComponent<'div', RowProps> = React.forwardRef((props: RowProps, ref) => {
   const {
     as: Component = 'div',
     classPrefix = 'row',

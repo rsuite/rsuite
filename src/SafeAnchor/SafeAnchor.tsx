@@ -23,7 +23,7 @@ const SafeAnchor: RsRefForwardingComponent<'a', SafeAnchorProps> = React.forward
 
         onClick?.(event);
       },
-      [onClick]
+      [onClick, disabled]
     );
 
     if (disabled) {

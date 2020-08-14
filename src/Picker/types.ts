@@ -1,3 +1,5 @@
+import { RsRefForwardingComponent } from '../@types/common';
+
 export interface PickerInstance {
   root?: HTMLDivElement;
   menu?: HTMLDivElement;
@@ -11,3 +13,8 @@ export interface PickerLocaleType {
   searchPlaceholder?: string;
   noResultsText?: string;
 }
+
+export type PickerComponent<P> = RsRefForwardingComponent<
+  'div',
+  P & { ref: React.Ref<PickerInstance> }
+>;

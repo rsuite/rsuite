@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import { useClassNames } from '../utils';
 import { SIZE } from '../constants';
-import { StandardProps } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-export interface ColProps extends StandardProps, React.HTMLAttributes<HTMLDivElement> {
+export interface ColProps extends WithAsProps {
   /** The number of columns you wish to span for Extra small devices Phones (< 480px) */
   xs?: number;
 
@@ -67,7 +67,7 @@ export interface ColProps extends StandardProps, React.HTMLAttributes<HTMLDivEle
   lgHidden?: boolean;
 }
 
-const Col = React.forwardRef((props: ColProps, ref: React.Ref<HTMLDivElement>) => {
+const Col: RsRefForwardingComponent<'div', ColProps> = React.forwardRef((props: ColProps, ref) => {
   const { as: Component = 'div', classPrefix = 'col', className, ...rest } = props;
   const { prefix, merge, rootPrefix } = useClassNames(classPrefix);
 
