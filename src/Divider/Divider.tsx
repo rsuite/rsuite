@@ -14,21 +14,24 @@ const defaultProps = {
 };
 
 const propTypes = {
+  as: PropTypes.elementType,
   className: PropTypes.string,
-  vertical: PropTypes.bool,
   classPrefix: PropTypes.string,
   children: PropTypes.node,
-  as: PropTypes.elementType
+  vertical: PropTypes.bool
 };
 
 const Divider = React.forwardRef((props: DividerProps, ref: React.Ref<HTMLDivElement>) => {
-  const { vertical, as: Component, className, children, classPrefix, ...rest } = props;
-  const { prefix, withClassPrefix } = useClassNames(classPrefix);
-  const classes = withClassPrefix(className, {
-    vertical,
-    horizontal: !vertical,
-    'with-text': !!children
-  });
+  const { as: Component, className, classPrefix, children, vertical, ...rest } = props;
+  const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
+  const classes = merge(
+    className,
+    withClassPrefix({
+      vertical,
+      horizontal: !vertical,
+      'with-text': !!children
+    })
+  );
 
   return (
     <Component {...rest} className={classes} ref={ref}>
