@@ -28,12 +28,12 @@ import InputGroup from 'rsuite/lib/InputGroup';
 | Property     | Type `(Default)`                                                   | Description                                      |
 | ------------ | ------------------------------------------------------------------ | ------------------------------------------------ |
 | classPrefix  | string `('input')`                                                 | The prefix of the component CSS class            |
-| defaultValue | number                                                             | Default value                                    |
+| defaultValue | string                                                             | Default value                                    |
 | disabled     | boolean                                                            | Disabled component                               |
 | onChange     | (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void | The callback function in which value is changed. |
 | size         | enum: 'lg', 'md', 'sm', 'xs' `('md')`                              | An input can have different sizes                |
 | type         | string `('text' )`                                                 | HTML input type                                  |
-| value        | number                                                             | Value (Controlled)                               |
+| value        | string                                                             | Value (Controlled)                               |
 
 ### `<InputGroup>`
 
