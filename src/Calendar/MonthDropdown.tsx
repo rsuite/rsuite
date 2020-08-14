@@ -41,13 +41,12 @@ function getRowHeight(count: number) {
 const defaultProps = {
   show: false,
   limitEndYear: 5,
-  date: new Date(),
   classPrefix: 'calendar-month-dropdown'
 };
 
 const MonthDropdown = React.forwardRef<HTMLDivElement, MonthDropdownProps>((props, ref) => {
   const { classPrefix, disabledMonth, className, show, limitEndYear, ...rest } = props;
-  const { date } = useCalendarContext();
+  const { date = new Date() } = useCalendarContext();
   const listRef = useRef(null);
 
   useEffect(() => {
