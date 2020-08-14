@@ -23,7 +23,7 @@ export interface PanelProps<T = any>
   bodyFill?: boolean;
 
   /** The head displays information. */
-  header?: any;
+  header?: React.ReactNode;
 
   /** ID */
   id?: string | number;
@@ -133,7 +133,7 @@ const Panel = React.forwardRef((props: PanelProps, ref: React.Ref<HTMLDivElement
     if (!header) {
       return null;
     }
-    let content = header;
+    let content: React.ReactNode;
 
     if (!React.isValidElement(header) || Array.isArray(header)) {
       content = collapsible ? renderCollapsibleTitle(header, headerRole) : header;
