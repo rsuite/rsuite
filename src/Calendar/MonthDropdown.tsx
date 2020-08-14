@@ -1,14 +1,13 @@
 import * as React from 'react';
-import { useEffect, useRef } from 'react';
+import { HTMLAttributes, Ref, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { List } from 'react-virtualized/dist/commonjs/List';
-import { AutoSizer } from 'react-virtualized/dist/commonjs/AutoSizer';
-import { getUnhandledProps, useClassNames } from '../utils';
+import { AutoSizer, List } from '../Picker/VirtualizedList';
+import { useClassNames } from '../utils';
 import MonthDropdownItem from './MonthDropdownItem';
 import { getDaysInMonth, getMonth, getYear } from '../utils/dateUtils';
 import { useCalendarContext } from './CalendarContext';
 
-export interface MonthDropdownProps {
+export interface MonthDropdownProps extends HTMLAttributes<HTMLDivElement> {
   limitEndYear?: number;
   className?: string;
   classPrefix?: string;
@@ -44,76 +43,78 @@ const defaultProps = {
   classPrefix: 'calendar-month-dropdown'
 };
 
-const MonthDropdown = React.forwardRef<HTMLDivElement, MonthDropdownProps>((props, ref) => {
+const MonthDropdown = React.forwardRef((props: MonthDropdownProps, ref: Ref<HTMLDivElement>) => {
   const { classPrefix, disabledMonth, className, show, limitEndYear, ...rest } = props;
   const { date = new Date() } = useCalendarContext();
-  const listRef = useRef(null);
 
-  useEffect(() => {
-    listRef.current?.forceUpdateGrid();
-  }, [props]);
-
-  const getRowCount = () => getYear(new Date()) + limitEndYear;
+  const getRowCount = useCallback(() => getYear(new Date()) + limitEndYear, [limitEndYear]);
 
   const { prefix, merge, rootPrefix } = useClassNames(classPrefix);
 
-  const isMonthDisabled = (year, month) => {
-    if (disabledMonth) {
-      const days = getDaysInMonth(new Date(year, month));
+  const isMonthDisabled = useCallback(
+    (year, month) => {
+      if (disabledMonth) {
+        const days = getDaysInMonth(new Date(year, month));
 
-      // If all dates in a month are disabled, disable the current month
-      for (let i = 1; i <= days; i++) {
-        if (!disabledMonth(new Date(year, month, i))) {
-          return false;
+        // If all dates in a month are disabled, disable the current month
+        for (let i = 1; i <= days; i++) {
+          if (!disabledMonth(new Date(year, month, i))) {
+            return false;
+          }
         }
+        return true;
       }
-      return true;
-    }
 
-    return false;
-  };
-  const rowRenderer = ({ index, key, style }: RowProps) => {
-    const selectedMonth = getMonth(date);
-    const selectedYear = getYear(date);
-    const year = index + 1;
-    const isSelectedYear = year === selectedYear;
-    const count = getRowCount();
-    const titleClassName = merge(prefix('year'), {
-      [prefix('year-active')]: isSelectedYear
-    });
+      return false;
+    },
+    [disabledMonth]
+  );
 
-    const rowClassName = merge(prefix('row'), {
-      'first-row': index === 0,
-      'last-row': index === count - 1
-    });
+  const rowRenderer = useCallback(
+    ({ index, key, style }: RowProps) => {
+      const selectedMonth = getMonth(date);
+      const selectedYear = getYear(date);
+      const year = index + 1;
+      const isSelectedYear = year === selectedYear;
+      const count = getRowCount();
+      const titleClassName = merge(prefix('year'), {
+        [prefix('year-active')]: isSelectedYear
+      });
 
-    return (
-      <div className={rowClassName} key={key} style={style}>
-        <div className={titleClassName}>{year}</div>
-        <div className={prefix('list')}>
-          {monthMap.map((item, month) => {
-            return (
-              <MonthDropdownItem
-                disabled={isMonthDisabled(year, month)}
-                active={isSelectedYear && month === selectedMonth}
-                key={`${month}_${item}`}
-                month={month + 1}
-                year={year}
-              />
-            );
-          })}
+      const rowClassName = merge(prefix('row'), {
+        'first-row': index === 0,
+        'last-row': index === count - 1
+      });
+
+      return (
+        <div className={rowClassName} key={key} style={style}>
+          <div className={titleClassName}>{year}</div>
+          <div className={prefix('list')}>
+            {monthMap.map((item, month) => {
+              return (
+                <MonthDropdownItem
+                  disabled={isMonthDisabled(year, month)}
+                  active={isSelectedYear && month === selectedMonth}
+                  key={`${month}_${item}`}
+                  month={month + 1}
+                  year={year}
+                />
+              );
+            })}
+          </div>
         </div>
-      </div>
-    );
-  };
-  const unhandled = getUnhandledProps(MonthDropdown, rest);
+      );
+    },
+    [date, getRowCount, isMonthDisabled, merge, prefix]
+  );
+
   const count = getRowCount();
   const classes = merge(rootPrefix(classPrefix), className, {
     show
   });
 
   return (
-    <div {...unhandled} ref={ref} className={classes}>
+    <div {...rest} ref={ref} className={classes}>
       <div className={prefix('content')}>
         <div className={prefix('scroll')}>
           {show && (
@@ -121,7 +122,6 @@ const MonthDropdown = React.forwardRef<HTMLDivElement, MonthDropdownProps>((prop
               {({ height, width }) => (
                 <List
                   className={prefix('row-wrapper')}
-                  ref={listRef}
                   width={width || defaultWidth}
                   height={height || defaultHeight}
                   rowHeight={getRowHeight(count)}

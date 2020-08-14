@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { HTMLAttributes, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import pick from 'lodash/pick';
 import MonthDropdown from './MonthDropdown';
 import TimeDropdown from './TimeDropdown';
 import View from './View';
 import Header from './Header';
-import { getUnhandledProps, useClassNames } from '../utils';
+import { useClassNames } from '../utils';
 import { shouldDate, shouldMonth, shouldTime } from '../utils/formatUtils';
 import { addMonths, calendarOnlyProps, disabledTime } from '../utils/dateUtils';
 import { tuple } from '../@types/utils';
@@ -15,7 +15,9 @@ import { CalendarProvider } from './CalendarContext';
 
 const CalendarState = tuple('DROP_TIME', 'DROP_MONTH');
 
-export interface CalendarProps extends Omit<StandardProps, 'as'> {
+export interface CalendarProps
+  extends StandardProps,
+    Omit<HTMLAttributes<HTMLDivElement>, 'onSelect' | 'onChange'> {
   pageDate: Date;
   calendarState?: typeof CalendarState[number];
   format?: string;
@@ -48,48 +50,51 @@ export interface CalendarProps extends Omit<StandardProps, 'as'> {
 }
 
 const defaultProps: Partial<CalendarProps> = {
-  classPrefix: 'calendar'
+  classPrefix: 'calendar',
+  as: 'div'
 };
 
-const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>((props, ref) => {
+const Calendar = React.forwardRef((props: CalendarProps, ref: React.Ref<HTMLDivElement>) => {
   const {
-    calendarState,
-    pageDate,
-    onSelect,
-    onToggleMonthDropdown,
-    onToggleTimeDropdown,
-    onChangePageDate,
-    onChangePageTime,
-    onToggleMeridian,
-    format,
     className,
+    classPrefix,
+    calendarState,
+    disabledDate,
+    format,
     isoWeek,
     limitEndYear,
-    classPrefix,
+    locale,
+    onChangePageDate,
+    onChangePageTime,
+    onMoveBackward,
+    onMoveForward,
+    onSelect,
+    onToggleMeridian,
+    onToggleMonthDropdown,
+    onToggleTimeDropdown,
+    pageDate,
+    renderCell,
     renderTitle,
     renderToolbar,
-    renderCell,
-    showWeekNumbers,
     showMeridian,
+    showWeekNumbers,
     timeZone,
-    onMoveForward,
-    onMoveBackward,
-    locale,
     ...rest
   } = props;
   const { withClassPrefix, merge } = useClassNames(classPrefix);
 
-  const disabledDate = (date: Date) => props.disabledDate?.(date);
+  const isDisabledDate = (date: Date) => disabledDate?.(date);
 
   const isTimeDisabled = (date: Date) => disabledTime(props, date);
 
-  const handleMoveForward = () => {
+  const handleMoveForward = useCallback(() => {
     onMoveForward?.(addMonths(pageDate, 1));
-  };
+  }, [onMoveForward, pageDate]);
 
-  const handleMoveBackward = () => {
+  const handleMoveBackward = useCallback(() => {
     onMoveBackward?.(addMonths(pageDate, -1));
-  };
+  }, [onMoveBackward, pageDate]);
+
   const showDate = shouldDate(format);
   const showTime = shouldTime(format);
   const showMonth = shouldMonth(format);
@@ -106,26 +111,23 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>((props, ref) =>
       'show-month-dropdown': dropMonth
     })
   );
-
-  const unhandled = getUnhandledProps(Calendar, rest);
-  const timeDropdownProps = _.pick(rest, calendarOnlyProps);
-
+  const timeDropdownProps = pick(rest, calendarOnlyProps);
   const contextValue = {
-    locale,
     date: pageDate,
+    disabledDate: isDisabledDate,
     format,
-    disabledDate,
-    timeZone,
-    showWeekNumbers,
     isoWeek,
+    locale,
+    onChangePageDate,
+    onChangePageTime,
     onSelect,
     renderCell,
-    onChangePageDate,
-    onChangePageTime
+    showWeekNumbers,
+    timeZone
   };
   return (
     <CalendarProvider value={contextValue}>
-      <div {...unhandled} className={calendarClasses} ref={ref}>
+      <div {...rest} className={calendarClasses} ref={ref}>
         <Header
           showMonth={showMonth}
           showDate={showDate}
@@ -145,7 +147,7 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>((props, ref) =>
           <MonthDropdown
             show={dropMonth}
             limitEndYear={limitEndYear}
-            disabledMonth={disabledDate}
+            disabledMonth={isDisabledDate}
           />
         )}
         {showTime && (
@@ -158,35 +160,35 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>((props, ref) =>
 
 Calendar.displayName = 'Calendar';
 Calendar.propTypes = {
-  pageDate: PropTypes.instanceOf(Date),
   calendarState: PropTypes.oneOf(CalendarState),
-  format: PropTypes.string,
-  timeZone: PropTypes.string,
-  isoWeek: PropTypes.bool,
-  limitEndYear: PropTypes.number,
   className: PropTypes.string,
-  showWeekNumbers: PropTypes.bool,
-  showMeridian: PropTypes.bool,
   classPrefix: PropTypes.string,
   disabledDate: PropTypes.func,
   disabledHours: PropTypes.func,
   disabledMinutes: PropTypes.func,
   disabledSeconds: PropTypes.func,
+  format: PropTypes.string,
   hideHours: PropTypes.func,
   hideMinutes: PropTypes.func,
   hideSeconds: PropTypes.func,
-  onMoveForward: PropTypes.func,
-  onMoveBackward: PropTypes.func,
-  onSelect: PropTypes.func,
-  onToggleMonthDropdown: PropTypes.func,
-  onToggleTimeDropdown: PropTypes.func,
+  isoWeek: PropTypes.bool,
+  limitEndYear: PropTypes.number,
+  locale: PropTypes.object,
   onChangePageDate: PropTypes.func,
   onChangePageTime: PropTypes.func,
+  onMoveBackward: PropTypes.func,
+  onMoveForward: PropTypes.func,
+  onSelect: PropTypes.func,
   onToggleMeridian: PropTypes.func,
+  onToggleMonthDropdown: PropTypes.func,
+  onToggleTimeDropdown: PropTypes.func,
+  pageDate: PropTypes.instanceOf(Date),
+  renderCell: PropTypes.func,
   renderTitle: PropTypes.func,
   renderToolbar: PropTypes.func,
-  renderCell: PropTypes.func,
-  locale: PropTypes.object
+  showMeridian: PropTypes.bool,
+  showWeekNumbers: PropTypes.bool,
+  timeZone: PropTypes.string
 };
 Calendar.defaultProps = defaultProps;
 

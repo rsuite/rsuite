@@ -1,12 +1,13 @@
-import * as React from 'react';
+import React from 'react';
+import { HTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { addDays, format, getDate, isSameDay } from '../utils/dateUtils';
-import { getUnhandledProps, useClassNames } from '../utils';
+import { useClassNames } from '../utils';
 import { zonedDate } from '../utils/timeZone';
 import { useCalendarContext } from './CalendarContext';
 
-export interface TableRowProps {
+export interface TableRowProps extends HTMLAttributes<HTMLDivElement> {
   weekendDate?: Date;
   className?: string;
   classPrefix?: string;
@@ -17,18 +18,18 @@ const defaultProps = {
   classPrefix: 'calendar-table'
 };
 
-const TableRow = React.forwardRef<HTMLDivElement, TableRowProps>((props, ref) => {
-  const { classPrefix, weekendDate, inSameMonth, className, ...rest } = props;
+const TableRow = React.forwardRef((props: TableRowProps, ref: React.Ref<HTMLDivElement>) => {
+  const { className, classPrefix, inSameMonth, weekendDate, ...rest } = props;
   const {
     date: selected = new Date(),
-    formatDate,
-    locale: { formattedDayPattern, today } = {},
-    timeZone,
-    isoWeek,
     disabledDate,
-    showWeekNumbers,
+    formatDate,
+    isoWeek,
+    locale: { formattedDayPattern, today } = {},
     onSelect,
-    renderCell
+    renderCell,
+    showWeekNumbers,
+    timeZone
   } = useCalendarContext();
   const { prefix, merge } = useClassNames(classPrefix);
 
@@ -88,10 +89,9 @@ const TableRow = React.forwardRef<HTMLDivElement, TableRowProps>((props, ref) =>
   };
 
   const classes = merge(prefix('row'), className);
-  const unhandled = getUnhandledProps(TableRow, rest);
 
   return (
-    <div {...unhandled} ref={ref} className={classes}>
+    <div {...rest} ref={ref} className={classes}>
       {showWeekNumbers && renderWeekNumber()}
       {renderDays()}
     </div>

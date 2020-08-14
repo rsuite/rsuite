@@ -1,33 +1,34 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { getUnhandledProps, useClassNames } from '../utils';
+import { useClassNames } from '../utils';
 import FormattedDate from '../IntlProvider/FormattedDate';
 import { useCalendarContext } from './CalendarContext';
+import { useCallback } from 'react';
 
 export interface HeaderProps {
-  showMonth?: boolean;
-  showDate?: boolean;
-  showTime?: boolean;
-  classPrefix?: string;
   className?: string;
+  classPrefix?: string;
   disabledBackward?: boolean;
   disabledForward?: boolean;
-  showMeridian?: boolean;
-  onMoveForward?: () => void;
+  disabledTime?: (date: Date) => boolean;
   onMoveBackward?: () => void;
+  onMoveForward?: () => void;
+  onToggleMeridian?: (event: React.MouseEvent) => void;
   onToggleMonthDropdown?: (event: React.MouseEvent) => void;
   onToggleTimeDropdown?: (event: React.MouseEvent) => void;
-  onToggleMeridian?: (event: React.MouseEvent) => void;
-  disabledTime?: (date: Date) => boolean;
   renderTitle?: (date: Date) => React.ReactNode;
   renderToolbar?: (date: Date) => React.ReactNode;
+  showDate?: boolean;
+  showMeridian?: boolean;
+  showMonth?: boolean;
+  showTime?: boolean;
 }
 
 const defaultProps = {
   classPrefix: 'calendar-header'
 };
 
-const Header = React.forwardRef<HTMLDivElement, HeaderProps>((props, ref) => {
+const Header = React.forwardRef((props: HeaderProps, ref: React.Ref<HTMLDivElement>) => {
   const {
     onMoveForward,
     onMoveBackward,
@@ -43,11 +44,14 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>((props, ref) => {
     disabledBackward,
     disabledForward,
     renderToolbar,
+    renderTitle: propsRenderTitle,
     showMeridian,
     ...rest
   } = props;
   const { locale, date = new Date(), format, disabledDate } = useCalendarContext();
-  const getTimeFormat = () => {
+  const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
+
+  const getTimeFormat = useCallback(() => {
     const timeFormat = [];
 
     if (!format) {
@@ -65,9 +69,9 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>((props, ref) => {
     }
 
     return timeFormat.join(':');
-  };
+  }, [format, showMeridian]);
 
-  const getDateFormat = () => {
+  const getDateFormat = useCallback(() => {
     if (showDate) {
       return locale?.formattedDayPattern || 'yyyy-MM-dd';
     } else if (showMonth) {
@@ -75,15 +79,14 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>((props, ref) => {
     }
 
     return 'yyyy';
-  };
-  const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
+  }, [locale?.formattedDayPattern, locale?.formattedMonthPattern, showDate, showMonth]);
 
-  const renderTitle = () => {
-    return (
-      props.renderTitle?.(date) ??
-      (date && <FormattedDate date={date} formatStr={getDateFormat()} />)
-    );
-  };
+  const renderTitle = useCallback(
+    () =>
+      propsRenderTitle?.(date) ??
+      (date && <FormattedDate date={date} formatStr={getDateFormat()} />),
+    [date, getDateFormat, propsRenderTitle]
+  );
 
   const dateTitleClasses = merge(prefix('title'), prefix('title-date'), {
     [prefix('error')]: disabledDate?.(date)
@@ -134,10 +137,9 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>((props, ref) => {
       'has-time': showTime
     })
   );
-  const unhandled = getUnhandledProps(Header, rest);
 
   return (
-    <div {...unhandled} ref={ref} className={classes}>
+    <div {...rest} ref={ref} className={classes}>
       {hasMonth && monthToolbar}
       {showTime && (
         <div className={prefix('time-toolbar')}>
@@ -150,7 +152,7 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>((props, ref) => {
             {date && <FormattedDate date={date} formatStr={getTimeFormat()} />}
           </span>
 
-          {showMeridian ? (
+          {showMeridian && (
             <span
               role="button"
               tabIndex={-1}
@@ -159,7 +161,7 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>((props, ref) => {
             >
               {date && <FormattedDate date={date} formatStr="a" />}
             </span>
-          ) : null}
+          )}
         </div>
       )}
 
@@ -170,22 +172,22 @@ const Header = React.forwardRef<HTMLDivElement, HeaderProps>((props, ref) => {
 
 Header.displayName = 'Header';
 Header.propTypes = {
-  onMoveForward: PropTypes.func,
-  onMoveBackward: PropTypes.func,
-  onToggleMonthDropdown: PropTypes.func,
-  onToggleTimeDropdown: PropTypes.func,
-  onToggleMeridian: PropTypes.func,
-  showMonth: PropTypes.bool,
-  showDate: PropTypes.bool,
-  showTime: PropTypes.bool,
-  disabledTime: PropTypes.func,
-  classPrefix: PropTypes.string,
   className: PropTypes.string,
+  classPrefix: PropTypes.string,
   disabledBackward: PropTypes.bool,
   disabledForward: PropTypes.bool,
-  showMeridian: PropTypes.bool,
+  disabledTime: PropTypes.func,
+  onMoveBackward: PropTypes.func,
+  onMoveForward: PropTypes.func,
+  onToggleMeridian: PropTypes.func,
+  onToggleMonthDropdown: PropTypes.func,
+  onToggleTimeDropdown: PropTypes.func,
   renderTitle: PropTypes.func,
-  renderToolbar: PropTypes.func
+  renderToolbar: PropTypes.func,
+  showDate: PropTypes.bool,
+  showMeridian: PropTypes.bool,
+  showMonth: PropTypes.bool,
+  showTime: PropTypes.bool
 };
 Header.defaultProps = defaultProps;
 

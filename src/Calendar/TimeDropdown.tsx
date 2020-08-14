@@ -1,9 +1,13 @@
 import * as React from 'react';
-import { useCallback, useEffect, useRef } from 'react';
+import { HTMLAttributes, Ref, useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { getPosition, scrollTop } from 'dom-lib';
-import _ from 'lodash';
-import { getUnhandledProps, useClassNames } from '../utils';
+import omitBy from 'lodash/omitBy';
+import partial from 'lodash/partial';
+import camelCase from 'lodash/camelCase';
+import isNumber from 'lodash/isNumber';
+
+import { useClassNames } from '../utils';
 import {
   getHours,
   getMinutes,
@@ -17,7 +21,7 @@ import { zonedDate } from '../utils/timeZone';
 import { useCalendarContext } from './CalendarContext';
 import { CalendarInnerContextValue } from './types';
 
-export interface TimeDropdownProps {
+export interface TimeDropdownProps extends HTMLAttributes<HTMLDivElement> {
   show: boolean;
   className?: string;
   classPrefix?: string;
@@ -90,7 +94,7 @@ const scrollTo = (time: Time, ulRefs: UListRefs) => {
   });
 };
 
-const TimeDropdown = React.forwardRef<HTMLDivElement, TimeDropdownProps>((props, ref) => {
+const TimeDropdown = React.forwardRef((props: TimeDropdownProps, ref: Ref<HTMLDivElement>) => {
   const { className, classPrefix, show, showMeridian, ...rest } = props;
   const { locale, format, timeZone, date, onChangePageTime: onSelect } = useCalendarContext();
   const ulRefs = useRef<UListRefs>({} as UListRefs);
@@ -126,13 +130,13 @@ const TimeDropdown = React.forwardRef<HTMLDivElement, TimeDropdownProps>((props,
   const { prefix, rootPrefix, merge } = useClassNames(classPrefix);
 
   const renderColumn = (type: TimeType, active: any) => {
-    if (!_.isNumber(active)) {
+    if (!isNumber(active)) {
       return null;
     }
     const { start, end } = getRanges(showMeridian)[type];
     const items = [];
-    const hideFunc = props[_.camelCase(`hide_${type}`)];
-    const disabledFunc = props[_.camelCase(`disabled_${type}`)];
+    const hideFunc = props[camelCase(`hide_${type}`)];
+    const disabledFunc = props[camelCase(`disabled_${type}`)];
 
     for (let i = start; i <= end; i += 1) {
       if (!hideFunc?.(i, date)) {
@@ -149,7 +153,7 @@ const TimeDropdown = React.forwardRef<HTMLDivElement, TimeDropdownProps>((props,
               className={itemClasses}
               tabIndex={-1}
               data-key={`${type}-${i}`}
-              onClick={!disabled ? _.partial(handleClick, type, i) : null}
+              onClick={!disabled ? partial(handleClick, type, i) : null}
             >
               {showMeridian && type === 'hours' && i === 0 ? '12' : i}
             </a>
@@ -174,14 +178,17 @@ const TimeDropdown = React.forwardRef<HTMLDivElement, TimeDropdownProps>((props,
 
   const time = getTime({ format, timeZone, date, showMeridian });
   const classes = merge(rootPrefix(classPrefix), className);
-  const unhandled = getUnhandledProps(TimeDropdown, rest);
 
   useEffect(() => {
     updatePosition();
   }, [updatePosition]);
 
   return (
-    <div {...unhandled} ref={ref} className={classes}>
+    <div
+      {...omitBy(rest, (_val, key) => key.startsWith('disabled') || key.startsWith('hide'))}
+      ref={ref}
+      className={classes}
+    >
       <div className={prefix('content')}>
         <div className={prefix('row')}>
           {renderColumn('hours', time.hours)}

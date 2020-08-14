@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { HTMLAttributes, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { isSameMonth, setDate } from '../utils/dateUtils';
 import { getMonthView, useClassNames } from '../utils';
@@ -6,7 +6,7 @@ import Table from './Table';
 import composeFunctions from '../utils/composeFunctions';
 import { useCalendarContext } from './CalendarContext';
 
-export interface ViewProps {
+export interface ViewProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;
   classPrefix?: string;
 }
@@ -15,15 +15,18 @@ const defaultProps = {
   classPrefix: 'calendar-view'
 };
 
-const View = React.forwardRef<HTMLDivElement, ViewProps>((props, ref) => {
+const View = React.forwardRef((props: ViewProps, ref: React.Ref<HTMLDivElement>) => {
   const { className, classPrefix, ...rest } = props;
   const { date = new Date(), isoWeek } = useCalendarContext();
 
-  const inSameThisMonthDate = (date: Date) =>
-    composeFunctions(
-      d => setDate(d, 1),
-      d => isSameMonth(d, date)
-    )(date);
+  const inSameThisMonthDate = useCallback(
+    (date: Date) =>
+      composeFunctions(
+        d => setDate(d, 1),
+        d => isSameMonth(d, date)
+      )(date),
+    []
+  );
 
   const thisMonthDate = setDate(date, 1);
   const { merge, rootPrefix } = useClassNames(classPrefix);

@@ -1,10 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import TableRow from './TableRow';
 import TableHeaderRow from './TableHeaderRow';
 import { useClassNames } from '../utils';
+import { HTMLAttributes } from 'react';
 
-export interface TableProps {
+export interface TableProps extends HTMLAttributes<HTMLDivElement> {
   rows: any[];
   className?: string;
   classPrefix?: string;
@@ -16,8 +17,8 @@ const defaultProps = {
   classPrefix: 'calendar-table'
 };
 
-const Table = React.forwardRef<HTMLDivElement, TableProps>((props, ref) => {
-  const { rows, inSameMonth, className, classPrefix, ...rest } = props;
+const Table = React.forwardRef((props: TableProps, ref: React.Ref<HTMLDivElement>) => {
+  const { className, classPrefix, inSameMonth, rows, ...rest } = props;
   const { merge, rootPrefix } = useClassNames(classPrefix);
   const classes = merge(rootPrefix(classPrefix), className);
 

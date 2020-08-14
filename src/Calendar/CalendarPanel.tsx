@@ -17,7 +17,7 @@ import {
 import { StandardProps } from '../@types/common';
 import { CalendarLocaleTypes } from './types';
 
-export interface CalendarPanelProps extends Omit<StandardProps, 'as'> {
+export interface CalendarPanelProps extends StandardProps {
   /** Controlled value */
   value?: Date;
 
@@ -50,139 +50,150 @@ export interface CalendarPanelProps extends Omit<StandardProps, 'as'> {
 
 const defaultProps: Partial<CalendarPanelProps> = {
   defaultValue: new Date(),
-  classPrefix: 'calendar'
+  classPrefix: 'calendar',
+  as: Calendar
 };
 
-const CalendarPanel = React.forwardRef<HTMLDivElement, CalendarPanelProps>((props, ref) => {
-  const {
-    defaultValue,
-    value: propsValue,
-    timeZone,
-    onChange,
-    onSelect,
-    locale: propsLocale,
-    classPrefix,
-    compact,
-    className,
-    isoWeek,
-    bordered,
-    ...rest
-  } = props;
-  const [value, updateValue] = useState<Date>(toTimeZone(propsValue ?? defaultValue, timeZone));
-  const [pageDate, setPageDate] = useState(
-    toTimeZone(propsValue ?? defaultValue ?? new Date(), timeZone)
-  );
-  const [showMonth, setShowMonth] = useState<boolean>(false);
-  const { locale } = useCustom('Calendar', propsLocale);
-  const prevValueRef = useRef<Date>(value);
-  const prevTimeZoneRef = useRef<string>(timeZone);
-
-  const setValue = useCallback((nextValue: Date) => {
-    updateValue(prevValue => {
-      prevValueRef.current = prevValue;
-      return nextValue;
-    });
-  }, []);
-
-  useEffect(() => {
-    const nextValue = toTimeZone(
-      propsValue ?? toLocalTimeZone(prevValueRef.current, prevTimeZoneRef.current),
-      timeZone
-    );
-    prevTimeZoneRef.current = timeZone;
-    setValue(nextValue);
-    setPageDate(nextValue ?? zonedDate(timeZone));
-  }, [setValue, timeZone, propsValue]);
-
-  const handleToggleMonthDropdown = () => {
-    setShowMonth(prevShowMonth => !prevShowMonth);
-  };
-
-  const handleChange = (nextValue: Date) => {
-    setValue(nextValue);
-    setPageDate(
-      composeFunctions(
-        (d: Date) => setHours(d, getHours(pageDate)),
-        (d: Date) => setMinutes(d, getMinutes(pageDate)),
-        (d: Date) => setSeconds(d, getSeconds(pageDate))
-      )(nextValue)
-    );
-
-    onChange?.(toLocalTimeZone(nextValue, timeZone));
-  };
-
-  const handleChangePageDate = (nextValue: Date) => {
-    setShowMonth(false);
-    handleChange(nextValue);
-  };
-
-  const handleClickToday = () => {
-    const nextValue = zonedDate(timeZone);
-    setShowMonth(false);
-    handleChange(nextValue);
-  };
-
-  const handleNextMonth = (nextValue: Date) => {
-    handleChange(nextValue);
-  };
-
-  const handlePrevMonth = (nextValue: Date) => {
-    handleChange(nextValue);
-  };
-
-  const handleSelect = (nextValue: Date) => {
-    onSelect?.(toLocalTimeZone(nextValue, timeZone));
-    handleChange(nextValue);
-  };
-
-  const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
-
-  const renderToolbar = () => {
-    return (
-      <Button className={prefix('btn-today')} onClick={handleClickToday}>
-        {locale.today || 'Today'}
-      </Button>
-    );
-  };
-
-  const renderCell = (date: Date) => props.renderCell?.(toLocalTimeZone(date, timeZone));
-  const classes = merge(
-    prefix('panel'),
-    className,
-    withClassPrefix({
+const CalendarPanel = React.forwardRef(
+  (props: CalendarPanelProps, ref: React.Ref<HTMLDivElement>) => {
+    const {
+      as: Component,
       bordered,
-      compact
-    })
-  );
+      className,
+      classPrefix,
+      compact,
+      defaultValue,
+      isoWeek,
+      locale: overrideLocale,
+      onChange,
+      onSelect,
+      renderCell,
+      timeZone,
+      value: propsValue,
+      ...rest
+    } = props;
+    const [value, updateValue] = useState<Date>(toTimeZone(propsValue ?? defaultValue, timeZone));
+    const [pageDate, setPageDate] = useState(
+      toTimeZone(propsValue ?? defaultValue ?? new Date(), timeZone)
+    );
+    const [showMonth, setShowMonth] = useState<boolean>(false);
+    const { locale } = useCustom('Calendar', overrideLocale);
+    const prevValueRef = useRef<Date>(value);
+    const prevTimeZoneRef = useRef<string>(timeZone);
+    const setValue = useCallback((nextValue: Date) => {
+      updateValue(prevValue => {
+        prevValueRef.current = prevValue;
+        return nextValue;
+      });
+    }, []);
 
-  return (
-    <Calendar
-      className={classes}
-      ref={ref}
-      isoWeek={isoWeek}
-      format="yyyy-MM-dd"
-      calendarState={showMonth ? 'DROP_MONTH' : null}
-      pageDate={pageDate}
-      timeZone={timeZone}
-      renderTitle={date => (
-        <FormattedDate date={date} formatStr={locale.formattedMonthPattern || 'MMMM  yyyy'} />
-      )}
-      renderToolbar={renderToolbar}
-      onMoveForward={handleNextMonth}
-      onMoveBackward={handlePrevMonth}
-      onToggleMonthDropdown={handleToggleMonthDropdown}
-      onChangePageDate={handleChangePageDate}
-      limitEndYear={1000}
-      {...rest}
-      onSelect={handleSelect}
-      renderCell={renderCell}
-      locale={locale}
-    />
-  );
-});
+    useEffect(() => {
+      const nextValue = toTimeZone(
+        propsValue ?? toLocalTimeZone(prevValueRef.current, prevTimeZoneRef.current),
+        timeZone
+      );
+      prevTimeZoneRef.current = timeZone;
+      setValue(nextValue);
+      setPageDate(nextValue ?? zonedDate(timeZone));
+    }, [setValue, timeZone, propsValue]);
+
+    const handleToggleMonthDropdown = useCallback(() => {
+      setShowMonth(prevShowMonth => !prevShowMonth);
+    }, []);
+
+    const handleChange = useCallback(
+      (nextValue: Date) => {
+        setValue(nextValue);
+        setPageDate(
+          composeFunctions(
+            (d: Date) => setHours(d, getHours(pageDate)),
+            (d: Date) => setMinutes(d, getMinutes(pageDate)),
+            (d: Date) => setSeconds(d, getSeconds(pageDate))
+          )(nextValue)
+        );
+
+        onChange?.(toLocalTimeZone(nextValue, timeZone));
+      },
+      [onChange, pageDate, setValue, timeZone]
+    );
+
+    const handleChangePageDate = useCallback(
+      (nextValue: Date) => {
+        setShowMonth(false);
+        handleChange(nextValue);
+      },
+      [handleChange]
+    );
+
+    const handleClickToday = useCallback(() => {
+      const nextValue = zonedDate(timeZone);
+      setShowMonth(false);
+      handleChange(nextValue);
+    }, [handleChange, timeZone]);
+
+    const handleSelect = useCallback(
+      (nextValue: Date) => {
+        onSelect?.(toLocalTimeZone(nextValue, timeZone));
+        handleChange(nextValue);
+      },
+      [handleChange, onSelect, timeZone]
+    );
+
+    const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
+
+    const renderToolbar = useCallback(
+      () => (
+        <Button className={prefix('btn-today')} onClick={handleClickToday}>
+          {locale.today || 'Today'}
+        </Button>
+      ),
+      [handleClickToday, locale.today, prefix]
+    );
+
+    const customRenderCell = useCallback(
+      (date: Date) => renderCell?.(toLocalTimeZone(date, timeZone)),
+      [renderCell, timeZone]
+    );
+
+    const classes = merge(
+      prefix('panel'),
+      className,
+      withClassPrefix({
+        bordered,
+        compact
+      })
+    );
+
+    return (
+      <Component
+        {...rest}
+        className={classes}
+        ref={ref}
+        isoWeek={isoWeek}
+        format="yyyy-MM-dd"
+        calendarState={showMonth ? 'DROP_MONTH' : null}
+        pageDate={pageDate}
+        timeZone={timeZone}
+        limitEndYear={1000}
+        locale={locale}
+        renderTitle={date => (
+          <FormattedDate date={date} formatStr={locale.formattedMonthPattern || 'MMMM  yyyy'} />
+        )}
+        renderToolbar={renderToolbar}
+        renderCell={customRenderCell}
+        onMoveForward={handleChange}
+        onMoveBackward={handleChange}
+        onToggleMonthDropdown={handleToggleMonthDropdown}
+        onChangePageDate={handleChangePageDate}
+        onSelect={handleSelect}
+      />
+    );
+  }
+);
 
 CalendarPanel.displayName = 'CalendarPanel';
 CalendarPanel.propTypes = {
+  as: PropTypes.elementType,
   value: PropTypes.instanceOf(Date),
   defaultValue: PropTypes.instanceOf(Date),
   isoWeek: PropTypes.bool,
