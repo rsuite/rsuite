@@ -3,7 +3,6 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { format, parseISO } from '../../utils/dateUtils';
 import { getDOMNode } from '@test/testUtils';
 import CalendarPanel from '../CalendarPanel';
-import { toTimeZone, zonedDate } from '../../utils/timeZone';
 
 describe('Calendar - Panel', () => {
   it('Should render a div with `calendar` class', () => {
