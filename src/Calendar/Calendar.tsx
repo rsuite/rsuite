@@ -56,6 +56,7 @@ const defaultProps: Partial<CalendarProps> = {
 
 const Calendar = React.forwardRef((props: CalendarProps, ref: React.Ref<HTMLDivElement>) => {
   const {
+    as: Component,
     className,
     classPrefix,
     calendarState,
@@ -127,7 +128,7 @@ const Calendar = React.forwardRef((props: CalendarProps, ref: React.Ref<HTMLDivE
   };
   return (
     <CalendarProvider value={contextValue}>
-      <div {...rest} role="table" className={calendarClasses} ref={ref}>
+      <Component {...rest} role="table" className={calendarClasses} ref={ref}>
         <Header
           showMonth={showMonth}
           showDate={showDate}
@@ -153,7 +154,7 @@ const Calendar = React.forwardRef((props: CalendarProps, ref: React.Ref<HTMLDivE
         {showTime && (
           <TimeDropdown {...timeDropdownProps} show={dropTime} showMeridian={showMeridian} />
         )}
-      </div>
+      </Component>
     </CalendarProvider>
   );
 });
