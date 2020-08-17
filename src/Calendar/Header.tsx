@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import FormattedDate from '../IntlProvider/FormattedDate';
 import { useCalendarContext } from './CalendarContext';
-import { useCallback } from 'react';
+import { HTMLAttributes, useCallback } from 'react';
 
-export interface HeaderProps {
+export interface HeaderProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;
   classPrefix?: string;
   disabledBackward?: boolean;
@@ -139,7 +139,7 @@ const Header = React.forwardRef((props: HeaderProps, ref: React.Ref<HTMLDivEleme
   );
 
   return (
-    <div {...rest} ref={ref} className={classes}>
+    <div {...rest} ref={ref} role="row" className={classes}>
       {hasMonth && monthToolbar}
       {showTime && (
         <div className={prefix('time-toolbar')}>

@@ -29,10 +29,10 @@ const TableHeaderRow = React.forwardRef(
     }
 
     return (
-      <div {...rest} ref={ref} className={classes}>
-        {showWeekNumbers && <div className={prefix('cell')} />}
+      <div {...rest} ref={ref} role="row" className={classes}>
+        {showWeekNumbers && <div className={prefix('cell')} role="columnheader" />}
         {items.map(key => (
-          <div key={key} className={prefix('cell')}>
+          <div key={key} className={prefix('cell')} role="columnheader">
             <span className={prefix('cell-content')}>{locale?.[key]}</span>
           </div>
         ))}

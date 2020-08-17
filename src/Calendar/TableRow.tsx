@@ -65,12 +65,12 @@ const TableRow = React.forwardRef((props: TableRowProps, ref: React.Ref<HTMLDivE
         <div
           key={title}
           className={classes}
-          role="menu"
+          role="cell"
           tabIndex={-1}
           title={isToday ? `${title} (${today})` : title}
           onClick={_.partial(handleSelect, thisDate, disabled)}
         >
-          <div className={prefix('cell-content')}>
+          <div className={prefix('cell-content')} role="button">
             <span className={prefix('cell-day')}>{getDate(thisDate)}</span>
             {renderCell && renderCell(thisDate)}
           </div>
@@ -82,7 +82,7 @@ const TableRow = React.forwardRef((props: TableRowProps, ref: React.Ref<HTMLDivE
 
   const renderWeekNumber = () => {
     return (
-      <div className={prefix('cell-week-number')}>
+      <div className={prefix('cell-week-number')} role="cell">
         {format(props.weekendDate, isoWeek ? 'I' : 'w')}
       </div>
     );
@@ -91,7 +91,7 @@ const TableRow = React.forwardRef((props: TableRowProps, ref: React.Ref<HTMLDivE
   const classes = merge(prefix('row'), className);
 
   return (
-    <div {...rest} ref={ref} className={classes}>
+    <div {...rest} ref={ref} role="row" className={classes}>
       {showWeekNumbers && renderWeekNumber()}
       {renderDays()}
     </div>

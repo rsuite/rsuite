@@ -147,9 +147,9 @@ const TimeDropdown = React.forwardRef((props: TimeDropdownProps, ref: Ref<HTMLDi
         });
 
         items.push(
-          <li key={i}>
+          <li key={i} role="menuitem">
             <a
-              role="menu"
+              role="button"
               className={itemClasses}
               tabIndex={-1}
               data-key={`${type}-${i}`}
@@ -163,12 +163,13 @@ const TimeDropdown = React.forwardRef((props: TimeDropdownProps, ref: Ref<HTMLDi
     }
 
     return (
-      <div className={prefix('column')}>
+      <div className={prefix('column')} role="listitem">
         <div className={prefix('column-title')}>{locale?.[type]}</div>
         <ul
           ref={ref => {
             ulRefs.current[type] = ref;
           }}
+          role="menu"
         >
           {items}
         </ul>
@@ -188,6 +189,7 @@ const TimeDropdown = React.forwardRef((props: TimeDropdownProps, ref: Ref<HTMLDi
       {...omitBy(rest, (_val, key) => key.startsWith('disabled') || key.startsWith('hide'))}
       ref={ref}
       className={classes}
+      role="list"
     >
       <div className={prefix('content')}>
         <div className={prefix('row')}>

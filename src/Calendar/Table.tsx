@@ -23,7 +23,7 @@ const Table = React.forwardRef((props: TableProps, ref: React.Ref<HTMLDivElement
   const classes = merge(rootPrefix(classPrefix), className);
 
   return (
-    <div {...rest} ref={ref} className={classes}>
+    <div {...rest} ref={ref} role="table" className={classes}>
       <TableHeaderRow />
       {rows.map((week, index) => (
         <TableRow key={index} weekendDate={week} inSameMonth={inSameMonth} />

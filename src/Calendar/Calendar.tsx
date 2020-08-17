@@ -127,7 +127,7 @@ const Calendar = React.forwardRef((props: CalendarProps, ref: React.Ref<HTMLDivE
   };
   return (
     <CalendarProvider value={contextValue}>
-      <div {...rest} className={calendarClasses} ref={ref}>
+      <div {...rest} role="table" className={calendarClasses} ref={ref}>
         <Header
           showMonth={showMonth}
           showDate={showDate}

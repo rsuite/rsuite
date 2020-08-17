@@ -33,7 +33,7 @@ const View = React.forwardRef((props: ViewProps, ref: React.Ref<HTMLDivElement>)
   const classes = merge(rootPrefix(classPrefix), className);
 
   return (
-    <div {...rest} ref={ref} className={classes}>
+    <div {...rest} ref={ref} role="row" className={classes}>
       <Table rows={getMonthView(thisMonthDate, isoWeek)} inSameMonth={inSameThisMonthDate} />
     </div>
   );

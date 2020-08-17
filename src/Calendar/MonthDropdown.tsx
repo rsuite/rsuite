@@ -87,9 +87,11 @@ const MonthDropdown = React.forwardRef((props: MonthDropdownProps, ref: Ref<HTML
       });
 
       return (
-        <div className={rowClassName} key={key} style={style}>
-          <div className={titleClassName}>{year}</div>
-          <div className={prefix('list')}>
+        <div className={rowClassName} role="row" key={key} style={style}>
+          <div className={titleClassName} role="rowheader">
+            {year}
+          </div>
+          <div className={prefix('list')} role="gridcell">
             {monthMap.map((item, month) => {
               return (
                 <MonthDropdownItem
@@ -114,7 +116,7 @@ const MonthDropdown = React.forwardRef((props: MonthDropdownProps, ref: Ref<HTML
   });
 
   return (
-    <div {...rest} ref={ref} className={classes}>
+    <div {...rest} ref={ref} role="menu" className={classes}>
       <div className={prefix('content')}>
         <div className={prefix('scroll')}>
           {show && (

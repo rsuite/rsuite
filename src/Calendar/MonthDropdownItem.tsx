@@ -55,7 +55,7 @@ const MonthDropdownItem = React.forwardRef(
         className={classes}
         onClick={handleClick}
         key={month}
-        role="button"
+        role="menuitem"
         tabIndex={-1}
       >
         <span className={prefix('content')}>{month}</span>
