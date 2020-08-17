@@ -68,7 +68,7 @@ const Panel = React.forwardRef((props: PanelProps, ref: React.Ref<HTMLDivElement
     eventKey,
     bodyFill,
     defaultExpanded,
-    expanded: overrideExpand,
+    expanded: propsExpanded,
     header,
     ...rest
   } = props;
@@ -85,7 +85,7 @@ const Panel = React.forwardRef((props: PanelProps, ref: React.Ref<HTMLDivElement
     setExpanded(prevState => !prevState);
   };
 
-  const isExpanded = () => (_.isUndefined(overrideExpand) ? expanded : overrideExpand);
+  const isExpanded = () => (_.isUndefined(propsExpanded) ? expanded : propsExpanded);
   const renderCollapsibleTitle = (header: React.ReactNode, headerRole?: string) => {
     return (
       <span className={prefix('title')} role="presentation">
@@ -162,12 +162,15 @@ const Panel = React.forwardRef((props: PanelProps, ref: React.Ref<HTMLDivElement
     );
   };
 
-  const classes = withClassPrefix(className, 'default', {
-    in: isExpanded(),
-    collapsible,
-    bordered,
-    shaded
-  });
+  const classes = merge(
+    className,
+    withClassPrefix('default', {
+      in: isExpanded(),
+      collapsible,
+      bordered,
+      shaded
+    })
+  );
 
   return (
     <Component {...rest} className={classes} ref={ref} id={collapsible ? null : id}>
@@ -184,7 +187,6 @@ Panel.propTypes = {
   shaded: PropTypes.bool,
   bodyFill: PropTypes.bool,
   header: PropTypes.any,
-  id: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
   defaultExpanded: PropTypes.bool,
   expanded: PropTypes.bool,
   eventKey: PropTypes.any,
