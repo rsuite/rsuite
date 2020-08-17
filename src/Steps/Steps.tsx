@@ -43,7 +43,7 @@ class Steps extends React.Component<StepsProps> {
       [addPrefix('horizontal')]: horizontal
     });
 
-    const count = _.get(children, 'length');
+    const count = _.get(_.flatten(children), 'length');
     const items = ReactChildren.mapCloneElement(children, (item, index) => {
       const itemStyles = {
         [isIE10() ? 'msFlexPreferredSize' : 'flexBasis']:
