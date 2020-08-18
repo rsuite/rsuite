@@ -5,13 +5,13 @@
 ```js
 const instance = (
   <div>
-    <Message closable type="info" description="Informational" />
-    <Message
-      closable
-      type="info"
-      title="Informational"
-      description="Detailed description and advices about successful copywriting."
-    />
+    <Message closable type="info">
+      Informational
+    </Message>
+    <Message closable type="info" header="Informational">
+      Detailed description and advices about successful copywriting.
+      <a href="#">This is a Link.</a>
+    </Message>
   </div>
 );
 ReactDOM.render(instance);

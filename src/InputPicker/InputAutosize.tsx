@@ -1,6 +1,6 @@
 import React, { useState, useRef, useImperativeHandle, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { partitionHTMLProps, isIE } from '../utils';
+import { partitionHTMLProps, isIE, guid } from '../utils';
 
 const sizerStyle: React.CSSProperties = {
   position: 'absolute',
@@ -82,7 +82,7 @@ const useInputWidth = (
 
 const InputAutosize = React.forwardRef(
   (props: InputAutosizeProps, ref: React.Ref<InputInstance>) => {
-    const uniqueId = useMemo(() => '_' + Math.random().toString(36).substr(2, 12), []);
+    const uniqueId = useMemo(() => guid(), []);
     const {
       defaultValue,
       value,

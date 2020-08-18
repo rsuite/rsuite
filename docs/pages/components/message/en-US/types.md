@@ -5,10 +5,10 @@
 ```js
 const instance = (
   <div>
-    <Message type="info" description="Informational" />
-    <Message type="success" description="Success" />
-    <Message type="warning" description="Warning" />
-    <Message type="error" description="Error" />
+    <Message type="info">Informational</Message>
+    <Message type="success">Success</Message>
+    <Message type="warning">Warning</Message>
+    <Message type="error">Error</Message>
   </div>
 );
 ReactDOM.render(instance);

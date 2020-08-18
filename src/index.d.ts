@@ -1,5 +1,4 @@
 export { default as Affix, AffixProps } from './Affix';
-export { default as Alert } from './Alert';
 export { default as Animation, TransitionProps, CollapseProps, SlideProps } from './Animation';
 export { default as AutoComplete, AutoCompleteProps } from './AutoComplete';
 export { default as Avatar, AvatarProps } from './Avatar';

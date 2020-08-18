@@ -1,116 +1,120 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import Icon from '../Icon';
-
 import { STATUS_ICON_NAMES, STATUS } from '../constants';
-import { prefix, defaultProps } from '../utils';
-import { MessageProps } from './Message.d';
+import { useClassNames, useTimeout } from '../utils';
+import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
+import CloseButton from '../CloseButton';
 
-interface MessageState {
-  display: 'show' | 'hide' | 'hiding';
+export interface MessageProps extends WithAsProps {
+  /** The type of the message box. */
+  type?: TypeAttributes.Status;
+
+  /** Whether it is possible to close the message box */
+  closable?: boolean;
+
+  /**
+   * Delay automatic removal of messages.
+   * When set to 0, the message is not automatically removed.
+   * (Unit: milliseconds)
+   */
+  duration?: number;
+
+  /** The title of the message  */
+  header?: React.ReactNode;
+
+  /** Whether to display an icon */
+  showIcon?: boolean;
+
+  /** Fill the container */
+  full?: boolean;
+
+  /** Callback after the message is removed */
+  onClose?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-class Message extends React.Component<MessageProps, MessageState> {
-  static propTypes = {
-    type: PropTypes.oneOf(STATUS),
-    className: PropTypes.string,
-    onClose: PropTypes.func,
-    closable: PropTypes.bool,
-    closeLabel: PropTypes.string,
-    title: PropTypes.node,
-    description: PropTypes.node,
-    showIcon: PropTypes.bool,
-    full: PropTypes.bool,
-    classPrefix: PropTypes.string
-  };
-  static defaultProps = {
-    type: 'info',
-    closeLabel: 'Close'
-  };
+type DisplayType = 'show' | 'hide' | 'hiding';
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      display: 'show'
-    };
-  }
+const defaultProps: Partial<MessageProps> = {
+  as: 'div',
+  classPrefix: 'message',
+  type: 'info',
+  duration: 2000
+};
 
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
-
-  handleClose = () => {
-    this.setState({ display: 'hiding' });
-
-    setTimeout(
-      () =>
-        this.setState({ display: 'hide' }, () => {
-          this.props.onClose?.();
-        }),
-      1000
-    );
-  };
-
-  renderCloseButton(closeLabel: string) {
-    return (
-      <button type="button" className={this.addPrefix('btn-close')} onClick={this.handleClose}>
-        <span aria-hidden="true">&times;</span>
-        <span className="sr-only">{closeLabel}</span>
-      </button>
-    );
-  }
-  render() {
+const Message: RsRefForwardingComponent<'div', MessageProps> = React.forwardRef(
+  (props: MessageProps, ref) => {
     const {
+      as: Component,
       className,
       classPrefix,
-      type,
-      title,
-      description,
-      closeLabel,
+      children,
       closable,
+      duration,
       full,
+      header,
+      type,
       showIcon,
-      ...props
-    } = this.props;
+      onClose,
+      ...rest
+    } = props;
 
-    const { display } = this.state;
+    const [display, setDisplay] = useState<DisplayType>('show');
+    const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+
+    // Timed close message
+    const { clear } = useTimeout(onClose, duration, duration > 0);
 
     if (display === 'hide') {
       return null;
     }
 
-    const hasTitle = !!title;
-    const hasDesc = !!description;
-    const classes = classNames(
-      classPrefix,
+    const classes = merge(
       className,
-      this.addPrefix(type),
-      this.addPrefix(display),
-      {
-        [this.addPrefix('has-title')]: hasTitle,
-        [this.addPrefix('has-icon')]: showIcon,
-        [this.addPrefix('full')]: full
-      }
+      withClassPrefix(type, display, { full, ['has-title']: header, ['has-icon']: showIcon })
     );
 
+    const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
+      setDisplay('hiding');
+
+      setTimeout(() => {
+        setDisplay('hide');
+        onClose?.(event);
+        clear();
+      }, 1000);
+    };
+
     return (
-      <div {...props} className={classes}>
-        <div className={this.addPrefix('container')}>
-          {closable && this.renderCloseButton(closeLabel)}
+      <Component role="alert" {...rest} ref={ref} className={classes}>
+        <div className={prefix`container`}>
+          {closable && <CloseButton onClick={handleClose} />}
           {showIcon && (
-            <div className={this.addPrefix('icon-wrapper')}>
+            <div className={prefix`icon-wrapper`}>
               <Icon icon={STATUS_ICON_NAMES[type]} />
             </div>
           )}
-          <div className={this.addPrefix('content')}>
-            {hasTitle && <h5 className={this.addPrefix('header')}>{title}</h5>}
-            {hasDesc && <div className={this.addPrefix('body')}>{description}</div>}
+          <div className={prefix`content`}>
+            {header && <h5 className={prefix`header`}>{header}</h5>}
+            {children && <div className={prefix`body`}>{children}</div>}
           </div>
         </div>
-      </div>
+      </Component>
     );
   }
-}
+);
 
-export default defaultProps<MessageProps>({
-  classPrefix: 'message'
-})(Message);
+Message.displayName = 'Message';
+Message.defaultProps = defaultProps;
+Message.propTypes = {
+  type: PropTypes.oneOf(STATUS),
+  className: PropTypes.string,
+  onClose: PropTypes.func,
+  closable: PropTypes.bool,
+  title: PropTypes.node,
+  description: PropTypes.node,
+  showIcon: PropTypes.bool,
+  full: PropTypes.bool,
+  classPrefix: PropTypes.string
+};
+
+export default Message;

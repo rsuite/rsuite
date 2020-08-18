@@ -19,7 +19,6 @@ import {
   Toggle,
   Panel,
   Modal,
-  Alert,
   SelectPicker,
   Slider,
   DatePicker,
@@ -88,7 +87,6 @@ export default function Page() {
         'custom-check-trigger'
       ]}
       dependencies={{
-        Alert,
         Row,
         Col,
         Schema,
