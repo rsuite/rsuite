@@ -1,11 +1,14 @@
 # Divider 分割线
 
-`<Divider>` 分割线
+分隔线用于将内容水平或垂直分组。
 
 ## 获取组件
 
 ```js
 import { Divider } from 'rsuite';
+
+// or
+import Divider from 'rsuite/lib/Divider';
 ```
 
 ## 演示
