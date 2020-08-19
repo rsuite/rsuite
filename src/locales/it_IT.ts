@@ -64,5 +64,8 @@ export default {
     complete: 'Completato',
     emptyFile: 'Vuoto',
     upload: 'Carica'
+  },
+  CloseButton: {
+    closeLabel: 'spegnimento'
   }
 };

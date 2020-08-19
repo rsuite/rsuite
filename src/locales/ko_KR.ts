@@ -63,5 +63,8 @@ export default {
     complete: '끝마친',
     emptyFile: '빈',
     upload: '업로드'
+  },
+  CloseButton: {
+    closeLabel: '종료'
   }
 };

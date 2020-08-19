@@ -43,6 +43,7 @@ export interface ButtonProps extends WithAsProps {
 const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef(
   (props: ButtonProps, ref) => {
     const {
+      as,
       active,
       appearance = 'default',
       block,
@@ -50,7 +51,6 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
       children,
       classPrefix = 'btn',
       color,
-      as: Component = 'button',
       disabled,
       loading,
       ripple = true,
@@ -75,13 +75,15 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
 
     if (rest.href) {
       return (
-        <SafeAnchor {...rest} as={Component} ref={ref} aria-disabled={disabled} className={classes}>
+        <SafeAnchor {...rest} as={as} ref={ref} aria-disabled={disabled} className={classes}>
           {loading && spin}
           {children}
           {rippleElement}
         </SafeAnchor>
       );
     }
+
+    const Component = as || 'button';
 
     return (
       <Component

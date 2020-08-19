@@ -2,12 +2,14 @@
 
 Used to show important tips on a page.
 
-- `<Message>`
-
-## Usage
+## Import
 
 ```js
-import { Message } from 'rsuite';
+import { Message, toaster } from 'rsuite';
+
+// or
+import Message from 'rsuite/lib/Message';
+import toaster from 'rsuite/lib/toaster';
 ```
 
 ## Examples
@@ -18,16 +20,17 @@ import { Message } from 'rsuite';
 
 ### `<Message>`
 
-| Property    | Type `(Default)`                            | Description                                     |
-| ----------- | ------------------------------------------- | ----------------------------------------------- |
-| children    | React.Node                                  | The description information for the message.    |
-| classPrefix | string `('message')`                        | The prefix of the component CSS class.          |
-| closable    | boolean                                     | Whether it is possible to close the message box |
-| full        | boolean                                     | Fill the container                              |
-| header      | React.Node                                  | The title of the message.                       |
-| onClose     | (event?: React.MouseEvent) => void          | Called after the message is closed              |
-| showIcon    | boolean                                     | Whether to display an icon.                     |
-| type        | enum: 'info', 'success', 'warning', 'error' | The type of the message box.                    |
+| Property    | Type `(Default)`                            | Description                                                                                                        |
+| ----------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| children    | React.Node                                  | The description information for the message.                                                                       |
+| classPrefix | string `('message')`                        | The prefix of the component CSS class.                                                                             |
+| closable    | boolean                                     | Whether it is possible to close the message box                                                                    |
+| duration    | number `(2000)`                             | Delay automatic removal of messages. When set to 0, the message is not automatically removed. (Unit: milliseconds) |
+| full        | boolean                                     | Fill the container                                                                                                 |
+| header      | React.Node                                  | The title of the message.                                                                                          |
+| onClose     | (event?: React.MouseEvent) => void          | Called after the message is closed                                                                                 |
+| showIcon    | boolean                                     | Whether to display an icon.                                                                                        |
+| type        | enum: 'info', 'success', 'warning', 'error' | The type of the message box.                                                                                       |
 
 ### `toaster`
 

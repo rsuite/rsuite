@@ -60,5 +60,8 @@ export default {
     complete: 'Завершенно',
     emptyFile: 'Пусто',
     upload: 'Загрузить'
+  },
+  CloseButton: {
+    closeLabel: 'неисправность'
   }
 };

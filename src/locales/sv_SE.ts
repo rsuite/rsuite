@@ -64,5 +64,8 @@ export default {
     complete: 'Färdig',
     emptyFile: 'Tom',
     upload: 'Ladda upp'
+  },
+  CloseButton: {
+    closeLabel: 'stänga av'
   }
 };

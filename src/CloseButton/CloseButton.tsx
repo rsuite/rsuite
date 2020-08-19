@@ -10,6 +10,9 @@ export interface CloseButtonProps extends WithAsProps {
   locale?: CloseButtonLocaleType;
 }
 
+/**
+ * Close button for components such as Message and Notification.
+ */
 const CloseButton: RsRefForwardingComponent<'button', CloseButtonProps> = React.forwardRef(
   (props: CloseButtonProps, ref) => {
     const {

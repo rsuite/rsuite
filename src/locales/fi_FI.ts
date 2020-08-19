@@ -64,5 +64,8 @@ export default {
     complete: 'Valmis',
     emptyFile: 'Tyhjä',
     upload: 'Lataa'
+  },
+  CloseButton: {
+    closeLabel: 'sammuttaa'
   }
 };

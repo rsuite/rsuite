@@ -60,5 +60,8 @@ export default {
     complete: '上传完成',
     emptyFile: '无文件',
     upload: '上传'
+  },
+  CloseButton: {
+    closeLabel: '关闭'
   }
 };
