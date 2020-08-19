@@ -1,36 +1,47 @@
-import * as React from 'react';
-import classNames from 'classnames';
+import React, { HTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
-import { defaultProps, prefix } from '../utils';
-import { DividerProps } from './Divider.d';
+import { useClassNames } from '../utils';
+import { StandardProps } from '../@types/common';
 
-class Divider extends React.Component<DividerProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    vertical: PropTypes.bool,
-    classPrefix: PropTypes.string,
-    children: PropTypes.node,
-    as: PropTypes.elementType
-  };
-  render() {
-    const { vertical, as: Component, className, children, classPrefix, ...props } = this.props;
-
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, className, {
-      [addPrefix('vertical')]: vertical,
-      [addPrefix('horizontal')]: !vertical,
-      [addPrefix('with-text')]: !!children
-    });
-
-    return (
-      <Component {...props} className={classes}>
-        {children ? <span className={addPrefix('inner-text')}>{children}</span> : null}
-      </Component>
-    );
-  }
+export interface DividerProps extends StandardProps, HTMLAttributes<HTMLDivElement> {
+  /** Vertical dividing line */
+  vertical?: boolean;
 }
 
-export default defaultProps<DividerProps>({
-  as: 'div',
-  classPrefix: 'divider'
-})(Divider);
+const defaultProps = {
+  classPrefix: 'divider',
+  as: 'div'
+};
+
+const propTypes = {
+  as: PropTypes.elementType,
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  children: PropTypes.node,
+  vertical: PropTypes.bool
+};
+
+const Divider = React.forwardRef((props: DividerProps, ref: React.Ref<HTMLDivElement>) => {
+  const { as: Component, className, classPrefix, children, vertical, ...rest } = props;
+  const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
+  const classes = merge(
+    className,
+    withClassPrefix({
+      vertical,
+      horizontal: !vertical,
+      'with-text': !!children
+    })
+  );
+
+  return (
+    <Component {...rest} className={classes} ref={ref}>
+      {children ? <span className={prefix('inner-text')}>{children}</span> : null}
+    </Component>
+  );
+});
+
+Divider.displayName = 'Divider';
+Divider.propTypes = propTypes;
+Divider.defaultProps = defaultProps;
+
+export default Divider;
