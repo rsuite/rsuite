@@ -4,10 +4,5 @@ import Link from 'next/link';
 import DefaultPage from '@/components/Page';
 
 export default function Page() {
-  return (
-    <DefaultPage
-      examples={['basic', 'separator', 'max-items', 'with-router']}
-      dependencies={{ Breadcrumb, Icon, Link }}
-    />
-  );
+  return <DefaultPage examples={['max-items']} dependencies={{ Breadcrumb, Icon, Link }} />;
 }

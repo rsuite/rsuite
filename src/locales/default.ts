@@ -64,5 +64,8 @@ export default {
     complete: 'Finished',
     emptyFile: 'Empty',
     upload: 'Upload'
+  },
+  Breadcrumb: {
+    expandText: 'Show path'
   }
 };

@@ -8,8 +8,8 @@ import '../styles/index';
 describe('Breadcrumb styles', () => {
   itChrome('Should render correct padding', () => {
     const instanceRef = React.createRef();
+
     ReactDOM.render(<Breadcrumb ref={instanceRef} />, createTestContainer());
-    const dom = getDOMNode(instanceRef.current);
-    assert.equal(getStyle(dom, 'padding'), '8px 15px');
+    assert.equal(getStyle(instanceRef.current, 'padding'), '8px 15px');
   });
 });
