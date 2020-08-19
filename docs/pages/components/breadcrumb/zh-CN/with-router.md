@@ -20,7 +20,7 @@ const instance = (
     <Breadcrumb.Item as={NavLink} href="/components/overview">
       Components
     </Breadcrumb.Item>
-    <Breadcrumb.Item active>Breadcrumb</Breadcrumb>
+    <Breadcrumb.Item active>Breadcrumb</Breadcrumb.Item>
   </Breadcrumb>
 );
 ReactDOM.render(instance);

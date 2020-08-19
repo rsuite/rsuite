@@ -5,7 +5,6 @@ Should automatically collapse if there are more than 5 items. Use `maxItems` to 
 <!--start-code-->
 
 ```js
-const items = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
 const instance = (
   <Breadcrumb
     maxItems={5}
@@ -13,10 +12,12 @@ const instance = (
       console.log('call onExpand');
     }}
   >
-    <Breadcrumb.Item>Item -A</Breadcrumb.Item>
-    {items.map(item => {
-      return <Breadcrumb.Item>Item {item}</Breadcrumb.Item>;
-    })}
+    <Breadcrumb.Item>Item A</Breadcrumb.Item>
+    <Breadcrumb.Item>Item B</Breadcrumb.Item>
+    <Breadcrumb.Item>Item C</Breadcrumb.Item>
+    <Breadcrumb.Item>Item D</Breadcrumb.Item>
+    <Breadcrumb.Item>Item E</Breadcrumb.Item>
+    <Breadcrumb.Item>Item F</Breadcrumb.Item>
   </Breadcrumb>
 );
 ReactDOM.render(instance);
