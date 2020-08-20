@@ -125,7 +125,7 @@ export interface FormControlBaseProps<ValueType = any> {
   value?: ValueType;
 
   /** Called after the value has been changed */
-  onChange?: (value: ValueType, event: React.SyntheticEvent<HTMLElement>) => void;
+  onChange?: (value: ValueType, event: React.SyntheticEvent) => void;
 
   /** Set the component to be disabled and cannot be entered */
   disabled?: boolean;
