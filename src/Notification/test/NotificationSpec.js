@@ -1,53 +1,65 @@
+import React from 'react';
 import Notification from '../Notification';
+import { getDOMNode } from '@test/testUtils';
 import ReactTestUtils from 'react-dom/test-utils';
 
-const notification = new Notification();
-
-const element = document.createElement('div');
-document.body.appendChild(element);
-
-notification.setProps({
-  getContainer: () => {
-    return element;
-  }
-});
-
 describe('Notification', () => {
-  it('Should open a notification', () => {
-    notification.open({ title: 'title', description: 'description' });
-    const instance = document.body.querySelector('.rs-notification');
-    assert.equal(instance.querySelector('.rs-notification-title').innerText, 'title');
-    assert.equal(instance.querySelector('.rs-notification-description').innerText, 'description');
+  it('Should output a notification', () => {
+    const instance = getDOMNode(<Notification />);
+    assert.ok(instance.className.match(/\brs-notification\b/));
   });
 
-  it('Should be rendered at the bottom end', () => {
-    notification.open({ title: 'title', description: 'description', placement: 'bottomEnd' });
-    const instance = document.body.querySelector('.rs-notification-top-end');
-    assert.ok(instance);
+  it('Should render content', () => {
+    const instance = getDOMNode(<Notification>text</Notification>);
+    assert.equal(instance.innerText, 'text');
   });
 
-  it('Should be rendered in the container', () => {
-    notification.open({
-      title: 'title',
-      description: 'description',
-      placement: 'bottomRight'
-    });
-    const instance = element.querySelector('.rs-notification');
-    assert.ok(instance);
+  it('Should be closable', () => {
+    const instance = getDOMNode(<Notification closable />);
+
+    assert.ok(instance.querySelector('.rs-btn-close'));
+  });
+
+  it('Should have a type', () => {
+    const instance = getDOMNode(<Notification type="info" header="info" />);
+
+    assert.include(instance.className, 'rs-notification-info');
+    assert.ok(instance.querySelector('.rs-notification-title-with-icon .rs-icon-info'));
+  });
+
+  it('Should have a header', () => {
+    const instance = getDOMNode(<Notification header="header" />);
+    assert.equal(instance.querySelector('.rs-notification-title').innerText, 'header');
+  });
+
+  it('Should have a custom className', () => {
+    const instance = getDOMNode(<Notification className="custom" />);
+    assert.include(instance.className, 'custom');
+  });
+
+  it('Should have a custom style', () => {
+    const fontSize = '12px';
+    const instance = getDOMNode(<Notification style={{ fontSize }} />);
+    assert.equal(instance.style.fontSize, fontSize);
+  });
+
+  it('Should have a custom className prefix', () => {
+    const instance = getDOMNode(<Notification classPrefix="custom-prefix" />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   it('Should call onClose callback', done => {
-    notification.open({
-      title: 'title',
-      description: 'description',
-      placement: 'topRight',
-      className: 'test-onclose',
-      onClose: () => {
-        done();
-      }
-    });
+    const doneOp = () => {
+      done();
+    };
+    const instance = getDOMNode(<Notification closable onClose={doneOp} />);
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-btn-close'));
+  });
 
-    const instance = element.querySelector('.test-onclose .rs-notification-item-close');
-    ReactTestUtils.Simulate.click(instance);
+  it('Should call onClose callback by duration', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getDOMNode(<Notification closable onClose={doneOp} duration={1} />);
   });
 });

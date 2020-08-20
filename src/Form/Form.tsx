@@ -346,7 +346,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
     [onChange, getFormValue]
   );
 
-  const rootRef = React.useRef();
+  const rootRef = useRef();
   const formContextValue = useMemo(
     () => ({
       model,
@@ -410,13 +410,6 @@ Form.propTypes = {
   model: PropTypes.any,
   readOnly: PropTypes.bool,
   plaintext: PropTypes.bool
-};
-
-const App = () => {
-  const ref = useRef<FormInstance>();
-
-  ref.current.check();
-  return <Form ref={ref} />;
 };
 
 export default Form;

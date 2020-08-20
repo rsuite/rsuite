@@ -47,16 +47,6 @@
     }
   },
   {
-    "id": "alert",
-    "name": "Alert",
-    "title": "提醒框",
-    "components": ["Alert"],
-    "designHash": {
-      "default": "1",
-      "dark": "1"
-    }
-  },
-  {
     "id": "notification",
     "name": "Notification",
     "title": "通知框",

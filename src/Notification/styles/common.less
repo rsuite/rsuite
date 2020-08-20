@@ -8,39 +8,25 @@
 // Base styles
 // -------------------------
 .@{notification-ns} {
-  position: fixed;
-  z-index: @zindex-notification;
-  // Make sure the mouse can penetrate through the gap area.
-  pointer-events: none;
-  display: flex;
-  flex-direction: column;
+  // Recovery mouse event.
+  pointer-events: auto;
+  position: relative;
+  display: inline-block;
+  flex: 0 0 auto;
+
+  //  Fixed: The problem of wide width in IE browser.
+  max-width: @notify-max-width;
 
   .ie-text-align(right);
 
-  &-item {
-    // Recovery mouse event.
-    pointer-events: auto;
-    position: relative;
-  }
-
-  &-content {
-    // Hack display:contents to make sure width adaptive content.
-    .ie-display(table);
-  }
-
-  // Fixed: The problem of wide width in IE browser.
-  &,
-  &-item-wrapper {
-    max-width: @notify-max-width;
-  }
   // Multiple notification should have spacing
   // Hiding notification haven't spacing.
-  &-item-wrapper:not(.@{notification-ns}-fade-exited) + .@{notification-ns}-item-wrapper {
+  &:not(.@{notification-ns}-fade-exited) + .@{notification-ns} {
     margin-top: 10px;
   }
 
   // Notification content
-  &-item-content {
+  &-content {
     background: @notify-default-bg;
     box-shadow: @notify-box-shadow;
     padding: @notify-padding;
@@ -85,79 +71,6 @@
   // Has title and description need to ajust distance
   &-title + &-description {
     margin-top: @notify-title-description-gap;
-  }
-
-  // Notification close button
-  &-item-close {
-    position: absolute;
-    top: @notify-close-btn-margin;
-    right: @notify-close-btn-margin;
-    font-size: @notify-close-btn-font-size;
-    line-height: 1;
-    outline: none !important;
-    color: @notify-close-btn-color;
-    cursor: pointer;
-
-    &-x::before {
-      .icon-font;
-
-      content: @default-close-btn-content;
-    }
-  }
-
-  // Animations
-  &-fade-entered,
-  &-fade-leave-active {
-    animation-fill-mode: forwards;
-  }
-
-  &-fade-entered {
-    animation-duration: 0.4s;
-    animation-timing-function: cubic-bezier(0.99, 0.44, 0.44, 1.35);
-  }
-
-  &-fade-exited,
-  &-fade-entering {
-    opacity: 0;
-  }
-
-  // The same to @keyframe notificationMoveOut  100%.
-  &-fade-exited {
-    transform-origin: 0% 0%;
-    transform: scaleY(0.8);
-    max-height: 0;
-    overflow: hidden;
-  }
-
-  &-item-wrapper {
-    display: inline-block;
-    flex: 0 0 auto;
-  }
-
-  &-bottom-start,
-  &-top-start {
-    align-items: flex-start;
-    left: 24px;
-
-    .@{notification-ns}-fade-entered {
-      animation-name: notificationMoveInLeft;
-    }
-  }
-
-  &-bottom-end,
-  &-top-end {
-    align-items: flex-end;
-    right: 24px;
-
-    .@{notification-ns}-fade-entered {
-      animation-name: notificationMoveInRight;
-    }
-  }
-
-  &-fade-leave-active {
-    animation-duration: 0.3s;
-    animation-timing-function: cubic-bezier(0.64, 0.65, 0.57, 1.13);
-    animation-name: notificationMoveOut;
   }
 }
 

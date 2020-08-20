@@ -11,7 +11,9 @@ const styles = {
 
 const instance = (
   <div style={styles}>
-    <Message full showIcon type="warning" description="Warning" />
+    <Message full showIcon type="warning">
+      Warning
+    </Message>
     <Paragraph rows={10} />
   </div>
 );

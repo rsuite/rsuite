@@ -1,0 +1,25 @@
+@import '../../styles/common';
+
+// Close button
+.@{ns}btn-close {
+  background: transparent;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: @message-close-btn-padding;
+  font-size: @message-close-btn-size;
+  line-height: 1;
+  border: none;
+  outline: none !important;
+
+  .icon-font;
+
+  &::before {
+    content: @default-close-btn-content;
+  }
+
+  // hidden aria-hidden dom
+  [aria-hidden] {
+    display: none;
+  }
+}

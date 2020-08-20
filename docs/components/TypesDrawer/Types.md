@@ -21,7 +21,14 @@ type PlacementAuto =
 type Placement = Placement8 | PlacementAuto;
 type PlacementAll = Placement4 | Placement8 | PlacementAuto;
 type PlacementStart = 'bottomStart' | 'topStart' | 'autoVerticalStart';
-type NotificationPlacement = 'topStart' | 'topEnd' | 'bottomStart' | 'bottomEnd';
+
+type NotificationPlacement =
+  | 'topStart'
+  | 'topCenter'
+  | 'topEnd'
+  | 'bottomStart'
+  | 'bottomCenter'
+  | 'bottomEnd';
 ```
 
 #### DataItemType

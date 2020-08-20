@@ -1,100 +1,84 @@
 # Notification
 
-For global notifications, suspended in the corner of the page.
+Used for system notifications. Generally used to push messages.
 
-- `Notification.open` Open a default notification.
-- `Notification.info` Open a info notification.
-- `Notification.success` Open a notification that means success information.
-- `Notification.warning` Open a notification that means warning information.
-- `Notification.error` Open a notification that means error information.
-- `Notification.close` Close a notification.
-- `Notification.closeAll` Close all notifications.
-
-## Usage
+## Import
 
 ```js
-import { Notification } from 'rsuite';
+import { Notification, toaster } from 'rsuite';
+
+// or
+import Notification from 'rsuite/lib/Notification';
+import toaster from 'rsuite/lib/toaster';
 ```
 
 ## Examples
 
 <!--{demo}-->
 
-## Methods
+## Props & Methods
 
-### `Notification.open`
+### `<Notification>`
 
-```ts
-Notification.open(props: NotificationProps);
-```
+| Property    | Type `(Default)`                                     | Description                                                                                                        |
+| ----------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| children \* | React.Node                                           | The description of the message box                                                                                 |
+| closable    | boolean                                              | The remove button is displayed.                                                                                    |
+| duration    | number `(4500)`                                      | Delay automatic removal of messages. When set to 0, the message is not automatically removed. (Unit: milliseconds) |
+| header \*   | string                                               | The title of the message box                                                                                       |
+| onClose     | () => void                                           | Callback after the message is removed                                                                              |
+| placement   | enum: [NotificationPlacement](#types)`('topCenter')` | The placement of the message box.                                                                                  |
+| type        | enum: 'info', 'success', 'warning', 'error'          | The type of the message box.                                                                                       |
 
-### `Notification.info`
+### `toaster`
 
-```ts
-Notification.info(props: NotificationProps);
-```
+#### toaster.push
 
-### `Notification.success`
-
-```ts
-Notification.success(props: NotificationProps);
-```
-
-### `Notification.warning`
+Push a message and return a unique key.
 
 ```ts
-Notification.warning(props: NotificationProps);
-```
 
-### `Notification.error`
+interface ToastContainerProps{
+  /** The placement of the message box */
+  placement?: PlacementType;
 
-```ts
-Notification.error(props: NotificationProps);
-```
-
-### `Notification.close`
-
-```ts
-Notification.close(key?: string);
-```
-
-### `Notification.closeAll`
-
-```ts
-Notification.closeAll();
-```
-
-## Types
-
-```ts
-interface NotificationProps {
-  title: React.ReactNode;
-  description: React.ReactNode;
-  duration?: number;
-  placement?: string;
-  className?: string;
-  style?: React.CSSProperties;
-  top?: number;
-  bottom?: number;
-  key?: string;
-  onClose?: () => void;
+  /** Set the message to appear in the specified container */
+  container?: HTMLElement | (() => HTMLElement);
 }
+
+toaster.push(message: React.ReactNode, options?: ToastContainerProps): string;
 ```
 
-| Property       | Type `(Default)`                                  | Description                                                                                                             |
-| -------------- | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| bottom         | number `(24)`                                     | The distance from the bottom of the message box                                                                         |
-| description \* | React.Node                                        | The description of the message box                                                                                      |
-| duration       | number `(4500)`                                   | message box duration (Unit: milliseconds)                                                                               |
-| key            | string                                            | The message box is uniquely identified, and you must fill out the field if you want to manually remove the message box. |
-| onClose        | () => void                                        | Closes the callback function.                                                                                           |
-| placement      | enum: [NotificationPlacement](#types)`('topEnd')` | The placement of the message box.                                                                                       |
-| title \*       | string                                            | The title of the message box                                                                                            |
-| top            | number `(24)`                                     | The distance from the top of the message box                                                                            |
+e.g:
 
-## Related components
+```js
+toaster.push(<Notification>message</Notification>, {
+  placement: 'topEnd'
+});
+```
 
-- [`<Popover>`](./popover)
-- [`<Tooltip>`](./tooltip)
-- [`<Message>`](./message)
-- [`<Alert`>](./alert)
+#### toaster.remove
+
+Remove a message by key
+
+```ts
+toaster.remove(key: string): void;
+```
+
+e.g:
+
+```js
+const key = toaster.push(<Notification>message</Notification>, {
+  placement: 'topEnd'
+});
+
+toaster.remove(key);
+```
+
+#### toaster.clear
+
+Clear all messages
+
+```ts
+toaster.clear(): void;
+```

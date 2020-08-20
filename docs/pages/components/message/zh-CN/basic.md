@@ -3,7 +3,7 @@
 <!--start-code-->
 
 ```js
-const instance = <Message description="Informational" />;
+const instance = <Message>Informational</Message>;
 ReactDOM.render(instance);
 ```
 

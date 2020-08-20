@@ -1,0 +1,94 @@
+@import '../../styles/common';
+
+//
+// Notifications
+// --------------------------------------------------
+
+// Base styles
+// -------------------------
+.@{toast-ns}-container {
+  position: fixed;
+  z-index: @zindex-notification;
+  // Make sure the mouse can penetrate through the gap area.
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  .ie-text-align(right);
+
+  .@{toast-ns} {
+    box-shadow: @toast-box-shadow;
+  }
+
+  // Animations
+  .@{toast-ns}-fade-entered,
+  .@{toast-ns}-fade-exiting {
+    animation-fill-mode: forwards;
+  }
+
+  .@{toast-ns}-fade-entered {
+    animation-duration: 0.4s;
+    animation-timing-function: cubic-bezier(0.99, 0.44, 0.44, 1.35);
+  }
+
+  .@{toast-ns}-fade-exited,
+  .@{toast-ns}-fade-entering {
+    opacity: 0;
+  }
+
+  // The same to @keyframe notificationMoveOut  100%.
+  .@{toast-ns}-fade-exited {
+    transform-origin: 0% 0%;
+    transform: scaleY(0.8);
+    max-height: 0;
+    overflow: hidden;
+  }
+
+  &-top-center,
+  &-bottom-center {
+    left: 50%;
+
+    .@{toast-ns} {
+      margin-left: -50%;
+    }
+  }
+
+  &-bottom-start,
+  &-top-start {
+    align-items: flex-start;
+    left: 24px;
+
+    .@{toast-ns}-fade-entered {
+      margin-left: auto;
+      animation-name: notificationMoveInLeft;
+    }
+  }
+
+  &-bottom-end,
+  &-top-end {
+    align-items: flex-end;
+    right: 24px;
+
+    .@{toast-ns}-fade-entered {
+      margin-left: auto;
+      animation-name: notificationMoveInRight;
+    }
+  }
+
+  &-top-center,
+  &-top-start,
+  &-top-end {
+    top: 24px;
+  }
+
+  &-bottom-center,
+  &-bottom-start,
+  &-bottom-end {
+    bottom: 24px;
+  }
+
+  .@{toast-ns}-fade-exiting {
+    animation-duration: 0.3s;
+    animation-timing-function: cubic-bezier(0.64, 0.65, 0.57, 1.13);
+    animation-name: notificationMoveOut;
+  }
+}

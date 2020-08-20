@@ -1,101 +1,84 @@
 # Notification 通知框
 
-用于全局通知，悬浮在页面角落。
-
-- `Notification.open` 打开一个默认通知。
-- `Notification.info` 打开一个信息通知。
-- `Notification.success` 打开一个表示成功信息的通知。
-- `Notification.warning` 打开一个表示警告信息的通知。
-- `Notification.error` 打开一个表示错误信息的通知。
-- `Notification.close` 关闭一个通知。
-- `Notification.closeAll` 关闭所有通知。
+用于系统通知。 通常用于推送消息。
 
 ## 获取组件
 
 ```js
-import { Notification } from 'rsuite';
+import { Notification, toaster } from 'rsuite';
+
+// or
+import Notification from 'rsuite/lib/Notification';
+import toaster from 'rsuite/lib/toaster';
 ```
 
 ## 演示
 
 <!--{demo}-->
 
-## Methods
+## Props & Methods
 
-### `Notification.open`
+### `<Notification>`
 
-```ts
-Notification.open(props: NotificationProps);
-```
+| Property    | Type `(Default)`                                       | Description                                                    |
+| ----------- | ------------------------------------------------------ | -------------------------------------------------------------- |
+| children \* | React.Node                                             | 通知的内容                                                     |
+| closable    | boolean                                                | 是否显示关闭按钮                                               |
+| duration    | number `(4500)`                                        | 延迟自动关闭通知 .当设为 0 时候，则不自动关闭通知 (单位: 毫秒) |
+| header \*   | string                                                 | 通知的标题                                                     |
+| onClose     | () => void                                             | 通知被移除后的回调函数                                         |
+| placement   | enum: [NotificationPlacement](#types)`('topCenter')`   | 通知出现的位置                                                 |
+| type        | enum: 'info', 'success', 'warning', 'error' `('info')` | 通知类型                                                       |
 
-### `Notification.info`
+### toaster
 
-```ts
-Notification.info(props: NotificationProps);
-```
+#### toaster.push
 
-### `Notification.success`
-
-```ts
-Notification.success(props: NotificationProps);
-```
-
-### `Notification.warning`
+推送一个消息，并返回一个唯一的 key
 
 ```ts
-Notification.warning(props: NotificationProps);
-```
 
-### `Notification.error`
+interface ToastContainerProps{
+  /** The placement of the message box */
+  placement?: PlacementType;
 
-```ts
-Notification.error(props: NotificationProps);
-```
-
-### `Notification.close`
-
-```ts
-Notification.close(key?: string);
-```
-
-### `Notification.closeAll`
-
-```ts
-Notification.closeAll();
-```
-
-## Types
-
-```ts
-interface NotificationProps {
-  title: React.ReactNode;
-  description: React.ReactNode;
-  duration?: number;
-  placement?: string;
-  className?: string;
-  style?: React.CSSProperties;
-  top?: number;
-  bottom?: number;
-  key?: string;
-  onClose?: () => void;
+  /** Set the message to appear in the specified container */
+  container?: HTMLElement | (() => HTMLElement);
 }
+
+toaster.push(message: React.ReactNode, options?: ToastContainerProps): string;
 ```
 
-| 属性名称       | 类型 `(默认值)`                                   | 描述                                                 |
-| -------------- | ------------------------------------------------- | ---------------------------------------------------- |
-| bottom         | number `(24)`                                     | 消息框距离底部的距离                                 |
-| description \* | React.Node                                        | 描述                                                 |
-| duration       | number `(4500)`                                   | 消息框持续时间 (单位：毫秒)                          |
-| key            | string                                            | 消息框唯一标识，如果要手动移除消息框，必须填写该字段 |
-| onClose        | () => void                                        | 关闭回调函数                                         |
-| placement      | enum: [NotificationPlacement](#types)`('topEnd')` | 消息框的位置                                         |
-| style          | React.CSSProperties                               | 自定义样式                                           |
-| title \*       | string                                            | 标题                                                 |
-| top            | number `(24)`                                     | 消息框距离顶部的距离                                 |
+e.g:
 
-## 相关组件
+```js
+toaster.push(<Notification>message</Notification>, {
+  placement: 'topEnd'
+});
+```
 
-- [`<Popover>`](./popover) 弹出框
-- [`<Tooltip>`](./tooltip) 文字提示
-- [`<Message>`](./message) 消息框
-- [`<Alert`>](./alert) 提醒框
+#### toaster.remove
+
+通过 key 删除一个消息
+
+```ts
+toaster.remove(key: string): void;
+```
+
+e.g:
+
+```js
+const key = toaster.push(<Notification>message</Notification>, {
+  placement: 'topEnd'
+});
+
+toaster.remove(key);
+```
+
+#### toaster.clear
+
+删除所有消息
+
+```ts
+toaster.clear(): void;
+```

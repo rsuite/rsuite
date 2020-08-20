@@ -1,145 +1,115 @@
-import * as React from 'react';
-import classNames from 'classnames';
-import _ from 'lodash';
-import { prefix, placementPolyfill } from '../utils';
-import { defaultClassPrefix } from '../utils/prefix';
-import NoticeManager, { NoticeManagerProps } from './NoticeManager';
-import { NotificationProps, PlacementType } from './Notification.d';
-import { MessageProps } from './Message';
+import React, { useCallback } from 'react';
+import PropTypes from 'prop-types';
+import Icon from '../Icon';
+import { useClassNames, useTimeout } from '../utils';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { STATUS_ICON_NAMES } from '../constants';
+import CloseButton from '../CloseButton';
 
-interface ConfigType {
-  placement: PlacementType;
-  top?: number;
-  bottom?: number;
+export type MessageType = 'info' | 'success' | 'warning' | 'error';
+
+export interface NotificationProps extends WithAsProps {
+  /** Title of the message */
+  header?: React.ReactNode;
+
+  /**
+   * Delay automatic removal of messages.
+   * When set to 0, the message is not automatically removed.
+   * (Unit: milliseconds)
+   */
+  duration?: number;
+
+  /**
+   * The remove button is displayed.
+   */
+  closable?: boolean;
+
+  /** Type of message */
+  type?: MessageType;
+
+  /** Callback after the message is removed */
+  onClose?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-class Notification {
-  props: NotificationProps = {
-    top: 24,
-    bottom: 24,
-    duration: 4500,
-    placement: 'topEnd',
-    classPrefix: defaultClassPrefix('notification'),
-    getContainer: null
-  };
+const defaultProps: Partial<NotificationProps> = {
+  as: 'div',
+  classPrefix: 'notification',
+  duration: 4500
+};
 
-  _instances: any = {};
-  _cacheInstances: any[] = [];
-
-  setProps(nextProps: NotificationProps) {
-    this.props = {
-      ...this.props,
-      ...nextProps
-    };
-    if (nextProps.top || nextProps.bottom) {
-      this._instances = {};
-    }
-  }
-  addPrefix = name => prefix(this.props.classPrefix)(name);
-
-  getPlacement(placement: PlacementType): PlacementType {
-    return placementPolyfill<PlacementType>(placement || this.props.placement);
-  }
-
-  getPlacementStyle(config: ConfigType): React.CSSProperties {
-    const { top, bottom } = config;
-    const placement = this.getPlacement(config.placement);
-    const style: React.CSSProperties = {};
-    const [vertical] = _.kebabCase(placement).split('-');
-
-    if (vertical === 'top') {
-      style.top = _.isUndefined(top) ? this.props.top : top;
-    } else {
-      style.bottom = _.isUndefined(top) ? this.props.bottom : bottom;
-    }
-
-    return style;
-  }
-  getInstance(config: ConfigType, callback) {
-    const { classPrefix, getContainer } = this.props;
-    const style = this.getPlacementStyle(config);
-    const placement = this.getPlacement(config.placement);
-
-    const nextProps: NoticeManagerProps = {
-      style,
-      className: classNames(this.addPrefix(_.kebabCase(placement))),
-      classPrefix,
-      getContainer
-    };
-
-    NoticeManager.getInstance(nextProps, callback);
-  }
-  open(nextProps: NotificationProps) {
+const Notification: RsRefForwardingComponent<'div', NotificationProps> = React.forwardRef(
+  (props: NotificationProps, ref) => {
     const {
-      description,
+      as: Component,
+      classPrefix,
+      closable,
+      duration,
+      className,
+      type,
+      header,
+      children,
       onClose,
-      placement: priorPlacement,
-      duration = this.props.duration,
       ...rest
-    } = nextProps;
+    } = props;
+    const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix(type, { closable }));
 
-    const placement = this.getPlacement(priorPlacement);
+    // Timed close message
+    const { clear } = useTimeout(onClose, duration, duration > 0);
 
-    const content = (
-      <div className={this.addPrefix('content')}>
-        <div className={this.addPrefix('title')}>{nextProps.title}</div>
-        <div className={this.addPrefix('description')}>
-          {typeof description === 'function' ? description() : description}
-        </div>
-      </div>
+    // Click to trigger to close the message
+    const handleClese = useCallback(
+      (event: React.MouseEvent<HTMLButtonElement>) => {
+        onClose?.(event);
+        clear();
+      },
+      [onClose, clear]
     );
 
-    const config: ConfigType = {
-      placement,
-      top: nextProps.top,
-      bottom: nextProps.bottom
-    };
-
-    const itemProps: MessageProps = {
-      closable: true,
-      content,
-      duration,
-      onClose,
-      ...rest
-    };
-
-    const instance = this._instances[placement];
-    if (!instance) {
-      this.getInstance(config, nextInstance => {
-        nextInstance.push(itemProps);
-        this._instances[placement] = nextInstance;
-      });
-    } else {
-      instance.push(itemProps);
-    }
-
-    this._cacheInstances.push([placement, itemProps]);
-  }
-  close(key: string) {
-    if (!this._cacheInstances.length) {
-      return;
-    }
-
-    if (typeof key !== 'undefined') {
-      const find = item => item[1].key === key;
-      const [placement] = this._cacheInstances.find(find);
-      this._instances[placement].remove(key);
-      this._cacheInstances = this._cacheInstances.filter(find);
-      return;
-    }
-
-    const [placement] = this._cacheInstances.pop();
-    this._instances[placement].remove();
-  }
-
-  closeAll() {
-    for (const key in this._instances) {
-      if (typeof this._instances[key].removeAll === 'function') {
-        this._instances[key].removeAll();
+    const renderHeader = useCallback(() => {
+      if (!header) {
+        return null;
       }
-    }
-    this._cacheInstances = [];
+
+      return (
+        <div className={prefix('title')}>
+          {type ? (
+            <div className={prefix`title-with-icon`}>
+              <Icon icon={STATUS_ICON_NAMES[type]} />
+              {header}
+            </div>
+          ) : (
+            <div className={prefix('title')}>{header}</div>
+          )}
+        </div>
+      );
+    }, [header, type, prefix]);
+
+    return (
+      <Component role="alert" {...rest} ref={ref} className={classes}>
+        <div className={prefix`content`}>
+          {renderHeader()}
+          <div className={prefix('description')}>
+            {typeof children === 'function' ? children() : children}
+          </div>
+        </div>
+        {closable && <CloseButton onClick={handleClese} />}
+      </Component>
+    );
   }
-}
+);
+
+Notification.displayName = 'Notification';
+Notification.defaultProps = defaultProps;
+Notification.propTypes = {
+  as: PropTypes.elementType,
+  duration: PropTypes.number,
+  header: PropTypes.node,
+  closable: PropTypes.bool,
+  classPrefix: PropTypes.string,
+  className: PropTypes.string,
+  type: PropTypes.oneOf(['info', 'success', 'warning', 'error']),
+  onClose: PropTypes.func
+};
 
 export default Notification;
