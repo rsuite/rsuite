@@ -1,3 +1,15 @@
+# 4.8.1
+
+> August 20, 2020
+
+- **Bugfix**: fix(Steps): Children with Fragments [#1245]
+- **Bugfix**: fix(Panel): Missing panel border inside PanelGroup [#1232]
+- **Bugfix**: fix(TagPicker): Fix a tag picker styles issue [#1167]
+
+[#1245]: https://github.com/rsuite/rsuite/pull/1245
+[#1232]: https://github.com/rsuite/rsuite/pull/1232
+[#1167]: https://github.com/rsuite/rsuite/pull/1167
+
 # 4.8.0
 
 > July 9, 2020
