@@ -15,7 +15,7 @@ import {
   setSeconds
 } from '../utils/dateUtils';
 import { StandardProps } from '../@types/common';
-import { CalendarLocaleTypes } from './types';
+import { CalendarLocale } from './types';
 
 export interface CalendarPanelProps extends StandardProps {
   /** Controlled value */
@@ -45,7 +45,7 @@ export interface CalendarPanelProps extends StandardProps {
   /** Custom render calendar cells  */
   renderCell?: (date: Date) => React.ReactNode;
 
-  locale?: CalendarLocaleTypes;
+  locale?: CalendarLocale;
 }
 
 const defaultProps: Partial<CalendarPanelProps> = {
@@ -156,8 +156,8 @@ const CalendarPanel = React.forwardRef(
     );
 
     const classes = merge(
-      prefix('panel'),
       className,
+      prefix('panel'),
       withClassPrefix({
         bordered,
         compact

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export interface CalendarLocaleTypes {
+export interface CalendarLocale {
   sunday?: string;
   monday?: string;
   tuesday?: string;
@@ -36,7 +36,7 @@ export interface CalendarInnerContextValue {
 }
 
 export interface CalendarContextValue extends CalendarInnerContextValue {
-  locale: CalendarLocaleTypes;
+  locale: CalendarLocale;
   formatDate?: (
     date: Date | string | number,
     format?: string,

@@ -10,7 +10,7 @@ import { shouldDate, shouldMonth, shouldTime } from '../utils/formatUtils';
 import { addMonths, calendarOnlyProps, disabledTime } from '../utils/dateUtils';
 import { tuple } from '../@types/utils';
 import { StandardProps } from '../@types/common';
-import { CalendarLocaleTypes } from './types';
+import { CalendarLocale } from './types';
 import { CalendarProvider } from './CalendarContext';
 
 const CalendarState = tuple('DROP_TIME', 'DROP_MONTH');
@@ -46,7 +46,7 @@ export interface CalendarProps
   renderTitle?: (date: Date) => React.ReactNode;
   renderToolbar?: (date: Date) => React.ReactNode;
   renderCell?: (date: Date) => React.ReactNode;
-  locale?: CalendarLocaleTypes;
+  locale?: CalendarLocale;
 }
 
 const defaultProps: Partial<CalendarProps> = {

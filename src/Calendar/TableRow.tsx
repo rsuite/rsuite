@@ -1,7 +1,6 @@
-import React from 'react';
-import { HTMLAttributes } from 'react';
+import React, { HTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import partial from 'lodash/partial';
 import { addDays, format, getDate, isSameDay } from '../utils/dateUtils';
 import { useClassNames } from '../utils';
 import { zonedDate } from '../utils/timeZone';
@@ -68,7 +67,7 @@ const TableRow = React.forwardRef((props: TableRowProps, ref: React.Ref<HTMLDivE
           role="cell"
           tabIndex={-1}
           title={isToday ? `${title} (${today})` : title}
-          onClick={_.partial(handleSelect, thisDate, disabled)}
+          onClick={partial(handleSelect, thisDate, disabled)}
         >
           <div className={prefix('cell-content')} role="button">
             <span className={prefix('cell-day')}>{getDate(thisDate)}</span>
