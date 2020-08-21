@@ -1,5 +1,3 @@
-### Icons
-
 <!--start-code-->
 
 ```js

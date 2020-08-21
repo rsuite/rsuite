@@ -1,5 +1,3 @@
-### 通知类型
-
 <!--start-code-->
 
 ```js
@@ -10,6 +8,7 @@ const Message = React.forwardRef(({ type, ...rest }, ref) => {
     </Notification>
   );
 });
+
 const instance = (
   <div>
     <Message type="info" />

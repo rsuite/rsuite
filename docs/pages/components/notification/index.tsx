@@ -3,11 +3,7 @@ import { Notification, Button, ButtonToolbar, SelectPicker, toaster } from 'rsui
 import DefaultPage from '@/components/Page';
 
 export default function Page() {
-  //   , 'custom', 'close', 'duration'
   return (
-    <DefaultPage
-      examples={['basic', 'type', 'with-toaster']}
-      dependencies={{ Notification, Button, ButtonToolbar, SelectPicker, toaster }}
-    />
+    <DefaultPage dependencies={{ Notification, Button, ButtonToolbar, SelectPicker, toaster }} />
   );
 }

@@ -4,17 +4,21 @@ Used for system notifications. Generally used to push messages.
 
 ## Import
 
-```js
-import { Notification, toaster } from 'rsuite';
-
-// or
-import Notification from 'rsuite/lib/Notification';
-import toaster from 'rsuite/lib/toaster';
-```
+<!--{include:(components/notification/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Default
+
+<!--{include:`basic.md`}-->
+
+### Message type
+
+<!--{include:`type.md`}-->
+
+### With toaster
+
+<!--{include:`with-toaster.md`}-->
 
 ## Props & Methods
 
@@ -30,55 +34,4 @@ import toaster from 'rsuite/lib/toaster';
 | placement   | enum: [NotificationPlacement](#types)`('topCenter')` | The placement of the message box.                                                                                  |
 | type        | enum: 'info', 'success', 'warning', 'error'          | The type of the message box.                                                                                       |
 
-### `toaster`
-
-#### toaster.push
-
-Push a message and return a unique key.
-
-```ts
-
-interface ToastContainerProps{
-  /** The placement of the message box */
-  placement?: PlacementType;
-
-  /** Set the message to appear in the specified container */
-  container?: HTMLElement | (() => HTMLElement);
-}
-
-toaster.push(message: React.ReactNode, options?: ToastContainerProps): string;
-```
-
-e.g:
-
-```js
-toaster.push(<Notification>message</Notification>, {
-  placement: 'topEnd'
-});
-```
-
-#### toaster.remove
-
-Remove a message by key
-
-```ts
-toaster.remove(key: string): void;
-```
-
-e.g:
-
-```js
-const key = toaster.push(<Notification>message</Notification>, {
-  placement: 'topEnd'
-});
-
-toaster.remove(key);
-```
-
-#### toaster.clear
-
-Clear all messages
-
-```ts
-toaster.clear(): void;
-```
+<!--{include:(components/notification/en-US/toaster.md)}-->
