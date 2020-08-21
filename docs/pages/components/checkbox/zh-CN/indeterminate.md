@@ -5,64 +5,36 @@
 <!--start-code-->
 
 ```js
-const options = ['A', 'B', 'C', 'D'];
+const data = ['A', 'B', 'C', 'D'];
 
-class Demo extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      indeterminate: true,
-      checkAll: false,
-      value: ['A', 'C']
-    };
-    this.handleCheckAll = this.handleCheckAll.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-  }
-  handleCheckAll(value, checked) {
-    const nextValue = checked ? options : [];
-    console.log(nextValue, 'handleCheckAll');
-    this.setState({
-      value: nextValue,
-      indeterminate: false,
-      checkAll: checked
-    });
-  }
-  handleChange(value) {
-    console.log(value, 'handleChange');
-    this.setState({
-      value,
-      indeterminate: value.length > 0 && value.length < options.length,
-      checkAll: value.length === options.length
-    });
-  }
-  render() {
-    return (
-      <div>
-        <Checkbox
-          indeterminate={this.state.indeterminate}
-          checked={this.state.checkAll}
-          onChange={this.handleCheckAll}
-        >
-          Check all
-        </Checkbox>
-        <hr />
-        <CheckboxGroup
-          inline
-          name="checkboxList"
-          value={this.state.value}
-          onChange={this.handleChange}
-        >
-          <Checkbox value="A">Item A</Checkbox>
-          <Checkbox value="B">Item B</Checkbox>
-          <Checkbox value="C">Item C</Checkbox>
-          <Checkbox value="D">Item D</Checkbox>
-        </CheckboxGroup>
-      </div>
-    );
-  }
-}
+const App = () => {
+  const [value, setValue] = React.useState(['A', 'C']);
 
-ReactDOM.render(<Demo />);
+  const handleCheckAll = (value, checked) => setValue(checked ? data : []);
+  const handleChange = value => setValue(value);
+
+  return (
+    <div>
+      <Checkbox
+        indeterminate={value.length > 0 && value.length < data.length}
+        checked={value.length === data.length}
+        onChange={handleCheckAll}
+      >
+        Check all
+      </Checkbox>
+      <hr />
+      <CheckboxGroup inline name="checkboxList" value={value} onChange={handleChange}>
+        {data.map(item => (
+          <Checkbox key={item} value={item}>
+            Item {item}
+          </Checkbox>
+        ))}
+      </CheckboxGroup>
+    </div>
+  );
+};
+
+ReactDOM.render(<App />);
 ```
 
 <!--end-code-->

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
-import { StandardProps } from '../@types/common';
+import { WithAsProps } from '../@types/common';
 
-export type ContainerProps = StandardProps & React.HTMLAttributes<HTMLDivElement>;
+export type ContainerProps = WithAsProps & React.HTMLAttributes<HTMLDivElement>;
 export const ContainerContext = React.createContext<ContainerContextValue>({});
 
 interface ContainerContextValue {
