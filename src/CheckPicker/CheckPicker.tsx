@@ -12,7 +12,8 @@ import {
   getDataGroupBy,
   useClassNames,
   shallowEqual,
-  useCustom
+  useCustom,
+  useControlled
 } from '../utils';
 import {
   DropdownMenu,
@@ -34,7 +35,8 @@ import { listPickerPropTypes } from '../Picker/propTypes';
 import { SelectProps } from '../SelectPicker';
 import { KEY_CODE } from '../constants';
 
-export interface CheckPickerProps<T = (number | string)[]>
+export type ValueType = (number | string)[];
+export interface CheckPickerProps<T = ValueType>
   extends FormControlPickerProps<T, PickerLocaleType, ItemDataType>,
     SelectProps<T> {
   /** Top the selected option in the options */
@@ -85,7 +87,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
       toggleAs,
       style,
       sticky,
-      value,
+      value: valueProp,
       defaultValue,
       groupBy,
       listProps,
@@ -115,12 +117,10 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
     const toggleRef = useRef<HTMLButtonElement>();
     const menuRef = useRef<HTMLDivElement>();
     const { locale } = useCustom<PickerLocaleType>('Picker', overrideLocale);
-
-    const [valueState, setValue] = useState(clone(defaultValue) || []);
-    const val = isUndefined(value) ? valueState : value;
+    const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue || []);
 
     // Used to hover the focuse item  when trigger `onKeydown`
-    const { focusItemValue, setFocusItemValue, onKeyDown } = useFocusItemValue(val?.[0], {
+    const { focusItemValue, setFocusItemValue, onKeyDown } = useFocusItemValue(value?.[0], {
       data,
       valueKey,
       target: () => menuRef.current
@@ -162,9 +162,9 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
       }
 
       let nextStickyItems = [];
-      if (data && val.length) {
+      if (data && value.length) {
         nextStickyItems = data.filter(item => {
-          return val.some(v => v === item[valueKey]);
+          return value.some(v => v === item[valueKey]);
         });
       }
 
@@ -173,8 +173,8 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
 
     const handleClose = useCallback(() => {
       triggerRef.current?.hide?.();
-      setFocusItemValue(val ? val[0] : undefined);
-    }, [triggerRef, setFocusItemValue, val]);
+      setFocusItemValue(value ? value[0] : undefined);
+    }, [triggerRef, setFocusItemValue, value]);
 
     const handleOpen = useCallback(() => {
       triggerRef.current?.show?.();
@@ -207,7 +207,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
     );
 
     const selectFocusMenuItem = (event: React.KeyboardEvent<HTMLElement>) => {
-      const nextValue = clone(val);
+      const nextValue = clone(value);
 
       if (!focusItemValue) {
         return;
@@ -255,7 +255,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
 
     const handleItemSelect = useCallback(
       (nextItemValue: any, item: ItemDataType, event: React.MouseEvent<any>, checked: boolean) => {
-        const nextValue = clone(val);
+        const nextValue = clone(value);
 
         if (checked) {
           nextValue.push(nextItemValue);
@@ -269,7 +269,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
         handleSelect(nextValue, item, event);
         handleChangeValue(nextValue, event);
       },
-      [val, handleSelect, handleChangeValue, setFocusItemValue]
+      [value, handleSelect, handleChangeValue, setFocusItemValue]
     );
 
     const handleExited = useCallback(() => {
@@ -297,13 +297,13 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
     }));
 
     const selectedItems =
-      data.filter(item => val.some(val => shallowEqual(item[valueKey], val))) || [];
+      data.filter(item => value.some(val => shallowEqual(item[valueKey], val))) || [];
 
     /**
      * 1.Have a value and the value is valid.
      * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
      */
-    const hasValue = selectedItems.length > 0 || (val?.length > 0 && isFunction(renderValue));
+    const hasValue = selectedItems.length > 0 || (value?.length > 0 && isFunction(renderValue));
 
     const { prefix, merge } = useClassNames(classPrefix);
 
@@ -321,8 +321,8 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
       );
     }
 
-    if (val?.length > 0 && isFunction(renderValue)) {
-      selectedElement = renderValue(val, selectedItems, selectedElement);
+    if (value?.length > 0 && isFunction(renderValue)) {
+      selectedElement = renderValue(value, selectedItems, selectedElement);
     }
 
     const renderDropdownMenu = () => {
@@ -356,7 +356,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
             maxHeight={menuMaxHeight}
             classPrefix={'picker-check-menu'}
             dropdownMenuItemAs={DropdownMenuItem}
-            activeItemValues={val}
+            activeItemValues={value}
             focusItemValue={focusItemValue}
             data={[...filteredStickyItems, ...items]}
             group={!isUndefined(groupBy)}

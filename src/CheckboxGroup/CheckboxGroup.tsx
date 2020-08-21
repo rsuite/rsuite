@@ -4,11 +4,9 @@ import cloneDeep from 'lodash/cloneDeep';
 import remove from 'lodash/remove';
 import { useClassNames, useControlled, shallowEqual } from '../utils';
 import { WithAsProps, FormControlBaseProps, RsRefForwardingComponent } from '../@types/common';
-import { CheckboxProps } from '../Checkbox';
+import { ValueType } from '../Checkbox/Checkbox';
 
-export interface CheckboxGroupProps<V = any>
-  extends WithAsProps,
-    FormControlBaseProps<CheckboxProps<V>['value'][]> {
+export interface CheckboxGroupProps<V = ValueType[]> extends WithAsProps, FormControlBaseProps<V> {
   /** Used for the name of the form */
   name?: string;
 
@@ -42,7 +40,7 @@ const CheckboxGroup: RsRefForwardingComponent<'div', CheckboxGroupProps> = React
       inline,
       children,
       name,
-      value: controlledValue,
+      value: valueProp,
       defaultValue,
       classPrefix,
       onChange,
@@ -51,7 +49,7 @@ const CheckboxGroup: RsRefForwardingComponent<'div', CheckboxGroupProps> = React
 
     const { merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ inline }));
-    const [value, setValue, isControlled] = useControlled<any>(controlledValue, defaultValue);
+    const [value, setValue, isControlled] = useControlled<ValueType[]>(valueProp, defaultValue);
     const handleChange = useCallback(
       (itemValue: any, itemChecked: boolean, event: React.SyntheticEvent) => {
         const nextValue = cloneDeep(value) || [];

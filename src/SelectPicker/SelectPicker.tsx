@@ -7,7 +7,13 @@ import isFunction from 'lodash/isFunction';
 import omit from 'lodash/omit';
 import shallowEqual from '../utils/shallowEqual';
 import { findNodeOfTree } from '../utils/treeUtils';
-import { createChainedFunction, getDataGroupBy, useCustom, useClassNames } from '../utils';
+import {
+  createChainedFunction,
+  getDataGroupBy,
+  useCustom,
+  useClassNames,
+  useControlled
+} from '../utils';
 import {
   DropdownMenu,
   DropdownMenuItem,
@@ -27,7 +33,8 @@ import { FormControlPickerProps, ItemDataType } from '../@types/common';
 import { ListProps } from 'react-virtualized/dist/commonjs/List';
 import { KEY_CODE } from '../constants';
 
-export interface SelectProps<ValueType = any> {
+export type ValueType = number | string;
+export interface SelectProps<T = ValueType> {
   /** Set group condition key in data */
   groupBy?: string;
 
@@ -60,7 +67,7 @@ export interface SelectProps<ValueType = any> {
 
   /** Custom render selected items */
   renderValue?: (
-    value: ValueType,
+    value: T,
     item: ItemDataType | ItemDataType[],
     selectedElement: React.ReactNode
   ) => React.ReactNode;
@@ -78,7 +85,7 @@ export interface SelectProps<ValueType = any> {
   onClean?: (event: React.SyntheticEvent<any>) => void;
 }
 
-export interface SelectPickerProps<T = number | string>
+export interface SelectPickerProps<T = ValueType>
   extends FormControlPickerProps<T, PickerLocaleType, ItemDataType>,
     SelectProps<T> {}
 
@@ -105,7 +112,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
       data,
       valueKey,
       labelKey,
-      value,
+      value: valueProp,
       classPrefix,
       placeholder,
       defaultValue,
@@ -149,12 +156,10 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
     const toggleRef = useRef<HTMLButtonElement>();
     const menuRef = useRef<HTMLDivElement>();
     const { locale } = useCustom<PickerLocaleType>('Picker', overrideLocale);
-
-    const [valueState, setValue] = useState(defaultValue);
-    const val = isUndefined(value) ? valueState : value;
+    const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue);
 
     // Used to hover the focuse item  when trigger `onKeydown`
-    const { focusItemValue, setFocusItemValue, onKeyDown } = useFocusItemValue(val, {
+    const { focusItemValue, setFocusItemValue, onKeyDown } = useFocusItemValue(value, {
       data,
       valueKey,
       target: () => menuRef.current
@@ -258,10 +263,10 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
           return;
         }
         setValue(null);
-        setFocusItemValue(val);
+        setFocusItemValue(value);
         handleChangeValue(null, event);
       },
-      [val, disabled, cleanable, handleChangeValue, setFocusItemValue]
+      [value, disabled, cleanable, handleChangeValue, setFocusItemValue]
     );
 
     const handleExited = () => {
@@ -272,7 +277,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
 
     const handleEntered = () => {
       setActive(true);
-      setFocusItemValue(val);
+      setFocusItemValue(value);
       onOpen?.();
     };
 
@@ -289,13 +294,13 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
     }));
 
     // Find active `MenuItem` by `value`
-    const activeItem = findNodeOfTree(data, item => shallowEqual(item[valueKey], val));
+    const activeItem = findNodeOfTree(data, item => shallowEqual(item[valueKey], value));
 
     /**
      * 1.Have a value and the value is valid.
      * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
      */
-    const hasValue = !!activeItem || (!isNil(val) && isFunction(renderValue));
+    const hasValue = !!activeItem || (!isNil(value) && isFunction(renderValue));
 
     const { prefix, merge } = useClassNames(classPrefix);
 
@@ -305,8 +310,8 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
       selectedElement = activeItem[labelKey];
     }
 
-    if (!isNil(val) && isFunction(renderValue)) {
-      selectedElement = renderValue(val, activeItem, selectedElement);
+    if (!isNil(value) && isFunction(renderValue)) {
+      selectedElement = renderValue(value, activeItem, selectedElement);
     }
 
     const renderDropdownMenu = () => {
@@ -332,7 +337,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
           classPrefix={'picker-select-menu'}
           dropdownMenuItemClassPrefix={'picker-select-menu-item'}
           dropdownMenuItemAs={DropdownMenuItem}
-          activeItemValues={[val]}
+          activeItemValues={[value]}
           focusItemValue={focusItemValue}
           data={items}
           group={!isUndefined(groupBy)}

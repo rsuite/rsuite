@@ -5,7 +5,8 @@ import { useControlled, useClassNames, partitionHTMLProps, refType } from '../ut
 import { CheckboxGroupContext } from '../CheckboxGroup';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-export interface CheckboxProps<V = any> extends WithAsProps {
+export type ValueType = string | number;
+export interface CheckboxProps<V = ValueType> extends WithAsProps {
   /** HTML title */
   title?: string;
 
