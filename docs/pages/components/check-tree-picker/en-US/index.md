@@ -4,15 +4,43 @@ CheckTreePicker are supported in multiple selectors for multiple selection of co
 
 - `<CheckTreePicker>` The selector component supports Checkbox on the TreePicker node for multiple selection.
 
-## Usage
+## Import
 
-```js
-import { CheckTreePicker } from 'rsuite';
-```
+<!--{include:(components/check-tree-picker/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Default
+
+<!--{include:`basic.md`}-->
+
+### Appearance
+
+<!--{include:`appearance.md`}-->
+
+### Size
+
+<!--{include:`size.md`}-->
+
+### Cascade
+
+<!--{include:`cascade.md`}-->
+
+### Placement
+
+<!--{include:`placement.md`}-->
+
+### Disabled and Uncheckable
+
+<!--{include:`disabled.md`}-->
+
+### Custom options
+
+<!--{include:`custom.md`}-->
+
+### Async
+
+<!--{include:`async.md`}-->
 
 ## Props
 
@@ -34,6 +62,7 @@ import { CheckTreePicker } from 'rsuite';
 | disabled                | boolean                                                                                                 | Whether to disable Picker                                                 |
 | disabledItemValues      | string[]                                                                                                | Disable item by value                                                     |
 | expandItemValues        | any []                                                                                                  | Set the value of the expanded node (controlled)                           |
+| getChildren             | (node: [DataItemType](#types)) => Promise<[DataItemType](#types))>                                      | load node children data asynchronously                                    |
 | height                  | number `(360px)`                                                                                        | height of menu. When `virtualize` is true, you can set the height of menu |
 | labelKey                | string `('label')`                                                                                      | set label key in data                                                     |
 | menuClassName           | string                                                                                                  | className for Menu                                                        |
@@ -66,7 +95,7 @@ import { CheckTreePicker } from 'rsuite';
 | uncheckableItemValues   | string[]                                                                                                | Set the option value for the check box not to be rendered                 |
 | value                   | string[]                                                                                                | (Controlled) specifies the values of the selected tree node               |
 | valueKey                | string `('value')`                                                                                      | Set value key in data                                                     |
-| virtualized             | boolean `(false)`                                                                                       | Whether using Virtualized List                                            |
+| virtualized             | boolean `(true)`                                                                                        | Whether using Virtualized List                                            |
 
 ## Related Components
 

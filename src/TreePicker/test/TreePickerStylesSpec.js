@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM, { findDOMNode } from 'react-dom';
+import ReactDOM from 'react-dom';
 import TreePicker from '../index';
 import { createTestContainer, getStyle, inChrome } from '@test/testUtils';
 
@@ -45,8 +45,8 @@ describe('TreePicker styles', () => {
     inChrome &&
       assert.equal(
         getStyle(treeWrapperDom, 'padding'),
-        '0px 12px 12px 0px',
-        'Picker tree wrapper padding'
+        '0px',
+        'TreePicker in virtualized wrapper padding'
       );
     assert.equal(getStyle(treeNodeDom, 'fontSize'), '0px', 'Picker tree node font-size');
     assert.equal(getStyle(treeNodeDom, 'height'), '36px', 'Picker tree node height');

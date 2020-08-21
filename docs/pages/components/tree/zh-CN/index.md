@@ -4,13 +4,21 @@
 
 ## 获取组件
 
-```js
-import { Tree } from 'rsuite';
-```
+<!--{include:(components/tree/fragments/import.md)}-->
 
 ## 演示
 
-<!--{demo}-->
+### 默认
+
+<!--{include:`basic.md`}-->
+
+### 可拖拽
+
+<!--{include:`draggable.md`}-->
+
+### 异步加载
+
+<!--{include:`async.md`}-->
 
 ## Props
 
@@ -27,6 +35,7 @@ import { Tree } from 'rsuite';
 | disabledItemValues      | string[]                                                                                                | 禁用选项                                                                        |
 | draggable               | boolean                                                                                                 | 是否可以拖拽                                                                    |
 | expandItemValues        | any []                                                                                                  | 设置展开节点的值（受控）                                                        |
+| getChildren             | (node: [DataItemType](#types)) => Promise<[DataItemType](#types))>                                      | 异步加载节点数据                                                                |
 | height                  | number `(360px)`                                                                                        | menu 的高度。当设置了 virtualized 为 true 时， 可以通过 height 控制 menu 的高度 |
 | labelKey                | string `('label')`                                                                                      | tree 数据结构 label 属性名称                                                    |
 | onChange                | (value:string) => void                                                                                  | 数据改变的回调函数                                                              |
@@ -44,7 +53,7 @@ import { Tree } from 'rsuite';
 | searchKeyword           | string                                                                                                  | (受控)搜索关键词                                                                |
 | value                   | string                                                                                                  | 当前选中的值                                                                    |
 | valueKey                | string `('value')`                                                                                      | tree 数据结构 value 属性名称                                                    |
-| virtualized             | boolean `(false)`                                                                                       | 是否开启虚拟列表                                                                |
+| virtualized             | boolean `(true)`                                                                                        | 是否开启虚拟列表                                                                |
 
 ### DataItemType
 

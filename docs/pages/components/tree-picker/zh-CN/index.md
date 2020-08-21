@@ -4,13 +4,41 @@
 
 ## 获取组件
 
-```js
-import { TreePicker } from 'rsuite';
-```
+<!--{include:(components/tree-picker/fragments/import.md)}-->
 
 ## 演示
 
-<!--{demo}-->
+### 默认
+
+<!--{include:`basic.md`}-->
+
+### 外观
+
+<!--{include:`appearance.md`}-->
+
+### 尺寸
+
+<!--{include:`size.md`}-->
+
+### 位置
+
+<!--{include:`placement.md`}-->
+
+### 禁用
+
+<!--{include:`disabled.md`}-->
+
+### 禁用搜索框
+
+<!--{include:`searchable.md`}-->
+
+### 自定义选项
+
+<!--{include:`custom.md`}-->
+
+### 异步
+
+<!--{include:`async.md`}-->
 
 ## Props
 
@@ -32,6 +60,7 @@ import { TreePicker } from 'rsuite';
 | disabled                | boolean                                                                                                 | 是否禁用 Picker                                                                 |
 | disabledItemValues      | string[]                                                                                                | 禁用选项                                                                        |
 | expandItemValues        | any []                                                                                                  | 设置展开节点的值（受控）                                                        |
+| getChildren             | (node: [DataItemType](#types)) => Promise<[DataItemType](#types))>                                      | 异步加载节点数据                                                                |
 | height                  | number `(360px)`                                                                                        | menu 的高度。当设置了 virtualized 为 true 时， 可以通过 height 控制 menu 的高度 |
 | inline                  | boolean                                                                                                 | 是否内联显示 tree                                                               |
 | labelKey                | string `('label')`                                                                                      | tree 数据结构 label 属性名称                                                    |
@@ -64,7 +93,7 @@ import { TreePicker } from 'rsuite';
 | toggleAs                | React.ElementType `('a')`                                                                               | 为组件自定义元素类型                                                            |
 | value                   | string                                                                                                  | 当前选中的值                                                                    |
 | valueKey                | string `('value')`                                                                                      | tree 数据结构 value 属性名称                                                    |
-| virtualized             | boolean `(false)`                                                                                       | 是否开启虚拟列表                                                                |
+| virtualized             | boolean `(true)`                                                                                        | 是否开启虚拟列表                                                                |
 
 ## 相关组件
 

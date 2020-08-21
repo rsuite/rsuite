@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { defaultProps, prefix, refType } from '../utils';
+import { refType, useClassNames } from '../utils';
 import reactToString from '../utils/reactToString';
 import {
   CHECK_STATE,
@@ -9,85 +8,75 @@ import {
   TREE_NODE_PADDING,
   TREE_NODE_ROOT_PADDING
 } from '../constants';
-
 import DropdownMenuCheckItem from '../Picker/DropdownMenuCheckItem';
+import Icon from '../Icon/Icon';
 
-export interface TreeCheckNodeProps {
-  classPrefix?: string;
-  className?: string;
-  visible?: boolean;
+export interface CheckTreeNodeProps {
   rtl?: boolean;
-  style?: React.CSSProperties;
   label?: any;
   layer?: number;
   value?: any;
   focus?: boolean;
+  style?: React.CSSProperties;
   expand?: boolean;
+  loading?: boolean;
+  visible?: boolean;
+  innerRef?: React.Ref<any>;
   nodeData?: any;
   disabled?: boolean;
+  className?: string;
   checkState?: CheckStateType;
+  classPrefix?: string;
   hasChildren?: boolean;
   uncheckable?: boolean;
   allUncheckable?: boolean;
-  innerRef?: React.Ref<any>;
-  onTreeToggle?: (nodeData: any, layer: number, event: React.SyntheticEvent<any>) => void;
+  onExpand?: (nodeData: any) => void;
   onSelect?: (nodeData: any, event: React.SyntheticEvent<any>) => void;
   onRenderTreeIcon?: (nodeData: any, expandIcon?: React.ReactNode) => React.ReactNode;
   onRenderTreeNode?: (nodeData: any) => React.ReactNode;
 }
 
-class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    visible: PropTypes.bool,
-    style: PropTypes.object,
-    label: PropTypes.any,
-    layer: PropTypes.number,
-    value: PropTypes.any,
-    focus: PropTypes.bool,
-    expand: PropTypes.bool,
-    nodeData: PropTypes.object,
-    disabled: PropTypes.bool,
-    checkState: PropTypes.oneOf([
-      CHECK_STATE.UNCHECK,
-      CHECK_STATE.CHECK,
-      CHECK_STATE.INDETERMINATE
-    ]),
-    hasChildren: PropTypes.bool,
-    uncheckable: PropTypes.bool,
-    allUncheckable: PropTypes.bool,
-    innerRef: refType,
-    onTreeToggle: PropTypes.func,
-    onSelect: PropTypes.func,
-    onRenderTreeIcon: PropTypes.func,
-    onRenderTreeNode: PropTypes.func
-  };
-  static defaultProps = {
-    visible: true
-  };
+const CheckTreeNode: React.FC<CheckTreeNodeProps> = ({
+  style,
+  className,
+  classPrefix,
+  visible,
+  layer,
+  disabled,
+  allUncheckable,
+  innerRef,
+  rtl,
+  loading,
+  expand,
+  hasChildren,
+  nodeData,
+  focus,
+  label,
+  uncheckable,
+  checkState,
+  onExpand,
+  onSelect,
+  onRenderTreeIcon,
+  onRenderTreeNode
+}) => {
+  const { prefix, merge, rootPrefix } = useClassNames(classPrefix);
 
-  getTitle() {
-    const { label } = this.props;
+  const getTitle = () => {
     if (typeof label === 'string') {
       return label;
     } else if (React.isValidElement(label)) {
       const nodes = reactToString(label);
       return nodes.join('');
     }
-  }
-
-  handleTreeToggle = (event: React.MouseEvent<HTMLDivElement>) => {
-    const { onTreeToggle, layer, nodeData } = this.props;
-
-    // 异步加载数据自定义loading图标时，阻止原生冒泡，不触发 document.click
-    event?.nativeEvent?.stopImmediatePropagation?.();
-
-    onTreeToggle?.(nodeData, layer, event);
   };
 
-  handleSelect = (_value: any, event: React.SyntheticEvent<any>) => {
-    const { onSelect, disabled, uncheckable, nodeData, checkState } = this.props;
+  const handleExpand = (event: React.SyntheticEvent<any>) => {
+    // 异步加载数据自定义loading图标时，阻止原生冒泡，不触发 document.click
+    event?.nativeEvent?.stopImmediatePropagation?.();
+    onExpand?.(nodeData);
+  };
 
+  const handleSelect = (_value: any, event: React.SyntheticEvent<any>) => {
     if (disabled || uncheckable) {
       return;
     }
@@ -108,19 +97,25 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
     onSelect?.(nextNodeData, event);
   };
 
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
-
-  renderIcon = () => {
-    const { expand, onRenderTreeIcon, hasChildren, nodeData } = this.props;
-    const expandIconClasses = classNames(this.addPrefix('expand-icon'), 'icon', {
-      [this.addPrefix('expanded')]: expand
+  const renderIcon = () => {
+    const expandIconClasses = merge(prefix('expand-icon'), 'icon', {
+      [prefix('expanded')]: expand
     });
     let expandIcon = <i className={expandIconClasses} />;
+
+    if (loading) {
+      expandIcon = (
+        <div className={prefix('loading-icon')}>
+          <Icon icon="spinner" spin style={{ verticalAlign: 'middle' }} />
+        </div>
+      );
+    }
+
     if (typeof onRenderTreeIcon === 'function') {
       const customIcon = onRenderTreeIcon(nodeData);
       expandIcon =
         customIcon !== null ? (
-          <div className={this.addPrefix('custom-icon')}>{customIcon}</div>
+          <div className={prefix('custom-icon')}>{customIcon}</div>
         ) : (
           expandIcon
         );
@@ -130,26 +125,15 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
         role="button"
         tabIndex={-1}
         data-ref={nodeData.refKey}
-        className={this.addPrefix('expand-icon-wrapper')}
-        onClick={this.handleTreeToggle}
+        className={prefix('expand-icon-wrapper')}
+        onClick={handleExpand}
       >
         {expandIcon}
       </div>
     ) : null;
   };
 
-  renderLabel = () => {
-    const {
-      nodeData,
-      focus,
-      onRenderTreeNode,
-      label,
-      layer,
-      disabled,
-      uncheckable,
-      checkState
-    } = this.props;
-
+  const renderLabel = () => {
     return (
       <DropdownMenuCheckItem
         as="div"
@@ -159,49 +143,63 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
         checkable={!uncheckable}
         disabled={disabled}
         data-layer={layer}
-        data-key={nodeData.refKey}
-        className={this.addPrefix('label')}
-        title={this.getTitle()}
-        onSelect={this.handleSelect}
+        value={nodeData.refKey}
+        className={prefix('label')}
+        title={getTitle()}
+        onSelect={handleSelect}
       >
-        <span className={this.addPrefix('text-wrapper')}>
+        <span className={prefix('text-wrapper')}>
           {typeof onRenderTreeNode === 'function' ? onRenderTreeNode(nodeData) : label}
         </span>
       </DropdownMenuCheckItem>
     );
   };
 
-  render() {
-    const {
-      style,
-      className,
-      classPrefix,
-      visible,
-      layer,
-      disabled,
-      allUncheckable,
-      innerRef,
-      rtl
-    } = this.props;
+  const classes = merge(className, rootPrefix(classPrefix), {
+    'text-muted': disabled,
+    [prefix('all-uncheckable')]: !!allUncheckable
+  });
+  const padding = layer * TREE_NODE_PADDING + TREE_NODE_ROOT_PADDING;
+  const styles = {
+    ...style,
+    [rtl ? 'paddingRight' : 'paddingLeft']: padding
+  };
+  return visible ? (
+    <div style={styles} className={classes} ref={innerRef}>
+      {renderIcon()}
+      {renderLabel()}
+    </div>
+  ) : null;
+};
 
-    const classes = classNames(className, classPrefix, {
-      'text-muted': disabled,
-      [this.addPrefix('all-uncheckable')]: !!allUncheckable
-    });
-    const padding = layer * TREE_NODE_PADDING + TREE_NODE_ROOT_PADDING;
-    const styles = {
-      ...style,
-      [rtl ? 'paddingRight' : 'paddingLeft']: padding
-    };
-    return visible ? (
-      <div style={styles} className={classes} ref={innerRef}>
-        {this.renderIcon()}
-        {this.renderLabel()}
-      </div>
-    ) : null;
-  }
-}
+CheckTreeNode.propTypes = {
+  rtl: PropTypes.bool,
+  classPrefix: PropTypes.string,
+  visible: PropTypes.bool,
+  style: PropTypes.object,
+  label: PropTypes.any,
+  layer: PropTypes.number,
+  loading: PropTypes.bool,
+  value: PropTypes.any,
+  focus: PropTypes.bool,
+  expand: PropTypes.bool,
+  nodeData: PropTypes.object,
+  disabled: PropTypes.bool,
+  className: PropTypes.string,
+  checkState: PropTypes.oneOf([CHECK_STATE.UNCHECK, CHECK_STATE.CHECK, CHECK_STATE.INDETERMINATE]),
+  hasChildren: PropTypes.bool,
+  uncheckable: PropTypes.bool,
+  allUncheckable: PropTypes.bool,
+  innerRef: refType,
+  onExpand: PropTypes.func,
+  onSelect: PropTypes.func,
+  onRenderTreeIcon: PropTypes.func,
+  onRenderTreeNode: PropTypes.func
+};
 
-export default defaultProps<TreeCheckNodeProps>({
+CheckTreeNode.defaultProps = {
+  visible: true,
   classPrefix: 'check-tree-node'
-})(TreeCheckNode);
+};
+
+export default CheckTreeNode;

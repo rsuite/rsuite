@@ -2,15 +2,43 @@
 
 `<TreePicker>` Selector component, tree single selector.
 
-## Usage
+## Import
 
-```js
-import { TreePicker } from 'rsuite';
-```
+<!--{include:(components/tree-picker/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Default
+
+<!--{include:`basic.md`}-->
+
+### Appearance
+
+<!--{include:`appearance.md`}-->
+
+### Size
+
+<!--{include:`size.md`}-->
+
+### Placement
+
+<!--{include:`placement.md`}-->
+
+### Disabled
+
+<!--{include:`disabled.md`}-->
+
+### Disable Search
+
+<!--{include:`searchable.md`}-->
+
+### Custom Option
+
+<!--{include:`custom.md`}-->
+
+### Async
+
+<!--{include:`async.md`}-->
 
 ## Props
 
@@ -32,6 +60,7 @@ import { TreePicker } from 'rsuite';
 | disabled                | boolean                                                                                                 | Whether to disable Picker                                                 |
 | disabledItemValues      | string[]                                                                                                | Disable item by value                                                     |
 | expandItemValues        | any []                                                                                                  | Set the value of the expanded node (controlled)                           |
+| getChildren             | (node: [DataItemType](#types)) => Promise<[DataItemType](#types))>                                      | load node children data asynchronously                                    |
 | height                  | number `(360px)`                                                                                        | height of menu. When `virtualize` is true, you can set the height of menu |
 | labelKey                | string `('label')`                                                                                      | Tree data structure Label property name                                   |
 | menuClassName           | string                                                                                                  | A css class to apply to the Menu DOM node                                 |
@@ -62,7 +91,7 @@ import { TreePicker } from 'rsuite';
 | toggleAs                | React.ElementType `('a')`                                                                               | You can use a custom element for this component                           |
 | value                   | string                                                                                                  | Selected value                                                            |
 | valueKey                | string `('value')`                                                                                      | Tree data Structure Value property name                                   |
-| virtualized             | boolean `(false)`                                                                                       | Whether using Virtualized List                                            |
+| virtualized             | boolean `(true)`                                                                                        | Whether using Virtualized List                                            |
 
 ## Related components
 

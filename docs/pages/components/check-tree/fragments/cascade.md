@@ -1,0 +1,31 @@
+`cascade` 属性可以设置 CheckTree 在选择的时候是否可考虑子父级的级联关系，默认为 `true`。
+
+<!--start-code-->
+
+```js
+/**
+ * import data from
+ * https://github.com/rsuite/rsuite/blob/master/docs/public/data/city-simplified.json
+ */
+
+const CascadeDemo = () => {
+  const [cascade, setCascade] = useState(false);
+  return (
+    <div>
+      Cascade:{' '}
+      <Toggle
+        checked={cascade}
+        onChange={checked => {
+          setCascade(checked);
+        }}
+      />
+      <hr />
+      <CheckTree defaultExpandAll cascade={cascade} defaultValue={[2, 38]} data={data} />
+    </div>
+  );
+};
+
+ReactDOM.render(<CascadeDemo />);
+```
+
+<!--end-code-->

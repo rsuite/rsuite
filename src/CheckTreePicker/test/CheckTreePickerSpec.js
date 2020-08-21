@@ -4,7 +4,7 @@ import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import CheckTreePicker from '../CheckTreePicker';
-import { findDOMNode } from 'react-dom';
+import { KEY_CODE } from '../../constants';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -64,8 +64,8 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should output a button', () => {
-    const instance = getInstance(<CheckTreePicker toggleAs="button" data={[]} />);
-    assert.ok(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'button'));
+    const instance = getDOMNode(<CheckTreePicker toggleAs="button" data={[]} />);
+    assert.ok(instance.querySelector('button'));
   });
 
   it('Should be disabled', () => {
@@ -81,24 +81,26 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should active 4 node by `value` when cascade is true', () => {
-    const instance = getDOMNode(<CheckTreePicker inline data={data} value={['Master']} />);
-    expect(instance.querySelectorAll('.rs-checkbox-checked').length).to.equal(4);
+    const instance = mount(
+      <CheckTreePicker virtualized={false} inline data={data} value={['Master']} />
+    );
+    expect(instance.find('.rs-checkbox-checked')).to.have.lengthOf(4);
   });
 
   it('Should active 1 node by `value` when cascade is false', () => {
-    const instance = getDOMNode(
-      <CheckTreePicker inline cascade={false} data={data} value={['Master']} />
+    const instance = mount(
+      <CheckTreePicker inline virtualized={false} cascade={false} data={data} value={['Master']} />
     );
-    expect(instance.querySelectorAll('.rs-checkbox-checked').length).to.equal(1);
+    expect(instance.find('.rs-checkbox-checked')).to.have.lengthOf(1);
   });
 
   it('Should expand children nodes', () => {
-    const instance = getDOMNode(
-      <CheckTreePicker inline cascade={false} data={data} value={['Master']} />
+    const instance = mount(
+      <CheckTreePicker virtualized={false} inline cascade={false} data={data} value={['Master']} />
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-check-tree-node-expand-icon')[0]);
-    expect(instance.querySelectorAll('.rs-check-tree-open').length).to.equal(1);
+    instance.find('div[data-ref="0-0"]  > .rs-check-tree-node-expand-icon').simulate('click');
+    expect(instance.find('.rs-check-tree-open').length).to.equal(1);
   });
 
   it('Should have a placeholder', () => {
@@ -124,7 +126,12 @@ describe('CheckTreePicker', () => {
 
     // Invalid value
     const instance2 = getDOMNode(
-      <CheckTreePicker renderValue={v => [v, placeholder]} data={[]} value={[2]} />
+      <CheckTreePicker
+        placeholder={placeholder}
+        renderValue={v => [v, placeholder]}
+        data={[]}
+        value={[2]}
+      />
     );
 
     // Invalid value
@@ -138,7 +145,7 @@ describe('CheckTreePicker', () => {
     );
 
     assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, '1,2');
-    assert.equal(instance2.querySelector('.rs-picker-toggle-value').innerText, `2${placeholder}`);
+    assert.equal(instance2.querySelector('.rs-picker-toggle-value').innerText, placeholder);
     assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, placeholder);
   });
 
@@ -158,9 +165,11 @@ describe('CheckTreePicker', () => {
         done();
       }
     };
-    const instance = getDOMNode(<CheckTreePicker inline onChange={doneOp} data={data} />);
+    const instance = mount(
+      <CheckTreePicker inline virtualized={false} onChange={doneOp} data={data} />
+    );
 
-    ReactTestUtils.Simulate.change(instance.querySelectorAll('.rs-check-tree-node input')[3]);
+    instance.find('div[data-key="0-0"] input').simulate('change');
   });
 
   it('Should call `onClean` callback', done => {
@@ -210,33 +219,51 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should focus item by keyCode=40 ', () => {
-    const instance = getInstance(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
-    const toggle = findDOMNode(instance.getToggleInstance().toggleRef.current);
-    ReactTestUtils.Simulate.keyDown(toggle, { keyCode: 40 });
-    ReactTestUtils.Simulate.keyDown(toggle, { keyCode: 40 });
+    const instance = getInstance(
+      <CheckTreePicker virtualized={false} defaultOpen data={data} defaultExpandAll />
+    );
+
+    const tree = instance.treeView;
+
+    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.DOWN });
+    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.ENTER });
+    assert.equal(document.activeElement.innerText, 'Master');
+
+    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.DOWN });
+    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.ENTER });
     assert.equal(document.activeElement.innerText, 'tester0');
   });
 
   it('Should focus item by keyCode=38 ', () => {
-    ReactTestUtils.Simulate.keyDown(document.activeElement, { keyCode: 40 });
-    ReactTestUtils.Simulate.keyDown(document.activeElement, { keyCode: 38 });
+    const instance = getInstance(
+      <CheckTreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
+    );
+    const tree = instance.treeView;
+    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.DOWN });
+    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.ENTER });
+    assert.equal(document.activeElement.innerText, 'Master');
+
+    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.DOWN });
+    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.ENTER });
     assert.equal(document.activeElement.innerText, 'tester0');
+
+    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.UP });
+    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.ENTER });
+    assert.equal(document.activeElement.innerText, 'Master');
   });
 
-  it('Should focus item by keyCode=13 ', done => {
-    const doneOp = () => {
-      done();
-    };
-
-    const instance = mount(
-      <CheckTreePicker data={data} onChange={doneOp} inline cascade={false} defaultExpandAll />
+  it('Should focus item by keyCode=13 ', () => {
+    const instance = getInstance(
+      <CheckTreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
     );
+    const tree = instance.treeView;
 
-    instance.find('div[data-key="0-0"]').simulate('click');
-    expect(instance.find('div[data-key="0-0"]').getElement() === document.activeElement);
-    instance.find('div[data-key="0-0"]').simulate('keydown', {
-      keyCode: 13
-    });
+    ReactTestUtils.Simulate.change(tree.querySelector('div[data-key="0-0"] input'));
+    assert.equal(document.activeElement.innerText, 'Master');
+
+    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.DOWN });
+    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.ENTER });
+    assert.equal(document.activeElement.innerText, 'tester0');
   });
 
   it('Should have a custom className', () => {
@@ -253,7 +280,7 @@ describe('CheckTreePicker', () => {
   it('Should have a custom menuStyle', () => {
     const fontSize = '12px';
     const instance = getInstance(<CheckTreePicker menuStyle={{ fontSize }} data={data} open />);
-    assert.equal(getDOMNode(instance.menuRef.current).style.fontSize, fontSize);
+    assert.equal(getDOMNode(instance.menu).style.fontSize, fontSize);
   });
 
   it('Should load data async', () => {
@@ -268,29 +295,24 @@ describe('CheckTreePicker', () => {
         children: []
       }
     ];
-    const children = [
-      {
-        label: 'children1',
-        value: 'children1'
-      }
-    ];
-
-    let newData = [];
-    const mockOnExpand = (_expandItemValues, _node, concat) => {
-      newData = concat(data, children);
-    };
 
     const instance = mount(
       <CheckTreePicker
         data={data}
-        onExpand={mockOnExpand}
+        value={['Master']}
         inline
+        virtualized={false}
         cascade={false}
         defaultExpandAll
+        getChildren={() => [
+          {
+            label: 'children1',
+            value: 'children1'
+          }
+        ]}
       />
     );
     instance.find('div[data-ref="0-1"]  > .rs-check-tree-node-expand-icon').simulate('click');
-    instance.setProps({ data: newData });
 
     assert.equal(instance.html().indexOf('data-key="0-1-0"') > -1, true);
 
@@ -327,13 +349,15 @@ describe('CheckTreePicker', () => {
         label: <span className="custom-label">1</span>
       }
     ];
-    const instance = mount(<CheckTreePicker data={customData} inline />);
+    const instance = mount(<CheckTreePicker virtualized={false} data={customData} inline />);
 
     assert.equal(instance.find('.custom-label').length, 1);
   });
 
   it('should render with expand master node', () => {
-    const instance = mount(<CheckTreePicker data={data} inline expandItemValues={['Master']} />);
+    const instance = mount(
+      <CheckTreePicker virtualized={false} data={data} inline expandItemValues={['Master']} />
+    );
     assert.equal(instance.find('.rs-check-tree-node-expanded').length, 1);
   });
 
@@ -343,7 +367,13 @@ describe('CheckTreePicker', () => {
       expandItemValues = values;
     };
     const instance = mount(
-      <CheckTreePicker data={data} inline expandItemValues={['Master']} onExpand={mockOnExpand} />
+      <CheckTreePicker
+        virtualized={false}
+        data={data}
+        inline
+        expandItemValues={['Master']}
+        onExpand={mockOnExpand}
+      />
     );
 
     assert.equal(instance.html().indexOf('rs-check-tree-node-expanded') > -1, true);
@@ -361,13 +391,14 @@ describe('CheckTreePicker', () => {
   it('Should render the specified menu content by `searchBy`', () => {
     const instance = getInstance(
       <CheckTreePicker
+        virtualized={false}
         defaultOpen
         defaultExpandAll
         data={data}
         searchBy={(a, b, c) => c.value === 'Master'}
       />
     );
-    const list = getDOMNode(instance.menuRef.current).querySelectorAll('.rs-check-tree-node');
+    const list = getDOMNode(instance.menu).querySelectorAll('.rs-check-tree-node');
     assert.equal(list.length, 1);
     assert.ok(list[0].innerText, 'Louisa');
   });

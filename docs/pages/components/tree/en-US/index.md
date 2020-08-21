@@ -2,15 +2,23 @@
 
 `<Tree>` Used to show a tree-structured data.
 
-## Usage
+## Import
 
-```js
-import { Tree } from 'rsuite';
-```
+<!--{include:(components/tree/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Default
+
+<!--{include:`basic.md`}-->
+
+### Draggable
+
+<!--{include:`draggable.md`}-->
+
+### Async
+
+<!--{include:`async.md`}-->
 
 ## Props
 
@@ -27,6 +35,7 @@ import { Tree } from 'rsuite';
 | disabledItemValues      | string[]                                                                                                | Disable item by value                                                     |
 | draggable               | boolean                                                                                                 | Setting drag node                                                         |
 | expandItemValues        | any []                                                                                                  | Set the value of the expanded node (controlled)                           |
+| getChildren             | (node: [DataItemType](#types)) => Promise<[DataItemType](#types))>                                      | load node children data asynchronously                                    |
 | height                  | number `(360px)`                                                                                        | height of menu. When `virtualize` is true, you can set the height of menu |
 | labelKey                | string `('label')`                                                                                      | Tree data structure Label property name                                   |
 | onChange                | (value:string) => void                                                                                  | Callback function for data change                                         |
@@ -44,7 +53,7 @@ import { Tree } from 'rsuite';
 | searchKeyword           | string                                                                                                  | searchKeyword (Controlled)                                                |
 | value                   | string                                                                                                  | Selected value                                                            |
 | valueKey                | string `('value')`                                                                                      | Tree data Structure Value property name                                   |
-| virtualized             | boolean `(false)`                                                                                       | Whether using Virtualized List                                            |
+| virtualized             | boolean `(true)`                                                                                        | Whether using Virtualized List                                            |
 
 ### DataItemType
 

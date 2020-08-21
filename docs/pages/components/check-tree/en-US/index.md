@@ -2,15 +2,27 @@
 
 `<CheckTree>` is used to display a tree structure data and supports Checkbox selection.
 
-## Usage
+## Import
 
-```js
-import { CheckTree } from 'rsuite';
-```
+<!--{include:(components/check-tree/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Default
+
+<!--{include:`basic.md`}-->
+
+### Cascade
+
+<!--{include:`cascade.md`}-->
+
+### Custom options
+
+<!--{include:`custom.md`}-->
+
+### Async
+
+<!--{include:`async.md`}-->
 
 ## Props
 
@@ -26,6 +38,7 @@ import { CheckTree } from 'rsuite';
 | defaultExpandItemValues | any []                                                                                                  | Set the value of the default expanded node                                |
 | disabledItemValues      | string[]                                                                                                | Values of disabled tree node                                              |
 | expandItemValues        | any []                                                                                                  | Set the value of the expanded node (controlled)                           |
+| getChildren             | (node: [DataItemType](#types)) => Promise<[DataItemType](#types))>                                      | load node children data asynchronously                                    |
 | height                  | number `(360px)`                                                                                        | height of menu. When `virtualize` is true, you can set the height of menu |
 | labelKey                | string `('label')`                                                                                      | Set label key in data                                                     |
 | onChange                | (values:string[]) => void                                                                               | Callback fired when value change                                          |
@@ -37,7 +50,7 @@ import { CheckTree } from 'rsuite';
 | uncheckableItemValues   | string[]                                                                                                | Set the option value for the check box not to be rendered                 |
 | value                   | string[]                                                                                                | Specifies the values of the selected tree node (Controlled)               |
 | valueKey                | string `('value')`                                                                                      | Set value key in data                                                     |
-| virtualized             | boolean `(false)`                                                                                       | Whether using Virtualized List                                            |
+| virtualized             | boolean `(true)`                                                                                        | Whether using Virtualized List                                            |
 
 ## Related components
 

@@ -4,13 +4,25 @@
 
 ## 获取组件
 
-```js
-import { CheckTree } from 'rsuite';
-```
+<!--{include:(components/check-tree/fragments/import.md)}-->
 
 ## 演示
 
-<!--{demo}-->
+### 默认
+
+<!--{include:`basic.md`}-->
+
+### 级联选择
+
+<!--{include:`cascade.md`}-->
+
+### 自定义选项
+
+<!--{include:`custom.md`}-->
+
+### 异步加载
+
+<!--{include:`async.md`}-->
 
 ## Props
 
@@ -26,6 +38,7 @@ import { CheckTree } from 'rsuite';
 | disabledItemValues      | string[]                                                                                                | 禁用节点列表                                                                    |
 | defaultExpandItemValues | any []                                                                                                  | 设置默认展开节点的值                                                            |
 | expandItemValues        | any []                                                                                                  | 设置展开节点的值（受控）                                                        |
+| getChildren             | (node: [DataItemType](#types)) => Promise<[DataItemType](#types))>                                      | 异步加载节点数据                                                                |
 | height                  | number `(360px)`                                                                                        | menu 的高度。当设置了 virtualized 为 true 时， 可以通过 height 控制 menu 的高度 |
 | labelKey                | string `('label')`                                                                                      | tree 数据结构 label 属性名称                                                    |
 | onChange                | (values:string[]) => void                                                                               | 数据改变的回调函数                                                              |
@@ -37,7 +50,7 @@ import { CheckTree } from 'rsuite';
 | uncheckableItemValues   | string[]                                                                                                | 设置不显示复选框的选项值                                                        |
 | value                   | string[]                                                                                                | 当前选中的值                                                                    |
 | valueKey                | string `('value')`                                                                                      | tree 数据结构 value 属性名称                                                    |
-| virtualized             | boolean `(false)`                                                                                       | 是否开启虚拟列表                                                                |
+| virtualized             | boolean `(true)`                                                                                        | 是否开启虚拟列表                                                                |
 
 ## 相关组件
 

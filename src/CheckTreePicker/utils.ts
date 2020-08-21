@@ -1,57 +1,63 @@
-import _ from 'lodash';
+import { isNil } from 'lodash';
 import shallowEqual from '../utils/shallowEqual';
-import { CheckTreePickerProps } from './CheckTreePicker.d';
+import { CheckTreePickerProps } from './CheckTreePicker';
+import { CHECK_STATE, CheckStateType } from '../constants';
 
-interface Props {
-  childrenKey?: string;
-}
-
-export interface Node {
+export interface TreeNodeType {
   uncheckable?: boolean;
   refKey?: string;
   check?: boolean;
-  parentNode?: Node;
+  parent?: TreeNodeType;
   checkAll?: boolean;
   visible?: boolean;
   expand?: boolean;
+  layer?: number;
+  showNode?: boolean;
+  label?: string | React.ReactNode;
+  value?: string | number;
+  groupBy?: string;
+  children?: TreeNodeType[];
 }
 
-export interface Nodes {
-  [key: string]: Node;
+export interface TreeNodesType {
+  [key: string]: TreeNodeType;
 }
 
-export function isEveryChildChecked(node: Node, nodes: Nodes, props: Props): boolean {
-  const { childrenKey } = props;
-  let children = null;
-  if (node[childrenKey]) {
-    children = node[childrenKey].filter(
-      child => nodes[child.refKey] && !nodes[child.refKey].uncheckable
-    );
-    if (!children.length) {
-      return nodes[node.refKey].check;
-    }
-    return children.every(child => {
-      if (child[childrenKey]?.length) {
-        return isEveryChildChecked(child, nodes, props);
-      }
-      return nodes[child.refKey].check;
-    });
+/**
+ * get all children by given parent node
+ * @param nodes
+ * @param parent
+ */
+export function getChildrenByParentNode(nodes: TreeNodesType, parent: TreeNodeType) {
+  if (isNil(nodes[parent.refKey])) {
+    return [];
   }
-  return nodes[node.refKey].check;
+  return Object.values(nodes).filter(
+    (item: TreeNodeType) =>
+      item?.parent?.refKey === parent.refKey && !nodes[item.refKey].uncheckable
+  );
 }
 
-export function isSomeChildChecked(node: Node, nodes: Nodes, props: Props): boolean {
-  const { childrenKey } = props;
-  if (!node[childrenKey]) {
+export function isEveryChildChecked(nodes: TreeNodesType, parent: TreeNodeType): boolean {
+  if (isNil(nodes[parent.refKey])) {
     return false;
   }
+  const children = getChildrenByParentNode(nodes, parent);
+  if (!children.length) {
+    return nodes[parent.refKey].check;
+  }
+  return children.every(child => nodes[child.refKey].check);
+}
 
-  return node[childrenKey].some(child => {
-    if (nodes[child.refKey]?.check) {
-      return true;
-    }
-    return isSomeChildChecked(child, nodes, props);
-  });
+export function isSomeChildChecked(nodes: TreeNodesType, parent: TreeNodeType): boolean {
+  if (isNil(nodes[parent.refKey])) {
+    return false;
+  }
+  const children = getChildrenByParentNode(nodes, parent);
+  if (!children.length) {
+    return nodes[parent.refKey].check;
+  }
+  return children.some(child => nodes[child.refKey].check);
 }
 
 /**
@@ -59,60 +65,63 @@ export function isSomeChildChecked(node: Node, nodes: Nodes, props: Props): bool
  * @param {*} data
  */
 export function isSomeNodeHasChildren(data: any[], childrenKey: string): boolean {
-  return data.some((node: Node) => node[childrenKey]);
+  return data.some((node: TreeNodeType) => node[childrenKey]);
 }
 
 /**
  * 获取该节点的兄弟节点是否都为 uncheckable
  * @param {*} node
  */
-export function getSiblingNodeUncheckable(node: Node, nodes: Nodes): boolean {
+export function isAllSiblingNodeUncheckable(
+  node: TreeNodeType,
+  nodes: TreeNodesType,
+  uncheckableItemValues: (string | number)[],
+  valueKey: string
+): boolean {
   const list = [];
-  const parentNodeRefkey = node.parentNode ? node.parentNode.refKey : '';
+  const parentNodeRefkey = node.parent ? node.parent.refKey : '';
 
   Object.keys(nodes).forEach((refKey: string) => {
     const curNode = nodes[refKey];
-    if (_.isUndefined(node.parentNode) && _.isUndefined(curNode.parentNode)) {
+    if (isNil(node.parent) && isNil(curNode.parent)) {
       list.push(curNode);
-    } else if (curNode.parentNode?.refKey === parentNodeRefkey) {
+    } else if (curNode.parent?.refKey === parentNodeRefkey) {
       list.push(curNode);
     }
   });
 
-  return list.every(node => node.uncheckable);
+  return list.every(node => isNodeUncheckable(node, { uncheckableItemValues, valueKey }));
 }
 
 /**
- * 获取第一层节点是否全部都为 uncheckable
+ * get each first level node uncheckable state
  */
-export function getEveryFirstLevelNodeUncheckable(nodes: Nodes) {
+export function isEveryFirstLevelNodeUncheckable(
+  nodes: TreeNodesType,
+  uncheckableItemValues: (string | number)[],
+  valueKey: string
+) {
   const list = [];
   Object.keys(nodes).forEach((refKey: string) => {
     const curNode = nodes[refKey];
-    if (!curNode.parentNode) {
+    if (!curNode.parent) {
       list.push(curNode);
     }
   });
 
-  return list.every(node => node.uncheckable);
+  return list.every(node => isNodeUncheckable(node, { uncheckableItemValues, valueKey }));
 }
 
 /**
- * 获取节点的是否需要隐藏checkbox
+ * get node uncheckable state
  * @param {*} node
  */
-export function getUncheckableState(node: any, props: CheckTreePickerProps) {
+export function isNodeUncheckable(node: any, props: Partial<CheckTreePickerProps>) {
   const { uncheckableItemValues = [], valueKey } = props;
   return uncheckableItemValues.some((value: any) => shallowEqual(node[valueKey], value));
 }
 
-/**
- * 获取格式化后的树
- * @param data
- * @param nodes
- * @param props
- */
-export function getFormattedTree(data: any[], nodes: Nodes, props: CheckTreePickerProps) {
+export function getFormattedTree(data: any[], nodes: TreeNodesType, props: CheckTreePickerProps) {
   const { childrenKey } = props;
   return data.map((node: any) => {
     const formatted: any = { ...node };
@@ -121,7 +130,7 @@ export function getFormattedTree(data: any[], nodes: Nodes, props: CheckTreePick
       formatted.check = curNode.check;
       formatted.expand = curNode.expand;
       formatted.uncheckable = curNode.uncheckable;
-      formatted.parentNode = curNode.parentNode;
+      formatted.parent = curNode.parent;
       if (node[childrenKey]?.length > 0) {
         formatted[childrenKey] = getFormattedTree(formatted[childrenKey], nodes, props);
       }
@@ -135,7 +144,68 @@ export function getFormattedTree(data: any[], nodes: Nodes, props: CheckTreePick
  * 获取每个节点的disable状态
  * @param {*} node
  */
-export function getDisabledState(nodes: Nodes, node: Node, props: CheckTreePickerProps) {
+export function getDisabledState(
+  nodes: TreeNodesType,
+  node: TreeNodeType,
+  props: Partial<CheckTreePickerProps>
+) {
   const { disabledItemValues = [], valueKey } = props;
+  if (isNil(nodes[node.refKey])) {
+    return false;
+  }
   return disabledItemValues.some((value: any) => shallowEqual(nodes[node.refKey][valueKey], value));
+}
+
+/**
+ * get check-tree picker default value
+ * @param value
+ * @param defaultValue
+ * @param uncheckableItemValues
+ */
+export function getCheckTreePickerDefaultValue(value: any[], uncheckableItemValues: any[]) {
+  if (Array.isArray(value)) {
+    return value.filter(v => !uncheckableItemValues.includes(v));
+  }
+
+  return [];
+}
+
+/**
+ * get selected items
+ */
+export function getSelectedItems(
+  nodes: TreeNodesType,
+  value: (string | number)[],
+  valueKey: string
+) {
+  const checkItems = [];
+  Object.keys(nodes).map((refKey: string) => {
+    const node = nodes[refKey];
+    if (value.some((value: any) => shallowEqual(node[valueKey], value))) {
+      checkItems.push(node);
+    }
+  });
+  return checkItems;
+}
+
+export function getNodeCheckState({ nodes, node, cascade, childrenKey }: any): CheckStateType {
+  if (isNil(nodes[node.refKey])) {
+    return CHECK_STATE.UNCHECK;
+  }
+  if (!node[childrenKey] || !node[childrenKey].length || !cascade) {
+    nodes[node.refKey].checkAll = false;
+    return node.check ? CHECK_STATE.CHECK : CHECK_STATE.UNCHECK;
+  }
+
+  if (isEveryChildChecked(nodes, node)) {
+    nodes[node.refKey].checkAll = true;
+    return CHECK_STATE.CHECK;
+  }
+
+  if (isSomeChildChecked(nodes, node)) {
+    nodes[node.refKey].checkAll = false;
+    return CHECK_STATE.INDETERMINATE;
+  }
+
+  return CHECK_STATE.UNCHECK;
 }
