@@ -1,15 +1,13 @@
-### With toaster
-
 <!--start-code-->
 
 ```js
 const App = () => {
   const [type, setType] = React.useState('info');
-  const [placement, setPlacement] = React.useState('topStart');
+  const [placement, setPlacement] = React.useState('topCenter');
   const message = (
-    <Notification type={type} header={type} closable>
-      <Paragraph width={320} rows={3} />
-    </Notification>
+    <Message showIcon type={type} header={type} closable>
+      Description
+    </Message>
   );
 
   return (

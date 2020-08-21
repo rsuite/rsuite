@@ -4,17 +4,33 @@
 
 ## 获取组件
 
-```js
-import { Message, toaster } from 'rsuite';
-
-// or
-import Message from 'rsuite/lib/Message';
-import toaster from 'rsuite/lib/toaster';
-```
+<!--{include:(components/message/fragments/import.md)}-->
 
 ## 演示
 
-<!--{demo}-->
+### 默认
+
+<!--{include:`basic.md`}-->
+
+### 类型
+
+<!--{include:`types.md`}-->
+
+### 显示图标
+
+<!--{include:`icons.md`}-->
+
+### 可关闭的
+
+<!--{include:`close.md`}-->
+
+### 消息框撑满容器
+
+<!--{include:`full.md`}-->
+
+### 与 toaster 组合
+
+<!--{include:`with-toaster.md`}-->
 
 ## Props & Methods
 
@@ -32,55 +48,4 @@ import toaster from 'rsuite/lib/toaster';
 | showIcon    | boolean                                                | 显示图标                                                       |
 | type        | enum: 'info', 'success', 'warning', 'error' `('info')` | 消息框类型                                                     |
 
-### toaster
-
-#### toaster.push
-
-推送一个消息，并返回一个唯一的 key
-
-```ts
-
-interface ToastContainerProps{
-  /** The placement of the message box */
-  placement?: PlacementType;
-
-  /** Set the message to appear in the specified container */
-  container?: HTMLElement | (() => HTMLElement);
-}
-
-toaster.push(message: React.ReactNode, options?: ToastContainerProps): string;
-```
-
-e.g:
-
-```js
-toaster.push(<Notification>message</Notification>, {
-  placement: 'topEnd'
-});
-```
-
-#### toaster.remove
-
-通过 key 删除一个消息
-
-```ts
-toaster.remove(key: string): void;
-```
-
-e.g:
-
-```js
-const key = toaster.push(<Notification>message</Notification>, {
-  placement: 'topEnd'
-});
-
-toaster.remove(key);
-```
-
-#### toaster.clear
-
-删除所有消息
-
-```ts
-toaster.clear(): void;
-```
+<!--{include:(components/notification/zh-CN/toaster.md)}-->

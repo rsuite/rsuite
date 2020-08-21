@@ -4,17 +4,33 @@ Used to show important tips on a page.
 
 ## Import
 
-```js
-import { Message, toaster } from 'rsuite';
-
-// or
-import Message from 'rsuite/lib/Message';
-import toaster from 'rsuite/lib/toaster';
-```
+<!--{include:(components/message/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Default
+
+<!--{include:`basic.md`}-->
+
+### Types
+
+<!--{include:`types.md`}-->
+
+### Icons
+
+<!--{include:`icons.md`}-->
+
+### Closable
+
+<!--{include:`close.md`}-->
+
+### Full
+
+<!--{include:`full.md`}-->
+
+### With toaster
+
+<!--{include:`with-toaster.md`}-->
 
 ## Props & Methods
 
@@ -32,55 +48,4 @@ import toaster from 'rsuite/lib/toaster';
 | showIcon    | boolean                                     | Whether to display an icon.                                                                                        |
 | type        | enum: 'info', 'success', 'warning', 'error' | The type of the message box.                                                                                       |
 
-### `toaster`
-
-#### toaster.push
-
-Push a message and return a unique key.
-
-```ts
-
-interface ToastContainerProps{
-  /** The placement of the message box */
-  placement?: PlacementType;
-
-  /** Set the message to appear in the specified container */
-  container?: HTMLElement | (() => HTMLElement);
-}
-
-toaster.push(message: React.ReactNode, options?: ToastContainerProps): string;
-```
-
-e.g:
-
-```js
-toaster.push(<Notification>message</Notification>, {
-  placement: 'topEnd'
-});
-```
-
-#### toaster.remove
-
-Remove a message by key
-
-```ts
-toaster.remove(key: string): void;
-```
-
-e.g:
-
-```js
-const key = toaster.push(<Notification>message</Notification>, {
-  placement: 'topEnd'
-});
-
-toaster.remove(key);
-```
-
-#### toaster.clear
-
-Clear all messages
-
-```ts
-toaster.clear(): void;
-```
+<!--{include:(components/notification/en-US/toaster.md)}-->
