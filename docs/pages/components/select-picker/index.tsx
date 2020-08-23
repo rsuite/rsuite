@@ -8,20 +8,6 @@ export default function Page() {
   const { response: data } = useFetchData('users-role');
   return (
     <DefaultPage
-      examples={[
-        'basic',
-        'appearance',
-        'size',
-        'block',
-        'group',
-        'placement',
-        'custom',
-        'disabled',
-        'searchable',
-        'async',
-        'container',
-        'controlled'
-      ]}
       dependencies={{
         PreventOverflowContainer,
         SelectPicker,
