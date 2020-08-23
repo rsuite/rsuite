@@ -1,98 +1,126 @@
-import * as React from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import setStatic from 'recompose/setStatic';
-
+import { useClassNames, useCustom } from '../utils';
 import BreadcrumbItem from './BreadcrumbItem';
-import { defaultProps, prefix, getUnhandledProps } from '../utils';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-import { BreadcrumbProps } from './Breadcrumb.d';
-
-interface BreadcrumbState {
-  ellipsis: boolean;
+export interface BreadcrumbLocale {
+  expandText?: string;
 }
 
-class Breadcrumb extends React.Component<BreadcrumbProps, BreadcrumbState> {
-  static propTypes = {
-    separator: PropTypes.node,
-    as: PropTypes.elementType,
-    children: PropTypes.node,
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    maxItems: PropTypes.number,
-    onExpand: PropTypes.func
-  };
-  static defaultProps = {
-    separator: '/',
-    maxItems: 5
-  };
+export interface BreadcrumbProps extends WithAsProps {
+  /** Shorthand for primary content of the React.ReactNode */
+  separator?: React.ReactNode;
 
-  state = {
-    ellipsis: true
-  };
+  /**
+   * Set the maximum number of breadcrumbs to display.
+   * When there are more than the maximum number,
+   * only the first and last will be shown, with an ellipsis in between.
+   * */
+  maxItems?: number;
 
-  addPrefix = (className: string) => prefix(this.props.classPrefix)(className);
-  getSeparatorNode(key) {
+  /** The locale of the custom component. */
+  locale?: BreadcrumbLocale;
+
+  /** A function to be called when you are in the collapsed view and click the ellipsis. */
+  onExpand?: (event: React.MouseEvent) => void;
+}
+
+export interface BreadcrumbComponent extends RsRefForwardingComponent<'ol', BreadcrumbProps> {
+  Item?: typeof BreadcrumbItem;
+}
+
+const defaultProps: Partial<BreadcrumbProps> = {
+  as: 'nav',
+  classPrefix: 'breadcrumb',
+  separator: '/',
+  maxItems: 5
+};
+
+const Breadcrumb: BreadcrumbComponent = React.forwardRef((props: BreadcrumbProps, ref) => {
+  const {
+    as: Component,
+    className,
+    classPrefix,
+    children,
+    maxItems,
+    separator,
+    locale: overrideLocale,
+    onExpand,
+    ...rest
+  } = props;
+
+  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+  const [ellipsis, setEllipsis] = useState(true);
+  const { locale } = useCustom<BreadcrumbLocale>('Breadcrumb', overrideLocale);
+
+  const renderSeparator = (key: number) => {
     return (
-      <li key={key} className={this.addPrefix('separator')}>
-        {this.props.separator}
+      <li key={key} aria-hidden className={prefix`separator`}>
+        {separator}
       </li>
     );
+  };
+
+  const handleClickEllipsis = useCallback(
+    (event: React.MouseEvent) => {
+      setEllipsis(false);
+      onExpand?.(event);
+    },
+    [onExpand]
+  );
+
+  const items = [];
+  const count = React.Children.count(children);
+  if (count) {
+    React.Children.forEach(children, (item, index) => {
+      items.push(item);
+      if (index < count - 1) {
+        items.push(renderSeparator(index));
+      }
+    });
   }
-  getCollapseItems(items, total) {
-    if (total > this.props.maxItems && total > 2 && this.state.ellipsis) {
+
+  const renderCollapseItems = () => {
+    if (count > maxItems && count > 2 && ellipsis) {
       return [
-        items[0],
-        items[1],
+        ...items.slice(0, 2),
         [
-          <BreadcrumbItem key="2" onClick={this.handleClickEllipsis}>
-            <span>...</span>
+          <BreadcrumbItem
+            role="button"
+            key="ellipsis"
+            aria-label={locale.expandText}
+            onClick={handleClickEllipsis}
+          >
+            <span aria-hidden>...</span>
           </BreadcrumbItem>
         ],
-        items[items.length - 2],
-        items[items.length - 1]
+        ...items.slice(items.length - 2, items.length)
       ];
     }
     return items;
-  }
-  handleClickEllipsis = (event: React.MouseEvent) => {
-    this.setState({ ellipsis: false });
-    this.props.onExpand?.(event);
   };
 
-  render() {
-    const { classPrefix, as: Component, className, children, ...rest } = this.props;
-    const unhandledProps = getUnhandledProps(Breadcrumb, rest);
-    const total = React.Children.count(children);
-    const items = [];
+  const classes = merge(className, withClassPrefix());
 
-    if (total) {
-      React.Children.forEach(children, (item, index) => {
-        items.push(item);
-        if (index < total - 1) {
-          items.push(this.getSeparatorNode(index));
-        }
-      });
-    }
+  return (
+    <Component {...rest} ref={ref} className={classes}>
+      <ol>{renderCollapseItems()}</ol>
+    </Component>
+  );
+});
 
-    return (
-      <Component
-        {...unhandledProps}
-        role="navigation"
-        aria-label="breadcrumbs"
-        className={classNames(classPrefix, className)}
-      >
-        {this.getCollapseItems(items, total)}
-      </Component>
-    );
-  }
-}
+Breadcrumb.Item = BreadcrumbItem;
+Breadcrumb.displayName = 'Breadcrumb';
+Breadcrumb.defaultProps = defaultProps;
+Breadcrumb.propTypes = {
+  separator: PropTypes.node,
+  as: PropTypes.elementType,
+  children: PropTypes.node,
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  maxItems: PropTypes.number,
+  onExpand: PropTypes.func
+};
 
-const EnhancedBreadcrumb = defaultProps({
-  classPrefix: 'breadcrumb',
-  as: 'ol'
-})(Breadcrumb);
-
-setStatic('Item', BreadcrumbItem)(EnhancedBreadcrumb);
-
-export default EnhancedBreadcrumb;
+export default Breadcrumb;

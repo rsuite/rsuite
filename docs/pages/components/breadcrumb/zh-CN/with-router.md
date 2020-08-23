@@ -1,15 +1,26 @@
-### 与 Router 中的 Link 组合
+### 与 next/link 中的 Link 组合
 
 <!--start-code-->
 
 ```js
-const NavLink = props => <Breadcrumb.Item as={Link} {...props} />;
+const NavLink = React.forwardRef((props, ref) => {
+  const { href, as, ...rest } = props;
+  return (
+    <Link href={href} as={as}>
+      <a ref={ref} {...rest} />
+    </Link>
+  );
+});
 
 const instance = (
   <Breadcrumb>
-    <NavLink href="/">Home</NavLink>
-    <NavLink href="/components/overview">Components</NavLink>
-    <NavLink active>Breadcrumb</NavLink>
+    <Breadcrumb.Item as={NavLink} href="/">
+      Home
+    </Breadcrumb.Item>
+    <Breadcrumb.Item as={NavLink} href="/components/overview">
+      Components
+    </Breadcrumb.Item>
+    <Breadcrumb.Item active>Breadcrumb</Breadcrumb.Item>
   </Breadcrumb>
 );
 ReactDOM.render(instance);
