@@ -1,23 +1,21 @@
-### Active state
-
 <!--start-code-->
 
 ```js
 const instance = (
   <ButtonToolbar>
-    <Button appearance="default" active>
+    <Button appearance="default" loading>
       Default
     </Button>
-    <Button appearance="primary" active>
+    <Button appearance="primary" loading>
       Primary
     </Button>
-    <Button appearance="link" active>
+    <Button appearance="link" loading>
       Link
     </Button>
-    <Button appearance="subtle" active>
+    <Button appearance="subtle" loading>
       Subtle
     </Button>
-    <Button appearance="ghost" active>
+    <Button appearance="ghost" loading>
       Ghost
     </Button>
   </ButtonToolbar>

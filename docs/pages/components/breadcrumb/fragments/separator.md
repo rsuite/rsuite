@@ -1,5 +1,3 @@
-### 与 next/link 中的 Link 组合
-
 <!--start-code-->
 
 ```js
@@ -12,8 +10,8 @@ const NavLink = React.forwardRef((props, ref) => {
   );
 });
 
-const instance = (
-  <Breadcrumb>
+const MyBreadcrumb = ({ separator }) => (
+  <Breadcrumb separator={separator}>
     <Breadcrumb.Item as={NavLink} href="/">
       Home
     </Breadcrumb.Item>
@@ -22,6 +20,14 @@ const instance = (
     </Breadcrumb.Item>
     <Breadcrumb.Item active>Breadcrumb</Breadcrumb.Item>
   </Breadcrumb>
+);
+
+const instance = (
+  <div>
+    <MyBreadcrumb separator={'-'} />
+    <MyBreadcrumb separator={'>'} />
+    <MyBreadcrumb separator={<Icon icon="angle-right" />} />
+  </div>
 );
 ReactDOM.render(instance);
 ```

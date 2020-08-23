@@ -1,7 +1,3 @@
-### Colorful button
-
-The `color` property sets the button style, Options include: 'red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet'.
-
 <!--start-code-->
 
 ```js

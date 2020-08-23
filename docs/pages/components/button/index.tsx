@@ -6,22 +6,6 @@ import * as SvgIcons from '@/components/SvgIcons';
 export default function Page() {
   return (
     <DefaultPage
-      examples={[
-        'basic',
-        'appearance',
-        'size',
-        'color',
-        'custom',
-        'icon-button',
-        'block',
-        'disabled',
-        'active',
-        'loading',
-        'group-basic',
-        'vertical',
-        'toolbar',
-        'justified'
-      ]}
       dependencies={{
         Button,
         IconButton,

@@ -1,5 +1,3 @@
-### Button Toolbar
-
 <!--start-code-->
 
 ```js

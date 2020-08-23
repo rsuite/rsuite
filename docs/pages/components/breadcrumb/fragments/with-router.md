@@ -1,5 +1,3 @@
-### Used with `Link` in `next/link`
-
 <!--start-code-->
 
 ```js

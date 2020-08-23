@@ -1,7 +1,3 @@
-### With Expand
-
-Should automatically collapse if there are more than 5 items. Use `maxItems` to set the maximum number of breadcrumbs to display.
-
 <!--start-code-->
 
 ```js

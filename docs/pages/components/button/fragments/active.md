@@ -1,23 +1,21 @@
-### Loading State
-
 <!--start-code-->
 
 ```js
 const instance = (
   <ButtonToolbar>
-    <Button appearance="default" loading>
+    <Button appearance="default" active>
       Default
     </Button>
-    <Button appearance="primary" loading>
+    <Button appearance="primary" active>
       Primary
     </Button>
-    <Button appearance="link" loading>
+    <Button appearance="link" active>
       Link
     </Button>
-    <Button appearance="subtle" loading>
+    <Button appearance="subtle" active>
       Subtle
     </Button>
-    <Button appearance="ghost" loading>
+    <Button appearance="ghost" active>
       Ghost
     </Button>
   </ButtonToolbar>

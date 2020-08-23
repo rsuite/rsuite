@@ -1,5 +1,3 @@
-### Custom combination button
-
 <!--start-code-->
 
 ```js

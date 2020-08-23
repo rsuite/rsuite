@@ -1,5 +1,3 @@
-### Vertical ButtonGroup
-
 <!--start-code-->
 
 ```js

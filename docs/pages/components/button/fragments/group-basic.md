@@ -1,16 +1,14 @@
-### Justified
-
-The buttons are laid out horizontally in the button set and are equally wide.
-
 <!--start-code-->
 
 ```js
 const CustomButtonGroup = ({ appearance }) => (
-  <ButtonGroup style={{ marginTop: 12 }} justified>
-    <Button appearance={appearance}>Top</Button>
-    <Button appearance={appearance}>Middle</Button>
-    <Button appearance={appearance}>Bottom</Button>
-  </ButtonGroup>
+  <ButtonToolbar>
+    <ButtonGroup>
+      <Button appearance={appearance}>Left</Button>
+      <Button appearance={appearance}>Center</Button>
+      <Button appearance={appearance}>Right</Button>
+    </ButtonGroup>
+  </ButtonToolbar>
 );
 
 const instance = (
