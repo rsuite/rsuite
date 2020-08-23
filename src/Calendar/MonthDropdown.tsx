@@ -1,20 +1,17 @@
 import * as React from 'react';
+import { HTMLAttributes, Ref, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import List from 'react-virtualized/dist/commonjs/List';
-import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
-import { defaultProps, getUnhandledProps, prefix } from '../utils';
+import { AutoSizer, List } from '../Picker/VirtualizedList';
+import { useClassNames } from '../utils';
 import MonthDropdownItem from './MonthDropdownItem';
 import { getDaysInMonth, getMonth, getYear } from '../utils/dateUtils';
+import { useCalendarContext } from './CalendarContext';
 
-export interface MonthDropdownProps {
-  date: Date;
-  timeZone?: string;
+export interface MonthDropdownProps extends HTMLAttributes<HTMLDivElement> {
   limitEndYear?: number;
   className?: string;
   classPrefix?: string;
   show: boolean;
-  onSelect?: (month: Date, event: React.MouseEvent) => void;
   disabledMonth?: (date: Date) => boolean;
 }
 
@@ -40,131 +37,117 @@ function getRowHeight(count: number) {
   };
 }
 
-class MonthDropdown extends React.PureComponent<MonthDropdownProps> {
-  static propTypes = {
-    date: PropTypes.instanceOf(Date),
-    timeZone: PropTypes.string,
-    limitEndYear: PropTypes.number,
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    show: PropTypes.bool,
-    onSelect: PropTypes.func,
-    disabledMonth: PropTypes.func
-  };
-  static defaultProps = {
-    show: false,
-    limitEndYear: 5,
-    date: new Date()
-  };
+const defaultProps = {
+  show: false,
+  limitEndYear: 5,
+  classPrefix: 'calendar-month-dropdown'
+};
 
-  componentDidUpdate() {
-    this.list?.forceUpdateGrid();
-  }
+const MonthDropdown = React.forwardRef((props: MonthDropdownProps, ref: Ref<HTMLDivElement>) => {
+  const { classPrefix, disabledMonth, className, show, limitEndYear, ...rest } = props;
+  const { date = new Date() } = useCalendarContext();
 
-  getRowCount = () => {
-    const { limitEndYear } = this.props;
-    return getYear(new Date()) + limitEndYear;
-  };
+  const getRowCount = useCallback(() => getYear(new Date()) + limitEndYear, [limitEndYear]);
 
-  list = null;
+  const { prefix, merge, rootPrefix } = useClassNames(classPrefix);
 
-  bindListRef = ref => {
-    this.list = ref;
-  };
+  const isMonthDisabled = useCallback(
+    (year, month) => {
+      if (disabledMonth) {
+        const days = getDaysInMonth(new Date(year, month));
 
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
-
-  disabledMonth(year, month) {
-    const { disabledMonth } = this.props;
-
-    if (disabledMonth) {
-      const days = getDaysInMonth(new Date(year, month));
-
-      // If all dates in a month are disabled, disable the current month
-      for (let i = 1; i <= days; i++) {
-        if (!disabledMonth(new Date(year, month, i))) {
-          return false;
+        // If all dates in a month are disabled, disable the current month
+        for (let i = 1; i <= days; i++) {
+          if (!disabledMonth(new Date(year, month, i))) {
+            return false;
+          }
         }
+        return true;
       }
-      return true;
-    }
 
-    return false;
-  }
-  rowRenderer = ({ index, key, style }: RowProps) => {
-    const { date, onSelect, timeZone } = this.props;
-    const selectedMonth = getMonth(date);
-    const selectedYear = getYear(date);
-    const year = index + 1;
-    const isSelectedYear = year === selectedYear;
-    const count = this.getRowCount();
-    const titleClassName = classNames(this.addPrefix('year'), {
-      [this.addPrefix('year-active')]: isSelectedYear
-    });
+      return false;
+    },
+    [disabledMonth]
+  );
 
-    const rowClassName = classNames(this.addPrefix('row'), {
-      'first-row': index === 0,
-      'last-row': index === count - 1
-    });
+  const rowRenderer = useCallback(
+    ({ index, key, style }: RowProps) => {
+      const selectedMonth = getMonth(date);
+      const selectedYear = getYear(date);
+      const year = index + 1;
+      const isSelectedYear = year === selectedYear;
+      const count = getRowCount();
+      const titleClassName = merge(prefix('year'), {
+        [prefix('year-active')]: isSelectedYear
+      });
 
-    return (
-      <div className={rowClassName} key={key} style={style}>
-        <div className={titleClassName}>{year}</div>
-        <div className={this.addPrefix('list')}>
-          {monthMap.map((item, month) => {
-            return (
-              <MonthDropdownItem
-                date={date}
-                timeZone={timeZone}
-                onSelect={onSelect}
-                disabled={this.disabledMonth(year, month)}
-                active={isSelectedYear && month === selectedMonth}
-                key={`${month}_${item}`}
-                month={month + 1}
-                year={year}
-              />
-            );
-          })}
-        </div>
-      </div>
-    );
-  };
-  render() {
-    const { classPrefix, className, date, show, ...rest } = this.props;
-    const unhandled = getUnhandledProps(MonthDropdown, rest);
-    const count = this.getRowCount();
-    const classes = classNames(classPrefix, className, {
-      show
-    });
+      const rowClassName = merge(prefix('row'), {
+        'first-row': index === 0,
+        'last-row': index === count - 1
+      });
 
-    return (
-      <div {...unhandled} className={classes}>
-        <div className={this.addPrefix('content')}>
-          <div className={this.addPrefix('scroll')}>
-            {show && (
-              <AutoSizer defaultHeight={defaultHeight} defaultWidth={defaultWidth}>
-                {({ height, width }) => (
-                  <List
-                    className={this.addPrefix('row-wrapper')}
-                    ref={this.bindListRef}
-                    width={width || defaultWidth}
-                    height={height || defaultHeight}
-                    rowHeight={getRowHeight(count)}
-                    rowCount={count}
-                    scrollToIndex={getYear(date)}
-                    rowRenderer={this.rowRenderer}
-                  />
-                )}
-              </AutoSizer>
-            )}
+      return (
+        <div className={rowClassName} role="row" key={key} style={style}>
+          <div className={titleClassName} role="rowheader">
+            {year}
+          </div>
+          <div className={prefix('list')} role="gridcell">
+            {monthMap.map((item, month) => {
+              return (
+                <MonthDropdownItem
+                  disabled={isMonthDisabled(year, month)}
+                  active={isSelectedYear && month === selectedMonth}
+                  key={`${month}_${item}`}
+                  month={month + 1}
+                  year={year}
+                />
+              );
+            })}
           </div>
         </div>
-      </div>
-    );
-  }
-}
+      );
+    },
+    [date, getRowCount, isMonthDisabled, merge, prefix]
+  );
 
-const enhance = defaultProps<MonthDropdownProps>({
-  classPrefix: 'calendar-month-dropdown'
+  const count = getRowCount();
+  const classes = merge(rootPrefix(classPrefix), className, {
+    show
+  });
+
+  return (
+    <div {...rest} ref={ref} role="menu" className={classes}>
+      <div className={prefix('content')}>
+        <div className={prefix('scroll')}>
+          {show && (
+            <AutoSizer defaultHeight={defaultHeight} defaultWidth={defaultWidth}>
+              {({ height, width }) => (
+                <List
+                  className={prefix('row-wrapper')}
+                  width={width || defaultWidth}
+                  height={height || defaultHeight}
+                  rowHeight={getRowHeight(count)}
+                  rowCount={count}
+                  scrollToIndex={getYear(date)}
+                  rowRenderer={rowRenderer}
+                />
+              )}
+            </AutoSizer>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 });
-export default enhance(MonthDropdown);
+
+MonthDropdown.displayName = 'MonthDropdown';
+MonthDropdown.propTypes = {
+  limitEndYear: PropTypes.number,
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  show: PropTypes.bool,
+  disabledMonth: PropTypes.func
+};
+MonthDropdown.defaultProps = defaultProps;
+
+export default MonthDropdown;

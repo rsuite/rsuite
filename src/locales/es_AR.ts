@@ -64,5 +64,8 @@ export default {
     complete: 'Terminado',
     emptyFile: 'Vacío',
     upload: 'Subir'
+  },
+  CloseButton: {
+    closeLabel: 'apagar'
   }
 };

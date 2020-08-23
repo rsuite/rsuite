@@ -1,85 +1,44 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-
 import TableRow from './TableRow';
 import TableHeaderRow from './TableHeaderRow';
-import { defaultProps } from '../utils';
+import { useClassNames } from '../utils';
+import { HTMLAttributes } from 'react';
 
-export interface TableProps {
+export interface TableProps extends HTMLAttributes<HTMLDivElement> {
   rows: any[];
-  isoWeek?: boolean;
-  selected?: Date;
-  timeZone?: string;
   className?: string;
   classPrefix?: string;
-  showWeekNumbers?: boolean;
-  onSelect?: (date: Date, event: React.MouseEvent<HTMLDivElement>) => void;
-  disabledDate?: (date: Date) => boolean;
   inSameMonth?: (date: Date) => boolean;
-  renderCell?: (date: Date) => React.ReactNode;
 }
 
-class Table extends React.PureComponent<TableProps> {
-  static propTypes = {
-    rows: PropTypes.array,
-    isoWeek: PropTypes.bool,
-    timeZone: PropTypes.string,
-    selected: PropTypes.instanceOf(Date),
-    onSelect: PropTypes.func,
-    disabledDate: PropTypes.func,
-    inSameMonth: PropTypes.func,
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    renderCell: PropTypes.func
-  };
-  static defaultProps = {
-    rows: []
-  };
-  render() {
-    const {
-      rows,
-      selected,
-      onSelect,
-      disabledDate,
-      inSameMonth,
-      className,
-      classPrefix,
-      isoWeek,
-      renderCell,
-      showWeekNumbers,
-      timeZone,
-      ...rest
-    } = this.props;
-
-    const classes = classNames(classPrefix, className);
-
-    return (
-      <div {...rest} className={classes}>
-        <TableHeaderRow isoWeek={isoWeek} showWeekNumbers={showWeekNumbers} />
-
-        {rows.map((week, index) => (
-          <TableRow
-            /* eslint-disable */
-            key={index}
-            weekendDate={week}
-            timeZone={timeZone}
-            selected={selected}
-            onSelect={onSelect}
-            inSameMonth={inSameMonth}
-            disabledDate={disabledDate}
-            renderCell={renderCell}
-            showWeekNumbers={showWeekNumbers}
-            isoWeek={isoWeek}
-          />
-        ))}
-      </div>
-    );
-  }
-}
-
-const enhance = defaultProps<TableProps>({
+const defaultProps = {
+  rows: [],
   classPrefix: 'calendar-table'
+};
+
+const Table = React.forwardRef((props: TableProps, ref: React.Ref<HTMLDivElement>) => {
+  const { className, classPrefix, inSameMonth, rows, ...rest } = props;
+  const { merge, rootPrefix } = useClassNames(classPrefix);
+  const classes = merge(rootPrefix(classPrefix), className);
+
+  return (
+    <div {...rest} ref={ref} role="table" className={classes}>
+      <TableHeaderRow />
+      {rows.map((week, index) => (
+        <TableRow key={index} weekendDate={week} inSameMonth={inSameMonth} />
+      ))}
+    </div>
+  );
 });
 
-export default enhance(Table);
+Table.displayName = 'Table';
+Table.propTypes = {
+  rows: PropTypes.array,
+  inSameMonth: PropTypes.func,
+  className: PropTypes.string,
+  classPrefix: PropTypes.string
+};
+Table.defaultProps = defaultProps;
+
+export default Table;

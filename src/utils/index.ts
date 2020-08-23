@@ -3,6 +3,7 @@ export * from './htmlPropsUtils';
 
 export { default as withStyleProps } from './withStyleProps';
 
+export { default as guid } from './guid';
 export { default as prefix, defaultClassPrefix, getClassNamePrefix, globalKey } from './prefix';
 export { default as createChainedFunction } from './createChainedFunction';
 export { default as defaultProps } from './defaultProps';
@@ -29,3 +30,4 @@ export { default as useCustom } from './useCustom';
 export { default as usePortal } from './usePortal';
 export { default as createComponent } from './createComponent';
 export { default as useTimeout } from './useTimeout';
+export { default as useControlled } from './useControlled';

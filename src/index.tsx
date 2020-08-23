@@ -7,7 +7,6 @@ export { default as Whisper } from './Whisper';
 export { default as Tooltip } from './Tooltip';
 export { default as Popover } from './Popover';
 export { default as Modal } from './Modal';
-export { default as Alert } from './Alert';
 export { default as Notification } from './Notification';
 export { default as Message } from './Message';
 export { default as Drawer } from './Drawer';
@@ -19,6 +18,7 @@ export { default as Divider } from './Divider';
 export { default as Placeholder } from './Placeholder';
 export { default as Badge } from './Badge';
 export { default as Avatar } from './Avatar';
+export { default as toaster } from './toaster';
 
 // Nav
 export { default as Dropdown } from './Dropdown';

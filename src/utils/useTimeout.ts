@@ -11,7 +11,7 @@ export interface UseTimeoutFnReturn {
  * @param ms Milliseconds of the timer
  * @param open Whether to open the timer
  */
-function useTimeout(fn: Function, ms = 0, open = true): UseTimeoutFnReturn {
+function useTimeout(fn: () => void, ms = 0, open = true): UseTimeoutFnReturn {
   const timeout = useRef<ReturnType<typeof setTimeout>>();
 
   const clear = useCallback(() => {
@@ -25,7 +25,7 @@ function useTimeout(fn: Function, ms = 0, open = true): UseTimeoutFnReturn {
   useEffect(() => {
     set();
     return clear;
-  }, [fn, ms, open]);
+  }, [fn, ms, open, clear, set]);
 
   return { clear, reset: set };
 }

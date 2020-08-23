@@ -1,8 +1,11 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import TableRow from '../TableRow';
 import { getDate, format } from '../../utils/dateUtils';
+import { CalendarProvider } from '../CalendarContext';
+import { createTestContainer } from '../../../test/testUtils';
 
 describe('Calendar-TableRow', () => {
   it('Should render a div with `table-row` class', () => {
@@ -25,9 +28,14 @@ describe('Calendar-TableRow', () => {
     const doneOp = () => {
       done();
     };
-    const instance = getDOMNode(<TableRow onSelect={doneOp} />);
-    const instanceDOM = instance;
-    ReactTestUtils.Simulate.click(instanceDOM.querySelector('.rs-calendar-table-cell'));
+    const ref = React.createRef();
+    ReactDOM.render(
+      <CalendarProvider value={{ onSelect: doneOp }}>
+        <TableRow ref={ref} />
+      </CalendarProvider>,
+      createTestContainer()
+    );
+    ReactTestUtils.Simulate.click(ref.current.querySelector('.rs-calendar-table-cell'));
   });
 
   it('Should have a custom className', () => {
@@ -47,17 +55,29 @@ describe('Calendar-TableRow', () => {
   });
 
   it('Should render a week number', () => {
-    const instance = getDOMNode(<TableRow showWeekNumbers />);
+    const ref = React.createRef();
+    ReactDOM.render(
+      <CalendarProvider value={{ showWeekNumbers: true }}>
+        <TableRow ref={ref} />
+      </CalendarProvider>,
+      createTestContainer()
+    );
     assert.equal(
-      instance.querySelector('.rs-calendar-table-cell-week-number').innerText,
+      ref.current.querySelector('.rs-calendar-table-cell-week-number').innerText,
       format(new Date(), 'w')
     );
   });
 
   it('Should render a ISO week number', () => {
-    const instance = getDOMNode(<TableRow showWeekNumbers isoWeek />);
+    const ref = React.createRef();
+    ReactDOM.render(
+      <CalendarProvider value={{ showWeekNumbers: true, isoWeek: true }}>
+        <TableRow ref={ref} />
+      </CalendarProvider>,
+      createTestContainer()
+    );
     assert.equal(
-      instance.querySelector('.rs-calendar-table-cell-week-number').innerText,
+      ref.current.querySelector('.rs-calendar-table-cell-week-number').innerText,
       format(new Date(), 'I')
     );
   });

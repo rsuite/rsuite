@@ -1,6 +1,9 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { getDOMNode } from '@test/testUtils';
 import TableHeaderRow from '../TableHeaderRow';
+import { CalendarProvider } from '../CalendarContext';
+import { createTestContainer } from '../../../test/testUtils';
 
 describe('Calendar-TableHeaderRow', () => {
   it('Should render a div with "table-header-row" class', () => {
@@ -27,7 +30,13 @@ describe('Calendar-TableHeaderRow', () => {
   });
 
   it('Should render an empty cell for a week number column', () => {
-    const instance = getDOMNode(<TableHeaderRow showWeekNumbers />);
-    assert.equal(instance.childNodes.length, 8);
+    const ref = React.createRef();
+    ReactDOM.render(
+      <CalendarProvider value={{ showWeekNumbers: true }}>
+        <TableHeaderRow ref={ref} />
+      </CalendarProvider>,
+      createTestContainer()
+    );
+    assert.equal(ref.current.childNodes.length, 8);
   });
 });

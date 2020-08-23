@@ -1,89 +1,101 @@
-import * as React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
-import classNames from 'classnames';
-import shallowEqual from '../utils/shallowEqual';
+import cloneDeep from 'lodash/cloneDeep';
+import remove from 'lodash/remove';
+import { useClassNames, useControlled, shallowEqual } from '../utils';
+import { WithAsProps, FormControlBaseProps, RsRefForwardingComponent } from '../@types/common';
+import { ValueType } from '../Checkbox/Checkbox';
 
-import { getUnhandledProps, defaultProps, prefix, createContext } from '../utils';
-import { CheckboxGroupProps, CheckboxContextProps } from './CheckboxGroup.d';
+export interface CheckboxGroupProps<V = ValueType[]> extends WithAsProps, FormControlBaseProps<V> {
+  /** Used for the name of the form */
+  name?: string;
 
-interface State {
-  value: any[];
+  /** Primary content */
+  children?: React.ReactNode;
+
+  /** Inline layout */
+  inline?: boolean;
 }
 
-export const CheckboxContext = createContext<CheckboxContextProps>({});
+const defaultProps: Partial<CheckboxGroupProps> = {
+  as: 'div',
+  classPrefix: 'checkbox-group'
+};
 
-class CheckboxGroup extends React.Component<CheckboxGroupProps, State> {
-  static propTypes = {
-    name: PropTypes.string,
-    className: PropTypes.string,
-    inline: PropTypes.bool,
-    value: PropTypes.array,
-    defaultValue: PropTypes.array,
-    onChange: PropTypes.func,
-    children: PropTypes.array,
-    classPrefix: PropTypes.string
-  };
-  constructor(props: CheckboxGroupProps) {
-    super(props);
-    this.state = {
-      value: props.defaultValue || []
-    };
-  }
+export interface CheckboxGroupContextValue {
+  inline?: boolean;
+  name?: string;
+  value?: any;
+  controlled?: boolean;
+  onChange?: (value: any, checked: boolean, event: React.SyntheticEvent<HTMLInputElement>) => void;
+}
 
-  getValue() {
-    const { value } = this.props;
-    return _.isUndefined(value) ? this.state.value : value;
-  }
+export const CheckboxGroupContext = React.createContext<CheckboxGroupContextValue>(null);
 
-  getContextProps = (): CheckboxContextProps => {
-    const { inline, name, value } = this.props;
+const CheckboxGroup: RsRefForwardingComponent<'div', CheckboxGroupProps> = React.forwardRef(
+  (props: CheckboxGroupProps, ref) => {
+    const {
+      as: Component,
+      className,
+      inline,
+      children,
+      name,
+      value: valueProp,
+      defaultValue,
+      classPrefix,
+      onChange,
+      ...rest
+    } = props;
 
-    return {
+    const { merge, withClassPrefix } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix({ inline }));
+    const [value, setValue, isControlled] = useControlled<ValueType[]>(valueProp, defaultValue);
+    const handleChange = useCallback(
+      (itemValue: any, itemChecked: boolean, event: React.SyntheticEvent) => {
+        const nextValue = cloneDeep(value) || [];
+
+        if (itemChecked) {
+          nextValue.push(itemValue);
+        } else {
+          remove(nextValue, i => shallowEqual(i, itemValue));
+        }
+
+        setValue(nextValue);
+        onChange?.(nextValue, event);
+      },
+      [onChange, setValue, value]
+    );
+
+    const contextValue: CheckboxGroupContextValue = {
       inline,
       name,
-      value: this.getValue(),
-      controlled: !_.isUndefined(value),
-      onChange: this.handleChange
+      value,
+      controlled: isControlled,
+      onChange: handleChange
     };
-  };
-
-  handleChange = (
-    itemValue: any,
-    itemChecked: boolean,
-    event: React.SyntheticEvent<HTMLElement>
-  ) => {
-    const nextValue = _.cloneDeep(this.getValue()) || [];
-
-    if (itemChecked) {
-      nextValue.push(itemValue);
-    } else {
-      _.remove(nextValue, i => shallowEqual(i, itemValue));
-    }
-
-    this.setState({ value: nextValue });
-    this.props.onChange?.(nextValue, event);
-  };
-
-  render() {
-    const { className, inline, children, classPrefix, ...props } = this.props;
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, className, {
-      [addPrefix('inline')]: inline
-    });
-
-    const unhandled = getUnhandledProps(CheckboxGroup, props);
 
     return (
-      <CheckboxContext.Provider value={this.getContextProps()}>
-        <div {...unhandled} role="group" className={classes}>
+      <CheckboxGroupContext.Provider value={contextValue}>
+        <Component {...rest} ref={ref} role="group" className={classes}>
           {children}
-        </div>
-      </CheckboxContext.Provider>
+        </Component>
+      </CheckboxGroupContext.Provider>
     );
   }
-}
+);
 
-export default defaultProps<CheckboxGroupProps>({
-  classPrefix: 'checkbox-group'
-})(CheckboxGroup);
+CheckboxGroup.displayName = 'CheckboxGroup';
+CheckboxGroup.defaultProps = defaultProps;
+CheckboxGroup.propTypes = {
+  as: PropTypes.elementType,
+  name: PropTypes.string,
+  className: PropTypes.string,
+  inline: PropTypes.bool,
+  value: PropTypes.array,
+  defaultValue: PropTypes.array,
+  onChange: PropTypes.func,
+  children: PropTypes.array,
+  classPrefix: PropTypes.string
+};
+
+export default CheckboxGroup;

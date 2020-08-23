@@ -15,6 +15,8 @@ function usePortal({ id, container }: PortalProps) {
   useEffect(() => {
     const containerElement = typeof container === 'function' ? container() : container;
 
+    const root = rootElemRef.current;
+
     // Look for existing target dom element to append to
     const existingParent = id && document.querySelector(`#${id}`);
 
@@ -22,12 +24,12 @@ function usePortal({ id, container }: PortalProps) {
     const parentElement = containerElement || existingParent || document.body;
 
     // Add the detached element to the parent
-    parentElement.appendChild(rootElemRef.current);
+    parentElement.appendChild(root);
 
     return () => {
-      rootElemRef.current?.remove();
+      root?.remove();
     };
-  }, [rootElemRef, container]);
+  }, [rootElemRef, container, id]);
 
   const Portal = useCallback(
     ({ children }: { children: React.ReactNode }) => {

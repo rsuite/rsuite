@@ -16,7 +16,8 @@ import {
   tplTransform,
   getDataGroupBy,
   useClassNames,
-  useCustom
+  useCustom,
+  useControlled
 } from '../utils';
 
 import {
@@ -49,7 +50,8 @@ export interface InputPickerLocaleType extends PickerLocaleType {
   createOption?: string;
 }
 
-export interface InputPickerProps<T = any>
+export type ValueType = any;
+export interface InputPickerProps<T = ValueType>
   extends FormControlPickerProps<T, InputPickerLocaleType, InputItemDataType>,
     SelectProps<T> {
   multi?: boolean;
@@ -114,7 +116,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       menuAutoWidth,
       menuMaxHeight,
       creatable,
-      value,
+      value: valueProp,
       valueKey,
       virtualized,
       labelKey,
@@ -154,7 +156,6 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     const { locale } = useCustom<InputPickerLocaleType>(['Picker', 'InputPicker'], overrideLocale);
 
     const { prefix, merge } = useClassNames(classPrefix);
-    const [uncontrolledValue, setValue] = useState(multi ? defaultValue || [] : defaultValue);
     const [uncontrolledData, setData] = useState(controlledData);
     const [maxWidth, setMaxWidth] = useState(100);
     const [newData, setNewData] = useState([]);
@@ -169,13 +170,13 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       getAllData,
       cacheData
     ]);
-    const getValue = useCallback(() => {
-      const nextValue = isUndefined(value) ? uncontrolledValue : value;
-      if (multi) {
-        return clone(nextValue) || [];
-      }
-      return nextValue;
-    }, [value, multi, uncontrolledValue]);
+
+    const [value, setValue] = useControlled<ValueType>(
+      valueProp,
+      multi ? defaultValue || [] : defaultValue
+    );
+
+    const cloneValue = () => (multi ? clone(value) || [] : value);
 
     const handleClose = useCallback(() => {
       triggerRef?.current?.hide?.();
@@ -187,7 +188,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     // Used to hover the focuse item  when trigger `onKeydown`
     const { focusItemValue, setFocusItemValue, onKeyDown } = useFocusItemValue(
-      multi ? getValue()?.[0] : getValue(),
+      multi ? value?.[0] : value,
       {
         data: getAllDataAndCache(),
         valueKey,
@@ -233,7 +234,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     // Update the position of the menu when the search keyword and value change
     useEffect(() => {
       positionRef.current?.updatePosition?.(true);
-    }, [searchKeyword, uncontrolledValue]);
+    }, [searchKeyword, value]);
 
     const getDateItem = (value: any) => {
       // Find active `MenuItem` by `value`
@@ -293,12 +294,12 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     const handleRemoveItemByTag = useCallback(
       (tag: string, event: React.MouseEvent) => {
         event.stopPropagation();
-        const value = getValue();
-        remove(value, itemVal => shallowEqual(itemVal, tag));
-        setValue(value);
-        handleChange(value, event);
+        const val = cloneValue();
+        remove(val, itemVal => shallowEqual(itemVal, tag));
+        setValue(val);
+        handleChange(val, event);
       },
-      [getValue, handleChange]
+      [cloneValue, handleChange]
     );
 
     const handleSelect = useCallback(
@@ -328,24 +329,24 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       event: React.MouseEvent,
       checked: boolean
     ) => {
-      const value = getValue();
+      const val = cloneValue();
       if (checked) {
-        value.push(nextItemValue);
+        val.push(nextItemValue);
       } else {
-        remove(value, itemVal => shallowEqual(itemVal, nextItemValue));
+        remove(val, itemVal => shallowEqual(itemVal, nextItemValue));
       }
 
-      setValue(value);
+      setValue(val);
       setSearchKeyword('');
       setFocusItemValue(nextItemValue);
-      handleSelect(value, item, event);
-      handleChange(value, event);
+      handleSelect(val, item, event);
+      handleChange(val, event);
       focusInput();
     };
 
     const selectFocusMenuCheckItem = useCallback(
       (event: React.KeyboardEvent) => {
-        const value = getValue();
+        const val = cloneValue();
         const data = getAllData();
 
         if (!focusItemValue || !data) {
@@ -357,10 +358,10 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           return;
         }
 
-        if (!value.some(v => shallowEqual(v, focusItemValue))) {
-          value.push(focusItemValue);
+        if (!val.some(v => shallowEqual(v, focusItemValue))) {
+          val.push(focusItemValue);
         } else {
-          remove(value, itemVal => shallowEqual(itemVal, focusItemValue));
+          remove(val, itemVal => shallowEqual(itemVal, focusItemValue));
         }
 
         let focusItem = data.find(item => shallowEqual(item?.[valueKey], focusItemValue));
@@ -369,13 +370,13 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           focusItem = createOption(focusItemValue);
         }
 
-        setValue(value);
+        setValue(val);
         setSearchKeyword('');
-        handleSelect(value, focusItem, event);
-        handleChange(value, event);
+        handleSelect(val, focusItem, event);
+        handleChange(val, event);
       },
       [
-        getValue,
+        cloneValue,
         getAllData,
         handleChange,
         handleSelect,
@@ -454,12 +455,12 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         if (target?.tagName === 'INPUT' && target?.value) {
           return;
         }
-        const value = getValue();
-        value.pop();
-        setValue(value);
-        handleChange(value, event);
+        const val = cloneValue();
+        val.pop();
+        setValue(val);
+        handleChange(val, event);
       },
-      [focusInput, handleChange, getValue]
+      [focusInput, handleChange, cloneValue]
     );
 
     const handleClean = useCallback(
@@ -510,7 +511,6 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     );
 
     const handleExited = useCallback(() => {
-      const value = getValue();
       setFocusItemValue(multi ? value?.[0] : value);
 
       if (multi) {
@@ -520,7 +520,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       }
 
       onClose?.();
-    }, [setFocusItemValue, setSearchKeyword, onClose, getValue, multi]);
+    }, [setFocusItemValue, setSearchKeyword, onClose, value, multi]);
 
     const handleEnter = useCallback(() => {
       focusInput();
@@ -546,7 +546,6 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       if (multi) {
         return { isValid: false, displayElement: placeholder };
       }
-      const value = getValue();
       const dataItem = getDateItem(value);
       let displayElement = dataItem.displayElement;
 
@@ -563,7 +562,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       }
 
       const { closable = true, onClose, ...tagRest } = tagProps;
-      const tags = getValue() || [];
+      const tags = value || [];
       const items = [];
 
       const tagElements = tags
@@ -590,7 +589,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         .filter(item => item !== null);
 
       if (tags.length > 0 && isFunction(renderValue)) {
-        return renderValue(getValue(), items, tagElements);
+        return renderValue(value, items, tagElements);
       }
 
       return tagElements;
@@ -617,7 +616,6 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         items = items.sort(sort(false));
       }
 
-      const value = getValue();
       const menu = items.length ? (
         <DropdownMenu
           listProps={listProps}

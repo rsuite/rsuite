@@ -1,6 +1,5 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
-
 import Divider from '../Divider';
 
 describe('Divider', () => {

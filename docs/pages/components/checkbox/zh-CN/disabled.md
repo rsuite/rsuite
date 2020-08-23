@@ -7,7 +7,6 @@ const instance = (
   <div>
     <Checkbox disabled> Default</Checkbox>
     <Checkbox defaultChecked disabled>
-      {' '}
       Checked
     </Checkbox>
   </div>

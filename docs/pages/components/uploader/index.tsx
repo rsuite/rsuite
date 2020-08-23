@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Uploader, Icon, Button, Loader, Alert } from 'rsuite';
+import { Uploader, Icon, Button, Loader } from 'rsuite';
 import DefaultPage from '@/components/Page';
 
 export default function Page() {
@@ -17,7 +17,7 @@ export default function Page() {
         'manually',
         'controlled'
       ]}
-      dependencies={{ Uploader, Icon, Button, Loader, Alert }}
+      dependencies={{ Uploader, Icon, Button, Loader }}
     />
   );
 }

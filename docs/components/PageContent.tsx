@@ -97,9 +97,36 @@ export interface PageContentProps {
   hidePageNav?: boolean;
 }
 
+const ViewCode = ({ source, dependencies, path }) => {
+  return (
+    <CustomCodeView
+      source={source}
+      dependencies={dependencies}
+      renderToolbar={showCodeButton => {
+        return (
+          <React.Fragment>
+            <Whisper placement="top" speaker={<Tooltip>Show the source</Tooltip>}>
+              {showCodeButton}
+            </Whisper>{' '}
+            <Whisper placement="top" speaker={<Tooltip>See the source on GitHub</Tooltip>}>
+              <IconButton
+                appearance="subtle"
+                icon={<Icon icon="github" />}
+                circle
+                size="xs"
+                target="_blank"
+                href={path}
+              />
+            </Whisper>
+          </React.Fragment>
+        );
+      }}
+    />
+  );
+};
+
 const PageContent = ({
   category = 'components',
-  examples = [],
   dependencies,
   tabExamples,
   children,
@@ -118,65 +145,45 @@ const PageContent = ({
   const description = getDescription(context);
   const pageHead = <Head title={title} description={description} />;
 
-  if (!examples?.length) {
-    return (
-      <PageContainer routerId={pathname} hidePageNav={hidePageNav}>
-        {pageHead}
-        <Markdown>{context}</Markdown>
-        {children}
-      </PageContainer>
-    );
-  }
-
-  const componentExamples = examples.map(item => ({
-    source: require(`../pages${pathname}${localePath}/${item}.md`),
-    path: `https://github.com/rsuite/rsuite/tree/master/docs/pages${pathname}${localePath}/${item}.md`
-  }));
-
   const component = components.find(item => item.id === id || item.name === id);
   const designHash = component?.designHash;
 
-  const docs = context.split('<!--{demo}-->');
-  const header = docs[0];
-  const footer = docs[1];
+  const fragments = context.split(/<!--{(\S+)}-->/);
 
   return (
     <PageContainer designHash={designHash} routerId={pathname} hidePageNav={hidePageNav}>
       {pageHead}
-      <Markdown>{header}</Markdown>
-      {componentExamples.map((item, index) => (
-        <CustomCodeView
-          key={index}
-          source={item.source}
-          dependencies={dependencies}
-          renderToolbar={showCodeButton => {
-            return (
-              <React.Fragment>
-                <Whisper placement="top" speaker={<Tooltip>Show the source</Tooltip>}>
-                  {showCodeButton}
-                </Whisper>{' '}
-                <Whisper placement="top" speaker={<Tooltip>See the source on GitHub</Tooltip>}>
-                  <IconButton
-                    appearance="subtle"
-                    icon={<Icon icon="github" />}
-                    circle
-                    size="xs"
-                    target="_blank"
-                    href={item.path}
-                  />
-                </Whisper>
-              </React.Fragment>
-            );
-          }}
-        />
-      ))}
+      {fragments.map((item, index) => {
+        // Import sample code
+        const codeName = item.match(/include:`(\S+)`/)?.[1];
+
+        if (codeName) {
+          return (
+            <ViewCode
+              key={index}
+              source={require(`../pages${pathname}/fragments/${codeName}`)}
+              dependencies={dependencies}
+              path={`https://github.com/rsuite/rsuite/tree/master/docs/pages${pathname}/fragments/${codeName}`}
+            />
+          );
+        }
+
+        // Import markdown documents
+        const markdownFile = item.match(/include:\((\S+)\)/)?.[1];
+
+        if (markdownFile) {
+          return <Markdown key={index}>{require(`../pages/${markdownFile}`)}</Markdown>;
+        }
+
+        return <Markdown key={index}>{item}</Markdown>;
+      })}
+
       <Tabs
         title={messages?.common?.advanced}
         tabExamples={tabExamples}
         dependencies={dependencies}
       />
 
-      <Markdown>{footer}</Markdown>
       {children}
     </PageContainer>
   );

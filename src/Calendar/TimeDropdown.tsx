@@ -1,10 +1,13 @@
 import * as React from 'react';
+import { HTMLAttributes, Ref, useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { getPosition, scrollTop } from 'dom-lib';
-import classNames from 'classnames';
-import _ from 'lodash';
-import FormattedMessage from '../IntlProvider/FormattedMessage';
-import { defaultProps, getUnhandledProps, prefix } from '../utils';
+import omitBy from 'lodash/omitBy';
+import partial from 'lodash/partial';
+import camelCase from 'lodash/camelCase';
+import isNumber from 'lodash/isNumber';
+
+import { useClassNames } from '../utils';
 import {
   getHours,
   getMinutes,
@@ -15,12 +18,11 @@ import {
 } from '../utils/dateUtils';
 import scrollTopAnimation from '../utils/scrollTopAnimation';
 import { zonedDate } from '../utils/timeZone';
+import { useCalendarContext } from './CalendarContext';
+import { CalendarInnerContextValue } from './types';
 
-export interface TimeDropdownProps {
-  date?: Date;
+export interface TimeDropdownProps extends HTMLAttributes<HTMLDivElement> {
   show: boolean;
-  format?: string;
-  timeZone?: string;
   className?: string;
   classPrefix?: string;
   showMeridian?: boolean;
@@ -31,10 +33,16 @@ export interface TimeDropdownProps {
   hideHours?: (hour: number, date: Date) => boolean;
   hideMinutes?: (minute: number, date: Date) => boolean;
   hideSeconds?: (second: number, date: Date) => boolean;
-  onSelect?: (nextDate: Date, event: React.MouseEvent) => void;
 }
 
+const defaultProps = {
+  show: false,
+  classPrefix: 'calendar-time-dropdown'
+};
+
 type TimeType = 'hours' | 'minutes' | 'seconds';
+
+type UListRefs = Record<TimeType, HTMLUListElement>;
 
 function getRanges(meridian) {
   return {
@@ -44,84 +52,64 @@ function getRanges(meridian) {
   };
 }
 
-export function getMeridianHours(hours) {
+export function getMeridianHours(hours: number): number {
   return hours >= 12 ? hours - 12 : hours;
 }
 
-class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
-  static propTypes = {
-    date: PropTypes.instanceOf(Date),
-    show: PropTypes.bool,
-    showMeridian: PropTypes.bool,
-    format: PropTypes.string,
-    timeZone: PropTypes.string,
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    disabledDate: PropTypes.func,
-    disabledHours: PropTypes.func,
-    disabledMinutes: PropTypes.func,
-    disabledSeconds: PropTypes.func,
-    hideHours: PropTypes.func,
-    hideMinutes: PropTypes.func,
-    hideSeconds: PropTypes.func,
-    onSelect: PropTypes.func
-  };
-  static defaultProps = {
-    show: false
-  };
+interface Time {
+  hours?: number;
+  minutes?: number;
+  seconds?: number;
+}
+const getTime = (props: Partial<TimeDropdownProps> & Partial<CalendarInnerContextValue>): Time => {
+  const { format, timeZone, date, showMeridian } = props;
+  const time = date || zonedDate(timeZone);
+  const nextTime = {} as Time;
 
-  container = {};
-
-  componentDidMount() {
-    this.updatePosition();
-  }
-
-  componentDidUpdate() {
-    this.updatePosition();
-  }
-
-  getTime(props?: TimeDropdownProps): any {
-    const { format, timeZone, date, showMeridian } = props || this.props;
-    const time = date || zonedDate(timeZone);
-    const nextTime: any = {};
-
-    if (!format) {
-      return nextTime;
-    }
-
-    if (/(H|h)/.test(format)) {
-      const hours = getHours(time);
-      nextTime.hours = showMeridian ? getMeridianHours(hours) : hours;
-    }
-    if (/m/.test(format)) {
-      nextTime.minutes = getMinutes(time);
-    }
-    if (/s/.test(format)) {
-      nextTime.seconds = getSeconds(time);
-    }
+  if (!format) {
     return nextTime;
   }
 
-  updatePosition(props?: TimeDropdownProps) {
-    const { show } = props || this.props;
-    const time = this.getTime(props);
-    show && this.scrollTo(time);
+  if (/(H|h)/.test(format)) {
+    const hours = getHours(time);
+    nextTime.hours = showMeridian ? getMeridianHours(hours) : hours;
   }
+  if (/m/.test(format)) {
+    nextTime.minutes = getMinutes(time);
+  }
+  if (/s/.test(format)) {
+    nextTime.seconds = getSeconds(time);
+  }
+  return nextTime;
+};
 
-  scrollTo = (time: any) => {
-    Object.entries(time).forEach((item: any) => {
-      const container: Element = this.container[item[0]];
-      const node = container.querySelector(`[data-key="${item[0]}-${item[1]}"]`);
-      if (node && container) {
-        const { top } = getPosition(node, container);
-        scrollTopAnimation(this.container[item[0]], top, scrollTop(this.container[item[0]]) !== 0);
-      }
+const scrollTo = (time: Time, ulRefs: UListRefs) => {
+  Object.entries(time).forEach((item: [string, number]) => {
+    const container: Element = ulRefs[item[0]];
+    const node = container?.querySelector(`[data-key="${item[0]}-${item[1]}"]`);
+    if (node && container) {
+      const { top } = getPosition(node, container);
+      scrollTopAnimation(ulRefs[item[0]], top, scrollTop(ulRefs[item[0]]) !== 0);
+    }
+  });
+};
+
+const TimeDropdown = React.forwardRef((props: TimeDropdownProps, ref: Ref<HTMLDivElement>) => {
+  const { className, classPrefix, show, showMeridian, ...rest } = props;
+  const { locale, format, timeZone, date, onChangePageTime: onSelect } = useCalendarContext();
+  const ulRefs = useRef<UListRefs>({} as UListRefs);
+
+  const updatePosition = useCallback(() => {
+    const time = getTime({
+      format,
+      timeZone,
+      date,
+      showMeridian
     });
-  };
+    show && scrollTo(time, ulRefs.current);
+  }, [show, format, timeZone, date, showMeridian]);
 
-  handleClick = (type: TimeType, d: number, event: React.MouseEvent) => {
-    const { onSelect, date } = this.props;
-    // $FlowFixMe
+  const handleClick = (type: TimeType, d: number, event: React.MouseEvent) => {
     let nextDate = date || new Date();
 
     switch (type) {
@@ -139,36 +127,33 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
     onSelect?.(nextDate, event);
   };
 
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
+  const { prefix, rootPrefix, merge } = useClassNames(classPrefix);
 
-  renderColumn(type: TimeType, active: any) {
-    const { showMeridian } = this.props;
-    if (!_.isNumber(active)) {
+  const renderColumn = (type: TimeType, active: any) => {
+    if (!isNumber(active)) {
       return null;
     }
-    const { date } = this.props;
     const { start, end } = getRanges(showMeridian)[type];
     const items = [];
-
-    const hideFunc = this.props[_.camelCase(`hide_${type}`)];
-    const disabledFunc = this.props[_.camelCase(`disabled_${type}`)];
+    const hideFunc = props[camelCase(`hide_${type}`)];
+    const disabledFunc = props[camelCase(`disabled_${type}`)];
 
     for (let i = start; i <= end; i += 1) {
       if (!hideFunc?.(i, date)) {
         const disabled = disabledFunc?.(i, date);
-        const itemClasses = classNames(this.addPrefix('cell'), {
-          [this.addPrefix('cell-active')]: active === i,
-          [this.addPrefix('cell-disabled')]: disabled
+        const itemClasses = merge(prefix('cell'), {
+          [prefix('cell-active')]: active === i,
+          [prefix('cell-disabled')]: disabled
         });
 
         items.push(
-          <li key={i}>
+          <li key={i} role="menuitem">
             <a
-              role="menu"
+              role="button"
               className={itemClasses}
               tabIndex={-1}
               data-key={`${type}-${i}`}
-              onClick={!disabled ? this.handleClick.bind(this, type, i) : null}
+              onClick={!disabled ? partial(handleClick, type, i) : null}
             >
               {showMeridian && type === 'hours' && i === 0 ? '12' : i}
             </a>
@@ -178,43 +163,59 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
     }
 
     return (
-      <div className={this.addPrefix('column')}>
-        <div className={this.addPrefix('column-title')}>
-          <FormattedMessage id={type} />
-        </div>
+      <div className={prefix('column')} role="listitem">
+        <div className={prefix('column-title')}>{locale?.[type]}</div>
         <ul
           ref={ref => {
-            this.container[type] = ref;
+            ulRefs.current[type] = ref;
           }}
+          role="menu"
         >
           {items}
         </ul>
       </div>
     );
-  }
+  };
 
-  render() {
-    const { className, classPrefix, ...rest } = this.props;
-    const time = this.getTime();
-    const classes = classNames(classPrefix, className);
-    const unhandled = getUnhandledProps(TimeDropdown, rest);
+  const time = getTime({ format, timeZone, date, showMeridian });
+  const classes = merge(rootPrefix(classPrefix), className);
 
-    return (
-      <div {...unhandled} className={classes}>
-        <div className={this.addPrefix('content')}>
-          <div className={this.addPrefix('row')}>
-            {this.renderColumn('hours', time.hours)}
-            {this.renderColumn('minutes', time.minutes)}
-            {this.renderColumn('seconds', time.seconds)}
-          </div>
+  useEffect(() => {
+    updatePosition();
+  }, [updatePosition]);
+
+  return (
+    <div
+      {...omitBy(rest, (_val, key) => key.startsWith('disabled') || key.startsWith('hide'))}
+      ref={ref}
+      className={classes}
+      role="list"
+    >
+      <div className={prefix('content')}>
+        <div className={prefix('row')}>
+          {renderColumn('hours', time.hours)}
+          {renderColumn('minutes', time.minutes)}
+          {renderColumn('seconds', time.seconds)}
         </div>
       </div>
-    );
-  }
-}
-
-const enhance = defaultProps<TimeDropdownProps>({
-  classPrefix: 'calendar-time-dropdown'
+    </div>
+  );
 });
 
-export default enhance(TimeDropdown);
+TimeDropdown.displayName = 'TimeDropdown';
+TimeDropdown.propTypes = {
+  show: PropTypes.bool,
+  showMeridian: PropTypes.bool,
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  disabledDate: PropTypes.func,
+  disabledHours: PropTypes.func,
+  disabledMinutes: PropTypes.func,
+  disabledSeconds: PropTypes.func,
+  hideHours: PropTypes.func,
+  hideMinutes: PropTypes.func,
+  hideSeconds: PropTypes.func
+};
+TimeDropdown.defaultProps = defaultProps;
+
+export default TimeDropdown;

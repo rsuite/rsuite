@@ -1,10 +1,12 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
-
 import TimeDropdown from '../TimeDropdown';
+import { CalendarProvider } from '../CalendarContext';
+import { createTestContainer } from '../../../test/testUtils';
 
-describe('Calendar-TimeDropdown', () => {
+describe('Calendar - TimeDropdown', () => {
   it('Should render a div with `time-dropdown` class', () => {
     const instance = getDOMNode(<TimeDropdown />);
 
@@ -13,60 +15,91 @@ describe('Calendar-TimeDropdown', () => {
   });
 
   it('Should render 3 column', () => {
-    const instance = getDOMNode(<TimeDropdown format="HH:mm:ss" />);
+    const ref = React.createRef();
+    ReactDOM.render(
+      <CalendarProvider value={{ format: 'HH:mm:ss' }}>
+        <TimeDropdown ref={ref} />
+      </CalendarProvider>,
+      createTestContainer()
+    );
 
-    assert.equal(instance.querySelectorAll('.rs-calendar-time-dropdown-column').length, 3);
+    assert.equal(ref.current.querySelectorAll('.rs-calendar-time-dropdown-column').length, 3);
   });
 
   it('Should render 2 column', () => {
-    const instance = getDOMNode(<TimeDropdown format="HH:mm" />);
+    const ref = React.createRef();
+    ReactDOM.render(
+      <CalendarProvider value={{ format: 'HH:mm' }}>
+        <TimeDropdown ref={ref} />
+      </CalendarProvider>,
+      createTestContainer()
+    );
 
-    assert.equal(instance.querySelectorAll('.rs-calendar-time-dropdown-column').length, 2);
+    assert.equal(ref.current.querySelectorAll('.rs-calendar-time-dropdown-column').length, 2);
   });
 
   it('Should render 1 column', () => {
-    const instance = getDOMNode(<TimeDropdown format="HH" />);
+    const ref = React.createRef();
+    ReactDOM.render(
+      <CalendarProvider value={{ format: 'HH' }}>
+        <TimeDropdown ref={ref} />
+      </CalendarProvider>,
+      createTestContainer()
+    );
 
-    assert.equal(instance.querySelectorAll('.rs-calendar-time-dropdown-column').length, 1);
+    assert.equal(ref.current.querySelectorAll('.rs-calendar-time-dropdown-column').length, 1);
   });
 
   it('Should call `onSelect` callback', done => {
-    const doneOp = () => {
+    const onChangePageTime = () => {
       done();
     };
+    const ref = React.createRef();
+    ReactDOM.render(
+      <CalendarProvider value={{ onChangePageTime, date: new Date(), format: 'HH' }}>
+        <TimeDropdown ref={ref} />
+      </CalendarProvider>,
+      createTestContainer()
+    );
 
-    const instance = getDOMNode(<TimeDropdown onSelect={doneOp} format="HH" />);
-
-    ReactTestUtils.Simulate.click(instance.querySelector('[data-key="hours-1"]'));
+    ReactTestUtils.Simulate.click(ref.current.querySelector('[data-key="hours-1"]'));
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(
-      <TimeDropdown
-        disabledHours={h => {
-          return h > 10;
-        }}
-        format="HH"
-      />
+    const ref = React.createRef();
+    ReactDOM.render(
+      <CalendarProvider value={{ format: 'HH' }}>
+        <TimeDropdown
+          disabledHours={h => {
+            return h > 10;
+          }}
+          ref={ref}
+        />
+      </CalendarProvider>,
+      createTestContainer()
     );
 
     assert.equal(
-      instance.querySelectorAll('.rs-calendar-time-dropdown-cell-disabled').length,
+      ref.current.querySelectorAll('.rs-calendar-time-dropdown-cell-disabled').length,
       23 - 10
     );
   });
 
   it('Should be hide', () => {
-    const instance = getDOMNode(
-      <TimeDropdown
-        hideHours={h => {
-          return h > 10;
-        }}
-        format="HH"
-      />
+    const ref = React.createRef();
+    ReactDOM.render(
+      <CalendarProvider value={{ format: 'HH' }}>
+        <TimeDropdown
+          hideHours={h => {
+            return h > 10;
+          }}
+          ref={ref}
+        />
+      </CalendarProvider>,
+      createTestContainer()
     );
 
-    assert.equal(instance.querySelectorAll('li').length, 11);
+    assert.equal(ref.current.querySelectorAll('li').length, 11);
   });
 
   it('Should have a custom className', () => {

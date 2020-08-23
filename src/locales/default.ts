@@ -65,6 +65,9 @@ export default {
     emptyFile: 'Empty',
     upload: 'Upload'
   },
+  CloseButton: {
+    closeLabel: 'Close'
+  },
   Breadcrumb: {
     expandText: 'Show path'
   }
