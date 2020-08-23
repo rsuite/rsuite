@@ -1,9 +1,11 @@
 import React from 'react';
-import { format, parseISO } from '../../utils/dateUtils';
+import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 
 import Header from '../Header';
+import { CalendarProvider } from '../CalendarContext';
+import { createTestContainer } from '../../../test/testUtils';
 
 describe('Calendar-Header', () => {
   it('Should render a div with "calendar-header" class', () => {
@@ -13,49 +15,12 @@ describe('Calendar-Header', () => {
     assert.ok(instance.className.match(/\bcalendar-header\b/));
   });
 
-  it('Should output a time for `HH:ss`', () => {
-    const date = new Date('2019-04-01 12:20:00');
-    const formatType = 'HH:ss';
-    const instance = getDOMNode(<Header showTime date={date} format={formatType} />);
-
-    assert.equal(
-      instance.querySelector('.rs-calendar-header-title-time').innerText,
-      format(parseISO('2019-04-01 12:20:00'), formatType)
-    );
-  });
-
-  it('Should output a date for `yyyy-MM-dd`', () => {
-    const date = new Date();
-    const formatType = 'yyyy-MM-dd';
-    const instance = getDOMNode(<Header showDate date={date} format={formatType} />);
-
-    assert.equal(
-      instance.querySelector('.rs-calendar-header-title-date').innerText,
-      format(new Date(), formatType)
-    );
-  });
-
-  it('Should output a date for `yyyy-MM`', () => {
-    const date = new Date();
-    const formatType = 'yyyy-MM';
-    const instance = getDOMNode(<Header showMonth date={date} format={formatType} />);
-
-    assert.equal(
-      instance.querySelector('.rs-calendar-header-title-date').innerText,
-      format(new Date(), formatType)
-    );
-  });
-
   it('Should call `onMoveForward` callback', done => {
     const doneOp = () => {
       done();
     };
 
-    const date = new Date();
-    const formatType = 'yyyy-MM';
-    const instance = getDOMNode(
-      <Header showMonth date={date} format={formatType} onMoveForward={doneOp} />
-    );
+    const instance = getDOMNode(<Header showMonth onMoveForward={doneOp} />);
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-header-forward'));
   });
@@ -64,12 +29,7 @@ describe('Calendar-Header', () => {
     const doneOp = () => {
       done();
     };
-
-    const date = new Date();
-    const formatType = 'yyyy-MM';
-    const instance = getDOMNode(
-      <Header showMonth date={date} format={formatType} onMoveBackward={doneOp} />
-    );
+    const instance = getDOMNode(<Header showMonth onMoveBackward={doneOp} />);
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-header-backward'));
   });
@@ -79,11 +39,7 @@ describe('Calendar-Header', () => {
       done();
     };
 
-    const date = new Date();
-    const formatType = 'yyyy-MM';
-    const instance = getDOMNode(
-      <Header showMonth date={date} format={formatType} onToggleMonthDropdown={doneOp} />
-    );
+    const instance = getDOMNode(<Header showMonth onToggleMonthDropdown={doneOp} />);
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-header-title-date'));
   });
@@ -92,14 +48,16 @@ describe('Calendar-Header', () => {
     const doneOp = () => {
       done();
     };
+    const ref = React.createRef();
 
-    const date = new Date();
-    const formatType = 'HH:mm:ss';
-    const instance = getDOMNode(
-      <Header showTime date={date} format={formatType} onToggleTimeDropdown={doneOp} />
+    ReactDOM.render(
+      <CalendarProvider value={{ date: new Date(), format: 'HH:mm:ss' }}>
+        <Header showTime onToggleTimeDropdown={doneOp} ref={ref} />
+      </CalendarProvider>,
+      createTestContainer()
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-header-title-time'));
+    ReactTestUtils.Simulate.click(ref.current.querySelector('.rs-calendar-header-title-time'));
   });
 
   it('Should have a custom className', () => {

@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { addDays, isSameDay, isBefore, isAfter, getDate, format } from '../../utils/dateUtils';
-import { getUnhandledProps, prefix, defaultProps } from '../../utils';
+import { prefix, defaultProps } from '../../utils';
 import IntlContext from '../../IntlProvider/IntlContext';
 import { DATERANGE_DISABLED_TARGET } from '../../constants';
 import { zonedDate } from '../../utils/timeZone';
@@ -137,10 +137,9 @@ class TableRow extends React.Component<TableRowProps> {
   render() {
     const { className, showWeekNumbers, ...rest } = this.props;
     const classes = classNames(this.addPrefix('row'), className);
-    const unhandled = getUnhandledProps(TableRow, rest);
 
     return (
-      <div {...unhandled} className={classes}>
+      <div {...rest} className={classes}>
         {showWeekNumbers && this.renderWeekNumber()}
         {this.renderDays()}
       </div>

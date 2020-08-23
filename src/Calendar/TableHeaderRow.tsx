@@ -1,52 +1,51 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import { useClassNames } from '../utils';
+import { useCalendarContext } from './CalendarContext';
+import { HTMLAttributes } from 'react';
 
-import { prefix, defaultProps } from '../utils';
-import FormattedMessage from '../IntlProvider/FormattedMessage';
-
-export interface TableHeaderRowProps {
-  isoWeek?: boolean;
+export interface TableHeaderRowProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;
   classPrefix?: string;
-  showWeekNumbers?: boolean;
 }
+
+const defaultProps = {
+  classPrefix: 'calendar-table'
+};
 
 const weekKeys = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
-class TableHeaderRow extends React.PureComponent<TableHeaderRowProps> {
-  static propTypes = {
-    isoWeek: PropTypes.bool,
-    className: PropTypes.string,
-    classPrefix: PropTypes.string
-  };
-  render() {
-    const { className, classPrefix, isoWeek, showWeekNumbers, ...props } = this.props;
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(addPrefix('row'), addPrefix('header-row'), className);
+const TableHeaderRow = React.forwardRef(
+  (props: TableHeaderRowProps, ref: React.Ref<HTMLDivElement>) => {
+    const { className, classPrefix, ...rest } = props;
+    const { locale, showWeekNumbers, isoWeek } = useCalendarContext();
+    const { merge, prefix } = useClassNames(classPrefix);
+    const classes = merge(prefix('row'), prefix('header-row'), className);
     let items = weekKeys;
+
     if (isoWeek) {
       items = weekKeys.filter(v => v !== 'sunday');
       items.push('sunday');
     }
 
     return (
-      <div {...props} className={classes}>
-        {showWeekNumbers && <div className={addPrefix('cell')} />}
+      <div {...rest} ref={ref} role="row" className={classes}>
+        {showWeekNumbers && <div className={prefix('cell')} role="columnheader" />}
         {items.map(key => (
-          <div key={key} className={addPrefix('cell')}>
-            <span className={addPrefix('cell-content')}>
-              <FormattedMessage id={key} />
-            </span>
+          <div key={key} className={prefix('cell')} role="columnheader">
+            <span className={prefix('cell-content')}>{locale?.[key]}</span>
           </div>
         ))}
       </div>
     );
   }
-}
+);
 
-const enhance = defaultProps<TableHeaderRowProps>({
-  classPrefix: 'calendar-table'
-});
+TableHeaderRow.displayName = 'TableHeaderRow';
+TableHeaderRow.propTypes = {
+  className: PropTypes.string,
+  classPrefix: PropTypes.string
+};
+TableHeaderRow.defaultProps = defaultProps;
 
-export default enhance(TableHeaderRow);
+export default TableHeaderRow;

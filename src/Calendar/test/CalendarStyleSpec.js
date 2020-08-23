@@ -1,14 +1,14 @@
 import React from 'react';
-import ReactDOM, { findDOMNode } from 'react-dom';
+import ReactDOM from 'react-dom';
 import Calendar from '../CalendarPanel';
 import {
   createTestContainer,
+  getDefaultPalette,
   getDOMNode,
   getStyle,
-  getDefaultPalette,
-  toRGB,
+  inChrome,
   itChrome,
-  inChrome
+  toRGB
 } from '@test/testUtils';
 
 import '../styles/index';

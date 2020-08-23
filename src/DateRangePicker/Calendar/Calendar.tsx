@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { addMonths, isAfter, setDate } from '../../utils/dateUtils';
-import { getUnhandledProps, prefix, defaultProps } from '../../utils';
+import { prefix, defaultProps } from '../../utils';
 import MonthDropdown from '../../Calendar/MonthDropdown';
 import Header from '../../Calendar/Header';
 import View from './View';
@@ -147,10 +147,8 @@ class Calendar extends React.Component<CalendarProps> {
       [addPrefix('show-month-dropdown')]: dropMonth
     });
 
-    const unhandled = getUnhandledProps(Calendar, rest);
-
     return (
-      <div {...unhandled} className={calendarClasses}>
+      <div {...rest} className={calendarClasses}>
         <Header
           showMonth={true}
           date={pageDate}
