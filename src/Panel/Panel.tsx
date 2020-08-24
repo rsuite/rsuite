@@ -1,7 +1,8 @@
-import * as React from 'react';
-import { HTMLAttributes, useState } from 'react';
+import React, { HTMLAttributes, useState } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import pick from 'lodash/pick';
+import isUndefined from 'lodash/isUndefined';
+import get from 'lodash/get';
 import Collapse from '../Animation/Collapse';
 import { useClassNames } from '../utils';
 import { AnimationEventProps, RsRefForwardingComponent, WithAsProps } from '../@types/common';
@@ -86,7 +87,7 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
       setExpanded(prevState => !prevState);
     };
 
-    const isExpanded = () => (_.isUndefined(propsExpanded) ? expanded : propsExpanded);
+    const isExpanded = () => (isUndefined(propsExpanded) ? expanded : propsExpanded);
     const renderCollapsibleTitle = (header: React.ReactNode, headerRole?: string) => {
       return (
         <span className={prefix('title')} role="presentation">
@@ -97,7 +98,7 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
 
     const renderCollapsibleBody = (panelRole?: string) => {
       const collapseProps = {
-        ..._.pick(props, Object.keys(Collapse.propTypes)),
+        ...pick(props, Object.keys(Collapse.propTypes)),
         in: isExpanded()
       };
 
@@ -139,7 +140,7 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
       if (!React.isValidElement(header) || Array.isArray(header)) {
         content = collapsible ? renderCollapsibleTitle(header, headerRole) : header;
       } else {
-        const className = merge(prefix('title'), _.get(header, 'props.className'));
+        const className = merge(prefix('title'), get(header, 'props.className'));
         content = React.cloneElement<any>(header, { className });
       }
       return (
