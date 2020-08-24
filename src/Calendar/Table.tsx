@@ -17,7 +17,13 @@ const defaultProps: Partial<TableProps> = {
 
 const Table: RsRefForwardingComponent<'div', TableProps> = React.forwardRef(
   (props: TableProps, ref) => {
-    const { className, classPrefix, inSameMonth, rows, as: Component, ...rest } = props;
+    const {
+      as: Component,
+      className,
+      classPrefix,
+      inSameMonth,
+      rows,
+      ...rest } = props;
     const { merge, rootPrefix } = useClassNames(classPrefix);
     const classes = merge(rootPrefix(classPrefix), className);
 

@@ -96,7 +96,7 @@ const scrollTo = (time: Time, ulRefs: UListRefs) => {
 
 const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.forwardRef(
   (props: TimeDropdownProps, ref) => {
-    const { className, classPrefix, show, showMeridian, as: Component, ...rest } = props;
+    const { as: Component, className, classPrefix, show, showMeridian, ...rest } = props;
     const { locale, format, timeZone, date, onChangePageTime: onSelect } = useCalendarContext();
     const ulRefs = useRef<UListRefs>({} as UListRefs);
 

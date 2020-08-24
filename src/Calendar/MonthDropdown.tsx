@@ -46,12 +46,12 @@ const defaultProps: Partial<MonthDropdownProps> = {
 const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React.forwardRef(
   (props: MonthDropdownProps, ref) => {
     const {
+      as: Component,
+      className,
       classPrefix,
       disabledMonth,
-      className,
-      show,
       limitEndYear,
-      as: Component,
+      show,
       ...rest
     } = props;
     const { date = new Date() } = useCalendarContext();

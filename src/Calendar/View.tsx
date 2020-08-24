@@ -16,7 +16,7 @@ const defaultProps: Partial<ViewProps> = {
 
 const View: RsRefForwardingComponent<'div', ViewProps> = React.forwardRef(
   (props: ViewProps, ref) => {
-    const { className, classPrefix, as: Component, ...rest } = props;
+    const { as: Component, className, classPrefix, ...rest } = props;
     const { date = new Date(), isoWeek } = useCalendarContext();
 
     const inSameThisMonthDate = useCallback(

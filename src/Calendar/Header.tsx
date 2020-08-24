@@ -32,22 +32,22 @@ const Header: RsRefForwardingComponent<'div', HeaderProps> = React.forwardRef(
   (props: HeaderProps, ref) => {
     const {
       as: Component,
-      onMoveForward,
-      onMoveBackward,
-      onToggleMonthDropdown,
-      onToggleTimeDropdown,
-      onToggleMeridian,
-      showTime,
-      showDate,
-      showMonth,
-      classPrefix,
       className,
-      disabledTime,
+      classPrefix,
       disabledBackward,
       disabledForward,
-      renderToolbar,
+      disabledTime,
+      onMoveBackward,
+      onMoveForward,
+      onToggleMeridian,
+      onToggleMonthDropdown,
+      onToggleTimeDropdown,
       renderTitle: propsRenderTitle,
+      renderToolbar,
+      showDate,
       showMeridian,
+      showMonth,
+      showTime,
       ...rest
     } = props;
     const { locale, date = new Date(), format, disabledDate } = useCalendarContext();

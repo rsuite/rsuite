@@ -19,7 +19,13 @@ const defaultProps: Partial<TableRowProps> = {
 
 const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRef(
   (props: TableRowProps, ref) => {
-    const { className, classPrefix, inSameMonth, weekendDate, as: Component, ...rest } = props;
+    const {
+      as: Component,
+      className,
+      classPrefix,
+      inSameMonth,
+      weekendDate,
+      ...rest } = props;
     const {
       date: selected = new Date(),
       disabledDate,

@@ -15,7 +15,7 @@ const weekKeys = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'frida
 
 const TableHeaderRow: RsRefForwardingComponent<'div', TableHeaderRowProps> = React.forwardRef(
   (props: TableHeaderRowProps, ref) => {
-    const { className, classPrefix, as: Component, ...rest } = props;
+    const { as: Component, className, classPrefix, ...rest } = props;
     const { locale, showWeekNumbers, isoWeek } = useCalendarContext();
     const { merge, prefix } = useClassNames(classPrefix);
     const classes = merge(prefix('row'), prefix('header-row'), className);

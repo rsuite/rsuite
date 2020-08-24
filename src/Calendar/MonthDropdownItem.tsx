@@ -21,7 +21,7 @@ const defaultProps: Partial<MonthDropdownItemProps> = {
 
 const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps> = React.forwardRef(
   (props: MonthDropdownItemProps, ref) => {
-    const { className, classPrefix, month, active, disabled, year, as: Component, ...rest } = props;
+    const { as: Component, className, classPrefix, active, disabled, month, year, ...rest } = props;
     const { date, onChangePageDate: onSelect } = useCalendarContext();
 
     const handleClick = useCallback(
