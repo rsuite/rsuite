@@ -1,16 +1,15 @@
 import * as React from 'react';
-import { HTMLAttributes, Ref, useCallback } from 'react';
+import { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { AutoSizer, List } from '../Picker/VirtualizedList';
 import { useClassNames } from '../utils';
 import MonthDropdownItem from './MonthDropdownItem';
 import { getDaysInMonth, getMonth, getYear } from '../utils/dateUtils';
 import { useCalendarContext } from './CalendarContext';
+import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 
-export interface MonthDropdownProps extends HTMLAttributes<HTMLDivElement> {
+export interface MonthDropdownProps extends WithAsProps {
   limitEndYear?: number;
-  className?: string;
-  classPrefix?: string;
   show: boolean;
   disabledMonth?: (date: Date) => boolean;
 }
@@ -37,108 +36,119 @@ function getRowHeight(count: number) {
   };
 }
 
-const defaultProps = {
+const defaultProps: Partial<MonthDropdownProps> = {
   show: false,
   limitEndYear: 5,
-  classPrefix: 'calendar-month-dropdown'
+  classPrefix: 'calendar-month-dropdown',
+  as: 'div'
 };
 
-const MonthDropdown = React.forwardRef((props: MonthDropdownProps, ref: Ref<HTMLDivElement>) => {
-  const { classPrefix, disabledMonth, className, show, limitEndYear, ...rest } = props;
-  const { date = new Date() } = useCalendarContext();
+const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React.forwardRef(
+  (props: MonthDropdownProps, ref) => {
+    const {
+      classPrefix,
+      disabledMonth,
+      className,
+      show,
+      limitEndYear,
+      as: Component,
+      ...rest
+    } = props;
+    const { date = new Date() } = useCalendarContext();
 
-  const getRowCount = useCallback(() => getYear(new Date()) + limitEndYear, [limitEndYear]);
+    const getRowCount = useCallback(() => getYear(new Date()) + limitEndYear, [limitEndYear]);
 
-  const { prefix, merge, rootPrefix } = useClassNames(classPrefix);
+    const { prefix, merge, rootPrefix } = useClassNames(classPrefix);
 
-  const isMonthDisabled = useCallback(
-    (year, month) => {
-      if (disabledMonth) {
-        const days = getDaysInMonth(new Date(year, month));
+    const isMonthDisabled = useCallback(
+      (year, month) => {
+        if (disabledMonth) {
+          const days = getDaysInMonth(new Date(year, month));
 
-        // If all dates in a month are disabled, disable the current month
-        for (let i = 1; i <= days; i++) {
-          if (!disabledMonth(new Date(year, month, i))) {
-            return false;
+          // If all dates in a month are disabled, disable the current month
+          for (let i = 1; i <= days; i++) {
+            if (!disabledMonth(new Date(year, month, i))) {
+              return false;
+            }
           }
+          return true;
         }
-        return true;
-      }
 
-      return false;
-    },
-    [disabledMonth]
-  );
+        return false;
+      },
+      [disabledMonth]
+    );
 
-  const rowRenderer = useCallback(
-    ({ index, key, style }: RowProps) => {
-      const selectedMonth = getMonth(date);
-      const selectedYear = getYear(date);
-      const year = index + 1;
-      const isSelectedYear = year === selectedYear;
-      const count = getRowCount();
-      const titleClassName = merge(prefix('year'), {
-        [prefix('year-active')]: isSelectedYear
-      });
+    const rowRenderer = useCallback(
+      ({ index, key, style }: RowProps) => {
+        const selectedMonth = getMonth(date);
+        const selectedYear = getYear(date);
+        const year = index + 1;
+        const isSelectedYear = year === selectedYear;
+        const count = getRowCount();
+        const titleClassName = merge(prefix('year'), {
+          [prefix('year-active')]: isSelectedYear
+        });
 
-      const rowClassName = merge(prefix('row'), {
-        'first-row': index === 0,
-        'last-row': index === count - 1
-      });
+        const rowClassName = merge(prefix('row'), {
+          'first-row': index === 0,
+          'last-row': index === count - 1
+        });
 
-      return (
-        <div className={rowClassName} role="row" key={key} style={style}>
-          <div className={titleClassName} role="rowheader">
-            {year}
+        return (
+          <div className={rowClassName} role="row" key={key} style={style}>
+            <div className={titleClassName} role="rowheader">
+              {year}
+            </div>
+            <div className={prefix('list')} role="gridcell">
+              {monthMap.map((item, month) => {
+                return (
+                  <MonthDropdownItem
+                    disabled={isMonthDisabled(year, month)}
+                    active={isSelectedYear && month === selectedMonth}
+                    key={`${month}_${item}`}
+                    month={month + 1}
+                    year={year}
+                  />
+                );
+              })}
+            </div>
           </div>
-          <div className={prefix('list')} role="gridcell">
-            {monthMap.map((item, month) => {
-              return (
-                <MonthDropdownItem
-                  disabled={isMonthDisabled(year, month)}
-                  active={isSelectedYear && month === selectedMonth}
-                  key={`${month}_${item}`}
-                  month={month + 1}
-                  year={year}
-                />
-              );
-            })}
+        );
+      },
+      [date, getRowCount, isMonthDisabled, merge, prefix]
+    );
+
+    const count = getRowCount();
+    const classes = merge(rootPrefix(classPrefix), className, {
+      show
+    });
+
+    return (
+      <Component {...rest} ref={ref} role="menu" className={classes}>
+        <div className={prefix('content')}>
+          <div className={prefix('scroll')}>
+            {show && (
+              <AutoSizer defaultHeight={defaultHeight} defaultWidth={defaultWidth}>
+                {({ height, width }) => (
+                  <List
+                    className={prefix('row-wrapper')}
+                    width={width || defaultWidth}
+                    height={height || defaultHeight}
+                    rowHeight={getRowHeight(count)}
+                    rowCount={count}
+                    scrollToIndex={getYear(date)}
+                    rowRenderer={rowRenderer}
+                  />
+                )}
+              </AutoSizer>
+            )}
           </div>
         </div>
-      );
-    },
-    [date, getRowCount, isMonthDisabled, merge, prefix]
-  );
-
-  const count = getRowCount();
-  const classes = merge(rootPrefix(classPrefix), className, {
-    show
-  });
-
-  return (
-    <div {...rest} ref={ref} role="menu" className={classes}>
-      <div className={prefix('content')}>
-        <div className={prefix('scroll')}>
-          {show && (
-            <AutoSizer defaultHeight={defaultHeight} defaultWidth={defaultWidth}>
-              {({ height, width }) => (
-                <List
-                  className={prefix('row-wrapper')}
-                  width={width || defaultWidth}
-                  height={height || defaultHeight}
-                  rowHeight={getRowHeight(count)}
-                  rowCount={count}
-                  scrollToIndex={getYear(date)}
-                  rowRenderer={rowRenderer}
-                />
-              )}
-            </AutoSizer>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-});
+      </Component>
+    );
+  }
+);
 
 MonthDropdown.displayName = 'MonthDropdown';
 MonthDropdown.propTypes = {

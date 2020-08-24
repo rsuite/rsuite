@@ -1,27 +1,27 @@
-import React, { HTMLAttributes, Ref, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import { setMonth, setYear } from '../utils/dateUtils';
 import composeFunctions from '../utils/composeFunctions';
 import { useCalendarContext } from './CalendarContext';
+import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 
-export interface MonthDropdownItemProps extends HTMLAttributes<HTMLDivElement> {
+export interface MonthDropdownItemProps extends WithAsProps {
   month?: number;
   year?: number;
-  className?: string;
-  classPrefix?: string;
   active?: boolean;
   disabled?: boolean;
 }
 
-const defaultProps = {
+const defaultProps: Partial<MonthDropdownItemProps> = {
   classPrefix: 'calendar-month-dropdown-cell',
-  month: 0
+  month: 0,
+  as: 'div'
 };
 
-const MonthDropdownItem = React.forwardRef(
-  (props: MonthDropdownItemProps, ref: Ref<HTMLDivElement>) => {
-    const { className, classPrefix, month, active, disabled, year, ...rest } = props;
+const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps> = React.forwardRef(
+  (props: MonthDropdownItemProps, ref) => {
+    const { className, classPrefix, month, active, disabled, year, as: Component, ...rest } = props;
     const { date, onChangePageDate: onSelect } = useCalendarContext();
 
     const handleClick = useCallback(
@@ -49,7 +49,7 @@ const MonthDropdownItem = React.forwardRef(
     });
 
     return (
-      <div
+      <Component
         {...rest}
         ref={ref}
         className={classes}
@@ -59,7 +59,7 @@ const MonthDropdownItem = React.forwardRef(
         tabIndex={-1}
       >
         <span className={prefix('content')}>{month}</span>
-      </div>
+      </Component>
     );
   }
 );
