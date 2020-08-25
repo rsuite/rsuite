@@ -168,10 +168,7 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
       return (
         <div className={prefix('column')} role="listitem">
           <div className={prefix('column-title')}>{locale?.[type]}</div>
-          <ul
-            data-type={type}
-            role="menu"
-          >
+          <ul data-type={type} role="menu">
             {items}
           </ul>
         </div>

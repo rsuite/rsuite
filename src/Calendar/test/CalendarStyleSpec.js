@@ -10,6 +10,7 @@ import {
   itChrome,
   toRGB
 } from '@test/testUtils';
+import ReactTestUtils from 'react-dom/test-utils';
 
 import '../styles/index';
 
@@ -114,7 +115,10 @@ describe('Calendar styles', () => {
       <Calendar calendarState={'DROP_MONTH'} bordered ref={instanceRef} />,
       createTestContainer()
     );
-    const dom = getDOMNode(instanceRef.current);
+    const dom = instanceRef.current;
+
+    // click month dropdown button
+    ReactTestUtils.Simulate.click(dom.querySelector('.rs-calendar-header-title-date'));
     const dropdownRowDom = dom.querySelector('.rs-calendar-month-dropdown-row');
 
     assert.equal(
