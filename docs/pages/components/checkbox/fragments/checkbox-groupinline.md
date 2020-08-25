@@ -1,5 +1,3 @@
-### Checkbox Group With Horizontal Layout
-
 <!--start-code-->
 
 ```js

@@ -1,7 +1,3 @@
-### Sticky
-
-Set the `sticky` property to put the selected in the options to the top.
-
 <!--start-code-->
 
 ```js

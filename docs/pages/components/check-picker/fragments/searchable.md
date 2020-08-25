@@ -1,5 +1,3 @@
-### Disabled Search
-
 <!--start-code-->
 
 ```js

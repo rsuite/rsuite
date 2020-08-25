@@ -4,6 +4,7 @@ import DefaultPage from '@/components/Page';
 import * as SvgIcons from '@/components/SvgIcons';
 
 export default function Page() {
+  
   return (
     <DefaultPage
       dependencies={{
@@ -18,3 +19,4 @@ export default function Page() {
     />
   );
 }
+

@@ -1,5 +1,3 @@
-### Disabled
-
 <!--start-code-->
 
 ```js
@@ -12,7 +10,7 @@ const instance = (
   <div>
     <CheckPicker data={data} defaultValue={['Julius']} disabled />
     <hr />
-    <p>禁用选项</p>
+    <p>Disable Option</p>
     <CheckPicker
       data={data}
       defaultValue={['Julius']}

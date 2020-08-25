@@ -1,7 +1,3 @@
-### Indeterminate State
-
-the `indeterminate` property is mainly used on the select all or tree structure checkbox.
-
 <!--start-code-->
 
 ```js

@@ -1,5 +1,3 @@
-### 分组
-
 <!--start-code-->
 
 ```js
@@ -8,11 +6,24 @@
  * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
  */
 
+function compare(a, b) {
+  let nameA = a.toUpperCase();
+  let nameB = b.toUpperCase();
+
+  if (nameA < nameB) {
+    return -1;
+  }
+  if (nameA > nameB) {
+    return 1;
+  }
+  return 0;
+}
+
 const instance = (
   <div>
     <CheckPicker data={data} groupBy="role" style={{ width: 224 }} />
     <hr />
-    <p>排序:</p>
+    <p>Sort:</p>
     <CheckPicker
       data={data}
       groupBy="role"
@@ -31,19 +42,6 @@ const instance = (
     />
   </div>
 );
-
-function compare(a, b) {
-  let nameA = a.toUpperCase();
-  let nameB = b.toUpperCase();
-
-  if (nameA < nameB) {
-    return -1;
-  }
-  if (nameA > nameB) {
-    return 1;
-  }
-  return 0;
-}
 
 ReactDOM.render(instance);
 ```

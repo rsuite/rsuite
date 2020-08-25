@@ -1,5 +1,3 @@
-### Disabled
-
 <!--start-code-->
 
 ```js

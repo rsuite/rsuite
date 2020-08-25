@@ -1,5 +1,3 @@
-### Checkbox Group (Controlled)
-
 <!--start-code-->
 
 ```js
