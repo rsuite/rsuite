@@ -1,5 +1,4 @@
-import React from 'react';
-import { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { getPosition, scrollTop } from 'dom-lib';
 import omitBy from 'lodash/omitBy';
@@ -42,8 +41,6 @@ const defaultProps: Partial<TimeDropdownProps> = {
 
 type TimeType = 'hours' | 'minutes' | 'seconds';
 
-type UListRefs = Record<TimeType, HTMLUListElement>;
-
 function getRanges(meridian) {
   return {
     hours: { start: 0, end: meridian ? 11 : 23 },
@@ -83,13 +80,18 @@ const getTime = (props: Partial<TimeDropdownProps> & Partial<CalendarInnerContex
   return nextTime;
 };
 
-const scrollTo = (time: Time, ulRefs: UListRefs) => {
-  Object.entries(time).forEach((item: [string, number]) => {
-    const container: Element = ulRefs[item[0]];
-    const node = container?.querySelector(`[data-key="${item[0]}-${item[1]}"]`);
+const scrollTo = (time: Time, row: HTMLDivElement) => {
+  if (!row) {
+    return;
+  }
+
+  Object.entries(time).forEach(([type, value]: [string, number]) => {
+    const container: Element = row.querySelector(`[data-type="${type}"]`);
+    const node = container?.querySelector(`[data-key="${type}-${value}"]`);
+
     if (node && container) {
       const { top } = getPosition(node, container);
-      scrollTopAnimation(ulRefs[item[0]], top, scrollTop(ulRefs[item[0]]) !== 0);
+      scrollTopAnimation(container, top, scrollTop(container) !== 0);
     }
   });
 };
@@ -98,7 +100,7 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
   (props: TimeDropdownProps, ref) => {
     const { as: Component, className, classPrefix, show, showMeridian, ...rest } = props;
     const { locale, format, timeZone, date, onChangePageTime: onSelect } = useCalendarContext();
-    const ulRefs = useRef<UListRefs>({} as UListRefs);
+    const rowRef = useRef<HTMLDivElement>(null);
 
     const updatePosition = useCallback(() => {
       const time = getTime({
@@ -107,7 +109,7 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
         date,
         showMeridian
       });
-      show && scrollTo(time, ulRefs.current);
+      show && scrollTo(time, rowRef.current);
     }, [show, format, timeZone, date, showMeridian]);
 
     const handleClick = (type: TimeType, d: number, event: React.MouseEvent) => {
@@ -167,9 +169,6 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
         <div className={prefix('column')} role="listitem">
           <div className={prefix('column-title')}>{locale?.[type]}</div>
           <ul
-            ref={ref => {
-              ulRefs.current[type] = ref;
-            }}
             data-type={type}
             role="menu"
           >
@@ -194,7 +193,7 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
         role="list"
       >
         <div className={prefix('content')}>
-          <div className={prefix('row')}>
+          <div className={prefix('row')} ref={rowRef}>
             {renderColumn('hours', time.hours)}
             {renderColumn('minutes', time.minutes)}
             {renderColumn('seconds', time.seconds)}
