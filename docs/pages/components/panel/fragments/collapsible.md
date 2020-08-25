@@ -1,4 +1,3 @@
-### Collapsible
 
 <!--start-code-->
 

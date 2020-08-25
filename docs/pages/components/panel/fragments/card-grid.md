@@ -1,4 +1,3 @@
-### Card Group
 
 <!--start-code-->
 

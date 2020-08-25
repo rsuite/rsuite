@@ -1,10 +1,9 @@
-### 有阴影
 
 <!--start-code-->
 
 ```js
 const instance = (
-  <Panel header="Panel title" shaded>
+  <Panel header="Panel title" bordered>
     <Paragraph />
   </Panel>
 );

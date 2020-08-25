@@ -1,10 +1,8 @@
-import React, { HTMLAttributes, useState } from 'react';
+import React, { HTMLAttributes, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import pick from 'lodash/pick';
-import isUndefined from 'lodash/isUndefined';
 import get from 'lodash/get';
 import Collapse from '../Animation/Collapse';
-import { useClassNames } from '../utils';
+import { useClassNames, useControlled } from '../utils';
 import { AnimationEventProps, RsRefForwardingComponent, WithAsProps } from '../@types/common';
 
 export interface PanelProps<T = any>
@@ -65,7 +63,7 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
       collapsible,
       defaultExpanded,
       eventKey,
-      expanded: propsExpanded,
+      expanded: expandedProp,
       header,
       headerRole,
       id,
@@ -75,44 +73,67 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
       ...rest
     } = props;
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-    const [expanded, setExpanded] = useState(defaultExpanded);
+    const [expanded, setExpanded] = useControlled<boolean>(expandedProp, defaultExpanded);
 
-    const handleSelect = (event: React.MouseEvent) => {
-      event.persist();
-      onSelect?.(eventKey, event);
-      handleToggle();
-    };
+    const handleToggle = useCallback(() => {
+      setExpanded(!expanded);
+    }, [expanded, setExpanded]);
 
-    const handleToggle = () => {
-      setExpanded(prevState => !prevState);
-    };
+    const handleSelect = useCallback(
+      (event: React.MouseEvent) => {
+        event.persist();
+        onSelect?.(eventKey, event);
+        handleToggle();
+      },
+      [eventKey, handleToggle, onSelect]
+    );
 
-    const isExpanded = () => (isUndefined(propsExpanded) ? expanded : propsExpanded);
-    const renderCollapsibleTitle = (header: React.ReactNode, headerRole?: string) => {
-      return (
-        <span className={prefix('title')} role="presentation">
-          {renderAnchor(header, headerRole)}
+    const renderAnchor = useCallback(
+      (header: React.ReactNode, headerRole?: string) => (
+        <span
+          aria-controls={collapsible ? `${id}` : null}
+          className={expanded ? null : 'collapsed'}
+          aria-expanded={expanded}
+          aria-selected={expanded}
+          role={headerRole}
+        >
+          {header}
         </span>
-      );
-    };
+      ),
+      [collapsible, expanded, id]
+    );
 
-    const renderCollapsibleBody = (panelRole?: string) => {
-      const collapseProps = {
-        ...pick(props, Object.keys(Collapse.propTypes)),
-        in: isExpanded()
-      };
+    const renderCollapsibleTitle = useCallback(
+      (header: React.ReactNode, headerRole?: string) => {
+        return (
+          <span className={prefix('title')} role="presentation">
+            {renderAnchor(header, headerRole)}
+          </span>
+        );
+      },
+      [prefix, renderAnchor]
+    );
 
-      return (
-        <Collapse {...collapseProps}>
+    const renderBody = useCallback(() => {
+      const classes = merge(prefix('body'), {
+        [prefix('body-fill')]: bodyFill
+      });
+
+      return <div className={classes}>{children}</div>;
+    }, [bodyFill, children, merge, prefix]);
+
+    const renderCollapsibleBody = useCallback(
+      (panelRole?: string) => (
+        <Collapse in={expanded}>
           {(transitionProps, ref) => {
             const { className, ...rest } = transitionProps;
             return (
               <div
                 {...rest}
                 id={id ? `${id}` : null}
-                aria-hidden={!isExpanded()}
+                aria-hidden={!expanded}
                 role={panelRole}
-                className={merge(prefix('collapse'), className)}
+                className={merge(className, prefix('collapse'))}
                 ref={ref}
               >
                 {renderBody()}
@@ -120,54 +141,36 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
             );
           }}
         </Collapse>
-      );
-    };
+      ),
+      [expanded, id, merge, prefix, renderBody]
+    );
 
-    const renderBody = () => {
-      const classes = merge(prefix('body'), {
-        [prefix('body-fill')]: bodyFill
-      });
+    const renderHeading = useCallback(
+      (headerRole?: string) => {
+        if (!header) {
+          return null;
+        }
+        let content: React.ReactNode;
 
-      return <div className={classes}>{children}</div>;
-    };
-
-    const renderHeading = (headerRole?: string) => {
-      if (!header) {
-        return null;
-      }
-      let content: React.ReactNode;
-
-      if (!React.isValidElement(header) || Array.isArray(header)) {
-        content = collapsible ? renderCollapsibleTitle(header, headerRole) : header;
-      } else {
-        const className = merge(prefix('title'), get(header, 'props.className'));
-        content = React.cloneElement<any>(header, { className });
-      }
-      return (
-        <div role="rowheader" className={prefix('heading')} onClick={handleSelect} tabIndex={-1}>
-          {content}
-        </div>
-      );
-    };
-
-    const renderAnchor = (header: React.ReactNode, headerRole?: string) => {
-      return (
-        <span
-          aria-controls={collapsible ? `${id}` : null}
-          className={isExpanded() ? null : 'collapsed'}
-          aria-expanded={isExpanded()}
-          aria-selected={isExpanded()}
-          role={headerRole}
-        >
-          {header}
-        </span>
-      );
-    };
+        if (!React.isValidElement(header) || Array.isArray(header)) {
+          content = collapsible ? renderCollapsibleTitle(header, headerRole) : header;
+        } else {
+          const className = merge(prefix('title'), get(header, 'props.className'));
+          content = React.cloneElement<any>(header, { className });
+        }
+        return (
+          <div role="rowheader" className={prefix('heading')} onClick={handleSelect} tabIndex={-1}>
+            {content}
+          </div>
+        );
+      },
+      [collapsible, handleSelect, header, merge, prefix, renderCollapsibleTitle]
+    );
 
     const classes = merge(
       className,
       withClassPrefix('default', {
-        in: isExpanded(),
+        in: expanded,
         collapsible,
         bordered,
         shaded
