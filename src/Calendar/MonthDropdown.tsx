@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { AutoSizer, List } from '../Picker/VirtualizedList';
 import { useClassNames } from '../utils';
@@ -120,7 +119,7 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
     );
 
     const count = getRowCount();
-    const classes = merge(rootPrefix(classPrefix), className, {
+    const classes = merge(className, rootPrefix(classPrefix), {
       show
     });
 

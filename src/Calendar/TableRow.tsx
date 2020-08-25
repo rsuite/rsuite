@@ -19,13 +19,7 @@ const defaultProps: Partial<TableRowProps> = {
 
 const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRef(
   (props: TableRowProps, ref) => {
-    const {
-      as: Component,
-      className,
-      classPrefix,
-      inSameMonth,
-      weekendDate,
-      ...rest } = props;
+    const { as: Component, className, classPrefix, inSameMonth, weekendDate, ...rest } = props;
     const {
       date: selected = new Date(),
       disabledDate,
@@ -94,7 +88,7 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
       );
     };
 
-    const classes = merge(prefix('row'), className);
+    const classes = merge(className, prefix('row'));
 
     return (
       <Component {...rest} ref={ref} role="row" className={classes}>

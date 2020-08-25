@@ -43,7 +43,7 @@ const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps>
 
     const { prefix, merge, rootPrefix } = useClassNames(classPrefix);
 
-    const classes = merge(rootPrefix(classPrefix), className, {
+    const classes = merge(className, rootPrefix(classPrefix), {
       [prefix('active')]: active,
       disabled
     });

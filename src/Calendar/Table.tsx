@@ -12,20 +12,15 @@ export interface TableProps extends WithAsProps {
 
 const defaultProps: Partial<TableProps> = {
   rows: [],
-  classPrefix: 'calendar-table'
+  classPrefix: 'calendar-table',
+  as: 'div'
 };
 
 const Table: RsRefForwardingComponent<'div', TableProps> = React.forwardRef(
   (props: TableProps, ref) => {
-    const {
-      as: Component,
-      className,
-      classPrefix,
-      inSameMonth,
-      rows,
-      ...rest } = props;
+    const { as: Component, className, classPrefix, inSameMonth, rows, ...rest } = props;
     const { merge, rootPrefix } = useClassNames(classPrefix);
-    const classes = merge(rootPrefix(classPrefix), className);
+    const classes = merge(className, rootPrefix(classPrefix));
 
     return (
       <Component {...rest} ref={ref} role="table" className={classes}>

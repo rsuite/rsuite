@@ -69,12 +69,12 @@ const CalendarPanel: RsRefForwardingComponent<'div', CalendarPanelProps> = React
       onSelect,
       renderCell,
       timeZone,
-      value: propsValue,
+      value: valueProp,
       ...rest
     } = props;
-    const [value, updateValue] = useState<Date>(toTimeZone(propsValue ?? defaultValue, timeZone));
+    const [value, updateValue] = useState<Date>(toTimeZone(valueProp ?? defaultValue, timeZone));
     const [pageDate, setPageDate] = useState(
-      toTimeZone(propsValue ?? defaultValue ?? new Date(), timeZone)
+      toTimeZone(valueProp ?? defaultValue ?? new Date(), timeZone)
     );
     const [showMonth, setShowMonth] = useState<boolean>(false);
     const { locale } = useCustom('Calendar', overrideLocale);
@@ -89,13 +89,13 @@ const CalendarPanel: RsRefForwardingComponent<'div', CalendarPanelProps> = React
 
     useEffect(() => {
       const nextValue = toTimeZone(
-        propsValue ?? toLocalTimeZone(prevValueRef.current, prevTimeZoneRef.current),
+        valueProp ?? toLocalTimeZone(prevValueRef.current, prevTimeZoneRef.current),
         timeZone
       );
       prevTimeZoneRef.current = timeZone;
       setValue(nextValue);
       setPageDate(nextValue ?? zonedDate(timeZone));
-    }, [setValue, timeZone, propsValue]);
+    }, [setValue, timeZone, valueProp]);
 
     const handleToggleMonthDropdown = useCallback(() => {
       setShowMonth(prevShowMonth => !prevShowMonth);

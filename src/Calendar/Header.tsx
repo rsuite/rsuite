@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import FormattedDate from '../IntlProvider/FormattedDate';
@@ -42,7 +41,7 @@ const Header: RsRefForwardingComponent<'div', HeaderProps> = React.forwardRef(
       onToggleMeridian,
       onToggleMonthDropdown,
       onToggleTimeDropdown,
-      renderTitle: propsRenderTitle,
+      renderTitle: renderTitleProp,
       renderToolbar,
       showDate,
       showMeridian,
@@ -85,9 +84,9 @@ const Header: RsRefForwardingComponent<'div', HeaderProps> = React.forwardRef(
 
     const renderTitle = useCallback(
       () =>
-        propsRenderTitle?.(date) ??
+        renderTitleProp?.(date) ??
         (date && <FormattedDate date={date} formatStr={getDateFormat()} />),
-      [date, getDateFormat, propsRenderTitle]
+      [date, getDateFormat, renderTitleProp]
     );
 
     const dateTitleClasses = merge(prefix('title'), prefix('title-date'), {

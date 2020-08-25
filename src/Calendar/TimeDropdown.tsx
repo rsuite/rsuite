@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { getPosition, scrollTop } from 'dom-lib';
@@ -170,6 +170,7 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
             ref={ref => {
               ulRefs.current[type] = ref;
             }}
+            data-type={type}
             role="menu"
           >
             {items}
@@ -179,7 +180,7 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
     };
 
     const time = getTime({ format, timeZone, date, showMeridian });
-    const classes = merge(rootPrefix(classPrefix), className);
+    const classes = merge(className, rootPrefix(classPrefix));
 
     useEffect(() => {
       updatePosition();

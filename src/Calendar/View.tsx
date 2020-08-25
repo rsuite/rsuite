@@ -30,7 +30,7 @@ const View: RsRefForwardingComponent<'div', ViewProps> = React.forwardRef(
 
     const thisMonthDate = setDate(date, 1);
     const { merge, rootPrefix } = useClassNames(classPrefix);
-    const classes = merge(rootPrefix(classPrefix), className);
+    const classes = merge(className, rootPrefix(classPrefix));
 
     return (
       <Component {...rest} ref={ref} role="row" className={classes}>
