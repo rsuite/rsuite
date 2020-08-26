@@ -4,22 +4,30 @@
 
 ## 获取组件
 
-```js
-import { Affix } from 'rsuite';
-```
+<!--{include:(components/affix/fragments/import.md)}-->
 
 ## 演示
 
-<!--{demo}-->
+### 默认
+
+<!--{include:`basic.md`}-->
+
+### 指定位置
+
+<!--{include:`top.md`}-->
+
+### 指定容器
+
+容器在可视范围内才固定元素，当滚动页面容器不在可视范围则取消固定元素。
 
 ## Props
 
 ### `<Affix>`
 
-| 属性名称    | 类型`(默认值)`                    | 描述                                     |
-| ----------- | --------------------------------- | ---------------------------------------- |
-| children    | string, React.ReactNode           | 需要固定位置的元素                       |
-| classPrefix | string `('affix')`                | 组件 CSS 类的前缀                        |
-| container   | HTMLElement , (() => HTMLElement) | 指定容器, 容器在可视范围内才固定元素     |
-| onChange    | (fixed:boolean) => void           | 当非固定与固定状态发生改变时候的回调函数 |
-| top         | number (0)                        | 设置固定高度                             |
+| 属性名称    | 类型`(默认值)`                         | 描述                                     |
+| ----------- | -------------------------------------- | ---------------------------------------- |
+| children    | ReactNode                              | 需要固定位置的元素                       |
+| classPrefix | string `('affix')`                     | 组件 CSS 类的前缀                        |
+| container   | HTMLElement &#124; (() => HTMLElement) | 指定容器, 容器在可视范围内才固定元素     |
+| onChange    | (fixed: boolean) => void               | 当非固定与固定状态发生改变时候的回调函数 |
+| top         | number `(0)`                           | 设置固定高度                             |

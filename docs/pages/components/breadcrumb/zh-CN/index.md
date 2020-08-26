@@ -4,16 +4,27 @@
 
 ## 获取组件
 
-```js
-import { Breadcrumb } from 'rsuite';
-
-//or
-import Breadcrumb from 'rsuite/lib/Breadcrumb';
-```
+<!--{include:(components/breadcrumb/fragments/import.md)}-->
 
 ## 演示
 
-<!--{demo}-->
+### 默认
+
+<!--{include:`basic.md`}-->
+
+### 自定义分隔符
+
+<!--{include:`separator.md`}-->
+
+### 自动折叠
+
+如果项目超过 5 个，会自动折叠。可以使用 `maxItems` 属性设置要显示的面包屑的最大数量。
+
+<!--{include:`max-items.md`}-->
+
+### 与 next/link 中的 Link 组合
+
+<!--{include:`with-router.md`}-->
 
 ## Props
 

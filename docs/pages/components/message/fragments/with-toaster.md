@@ -16,6 +16,7 @@ const App = () => {
       <hr />
       <ButtonToolbar>
         <SelectPicker
+          cleanable={false}
           value={type}
           data={[
             { label: 'info', value: 'info' },
@@ -27,6 +28,7 @@ const App = () => {
           style={{ width: 200 }}
         />
         <SelectPicker
+          cleanable={false}
           value={placement}
           data={[
             { label: 'topStart', value: 'topStart' },

@@ -10,21 +10,46 @@ Handling animation components
 
 When Transition fails to meet business needs，you can try [react-transition-group](https://github.com/reactjs/react-transition-group)
 
-## Useage
+## Import
 
-```js
-import { Animation } from 'rsuite';
-
-const { Fade, Collapse, Transition } = Animation;
-```
+<!--{include:(components/animation/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Fade
+
+<!--{include:`fade.md`}-->
+
+### Collapse
+
+<!--{include:`collapse.md`}-->
+
+### Bounce
+
+<!--{include:`bounce.md`}-->
+
+### Slide
+
+<!--{include:`slide.md`}-->
+
+### Transition
+
+Configure the following className in Transition and customize the related css animation.
+
+```
+exitedClassName="custom-exited"
+exitingClassName="custom-exiting"
+enteredClassName="custom-entered"
+enteringClassName="custom-entering"
+```
+
+<!--{include:`transition.md`}-->
 
 ## Props
 
-### `<Fade>`
+<!--{include:(_common/types/placement4.md)}-->
+
+### `<Animation.Fade>`
 
 | Property          | Type `(Default)`                     | Description                                                       |
 | ----------------- | ------------------------------------ | ----------------------------------------------------------------- |
@@ -43,29 +68,29 @@ const { Fade, Collapse, Transition } = Animation;
 | transitionAppear  | boolean                              | Turn on transitions when initially displayed                      |
 | unmountOnExit     | boolean                              | Unmount component on exit                                         |
 
-### `<Collapse>`
+### `<Animation.Collapse>`
 
-| Property          | Type `(Default)`                                   | Description                                                       |
-| ----------------- | -------------------------------------------------- | ----------------------------------------------------------------- |
-| dimension         | union: 'height', 'width' () => ('height', 'width') | Set fold size type                                                |
-| enteredClassName  | string `('collapse in')`                           | Adding a className after the component finished transtioning in   |
-| enteringClassName | string `('collapsing')`                            | Adding a className as the component begins to transition in       |
-| exitedClassName   | string `('collapse')`                              | Adding a className after the component finishes transitioning out |
-| exitingClassName  | string `('collapsing')`                            | Adding a className as the component begins to transition out      |
-| getDimensionValue | () => number                                       | Custom size value                                                 |
-| in                | boolean                                            | When true The animation will show itself                          |
-| onEnter           | (node?: null, Element, Text) => void               | Callback fired before the component transitions in                |
-| onEntered         | (node?: null, Element, Text) => void               | Callback fired after the component finishes transitioning in      |
-| onEntering        | (node?: null, Element, Text) => void               | Callback fired as the component begins to transition in           |
-| onExit            | (node?: null, Element, Text) => void               | Callback fired right before the component transitions out         |
-| onExited          | (node?: null, Element, Text) => void               | Callback fired after the Modal finishes transitioning out         |
-| onExiting         | (node?: null, Element, Text) => void               | Callback fired as the component begins to transition out          |
-| role              | string                                             | HTML role                                                         |
-| timeout           | number`(300)`                                      | Animation transition delay time                                   |
-| transitionAppear  | boolean                                            | Turn on transitions when initially displayed                      |
-| unmountOnExit     | boolean                                            | Unmount component on exit                                         |
+| Property          | Type `(Default)`                                         | Description                                                       |
+| ----------------- | -------------------------------------------------------- | ----------------------------------------------------------------- |
+| dimension         | 'height'&#124;'width'&#124;() => ('height'&#124;'width') | Set fold size type                                                |
+| enteredClassName  | string `('collapse in')`                                 | Adding a className after the component finished transtioning in   |
+| enteringClassName | string `('collapsing')`                                  | Adding a className as the component begins to transition in       |
+| exitedClassName   | string `('collapse')`                                    | Adding a className after the component finishes transitioning out |
+| exitingClassName  | string `('collapsing')`                                  | Adding a className as the component begins to transition out      |
+| getDimensionValue | () => number                                             | Custom size value                                                 |
+| in                | boolean                                                  | When true The animation will show itself                          |
+| onEnter           | (node?: null, Element, Text) => void                     | Callback fired before the component transitions in                |
+| onEntered         | (node?: null, Element, Text) => void                     | Callback fired after the component finishes transitioning in      |
+| onEntering        | (node?: null, Element, Text) => void                     | Callback fired as the component begins to transition in           |
+| onExit            | (node?: null, Element, Text) => void                     | Callback fired right before the component transitions out         |
+| onExited          | (node?: null, Element, Text) => void                     | Callback fired after the Modal finishes transitioning out         |
+| onExiting         | (node?: null, Element, Text) => void                     | Callback fired as the component begins to transition out          |
+| role              | string                                                   | HTML role                                                         |
+| timeout           | number`(300)`                                            | Animation transition delay time                                   |
+| transitionAppear  | boolean                                                  | Turn on transitions when initially displayed                      |
+| unmountOnExit     | boolean                                                  | Unmount component on exit                                         |
 
-### `<Bounce>`
+### `<Animation.Bounce>`
 
 | Property          | Type `(Default)`                     | Description                                                       |
 | ----------------- | ------------------------------------ | ----------------------------------------------------------------- |
@@ -84,27 +109,27 @@ const { Fade, Collapse, Transition } = Animation;
 | transitionAppear  | boolean                              | Turn on transitions when initially displayed                      |
 | unmountOnExit     | boolean                              | Unmount component on exit                                         |
 
-### `<Slide>`
+### `<Animation.Slide>`
 
-| Property          | Type `(Default)`                      | Description                                                       |
-| ----------------- | ------------------------------------- | ----------------------------------------------------------------- |
-| enteredClassName  | string                                | Adding a className after the component finished transtioning in   |
-| enteringClassName | string                                | Adding a className as the component begins to transition in       |
-| exitedClassName   | string                                | Adding a className after the component finishes transitioning out |
-| exitingClassName  | string                                | Adding a className as the component begins to transition out      |
-| in                | boolean                               | When true The animation will show itself                          |
-| onEnter           | (node?: null, Element, Text) => void  | Callback fired before the component transitions in                |
-| onEntered         | (node?: null, Element, Text) => void  | Callback fired after the component finishes transitioning in      |
-| onEntering        | (node?: null, Element, Text) => void  | Callback fired as the component begins to transition in           |
-| onExit            | (node?: null, Element, Text) => void  | Callback fired right before the component transitions out         |
-| onExited          | (node?: null, Element, Text) => void  | Callback fired after the Modal finishes transitioning out         |
-| onExiting         | (node?: null, Element, Text) => void  | Callback fired as the component begins to transition out          |
-| timeout           | number `(300)`                        | Animation transition delay time                                   |
-| transitionAppear  | boolean                               | Turn on transitions when initially displayed                      |
-| unmountOnExit     | boolean                               | Unmount component on exit                                         |
-| placement         | enum: [Placement4](#types)`('right')` | The placement of component                                        |
+| Property          | Type `(Default)`                     | Description                                                       |
+| ----------------- | ------------------------------------ | ----------------------------------------------------------------- |
+| enteredClassName  | string                               | Adding a className after the component finished transtioning in   |
+| enteringClassName | string                               | Adding a className as the component begins to transition in       |
+| exitedClassName   | string                               | Adding a className after the component finishes transitioning out |
+| exitingClassName  | string                               | Adding a className as the component begins to transition out      |
+| in                | boolean                              | When true The animation will show itself                          |
+| onEnter           | (node?: null, Element, Text) => void | Callback fired before the component transitions in                |
+| onEntered         | (node?: null, Element, Text) => void | Callback fired after the component finishes transitioning in      |
+| onEntering        | (node?: null, Element, Text) => void | Callback fired as the component begins to transition in           |
+| onExit            | (node?: null, Element, Text) => void | Callback fired right before the component transitions out         |
+| onExited          | (node?: null, Element, Text) => void | Callback fired after the Modal finishes transitioning out         |
+| onExiting         | (node?: null, Element, Text) => void | Callback fired as the component begins to transition out          |
+| timeout           | number `(300)`                       | Animation transition delay time                                   |
+| transitionAppear  | boolean                              | Turn on transitions when initially displayed                      |
+| unmountOnExit     | boolean                              | Unmount component on exit                                         |
+| placement         | Placement `('right')`                | The placement of component                                        |
 
-### `<Transition>`
+### `<Animation.Transition>`
 
 | Property          | Type `(Default)`                     | Description                                                       |
 | ----------------- | ------------------------------------ | ----------------------------------------------------------------- |

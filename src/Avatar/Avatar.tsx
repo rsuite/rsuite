@@ -1,9 +1,9 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
-import { TypeAttributes, StandardProps } from '../@types/common';
+import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-export interface AvatarProps extends StandardProps, React.HTMLAttributes<HTMLDivElement> {
+export interface AvatarProps extends WithAsProps {
   /** A avatar can have different sizes */
   size?: TypeAttributes.Size;
 
@@ -36,50 +36,53 @@ export interface AvatarProps extends StandardProps, React.HTMLAttributes<HTMLDiv
   alt?: string;
 }
 
-const Avatar = React.forwardRef((props: AvatarProps, ref: React.Ref<HTMLDivElement>) => {
-  const {
-    classPrefix = 'avatar',
-    as: Component = 'div',
-    size,
-    className,
-    children,
-    src,
-    srcSet,
-    sizes,
-    imgProps,
-    circle,
-    alt,
-    ...rest
-  } = props;
+const Avatar: RsRefForwardingComponent<'div', AvatarProps> = React.forwardRef(
+  (props: AvatarProps, ref) => {
+    const {
+      classPrefix = 'avatar',
+      as: Component = 'div',
+      size,
+      className,
+      children,
+      src,
+      srcSet,
+      sizes,
+      imgProps,
+      circle,
+      alt,
+      ...rest
+    } = props;
 
-  const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
-  const classes = merge(
-    className,
-    withClassPrefix(size, {
-      circle
-    })
-  );
+    const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
+    const classes = merge(
+      className,
+      withClassPrefix(size, {
+        circle
+      })
+    );
 
-  return (
-    <Component {...rest} ref={ref} className={classes}>
-      {src || srcSet ? (
-        <img
-          {...imgProps}
-          className={prefix`image`}
-          src={src}
-          sizes={sizes}
-          srcSet={srcSet}
-          alt={alt}
-        />
-      ) : (
-        children
-      )}
-    </Component>
-  );
-});
+    return (
+      <Component {...rest} ref={ref} className={classes}>
+        {src || srcSet ? (
+          <img
+            {...imgProps}
+            className={prefix`image`}
+            src={src}
+            sizes={sizes}
+            srcSet={srcSet}
+            alt={alt}
+          />
+        ) : (
+          children
+        )}
+      </Component>
+    );
+  }
+);
 
 Avatar.displayName = 'Avatar';
 Avatar.propTypes = {
+  as: PropTypes.elementType,
   classPrefix: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,

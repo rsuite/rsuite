@@ -1,8 +1,8 @@
 import React, { useState, useImperativeHandle, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
-import Input, { InputProps } from '../Input';
-import { refType, useClassNames } from '../utils';
+import Input from '../Input';
+import { refType, useClassNames, useControlled } from '../utils';
 import {
   PickerToggleTrigger,
   onMenuKeyDown,
@@ -17,10 +17,13 @@ import { getAnimationPropTypes } from '../Animation/utils';
 import {
   WithAsProps,
   RsRefForwardingComponent,
+  FormControlPickerProps,
   TypeAttributes,
   ItemDataType
 } from '../@types/common';
 import { transformData, shouldDisplay } from './utils';
+
+export type ValueType = string;
 
 export interface AutoCompleteInstance {
   root?: HTMLDivElement;
@@ -29,13 +32,9 @@ export interface AutoCompleteInstance {
   close?: () => void;
 }
 
-export interface AutoCompleteProps extends WithAsProps, Omit<InputProps, 'onSelect'> {
-  /** The data of component */
-  data?: string[] | ItemDataType[];
-
-  /** Custom filter function to determine whether the item will be displayed */
-  filterBy?: (value: string, item: ItemDataType) => boolean;
-
+export interface AutoCompleteProps<T = ValueType>
+  extends WithAsProps,
+    FormControlPickerProps<T, any, ItemDataType> {
   /** Additional classes for menu */
   menuClassName?: string;
 
@@ -44,6 +43,15 @@ export interface AutoCompleteProps extends WithAsProps, Omit<InputProps, 'onSele
 
   /** When set to false, the Enter key selection function is invalid */
   selectOnEnter?: boolean;
+
+  /** Open the menu and control it */
+  open?: boolean;
+
+  /** Placeholder text */
+  placeholder?: string;
+
+  /** Custom filter function to determine whether the item will be displayed */
+  filterBy?: (value: string, item: ItemDataType) => boolean;
 
   /** Called when a option is selected */
   onSelect?: (value: any, item: ItemDataType, event: React.SyntheticEvent) => void;
@@ -68,12 +76,6 @@ export interface AutoCompleteProps extends WithAsProps, Omit<InputProps, 'onSele
 
   /** Custom selected option */
   renderItem?: (itemData: ItemDataType) => React.ReactNode;
-
-  /** Open the menu and control it */
-  open?: boolean;
-
-  /** Position of ref */
-  positionRef?: React.Ref<any>;
 }
 
 export type AutoCompleteComponent = RsRefForwardingComponent<
@@ -82,6 +84,7 @@ export type AutoCompleteComponent = RsRefForwardingComponent<
 >;
 
 const defaultProps: Partial<AutoCompleteProps> = {
+  as: 'div',
   classPrefix: 'auto-complete',
   defaultValue: '',
   placement: 'bottomStart',
@@ -90,6 +93,7 @@ const defaultProps: Partial<AutoCompleteProps> = {
 
 const AutoComplete: AutoCompleteComponent = React.forwardRef((props: AutoCompleteProps, ref) => {
   const {
+    as: Component,
     disabled,
     className,
     placement,
@@ -97,7 +101,7 @@ const AutoComplete: AutoCompleteComponent = React.forwardRef((props: AutoComplet
     classPrefix,
     defaultValue,
     data,
-    value,
+    value: valueProp,
     open,
     style,
     menuClassName,
@@ -115,14 +119,14 @@ const AutoComplete: AutoCompleteComponent = React.forwardRef((props: AutoComplet
   } = props;
 
   const datalist = transformData(data);
-  const [val, setValue] = useState(value || defaultValue);
+  const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue);
   const [focus, setFocus] = useState(false);
-  const items = datalist?.filter(shouldDisplay(filterBy, val)) || [];
+  const items = datalist?.filter(shouldDisplay(filterBy, value)) || [];
   const hasItems = items.length > 0;
   const menuRef = useRef<HTMLDivElement>(null);
 
   // Used to hover the focuse item  when trigger `onKeydown`
-  const { focusItemValue, setFocusItemValue, onKeyDown: handleKeyDown } = useFocusItemValue(val, {
+  const { focusItemValue, setFocusItemValue, onKeyDown: handleKeyDown } = useFocusItemValue(value, {
     data: datalist,
     callback: onMenuFocus,
     target: () => menuRef.current
@@ -150,7 +154,7 @@ const AutoComplete: AutoCompleteComponent = React.forwardRef((props: AutoComplet
     setFocusItemValue(focusItemValue);
 
     handleSelect(focusItem, event);
-    if (val !== focusItemValue) {
+    if (value !== focusItemValue) {
       handleChangeValue(focusItemValue, event);
     }
 
@@ -189,17 +193,17 @@ const AutoComplete: AutoCompleteComponent = React.forwardRef((props: AutoComplet
   }, [onOpen]);
 
   const handleItemSelect = useCallback(
-    (nextItemValue: string | number, item: ItemDataType, event: React.SyntheticEvent) => {
+    (nextItemValue: ValueType, item: ItemDataType, event: React.SyntheticEvent) => {
       setValue(nextItemValue);
       setFocusItemValue(nextItemValue);
       handleSelect(item, event);
 
-      if (val !== nextItemValue) {
+      if (value !== nextItemValue) {
         handleChangeValue(nextItemValue, event);
       }
       handleClose();
     },
-    [handleSelect, handleChangeValue, handleClose, setFocusItemValue, val]
+    [handleSelect, handleChangeValue, handleClose, setFocusItemValue, value]
   );
 
   const handleInputFocus = useCallback(
@@ -232,7 +236,7 @@ const AutoComplete: AutoCompleteComponent = React.forwardRef((props: AutoComplet
   }));
 
   return (
-    <div ref={rootRef} className={classes} style={style}>
+    <Component ref={rootRef} className={classes} style={style}>
       <PickerToggleTrigger
         placement={placement}
         pickerProps={pick(props, pickerToggleTriggerProps)}
@@ -257,14 +261,14 @@ const AutoComplete: AutoCompleteComponent = React.forwardRef((props: AutoComplet
         <Input
           {...rest}
           disabled={disabled}
-          value={val}
+          value={value}
           onBlur={handleInputBlur}
           onFocus={handleInputFocus}
           onChange={handleChange}
           onKeyDown={handleKeyDownEvent}
         />
       </PickerToggleTrigger>
-    </div>
+    </Component>
   );
 });
 

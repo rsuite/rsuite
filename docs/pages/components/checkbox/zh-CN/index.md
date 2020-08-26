@@ -4,17 +4,35 @@
 
 ## 获取组件
 
-```js
-import { Checkbox, CheckboxGroup } from 'rsuite';
-
-//or
-import Checkbox from 'rsuite/lib/Checkbox';
-import CheckboxGroup from 'rsuite/lib/CheckboxGroup';
-```
+<!--{include:(components/checkbox/fragments/import.md)}-->
 
 ## 演示
 
-<!--{demo}-->
+### 默认
+
+<!--{include:`basic.md`}-->
+
+### 禁用
+
+<!--{include:`disabled.md`}-->
+
+### Indeterminate 状态
+
+`indeterminate` 该状态主要在全选或者树形结构 Checkbox 上使用。
+
+<!--{include:`indeterminate.md`}-->
+
+### 复选框分组
+
+<!--{include:`checkbox-group.md`}-->
+
+### 复选框组水平布局
+
+<!--{include:`checkbox-groupinline.md`}-->
+
+### 受控的复选框组
+
+<!--{include:`checkbox-group-controller.md`}-->
 
 ## Props
 

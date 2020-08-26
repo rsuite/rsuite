@@ -4,17 +4,35 @@ Check boxes are usually used in groups. Allow users to select one or more values
 
 ## Import
 
-```js
-import { Checkbox, CheckboxGroup } from 'rsuite';
-
-//or
-import Checkbox from 'rsuite/lib/Checkbox';
-import CheckboxGroup from 'rsuite/lib/CheckboxGroup';
-```
+<!--{include:(components/checkbox/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Default
+
+<!--{include:`basic.md`}-->
+
+### Disabled
+
+<!--{include:`disabled.md`}-->
+
+### Indeterminate State
+
+the `indeterminate` property is mainly used on the select all or tree structure checkbox.
+
+<!--{include:`indeterminate.md`}-->
+
+### Checkbox Group
+
+<!--{include:`checkbox-group.md`}-->
+
+### Checkbox Group With Horizontal Layout
+
+<!--{include:`checkbox-groupinline.md`}-->
+
+### Checkbox Group (Controlled)
+
+<!--{include:`checkbox-group-controller.md`}-->
 
 ## Props
 
