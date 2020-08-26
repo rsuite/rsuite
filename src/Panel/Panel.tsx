@@ -67,6 +67,12 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
       header,
       headerRole,
       id,
+      onEnter,
+      onEntered,
+      onEntering,
+      onExit,
+      onExited,
+      onExiting,
       onSelect,
       panelRole,
       shaded,
@@ -124,7 +130,15 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
 
     const renderCollapsibleBody = useCallback(
       (panelRole?: string) => (
-        <Collapse in={expanded}>
+        <Collapse
+          in={expanded}
+          onEnter={onEnter}
+          onEntering={onEntering}
+          onEntered={onEntered}
+          onExit={onExit}
+          onExiting={onExiting}
+          onExited={onExited}
+        >
           {(transitionProps, ref) => {
             const { className, ...rest } = transitionProps;
             return (
