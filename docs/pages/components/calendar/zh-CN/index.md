@@ -6,13 +6,17 @@
 
 ## 获取组件
 
-```js
-import { Calendar } from 'rsuite';
-```
+<!--{include:(components/calendar/fragments/import.md)}-->
 
 ## 演示
+### 默认
 
-<!--{demo}-->
+<!--{include:`basic.md`}-->
+
+### 紧凑型
+
+<!--{include:`compact.md`}-->
+
 
 ## Props
 

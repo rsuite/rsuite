@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { HTMLAttributes, Ref, useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { getPosition, scrollTop } from 'dom-lib';
 import omitBy from 'lodash/omitBy';
@@ -20,11 +19,10 @@ import scrollTopAnimation from '../utils/scrollTopAnimation';
 import { zonedDate } from '../utils/timeZone';
 import { useCalendarContext } from './CalendarContext';
 import { CalendarInnerContextValue } from './types';
+import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 
-export interface TimeDropdownProps extends HTMLAttributes<HTMLDivElement> {
+export interface TimeDropdownProps extends WithAsProps {
   show: boolean;
-  className?: string;
-  classPrefix?: string;
   showMeridian?: boolean;
   disabledDate?: (date: Date) => boolean;
   disabledHours?: (hour: number, date: Date) => boolean;
@@ -35,14 +33,13 @@ export interface TimeDropdownProps extends HTMLAttributes<HTMLDivElement> {
   hideSeconds?: (second: number, date: Date) => boolean;
 }
 
-const defaultProps = {
+const defaultProps: Partial<TimeDropdownProps> = {
   show: false,
-  classPrefix: 'calendar-time-dropdown'
+  classPrefix: 'calendar-time-dropdown',
+  as: 'div'
 };
 
 type TimeType = 'hours' | 'minutes' | 'seconds';
-
-type UListRefs = Record<TimeType, HTMLUListElement>;
 
 function getRanges(meridian) {
   return {
@@ -83,124 +80,126 @@ const getTime = (props: Partial<TimeDropdownProps> & Partial<CalendarInnerContex
   return nextTime;
 };
 
-const scrollTo = (time: Time, ulRefs: UListRefs) => {
-  Object.entries(time).forEach((item: [string, number]) => {
-    const container: Element = ulRefs[item[0]];
-    const node = container?.querySelector(`[data-key="${item[0]}-${item[1]}"]`);
+const scrollTo = (time: Time, row: HTMLDivElement) => {
+  if (!row) {
+    return;
+  }
+
+  Object.entries(time).forEach(([type, value]: [string, number]) => {
+    const container: Element = row.querySelector(`[data-type="${type}"]`);
+    const node = container?.querySelector(`[data-key="${type}-${value}"]`);
+
     if (node && container) {
       const { top } = getPosition(node, container);
-      scrollTopAnimation(ulRefs[item[0]], top, scrollTop(ulRefs[item[0]]) !== 0);
+      scrollTopAnimation(container, top, scrollTop(container) !== 0);
     }
   });
 };
 
-const TimeDropdown = React.forwardRef((props: TimeDropdownProps, ref: Ref<HTMLDivElement>) => {
-  const { className, classPrefix, show, showMeridian, ...rest } = props;
-  const { locale, format, timeZone, date, onChangePageTime: onSelect } = useCalendarContext();
-  const ulRefs = useRef<UListRefs>({} as UListRefs);
+const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.forwardRef(
+  (props: TimeDropdownProps, ref) => {
+    const { as: Component, className, classPrefix, show, showMeridian, ...rest } = props;
+    const { locale, format, timeZone, date, onChangePageTime: onSelect } = useCalendarContext();
+    const rowRef = useRef<HTMLDivElement>(null);
 
-  const updatePosition = useCallback(() => {
-    const time = getTime({
-      format,
-      timeZone,
-      date,
-      showMeridian
-    });
-    show && scrollTo(time, ulRefs.current);
-  }, [show, format, timeZone, date, showMeridian]);
+    const updatePosition = useCallback(() => {
+      const time = getTime({
+        format,
+        timeZone,
+        date,
+        showMeridian
+      });
+      show && scrollTo(time, rowRef.current);
+    }, [show, format, timeZone, date, showMeridian]);
 
-  const handleClick = (type: TimeType, d: number, event: React.MouseEvent) => {
-    let nextDate = date || new Date();
+    const handleClick = (type: TimeType, d: number, event: React.MouseEvent) => {
+      let nextDate = date || new Date();
 
-    switch (type) {
-      case 'hours':
-        nextDate = setHours(date, d);
-        break;
-      case 'minutes':
-        nextDate = setMinutes(date, d);
-        break;
-      case 'seconds':
-        nextDate = setSeconds(date, d);
-        break;
-    }
-
-    onSelect?.(nextDate, event);
-  };
-
-  const { prefix, rootPrefix, merge } = useClassNames(classPrefix);
-
-  const renderColumn = (type: TimeType, active: any) => {
-    if (!isNumber(active)) {
-      return null;
-    }
-    const { start, end } = getRanges(showMeridian)[type];
-    const items = [];
-    const hideFunc = props[camelCase(`hide_${type}`)];
-    const disabledFunc = props[camelCase(`disabled_${type}`)];
-
-    for (let i = start; i <= end; i += 1) {
-      if (!hideFunc?.(i, date)) {
-        const disabled = disabledFunc?.(i, date);
-        const itemClasses = merge(prefix('cell'), {
-          [prefix('cell-active')]: active === i,
-          [prefix('cell-disabled')]: disabled
-        });
-
-        items.push(
-          <li key={i} role="menuitem">
-            <a
-              role="button"
-              className={itemClasses}
-              tabIndex={-1}
-              data-key={`${type}-${i}`}
-              onClick={!disabled ? partial(handleClick, type, i) : null}
-            >
-              {showMeridian && type === 'hours' && i === 0 ? '12' : i}
-            </a>
-          </li>
-        );
+      switch (type) {
+        case 'hours':
+          nextDate = setHours(date, d);
+          break;
+        case 'minutes':
+          nextDate = setMinutes(date, d);
+          break;
+        case 'seconds':
+          nextDate = setSeconds(date, d);
+          break;
       }
-    }
+
+      onSelect?.(nextDate, event);
+    };
+
+    const { prefix, rootPrefix, merge } = useClassNames(classPrefix);
+
+    const renderColumn = (type: TimeType, active: any) => {
+      if (!isNumber(active)) {
+        return null;
+      }
+      const { start, end } = getRanges(showMeridian)[type];
+      const items = [];
+      const hideFunc = props[camelCase(`hide_${type}`)];
+      const disabledFunc = props[camelCase(`disabled_${type}`)];
+
+      for (let i = start; i <= end; i += 1) {
+        if (!hideFunc?.(i, date)) {
+          const disabled = disabledFunc?.(i, date);
+          const itemClasses = merge(prefix('cell'), {
+            [prefix('cell-active')]: active === i,
+            [prefix('cell-disabled')]: disabled
+          });
+
+          items.push(
+            <li key={i} role="menuitem">
+              <a
+                role="button"
+                className={itemClasses}
+                tabIndex={-1}
+                data-key={`${type}-${i}`}
+                onClick={!disabled ? partial(handleClick, type, i) : null}
+              >
+                {showMeridian && type === 'hours' && i === 0 ? '12' : i}
+              </a>
+            </li>
+          );
+        }
+      }
+
+      return (
+        <div className={prefix('column')} role="listitem">
+          <div className={prefix('column-title')}>{locale?.[type]}</div>
+          <ul data-type={type} role="menu">
+            {items}
+          </ul>
+        </div>
+      );
+    };
+
+    const time = getTime({ format, timeZone, date, showMeridian });
+    const classes = merge(className, rootPrefix(classPrefix));
+
+    useEffect(() => {
+      updatePosition();
+    }, [updatePosition]);
 
     return (
-      <div className={prefix('column')} role="listitem">
-        <div className={prefix('column-title')}>{locale?.[type]}</div>
-        <ul
-          ref={ref => {
-            ulRefs.current[type] = ref;
-          }}
-          role="menu"
-        >
-          {items}
-        </ul>
-      </div>
-    );
-  };
-
-  const time = getTime({ format, timeZone, date, showMeridian });
-  const classes = merge(rootPrefix(classPrefix), className);
-
-  useEffect(() => {
-    updatePosition();
-  }, [updatePosition]);
-
-  return (
-    <div
-      {...omitBy(rest, (_val, key) => key.startsWith('disabled') || key.startsWith('hide'))}
-      ref={ref}
-      className={classes}
-      role="list"
-    >
-      <div className={prefix('content')}>
-        <div className={prefix('row')}>
-          {renderColumn('hours', time.hours)}
-          {renderColumn('minutes', time.minutes)}
-          {renderColumn('seconds', time.seconds)}
+      <Component
+        {...omitBy(rest, (_val, key) => key.startsWith('disabled') || key.startsWith('hide'))}
+        ref={ref}
+        className={classes}
+        role="list"
+      >
+        <div className={prefix('content')}>
+          <div className={prefix('row')} ref={rowRef}>
+            {renderColumn('hours', time.hours)}
+            {renderColumn('minutes', time.minutes)}
+            {renderColumn('seconds', time.seconds)}
+          </div>
         </div>
-      </div>
-    </div>
-  );
-});
+      </Component>
+    );
+  }
+);
 
 TimeDropdown.displayName = 'TimeDropdown';
 TimeDropdown.propTypes = {

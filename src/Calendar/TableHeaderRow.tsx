@@ -1,26 +1,24 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import { useCalendarContext } from './CalendarContext';
-import { HTMLAttributes } from 'react';
+import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 
-export interface TableHeaderRowProps extends HTMLAttributes<HTMLDivElement> {
-  className?: string;
-  classPrefix?: string;
-}
+export type TableHeaderRowProps = WithAsProps;
 
-const defaultProps = {
-  classPrefix: 'calendar-table'
+const defaultProps: Partial<TableHeaderRowProps> = {
+  classPrefix: 'calendar-table',
+  as: 'div'
 };
 
 const weekKeys = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
-const TableHeaderRow = React.forwardRef(
-  (props: TableHeaderRowProps, ref: React.Ref<HTMLDivElement>) => {
-    const { className, classPrefix, ...rest } = props;
+const TableHeaderRow: RsRefForwardingComponent<'div', TableHeaderRowProps> = React.forwardRef(
+  (props: TableHeaderRowProps, ref) => {
+    const { as: Component, className, classPrefix, ...rest } = props;
     const { locale, showWeekNumbers, isoWeek } = useCalendarContext();
     const { merge, prefix } = useClassNames(classPrefix);
-    const classes = merge(prefix('row'), prefix('header-row'), className);
+    const classes = merge(className, prefix('row'), prefix('header-row'));
     let items = weekKeys;
 
     if (isoWeek) {
@@ -29,14 +27,14 @@ const TableHeaderRow = React.forwardRef(
     }
 
     return (
-      <div {...rest} ref={ref} role="row" className={classes}>
+      <Component {...rest} ref={ref} role="row" className={classes}>
         {showWeekNumbers && <div className={prefix('cell')} role="columnheader" />}
         {items.map(key => (
           <div key={key} className={prefix('cell')} role="columnheader">
             <span className={prefix('cell-content')}>{locale?.[key]}</span>
           </div>
         ))}
-      </div>
+      </Component>
     );
   }
 );

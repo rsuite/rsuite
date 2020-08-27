@@ -6,13 +6,17 @@ A component that displays data by calendar
 
 ## Usage
 
-```js
-import { Calendar } from 'rsuite';
-```
+<!--{include:(components/calendar/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Default
+
+<!--{include:`basic.md`}-->
+
+### Compact
+
+<!--{include:`compact.md`}-->
 
 ## Props
 

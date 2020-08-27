@@ -14,10 +14,10 @@ import {
   setMinutes,
   setSeconds
 } from '../utils/dateUtils';
-import { StandardProps } from '../@types/common';
+import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { CalendarLocale } from './types';
 
-export interface CalendarPanelProps extends StandardProps {
+export interface CalendarPanelProps extends WithAsProps {
   /** Controlled value */
   value?: Date;
 
@@ -54,8 +54,8 @@ const defaultProps: Partial<CalendarPanelProps> = {
   as: Calendar
 };
 
-const CalendarPanel = React.forwardRef(
-  (props: CalendarPanelProps, ref: React.Ref<HTMLDivElement>) => {
+const CalendarPanel: RsRefForwardingComponent<'div', CalendarPanelProps> = React.forwardRef(
+  (props: CalendarPanelProps, ref) => {
     const {
       as: Component,
       bordered,
@@ -69,12 +69,12 @@ const CalendarPanel = React.forwardRef(
       onSelect,
       renderCell,
       timeZone,
-      value: propsValue,
+      value: valueProp,
       ...rest
     } = props;
-    const [value, updateValue] = useState<Date>(toTimeZone(propsValue ?? defaultValue, timeZone));
+    const [value, updateValue] = useState<Date>(toTimeZone(valueProp ?? defaultValue, timeZone));
     const [pageDate, setPageDate] = useState(
-      toTimeZone(propsValue ?? defaultValue ?? new Date(), timeZone)
+      toTimeZone(valueProp ?? defaultValue ?? new Date(), timeZone)
     );
     const [showMonth, setShowMonth] = useState<boolean>(false);
     const { locale } = useCustom('Calendar', overrideLocale);
@@ -89,13 +89,13 @@ const CalendarPanel = React.forwardRef(
 
     useEffect(() => {
       const nextValue = toTimeZone(
-        propsValue ?? toLocalTimeZone(prevValueRef.current, prevTimeZoneRef.current),
+        valueProp ?? toLocalTimeZone(prevValueRef.current, prevTimeZoneRef.current),
         timeZone
       );
       prevTimeZoneRef.current = timeZone;
       setValue(nextValue);
       setPageDate(nextValue ?? zonedDate(timeZone));
-    }, [setValue, timeZone, propsValue]);
+    }, [setValue, timeZone, valueProp]);
 
     const handleToggleMonthDropdown = useCallback(() => {
       setShowMonth(prevShowMonth => !prevShowMonth);
@@ -193,7 +193,6 @@ const CalendarPanel = React.forwardRef(
 
 CalendarPanel.displayName = 'CalendarPanel';
 CalendarPanel.propTypes = {
-  as: PropTypes.elementType,
   value: PropTypes.instanceOf(Date),
   defaultValue: PropTypes.instanceOf(Date),
   isoWeek: PropTypes.bool,

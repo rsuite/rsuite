@@ -1,4 +1,3 @@
-### Compact
 
 <!--start-code-->
 

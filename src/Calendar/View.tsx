@@ -1,43 +1,44 @@
-import React, { HTMLAttributes, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { isSameMonth, setDate } from '../utils/dateUtils';
 import { getMonthView, useClassNames } from '../utils';
 import Table from './Table';
 import composeFunctions from '../utils/composeFunctions';
 import { useCalendarContext } from './CalendarContext';
+import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 
-export interface ViewProps extends HTMLAttributes<HTMLDivElement> {
-  className?: string;
-  classPrefix?: string;
-}
+export type ViewProps = WithAsProps;
 
-const defaultProps = {
-  classPrefix: 'calendar-view'
+const defaultProps: Partial<ViewProps> = {
+  classPrefix: 'calendar-view',
+  as: 'div'
 };
 
-const View = React.forwardRef((props: ViewProps, ref: React.Ref<HTMLDivElement>) => {
-  const { className, classPrefix, ...rest } = props;
-  const { date = new Date(), isoWeek } = useCalendarContext();
+const View: RsRefForwardingComponent<'div', ViewProps> = React.forwardRef(
+  (props: ViewProps, ref) => {
+    const { as: Component, className, classPrefix, ...rest } = props;
+    const { date = new Date(), isoWeek } = useCalendarContext();
 
-  const inSameThisMonthDate = useCallback(
-    (date: Date) =>
-      composeFunctions(
-        d => setDate(d, 1),
-        d => isSameMonth(d, date)
-      )(date),
-    []
-  );
+    const inSameThisMonthDate = useCallback(
+      (date: Date) =>
+        composeFunctions(
+          d => setDate(d, 1),
+          d => isSameMonth(d, date)
+        )(date),
+      []
+    );
 
-  const thisMonthDate = setDate(date, 1);
-  const { merge, rootPrefix } = useClassNames(classPrefix);
-  const classes = merge(rootPrefix(classPrefix), className);
+    const thisMonthDate = setDate(date, 1);
+    const { merge, rootPrefix } = useClassNames(classPrefix);
+    const classes = merge(className, rootPrefix(classPrefix));
 
-  return (
-    <div {...rest} ref={ref} role="row" className={classes}>
-      <Table rows={getMonthView(thisMonthDate, isoWeek)} inSameMonth={inSameThisMonthDate} />
-    </div>
-  );
-});
+    return (
+      <Component {...rest} ref={ref} role="row" className={classes}>
+        <Table rows={getMonthView(thisMonthDate, isoWeek)} inSameMonth={inSameThisMonthDate} />
+      </Component>
+    );
+  }
+);
 
 View.displayName = 'View';
 View.propTypes = {
