@@ -52,12 +52,14 @@ export interface AnimationEventProps {
   onExited?: (node: null | Element | Text) => void;
 }
 
+export type PickerAppearance = 'default' | 'subtle';
+
 export interface PickerBaseProps<LocaleType = any> extends WithAsProps, AnimationEventProps {
   /** locale */
   locale?: LocaleType;
 
   /** A picker can have different appearances. */
-  appearance?: 'default' | 'subtle';
+  appearance?: PickerAppearance;
 
   /** Format picker to appear inside a content block */
   block?: boolean;
