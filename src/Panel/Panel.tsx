@@ -156,7 +156,19 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
           }}
         </Collapse>
       ),
-      [expanded, id, merge, prefix, renderBody]
+      [
+        expanded,
+        id,
+        merge,
+        onEnter,
+        onEntered,
+        onEntering,
+        onExit,
+        onExited,
+        onExiting,
+        prefix,
+        renderBody
+      ]
     );
 
     const renderHeading = useCallback(
