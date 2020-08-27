@@ -8,13 +8,108 @@
 
 ## 获取组件
 
-```js
-import { DatePicker } from 'rsuite';
-```
+<!--{include:(components/date-picker/fragments/import.md)}-->
 
 ## 演示
 
-<!--{demo}-->
+### 默认
+
+<!--{include:`basic.md`}-->
+
+### 尺寸
+
+<!--{include:`size.md`}-->
+
+### 一键选值
+
+<!--{include:`one-tap.md`}-->
+
+### 外观
+
+<!--{include:`appearance.md`}-->
+
+### 撑满
+
+<!--{include:`block.md`}-->
+
+### 占位符
+
+<!--{include:`placeholder.md`}-->
+
+### 日期 + 时间
+
+<!--{include:`format.md`}-->
+
+### 只显示月份
+
+<!--{include:`format-month.md`}-->
+
+### 只显示时间
+
+<!--{include:`format-time.md`}-->
+
+### 以 12 小时制的格式显示
+
+<!--{include:`format-time-meridian.md`}-->
+
+### ISO week
+
+国际标准 ISO 8601 定义，每个日历星期从星期一开始，星期日为第7天, [ISO week date](https://en.wikipedia.org/wiki/ISO_week_date).
+
+可以通过 `isoWeek` 属性设置以 ISO 标准显示日历面板。
+
+<!--{include:`iso-week.md`}-->
+
+### 禁用与隐藏
+
+禁用是把一个可点击元素设置为不可点击状态，隐藏是直接在选项中不出现。
+
+<!--{include:`disabled.md`}-->
+
+### 设置本地语言
+
+`DatePicker` 支持本地语言自定义配置，但是我们更推荐使用统一[国际化](/guide/intl)配置。
+
+<!--{include:`intl-zh-cn.md`}-->
+
+
+### 位置
+
+<!--{include:`placement.md`}-->
+
+> 提示：设置为 `auto*`时， 尝试滚动页面，或者改变浏览器大小，会自动显示在合适的位置。
+
+### 自定义快捷项
+
+<!--{include:`custom.md`}-->
+
+示例中点击“前一天”，不会关闭浮层，是因为配置 `closeOverlay:boolean` 参数，该参数用于设置点击快捷项以后是否关闭浮层，默认为 `true`。
+
+### 受控
+
+<!--{include:`control.md`}-->
+
+### 选择范围
+
+<!--{include:`range.md`}-->
+
+### 显示周数
+
+<!--{include:`show-week-numbers.md`}-->
+
+### 设定时区
+
+<!--{include:`time-zone.md`}-->
+
+- [时区可选择列表参考](/zh/components/date-picker#Time%20Zone%20List)
+- [使用时区注意事项](/zh/components/date-picker#Time%20Zone%20Tips)
+
+### 与 `TimeZonePicker` 配合设定时区
+
+<!--{include:`time-zone-with-picker.md`}-->
+
+
+
 
 ## Props
 
