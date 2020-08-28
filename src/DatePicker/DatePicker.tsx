@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import IntlContext from '../IntlProvider/IntlContext';
@@ -114,7 +114,9 @@ export interface DatePickerProps
   onOk?: (date: Date, event: React.SyntheticEvent<HTMLElement>) => void;
 
   /** Called when clean */
-  onClean?: (event: React.SyntheticEvent<HTMLElement>) => void;
+  onClean?: <TEvent extends React.SyntheticEvent<HTMLElement> = React.SyntheticEvent<HTMLElement>>(
+    event: TEvent
+  ) => void;
 
   /** Custom render value */
   renderValue?: (value: Date, format: string) => React.ReactNode;
@@ -200,7 +202,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const [calendarState, setCalendarState] = useState<CalendarState>();
     const [active, setActive] = useState<boolean>(false);
     const menuContainerRef = useRef<HTMLDivElement>(); // for test
-    const triggerRef = useRef<typeof PickerToggleTrigger>();
+    const triggerRef = useRef<{ show?: () => void; hide?: () => void }>();
     const prevValueRef = useRef<Date>(value);
     const prevTimeZoneRef = useRef<string>(timeZone);
     const setValue = useCallback((nextValue: Date) => {
@@ -220,7 +222,10 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       setPageDate(nextValue ?? zonedDate(timeZone));
     }, [setValue, timeZone, valueProp]);
 
-    const getLocalPageDate = (date = pageDate) => toLocalTimeZone(date, timeZone);
+    const getLocalPageDate = useCallback((date = pageDate) => toLocalTimeZone(date, timeZone), [
+      pageDate,
+      timeZone
+    ]);
 
     const handleMoveForward = useCallback(
       (nextPageDate: Date) => {
@@ -252,68 +257,84 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       return renderValue?.(value, format) ?? <FormattedDate date={value} formatStr={format} />;
     };
 
-    const handleChangePageDate = (nextPageDate: Date) => {
-      setPageDate(nextPageDate);
-      setCalendarState(undefined);
-      handleAllSelect(nextPageDate);
-    };
+    const handleAllSelect = useCallback(
+      (nextValue: Date, event?: React.SyntheticEvent<any>) => {
+        nextValue = toLocalTimeZone(nextValue, timeZone);
+        onSelect?.(nextValue, event);
+        onChangeCalendarDate?.(nextValue, event);
+      },
+      [onChangeCalendarDate, onSelect, timeZone]
+    );
 
-    const handleChangePageTime = (nextPageTime: Date) => {
-      setPageDate(nextPageTime);
-      handleAllSelect(nextPageTime);
-    };
+    const handleChangePageDate = useCallback(
+      (nextPageDate: Date) => {
+        setPageDate(nextPageDate);
+        setCalendarState(undefined);
+        handleAllSelect(nextPageDate);
+      },
+      [handleAllSelect]
+    );
 
-    const handleToggleMeridian = () => {
+    const handleChangePageTime = useCallback(
+      (nextPageTime: Date) => {
+        setPageDate(nextPageTime);
+        handleAllSelect(nextPageTime);
+      },
+      [handleAllSelect]
+    );
+
+    const handleCloseDropdown = useCallback(() => {
+      triggerRef.current?.hide?.();
+    }, []);
+
+    const handleOpenDropdown = useCallback(() => {
+      triggerRef.current?.show?.();
+    }, []);
+
+    const handleToggleMeridian = useCallback(() => {
       const hours = getHours(pageDate);
       const nextHours = hours >= 12 ? hours - 12 : hours + 12;
       const nextDate = setHours(pageDate, nextHours);
       setPageDate(nextDate);
-    };
+    }, [pageDate]);
 
-    const handleShortcutPageDate = (
-      value: Date,
-      closeOverlay?: boolean,
-      event?: React.SyntheticEvent<any>
-    ) => {
-      handleValueUpdate(event, value, closeOverlay);
-      handleAllSelect(value, event);
-    };
+    const handleValueUpdate = useCallback(
+      (event: React.SyntheticEvent<any>, nextPageDate?: Date | null, closeOverlay = true) => {
+        const nextValue: Date = nextPageDate ?? pageDate;
 
-    const handleOK = (event: React.SyntheticEvent<any>) => {
-      handleValueUpdate(event);
-      onOk?.(getLocalPageDate(), event);
-    };
+        setPageDate(nextValue || new Date());
+        setValue(nextValue);
 
-    const handleValueUpdate = (
-      event: React.SyntheticEvent<any>,
-      nextPageDate?: Date | null,
-      closeOverlay = true
-    ) => {
-      const nextValue: Date = nextPageDate ?? pageDate;
+        if (nextValue !== value || !isSameDay(nextValue, value)) {
+          onChange?.(getLocalPageDate(nextValue), event);
+        }
 
-      setPageDate(nextValue || new Date());
-      setValue(nextValue);
+        // `closeOverlay` default value is `true`
+        if (closeOverlay !== false) {
+          handleCloseDropdown();
+        }
+      },
+      [getLocalPageDate, handleCloseDropdown, onChange, pageDate, setValue, value]
+    );
 
-      if (nextValue !== value || !isSameDay(nextValue, value)) {
-        onChange?.(getLocalPageDate(nextValue), event);
-      }
+    const handleShortcutPageDate = useCallback(
+      (value: Date, closeOverlay?: boolean, event?: React.SyntheticEvent<any>) => {
+        handleValueUpdate(event, value, closeOverlay);
+        handleAllSelect(value, event);
+      },
+      [handleAllSelect, handleValueUpdate]
+    );
 
-      // `closeOverlay` default value is `true`
-      if (closeOverlay !== false) {
-        handleCloseDropdown();
-      }
-    };
+    const handleOK = useCallback(
+      (event: React.SyntheticEvent<any>) => {
+        handleValueUpdate(event);
+        onOk?.(getLocalPageDate(), event);
+      },
+      [getLocalPageDate, handleValueUpdate, onOk]
+    );
 
     const resetPageDate = () => {
       setPageDate(toTimeZone(value || calendarDefaultDate || new Date(), timeZone));
-    };
-
-    const handleCloseDropdown = () => {
-      triggerRef.current?.hide?.();
-    };
-
-    const handleOpenDropdown = () => {
-      triggerRef.current?.show?.();
     };
 
     const open = () => {
@@ -336,7 +357,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       setCalendarState(undefined);
     };
 
-    const toggleMonthDropdown = () => {
+    const toggleMonthDropdown = useCallback(() => {
       let toggle;
 
       if (calendarState === CalendarState.DROP_MONTH) {
@@ -347,9 +368,9 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         toggle = true;
       }
       onToggleMonthDropdown?.(toggle);
-    };
+    }, [calendarState, onToggleMonthDropdown]);
 
-    const toggleTimeDropdown = () => {
+    const toggleTimeDropdown = useCallback(() => {
       let toggle;
 
       if (calendarState === CalendarState.DROP_TIME) {
@@ -361,51 +382,57 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       }
 
       onToggleTimeDropdown?.(toggle);
-    };
+    }, [calendarState, onToggleTimeDropdown]);
 
-    const handleClean = (event: React.SyntheticEvent<any>) => {
-      setPageDate(toTimeZone(new Date(), timeZone));
-      handleValueUpdate(event, null);
-    };
+    const handleClean = useCallback(
+      (event: React.SyntheticEvent<any>) => {
+        setPageDate(toTimeZone(new Date(), timeZone));
+        handleValueUpdate(event, null);
+      },
+      [handleValueUpdate, timeZone]
+    );
 
-    const handleAllSelect = (nextValue: Date, event?: React.SyntheticEvent<any>) => {
-      nextValue = toLocalTimeZone(nextValue, timeZone);
-      onSelect?.(nextValue, event);
-      onChangeCalendarDate?.(nextValue, event);
-    };
+    const handleSelect = useCallback(
+      (nextValue: Date, event: React.SyntheticEvent<any>) => {
+        setPageDate(
+          composeFunctions(
+            (d: Date) => setHours(d, getHours(pageDate)),
+            (d: Date) => setMinutes(d, getMinutes(pageDate)),
+            (d: Date) => setSeconds(d, getSeconds(pageDate))
+          )(nextValue)
+        );
 
-    const handleSelect = (nextValue: Date, event: React.SyntheticEvent<any>) => {
-      setPageDate(
-        composeFunctions(
-          (d: Date) => setHours(d, getHours(pageDate)),
-          (d: Date) => setMinutes(d, getMinutes(pageDate)),
-          (d: Date) => setSeconds(d, getSeconds(pageDate))
-        )(nextValue)
-      );
+        handleAllSelect(nextValue);
+        oneTap && handleValueUpdate(event, nextValue);
+      },
+      [handleAllSelect, handleValueUpdate, oneTap, pageDate]
+    );
 
-      handleAllSelect(nextValue);
-      oneTap && handleValueUpdate(event, nextValue);
-    };
-
-    const handleEntered = () => {
+    const handleEntered = useCallback(() => {
       onOpen?.();
       setActive(true);
-    };
+    }, [onOpen]);
 
-    const handleExit = () => {
+    const handleExit = useCallback(() => {
       onClose?.();
       setCalendarState(undefined);
       setActive(false);
-    };
+    }, [onClose]);
 
-    const disabledDate = (date?: Date) => disabledDateProp?.(toLocalTimeZone(date, timeZone));
+    const disabledDate = useCallback(
+      (date?: Date) => disabledDateProp?.(toLocalTimeZone(date, timeZone)),
+      [disabledDateProp, timeZone]
+    );
 
-    const disabledToolbarHandle = (date?: Date): boolean => {
-      const allowDate = disabledDateProp?.(date) ?? false;
-      const allowTime = disabledTime(props, toLocalTimeZone(date, timeZone));
+    const disabledToolbarHandle = useCallback(
+      (date?: Date): boolean => {
+        const allowDate = disabledDateProp?.(date) ?? false;
+        const allowTime = disabledTime(props, toLocalTimeZone(date, timeZone));
 
-      return allowDate || allowTime;
-    };
+        return allowDate || allowTime;
+      },
+      [disabledDateProp, props, timeZone]
+    );
 
     const renderCalendar = useCallback(() => {
       const calendarProps = _.mapValues(
@@ -492,7 +519,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     );
 
     const hasValue = !!value;
-    const calendar = renderCalendar();
+    const calendar = useMemo(() => renderCalendar(), [renderCalendar]);
 
     if (inline) {
       return (
@@ -521,7 +548,10 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
               (_value, key) => key.startsWith('hide') || key.startsWith('disabled')
             )}
             as={toggleAs}
-            onClean={createChainedFunction(handleClean, onClean)}
+            onClean={createChainedFunction<(event: React.MouseEvent<any>) => void>(
+              handleClean,
+              onClean
+            )}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
             active={active}
