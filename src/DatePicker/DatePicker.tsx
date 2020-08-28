@@ -26,7 +26,8 @@ import {
   isSameDay,
   setHours,
   setMinutes,
-  setSeconds
+  setSeconds,
+  isEqual
 } from '../utils/dateUtils';
 import { pickerDefaultProps, pickerPropTypes } from '../Picker/propTypes';
 import { toLocalTimeZone, toTimeZone, zonedDate } from '../utils/timeZone';
@@ -190,6 +191,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const { locale } = useCustom<DatePickerLocale>('DatePicker', overrideLocale);
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
     const activeValue = valueProp ?? defaultValue;
+    const [localZoneValue, setLocalZoneValue] = useState(activeValue);
     const [value, updateValue] = useState(toTimeZone(activeValue, timeZone));
     const [pageDate, setPageDate] = useState(
       toTimeZone(activeValue ?? calendarDefaultDate ?? new Date(), timeZone)
@@ -198,24 +200,23 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const [active, setActive] = useState<boolean>(false);
     const menuContainerRef = useRef<HTMLDivElement>(); // for test
     const triggerRef = useRef<{ show?: () => void; hide?: () => void }>();
-    const prevValueRef = useRef<Date>(value);
-    const prevTimeZoneRef = useRef<string>(timeZone);
-    const setValue = useCallback((nextValue: Date) => {
-      updateValue(prevValue => {
-        prevValueRef.current = prevValue;
-        return nextValue;
-      });
-    }, []);
+    const setValue = useCallback(
+      nextValue => {
+        if (!isEqual(value, nextValue)) {
+          setLocalZoneValue(toLocalTimeZone(nextValue, timeZone));
+          updateValue(nextValue);
+        }
+      },
+      [timeZone, value]
+    );
 
     useEffect(() => {
-      const nextValue = toTimeZone(
-        valueProp ?? toLocalTimeZone(prevValueRef.current, prevTimeZoneRef.current),
-        timeZone
-      );
-      prevTimeZoneRef.current = timeZone;
+      const nextLocalZoneValue = valueProp ?? localZoneValue;
+      const nextValue = toTimeZone(nextLocalZoneValue, timeZone);
+
       setValue(nextValue);
       setPageDate(nextValue ?? zonedDate(timeZone));
-    }, [setValue, timeZone, valueProp]);
+    }, [timeZone, valueProp, localZoneValue, setValue]);
 
     const getLocalPageDate = useCallback((date = pageDate) => toLocalTimeZone(date, timeZone), [
       pageDate,

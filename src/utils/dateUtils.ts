@@ -16,6 +16,7 @@ import getSecondsFns from 'date-fns/getSeconds';
 import getYearFns from 'date-fns/getYear';
 import isAfterFns from 'date-fns/isAfter';
 import isBeforeFns from 'date-fns/isBefore';
+import isEqualFns from 'date-fns/isEqual';
 import isSameDayFns from 'date-fns/isSameDay';
 import isSameMonthFns from 'date-fns/isSameMonth';
 import parseFns from 'date-fns/parse';
@@ -70,6 +71,7 @@ export const isAfter = isAfterFns;
 export const isBefore = isBeforeFns;
 export const isSameDay = isSameDayFns;
 export const isSameMonth = isSameMonthFns;
+export const isEqual = isEqualFns;
 
 /*
  * Compute
