@@ -4,10 +4,9 @@ import PropTypes from 'prop-types';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
 import omitBy from 'lodash/omitBy';
-import IntlContext from '../IntlProvider/IntlContext';
 import FormattedDate from '../IntlProvider/FormattedDate';
 import Calendar from '../Calendar/Calendar';
-import Toolbar from './Toolbar';
+import Toolbar, { RangeType } from './Toolbar';
 import { shouldOnlyTime } from '../utils/formatUtils';
 import composeFunctions from '../utils/composeFunctions';
 import { createChainedFunction, useClassNames, useCustom } from '../utils';
@@ -33,12 +32,6 @@ import { pickerDefaultProps, pickerPropTypes } from '../Picker/propTypes';
 import { toLocalTimeZone, toTimeZone, zonedDate } from '../utils/timeZone';
 import { FormControlBaseProps, PickerBaseProps, RsRefForwardingComponent } from '../@types/common';
 import { DatePickerLocale } from './types';
-
-export interface RangeType {
-  label: React.ReactNode;
-  closeOverlay?: boolean;
-  value: Date | ((pageDate?: Date) => Date);
-}
 
 export interface DatePickerProps
   extends PickerBaseProps<DatePickerLocale>,
@@ -251,13 +244,13 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       [getLocalPageDate, onChangeCalendarDate, onPrevMonth]
     );
 
-    const getDateString = () => {
+    const getDateString = useCallback(() => {
       if (!value) {
         return placeholder || format;
       }
 
       return renderValue?.(value, format) ?? <FormattedDate date={value} formatStr={format} />;
-    };
+    }, [format, placeholder, renderValue, value]);
 
     const handleAllSelect = useCallback(
       (nextValue: Date, event?: React.SyntheticEvent<any>) => {
@@ -289,10 +282,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       triggerRef.current?.hide?.();
     }, []);
 
-    const handleOpenDropdown = useCallback(() => {
-      triggerRef.current?.show?.();
-    }, []);
-
     const handleToggleMeridian = useCallback(() => {
       const hours = getHours(pageDate);
       const nextHours = hours >= 12 ? hours - 12 : hours + 12;
@@ -302,7 +291,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
     const handleValueUpdate = useCallback(
       (event: React.SyntheticEvent<any>, nextPageDate?: Date | null, closeOverlay = true) => {
-        const nextValue: Date = nextPageDate ?? pageDate;
+        const nextValue: Date = typeof nextPageDate !== 'undefined' ? nextPageDate : pageDate;
 
         setPageDate(nextValue || new Date());
         setValue(nextValue);
@@ -334,18 +323,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       },
       [getLocalPageDate, handleValueUpdate, onOk]
     );
-
-    const resetPageDate = () => {
-      setPageDate(toTimeZone(value || calendarDefaultDate || new Date(), timeZone));
-    };
-
-    const open = () => {
-      handleOpenDropdown();
-    };
-
-    const close = () => {
-      handleCloseDropdown();
-    };
 
     const showMonthDropdown = () => {
       setCalendarState(CalendarState.DROP_MONTH);
@@ -436,15 +413,20 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       [disabledDateProp, props, timeZone]
     );
 
-    const renderCalendar = useCallback(() => {
-      const calendarProps = mapValues(
-        pick<DatePickerProps, CalendarOnlyPropsType>(props, calendarOnlyProps),
-        disabledOrHiddenTimeFunc => (next: number, date: Date): boolean =>
-          disabledOrHiddenTimeFunc(next, toLocalTimeZone(date, timeZone))
-      );
-      return (
+    const calendarProps = useMemo(
+      () =>
+        mapValues(
+          pick<DatePickerProps, CalendarOnlyPropsType>(props, calendarOnlyProps),
+          disabledOrHiddenTimeFunc => (next: number, date: Date): boolean =>
+            disabledOrHiddenTimeFunc(next, toLocalTimeZone(date, timeZone))
+        ),
+      [props, timeZone]
+    );
+    const renderCalendar = useCallback(
+      () => (
         <Calendar
           {...calendarProps}
+          locale={locale}
           showWeekNumbers={showWeekNumbers}
           showMeridian={showMeridian}
           disabledDate={disabledDate}
@@ -463,27 +445,29 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
           onChangePageTime={handleChangePageTime}
           onToggleMeridian={handleToggleMeridian}
         />
-      );
-    }, [
-      calendarState,
-      disabledDate,
-      format,
-      handleChangePageDate,
-      handleChangePageTime,
-      handleSelect,
-      handleToggleMeridian,
-      isoWeek,
-      limitEndYear,
-      handleMoveBackward,
-      handleMoveForward,
-      pageDate,
-      props,
-      showMeridian,
-      showWeekNumbers,
-      timeZone,
-      toggleMonthDropdown,
-      toggleTimeDropdown
-    ]);
+      ),
+      [
+        calendarProps,
+        calendarState,
+        disabledDate,
+        format,
+        handleChangePageDate,
+        handleChangePageTime,
+        handleMoveBackward,
+        handleMoveForward,
+        handleSelect,
+        handleToggleMeridian,
+        isoWeek,
+        limitEndYear,
+        locale,
+        pageDate,
+        showMeridian,
+        showWeekNumbers,
+        timeZone,
+        toggleMonthDropdown,
+        toggleTimeDropdown
+      ]
+    );
 
     const renderDropdownMenu = useCallback(
       (calendar: React.ReactNode) => {
@@ -524,11 +508,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const calendar = useMemo(() => renderCalendar(), [renderCalendar]);
 
     if (inline) {
-      return (
-        <IntlContext.Provider value={locale}>
-          <div className={merge(className, withClassPrefix('date-inline'))}>{calendar}</div>
-        </IntlContext.Provider>
-      );
+      return <div className={merge(className, withClassPrefix('date-inline'))}>{calendar}</div>;
     }
 
     const classes = getToggleWrapperClassName('date', prefix, props, hasValue, {

@@ -17,8 +17,8 @@ const instance = (
         {
           label: 'Prev Day',
           closeOverlay: false,
-          value: datePage => {
-            return dateFns.addDays(dateFns.parseISO(datePage), -1);
+          value: date => {
+            return dateFns.subDays(date, 1);
           }
         }
       ]}

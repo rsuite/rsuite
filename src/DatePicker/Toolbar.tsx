@@ -5,8 +5,13 @@ import classNames from 'classnames';
 import FormattedMessage from '../IntlProvider/FormattedMessage';
 import { defaultProps, getUnhandledProps, prefix } from '../utils';
 import { addDays } from '../utils/dateUtils';
-import { RangeType } from './DatePicker.d';
 import { toTimeZone, zonedDate } from '../utils/timeZone';
+
+export interface RangeType {
+  label: React.ReactNode;
+  closeOverlay?: boolean;
+  value: Date | ((pageDate: Date) => Date);
+}
 
 export interface ToolbarProps {
   ranges: RangeType[];
@@ -39,7 +44,7 @@ const getDefaultRanges = (timeZone: string) => {
 class Toolbar extends React.Component<
   ToolbarProps,
   {
-    ranges: RangeType[];
+    ranges: ({ value: Date } & Omit<RangeType, 'value'>)[];
   }
 > {
   static propTypes = {
@@ -129,12 +134,12 @@ class Toolbar extends React.Component<
     return (
       <div {...unhandled} className={classes}>
         <div className={this.addPrefix('ranges')}>
-          {ranges.map((item: RangeType, index: number) => {
-            const value: any = typeof item.value === 'function' ? item.value(pageDate) : item.value;
-            const disabled = disabledHandle?.(value);
+          {ranges.map(({ value, closeOverlay, label }, index: number) => {
+            const disabled = disabledHandle?.(value as Date);
             const itemClassName = classNames(this.addPrefix('option'), {
               [this.addPrefix('option-disabled')]: disabled
             });
+
             return (
               <a
                 key={index}
@@ -145,10 +150,10 @@ class Toolbar extends React.Component<
                   if (disabled) {
                     return;
                   }
-                  onShortcut?.(value, item.closeOverlay, event);
+                  onShortcut?.(value, closeOverlay, event);
                 }}
               >
-                {this.hasLocaleKey(item.label) ? <FormattedMessage id={item.label} /> : item.label}
+                {this.hasLocaleKey(label) ? <FormattedMessage id={label} /> : label}
               </a>
             );
           })}
