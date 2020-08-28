@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import mapValues from 'lodash/mapValues';
+import pick from 'lodash/pick';
+import omitBy from 'lodash/omitBy';
 import IntlContext from '../IntlProvider/IntlContext';
 import FormattedDate from '../IntlProvider/FormattedDate';
 import Calendar from '../Calendar/Calendar';
@@ -435,8 +437,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     );
 
     const renderCalendar = useCallback(() => {
-      const calendarProps = _.mapValues(
-        _.pick<DatePickerProps, CalendarOnlyPropsType>(props, calendarOnlyProps),
+      const calendarProps = mapValues(
+        pick<DatePickerProps, CalendarOnlyPropsType>(props, calendarOnlyProps),
         disabledOrHiddenTimeFunc => (next: number, date: Date): boolean =>
           disabledOrHiddenTimeFunc(next, toLocalTimeZone(date, timeZone))
       );
@@ -543,10 +545,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
           speaker={renderDropdownMenu(calendar)}
         >
           <PickerToggle
-            {..._.omitBy(
-              rest,
-              (_value, key) => key.startsWith('hide') || key.startsWith('disabled')
-            )}
+            {...omitBy(rest, (_value, key) => key.startsWith('hide') || key.startsWith('disabled'))}
             as={toggleAs}
             onClean={createChainedFunction<(event: React.MouseEvent<any>) => void>(
               handleClean,
