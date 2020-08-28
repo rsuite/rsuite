@@ -1,13 +1,13 @@
-### 可折叠
 
 <!--start-code-->
 
 ```js
 const instance = (
-  <Panel header="Panel title" collapsible bordered>
+  <Panel header="Panel title">
     <Paragraph />
   </Panel>
 );
+
 ReactDOM.render(instance);
 ```
 

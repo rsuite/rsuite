@@ -1,4 +1,3 @@
-### With shadow
 
 <!--start-code-->
 

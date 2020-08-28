@@ -7,13 +7,54 @@ A content panel that supports folding panels. The Panel can have all the ' Data 
 
 ## Usage
 
-```js
-import { Panel, PanelGroup } from 'rsuite';
-```
+<!--{include:(components/panel/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Default
+
+<!--{include:`basic.md`}-->
+
+### With border
+
+<!--{include:`bordered.md`}-->
+
+### With shadow
+
+<!--{include:`shaded.md`}-->
+
+### No header
+
+<!--{include:`no-header.md`}-->
+
+### Card
+
+<!--{include:`card.md`}-->
+
+### Card group
+
+<!--{include:`card-grid.md`}-->
+
+### Collapsible
+
+<!--{include:`collapsible.md`}-->
+
+### Fill the container
+
+<!--{include:`body-fill.md`}-->
+
+### Panel group
+
+<!--{include:`panel-group.md`}-->
+
+### Collapsible panel group
+
+<!--{include:`accordion-group.md`}-->
+
+### Accordion effect
+Only one panel can be expanded.
+
+<!--{include:`accordion-group-active.md`}-->
 
 ## Props
 

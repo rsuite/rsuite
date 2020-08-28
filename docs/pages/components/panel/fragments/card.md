@@ -1,4 +1,3 @@
-### 卡片
 
 <!--start-code-->
 
@@ -8,7 +7,9 @@ const instance = (
     <img src="https://via.placeholder.com/240x240" height="240" />
     <Panel header="RSUITE">
       <p>
-        <small>一套 React 的 UI 组件库，贴心的 UI 设计，友好的开发体验。</small>
+        <small>
+          A suite of React components, sensible UI design, and a friendly development experience.
+        </small>
       </p>
     </Panel>
   </Panel>

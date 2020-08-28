@@ -1,10 +1,9 @@
-### Default
 
 <!--start-code-->
 
 ```js
 const instance = (
-  <Panel header="Panel title">
+  <Panel bordered>
     <Paragraph />
   </Panel>
 );

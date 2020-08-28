@@ -1,11 +1,10 @@
-### Collapse Panel Group
 
 <!--start-code-->
 
 ```js
 const instance = (
-  <PanelGroup accordion bordered>
-    <Panel header="Panel 1" defaultExpanded>
+  <PanelGroup>
+    <Panel header="Panel 1">
       <Paragraph />
     </Panel>
     <Panel header="Panel 2">
@@ -16,6 +15,7 @@ const instance = (
     </Panel>
   </PanelGroup>
 );
+
 ReactDOM.render(instance);
 ```
 

@@ -1,8 +1,9 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-
 import Panel from '../Panel';
-import { getDOMNode, getInstance, innerText } from '@test/testUtils';
+import { getDOMNode, innerText } from '@test/testUtils';
+import { createTestContainer } from '../../../test/testUtils';
 
 describe('Panel', () => {
   it('Should render a panel', () => {
@@ -64,10 +65,9 @@ describe('Panel', () => {
     const increment = () => {
       count += 1;
     };
-
+    const ref = React.createRef();
     let title;
-
-    const instance = getInstance(
+    ReactDOM.render(
       <Panel
         collapsible
         defaultExpanded={false}
@@ -86,12 +86,14 @@ describe('Panel', () => {
           increment();
           ReactTestUtils.Simulate.click(title.firstChild);
         }}
+        ref={ref}
       >
         Panel content
-      </Panel>
+      </Panel>,
+      createTestContainer()
     );
 
-    title = ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-panel-title');
+    title = ref.current.querySelector('.rs-panel-title');
     ReactTestUtils.Simulate.click(title.firstChild);
   });
 
