@@ -33,7 +33,7 @@ class ModalDemo extends React.Component {
   render() {
     return (
       <div>
-        <Modal show={this.state.show} onHide={this.close} size="xs">
+        <Modal show={this.state.show} onClose={this.close} size="xs">
           <Modal.Header>
             <Modal.Title>New User</Modal.Title>
           </Modal.Header>

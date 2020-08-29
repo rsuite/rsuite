@@ -41,7 +41,7 @@ class Demo extends React.Component {
           </IconButton>
         </ButtonToolbar>
 
-        <Drawer placement={this.state.placement} show={this.state.show} onHide={this.close}>
+        <Drawer placement={this.state.placement} show={this.state.show} onClose={this.close}>
           <Drawer.Header>
             <Drawer.Title>Drawer Title</Drawer.Title>
           </Drawer.Header>

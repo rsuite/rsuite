@@ -176,7 +176,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       multi ? defaultValue || [] : defaultValue
     );
 
-    const cloneValue = () => (multi ? clone(value) || [] : value);
+    const cloneValue = useCallback(() => (multi ? clone(value) || [] : value), [multi, value]);
 
     const handleClose = useCallback(() => {
       triggerRef?.current?.hide?.();
@@ -299,7 +299,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         setValue(val);
         handleChange(val, event);
       },
-      [cloneValue, handleChange]
+      [setValue, cloneValue, handleChange]
     );
 
     const handleSelect = useCallback(
@@ -376,6 +376,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         handleChange(val, event);
       },
       [
+        setValue,
         cloneValue,
         getAllData,
         handleChange,
@@ -415,6 +416,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         handleClose();
       },
       [
+        setValue,
         disabledItemValues,
         controlledData,
         focusItemValue,
@@ -460,7 +462,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         setValue(val);
         handleChange(val, event);
       },
-      [focusInput, handleChange, cloneValue]
+      [setValue, focusInput, handleChange, cloneValue]
     );
 
     const handleClean = useCallback(

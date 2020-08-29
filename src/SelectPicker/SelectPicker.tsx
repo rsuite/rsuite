@@ -12,7 +12,8 @@ import {
   getDataGroupBy,
   useCustom,
   useClassNames,
-  useControlled
+  useControlled,
+  KEY_CODE
 } from '../utils';
 import {
   DropdownMenu,
@@ -31,7 +32,6 @@ import { pickerToggleTriggerProps } from '../Picker/PickerToggleTrigger';
 import { listPickerPropTypes } from '../Picker/propTypes';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
 import { ListProps } from 'react-virtualized/dist/commonjs/List';
-import { KEY_CODE } from '../constants';
 
 export type ValueType = number | string;
 export interface SelectProps<T = ValueType> {
@@ -266,7 +266,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
         setFocusItemValue(value);
         handleChangeValue(null, event);
       },
-      [value, disabled, cleanable, handleChangeValue, setFocusItemValue]
+      [value, disabled, cleanable, setValue, handleChangeValue, setFocusItemValue]
     );
 
     const handleExited = () => {

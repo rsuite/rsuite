@@ -13,7 +13,8 @@ import {
   useClassNames,
   shallowEqual,
   useCustom,
-  useControlled
+  useControlled,
+  KEY_CODE
 } from '../utils';
 import {
   DropdownMenu,
@@ -33,7 +34,6 @@ import { pickerToggleTriggerProps } from '../Picker/PickerToggleTrigger';
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
 import { listPickerPropTypes } from '../Picker/propTypes';
 import { SelectProps } from '../SelectPicker';
-import { KEY_CODE } from '../constants';
 
 export type ValueType = (number | string)[];
 export interface CheckPickerProps<T = ValueType>
@@ -203,7 +203,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
         setValue([]);
         handleChangeValue([], event);
       },
-      [disabled, cleanable, handleChangeValue]
+      [disabled, cleanable, setValue, handleChangeValue]
     );
 
     const selectFocusMenuItem = (event: React.KeyboardEvent<HTMLElement>) => {
@@ -269,7 +269,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
         handleSelect(nextValue, item, event);
         handleChangeValue(nextValue, event);
       },
-      [value, handleSelect, handleChangeValue, setFocusItemValue]
+      [value, setValue, handleSelect, handleChangeValue, setFocusItemValue]
     );
 
     const handleExited = useCallback(() => {

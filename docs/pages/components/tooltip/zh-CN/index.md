@@ -7,13 +7,50 @@
 
 ## 获取组件
 
-```js
-import { Tooltip, Whisper } from 'rsuite';
-```
+<!--{include:(components/tooltip/fragments/import.md)}-->
 
 ## 演示
 
-<!--{demo}-->
+### 默认
+
+<!--{include:`basic.md`}-->
+
+### 位置
+
+- `left` , `top` , `right` , `bottom` 是物理中的 4 个方向, 表示显示的位置。
+- `leftStart` , 在 left 后面加了一个 start, 这里的 start 是逻辑方式，表示对齐方式是 Y 轴的开始。
+
+> 有关 `start` 和 `end` 的描述可参照 W3C 关于 [CSS 逻辑属性和值（CSS Logical Properties and Values Level 1）](https://www.w3.org/TR/2017/WD-css-logical-1-20170518/) 的首份工作草案（First Public Working Draft）
+
+<!--{include:`placement.md`}-->
+
+### 触发事件
+
+`Whisper` 提供了一个 `trigger` 属性，用于在各种场景下控制 `Tooltip` 显示。属性值包括：
+
+- `click`: 当用户点击元素时会被触发，再点击会关闭。
+- `focus`: 当用户点击或触摸元素或通过键盘的 `tab` 键选择它时会被触发。
+- `hover`: 鼠标悬停到元素上时触发，鼠标离开则关闭。
+- `active`: 激活元素时会被触发。
+- `none`: 无触发事件，一般用于需要通过方法触发时候使用。
+
+<!--{include:`trigger.md`}-->
+
+> 注意: [Safari ignoring tabindex](https://stackoverflow.com/questions/1848390/safari-ignoring-tabindex)
+
+### 容器与防止溢出
+
+<!--{include:`container.md`}-->
+
+### 禁用的元素
+
+具有禁用属性的元素禁用后无法将鼠标悬停或单击它们来触发弹出 `Tooltip`。 解决方法是，您要可以通过包装 `<div>` 或 `<span>` 触发叠加层。
+
+<!--{include:`disabled-elements.md`}-->
+
+## Props
+
+<!--{include:(_common/types/placement-all.md)}-->
 
 ## Props
 
@@ -21,54 +58,8 @@ import { Tooltip, Whisper } from 'rsuite';
 
 | 属性名称    | 类型 `(默认值)`      | 描述              |
 | ----------- | -------------------- | ----------------- |
-| children \* | React.Node           | 组件的内容        |
+| children \* | ReactNode            | 组件的内容        |
 | classPrefix | string `('tooltip')` | 组件 CSS 类的前缀 |
 | visible     | boolean              | 组件默认可见的    |
 
-### `<Whisper>`
-
-| 属性名称        | 类型 `(默认值)`                                                          | 描述                            |     |
-| --------------- | ------------------------------------------------------------------------ | ------------------------------- | --- |
-| container       | HTMLElement or (() => HTMLElement)                                       | 设置渲染的容器                  |
-| delay           | number                                                                   | 延迟时间                        |     |
-| delayHide       | number                                                                   | 隐藏的延迟时间                  |     |
-| delayShow       | number                                                                   | 展示的延迟时间                  |     |
-| onBlur          | () => void                                                               | 失去焦点回调函数                |     |
-| onClick         | () => void                                                               | 点击的回调函数                  |     |
-| onEnter         | () => void                                                               | 显示前动画过渡的回调函数        |
-| onEntered       | () => void                                                               | 显示后动画过渡的回调函数        |
-| onEntering      | () => void                                                               | 显示中动画过渡的回调函数        |
-| onExit          | () => void                                                               | 退出前动画过渡的回调函数        |
-| onExited        | () => void                                                               | 退出后动画过渡的回调函数        |
-| onExiting       | () => void                                                               | 退出中动画过渡的回调函数        |
-| onFocus         | () => void                                                               | 获取焦点的回调函数              |     |
-| onMouseOut      | () => void                                                               | 鼠标离开的回调函数              |     |
-| placement       | enum: [PlacementAll](#types) `('right')`                                 | 显示位置                        |     |
-| preventOverflow | boolean                                                                  | 防止浮动元素溢出                |
-| speaker \*      | union: Tooltip, Popover                                                  | 展示的元素                      |     |
-| trigger         | union: 'click', 'hover', 'focus', 'active', 'none' `(['hover','focus'])` | 触发事件,可以通过数组配置多事件 |     |
-
-### Whisper methods
-
-- open
-
-显示一个 Tooltip。
-
-```ts
-open: (delay?: number) => void
-```
-
-- close
-
-隐藏一个 Tooltip。
-
-```ts
-close: (delay?: number) => void
-```
-
-## 相关组件
-
-- [`<Popover>`](./popover) 弹出框
-- [`<Message>`](./message) 消息框
-- [`<Alert`>](./alert) 提醒框
-- [`<Notification>`](./notification) 通知框
+<!--{include:(components/whisper/zh-CN/props.md)}-->

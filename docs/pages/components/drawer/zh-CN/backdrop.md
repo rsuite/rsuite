@@ -44,7 +44,7 @@ class Demo extends React.Component {
         <ButtonToolbar>
           <Button onClick={this.toggleDrawer}>Open</Button>
         </ButtonToolbar>
-        <Drawer backdrop={backdrop} show={show} onHide={this.close}>
+        <Drawer backdrop={backdrop} show={show} onClose={this.close}>
           <Drawer.Header>
             <Drawer.Title>Drawer Title</Drawer.Title>
           </Drawer.Header>

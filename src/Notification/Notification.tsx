@@ -1,9 +1,8 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
-import { useClassNames, useTimeout } from '../utils';
+import { useClassNames, useTimeout, STATUS_ICON_NAMES } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { STATUS_ICON_NAMES } from '../constants';
 import CloseButton from '../CloseButton';
 
 export type MessageType = 'info' | 'success' | 'warning' | 'error';

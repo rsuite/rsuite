@@ -8,7 +8,6 @@ import { StandardProps } from '../@types/common';
 
 const omitProps = [
   'placement',
-  'shouldUpdatePosition',
   'arrowOffsetLeft',
   'arrowOffsetTop',
   'positionLeft',

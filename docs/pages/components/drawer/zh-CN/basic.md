@@ -26,7 +26,7 @@ class Demo extends React.Component {
         <ButtonToolbar>
           <Button onClick={this.toggleDrawer}>Open</Button>
         </ButtonToolbar>
-        <Drawer show={this.state.show} onHide={this.close}>
+        <Drawer show={this.state.show} onClose={this.close}>
           <Drawer.Header>
             <Drawer.Title>Drawer Title</Drawer.Title>
           </Drawer.Header>

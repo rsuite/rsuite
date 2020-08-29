@@ -7,11 +7,7 @@ import isUndefined from 'lodash/isUndefined';
 import omit from 'lodash/omit';
 import find from 'lodash/find';
 import { findNodeOfTree, filterNodesOfTree } from '../utils/treeUtils';
-import placementPolyfill from '../utils/placementPolyfill';
-import reactToString from '../utils/reactToString';
-import shallowEqual from '../utils/shallowEqual';
-import useClassNames from '../utils/useClassNames';
-import { KEY_CODE } from '../constants';
+import { KEY_CODE, useClassNames, shallowEqual, reactToString, placementPolyfill } from '../utils';
 import { TypeAttributes, ItemDataType } from '../@types/common';
 
 interface NodeKeys {

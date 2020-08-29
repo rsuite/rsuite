@@ -1,23 +1,29 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import _ from 'lodash';
-import { prefix, defaultProps } from '../utils';
-import { PopoverProps } from './Popover.d';
-import { overlayProps } from '../Whisper/Whisper';
+import { useClassNames } from '../utils';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-class Popover extends React.Component<PopoverProps> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    children: PropTypes.node,
-    title: PropTypes.node,
-    style: PropTypes.object,
-    visible: PropTypes.bool,
-    className: PropTypes.string,
-    full: PropTypes.bool
-  };
-  render() {
+export interface PopoverProps extends WithAsProps {
+  /** The title of the component. */
+  title?: React.ReactNode;
+
+  /** The component is visible by default. */
+  visible?: boolean;
+
+  /** The content full the container */
+
+  full?: boolean;
+}
+
+const defaultProps: Partial<PopoverProps> = {
+  as: 'div',
+  classPrefix: 'popover'
+};
+
+const Popover: RsRefForwardingComponent<'div', PopoverProps> = React.forwardRef(
+  (props: PopoverProps, ref) => {
     const {
+      as: Component,
       classPrefix,
       title,
       children,
@@ -25,13 +31,11 @@ class Popover extends React.Component<PopoverProps> {
       visible,
       className,
       full,
-      htmlElementRef,
       ...rest
-    } = this.props;
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, className, {
-      [addPrefix('full')]: full
-    });
+    } = props;
+
+    const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix({ full }));
 
     const styles = {
       display: 'block',
@@ -40,15 +44,25 @@ class Popover extends React.Component<PopoverProps> {
     };
 
     return (
-      <div {..._.omit(rest, overlayProps)} className={classes} style={styles} ref={htmlElementRef}>
-        <div className={addPrefix('arrow')} />
-        {title ? <h3 className={addPrefix('title')}>{title}</h3> : null}
-        <div className={addPrefix('content')}>{children}</div>
-      </div>
+      <Component role="dialog" {...rest} ref={ref} className={classes} style={styles}>
+        <div className={prefix`arrow`} aria-hidden />
+        {title && <h3 className={prefix`title`}>{title}</h3>}
+        <div className={prefix`content`}>{children}</div>
+      </Component>
     );
   }
-}
+);
 
-export default defaultProps<PopoverProps>({
-  classPrefix: 'popover'
-})(Popover);
+Popover.displayName = 'Popover';
+Popover.defaultProps = defaultProps;
+Popover.propTypes = {
+  as: PropTypes.elementType,
+  classPrefix: PropTypes.string,
+  children: PropTypes.node,
+  title: PropTypes.node,
+  style: PropTypes.object,
+  visible: PropTypes.bool,
+  className: PropTypes.string,
+  full: PropTypes.bool
+};
+export default Popover;

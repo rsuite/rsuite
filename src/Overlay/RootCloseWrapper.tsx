@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { on, contains } from 'dom-lib';
-import getDOMNode from '../utils/getDOMNode';
+import React, { useRef, useEffect } from 'react';
+import helper from '../DOMHelper';
+import { getDOMNode, mergeRefs } from '../utils';
 
 function isLeftClickEvent(event: React.MouseEvent) {
   return event?.button === 0;
@@ -16,60 +16,51 @@ interface RootCloseWrapperProps {
   target?: () => HTMLElement;
 }
 
-class RootCloseWrapper extends React.Component<RootCloseWrapperProps> {
-  onDocumentClickListener = null;
-  onDocumentKeyupListener = null;
-  childRef: React.RefObject<any>;
+const RootCloseWrapper = React.forwardRef((props: RootCloseWrapperProps, ref) => {
+  const { children, target, onRootClose } = props;
+  const childRef = useRef();
 
-  constructor(props) {
-    super(props);
-    this.childRef = React.createRef();
-  }
+  const handleDocumentKeyUp = (event: React.KeyboardEvent) => {
+    if (event.keyCode === 27) {
+      onRootClose?.();
+    }
+  };
 
-  componentDidMount() {
-    const doc = window.document;
-    this.onDocumentClickListener = on(doc, 'click', this.handleDocumentClick, true);
-    this.onDocumentKeyupListener = on(doc, 'keyup', this.handleDocumentKeyUp);
-  }
-
-  componentWillUnmount() {
-    this.onDocumentClickListener?.off();
-    this.onDocumentKeyupListener?.off();
-  }
-
-  handleDocumentClick = (event: React.MouseEvent) => {
-    if (contains(getDOMNode(this.childRef.current || this), event.target)) {
+  const handleDocumentClick = (event: React.MouseEvent) => {
+    if (helper.contains(getDOMNode(childRef.current), event.target)) {
       return;
     }
     if (isModifiedEvent(event) || !isLeftClickEvent(event)) {
       return;
     }
 
-    const { target } = this.props;
     if (target) {
-      if (contains(target(), event.target)) {
+      if (helper.contains(target(), event.target)) {
         return;
       }
     }
 
-    this.props.onRootClose?.();
+    onRootClose?.();
   };
 
-  handleDocumentKeyUp = (event: React.KeyboardEvent) => {
-    if (event.keyCode === 27) {
-      this.props.onRootClose?.();
-    }
-  };
+  useEffect(() => {
+    const doc = window.document;
+    const onDocumentClickListener = helper.on(doc, 'click', handleDocumentClick, true);
+    const onDocumentKeyupListener = helper.on(doc, 'keyup', handleDocumentKeyUp);
 
-  render() {
-    const { children } = this.props;
+    return () => {
+      onDocumentClickListener?.off();
+      onDocumentKeyupListener?.off();
+    };
+  }, []);
 
-    if (typeof children === 'function') {
-      return children({}, this.childRef);
-    }
-
-    return children;
+  if (typeof children === 'function') {
+    return children({}, mergeRefs(childRef, ref));
   }
-}
+
+  return React.cloneElement(children, { ref: mergeRefs(childRef, ref) });
+});
+
+RootCloseWrapper.displayName = 'RootCloseWrapper';
 
 export default RootCloseWrapper;
