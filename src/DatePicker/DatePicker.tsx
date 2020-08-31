@@ -34,6 +34,7 @@ import { toLocalTimeZone, toTimeZone, zonedDate } from '../utils/timeZone';
 import { FormControlBaseProps, PickerBaseProps, RsRefForwardingComponent } from '../@types/common';
 import { DatePickerLocale } from './types';
 
+export type { RangeType } from './Toolbar';
 export interface DatePickerProps
   extends PickerBaseProps<DatePickerLocale>,
     FormControlBaseProps<Date> {
