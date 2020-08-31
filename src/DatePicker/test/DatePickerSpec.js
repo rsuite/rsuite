@@ -52,8 +52,7 @@ describe('DatePicker ', () => {
       <DatePicker defaultValue={parseISO('2017-08-14')} ref={ref} />,
       createTestContainer()
     );
-    console.log(ref.current);
-    // assert.equal(ref.current.querySelector('.rs-picker-toggle-value').innerText, '2017-08-14');
+    assert.equal(ref.current.querySelector('.rs-picker-toggle-value').innerText, '2017-08-14');
   });
 
   it('Should output custom value', () => {
