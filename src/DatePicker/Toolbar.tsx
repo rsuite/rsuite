@@ -1,143 +1,102 @@
-import * as React from 'react';
+import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-
 import FormattedMessage from '../IntlProvider/FormattedMessage';
-import { defaultProps, getUnhandledProps, prefix } from '../utils';
-import { addDays } from '../utils/dateUtils';
-import { toTimeZone, zonedDate } from '../utils/timeZone';
+import { useClassNames } from '../utils';
+import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { getDefaultRanges, getRanges } from './utils';
+
+type ToolbarValue = Date | Date[];
 
 export interface RangeType {
-  label: React.ReactNode;
+  label: ReactNode;
   closeOverlay?: boolean;
-  value: Date | ((pageDate: Date) => Date);
+  value: ToolbarValue | ((value: ToolbarValue) => ToolbarValue);
 }
 
-export interface ToolbarProps {
-  ranges: RangeType[];
-  className?: string;
-  classPrefix?: string;
-  pageDate?: Date;
-  onShortcut?: (value: Date, closeOverlay?: boolean, event?: React.SyntheticEvent<any>) => void;
-  onOk?: (event: React.SyntheticEvent<any>) => void;
-  disabledHandle?: (date?: Date) => boolean;
+export interface InnerRange extends Omit<RangeType, 'value'> {
+  value: ToolbarValue;
+}
+
+export interface ToolbarProps extends WithAsProps {
+  disabledHandle?: (value?: ToolbarValue) => boolean;
   hideOkButton?: boolean;
+  onOk?: (event: React.SyntheticEvent<any>) => void;
+  onShortcut?: (
+    value: ToolbarValue,
+    closeOverlay?: boolean,
+    event?: React.SyntheticEvent<any>
+  ) => void;
+  pageDate?: ToolbarValue;
+  ranges: RangeType[];
   timeZone?: string;
 }
 
-const getDefaultRanges = (timeZone: string) => {
-  const todayDate = zonedDate(timeZone);
-  return [
-    {
-      label: 'today',
-      value: todayDate,
-      closeOverlay: true
-    },
-    {
-      label: 'yesterday',
-      value: addDays(todayDate, -1),
-      closeOverlay: true
-    }
-  ];
+const defaultProps: Partial<ToolbarProps> = {
+  classPrefix: 'picker-toolbar',
+  as: 'div'
 };
 
-class Toolbar extends React.Component<
-  ToolbarProps,
-  {
-    ranges: ({ value: Date } & Omit<RangeType, 'value'>)[];
-  }
-> {
-  static propTypes = {
-    ranges: PropTypes.array,
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    pageDate: PropTypes.instanceOf(Date),
-    onShortcut: PropTypes.func,
-    onOk: PropTypes.func,
-    disabledHandle: PropTypes.func,
-    hideOkButton: PropTypes.bool,
-    timeZone: PropTypes.string
-  };
-  static defaultProps = {};
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      ranges: this.getRanges(props)
-    };
-  }
-
-  getRanges = (props: ToolbarProps) => {
-    const { ranges, timeZone, pageDate } = props;
-    return typeof ranges === 'undefined'
-      ? getDefaultRanges(timeZone)
-      : ranges.map(({ value, ...rest }) => ({
-          value: toTimeZone(typeof value === 'function' ? value(pageDate) : value, timeZone),
-          ...rest
-        }));
-  };
-
-  componentDidUpdate(prevProps: Readonly<ToolbarProps>) {
-    const { timeZone } = this.props;
-    if (timeZone !== prevProps.timeZone) {
-      this.setState({
-        ranges: this.getRanges(this.props)
-      });
-    }
-  }
-
-  hasLocaleKey = (key: any) => {
-    return getDefaultRanges(this.props.timeZone).some(item => item.label === key);
-  };
-
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
-
-  renderOkButton() {
-    const { disabledHandle, pageDate, onOk, hideOkButton } = this.props;
-
-    if (hideOkButton) {
-      return null;
-    }
-
-    const disabled = disabledHandle?.(pageDate);
-    const classes = classNames(this.addPrefix('right-btn-ok'), {
-      [this.addPrefix('btn-disabled')]: disabled
-    });
-    return (
-      <div className={this.addPrefix('right')}>
-        <button className={classes} onClick={disabled ? undefined : onOk}>
-          <FormattedMessage id="ok" />
-        </button>
-      </div>
-    );
-  }
-
-  render() {
+/**
+ * Toolbar for DatePicker and DateRangePicker
+ */
+const Toolbar: RsRefForwardingComponent<'div', ToolbarProps> = React.forwardRef(
+  (props: ToolbarProps, ref) => {
     const {
-      onShortcut,
-      disabledHandle,
+      as: Component,
       className,
-      pageDate,
       classPrefix,
+      disabledHandle,
       hideOkButton,
+      onOk,
+      onShortcut,
+      pageDate,
+      ranges: rangeProp,
+      timeZone,
       ...rest
-    } = this.props;
-    const { ranges } = this.state;
+    } = props;
+    const [ranges, setRanges] = useState<InnerRange[]>(getRanges(props));
+    const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+
+    useEffect(() => {
+      setRanges(getRanges({ ranges: rangeProp, pageDate, timeZone }));
+    }, [pageDate, rangeProp, timeZone]);
+
+    const hasLocaleKey = useCallback(
+      (key: ReactNode) => getDefaultRanges(timeZone, pageDate).some(item => item.label === key),
+      [pageDate, timeZone]
+    );
+
+    const renderOkButton = useCallback(() => {
+      if (hideOkButton) {
+        return null;
+      }
+
+      const disabled = disabledHandle?.(pageDate);
+      const classes = merge(prefix('right-btn-ok'), {
+        [prefix('btn-disabled')]: disabled
+      });
+
+      return (
+        <div className={prefix('right')}>
+          <button className={classes} onClick={disabled ? undefined : onOk}>
+            <FormattedMessage id="ok" />
+          </button>
+        </div>
+      );
+    }, [disabledHandle, hideOkButton, merge, onOk, pageDate, prefix]);
 
     if (hideOkButton && ranges.length === 0) {
       return null;
     }
 
-    const classes = classNames(classPrefix, className);
-    const unhandled = getUnhandledProps(Toolbar, rest);
-
+    const classes = merge(className, withClassPrefix());
     return (
-      <div {...unhandled} className={classes}>
-        <div className={this.addPrefix('ranges')}>
+      <Component {...rest} className={classes} ref={ref}>
+        <div className={prefix('ranges')}>
           {ranges.map(({ value, closeOverlay, label }, index: number) => {
             const disabled = disabledHandle?.(value as Date);
-            const itemClassName = classNames(this.addPrefix('option'), {
-              [this.addPrefix('option-disabled')]: disabled
+            const itemClassName = merge(prefix('option'), {
+              [prefix('option-disabled')]: disabled
             });
 
             return (
@@ -153,19 +112,29 @@ class Toolbar extends React.Component<
                   onShortcut?.(value, closeOverlay, event);
                 }}
               >
-                {this.hasLocaleKey(label) ? <FormattedMessage id={label} /> : label}
+                {hasLocaleKey(label) ? <FormattedMessage id={label} /> : label}
               </a>
             );
           })}
         </div>
-        {this.renderOkButton()}
-      </div>
+        {renderOkButton()}
+      </Component>
     );
   }
-}
+);
 
-const enhance = defaultProps<ToolbarProps>({
-  classPrefix: 'picker-toolbar'
-});
+Toolbar.displayName = 'Toolbar';
+Toolbar.propTypes = {
+  ranges: PropTypes.array,
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  pageDate: PropTypes.instanceOf(Date),
+  onShortcut: PropTypes.func,
+  onOk: PropTypes.func,
+  disabledHandle: PropTypes.func,
+  hideOkButton: PropTypes.bool,
+  timeZone: PropTypes.string
+};
+Toolbar.defaultProps = defaultProps;
 
-export default enhance(Toolbar);
+export default Toolbar;
