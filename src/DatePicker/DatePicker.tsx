@@ -585,7 +585,7 @@ DatePicker.propTypes = {
   showMeridian: PropTypes.bool,
   showWeekNumbers: PropTypes.bool,
   timeZone: PropTypes.string,
-  value: PropTypes.instanceOf(Date),
+  value: PropTypes.instanceOf(Date)
 };
 DatePicker.defaultProps = defaultProps;
 
