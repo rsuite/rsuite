@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Ref, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
@@ -117,6 +117,9 @@ export interface DatePickerProps
 
   /** Custom render value */
   renderValue?: (value: Date, format: string) => React.ReactNode;
+
+  /** Pop-up panel container reference   */
+  panelContainerRef?: Ref<HTMLDivElement>;
 }
 
 enum CalendarState {
@@ -151,42 +154,43 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
   (props: DatePickerProps, ref) => {
     const {
       as: Component,
-      defaultValue,
-      value: valueProp,
-      timeZone,
-      disabledDate: disabledDateProp,
-      onNextMonth,
-      inline,
       className,
-      disabled,
-      cleanable,
       classPrefix,
-      locale: overrideLocale,
-      toggleAs,
-      style,
-      onEntered,
-      onExited,
-      onClean,
-      onSelect,
-      oneTap,
-      onChange,
-      onClose,
-      onToggleMonthDropdown,
-      onOpen,
-      onToggleTimeDropdown,
-      ranges,
-      menuClassName,
+      calendarDefaultDate,
+      cleanable,
+      defaultValue,
+      disabled,
+      disabledDate: disabledDateProp,
+      format = 'yyyy-MM-dd',
+      inline,
       isoWeek,
       limitEndYear,
-      showWeekNumbers,
-      showMeridian,
+      locale: overrideLocale,
+      menuClassName,
+      onChange,
       onChangeCalendarDate,
-      onPrevMonth,
-      format = 'yyyy-MM-dd',
-      placeholder,
-      renderValue,
+      onClean,
+      onClose,
+      onEntered,
+      onExited,
+      onNextMonth,
       onOk,
-      calendarDefaultDate,
+      onOpen,
+      onPrevMonth,
+      onSelect,
+      onToggleMonthDropdown,
+      onToggleTimeDropdown,
+      oneTap,
+      panelContainerRef,
+      placeholder,
+      ranges,
+      renderValue,
+      showMeridian,
+      showWeekNumbers,
+      style,
+      timeZone,
+      toggleAs,
+      value: valueProp,
       ...rest
     } = props;
     const { locale } = useCustom<DatePickerLocale>('DatePicker', overrideLocale);
@@ -199,7 +203,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     );
     const [calendarState, setCalendarState] = useState<CalendarState>();
     const [active, setActive] = useState<boolean>(false);
-    const menuContainerRef = useRef<HTMLDivElement>(); // for test
     const triggerRef = useRef<{ show?: () => void; hide?: () => void }>();
     const setValue = useCallback(
       nextValue => {
@@ -478,7 +481,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
         return (
           <MenuWrapper className={classes}>
-            <div ref={menuContainerRef}>
+            <div ref={panelContainerRef}>
               {calendar}
               <Toolbar
                 timeZone={timeZone}
@@ -502,6 +505,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         merge,
         oneTap,
         pageDate,
+        panelContainerRef,
         prefix,
         ranges,
         timeZone
@@ -512,7 +516,11 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const calendar = useMemo(() => renderCalendar(), [renderCalendar]);
 
     if (inline) {
-      return <div className={merge(className, withClassPrefix('date-inline'))}>{calendar}</div>;
+      return (
+        <Component ref={ref} className={merge(className, withClassPrefix('date-inline'))}>
+          {calendar}
+        </Component>
+      );
     }
 
     const classes = getToggleWrapperClassName('date', prefix, props, hasValue, {
@@ -550,33 +558,34 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 DatePicker.displayName = 'DatePicker';
 DatePicker.propTypes = {
   ...pickerPropTypes,
-  ranges: PropTypes.array,
-  defaultValue: PropTypes.instanceOf(Date),
-  value: PropTypes.instanceOf(Date),
   calendarDefaultDate: PropTypes.instanceOf(Date),
-  format: PropTypes.string,
-  timeZone: PropTypes.string,
-  inline: PropTypes.bool,
-  isoWeek: PropTypes.bool,
-  limitEndYear: PropTypes.number,
-  oneTap: PropTypes.bool,
-  showWeekNumbers: PropTypes.bool,
-  showMeridian: PropTypes.bool,
+  defaultValue: PropTypes.instanceOf(Date),
   disabledDate: PropTypes.func,
   disabledHours: PropTypes.func,
   disabledMinutes: PropTypes.func,
   disabledSeconds: PropTypes.func,
+  format: PropTypes.string,
   hideHours: PropTypes.func,
   hideMinutes: PropTypes.func,
   hideSeconds: PropTypes.func,
+  inline: PropTypes.bool,
+  isoWeek: PropTypes.bool,
+  limitEndYear: PropTypes.number,
   onChange: PropTypes.func,
   onChangeCalendarDate: PropTypes.func,
+  onNextMonth: PropTypes.func,
+  onOk: PropTypes.func,
+  onPrevMonth: PropTypes.func,
+  onSelect: PropTypes.func,
   onToggleMonthDropdown: PropTypes.func,
   onToggleTimeDropdown: PropTypes.func,
-  onSelect: PropTypes.func,
-  onPrevMonth: PropTypes.func,
-  onNextMonth: PropTypes.func,
-  onOk: PropTypes.func
+  oneTap: PropTypes.bool,
+  panelContainerRef: PropTypes.any,
+  ranges: PropTypes.array,
+  showMeridian: PropTypes.bool,
+  showWeekNumbers: PropTypes.bool,
+  timeZone: PropTypes.string,
+  value: PropTypes.instanceOf(Date),
 };
 DatePicker.defaultProps = defaultProps;
 
