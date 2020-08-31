@@ -18,7 +18,8 @@ export interface InnerRange extends Omit<RangeType, 'value'> {
 }
 
 export interface ToolbarProps extends WithAsProps {
-  disabledHandle?: (value?: ToolbarValue) => boolean;
+  disabledOkBtn?: (value?: ToolbarValue) => boolean;
+  disabledShortcut?: (value?: ToolbarValue) => boolean;
   hideOkButton?: boolean;
   onOk?: (event: React.SyntheticEvent<any>) => void;
   onShortcut?: (
@@ -45,7 +46,8 @@ const Toolbar: RsRefForwardingComponent<'div', ToolbarProps> = React.forwardRef(
       as: Component,
       className,
       classPrefix,
-      disabledHandle,
+      disabledOkBtn,
+      disabledShortcut,
       hideOkButton,
       onOk,
       onShortcut,
@@ -71,7 +73,7 @@ const Toolbar: RsRefForwardingComponent<'div', ToolbarProps> = React.forwardRef(
         return null;
       }
 
-      const disabled = disabledHandle?.(pageDate);
+      const disabled = disabledOkBtn?.(pageDate);
       const classes = merge(prefix('right-btn-ok'), {
         [prefix('btn-disabled')]: disabled
       });
@@ -83,7 +85,7 @@ const Toolbar: RsRefForwardingComponent<'div', ToolbarProps> = React.forwardRef(
           </button>
         </div>
       );
-    }, [disabledHandle, hideOkButton, merge, onOk, pageDate, prefix]);
+    }, [disabledOkBtn, hideOkButton, merge, onOk, pageDate, prefix]);
 
     if (hideOkButton && ranges.length === 0) {
       return null;
@@ -94,7 +96,7 @@ const Toolbar: RsRefForwardingComponent<'div', ToolbarProps> = React.forwardRef(
       <Component {...rest} className={classes} ref={ref}>
         <div className={prefix('ranges')}>
           {ranges.map(({ value, closeOverlay, label }, index: number) => {
-            const disabled = disabledHandle?.(value as Date);
+            const disabled = disabledShortcut?.(value);
             const itemClassName = merge(prefix('option'), {
               [prefix('option-disabled')]: disabled
             });
@@ -131,7 +133,8 @@ Toolbar.propTypes = {
   pageDate: PropTypes.instanceOf(Date),
   onShortcut: PropTypes.func,
   onOk: PropTypes.func,
-  disabledHandle: PropTypes.func,
+  disabledShortcut: PropTypes.func,
+  disabledOkBtn: PropTypes.func,
   hideOkButton: PropTypes.bool,
   timeZone: PropTypes.string
 };

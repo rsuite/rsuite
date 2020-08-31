@@ -23,11 +23,11 @@ import {
   getHours,
   getMinutes,
   getSeconds,
+  isEqual,
   isSameDay,
   setHours,
   setMinutes,
-  setSeconds,
-  isEqual
+  setSeconds
 } from '../utils/dateUtils';
 import { pickerDefaultProps, pickerPropTypes } from '../Picker/propTypes';
 import { toLocalTimeZone, toTimeZone, zonedDate } from '../utils/timeZone';
@@ -406,8 +406,9 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
     const disabledToolbarHandle = useCallback(
       (date?: Date): boolean => {
-        const allowDate = disabledDateProp?.(date) ?? false;
-        const allowTime = disabledTime(props, toLocalTimeZone(date, timeZone));
+        const localTimeZoneDate = toLocalTimeZone(date, timeZone);
+        const allowDate = disabledDateProp?.(localTimeZoneDate) ?? false;
+        const allowTime = disabledTime(props, localTimeZoneDate);
 
         return allowDate || allowTime;
       },
@@ -482,7 +483,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
                 timeZone={timeZone}
                 ranges={ranges}
                 pageDate={pageDate}
-                disabledHandle={disabledToolbarHandle}
+                disabledOkBtn={disabledToolbarHandle}
+                disabledShortcut={disabledToolbarHandle}
                 onShortcut={handleShortcutPageDate}
                 onOk={handleOK}
                 hideOkButton={oneTap}
