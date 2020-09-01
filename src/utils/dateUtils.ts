@@ -31,7 +31,8 @@ import startOfISOWeekFns from 'date-fns/startOfISOWeek';
 import startOfMonthFns from 'date-fns/startOfMonth';
 import startOfWeekFns from 'date-fns/startOfWeek';
 import subDaysFns from 'date-fns/subDays';
-import _ from 'lodash';
+import pick from 'lodash/pick';
+import omitBy from 'lodash/omitBy';
 
 /*
  * Getter
@@ -126,6 +127,11 @@ function validTime(calendarProps: any, date: Date) {
  * @param date
  */
 export function disabledTime(props: any, date: Date) {
-  const calendarProps = _.pick(props, disabledTimeProps);
+  const calendarProps = pick(props, disabledTimeProps);
   return validTime(calendarProps, date);
 }
+
+export const omitHideDisabledProps = <T extends Record<string, any>>(
+  props: T
+): Partial<Omit<T, CalendarOnlyPropsType>> =>
+  omitBy<T>(props, (_val, key) => key.startsWith('disabled') || key.startsWith('hide'));

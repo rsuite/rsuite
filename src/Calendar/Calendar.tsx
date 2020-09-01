@@ -7,7 +7,12 @@ import View from './View';
 import Header from './Header';
 import { useClassNames } from '../utils';
 import { shouldDate, shouldMonth, shouldTime } from '../utils/formatUtils';
-import { addMonths, calendarOnlyProps, disabledTime } from '../utils/dateUtils';
+import {
+  addMonths,
+  calendarOnlyProps,
+  disabledTime,
+  omitHideDisabledProps
+} from '../utils/dateUtils';
 import { tuple } from '../@types/utils';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { CalendarLocale } from './types';
@@ -129,7 +134,12 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
     };
     return (
       <CalendarProvider value={contextValue}>
-        <Component {...rest} role="table" className={calendarClasses} ref={ref}>
+        <Component
+          {...omitHideDisabledProps<Partial<CalendarProps>>(rest)}
+          role="table"
+          className={calendarClasses}
+          ref={ref}
+        >
           <Header
             showMonth={showMonth}
             showDate={showDate}
