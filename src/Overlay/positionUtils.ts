@@ -2,15 +2,41 @@ import maxBy from 'lodash/maxBy';
 import minBy from 'lodash/minBy';
 import kebabCase from 'lodash/kebabCase';
 import { ownerDocument, getOffset, getPosition, scrollTop, scrollLeft } from 'dom-lib';
+import { TypeAttributes } from '../@types/common';
 
-const AutoPlacement = {
+export interface PositionType {
+  positionLeft?: number;
+  positionTop?: number;
+  arrowOffsetLeft?: null | number;
+  arrowOffsetTop?: null | number;
+  positionClassName?: string;
+}
+
+export interface UtilProps {
+  placement: TypeAttributes.Placement;
+  preventOverflow: boolean;
+  padding: number;
+}
+
+export const AutoPlacement = {
   left: 'Start',
   right: 'End',
   top: 'Start',
   bottom: 'End'
 };
 
-function getContainerDimensions(containerNode) {
+export interface Dimensions {
+  width: number;
+  height: number;
+  scrollX: number;
+  scrollY: number;
+}
+
+/**
+ * Get the external dimensions of the container
+ * @param containerNode
+ */
+function getContainerDimensions(containerNode: HTMLElement): Dimensions {
   let width;
   let height;
   let scrollX;
@@ -28,7 +54,7 @@ function getContainerDimensions(containerNode) {
   return { width, height, scrollX, scrollY };
 }
 
-export default props => {
+export default (props: UtilProps) => {
   const { placement, preventOverflow, padding } = props;
 
   function getTopDelta(top, overlayHeight, container) {
@@ -149,9 +175,9 @@ export default props => {
 
       return `${direction.key}${AutoPlacement[align.key]}`;
     },
-    // 计算浮层的位置
 
-    calcOverlayPosition(overlayNode, target, container) {
+    // Calculate the position of the overlay
+    calcOverlayPosition(overlayNode, target, container): PositionType {
       const childOffset = this.getPosition(target, container);
       const { height: overlayHeight, width: overlayWidth } = getOffset(overlayNode);
       const { top, left } = childOffset;

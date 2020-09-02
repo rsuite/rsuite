@@ -6,12 +6,9 @@ import classNames from 'classnames';
 import setDisplayName from 'recompose/setDisplayName';
 import wrapDisplayName from 'recompose/wrapDisplayName';
 import setPropTypes from 'recompose/setPropTypes';
-
 import { TypeAttributes } from '../@types/common';
-import prefix from './prefix';
 import extendReactStatics from './extendReactStatics';
-import { SIZE, STATUS, COLOR } from '../constants';
-import refType from './refType';
+import { prefix, refType, SIZE, STATUS, COLOR } from '.';
 
 export interface RequiredProps {
   className?: string;

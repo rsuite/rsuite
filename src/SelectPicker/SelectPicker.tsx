@@ -12,7 +12,9 @@ import {
   getDataGroupBy,
   useCustom,
   useClassNames,
-  useControlled
+  useControlled,
+  KEY_CODE,
+  mergeRefs
 } from '../utils';
 import {
   DropdownMenu,
@@ -27,11 +29,14 @@ import {
   useSearch
 } from '../Picker';
 import { PickerComponent, PickerLocaleType } from '../Picker/types';
-import { pickerToggleTriggerProps } from '../Picker/PickerToggleTrigger';
+import {
+  pickerToggleTriggerProps,
+  OverlayTriggerInstance,
+  PositionChildProps
+} from '../Picker/PickerToggleTrigger';
 import { listPickerPropTypes } from '../Picker/propTypes';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
 import { ListProps } from 'react-virtualized/dist/commonjs/List';
-import { KEY_CODE } from '../constants';
 
 export type ValueType = number | string;
 export interface SelectProps<T = ValueType> {
@@ -150,8 +155,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
       ...rest
     } = props;
 
-    const rootRef = useRef<HTMLDivElement>();
-    const triggerRef = useRef<any>();
+    const triggerRef = useRef<OverlayTriggerInstance>();
     const positionRef = useRef();
     const toggleRef = useRef<HTMLButtonElement>();
     const menuRef = useRef<HTMLDivElement>();
@@ -184,77 +188,66 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
     // Use component active state to support keyboard events.
     const [active, setActive] = useState(false);
 
-    const handleKeyDown = (event: React.KeyboardEvent) => {
-      // enter
-      if ((!focusItemValue || !active) && event.keyCode === KEY_CODE.ENTER) {
-        handleToggleDropdown();
-      }
+    const handleClose = useCallback(() => {
+      triggerRef.current?.close?.();
+    }, []);
 
-      // delete
-      if (event.keyCode === KEY_CODE.BACKSPACE && event.target === toggleRef?.current) {
-        handleClean(event);
-      }
+    const handleOpen = useCallback(() => {
+      triggerRef.current?.open?.();
+    }, []);
 
-      if (!menuRef.current) {
-        return;
-      }
-
-      onKeyDown(event);
-      onMenuKeyDown(event, {
-        enter: selectFocusMenuItem,
-        esc: handleClose
-      });
-    };
-
-    const handleToggleDropdown = () => {
+    const handleToggleDropdown = useCallback(() => {
       if (active) {
         handleClose();
         return;
       }
       handleOpen();
-    };
+    }, [active, handleOpen, handleClose]);
 
-    const selectFocusMenuItem = (event: React.SyntheticEvent<any>) => {
-      if (!focusItemValue) {
-        return;
-      }
-
-      // Find active `MenuItem` by `value`
-      const focusItem = findNodeOfTree(data, item => shallowEqual(item[valueKey], focusItemValue));
-
-      setValue(focusItemValue);
-      handleSelect(focusItemValue, focusItem, event);
-      handleChangeValue(focusItemValue, event);
-      handleClose();
-    };
-
-    const handleItemSelect = (value: any, item: ItemDataType, event: React.SyntheticEvent<any>) => {
-      setValue(value);
-      setFocusItemValue(value);
-
-      handleSelect(value, item, event);
-      handleChangeValue(value, event);
-      handleClose();
-    };
-
-    const handleSelect = (value: any, item: ItemDataType, event: React.SyntheticEvent<any>) => {
-      onSelect?.(value, item, event);
-      toggleRef.current?.focus();
-    };
-
-    const handleClose = () => {
-      triggerRef.current?.hide?.();
-    };
-
-    const handleOpen = () => {
-      triggerRef.current?.show?.();
-    };
+    const handleSelect = useCallback(
+      (value: any, item: ItemDataType, event: React.SyntheticEvent<any>) => {
+        onSelect?.(value, item, event);
+        toggleRef.current?.focus();
+      },
+      [onSelect]
+    );
 
     const handleChangeValue = useCallback(
       (value: any, event: React.SyntheticEvent<any>) => {
         onChange?.(value, event);
       },
       [onChange]
+    );
+
+    const selectFocusMenuItem = useCallback(
+      (event: React.SyntheticEvent<any>) => {
+        if (!focusItemValue) {
+          return;
+        }
+
+        // Find active `MenuItem` by `value`
+        const focusItem = findNodeOfTree(data, item =>
+          shallowEqual(item[valueKey], focusItemValue)
+        );
+
+        setValue(focusItemValue);
+        handleSelect(focusItemValue, focusItem, event);
+        handleChangeValue(focusItemValue, event);
+        handleClose();
+      },
+      [data, focusItemValue, valueKey, setValue, handleSelect, handleChangeValue, handleClose]
+    );
+
+    const handleItemSelect = useCallback(
+      (value: any, item: ItemDataType, event: React.SyntheticEvent<any>) => {
+        setValue(value);
+        setFocusItemValue(value);
+
+        handleSelect(value, item, event);
+        handleChangeValue(value, event);
+        handleClose();
+      },
+      [setValue, setFocusItemValue, handleSelect, handleChangeValue, handleClose]
     );
 
     const handleClean = useCallback(
@@ -266,23 +259,58 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
         setFocusItemValue(value);
         handleChangeValue(null, event);
       },
-      [value, disabled, cleanable, handleChangeValue, setFocusItemValue]
+      [value, disabled, cleanable, setValue, handleChangeValue, setFocusItemValue]
     );
 
-    const handleExited = () => {
+    const handleKeyDown = useCallback(
+      (event: React.KeyboardEvent) => {
+        // enter
+        if ((!focusItemValue || !active) && event.keyCode === KEY_CODE.ENTER) {
+          handleToggleDropdown();
+        }
+
+        // delete
+        if (event.keyCode === KEY_CODE.BACKSPACE && event.target === toggleRef?.current) {
+          handleClean(event);
+        }
+
+        if (!menuRef.current) {
+          return;
+        }
+
+        onKeyDown(event);
+        onMenuKeyDown(event, {
+          enter: selectFocusMenuItem,
+          esc: handleClose
+        });
+      },
+      [
+        active,
+        focusItemValue,
+        handleClean,
+        handleClose,
+        handleToggleDropdown,
+        onKeyDown,
+        selectFocusMenuItem
+      ]
+    );
+
+    const handleExited = useCallback(() => {
       setSearchKeyword('');
       setActive(false);
       onClose?.();
-    };
+    }, [onClose, setSearchKeyword]);
 
-    const handleEntered = () => {
+    const handleEntered = useCallback(() => {
       setActive(true);
       setFocusItemValue(value);
       onOpen?.();
-    };
+    }, [onOpen, setFocusItemValue, value]);
 
     useImperativeHandle(ref, () => ({
-      root: rootRef.current,
+      get root() {
+        return triggerRef.current.child;
+      },
       get menu() {
         return menuRef.current;
       },
@@ -314,8 +342,10 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
       selectedElement = renderValue(value, activeItem, selectedElement);
     }
 
-    const renderDropdownMenu = () => {
-      const classes = merge(prefix('check-menu'), menuClassName);
+    const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
+      const { left, top, className } = positionProps;
+      const classes = merge(className, menuClassName, prefix('select-menu'));
+      const styles = { ...menuStyle, left, top };
       let items = filteredData;
 
       // Create a tree structure data when set `groupBy`
@@ -351,10 +381,10 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
 
       return (
         <MenuWrapper
-          ref={menuRef}
+          ref={mergeRefs(menuRef, speakerRef)}
           autoWidth={menuAutoWidth}
           className={classes}
-          style={menuStyle}
+          style={styles}
           onKeyDown={handleKeyDown}
           getToggleInstance={() => toggleRef.current}
           getPositionInstance={() => positionRef.current}
@@ -387,9 +417,9 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
         placement={placement}
         onEntered={createChainedFunction(handleEntered, onEntered)}
         onExited={createChainedFunction(handleExited, onExited)}
-        speaker={renderDropdownMenu()}
+        speaker={renderDropdownMenu}
       >
-        <Component ref={rootRef} className={classes} style={style}>
+        <Component className={classes} style={style}>
           <PickerToggle
             {...omit(rest, [...pickerToggleTriggerProps, ...usedClassNameProps])}
             ref={toggleRef}

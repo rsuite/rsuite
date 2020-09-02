@@ -2,7 +2,7 @@ import React, { useState, useImperativeHandle, useRef, useCallback } from 'react
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import Input from '../Input';
-import { refType, useClassNames, useControlled } from '../utils';
+import { refType, useClassNames, useControlled, PLACEMENT, mergeRefs } from '../utils';
 import {
   PickerToggleTrigger,
   onMenuKeyDown,
@@ -11,9 +11,8 @@ import {
   MenuWrapper,
   useFocusItemValue
 } from '../Picker';
-import { pickerToggleTriggerProps } from '../Picker/PickerToggleTrigger';
-import { PLACEMENT } from '../constants';
-import { getAnimationPropTypes } from '../Animation/utils';
+import { pickerToggleTriggerProps, PositionChildProps } from '../Picker/PickerToggleTrigger';
+import { animationPropTypes } from '../Animation/utils';
 import {
   WithAsProps,
   RsRefForwardingComponent,
@@ -203,13 +202,13 @@ const AutoComplete: AutoCompleteComponent = React.forwardRef((props: AutoComplet
       }
       handleClose();
     },
-    [handleSelect, handleChangeValue, handleClose, setFocusItemValue, value]
+    [value, setValue, handleSelect, handleChangeValue, handleClose, setFocusItemValue]
   );
 
   const handleInputFocus = useCallback(
     (event: React.SyntheticEvent<HTMLElement>) => {
-      handleOpen();
       onFocus?.(event);
+      handleOpen();
     },
     [onFocus, handleOpen]
   );
@@ -235,6 +234,32 @@ const AutoComplete: AutoCompleteComponent = React.forwardRef((props: AutoComplet
     close: handleClose
   }));
 
+  const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
+    const { left, top, className } = positionProps;
+    const styles = { left, top };
+
+    return (
+      <MenuWrapper
+        ref={mergeRefs(menuRef, speakerRef)}
+        style={styles}
+        className={className}
+        onKeyDown={handleKeyDownEvent}
+      >
+        <DropdownMenu
+          classPrefix="auto-complete-menu"
+          dropdownMenuItemClassPrefix="auto-complete-item"
+          dropdownMenuItemAs={DropdownMenuItem}
+          focusItemValue={focusItemValue}
+          ref={menuRef}
+          onSelect={handleItemSelect}
+          renderMenuItem={renderItem}
+          data={items}
+          className={menuClassName}
+        />
+      </MenuWrapper>
+    );
+  };
+
   return (
     <Component ref={rootRef} className={classes} style={style}>
       <PickerToggleTrigger
@@ -242,21 +267,7 @@ const AutoComplete: AutoCompleteComponent = React.forwardRef((props: AutoComplet
         pickerProps={pick(props, pickerToggleTriggerProps)}
         trigger={['click', 'focus']}
         open={open || (focus && hasItems)}
-        speaker={
-          <MenuWrapper ref={menuRef} onKeyDown={handleKeyDownEvent}>
-            <DropdownMenu
-              classPrefix="auto-complete-menu"
-              dropdownMenuItemClassPrefix="auto-complete-item"
-              dropdownMenuItemAs={DropdownMenuItem}
-              focusItemValue={focusItemValue}
-              ref={menuRef}
-              onSelect={handleItemSelect}
-              renderMenuItem={renderItem}
-              data={items}
-              className={menuClassName}
-            />
-          </MenuWrapper>
-        }
+        speaker={renderDropdownMenu}
       >
         <Input
           {...rest}
@@ -275,7 +286,7 @@ const AutoComplete: AutoCompleteComponent = React.forwardRef((props: AutoComplet
 AutoComplete.displayName = 'AutoComplete';
 AutoComplete.defaultProps = defaultProps;
 AutoComplete.propTypes = {
-  ...getAnimationPropTypes(),
+  ...animationPropTypes,
   data: PropTypes.array,
   disabled: PropTypes.bool,
   onSelect: PropTypes.func,

@@ -1,74 +1,65 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import compose from 'recompose/compose';
+import { useClassNames, SIZE } from '../utils';
+import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 
-import { withStyleProps, defaultProps, prefix, refType } from '../utils';
-import { ModalDialogProps } from './ModalDialog.d';
-import mergeRefs from '../utils/mergeRefs';
+export interface ModalDialogProps extends WithAsProps {
+  /** A modal can have different sizes */
+  size?: TypeAttributes.Size;
+  dialogClassName?: string;
+  dialogStyle?: React.CSSProperties;
+}
 
 export const modalDialogPropTypes = {
+  size: PropTypes.oneOf(SIZE),
   className: PropTypes.string,
   classPrefix: PropTypes.string,
   dialogClassName: PropTypes.string,
   style: PropTypes.object,
   dialogStyle: PropTypes.object,
-  children: PropTypes.node,
-  dialogRef: refType
+  children: PropTypes.node
 };
 
-class ModalDialog extends React.Component<ModalDialogProps> {
-  static propTypes = modalDialogPropTypes;
+const defaultProps: Partial<ModalDialogProps> = {
+  as: 'div',
+  classPrefix: 'modal'
+};
 
-  htmlElement: HTMLDivElement = null;
-  getHTMLElement() {
-    return this.htmlElement;
-  }
-  bindHtmlRef = ref => {
-    this.htmlElement = ref;
-  };
-  render() {
+const ModalDialog: RsRefForwardingComponent<'div', ModalDialogProps> = React.forwardRef(
+  (props: ModalDialogProps, ref) => {
     const {
+      as: Component,
       style,
       children,
       dialogClassName,
       dialogStyle,
       classPrefix,
       className,
-      dialogRef,
-      ...props
-    } = this.props;
+      size,
+      ...rest
+    } = props;
 
     const modalStyle = {
       display: 'block',
       ...style
     };
 
-    const addPrefix = prefix(classPrefix);
-    const dialogClasses = classNames(addPrefix('dialog'), dialogClassName);
+    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix(size));
+    const dialogClasses = merge(dialogClassName, prefix('dialog'));
 
     return (
-      <div
-        {...props}
-        title={null}
-        role="dialog"
-        ref={mergeRefs(this.bindHtmlRef, dialogRef)}
-        className={classNames(classPrefix, className)}
-        style={modalStyle}
-      >
-        <div className={dialogClasses} style={dialogStyle}>
-          <div className={addPrefix('content')}>{children}</div>
+      <Component {...rest} ref={ref} className={classes} style={modalStyle}>
+        <div role="document" className={dialogClasses} style={dialogStyle}>
+          <div className={prefix`content`}>{children}</div>
         </div>
-      </div>
+      </Component>
     );
   }
-}
+);
 
-export default compose<any, ModalDialogProps>(
-  withStyleProps<ModalDialogProps>({
-    hasSize: true
-  }),
-  defaultProps<ModalDialogProps>({
-    classPrefix: 'modal'
-  })
-)(ModalDialog);
+ModalDialog.displayName = 'ModalDialog';
+ModalDialog.defaultProps = defaultProps;
+ModalDialog.propTypes = modalDialogPropTypes;
+
+export default ModalDialog;

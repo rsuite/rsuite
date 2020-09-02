@@ -114,18 +114,13 @@ describe('SelectPicker styles', () => {
   });
 
   it('Select picker group should render correct styles', () => {
-    const instanceRef = React.createRef();
+    const ref = React.createRef();
     ReactDOM.render(
-      <SelectPicker
-        ref={instanceRef}
-        groupBy="role"
-        data={data}
-        menuClassName="group-test-menu"
-        open
-      />,
+      <SelectPicker ref={ref} groupBy="role" data={data} menuClassName="group-test-menu" open />,
       createTestContainer()
     );
-    const secondItemGroup = instanceRef.current.menu.querySelectorAll(
+
+    const secondItemGroup = ref.current.menu.querySelectorAll(
       '.group-test-menu .rs-picker-menu-group'
     )[1];
     inChrome &&

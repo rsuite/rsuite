@@ -133,6 +133,22 @@
     "title": "导航"
   },
   {
+    "id": "affix",
+    "name": "Affix",
+    "title": "固定位置",
+    "components": ["Affix"]
+  },
+  {
+    "id": "breadcrumb",
+    "name": "Breadcrumb",
+    "title": "面包屑",
+    "components": ["Breadcrumb", "Breadcrumb.Item"],
+    "designHash": {
+      "default": "23",
+      "dark": "23"
+    }
+  },
+  {
     "id": "dropdown",
     "name": "Dropdown",
     "title": "下拉菜单",
@@ -190,16 +206,6 @@
     "designHash": {
       "default": "29",
       "dark": "29"
-    }
-  },
-  {
-    "id": "breadcrumb",
-    "name": "Breadcrumb",
-    "title": "面包屑",
-    "components": ["Breadcrumb", "Breadcrumb.Item"],
-    "designHash": {
-      "default": "23",
-      "dark": "23"
     }
   },
   {
@@ -540,7 +546,7 @@
       "dark": "72"
     }
   },
-  
+
   {
     "group": true,
     "id": "utils",
@@ -553,11 +559,12 @@
     "title": "数据模型",
     "apis": ["Schema.Model", "Schema.Types"]
   },
+
   {
-    "id": "affix",
-    "name": "Affix",
-    "title": "固定位置",
-    "components": ["Affix"]
+    "id": "whisper",
+    "name": "Whisper",
+    "title": "弹窗触发器",
+    "components": ["Whisper"]
   },
   {
     "id": "animation",
@@ -570,12 +577,6 @@
       "Animation.Slide",
       "Animation.Collapse"
     ]
-  },
-  {
-    "id": "portal",
-    "name": "Portal",
-    "title": "入口",
-    "components": ["Portal"]
   },
   {
     "id": "dom-helper",

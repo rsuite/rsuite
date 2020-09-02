@@ -11,7 +11,7 @@ interface ButtonProps {
   [key: string]: any;
 }
 
-function LanguageButton(props: ButtonProps) {
+const LanguageButton = React.forwardRef((props: ButtonProps, ref) => {
   const router = useRouter();
   const { language, onChangeLanguage } = React.useContext(AppContext);
   const { className, ...rest } = props;
@@ -27,12 +27,13 @@ function LanguageButton(props: ButtonProps) {
 
       router.push(pathname, `${languageToPath(nextLanguage)}${pathname}`);
     },
-    [language]
+    [onChangeLanguage, router, isZH]
   );
 
   return (
     <Button
       {...rest}
+      ref={ref}
       className={classnames('btn-switch-language', className)}
       appearance="subtle"
       onClick={handleChangeLanguage}
@@ -40,6 +41,8 @@ function LanguageButton(props: ButtonProps) {
       <Icon icon={SvgIcons.Language} /> {isZH ? 'English' : '中文'}
     </Button>
   );
-}
+});
+
+LanguageButton.displayName = 'LanguageButton';
 
 export default LanguageButton;

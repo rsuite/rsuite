@@ -5,7 +5,6 @@ import DefaultPage from '@/components/Page';
 export default function Page() {
   return (
     <DefaultPage
-      examples={['basic', 'backdrop', 'size', 'full', 'overflow', 'dynamic', 'confirm']}
       dependencies={{
         Loader,
         ButtonToolbar,

@@ -1,6 +1,6 @@
 import * as helpers from 'dom-lib';
-
-type DOMElement = Element | Window;
+export * from 'dom-lib';
+type DOMElement = HTMLElement | Window | Document | Element;
 
 export interface DOMOffset {
   top: number;
@@ -9,7 +9,7 @@ export interface DOMOffset {
   width: number;
 }
 
-export interface DOMHelperAPI {
+export interface DOMHelper {
   /** classes */
   hasClass(node: Element, className: string): boolean;
   addClass(node: Element, className: string): Element;
@@ -44,23 +44,38 @@ export interface DOMHelperAPI {
 
   /** query  */
   canUseDOM: boolean;
-  activeElement(): Element;
+  activeElement(doc?: Document): Element;
   getHeight(node: DOMElement, client?: DOMElement): number;
   getWidth(node: DOMElement, client?: DOMElement): number;
   getOffset(node: DOMElement): DOMOffset | DOMRect;
   getOffsetParent(node: Element | Document): Element;
   getPosition(node: Element, offsetParent?: Element): DOMOffset;
   getWindow(node: Element): Window;
+  getContainer(node: Element | (() => Element), defaultContainer: Element): Element;
   nodeName(node: Element): string;
   ownerDocument(node: Element): Document;
   ownerWindow(node: Element): Window;
-  contains(context: Element, node: Element): boolean;
+  contains(context: DOMElement, node: DOMElement): boolean;
   scrollLeft(node: DOMElement): number;
   scrollLef(node: DOMElement, val: number): void;
   scrollTop(node: DOMElement): number;
   scrollTop(node: DOMElement, val: number): void;
+  isElement(node: DOMElement): boolean;
+  transition(): {
+    end: string;
+    backfaceVisibility: string;
+    transform: string;
+    property: string;
+    timing: string;
+    delay: string;
+    duration: string;
+  };
 }
 
-const DOMHelper: DOMHelperAPI = helpers;
-
+const DOMHelper: DOMHelper = {
+  ...helpers,
+  isElement: (node: HTMLElement) => {
+    return node?.nodeType && typeof node?.nodeName === 'string';
+  }
+};
 export default DOMHelper;

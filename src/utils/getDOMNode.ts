@@ -1,26 +1,19 @@
 import { findDOMNode } from 'react-dom';
 
-export default function getDOMNode(element: any) {
-  /**
-   * Native HTML elements
-   */
+const getRefTarget = (ref: React.RefObject<Element> | Element | null | undefined) => {
+  return ref && ('current' in ref ? ref.current : ref);
+};
 
+export default function getDOMNode(elementOrRef) {
+  // If elementOrRef is an instance of Position, child is returned. [PositionInstance]
+  const element = elementOrRef?.child ? elementOrRef?.child : getRefTarget(elementOrRef);
+
+  // Native HTML elements
   if (element?.nodeType && typeof element?.nodeName === 'string') {
     return element;
   }
 
-  /**
-   * The component provides the `getHTMLElement` method.
-   */
-
-  const htmlElement = element?.getHTMLElement?.();
-  if (htmlElement) {
-    return htmlElement;
-  }
-
-  /**
-   * If you can't get the native HTML element, you can only get it through findDOMNode.
-   */
+  // If you can't get the native HTML element, you can only get it through findDOMNode.
   // eslint-disable-next-line react/no-find-dom-node
-  return findDOMNode(element);
+  return findDOMNode(element) as Element;
 }

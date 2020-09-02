@@ -7,15 +7,12 @@ interface PortalProps {
   container?: HTMLElement | (() => HTMLElement);
 }
 
-function usePortal({ id, container }: PortalProps) {
-  const rootElemRef = useRef(
-    helper.canUseDOM ? document.createElement('div') : null
-  ) as React.MutableRefObject<HTMLDivElement>;
+function usePortal(props: PortalProps = {}) {
+  const { id, container } = props;
+  const rootElemRef = useRef<Element | HTMLElement>(helper.canUseDOM ? document.body : null);
 
   useEffect(() => {
     const containerElement = typeof container === 'function' ? container() : container;
-
-    const root = rootElemRef.current;
 
     // Look for existing target dom element to append to
     const existingParent = id && document.querySelector(`#${id}`);
@@ -23,15 +20,10 @@ function usePortal({ id, container }: PortalProps) {
     // Parent is either a new root or the existing dom element
     const parentElement = containerElement || existingParent || document.body;
 
-    // Add the detached element to the parent
-    parentElement.appendChild(root);
-
-    return () => {
-      root?.remove();
-    };
+    rootElemRef.current = parentElement;
   }, [rootElemRef, container, id]);
 
-  const Portal = useCallback(
+  const Portal: React.FC<any> = useCallback(
     ({ children }: { children: React.ReactNode }) => {
       if (rootElemRef.current != null) return createPortal(children, rootElemRef.current);
       return null;

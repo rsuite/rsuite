@@ -6,7 +6,7 @@ import isFunction from 'lodash/isFunction';
 import omit from 'lodash/omit';
 import getDOMNode from '../utils/getDOMNode';
 import { AnimationEventProps } from '../@types/common';
-import { getAnimationEnd, getAnimationPropTypes } from './utils';
+import { getAnimationEnd, animationPropTypes } from './utils';
 
 export enum STATUS {
   UNMOUNTED = 0,
@@ -55,7 +55,7 @@ interface TransitionState {
 }
 
 export const transitionPropTypes = {
-  ...getAnimationPropTypes(),
+  ...animationPropTypes,
   animation: PropTypes.bool,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   className: PropTypes.string,
@@ -303,6 +303,7 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
 
     return React.cloneElement(child, {
       ...childProps,
+      ref: this.childRef,
       className: classNames(className, child.props?.className, transitionClassName)
     });
   }
