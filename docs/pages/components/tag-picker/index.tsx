@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TagPicker, Button, Icon } from 'rsuite';
+import { TagPicker, Button, Icon, Tag } from 'rsuite';
 import _remove from 'lodash/remove';
 import fetch from 'isomorphic-fetch';
 import DefaultPage from '@/components/Page';
@@ -10,7 +10,7 @@ export default function Page() {
   return (
     <DefaultPage
       examples={['basic', 'size', 'block', 'group', 'creatable', 'custom', 'disabled', 'async']}
-      dependencies={{ TagPicker, Button, Icon, _remove, data, fetch }}
+      dependencies={{ TagPicker, Tag, Button, Icon, _remove, data, fetch }}
     />
   );
 }
