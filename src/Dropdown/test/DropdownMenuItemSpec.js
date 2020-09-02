@@ -10,25 +10,26 @@ describe('DropdownMenuItem', () => {
   it('Should render a li', () => {
     const title = 'Test';
     const instance = getDOMNode(<DropdownMenuItem>{title}</DropdownMenuItem>);
+
     assert.equal(instance.tagName, 'LI');
     assert.equal(innerText(instance), title);
   });
 
   it('Should render a Button', () => {
     const title = 'Test';
-    const instance = getDOMNode(<DropdownMenuItem as="button">{title}</DropdownMenuItem>);
+    const instance = getDOMNode(<DropdownMenuItem linkAs="button">{title}</DropdownMenuItem>);
     assert.equal(instance.children[0].tagName, 'BUTTON');
     assert.equal(innerText(instance), title);
   });
 
   it('Should render a divider', () => {
     const instance = getDOMNode(<DropdownMenuItem divider />);
-    assert.equal(instance.className, 'rs-dropdown-item-divider');
+    assert.include(instance.className, 'rs-dropdown-item-divider');
   });
 
   it('Should render a panel', () => {
     const instance = getDOMNode(<DropdownMenuItem panel />);
-    assert.equal(instance.className, 'rs-dropdown-item-panel');
+    assert.include(instance.className, 'rs-dropdown-item-panel');
   });
 
   it('Should be active', () => {

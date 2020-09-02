@@ -61,6 +61,9 @@ const usePosition = (
 
   const updatePosition = useCallback(
     (placementChanged = true) => {
+      if (!triggerTarget?.current) {
+        return;
+      }
       const targetElement = getDOMNode(triggerTarget);
 
       if (!helper.isElement(targetElement)) {
@@ -109,7 +112,8 @@ const usePosition = (
 };
 
 export interface PositionInstance {
-  updatePosition: () => void;
+  updatePosition?: () => void;
+  child?: Element;
 }
 
 const Position = React.forwardRef((props: PositionProps, ref) => {
@@ -126,6 +130,9 @@ const Position = React.forwardRef((props: PositionProps, ref) => {
   } = position;
 
   useImperativeHandle(ref, () => ({
+    get child() {
+      return childRef.current;
+    },
     updatePosition
   }));
 
@@ -137,6 +144,7 @@ const Position = React.forwardRef((props: PositionProps, ref) => {
       left: positionLeft,
       top: positionTop
     };
+
     return children(childProps, childRef);
   }
 

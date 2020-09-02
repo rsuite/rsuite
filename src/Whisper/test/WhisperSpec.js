@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode } from '@test/testUtils';
+import { getDOMNode, getInstance } from '@test/testUtils';
 
 import Whisper from '../Whisper';
 import Tooltip from '../../Tooltip';
@@ -68,13 +68,13 @@ describe('Whisper', () => {
     const doneOp = () => {
       done();
     };
-    const triggerRef = React.createRef();
-    getDOMNode(
-      <Whisper onOpen={doneOp} triggerRef={triggerRef} trigger="none" speaker={<Tooltip />}>
+    const instance = getInstance(
+      <Whisper onOpen={doneOp} trigger="none" speaker={<Tooltip />}>
         <button>button</button>
       </Whisper>
     );
-    triggerRef.current.open();
+
+    instance.open();
   });
 
   it('Should call onOpen callback', done => {

@@ -96,7 +96,6 @@ describe('InputPicker styles', () => {
       <InputPicker
         ref={instanceRef}
         data={data}
-        open
         onOpen={() => {
           inChrome &&
             assert.equal(getStyle(dom, 'border'), `1px solid ${H700}`, 'Picker active border');
@@ -108,5 +107,6 @@ describe('InputPicker styles', () => {
       createTestContainer()
     );
     dom = instanceRef.current.root;
+    instanceRef.current.open();
   });
 });

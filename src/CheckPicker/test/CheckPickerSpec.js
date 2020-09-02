@@ -32,10 +32,9 @@ const data = [
 
 describe('CheckPicker', () => {
   it('Should clean selected default value', () => {
-    const instance = getDOMNode(<Dropdown defaultOpen data={data} defaultValue={['Eugenia']} />);
-
-    ReactTestUtils.Simulate.click(instance.querySelector(cleanClassName));
-    expect(instance.querySelector(placeholderClassName).innerText).to.equal('Select');
+    const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={['Eugenia']} />);
+    ReactTestUtils.Simulate.click(instance.root.querySelector(cleanClassName));
+    expect(instance.root.querySelector(placeholderClassName).innerText).to.equal('Select');
   });
 
   it('Should not clean selected value', () => {

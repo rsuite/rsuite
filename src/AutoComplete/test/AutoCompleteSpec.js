@@ -9,9 +9,9 @@ describe('AutoComplete', () => {
     assert.ok(instance.querySelector('input'));
   });
 
-  it('Should render 2 `listitem` when set `open` and `defaultValue`', () => {
+  it('Should render 2 `menuitemradio` when set `open` and `defaultValue`', () => {
     const instance = getInstance(<AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" />);
-    assert.equal(instance.menu.querySelectorAll('[role="listitem"]').length, 2);
+    assert.equal(instance.menu.querySelectorAll('[role="menuitemradio"]').length, 2);
   });
 
   it('Should be a `top-end` for placement', () => {
@@ -217,7 +217,7 @@ describe('AutoComplete', () => {
     const instance = getInstance(
       <AutoComplete menuClassName="custom" data={['a', 'b', 'ab']} open />
     );
-    assert.include(instance.menu.querySelector('[role="list"]').className, 'custom');
+    assert.include(instance.menu.querySelector('[role="menu"]').className, 'custom');
   });
 
   it('Should have a custom style', () => {
@@ -236,13 +236,13 @@ describe('AutoComplete', () => {
       <AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" filterBy={() => true} />
     );
 
-    assert.equal(instance1.menu.querySelectorAll('[role="listitem"]').length, 3);
+    assert.equal(instance1.menu.querySelectorAll('[role="menuitemradio"]').length, 3);
 
     const instance2 = getInstance(
       <AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" filterBy={() => false} />
     );
 
-    assert.equal(instance2.menu.querySelectorAll('[role="listitem"]').length, 0);
+    assert.equal(instance2.menu.querySelectorAll('[role="menuitemradio"]').length, 0);
 
     const instance3 = getInstance(
       <AutoComplete
@@ -254,7 +254,7 @@ describe('AutoComplete', () => {
       />
     );
 
-    assert.equal(instance3.menu.querySelectorAll('[role="listitem"]').length, 3);
+    assert.equal(instance3.menu.querySelectorAll('[role="menuitemradio"]').length, 3);
 
     const instance4 = getInstance(
       <AutoComplete
@@ -265,7 +265,7 @@ describe('AutoComplete', () => {
       />
     );
 
-    assert.equal(instance4.menu.querySelectorAll('[role="listitem"]').length, 1);
+    assert.equal(instance4.menu.querySelectorAll('[role="menuitemradio"]').length, 1);
   });
 
   describe('ref testing', () => {

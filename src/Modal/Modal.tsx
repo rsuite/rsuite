@@ -13,12 +13,14 @@ import helper from '../DOMHelper';
 import { useBodyStyles } from './utils';
 import { TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 
-interface ModalProps extends BaseModalProps {
+export interface ModalProps extends BaseModalProps {
   /** A modal can have different sizes */
   size?: TypeAttributes.Size;
 
+  /** Set the duration of the animation */
   animationTimeout: number;
 
+  /** Set an animation effect for Modal, the default is Bounce.  */
   animation: React.ElementType;
 
   /** CSS class applied to Dialog DOM nodes */
@@ -36,6 +38,7 @@ interface ModalProps extends BaseModalProps {
   /** Automatically sets the height when the body content is too long. */
   overflow: boolean;
 
+  /** Render Modal as Drawer */
   drawer: boolean;
 }
 
@@ -118,7 +121,9 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     // When the value of `backdrop` is `static`, a jitter animation will be added to the dialog when clicked.
     if (backdrop === 'static') {
       setShake(true);
+      console.log('vvvv', dialogRef.current);
       transitionEndListener.current = helper.on(dialogRef.current, helper.transition().end, () => {
+        console.log('----vvvv--');
         setShake(false);
       });
     }

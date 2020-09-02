@@ -6,20 +6,5 @@ import useFetchData from '@/utils/useFetchData';
 
 export default function Page() {
   const { response: data } = useFetchData('users-role');
-  return (
-    <DefaultPage
-      examples={[
-        'basic',
-        'size',
-        'block',
-        'group',
-        'creatable',
-        'custom',
-        'disabled',
-        'async',
-        'controlled'
-      ]}
-      dependencies={{ data, InputPicker, Button, Icon }}
-    />
-  );
+  return <DefaultPage dependencies={{ data, InputPicker, Button, Icon }} />;
 }

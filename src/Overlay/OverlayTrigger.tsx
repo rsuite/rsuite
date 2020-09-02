@@ -10,6 +10,17 @@ import { PositionInstance } from './Position';
 import { isUndefined } from 'lodash';
 export type OverlayTriggerTrigger = 'click' | 'hover' | 'focus' | 'active' | 'none';
 
+function mergeEvents(events = {}, props = {}) {
+  const nextEvents = {};
+
+  Object.keys(events).forEach(eventName => {
+    if (events[eventName]) {
+      nextEvents[eventName] = createChainedFunction(events[eventName], props?.[eventName]);
+    }
+  });
+  return nextEvents;
+}
+
 export interface OverlayTriggerProps extends StandardProps, AnimationEventProps {
   /** Triggering events */
   trigger?: OverlayTriggerTrigger | OverlayTriggerTrigger[];
@@ -33,7 +44,7 @@ export interface OverlayTriggerProps extends StandardProps, AnimationEventProps 
   containerPadding?: number;
 
   /** display element */
-  speaker?: (props: any, ref: React.RefObject<any>) => React.ReactElement;
+  speaker?: React.ReactElement | ((props: any, ref: React.RefObject<any>) => React.ReactElement);
 
   /** Prevent floating element overflow */
   preventOverflow?: boolean;
@@ -85,21 +96,31 @@ export interface OverlayTriggerProps extends StandardProps, AnimationEventProps 
  * @param handler
  * @param event
  */
-function onMouseEventHandler(handler: React.MouseEventHandler, event: React.MouseEvent) {
+function onMouseEventHandler(
+  handler: (event: React.MouseEvent, delay?: number) => void,
+  event: React.MouseEvent,
+  delay?: number
+) {
   const target = event.currentTarget;
   const related = event.relatedTarget || get(event, ['nativeEvent', 'toElement']);
 
   if ((!related || related !== target) && !contains(target, related)) {
-    handler(event);
+    handler(event, delay);
   }
 }
 
 const defaultProps: Partial<OverlayTriggerProps> = {
   trigger: ['hover', 'focus'],
-  delayClose: 200,
   placement: 'bottomStart',
   rootClose: true
 };
+
+export interface OverlayTriggerInstance {
+  child: Element;
+  updatePosition?: () => void;
+  open?: () => void;
+  close?: () => void;
+}
 
 const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
   const {
@@ -181,6 +202,9 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
   );
 
   useImperativeHandle(ref, () => ({
+    get child() {
+      return triggerRef.current;
+    },
     open: handleOpen,
     close: handleClose,
     updatePosition: () => {
@@ -188,12 +212,19 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
     }
   }));
 
+  /**
+   * Close after the cursor leaves.
+   */
   const handleCloseWhenLeave = useCallback(() => {
+    // When the cursor is not on the overlay and not on the trigger, it is closed.
     if (!isOnOverlay.current && !isOnTrigger.current) {
       handleClose();
     }
   }, [handleClose]);
 
+  /**
+   * Toggle open and closed state.
+   */
   const handleOpenState = useCallback(() => {
     if (open) {
       handleCloseWhenLeave();
@@ -219,7 +250,7 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
     }
 
     handleOpen();
-  }, [enterable, handleOpen, open]);
+  }, [enterable, open, handleOpen]);
 
   const handleDelayedClose = useCallback(() => {
     if (!enterable) {
@@ -237,16 +268,12 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
       return;
     }
 
-    if (!delayClose) {
-      return handleCloseWhenLeave();
-    }
-
     delayCloseTimer.current = setTimeout(() => {
       clearTimeout(delayCloseTimer.current);
       delayCloseTimer.current = null;
       handleCloseWhenLeave();
-    }, delayClose);
-  }, [delayClose, enterable, open, handleClose, handleCloseWhenLeave]);
+    }, 200);
+  }, [enterable, open, handleClose, handleCloseWhenLeave]);
 
   const handleSpeakerMouseEnter = useCallback(() => {
     isOnOverlay.current = true;
@@ -259,17 +286,15 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
     }
   }, [handleCloseWhenLeave, trigger]);
 
-  const triggerProps: React.HTMLAttributes<HTMLElement> = {
-    'aria-expanded': open
-  };
+  const triggerEvents = { onClick, onMouseOver, onMouseOut, onFocus, onBlur };
 
   if (!disabled) {
     if (isOneOf('click', trigger)) {
-      triggerProps.onClick = createChainedFunction(handleOpenState, onClick);
+      triggerEvents.onClick = createChainedFunction(handleOpenState, triggerEvents.onClick);
     }
 
     if (isOneOf('active', trigger)) {
-      triggerProps.onClick = createChainedFunction(handleDelayedOpen, onClick);
+      triggerEvents.onClick = createChainedFunction(handleDelayedOpen, triggerEvents.onClick);
     }
 
     if (isOneOf('hover', trigger)) {
@@ -280,30 +305,25 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
         onMouseOverListener = e => onMouseEventHandler(handleDelayedOpen, e);
         onMouseOutListener = e => onMouseEventHandler(handleDelayedClose, e);
       }
-      triggerProps.onMouseOver = createChainedFunction(onMouseOverListener, onMouseOver);
-      triggerProps.onMouseOut = createChainedFunction(onMouseOutListener, onMouseOut);
+      triggerEvents.onMouseOver = createChainedFunction(onMouseOverListener, onMouseOver);
+      triggerEvents.onMouseOut = createChainedFunction(onMouseOutListener, onMouseOut);
     }
 
     if (isOneOf('focus', trigger)) {
-      triggerProps.onFocus = createChainedFunction(handleDelayedOpen, onFocus);
-      triggerProps.onBlur = createChainedFunction(handleDelayedClose, onBlur);
+      triggerEvents.onFocus = createChainedFunction(handleDelayedOpen, onFocus);
+      triggerEvents.onBlur = createChainedFunction(handleDelayedClose, onBlur);
     }
   }
 
   const renderOverlay = () => {
     const overlayProps: OverlayProps = {
       ...rest,
+      triggerTarget: triggerRef,
+      onClose: trigger !== 'none' ? createChainedFunction(handleClose, onClose) : undefined,
       placement,
       container,
-      open,
-      triggerTarget: triggerRef
+      open
     };
-
-    if (isOneOf('click', trigger)) {
-      overlayProps.onClose = createChainedFunction(handleClose, onClose);
-    } else if (isOneOf('active', trigger)) {
-      overlayProps.onClose = createChainedFunction(handleClose, onClose);
-    }
 
     // The purpose of adding mouse entry and exit events to the Overlay is to record whether the current cursor is on the Overlay.
     // When `trigger` is equal to `hover`, if the cursor leaves the `triggerTarget` and stays on the Overlay,
@@ -323,8 +343,11 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
   return (
     <>
       {typeof children === 'function'
-        ? children(triggerProps, triggerRef)
-        : React.cloneElement(children, { ...triggerProps, ref: triggerRef })}
+        ? children({ ...triggerEvents, 'aria-expanded': open }, triggerRef)
+        : React.cloneElement(children, {
+            ref: triggerRef,
+            ...mergeEvents(triggerEvents, children.props)
+          })}
       <Portal>{renderOverlay()}</Portal>
     </>
   );

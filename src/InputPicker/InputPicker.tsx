@@ -17,7 +17,8 @@ import {
   getDataGroupBy,
   useClassNames,
   useCustom,
-  useControlled
+  useControlled,
+  mergeRefs
 } from '../utils';
 
 import {
@@ -33,7 +34,11 @@ import {
   useSearch
 } from '../Picker';
 import { PickerComponent, PickerLocaleType } from '../Picker/types';
-import { pickerToggleTriggerProps } from '../Picker/PickerToggleTrigger';
+import {
+  pickerToggleTriggerProps,
+  OverlayTriggerInstance,
+  PositionChildProps
+} from '../Picker/PickerToggleTrigger';
 import Tag, { TagProps } from '../Tag';
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
 import { listPickerPropTypes } from '../Picker/propTypes';
@@ -147,11 +152,10 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       throw Error('`groupBy` can not be equal to `valueKey` and `labelKey`');
     }
 
-    const rootRef = useRef<HTMLDivElement>();
     const menuRef = useRef<HTMLDivElement>();
     const positionRef = useRef<any>();
     const toggleRef = useRef<HTMLButtonElement>();
-    const triggerRef = useRef<any>();
+    const triggerRef = useRef<OverlayTriggerInstance>();
     const inputRef = useRef<any>();
     const { locale } = useCustom<InputPickerLocaleType>(['Picker', 'InputPicker'], overrideLocale);
 
@@ -179,11 +183,11 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     const cloneValue = useCallback(() => (multi ? clone(value) || [] : value), [multi, value]);
 
     const handleClose = useCallback(() => {
-      triggerRef?.current?.hide?.();
+      triggerRef?.current?.close();
     }, [triggerRef]);
 
     const handleOpen = useCallback(() => {
-      triggerRef.current?.show?.();
+      triggerRef.current?.open();
     }, [triggerRef]);
 
     // Used to hover the focuse item  when trigger `onKeydown`
@@ -432,7 +436,9 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     );
 
     useImperativeHandle(ref, () => ({
-      root: rootRef.current,
+      get root() {
+        return triggerRef.current.child;
+      },
       get menu() {
         return menuRef.current;
       },
@@ -597,9 +603,11 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       return tagElements;
     };
 
-    const renderDropdownMenu = () => {
+    const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
+      const { left, top, className } = positionProps;
       const menuClassPrefix = multi ? 'picker-check-menu' : 'picker-select-menu';
-      const classes = merge(prefix(menuClassPrefix), menuClassName);
+      const classes = merge(className, menuClassName, prefix(menuClassPrefix));
+      const styles = { ...menuStyle, left, top };
 
       let items = filterNodesOfTree(getAllData(), checkShouldDisplay);
 
@@ -643,10 +651,10 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
       return (
         <MenuWrapper
-          ref={menuRef}
+          ref={mergeRefs(menuRef, speakerRef)}
           autoWidth={menuAutoWidth}
           className={classes}
-          style={menuStyle}
+          style={styles}
           getToggleInstance={() => toggleRef.current}
           getPositionInstance={() => positionRef.current}
           onKeyDown={handleKeyDown}
@@ -695,15 +703,9 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         onEntered={createChainedFunction(onEntered, onOpen)}
         onExit={createChainedFunction(handleExit, onExit)}
         onExited={createChainedFunction(handleExited, onExited)}
-        speaker={renderDropdownMenu()}
+        speaker={renderDropdownMenu}
       >
-        <Component
-          ref={rootRef}
-          className={classes}
-          style={style}
-          onClick={focusInput}
-          onKeyDown={handleKeyDown}
-        >
+        <Component className={classes} style={style} onClick={focusInput} onKeyDown={handleKeyDown}>
           <PickerToggle
             {...omit(rest, [...pickerToggleTriggerProps, ...usedClassNameProps])}
             ref={toggleRef}
