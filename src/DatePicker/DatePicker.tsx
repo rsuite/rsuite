@@ -511,7 +511,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
     if (inline) {
       return (
-        <Component ref={ref} className={merge(className, withClassPrefix('date-inline'))}>
+        <Component ref={rootRef} className={merge(className, withClassPrefix('date-inline'))}>
           {calendar}
         </Component>
       );
