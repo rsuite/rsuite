@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Ref, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
@@ -9,13 +9,8 @@ import Calendar from '../Calendar/Calendar';
 import Toolbar, { RangeType } from './Toolbar';
 import { shouldOnlyTime } from '../utils/formatUtils';
 import composeFunctions from '../utils/composeFunctions';
-import { createChainedFunction, useClassNames, useCustom } from '../utils';
-import {
-  getToggleWrapperClassName,
-  MenuWrapper,
-  PickerToggle,
-  PickerToggleTrigger
-} from '../Picker';
+import { createChainedFunction, useClassNames, useControlled, useCustom } from '../utils';
+import { MenuWrapper, PickerToggle, PickerToggleTrigger, usePickerClassName } from '../Picker';
 import {
   calendarOnlyProps,
   CalendarOnlyPropsType,
@@ -23,7 +18,6 @@ import {
   getHours,
   getMinutes,
   getSeconds,
-  isEqual,
   isSameDay,
   setHours,
   setMinutes,
@@ -117,9 +111,6 @@ export interface DatePickerProps
 
   /** Custom render value */
   renderValue?: (value: Date, format: string) => React.ReactNode;
-
-  /** Pop-up panel container reference   */
-  panelContainerRef?: Ref<HTMLDivElement>;
 }
 
 enum CalendarState {
@@ -129,25 +120,11 @@ enum CalendarState {
 
 const defaultProps: Partial<DatePickerProps> = {
   ...pickerDefaultProps,
-  limitEndYear: 1000,
-  placeholder: '',
-  locale: {
-    sunday: 'Su',
-    monday: 'Mo',
-    tuesday: 'Tu',
-    wednesday: 'We',
-    thursday: 'Th',
-    friday: 'Fr',
-    saturday: 'Sa',
-    ok: 'OK',
-    today: 'Today',
-    yesterday: 'Yesterday',
-    hours: 'Hours',
-    minutes: 'Minutes',
-    seconds: 'Seconds'
-  },
   as: 'div',
-  classPrefix: 'picker'
+  classPrefix: 'picker',
+  format: 'yyyy-MM-dd',
+  limitEndYear: 1000,
+  placeholder: ''
 };
 
 const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwardRef(
@@ -161,7 +138,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       defaultValue,
       disabled,
       disabledDate: disabledDateProp,
-      format = 'yyyy-MM-dd',
+      format,
       inline,
       isoWeek,
       limitEndYear,
@@ -181,7 +158,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       onToggleMonthDropdown,
       onToggleTimeDropdown,
       oneTap,
-      panelContainerRef,
       placeholder,
       ranges,
       renderValue,
@@ -195,23 +171,28 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     } = props;
     const { locale } = useCustom<DatePickerLocale>('DatePicker', overrideLocale);
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-    const activeValue = valueProp ?? defaultValue;
-    const [localZoneValue, setLocalZoneValue] = useState(activeValue);
-    const [value, updateValue] = useState(toTimeZone(activeValue, timeZone));
+    const [localZoneValue, setLocalZoneValue] = useControlled(valueProp, defaultValue);
+    const [value, updateValue] = useControlled(
+      toTimeZone(valueProp, timeZone),
+      toTimeZone(defaultValue, timeZone)
+    );
     const [pageDate, setPageDate] = useState(
-      toTimeZone(activeValue ?? calendarDefaultDate ?? new Date(), timeZone)
+      toTimeZone(valueProp ?? defaultValue ?? calendarDefaultDate ?? new Date(), timeZone)
     );
     const [calendarState, setCalendarState] = useState<CalendarState>();
     const [active, setActive] = useState<boolean>(false);
     const triggerRef = useRef<{ show?: () => void; hide?: () => void }>();
+    const rootRef = useRef<HTMLDivElement>();
+    const toggleRef = useRef<HTMLButtonElement>();
+    const menuRef = useRef<HTMLDivElement>();
     const setValue = useCallback(
-      nextValue => {
-        if (!isEqual(value, nextValue)) {
+      (nextValue: Date) => {
+        if (value?.valueOf() !== nextValue?.valueOf()) {
           setLocalZoneValue(toLocalTimeZone(nextValue, timeZone));
           updateValue(nextValue);
         }
       },
-      [timeZone, value]
+      [setLocalZoneValue, timeZone, updateValue, value]
     );
 
     useEffect(() => {
@@ -221,6 +202,18 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       setValue(nextValue);
       setPageDate(nextValue ?? zonedDate(timeZone));
     }, [timeZone, valueProp, localZoneValue, setValue]);
+
+    useImperativeHandle(ref, () => ({
+      root: rootRef.current,
+      get menu() {
+        return menuRef.current;
+      },
+      get toggle() {
+        return toggleRef.current;
+      },
+      open: handleOpenDropdown,
+      close: handleCloseDropdown
+    }));
 
     const getLocalPageDate = useCallback((date = pageDate) => toLocalTimeZone(date, timeZone), [
       pageDate,
@@ -282,6 +275,9 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       },
       [handleAllSelect]
     );
+    const handleOpenDropdown = useCallback(() => {
+      triggerRef.current?.show?.();
+    }, []);
 
     const handleCloseDropdown = useCallback(() => {
       triggerRef.current?.hide?.();
@@ -329,17 +325,17 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       [getLocalPageDate, handleValueUpdate, onOk]
     );
 
-    const showMonthDropdown = () => {
+    const showMonthDropdown = useCallback(() => {
       setCalendarState(CalendarState.DROP_MONTH);
-    };
+    }, []);
 
-    const showTimeDropdown = () => {
+    const showTimeDropdown = useCallback(() => {
       setCalendarState(CalendarState.DROP_TIME);
-    };
+    }, []);
 
-    const hideDropdown = () => {
+    const hideDropdown = useCallback(() => {
       setCalendarState(undefined);
-    };
+    }, []);
 
     const toggleMonthDropdown = useCallback(() => {
       let toggle;
@@ -352,7 +348,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         toggle = true;
       }
       onToggleMonthDropdown?.(toggle);
-    }, [calendarState, onToggleMonthDropdown]);
+    }, [calendarState, hideDropdown, onToggleMonthDropdown, showMonthDropdown]);
 
     const toggleTimeDropdown = useCallback(() => {
       let toggle;
@@ -366,7 +362,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       }
 
       onToggleTimeDropdown?.(toggle);
-    }, [calendarState, onToggleTimeDropdown]);
+    }, [calendarState, hideDropdown, onToggleTimeDropdown, showTimeDropdown]);
 
     const handleClean = useCallback(
       (event: React.SyntheticEvent<any>) => {
@@ -480,20 +476,18 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         const classes = merge(menuClassName, prefix('date-menu'));
 
         return (
-          <MenuWrapper className={classes}>
-            <div ref={panelContainerRef}>
-              {calendar}
-              <Toolbar
-                timeZone={timeZone}
-                ranges={ranges}
-                pageDate={pageDate}
-                disabledOkBtn={disabledToolbarHandle}
-                disabledShortcut={disabledToolbarHandle}
-                onShortcut={handleShortcutPageDate}
-                onOk={handleOK}
-                hideOkButton={oneTap}
-              />
-            </div>
+          <MenuWrapper className={classes} ref={menuRef}>
+            {calendar}
+            <Toolbar
+              timeZone={timeZone}
+              ranges={ranges}
+              pageDate={pageDate}
+              disabledOkBtn={disabledToolbarHandle}
+              disabledShortcut={disabledToolbarHandle}
+              onShortcut={handleShortcutPageDate}
+              onOk={handleOK}
+              hideOkButton={oneTap}
+            />
           </MenuWrapper>
         );
       },
@@ -505,7 +499,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         merge,
         oneTap,
         pageDate,
-        panelContainerRef,
         prefix,
         ranges,
         timeZone
@@ -514,6 +507,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
     const hasValue = !!value;
     const calendar = useMemo(() => renderCalendar(), [renderCalendar]);
+    const [classes, usedClassNames] = usePickerClassName({ ...props, name: 'date', hasValue });
 
     if (inline) {
       return (
@@ -523,22 +517,29 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       );
     }
 
-    const classes = getToggleWrapperClassName('date', prefix, props, hasValue, {
-      [prefix('date-only-time')]: shouldOnlyTime(format)
-    });
-
     return (
-      <Component className={classes} style={style} ref={ref}>
-        <PickerToggleTrigger
-          pickerProps={props}
-          ref={triggerRef}
-          onEntered={createChainedFunction(handleEntered, onEntered)}
-          onExited={createChainedFunction(handleExit, onExited)}
-          speaker={renderDropdownMenu(calendar)}
+      <PickerToggleTrigger
+        pickerProps={props}
+        ref={triggerRef}
+        onEntered={createChainedFunction(handleEntered, onEntered)}
+        onExited={createChainedFunction(handleExit, onExited)}
+        speaker={renderDropdownMenu(calendar)}
+      >
+        <Component
+          className={merge(classes, {
+            [prefix('date-only-time')]: shouldOnlyTime(format)
+          })}
+          style={style}
+          ref={rootRef}
         >
           <PickerToggle
-            {...omitBy(rest, (_value, key) => key.startsWith('hide') || key.startsWith('disabled'))}
+            {...omitBy(
+              rest,
+              (_value, key) =>
+                key.startsWith('hide') || key.startsWith('disabled') || usedClassNames.includes(key)
+            )}
             as={toggleAs}
+            ref={toggleRef}
             onClean={createChainedFunction<(event: React.MouseEvent<any>) => void>(
               handleClean,
               onClean
@@ -549,8 +550,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
           >
             {getDateString()}
           </PickerToggle>
-        </PickerToggleTrigger>
-      </Component>
+        </Component>
+      </PickerToggleTrigger>
     );
   }
 );
