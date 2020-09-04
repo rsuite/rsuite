@@ -2,11 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SafeAnchor from '../SafeAnchor';
 import { useClassNames } from '../utils';
-import { WithAsProps } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-export interface BreadcrumbItemProps
-  extends WithAsProps<React.ElementType | string>,
-    React.HTMLAttributes<HTMLElement> {
+export interface BreadcrumbItemProps extends WithAsProps<React.ElementType | string> {
   // Style as the currently active section
   active?: boolean;
 
@@ -21,17 +19,22 @@ export interface BreadcrumbItemProps
 
   /** Custom rendering item */
   renderItem?: (item: React.ReactNode) => React.ReactNode;
+
+  /** You can use a custom element for this link */
+  linkAs?: React.ElementType;
 }
 
 const defaultProps: Partial<BreadcrumbItemProps> = {
+  as: 'li',
   classPrefix: 'breadcrumb-item',
-  as: SafeAnchor
+  linkAs: SafeAnchor
 };
 
-const BreadcrumbItem = React.forwardRef(
-  (props: BreadcrumbItemProps, ref: React.Ref<HTMLLIElement>) => {
+const BreadcrumbItem: RsRefForwardingComponent<'li', BreadcrumbItemProps> = React.forwardRef(
+  (props: BreadcrumbItemProps, ref) => {
     const {
       as: Component,
+      linkAs: Link,
       href,
       classPrefix,
       title,
@@ -46,12 +49,12 @@ const BreadcrumbItem = React.forwardRef(
     const { merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ active }));
 
-    const item = <Component {...rest} href={href} title={title} target={target} />;
+    const item = <Link {...rest} href={href} title={title} target={target} />;
 
     return (
-      <li ref={ref} style={style} className={classes}>
+      <Component ref={ref} style={style} className={classes}>
         {active ? <span {...rest} /> : renderItem ? renderItem(item) : item}
-      </li>
+      </Component>
     );
   }
 );

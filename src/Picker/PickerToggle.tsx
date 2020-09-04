@@ -1,20 +1,18 @@
 import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import get from 'lodash/get';
 import ToggleButton, { ToggleButtonProps } from './ToggleButton';
+import CloseButton from '../CloseButton';
 import { createChainedFunction, useClassNames } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { RsRefForwardingComponent } from '../@types/common';
 
-export interface PickerToggleProps extends WithAsProps, ToggleButtonProps {
-  classPrefix?: string;
+export interface PickerToggleProps extends ToggleButtonProps {
   hasValue?: boolean;
   cleanable?: boolean;
-  className?: string;
   caret?: boolean;
-  onClean?: (event: React.MouseEvent) => void;
-  cleanButtonTitle?: string;
   active?: boolean;
+  disabled?: boolean;
   tabIndex?: number;
+  onClean?: (event: React.MouseEvent) => void;
 }
 
 const PickerToggle: RsRefForwardingComponent<
@@ -22,17 +20,19 @@ const PickerToggle: RsRefForwardingComponent<
   PickerToggleProps
 > = React.forwardRef((props: PickerToggleProps, ref) => {
   const {
-    active,
+    active: activeProp,
     as: Component = ToggleButton,
     classPrefix = 'picker-toggle',
     children,
     caret = true,
     className,
+    disabled,
     hasValue,
     cleanable,
     tabIndex = 0,
-    cleanButtonTitle,
     onClean,
+    onFocus,
+    onBlur,
     ...rest
   } = props;
 
@@ -42,7 +42,7 @@ const PickerToggle: RsRefForwardingComponent<
   const classes = merge(
     className,
     withClassPrefix({
-      active: active || activeState
+      active: activeProp || activeState
     })
   );
 
@@ -66,27 +66,21 @@ const PickerToggle: RsRefForwardingComponent<
   return (
     <Component
       role="combobox"
+      aria-haspopup
+      aria-expanded={activeProp}
+      aria-disabled={disabled}
       {...rest}
       ref={ref}
       tabIndex={tabIndex}
       className={classes}
-      onFocus={createChainedFunction(handleFocus, get(rest, 'onFocus'))}
-      onBlur={createChainedFunction(handleBlur, get(rest, 'onBlur'))}
+      onFocus={!disabled ? createChainedFunction(handleFocus, onFocus) : null}
+      onBlur={!disabled ? createChainedFunction(handleBlur, onBlur) : null}
     >
       <span className={prefix(hasValue ? 'value' : 'placeholder')}>{children}</span>
       {hasValue && cleanable && (
-        <span
-          className={prefix`clean`}
-          role="button"
-          tabIndex={-1}
-          onClick={handleClean}
-          title={cleanButtonTitle}
-          aria-label={cleanButtonTitle}
-        >
-          <span aria-hidden="true">×</span>
-        </span>
+        <CloseButton className={prefix`clean`} tabIndex={-1} onClick={handleClean} />
       )}
-      {caret && <span className={prefix`caret`} />}
+      {caret && <span className={prefix`caret`} aria-hidden="true" />}
     </Component>
   );
 });

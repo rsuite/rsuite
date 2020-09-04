@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import isUndefined from 'lodash/isUndefined';
@@ -26,7 +26,8 @@ import {
   SearchBar,
   useFocusItemValue,
   usePickerClassName,
-  useSearch
+  useSearch,
+  usePublicMethods
 } from '../Picker';
 import { PickerComponent, PickerLocaleType } from '../Picker/types';
 import {
@@ -156,7 +157,6 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
     } = props;
 
     const triggerRef = useRef<OverlayTriggerInstance>();
-    const positionRef = useRef();
     const toggleRef = useRef<HTMLButtonElement>();
     const menuRef = useRef<HTMLDivElement>();
     const { locale } = useCustom<PickerLocaleType>('Picker', overrideLocale);
@@ -307,19 +307,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
       onOpen?.();
     }, [onOpen, setFocusItemValue, value]);
 
-    useImperativeHandle(ref, () => ({
-      get root() {
-        return triggerRef.current.child;
-      },
-      get menu() {
-        return menuRef.current;
-      },
-      get toggle() {
-        return toggleRef.current;
-      },
-      open: handleOpen,
-      close: handleClose
-    }));
+    usePublicMethods(ref, { triggerRef, menuRef, toggleRef });
 
     // Find active `MenuItem` by `value`
     const activeItem = findNodeOfTree(data, item => shallowEqual(item[valueKey], value));
@@ -386,8 +374,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
           className={classes}
           style={styles}
           onKeyDown={handleKeyDown}
-          getToggleInstance={() => toggleRef.current}
-          getPositionInstance={() => positionRef.current}
+          target={triggerRef}
         >
           {searchable && (
             <SearchBar
@@ -413,7 +400,6 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
       <PickerToggleTrigger
         pickerProps={pick(props, pickerToggleTriggerProps)}
         ref={triggerRef}
-        positionRef={positionRef}
         placement={placement}
         onEntered={createChainedFunction(handleEntered, onEntered)}
         onExited={createChainedFunction(handleExited, onExited)}

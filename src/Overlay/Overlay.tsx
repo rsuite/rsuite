@@ -100,28 +100,30 @@ const Overlay = React.forwardRef((props: OverlayProps, ref) => {
     preventOverflow
   };
 
-  const childWithPosition = (
-    <Position {...positionProps} ref={ref}>
-      {(childProps, childRef) => {
-        // overlayTarget is the ref on the DOM of the Overlay.
-        if (typeof children === 'function') {
-          return children(
-            Object.assign(childProps, childrenProps),
-            mergeRefs(childRef, overlayTarget)
-          );
-        }
+  const renderChildWithPosition = (transitionProps?, transitionRef?: React.RefObject<any>) => {
+    return (
+      <Position {...positionProps} {...transitionProps} ref={mergeRefs(ref, transitionRef)}>
+        {(childProps, childRef) => {
+          // overlayTarget is the ref on the DOM of the Overlay.
+          if (typeof children === 'function') {
+            return children(
+              Object.assign(childProps, childrenProps),
+              mergeRefs(childRef, overlayTarget)
+            );
+          }
 
-        // Position will return coordinates and className
-        const { left, top, className } = childProps;
-        return React.cloneElement(children, {
-          ...childrenProps,
-          className: classNames(className, children.props.className),
-          style: { left, top, ...children.props.style },
-          ref: mergeRefs(childRef, overlayTarget)
-        });
-      }}
-    </Position>
-  );
+          // Position will return coordinates and className
+          const { left, top, className } = childProps;
+          return React.cloneElement(children, {
+            ...childrenProps,
+            className: classNames(className, children.props.className),
+            style: { left, top, ...children.props.style },
+            ref: mergeRefs(childRef, overlayTarget)
+          });
+        }}
+      </Position>
+    );
+  };
 
   if (Transition) {
     return (
@@ -135,12 +137,12 @@ const Overlay = React.forwardRef((props: OverlayProps, ref) => {
         onEntering={onEntering}
         onEntered={onEntered}
       >
-        {childWithPosition}
+        {renderChildWithPosition}
       </Transition>
     );
   }
 
-  return childWithPosition;
+  return renderChildWithPosition();
 });
 
 Overlay.displayName = 'Overlay';

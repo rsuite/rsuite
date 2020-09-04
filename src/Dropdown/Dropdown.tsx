@@ -238,6 +238,8 @@ const Dropdown: DropdownComponent = React.forwardRef((props: DropdownProps, ref)
 
   const toggleElement = (
     <DropdownToggle
+      aria-haspopup
+      aria-expanded={open}
       {...rest}
       {...toggleProps}
       ref={triggerTarget}
@@ -264,7 +266,7 @@ const Dropdown: DropdownComponent = React.forwardRef((props: DropdownProps, ref)
   );
 
   return (
-    <Component role="menu" {...dropdownProps} ref={ref} style={style} className={classes}>
+    <Component {...dropdownProps} ref={ref} style={style} className={classes}>
       {menuElement}
       {toggleElement}
     </Component>

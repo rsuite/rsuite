@@ -100,7 +100,8 @@ const DropdownMenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = 
     const [open, setOpen] = useControlled(openProp, false);
     const classes = merge(
       className,
-      withClassPrefix(`pull-${pullLeft ? 'left' : 'right'}`, {
+      withClassPrefix({
+        [`pull-${pullLeft ? 'left' : 'right'}`]: submenu,
         [expandedProp ? 'expand' : 'collapse']: submenu && sidenav,
         'with-icon': icon,
         open,
@@ -178,7 +179,14 @@ const DropdownMenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = 
     );
 
     return (
-      <Component ref={ref} role="menuitem" {...itemEventProps} style={style} className={classes}>
+      <Component
+        ref={ref}
+        role="menuitem"
+        aria-disabled={disabled}
+        {...itemEventProps}
+        style={style}
+        className={classes}
+      >
         {renderItem ? renderItem(item) : item}
       </Component>
     );

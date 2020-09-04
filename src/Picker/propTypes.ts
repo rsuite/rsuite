@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { refType, PLACEMENT } from '../utils';
+import { PLACEMENT } from '../utils';
 import { animationPropTypes } from '../Animation/utils';
 
 export const pickerPropTypes = {
@@ -27,7 +27,6 @@ export const pickerPropTypes = {
   cleanable: PropTypes.bool,
   renderExtraFooter: PropTypes.func,
   renderValue: PropTypes.func,
-  positionRef: refType,
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
   onClean: PropTypes.func

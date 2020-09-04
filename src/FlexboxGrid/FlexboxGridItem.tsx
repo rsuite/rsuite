@@ -1,37 +1,48 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import { useClassNames } from '../utils';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-import { defaultProps, prefix } from '../utils';
-import { FlexboxGridItemProps } from './FlexboxGridItem.d';
+export interface FlexboxGridItemProps extends WithAsProps {
+  /** spacing between grids */
+  colspan?: number;
 
-class FlexboxGridItem extends React.Component<FlexboxGridItemProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    colspan: PropTypes.number,
-    order: PropTypes.number,
-    classPrefix: PropTypes.string,
-    as: PropTypes.elementType
-  };
-  static defaultProps = {
-    as: 'div',
-    colspan: 0,
-    order: 0
-  };
-
-  render() {
-    const { className, classPrefix, colspan, order, as: Component, ...props } = this.props;
-
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(className, classPrefix, {
-      [addPrefix(`${colspan}`)]: colspan >= 0,
-      [addPrefix(`order-${order}`)]: order
-    });
-
-    return <Component {...props} className={classes} />;
-  }
+  /** grid orders for sorting */
+  order?: number;
 }
 
-export default defaultProps<FlexboxGridItemProps>({
-  classPrefix: 'flex-box-grid-item'
-})(FlexboxGridItem);
+const defaultProps: Partial<FlexboxGridItemProps> = {
+  as: 'div',
+  classPrefix: 'flex-box-grid-item',
+  colspan: 0,
+  order: 0
+};
+
+const FlexboxGridItem: RsRefForwardingComponent<'div', FlexboxGridItemProps> = React.forwardRef(
+  (props: FlexboxGridItemProps, ref) => {
+    const { as: Component, className, classPrefix, colspan, order, ...rest } = props;
+
+    const { merge, withClassPrefix } = useClassNames(classPrefix);
+    const classes = merge(
+      className,
+      withClassPrefix({
+        [colspan]: colspan >= 0,
+        [`order-${order}`]: order
+      })
+    );
+
+    return <Component ref={ref} {...rest} className={classes} />;
+  }
+);
+
+FlexboxGridItem.displayName = 'FlexboxGridItem';
+FlexboxGridItem.defaultProps = defaultProps;
+FlexboxGridItem.propTypes = {
+  as: PropTypes.elementType,
+  className: PropTypes.string,
+  colspan: PropTypes.number,
+  order: PropTypes.number,
+  classPrefix: PropTypes.string
+};
+
+export default FlexboxGridItem;

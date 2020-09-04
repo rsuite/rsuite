@@ -4,6 +4,7 @@ export interface PickerInstance {
   root?: Element;
   menu?: Element;
   toggle?: HTMLButtonElement;
+  updatePosition?: () => void;
   open?: () => void;
   close?: () => void;
 }

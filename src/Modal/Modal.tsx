@@ -121,9 +121,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     // When the value of `backdrop` is `static`, a jitter animation will be added to the dialog when clicked.
     if (backdrop === 'static') {
       setShake(true);
-      console.log('vvvv', dialogRef.current);
       transitionEndListener.current = helper.on(dialogRef.current, helper.transition().end, () => {
-        console.log('----vvvv--');
         setShake(false);
       });
     }

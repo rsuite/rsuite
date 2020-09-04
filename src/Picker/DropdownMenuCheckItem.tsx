@@ -77,6 +77,7 @@ const DropdownMenuCheckItem: RsRefForwardingComponent<
     <Component
       role="menuitemcheckbox"
       aria-checked={active}
+      aria-disabled={disabled}
       {...rest}
       ref={ref}
       className={className}

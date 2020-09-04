@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback, useImperativeHandle } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import clone from 'lodash/clone';
 import isUndefined from 'lodash/isUndefined';
@@ -28,7 +28,8 @@ import {
   onMenuKeyDown,
   useFocusItemValue,
   usePickerClassName,
-  useSearch
+  useSearch,
+  usePublicMethods
 } from '../Picker';
 import { PickerLocaleType, PickerComponent } from '../Picker/types';
 import {
@@ -117,7 +118,6 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
     } = props;
 
     const triggerRef = useRef<OverlayTriggerInstance>();
-    const positionRef = useRef();
     const toggleRef = useRef<HTMLButtonElement>();
     const menuRef = useRef<HTMLDivElement>();
     const { locale } = useCustom<PickerLocaleType>('Picker', overrideLocale);
@@ -288,19 +288,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
       onOpen?.();
     }, [onOpen]);
 
-    useImperativeHandle(ref, () => ({
-      get root() {
-        return triggerRef.current.child;
-      },
-      get menu() {
-        return menuRef.current;
-      },
-      get toggle() {
-        return toggleRef.current;
-      },
-      open: handleOpen,
-      close: handleClose
-    }));
+    usePublicMethods(ref, { triggerRef, menuRef, toggleRef });
 
     const selectedItems =
       data.filter(item => value.some(val => shallowEqual(item[valueKey], val))) || [];
@@ -383,8 +371,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
           className={classes}
           style={styles}
           onKeyDown={handleKeyDown}
-          getToggleInstance={() => toggleRef.current}
-          getPositionInstance={() => positionRef.current}
+          target={triggerRef}
         >
           {searchable && (
             <SearchBar
@@ -405,7 +392,6 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
       <PickerToggleTrigger
         pickerProps={pick(props, pickerToggleTriggerProps)}
         ref={triggerRef}
-        positionRef={positionRef}
         placement={placement}
         onEnter={createChainedFunction(initStickyItems, onEnter)}
         onEntered={createChainedFunction(handleEntered, onEntered)}
@@ -416,6 +402,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
           <PickerToggle
             {...omit(rest, [...pickerToggleTriggerProps, ...usedClassNameProps])}
             ref={toggleRef}
+            disabled={disabled}
             onClean={createChainedFunction(handleClean, onClean)}
             onKeyDown={handleKeyDown}
             as={toggleAs}

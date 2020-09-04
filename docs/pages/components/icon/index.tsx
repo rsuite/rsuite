@@ -7,7 +7,6 @@ import * as SvgIcons from '@/components/SvgIcons';
 export default function Page() {
   return (
     <DefaultPage
-      examples={['basic', 'spin', 'rotate', 'size', 'stack', 'custom', 'custom-svg']}
       dependencies={{
         Icon,
         IconStack,

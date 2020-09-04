@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useImperativeHandle, useCallback } from 'react';
 import classNames from 'classnames';
 import kebabCase from 'lodash/kebabCase';
 import trim from 'lodash/trim';
@@ -6,6 +6,7 @@ import isFunction from 'lodash/isFunction';
 import isUndefined from 'lodash/isUndefined';
 import omit from 'lodash/omit';
 import find from 'lodash/find';
+import { OverlayTriggerInstance } from './PickerToggleTrigger';
 import { findNodeOfTree, filterNodesOfTree } from '../utils/treeUtils';
 import { KEY_CODE, useClassNames, shallowEqual, reactToString, placementPolyfill } from '../utils';
 import { TypeAttributes, ItemDataType } from '../@types/common';
@@ -317,4 +318,53 @@ export function useSearch(props: SearchProps) {
     checkShouldDisplay,
     handleSearch
   };
+}
+
+interface Refs {
+  triggerRef?: React.RefObject<OverlayTriggerInstance>;
+  menuRef?: React.RefObject<HTMLElement>;
+  toggleRef?: React.RefObject<HTMLElement>;
+}
+
+/**
+ * A hook of the exposed method of Picker
+ *
+ * {
+ *   root: Element;
+ *   menu: Element;
+ *   toggle?: Element;
+ *   updatePosition:() => void;
+ *   open:() => void;
+ *   close:() => void;
+ * }
+ * @param ref
+ * @param params
+ */
+export function usePublicMethods(ref, { triggerRef, menuRef, toggleRef }: Refs) {
+  const handleOpen = useCallback(() => {
+    triggerRef.current?.open();
+  }, [triggerRef]);
+
+  const handleClose = useCallback(() => {
+    triggerRef.current?.close();
+  }, [triggerRef]);
+
+  const handleUpdatePosition = useCallback(() => {
+    triggerRef.current?.updatePosition();
+  }, [triggerRef]);
+
+  useImperativeHandle(ref, () => ({
+    get root() {
+      return triggerRef.current?.child;
+    },
+    get menu() {
+      return menuRef.current;
+    },
+    get toggle() {
+      return toggleRef.current;
+    },
+    updatePosition: handleUpdatePosition,
+    open: handleOpen,
+    close: handleClose
+  }));
 }

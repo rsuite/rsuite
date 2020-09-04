@@ -5,7 +5,7 @@ import Ripple from '../Ripple';
 import { isOneOf, useClassNames } from '../utils';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-export interface ButtonProps extends WithAsProps {
+export interface ButtonProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
   /** A button can have different appearances. */
   appearance?: TypeAttributes.Appearance;
 
@@ -30,9 +30,6 @@ export interface ButtonProps extends WithAsProps {
   /** A button can show it is currently unable to be interacted with */
   disabled?: boolean;
 
-  /** Called when the button is clicked */
-  onClick?: (event: React.SyntheticEvent) => void;
-
   /** Ripple after button click */
   ripple?: boolean;
 
@@ -55,7 +52,7 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
       loading,
       ripple = true,
       size,
-      type = 'button',
+      type: typeProp,
       ...rest
     } = props;
 
@@ -84,6 +81,7 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
     }
 
     const Component = as || 'button';
+    const type = typeProp || (Component === 'button' ? 'button' : undefined);
 
     return (
       <Component

@@ -43,5 +43,6 @@ Should automatically collapse if there are more than 5 items. Use `maxItems` to 
 | Property   | Type `(Default)`              | Description                                           |
 | ---------- | ----------------------------- | ----------------------------------------------------- |
 | active     | boolean                       | Active state                                          |
-| as         | ElementType `('a')`           | You can use a custom element type for this component. |
+| as         | ElementType `('li')`          | You can use a custom element type for this component. |
+| linkAs     | ElementType `('a')`           | You can use a custom element for this link.           |
 | renderItem | (item:ReactNode) => ReactNode | Custom rendering item                                 |

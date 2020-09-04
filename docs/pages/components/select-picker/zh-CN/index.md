@@ -78,7 +78,7 @@
 | disabledItemValues | string[]                                                                  | 禁用选项                               |
 | groupBy            | string                                                                    | 设置分组条件在 `data` 中的 `key`       |
 | labelKey           | string `('label')`                                                        | 设置选项显示内容在 `data` 中的 `key`   |
-| listProps          | [listprops]                                                               | `react-virtualized` 中 List 的相关属性 |
+| listProps          | [ListProps][listprops]                                                    | `react-virtualized` 中 List 的相关属性 |
 | maxHeight          | number `(320)`                                                            | 设置 Dropdown 的最大高度               |
 | menuClassName      | string                                                                    | 应用于菜单 DOM 节点的 css class        |
 | menuStyle          | CSSProperties                                                             | 应用于菜单 DOM 节点的 style            |

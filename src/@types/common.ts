@@ -112,9 +112,6 @@ export interface PickerBaseProps<LocaleType = any> extends WithAsProps, Animatio
 
   /** Custom render extra footer */
   renderExtraFooter?: () => React.ReactNode;
-
-  /** Position of ref */
-  positionRef?: React.RefObject<any>;
 }
 
 export interface FormControlBaseProps<ValueType = any> {

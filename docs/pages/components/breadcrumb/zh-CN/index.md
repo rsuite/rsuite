@@ -43,5 +43,6 @@
 | 属性名称   | 类型 `(默认值)`               | 描述                 |
 | ---------- | ----------------------------- | -------------------- |
 | active     | boolean                       | 激活状态             |
-| as         | elementType `('a')`           | 为组件自定义元素类型 |
+| as         | elementType `('li')`          | 为组件自定义元素类型 |
+| linkAs     | ElementType `('a')`           | 为链接自定义元素类型 |
 | renderItem | (item:ReactNode) => ReactNode | 自定义渲染选项       |

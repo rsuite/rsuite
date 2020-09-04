@@ -93,9 +93,6 @@ export interface PickerBaseProps extends StandardProps, AnimationEventProps {
 
   /** Custom render extra footer */
   renderExtraFooter?: () => React.ReactNode;
-
-  /** Position of ref */
-  positionRef?: React.RefObject<any>;
 }
 
 export interface FormControlBaseProps<ValueType = any> {
