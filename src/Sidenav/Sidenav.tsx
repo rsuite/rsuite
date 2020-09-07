@@ -17,6 +17,13 @@ interface SidenavState {
   openKeys?: any[];
 }
 
+export interface SidenavContextType<T = string> {
+  openKeys: T[];
+  sidenav: boolean;
+  expanded: boolean;
+  onOpenChange: (openKeys: T[], event: React.SyntheticEvent<any>) => void;
+}
+
 class Sidenav extends React.Component<SidenavProps, SidenavState> {
   static propTypes = {
     classPrefix: PropTypes.string,

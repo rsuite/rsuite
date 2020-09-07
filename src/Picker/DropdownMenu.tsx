@@ -228,7 +228,7 @@ const DropdownMenu = React.forwardRef(
     };
     return (
       <div
-        role="list"
+        role="menu"
         {...rest}
         className={classes}
         ref={mergeRefs(menuBodyContainerRef, ref)}

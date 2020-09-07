@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
-import { STATUS_ICON_NAMES, STATUS } from '../constants';
-import { useClassNames, useTimeout } from '../utils';
+import { useClassNames, useTimeout, STATUS_ICON_NAMES, STATUS } from '../utils';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 import CloseButton from '../CloseButton';
 

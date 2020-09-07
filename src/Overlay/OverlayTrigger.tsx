@@ -1,286 +1,359 @@
-import * as React from 'react';
+import React, { useRef, useEffect, useImperativeHandle, useCallback } from 'react';
 import get from 'lodash/get';
-import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
 import { contains } from 'dom-lib';
 import Overlay, { OverlayProps } from './Overlay';
-import createChainedFunction from '../utils/createChainedFunction';
+import { createChainedFunction, usePortal, useControlled } from '../utils';
 import isOneOf from '../utils/isOneOf';
-import getDOMNode from '../utils/getDOMNode';
-import Portal from '../Portal';
-import { OverlayTriggerProps } from './OverlayTrigger.d';
-import { TypeAttributes } from '../@types/common';
-function onMouseEventHandler(handler: React.MouseEventHandler, event: React.MouseEvent) {
+import { AnimationEventProps, StandardProps, TypeAttributes } from '../@types/common';
+import { PositionInstance } from './Position';
+import { isUndefined } from 'lodash';
+export type OverlayTriggerTrigger = 'click' | 'hover' | 'focus' | 'active' | 'none';
+
+function mergeEvents(events = {}, props = {}) {
+  const nextEvents = {};
+
+  Object.keys(events).forEach(eventName => {
+    if (events[eventName]) {
+      nextEvents[eventName] = createChainedFunction(events[eventName], props?.[eventName]);
+    }
+  });
+  return nextEvents;
+}
+
+export interface OverlayTriggerProps extends StandardProps, AnimationEventProps {
+  /** Triggering events */
+  trigger?: OverlayTriggerTrigger | OverlayTriggerTrigger[];
+
+  /** Display placement */
+  placement?: TypeAttributes.Placement;
+
+  /** Delay time */
+  delay?: number;
+
+  /** Open delay time */
+  delayOpen?: number;
+
+  /** Close delay time */
+  delayClose?: number;
+
+  /** Sets the rendering container */
+  container?: HTMLElement | (() => HTMLElement);
+
+  /** Container padding */
+  containerPadding?: number;
+
+  /** display element */
+  speaker?: React.ReactElement | ((props: any, ref: React.RefObject<any>) => React.ReactElement);
+
+  /** Prevent floating element overflow */
+  preventOverflow?: boolean;
+
+  /** Opern  overlay */
+  open?: boolean;
+
+  /** The overlay is open by default */
+  defaultOpen?: boolean;
+
+  /** Whether mouse is allowed to enter the floating layer of popover, whose default value is false. */
+  enterable?: boolean;
+
+  /** For the monitored component, the event will be bound to this component. */
+  children?: React.ReactElement | ((props: any, ref) => React.ReactElement);
+
+  /** Whether to allow clicking document to close the overlay */
+  rootClose?: boolean;
+
+  /** Once disabled, the event cannot be triggered. */
+  disabled?: boolean;
+
+  /** Lose Focus callback function */
+  onBlur?: () => void;
+
+  /** Click on the callback function */
+  onClick?: () => void;
+
+  /** Callback function to get focus */
+  onFocus?: () => void;
+
+  /** Mouse leave callback function */
+  onMouseOut?: () => void;
+
+  /** Mouse over callback function */
+  onMouseOver?: () => void;
+
+  /** Callback fired when open component */
+  onOpen?: () => void;
+
+  /** Callback fired when close component */
+  onClose?: () => void;
+}
+
+/**
+ * Useful for mouseover and mouseout.
+ * In order to resolve the node entering the mouseover element, a mouseout event and a mouseover event will be triggered.
+ * https://javascript.info/mousemove-mouseover-mouseout-mouseenter-mouseleave
+ * @param handler
+ * @param event
+ */
+function onMouseEventHandler(
+  handler: (event: React.MouseEvent, delay?: number) => void,
+  event: React.MouseEvent,
+  delay?: number
+) {
   const target = event.currentTarget;
   const related = event.relatedTarget || get(event, ['nativeEvent', 'toElement']);
 
   if ((!related || related !== target) && !contains(target, related)) {
-    handler(event);
+    handler(event, delay);
   }
 }
 
-interface TriggerProps {
-  'aria-describedby': string;
-  key: string;
-  onMouseOver?: React.MouseEventHandler;
-  onMouseOut?: React.MouseEventHandler;
-  onBlur?: React.MouseEventHandler;
-  onClick?: React.MouseEventHandler;
-  onFocus?: React.MouseEventHandler;
+const defaultProps: Partial<OverlayTriggerProps> = {
+  trigger: ['hover', 'focus'],
+  placement: 'bottomStart',
+  rootClose: true
+};
+
+export interface OverlayTriggerInstance {
+  child: Element;
+  updatePosition?: () => void;
+  open?: () => void;
+  close?: () => void;
 }
 
-interface SpeakerProps {
-  placement: TypeAttributes.Placement | TypeAttributes.Placement4;
-  onMouseEnter?: () => void;
-  onMouseLeave?: () => void;
-}
+const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
+  const {
+    children,
+    container,
+    defaultOpen,
+    trigger,
+    disabled,
+    open: openProp,
+    delay,
+    delayOpen: delayOpenProp,
+    delayClose: delayCloseProp,
+    enterable,
+    placement,
+    speaker,
+    onClick,
+    onMouseOver,
+    onMouseOut,
+    onFocus,
+    onBlur,
+    onClose,
+    ...rest
+  } = props;
 
-interface OverlayTriggerState {
-  isOverlayShown?: boolean;
-  isOnSpeaker?: boolean;
-}
+  const { Portal } = usePortal({ container });
 
-class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTriggerState> {
-  static defaultProps = {
-    trigger: ['hover', 'focus'],
-    delayHide: 200,
-    placement: 'bottomStart',
-    rootClose: true
-  };
+  const triggerRef = useRef();
+  const overlayRef = useRef<PositionInstance>();
+  const [open, setOpen] = useControlled(openProp, defaultOpen);
 
-  onMouseOverListener;
-  onMouseOutListener;
+  // Delay the timer to close/open the overlay
+  // When the cursor moves from the trigger to the overlay, the overlay will be closed.
+  // In order to keep the overlay open, a timer is used to delay the closing.
+  const delayOpenTimer = useRef<ReturnType<typeof setTimeout>>();
+  const delayCloseTimer = useRef<ReturnType<typeof setTimeout>>();
 
-  delayShowTimer;
-  delayHideTimer;
+  const delayOpen = isNil(delayOpenProp) ? delay : delayOpenProp;
+  const delayClose = isNil(delayCloseProp) ? delay : delayCloseProp;
 
-  mouseEnteredToSpeaker = false;
-  mouseEnteredToTrigger = false;
+  // Whether the cursor is on the overlay
+  const isOnOverlay = useRef(false);
 
-  constructor(props: OverlayTriggerProps) {
-    super(props);
+  // Whether the cursor is on the trigger
+  const isOnTrigger = useRef(false);
 
-    if (props.trigger !== 'none') {
-      this.onMouseOverListener = e => onMouseEventHandler(this.handleDelayedShow, e);
-      this.onMouseOutListener = e => onMouseEventHandler(this.handleDelayedHide, e);
+  useEffect(() => {
+    return () => {
+      clearTimeout(delayOpenTimer.current);
+      clearTimeout(delayCloseTimer.current);
+    };
+  }, []);
+
+  const handleOpen = useCallback(
+    (delay?: number) => {
+      const ms = isUndefined(delay) ? delayOpen : delay;
+      if (ms) {
+        return (delayOpenTimer.current = setTimeout(() => {
+          delayOpenTimer.current = null;
+          setOpen(true);
+        }, ms));
+      }
+      setOpen(true);
+    },
+    [delayOpen, setOpen]
+  );
+
+  const handleClose = useCallback(
+    (delay?: number) => {
+      const ms = isUndefined(delay) ? delayClose : delay;
+      if (ms) {
+        return (delayCloseTimer.current = setTimeout(() => {
+          delayCloseTimer.current = null;
+          setOpen(false);
+        }, ms));
+      }
+      setOpen(false);
+    },
+    [delayClose, setOpen]
+  );
+
+  useImperativeHandle(ref, () => ({
+    get child() {
+      return triggerRef.current;
+    },
+    open: handleOpen,
+    close: handleClose,
+    updatePosition: () => {
+      overlayRef.current?.updatePosition?.();
     }
-    this.state = { isOverlayShown: props.defaultOpen };
-  }
+  }));
 
-  componentWillUnmount() {
-    clearTimeout(this.delayShowTimer);
-    clearTimeout(this.delayHideTimer);
-  }
-
-  getOverlayTarget = () => getDOMNode(this);
-
-  handleSpeakerMouseEnter = () => {
-    this.mouseEnteredToSpeaker = true;
-  };
-
-  handleSpeakerMouseLeave = () => {
-    const { trigger } = this.props;
-    this.mouseEnteredToSpeaker = false;
-    if (!isOneOf('click', trigger) && !isOneOf('active', trigger)) {
-      this.hideWithCheck();
+  /**
+   * Close after the cursor leaves.
+   */
+  const handleCloseWhenLeave = useCallback(() => {
+    // When the cursor is not on the overlay and not on the trigger, it is closed.
+    if (!isOnOverlay.current && !isOnTrigger.current) {
+      handleClose();
     }
-  };
+  }, [handleClose]);
 
-  open = (delay?: number) => {
-    this.show(delay);
-  };
-
-  close = (delay?: number) => {
-    this.hide(delay);
-  };
-
-  show = (delay?: number) => {
-    if (delay) {
-      return (this.delayShowTimer = setTimeout(() => {
-        this.delayShowTimer = null;
-        this.setState({ isOverlayShown: true });
-      }, delay));
-    }
-    this.setState({ isOverlayShown: true });
-  };
-
-  hide = (delay?: number) => {
-    if (delay) {
-      return (this.delayHideTimer = setTimeout(() => {
-        this.delayHideTimer = null;
-        this.setState({ isOverlayShown: false });
-      }, delay));
-    }
-
-    this.setState({ isOverlayShown: false });
-  };
-
-  hideWithCheck = (delay?: number) => {
-    if (!this.mouseEnteredToSpeaker && !this.mouseEnteredToTrigger) {
-      this.hide(delay);
-    }
-  };
-
-  toggleHideAndShow = () => {
-    const { delayShow, delay, delayHide } = this.props;
-    if (this.state.isOverlayShown) {
-      this.hideWithCheck(isNil(delayHide) ? delay : delayHide);
+  /**
+   * Toggle open and closed state.
+   */
+  const handleOpenState = useCallback(() => {
+    if (open) {
+      handleCloseWhenLeave();
     } else {
-      this.show(isNil(delayShow) ? delay : delayShow);
+      handleOpen();
     }
-  };
+  }, [open, handleCloseWhenLeave, handleOpen]);
 
-  handleDelayedShow = () => {
-    const { delayShow, enterable } = this.props;
-    const delay = isNil(delayShow) ? this.props.delay : delayShow;
-
+  const handleDelayedOpen = useCallback(() => {
     if (!enterable) {
-      return this.show(delay);
+      return handleOpen();
     }
 
-    this.mouseEnteredToTrigger = true;
-    if (!isNil(this.delayHideTimer)) {
-      clearTimeout(this.delayHideTimer);
-      this.delayHideTimer = null;
-      return this.show(delay);
+    isOnTrigger.current = true;
+    if (!isNil(delayCloseTimer.current)) {
+      clearTimeout(delayCloseTimer.current);
+      delayCloseTimer.current = null;
+      return handleOpen();
     }
 
-    if (this.state.isOverlayShown) {
+    if (open) {
       return;
     }
 
-    this.show(delay);
-  };
+    handleOpen();
+  }, [enterable, open, handleOpen]);
 
-  handleDelayedHide = () => {
-    const { delayHide, enterable } = this.props;
-    const delay = isNil(delayHide) ? this.props.delay : delayHide;
-
+  const handleDelayedClose = useCallback(() => {
     if (!enterable) {
-      this.hide(delay);
+      handleClose();
     }
 
-    this.mouseEnteredToTrigger = false;
-    if (!isNil(this.delayShowTimer)) {
-      clearTimeout(this.delayShowTimer);
-      this.delayShowTimer = null;
+    isOnTrigger.current = false;
+    if (!isNil(delayOpenTimer.current)) {
+      clearTimeout(delayOpenTimer.current);
+      delayOpenTimer.current = null;
       return;
     }
 
-    if (!this.state.isOverlayShown || !isNil(this.delayHideTimer)) {
+    if (!open || !isNil(delayCloseTimer.current)) {
       return;
     }
 
-    if (!delay) {
-      return this.hideWithCheck();
+    delayCloseTimer.current = setTimeout(() => {
+      clearTimeout(delayCloseTimer.current);
+      delayCloseTimer.current = null;
+      handleCloseWhenLeave();
+    }, 200);
+  }, [enterable, open, handleClose, handleCloseWhenLeave]);
+
+  const handleSpeakerMouseEnter = useCallback(() => {
+    isOnOverlay.current = true;
+  }, []);
+
+  const handleSpeakerMouseLeave = useCallback(() => {
+    isOnOverlay.current = false;
+    if (!isOneOf('click', trigger) && !isOneOf('active', trigger)) {
+      handleCloseWhenLeave();
     }
+  }, [handleCloseWhenLeave, trigger]);
 
-    this.delayHideTimer = setTimeout(() => {
-      if (this.state.isOnSpeaker) {
-        return;
-      }
+  const triggerEvents = { onClick, onMouseOver, onMouseOut, onFocus, onBlur };
 
-      clearTimeout(this.delayHideTimer);
-      this.delayHideTimer = null;
-      this.hideWithCheck();
-    }, delay);
-  };
-
-  renderOverlay() {
-    const { open, speaker, trigger, onHide } = this.props;
-    const { isOverlayShown } = this.state;
-    const overlayProps: OverlayProps = {
-      ...pick(this.props, Object.keys(Overlay.propTypes)),
-      show: typeof open === 'undefined' ? isOverlayShown : open,
-      target: this.getOverlayTarget
-    };
-
+  if (!disabled) {
     if (isOneOf('click', trigger)) {
-      overlayProps.onHide = createChainedFunction(this.hide, onHide);
-    } else if (isOneOf('active', trigger)) {
-      overlayProps.onHide = createChainedFunction(this.hide, onHide);
+      triggerEvents.onClick = createChainedFunction(handleOpenState, triggerEvents.onClick);
     }
 
-    const speakerProps: SpeakerProps = {
-      placement: overlayProps.placement
-    };
-
-    if (trigger !== 'none') {
-      speakerProps.onMouseEnter = this.handleSpeakerMouseEnter;
-      speakerProps.onMouseLeave = this.handleSpeakerMouseLeave;
+    if (isOneOf('active', trigger)) {
+      triggerEvents.onClick = createChainedFunction(handleDelayedOpen, triggerEvents.onClick);
     }
 
-    if (typeof speaker === 'function') {
-      return <Overlay {...overlayProps}>{speaker}</Overlay>;
+    if (isOneOf('hover', trigger)) {
+      let onMouseOverListener = null;
+      let onMouseOutListener = null;
+
+      if (trigger !== 'none') {
+        onMouseOverListener = e => onMouseEventHandler(handleDelayedOpen, e);
+        onMouseOutListener = e => onMouseEventHandler(handleDelayedClose, e);
+      }
+      triggerEvents.onMouseOver = createChainedFunction(onMouseOverListener, onMouseOver);
+      triggerEvents.onMouseOut = createChainedFunction(onMouseOutListener, onMouseOut);
     }
 
-    return <Overlay {...overlayProps}>{React.cloneElement(speaker, speakerProps)}</Overlay>;
+    if (isOneOf('focus', trigger)) {
+      triggerEvents.onFocus = createChainedFunction(handleDelayedOpen, onFocus);
+      triggerEvents.onBlur = createChainedFunction(handleDelayedClose, onBlur);
+    }
   }
 
-  render() {
-    const {
-      children,
-      speaker,
-      onClick,
-      trigger,
-      onMouseOver,
-      onMouseOut,
-      onFocus,
-      onBlur,
-      disabled
-    } = this.props;
-
-    const triggerComponent = React.Children.only(children) as React.DetailedReactHTMLElement<
-      any,
-      HTMLElement
-    >;
-
-    const triggerProps = triggerComponent.props;
-
-    const props: TriggerProps = {
-      key: 'triggerComponent',
-      onClick: createChainedFunction(triggerProps.onClick, onClick),
-      'aria-describedby': get(speaker, ['props', 'id'])
+  const renderOverlay = () => {
+    const overlayProps: OverlayProps = {
+      ...rest,
+      triggerTarget: triggerRef,
+      onClose: trigger !== 'none' ? createChainedFunction(handleClose, onClose) : undefined,
+      placement,
+      container,
+      open
     };
 
-    if (!disabled) {
-      if (isOneOf('click', trigger)) {
-        props.onClick = createChainedFunction(this.toggleHideAndShow, props.onClick);
-      }
+    // The purpose of adding mouse entry and exit events to the Overlay is to record whether the current cursor is on the Overlay.
+    // When `trigger` is equal to `hover`, if the cursor leaves the `triggerTarget` and stays on the Overlay,
+    // the Overlay will continue to remain open.
+    const speakerProps =
+      trigger !== 'none' && enterable
+        ? { onMouseEnter: handleSpeakerMouseEnter, onMouseLeave: handleSpeakerMouseLeave }
+        : null;
 
-      if (isOneOf('active', trigger)) {
-        props.onClick = createChainedFunction(this.handleDelayedShow, props.onClick);
-      }
+    return (
+      <Overlay {...overlayProps} ref={overlayRef} childrenProps={speakerProps}>
+        {speaker}
+      </Overlay>
+    );
+  };
 
-      if (isOneOf('hover', trigger)) {
-        props.onMouseOver = createChainedFunction(
-          this.onMouseOverListener,
-          triggerProps.onMouseOver,
-          onMouseOver
-        );
-        props.onMouseOut = createChainedFunction(
-          this.onMouseOutListener,
-          triggerProps.onMouseOut,
-          onMouseOut
-        );
-      }
+  return (
+    <>
+      {typeof children === 'function'
+        ? children({ ...triggerEvents, 'aria-expanded': open }, triggerRef)
+        : React.cloneElement(children, {
+            ref: triggerRef,
+            ...mergeEvents(triggerEvents, children.props)
+          })}
+      <Portal>{renderOverlay()}</Portal>
+    </>
+  );
+});
 
-      if (isOneOf('focus', trigger)) {
-        props.onFocus = createChainedFunction(
-          this.handleDelayedShow,
-          triggerProps.onFocus,
-          onFocus
-        );
-
-        props.onBlur = createChainedFunction(this.handleDelayedHide, triggerProps.onBlur, onBlur);
-      }
-    }
-
-    return [
-      React.cloneElement(triggerComponent, props),
-      <Portal key="portal">{this.renderOverlay()}</Portal>
-    ];
-  }
-}
+OverlayTrigger.displayName = 'OverlayTrigger';
+OverlayTrigger.defaultProps = defaultProps;
 
 export default OverlayTrigger;

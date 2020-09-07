@@ -7,13 +7,54 @@
 
 ## 获取组件
 
-```js
-import { Panel, PanelGroup } from 'rsuite';
-```
+<!--{include:(components/panel/fragments/import.md)}-->
 
 ## 演示
 
-<!--{demo}-->
+### 默认
+
+<!--{include:`basic.md`}-->
+
+### 带线框
+
+<!--{include:`bordered.md`}-->
+
+### 有阴影
+
+<!--{include:`shaded.md`}-->
+
+### 没有标题
+
+<!--{include:`no-header.md`}-->
+
+### 卡片
+
+<!--{include:`card.md`}-->
+
+### 卡片组
+
+<!--{include:`card-grid.md`}-->
+
+### 可折叠
+
+<!--{include:`collapsible.md`}-->
+
+### 撑满容器
+
+<!--{include:`body-fill.md`}-->
+
+### 面板组
+
+<!--{include:`panel-group.md`}-->
+
+### 可折叠面板组
+
+<!--{include:`accordion-group.md`}-->
+
+### 手风琴效果
+每次只能展开一个面板
+
+<!--{include:`accordion-group-active.md`}-->
 
 ## Props
 

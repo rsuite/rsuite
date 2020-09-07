@@ -1,77 +1,119 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Collapse from '../Animation/Collapse';
-import shallowEqual from '../utils/shallowEqual';
 
 import DropdownMenuItem from './DropdownMenuItem';
-import { DropdownMenuProps } from './DropdownMenu.d';
 import Icon from '../Icon';
 import Ripple from '../Ripple';
 import {
   createChainedFunction,
-  prefix,
   ReactChildren,
-  getUnhandledProps,
-  defaultProps
+  shallowEqual,
+  mergeRefs,
+  useClassNames
 } from '../utils';
-import mergeRefs from '../utils/mergeRefs';
 
-class DropdownMenu extends React.Component<DropdownMenuProps> {
-  static displayName = 'DropdownMenu';
-  static propTypes = {
-    activeKey: PropTypes.any,
-    className: PropTypes.string,
-    children: PropTypes.node,
-    icon: PropTypes.node,
-    classPrefix: PropTypes.string,
-    pullLeft: PropTypes.bool,
-    onSelect: PropTypes.func,
-    title: PropTypes.node,
-    open: PropTypes.bool,
-    trigger: PropTypes.oneOfType([PropTypes.array, PropTypes.oneOf(['click', 'hover'])]),
-    eventKey: PropTypes.any,
-    openKeys: PropTypes.array,
-    expanded: PropTypes.bool,
-    collapsible: PropTypes.bool,
-    onToggle: PropTypes.func
+import { IconProps } from '../Icon';
+import { StandardProps } from '../@types/common';
+
+export interface DropdownMenuProps<T = string> extends StandardProps {
+  /** Define the title as a submenu */
+  title?: React.ReactNode;
+
+  /** The submenu expands from the left and defaults to the right */
+  pullLeft?: boolean;
+
+  /** The value of the current option */
+  eventKey?: T;
+
+  /** Set the icon */
+  icon?: React.ReactElement<IconProps>;
+
+  open?: boolean;
+  openKeys?: T[];
+  collapsible?: boolean;
+  expanded?: boolean;
+  active?: boolean;
+  activeKey?: T;
+  trigger?: 'hover' | 'click';
+  onSelect?: (eventKey: T, event: React.SyntheticEvent<Element>) => void;
+  onToggle?: (eventKey: T, event: React.SyntheticEvent<Element>) => void;
+}
+
+const defaultProps: Partial<DropdownMenuProps> = {
+  openKeys: [],
+  classPrefix: 'dropdown-menu'
+};
+
+const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
+  const {
+    children,
+    className,
+    classPrefix,
+    collapsible,
+    expanded,
+    activeKey,
+    openKeys,
+    onSelect,
+    onToggle,
+    ...rest
+  } = props;
+
+  const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+  const handleToggleChange = (eventKey: string, event: React.MouseEvent) => {
+    onToggle?.(eventKey, event);
   };
-  getMenuItemsAndStatus(children?: React.ReactNode): { items: any[]; active: boolean } {
+
+  const isActive = (props: DropdownMenuProps, activeKey: string) => {
+    if (
+      props.active ||
+      (typeof activeKey !== 'undefined' && shallowEqual(props.eventKey, activeKey))
+    ) {
+      return true;
+    }
+
+    if (ReactChildren.some(props.children, child => isActive(child.props, activeKey))) {
+      return true;
+    }
+
+    return props.active;
+  };
+
+  const getMenuItemsAndStatus = (children?: React.ReactNode): { items: any[]; active: boolean } => {
     let hasActiveItem: boolean;
 
-    const { activeKey, onSelect, classPrefix, openKeys = [] } = this.props;
     const items = React.Children.map(children, (item: any, index: number) => {
       if (!item) {
         return null;
       }
 
-      const displayName: string = item?.type?.displayName;
+      const displayName = item?.type?.displayName;
       let active: boolean;
 
-      if (~displayName?.indexOf('(DropdownMenuItem)') || ~displayName?.indexOf('(DropdownMenu)')) {
-        active = this.isActive(item.props, activeKey);
+      if (displayName === 'DropdownMenuItem' || displayName === 'DropdownMenu') {
+        active = isActive(item.props, activeKey);
         if (active) {
           hasActiveItem = true;
         }
       }
 
-      if (~displayName?.indexOf('(DropdownMenuItem)')) {
+      if (displayName === 'DropdownMenuItem') {
         const { onSelect: onItemSelect } = item.props;
         return React.cloneElement(item, {
           key: index,
           active,
           onSelect: createChainedFunction(onSelect, onItemSelect)
         });
-      } else if (~displayName?.indexOf('(DropdownMenu)')) {
-        const itemsAndStatus = this.getMenuItemsAndStatus(item.props.children);
+      } else if (displayName === 'DropdownMenu') {
+        const itemsAndStatus = getMenuItemsAndStatus(item.props.children);
         const { icon, open, trigger, pullLeft, eventKey, title, className } = item.props;
         const expanded = openKeys.some(key => shallowEqual(key, eventKey));
-        const itemClassName = classNames(
+        const itemClassName = merge(
           className,
-          this.addPrefix(`pull-${pullLeft ? 'left' : 'right'}`),
-          {
-            [this.addPrefix('item-focus')]: this.isActive(item.props, activeKey)
-          }
+          prefix(`pull-${pullLeft ? 'left' : 'right'}`, {
+            'item-focus': isActive(item.props, activeKey)
+          })
         );
 
         return (
@@ -82,30 +124,30 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
             expanded={expanded}
             className={itemClassName}
             pullLeft={pullLeft}
-            as="div"
+            linkAs="div"
             submenu
           >
             <div
-              className={this.addPrefix('toggle')}
-              onClick={this.handleToggleChange.bind(this, eventKey)}
+              className={prefix`toggle`}
+              onClick={e => handleToggleChange(eventKey, e)}
               role="menu"
               tabIndex={-1}
             >
               <span>{title}</span>
               <Icon
-                className={this.addPrefix('toggle-icon')}
+                className={prefix`toggle-icon`}
                 icon={pullLeft ? 'angle-left' : 'angle-right'}
               />
               <Ripple />
             </div>
-            {this.renderCollapse((transitionProps, ref) => {
+            {renderCollapse((transitionProps, ref) => {
               const { className, ...transitionRestProps } = transitionProps || {};
               return (
                 <ul
                   {...transitionRestProps}
                   ref={ref}
                   role="menu"
-                  className={classNames(classPrefix, className)}
+                  className={merge(className, withClassPrefix())}
                 >
                   {itemsAndStatus.items}
                 </ul>
@@ -122,70 +164,63 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
       items,
       active: hasActiveItem
     };
-  }
-
-  handleToggleChange = (eventKey: any, event: React.SyntheticEvent<any>) => {
-    this.props.onToggle?.(eventKey, event);
   };
 
-  isActive(props: any, activeKey: any) {
-    if (
-      props.active ||
-      (typeof activeKey !== 'undefined' && shallowEqual(props.eventKey, activeKey))
-    ) {
-      return true;
-    }
-
-    if (ReactChildren.some(props.children, child => this.isActive(child.props, activeKey))) {
-      return true;
-    }
-
-    return props.active;
-  }
-
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
-  renderCollapse(children, expanded?: boolean) {
-    return this.props.collapsible ? (
+  const renderCollapse = (children, expanded?: boolean) => {
+    return collapsible ? (
       <Collapse
         in={expanded}
-        exitedClassName={this.addPrefix('collapse-out')}
-        exitingClassName={this.addPrefix('collapsing')}
-        enteredClassName={this.addPrefix('collapse-in')}
-        enteringClassName={this.addPrefix('collapsing')}
+        exitedClassName={prefix`collapse-out`}
+        exitingClassName={prefix`collapsing`}
+        enteredClassName={prefix`collapse-in`}
+        enteringClassName={prefix`collapsing`}
       >
         {children}
       </Collapse>
     ) : (
       children()
     );
-  }
+  };
 
-  render() {
-    const { children, className, classPrefix, expanded, htmlElementRef, ...props } = this.props;
-    const { items, active } = this.getMenuItemsAndStatus(children);
-    const unhandled = getUnhandledProps(DropdownMenu, props);
-    const classes = classNames(classPrefix, className, {
-      [this.addPrefix('active')]: active
-    });
+  const { items, active } = getMenuItemsAndStatus(children);
+  const classes = merge(className, withClassPrefix({ active }));
 
-    return this.renderCollapse((transitionProps, ref) => {
-      const { className: transitionClassName, ...transitionRestProps } = transitionProps || {};
+  return renderCollapse((transitionProps, transitionRef) => {
+    const { className: transitionClassName, ...transitionRestProps } = transitionProps || {};
 
-      return (
-        <ul
-          {...unhandled}
-          {...transitionRestProps}
-          className={classNames(classes, transitionClassName)}
-          role="menu"
-          ref={mergeRefs(htmlElementRef, ref)}
-        >
-          {items}
-        </ul>
-      );
-    }, expanded);
-  }
-}
+    return (
+      <ul
+        {...rest}
+        {...transitionRestProps}
+        className={classNames(classes, transitionClassName)}
+        role="menu"
+        ref={mergeRefs(transitionRef, ref)}
+      >
+        {items}
+      </ul>
+    );
+  }, expanded);
+});
 
-export default defaultProps<DropdownMenuProps>({
-  classPrefix: 'dropdown-menu'
-})(DropdownMenu);
+DropdownMenu.displayName = 'DropdownMenu';
+DropdownMenu.defaultProps = defaultProps;
+DropdownMenu.propTypes = {
+  active: PropTypes.bool,
+  activeKey: PropTypes.any,
+  className: PropTypes.string,
+  children: PropTypes.node,
+  icon: PropTypes.any,
+  classPrefix: PropTypes.string,
+  pullLeft: PropTypes.bool,
+  title: PropTypes.node,
+  open: PropTypes.bool,
+  trigger: PropTypes.oneOf(['click', 'hover']),
+  eventKey: PropTypes.any,
+  openKeys: PropTypes.array,
+  expanded: PropTypes.bool,
+  collapsible: PropTypes.bool,
+  onSelect: PropTypes.func,
+  onToggle: PropTypes.func
+};
+
+export default DropdownMenu;

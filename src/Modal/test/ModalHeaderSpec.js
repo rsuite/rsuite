@@ -19,11 +19,11 @@ describe('ModalHeader', () => {
     assert.ok(!instance.querySelector('button'));
   });
 
-  it('Should call onHide callback', done => {
+  it('Should call onClose callback', done => {
     const doneOp = () => {
       done();
     };
-    const instance = getDOMNode(<ModalHeader onHide={doneOp} />);
+    const instance = getDOMNode(<ModalHeader onClose={doneOp} />);
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-modal-header-close'));
   });
 

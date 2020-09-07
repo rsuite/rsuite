@@ -1,55 +1,70 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import { createChainedFunction, useClassNames } from '../utils';
+import { ModalContext } from './Modal';
+import CloseButton from '../CloseButton';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-import { createChainedFunction, defaultProps, prefix } from '../utils';
-import ModalContext from './ModalContext';
-import { ModalHeaderProps } from './ModalHeader.d';
+export interface ModalHeaderProps extends WithAsProps {
+  /** Primary content */
+  children?: React.ReactNode;
 
-class ModalHeader extends React.Component<ModalHeaderProps> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    className: PropTypes.string,
-    closeButton: PropTypes.bool,
-    children: PropTypes.node,
-    onHide: PropTypes.func
-  };
-  static defaultProps = {
-    closeButton: true
-  };
+  /** Display close button */
+  closeButton?: boolean;
 
-  render() {
-    const { classPrefix, onHide, className, closeButton, children, ...props } = this.props;
-    const classes = classNames(classPrefix, className);
-    const addPrefix = prefix(classPrefix);
+  /** Called when Modal is hidden */
+  onClose?: (event: React.MouseEvent) => void;
+}
+
+const defaultProps: Partial<ModalHeaderProps> = {
+  as: 'div',
+  closeButton: true,
+  classPrefix: 'modal-header'
+};
+
+const ModalHeader: RsRefForwardingComponent<'div', ModalHeaderProps> = React.forwardRef(
+  (props: ModalHeaderProps, ref) => {
+    const {
+      as: Component,
+      classPrefix,
+      className,
+      closeButton,
+      children,
+      onClose,
+      ...rest
+    } = props;
+    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix());
 
     const buttonElement = (
       <ModalContext.Consumer>
         {context => (
-          <button
-            type="button"
-            className={addPrefix('close')}
-            aria-label="Close"
-            onClick={createChainedFunction<(event: React.MouseEvent) => void>(
-              onHide,
-              context ? context.onModalHide : null
-            )}
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <CloseButton
+            className={prefix('close')}
+            onClick={createChainedFunction(onClose, context?.onModalClose)}
+          />
         )}
       </ModalContext.Consumer>
     );
 
     return (
-      <div {...props} className={classes}>
+      <Component {...rest} ref={ref} className={classes}>
         {closeButton && buttonElement}
         {children}
-      </div>
+      </Component>
     );
   }
-}
+);
 
-export default defaultProps({
-  classPrefix: 'modal-header'
-})(ModalHeader);
+ModalHeader.displayName = 'ModalHeader';
+ModalHeader.defaultProps = defaultProps;
+ModalHeader.propTypes = {
+  as: PropTypes.elementType,
+  classPrefix: PropTypes.string,
+  className: PropTypes.string,
+  closeButton: PropTypes.bool,
+  children: PropTypes.node,
+  onHide: PropTypes.func
+};
+
+export default ModalHeader;

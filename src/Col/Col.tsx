@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
-import { useClassNames } from '../utils';
-import { SIZE } from '../constants';
+import { useClassNames, SIZE } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export interface ColProps extends WithAsProps {

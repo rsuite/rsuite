@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import { PLACEMENT } from '../constants';
-import { refType } from '../utils';
-import { getAnimationPropTypes } from '../Animation/utils';
 import { PickerAppearance, TypeAttributes } from '../@types/common';
+import { refType, PLACEMENT } from '../utils';
+import { animationPropTypes } from '../Animation/utils';
+
 
 export const pickerPropTypes = {
-  ...getAnimationPropTypes(),
+  ...animationPropTypes,
   classPrefix: PropTypes.string,
   className: PropTypes.string,
   style: PropTypes.object,

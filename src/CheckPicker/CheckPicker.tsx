@@ -13,7 +13,9 @@ import {
   useClassNames,
   shallowEqual,
   useCustom,
-  useControlled
+  useControlled,
+  KEY_CODE,
+  mergeRefs
 } from '../utils';
 import {
   DropdownMenu,
@@ -29,11 +31,14 @@ import {
   useSearch
 } from '../Picker';
 import { PickerLocaleType, PickerComponent } from '../Picker/types';
-import { pickerToggleTriggerProps } from '../Picker/PickerToggleTrigger';
+import {
+  pickerToggleTriggerProps,
+  OverlayTriggerInstance,
+  PositionChildProps
+} from '../Picker/PickerToggleTrigger';
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
 import { listPickerPropTypes } from '../Picker/propTypes';
 import { SelectProps } from '../SelectPicker';
-import { KEY_CODE } from '../constants';
 
 export type ValueType = (number | string)[];
 export interface CheckPickerProps<T = ValueType>
@@ -111,8 +116,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
       ...rest
     } = props;
 
-    const rootRef = useRef<HTMLDivElement>();
-    const triggerRef = useRef<any>();
+    const triggerRef = useRef<OverlayTriggerInstance>();
     const positionRef = useRef();
     const toggleRef = useRef<HTMLButtonElement>();
     const menuRef = useRef<HTMLDivElement>();
@@ -172,12 +176,12 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
     };
 
     const handleClose = useCallback(() => {
-      triggerRef.current?.hide?.();
+      triggerRef.current?.close();
       setFocusItemValue(value ? value[0] : undefined);
     }, [triggerRef, setFocusItemValue, value]);
 
     const handleOpen = useCallback(() => {
-      triggerRef.current?.show?.();
+      triggerRef.current?.open();
     }, [triggerRef]);
 
     const handleToggleDropdown = () => {
@@ -203,7 +207,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
         setValue([]);
         handleChangeValue([], event);
       },
-      [disabled, cleanable, handleChangeValue]
+      [disabled, cleanable, setValue, handleChangeValue]
     );
 
     const selectFocusMenuItem = (event: React.KeyboardEvent<HTMLElement>) => {
@@ -269,7 +273,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
         handleSelect(nextValue, item, event);
         handleChangeValue(nextValue, event);
       },
-      [value, handleSelect, handleChangeValue, setFocusItemValue]
+      [value, setValue, handleSelect, handleChangeValue, setFocusItemValue]
     );
 
     const handleExited = useCallback(() => {
@@ -285,7 +289,9 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
     }, [onOpen]);
 
     useImperativeHandle(ref, () => ({
-      root: rootRef.current,
+      get root() {
+        return triggerRef.current.child;
+      },
       get menu() {
         return menuRef.current;
       },
@@ -325,8 +331,10 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
       selectedElement = renderValue(value, selectedItems, selectedElement);
     }
 
-    const renderDropdownMenu = () => {
-      const classes = merge(prefix('check-menu'), menuClassName);
+    const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
+      const { left, top, className } = positionProps;
+      const classes = merge(className, menuClassName, prefix('check-menu'));
+      const styles = { ...menuStyle, left, top };
       let items = filteredData;
       let filteredStickyItems = [];
 
@@ -370,10 +378,10 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
 
       return (
         <MenuWrapper
-          ref={menuRef}
+          ref={mergeRefs(menuRef, speakerRef)}
           autoWidth={menuAutoWidth}
           className={classes}
-          style={menuStyle}
+          style={styles}
           onKeyDown={handleKeyDown}
           getToggleInstance={() => toggleRef.current}
           getPositionInstance={() => positionRef.current}
@@ -402,9 +410,9 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
         onEnter={createChainedFunction(initStickyItems, onEnter)}
         onEntered={createChainedFunction(handleEntered, onEntered)}
         onExited={createChainedFunction(handleExited, onExited)}
-        speaker={renderDropdownMenu()}
+        speaker={renderDropdownMenu}
       >
-        <Component ref={rootRef} className={classes} style={style}>
+        <Component className={classes} style={style}>
           <PickerToggle
             {...omit(rest, [...pickerToggleTriggerProps, ...usedClassNameProps])}
             ref={toggleRef}

@@ -16,7 +16,7 @@ describe('Popover styles', () => {
       </Popover>,
       createTestContainer()
     );
-    const dom = getDOMNode(instanceRef.current);
+    const dom = instanceRef.current;
 
     assert.equal(getStyle(dom, 'backgroundColor'), toRGB('#fff'), 'Popover background-color');
   });

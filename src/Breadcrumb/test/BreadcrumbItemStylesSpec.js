@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Breadcrumb from '../index';
-import { createTestContainer, getDOMNode, getStyle, toRGB, inChrome } from '@test/testUtils';
+import { createTestContainer, getStyle, toRGB, inChrome } from '@test/testUtils';
 
 import '../styles/index';
 

@@ -1,11 +1,9 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
-import { StandardProps } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-export interface DropdownMenuItemProps
-  extends StandardProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, 'onSelect'> {
+export interface DropdownMenuItemProps extends WithAsProps {
   active?: boolean;
   disabled?: boolean;
   value?: any;
@@ -16,8 +14,8 @@ export interface DropdownMenuItemProps
   renderItem?: (value: any) => React.ReactNode;
 }
 
-const DropdownMenuItem = React.forwardRef(
-  (props: DropdownMenuItemProps, ref: React.Ref<HTMLDivElement>) => {
+const DropdownMenuItem: RsRefForwardingComponent<'div', DropdownMenuItemProps> = React.forwardRef(
+  (props: DropdownMenuItemProps, ref) => {
     const {
       as: Component = 'div',
       active,
@@ -48,21 +46,17 @@ const DropdownMenuItem = React.forwardRef(
 
     return (
       <Component
-        role="listitem"
+        role="menuitemradio"
         {...rest}
         ref={ref}
+        aria-checked={active}
         className={className}
         tabIndex={-1}
         data-key={value}
+        onKeyDown={disabled ? null : onKeyDown}
+        onClick={handleClick}
       >
-        <a
-          className={classes}
-          tabIndex={-1}
-          onKeyDown={disabled ? null : onKeyDown}
-          onClick={handleClick}
-        >
-          {renderItem ? renderItem(value) : children}
-        </a>
+        <a className={classes}>{renderItem ? renderItem(value) : children}</a>
       </Component>
     );
   }

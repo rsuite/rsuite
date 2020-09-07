@@ -27,8 +27,8 @@ const FormHelpText: RsRefForwardingComponent<'span', FormHelpTextProps> = React.
 
     if (tooltip) {
       return (
-        <Whisper placement="topEnd" speaker={<Tooltip {...rest}>{children}</Tooltip>}>
-          <Component ref={ref} className={classes}>
+        <Whisper ref={ref} placement="topEnd" speaker={<Tooltip {...rest}>{children}</Tooltip>}>
+          <Component className={classes}>
             <Icon icon="question-circle2" />
           </Component>
         </Whisper>

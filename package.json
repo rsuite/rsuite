@@ -55,6 +55,7 @@
   ],
   "dependencies": {
     "@babel/runtime": "^7.8.4",
+    "@types/react-is": "^16.7.1",
     "classnames": ">=2.0.0",
     "date-fns": "^2.13.0",
     "date-fns-timezone": "^0.1.4",
@@ -62,6 +63,7 @@
     "element-resize-event": "^3.0.3",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
+    "react-is": "^16.13.1",
     "react-lifecycles-compat": "^3.0.4",
     "react-virtualized": "^9.21.0",
     "recompose": "^0.30.0",

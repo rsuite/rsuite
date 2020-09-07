@@ -3,7 +3,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import _ from 'lodash';
 import getPalette from './getPalette';
 import tinycolor from 'tinycolor2';
 export { getStyle } from 'dom-lib';
@@ -63,6 +62,10 @@ export function getDOMNode(children) {
     return children;
   }
 
+  if (isDOMElement(children.child)) {
+    return children.child;
+  }
+
   if (ReactTestUtils.isCompositeComponent(children)) {
     return findDOMNode(children);
   }
@@ -73,6 +76,10 @@ export function getDOMNode(children) {
 
   if (getInstance(children) && isDOMElement(getInstance(children).root)) {
     return getInstance(children).root;
+  }
+
+  if (getInstance(children) && isDOMElement(getInstance(children).child)) {
+    return getInstance(children).child;
   }
 
   return findDOMNode(getInstance(children));

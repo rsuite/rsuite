@@ -3,7 +3,8 @@
  * https://github.com/Semantic-Org/Semantic-UI-React/blob/master/src/lib/htmlPropsUtils.js
  */
 
-import _ from 'lodash';
+import forEach from 'lodash/forEach';
+import includes from 'lodash/includes';
 
 export const htmlInputAttrs = [
   // REACT
@@ -99,9 +100,9 @@ export const partitionHTMLProps = (
   const inputProps: { [key: string]: string } = {};
   const rest = {};
 
-  _.forEach(props, (val, prop) => {
+  forEach(props, (val, prop) => {
     const possibleAria = includeAria && (/^aria-.*$/.test(prop) || prop === 'role');
-    const target: any = _.includes(htmlProps, prop) || possibleAria ? inputProps : rest;
+    const target: any = includes(htmlProps, prop) || possibleAria ? inputProps : rest;
     target[prop] = val;
   });
 

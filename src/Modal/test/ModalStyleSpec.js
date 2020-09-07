@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Modal from '../index';
-import { createTestContainer, getStyle, getDOMNode, toRGB } from '@test/testUtils';
+import { createTestContainer, getStyle, toRGB } from '@test/testUtils';
 
 import '../styles/index';
 
 describe('Modal styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Modal ref={instanceRef} show />, createTestContainer());
-    const dom = getDOMNode(instanceRef.current);
+    ReactDOM.render(<Modal ref={instanceRef} open />, createTestContainer());
+    const dom = instanceRef.current;
     const backdropDom = dom.querySelector('.rs-modal-backdrop');
     const drawerDom = dom.querySelector('.rs-modal');
     assert.equal(getStyle(dom, 'position'), 'fixed', 'Modal wrapper position');

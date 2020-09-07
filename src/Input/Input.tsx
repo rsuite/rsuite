@@ -1,16 +1,22 @@
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import isUndefined from 'lodash/isUndefined';
-import { createChainedFunction, refType, mergeRefs, useClassNames, useCustom } from '../utils';
 import { FormGroupContext } from '../FormGroup/FormGroup';
 import { InputGroupContext } from '../InputGroup/InputGroup';
+import {
+  createChainedFunction,
+  refType,
+  mergeRefs,
+  useClassNames,
+  useCustom,
+  KEY_CODE
+} from '../utils';
 import {
   WithAsProps,
   RsRefForwardingComponent,
   TypeAttributes,
   FormControlBaseProps
 } from '../@types/common';
-import { KEY_CODE } from '../constants';
 
 export interface LocaleType {
   emptyPlaintext: string;

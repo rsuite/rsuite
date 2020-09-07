@@ -5,7 +5,6 @@ import DefaultPage from '@/components/Page';
 export default function Page() {
   return (
     <DefaultPage
-      examples={['basic', 'backdrop', 'placement', 'size', 'full']}
       dependencies={{ ButtonToolbar, Button, IconButton, Drawer, Icon, RadioGroup, Radio }}
     />
   );

@@ -34,22 +34,22 @@ export interface RsRefForwardingComponent<T extends React.ElementType, P = unkno
 
 export interface AnimationEventProps {
   /** Callback fired before the Modal transitions in */
-  onEnter?: (node: null | Element | Text) => void;
+  onEnter?: (node?: null | Element | Text) => void;
 
   /** Callback fired as the Modal begins to transition in */
-  onEntering?: (node: null | Element | Text) => void;
+  onEntering?: (node?: null | Element | Text) => void;
 
   /** Callback fired after the Modal finishes transitioning in */
-  onEntered?: (node: null | Element | Text) => void;
+  onEntered?: (node?: null | Element | Text) => void;
 
   /** Callback fired right before the Modal transitions out */
-  onExit?: (node: null | Element | Text) => void;
+  onExit?: (node?: null | Element | Text) => void;
 
   /** Callback fired as the Modal begins to transition out */
-  onExiting?: (node: null | Element | Text) => void;
+  onExiting?: (node?: null | Element | Text) => void;
 
   /** Callback fired after the Modal finishes transitioning out */
-  onExited?: (node: null | Element | Text) => void;
+  onExited?: (node?: null | Element | Text) => void;
 }
 
 export type PickerAppearance = 'default' | 'subtle';
