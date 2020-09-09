@@ -1,32 +1,25 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { defaultProps } from '../utils';
+import { StandardProps } from '../@types/common';
+import { useClassNames } from '../utils';
 
-export interface NavbarBodyProps {
+export interface NavbarBodyProps extends StandardProps {
   classPrefix?: string;
   className?: string;
   children?: React.ReactNode;
 }
 
-class NavbarBody extends React.Component<NavbarBodyProps> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    className: PropTypes.string,
-    children: PropTypes.node
-  };
-  render() {
-    const { children, classPrefix, className, ...props } = this.props;
-    const classes = classNames(classPrefix, className);
+const NavbarBody = React.forwardRef((props: NavbarBodyProps, ref: React.Ref<HTMLDivElement>) => {
+  const { children, classPrefix = 'navbar-body', className, ...rest } = props;
 
-    return (
-      <div {...props} className={classes}>
-        {children}
-      </div>
-    );
-  }
-}
+  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix());
+  return (
+    <div {...rest} ref={ref} className={classes}>
+      {children}
+    </div>
+  );
+});
 
-export default defaultProps<NavbarBodyProps>({
-  classPrefix: 'navbar-body'
-})(NavbarBody);
+NavbarBody.displayName = 'NavbarBody';
+
+export default NavbarBody;

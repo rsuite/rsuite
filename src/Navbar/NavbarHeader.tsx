@@ -1,26 +1,21 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { defaultProps } from '../utils';
+import { StandardProps } from '../@types/common';
+import { useClassNames } from '../utils';
 
-export interface NavbarHeaderProps {
+export interface NavbarHeaderProps extends StandardProps {
   classPrefix?: string;
   className?: string;
 }
 
-class NavbarHeader extends React.Component<NavbarHeaderProps> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    className: PropTypes.string
-  };
-  render() {
-    const { className, classPrefix, ...props } = this.props;
-    const classes = classNames(classPrefix, className);
-
-    return <div {...props} className={classes} />;
+const NavbarHeader = React.forwardRef(
+  (props: NavbarHeaderProps, ref: React.Ref<HTMLDivElement>) => {
+    const { classPrefix = 'navbar-header', className, ...rest } = props;
+    const { merge, withClassPrefix } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix());
+    return <div {...rest} ref={ref} className={classes} />;
   }
-}
+);
 
-export default defaultProps<NavbarHeaderProps>({
-  classPrefix: 'navbar-header'
-})(NavbarHeader);
+NavbarHeader.displayName = 'NavbarHeader';
+
+export default NavbarHeader;
