@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
+import { PickerAppearance, TypeAttributes } from '../@types/common';
 import { refType, PLACEMENT } from '../utils';
 import { animationPropTypes } from '../Animation/utils';
+
 
 export const pickerPropTypes = {
   ...animationPropTypes,
@@ -47,8 +49,8 @@ export const listPickerPropTypes = {
 
 export const pickerDefaultProps = {
   cleanable: true,
-  placement: 'bottomStart',
-  appearance: 'default'
+  placement: 'bottomStart' as TypeAttributes.Placement,
+  appearance: 'default' as PickerAppearance
 };
 
 export const listPickerDefaultProps = {

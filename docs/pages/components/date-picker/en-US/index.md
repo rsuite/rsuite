@@ -8,13 +8,103 @@ To select or input a date or time
 
 ## Usage
 
-```js
-import { DatePicker } from 'rsuite';
-```
+<!--{include:(components/date-picker/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Default
+
+<!--{include:`basic.md`}-->
+
+### Size
+
+<!--{include:`size.md`}-->
+
+### One tap
+
+<!--{include:`one-tap.md`}-->
+
+### Appearance
+
+<!--{include:`appearance.md`}-->
+
+### Block
+
+<!--{include:`block.md`}-->
+
+### Placeholder
+
+<!--{include:`placeholder.md`}-->
+
+### Date + Time
+
+<!--{include:`format.md`}-->
+
+### Show month
+
+<!--{include:`format-month.md`}-->
+
+### Show time
+
+<!--{include:`format-time.md`}-->
+
+### Meridian format
+Display hours in 12 format.
+
+<!--{include:`format-time-meridian.md`}-->
+
+### ISO week
+
+International Standard ISO 8601 defines that each calendar week begins on Monday and Sunday is the seventh day, [ISO week date](https://en.wikipedia.org/wiki/ISO_week_date).
+
+The calendar panel can be displayed in ISO standard via the ʻisoWeek` property setting.
+
+<!--{include:`iso-week.md`}-->
+
+### Disabled and hidden
+
+<!--{include:`disabled.md`}-->
+
+### Set the local language
+
+`DatePicker` supports local language custom configuration, but we recommend using the unified [internationalization](/guide/intl) configuration.
+
+<!--{include:`intl.md`}-->
+
+### Placement
+
+<!--{include:`placement.md`}-->
+
+> Tip: When set to `auto*`, try to scroll the page, or change the browser size, it will automatically appear in the right place.
+
+### Custom short options
+
+<!--{include:`custom.md`}-->
+
+Clicking "The day before" in the example does not close the picker layer because the `closeOverlay:boolean` property is configured. This propperty is used to set whether to close the picker layer after clicking the shortcut item. The default value is `true`.
+
+### Controlled
+
+<!--{include:`control.md`}-->
+
+### Selection range
+
+<!--{include:`range.md`}-->
+
+### Show week numbers
+
+<!--{include:`show-week-numbers.md`}-->
+
+### Time zone
+
+<!--{include:`time-zone.md`}-->
+
+- [Time zone selectable list reference](/components/date-picker#Time%20Zone%20List)
+- [Notes on using time zone attributes](/components/date-picker#Time%20Zone%20Tips)
+
+### Use `TimeZonePicker` to set time zone
+
+<!--{include:`time-zone-with-picker.md`}-->
 
 ## Props
 
