@@ -1,6 +1,5 @@
 import * as React from 'react';
-import setDisplayName from 'recompose/setDisplayName';
-import wrapDisplayName from 'recompose/wrapDisplayName';
+import { setDisplayName, wrapDisplayName } from 'recompose';
 import { getClassNamePrefix } from './prefix';
 import { StandardProps } from '../@types/common';
 import extendReactStatics from './extendReactStatics';

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import setStatic from 'recompose/setStatic';
+import { setStatic } from 'recompose';
 import classNames from 'classnames';
 import { on } from 'dom-lib';
 import {

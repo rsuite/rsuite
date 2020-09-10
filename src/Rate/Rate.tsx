@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import compose from 'recompose/compose';
+import { compose } from 'recompose';
 
 import { defaultProps, prefix, getUnhandledProps, withStyleProps } from '../utils';
 import { transformValueToCharacterMap, transformCharacterMapToValue } from './utils';
