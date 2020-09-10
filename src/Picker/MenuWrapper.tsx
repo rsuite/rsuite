@@ -5,7 +5,7 @@ import { useElementResize, useClassNames } from '../utils';
 import getDOMNode from '../utils/getDOMNode';
 import mergeRefs from '../utils/mergeRefs';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-
+import { OverlayTriggerInstance } from '../Picker/PickerToggleTrigger';
 const omitProps = [
   'placement',
   'arrowOffsetLeft',
@@ -32,8 +32,7 @@ export interface MenuWrapperProps extends WithAsProps {
   placement?: string;
   autoWidth?: boolean;
   children?: React.ReactNode;
-  getPositionInstance?: () => any;
-  getToggleInstance?: () => HTMLElement;
+  target?: React.RefObject<OverlayTriggerInstance>;
   onKeyDown?: (event: React.KeyboardEvent) => void;
 }
 
@@ -45,39 +44,34 @@ const MenuWrapper: RsRefForwardingComponent<'div', MenuWrapperProps> = React.for
       autoWidth,
       className,
       placement,
-      getPositionInstance,
-      getToggleInstance,
+      target,
       ...rest
     } = props;
 
-    const menuElementRef = useRef();
+    const menuRef = useRef();
     const handleResize = useCallback(() => {
-      const instance = getPositionInstance?.();
+      const instance = target.current;
       if (instance && resizePlacement.includes(placement)) {
-        instance.updatePosition(true);
+        instance.updatePosition();
       }
-    }, [getPositionInstance, placement]);
+    }, [target, placement]);
 
-    useElementResize(() => menuElementRef.current, handleResize);
+    useElementResize(() => menuRef.current, handleResize);
     useEffect(() => {
-      const toggle = getToggleInstance?.();
-      if (autoWidth && toggle) {
+      const toggle = target.current;
+      if (autoWidth && toggle.child) {
         // Get the width value of the button,
         // and then set it to the menu to make their width consistent.
-        const width = getWidth(getDOMNode(toggle));
-        addStyle(menuElementRef.current, 'min-width', `${width}px`);
+        const width = getWidth(getDOMNode(toggle.child));
+        addStyle(menuRef.current, 'min-width', `${width}px`);
       }
-    }, [autoWidth, getToggleInstance, menuElementRef]);
+    }, [autoWidth, target, menuRef]);
 
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
 
     return (
-      <Component
-        {...omit(rest, omitProps)}
-        ref={mergeRefs(menuElementRef, ref)}
-        className={classes}
-      />
+      <Component {...omit(rest, omitProps)} ref={mergeRefs(menuRef, ref)} className={classes} />
     );
   }
 );

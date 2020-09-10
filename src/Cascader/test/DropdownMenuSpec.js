@@ -39,16 +39,13 @@ describe('Cascader -  DropdownMenu', () => {
 
   it('Should output 3 `menu-item` ', () => {
     const instance = getInstance(<Dropdown defaultOpen data={items} />);
-    const menuContainer = getDOMNode(instance.menuContainerRef.current);
-    assert.equal(menuContainer.querySelectorAll('li').length, 3);
+    assert.equal(instance.menu.querySelectorAll('li').length, 3);
   });
 
   it('Should have a menuWidth', () => {
     const instance = getInstance(<Dropdown defaultOpen data={items} menuWidth={100} />);
 
-    const menuContainer = getDOMNode(instance.menuContainerRef.current).querySelector(
-      '.rs-picker-cascader-menu-column'
-    );
+    const menuContainer = instance.menu.querySelector('.rs-picker-cascader-menu-column');
     assert.ok(menuContainer.style.width, '100px');
   });
 
@@ -80,8 +77,8 @@ describe('Cascader -  DropdownMenu', () => {
     const instance = getInstance(
       <Dropdown defaultOpen labelKey="myLabel" valueKey="myValue" childrenKey="items" data={data} />
     );
-    const menuContainer = getDOMNode(instance.menuContainerRef.current);
-    assert.equal(menuContainer.querySelectorAll('li').length, 3);
+
+    assert.equal(instance.menu.querySelectorAll('li').length, 3);
   });
 
   it('Should call onSelect callback ', done => {
@@ -92,9 +89,9 @@ describe('Cascader -  DropdownMenu', () => {
     };
 
     const instance = getInstance(<Dropdown defaultOpen data={items} onSelect={doneOp} />);
-    const menuContainer = getDOMNode(instance.menuContainerRef.current);
+
     ReactTestUtils.Simulate.click(
-      menuContainer.querySelectorAll('.rs-picker-cascader-menu-item')[1]
+      instance.menu.querySelectorAll('.rs-picker-cascader-menu-item')[1]
     );
   });
 
@@ -103,13 +100,13 @@ describe('Cascader -  DropdownMenu', () => {
     const instance = getInstance(
       <Dropdown defaultOpen data={items} disabledItemValues={['abcd']} onSelect={onSelectSpy} />
     );
-    const menuContainer = getDOMNode(instance.menuContainerRef.current);
+
     setTimeout(() => {
       ReactTestUtils.Simulate.click(
-        menuContainer.querySelectorAll('.rs-picker-cascader-menu-item')[0]
+        instance.menu.querySelectorAll('.rs-picker-cascader-menu-item')[0]
       );
       ReactTestUtils.Simulate.click(
-        menuContainer.querySelectorAll('.rs-picker-cascader-menu-item')[2]
+        instance.menu.querySelectorAll('.rs-picker-cascader-menu-item')[2]
       );
       assert.equal(onSelectSpy.callCount, 2);
     }, 1);
@@ -120,9 +117,9 @@ describe('Cascader -  DropdownMenu', () => {
     const instance = getInstance(
       <Dropdown defaultOpen data={items} disabledItemValues={['abcd']} onSelect={onSelectSpy} />
     );
-    const menuContainer = getDOMNode(instance.menuContainerRef.current);
+
     ReactTestUtils.Simulate.click(
-      menuContainer.querySelectorAll('.rs-picker-cascader-menu-item')[1]
+      instance.menu.querySelectorAll('.rs-picker-cascader-menu-item')[1]
     );
     assert.ok(onSelectSpy.notCalled);
   });
@@ -131,22 +128,22 @@ describe('Cascader -  DropdownMenu', () => {
     const instance = getInstance(
       <Dropdown defaultOpen data={items} renderMenuItem={item => <i>{item}</i>} />
     );
-    const menuContainer = getDOMNode(instance.menuContainerRef.current);
-    assert.equal(menuContainer.querySelectorAll(`${'.rs-picker-cascader-menu-item'} i`).length, 3);
+
+    assert.equal(instance.menu.querySelectorAll(`${'.rs-picker-cascader-menu-item'} i`).length, 3);
   });
 
   it('Should be disabled item ', () => {
     const instance = getInstance(
       <Dropdown defaultOpen data={items} disabledItemValues={['abcd', 'abcde']} />
     );
-    const menuContainer = getDOMNode(instance.menuContainerRef.current);
+
     assert.ok(
-      menuContainer
+      instance.menu
         .querySelectorAll('.rs-picker-cascader-menu-item')[1]
         .className.match(/\bdisabled\b/)
     );
     assert.ok(
-      menuContainer
+      instance.menu
         .querySelectorAll('.rs-picker-cascader-menu-item')[2]
         .className.match(/\bdisabled\b/)
     );

@@ -30,7 +30,7 @@ const items = [
 ];
 
 describe('Cascader', () => {
-  it('Should output a dropdown', () => {
+  it('Should output a picker', () => {
     const Title = 'Title';
     const instance = getDOMNode(<Cascader>{Title}</Cascader>);
 
@@ -44,10 +44,9 @@ describe('Cascader', () => {
   });
 
   it('Should be inline', () => {
-    const instance = getDOMNode(<Cascader inline />);
-
-    assert.ok(instance.className.match(/\brs-picker-inline\b/));
-    assert.ok(instance.querySelector('.rs-picker-cascader-menu-items'));
+    const instance = getInstance(<Cascader inline />);
+    assert.ok(instance.menu.className.match(/\brs-picker-inline\b/));
+    assert.ok(instance.menu.querySelector('.rs-picker-cascader-menu-items'));
   });
 
   it('Should output a placeholder', () => {
@@ -59,7 +58,7 @@ describe('Cascader', () => {
 
   it('Should output a button', () => {
     const instance = getInstance(<Cascader toggleAs="button" />);
-    assert.ok(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'button'));
+    assert.ok(instance.root.querySelector('button'));
   });
 
   it('Should be block', () => {
@@ -102,15 +101,21 @@ describe('Cascader', () => {
   it('Should be active by value', () => {
     const value = '2';
     const instance = getInstance(<Cascader defaultOpen data={items} value={value} />);
-    const menu = getDOMNode(instance.menuContainerRef.current);
-    assert.equal(menu.querySelector('.rs-picker-cascader-menu-item-active').innerText, value);
+
+    assert.equal(
+      instance.menu.querySelector('.rs-picker-cascader-menu-item-active').innerText,
+      value
+    );
   });
 
   it('Should be active by defaultValue', () => {
     const value = '2';
     const instance = getInstance(<Cascader defaultOpen data={items} defaultValue={value} />);
-    const menu = getDOMNode(instance.menuContainerRef.current);
-    assert.equal(menu.querySelector('.rs-picker-cascader-menu-item-active').innerText, value);
+
+    assert.equal(
+      instance.menu.querySelector('.rs-picker-cascader-menu-item-active').innerText,
+      value
+    );
   });
 
   it('Should call onSelect callback ', done => {
@@ -119,10 +124,10 @@ describe('Cascader', () => {
         done();
       }
     };
-
     const instance = getInstance(<Cascader data={items} defaultOpen onSelect={doneOp} />);
-    const menu = getDOMNode(instance.menuContainerRef.current);
-    ReactTestUtils.Simulate.click(menu.querySelectorAll('.rs-picker-cascader-menu-item')[1]);
+    ReactTestUtils.Simulate.click(
+      instance.menu.querySelectorAll('.rs-picker-cascader-menu-item')[1]
+    );
   });
 
   it('Should call onChange callback ', done => {
@@ -133,8 +138,9 @@ describe('Cascader', () => {
     };
 
     const instance = getInstance(<Cascader data={items} defaultOpen onChange={doneOp} />);
-    const menu = getDOMNode(instance.menuContainerRef.current);
-    ReactTestUtils.Simulate.click(menu.querySelectorAll('.rs-picker-cascader-menu-item')[1]);
+    ReactTestUtils.Simulate.click(
+      instance.menu.querySelectorAll('.rs-picker-cascader-menu-item')[1]
+    );
   });
 
   it('Should call onChange callback by `parentSelectable`', done => {
@@ -147,8 +153,9 @@ describe('Cascader', () => {
     const instance = getInstance(
       <Cascader data={items} defaultOpen parentSelectable onChange={doneOp} />
     );
-    const menu = getDOMNode(instance.menuContainerRef.current);
-    ReactTestUtils.Simulate.click(menu.querySelectorAll('.rs-picker-cascader-menu-item')[2]);
+    ReactTestUtils.Simulate.click(
+      instance.menu.querySelectorAll('.rs-picker-cascader-menu-item')[2]
+    );
   });
 
   it('Should call onClean callback', done => {
@@ -200,7 +207,46 @@ describe('Cascader', () => {
   });
 
   it('Should render a button by toggleAs={Button}', () => {
-    const instance = getInstance(<Cascader open data={items} toggleAs={Button} />);
-    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-btn');
+    const instance = getInstance(<Cascader data={items} toggleAs={Button} />);
+    assert.ok(instance.root.querySelector('.rs-btn'));
+  });
+
+  it('Should children be loaded lazily', () => {
+    const instance = getInstance(
+      <Cascader
+        open
+        data={[{ label: '1', value: '1', children: [] }]}
+        getChildren={() => {
+          return [{ label: '2', value: '2' }];
+        }}
+      />
+    );
+
+    ReactTestUtils.Simulate.click(
+      instance.menu.querySelector('.rs-picker-cascader-menu-has-children a')
+    );
+
+    assert.equal(instance.menu.querySelectorAll('.rs-picker-cascader-menu-item')[1].innerText, '2');
+  });
+
+  describe('ref testing', () => {
+    it('Should call onOpen', done => {
+      const doneOp = () => {
+        done();
+      };
+
+      const instance = getInstance(<Cascader onOpen={doneOp} data={items} />);
+      instance.open();
+    });
+
+    it('Should call onClose', done => {
+      const doneOp = () => {
+        done();
+      };
+
+      const instance = getInstance(<Cascader onClose={doneOp} data={items} />);
+      instance.open();
+      instance.close();
+    });
   });
 });

@@ -182,6 +182,7 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
           setOpen(true);
         }, ms));
       }
+
       setOpen(true);
     },
     [delayOpen, setOpen]
@@ -343,7 +344,7 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
   return (
     <>
       {typeof children === 'function'
-        ? children({ ...triggerEvents, 'aria-expanded': open }, triggerRef)
+        ? children(triggerEvents, triggerRef)
         : React.cloneElement(children, {
             ref: triggerRef,
             ...mergeEvents(triggerEvents, children.props)

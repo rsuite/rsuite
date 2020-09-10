@@ -9,7 +9,7 @@
 
 ## 获取组件
 
-<!--{include:(components/badge/fragments/import.md)}-->
+<!--{include:(components/button/fragments/import.md)}-->
 
 ## 演示
 

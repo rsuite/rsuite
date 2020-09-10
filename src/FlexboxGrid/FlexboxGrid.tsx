@@ -1,35 +1,44 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import setStatic from 'recompose/setStatic';
-
-import { defaultProps, prefix } from '../utils';
+import { useClassNames } from '../utils';
 import FlexboxGridItem from './FlexboxGridItem';
-import { FlexboxGridProps } from './FlexboxGrid.d';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-class FlexboxGrid extends React.Component<FlexboxGridProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    align: PropTypes.oneOf(['top', 'middle', 'bottom']),
-    justify: PropTypes.oneOf(['start', 'end', 'center', 'space-around', 'space-between'])
-  };
-  static defaultProps = {
-    align: 'top',
-    justify: 'start'
-  };
-  render() {
-    const { className, classPrefix, align, justify, ...props } = this.props;
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, className, addPrefix(align), addPrefix(justify));
-    return <div {...props} className={classes} />;
-  }
+export interface FlexboxGridProps extends WithAsProps {
+  /** align */
+  align?: 'top' | 'middle' | 'bottom';
+
+  /** horizontal arrangement */
+  justify?: 'start' | 'end' | 'center' | 'space-around' | 'space-between';
 }
 
-const EnhancedFlexboxGrid = defaultProps<FlexboxGridProps>({
-  classPrefix: 'flex-box-grid'
-})(FlexboxGrid);
+interface FlexboxGridCompont extends RsRefForwardingComponent<'div', FlexboxGridProps> {
+  Item?: typeof FlexboxGridItem;
+}
 
-setStatic('Item', FlexboxGridItem)(EnhancedFlexboxGrid);
+const defaultProps: Partial<FlexboxGridProps> = {
+  as: 'div',
+  classPrefix: 'flex-box-grid',
+  align: 'top',
+  justify: 'start'
+};
 
-export default EnhancedFlexboxGrid;
+const FlexboxGrid: FlexboxGridCompont = React.forwardRef((props: FlexboxGridProps, ref) => {
+  const { as: Component, className, classPrefix, align, justify, ...rest } = props;
+  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix(align, justify));
+  return <Component {...rest} ref={ref} className={classes} />;
+});
+
+FlexboxGrid.Item = FlexboxGridItem;
+
+FlexboxGrid.displayName = 'FlexboxGrid';
+FlexboxGrid.defaultProps = defaultProps;
+FlexboxGrid.propTypes = {
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  align: PropTypes.oneOf(['top', 'middle', 'bottom']),
+  justify: PropTypes.oneOf(['start', 'end', 'center', 'space-around', 'space-between'])
+};
+
+export default FlexboxGrid;

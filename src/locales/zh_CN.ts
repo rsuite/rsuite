@@ -44,7 +44,8 @@ export default {
     noResultsText: '无匹配选项',
     placeholder: '选择',
     searchPlaceholder: '搜索',
-    checkAll: '全部'
+    checkAll: '全部',
+    loading: '加载中...'
   },
   Input: {
     emptyPlaintext: '未填写'

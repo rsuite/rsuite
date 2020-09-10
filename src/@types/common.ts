@@ -114,9 +114,6 @@ export interface PickerBaseProps<LocaleType = any> extends WithAsProps, Animatio
 
   /** Custom render extra footer */
   renderExtraFooter?: () => React.ReactNode;
-
-  /** Position of ref */
-  positionRef?: React.RefObject<any>;
 }
 
 export interface FormControlBaseProps<ValueType = any> {
@@ -168,7 +165,7 @@ export interface FormControlPickerProps<
   value?: ValueType;
 
   /** Called after the value has been changed */
-  onChange?: (value: ValueType, event: React.SyntheticEvent<HTMLElement>) => void;
+  onChange?: (value: ValueType, event: React.SyntheticEvent) => void;
 }
 
 export declare namespace TypeAttributes {
@@ -210,4 +207,6 @@ export interface ItemDataType {
   groupBy?: string;
   parent?: ItemDataType;
   children?: ItemDataType[];
+
+  loading?: boolean;
 }

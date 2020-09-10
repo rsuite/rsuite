@@ -8,20 +8,6 @@ export default function Page() {
   const { response: data } = useFetchData('province-simplified');
   return (
     <DefaultPage
-      examples={[
-        'basic',
-        'appearance',
-        'size',
-        'block',
-        'placement',
-        'parent-selectable',
-        'custom',
-        'disabled',
-        'async',
-        'controlled',
-        'container',
-        'inline'
-      ]}
       dependencies={{ data, Cascader, Button, Icon, RadioGroup, Radio, PreventOverflowContainer }}
     />
   );

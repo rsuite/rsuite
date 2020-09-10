@@ -47,7 +47,7 @@ module.exports = (api, options) => {
       {
         alias: {
           '@': './',
-          '@rsuite-locales': '../src/IntlProvider/locales',
+          '@rsuite-locales': '../src/locales',
           rsuite: '../src'
         }
       }

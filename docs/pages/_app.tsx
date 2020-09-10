@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, IntlProvider as RSIntlProvider } from 'rsuite';
+import { Grid, CustomProvider } from 'rsuite';
 import NProgress from 'nprogress';
 import Router from 'next/router';
 import AppContext from '@/components/AppContext';
@@ -107,7 +107,7 @@ function App({ Component, pageProps }: AppProps) {
 
   return (
     <Grid fluid className="app-container">
-      <RSIntlProvider locale={locale} rtl={direction === 'rtl'}>
+      <CustomProvider locale={locale} rtl={direction === 'rtl'}>
         <AppContext.Provider
           value={{
             messages,
@@ -123,7 +123,7 @@ function App({ Component, pageProps }: AppProps) {
           <StyleHead onLoaded={handleStyleHeadLoaded} />
           <Component {...pageProps} />
         </AppContext.Provider>
-      </RSIntlProvider>
+      </CustomProvider>
     </Grid>
   );
 }

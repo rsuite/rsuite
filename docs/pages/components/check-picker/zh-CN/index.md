@@ -94,7 +94,7 @@ type ValueType = (string | number)[];
 | disabledItemValues | string[]                                                                | 禁用选项                               |
 | groupBy            | string                                                                  | 设置分组条件在 `data` 中的 `key`       |
 | labelKey           | string `('label')`                                                      | 设置选项显示内容在 `data` 中的 `key`   |
-| listProps          | [listprops]                                                             | `react-virtualized` 中 List 的相关属性 |
+| listProps          | [ListProps][listprops]                                                  | `react-virtualized` 中 List 的相关属性 |
 | maxHeight          | number `(320)`                                                          | 设置 Dropdown 的最大高度               |
 | menuClassName      | string                                                                  | 应用于菜单 DOM 节点的 css class        |
 | menuStyle          | CSSProperties                                                           | 应用于菜单 DOM 节点的 style            |
@@ -111,6 +111,7 @@ type ValueType = (string | number)[];
 | onOpen             | () => void                                                              | 打开回调函数                           |
 | onSearch           | (searchKeyword:string, event) => void                                   | 搜索的回调函数                         |
 | onSelect           | (value:ValueType, item: DataItemType , event) => void                   | 选项被点击选择后的回调函数             |
+| open               | boolean                                                                 | 是否打开                               |
 | placeholder        | ReactNode `('Select')`                                                  | 占位符                                 |
 | placement          | Placement`('bottomStart')`                                              | 位置                                   |
 | preventOverflow    | boolean                                                                 | 防止浮动元素溢出                       |

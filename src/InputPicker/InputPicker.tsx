@@ -1,4 +1,4 @@
-import React, { useState, useRef, useImperativeHandle, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import isUndefined from 'lodash/isUndefined';
 import isNil from 'lodash/isNil';
@@ -31,7 +31,8 @@ import {
   PickerToggleTrigger,
   useFocusItemValue,
   usePickerClassName,
-  useSearch
+  useSearch,
+  usePublicMethods
 } from '../Picker';
 import { PickerComponent, PickerLocaleType } from '../Picker/types';
 import {
@@ -68,7 +69,7 @@ export interface InputPickerProps<T = ValueType>
   tagProps?: TagProps;
 
   /** Option to cache value when searching asynchronously */
-  cacheData?: any[];
+  cacheData?: InputItemDataType[];
 
   /** The `onBlur` attribute for the `input` element. */
   onBlur?: React.FocusEventHandler;
@@ -153,7 +154,6 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     }
 
     const menuRef = useRef<HTMLDivElement>();
-    const positionRef = useRef<any>();
     const toggleRef = useRef<HTMLButtonElement>();
     const triggerRef = useRef<OverlayTriggerInstance>();
     const inputRef = useRef<any>();
@@ -184,10 +184,6 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     const handleClose = useCallback(() => {
       triggerRef?.current?.close();
-    }, [triggerRef]);
-
-    const handleOpen = useCallback(() => {
-      triggerRef.current?.open();
     }, [triggerRef]);
 
     // Used to hover the focuse item  when trigger `onKeydown`
@@ -232,12 +228,12 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     useEffect(() => {
       // In multiple selection, you need to set a maximum width for the input.
-      setMaxWidth(getWidth(toggleRef.current));
+      setMaxWidth(getWidth(triggerRef.current.child));
     }, []);
 
     // Update the position of the menu when the search keyword and value change
     useEffect(() => {
-      positionRef.current?.updatePosition?.(true);
+      triggerRef.current?.updatePosition?.();
     }, [searchKeyword, value]);
 
     const getDateItem = (value: any) => {
@@ -307,7 +303,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     );
 
     const handleSelect = useCallback(
-      (value: string, item: InputItemDataType, event: React.SyntheticEvent<any>) => {
+      (value: string | string[], item: InputItemDataType, event: React.SyntheticEvent<any>) => {
         onSelect?.(value, item, event);
 
         if (creatable && item.create) {
@@ -318,6 +314,12 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       [creatable, newData, onSelect]
     );
 
+    /**
+     * Callback triggered by single selection
+     * @param value
+     * @param item
+     * @param event
+     */
     const handleItemSelect = (value: string, item: InputItemDataType, event: React.MouseEvent) => {
       setValue(value);
       setFocusItemValue(value);
@@ -327,6 +329,13 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       handleClose();
     };
 
+    /**
+     * Callback triggered by multiple selection
+     * @param nextItemValue
+     * @param item
+     * @param event
+     * @param checked
+     */
     const handleCheckItemSelect = (
       nextItemValue: string,
       item: InputItemDataType,
@@ -435,19 +444,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       ]
     );
 
-    useImperativeHandle(ref, () => ({
-      get root() {
-        return triggerRef.current.child;
-      },
-      get menu() {
-        return menuRef.current;
-      },
-      get toggle() {
-        return toggleRef.current;
-      },
-      open: handleOpen,
-      close: handleClose
-    }));
+    usePublicMethods(ref, { triggerRef, menuRef, toggleRef });
 
     /**
      * Remove the last item, after pressing the back key on the keyboard.
@@ -655,8 +652,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           autoWidth={menuAutoWidth}
           className={classes}
           style={styles}
-          getToggleInstance={() => toggleRef.current}
-          getPositionInstance={() => positionRef.current}
+          target={triggerRef}
           onKeyDown={handleKeyDown}
         >
           {renderMenu ? renderMenu(menu) : menu}
@@ -697,7 +693,6 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       <PickerToggleTrigger
         pickerProps={pick(props, pickerToggleTriggerProps)}
         ref={triggerRef}
-        positionRef={positionRef}
         trigger="active"
         onEnter={createChainedFunction(handleEnter, onEnter)}
         onEntered={createChainedFunction(onEntered, onOpen)}

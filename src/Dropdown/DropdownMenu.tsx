@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Collapse from '../Animation/Collapse';
@@ -61,24 +61,30 @@ const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
   } = props;
 
   const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
-  const handleToggleChange = (eventKey: string, event: React.MouseEvent) => {
-    onToggle?.(eventKey, event);
-  };
+  const handleToggleChange = useCallback(
+    (eventKey: string, event: React.MouseEvent) => {
+      onToggle?.(eventKey, event);
+    },
+    [onToggle]
+  );
 
-  const isActive = (props: DropdownMenuProps, activeKey: string) => {
-    if (
-      props.active ||
-      (typeof activeKey !== 'undefined' && shallowEqual(props.eventKey, activeKey))
-    ) {
-      return true;
-    }
+  const isActive = useCallback(
+    (props: DropdownMenuProps) => {
+      if (
+        props.active ||
+        (typeof activeKey !== 'undefined' && shallowEqual(props.eventKey, activeKey))
+      ) {
+        return true;
+      }
 
-    if (ReactChildren.some(props.children, child => isActive(child.props, activeKey))) {
-      return true;
-    }
+      if (ReactChildren.some(props.children, child => isActive(child.props))) {
+        return true;
+      }
 
-    return props.active;
-  };
+      return props.active;
+    },
+    [activeKey]
+  );
 
   const getMenuItemsAndStatus = (children?: React.ReactNode): { items: any[]; active: boolean } => {
     let hasActiveItem: boolean;
@@ -92,7 +98,7 @@ const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
       let active: boolean;
 
       if (displayName === 'DropdownMenuItem' || displayName === 'DropdownMenu') {
-        active = isActive(item.props, activeKey);
+        active = isActive(item.props);
         if (active) {
           hasActiveItem = true;
         }
@@ -112,7 +118,7 @@ const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
         const itemClassName = merge(
           className,
           prefix(`pull-${pullLeft ? 'left' : 'right'}`, {
-            'item-focus': isActive(item.props, activeKey)
+            'item-focus': isActive(item.props)
           })
         );
 

@@ -4,7 +4,7 @@ import { on, transition } from 'dom-lib';
 import classNames from 'classnames';
 import isFunction from 'lodash/isFunction';
 import omit from 'lodash/omit';
-import getDOMNode from '../utils/getDOMNode';
+import { getDOMNode } from '../utils';
 import { AnimationEventProps } from '../@types/common';
 import { getAnimationEnd, animationPropTypes } from './utils';
 

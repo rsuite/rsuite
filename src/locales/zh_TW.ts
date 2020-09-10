@@ -44,7 +44,8 @@ export default {
     noResultsText: '沒有符合的選項',
     placeholder: '選擇',
     searchPlaceholder: '搜索',
-    checkAll: '全部'
+    checkAll: '全部',
+    loading: '讀取中...'
   },
   Input: {
     emptyPlaintext: '未填寫'

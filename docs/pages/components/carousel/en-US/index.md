@@ -2,15 +2,23 @@
 
 Display a set of elements in a carousel
 
-## Usege
+## Import
 
-```js
-import { Carousel } from 'rsuite';
-```
+<!--{include:(components/carousel/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Default
+
+<!--{include:`basic.md`}-->
+
+### Appearance
+
+<!--{include:`appearance.md`}-->
+
+### Autoplay
+
+<!--{include:`autoplay.md`}-->
 
 ## Props
 
@@ -18,10 +26,10 @@ import { Carousel } from 'rsuite';
 
 | Property         | Type `(Default)`                                | Description                                    |
 | ---------------- | ----------------------------------------------- | ---------------------------------------------- |
+| as               | ElementType `('div')`                           | Custom element type                            |
 | autoplay         | boolean                                         | Automatic carousel element.                    |
 | autoplayInterval | number (`4000`)                                 | Delay in ms until navigating to the next item. |
-| children         | string, React.ReactNode                         | Carousel elements                              |
+| children         | ReactNode                                       | Carousel elements                              |
 | classPrefix      | string `('carousel')`                           | Component CSS class prefix                     |
-| as               | React.ElementType `('div')`                     | Custom element type                            |
 | placement        | enum:'top','bottom','left','right' `('bottom')` | Button placement                               |
 | shape            | enum:'dot','bar' `('dot')`                      | Button shape                                   |

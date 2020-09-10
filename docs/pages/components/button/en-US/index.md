@@ -9,7 +9,7 @@ Commonly used operating buttons, button combinations, button layouts.
 
 ## Import
 
-<!--{include:(components/badge/fragments/import.md)}-->
+<!--{include:(components/button/fragments/import.md)}-->
 
 ## Examples
 

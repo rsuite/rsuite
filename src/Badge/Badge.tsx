@@ -15,6 +15,7 @@ export interface BadgeProps extends WithAsProps {
 }
 
 const defaultProps: Partial<BadgeProps> = {
+  as: 'div',
   maxCount: 99,
   classPrefix: 'badge'
 };
@@ -22,7 +23,7 @@ const defaultProps: Partial<BadgeProps> = {
 const Badge: RsRefForwardingComponent<'div', BadgeProps> = React.forwardRef(
   (props: BadgeProps, ref) => {
     const {
-      as: Component = 'div',
+      as: Component,
       content: contentText,
       color,
       className,

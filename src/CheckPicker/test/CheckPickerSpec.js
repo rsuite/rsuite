@@ -323,4 +323,25 @@ describe('CheckPicker', () => {
     assert.equal(list.length, 1);
     assert.ok(list[0].innerText, 'Louisa');
   });
+
+  describe('ref testing', () => {
+    it('Should call onOpen', done => {
+      const doneOp = () => {
+        done();
+      };
+
+      const instance = getInstance(<Dropdown onOpen={doneOp} data={data} />);
+      instance.open();
+    });
+
+    it('Should call onClose', done => {
+      const doneOp = () => {
+        done();
+      };
+
+      const instance = getInstance(<Dropdown onClose={doneOp} data={data} />);
+      instance.open();
+      instance.close();
+    });
+  });
 });

@@ -82,7 +82,7 @@ type ValueType = string | number;
 | disabledItemValues | ValueType[]                                                                  | Disable optional                                            |
 | groupBy            | string                                                                       | Set grouping criteria 'key' in 'data'                       |
 | labelKey           | string `('label')`                                                           | Set options to display the 'key' in 'data'                  |
-| listProps          | [listprops]                                                                  | List-related properties in `react-virtualized`              |
+| listProps          | [ListProps][listprops]                                                       | List-related properties in `react-virtualized`              |
 | maxHeight          | number `(320)`                                                               | Set the max height of the Dropdown                          |
 | menuClassName      | string                                                                       | A css class to apply to the Menu DOM node.                  |
 | menuStyle          | CSSProperties                                                                | A style to apply to the Menu DOM node.                      |

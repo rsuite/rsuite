@@ -94,7 +94,7 @@ type ValueType = (string | number)[];
 | disabledItemValues | ValueType[]                                                                       | Disable item by value                                       |
 | groupBy            | string                                                                            | Set group condition key in data                             |
 | labelKey           | string `('label')`                                                                | Set label key in data                                       |
-| listProps          | [listprops]                                                                       | List-related properties in `react-virtualized`              |
+| listProps          | [ListProps][listprops]                                                            | List-related properties in `react-virtualized`              |
 | maxHeight          | number `(320)`                                                                    | The max height of Dropdown                                  |
 | menuClassName      | string                                                                            | A css class to apply to the Menu DOM node.                  |
 | menuStyle          | CSSProperties                                                                     | A style to apply to the Menu DOM node.                      |
@@ -111,6 +111,7 @@ type ValueType = (string | number)[];
 | onOpen             | () => void                                                                        | Callback fired when open component                          |
 | onSearch           | (searchKeyword:string, event) => void                                             | Callback fired when search                                  |
 | onSelect           | (value:ValueType, item: [DataItemType](#types) , event) => void                   | Callback fired when item is selected                        |
+| open               | boolean                                                                           | Whether open the component                                       |
 | placeholder        | ReactNode `('Select')`                                                            | Setting placeholders                                        |
 | placement          | Placement`('bottomStart')`                                                        | The placement of component                                  |
 | preventOverflow    | boolean                                                                           | Prevent floating element overflow                           |

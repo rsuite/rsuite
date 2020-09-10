@@ -47,9 +47,10 @@ const DropdownMenuItem: RsRefForwardingComponent<'div', DropdownMenuItemProps> =
     return (
       <Component
         role="menuitemradio"
+        aria-checked={active}
+        aria-disabled={disabled}
         {...rest}
         ref={ref}
-        aria-checked={active}
         className={className}
         tabIndex={-1}
         data-key={value}
