@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import compose from 'recompose/compose';
+import { compose } from 'recompose';
 import { prefix, withStyleProps, defaultProps } from '../utils';
 import { TagProps } from './Tag.d';
 

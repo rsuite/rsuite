@@ -1,5 +1,4 @@
-import setStatic from 'recompose/setStatic';
-import setDisplayName from 'recompose/setDisplayName';
+import { setStatic, setDisplayName } from 'recompose';
 
 import { defaultProps } from '../utils';
 import Drawer from './Drawer';
