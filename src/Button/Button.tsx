@@ -55,7 +55,12 @@ class Button extends React.Component<ButtonProps> {
     if (Component === 'button') {
       if (unhandled.href) {
         return (
-          <SafeAnchor {...unhandled} aria-disabled={disabled} className={classes}>
+          <SafeAnchor
+            {...unhandled}
+            aria-disabled={disabled}
+            disabled={disabled}
+            className={classes}
+          >
             {loading && spin}
             {children}
             {rippleElement}
