@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { getPosition, scrollTop } from 'dom-lib';
-import omitBy from 'lodash/omitBy';
 import partial from 'lodash/partial';
 import camelCase from 'lodash/camelCase';
 import isNumber from 'lodash/isNumber';
@@ -11,6 +10,7 @@ import {
   getHours,
   getMinutes,
   getSeconds,
+  omitHideDisabledProps,
   setHours,
   setMinutes,
   setSeconds
@@ -22,7 +22,7 @@ import { CalendarInnerContextValue } from './types';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 
 export interface TimeDropdownProps extends WithAsProps {
-  show: boolean;
+  show?: boolean;
   showMeridian?: boolean;
   disabledDate?: (date: Date) => boolean;
   disabledHours?: (hour: number, date: Date) => boolean;
@@ -58,6 +58,7 @@ interface Time {
   minutes?: number;
   seconds?: number;
 }
+
 const getTime = (props: Partial<TimeDropdownProps> & Partial<CalendarInnerContextValue>): Time => {
   const { format, timeZone, date, showMeridian } = props;
   const time = date || zonedDate(timeZone);
@@ -184,7 +185,7 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
 
     return (
       <Component
-        {...omitBy(rest, (_val, key) => key.startsWith('disabled') || key.startsWith('hide'))}
+        {...omitHideDisabledProps<TimeDropdownProps>(rest)}
         ref={ref}
         className={classes}
         role="list"
