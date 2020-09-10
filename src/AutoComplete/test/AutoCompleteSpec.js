@@ -201,7 +201,7 @@ describe('AutoComplete', () => {
         data={['a', 'b', 'ab']}
         open
         defaultValue="a"
-        renderItem={() => <i className="icon" />}
+        renderMenuItem={() => <i className="icon" />}
       />
     );
 
@@ -266,30 +266,5 @@ describe('AutoComplete', () => {
     );
 
     assert.equal(instance4.menu.querySelectorAll('[role="menuitemradio"]').length, 1);
-  });
-
-  describe('ref testing', () => {
-    it('Should call onOpen', done => {
-      const doneOp = () => {
-        done();
-      };
-
-      const instance = getInstance(
-        <AutoComplete defaultValue="a" onOpen={doneOp} data={['a', 'ab', 'ac']} open />
-      );
-      instance.open();
-    });
-
-    it('Should call onClose', done => {
-      const doneOp = () => {
-        done();
-      };
-
-      const instance = getInstance(
-        <AutoComplete defaultValue="a" onClose={doneOp} data={['a', 'ab', 'ac']} open />
-      );
-      instance.open();
-      instance.close();
-    });
   });
 });

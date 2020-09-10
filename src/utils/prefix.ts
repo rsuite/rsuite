@@ -19,6 +19,11 @@ export function prefix(pre: string, className: string | string[]): string {
     return classNames(className.filter(name => !!name).map(name => `${pre}-${name}`));
   }
 
+  // TODO Compatible with V4
+  if (pre[pre.length - 1] === '-') {
+    return `${pre}${className}`;
+  }
+
   return `${pre}-${className}`;
 }
 

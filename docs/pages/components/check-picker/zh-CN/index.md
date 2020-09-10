@@ -111,6 +111,7 @@ type ValueType = (string | number)[];
 | onOpen             | () => void                                                              | 打开回调函数                           |
 | onSearch           | (searchKeyword:string, event) => void                                   | 搜索的回调函数                         |
 | onSelect           | (value:ValueType, item: DataItemType , event) => void                   | 选项被点击选择后的回调函数             |
+| open               | boolean                                                                 | 是否打开                               |
 | placeholder        | ReactNode `('Select')`                                                  | 占位符                                 |
 | placement          | Placement`('bottomStart')`                                              | 位置                                   |
 | preventOverflow    | boolean                                                                 | 防止浮动元素溢出                       |

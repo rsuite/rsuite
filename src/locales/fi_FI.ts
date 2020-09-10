@@ -48,7 +48,8 @@ export default {
     noResultsText: 'Ei tuloksia',
     placeholder: 'Valitse',
     searchPlaceholder: 'Etsi',
-    checkAll: 'Kaikki'
+    checkAll: 'Kaikki',
+    loading: 'Hetkinen...'
   },
   Input: {
     emptyPlaintext: 'täyttämättömät'

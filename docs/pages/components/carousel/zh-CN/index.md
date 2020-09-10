@@ -4,13 +4,21 @@
 
 ## 获取组件
 
-```js
-import { Carousel } from 'rsuite';
-```
+<!--{include:(components/carousel/fragments/import.md)}-->
 
 ## 演示
 
-<!--{demo}-->
+### 默认
+
+<!--{include:`basic.md`}-->
+
+### 外观
+
+<!--{include:`appearance.md`}-->
+
+### 自动轮播
+
+<!--{include:`autoplay.md`}-->
 
 ## Props
 
@@ -18,9 +26,9 @@ import { Carousel } from 'rsuite';
 
 | 属性名称    | 类型`(默认值)`                                  | 描述              |
 | ----------- | ----------------------------------------------- | ----------------- |
+| as          | ElementType `('div')`                           | 自定义元素类型    |
 | autoplay    | boolean                                         | 自动轮播          |
-| children    | string, React.ReactNode                         | 轮播的元素        |
+| children    | ReactNode                                       | 轮播的元素        |
 | classPrefix | string `('carousel')`                           | 组件 CSS 类的前缀 |
-| as          | React.ElementType `('div')`                     | 自定义元素类型    |
 | placement   | enum:'top','bottom','left','right' `('bottom')` | 按钮的位置        |
 | shape       | enum:'dot','bar' `('dot')`                      | 按钮的形状        |

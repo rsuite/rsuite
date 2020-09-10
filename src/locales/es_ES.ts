@@ -48,7 +48,8 @@ export default {
     noResultsText: 'No se encontraron resultados',
     placeholder: 'Seleccionar',
     searchPlaceholder: 'Buscar',
-    checkAll: 'Todos'
+    checkAll: 'Todos',
+    loading: 'Cargando...'
   },
   Input: {
     emptyPlaintext: 'sin llenar'

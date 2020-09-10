@@ -10,25 +10,12 @@ const data = [
   'HYPER Data Discovery'
 ];
 
-class ControlledAutoComplete extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: ''
-    };
-    this.handleChange = this.handleChange.bind(this);
-  }
-  handleChange(value) {
-    this.setState({
-      value
-    });
-  }
-  render() {
-    const { value } = this.state;
-    return <AutoComplete data={data} value={value} onChange={this.handleChange} />;
-  }
-}
-ReactDOM.render(<ControlledAutoComplete />);
+const App = () => {
+  const [value, setValue] = React.useState('');
+  return <AutoComplete data={data} value={value} onChange={setValue} />;
+};
+
+ReactDOM.render(<App />);
 ```
 
 <!--end-code-->

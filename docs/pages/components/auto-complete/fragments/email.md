@@ -1,35 +1,28 @@
 <!--start-code-->
 
 ```js
-const data = ['@gmail.com', '@sina.com.cn', '@163.com', '@qq.com'];
+const suffixes = ['@gmail.com', '@sina.com.cn', '@163.com', '@qq.com'];
 
-class CustomizedAutoComplete extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: []
-    };
-    this.handleChange = this.handleChange.bind(this);
-  }
-  handleChange(value) {
+const App = () => {
+  const [data, setData] = React.useState([]);
+
+  const handleChange = value => {
     const at = value.match(/@[\S]*/);
     const nextData = at
-      ? data
+      ? suffixes
           .filter(item => item.indexOf(at[0]) >= 0)
           .map(item => {
             return `${value}${item.replace(at[0], '')}`;
           })
-      : data.map(item => `${value}${item}`);
+      : suffixes.map(item => `${value}${item}`);
 
-    this.setState({
-      data: nextData
-    });
-  }
-  render() {
-    return <AutoComplete data={this.state.data} placeholder="Email" onChange={this.handleChange} />;
-  }
-}
-ReactDOM.render(<CustomizedAutoComplete />);
+    setData(nextData);
+  };
+
+  return <AutoComplete data={data} placeholder="Email" onChange={handleChange} />;
+};
+
+ReactDOM.render(<App />);
 ```
 
 <!--end-code-->

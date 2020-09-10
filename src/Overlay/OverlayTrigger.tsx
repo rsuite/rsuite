@@ -182,6 +182,7 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
           setOpen(true);
         }, ms));
       }
+
       setOpen(true);
     },
     [delayOpen, setOpen]

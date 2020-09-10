@@ -48,7 +48,8 @@ export default {
     noResultsText: 'Inga resultat funna',
     placeholder: 'Välj',
     searchPlaceholder: 'Sök',
-    checkAll: 'Alla'
+    checkAll: 'Alla',
+    loading: 'Laddar...'
   },
   Input: {
     emptyPlaintext: 'Ofylld'

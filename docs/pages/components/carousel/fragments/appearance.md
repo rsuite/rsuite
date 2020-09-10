@@ -1,5 +1,3 @@
-### Appearance
-
 <!--start-code-->
 
 ```js

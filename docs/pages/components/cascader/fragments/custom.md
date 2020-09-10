@@ -1,5 +1,3 @@
-### Custom options
-
 <!--start-code-->
 
 ```js

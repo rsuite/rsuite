@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 export function find(children: React.ReactNode, func: any, context?: any) {
   let index = 0;

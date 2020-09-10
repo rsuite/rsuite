@@ -48,7 +48,8 @@ export default {
     noResultsText: 'No results found',
     placeholder: 'Select',
     searchPlaceholder: 'Search',
-    checkAll: 'All'
+    checkAll: 'All',
+    loading: 'Loading...'
   },
   Input: {
     emptyPlaintext: 'Unfilled'

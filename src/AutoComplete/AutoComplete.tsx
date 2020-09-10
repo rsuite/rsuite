@@ -71,8 +71,11 @@ export interface AutoCompleteProps<T = ValueType>
   /** Called on close */
   onClose?: () => void;
 
+  /** Customizing the Rendering Menu list */
+  renderMenu?: (menu: React.ReactNode) => React.ReactNode;
+
   /** Custom selected option */
-  renderItem?: (itemData: ItemDataType) => React.ReactNode;
+  renderMenuItem?: (label: React.ReactNode, item: ItemDataType) => React.ReactNode;
 }
 
 const defaultProps: Partial<AutoCompleteProps> = {
@@ -98,7 +101,8 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
       open,
       style,
       menuClassName,
-      renderItem,
+      renderMenu,
+      renderMenuItem,
       onSelect,
       filterBy,
       onKeyDown,
@@ -220,7 +224,6 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
 
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ disabled }));
-    const rootRef = useRef();
     const triggerRef = useRef<OverlayTriggerInstance>();
 
     usePublicMethods(ref, { triggerRef, menuRef });
@@ -229,38 +232,42 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
       const { left, top, className } = positionProps;
       const styles = { left, top };
 
+      const menu = (
+        <DropdownMenu
+          classPrefix="auto-complete-menu"
+          dropdownMenuItemClassPrefix="auto-complete-item"
+          dropdownMenuItemAs={DropdownMenuItem}
+          focusItemValue={focusItemValue}
+          onSelect={handleItemSelect}
+          renderMenuItem={renderMenuItem}
+          data={items}
+          className={menuClassName}
+        />
+      );
+
       return (
         <MenuWrapper
           ref={mergeRefs(menuRef, speakerRef)}
           style={styles}
           className={className}
           onKeyDown={handleKeyDownEvent}
+          target={triggerRef}
         >
-          <DropdownMenu
-            classPrefix="auto-complete-menu"
-            dropdownMenuItemClassPrefix="auto-complete-item"
-            dropdownMenuItemAs={DropdownMenuItem}
-            focusItemValue={focusItemValue}
-            ref={menuRef}
-            onSelect={handleItemSelect}
-            renderMenuItem={renderItem}
-            data={items}
-            className={menuClassName}
-          />
+          {renderMenu ? renderMenu(menu) : menu}
         </MenuWrapper>
       );
     };
 
     return (
-      <Component ref={rootRef} className={classes} style={style}>
-        <PickerToggleTrigger
-          ref={triggerRef}
-          placement={placement}
-          pickerProps={pick(props, pickerToggleTriggerProps)}
-          trigger={['click', 'focus']}
-          open={open || (focus && hasItems)}
-          speaker={renderDropdownMenu}
-        >
+      <PickerToggleTrigger
+        ref={triggerRef}
+        placement={placement}
+        pickerProps={pick(props, pickerToggleTriggerProps)}
+        trigger={['click', 'focus']}
+        open={open || (focus && hasItems)}
+        speaker={renderDropdownMenu}
+      >
+        <Component className={classes} style={style}>
           <Input
             {...rest}
             disabled={disabled}
@@ -270,8 +277,8 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
             onChange={handleChange}
             onKeyDown={handleKeyDownEvent}
           />
-        </PickerToggleTrigger>
-      </Component>
+        </Component>
+      </PickerToggleTrigger>
     );
   }
 );
@@ -296,7 +303,8 @@ AutoComplete.propTypes = {
   onKeyDown: PropTypes.func,
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
-  renderItem: PropTypes.func,
+  renderMenu: PropTypes.func,
+  renderMenuItem: PropTypes.func,
   style: PropTypes.object,
   open: PropTypes.bool,
   selectOnEnter: PropTypes.bool,

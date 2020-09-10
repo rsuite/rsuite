@@ -12,7 +12,7 @@ const data = [
 const instance = (
   <AutoComplete
     data={data}
-    renderItem={item => {
+    renderMenuItem={item => {
       return (
         <div>
           <Icon icon="star" /> {item.label}

@@ -16,7 +16,7 @@ export interface CloseButtonProps extends WithAsProps {
 const CloseButton: RsRefForwardingComponent<'button', CloseButtonProps> = React.forwardRef(
   (props: CloseButtonProps, ref) => {
     const {
-      as: Component = 'button',
+      as: Component = 'span',
       classPrefix = 'btn-close',
       className,
       locale: overrideLocale,
@@ -29,7 +29,7 @@ const CloseButton: RsRefForwardingComponent<'button', CloseButtonProps> = React.
     const classes = merge(className, withClassPrefix());
     return (
       <Component
-        type="button"
+        role="button"
         {...rest}
         ref={ref}
         className={classes}

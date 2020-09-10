@@ -1,5 +1,3 @@
-### Size
-
 <!--start-code-->
 
 ```js

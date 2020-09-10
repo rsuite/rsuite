@@ -361,7 +361,7 @@ export function usePublicMethods(ref, { triggerRef, menuRef, toggleRef }: Refs) 
       return menuRef.current;
     },
     get toggle() {
-      return toggleRef.current;
+      return toggleRef?.current;
     },
     updatePosition: handleUpdatePosition,
     open: handleOpen,

@@ -1,5 +1,3 @@
-### 禁用
-
 <!--start-code-->
 
 ```js
@@ -10,10 +8,10 @@
 
 const instance = (
   <div>
-    <Cascader data={data} style={{ width: 224 }} disabled />
+    <Cascader data={data} disabled style={{ widht: 224 }} />
     <hr />
-    <p>禁用选项</p>
-    <Cascader data={data} style={{ width: 224 }} disabledItemValues={['2', '1-1']} />
+    <p>Disabled Option</p>
+    <Cascader data={data} disabledItemValues={['2', '1-1']} style={{ widht: 224 }} />
   </div>
 );
 ReactDOM.render(instance);

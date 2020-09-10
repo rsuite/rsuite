@@ -1,5 +1,3 @@
-### Default
-
 <!--start-code-->
 
 ```js
@@ -8,7 +6,9 @@
  * https://github.com/rsuite/rsuite/blob/master/docs/public/data/province-simplified.json
  */
 
-const instance = <Cascader data={data} style={{ width: 224 }} />;
+const instance = (
+  <Cascader inline data={data} searchable={false} menuHeight="auto" menuWidth={180} />
+);
 ReactDOM.render(instance);
 ```
 
