@@ -1,3 +1,13 @@
+# 4.8.2
+
+> September 10, 2020
+
+- **Bugfix**: fix(button): fixed that the disabled button did not disable href. [#1277]
+- **Bugfix**: fix(recompose): fixed the problem of not working under vite app. [#1279]
+
+[#1279]: https://github.com/rsuite/rsuite/pull/1279
+[#1277]: https://github.com/rsuite/rsuite/pull/1277
+
 # 4.8.1
 
 > August 20, 2020
