@@ -1,5 +1,4 @@
-import setStatic from 'recompose/setStatic';
-import compose from 'recompose/compose';
+import { setStatic, compose } from 'recompose';
 import { Table, Column, Cell, HeaderCell, ColumnGroup } from 'rsuite-table';
 
 import { defaultProps } from '../utils';

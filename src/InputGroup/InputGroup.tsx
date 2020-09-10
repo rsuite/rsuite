@@ -1,8 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import setStatic from 'recompose/setStatic';
-import compose from 'recompose/compose';
+import { setStatic, compose } from 'recompose';
 import InputGroupAddon from './InputGroupAddon';
 import InputGroupButton from './InputGroupButton';
 import { prefix, withStyleProps, defaultProps, createContext } from '../utils';
