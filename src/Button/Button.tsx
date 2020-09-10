@@ -37,20 +37,26 @@ export interface ButtonProps extends WithAsProps, React.HTMLAttributes<HTMLEleme
   type?: 'button' | 'reset' | 'submit';
 }
 
+const defaultProps: Partial<ButtonProps> = {
+  appearance: 'default',
+  classPrefix: 'btn',
+  ripple: true
+};
+
 const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef(
   (props: ButtonProps, ref) => {
     const {
       as,
       active,
-      appearance = 'default',
+      appearance,
       block,
       className,
       children,
-      classPrefix = 'btn',
+      classPrefix,
       color,
       disabled,
       loading,
-      ripple = true,
+      ripple,
       size,
       type: typeProp,
       ...rest
@@ -101,6 +107,7 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
 );
 
 Button.displayName = 'Button';
+Button.defaultProps = defaultProps;
 Button.propTypes = {
   as: PropTypes.elementType,
   active: PropTypes.bool,
