@@ -1,6 +1,6 @@
 import composeFunctions from '../utils/composeFunctions';
 import { addDays, isAfter, isBefore, isSameDay } from '../utils/dateUtils';
-import { DisabledDateFunction } from './DateRangePicker.d';
+import { DisabledDateFunction } from './types';
 
 function isAfterDay(date1: Date, date2: Date): boolean {
   return isAfter(
