@@ -8,13 +8,69 @@ If `<DateRangePicker>` does not satisfy the business scenario in which you selec
 
 ## Usage
 
-```js
-import { DateRangePicker } from 'rsuite';
-```
+<!--{include:(components/date-range-picker/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Default
+
+<!--{include:`basic.md`}-->
+
+### Appearance
+
+<!--{include:`appearance.md`}-->
+
+### Size
+
+<!--{include:`size.md`}-->
+
+### Block
+
+<!--{include:`block.md`}-->
+
+### Placeholder
+
+<!--{include:`placeholder-en.md`}-->
+
+### Select Whole Week, Whole Month
+
+<!--{include:`hover-range-en.md`}-->
+
+### One Tap
+
+<!--{include:`one-tap-en.md`}-->
+
+### Show Week Numbers
+
+<!--{include:`show-week-numbers.md`}-->
+
+### Show One Calendar
+
+<!--{include:`show-only-calendar.md`}-->
+
+### Disabled
+
+<!--{include:`disabled-en.md`}-->
+
+### Custom Shortcut Options
+
+<!--{include:`custom-shortcut-options-en.md`}-->
+
+### Controlled
+
+<!--{include:`controlled.md`}-->
+
+### Set The Local Language
+
+<!--{include:`intl-en.md`}-->
+
+### Time Zone
+
+<!--{include:`time-zone.md`}-->
+
+- [Time zone selectable list reference](/components/date-picker#Time%20Zone%20List)
+- [Notes on using time zone attributes](/components/date-picker#Time%20Zone%20Tips)
+
 
 ## Props
 

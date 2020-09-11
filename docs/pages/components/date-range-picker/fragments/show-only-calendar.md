@@ -1,4 +1,3 @@
-### Show One Calendar
 
 <!--start-code-->
 

@@ -1,4 +1,3 @@
-### Set The Local Language
 
 <!--start-code-->
 

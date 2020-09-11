@@ -8,13 +8,68 @@
 
 ## 获取组件
 
-```js
-import { DateRangePicker } from 'rsuite';
-```
+<!--{include:(components/date-range-picker/fragments/import.md)}-->
 
 ## 演示
 
-<!--{demo}-->
+### 默认
+
+<!--{include:`basic.md`}-->
+
+### 外观
+
+<!--{include:`appearance.md`}-->
+
+### 尺寸
+
+<!--{include:`size.md`}-->
+
+### 撑满
+
+<!--{include:`block.md`}-->
+
+### 占位符
+
+<!--{include:`placeholder-cn.md`}-->
+
+### 选择整周、整月
+
+<!--{include:`hover-range-cn.md`}-->
+
+### 一键选值
+
+<!--{include:`one-tap-cn.md`}-->
+
+### 显示周数
+
+<!--{include:`show-week-numbers.md`}-->
+
+### 显示一个日历
+
+<!--{include:`show-only-calendar.md`}-->
+
+### 禁用
+
+<!--{include:`disabled-cn.md`}-->
+
+### 自定义快捷项
+
+<!--{include:`custom-shortcut-options-cn.md`}-->
+
+### 受控
+
+<!--{include:`controlled.md`}-->
+
+### 设置本地语言
+
+<!--{include:`intl-cn.md`}-->
+
+### 时区
+
+<!--{include:`time-zone.md`}-->
+
+- [时区可选择列表参考](/zh/components/date-picker#Time%20Zone%20List)
+- [使用时区注意事项](/zh/components/date-picker#Time%20Zone%20Tips)
 
 ## Props
 

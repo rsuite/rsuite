@@ -1,4 +1,3 @@
-### Custom Shortcut Options
 
 <!--start-code-->
 

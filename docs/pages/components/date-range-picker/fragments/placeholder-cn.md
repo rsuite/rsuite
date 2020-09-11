@@ -1,4 +1,3 @@
-### Placeholder
 
 <!--start-code-->
 
