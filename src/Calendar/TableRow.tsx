@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import partial from 'lodash/partial';
-import { addDays, format, getDate, isSameDay } from '../utils/dateUtils';
+import { addDays, format, getDate, isAfter, isBefore, isSameDay } from '../utils/dateUtils';
 import { useClassNames } from '../utils';
 import { zonedDate } from '../utils/timeZone';
 import { useCalendarContext } from './CalendarContext';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { DATERANGE_DISABLED_TARGET } from '../constants';
 
 export interface TableRowProps extends WithAsProps {
   weekendDate?: Date;
@@ -29,7 +30,10 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
       onSelect,
       renderCell,
       showWeekNumbers,
-      timeZone
+      timeZone,
+      onMouseMove,
+      dateRange = [],
+      hoverRangeValue = []
     } = useCalendarContext();
     const { prefix, merge } = useClassNames(classPrefix);
 
@@ -47,16 +51,48 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
     const renderDays = () => {
       const formatStr = formattedDayPattern || 'yyyy-MM-dd';
       const days = [];
+      const [selectedStartDate, selectedEndDate] = dateRange;
+      const [hoverStartDate, hoverEndDate] = hoverRangeValue;
       const todayDate = zonedDate(timeZone);
 
       for (let i = 0; i < 7; i += 1) {
         const thisDate = addDays(weekendDate, i);
-        const disabled = disabledDate?.(thisDate);
+        const disabled = disabledDate?.(thisDate, dateRange, DATERANGE_DISABLED_TARGET.CALENDAR);
         const isToday = isSameDay(thisDate, todayDate);
+        const unSameMonth = !inSameMonth?.(thisDate);
+        const isStartSelected =
+          !unSameMonth && selectedStartDate && isSameDay(thisDate, selectedStartDate);
+        const isEndSelected =
+          !unSameMonth && selectedEndDate && isSameDay(thisDate, selectedEndDate);
+        const isSelected = isStartSelected || isEndSelected;
+
+        let inRange = false;
+        // for Selected
+        if (selectedStartDate && selectedEndDate) {
+          if (isBefore(thisDate, selectedEndDate) && isAfter(thisDate, selectedStartDate)) {
+            inRange = true;
+          }
+          if (isBefore(thisDate, selectedStartDate) && isAfter(thisDate, selectedEndDate)) {
+            inRange = true;
+          }
+        }
+
+        // for Hovering
+        if (!isSelected && hoverEndDate && hoverStartDate) {
+          if (!isAfter(thisDate, hoverEndDate) && !isBefore(thisDate, hoverStartDate)) {
+            inRange = true;
+          }
+          if (!isAfter(thisDate, hoverStartDate) && !isBefore(thisDate, hoverEndDate)) {
+            inRange = true;
+          }
+        }
         const classes = merge(prefix('cell'), {
           [prefix('cell-un-same-month')]: !(inSameMonth && inSameMonth(thisDate)),
           [prefix('cell-is-today')]: isToday,
-          [prefix('cell-selected')]: isSameDay(thisDate, selected),
+          [prefix('cell-selected')]: isSelected || isSameDay(thisDate, selected),
+          [prefix('cell-selected-start')]: isStartSelected,
+          [prefix('cell-selected-end')]: isEndSelected,
+          [prefix('cell-in-range')]: !unSameMonth && inRange,
           [prefix('cell-disabled')]: disabled
         });
 
@@ -68,6 +104,7 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
             role="cell"
             tabIndex={-1}
             title={isToday ? `${title} (${today})` : title}
+            onMouseEnter={!disabled && onMouseMove && onMouseMove.bind(null, thisDate)}
             onClick={partial(handleSelect, thisDate, disabled)}
           >
             <div className={prefix('cell-content')} role="button">

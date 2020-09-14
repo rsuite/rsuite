@@ -24,15 +24,17 @@ export enum CalendarState {
 
 export interface CalendarProps
   extends WithAsProps,
-    Omit<HTMLAttributes<HTMLDivElement>, 'onSelect' | 'onChange'>,
+    Omit<HTMLAttributes<HTMLDivElement>, 'onSelect' | 'onChange' | 'onMouseMove'>,
     Omit<HeaderProps, 'onMoveForward' | 'onMoveBackward'> {
   pageDate: Date;
+  dateRange?: Date[];
   calendarState?: CalendarState;
   format?: string;
   timeZone?: string;
   isoWeek?: boolean;
   limitEndYear?: number;
   showWeekNumbers?: boolean;
+  hoverRangeValue?: Date[];
   disabledDate?: (date: Date) => boolean;
   disabledHours?: (hour: number, date: Date) => boolean;
   disabledMinutes?: (minute: number, date: Date) => boolean;
@@ -40,6 +42,7 @@ export interface CalendarProps
   hideHours?: (hour: number, date: Date) => boolean;
   hideMinutes?: (minute: number, date: Date) => boolean;
   hideSeconds?: (second: number, date: Date) => boolean;
+  onMouseMove?: (date: Date) => void;
   onMoveForward?: (nextPageDate: Date) => void;
   onMoveBackward?: (nextPageDate: Date) => void;
   onSelect?: (date: Date, event: React.MouseEvent<HTMLDivElement>) => void;
@@ -75,6 +78,7 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       onToggleMonthDropdown,
       onToggleTimeDropdown,
       pageDate,
+      dateRange,
       renderCell,
       renderTitle,
       renderToolbar,
@@ -86,6 +90,8 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       timeZone,
       disabledBackward,
       disabledForward,
+      hoverRangeValue,
+      onMouseMove,
       ...rest
     } = props;
     const { withClassPrefix, merge } = useClassNames(classPrefix);
@@ -122,6 +128,9 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
     const contextValue = {
       date: pageDate,
       disabledDate: isDisabledDate,
+      dateRange,
+      hoverRangeValue,
+      onMouseMove,
       format,
       isoWeek,
       locale,

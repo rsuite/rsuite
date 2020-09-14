@@ -11,7 +11,7 @@ export interface DatePickerProps extends WithAsProps {
   calendarDate?: ValueType;
   disabledDate?: (date: Date, selectValue: ValueType, type: string) => boolean;
   format: string;
-  hoverValue?: ValueType;
+  hoverRangeValue?: ValueType;
   index: number;
   isoWeek?: boolean;
   limitEndYear?: number;
@@ -40,7 +40,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       classPrefix,
       disabledDate,
       format,
-      hoverValue,
+      hoverRangeValue,
       index,
       isoWeek,
       limitEndYear,
@@ -91,7 +91,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         timeZone={timeZone}
         value={value}
         isoWeek={isoWeek}
-        hoverValue={hoverValue}
+        hoverRangeValue={hoverRangeValue}
         calendarState={calendarState}
         calendarDate={calendarDate}
         index={index}

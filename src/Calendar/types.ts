@@ -23,11 +23,12 @@ export interface CalendarLocale {
 }
 
 export interface CalendarInnerContextValue {
-  date: Date | Date[];
-  hoverValue?: Date[];
+  date: Date;
+  dateRange?: Date[];
+  hoverRangeValue?: Date[];
   onMouseMove?: (date: Date) => void;
   format?: string;
-  disabledDate?: (date: Date) => boolean;
+  disabledDate?: (date: Date, selectRangeValue?: Date[], type?: string) => boolean;
   timeZone?: string;
   showWeekNumbers?: boolean;
   isoWeek?: boolean;

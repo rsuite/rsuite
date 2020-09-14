@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { addMonths, isAfter, setDate } from '../../utils/dateUtils';
 import CalendarCore, { CalendarProps as CalendarCoreProps } from '../../Calendar/Calendar';
@@ -10,7 +10,7 @@ export interface CalendarProps
   index: number;
   calendarDate: Date[];
   value?: Date[];
-  hoverValue?: Date[];
+  hoverRangeValue?: Date[];
   showOneCalendar?: boolean;
   disabledDate?: (date: Date, selectValue: Date[], type: string) => boolean;
   onSelect?: (date: Date) => void;
@@ -98,10 +98,8 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       <Component
         {...rest}
         ref={ref}
+        dateRange={value}
         pageDate={getPageDate()}
-        showMonth
-        showDate
-        showTime
         disabledBackward={disabledBackward()}
         disabledForward={disabledForward()}
         disabledDate={disabledMonth}
@@ -119,7 +117,7 @@ Calendar.propTypes = {
   index: PropTypes.number,
   calendarDate: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
   value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-  hoverValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
+  hoverRangeValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
   format: PropTypes.string,
   timeZone: PropTypes.string,
   isoWeek: PropTypes.bool,

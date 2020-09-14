@@ -1,4 +1,11 @@
-import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState
+} from 'react';
 import PropTypes from 'prop-types';
 import isUndefined from 'lodash/isUndefined';
 import {
@@ -111,12 +118,12 @@ interface DateRangePickerComponent extends RsRefForwardingComponent<'div', DateR
 
 const defaultProps: Partial<DateRangePickerProps> = {
   ...pickerDefaultProps,
+  as: 'div',
+  classPrefix: 'picker',
+  format: 'yyyy-MM-dd',
   limitEndYear: 1000,
   placeholder: '',
-  showOneCalendar: false,
-  classPrefix: 'picker',
-  as: 'div',
-  format: 'yyyy-MM-dd'
+  showOneCalendar: false
 };
 
 const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = React.forwardRef(
@@ -158,7 +165,10 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
     } = props;
     const { merge, prefix } = useClassNames(classPrefix);
     const { locale } = useCustom('DateRangePicker', overrideLocale);
-    const zonedValue: ValueType = toZonedValue(valueProp || [], timeZone);
+    const zonedValue: ValueType = useMemo(() => toZonedValue(valueProp || [], timeZone), [
+      timeZone,
+      valueProp
+    ]);
     const [localZoneValue, setLocalZoneValue] = useControlled(valueProp || [], defaultValue);
     const zonedDefaultValue: ValueType = toZonedValue(defaultValue || [], timeZone);
     const [value, updateValue] = useControlled(zonedValue, zonedDefaultValue);
@@ -513,7 +523,7 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
         disabledDate: handleDisabledDate,
         doneSelected,
         format,
-        hoverValue,
+        hoverRangeValue: hoverValue,
         isoWeek,
         limitEndYear,
         locale,
