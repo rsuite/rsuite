@@ -4,7 +4,7 @@ import pick from 'lodash/pick';
 import MonthDropdown from './MonthDropdown';
 import TimeDropdown from './TimeDropdown';
 import View from './View';
-import Header from './Header';
+import Header, { HeaderProps } from './Header';
 import { useClassNames } from '../utils';
 import { shouldDate, shouldMonth, shouldTime } from '../utils/formatUtils';
 import {
@@ -24,17 +24,15 @@ export enum CalendarState {
 
 export interface CalendarProps
   extends WithAsProps,
-    Omit<HTMLAttributes<HTMLDivElement>, 'onSelect' | 'onChange'> {
+    Omit<HTMLAttributes<HTMLDivElement>, 'onSelect' | 'onChange'>,
+    Omit<HeaderProps, 'onMoveForward' | 'onMoveBackward'> {
   pageDate: Date;
   calendarState?: CalendarState;
   format?: string;
   timeZone?: string;
   isoWeek?: boolean;
   limitEndYear?: number;
-  className?: string;
-  classPrefix?: string;
   showWeekNumbers?: boolean;
-  showMeridian?: boolean;
   disabledDate?: (date: Date) => boolean;
   disabledHours?: (hour: number, date: Date) => boolean;
   disabledMinutes?: (minute: number, date: Date) => boolean;
@@ -45,13 +43,8 @@ export interface CalendarProps
   onMoveForward?: (nextPageDate: Date) => void;
   onMoveBackward?: (nextPageDate: Date) => void;
   onSelect?: (date: Date, event: React.MouseEvent<HTMLDivElement>) => void;
-  onToggleMonthDropdown?: (event: React.MouseEvent) => void;
-  onToggleTimeDropdown?: (event: React.MouseEvent) => void;
   onChangePageDate?: (nextPageDate: Date, event: React.MouseEvent) => void;
   onChangePageTime?: (nextPageTime: Date, event: React.MouseEvent) => void;
-  onToggleMeridian?: (event: React.MouseEvent) => void;
-  renderTitle?: (date: Date) => React.ReactNode;
-  renderToolbar?: (date: Date) => React.ReactNode;
   renderCell?: (date: Date) => React.ReactNode;
   locale?: CalendarLocale;
 }
@@ -85,9 +78,14 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       renderCell,
       renderTitle,
       renderToolbar,
+      showDate: showDateProp,
       showMeridian,
+      showMonth: showMonthProp,
+      showTime: showTimeProp,
       showWeekNumbers,
       timeZone,
+      disabledBackward,
+      disabledForward,
       ...rest
     } = props;
     const { withClassPrefix, merge } = useClassNames(classPrefix);
@@ -104,9 +102,9 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       onMoveBackward?.(addMonths(pageDate, -1));
     }, [onMoveBackward, pageDate]);
 
-    const showDate = shouldDate(format);
-    const showTime = shouldTime(format);
-    const showMonth = shouldMonth(format);
+    const showDate = showDateProp ?? shouldDate(format);
+    const showTime = showMonthProp ?? shouldTime(format);
+    const showMonth = showTimeProp ?? shouldMonth(format);
 
     const onlyShowTime = showTime && !showDate && !showMonth;
     const onlyShowMonth = showMonth && !showDate && !showTime;
@@ -155,6 +153,8 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
             onToggleMeridian={onToggleMeridian}
             renderTitle={renderTitle}
             renderToolbar={renderToolbar}
+            disabledBackward={disabledBackward}
+            disabledForward={disabledForward}
           />
           {showDate && <View key="MonthView" />}
           {showMonth && (
@@ -201,6 +201,9 @@ Calendar.propTypes = {
   renderCell: PropTypes.func,
   renderTitle: PropTypes.func,
   renderToolbar: PropTypes.func,
+  showDate: PropTypes.bool,
+  showMonth: PropTypes.bool,
+  showTime: PropTypes.bool,
   showMeridian: PropTypes.bool,
   showWeekNumbers: PropTypes.bool,
   timeZone: PropTypes.string

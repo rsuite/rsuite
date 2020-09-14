@@ -1,191 +1,140 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { addMonths, isAfter, setDate } from '../../utils/dateUtils';
-import { prefix, defaultProps } from '../../utils';
-import MonthDropdown from '../../Calendar/MonthDropdown';
-import Header from '../../Calendar/Header';
-import View from './View';
+import CalendarCore, { CalendarProps as CalendarCoreProps } from '../../Calendar/Calendar';
+import { RsRefForwardingComponent, WithAsProps } from '../../@types/common';
 
-export interface CalendarProps {
-  calendarState?: 'DROP_MONTH' | 'DROP_TIME';
+export interface CalendarProps
+  extends WithAsProps,
+    Omit<CalendarCoreProps, 'disabledDate' | 'onSelect' | 'onMouseMove'> {
   index: number;
   calendarDate: Date[];
   value?: Date[];
   hoverValue?: Date[];
-  format: string;
-  timeZone: string;
-  isoWeek?: boolean;
-  className?: string;
-  classPrefix?: string;
-  limitEndYear?: number;
-  showWeekNumbers?: boolean;
   showOneCalendar?: boolean;
   disabledDate?: (date: Date, selectValue: Date[], type: string) => boolean;
-  onMoveForward?: (nextPageDate: Date) => void;
-  onMoveBackward?: (nextPageDate: Date) => void;
   onSelect?: (date: Date) => void;
   onMouseMove?: (date: Date) => void;
-  onToggleMonthDropdown?: (event: React.SyntheticEvent<any>) => void;
-  onChangePageDate?: (nextPageDate: Date, event: React.SyntheticEvent<any>) => void;
 }
+const defaultProps: Partial<CalendarProps> = {
+  calendarDate: [new Date(), addMonths(new Date(), 1)],
+  index: 0,
+  as: CalendarCore
+};
 
-class Calendar extends React.Component<CalendarProps> {
-  static propTypes = {
-    calendarState: PropTypes.oneOf(['DROP_MONTH', 'DROP_TIME']),
-    index: PropTypes.number,
-    calendarDate: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-    value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-    hoverValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-    format: PropTypes.string,
-    timeZone: PropTypes.string,
-    isoWeek: PropTypes.bool,
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    limitEndYear: PropTypes.number,
-    disabledDate: PropTypes.func,
-    onMoveForward: PropTypes.func,
-    onMoveBackward: PropTypes.func,
-    onSelect: PropTypes.func,
-    onMouseMove: PropTypes.func,
-    onToggleMonthDropdown: PropTypes.func,
-    onChangePageDate: PropTypes.func,
-    showOneCalendar: PropTypes.bool
-  };
-  static defaultProps = {
-    calendarDate: [new Date(), addMonths(new Date(), 1)],
-    index: 0
-  };
+const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRef(
+  (props: CalendarProps, ref) => {
+    const {
+      as: Component,
+      calendarDate,
+      index,
+      onMoveForward,
+      onMoveBackward,
+      showOneCalendar,
+      value,
+      disabledDate,
+      ...rest
+    } = props;
 
-  getPageDate() {
-    const { calendarDate, index } = this.props;
-    return calendarDate[index];
-  }
+    const getPageDate = () => calendarDate[index];
 
-  handleMoveForward = () => {
-    this.props.onMoveForward?.(addMonths(this.getPageDate(), 1));
-  };
+    const handleMoveForward = () => {
+      onMoveForward?.(addMonths(getPageDate(), 1));
+    };
 
-  handleMoveBackward = () => {
-    this.props.onMoveBackward?.(addMonths(this.getPageDate(), -1));
-  };
+    const handleMoveBackward = () => {
+      onMoveBackward?.(addMonths(getPageDate(), -1));
+    };
 
-  disabledBackward = () => {
-    const { calendarDate, index } = this.props;
-    const after = isAfter(setDate(calendarDate[1], 1), setDate(addMonths(calendarDate[0], 1), 1));
+    const disabledBackward = () => {
+      const after = isAfter(setDate(calendarDate[1], 1), setDate(addMonths(calendarDate[0], 1), 1));
 
-    if (index === 0) {
+      if (index === 0) {
+        return false;
+      }
+
+      if (!after) {
+        return true;
+      }
+
       return false;
-    }
+    };
 
-    if (!after) {
-      return true;
-    }
+    const disabledForward = () => {
+      if (showOneCalendar) return false;
+      const after = isAfter(setDate(calendarDate[1], 1), setDate(addMonths(calendarDate[0], 1), 1));
 
-    return false;
-  };
+      if (index === 1) {
+        return false;
+      }
 
-  disabledForward = () => {
-    const { calendarDate, index, showOneCalendar } = this.props;
-    if (showOneCalendar) return false;
-    const after = isAfter(setDate(calendarDate[1], 1), setDate(addMonths(calendarDate[0], 1), 1));
+      if (!after) {
+        return true;
+      }
 
-    if (index === 1) {
       return false;
-    }
+    };
 
-    if (!after) {
-      return true;
-    }
+    const disabledMonth = (date: Date) => {
+      let after = true;
 
-    return false;
-  };
+      if (disabledDate?.(date, value, 'MONTH')) {
+        return true;
+      }
+      if (showOneCalendar) return false;
 
-  disabledMonth = (date: Date) => {
-    const { calendarDate, value, index, disabledDate, showOneCalendar } = this.props;
-    let after = true;
+      if (index === 1) {
+        after = isAfter(date, calendarDate[0]);
 
-    if (disabledDate?.(date, value, 'MONTH')) {
-      return true;
-    }
-    if (showOneCalendar) return false;
+        return !after;
+      }
 
-    if (index === 1) {
-      after = isAfter(date, calendarDate[0]);
+      after = isAfter(calendarDate[1], date);
 
       return !after;
-    }
-
-    after = isAfter(calendarDate[1], date);
-
-    return !after;
-  };
-
-  render() {
-    const {
-      calendarState,
-      onSelect,
-      onMouseMove,
-      onToggleMonthDropdown,
-      onChangePageDate,
-      disabledDate,
-      className,
-      value,
-      hoverValue,
-      isoWeek,
-      limitEndYear,
-      classPrefix,
-      showWeekNumbers,
-      timeZone,
-      ...rest
-    } = this.props;
-
-    const pageDate = this.getPageDate();
-    const dropMonth = calendarState === 'DROP_MONTH';
-    const addPrefix = prefix(classPrefix);
-    const calendarClasses = classNames(classPrefix, className, {
-      [addPrefix('show-month-dropdown')]: dropMonth
-    });
+    };
 
     return (
-      <div {...rest} className={calendarClasses}>
-        <Header
-          showMonth={true}
-          date={pageDate}
-          disabledBackward={this.disabledBackward()}
-          disabledForward={this.disabledForward()}
-          onMoveForward={this.handleMoveForward}
-          onMoveBackward={this.handleMoveBackward}
-          onToggleMonthDropdown={onToggleMonthDropdown}
-        />
-
-        <View
-          activeDate={pageDate}
-          value={value}
-          timeZone={timeZone}
-          hoverValue={hoverValue}
-          onSelect={onSelect}
-          onMouseMove={onMouseMove}
-          disabledDate={disabledDate}
-          isoWeek={isoWeek}
-          showWeekNumbers={showWeekNumbers}
-        />
-
-        <MonthDropdown
-          date={pageDate}
-          timeZone={timeZone}
-          show={dropMonth}
-          disabledMonth={this.disabledMonth}
-          onSelect={onChangePageDate}
-          limitEndYear={limitEndYear}
-        />
-      </div>
+      <Component
+        {...rest}
+        ref={ref}
+        pageDate={getPageDate()}
+        showMonth
+        showDate
+        showTime
+        disabledBackward={disabledBackward()}
+        disabledForward={disabledForward()}
+        disabledDate={disabledMonth}
+        onMoveForward={handleMoveForward}
+        onMoveBackward={handleMoveBackward}
+      />
     );
   }
-}
+);
 
-const enhance = defaultProps<CalendarProps>({
-  classPrefix: 'calendar'
-});
+Calendar.displayName = 'Calendar';
+Calendar.propTypes = {
+  ...CalendarCore.propTypes,
+  calendarState: PropTypes.oneOf(['DROP_MONTH', 'DROP_TIME']),
+  index: PropTypes.number,
+  calendarDate: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
+  value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
+  hoverValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
+  format: PropTypes.string,
+  timeZone: PropTypes.string,
+  isoWeek: PropTypes.bool,
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  limitEndYear: PropTypes.number,
+  disabledDate: PropTypes.func,
+  onMoveForward: PropTypes.func,
+  onMoveBackward: PropTypes.func,
+  onSelect: PropTypes.func,
+  onMouseMove: PropTypes.func,
+  onToggleMonthDropdown: PropTypes.func,
+  onChangePageDate: PropTypes.func,
+  showOneCalendar: PropTypes.bool
+};
+Calendar.defaultProps = defaultProps;
 
-export default enhance(Calendar);
+export default Calendar;

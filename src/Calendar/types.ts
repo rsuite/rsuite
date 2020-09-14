@@ -23,7 +23,9 @@ export interface CalendarLocale {
 }
 
 export interface CalendarInnerContextValue {
-  date: Date;
+  date: Date | Date[];
+  hoverValue?: Date[];
+  onMouseMove?: (date: Date) => void;
   format?: string;
   disabledDate?: (date: Date) => boolean;
   timeZone?: string;

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
 import { addMonths } from '../utils/dateUtils';
-import Calendar from '../Calendar';
+import Calendar from './Calendar';
 import { ValueType } from './types';
 import { CalendarState } from '../Calendar/Calendar';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
