@@ -13,18 +13,20 @@ import {
   disabledTime,
   omitHideDisabledProps
 } from '../utils/dateUtils';
-import { tuple } from '../@types/utils';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { CalendarLocale } from './types';
 import { CalendarProvider } from './CalendarContext';
 
-const CalendarState = tuple('DROP_TIME', 'DROP_MONTH');
+export enum CalendarState {
+  'DROP_TIME' = 'DROP_TIME',
+  'DROP_MONTH' = 'DROP_MONTH'
+}
 
 export interface CalendarProps
   extends WithAsProps,
     Omit<HTMLAttributes<HTMLDivElement>, 'onSelect' | 'onChange'> {
   pageDate: Date;
-  calendarState?: typeof CalendarState[number];
+  calendarState?: CalendarState;
   format?: string;
   timeZone?: string;
   isoWeek?: boolean;
@@ -108,8 +110,8 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
 
     const onlyShowTime = showTime && !showDate && !showMonth;
     const onlyShowMonth = showMonth && !showDate && !showTime;
-    const dropTime = calendarState === 'DROP_TIME' || onlyShowTime;
-    const dropMonth = calendarState === 'DROP_MONTH' || onlyShowMonth;
+    const dropTime = calendarState === CalendarState.DROP_TIME || onlyShowTime;
+    const dropMonth = calendarState === CalendarState.DROP_MONTH || onlyShowMonth;
 
     const calendarClasses = merge(
       className,
@@ -173,7 +175,7 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
 
 Calendar.displayName = 'Calendar';
 Calendar.propTypes = {
-  calendarState: PropTypes.oneOf(CalendarState),
+  calendarState: PropTypes.oneOf(Object.values(CalendarState)),
   className: PropTypes.string,
   classPrefix: PropTypes.string,
   disabledDate: PropTypes.func,

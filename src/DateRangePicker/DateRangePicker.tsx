@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import isUndefined from 'lodash/isUndefined';
 import {
   addDays,
   addMonths,
@@ -29,25 +29,7 @@ import { FormControlBaseProps, PickerBaseProps, RsRefForwardingComponent } from 
 import * as utils from './disabledDateUtils';
 import { DisabledDateFunction, RangeType, ValueType } from './types';
 import omitBy from 'lodash/omitBy';
-
-// interface DateRangePickerState {
-//   value: ValueType;
-//   selectValue: [Date?, Date?, Date?];
-//
-//   // Two clicks, the second click ends
-//   doneSelected: boolean;
-//
-//   // display calendar date
-//   calendarDate: ValueType;
-//
-//   // 当前应该高亮哪个区间，用于实现选择整周、整月
-//   hoverValue?: ValueType;
-//
-//   // 当前 hover 的 date，用来减少 handleMouseMoveSelectValue 的计算
-//   currentHoverDate?: Date;
-//
-//   active?: boolean;
-// }
+import { OverlayTriggerInstance } from '../Overlay/OverlayTrigger';
 
 export interface DateRangePickerProps extends PickerBaseProps, FormControlBaseProps<ValueType> {
   /** Configure shortcut options */
@@ -204,20 +186,20 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
         timeZone
       })
     );
-    const [hoverValue, setHoverValue] = useState([]);
+    const [hoverValue, setHoverValue] = useState<ValueType>([]);
     const [currentHoverDate, setCurrentHoverDate] = useState(null);
     const [active, setActive] = useState(false);
     const rootRef = useRef<HTMLDivElement>();
     const menuRef = useRef<HTMLDivElement>();
     const toggleRef = useRef<HTMLButtonElement>();
-    const triggerRef = useRef<{ show?: () => void; hide?: () => void }>();
+    const triggerRef = useRef<OverlayTriggerInstance>();
 
     const handleCloseDropdown = useCallback(() => {
-      triggerRef.current?.hide?.();
+      triggerRef.current?.close?.();
     }, []);
 
     const handleOpenDropdown = useCallback(() => {
-      triggerRef.current?.show?.();
+      triggerRef.current?.open?.();
     }, []);
 
     useImperativeHandle(ref, () => ({
@@ -272,7 +254,7 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
 
     const getMonthHoverRange = (date: Date): ValueType => [startOfMonth(date), endOfMonth(date)];
 
-    const getHoverRange = (date: Date) => {
+    const getHoverRange = (date: Date): ValueType => {
       if (!hoverRange) {
         return [];
       }
@@ -327,7 +309,7 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
       nextSelectValue?: ValueType,
       closeOverlay = true
     ) => {
-      const nextValue: any = !_.isUndefined(nextSelectValue) ? nextSelectValue : selectValue;
+      const nextValue: any = !isUndefined(nextSelectValue) ? nextSelectValue : selectValue;
 
       setSelectValue(nextValue || []);
       setValue(nextValue);
@@ -354,6 +336,8 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
       if (doneSelected) {
         if (nextHoverValue.length) {
           nextValue = [nextHoverValue[0], nextHoverValue[1], date];
+          // @todo 调整 ValueType 格式，统一长度
+          // @ts-ignore
           nextHoverValue = [nextHoverValue[0], nextHoverValue[1], date];
         } else {
           nextValue = [date, undefined, date];
@@ -397,7 +381,7 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
 
       const nextHoverValue = getHoverRange(date);
 
-      if (doneSelected && !_.isUndefined(hoverRange)) {
+      if (doneSelected && !isUndefined(hoverRange)) {
         setCurrentHoverDate(date);
         setHoverValue(nextHoverValue);
         return;
@@ -525,24 +509,25 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
       });
 
       const pickerProps = {
-        isoWeek,
-        doneSelected,
-        hoverValue,
         calendarDate,
-        limitEndYear,
-        showWeekNumbers,
-        value: selectValue as ValueType,
         disabledDate: handleDisabledDate,
-        onSelect: handleChangeSelectValue,
-        onMouseMove: handleMouseMoveSelectValue,
+        doneSelected,
+        format,
+        hoverValue,
+        isoWeek,
+        limitEndYear,
+        locale,
         onChangeCalendarDate: handleChangeCalendarDate,
+        onMouseMove: handleMouseMoveSelectValue,
+        onSelect: handleChangeSelectValue,
         showOneCalendar,
+        showWeekNumbers,
         timeZone,
-        locale
+        value: selectValue as ValueType
       };
 
       return (
-        <MenuWrapper className={classes} ref={menuRef}>
+        <MenuWrapper className={classes} ref={menuRef} target={triggerRef}>
           <div className={panelClasses}>
             <div className={prefix('daterange-content')}>
               <div className={prefix('daterange-header')}>

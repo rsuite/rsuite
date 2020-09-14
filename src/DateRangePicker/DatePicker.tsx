@@ -1,110 +1,90 @@
 import PropTypes from 'prop-types';
-import * as React from 'react';
+import React, { useCallback, useState } from 'react';
 import { addMonths } from '../utils/dateUtils';
-import Calendar from './Calendar';
-import { ValueType } from './DateRangePicker.d';
+import Calendar from '../Calendar';
+import { ValueType } from './types';
+import { CalendarState } from '../Calendar/Calendar';
+import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { DatePickerLocale } from '../DatePicker/types';
 
-export interface DatePickerProps {
-  value?: ValueType;
-  hoverValue?: ValueType;
+export interface DatePickerProps extends WithAsProps {
   calendarDate?: ValueType;
-  index: number;
+  disabledDate?: (date: Date, selectValue: ValueType, type: string) => boolean;
   format: string;
-  timeZone?: string;
+  hoverValue?: ValueType;
+  index: number;
   isoWeek?: boolean;
   limitEndYear?: number;
-  classPrefix?: string;
-  showWeekNumbers?: boolean;
-  showOneCalendar?: boolean;
-  disabledDate?: (date: Date, selectValue: ValueType, type: string) => boolean;
-  onSelect?: (date: Date, event?: React.SyntheticEvent<any>) => void;
-  onMouseMove?: (date: Date) => void;
   onChangeCalendarDate?: (index: number, nextPageDate: Date) => void;
+  onMouseMove?: (date: Date) => void;
+  onSelect?: (date: Date, event?: React.SyntheticEvent<any>) => void;
+  showOneCalendar?: boolean;
+  showWeekNumbers?: boolean;
+  timeZone?: string;
+  value?: ValueType;
+  locale?: DatePickerLocale;
 }
 
-interface DatePickerState {
-  calendarState?: 'DROP_MONTH' | 'DROP_TIME';
-}
-
-class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
-  static propTypes = {
-    value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-    hoverValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-    calendarDate: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-    index: PropTypes.number,
-    format: PropTypes.string,
-    timeZone: PropTypes.string,
-    isoWeek: PropTypes.bool,
-    limitEndYear: PropTypes.number,
-    classPrefix: PropTypes.string,
-    disabledDate: PropTypes.func,
-    onSelect: PropTypes.func,
-    onMouseMove: PropTypes.func,
-    onChangeCalendarDate: PropTypes.func
-  };
-  static defaultProps = {
-    value: [],
-    calendarDate: [new Date(), addMonths(new Date(), 1)],
-    format: 'yyyy-MM-dd',
-    index: 0
-  };
-
-  constructor(props: DatePickerProps) {
-    super(props);
-    this.state = {
-      calendarState: undefined
-    };
-  }
-
-  onMoveForward = (nextPageDate: Date) => {
-    const { onChangeCalendarDate, index } = this.props;
-    onChangeCalendarDate?.(index, nextPageDate);
-  };
-
-  onMoveBackward = (nextPageDate: Date) => {
-    const { onChangeCalendarDate, index } = this.props;
-    onChangeCalendarDate?.(index, nextPageDate);
-  };
-
-  handleChangePageDate = (nextPageDate: Date) => {
-    const { onChangeCalendarDate, index } = this.props;
-    onChangeCalendarDate?.(index, nextPageDate);
-    this.setState({
-      calendarState: undefined
-    });
-  };
-
-  toggleMonthDropdown = () => {
-    const { calendarState } = this.state;
-    if (calendarState === 'DROP_MONTH') {
-      this.setState({ calendarState: undefined });
-    } else {
-      this.setState({ calendarState: 'DROP_MONTH' });
-    }
-  };
-
-  render() {
+const defaultProps: Partial<DatePickerProps> = {
+  as: Calendar,
+  calendarDate: [new Date(), addMonths(new Date(), 1)],
+  format: 'yyyy-MM-dd',
+  index: 0,
+  value: []
+};
+const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwardRef(
+  (props: DatePickerProps, ref) => {
     const {
+      as: Component,
+      calendarDate,
+      classPrefix,
+      disabledDate,
       format,
-      value,
       hoverValue,
       index,
-      calendarDate,
-      onSelect,
-      onMouseMove,
-      disabledDate,
       isoWeek,
       limitEndYear,
-      classPrefix,
-      showWeekNumbers,
+      onChangeCalendarDate,
+      onMouseMove,
+      onSelect,
       showOneCalendar,
-      timeZone
-    } = this.props;
+      showWeekNumbers,
+      timeZone,
+      value,
+      locale
+    } = props;
+    const [calendarState, setCalendarState] = useState<CalendarState>();
 
-    const { calendarState } = this.state;
+    const onMoveForward = useCallback(
+      (nextPageDate: Date) => {
+        onChangeCalendarDate?.(index, nextPageDate);
+      },
+      [index, onChangeCalendarDate]
+    );
+
+    const onMoveBackward = useCallback(
+      (nextPageDate: Date) => {
+        onChangeCalendarDate?.(index, nextPageDate);
+      },
+      [index, onChangeCalendarDate]
+    );
+
+    const handleChangePageDate = useCallback(
+      (nextPageDate: Date) => {
+        onChangeCalendarDate?.(index, nextPageDate);
+        setCalendarState(undefined);
+      },
+      [index, onChangeCalendarDate]
+    );
+
+    const toggleMonthDropdown = useCallback(() => {
+      setCalendarState(
+        calendarState === CalendarState.DROP_MONTH ? undefined : CalendarState.DROP_MONTH
+      );
+    }, [calendarState]);
 
     return (
-      <Calendar
+      <Component
         classPrefix={classPrefix}
         disabledDate={disabledDate}
         format={format}
@@ -115,18 +95,38 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
         calendarState={calendarState}
         calendarDate={calendarDate}
         index={index}
-        onMoveForward={this.onMoveForward}
-        onMoveBackward={this.onMoveBackward}
+        onMoveForward={onMoveForward}
+        onMoveBackward={onMoveBackward}
         onSelect={onSelect}
         onMouseMove={onMouseMove}
-        onToggleMonthDropdown={this.toggleMonthDropdown}
-        onChangePageDate={this.handleChangePageDate}
+        onToggleMonthDropdown={toggleMonthDropdown}
+        onChangePageDate={handleChangePageDate}
         limitEndYear={limitEndYear}
         showWeekNumbers={showWeekNumbers}
         showOneCalendar={showOneCalendar}
+        locale={locale}
+        ref={ref}
       />
     );
   }
-}
+);
+
+DatePicker.displayName = 'DatePicker';
+DatePicker.defaultProps = defaultProps;
+DatePicker.propTypes = {
+  value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
+  hoverValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
+  calendarDate: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
+  index: PropTypes.number,
+  format: PropTypes.string,
+  timeZone: PropTypes.string,
+  isoWeek: PropTypes.bool,
+  limitEndYear: PropTypes.number,
+  classPrefix: PropTypes.string,
+  disabledDate: PropTypes.func,
+  onSelect: PropTypes.func,
+  onMouseMove: PropTypes.func,
+  onChangeCalendarDate: PropTypes.func
+};
 
 export default DatePicker;
