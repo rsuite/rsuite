@@ -32,8 +32,8 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
       showWeekNumbers,
       timeZone,
       onMouseMove,
-      dateRange = [],
-      hoverRangeValue = []
+      dateRange,
+      hoverRangeValue
     } = useCalendarContext();
     const { prefix, merge } = useClassNames(classPrefix);
 
@@ -51,8 +51,9 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
     const renderDays = () => {
       const formatStr = formattedDayPattern || 'yyyy-MM-dd';
       const days = [];
-      const [selectedStartDate, selectedEndDate] = dateRange;
-      const [hoverStartDate, hoverEndDate] = hoverRangeValue;
+      const [selectedStartDate, selectedEndDate] = dateRange || [];
+      const [hoverStartDate, hoverEndDate] = hoverRangeValue || [];
+      const isRangeSelectionMode = typeof dateRange !== 'undefined';
       const todayDate = zonedDate(timeZone);
 
       for (let i = 0; i < 7; i += 1) {
@@ -86,10 +87,14 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
             inRange = true;
           }
         }
+
+        console.log(!unSameMonth, inRange, )
         const classes = merge(prefix('cell'), {
-          [prefix('cell-un-same-month')]: !(inSameMonth && inSameMonth(thisDate)),
+          [prefix('cell-un-same-month')]: unSameMonth,
           [prefix('cell-is-today')]: isToday,
-          [prefix('cell-selected')]: isSelected || isSameDay(thisDate, selected),
+          [prefix('cell-selected')]: isRangeSelectionMode
+            ? isSelected
+            : isSameDay(thisDate, selected),
           [prefix('cell-selected-start')]: isStartSelected,
           [prefix('cell-selected-end')]: isEndSelected,
           [prefix('cell-in-range')]: !unSameMonth && inRange,

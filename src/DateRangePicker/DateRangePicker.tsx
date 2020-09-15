@@ -170,7 +170,10 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
       valueProp
     ]);
     const [localZoneValue, setLocalZoneValue] = useControlled(valueProp || [], defaultValue);
-    const zonedDefaultValue: ValueType = toZonedValue(defaultValue || [], timeZone);
+    const zonedDefaultValue: ValueType = useMemo(() => toZonedValue(defaultValue || [], timeZone), [
+      defaultValue,
+      timeZone
+    ]);
     const [value, updateValue] = useControlled(zonedValue, zonedDefaultValue);
     const setValue = useCallback(
       (nextValue: ValueType) => {
@@ -187,10 +190,14 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
     );
     const [doneSelected, setDoneSelected] = useState(true);
     const [calendarDate, setCalendarDate] = useControlled(
-      getCalendarDate({
-        value: zonedValue,
-        timeZone
-      }),
+      useMemo(
+        () =>
+          getCalendarDate({
+            value: zonedValue,
+            timeZone
+          }),
+        [timeZone, zonedValue]
+      ),
       getCalendarDate({
         value: toZonedValue(defaultCalendarValue, timeZone),
         timeZone
@@ -232,39 +239,48 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
       setCalendarDate(getCalendarDate({ value: nextValue, timeZone }));
     }, [timeZone, valueProp, localZoneValue, setValue, setCalendarDate]);
 
-    const getDateString = (nextValue: ValueType = value) => {
-      const startDate: Date = nextValue?.[0];
-      const endDate: Date = nextValue?.[1];
+    const getDateString = useCallback(
+      (nextValue: ValueType = value) => {
+        const startDate: Date = nextValue?.[0];
+        const endDate: Date = nextValue?.[1];
 
-      if (startDate && endDate) {
-        const displayValue: any = [startDate, endDate].sort(compareAsc);
+        if (startDate && endDate) {
+          const displayValue: any = [startDate, endDate].sort(compareAsc);
 
-        return renderValue ? (
-          renderValue(toLocalValue(displayValue, timeZone), format)
-        ) : (
-          <>
-            <FormattedDate date={displayValue[0]} formatStr={format} /> ~{' '}
-            <FormattedDate date={displayValue[1]} formatStr={format} />
-          </>
-        );
-      }
+          return renderValue ? (
+            renderValue(toLocalValue(displayValue, timeZone), format)
+          ) : (
+            <>
+              <FormattedDate date={displayValue[0]} formatStr={format} /> ~{' '}
+              <FormattedDate date={displayValue[1]} formatStr={format} />
+            </>
+          );
+        }
 
-      return placeholder || `${format} ~ ${format}`;
-    };
+        return placeholder || `${format} ~ ${format}`;
+      },
+      [format, placeholder, renderValue, timeZone, value]
+    );
 
     // hover range presets
-    const getWeekHoverRange = (date: Date): ValueType => {
-      if (isoWeek) {
-        // set to the first day of this week according to ISO 8601, 12:00 am
-        return [startOfISOWeek(date), endOfISOWeek(date)];
-      }
+    const getWeekHoverRange = useCallback(
+      (date: Date): ValueType => {
+        if (isoWeek) {
+          // set to the first day of this week according to ISO 8601, 12:00 am
+          return [startOfISOWeek(date), endOfISOWeek(date)];
+        }
 
-      return [startOfWeek(date), endOfWeek(date)];
-    };
+        return [startOfWeek(date), endOfWeek(date)];
+      },
+      [isoWeek]
+    );
 
-    const getMonthHoverRange = (date: Date): ValueType => [startOfMonth(date), endOfMonth(date)];
+    const getMonthHoverRange = useCallback(
+      (date: Date): ValueType => [startOfMonth(date), endOfMonth(date)],
+      []
+    );
 
-    const getHoverRange = (date: Date): ValueType => {
+    const getHoverRange = useCallback((date: Date): ValueType => {
       if (!hoverRange) {
         return [];
       }
@@ -294,138 +310,172 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
         hoverValues.reverse();
       }
       return hoverValues;
-    };
+    }, []);
 
-    const handleChangeCalendarDate = (index: number, date: Date) => {
-      const nextCalendarDate = Array.from(calendarDate);
-      nextCalendarDate[index] = date;
+    const handleChangeCalendarDate = useCallback(
+      (index: number, date: Date) => {
+        const nextCalendarDate = Array.from(calendarDate);
+        nextCalendarDate[index] = date;
 
-      setCalendarDate(nextCalendarDate);
-    };
+        setCalendarDate(nextCalendarDate);
+      },
+      [calendarDate, setCalendarDate]
+    );
 
     /**
      * Toolbar operation callback function
      */
-    const handleShortcutPageDate = (
-      value: ValueType,
-      closeOverlay?: boolean,
-      event?: React.SyntheticEvent<any>
-    ) => {
-      handleValueUpdate(event, value, closeOverlay);
-    };
+    const handleShortcutPageDate = useCallback(
+      (value: ValueType, closeOverlay?: boolean, event?: React.SyntheticEvent<any>) => {
+        handleValueUpdate(event, value, closeOverlay);
+      },
+      [handleValueUpdate]
+    );
 
-    const handleValueUpdate = (
-      event: React.SyntheticEvent<any>,
-      nextSelectValue?: ValueType,
-      closeOverlay = true
-    ) => {
-      const nextValue: any = !isUndefined(nextSelectValue) ? nextSelectValue : selectValue;
+    const handleValueUpdate = useCallback(
+      (event: React.SyntheticEvent<any>, nextSelectValue?: ValueType, closeOverlay = true) => {
+        const nextValue: any = !isUndefined(nextSelectValue) ? nextSelectValue : selectValue;
 
-      setSelectValue(nextValue || []);
-      setValue(nextValue);
+        setSelectValue(nextValue || []);
+        setValue(nextValue);
 
-      if (onChange && (!isSameDay(nextValue[0], value[0]) || !isSameDay(nextValue[1], value[1]))) {
-        onChange(toLocalValue(nextValue, timeZone), event);
-      }
-
-      // `closeOverlay` default value is `true`
-      if (closeOverlay !== false) {
-        handleCloseDropdown();
-      }
-    };
-
-    const handleOK = (event: React.SyntheticEvent<any>) => {
-      handleValueUpdate(event);
-      onOk?.(toLocalValue(selectValue as ValueType, timeZone), event);
-    };
-
-    const handleChangeSelectValue = (date: Date, event: React.SyntheticEvent<any>) => {
-      let nextValue = [];
-      let nextHoverValue = getHoverRange(date);
-
-      if (doneSelected) {
-        if (nextHoverValue.length) {
-          nextValue = [nextHoverValue[0], nextHoverValue[1], date];
-          // @todo 调整 ValueType 格式，统一长度
-          // @ts-ignore
-          nextHoverValue = [nextHoverValue[0], nextHoverValue[1], date];
-        } else {
-          nextValue = [date, undefined, date];
-        }
-      } else {
-        if (nextHoverValue.length) {
-          nextValue = [selectValue[0], selectValue[1]];
-        } else {
-          nextValue = [selectValue[0], date];
+        if (
+          onChange &&
+          (!isSameDay(nextValue[0], value[0]) || !isSameDay(nextValue[1], value[1]))
+        ) {
+          onChange(toLocalValue(nextValue, timeZone), event);
         }
 
+        // `closeOverlay` default value is `true`
+        if (closeOverlay !== false) {
+          handleCloseDropdown();
+        }
+      },
+      [handleCloseDropdown, onChange, selectValue, setSelectValue, setValue, timeZone, value]
+    );
+
+    const handleOK = useCallback(
+      (event: React.SyntheticEvent<any>) => {
+        handleValueUpdate(event);
+        onOk?.(toLocalValue(selectValue as ValueType, timeZone), event);
+      },
+      [handleValueUpdate, onOk, selectValue, timeZone]
+    );
+
+    const handleChangeSelectValue = useCallback(
+      (date: Date, event: React.SyntheticEvent<any>) => {
+        let nextValue = [];
+        let nextHoverValue = getHoverRange(date);
+
+        if (doneSelected) {
+          if (nextHoverValue.length) {
+            nextValue = [nextHoverValue[0], nextHoverValue[1], date];
+            // @todo 调整 ValueType 格式，统一长度
+            // @ts-ignore
+            nextHoverValue = [nextHoverValue[0], nextHoverValue[1], date];
+          } else {
+            nextValue = [date, undefined, date];
+          }
+        } else {
+          if (nextHoverValue.length) {
+            nextValue = [selectValue[0], selectValue[1]];
+          } else {
+            nextValue = [selectValue[0], date];
+          }
+
+          if (isAfter(nextValue[0], nextValue[1])) {
+            nextValue.reverse();
+          }
+
+          setCalendarDate(getCalendarDate({ value: nextValue, timeZone }));
+        }
+
+        event.persist();
+
+        const nextDoneSelect = !doneSelected;
+        // 如果是单击模式，并且是第一次点选，再触发一次点击
+        if (oneTap && doneSelected) {
+          handleChangeSelectValue(date, event);
+        }
+        // 如果是单击模式，并且是第二次点选，更新值，并关闭面板
+        if (oneTap && !doneSelected) {
+          handleValueUpdate(event);
+        }
+
+        onSelect?.(toLocalTimeZone(date, timeZone), event);
+        setDoneSelected(nextDoneSelect);
+        setSelectValue(nextValue as ValueType);
+        setHoverValue(nextHoverValue);
+      },
+      [
+        doneSelected,
+        getHoverRange,
+        handleValueUpdate,
+        onSelect,
+        oneTap,
+        selectValue,
+        setCalendarDate,
+        setSelectValue,
+        timeZone
+      ]
+    );
+
+    const handleMouseMoveSelectValue = useCallback(
+      (date: Date) => {
+        if (currentHoverDate && isSameDay(date, currentHoverDate)) {
+          return;
+        }
+
+        const nextHoverValue = getHoverRange(date);
+
+        if (doneSelected && !isUndefined(hoverRange)) {
+          setCurrentHoverDate(date);
+          setHoverValue(nextHoverValue);
+          return;
+        } else if (doneSelected) {
+          return;
+        }
+
+        let nextValue = Array.from(selectValue);
+
+        if (!nextHoverValue.length) {
+          nextValue[1] = date;
+        } else if (hoverValue) {
+          nextValue = [
+            isBefore(nextHoverValue[0], hoverValue[0]) ? nextHoverValue[0] : hoverValue[0],
+            isAfter(nextHoverValue[1], hoverValue[1]) ? nextHoverValue[1] : hoverValue[1],
+            nextValue[2]
+          ];
+        }
+
+        // If `nextValue[0]` is greater than `nextValue[1]` then reverse order
         if (isAfter(nextValue[0], nextValue[1])) {
           nextValue.reverse();
         }
 
-        setCalendarDate(getCalendarDate({ value: nextValue, timeZone }));
-      }
-
-      event.persist();
-
-      const nextDoneSelect = !doneSelected;
-      // 如果是单击模式，并且是第一次点选，再触发一次点击
-      if (oneTap && doneSelected) {
-        handleChangeSelectValue(date, event);
-      }
-      // 如果是单击模式，并且是第二次点选，更新值，并关闭面板
-      if (oneTap && !doneSelected) {
-        handleValueUpdate(event);
-      }
-
-      onSelect?.(toLocalTimeZone(date, timeZone), event);
-      setDoneSelected(nextDoneSelect);
-      setSelectValue(nextValue as ValueType);
-      setHoverValue(nextHoverValue);
-    };
-
-    const handleMouseMoveSelectValue = (date: Date) => {
-      if (currentHoverDate && isSameDay(date, currentHoverDate)) {
-        return;
-      }
-
-      const nextHoverValue = getHoverRange(date);
-
-      if (doneSelected && !isUndefined(hoverRange)) {
         setCurrentHoverDate(date);
-        setHoverValue(nextHoverValue);
-        return;
-      } else if (doneSelected) {
-        return;
-      }
+        setSelectValue(nextValue);
+      },
+      [
+        currentHoverDate,
+        doneSelected,
+        getHoverRange,
+        hoverRange,
+        hoverValue,
+        selectValue,
+        setSelectValue
+      ]
+    );
 
-      let nextValue = selectValue;
+    const handleClean = useCallback(
+      event => {
+        setCalendarDate(getCalendarDate({ timeZone }));
+        handleValueUpdate(event, []);
+      },
+      [handleValueUpdate, setCalendarDate, timeZone]
+    );
 
-      if (!nextHoverValue.length) {
-        nextValue[1] = date;
-      } else if (hoverValue) {
-        nextValue = [
-          isBefore(nextHoverValue[0], hoverValue[0]) ? nextHoverValue[0] : hoverValue[0],
-          isAfter(nextHoverValue[1], hoverValue[1]) ? nextHoverValue[1] : hoverValue[1],
-          nextValue[2]
-        ];
-      }
-
-      // If `nextValue[0]` is greater than `nextValue[1]` then reverse order
-      if (isAfter(nextValue[0], nextValue[1])) {
-        nextValue.reverse();
-      }
-
-      setCurrentHoverDate(date);
-      setSelectValue(nextValue);
-    };
-
-    const handleClean = event => {
-      setCalendarDate(getCalendarDate({ timeZone }));
-      handleValueUpdate(event, []);
-    };
-
-    const handleEnter = () => {
+    const handleEnter = useCallback(() => {
       let nextCalendarDate;
 
       if (value && value.length) {
@@ -444,51 +494,57 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
       setSelectValue(value);
       setCalendarDate(nextCalendarDate);
       setActive(true);
-    };
+    }, [defaultCalendarValue, setCalendarDate, setSelectValue, timeZone, value]);
 
-    const handleEntered = () => {
+    const handleEntered = useCallback(() => {
       onOpen?.();
-    };
+    }, [onOpen]);
 
-    const handleExit = () => {
+    const handleExit = useCallback(() => {
       setActive(false);
       setDoneSelected(true);
 
       onClose?.();
-    };
+    }, [onClose]);
 
-    const disabledDate = (
-      date: Date,
-      selectDate: ValueType,
-      selectedDone: boolean,
-      target: DATERANGE_DISABLED_TARGET
-    ): boolean => {
-      return disabledDateProp?.(
-        toLocalTimeZone(date, timeZone),
-        toLocalValue(selectDate, timeZone),
-        selectedDone,
-        target
-      );
-    };
+    const disabledDate = useCallback(
+      (
+        date: Date,
+        selectDate: ValueType,
+        selectedDone: boolean,
+        target: DATERANGE_DISABLED_TARGET
+      ): boolean => {
+        return disabledDateProp?.(
+          toLocalTimeZone(date, timeZone),
+          toLocalValue(selectDate, timeZone),
+          selectedDone,
+          target
+        );
+      },
+      [disabledDateProp, timeZone]
+    );
 
-    const disabledByBetween = (start: Date, end: Date, type: DATERANGE_DISABLED_TARGET) => {
-      const selectStartDate = selectValue[0];
-      const selectEndDate = selectValue[1];
-      const nextSelectValue: ValueType = [selectStartDate, selectEndDate];
+    const disabledByBetween = useCallback(
+      (start: Date, end: Date, type: DATERANGE_DISABLED_TARGET) => {
+        const selectStartDate = selectValue[0];
+        const selectEndDate = selectValue[1];
+        const nextSelectValue: ValueType = [selectStartDate, selectEndDate];
 
-      // If the date is between the start and the end
-      // the button is disabled
-      while (isBefore(start, end) || isSameDay(start, end)) {
-        if (disabledDate(start, nextSelectValue, doneSelected, type)) {
-          return true;
+        // If the date is between the start and the end
+        // the button is disabled
+        while (isBefore(start, end) || isSameDay(start, end)) {
+          if (disabledDate(start, nextSelectValue, doneSelected, type)) {
+            return true;
+          }
+          start = addDays(start, 1);
         }
-        start = addDays(start, 1);
-      }
 
-      return false;
-    };
+        return false;
+      },
+      [disabledDate, doneSelected, selectValue]
+    );
 
-    const disabledOkButton = () => {
+    const disabledOkButton = useCallback(() => {
       if (!selectValue[0] || !selectValue[1] || !doneSelected) {
         return true;
       }
@@ -498,21 +554,27 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
         selectValue[1],
         DATERANGE_DISABLED_TARGET.TOOLBAR_BUTTON_OK
       );
-    };
+    }, [disabledByBetween, doneSelected, selectValue]);
 
-    const disabledShortcutButton = (value: ValueType = []) => {
-      if (!value[0] || !value[1]) {
-        return true;
-      }
+    const disabledShortcutButton = useCallback(
+      (value: ValueType = []) => {
+        if (!value[0] || !value[1]) {
+          return true;
+        }
 
-      return disabledByBetween(value[0], value[1], DATERANGE_DISABLED_TARGET.TOOLBAR_SHORTCUT);
-    };
+        return disabledByBetween(value[0], value[1], DATERANGE_DISABLED_TARGET.TOOLBAR_SHORTCUT);
+      },
+      [disabledByBetween]
+    );
 
-    const handleDisabledDate = (date: Date, values: ValueType, type: DATERANGE_DISABLED_TARGET) => {
-      return !!disabledDate(date, values, doneSelected, type);
-    };
+    const handleDisabledDate = useCallback(
+      (date: Date, values: ValueType, type: DATERANGE_DISABLED_TARGET) => {
+        return !!disabledDate(date, values, doneSelected, type);
+      },
+      [disabledDate, doneSelected]
+    );
 
-    const renderDropdownMenu = () => {
+    const renderDropdownMenu = useCallback(() => {
       const classes = merge(menuClassName, prefix('daterange-menu'));
       const panelClasses = merge(prefix('daterange-panel'), {
         [prefix('daterange-panel-show-one-calendar')]: showOneCalendar
@@ -561,7 +623,33 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
           </div>
         </MenuWrapper>
       );
-    };
+    }, [
+      calendarDate,
+      disabledOkButton,
+      disabledShortcutButton,
+      doneSelected,
+      format,
+      getDateString,
+      handleChangeCalendarDate,
+      handleChangeSelectValue,
+      handleDisabledDate,
+      handleMouseMoveSelectValue,
+      handleOK,
+      handleShortcutPageDate,
+      hoverValue,
+      isoWeek,
+      limitEndYear,
+      locale,
+      menuClassName,
+      merge,
+      oneTap,
+      prefix,
+      ranges,
+      selectValue,
+      showOneCalendar,
+      showWeekNumbers,
+      timeZone
+    ]);
 
     const hasValue = value && value.length > 1;
     const [classes, usedClassNames] = usePickerClassName({ ...props, name: 'daterange', hasValue });
