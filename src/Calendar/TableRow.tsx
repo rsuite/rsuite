@@ -10,7 +10,6 @@ import { DATERANGE_DISABLED_TARGET } from '../constants';
 
 export interface TableRowProps extends WithAsProps {
   weekendDate?: Date;
-  inSameMonth?: (date: Date) => boolean;
 }
 const defaultProps: Partial<TableRowProps> = {
   weekendDate: new Date(),
@@ -20,20 +19,21 @@ const defaultProps: Partial<TableRowProps> = {
 
 const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRef(
   (props: TableRowProps, ref) => {
-    const { as: Component, className, classPrefix, inSameMonth, weekendDate, ...rest } = props;
+    const { as: Component, className, classPrefix, weekendDate, ...rest } = props;
     const {
       date: selected = new Date(),
+      dateRange,
       disabledDate,
       formatDate,
+      hoverRangeValue,
+      inSameMonth,
       isoWeek,
       locale: { formattedDayPattern, today } = {},
+      onMouseMove,
       onSelect,
       renderCell,
       showWeekNumbers,
-      timeZone,
-      onMouseMove,
-      dateRange,
-      hoverRangeValue
+      timeZone
     } = useCalendarContext();
     const { prefix, merge } = useClassNames(classPrefix);
 
@@ -79,7 +79,7 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
         }
 
         // for Hovering
-        if (!isSelected && hoverEndDate && hoverStartDate) {
+        if (!isSelected && hoverStartDate && hoverEndDate) {
           if (!isAfter(thisDate, hoverEndDate) && !isBefore(thisDate, hoverStartDate)) {
             inRange = true;
           }
@@ -88,7 +88,6 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
           }
         }
 
-        console.log(!unSameMonth, inRange, )
         const classes = merge(prefix('cell'), {
           [prefix('cell-un-same-month')]: unSameMonth,
           [prefix('cell-is-today')]: isToday,
@@ -109,7 +108,7 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
             role="cell"
             tabIndex={-1}
             title={isToday ? `${title} (${today})` : title}
-            onMouseEnter={!disabled && onMouseMove && onMouseMove.bind(null, thisDate)}
+            onMouseEnter={!disabled && onMouseMove ? onMouseMove.bind(null, thisDate) : undefined}
             onClick={partial(handleSelect, thisDate, disabled)}
           >
             <div className={prefix('cell-content')} role="button">
@@ -145,8 +144,7 @@ TableRow.displayName = 'TableRow';
 TableRow.propTypes = {
   weekendDate: PropTypes.instanceOf(Date),
   className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  inSameMonth: PropTypes.func
+  classPrefix: PropTypes.string
 };
 
 TableRow.defaultProps = defaultProps;

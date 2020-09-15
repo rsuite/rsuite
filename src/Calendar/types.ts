@@ -25,17 +25,18 @@ export interface CalendarLocale {
 export interface CalendarInnerContextValue {
   date: Date;
   dateRange?: Date[];
-  hoverRangeValue?: Date[];
-  onMouseMove?: (date: Date) => void;
-  format?: string;
   disabledDate?: (date: Date, selectRangeValue?: Date[], type?: string) => boolean;
-  timeZone?: string;
-  showWeekNumbers?: boolean;
+  format?: string;
+  hoverRangeValue?: Date[];
+  inSameMonth?: (date: Date) => boolean;
   isoWeek?: boolean;
-  onSelect?: (date: Date, event: React.MouseEvent<HTMLDivElement>) => void;
-  renderCell?: (date: Date) => React.ReactNode;
   onChangePageDate?: (nextPageDate: Date, event: React.MouseEvent) => void;
   onChangePageTime?: (nextPageTime: Date, event: React.MouseEvent) => void;
+  onMouseMove?: (date: Date) => void;
+  onSelect?: (date: Date, event: React.MouseEvent<HTMLDivElement>) => void;
+  renderCell?: (date: Date) => React.ReactNode;
+  showWeekNumbers?: boolean;
+  timeZone?: string;
 }
 
 export interface CalendarContextValue extends CalendarInnerContextValue {

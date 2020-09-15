@@ -11,11 +11,14 @@ import {
   addMonths,
   calendarOnlyProps,
   disabledTime,
-  omitHideDisabledProps
+  isSameMonth,
+  omitHideDisabledProps,
+  setDate
 } from '../utils/dateUtils';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { CalendarLocale } from './types';
 import { CalendarProvider } from './CalendarContext';
+import composeFunctions from '../utils/composeFunctions';
 
 export enum CalendarState {
   'DROP_TIME' = 'DROP_TIME',
@@ -26,30 +29,31 @@ export interface CalendarProps
   extends WithAsProps,
     Omit<HTMLAttributes<HTMLDivElement>, 'onSelect' | 'onChange' | 'onMouseMove'>,
     Omit<HeaderProps, 'onMoveForward' | 'onMoveBackward'> {
-  pageDate: Date;
-  dateRange?: Date[];
   calendarState?: CalendarState;
-  format?: string;
-  timeZone?: string;
-  isoWeek?: boolean;
-  limitEndYear?: number;
-  showWeekNumbers?: boolean;
-  hoverRangeValue?: Date[];
+  dateRange?: Date[];
   disabledDate?: (date: Date) => boolean;
   disabledHours?: (hour: number, date: Date) => boolean;
   disabledMinutes?: (minute: number, date: Date) => boolean;
   disabledSeconds?: (second: number, date: Date) => boolean;
+  format?: string;
   hideHours?: (hour: number, date: Date) => boolean;
   hideMinutes?: (minute: number, date: Date) => boolean;
   hideSeconds?: (second: number, date: Date) => boolean;
-  onMouseMove?: (date: Date) => void;
-  onMoveForward?: (nextPageDate: Date) => void;
-  onMoveBackward?: (nextPageDate: Date) => void;
-  onSelect?: (date: Date, event: React.MouseEvent<HTMLDivElement>) => void;
+  hoverRangeValue?: Date[];
+  inSameMonth?: (date: Date) => boolean;
+  isoWeek?: boolean;
+  limitEndYear?: number;
+  locale?: CalendarLocale;
   onChangePageDate?: (nextPageDate: Date, event: React.MouseEvent) => void;
   onChangePageTime?: (nextPageTime: Date, event: React.MouseEvent) => void;
+  onMouseMove?: (date: Date) => void;
+  onMoveBackward?: (nextPageDate: Date) => void;
+  onMoveForward?: (nextPageDate: Date) => void;
+  onSelect?: (date: Date, event: React.MouseEvent<HTMLDivElement>) => void;
+  pageDate: Date;
   renderCell?: (date: Date) => React.ReactNode;
-  locale?: CalendarLocale;
+  showWeekNumbers?: boolean;
+  timeZone?: string;
 }
 
 const defaultProps: Partial<CalendarProps> = {
@@ -64,13 +68,19 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       className,
       classPrefix,
       calendarState,
+      dateRange,
+      disabledBackward,
       disabledDate,
+      disabledForward,
       format,
+      hoverRangeValue,
+      inSameMonth,
       isoWeek,
       limitEndYear,
       locale,
       onChangePageDate,
       onChangePageTime,
+      onMouseMove,
       onMoveBackward,
       onMoveForward,
       onSelect,
@@ -78,7 +88,6 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       onToggleMonthDropdown,
       onToggleTimeDropdown,
       pageDate,
-      dateRange,
       renderCell,
       renderTitle,
       renderToolbar,
@@ -88,10 +97,6 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       showTime: showTimeProp,
       showWeekNumbers,
       timeZone,
-      disabledBackward,
-      disabledForward,
-      hoverRangeValue,
-      onMouseMove,
       ...rest
     } = props;
     const { withClassPrefix, merge } = useClassNames(classPrefix);
@@ -117,6 +122,15 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
     const dropTime = calendarState === CalendarState.DROP_TIME || onlyShowTime;
     const dropMonth = calendarState === CalendarState.DROP_MONTH || onlyShowMonth;
 
+    const inSameThisMonthDate = useCallback(
+      (date: Date) =>
+        composeFunctions(
+          d => setDate(d, 1),
+          d => isSameMonth(d, date)
+        )(date),
+      []
+    );
+
     const calendarClasses = merge(
       className,
       withClassPrefix({
@@ -127,15 +141,16 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
     const timeDropdownProps = pick(rest, calendarOnlyProps);
     const contextValue = {
       date: pageDate,
-      disabledDate: isDisabledDate,
       dateRange,
-      hoverRangeValue,
-      onMouseMove,
+      disabledDate: isDisabledDate,
       format,
+      hoverRangeValue,
+      inSameMonth: inSameMonth ?? inSameThisMonthDate,
       isoWeek,
       locale,
       onChangePageDate,
       onChangePageTime,
+      onMouseMove,
       onSelect,
       renderCell,
       showWeekNumbers,
@@ -195,6 +210,7 @@ Calendar.propTypes = {
   hideHours: PropTypes.func,
   hideMinutes: PropTypes.func,
   hideSeconds: PropTypes.func,
+  inSameMonth: PropTypes.func,
   isoWeek: PropTypes.bool,
   limitEndYear: PropTypes.number,
   locale: PropTypes.object,
@@ -211,9 +227,9 @@ Calendar.propTypes = {
   renderTitle: PropTypes.func,
   renderToolbar: PropTypes.func,
   showDate: PropTypes.bool,
+  showMeridian: PropTypes.bool,
   showMonth: PropTypes.bool,
   showTime: PropTypes.bool,
-  showMeridian: PropTypes.bool,
   showWeekNumbers: PropTypes.bool,
   timeZone: PropTypes.string
 };

@@ -19,22 +19,13 @@ const View: RsRefForwardingComponent<'div', ViewProps> = React.forwardRef(
     const { as: Component, className, classPrefix, ...rest } = props;
     const { date = new Date(), isoWeek } = useCalendarContext();
 
-    const inSameThisMonthDate = useCallback(
-      (date: Date) =>
-        composeFunctions(
-          d => setDate(d, 1),
-          d => isSameMonth(d, date)
-        )(date),
-      []
-    );
-
     const thisMonthDate = setDate(date, 1);
     const { merge, rootPrefix } = useClassNames(classPrefix);
     const classes = merge(className, rootPrefix(classPrefix));
 
     return (
       <Component {...rest} ref={ref} role="row" className={classes}>
-        <Table rows={getMonthView(thisMonthDate, isoWeek)} inSameMonth={inSameThisMonthDate} />
+        <Table rows={getMonthView(thisMonthDate, isoWeek)} />
       </Component>
     );
   }

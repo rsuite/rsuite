@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 
 /**
  * A hook for controlled value management.
@@ -10,14 +10,14 @@ import { useRef, useState, useCallback } from 'react';
 function useControlled<T = any>(
   controlledValue: T,
   defaultValue: T
-): [T, (value: T) => void, boolean] {
+): [T, (value: React.SetStateAction<T>) => void, boolean] {
   const { current: isControlled } = useRef(controlledValue !== undefined);
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
 
   const value = isControlled ? controlledValue : uncontrolledValue;
 
   const setValue = useCallback(
-    (nextValue: T) => {
+    (nextValue: React.SetStateAction<T>) => {
       if (!isControlled) {
         setUncontrolledValue(nextValue);
       }

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
-import { addMonths } from '../utils/dateUtils';
+import { addMonths, isSameMonth } from '../utils/dateUtils';
 import Calendar from './Calendar';
 import { ValueType } from './types';
 import { CalendarState } from '../Calendar/Calendar';
@@ -83,29 +83,35 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       );
     }, [calendarState]);
 
+    const inSameMonth = useCallback((date: Date) => isSameMonth(date, calendarDate[index]), [
+      calendarDate,
+      index
+    ]);
+
     return (
       <Component
+        calendarDate={calendarDate}
+        calendarState={calendarState}
         classPrefix={classPrefix}
         disabledDate={disabledDate}
         format={format}
+        hoverRangeValue={hoverRangeValue}
+        index={index}
+        inSameMonth={inSameMonth}
+        isoWeek={isoWeek}
+        limitEndYear={limitEndYear}
+        locale={locale}
+        onChangePageDate={handleChangePageDate}
+        onMouseMove={onMouseMove}
+        onMoveBackward={onMoveBackward}
+        onMoveForward={onMoveForward}
+        onSelect={onSelect}
+        onToggleMonthDropdown={toggleMonthDropdown}
+        ref={ref}
+        showOneCalendar={showOneCalendar}
+        showWeekNumbers={showWeekNumbers}
         timeZone={timeZone}
         value={value}
-        isoWeek={isoWeek}
-        hoverRangeValue={hoverRangeValue}
-        calendarState={calendarState}
-        calendarDate={calendarDate}
-        index={index}
-        onMoveForward={onMoveForward}
-        onMoveBackward={onMoveBackward}
-        onSelect={onSelect}
-        onMouseMove={onMouseMove}
-        onToggleMonthDropdown={toggleMonthDropdown}
-        onChangePageDate={handleChangePageDate}
-        limitEndYear={limitEndYear}
-        showWeekNumbers={showWeekNumbers}
-        showOneCalendar={showOneCalendar}
-        locale={locale}
-        ref={ref}
       />
     );
   }
