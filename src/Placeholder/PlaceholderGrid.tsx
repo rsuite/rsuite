@@ -1,28 +1,39 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { defaultProps, getUnhandledProps, prefix } from '../utils';
-import { PlaceholderGridProps } from './PlaceholderGrid.d';
+import { useClassNames } from '../utils';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-class PlaceholderGrid extends React.Component<PlaceholderGridProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    rows: PropTypes.number,
-    columns: PropTypes.number,
-    rowHeight: PropTypes.number,
-    rowMargin: PropTypes.number,
-    active: PropTypes.bool
-  };
-  static defaultProps = {
-    rows: 5,
-    columns: 5,
-    rowHeight: 10,
-    rowMargin: 20
-  };
+export interface PlaceholderGridProps extends WithAsProps {
+  /* number of rows */
+  rows?: number;
 
-  render() {
+  /* height of rows */
+  rowHeight?: number;
+
+  /* margin of rows */
+  rowMargin?: number;
+
+  /* number of columns */
+  columns?: number;
+
+  /** Placeholder status */
+  active?: boolean;
+}
+
+const defaultProps: Partial<PlaceholderGridProps> = {
+  as: 'div',
+  classPrefix: 'placeholder',
+  rows: 5,
+  columns: 5,
+  rowHeight: 10,
+  rowMargin: 20
+};
+
+const PlaceholderGrid: RsRefForwardingComponent<'div', PlaceholderGridProps> = React.forwardRef(
+  (props: PlaceholderGridProps, ref) => {
     const {
+      as: Component,
       className,
       classPrefix,
       rows,
@@ -31,12 +42,10 @@ class PlaceholderGrid extends React.Component<PlaceholderGridProps> {
       rowMargin,
       active,
       ...rest
-    } = this.props;
-    const addPrefix = prefix(classPrefix);
-    const unhandled = getUnhandledProps(PlaceholderGrid, rest);
-    const classes = classNames(classPrefix, addPrefix('grid'), className, {
-      [addPrefix('active')]: active
-    });
+    } = props;
+
+    const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix('grid', { active }));
     const colItems = [];
     const firstRowItemWidth = Math.random() * 30 + 30;
     const itemWidth = firstRowItemWidth / 2;
@@ -60,19 +69,29 @@ class PlaceholderGrid extends React.Component<PlaceholderGridProps> {
         );
       }
       colItems.push(
-        <div key={i} className={classNames(addPrefix('grid-col'))}>
+        <div key={i} className={classNames(prefix('grid-col'))}>
           {rowItems}
         </div>
       );
     }
     return (
-      <div className={classes} {...unhandled}>
+      <Component {...rest} ref={ref} className={classes}>
         {colItems}
-      </div>
+      </Component>
     );
   }
-}
+);
 
-export default defaultProps<PlaceholderGridProps>({
-  classPrefix: 'placeholder'
-})(PlaceholderGrid);
+PlaceholderGrid.displayName = 'PlaceholderGrid';
+PlaceholderGrid.defaultProps = defaultProps;
+PlaceholderGrid.propTypes = {
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  rows: PropTypes.number,
+  columns: PropTypes.number,
+  rowHeight: PropTypes.number,
+  rowMargin: PropTypes.number,
+  active: PropTypes.bool
+};
+
+export default PlaceholderGrid;

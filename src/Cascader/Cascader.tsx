@@ -57,20 +57,24 @@ export interface CascaderProps<T = ValueType>
   renderMenu?: (items: ItemDataType[], menu: React.ReactNode, parentNode?: any) => React.ReactNode;
 
   /** Custom render menu items */
-  renderMenuItem?: (itemLabel: React.ReactNode, item: any) => React.ReactNode;
+  renderMenuItem?: (itemLabel: React.ReactNode, item: ItemDataType) => React.ReactNode;
 
   /** Custom render selected items */
   renderValue?: (
-    value: any,
-    selectedPaths: any[],
+    value: T,
+    selectedPaths: ItemDataType[],
     selectedElement: React.ReactNode
   ) => React.ReactNode;
 
   /** Called when the option is selected */
-  onSelect?: (value: any, selectedPaths: any[], event: React.SyntheticEvent) => void;
+  onSelect?: (
+    value: ItemDataType,
+    selectedPaths: ItemDataType[],
+    event: React.SyntheticEvent
+  ) => void;
 
   /** Called when clean */
-  onClean?: (event: React.SyntheticEvent<any>) => void;
+  onClean?: (event: React.SyntheticEvent) => void;
 
   /** Called when searching */
   onSearch?: (searchKeyword: string, event: React.SyntheticEvent<HTMLElement>) => void;

@@ -1,12 +1,32 @@
 import * as React from 'react';
 import { StandardProps } from '../@types/common';
-import PaginationBaseProps from '../Pagination/PaginationBase';
 
 interface MenuItem {
   label: React.ReactNode;
   value: number;
 }
-export interface TablePaginationProps extends StandardProps, PaginationBaseProps {
+export interface TablePaginationProps extends StandardProps {
+  /** Current page number */
+  activePage?: number;
+
+  /** Page buttons display the maximum number of */
+  maxButtons?: number;
+
+  /** Displays the first page */
+  first?: boolean | React.ReactNode;
+
+  /** Displays the last page */
+  last?: boolean | React.ReactNode;
+
+  /** Displays the prev page */
+  prev?: boolean | React.ReactNode;
+
+  /** Displays the next page */
+  next?: boolean | React.ReactNode;
+
+  /** Disabled component */
+  disabled?: boolean | ((eventKey: any) => boolean);
+
   /** Paging display row number configuration, defaults to 30, 50, 100 */
   lengthMenu?: MenuItem[];
 

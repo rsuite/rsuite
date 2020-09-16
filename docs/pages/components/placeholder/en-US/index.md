@@ -6,27 +6,35 @@ Placeholder before component loaded.
 - `<Placeholder.Graph>` Graph placeholder
 - `<Placeholder.Grid>` Grid placeholder
 
-## Usage
+## Import
 
-```js
-import { Placeholder } from 'rsuite';
-```
+<!--{include:(components/placeholder/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Paragraph
+
+<!--{include:`paragraph.md`}-->
+
+### Grid
+
+<!--{include:`grid.md`}-->
+
+### Graph
+
+<!--{include:`graph.md`}-->
 
 ## Props
 
 ### `<Placeholder.Paragraph>`
 
-| Property  | Type `(Default)`                           | Description    |
-| --------- | ------------------------------------------ | -------------- |
-| rows      | number `(2)`                               | number of rows |
-| rowHeight | number `(10)`                              | height of rows |
-| rowMargin | number `(20)`                              | margin of rows |
-| graph     | boolean / enums: 'circle','square','image' | show graph     |
-| active    | boolean                                    | play animation |
+| Property  | Type `(Default)`                                       | Description    |
+| --------- | ------------------------------------------------------ | -------------- |
+| rows      | number `(2)`                                           | number of rows |
+| rowHeight | number `(10)`                                          | height of rows |
+| rowMargin | number `(20)`                                          | margin of rows |
+| graph     | boolean &#123; 'circle' &#124; 'square' &#124; 'image' | show graph     |
+| active    | boolean                                                | play animation |
 
 ### `<Placeholder.Grid>`
 
@@ -40,8 +48,8 @@ import { Placeholder } from 'rsuite';
 
 ### `<Placeholder.Graph>`
 
-| Property | Type `(Default)`       | Description    |
-| -------- | ---------------------- | -------------- |
-| width    | number/string `(100%)` | graph width    |
-| height   | number `(200)`         | graph height   |
-| active   | boolean                | play animation |
+| Property | Type `(Default)`              | Description    |
+| -------- | ----------------------------- | -------------- |
+| width    | number &#124; string `(100%)` | graph width    |
+| height   | number `(200)`                | graph height   |
+| active   | boolean                       | play animation |

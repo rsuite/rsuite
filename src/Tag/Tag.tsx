@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
+import CloseButton from '../CloseButton';
 
 export interface TagProps extends WithAsProps {
   /** A tag can have different colors */
@@ -35,9 +36,7 @@ const Tag: RsRefForwardingComponent<'div', TagProps> = React.forwardRef((props: 
   return (
     <Component {...rest} ref={ref} className={classes}>
       <span className={prefix`text`}>{children}</span>
-      {closable && (
-        <i role="button" tabIndex={-1} className={prefix`icon-close`} onClick={onClose} />
-      )}
+      {closable && <CloseButton className={prefix`icon-close`} onClick={onClose} />}
     </Component>
   );
 });

@@ -2,17 +2,69 @@
 
 Single selection of data with hierarchical relationship structure.
 
-- `<MultiCascader>`
+## Import
 
-## Usage
-
-```js
-import { MultiCascader } from 'rsuite';
-```
+<!--{include:(components/multi-cascader/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Default
+
+<!--{include:`basic.md`}-->
+
+### Appearance
+
+<!--{include:`appearance.md`}-->
+
+### Size
+
+<!--{include:`size.md`}-->
+
+### Cascade
+
+<!--{include:`cascade.md`}-->
+
+### Default value
+
+<!--{include:`default-value.md`}-->
+
+### Controlled
+
+<!--{include:`controlled.md`}-->
+
+### Block
+
+<!--{include:`block.md`}-->
+
+### Placement
+
+<!--{include:`placement.md`}-->
+
+> Tip: When set to `auto*`, try to scroll the page, or change the browser size, it will automatically appear in the right place.
+
+### Custom options
+
+<!--{include:`custom.md`}-->
+
+### Disabled
+
+<!--{include:`disabled.md`}-->
+
+### Uncheckable
+
+<!--{include:`uncheckable.md`}-->
+
+### Async
+
+<!--{include:`async.md`}-->
+
+### Container and prevent overflow
+
+<!--{include:`container.md`}-->
+
+### Inline
+
+<!--{include:`inline.md`}-->
 
 ## Props
 

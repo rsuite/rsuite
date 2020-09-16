@@ -1,317 +1,351 @@
-import _ from 'lodash';
+import { useState, useEffect, useCallback } from 'react';
+import uniq from 'lodash/uniq';
+import remove from 'lodash/remove';
+import slice from 'lodash/slice';
+import { MultiCascaderProps, ValueType } from './MultiCascader';
+import { ItemDataType } from '../@types/common';
+import { flattenTree } from '../utils/treeUtils';
 
-export interface ItemType {
-  valueKey: string;
-  childrenKey: string;
+export interface ItemType extends ItemDataType {
   parent?: ItemType;
 }
 
-export interface UtilType {
-  removeAllChildrenValue?: (value: any, item: ItemType) => any;
-  getChildrenValue?: (item: ItemType, uncheckableItemValues?: ItemType[]) => any[];
-  splitValue?: (
-    item: ItemType,
-    checked: boolean,
-    value: any[],
-    uncheckableItemValues: any[]
-  ) => {
-    value: any;
-    removedValue: any;
-  };
-  transformValue?: (
-    value: ItemType[],
-    flattenData: ItemType[],
-    uncheckableItemValues?: ItemType[]
-  ) => ItemType[];
-  getOtherItemValuesByUnselectChild?: (itemNode: ItemType, value: any) => any;
-  getItems?: (selectNode: any, flattenData: any[]) => any[];
-  isSomeChildChecked?: (node: any, value: any[]) => boolean;
-  isSomeParentChecked?: (node: any, value: any[]) => boolean;
+interface ItemKeys {
+  valueKey?: string;
+  labelKey?: string;
+  childrenKey?: string;
 }
 
-export default function (props: any): UtilType {
-  const { valueKey, childrenKey } = props;
+/**
+ * Get all parents of a node
+ * @param node
+ */
+export const getParents = (node: ItemType) => {
+  let parents = [];
 
-  /**
-   * 获取一个节点的所有子节点的值
-   * @param {*} item
-   * @param {*} uncheckableItemValues
-   */
-  function getChildrenValue(item: ItemType, uncheckableItemValues?: ItemType[]) {
-    let values = [];
-
-    if (!item[childrenKey]) {
-      return values;
-    }
-
-    item[childrenKey].forEach(n => {
-      if (uncheckableItemValues && !uncheckableItemValues.some(v => v === n[valueKey])) {
-        values.push(n[valueKey]);
-      }
-      values = values.concat(getChildrenValue(n, uncheckableItemValues));
-    });
-
-    return values;
-  }
-
-  /**
-   * 获取一个节点的所有父辈节点
-   * @param {*} item
-   * @param {*} uncheckableItemValues
-   */
-  function getParents(item: ItemType) {
-    let parents = [];
-
-    if (!item.parent) {
-      return parents;
-    }
-
-    parents.push(item.parent);
-    parents = parents.concat(getParents(item.parent));
-
+  if (!node.parent) {
     return parents;
   }
 
-  /**
-   * 删除一个节点下所有已选择的值
-   * @param {*} value
-   * @param {*} item
-   */
-  function removeAllChildrenValue(value: any, item: ItemType) {
-    let removedValue = [];
-    if (!item[childrenKey]) {
-      return;
-    }
+  parents.push(node.parent);
+  parents = parents.concat(getParents(node.parent));
 
-    item[childrenKey].forEach(n => {
-      removedValue = removedValue.concat(_.remove(value, v => v === n[valueKey]));
-      if (n[childrenKey]) {
-        removeAllChildrenValue(value, n);
-      }
-    });
-    return removedValue;
-  }
+  return parents;
+};
 
-  function getOtherItemValuesByUnselectChild(itemNode: ItemType, value: any) {
-    const parentValues = [];
-    const itemValues = [];
-
-    // 通过 value 找到当前节点的父节点
-    function findParent(item) {
-      parentValues.push(item[valueKey]);
-      if (value.some(v => v === item[valueKey])) {
-        return item;
-      }
-      if (item.parent) {
-        const p = findParent(item.parent);
-        if (p) {
-          return p;
-        }
-      }
-      return null;
-    }
-
-    // 通过父节点获取子节点
-    function pushChildValue(item) {
-      if (!item[childrenKey]) {
-        return;
-      }
-      item[childrenKey].forEach(n => {
-        //判断是否是直属父级
-        if (parentValues.some(v => v === n[valueKey]) && n[childrenKey]) {
-          pushChildValue(n);
-        } else if (n[valueKey] !== itemNode[valueKey]) {
-          itemValues.push(n[valueKey]);
-        }
-      });
-    }
-
-    const parent = findParent(itemNode);
-
-    if (!parent) {
-      return [];
-    }
-
-    pushChildValue(parent);
-
-    return itemValues;
-  }
-
-  /**
-   * 拆分值
-   * @param {*} item
-   * @param {*} checked
-   * @param {*} value
-   * @param {*} uncheckableItemValues
-   */
-  function splitValue(
-    item: ItemType,
-    checked: boolean,
-    value: any[],
-    uncheckableItemValues: any[] = []
-  ) {
-    const itemValue = item[valueKey];
-    const childrenValue = getChildrenValue(item, uncheckableItemValues);
-    const parents = getParents(item);
-
-    let nextValue = [...value];
-    let removedValue = [];
-
-    if (checked) {
-      nextValue.push(itemValue);
-
-      // 删除当前节点下所有的值
-      removedValue = removedValue.concat(removeAllChildrenValue(nextValue, item));
-
-      /**
-       * 遍历当前节点所有祖宗节点
-       * 然后判断这些节点的子节点是否是否全部被选中，则自身也要被选中
-       */
-      for (let i = 0; i < parents.length; i++) {
-        // 父节点是否可以选择
-        const isCheckableParent = !uncheckableItemValues.some(v => v === parents[i][valueKey]);
-
-        if (isCheckableParent) {
-          const isCheckAll = parents[i][childrenKey]
-            // 过滤掉被标识为不可选的选项
-            .filter(n => !uncheckableItemValues.some(v => v === n[valueKey]))
-            // 检查是否所有节点都被选中
-            .every(n => nextValue.some(v => v === n[valueKey]));
-
-          if (isCheckAll) {
-            // 添加父节点值
-            nextValue.push(parents[i][valueKey]);
-
-            // 删除父节点下所有的值
-            removedValue = removedValue.concat(removeAllChildrenValue(nextValue, parents[i]));
-          }
-        }
-      }
-    } else {
-      const tempValue = childrenValue.concat(parents.map(item => item[valueKey]));
-
-      nextValue = nextValue.concat(getOtherItemValuesByUnselectChild(item, nextValue));
-
-      // 删除相关的子父节点
-      removedValue = _.remove(nextValue, v => {
-        // 删除自己
-        if (v === itemValue) {
-          return true;
-        }
-        return tempValue.some(n => n === v);
-      });
-    }
-
-    const uniqValue: any[] = _.uniq(nextValue);
-    const uniqRemovedValue: any[] = _.uniq(removedValue);
-
-    return {
-      value: uniqValue,
-      removedValue: uniqRemovedValue
-    };
-  }
-
-  /**
-   * 在 value 中的值存在级联的情况下
-   * 通过 value 重新计算出一个新的 value
-   */
-  function transformValue(
-    value: ItemType[],
-    flattenData: ItemType[],
-    uncheckableItemValues?: ItemType[]
-  ): ItemType[] {
-    let tempRemovedValue = [];
-    let nextValue = [];
-
-    for (let i = 0; i < value.length; i++) {
-      // 如果当前 value 中的值已经在被删除列表中则不处理
-      if (tempRemovedValue.some(v => v === value[i])) {
-        continue;
-      }
-
-      const item: ItemType = flattenData.find(v => v[valueKey] === value[i]);
-      if (!item) {
-        continue;
-      }
-      const sv = splitValue(item, true, value, uncheckableItemValues);
-      tempRemovedValue = _.uniq(tempRemovedValue.concat(sv.removedValue));
-
-      // 获取到所有相关的值
-      nextValue = _.uniq(nextValue.concat(sv.value));
-    }
-
-    // 最后遍历所有的 nextValue, 如果它的父节点也在nextValue则删除
-    return nextValue.filter(v => {
-      const item = flattenData.find(n => n[valueKey] === v);
-      if (item?.parent && nextValue.some(v => v === item.parent[valueKey])) {
-        return false;
-      }
-      return true;
-    });
-  }
-
-  function getItems(selectNode: any, flattenData: any[]): any[] {
-    const items = [];
-
-    function findParent(item) {
-      if (item[childrenKey]) {
-        items.push(item[childrenKey]);
-      }
-
-      if (item.parent) {
-        findParent(item.parent);
-      }
-    }
-
-    if (selectNode) {
-      findParent(selectNode);
-    }
-
-    items.push(flattenData.filter(item => item.parent === null));
-
-    return items.reverse();
-  }
-
-  function isSomeChildChecked(node: any, value: any[] = []) {
-    if (!node[childrenKey] || !value) {
-      return false;
-    }
-
-    return node[childrenKey].some((child: any) => {
-      if (value.some(n => n === child[valueKey])) {
-        return true;
-      }
-      if (child[childrenKey]?.length) {
-        return isSomeChildChecked(child, value);
-      }
-      return false;
-    });
-  }
-
-  function isSomeParentChecked(node: any, value: any[] = []) {
-    if (!value) {
-      return false;
-    }
-
-    if (value.some(n => n === node[valueKey])) {
-      return true;
-    }
-
-    if (node.parent) {
-      return isSomeParentChecked(node.parent, value);
-    }
-
+/**
+ * Check if any child nodes are selected.
+ * @param node
+ * @param value
+ * @param itemKeys
+ */
+export const isSomeChildChecked = (node: ItemDataType, value: ValueType, itemKeys: ItemKeys) => {
+  const { childrenKey, valueKey } = itemKeys;
+  if (!node[childrenKey] || !value) {
     return false;
   }
 
+  return node[childrenKey].some((child: ItemDataType) => {
+    if (value.some(n => n === child[valueKey])) {
+      return true;
+    }
+    if (child[childrenKey]?.length) {
+      return isSomeChildChecked(child, value, itemKeys);
+    }
+    return false;
+  });
+};
+
+/**
+ * Check if the parent is selected.
+ * @param node
+ * @param value
+ * @param itemKeys
+ */
+export const isSomeParentChecked = (node: ItemDataType, value: ValueType, itemKeys: ItemKeys) => {
+  const { valueKey } = itemKeys;
+  if (!value) {
+    return false;
+  }
+
+  if (value.some(n => n === node[valueKey])) {
+    return true;
+  }
+
+  if (node.parent) {
+    return isSomeParentChecked(node.parent, value, itemKeys);
+  }
+
+  return false;
+};
+
+export const getOtherItemValuesByUnselectChild = (
+  itemNode: ItemType,
+  value: any,
+  itemKeys: ItemKeys
+) => {
+  const { valueKey, childrenKey } = itemKeys;
+  const parentValues = [];
+  const itemValues = [];
+
+  // Find the parent node of the current node by value
+  function findParent(item) {
+    parentValues.push(item[valueKey]);
+    if (value.some(v => v === item[valueKey])) {
+      return item;
+    }
+    if (item.parent) {
+      const p = findParent(item.parent);
+      if (p) {
+        return p;
+      }
+    }
+    return null;
+  }
+
+  // Get child nodes through parent node
+  function pushChildValue(item) {
+    if (!item[childrenKey]) {
+      return;
+    }
+    item[childrenKey].forEach(n => {
+      // Determine whether it is a direct parent
+      if (parentValues.some(v => v === n[valueKey]) && n[childrenKey]) {
+        pushChildValue(n);
+      } else if (n[valueKey] !== itemNode[valueKey]) {
+        itemValues.push(n[valueKey]);
+      }
+    });
+  }
+
+  const parent = findParent(itemNode);
+
+  if (!parent) {
+    return [];
+  }
+
+  pushChildValue(parent);
+
+  return itemValues;
+};
+
+/**
+ * Remove the values of all children.
+ */
+export const removeAllChildrenValue = (value: ValueType, item: ItemType, itemKeys: ItemKeys) => {
+  const { valueKey, childrenKey } = itemKeys;
+  let removedValue = [];
+  if (!item[childrenKey]) {
+    return;
+  }
+
+  item[childrenKey].forEach(n => {
+    removedValue = removedValue.concat(remove(value, v => v === n[valueKey]));
+    if (n[childrenKey]) {
+      removeAllChildrenValue(value, n, itemKeys);
+    }
+  });
+  return removedValue;
+};
+
+/**
+ * A hook to flatten tree structure data
+ * @param data
+ */
+export function useFlattenData(data: ItemDataType[], itemKeys: ItemKeys) {
+  const { childrenKey } = itemKeys;
+  const [flattenData, setFlattenData] = useState<ItemDataType[]>(flattenTree(data));
+
+  const addFlattenData = useCallback(
+    (children: ItemDataType[], parent: ItemDataType) => {
+      const nodes = children.map(child => {
+        child.parent = parent;
+        return child;
+      });
+
+      parent[childrenKey] = nodes;
+
+      setFlattenData([...flattenData, ...nodes]);
+    },
+    [childrenKey, flattenData]
+  );
+
+  useEffect(() => {
+    setFlattenData(flattenTree(data));
+  }, [data]);
+
+  return { addFlattenData, flattenData };
+}
+
+/**
+ * A hook for column data
+ * @param flattenData
+ */
+export function useColumnData(flattenData: ItemType[]) {
+  // The columns displayed in the cascading panel.
+  const [columnData, setColumnData] = useState<ItemDataType[][]>([
+    flattenData.filter(item => !item.parent)
+  ]);
+
+  /**
+   * Add a list of options to the cascading panel. Used for lazy loading options.
+   * @param column
+   * @param index The index of the current column.
+   */
+  function addColumn(column: ItemDataType[], index: number) {
+    setColumnData([...slice(columnData, 0, index), column]);
+  }
+
   return {
-    removeAllChildrenValue,
-    getChildrenValue,
-    splitValue,
-    transformValue,
-    getOtherItemValuesByUnselectChild,
-    getItems,
-    isSomeChildChecked,
-    isSomeParentChecked
+    columnData,
+    addColumn,
+    setColumnData
+  };
+}
+
+/**
+ * A hook that converts the value into a cascading value
+ * @param props
+ * @param flattenData
+ */
+export function useCascadeValue(props: Partial<MultiCascaderProps>, flattenData: ItemType[]) {
+  const { valueKey, childrenKey, uncheckableItemValues, cascade, value: valueProp } = props;
+
+  /**
+   * Get the values of all children
+   */
+  const getChildrenValue = useCallback(
+    (item: ItemType) => {
+      let values = [];
+
+      if (!item[childrenKey]) {
+        return values;
+      }
+
+      item[childrenKey].forEach(n => {
+        if (uncheckableItemValues && !uncheckableItemValues.some(v => v === n[valueKey])) {
+          values.push(n[valueKey]);
+        }
+        values = values.concat(getChildrenValue(n));
+      });
+
+      return values;
+    },
+    [childrenKey, uncheckableItemValues, valueKey]
+  );
+
+  const splitValue = useCallback(
+    (item: ItemType, checked: boolean, value: ValueType) => {
+      const itemValue = item[valueKey];
+      const childrenValue = getChildrenValue(item);
+      const parents = getParents(item);
+
+      let nextValue = [...value];
+      let removedValue = [];
+
+      if (checked) {
+        nextValue.push(itemValue);
+
+        // Delete all values under the current node
+        removedValue = removedValue.concat(
+          removeAllChildrenValue(nextValue, item, { valueKey, childrenKey })
+        );
+
+        // Traverse all ancestor nodes of the current node
+        // Then determine whether all the child nodes of these nodes are selected, and then they themselves must be selected
+        for (let i = 0; i < parents.length; i++) {
+          // Whether the parent node can be selected
+          const isCheckableParent = !uncheckableItemValues.some(v => v === parents[i][valueKey]);
+
+          if (isCheckableParent) {
+            const isCheckAll = parents[i][childrenKey]
+              // Filter out options that are marked as not selectable
+              .filter(n => !uncheckableItemValues.some(v => v === n[valueKey]))
+              // Check if all nodes are selected
+              .every(n => nextValue.some(v => v === n[valueKey]));
+
+            if (isCheckAll) {
+              // Add parent node value
+              nextValue.push(parents[i][valueKey]);
+
+              // Delete all values under the parent node
+              removedValue = removedValue.concat(
+                removeAllChildrenValue(nextValue, parents[i], { valueKey, childrenKey })
+              );
+            }
+          }
+        }
+      } else {
+        const tempValue = childrenValue.concat(parents.map(item => item[valueKey]));
+
+        nextValue = nextValue.concat(
+          getOtherItemValuesByUnselectChild(item, nextValue, { valueKey, childrenKey })
+        );
+
+        // Delete related child and parent nodes
+        removedValue = remove(nextValue, v => {
+          // Delete yourself
+          if (v === itemValue) {
+            return true;
+          }
+          return tempValue.some(n => n === v);
+        });
+      }
+
+      const uniqValue: ValueType = uniq(nextValue);
+      const uniqRemovedValue: ValueType = uniq(removedValue);
+
+      return {
+        value: uniqValue,
+        removedValue: uniqRemovedValue
+      };
+    },
+    [valueKey, childrenKey, uncheckableItemValues, getChildrenValue]
+  );
+
+  const transformValue = useCallback(
+    (value: ValueType = []) => {
+      if (!cascade) {
+        return value;
+      }
+
+      let tempRemovedValue = [];
+      let nextValue = [];
+
+      for (let i = 0; i < value.length; i++) {
+        // If the value in the current value is already in the deleted list, it will not be processed
+        if (tempRemovedValue.some(v => v === value[i])) {
+          continue;
+        }
+
+        const item: ItemType = flattenData.find(v => v[valueKey] === value[i]);
+        if (!item) {
+          continue;
+        }
+        const sv = splitValue(item, true, value);
+        tempRemovedValue = uniq(tempRemovedValue.concat(sv.removedValue));
+
+        // Get all relevant values
+        nextValue = uniq(nextValue.concat(sv.value));
+      }
+
+      // Finally traverse all nextValue, and delete if its parent node is also nextValue
+      return nextValue.filter(v => {
+        const item = flattenData.find(n => n[valueKey] === v);
+        if (item?.parent && nextValue.some(v => v === item.parent[valueKey])) {
+          return false;
+        }
+        return true;
+      });
+    },
+    [cascade, flattenData, splitValue, valueKey]
+  );
+
+  const [value, setValue] = useState<ValueType>(transformValue(valueProp) || []);
+
+  return {
+    value,
+    setValue,
+    splitValue
   };
 }
