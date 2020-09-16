@@ -1,7 +1,8 @@
 import { toTimeZone, zonedDate } from '../utils/timeZone';
-import { InnerRange, RangeType, ToolbarProps } from './Toolbar';
+import { ToolbarProps } from './Toolbar';
 import { setTimingMargin } from '../DateRangePicker/utils';
 import { subDays } from '../utils/dateUtils';
+import { InnerRange, ToolbarValue, RangeType } from './types';
 
 export function getDefaultRanges(timeZone: string, date: Date | Date[]): InnerRange[] {
   const todayDate = zonedDate(timeZone);
@@ -57,7 +58,7 @@ const generateRangesIterator = ({
   return {
     value:
       value instanceof Array
-        ? value.map(item => toTimeZone(item, timeZone))
+        ? (value.map(item => toTimeZone(item, timeZone)) as ToolbarValue)
         : toTimeZone(value, timeZone),
     ...rest
   };

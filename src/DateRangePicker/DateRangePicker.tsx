@@ -24,7 +24,7 @@ import {
   startOfWeek
 } from '../utils/dateUtils';
 import FormattedDate from '../IntlProvider/FormattedDate';
-import Toolbar from './Toolbar';
+import Toolbar from '../DatePicker/Toolbar';
 import CustomDatePicker from './CustomDatePicker';
 import {
   getCalendarDate,
@@ -567,13 +567,13 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
               </div>
             </div>
             <Toolbar
-              ranges={ranges}
-              selectValue={selectValue}
-              disabledOkButton={disabledOkButton}
-              disabledShortcutButton={disabledShortcutButton}
-              onShortcut={handleShortcutPageDate}
+              pageDate={selectValue}
+              disabledOkBtn={disabledOkButton}
+              disabledShortcut={disabledShortcutButton}
+              hideOkBtn={oneTap}
               onOk={handleOK}
-              hideOkButton={oneTap}
+              onShortcut={handleShortcutPageDate}
+              ranges={ranges}
               timeZone={timeZone}
             />
           </div>

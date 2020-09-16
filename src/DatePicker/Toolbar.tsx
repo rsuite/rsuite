@@ -4,23 +4,14 @@ import FormattedMessage from '../IntlProvider/FormattedMessage';
 import { useClassNames } from '../utils';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { getDefaultRanges, getRanges } from './utils';
+import { InnerRange, RangeType, ToolbarValue } from './types';
 
-type ToolbarValue = Date | Date[];
-
-export interface RangeType {
-  label: ReactNode;
-  closeOverlay?: boolean;
-  value: ToolbarValue | ((value: ToolbarValue) => ToolbarValue);
-}
-
-export interface InnerRange extends Omit<RangeType, 'value'> {
-  value: ToolbarValue;
-}
+export type { RangeType } from './types';
 
 export interface ToolbarProps extends WithAsProps {
   disabledOkBtn?: (value?: ToolbarValue) => boolean;
   disabledShortcut?: (value?: ToolbarValue) => boolean;
-  hideOkButton?: boolean;
+  hideOkBtn?: boolean;
   onOk?: (event: React.SyntheticEvent<any>) => void;
   onShortcut?: (
     value: ToolbarValue,
@@ -48,11 +39,11 @@ const Toolbar: RsRefForwardingComponent<'div', ToolbarProps> = React.forwardRef(
       classPrefix,
       disabledOkBtn,
       disabledShortcut,
-      hideOkButton,
+      hideOkBtn,
       onOk,
       onShortcut,
       pageDate,
-      ranges: rangeProp,
+      ranges: rangesProp,
       timeZone,
       ...rest
     } = props;
@@ -60,8 +51,8 @@ const Toolbar: RsRefForwardingComponent<'div', ToolbarProps> = React.forwardRef(
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
 
     useEffect(() => {
-      setRanges(getRanges({ ranges: rangeProp, pageDate, timeZone }));
-    }, [pageDate, rangeProp, timeZone]);
+      setRanges(getRanges({ ranges: rangesProp, pageDate, timeZone }));
+    }, [pageDate, rangesProp, timeZone]);
 
     const hasLocaleKey = useCallback(
       (key: ReactNode) => getDefaultRanges(timeZone, pageDate).some(item => item.label === key),
@@ -69,7 +60,7 @@ const Toolbar: RsRefForwardingComponent<'div', ToolbarProps> = React.forwardRef(
     );
 
     const renderOkButton = useCallback(() => {
-      if (hideOkButton) {
+      if (hideOkBtn) {
         return null;
       }
 
@@ -85,9 +76,9 @@ const Toolbar: RsRefForwardingComponent<'div', ToolbarProps> = React.forwardRef(
           </button>
         </div>
       );
-    }, [disabledOkBtn, hideOkButton, merge, onOk, pageDate, prefix]);
+    }, [disabledOkBtn, hideOkBtn, merge, onOk, pageDate, prefix]);
 
-    if (hideOkButton && ranges.length === 0) {
+    if (hideOkBtn && ranges.length === 0) {
       return null;
     }
 
@@ -130,7 +121,10 @@ Toolbar.propTypes = {
   ranges: PropTypes.array,
   className: PropTypes.string,
   classPrefix: PropTypes.string,
-  pageDate: PropTypes.instanceOf(Date),
+  pageDate: PropTypes.oneOfType([
+    PropTypes.instanceOf(Date),
+    PropTypes.arrayOf(PropTypes.instanceOf(Date))
+  ]),
   onShortcut: PropTypes.func,
   onOk: PropTypes.func,
   disabledShortcut: PropTypes.func,
