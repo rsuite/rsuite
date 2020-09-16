@@ -71,7 +71,7 @@ const CheckTreeNode: React.FC<CheckTreeNodeProps> = ({
   };
 
   const handleExpand = (event: React.SyntheticEvent<any>) => {
-    // 异步加载数据自定义loading图标时，阻止原生冒泡，不触发 document.click
+    // stop propagation for using custom loading icon
     event?.nativeEvent?.stopImmediatePropagation?.();
     onExpand?.(nodeData);
   };

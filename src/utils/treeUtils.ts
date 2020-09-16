@@ -32,7 +32,7 @@ export function shouldShowNodeByParentExpanded(
 }
 
 /**
- * 拍平树结构为数组
+ * flatten tree structure to array
  * @param {*} tree
  * @param {*} childrenKey
  * @param {*} executor
@@ -65,7 +65,7 @@ export function flattenTree(
 }
 
 /**
- * 获取树节点所有的祖先节点
+ * get all ancestor nodes of given node
  * @param {*} node
  */
 export function getNodeParents(node: any, parentKey = 'parent', valueKey?: string) {
@@ -88,7 +88,7 @@ export function getNodeParents(node: any, parentKey = 'parent', valueKey?: strin
 }
 
 /**
- * get node all parentKeys
+ * get all parentKeys of given node
  * @param nodes
  * @param node
  * @param valueKey
@@ -156,31 +156,7 @@ export function getExpandItemValues(props: PartialTreeProps) {
 }
 
 /**
- * 获取节点展开状态
- * @param node
- * @param props
- */
-export function getExpandState(node: any, props: PartialTreeProps) {
-  const { valueKey, childrenKey, defaultExpandAll, expandItemValues } = props;
-
-  const expand = getExpandItemValues(props).some((value: any) =>
-    shallowEqual(node[valueKey], value)
-  );
-  if (!_.isUndefined(expandItemValues)) {
-    return expand;
-  } else if (node[childrenKey]?.length) {
-    if (!_.isNil(node.expand)) {
-      return !!node.expand;
-    } else if (defaultExpandAll) {
-      return true;
-    }
-    return false;
-  }
-  return false;
-}
-
-/**
- * 获取拖拽节点及子节点的key
+ * get dragNode and it's children node keys
  * @param node
  * @param childrenKey
  * @param valueKey
@@ -208,12 +184,12 @@ export function calDropNodePosition(event: React.DragEvent, treeNodeElement: Ele
   const { top, bottom } = treeNodeElement.getBoundingClientRect();
   const gap = TREE_NODE_GAP;
 
-  // 处于节点下方
+  // bottom of node
   if (clientY >= bottom - gap && clientY <= bottom) {
     return TREE_NODE_DROP_POSITION.DRAG_OVER_BOTTOM;
   }
 
-  // 处于节点上方
+  // top of node
   if (clientY <= top + gap && clientY >= top) {
     return TREE_NODE_DROP_POSITION.DRAG_OVER_TOP;
   }
@@ -231,7 +207,7 @@ export function removeDragNode(data: any[], params: any, { valueKey, childrenKey
       const item = items[index];
       if (shallowEqual(item[valueKey], dragNode[valueKey])) {
         items.splice(index, 1);
-        // 当 children 为空，需要删除 children 属性，不显示角标
+        // when children is empty, delete children prop for hidden anchor
         if (items.length === 0 && parent) {
           delete parent.children;
         }
@@ -246,11 +222,6 @@ export function removeDragNode(data: any[], params: any, { valueKey, childrenKey
   traverse(data);
 }
 
-/**
- * 移动节点valueKey，先删除 dragNode 原本所在的数据，再将 dragNode 移动到拖动的位置
- * @param data
- * @param params
- */
 export function createUpdateTreeDataFunction(params: any, { valueKey, childrenKey }) {
   return function (tree: any[]) {
     const data = [...tree];
@@ -261,17 +232,17 @@ export function createUpdateTreeDataFunction(params: any, { valueKey, childrenKe
         const item = items[index];
 
         if (shallowEqual(item[valueKey], dropNode[valueKey])) {
-          // 拖拽到 dropNode内，作为 dropNode 的子节点
+          // drag to node inside
           if (dropNodePosition === TREE_NODE_DROP_POSITION.DRAG_OVER) {
             item[childrenKey] = _.isNil(item[childrenKey]) ? [] : item[childrenKey];
             item[childrenKey].push(dragNode);
             break;
           } else if (dropNodePosition === TREE_NODE_DROP_POSITION.DRAG_OVER_TOP) {
-            // 拖拽到 dropNode 的上面
+            // drag to top of node
             items.splice(index, 0, dragNode);
             break;
           } else if (dropNodePosition === TREE_NODE_DROP_POSITION.DRAG_OVER_BOTTOM) {
-            // 拖拽到 dropNode 的下面
+            // drag to bottom of node
             items.splice(index + 1, 0, dragNode);
             break;
           }

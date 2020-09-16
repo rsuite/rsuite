@@ -68,6 +68,7 @@ export interface CheckTreePickerProps<T = (string | number)[]>
     FormControlPickerProps<T, CheckTreePickerLocaleType, ItemDataType> {
   /** Tree node cascade */
   cascade?: boolean;
+
   /** A picker that can be counted */
   countable?: boolean;
 

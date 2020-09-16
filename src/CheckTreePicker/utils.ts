@@ -60,16 +60,12 @@ export function isSomeChildChecked(nodes: TreeNodesType, parent: TreeNodeType): 
   return children.some(child => nodes[child.refKey].check);
 }
 
-/**
- * 判断第一层节点是否存在有children的节点
- * @param {*} data
- */
 export function isSomeNodeHasChildren(data: any[], childrenKey: string): boolean {
   return data.some((node: TreeNodeType) => node[childrenKey]);
 }
 
 /**
- * 获取该节点的兄弟节点是否都为 uncheckable
+ * is all siblings nodes is uncheckable
  * @param {*} node
  */
 export function isAllSiblingNodeUncheckable(
@@ -140,10 +136,6 @@ export function getFormattedTree(data: any[], nodes: TreeNodesType, props: Check
   });
 }
 
-/**
- * 获取每个节点的disable状态
- * @param {*} node
- */
 export function getDisabledState(
   nodes: TreeNodesType,
   node: TreeNodeType,
@@ -156,12 +148,6 @@ export function getDisabledState(
   return disabledItemValues.some((value: any) => shallowEqual(nodes[node.refKey][valueKey], value));
 }
 
-/**
- * get check-tree picker default value
- * @param value
- * @param defaultValue
- * @param uncheckableItemValues
- */
 export function getCheckTreePickerDefaultValue(value: any[], uncheckableItemValues: any[]) {
   if (Array.isArray(value)) {
     return value.filter(v => !uncheckableItemValues.includes(v));
@@ -170,9 +156,6 @@ export function getCheckTreePickerDefaultValue(value: any[], uncheckableItemValu
   return [];
 }
 
-/**
- * get selected items
- */
 export function getSelectedItems(
   nodes: TreeNodesType,
   value: (string | number)[],
