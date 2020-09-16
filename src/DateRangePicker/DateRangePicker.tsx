@@ -26,7 +26,13 @@ import {
 import FormattedDate from '../IntlProvider/FormattedDate';
 import Toolbar from './Toolbar';
 import DatePicker from './DatePicker';
-import { getCalendarDate, isSameValueType, toLocalValue, toZonedValue } from './utils';
+import {
+  getCalendarDate,
+  isSameValueType,
+  setTimingMargin,
+  toLocalValue,
+  toZonedValue
+} from './utils';
 import { createChainedFunction, useClassNames, useControlled, useCustom } from '../utils';
 import { MenuWrapper, PickerToggle, PickerToggleTrigger, usePickerClassName } from '../Picker';
 import { DATERANGE_DISABLED_TARGET } from '../constants';
@@ -165,7 +171,10 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
     } = props;
     const { merge, prefix } = useClassNames(classPrefix);
     const { locale } = useCustom('DateRangePicker', overrideLocale);
-    const zonedValue: ValueType = useMemo(() => toZonedValue(valueProp, timeZone), []);
+    const zonedValue: ValueType = useMemo(() => toZonedValue(valueProp, timeZone), [
+      timeZone,
+      valueProp
+    ]);
     const [localZoneValue, setLocalZoneValue] = useControlled<ValueType>(valueProp, defaultValue);
     const zonedDefaultValue: ValueType = useMemo(() => toZonedValue(defaultValue || [], timeZone), [
       defaultValue,
@@ -317,7 +326,7 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
 
     const handleValueUpdate = useCallback(
       (event: React.SyntheticEvent<any>, nextSelectValue?: ValueType, closeOverlay = true) => {
-        const nextValue: any = !isUndefined(nextSelectValue) ? nextSelectValue : selectValue;
+        const nextValue = !isUndefined(nextSelectValue) ? nextSelectValue : selectValue;
 
         setSelectValue(nextValue || []);
         setValue(nextValue);
@@ -355,85 +364,39 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
       [handleValueUpdate, onOk, selectValue, timeZone]
     );
 
-    // const handleChangeSelectValue = useCallback(
-    //   (date: Date, event: React.SyntheticEvent<any>) => {
-    //     let nextValue = [];
-    //     let nextHoverValue = getHoverRange(date);
-    //
-    //     if (doneSelected.current) {
-    //       if (nextHoverValue.length) {
-    //         nextValue = [nextHoverValue[0], nextHoverValue[1], date];
-    //         // @todo 调整 ValueType 格式，统一长度
-    //         // @ts-ignore
-    //         nextHoverValue = [nextHoverValue[0], nextHoverValue[1], date];
-    //       } else {
-    //         nextValue = [date, undefined, date];
-    //       }
-    //     } else {
-    //       if (nextHoverValue.length) {
-    //         nextValue = [selectValue[0], selectValue[1]];
-    //       } else {
-    //         nextValue = [selectValue[0], date];
-    //       }
-    //
-    //       if (isAfter(nextValue[0], nextValue[1])) {
-    //         nextValue.reverse();
-    //       }
-    //
-    //       setCalendarDate(getCalendarDate({ value: nextValue, timeZone }));
-    //     }
-    //
-    //     event.persist();
-    //
-    //     const nextDoneSelect = !doneSelected.current;
-    //     // 如果是单击模式，并且是第一次点选，再触发一次点击
-    //     if (oneTap && doneSelected.current) {
-    //       handleChangeSelectValue(date, event);
-    //     }
-    //     // 如果是单击模式，并且是第二次点选，更新值，并关闭面板
-    //     if (oneTap && !doneSelected.current) {
-    //       handleValueUpdate(event);
-    //     }
-    //
-    //     onSelect?.(toLocalTimeZone(date, timeZone), event);
-    //     setDoneSelected(nextDoneSelect);
-    //     setSelectValue(nextValue as ValueType);
-    //     setHoverValue(nextHoverValue);
-    //   },
-    //   [
-    //     getHoverRange,
-    //     handleValueUpdate,
-    //     onSelect,
-    //     oneTap,
-    //     selectValue,
-    //     setCalendarDate,
-    //     setSelectValue,
-    //     timeZone
-    //   ]
-    // );
-
     const handleChangeSelectValue = useCallback(
       (date: Date, event: React.SyntheticEvent<any>) => {
         let nextSelectValue: ValueType = getHoverRange(date);
-        // @todo 补充 oneTap 实现
+        const isHoverRangeInvalid = !nextSelectValue.length;
 
         // no hover range valid
-        if (!nextSelectValue.length) {
-          // normally
+        if (isHoverRangeInvalid) {
+          // first select
           if (doneSelected.current) {
             nextSelectValue = [date] as ValueType;
           } else {
+            // last select
             const prevSelectValue = Array.from(selectValue) as ValueType;
             prevSelectValue[1] = date;
             nextSelectValue = prevSelectValue;
-
-            if (isAfter(nextSelectValue[0], nextSelectValue[1])) {
-              nextSelectValue.reverse();
-            }
-            setCalendarDate(getCalendarDate({ value: nextSelectValue, timeZone }));
           }
 
           doneSelected.current = !doneSelected.current;
+        }
+
+        // in `oneTap` mode
+        if (oneTap) {
+          handleValueUpdate(
+            event,
+            isHoverRangeInvalid
+              ? [setTimingMargin(date), setTimingMargin(date, 'right')]
+              : nextSelectValue
+          );
+        }
+
+        // If user have completed the selection, then sort
+        if (nextSelectValue.length === 2 && isAfter(nextSelectValue[0], nextSelectValue[1])) {
+          nextSelectValue.reverse();
         }
 
         setHoverValue(nextSelectValue);
@@ -441,54 +404,12 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
         onSelect?.(toLocalTimeZone(date, timeZone), event);
         event.persist();
       },
-      [getHoverRange, onSelect, selectValue, setCalendarDate, setSelectValue, timeZone]
+      [getHoverRange, handleValueUpdate, onSelect, oneTap, selectValue, setSelectValue, timeZone]
     );
 
-    // const handleMouseMoveSelectValue = useCallback(
-    //   (date: Date) => {
-    //     if (currentHoverDate && isSameDay(date, currentHoverDate)) {
-    //       return;
-    //     }
-    //
-    //     const nextHoverValue = getHoverRange(date);
-    //
-    //     if (doneSelected.current && !isUndefined(hoverRange)) {
-    //       setCurrentHoverDate(date);
-    //       setHoverValue(nextHoverValue);
-    //       return;
-    //     } else if (doneSelected.current) {
-    //       return;
-    //     }
-    //
-    //     let nextValue = Array.from(selectValue);
-    //
-    //     if (!nextHoverValue.length) {
-    //       nextValue[1] = date;
-    //     } else if (hoverValue) {
-    //       nextValue = [
-    //         isBefore(nextHoverValue[0], hoverValue[0]) ? nextHoverValue[0] : hoverValue[0],
-    //         isAfter(nextHoverValue[1], hoverValue[1]) ? nextHoverValue[1] : hoverValue[1],
-    //         nextValue[2]
-    //       ];
-    //     }
-    //
-    //     // If `nextValue[0]` is greater than `nextValue[1]` then reverse order
-    //     if (isAfter(nextValue[0], nextValue[1])) {
-    //       nextValue.reverse();
-    //     }
-    //
-    //     setCurrentHoverDate(date);
-    //     setSelectValue(nextValue);
-    //   },
-    //   [
-    //     currentHoverDate,
-    //     getHoverRange,
-    //     hoverRange,
-    //     hoverValue,
-    //     selectValue,
-    //     setSelectValue
-    //   ]
-    // );
+    useEffect(() => {
+      setCalendarDate(getCalendarDate({ value: selectValue, timeZone }));
+    }, [selectValue, setCalendarDate, timeZone]);
 
     const handleMouseMoveSelectValue = useCallback(
       (date: Date) => {
