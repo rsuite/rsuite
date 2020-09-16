@@ -25,7 +25,7 @@ import {
 } from '../utils/dateUtils';
 import FormattedDate from '../IntlProvider/FormattedDate';
 import Toolbar from './Toolbar';
-import DatePicker from './DatePicker';
+import CustomDatePicker from './CustomDatePicker';
 import {
   getCalendarDate,
   isSameValueType,
@@ -542,7 +542,6 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
       const pickerProps = {
         calendarDate,
         disabledDate: handleDisabledDate,
-        doneSelected: doneSelected.current,
         format,
         hoverRangeValue: hoverValue,
         isoWeek,
@@ -563,8 +562,8 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
             <div className={prefix('daterange-content')}>
               <div className={prefix('daterange-header')}>{getDateString(selectValue)}</div>
               <div className={prefix(`daterange-calendar-${showOneCalendar ? 'single' : 'group'}`)}>
-                <DatePicker index={0} {...pickerProps} />
-                {!showOneCalendar && <DatePicker index={1} {...pickerProps} />}
+                <CustomDatePicker index={0} {...pickerProps} />
+                {!showOneCalendar && <CustomDatePicker index={1} {...pickerProps} />}
               </div>
             </div>
             <Toolbar

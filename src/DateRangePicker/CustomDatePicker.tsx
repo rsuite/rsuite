@@ -1,13 +1,17 @@
 import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
-import { addMonths, isSameMonth } from '../utils/dateUtils';
-import Calendar from './Calendar';
+import { addMonths, isAfter, isSameMonth, setDate } from '../utils/dateUtils';
+import CalendarCore, { CalendarProps as CalendarCoreProps } from '../Calendar/Calendar';
 import { ValueType } from './types';
 import { CalendarState } from '../Calendar/Calendar';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { DatePickerLocale } from '../DatePicker/types';
 
-export interface DatePickerProps extends WithAsProps {
+type OmitCalendarCoreTypes = 'disabledDate' | 'onSelect' | 'onMouseMove' | 'pageDate';
+
+export interface CustomDatePickerProps
+  extends WithAsProps,
+    Omit<CalendarCoreProps, OmitCalendarCoreTypes> {
   calendarDate?: ValueType;
   disabledDate?: (date: Date, selectValue: ValueType, type: string) => boolean;
   format: string;
@@ -25,33 +29,25 @@ export interface DatePickerProps extends WithAsProps {
   locale?: DatePickerLocale;
 }
 
-const defaultProps: Partial<DatePickerProps> = {
-  as: Calendar,
+const defaultProps: Partial<CustomDatePickerProps> = {
+  as: CalendarCore,
   calendarDate: [new Date(), addMonths(new Date(), 1)],
   format: 'yyyy-MM-dd',
   index: 0,
   value: []
 };
-const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwardRef(
-  (props: DatePickerProps, ref) => {
+const CustomDatePicker: RsRefForwardingComponent<'div', CustomDatePickerProps> = React.forwardRef(
+  (props: CustomDatePickerProps, ref) => {
     const {
       as: Component,
       calendarDate,
-      classPrefix,
       disabledDate,
-      format,
-      hoverRangeValue,
       index,
-      isoWeek,
       limitEndYear,
       onChangeCalendarDate,
-      onMouseMove,
-      onSelect,
       showOneCalendar,
-      showWeekNumbers,
-      timeZone,
       value,
-      locale
+      ...rest
     } = props;
     const [calendarState, setCalendarState] = useState<CalendarState>();
 
@@ -88,38 +84,84 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       index
     ]);
 
+    const getPageDate = useCallback(() => calendarDate[index], [calendarDate, index]);
+
+    const handleMoveForward = useCallback(() => {
+      onMoveForward?.(addMonths(getPageDate(), 1));
+    }, [getPageDate, onMoveForward]);
+
+    const handleMoveBackward = useCallback(() => {
+      onMoveBackward?.(addMonths(getPageDate(), -1));
+    }, [getPageDate, onMoveBackward]);
+
+    const disabledBackward = useCallback(() => {
+      const after = isAfter(setDate(calendarDate[1], 1), setDate(addMonths(calendarDate[0], 1), 1));
+
+      if (index === 0) {
+        return false;
+      }
+
+      return !after;
+    }, [calendarDate, index]);
+
+    const disabledForward = useCallback(() => {
+      if (showOneCalendar) return false;
+      const after = isAfter(setDate(calendarDate[1], 1), setDate(addMonths(calendarDate[0], 1), 1));
+
+      if (index === 1) {
+        return false;
+      }
+
+      return !after;
+    }, [calendarDate, index, showOneCalendar]);
+
+    const disabledMonth = useCallback(
+      (date: Date) => {
+        let after = true;
+
+        if (disabledDate?.(date, value, 'MONTH')) {
+          return true;
+        }
+        if (showOneCalendar) return false;
+
+        if (index === 1) {
+          after = isAfter(date, calendarDate[0]);
+
+          return !after;
+        }
+
+        after = isAfter(calendarDate[1], date);
+
+        return !after;
+      },
+      [calendarDate, disabledDate, index, showOneCalendar, value]
+    );
+
     return (
       <Component
-        calendarDate={calendarDate}
+        {...rest}
         calendarState={calendarState}
-        classPrefix={classPrefix}
-        disabledDate={disabledDate}
-        format={format}
-        hoverRangeValue={hoverRangeValue}
-        index={index}
+        dateRange={value}
+        disabledBackward={disabledBackward()}
+        disabledDate={disabledMonth}
+        disabledForward={disabledForward()}
         inSameMonth={inSameMonth}
-        isoWeek={isoWeek}
+        index={index}
         limitEndYear={limitEndYear}
-        locale={locale}
         onChangePageDate={handleChangePageDate}
-        onMouseMove={onMouseMove}
-        onMoveBackward={onMoveBackward}
-        onMoveForward={onMoveForward}
-        onSelect={onSelect}
+        onMoveBackward={handleMoveBackward}
+        onMoveForward={handleMoveForward}
         onToggleMonthDropdown={toggleMonthDropdown}
+        pageDate={getPageDate()}
         ref={ref}
-        showOneCalendar={showOneCalendar}
-        showWeekNumbers={showWeekNumbers}
-        timeZone={timeZone}
-        value={value}
       />
     );
   }
 );
 
-DatePicker.displayName = 'DatePicker';
-DatePicker.defaultProps = defaultProps;
-DatePicker.propTypes = {
+CustomDatePicker.displayName = 'DatePicker';
+CustomDatePicker.defaultProps = defaultProps;
+CustomDatePicker.propTypes = {
   value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
   hoverValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
   calendarDate: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
@@ -135,4 +177,4 @@ DatePicker.propTypes = {
   onChangeCalendarDate: PropTypes.func
 };
 
-export default DatePicker;
+export default CustomDatePicker;
