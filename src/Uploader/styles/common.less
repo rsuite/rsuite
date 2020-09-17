@@ -524,3 +524,24 @@
     }
   }
 }
+
+.@{uplns}-draggable {
+  .@{uplns}-trigger-customize .@{uplns}-trigger-btn {
+    display: block;
+    background: @uploader-drag-and-drop-background-color;
+    border: 1px dashed @uploader-drag-and-drop-border-color;
+  }
+
+  .@{uplns}-trigger.@{uplns}-trigger-customize:not(.@{uplns}-trigger-disabled) .@{uplns}-trigger-btn:hover,
+  .@{uplns}-trigger-drag-over .@{uplns}-trigger-btn.@{uplns}-trigger-customize {
+    border-color: @uploader-drag-and-drop-border-hover-color;
+  }
+
+  .@{uplns}-trigger-disabled {
+    cursor: not-allowed;
+  }
+
+  .@{uplns}-trigger-disabled .@{uplns}-trigger-btn {
+    pointer-events: none;
+  }
+}

@@ -2,9 +2,8 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import setDisplayName from 'recompose/setDisplayName';
 
-import { prefix, defaultProps, getUnhandledProps, partitionHTMLProps } from '../utils';
+import { prefix, defaultProps, getUnhandledProps, partitionHTMLProps, refType } from '../utils';
 import { CheckboxProps } from './Checkbox.d';
 import { CheckboxContext } from '../CheckboxGroup/CheckboxGroup';
 import { CheckboxContextProps } from '../CheckboxGroup/CheckboxGroup.d';
@@ -25,7 +24,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     indeterminate: PropTypes.bool,
     onChange: PropTypes.func,
     onClick: PropTypes.func,
-    inputRef: PropTypes.func,
+    inputRef: refType,
     value: PropTypes.any,
     children: PropTypes.node,
     classPrefix: PropTypes.string,
@@ -138,8 +137,6 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   }
 }
 
-const EnhancedCheckBox = defaultProps<CheckboxProps>({
+export default defaultProps<CheckboxProps>({
   classPrefix: 'checkbox'
 })(Checkbox);
-
-export default setDisplayName('Checkbox')(EnhancedCheckBox);

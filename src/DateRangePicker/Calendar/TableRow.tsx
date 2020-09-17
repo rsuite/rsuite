@@ -4,8 +4,8 @@ import classNames from 'classnames';
 import { addDays, isSameDay, isBefore, isAfter, getDate, format } from 'date-fns';
 
 import { getUnhandledProps, prefix, defaultProps } from '../../utils';
-import { TYPE } from '../utils';
 import IntlContext from '../../IntlProvider/IntlContext';
+import { DATERANGE_DISABLED_TARGET } from '../../constants';
 
 export interface TableRowProps {
   weekendDate?: Date;
@@ -21,6 +21,7 @@ export interface TableRowProps {
 }
 
 class TableRow extends React.Component<TableRowProps> {
+  static contextType = IntlContext;
   static propTypes = {
     weekendDate: PropTypes.instanceOf(Date),
     selected: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
@@ -49,6 +50,9 @@ class TableRow extends React.Component<TableRowProps> {
       onSelect
     } = this.props;
 
+    const { formatDate, formattedDayPattern, today } = this.context || {};
+    const formatStr = formattedDayPattern || 'YYYY-MM-DD';
+
     const days = [];
     const selectedStartDate = selected[0];
     const selectedEndDate = selected[1];
@@ -56,21 +60,17 @@ class TableRow extends React.Component<TableRowProps> {
     const hoverEndDate = hoverValue[1] || null;
 
     for (let i = 0; i < 7; i += 1) {
-      let thisDate = addDays(weekendDate, i);
-      let selectValue = [selectedStartDate, selectedEndDate];
-
-      let disabled = disabledDate?.(thisDate, selectValue, TYPE.CALENDAR);
-      let isToday = isSameDay(thisDate, new Date());
-      let inRange = false;
-
-      let unSameMonth = !inSameMonth?.(thisDate);
-
+      const thisDate = addDays(weekendDate, i);
+      const selectValue = [selectedStartDate, selectedEndDate];
+      const disabled = disabledDate?.(thisDate, selectValue, DATERANGE_DISABLED_TARGET.CALENDAR);
+      const isToday = isSameDay(thisDate, new Date());
+      const unSameMonth = !inSameMonth?.(thisDate);
       const isStartSelected =
         !unSameMonth && selectedStartDate && isSameDay(thisDate, selectedStartDate);
       const isEndSelected = !unSameMonth && selectedEndDate && isSameDay(thisDate, selectedEndDate);
-
       const isSelected = isStartSelected || isEndSelected;
 
+      let inRange = false;
       // for Selected
       if (selectedStartDate && selectedEndDate) {
         if (isBefore(thisDate, selectedEndDate) && isAfter(thisDate, selectedStartDate)) {
@@ -91,7 +91,7 @@ class TableRow extends React.Component<TableRowProps> {
         }
       }
 
-      let classes = classNames(this.addPrefix('cell'), {
+      const classes = classNames(this.addPrefix('cell'), {
         [this.addPrefix('cell-un-same-month')]: unSameMonth,
         [this.addPrefix('cell-is-today')]: isToday,
         [this.addPrefix('cell-selected-start')]: isStartSelected,
@@ -101,23 +101,20 @@ class TableRow extends React.Component<TableRowProps> {
         [this.addPrefix('cell-disabled')]: disabled
       });
 
-      let title = format(thisDate, 'YYYY-MM-DD');
+      const title = formatDate ? formatDate(thisDate, formatStr) : format(thisDate, formatStr);
 
       days.push(
-        <IntlContext.Consumer key={title}>
-          {context => (
-            <div
-              className={classes}
-              role="menu"
-              tabIndex={-1}
-              title={isToday ? `${title} (${context?.today})` : title}
-              onMouseEnter={!disabled && onMouseMove ? onMouseMove.bind(null, thisDate) : undefined}
-              onClick={!disabled && onSelect?.bind(null, thisDate)}
-            >
-              <span className={this.addPrefix('cell-content')}>{getDate(thisDate)}</span>
-            </div>
-          )}
-        </IntlContext.Consumer>
+        <div
+          key={title}
+          className={classes}
+          role="menu"
+          tabIndex={-1}
+          title={isToday ? `${title} (${today})` : title}
+          onMouseEnter={!disabled && onMouseMove ? onMouseMove.bind(null, thisDate) : undefined}
+          onClick={!disabled ? onSelect?.bind(null, thisDate) : undefined}
+        >
+          <span className={this.addPrefix('cell-content')}>{getDate(thisDate)}</span>
+        </div>
       );
     }
     return days;

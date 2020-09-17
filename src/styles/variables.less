@@ -57,6 +57,8 @@
 
 //** Placeholder
 @placeholder-holder-bg: @B100;
+@placeholder-holder-bg-active: @B200;
+@placeholder-image-color: @B000;
 
 //** Calendar
 @calendar-default-caret-content: @icon-calendar;
@@ -122,7 +124,7 @@
 //** Load fonts from this directory.
 // default use cdn.jsdelivr.net
 // If you want to use local resource , please change it to "./fonts"
-@icon-font-path: '//cdn.jsdelivr.net/npm/rsuite/dist/styles/fonts';
+@icon-font-path: 'https://cdn.jsdelivr.net/npm/rsuite/dist/styles/fonts';
 @icon-font-size-base: @font-size-base;
 @icon-line-height-base: 1;
 @icon-css-prefix: ~'@{ns}icon';
@@ -165,8 +167,8 @@
 @table-header-line-small: @line-height-small;
 @table-body-content-padding-vertical: 13px;
 @table-content-padding-horizontal: 10px;
-@table-scrollbar-handle-background: @B400;
-@table-scrollbar-pressed-handle-background: @B500;
+@table-scrollbar-handle-background: @B800;
+@table-scrollbar-pressed-handle-background: @B900;
 @table-scrollbar-background: @B200;
 @table-scrollbar-pressed-background: @B300;
 @table-scrollbar-timing-duration: 0.1s;
@@ -450,7 +452,7 @@
 @toggle-sm-min-width: 26px;
 @toggle-sm-handle-gap: 2px;
 @toggle-sm-inner-margin: 6px;
-@toggle-sm-inner-font-size: @font-size-small;
+@toggle-sm-inner-font-size: @font-size-small - 2;
 
 //# Large size
 @toggle-lg-height: 30px;
@@ -476,6 +478,7 @@
 @zindex-picker-input: @zindex-picker-toggle + 1; // Greater than picker toggle
 @zindex-picker-menu: @zindex-picker-toggle+2; // Greater than picker toggle and input
 @zindex-dropdown-a: 10;
+@zindex-list-helper: 99;
 @zindex-navbar: 1000;
 @zindex-navbar-fixed: 1030;
 @zindex-modal: 1050;
@@ -498,6 +501,8 @@
 @zindex-table-cell-group-fixed: 4;
 @zindex-table-row-cell-group-shadow: 5;
 @zindex-table-mouse-area: 6;
+//#=== Rate
+@zindex-rate-character-before: 1;
 
 //== Media queries breakpoints
 //
@@ -516,6 +521,7 @@
 @screen-lg-desktop: 1200px;
 
 // So media queries don't overlap when required, provide a maximum
+@screen-phone-min: (@screen-phone - 1);
 @screen-phone-max: (@screen-desktop - 1);
 @screen-desktop-max: (@screen-lg-desktop - 1);
 
@@ -746,6 +752,7 @@
 @radio-picker-active-color: @picker-selected-value-color;
 @radio-label-font-color: @B600;
 @radio-label-font-hover-color: @B800;
+@radio-label-padding-horizontal: 10px;
 
 //== Tooltips
 //
@@ -1013,6 +1020,9 @@
 @uploader-file-item-retry-icon-color: @B800;
 @uploader-picture-item-background: rgba(255, 255, 255, 0.8);
 @uploader-picture-item-btn-remove-background: @uploader-picture-item-background;
+@uploader-drag-and-drop-background-color: @B000;
+@uploader-drag-and-drop-border-color: @B200;
+@uploader-drag-and-drop-border-hover-color: @H500;
 
 //== Panels
 //
@@ -1041,6 +1051,7 @@
 @time-line-content-side-offset: @time-line-dot-side-length / 2 + @time-line-item-content-margin-left;
 @time-line-alternate-time-offset: @time-line-dot-side-length / 2 +
   @time-line-item-content-margin-left;
+@time-line-tail-min-height: @line-height-computed + @time-line-item-content-padding-bottom; // 20 + 18 = 38
 
 //== Tags
 //
@@ -1097,7 +1108,7 @@
 @picker-value-count-background-color: @H500;
 @picker-value-count-color: @B000;
 @picker-value-count-border-radius: 10px;
-@picker-value-count-padding: 10px;
+@picker-value-count-padding: 8px;
 @picker-value-count-margin: 4px;
 //** Picker content width
 @picker-content-min-width: 200px;
@@ -1158,8 +1169,9 @@
 @calendar-header-width: 280px;
 @calendar-picker-padding: 12px;
 @calendar-picker-view-padding-top: 4px;
-@calendar-header-title-margin: 4px;
+@calendar-header-title-margin: 0;
 @calendar-header-title-error-color: @error-color;
+@calendar-meridian-border-width: 1px;
 @calendar-table-cell-padding: 1px;
 @calendar-table-cell-content-font-size: @font-size-base;
 @calendar-table-cell-content-line-height: @line-height-base;
@@ -1169,8 +1181,11 @@
 @calendar-table-cell-content-today-border-color: @H700;
 @calendar-table-cell-content-selected-color: @H500;
 @calendar-table-cell-content-disabled-color: @B400;
-/* stylelint-disable-next-line */ // calcFontColor is hack function
-@calendar-table-cell-content-selected-font-color: color(~`calcFontColor('@{calendar-table-cell-content-selected-color}') `);
+/* stylelint-disable */ // calcFontColor is hack function
+@calendar-table-cell-content-selected-font-color: color(
+  ~`calcFontColor('@{calendar-table-cell-content-selected-color}') `
+);
+/* stylelint-enable */
 @calendar-table-cell-header-color: @B600;
 @calendar-table-cell-week-number-color: @B600;
 @calendar-table-cell-week-number-bg: @B050;
@@ -1209,6 +1224,7 @@
 @date-range-picker-header-font-size: @font-size-base;
 @date-range-picker-header-line-height: @line-height-base;
 @date-range-picker-inner-border: 1px solid @B200;
+@date-range-picker-calendar-default-width:255px;
 
 //== Input Picker
 @input-picker-toggle-height: @line-height-computed + @padding-base-vertical*2; // 20px + 8px*2 = 36px  the same with md button
@@ -1269,8 +1285,9 @@
 //
 //##
 @carousel-bg: @B600;
+@carousel-animation-duration: 0.3s;
 @carousel-toolbar-wrapper-margin: 17px; // @carousel-handler-margin + @carousel-handler-wrapper-margin = 20px
-@carousel-handler-transition: background 0.3s linear;
+@carousel-handler-transition: background @carousel-animation-duration linear;
 @carousel-handler-bg: fade(@B000, 40);
 @carousel-handler-hover-bg: @B000;
 @carousel-handler-active-bg: @H500;
@@ -1281,6 +1298,16 @@
 @carousel-bar-width: 18px;
 @carousel-bar-height: 4px;
 @carousel-bar-active-width: 28px;
+
+//== Rate
+//
+//##
+@rate-default-color: @B200;
+@rate-selected-color: @yellow;
+@rate-xs-font-size: 18px;
+@rate-sm-font-size: 24px;
+@rate-md-font-size: 30px;
+@rate-lg-font-size: 36px;
 
 //== Type
 //

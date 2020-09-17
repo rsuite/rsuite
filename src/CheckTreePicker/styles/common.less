@@ -32,10 +32,6 @@
       .@{ns}picker-menu & {
         display: block;
       }
-
-      .@{ns}checkbox-checker > label {
-        text-align: left;
-      }
     }
 
     &:focus .@{ns}check-item .@{ns}checkbox-checker > label {
@@ -47,6 +43,7 @@
     }
 
     .@{ns}check-item .@{ns}checkbox-checker > label {
+      text-align: left;
       position: relative;
       margin: 0;
       //padding-left: 16px;
@@ -166,10 +163,11 @@
   .@{ctpns} {
     padding: 0 @picker-menu-padding @picker-menu-padding 0;
 
-    &-node > .@{ctpns}-node-label {
+    &-node > .@{ctpns}-node-label .@{ctpns}-node-text-wrapper {
       .ellipsis;
 
-      display: block;
+      display: inline-block;
+      vertical-align: top;
     }
   }
 }

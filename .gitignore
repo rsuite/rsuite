@@ -44,3 +44,4 @@ es/
 .idea
 karma.sauce.conf.js
 dev-publish.sh
+docs/out/

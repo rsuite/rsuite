@@ -23,7 +23,7 @@ export function map(children: React.ReactNode, func: Function, context?: any) {
     if (!React.isValidElement(child)) {
       return child;
     }
-    let handle = func.call(context, child, index);
+    const handle = func.call(context, child, index);
     index += 1;
     return handle;
   });
@@ -39,6 +39,10 @@ export function mapCloneElement(children: React.ReactNode, func: Function, conte
       }),
     context
   );
+}
+
+export function count(children: React.ReactChildren) {
+  return React.Children.count(Array.isArray(children) ? children.filter(child => child) : children);
 }
 
 function some(children: React.ReactNode, func: Function, context?: any) {
@@ -64,6 +68,7 @@ function some(children: React.ReactNode, func: Function, context?: any) {
 
 export default {
   mapCloneElement,
+  count,
   some,
   map,
   find

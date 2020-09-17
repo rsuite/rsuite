@@ -6,7 +6,7 @@
   </a>
 </p>
 
-[![npm][npm-svg]][npm-home] [![Travis][travis-svg]][travis-home] [![Coverage Status][coverage-svg]][travis-home] [![Discord][discord-svg]][discord-invite] [![Gitter][gitter-svg]][gitter]
+[![npm][npm-svg]][npm-home] [![Travis][travis-svg]][travis-home] [![Coverage Status][coverage-svg]][travis-home] [![Discord][discord-svg]][discord-invite] [![Gitter][gitter-svg]][gitter] [![Gitter][gitter-cn-svg]][gitter-cn]
 
 React Suite 是一套 React 组件库，为后台产品而生。同时也是一个具有贴心设计以及对开发者友好的 UI 框架。
 
@@ -77,10 +77,14 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 - [CDN 引入][demo-cdn]
 - [国际化方案][demo-intl-app]
 - [多主题方案][demo-multiple-themes]
+- [RTL 方案 - rtlcss][demo-rtlcss]
+- [RTL 方案 - postcss-rtl][demo-postcss-rtl]
 - [在 create-react-app 中使用][demo-create-react-app]
+- [在 Electron 中使用][demo-electron]
 - [在 Flow 中使用][demo-flow-app]
 - [在 TypeScript 中使用][demo-typescript-app]
-- [在 Next.js 中使用][demo-ssr-app]
+- [在 Next.js 中使用][demo-nextjs]
+- [在 UmiJS 中使用][demo-umi-app]
 
 ## 更新日志
 
@@ -90,27 +94,47 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 
 您可以通过 [Projects](https://github.com/rsuite/rsuite/projects) 查看我们的开发计划，同时希望您能参与其中。
 
+### 测试驱动开发（TDD）
+
 1. Fork `https://github.com/rsuite/rsuite` 这个仓库。
 
 ```bash
 $ git clone git@github.com:<YOUR NAME>/rsuite.git
 $ cd rsuite
-$ npm install
-$ npm run dev
 ```
 
-2. Fork `https://github.com/rsuite/rsuite.github.io` 这个仓库。
+2. 安装并运行
 
 ```bash
-$ git clone git@github.com:<YOUR NAME>/rsuite.github.io.git
-$ cd rsuite.github.io
+$ npm install
+$ npm run tdd
+```
+
+3. 运行单个组件
+
+```bash
+$ M=Button npm run tdd
+```
+
+### UI 驱动开发
+
+1. Fork `https://github.com/rsuite/rsuite` 这个仓库。
+
+```bash
+$ git clone git@github.com:<YOUR NAME>/rsuite.git
+```
+
+2. 安装并运行
+
+```bash
+$ cd rsuite
+$ npm install
+$ cd rsuite/docs
 $ npm install
 $ npm run dev
 ```
 
-3. 您可以开始访问了， 在浏览器输入 http://127.0.0.1:3200/
-
-> `rsuite.github.io` 会依赖 `rsuite` 中的组件，并支持热更新。
+3. 您可以开始访问了， 在浏览器输入 http://127.0.0.1:3000/
 
 Gitee 用户访问地址: https://gitee.com/rsuite/rsuite
 
@@ -151,7 +175,7 @@ React Suite 基于 [MIT licensed][license] 发布。
 [travis-home]: https://coveralls.io/github/rsuite/rsuite?branch=master
 [discord-svg]: https://img.shields.io/badge/Discord-Join%20chat%20%E2%86%92-738bd7.svg
 [discord-invite]: https://discord.gg/R8mnjwh
-[rsuite-design]: https://rsuitejs.com/design/default/index.html
+[rsuite-design]: https://rsuitejs.com/design/default
 [live-preview-on-codesandbox]: https://codesandbox.io/s/mo7jxvr9x9?from-embed
 [rsuite-doc-guide]: https://rsuitejs.com/guide/introduction
 [rsuite-doc-guide-themes]: https://rsuitejs.com/guide/themes
@@ -166,13 +190,19 @@ React Suite 基于 [MIT licensed][license] 发布。
 [opencollective-home]: https://opencollective.com/rsuite
 [license]: https://github.com/rsuite/rsuite/blob/master/LICENSE
 [gitter]: https://gitter.im/rsuite/rsuite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
-[gitter-svg]: https://badges.gitter.im/rsuite/rsuite.svg
+[gitter-svg]: https://img.shields.io/gitter/room/rsuite/rsuite?label=chat-english
+[gitter-cn]: https://gitter.im/rsuite/rsuite-CN?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
+[gitter-cn-svg]: https://img.shields.io/gitter/room/rsuite/rsuite?label=chat-chinese
 [demo-admin]: https://github.com/rsuite/rsuite-management-system
-[demo-modular-import]: https://github.com/rsuite/examples/tree/master/modular-import
-[demo-cdn]: https://github.com/rsuite/examples/tree/master/cdn
-[demo-create-react-app]: https://github.com/rsuite/examples/tree/master/create-react-app
-[demo-intl-app]: https://github.com/rsuite/examples/tree/master/intl-app
-[demo-multiple-themes]: https://github.com/rsuite/examples/tree/master/multiple-themes
-[demo-flow-app]: https://github.com/rsuite/examples/tree/master/flow-app
-[demo-typescript-app]: https://github.com/rsuite/examples/tree/master/typescript-app
-[demo-ssr-app]: https://github.com/rsuite/rsuite-management-system-ssr
+[demo-modular-import]: https://github.com/rsuite/rsuite/tree/master/examples/with-babel-preset-rsuite
+[demo-cdn]: https://github.com/rsuite/rsuite/tree/master/examples/cdn
+[demo-create-react-app]: https://github.com/rsuite/rsuite/tree/master/examples/create-react-app
+[demo-electron]: https://github.com/rsuite/rsuite/tree/master/examples/with-electron
+[demo-intl-app]: https://github.com/rsuite/rsuite/tree/master/examples/custom-i18n
+[demo-multiple-themes]: https://github.com/rsuite/rsuite/tree/master/examples/custom-multiple-themes
+[demo-flow-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-flow
+[demo-typescript-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-typescript
+[demo-nextjs]: https://github.com/rsuite/rsuite/tree/master/examples/with-nextjs
+[demo-umi-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-umi
+[demo-rtlcss]: https://github.com/rsuite/rsuite/tree/master/examples/with-rtlcss
+[demo-postcss-rtl]: https://github.com/rsuite/rsuite/tree/master/examples/with-postcss-rtl

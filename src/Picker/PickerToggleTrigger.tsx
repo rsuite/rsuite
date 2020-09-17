@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import OverlayTrigger from 'rsuite-utils/lib/Overlay/OverlayTrigger';
+import OverlayTrigger from '../Overlay/OverlayTrigger';
 import { placementPolyfill } from '../utils';
 import IntlContext from '../IntlProvider/IntlContext';
 
@@ -12,12 +12,12 @@ export interface PickerToggleTriggerProps {
   open?: boolean;
   trigger?: TriggerType | TriggerType[];
   children: React.ReactNode;
-  speaker: React.ReactNode;
-  positionRef?: React.RefObject<any>;
-  onEnter?: Function;
-  onExit?: Function;
-  onEntered?: Function;
-  onExited?: Function;
+  speaker: React.ReactElement<any>;
+  positionRef?: React.Ref<any>;
+  onEnter?: (node: null | Element | Text) => void;
+  onEntered?: (node: null | Element | Text) => void;
+  onExit?: (node: null | Element | Text) => void;
+  onExited?: (node: null | Element | Text) => void;
 }
 
 const PickerToggleTriggerProps = [
@@ -33,7 +33,8 @@ const PickerToggleTriggerProps = [
   'onHide',
   'container',
   'containerPadding',
-  'preventOverflow'
+  'preventOverflow',
+  'positionRef'
 ];
 
 const PickerToggleTrigger = React.forwardRef(

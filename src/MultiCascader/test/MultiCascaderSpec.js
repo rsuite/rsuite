@@ -147,6 +147,43 @@ describe('MultiCascader', () => {
     assert.equal(instance2.querySelector(toggleClassName).innerText, 'Select');
   });
 
+  it('Should output a value by renderValue()', () => {
+    const placeholder = 'value';
+
+    // Valid value
+    const instance = getDOMNode(
+      <Dropdown renderValue={v => [v, placeholder]} data={[{ value: 1, label: '1' }]} value={[1]} />
+    );
+
+    // Invalid value
+    const instance2 = getDOMNode(
+      <Dropdown renderValue={v => [v, placeholder]} data={[]} value={[2]} />
+    );
+
+    assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, `1${placeholder}`);
+    assert.equal(instance2.querySelector('.rs-picker-toggle-value').innerText, `2${placeholder}`);
+  });
+
+  it('Should not be call renderValue()', () => {
+    const instance = getDOMNode(<Dropdown renderValue={() => 'value'} />);
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+  });
+
+  it('Should render a placeholder when value error', () => {
+    const instance = getDOMNode(
+      <Dropdown
+        placeholder="test"
+        data={[
+          { label: '1', value: '1' },
+          { label: '2', value: '2' }
+        ]}
+        value={['4']}
+      />
+    );
+
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'test');
+  });
+
   it('Should be active by value', () => {
     const value = ['abcd'];
     const instance = getInstance(<Dropdown defaultOpen data={items} value={value} />);
@@ -196,38 +233,18 @@ describe('MultiCascader', () => {
   });
 
   it('Should call `onOpen` callback', done => {
-    const doneOp = key => {
+    const doneOp = () => {
       done();
     };
-    let picker = null;
-    getDOMNode(
-      <Dropdown
-        ref={ref => {
-          picker = ref;
-        }}
-        onOpen={doneOp}
-        data={items}
-      />
-    );
-
+    const picker = getInstance(<Dropdown onOpen={doneOp} data={items} />);
     picker.open();
   });
 
   it('Should call `onClose` callback', done => {
-    const doneOp = key => {
+    const doneOp = () => {
       done();
     };
-    let picker = null;
-    getDOMNode(
-      <Dropdown
-        defaultOpen
-        ref={ref => {
-          picker = ref;
-        }}
-        onClose={doneOp}
-        data={items}
-      />
-    );
+    const picker = getInstance(<Dropdown defaultOpen onClose={doneOp} data={items} />);
     picker.close();
   });
 

@@ -133,7 +133,7 @@ class Notification {
   }
 
   closeAll() {
-    for (let key in this._instances) {
+    for (const key in this._instances) {
       if (typeof this._instances[key].removeAll === 'function') {
         this._instances[key].removeAll();
       }

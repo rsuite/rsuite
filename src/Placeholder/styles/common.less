@@ -8,7 +8,20 @@
   display: flex;
 
   &-active {
-    animation: placeholder-active 2s ease-in-out infinite;
+    &.@{ns}placeholder-graph,
+    .@{ns}placeholder-paragraph-graph-image,
+    .@{ns}placeholder-grid-col > p,
+      //noinspection Stylelint
+    .@{ns}placeholder-paragraph-rows > p {
+      background: linear-gradient(
+        -45deg,
+        @placeholder-holder-bg 25%,
+        @placeholder-holder-bg-active 37%,
+        @placeholder-holder-bg 63%
+      );
+      background-size: 400% 100% !important;
+      animation: placeholder-active 3s ease infinite;
+    }
   }
 
   &-paragraph {
@@ -25,6 +38,47 @@
 
       &-circle {
         border-radius: 50%;
+      }
+
+      &-image {
+        width: 80px;
+        height: 60px;
+        position: relative;
+        overflow: hidden;
+
+        &::after {
+          content: '';
+          width: 0;
+          height: 0;
+          left: 10px;
+          bottom: 10px;
+          position: absolute;
+          border-bottom: 36px solid @placeholder-image-color;
+          border-left: 20px solid transparent;
+          border-right: 30px solid transparent;
+        }
+
+        &::before {
+          content: '';
+          width: 0;
+          height: 0;
+          left: 40px;
+          bottom: 10px;
+          position: absolute;
+          border-bottom: 22px solid @placeholder-image-color;
+          border-left: 16px solid transparent;
+          border-right: 16px solid transparent;
+        }
+      }
+
+      &-image &-inner {
+        width: 12px;
+        height: 12px;
+        right: 18px;
+        top: 10px;
+        border-radius: 50%;
+        background: @placeholder-image-color;
+        position: absolute;
       }
     }
 

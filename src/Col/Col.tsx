@@ -9,10 +9,10 @@ import { defaultClassPrefix } from '../utils/prefix';
 import { ColProps } from './Col.d';
 
 const Sizes = ['xs', 'sm', 'md', 'lg'];
-const omitKeys = [];
+const omitKeys = {};
 
 const getValue = _.curry((obj: any, key: string): number => {
-  omitKeys.push(key);
+  omitKeys[key] = null;
   return obj[key];
 });
 
@@ -54,11 +54,11 @@ class Col extends React.Component<ColProps> {
     const getPropValue = getValue(this.props);
 
     Sizes.forEach(size => {
-      let col = getPropValue(size);
-      let hidden = getPropValue(`${size}Hidden`);
-      let offset = getPropValue(`${size}Offset`);
-      let push = getPropValue(`${size}Push`);
-      let pull = getPropValue(`${size}Pull`);
+      const col = getPropValue(size);
+      const hidden = getPropValue(`${size}Hidden`);
+      const offset = getPropValue(`${size}Offset`);
+      const push = getPropValue(`${size}Push`);
+      const pull = getPropValue(`${size}Pull`);
 
       classes[defaultClassPrefix(`hidden-${size}`)] = hidden;
       classes[addPrefix(`${size}-${col}`)] = col >= 0;
@@ -67,7 +67,7 @@ class Col extends React.Component<ColProps> {
       classes[addPrefix(`${size}-pull-${pull}`)] = pull >= 0;
     });
 
-    const elementProps = _.omit(props, omitKeys);
+    const elementProps = _.omit(props, Object.keys(omitKeys));
 
     return <Component {...elementProps} className={classNames(className, classPrefix, classes)} />;
   }

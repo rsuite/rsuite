@@ -97,20 +97,6 @@ describe('InputPicker', () => {
     assert.equal(instance.querySelector(placeholderClassName).innerText, 'test');
   });
 
-  it('Should render a placeholder when value error', () => {
-    const instance = getDOMNode(
-      <InputPicker
-        placeholder="test"
-        data={[
-          { label: '1', value: '1' },
-          { label: '2', value: '2' }
-        ]}
-        value={'4'}
-      />
-    );
-    assert.equal(instance.querySelector(placeholderClassName).innerText, 'test');
-  });
-
   it('Allow `label` to be an empty string', () => {
     const instance = getInstance(
       <InputPicker placeholder="test" data={[{ label: '', value: '1' }]} value={'1'} defaultOpen />
@@ -132,6 +118,37 @@ describe('InputPicker', () => {
       />
     );
     assert.equal(instance.querySelector(valueClassName).innerText, 'foo-bar');
+  });
+
+  it('Should output a value by renderValue()', () => {
+    const placeholder = 'value';
+
+    // Valid value
+    const instance = getDOMNode(
+      <InputPicker
+        renderValue={v => [v, placeholder]}
+        data={[{ value: 1, label: '1' }]}
+        value={1}
+      />
+    );
+
+    // Invalid value
+    const instance2 = getDOMNode(
+      <InputPicker renderValue={v => [v, placeholder]} data={[]} value={2} />
+    );
+
+    assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, `1${placeholder}`);
+    assert.equal(instance2.querySelector('.rs-picker-toggle-value').innerText, `2${placeholder}`);
+  });
+
+  it('Should not be call renderValue()', () => {
+    const instance = getDOMNode(<InputPicker renderValue={() => 'value'} />);
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+  });
+
+  it('Should render a placeholder when value error', () => {
+    const instance = getDOMNode(<InputPicker value={2} placeholder={'test'} />);
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'test');
   });
 
   it('Should call `onChange` callback', done => {
@@ -203,35 +220,15 @@ describe('InputPicker', () => {
     const doneOp = () => {
       done();
     };
-    let picker = null;
-    getDOMNode(
-      <InputPicker
-        ref={ref => {
-          picker = ref;
-        }}
-        onOpen={doneOp}
-        data={data}
-      />
-    );
-
+    const picker = getInstance(<InputPicker onOpen={doneOp} data={data} />);
     picker.open();
   });
 
   it('Should call `onClose` callback', done => {
-    const doneOp = key => {
+    const doneOp = () => {
       done();
     };
-    let picker = null;
-    getDOMNode(
-      <InputPicker
-        defaultOpen
-        ref={ref => {
-          picker = ref;
-        }}
-        onClose={doneOp}
-        data={data}
-      />
-    );
+    const picker = getInstance(<InputPicker defaultOpen onClose={doneOp} data={data} />);
     picker.close();
   });
 
@@ -301,9 +298,17 @@ describe('InputPicker', () => {
   });
 
   it('Should render a button by toggleComponentClass={Button}', () => {
-    const instance = ReactTestUtils.renderIntoDocument(
-      <InputPicker open data={data} toggleComponentClass={Button} />
+    const instance = getDOMNode(<InputPicker open data={data} toggleComponentClass={Button} />);
+
+    assert.ok(instance.querySelector('.rs-btn'));
+  });
+
+  it('Should render the specified menu content by `searchBy`', () => {
+    const instance = getInstance(
+      <InputPicker defaultOpen data={data} searchBy={(a, b, c) => c.value === 'Louisa'} />
     );
-    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-btn');
+    const list = getDOMNode(instance.menuContainerRef.current).querySelectorAll('a');
+    assert.equal(list.length, 1);
+    assert.ok(list[0].innerText, 'Louisa');
   });
 });

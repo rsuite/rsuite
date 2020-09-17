@@ -49,8 +49,7 @@
   right: -2px;
 
   .@{ns}slider-mark-content {
-    margin-left: auto;
-    margin-right: -50%;
+    margin-left: 50%;
   }
 }
 
@@ -136,6 +135,7 @@
   .@{ns}slider-vertical & {
     display: block;
     height: 100%;
+
     > ul {
       width: @slider-bar-side-length;
       display: flex;
@@ -179,16 +179,17 @@
     background-color: @slider-handle-default-bg;
     margin-left: -@slider-handle-diameter / 2;
     cursor: pointer;
+    /* stylelint-disable */ //Formatted by prettier
     transition: box-shadow @slider-handle-transition, background-color @slider-handle-transition,
       transform @slider-handle-transition;
+    /* stylelint-enable */
   }
 
   &:hover::before {
     box-shadow: @slider-handle-hover-box-shadow;
   }
 
-  .@{ns}slider-dragging &::before,
-  .@{ns}slider-dragging &:hover::before {
+  &.active&::before {
     box-shadow: none;
     transform: scale(1.2);
   }
@@ -200,7 +201,7 @@
 }
 
 .@{ns}slider-handle:hover .@{ns}tooltip,
-.@{ns}slider-showtip .@{ns}tooltip {
+.@{ns}slider-handle.active .@{ns}tooltip {
   display: block;
   opacity: 1;
   top: -30px;

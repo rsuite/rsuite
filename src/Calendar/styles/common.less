@@ -248,18 +248,36 @@
 
   // Month toolbar title && button
   &-title,
+  &-meridian,
   &-backward,
   &-forward {
     .btn(base);
     .btn-subtle;
     .btn-xs(base);
 
+    padding: 2px 2px;
     font-size: @font-size-base;
     line-height: @line-height-base;
   }
 
   &-title {
     margin: 0 @calendar-header-title-margin;
+  }
+
+  &-meridian {
+    // Designer think it's nice!
+    line-height: @font-size-small;
+    border: @calendar-meridian-border-width solid @input-border;
+    font-size: @font-size-small;
+    padding: @padding-extra-small-vertical 12px @padding-extra-small-vertical @padding-extra-small-vertical;
+    margin-left: 4px;
+
+    &::after {
+      transform: scale(0.7, 0.9);
+      position: absolute;
+      font-family: @font-family-icon;
+      content: @icon-sort;
+    }
   }
 
   &-error {
@@ -365,6 +383,20 @@
 
 .@{clpns}-table-row {
   display: table-row;
+
+  &:nth-child(2) {
+    .@{clpns}-table-cell-week-number {
+      border-top-left-radius: @calendar-panel-border-radius;
+      border-top-right-radius: @calendar-panel-border-radius;
+    }
+  }
+
+  &:last-child {
+    .@{clpns}-table-cell-week-number {
+      border-bottom-left-radius: @calendar-panel-border-radius;
+      border-bottom-right-radius: @calendar-panel-border-radius;
+    }
+  }
 }
 
 .@{clpns}-table-cell {
@@ -445,21 +477,6 @@
   color: @calendar-table-cell-week-number-color;
   background: @calendar-table-cell-week-number-bg;
   font-size: @font-size-small;
-}
-
-.@{clpns}-table-row {
-  &:nth-child(2) {
-    .@{clpns}-table-cell-week-number {
-      border-top-left-radius: @calendar-panel-border-radius;
-      border-top-right-radius: @calendar-panel-border-radius;
-    }
-  }
-  &:last-child {
-    .@{clpns}-table-cell-week-number {
-      border-bottom-left-radius: @calendar-panel-border-radius;
-      border-bottom-right-radius: @calendar-panel-border-radius;
-    }
-  }
 }
 
 // Calendar month dropdown

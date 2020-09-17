@@ -30,6 +30,25 @@ describe('Slider', () => {
     assert.ok(instance.className.match(/\brs-slider-disabled\b/));
   });
 
+  it('Should custom render mark', () => {
+    const instance = getDOMNode(
+      <Slider
+        progress
+        min={0}
+        max={2}
+        graduated
+        renderMark={mark => {
+          return mark == 0 ? 'Single' : mark;
+        }}
+      />
+    );
+
+    const marks = instance.querySelectorAll('.rs-slider-mark-content');
+    assert.equal(marks[0].innerText, 'Single');
+    assert.equal(marks[1].innerText, 1);
+    assert.equal(marks[2].innerText, 2);
+  });
+
   it('Should render custom title', () => {
     const instance = getDOMNode(<Slider tooltip={false} handleTitle={'test'} />);
     assert.equal(innerText(instance), 'test');

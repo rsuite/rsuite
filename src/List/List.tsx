@@ -2,7 +2,6 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import setStatic from 'recompose/setStatic';
 import classNames from 'classnames';
-import { setDisplayName } from 'recompose';
 import { on } from 'dom-lib';
 import {
   setInlineStyles,
@@ -538,4 +537,5 @@ const EnhancedList = defaultProps({
 })(List);
 
 setStatic('Item', ListItem)(EnhancedList);
-export default setDisplayName('List')(EnhancedList);
+
+export default EnhancedList;

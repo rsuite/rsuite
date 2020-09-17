@@ -19,6 +19,7 @@ export interface TableRowProps {
 }
 
 class TableRow extends React.PureComponent<TableRowProps> {
+  static contextType = IntlContext;
   static propTypes = {
     weekendDate: PropTypes.instanceOf(Date),
     selected: PropTypes.instanceOf(Date),
@@ -47,29 +48,31 @@ class TableRow extends React.PureComponent<TableRowProps> {
     this.props.onSelect?.(date, event);
   };
 
-  renderDays(context) {
+  renderDays() {
     const { weekendDate, disabledDate, inSameMonth, selected, renderCell } = this.props;
+    const { formatDate, formattedDayPattern, today } = this.context || {};
+    const formatStr = formattedDayPattern || 'YYYY-MM-DD';
+    const days = [];
 
-    let days = [];
     for (let i = 0; i < 7; i += 1) {
-      let thisDate = addDays(weekendDate, i);
-      let disabled = disabledDate?.(thisDate);
-      let isToday = isSameDay(thisDate, new Date());
-      let classes = classNames(this.addPrefix('cell'), {
+      const thisDate = addDays(weekendDate, i);
+      const disabled = disabledDate?.(thisDate);
+      const isToday = isSameDay(thisDate, new Date());
+      const classes = classNames(this.addPrefix('cell'), {
         [this.addPrefix('cell-un-same-month')]: !(inSameMonth && inSameMonth(thisDate)),
         [this.addPrefix('cell-is-today')]: isToday,
         [this.addPrefix('cell-selected')]: isSameDay(thisDate, selected),
         [this.addPrefix('cell-disabled')]: disabled
       });
 
-      let title = format(thisDate, context?.formattedDayPattern || 'YYYY-MM-DD');
+      const title = formatDate ? formatDate(thisDate, formatStr) : format(thisDate, formatStr);
       days.push(
         <div
           key={title}
           className={classes}
           role="menu"
           tabIndex={-1}
-          title={isToday ? `${title} (${context?.today})` : title}
+          title={isToday ? `${title} (${today})` : title}
           onClick={this.handleSelect.bind(this, thisDate, disabled)}
         >
           <div className={this.addPrefix('cell-content')}>
@@ -99,11 +102,7 @@ class TableRow extends React.PureComponent<TableRowProps> {
     return (
       <div {...unhandled} className={classes}>
         {showWeekNumbers && this.renderWeekNumber()}
-        <IntlContext.Consumer>
-          {context => {
-            return this.renderDays(context);
-          }}
-        </IntlContext.Consumer>
+        {this.renderDays()}
       </div>
     );
   }

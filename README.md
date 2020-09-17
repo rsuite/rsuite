@@ -6,7 +6,7 @@
 
 English | [中文版][readm-cn]
 
-[![npm][npm-svg]][npm-home] [![Travis][travis-svg]][travis-home] [![Coverage Status][coverage-svg]][coverage-home] [![Discord][discord-svg]][discord-invite] [![Gitter][gitter-svg]][gitter]
+[![npm][npm-svg]][npm-home] [![GitHub Actions][actions-svg]][actions-home] [![Coverage Status][coverage-svg]][coverage-home] [![Discord][discord-svg]][discord-invite] [![Gitter][gitter-svg]][gitter] [![Gitter][gitter-cn-svg]][gitter-cn]
 
 React Suite is a set of react component libraries for enterprise system products. It is a well-thought-out and developer-friendly UI framework.
 
@@ -33,6 +33,7 @@ React Suite supports server side rendering. Support [Next.js](https://github.com
 - Supports React 16 +
 - Supports [TypeScript](http://www.typescriptlang.org/)
 - Supports [Electron](https://electronjs.org/)
+- Supports [Reason](https://github.com/shurygindv/bs-rsuite-ui-react)
 
 ## Installation
 
@@ -83,10 +84,14 @@ You can go through [full documentation][rsuite-doc-guide] or start with followin
 - [Use CDN][demo-cdn]
 - [Internationalization][demo-intl-app]
 - [Themes][demo-multiple-themes]
+- [RTL - RTLCSS][demo-rtlcss]
+- [RTL - PostCSS-RTL][demo-postcss-rtl]
 - [Use in create-react-app][demo-create-react-app]
+- [Use in Electron][demo-electron]
 - [Use in Flow][demo-flow-app]
 - [Use in TypeScript][demo-typescript-app]
-- [Use in Next.js][demo-ssr-app]
+- [Use in Next.js][demo-nextjs]
+- [Use in UmiJS][demo-umi-app]
 
 ## Changelog
 
@@ -94,27 +99,47 @@ Detailed changes for each release are documented in the [release notes][release-
 
 ## Development
 
-You can learn about our development plan through [Projects](https://github.com/rsuite/rsuite/projects) and hope that you can get involved.
+### Test-Driven Development（TDD）
 
 1. Fork `https://github.com/rsuite/rsuite` this repo.
 
 ```bash
 $ git clone git@github.com:<YOUR NAME>/rsuite.git
 $ cd rsuite
-$ npm install
-$ npm run dev
 ```
 
-2. Fork `https://github.com/rsuite/rsuite.github.io` this repo.
+2. Install it and run
 
 ```bash
-$ git clone git@github.com:<YOUR NAME>/rsuite.github.io.git
-$ cd rsuite.github.io
+$ npm install
+$ npm run tdd
+```
+
+3. Run a single component test case.
+
+```bash
+$ M=Button npm run tdd
+```
+
+### UI-Driven Development
+
+1. Fork `https://github.com/rsuite/rsuite` this repo.
+
+```bash
+$ git clone git@github.com:<YOUR NAME>/rsuite.git
+```
+
+2. Install it and run
+
+```bash
+$ cd rsuite
+$ npm install
+$ cd rsuite/docs
 $ npm install
 $ npm run dev
 ```
 
-3. Your show time. Open url http://127.0.0.1:3200/ in browser.
+3. Your show time. Open url http://127.0.0.1:3000/ in browser.
 
 ## Contribution
 
@@ -143,13 +168,13 @@ React Suite is [MIT licensed][license]. Copyright (c) 2016-present, HYPERS.
 [readm-cn]: https://github.com/rsuite/rsuite/blob/master/README_zh.md
 [npm-svg]: https://badge.fury.io/js/rsuite.svg
 [npm-home]: https://www.npmjs.com/package/rsuite
-[travis-svg]: https://travis-ci.org/rsuite/rsuite.svg?branch=master
-[travis-home]: https://travis-ci.org/rsuite/rsuite
+[actions-svg]: https://github.com/rsuite/rsuite/workflows/Node.js%20CI/badge.svg?branch=master
+[actions-home]: https://github.com/rsuite/rsuite/actions?query=branch%3Amaster+workflow%3A%22Node.js+CI%22
 [coverage-svg]: https://coveralls.io/repos/github/rsuite/rsuite/badge.svg?branch=master
 [coverage-home]: https://coveralls.io/github/rsuite/rsuite?branch=master
 [discord-svg]: https://img.shields.io/badge/Discord-Join%20chat%20%E2%86%92-738bd7.svg
 [discord-invite]: https://discord.gg/R8mnjwh
-[rsuite-design]: https://rsuitejs.com/design/default/index.html
+[rsuite-design]: https://rsuitejs.com/design/default
 [live-preview-on-codesandbox]: https://codesandbox.io/s/mo7jxvr9x9?from-embed
 [rsuite-doc-guide]: https://rsuitejs.com/en/guide/introduction
 [rsuite-doc-guide-themes]: https://rsuitejs.com/en/guide/themes
@@ -165,13 +190,19 @@ React Suite is [MIT licensed][license]. Copyright (c) 2016-present, HYPERS.
 [license]: https://github.com/rsuite/rsuite/blob/master/LICENSE
 [rsuite-sample]: https://sample.rsuitejs.com/
 [gitter]: https://gitter.im/rsuite/rsuite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
-[gitter-svg]: https://badges.gitter.im/rsuite/rsuite.svg
+[gitter-svg]: https://img.shields.io/gitter/room/rsuite/rsuite?label=chat-english
+[gitter-cn]: https://gitter.im/rsuite/rsuite-CN?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
+[gitter-cn-svg]: https://img.shields.io/gitter/room/rsuite/rsuite?label=chat-chinese
 [demo-admin]: https://github.com/rsuite/rsuite-management-system
-[demo-modular-import]: https://github.com/rsuite/examples/tree/master/modular-import
-[demo-cdn]: https://github.com/rsuite/examples/tree/master/cdn
-[demo-create-react-app]: https://github.com/rsuite/examples/tree/master/create-react-app
-[demo-intl-app]: https://github.com/rsuite/examples/tree/master/intl-app
-[demo-multiple-themes]: https://github.com/rsuite/examples/tree/master/multiple-themes
-[demo-flow-app]: https://github.com/rsuite/examples/tree/master/flow-app
-[demo-typescript-app]: https://github.com/rsuite/examples/tree/master/typescript-app
-[demo-ssr-app]: https://github.com/rsuite/rsuite-management-system-ssr
+[demo-modular-import]: https://github.com/rsuite/rsuite/tree/master/examples/with-babel-preset-rsuite
+[demo-cdn]: https://github.com/rsuite/rsuite/tree/master/examples/cdn
+[demo-create-react-app]: https://github.com/rsuite/rsuite/tree/master/examples/create-react-app
+[demo-electron]: https://github.com/rsuite/rsuite/tree/master/examples/with-electron
+[demo-intl-app]: https://github.com/rsuite/rsuite/tree/master/examples/custom-i18n
+[demo-multiple-themes]: https://github.com/rsuite/rsuite/tree/master/examples/custom-multiple-themes
+[demo-flow-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-flow
+[demo-typescript-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-typescript
+[demo-nextjs]: https://github.com/rsuite/rsuite/tree/master/examples/with-nextjs
+[demo-umi-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-umi
+[demo-rtlcss]: https://github.com/rsuite/rsuite/tree/master/examples/with-rtlcss
+[demo-postcss-rtl]: https://github.com/rsuite/rsuite/tree/master/examples/with-postcss-rtl

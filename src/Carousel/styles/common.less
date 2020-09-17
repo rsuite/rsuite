@@ -20,13 +20,14 @@
     position: relative;
     left: 0;
     height: 100%;
-    transition: transform 0.3s ease;
+    transition: transform @carousel-animation-duration ease;
     will-change: transform;
 
     &-item {
       background: @carousel-bg;
       float: left;
       height: 100%;
+      width: 100%;
     }
   }
 
@@ -34,26 +35,14 @@
     position: absolute;
     left: 0;
     height: 100%;
-    transition: left 0.5s linear;
+    width: 100%;
     background: @carousel-bg;
     top: 0;
-    width: 200%;
-    opacity: 0;
-  }
+    animation: moveLeftHalf @carousel-animation-duration ease forwards;
 
-  &-slider-after &-slider-item {
-    width: 50% !important;
-    height: 100%;
-    float: left;
-  }
-
-  &-reset &-slider-after,
-  &-last &-slider-after {
-    opacity: 1;
-  }
-
-  &-reset &-slider-after {
-    left: -100%;
+    &-vertical {
+      animation: moveLeftHalf-vertical @carousel-animation-duration ease forwards;
+    }
   }
 
   &-toolbar {

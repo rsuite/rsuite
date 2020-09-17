@@ -84,6 +84,7 @@
 // Picker date
 .@{ns}@{date-picker-prefix} {
   .@{ns}picker-toggle-caret::before {
+    // Force overwrite icon to calendar icon.
     content: @calendar-default-caret-content !important;
     // Adjust the line-height to make sure icon vertical align middle.
     line-height: 17px;
@@ -91,7 +92,8 @@
 
   &-only-time {
     .@{ns}picker-toggle-caret::before {
-      content: @calendar-only-time-caret-content;
+      // Force overwrite icon to clock icon.
+      content: @calendar-only-time-caret-content !important;
     }
   }
 
@@ -105,35 +107,41 @@
 }
 
 // In picker menu
-.@{ns}picker-menu .@{ns}@{calendar-picker-prefix} {
-  width: @calendar-header-width;
-  // To make sure <Calendar/> horizontal align at center when toolbar  width is so long.
-  display: block;
-  margin: 0 auto;
-
-  .@{clpns}-month-dropdown-cell-content,
-  .@{clpns}-table-cell-content {
-    width: @calendar-in-menu-content-side-length;
-    height: @calendar-in-menu-content-side-length;
+.@{ns}picker-menu {
+  .@{ns}picker-toolbar {
+    max-width: @calendar-header-width;
   }
 
-  .@{clpns}-table-header-row .@{clpns}-table-cell-content {
-    height: 24px;
-    padding-top: 0;
-  }
+  .@{ns}@{calendar-picker-prefix} {
+    width: @calendar-header-width;
+    // To make sure <Calendar/> horizontal align at center when toolbar  width is so long.
+    display: block;
+    margin: 0 auto;
 
-  .@{clpns}-table-cell-content {
-    padding-left: 0;
-    padding-right: 0;
-    display: inline-block;
-  }
+    .@{clpns}-month-dropdown-cell-content,
+    .@{clpns}-table-cell-content {
+      width: @calendar-in-menu-content-side-length;
+      height: @calendar-in-menu-content-side-length;
+    }
 
-  .@{clpns}-month-dropdown-scroll {
-    height: 227px;
-  }
+    .@{clpns}-table-header-row .@{clpns}-table-cell-content {
+      height: 24px;
+      padding-top: 0;
+    }
 
-  .@{clpns}-time-dropdown-column > ul {
-    height: 214px;
-    padding-bottom: 184px;
+    .@{clpns}-table-cell-content {
+      padding-left: 0;
+      padding-right: 0;
+      display: inline-block;
+    }
+
+    .@{clpns}-month-dropdown-scroll {
+      height: 227px;
+    }
+
+    .@{clpns}-time-dropdown-column > ul {
+      height: 214px;
+      padding-bottom: 184px;
+    }
   }
 }

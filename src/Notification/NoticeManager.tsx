@@ -1,7 +1,7 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
-import { Transition } from 'rsuite-utils/lib/Animation';
+import Transition from '../Animation/Transition';
 import { prefix, createChainedFunction } from '../utils';
 import { defaultClassPrefix } from '../utils/prefix';
 import Message from './Message';
@@ -31,6 +31,7 @@ export interface InstanceType {
 interface NoticeType {
   key: string;
   show: boolean;
+  className?: string;
   onClose?: () => void;
 }
 
@@ -115,7 +116,8 @@ class NoticeManager extends React.Component<NoticeManagerProps, NoticeManagerSta
       },
       () => {
         setTimeout(() => {
-          this.setState({ notices: [] });
+          const notices = this.state.notices.filter(notice => notice.show === true);
+          this.setState({ notices: notices });
         }, 1000);
       }
     );
@@ -168,7 +170,7 @@ class NoticeManager extends React.Component<NoticeManagerProps, NoticeManagerSta
     const { notices } = this.state;
     const { className, style, classPrefix } = this.props;
     const elements = notices.map(item => {
-      const { key, show, onClose, ...rest } = item;
+      const { key, show, onClose, className: itemClassName, ...itemRest } = item;
 
       return (
         <Transition
@@ -180,11 +182,19 @@ class NoticeManager extends React.Component<NoticeManagerProps, NoticeManagerSta
           enteredClassName={this.addPrefix('fade-entered')}
           timeout={300}
         >
-          <Message
-            {...rest}
-            classPrefix={classPrefix}
-            onClose={createChainedFunction(() => this.remove(key), onClose)}
-          />
+          {(props, ref) => {
+            const { className: transitionClassName, ...rest } = props;
+            return (
+              <Message
+                {...itemRest}
+                {...rest}
+                className={classNames(itemClassName, transitionClassName)}
+                htmlElementRef={ref}
+                classPrefix={classPrefix}
+                onClose={createChainedFunction(() => this.remove(key), onClose)}
+              />
+            );
+          }}
         </Transition>
       );
     });

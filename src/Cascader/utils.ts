@@ -1,4 +1,4 @@
-import { shallowEqual } from 'rsuite-utils/lib/utils';
+import shallowEqual from '../utils/shallowEqual';
 import stringToObject from '../utils/stringToObject';
 import { CascaderProps } from './Cascader.d';
 
@@ -20,7 +20,7 @@ export function getDerivedStateForCascade(
   const findNode = items => {
     for (let i = 0; i < items.length; i += 1) {
       items[i] = stringToObject(items[i], labelKey, valueKey);
-      let children = items[i][childrenKey];
+      const children = items[i][childrenKey];
 
       if (shallowEqual(items[i][valueKey], activeItemValue)) {
         return {
@@ -28,7 +28,7 @@ export function getDerivedStateForCascade(
           active: items[i]
         };
       } else if (children) {
-        let v = findNode(children);
+        const v = findNode(children);
         if (v) {
           nextItems.push(
             children.map(item => ({

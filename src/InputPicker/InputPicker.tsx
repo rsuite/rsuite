@@ -2,15 +2,9 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import compose from 'recompose/compose';
 import { getWidth } from 'dom-lib';
-import {
-  reactToString,
-  filterNodesOfTree,
-  findNodeOfTree,
-  shallowEqual
-} from 'rsuite-utils/lib/utils';
-
+import shallowEqual from '../utils/shallowEqual';
+import { filterNodesOfTree, findNodeOfTree } from '../utils/treeUtils';
 import {
   defaultProps,
   prefix,
@@ -18,25 +12,26 @@ import {
   createChainedFunction,
   tplTransform,
   getDataGroupBy,
-  withPickerMethods
+  mergeRefs
 } from '../utils';
 
 import {
-  DropdownMenu,
   DropdownMenuItem,
   DropdownMenuCheckItem,
   getToggleWrapperClassName,
   onMenuKeyDown,
   PickerToggle,
   MenuWrapper,
-  PickerToggleTrigger
+  PickerToggleTrigger,
+  shouldDisplay
 } from '../Picker';
-
+import DropdownMenu, { dropdownMenuPropTypes } from '../Picker/DropdownMenu';
 import InputAutosize from './InputAutosize';
 import InputSearch from './InputSearch';
 import Tag from '../Tag';
 import { InputPickerProps } from './InputPicker.d';
-import { PLACEMENT } from '../constants';
+import { ItemDataType } from '../@types/common';
+import { listPickerPropTypes, listPickerDefaultProps } from '../Picker/propTypes';
 
 interface InputPickerState {
   data?: any[];
@@ -51,65 +46,30 @@ interface InputPickerState {
 
 class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   static propTypes = {
-    data: PropTypes.array,
+    ...listPickerPropTypes,
     cacheData: PropTypes.array,
-    locale: PropTypes.object,
-    classPrefix: PropTypes.string,
-    className: PropTypes.string,
-    container: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-    containerPadding: PropTypes.number,
-    block: PropTypes.bool,
-    toggleComponentClass: PropTypes.elementType,
-    menuClassName: PropTypes.string,
-    menuStyle: PropTypes.object,
     menuAutoWidth: PropTypes.bool,
-    disabled: PropTypes.bool,
-    disabledItemValues: PropTypes.array,
     maxHeight: PropTypes.number,
-    valueKey: PropTypes.string,
-    labelKey: PropTypes.string,
-    value: PropTypes.any,
-    defaultValue: PropTypes.any,
-    placeholder: PropTypes.node,
     searchable: PropTypes.bool,
-    cleanable: PropTypes.bool,
-    open: PropTypes.bool,
-    defaultOpen: PropTypes.bool,
-    placement: PropTypes.oneOf(PLACEMENT),
-    style: PropTypes.object,
     creatable: PropTypes.bool,
     multi: PropTypes.bool,
     filter: PropTypes.bool,
-    preventOverflow: PropTypes.bool,
     groupBy: PropTypes.any,
     sort: PropTypes.func,
     renderMenu: PropTypes.func,
     renderMenuItem: PropTypes.func,
     renderMenuGroup: PropTypes.func,
-    renderValue: PropTypes.func,
-    renderExtraFooter: PropTypes.func,
-    onChange: PropTypes.func,
     onSelect: PropTypes.func,
     onGroupTitleClick: PropTypes.func,
     onSearch: PropTypes.func,
-    onClean: PropTypes.func,
-    onOpen: PropTypes.func,
-    onClose: PropTypes.func,
-    onHide: PropTypes.func,
-    onEnter: PropTypes.func,
-    onEntering: PropTypes.func,
-    onEntered: PropTypes.func,
-    onExit: PropTypes.func,
-    onExiting: PropTypes.func,
-    onExited: PropTypes.func
+    virtualized: PropTypes.bool,
+    searchBy: PropTypes.func,
+    tagProps: PropTypes.object
   };
   static defaultProps = {
-    data: [],
+    ...listPickerDefaultProps,
     cacheData: [],
-    disabledItemValues: [],
     maxHeight: 320,
-    valueKey: 'value',
-    labelKey: 'label',
     locale: {
       placeholder: 'Select',
       noResultsText: 'No results found',
@@ -117,9 +77,8 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       createOption: 'Create option "{0}"'
     },
     searchable: true,
-    cleanable: true,
     menuAutoWidth: true,
-    placement: 'bottomStart'
+    virtualized: true
   };
   menuContainerRef: React.RefObject<any>;
   positionRef: React.RefObject<any>;
@@ -132,6 +91,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     if (nextProps.data && !shallowEqual(nextProps.data, prevState.data)) {
       return {
         data: nextProps.data,
+        newData: [],
         focusItemValue: _.get(nextProps, `data.0.${nextProps.valueKey}`)
       };
     }
@@ -175,14 +135,13 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   }
 
   getFocusableMenuItems = () => {
-    const { labelKey } = this.props;
     const { menuItems } = this.menuContainerRef.current;
     if (!menuItems) {
       return [];
     }
 
     const items = Object.values(menuItems).map((item: any) => item.props.getItemData());
-    return filterNodesOfTree(items, item => this.shouldDisplay(item[labelKey]));
+    return filterNodesOfTree(items, item => this.shouldDisplay(item));
   };
 
   getValue() {
@@ -207,8 +166,8 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     return [].concat(data, cacheData);
   }
 
-  getLabelByValue(value: any) {
-    const { renderValue, placeholder, valueKey, labelKey } = this.props;
+  getDateItem(value: any) {
+    const { placeholder, valueKey, labelKey } = this.props;
     // Find active `MenuItem` by `value`
     const activeItem = findNodeOfTree(this.getAllDataAndCache(), item =>
       shallowEqual(item[valueKey], value)
@@ -217,14 +176,11 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
 
     if (_.get(activeItem, labelKey)) {
       displayElement = _.get(activeItem, labelKey);
-
-      if (renderValue) {
-        displayElement = renderValue(value, activeItem, displayElement);
-      }
     }
 
     return {
       isValid: !!activeItem,
+      activeItem,
       displayElement
     };
   }
@@ -263,7 +219,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   getInput() {
     const { multi } = this.props;
     if (multi) {
-      return this.inputRef.current.getInputInstance();
+      return this.inputRef.current?.getInputInstance?.();
     }
 
     return this.inputRef.current;
@@ -277,27 +233,15 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
    * Index of keyword  in `label`
    * @param {node} label
    */
-  shouldDisplay(label: any, searchKeyword?: string) {
+  shouldDisplay(item: ItemDataType, searchKeyword?: string) {
+    const { searchBy, labelKey } = this.props;
+    const label = item?.[labelKey];
     const word = typeof searchKeyword === 'undefined' ? this.state.searchKeyword : searchKeyword;
-    if (!_.trim(word)) {
-      return true;
+
+    if (typeof searchBy === 'function') {
+      return searchBy(word, label, item);
     }
-
-    const keyword = word.toLocaleLowerCase();
-
-    if (typeof label === 'string' || typeof label === 'number') {
-      return `${label}`.toLocaleLowerCase().indexOf(keyword) >= 0;
-    } else if (React.isValidElement(label)) {
-      const nodes = reactToString(label);
-      return (
-        nodes
-          .join('')
-          .toLocaleLowerCase()
-          .indexOf(keyword) >= 0
-      );
-    }
-
-    return false;
+    return shouldDisplay(label, word);
   }
 
   findNode(focus: Function) {
@@ -334,9 +278,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   };
 
   updatePosition() {
-    if (this.positionRef.current) {
-      this.positionRef.current.updatePosition(true);
-    }
+    this.positionRef.current?.updatePosition?.(true);
   }
 
   handleKeyDown = (event: React.KeyboardEvent) => {
@@ -480,7 +422,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
         focusItemValue: filteredData.length ? filteredData[0][valueKey] : searchKeyword
       };
       this.setState(nextState, this.updatePosition);
-    }else{
+    } else {
       const nextState = {
         searchKeyword,
         focusItemValue: searchKeyword
@@ -492,15 +434,18 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   };
 
   handleOpenDropdown = () => {
-    if (this.triggerRef.current) {
-      this.triggerRef.current.show();
-    }
+    this.triggerRef.current?.show?.();
   };
 
   handleCloseDropdown = () => {
-    if (this.triggerRef.current) {
-      this.triggerRef.current.hide();
-    }
+    this.triggerRef.current?.hide?.();
+  };
+
+  open = () => {
+    this.handleOpenDropdown?.();
+  };
+  close = () => {
+    this.handleCloseDropdown?.();
   };
 
   handleChange = (value: any, event: React.SyntheticEvent<any>) => {
@@ -595,7 +540,6 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
 
   renderDropdownMenu() {
     const {
-      labelKey,
       groupBy,
       locale,
       renderMenu,
@@ -607,7 +551,8 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       valueKey,
       multi,
       sort,
-      filter
+      filter,
+      virtualized
     } = this.props;
 
     const { focusItemValue, searchKeyword } = this.state;
@@ -618,8 +563,8 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
 
     let filteredData = allData;
 
-    if(filter){
-      filteredData = filterNodesOfTree(allData, item => this.shouldDisplay(item[labelKey]));
+    if (filter) {
+      filteredData = filterNodesOfTree(allData, item => this.shouldDisplay(item));
     }
 
 
@@ -640,7 +585,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
 
     const menuProps = _.pick(
       this.props,
-      Object.keys(_.omit(DropdownMenu.propTypes, ['className', 'style', 'classPrefix']))
+      Object.keys(_.omit(dropdownMenuPropTypes, ['className', 'style', 'classPrefix']))
     );
 
     const value = this.getValue();
@@ -657,6 +602,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
         group={!_.isUndefined(groupBy)}
         onSelect={multi ? this.handleCheckItemSelect : this.handleItemSelect}
         renderMenuItem={this.renderMenuItem}
+        virtualized={virtualized}
       />
     ) : (
         <div className={this.addPrefix('none')}>{locale.noResultsText}</div>
@@ -677,35 +623,60 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   }
 
   renderSingleValue() {
+    const { renderValue, multi, placeholder } = this.props;
+    if (multi) {
+      return { isValid: false, displayElement: placeholder };
+    }
     const value = this.getValue();
-    return this.getLabelByValue(value);
+    const dataItem = this.getDateItem(value);
+
+    let displayElement = dataItem.displayElement;
+
+    if (!_.isNil(value) && _.isFunction(renderValue)) {
+      displayElement = renderValue(value, dataItem.activeItem, displayElement);
+    }
+
+    return { isValid: dataItem.isValid, displayElement };
   }
 
   renderMultiValue() {
-    const { multi, disabled } = this.props;
+    const { multi, disabled, tagProps = {}, renderValue } = this.props;
     if (!multi) {
       return null;
     }
 
+    const { closable = true, onClose, ...tagRest } = tagProps;
     const tags = this.getValue() || [];
-    return tags
+    const items = [];
+
+    const tagElements = tags
       .map(tag => {
-        const { isValid, displayElement } = this.getLabelByValue(tag);
+        const { isValid, displayElement, activeItem } = this.getDateItem(tag);
+        items.push(activeItem);
+
         if (!isValid) {
           return null;
         }
+
         return (
           <Tag
+            {...tagRest}
             key={tag}
-            closable={!disabled}
+            closable={!disabled && closable}
             title={typeof displayElement === 'string' ? displayElement : undefined}
-            onClose={this.handleRemoveItemByTag.bind(this, tag)}
+            onClose={createChainedFunction(this.handleRemoveItemByTag.bind(this, tag), onClose)}
           >
             {displayElement}
           </Tag>
         );
       })
       .filter(item => item !== null);
+
+    if (tags.length > 0 && _.isFunction(renderValue)) {
+      return renderValue(this.getValue(), items, tagElements);
+    }
+
+    return tagElements;
   }
 
   renderInputSearch() {
@@ -745,13 +716,25 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       onExited,
       searchable,
       multi,
+      positionRef,
+      renderValue,
       ...rest
     } = this.props;
 
     const unhandled = getUnhandledProps(InputPicker, rest);
     const { isValid, displayElement } = this.renderSingleValue();
     const tagElements = this.renderMultiValue();
-    const hasValue = multi ? !!_.get(tagElements, 'length') : isValid;
+    const value = this.getValue();
+
+    /**
+     * 1.Have a value and the value is valid.
+     * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
+     */
+    const hasSingleValue = !_.isNil(value) && _.isFunction(renderValue);
+    const hasMultiValue = _.isArray(value) && value.length > 0 && _.isFunction(renderValue);
+    const hasValue = multi
+      ? !!_.get(tagElements, 'length') || hasMultiValue
+      : isValid || hasSingleValue;
 
     const classes = getToggleWrapperClassName('input', this.addPrefix, this.props, hasValue, {
       [this.addPrefix('tag')]: multi,
@@ -765,7 +748,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       <PickerToggleTrigger
         pickerProps={this.props}
         ref={this.triggerRef}
-        positionRef={this.positionRef}
+        positionRef={mergeRefs(this.positionRef, positionRef)}
         trigger="active"
         onEnter={createChainedFunction(this.handleEnter, onEnter)}
         onEntered={createChainedFunction(this.handleEntered, onEntered)}
@@ -801,11 +784,6 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   }
 }
 
-const enhance = compose(
-  defaultProps<InputPickerProps>({
-    classPrefix: 'picker'
-  }),
-  withPickerMethods<InputPickerProps>()
-);
-
-export default enhance(InputPicker);
+export default defaultProps({
+  classPrefix: 'picker'
+})(InputPicker);

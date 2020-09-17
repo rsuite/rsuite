@@ -1,11 +1,9 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import compose from 'recompose/compose';
 import _ from 'lodash';
 
 import {
-  format,
   addDays,
   isBefore,
   isAfter,
@@ -21,17 +19,12 @@ import {
   compareAsc
 } from 'date-fns';
 
-import IntlProvider from '../IntlProvider';
+import IntlContext from '../IntlProvider/IntlContext';
+import FormattedDate from '../IntlProvider/FormattedDate';
 import Toolbar from './Toolbar';
 import DatePicker from './DatePicker';
-import { setTimingMargin, getCalendarDate, TYPE } from './utils';
-import {
-  defaultProps,
-  getUnhandledProps,
-  prefix,
-  createChainedFunction,
-  withPickerMethods
-} from '../utils';
+import { setTimingMargin, getCalendarDate } from './utils';
+import { defaultProps, getUnhandledProps, prefix, createChainedFunction } from '../utils';
 
 import {
   PickerToggle,
@@ -41,7 +34,8 @@ import {
 } from '../Picker';
 
 import { DateRangePickerProps, ValueType } from './DateRangePicker.d';
-import { PLACEMENT } from '../constants';
+import { DATERANGE_DISABLED_TARGET } from '../constants';
+import { pickerPropTypes, pickerDefaultProps } from '../Picker/propTypes';
 
 interface DateRangePickerState {
   value: ValueType;
@@ -64,56 +58,29 @@ interface DateRangePickerState {
 
 class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePickerState> {
   static propTypes = {
-    appearance: PropTypes.oneOf(['default', 'subtle']),
+    ...pickerPropTypes,
     ranges: PropTypes.array,
     value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     defaultValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     defaultCalendarValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-    placeholder: PropTypes.node,
-    format: PropTypes.string,
-    disabled: PropTypes.bool,
-    locale: PropTypes.object,
     hoverRange: PropTypes.oneOfType([PropTypes.oneOf(['week', 'month']), PropTypes.func]),
-    cleanable: PropTypes.bool,
+    format: PropTypes.string,
     isoWeek: PropTypes.bool,
     oneTap: PropTypes.bool,
     limitEndYear: PropTypes.number,
-    className: PropTypes.string,
-    menuClassName: PropTypes.string,
-    classPrefix: PropTypes.string,
-    container: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-    containerPadding: PropTypes.number,
-    block: PropTypes.bool,
-    toggleComponentClass: PropTypes.elementType,
-    style: PropTypes.object,
-    open: PropTypes.bool,
-    defaultOpen: PropTypes.bool,
-    placement: PropTypes.oneOf(PLACEMENT),
-    preventOverflow: PropTypes.bool,
     showWeekNumbers: PropTypes.bool,
     onChange: PropTypes.func,
     onOk: PropTypes.func,
     disabledDate: PropTypes.func,
     onSelect: PropTypes.func,
-    onOpen: PropTypes.func,
-    onClose: PropTypes.func,
-    onHide: PropTypes.func,
-    onClean: PropTypes.func,
-    onEnter: PropTypes.func,
-    onEntering: PropTypes.func,
-    onEntered: PropTypes.func,
-    onExit: PropTypes.func,
-    onExiting: PropTypes.func,
-    onExited: PropTypes.func,
-    renderValue: PropTypes.func
+    showOneCalendar: PropTypes.bool
   };
   static defaultProps = {
-    appearance: 'default',
-    placement: 'bottomStart',
+    ...pickerDefaultProps,
     limitEndYear: 1000,
     format: 'YYYY-MM-DD',
     placeholder: '',
-    cleanable: true,
+    showOneCalendar: false,
     locale: {
       sunday: 'Su',
       monday: 'Mo',
@@ -198,9 +165,14 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     if (startDate && endDate) {
       const displayValue: any = [startDate, endDate].sort(compareAsc);
 
-      return renderValue
-        ? renderValue(displayValue, formatType)
-        : `${format(displayValue[0], formatType)} ~ ${format(displayValue[1], formatType)}`;
+      return renderValue ? (
+        renderValue(displayValue, formatType)
+      ) : (
+        <>
+          <FormattedDate date={displayValue[0]} formatStr={formatType} /> ~{' '}
+          <FormattedDate date={displayValue[1]} formatStr={formatType} />
+        </>
+      );
     }
 
     return placeholder || `${formatType} ~ ${formatType}`;
@@ -257,15 +229,18 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   };
 
   handleCloseDropdown = () => {
-    if (this.triggerRef.current) {
-      this.triggerRef.current.hide();
-    }
+    this.triggerRef.current?.hide?.();
   };
 
   handleOpenDropdown = () => {
-    if (this.triggerRef.current) {
-      this.triggerRef.current.show();
-    }
+    this.triggerRef.current?.show?.();
+  };
+
+  open = () => {
+    this.handleOpenDropdown?.();
+  };
+  close = () => {
+    this.handleCloseDropdown?.();
   };
 
   resetPageDate() {
@@ -363,7 +338,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
         this.updateValue(event);
       }
 
-      onSelect && onSelect(date, event);
+      onSelect?.(date, event);
     });
   };
 
@@ -375,7 +350,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       return;
     }
 
-    let nextHoverValue = this.getHoverRange(date);
+    const nextHoverValue = this.getHoverRange(date);
 
     if (doneSelected && !_.isUndefined(hoverRange)) {
       this.setState({
@@ -447,7 +422,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     this.props.onClose?.();
   };
 
-  disabledByBetween(start: Date, end: Date, type: string) {
+  disabledByBetween(start: Date, end: Date, type: DATERANGE_DISABLED_TARGET) {
     const { disabledDate } = this.props;
     const { selectValue, doneSelected } = this.state;
     const selectStartDate = selectValue[0];
@@ -473,7 +448,11 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       return true;
     }
 
-    return this.disabledByBetween(selectValue[0], selectValue[1], TYPE.TOOLBAR_BUTTON_OK);
+    return this.disabledByBetween(
+      selectValue[0],
+      selectValue[1],
+      DATERANGE_DISABLED_TARGET.TOOLBAR_BUTTON_OK
+    );
   };
 
   disabledShortcutButton = (value: ValueType = []) => {
@@ -481,10 +460,10 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       return true;
     }
 
-    return this.disabledByBetween(value[0], value[1], TYPE.TOOLBAR_SHORTCUT);
+    return this.disabledByBetween(value[0], value[1], DATERANGE_DISABLED_TARGET.TOOLBAR_SHORTCUT);
   };
 
-  handleDisabledDate = (date: Date, values: ValueType, type: string) => {
+  handleDisabledDate = (date: Date, values: ValueType, type: DATERANGE_DISABLED_TARGET) => {
     const { disabledDate } = this.props;
     const { doneSelected } = this.state;
     if (disabledDate) {
@@ -495,9 +474,20 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
 
   renderDropdownMenu() {
-    const { menuClassName, ranges, isoWeek, limitEndYear, oneTap, showWeekNumbers } = this.props;
+    const {
+      menuClassName,
+      ranges,
+      isoWeek,
+      limitEndYear,
+      oneTap,
+      showWeekNumbers,
+      showOneCalendar
+    } = this.props;
     const { calendarDate, selectValue, hoverValue, doneSelected } = this.state;
     const classes = classNames(this.addPrefix('daterange-menu'), menuClassName);
+    const panelClasses = classNames(this.addPrefix('daterange-panel'), {
+      [this.addPrefix('daterange-panel-show-one-calendar')]: showOneCalendar
+    });
 
     const pickerProps = {
       isoWeek,
@@ -510,19 +500,24 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
       disabledDate: this.handleDisabledDate,
       onSelect: this.handleChangeSelectValue,
       onMouseMove: this.handleMouseMoveSelectValue,
-      onChangeCalendarDate: this.handleChangeCalendarDate
+      onChangeCalendarDate: this.handleChangeCalendarDate,
+      showOneCalendar
     };
 
     return (
       <MenuWrapper className={classes} ref={this.menuContainerRef}>
-        <div className={this.addPrefix('daterange-panel')}>
+        <div className={panelClasses}>
           <div className={this.addPrefix('daterange-content')}>
             <div className={this.addPrefix('daterange-header')}>
               {this.getDateString(selectValue as ValueType)}
             </div>
-            <div className={this.addPrefix('daterange-calendar-group')}>
+            <div
+              className={this.addPrefix(
+                `daterange-calendar-${showOneCalendar ? 'single' : 'group'}`
+              )}
+            >
               <DatePicker index={0} {...pickerProps} />
-              <DatePicker index={1} {...pickerProps} />
+              {!showOneCalendar && <DatePicker index={1} {...pickerProps} />}
             </div>
           </div>
           <Toolbar
@@ -558,14 +553,14 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
     const classes = getToggleWrapperClassName('daterange', this.addPrefix, this.props, hasValue);
 
     return (
-      <IntlProvider locale={locale}>
+      <IntlContext.Provider value={locale}>
         <div className={classes} style={style}>
           <PickerToggleTrigger
             pickerProps={this.props}
             ref={this.triggerRef}
             onEnter={createChainedFunction(this.handleEnter, onEnter)}
             onEntered={createChainedFunction(this.handleEntered, onEntered)}
-            onExit={createChainedFunction(this.handleExit, onExited)}
+            onExited={createChainedFunction(this.handleExit, onExited)}
             speaker={this.renderDropdownMenu()}
           >
             <PickerToggle
@@ -580,16 +575,11 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
             </PickerToggle>
           </PickerToggleTrigger>
         </div>
-      </IntlProvider>
+      </IntlContext.Provider>
     );
   }
 }
 
-const enhance = compose(
-  defaultProps<DateRangePickerProps>({
-    classPrefix: 'picker'
-  }),
-  withPickerMethods<DateRangePickerProps>()
-);
-
-export default enhance(DateRangePicker);
+export default defaultProps({
+  classPrefix: 'picker'
+})(DateRangePicker);

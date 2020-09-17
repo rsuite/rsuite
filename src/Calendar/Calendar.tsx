@@ -7,8 +7,8 @@ import MonthDropdown from './MonthDropdown';
 import TimeDropdown from './TimeDropdown';
 import View from './View';
 import Header from './Header';
-import { getUnhandledProps, defaultProps, prefix } from '../utils';
-import disabledTime, { calendarOnlyProps } from '../utils/disabledTime';
+import { getUnhandledProps, defaultProps, prefix, refType } from '../utils';
+import { disabledTime, calendarOnlyProps } from '../utils/timeUtils';
 import { shouldTime, shouldDate, shouldMonth } from '../utils/formatUtils';
 import { addMonths } from 'date-fns';
 
@@ -26,6 +26,7 @@ export interface CalendarProps {
   className?: string;
   classPrefix?: string;
   showWeekNumbers?: boolean;
+  showMeridian?: boolean;
   disabledDate?: (date: Date) => boolean;
   disabledHours?: (hour: number, date: Date) => boolean;
   disabledMinutes?: (minute: number, date: Date) => boolean;
@@ -40,6 +41,7 @@ export interface CalendarProps {
   onToggleTimeDropdown?: (event: React.MouseEvent) => void;
   onChangePageDate?: (nextPageDate: Date, event: React.MouseEvent) => void;
   onChangePageTime?: (nextPageTime: Date, event: React.MouseEvent) => void;
+  onToggleMeridian?: (event: React.MouseEvent) => void;
   renderTitle?: (date: Date) => React.ReactNode;
   renderToolbar?: (date: Date) => React.ReactNode;
   renderCell?: (date: Date) => React.ReactNode;
@@ -49,11 +51,13 @@ class Calendar extends React.Component<CalendarProps> {
   static propTypes = {
     pageDate: PropTypes.instanceOf(Date),
     calendarState: PropTypes.oneOf(CalendarState),
-    calendarRef: PropTypes.func,
+    calendarRef: refType,
     format: PropTypes.string,
     isoWeek: PropTypes.bool,
     limitEndYear: PropTypes.number,
     className: PropTypes.string,
+    showWeekNumbers: PropTypes.bool,
+    showMeridian: PropTypes.bool,
     classPrefix: PropTypes.string,
     disabledDate: PropTypes.func,
     disabledHours: PropTypes.func,
@@ -69,6 +73,7 @@ class Calendar extends React.Component<CalendarProps> {
     onToggleTimeDropdown: PropTypes.func,
     onChangePageDate: PropTypes.func,
     onChangePageTime: PropTypes.func,
+    onToggleMeridian: PropTypes.func,
     renderTitle: PropTypes.func,
     renderToolbar: PropTypes.func,
     renderCell: PropTypes.func
@@ -101,6 +106,7 @@ class Calendar extends React.Component<CalendarProps> {
       onToggleTimeDropdown,
       onChangePageDate,
       onChangePageTime,
+      onToggleMeridian,
       format,
       calendarRef,
       className,
@@ -111,6 +117,7 @@ class Calendar extends React.Component<CalendarProps> {
       renderToolbar,
       renderCell,
       showWeekNumbers,
+      showMeridian,
       ...rest
     } = this.props;
 
@@ -139,12 +146,14 @@ class Calendar extends React.Component<CalendarProps> {
           showMonth={showMonth}
           showDate={showDate}
           showTime={showTime}
+          showMeridian={showMeridian}
           disabledDate={this.disabledDate}
           disabledTime={this.disabledTime}
           onMoveForword={this.handleMoveForword}
           onMoveBackward={this.handleMoveBackward}
           onToggleMonthDropdown={onToggleMonthDropdown}
           onToggleTimeDropdown={onToggleTimeDropdown}
+          onToggleMeridian={onToggleMeridian}
           renderTitle={renderTitle}
           renderToolbar={renderToolbar}
         />
@@ -174,6 +183,7 @@ class Calendar extends React.Component<CalendarProps> {
             date={pageDate}
             format={format}
             show={dropTime}
+            showMeridian={showMeridian}
             onSelect={onChangePageTime}
           />
         )}

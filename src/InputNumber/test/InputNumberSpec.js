@@ -73,7 +73,7 @@ describe('InputNumber', () => {
 
   it('Should return min value  when click up button', done => {
     const doneOp = value => {
-      if (value === 10) {
+      if (value === '10') {
         done();
       }
     };
@@ -83,7 +83,7 @@ describe('InputNumber', () => {
 
   it('Should return max value  when click up button', done => {
     const doneOp = value => {
-      if (value === 10) {
+      if (value === '10') {
         done();
       }
     };
@@ -115,7 +115,7 @@ describe('InputNumber', () => {
     const input = instance.querySelector('.rs-input');
     ReactTestUtils.Simulate.change(input);
 
-    assert.ok(!onChnageSpy.calledOnce);
+    assert.ok(onChnageSpy.calledOnce);
   });
 
   it('Should call onBlur callback', done => {

@@ -1,7 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
-import ReactTestUtils from 'react-dom/test-utils';
-
 import Tooltip from '../Tooltip';
 import { innerText, getDOMNode } from '@test/testUtils';
 
@@ -14,14 +11,9 @@ describe('Tooltip', () => {
     assert.equal(innerText(instance), title);
   });
 
-  it('Should render at left 10px', () => {
-    const instance = getDOMNode(<Tooltip positionLeft={10} />);
-    assert.equal(instance.style.left, '10px');
-  });
-
-  it('Should render at top 10px', () => {
-    const instance = getDOMNode(<Tooltip positionTop={10} />);
-    assert.equal(instance.style.top, '10px');
+  it('Should have a id', () => {
+    const instance = getDOMNode(<Tooltip id="tooltip" />);
+    assert.equal(instance.id, 'tooltip');
   });
 
   it('Should have a custom className', () => {

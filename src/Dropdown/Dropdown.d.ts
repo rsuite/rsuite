@@ -62,7 +62,11 @@ export interface DropdownProps<T = any> extends StandardProps {
   /** No caret variation */
   noCaret?: boolean;
 
+  /** Open the menu and control it */
   open?: boolean;
+
+  /** Whether Dropdown menu shows header  */
+  showHeader?: boolean;
 }
 
 interface DropdownComponent extends React.ComponentClass<DropdownProps> {

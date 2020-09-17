@@ -1,20 +1,26 @@
 import * as React from 'react';
 import { PickerBaseProps, FormControlBaseProps } from '../@types/common';
 
+export enum DATERANGE_DISABLED_TARGET {
+  CALENDAR = 'CALENDAR',
+  TOOLBAR_BUTTON_OK = 'TOOLBAR_BUTTON_OK',
+  TOOLBAR_SHORTCUT = 'TOOLBAR_SHORTCUT'
+}
+
 export type ValueType = [Date?, Date?];
 
 export type DisabledDateFunction = (
   /** Date used to determine if disabling is required. */
   date: Date,
   /** Date selected. */
-  selectValue?: ValueType,
+  selectDate?: ValueType,
   /**
    Whether to choose to finish now.
    If `false`, only the start date is selected, waiting for the selection end date.
    */
   selectedDone?: boolean,
   // Call the target of the `disabledDate` function
-  target?: 'CALENDAR' | 'TOOLBAR_BUTTON_OK' | 'TOOLBAR_SHORTCUT'
+  target?: DATERANGE_DISABLED_TARGET
 ) => boolean;
 
 export interface RangeType {
@@ -45,15 +51,18 @@ export interface DateRangePickerProps extends PickerBaseProps, FormControlBasePr
   /** Whether to show week numbers */
   showWeekNumbers?: boolean;
 
+  /** Show only one calendar select */
+  showOneCalendar?: boolean;
+
   /** Set default date for calendar */
   defaultCalendarValue?: ValueType;
 
   /** Disabled date */
   disabledDate?: (
     date: Date,
-    selectValue: ValueType,
-    doneSelected: boolean,
-    type: string
+    selectDate: ValueType,
+    selectedDone: boolean,
+    target: DATERANGE_DISABLED_TARGET
   ) => boolean;
 
   /** Called when the option is selected */

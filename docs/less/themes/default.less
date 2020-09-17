@@ -1,0 +1,32 @@
+// @rootPath inject by webpack.theme.config.js
+// modularized
+//@import '@{rootPath}rsuite/lib/styles/common';
+// integrated
+//@import '~rsuite/src/styles/index';
+@import '@{rootPath}src/styles/index';
+
+@sidebar-wrapper-bg: #f4f5f7;
+@component-overview-content-name-color: @B500;
+@code-view-wrapper-bg: @body-bg;
+@code-view-wrapper-border-color: #f1f1f1;
+@code-view-wrapper-hr-color: @code-view-wrapper-border-color;
+@doc-highlight-bg: #f5f5f5;
+@code-view-blockquote-color: @H500;
+@show-fake-browser-bg: @B050;
+@show-fake-browser-content-bg: @B000;
+@toolbar-btn-subtle-color: @B600;
+
+#loaderInverseWrapper {
+  background: @B900;
+}
+
+#preventOverflowContainer {
+  box-shadow: #999 1px 1px 5px inset;
+}
+
+.top-level-nav .@{ns}btn-default {
+  &:hover,
+  &:focus {
+    background: @B800;
+  }
+}

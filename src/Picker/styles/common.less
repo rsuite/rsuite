@@ -17,7 +17,7 @@
     max-width: 100%;
   }
 
-  &-toggle-custom.@{ns}btn {
+  &-toggle.@{ns}btn {
     .@{ns}ripple-pond {
       display: none !important;
     }
@@ -108,12 +108,20 @@
 }
 
 /* stylelint-disable-next-line */ // Custom button sizes
-.@{ns}picker-toggle-custom.@{ns}btn {
+.@{ns}picker-toggle.@{ns}btn {
+  .picker-button-caret-md;
+  .tag-picker-search-input-md;
+  .date-picker-button-caret-md;
+  .date-picker-button-size(base);
+
   &-lg {
     .picker-button-caret-lg;
+    .picker-default-button-reset-padding-left(large);
     .tag-picker-search-input-lg;
     .date-picker-button-caret-lg;
     .date-picker-button-size(large);
+
+    .btn-lg(base);
 
     .@{ns}picker-value-count {
       line-height: @line-height-large-computed;
@@ -122,28 +130,35 @@
 
   &-md {
     .picker-button-caret-md;
+    .picker-default-button-reset-padding-left(base);
     .tag-picker-search-input-md;
     .date-picker-button-caret-md;
     .date-picker-button-size(base);
   }
 
   &-sm {
+    .btn-sm(base);
+
     .picker-button-caret-sm;
+    .picker-default-button-reset-padding-left(small);
     .tag-picker-search-input-sm;
     .date-picker-button-caret-sm;
     .date-picker-button-size(small);
   }
 
   &-xs {
+    .btn-xs(base);
+
     .picker-button-caret-xs;
+    .picker-default-button-reset-padding-left(extra-small);
     .tag-picker-search-input-xs;
     .date-picker-button-caret-xs;
     .date-picker-button-size(extra-small);
   }
 }
 
-.@{ns}picker-toggle,
-.@{ns}picker-toggle-custom {
+/* stylelint-disable-next-line */ // Custom button
+.@{ns}picker-toggle {
   .picker-default-toggle;
   .picker-subtle-toggle;
 
@@ -176,8 +191,6 @@
   color: @picker-toggle-clean-color;
   transition: 0.2s color linear;
   cursor: pointer;
-  // FIXED: IE browser has 1px orange line.
-  .ie-width(19px) !important;
   .ie-text-align(center);
 
   &:hover {
@@ -308,6 +321,11 @@
       transition: @picker-item-transition;
       line-height: @line-height-computed;
 
+      /* stylelint-disable-next-line */ // This class name provide by Virtualized.
+      .ReactVirtualized__Grid & {
+        .ellipsis-basic;
+      }
+
       .@{ns}checkbox-disabled& {
         cursor: not-allowed;
       }
@@ -315,11 +333,13 @@
       .@{ns}checkbox-wrapper {
         left: @picker-item-content-padding-horizontal;
 
+        .grouped &,
         .@{ckpns}-menu-group-children & {
           left: @picker-item-content-padding-horizontal + @picker-children-check-item-padding-left;
         }
       }
 
+      .grouped &,
       .@{ckpns}-menu-group-children & {
         padding-left: @picker-check-item-content-padding-left +
           @picker-children-check-item-padding-left;

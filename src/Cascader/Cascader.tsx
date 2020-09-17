@@ -1,25 +1,23 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import compose from 'recompose/compose';
 import _ from 'lodash';
-import { findNodeOfTree, shallowEqual } from 'rsuite-utils/lib/utils';
+import shallowEqual from '../utils/shallowEqual';
 import { polyfill } from 'react-lifecycles-compat';
-
-import IntlProvider from '../IntlProvider';
+import { findNodeOfTree } from '../utils/treeUtils';
+import IntlContext from '../IntlProvider/IntlContext';
 import FormattedMessage from '../IntlProvider/FormattedMessage';
-import DropdownMenu from './DropdownMenu';
+import DropdownMenu, { dropdownMenuPropTypes } from './DropdownMenu';
 import stringToObject from '../utils/stringToObject';
 import getSafeRegExpString from '../utils/getSafeRegExpString';
 import { flattenTree, getNodeParents } from '../utils/treeUtils';
 import { getDerivedStateForCascade } from './utils';
-
 import {
   defaultProps,
   prefix,
   getUnhandledProps,
   createChainedFunction,
-  withPickerMethods
+  mergeRefs
 } from '../utils';
 
 import {
@@ -32,8 +30,8 @@ import {
 } from '../Picker';
 
 import { CascaderProps } from './Cascader.d';
-import { PLACEMENT } from '../constants';
 import { ItemDataType } from '../@types/common';
+import { listPickerPropTypes, listPickerDefaultProps } from '../Picker/propTypes';
 
 interface CascaderState {
   selectNode?: any;
@@ -49,68 +47,26 @@ interface CascaderState {
 
 class Cascader extends React.Component<CascaderProps, CascaderState> {
   static propTypes = {
-    appearance: PropTypes.oneOf(['default', 'subtle']),
-    classPrefix: PropTypes.string,
-    data: PropTypes.array,
-    className: PropTypes.string,
-    container: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-    containerPadding: PropTypes.number,
-    block: PropTypes.bool,
-    toggleComponentClass: PropTypes.elementType,
-    menuClassName: PropTypes.string,
-    menuStyle: PropTypes.object,
-    childrenKey: PropTypes.string,
-    valueKey: PropTypes.string,
-    labelKey: PropTypes.string,
+    ...listPickerPropTypes,
     renderMenu: PropTypes.func,
-    renderValue: PropTypes.func,
-    renderExtraFooter: PropTypes.func,
-    disabled: PropTypes.bool,
-    value: PropTypes.any,
-    defaultValue: PropTypes.any,
-    placeholder: PropTypes.string,
-    onChange: PropTypes.func,
-    onClean: PropTypes.func,
-    onOpen: PropTypes.func,
-    onClose: PropTypes.func,
-    onHide: PropTypes.func,
-    onEnter: PropTypes.func,
-    onEntering: PropTypes.func,
-    onEntered: PropTypes.func,
-    onExit: PropTypes.func,
-    onExiting: PropTypes.func,
-    onExited: PropTypes.func,
     onSelect: PropTypes.func,
     onSearch: PropTypes.func,
-    locale: PropTypes.object,
     cleanable: PropTypes.bool,
-    open: PropTypes.bool,
-    defaultOpen: PropTypes.bool,
-    placement: PropTypes.oneOf(PLACEMENT),
     renderMenuItem: PropTypes.func,
     menuWidth: PropTypes.number,
-    menuHeight: PropTypes.number,
-    disabledItemValues: PropTypes.array,
-    style: PropTypes.object,
+    menuHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     searchable: PropTypes.bool,
-    preventOverflow: PropTypes.bool,
-    inline: PropTypes.bool
+    inline: PropTypes.bool,
+    parentSelectable: PropTypes.bool
   };
   static defaultProps = {
-    appearance: 'default',
-    data: [],
-    disabledItemValues: [],
-    childrenKey: 'children',
-    valueKey: 'value',
-    labelKey: 'label',
+    ...listPickerDefaultProps,
+    searchable: true,
     locale: {
       placeholder: 'Select',
       searchPlaceholder: 'Search',
       noResultsText: 'No results found'
-    },
-    cleanable: true,
-    searchable: true,
-    placement: 'bottomStart'
+    }
   };
 
   triggerRef: React.RefObject<any>;
@@ -204,7 +160,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     isLeafNode: boolean,
     event: React.SyntheticEvent<HTMLElement>
   ) => {
-    const { onChange, onSelect, valueKey, childrenKey } = this.props;
+    const { onChange, onSelect, valueKey, childrenKey, parentSelectable } = this.props;
     const prevValue = this.getValue();
     const value = node[valueKey];
 
@@ -216,8 +172,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     );
 
     /**
-     * 只有在叶子节点的时候才当做是可以选择的值
-     * 一个节点的 children 为 null 或者 undefined 的是就是叶子节点
+     Determines whether the option is a leaf node, and if so, closes the picker.
      */
     if (isLeafNode) {
       this.handleCloseDropdown();
@@ -243,18 +198,30 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
       return;
     }
 
-    this.setState(
-      {
-        selectNode: node,
-        items: cascadeItems,
-        tempActivePaths: activePaths
-      },
-      () => {
-        this.positionRef.current?.updatePosition?.();
+    const nextState: CascaderState = {
+      selectNode: node,
+      items: cascadeItems,
+      tempActivePaths: activePaths
+    };
+
+    /** When the parent is optional, the value and the displayed path are updated. */
+    if (parentSelectable) {
+      nextState.value = value;
+      nextState.activePaths = activePaths;
+      if (!shallowEqual(value, prevValue)) {
+        onChange?.(value, event);
       }
-    );
+    }
+
+    this.setState(nextState, () => {
+      // Update menu position
+      this.positionRef.current?.updatePosition?.();
+    });
   };
 
+  /**
+   * The search structure option is processed after being selected.
+   */
   handleSearchRowSelect = (item: object, event: React.SyntheticEvent<HTMLElement>) => {
     const { valueKey, onChange, onSelect } = this.props;
     const value = item[valueKey];
@@ -280,15 +247,18 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
   };
 
   handleCloseDropdown = () => {
-    if (this.triggerRef.current) {
-      this.triggerRef.current.hide();
-    }
+    this.triggerRef.current?.hide?.();
   };
 
   handleOpenDropdown = () => {
-    if (this.triggerRef.current) {
-      this.triggerRef.current.show();
-    }
+    this.triggerRef.current?.show?.();
+  };
+
+  open = () => {
+    this.handleOpenDropdown?.();
+  };
+  close = () => {
+    this.handleCloseDropdown?.();
   };
 
   handleClean = (event: React.SyntheticEvent<HTMLElement>) => {
@@ -350,9 +320,9 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
 
     nodes.push(item);
     nodes = nodes.map(node => {
-      let labelElements = [];
-      let a = node[labelKey].split(regx);
-      let b = node[labelKey].match(regx);
+      const labelElements = [];
+      const a = node[labelKey].split(regx);
+      const b = node[labelKey].match(regx);
 
       for (let i = 0; i < a.length; i++) {
         labelElements.push(a[i]);
@@ -465,7 +435,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
 
     const menuProps = _.pick(
       this.props,
-      Object.keys(_.omit(DropdownMenu.propTypes, ['classPrefix']))
+      Object.keys(_.omit(dropdownMenuPropTypes, ['classPrefix']))
     );
 
     return (
@@ -511,6 +481,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
       onExited,
       onClean,
       inline,
+      positionRef,
       ...rest
     } = this.props;
 
@@ -521,14 +492,19 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     const { activePaths, active } = this.state;
     const unhandled = getUnhandledProps(Cascader, rest);
     const value = this.getValue();
-    const hasValue = !!value;
+
+    /**
+     * 1.Have a value and the value is valid.
+     * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
+     */
+    const hasValue = activePaths.length > 0 || (!_.isNil(value) && _.isFunction(renderValue));
 
     let activeItemLabel: any = placeholder;
 
     if (activePaths.length > 0) {
       activeItemLabel = [];
       activePaths.forEach((item, index) => {
-        let key = item[valueKey] || item[labelKey];
+        const key = item[valueKey] || item[labelKey];
         activeItemLabel.push(<span key={key}>{item[labelKey]}</span>);
         if (index < activePaths.length - 1) {
           activeItemLabel.push(
@@ -538,22 +514,23 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
           );
         }
       });
-      if (renderValue) {
-        activeItemLabel = renderValue(value, activePaths, activeItemLabel);
-      }
+    }
+
+    if (!_.isNil(value) && _.isFunction(renderValue)) {
+      activeItemLabel = renderValue(value, activePaths, activeItemLabel);
     }
 
     const classes = getToggleWrapperClassName('cascader', this.addPrefix, this.props, hasValue);
 
     return (
-      <IntlProvider locale={locale}>
+      <IntlContext.Provider value={locale}>
         <div className={classes} style={style} tabIndex={-1} role="menu" ref={this.containerRef}>
           <PickerToggleTrigger
             pickerProps={this.props}
             ref={this.triggerRef}
-            positionRef={this.positionRef}
+            positionRef={mergeRefs(this.positionRef, positionRef)}
             onEnter={createChainedFunction(this.handleEntered, onEnter)}
-            onExit={createChainedFunction(this.handleExit, onExited)}
+            onExited={createChainedFunction(this.handleExit, onExited)}
             speaker={this.renderDropdownMenu()}
           >
             <PickerToggle
@@ -568,18 +545,13 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
             </PickerToggle>
           </PickerToggleTrigger>
         </div>
-      </IntlProvider>
+      </IntlContext.Provider>
     );
   }
 }
 
 polyfill(Cascader);
 
-const enhance = compose(
-  defaultProps<CascaderProps>({
-    classPrefix: 'picker'
-  }),
-  withPickerMethods<CascaderProps>()
-);
-
-export default enhance(Cascader);
+export default defaultProps<CascaderProps>({
+  classPrefix: 'picker'
+})(Cascader);

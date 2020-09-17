@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { getPosition, scrollTop } from 'dom-lib';
 import _ from 'lodash';
 import classNames from 'classnames';
-import { shallowEqual } from 'rsuite-utils/lib/utils';
-
+import shallowEqual from '../utils/shallowEqual';
 import { getUnhandledProps, prefix } from '../utils';
 import stringToObject from '../utils/stringToObject';
 import { DropdownMenuItem } from '../Picker';
@@ -18,7 +17,7 @@ export interface DropdownMenuProps {
   valueKey: string;
   labelKey: string;
   menuWidth: number;
-  menuHeight: number;
+  menuHeight: number | string;
   className?: string;
   renderMenuItem?: (itemLabel: React.ReactNode, item: any) => React.ReactNode;
   renderMenu?: (children: object[], menu: React.ReactNode, parentNode?: object) => React.ReactNode;
@@ -34,24 +33,26 @@ export interface DropdownMenuProps {
   cascadePathItems: any[];
 }
 
+export const dropdownMenuPropTypes = {
+  classPrefix: PropTypes.string,
+  data: PropTypes.array,
+  disabledItemValues: PropTypes.array,
+  activeItemValue: PropTypes.any,
+  childrenKey: PropTypes.string,
+  valueKey: PropTypes.string,
+  labelKey: PropTypes.string,
+  menuWidth: PropTypes.number,
+  menuHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  className: PropTypes.string,
+  renderMenuItem: PropTypes.func,
+  renderMenu: PropTypes.func,
+  onSelect: PropTypes.func,
+  cascadeItems: PropTypes.array,
+  cascadePathItems: PropTypes.array
+};
+
 class DropdownMenu extends React.Component<DropdownMenuProps> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    data: PropTypes.array,
-    disabledItemValues: PropTypes.array,
-    activeItemValue: PropTypes.any,
-    childrenKey: PropTypes.string,
-    valueKey: PropTypes.string,
-    labelKey: PropTypes.string,
-    menuWidth: PropTypes.number,
-    menuHeight: PropTypes.number,
-    className: PropTypes.string,
-    renderMenuItem: PropTypes.func,
-    renderMenu: PropTypes.func,
-    onSelect: PropTypes.func,
-    cascadeItems: PropTypes.array,
-    cascadePathItems: PropTypes.array
-  };
+  static propTypes = dropdownMenuPropTypes;
   static defaultProps = {
     data: [],
     disabledItemValues: [],
@@ -165,6 +166,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
     return (
       <DropdownMenuItem
         classPrefix={this.addPrefix('item')}
+        componentClass={'li'}
         key={`${layer}-${onlyKey}`}
         disabled={disabled}
         active={!_.isUndefined(activeItemValue) && shallowEqual(activeItemValue, value)}
@@ -195,7 +197,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
     const cascadeNodes = cascadeItems.map((children, layer) => {
       const onlyKey = `${layer}_${children.length}`;
       const menu = (
-        <ul>
+        <ul role="list">
           {children.map((item, index) =>
             this.renderCascadeNode(
               item,

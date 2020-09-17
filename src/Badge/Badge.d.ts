@@ -6,7 +6,7 @@ export interface BadgeProps extends StandardProps {
   children?: React.ReactChild;
 
   /** Main content */
-  content?: string | number | React.ReactNode;
+  content?: string | number | React.ReactNode | boolean;
 
   /** Max count */
   maxCount?: number;

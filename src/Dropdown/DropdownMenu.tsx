@@ -1,10 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import classNames from 'classnames';
-import Collapse from 'rsuite-utils/lib/Animation/Collapse';
-import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
-import setDisplayName from 'recompose/setDisplayName';
+import Collapse from '../Animation/Collapse';
+import shallowEqual from '../utils/shallowEqual';
 
 import DropdownMenuItem from './DropdownMenuItem';
 import { DropdownMenuProps } from './DropdownMenu.d';
@@ -17,8 +15,10 @@ import {
   getUnhandledProps,
   defaultProps
 } from '../utils';
+import mergeRefs from '../utils/mergeRefs';
 
 class DropdownMenu extends React.Component<DropdownMenuProps> {
+  static displayName = 'DropdownMenu';
   static propTypes = {
     activeKey: PropTypes.any,
     className: PropTypes.string,
@@ -41,30 +41,38 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
 
     const { activeKey, onSelect, classPrefix, openKeys = [] } = this.props;
     const items = React.Children.map(children, (item: any, index: number) => {
-      const displayName: string = _.get(item, ['type', 'displayName']);
+      if (!item) {
+        return null;
+      }
+
+      const displayName: string = item?.type?.displayName;
       let active: boolean;
 
-      if (displayName === 'DropdownMenuItem' || displayName === 'DropdownMenu') {
+      if (~displayName?.indexOf('(DropdownMenuItem)') || ~displayName?.indexOf('(DropdownMenu)')) {
         active = this.isActive(item.props, activeKey);
         if (active) {
           hasActiveItem = true;
         }
       }
 
-      if (displayName === 'DropdownMenuItem') {
-        let { onSelect: onItemSelect } = item.props;
+      if (~displayName?.indexOf('(DropdownMenuItem)')) {
+        const { onSelect: onItemSelect } = item.props;
         return React.cloneElement(item, {
           key: index,
           active,
           onSelect: createChainedFunction(onSelect, onItemSelect)
         });
-      } else if (displayName === 'DropdownMenu') {
+      } else if (~displayName?.indexOf('(DropdownMenu)')) {
         const itemsAndStatus = this.getMenuItemsAndStatus(item.props.children);
-        const { icon, open, trigger, pullLeft, eventKey, title } = item.props;
+        const { icon, open, trigger, pullLeft, eventKey, title, className } = item.props;
         const expanded = openKeys.some(key => shallowEqual(key, eventKey));
-        const itemClassName = classNames(this.addPrefix(`pull-${pullLeft ? 'left' : 'right'}`), {
-          [this.addPrefix('item-focus')]: this.isActive(item.props, activeKey)
-        });
+        const itemClassName = classNames(
+          className,
+          this.addPrefix(`pull-${pullLeft ? 'left' : 'right'}`),
+          {
+            [this.addPrefix('item-focus')]: this.isActive(item.props, activeKey)
+          }
+        );
 
         return (
           <DropdownMenuItem
@@ -90,12 +98,19 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
               />
               <Ripple />
             </div>
-            {this.renderCollapse(
-              <ul role="menu" className={classPrefix}>
-                {itemsAndStatus.items}
-              </ul>,
-              expanded
-            )}
+            {this.renderCollapse((transitionProps, ref) => {
+              const { className, ...transitionRestProps } = transitionProps || {};
+              return (
+                <ul
+                  {...transitionRestProps}
+                  ref={ref}
+                  role="menu"
+                  className={classNames(classPrefix, className)}
+                >
+                  {itemsAndStatus.items}
+                </ul>
+              );
+            }, expanded)}
           </DropdownMenuItem>
         );
       }
@@ -114,7 +129,10 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
   };
 
   isActive(props: any, activeKey: any) {
-    if (props.active || (!_.isUndefined(activeKey) && shallowEqual(props.eventKey, activeKey))) {
+    if (
+      props.active ||
+      (typeof activeKey !== 'undefined' && shallowEqual(props.eventKey, activeKey))
+    ) {
       return true;
     }
 
@@ -126,7 +144,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
   }
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
-  renderCollapse(children: React.ReactNode, expanded?: boolean) {
+  renderCollapse(children: Function, expanded?: boolean) {
     return this.props.collapsible ? (
       <Collapse
         in={expanded}
@@ -138,29 +156,36 @@ class DropdownMenu extends React.Component<DropdownMenuProps> {
         {children}
       </Collapse>
     ) : (
-      children
+      children()
     );
   }
 
   render() {
-    const { children, className, classPrefix, expanded, ...props } = this.props;
+    const { children, className, classPrefix, expanded, htmlElementRef, ...props } = this.props;
     const { items, active } = this.getMenuItemsAndStatus(children);
     const unhandled = getUnhandledProps(DropdownMenu, props);
     const classes = classNames(classPrefix, className, {
       [this.addPrefix('active')]: active
     });
 
-    return this.renderCollapse(
-      <ul {...unhandled} className={classes} role="menu">
-        {items}
-      </ul>,
-      expanded
-    );
+    return this.renderCollapse((transitionProps, ref) => {
+      const { className: transitionClassName, ...transitionRestProps } = transitionProps || {};
+
+      return (
+        <ul
+          {...unhandled}
+          {...transitionRestProps}
+          className={classNames(classes, transitionClassName)}
+          role="menu"
+          ref={mergeRefs(htmlElementRef, ref)}
+        >
+          {items}
+        </ul>
+      );
+    }, expanded);
   }
 }
 
-const EnhancedDropdownMenu = defaultProps<DropdownMenuProps>({
+export default defaultProps<DropdownMenuProps>({
   classPrefix: 'dropdown-menu'
 })(DropdownMenu);
-
-export default setDisplayName('DropdownMenu')(EnhancedDropdownMenu);

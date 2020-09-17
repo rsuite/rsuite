@@ -1,8 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { reactToString } from 'rsuite-utils/lib/utils';
-import { defaultProps, prefix } from '../utils';
+import { defaultProps, prefix, refType } from '../utils';
+import reactToString from '../utils/reactToString';
 import {
   CHECK_STATE,
   CheckStateType,
@@ -56,7 +56,7 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
     hasChildren: PropTypes.bool,
     uncheckable: PropTypes.bool,
     allUncheckable: PropTypes.bool,
-    innerRef: PropTypes.func,
+    innerRef: refType,
     onTreeToggle: PropTypes.func,
     onSelect: PropTypes.func,
     onRenderTreeIcon: PropTypes.func,
@@ -164,7 +164,9 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
         title={this.getTitle()}
         onSelect={this.handleSelect}
       >
-        {typeof onRenderTreeNode === 'function' ? onRenderTreeNode(nodeData) : label}
+        <span className={this.addPrefix('text-wrapper')}>
+          {typeof onRenderTreeNode === 'function' ? onRenderTreeNode(nodeData) : label}
+        </span>
       </DropdownMenuCheckItem>
     );
   };
@@ -187,10 +189,12 @@ class TreeCheckNode extends React.Component<TreeCheckNodeProps> {
       [this.addPrefix('all-uncheckable')]: !!allUncheckable
     });
     const padding = layer * TREE_NODE_PADDING + TREE_NODE_ROOT_PADDING;
-    const styles = rtl ? { paddingRight: padding } : { paddingLeft: padding };
-
+    const styles = {
+      ...style,
+      [rtl ? 'paddingRight' : 'paddingLeft']: padding
+    };
     return visible ? (
-      <div style={{ ...style, ...styles }} className={classes} ref={innerRef}>
+      <div style={styles} className={classes} ref={innerRef}>
         {this.renderIcon()}
         {this.renderLabel()}
       </div>

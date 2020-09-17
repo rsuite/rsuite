@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode, getInstance, getStyle } from '@test/testUtils';
 import Icon from '../Icon';
 
 describe('Icon', () => {
@@ -48,9 +48,11 @@ describe('Icon', () => {
     assert.include(instance.className, 'rs-icon-pulse');
   });
 
-  it('Should have rotate-50 class', () => {
-    const instance = getDOMNode(<Icon icon="star" rotate={50} />);
-    assert.include(instance.className, 'rs-icon-rotate-50');
+  it('Should have transform rotate style', () => {
+    const instance = getDOMNode(<Icon icon="star" rotate={50} style={{ fontSize: 20 }} />);
+
+    assert.include(getStyle(instance).transform, 'rotate(50deg)');
+    assert.include(getStyle(instance).fontSize, '20px');
   });
 
   it('Should have 2x class', () => {

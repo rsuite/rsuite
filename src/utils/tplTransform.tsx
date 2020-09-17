@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 const toJSX = (node: React.ReactNode, key: string | number) =>
   typeof node !== 'undefined' ? <span key={key}>{node}</span> : null;
@@ -8,7 +8,7 @@ const toJSX = (node: React.ReactNode, key: string | number) =>
  * output:
  * Show <span><i>100</i></span> data
  */
-export default (pattern: string, ...data: any[]) =>
+export default (pattern: string, ...data: any[]): React.ReactNode =>
   pattern
     .split(/\{(\d+)\}/)
     .map((item: string, index: number) =>

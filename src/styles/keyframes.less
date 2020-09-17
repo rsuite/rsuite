@@ -422,6 +422,23 @@
   }
 }
 
+@keyframes progress-active-vertical {
+  0% {
+    opacity: 0.1;
+    height: 0;
+  }
+
+  20% {
+    opacity: 0.5;
+    height: 0;
+  }
+
+  100% {
+    opacity: 0;
+    height: 100%;
+  }
+}
+
 @keyframes icon-spin {
   0% {
     transform: rotate(0deg);
@@ -446,12 +463,32 @@
 
 @keyframes placeholder-active {
   0% {
-    opacity: 1;
+    background-position: 100% 50%;
   }
-  50% {
-    opacity: 0.3;
-  }
+
   100% {
-    opacity: 1;
+    background-position: 0 50%;
+  }
+}
+
+//** Carousel
+//========================
+@keyframes moveLeftHalf {
+  0% {
+    transform: none;
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes moveLeftHalf-vertical {
+  0% {
+    transform: none;
+  }
+
+  100% {
+    transform: translateY(-50%);
   }
 }

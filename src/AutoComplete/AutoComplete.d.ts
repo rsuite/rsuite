@@ -15,6 +15,9 @@ export interface AutoCompleteProps extends StandardProps {
   /** Initial value */
   defaultValue?: string;
 
+  /** Custom filter function to determine whether the item will be displayed */
+  filterBy?: (value: string, item: ItemDataType) => boolean;
+
   /** Current value of the input. Creates a controlled component */
   value?: string;
 
@@ -53,6 +56,9 @@ export interface AutoCompleteProps extends StandardProps {
 
   /** Custom selected option */
   renderItem?: (itemData: ItemDataType) => React.ReactNode;
+
+  /** Position of ref */
+  positionRef?: React.RefObject<any>;
 }
 
 declare const AutoComplete: React.ComponentType<AutoCompleteProps>;

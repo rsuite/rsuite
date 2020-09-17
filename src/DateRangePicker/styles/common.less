@@ -17,7 +17,7 @@
 .@{drpns}-menu {
   .@{ns}@{calendar-picker-prefix} {
     display: inline-block;
-    width: 255px;
+    width: @date-range-picker-calendar-default-width;
     height: 278px;
     padding-bottom: 12px;
 
@@ -45,6 +45,20 @@
 
   .@{ns}picker-toolbar {
     margin-top: 4px;
+    max-width: @date-range-picker-calendar-default-width * 2;
+  }
+
+  .@{drpns}-panel-show-one-calendar .@{ns}picker-toolbar {
+    max-width: @date-range-picker-calendar-default-width;
+  }
+
+  // Calendar single
+  .@{drpns}-calendar-single {
+    .@{ns}@{calendar-picker-prefix} {
+      border: 0;
+      display: block;
+      margin: auto;
+    }
   }
 }
 

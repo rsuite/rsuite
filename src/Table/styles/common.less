@@ -86,9 +86,11 @@
     z-index: @zindex-table-header-row-wrapper;
     position: relative;
   }
+
   &-affix-header {
     z-index: @zindex-table-header-row-wrapper+1;
     visibility: hidden;
+
     &.fixed {
       visibility: visible;
     }
@@ -333,6 +335,35 @@
   &-cell-bordered &-cell {
     border-width: 0 1px 0 0;
   }
+
+  &-column-group {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    width: 100%;
+
+    &-header {
+      border-bottom: 1px solid @table-border-color;
+      position: absolute;
+      width: 100%;
+
+      &-content {
+        display: table-cell;
+        padding: 10px;
+      }
+    }
+
+    &-cell {
+      position: absolute;
+      border-right: 1px solid @table-border-color;
+
+      &-content {
+        display: table-cell;
+        padding: 10px;
+      }
+    }
+  }
 }
 
 // Tree Table
@@ -401,6 +432,10 @@
     width: 100%;
     height: @table-scrollbar-width;
     bottom: 0;
+
+    &.fixed {
+      position: fixed;
+    }
   }
 
   &-horizontal &-handle {
@@ -412,12 +447,12 @@
   &-pressed&-horizontal:hover,
   &-horizontal:hover {
     transform-origin: center bottom;
-    transform: scaleY(1.2);
+    transform: scaleY(1.3);
   }
 
   &-vertical {
     top: 0;
-    right: 0 /* rtl:ignore */;
+    right: 0;
     width: @table-scrollbar-width;
     // Reserve scroll bar position.
     bottom: @table-scrollbar-width;
@@ -434,6 +469,6 @@
   &-pressed&-vertical:hover,
   &-vertical:hover {
     transform-origin: right center;
-    transform: scaleX(1.2);
+    transform: scaleX(1.3);
   }
 }

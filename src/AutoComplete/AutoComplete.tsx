@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import setStatic from 'recompose/setStatic';
-import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
-
+import shallowEqual from '../utils/shallowEqual';
 import Input from '../Input';
 import AutoCompleteItem from './AutoCompleteItem';
-import { defaultProps, getUnhandledProps, prefix } from '../utils';
+import { defaultProps, getUnhandledProps, prefix, refType } from '../utils';
 import { PickerToggleTrigger, onMenuKeyDown, MenuWrapper } from '../Picker';
 import { AutoCompleteProps } from './AutoComplete.d';
 import { ItemDataType } from '../@types/common';
 import { PLACEMENT } from '../constants';
+import { animationPropTypes } from '../Animation/propTypes';
 
 interface State {
   value: string;
@@ -21,6 +21,7 @@ interface State {
 
 class AutoComplete extends React.Component<AutoCompleteProps, State> {
   static propTypes = {
+    ...animationPropTypes,
     data: PropTypes.array,
     disabled: PropTypes.bool,
     onSelect: PropTypes.func,
@@ -37,11 +38,14 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
     onKeyDown: PropTypes.func,
     onOpen: PropTypes.func,
     onClose: PropTypes.func,
+    /** @deprecated Use `onClose` instead */
     onHide: PropTypes.func,
     renderItem: PropTypes.func,
     style: PropTypes.object,
     open: PropTypes.bool,
-    selectOnEnter: PropTypes.bool
+    selectOnEnter: PropTypes.bool,
+    filterBy: PropTypes.func,
+    positionRef: refType
   };
   static defaultProps = {
     data: [],
@@ -111,7 +115,13 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
   }
 
   shouldDisplay = (item: any) => {
+    const { filterBy } = this.props;
     const value = this.getValue();
+
+    if (typeof filterBy === 'function') {
+      return filterBy(value, item);
+    }
+
     if (!_.trim(value)) {
       return false;
     }
@@ -172,7 +182,7 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
     };
 
     const data = this.getData();
-    const focusItem: any = data.find(item => item?.item === focusItemValue);
+    const focusItem: any = data.find(item => item?.value === focusItemValue);
 
     this.setState(nextState);
     this.handleSelect(focusItem, event);
@@ -208,8 +218,7 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
   };
 
   handleChangeValue = (value: any, event: React.SyntheticEvent<HTMLElement>) => {
-    const { onChange } = this.props;
-    onChange?.(value, event);
+    this.props.onChange?.(value, event);
   };
 
   handleSelect = (item: ItemDataType, event: React.SyntheticEvent<HTMLElement>) => {

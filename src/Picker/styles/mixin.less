@@ -55,13 +55,9 @@
 
 // Group closed common styles
 .picker-menu-group-closed(@prefix) {
-  .@{ns}@{prefix}-menu-group-closed {
+  .@{ns}@{prefix}-menu-group.folded {
     .@{ns}@{prefix}-menu-group-caret {
       transform: rotate(90deg);
-    }
-
-    .@{ns}@{prefix}-menu-group-children {
-      display: none;
     }
   }
 }
@@ -77,6 +73,11 @@
   transition: @picker-item-transition;
   text-decoration: none;
   width: 100%;
+
+  /* stylelint-disable-next-line */ // This class name provide by Virtualized.
+  .ReactVirtualized__Grid & {
+    .ellipsis-basic;
+  }
 }
 
 .picker-item-hover() {
@@ -112,24 +113,42 @@
   background: transparent;
 }
 
-.picker-custom-button-caret-size(@padding-horizontal,@padding-vertical) {
+.picker-custom-button-caret-size(@padding-horizontal,@padding-vertical,@clean-btn-margin:2px) {
+  @clean-btn-width: @dropdown-caret-width;
+
+  .@{ns}picker-toggle-wrapper & {
+    padding-right: @padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding;
+  }
+
   .@{ns}picker-cleanable & {
-    padding-right: @padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding + 10px;
+    padding-right: @padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding +
+      @clean-btn-width + @clean-btn-margin;
+  }
+
+  .@{ns}picker-toggle-caret,
+  .@{ns}picker-toggle-clean {
+    top: @padding-vertical;
+
+    .@{ns}picker-default & {
+      top: @padding-vertical - @picker-default-toggle-border-width;
+    }
   }
 
   .@{ns}picker-toggle-caret {
-    top: @padding-vertical;
     right: @padding-horizontal;
   }
 
   .@{ns}picker-toggle-clean {
-    top: @padding-vertical;
-    right: @dropdown-caret-width + @padding-horizontal + 10px;
+    right: @dropdown-caret-width + @padding-horizontal + @clean-btn-width - @clean-btn-margin;
   }
 }
 
 .picker-button-caret-lg() {
-  .picker-custom-button-caret-size(@padding-large-horizontal, @padding-large-vertical);
+  .picker-custom-button-caret-size(
+    @padding-large-horizontal,
+    @padding-large-vertical,
+    @clean-btn-margin:4px
+  );
 }
 
 .picker-button-caret-md() {
@@ -141,53 +160,84 @@
 }
 
 .picker-button-caret-xs() {
-  .picker-custom-button-caret-size(@padding-extra-small-horizontal, @padding-extra-small-vertical);
+  .picker-custom-button-caret-size(
+    @padding-extra-small-horizontal,
+    @padding-extra-small-vertical,
+    @clean-btn-margin:2px
+  );
 }
 
-.date-picker-custom-button-caret-size(@padding-horizontal,@top) {
-  @calendar-caret-width: 14px;
+.date-picker-custom-button-caret-size(@calendar-caret-width: 14px,@padding-horizontal, @top, @clean-btn-margin:2px) {
+  @toggle-clean-padding: 4px;
+  @clean-btn-width: @dropdown-caret-width;
+
+  padding-right: @padding-horizontal + @calendar-caret-width + @dropdown-caret-padding;
 
   .@{ns}picker-cleanable& {
-    padding-right: @padding-horizontal + @calendar-caret-width + @dropdown-caret-padding +
-      @dropdown-caret-width;
+    padding-right: @padding-horizontal + @calendar-caret-width + @toggle-clean-padding +
+      @clean-btn-width + @clean-btn-margin;
+  }
+
+  .@{ns}picker-toggle-clean,
+  .@{ns}picker-toggle-caret {
+    top: @top;
+
+    .@{ns}picker-subtle & {
+      top: @top - @picker-default-toggle-border-width;
+    }
   }
 
   .@{ns}picker-toggle-caret {
-    top: @top;
     right: @padding-horizontal;
   }
 
   .@{ns}picker-toggle-clean {
-    top: @top;
-    right: @padding-horizontal + @dropdown-caret-padding + @calendar-caret-width;
+    right: @padding-horizontal + @toggle-clean-padding + @calendar-caret-width;
   }
 }
 
 .date-picker-button-caret-lg() {
   .@{ns}picker-date &,
   .@{ns}picker-daterange & {
-    .date-picker-custom-button-caret-size(@padding-large-horizontal, 10px);
+    .date-picker-custom-button-caret-size(
+      @calendar-caret-width: @font-size-large,
+      @padding-large-horizontal,
+      @top: 10px,
+      @clean-btn-margin: 4px
+    );
   }
 }
 
 .date-picker-button-caret-md() {
   .@{ns}picker-date &,
   .@{ns}picker-daterange & {
-    .date-picker-custom-button-caret-size(@padding-base-horizontal, 8px);
+    .date-picker-custom-button-caret-size(
+      @calendar-caret-width: @font-size-base,
+      @padding-base-horizontal,
+      @top: 8px
+    );
   }
 }
 
 .date-picker-button-caret-sm() {
   .@{ns}picker-date &,
   .@{ns}picker-daterange & {
-    .date-picker-custom-button-caret-size(@padding-small-horizontal, 4px);
+    .date-picker-custom-button-caret-size(
+      @calendar-caret-width: @font-size-base,
+      @padding-small-horizontal,
+      @top: 4px
+    );
   }
 }
 
 .date-picker-button-caret-xs() {
   .@{ns}picker-date &,
   .@{ns}picker-daterange & {
-    .date-picker-custom-button-caret-size(@padding-extra-small-horizontal, 2px);
+    .date-picker-custom-button-caret-size(
+      @calendar-caret-width: @font-size-extra-small,
+      @padding-extra-small-horizontal,
+      @top: 2px
+    );
   }
 }
 
@@ -200,9 +250,18 @@
   }
 }
 
+.picker-default-button-reset-padding-left(@size) {
+  @padding-name: 'padding-@{size}-horizontal';
+  @padding-horizontal: @@padding-name;
+
+  .@{ns}picker-default & {
+    padding-left: @padding-horizontal - @picker-default-toggle-border-width;
+  }
+}
+
 .tag-picker-search-input-size(@padding-vertical; @padding-horizontal; @font-size; @line-height;) {
   .@{ns}picker-input:not(.@{ns}picker-tag) & ~ .@{ns}picker-tag-wrapper .@{ns}picker-search-input {
-    padding: @padding-vertical @padding-horizontal;
+    padding: (@padding-vertical - 1px) @padding-horizontal;
     font-size: @font-size;
     line-height: @line-height;
   }
@@ -217,6 +276,7 @@
     .@{ns}picker-search-input {
       padding-left: @padding-horizontal;
       margin-top: @padding-vertical - 3px;
+      font-size: @font-size;
     }
 
     .@{ns}picker-search-input input {
@@ -249,10 +309,12 @@
 }
 
 .tag-picker-search-input-xs() {
+  /* stylelint-disable */ //Formatted by prettier
   .tag-picker-search-input-size(
     @padding-extra-small-vertical; @padding-extra-small-horizontal; @font-size-extra-small;
       @line-height-extra-small
   );
+  /* stylelint-enable */
 
   .@{ns}picker-input.@{ns}picker-tag & ~ .@{ns}picker-tag-wrapper {
     padding-bottom: @padding-extra-small-vertical - 1px;
@@ -271,19 +333,19 @@
 .input-picker-input-sizes() {
   @border-width: 2 * @picker-default-toggle-border-width;
 
-  .@{ns}picker-toggle-custom.@{ns}btn-lg {
-    height: @line-height-computed + @padding-large-vertical*2 - @border-width;
+  .@{ns}picker-toggle.@{ns}btn-lg {
+    height: @line-height-large-computed + @padding-large-vertical*2 - @border-width;
   }
 
-  .@{ns}picker-toggle-custom.@{ns}btn-md {
+  .@{ns}picker-toggle.@{ns}btn-md {
     height: @line-height-computed + @padding-base-vertical*2 - @border-width;
   }
 
-  .@{ns}picker-toggle-custom.@{ns}btn-sm {
+  .@{ns}picker-toggle.@{ns}btn-sm {
     height: @line-height-computed + @padding-small-vertical*2 - @border-width;
   }
 
-  .@{ns}picker-toggle-custom.@{ns}btn-xs {
+  .@{ns}picker-toggle.@{ns}btn-xs {
     height: @line-height-computed + @padding-extra-small-vertical*2 - @border-width;
   }
 }

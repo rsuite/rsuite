@@ -3,18 +3,29 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import compose from 'recompose/compose';
 
-import { withStyleProps, defaultProps, prefix } from '../utils';
+import { withStyleProps, defaultProps, prefix, refType } from '../utils';
 import { ModalDialogProps } from './ModalDialog.d';
+import mergeRefs from '../utils/mergeRefs';
+
+export const modalDialogPropTypes = {
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  dialogClassName: PropTypes.string,
+  style: PropTypes.object,
+  dialogStyle: PropTypes.object,
+  children: PropTypes.node,
+  dialogRef: refType
+};
 
 class ModalDialog extends React.Component<ModalDialogProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    dialogClassName: PropTypes.string,
-    style: PropTypes.object,
-    dialogStyle: PropTypes.object,
-    children: PropTypes.node,
-    dialogRef: PropTypes.object
+  static propTypes = modalDialogPropTypes;
+
+  htmlElement: HTMLDivElement = null;
+  getHTMLElement() {
+    return this.htmlElement;
+  }
+  bindHtmlRef = ref => {
+    this.htmlElement = ref;
   };
   render() {
     const {
@@ -41,14 +52,12 @@ class ModalDialog extends React.Component<ModalDialogProps> {
         {...props}
         title={null}
         role="dialog"
-        ref={dialogRef}
+        ref={mergeRefs(this.bindHtmlRef, dialogRef)}
         className={classNames(classPrefix, className)}
         style={modalStyle}
       >
         <div className={dialogClasses} style={dialogStyle}>
-          <div className={addPrefix('content')} role="document">
-            {children}
-          </div>
+          <div className={addPrefix('content')}>{children}</div>
         </div>
       </div>
     );

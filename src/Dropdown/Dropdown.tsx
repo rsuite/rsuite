@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import setStatic from 'recompose/setStatic';
-import setDisplayName from 'recompose/setDisplayName';
-import { RootCloseWrapper } from 'rsuite-utils/lib/Overlay';
-import shallowEqual from 'rsuite-utils/lib/utils/shallowEqual';
+import RootCloseWrapper from '../Overlay/RootCloseWrapper';
+import shallowEqual from '../utils/shallowEqual';
 
 import DropdownToggle from './DropdownToggle';
 import DropdownMenu from './DropdownMenu';
@@ -23,7 +22,6 @@ import { PLACEMENT_8 } from '../constants';
 import { DropdownProps } from './Dropdown.d';
 
 interface DropdownState {
-  title?: React.ReactNode;
   open?: boolean;
 }
 
@@ -34,6 +32,7 @@ interface SidenavContextType {
 }
 
 class Dropdown extends React.Component<DropdownProps, DropdownState> {
+  static displayName = 'Dropdown';
   static contextType = SidenavContext;
   static propTypes = {
     activeKey: PropTypes.any,
@@ -56,6 +55,7 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
     componentClass: PropTypes.elementType,
     toggleComponentClass: PropTypes.elementType,
     noCaret: PropTypes.bool,
+    showHeader: PropTypes.bool,
     style: PropTypes.object,
     onClose: PropTypes.func,
     onOpen: PropTypes.func,
@@ -76,7 +76,6 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
   constructor(props: DropdownProps) {
     super(props);
     this.state = {
-      title: null,
       open: props.open
     };
   }
@@ -134,7 +133,7 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
   };
 
   render() {
-    let {
+    const {
       title,
       children,
       className,
@@ -157,6 +156,7 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
       toggleComponentClass,
       noCaret,
       style,
+      showHeader,
       ...props
     } = this.props;
 
@@ -195,8 +195,31 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
         dropdownProps.onMouseLeave = createChainedFunction(this.handleMouseLeave, onMouseLeave);
       }
     }
+    const menuProps = {
+      collapsible,
+      activeKey,
+      openKeys,
+      expanded: menuExpanded,
+      style: menuStyle,
+      onSelect: this.handleSelect,
+      onToggle: this.handleToggleChange
+    };
+    let menu = <DropdownMenu {...menuProps}>{children}</DropdownMenu>;
 
-    const Toggle = (
+    if (open) {
+      menu = (
+        <RootCloseWrapper onRootClose={this.toggle}>
+          {(props, ref) => (
+            <DropdownMenu {...props} {...menuProps} htmlElementRef={ref}>
+              {showHeader && <li className={addPrefix('header')}>{title}</li>}
+              {children}
+            </DropdownMenu>
+          )}
+        </RootCloseWrapper>
+      );
+    }
+
+    const toggle = (
       <DropdownToggle
         {...toggleProps}
         noCaret={noCaret}
@@ -206,27 +229,9 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
         icon={icon}
         componentClass={toggleComponentClass}
       >
-        {this.state.title || title}
+        {title}
       </DropdownToggle>
     );
-
-    let Menu = (
-      <DropdownMenu
-        expanded={menuExpanded}
-        collapsible={collapsible}
-        activeKey={activeKey}
-        onSelect={this.handleSelect}
-        style={menuStyle}
-        onToggle={this.handleToggleChange}
-        openKeys={openKeys}
-      >
-        {children}
-      </DropdownMenu>
-    );
-
-    if (open) {
-      Menu = <RootCloseWrapper onRootClose={this.toggle}>{Menu}</RootCloseWrapper>;
-    }
 
     const classes = classNames(classPrefix, className, {
       [addPrefix(`placement-${_.kebabCase(placementPolyfill(placement))}`)]: placement,
@@ -238,8 +243,8 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
 
     return (
       <Component {...dropdownProps} style={style} className={classes} role="menu">
-        {Menu}
-        {Toggle}
+        {menu}
+        {toggle}
       </Component>
     );
   }
@@ -253,4 +258,4 @@ const EnhancedDropdown = defaultProps({
 setStatic('Item', DropdownMenuItem)(EnhancedDropdown);
 setStatic('Menu', DropdownMenu)(EnhancedDropdown);
 
-export default setDisplayName('Dropdown')(EnhancedDropdown);
+export default EnhancedDropdown;

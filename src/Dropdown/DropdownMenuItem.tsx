@@ -2,7 +2,6 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { setDisplayName } from 'recompose';
 
 import SafeAnchor from '../SafeAnchor';
 import { prefix, isOneOf, createChainedFunction, defaultProps, getUnhandledProps } from '../utils';
@@ -14,6 +13,7 @@ interface DropdownMenuItemState {
 }
 
 class DropdownMenuItem extends React.Component<DropdownMenuItemProps, DropdownMenuItemState> {
+  static displayName = 'DropdownMenuItem';
   static contextType = SidenavContext;
   static propTypes = {
     divider: PropTypes.bool,
@@ -58,12 +58,12 @@ class DropdownMenuItem extends React.Component<DropdownMenuItemProps, DropdownMe
   }
 
   toggle = (_event: React.SyntheticEvent<any>, isOpen?: boolean) => {
-    let open = _.isUndefined(isOpen) ? !this.getOpen() : isOpen;
+    const open = _.isUndefined(isOpen) ? !this.getOpen() : isOpen;
     this.setState({ open });
   };
 
   handleClick = (event: React.SyntheticEvent<any>) => {
-    let { onSelect, eventKey, disabled, onClick } = this.props;
+    const { onSelect, eventKey, disabled, onClick } = this.props;
 
     if (disabled) {
       event.preventDefault();
@@ -160,16 +160,14 @@ class DropdownMenuItem extends React.Component<DropdownMenuItemProps, DropdownMe
     );
 
     return (
-      <li {...itemProps} style={style} role="presentation" className={classes}>
+      <li {...itemProps} style={style} className={classes}>
         {renderItem ? renderItem(item) : item}
       </li>
     );
   }
 }
 
-const EnhancedDropdownMenuItem = defaultProps<DropdownMenuItemProps>({
+export default defaultProps<DropdownMenuItemProps>({
   classPrefix: 'dropdown-item',
   componentClass: SafeAnchor
 })(DropdownMenuItem);
-
-export default setDisplayName('DropdownMenuItem')(EnhancedDropdownMenuItem);

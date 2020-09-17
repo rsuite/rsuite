@@ -11,6 +11,9 @@ export interface TimelineProps extends StandardProps {
 
   /** TimeLine content relative position  **/
   align?: 'left' | 'right' | 'alternate';
+
+  /** Timeline endless **/
+  endless?: boolean;
 }
 
 interface TimelineComponent extends React.ComponentClass<TimelineProps> {

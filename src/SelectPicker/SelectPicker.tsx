@@ -2,37 +2,31 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import compose from 'recompose/compose';
+import shallowEqual from '../utils/shallowEqual';
+import { filterNodesOfTree, findNodeOfTree } from '../utils/treeUtils';
 import {
   defaultProps,
   prefix,
   getUnhandledProps,
   createChainedFunction,
   getDataGroupBy,
-  withPickerMethods
+  mergeRefs
 } from '../utils';
 
 import {
-  reactToString,
-  filterNodesOfTree,
-  findNodeOfTree,
-  shallowEqual
-} from 'rsuite-utils/lib/utils';
-
-import {
-  DropdownMenu,
   DropdownMenuItem,
   PickerToggle,
   PickerToggleTrigger,
   getToggleWrapperClassName,
   onMenuKeyDown,
   MenuWrapper,
-  SearchBar
+  SearchBar,
+  shouldDisplay
 } from '../Picker';
-
+import DropdownMenu, { dropdownMenuPropTypes } from '../Picker/DropdownMenu';
 import { SelectPickerProps } from './SelectPicker.d';
-import { PLACEMENT } from '../constants';
 import { ItemDataType } from '../@types/common';
+import { listPickerPropTypes, listPickerDefaultProps } from '../Picker/propTypes';
 
 interface SelectPickerState {
   value?: any;
@@ -44,77 +38,35 @@ interface SelectPickerState {
 
 class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState> {
   static propTypes = {
-    appearance: PropTypes.oneOf(['default', 'subtle']),
-    data: PropTypes.array,
-    locale: PropTypes.object,
-    classPrefix: PropTypes.string,
-    className: PropTypes.string,
-    container: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-    containerPadding: PropTypes.number,
-    block: PropTypes.bool,
-    toggleComponentClass: PropTypes.elementType,
-    menuClassName: PropTypes.string,
-    menuStyle: PropTypes.object,
+    ...listPickerPropTypes,
     menuAutoWidth: PropTypes.bool,
-    disabled: PropTypes.bool,
-    disabledItemValues: PropTypes.array,
     maxHeight: PropTypes.number,
-    valueKey: PropTypes.string,
-    labelKey: PropTypes.string,
-    value: PropTypes.any,
-    defaultValue: PropTypes.any,
     renderMenu: PropTypes.func,
     renderMenuItem: PropTypes.func,
     renderMenuGroup: PropTypes.func,
-    renderValue: PropTypes.func,
-    renderExtraFooter: PropTypes.func,
-    onChange: PropTypes.func,
     onSelect: PropTypes.func,
     onGroupTitleClick: PropTypes.func,
     onSearch: PropTypes.func,
-    onClean: PropTypes.func,
-    onOpen: PropTypes.func,
-    onClose: PropTypes.func,
-    onHide: PropTypes.func,
-    onEnter: PropTypes.func,
-    onEntering: PropTypes.func,
-    onEntered: PropTypes.func,
-    onExit: PropTypes.func,
-    onExiting: PropTypes.func,
-    onExited: PropTypes.func,
     /**
      * group by key in `data`
      */
     groupBy: PropTypes.any,
     sort: PropTypes.func,
-    placeholder: PropTypes.node,
     searchable: PropTypes.bool,
-    cleanable: PropTypes.bool,
-    open: PropTypes.bool,
-    defaultOpen: PropTypes.bool,
-    placement: PropTypes.oneOf(PLACEMENT),
-    style: PropTypes.object,
-    /**
-     * Prevent floating element overflow
-     */
-    preventOverflow: PropTypes.bool
+    virtualized: PropTypes.bool,
+    searchBy: PropTypes.func
   };
   static defaultProps = {
-    appearance: 'default',
-    data: [],
-    disabledItemValues: [],
+    ...listPickerDefaultProps,
+    searchable: true,
+    menuAutoWidth: true,
+    virtualized: true,
     maxHeight: 320,
-    valueKey: 'value',
-    labelKey: 'label',
     locale: {
       placeholder: 'Select',
       searchPlaceholder: 'Search',
       noResultsText: 'No results found'
-    },
-    searchable: true,
-    cleanable: true,
-    menuAutoWidth: true,
-    placement: 'bottomStart'
+    }
   };
   positionRef: React.RefObject<any>;
   menuContainerRef: React.RefObject<any>;
@@ -148,14 +100,13 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
   }
 
   getFocusableMenuItems = () => {
-    const { labelKey } = this.props;
     const { menuItems } = this.menuContainerRef.current;
     if (!menuItems) {
       return [];
     }
 
     const items = Object.values(menuItems).map((item: any) => item.props.getItemData());
-    return filterNodesOfTree(items, item => this.shouldDisplay(item[labelKey]));
+    return filterNodesOfTree(items, item => this.shouldDisplay(item));
   };
 
   getValue() {
@@ -175,27 +126,16 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
    * Index of keyword  in `label`
    * @param {node} label
    */
-  shouldDisplay(label: any) {
-    const { searchKeyword } = this.state;
-    if (!_.trim(searchKeyword)) {
-      return true;
+  shouldDisplay(item: ItemDataType, word?: string) {
+    const { searchBy, labelKey } = this.props;
+    const label = item?.[labelKey];
+    const searchKeyword = typeof word === 'undefined' ? this.state.searchKeyword : word;
+
+    if (typeof searchBy === 'function') {
+      return searchBy(searchKeyword, label, item);
     }
 
-    const keyword = searchKeyword.toLocaleLowerCase();
-
-    if (typeof label === 'string' || typeof label === 'number') {
-      return `${label}`.toLocaleLowerCase().indexOf(keyword) >= 0;
-    } else if (React.isValidElement(label)) {
-      const nodes = reactToString(label);
-      return (
-        nodes
-          .join('')
-          .toLocaleLowerCase()
-          .indexOf(keyword) >= 0
-      );
-    }
-
-    return false;
+    return shouldDisplay(label, searchKeyword);
   }
 
   findNode(focus: Function) {
@@ -289,23 +229,24 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
   };
 
   handleSearch = (searchKeyword: string, event: React.SyntheticEvent<any>) => {
-    this.setState({
-      searchKeyword,
-      focusItemValue: undefined
-    });
-    this.props.onSearch?.(searchKeyword, event);
+    const { onSearch, valueKey, data } = this.props;
+    const filteredData = filterNodesOfTree(data, item => this.shouldDisplay(item, searchKeyword));
+    this.setState({ searchKeyword, focusItemValue: filteredData?.[0]?.[valueKey] });
+    onSearch?.(searchKeyword, event);
   };
 
   handleCloseDropdown = () => {
-    if (this.triggerRef.current) {
-      this.triggerRef.current.hide();
-    }
+    this.triggerRef.current?.hide?.();
   };
 
   handleOpenDropdown = () => {
-    if (this.triggerRef.current) {
-      this.triggerRef.current.show();
-    }
+    this.triggerRef.current?.show?.();
+  };
+  open = () => {
+    this.handleOpenDropdown?.();
+  };
+  close = () => {
+    this.handleCloseDropdown?.();
   };
 
   handleToggleDropdown = () => {
@@ -361,7 +302,6 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
   renderDropdownMenu() {
     const {
       data,
-      labelKey,
       groupBy,
       searchable,
       locale,
@@ -370,13 +310,14 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
       menuClassName,
       menuStyle,
       menuAutoWidth,
-      sort
+      sort,
+      virtualized
     } = this.props;
 
     const { focusItemValue } = this.state;
     const classes = classNames(this.addPrefix('select-menu'), menuClassName);
 
-    let filteredData = filterNodesOfTree(data, item => this.shouldDisplay(item[labelKey]));
+    let filteredData = filterNodesOfTree(data, item => this.shouldDisplay(item));
 
     // Create a tree structure data when set `groupBy`
     if (groupBy) {
@@ -387,7 +328,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
 
     const menuProps = _.pick(
       this.props,
-      Object.keys(_.omit(DropdownMenu.propTypes, ['className', 'style', 'classPrefix']))
+      Object.keys(_.omit(dropdownMenuPropTypes, ['className', 'style', 'classPrefix']))
     );
 
     const menu = filteredData.length ? (
@@ -402,6 +343,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
         data={filteredData}
         group={!_.isUndefined(groupBy)}
         onSelect={this.handleItemSelect}
+        virtualized={virtualized}
       />
     ) : (
       <div className={this.addPrefix('none')}>{locale.noResultsText}</div>
@@ -446,6 +388,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
       onEntered,
       onExited,
       onClean,
+      positionRef,
       ...rest
     } = this.props;
 
@@ -454,16 +397,21 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
 
     // Find active `MenuItem` by `value`
     const activeItem = findNodeOfTree(data, item => shallowEqual(item[valueKey], value));
-    const hasValue = !!activeItem;
+
+    /**
+     * 1.Have a value and the value is valid.
+     * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
+     */
+    const hasValue = !!activeItem || (!_.isNil(value) && _.isFunction(renderValue));
 
     let selectedElement: React.ReactNode = placeholder;
 
     if (activeItem?.[labelKey]) {
       selectedElement = activeItem[labelKey];
+    }
 
-      if (renderValue) {
-        selectedElement = renderValue(value, activeItem, selectedElement);
-      }
+    if (!_.isNil(value) && _.isFunction(renderValue)) {
+      selectedElement = renderValue(value, activeItem, selectedElement);
     }
 
     const classes = getToggleWrapperClassName('select', this.addPrefix, this.props, hasValue);
@@ -472,9 +420,9 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
       <PickerToggleTrigger
         pickerProps={this.props}
         ref={this.triggerRef}
-        positionRef={this.positionRef}
+        positionRef={mergeRefs(this.positionRef, positionRef)}
         onEntered={createChainedFunction(this.handleOpen, onEntered)}
-        onExit={createChainedFunction(this.handleExit, onExited)}
+        onExited={createChainedFunction(this.handleExit, onExited)}
         speaker={this.renderDropdownMenu()}
       >
         <div className={classes} style={style} tabIndex={-1} role="menu">
@@ -496,11 +444,6 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
   }
 }
 
-const enhance = compose(
-  defaultProps<SelectPickerProps>({
-    classPrefix: 'picker'
-  }),
-  withPickerMethods<SelectPickerProps>()
-);
-
-export default enhance(SelectPicker);
+export default defaultProps({
+  classPrefix: 'picker'
+})(SelectPicker);

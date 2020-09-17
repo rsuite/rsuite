@@ -1,0 +1,59 @@
+@import './themes/hightlight/default.less';
+
+.markdown {
+  h1 {
+    font-size: 28px;
+    code {
+      font-size: 14px;
+      border-radius: 4px;
+    }
+  }
+
+  h2 {
+    font-size: 24px;
+    padding: 10px 0;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  h3 {
+    font-size: 18px;
+    margin-top: 10px;
+  }
+  h3 code {
+    font-size: 18px !important;
+  }
+
+  h4 {
+    font-size: 16px;
+    margin-top: 10px;
+  }
+
+  ol,
+  ul {
+    padding: 10px 20px;
+    list-style-type: circle;
+    li {
+      line-height: 26px;
+    }
+  }
+  table {
+    width: 100%;
+    td,
+    th {
+      background: none;
+      border-style: none;
+      border-bottom: 1px dashed @divider-border-color;
+      padding: 10px;
+    }
+  }
+  table th {
+    text-align: left;
+  }
+  blockquote {
+    padding: 2px 10px;
+    margin: 2em 0;
+    font-size: 14px;
+    border-left: 5px solid @code-view-blockquote-color;
+    opacity: 0.8;
+  }
+}

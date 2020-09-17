@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
+import { ListProps } from 'react-virtualized/dist/commonjs/List';
 
 export interface SelectProps<ValueType = any> {
   /** Set group condition key in data */
@@ -39,6 +40,18 @@ export interface SelectProps<ValueType = any> {
 
   /** Called when clean */
   onClean?: (event: React.SyntheticEvent<any>) => void;
+
+  /** Whether using virtualized list */
+  virtualized?: boolean;
+
+  /**
+   * List-related properties in `react-virtualized`
+   * https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
+   */
+  listProps?: ListProps;
+
+  /** Custom search rules. */
+  searchBy?: (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean;
 }
 
 export interface SelectPickerProps extends FormControlPickerProps<any>, SelectProps<any> {}

@@ -1,8 +1,8 @@
 import setStatic from 'recompose/setStatic';
-import defaultProps from 'recompose/defaultProps';
 import compose from 'recompose/compose';
-import { Table, Column, Cell, HeaderCell } from 'rsuite-table';
+import { Table, Column, Cell, HeaderCell, ColumnGroup } from 'rsuite-table';
 
+import { defaultProps } from '../utils';
 import withLocale from '../IntlProvider/withLocale';
 import TablePagination from './TablePagination';
 
@@ -12,6 +12,7 @@ const EnhancedLocaleTable = compose(
 )(Table);
 
 setStatic('Column', Column)(EnhancedLocaleTable);
+setStatic('ColumnGroup', ColumnGroup)(EnhancedLocaleTable);
 setStatic('Cell', Cell)(EnhancedLocaleTable);
 setStatic('HeaderCell', HeaderCell)(EnhancedLocaleTable);
 setStatic('Pagination', TablePagination)(EnhancedLocaleTable);

@@ -1,0 +1,69 @@
+// @rootPath inject by webpack.theme.config.js
+// modularized
+//@import '@{rootPath}rsuite/lib/styles/common';
+// integrated
+@import '@{rootPath}src/styles/themes/dark/index';
+
+@sidebar-wrapper-bg: @B800;
+@component-overview-content-name-color: @B300;
+@code-view-wrapper-bg: @B800;
+@code-view-wrapper-border-color: @code-view-wrapper-bg;
+@code-view-wrapper-hr-color: @B600;
+@doc-highlight-bg: #1e1e1e;
+@code-view-blockquote-color: #169de0;
+@show-fake-browser-bg: @body-bg;
+@show-fake-browser-content-bg: @B800;
+@toolbar-btn-subtle-color: @B200;
+
+.document-nav {
+  background: @body-bg !important;
+
+  .nav-link {
+    color: @text-color;
+  }
+}
+
+#loaderInverseWrapper {
+  background: @B000;
+}
+
+//noinspection Stylelint
+.code-view {
+  .rs-nav-tabs:not(.rs-nav-reversed).rs-nav-horizontal
+    .rs-nav-item.rs-nav-item-active
+    > .rs-nav-item-content {
+    border-bottom-color: @code-view-wrapper-bg;
+  }
+
+  .rs-nav-reversed.rs-nav-tabs.rs-nav-horizontal
+    .rs-nav-item.rs-nav-item-active
+    > .rs-nav-item-content {
+    border-top-color: @code-view-wrapper-bg;
+  }
+
+  .rs-nav-tabs:not(.rs-nav-reversed).rs-nav-vertical
+    .rs-nav-item.rs-nav-item-active
+    > .rs-nav-item-content {
+    border-right-color: @code-view-wrapper-bg;
+  }
+
+  .rs-nav-tabs.rs-nav-reversed.rs-nav-vertical
+    .rs-nav-item.rs-nav-item-active
+    > .rs-nav-item-content {
+    border-left-color: @code-view-wrapper-bg;
+  }
+}
+
+#preventOverflowContainer {
+  box-shadow: #0f1319 1px 1px 5px inset;
+}
+
+.sketch-picker input {
+  color: @B900;
+}
+
+.nav-wrapper {
+  background: #000;
+}
+
+

@@ -24,6 +24,12 @@
     transition: @nav-item-transition;
   }
 
+  .@{ns}dropdown-menu > .@{ns}dropdown-menu-item-focus > .@{ns}dropdown-item-content,
+  .@{ns}dropdown-menu > .@{ns}dropdown-item-active > .@{ns}dropdown-item-content {
+    font-weight: normal;
+    background: transparent;
+  }
+
   .@{ns}dropdown .@{ns}dropdown-menu {
     transition: height @sidenav-collapse-transition-config;
   }
@@ -480,11 +486,6 @@
     &:focus {
       background-color: @sidenav-subtle-hover-bg;
       color: @sidenav-default-hover-font-color;
-    }
-
-    &:active {
-      background-color: @sidenav-subtle-active-bg;
-      color: @sidenav-subtle-active-color;
     }
   }
 

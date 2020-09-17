@@ -64,8 +64,8 @@
 }
 
 .@{ns}progress-line {
-  display: table;
-  table-layout: fixed;
+  display: flex;
+  align-items: center;
   width: 100%;
   padding: @progress-line-padding-vertical @progress-line-padding-horizontal;
 
@@ -103,18 +103,15 @@
     }
   }
 
-  &-outer,
-  .@{ns}progress-info {
-    display: table-cell;
-  }
-
   .@{ns}progress-info {
     width: 50px;
+    flex: 0 0 50px;
     height: 20px;
     padding-left: @progress-element-gap;
   }
 
   &-outer {
+    flex: 1 1 auto;
     border-radius: @progress-bar-height / 2;
     overflow: hidden;
     // Make sure outer vertical-align:center;
@@ -129,12 +126,51 @@
   &-bg {
     background-color: @progress-bar-fill-bg;
     border-radius: @progress-bar-height / 2;
-    transition: width @progress-bg-transition, color @progress-bg-transition;
+    transition: @progress-bg-transition;
+    transition-property: width, color;
   }
 
   &-inner,
   &-bg {
     height: @progress-bar-height;
+  }
+
+  &&-vertical {
+    flex-direction: column-reverse;
+    width: auto;
+  }
+
+  &&-vertical &-outer {
+    width: auto;
+    flex: 1 1 auto;
+  }
+
+  &&-vertical &-inner {
+    min-height: 100px;
+    width: @progress-bar-height;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    position: relative;
+    height: 100%;
+  }
+
+  &&-vertical .@{ns}progress-info {
+    flex-basis: auto;
+    padding-left: 0;
+    width: auto;
+  }
+
+  &&-vertical &-bg {
+    width: 100%;
+    transition-property: height, color;
+    transform: rotate(180deg);
+    position: absolute;
+    bottom: 0;
+  }
+
+  &&-vertical&-active &-bg::before {
+    animation-name: progress-active-vertical;
   }
 }
 

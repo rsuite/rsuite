@@ -1,8 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Slide from 'rsuite-utils/lib/Animation/Slide';
-
+import Slide from '../Animation/Slide';
 import Modal from '../Modal/Modal';
 
 import { prefix, defaultProps } from '../utils';

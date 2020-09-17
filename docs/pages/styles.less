@@ -1,0 +1,161 @@
+/** Components **/
+@import './components/animation/styles';
+@import './components/avatar/styles';
+@import './components/calendar/styles';
+@import './components/carousel/styles';
+@import './components/container/styles';
+@import './components/grid/styles';
+@import './components/icon/styles';
+@import './components/overview/styles';
+@import './components/slider/styles';
+@import './components/table/styles';
+@import './components/tag/styles';
+@import './components/timeline/styles';
+@import './components/input-number/styles';
+@import './components/progress/styles';
+
+/** Tools **/
+@import './tools/icons/styles';
+@import './tools/palette/styles';
+
+.page-home {
+  position: relative;
+
+  @media (min-width: @media-xs) {
+    &.rs-grid-container {
+      padding-left: 64px;
+    }
+  }
+  @media (max-width: @media-xs) {
+    .footerbar {
+      display: none;
+    }
+    .banner {
+      margin-top: 100px;
+    }
+    .home-page-badge-wrap a {
+      display: block;
+      line-height: 36px;
+    }
+    .primary-toolbar {
+      margin-bottom: 20px;
+    }
+  }
+
+  .header {
+    text-align: right;
+    padding-top: 10px;
+  }
+
+  .banner {
+    height: calc(100vh - 56px);
+    flex-flow: wrap-reverse;
+
+    @media (min-width: @media-xs) {
+      flex-flow: nowrap;
+    }
+
+    @media (max-width: @media-xs) {
+      align-items: flex-end;
+
+      .react-logo {
+        width: 90%;
+        margin: 0 auto;
+        height: auto;
+      }
+
+      .logo-react-suite .rsuite-logo {
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        top: calc(50% - 68px);
+      }
+    }
+
+    .logo-react-suite-wrapper {
+      pointer-events: none;
+    }
+
+    .title {
+      font-family: 'Raleway', 'Hiragino Sans GB', sans-serif;
+      font-weight: bold;
+
+      @media (max-width: @media-xs) {
+        font-size: 30px;
+        line-height: 36px;
+      }
+    }
+
+    .sub-title {
+      margin: 20px 0;
+      font-size: 14px;
+
+      @media (min-width: @media-xs) {
+        font-size: 22px;
+      }
+    }
+
+    .rs-btn-toolbar {
+      margin-top: 50px;
+    }
+
+    .section {
+      text-align: center;
+
+      @media (min-width: @media-xs) {
+        padding-left: 60px;
+        text-align: left;
+      }
+    }
+  }
+
+  .logo-react-suite {
+    position: relative;
+    .rsuite-logo {
+      position: absolute;
+      left: 250px;
+      top: 182px;
+    }
+  }
+
+  .link-spread {
+    display: inline-block;
+    vertical-align: middle;
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px transparent;
+    position: relative;
+    overflow: hidden;
+    &::before {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      left: 50%;
+      right: 50%;
+      bottom: 0;
+      background: @base-color;
+      height: 2px;
+      transition: left 0.3s ease-out, right 0.3s ease-out;
+    }
+    & > a::after,
+    &::after {
+      display: none !important;
+    }
+    &:hover::before,
+    &:focus::before,
+    &:active::before {
+      left: 0;
+      right: 0;
+    }
+  }
+  .footerbar {
+    text-align: right;
+    position: fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    padding: 5px 10px;
+    a {
+      color: #aaa;
+    }
+  }
+}

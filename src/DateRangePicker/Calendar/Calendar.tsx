@@ -20,6 +20,7 @@ export interface CalendarProps {
   classPrefix?: string;
   limitEndYear?: number;
   showWeekNumbers?: boolean;
+  showOneCalendar?: boolean;
   disabledDate?: (date: Date, selectValue: Date[], type: string) => boolean;
   onMoveForword?: (nextPageDate: Date) => void;
   onMoveBackward?: (nextPageDate: Date) => void;
@@ -47,7 +48,8 @@ class Calendar extends React.Component<CalendarProps> {
     onSelect: PropTypes.func,
     onMouseMove: PropTypes.func,
     onToggleMonthDropdown: PropTypes.func,
-    onChangePageDate: PropTypes.func
+    onChangePageDate: PropTypes.func,
+    showOneCalendar: PropTypes.bool
   };
   static defaultProps = {
     calendarDate: [new Date(), addMonths(new Date(), 1)],
@@ -83,7 +85,8 @@ class Calendar extends React.Component<CalendarProps> {
   };
 
   disabledForword = () => {
-    const { calendarDate, index } = this.props;
+    const { calendarDate, index, showOneCalendar } = this.props;
+    if (showOneCalendar) return false;
     const after = isAfter(setDate(calendarDate[1], 1), setDate(addMonths(calendarDate[0], 1), 1));
 
     if (index === 1) {
@@ -98,12 +101,13 @@ class Calendar extends React.Component<CalendarProps> {
   };
 
   disabledMonth = (date: Date) => {
-    const { calendarDate, value, index, disabledDate } = this.props;
+    const { calendarDate, value, index, disabledDate, showOneCalendar } = this.props;
     let after = true;
 
     if (disabledDate?.(date, value, 'MONTH')) {
       return true;
     }
+    if (showOneCalendar) return false;
 
     if (index === 1) {
       after = isAfter(date, calendarDate[0]);

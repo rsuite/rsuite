@@ -4,6 +4,7 @@ import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import CheckTreePicker from '../CheckTreePicker';
+import { findDOMNode } from 'react-dom';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -106,24 +107,48 @@ describe('CheckTreePicker', () => {
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'test');
   });
 
-  it('Should render value by `renderValue`', () => {
+  it('Should output a value by renderValue()', () => {
+    const placeholder = 'value';
+
+    // Valid value
     const instance = getDOMNode(
       <CheckTreePicker
         data={[
-          { label: '1', value: '1' },
-          { label: '2', value: '2' }
+          { value: 1, label: '1' },
+          { value: 2, label: '2' }
         ]}
-        value={['1', '2']}
+        value={[1, 2]}
         renderValue={value => value.join(',')}
       />
     );
 
+    // Invalid value
+    const instance2 = getDOMNode(
+      <CheckTreePicker renderValue={v => [v, placeholder]} data={[]} value={[2]} />
+    );
+
+    // Invalid value
+    const instance3 = getDOMNode(
+      <CheckTreePicker
+        placeholder={placeholder}
+        renderValue={v => [v, placeholder]}
+        data={[]}
+        value={[]}
+      />
+    );
+
     assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, '1,2');
+    assert.equal(instance2.querySelector('.rs-picker-toggle-value').innerText, `2${placeholder}`);
+    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, placeholder);
+  });
+
+  it('Should not be call renderValue()', () => {
+    const instance = getDOMNode(<CheckTreePicker data={[]} renderValue={() => 'value'} />);
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
   });
 
   it('Should render a placeholder when value error', () => {
     const instance = getDOMNode(<CheckTreePicker placeholder="test" data={data} value={['4']} />);
-
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'test');
   });
 
@@ -168,43 +193,25 @@ describe('CheckTreePicker', () => {
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle'));
   });
 
-  it('Should call `onOpen` callback by open()', done => {
-    let picker = null;
-    getDOMNode(
-      <CheckTreePicker
-        ref={ref => {
-          picker = ref;
-        }}
-        onOpen={() => {
-          done();
-        }}
-        data={data}
-      />
-    );
-
+  it('Should call `onOpen` callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const picker = getInstance(<CheckTreePicker onOpen={doneOp} data={data} />);
     picker.open();
   });
 
-  it('Should call `onClose` callback by close()', done => {
-    let picker = null;
-    getDOMNode(
-      <CheckTreePicker
-        defaultOpen
-        ref={ref => {
-          picker = ref;
-        }}
-        onClose={() => {
-          done();
-        }}
-        data={data}
-      />
-    );
+  it('Should call `onClose` callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const picker = getInstance(<CheckTreePicker defaultOpen onClose={doneOp} data={data} />);
     picker.close();
   });
 
   it('Should focus item by keyCode=40 ', () => {
     const instance = getInstance(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
-    const toggle = instance.getToggleInstance().toggleRef.current;
+    const toggle = findDOMNode(instance.getToggleInstance().toggleRef.current);
     ReactTestUtils.Simulate.keyDown(toggle, { keyCode: 40 });
     ReactTestUtils.Simulate.keyDown(toggle, { keyCode: 40 });
     assert.equal(document.activeElement.innerText, 'tester0');
@@ -349,5 +356,19 @@ describe('CheckTreePicker', () => {
     assert.equal(instance.html().indexOf('rs-check-tree-node-expanded') === -1, true);
 
     instance.unmount();
+  });
+
+  it('Should render the specified menu content by `searchBy`', () => {
+    const instance = getInstance(
+      <CheckTreePicker
+        defaultOpen
+        defaultExpandAll
+        data={data}
+        searchBy={(a, b, c) => c.value === 'Master'}
+      />
+    );
+    const list = getDOMNode(instance.menuRef.current).querySelectorAll('.rs-check-tree-node');
+    assert.equal(list.length, 1);
+    assert.ok(list[0].innerText, 'Louisa');
   });
 });

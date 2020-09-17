@@ -20,23 +20,14 @@ module.exports = {
     quotes: [ERROR, 'single'],
     semi: [ERROR, 'always'],
     'space-infix-ops': ERROR,
-    'no-param-reassign': OFF,
     'prefer-spread': ERROR,
-    'comma-dangle': OFF,
-    'padded-blocks': OFF,
-    'prefer-const': OFF,
     'no-multi-spaces': ERROR,
-    'no-var': OFF,
-    'one-var': OFF,
     'class-methods-use-this': WARNING,
-    'no-unused-expressions': [ERROR, { allowShortCircuit: true }],
     'arrow-parens': [ERROR, 'as-needed'],
-    'no-mixed-operators': OFF,
+    '@typescript-eslint/no-unused-vars': ERROR,
     '@typescript-eslint/no-explicit-any': OFF,
     '@typescript-eslint/explicit-function-return-type': OFF,
-    '@typescript-eslint/explicit-member-accessibility': OFF,
-    'no-unused-expressions': OFF,
-    '@typescript-eslint/no-unused-expressions': [ERROR, { allowShortCircuit: true }]
+    '@typescript-eslint/explicit-member-accessibility': OFF
   },
   settings: {
     react: {

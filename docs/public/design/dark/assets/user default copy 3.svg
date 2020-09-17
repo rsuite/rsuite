@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>user default copy 3</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="20" height="20" rx="2"></rect>
+    </defs>
+    <g id="user-default-copy-3" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="profile">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="Rectangle" fill="#6A6F76" xlink:href="#path-1"></use>
+            <circle id="Oval-3" stroke="#CBCED4" fill="#A4A9B3" mask="url(#mask-2)" cx="10" cy="6" r="3.5"></circle>
+            <rect id="Rectangle-9" stroke="#CBCED4" fill="#A4A9B3" mask="url(#mask-2)" x="2.5" y="11.5" width="15" height="16" rx="7.5"></rect>
+        </g>
+    </g>
+</svg>

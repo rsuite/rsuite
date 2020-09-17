@@ -1,0 +1,143 @@
+.top-level-nav {
+  background: @B900;
+  position: absolute;
+  width: 100vw;
+  left: 0;
+  top: 0;
+
+  .page-home & {
+    @media (max-width: @media-xs) {
+      left: -5px;
+    }
+  }
+
+  @media (min-width: @media-xs) {
+    position: fixed;
+    padding: 10px;
+    width: 64px;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+  }
+
+  &-header {
+    //display: inline-block;
+    float: right;
+
+    @media (min-width: @media-xs) {
+      float: none;
+      margin-top: 20px;
+    }
+
+    .btn {
+      &:active,
+      &:focus {
+        color: white;
+        background: inherit;
+      }
+    }
+  }
+  &-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 9px;
+    text-align: center;
+    display: none;
+
+    @media (min-width: @media-xs) {
+      display: block;
+    }
+  }
+  &-footer,
+  &-header {
+    .rs-icon {
+      color: #fff;
+    }
+    .rs-btn svg {
+      fill: #fff;
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .logo-sm {
+    margin-left: 9px;
+    margin-top: 9px;
+
+    @media (min-width: @media-xs) {
+      margin-top: 5px;
+    }
+  }
+
+  .icon-btn-circle {
+    background: none;
+    border: none;
+    padding: 12px;
+    border-radius: 24px;
+    color: #fff;
+    width: 42px;
+    height: 42px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+
+    @media (min-width: @media-xs) {
+      margin-top: 0px;
+      margin-bottom: 6px;
+    }
+
+    &.visible-xs {
+      display: none;
+
+      @media (min-width: @media-xs) {
+        display: inline-block;
+      }
+    }
+
+    &.hidden-xs {
+      display: inline-block;
+
+      @media (min-width: @media-xs) {
+        display: none;
+      }
+    }
+
+    .@{ns}icon {
+      line-height: 18px;
+      vertical-align: top;
+    }
+
+    &.active {
+      color: @H500;
+    }
+
+    &:focus {
+      color: @H400;
+    }
+
+    &:hover:focus {
+      color: @H600;
+      background: transparent;
+    }
+  }
+
+  .btn-nav-toggle {
+    position: fixed !important;
+    left: 310px;
+    top: 10px;
+    z-index: 6;
+    box-shadow: rgba(9, 30, 66, 0.08) 0px 0px 0px 1px, rgba(9, 30, 66, 0.08) 0px 2px 4px 1px;
+    transition: none;
+    i {
+      transition: none;
+    }
+    &:hover,
+    &:focus,
+    &:active {
+      color: #fff !important;
+    }
+    @media (max-width: @media-xs) {
+      display: none;
+    }
+  }
+}

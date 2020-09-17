@@ -1,0 +1,13 @@
+[ignore]
+.*/build/.*
+[include]
+
+[libs]
+/flow-typed
+
+[lints]
+
+
+[options]
+
+[strict]

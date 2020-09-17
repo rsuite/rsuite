@@ -135,8 +135,9 @@ describe('AutoComplete', () => {
     });
   });
 
-  it('Should call onSelect callback when keyCode=13', done => {
-    const doneOp = () => {
+  it('Should call onSelect callback with selected item when keyCode=13', done => {
+    const doneOp = ({ value }) => {
+      assert.equal(value, 'ab');
       done();
     };
     const instance = getInstance(
@@ -227,5 +228,42 @@ describe('AutoComplete', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<AutoComplete classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should have a custom filter function', () => {
+    const instance1 = getInstance(
+      <AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" filterBy={() => true} />
+    );
+
+    assert.equal(findDOMNode(instance1.menuContainerRef.current).querySelectorAll('li').length, 3);
+
+    const instance2 = getInstance(
+      <AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" filterBy={() => false} />
+    );
+
+    assert.equal(findDOMNode(instance2.menuContainerRef.current).querySelectorAll('li').length, 0);
+
+    const instance3 = getInstance(
+      <AutoComplete
+        data={['a', 'b', 'ab']}
+        open
+        defaultValue="a"
+        // filterBy value only, so all item will be displayed
+        filterBy={value => value === 'a'}
+      />
+    );
+
+    assert.equal(findDOMNode(instance3.menuContainerRef.current).querySelectorAll('li').length, 3);
+
+    const instance4 = getInstance(
+      <AutoComplete
+        data={['a', 'b', 'ab']}
+        open
+        defaultValue="a"
+        filterBy={(_, item) => item.label && item.label.length >= 2}
+      />
+    );
+
+    assert.equal(findDOMNode(instance4.menuContainerRef.current).querySelectorAll('li').length, 1);
   });
 });

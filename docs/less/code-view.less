@@ -1,0 +1,97 @@
+@import '~react-code-view/lib/less/index';
+
+.doc-highlight {
+  background-color: @doc-highlight-bg;
+  padding: 10px;
+  margin: 1em 0;
+  pre {
+    margin: 0;
+  }
+  code {
+    padding: 0 !important;
+    margin: 0 !important;
+    color: @text-color !important;
+  }
+}
+
+code:not(.doc-highlight) {
+  border-radius: 2px;
+  color: #e96900;
+  font-size: 0.8rem;
+  margin: 0 2px;
+  padding: 3px 5px;
+  white-space: pre-wrap;
+  background-color: @doc-highlight-bg;
+  font-family: Roboto Mono, Monaco, courier, monospace;
+}
+
+a code {
+  color: @H500 !important;
+  background: none !important;
+}
+
+.code-view .@{ns}btn-toolbar + .@{ns}btn-toolbar {
+  margin-top: 10px;
+}
+
+.code-view .@{ns}btn-toggle {
+  margin-right: 8px;
+  .@{ns}icon {
+    width: 14px;
+    text-align: center;
+  }
+}
+
+.code-view > div > .tree-view {
+  border: 1px solid #eee;
+}
+
+.code-view .field p {
+  line-height: 32px;
+}
+
+.code-view-wrapper {
+  transition: 0.3s linear border-color;
+  margin: 18px 0;
+  border-color: @code-view-wrapper-border-color;
+  background: @code-view-wrapper-bg;
+
+  &:hover {
+    border: 1px dashed @H500;
+  }
+
+  hr {
+    border-top-color: @code-view-wrapper-hr-color;
+  }
+
+  .code-view-toolbar {
+    padding-bottom: 8px;
+    border-color: @code-view-wrapper-border-color;
+
+    > .rs-btn {
+      .btn-md;
+      height: 36px;
+
+      .icon-lg() {
+        @font-size: 20px;
+        height: @font-size;
+        font-size: @font-size;
+      }
+      .rs-icon-code {
+        .icon-lg;
+      }
+
+      > .rs-icon-github {
+        .icon-lg !important;
+        top: -4px !important;
+      }
+    }
+  }
+  .code-view-error {
+    max-height: 200px;
+  }
+}
+
+.code-view .rs-badge ~ .rs-badge {
+  margin-left: 20px;
+}
