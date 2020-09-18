@@ -771,20 +771,23 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
    * 1.Have a value and the value is valid.
    * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
    */
-  const hasValue = !isNil(activeNode) || (!isNil(value) && isFunction(renderValue));
+  let hasValidValue = !isNil(activeNode) || (!isNil(value) && isFunction(renderValue));
   let selectedElement: React.ReactNode = placeholder;
 
-  if (hasValue) {
+  if (hasValidValue) {
     const node = activeNode ?? {};
     selectedElement = node[labelKey];
     if (isFunction(renderValue)) {
       selectedElement = renderValue(value, node, selectedElement);
+      if (isNil(selectedElement)) {
+        hasValidValue = false;
+      }
     }
   }
 
   const [classes, usedClassNameProps] = usePickerClassName({
     ...props,
-    hasValue,
+    hasValue: hasValidValue,
     name: 'tree'
   });
 
@@ -809,7 +812,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
           onClean={createChainedFunction(handleClean, onClean)}
           cleanable={cleanable && !disabled}
           as={toggleAs}
-          hasValue={hasValue}
+          hasValue={hasValidValue}
           active={active}
         >
           {selectedElement || locale.placeholder}

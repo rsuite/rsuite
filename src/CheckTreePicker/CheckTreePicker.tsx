@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import _, { pick, isFunction, omit, cloneDeep } from 'lodash';
-import { getPosition, scrollTop, getHeight } from 'dom-lib';
+import { isNil, pick, isFunction, omit, cloneDeep, isUndefined } from 'lodash';
 import { List, AutoSizer } from '../Picker/VirtualizedList';
 
 import CheckTreeNode from './CheckTreeNode';
@@ -427,7 +426,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     ]
   );
 
-  const hasValidValue = () => {
+  const hasValue = () => {
     const selectedValues = Object.keys(flattenNodes)
       .map((refKey: string) => flattenNodes[refKey][valueKey])
       .filter((item: any) => value.some(v => shallowEqual(v, item)));
@@ -604,7 +603,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
     const children = node[childrenKey];
     const visibleChildren =
-      _.isUndefined(searchKeywordState) || searchKeywordState.length === 0
+      isUndefined(searchKeywordState) || searchKeywordState.length === 0
         ? !!children
         : hasVisibleChildren(node, childrenKey);
     const nodeProps = {
@@ -771,12 +770,11 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
    * 1.Have a value and the value is valid.
    * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
    */
-  const isValid = hasValidValue();
-  const hasValue = isValid || (value.length > 0 && isFunction(renderValue));
+  let hasValidValue = hasValue() || (value.length > 0 && isFunction(renderValue));
   let selectedElement: React.ReactNode = placeholder;
   const selectedItems = getSelectedItems(flattenNodes, value, valueKey);
 
-  if (isValid) {
+  if (hasValidValue) {
     selectedElement = (
       <SelectedElement
         selectedItems={selectedItems}
@@ -791,12 +789,15 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     );
     if (isFunction(renderValue)) {
       selectedElement = renderValue(value, selectedItems, selectedElement);
+      if (isNil(selectedElement)) {
+        hasValidValue = false;
+      }
     }
   }
 
   const [classes, usedClassNameProps] = usePickerClassName({
     ...props,
-    hasValue,
+    hasValue: hasValidValue,
     name: 'check-tree'
   });
 
@@ -821,7 +822,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
           onClean={createChainedFunction(handleClean, onClean)}
           cleanable={cleanable && !disabled}
           as={toggleAs}
-          hasValue={hasValue}
+          hasValue={hasValidValue}
           active={active}
         >
           {selectedElement || locale.placeholder}
