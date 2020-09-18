@@ -1,6 +1,18 @@
-import { addMonths, endOfDay, isSameMonth, startOfDay } from '../utils/dateUtils';
+import {
+  addMonths,
+  endOfDay,
+  endOfISOWeek,
+  endOfMonth,
+  endOfWeek,
+  isSameMonth,
+  startOfDay,
+  startOfISOWeek,
+  startOfMonth,
+  startOfWeek
+} from '../utils/dateUtils';
 import { toLocalTimeZone, toTimeZone, zonedDate } from '../utils/timeZone';
 import { ValueType } from './types';
+import { useCallback } from 'react';
 
 export const setTimingMargin = (date, way = 'left'): Date =>
   way === 'right' ? endOfDay(date) : startOfDay(date);
@@ -39,3 +51,14 @@ export function getCalendarDate({
 export const isSameValueType = (source: ValueType, dest: ValueType) =>
   source?.[0]?.valueOf() === dest?.[0]?.valueOf() &&
   source?.[1]?.valueOf() === dest?.[1]?.valueOf();
+
+export const getMonthHoverRange = (date: Date): ValueType => [startOfMonth(date), endOfMonth(date)];
+
+export const getWeekHoverRange = (isoWeek: boolean, date: Date): ValueType => {
+  if (isoWeek) {
+    // set to the first day of this week according to ISO 8601, 12:00 am
+    return [startOfISOWeek(date), endOfISOWeek(date)];
+  }
+
+  return [startOfWeek(date), endOfWeek(date)];
+};
