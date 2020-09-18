@@ -9,9 +9,7 @@ import { DatePickerLocale } from '../DatePicker/types';
 
 type OmitCalendarCoreTypes = 'disabledDate' | 'onSelect' | 'onMouseMove' | 'pageDate';
 
-export interface CustomDatePickerProps
-  extends WithAsProps,
-    Omit<CalendarCoreProps, OmitCalendarCoreTypes> {
+export interface PanelProps extends WithAsProps, Omit<CalendarCoreProps, OmitCalendarCoreTypes> {
   calendarDate?: ValueType;
   disabledDate?: (date: Date, selectValue: ValueType, type: string) => boolean;
   format: string;
@@ -19,6 +17,7 @@ export interface CustomDatePickerProps
   index: number;
   isoWeek?: boolean;
   limitEndYear?: number;
+  locale?: DatePickerLocale;
   onChangeCalendarDate?: (index: number, nextPageDate: Date) => void;
   onMouseMove?: (date: Date) => void;
   onSelect?: (date: Date, event?: React.SyntheticEvent<any>) => void;
@@ -26,18 +25,17 @@ export interface CustomDatePickerProps
   showWeekNumbers?: boolean;
   timeZone?: string;
   value?: ValueType;
-  locale?: DatePickerLocale;
 }
 
-const defaultProps: Partial<CustomDatePickerProps> = {
+const defaultProps: Partial<PanelProps> = {
   as: CalendarCore,
   calendarDate: [new Date(), addMonths(new Date(), 1)],
   format: 'yyyy-MM-dd',
   index: 0,
   value: []
 };
-const CustomDatePicker: RsRefForwardingComponent<'div', CustomDatePickerProps> = React.forwardRef(
-  (props: CustomDatePickerProps, ref) => {
+const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
+  (props: PanelProps, ref) => {
     const {
       as: Component,
       calendarDate,
@@ -159,9 +157,9 @@ const CustomDatePicker: RsRefForwardingComponent<'div', CustomDatePickerProps> =
   }
 );
 
-CustomDatePicker.displayName = 'DatePicker';
-CustomDatePicker.defaultProps = defaultProps;
-CustomDatePicker.propTypes = {
+Panel.displayName = 'Panel';
+Panel.defaultProps = defaultProps;
+Panel.propTypes = {
   value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
   hoverValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
   calendarDate: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
@@ -177,4 +175,4 @@ CustomDatePicker.propTypes = {
   onChangeCalendarDate: PropTypes.func
 };
 
-export default CustomDatePicker;
+export default Panel;

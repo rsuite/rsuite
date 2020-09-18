@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode, getInstance } from '@test/testUtils';
-import CustomDatePicker from '../CustomDatePicker';
+import Panel from '../Panel';
 import { parseISO } from '../../utils/dateUtils';
 
 describe('DatePicker', () => {
   it('Should render a div with "rs-calendar" class', () => {
-    const instance = getDOMNode(<CustomDatePicker onChangeCalendarDate={() => {}} />);
+    const instance = getDOMNode(<Panel onChangeCalendarDate={() => {}} />);
 
     assert.equal(instance.nodeName, 'DIV');
     assert.ok(instance.className.match(/\brs-calendar\b/));
@@ -14,7 +14,7 @@ describe('DatePicker', () => {
 
   it('Should output a date', () => {
     const instance = getDOMNode(
-      <CustomDatePicker
+      <Panel
         calendarDate={[parseISO('2017-08'), parseISO('2017-09')]}
         index={0}
         onChangeCalendarDate={() => {}}
@@ -25,7 +25,7 @@ describe('DatePicker', () => {
 
   it('Should call `onChangeCalendarDate` callback', done => {
     const instance = getDOMNode(
-      <CustomDatePicker
+      <Panel
         calendarDate={[parseISO('2017-08'), parseISO('2017-09')]}
         index={0}
         onChangeCalendarDate={() => {
@@ -39,7 +39,7 @@ describe('DatePicker', () => {
 
   it('Should call `onChangeCalendarDate` callback', done => {
     const instance = getDOMNode(
-      <CustomDatePicker
+      <Panel
         calendarDate={[parseISO('2017-08'), parseISO('2017-10')]}
         index={0}
         onChangeCalendarDate={() => {
@@ -52,7 +52,7 @@ describe('DatePicker', () => {
 
   it('Should call `onChangeCalendarDate` callback', done => {
     const instance = getDOMNode(
-      <CustomDatePicker
+      <Panel
         calendarDate={[parseISO('2017-08'), parseISO('2017-10')]}
         index={0}
         onChangeCalendarDate={() => {
@@ -67,7 +67,7 @@ describe('DatePicker', () => {
 
   it('Should change calendarState', () => {
     const instance = getInstance(
-      <CustomDatePicker
+      <Panel
         onChangeCalendarDate={() => {}}
         calendarDate={[parseISO('2017-08'), parseISO('2017-10')]}
         index={0}
@@ -83,7 +83,7 @@ describe('DatePicker', () => {
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<CustomDatePicker classPrefix="custom-prefix" />);
+    const instance = getDOMNode(<Panel classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });
