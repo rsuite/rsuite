@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
 import { addMonths, isAfter, isSameMonth, setDate } from '../utils/dateUtils';
-import CalendarCore, { CalendarProps as CalendarCoreProps } from '../Calendar/Calendar';
+import CalendarCore, {
+  CalendarProps as CalendarCoreProps,
+  CalendarState
+} from '../Calendar/Calendar';
 import { ValueType } from './types';
-import { CalendarState } from '../Calendar/Calendar';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { DatePickerLocale } from '../DatePicker/types';
 
@@ -77,6 +79,12 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
       );
     }, [calendarState]);
 
+    const toggleTimeDropdown = useCallback(() => {
+      setCalendarState(
+        calendarState === CalendarState.DROP_TIME ? undefined : CalendarState.DROP_TIME
+      );
+    }, [calendarState]);
+
     const inSameMonth = useCallback((date: Date) => isSameMonth(date, calendarDate[index]), [
       calendarDate,
       index
@@ -147,9 +155,11 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
         index={index}
         limitEndYear={limitEndYear}
         onChangePageDate={handleChangePageDate}
+        onChangePageTime={handleChangePageDate}
         onMoveBackward={handleMoveBackward}
         onMoveForward={handleMoveForward}
         onToggleMonthDropdown={toggleMonthDropdown}
+        onToggleTimeDropdown={toggleTimeDropdown}
         pageDate={getPageDate()}
         ref={ref}
       />
