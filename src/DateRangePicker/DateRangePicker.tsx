@@ -324,9 +324,6 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
           });
         } else if (hoverRange.length) {
           setHoverValue(hoverRange);
-        } else {
-          // first select and no preset hover range
-          setHoverValue([setTimingMargin(date), setTimingMargin(date, 'right')]);
         }
       },
       [getHoverRange]
@@ -335,18 +332,25 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
     const handleSelectValueChange = useCallback(
       (date: Date, event: React.SyntheticEvent<any>) => {
         let nextSelectValue = Array.from(hoverValue) as ValueType;
+        const noHoverRangeValid = hoverValue.length !== 2;
 
-        // start select
-        if (nextSelectValue.length === 0) {
-          nextSelectValue = [date] as ValueType;
-        } else if (nextSelectValue.length === 1) {
-          // finish select
-          nextSelectValue[1] = date;
+        // no preset hover range can use
+        if (noHoverRangeValid) {
+          // start select
+          if (hasDoneSelect.current) {
+            nextSelectValue = [date] as ValueType;
+          } else {
+            // finish select
+            nextSelectValue[1] = date;
+          }
         }
 
         // in `oneTap` mode
-        if (oneTap) {
-          handleValueUpdate(event, nextSelectValue);
+        if (hasDoneSelect.current && oneTap) {
+          handleValueUpdate(
+            event,
+            noHoverRangeValid ? [setTimingMargin(date), setTimingMargin(date, 'right')] : hoverValue
+          );
         }
 
         // If user have completed the selection, then sort
@@ -354,6 +358,7 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
           nextSelectValue.reverse();
         }
 
+        setHoverValue(nextSelectValue);
         setSelectValue(nextSelectValue);
         onSelect?.(toLocalTimeZone(date, timeZone), event);
         event.persist();
