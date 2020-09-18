@@ -332,7 +332,7 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
     const handleSelectValueChange = useCallback(
       (date: Date, event: React.SyntheticEvent<any>) => {
         let nextSelectValue = Array.from(hoverValue) as ValueType;
-        const noHoverRangeValid = hoverValue.length !== 2;
+        const noHoverRangeValid = getHoverRange(date).length !== 2;
 
         // no preset hover range can use
         if (noHoverRangeValid) {
@@ -363,13 +363,8 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
         onSelect?.(toLocalTimeZone(date, timeZone), event);
         event.persist();
       },
-      [handleValueUpdate, hoverValue, onSelect, oneTap, timeZone]
+      [getHoverRange, handleValueUpdate, hoverValue, onSelect, oneTap, timeZone]
     );
-
-    // selectValue or timeZone changed then update calendarDate
-    useEffect(() => {
-      setCalendarDate(getCalendarDate({ value: selectValue, timeZone }));
-    }, [selectValue, setCalendarDate, timeZone]);
 
     useEffect(() => {
       const selectValueLength = selectValue?.length ?? 0;

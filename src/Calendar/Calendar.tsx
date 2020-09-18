@@ -28,7 +28,7 @@ export enum CalendarState {
 export interface CalendarProps
   extends WithAsProps,
     Omit<HTMLAttributes<HTMLDivElement>, 'onSelect' | 'onChange' | 'onMouseMove'>,
-    Omit<HeaderProps, 'onMoveForward' | 'onMoveBackward'> {
+    Omit<HeaderProps, 'onMoveForward' | 'onMoveBackward' | 'showDate' | 'showTime' | 'showMonth'> {
   calendarState?: CalendarState;
   dateRange?: Date[];
   disabledDate?: (date: Date) => boolean;
@@ -91,10 +91,7 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       renderCell,
       renderTitle,
       renderToolbar,
-      showDate: showDateProp,
       showMeridian,
-      showMonth: showMonthProp,
-      showTime: showTimeProp,
       showWeekNumbers,
       timeZone,
       ...rest
@@ -113,9 +110,9 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       onMoveBackward?.(addMonths(pageDate, -1));
     }, [onMoveBackward, pageDate]);
 
-    const showDate = showDateProp ?? shouldDate(format);
-    const showTime = showMonthProp ?? shouldTime(format);
-    const showMonth = showTimeProp ?? shouldMonth(format);
+    const showDate = shouldDate(format);
+    const showTime = shouldTime(format);
+    const showMonth = shouldMonth(format);
 
     const onlyShowTime = showTime && !showDate && !showMonth;
     const onlyShowMonth = showMonth && !showDate && !showTime;
@@ -226,10 +223,7 @@ Calendar.propTypes = {
   renderCell: PropTypes.func,
   renderTitle: PropTypes.func,
   renderToolbar: PropTypes.func,
-  showDate: PropTypes.bool,
   showMeridian: PropTypes.bool,
-  showMonth: PropTypes.bool,
-  showTime: PropTypes.bool,
   showWeekNumbers: PropTypes.bool,
   timeZone: PropTypes.string
 };
