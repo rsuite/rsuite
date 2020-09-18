@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import {
   addDays,
@@ -14,17 +15,23 @@ import { getDOMNode, getInstance } from '@test/testUtils';
 
 import DateRangePicker from '../DateRangePicker';
 import { zonedDate } from '../../utils/timeZone';
+import { createTestContainer } from '../../../test/testUtils';
 
 describe('DateRangePicker', () => {
   it('Should render a div with "rs-picker-daterange" class', () => {
-    const instance = getDOMNode(<DateRangePicker />);
+    const container = createTestContainer();
+    ReactDOM.render(<DateRangePicker />, container);
+    const instance = container.querySelector('.rs-picker');
 
-    assert.equal(instance.nodeName, 'DIV');
+    assert.equal(instance.tagName, 'DIV');
     assert.ok(instance.className.match(/\brs-picker-daterange\b/));
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<DateRangePicker disabled />);
+    const container = createTestContainer();
+    ReactDOM.render(<DateRangePicker disabled />, container);
+    const instance = container.querySelector('.rs-picker');
+
     assert.ok(instance.className.match(/\bdisabled\b/));
   });
 

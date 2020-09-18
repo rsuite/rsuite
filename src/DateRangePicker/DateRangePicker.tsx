@@ -195,7 +195,7 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
       })
     );
 
-    // if valueProp changed then update selectValue/hoverValue/calendarDate
+    // if valueProp changed then update selectValue/hoverValue
     useEffect(() => {
       setSelectValue(zonedValue ?? []);
       setHoverValue(zonedValue ?? []);

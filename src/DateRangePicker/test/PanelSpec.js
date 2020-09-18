@@ -4,7 +4,7 @@ import { getDOMNode, getInstance } from '@test/testUtils';
 import Panel from '../Panel';
 import { parseISO } from '../../utils/dateUtils';
 
-describe('DatePicker', () => {
+describe('DateRangePicker - Panel', () => {
   it('Should render a div with "rs-calendar" class', () => {
     const instance = getDOMNode(<Panel onChangeCalendarDate={() => {}} />);
 
@@ -18,6 +18,7 @@ describe('DatePicker', () => {
         calendarDate={[parseISO('2017-08'), parseISO('2017-09')]}
         index={0}
         onChangeCalendarDate={() => {}}
+        format="yyyy-MM"
       />
     );
     assert.equal(instance.querySelector('.rs-calendar-header-title').innerText, '2017-08');
@@ -63,23 +64,6 @@ describe('DatePicker', () => {
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-header-title-date'));
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-month-dropdown-cell'));
-  });
-
-  it('Should change calendarState', () => {
-    const instance = getInstance(
-      <Panel
-        onChangeCalendarDate={() => {}}
-        calendarDate={[parseISO('2017-08'), parseISO('2017-10')]}
-        index={0}
-      />
-    );
-    instance.toggleMonthDropdown(() => {
-      assert.equal(instance.state.calendarState, 'DROP_MONTH');
-    });
-
-    instance.toggleMonthDropdown(() => {
-      assert.equal(instance.state.calendarState, null);
-    });
   });
 
   it('Should have a custom className prefix', () => {

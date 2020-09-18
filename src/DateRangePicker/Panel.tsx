@@ -14,7 +14,7 @@ type OmitCalendarCoreTypes = 'disabledDate' | 'onSelect' | 'onMouseMove' | 'page
 export interface PanelProps extends WithAsProps, Omit<CalendarCoreProps, OmitCalendarCoreTypes> {
   calendarDate?: ValueType;
   disabledDate?: (date: Date, selectValue: ValueType, type: string) => boolean;
-  format: string;
+  format?: string;
   hoverRangeValue?: ValueType;
   index: number;
   isoWeek?: boolean;
