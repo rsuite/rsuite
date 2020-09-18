@@ -102,7 +102,11 @@ export function isNodeUncheckable(node: any, props: Partial<CheckTreePickerProps
   return uncheckableItemValues.some((value: any) => shallowEqual(node[valueKey], value));
 }
 
-export function getFormattedTree(data: any[], nodes: TreeNodesType, props: CheckTreePickerProps) {
+export function getFormattedTree(
+  data: any[],
+  nodes: TreeNodesType,
+  props: Partial<CheckTreePickerProps>
+) {
   const { childrenKey } = props;
   return data.map((node: any) => {
     const formatted: any = { ...node };

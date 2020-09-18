@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { isNil, pick, isFunction, omit, cloneDeep, isUndefined } from 'lodash';
-import { List, AutoSizer } from '../Picker/VirtualizedList';
+import { List, AutoSizer, ListInstance } from '../Picker/VirtualizedList';
 
 import CheckTreeNode from './CheckTreeNode';
 import {
@@ -173,7 +173,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   } = props;
   const triggerRef = useRef<OverlayTriggerInstance>();
   const toggleRef = useRef<HTMLButtonElement>();
-  const listRef = useRef();
+  const listRef = useRef<ListInstance>();
   const menuRef = useRef<HTMLDivElement>();
   const treeViewRef = useRef<HTMLDivElement>();
   const { rtl, locale } = useCustom<PickerLocaleType>('Picker', overrideLocale);
@@ -255,10 +255,42 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   const { treeNodesRefs, saveTreeNodeRef } = useTreeNodeRefs();
 
+  /**
+   * get formatted nodes for render tree
+   */
+  const getFormattedNodes = useCallback(() => {
+    let formattedNodes = [];
+    if (virtualized) {
+      formattedNodes = formatVirtualizedTreeData(
+        flattenNodes,
+        filteredData,
+        expandItemValues
+      ).filter(item => item.showNode && item.visible);
+    } else {
+      formattedNodes = getFormattedTree(filteredData, flattenNodes, { childrenKey }).map(node =>
+        renderNode(node, 0)
+      );
+    }
+    return formattedNodes;
+  }, [
+    expandItemValues,
+    filteredData,
+    flattenNodes,
+    formatVirtualizedTreeData,
+    virtualized,
+    childrenKey
+  ]);
+
   const focusNode = useCallback(
     (focusItemElement?: Element) => {
       const container = treeViewRef.current;
       if (!container) {
+        return;
+      }
+
+      if (virtualized && activeNode) {
+        const scrollIndex = getScrollToIndex(getFormattedNodes(), activeNode?.[valueKey], valueKey);
+        listRef?.current?.scrollToRow(scrollIndex);
         return;
       }
 
@@ -267,9 +299,10 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       if (!activeItem) {
         return;
       }
+
       activeItem?.focus?.();
     },
-    [checkTreePrefix]
+    [checkTreePrefix, activeNode, getFormattedNodes, valueKey, virtualized]
   );
 
   useEffect(() => {
@@ -664,33 +697,16 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   };
 
   const renderCheckTree = () => {
-    // 树节点的层级
-    const layer = 0;
     const classes = withCheckTreeClassPrefix({
       [className]: inline,
       'without-children': !isSomeNodeHasChildren,
       virtualized
     });
 
-    let formattedNodes = [];
+    const formattedNodes = getFormattedNodes();
 
-    if (!virtualized) {
-      formattedNodes = getFormattedTree(filteredData, flattenNodes, props).map(node =>
-        renderNode(node, layer)
-      );
-
-      if (!formattedNodes.some(v => v !== null)) {
-        return <div className={prefix('none')}>{locale.noResultsText}</div>;
-      }
-    } else {
-      formattedNodes = formatVirtualizedTreeData(
-        flattenNodes,
-        filteredData,
-        expandItemValues
-      ).filter(item => item.showNode && item.visible);
-      if (!formattedNodes.length) {
-        return <div className={prefix('none')}>{locale.noResultsText}</div>;
-      }
+    if (!formattedNodes.some(v => v !== null)) {
+      return <div className={prefix('none')}>{locale.noResultsText}</div>;
     }
 
     const treeNodesClass = merge(checkTreePrefix('nodes'), {
@@ -726,7 +742,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
                   rowHeight={36}
                   rowCount={formattedNodes.length}
                   rowRenderer={renderVirtualListNode(formattedNodes)}
-                  scrollToIndex={getScrollToIndex(formattedNodes, activeNode?.[valueKey], valueKey)}
+                  scrollToAlignment="center"
                 />
               )}
             </AutoSizer>
@@ -810,7 +826,8 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       pickerProps={pick(props, pickerToggleTriggerProps)}
       ref={triggerRef}
       placement={placement}
-      onEntered={createChainedFunction(handleOpen, onEntered)}
+      onEnter={handleOpen}
+      onEntered={onEntered}
       onExited={createChainedFunction(handleClose, onExited)}
       speaker={renderDropdownMenu}
     >

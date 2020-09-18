@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { pick, omit, isUndefined, isNil, isFunction } from 'lodash';
-import { List, AutoSizer } from '../Picker/VirtualizedList';
+import { List, AutoSizer, ListInstance } from '../Picker/VirtualizedList';
 import shallowEqual from '../utils/shallowEqual';
 import TreeNode from './TreeNode';
 import {
@@ -172,7 +172,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   } = props;
   const triggerRef = useRef<OverlayTriggerInstance>();
   const toggleRef = useRef<HTMLButtonElement>();
-  const listRef = useRef();
+  const listRef = useRef<ListInstance>();
   const menuRef = useRef<HTMLDivElement>();
   const treeViewRef = useRef<HTMLDivElement>();
   const { rtl, locale } = useCustom<PickerLocaleType>('Picker', overrideLocale);
@@ -246,10 +246,31 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
 
   const activeNode = getTreeActiveNode(flattenNodes, value, valueKey);
 
+  const getFormattedNodes = useCallback(() => {
+    let formattedNodes = [];
+    if (virtualized) {
+      formattedNodes = formatVirtualizedTreeData(
+        flattenNodes,
+        filteredData,
+        expandItemValues
+      ).filter(n => n.showNode && n.visible);
+    } else {
+      formattedNodes = filteredData.map((dataItem, index) => renderNode(dataItem, index, 0));
+    }
+
+    return formattedNodes;
+  }, [expandItemValues, filteredData, flattenNodes, formatVirtualizedTreeData, virtualized]);
+
   const focusNode = useCallback(
     (focusItemElement?: Element) => {
       const container = treeViewRef.current;
       if (!container) {
+        return;
+      }
+
+      if (virtualized && activeNode) {
+        const scrollIndex = getScrollToIndex(getFormattedNodes(), activeNode?.[valueKey], valueKey);
+        listRef?.current?.scrollToRow(scrollIndex);
         return;
       }
 
@@ -260,7 +281,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       }
       activeItem?.focus?.();
     },
-    [treePrefix]
+    [treePrefix, activeNode, getFormattedNodes, valueKey, virtualized]
   );
 
   useEffect(() => {
@@ -679,28 +700,12 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   };
 
   const renderTree = () => {
-    const layer = 0;
-
     const classes = withTreeClassPrefix({
       [className]: inline,
       virtualized
     });
 
-    let nodes = [];
-    if (!virtualized) {
-      nodes = filteredData.map((dataItem, index) => renderNode(dataItem, index, layer));
-
-      if (!nodes.some(v => v !== null)) {
-        return <div className={prefix('none')}>{locale.noResultsText}</div>;
-      }
-    } else {
-      nodes = formatVirtualizedTreeData(flattenNodes, filteredData, expandItemValues).filter(
-        n => n.showNode && n.visible
-      );
-      if (!nodes.length && !filteredData.length) {
-        return <div className={prefix('none')}>{locale.noResultsText}</div>;
-      }
-    }
+    const formattedNodes = getFormattedNodes();
     const styles = inline ? { height, ...style } : {};
     return (
       <div>
@@ -723,14 +728,14 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
                     width={width}
                     height={height}
                     rowHeight={36}
-                    rowCount={nodes.length}
-                    rowRenderer={renderVirtualListNode(nodes)}
-                    scrollToIndex={getScrollToIndex(nodes, value, valueKey)}
+                    rowCount={formattedNodes.length}
+                    rowRenderer={renderVirtualListNode(formattedNodes)}
+                    scrollToAlignment="center"
                   />
                 )}
               </AutoSizer>
             ) : (
-              nodes
+              formattedNodes
             )}
           </div>
         </div>
@@ -800,7 +805,8 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       pickerProps={pick(props, pickerToggleTriggerProps)}
       ref={triggerRef}
       placement={placement}
-      onEntered={createChainedFunction(handleOpen, onEntered)}
+      onEnter={handleOpen}
+      onEntered={onEntered}
       onExited={createChainedFunction(handleClose, onExited)}
       speaker={renderDropdownMenu}
     >
