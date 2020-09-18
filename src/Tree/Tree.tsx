@@ -1,7 +1,6 @@
-/* eslint-disable */
 import * as React from 'react';
 import TreePicker from '../TreePicker';
-import { StandardProps, ItemDataType } from '../@types/common';
+import { StandardProps, ItemDataType, RsRefForwardingComponent } from '../@types/common';
 
 /**
  * Tree Node Drag Type
@@ -54,7 +53,7 @@ export interface TreeDragProps<ItemDataType = Record<string, any>> {
   renderDragNode?: (dragNode: ItemDataType) => React.ReactNode;
 }
 
-export interface TreeBaseProps<ValueType = any, ItemDataType = Record<string, any>>
+export interface TreeBaseProps<ValueType = string | number, ItemDataType = Record<string, any>>
   extends StandardProps {
   /** The height of Dropdown */
   height?: number;
@@ -135,13 +134,14 @@ export interface TreeProps<ValueType = string | number>
 
   /** Default selected Value  */
   defaultValue?: ValueType;
-
-  /** Disabled items */
-  disabledItemValues?: ValueType[];
 }
 
-const Tree = React.forwardRef((props: TreeProps, ref: React.Ref<any>) => (
+const Tree: RsRefForwardingComponent<
+  'div',
+  TreeProps
+> = React.forwardRef((props: TreeProps, ref: React.Ref<any>) => (
   <TreePicker inline ref={ref} {...props} />
 ));
 
+Tree.displayName = 'Tree';
 export default Tree;

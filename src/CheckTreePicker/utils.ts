@@ -1,7 +1,7 @@
 import { isNil } from 'lodash';
-import shallowEqual from '../utils/shallowEqual';
 import { CheckTreePickerProps } from './CheckTreePicker';
-import { CHECK_STATE, CheckStateType } from '../constants';
+import { shallowEqual, CHECK_STATE, CheckStateType } from '../utils';
+import { getChildrenByFlattenNodes } from '../utils/treeUtils';
 
 export interface TreeNodeType {
   uncheckable?: boolean;
@@ -23,26 +23,11 @@ export interface TreeNodesType {
   [key: string]: TreeNodeType;
 }
 
-/**
- * get all children by given parent node
- * @param nodes
- * @param parent
- */
-export function getChildrenByParentNode(nodes: TreeNodesType, parent: TreeNodeType) {
-  if (isNil(nodes[parent.refKey])) {
-    return [];
-  }
-  return Object.values(nodes).filter(
-    (item: TreeNodeType) =>
-      item?.parent?.refKey === parent.refKey && !nodes[item.refKey].uncheckable
-  );
-}
-
 export function isEveryChildChecked(nodes: TreeNodesType, parent: TreeNodeType): boolean {
   if (isNil(nodes[parent.refKey])) {
     return false;
   }
-  const children = getChildrenByParentNode(nodes, parent);
+  const children = getChildrenByFlattenNodes(nodes, parent);
   if (!children.length) {
     return nodes[parent.refKey].check;
   }
@@ -53,7 +38,7 @@ export function isSomeChildChecked(nodes: TreeNodesType, parent: TreeNodeType): 
   if (isNil(nodes[parent.refKey])) {
     return false;
   }
-  const children = getChildrenByParentNode(nodes, parent);
+  const children = getChildrenByFlattenNodes(nodes, parent);
   if (!children.length) {
     return nodes[parent.refKey].check;
   }

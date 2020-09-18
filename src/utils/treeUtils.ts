@@ -1,9 +1,8 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
-import _, { isUndefined, omit, isArray } from 'lodash';
-import shallowEqual from '../utils/shallowEqual';
+import { intersection, isUndefined, omit, isArray, isNil, clone, isEmpty } from 'lodash';
 import shallowEqualArray from '../utils/shallowEqualArray';
 import { TreeNodeType, TreeNodesType } from '../CheckTreePicker/utils';
-import { TREE_NODE_DROP_POSITION } from '../constants';
+import { TREE_NODE_DROP_POSITION, shallowEqual } from '../utils';
 import { CheckTreePickerProps } from '../CheckTreePicker/CheckTreePicker';
 import { ItemDataType } from '../@types/common';
 import { TreePickerProps } from '../TreePicker/TreePicker';
@@ -24,7 +23,7 @@ export function shouldShowNodeByParentExpanded(
   expandItemValues: any[] = [],
   parentKeys: any[] = []
 ) {
-  const intersectionKeys = _.intersection(expandItemValues, parentKeys);
+  const intersectionKeys = intersection(expandItemValues, parentKeys);
   if (intersectionKeys.length === parentKeys.length) {
     return true;
   }
@@ -44,7 +43,7 @@ export function flattenTree(
 ) {
   const flattenData: any[] = [];
   const traverse = (data: any[], parent: any | null) => {
-    if (!_.isArray(data)) {
+    if (!isArray(data)) {
       return;
     }
 
@@ -120,7 +119,7 @@ export function hasVisibleChildren(node: TreeNodeType, childrenKey: string) {
  * @param b
  */
 export function compareArray(a: any[], b: any[]) {
-  return _.isArray(a) && _.isArray(b) && !shallowEqualArray(a, b);
+  return isArray(a) && isArray(b) && !shallowEqualArray(a, b);
 }
 
 export function getDefaultExpandItemValues(
@@ -145,11 +144,11 @@ export function getDefaultExpandItemValues(
  */
 export function getExpandItemValues(props: PartialTreeProps) {
   const { expandItemValues, defaultExpandItemValues } = props;
-  if (!_.isUndefined(expandItemValues) && Array.isArray(expandItemValues)) {
+  if (!isUndefined(expandItemValues) && Array.isArray(expandItemValues)) {
     return expandItemValues;
   }
 
-  if (!_.isUndefined(defaultExpandItemValues) && Array.isArray(defaultExpandItemValues)) {
+  if (!isUndefined(defaultExpandItemValues) && Array.isArray(defaultExpandItemValues)) {
     return defaultExpandItemValues;
   }
   return [];
@@ -234,7 +233,7 @@ export function createUpdateTreeDataFunction(params: any, { valueKey, childrenKe
         if (shallowEqual(item[valueKey], dropNode[valueKey])) {
           // drag to node inside
           if (dropNodePosition === TREE_NODE_DROP_POSITION.DRAG_OVER) {
-            item[childrenKey] = _.isNil(item[childrenKey]) ? [] : item[childrenKey];
+            item[childrenKey] = isNil(item[childrenKey]) ? [] : item[childrenKey];
             item[childrenKey].push(dragNode);
             break;
           } else if (dropNodePosition === TREE_NODE_DROP_POSITION.DRAG_OVER_TOP) {
@@ -263,7 +262,7 @@ export function findNodeOfTree(data, check) {
   const findNode = (nodes = []) => {
     for (let i = 0; i < nodes.length; i += 1) {
       const item = nodes[i];
-      if (_.isArray(item.children)) {
+      if (isArray(item.children)) {
         const node = findNode(item.children);
         if (node) {
           return node;
@@ -285,10 +284,10 @@ export function filterNodesOfTree(data, check) {
   const findNodes = (nodes = []) => {
     const nextNodes = [];
     for (let i = 0; i < nodes.length; i += 1) {
-      if (_.isArray(nodes[i].children)) {
+      if (isArray(nodes[i].children)) {
         const nextChildren = findNodes(nodes[i].children);
         if (nextChildren.length) {
-          const item = _.clone(nodes[i]);
+          const item = clone(nodes[i]);
           item.children = nextChildren;
           nextNodes.push(item);
           continue;
@@ -445,7 +444,7 @@ export const getScrollToIndex = (nodes: TreeNodeType[], value: string | number, 
  * @param expand
  */
 export function getExpandWhenSearching(searchKeyword: string, expand: boolean) {
-  return !_.isEmpty(searchKeyword) ? true : expand;
+  return !isEmpty(searchKeyword) ? true : expand;
 }
 
 export function getTreeActiveNode(nodes: TreeNodesType, value: number | string, valueKey: string) {
@@ -482,6 +481,21 @@ export function getTreeNodeTitle(label: any) {
     const nodes = reactToString(label);
     return nodes.join('');
   }
+}
+
+/**
+ * get all children from flattenNodes object by given parent node
+ * @param nodes
+ * @param parent
+ */
+export function getChildrenByFlattenNodes(nodes: TreeNodesType, parent: TreeNodeType) {
+  if (isNil(nodes[parent.refKey])) {
+    return [];
+  }
+  return Object.values(nodes).filter(
+    (item: TreeNodeType) =>
+      item?.parent?.refKey === parent.refKey && !nodes[item.refKey].uncheckable
+  );
 }
 
 export function useTreeDrag() {
@@ -761,28 +775,34 @@ export function useGetTreeNodeChildren(
   const [loadingNodeValues, setLoadingNodeValues] = useState([]);
   const [data, setData] = useState(treeData);
 
-  const concatChildren = (treeNode: TreeNodeType, children: any[]): any[] => {
-    const value = treeNode[valueKey];
-    treeNode = findNodeOfTree(data, item => value === item[valueKey]);
-    treeNode[childrenKey] = children;
-    const newData = data.concat([]);
-    setData(newData);
-    return newData;
-  };
+  const concatChildren = useCallback(
+    (treeNode: TreeNodeType, children: any[]): any[] => {
+      const value = treeNode[valueKey];
+      treeNode = findNodeOfTree(data, item => value === item[valueKey]);
+      treeNode[childrenKey] = children;
+      const newData = data.concat([]);
+      setData(newData);
+      return newData;
+    },
+    [data, valueKey, childrenKey]
+  );
 
-  const loadChildren = (node, getChildren) => {
-    setLoadingNodeValues(prev => prev.concat(node[valueKey]));
-    const children = getChildren(node);
-    if (children instanceof Promise) {
-      children.then(res => {
-        const newData = concatChildren(node, res);
-        setData(newData);
+  const loadChildren = useCallback(
+    (node, getChildren) => {
+      setLoadingNodeValues(prev => prev.concat(node[valueKey]));
+      const children = getChildren(node);
+      if (children instanceof Promise) {
+        children.then(res => {
+          const newData = concatChildren(node, res);
+          setData(newData);
+          setLoadingNodeValues(prev => prev.filter(item => !shallowEqual(item, node[valueKey])));
+        });
+      } else {
+        setData(concatChildren(node, children));
         setLoadingNodeValues(prev => prev.filter(item => !shallowEqual(item, node[valueKey])));
-      });
-    } else {
-      setData(concatChildren(node, children));
-      setLoadingNodeValues(prev => prev.filter(item => !shallowEqual(item, node[valueKey])));
-    }
-  };
+      }
+    },
+    [concatChildren, valueKey]
+  );
   return { data, setData, loadingNodeValues, loadChildren };
 }

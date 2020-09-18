@@ -9,6 +9,7 @@
 const instance = (
   <CheckTree
     data={data}
+    defaultExpandAll
     renderTreeNode={nodeData => {
       return (
         <span>

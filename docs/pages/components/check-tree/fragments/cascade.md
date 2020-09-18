@@ -1,5 +1,3 @@
-`cascade` 属性可以设置 CheckTree 在选择的时候是否可考虑子父级的级联关系，默认为 `true`。
-
 <!--start-code-->
 
 ```js

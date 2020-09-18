@@ -6,7 +6,7 @@
  * https://github.com/rsuite/rsuite/blob/master/docs/public/data/city-simplified.json
  */
 
-const instance = <Tree data={data} defaultExpandAll />;
+const instance = <CheckTreePicker defaultExpandAll data={data} style={{ width: 280 }} />;
 ReactDOM.render(instance);
 ```
 

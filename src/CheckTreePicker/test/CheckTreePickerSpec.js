@@ -8,6 +8,8 @@ import { KEY_CODE } from '../../constants';
 
 Enzyme.configure({ adapter: new Adapter() });
 
+const itemFocusClassName = '.rs-check-tree-node-focus';
+
 const data = [
   {
     label: 'Master',
@@ -37,30 +39,32 @@ const data = [
 
 describe('CheckTreePicker', () => {
   it('Should render default value', () => {
-    const instance = getDOMNode(<CheckTreePicker data={data} defaultValue={['Master']} />);
-
+    const instance = getDOMNode(<CheckTreePicker defaultOpen data={data} value={['Master']} />);
     expect(
       instance.querySelector('.rs-picker-toggle-value .rs-picker-value-item').innerText
     ).to.equal('Master (All)');
   });
 
   it('Should clean selected value', () => {
-    const instance = getDOMNode(<CheckTreePicker data={data} defaultValue={['Master']} />);
+    const instance = getDOMNode(
+      <CheckTreePicker defaultOpen data={data} defaultValue={['Master']} />
+    );
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
     expect(instance.querySelector('.rs-picker-toggle').innerText).to.equal('Select');
   });
 
   it('Should output a clean button', () => {
-    const instance = getDOMNode(<CheckTreePicker data={data} defaultValue={['Master']} />);
+    const instance = getDOMNode(
+      <CheckTreePicker defaultOpen data={data} defaultValue={['Master']} />
+    );
     assert.ok(instance.querySelector('.rs-picker-toggle-clean'));
   });
 
   it('Should render CheckTreePicker Menu', () => {
-    const instance = getDOMNode(<CheckTreePicker data={data} />);
+    const instance = getInstance(<CheckTreePicker defaultOpen data={data} />);
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle'));
-    expect(document.querySelectorAll('.rs-picker-check-tree-menu').length).to.equal(1);
+    expect(instance.menu.classList.contains('.rs-picker-check-tree-menu'));
   });
 
   it('Should output a button', () => {
@@ -177,7 +181,7 @@ describe('CheckTreePicker', () => {
       done();
     };
     const instance = getDOMNode(
-      <CheckTreePicker data={data} defaultValue={['tester0']} onClean={doneOp} />
+      <CheckTreePicker defaultOpen data={data} defaultValue={['tester0']} onClean={doneOp} />
     );
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
@@ -219,51 +223,40 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should focus item by keyCode=40 ', () => {
-    const instance = getInstance(
-      <CheckTreePicker virtualized={false} defaultOpen data={data} defaultExpandAll />
+    const tree = getInstance(
+      <CheckTreePicker defaultOpen virtualized={false} data={data} defaultExpandAll />
     );
+    ReactTestUtils.Simulate.keyDown(tree.toggle, { keyCode: KEY_CODE.DOWN });
 
-    const tree = instance.treeView;
-
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.DOWN });
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.ENTER });
-    assert.equal(document.activeElement.innerText, 'Master');
-
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.DOWN });
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.ENTER });
-    assert.equal(document.activeElement.innerText, 'tester0');
+    assert.equal(tree.menu.querySelector(itemFocusClassName).innerText, 'Master');
   });
 
   it('Should focus item by keyCode=38 ', () => {
-    const instance = getInstance(
+    const tree = getInstance(
       <CheckTreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
     );
-    const tree = instance.treeView;
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.DOWN });
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.ENTER });
-    assert.equal(document.activeElement.innerText, 'Master');
 
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.DOWN });
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.ENTER });
-    assert.equal(document.activeElement.innerText, 'tester0');
+    ReactTestUtils.Simulate.change(tree.menu.querySelector('div[data-key="0-0-1"] input'));
+    ReactTestUtils.Simulate.keyDown(tree.toggle, { keyCode: KEY_CODE.UP });
 
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.UP });
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.ENTER });
-    assert.equal(document.activeElement.innerText, 'Master');
+    console.log(tree.menu);
+    assert.equal(tree.menu.querySelector(itemFocusClassName).innerText, 'tester0');
   });
 
-  it('Should focus item by keyCode=13 ', () => {
-    const instance = getInstance(
-      <CheckTreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
+  it('Should focus item by keyCode=13 ', done => {
+    const doneOp = () => {
+      done();
+    };
+    const tree = getInstance(
+      <CheckTreePicker
+        defaultOpen
+        data={data}
+        virtualized={false}
+        defaultExpandAll
+        onChange={doneOp}
+      />
     );
-    const tree = instance.treeView;
-
-    ReactTestUtils.Simulate.change(tree.querySelector('div[data-key="0-0"] input'));
-    assert.equal(document.activeElement.innerText, 'Master');
-
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.DOWN });
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.ENTER });
-    assert.equal(document.activeElement.innerText, 'tester0');
+    ReactTestUtils.Simulate.change(tree.menu.querySelector('div[data-key="0-0-1"] input'));
   });
 
   it('Should have a custom className', () => {

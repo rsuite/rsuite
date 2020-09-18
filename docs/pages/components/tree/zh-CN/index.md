@@ -22,72 +22,41 @@
 
 ## Props
 
+<!--{include:(_common/types/data-item-type.md)}-->
+<!--{include:(components/tree/fragments/drop-data-type.md)}-->
+
 ### `<Tree>`
 
-| 属性名称                | 类型 `(默认值)`                                                                                         | 描述                                                                            |
-| ----------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| childrenKey             | string `('children')`                                                                                   | tree 数据结构 children 属性名称                                                 |
-| classPrefix             | string`('picker')`                                                                                      | 组件 CSS 类的前缀                                                               |
-| data \*                 | Array&lt;[DataItemType](#DataItemType)&gt;                                                              | tree 数据                                                                       |
-| defaultExpandAll        | boolean                                                                                                 | 默认展开所有节点                                                                |
-| defaultValue            | string                                                                                                  | 默认选中的值                                                                    |
-| defaultExpandItemValues | any []                                                                                                  | 设置默认展开节点的值                                                            |
-| disabledItemValues      | string[]                                                                                                | 禁用选项                                                                        |
-| draggable               | boolean                                                                                                 | 是否可以拖拽                                                                    |
-| expandItemValues        | any []                                                                                                  | 设置展开节点的值（受控）                                                        |
-| getChildren             | (node: [DataItemType](#types)) => Promise<[DataItemType](#types))>                                      | 异步加载节点数据                                                                |
-| height                  | number `(360px)`                                                                                        | menu 的高度。当设置了 virtualized 为 true 时， 可以通过 height 控制 menu 的高度 |
-| labelKey                | string `('label')`                                                                                      | tree 数据结构 label 属性名称                                                    |
-| onChange                | (value:string) => void                                                                                  | 数据改变的回调函数                                                              |
-| onExpand                | (expandItemValues: any [], activeNode:[DataItemType](#types), concat:(data, children) => Array) => void | 树节点展示时的回调                                                              |
-| onSelect                | (activeNode:DataItemType, value, event) => void                                                         | 选择树节点后的回调函数                                                          |
-| onDragStart             | (nodeData:DataItemType, event) => void                                                                  | drag start 回调                                                                 |
-| onDragEnter             | (nodeData:DataItemType, event) => void                                                                  | drag enter 回调                                                                 |
-| onDragOver              | (nodeData:DataItemType, event) => void                                                                  | drag over 回调                                                                  |
-| onDragLeave             | (nodeData:DataItemType, event) => void                                                                  | drag leave 回调                                                                 |
-| onDragEnd               | (nodeData:DataItemType, event) => void                                                                  | drag end 回调                                                                   |
-| onDrop                  | (dropData:DropDataType, event) => void                                                                  | drop 回调                                                                       |
-| renderDragNode          | (nodeData:DataItemType) => React.Node                                                                   | 当 draggable 为 true 时，自定义渲染拖拽节点                                     |
-| renderTreeIcon          | (nodeData:DataItemType) => React.Node                                                                   | 自定义渲染 图标                                                                 |
-| renderTreeNode          | (nodeData:DataItemType) => React.Node                                                                   | 自定义渲染 tree 节点                                                            |
-| searchKeyword           | string                                                                                                  | (受控)搜索关键词                                                                |
-| value                   | string                                                                                                  | 当前选中的值                                                                    |
-| valueKey                | string `('value')`                                                                                      | tree 数据结构 value 属性名称                                                    |
-| virtualized             | boolean `(true)`                                                                                        | 是否开启虚拟列表                                                                |
-
-### DataItemType
-
-```ts
-type DataItemType = {
-  value: string;
-  label: React.Node;
-  children?: Array<DataItemType>;
-};
-```
-
-### DropDataType
-
-```ts
-type DropDataType = {
-  /** drag node data */
-  dragNode: any;
-
-  /** dropNode data */
-  dropNode: any;
-
-  /** node drop position */
-  dropNodePosition: TREE_NODE_DROP_POSITION;
-
-  /** Update Data when drop node */
-  createUpdateDataFunction: (data: any[]) => any[];
-};
-
-enum TREE_NODE_DROP_POSITION {
-  DRAG_OVER = 0, // drag node in tree node
-  DRAG_OVER_TOP = 1, // drag node on tree node
-  DRAG_OVER_BOTTOM = 2 // drag node under tree node
-}
-```
+| 属性名称                | 类型 `(默认值)`                                                                               | 描述                                                                            |
+| ----------------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| childrenKey             | string `('children')`                                                                         | tree 数据结构 children 属性名称                                                 |
+| classPrefix             | string`('picker')`                                                                            | 组件 CSS 类的前缀                                                               |
+| data \*                 | Array&lt;DataItemType&gt;                                                                     | tree 数据                                                                       |
+| defaultExpandAll        | boolean                                                                                       | 默认展开所有节点                                                                |
+| defaultValue            | string                                                                                        | 默认选中的值                                                                    |
+| defaultExpandItemValues | any []                                                                                        | 设置默认展开节点的值                                                            |
+| disabledItemValues      | string[]                                                                                      | 禁用选项                                                                        |
+| draggable               | boolean                                                                                       | 是否可以拖拽                                                                    |
+| expandItemValues        | any []                                                                                        | 设置展开节点的值（受控）                                                        |
+| getChildren             | (node: DataItemType) => Promise&lt;DataItemType&gt;                                           | 异步加载节点数据                                                                |
+| height                  | number `(360px)`                                                                              | menu 的高度。当设置了 virtualized 为 true 时， 可以通过 height 控制 menu 的高度 |
+| labelKey                | string `('label')`                                                                            | tree 数据结构 label 属性名称                                                    |
+| onChange                | (value:string) => void                                                                        | 数据改变的回调函数                                                              |
+| onExpand                | (expandItemValues: any [], activeNode:DataItemType, concat:(data, children) => Array) => void | 树节点展示时的回调                                                              |
+| onSelect                | (activeNode:DataItemType, value, event) => void                                               | 选择树节点后的回调函数                                                          |
+| onDragStart             | (nodeData:DataItemType, event) => void                                                        | drag start 回调                                                                 |
+| onDragEnter             | (nodeData:DataItemType, event) => void                                                        | drag enter 回调                                                                 |
+| onDragOver              | (nodeData:DataItemType, event) => void                                                        | drag over 回调                                                                  |
+| onDragLeave             | (nodeData:DataItemType, event) => void                                                        | drag leave 回调                                                                 |
+| onDragEnd               | (nodeData:DataItemType, event) => void                                                        | drag end 回调                                                                   |
+| onDrop                  | (dropData:DropDataType, event) => void                                                        | drop 回调                                                                       |
+| renderDragNode          | (nodeData:DataItemType) => React.Node                                                         | 当 draggable 为 true 时，自定义渲染拖拽节点                                     |
+| renderTreeIcon          | (nodeData:DataItemType) => React.Node                                                         | 自定义渲染 图标                                                                 |
+| renderTreeNode          | (nodeData:DataItemType) => React.Node                                                         | 自定义渲染 tree 节点                                                            |
+| searchKeyword           | string                                                                                        | (受控)搜索关键词                                                                |
+| value                   | string                                                                                        | 当前选中的值                                                                    |
+| valueKey                | string `('value')`                                                                            | tree 数据结构 value 属性名称                                                    |
+| virtualized             | boolean `(true)`                                                                              | 是否开启虚拟列表                                                                |
 
 ## 相关组件
 

@@ -10,6 +10,8 @@ Enzyme.configure({ adapter: new Adapter() });
 
 export const delay = timeout => new Promise(resolve => setTimeout(resolve, timeout));
 
+const itemFocusClassName = '.rs-tree-node-focus';
+
 const data = [
   {
     label: 'Master',
@@ -39,28 +41,26 @@ const data = [
 
 describe('TreePicker', () => {
   it('Should render default value', () => {
-    const instance = getDOMNode(<TreePicker data={data} defaultValue={'Master'} />);
+    const instance = getDOMNode(<TreePicker defaultOpen data={data} defaultValue={'Master'} />);
 
     expect(instance.querySelector('.rs-picker-toggle-value').innerText).to.equal('Master');
   });
 
   it('Should clean selected value', () => {
-    const instance = getDOMNode(<TreePicker data={data} defaultValue={'Master'} />);
+    const instance = getDOMNode(<TreePicker defaultOpen data={data} defaultValue={'Master'} />);
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
     expect(instance.querySelector('.rs-picker-toggle').innerText).to.equal('Select');
   });
 
   it('Should output a clean button', () => {
-    const instance = getDOMNode(<TreePicker data={data} defaultValue={'Master'} />);
+    const instance = getDOMNode(<TreePicker defaultOpen data={data} defaultValue={'Master'} />);
     assert.ok(instance.querySelector('.rs-picker-toggle-clean'));
   });
 
   it('Should render TreePicker Menu', () => {
-    const instance = getDOMNode(<TreePicker data={data} />);
-
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle'));
-    expect(document.querySelectorAll('.rs-picker-tree-menu').length).to.equal(1);
+    const instance = getInstance(<TreePicker defaultOpen data={data} />);
+    expect(instance.menu.classList.contains('.rs-picker-tree-menu'));
   });
 
   it('Should output a button', () => {
@@ -168,7 +168,7 @@ describe('TreePicker', () => {
       done();
     };
     const instance = getDOMNode(
-      <TreePicker data={data} defaultValue={'tester0'} onClean={doneOp} />
+      <TreePicker defaultOpen data={data} defaultValue={'tester0'} onClean={doneOp} />
     );
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
@@ -197,45 +197,29 @@ describe('TreePicker', () => {
     const instance = getInstance(
       <TreePicker open data={data} virtualized={false} defaultExpandAll value="tester1" />
     );
-    const tree = instance.treeView;
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.DOWN });
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.ENTER });
-    assert.equal(document.activeElement.innerText, 'Master');
+    ReactTestUtils.Simulate.keyDown(instance.toggle, { keyCode: KEY_CODE.DOWN });
 
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.DOWN });
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.ENTER });
-    assert.equal(document.activeElement.innerText, 'tester0');
+    assert.equal(instance.menu.querySelector(itemFocusClassName).innerText, 'Master');
   });
 
   it('Should focus item by keyCode=38 ', () => {
     const instance = getInstance(
       <TreePicker open data={data} virtualized={false} defaultExpandAll value="tester1" />
     );
-    const tree = instance.treeView;
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.DOWN });
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.ENTER });
-    assert.equal(document.activeElement.innerText, 'Master');
 
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.DOWN });
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.ENTER });
-    assert.equal(document.activeElement.innerText, 'tester0');
-
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.UP });
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: KEY_CODE.ENTER });
-    assert.equal(document.activeElement.innerText, 'Master');
+    ReactTestUtils.Simulate.click(instance.menu.querySelector('span[data-key="0-0-1"]'));
+    ReactTestUtils.Simulate.keyDown(instance.toggle, { keyCode: KEY_CODE.UP });
+    assert.equal(instance.menu.querySelector(itemFocusClassName).innerText, 'tester0');
   });
 
   it('Should focus item by keyCode=13 ', done => {
     const doneOp = () => {
       done();
     };
-    const instance = mount(
-      <TreePicker virtualized={false} data={data} onChange={doneOp} inline defaultExpandAll />
+    const instance = getInstance(
+      <TreePicker defaultOpen virtualized={false} data={data} onChange={doneOp} defaultExpandAll />
     );
-    instance.find('span[data-key="0-0"]').simulate('click');
-    instance.find('span[data-key="0-0"]').simulate('keydown', {
-      keyCode: 13
-    });
+    ReactTestUtils.Simulate.click(instance.menu.querySelector('span[data-key="0-0-1"]'));
   });
 
   it('Should have a custom className', () => {

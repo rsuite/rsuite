@@ -1,5 +1,5 @@
 import TreePicker from './TreePicker';
 import withLocale from '../IntlProvider/withLocale';
-import { TreePickerProps } from './TreePicker.d';
+import { TreePickerProps } from './TreePicker';
 
 export default withLocale<TreePickerProps>(['Picker'])(TreePicker);

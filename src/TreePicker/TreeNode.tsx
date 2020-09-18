@@ -1,23 +1,23 @@
-import React from 'react';
+import React, { forwardRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import reactToString from '../utils/reactToString';
 import { hasClass } from 'dom-lib';
-import { TREE_NODE_PADDING, TREE_NODE_ROOT_PADDING } from '../constants';
-import { refType, useClassNames } from '../utils';
-import Icon from '../Icon/Icon';
+import { useClassNames, TREE_NODE_PADDING, TREE_NODE_ROOT_PADDING } from '../utils';
+import Icon from '../Icon';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-export interface TreeNodeProps {
+export interface TreeNodeProps extends WithAsProps {
   rtl?: boolean;
   layer: number;
   value?: any;
   label?: any;
+  focus?: boolean;
   loading?: boolean;
   expand?: boolean;
   active?: boolean;
   visible: boolean;
   nodeData: any;
   disabled?: boolean;
-  innerRef?: React.Ref<any>;
   draggable?: boolean;
   dragging?: boolean;
   dragOver?: boolean;
@@ -39,193 +39,231 @@ export interface TreeNodeProps {
   onDrop?: (data: any, event: React.DragEvent<any>) => void;
 }
 
-const TreeNode: React.FC<TreeNodeProps> = ({
-  rtl,
-  label,
-  layer,
-  style,
-  active,
-  loading,
-  nodeData,
-  className,
-  classPrefix,
-  disabled,
-  visible,
-  innerRef,
-  draggable,
-  expand,
-  hasChildren,
-  dragging,
-  dragOver,
-  dragOverTop,
-  dragOverBottom,
-  onSelect,
-  onDragStart,
-  onDragOver,
-  onDragEnter,
-  onDragLeave,
-  onDragEnd,
-  onDrop,
-  onExpand,
-  onRenderTreeIcon,
-  onRenderTreeNode
-}) => {
-  const getTitle = () => {
-    if (typeof label === 'string') {
-      return label;
-    } else if (React.isValidElement(label)) {
-      const nodes = reactToString(label);
-      return nodes.join('');
-    }
-  };
+const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
+  HTMLDivElement,
+  TreeNodeProps
+>(
+  (
+    {
+      as: Component = 'div',
+      rtl,
+      label,
+      layer,
+      style,
+      active,
+      loading,
+      nodeData,
+      className,
+      classPrefix,
+      disabled,
+      visible,
+      draggable,
+      expand,
+      focus,
+      hasChildren,
+      dragging,
+      dragOver,
+      dragOverTop,
+      dragOverBottom,
+      onSelect,
+      onDragStart,
+      onDragOver,
+      onDragEnter,
+      onDragLeave,
+      onDragEnd,
+      onDrop,
+      onExpand,
+      onRenderTreeIcon,
+      onRenderTreeNode
+    },
+    ref
+  ) => {
+    const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
 
-  const { prefix, merge, rootPrefix } = useClassNames(classPrefix);
-
-  const handleExpand = (event: React.SyntheticEvent<any>) => {
-    // 异步加载数据自定义loading图标时，阻止原生冒泡，不触发 document.click
-    event?.nativeEvent?.stopImmediatePropagation?.();
-    onExpand?.(nodeData);
-  };
-
-  const handleSelect = (event: React.SyntheticEvent<any>) => {
-    if (disabled) {
-      return;
-    }
-
-    if (event.target instanceof HTMLElement) {
-      if (hasClass(event.target.parentNode, prefix('expand-icon-wrapper'))) {
-        return;
+    const getTitle = useCallback(() => {
+      if (typeof label === 'string') {
+        return label;
+      } else if (React.isValidElement(label)) {
+        const nodes = reactToString(label);
+        return nodes.join('');
       }
-    }
+    }, [label]);
 
-    onSelect?.(nodeData, event);
-  };
-
-  const handleDragStart = (event: React.DragEvent) => {
-    const dragNode = document.getElementById('drag-node');
-    if (dragNode) {
-      event.dataTransfer.setDragImage(dragNode, 0, 0);
-    }
-    onDragStart?.(nodeData, event);
-  };
-
-  const handleDragEnter = (event: React.DragEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
-    onDragEnter?.(nodeData, event);
-  };
-
-  const handleDragOver = (event: React.DragEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
-    onDragOver?.(nodeData, event);
-  };
-
-  const handleDragLeave = (event: React.DragEvent) => {
-    event.stopPropagation();
-    onDragLeave?.(nodeData, event);
-  };
-
-  const handleDragEnd = (event: React.DragEvent) => {
-    event.stopPropagation();
-    onDragEnd?.(nodeData, event);
-  };
-
-  const handleDrop = (event: React.DragEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
-    onDrop?.(nodeData, event);
-  };
-
-  const renderIcon = () => {
-    const classes = merge(prefix('expand-icon'), {
-      [prefix('expanded')]: !!expand
-    });
-
-    let expandIcon = <i className={classes} />;
-    if (loading) {
-      expandIcon = (
-        <div className={prefix('loading-icon')}>
-          <Icon icon="spinner" spin style={{ verticalAlign: 'middle' }} />
-        </div>
-      );
-    }
-    if (nodeData !== undefined && typeof onRenderTreeIcon === 'function') {
-      const customIcon = onRenderTreeIcon(nodeData);
-      expandIcon =
-        customIcon !== null ? (
-          <div className={prefix('custom-icon')}>{customIcon}</div>
-        ) : (
-          expandIcon
-        );
-    }
-
-    return hasChildren ? (
-      <div
-        role="button"
-        tabIndex={-1}
-        data-ref={nodeData.refKey}
-        className={prefix('expand-icon-wrapper')}
-        onClick={handleExpand}
-      >
-        {expandIcon}
-      </div>
-    ) : null;
-  };
-
-  const renderLabel = () => {
-    const contentClasses = merge(prefix('label-content'), {
-      [prefix('dragging')]: dragging,
-      [prefix('drag-over')]: dragOver,
-      [prefix('drag-over-top')]: dragOverTop,
-      [prefix('drag-over-bottom')]: dragOverBottom
-    });
-    return (
-      <span
-        className={prefix('label')}
-        title={getTitle()}
-        data-layer={layer}
-        data-key={nodeData?.refKey || ''}
-        role="button"
-        tabIndex={-1}
-        onClick={handleSelect}
-      >
-        <span className={contentClasses}>
-          {onRenderTreeNode ? onRenderTreeNode(nodeData) : label}
-        </span>
-      </span>
+    const handleExpand = useCallback(
+      (event: React.SyntheticEvent<any>) => {
+        // stop propagation when using custom loading icon
+        event?.nativeEvent?.stopImmediatePropagation?.();
+        onExpand?.(nodeData);
+      },
+      [nodeData, onExpand]
     );
-  };
 
-  const classes = merge(className, rootPrefix(classPrefix), {
-    'text-muted': disabled,
-    [prefix('disabled')]: disabled,
-    [prefix('active')]: active
-  });
-  const padding = layer * TREE_NODE_PADDING + TREE_NODE_ROOT_PADDING;
-  const styles = {
-    ...style,
-    [rtl ? 'paddingRight' : 'paddingLeft']: padding
-  };
+    const handleSelect = useCallback(
+      (event: React.SyntheticEvent<any>) => {
+        if (disabled) {
+          return;
+        }
 
-  return visible ? (
-    <div
-      style={styles}
-      className={classes}
-      ref={innerRef}
-      draggable={draggable}
-      onDragStart={handleDragStart}
-      onDragEnter={handleDragEnter}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-      onDragEnd={handleDragEnd}
-      onDrop={handleDrop}
-    >
-      {renderIcon()}
-      {renderLabel()}
-    </div>
-  ) : null;
-};
+        if (event.target instanceof HTMLElement) {
+          if (hasClass(event.target.parentNode, prefix('expand-icon-wrapper'))) {
+            return;
+          }
+        }
+
+        onSelect?.(nodeData, event);
+      },
+      [nodeData, disabled, prefix, onSelect]
+    );
+
+    const handleDragStart = useCallback(
+      (event: React.DragEvent) => {
+        const dragNode = document.getElementById('drag-node');
+        if (dragNode) {
+          event.dataTransfer.setDragImage(dragNode, 0, 0);
+        }
+        onDragStart?.(nodeData, event);
+      },
+      [nodeData, onDragStart]
+    );
+
+    const handleDragEnter = useCallback(
+      (event: React.DragEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
+        onDragEnter?.(nodeData, event);
+      },
+      [nodeData, onDragEnter]
+    );
+
+    const handleDragOver = useCallback(
+      (event: React.DragEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
+        onDragOver?.(nodeData, event);
+      },
+      [nodeData, onDragOver]
+    );
+
+    const handleDragLeave = useCallback(
+      (event: React.DragEvent) => {
+        event.stopPropagation();
+        onDragLeave?.(nodeData, event);
+      },
+      [nodeData, onDragLeave]
+    );
+
+    const handleDragEnd = useCallback(
+      (event: React.DragEvent) => {
+        event.stopPropagation();
+        onDragEnd?.(nodeData, event);
+      },
+      [nodeData, onDragEnd]
+    );
+
+    const handleDrop = useCallback(
+      (event: React.DragEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
+        onDrop?.(nodeData, event);
+      },
+      [nodeData, onDrop]
+    );
+
+    const renderIcon = () => {
+      const classes = merge(prefix('expand-icon'), {
+        [prefix('expanded')]: !!expand
+      });
+
+      let expandIcon = <i className={classes} />;
+      if (loading) {
+        expandIcon = (
+          <div className={prefix('loading-icon')}>
+            <Icon icon="spinner" spin style={{ verticalAlign: 'middle' }} />
+          </div>
+        );
+      }
+      if (nodeData !== undefined && typeof onRenderTreeIcon === 'function') {
+        const customIcon = onRenderTreeIcon(nodeData);
+        expandIcon =
+          customIcon !== null ? (
+            <div className={prefix('custom-icon')}>{customIcon}</div>
+          ) : (
+            expandIcon
+          );
+      }
+
+      return hasChildren ? (
+        <div
+          role="button"
+          tabIndex={-1}
+          data-ref={nodeData.refKey}
+          className={prefix('expand-icon-wrapper')}
+          onClick={handleExpand}
+        >
+          {expandIcon}
+        </div>
+      ) : null;
+    };
+
+    const renderLabel = () => {
+      const contentClasses = prefix('label-content', {
+        dragging,
+        'drag-over': dragOver,
+        'drag-over-top': dragOverTop,
+        'drag-over-bottom': dragOverBottom
+      });
+      return (
+        <span
+          className={prefix('label')}
+          title={getTitle()}
+          data-layer={layer}
+          data-key={nodeData?.refKey || ''}
+          role="button"
+          tabIndex={-1}
+          onClick={handleSelect}
+        >
+          <span className={contentClasses}>
+            {onRenderTreeNode ? onRenderTreeNode(nodeData) : label}
+          </span>
+        </span>
+      );
+    };
+
+    const classes = merge(
+      className,
+      withClassPrefix({ disabled, active, 'text-muted': disabled, focus })
+    );
+    const padding = layer * TREE_NODE_PADDING + TREE_NODE_ROOT_PADDING;
+    const styles = {
+      ...style,
+      [rtl ? 'paddingRight' : 'paddingLeft']: padding
+    };
+
+    return visible ? (
+      <Component
+        role="treeitem"
+        aria-expanded={expand}
+        aria-label={label}
+        aria-level={layer}
+        aria-disabled={disabled}
+        aria-selected={active}
+        style={styles}
+        className={classes}
+        ref={ref}
+        draggable={draggable}
+        onDragStart={handleDragStart}
+        onDragEnter={handleDragEnter}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDragEnd={handleDragEnd}
+        onDrop={handleDrop}
+      >
+        {renderIcon()}
+        {renderLabel()}
+      </Component>
+    ) : null;
+  }
+);
 
 TreeNode.displayName = 'TreePickerNode';
 TreeNode.defaultProps = {
@@ -233,7 +271,9 @@ TreeNode.defaultProps = {
   classPrefix: 'tree-node'
 };
 TreeNode.propTypes = {
+  as: PropTypes.elementType,
   rtl: PropTypes.bool,
+  focus: PropTypes.bool,
   layer: PropTypes.number,
   value: PropTypes.any,
   label: PropTypes.any,
@@ -243,7 +283,6 @@ TreeNode.propTypes = {
   visible: PropTypes.bool,
   nodeData: PropTypes.any,
   disabled: PropTypes.bool,
-  innerRef: refType,
   draggable: PropTypes.bool,
   dragging: PropTypes.bool,
   dragOver: PropTypes.bool,
