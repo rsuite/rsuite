@@ -459,7 +459,7 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
      * 1.Have a value and the value is valid.
      * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
      */
-    const hasValue = selectedItems.length > 0 || (value?.length > 0 && _.isFunction(renderValue));
+    let hasValue = selectedItems.length > 0 || (value?.length > 0 && _.isFunction(renderValue));
 
     let selectedElement: React.ReactNode = placeholder;
 
@@ -477,6 +477,9 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
 
     if (value?.length > 0 && _.isFunction(renderValue)) {
       selectedElement = renderValue(value, selectedItems, selectedElement);
+      if (_.isNil(selectedElement)) {
+        hasValue = false;
+      }
     }
 
     const classes = getToggleWrapperClassName('check', this.addPrefix, this.props, hasValue);

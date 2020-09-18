@@ -341,4 +341,14 @@ describe('TagPicker', () => {
     );
     assert.equal(instance.querySelector('.rs-tag').tagName, 'SPAN');
   });
+
+  it('Should call renderValue', () => {
+    const instance1 = getDOMNode(<TagPicker value={['Test']} renderValue={() => '1'} />);
+    const instance2 = getDOMNode(<TagPicker value={['Test']} renderValue={() => null} />);
+    const instance3 = getDOMNode(<TagPicker value={['Test']} renderValue={() => undefined} />);
+
+    assert.equal(instance1.querySelector('.rs-picker-tag-wrapper').innerText, '1');
+    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+  });
 });
