@@ -1,4 +1,3 @@
 import Slider from './Slider';
-import withLocale from '../IntlProvider/withLocale';
-
-export default withLocale([])(Slider);
+export type { SliderProps } from './Slider';
+export default Slider;

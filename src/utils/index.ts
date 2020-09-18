@@ -24,6 +24,7 @@ export { default as isRTL } from './directionUtil';
 export { default as refType } from './refType';
 export { default as mergeRefs } from './mergeRefs';
 export { default as shallowEqual } from './shallowEqual';
+export { default as shallowEqualArray } from './shallowEqualArray';
 export { default as reactToString } from './reactToString';
 export { default as useClassNames } from './useClassNames';
 export { default as useEventListener } from './useEventListener';

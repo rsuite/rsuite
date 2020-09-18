@@ -1,8 +1,10 @@
+export type CharacterType = 0 | 0.5 | 1;
+
 export const transformValueToCharacterMap = (
   value: number,
   max: number,
   allowHalf: boolean
-): number[] => {
+): CharacterType[] => {
   const characterMap = [];
   for (let i = 0; i < max; i++) {
     if (i < value) {
@@ -18,5 +20,7 @@ export const transformValueToCharacterMap = (
   return characterMap;
 };
 
-export const transformCharacterMapToValue = (value: number[]): number =>
-  value.reduce((total, currentValue) => total + currentValue);
+export const transformCharacterMapToValue = (characterMap: CharacterType[]) =>
+  (characterMap as number[]).reduce((total, currentValue) => {
+    return total + currentValue;
+  });

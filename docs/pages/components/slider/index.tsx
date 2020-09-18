@@ -4,18 +4,6 @@ import DefaultPage from '@/components/Page';
 
 export default function Page() {
   return (
-    <DefaultPage
-      examples={[
-        'basic',
-        'progress',
-        'graduated',
-        'vertical',
-        'disabled',
-        'value',
-        'custom',
-        'size'
-      ]}
-      dependencies={{ Slider, RangeSlider, Row, Col, Input, InputNumber, InputGroup }}
-    />
+    <DefaultPage dependencies={{ Slider, RangeSlider, Row, Col, Input, InputNumber, InputGroup }} />
   );
 }

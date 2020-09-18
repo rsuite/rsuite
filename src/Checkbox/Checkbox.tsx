@@ -1,7 +1,6 @@
 import React, { useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import isUndefined from 'lodash/isUndefined';
-import { useControlled, useClassNames, refType } from '../utils';
+import { useControlled, partitionHTMLProps, useClassNames, refType } from '../utils';
 import { CheckboxGroupContext } from '../CheckboxGroup';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
@@ -92,10 +91,10 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
       value: groupValue,
       controlled,
       onChange: onGroupChange
-    } = useContext(CheckboxGroupContext) || {};
+    } = useContext(CheckboxGroupContext);
 
     const isChecked = () => {
-      if (!isUndefined(groupValue) && !isUndefined(value)) {
+      if (typeof groupValue !== 'undefined' && typeof value !== 'undefined') {
         return groupValue.some(i => i === value);
       }
       return controlledChecked;
@@ -104,9 +103,11 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
     const [checked, setChecked] = useControlled<boolean>(isChecked(), defaultChecked);
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ inline, indeterminate, disabled, checked }));
+    const [htmlInputProps, restProps] = partitionHTMLProps(rest);
 
-    if (!isUndefined(controlled)) {
-      inputProps[controlled ? 'checked' : 'defaultChecked'] = checked;
+    if (typeof controlled !== 'undefined') {
+      // In uncontrolled situations, use defaultChecked instead of checked
+      htmlInputProps[controlled ? 'checked' : 'defaultChecked'] = checked;
     }
 
     const handleChange = useCallback(
@@ -127,6 +128,7 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
     const input = (
       <span className={prefix`wrapper`} onClick={onCheckboxClick} aria-disabled={disabled}>
         <input
+          {...htmlInputProps}
           {...inputProps}
           name={name}
           type="checkbox"
@@ -143,7 +145,7 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
     );
 
     return (
-      <Component {...rest} ref={ref} onClick={onClick} className={classes}>
+      <Component {...restProps} ref={ref} onClick={onClick} className={classes}>
         <div className={prefix`checker`}>
           <label title={title}>
             {checkable ? input : null}

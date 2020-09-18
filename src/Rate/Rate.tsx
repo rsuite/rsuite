@@ -1,213 +1,230 @@
-import * as React from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import compose from 'recompose/compose';
-
-import { defaultProps, prefix, getUnhandledProps, withStyleProps } from '../utils';
-import { transformValueToCharacterMap, transformCharacterMapToValue } from './utils';
-import shallowEqualArray from '../utils/shallowEqualArray';
+import { useClassNames, useControlled, shallowEqualArray, SIZE, KEY_CODE } from '../utils';
+import { transformValueToCharacterMap, transformCharacterMapToValue, CharacterType } from './utils';
 import Icon from '../Icon';
 import Character from './Character';
-import { FormPlaintextContext } from '../Form/FormContext';
+import {
+  WithAsProps,
+  TypeAttributes,
+  RsRefForwardingComponent,
+  FormControlBaseProps
+} from '../@types/common';
 
-import { SIZE, KEY_CODE } from '../constants';
-import { RateProps } from './Rate.d';
+export interface RateProps<T = number> extends WithAsProps, FormControlBaseProps<T> {
+  // Whether to allow semi selection
+  allowHalf?: boolean;
 
-interface RateState {
-  prevPropsValue: number;
-  characterMap: number[];
+  // custom character of rate
+  character?: React.ReactNode;
+
+  // The prefix of the component CSS class
+  classPrefix?: string;
+
+  // Whether to allow cancel selection
+  cleanable?: boolean;
+
+  /** A tate can have different sizes */
+  size?: TypeAttributes.Size;
+
+  /** A tate can have different colors */
+  color?: TypeAttributes.Color;
+
+  // Maximum rate
+  max?: number;
+
+  // Vertical Rate half
+  vertical?: boolean;
+
+  // render coutom character
+  renderCharacter?: (value: number, index: number) => React.ReactNode;
+
+  // Callback function when hover state changes
+  onChangeActive?: (value: T, event: React.SyntheticEvent) => void;
 }
 
-class Rate extends React.Component<RateProps, RateState> {
-  static propTypes = {
-    allowHalf: PropTypes.bool,
-    character: PropTypes.node,
-    classPrefix: PropTypes.string,
-    cleanable: PropTypes.bool,
-    defaultValue: PropTypes.number,
-    disabled: PropTypes.bool,
-    max: PropTypes.number,
-    renderCharacter: PropTypes.func,
-    readOnly: PropTypes.bool,
-    size: PropTypes.oneOf(SIZE),
-    value: PropTypes.number,
-    vertical: PropTypes.bool,
-    onChange: PropTypes.func,
-    onChangeActive: PropTypes.func
-  };
+const defaultProps: Partial<RateProps> = {
+  as: 'ul',
+  classPrefix: 'rate',
+  character: <Icon icon="star" />,
+  cleanable: true,
+  defaultValue: 0,
+  max: 5,
+  size: 'md'
+};
 
-  static defaultProps = {
-    character: <Icon icon="star" />,
-    cleanable: true,
-    defaultValue: 0,
-    max: 5,
-    size: 'md'
-  };
-
-  static getDerivedStateFromProps(nextProps: RateProps, nextState: RateState) {
-    const { value, max, allowHalf } = nextProps;
-    const characterMap = transformValueToCharacterMap(value, max, allowHalf);
-    if (typeof value !== 'undefined' && value !== nextState.prevPropsValue) {
-      return { prevPropsValue: value, characterMap };
-    }
-    return null;
-  }
-
-  constructor(props) {
-    super(props);
-    const { value } = props;
-    const prevPropsValue = typeof value !== 'undefined' ? value : props.defaultValue;
-    this.state = {
-      prevPropsValue,
-      characterMap: this.getCharacterMap(prevPropsValue)
-    };
-  }
-
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
-
-  getValue() {
-    const { value } = this.props;
-    return typeof value === 'undefined' ? this.state.prevPropsValue : value;
-  }
-
-  getCharacterMap = (value: number) => {
-    const { max, allowHalf } = this.props;
-    return transformValueToCharacterMap(value, max, allowHalf);
-  };
-
-  resetCharacterMap = () => {
-    this.setState({ characterMap: this.getCharacterMap(this.getValue()) });
-  };
-
-  handleMouseLeave = (event: React.SyntheticEvent<HTMLElement>) => {
-    this.resetCharacterMap();
-    this.props.onChangeActive?.(this.getValue(), event);
-  };
-
-  handleChangeValue = (index: number, event: React.SyntheticEvent<HTMLElement>) => {
-    const { cleanable, onChange } = this.props;
-    const { characterMap } = this.state;
-    const value = this.getValue();
-    let nextValue = transformCharacterMapToValue(characterMap);
-
-    if (
-      cleanable &&
-      value === nextValue &&
-      this.getCharacterMap(value)[index] === characterMap[index]
-    ) {
-      nextValue = 0;
-    }
-
-    if (nextValue !== value) {
-      this.setState({ prevPropsValue: nextValue, characterMap: this.getCharacterMap(nextValue) });
-      onChange?.(nextValue, event);
-    }
-  };
-
-  handleKeyDown = (index: number, event: React.KeyboardEvent<HTMLElement>) => {
-    const { keyCode } = event;
-    const { max, allowHalf } = this.props;
-    const { characterMap } = this.state;
-    let nextValue = transformCharacterMapToValue(characterMap);
-
-    if (keyCode === KEY_CODE.RIGHT && nextValue < max) {
-      nextValue = allowHalf ? nextValue + 0.5 : nextValue + 1;
-    } else if (keyCode === KEY_CODE.LEFT && nextValue > 0) {
-      nextValue = allowHalf ? nextValue - 0.5 : nextValue - 1;
-    }
-
-    this.setState({ characterMap: this.getCharacterMap(nextValue) });
-
-    if (keyCode === KEY_CODE.ENTER) {
-      this.handleChangeValue(index, event);
-    }
-  };
-
-  handleClick = (index: number, key: string, event: React.MouseEvent<HTMLElement>) => {
-    this.handleChangeCharacterMap(index, key, event, () => {
-      this.handleChangeValue(index, event);
-    });
-  };
-
-  handleChangeCharacterMap(
-    index: number,
-    key: string,
-    event: React.SyntheticEvent<HTMLElement>,
-    callback
-  ) {
-    const { characterMap } = this.state;
-    const nextCharacterMap = characterMap.map((_item, i) => {
-      if (i === index && key === 'before' && this.props.allowHalf) {
-        return 0.5;
-      }
-      return index >= i ? 1 : 0;
-    });
-
-    if (!shallowEqualArray(characterMap, nextCharacterMap)) {
-      this.setState({ characterMap: nextCharacterMap }, callback);
-      this.props.onChangeActive?.(transformCharacterMapToValue(nextCharacterMap), event);
-
-      return;
-    }
-    callback?.();
-  }
-
-  render() {
+const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
+  (props: RateProps, ref) => {
     const {
+      as: Component,
       character,
       className,
       classPrefix,
       disabled,
       max,
-      renderCharacter,
       readOnly,
       vertical,
+      size,
+      color,
+      allowHalf,
+      value: valueProp,
+      defaultValue,
+      cleanable,
+      plaintext,
+      onChange,
+      renderCharacter,
+      onChangeActive,
       ...rest
-    } = this.props;
+    } = props;
 
-    const { characterMap } = this.state;
-    const hoverValue = transformCharacterMapToValue(characterMap);
-    const classes = classNames(classPrefix, className, {
-      [this.addPrefix('disabled')]: disabled,
-      [this.addPrefix('readonly')]: readOnly
-    });
-    const unhandled = getUnhandledProps(Rate, rest);
-    const plaintextRate = (
-      <div {...unhandled} className={className}>{`${this.getValue()}(${max})`}</div>
+    const [value, setValue] = useControlled(valueProp, defaultValue);
+
+    const getCharacterMap = useCallback(
+      (v?: number) => {
+        return transformValueToCharacterMap(typeof v !== 'undefined' ? v : value, max, allowHalf);
+      },
+      [allowHalf, max, value]
     );
 
-    const rate = (
-      <ul {...unhandled} className={classes} onMouseLeave={this.handleMouseLeave}>
+    const [characterMap, setCharacterMap] = useState<CharacterType[]>(getCharacterMap());
+
+    const hoverValue = transformCharacterMapToValue(characterMap);
+    const { merge, withClassPrefix } = useClassNames(classPrefix);
+    const classes = merge(
+      className,
+      withClassPrefix(size, color, { disabled, readonly: readOnly })
+    );
+
+    const resetCharacterMap = useCallback(() => {
+      setCharacterMap(getCharacterMap());
+    }, [getCharacterMap]);
+
+    const handleMouseLeave = useCallback(
+      (event: React.SyntheticEvent) => {
+        resetCharacterMap();
+        onChangeActive?.(value, event);
+      },
+      [onChangeActive, resetCharacterMap, value]
+    );
+
+    const handleChangeValue = useCallback(
+      (index: number, event: React.SyntheticEvent) => {
+        let nextValue = transformCharacterMapToValue(characterMap);
+
+        if (
+          cleanable &&
+          value === nextValue &&
+          getCharacterMap(value)[index] === characterMap[index]
+        ) {
+          nextValue = 0;
+        }
+
+        if (nextValue !== value) {
+          setValue(nextValue);
+          setCharacterMap(getCharacterMap(nextValue));
+          onChange?.(nextValue, event);
+        }
+      },
+      [characterMap, cleanable, getCharacterMap, onChange, setValue, value]
+    );
+
+    const handleKeyDown = useCallback(
+      (index: number, event: React.KeyboardEvent) => {
+        const { keyCode } = event;
+        let nextValue = transformCharacterMapToValue(characterMap);
+
+        if (keyCode === KEY_CODE.RIGHT && nextValue < max) {
+          nextValue = allowHalf ? nextValue + 0.5 : nextValue + 1;
+        } else if (keyCode === KEY_CODE.LEFT && nextValue > 0) {
+          nextValue = allowHalf ? nextValue - 0.5 : nextValue - 1;
+        }
+
+        setCharacterMap(getCharacterMap(nextValue));
+
+        if (keyCode === KEY_CODE.ENTER) {
+          handleChangeValue(index, event);
+        }
+      },
+      [allowHalf, characterMap, getCharacterMap, handleChangeValue, max]
+    );
+
+    const handleChangeCharacterMap = useCallback(
+      (index: number, key: string, event: React.MouseEvent) => {
+        const nextCharacterMap = characterMap.map((_item, i) => {
+          if (i === index && key === 'before' && allowHalf) {
+            return 0.5;
+          }
+          return index >= i ? 1 : 0;
+        });
+
+        if (!shallowEqualArray(characterMap, nextCharacterMap)) {
+          setCharacterMap(nextCharacterMap);
+          onChangeActive?.(transformCharacterMapToValue(nextCharacterMap), event);
+        }
+      },
+      [allowHalf, characterMap, onChangeActive]
+    );
+
+    const handleClick = useCallback(
+      (index: number, key: string, event: React.MouseEvent) => {
+        handleChangeCharacterMap(index, key, event);
+        handleChangeValue(index, event);
+      },
+      [handleChangeCharacterMap, handleChangeValue]
+    );
+
+    if (plaintext) {
+      return <div {...rest} className={className}>{`${value}(${max})`}</div>;
+    }
+
+    return (
+      <Component
+        role="radiogroup"
+        tabIndex={0}
+        {...rest}
+        ref={ref}
+        className={classes}
+        onMouseLeave={handleMouseLeave}
+      >
         {characterMap.map((item, index) => (
           <Character
+            role="radio"
+            aria-posinset={index + 1}
+            aria-setsize={max}
+            aria-checked={item !== 0}
             key={index}
             status={item}
             disabled={disabled || readOnly}
             vertical={vertical}
-            onClick={this.handleClick.bind(this, index)}
-            onKeyDown={this.handleKeyDown.bind(this, index)}
-            onMouseMove={this.handleChangeCharacterMap.bind(this, index)}
+            onClick={(key, event) => handleClick(index, key, event)}
+            onKeyDown={event => handleKeyDown(index, event)}
+            onMouseMove={(key, event) => handleChangeCharacterMap(index, key, event)}
           >
             {renderCharacter ? renderCharacter(hoverValue, index) : character}
           </Character>
         ))}
-      </ul>
-    );
-
-    return (
-      <FormPlaintextContext.Consumer>
-        {plaintext => (plaintext ? plaintextRate : rate)}
-      </FormPlaintextContext.Consumer>
+      </Component>
     );
   }
-}
+);
 
-export default compose<any, RateProps>(
-  withStyleProps<RateProps>({
-    hasSize: true,
-    hasColor: true
-  }),
-  defaultProps<RateProps>({
-    classPrefix: 'rate'
-  })
-)(Rate);
+Rate.displayName = 'Rate';
+Rate.defaultProps = defaultProps;
+Rate.propTypes = {
+  allowHalf: PropTypes.bool,
+  character: PropTypes.node,
+  classPrefix: PropTypes.string,
+  cleanable: PropTypes.bool,
+  defaultValue: PropTypes.number,
+  disabled: PropTypes.bool,
+  max: PropTypes.number,
+  renderCharacter: PropTypes.func,
+  readOnly: PropTypes.bool,
+  size: PropTypes.oneOf(SIZE),
+  value: PropTypes.number,
+  vertical: PropTypes.bool,
+  onChange: PropTypes.func,
+  onChangeActive: PropTypes.func
+};
+
+export default Rate;

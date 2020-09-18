@@ -10,10 +10,22 @@
 
 ## 获取组件
 
-```js
-import { Container, Header, Content, Footer, Sidebar } from 'rsuite';
-```
+<!--{include:(components/container/fragments/import.md)}-->
 
 ## 演示
 
-<!--{demo}-->
+### 基础布局
+
+<!--{include:`basic.md`}-->
+
+### 左侧导航布局
+
+<!--{include:`sidebar-page.md`}-->
+
+### 顶部导航布局
+
+<!--{include:`navbar-page.md`}-->
+
+### 登录页布局
+
+<!--{include:`login-page.md`}-->

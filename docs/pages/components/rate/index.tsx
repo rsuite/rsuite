@@ -4,21 +4,5 @@ import DefaultPage from '@/components/Page';
 import * as SvgIcons from '@/components/SvgIcons';
 
 export default function Page() {
-  return (
-    <DefaultPage
-      examples={[
-        'basic',
-        'size',
-        'color',
-        'half-select',
-        'vertical',
-        'hover',
-        'disabled',
-        'readonly',
-        'character',
-        'custom-character'
-      ]}
-      dependencies={{ Badge, Button, Toggle, Rate, Icon, SvgIcons }}
-    />
-  );
+  return <DefaultPage dependencies={{ Badge, Button, Toggle, Rate, Icon, SvgIcons }} />;
 }

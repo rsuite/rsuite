@@ -1,11 +1,11 @@
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { RadioContext } from '../RadioGroup/RadioGroup';
-
-import { useClassNames, useControlled, refType } from '../utils';
+import { useClassNames, useControlled, partitionHTMLProps, refType } from '../utils';
 import { WithAsProps } from '../@types/common';
 
-export interface RadioProps<T = any>
+export type ValueType = string | number;
+export interface RadioProps<T = ValueType>
   extends WithAsProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   /** HTML title */
@@ -45,7 +45,8 @@ export interface RadioProps<T = any>
 const defaultProps: Partial<RadioProps> = {
   as: 'div',
   classPrefix: 'radio',
-  tabIndex: 0
+  tabIndex: 0,
+  inputProps: {}
 };
 
 const Radio = React.forwardRef((props: RadioProps, ref) => {
@@ -69,10 +70,13 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
     ...rest
   } = props;
 
-  const { inline, name, value: groupValue, onChange: onGroupChange } = useContext(RadioContext) || {
-    inline: inlineProp,
-    name: nameProp
-  };
+  const {
+    inline = inlineProp,
+    name = nameProp,
+    value: groupValue,
+    controlled,
+    onChange: onGroupChange
+  } = useContext(RadioContext);
 
   const [checked, setChecked] = useControlled(
     typeof groupValue !== 'undefined' ? groupValue === value : checkedProp,
@@ -81,6 +85,7 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
 
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix({ inline, disabled, checked }));
+  const [htmlInputProps, restProps] = partitionHTMLProps(rest);
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,13 +100,18 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
     [disabled, onChange, onGroupChange, setChecked, value]
   );
 
+  if (typeof controlled !== 'undefined') {
+    // In uncontrolled situations, use defaultChecked instead of checked
+    htmlInputProps[controlled ? 'checked' : 'defaultChecked'] = checked;
+  }
+
   const input = (
     <span className={prefix('wrapper')}>
       <input
+        {...htmlInputProps}
         {...inputProps}
         ref={inputRef}
         type="radio"
-        checked={checked}
         name={name}
         tabIndex={tabIndex}
         disabled={disabled}
@@ -114,7 +124,7 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
 
   return (
     <Component
-      {...rest}
+      {...restProps}
       ref={ref}
       onClick={onClick}
       className={classes}
