@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 import isFunction from 'lodash/isFunction';
+import isNil from 'lodash/isNil';
 import DropdownMenu from './DropdownMenu';
 import Checkbox from '../Checkbox';
 import { useCascadeValue, useColumnData, useFlattenData, isSomeChildChecked } from './utils';
@@ -182,14 +183,9 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
      * 1.Have a value and the value is valid.
      * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
      */
-    const hasValue = selectedItems.length > 0 || (valueProp?.length > 0 && isFunction(renderValue));
+    let hasValue = selectedItems.length > 0 || (valueProp?.length > 0 && isFunction(renderValue));
 
     const { prefix, merge } = useClassNames(classPrefix);
-    const [classes, usedClassNameProps] = usePickerClassName({
-      ...props,
-      hasValue,
-      name: 'cascader'
-    });
 
     const [searchKeyword, setSearchKeyword] = useState('');
 
@@ -434,10 +430,6 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       );
     };
 
-    if (inline) {
-      return renderDropdownMenu();
-    }
-
     let selectedElement: React.ReactNode = placeholder;
 
     if (selectedItems.length > 0) {
@@ -461,6 +453,20 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
         selectedItems,
         selectedElement
       );
+      // If renderValue returns null or undefined, hasValue is false.
+      if (isNil(selectedElement)) {
+        hasValue = false;
+      }
+    }
+
+    const [classes, usedClassNameProps] = usePickerClassName({
+      ...props,
+      hasValue,
+      name: 'cascader'
+    });
+
+    if (inline) {
+      return renderDropdownMenu();
     }
 
     return (

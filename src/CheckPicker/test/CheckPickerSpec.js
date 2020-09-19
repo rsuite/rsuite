@@ -136,11 +136,6 @@ describe('CheckPicker', () => {
     assert.equal(instance2.querySelector('.rs-picker-toggle-value').innerText, `2${placeholder}`);
   });
 
-  it('Should not be call renderValue()', () => {
-    const instance = getDOMNode(<Dropdown renderValue={() => 'value'} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
-  });
-
   it('Should render a placeholder when value error', () => {
     const instance = getDOMNode(
       <Dropdown
@@ -322,6 +317,25 @@ describe('CheckPicker', () => {
     const list = instance.menu.querySelectorAll('.rs-check-item');
     assert.equal(list.length, 1);
     assert.ok(list[0].innerText, 'Louisa');
+  });
+
+  it('Should not be call renderValue()', () => {
+    const instance = getDOMNode(<Dropdown renderValue={() => 'value'} />);
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+  });
+
+  it('Should call renderValue', () => {
+    const instance1 = getDOMNode(<Dropdown value="Test" renderValue={() => '1'} />);
+    const instance2 = getDOMNode(<Dropdown value="Test" renderValue={() => null} />);
+    const instance3 = getDOMNode(<Dropdown value="Test" renderValue={() => undefined} />);
+
+    assert.equal(instance1.querySelector('.rs-picker-toggle-value').innerText, '1');
+    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+
+    assert.include(instance1.className, 'rs-picker-has-value');
+    assert.notInclude(instance2.className, 'rs-picker-has-value');
+    assert.notInclude(instance3.className, 'rs-picker-has-value');
   });
 
   describe('ref testing', () => {
