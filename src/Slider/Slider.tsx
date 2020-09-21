@@ -239,6 +239,8 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
           value={value}
           renderTooltip={renderTooltip}
           onDragMove={handleChangeValue}
+          aria-valuemax={max}
+          aria-valuemin={min}
         >
           {handleTitle}
         </Handle>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { DOMMouseMoveTracker, addStyle, getWidth } from 'dom-lib';
 
 import Tooltip from '../Tooltip';
-import { useClassNames } from '../utils';
+import { useClassNames, mergeRefs } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 interface HandleProps extends WithAsProps {
@@ -13,8 +13,9 @@ interface HandleProps extends WithAsProps {
   rtl?: boolean;
   position?: number;
   value?: number;
+  eventKey?: string;
   renderTooltip?: (value: number) => React.ReactNode;
-  onDragMove?: (event: React.DragEvent) => void;
+  onDragMove?: (event: React.DragEvent, dataset: DOMStringMap) => void;
   onDragStart?: (event: React.MouseEvent) => void;
   onDragEnd?: (event: React.MouseEvent) => void;
 }
@@ -47,6 +48,7 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
       tooltip,
       rtl,
       value,
+      eventKey,
       renderTooltip,
       onDragStart,
       onDragMove,
@@ -55,6 +57,7 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
     } = props;
     const [active, setActive] = useState(false);
 
+    const rootRef = useRef<HTMLDivElement>();
     const horizontalKey = rtl ? 'right' : 'left';
     const direction = vertical ? 'top' : horizontalKey;
     const styles = { ...style, [direction]: `${position}%` };
@@ -81,7 +84,7 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
     const handleDragMove = useCallback(
       (_deltaX: number, _deltaY: number, event: React.DragEvent) => {
         if (mouseMoveTracker.current?.isDragging()) {
-          onDragMove?.(event);
+          onDragMove?.(event, rootRef.current.dataset);
           setTooltipPosition();
         }
       },
@@ -90,8 +93,8 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
 
     const handleDragEnd = useCallback(
       (event: React.MouseEvent) => {
-        releaseMouseMoves();
         setActive(false);
+        releaseMouseMoves();
         onDragEnd?.(event);
       },
       [onDragEnd, releaseMouseMoves]
@@ -130,10 +133,15 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
 
     return (
       <Component
+        role="slider"
+        tabIndex={disabled ? null : 0}
+        aria-orientation={vertical ? 'vertical' : 'horizontal'}
+        aria-valuenow={value}
+        aria-disabled={disabled}
         {...rest}
-        ref={ref}
+        ref={mergeRefs(ref, rootRef)}
+        data-key={eventKey}
         className={handleClasses}
-        role="presentation"
         onMouseDown={handleMouseDown}
         onMouseEnter={handleMouseEnter}
         style={styles}

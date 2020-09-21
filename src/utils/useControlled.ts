@@ -9,20 +9,21 @@ import { useRef, useState, useCallback } from 'react';
  */
 function useControlled<T = any>(
   controlledValue: T,
-  defaultValue: T
-): [T, (value: T) => void, boolean] {
+  defaultValue: T,
+  forceUpdateState = false
+): [T, (value: T | ((v: T) => T)) => void, boolean] {
   const { current: isControlled } = useRef(controlledValue !== undefined);
-  const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
+  const [uncontrolledValue, setUncontrolledValue] = useState(controlledValue || defaultValue);
 
   const value = isControlled ? controlledValue : uncontrolledValue;
 
   const setValue = useCallback(
-    (nextValue: T) => {
-      if (!isControlled) {
+    (nextValue: T | ((v: T) => T)) => {
+      if (!isControlled || forceUpdateState) {
         setUncontrolledValue(nextValue);
       }
     },
-    [isControlled]
+    [forceUpdateState, isControlled]
   );
 
   return [value, setValue, isControlled];

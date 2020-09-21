@@ -10,7 +10,7 @@ export interface GraduatedProps extends WithAsProps {
   min?: number;
   max?: number;
   count?: number;
-  value?: number | [number, number];
+  value?: number | number[];
   renderMark?: (mark: number) => React.ReactNode;
 }
 
