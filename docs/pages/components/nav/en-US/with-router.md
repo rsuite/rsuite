@@ -3,16 +3,14 @@
 <!--start-code-->
 
 ```js
-const MyLink = React.forwardRef((props, ref) => {
-  const { href, as, ...rest } = props;
-  return (
-    <Link href={href} as={as}>
-      <a ref={ref} {...rest} />
-    </Link>
-  );
-});
+const NewLink = ({ href, children, ...rest }) => (
+	<Link to={href} {...rest}>
+		{children}
+	</Link>
+);
 
-const NavLink = props => <Nav.Item as={MyLink} {...props} />;
+const NavLink = (props) => <Nav.Item componentClass={NewLink} {...props} />;
+
 const instance = (
   <Nav>
     <NavLink href="/">Home</NavLink>
