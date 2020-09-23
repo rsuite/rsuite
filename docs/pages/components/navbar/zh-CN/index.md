@@ -8,13 +8,23 @@
 
 ## 获取组件
 
-```js
-import { Navbar } from 'rsuite';
-```
+<!--{include:(components/navbar/fragments/import.md)`}-->
 
 ## 演示
 
-<!--{demo}-->
+### 默认
+
+<!--{include:`basic.md`}-->
+
+### 外观
+
+`appearance` 属性设置导航栏外观:
+
+- 'default'(默认值) 默认导航栏。
+- 'inverse' 反色的导航栏。
+- 'subtle' 弱化的导航栏。
+
+<!--{include:`appearance.md`}-->
 
 ## Props
 

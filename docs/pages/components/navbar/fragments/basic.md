@@ -1,5 +1,3 @@
-### Default
-
 <!--start-code-->
 
 ```js

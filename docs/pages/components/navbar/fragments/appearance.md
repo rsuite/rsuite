@@ -1,11 +1,3 @@
-### 外观
-
-`appearance` 属性设置导航栏外观:
-
-- 'default'(默认值) 默认导航栏。
-- 'inverse' 反色的导航栏。
-- 'subtle' 弱化的导航栏。
-
 <!--start-code-->
 
 ```js
@@ -44,32 +36,18 @@ const NavBarInstance = ({ onSelect, activeKey, ...props }) => {
   );
 };
 
-class Demo extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleSelect = this.handleSelect.bind(this);
-    this.state = {
-      activeKey: null
-    };
-  }
-  handleSelect(eventKey) {
-    this.setState({
-      activeKey: eventKey
-    });
-  }
-  render() {
-    const { activeKey } = this.state;
-    return (
-      <div className="nav-wrapper">
-        <NavBarInstance activeKey={activeKey} onSelect={this.handleSelect} />
-        <hr />
-        <NavBarInstance appearance="inverse" activeKey={activeKey} onSelect={this.handleSelect} />
-        <hr />
-        <NavBarInstance appearance="subtle" activeKey={activeKey} onSelect={this.handleSelect} />
-      </div>
-    );
-  }
-}
+const Demo = () => {
+  const [activeKey, setActiveKey] = React.useState(null);
+  return (
+    <div className="nav-wrapper">
+      <NavBarInstance activeKey={activeKey} onSelect={setActiveKey} />
+      <hr />
+      <NavBarInstance appearance="inverse" activeKey={activeKey} onSelect={setActiveKey} />
+      <hr />
+      <NavBarInstance appearance="subtle" activeKey={activeKey} onSelect={setActiveKey} />
+    </div>
+  );
+};
 
 ReactDOM.render(<Demo />);
 ```
