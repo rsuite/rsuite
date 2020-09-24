@@ -1,4 +1,4 @@
-### Extensions: Responsive
+
 
 <!--start-code-->
 
@@ -8,6 +8,7 @@
  *
  * import ResponsiveNav from '@rsuite/responsive-nav';
  */
+
 const items = [
   { eventKey: 'A', label: 'Item A' },
   { eventKey: 'B', label: 'Item B' },

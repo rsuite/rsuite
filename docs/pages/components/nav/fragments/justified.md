@@ -1,5 +1,3 @@
-### Justified
-
 <!--start-code-->
 
 ```js

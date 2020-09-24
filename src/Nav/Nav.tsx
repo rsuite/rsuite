@@ -1,115 +1,145 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import setStatic from 'recompose/setStatic';
 import shallowEqual from '../utils/shallowEqual';
 
 import NavItem from './NavItem';
-import { prefix, getUnhandledProps, defaultProps, ReactChildren } from '../utils';
-import { getClassNamePrefix } from '../utils/prefix';
+import { getUnhandledProps, ReactChildren, useClassNames } from '../utils';
 import { NavbarContext } from '../Navbar/Navbar';
 import { SidenavContext } from '../Sidenav/Sidenav';
-import { NavProps } from './Nav.d';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-class Nav extends React.Component<NavProps> {
-  static contextType = SidenavContext;
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    className: PropTypes.string,
-    children: PropTypes.node,
-    appearance: PropTypes.oneOf(['default', 'subtle', 'tabs']),
-    // Reverse Direction of tabs/subtle
-    reversed: PropTypes.bool,
-    justified: PropTypes.bool,
-    vertical: PropTypes.bool,
-    pullRight: PropTypes.bool,
-    activeKey: PropTypes.any,
-    onSelect: PropTypes.func
-  };
-  static defaultProps = {
-    appearance: 'default'
-  };
+export interface NavProps<T = any>
+  extends WithAsProps,
+    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
+  /** Primary content */
+  children?: React.ReactNode;
 
-  render() {
-    const {
-      classPrefix,
-      appearance,
-      vertical,
-      justified,
-      reversed,
-      pullRight,
-      className,
-      children,
-      ...props
-    } = this.props;
+  /** sets appearance */
+  appearance?: 'default' | 'subtle' | 'tabs';
 
-    const {
-      sidenav = false,
-      expanded = false,
-      activeKey = props.activeKey,
-      onSelect = props.onSelect
-    } = this.context || {};
+  /** Reverse Direction of tabs/subtle */
+  reversed?: boolean;
 
-    const addPrefix = prefix(classPrefix);
-    const globalClassNamePrefix = getClassNamePrefix();
+  /** Justified navigation */
+  justified?: boolean;
 
-    const hasWaterline = appearance !== 'default';
+  /** Vertical navigation */
+  vertical?: boolean;
 
-    const items = ReactChildren.mapCloneElement(children, item => {
-      const { eventKey, active, ...rest } = item.props;
-      const displayName = item?.type?.displayName;
-      const hasTooltip = sidenav && !expanded;
+  /** appears on the right. */
+  pullRight?: boolean;
 
-      if (~displayName?.indexOf('(NavItem)')) {
-        return {
-          ...rest,
-          onSelect,
-          hasTooltip,
-          active: typeof activeKey === 'undefined' ? active : shallowEqual(activeKey, eventKey)
-        };
-      } else if (~displayName?.indexOf('(Dropdown)')) {
-        return {
-          ...rest,
-          onSelect,
-          activeKey,
-          showHeader: hasTooltip,
-          as: 'li'
-        };
-      }
+  /** Active key, corresponding to eventkey in <Nav.item>. */
+  activeKey?: T;
 
-      return null;
-    });
-
-    const unhandled = getUnhandledProps(Nav, props);
-
-    return (
-      <NavbarContext.Consumer>
-        {navbar => {
-          const classes = classNames(classPrefix, addPrefix(appearance), className, {
-            [`${globalClassNamePrefix}navbar-nav`]: navbar,
-            [`${globalClassNamePrefix}navbar-right`]: pullRight,
-            [`${globalClassNamePrefix}sidenav-nav`]: sidenav,
-            [addPrefix('horizontal')]: navbar || (!vertical && !sidenav),
-            [addPrefix('vertical')]: vertical || sidenav,
-            [addPrefix('justified')]: justified,
-            [addPrefix('reversed')]: reversed
-          });
-          return (
-            <div {...unhandled} className={classes}>
-              <ul>{items}</ul>
-              {hasWaterline && <div className={addPrefix('waterline')} />}
-            </div>
-          );
-        }}
-      </NavbarContext.Consumer>
-    );
-  }
+  /** Callback function triggered after selection */
+  onSelect?: (eventKey: T, event: React.SyntheticEvent<any>) => void;
 }
 
-const EnhancedNav = defaultProps<NavProps>({
-  classPrefix: 'nav'
-})(Nav);
+const defaultProps: Partial<NavProps> = {
+  classPrefix: 'nav',
+  appearance: 'default',
+  as: 'div'
+};
 
-setStatic('Item', NavItem)(EnhancedNav);
+interface NavComponent extends RsRefForwardingComponent<'div', NavProps> {
+  Item?: typeof NavItem;
+}
 
-export default EnhancedNav;
+const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTMLElement>) => {
+  const {
+    as: Component,
+    classPrefix,
+    appearance,
+    vertical,
+    justified,
+    reversed,
+    pullRight,
+    className,
+    children,
+    ...rest
+  } = props;
+
+  const {
+    sidenav = false,
+    expanded = false,
+    activeKey = props.activeKey,
+    onSelect = props.onSelect
+  } = React.useContext(SidenavContext) || {};
+
+  const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+
+  const hasWaterline = appearance !== 'default';
+
+  const items = ReactChildren.mapCloneElement(children, item => {
+    const { eventKey, active, ...rest } = item.props;
+    const displayName = item?.type?.displayName;
+    const hasTooltip = sidenav && !expanded;
+    if (~displayName?.indexOf('NavItem')) {
+      return {
+        ...rest,
+        onSelect,
+        hasTooltip,
+        active: typeof activeKey === 'undefined' ? active : shallowEqual(activeKey, eventKey)
+      };
+    } else if (~displayName?.indexOf('Dropdown')) {
+      return {
+        ...rest,
+        onSelect,
+        activeKey,
+        showHeader: hasTooltip,
+        as: 'li'
+      };
+    }
+
+    return null;
+  });
+
+  const unhandled = getUnhandledProps(Nav, rest);
+
+  return (
+    <NavbarContext.Consumer>
+      {navbar => {
+        const classes = merge(
+          className,
+          withClassPrefix(appearance, {
+            'navbar-nav': navbar,
+            'navbar-right': pullRight,
+            'sidenav-nav': sidenav,
+            horizontal: navbar || (!vertical && !sidenav),
+            vertical: vertical || sidenav,
+            justified: justified,
+            reversed: reversed
+          })
+        );
+
+        return (
+          <Component {...unhandled} ref={ref} className={classes}>
+            <ul>{items}</ul>
+            {hasWaterline && <div className={prefix('waterline')} />}
+          </Component>
+        );
+      }}
+    </NavbarContext.Consumer>
+  );
+});
+
+Nav.Item = NavItem;
+Nav.displayName = 'Nav';
+
+Nav.defaultProps = defaultProps;
+Nav.propTypes = {
+  classPrefix: PropTypes.string,
+  className: PropTypes.string,
+  children: PropTypes.node,
+  appearance: PropTypes.oneOf(['default', 'subtle', 'tabs']),
+  // Reverse Direction of tabs/subtle
+  reversed: PropTypes.bool,
+  justified: PropTypes.bool,
+  vertical: PropTypes.bool,
+  pullRight: PropTypes.bool,
+  activeKey: PropTypes.any,
+  onSelect: PropTypes.func
+};
+
+export default Nav;

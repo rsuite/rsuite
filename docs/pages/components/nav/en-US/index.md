@@ -15,7 +15,60 @@ import { Nav, Dropdown } from 'rsuite';
 
 ## Examples
 
-<!--{demo}-->
+
+### Default
+
+<!--{include:`basic.md`}-->
+
+### Appearance
+
+`appearance` values include:
+
+- 'default'
+- 'tabs'
+- 'subtle'
+
+<!--{include:`appearance.md`}-->
+
+> For subtle and tabs navigation, you can set a reversed property to reverse direction and fit all directions.
+> 
+### Vertical
+
+<!--{include:`vertical.md`}-->
+
+### Option Status
+
+- active
+- disabled
+
+<!--{include:`status.md`}-->
+
+### Justified
+
+<!--{include:`justified.md`}-->
+
+### Multi-level navigation
+
+<!--{include:`dropdown.md`}-->
+
+> Use the `<Dropdown>` component directly when using multi-level navigation.
+
+
+### With Icon
+
+<!--{include:`icon.md`}-->
+
+### Used with `Link` in `react-router`
+
+<!--{include:`with-router.md`}-->
+
+### Extensions: Responsive
+
+<!--{include:`responsive-nav.md`}-->
+
+### Extensions: Removable
+
+<!--{include:`removable-nav.md`}-->
 
 ## Props
 
@@ -30,9 +83,8 @@ import { Nav, Dropdown } from 'rsuite';
 | classPrefix | string `('nav')`                                           | The prefix of the component CSS class                      |
 | justified   | boolean                                                    | Justified navigation                                       |
 | onSelect    | (eventKey: any, event: SyntheticEvent&lt;any&gt;) => void, | Callback function triggered after selection                |
-| pills       | boolean                                                    | Pills navigation                                           |
 | pullRight   | boolean                                                    | appears on the right.                                      |
-| stacked     | boolean                                                    | Stacked navigation                                         |
+| vertical     | boolean                                                    | Stacked navigation                                         |
 
 ### `<Nav.Item>`
 

@@ -1,5 +1,3 @@
-### 多级导航
-
 <!--start-code-->
 
 ```js
@@ -28,5 +26,3 @@ ReactDOM.render(instance);
 ```
 
 <!--end-code-->
-
-> 当使用多级导航时，直接使用 `<Dropdown>` 组件。
