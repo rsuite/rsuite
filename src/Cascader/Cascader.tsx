@@ -57,20 +57,24 @@ export interface CascaderProps<T = ValueType>
   renderMenu?: (items: ItemDataType[], menu: React.ReactNode, parentNode?: any) => React.ReactNode;
 
   /** Custom render menu items */
-  renderMenuItem?: (itemLabel: React.ReactNode, item: any) => React.ReactNode;
+  renderMenuItem?: (itemLabel: React.ReactNode, item: ItemDataType) => React.ReactNode;
 
   /** Custom render selected items */
   renderValue?: (
-    value: any,
-    selectedPaths: any[],
+    value: T,
+    selectedPaths: ItemDataType[],
     selectedElement: React.ReactNode
   ) => React.ReactNode;
 
   /** Called when the option is selected */
-  onSelect?: (value: any, selectedPaths: any[], event: React.SyntheticEvent) => void;
+  onSelect?: (
+    value: ItemDataType,
+    selectedPaths: ItemDataType[],
+    event: React.SyntheticEvent
+  ) => void;
 
   /** Called when clean */
-  onClean?: (event: React.SyntheticEvent<any>) => void;
+  onClean?: (event: React.SyntheticEvent) => void;
 
   /** Called when searching */
   onSearch?: (searchKeyword: string, event: React.SyntheticEvent<HTMLElement>) => void;
@@ -169,14 +173,9 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
    * 1.Have a value and the value is valid.
    * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
    */
-  const hasValue = valueToPaths.length > 0 || (!isNil(value) && isFunction(renderValue));
+  let hasValue = valueToPaths.length > 0 || (!isNil(value) && isFunction(renderValue));
 
   const { prefix, merge } = useClassNames(classPrefix);
-  const [classes, usedClassNameProps] = usePickerClassName({
-    ...props,
-    hasValue,
-    name: 'cascader'
-  });
 
   const [searchKeyword, setSearchKeyword] = useState('');
 
@@ -428,10 +427,6 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
     );
   };
 
-  if (inline) {
-    return renderDropdownMenu();
-  }
-
   let selectedElement: any = placeholder;
 
   if (valueToPaths.length > 0) {
@@ -452,6 +447,20 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
 
   if (!isNil(value) && isFunction(renderValue)) {
     selectedElement = renderValue(value, valueToPaths, selectedElement);
+    // If renderValue returns null or undefined, hasValue is false.
+    if (isNil(selectedElement)) {
+      hasValue = false;
+    }
+  }
+
+  const [classes, usedClassNameProps] = usePickerClassName({
+    ...props,
+    hasValue,
+    name: 'cascader'
+  });
+
+  if (inline) {
+    return renderDropdownMenu();
   }
 
   return (

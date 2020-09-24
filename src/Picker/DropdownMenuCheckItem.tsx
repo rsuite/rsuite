@@ -78,11 +78,11 @@ const DropdownMenuCheckItem: RsRefForwardingComponent<
       role="menuitemcheckbox"
       aria-checked={active}
       aria-disabled={disabled}
+      data-key={value}
       {...rest}
       ref={ref}
       className={className}
       tabIndex={-1}
-      data-key={value}
     >
       <CheckboxItem
         value={value}

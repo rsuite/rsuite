@@ -6,6 +6,7 @@ import isFunction from 'lodash/isFunction';
 import remove from 'lodash/remove';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
+import isNil from 'lodash/isNil';
 import { filterNodesOfTree } from '../utils/treeUtils';
 import {
   createChainedFunction,
@@ -297,7 +298,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
      * 1.Have a value and the value is valid.
      * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
      */
-    const hasValue = selectedItems.length > 0 || (value?.length > 0 && isFunction(renderValue));
+    let hasValue = selectedItems.length > 0 || (value?.length > 0 && isFunction(renderValue));
 
     const { prefix, merge } = useClassNames(classPrefix);
 
@@ -317,6 +318,10 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
 
     if (value?.length > 0 && isFunction(renderValue)) {
       selectedElement = renderValue(value, selectedItems, selectedElement);
+      // If renderValue returns null or undefined, hasValue is false.
+      if (isNil(selectedElement)) {
+        hasValue = false;
+      }
     }
 
     const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {

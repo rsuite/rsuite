@@ -316,7 +316,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
      * 1.Have a value and the value is valid.
      * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
      */
-    const hasValue = !!activeItem || (!isNil(value) && isFunction(renderValue));
+    let hasValue = !!activeItem || (!isNil(value) && isFunction(renderValue));
 
     const { prefix, merge } = useClassNames(classPrefix);
 
@@ -328,6 +328,10 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
 
     if (!isNil(value) && isFunction(renderValue)) {
       selectedElement = renderValue(value, activeItem, selectedElement);
+      // If renderValue returns null or undefined, hasValue is false.
+      if (isNil(selectedElement)) {
+        hasValue = false;
+      }
     }
 
     const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {

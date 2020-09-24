@@ -1,92 +1,95 @@
-import * as React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import compose from 'recompose/compose';
+import { useClassNames, useControlled } from '../utils';
+import { WithAsProps, TypeAttributes } from '../@types/common';
 
-import { prefix, withStyleProps, defaultProps, getUnhandledProps } from '../utils';
-import { ToggleProps } from './Toggle.d';
+export interface ToggleProps extends WithAsProps {
+  /** Wheather to disabled toggle */
+  disabled?: boolean;
 
-interface ToggleState {
+  /** Checked（Controlled) */
   checked?: boolean;
+
+  /** Default checked */
+  defaultChecked?: boolean;
+
+  /** Checked display content */
+  checkedChildren?: React.ReactNode;
+
+  /** Unselected display content */
+  unCheckedChildren?: React.ReactNode;
+
+  /** Callback function when state changes */
+  onChange?: (checked: boolean, event: React.SyntheticEvent<HTMLInputElement>) => void;
+
+  /** Toggle size */
+  size?: Omit<TypeAttributes.Size, 'xs'>;
 }
 
-class Toggle extends React.Component<ToggleProps, ToggleState> {
-  static propTypes = {
-    disabled: PropTypes.bool,
-    checked: PropTypes.bool,
-    defaultChecked: PropTypes.bool,
-    checkedChildren: PropTypes.node,
-    unCheckedChildren: PropTypes.node,
-    classPrefix: PropTypes.string,
-    className: PropTypes.string,
-    onChange: PropTypes.func
-  };
-  constructor(props) {
-    super(props);
-    this.state = {
-      checked: props.defaultChecked
-    };
-  }
+const defaultProps: Partial<ToggleProps> = {
+  as: 'span',
+  classPrefix: 'btn-toggle'
+};
 
-  getCheckedStatus() {
-    const { checked } = this.props;
-    return typeof checked === 'undefined' ? this.state.checked : checked;
-  }
+const Toggle = React.forwardRef((props: ToggleProps, ref) => {
+  const {
+    as: Component,
+    disabled,
+    className,
+    checkedChildren,
+    unCheckedChildren,
+    classPrefix,
+    checked: checkedProp,
+    defaultChecked,
+    size,
+    onChange,
+    ...rest
+  } = props;
+  const [checked, setChecked] = useControlled(checkedProp, defaultChecked);
 
-  handleChange = (event: React.MouseEvent<any>) => {
-    const { onChange, disabled } = this.props;
-    const checked = !this.getCheckedStatus();
+  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix(size, { checked, disabled }));
+  const inner = checked ? checkedChildren : unCheckedChildren;
 
-    if (disabled) {
-      return;
-    }
+  const handleChange = useCallback(
+    (event: React.MouseEvent<any>) => {
+      if (disabled) {
+        return;
+      }
+      setChecked(!checked);
+      onChange?.(!checked, event);
+    },
+    [checked, disabled, onChange, setChecked]
+  );
 
-    this.setState({ checked });
-    onChange?.(checked, event);
-  };
+  return (
+    <Component
+      aria-pressed={checked}
+      aria-disabled={disabled}
+      aria-label={typeof inner === 'string' ? inner : null}
+      role="button"
+      {...rest}
+      ref={ref}
+      className={classes}
+      tabIndex={-1}
+      onClick={handleChange}
+    >
+      <span className={prefix('inner')}>{inner}</span>
+    </Component>
+  );
+});
 
-  render() {
-    const {
-      disabled,
-      className,
-      checkedChildren,
-      unCheckedChildren,
-      classPrefix,
-      ...rest
-    } = this.props;
+Toggle.displayName = 'Toggle';
+Toggle.defaultProps = defaultProps;
+Toggle.propTypes = {
+  disabled: PropTypes.bool,
+  checked: PropTypes.bool,
+  defaultChecked: PropTypes.bool,
+  checkedChildren: PropTypes.node,
+  unCheckedChildren: PropTypes.node,
+  classPrefix: PropTypes.string,
+  className: PropTypes.string,
+  onChange: PropTypes.func
+};
 
-    const checked = this.getCheckedStatus();
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, className, {
-      [addPrefix('checked')]: checked,
-      [addPrefix('disabled')]: disabled
-    });
-
-    const inner = checked ? checkedChildren : unCheckedChildren;
-    const unhandled = getUnhandledProps(Toggle, rest);
-
-    return (
-      <span
-        {...unhandled}
-        className={classes}
-        aria-pressed={checked}
-        aria-disabled={disabled}
-        aria-label={typeof inner === 'string' ? inner : null}
-        role="button"
-        tabIndex={-1}
-        onClick={this.handleChange}
-      >
-        <span className={addPrefix('inner')}>{inner}</span>
-      </span>
-    );
-  }
-}
-
-export default compose<any, ToggleProps>(
-  withStyleProps<ToggleProps>({
-    hasSize: true
-  }),
-  defaultProps<ToggleProps>({
-    classPrefix: 'btn-toggle'
-  })
-)(Toggle);
+export default Toggle;

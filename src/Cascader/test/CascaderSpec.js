@@ -229,6 +229,20 @@ describe('Cascader', () => {
     assert.equal(instance.menu.querySelectorAll('.rs-picker-cascader-menu-item')[1].innerText, '2');
   });
 
+  it('Should call renderValue', () => {
+    const instance1 = getDOMNode(<Cascader value="Test" renderValue={() => '1'} />);
+    const instance2 = getDOMNode(<Cascader value="Test" renderValue={() => null} />);
+    const instance3 = getDOMNode(<Cascader value="Test" renderValue={() => undefined} />);
+
+    assert.equal(instance1.querySelector('.rs-picker-toggle-value').innerText, '1');
+    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+
+    assert.include(instance1.className, 'rs-picker-has-value');
+    assert.notInclude(instance2.className, 'rs-picker-has-value');
+    assert.notInclude(instance3.className, 'rs-picker-has-value');
+  });
+
   describe('ref testing', () => {
     it('Should call onOpen', done => {
       const doneOp = () => {

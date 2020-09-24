@@ -1,55 +1,56 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import compose from 'recompose/compose';
+import { useClassNames } from '../utils';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-import { prefix, defaultProps, withStyleProps } from '../utils';
-import { TimelineItemProps } from './TimelineItem.d';
+export interface TimelineItemProps extends WithAsProps {
+  /** Whether the last item */
+  last?: boolean;
 
-class TimelineItem extends React.Component<TimelineItemProps> {
-  static propTypes = {
-    last: PropTypes.bool,
-    dot: PropTypes.node,
-    className: PropTypes.string,
-    children: PropTypes.node,
-    classPrefix: PropTypes.string,
-    as: PropTypes.elementType
-  };
-  render() {
-    const {
-      children,
-      as: Component,
-      classPrefix,
-      last,
-      className,
-      dot,
-      time,
-      ...rest
-    } = this.props;
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, className, {
-      [addPrefix('last')]: last
-    });
+  /** Customizing the Timeline item */
+  dot?: React.ReactNode;
+
+  /** The content of the component */
+  children?: React.ReactNode;
+
+  /** You can use a custom element type for this component */
+  as?: React.ElementType;
+
+  /** Customized time of timeline  **/
+  time?: React.ReactNode;
+}
+
+const defaultProps: Partial<TimelineItemProps> = {
+  as: 'li',
+  classPrefix: 'timeline-item'
+};
+
+const TimelineItem: RsRefForwardingComponent<'div', TimelineItemProps> = React.forwardRef(
+  (props: TimelineItemProps, ref) => {
+    const { as: Component, children, classPrefix, last, className, dot, time, ...rest } = props;
+    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix({ last }));
 
     return (
-      <Component className={classes} {...rest}>
-        <span className={addPrefix('tail')} />
-        <span className={classNames(addPrefix('dot'), { [addPrefix('custom-dot')]: !!dot })}>
-          {dot}
-        </span>
-        {time && <div className={addPrefix('time')}>{time}</div>}
-        <div className={addPrefix('content')}>{children}</div>
+      <Component {...rest} ref={ref} className={classes}>
+        <span className={prefix('tail')} />
+        <span className={prefix('dot', { 'custom-dot': dot })}>{dot}</span>
+        {time && <div className={prefix('time')}>{time}</div>}
+        <div className={prefix('content')}>{children}</div>
       </Component>
     );
   }
-}
+);
 
-export default compose<any, TimelineItemProps>(
-  withStyleProps<TimelineItemProps>({
-    hasColor: true
-  }),
-  defaultProps<TimelineItemProps>({
-    as: 'li',
-    classPrefix: 'timeline-item'
-  })
-)(TimelineItem);
+TimelineItem.displayName = 'TimelineItem';
+TimelineItem.defaultProps = defaultProps;
+TimelineItem.propTypes = {
+  last: PropTypes.bool,
+  dot: PropTypes.node,
+  className: PropTypes.string,
+  children: PropTypes.node,
+  classPrefix: PropTypes.string,
+  as: PropTypes.elementType
+};
+
+export default TimelineItem;

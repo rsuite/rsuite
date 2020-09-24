@@ -1,14 +1,7 @@
 import React from 'react';
-import ReactDOM, { findDOMNode } from 'react-dom';
+import ReactDOM from 'react-dom';
 import SelectPicker from '../index';
-import {
-  createTestContainer,
-  getDOMNode,
-  getStyle,
-  toRGB,
-  inChrome,
-  itChrome
-} from '@test/testUtils';
+import { createTestContainer, getStyle, toRGB, inChrome, itChrome } from '@test/testUtils';
 
 import '../styles/index';
 

@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { findDOMNode } from 'react-dom';
 import { globalKey, getDOMNode, getInstance } from '@test/testUtils';
 import Dropdown from '../MultiCascader';
 import Button from '../../Button';
 
 const namespace = `${globalKey}-picker`;
 const toggleClassName = `.${namespace}-toggle-placeholder`;
-const activeClassName = '.rs-dropdown-menu-item-active';
 
 const items = [
   {
@@ -42,50 +40,34 @@ describe('MultiCascader', () => {
   });
 
   it('Should render number', () => {
-    const instance = getDOMNode(
-      <Dropdown data={items} value={['abcde-1', 'abcde-2']} classPrefix="rs-picker" />
-    );
+    const instance = getDOMNode(<Dropdown data={items} value={['abcde-1', 'abcde-2']} />);
 
     assert.equal(instance.querySelector('.rs-picker-value-count').innerText, '1');
   });
 
   it('Should not render number', () => {
     const instance = getDOMNode(
-      <Dropdown
-        data={items}
-        value={['abcde-1', 'abcde-2']}
-        countable={false}
-        classPrefix="rs-picker"
-      />
+      <Dropdown data={items} value={['abcde-1', 'abcde-2']} countable={false} />
     );
 
     assert.ok(!instance.querySelector('.rs-picker-value-count'));
   });
 
   it('Should render the parent node by children value', () => {
-    const instance = getDOMNode(
-      <Dropdown data={items} value={['abcde-1', 'abcde-2']} classPrefix="rs-picker" />
-    );
+    const instance = getDOMNode(<Dropdown data={items} value={['abcde-1', 'abcde-2']} />);
 
     assert.equal(instance.querySelector('.rs-picker-value-list').innerText, 'abcde (All)');
   });
 
   it('Should render the parent node by children defaultValue', () => {
-    const instance = getDOMNode(
-      <Dropdown data={items} defaultValue={['abcde-1', 'abcde-2']} classPrefix="rs-picker" />
-    );
+    const instance = getDOMNode(<Dropdown data={items} defaultValue={['abcde-1', 'abcde-2']} />);
 
     assert.equal(instance.querySelector('.rs-picker-value-list').innerText, 'abcde (All)');
   });
 
   it('Should render the parent node by children value', () => {
     const instance = getDOMNode(
-      <Dropdown
-        data={items}
-        value={['abcde-1']}
-        classPrefix="rs-picker"
-        uncheckableItemValues={['abcde-2']}
-      />
+      <Dropdown data={items} value={['abcde-1']} uncheckableItemValues={['abcde-2']} />
     );
 
     assert.equal(instance.querySelector('.rs-picker-value-list').innerText, 'abcde (All)');
@@ -93,12 +75,7 @@ describe('MultiCascader', () => {
 
   it('Should render the children nodes', () => {
     const instance = getDOMNode(
-      <Dropdown
-        data={items}
-        value={['abcde-1', 'abcde-2']}
-        classPrefix="rs-picker"
-        uncheckableItemValues={['abcde']}
-      />
+      <Dropdown data={items} value={['abcde-1', 'abcde-2']} uncheckableItemValues={['abcde']} />
     );
 
     assert.equal(instance.querySelector('.rs-picker-value-list').innerText, 'abcde-1,abcde-2');
@@ -111,10 +88,10 @@ describe('MultiCascader', () => {
   });
 
   it('Should be inline', () => {
-    const instance = getDOMNode(<Dropdown inline />);
+    const instance = getInstance(<Dropdown inline />);
 
-    assert.ok(instance.className.match(/\brs-picker-inline\b/));
-    assert.ok(instance.querySelector('.rs-picker-cascader-menu-items'));
+    assert.ok(instance.menu.className.match(/\brs-picker-inline\b/));
+    assert.ok(instance.menu.querySelector('.rs-picker-cascader-menu-items'));
   });
 
   it('Should output a placeholder', () => {
@@ -126,7 +103,7 @@ describe('MultiCascader', () => {
 
   it('Should output a button', () => {
     const instance = getInstance(<Dropdown toggleAs="button" />);
-    assert.ok(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'button'));
+    assert.ok(instance.root.querySelector('button'));
   });
 
   it('Should be block', () => {
@@ -187,15 +164,13 @@ describe('MultiCascader', () => {
   it('Should be active by value', () => {
     const value = ['abcd'];
     const instance = getInstance(<Dropdown defaultOpen data={items} value={value} />);
-    const menu = findDOMNode(instance.menuContainerRef.current);
-    assert.equal(menu.querySelector('.rs-checkbox-checked').innerText, value);
+    assert.equal(instance.menu.querySelector('.rs-checkbox-checked').innerText, value);
   });
 
   it('Should be active by defaultValue', () => {
     const value = ['abcd'];
     const instance = getInstance(<Dropdown defaultOpen data={items} defaultValue={value} />);
-    const menu = findDOMNode(instance.menuContainerRef.current);
-    assert.equal(menu.querySelector('.rs-checkbox-checked').innerText, value);
+    assert.equal(instance.menu.querySelector('.rs-checkbox-checked').innerText, value);
   });
 
   it('Should call onSelect callback ', done => {
@@ -204,8 +179,7 @@ describe('MultiCascader', () => {
     };
 
     const instance = getInstance(<Dropdown data={items} defaultOpen onSelect={doneOp} />);
-    const menu = findDOMNode(instance.menuContainerRef.current);
-    ReactTestUtils.Simulate.click(menu.querySelector('.rs-checkbox'));
+    ReactTestUtils.Simulate.click(instance.menu.querySelector('.rs-checkbox'));
   });
 
   it('Should call onChange callback ', done => {
@@ -216,9 +190,7 @@ describe('MultiCascader', () => {
     };
 
     const instance = getInstance(<Dropdown data={items} defaultOpen onChange={doneOp} />);
-    const menu = findDOMNode(instance.menuContainerRef.current).querySelector(
-      '.rs-checkbox-wrapper'
-    );
+    const menu = instance.menu.querySelector('.rs-checkbox-wrapper');
 
     ReactTestUtils.Simulate.click(menu);
   });
@@ -273,6 +245,20 @@ describe('MultiCascader', () => {
 
   it('Should render a button by toggleAs={Button}', () => {
     const instance = getInstance(<Dropdown open data={items} toggleAs={Button} />);
-    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-btn');
+    assert.ok(instance.root.querySelector('.rs-btn'));
+  });
+
+  it('Should call renderValue', () => {
+    const instance1 = getDOMNode(<Dropdown value={['Test']} renderValue={() => '1'} />);
+    const instance2 = getDOMNode(<Dropdown value={['Test']} renderValue={() => null} />);
+    const instance3 = getDOMNode(<Dropdown value={['Test']} renderValue={() => undefined} />);
+
+    assert.equal(instance1.querySelector('.rs-picker-toggle-value').innerText, '1');
+    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+
+    assert.include(instance1.className, 'rs-picker-has-value');
+    assert.notInclude(instance2.className, 'rs-picker-has-value');
+    assert.notInclude(instance3.className, 'rs-picker-has-value');
   });
 });

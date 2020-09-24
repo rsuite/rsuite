@@ -1,92 +1,56 @@
-import * as React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import { useClassNames } from '../utils';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-import { prefix, defaultProps, getUnhandledProps } from '../utils';
-import { ProgressCircleProps } from './ProgressCircle.d';
+export interface ProgressCircleProps extends WithAsProps {
+  /** Line color */
+  strokeColor?: string;
 
-class ProgressCircle extends React.Component<ProgressCircleProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    strokeColor: PropTypes.string,
-    strokeLinecap: PropTypes.oneOf(['butt', 'round', 'square']),
-    trailColor: PropTypes.string,
-    percent: PropTypes.number,
-    strokeWidth: PropTypes.number,
-    trailWidth: PropTypes.number,
-    gapDegree: PropTypes.number,
-    gapPosition: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
-    showInfo: PropTypes.bool,
-    status: PropTypes.oneOf(['success', 'fail', 'active']),
-    classPrefix: PropTypes.string
-  };
+  /** The end of different types of open paths */
+  strokeLinecap?: 'butt' | 'round' | 'square';
 
-  static defaultProps = {
-    percent: 0,
-    strokeWidth: 6,
-    trailWidth: 6,
-    gapDegree: 0,
-    showInfo: true,
-    strokeLinecap: 'round',
-    gapPosition: 'top'
-  };
+  /** Tail color */
+  trailColor?: string;
 
-  getPathStyles() {
-    const { percent, strokeWidth, gapDegree, gapPosition, trailColor, strokeColor } = this.props;
+  /** Percent of progress */
+  percent?: number;
 
-    const radius = 50 - strokeWidth / 2;
+  /** Line width */
+  strokeWidth?: number;
 
-    let beginPositionX = 0;
-    let beginPositionY = -radius;
-    let endPositionX = 0;
-    let endPositionY = -2 * radius;
+  /** Tail width */
+  trailWidth?: number;
 
-    switch (gapPosition) {
-      case 'left':
-        beginPositionX = -radius;
-        beginPositionY = 0;
-        endPositionX = 2 * radius;
-        endPositionY = 0;
-        break;
-      case 'right':
-        beginPositionX = radius;
-        beginPositionY = 0;
-        endPositionX = -2 * radius;
-        endPositionY = 0;
-        break;
-      case 'bottom':
-        beginPositionY = radius;
-        endPositionY = 2 * radius;
-        break;
-      default:
-    }
+  /** Circular progress bar degree */
+  gapDegree?: number;
 
-    const pathString = `M 50,50 m ${beginPositionX},${beginPositionY}
-     a ${radius},${radius} 0 1 1 ${endPositionX},${-endPositionY}
-     a ${radius},${radius} 0 1 1 ${-endPositionX},${endPositionY}`;
+  /** Circular progress bar Notch position */
+  gapPosition?: 'top' | 'bottom' | 'left' | 'right';
 
-    const len = Math.PI * 2 * radius;
-    const trailPathStyle = {
-      stroke: trailColor,
-      strokeDasharray: `${len - gapDegree}px ${len}px`,
-      strokeDashoffset: `-${gapDegree / 2}px`
-    };
+  /** Show text */
+  showInfo?: boolean;
 
-    const strokePathStyle = {
-      stroke: strokeColor,
-      strokeDasharray: `${(percent / 100) * (len - gapDegree)}px ${len}px`,
-      strokeDashoffset: `-${gapDegree / 2}px`
-    };
+  /** Progress status */
+  status?: 'success' | 'fail' | 'active';
+}
 
-    return {
-      pathString,
-      trailPathStyle,
-      strokePathStyle
-    };
-  }
+const defaultProps: Partial<ProgressCircleProps> = {
+  as: 'div',
+  classPrefix: 'progress',
+  percent: 0,
+  strokeWidth: 6,
+  trailWidth: 6,
+  gapDegree: 0,
+  showInfo: true,
+  strokeLinecap: 'round',
+  gapPosition: 'top'
+};
 
-  render() {
+const ProgressCircle: RsRefForwardingComponent<'div', ProgressCircleProps> = React.forwardRef(
+  (props: ProgressCircleProps, ref) => {
     const {
+      as: Component,
       strokeWidth,
       trailWidth,
       percent,
@@ -96,31 +60,95 @@ class ProgressCircle extends React.Component<ProgressCircleProps> {
       status,
       classPrefix,
       style,
+      gapDegree,
+      gapPosition,
+      trailColor,
+      strokeColor,
       ...rest
-    } = this.props;
+    } = props;
 
-    const { pathString, trailPathStyle, strokePathStyle } = this.getPathStyles();
+    const getPathStyles = useCallback(() => {
+      const radius = 50 - strokeWidth / 2;
 
-    const addPrefix = prefix(classPrefix);
-    const unhandled = getUnhandledProps(ProgressCircle, rest);
-    const classes = classNames(classPrefix, addPrefix('circle'), className, {
-      [addPrefix(`circle-${status || ''}`)]: !!status
-    });
+      let beginPositionX = 0;
+      let beginPositionY = -radius;
+      let endPositionX = 0;
+      let endPositionY = -2 * radius;
+
+      switch (gapPosition) {
+        case 'left':
+          beginPositionX = -radius;
+          beginPositionY = 0;
+          endPositionX = 2 * radius;
+          endPositionY = 0;
+          break;
+        case 'right':
+          beginPositionX = radius;
+          beginPositionY = 0;
+          endPositionX = -2 * radius;
+          endPositionY = 0;
+          break;
+        case 'bottom':
+          beginPositionY = radius;
+          endPositionY = 2 * radius;
+          break;
+        default:
+      }
+
+      const pathString = `M 50,50 m ${beginPositionX},${beginPositionY}
+       a ${radius},${radius} 0 1 1 ${endPositionX},${-endPositionY}
+       a ${radius},${radius} 0 1 1 ${-endPositionX},${endPositionY}`;
+
+      const len = Math.PI * 2 * radius;
+      const trailPathStyle = {
+        stroke: trailColor,
+        strokeDasharray: `${len - gapDegree}px ${len}px`,
+        strokeDashoffset: `-${gapDegree / 2}px`
+      };
+
+      const strokePathStyle = {
+        stroke: strokeColor,
+        strokeDasharray: `${(percent / 100) * (len - gapDegree)}px ${len}px`,
+        strokeDashoffset: `-${gapDegree / 2}px`
+      };
+
+      return {
+        pathString,
+        trailPathStyle,
+        strokePathStyle
+      };
+    }, [gapDegree, gapPosition, percent, strokeColor, strokeWidth, trailColor]);
+
+    const { pathString, trailPathStyle, strokePathStyle } = getPathStyles();
+
+    const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
+    const classes = merge(
+      className,
+      withClassPrefix('circle', { [`circle-${status || ''}`]: !!status })
+    );
 
     const showIcon = status && status !== 'active';
     const info = showIcon ? (
-      <span className={addPrefix(`icon-${status || ''}`)} />
+      <span className={prefix(`icon-${status || ''}`)} />
     ) : (
       <span key={1}>{percent}%</span>
     );
 
     return (
-      <div className={classes} style={style}>
-        {showInfo ? <span className={addPrefix('circle-info')}>{info}</span> : null}
+      <Component
+        role="progressbar"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow={percent}
+        ref={ref}
+        className={classes}
+        style={style}
+      >
+        {showInfo ? <span className={prefix('circle-info')}>{info}</span> : null}
 
-        <svg className={addPrefix('svg')} viewBox="0 0 100 100" {...unhandled}>
+        <svg className={prefix('svg')} viewBox="0 0 100 100" {...rest}>
           <path
-            className={addPrefix('trail')}
+            className={prefix('trail')}
             d={pathString}
             strokeWidth={trailWidth || strokeWidth}
             fillOpacity="0"
@@ -129,17 +157,32 @@ class ProgressCircle extends React.Component<ProgressCircleProps> {
           <path
             d={pathString}
             strokeLinecap={strokeLinecap}
-            className={addPrefix('stroke')}
-            strokeWidth={this.props.percent === 0 ? 0 : strokeWidth}
+            className={prefix('stroke')}
+            strokeWidth={percent === 0 ? 0 : strokeWidth}
             fillOpacity="0"
             style={strokePathStyle}
           />
         </svg>
-      </div>
+      </Component>
     );
   }
-}
+);
 
-export default defaultProps<ProgressCircleProps>({
-  classPrefix: 'progress'
-})(ProgressCircle);
+ProgressCircle.displayName = 'ProgressCircle';
+ProgressCircle.defaultProps = defaultProps;
+ProgressCircle.propTypes = {
+  className: PropTypes.string,
+  strokeColor: PropTypes.string,
+  strokeLinecap: PropTypes.oneOf(['butt', 'round', 'square']),
+  trailColor: PropTypes.string,
+  percent: PropTypes.number,
+  strokeWidth: PropTypes.number,
+  trailWidth: PropTypes.number,
+  gapDegree: PropTypes.number,
+  gapPosition: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
+  showInfo: PropTypes.bool,
+  status: PropTypes.oneOf(['success', 'fail', 'active']),
+  classPrefix: PropTypes.string
+};
+
+export default ProgressCircle;

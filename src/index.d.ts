@@ -64,7 +64,6 @@ export {
   PlaceholderParagraphProps
 } from './Placeholder';
 export { default as Popover, PopoverProps } from './Popover';
-export { default as Portal, PortalProps } from './Portal';
 export { default as Progress, ProgressCircleProps, ProgressLineProps } from './Progress';
 export { default as Radio, RadioProps } from './Radio';
 export { default as RadioGroup, RadioGroupProps } from './RadioGroup';

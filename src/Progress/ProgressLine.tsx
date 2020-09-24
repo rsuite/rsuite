@@ -1,29 +1,45 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { prefix, defaultProps, getUnhandledProps } from '../utils';
-import { ProgressLineProps } from './ProgressLine.d';
+import { useClassNames } from '../utils';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-class ProgressLine extends React.Component<ProgressLineProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    percent: PropTypes.number,
-    strokeColor: PropTypes.string,
-    strokeWidth: PropTypes.number,
-    trailColor: PropTypes.string,
-    trailWidth: PropTypes.number,
-    showInfo: PropTypes.bool,
-    vertical: PropTypes.bool,
-    status: PropTypes.oneOf(['success', 'fail', 'active'])
-  };
-  static defaultProps = {
-    showInfo: true,
-    percent: 0
-  };
+export interface ProgressLineProps extends WithAsProps {
+  /** Line color */
+  strokeColor?: string;
 
-  render() {
+  /** Percent of progress */
+  percent?: number;
+
+  /** Line width */
+  strokeWidth?: number;
+
+  /** Trail color */
+  trailColor?: string;
+
+  /** Trail width */
+  trailWidth?: number;
+
+  /** Show text */
+  showInfo?: boolean;
+
+  /** Progress status */
+  status?: 'success' | 'fail' | 'active';
+
+  /**  The progress bar is displayed vertically */
+  vertical?: boolean;
+}
+
+const defaultProps: Partial<ProgressLineProps> = {
+  as: 'div',
+  classPrefix: 'progress',
+  showInfo: true,
+  percent: 0
+};
+
+const ProgressLine: RsRefForwardingComponent<'div', ProgressLineProps> = React.forwardRef(
+  (props: ProgressLineProps, ref) => {
     const {
+      as: Component,
       className,
       percent,
       strokeColor,
@@ -35,10 +51,10 @@ class ProgressLine extends React.Component<ProgressLineProps> {
       classPrefix,
       vertical,
       ...rest
-    } = this.props;
+    } = props;
 
-    const addPrefix = prefix(classPrefix);
-    const unhandled = getUnhandledProps(ProgressLine, rest);
+    const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+
     const lineInnerStyle = {
       backgroundColor: trailColor,
       [vertical ? 'width' : 'height']: trailWidth || strokeWidth
@@ -49,31 +65,55 @@ class ProgressLine extends React.Component<ProgressLineProps> {
       [vertical ? 'width' : 'height']: strokeWidth
     };
 
-    const classes = classNames(classPrefix, addPrefix('line'), className, {
-      [addPrefix('line-vertical')]: vertical,
-      [addPrefix(`line-${status || ''}`)]: !!status
-    });
+    const classes = merge(
+      className,
+      withClassPrefix('line', {
+        'line-vertical': vertical,
+        [`line-${status}`]: !!status
+      })
+    );
 
     const showIcon = status && status !== 'active';
     const info = showIcon ? (
-      <span className={addPrefix(`icon-${status || ''}`)} />
+      <span className={prefix(`icon-${status || ''}`)} />
     ) : (
-      <span className={addPrefix('info-status')}>{percent}%</span>
+      <span className={prefix('info-status')}>{percent}%</span>
     );
 
     return (
-      <div className={classes} {...unhandled}>
-        <div className={addPrefix('line-outer')}>
-          <div className={addPrefix('line-inner')} style={lineInnerStyle}>
-            <div className={addPrefix('line-bg')} style={percentStyle} />
+      <Component
+        role="progressbar"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow={percent}
+        {...rest}
+        ref={ref}
+        className={classes}
+      >
+        <div className={prefix('line-outer')}>
+          <div className={prefix('line-inner')} style={lineInnerStyle}>
+            <div className={prefix('line-bg')} style={percentStyle} />
           </div>
         </div>
-        {showInfo ? <div className={addPrefix('info')}>{info}</div> : null}
-      </div>
+        {showInfo ? <div className={prefix('info')}>{info}</div> : null}
+      </Component>
     );
   }
-}
+);
 
-export default defaultProps<ProgressLineProps>({
-  classPrefix: 'progress'
-})(ProgressLine);
+ProgressLine.displayName = 'ProgressLine';
+ProgressLine.defaultProps = defaultProps;
+ProgressLine.propTypes = {
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  percent: PropTypes.number,
+  strokeColor: PropTypes.string,
+  strokeWidth: PropTypes.number,
+  trailColor: PropTypes.string,
+  trailWidth: PropTypes.number,
+  showInfo: PropTypes.bool,
+  vertical: PropTypes.bool,
+  status: PropTypes.oneOf(['success', 'fail', 'active'])
+};
+
+export default ProgressLine;

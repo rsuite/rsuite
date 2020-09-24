@@ -1,23 +1,38 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { prefix, defaultProps } from '../utils';
-import { StepItemProps } from './StepItem.d';
+import { useClassNames } from '../utils';
+import { IconProps } from '../Icon';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-class StepItem extends React.Component<StepItemProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    style: PropTypes.object,
-    itemWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    status: PropTypes.oneOf(['finish', 'wait', 'process', 'error']),
-    icon: PropTypes.object,
-    stepNumber: PropTypes.number,
-    description: PropTypes.node,
-    title: PropTypes.node
-  };
-  render() {
+export interface StepItemProps extends WithAsProps {
+  /** The width of each item. */
+  itemWidth?: number | string;
+
+  /** Step status */
+  status?: 'finish' | 'wait' | 'process' | 'error';
+
+  /** Set icon */
+  icon?: React.ReactElement<IconProps>;
+
+  /** Number of Step */
+  stepNumber?: number;
+
+  /** The description of Steps item */
+  description?: React.ReactNode;
+
+  /** The title of Steps item */
+  title?: React.ReactNode;
+}
+
+const defaultProps: Partial<StepItemProps> = {
+  as: 'div',
+  classPrefix: 'steps-item'
+};
+
+const StepItem: RsRefForwardingComponent<'div', StepItemProps> = React.forwardRef(
+  (props: StepItemProps, ref) => {
     const {
+      as: Component,
       className,
       classPrefix,
       style,
@@ -28,42 +43,47 @@ class StepItem extends React.Component<StepItemProps> {
       description,
       title,
       ...rest
-    } = this.props;
+    } = props;
 
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(className, classPrefix, {
-      [addPrefix(`status-${status}`)]: status,
-      [addPrefix('custom')]: icon
-    });
-
-    const styles = {
-      width: itemWidth,
-      ...style
-    };
-
-    const contentNode = (
-      <div className={addPrefix('content')}>
-        {<div className={addPrefix('title')}>{title}</div>}
-        {description && <div className={addPrefix('description')}>{description}</div>}
-      </div>
+    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+    const classes = merge(
+      className,
+      withClassPrefix({ custom: icon, [`status-${status}`]: status })
     );
 
-    let iconNode = <span className={addPrefix(['icon', `icon-${status}`])}>{stepNumber}</span>;
+    const styles = { width: itemWidth, ...style };
+
+    let iconNode = <span className={prefix('icon', `icon-${status}`)}>{stepNumber}</span>;
 
     if (icon) {
-      iconNode = <span className={addPrefix('icon')}>{icon}</span>;
+      iconNode = <span className={prefix('icon')}>{icon}</span>;
     }
 
     return (
-      <div {...rest} className={classes} style={styles}>
-        <div className={addPrefix('tail')} />
-        <div className={addPrefix(['icon-wrapper', icon ? 'custom-icon' : ''])}>{iconNode}</div>
-        {contentNode}
-      </div>
+      <Component {...rest} ref={ref} className={classes} style={styles}>
+        <div className={prefix('tail')} />
+        <div className={prefix(['icon-wrapper', icon ? 'custom-icon' : ''])}>{iconNode}</div>
+        <div className={prefix('content')}>
+          {<div className={prefix('title')}>{title}</div>}
+          {description && <div className={prefix('description')}>{description}</div>}
+        </div>
+      </Component>
     );
   }
-}
+);
 
-export default defaultProps<StepItemProps>({
-  classPrefix: 'steps-item'
-})(StepItem);
+StepItem.displayName = 'StepItem';
+StepItem.defaultProps = defaultProps;
+StepItem.propTypes = {
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  style: PropTypes.object,
+  itemWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  status: PropTypes.oneOf(['finish', 'wait', 'process', 'error']),
+  icon: PropTypes.object,
+  stepNumber: PropTypes.number,
+  description: PropTypes.node,
+  title: PropTypes.node
+};
+
+export default StepItem;
