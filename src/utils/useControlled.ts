@@ -9,21 +9,22 @@ import { useRef, useState, useCallback } from 'react';
  */
 function useControlled<T = any>(
   controlledValue: T,
-  defaultValue: T,
-  forceUpdateState = false
+  defaultValue: T
 ): [T, (value: T | ((v: T) => T)) => void, boolean] {
   const { current: isControlled } = useRef(controlledValue !== undefined);
-  const [uncontrolledValue, setUncontrolledValue] = useState(controlledValue || defaultValue);
+  const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
 
+  // If it is controlled, this directly returns the attribute value.
   const value = isControlled ? controlledValue : uncontrolledValue;
 
   const setValue = useCallback(
     (nextValue: T | ((v: T) => T)) => {
-      if (!isControlled || forceUpdateState) {
+      // Only update the value in state when it is not under control.
+      if (!isControlled) {
         setUncontrolledValue(nextValue);
       }
     },
-    [forceUpdateState, isControlled]
+    [isControlled]
   );
 
   return [value, setValue, isControlled];

@@ -81,8 +81,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
 
   const [value, setValue] = useControlled<ValueType>(
     getValidValue(valueProp),
-    getValidValue(defaultValue),
-    true
+    getValidValue(defaultValue)
   );
 
   // The count of values ​​that can be entered.
@@ -142,8 +141,6 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
   );
 
   const handleDragMove = useEventCallback((event: React.MouseEvent, dataset: DOMStringMap) => {
-    // useState does not automatically merge and update the array, so value merge is handled here
-
     const { key: eventKey, range } = dataset;
     const value = range.split(',').map(i => +i);
     const nextValue = getValidValue(getRangeValue(value, eventKey, event));

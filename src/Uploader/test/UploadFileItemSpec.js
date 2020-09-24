@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 import UploadFileItem from '../UploadFileItem';
 
 let file = {
@@ -17,29 +17,17 @@ describe('UploadFileItem', () => {
   });
 
   it('Should render picture-text for layout', () => {
-    const instance = getInstance(<UploadFileItem listType="picture-text" file={file} />);
-    assert.include(getDOMNode(instance).className, 'rs-uploader-file-item-picture-text');
-    assert.ok(
-      ReactTestUtils.scryRenderedDOMComponentsWithClass(instance, 'rs-uploader-file-item-panel')
-    );
-    assert.ok(
-      ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-uploader-file-item-progress')
-    );
+    const instance = getDOMNode(<UploadFileItem listType="picture-text" file={file} />);
+    assert.include(instance.className, 'rs-uploader-file-item-picture-text');
+    assert.ok(instance.querySelector('.rs-uploader-file-item-panel'));
+    assert.ok(instance.querySelector('.rs-uploader-file-item-progress'));
   });
 
   it('Should render picture for layout', () => {
-    const instance = getInstance(<UploadFileItem listType="picture" file={file} />);
-    assert.include(getDOMNode(instance).className, 'rs-uploader-file-item-picture');
-    assert.equal(
-      ReactTestUtils.scryRenderedDOMComponentsWithClass(instance, 'rs-uploader-file-item-panel')
-        .length,
-      0
-    );
-    assert.equal(
-      ReactTestUtils.scryRenderedDOMComponentsWithClass(instance, 'rs-uploader-file-item-progress')
-        .length,
-      0
-    );
+    const instance = getDOMNode(<UploadFileItem listType="picture" file={file} />);
+    assert.include(instance.className, 'rs-uploader-file-item-picture');
+    assert.equal(instance.querySelectorAll('.rs-uploader-file-item-panel').length, 0);
+    assert.equal(instance.querySelectorAll('.rs-uploader-file-item-progress').length, 0);
   });
 
   it('Should be disabled', () => {
