@@ -251,7 +251,6 @@ describe('CheckTreePicker', () => {
     ReactTestUtils.Simulate.change(tree.menu.querySelector('div[data-key="0-0-1"] input'));
     ReactTestUtils.Simulate.keyDown(tree.toggle, { keyCode: KEY_CODE.UP });
 
-    console.log(tree.menu);
     assert.equal(tree.menu.querySelector(itemFocusClassName).innerText, 'tester0');
   });
 
