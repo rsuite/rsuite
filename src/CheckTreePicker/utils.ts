@@ -1,4 +1,4 @@
-import { isNil } from 'lodash';
+import { isNil, isUndefined } from 'lodash';
 import { CheckTreePickerProps } from './CheckTreePicker';
 import { shallowEqual, CHECK_STATE, CheckStateType } from '../utils';
 import { getChildrenByFlattenNodes } from '../utils/treeUtils';
@@ -107,15 +107,19 @@ export function getFormattedTree(
   nodes: TreeNodesType,
   props: Partial<CheckTreePickerProps>
 ) {
-  const { childrenKey } = props;
+  const { childrenKey, cascade } = props;
   return data.map((node: any) => {
     const formatted: any = { ...node };
     const curNode = nodes[node.refKey];
     if (curNode) {
+      const checkState = !isUndefined(cascade)
+        ? getNodeCheckState({ node: curNode, cascade, nodes, childrenKey })
+        : undefined;
       formatted.check = curNode.check;
       formatted.expand = curNode.expand;
       formatted.uncheckable = curNode.uncheckable;
       formatted.parent = curNode.parent;
+      formatted.checkState = checkState;
       if (node[childrenKey]?.length > 0) {
         formatted[childrenKey] = getFormattedTree(formatted[childrenKey], nodes, props);
       }

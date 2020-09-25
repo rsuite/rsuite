@@ -256,7 +256,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
           expandItemValues
         ).filter(n => n.showNode && n.visible);
       } else {
-        formattedNodes = filteredData.map((dataItem, index) => render?.(dataItem, index, 0));
+        formattedNodes = filteredData.map((dataItem, index) => render?.(dataItem, index, 1));
       }
 
       return formattedNodes;

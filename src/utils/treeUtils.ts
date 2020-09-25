@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { intersection, isUndefined, omit, isArray, isNil, clone, isEmpty } from 'lodash';
 import shallowEqualArray from '../utils/shallowEqualArray';
-import { TreeNodeType, TreeNodesType } from '../CheckTreePicker/utils';
+import { TreeNodeType, TreeNodesType, getNodeCheckState } from '../CheckTreePicker/utils';
 import { TREE_NODE_DROP_POSITION, shallowEqual } from '../utils';
 import { CheckTreePickerProps } from '../CheckTreePicker/CheckTreePicker';
 import { ItemDataType } from '../@types/common';
@@ -646,13 +646,17 @@ export function useFlattenTreeData({
   const formatVirtualizedTreeData = (
     nodes: TreeNodesType,
     data: any[],
-    expandItemValues: ItemDataType[]
+    expandItemValues: ItemDataType[],
+    cascade?: boolean
   ) => {
     return flattenTree(data, childrenKey, (node: any) => {
       let formatted = {};
       const curNode = nodes?.[node.refKey];
       const parentKeys = getNodeParentKeys(nodes, curNode, valueKey);
       if (curNode) {
+        const checkState = !isUndefined(cascade)
+          ? getNodeCheckState({ node: curNode, cascade, nodes, childrenKey })
+          : undefined;
         formatted = {
           ...node,
           check: curNode.check,
@@ -660,6 +664,7 @@ export function useFlattenTreeData({
           hasChildren: !!node[childrenKey],
           layer: curNode.layer,
           parent: curNode.parent,
+          checkState,
           // when parent node fold, children nodes should be hidden
           showNode: curNode.parent
             ? shouldShowNodeByParentExpanded(expandItemValues, parentKeys)

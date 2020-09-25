@@ -37,7 +37,6 @@ import {
   getDisabledState,
   getCheckTreePickerDefaultValue,
   getSelectedItems,
-  getNodeCheckState,
   isNodeUncheckable,
   TreeNodeType
 } from './utils';
@@ -266,12 +265,14 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         formattedNodes = formatVirtualizedTreeData(
           flattenNodes,
           filteredData,
-          expandItemValues
+          expandItemValues,
+          cascade
         ).filter(item => item.showNode && item.visible);
       } else {
-        formattedNodes = getFormattedTree(filteredData, flattenNodes, { childrenKey }).map(node =>
-          render?.(node, 0)
-        );
+        formattedNodes = getFormattedTree(filteredData, flattenNodes, {
+          childrenKey,
+          cascade
+        }).map(node => render?.(node, 1));
       }
       return formattedNodes;
     },
@@ -281,7 +282,8 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       flattenNodes,
       formatVirtualizedTreeData,
       virtualized,
-      childrenKey
+      childrenKey,
+      cascade
     ]
   );
 
@@ -298,7 +300,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       loading: loadingNodeValues.some(item => shallowEqual(item, node[valueKey])),
       disabled: getDisabledState(flattenNodes, node, { disabledItemValues, valueKey }),
       nodeData: node,
-      checkState: getNodeCheckState({ node, cascade, nodes: flattenNodes, childrenKey }),
+      checkState: node.checkState,
       uncheckable: isNodeUncheckable(node, { uncheckableItemValues, valueKey }),
       allUncheckable: isAllSiblingNodeUncheckable(
         node,
