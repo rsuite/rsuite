@@ -1,32 +1,7 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { defaultProps } from '../utils';
+import createComponent, { ComponentProps } from '../utils/createComponent';
 
-export interface NavbarBodyProps {
-  classPrefix?: string;
-  className?: string;
-  children?: React.ReactNode;
-}
+export type NavbarBodyProps = ComponentProps;
 
-class NavbarBody extends React.Component<NavbarBodyProps> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    className: PropTypes.string,
-    children: PropTypes.node
-  };
-  render() {
-    const { children, classPrefix, className, ...props } = this.props;
-    const classes = classNames(classPrefix, className);
+const NavbarBody = createComponent({ name: 'NavbarBody' });
 
-    return (
-      <div {...props} className={classes}>
-        {children}
-      </div>
-    );
-  }
-}
-
-export default defaultProps<NavbarBodyProps>({
-  classPrefix: 'navbar-body'
-})(NavbarBody);
+export default NavbarBody;

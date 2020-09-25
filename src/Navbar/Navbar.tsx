@@ -1,53 +1,48 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import setStatic from 'recompose/setStatic';
+import React from 'react';
 import NavbarBody from './NavbarBody';
 import NavbarHeader from './NavbarHeader';
-import { prefix, defaultProps, createContext } from '../utils';
-import { NavbarProps } from './Navbar.d';
+import { createContext, useClassNames } from '../utils';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-export const NavbarContext = createContext(null);
+export const NavbarContext = createContext<boolean>(null);
 
-class Navbar extends React.Component<NavbarProps> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    className: PropTypes.string,
-    appearance: PropTypes.oneOf(['default', 'inverse', 'subtle']),
-    as: PropTypes.elementType,
-    hasChildContext: PropTypes.bool
-  };
-  static defaultProps = {
-    hasChildContext: true,
-    appearance: 'default'
-  };
+type AppearanceType = 'default' | 'inverse' | 'subtle';
 
-  render() {
-    const {
-      className,
-      as: Component,
-      hasChildContext,
-      classPrefix,
-      appearance,
-      ...rest
-    } = this.props;
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, addPrefix(appearance), className);
+export interface NavbarProps extends WithAsProps {
+  appearance?: AppearanceType;
+  classPrefix?: string;
+  hasChildContext?: boolean;
+}
 
+interface NavbarComponent extends RsRefForwardingComponent<'div', NavbarProps> {
+  Header?: typeof NavbarHeader;
+  Body?: typeof NavbarBody;
+}
+
+const defaultProps: Partial<NavbarProps> = {
+  as: 'div',
+  hasChildContext: true,
+  classPrefix: 'navbar',
+  appearance: 'default'
+};
+
+const Navbar: NavbarComponent = React.forwardRef(
+  (props: NavbarProps, ref: React.Ref<HTMLElement>) => {
+    const { className, as: Component, hasChildContext, classPrefix, appearance, ...rest } = props;
+    const { withClassPrefix, merge } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix(appearance));
     return (
       <NavbarContext.Provider value={hasChildContext}>
-        <Component {...rest} className={classes} role="navigation" />
+        <Component {...rest} ref={ref} className={classes} role="navigation" />
       </NavbarContext.Provider>
     );
   }
-}
+);
 
-const EnhancedNavbar = defaultProps<NavbarProps>({
-  as: 'div',
-  classPrefix: 'navbar'
-})(Navbar);
+Navbar.Header = NavbarHeader;
+Navbar.Body = NavbarBody;
 
-setStatic('Header', NavbarHeader)(EnhancedNavbar);
-setStatic('Body', NavbarBody)(EnhancedNavbar);
+Navbar.displayName = 'Navbar';
+Navbar.defaultProps = defaultProps;
 
-export default EnhancedNavbar;
+export default Navbar;

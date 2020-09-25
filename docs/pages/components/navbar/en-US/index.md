@@ -8,13 +8,23 @@ For navigation at the top of the page.
 
 ## Usage
 
-```js
-import { Navbar } from 'rsuite';
-```
+<!--{include:(components/navbar/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Default
+
+<!--{include:`basic.md`}-->
+
+### Appearance
+
+`appearance` values include:
+
+- 'default'
+- 'inverse'
+- 'subtle'
+
+<!--{include:`appearance.md`}-->
 
 ## Props
 
