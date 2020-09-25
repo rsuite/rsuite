@@ -28,14 +28,7 @@ const defaultProps: Partial<NavbarProps> = {
 
 const Navbar: NavbarComponent = React.forwardRef(
   (props: NavbarProps, ref: React.Ref<HTMLElement>) => {
-    const {
-      className,
-      as: Component = 'div',
-      hasChildContext = true,
-      classPrefix = 'navbar',
-      appearance = 'default',
-      ...rest
-    } = props;
+    const { className, as: Component, hasChildContext, classPrefix, appearance, ...rest } = props;
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix(appearance));
     return (
