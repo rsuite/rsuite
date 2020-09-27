@@ -37,7 +37,6 @@ import {
   getDisabledState,
   getCheckTreePickerDefaultValue,
   getSelectedItems,
-  getNodeCheckState,
   isNodeUncheckable,
   TreeNodeType
 } from './utils';
@@ -54,8 +53,8 @@ import {
   focusPreviousItem,
   toggleExpand,
   getActiveItem,
-  getScrollToIndex,
-  useGetTreeNodeChildren
+  useGetTreeNodeChildren,
+  focusToTreeNode
 } from '../utils/treeUtils';
 
 import { listPickerPropTypes, listPickerDefaultProps } from '../Picker/propTypes';
@@ -257,57 +256,80 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   /**
    * get formatted nodes for render tree
+   * @params render - renderNode function. only used when virtualized setting false
    */
-  const getFormattedNodes = useCallback(() => {
-    let formattedNodes = [];
-    if (virtualized) {
-      formattedNodes = formatVirtualizedTreeData(
-        flattenNodes,
-        filteredData,
-        expandItemValues
-      ).filter(item => item.showNode && item.visible);
-    } else {
-      formattedNodes = getFormattedTree(filteredData, flattenNodes, { childrenKey }).map(node =>
-        renderNode(node, 0)
-      );
-    }
-    return formattedNodes;
-  }, [
-    expandItemValues,
-    filteredData,
-    flattenNodes,
-    formatVirtualizedTreeData,
-    virtualized,
-    childrenKey
-  ]);
-
-  const focusNode = useCallback(
-    (focusItemElement?: Element) => {
-      const container = treeViewRef.current;
-      if (!container) {
-        return;
+  const getFormattedNodes = useCallback(
+    (render?: any) => {
+      let formattedNodes = [];
+      if (virtualized) {
+        formattedNodes = formatVirtualizedTreeData(
+          flattenNodes,
+          filteredData,
+          expandItemValues,
+          cascade
+        ).filter(item => item.showNode && item.visible);
+      } else {
+        formattedNodes = getFormattedTree(filteredData, flattenNodes, {
+          childrenKey,
+          cascade
+        }).map(node => render?.(node, 1));
       }
-
-      if (virtualized && activeNode) {
-        const scrollIndex = getScrollToIndex(getFormattedNodes(), activeNode?.[valueKey], valueKey);
-        listRef?.current?.scrollToRow(scrollIndex);
-        return;
-      }
-
-      const activeItem: any =
-        focusItemElement ?? container.querySelector(`.${checkTreePrefix('node-active')}`);
-      if (!activeItem) {
-        return;
-      }
-
-      activeItem?.focus?.();
+      return formattedNodes;
     },
-    [checkTreePrefix, activeNode, getFormattedNodes, valueKey, virtualized]
+    [
+      expandItemValues,
+      filteredData,
+      flattenNodes,
+      formatVirtualizedTreeData,
+      virtualized,
+      childrenKey,
+      cascade
+    ]
   );
+
+  const getTreeNodeProps = (node: any, layer: number) => {
+    return {
+      as: Component,
+      rtl,
+      value: node[valueKey],
+      label: node[labelKey],
+      layer,
+      focus: shallowEqual(focusItemValue, node[valueKey]),
+      expand: node.expand,
+      visible: node.visible,
+      loading: loadingNodeValues.some(item => shallowEqual(item, node[valueKey])),
+      disabled: getDisabledState(flattenNodes, node, { disabledItemValues, valueKey }),
+      nodeData: node,
+      checkState: node.checkState,
+      uncheckable: isNodeUncheckable(node, { uncheckableItemValues, valueKey }),
+      allUncheckable: isAllSiblingNodeUncheckable(
+        node,
+        flattenNodes,
+        uncheckableItemValues,
+        valueKey
+      ),
+      onSelect: handleSelect,
+      onExpand: handleExpand,
+      onRenderTreeNode: renderTreeNode,
+      onRenderTreeIcon: renderTreeIcon
+    };
+  };
+
+  const focusNode = useCallback(() => {
+    focusToTreeNode({
+      list: listRef.current,
+      valueKey,
+      selector: `.${checkTreePrefix('node-active')}`,
+      activeNode,
+      virtualized,
+      container: treeViewRef.current,
+      formattedNodes: getFormattedNodes()
+    });
+  }, [checkTreePrefix, activeNode, getFormattedNodes, valueKey, virtualized]);
 
   useEffect(() => {
     setValue(getCheckTreePickerDefaultValue(value, uncheckableItemValues));
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setFilteredData(data, searchKeywordState);
@@ -338,34 +360,6 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     });
     forceUpdate();
   }, [cascade, value, uncheckableItemValues, unSerializeList, flattenNodes, forceUpdate]);
-
-  const getTreeNodeProps = (node: any, layer: number) => {
-    return {
-      as: Component,
-      rtl,
-      value: node[valueKey],
-      label: node[labelKey],
-      layer,
-      focus: shallowEqual(focusItemValue, node[valueKey]),
-      expand: node.expand,
-      visible: node.visible,
-      loading: loadingNodeValues.some(item => shallowEqual(item, node[valueKey])),
-      disabled: getDisabledState(flattenNodes, node, { disabledItemValues, valueKey }),
-      nodeData: node,
-      checkState: getNodeCheckState({ node, cascade, nodes: flattenNodes, childrenKey }),
-      uncheckable: isNodeUncheckable(node, { uncheckableItemValues, valueKey }),
-      allUncheckable: isAllSiblingNodeUncheckable(
-        node,
-        flattenNodes,
-        uncheckableItemValues,
-        valueKey
-      ),
-      onSelect: handleSelect,
-      onExpand: handleExpand,
-      onRenderTreeNode: renderTreeNode,
-      onRenderTreeIcon: renderTreeIcon
-    };
-  };
 
   const toggleUpChecked = useCallback(
     (nodes: TreeNodesType, node: TreeNodeType, checked: boolean) => {
@@ -703,7 +697,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       virtualized
     });
 
-    const formattedNodes = getFormattedNodes();
+    const formattedNodes = getFormattedNodes(renderNode);
 
     if (!formattedNodes.some(v => v !== null)) {
       return <div className={prefix('none')}>{locale.noResultsText}</div>;

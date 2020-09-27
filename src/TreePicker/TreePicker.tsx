@@ -246,20 +246,23 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
 
   const activeNode = getTreeActiveNode(flattenNodes, value, valueKey);
 
-  const getFormattedNodes = useCallback(() => {
-    let formattedNodes = [];
-    if (virtualized) {
-      formattedNodes = formatVirtualizedTreeData(
-        flattenNodes,
-        filteredData,
-        expandItemValues
-      ).filter(n => n.showNode && n.visible);
-    } else {
-      formattedNodes = filteredData.map((dataItem, index) => renderNode(dataItem, index, 0));
-    }
+  const getFormattedNodes = useCallback(
+    (render?: any) => {
+      let formattedNodes = [];
+      if (virtualized) {
+        formattedNodes = formatVirtualizedTreeData(
+          flattenNodes,
+          filteredData,
+          expandItemValues
+        ).filter(n => n.showNode && n.visible);
+      } else {
+        formattedNodes = filteredData.map((dataItem, index) => render?.(dataItem, index, 1));
+      }
 
-    return formattedNodes;
-  }, [expandItemValues, filteredData, flattenNodes, formatVirtualizedTreeData, virtualized]);
+      return formattedNodes;
+    },
+    [expandItemValues, filteredData, flattenNodes, formatVirtualizedTreeData, virtualized]
+  );
 
   const focusNode = useCallback(
     (focusItemElement?: Element) => {
@@ -705,7 +708,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       virtualized
     });
 
-    const formattedNodes = getFormattedNodes();
+    const formattedNodes = getFormattedNodes(renderNode);
     const styles = inline ? { height, ...style } : {};
     return (
       <div>

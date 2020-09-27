@@ -162,7 +162,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
     const { locale } = useCustom<PickerLocaleType>('Picker', overrideLocale);
     const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue);
 
-    // Used to hover the focuse item  when trigger `onKeydown`
+    // Used to hover the focus item  when trigger `onKeydown`
     const { focusItemValue, setFocusItemValue, onKeyDown } = useFocusItemValue(value, {
       data,
       valueKey,
