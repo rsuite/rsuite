@@ -1,13 +1,14 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { intersection, isUndefined, omit, isArray, isNil, clone, isEmpty } from 'lodash';
 import shallowEqualArray from '../utils/shallowEqualArray';
-import { TreeNodeType, TreeNodesType } from '../CheckTreePicker/utils';
+import { TreeNodeType, TreeNodesType, getNodeCheckState } from '../CheckTreePicker/utils';
 import { TREE_NODE_DROP_POSITION, shallowEqual } from '../utils';
 import { CheckTreePickerProps } from '../CheckTreePicker/CheckTreePicker';
 import { ItemDataType } from '../@types/common';
 import { TreePickerProps } from '../TreePicker/TreePicker';
 import { shouldDisplay } from '../Picker';
 import reactToString from './reactToString';
+import { ListInstance } from '../Picker/VirtualizedList';
 
 type PartialTreeProps = Partial<TreePickerProps | CheckTreePickerProps>;
 
@@ -645,13 +646,17 @@ export function useFlattenTreeData({
   const formatVirtualizedTreeData = (
     nodes: TreeNodesType,
     data: any[],
-    expandItemValues: ItemDataType[]
+    expandItemValues: ItemDataType[],
+    cascade?: boolean
   ) => {
     return flattenTree(data, childrenKey, (node: any) => {
       let formatted = {};
       const curNode = nodes?.[node.refKey];
       const parentKeys = getNodeParentKeys(nodes, curNode, valueKey);
       if (curNode) {
+        const checkState = !isUndefined(cascade)
+          ? getNodeCheckState({ node: curNode, cascade, nodes, childrenKey })
+          : undefined;
         formatted = {
           ...node,
           check: curNode.check,
@@ -659,6 +664,7 @@ export function useFlattenTreeData({
           hasChildren: !!node[childrenKey],
           layer: curNode.layer,
           parent: curNode.parent,
+          checkState,
           // when parent node fold, children nodes should be hidden
           showNode: curNode.parent
             ? shouldShowNodeByParentExpanded(expandItemValues, parentKeys)
@@ -671,7 +677,7 @@ export function useFlattenTreeData({
 
   useEffect(() => {
     flattenTreeData(data, '0');
-  }, [data]);
+  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return {
     forceUpdate,
@@ -805,4 +811,43 @@ export function useGetTreeNodeChildren(
     [concatChildren, valueKey]
   );
   return { data, setData, loadingNodeValues, loadChildren };
+}
+
+export interface FocusToTreeNodeProps {
+  selector: string;
+  valueKey: string;
+  activeNode: any;
+  virtualized: boolean;
+  container: HTMLDivElement;
+  list: ListInstance;
+  formattedNodes: TreeNodesType[];
+}
+
+/**
+ * Focus to active tree node.
+ * @param param0
+ */
+export function focusToTreeNode({
+  list,
+  valueKey,
+  activeNode,
+  virtualized,
+  container,
+  selector,
+  formattedNodes
+}: FocusToTreeNodeProps) {
+  if (!container) return;
+
+  if (virtualized && activeNode) {
+    const scrollIndex = getScrollToIndex(formattedNodes, activeNode?.[valueKey], valueKey);
+    list.scrollToRow(scrollIndex);
+    return;
+  }
+
+  const activeItem: any = container.querySelector(selector);
+  if (!activeItem) {
+    return;
+  }
+
+  activeItem?.focus?.();
 }
