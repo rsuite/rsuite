@@ -5,7 +5,6 @@ import isUndefined from 'lodash/isUndefined';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import omit from 'lodash/omit';
-import shallowEqual from '../utils/shallowEqual';
 import { findNodeOfTree } from '../utils/treeUtils';
 import {
   createChainedFunction,
@@ -14,7 +13,8 @@ import {
   useClassNames,
   useControlled,
   KEY_CODE,
-  mergeRefs
+  mergeRefs,
+  shallowEqual
 } from '../utils';
 import {
   DropdownMenu,
@@ -27,15 +27,15 @@ import {
   useFocusItemValue,
   usePickerClassName,
   useSearch,
-  usePublicMethods
-} from '../Picker';
-import { PickerComponent, PickerLocaleType } from '../Picker/types';
-import {
+  usePublicMethods,
   pickerToggleTriggerProps,
   OverlayTriggerInstance,
-  PositionChildProps
-} from '../Picker/PickerToggleTrigger';
-import { listPickerPropTypes } from '../Picker/propTypes';
+  PositionChildProps,
+  listPickerPropTypes,
+  PickerComponent,
+  PickerLocaleType
+} from '../Picker';
+
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
 import { ListProps } from 'react-virtualized/dist/commonjs/List';
 
