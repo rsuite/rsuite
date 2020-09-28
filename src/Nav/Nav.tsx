@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import shallowEqual from '../utils/shallowEqual';
 
 import NavItem from './NavItem';
-import { getUnhandledProps, ReactChildren, useClassNames } from '../utils';
+import { ReactChildren, useClassNames } from '../utils';
 import { NavbarContext } from '../Navbar/Navbar';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
@@ -11,9 +11,6 @@ import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 export interface NavProps<T = any>
   extends WithAsProps,
     Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
-  /** Primary content */
-  children?: React.ReactNode;
-
   /** sets appearance */
   appearance?: 'default' | 'subtle' | 'tabs';
 
@@ -57,15 +54,13 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
     pullRight,
     className,
     children,
+    activeKey: activeKeyProp,
+    onSelect: onSelectProp,
     ...rest
   } = props;
 
-  const {
-    sidenav = false,
-    expanded = false,
-    activeKey = props.activeKey,
-    onSelect = props.onSelect
-  } = React.useContext(SidenavContext) || {};
+  const { sidenav = false, expanded = false, activeKey = activeKeyProp, onSelect = onSelectProp } =
+    React.useContext(SidenavContext) || {};
 
   const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
 
@@ -95,8 +90,6 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
     return null;
   });
 
-  const unhandled = getUnhandledProps(Nav, rest);
-
   return (
     <NavbarContext.Consumer>
       {navbar => {
@@ -114,7 +107,7 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
         );
 
         return (
-          <Component {...unhandled} ref={ref} className={classes}>
+          <Component {...rest} ref={ref} className={classes}>
             <ul>{items}</ul>
             {hasWaterline && <div className={prefix('waterline')} />}
           </Component>

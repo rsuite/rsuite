@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import Ripple from '../Ripple';
 import appendTooltip from '../utils/appendTooltip';
 import SafeAnchor from '../SafeAnchor';
 
-import { createChainedFunction, useClassNames, getUnhandledProps } from '../utils';
+import { createChainedFunction, useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '../Icon/Icon.d';
 
@@ -27,9 +27,6 @@ export interface NavItemProps<T = any>
   /** Sets the icon for the component */
   icon?: React.ReactElement<IconProps>;
 
-  /** Primary content */
-  children?: React.ReactNode;
-
   /** The value of the current option */
   eventKey?: T;
 
@@ -38,9 +35,6 @@ export interface NavItemProps<T = any>
 
   /** Providing a `href` will render an `<a>` element */
   href?: string;
-
-  /** You can use a custom element type for this component */
-  as?: React.ElementType;
 
   /** Select the callback function that the event triggers. */
   onSelect?: (eventKey: T, event: React.SyntheticEvent<any>) => void;
@@ -84,15 +78,7 @@ const NavItem: RsRefForwardingComponent<'li', NavItemProps> = React.forwardRef(
     };
 
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
-    const classes = merge(
-      className,
-      withClassPrefix({
-        active,
-        disabled
-      })
-    );
-
-    const unhandled = getUnhandledProps(NavItem, rest);
+    const classes = merge(className, withClassPrefix({ active, disabled }));
 
     if (divider) {
       return (
@@ -100,28 +86,26 @@ const NavItem: RsRefForwardingComponent<'li', NavItemProps> = React.forwardRef(
           ref={ref}
           role="separator"
           style={style}
-          className={merge(prefix('divider'), className)}
+          className={merge(className, prefix('divider'))}
         />
       );
     }
 
     if (panel) {
       return (
-        <li ref={ref} style={style} className={merge(prefix('panel'), className)}>
+        <li ref={ref} style={style} className={merge(className, prefix('panel'))}>
           {children}
         </li>
       );
     }
-    if (Component === SafeAnchor) {
-      unhandled.disabled = disabled;
-    }
 
     let item: React.ReactNode = (
       <Component
-        {...unhandled}
+        {...rest}
+        disabled={Component === SafeAnchor ? disabled : null}
         role="button"
         tabIndex={tabIndex}
-        className={merge(prefix('content'), className)}
+        className={merge(className, prefix('content'))}
         onClick={createChainedFunction(onClick, handleClick)}
       >
         {icon}
