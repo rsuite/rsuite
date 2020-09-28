@@ -76,7 +76,7 @@ The `TreePicker` and the `CheckTreePicker` deprecated the `expandAll` property a
 
 ```diff
 - onSelect (activeNode:DataItemType, layer:number, values:string[]) => void
-+ onSelect (activeNode: any, value: any, event: React.SyntheticEvent<any>) => void;
++ onSelect (activeNode: any, value: any, event) => void;
 ```
 
 ## 6.Upgrade `babel-preset-rsuite`

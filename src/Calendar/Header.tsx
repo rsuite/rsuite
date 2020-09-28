@@ -1,13 +1,17 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
-import FormattedDate from '../IntlProvider/FormattedDate';
-import { useCalendarContext } from './CalendarContext';
+import { FormattedDate } from '../CustomProvider';
+import { CalendarContext } from './Calendar';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 
 export interface HeaderProps extends WithAsProps {
   disabledBackward?: boolean;
   disabledForward?: boolean;
+  showDate?: boolean;
+  showMeridian?: boolean;
+  showMonth?: boolean;
+  showTime?: boolean;
   disabledTime?: (date: Date) => boolean;
   onMoveBackward?: () => void;
   onMoveForward?: () => void;
@@ -16,10 +20,6 @@ export interface HeaderProps extends WithAsProps {
   onToggleTimeDropdown?: (event: React.MouseEvent) => void;
   renderTitle?: (date: Date) => React.ReactNode;
   renderToolbar?: (date: Date) => React.ReactNode;
-  showDate?: boolean;
-  showMeridian?: boolean;
-  showMonth?: boolean;
-  showTime?: boolean;
 }
 
 const defaultProps: Partial<HeaderProps> = {
@@ -35,6 +35,10 @@ const Header: RsRefForwardingComponent<'div', HeaderProps> = React.forwardRef(
       classPrefix,
       disabledBackward,
       disabledForward,
+      showDate,
+      showMeridian,
+      showMonth,
+      showTime,
       disabledTime,
       onMoveBackward,
       onMoveForward,
@@ -43,13 +47,10 @@ const Header: RsRefForwardingComponent<'div', HeaderProps> = React.forwardRef(
       onToggleTimeDropdown,
       renderTitle: renderTitleProp,
       renderToolbar,
-      showDate,
-      showMeridian,
-      showMonth,
-      showTime,
       ...rest
     } = props;
-    const { locale, date = new Date(), format, disabledDate } = useCalendarContext();
+
+    const { locale, date = new Date(), format, disabledDate } = useContext(CalendarContext);
     const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
 
     const getTimeFormat = useCallback(() => {
@@ -80,7 +81,7 @@ const Header: RsRefForwardingComponent<'div', HeaderProps> = React.forwardRef(
       }
 
       return 'yyyy';
-    }, [locale?.formattedDayPattern, locale?.formattedMonthPattern, showDate, showMonth]);
+    }, [locale, showDate, showMonth]);
 
     const renderTitle = useCallback(
       () =>
@@ -89,21 +90,10 @@ const Header: RsRefForwardingComponent<'div', HeaderProps> = React.forwardRef(
       [date, getDateFormat, renderTitleProp]
     );
 
-    const dateTitleClasses = merge(prefix('title'), prefix('title-date'), {
-      [prefix('error')]: disabledDate?.(date)
-    });
-
-    const timeTitleClasses = merge(prefix('title'), prefix('title-time'), {
-      [prefix('error')]: disabledTime?.(date)
-    });
-
-    const backwardClass = merge(prefix('backward'), {
-      [prefix('btn-disabled')]: disabledBackward
-    });
-
-    const forwardClass = merge(prefix('forward'), {
-      [prefix('btn-disabled')]: disabledForward
-    });
+    const dateTitleClasses = prefix('title', 'title-date', { error: disabledDate?.(date) });
+    const timeTitleClasses = prefix('title', 'title-time', { error: disabledTime?.(date) });
+    const backwardClass = prefix('backward', { 'btn-disabled': disabledBackward });
+    const forwardClass = prefix('forward', { 'btn-disabled': disabledForward });
 
     const monthToolbar = (
       <div className={prefix('month-toolbar')}>
@@ -133,14 +123,11 @@ const Header: RsRefForwardingComponent<'div', HeaderProps> = React.forwardRef(
     const hasMonth = showDate || showMonth;
     const classes = merge(
       className,
-      withClassPrefix({
-        'has-month': hasMonth,
-        'has-time': showTime
-      })
+      withClassPrefix({ 'has-month': hasMonth, 'has-time': showTime })
     );
 
     return (
-      <Component {...rest} ref={ref} role="row" className={classes}>
+      <Component role="row" {...rest} ref={ref} className={classes}>
         {hasMonth && monthToolbar}
         {showTime && (
           <div className={prefix('time-toolbar')}>

@@ -4,7 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import TableRow from '../TableRow';
 import { getDate, format } from '../../utils/dateUtils';
-import { CalendarProvider } from '../CalendarContext';
+import { CalendarContext } from '../Calendar';
 import { createTestContainer } from '../../../test/testUtils';
 
 describe('Calendar-TableRow', () => {
@@ -16,10 +16,9 @@ describe('Calendar-TableRow', () => {
 
   it('Should be active today', () => {
     const instance = getDOMNode(<TableRow />);
-    const instanceDOM = instance;
 
     assert.equal(
-      instanceDOM.querySelector('.rs-calendar-table-cell-is-today').innerText,
+      instance.querySelector('.rs-calendar-table-cell-is-today').innerText,
       getDate(new Date()) + ''
     );
   });
@@ -30,12 +29,14 @@ describe('Calendar-TableRow', () => {
     };
     const ref = React.createRef();
     ReactDOM.render(
-      <CalendarProvider value={{ onSelect: doneOp }}>
+      <CalendarContext.Provider value={{ onSelect: doneOp }}>
         <TableRow ref={ref} />
-      </CalendarProvider>,
+      </CalendarContext.Provider>,
       createTestContainer()
     );
-    ReactTestUtils.Simulate.click(ref.current.querySelector('.rs-calendar-table-cell'));
+    ReactTestUtils.Simulate.click(
+      ref.current.querySelector('.rs-calendar-table-cell .rs-calendar-table-cell-content')
+    );
   });
 
   it('Should have a custom className', () => {
@@ -57,9 +58,9 @@ describe('Calendar-TableRow', () => {
   it('Should render a week number', () => {
     const ref = React.createRef();
     ReactDOM.render(
-      <CalendarProvider value={{ showWeekNumbers: true }}>
+      <CalendarContext.Provider value={{ showWeekNumbers: true }}>
         <TableRow ref={ref} />
-      </CalendarProvider>,
+      </CalendarContext.Provider>,
       createTestContainer()
     );
     assert.equal(
@@ -71,9 +72,9 @@ describe('Calendar-TableRow', () => {
   it('Should render a ISO week number', () => {
     const ref = React.createRef();
     ReactDOM.render(
-      <CalendarProvider value={{ showWeekNumbers: true, isoWeek: true }}>
+      <CalendarContext.Provider value={{ showWeekNumbers: true, isoWeek: true }}>
         <TableRow ref={ref} />
-      </CalendarProvider>,
+      </CalendarContext.Provider>,
       createTestContainer()
     );
     assert.equal(

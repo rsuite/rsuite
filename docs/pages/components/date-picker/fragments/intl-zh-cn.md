@@ -1,8 +1,7 @@
-
 <!--start-code-->
 
 ```js
-const DatePickerIntl = props => (
+const App = () => (
   <div className="field only-date">
     <DatePicker
       format="yyyy-MM-dd HH:mm:ss"
@@ -25,7 +24,7 @@ const DatePickerIntl = props => (
   </div>
 );
 
-ReactDOM.render(<DatePickerIntl />);
+ReactDOM.render(<App />);
 ```
 
 <!--end-code-->

@@ -32,17 +32,17 @@ import {
   useFocusItemValue,
   usePickerClassName,
   useSearch,
-  usePublicMethods
-} from '../Picker';
-import { PickerComponent, PickerLocaleType } from '../Picker/types';
-import {
+  usePublicMethods,
   pickerToggleTriggerProps,
   OverlayTriggerInstance,
-  PositionChildProps
-} from '../Picker/PickerToggleTrigger';
+  PositionChildProps,
+  PickerComponent,
+  PickerLocaleType,
+  listPickerPropTypes
+} from '../Picker';
+
 import Tag, { TagProps } from '../Tag';
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
-import { listPickerPropTypes } from '../Picker/propTypes';
 import { SelectProps } from '../SelectPicker';
 import InputAutosize from './InputAutosize';
 import InputSearch from './InputSearch';

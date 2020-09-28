@@ -24,7 +24,14 @@ import {
   PickerToggleTrigger,
   createConcatChildrenFunction,
   usePickerClassName,
-  usePublicMethods
+  usePublicMethods,
+  OverlayTriggerInstance,
+  pickerToggleTriggerProps,
+  PositionChildProps,
+  listPickerPropTypes,
+  listPickerDefaultProps,
+  PickerComponent,
+  PickerLocaleType
 } from '../Picker';
 
 import {
@@ -57,15 +64,8 @@ import {
   focusToTreeNode
 } from '../utils/treeUtils';
 
-import { listPickerPropTypes, listPickerDefaultProps } from '../Picker/propTypes';
 import { TreeBaseProps } from '../Tree/Tree';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
-import { PickerComponent, PickerLocaleType } from '../Picker/types';
-import {
-  OverlayTriggerInstance,
-  pickerToggleTriggerProps,
-  PositionChildProps
-} from '../Picker/PickerToggleTrigger';
 import { maxTreeHeight } from '../TreePicker/TreePicker';
 
 export interface CheckTreePickerLocaleType extends PickerLocaleType {

@@ -69,7 +69,7 @@
 | labelKey                | string `('label')`                                                                            | tree 数据结构 label 属性名称                                                    |
 | locale                  | object                                                                                        | 本地语言                                                                        |
 | menuClassName           | string                                                                                        | 应用于菜单 DOM 节点的 css class                                                 |
-| menuStyle               | React.CSSProperties                                                                           | 应用于菜单 DOM 节点的 style                                                     |
+| menuStyle               | CSSProperties                                                                                 | 应用于菜单 DOM 节点的 style                                                     |
 | onChange                | (value:string) => void                                                                        | 数据改变的回调函数                                                              |
 | onClean                 | (event:SyntheticEvent) => void                                                                | 值清理时触发回调                                                                |
 | onClose                 | () => void                                                                                    | 关闭 Dropdown 的回调函数                                                        |
@@ -84,16 +84,16 @@
 | onSearch                | (searchKeyword:string, event) => void                                                         | 搜索回调函数                                                                    |
 | onSelect                | (activeNode:DataItemType, value:any, event) => void                                           | 选择树节点后的回调函数                                                          |
 | open                    | boolean                                                                                       | 打开（受控）                                                                    |
-| placeholder             | React.Node `('Select')`                                                                       | 占位符                                                                          |
+| placeholder             | ReactNode `('Select')`                                                                        | 占位符                                                                          |
 | placement               | enum: Placement`('bottomStart')`                                                              | 打开位置                                                                        |
-| renderExtraFooter       | () => React.Node                                                                              | 自定义页脚内容                                                                  |
-| renderTreeIcon          | (nodeData:DataItemType) => React.Node                                                         | 自定义渲染 图标                                                                 |
-| renderTreeNode          | (nodeData:DataItemType) => React.Node                                                         | 自定义渲染 tree 节点                                                            |
-| renderValue             | (value:string,item:DataItemType, selectedElement:React.Node) => React.Node                    | 自定义渲染选中的值                                                              |
-| searchBy                | (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean                      | 自定义搜索规则                                                                  |
+| renderExtraFooter       | () => ReactNode                                                                               | 自定义页脚内容                                                                  |
+| renderTreeIcon          | (nodeData:DataItemType) => ReactNode                                                          | 自定义渲染 图标                                                                 |
+| renderTreeNode          | (nodeData:DataItemType) => ReactNode                                                          | 自定义渲染 tree 节点                                                            |
+| renderValue             | (value:string,item:DataItemType, selectedElement:ReactNode) => ReactNode                      | 自定义渲染选中的值                                                              |
+| searchBy                | (keyword: string, label: ReactNode, item: ItemDataType) => boolean                            | 自定义搜索规则                                                                  |
 | searchable              | boolean `(true)`                                                                              | 是否可以搜索                                                                    |
 | size                    | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                                         | 设置组件尺寸                                                                    |
-| toggleAs                | React.ElementType `('a')`                                                                     | 为组件自定义元素类型                                                            |
+| toggleAs                | ElementType `('a')`                                                                           | 为组件自定义元素类型                                                            |
 | value                   | string                                                                                        | 当前选中的值                                                                    |
 | valueKey                | string `('value')`                                                                            | tree 数据结构 value 属性名称                                                    |
 | virtualized             | boolean `(true)`                                                                              | 是否开启虚拟列表                                                                |

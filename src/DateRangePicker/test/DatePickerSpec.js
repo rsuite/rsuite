@@ -74,7 +74,7 @@ describe('DatePicker', () => {
       />
     );
     instance.toggleMonthDropdown(() => {
-      assert.equal(instance.state.calendarState, 'DROP_MONTH');
+      assert.equal(instance.state.calendarState, 'MONTH');
     });
 
     instance.toggleMonthDropdown(() => {

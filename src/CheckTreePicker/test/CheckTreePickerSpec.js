@@ -4,7 +4,7 @@ import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import CheckTreePicker from '../CheckTreePicker';
-import { KEY_CODE } from '../../constants';
+import { KEY_CODE } from '../../utils';
 
 Enzyme.configure({ adapter: new Adapter() });
 

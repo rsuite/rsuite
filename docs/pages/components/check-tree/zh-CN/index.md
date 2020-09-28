@@ -48,8 +48,8 @@
 | onChange                | (values:string[]) => void                                                                     | 数据改变的回调函数                                                              |
 | onExpand                | (expandItemValues: any [], activeNode:DataItemType, concat:(data, children) => Array) => void | 树节点展示时的回调                                                              |
 | onSelect                | (activeNode:DataItemType,value:any, event) => void                                            | 选择树节点后的回调函数                                                          |
-| renderTreeIcon          | (nodeData:DataItemType) => React.Node                                                         | 自定义渲染 图标                                                                 |
-| renderTreeNode          | (nodeData:DataItemType) => React.Node                                                         | 自定义渲染 tree 节点                                                            |
+| renderTreeIcon          | (nodeData:DataItemType) => ReactNode                                                          | 自定义渲染 图标                                                                 |
+| renderTreeNode          | (nodeData:DataItemType) => ReactNode                                                          | 自定义渲染 tree 节点                                                            |
 | searchKeyword           | string                                                                                        | 搜索关键词(受控)                                                                |
 | uncheckableItemValues   | string[]                                                                                      | 设置不显示复选框的选项值                                                        |
 | value                   | string[]                                                                                      | 当前选中的值                                                                    |

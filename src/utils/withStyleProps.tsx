@@ -8,7 +8,7 @@ import wrapDisplayName from 'recompose/wrapDisplayName';
 import setPropTypes from 'recompose/setPropTypes';
 import { TypeAttributes } from '../@types/common';
 import extendReactStatics from './extendReactStatics';
-import { prefix, refType, SIZE, STATUS, COLOR } from '.';
+import { prefix, SIZE, STATUS, COLOR } from '.';
 
 export interface RequiredProps {
   className?: string;
@@ -48,9 +48,7 @@ function withStyleProps<T>(options: Options = {}) {
       });
     });
 
-    const propTypes: any = {
-      innerRef: refType
-    };
+    const propTypes: any = {};
 
     if (hasSize) {
       propTypes.size = PropTypes.oneOf(SIZE);

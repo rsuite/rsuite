@@ -27,7 +27,7 @@ import Form from 'rsuite/lib/Form';
 | ---------------- | ------------------------------------------------------- | -------------------------------------------------- |
 | checkTrigger     | enum: 'change','blur','none' `('change')`               | 触发表单校验的类型                                 |
 | classPrefix      | string `('form')`                                       | 组件 CSS 类的前缀                                  |
-| errorFromContext | boolean `(true)`                                        | Form.Control 中的错误提醒默认从 Context 获取        |
+| errorFromContext | boolean `(true)`                                        | Form.Control 中的错误提醒默认从 Context 获取       |
 | fluid            | boolean                                                 | 让表单中的 Input 100% 撑满容器，只在垂直布局中有效 |
 | formDefaultValue | object                                                  | 表单的初始默认值 `非受控组件`                      |
 | formError        | object                                                  | 表单错误信息                                       |
@@ -83,10 +83,10 @@ cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
 
 | 名称           | 类型`(默认值)`                    | 描述                                       |
 | -------------- | --------------------------------- | ------------------------------------------ |
-| accepter       | React.ElementType `(Input)`       | 受代理的组件                               |
+| accepter       | ElementType `(Input)`             | 受代理的组件                               |
 | checkTrigger   | enum: 'change','blur','none'      | 数据校验的触发类型,会覆盖 `<Form>`上的设置 |
 | classPrefix    | string `('form-control')`         | 组件 CSS 类的前缀                          |
-| errorMessage   | React.Node                        | 显示错误信息                               |
+| errorMessage   | ReactNode                         | 显示错误信息                               |
 | errorPlacement | enum: Placement `('bottomStart')` | 错误信息显示位置                           |
 | name \*        | string                            | 表单元素名称                               |
 | readOnly       | boolean                           | 使控件为只读                               |
@@ -101,18 +101,18 @@ cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
 
 ### `<Form.ControlLabel>`
 
-| 属性名称    | 类型`(默认值)`                  | 描述                                                           |
-| ----------- | ------------------------------- | -------------------------------------------------------------- |
-| classPrefix | string `('form-control-label')` | 组件 CSS 类的前缀                                              |
+| 属性名称    | 类型`(默认值)`                  | 描述                                                            |
+| ----------- | ------------------------------- | --------------------------------------------------------------- |
+| classPrefix | string `('form-control-label')` | 组件 CSS 类的前缀                                               |
 | htmlFor     | string                          | 对应 html label 标签的 for 属性，默认为 Form.Group 的 controlId |
 
 ### `<Form.HelpText>`
 
-| 属性名称    | 类型`(默认值)`              | 描述                                                           |
-| ----------- | --------------------------- | -------------------------------------------------------------- |
-| classPrefix | string `('form-help-text')` | 组件 CSS 类的前缀                                              |
+| 属性名称    | 类型`(默认值)`              | 描述                                                            |
+| ----------- | --------------------------- | --------------------------------------------------------------- |
+| classPrefix | string `('form-help-text')` | 组件 CSS 类的前缀                                               |
 | htmlFor     | string                      | 对应 html label 标签的 for 属性，默认为 Form.Group 的 controlId |
-| tooltip     | boolean                     | 是否通过 Tooltip 组件显示                                      |
+| tooltip     | boolean                     | 是否通过 Tooltip 组件显示                                       |
 
 ```js
 type Placement =

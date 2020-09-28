@@ -18,11 +18,17 @@ import {
   startOfWeek
 } from '../utils/dateUtils';
 import IntlContext from '../IntlProvider/IntlContext';
-import FormattedDate from '../IntlProvider/FormattedDate';
+import { FormattedDate } from '../CustomProvider';
 import Toolbar from './Toolbar';
 import DatePicker from './DatePicker';
 import { getCalendarDate, toLocalValue, toZonedValue } from './utils';
-import { createChainedFunction, defaultProps, getUnhandledProps, prefix } from '../utils';
+import {
+  createChainedFunction,
+  defaultProps,
+  getUnhandledProps,
+  prefix,
+  DATERANGE_DISABLED_TARGET
+} from '../utils';
 
 import {
   getToggleWrapperClassName,
@@ -31,10 +37,11 @@ import {
   PickerToggleTrigger
 } from '../Picker';
 
-import { DateRangePickerProps, ValueType } from './DateRangePicker.d';
-import { DATERANGE_DISABLED_TARGET } from '../constants';
+import { DateRangePickerProps } from './DateRangePicker.d';
 import { pickerDefaultProps, pickerPropTypes } from '../Picker/propTypes';
 import { toLocalTimeZone } from '../utils/timeZone';
+
+export type ValueType = [Date?, Date?];
 
 interface DateRangePickerState {
   value: ValueType;

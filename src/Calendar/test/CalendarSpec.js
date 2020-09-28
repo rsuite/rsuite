@@ -30,7 +30,9 @@ describe('Calendar', () => {
     const instance = getDOMNode(
       <Calendar format="yyyy-MM-dd" pageDate={new Date()} onSelect={doneOp} />
     );
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-table-cell-is-today'));
+    ReactTestUtils.Simulate.click(
+      instance.querySelector('.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content')
+    );
   });
 
   it('Should have a custom className', () => {

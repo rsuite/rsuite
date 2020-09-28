@@ -52,6 +52,7 @@ A content panel that supports folding panels. The Panel can have all the ' Data 
 <!--{include:`accordion-group.md`}-->
 
 ### Accordion effect
+
 Only one panel can be expanded.
 
 <!--{include:`accordion-group-active.md`}-->
@@ -70,7 +71,7 @@ Only one panel can be expanded.
 | defaultExpanded | boolean            | Expand by default                         |
 | eventKey        | any                | The event key corresponding to the panel. |
 | expanded        | boolean            | Expand the Panel.                         |
-| header          | React.Node         | The head displays information.            |
+| header          | ReactNode          | The head displays information.            |
 | id              | string or number   | ID                                        |
 
 ### `<PanelGroup>`

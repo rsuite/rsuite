@@ -1,6 +1,8 @@
 import React from 'react';
 import { ReplaceProps } from './utils';
 
+export { TimeZoneName } from './timeZone';
+
 export interface StandardProps {
   /** The prefix of the component CSS class */
   classPrefix?: string;

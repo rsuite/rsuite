@@ -322,6 +322,7 @@ export function useSearch(props: SearchProps) {
 
 interface Refs {
   triggerRef?: React.RefObject<OverlayTriggerInstance>;
+  rootRef?: React.RefObject<HTMLElement>;
   menuRef?: React.RefObject<HTMLElement>;
   toggleRef?: React.RefObject<HTMLElement>;
 }
@@ -340,7 +341,7 @@ interface Refs {
  * @param ref
  * @param params
  */
-export function usePublicMethods(ref, { triggerRef, menuRef, toggleRef }: Refs) {
+export function usePublicMethods(ref, { triggerRef, menuRef, toggleRef, rootRef }: Refs) {
   const handleOpen = useCallback(() => {
     triggerRef.current?.open();
   }, [triggerRef]);
@@ -355,7 +356,7 @@ export function usePublicMethods(ref, { triggerRef, menuRef, toggleRef }: Refs) 
 
   useImperativeHandle(ref, () => ({
     get root() {
-      return triggerRef.current?.child;
+      return rootRef?.current ? rootRef?.current : triggerRef.current?.child;
     },
     get menu() {
       return menuRef.current;

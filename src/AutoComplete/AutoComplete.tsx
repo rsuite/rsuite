@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import Input from '../Input';
 import { useClassNames, useControlled, PLACEMENT, mergeRefs } from '../utils';
+import { animationPropTypes } from '../Animation/utils';
 import {
   PickerToggleTrigger,
   onMenuKeyDown,
@@ -10,21 +11,20 @@ import {
   DropdownMenuItem,
   MenuWrapper,
   useFocusItemValue,
-  usePublicMethods
-} from '../Picker';
-import {
+  usePublicMethods,
   pickerToggleTriggerProps,
   PositionChildProps,
-  OverlayTriggerInstance
-} from '../Picker/PickerToggleTrigger';
-import { PickerComponent } from '../Picker/types';
-import { animationPropTypes } from '../Animation/utils';
+  OverlayTriggerInstance,
+  PickerComponent
+} from '../Picker';
+
 import {
   WithAsProps,
   FormControlPickerProps,
   TypeAttributes,
   ItemDataType
 } from '../@types/common';
+
 import { transformData, shouldDisplay } from './utils';
 
 export type ValueType = string;

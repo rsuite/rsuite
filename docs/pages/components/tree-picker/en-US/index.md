@@ -67,7 +67,7 @@
 | height                  | number `(360px)`                                                                              | height of menu. When `virtualize` is true, you can set the height of menu |
 | labelKey                | string `('label')`                                                                            | Tree data structure Label property name                                   |
 | menuClassName           | string                                                                                        | A css class to apply to the Menu DOM node                                 |
-| menuStyle               | React.CSSProperties                                                                           | style for Menu                                                            |
+| menuStyle               | CSSProperties                                                                                 | style for Menu                                                            |
 | onChange                | (value:string) => void                                                                        | Callback function for data change                                         |
 | onClean                 | (event:SyntheticEvent) => void                                                                | Callback fired when value clean                                           |
 | onClose                 | () => void                                                                                    | Close Dropdown callback functions                                         |
@@ -82,16 +82,16 @@
 | onSearch                | (searchKeyword:string, event) => void                                                         | Search callback function                                                  |
 | onSelect                | (activeNode:DataItemType, value:any, event) => void                                           | Callback function after selecting tree node                               |
 | open                    | boolean                                                                                       | Open (Controlled)                                                         |
-| placeholder             | React.Node `('Select')`                                                                       | Placeholder                                                               |
+| placeholder             | ReactNode `('Select')`                                                                        | Placeholder                                                               |
 | placement               | enum: Placement`('bottomStart')`                                                              | Expand placement                                                          |
-| renderExtraFooter       | () => React.Node                                                                              | Customizing footer Content                                                |
-| renderTreeIcon          | (nodeData:DataItemType) => React.Node                                                         | Custom render icon                                                        |
-| renderTreeNode          | (nodeData:DataItemType) => React.Node                                                         | Custom render tree Node                                                   |
-| renderValue             | (value:string,item:DataItemType, selectedElement:React.Node) => React.Node                    | Custom render selected value                                              |
-| searchBy                | (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean                      | Custom search rules                                                       |
+| renderExtraFooter       | () => ReactNode                                                                               | Customizing footer Content                                                |
+| renderTreeIcon          | (nodeData:DataItemType) => ReactNode                                                          | Custom render icon                                                        |
+| renderTreeNode          | (nodeData:DataItemType) => ReactNode                                                          | Custom render tree Node                                                   |
+| renderValue             | (value:string,item:DataItemType, selectedElement:ReactNode) => ReactNode                      | Custom render selected value                                              |
+| searchBy                | (keyword: string, label: ReactNode, item: ItemDataType) => boolean                            | Custom search rules                                                       |
 | searchable              | boolean `(true)`                                                                              | Set whether you can search                                                |
 | size                    | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                                         | A picker can have different sizes                                         |
-| toggleAs                | React.ElementType `('a')`                                                                     | You can use a custom element for this component                           |
+| toggleAs                | ElementType `('a')`                                                                           | You can use a custom element for this component                           |
 | value                   | string                                                                                        | Selected value                                                            |
 | valueKey                | string `('value')`                                                                            | Tree data Structure Value property name                                   |
 | virtualized             | boolean `(true)`                                                                              | Whether using Virtualized List                                            |

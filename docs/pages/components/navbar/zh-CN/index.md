@@ -32,6 +32,6 @@
 
 | 属性名称    | 类型`(默认值)`                                    | 描述                 |
 | ----------- | ------------------------------------------------- | -------------------- |
+| as          | ElementType `('div')`                             | 为组件自定义元素类型 |
 | appearance  | enum: 'default', 'inverse', 'subtle'`('default')` | 导航栏外观           |
 | classPrefix | string `('navbar')`                               | 组件 CSS 类的前缀    |
-| as          | React.ElementType `('div')`                       | 为组件自定义元素类型 |

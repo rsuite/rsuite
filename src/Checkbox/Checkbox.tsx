@@ -1,6 +1,6 @@
 import React, { useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useControlled, partitionHTMLProps, useClassNames, refType } from '../utils';
+import { useControlled, partitionHTMLProps, useClassNames, TypeChecker } from '../utils';
 import { CheckboxGroupContext } from '../CheckboxGroup';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
@@ -64,18 +64,18 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
   (props: CheckboxProps, ref) => {
     const {
       as: Component,
-      disabled,
+      checked: controlledChecked,
       className,
       children,
-      checked: controlledChecked,
+      classPrefix,
+      checkable,
+      disabled,
       defaultChecked,
       title,
       inputRef,
       inputProps,
       indeterminate,
       tabIndex,
-      classPrefix,
-      checkable,
       inline: inlineProp,
       name: nameProp,
       value,
@@ -93,12 +93,12 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
       onChange: onGroupChange
     } = useContext(CheckboxGroupContext);
 
-    const isChecked = () => {
+    const isChecked = useCallback(() => {
       if (typeof groupValue !== 'undefined' && typeof value !== 'undefined') {
         return groupValue.some(i => i === value);
       }
       return controlledChecked;
-    };
+    }, [controlledChecked, groupValue, value]);
 
     const [checked, setChecked] = useControlled<boolean>(isChecked(), defaultChecked);
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
@@ -171,7 +171,7 @@ Checkbox.propTypes = {
   onChange: PropTypes.func,
   onClick: PropTypes.func,
   inputProps: PropTypes.any,
-  inputRef: refType,
+  inputRef: TypeChecker.refType,
   value: PropTypes.any,
   children: PropTypes.node,
   classPrefix: PropTypes.string,

@@ -2,9 +2,8 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { addDays, isSameDay, isBefore, isAfter, getDate, format } from '../../utils/dateUtils';
-import { prefix, defaultProps } from '../../utils';
+import { prefix, defaultProps, DATERANGE_DISABLED_TARGET } from '../../utils';
 import IntlContext from '../../IntlProvider/IntlContext';
-import { DATERANGE_DISABLED_TARGET } from '../../constants';
 import { zonedDate } from '../../utils/timeZone';
 
 export interface TableRowProps {

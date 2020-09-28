@@ -23,17 +23,16 @@ import {
   SearchBar,
   PickerToggleTrigger,
   usePickerClassName,
-  usePublicMethods
-} from '../Picker';
-
-import {
+  usePublicMethods,
   pickerToggleTriggerProps,
   OverlayTriggerInstance,
-  PositionChildProps
-} from '../Picker/PickerToggleTrigger';
+  PositionChildProps,
+  listPickerPropTypes,
+  PickerLocaleType,
+  PickerComponent
+} from '../Picker';
+
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
-import { listPickerPropTypes } from '../Picker/propTypes';
-import { PickerLocaleType, PickerComponent } from '../Picker/types';
 
 export type ValueType = number | string;
 export interface CascaderProps<T = ValueType>

@@ -2,8 +2,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import PaginationButton, { PaginationButtonProps } from './PaginationButton';
 import Icon from '../Icon';
-import { useClassNames, useCustom } from '../utils';
-import { PAGINATION_ICON_NAMES } from '../constants';
+import { useClassNames, useCustom, PAGINATION_ICON_NAMES } from '../utils';
 import { RsRefForwardingComponent, WithAsProps, TypeAttributes } from '../@types/common';
 
 export interface PaginationLocale {

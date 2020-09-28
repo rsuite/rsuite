@@ -32,6 +32,6 @@ For navigation at the top of the page.
 
 | Property    | Type `(Default)`                                  | Description                                          |
 | ----------- | ------------------------------------------------- | ---------------------------------------------------- |
+| as          | ElementType `('div')`                             | You can use a custom element type for this component |
 | appearance  | enum: 'default', 'inverse', 'subtle'`('default')` | The appearance of the navigation bar                 |
 | classPrefix | string `('navbar')`                               | The prefix of the component CSS class                |
-| as          | React.ElementType `('div')`                       | You can use a custom element type for this component |

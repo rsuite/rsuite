@@ -8,7 +8,7 @@ import Header from '../../Calendar/Header';
 import View from './View';
 
 export interface CalendarProps {
-  calendarState?: 'DROP_MONTH' | 'DROP_TIME';
+  calendarState?: 'MONTH' | 'TIME';
   index: number;
   calendarDate: Date[];
   value?: Date[];
@@ -32,7 +32,7 @@ export interface CalendarProps {
 
 class Calendar extends React.Component<CalendarProps> {
   static propTypes = {
-    calendarState: PropTypes.oneOf(['DROP_MONTH', 'DROP_TIME']),
+    calendarState: PropTypes.oneOf(['MONTH', 'TIME']),
     index: PropTypes.number,
     calendarDate: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
     value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
@@ -141,7 +141,7 @@ class Calendar extends React.Component<CalendarProps> {
     } = this.props;
 
     const pageDate = this.getPageDate();
-    const dropMonth = calendarState === 'DROP_MONTH';
+    const dropMonth = calendarState === 'MONTH';
     const addPrefix = prefix(classPrefix);
     const calendarClasses = classNames(classPrefix, className, {
       [addPrefix('show-month-dropdown')]: dropMonth

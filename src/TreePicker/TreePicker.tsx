@@ -43,18 +43,19 @@ import {
   createConcatChildrenFunction,
   usePickerClassName,
   onMenuKeyDown,
-  usePublicMethods
-} from '../Picker';
-
-import { listPickerPropTypes, listPickerDefaultProps } from '../Picker/propTypes';
-import { TreeDragProps, TreeBaseProps } from '../Tree/Tree';
-import { FormControlPickerProps, ItemDataType } from '../@types/common';
-import { PickerLocaleType, PickerComponent } from '../Picker/types';
-import {
+  usePublicMethods,
+  listPickerPropTypes,
+  listPickerDefaultProps,
   OverlayTriggerInstance,
   pickerToggleTriggerProps,
-  PositionChildProps
-} from '../Picker/PickerToggleTrigger';
+  PositionChildProps,
+  PickerLocaleType,
+  PickerComponent
+} from '../Picker';
+
+import { TreeDragProps, TreeBaseProps } from '../Tree/Tree';
+import { FormControlPickerProps, ItemDataType } from '../@types/common';
+
 import { TreeNodeType } from '../CheckTreePicker/utils';
 
 // default value for virtualized

@@ -29,7 +29,7 @@ const { Column, HeaderCell, Cell, Pagination } = Table;
 | affixHeader              | boolean,number                                                                    | 将表头固定到页面上的指定位置                                 |
 | affixHorizontalScrollbar | boolean,number                                                                    | 将横向滚动条固定在页面底部的指定位置                         |
 | autoHeight               | boolean                                                                           | 自动高度                                                     |
-| bodyRef                  | React.Ref                                                                         | 表格主体部分上的 ref                                         |
+| bodyRef                  | Ref                                                                               | 表格主体部分上的 ref                                         |
 | bordered                 | boolean                                                                           | 表格边框                                                     |
 | cellBordered             | boolean                                                                           | 单元格边框                                                   |
 | data \*                  | Array&lt;Object&gt;                                                               | 表格数据                                                     |
@@ -49,9 +49,9 @@ const { Column, HeaderCell, Cell, Pagination } = Table;
 | onRowClick               | (rowData:object) => void                                                          | 行点击后的回调函数， 返回 `rowDate`                          |
 | onScroll                 | (scrollX:object, scrollY:object) => void                                          | 滚动条滚动时候的回调函数                                     |
 | onSortColumn             | (dataKey:string, sortType:string) => void                                         | 点击排序列的回调函数，返回 `sortColumn`, `sortType` 这两个值 |
-| renderEmpty              | (info: React.Node) => React.Node                                                  | 自定义渲染数据为空的状态                                     |
-| renderLoading            | (loading: React.Node) => React.Node                                               | 自定义渲染数据加载中的状态                                   |
-| renderRowExpanded        | (rowDate?: Object) => React.Node                                                  | 自定义可以展开区域的内容                                     |
+| renderEmpty              | (info: ReactNode) => ReactNode                                                    | 自定义渲染数据为空的状态                                     |
+| renderLoading            | (loading: ReactNode) => ReactNode                                                 | 自定义渲染数据加载中的状态                                   |
+| renderRowExpanded        | (rowDate?: Object) => ReactNode                                                   | 自定义可以展开区域的内容                                     |
 | renderTreeToggle         | (icon:node, rowData:object, expanded:boolean) => node                             | 树形表格，在展开节点的回调函数                               |
 | rowClassName             | string , (rowData:object) => string                                               | 为行自定义 className                                         |
 | rowExpandedHeight        | number `(100)`                                                                    | 设置可展开区域的高度                                         |
@@ -108,8 +108,8 @@ scrollLeft: (left: number) => void;
 | ------------- | ------------------------------- | ------------ |
 | align         | enum: 'left','center','right'   | 对齐方式     |
 | fixed         | boolean, 'left', 'right'        | 固定列组     |
+| header        | ReactNode                       | 分组表头     |
 | verticalAlign | enum: 'top', 'middle', 'bottom' | 垂直对齐方式 |
-| header        | React.ReactNode                 | 分组表头     |
 
 ### `<Table.Cell>`
 
@@ -121,22 +121,22 @@ scrollLeft: (left: number) => void;
 
 ### `<Table.Pagination>`
 
-| 属性名称         | 类型 `(默认值)`                                   | 描述                                        |
-| ---------------- | ------------------------------------------------- | ------------------------------------------- |
-| activePage       | number `(1)`                                      | 配置当前页号                                |
-| disabled         | boolean , (eventKey: any) => boolean              | 禁用分页                                    |
-| displayLength    | number `(30)`                                     | 配置每页显示多少行条目数，对应 `lengthMenu` |
-| first            | boolean `(true)`                                  | 显示第一页按钮                              |
-| last             | boolean `(true)`                                  | 显示最后一页按钮                            |
-| lengthMenu       | Array                                             | 分页显示行数配置，默认为 30, 50, 100        |
-| maxButtons       | number `(5)`                                      | 配置最多显示按钮数量                        |
-| next             | boolean `(true)`                                  | 显示下一页按钮                              |
-| onChangeLength   | (eventKey: number) => void                        | `lengthMenu` 值发生改变的时候触发的回调函数 |
-| onChangePage     | (eventKey: number) => void                        | page 改变时候触发的回调函数                 |
-| prev             | boolean `(true)`                                  | 显示上一页按钮                              |
-| renderLengthMenu | (picker: React.Node) => React.Node                | 自定义菜单                                  |
-| renderTotal      | (total: number, activePage: number) => React.Node | 自定义总数                                  |
-| reverse          | boolean                                           | 调换左右的位置                              |
-| showInfo         | boolean `(true)`                                  | 显示分页信息                                |
-| showLengthMenu   | boolean `(true)`                                  | 显示多少行的菜单，默认显示                  |
-| total            | number                                            | 总数据条目数                                |
+| 属性名称         | 类型 `(默认值)`                                  | 描述                                        |
+| ---------------- | ------------------------------------------------ | ------------------------------------------- |
+| activePage       | number `(1)`                                     | 配置当前页号                                |
+| disabled         | boolean , (eventKey: any) => boolean             | 禁用分页                                    |
+| displayLength    | number `(30)`                                    | 配置每页显示多少行条目数，对应 `lengthMenu` |
+| first            | boolean `(true)`                                 | 显示第一页按钮                              |
+| last             | boolean `(true)`                                 | 显示最后一页按钮                            |
+| lengthMenu       | Array                                            | 分页显示行数配置，默认为 30, 50, 100        |
+| maxButtons       | number `(5)`                                     | 配置最多显示按钮数量                        |
+| next             | boolean `(true)`                                 | 显示下一页按钮                              |
+| onChangeLength   | (eventKey: number) => void                       | `lengthMenu` 值发生改变的时候触发的回调函数 |
+| onChangePage     | (eventKey: number) => void                       | page 改变时候触发的回调函数                 |
+| prev             | boolean `(true)`                                 | 显示上一页按钮                              |
+| renderLengthMenu | (picker: ReactNode) => ReactNode                 | 自定义菜单                                  |
+| renderTotal      | (total: number, activePage: number) => ReactNode | 自定义总数                                  |
+| reverse          | boolean                                          | 调换左右的位置                              |
+| showInfo         | boolean `(true)`                                 | 显示分页信息                                |
+| showLengthMenu   | boolean `(true)`                                 | 显示多少行的菜单，默认显示                  |
+| total            | number                                           | 总数据条目数                                |

@@ -18,6 +18,7 @@ import {
   KEY_CODE,
   mergeRefs
 } from '../utils';
+
 import {
   DropdownMenu,
   DropdownMenuCheckItem as DropdownMenuItem,
@@ -30,16 +31,16 @@ import {
   useFocusItemValue,
   usePickerClassName,
   useSearch,
-  usePublicMethods
-} from '../Picker';
-import { PickerLocaleType, PickerComponent } from '../Picker/types';
-import {
+  usePublicMethods,
   pickerToggleTriggerProps,
   OverlayTriggerInstance,
-  PositionChildProps
-} from '../Picker/PickerToggleTrigger';
+  PositionChildProps,
+  listPickerPropTypes,
+  PickerLocaleType,
+  PickerComponent
+} from '../Picker';
+
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
-import { listPickerPropTypes } from '../Picker/propTypes';
 import { SelectProps } from '../SelectPicker';
 
 export type ValueType = (number | string)[];

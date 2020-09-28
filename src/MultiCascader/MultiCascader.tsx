@@ -24,18 +24,16 @@ import {
   SelectedElement,
   PickerToggleTrigger,
   usePickerClassName,
-  usePublicMethods
-} from '../Picker';
-
-import {
+  usePublicMethods,
   pickerToggleTriggerProps,
   OverlayTriggerInstance,
-  PositionChildProps
-} from '../Picker/PickerToggleTrigger';
+  PositionChildProps,
+  listPickerPropTypes,
+  PickerLocaleType,
+  PickerComponent
+} from '../Picker';
 
-import { listPickerPropTypes } from '../Picker/propTypes';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
-import { PickerLocaleType, PickerComponent } from '../Picker/types';
 
 export type ValueType = (number | string)[];
 export interface MultiCascaderProps<T = ValueType>

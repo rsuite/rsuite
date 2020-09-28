@@ -6,16 +6,20 @@ import { useRef, useState, useCallback } from 'react';
  * Generally used for a component including controlled and uncontrolled modes.
  * @param controlledValue
  * @param defaultValue
+ * @param formatValue
  */
 function useControlled<T = any>(
   controlledValue: T,
-  defaultValue: T
+  defaultValue: T,
+  formatValue?: (value: T) => T
 ): [T, (value: T | ((v: T) => T)) => void, boolean] {
   const { current: isControlled } = useRef(controlledValue !== undefined);
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
 
   // If it is controlled, this directly returns the attribute value.
-  const value = isControlled ? controlledValue : uncontrolledValue;
+  let value = isControlled ? controlledValue : uncontrolledValue;
+
+  value = formatValue ? formatValue(value) : value;
 
   const setValue = useCallback(
     (nextValue: T | ((v: T) => T)) => {

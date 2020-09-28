@@ -7,8 +7,6 @@ export enum DATERANGE_DISABLED_TARGET {
   TOOLBAR_SHORTCUT = 'TOOLBAR_SHORTCUT'
 }
 
-export type ValueType = [Date?, Date?];
-
 export type DisabledDateFunction = (
   /** Date used to determine if disabling is required. */
   date: Date,

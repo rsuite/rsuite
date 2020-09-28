@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { getDOMNode } from '@test/testUtils';
 import TableHeaderRow from '../TableHeaderRow';
-import { CalendarProvider } from '../CalendarContext';
+import { CalendarContext } from '../Calendar';
 import { createTestContainer } from '../../../test/testUtils';
 
 describe('Calendar-TableHeaderRow', () => {
@@ -32,9 +32,9 @@ describe('Calendar-TableHeaderRow', () => {
   it('Should render an empty cell for a week number column', () => {
     const ref = React.createRef();
     ReactDOM.render(
-      <CalendarProvider value={{ showWeekNumbers: true }}>
+      <CalendarContext.Provider value={{ showWeekNumbers: true }}>
         <TableHeaderRow ref={ref} />
-      </CalendarProvider>,
+      </CalendarContext.Provider>,
       createTestContainer()
     );
     assert.equal(ref.current.childNodes.length, 8);

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import * as dateFns from 'date-fns';
 import { DatePicker, Button, InputGroup } from 'rsuite';
 import TimeZonePicker from '@rsuite/timezone-picker';

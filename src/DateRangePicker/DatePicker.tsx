@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import * as React from 'react';
 import { addMonths } from '../utils/dateUtils';
 import Calendar from './Calendar';
-import { ValueType } from './DateRangePicker.d';
 
 export interface DatePickerProps {
   value?: ValueType;
@@ -23,7 +22,7 @@ export interface DatePickerProps {
 }
 
 interface DatePickerState {
-  calendarState?: 'DROP_MONTH' | 'DROP_TIME';
+  calendarState?: 'MONTH' | 'TIME';
 }
 
 class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
@@ -76,10 +75,10 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
 
   toggleMonthDropdown = () => {
     const { calendarState } = this.state;
-    if (calendarState === 'DROP_MONTH') {
+    if (calendarState === 'MONTH') {
       this.setState({ calendarState: undefined });
     } else {
-      this.setState({ calendarState: 'DROP_MONTH' });
+      this.setState({ calendarState: 'MONTH' });
     }
   };
 

@@ -1,11 +1,10 @@
 import React, { useRef, useCallback, useEffect } from 'react';
 import omit from 'lodash/omit';
 import { addStyle, getWidth } from 'dom-lib';
-import { useElementResize, useClassNames } from '../utils';
-import getDOMNode from '../utils/getDOMNode';
-import mergeRefs from '../utils/mergeRefs';
+import { getDOMNode, mergeRefs, useElementResize, useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { OverlayTriggerInstance } from '../Picker/PickerToggleTrigger';
+import { OverlayTriggerInstance } from '../Picker';
+
 const omitProps = [
   'placement',
   'arrowOffsetLeft',
