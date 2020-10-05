@@ -1,13 +1,7 @@
-import React, {
-  useCallback,
-  useEffect,
-  useImperativeHandle,
-  useMemo,
-  useRef,
-  useState
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import isUndefined from 'lodash/isUndefined';
+import pick from 'lodash/pick';
 import {
   addDays,
   addMonths,
@@ -28,8 +22,20 @@ import {
   toLocalValue,
   toZonedValue
 } from './utils';
-import { createChainedFunction, useClassNames, useControlled, useCustom } from '../utils';
-import { MenuWrapper, PickerToggle, PickerToggleTrigger, usePickerClassName } from '../Picker';
+import {
+  createChainedFunction,
+  mergeRefs,
+  useClassNames,
+  useControlled,
+  useCustom
+} from '../utils';
+import {
+  MenuWrapper,
+  PickerToggle,
+  PickerToggleTrigger,
+  usePickerClassName,
+  usePublicMethods
+} from '../Picker';
 import { DATERANGE_DISABLED_TARGET } from '../constants';
 import { pickerDefaultProps, pickerPropTypes } from '../Picker/propTypes';
 import { toLocalTimeZone } from '../utils/timeZone';
@@ -39,6 +45,8 @@ import { DisabledDateFunction, RangeType, ValueType } from './types';
 import omitBy from 'lodash/omitBy';
 import { OverlayTriggerInstance } from '../Overlay/OverlayTrigger';
 import partial from 'lodash/partial';
+import { PositionChildProps } from '../Overlay/Position';
+import { pickerToggleTriggerProps } from '../Picker/PickerToggleTrigger';
 
 export interface DateRangePickerProps extends PickerBaseProps, FormControlBaseProps<ValueType> {
   /** Configure shortcut options */
@@ -125,44 +133,47 @@ const defaultProps: Partial<DateRangePickerProps> = {
   format: 'yyyy-MM-dd',
   limitEndYear: 1000,
   placeholder: '',
-  showOneCalendar: false
+  showOneCalendar: false,
+  menuAutoWidth: true
 };
 
 const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = React.forwardRef(
   (props: DateRangePickerProps, ref) => {
     const {
       as: Component,
-      disabled,
+      classPrefix,
       cleanable,
-      locale: overrideLocale,
-      toggleAs,
-      style,
-      onEntered,
-      onEnter,
-      onExited,
-      onClean,
-      value: valueProp,
-      timeZone,
-      defaultValue,
       defaultCalendarValue,
+      defaultValue,
+      disabled,
+      disabledDate: disabledDateProp,
       format,
-      placeholder,
-      renderValue,
-      isoWeek,
       hoverRange,
+      isoWeek,
+      limitEndYear,
+      locale: overrideLocale,
+      menuAutoWidth,
+      menuClassName,
+      menuStyle,
       onChange,
+      onClean,
+      onClose,
+      onEnter,
+      onEntered,
+      onExited,
       onOk,
+      onOpen,
       onSelect,
       oneTap,
-      disabledDate: disabledDateProp,
-      classPrefix,
-      menuClassName,
+      placeholder,
       ranges,
-      limitEndYear,
-      showWeekNumbers,
+      renderValue,
       showOneCalendar,
-      onOpen,
-      onClose,
+      showWeekNumbers,
+      style,
+      timeZone,
+      toggleAs,
+      value: valueProp,
       ...rest
     } = props;
     const { merge, prefix } = useClassNames(classPrefix);
@@ -209,7 +220,6 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
 
     const [isPickerToggleActive, setPickerToggleActive] = useState(false);
 
-    const rootRef = useRef<HTMLDivElement>();
     const menuRef = useRef<HTMLDivElement>();
     const toggleRef = useRef<HTMLButtonElement>();
     const triggerRef = useRef<OverlayTriggerInstance>();
@@ -218,21 +228,11 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
       triggerRef.current?.close?.();
     }, []);
 
-    const handleOpenDropdown = useCallback(() => {
-      triggerRef.current?.open?.();
-    }, []);
-
-    useImperativeHandle(ref, () => ({
-      root: rootRef.current,
-      get menu() {
-        return menuRef.current;
-      },
-      get toggle() {
-        return toggleRef.current;
-      },
-      open: handleOpenDropdown,
-      close: handleCloseDropdown
-    }));
+    usePublicMethods(ref, {
+      triggerRef,
+      menuRef,
+      toggleRef
+    });
 
     const getDisplayString = useCallback(
       (nextValue: ValueType = value) => {
@@ -505,97 +505,115 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
       [disabledDate]
     );
 
-    const renderDropdownMenu = useCallback(() => {
-      const classes = merge(menuClassName, prefix('daterange-menu'));
-      const panelClasses = merge(prefix('daterange-panel'), {
-        [prefix('daterange-panel-show-one-calendar')]: showOneCalendar
-      });
+    const renderDropdownMenu = useCallback(
+      (positionProps: PositionChildProps, speakerRef) => {
+        const { left, top, className } = positionProps;
+        const styles = { ...menuStyle, left, top };
+        const classes = merge(className, menuClassName, prefix('daterange-menu'));
+        const panelClasses = merge(prefix('daterange-panel'), {
+          [prefix('daterange-panel-show-one-calendar')]: showOneCalendar
+        });
 
-      const panelProps = {
+        const panelProps = {
+          calendarDate,
+          disabledDate: handleDisabledDate,
+          format,
+          hoverRangeValue: hoverValue,
+          isoWeek,
+          limitEndYear,
+          locale,
+          onChangeCalendarDate: handleChangeCalendarDate,
+          onMouseMove: handleMouseMove,
+          onSelect: handleSelectValueChange,
+          showOneCalendar,
+          showWeekNumbers,
+          timeZone,
+          value: selectValue
+        };
+
+        return (
+          <MenuWrapper
+            className={classes}
+            autoWidth={menuAutoWidth}
+            ref={mergeRefs(menuRef, speakerRef)}
+            target={triggerRef}
+            style={styles}
+          >
+            <div className={panelClasses}>
+              <div className={prefix('daterange-content')}>
+                <div className={prefix('daterange-header')}>{getDisplayString(selectValue)}</div>
+                <div
+                  className={prefix(`daterange-calendar-${showOneCalendar ? 'single' : 'group'}`)}
+                >
+                  <Panel index={0} {...panelProps} />
+                  {!showOneCalendar && <Panel index={1} {...panelProps} />}
+                </div>
+              </div>
+              <Toolbar
+                pageDate={selectValue}
+                disabledOkBtn={disabledOkButton}
+                disabledShortcut={disabledShortcutButton}
+                hideOkBtn={oneTap}
+                onOk={handleOK}
+                onShortcut={handleShortcutPageDate}
+                ranges={ranges}
+                timeZone={timeZone}
+              />
+            </div>
+          </MenuWrapper>
+        );
+      },
+      [
+        menuStyle,
+        merge,
+        menuClassName,
+        prefix,
+        showOneCalendar,
         calendarDate,
-        disabledDate: handleDisabledDate,
+        handleDisabledDate,
         format,
-        hoverRangeValue: hoverValue,
+        hoverValue,
         isoWeek,
         limitEndYear,
         locale,
-        onChangeCalendarDate: handleChangeCalendarDate,
-        onMouseMove: handleMouseMove,
-        onSelect: handleSelectValueChange,
-        showOneCalendar,
+        handleChangeCalendarDate,
+        handleMouseMove,
+        handleSelectValueChange,
         showWeekNumbers,
         timeZone,
-        value: selectValue
-      };
-
-      return (
-        <MenuWrapper className={classes} ref={menuRef} target={triggerRef}>
-          <div className={panelClasses}>
-            <div className={prefix('daterange-content')}>
-              <div className={prefix('daterange-header')}>{getDisplayString(selectValue)}</div>
-              <div className={prefix(`daterange-calendar-${showOneCalendar ? 'single' : 'group'}`)}>
-                <Panel index={0} {...panelProps} />
-                {!showOneCalendar && <Panel index={1} {...panelProps} />}
-              </div>
-            </div>
-            <Toolbar
-              pageDate={selectValue}
-              disabledOkBtn={disabledOkButton}
-              disabledShortcut={disabledShortcutButton}
-              hideOkBtn={oneTap}
-              onOk={handleOK}
-              onShortcut={handleShortcutPageDate}
-              ranges={ranges}
-              timeZone={timeZone}
-            />
-          </div>
-        </MenuWrapper>
-      );
-    }, [
-      calendarDate,
-      disabledOkButton,
-      disabledShortcutButton,
-      format,
-      getDisplayString,
-      handleChangeCalendarDate,
-      handleSelectValueChange,
-      handleDisabledDate,
-      handleMouseMove,
-      handleOK,
-      handleShortcutPageDate,
-      hoverValue,
-      isoWeek,
-      limitEndYear,
-      locale,
-      menuClassName,
-      merge,
-      oneTap,
-      prefix,
-      ranges,
-      selectValue,
-      showOneCalendar,
-      showWeekNumbers,
-      timeZone
-    ]);
+        selectValue,
+        menuAutoWidth,
+        getDisplayString,
+        disabledOkButton,
+        disabledShortcutButton,
+        oneTap,
+        handleOK,
+        handleShortcutPageDate,
+        ranges
+      ]
+    );
 
     const hasValue = value && value.length > 1;
     const [classes, usedClassNames] = usePickerClassName({ ...props, name: 'daterange', hasValue });
 
     return (
       <PickerToggleTrigger
-        pickerProps={props}
+        pickerProps={pick(props, pickerToggleTriggerProps)}
         ref={triggerRef}
         onEnter={createChainedFunction(handleEnter, onEnter)}
         onEntered={createChainedFunction(handleEntered, onEntered)}
         onExited={createChainedFunction(handleExit, onExited)}
-        speaker={renderDropdownMenu()}
+        speaker={renderDropdownMenu}
       >
-        <Component ref={rootRef} className={classes} style={style}>
+        <Component className={classes} style={style}>
           <PickerToggle
             {...omitBy(
               rest,
               (_value, key) =>
-                key.startsWith('hide') || key.startsWith('disabled') || usedClassNames.includes(key)
+                key.startsWith('hide') ||
+                key.startsWith('disabled') ||
+                usedClassNames.includes(key) ||
+                pickerToggleTriggerProps.includes(key)
             )}
             as={toggleAs}
             onClean={createChainedFunction<(event: React.MouseEvent<any>) => void>(

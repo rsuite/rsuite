@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import {
@@ -70,17 +70,21 @@ describe('DateRangePicker', () => {
   });
 
   it('Should output custom value', () => {
-    const instance = getDOMNode(
+    const ref = React.createRef();
+
+    ReactDOM.render(
       <DateRangePicker
         value={[parseISO('2019-04-01'), parseISO('2019-04-02')]}
         renderValue={value => {
           return `${format(value[0], 'MM/dd/yyyy')}~${format(value[1], 'MM/dd/yyyy')}`;
         }}
-      />
+        ref={ref}
+      />,
+      createTestContainer()
     );
 
     assert.equal(
-      instance.querySelector('.rs-picker-toggle-value').innerText,
+      ref.current.toggle.querySelector('.rs-picker-toggle-value').innerText,
       '04/01/2019~04/02/2019'
     );
   });
@@ -89,9 +93,31 @@ describe('DateRangePicker', () => {
     const doneOp = () => {
       done();
     };
+    const ref = createRef();
 
-    const instance = getInstance(<DateRangePicker onChange={doneOp} />);
-    instance.updateValue([new Date(), new Date()]);
+    ReactDOM.render(
+      <DateRangePicker onChange={doneOp} ref={ref} defaultOpen />,
+      createTestContainer()
+    );
+
+    const menu = ref.current.menu;
+    const today = menu.querySelector('.rs-calendar-table-cell-is-today');
+    const nextDay = today.nextElementSibling;
+    const okBtn = menu.querySelector('.rs-picker-toolbar-right-btn-ok');
+
+    assert.ok(menu);
+    assert.ok(today);
+    assert.ok(nextDay);
+    assert.ok(okBtn);
+
+    ReactTestUtils.Simulate.click(today);
+
+    setTimeout(() => {
+      ReactTestUtils.Simulate.click(today);
+      setTimeout(() => {
+        ReactTestUtils.Simulate.click(okBtn);
+      }, 0);
+    }, 0);
   });
 
   it('Should call onClean callback', done => {
@@ -246,10 +272,13 @@ describe('DateRangePicker', () => {
   it('Should be zoned date', () => {
     const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
     const template = 'yyyy-MM-dd HH:mm:ss';
-    const instance = getInstance(
-      <DateRangePicker format={template} timeZone={timeZone} defaultOpen />
+    const ref = createRef();
+
+    ReactDOM.render(
+      <DateRangePicker format={template} timeZone={timeZone} defaultOpen ref={ref} />,
+      createTestContainer()
     );
-    const menuContainer = getDOMNode(instance.menuContainerRef.current);
+    const menuContainer = ref.current.menu;
     const today = menuContainer.querySelector('.rs-calendar-table-cell-is-today');
     const nextDay = today.nextElementSibling;
     const okBtn = menuContainer.querySelector('.rs-picker-toolbar-right-btn-ok');
@@ -258,7 +287,7 @@ describe('DateRangePicker', () => {
     ReactTestUtils.Simulate.click(nextDay);
     ReactTestUtils.Simulate.click(okBtn);
 
-    const ret = getDOMNode(instance).querySelector('.rs-picker-toggle-value').innerHTML;
+    const ret = ref.current.toggle.querySelector('.rs-picker-toggle-value').innerHTML;
     const zonedTodayDate = zonedDate(timeZone);
 
     assert.equal(
