@@ -47,6 +47,7 @@ import { OverlayTriggerInstance } from '../Overlay/OverlayTrigger';
 import partial from 'lodash/partial';
 import { PositionChildProps } from '../Overlay/Position';
 import { pickerToggleTriggerProps } from '../Picker/PickerToggleTrigger';
+import useUpdateEffect from '../utils/useUpdateEffect';
 
 export interface DateRangePickerProps extends PickerBaseProps, FormControlBaseProps<ValueType> {
   /** Configure shortcut options */
@@ -213,7 +214,7 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
     }, [valueProp, zonedValue]);
 
     // if selectValue changed then update calendarDate/localZonedSelectValue
-    useEffect(() => {
+    useUpdateEffect(() => {
       setCalendarDate(getCalendarDate({ value: selectValue, timeZone }));
       setLocalZoneSelectValue(toLocalValue(selectValue, timeZone));
     }, [selectValue, timeZone]);
@@ -332,7 +333,8 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
     const handleSelectValueChange = useCallback(
       (date: Date, event: React.SyntheticEvent<any>) => {
         let nextSelectValue = Array.from(hoverValue) as ValueType;
-        const noHoverRangeValid = getHoverRange(date).length !== 2;
+        const hoverRange = getHoverRange(date);
+        const noHoverRangeValid = hoverRange.length !== 2;
 
         // no preset hover range can use
         if (noHoverRangeValid) {
@@ -343,13 +345,16 @@ const DateRangePicker: RsRefForwardingComponent<'div', DateRangePickerProps> = R
             // finish select
             nextSelectValue[1] = date;
           }
+        } else {
+          // use preset hover range as select value
+          nextSelectValue = hoverRange;
         }
 
         // in `oneTap` mode
         if (hasDoneSelect.current && oneTap) {
           handleValueUpdate(
             event,
-            noHoverRangeValid ? [setTimingMargin(date), setTimingMargin(date, 'right')] : hoverValue
+            noHoverRangeValid ? [setTimingMargin(date), setTimingMargin(date, 'right')] : hoverRange
           );
         }
 

@@ -16,6 +16,7 @@ import { getDOMNode, getInstance } from '@test/testUtils';
 import DateRangePicker from '../DateRangePicker';
 import { zonedDate } from '../../utils/timeZone';
 import { createTestContainer } from '../../../test/testUtils';
+import { setTimingMargin } from '../utils';
 
 describe('DateRangePicker', () => {
   it('Should render a div with "rs-picker-daterange" class', () => {
@@ -217,11 +218,8 @@ describe('DateRangePicker', () => {
     ReactTestUtils.Simulate.click(menu.querySelector('.rs-picker-toolbar-right-btn-ok'));
   });
 
-  it('Should fire onChange if click ok after only select one date in oneTap mode', done => {
+  it('Should fire `onChange` if click ok after only select one date in oneTap mode', done => {
     const doneOp = values => {
-      console.log(values);
-      console.log(startOfWeek(new Date()), values[0]);
-      console.log(endOfWeek(new Date()), values[1]);
       if (
         isSameDay(startOfWeek(new Date()), values[0]) &&
         isSameDay(endOfWeek(new Date()), values[1])
@@ -234,6 +232,7 @@ describe('DateRangePicker', () => {
       <DateRangePicker onChange={doneOp} hoverRange="week" oneTap ref={ref} defaultOpen />,
       createTestContainer()
     );
+
     const today = ref.current.menu.querySelector('.rs-calendar-table-cell-is-today');
     ReactTestUtils.Simulate.click(today);
   });
@@ -244,21 +243,27 @@ describe('DateRangePicker', () => {
   });
 
   it('Should show default calendar value', () => {
-    const instance = getInstance(
+    const ref = createRef();
+    ReactDOM.render(
       <DateRangePicker
         open
         defaultCalendarValue={[new Date('2019-01-01'), new Date('2019-09-01')]}
-      />
+        ref={ref}
+      />,
+      createTestContainer()
     );
-    const picker = getDOMNode(instance.menuContainerRef.current);
 
-    assert.ok(picker.querySelector('div[title="2019-01-01"]'));
-    assert.ok(picker.querySelector('div[title="2019-09-01"]'));
+    const picker = ref.current.menu;
+
+    assert.ok(picker.querySelector('div[title="01 Feb 2019"]'));
+    assert.ok(picker.querySelector('div[title="01 Sep 2019"]'));
   });
 
   it('Should have only one calendar', () => {
-    const instance = getInstance(<DateRangePicker showOneCalendar open />);
-    const menuContainer = getDOMNode(instance.menuContainerRef.current);
+    const ref = createRef();
+
+    ReactDOM.render(<DateRangePicker showOneCalendar open ref={ref} />, createTestContainer());
+    const menuContainer = ref.current.menu;
 
     assert.ok(
       menuContainer
@@ -275,24 +280,24 @@ describe('DateRangePicker', () => {
     const ref = createRef();
 
     ReactDOM.render(
-      <DateRangePicker format={template} timeZone={timeZone} defaultOpen ref={ref} />,
+      <DateRangePicker format={template} timeZone={timeZone} defaultOpen ref={ref} oneTap />,
       createTestContainer()
     );
     const menuContainer = ref.current.menu;
     const today = menuContainer.querySelector('.rs-calendar-table-cell-is-today');
-    const nextDay = today.nextElementSibling;
-    const okBtn = menuContainer.querySelector('.rs-picker-toolbar-right-btn-ok');
 
+    ReactTestUtils.Simulate.mouseEnter(today);
     ReactTestUtils.Simulate.click(today);
-    ReactTestUtils.Simulate.click(nextDay);
-    ReactTestUtils.Simulate.click(okBtn);
 
     const ret = ref.current.toggle.querySelector('.rs-picker-toggle-value').innerHTML;
     const zonedTodayDate = zonedDate(timeZone);
 
     assert.equal(
       ret,
-      `${format(zonedTodayDate, template)} ~ ${format(addDays(zonedTodayDate, 1), template)}`
+      `${format(setTimingMargin(zonedTodayDate), template)} ~ ${format(
+        setTimingMargin(zonedTodayDate, 'right'),
+        template
+      )}`
     );
   });
 
@@ -300,17 +305,21 @@ describe('DateRangePicker', () => {
     const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
     const template = 'yyyy-MM-dd HH:mm:ss';
     const tomorrow = addDays(new Date(), 1);
-    const instance = getInstance(
+    const ref = createRef();
+
+    ReactDOM.render(
       <DateRangePicker
         format={template}
         timeZone={timeZone}
         defaultOpen
         disabledDate={date => isAfter(date, tomorrow)}
-      />
+        ref={ref}
+      />,
+      createTestContainer()
     );
-    const menuContainer = getDOMNode(instance.menuContainerRef.current);
+    const menuContainer = ref.current.menu;
     const firstDisabledCell = menuContainer.querySelector('.rs-calendar-table-cell-disabled');
 
-    assert.equal(firstDisabledCell.getAttribute('title'), format(tomorrow, 'yyyy-MM-dd'));
+    assert.equal(firstDisabledCell.getAttribute('title'), format(tomorrow, 'dd MMM yyyy'));
   });
 });
