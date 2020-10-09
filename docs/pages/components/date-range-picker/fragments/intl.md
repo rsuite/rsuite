@@ -1,5 +1,3 @@
-### Set The Local Language
-
 <!--start-code-->
 
 ```js

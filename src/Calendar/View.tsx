@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { getMonthView, useClassNames, DateUtils } from '../utils';
+import { useClassNames, DateUtils } from '../utils';
 import Table from './Table';
 import composeFunctions from '../utils/composeFunctions';
 import { CalendarContext } from './Calendar';
@@ -33,7 +33,10 @@ const View: RsRefForwardingComponent<'div', ViewProps> = React.forwardRef(
 
     return (
       <Component role="row" {...rest} ref={ref} className={classes}>
-        <Table rows={getMonthView(thisMonthDate, isoWeek)} inSameMonth={inSameThisMonthDate} />
+        <Table
+          rows={DateUtils.getMonthView(thisMonthDate, isoWeek)}
+          inSameMonth={inSameThisMonthDate}
+        />
       </Component>
     );
   }

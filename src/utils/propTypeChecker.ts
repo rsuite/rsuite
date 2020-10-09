@@ -56,6 +56,11 @@ export function tupleType(...types) {
           `Invalid ${location} \`${propFullName}\` supplied to \`${componentName}\`, expected ${types.length}-element array`
         );
       }
+
+      if (value.length === 0) {
+        return null;
+      }
+
       if (value.length !== types.length) {
         return new Error(
           `Invalid ${location} \`${propFullName}\` supplied to \`${componentName}\`, expected ${types.length}-element array, got array of length ${value.length}`

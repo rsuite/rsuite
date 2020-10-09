@@ -1,5 +1,3 @@
-### 自定义快捷项
-
 <!--start-code-->
 
 ```js
@@ -8,19 +6,19 @@ const DateRangePickerCustomToolbar = props => (
     <DateRangePicker
       ranges={[
         {
-          label: '昨天',
+          label: 'Yesterday',
           value: [dateFns.addDays(new Date(), -1), dateFns.addDays(new Date(), -1)]
         },
         {
-          label: '今天',
+          label: 'Today',
           value: [new Date(), new Date()]
         },
         {
-          label: '明天',
+          label: 'Tomorrow',
           value: [dateFns.addDays(new Date(), 1), dateFns.addDays(new Date(), 1)]
         },
         {
-          label: '最近 7 天',
+          label: 'Last 7 days',
           value: [dateFns.subDays(new Date(), 6), new Date()]
         }
       ]}

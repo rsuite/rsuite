@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import Transition from '../Animation/Transition';
 import helper from '../DOMHelper';
 import { mergeRefs, useClassNames } from '../utils';
+import { WithAsProps } from '../@types/common';
 
-export interface RippleProps {
-  classPrefix?: string;
-  className?: string;
+export interface RippleProps extends WithAsProps {
   onMouseDown?: (position: any, event: React.MouseEvent) => void;
 }
 
@@ -27,8 +26,13 @@ const getPosition = (target: HTMLElement, event: React.MouseEvent) => {
   };
 };
 
+const defaultProps: Partial<RippleProps> = {
+  as: 'span',
+  classPrefix: 'ripple'
+};
+
 const Ripple = React.forwardRef((props: RippleProps, ref: React.Ref<HTMLSpanElement>) => {
-  const { className, classPrefix = 'ripple', onMouseDown, ...rest } = props;
+  const { as: Component, className, classPrefix, onMouseDown, ...rest } = props;
   const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
   const classes = merge(className, prefix('pond'));
   const triggerRef = useRef<HTMLElement>();
@@ -58,7 +62,7 @@ const Ripple = React.forwardRef((props: RippleProps, ref: React.Ref<HTMLSpanElem
   }, [handleMouseDown]);
 
   return (
-    <span {...rest} className={classes} ref={mergeRefs(triggerRef, ref)}>
+    <Component {...rest} className={classes} ref={mergeRefs(triggerRef, ref)}>
       <Transition in={rippling} enteringClassName={prefix('rippling')} onEntered={handleRippled}>
         {(props, ref) => {
           const { className, ...transitionRest } = props;
@@ -72,11 +76,12 @@ const Ripple = React.forwardRef((props: RippleProps, ref: React.Ref<HTMLSpanElem
           );
         }}
       </Transition>
-    </span>
+    </Component>
   );
 });
 
 Ripple.displayName = 'Ripple';
+Ripple.defaultProps = defaultProps;
 Ripple.propTypes = {
   classPrefix: PropTypes.string,
   className: PropTypes.string,

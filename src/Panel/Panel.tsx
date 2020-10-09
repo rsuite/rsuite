@@ -93,6 +93,7 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
 
     const handleSelect = useCallback(
       (event: React.MouseEvent) => {
+        // https://reactjs.org/docs/events.html#event-pooling
         event.persist();
         onSelect?.(eventKey, event);
         onGroupSelect?.(eventKey, event);

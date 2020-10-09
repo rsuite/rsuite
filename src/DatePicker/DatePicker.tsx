@@ -485,6 +485,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       >
         <Component
           className={merge(
+            className,
             classes,
             prefix({ 'date-only-time': DateUtils.shouldOnlyTime(formatStr) })
           )}

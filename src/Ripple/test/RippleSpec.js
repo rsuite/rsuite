@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import Ripple from '../Ripple';
 
@@ -18,6 +19,7 @@ describe('Ripple', () => {
       </div>
     );
 
+    ReactTestUtils.SimulateNative.mouseDown(instance);
     const event = new Event('mousedown');
     instance.dispatchEvent(event);
   });

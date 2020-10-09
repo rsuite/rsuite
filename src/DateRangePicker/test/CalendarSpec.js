@@ -8,7 +8,6 @@ describe('DateRangePicker - Calendar', () => {
     const instance = getDOMNode(
       <Calendar format="yyyy-MM-dd" calendarDate={[new Date(), new Date()]} />
     );
-
     assert.equal(instance.nodeName, 'DIV');
     assert.ok(instance.className.match(/\bcalendar\b/));
   });

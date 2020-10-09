@@ -1,5 +1,3 @@
-### Placeholder
-
 <!--start-code-->
 
 ```js

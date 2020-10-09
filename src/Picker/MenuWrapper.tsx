@@ -49,7 +49,7 @@ const MenuWrapper: RsRefForwardingComponent<'div', MenuWrapperProps> = React.for
 
     const menuRef = useRef();
     const handleResize = useCallback(() => {
-      const instance = target.current;
+      const instance = target?.current;
       if (instance && resizePlacement.includes(placement)) {
         instance.updatePosition();
       }
@@ -57,7 +57,7 @@ const MenuWrapper: RsRefForwardingComponent<'div', MenuWrapperProps> = React.for
 
     useElementResize(() => menuRef.current, handleResize);
     useEffect(() => {
-      const toggle = target.current;
+      const toggle = target?.current;
       if (autoWidth && toggle.child) {
         // Get the width value of the button,
         // and then set it to the menu to make their width consistent.

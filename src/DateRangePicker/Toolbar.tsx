@@ -9,11 +9,8 @@ import { WithAsProps } from '../@types/common';
 
 export interface ToolbarProps extends WithAsProps {
   ranges: Range[];
-  className?: string;
-  classPrefix?: string;
   pageDate?: ValueType;
   locale?: CalendarLocale;
-  selectValue?: [Date, Date];
   hideOkButton?: boolean;
   timeZone?: string;
   onShortcut: (value: ValueType, closeOverlay?: boolean, event?: React.SyntheticEvent) => void;
@@ -105,7 +102,7 @@ const Toolbar = React.forwardRef((props: ToolbarProps, ref) => {
               tabIndex={-1}
               className={itemClassName}
               onClick={event => {
-                !disabled && onShortcut(value, item.closeOverlay, event);
+                !disabled && onShortcut?.(value, item.closeOverlay, event);
               }}
             >
               {hasLocaleKey(item.label) && typeof item.label === 'string'
@@ -131,7 +128,6 @@ Toolbar.propTypes = {
   onOk: PropTypes.func,
   disabledOkButton: PropTypes.func,
   disabledShortcutButton: PropTypes.func,
-  selectValue: TypeChecker.tupleType(PropTypes.instanceOf(Date), PropTypes.instanceOf(Date)),
   hideOkButton: PropTypes.bool,
   timeZone: PropTypes.string,
   locale: PropTypes.any

@@ -6,9 +6,7 @@ import Toolbar from '../Toolbar';
 
 describe('Toolbar', () => {
   it('Should render a div with `rs-picker-toolbar` class', () => {
-    const instance = getDOMNode(
-      <Toolbar onShortcut={() => {}} disabledShortcutButton={() => {}} />
-    );
+    const instance = getDOMNode(<Toolbar />);
 
     assert.equal(instance.nodeName, 'DIV');
     assert.ok(instance.className.match(/\brs-picker-toolbar\b/));
@@ -35,9 +33,7 @@ describe('Toolbar', () => {
       done();
     };
 
-    const instance = getDOMNode(
-      <Toolbar onOk={doneOp} onShortcut={() => {}} disabledShortcutButton={() => {}} />
-    );
+    const instance = getDOMNode(<Toolbar onOk={doneOp} />);
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toolbar-right-btn-ok'));
   });
@@ -47,34 +43,24 @@ describe('Toolbar', () => {
       done();
     };
 
-    const instance = getDOMNode(<Toolbar onShortcut={doneOp} disabledShortcutButton={() => {}} />);
+    const instance = getDOMNode(<Toolbar onShortcut={doneOp} />);
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toolbar-ranges a'));
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(
-      <Toolbar className="custom" onShortcut={() => {}} disabledShortcutButton={() => {}} />
-    );
+    const instance = getDOMNode(<Toolbar className="custom" />);
     assert.ok(instance.className.match(/\bcustom\b/));
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(
-      <Toolbar style={{ fontSize }} onShortcut={() => {}} disabledShortcutButton={() => {}} />
-    );
+    const instance = getDOMNode(<Toolbar style={{ fontSize }} />);
     assert.equal(instance.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(
-      <Toolbar
-        classPrefix="custom-prefix"
-        onShortcut={() => {}}
-        disabledShortcutButton={() => {}}
-      />
-    );
+    const instance = getDOMNode(<Toolbar classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

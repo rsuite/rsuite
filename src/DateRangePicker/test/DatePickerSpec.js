@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 import DatePicker from '../DatePicker';
 import { parseISO } from '../../utils/dateUtils';
 
 describe('DatePicker', () => {
   it('Should render a div with "rs-calendar" class', () => {
-    const instance = getDOMNode(<DatePicker onChangeCalendarDate={() => {}} />);
+    const instance = getDOMNode(<DatePicker />);
 
     assert.equal(instance.nodeName, 'DIV');
     assert.ok(instance.className.match(/\brs-calendar\b/));
@@ -14,11 +14,7 @@ describe('DatePicker', () => {
 
   it('Should output a date', () => {
     const instance = getDOMNode(
-      <DatePicker
-        calendarDate={[parseISO('2017-08'), parseISO('2017-09')]}
-        index={0}
-        onChangeCalendarDate={() => {}}
-      />
+      <DatePicker calendarDate={[parseISO('2017-08'), parseISO('2017-09')]} index={0} />
     );
     assert.equal(instance.querySelector('.rs-calendar-header-title').innerText, '2017-08');
   });
@@ -63,23 +59,6 @@ describe('DatePicker', () => {
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-header-title-date'));
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-month-dropdown-cell'));
-  });
-
-  it('Should change calendarState', () => {
-    const instance = getInstance(
-      <DatePicker
-        onChangeCalendarDate={() => {}}
-        calendarDate={[parseISO('2017-08'), parseISO('2017-10')]}
-        index={0}
-      />
-    );
-    instance.toggleMonthDropdown(() => {
-      assert.equal(instance.state.calendarState, 'MONTH');
-    });
-
-    instance.toggleMonthDropdown(() => {
-      assert.equal(instance.state.calendarState, null);
-    });
   });
 
   it('Should have a custom className prefix', () => {

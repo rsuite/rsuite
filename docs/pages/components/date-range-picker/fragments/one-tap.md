@@ -1,13 +1,12 @@
-### 一键选值
-
 <!--start-code-->
 
 ```js
 const instance = (
   <div className="field">
-    <p>选择单日</p>
+    <p>Select Single Day</p>
     <DateRangePicker
       oneTap
+      showOneCalendar
       ranges={[
         {
           label: 'today',
@@ -19,10 +18,10 @@ const instance = (
         }
       ]}
     />
-    <p>选择单周</p>
-    <DateRangePicker oneTap hoverRange="week" ranges={[]} />
-    <p>选择单月</p>
-    <DateRangePicker oneTap hoverRange="month" ranges={[]} />
+    <p>Select Single Week</p>
+    <DateRangePicker oneTap hoverRange="week" showOneCalendar ranges={[]} />
+    <p>Select Single Month</p>
+    <DateRangePicker oneTap hoverRange="month" showOneCalendar ranges={[]} />
   </div>
 );
 

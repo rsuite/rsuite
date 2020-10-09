@@ -1,5 +1,3 @@
-### 受控
-
 <!--start-code-->
 
 ```js
@@ -7,7 +5,7 @@ class DateRangePickerValue extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: [dateFns.parseISO('2017-02-01'), dateFns.parseISO('2017-05-20')]
+      value: [new Date('2017-02-01'), new Date('2017-05-20')]
     };
   }
   render() {

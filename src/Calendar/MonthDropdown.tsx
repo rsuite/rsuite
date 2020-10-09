@@ -63,11 +63,11 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
       as: Component,
       className,
       classPrefix,
-      disabledMonth,
       limitEndYear,
       show,
       height: defaultHeight,
       width: defaultWidth,
+      disabledMonth,
       ...rest
     } = props;
 

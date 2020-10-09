@@ -1,5 +1,3 @@
-### Select Whole Week, Whole Month
-
 <!--start-code-->
 
 ```js

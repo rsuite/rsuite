@@ -1,5 +1,3 @@
-### Show One Calendar
-
 <!--start-code-->
 
 ```js

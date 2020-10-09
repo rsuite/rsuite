@@ -52,7 +52,7 @@ export interface CalendarContextValue {
   locale?: CalendarLocale;
 
   /** Disabled date */
-  disabledDate?: (date: Date) => boolean;
+  disabledDate?: (date: Date, selectValue?: Date[], type?: string) => boolean;
 
   /** Custom render calendar cells  */
   renderCell?: (date: Date) => React.ReactNode;

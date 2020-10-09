@@ -1,153 +1,157 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { addDays, isSameDay, isBefore, isAfter, getDate, format } from '../../utils/dateUtils';
-import { prefix, defaultProps, DATERANGE_DISABLED_TARGET } from '../../utils';
-import IntlContext from '../../IntlProvider/IntlContext';
-import { zonedDate } from '../../utils/timeZone';
+import { useClassNames, DATERANGE_DISABLED_TARGET, DateUtils, TimeZone } from '../../utils';
+import { CalendarContext } from '../../Calendar';
+import { WithAsProps } from '../../@types/common';
 
-export interface TableRowProps {
+export interface TableRowProps extends WithAsProps {
   weekendDate?: Date;
-  timeZone?: string;
   selected: Date[];
   hoverValue: Date[];
-  className?: string;
-  classPrefix?: string;
-  showWeekNumbers?: boolean;
-  isoWeek?: boolean;
-  onSelect?: (date: Date, event: React.MouseEvent) => void;
-  disabledDate?: (date: Date, selectValue: Date[], type: string) => boolean;
   inSameMonth?: (date: Date) => boolean;
   onMouseMove?: (date: Date) => void;
 }
 
-class TableRow extends React.Component<TableRowProps> {
-  static contextType = IntlContext;
-  static propTypes = {
-    weekendDate: PropTypes.instanceOf(Date),
-    timeZone: PropTypes.string,
-    selected: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-    hoverValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    isoWeek: PropTypes.bool,
-    onSelect: PropTypes.func,
-    disabledDate: PropTypes.func,
-    inSameMonth: PropTypes.func,
-    onMouseMove: PropTypes.func
-  };
-  static defaultProps = {
-    selected: [],
-    hoverValue: []
-  };
+const defaultProps: Partial<TableRowProps> = {
+  as: 'div',
+  classPrefix: 'calendar-table',
+  selected: [],
+  hoverValue: []
+};
 
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
-  renderDays() {
-    const {
-      weekendDate,
-      disabledDate,
-      inSameMonth,
-      selected,
-      hoverValue,
-      onMouseMove,
-      onSelect,
-      timeZone
-    } = this.props;
+const TableRow = React.forwardRef((props: TableRowProps, ref) => {
+  const {
+    as: Component,
+    className,
+    classPrefix,
+    weekendDate,
+    selected,
+    hoverValue,
+    inSameMonth,
+    onMouseMove,
+    ...rest
+  } = props;
 
-    const { formatDate, formattedDayPattern, today } = this.context || {};
-    const formatStr = formattedDayPattern || 'yyyy-MM-dd';
+  const { merge, prefix } = useClassNames(classPrefix);
+  const classes = merge(className, prefix('row'));
+
+  const {
+    locale,
+    isoWeek,
+    showWeekNumbers,
+    timeZone,
+    disabledDate,
+    formatDate,
+    onSelect
+  } = useContext(CalendarContext);
+
+  const renderDays = () => {
+    const formatStr = locale?.formattedDayPattern || 'yyyy-MM-dd';
 
     const days = [];
     const selectedStartDate = selected[0];
     const selectedEndDate = selected[1];
     const hoverStartDate = hoverValue[0] || null;
     const hoverEndDate = hoverValue[1] || null;
-    const todayDate = zonedDate(timeZone);
+    const todayDate = TimeZone.zonedDate(timeZone);
 
     for (let i = 0; i < 7; i += 1) {
-      const thisDate = addDays(weekendDate, i);
+      const thisDate = DateUtils.addDays(weekendDate, i);
       const selectValue = [selectedStartDate, selectedEndDate];
       const disabled = disabledDate?.(thisDate, selectValue, DATERANGE_DISABLED_TARGET.CALENDAR);
-      const isToday = isSameDay(thisDate, todayDate);
+      const isToday = DateUtils.isSameDay(thisDate, todayDate);
       const unSameMonth = !inSameMonth?.(thisDate);
       const isStartSelected =
-        !unSameMonth && selectedStartDate && isSameDay(thisDate, selectedStartDate);
-      const isEndSelected = !unSameMonth && selectedEndDate && isSameDay(thisDate, selectedEndDate);
+        !unSameMonth && selectedStartDate && DateUtils.isSameDay(thisDate, selectedStartDate);
+      const isEndSelected =
+        !unSameMonth && selectedEndDate && DateUtils.isSameDay(thisDate, selectedEndDate);
       const isSelected = isStartSelected || isEndSelected;
 
       let inRange = false;
       // for Selected
       if (selectedStartDate && selectedEndDate) {
-        if (isBefore(thisDate, selectedEndDate) && isAfter(thisDate, selectedStartDate)) {
+        if (
+          DateUtils.isBefore(thisDate, selectedEndDate) &&
+          DateUtils.isAfter(thisDate, selectedStartDate)
+        ) {
           inRange = true;
         }
-        if (isBefore(thisDate, selectedStartDate) && isAfter(thisDate, selectedEndDate)) {
+        if (
+          DateUtils.isBefore(thisDate, selectedStartDate) &&
+          DateUtils.isAfter(thisDate, selectedEndDate)
+        ) {
           inRange = true;
         }
       }
 
       // for Hovering
       if (!isSelected && hoverEndDate && hoverStartDate) {
-        if (!isAfter(thisDate, hoverEndDate) && !isBefore(thisDate, hoverStartDate)) {
+        if (
+          !DateUtils.isAfter(thisDate, hoverEndDate) &&
+          !DateUtils.isBefore(thisDate, hoverStartDate)
+        ) {
           inRange = true;
         }
-        if (!isAfter(thisDate, hoverStartDate) && !isBefore(thisDate, hoverEndDate)) {
+        if (
+          !DateUtils.isAfter(thisDate, hoverStartDate) &&
+          !DateUtils.isBefore(thisDate, hoverEndDate)
+        ) {
           inRange = true;
         }
       }
 
-      const classes = classNames(this.addPrefix('cell'), {
-        [this.addPrefix('cell-un-same-month')]: unSameMonth,
-        [this.addPrefix('cell-is-today')]: isToday,
-        [this.addPrefix('cell-selected-start')]: isStartSelected,
-        [this.addPrefix('cell-selected-end')]: isEndSelected,
-        [this.addPrefix('cell-selected')]: isSelected,
-        [this.addPrefix('cell-in-range')]: !unSameMonth && inRange,
-        [this.addPrefix('cell-disabled')]: disabled
+      const classes = prefix('cell', {
+        'cell-un-same-month': unSameMonth,
+        'cell-is-today': isToday,
+        'cell-selected-start': isStartSelected,
+        'cell-selected-end': isEndSelected,
+        'cell-selected': isSelected,
+        'cell-in-range': !unSameMonth && inRange,
+        'cell-disabled': disabled
       });
 
-      const title = formatDate ? formatDate(thisDate, formatStr) : format(thisDate, formatStr);
+      const title = formatDate
+        ? formatDate(thisDate, formatStr)
+        : DateUtils.format(thisDate, formatStr);
 
       days.push(
         <div
           key={title}
           className={classes}
-          role="menu"
           tabIndex={-1}
-          title={isToday ? `${title} (${today})` : title}
+          title={isToday ? `${title} (${locale?.today})` : title}
           onMouseEnter={!disabled && onMouseMove ? onMouseMove.bind(null, thisDate) : undefined}
           onClick={!disabled ? onSelect?.bind(null, thisDate) : undefined}
         >
-          <span className={this.addPrefix('cell-content')}>{getDate(thisDate)}</span>
+          <span className={prefix('cell-content')}>{DateUtils.getDate(thisDate)}</span>
         </div>
       );
     }
     return days;
-  }
+  };
 
-  renderWeekNumber() {
-    return (
-      <div className={this.addPrefix('cell-week-number')}>
-        {format(this.props.weekendDate, this.props.isoWeek ? 'I' : 'w')}
-      </div>
-    );
-  }
-
-  render() {
-    const { className, showWeekNumbers, ...rest } = this.props;
-    const classes = classNames(this.addPrefix('row'), className);
-
-    return (
-      <div {...rest} className={classes}>
-        {showWeekNumbers && this.renderWeekNumber()}
-        {this.renderDays()}
-      </div>
-    );
-  }
-}
-
-const enhance = defaultProps<TableRowProps>({
-  classPrefix: 'calendar-table'
+  return (
+    <Component {...rest} ref={ref} className={classes}>
+      {showWeekNumbers && (
+        <div className={prefix('cell-week-number')}>
+          {DateUtils.format(weekendDate, isoWeek ? 'I' : 'w')}
+        </div>
+      )}
+      {renderDays()}
+    </Component>
+  );
 });
 
-export default enhance(TableRow);
+TableRow.displayName = 'TableRow';
+TableRow.defaultProps = defaultProps;
+TableRow.propTypes = {
+  weekendDate: PropTypes.instanceOf(Date),
+  selected: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
+  hoverValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  inSameMonth: PropTypes.func,
+  onMouseMove: PropTypes.func
+};
+
+export default TableRow;
