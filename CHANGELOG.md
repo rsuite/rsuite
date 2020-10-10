@@ -1,3 +1,7 @@
+# 4.8.3
+
+- **Improve**: Bump rsuite-table@3.13.3
+
 # 4.8.2
 
 > September 10, 2020
