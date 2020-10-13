@@ -1,6 +1,6 @@
-# 4.8.3
+# 4.8.4
 
-- **Improve**: Bump rsuite-table@3.13.3
+- **Improve**: Bump rsuite-table@3.14.0
 
 # 4.8.2
 
