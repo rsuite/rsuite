@@ -1,8 +1,3 @@
-### Option Status
-
-- active
-- disabled
-
 <!--start-code-->
 
 ```js
