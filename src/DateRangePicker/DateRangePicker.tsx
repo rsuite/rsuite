@@ -174,9 +174,9 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     placeholder,
     placement,
     format: formatStr,
-    onSelect,
     disabledDate,
     renderValue,
+    onSelect,
     onEntered,
     onEnter,
     onExited,
@@ -550,89 +550,62 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     [timeZone, updateValue]
   );
 
-  const renderDropdownMenu = useCallback(
-    (positionProps: PositionChildProps, speakerRef) => {
-      const { left, top, className } = positionProps;
-      const classes = prefix(className, menuClassName, 'daterange-menu');
-      const panelClasses = prefix('daterange-panel', {
-        'daterange-panel-show-one-calendar': showOneCalendar
-      });
-      const styles = { left, top };
+  const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
+    const { left, top, className } = positionProps;
+    const classes = merge(className, menuClassName, prefix('daterange-menu'));
+    const panelClasses = prefix('daterange-panel', {
+      'daterange-panel-show-one-calendar': showOneCalendar
+    });
+    const styles = { left, top };
 
-      const pickerProps = {
-        isoWeek,
-        hoverValue,
-        calendarDate,
-        limitEndYear,
-        showWeekNumbers,
-        locale,
-        showOneCalendar,
-        timeZone,
-        format: formatStr,
-        value: selectValue as ValueType,
-        disabledDate: handleDisabledDate,
-        onSelect: handleChangeSelectValue,
-        onMouseMove: handleMouseMoveSelectValue,
-        onChangeCalendarDate: handleChangeCalendarDate
-      };
-
-      return (
-        <MenuWrapper
-          className={classes}
-          style={styles}
-          ref={mergeRefs(menuRef, speakerRef)}
-          target={triggerRef}
-        >
-          <div className={panelClasses}>
-            <div className={prefix('daterange-content')}>
-              <div className={prefix('daterange-header')}>
-                {renderDateRange(selectValue as ValueType)}
-              </div>
-              <div className={prefix(`daterange-calendar-${showOneCalendar ? 'single' : 'group'}`)}>
-                <DatePicker index={0} {...pickerProps} />
-                {!showOneCalendar && <DatePicker index={1} {...pickerProps} />}
-              </div>
-            </div>
-            <Toolbar
-              locale={locale}
-              ranges={ranges}
-              disabledOkButton={disabledOkButton}
-              disabledShortcutButton={disabledShortcutButton}
-              onShortcut={handleShortcutPageDate}
-              onOk={handleOK}
-              hideOkButton={oneTap}
-              timeZone={timeZone}
-            />
-          </div>
-        </MenuWrapper>
-      );
-    },
-    [
-      calendarDate,
-      disabledOkButton,
-      disabledShortcutButton,
-      formatStr,
-      handleChangeCalendarDate,
-      handleChangeSelectValue,
-      handleDisabledDate,
-      handleMouseMoveSelectValue,
-      handleOK,
-      handleShortcutPageDate,
-      hoverValue,
+    const pickerProps = {
       isoWeek,
+      hoverValue,
+      calendarDate,
       limitEndYear,
-      locale,
-      menuClassName,
-      oneTap,
-      prefix,
-      ranges,
-      renderDateRange,
-      selectValue,
-      showOneCalendar,
       showWeekNumbers,
-      timeZone
-    ]
-  );
+      locale,
+      showOneCalendar,
+      timeZone,
+      format: formatStr,
+      value: selectValue as ValueType,
+      disabledDate: handleDisabledDate,
+      onSelect: handleChangeSelectValue,
+      onMouseMove: handleMouseMoveSelectValue,
+      onChangeCalendarDate: handleChangeCalendarDate
+    };
+
+    return (
+      <MenuWrapper
+        className={classes}
+        style={styles}
+        ref={mergeRefs(menuRef, speakerRef)}
+        target={triggerRef}
+      >
+        <div className={panelClasses}>
+          <div className={prefix('daterange-content')}>
+            <div className={prefix('daterange-header')}>
+              {renderDateRange(selectValue as ValueType)}
+            </div>
+            <div className={prefix(`daterange-calendar-${showOneCalendar ? 'single' : 'group'}`)}>
+              <DatePicker index={0} {...pickerProps} />
+              {!showOneCalendar && <DatePicker index={1} {...pickerProps} />}
+            </div>
+          </div>
+          <Toolbar
+            locale={locale}
+            ranges={ranges}
+            disabledOkButton={disabledOkButton}
+            disabledShortcutButton={disabledShortcutButton}
+            onShortcut={handleShortcutPageDate}
+            onOk={handleOK}
+            hideOkButton={oneTap}
+            timeZone={timeZone}
+          />
+        </div>
+      </MenuWrapper>
+    );
+  };
 
   return (
     <PickerToggleTrigger
