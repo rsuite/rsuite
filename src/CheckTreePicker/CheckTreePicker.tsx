@@ -1165,13 +1165,8 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       ...rest
     } = this.props;
     const { hasValue, selectedValues } = this.state;
-    const hasValidValue = hasValue || (selectedValues.length > 0 && _.isFunction(renderValue));
-    const classes = getToggleWrapperClassName(
-      'check-tree',
-      this.addPrefix,
-      this.props,
-      hasValidValue
-    );
+    let hasValidValue = hasValue || (selectedValues.length > 0 && _.isFunction(renderValue));
+
     const selectedItems = this.getSelectedItems(selectedValues);
     let selectedElement: React.ReactNode = placeholder;
 
@@ -1195,10 +1190,19 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       }
       if (_.isFunction(renderValue)) {
         selectedElement = renderValue(selectedValues, selectedItems, selectedElement);
+        if (_.isNil(selectedElement)) {
+          hasValidValue = false;
+        }
       }
     }
 
     const unhandled = getUnhandledProps(CheckTreePicker, rest);
+    const classes = getToggleWrapperClassName(
+      'check-tree',
+      this.addPrefix,
+      this.props,
+      hasValidValue
+    );
     if (inline) {
       return this.renderCheckTree();
     }

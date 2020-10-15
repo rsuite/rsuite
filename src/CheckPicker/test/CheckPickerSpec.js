@@ -140,6 +140,16 @@ describe('CheckPicker', () => {
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
   });
 
+  it('Should call renderValue', () => {
+    const instance1 = getDOMNode(<Dropdown value="Test" renderValue={() => '1'} />);
+    const instance2 = getDOMNode(<Dropdown value="Test" renderValue={() => null} />);
+    const instance3 = getDOMNode(<Dropdown value="Test" renderValue={() => undefined} />);
+
+    assert.equal(instance1.querySelector('.rs-picker-toggle-value').innerText, '1');
+    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+  });
+
   it('Should render a placeholder when value error', () => {
     const instance = getDOMNode(
       <Dropdown

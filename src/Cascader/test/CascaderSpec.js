@@ -203,4 +203,14 @@ describe('Cascader', () => {
     const instance = getInstance(<Cascader open data={items} toggleComponentClass={Button} />);
     ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-btn');
   });
+
+  it('Should call renderValue', () => {
+    const instance1 = getDOMNode(<Cascader value="Test" renderValue={() => '1'} />);
+    const instance2 = getDOMNode(<Cascader value="Test" renderValue={() => null} />);
+    const instance3 = getDOMNode(<Cascader value="Test" renderValue={() => undefined} />);
+
+    assert.equal(instance1.querySelector('.rs-picker-toggle-value').innerText, '1');
+    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+  });
 });

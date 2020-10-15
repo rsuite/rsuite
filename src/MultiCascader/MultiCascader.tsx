@@ -486,7 +486,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
      * 1.Have a value and the value is valid.
      * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
      */
-    const hasValue =
+    let hasValue =
       selectedItems.length > 0 || (this.props.value?.length > 0 && _.isFunction(renderValue));
 
     let selectedElement: React.ReactNode = placeholder;
@@ -512,6 +512,9 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
         selectedItems,
         selectedElement
       );
+      if (_.isNil(selectedElement)) {
+        hasValue = false;
+      }
     }
 
     const classes = getToggleWrapperClassName('cascader', this.addPrefix, this.props, hasValue);

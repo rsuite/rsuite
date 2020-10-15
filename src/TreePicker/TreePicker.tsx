@@ -1073,9 +1073,8 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       ...rest
     } = this.props;
     const { selectedValue, activeNode } = this.state;
-    const hasValidValue =
+    let hasValidValue =
       !_.isNil(activeNode) || (!_.isNil(selectedValue) && _.isFunction(renderValue));
-    const classes = getToggleWrapperClassName('tree', this.addPrefix, this.props, hasValidValue);
 
     let selectedElement: React.ReactNode = placeholder;
     const hasValue = !!activeNode;
@@ -1091,10 +1090,15 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       if (_.isFunction(renderValue)) {
         const node = activeNode ?? {};
         selectedElement = renderValue(selectedValue, node, selectedElement);
+
+        if (_.isNil(selectedElement)) {
+          hasValidValue = false;
+        }
       }
     }
 
     const unhandled = getUnhandledProps(TreePicker, rest);
+    const classes = getToggleWrapperClassName('tree', this.addPrefix, this.props, hasValidValue);
 
     if (inline) {
       return this.renderTree();

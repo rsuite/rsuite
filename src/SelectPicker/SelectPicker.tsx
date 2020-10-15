@@ -402,7 +402,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
      * 1.Have a value and the value is valid.
      * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
      */
-    const hasValue = !!activeItem || (!_.isNil(value) && _.isFunction(renderValue));
+    let hasValue = !!activeItem || (!_.isNil(value) && _.isFunction(renderValue));
 
     let selectedElement: React.ReactNode = placeholder;
 
@@ -412,6 +412,9 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
 
     if (!_.isNil(value) && _.isFunction(renderValue)) {
       selectedElement = renderValue(value, activeItem, selectedElement);
+      if (_.isNil(selectedElement)) {
+        hasValue = false;
+      }
     }
 
     const classes = getToggleWrapperClassName('select', this.addPrefix, this.props, hasValue);

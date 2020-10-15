@@ -497,7 +497,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
      * 1.Have a value and the value is valid.
      * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
      */
-    const hasValue = activePaths.length > 0 || (!_.isNil(value) && _.isFunction(renderValue));
+    let hasValue = activePaths.length > 0 || (!_.isNil(value) && _.isFunction(renderValue));
 
     let activeItemLabel: any = placeholder;
 
@@ -518,6 +518,9 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
 
     if (!_.isNil(value) && _.isFunction(renderValue)) {
       activeItemLabel = renderValue(value, activePaths, activeItemLabel);
+      if (_.isNil(activeItemLabel)) {
+        hasValue = false;
+      }
     }
 
     const classes = getToggleWrapperClassName('cascader', this.addPrefix, this.props, hasValue);

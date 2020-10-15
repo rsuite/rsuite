@@ -371,4 +371,16 @@ describe('CheckTreePicker', () => {
     assert.equal(list.length, 1);
     assert.ok(list[0].innerText, 'Louisa');
   });
+
+  it('Should call renderValue', () => {
+    const instance1 = getDOMNode(<CheckTreePicker value={['test']} renderValue={() => '1'} />);
+    const instance2 = getDOMNode(<CheckTreePicker value={['test']} renderValue={() => null} />);
+    const instance3 = getDOMNode(
+      <CheckTreePicker value={['test']} renderValue={() => undefined} />
+    );
+
+    assert.equal(instance1.querySelector('.rs-picker-toggle-value').innerText, '1');
+    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+  });
 });

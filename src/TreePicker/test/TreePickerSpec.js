@@ -389,4 +389,14 @@ describe('TreePicker', () => {
     assert.equal(list.length, 1);
     assert.ok(list[0].innerText, 'Louisa');
   });
+
+  it('Should call renderValue', () => {
+    const instance1 = getDOMNode(<TreePicker value="Test" renderValue={() => '1'} />);
+    const instance2 = getDOMNode(<TreePicker value="Test" renderValue={() => null} />);
+    const instance3 = getDOMNode(<TreePicker value="Test" renderValue={() => undefined} />);
+
+    assert.equal(instance1.querySelector('.rs-picker-toggle-value').innerText, '1');
+    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+  });
 });

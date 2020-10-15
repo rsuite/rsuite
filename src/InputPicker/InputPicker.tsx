@@ -625,7 +625,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   }
 
   renderMultiValue() {
-    const { multi, disabled, tagProps = {}, renderValue } = this.props;
+    const { multi, disabled, tagProps = {}, renderValue, value } = this.props;
     if (!multi) {
       return null;
     }
@@ -657,7 +657,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
       })
       .filter(item => item !== null);
 
-    if (tags.length > 0 && _.isFunction(renderValue)) {
+    if ((tags.length > 0 || !_.isNil(value)) && _.isFunction(renderValue)) {
       return renderValue(this.getValue(), items, tagElements);
     }
 
@@ -715,8 +715,9 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
      * 1.Have a value and the value is valid.
      * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
      */
-    const hasSingleValue = !_.isNil(value) && _.isFunction(renderValue);
-    const hasMultiValue = _.isArray(value) && value.length > 0 && _.isFunction(renderValue);
+    const hasSingleValue = !_.isNil(value) && _.isFunction(renderValue) && !_.isNil(displayElement);
+    const hasMultiValue =
+      _.isArray(value) && value.length > 0 && _.isFunction(renderValue) && !_.isNil(tagElements);
     const hasValue = multi
       ? !!_.get(tagElements, 'length') || hasMultiValue
       : isValid || hasSingleValue;
