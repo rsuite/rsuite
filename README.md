@@ -111,7 +111,7 @@ $ cd rsuite
 2. Install it and run
 
 ```bash
-$ npm install
+$ npm i
 $ npm run tdd
 ```
 
@@ -132,10 +132,7 @@ $ git clone git@github.com:<YOUR NAME>/rsuite.git
 2. Install it and run
 
 ```bash
-$ cd rsuite
-$ npm install
-$ cd rsuite/docs
-$ npm install
+$ npm i
 $ npm run dev
 ```
 
