@@ -1,9 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames } from '../utils';
+import { useClassNames, composeFunctions } from '../utils';
 import { setMonth, setYear } from '../utils/dateUtils';
-import composeFunctions from '../utils/composeFunctions';
-import { useCalendarContext } from './CalendarContext';
+import { CalendarContext } from './Calendar';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 
 export interface MonthDropdownItemProps extends WithAsProps {
@@ -14,15 +13,15 @@ export interface MonthDropdownItemProps extends WithAsProps {
 }
 
 const defaultProps: Partial<MonthDropdownItemProps> = {
+  as: 'div',
   classPrefix: 'calendar-month-dropdown-cell',
-  month: 0,
-  as: 'div'
+  month: 0
 };
 
 const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps> = React.forwardRef(
   (props: MonthDropdownItemProps, ref) => {
     const { as: Component, className, classPrefix, active, disabled, month, year, ...rest } = props;
-    const { date, onChangePageDate: onSelect } = useCalendarContext();
+    const { date, onChangePageDate: onSelect } = useContext(CalendarContext);
 
     const handleClick = useCallback(
       (event: React.MouseEvent) => {
@@ -35,18 +34,15 @@ const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps>
             d => setYear(d, year),
             d => setMonth(d, month - 1)
           )(date);
+
           onSelect?.(nextMonth, event);
         }
       },
       [date, disabled, month, onSelect, year]
     );
 
-    const { prefix, merge, rootPrefix } = useClassNames(classPrefix);
-
-    const classes = merge(className, rootPrefix(classPrefix), {
-      [prefix('active')]: active,
-      disabled
-    });
+    const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix({ active, disabled }));
 
     return (
       <Component
@@ -55,7 +51,6 @@ const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps>
         className={classes}
         onClick={handleClick}
         key={month}
-        role="menuitem"
         tabIndex={-1}
       >
         <span className={prefix('content')}>{month}</span>
@@ -64,6 +59,7 @@ const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps>
   }
 );
 MonthDropdownItem.displayName = 'MonthDropdownItem';
+MonthDropdownItem.defaultProps = defaultProps;
 MonthDropdownItem.propTypes = {
   month: PropTypes.number,
   year: PropTypes.number,
@@ -72,6 +68,5 @@ MonthDropdownItem.propTypes = {
   active: PropTypes.bool,
   disabled: PropTypes.bool
 };
-MonthDropdownItem.defaultProps = defaultProps;
 
 export default MonthDropdownItem;

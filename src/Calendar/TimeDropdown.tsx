@@ -1,24 +1,12 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { getPosition, scrollTop } from 'dom-lib';
 import partial from 'lodash/partial';
 import camelCase from 'lodash/camelCase';
 import isNumber from 'lodash/isNumber';
+import { useClassNames, scrollTopAnimation, TimeZone, DateUtils } from '../utils';
 
-import { useClassNames } from '../utils';
-import {
-  getHours,
-  getMinutes,
-  getSeconds,
-  omitHideDisabledProps,
-  setHours,
-  setMinutes,
-  setSeconds
-} from '../utils/dateUtils';
-import scrollTopAnimation from '../utils/scrollTopAnimation';
-import { zonedDate } from '../utils/timeZone';
-import { useCalendarContext } from './CalendarContext';
-import { CalendarInnerContextValue } from './types';
+import { CalendarContext } from './Calendar';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 
 export interface TimeDropdownProps extends WithAsProps {
@@ -34,24 +22,9 @@ export interface TimeDropdownProps extends WithAsProps {
 }
 
 const defaultProps: Partial<TimeDropdownProps> = {
-  show: false,
   classPrefix: 'calendar-time-dropdown',
   as: 'div'
 };
-
-type TimeType = 'hours' | 'minutes' | 'seconds';
-
-function getRanges(meridian) {
-  return {
-    hours: { start: 0, end: meridian ? 11 : 23 },
-    minutes: { start: 0, end: 59 },
-    seconds: { start: 0, end: 59 }
-  };
-}
-
-export function getMeridianHours(hours: number): number {
-  return hours >= 12 ? hours - 12 : hours;
-}
 
 interface Time {
   hours?: number;
@@ -59,24 +32,51 @@ interface Time {
   seconds?: number;
 }
 
-const getTime = (props: Partial<TimeDropdownProps> & Partial<CalendarInnerContextValue>): Time => {
+type TimeType = 'hours' | 'minutes' | 'seconds';
+
+/**
+ * Get the effective range of hours, minutes and seconds
+ * @param meridian
+ */
+export function getRanges(meridian: boolean) {
+  return {
+    hours: { start: 0, end: meridian ? 11 : 23 },
+    minutes: { start: 0, end: 59 },
+    seconds: { start: 0, end: 59 }
+  };
+}
+
+/**
+ * Convert the 24-hour clock to the 12-hour clock
+ * @param hours
+ */
+export function getMeridianHours(hours: number): number {
+  return hours >= 12 ? hours - 12 : hours;
+}
+
+const getTime = (props: {
+  date: Date;
+  format?: string;
+  timeZone?: string;
+  showMeridian: boolean;
+}) => {
   const { format, timeZone, date, showMeridian } = props;
-  const time = date || zonedDate(timeZone);
-  const nextTime = {} as Time;
+  const time = date || TimeZone.zonedDate(timeZone);
+  const nextTime: Time = {};
 
   if (!format) {
     return nextTime;
   }
 
   if (/(H|h)/.test(format)) {
-    const hours = getHours(time);
+    const hours = DateUtils.getHours(time);
     nextTime.hours = showMeridian ? getMeridianHours(hours) : hours;
   }
   if (/m/.test(format)) {
-    nextTime.minutes = getMinutes(time);
+    nextTime.minutes = DateUtils.getMinutes(time);
   }
   if (/s/.test(format)) {
-    nextTime.seconds = getSeconds(time);
+    nextTime.seconds = DateUtils.getSeconds(time);
   }
   return nextTime;
 };
@@ -100,31 +100,29 @@ const scrollTo = (time: Time, row: HTMLDivElement) => {
 const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.forwardRef(
   (props: TimeDropdownProps, ref) => {
     const { as: Component, className, classPrefix, show, showMeridian, ...rest } = props;
-    const { locale, format, timeZone, date, onChangePageTime: onSelect } = useCalendarContext();
+    const { locale, format, timeZone, date, onChangePageTime: onSelect } = useContext(
+      CalendarContext
+    );
     const rowRef = useRef<HTMLDivElement>(null);
 
-    const updatePosition = useCallback(() => {
-      const time = getTime({
-        format,
-        timeZone,
-        date,
-        showMeridian
-      });
+    useEffect(() => {
+      const time = getTime({ format, timeZone, date, showMeridian });
+      // The currently selected time scrolls to the visible range.
       show && scrollTo(time, rowRef.current);
-    }, [show, format, timeZone, date, showMeridian]);
+    }, [date, format, show, showMeridian, timeZone]);
 
     const handleClick = (type: TimeType, d: number, event: React.MouseEvent) => {
       let nextDate = date || new Date();
 
       switch (type) {
         case 'hours':
-          nextDate = setHours(date, d);
+          nextDate = DateUtils.setHours(date, d);
           break;
         case 'minutes':
-          nextDate = setMinutes(date, d);
+          nextDate = DateUtils.setMinutes(date, d);
           break;
         case 'seconds':
-          nextDate = setSeconds(date, d);
+          nextDate = DateUtils.setSeconds(date, d);
           break;
       }
 
@@ -145,9 +143,9 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
       for (let i = start; i <= end; i += 1) {
         if (!hideFunc?.(i, date)) {
           const disabled = disabledFunc?.(i, date);
-          const itemClasses = merge(prefix('cell'), {
-            [prefix('cell-active')]: active === i,
-            [prefix('cell-disabled')]: disabled
+          const itemClasses = prefix('cell', {
+            'cell-active': active === i,
+            'cell-disabled': disabled
           });
 
           items.push(
@@ -179,16 +177,12 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
     const time = getTime({ format, timeZone, date, showMeridian });
     const classes = merge(className, rootPrefix(classPrefix));
 
-    useEffect(() => {
-      updatePosition();
-    }, [updatePosition]);
-
     return (
       <Component
-        {...omitHideDisabledProps<TimeDropdownProps>(rest)}
+        role="list"
+        {...DateUtils.omitHideDisabledProps<TimeDropdownProps>(rest)}
         ref={ref}
         className={classes}
-        role="list"
       >
         <div className={prefix('content')}>
           <div className={prefix('row')} ref={rowRef}>
@@ -203,6 +197,7 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
 );
 
 TimeDropdown.displayName = 'TimeDropdown';
+TimeDropdown.defaultProps = defaultProps;
 TimeDropdown.propTypes = {
   show: PropTypes.bool,
   showMeridian: PropTypes.bool,
@@ -216,6 +211,5 @@ TimeDropdown.propTypes = {
   hideMinutes: PropTypes.func,
   hideSeconds: PropTypes.func
 };
-TimeDropdown.defaultProps = defaultProps;
 
 export default TimeDropdown;

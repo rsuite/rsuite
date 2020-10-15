@@ -32,17 +32,17 @@ import {
   useFocusItemValue,
   usePickerClassName,
   useSearch,
-  usePublicMethods
-} from '../Picker';
-import { PickerComponent, PickerLocaleType } from '../Picker/types';
-import {
+  usePublicMethods,
   pickerToggleTriggerProps,
   OverlayTriggerInstance,
-  PositionChildProps
-} from '../Picker/PickerToggleTrigger';
+  PositionChildProps,
+  PickerComponent,
+  PickerLocaleType,
+  listPickerPropTypes
+} from '../Picker';
+
 import Tag, { TagProps } from '../Tag';
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
-import { listPickerPropTypes } from '../Picker/propTypes';
 import { SelectProps } from '../SelectPicker';
 import InputAutosize from './InputAutosize';
 import InputSearch from './InputSearch';
@@ -175,7 +175,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       cacheData
     ]);
 
-    const [value, setValue] = useControlled<ValueType>(
+    const [value, setValue, isControlled] = useControlled<ValueType>(
       valueProp,
       multi ? defaultValue || [] : defaultValue
     );
@@ -593,7 +593,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         })
         .filter(item => item !== null);
 
-      if (tags.length > 0 && isFunction(renderValue)) {
+      if ((tags.length > 0 || isControlled) && isFunction(renderValue)) {
         return renderValue(value, items, tagElements);
       }
 
@@ -667,9 +667,11 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     /**
      * 1.Have a value and the value is valid.
      * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
+     * 3.If renderValue returns null or undefined, hasValue is false.
      */
-    const hasSingleValue = !isNil(value) && isFunction(renderValue);
-    const hasMultiValue = isArray(value) && value.length > 0 && isFunction(renderValue);
+    const hasSingleValue = !isNil(value) && isFunction(renderValue) && !isNil(displayElement);
+    const hasMultiValue =
+      isArray(value) && value.length > 0 && isFunction(renderValue) && !isNil(tagElements);
     const hasValue = multi ? !!tagElements?.length || hasMultiValue : isValid || hasSingleValue;
 
     const [pickerClasses, usedClassNameProps] = usePickerClassName({

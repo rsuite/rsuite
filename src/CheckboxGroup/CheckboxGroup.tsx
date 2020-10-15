@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import cloneDeep from 'lodash/cloneDeep';
 import remove from 'lodash/remove';
 import { useClassNames, useControlled, shallowEqual } from '../utils';
 import { WithAsProps, FormControlBaseProps, RsRefForwardingComponent } from '../@types/common';
-import { ValueType } from '../Checkbox/Checkbox';
+import { ValueType } from '../Checkbox';
 
 export interface CheckboxGroupProps<V = ValueType[]> extends WithAsProps, FormControlBaseProps<V> {
   /** Used for the name of the form */
@@ -25,12 +25,12 @@ const defaultProps: Partial<CheckboxGroupProps> = {
 export interface CheckboxGroupContextValue {
   inline?: boolean;
   name?: string;
-  value?: any;
+  value?: ValueType[];
   controlled?: boolean;
   onChange?: (value: any, checked: boolean, event: React.SyntheticEvent<HTMLInputElement>) => void;
 }
 
-export const CheckboxGroupContext = React.createContext<CheckboxGroupContextValue>(null);
+export const CheckboxGroupContext = React.createContext<CheckboxGroupContextValue>({});
 
 const CheckboxGroup: RsRefForwardingComponent<'div', CheckboxGroupProps> = React.forwardRef(
   (props: CheckboxGroupProps, ref) => {
@@ -66,13 +66,16 @@ const CheckboxGroup: RsRefForwardingComponent<'div', CheckboxGroupProps> = React
       [onChange, setValue, value]
     );
 
-    const contextValue: CheckboxGroupContextValue = {
-      inline,
-      name,
-      value,
-      controlled: isControlled,
-      onChange: handleChange
-    };
+    const contextValue = useMemo(
+      () => ({
+        inline,
+        name,
+        value,
+        controlled: isControlled,
+        onChange: handleChange
+      }),
+      [handleChange, inline, isControlled, name, value]
+    );
 
     return (
       <CheckboxGroupContext.Provider value={contextValue}>

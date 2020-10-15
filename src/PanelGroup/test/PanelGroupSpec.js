@@ -42,7 +42,7 @@ describe('PanelGroup', () => {
         </Panel>
       </PanelGroup>
     );
-    ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-panel-heading')[1]);
+    ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-panel-header')[1]);
   });
 
   it('Should have a custom className', () => {

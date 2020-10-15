@@ -36,7 +36,7 @@ type NotificationPlacement =
 ```ts
 type DataItemType = {
   value: string; // property value is the value of valueKey
-  label: React.Node; // property value is the vaue of labelKey
+  label: ReactNode; // property value is the vaue of labelKey
   children?: Array<DataItemType>; // property value is the value of childrenKey
   groupBy?: string;
 };
@@ -46,7 +46,7 @@ type DataItemType = {
 
 ```js
 type Range = {
-  label: React.Node,
+  label: ReactNode,
   closeOverlay?: boolean,
   value: Date | ((date: Date) => Date)
 };

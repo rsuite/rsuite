@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import Position, { PositionProps } from './Position';
 import { TypeAttributes, AnimationEventProps } from '../@types/common';
-import { refType, mergeRefs, useRootClose } from '../utils';
+import { mergeRefs, useRootClose } from '../utils';
 import Fade from '../Animation/Fade';
 
 export interface OverlayProps extends AnimationEventProps {
@@ -36,7 +36,7 @@ export const overlayPropTypes = {
   open: PropTypes.bool,
   rootClose: PropTypes.bool,
   transition: PropTypes.any,
-  triggerTarget: refType,
+  triggerTarget: PropTypes.any,
   onClose: PropTypes.func,
   onEnter: PropTypes.func,
   onEntering: PropTypes.func,

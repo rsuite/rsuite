@@ -76,7 +76,7 @@ TreePicker 组件与 CheckTreePicker 组件废弃了 expandAll 属性，同时�
 
 ```diff
 - onSelect (activeNode:DataItemType, layer:number, values:string[]) => void
-+ onSelect (activeNode: any, value: any, event: React.SyntheticEvent<any>) => void;
++ onSelect (activeNode: any, value: any, event) => void;
 ```
 
 ## 6.升级 `babel-preset-rsuite`

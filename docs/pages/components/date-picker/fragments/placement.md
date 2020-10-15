@@ -1,4 +1,3 @@
-
 <!--start-code-->
 
 ```js
@@ -66,4 +65,3 @@ ReactDOM.render(instance);
 ```
 
 <!--end-code-->
-

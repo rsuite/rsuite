@@ -8,22 +8,6 @@ export default function Page() {
   const { response: data } = useFetchData('province-simplified');
   return (
     <DefaultPage
-      examples={[
-        'basic',
-        'appearance',
-        'size',
-        'cascade',
-        'default-value',
-        'controlled',
-        'block',
-        'placement',
-        'custom',
-        'disabled',
-        'uncheckable',
-        'async',
-        'container',
-        'inline'
-      ]}
       dependencies={{
         MultiCascader,
         Button,

@@ -16,7 +16,7 @@
     box-shadow: @panel-box-shadow;
   }
 
-  &-heading,
+  &-header,
   &-body {
     padding: @panel-padding;
   }
@@ -26,17 +26,17 @@
     padding: 0 !important;
   }
 
-  &-heading {
-    color: @panel-heading-color;
-    font-size: @panel-heading-font-size;
-    line-height: unit(@line-height-computed / @panel-heading-font-size);
+  &-header {
+    color: @panel-header-color;
+    font-size: @panel-header-font-size;
+    line-height: unit(@line-height-computed / @panel-header-font-size);
   }
 
   &-title {
     margin: 0;
 
     a {
-      color: @panel-heading-color;
+      color: @panel-header-color;
 
       &:hover,
       &:focus,
@@ -47,13 +47,13 @@
   }
 
   // Adjust the padding value when the head and body are combined.
-  &-heading + &-collapse &-body,
-  &-heading + &-body {
+  &-header + &-collapse &-body,
+  &-header + &-body {
     padding-top: 10px;
   }
 
-  // Collapsible panel heading hover background
-  &-collapsible > &-heading {
+  // Collapsible panel header hover background
+  &-collapsible > &-header {
     cursor: pointer;
     transition: background-color @panel-accodion-transition,
       border-radius @panel-accodion-transition;
@@ -62,14 +62,14 @@
     &::before {
       position: absolute;
       font-family: @font-family-icon;
-      content: @panel-heading-accordion-icon-content;
+      content: @panel-header-accordion-icon-content;
       top: @panel-padding;
       right: @panel-padding;
       transition: transform @panel-accodion-transition;
     }
   }
 
-  &-in > &-heading::before {
+  &-in > &-header::before {
     transform: rotate(180deg);
   }
 }

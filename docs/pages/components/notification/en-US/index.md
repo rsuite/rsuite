@@ -26,7 +26,7 @@ Used for system notifications. Generally used to push messages.
 
 | Property    | Type `(Default)`                                     | Description                                                                                                        |
 | ----------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| children \* | React.Node                                           | The description of the message box                                                                                 |
+| children \* | ReactNode                                            | The description of the message box                                                                                 |
 | closable    | boolean                                              | The remove button is displayed.                                                                                    |
 | duration    | number `(4500)`                                      | Delay automatic removal of messages. When set to 0, the message is not automatically removed. (Unit: milliseconds) |
 | header \*   | string                                               | The title of the message box                                                                                       |

@@ -1,253 +1,279 @@
-import * as React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { compose } from 'recompose';
-import PaginationButton from './PaginationButton';
-import SafeAnchor from '../SafeAnchor';
+import PaginationButton, { PaginationButtonProps } from './PaginationButton';
 import Icon from '../Icon';
+import { useClassNames, useCustom, PAGINATION_ICON_NAMES } from '../utils';
+import { RsRefForwardingComponent, WithAsProps, TypeAttributes } from '../@types/common';
 
-import { withStyleProps, defaultProps, getUnhandledProps } from '../utils';
-import { PAGINATION_ICON_NAMES } from '../constants';
-import { PaginationProps } from './Pagination.d';
+export interface PaginationLocale {
+  more: string;
+  prev: string;
+  next: string;
+  first: string;
+  last: string;
+}
 
-class Pagination extends React.Component<PaginationProps> {
-  static propTypes = {
-    activePage: PropTypes.number,
-    pages: PropTypes.number,
-    maxButtons: PropTypes.number,
-    boundaryLinks: PropTypes.bool,
-    ellipsis: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
-    first: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
-    last: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
-    prev: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
-    next: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
-    buttonAs: PropTypes.elementType,
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    locale: PropTypes.object,
-    disabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
-    onSelect: PropTypes.func
-  };
-  static defaultProps = {
-    activePage: 1,
-    pages: 1,
-    maxButtons: 0,
-    buttonAs: SafeAnchor,
-    locale: {
-      more: 'More',
-      prev: 'Previous',
-      next: 'Next',
-      first: 'First',
-      last: 'Last'
-    }
-  };
+export interface PaginationProps extends WithAsProps {
+  /** Current page number */
+  activePage?: number;
 
-  /**
-   * Note that `handledProps` are generated automatically during
-   * build with `babel-plugin-transform-react-flow-handled-props`
-   */
-  static handledProps = [];
+  /** Page buttons display the maximum number of */
+  maxButtons?: number;
 
-  renderPageButtons() {
-    const pageButtons = [];
-    let startPage;
-    let endPage;
-    let hasHiddenPagesAfter;
+  /** Displays the first page */
+  first?: boolean | React.ReactNode;
 
-    const { maxButtons, activePage, pages, ellipsis, boundaryLinks, locale } = this.props;
+  /** Displays the last page */
+  last?: boolean | React.ReactNode;
 
-    if (maxButtons) {
-      const hiddenPagesBefore = activePage - Math.floor(maxButtons / 2);
-      startPage = hiddenPagesBefore > 1 ? hiddenPagesBefore : 1;
-      hasHiddenPagesAfter = startPage + maxButtons <= pages;
+  /** Displays the prev page */
+  prev?: boolean | React.ReactNode;
 
-      if (!hasHiddenPagesAfter) {
-        endPage = pages;
-        startPage = pages - maxButtons + 1;
-        if (startPage < 1) {
-          startPage = 1;
+  /** Displays the next page */
+  next?: boolean | React.ReactNode;
+
+  /** Total pages */
+  pages?: number;
+
+  /** Disabled component */
+  disabled?: boolean | ((eventKey: any) => boolean);
+
+  /** Show border paging buttons 1 and pages */
+  boundaryLinks?: boolean;
+
+  /** Displays the ellipsis */
+  ellipsis?: boolean | React.ReactNode;
+
+  /** Customizes the element type for the component */
+  linkAs?: React.ElementType | string;
+
+  /** locale */
+  locale?: PaginationLocale;
+
+  /** A pagination can have different sizes */
+  size?: TypeAttributes.Size;
+
+  /** callback function for pagination clicked */
+  onSelect?: (eventKey: any, event: React.MouseEvent) => void;
+}
+
+const defaultProps: Partial<PaginationProps> = {
+  as: 'ul',
+  classPrefix: 'pagination',
+  activePage: 1,
+  pages: 1,
+  maxButtons: 0
+};
+
+const Pagination: RsRefForwardingComponent<'ul', PaginationProps> = React.forwardRef(
+  (props: PaginationProps, ref) => {
+    const {
+      as: Component,
+      className,
+      classPrefix,
+      disabled: disabledProp,
+      locale: overrideLocale,
+      activePage,
+      maxButtons,
+      pages,
+      ellipsis,
+      boundaryLinks,
+      first,
+      prev,
+      next,
+      last,
+      size,
+      linkAs,
+      onSelect,
+      ...rest
+    } = props;
+    const { merge, withClassPrefix } = useClassNames(classPrefix);
+    const { locale } = useCustom<PaginationLocale>('Pagination', overrideLocale);
+
+    const renderItem = useCallback(
+      (key: string | number, itemProps: PaginationButtonProps) => {
+        const { eventKey, disabled, ...itemRest } = itemProps;
+
+        let disabledItem = disabled;
+
+        if (typeof disabledProp !== 'undefined') {
+          disabledItem = typeof disabledProp === 'function' ? disabledProp(eventKey) : disabledProp;
+        }
+
+        const title = locale?.[key] || eventKey;
+
+        return (
+          <PaginationButton
+            {...itemRest}
+            role="button"
+            key={`${key}-${eventKey}`}
+            aria-label={title}
+            title={title}
+            eventKey={eventKey}
+            linkAs={linkAs}
+            aria-disabled={disabledItem}
+            disabled={disabledItem}
+            onSelect={disabledItem ? undefined : onSelect}
+          />
+        );
+      },
+      [disabledProp, linkAs, locale, onSelect]
+    );
+
+    const renderFirst = () => {
+      if (!first) {
+        return null;
+      }
+
+      return renderItem('first', {
+        eventKey: 1,
+        disabled: activePage === 1,
+        children: (
+          <span>{first === true ? <Icon icon={PAGINATION_ICON_NAMES.first} /> : first}</span>
+        )
+      });
+    };
+
+    const renderPrev = () => {
+      if (!prev) {
+        return null;
+      }
+
+      return renderItem('prev', {
+        eventKey: activePage - 1,
+        disabled: activePage === 1,
+        children: <span>{prev === true ? <Icon icon={PAGINATION_ICON_NAMES.prev} /> : prev}</span>
+      });
+    };
+
+    const renderPageButtons = () => {
+      const pageButtons = [];
+      let startPage;
+      let endPage;
+      let hasHiddenPagesAfter;
+
+      if (maxButtons) {
+        const hiddenPagesBefore = activePage - Math.floor(maxButtons / 2);
+        startPage = hiddenPagesBefore > 1 ? hiddenPagesBefore : 1;
+        hasHiddenPagesAfter = startPage + maxButtons <= pages;
+
+        if (!hasHiddenPagesAfter) {
+          endPage = pages;
+          startPage = pages - maxButtons + 1;
+          if (startPage < 1) {
+            startPage = 1;
+          }
+        } else {
+          endPage = startPage + maxButtons - 1;
         }
       } else {
-        endPage = startPage + maxButtons - 1;
+        startPage = 1;
+        endPage = pages;
       }
-    } else {
-      startPage = 1;
-      endPage = pages;
-    }
 
-    for (let pagenumber = startPage; pagenumber <= endPage; pagenumber += 1) {
-      pageButtons.push(
-        this.renderItem({
-          key: pagenumber,
-          eventKey: pagenumber,
-          active: pagenumber === activePage,
-          children: pagenumber
-        })
-      );
-    }
-
-    if (boundaryLinks && ellipsis && startPage !== 1) {
-      pageButtons.unshift(
-        this.renderItem({
-          key: 'ellipsisFirst',
-          disabled: true,
-          children: (
-            <span aria-label="More">
-              {ellipsis === true ? <Icon icon={PAGINATION_ICON_NAMES.more} /> : ellipsis}
-            </span>
-          )
-        })
-      );
-
-      pageButtons.unshift(
-        this.renderItem({
-          key: 1,
-          eventKey: 1,
-          children: 1
-        })
-      );
-    }
-
-    if (maxButtons && hasHiddenPagesAfter && ellipsis) {
-      pageButtons.push(
-        this.renderItem({
-          key: 'ellipsis',
-          disabled: true,
-          children: (
-            <span aria-label="More" title={locale.more}>
-              {ellipsis === true ? <Icon icon={PAGINATION_ICON_NAMES.more} /> : ellipsis}
-            </span>
-          )
-        })
-      );
-
-      if (boundaryLinks && endPage !== pages) {
+      for (let pagenumber = startPage; pagenumber <= endPage; pagenumber += 1) {
         pageButtons.push(
-          this.renderItem({
-            key: pages,
-            eventKey: pages,
-            disabled: false,
-            children: pages
+          renderItem(pagenumber, {
+            eventKey: pagenumber,
+            active: pagenumber === activePage,
+            children: pagenumber
           })
         );
       }
-    }
-    return pageButtons;
-  }
-  renderPrev() {
-    const { activePage, prev, locale } = this.props;
 
-    if (!prev) {
-      return null;
-    }
+      if (boundaryLinks && ellipsis && startPage !== 1) {
+        pageButtons.unshift(
+          renderItem('more', {
+            eventKey: 'ellipsisFirst',
+            disabled: true,
+            children: (
+              <span>
+                {ellipsis === true ? <Icon icon={PAGINATION_ICON_NAMES.more} /> : ellipsis}
+              </span>
+            )
+          })
+        );
 
-    return this.renderItem({
-      key: 'prev',
-      eventKey: activePage - 1,
-      disabled: activePage === 1,
-      children: (
-        <span aria-label="Previous" title={locale.prev}>
-          {prev === true ? <Icon icon={PAGINATION_ICON_NAMES.prev} /> : prev}
-        </span>
-      )
-    });
-  }
-  renderNext() {
-    const { pages, activePage, next, locale } = this.props;
+        pageButtons.unshift(renderItem(1, { eventKey: 1, children: 1 }));
+      }
 
-    if (!next) {
-      return null;
-    }
+      if (maxButtons && hasHiddenPagesAfter && ellipsis) {
+        pageButtons.push(
+          renderItem('more', {
+            eventKey: 'ellipsis',
+            disabled: true,
+            children: (
+              <span>
+                {ellipsis === true ? <Icon icon={PAGINATION_ICON_NAMES.more} /> : ellipsis}
+              </span>
+            )
+          })
+        );
 
-    return this.renderItem({
-      key: 'next',
-      eventKey: activePage + 1,
-      disabled: activePage >= pages,
-      children: (
-        <span aria-label="Next" title={locale.next}>
-          {next === true ? <Icon icon={PAGINATION_ICON_NAMES.next} /> : next}
-        </span>
-      )
-    });
-  }
+        if (boundaryLinks && endPage !== pages) {
+          pageButtons.push(
+            renderItem(pages, { eventKey: pages, disabled: false, children: pages })
+          );
+        }
+      }
+      return pageButtons;
+    };
 
-  renderFirst() {
-    const { activePage, first, locale } = this.props;
+    const renderNext = () => {
+      if (!next) {
+        return null;
+      }
 
-    if (!first) {
-      return null;
-    }
+      return renderItem('next', {
+        eventKey: activePage + 1,
+        disabled: activePage >= pages,
+        children: <span>{next === true ? <Icon icon={PAGINATION_ICON_NAMES.next} /> : next}</span>
+      });
+    };
 
-    return this.renderItem({
-      key: 'first',
-      eventKey: 1,
-      disabled: activePage === 1,
-      children: (
-        <span aria-label="First" title={locale.first}>
-          {first === true ? <Icon icon={PAGINATION_ICON_NAMES.first} /> : first}
-        </span>
-      )
-    });
-  }
+    const renderLast = () => {
+      if (!last) {
+        return null;
+      }
 
-  renderLast() {
-    const { pages, activePage, last, locale } = this.props;
-    if (!last) {
-      return null;
-    }
+      return renderItem('last', {
+        eventKey: pages,
+        disabled: activePage >= pages,
+        children: <span>{last === true ? <Icon icon={PAGINATION_ICON_NAMES.last} /> : last}</span>
+      });
+    };
 
-    return this.renderItem({
-      key: 'last',
-      eventKey: pages,
-      disabled: activePage >= pages,
-      children: (
-        <span aria-label="Last" title={locale.last}>
-          {last === true ? <Icon icon={PAGINATION_ICON_NAMES.last} /> : last}
-        </span>
-      )
-    });
-  }
-
-  renderItem(props) {
-    const { onSelect, buttonAs, disabled } = this.props;
-
-    let disabledButton = props.disabled;
-
-    if (typeof disabled === 'function') {
-      disabledButton = disabled(props.eventKey);
-    } else if (typeof disabled === 'boolean') {
-      disabledButton = disabled;
-    }
-
+    const classes = merge(className, withClassPrefix(size));
     return (
-      <PaginationButton
-        {...props}
-        disabled={disabledButton}
-        onSelect={disabledButton ? null : onSelect}
-        as={buttonAs}
-      />
+      <Component {...rest} ref={ref} className={classes}>
+        {renderFirst()}
+        {renderPrev()}
+        {renderPageButtons()}
+        {renderNext()}
+        {renderLast()}
+      </Component>
     );
   }
+);
 
-  render() {
-    const { className, classPrefix, ...rest } = this.props;
-    const unhandled = getUnhandledProps(Pagination, rest);
+Pagination.displayName = 'Pagination';
+Pagination.defaultProps = defaultProps;
+Pagination.propTypes = {
+  onSelect: PropTypes.func,
+  activePage: PropTypes.number,
+  pages: PropTypes.number,
+  maxButtons: PropTypes.number,
+  boundaryLinks: PropTypes.bool,
+  ellipsis: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
+  first: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
+  last: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
+  prev: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
+  next: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
+  linkAs: PropTypes.elementType,
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  locale: PropTypes.any,
+  disabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.func])
+};
 
-    return (
-      <ul className={classNames(classPrefix, className)} {...unhandled}>
-        {this.renderFirst()}
-        {this.renderPrev()}
-        {this.renderPageButtons()}
-        {this.renderNext()}
-        {this.renderLast()}
-      </ul>
-    );
-  }
-}
-
-export default compose<any, PaginationProps>(
-  withStyleProps<PaginationProps>({ hasSize: true }),
-  defaultProps<PaginationProps>({
-    classPrefix: 'pagination'
-  })
-)(Pagination);
+export default Pagination;

@@ -96,7 +96,7 @@ export interface FormInstance<
 }
 
 export interface FormComponent
-  extends RsRefForwardingComponent<'form', FormProps & { ref: React.Ref<FormInstance> }> {
+  extends RsRefForwardingComponent<'form', FormProps & { ref?: React.Ref<FormInstance> }> {
   Control?: typeof FormControl;
   ControlLabel?: typeof FormControlLabel;
   ErrorMessage?: typeof FormErrorMessage;
@@ -289,7 +289,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
     setFormError(formError);
   }, []);
 
-  useImperativeHandle(ref, (): any => ({
+  useImperativeHandle(ref, () => ({
     root: rootRef.current,
     check,
     checkForField,

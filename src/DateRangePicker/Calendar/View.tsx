@@ -1,85 +1,72 @@
-import * as React from 'react';
+import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import Table from './Table';
-import { isSameMonth, setDate } from '../../utils/dateUtils';
-import { defaultProps, getMonthView } from '../../utils';
+import { useClassNames, DateUtils } from '../../utils';
+import { WithAsProps, RsRefForwardingComponent } from '../../@types/common';
+import { CalendarContext } from '../../Calendar';
 
-export interface ViewProps {
+export interface ViewProps extends WithAsProps {
   activeDate: Date;
-  timeZone: string;
   value?: Date[];
   hoverValue?: Date[];
-  onSelect?: (date: Date) => void;
   onMouseMove?: (date: Date) => void;
-  disabledDate?: (date: Date, selectValue: Date[], type: string) => boolean;
-  isoWeek?: boolean;
-  className?: string;
-  classPrefix?: string;
-  showWeekNumbers?: boolean;
 }
 
-class View extends React.Component<ViewProps> {
-  static propTypes = {
-    activeDate: PropTypes.instanceOf(Date),
-    timeZone: PropTypes.string,
-    value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-    hoverValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-    onSelect: PropTypes.func,
-    onMouseMove: PropTypes.func,
-    disabledDate: PropTypes.func,
-    isoWeek: PropTypes.bool,
-    className: PropTypes.string,
-    classPrefix: PropTypes.string
-  };
-  static defaultProps = {
-    activeDate: new Date()
-  };
+const defaultProps: Partial<ViewProps> = {
+  as: 'div',
+  activeDate: new Date(),
+  classPrefix: 'calendar-view'
+};
 
-  inSameThisMonthDate = (date: Date) => {
-    const thisMonthDate = setDate(this.props.activeDate, 1);
-    return isSameMonth(date, thisMonthDate);
-  };
-  render() {
+const View: RsRefForwardingComponent<'div', ViewProps> = React.forwardRef(
+  (props: ViewProps, ref) => {
     const {
+      as: Component,
       activeDate,
       value,
       hoverValue,
-      onSelect,
-      onMouseMove,
-      disabledDate,
       className,
-      isoWeek,
       classPrefix,
-      showWeekNumbers,
-      timeZone,
+      onMouseMove,
       ...rest
-    } = this.props;
+    } = props;
 
-    const thisMonthDate = setDate(activeDate, 1);
-    const classes = classNames(classPrefix, className);
+    const thisMonthDate = DateUtils.setDate(activeDate, 1);
+    const { merge, withClassPrefix } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix());
+
+    const { isoWeek } = useContext(CalendarContext);
+
+    const inSameThisMonthDate = useCallback(
+      (date: Date) => DateUtils.isSameMonth(date, DateUtils.setDate(activeDate, 1)),
+      [activeDate]
+    );
 
     return (
-      <div {...rest} className={classes}>
+      <Component {...rest} ref={ref} className={classes}>
         <Table
-          rows={getMonthView(thisMonthDate, isoWeek)}
-          timeZone={timeZone}
-          isoWeek={isoWeek}
+          rows={DateUtils.getMonthView(thisMonthDate, isoWeek)}
           selected={value}
-          onSelect={onSelect}
           onMouseMove={onMouseMove}
-          inSameMonth={this.inSameThisMonthDate}
-          disabledDate={disabledDate}
+          inSameMonth={inSameThisMonthDate}
           hoverValue={hoverValue}
-          showWeekNumbers={showWeekNumbers}
         />
-      </div>
+      </Component>
     );
   }
-}
+);
 
-const enhance = defaultProps<ViewProps>({
-  classPrefix: 'calendar-view'
-});
+View.displayName = 'View';
+View.defaultProps = defaultProps;
+View.propTypes = {
+  as: PropTypes.elementType,
+  activeDate: PropTypes.instanceOf(Date),
+  value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
+  hoverValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
+  onMouseMove: PropTypes.func,
+  disabledDate: PropTypes.func,
+  className: PropTypes.string,
+  classPrefix: PropTypes.string
+};
 
-export default enhance(View);
+export default View;

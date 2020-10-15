@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import TimeDropdown from '../TimeDropdown';
-import { CalendarProvider } from '../CalendarContext';
+import { CalendarContext } from '../Calendar';
 import { createTestContainer } from '../../../test/testUtils';
 
 describe('Calendar - TimeDropdown', () => {
@@ -17,9 +17,9 @@ describe('Calendar - TimeDropdown', () => {
   it('Should render 3 column', () => {
     const ref = React.createRef();
     ReactDOM.render(
-      <CalendarProvider value={{ format: 'HH:mm:ss' }}>
+      <CalendarContext.Provider value={{ format: 'HH:mm:ss' }}>
         <TimeDropdown ref={ref} />
-      </CalendarProvider>,
+      </CalendarContext.Provider>,
       createTestContainer()
     );
 
@@ -29,9 +29,9 @@ describe('Calendar - TimeDropdown', () => {
   it('Should render 2 column', () => {
     const ref = React.createRef();
     ReactDOM.render(
-      <CalendarProvider value={{ format: 'HH:mm' }}>
+      <CalendarContext.Provider value={{ format: 'HH:mm' }}>
         <TimeDropdown ref={ref} />
-      </CalendarProvider>,
+      </CalendarContext.Provider>,
       createTestContainer()
     );
 
@@ -41,9 +41,9 @@ describe('Calendar - TimeDropdown', () => {
   it('Should render 1 column', () => {
     const ref = React.createRef();
     ReactDOM.render(
-      <CalendarProvider value={{ format: 'HH' }}>
+      <CalendarContext.Provider value={{ format: 'HH' }}>
         <TimeDropdown ref={ref} />
-      </CalendarProvider>,
+      </CalendarContext.Provider>,
       createTestContainer()
     );
 
@@ -56,9 +56,9 @@ describe('Calendar - TimeDropdown', () => {
     };
     const ref = React.createRef();
     ReactDOM.render(
-      <CalendarProvider value={{ onChangePageTime, date: new Date(), format: 'HH' }}>
+      <CalendarContext.Provider value={{ onChangePageTime, date: new Date(), format: 'HH' }}>
         <TimeDropdown ref={ref} />
-      </CalendarProvider>,
+      </CalendarContext.Provider>,
       createTestContainer()
     );
 
@@ -68,14 +68,14 @@ describe('Calendar - TimeDropdown', () => {
   it('Should be disabled', () => {
     const ref = React.createRef();
     ReactDOM.render(
-      <CalendarProvider value={{ format: 'HH' }}>
+      <CalendarContext.Provider value={{ format: 'HH' }}>
         <TimeDropdown
           disabledHours={h => {
             return h > 10;
           }}
           ref={ref}
         />
-      </CalendarProvider>,
+      </CalendarContext.Provider>,
       createTestContainer()
     );
 
@@ -88,14 +88,14 @@ describe('Calendar - TimeDropdown', () => {
   it('Should be hide', () => {
     const ref = React.createRef();
     ReactDOM.render(
-      <CalendarProvider value={{ format: 'HH' }}>
+      <CalendarContext.Provider value={{ format: 'HH' }}>
         <TimeDropdown
           hideHours={h => {
             return h > 10;
           }}
           ref={ref}
         />
-      </CalendarProvider>,
+      </CalendarContext.Provider>,
       createTestContainer()
     );
 

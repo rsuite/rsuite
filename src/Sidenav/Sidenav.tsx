@@ -1,141 +1,150 @@
-import * as React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import setStatic from 'recompose/setStatic';
+import remove from 'lodash/remove';
 import Transition from '../Animation/Transition';
 import shallowEqual from '../utils/shallowEqual';
-import _ from 'lodash';
 import SidenavBody from './SidenavBody';
 import SidenavHeader from './SidenavHeader';
 import SidenavToggle from './SidenavToggle';
-import { prefix, defaultProps, getUnhandledProps, createContext } from '../utils';
-import { SidenavProps } from './Sidenav.d';
+import { useClassNames, useControlled, mergeRefs } from '../utils';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-export const SidenavContext = createContext(null);
+export interface SidenavProps<T = string> extends WithAsProps {
+  /** Whether to expand the Sidenav */
+  expanded?: boolean;
 
-interface SidenavState {
-  openKeys?: any[];
+  /** Menu style */
+  appearance?: 'default' | 'inverse' | 'subtle';
+
+  /** Open menu, corresponding to Dropdown eventkey */
+  defaultOpenKeys?: T[];
+
+  /** Open menu, corresponding to Dropdown eventkey (controlled) */
+  openKeys?: T[];
+
+  /** Activation option, corresponding menu eventkey */
+  activeKey?: T;
+
+  /** Menu opening callback function that changed */
+  onOpenChange?: (openKeys: T[], event: React.SyntheticEvent) => void;
+
+  /** Select the callback function for the menu */
+  onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
 }
+
+export const SidenavContext = React.createContext(null);
 
 export interface SidenavContextType<T = string> {
   openKeys: T[];
   sidenav: boolean;
   expanded: boolean;
-  onOpenChange: (openKeys: T[], event: React.SyntheticEvent<any>) => void;
+  onOpenChange: (openKeys: T[], event: React.SyntheticEvent) => void;
 }
 
-class Sidenav extends React.Component<SidenavProps, SidenavState> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    className: PropTypes.string,
-    expanded: PropTypes.bool,
-    appearance: PropTypes.oneOf(['default', 'inverse', 'subtle']),
-    defaultOpenKeys: PropTypes.array,
-    openKeys: PropTypes.array,
-    onOpenChange: PropTypes.func,
-    activeKey: PropTypes.any,
-    onSelect: PropTypes.func,
-    as: PropTypes.elementType
-  };
-  static defaultProps = {
-    appearance: 'default',
-    expanded: true
-  };
+export interface Sidenav extends RsRefForwardingComponent<'div', SidenavProps> {
+  Header?: typeof SidenavHeader;
+  Body?: typeof SidenavBody;
+  Toggle?: typeof SidenavToggle;
+}
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      openKeys: props.defaultOpenKeys || []
-    };
-  }
+const defaultProps: Partial<SidenavProps> = {
+  as: 'div',
+  classPrefix: 'sidenav',
+  appearance: 'default',
+  expanded: true
+};
 
-  getOpenKeys = () => {
-    const { openKeys } = this.props;
+const Sidenav: Sidenav = React.forwardRef((props: SidenavProps, ref) => {
+  const {
+    as: Component,
+    className,
+    classPrefix,
+    appearance,
+    expanded,
+    activeKey,
+    defaultOpenKeys,
+    openKeys: openKeysProp,
+    onSelect,
+    onOpenChange,
+    ...rest
+  } = props;
 
-    if (_.isUndefined(openKeys)) {
-      return this.state.openKeys;
-    }
+  const [openKeys, setOpenKeys] = useControlled(openKeysProp, defaultOpenKeys);
+  const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix(appearance));
 
-    return openKeys;
-  };
+  const handleOpenChange = useCallback(
+    (eventKey: any, event: React.MouseEvent) => {
+      const find = key => shallowEqual(key, eventKey);
+      const nextOpenKeys = [...openKeys];
 
-  handleSelect = (eventKey: any, event: React.MouseEvent) => {
-    this.props.onSelect?.(eventKey, event);
-  };
+      if (nextOpenKeys.some(find)) {
+        remove(nextOpenKeys, find);
+      } else {
+        nextOpenKeys.push(eventKey);
+      }
 
-  handleOpenChange = (eventKey: any, event: React.MouseEvent) => {
-    const find = key => shallowEqual(key, eventKey);
-    const openKeys = _.clone(this.getOpenKeys()) || [];
+      setOpenKeys(nextOpenKeys);
+      onOpenChange?.(nextOpenKeys, event);
+    },
+    [onOpenChange, openKeys, setOpenKeys]
+  );
 
-    if (openKeys.some(find)) {
-      _.remove(openKeys, find);
-    } else {
-      openKeys.push(eventKey);
-    }
-
-    this.setState({ openKeys });
-    this.props.onOpenChange?.(openKeys, event);
-  };
-
-  render() {
-    const {
-      className,
-      classPrefix,
-      appearance,
+  const contextValue = useMemo(
+    () => ({
       expanded,
       activeKey,
-      as: Component,
-      ...props
-    } = this.props;
+      sidenav: true,
+      openKeys,
+      onOpenChange: handleOpenChange,
+      onSelect
+    }),
+    [activeKey, expanded, handleOpenChange, onSelect, openKeys]
+  );
 
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, addPrefix(appearance), className);
-    const unhandled = getUnhandledProps(Sidenav, props);
-
-    return (
-      <SidenavContext.Provider
-        value={{
-          expanded,
-          activeKey,
-          sidenav: true,
-          openKeys: this.getOpenKeys(),
-          onOpenChange: this.handleOpenChange,
-          onSelect: this.handleSelect
-        }}
+  return (
+    <SidenavContext.Provider value={contextValue}>
+      <Transition
+        in={expanded}
+        timeout={300}
+        exitedClassName={prefix('collapse-out')}
+        exitingClassName={prefix('collapse-out', 'collapsing')}
+        enteredClassName={prefix('collapse-in')}
+        enteringClassName={prefix('collapse-in', 'collapsing')}
       >
-        <Transition
-          in={expanded}
-          timeout={300}
-          exitedClassName={addPrefix('collapse-out')}
-          exitingClassName={addPrefix(['collapse-out', 'collapsing'])}
-          enteredClassName={addPrefix('collapse-in')}
-          enteringClassName={addPrefix(['collapse-in', 'collapsing'])}
-        >
-          {(props, ref) => {
-            const { className, ...rest } = props;
-            return (
-              <Component
-                {...rest}
-                {...unhandled}
-                ref={ref}
-                className={classNames(classes, className)}
-                role="navigation"
-              />
-            );
-          }}
-        </Transition>
-      </SidenavContext.Provider>
-    );
-  }
-}
+        {(transitionProps, transitionRef) => {
+          const { className, ...transitionRest } = transitionProps;
+          return (
+            <Component
+              {...rest}
+              {...transitionRest}
+              ref={mergeRefs(ref, transitionRef)}
+              className={merge(classes, className)}
+            />
+          );
+        }}
+      </Transition>
+    </SidenavContext.Provider>
+  );
+});
 
-const EnhancedSidenav = defaultProps<SidenavProps>({
-  classPrefix: 'sidenav',
-  as: 'div'
-})(Sidenav);
+Sidenav.Header = SidenavHeader;
+Sidenav.Body = SidenavBody;
+Sidenav.Toggle = SidenavToggle;
 
-setStatic('Header', SidenavHeader)(EnhancedSidenav);
-setStatic('Body', SidenavBody)(EnhancedSidenav);
-setStatic('Toggle', SidenavToggle)(EnhancedSidenav);
+Sidenav.displayName = 'Sidenav';
+Sidenav.defaultProps = defaultProps;
+Sidenav.propTypes = {
+  as: PropTypes.elementType,
+  classPrefix: PropTypes.string,
+  className: PropTypes.string,
+  expanded: PropTypes.bool,
+  appearance: PropTypes.oneOf(['default', 'inverse', 'subtle']),
+  defaultOpenKeys: PropTypes.array,
+  openKeys: PropTypes.array,
+  onOpenChange: PropTypes.func,
+  activeKey: PropTypes.any,
+  onSelect: PropTypes.func
+};
 
-export default EnhancedSidenav;
+export default Sidenav;

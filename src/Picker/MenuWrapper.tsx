@@ -1,11 +1,10 @@
 import React, { useRef, useCallback, useEffect } from 'react';
 import omit from 'lodash/omit';
 import { addStyle, getWidth } from 'dom-lib';
-import { useElementResize, useClassNames } from '../utils';
-import getDOMNode from '../utils/getDOMNode';
-import mergeRefs from '../utils/mergeRefs';
+import { getDOMNode, mergeRefs, useElementResize, useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { OverlayTriggerInstance } from '../Picker/PickerToggleTrigger';
+import { OverlayTriggerInstance } from '../Picker';
+
 const omitProps = [
   'placement',
   'arrowOffsetLeft',
@@ -50,7 +49,7 @@ const MenuWrapper: RsRefForwardingComponent<'div', MenuWrapperProps> = React.for
 
     const menuRef = useRef();
     const handleResize = useCallback(() => {
-      const instance = target.current;
+      const instance = target?.current;
       if (instance && resizePlacement.includes(placement)) {
         instance.updatePosition();
       }
@@ -58,7 +57,7 @@ const MenuWrapper: RsRefForwardingComponent<'div', MenuWrapperProps> = React.for
 
     useElementResize(() => menuRef.current, handleResize);
     useEffect(() => {
-      const toggle = target.current;
+      const toggle = target?.current;
       if (autoWidth && toggle.child) {
         // Get the width value of the button,
         // and then set it to the menu to make their width consistent.

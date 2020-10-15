@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import helper from '../DOMHelper';
 import positionUtils, { PositionType } from './positionUtils';
-import { getDOMNode, refType } from '../utils';
+import { getDOMNode } from '../utils';
 import { TypeAttributes } from '../@types/common';
 
 export interface PositionChildProps {
@@ -160,7 +160,7 @@ Position.propTypes = {
   containerPadding: PropTypes.number,
   placement: PropTypes.any,
   preventOverflow: PropTypes.bool,
-  triggerTarget: refType
+  triggerTarget: PropTypes.any
 };
 
 export default Position;

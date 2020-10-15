@@ -18,22 +18,22 @@ describe('Table-Pagination', () => {
 
   it('Should output a prev button', () => {
     const instance = getInstance(<TablePagination total={10} prev />);
-    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-icon-page-previous');
+    assert.ok(instance.querySelector('.rs-icon-page-previous'));
   });
 
   it('Should output a next button', () => {
     const instance = getInstance(<TablePagination total={10} next />);
-    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-icon-page-next');
+    assert.ok(instance.querySelector('.rs-icon-page-next'));
   });
 
   it('Should output a first button', () => {
     const instance = getInstance(<TablePagination total={10} first />);
-    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-icon-page-top');
+    assert.ok(instance.querySelector('.rs-icon-page-top'));
   });
 
   it('Should output a last button', () => {
     const instance = getInstance(<TablePagination total={10} last />);
-    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-icon-page-end');
+    assert.ok(instance.querySelector('.rs-icon-page-end'));
   });
 
   it('Should render 10  buttons', () => {
@@ -88,7 +88,7 @@ describe('Table-Pagination', () => {
   });
 
   it('Should call onChangePage callback', done => {
-    const doneOp = checked => {
+    const doneOp = () => {
       done();
     };
     const instance = getDOMNode(
@@ -117,7 +117,8 @@ describe('Table-Pagination', () => {
         first={false}
       />
     );
-    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-picker-subtle');
+
+    assert.ok(instance.querySelector('.rs-picker-subtle'));
   });
 
   it('Should have a custom className', () => {

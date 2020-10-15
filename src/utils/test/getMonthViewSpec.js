@@ -1,5 +1,4 @@
-import getMonthView from '../getMonthView';
-import { parseISO, format } from '../../utils/dateUtils';
+import { parseISO, format, getMonthView } from '../../utils/dateUtils';
 
 describe('[utils] getMonthView', () => {
   it('Sunday is the first day of the week.', () => {

@@ -5,7 +5,6 @@ import isUndefined from 'lodash/isUndefined';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import omit from 'lodash/omit';
-import shallowEqual from '../utils/shallowEqual';
 import { findNodeOfTree } from '../utils/treeUtils';
 import {
   createChainedFunction,
@@ -14,7 +13,8 @@ import {
   useClassNames,
   useControlled,
   KEY_CODE,
-  mergeRefs
+  mergeRefs,
+  shallowEqual
 } from '../utils';
 import {
   DropdownMenu,
@@ -27,15 +27,15 @@ import {
   useFocusItemValue,
   usePickerClassName,
   useSearch,
-  usePublicMethods
-} from '../Picker';
-import { PickerComponent, PickerLocaleType } from '../Picker/types';
-import {
+  usePublicMethods,
   pickerToggleTriggerProps,
   OverlayTriggerInstance,
-  PositionChildProps
-} from '../Picker/PickerToggleTrigger';
-import { listPickerPropTypes } from '../Picker/propTypes';
+  PositionChildProps,
+  listPickerPropTypes,
+  PickerComponent,
+  PickerLocaleType
+} from '../Picker';
+
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
 import { ListProps } from 'react-virtualized/dist/commonjs/List';
 
@@ -162,7 +162,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
     const { locale } = useCustom<PickerLocaleType>('Picker', overrideLocale);
     const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue);
 
-    // Used to hover the focuse item  when trigger `onKeydown`
+    // Used to hover the focus item  when trigger `onKeydown`
     const { focusItemValue, setFocusItemValue, onKeyDown } = useFocusItemValue(value, {
       data,
       valueKey,
@@ -316,7 +316,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
      * 1.Have a value and the value is valid.
      * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
      */
-    const hasValue = !!activeItem || (!isNil(value) && isFunction(renderValue));
+    let hasValue = !!activeItem || (!isNil(value) && isFunction(renderValue));
 
     const { prefix, merge } = useClassNames(classPrefix);
 
@@ -328,6 +328,10 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
 
     if (!isNil(value) && isFunction(renderValue)) {
       selectedElement = renderValue(value, activeItem, selectedElement);
+      // If renderValue returns null or undefined, hasValue is false.
+      if (isNil(selectedElement)) {
+        hasValue = false;
+      }
     }
 
     const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {

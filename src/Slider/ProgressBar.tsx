@@ -1,36 +1,51 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { defaultClassPrefix } from '../utils/prefix';
-import { StandardProps } from '../@types/common';
+import { useClassNames } from '../utils';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-interface ProgressBarProps extends StandardProps {
+interface ProgressBarProps extends WithAsProps {
   vertical?: boolean;
   rtl?: boolean;
   start?: number;
   end?: number;
 }
 
-function ProgressBar(props: ProgressBarProps) {
-  const { vertical, rtl, end = 0, start = 0, style, className } = props;
-  const sizeKey = vertical ? 'height' : 'width';
-  const dirKey = rtl ? 'right' : 'left';
-  const startKey = vertical ? 'top' : dirKey;
-  const styles = {
-    ...style,
-    [startKey]: `${start}%`,
-    [sizeKey]: `${end - start}%`
-  };
+const defaultProps: Partial<ProgressBarProps> = {
+  as: 'div',
+  classPrefix: 'slider-progress-bar'
+};
 
-  return (
-    <div
-      style={styles}
-      className={classNames(defaultClassPrefix('slider-progress-bar'), className)}
-    />
-  );
-}
+const ProgressBar: RsRefForwardingComponent<'div', ProgressBarProps> = React.forwardRef(
+  (props: ProgressBarProps, ref) => {
+    const {
+      as: Component,
+      classPrefix,
+      vertical,
+      rtl,
+      end = 0,
+      start = 0,
+      style,
+      className
+    } = props;
 
+    const { merge, withClassPrefix } = useClassNames(classPrefix);
+
+    const sizeKey = vertical ? 'height' : 'width';
+    const dirKey = rtl ? 'right' : 'left';
+    const startKey = vertical ? 'top' : dirKey;
+
+    const styles = { ...style, [startKey]: `${start}%`, [sizeKey]: `${end - start}%` };
+    const classes = merge(className, withClassPrefix());
+
+    return <Component ref={ref} style={styles} className={classes} />;
+  }
+);
+
+ProgressBar.displayName = 'ProgressBar';
+ProgressBar.defaultProps = defaultProps;
 ProgressBar.propTypes = {
+  as: PropTypes.elementType,
+  classPrefix: PropTypes.string,
   style: PropTypes.object,
   className: PropTypes.string,
   vertical: PropTypes.bool,

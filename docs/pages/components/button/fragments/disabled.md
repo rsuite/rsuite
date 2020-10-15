@@ -9,7 +9,7 @@ const instance = (
     <Button appearance="primary" disabled>
       Primary
     </Button>
-    <Button appearance="link" disabled>
+    <Button appearance="link" disabled href="https://rsuitejs.com">
       Link
     </Button>
     <Button appearance="subtle" disabled>

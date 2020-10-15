@@ -19,20 +19,13 @@
     position: relative;
   }
 
-  &-icon-close {
+  & &-icon-close {
     position: absolute;
-    top: 2px;
-    right: @padding-extra-small-horizontal;
     font-style: normal;
     font-family: @font-family-icon;
     cursor: pointer;
     font-size: 12px;
-
-    &::after {
-      .icon-font;
-
-      content: @default-close-btn-content;
-    }
+    padding: 6px 8px;
   }
 
   &-default &-icon-close:hover {

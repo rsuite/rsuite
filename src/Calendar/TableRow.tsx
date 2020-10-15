@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import partial from 'lodash/partial';
-import { addDays, format, getDate, isSameDay } from '../utils/dateUtils';
-import { useClassNames } from '../utils';
-import { zonedDate } from '../utils/timeZone';
-import { useCalendarContext } from './CalendarContext';
+import { useClassNames, DateUtils, TimeZone } from '../utils';
+import { CalendarContext } from './Calendar';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 
 export interface TableRowProps extends WithAsProps {
@@ -12,66 +10,67 @@ export interface TableRowProps extends WithAsProps {
   inSameMonth?: (date: Date) => boolean;
 }
 const defaultProps: Partial<TableRowProps> = {
-  weekendDate: new Date(),
+  as: 'div',
   classPrefix: 'calendar-table',
-  as: 'div'
+  weekendDate: new Date()
 };
 
 const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRef(
   (props: TableRowProps, ref) => {
     const { as: Component, className, classPrefix, inSameMonth, weekendDate, ...rest } = props;
     const {
-      date: selected = new Date(),
+      date: selectedDate = new Date(),
       disabledDate,
       formatDate,
-      isoWeek,
-      locale: { formattedDayPattern, today } = {},
       onSelect,
       renderCell,
+      isoWeek,
+      locale,
       showWeekNumbers,
       timeZone
-    } = useCalendarContext();
+    } = useContext(CalendarContext);
     const { prefix, merge } = useClassNames(classPrefix);
 
-    const handleSelect = (
-      date: Date,
-      disabled: boolean | void,
-      event: React.MouseEvent<HTMLDivElement>
-    ) => {
-      if (disabled) {
-        return;
-      }
-      onSelect?.(date, event);
-    };
+    const handleSelect = useCallback(
+      (date: Date, disabled: boolean | void, event: React.MouseEvent) => {
+        if (disabled) {
+          return;
+        }
+
+        onSelect?.(date, event);
+      },
+      [onSelect]
+    );
 
     const renderDays = () => {
-      const formatStr = formattedDayPattern || 'yyyy-MM-dd';
+      const formatStr = locale?.formattedDayPattern || 'yyyy-MM-dd';
       const days = [];
-      const todayDate = zonedDate(timeZone);
+      const todayDate = TimeZone.zonedDate(timeZone);
 
       for (let i = 0; i < 7; i += 1) {
-        const thisDate = addDays(weekendDate, i);
+        const thisDate = DateUtils.addDays(weekendDate, i);
         const disabled = disabledDate?.(thisDate);
-        const isToday = isSameDay(thisDate, todayDate);
-        const classes = merge(prefix('cell'), {
-          [prefix('cell-un-same-month')]: !(inSameMonth && inSameMonth(thisDate)),
-          [prefix('cell-is-today')]: isToday,
-          [prefix('cell-selected')]: isSameDay(thisDate, selected),
-          [prefix('cell-disabled')]: disabled
+        const isToday = DateUtils.isSameDay(thisDate, todayDate);
+        const cellClasses = prefix('cell', {
+          'cell-un-same-month': !(inSameMonth && inSameMonth(thisDate)),
+          'cell-is-today': isToday,
+          'cell-selected': DateUtils.isSameDay(thisDate, selectedDate),
+          'cell-disabled': disabled
         });
 
-        const title = formatDate ? formatDate(thisDate, formatStr) : format(thisDate, formatStr);
+        const title = formatDate
+          ? formatDate(thisDate, formatStr)
+          : DateUtils.format(thisDate, formatStr);
         days.push(
-          <div
-            key={title}
-            className={classes}
-            role="cell"
-            tabIndex={-1}
-            title={isToday ? `${title} (${today})` : title}
-            onClick={partial(handleSelect, thisDate, disabled)}
-          >
-            <div className={prefix('cell-content')} role="button">
-              <span className={prefix('cell-day')}>{getDate(thisDate)}</span>
+          <div role="cell" key={title} className={cellClasses}>
+            <div
+              role="button"
+              className={prefix('cell-content')}
+              tabIndex={-1}
+              title={isToday ? `${title} (${locale?.today})` : title}
+              onClick={partial(handleSelect, thisDate, disabled)}
+            >
+              <span className={prefix('cell-day')}>{DateUtils.getDate(thisDate)}</span>
               {renderCell && renderCell(thisDate)}
             </div>
           </div>
@@ -80,19 +79,15 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
       return days;
     };
 
-    const renderWeekNumber = () => {
-      return (
-        <div className={prefix('cell-week-number')} role="cell">
-          {format(props.weekendDate, isoWeek ? 'I' : 'w')}
-        </div>
-      );
-    };
-
     const classes = merge(className, prefix('row'));
 
     return (
       <Component {...rest} ref={ref} role="row" className={classes}>
-        {showWeekNumbers && renderWeekNumber()}
+        {showWeekNumbers && (
+          <div className={prefix('cell-week-number')} role="cell">
+            {DateUtils.format(props.weekendDate, isoWeek ? 'I' : 'w')}
+          </div>
+        )}
         {renderDays()}
       </Component>
     );
@@ -100,13 +95,12 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
 );
 
 TableRow.displayName = 'TableRow';
+TableRow.defaultProps = defaultProps;
 TableRow.propTypes = {
   weekendDate: PropTypes.instanceOf(Date),
   className: PropTypes.string,
   classPrefix: PropTypes.string,
   inSameMonth: PropTypes.func
 };
-
-TableRow.defaultProps = defaultProps;
 
 export default TableRow;

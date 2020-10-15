@@ -1,139 +1,111 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import compose from 'recompose/compose';
-
 import Pagination from '../Pagination';
 import SelectPicker from '../SelectPicker';
 import Divider from '../Divider';
+import { tplTransform, useClassNames, useCustom } from '../utils';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-import { prefix, tplTransform, getUnhandledProps, defaultProps } from '../utils';
-import withLocale from '../IntlProvider/withLocale';
-import { TablePaginationProps } from './TablePagination.d';
+interface MenuItem {
+  label: React.ReactNode;
+  value: number;
+}
 
-class TablePagination extends React.Component<TablePaginationProps> {
-  static propTypes = {
-    lengthMenu: PropTypes.arrayOf(
-      PropTypes.shape({
-        value: PropTypes.number,
-        label: PropTypes.node
-      })
-    ),
-    showLengthMenu: PropTypes.bool,
-    showInfo: PropTypes.bool,
-    total: PropTypes.number,
-    displayLength: PropTypes.number,
-    prev: PropTypes.bool,
-    next: PropTypes.bool,
-    first: PropTypes.bool,
-    last: PropTypes.bool,
-    maxButtons: PropTypes.number,
-    activePage: PropTypes.number,
-    className: PropTypes.string,
-    locale: PropTypes.object,
-    classPrefix: PropTypes.string,
-    disabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
-    style: PropTypes.object,
-    // reverse start and end position
-    reverse: PropTypes.bool,
-    renderLengthMenu: PropTypes.func,
-    renderTotal: PropTypes.func,
-    onChangePage: PropTypes.func,
-    onChangeLength: PropTypes.func
-  };
-  static defaultProps = {
-    showLengthMenu: true,
-    showInfo: true,
-    lengthMenu: [
-      {
-        value: 30,
-        label: 30
-      },
-      {
-        value: 50,
-        label: 50
-      },
-      {
-        value: 100,
-        label: 100
-      }
-    ],
-    displayLength: 30,
-    prev: true,
-    next: true,
-    first: true,
-    last: true,
-    activePage: 1,
-    maxButtons: 5,
-    locale: {
-      lengthMenuInfo: 'Show {0} data',
-      totalInfo: 'Total: {0}'
+interface TablePaginationLocale {
+  lengthMenuInfo?: string;
+  totalInfo?: string;
+}
+
+export interface TablePaginationProps extends WithAsProps {
+  /** Current page number */
+  activePage?: number;
+
+  /** Page buttons display the maximum number of */
+  maxButtons?: number;
+
+  /** Displays the first page */
+  first?: boolean | React.ReactNode;
+
+  /** Displays the last page */
+  last?: boolean | React.ReactNode;
+
+  /** Displays the prev page */
+  prev?: boolean | React.ReactNode;
+
+  /** Displays the next page */
+  next?: boolean | React.ReactNode;
+
+  /** Disabled component */
+  disabled?: boolean | ((eventKey: any) => boolean);
+
+  /** Paging display row number configuration, defaults to 30, 50, 100 */
+  lengthMenu?: MenuItem[];
+
+  /** Display Dropdown menu */
+  showLengthMenu?: boolean;
+
+  /** Show paging information */
+  showInfo?: boolean;
+
+  /** Total number of data entries */
+  total?: number;
+
+  /** Configure how many lines of entries per page to display, corresponding to lengthMenu */
+  displayLength?: number;
+
+  /** Reverse start and end position */
+  reverse?: boolean;
+
+  /** The component localized character set. */
+  locale: TablePaginationLocale;
+
+  /** Custom menu */
+  renderLengthMenu?: (picker: React.ReactNode) => React.ReactNode;
+
+  /** Custom total */
+  renderTotal?: (total: number, activePage: number) => React.ReactNode;
+
+  /** callback function triggered when page changes */
+  onChangePage?: (page: number) => void;
+
+  /** The callback function that triggers when the  lengthmenu value changes */
+  onChangeLength?: (size: number) => void;
+}
+
+const defaultProps: Partial<TablePaginationProps> = {
+  as: 'div',
+  classPrefix: 'table-pagination',
+  showLengthMenu: true,
+  showInfo: true,
+  lengthMenu: [
+    {
+      value: 30,
+      label: 30
+    },
+    {
+      value: 50,
+      label: 50
+    },
+    {
+      value: 100,
+      label: 100
     }
-  };
+  ],
+  displayLength: 30,
+  prev: true,
+  next: true,
+  first: true,
+  last: true,
+  activePage: 1,
+  maxButtons: 5
+};
 
-  handleChangeLength = (eventKey: any) => {
-    this.props.onChangeLength?.(eventKey);
-  };
-
-  handleChangePage = (eventKey: any) => {
-    this.props.onChangePage?.(eventKey);
-  };
-
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
-
-  renderLengthMenu() {
+const TablePagination: RsRefForwardingComponent<'div', TablePaginationProps> = React.forwardRef(
+  (props: TablePaginationProps, ref) => {
     const {
-      lengthMenu = [],
-      renderLengthMenu,
-      showLengthMenu,
-      locale,
-      displayLength,
-      disabled
-    } = this.props;
-
-    if (!showLengthMenu) {
-      return null;
-    }
-
-    const disabledPicker = typeof disabled === 'function' ? disabled('picker') : disabled;
-
-    const picker = (
-      <SelectPicker
-        appearance="subtle"
-        cleanable={false}
-        searchable={false}
-        placement="topStart"
-        data={lengthMenu}
-        value={displayLength}
-        onChange={this.handleChangeLength}
-        menuStyle={{ minWidth: 'auto' }}
-        disabled={disabledPicker}
-      />
-    );
-
-    return (
-      <div className={this.addPrefix('length-menu')}>
-        {renderLengthMenu ? renderLengthMenu(picker) : tplTransform(locale.lengthMenuInfo, picker)}
-      </div>
-    );
-  }
-
-  renderInfo() {
-    const { renderTotal, total, showInfo, locale, activePage } = this.props;
-
-    if (!showInfo) {
-      return null;
-    }
-
-    return (
-      <div className={this.addPrefix('page-info')}>
-        {renderTotal ? renderTotal(total, activePage) : tplTransform(locale.totalInfo, total)}
-      </div>
-    );
-  }
-
-  render() {
-    const {
+      as: Component,
+      classPrefix,
       total,
       prev,
       next,
@@ -146,19 +118,71 @@ class TablePagination extends React.Component<TablePaginationProps> {
       disabled,
       style,
       reverse,
+      lengthMenu,
+      showLengthMenu,
+      locale: localeProp,
+      showInfo,
+      renderTotal,
+      renderLengthMenu,
+      onChangePage,
+      onChangeLength,
       ...rest
-    } = this.props;
+    } = props;
 
+    const { merge, prefix } = useClassNames(classPrefix);
+    const { locale } = useCustom('TablePagination', localeProp);
     const pages = Math.floor(total / displayLength) + (total % displayLength ? 1 : 0);
-    const classes = classNames(this.addPrefix('toolbar'), className);
-    const unhandled = getUnhandledProps(TablePagination, rest);
+    const classes = merge(className, prefix('toolbar'));
+
+    const renderMenu = () => {
+      if (!showLengthMenu) {
+        return null;
+      }
+
+      const disabledPicker = typeof disabled === 'function' ? disabled('picker') : disabled;
+
+      const picker = (
+        <SelectPicker
+          appearance="subtle"
+          cleanable={false}
+          searchable={false}
+          placement="topStart"
+          data={lengthMenu}
+          value={displayLength}
+          onChange={onChangeLength}
+          menuStyle={{ minWidth: 'auto' }}
+          disabled={disabledPicker}
+        />
+      );
+
+      return (
+        <div className={prefix('length-menu')}>
+          {renderLengthMenu
+            ? renderLengthMenu(picker)
+            : tplTransform(locale.lengthMenuInfo, picker)}
+        </div>
+      );
+    };
+
+    const renderInfo = () => {
+      if (!showInfo) {
+        return null;
+      }
+
+      return (
+        <div className={prefix('page-info')}>
+          {renderTotal ? renderTotal(total, activePage) : tplTransform(locale.totalInfo, total)}
+        </div>
+      );
+    };
+
     const pagers = [
-      <div className={classNames(this.addPrefix('start'))} key={1}>
-        {this.renderLengthMenu()}
+      <div className={classNames(prefix('start'))} key={1}>
+        {renderMenu()}
         <Divider vertical />
-        {this.renderInfo()}
+        {renderInfo()}
       </div>,
-      <div className={classNames(this.addPrefix('end'))} key={2}>
+      <div className={classNames(prefix('end'))} key={2}>
         <Pagination
           size="xs"
           prev={prev}
@@ -168,24 +192,46 @@ class TablePagination extends React.Component<TablePaginationProps> {
           maxButtons={maxButtons}
           pages={pages}
           disabled={disabled}
-          onSelect={this.handleChangePage}
+          onSelect={onChangePage}
           activePage={activePage}
-          {...unhandled}
+          {...rest}
         />
       </div>
     ];
 
     return (
-      <div className={classes} style={style}>
+      <Component ref={ref} className={classes} style={style}>
         {reverse ? pagers.reverse() : pagers}
-      </div>
+      </Component>
     );
   }
-}
+);
 
-export default compose<any, TablePaginationProps>(
-  withLocale<TablePaginationProps>(['TablePagination']),
-  defaultProps<TablePaginationProps>({
-    classPrefix: 'table-pagination'
-  })
-)(TablePagination);
+TablePagination.displayName = 'TablePagination';
+TablePagination.defaultProps = defaultProps;
+TablePagination.propTypes = {
+  lengthMenu: PropTypes.array,
+  showLengthMenu: PropTypes.bool,
+  showInfo: PropTypes.bool,
+  total: PropTypes.number,
+  displayLength: PropTypes.number,
+  prev: PropTypes.bool,
+  next: PropTypes.bool,
+  first: PropTypes.bool,
+  last: PropTypes.bool,
+  maxButtons: PropTypes.number,
+  activePage: PropTypes.number,
+  className: PropTypes.string,
+  locale: PropTypes.any,
+  classPrefix: PropTypes.string,
+  disabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+  style: PropTypes.object,
+  // reverse start and end position
+  reverse: PropTypes.bool,
+  renderLengthMenu: PropTypes.func,
+  renderTotal: PropTypes.func,
+  onChangePage: PropTypes.func,
+  onChangeLength: PropTypes.func
+};
+
+export default TablePagination;

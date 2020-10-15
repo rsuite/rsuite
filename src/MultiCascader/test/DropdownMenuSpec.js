@@ -39,18 +39,14 @@ describe('MultiCascader -  DropdownMenu', () => {
   });
 
   it('Should output 3 `menu-item` ', () => {
-    const instance = getInstance(<Dropdown defaultOpen data={items} />);
-    const menuContainer = getDOMNode(instance.menuContainerRef.current);
-
-    assert.equal(menuContainer.querySelectorAll('li').length, 3);
+    const instance = getInstance(<Dropdown open data={items} />);
+    assert.equal(instance.menu.querySelectorAll('li').length, 3);
   });
 
   it('Should have a menuWidth', () => {
     const instance = getInstance(<Dropdown defaultOpen data={items} menuWidth={100} />);
 
-    const menuContainer = getDOMNode(instance.menuContainerRef.current).querySelector(
-      '.rs-picker-cascader-menu-column'
-    );
+    const menuContainer = instance.menu.querySelector('.rs-picker-cascader-menu-column');
     assert.ok(menuContainer.style.width, '100px');
   });
 
@@ -82,8 +78,8 @@ describe('MultiCascader -  DropdownMenu', () => {
     const instance = getInstance(
       <Dropdown defaultOpen labelKey="myLabel" valueKey="myValue" childrenKey="items" data={data} />
     );
-    const menuContainer = getDOMNode(instance.menuContainerRef.current);
-    assert.equal(menuContainer.querySelectorAll('li').length, 3);
+
+    assert.equal(instance.menu.querySelectorAll('li').length, 3);
   });
 
   it('Should call onSelect callback ', done => {
@@ -94,8 +90,8 @@ describe('MultiCascader -  DropdownMenu', () => {
     };
 
     const instance = getInstance(<Dropdown defaultOpen data={items} onSelect={doneOp} />);
-    const menuContainer = getDOMNode(instance.menuContainerRef.current);
-    ReactTestUtils.Simulate.click(menuContainer.querySelectorAll('.rs-checkbox')[1]);
+
+    ReactTestUtils.Simulate.click(instance.menu.querySelectorAll('.rs-checkbox')[1]);
   });
 
   it('Should call onSelect callback 2 count', () => {
@@ -103,11 +99,10 @@ describe('MultiCascader -  DropdownMenu', () => {
     const instance = getInstance(
       <Dropdown defaultOpen data={items} disabledItemValues={['abcd']} onSelect={onSelectSpy} />
     );
-    const menuContainer = getDOMNode(instance.menuContainerRef.current);
 
     setTimeout(() => {
-      ReactTestUtils.Simulate.click(menuContainer.querySelectorAll('.rs-checkbox')[0]);
-      ReactTestUtils.Simulate.click(menuContainer.querySelectorAll('.rs-checkbox')[2]);
+      ReactTestUtils.Simulate.click(instance.menu.querySelectorAll('.rs-checkbox')[0]);
+      ReactTestUtils.Simulate.click(instance.menu.querySelectorAll('.rs-checkbox')[2]);
       assert.equal(onSelectSpy.callCount, 2);
     }, 1);
   });
@@ -117,8 +112,8 @@ describe('MultiCascader -  DropdownMenu', () => {
     const instance = getInstance(
       <Dropdown defaultOpen data={items} disabledItemValues={['abcd']} onSelect={onSelectSpy} />
     );
-    const menuContainer = getDOMNode(instance.menuContainerRef.current);
-    ReactTestUtils.Simulate.click(menuContainer.querySelectorAll('.rs-checkbox')[1]);
+
+    ReactTestUtils.Simulate.click(instance.menu.querySelectorAll('.rs-checkbox')[1]);
     assert.ok(onSelectSpy.notCalled);
   });
 
@@ -126,25 +121,25 @@ describe('MultiCascader -  DropdownMenu', () => {
     const instance = getInstance(
       <Dropdown defaultOpen data={items} renderMenuItem={item => <i>{item}</i>} />
     );
-    const menuContainer = getDOMNode(instance.menuContainerRef.current);
-    assert.equal(menuContainer.querySelectorAll('.rs-checkbox i').length, 3);
+
+    assert.equal(instance.menu.querySelectorAll('.rs-checkbox i').length, 3);
   });
 
   it('Should be disabled item ', () => {
     const instance = getInstance(
       <Dropdown defaultOpen data={items} disabledItemValues={['abcd', 'abcde']} />
     );
-    const menuContainer = getDOMNode(instance.menuContainerRef.current);
-    assert.ok(menuContainer.querySelectorAll('.rs-checkbox')[1].className.match(/\bdisabled\b/));
-    assert.ok(menuContainer.querySelectorAll('.rs-checkbox')[2].className.match(/\bdisabled\b/));
+
+    assert.ok(instance.menu.querySelectorAll('.rs-checkbox')[1].className.match(/\bdisabled\b/));
+    assert.ok(instance.menu.querySelectorAll('.rs-checkbox')[2].className.match(/\bdisabled\b/));
   });
 
   it('Should be uncheckable item ', () => {
     const instance = getInstance(
       <Dropdown defaultOpen data={items} uncheckableItemValues={['abcd', 'abcde']} />
     );
-    const menuContainer = getDOMNode(instance.menuContainerRef.current);
-    assert.equal(menuContainer.querySelectorAll('input').length, 1);
+
+    assert.equal(instance.menu.querySelectorAll('input[role="checkbox"]').length, 1);
   });
 
   it('Should have a custom className', () => {

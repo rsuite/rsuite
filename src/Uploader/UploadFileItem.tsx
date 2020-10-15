@@ -1,13 +1,10 @@
-import * as React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import _ from 'lodash';
+import { previewFile, useClassNames } from '../utils';
+import { UploaderLocale, FileType } from './Uploader';
+import { WithAsProps } from '../@types/common';
 
-import FormattedMessage from '../IntlProvider/FormattedMessage';
-import { previewFile, defaultProps, getUnhandledProps, prefix } from '../utils';
-import { FileType } from './Uploader.d';
-
-export interface UploadFileItemProps {
+export interface UploadFileItemProps extends WithAsProps {
   file: FileType;
   listType: 'text' | 'picture-text' | 'picture';
   disabled?: boolean;
@@ -15,16 +12,17 @@ export interface UploadFileItemProps {
   maxPreviewFileSize: number;
   classPrefix?: string;
   removable?: boolean;
+  locale?: UploaderLocale;
   renderFileInfo?: (file: FileType, fileElement: React.ReactNode) => React.ReactNode;
   onCancel?: (fileKey: number | string, event: React.MouseEvent) => void;
   onPreview?: (file: FileType, event: React.MouseEvent) => void;
   onReupload?: (file: FileType, event: React.MouseEvent) => void;
 }
 
-interface UploadFileItemState {
-  previewImage?: string;
-}
-
+/**
+ * Format display file size
+ * @param size
+ */
 const getSize = (size = 0): string => {
   const K = 1024;
   const M = 1024 * 1024;
@@ -44,238 +42,259 @@ const getSize = (size = 0): string => {
   return `${size}B`;
 };
 
-class UploadFileItem extends React.Component<UploadFileItemProps, UploadFileItemState> {
-  static propTypes = {
-    file: PropTypes.object,
-    listType: PropTypes.oneOf(['text', 'picture-text', 'picture']),
-    disabled: PropTypes.bool,
-    className: PropTypes.string,
-    maxPreviewFileSize: PropTypes.number,
-    classPrefix: PropTypes.string,
-    removable: PropTypes.bool,
-    renderFileInfo: PropTypes.func,
-    onCancel: PropTypes.func,
-    onPreview: PropTypes.func,
-    onReupload: PropTypes.func
-  };
-  static defaultProps = {
-    maxPreviewFileSize: 1024 * 1024 * 5, // 5MB
-    listType: 'text',
-    removable: true
-  };
+const defaultProps: Partial<UploadFileItemProps> = {
+  as: 'div',
+  classPrefix: 'uploader-file-item',
+  maxPreviewFileSize: 1024 * 1024 * 5, // 5MB
+  listType: 'text',
+  removable: true
+};
 
-  constructor(props) {
-    super(props);
+const UploadFileItem = React.forwardRef(
+  (props: UploadFileItemProps, ref: React.RefObject<HTMLDivElement>) => {
+    const {
+      as: Component,
+      disabled,
+      file,
+      classPrefix,
+      listType,
+      className,
+      removable,
+      maxPreviewFileSize,
+      locale,
+      renderFileInfo,
+      onPreview,
+      onCancel,
+      onReupload,
+      ...rest
+    } = props;
 
-    const { file } = props;
-
-    this.state = {
-      previewImage: file.url ? file.url : null
-    };
-
-    if (!file.url) {
-      this.getThumbnail((previewImage: any) => {
-        this.setState({ previewImage });
-      });
-    }
-  }
-
-  getThumbnail(callback) {
-    const { file, listType, maxPreviewFileSize } = this.props;
-
-    if (!~['picture-text', 'picture'].indexOf(listType)) {
-      return;
-    }
-
-    if (!file.blobFile || _.get(file, 'blobFile.size') > maxPreviewFileSize) {
-      return;
-    }
-
-    previewFile(file.blobFile, callback);
-  }
-
-  handleRemove = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    const { disabled, onCancel, file } = this.props;
-
-    if (disabled) {
-      return;
-    }
-
-    onCancel?.(file.fileKey, event);
-  };
-
-  handlePreview = (event: React.MouseEvent) => {
-    const { disabled, onPreview, file } = this.props;
-    if (disabled) {
-      return;
-    }
-    onPreview?.(file, event);
-  };
-
-  handleReupload = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    const { disabled, onReupload, file } = this.props;
-    if (disabled) {
-      return;
-    }
-    onReupload?.(file, event);
-  };
-
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
-
-  renderProgressBar() {
-    const { disabled, file } = this.props;
-    const { progress = 0, status } = file;
-    const show = !disabled && status === 'uploading';
-    const visibility = show ? 'visible' : 'hidden';
-    const wrapStyle: React.CSSProperties = {
-      visibility
-    };
-    const progressbarStyle = {
-      width: `${progress}%`
-    };
-    return (
-      <div className={this.addPrefix('progress')} style={wrapStyle}>
-        <div className={this.addPrefix('progress-bar')} style={progressbarStyle} />
-      </div>
+    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+    const classes = merge(
+      className,
+      withClassPrefix(listType, { disabled, 'has-error': file.status === 'error' })
     );
-  }
 
-  renderPreview() {
-    const { previewImage } = this.state;
-    const { file } = this.props;
+    const [previewImage, setPreviewImage] = useState(file.url ? file.url : null);
 
-    if (previewImage) {
+    /**
+     * Get thumbnail of image file
+     */
+    const getThumbnail = useCallback(
+      callback => {
+        if (!~['picture-text', 'picture'].indexOf(listType)) {
+          return;
+        }
+
+        if (!file.blobFile || file?.blobFile?.size > maxPreviewFileSize) {
+          return;
+        }
+
+        previewFile(file.blobFile, callback);
+      },
+      [file, listType, maxPreviewFileSize]
+    );
+
+    useEffect(() => {
+      if (!file.url) {
+        getThumbnail((previewImage: any) => {
+          setPreviewImage(previewImage);
+        });
+      }
+    }, [file.url, getThumbnail]);
+
+    const handlePreview = useCallback(
+      (event: React.MouseEvent) => {
+        if (disabled) {
+          return;
+        }
+        onPreview?.(file, event);
+      },
+      [disabled, file, onPreview]
+    );
+
+    const handleRemove = useCallback(
+      (event: React.MouseEvent<HTMLAnchorElement>) => {
+        if (disabled) {
+          return;
+        }
+        onCancel?.(file.fileKey, event);
+      },
+      [disabled, file.fileKey, onCancel]
+    );
+
+    const handleReupload = useCallback(
+      (event: React.MouseEvent<HTMLAnchorElement>) => {
+        if (disabled) {
+          return;
+        }
+        onReupload?.(file, event);
+      },
+      [disabled, file, onReupload]
+    );
+
+    /**
+     * Rendering progress bar
+     */
+    const renderProgressBar = () => {
+      const { progress = 0, status } = file;
+      const show = !disabled && status === 'uploading';
+      const visibility = show ? 'visible' : 'hidden';
+      const wrapStyle: React.CSSProperties = {
+        visibility
+      };
+      const progressbarStyle = {
+        width: `${progress}%`
+      };
       return (
-        <div className={this.addPrefix('preview')}>
-          <img
-            role="presentation"
-            src={previewImage}
-            alt={file.name}
-            onClick={this.handlePreview}
-          />
+        <div className={prefix('progress')} style={wrapStyle}>
+          <div className={prefix('progress-bar')} style={progressbarStyle} />
         </div>
       );
-    }
-    return null;
-  }
+    };
 
-  renderLoading() {
-    const { file } = this.props;
-    const uploading = file.status === 'uploading';
-    const classes = classNames(this.addPrefix('icon-wrapper'), {
-      [this.addPrefix('icon-loading')]: uploading
-    });
-    return (
-      <div className={classes}>
-        <i className={this.addPrefix('icon')} />
-      </div>
-    );
-  }
-
-  renderRemoveButton() {
-    const { removable } = this.props;
-
-    if (!removable) {
+    const renderPreview = () => {
+      if (previewImage) {
+        return (
+          <div className={prefix('preview')}>
+            <img role="presentation" src={previewImage} alt={file.name} onClick={handlePreview} />
+          </div>
+        );
+      }
       return null;
-    }
+    };
 
-    return (
-      <a
-        aria-label="Remove"
-        className={this.addPrefix('btn-remove')}
-        onClick={this.handleRemove}
-        role="button"
-        tabIndex={-1}
-      >
-        <span aria-hidden="true">×</span>
-      </a>
-    );
-  }
+    /**
+     * Render the loading state.
+     */
+    const renderLoading = () => {
+      const uploading = file.status === 'uploading';
+      const classes = prefix('icon-wrapper', { 'icon-loading': uploading });
 
-  renderErrorStatus() {
-    const { file } = this.props;
-    if (file.status === 'error') {
       return (
-        <div className={this.addPrefix('status')}>
-          <FormattedMessage id="error" />
-          <a role="button" tabIndex={-1} onClick={this.handleReupload}>
-            <i className={this.addPrefix('icon-reupload')} />
-          </a>
+        <div className={classes}>
+          <i className={prefix('icon')} />
         </div>
       );
-    }
-    return null;
-  }
-  renderFileSize() {
-    const { file } = this.props;
-    if (file.status !== 'error' && file.blobFile) {
+    };
+
+    /**
+     * Render the remove file button.
+     */
+    const renderRemoveButton = () => {
+      if (!removable) {
+        return null;
+      }
+
       return (
-        <span className={this.addPrefix('size')}>{getSize(_.get(file, 'blobFile.size'))}</span>
+        <a
+          aria-label="Remove"
+          className={prefix('btn-remove')}
+          onClick={handleRemove}
+          role="button"
+          tabIndex={-1}
+        >
+          <span aria-hidden="true">×</span>
+        </a>
       );
-    }
-    return null;
-  }
+    };
 
-  renderFilePanel() {
-    const { file, renderFileInfo } = this.props;
-    const fileElement = (
-      <a role="presentation" className={this.addPrefix('title')} onClick={this.handlePreview}>
-        {file.name}
-      </a>
-    );
-    return (
-      <div className={this.addPrefix('panel')}>
-        <div className={this.addPrefix('content')}>
-          {renderFileInfo ? renderFileInfo(file, fileElement) : fileElement}
-          {this.renderErrorStatus()}
-          {this.renderFileSize()}
+    /**
+     * Render error messages.
+     */
+    const renderErrorStatus = () => {
+      if (file.status === 'error') {
+        return (
+          <div className={prefix('status')}>
+            {locale?.error}
+            <a role="button" tabIndex={-1} onClick={handleReupload}>
+              <i className={prefix('icon-reupload')} />
+            </a>
+          </div>
+        );
+      }
+      return null;
+    };
+
+    /**
+     * Render file size.
+     */
+    const renderFileSize = () => {
+      if (file.status !== 'error' && file.blobFile) {
+        return <span className={prefix('size')}>{getSize(file?.blobFile?.size)}</span>;
+      }
+      return null;
+    };
+
+    /**
+     * Render file panel
+     */
+    const renderFilePanel = () => {
+      const fileElement = (
+        <a role="presentation" className={prefix('title')} onClick={handlePreview}>
+          {file.name}
+        </a>
+      );
+      return (
+        <div className={prefix('panel')}>
+          <div className={prefix('content')}>
+            {renderFileInfo ? renderFileInfo(file, fileElement) : fileElement}
+            {renderErrorStatus()}
+            {renderFileSize()}
+          </div>
         </div>
-      </div>
-    );
-  }
-
-  render() {
-    const { disabled, file, classPrefix, listType, className, ...rest } = this.props;
-    const classes = classNames(classPrefix, className, this.addPrefix(listType), {
-      [this.addPrefix('has-error')]: file.status === 'error',
-      [this.addPrefix('disabled')]: disabled
-    });
-    const unhandled = getUnhandledProps(UploadFileItem, rest);
+      );
+    };
 
     if (listType === 'picture') {
       return (
-        <div className={classes}>
-          {this.renderLoading()}
-          {this.renderPreview()}
-          {this.renderErrorStatus()}
-          {this.renderRemoveButton()}
-        </div>
+        <Component {...rest} ref={ref} className={classes}>
+          {renderLoading()}
+          {renderPreview()}
+          {renderErrorStatus()}
+          {renderRemoveButton()}
+        </Component>
       );
     }
 
     if (listType === 'picture-text') {
       return (
-        <div className={classes}>
-          {this.renderLoading()}
-          {this.renderPreview()}
-          {this.renderFilePanel()}
-          {this.renderProgressBar()}
-          {this.renderRemoveButton()}
-        </div>
+        <Component {...rest} ref={ref} className={classes}>
+          {renderLoading()}
+          {renderPreview()}
+          {renderFilePanel()}
+          {renderProgressBar()}
+          {renderRemoveButton()}
+        </Component>
       );
     }
 
     return (
-      <div {...unhandled} className={classes}>
-        {this.renderLoading()}
-        {this.renderFilePanel()}
-        {this.renderProgressBar()}
-        {this.renderRemoveButton()}
-      </div>
+      <Component {...rest} ref={ref} className={classes}>
+        {renderLoading()}
+        {renderFilePanel()}
+        {renderProgressBar()}
+        {renderRemoveButton()}
+      </Component>
     );
   }
-}
+);
 
-export default defaultProps<UploadFileItemProps>({
-  classPrefix: 'uploader-file-item'
-})(UploadFileItem);
+UploadFileItem.displayName = 'UploadFileItem';
+UploadFileItem.defaultProps = defaultProps;
+UploadFileItem.propTypes = {
+  locale: PropTypes.object,
+  file: PropTypes.object,
+  listType: PropTypes.oneOf(['text', 'picture-text', 'picture']),
+  disabled: PropTypes.bool,
+  className: PropTypes.string,
+  maxPreviewFileSize: PropTypes.number,
+  classPrefix: PropTypes.string,
+  removable: PropTypes.bool,
+  renderFileInfo: PropTypes.func,
+  onCancel: PropTypes.func,
+  onPreview: PropTypes.func,
+  onReupload: PropTypes.func
+};
+
+export default UploadFileItem;

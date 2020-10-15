@@ -176,7 +176,7 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
   const handleOpen = useCallback(
     (delay?: number) => {
       const ms = isUndefined(delay) ? delayOpen : delay;
-      if (ms) {
+      if (ms && typeof ms === 'number') {
         return (delayOpenTimer.current = setTimeout(() => {
           delayOpenTimer.current = null;
           setOpen(true);
@@ -191,7 +191,8 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
   const handleClose = useCallback(
     (delay?: number) => {
       const ms = isUndefined(delay) ? delayClose : delay;
-      if (ms) {
+
+      if (ms && typeof ms === 'number') {
         return (delayCloseTimer.current = setTimeout(() => {
           delayCloseTimer.current = null;
           setOpen(false);

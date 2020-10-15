@@ -8,7 +8,6 @@ describe('DateRangePicker - Calendar', () => {
     const instance = getDOMNode(
       <Calendar format="yyyy-MM-dd" calendarDate={[new Date(), new Date()]} />
     );
-
     assert.equal(instance.nodeName, 'DIV');
     assert.ok(instance.className.match(/\bcalendar\b/));
   });
@@ -21,8 +20,7 @@ describe('DateRangePicker - Calendar', () => {
     const instance = getDOMNode(
       <Calendar format="yyyy-MM-dd" calendarDate={[new Date(), new Date()]} onSelect={doneOp} />
     );
-    const instanceDOM = instance;
-    ReactTestUtils.Simulate.click(instanceDOM.querySelector('.rs-calendar-table-cell-is-today'));
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-table-cell-is-today'));
   });
 
   it('Should have a custom className', () => {

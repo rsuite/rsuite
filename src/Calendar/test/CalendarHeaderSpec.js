@@ -4,7 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 
 import Header from '../Header';
-import { CalendarProvider } from '../CalendarContext';
+import { CalendarContext } from '../Calendar';
 import { createTestContainer } from '../../../test/testUtils';
 
 describe('Calendar-Header', () => {
@@ -51,9 +51,9 @@ describe('Calendar-Header', () => {
     const ref = React.createRef();
 
     ReactDOM.render(
-      <CalendarProvider value={{ date: new Date(), format: 'HH:mm:ss' }}>
+      <CalendarContext.Provider value={{ date: new Date(), format: 'HH:mm:ss' }}>
         <Header showTime onToggleTimeDropdown={doneOp} ref={ref} />
-      </CalendarProvider>,
+      </CalendarContext.Provider>,
       createTestContainer()
     );
 

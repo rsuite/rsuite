@@ -1,4 +1,3 @@
 import MultiCascader from './MultiCascader';
-import withLocale from '../IntlProvider/withLocale';
-
-export default withLocale(['Picker', 'MultiCascader'])(MultiCascader);
+export type { MultiCascaderProps } from './MultiCascader';
+export default MultiCascader;

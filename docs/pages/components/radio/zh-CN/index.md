@@ -1,43 +1,61 @@
 # Radio 单选框
 
-常用的单选框。 如果选项只有两个的情况下，也可以使用 Toggle 组件。
-
-- `<Radio>`
-- `<RadioGroup>`
+允许用户从一组中选择一个选项。
 
 ## 获取组件
 
-```js
-import { Radio, RadioGroup } from 'rsuite';
-```
+<!--{include:(components/radio/fragments/import.md)}-->
 
 ## 演示
 
-<!--{demo}-->
+### 默认
+
+<!--{include:`basic.md`}-->
+
+### 禁用
+
+<!--{include:`disabled.md`}-->
+
+### Radio 组
+
+<!--{include:`radio-group.md`}-->
+
+### Radio 组 - 横向布局
+
+<!--{include:`radio-group-inline.md`}-->
+
+### Radio 组 - Picker
+
+<!--{include:`radio-group-inline-picker.md`}-->
+
+### 受控的 Radio 组
+
+<!--{include:`radio-group-controller.md`}-->
 
 ## Props
 
 ### `<Radio>`
 
-| 属性名称       | 类型                                                               | 描述                                   |
-| -------------- | ------------------------------------------------------------------ | -------------------------------------- |
-| checked        | boolean                                                            | 被选中（受控）                         |
-| defaultChecked | boolean                                                            | 默认被选中                             |
-| disabled       | boolean                                                            | 禁用                                   |
-| inline         | boolean                                                            | 内联布局                               |
-| inputRef       | React.Ref                                                          | 对应 input 元素的 ref                  |
-| name           | string                                                             | 用于表单对应的名称                     |
-| onChange       | (value: any, checked: boolean, event: SyntheticInputEvent) => void | checked 状态发生改变的回调函数         |
-| title          | string                                                             | HTML title                             |
-| value          | any                                                                | 值，对应 RadioGroup 的值，判断是否选中 |
+| 属性名称       | 类型                                             | 描述                                   |
+| -------------- | ------------------------------------------------ | -------------------------------------- |
+| checked        | boolean                                          | 被选中（受控）                         |
+| defaultChecked | boolean                                          | 默认被选中                             |
+| disabled       | boolean                                          | 禁用                                   |
+| inline         | boolean                                          | 内联布局                               |
+| inputProps     | object                                           | 设置 input 元素的属性                  |
+| inputRef       | ref                                              | 将 ref 传递给 input 元素               |
+| name           | string                                           | 用于表单对应的名称                     |
+| onChange       | (value: string, checked: boolean, event) => void | checked 状态发生改变的回调函数         |
+| title          | string                                           | HTML title                             |
+| value          | string                                           | 值，对应 RadioGroup 的值，判断是否选中 |
 
 ### `<RadioGroup>`
 
-| 性名称       | 类型`(默认值)`                                 | 描述               |
-| ------------ | ---------------------------------------------- | ------------------ |
-| appearance   | enum: 'default', 'picker'                      | 设置外观           |
-| defaultValue | any                                            | 默认值             |
-| inline       | boolean                                        | 内联布局           |
-| name         | string                                         | 用于表单对应的名称 |
-| onChange     | (value:any, event:SyntheticInputEvent) => void | 值改变后的回调函数 |
-| value        | any                                            | 值(受控)           |
+| 性名称       | 类型`(默认值)`                | 描述               |
+| ------------ | ----------------------------- | ------------------ |
+| appearance   | enum: 'default', 'picker'     | 设置外观           |
+| defaultValue | string                        | 默认值             |
+| inline       | boolean                       | 内联布局           |
+| name         | string                        | 用于表单对应的名称 |
+| onChange     | (value:string, event) => void | 值改变后的回调函数 |
+| value        | string                        | 值(受控)           |

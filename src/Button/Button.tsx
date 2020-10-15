@@ -78,7 +78,14 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
 
     if (rest.href) {
       return (
-        <SafeAnchor {...rest} as={as} ref={ref} aria-disabled={disabled} className={classes}>
+        <SafeAnchor
+          {...rest}
+          as={as}
+          ref={ref}
+          aria-disabled={disabled}
+          disabled={disabled}
+          className={classes}
+        >
           {loading && spin}
           {children}
           {rippleElement}

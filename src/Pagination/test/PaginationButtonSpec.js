@@ -54,7 +54,7 @@ describe('PaginationButton', () => {
     const activeInstance = getDOMNode(
       <PaginationButton
         active
-        as={({ active }) => {
+        linkAs={({ active }) => {
           return <span>{active ? 'active' : 'inactive'}</span>;
         }}
       />
@@ -62,7 +62,7 @@ describe('PaginationButton', () => {
     const inactiveInstance = getDOMNode(
       <PaginationButton
         active={false}
-        as={({ active }) => {
+        linkAs={({ active }) => {
           return <span>{active ? 'active' : 'inactive'}</span>;
         }}
       />

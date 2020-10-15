@@ -15,7 +15,7 @@ describe('Pagination', () => {
   });
 
   it('Should render 20 button', () => {
-    const instance = getDOMNode(<Pagination pages={20} buttonAs="button" />);
+    const instance = getDOMNode(<Pagination pages={20} linkAs="button" />);
     assert.equal(instance.querySelectorAll('button').length, 20);
   });
 
@@ -60,22 +60,22 @@ describe('Pagination', () => {
 
   it('Should render `first` button', () => {
     const instance = getDOMNode(<Pagination pages={20} maxButtons={2} first />);
-    assert.ok(instance.querySelector('span[aria-label="First"]'));
+    assert.ok(instance.querySelector('a[aria-label="First"]'));
   });
 
   it('Should render `last` button', () => {
     const instance = getDOMNode(<Pagination pages={20} maxButtons={2} last />);
-    assert.ok(instance.querySelector('span[aria-label="Last"]'));
+    assert.ok(instance.querySelector('a[aria-label="Last"]'));
   });
 
   it('Should render `prev` button', () => {
     const instance = getDOMNode(<Pagination pages={20} maxButtons={2} prev />);
-    assert.ok(instance.querySelector('span[aria-label="Previous"]'));
+    assert.ok(instance.querySelector('a[aria-label="Previous"]'));
   });
 
   it('Should render `next` button', () => {
     const instance = getDOMNode(<Pagination pages={20} maxButtons={2} next />);
-    assert.ok(instance.querySelector('span[aria-label="Next"]'));
+    assert.ok(instance.querySelector('a[aria-label="Next"]'));
   });
 
   it('Should render boundary links', () => {
