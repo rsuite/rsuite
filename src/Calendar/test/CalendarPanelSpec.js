@@ -75,7 +75,10 @@ describe('Calendar - Panel', () => {
   });
 
   it('Should call `onSelect` callback in zoned date', done => {
-    const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
+    const timeZone =
+      new Date('2020-10-10 01:00:00').getTimezoneOffset() === -480
+        ? 'Europe/London'
+        : 'Asia/Shanghai';
     const instance = getDOMNode(
       <CalendarPanel
         timeZone={timeZone}

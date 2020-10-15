@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ReactTestUtils from 'react-dom/test-utils';
 import Affix from '../Affix';
 import { getDOMNode, createTestContainer, itChrome } from '@test/testUtils';
 import { getOffset } from 'dom-lib';
@@ -19,27 +20,30 @@ describe('Affix', () => {
     const buttonRef = React.createRef();
     const affixRef = React.createRef();
 
-    ReactDOM.render(
-      <div style={{ height: 3000 }}>
-        <div style={{ height: 100 }}>--</div>
-        <Affix
-          top={10}
-          ref={affixRef}
-          onChange={() => {
-            const affixDOM = getDOMNode(affixRef.current);
-            if (
-              affixDOM.children[0].className === 'rs-affix' &&
-              affixDOM.children[0].style.position === 'fixed'
-            ) {
-              done();
-            }
-          }}
-        >
-          <button ref={buttonRef}>button</button>
-        </Affix>
-      </div>,
-      createTestContainer()
-    );
+    ReactTestUtils.act(() => {
+      ReactDOM.render(
+        <div style={{ height: 3000 }}>
+          <div style={{ height: 100 }}>--</div>
+          <Affix
+            top={10}
+            ref={affixRef}
+            onChange={() => {
+              const affixDOM = getDOMNode(affixRef.current);
+              if (
+                affixDOM.children[0].className === 'rs-affix' &&
+                affixDOM.children[0].style.position === 'fixed'
+              ) {
+                done();
+              }
+            }}
+          >
+            <button ref={buttonRef}>button</button>
+          </Affix>
+        </div>,
+        createTestContainer()
+      );
+    });
+
     const top = getOffset(buttonRef.current).top;
     window.scrollTo({ top });
   });

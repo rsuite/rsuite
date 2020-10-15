@@ -220,7 +220,9 @@ describe('DatePicker ', () => {
       <DatePicker value={parseISO('2018-01-05')} onChange={doneOp} defaultOpen />
     );
 
-    const allCells = instance.menu.querySelectorAll('.rs-calendar-table-cell .rs-calendar-table-cell-content');
+    const allCells = instance.menu.querySelectorAll(
+      '.rs-calendar-table-cell .rs-calendar-table-cell-content'
+    );
 
     ReactTestUtils.Simulate.click(allCells[allCells.length - 1]);
     ReactTestUtils.Simulate.click(instance.menu.querySelector('.rs-picker-toolbar-right-btn-ok'));

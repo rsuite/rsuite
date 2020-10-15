@@ -26,7 +26,7 @@ describe('Ripple', () => {
     const doneOp = () => {
       done();
     };
-    const ref=React.createRef();
+    const ref = React.createRef();
     ReactTestUtils.act(() => {
       ReactDOM.render(
         <div ref={ref} style={{ width: 100, height: 100 }}>

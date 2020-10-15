@@ -63,7 +63,7 @@ describe('DropdownMenuItem', () => {
   });
 
   it('Should be `pullLeft`', () => {
-    const instance = getDOMNode(<DropdownMenuItem pullLeft />);
+    const instance = getDOMNode(<DropdownMenuItem pullLeft submenu />);
     assert.include(instance.className, 'rs-dropdown-item-pull-left');
   });
 
