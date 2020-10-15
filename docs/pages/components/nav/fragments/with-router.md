@@ -1,5 +1,3 @@
-### Used with `Link` in `react-router`
-
 <!--start-code-->
 
 ```js
