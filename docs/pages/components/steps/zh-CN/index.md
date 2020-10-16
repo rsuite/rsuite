@@ -2,9 +2,6 @@
 
 引导用户按照流程完成任务的导航条。
 
-- `<Steps>` 步骤条组件
-- `<Steps.Item>` 步骤条内的每一个步骤。
-
 ## 获取组件
 
 <!--{include:(components/steps/fragments/import.md)}-->

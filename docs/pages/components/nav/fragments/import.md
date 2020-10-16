@@ -1,3 +1,6 @@
 ```js
-import { Nav, Dropdown } from 'rsuite';
+import { Nav } from 'rsuite';
+
+// or
+import Nav from 'rsuite/lib/Nav';
 ```
