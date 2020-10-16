@@ -39,6 +39,6 @@ describe('ListItem', () => {
         <List.Item index={1} classPrefix="custom-prefix" />
       </List>
     );
-    assert.ok(domNode.firstChild.className.match(/\bcustom-prefix\b/));
+    assert.include(domNode.firstChild.className, 'custom-prefix');
   });
 });

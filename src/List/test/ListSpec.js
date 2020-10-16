@@ -1,7 +1,8 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import List from '../List';
-import { getDOMNode } from '@test/testUtils';
+import { getDOMNode, createTestContainer } from '@test/testUtils';
 
 describe('List', () => {
   it('Should render a List', () => {
@@ -64,42 +65,63 @@ describe('List', () => {
 
   it('should call onSortStart', done => {
     const callback = () => done();
-    const domNode = getDOMNode(
-      <List sortable onSortStart={callback}>
-        <List.Item index={1}>item1</List.Item>
-        <List.Item index={2}>item2</List.Item>
-      </List>
-    );
-    setTimeout(() => ReactTestUtils.SimulateNative.mouseDown(domNode.firstChild), 0);
+    const ref = React.createRef();
+    ReactTestUtils.act(() => {
+      ReactDOM.render(
+        <List ref={ref} sortable onSortStart={callback}>
+          <List.Item index={1}>item1</List.Item>
+          <List.Item index={2}>item2</List.Item>
+        </List>,
+        createTestContainer()
+      );
+    });
+
+    ReactTestUtils.Simulate.mouseDown(ref.current.firstChild);
   });
 
   it('should call onSortMove', done => {
     const callback = () => done();
     const mousemoveEvent = new Event('mousemove', { bubbles: true });
-    const domNode = getDOMNode(
-      <List sortable onSortStart={() => window.dispatchEvent(mousemoveEvent)} onSortMove={callback}>
-        <List.Item index={1}>item1</List.Item>
-        <List.Item index={2}>item2</List.Item>
-      </List>
-    );
-    setTimeout(() => ReactTestUtils.SimulateNative.mouseDown(domNode.firstChild), 0);
+    const ref = React.createRef();
+    ReactTestUtils.act(() => {
+      ReactDOM.render(
+        <List
+          sortable
+          ref={ref}
+          onSortStart={() => window.dispatchEvent(mousemoveEvent)}
+          onSortMove={callback}
+        >
+          <List.Item index={1}>item1</List.Item>
+          <List.Item index={2}>item2</List.Item>
+        </List>,
+        createTestContainer()
+      );
+    });
+
+    ReactTestUtils.Simulate.mouseDown(ref.current.firstChild);
   });
 
   it('should call onSortEnd & onSort', done => {
     let count = 0;
     const callback = () => ++count > 1 && done();
     const mouseupEvent = new Event('mouseup', { bubbles: true });
-    const domNode = getDOMNode(
-      <List
-        sortable
-        onSortStart={() => window.dispatchEvent(mouseupEvent)}
-        onSortEnd={callback}
-        onSort={callback}
-      >
-        <List.Item index={1}>item1</List.Item>
-        <List.Item index={2}>item2</List.Item>
-      </List>
-    );
-    setTimeout(() => ReactTestUtils.SimulateNative.mouseDown(domNode.firstChild), 0);
+    const ref = React.createRef();
+    ReactTestUtils.act(() => {
+      ReactDOM.render(
+        <List
+          sortable
+          ref={ref}
+          onSortStart={() => window.dispatchEvent(mouseupEvent)}
+          onSortEnd={callback}
+          onSort={callback}
+        >
+          <List.Item index={1}>item1</List.Item>
+          <List.Item index={2}>item2</List.Item>
+        </List>,
+        createTestContainer()
+      );
+    });
+
+    ReactTestUtils.Simulate.mouseDown(ref.current.firstChild);
   });
 });
