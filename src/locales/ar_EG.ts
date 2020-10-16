@@ -64,5 +64,8 @@ export default {
   },
   CloseButton: {
     closeLabel: 'اغلق'
+  },
+  Breadcrumb: {
+    expandText: 'عرض المسار'
   }
 };

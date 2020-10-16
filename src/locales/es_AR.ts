@@ -68,5 +68,8 @@ export default {
   },
   CloseButton: {
     closeLabel: 'apagar'
+  },
+  Breadcrumb: {
+    expandText: 'Mostrar ruta'
   }
 };

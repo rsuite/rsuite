@@ -67,5 +67,8 @@ export default {
   },
   CloseButton: {
     closeLabel: '종료'
+  },
+  Breadcrumb: {
+    expandText: '경로 표시'
   }
 };
