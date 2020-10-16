@@ -1,14 +1,10 @@
-
+```
+import ResponsiveNav from '@rsuite/responsive-nav';
+```
 
 <!--start-code-->
 
 ```js
-/**
- * https://github.com/rsuite/responsive-nav
- *
- * import ResponsiveNav from '@rsuite/responsive-nav';
- */
-
 const defaultItems = [
   { eventKey: 'A', label: 'Item A' },
   { eventKey: 'B', label: 'Item B' },

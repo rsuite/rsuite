@@ -29,6 +29,7 @@ export { default as shallowEqualArray } from './shallowEqualArray';
 export { default as composeFunctions } from './composeFunctions';
 export { default as reactToString } from './reactToString';
 export { default as scrollTopAnimation } from './scrollTopAnimation';
+export { default as appendTooltip } from './appendTooltip';
 
 /** Hooks **/
 export { default as useClassNames } from './useClassNames';

@@ -68,5 +68,8 @@ export default {
   },
   CloseButton: {
     closeLabel: 'sammuttaa'
+  },
+  Breadcrumb: {
+    expandText: 'Näytä polku'
   }
 };

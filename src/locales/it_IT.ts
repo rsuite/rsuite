@@ -68,5 +68,8 @@ export default {
   },
   CloseButton: {
     closeLabel: 'spegnimento'
+  },
+  Breadcrumb: {
+    expandText: 'Mostra percorso'
   }
 };

@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import shallowEqual from '../utils/shallowEqual';
-
 import NavItem from './NavItem';
-import { ReactChildren, useClassNames } from '../utils';
+import Dropdown from '../Dropdown';
+import { ReactChildren, useClassNames, shallowEqual } from '../utils';
 import { NavbarContext } from '../Navbar/Navbar';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
@@ -30,7 +29,7 @@ export interface NavProps<T = any>
   activeKey?: T;
 
   /** Callback function triggered after selection */
-  onSelect?: (eventKey: T, event: React.SyntheticEvent<any>) => void;
+  onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
 }
 
 const defaultProps: Partial<NavProps> = {
@@ -40,6 +39,7 @@ const defaultProps: Partial<NavProps> = {
 };
 
 interface NavComponent extends RsRefForwardingComponent<'div', NavProps> {
+  Dropdown?: typeof Dropdown;
   Item?: typeof NavItem;
 }
 
@@ -62,22 +62,22 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
   const { sidenav = false, expanded = false, activeKey = activeKeyProp, onSelect = onSelectProp } =
     React.useContext(SidenavContext) || {};
 
-  const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
-
+  const { withClassPrefix, merge, rootPrefix, prefix } = useClassNames(classPrefix);
   const hasWaterline = appearance !== 'default';
 
   const items = ReactChildren.mapCloneElement(children, item => {
     const { eventKey, active, ...rest } = item.props;
     const displayName = item?.type?.displayName;
     const hasTooltip = sidenav && !expanded;
-    if (~displayName?.indexOf('NavItem')) {
+
+    if (displayName === 'NavItem') {
       return {
         ...rest,
         onSelect,
         hasTooltip,
         active: typeof activeKey === 'undefined' ? active : shallowEqual(activeKey, eventKey)
       };
-    } else if (~displayName?.indexOf('Dropdown')) {
+    } else if (displayName === 'Dropdown') {
       return {
         ...rest,
         onSelect,
@@ -95,10 +95,12 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
       {navbar => {
         const classes = merge(
           className,
-          withClassPrefix(appearance, {
+          rootPrefix({
             'navbar-nav': navbar,
             'navbar-right': pullRight,
-            'sidenav-nav': sidenav,
+            'sidenav-nav': sidenav
+          }),
+          withClassPrefix(appearance, {
             horizontal: navbar || (!vertical && !sidenav),
             vertical: vertical || sidenav,
             justified: justified,
@@ -117,9 +119,10 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
   );
 });
 
+Nav.Dropdown = Dropdown;
 Nav.Item = NavItem;
-Nav.displayName = 'Nav';
 
+Nav.displayName = 'Nav';
 Nav.defaultProps = defaultProps;
 Nav.propTypes = {
   classPrefix: PropTypes.string,

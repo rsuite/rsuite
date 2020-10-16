@@ -1,15 +1,12 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-
 import Ripple from '../Ripple';
-import appendTooltip from '../utils/appendTooltip';
 import SafeAnchor from '../SafeAnchor';
-
-import { createChainedFunction, useClassNames } from '../utils';
+import { createChainedFunction, useClassNames, appendTooltip } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { IconProps } from '../Icon/Icon.d';
+import { IconProps } from '../Icon';
 
-export interface NavItemProps<T = any>
+export interface NavItemProps<T = string>
   extends WithAsProps,
     Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
   /** Activation status */
@@ -37,7 +34,7 @@ export interface NavItemProps<T = any>
   href?: string;
 
   /** Select the callback function that the event triggers. */
-  onSelect?: (eventKey: T, event: React.SyntheticEvent<any>) => void;
+  onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
 
   /** Custom rendering item */
   renderItem?: (item: React.ReactNode) => React.ReactNode;
@@ -52,10 +49,9 @@ const defaultProps: Partial<NavItemProps> = {
 const NavItem: RsRefForwardingComponent<'li', NavItemProps> = React.forwardRef(
   (props: NavItemProps, ref: React.Ref<HTMLLIElement>) => {
     const {
+      as: Component,
       active,
       disabled,
-      onClick,
-      onSelect,
       eventKey,
       className,
       classPrefix,
@@ -66,16 +62,20 @@ const NavItem: RsRefForwardingComponent<'li', NavItemProps> = React.forwardRef(
       hasTooltip,
       divider,
       panel,
-      as: Component,
       renderItem,
+      onClick,
+      onSelect,
       ...rest
     } = props;
 
-    const handleClick = (event: React.MouseEvent) => {
-      if (onSelect && !disabled) {
-        onSelect(eventKey, event);
-      }
-    };
+    const handleClick = useCallback(
+      (event: React.MouseEvent) => {
+        if (onSelect && !disabled) {
+          onSelect(eventKey, event);
+        }
+      },
+      [onSelect, disabled, eventKey]
+    );
 
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ active, disabled }));
@@ -103,7 +103,6 @@ const NavItem: RsRefForwardingComponent<'li', NavItemProps> = React.forwardRef(
       <Component
         {...rest}
         disabled={Component === SafeAnchor ? disabled : null}
-        role="button"
         tabIndex={tabIndex}
         className={merge(className, prefix('content'))}
         onClick={createChainedFunction(onClick, handleClick)}

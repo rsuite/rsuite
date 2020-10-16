@@ -64,5 +64,8 @@ export default {
   },
   CloseButton: {
     closeLabel: 'неисправность'
+  },
+  Breadcrumb: {
+    expandText: 'Показать путь'
   }
 };
