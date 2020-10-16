@@ -5,32 +5,35 @@ const data = ['Roses are red', 'Violets are blue', 'Sugar is sweet', 'And so are
 
 ReactDOM.render(
   <div>
-    <p style={{ marginBottom: 10 }}>窄列表：</p>
-    <List size="sm">
-      {data.map((item, index) => (
-        <List.Item key={index} index={index}>
-          {item}
-        </List.Item>
-      ))}
-    </List>
+    <Panel header="Small" bordered>
+      <List size="sm">
+        {data.map((item, index) => (
+          <List.Item key={index} index={index}>
+            {item}
+          </List.Item>
+        ))}
+      </List>
+    </Panel>
     <hr />
-    <p style={{ marginBottom: 10 }}>中等列表(默认)：</p>
-    <List size="md">
-      {data.map((item, index) => (
-        <List.Item key={index} index={index}>
-          {item}
-        </List.Item>
-      ))}
-    </List>
+    <Panel header="Medium (Default)" bordered>
+      <List size="md">
+        {data.map((item, index) => (
+          <List.Item key={index} index={index}>
+            {item}
+          </List.Item>
+        ))}
+      </List>
+    </Panel>
     <hr />
-    <p style={{ marginBottom: 10 }}>宽列表：</p>
-    <List size="lg">
-      {data.map((item, index) => (
-        <List.Item key={index} index={index}>
-          {item}
-        </List.Item>
-      ))}
-    </List>
+    <Panel header="Large" bordered>
+      <List size="lg">
+        {data.map((item, index) => (
+          <List.Item key={index} index={index}>
+            {item}
+          </List.Item>
+        ))}
+      </List>
+    </Panel>
   </div>
 );
 ```

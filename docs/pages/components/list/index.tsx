@@ -1,12 +1,7 @@
-import * as React from 'react';
-import { List, Tag, Button, Icon, FlexboxGrid } from 'rsuite';
+import React from 'react';
+import { List, Tag, Button, Icon, FlexboxGrid, Panel } from 'rsuite';
 import DefaultPage from '@/components/Page';
 
 export default function Page() {
-  return (
-    <DefaultPage
-      examples={['default', 'size', 'bordered', 'hover', 'sortable', 'collection', 'custom']}
-      dependencies={{ List, Tag, Button, Icon, FlexboxGrid }}
-    />
-  );
+  return <DefaultPage dependencies={{ Panel, List, Tag, Button, Icon, FlexboxGrid }} />;
 }

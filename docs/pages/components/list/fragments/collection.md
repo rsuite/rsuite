@@ -1,8 +1,8 @@
 <!--start-code-->
 
 ```js
-function ListDemo(){
-  const [data,setData] = React.useState([
+function ListDemo() {
+  const [data, setData] = React.useState([
     { text: 'collection0 item0', collection: 0 },
     { text: 'collection0 item1', collection: 0 },
     { text: 'collection1 item0', collection: 1 },
@@ -12,12 +12,13 @@ function ListDemo(){
     { text: "I'm last one.", collection: 3, disabled: true }
   ]);
 
-  const handleSortEnd = ({ oldIndex, newIndex })=> setData((prvData) => {
-    const moveData = prvData.splice(oldIndex, 1);
-    const newData = [...prvData];
-    newData.splice(newIndex, 0, moveData[0]);
-    return newData;
-  },[]);
+  const handleSortEnd = ({ oldIndex, newIndex }) =>
+    setData(prvData => {
+      const moveData = prvData.splice(oldIndex, 1);
+      const newData = [...prvData];
+      newData.splice(newIndex, 0, moveData[0]);
+      return newData;
+    }, []);
 
   return (
     <List sortable onSort={handleSortEnd}>
@@ -27,7 +28,7 @@ function ListDemo(){
         </List.Item>
       ))}
     </List>
-  )
+  );
 }
 ReactDOM.render(<ListDemo />);
 ```
