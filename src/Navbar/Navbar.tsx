@@ -33,7 +33,7 @@ const Navbar: NavbarComponent = React.forwardRef(
     const classes = merge(className, withClassPrefix(appearance));
     return (
       <NavbarContext.Provider value={hasChildContext}>
-        <Component {...rest} ref={ref} className={classes} role="navigation" />
+        <Component {...rest} ref={ref} className={classes} />
       </NavbarContext.Provider>
     );
   }
