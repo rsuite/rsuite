@@ -7,11 +7,13 @@ export type ListContextType = {
   size: ListProps['size'];
   register: ReturnType<typeof useManager>['listItemRegister'];
 };
+
 const defaultListContext = {
   bordered: false,
   size: 'md',
   manager: null
 };
+
 const ListContext = createContext<ListContextType>(defaultListContext);
 
 export default ListContext;

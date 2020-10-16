@@ -1,15 +1,12 @@
 import PropTypes from 'prop-types';
-import React, { HTMLAttributes, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import useSortHelper, { SortConfig } from './helper/useSortHelper';
-import { RsRefForwardingComponent, StandardProps } from '../@types/common';
+import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { mergeRefs, useClassNames } from '../utils';
 import ListContext, { ListContextType } from './ListContext';
 import ListItem from './ListItem';
 
-export interface ListProps
-  extends StandardProps,
-    SortConfig,
-    Omit<HTMLAttributes<HTMLDivElement>, 'onMouseDown' | 'onMouseUp'> {
+export interface ListProps extends WithAsProps, SortConfig {
   /* Size of list item */
   size?: 'lg' | 'md' | 'sm';
 
@@ -24,6 +21,8 @@ export interface ListProps
 }
 
 const defaultProps: Partial<ListProps> = {
+  as: 'div',
+  classPrefix: 'list',
   size: 'md',
   autoScroll: true,
   pressDelay: 0,
@@ -36,22 +35,24 @@ export interface ListComponent extends RsRefForwardingComponent<'div', ListProps
 
 const List: ListComponent = React.forwardRef((props: ListProps, ref: React.Ref<HTMLDivElement>) => {
   const {
-    classPrefix = 'list',
+    as: Component,
+    classPrefix,
     className,
     bordered,
     hover,
     size,
     sortable,
     autoScroll,
+    pressDelay,
+    transitionDuration,
+    children,
     onSort,
     onSortEnd,
     onSortMove,
     onSortStart,
-    pressDelay,
-    transitionDuration,
-    children,
     ...rest
   } = props;
+
   const { withClassPrefix, merge } = useClassNames(classPrefix);
   const { containerRef, register, sorting, handleEnd, handleStart } = useSortHelper({
     autoScroll,
@@ -63,31 +64,23 @@ const List: ListComponent = React.forwardRef((props: ListProps, ref: React.Ref<H
     transitionDuration
   });
 
-  const classes = merge(
-    className,
-    withClassPrefix({
-      bordered,
-      sortable,
-      sorting,
-      hover
-    })
-  );
+  const classes = merge(className, withClassPrefix({ bordered, sortable, sorting, hover }));
   const contextValue = useMemo<ListContextType>(() => ({ bordered, size, register }), [
     bordered,
     register,
     size
   ]);
   return (
-    <div
-      {...rest}
+    <Component
       role="list"
+      {...rest}
       ref={mergeRefs(containerRef, ref)}
       className={classes}
       onMouseDown={sortable ? handleStart : undefined}
       onMouseUp={sortable ? handleEnd : undefined}
     >
       <ListContext.Provider value={contextValue}>{children}</ListContext.Provider>
-    </div>
+    </Component>
   );
 });
 
