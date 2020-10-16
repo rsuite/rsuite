@@ -144,7 +144,8 @@ export interface FormControlPickerProps<
   ValueType = any,
   LocaleType = any,
   DataType = Record<string, any>
-> extends PickerBaseProps<LocaleType>, FormControlBaseProps<ValueType> {
+> extends PickerBaseProps<LocaleType>,
+    FormControlBaseProps<ValueType> {
   /** The data of component */
   data: DataType[];
 
@@ -211,4 +212,11 @@ export interface ItemDataType {
   children?: ItemDataType[];
 
   loading?: boolean;
+}
+
+export interface Offset {
+  top?: number;
+  left?: number;
+  width?: number;
+  height?: number;
 }

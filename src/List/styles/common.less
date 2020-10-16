@@ -86,19 +86,17 @@
 
   &-holder {
     background-color: @list-item-placeholder-bg-color;
+    visibility: hidden;
 
     &::after {
       content: '';
       position: absolute;
+      visibility: visible;
       top: @list-border-width;
       left: @list-border-width;
       width: calc(100% - 2 * @list-border-width);
       height: calc(100% - 2 * @list-border-width);
       border: @list-border-width @list-item-placeholder-border-color dashed;
-    }
-
-    .@{ns}list-item-content {
-      opacity: 0;
     }
   }
 }

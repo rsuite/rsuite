@@ -1,4 +1,7 @@
-import { Axis, Position } from './List';
+import { Offset } from '../../@types/common';
+import { Axis } from './utils';
+
+type OffsetCallback = (offset: Offset) => void;
 
 export interface AutoScrollerUpdatePayload {
   translate: Axis;
@@ -8,32 +11,29 @@ export interface AutoScrollerUpdatePayload {
   height: number;
 }
 
-const acceleration = 5; // for auto scroll
+const ACCELERATION = 5; // for auto scroll
 
+/***
+ * Auto scroll when approaching the edge
+ * */
 class AutoScroller {
   private readonly container: HTMLElement;
-  private readonly onScrollCallback: (offset: Position) => any;
+  private readonly onScrollCallback: OffsetCallback;
   private interval: NodeJS.Timeout = null;
 
   isAutoScrolling = true;
 
-  constructor(container: HTMLElement, onScrollCallback: (offset: Position) => any) {
+  constructor(container: HTMLElement, onScrollCallback: OffsetCallback) {
     this.container = container;
     this.onScrollCallback = onScrollCallback;
   }
 
-  public clear() {
+  clear() {
     clearInterval(this.interval);
     this.interval = null;
   }
 
-  public update({
-    translate,
-    minTranslate,
-    maxTranslate,
-    width,
-    height
-  }: AutoScrollerUpdatePayload) {
+  update({ translate, minTranslate, maxTranslate, width, height }: AutoScrollerUpdatePayload) {
     const direction = { x: 0, y: 0 };
     const speed = { x: 0, y: 0 };
     const {
@@ -53,19 +53,19 @@ class AutoScroller {
     if (translate.y >= maxTranslate.y - height / 2 && !isBottom) {
       // Scroll Down
       direction.y = 1;
-      speed.y = acceleration * Math.abs((maxTranslate.y - height / 2 - translate.y) / height);
+      speed.y = ACCELERATION * Math.abs((maxTranslate.y - height / 2 - translate.y) / height);
     } else if (translate.x >= maxTranslate.x - width / 2 && !isRight) {
       // Scroll Right
       direction.x = 1;
-      speed.x = acceleration * Math.abs((maxTranslate.x - width / 2 - translate.x) / width);
+      speed.x = ACCELERATION * Math.abs((maxTranslate.x - width / 2 - translate.x) / width);
     } else if (translate.y <= minTranslate.y + height / 2 && !isTop) {
       // Scroll Up
       direction.y = -1;
-      speed.y = acceleration * Math.abs((translate.y - height / 2 - minTranslate.y) / height);
+      speed.y = ACCELERATION * Math.abs((translate.y - height / 2 - minTranslate.y) / height);
     } else if (translate.x <= minTranslate.x + width / 2 && !isLeft) {
       // Scroll Left
       direction.x = -1;
-      speed.x = acceleration * Math.abs((translate.x - width / 2 - minTranslate.x) / width);
+      speed.x = ACCELERATION * Math.abs((translate.x - width / 2 - minTranslate.x) / width);
     }
 
     if (this.interval) {

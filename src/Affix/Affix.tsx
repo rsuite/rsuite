@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { getOffset } from 'dom-lib';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { useClassNames, useEventListener, useElementResize, mergeRefs } from '../utils';
+import { Offset, RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { mergeRefs, useClassNames, useElementResize, useEventListener } from '../utils';
 
 export interface AffixProps extends WithAsProps {
   /** Distance from top */
@@ -13,13 +13,6 @@ export interface AffixProps extends WithAsProps {
 
   /** Specify the container. */
   container?: HTMLElement | (() => HTMLElement);
-}
-
-interface Offset {
-  top?: number;
-  left?: number;
-  width?: number;
-  height?: number;
 }
 
 /**
