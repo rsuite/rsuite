@@ -65,8 +65,17 @@ function useClassNames(str: string) {
   /**
    * @example
    * rootPrefix('btn') => 'rs-btn'
+   * rootPrefix('btn', { active: true }) => 'rs-btn rs-active'
    */
-  const rootPrefix = (name: string) => addPrefix(classPrefix, name);
+  const rootPrefix = (...classes: ClassValue[]) => {
+    const mergeClasses = classes.length
+      ? classNames(...classes)
+          .split(' ')
+          .map(item => addPrefix(classPrefix, item))
+      : [];
+
+    return mergeClasses.filter(cls => cls).join(' ');
+  };
 
   return {
     withClassPrefix,
