@@ -1,11 +1,9 @@
-### 设置跨度
-
 <!--start-code-->
 
 ```js
 const instance = (
   <div style={{ width: 160 }}>
-    <InputNumber step={10} />
+    <InputNumber defaultValue={0.01} step={0.01} />
   </div>
 );
 ReactDOM.render(instance);
