@@ -36,7 +36,7 @@ describe('CheckTreePicker styles', () => {
   itChrome('Should render the correct styles', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<CheckTreePicker data={data} ref={instanceRef} />, createTestContainer());
-    const toggleDom = getDOMNode(instanceRef.current).querySelector('.rs-picker-toggle');
+    const toggleDom = getDOMNode(instanceRef.current.root).querySelector('.rs-picker-toggle');
     toggleDom.click();
     const itemLabel = document.body.querySelector('.rs-check-tree .rs-checkbox-checker label');
     assert.equal(getStyle(itemLabel, 'padding'), '8px 12px 8px 58px');

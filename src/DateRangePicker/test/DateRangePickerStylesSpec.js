@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import DateRangePicker from '../index';
-import { createTestContainer, getDOMNode } from '@test/testUtils';
+import { createTestContainer } from '@test/testUtils';
 
 import '../styles/index';
 

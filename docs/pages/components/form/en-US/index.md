@@ -27,7 +27,7 @@ import Form from 'rsuite/lib/Form';
 | ---------------- | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | checkTrigger     | enum: 'change','blur','none' `('change')`               | Trigger the type of form validation                                                                        |
 | classPrefix      | string `('form')`                                       | The prefix of the component CSS class                                                                      |
-| errorFromContext | boolean `(true)`                                        | Error reminders in Form.Control are defaulted from Context                                                  |
+| errorFromContext | boolean `(true)`                                        | Error reminders in Form.Control are defaulted from Context                                                 |
 | fluid            | boolean                                                 | The fluid property allows the Input 100% of the form to fill the container, valid only in vertical layouts |
 | formDefaultValue | Object                                                  | Default value of form                                                                                      |
 | formError        | Object                                                  | Error message of form                                                                                      |
@@ -95,10 +95,10 @@ cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
 
 | Property       | Type`(default)`                              | Description                                                                      |
 | -------------- | -------------------------------------------- | -------------------------------------------------------------------------------- |
-| accepter       | React.ElementType `(Input)`                  | Proxied components                                                               |
+| accepter       | ElementType `(Input)`                        | Proxied components                                                               |
 | checkTrigger   | enum: 'change','blur','none'                 | The data validation trigger type, and it wiill overrides the setting on `<Form>` |
 | classPrefix    | string `('form-control')`                    | The prefix of the component CSS class                                            |
-| errorMessage   | React.Node                                   | Show error messages                                                              |
+| errorMessage   | ReactNode                                    | Show error messages                                                              |
 | errorPlacement | enum: [Placement8](#types) `('bottomStart')` | The placement of error messages                                                  |
 | name \*        | string                                       | The name of form-control                                                         |
 | readOnly       | boolean                                      | Make the control readonly                                                        |
@@ -113,15 +113,15 @@ cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
 
 ### `<Form.ControlLabel>`
 
-| Property    | Type`(default)`                 | Description                                                                 |
-| ----------- | ------------------------------- | --------------------------------------------------------------------------- |
-| classPrefix | string `('form-control-label')` | The prefix of the component CSS class                                       |
+| Property    | Type`(default)`                 | Description                                                                  |
+| ----------- | ------------------------------- | ---------------------------------------------------------------------------- |
+| classPrefix | string `('form-control-label')` | The prefix of the component CSS class                                        |
 | htmlFor     | string                          | Attribute of the html label tag, defaults to the controlId of the Form.Group |
 
 ### `<Form.HelpText>`
 
-| Property    | Type`(default)`             | Description                                                                 |
-| ----------- | --------------------------- | --------------------------------------------------------------------------- |
-| classPrefix | string `('form-help-text')` | The prefix of the component CSS class                                       |
+| Property    | Type`(default)`             | Description                                                                  |
+| ----------- | --------------------------- | ---------------------------------------------------------------------------- |
+| classPrefix | string `('form-help-text')` | The prefix of the component CSS class                                        |
 | htmlFor     | string                      | Attribute of the html label tag, defaults to the controlId of the Form.Group |
-| tooltip     | boolean                     | Whether to show through the Tooltip component                               |
+| tooltip     | boolean                     | Whether to show through the Tooltip component                                |

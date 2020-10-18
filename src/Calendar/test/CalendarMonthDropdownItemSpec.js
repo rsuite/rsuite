@@ -4,7 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import MonthDropdownItem from '../MonthDropdownItem';
 import { format } from '../../utils/dateUtils';
-import { CalendarProvider } from '../CalendarContext';
+import { CalendarContext } from '../Calendar';
 import { createTestContainer } from '../../../test/testUtils';
 
 describe('Calendar-MonthDropdownItem', () => {
@@ -23,9 +23,9 @@ describe('Calendar-MonthDropdownItem', () => {
     };
     const ref = React.createRef();
     ReactDOM.render(
-      <CalendarProvider value={{ date: new Date(), onChangePageDate }}>
+      <CalendarContext.Provider value={{ date: new Date(), onChangePageDate }}>
         <MonthDropdownItem month={1} year={2017} ref={ref} />
-      </CalendarProvider>,
+      </CalendarContext.Provider>,
       createTestContainer()
     );
 

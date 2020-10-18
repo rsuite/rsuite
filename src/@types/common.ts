@@ -1,6 +1,8 @@
 import React from 'react';
 import { ReplaceProps } from './utils';
 
+export { TimeZoneName } from './timeZone';
+
 export interface StandardProps {
   /** The prefix of the component CSS class */
   classPrefix?: string;
@@ -209,4 +211,11 @@ export interface ItemDataType {
   children?: ItemDataType[];
 
   loading?: boolean;
+}
+
+export interface Offset {
+  top?: number;
+  left?: number;
+  width?: number;
+  height?: number;
 }

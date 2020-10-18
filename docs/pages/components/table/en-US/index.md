@@ -29,7 +29,7 @@ const { Column, HeaderCell, Cell, Pagination } = Table;
 | affixHeader              | boolean,number                                                                    | Affix the table header to the specified location on the page                                  |
 | affixHorizontalScrollbar | boolean,number                                                                    | Affix the table horizontal scrollbar to the specified position on the page                    |
 | autoHeight               | boolean                                                                           | Automatic height                                                                              |
-| bodyRef                  | React.Ref                                                                         | A ref attached to the table body element                                                      |
+| bodyRef                  | Ref                                                                               | A ref attached to the table body element                                                      |
 | bordered                 | boolean                                                                           | Show border                                                                                   |
 | cellBordered             | boolean                                                                           | Show cell border                                                                              |
 | data \*                  | Array&lt;Object&gt;                                                               | Table data                                                                                    |
@@ -48,9 +48,9 @@ const { Column, HeaderCell, Cell, Pagination } = Table;
 | onRowClick               | (rowData:object) => void                                                          | Click the callback function after the row and return to `rowDate`                             |
 | onScroll                 | (scrollX:object, scrollY:object) => void                                          | Callback function for scroll bar scrolling                                                    |
 | onSortColumn             | (dataKey:string, sortType:string) => void                                         | Click the callback function of the sort sequence to return the value `sortColumn`, `sortType` |
-| renderEmpty              | (info: React.Node) => React.Node                                                  | Customized data is empty display content                                                      |
-| renderLoading            | (loading: React.Node) => React.Node                                               | Customize the display content in the data load                                                |
-| renderRowExpanded        | (rowDate?: Object) => React.Node                                                  | Customize what you can do to expand a zone                                                    |
+| renderEmpty              | (info: ReactNode) => ReactNode                                                    | Customized data is empty display content                                                      |
+| renderLoading            | (loading: ReactNode) => ReactNode                                                 | Customize the display content in the data load                                                |
+| renderRowExpanded        | (rowDate?: Object) => ReactNode                                                   | Customize what you can do to expand a zone                                                    |
 | renderTreeToggle         | (icon:node, rowData:object, expanded:boolean) => node                             | Tree table, the callback function in the expanded node                                        |
 | rowClassName             | string , (rowData:object) => string                                               | Add an optional extra class name to row                                                       |
 | rowExpandedHeight        | number `(100)`                                                                    | Set the height of an expandable area                                                          |
@@ -107,8 +107,8 @@ scrollLeft: (left: number) => void;
 | ------------- | ------------------------------- | ------------------ |
 | align         | enum: 'left','center','right'   | Alignment          |
 | fixed         | boolean, 'left', 'right'        | Fixed column group |
+| header        | ReactNode                       | Group header       |
 | verticalAlign | enum: 'top', 'middle', 'bottom' | Vertical alignment |
-| header        | React.ReactNode                 | Group header       |
 
 ### `<Table.Cell>`
 
@@ -120,22 +120,22 @@ scrollLeft: (left: number) => void;
 
 ### `<Table.Pagination>`
 
-| Property         | Type `(Default)`                                  | Description                                                                            |
-| ---------------- | ------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| activePage       | number `(1)`                                      | Configure the current page number                                                      |
-| disabled         | boolean , (eventKey: any) => boolean              | Disabled component                                                                     |
-| displayLength    | number `(30)`                                     | Configure how many lines of entries per page to display, corresponding to `lengthMenu` |
-| first            | boolean `(true)`                                  | Show first page button                                                                 |
-| last             | boolean `(true)`                                  | Show last Page button                                                                  |
-| lengthMenu       | Array&lt;number&gt;                               | Paging display row number configuration, defaults to 30, 50, 100                       |
-| maxButtons       | number `(5)`                                      | Configure the maximum number of display buttons                                        |
-| next             | boolean `(true)`                                  | Show Next Page button                                                                  |
-| onChangeLength   | (eventKey: number) => void                        | The callback function that triggers when the `lengthmenu` value changes                |
-| onChangePage     | (eventKey: number) => void                        | callback function triggered when page changes                                          |
-| prev             | boolean `(true)`                                  | Show Previous Page button                                                              |
-| renderLengthMenu | (picker: React.Node) => React.Node                | Custom menu                                                                            |
-| renderTotal      | (total: number, activePage: number) => React.Node | Custom total                                                                           |
-| reverse          | boolean                                           | Reverse start and end position                                                         |
-| showInfo         | boolean `(true)`                                  | Show paging information                                                                |
-| showLengthMenu   | boolean `(true)`                                  | Display Dropdown menu                                                                  |
-| total            | number                                            | Total number of data entries                                                           |
+| Property         | Type `(Default)`                                 | Description                                                                            |
+| ---------------- | ------------------------------------------------ | -------------------------------------------------------------------------------------- |
+| activePage       | number `(1)`                                     | Configure the current page number                                                      |
+| disabled         | boolean , (eventKey: any) => boolean             | Disabled component                                                                     |
+| displayLength    | number `(30)`                                    | Configure how many lines of entries per page to display, corresponding to `lengthMenu` |
+| first            | boolean `(true)`                                 | Show first page button                                                                 |
+| last             | boolean `(true)`                                 | Show last Page button                                                                  |
+| lengthMenu       | Array&lt;number&gt;                              | Paging display row number configuration, defaults to 30, 50, 100                       |
+| maxButtons       | number `(5)`                                     | Configure the maximum number of display buttons                                        |
+| next             | boolean `(true)`                                 | Show Next Page button                                                                  |
+| onChangeLength   | (eventKey: number) => void                       | The callback function that triggers when the `lengthmenu` value changes                |
+| onChangePage     | (eventKey: number) => void                       | callback function triggered when page changes                                          |
+| prev             | boolean `(true)`                                 | Show Previous Page button                                                              |
+| renderLengthMenu | (picker: ReactNode) => ReactNode                 | Custom menu                                                                            |
+| renderTotal      | (total: number, activePage: number) => ReactNode | Custom total                                                                           |
+| reverse          | boolean                                          | Reverse start and end position                                                         |
+| showInfo         | boolean `(true)`                                 | Show paging information                                                                |
+| showLengthMenu   | boolean `(true)`                                 | Display Dropdown menu                                                                  |
+| total            | number                                           | Total number of data entries                                                           |

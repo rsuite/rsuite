@@ -1,23 +1,7 @@
 import * as React from 'react';
-import { Uploader, Icon, Button, Loader } from 'rsuite';
+import { Uploader, Icon, Button, Loader, Message, toaster } from 'rsuite';
 import DefaultPage from '@/components/Page';
 
 export default function Page() {
-  return (
-    <DefaultPage
-      examples={[
-        'basic',
-        'picture',
-        'picture-text',
-        'avatar',
-        'drag-and-drop',
-        'file-list',
-        'file-list-custom',
-        'disabled',
-        'manually',
-        'controlled'
-      ]}
-      dependencies={{ Uploader, Icon, Button, Loader }}
-    />
-  );
+  return <DefaultPage dependencies={{ Uploader, Icon, Button, Loader, Message, toaster }} />;
 }

@@ -2,13 +2,15 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import { findDOMNode } from 'react-dom';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import TreePicker from '../TreePicker';
+import { KEY_CODE } from '../../utils';
 
 Enzyme.configure({ adapter: new Adapter() });
 
 export const delay = timeout => new Promise(resolve => setTimeout(resolve, timeout));
+
+const itemFocusClassName = '.rs-tree-node-focus';
 
 const data = [
   {
@@ -39,34 +41,32 @@ const data = [
 
 describe('TreePicker', () => {
   it('Should render default value', () => {
-    const instance = getDOMNode(<TreePicker data={data} defaultValue={'Master'} />);
+    const instance = getDOMNode(<TreePicker defaultOpen data={data} defaultValue={'Master'} />);
 
     expect(instance.querySelector('.rs-picker-toggle-value').innerText).to.equal('Master');
   });
 
   it('Should clean selected value', () => {
-    const instance = getDOMNode(<TreePicker data={data} defaultValue={'Master'} />);
+    const instance = getDOMNode(<TreePicker defaultOpen data={data} defaultValue={'Master'} />);
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
     expect(instance.querySelector('.rs-picker-toggle').innerText).to.equal('Select');
   });
 
   it('Should output a clean button', () => {
-    const instance = getDOMNode(<TreePicker data={data} defaultValue={'Master'} />);
+    const instance = getDOMNode(<TreePicker defaultOpen data={data} defaultValue={'Master'} />);
     assert.ok(instance.querySelector('.rs-picker-toggle-clean'));
   });
 
   it('Should render TreePicker Menu', () => {
-    const instance = getDOMNode(<TreePicker data={data} />);
-
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle'));
-    expect(document.querySelectorAll('.rs-picker-tree-menu').length).to.equal(1);
+    const instance = getInstance(<TreePicker defaultOpen data={data} />);
+    expect(instance.menu.classList.contains('.rs-picker-tree-menu'));
   });
 
   it('Should output a button', () => {
-    const instance = getInstance(<TreePicker toggleAs="button" data={[]} />);
+    const instance = getDOMNode(<TreePicker toggleAs="button" data={[]} />);
 
-    assert.ok(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'button'));
+    assert.ok(instance.querySelector('button'));
   });
 
   it('Should be disabled', () => {
@@ -81,19 +81,18 @@ describe('TreePicker', () => {
     assert.ok(instance.className.match(/\bblock\b/));
   });
 
-  it('Should active 4 node by `value`', () => {
-    const instance = getDOMNode(<TreePicker inline data={data} value={'Master'} />);
-
-    expect(instance.querySelectorAll('.rs-tree-node-active').length).to.equal(1);
+  it('Should active one node by `value`', () => {
+    const instance = mount(<TreePicker virtualized={false} inline data={data} value={'Master'} />);
+    expect(instance.find('.rs-tree-node-active').length).to.equal(1);
   });
 
   it('Should expand children nodes', () => {
-    const instance = getDOMNode(
-      <TreePicker inline cascade={false} data={data} value={['Master']} />
+    const instance = mount(
+      <TreePicker virtualized={false} inline cascade={false} data={data} value={['Master']} />
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-tree-node-expand-icon')[0]);
-    expect(instance.querySelectorAll('.rs-tree-open').length).to.equal(1);
+    instance.find('div[data-ref="0-0"]  > .rs-tree-node-expand-icon').simulate('click');
+    expect(instance.find('.rs-tree-open').length).to.equal(1);
   });
 
   it('Should have a placeholder', () => {
@@ -144,6 +143,16 @@ describe('TreePicker', () => {
     assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, placeholder);
   });
 
+  it('Should call renderValue', () => {
+    const instance1 = getDOMNode(<TreePicker value="Test" renderValue={() => '1'} />);
+    const instance2 = getDOMNode(<TreePicker value="Test" renderValue={() => null} />);
+    const instance3 = getDOMNode(<TreePicker value="Test" renderValue={() => undefined} />);
+
+    assert.equal(instance1.querySelector('.rs-picker-toggle-value').innerText, '1');
+    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+  });
+
   it('Should not be call renderValue()', () => {
     const instance = getDOMNode(<TreePicker data={[]} renderValue={() => 'value'} />);
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
@@ -156,12 +165,12 @@ describe('TreePicker', () => {
   });
 
   it('Should call `onChange` callback', done => {
-    const doneOp = values => {
+    const doneOp = () => {
       done();
     };
-    const instance = getDOMNode(<TreePicker inline onChange={doneOp} data={data} />);
+    const instance = mount(<TreePicker virtualized={false} inline onChange={doneOp} data={data} />);
 
-    ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-tree-node-label')[0]);
+    instance.find('span[data-key="0-0"]').simulate('click');
   });
 
   it('Should call `onClean` callback', done => {
@@ -169,7 +178,7 @@ describe('TreePicker', () => {
       done();
     };
     const instance = getDOMNode(
-      <TreePicker data={data} defaultValue={'tester0'} onClean={doneOp} />
+      <TreePicker defaultOpen data={data} defaultValue={'tester0'} onClean={doneOp} />
     );
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
@@ -194,62 +203,33 @@ describe('TreePicker', () => {
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle'));
   });
 
-  it('Should focus item by keyCode=40', done => {
+  it('Should focus item by keyCode=40', () => {
     const instance = getInstance(
-      <TreePicker
-        open
-        data={data}
-        defaultExpandAll
-        value="tester1"
-        onChange={value => {
-          if (value === 'tester2') {
-            done();
-          }
-        }}
-      />
+      <TreePicker open data={data} virtualized={false} defaultExpandAll value="tester1" />
     );
-    const tree = instance.treeViewRef.current;
-    tree.querySelector('span[title="tester1"]').focus();
+    ReactTestUtils.Simulate.keyDown(instance.toggle, { keyCode: KEY_CODE.DOWN });
 
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: 40 });
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: 13 });
-
-    assert.equal(document.activeElement.innerText, 'tester2');
+    assert.equal(instance.menu.querySelector(itemFocusClassName).innerText, 'Master');
   });
 
-  it('Should focus item by keyCode=38 ', done => {
+  it('Should focus item by keyCode=38 ', () => {
     const instance = getInstance(
-      <TreePicker
-        open
-        data={data}
-        defaultExpandAll
-        value="tester1"
-        onChange={value => {
-          if (value === 'tester0') {
-            done();
-          }
-        }}
-      />
+      <TreePicker open data={data} virtualized={false} defaultExpandAll value="tester1" />
     );
-    const tree = instance.treeViewRef.current;
 
-    tree.querySelector('span[title="tester1"]').focus();
-
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: 38 });
-    ReactTestUtils.Simulate.keyDown(tree, { keyCode: 13 });
-
-    assert.equal(document.activeElement.innerText, 'tester0');
+    ReactTestUtils.Simulate.click(instance.menu.querySelector('span[data-key="0-0-1"]'));
+    ReactTestUtils.Simulate.keyDown(instance.toggle, { keyCode: KEY_CODE.UP });
+    assert.equal(instance.menu.querySelector(itemFocusClassName).innerText, 'tester0');
   });
 
   it('Should focus item by keyCode=13 ', done => {
-    const doneOp = values => {
+    const doneOp = () => {
       done();
     };
-    const instance = mount(<TreePicker data={data} onChange={doneOp} inline defaultExpandAll />);
-    instance.find('span[data-key="0-0"]').simulate('click');
-    instance.find('span[data-key="0-0"]').simulate('keydown', {
-      keyCode: 13
-    });
+    const instance = getInstance(
+      <TreePicker defaultOpen virtualized={false} data={data} onChange={doneOp} defaultExpandAll />
+    );
+    ReactTestUtils.Simulate.click(instance.menu.querySelector('span[data-key="0-0-1"]'));
   });
 
   it('Should have a custom className', () => {
@@ -266,12 +246,10 @@ describe('TreePicker', () => {
   it('Should have a custom menuStyle', () => {
     const fontSize = '12px';
     const instance = getInstance(<TreePicker open menuStyle={{ fontSize }} data={data} />);
-    assert.equal(findDOMNode(instance.menuRef.current).style.fontSize, fontSize);
+    assert.equal(getDOMNode(instance.menu).style.fontSize, fontSize);
   });
 
   it('Should load data async', () => {
-    let activeNode = null;
-    let layer = 0;
     const data = [
       {
         label: 'Master',
@@ -283,28 +261,23 @@ describe('TreePicker', () => {
         children: []
       }
     ];
-    const children = [
-      {
-        label: 'children1',
-        value: 'children1'
-      }
-    ];
-
-    let newData = [];
-    const mockOnExpand = (node, l, concat) => {
-      activeNode = node;
-      layer = l;
-      newData = concat(data, children);
-    };
 
     const instance = mount(
-      <TreePicker data={data} onExpand={mockOnExpand} inline cascade={false} defaultExpandAll />
+      <TreePicker
+        data={data}
+        virtualized={false}
+        inline
+        cascade={false}
+        defaultExpandAll
+        getChildren={() => [
+          {
+            label: 'children1',
+            value: 'children1'
+          }
+        ]}
+      />
     );
     instance.find('div[data-ref="0-1"]  > .rs-tree-node-expand-icon').simulate('click');
-
-    instance.setProps({
-      data: newData
-    });
 
     assert.equal(instance.html().indexOf('data-key="0-1-0"') > -1, true);
 
@@ -312,7 +285,7 @@ describe('TreePicker', () => {
   });
 
   it('Should render one node when searchKeyword is `M`', () => {
-    const instance = mount(<TreePicker data={data} inline searchKeyword="M" />);
+    const instance = mount(<TreePicker virtualized={false} data={data} inline searchKeyword="M" />);
 
     assert.equal(instance.find('.rs-tree-node').length, 1);
     instance.unmount();
@@ -330,7 +303,7 @@ describe('TreePicker', () => {
         label: <span className="custom-label">1</span>
       }
     ];
-    const instance = mount(<TreePicker data={customData} inline />);
+    const instance = mount(<TreePicker virtualized={false} data={customData} inline />);
     assert.equal(instance.find('.custom-label').length, 1);
   });
 
@@ -351,7 +324,9 @@ describe('TreePicker', () => {
   });
 
   it('should render with expand master node', () => {
-    const instance = mount(<TreePicker data={data} inline expandItemValues={['Master']} />);
+    const instance = mount(
+      <TreePicker virtualized={false} data={data} inline expandItemValues={['Master']} />
+    );
     assert.equal(instance.find('.rs-tree-node-expanded').length, 1);
   });
 
@@ -361,7 +336,13 @@ describe('TreePicker', () => {
       expandItemValues = values;
     };
     const instance = mount(
-      <TreePicker data={data} inline expandItemValues={['Master']} onExpand={mockOnExpand} />
+      <TreePicker
+        virtualized={false}
+        data={data}
+        inline
+        expandItemValues={['Master']}
+        onExpand={mockOnExpand}
+      />
     );
 
     assert.equal(instance.html().indexOf('rs-tree-node-expanded') > -1, true);
@@ -379,13 +360,14 @@ describe('TreePicker', () => {
   it('Should render the specified menu content by `searchBy`', () => {
     const instance = getInstance(
       <TreePicker
+        virtualized={false}
         defaultOpen
         defaultExpandAll
         data={data}
         searchBy={(a, b, c) => c.value === 'Master'}
       />
     );
-    const list = getDOMNode(instance.menuRef.current).querySelectorAll('.rs-tree-node');
+    const list = getDOMNode(instance.menu).querySelectorAll('.rs-tree-node');
     assert.equal(list.length, 1);
     assert.ok(list[0].innerText, 'Louisa');
   });

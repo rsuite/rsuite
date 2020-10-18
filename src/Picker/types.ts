@@ -18,5 +18,5 @@ export interface PickerLocaleType {
 
 export type PickerComponent<P> = RsRefForwardingComponent<
   'div',
-  P & { ref: React.Ref<PickerInstance> }
+  P & { ref?: React.Ref<PickerInstance> }
 >;

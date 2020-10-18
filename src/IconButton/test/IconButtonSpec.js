@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 import IconButton from '../IconButton';
 import Icon from '../../Icon';
 
@@ -12,8 +11,8 @@ describe('IconButton', () => {
   });
 
   it('Should output a icon', () => {
-    const instance = getInstance(<IconButton icon={<Icon icon="user" />} />);
-    assert.ok(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'i'));
+    const instance = getDOMNode(<IconButton icon={<Icon icon="user" />} />);
+    assert.ok(instance.querySelector('i.rs-icon'));
   });
 
   it('Should have a custom className', () => {

@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { isSameMonth, setDate } from '../utils/dateUtils';
-import { getMonthView, useClassNames } from '../utils';
+import { useClassNames, DateUtils } from '../utils';
 import Table from './Table';
 import composeFunctions from '../utils/composeFunctions';
 import { useCalendarContext } from './CalendarContext';
@@ -10,8 +9,8 @@ import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 export type ViewProps = WithAsProps;
 
 const defaultProps: Partial<ViewProps> = {
-  classPrefix: 'calendar-view',
-  as: 'div'
+  as: 'div',
+  classPrefix: 'calendar-view'
 };
 
 const View: RsRefForwardingComponent<'div', ViewProps> = React.forwardRef(
@@ -19,23 +18,33 @@ const View: RsRefForwardingComponent<'div', ViewProps> = React.forwardRef(
     const { as: Component, className, classPrefix, ...rest } = props;
     const { date = new Date(), isoWeek } = useCalendarContext();
 
-    const thisMonthDate = setDate(date, 1);
-    const { merge, rootPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, rootPrefix(classPrefix));
+    const inSameThisMonthDate = useCallback(
+      (date: Date) =>
+        composeFunctions(
+          d => DateUtils.setDate(d, 1),
+          d => DateUtils.isSameMonth(d, date)
+        )(date),
+      []
+    );
+
+    const thisMonthDate = DateUtils.setDate(date, 1);
+    const { merge, withClassPrefix } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix());
 
     return (
-      <Component {...rest} ref={ref} role="row" className={classes}>
-        <Table rows={getMonthView(thisMonthDate, isoWeek)} />
+      <Component role="row" {...rest} ref={ref} className={classes}>
+        <Table rows={DateUtils.getMonthView(thisMonthDate, isoWeek)} />
       </Component>
     );
   }
 );
 
 View.displayName = 'View';
+View.defaultProps = defaultProps;
 View.propTypes = {
+  as: PropTypes.elementType,
   className: PropTypes.string,
   classPrefix: PropTypes.string
 };
-View.defaultProps = defaultProps;
 
 export default View;

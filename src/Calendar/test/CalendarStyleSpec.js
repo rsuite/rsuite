@@ -112,7 +112,7 @@ describe('Calendar styles', () => {
   itChrome('Should be bordered on month row', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(
-      <Calendar calendarState={'DROP_MONTH'} bordered ref={instanceRef} />,
+      <Calendar calendarState={'MONTH'} bordered ref={instanceRef} />,
       createTestContainer()
     );
     const dom = instanceRef.current;

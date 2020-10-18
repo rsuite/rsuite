@@ -2,47 +2,94 @@
 
 Provides a list of various forms of navigation menus, which can be landscape and portrait layout.
 
-Contains the following components:
-
-- `<Nav>`
-- `<Nav.Item>`
-
 ## Usage
 
-```js
-import { Nav, Dropdown } from 'rsuite';
-```
+<!--{include:(components/nav/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Default
+
+<!--{include:`basic.md`}-->
+
+### Appearance
+
+`appearance` values include:
+
+- 'default'
+- 'tabs'
+- 'subtle'
+
+<!--{include:`appearance.md`}-->
+
+> For subtle and tabs navigation, you can set a reversed property to reverse direction and fit all directions.
+
+### Vertical
+
+<!--{include:`vertical.md`}-->
+
+### Option Status
+
+- active
+- disabled
+
+<!--{include:`status.md`}-->
+
+### Justified
+
+<!--{include:`justified.md`}-->
+
+### Multi-level navigation
+
+<!--{include:`dropdown.md`}-->
+
+> Use the `<Dropdown>` component directly when using multi-level navigation.
+
+### With Icon
+
+<!--{include:`icon.md`}-->
+
+### Used with `Link` in `react-router`
+
+<!--{include:`with-router.md`}-->
+
+### Extensions: Responsive
+
+<!--{include:`responsive-nav.md`}-->
+
+### Extensions: Removable
+
+<!--{include:`removable-nav.md`}-->
 
 ## Props
 
 ### `<Nav>`
 
-| Property    | Type `(Default)`                                           | Description                                                |
-| ----------- | ---------------------------------------------------------- | ---------------------------------------------------------- |
+| Property    | Type `(Default)`                                | Description                                                |
+| ----------- | ----------------------------------------------- | ---------------------------------------------------------- |
 |             |
-| activeKey   | any                                                        | Active `key`, corresponding to `eventkey` in `<Nav.item>`. |
-| appearance  | enum: 'default', 'tabs', 'subtle' `('default')`            | A navigation can have different appearances                |
-| children \* | React.ChildrenArray&lt;NavItem or Dropdown&gt;             | The contents of the component.                             |
-| classPrefix | string `('nav')`                                           | The prefix of the component CSS class                      |
-| justified   | boolean                                                    | Justified navigation                                       |
-| onSelect    | (eventKey: any, event: SyntheticEvent&lt;any&gt;) => void, | Callback function triggered after selection                |
-| pills       | boolean                                                    | Pills navigation                                           |
-| pullRight   | boolean                                                    | appears on the right.                                      |
-| stacked     | boolean                                                    | Stacked navigation                                         |
+| activeKey   | string                                          | Active `key`, corresponding to `eventkey` in `<Nav.item>`. |
+| appearance  | enum: 'default', 'tabs', 'subtle' `('default')` | A navigation can have different appearances                |
+| children \* | ChildrenArray&lt;NavItem or Dropdown&gt;        | The contents of the component.                             |
+| classPrefix | string `('nav')`                                | The prefix of the component CSS class                      |
+| justified   | boolean                                         | Justified navigation                                       |
+| onSelect    | (eventKey: string, event) => void,              | Callback function triggered after selection                |
+| pullRight   | boolean                                         | appears on the right.                                      |
+| vertical    | boolean                                         | Stacked navigation                                         |
 
 ### `<Nav.Item>`
 
-| Property    | Type `(Default)`                                           | Description                                           |
-| ----------- | ---------------------------------------------------------- | ----------------------------------------------------- |
-| active      | boolean                                                    | Activation status                                     |
-| children \* | React.Node                                                 | The contents of the component                         |
-| as          | React.ElementType `('a')`                                  | You can use a custom element type for this component  |
-| disabled    | boolean                                                    | Disabled status                                       |
-| href        | string                                                     | Link                                                  |
-| icon        | React.Element&lt;typeof Icon&gt;                           | Sets the icon for the component                       |
-| onSelect    | (eventKey: any, event: SyntheticEvent&lt;any&gt;) => void, | Select the callback function that the event triggers. |
-| renderItem  | (item:React.Node) => React.Node                            | Custom rendering item                                 |
+| Property    | Type `(Default)`                   | Description                                           |
+| ----------- | ---------------------------------- | ----------------------------------------------------- |
+| active      | boolean                            | Activation status                                     |
+| children \* | ReactNode                          | The contents of the component                         |
+| as          | ElementType `('a')`                | You can use a custom element type for this component  |
+| disabled    | boolean                            | Disabled status                                       |
+| href        | string                             | Link                                                  |
+| icon        | Element&lt;typeof Icon&gt;         | Sets the icon for the component                       |
+| onSelect    | (eventKey: string, event) => void, | Select the callback function that the event triggers. |
+| renderItem  | (item:ReactNode) => ReactNode      | Custom rendering item                                 |
+
+### `<Nav.Dropdown>`
+
+- [Extend the Dropdown component](./dropdown#Props)

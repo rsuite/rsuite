@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 
 import Uploader from '../Uploader';
 import Button from '../../Button';
@@ -8,14 +7,13 @@ import Button from '../../Button';
 describe('Uploader', () => {
   it('Should output a Uploader', () => {
     const instance = getDOMNode(<Uploader action="" />);
+
     assert.include(instance.className, 'rs-uploader');
   });
 
   it('Should be disabled', () => {
-    const instance = getInstance(<Uploader action="" disabled />);
-    assert.ok(
-      ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-uploader-trigger-disabled')
-    );
+    const instance = getDOMNode(<Uploader action="" disabled />);
+    assert.ok(instance.querySelector('.rs-uploader-trigger-disabled'));
   });
 
   it('Should render picture type', () => {

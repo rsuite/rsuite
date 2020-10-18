@@ -135,7 +135,7 @@ To implement a Table that can be expanded, a combination of the following attrib
 
 **Step 1: Set properties for Table**
 
-- renderRowExpanded(rowData) => React.Node: Used to return content that needs to be rendered in the expansion panel
+- renderRowExpanded(rowData) => ReactNode: Used to return content that needs to be rendered in the expansion panel
 - rowExpandedHeight: Sets the height of the expandable area. The default is 100
 - expandedRowKeys (controlled) and defaultExpandedRowKeys are used to configure the rows that need to be expanded. Note that the parameters that these two properties receive are an array of Rowkey in the array.。
 - rowKey: Give each row of data to a unique key, corresponding to a unique value in the key.

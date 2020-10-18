@@ -129,5 +129,5 @@ const data = [
 - defaultExpandAllRows:boolean 默认展开所有节点
 - expandedRowKeys（受控） 和 defaultExpandedRowKeys 用来配置需要展开的行。需要注意的是这两个属性接收的参数是一个的数组，数组中是 rowKey。
 - rowKey 给每一行数据对一个唯一 key , 对应 data 中的一个唯一值的 key。 (可以在 <Table> 设置 rowKey 进行修改，默认值: 'key' )
-- renderTreeToggle:() => React.Node 自定义 Toggle
+- renderTreeToggle:() => ReactNode 自定义 Toggle
 - onExpandChange:(expanded:boolean,rowData:object) => void 展开/关闭节点的回调函数

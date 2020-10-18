@@ -2,33 +2,77 @@
 
 一个评分组件，表示用户对内容的兴趣
 
-- `<Rate>`
-
 ## 获取组件
 
-```js
-import { Rate } from 'rsuite';
-```
+<!--{include:(components/rate/fragments/import.md)}-->
 
 ## 演示
 
-<!--{demo}-->
+### 默认
+
+<!--{include:`basic.md`}}-->
+
+### 尺寸
+
+设置组件的大小
+
+<!--{include:`size.md`}}-->
+
+### 颜色
+
+设置组件的颜色
+
+<!--{include:`color.md`}}-->
+
+### 允许半选
+
+<!--{include:`half-select.md`}}-->
+
+### 竖直方向
+
+半选变为上下半选
+
+<!--{include:`vertical.md`}}-->
+
+### 辅助文字
+
+<!--{include:`hover.md`}}-->
+
+### 禁用
+
+<!--{include:`disabled.md`}}-->
+
+### 只读
+
+<!--{include:`readonly.md`}}-->
+
+### 字符
+
+你可以使用其他 icon、emoji、数字、中文或是其他自定义的图案
+
+<!--{include:`character.md`}}-->
+
+### 自定义渲染
+
+当有多级评价时，你可以自定义每级展现的 character，不过这需要你自己实现
+
+<!--{include:`custom-character.md`}}-->
 
 ## Props
 
 | 属性名称        | 类型 `(默认值)`                                                        | 描述                             |
 | --------------- | ---------------------------------------------------------------------- | -------------------------------- |
 | allowHalf       | boolean                                                                | 是否支持半选                     |
-| character       | React.ReactNode                                                        | 自定义字符                       |
+| character       | ReactNode                                                              | 自定义字符                       |
 | cleanable       | boolean`(true)`                                                        | 是否支持清除                     |
 | defaultValue    | number`(0)`                                                            | 默认值                           |
 | disabled        | boolean                                                                | 是否禁用，为 true 时无法进行交互 |  |
 | max             | number`(5)`                                                            | 最大分数                         |
-| renderCharacter | (value: number,index: number) => React.ReactNode                       | 自定义渲染 character 函数        |
+| renderCharacter | (value: number,index: number) => ReactNode                             | 自定义渲染 character 函数        |
 | readOnly        | boolean                                                                | 是否只读，为 true 时无法进行交互 |
 | size            | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                  | 设置组件尺寸                     |
 | color           | enum: 'red', 'orange','yellow', 'green', <br/>'cyan', 'blue', 'violet' | 设置颜色                         |
 | value           | number                                                                 | 设置值 `受控`                    |
 | vertical        | boolean                                                                | 是否竖直方向上半选               |
-| onChange        | (value: number, event: React.SyntheticEvent<HTMLElement>) => void      | `value` 发生改变时的回调函数     |
-| onChangeActive  | (value: number, event: React.SyntheticEvent<HTMLElement>) => void      | 悬停状态更改时触发的回调函数。   |
+| onChange        | (value: number, event) => void                                         | `value` 发生改变时的回调函数     |
+| onChangeActive  | (value: number, event) => void                                         | 悬停状态更改时触发的回调函数。   |

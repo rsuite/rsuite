@@ -6,15 +6,36 @@ An encapsulation of the Nav for the sidebar of the page.
 - `<Sidenav.Header>` Navigates the header content.
 - `<Sidenav.Body>` Navigation body content.
 
-## Usage
+## Import
 
-```js
-import { Sidenav } from 'rsuite';
-```
+<!--{include:(components/sidenav/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Default
+
+<!--{include:`basic.md`}-->
+
+### Appearance
+
+`appearance` value include::
+
+- 'default'
+- 'inverse'
+- 'subtle'
+
+<!--{include:`appearance.md`}-->
+
+### Open/Close Menu
+
+<!--{include:`toggle.md`}-->
+
+### Custom Side Navigation
+
+- Set the `panel` property to customize a panel area.
+- Set the `divider` property and set a split line.
+
+<!--{include:`divider-panel.md`}-->
 
 ## Props
 
@@ -22,12 +43,12 @@ import { Sidenav } from 'rsuite';
 
 | Property        | Type `(Default)`                                   | Description                                                |
 | --------------- | -------------------------------------------------- | ---------------------------------------------------------- |
-| activeKey       | any                                                | Activation option, corresponding menu eventkey             |
+| activeKey       | string                                             | Activation option, corresponding menu eventkey             |
 | appearance      | enum: 'default', 'inverse', 'subtle' `('default')` | Menu style                                                 |
+| as              | ElementType `('div')`                              | You can use a custom element type for this component       |
 | classPrefix     | string `('sidenav')`                               | The prefix of the component CSS class                      |
-| as              | React.ElementType `('div')`                        | You can use a custom element type for this component       |
-| defaultOpenKeys | any[]                                              | Open menu, corresponding to Dropdown eventkey              |
+| defaultOpenKeys | string[]                                           | Open menu, corresponding to Dropdown eventkey              |
 | expanded        | boolean `(true)`                                   | Whether to expand the Sidenav                              |
-| onOpenChange    | (openKeys: any[], event: SyntheticEvent) => void   | Menu opening callback function that changed                |
-| onSelect        | (eventKey: any[], event: SyntheticEvent) => void   | Select the callback function for the menu.                 |
-| openKeys        | any[]                                              | Open menu, corresponding to Dropdown eventkey (controlled) |
+| onOpenChange    | (openKeys: string[], event) => void                | Menu opening callback function that changed                |
+| onSelect        | (eventKey: string[], event) => void                | Select the callback function for the menu.                 |
+| openKeys        | string[]                                           | Open menu, corresponding to Dropdown eventkey (controlled) |

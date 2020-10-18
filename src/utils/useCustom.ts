@@ -1,6 +1,7 @@
-import { useContext } from 'react';
+import { useContext, useCallback } from 'react';
 import defaultLocale from '../locales/default';
 import { CustomContext, CustomValue } from '../CustomProvider/CustomProvider';
+import { format as formatFns } from '../utils/dateUtils';
 
 const mergeObject = (list: any[]) =>
   list.reduce((a, b) => {
@@ -16,11 +17,21 @@ const getDefaultRTL = () =>
  * @param keys
  */
 function useCustom<T = any>(keys: string | string[], overrideLocale?): CustomValue<T> {
-  const { locale = defaultLocale, rtl = getDefaultRTL(), formatDate } =
-    useContext(CustomContext) || {};
+  const {
+    locale = defaultLocale,
+    rtl = getDefaultRTL(),
+    formatDate: format = formatFns
+  } = useContext(CustomContext);
 
   const componentLocale: T =
     typeof keys === 'string' ? locale?.[keys] : mergeObject(keys.map(key => locale?.[key]));
+
+  const formatDate = useCallback(
+    (date: Date, formatStr: string) => {
+      return format(date, formatStr);
+    },
+    [format]
+  );
 
   return {
     locale: overrideLocale || componentLocale,

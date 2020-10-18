@@ -68,5 +68,8 @@ export default {
   },
   CloseButton: {
     closeLabel: 'lukke ned'
+  },
+  Breadcrumb: {
+    expandText: 'Vis sti'
   }
 };

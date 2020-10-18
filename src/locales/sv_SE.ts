@@ -68,5 +68,8 @@ export default {
   },
   CloseButton: {
     closeLabel: 'stänga av'
+  },
+  Breadcrumb: {
+    expandText: 'Visa väg'
   }
 };

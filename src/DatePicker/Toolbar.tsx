@@ -1,26 +1,27 @@
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import FormattedMessage from '../IntlProvider/FormattedMessage';
 import { useClassNames } from '../utils';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { RsRefForwardingComponent, WithAsProps, TimeZoneName } from '../@types/common';
 import { getDefaultRanges, getRanges } from './utils';
 import { InnerRange, RangeType, ToolbarValue } from './types';
+import { CalendarLocale } from '../Calendar';
 
 export type { RangeType } from './types';
 
 export interface ToolbarProps extends WithAsProps {
+  hideOkBtn?: boolean;
+  locale?: CalendarLocale;
+  pageDate?: ToolbarValue;
+  ranges: RangeType[];
+  timeZone?: TimeZoneName;
   disabledOkBtn?: (value?: ToolbarValue) => boolean;
   disabledShortcut?: (value?: ToolbarValue) => boolean;
-  hideOkBtn?: boolean;
   onOk?: (event: React.SyntheticEvent<any>) => void;
   onShortcut?: (
     value: ToolbarValue,
     closeOverlay?: boolean,
     event?: React.SyntheticEvent<any>
   ) => void;
-  pageDate?: ToolbarValue;
-  ranges: RangeType[];
-  timeZone?: string;
 }
 
 const defaultProps: Partial<ToolbarProps> = {
@@ -45,6 +46,7 @@ const Toolbar: RsRefForwardingComponent<'div', ToolbarProps> = React.forwardRef(
       pageDate,
       ranges: rangesProp,
       timeZone,
+      locale,
       ...rest
     } = props;
     const [ranges, setRanges] = useState<InnerRange[]>(getRanges(props));
@@ -72,11 +74,11 @@ const Toolbar: RsRefForwardingComponent<'div', ToolbarProps> = React.forwardRef(
       return (
         <div className={prefix('right')}>
           <button className={classes} onClick={disabled ? undefined : onOk}>
-            <FormattedMessage id="ok" />
+            {locale?.ok}
           </button>
         </div>
       );
-    }, [disabledOkBtn, hideOkBtn, merge, onOk, pageDate, prefix]);
+    }, [disabledOkBtn, hideOkBtn, locale, merge, onOk, pageDate, prefix]);
 
     if (hideOkBtn && ranges.length === 0) {
       return null;
@@ -84,7 +86,7 @@ const Toolbar: RsRefForwardingComponent<'div', ToolbarProps> = React.forwardRef(
 
     const classes = merge(className, withClassPrefix());
     return (
-      <Component {...rest} className={classes} ref={ref}>
+      <Component {...rest} ref={ref} className={classes}>
         <div className={prefix('ranges')}>
           {ranges.map(({ value, closeOverlay, label }, index: number) => {
             const disabled = disabledShortcut?.(value);
@@ -105,7 +107,7 @@ const Toolbar: RsRefForwardingComponent<'div', ToolbarProps> = React.forwardRef(
                   onShortcut?.(value, closeOverlay, event);
                 }}
               >
-                {hasLocaleKey(label) ? <FormattedMessage id={label} /> : label}
+                {hasLocaleKey(label) && typeof label === 'string' ? locale?.[label] : label}
               </a>
             );
           })}

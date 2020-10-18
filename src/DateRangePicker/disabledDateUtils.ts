@@ -1,16 +1,15 @@
-import composeFunctions from '../utils/composeFunctions';
-import { addDays, isAfter, isBefore, isSameDay } from '../utils/dateUtils';
+import { composeFunctions, DateUtils } from '../utils';
 import { DisabledDateFunction } from './types';
 
 function isAfterDay(date1: Date, date2: Date): boolean {
-  return isAfter(
+  return DateUtils.isAfter(
     new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()),
     new Date(date2.getFullYear(), date2.getMonth(), date2.getDate())
   );
 }
 
 function isBeforeDay(date1: Date, date2: Date): boolean {
-  return isBefore(
+  return DateUtils.isBefore(
     new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()),
     new Date(date2.getFullYear(), date2.getMonth(), date2.getDate())
   );
@@ -28,12 +27,12 @@ export function allowedMaxDays(days: number): DisabledDateFunction {
       const startDate = selectValue[0];
 
       beforeLimit = composeFunctions(
-        f => addDays(f, -days + 1),
+        f => DateUtils.addDays(f, -days + 1),
         f => isAfterDay(f, date)
       )(startDate);
 
       afterLimit = composeFunctions(
-        f => addDays(f, days - 1),
+        f => DateUtils.addDays(f, days - 1),
         f => isBeforeDay(f, date)
       )(startDate);
     }
@@ -58,13 +57,13 @@ export function allowedDays(days: number): DisabledDateFunction {
       const startDate = selectValue[0];
 
       beforeLimit = composeFunctions(
-        f => addDays(f, -days + 1),
-        f => !isSameDay(f, date)
+        f => DateUtils.addDays(f, -days + 1),
+        f => !DateUtils.isSameDay(f, date)
       )(startDate);
 
       afterLimit = composeFunctions(
-        f => addDays(f, days - 1),
-        f => !isSameDay(f, date)
+        f => DateUtils.addDays(f, days - 1),
+        f => !DateUtils.isSameDay(f, date)
       )(startDate);
     }
 

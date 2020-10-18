@@ -39,6 +39,7 @@ describe('Checkbox', () => {
   it('Should have a `Test` value', () => {
     const value = 'Test';
     const instance = getDOMNode(<Checkbox defaultValue={value}>Test</Checkbox>);
+
     assert.equal(instance.querySelector('input').value, value);
   });
 

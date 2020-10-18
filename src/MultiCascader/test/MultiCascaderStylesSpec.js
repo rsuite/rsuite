@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import MultiCascader from '../index';
-import { createTestContainer, getDOMNode, getStyle, inChrome } from '@test/testUtils';
+import { createTestContainer, getStyle, inChrome } from '@test/testUtils';
 
 import '../styles/index';
 
@@ -29,7 +29,7 @@ describe('MultiCascader styles', () => {
       <MultiCascader ref={instanceRef} data={data} menuClassName="rs-multi-cascader-styles-test" />,
       createTestContainer()
     );
-    const toggleDom = getDOMNode(instanceRef.current).querySelector('.rs-picker-toggle');
+    const toggleDom = instanceRef.current.root.querySelector('.rs-picker-toggle');
     toggleDom.click();
 
     const menuItemDom = document.body.querySelector(

@@ -137,3 +137,43 @@ export const omitHideDisabledProps = <T extends Record<string, any>>(
   props: T
 ): Partial<Omit<T, CalendarOnlyPropsType>> =>
   omitBy<T>(props, (_val, key) => key.startsWith('disabled') || key.startsWith('hide'));
+
+export const shouldTime = (format: string) => /([Hhms])/.test(format);
+
+export const shouldMonth = (format: string) => /[Yy]/.test(format) && /[ML]/.test(format);
+
+export const shouldDate = (format: string): boolean =>
+  /[Yy]/.test(format) && /[ML]/.test(format) && /[Dd]/.test(format); // for date-fns v1 and v2
+
+export const shouldOnlyTime = (format: string) =>
+  /([Hhms])/.test(format) && !/([YyMDd])/.test(format); // for date-fns v1 and v2
+
+/**
+ * Get all weeks of this month
+ * @params monthDate
+ * @return date[]
+ */
+export function getMonthView(monthDate: Date, isoWeek: boolean) {
+  const firstDayOfMonth = getDay(monthDate);
+  let distance = 0 - firstDayOfMonth;
+
+  if (isoWeek) {
+    distance = 1 - firstDayOfMonth;
+
+    if (firstDayOfMonth === 0) {
+      distance = -6;
+    }
+  }
+
+  const firstWeekendDate = addDays(monthDate, distance);
+  const weeks = [firstWeekendDate];
+  let nextWeekendDate = addDays(firstWeekendDate, 7);
+
+  weeks.push(nextWeekendDate);
+  while (weeks.length < 6) {
+    nextWeekendDate = addDays(nextWeekendDate, 7);
+    weeks.push(nextWeekendDate);
+  }
+
+  return weeks;
+}

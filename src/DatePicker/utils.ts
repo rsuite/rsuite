@@ -1,8 +1,10 @@
+import { useCallback, useState } from 'react';
 import { toTimeZone, zonedDate } from '../utils/timeZone';
 import { ToolbarProps } from './Toolbar';
 import { setTimingMargin } from '../DateRangePicker/utils';
 import { subDays } from '../utils/dateUtils';
 import { InnerRange, ToolbarValue, RangeType } from './types';
+import { CalendarState } from '../Calendar';
 
 export function getDefaultRanges(timeZone: string, date: Date | Date[]): InnerRange[] {
   const todayDate = zonedDate(timeZone);
@@ -78,4 +80,27 @@ export const getRanges = ({
   return typeof ranges === 'undefined'
     ? getDefaultRanges(timeZone, pageDate)
     : ranges.map(generateRangesIterator({ pageDate, timeZone }));
+};
+
+export const useCalendarState = () => {
+  const [calendarState, setCalendarState] = useState<CalendarState>();
+
+  const reset = useCallback(() => {
+    setCalendarState(undefined);
+  }, []);
+
+  const openMonth = useCallback(() => {
+    setCalendarState('MONTH');
+  }, []);
+
+  const openTime = useCallback(() => {
+    setCalendarState('TIME');
+  }, []);
+
+  return {
+    calendarState,
+    reset,
+    openMonth,
+    openTime
+  };
 };

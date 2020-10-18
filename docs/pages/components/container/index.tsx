@@ -26,7 +26,6 @@ import Logo from '@/components/Logo';
 export default function Page() {
   return (
     <DefaultPage
-      examples={['basic', 'sidebar-page', 'navbar-page', 'login-page']}
       dependencies={{
         Logo,
         Divider,

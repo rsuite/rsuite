@@ -1,54 +1,64 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import _ from 'lodash';
-import setStatic from 'recompose/setStatic';
-
+import some from 'lodash/some';
 import TimelineItem from './TimelineItem';
-import { defaultProps, prefix, ReactChildren } from '../utils';
-import { TimelineProps } from './Timeline.d';
+import { useClassNames, ReactChildren } from '../utils';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-class Timeline extends React.Component<TimelineProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    children: PropTypes.node,
-    as: PropTypes.elementType,
-    align: PropTypes.oneOf(['left', 'right', 'alternate']),
-    endless: PropTypes.bool
-  };
+export interface TimelineProps extends WithAsProps {
+  /** The content of the component */
+  children?: React.ReactNode;
 
-  static defaultProps = {
-    align: 'left'
-  };
+  /** TimeLine content relative position  **/
+  align?: 'left' | 'right' | 'alternate';
 
-  render() {
-    const { children, as: Component, classPrefix, className, align, endless, ...rest } = this.props;
-
-    const addPrefix = prefix(classPrefix);
-    const count = React.Children.count(children);
-    const withTime = _.some(React.Children.toArray(children), ({ props }: any) => !!props.time);
-    const classes = classNames(classPrefix, className, addPrefix(`align-${align}`), {
-      [addPrefix('with-time')]: withTime,
-      [addPrefix('endless')]: endless
-    });
-
-    return (
-      <Component className={classes} {...rest}>
-        {ReactChildren.mapCloneElement(children, (_child: any, index: number) => ({
-          last: index + 1 === count,
-          align
-        }))}
-      </Component>
-    );
-  }
+  /** Timeline endless **/
+  endless?: boolean;
 }
 
-const EnhancedTimeline = defaultProps<TimelineProps>({
+const defaultProps: Partial<TimelineProps> = {
+  as: 'ul',
   classPrefix: 'timeline',
-  as: 'ul'
-})(Timeline);
+  align: 'left'
+};
 
-setStatic('Item', TimelineItem)(EnhancedTimeline);
+interface Timeline extends RsRefForwardingComponent<'div', TimelineProps> {
+  Item?: typeof TimelineItem;
+}
 
-export default EnhancedTimeline;
+const Timeline: Timeline = React.forwardRef((props: TimelineProps, ref) => {
+  const { children, as: Component, classPrefix, className, align, endless, ...rest } = props;
+
+  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const count = React.Children.count(children);
+  const withTime = some(React.Children.toArray(children), (item: any) => item?.props?.time);
+
+  const classes = merge(
+    className,
+    withClassPrefix(`align-${align}`, { endless, 'with-time': withTime })
+  );
+
+  return (
+    <Component {...rest} ref={ref} className={classes}>
+      {ReactChildren.mapCloneElement(children, (_child: any, index: number) => ({
+        last: index + 1 === count,
+        align
+      }))}
+    </Component>
+  );
+});
+
+Timeline.Item = TimelineItem;
+
+Timeline.displayName = 'Timeline';
+Timeline.defaultProps = defaultProps;
+Timeline.propTypes = {
+  as: PropTypes.elementType,
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  children: PropTypes.node,
+  align: PropTypes.oneOf(['left', 'right', 'alternate']),
+  endless: PropTypes.bool
+};
+
+export default Timeline;

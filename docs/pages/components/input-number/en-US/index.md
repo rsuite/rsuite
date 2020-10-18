@@ -24,8 +24,8 @@ import { InputNumber } from 'rsuite';
 | max          | number `(Infinity)`                                                | Maximum value.                                                 |
 | min          | number `(-Infinity)`                                               | Minimum value.                                                 |
 | onChange     | (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void | The callback function when value changes.                      |
-| postfix      | React.Node                                                         | Sets the element displayed on the right side of the component. |
-| prefix       | React.Node                                                         | Sets the element displayed to the left of the component.       |
+| postfix      | ReactNode                                                          | Sets the element displayed on the right side of the component. |
+| prefix       | ReactNode                                                          | Sets the element displayed to the left of the component.       |
 | scrollable   | boolean `(true)`                                                   | Whether the value can be changed through the wheel event.      |
 | size         | enum: 'lg', 'md', 'sm', 'xs' `('md')`                              | An input can have different sizes.                             |
 | step         | number `(1)`                                                       | The value of each step. can be decimal.                        |

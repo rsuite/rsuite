@@ -238,6 +238,7 @@ const Dropdown: DropdownComponent = React.forwardRef((props: DropdownProps, ref)
 
   const toggleElement = (
     <DropdownToggle
+      role="button"
       aria-haspopup
       aria-expanded={open}
       {...rest}

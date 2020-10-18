@@ -1,6 +1,9 @@
 export * from './BrowserDetection';
 export * from './htmlPropsUtils';
 export * from './constants';
+export * as TimeZone from './timeZone';
+export * as DateUtils from './dateUtils';
+export * as TypeChecker from './propTypeChecker';
 
 export { default as withStyleProps } from './withStyleProps';
 export { default as guid } from './guid';
@@ -18,13 +21,17 @@ export { default as clone } from './clone';
 export { default as findNodesOfTree } from './findNodesOfTree';
 export { default as createContext } from './createContext';
 export { default as placementPolyfill } from './placementPolyfill';
-export { default as getMonthView } from './getMonthView';
 export { default as getDOMNode } from './getDOMNode';
 export { default as isRTL } from './directionUtil';
-export { default as refType } from './refType';
 export { default as mergeRefs } from './mergeRefs';
 export { default as shallowEqual } from './shallowEqual';
+export { default as shallowEqualArray } from './shallowEqualArray';
+export { default as composeFunctions } from './composeFunctions';
 export { default as reactToString } from './reactToString';
+export { default as scrollTopAnimation } from './scrollTopAnimation';
+export { default as appendTooltip } from './appendTooltip';
+
+/** Hooks **/
 export { default as useClassNames } from './useClassNames';
 export { default as useEventListener } from './useEventListener';
 export { default as useElementResize } from './useElementResize';
@@ -36,3 +43,4 @@ export { default as useControlled } from './useControlled';
 export { default as useRootClose } from './useRootClose';
 export { default as getSafeRegExpString } from './getSafeRegExpString';
 export { default as stringToObject } from './stringToObject';
+export { default as useEventCallback } from './useEventCallback';

@@ -1,18 +1,7 @@
-import {
-  addMonths,
-  endOfDay,
-  endOfISOWeek,
-  endOfMonth,
-  endOfWeek,
-  isSameMonth,
-  startOfDay,
-  startOfISOWeek,
-  startOfMonth,
-  startOfWeek
-} from '../utils/dateUtils';
+import { addMonths, endOfDay, isSameMonth, startOfDay } from '../utils/dateUtils';
 import { toLocalTimeZone, toTimeZone, zonedDate } from '../utils/timeZone';
 import { ValueType } from './types';
-import { useCallback } from 'react';
+import { TimeZone, DateUtils } from '../utils';
 
 export const setTimingMargin = (date, way = 'left'): Date =>
   way === 'right' ? endOfDay(date) : startOfDay(date);
@@ -44,9 +33,31 @@ export function getCalendarDate({
     const sameMonth = isSameMonth(value[0], value[1]);
     return [value[0], sameMonth ? addMonths(value[1], 1) : value[1]];
   }
+
   const todayDate = zonedDate(timeZone);
   return [todayDate, addMonths(todayDate, 1)];
 }
+
+export const getDefaultRanges = (timeZone: string): Range[] => {
+  const todayDate = TimeZone.zonedDate(timeZone);
+  return [
+    {
+      label: 'today',
+      value: [setTimingMargin(todayDate), setTimingMargin(todayDate, 'right')]
+    },
+    {
+      label: 'yesterday',
+      value: [
+        setTimingMargin(DateUtils.addDays(todayDate, -1)),
+        setTimingMargin(DateUtils.addDays(todayDate, -1), 'right')
+      ]
+    },
+    {
+      label: 'last7Days',
+      value: [setTimingMargin(DateUtils.subDays(todayDate, 6)), setTimingMargin(todayDate, 'right')]
+    }
+  ];
+};
 
 export const isSameValueType = (source: ValueType, dest: ValueType) =>
   source?.[0]?.valueOf() === dest?.[0]?.valueOf() &&

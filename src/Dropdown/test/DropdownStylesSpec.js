@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Dropdown from '../index';
-import { createTestContainer, getStyle, getDOMNode, inChrome } from '@test/testUtils';
+import { createTestContainer, getStyle, inChrome } from '@test/testUtils';
 
 import '../styles/index';
 
@@ -15,7 +15,7 @@ describe('Dropdown styles', () => {
       </Dropdown>,
       createTestContainer()
     );
-    const dom = getDOMNode(instanceRef.current);
+    const dom = instanceRef.current;
     const toggleDom = dom.querySelector('.rs-dropdown-toggle');
     assert.equal(getStyle(dom, 'position'), 'relative', 'Dropdown  position');
     inChrome &&

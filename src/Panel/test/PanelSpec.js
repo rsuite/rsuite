@@ -41,12 +41,12 @@ describe('Panel', () => {
 
   it('Should have a role in header', () => {
     const instance = getDOMNode(<Panel headerRole="button" collapsible header={'abc'} />);
-    assert.equal(instance.querySelector('.rs-panel-title span').getAttribute('role'), 'button');
+    assert.equal(instance.querySelector('.rs-panel-header').getAttribute('role'), 'button');
   });
 
-  it('Should have a role in header', () => {
+  it('Should have a role in body', () => {
     const instance = getDOMNode(<Panel panelRole="button" collapsible />);
-    assert.equal(instance.querySelector('.rs-panel-collapse').getAttribute('role'), 'button');
+    assert.equal(instance.querySelector('.rs-panel-body').getAttribute('role'), 'button');
   });
 
   it('Should call onSelect callback', done => {
@@ -56,8 +56,11 @@ describe('Panel', () => {
       }
     };
 
-    const instance = getDOMNode(<Panel onSelect={doneOp} eventKey={12} header={'abc'} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-panel-heading'));
+    const instance = getDOMNode(
+      <Panel collapsible onSelect={doneOp} eventKey={12} header={'abc'} />
+    );
+
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-panel-header'));
   });
 
   it('Should pass transition callbacks to Collapse', done => {

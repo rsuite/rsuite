@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import List from '../index';
-import { createTestContainer, getDOMNode, getStyle } from '@test/testUtils';
+import { createTestContainer, getStyle } from '@test/testUtils';
 
 import '../styles/index';
 

@@ -52,7 +52,7 @@ You also need to configure SVG loader in webpack to use [svg-sprite-loader](http
 
 ### Svg icon color
 
-If you need the svg icon color to match the text color, you can use [currentColor](https://caniuse.com/#search=currentColor) to ensure that your `fill`,`strocke` colors match the font color.If you used [svg-sprite-loader](https://github.com/kisenka/svg-sprite-loader), you should set `currentColor` for `use` element.
+If you need the svg icon color to match the text color, you can use [currentColor](https://caniuse.com/#search=currentColor) to ensure that your `fill`,`stroke` colors match the font color.If you used [svg-sprite-loader](https://github.com/kisenka/svg-sprite-loader), you should set `currentColor` for `use` element.
 
 <!--{include:`custom-svg.md`}-->
 

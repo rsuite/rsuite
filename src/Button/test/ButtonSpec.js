@@ -49,12 +49,15 @@ describe('Button', () => {
   });
 
   it('Should be disabled link', () => {
+    const onClickSpy = sinon.spy();
     const instance = getDOMNode(
-      <Button disabled href="#">
+      <Button disabled href="https://rsuitejs.com" onClick={onClickSpy}>
         Title
       </Button>
     );
-    assert.ok(instance.className.match(/\bdisabled\b/));
+
+    ReactTestUtils.Simulate.click(instance);
+    assert.ok(!onClickSpy.calledOnce);
   });
 
   it('Should have block class', () => {

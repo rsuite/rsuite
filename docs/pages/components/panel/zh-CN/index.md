@@ -52,6 +52,7 @@
 <!--{include:`accordion-group.md`}-->
 
 ### 手风琴效果
+
 每次只能展开一个面板
 
 <!--{include:`accordion-group-active.md`}-->
@@ -70,7 +71,7 @@
 | defaultExpanded | boolean            | 默认展开           |
 | eventKey        | any                | 面板对应的事件 key |
 | expanded        | boolean            | 展开面板           |
-| header          | React.Node         | 头部显示信息       |
+| header          | ReactNode          | 头部显示信息       |
 | id              | string or number   | ID                 |
 
 ### `<PanelGroup>`

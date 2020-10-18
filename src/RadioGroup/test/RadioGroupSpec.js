@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 
 import RadioGroup from '../RadioGroup';
 import Radio from '../../Radio';
@@ -168,8 +168,8 @@ describe('RadioGroup', () => {
   });
 
   it('Should apply appearance', () => {
-    const instance = getInstance(<RadioGroup appearance="picker" />);
+    const instance = getDOMNode(<RadioGroup appearance="picker" />);
 
-    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-radio-group-picker');
+    assert.include(instance.className, 'rs-radio-group-picker');
   });
 });

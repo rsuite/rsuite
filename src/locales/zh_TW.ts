@@ -64,5 +64,8 @@ export default {
   },
   CloseButton: {
     closeLabel: '關閉'
+  },
+  Breadcrumb: {
+    expandText: '顯示路徑'
   }
 };

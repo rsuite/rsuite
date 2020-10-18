@@ -95,7 +95,7 @@ describe('DateRangePicker', () => {
     const ref = createRef();
 
     ReactDOM.render(
-      <DateRangePicker onChange={doneOp} ref={ref} defaultOpen />,
+      <DateRangePicker onChange={doneOp} ref={ref} defaultOpen oneTap />,
       createTestContainer()
     );
 
@@ -109,14 +109,10 @@ describe('DateRangePicker', () => {
     assert.ok(nextDay);
     assert.ok(okBtn);
 
-    ReactTestUtils.Simulate.click(today);
+    ReactTestUtils.Simulate.click(instance.menu.querySelector('.rs-calendar-table-cell-is-today'));
 
-    setTimeout(() => {
-      ReactTestUtils.Simulate.click(today);
-      setTimeout(() => {
-        ReactTestUtils.Simulate.click(okBtn);
-      }, 0);
-    }, 0);
+    const instance = getInstance(<DateRangePicker onChange={doneOp} />);
+    instance.updateValue([new Date(), new Date()]);
   });
 
   it('Should call onClean callback', done => {
@@ -265,13 +261,12 @@ describe('DateRangePicker', () => {
     ReactDOM.render(<DateRangePicker showOneCalendar open ref={ref} />, createTestContainer());
     const menuContainer = ref.current.menu;
 
-    assert.ok(
-      menuContainer
-        .querySelector('.rs-picker-daterange-panel')
-        .className.match(/\brs-picker-daterange-panel-show-one-calendar\b/)
+    assert.include(
+      instance.menu.querySelector('.rs-picker-daterange-panel').className,
+      'rs-picker-daterange-panel-show-one-calendar'
     );
 
-    assert.equal(menuContainer.querySelectorAll('.rs-picker-daterange-calendar-single').length, 1);
+    assert.equal(instance.menu.querySelectorAll('.rs-picker-daterange-calendar-single').length, 1);
   });
 
   it('Should be zoned date', () => {
@@ -302,7 +297,7 @@ describe('DateRangePicker', () => {
   });
 
   it('Should disable from next day with time zone', function () {
-    const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
+    const timeZone = 'Europe/London';
     const template = 'yyyy-MM-dd HH:mm:ss';
     const tomorrow = addDays(new Date(), 1);
     const ref = createRef();

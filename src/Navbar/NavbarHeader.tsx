@@ -1,26 +1,7 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { defaultProps } from '../utils';
+import createComponent, { ComponentProps } from '../utils/createComponent';
 
-export interface NavbarHeaderProps {
-  classPrefix?: string;
-  className?: string;
-}
+export type NavbarHeaderProps = ComponentProps;
 
-class NavbarHeader extends React.Component<NavbarHeaderProps> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    className: PropTypes.string
-  };
-  render() {
-    const { className, classPrefix, ...props } = this.props;
-    const classes = classNames(classPrefix, className);
+const NavbarHeader = createComponent({ name: 'NavbarHeader' });
 
-    return <div {...props} className={classes} />;
-  }
-}
-
-export default defaultProps<NavbarHeaderProps>({
-  classPrefix: 'navbar-header'
-})(NavbarHeader);
+export default NavbarHeader;

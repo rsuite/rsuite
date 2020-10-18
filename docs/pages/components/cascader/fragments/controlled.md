@@ -9,15 +9,7 @@
 const App = () => {
   const [value, setValue] = React.useState('1-2-2');
 
-  return (
-    <Cascader
-      parentSelectable
-      value={value}
-      onChange={setValue}
-      data={data}
-      style={{ width: 224 }}
-    />
-  );
+  return <Cascader value={value} onChange={setValue} data={data} style={{ width: 224 }} />;
 };
 
 ReactDOM.render(<App />);

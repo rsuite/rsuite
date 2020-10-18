@@ -1,11 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import { format, isSameDay, parseISO } from '../../utils/dateUtils';
-import { getDOMNode } from '@test/testUtils';
+import { getDOMNode, getInstance } from '@test/testUtils';
 import DatePicker from '../DatePicker';
 import { toTimeZone } from '../../utils/timeZone';
-import { createTestContainer } from '../../../test/testUtils';
 
 describe('DatePicker ', () => {
   it('Should render a div with "rs-picker-date" class', () => {
@@ -21,15 +19,12 @@ describe('DatePicker ', () => {
 
   it('Should be not cleanable', () => {
     const instance = getDOMNode(<DatePicker cleanable={false} value={new Date()} />);
-
     assert.ok(!instance.querySelector('.rs-picker-toggle-clean'));
   });
 
   it('Should output a button', () => {
-    const ref = React.createRef();
-
-    ReactDOM.render(<DatePicker toggleAs="button" ref={ref} />, createTestContainer());
-    assert.equal(ref.current.root.querySelector('[role="combobox"]').tagName, 'BUTTON');
+    const instance = getDOMNode(<DatePicker toggleAs="button" />);
+    assert.equal(instance.querySelector('[role="combobox"]').tagName, 'BUTTON');
   });
 
   it('Should be block', () => {
@@ -39,20 +34,15 @@ describe('DatePicker ', () => {
   });
 
   it('Should be inline', () => {
-    const ref = React.createRef();
+    const instance = getInstance(<DatePicker inline />);
 
-    ReactDOM.render(<DatePicker inline ref={ref} />, createTestContainer());
-    assert.ok(!ref.current.toggle);
+    assert.ok(instance.root);
+    assert.ok(!instance.menu);
   });
 
   it('Should output a date', () => {
-    const ref = React.createRef();
-
-    ReactDOM.render(
-      <DatePicker defaultValue={parseISO('2017-08-14')} ref={ref} />,
-      createTestContainer()
-    );
-    assert.equal(ref.current.root.querySelector('.rs-picker-toggle-value').innerText, '2017-08-14');
+    const instance = getDOMNode(<DatePicker defaultValue={parseISO('2017-08-14')} />);
+    assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, '2017-08-14');
   });
 
   it('Should output custom value', () => {
@@ -74,20 +64,17 @@ describe('DatePicker ', () => {
   });
 
   it('Should get panel container ref', function () {
-    const ref = React.createRef();
-    ReactDOM.render(<DatePicker defaultOpen ref={ref} />, createTestContainer());
-    assert.equal(ref.current.root.tagName, 'DIV');
+    const instance = getDOMNode(<DatePicker defaultOpen />);
+    assert.equal(instance.tagName, 'DIV');
   });
 
   it('Should call `onChange` callback', done => {
     const doneOp = () => {
       done();
     };
-    const ref = React.createRef();
-    ReactDOM.render(<DatePicker onChange={doneOp} defaultOpen ref={ref} />, createTestContainer());
-    ReactTestUtils.Simulate.click(
-      ref.current.menu.querySelector('.rs-picker-toolbar-right-btn-ok')
-    );
+
+    const instance = getInstance(<DatePicker onChange={doneOp} defaultOpen />);
+    ReactTestUtils.Simulate.click(instance.menu.querySelector('.rs-picker-toolbar-right-btn-ok'));
   });
 
   it('Should call `onClean` callback', done => {
@@ -102,10 +89,12 @@ describe('DatePicker ', () => {
     const doneOp = () => {
       done();
     };
-    const ref = React.createRef();
-    ReactDOM.render(<DatePicker onSelect={doneOp} defaultOpen ref={ref} />, createTestContainer());
+
+    const instance = getInstance(<DatePicker onSelect={doneOp} defaultOpen />);
     ReactTestUtils.Simulate.click(
-      ref.current.menu.querySelector('.rs-calendar-table-cell-is-today')
+      instance.menu.querySelector(
+        '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
+      )
     );
   });
 
@@ -113,38 +102,27 @@ describe('DatePicker ', () => {
     const doneOp = () => {
       done();
     };
-    const ref = React.createRef();
 
-    ReactDOM.render(<DatePicker onOk={doneOp} defaultOpen ref={ref} />, createTestContainer());
-    ReactTestUtils.Simulate.click(
-      ref.current.menu.querySelector('.rs-picker-toolbar-right-btn-ok')
-    );
+    const instance = getInstance(<DatePicker onOk={doneOp} defaultOpen />);
+    ReactTestUtils.Simulate.click(instance.menu.querySelector('.rs-picker-toolbar-right-btn-ok'));
   });
 
   it('Should call `onNextMonth` callback', done => {
     const doneOp = () => {
       done();
     };
-    const ref = React.createRef();
 
-    ReactDOM.render(
-      <DatePicker onNextMonth={doneOp} defaultOpen ref={ref} />,
-      createTestContainer()
-    );
-    ReactTestUtils.Simulate.click(ref.current.menu.querySelector('.rs-calendar-header-forward'));
+    const instance = getInstance(<DatePicker onNextMonth={doneOp} defaultOpen />);
+    ReactTestUtils.Simulate.click(instance.menu.querySelector('.rs-calendar-header-forward'));
   });
 
   it('Should call `onPrevMonth` callback', done => {
     const doneOp = () => {
       done();
     };
-    const ref = React.createRef();
 
-    ReactDOM.render(
-      <DatePicker onPrevMonth={doneOp} defaultOpen ref={ref} />,
-      createTestContainer()
-    );
-    ReactTestUtils.Simulate.click(ref.current.menu.querySelector('.rs-calendar-header-backward'));
+    const instance = getInstance(<DatePicker onPrevMonth={doneOp} defaultOpen />);
+    ReactTestUtils.Simulate.click(instance.menu.querySelector('.rs-calendar-header-backward'));
   });
 
   it('Should call `onToggleMonthDropdown` callback', done => {
@@ -155,6 +133,7 @@ describe('DatePicker ', () => {
     const instance = getDOMNode(
       <DatePicker onToggleMonthDropdown={doneOp} inline format="yyyy-MM-dd HH:mm:ss" />
     );
+
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-header-title'));
   });
 
@@ -184,41 +163,31 @@ describe('DatePicker ', () => {
     const doneOp = () => {
       done();
     };
-    const ref = React.createRef();
 
-    ReactDOM.render(
-      <DatePicker onChangeCalendarDate={doneOp} defaultOpen ref={ref} />,
-      createTestContainer()
-    );
+    const instance = getInstance(<DatePicker onChangeCalendarDate={doneOp} defaultOpen />);
 
-    ReactTestUtils.Simulate.click(ref.current.menu.querySelector('.rs-calendar-header-backward'));
+    ReactTestUtils.Simulate.click(instance.menu.querySelector('.rs-calendar-header-backward'));
   });
 
   it('Should call `onChangeCalendarDate` callback when click forward', done => {
     const doneOp = () => {
       done();
     };
-    const ref = React.createRef();
 
-    ReactDOM.render(
-      <DatePicker onChangeCalendarDate={doneOp} defaultOpen ref={ref} />,
-      createTestContainer()
-    );
-    ReactTestUtils.Simulate.click(ref.current.menu.querySelector('.rs-calendar-header-forward'));
+    const instance = getInstance(<DatePicker onChangeCalendarDate={doneOp} defaultOpen />);
+    ReactTestUtils.Simulate.click(instance.menu.querySelector('.rs-calendar-header-forward'));
   });
 
   it('Should call `onChangeCalendarDate` callback when click today ', done => {
     const doneOp = () => {
       done();
     };
-    const ref = React.createRef();
 
-    ReactDOM.render(
-      <DatePicker onChangeCalendarDate={doneOp} defaultOpen ref={ref} />,
-      createTestContainer()
-    );
+    const instance = getInstance(<DatePicker onChangeCalendarDate={doneOp} defaultOpen />);
     ReactTestUtils.Simulate.click(
-      ref.current.menu.querySelector('.rs-calendar-table-cell-is-today')
+      instance.menu.querySelector(
+        '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
+      )
     );
   });
 
@@ -226,40 +195,37 @@ describe('DatePicker ', () => {
     const doneOp = () => {
       done();
     };
-    const ref = React.createRef();
-    ReactDOM.render(<DatePicker onOpen={doneOp} ref={ref} />, createTestContainer());
-    ReactTestUtils.Simulate.click(ref.current.root.querySelector('[role="combobox"]'));
+
+    const instance = getDOMNode(<DatePicker onOpen={doneOp} />);
+    ReactTestUtils.Simulate.click(instance.querySelector('[role="combobox"]'));
   });
 
   it('Should call `onClose` callback', done => {
     const doneOp = () => {
       done();
     };
-    const ref = React.createRef();
-    ReactDOM.render(<DatePicker onClose={doneOp} ref={ref} defaultOpen />, createTestContainer());
-    ReactTestUtils.Simulate.click(ref.current.root.querySelector('[role="combobox"]'));
+
+    const instance = getDOMNode(<DatePicker onClose={doneOp} defaultOpen />);
+    ReactTestUtils.Simulate.click(instance.querySelector('[role="combobox"]'));
   });
 
   it('Should not change for the value  when it is controlled', done => {
-    const ref = React.createRef();
-
     const doneOp = () => {
-      if (ref.current.toggle.querySelector('.rs-picker-toggle-value').innerText === '2018-01-05') {
+      if (instance.toggle.querySelector('.rs-picker-toggle-value').innerText === '2018-01-05') {
         done();
       }
     };
 
-    ReactDOM.render(
-      <DatePicker value={parseISO('2018-01-05')} onChange={doneOp} defaultOpen ref={ref} />,
-      createTestContainer()
+    const instance = getInstance(
+      <DatePicker value={parseISO('2018-01-05')} onChange={doneOp} defaultOpen />
     );
 
-    const allCells = ref.current.menu.querySelectorAll('.rs-calendar-table-cell');
+    const allCells = instance.menu.querySelectorAll(
+      '.rs-calendar-table-cell .rs-calendar-table-cell-content'
+    );
 
     ReactTestUtils.Simulate.click(allCells[allCells.length - 1]);
-    ReactTestUtils.Simulate.click(
-      ref.current.menu.querySelector('.rs-picker-toolbar-right-btn-ok')
-    );
+    ReactTestUtils.Simulate.click(instance.menu.querySelector('.rs-picker-toolbar-right-btn-ok'));
   });
 
   it('Should call onBlur callback', done => {
@@ -294,32 +260,26 @@ describe('DatePicker ', () => {
         done();
       }
     };
-    const ref = React.createRef();
 
-    ReactDOM.render(
-      <DatePicker onChange={doneOp} oneTap defaultOpen ref={ref} />,
-      createTestContainer()
+    const instance = getInstance(<DatePicker onChange={doneOp} oneTap defaultOpen />);
+
+    const today = instance.menu.querySelector(
+      '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
     );
-
-    const today = ref.current.menu.querySelector('.rs-calendar-table-cell-is-today');
 
     ReactTestUtils.Simulate.click(today);
   });
 
   it('Should be show meridian', () => {
-    const ref = React.createRef();
-
-    ReactDOM.render(
+    const instance = getInstance(
       <DatePicker
         value={parseISO('2017-08-14 13:00:00')}
         format="dd MMM yyyy hh:mm:ss a"
         defaultOpen
         showMeridian
-        ref={ref}
-      />,
-      createTestContainer()
+      />
     );
-    const picker = ref.current.menu;
+    const picker = instance.menu;
 
     assert.equal(picker.querySelector('.rs-calendar-header-meridian').innerText, 'PM');
     assert.equal(picker.querySelector('.rs-calendar-header-title-time').innerText, '01:00:00');
@@ -334,61 +294,12 @@ describe('DatePicker ', () => {
     const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
     const template = 'yyyy-MM-dd HH:mm:ss';
     const date = new Date(2020, 5, 30, 23, 30, 0);
-    const ref = React.createRef();
 
-    ReactDOM.render(
-      <DatePicker format={template} timeZone={timeZone} value={date} defaultOpen ref={ref} />,
-      createTestContainer()
+    const instance = getDOMNode(
+      <DatePicker format={template} timeZone={timeZone} value={date} defaultOpen />
     );
-    const ret = ref.current.root.querySelector('.rs-picker-toggle-value').innerHTML;
+    const ret = instance.querySelector('.rs-picker-toggle-value').innerHTML;
 
     assert.equal(ret, format(toTimeZone(date, timeZone), template));
-  });
-
-  it('Should `disabledDate` callback params is correct in zoned date', function () {
-    const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
-    const template = 'yyyy-MM-dd HH:mm:ss';
-    const date = new Date();
-    const dateFormatted = format(date, 'HH:mm');
-
-    ReactDOM.render(
-      <DatePicker
-        format={template}
-        timeZone={timeZone}
-        defaultOpen
-        value={date}
-        disabledDate={value => {
-          assert.equal(format(value, 'HH:mm'), dateFormatted);
-          return value.valueOf() > date.valueOf();
-        }}
-      />,
-      createTestContainer()
-    );
-  });
-
-  it('Should `disabledHours` `disabledMinutes` `disabledSecond` callback params is correct in zoned date', function () {
-    const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
-    const template = 'yyyy-MM-dd HH:mm:ss';
-    const timeTemplate = 'HH:mm:ss';
-    const dateFormatted = format(new Date(), timeTemplate);
-    const disabledOrHideTimeFunc = (next, date) => {
-      assert.equal(format(date, timeTemplate), dateFormatted);
-      return true;
-    };
-
-    ReactDOM.render(
-      <DatePicker
-        format={template}
-        timeZone={timeZone}
-        defaultOpen
-        disabledHours={disabledOrHideTimeFunc}
-        disabledMinutes={disabledOrHideTimeFunc}
-        disabledSeconds={disabledOrHideTimeFunc}
-        hideHours={disabledOrHideTimeFunc}
-        hideMinutes={disabledOrHideTimeFunc}
-        hideSeconds={disabledOrHideTimeFunc}
-      />,
-      createTestContainer()
-    );
   });
 });

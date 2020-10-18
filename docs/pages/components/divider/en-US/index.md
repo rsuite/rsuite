@@ -21,6 +21,6 @@ import Divider from 'rsuite/lib/Divider';
 
 | Property    | Type`(default)`      | Description                           |
 | ----------- | -------------------- | ------------------------------------- |
-| children    | React.Node           | Set the text on the dividing line     |
+| children    | ReactNode            | Set the text on the dividing line     |
 | classPrefix | string `('divider')` | The prefix of the component CSS class |
 | vertical    | boolean              | Vertical dividing line                |

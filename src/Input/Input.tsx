@@ -5,7 +5,7 @@ import { FormGroupContext } from '../FormGroup/FormGroup';
 import { InputGroupContext } from '../InputGroup/InputGroup';
 import {
   createChainedFunction,
-  refType,
+  TypeChecker,
   mergeRefs,
   useClassNames,
   useCustom,
@@ -141,7 +141,7 @@ Input.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   size: PropTypes.oneOf(['lg', 'md', 'sm', 'xs']),
-  inputRef: refType,
+  inputRef: TypeChecker.refType,
   onChange: PropTypes.func,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,

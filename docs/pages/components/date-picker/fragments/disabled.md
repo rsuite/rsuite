@@ -1,4 +1,3 @@
-
 Disable is to set a clickable element to be unclickable. Hidden is not display in the option.
 
 <!--start-code-->

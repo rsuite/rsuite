@@ -89,6 +89,7 @@ const Breadcrumb: BreadcrumbComponent = React.forwardRef((props: BreadcrumbProps
           <BreadcrumbItem
             role="button"
             key="ellipsis"
+            title={locale.expandText}
             aria-label={locale.expandText}
             onClick={handleClickEllipsis}
           >

@@ -3,7 +3,6 @@ import { PLACEMENT } from '../utils';
 import { PickerAppearance, TypeAttributes } from '../@types/common';
 import { animationPropTypes } from '../Animation/utils';
 
-
 export const pickerPropTypes = {
   ...animationPropTypes,
   classPrefix: PropTypes.string,
