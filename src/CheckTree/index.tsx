@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { FormControlPickerProps, RsRefForwardingComponent } from '../@types/common';
 import CheckTreePicker from '../CheckTreePicker';
 

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 const toJSX = (node: React.ReactNode, key: string | number) =>
   typeof node !== 'undefined' ? <span key={key}>{node}</span> : null;

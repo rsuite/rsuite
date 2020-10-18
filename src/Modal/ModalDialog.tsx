@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames, SIZE } from '../utils';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';

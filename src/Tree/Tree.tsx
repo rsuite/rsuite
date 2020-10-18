@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import TreePicker from '../TreePicker';
 import { StandardProps, ItemDataType, RsRefForwardingComponent } from '../@types/common';
 

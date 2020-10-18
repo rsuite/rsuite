@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { on, transition } from 'dom-lib';
 import classNames from 'classnames';
