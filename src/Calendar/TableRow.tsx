@@ -1,10 +1,9 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import partial from 'lodash/partial';
-import { DateUtils, TimeZone, useClassNames } from '../utils';
+import { DateUtils, TimeZone, useClassNames, DATERANGE_DISABLED_TARGET } from '../utils';
 import { useCalendarContext } from './CalendarContext';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import { DATERANGE_DISABLED_TARGET } from '../utils/constants';
 
 export interface TableRowProps extends WithAsProps {
   weekendDate?: Date;
@@ -98,7 +97,7 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
           }
         }
 
-        const classes = merge(prefix('cell'), {
+        const classes = prefix('cell', {
           ['cell-un-same-month']: unSameMonth,
           ['cell-is-today']: isToday,
           ['cell-selected']: isRangeSelectionMode

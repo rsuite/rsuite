@@ -2,8 +2,6 @@
 
 用于快速选择一个日期范围
 
-- `<DateRangePicker>`
-
 如果 `<DateRangePicker>` 不能满足您选择时间范围的业务场景，可以采用两个 [`<DatePicker>`](./date-picker#选择范围) 组合。
 
 ## 获取组件
@@ -28,7 +26,7 @@
 
 <!--{include:`block.md`}-->
 
-### Placeholder
+### 占位符
 
 <!--{include:`placeholder-cn.md`}-->
 

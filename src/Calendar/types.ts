@@ -33,7 +33,7 @@ export interface CalendarInnerContextValue {
   onChangePageDate?: (nextPageDate: Date, event: React.MouseEvent) => void;
   onChangePageTime?: (nextPageTime: Date, event: React.MouseEvent) => void;
   onMouseMove?: (date: Date) => void;
-  onSelect?: (date: Date, event: React.MouseEvent<HTMLDivElement>) => void;
+  onSelect?: (date: Date, event: React.MouseEvent) => void;
   renderCell?: (date: Date) => React.ReactNode;
   showWeekNumbers?: boolean;
   timeZone?: string;
