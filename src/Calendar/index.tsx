@@ -1,10 +1,7 @@
 import CalendarPanel from './CalendarPanel';
-import Calendar, {
-  CalendarState,
-  CalendarLocale,
-  CalendarContextValue,
-  CalendarContext
-} from './Calendar';
+import Calendar, { CalendarState } from './Calendar';
+import CalendarContext from './CalendarContext';
+import { CalendarLocale, CalendarContextValue } from './types';
 
 export { Calendar, CalendarContext };
 export type { CalendarState, CalendarLocale, CalendarContextValue };

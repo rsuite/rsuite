@@ -1,9 +1,9 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, composeFunctions } from '../utils';
+import { composeFunctions, useClassNames } from '../utils';
 import { setMonth, setYear } from '../utils/dateUtils';
-import { CalendarContext } from './Calendar';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { useCalendarContext } from './CalendarContext';
 
 export interface MonthDropdownItemProps extends WithAsProps {
   month?: number;
@@ -21,7 +21,7 @@ const defaultProps: Partial<MonthDropdownItemProps> = {
 const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps> = React.forwardRef(
   (props: MonthDropdownItemProps, ref) => {
     const { as: Component, className, classPrefix, active, disabled, month, year, ...rest } = props;
-    const { date, onChangePageDate: onSelect } = useContext(CalendarContext);
+    const { date, onChangePageDate: onSelect } = useCalendarContext();
 
     const handleClick = useCallback(
       (event: React.MouseEvent) => {

@@ -1,10 +1,10 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { AutoSizer, List } from '../Picker/VirtualizedList';
-import { useClassNames, DateUtils } from '../utils';
+import { DateUtils, useClassNames } from '../utils';
 import MonthDropdownItem from './MonthDropdownItem';
-import { CalendarContext } from './Calendar';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { useCalendarContext } from './CalendarContext';
 
 export interface MonthDropdownProps extends WithAsProps {
   show?: boolean;
@@ -71,7 +71,7 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
       ...rest
     } = props;
 
-    const { date = new Date() } = useContext(CalendarContext);
+    const { date = new Date() } = useCalendarContext();
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
 
     const getRowCount = useCallback(() => DateUtils.getYear(new Date()) + limitEndYear, [

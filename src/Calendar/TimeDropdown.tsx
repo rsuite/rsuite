@@ -6,7 +6,7 @@ import camelCase from 'lodash/camelCase';
 import isNumber from 'lodash/isNumber';
 import { useClassNames, scrollTopAnimation, TimeZone, DateUtils } from '../utils';
 
-import { CalendarContext } from './Calendar';
+import CalendarContext from './CalendarContext';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 
 export interface TimeDropdownProps extends WithAsProps {

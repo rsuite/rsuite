@@ -6,7 +6,7 @@ import TimeDropdown from './TimeDropdown';
 import View from './View';
 import Header, { HeaderProps } from './Header';
 import { useClassNames } from '../utils';
-import { shouldDate, shouldMonth, shouldTime } from '../utils/formatUtils';
+import { shouldDate, shouldMonth, shouldTime } from '../utils/dateUtils';
 import {
   addMonths,
   calendarOnlyProps,

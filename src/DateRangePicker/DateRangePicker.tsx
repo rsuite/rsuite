@@ -3,15 +3,7 @@ import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import isUndefined from 'lodash/isUndefined';
 import pick from 'lodash/pick';
-import {
-  addDays,
-  addMonths,
-  compareAsc,
-  isAfter,
-  isBefore,
-  isSameDay,
-  isSameMonth
-} from '../utils/dateUtils';
+import { addMonths, compareAsc, isSameDay, isSameMonth } from '../utils/dateUtils';
 import * as disabledDateUtils from './disabledDateUtils';
 import { FormattedDate } from '../CustomProvider';
 import Toolbar from '../DatePicker/Toolbar';
@@ -26,39 +18,31 @@ import {
 } from './utils';
 import {
   createChainedFunction,
-  mergeRefs,
-  useClassNames,
-  useControlled,
-  useCustom,
   DATERANGE_DISABLED_TARGET,
   DateUtils,
+  mergeRefs,
   TimeZone,
+  useClassNames,
+  useControlled,
+  useCustom
 } from '../utils';
 import {
   MenuWrapper,
-  PositionChildProps,
-  usePickerClassName,
   OverlayTriggerInstance,
-  usePublicMethods,
-  pickerToggleTriggerProps,
+  PickerComponent,
+  pickerDefaultProps,
+  pickerPropTypes,
   PickerToggle,
   PickerToggleTrigger,
+  pickerToggleTriggerProps,
+  PositionChildProps,
   usePickerClassName,
   usePublicMethods
-  PickerToggleTrigger,
-  PickerComponent,
-  pickerPropTypes
 } from '../Picker';
-import { DATERANGE_DISABLED_TARGET } from '../constants';
-import { pickerDefaultProps, pickerPropTypes } from '../Picker/propTypes';
 import { toLocalTimeZone } from '../utils/timeZone';
-import { FormControlBaseProps, PickerBaseProps, RsRefForwardingComponent } from '../@types/common';
-import { DisabledDateFunction, RangeType, ValueType } from './types';
-import omitBy from 'lodash/omitBy';
-import { OverlayTriggerInstance } from '../Overlay/OverlayTrigger';
+import { FormControlBaseProps, PickerBaseProps, TimeZoneName } from '../@types/common';
+import { DateRangePickerLocale, DisabledDateFunction, RangeType, ValueType } from './types';
 import partial from 'lodash/partial';
-import { PositionChildProps } from '../Overlay/Position';
-import { pickerToggleTriggerProps } from '../Picker/PickerToggleTrigger';
 import useUpdateEffect from '../utils/useUpdateEffect';
 
 export interface DateRangePickerProps extends PickerBaseProps, FormControlBaseProps<ValueType> {
@@ -69,7 +53,7 @@ export interface DateRangePickerProps extends PickerBaseProps, FormControlBasePr
   format?: string;
 
   /** IANA time zone */
-  timeZone?: string;
+  timeZone?: TimeZoneName;
 
   /** The date range that will be selected when you click on the date */
   hoverRange?: 'week' | 'month' | ((date: Date) => ValueType);
@@ -174,6 +158,7 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
       menuStyle,
       oneTap,
       placeholder,
+      placement,
       ranges,
       renderValue,
       showOneCalendar,
@@ -379,7 +364,10 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
         }
 
         // If user have completed the selection, then sort
-        if (nextSelectValue.length === 2 && DateUtils.isAfter(nextSelectValue[0], nextSelectValue[1])) {
+        if (
+          nextSelectValue.length === 2 &&
+          DateUtils.isAfter(nextSelectValue[0], nextSelectValue[1])
+        ) {
           nextSelectValue.reverse();
         }
 
@@ -501,16 +489,12 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
     );
 
     const disabledOkButton = useCallback(() => {
-      const [start, end] = selectValue
+      const [start, end] = selectValue;
       if (!start || !end || !hasDoneSelect.current) {
         return true;
       }
 
-      return disabledByBetween(
-        start,
-        end,
-        DATERANGE_DISABLED_TARGET.TOOLBAR_BUTTON_OK
-      );
+      return disabledByBetween(start, end, DATERANGE_DISABLED_TARGET.TOOLBAR_BUTTON_OK);
     }, [disabledByBetween, selectValue]);
 
     const disabledShortcutButton = useCallback(
@@ -538,8 +522,8 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
         const { left, top, className } = positionProps;
         const styles = { ...menuStyle, left, top };
         const classes = merge(className, menuClassName, prefix('daterange-menu'));
-        const panelClasses = prefix(('daterange-panel'), {
-          [('daterange-panel-show-one-calendar')]: showOneCalendar
+        const panelClasses = prefix('daterange-panel', {
+          ['daterange-panel-show-one-calendar']: showOneCalendar
         });
 
         const panelProps = {
@@ -556,7 +540,7 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
           value: selectValue,
           onChangeCalendarDate: handleChangeCalendarDate,
           onMouseMove: handleMouseMove,
-          onSelect: handleSelectValueChange,
+          onSelect: handleSelectValueChange
         };
 
         return (
@@ -623,7 +607,11 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
     );
 
     const hasValue = value && value.length > 1;
-    const [classes, usedClassNames] = usePickerClassName({ ...props, name: 'daterange', hasValue });
+    const [classes, usedClassNameProps] = usePickerClassName({
+      ...props,
+      name: 'daterange',
+      hasValue
+    });
 
     return (
       <PickerToggleTrigger

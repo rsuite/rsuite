@@ -1,10 +1,10 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import partial from 'lodash/partial';
-import { useClassNames, DateUtils, TimeZone } from '../utils';
+import { DateUtils, TimeZone, useClassNames } from '../utils';
 import { useCalendarContext } from './CalendarContext';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import { DATERANGE_DISABLED_TARGET } from '../constants';
+import { DATERANGE_DISABLED_TARGET } from '../utils/constants';
 
 export interface TableRowProps extends WithAsProps {
   weekendDate?: Date;
@@ -19,18 +19,16 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
   (props: TableRowProps, ref) => {
     const { as: Component, className, classPrefix, weekendDate, ...rest } = props;
     const {
-      date: selectedDate = new Date(),
+      date: selected = new Date(),
       dateRange,
       disabledDate,
       formatDate,
       hoverRangeValue,
       inSameMonth,
       isoWeek,
-      locale: { formattedDayPattern, today } = {},
       onMouseMove,
       onSelect,
       renderCell,
-      isoWeek,
       locale,
       showWeekNumbers,
       timeZone
@@ -70,50 +68,62 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
         let inRange = false;
         // for Selected
         if (selectedStartDate && selectedEndDate) {
-          if (DateUtils.isBefore(thisDate, selectedEndDate) && DateUtils.isAfter(thisDate, selectedStartDate)) {
+          if (
+            DateUtils.isBefore(thisDate, selectedEndDate) &&
+            DateUtils.isAfter(thisDate, selectedStartDate)
+          ) {
             inRange = true;
           }
-          if (DateUtils.isBefore(thisDate, selectedStartDate) && DateUtils.isAfter(thisDate, selectedEndDate)) {
+          if (
+            DateUtils.isBefore(thisDate, selectedStartDate) &&
+            DateUtils.isAfter(thisDate, selectedEndDate)
+          ) {
             inRange = true;
           }
         }
 
         // for Hovering
         if (!isSelected && hoverStartDate && hoverEndDate) {
-          if (!DateUtils.isAfter(thisDate, hoverEndDate) && !DateUtils.isBefore(thisDate, hoverStartDate)) {
+          if (
+            !DateUtils.isAfter(thisDate, hoverEndDate) &&
+            !DateUtils.isBefore(thisDate, hoverStartDate)
+          ) {
             inRange = true;
           }
-          if (!DateUtils.isAfter(thisDate, hoverStartDate) && !DateUtils.isBefore(thisDate, hoverEndDate)) {
+          if (
+            !DateUtils.isAfter(thisDate, hoverStartDate) &&
+            !DateUtils.isBefore(thisDate, hoverEndDate)
+          ) {
             inRange = true;
           }
         }
 
         const classes = merge(prefix('cell'), {
-          [('cell-un-same-month')]: unSameMonth,
-          [('cell-is-today')]: isToday,
-          [('cell-selected')]: isRangeSelectionMode
+          ['cell-un-same-month']: unSameMonth,
+          ['cell-is-today']: isToday,
+          ['cell-selected']: isRangeSelectionMode
             ? isSelected
             : DateUtils.isSameDay(thisDate, selected),
-          [('cell-selected-start')]: isStartSelected,
-          [('cell-selected-end')]: isEndSelected,
-          [('cell-in-range')]: !unSameMonth && inRange,
-          [('cell-disabled')]: disabled
+          ['cell-selected-start']: isStartSelected,
+          ['cell-selected-end']: isEndSelected,
+          ['cell-in-range']: !unSameMonth && inRange,
+          ['cell-disabled']: disabled
         });
 
         const title = formatDate
           ? formatDate(thisDate, formatStr)
           : DateUtils.format(thisDate, formatStr);
         days.push(
-          <div role="cell" key={title} className={cellClasses}>
+          <div role="cell" key={title} className={classes}>
             <div
               role="button"
               className={prefix('cell-content')}
               tabIndex={-1}
               title={isToday ? `${title} (${locale?.today})` : title}
               onMouseEnter={!disabled && onMouseMove ? onMouseMove.bind(null, thisDate) : undefined}
-            onClick={partial(handleSelect, thisDate, disabled)}
-          >
-            <span className={prefix('cell-day')}>{DateUtils.getDate(thisDate)}</span>
+              onClick={partial(handleSelect, thisDate, disabled)}
+            >
+              <span className={prefix('cell-day')}>{DateUtils.getDate(thisDate)}</span>
               {renderCell && renderCell(thisDate)}
             </div>
           </div>

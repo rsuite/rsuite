@@ -1,8 +1,7 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, DateUtils } from '../utils';
+import { DateUtils, useClassNames } from '../utils';
 import Table from './Table';
-import composeFunctions from '../utils/composeFunctions';
 import { useCalendarContext } from './CalendarContext';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 
@@ -17,16 +16,6 @@ const View: RsRefForwardingComponent<'div', ViewProps> = React.forwardRef(
   (props: ViewProps, ref) => {
     const { as: Component, className, classPrefix, ...rest } = props;
     const { date = new Date(), isoWeek } = useCalendarContext();
-
-    const inSameThisMonthDate = useCallback(
-      (date: Date) =>
-        composeFunctions(
-          d => DateUtils.setDate(d, 1),
-          d => DateUtils.isSameMonth(d, date)
-        )(date),
-      []
-    );
-
     const thisMonthDate = DateUtils.setDate(date, 1);
     const { merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
