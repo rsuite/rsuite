@@ -1,7 +1,3 @@
-### Limits
-
-limits: 10 - 100
-
 <!--start-code-->
 
 ```js

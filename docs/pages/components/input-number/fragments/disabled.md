@@ -1,11 +1,9 @@
-### Default
-
 <!--start-code-->
 
 ```js
 const instance = (
   <div style={{ width: 160 }}>
-    <InputNumber />
+    <InputNumber disabled />
   </div>
 );
 ReactDOM.render(instance);

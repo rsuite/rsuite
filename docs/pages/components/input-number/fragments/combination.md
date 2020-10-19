@@ -1,15 +1,13 @@
-### 组合
-
 <!--start-code-->
 
 ```js
 const App = () => {
-  const inputRef = React.createRef();
+  const [value, setValue] = React.useState(0);
   const handleMinus = () => {
-    inputRef.current.handleMinus();
+    setValue(value - 1);
   };
   const handlePlus = () => {
-    inputRef.current.handlePlus();
+    setValue(value + 1);
   };
   return (
     <div style={{ width: 160 }}>
@@ -21,7 +19,7 @@ const App = () => {
       <hr />
       <InputGroup>
         <InputGroup.Button onClick={handleMinus}>-</InputGroup.Button>
-        <InputNumber className={'custom-input-number'} ref={inputRef} max={99} min={1} />
+        <InputNumber className={'custom-input-number'} value={value} onChange={setValue} />
         <InputGroup.Button onClick={handlePlus}>+</InputGroup.Button>
       </InputGroup>
     </div>
