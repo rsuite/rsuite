@@ -105,6 +105,12 @@ Clicking "The day before" in the example does not close the picker layer because
 
 <!--{include:`time-zone-with-picker.md`}-->
 
+### Native pickers
+
+If you only need to meet the simple date selection function, you can use the native pickers supported by the browser.
+
+<!--{include:`native-pickers.md`}-->
+
 ## Props
 
 ### `<DatePicker>`

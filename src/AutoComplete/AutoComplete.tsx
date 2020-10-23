@@ -101,6 +101,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
       open,
       style,
       menuClassName,
+      id,
       renderMenu,
       renderMenuItem,
       onSelect,
@@ -234,6 +235,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
 
       const menu = (
         <DropdownMenu
+          id={id ? `${id}-listbox` : undefined}
           classPrefix="auto-complete-menu"
           dropdownMenuItemClassPrefix="auto-complete-item"
           dropdownMenuItemAs={DropdownMenuItem}
@@ -270,6 +272,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
         <Component className={classes} style={style}>
           <Input
             {...rest}
+            id={id}
             disabled={disabled}
             value={value}
             onBlur={handleInputBlur}

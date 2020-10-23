@@ -1,27 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
-import { StandardProps } from '../@types/common';
+import { WithAsProps } from '../@types/common';
 
-export type DropdownMenuGroupProps = StandardProps & React.HTMLAttributes<HTMLDivElement>;
+export interface DropdownMenuGroupProps extends WithAsProps, React.HTMLAttributes<HTMLDivElement> {}
+
+const defaultProps: Partial<DropdownMenuGroupProps> = {
+  as: 'div',
+  classPrefix: 'dropdown-menu-group'
+};
 
 const DropdownMenuGroup = React.forwardRef(
   (props: DropdownMenuGroupProps, ref: React.Ref<HTMLDivElement>) => {
-    const {
-      as: Component = 'div',
-      classPrefix = 'dropdown-menu-group',
-      children,
-      className,
-      ...rest
-    } = props;
+    const { as: Component, classPrefix, children, className, ...rest } = props;
     const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
 
     return (
-      <Component role="listitem" {...rest} ref={ref} className={classes}>
+      <Component role="group" {...rest} ref={ref} className={classes}>
         <div className={prefix`title`} tabIndex={-1}>
           <span>{children}</span>
-          <span aria-hidden="true" className={prefix`caret`} />
+          <span aria-hidden className={prefix`caret`} />
         </div>
       </Component>
     );
@@ -29,6 +28,7 @@ const DropdownMenuGroup = React.forwardRef(
 );
 
 DropdownMenuGroup.displayName = 'DropdownMenuGroup';
+DropdownMenuGroup.defaultProps = defaultProps;
 DropdownMenuGroup.propTypes = {
   classPrefix: PropTypes.string,
   className: PropTypes.string,

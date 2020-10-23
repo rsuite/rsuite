@@ -270,6 +270,81 @@ export const useFocusItemValue = (
   return { focusItemValue, setFocusItemValue, onKeyDown: handleKeyDown };
 };
 
+interface ToggleKeyDownEventProps {
+  toggle?: boolean;
+  triggerRef?: React.RefObject<any>;
+  toggleRef: React.RefObject<any>;
+  menuRef?: React.RefObject<any>;
+  active?: boolean;
+  onExit?: (event) => void;
+  onKeyDown?: (event) => void;
+  onOpen?: () => void;
+  onClose?: () => void;
+  onMenuKeyDown?: (event) => void;
+  [key: string]: any;
+}
+
+/**
+ * A hook to control the toggle keyboard operation
+ * @param props
+ */
+export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
+  const {
+    toggle = true,
+    triggerRef,
+    toggleRef,
+    menuRef,
+    active,
+    onExit,
+    onOpen,
+    onClose,
+    onKeyDown,
+    onMenuKeyDown
+  } = props;
+  const handleClose = useCallback(() => {
+    triggerRef.current?.close?.();
+    onClose?.();
+  }, [onClose, triggerRef]);
+
+  const handleOpen = useCallback(() => {
+    triggerRef.current?.open?.();
+    onOpen?.();
+  }, [onOpen, triggerRef]);
+
+  const handleToggleDropdown = useCallback(() => {
+    if (active) {
+      handleClose();
+      return;
+    }
+    handleOpen();
+  }, [active, handleOpen, handleClose]);
+
+  const onToggle = useCallback(
+    (event: React.KeyboardEvent) => {
+      // enter
+      if (toggle && event.keyCode === KEY_CODE.ENTER) {
+        handleToggleDropdown();
+      }
+
+      // delete
+      if (event.keyCode === KEY_CODE.BACKSPACE && event.target === toggleRef?.current) {
+        onExit?.(event);
+      }
+
+      // Native event callback
+      onKeyDown?.(event);
+
+      if (menuRef?.current) {
+        // The keyboard operation callback on the menu.
+        onMenuKeyDown?.(event);
+      }
+    },
+    [handleToggleDropdown, menuRef, onExit, onKeyDown, onMenuKeyDown, toggle, toggleRef]
+  );
+
+  return onToggle;
+};
+
 interface SearchProps {
   labelKey: string;
   data: ItemDataType[];

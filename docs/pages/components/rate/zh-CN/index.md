@@ -48,13 +48,13 @@
 
 ### 字符
 
-你可以使用其他 icon、emoji、数字、中文或是其他自定义的图案
+您可以使用其他 icon、emoji、数字、中文或是其他自定义的图案
 
 <!--{include:`character.md`}}-->
 
 ### 自定义渲染
 
-当有多级评价时，你可以自定义每级展现的 character，不过这需要你自己实现
+当有多级评价时，您可以自定义每级展现的 character，不过这需要您自己实现
 
 <!--{include:`custom-character.md`}}-->
 

@@ -25,6 +25,7 @@ import {
   PickerToggleTrigger,
   usePickerClassName,
   usePublicMethods,
+  useToggleKeyDownEvent,
   pickerToggleTriggerProps,
   OverlayTriggerInstance,
   PositionChildProps,
@@ -133,6 +134,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       menuStyle,
       searchable,
       uncheckableItemValues,
+      id,
       getChildren,
       renderValue,
       renderMenu,
@@ -271,6 +273,14 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       [data, disabled, onChange, setColumnData, setValue]
     );
 
+    const onPickerKeyDown = useToggleKeyDownEvent({
+      triggerRef,
+      toggleRef,
+      active,
+      onExit: handleClean,
+      ...rest
+    });
+
     const handleSearch = useCallback(
       (value: string, event: React.SyntheticEvent) => {
         setSearchKeyword(value);
@@ -403,6 +413,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
 
           {searchKeyword === '' && (
             <DropdownMenu
+              id={id ? `${id}-listbox` : undefined}
               cascade={cascade}
               menuWidth={menuWidth}
               menuHeight={menuHeight}
@@ -479,9 +490,11 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
         <Component className={classes} style={style}>
           <PickerToggle
             {...omit(rest, [...pickerToggleTriggerProps, ...usedClassNameProps])}
+            id={id}
             as={toggleAs}
             ref={toggleRef}
             onClean={createChainedFunction(handleClean, onClean)}
+            onKeyDown={onPickerKeyDown}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
             active={active}

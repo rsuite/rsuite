@@ -24,6 +24,7 @@ const WithDropdown = () => {
   return (
     <Whisper
       placement="bottomStart"
+      controlId="control-id-with-dropdown"
       trigger="click"
       ref={ref}
       speaker={<MenuPopover onSelect={handleSelectMenu} />}

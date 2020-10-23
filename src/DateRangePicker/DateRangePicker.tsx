@@ -25,6 +25,7 @@ import {
   usePickerClassName,
   OverlayTriggerInstance,
   usePublicMethods,
+  useToggleKeyDownEvent,
   pickerToggleTriggerProps,
   PickerToggle,
   PickerToggleTrigger,
@@ -543,12 +544,20 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
   }, [onClose]);
 
   const handleClean = useCallback(
-    (event: React.MouseEvent) => {
+    (event: React.SyntheticEvent) => {
       setCalendarDate(getCalendarDate({ timeZone }));
       updateValue(event, []);
     },
     [timeZone, updateValue]
   );
+
+  const onPickerKeyDown = useToggleKeyDownEvent({
+    triggerRef,
+    toggleRef,
+    active,
+    onExit: handleClean,
+    ...rest
+  });
 
   const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
     const { left, top, className } = positionProps;
@@ -626,6 +635,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
           ])}
           as={toggleAs}
           ref={toggleRef}
+          onKeyDown={onPickerKeyDown}
           onClean={createChainedFunction(handleClean, onClean)}
           cleanable={cleanable && !disabled}
           hasValue={hasValue}

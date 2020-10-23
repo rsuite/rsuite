@@ -14,12 +14,17 @@ export interface DropdownMenuItemProps extends WithAsProps {
   renderItem?: (value: any) => React.ReactNode;
 }
 
+const defaultProps: Partial<DropdownMenuItemProps> = {
+  as: 'div',
+  classPrefix: 'dropdown-menu-item'
+};
+
 const DropdownMenuItem: RsRefForwardingComponent<'div', DropdownMenuItemProps> = React.forwardRef(
   (props: DropdownMenuItemProps, ref) => {
     const {
-      as: Component = 'div',
+      as: Component,
       active,
-      classPrefix = 'dropdown-menu-item',
+      classPrefix,
       children,
       className,
       disabled,
@@ -46,8 +51,8 @@ const DropdownMenuItem: RsRefForwardingComponent<'div', DropdownMenuItemProps> =
 
     return (
       <Component
-        role="menuitemradio"
-        aria-checked={active}
+        role="option"
+        aria-selected={active}
         aria-disabled={disabled}
         data-key={value}
         {...rest}
@@ -64,6 +69,7 @@ const DropdownMenuItem: RsRefForwardingComponent<'div', DropdownMenuItemProps> =
 );
 
 DropdownMenuItem.displayName = 'DropdownMenuItem';
+DropdownMenuItem.defaultProps = defaultProps;
 DropdownMenuItem.propTypes = {
   classPrefix: PropTypes.string,
   active: PropTypes.bool,

@@ -74,7 +74,8 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
       onDrop,
       onExpand,
       onRenderTreeIcon,
-      onRenderTreeNode
+      onRenderTreeNode,
+      ...rest
     },
     ref
   ) => {
@@ -242,6 +243,7 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
     return visible ? (
       <Component
         role="treeitem"
+        {...rest}
         aria-expanded={expand}
         aria-label={label}
         aria-level={layer}

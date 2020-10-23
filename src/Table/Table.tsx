@@ -226,6 +226,7 @@ Table.Cell = Cell;
 Table.Column = Column;
 Table.HeaderCell = HeaderCell;
 Table.ColumnGroup = ColumnGroup;
+Table.Pagination = TablePagination;
 
 Table.displayName = 'Table';
 Table.defaultProps = {

@@ -19,6 +19,7 @@ const App = () => (
       <Whisper
         preventOverflow
         trigger="click"
+        controlId="control-id-container"
         container={getContainer}
         speaker={speaker}
         placement="auto"

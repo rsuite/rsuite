@@ -18,6 +18,7 @@ class Demo extends React.Component {
       <PreventOverflowContainer height={300}>
         {getContainer => (
           <Whisper
+            controlId="control-id-container"
             preventOverflow
             trigger="click"
             container={getContainer}

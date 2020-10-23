@@ -259,7 +259,7 @@ describe('InputPicker', () => {
       done();
     };
     const instance = getDOMNode(<InputPicker onBlur={doneOp} />);
-    ReactTestUtils.Simulate.blur(instance.querySelector('input'));
+    ReactTestUtils.Simulate.blur(instance.querySelector('.rs-picker-search-input'));
   });
 
   it('Should call onFocus callback', done => {
@@ -267,7 +267,7 @@ describe('InputPicker', () => {
       done();
     };
     const instance = getDOMNode(<InputPicker onFocus={doneOp} />);
-    ReactTestUtils.Simulate.focus(instance.querySelector('input'));
+    ReactTestUtils.Simulate.focus(instance.querySelector('.rs-picker-search-input'));
   });
 
   it('Should have a custom className', () => {

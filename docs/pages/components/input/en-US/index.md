@@ -9,31 +9,55 @@ Instead of HTML native controls, input, textarea.
 
 ## Import
 
-```js
-import { Input, InputGroup } from 'rsuite';
-
-// or
-import Input from 'rsuite/lib/Input';
-import InputGroup from 'rsuite/lib/InputGroup';
-```
+<!--{include:(components/input/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Default
+
+<!--{include:`basic.md`}-->
+
+### Size
+
+<!--{include:`size.md`}-->
+
+### Textarea
+
+<!--{include:`textarea.md`}-->
+
+### Disabled
+
+<!--{include:`disabled.md`}-->
+
+### Input Group
+
+<!--{include:`input-group.md`}-->
+
+### Inside
+
+<!--{include:`input-group-inside.md`}-->
+
+### With Button
+
+<!--{include:`input-group-button.md`}-->
+
+### With Tooltip
+
+<!--{include:`tooltip.md`}-->
 
 ## Props
 
 ### `<Input>`
 
-| Property     | Type `(Default)`                                                   | Description                                      |
-| ------------ | ------------------------------------------------------------------ | ------------------------------------------------ |
-| classPrefix  | string `('input')`                                                 | The prefix of the component CSS class            |
-| defaultValue | string                                                             | Default value                                    |
-| disabled     | boolean                                                            | Disabled component                               |
-| onChange     | (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void | The callback function in which value is changed. |
-| size         | enum: 'lg', 'md', 'sm', 'xs' `('md')`                              | An input can have different sizes                |
-| type         | string `('text' )`                                                 | HTML input type                                  |
-| value        | string                                                             | Value (Controlled)                               |
+| Property     | Type `(Default)`                      | Description                                      |
+| ------------ | ------------------------------------- | ------------------------------------------------ |
+| classPrefix  | string `('input')`                    | The prefix of the component CSS class            |
+| defaultValue | string                                | Default value                                    |
+| disabled     | boolean                               | Disabled component                               |
+| onChange     | (value: string, event) => void        | The callback function in which value is changed. |
+| size         | enum: 'lg', 'md', 'sm', 'xs' `('md')` | An input can have different sizes                |
+| type         | string `('text' )`                    | HTML input type                                  |
+| value        | string                                | Value (Controlled)                               |
 
 ### `<InputGroup>`
 

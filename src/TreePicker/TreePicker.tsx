@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { pick, omit, isUndefined, isNil, isFunction } from 'lodash';
 import { List, AutoSizer, ListInstance } from '../Picker/VirtualizedList';
-import shallowEqual from '../utils/shallowEqual';
 import TreeNode from './TreeNode';
 import {
   createChainedFunction,
@@ -11,7 +10,8 @@ import {
   useControlled,
   TREE_NODE_DROP_POSITION,
   KEY_CODE,
-  mergeRefs
+  mergeRefs,
+  shallowEqual
 } from '../utils';
 
 import {
@@ -104,7 +104,6 @@ const defaultProps: Partial<TreePickerProps> = {
   height: 360,
   appearance: 'default',
   searchable: true,
-  virtualized: true,
   cleanable: true,
   menuAutoWidth: true,
   placement: 'bottomStart',
@@ -147,6 +146,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     disabledItemValues,
     expandItemValues: controlledExpandItemValues,
     defaultExpandItemValues,
+    id,
     getChildren,
     renderTreeIcon,
     renderTreeNode,
@@ -712,13 +712,14 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     const formattedNodes = getFormattedNodes(renderNode);
     const styles = inline ? { height, ...style } : {};
     return (
-      <div>
+      <React.Fragment>
         <div
+          role="tree"
+          id={id ? `${id}-listbox` : undefined}
           ref={treeViewRef}
           className={classes}
           style={styles}
           onKeyDown={handleKeyDown}
-          role="tree"
         >
           <div className={treePrefix('nodes')}>
             {virtualized ? (
@@ -744,7 +745,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
           </div>
         </div>
         {renderDefaultDragNode()}
-      </div>
+      </React.Fragment>
     );
   };
 
@@ -817,6 +818,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       <Component className={classes} style={style}>
         <PickerToggle
           {...omit(rest, [...pickerToggleTriggerProps, ...usedClassNameProps])}
+          id={id}
           ref={toggleRef}
           onKeyDown={handleKeyDown}
           onClean={createChainedFunction(handleClean, onClean)}

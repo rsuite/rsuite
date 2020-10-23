@@ -1,16 +1,16 @@
 import React, { forwardRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import DropdownMenuCheckItem from '../Picker/DropdownMenuCheckItem';
+import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import Icon from '../Icon';
 import {
   useClassNames,
   CHECK_STATE,
   CheckStateType,
   TREE_NODE_PADDING,
-  TREE_NODE_ROOT_PADDING
+  TREE_NODE_ROOT_PADDING,
+  reactToString
 } from '../utils';
-import reactToString from '../utils/reactToString';
-import DropdownMenuCheckItem from '../Picker/DropdownMenuCheckItem';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import Icon from '../Icon';
 
 export interface CheckTreeNodeProps extends WithAsProps {
   rtl?: boolean;
@@ -62,7 +62,8 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
       onExpand,
       onSelect,
       onRenderTreeIcon,
-      onRenderTreeNode
+      onRenderTreeNode,
+      ...rest
     },
     ref
   ) => {
@@ -180,21 +181,19 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
     );
 
     const padding = layer * TREE_NODE_PADDING + TREE_NODE_ROOT_PADDING;
-    const styles = {
-      ...style,
-      [rtl ? 'paddingRight' : 'paddingLeft']: padding
-    };
+    const styles = { ...style, [rtl ? 'paddingRight' : 'paddingLeft']: padding };
     return visible ? (
       <Component
-        style={styles}
-        className={classes}
-        ref={ref}
         role="treeitem"
         aria-label={label}
         aria-expanded={expand}
         aria-selected={checkState === CHECK_STATE.CHECK}
         aria-disabled={disabled}
         aria-level={layer}
+        {...rest}
+        style={styles}
+        className={classes}
+        ref={ref}
       >
         {renderIcon()}
         {renderLabel()}
