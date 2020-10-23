@@ -80,6 +80,16 @@
 
     padding: @padding-vertical @padding-horizontal;
   }
+
+  &-native-input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
 }
 
 .@{ns}btn,
@@ -90,6 +100,7 @@
 
   .@{ns}picker-default:not(.@{ns}picker-disabled) & {
     &:hover,
+    &:focus,
     &.active {
       border-color: @picker-default-toggle-hover-border-color;
     }

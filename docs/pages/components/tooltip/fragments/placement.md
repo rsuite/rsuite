@@ -5,6 +5,7 @@ const CustomComponent = ({ placement }) => (
   <Whisper
     trigger="click"
     placement={placement}
+    controlId={`control-id-${placement}`}
     speaker={
       <Tooltip>This is a ToolTip for simple text hints. It can replace the title property</Tooltip>
     }

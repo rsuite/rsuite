@@ -33,6 +33,7 @@ import {
   usePickerClassName,
   useSearch,
   usePublicMethods,
+  useToggleKeyDownEvent,
   pickerToggleTriggerProps,
   OverlayTriggerInstance,
   PositionChildProps,
@@ -90,7 +91,6 @@ const defaultProps: Partial<InputPickerProps> = {
   labelKey: 'label',
   placement: 'bottomStart',
   searchable: true,
-  virtualized: true,
   menuAutoWidth: true,
   menuMaxHeight: 320,
   tagProps: {}
@@ -127,6 +127,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       virtualized,
       labelKey,
       listProps,
+      id,
       sort,
       renderMenu,
       renderExtraFooter,
@@ -164,6 +165,8 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     const [maxWidth, setMaxWidth] = useState(100);
     const [newData, setNewData] = useState([]);
     const [uncontrolledOpen, setOpen] = useState(defaultOpen);
+    // Use component active state to support keyboard events.
+    const [active, setActive] = useState(false);
     const open = isUndefined(controlledOpen) ? uncontrolledOpen : controlledOpen;
 
     const getAllData = useCallback(() => [].concat(uncontrolledData, newData), [
@@ -490,12 +493,11 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       ]
     );
 
-    const handleKeyDown = useCallback(
-      (event: React.KeyboardEvent) => {
-        if (!menuRef.current) {
-          return;
-        }
-
+    const onPickerKeyDown = useToggleKeyDownEvent({
+      triggerRef,
+      toggleRef,
+      menuRef,
+      onMenuKeyDown: event => {
         onKeyDown(event);
         onMenuKeyDown(event, {
           enter: multi ? selectFocusMenuCheckItem : selectFocusMenuItem,
@@ -503,17 +505,8 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           del: multi ? removeLastItem : handleClean
         });
       },
-      [
-        onKeyDown,
-        handleClose,
-        handleClean,
-        removeLastItem,
-        selectFocusMenuCheckItem,
-        selectFocusMenuItem,
-        multi,
-        menuRef
-      ]
-    );
+      ...rest
+    });
 
     const handleExited = useCallback(() => {
       setFocusItemValue(multi ? value?.[0] : value);
@@ -526,6 +519,14 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
       onClose?.();
     }, [setFocusItemValue, setSearchKeyword, onClose, value, multi]);
+
+    const handleFocus = useCallback(() => {
+      setActive(true);
+    }, []);
+
+    const handleBlur = useCallback(() => {
+      setActive(false);
+    }, []);
 
     const handleEnter = useCallback(() => {
       focusInput();
@@ -625,6 +626,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
       const menu = items.length ? (
         <DropdownMenu
+          id={id ? `${id}-listbox` : undefined}
           listProps={listProps}
           disabledItemValues={disabledItemValues}
           valueKey={valueKey}
@@ -653,7 +655,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           className={classes}
           style={styles}
           target={triggerRef}
-          onKeyDown={handleKeyDown}
+          onKeyDown={onPickerKeyDown}
         >
           {renderMenu ? renderMenu(menu) : menu}
           {renderExtraFooter?.()}
@@ -682,7 +684,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     const classes = merge(pickerClasses, {
       [prefix`tag`]: multi,
-      [prefix`focused`]: open
+      [prefix`focused`]: open || active
     });
     const searching = !!searchKeyword && open;
     const displaySearchInput = searchable && !disabled;
@@ -702,15 +704,22 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         onExited={createChainedFunction(handleExited, onExited)}
         speaker={renderDropdownMenu}
       >
-        <Component className={classes} style={style} onClick={focusInput} onKeyDown={handleKeyDown}>
+        <Component
+          className={classes}
+          style={style}
+          onClick={focusInput}
+          onKeyDown={onPickerKeyDown}
+        >
           <PickerToggle
             {...omit(rest, [...pickerToggleTriggerProps, ...usedClassNameProps])}
+            id={id}
             ref={toggleRef}
             as={toggleAs}
             tabIndex={null}
             onClean={handleClean}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
+            active={active}
           >
             {searching || (multi && hasValue) ? null : displayElement || locale?.placeholder}
           </PickerToggle>
@@ -719,8 +728,8 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
             {displaySearchInput && (
               <InputSearch
                 {...inputProps}
-                onBlur={onBlur}
-                onFocus={onFocus}
+                onBlur={createChainedFunction(handleBlur, onBlur)}
+                onFocus={createChainedFunction(handleFocus, onFocus)}
                 inputRef={inputRef}
                 onChange={handleSearch}
                 value={open ? searchKeyword : ''}

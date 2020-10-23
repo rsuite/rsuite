@@ -4,10 +4,5 @@ import { Divider, Button, ButtonGroup } from 'rsuite';
 import DefaultPage from '@/components/Page';
 
 export default function Page() {
-  return (
-    <DefaultPage
-      examples={['basic', 'with-text', 'vertical']}
-      dependencies={{ Divider, Button, ButtonGroup }}
-    />
-  );
+  return <DefaultPage dependencies={{ Divider, Button, ButtonGroup }} />;
 }

@@ -159,9 +159,10 @@ const FormControl: RsRefForwardingComponent<'div', FormControlProps> = React.for
     return (
       <Component className={classes} ref={ref}>
         <AccepterComponent
-          {...rest}
+          id={controlId}
           aria-labelledby={controlId ? `${controlId}-control-label` : null}
-          aria-describedby={controlId ? `${controlId}-control-label` : null}
+          aria-describedby={controlId ? `${controlId}-help-text` : null}
+          {...rest}
           readOnly={readOnly}
           plaintext={plaintext}
           name={name}

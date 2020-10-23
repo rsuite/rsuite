@@ -36,7 +36,7 @@ const CloseButton: RsRefForwardingComponent<'button', CloseButtonProps> = React.
         title={locale?.closeLabel}
         aria-label={locale?.closeLabel}
       >
-        <span aria-hidden="true">&times;</span>
+        <span aria-hidden>&times;</span>
       </Component>
     );
   }

@@ -42,12 +42,12 @@ function useRootClose(
       const overlayElement = getDOMNode(overlayTarget);
 
       // Check if the clicked element is a trigger.
-      if (helper.contains(triggerElement, event.target)) {
+      if (triggerElement && helper.contains(triggerElement, event.target)) {
         return;
       }
 
       // Check if the clicked element is a overlay.
-      if (helper.contains(overlayElement, event.target)) {
+      if (overlayElement && helper.contains(overlayElement, event.target)) {
         return;
       }
 

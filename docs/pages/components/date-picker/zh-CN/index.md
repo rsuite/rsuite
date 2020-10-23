@@ -105,6 +105,12 @@
 
 <!--{include:`time-zone-with-picker.md`}-->
 
+### 原生的选择器
+
+如果您只需要满足简单的日期选择功能，完全可以使用浏览器支持的原生选择器。
+
+<!--{include:`native-pickers.md`}-->
+
 ## Props
 
 ### `<DatePicker>`

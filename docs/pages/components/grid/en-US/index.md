@@ -17,18 +17,37 @@ Corresponds to the screen width:
 
 ## Import
 
-```js
-import { Grid, Row, Col } from 'rsuite';
-
-//or
-import Grid from 'rsuite/lib/Grid';
-import Row from 'rsuite/lib/Row';
-import Col from 'rsuite/lib/Col';
-```
+<!--{include:(components/grid/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Default
+
+<!--{include:`basic.md`}-->
+
+### Responsive
+
+<!--{include:`responsive.md`}-->
+
+### Gutter
+
+<!--{include:`gutter.md`}-->
+
+### Offset
+
+<!--{include:`offset.md`}-->
+
+### Push and Pull
+
+<!--{include:`pull-push.md`}-->
+
+### Hidden
+
+<!--{include:`hidden.md`}-->
+
+### Nesting
+
+<!--{include:`nested.md`}-->
 
 ## Props
 

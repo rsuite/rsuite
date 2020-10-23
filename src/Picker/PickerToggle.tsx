@@ -5,7 +5,11 @@ import CloseButton from '../CloseButton';
 import { createChainedFunction, useClassNames } from '../utils';
 import { RsRefForwardingComponent } from '../@types/common';
 
+type ValueType = string | number;
+
 export interface PickerToggleProps extends ToggleButtonProps {
+  value?: ValueType | ValueType[];
+  id?: string;
   hasValue?: boolean;
   cleanable?: boolean;
   caret?: boolean;
@@ -30,6 +34,8 @@ const PickerToggle: RsRefForwardingComponent<
     hasValue,
     cleanable,
     tabIndex = 0,
+    id,
+    value,
     onClean,
     onFocus,
     onBlur,
@@ -66,9 +72,10 @@ const PickerToggle: RsRefForwardingComponent<
   return (
     <Component
       role="combobox"
-      aria-haspopup
+      aria-haspopup="listbox"
       aria-expanded={activeProp}
       aria-disabled={disabled}
+      aria-owns={id ? `${id}-listbox` : undefined}
       {...rest}
       ref={ref}
       tabIndex={tabIndex}
@@ -76,11 +83,25 @@ const PickerToggle: RsRefForwardingComponent<
       onFocus={!disabled ? createChainedFunction(handleFocus, onFocus) : null}
       onBlur={!disabled ? createChainedFunction(handleBlur, onBlur) : null}
     >
-      <span className={prefix(hasValue ? 'value' : 'placeholder')}>{children}</span>
+      <input
+        id={id}
+        aria-hidden
+        aria-controls={id ? `${id}-listbox` : undefined}
+        tabIndex={-1}
+        className={prefix`native-input`}
+        value={Array.isArray(value) ? value.join(',') : value}
+        readOnly
+      />
+      <span
+        className={prefix(hasValue ? 'value' : 'placeholder')}
+        aria-placeholder={typeof children === 'string' ? children : null}
+      >
+        {children}
+      </span>
       {hasValue && cleanable && (
         <CloseButton className={prefix`clean`} tabIndex={-1} onClick={handleClean} />
       )}
-      {caret && <span className={prefix`caret`} aria-hidden="true" />}
+      {caret && <span className={prefix`caret`} aria-hidden />}
     </Component>
   );
 });

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {
   Table,
   Toggle,
@@ -16,11 +16,8 @@ import {
 import DefaultPage from '@/components/Page';
 import AppContext from '@/components/AppContext';
 import useFetchData from '@/utils/useFetchData';
-import { useDrag, useDrop, DndProvider } from 'react-dnd';
-import Backend from 'react-dnd-html5-backend';
 
-const { HeaderCell, Pagination, Cell, Column, ColumnGroup } = Table;
-const TablePagination = Pagination;
+const { HeaderCell, Cell, Column, ColumnGroup } = Table;
 
 export default function Page() {
   const { messages, localePath } = React.useContext(AppContext);
@@ -29,6 +26,7 @@ export default function Page() {
   const { response: fakeLargeData } = useFetchData('large-data');
   const { response: fakeDataForColSpan } = useFetchData('users-colspan');
 
+  /*
   const tabExamples = [
     'resizable',
     'fluid-column',
@@ -51,10 +49,9 @@ export default function Page() {
     title: messages?.table[`tab.${item}`],
     source: require(`.${localePath}/${item}.md`)
   }));
-
+*/
   return (
     <DefaultPage
-      examples={['default', 'large']}
       dependencies={{
         Nav,
         Checkbox,
@@ -63,7 +60,6 @@ export default function Page() {
         fakeTreeData,
         fakeDataForColSpan,
         fakeLargeData,
-        TablePagination,
         Popover,
         Whisper,
         Icon,
@@ -75,13 +71,8 @@ export default function Page() {
         Cell,
         Column,
         Dropdown,
-        useDrag,
-        useDrop,
-        DndProvider,
-        Backend,
         ColumnGroup
       }}
-      tabExamples={tabExamples}
     />
   );
 }

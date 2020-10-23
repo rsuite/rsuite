@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {
   Form,
   Dropdown,
@@ -27,7 +27,9 @@ import {
   TagPicker,
   InputPicker,
   Cascader,
-  MultiCascader
+  MultiCascader,
+  Message,
+  toaster
 } from 'rsuite';
 import Loadable from 'react-loadable';
 import * as dateFns from 'date-fns';
@@ -70,22 +72,6 @@ export default function Page() {
   const { response: pickerData } = useFetchData('users-role');
   return (
     <DefaultPage
-      examples={[
-        'basic',
-        'fluid',
-        'horizontal',
-        'inline',
-        'modal-layout',
-        'help-block',
-        'error-message',
-        'read-only',
-        'form-check-default',
-        'form-check',
-        'form-check-async',
-        'custom-form-control',
-        'custom-third-party-libraries',
-        'custom-check-trigger'
-      ]}
       dependencies={{
         Row,
         Col,
@@ -121,6 +107,8 @@ export default function Page() {
         pickerData,
         Cascader,
         MultiCascader,
+        Message,
+        toaster,
         data
       }}
     />

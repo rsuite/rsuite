@@ -4,16 +4,21 @@
 
 ## 获取组件
 
-```js
-import { Divider } from 'rsuite';
-
-// or
-import Divider from 'rsuite/lib/Divider';
-```
+<!--{include:(components/divider/fragments/import.md)}-->
 
 ## 演示
 
-<!--{demo}-->
+### 默认
+
+<!--{include:`basic.md`}-->
+
+### 带文本的
+
+<!--{include:`with-text.md`}-->
+
+### 垂直分割线
+
+<!--{include:`vertical.md`}-->
 
 ## Props
 

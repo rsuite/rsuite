@@ -21,11 +21,19 @@ const FormControlLabel: RsRefForwardingComponent<'label', FormControlLabelProps>
       ...rest
     } = props;
 
-    const { controlId } = useContext(FormGroupContext) || {};
+    const { controlId } = useContext(FormGroupContext);
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
 
-    return <Component {...rest} ref={ref} htmlFor={htmlFor || controlId} className={classes} />;
+    return (
+      <Component
+        id={controlId ? `${controlId}-control-label` : null}
+        htmlFor={htmlFor || controlId}
+        {...rest}
+        ref={ref}
+        className={classes}
+      />
+    );
   }
 );
 

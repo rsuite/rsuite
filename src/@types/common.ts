@@ -57,6 +57,8 @@ export interface AnimationEventProps {
 export type PickerAppearance = 'default' | 'subtle';
 
 export interface PickerBaseProps<LocaleType = any> extends WithAsProps, AnimationEventProps {
+  id?: string;
+
   /** locale */
   locale?: LocaleType;
 

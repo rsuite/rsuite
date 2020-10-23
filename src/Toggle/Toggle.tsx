@@ -64,10 +64,10 @@ const Toggle = React.forwardRef((props: ToggleProps, ref) => {
 
   return (
     <Component
-      aria-pressed={checked}
+      aria-checked={checked}
       aria-disabled={disabled}
       aria-label={typeof inner === 'string' ? inner : null}
-      role="button"
+      role="switch"
       {...rest}
       ref={ref}
       className={classes}

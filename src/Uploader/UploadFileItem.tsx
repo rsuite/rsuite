@@ -194,7 +194,7 @@ const UploadFileItem = React.forwardRef(
           role="button"
           tabIndex={-1}
         >
-          <span aria-hidden="true">×</span>
+          <span aria-hidden>×</span>
         </a>
       );
     };

@@ -2,18 +2,23 @@
 
 Divider are used to group content horizontally or vertically.
 
-## Usage
+## Import
 
-```js
-import { Divider } from 'rsuite';
-
-// or
-import Divider from 'rsuite/lib/Divider';
-```
+<!--{include:(components/divider/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Default
+
+<!--{include:`basic.md`}-->
+
+### Divider With Text
+
+<!--{include:`with-text.md`}-->
+
+### Vertical Divider
+
+<!--{include:`vertical.md`}-->
 
 ## Props
 

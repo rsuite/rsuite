@@ -103,7 +103,6 @@ const defaultProps: Partial<CheckTreePickerProps> = {
   cascade: true,
   countable: true,
   searchable: true,
-  virtualized: true,
   menuAutoWidth: true,
   defaultValue: [],
   appearance: 'default',
@@ -152,6 +151,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     menuClassName,
     menuAutoWidth,
     uncheckableItemValues,
+    id,
     renderMenu,
     getChildren,
     renderExtraFooter,
@@ -220,13 +220,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     uncheckableItemValues,
     callback: nodes => {
       // after flattenData, always unSerialize check property value
-      unSerializeList({
-        nodes,
-        key: 'check',
-        value,
-        cascade,
-        uncheckableItemValues
-      });
+      unSerializeList({ nodes, key: 'check', value, cascade, uncheckableItemValues });
       forceUpdate();
     }
   });
@@ -714,6 +708,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     const styles = inline ? { height, ...style } : {};
     return (
       <div
+        id={id ? `${id}-listbox` : undefined}
         ref={treeViewRef}
         role="tree"
         aria-multiselectable
@@ -828,6 +823,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       <Component className={classes} style={style}>
         <PickerToggle
           {...omit(rest, [...pickerToggleTriggerProps, ...usedClassNameProps])}
+          id={id}
           ref={toggleRef}
           onKeyDown={handleKeyDown}
           onClean={createChainedFunction(handleClean, onClean)}
