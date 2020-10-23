@@ -747,7 +747,7 @@ export function useTreeSearch(props: TreeSearchProps) {
   );
 
   // Use search keywords to filter options.
-  const [searchKeywordState, setSearchKeyword] = useState(searchKeyword);
+  const [searchKeywordState, setSearchKeyword] = useState(searchKeyword ?? '');
   const [filteredData, setFilteredData] = useState(filterVisibleData(data, searchKeywordState));
 
   const handleSetFilteredData = useCallback(
