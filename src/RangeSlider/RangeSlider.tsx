@@ -4,7 +4,7 @@ import { getWidth, getHeight, getOffset } from 'dom-lib';
 import { useClassNames, useCustom, useControlled, useEventCallback } from '../utils';
 import { sliderPropTypes } from '../Slider/Slider';
 import ProgressBar from '../Slider/ProgressBar';
-import Handle from '../Slider/Handle';
+import Handle, { HandleProps } from '../Slider/Handle';
 import Graduated from '../Slider/Graduated';
 import { precisionMath, checkValue } from '../Slider/utils';
 import { SliderProps } from '../Slider';
@@ -25,6 +25,9 @@ const defaultProps: Partial<RangeSliderProps> = {
 
 const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
   const {
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledby,
+    'aria-valuetext': ariaValuetext,
     as: Component,
     barClassName,
     className,
@@ -42,6 +45,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
     handleStyle,
     handleTitle,
     tooltip,
+    getAriaValueText,
     renderTooltip,
     renderMark,
     onChange,
@@ -162,46 +166,95 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
     onChange?.(nextValue, event);
   });
 
-  const handleClick = (event: React.MouseEvent) => {
-    if (disabled) {
-      return;
-    }
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      const { key } = event.target?.['dataset'];
+      const nextValue = [...value];
+      const increaseKey = rtl ? 'ArrowLeft' : 'ArrowRight';
+      const decreaseKey = rtl ? 'ArrowRight' : 'ArrowLeft';
+      const valueIndex = key === 'start' ? 0 : 1;
 
-    let [start, end] = value;
-    const v = getValueByPosition(event);
+      switch (event.key) {
+        case 'Home':
+          nextValue[valueIndex] = min;
 
-    /**
-     * Judging that the current click value is closer to the values ​​of `start` and` end`.
-     */
-    if (Math.abs(start - v) < Math.abs(end - v)) {
-      start = v;
-    } else {
-      end = v;
-    }
+          break;
+        case 'End':
+          nextValue[valueIndex] = max;
+          break;
+        case increaseKey:
+        case 'ArrowUp':
+          nextValue[valueIndex] = Math.min(max, value[valueIndex] + step);
+          break;
 
-    const nextValue = getValidValue([start, end]);
+        case decreaseKey:
+        case 'ArrowDown':
+          nextValue[valueIndex] = Math.max(min, value[valueIndex] - step);
+          break;
+        default:
+          return;
+      }
 
-    setValue(nextValue);
-    onChange?.(nextValue, event);
-  };
+      // When the start value is greater than the end value, let the handle and value switch positions.
+      if (nextValue[0] >= nextValue[1]) {
+        nextValue.reverse();
+        handleIndexs.current.reverse();
+      }
+
+      // Prevent scroll of the page
+      event.preventDefault();
+
+      setValue(nextValue);
+      onChange?.(nextValue, event);
+    },
+    [max, min, onChange, rtl, setValue, step, value]
+  );
+
+  const handleClick = useCallback(
+    (event: React.MouseEvent) => {
+      if (disabled) {
+        return;
+      }
+
+      let [start, end] = value;
+      const v = getValueByPosition(event);
+
+      //  Judging that the current click value is closer to the values ​​of `start` and` end`.
+      if (Math.abs(start - v) < Math.abs(end - v)) {
+        start = v;
+      } else {
+        end = v;
+      }
+
+      const nextValue = getValidValue([start, end]);
+
+      setValue(nextValue);
+      onChange?.(nextValue, event);
+    },
+    [disabled, getValidValue, getValueByPosition, onChange, setValue, value]
+  );
 
   const handleProps = useMemo(
     () => [
       {
         value: value[0],
-        eventKey: 'start',
+        'data-key': 'start',
+        'aria-valuenow': value[0],
+        'aria-valuetext': getAriaValueText ? getAriaValueText(value[0], 'start') : ariaValuetext,
         position: ((value[0] - min) / (max - min)) * 100
       },
       {
         value: value[1],
-        eventKey: 'end',
+        'data-key': 'end',
+        'aria-valuenow': value[1],
+        'aria-valuetext': getAriaValueText ? getAriaValueText(value[1], 'end') : ariaValuetext,
         position: ((value[1] - min) / (max - min)) * 100
       }
     ],
-    [max, min, value]
+    [ariaValuetext, getAriaValueText, max, min, value]
   );
 
-  const handleCommonProps = {
+  const handleCommonProps: HandleProps = {
     rtl,
     disabled,
     vertical,
@@ -210,9 +263,15 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
     style: handleStyle,
     renderTooltip,
     onDragMove: handleDragMove,
-    'data-range': value,
+    onKeyDown: handleKeyDown,
+    tabIndex: disabled ? null : 0,
+    role: 'slider',
+    'aria-orientation': vertical ? 'vertical' : 'horizontal',
+    'aria-disabled': disabled,
     'aria-valuemax': max,
-    'aria-valuemin': min
+    'aria-valuemin': min,
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledby
   };
 
   return (
@@ -237,11 +296,11 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
           />
         )}
       </div>
-      <Handle {...handleCommonProps} {...handleProps[handleIndexs.current[0]]}>
+      <Handle data-range={value} {...handleCommonProps} {...handleProps[handleIndexs.current[0]]}>
         {handleTitle}
       </Handle>
 
-      <Handle {...handleCommonProps} {...handleProps[handleIndexs.current[1]]}>
+      <Handle data-range={value} {...handleCommonProps} {...handleProps[handleIndexs.current[1]]}>
         {handleTitle}
       </Handle>
     </Component>

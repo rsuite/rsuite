@@ -6,14 +6,13 @@ import Tooltip from '../Tooltip';
 import { useClassNames, mergeRefs } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-interface HandleProps extends WithAsProps {
+export interface HandleProps extends WithAsProps, React.HTMLAttributes<HTMLDivElement> {
   disabled?: boolean;
   vertical?: boolean;
   tooltip?: boolean;
   rtl?: boolean;
   position?: number;
   value?: number;
-  eventKey?: string;
   renderTooltip?: (value: number) => React.ReactNode;
   onDragMove?: (event: React.DragEvent, dataset: DOMStringMap) => void;
   onDragStart?: (event: React.MouseEvent) => void;
@@ -48,7 +47,6 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
       tooltip,
       rtl,
       value,
-      eventKey,
       renderTooltip,
       onDragStart,
       onDragMove,
@@ -115,6 +113,8 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
         mouseMoveTracker.current = getMouseMoveTracker();
         mouseMoveTracker.current?.captureMouseMoves(event);
 
+        rootRef.current?.focus();
+
         setActive(true);
         onDragStart?.(event);
       },
@@ -133,14 +133,8 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
 
     return (
       <Component
-        role="slider"
-        tabIndex={disabled ? null : 0}
-        aria-orientation={vertical ? 'vertical' : 'horizontal'}
-        aria-valuenow={value}
-        aria-disabled={disabled}
         {...rest}
         ref={mergeRefs(ref, rootRef)}
-        data-key={eventKey}
         className={handleClasses}
         onMouseDown={handleMouseDown}
         onMouseEnter={handleMouseEnter}
