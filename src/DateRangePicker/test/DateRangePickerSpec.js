@@ -100,12 +100,12 @@ describe('DateRangePicker', () => {
     );
 
     const menu = ref.current.menu;
-    const today = menu.querySelector('.rs-calendar-table-cell-is-today');
-    const nextDay = today.nextElementSibling;
+    const today = menu.querySelector(
+      '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
+    );
 
     assert.ok(menu);
     assert.ok(today);
-    assert.ok(nextDay);
 
     ReactTestUtils.Simulate.click(today);
   });
@@ -203,7 +203,9 @@ describe('DateRangePicker', () => {
     );
 
     const menu = ref.current?.menu;
-    const today = menu?.querySelector('.rs-calendar-table-cell-is-today');
+    const today = menu?.querySelector(
+      '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
+    );
     ReactTestUtils.Simulate.mouseEnter(today);
     ReactTestUtils.Simulate.click(today);
     ReactTestUtils.Simulate.click(menu.querySelector('.rs-picker-toolbar-right-btn-ok'));
@@ -224,7 +226,9 @@ describe('DateRangePicker', () => {
       createTestContainer()
     );
 
-    const today = ref.current.menu.querySelector('.rs-calendar-table-cell-is-today');
+    const today = ref.current.menu.querySelector(
+      '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
+    );
     ReactTestUtils.Simulate.click(today);
   });
 
@@ -254,14 +258,14 @@ describe('DateRangePicker', () => {
     const ref = createRef();
 
     ReactDOM.render(<DateRangePicker showOneCalendar open ref={ref} />, createTestContainer());
-    const menuContainer = ref.current.menu;
+    const menu = ref.current.menu;
 
     assert.include(
-      instance.menu.querySelector('.rs-picker-daterange-panel').className,
+      menu.querySelector('.rs-picker-daterange-panel').className,
       'rs-picker-daterange-panel-show-one-calendar'
     );
 
-    assert.equal(instance.menu.querySelectorAll('.rs-picker-daterange-calendar-single').length, 1);
+    assert.equal(menu.querySelectorAll('.rs-picker-daterange-calendar-single').length, 1);
   });
 
   it('Should be zoned date', () => {
@@ -274,7 +278,9 @@ describe('DateRangePicker', () => {
       createTestContainer()
     );
     const menuContainer = ref.current.menu;
-    const today = menuContainer.querySelector('.rs-calendar-table-cell-is-today');
+    const today = menuContainer.querySelector(
+      '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
+    );
 
     ReactTestUtils.Simulate.mouseEnter(today);
     ReactTestUtils.Simulate.click(today);
@@ -308,7 +314,9 @@ describe('DateRangePicker', () => {
       createTestContainer()
     );
     const menuContainer = ref.current.menu;
-    const firstDisabledCell = menuContainer.querySelector('.rs-calendar-table-cell-disabled');
+    const firstDisabledCell = menuContainer.querySelector(
+      '.rs-calendar-table-cell-disabled .rs-calendar-table-cell-content'
+    );
 
     assert.equal(firstDisabledCell.getAttribute('title'), format(tomorrow, 'dd MMM yyyy'));
   });
