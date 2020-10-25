@@ -61,27 +61,19 @@ const DropdownMenu = React.forwardRef(
       focusItemValue,
       dropdownMenuItemClassPrefix,
       dropdownMenuItemAs: DropdownMenuItem,
+      rowHeight = 36,
+      rowGroupHeight = 48,
       renderMenuGroup,
       renderMenuItem,
       onGroupTitleClick,
       onSelect,
-      rowHeight = 36,
-      rowGroupHeight = 48,
       ...rest
     } = props;
 
     const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
-    const classes = merge(
-      className,
-      withClassPrefix('items', {
-        grouped: group
-      })
-    );
+    const classes = merge(className, withClassPrefix('items', { grouped: group }));
 
-    const styles = {
-      ...style,
-      maxHeight
-    };
+    const styles = { ...style, maxHeight };
     const menuBodyContainerRef = useRef<HTMLDivElement>();
     const [foldedGroupKeys, setFoldedGroupKeys] = useState([]);
 
@@ -196,17 +188,29 @@ const DropdownMenu = React.forwardRef(
       );
     };
 
-    const renderMenuItems = () => {
-      const filteredItems = group
-        ? data.filter(item => !foldedGroupKeys?.some(key => key === item.parent?.[KEY_GROUP_TITLE]))
-        : data;
-      const rowCount = filteredItems.length;
+    const filteredItems = group
+      ? data.filter(item => !foldedGroupKeys?.some(key => key === item.parent?.[KEY_GROUP_TITLE]))
+      : data;
+    const rowCount = filteredItems.length;
 
-      if (virtualized && rowCount * rowHeight > maxHeight) {
-        return (
+    // Check whether the height of the data exceeds the height of the container.
+    const useVirtualized = virtualized && rowCount * rowHeight > maxHeight;
+
+    return (
+      <div
+        role={!useVirtualized ? 'listbox' : null}
+        {...rest}
+        className={classes}
+        ref={mergeRefs(menuBodyContainerRef, ref)}
+        style={styles}
+      >
+        {useVirtualized ? (
           <AutoSizer defaultHeight={maxHeight} style={{ width: 'auto', height: 'auto' }}>
             {({ height, width }) => (
               <List
+                role="listbox"
+                containerRole={''}
+                aria-readonly={null}
                 {...listProps}
                 width={width}
                 height={height || maxHeight}
@@ -217,24 +221,9 @@ const DropdownMenu = React.forwardRef(
               />
             )}
           </AutoSizer>
-        );
-      }
-
-      return (
-        <React.Fragment>
-          {filteredItems.map((_item, index: number) => renderItem(filteredItems, { index }))}
-        </React.Fragment>
-      );
-    };
-    return (
-      <div
-        role="menu"
-        {...rest}
-        className={classes}
-        ref={mergeRefs(menuBodyContainerRef, ref)}
-        style={styles}
-      >
-        {renderMenuItems()}
+        ) : (
+          filteredItems.map((_item, index: number) => renderItem(filteredItems, { index }))
+        )}
       </div>
     );
   }

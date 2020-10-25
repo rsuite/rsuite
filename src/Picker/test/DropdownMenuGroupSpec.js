@@ -1,6 +1,4 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-
 import { getDOMNode } from '@test/testUtils';
 import DropdownMenuGroup from '../DropdownMenuGroup';
 
@@ -25,7 +23,7 @@ describe('picker - DropdownMenuGroup', () => {
 
   it('Should have a role', () => {
     const instance = getDOMNode(<DropdownMenuGroup>group</DropdownMenuGroup>);
-    assert.equal(instance.getAttribute('role'), 'listitem');
+    assert.equal(instance.getAttribute('role'), 'group');
   });
 
   it('Should have a custom className', () => {

@@ -17,18 +17,37 @@
 
 ## 获取组件
 
-```js
-import { Grid, Row, Col } from 'rsuite';
-
-//or
-import Grid from 'rsuite/lib/Grid';
-import Row from 'rsuite/lib/Row';
-import Col from 'rsuite/lib/Col';
-```
+<!--{include:(components/grid/fragments/import.md)}-->
 
 ## 演示
 
-<!--{demo}-->
+### 默认
+
+<!--{include:`basic.md`}-->
+
+### 响应式
+
+<!--{include:`responsive.md`}-->
+
+### 栅格间隔
+
+<!--{include:`gutter.md`}-->
+
+### 偏移
+
+<!--{include:`offset.md`}-->
+
+### 栅格推拉
+
+<!--{include:`pull-push.md`}-->
+
+### 隐藏栅格
+
+<!--{include:`hidden.md`}-->
+
+### 嵌套
+
+<!--{include:`nested.md`}-->
 
 ## Props
 

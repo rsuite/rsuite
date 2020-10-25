@@ -45,6 +45,22 @@ When set to true, the Modal will display the background when it is opened. Click
 
 <!--{include:`confirm.md`}-->
 
+## Accessibility
+
+- Modal has role `dialog`.
+- <kbd>ESC</kbd> closes `Modal` unless `keyboard` is set to `false`.
+- Modal has `aria-modal` set to `true`. Tells assistive technologies that the windows underneath the current dialog are not available for interaction (inert).
+- Be sure to add `aria-labelledby`, referencing the modal title, to the Modal. Additionally, you may give a description of your modal with the `aria-describedby` prop on the Modal.
+
+```js
+<Modal aria-labelledby="modal-title" aria-describedby="modal-description">
+  <Modal.Header>
+    <Modal.Title id="modal-title">My Title</Modal.Title>
+  </Modal.Header>
+  <Modal.Body id="modal-description">My Description</Modal.Body>
+</Modal>
+```
+
 ## Props
 
 ### `<Modal>`

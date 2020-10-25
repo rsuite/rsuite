@@ -75,10 +75,7 @@ describe('Calendar - Panel', () => {
   });
 
   it('Should call `onSelect` callback in zoned date', done => {
-    const timeZone =
-      new Date('2020-10-10 01:00:00').getTimezoneOffset() === -480
-        ? 'Europe/London'
-        : 'Asia/Shanghai';
+    const timeZone = 'Africa/Abidjan';
     const instance = getDOMNode(
       <CalendarPanel
         timeZone={timeZone}
@@ -88,7 +85,6 @@ describe('Calendar - Panel', () => {
         }}
       />
     );
-
     ReactTestUtils.Simulate.click(
       instance.querySelector('.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content')
     );

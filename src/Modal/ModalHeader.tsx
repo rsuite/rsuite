@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { createChainedFunction, useClassNames } from '../utils';
 import { ModalContext } from './Modal';

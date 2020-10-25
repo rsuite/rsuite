@@ -1,10 +1,11 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Tooltip from '../Tooltip';
 import Whisper from '../Whisper';
 import Icon from '../Icon';
 import { useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { FormGroupContext } from '../FormGroup/FormGroup';
 
 export interface FormHelpTextProps extends WithAsProps {
   /** Whether to show through the Tooltip component */
@@ -22,6 +23,7 @@ const FormHelpText: RsRefForwardingComponent<'span', FormHelpTextProps> = React.
       ...rest
     } = props;
 
+    const { controlId } = useContext(FormGroupContext);
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ tooltip }));
 
@@ -36,7 +38,12 @@ const FormHelpText: RsRefForwardingComponent<'span', FormHelpTextProps> = React.
     }
 
     return (
-      <Component {...rest} ref={ref} className={classes}>
+      <Component
+        id={controlId ? `${controlId}-help-text` : null}
+        {...rest}
+        ref={ref}
+        className={classes}
+      >
         {children}
       </Component>
     );

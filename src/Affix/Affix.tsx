@@ -124,7 +124,7 @@ const Affix: RsRefForwardingComponent<'div', AffixProps> = React.forwardRef(
         <div className={classes} style={affixStyles}>
           {children}
         </div>
-        {fixed && <div aria-hidden="true" style={placeholderStyles}></div>}
+        {fixed && <div aria-hidden style={placeholderStyles}></div>}
       </Component>
     );
   }

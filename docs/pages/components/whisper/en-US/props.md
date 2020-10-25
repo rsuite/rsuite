@@ -13,6 +13,7 @@ type Trigger =
 | Property        | Type `(Default)`                          | Description                                                                                                  |
 | --------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
 | container       | HTMLElement &#124; (() => HTMLElement)    | Sets the rendering container                                                                                 |
+| controlId       | string                                    | Set the `id` on `<Overlay>` and `aria-describedby` on `<Whisper>`                                            |
 | delay           | number                                    | Delay time (ms) Time                                                                                         |
 | delayClose      | number                                    | Delay close time (ms) Time                                                                                   |
 | delayOpen       | number                                    | Delay open time (ms) Time                                                                                    |

@@ -131,16 +131,17 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
           {...htmlInputProps}
           {...inputProps}
           name={name}
+          value={value}
           type="checkbox"
           ref={inputRef}
           tabIndex={tabIndex}
           disabled={disabled}
           aria-disabled={disabled}
-          aria-checked={checked}
+          aria-checked={indeterminate ? 'mixed' : checked}
           onClick={event => event.stopPropagation()}
           onChange={handleChange}
         />
-        <span className={prefix`inner`} aria-hidden={true} role="presentation" />
+        <span className={prefix`inner`} aria-hidden role="presentation" />
       </span>
     );
 

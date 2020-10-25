@@ -30,7 +30,7 @@ export interface DOMHelper {
     target: DOMElement,
     eventName: string,
     listener: (event: EventInit) => void,
-    capture?: boolean
+    capture?: boolean | { passive: boolean }
   ): {
     off: () => void;
   };

@@ -12,7 +12,7 @@ const speaker = (
 );
 
 const TriggerMethod = () => {
-  const triggerRef = React.createRef();
+  const triggerRef = React.useRef();
   const open = () => triggerRef.current.open();
   const close = () => triggerRef.current.close();
 
@@ -33,19 +33,25 @@ const TriggerMethod = () => {
 const App = () => (
   <div>
     <ButtonToolbar>
-      <Whisper placement="top" trigger="click" speaker={speaker}>
+      <Whisper placement="top" trigger="click" controlId="control-id-click" speaker={speaker}>
         <Button>Click</Button>
       </Whisper>
-      <Whisper placement="top" trigger="focus" speaker={speaker}>
+      <Whisper placement="top" trigger="focus" controlId="control-id-focus" speaker={speaker}>
         <Button>Focus</Button>
       </Whisper>
-      <Whisper placement="top" trigger="active" speaker={speaker}>
+      <Whisper placement="top" trigger="active" controlId="control-id-active" speaker={speaker}>
         <Button>Active</Button>
       </Whisper>
-      <Whisper placement="top" trigger="hover" speaker={speaker}>
+      <Whisper placement="top" trigger="hover" controlId="control-id-hover" speaker={speaker}>
         <Button>Hover</Button>
       </Whisper>
-      <Whisper placement="top" trigger="hover" speaker={speaker} enterable>
+      <Whisper
+        placement="top"
+        trigger="hover"
+        controlId="control-id-hover-enterable"
+        speaker={speaker}
+        enterable
+      >
         <Button>Hover + Enterable</Button>
       </Whisper>
     </ButtonToolbar>

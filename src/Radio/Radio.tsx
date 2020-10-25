@@ -113,6 +113,7 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
         ref={inputRef}
         type="radio"
         name={name}
+        value={value}
         tabIndex={tabIndex}
         disabled={disabled}
         onChange={handleChange}

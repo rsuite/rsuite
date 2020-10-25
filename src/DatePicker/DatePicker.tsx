@@ -24,6 +24,7 @@ import {
   PickerToggleTrigger,
   usePickerClassName,
   usePublicMethods,
+  useToggleKeyDownEvent,
   pickerToggleTriggerProps,
   OverlayTriggerInstance,
   PositionChildProps,
@@ -339,12 +340,20 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     }, [calendarState, onToggleTimeDropdown, openTime, reset]);
 
     const handleClean = useCallback(
-      (event: React.MouseEvent) => {
+      (event: React.SyntheticEvent) => {
         setPageDate(TimeZone.toTimeZone(new Date(), timeZone));
         updateValue(event, null);
       },
       [updateValue, timeZone]
     );
+
+    const onPickerKeyDown = useToggleKeyDownEvent({
+      triggerRef,
+      toggleRef,
+      active,
+      onExit: handleClean,
+      ...rest
+    });
 
     const handleSelect = useCallback(
       (nextValue: Date, event: React.SyntheticEvent) => {
@@ -500,6 +509,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
             ])}
             as={toggleAs}
             ref={toggleRef}
+            onKeyDown={onPickerKeyDown}
             onClean={createChainedFunction(handleClean, onClean)}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}

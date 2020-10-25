@@ -41,25 +41,7 @@ export default {
     copyFailed: "Copy the failure, the browser doesn't support this feature",
     shareTwitter: 'Share on Twitter'
   },
-  table: {
-    'tab.resizable': 'Resizable',
-    'tab.fluid-column': 'Fluid',
-    'tab.word-wrap': 'Word Wrap',
-    'tab.custom-cell': 'Custom Cell',
-    'tab.sort': 'Sort',
-    'tab.pagination': 'Pagination',
-    'tab.tree': 'Tree',
-    'tab.expanded': 'Expandable',
-    'tab.edit': 'Editable',
-    'tab.loading': 'Loading',
-    'tab.colspan': 'Colspan',
-    'tab.summary': 'Summary',
-    'tab.fixed': 'Fixed Column',
-    'tab.auto-height': 'Auto Height',
-    'tab.affix-header': 'Affix Header',
-    'tab.affix-horizontal-scrollbar': 'Affix Horizontal Scrollbar',
-    'tab.draggable': 'Draggable(with react-dnd)'
-  },
+
   palette: {
     title: 'Get the product color',
     step1: 'Upload the Logo of the product',

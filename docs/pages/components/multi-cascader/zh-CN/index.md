@@ -2,17 +2,67 @@
 
 对有层级关系结构的数据进行多项选择。
 
-- `<MultiCascader>`
-
 ## 获取组件
 
-```js
-import { MultiCascader } from 'rsuite';
-```
+<!--{include:(components/multi-cascader/fragments/import.md)}-->
 
 ## 演示
 
-<!--{demo}-->
+### 默认
+
+<!--{include:`basic.md`}-->
+
+### 外观
+
+<!--{include:`appearance.md`}-->
+
+### 尺寸
+
+<!--{include:`size.md`}-->
+
+### 级联
+
+<!--{include:`cascade.md`}-->
+
+### 默认值
+
+<!--{include:`default-value.md`}-->
+
+### 受控
+
+<!--{include:`controlled.md`}-->
+
+### 撑满
+
+<!--{include:`block.md`}-->
+
+### 位置
+
+<!--{include:`placement.md`}-->
+
+### 自定义选项
+
+<!--{include:`custom.md`}-->
+
+### 禁用
+
+<!--{include:`disabled.md`}-->
+
+### 不可选状态
+
+<!--{include:`uncheckable.md`}-->
+
+### 异步
+
+<!--{include:`async.md`}-->
+
+### 容器与防止溢出
+
+<!--{include:`container.md`}-->
+
+### Inline
+
+<!--{include:`inline.md`}-->
 
 ## Props
 

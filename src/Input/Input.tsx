@@ -48,7 +48,7 @@ export interface InputProps
 const defaultProps: Partial<InputProps> = {
   as: 'input',
   classPrefix: 'input',
-  type: 'type'
+  type: 'text'
 };
 
 const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
@@ -58,7 +58,7 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
       classPrefix,
       as: Component,
       locale: overrideLocale,
-      type = 'text',
+      type,
       disabled,
       value,
       defaultValue,

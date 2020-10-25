@@ -14,6 +14,7 @@ const CustomComponent = ({ placement }) => (
   <Whisper
     trigger="click"
     placement={placement}
+    controlId={`control-id-${placement}`}
     speaker={<Speaker content={`I am positioned to the ${placement}`} />}
   >
     <Button appearance="subtle">{placement}</Button>

@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactTestUtils from 'react-dom/test-utils';
 import { innerText, getDOMNode } from '@test/testUtils';
 import Slider from '../Slider';
 
@@ -68,5 +69,29 @@ describe('Slider', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<Slider classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should handle keyboard operations', () => {
+    const instance = getDOMNode(<Slider defaultValue={10} />);
+    const handle = instance.querySelector('[role="slider"]');
+    assert.equal(handle.getAttribute('aria-valuenow'), '10');
+
+    ReactTestUtils.Simulate.keyDown(handle, { key: 'ArrowUp' });
+    assert.equal(handle.getAttribute('aria-valuenow'), '11');
+
+    ReactTestUtils.Simulate.keyDown(handle, { key: 'ArrowRight' });
+    assert.equal(handle.getAttribute('aria-valuenow'), '12');
+
+    ReactTestUtils.Simulate.keyDown(handle, { key: 'ArrowDown' });
+    assert.equal(handle.getAttribute('aria-valuenow'), '11');
+
+    ReactTestUtils.Simulate.keyDown(handle, { key: 'ArrowLeft' });
+    assert.equal(handle.getAttribute('aria-valuenow'), '10');
+
+    ReactTestUtils.Simulate.keyDown(handle, { key: 'Home' });
+    assert.equal(handle.getAttribute('aria-valuenow'), '0');
+
+    ReactTestUtils.Simulate.keyDown(handle, { key: 'End' });
+    assert.equal(handle.getAttribute('aria-valuenow'), '100');
   });
 });

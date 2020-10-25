@@ -51,7 +51,7 @@ describe('picker - DropdownMenuItem', () => {
 
   it('Should have a role', () => {
     const instance = getDOMNode(<DropdownMenuItem>item</DropdownMenuItem>);
-    assert.equal(instance.getAttribute('role'), 'menuitemradio');
+    assert.equal(instance.getAttribute('role'), 'option');
   });
 
   it('Should have a custom className', () => {

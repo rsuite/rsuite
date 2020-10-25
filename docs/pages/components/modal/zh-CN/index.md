@@ -45,6 +45,22 @@
 
 <!--{include:`confirm.md`}-->
 
+## 无障碍设计
+
+- Modal 拥有一个值为 `dialog` 的 `role` 属性。
+- Modal 将 `aria-modal` 设置为 `true`。 告诉辅助技术当前对话框下方的窗口不可用于交互（惰性）。
+- <kbd>ESC</kbd> 可以关闭 `Modal`，同时也可以通过设置 `keyboard:false` 禁用它。
+- 不要忘记用 `aria-labelledby` 属性来指向 Modal 的标题。 使用 `aria-describedby` 属性来为 Modal 组件添加一段描述。
+
+```js
+<Modal aria-labelledby="modal-title" aria-describedby="modal-description">
+  <Modal.Header>
+    <Modal.Title id="modal-title">My Title</Modal.Title>
+  </Modal.Header>
+  <Modal.Body id="modal-description">My Description</Modal.Body>
+</Modal>
+```
+
 ## Props
 
 ### `<Modal>`

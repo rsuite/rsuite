@@ -158,7 +158,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
     const cascadeNodes = cascadeData.map((children, layer) => {
       const onlyKey = `${layer}_${children.length}`;
       const menu = (
-        <ul role="list">
+        <ul role="listbox">
           {children.map((item, index) =>
             renderCascadeNode(
               item,

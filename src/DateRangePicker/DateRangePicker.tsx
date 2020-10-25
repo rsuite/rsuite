@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
-import isUndefined from 'lodash/isUndefined';
 import pick from 'lodash/pick';
+import isUndefined from 'lodash/isUndefined';
 import { addMonths, compareAsc, isSameDay, isSameMonth } from '../utils/dateUtils';
 import * as disabledDateUtils from './disabledDateUtils';
 import { FormattedDate } from '../CustomProvider';
@@ -32,12 +32,13 @@ import {
   PickerComponent,
   pickerDefaultProps,
   pickerPropTypes,
+  usePublicMethods,
+  useToggleKeyDownEvent,
   PickerToggle,
   PickerToggleTrigger,
   pickerToggleTriggerProps,
   PositionChildProps,
   usePickerClassName,
-  usePublicMethods
 } from '../Picker';
 import { toLocalTimeZone } from '../utils/timeZone';
 import { FormControlBaseProps, PickerBaseProps, TimeZoneName } from '../@types/common';
@@ -517,14 +518,60 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
       [disabledDate]
     );
 
-    const renderDropdownMenu = useCallback(
-      (positionProps: PositionChildProps, speakerRef) => {
-        const { left, top, className } = positionProps;
-        const styles = { ...menuStyle, left, top };
-        const classes = merge(className, menuClassName, prefix('daterange-menu'));
-        const panelClasses = prefix('daterange-panel', {
-          ['daterange-panel-show-one-calendar']: showOneCalendar
-        });
+  const handleEnter = useCallback(() => {
+    let calendarDate: ValueType = [];
+
+    if (value && value.length) {
+      const [startDate, endData] = value;
+      calendarDate = [
+        startDate,
+        DateUtils.isSameMonth(startDate, endData) ? DateUtils.addMonths(endData, 1) : endData
+      ];
+    } else {
+      calendarDate = getCalendarDate({
+        value: toZonedValue(defaultCalendarValue, timeZone),
+        timeZone
+      });
+    }
+
+    setSelectValue(value);
+    setCalendarDate(calendarDate);
+  }, [defaultCalendarValue, timeZone, value]);
+
+  const handleEntered = useCallback(() => {
+    onOpen?.();
+    setPickerToggleActive(true);
+  }, [onOpen]);
+
+  const handleExited = useCallback(() => {
+    hasDoneSelect.current = true
+    setPickerToggleActive(false);
+    onClose?.();
+  }, [onClose]);
+
+  const handleClean = useCallback(
+    (event: React.SyntheticEvent) => {
+      setCalendarDate(getCalendarDate({ timeZone }));
+      handleValueUpdate(event, []);
+    },
+    [timeZone, handleValueUpdate]
+  );
+
+  const onPickerKeyDown = useToggleKeyDownEvent({
+      triggerRef,
+      toggleRef,
+      active: isPickerToggleActive,
+      onExit: handleClean,
+      ...rest
+    });
+
+  const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
+    const { left, top, className } = positionProps;
+    const classes = merge(className, menuClassName, prefix('daterange-menu'));
+    const panelClasses = prefix('daterange-panel', {
+      'daterange-panel-show-one-calendar': showOneCalendar
+    });
+    const styles = { ...menuStyle, left, top };
 
         const panelProps = {
           calendarDate,
@@ -631,11 +678,12 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
               ...DateUtils.calendarOnlyProps
             ])}
             as={toggleAs}
+            ref={toggleRef}
+            onKeyDown={onPickerKeyDown}
             onClean={createChainedFunction(handleClean, onClean)}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
             active={isPickerToggleActive}
-            ref={toggleRef}
           >
             {getDisplayString()}
           </PickerToggle>

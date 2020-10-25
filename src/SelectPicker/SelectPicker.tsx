@@ -100,7 +100,6 @@ const defaultProps: Partial<SelectPickerProps> = {
   appearance: 'default',
   classPrefix: 'picker',
   searchable: true,
-  virtualized: true,
   cleanable: true,
   data: [],
   disabledItemValues: [],
@@ -137,6 +136,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
       disabledItemValues,
       virtualized,
       listProps,
+      id,
       onGroupTitleClick,
       searchBy,
       onEntered,
@@ -251,7 +251,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
     );
 
     const handleClean = useCallback(
-      (event: React.SyntheticEvent<any>) => {
+      (event: React.SyntheticEvent) => {
         if (disabled || !cleanable) {
           return;
         }
@@ -349,6 +349,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
 
       const menu = items.length ? (
         <DropdownMenu
+          id={id ? `${id}-listbox` : undefined}
           listProps={listProps}
           disabledItemValues={disabledItemValues}
           valueKey={valueKey}
@@ -412,6 +413,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
         <Component className={classes} style={style}>
           <PickerToggle
             {...omit(rest, [...pickerToggleTriggerProps, ...usedClassNameProps])}
+            id={id}
             ref={toggleRef}
             onClean={createChainedFunction(handleClean, onClean)}
             onKeyDown={handleKeyDown}

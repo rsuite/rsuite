@@ -40,25 +40,6 @@ export default {
     copyFailed: '复制失败，浏览器不支持此功能',
     shareTwitter: '分享到 Twitter'
   },
-  table: {
-    'tab.resizable': '可调整列宽',
-    'tab.fluid-column': '流体列宽',
-    'tab.word-wrap': '自动换行',
-    'tab.custom-cell': '自定义列',
-    'tab.sort': '排序',
-    'tab.pagination': '分页',
-    'tab.tree': '树形展示',
-    'tab.expanded': '可展开',
-    'tab.edit': '可编辑',
-    'tab.loading': '加载中',
-    'tab.colspan': '合并单元格',
-    'tab.summary': '汇总',
-    'tab.fixed': '锁定列',
-    'tab.auto-height': '自动高度',
-    'tab.affix-header': '固定表头在页首',
-    'tab.affix-horizontal-scrollbar': '固定横向滚动条在页尾',
-    'tab.draggable': '可拖拽(与 react-dnd 组合)'
-  },
   palette: {
     title: '分析产品商标颜色',
     step1: '上传产品的 Logo',

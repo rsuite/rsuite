@@ -116,6 +116,7 @@ const Overlay = React.forwardRef((props: OverlayProps, ref) => {
           const { left, top, className } = childProps;
           return React.cloneElement(children, {
             ...childrenProps,
+            ...children.props,
             className: classNames(className, children.props.className),
             style: { left, top, ...children.props.style },
             ref: mergeRefs(childRef, overlayTarget)

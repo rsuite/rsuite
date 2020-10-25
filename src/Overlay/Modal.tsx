@@ -281,6 +281,7 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
       <Portal>
         <Component
           role="dialog"
+          aria-modal
           {...rest}
           ref={mergeRefs(rootRef, ref)}
           style={style}

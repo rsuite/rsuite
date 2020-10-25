@@ -67,6 +67,9 @@ export interface OverlayTriggerProps extends StandardProps, AnimationEventProps 
   /** Once disabled, the event cannot be triggered. */
   disabled?: boolean;
 
+  /**  Set the `id` on `<Overlay>` and `aria-describedby` on `<OverlayTrigger>` */
+  controlId?: string;
+
   /** Lose Focus callback function */
   onBlur?: () => void;
 
@@ -126,6 +129,7 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
   const {
     children,
     container,
+    controlId,
     defaultOpen,
     trigger,
     disabled,
@@ -327,13 +331,17 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
       open
     };
 
+    const speakerProps: React.HTMLAttributes<HTMLElement> = {
+      id: controlId
+    };
+
     // The purpose of adding mouse entry and exit events to the Overlay is to record whether the current cursor is on the Overlay.
     // When `trigger` is equal to `hover`, if the cursor leaves the `triggerTarget` and stays on the Overlay,
     // the Overlay will continue to remain open.
-    const speakerProps =
-      trigger !== 'none' && enterable
-        ? { onMouseEnter: handleSpeakerMouseEnter, onMouseLeave: handleSpeakerMouseLeave }
-        : null;
+    if (trigger !== 'none' && enterable) {
+      speakerProps.onMouseEnter = handleSpeakerMouseEnter;
+      speakerProps.onMouseLeave = handleSpeakerMouseLeave;
+    }
 
     return (
       <Overlay {...overlayProps} ref={overlayRef} childrenProps={speakerProps}>
@@ -348,6 +356,7 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
         ? children(triggerEvents, triggerRef)
         : React.cloneElement(children, {
             ref: triggerRef,
+            'aria-describedby': controlId,
             ...mergeEvents(triggerEvents, children.props)
           })}
       <Portal>{renderOverlay()}</Portal>
