@@ -201,7 +201,6 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
     const [selectValue, setSelectValue] = useState<ValueType>(
       zonedValue ?? zonedDefaultValue ?? []
     );
-    const [, setLocalZoneSelectValue] = useState<ValueType>(valueProp ?? defaultValue);
     const [hoverValue, setHoverValue] = useState<ValueType>([]);
     const [calendarDate, setCalendarDate] = useState(
       getCalendarDate({
@@ -219,7 +218,6 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
     // if selectValue changed then update calendarDate/localZonedSelectValue
     useUpdateEffect(() => {
       setCalendarDate(getCalendarDate({ value: selectValue, timeZone }));
-      setLocalZoneSelectValue(toLocalValue(selectValue, timeZone));
     }, [selectValue, timeZone]);
 
     const [isPickerToggleActive, setPickerToggleActive] = useState(false);
