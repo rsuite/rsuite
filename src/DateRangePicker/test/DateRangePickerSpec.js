@@ -102,17 +102,12 @@ describe('DateRangePicker', () => {
     const menu = ref.current.menu;
     const today = menu.querySelector('.rs-calendar-table-cell-is-today');
     const nextDay = today.nextElementSibling;
-    const okBtn = menu.querySelector('.rs-picker-toolbar-right-btn-ok');
 
     assert.ok(menu);
     assert.ok(today);
     assert.ok(nextDay);
-    assert.ok(okBtn);
 
-    ReactTestUtils.Simulate.click(instance.menu.querySelector('.rs-calendar-table-cell-is-today'));
-
-    const instance = getInstance(<DateRangePicker onChange={doneOp} />);
-    instance.updateValue([new Date(), new Date()]);
+    ReactTestUtils.Simulate.click(today);
   });
 
   it('Should call onClean callback', done => {

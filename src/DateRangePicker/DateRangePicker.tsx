@@ -382,7 +382,10 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
 
     useEffect(() => {
       const selectValueLength = selectValue?.length ?? 0;
-      hasDoneSelect.current = selectValueLength === 0 || selectValueLength === 2;
+      const doneSelected = selectValueLength === 0 || selectValueLength === 2;
+
+      hasDoneSelect.current = doneSelected;
+      doneSelected && setHoverValue([]);
     }, [selectValue]);
 
     const handleChangeCalendarDate = useCallback(
