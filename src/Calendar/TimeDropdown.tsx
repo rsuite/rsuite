@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useContext } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { getPosition, scrollTop } from 'dom-lib';
 import partial from 'lodash/partial';
 import camelCase from 'lodash/camelCase';
 import isNumber from 'lodash/isNumber';
-import { useClassNames, scrollTopAnimation, TimeZone, DateUtils } from '../utils';
+import { DateUtils, scrollTopAnimation, TimeZone, useClassNames } from '../utils';
 
-import CalendarContext from './CalendarContext';
+import { useCalendarContext } from './CalendarContext';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 
 export interface TimeDropdownProps extends WithAsProps {
@@ -100,9 +100,7 @@ const scrollTo = (time: Time, row: HTMLDivElement) => {
 const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.forwardRef(
   (props: TimeDropdownProps, ref) => {
     const { as: Component, className, classPrefix, show, showMeridian, ...rest } = props;
-    const { locale, format, timeZone, date, onChangePageTime: onSelect } = useContext(
-      CalendarContext
-    );
+    const { locale, format, timeZone, date, onChangePageTime: onSelect } = useCalendarContext();
     const rowRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
