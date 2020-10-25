@@ -44,7 +44,7 @@
   }
 }
 
-.@{ns}slider-last-mark {
+.@{ns}slider-mark-last {
   left: auto;
   right: -2px;
 
@@ -185,7 +185,8 @@
     /* stylelint-enable */
   }
 
-  &:hover::before {
+  &:hover::before,
+  &:focus::before {
     box-shadow: @slider-handle-hover-box-shadow;
   }
 
@@ -227,7 +228,7 @@
     }
   }
 
-  .@{ns}slider-last-mark {
+  .@{ns}slider-mark-last {
     top: auto;
     bottom: -8px;
   }

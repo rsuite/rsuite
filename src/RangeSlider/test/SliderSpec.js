@@ -71,4 +71,28 @@ describe('RangeSlider', () => {
     const instance = getDOMNode(<RangeSlider classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
+
+  it('Should handle keyboard operations', () => {
+    const instance = getDOMNode(<RangeSlider defaultValue={[10, 50]} />);
+    const handle = instance.querySelector('[role="slider"]');
+    assert.equal(handle.getAttribute('aria-valuenow'), '10');
+
+    ReactTestUtils.Simulate.keyDown(handle, { key: 'ArrowUp' });
+    assert.equal(handle.getAttribute('aria-valuenow'), '11');
+
+    ReactTestUtils.Simulate.keyDown(handle, { key: 'ArrowRight' });
+    assert.equal(handle.getAttribute('aria-valuenow'), '12');
+
+    ReactTestUtils.Simulate.keyDown(handle, { key: 'ArrowDown' });
+    assert.equal(handle.getAttribute('aria-valuenow'), '11');
+
+    ReactTestUtils.Simulate.keyDown(handle, { key: 'ArrowLeft' });
+    assert.equal(handle.getAttribute('aria-valuenow'), '10');
+
+    ReactTestUtils.Simulate.keyDown(handle, { key: 'Home' });
+    assert.equal(handle.getAttribute('aria-valuenow'), '0');
+
+    ReactTestUtils.Simulate.keyDown(handle, { key: 'End' });
+    assert.equal(handle.getAttribute('aria-valuenow'), '100');
+  });
 });

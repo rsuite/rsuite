@@ -16,6 +16,19 @@ export interface LocaleType {
 }
 
 export interface SliderProps<T = number> extends WithAsProps {
+  /**
+   * The label of the slider.
+   */
+  'aria-label'?: string;
+  /**
+   * The id of the element containing a label for the slider.
+   */
+  'aria-labelledby'?: string;
+  /**
+   * A string value that provides a user-friendly name for the current value of the slider.
+   */
+  'aria-valuetext'?: string;
+
   /** Minimum value of sliding range */
   min?: number;
 
@@ -59,13 +72,16 @@ export interface SliderProps<T = number> extends WithAsProps {
   vertical?: boolean;
 
   /** Callback function that changes data */
-  onChange?: (value: T, event: React.MouseEvent) => void;
+  onChange?: (value: T, event: React.SyntheticEvent) => void;
 
   /** Customize labels on the render ruler */
   renderMark?: (mark: number) => React.ReactNode;
 
   /** Customize the content of the rendered Tooltip. */
   renderTooltip?: (value: number) => React.ReactNode;
+
+  /** Accepts a function which returns a string value that provides a user-friendly name for the current value of the slider. */
+  getAriaValueText?: (value: number, eventKey?: 'start' | 'end') => string;
 }
 
 const defaultProps: Partial<SliderProps> = {
@@ -97,11 +113,15 @@ export const sliderPropTypes = {
   vertical: PropTypes.bool,
   onChange: PropTypes.func,
   renderMark: PropTypes.func,
-  renderTooltip: PropTypes.func
+  renderTooltip: PropTypes.func,
+  getAriaValueText: PropTypes.func
 };
 
 const Slider = React.forwardRef((props: SliderProps, ref) => {
   const {
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledby,
+    'aria-valuetext': ariaValuetext,
     as: Componnet,
     graduated,
     className,
@@ -119,6 +139,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
     defaultValue,
     value: valueProp,
     max: maxProp,
+    getAriaValueText,
     renderTooltip,
     renderMark,
     onChange,
@@ -205,6 +226,41 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
     [disabled, getValidValue, getValueByPosition, onChange, setValue]
   );
 
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent) => {
+      let nextValue;
+      const increaseKey = rtl ? 'ArrowLeft' : 'ArrowRight';
+      const decreaseKey = rtl ? 'ArrowRight' : 'ArrowLeft';
+
+      switch (event.key) {
+        case 'Home':
+          nextValue = min;
+          break;
+        case 'End':
+          nextValue = max;
+          break;
+        case increaseKey:
+        case 'ArrowUp':
+          nextValue = Math.min(max, value + step);
+          break;
+
+        case decreaseKey:
+        case 'ArrowDown':
+          nextValue = Math.max(min, value - step);
+          break;
+        default:
+          return;
+      }
+
+      // Prevent scroll of the page
+      event.preventDefault();
+
+      setValue(nextValue);
+      onChange?.(nextValue, event);
+    },
+    [max, min, onChange, rtl, setValue, step, value]
+  );
+
   return (
     <Componnet {...rest} ref={ref} className={classes} role="presentation">
       <div ref={barRef} className={merge(barClassName, prefix('bar'))} onClick={handleChangeValue}>
@@ -239,6 +295,15 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
           value={value}
           renderTooltip={renderTooltip}
           onDragMove={handleChangeValue}
+          onKeyDown={handleKeyDown}
+          role="slider"
+          tabIndex={disabled ? null : 0}
+          aria-orientation={vertical ? 'vertical' : 'horizontal'}
+          aria-valuenow={value}
+          aria-disabled={disabled}
+          aria-valuetext={getAriaValueText ? getAriaValueText(value) : ariaValuetext}
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledby}
           aria-valuemax={max}
           aria-valuemin={min}
         >
