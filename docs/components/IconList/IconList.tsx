@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Input } from 'rsuite';
+import React from 'react';
+import { Input, toaster, Message } from 'rsuite';
 import IconItem from './IconItem';
 import allIcons from './icons.json';
 import newIcons from './icons-new.json';
@@ -24,10 +24,11 @@ export default function IconList() {
 
   const onCopy = React.useCallback(
     (_text, result) => {
-      // TODO
-      //Alert.success(messages?.common[`copy${result ? 'Succeed' : 'Failed'}`]);
+      toaster.push(
+        <Message type="success">{messages?.common[`copy${result ? 'Succeed' : 'Failed'}`]}</Message>
+      );
     },
-    [messages]
+    [messages?.common]
   );
 
   const onSearch = React.useCallback(key => {

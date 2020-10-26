@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import { useRouter } from 'next/router';
 import { Button, Icon } from 'rsuite';

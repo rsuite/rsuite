@@ -262,11 +262,20 @@ https://codesandbox.io/s/rsuite-table-with-react-dnd-m06cm
 
 ## 无障碍设计
 
-- `<Table>` 有一个 `grid` role。
-- 当 `<Table>` 设置了 `isTree`, 则有一个 `treegrid` role。
+- `<Table>` 拥有 `grid` role。当设置了 `isTree`, 则设置为 `treegrid` role。
 - `<HeanderCell>` 有一个 `columnheader` role。
 - `<Cell>` 有一个 `gridcell` role。
-- 在 `<Table` 内动态生成的行，都有一个 `row` role。
+- `<Table>` 内的每一行，都有一个 `row` role。
+- 使用 `aria-rowcount` 属性标识可用的总行数，并且用 `aria-rowindex` 属性用于标识行的索引。
+- 使用 `aria-colcount` 属性标识可用的列总数，并且用 `aria-colindex` 属性用于标识列的索引。
+- 对列进行排序时，可以将 `aria-sort` 属性应用于列标题以指示排序方法。
+
+| aria-sort 值 | 描述                                     |
+| ------------ | ---------------------------------------- |
+| ascending    | 数据按升序排序。                         |
+| descending   | 数据按降序排序。                         |
+| other        | 数据按照升序和降序以外的排序方法进行排序 |
+| none         | 默认值（不应用排序）。                   |
 
 ## Props
 

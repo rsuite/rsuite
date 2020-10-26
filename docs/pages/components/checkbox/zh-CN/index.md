@@ -34,6 +34,15 @@
 
 <!--{include:`checkbox-group-controller.md`}-->
 
+## 无障碍设计
+
+WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#checkbox
+
+- 选中后，`Checkbox` 将 `aria-checked` 设置为 `true`。
+- 如果未选中，则 `Checkbox` 的 `aria-checked` 设置为 `false`。
+- 如果部分选中，则 `Checkbox` 的 `aria-checked` 设置为 `mixed`。
+- 如果设置了 `children`, 则会和 `Checkbox` 一起包裹在 `<label>` 中。
+
 ## Props
 
 ```ts

@@ -58,6 +58,11 @@ When there are multiple levels of rating, you can customize the character displa
 
 <!--{include:`custom-character.md`}}-->
 
+## Accessibility
+
+WAI tutorial: https://www.w3.org/WAI/tutorials/forms/custom-controls/#a-star-rating
+
+
 ## Props
 
 | Property        | Type `(Default)`                                                       | Description                                                   |

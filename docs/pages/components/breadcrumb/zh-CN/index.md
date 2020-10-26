@@ -26,6 +26,33 @@
 
 <!--{include:`with-router.md`}-->
 
+### 无障碍设计
+
+WAI-ARIA:https://www.w3.org/TR/wai-aria-practices/#breadcrumb
+
+- `<Breadcrumb>` 导航默认被包含在一个 `nav` 元素中。
+- 务必在 `<Breadcrumb>`导航组件上加上 `aria-label` 的描述。
+
+```js
+<Breadcrumb>
+  <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+  <Breadcrumb.Item href="/components">Components</Breadcrumb.Item>
+  <Breadcrumb.Item active>Breadcrumb</Breadcrumb.Item>
+</Breadcrumb>
+```
+
+- 如果最后一个链接是可交互的，请将 `aria-current` 设置为 `page`。
+
+```js
+<Breadcrumb>
+  <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+  <Breadcrumb.Item href="/components">Components</Breadcrumb.Item>
+  <Breadcrumb.Item aria-current="page" href="/components/breadcrumb">
+    Breadcrumb
+  </Breadcrumb.Item>
+</Breadcrumb>
+```
+
 ## Props
 
 ### `<Breadcrumb>`

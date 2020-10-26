@@ -34,6 +34,15 @@ the `indeterminate` property is mainly used on the select all or tree structure 
 
 <!--{include:`checkbox-group-controller.md`}-->
 
+## Accessibility
+
+WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#checkbox
+
+- When `checked`, Checkbox has `aria-checked` set to `true`.
+- When not `checked`, Checkbox has `aria-checked` set to `false`.
+- When partially `checked`, Checkbox has `aria-checked` set to `mixed`.
+- If `children` is set, it will be wrapped in `<label>` together with `Checkbox`.
+
 ## Props
 
 ```ts

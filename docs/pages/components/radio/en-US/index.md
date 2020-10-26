@@ -32,6 +32,13 @@ Radio buttons allow the user to select one option from a set.
 
 <!--{include:`radio-group-controller.md`}-->
 
+### Accessibility
+
+WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#radiobutton
+
+- `Radio` has aria-checked set to `true` when it's checked. Otherwise, aria-checked is set to `false`.
+- If `children` is set, it will be wrapped in `<label>` together with `Radio`.
+
 ## Props
 
 ### `<Radio>`

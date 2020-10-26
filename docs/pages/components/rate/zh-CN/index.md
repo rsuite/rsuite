@@ -58,6 +58,10 @@
 
 <!--{include:`custom-character.md`}}-->
 
+## 无障碍设计
+
+WAI tutorial: https://www.w3.org/WAI/tutorials/forms/custom-controls/#a-star-rating
+
 ## Props
 
 | 属性名称        | 类型 `(默认值)`                                                        | 描述                             |
