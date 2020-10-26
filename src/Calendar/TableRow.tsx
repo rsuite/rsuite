@@ -98,15 +98,15 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
         }
 
         const classes = prefix('cell', {
-          ['cell-un-same-month']: unSameMonth,
-          ['cell-is-today']: isToday,
-          ['cell-selected']: isRangeSelectionMode
+          'cell-un-same-month': unSameMonth,
+          'cell-is-today': isToday,
+          'cell-selected': isRangeSelectionMode
             ? isSelected
             : DateUtils.isSameDay(thisDate, selected),
-          ['cell-selected-start']: isStartSelected,
-          ['cell-selected-end']: isEndSelected,
-          ['cell-in-range']: !unSameMonth && inRange,
-          ['cell-disabled']: disabled
+          'cell-selected-start': isStartSelected,
+          'cell-selected-end': isEndSelected,
+          'cell-in-range': !unSameMonth && inRange,
+          'cell-disabled': disabled
         });
 
         const title = formatDate
