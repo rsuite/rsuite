@@ -28,15 +28,15 @@ If `<DateRangePicker>` does not satisfy the business scenario in which you selec
 
 ### Placeholder
 
-<!--{include:`placeholder-en.md`}-->
+<!--{include:`placeholder.md`}-->
 
 ### Select Whole Week, Whole Month
 
-<!--{include:`hover-range-en.md`}-->
+<!--{include:`hover-range.md`}-->
 
 ### One tap
 
-<!--{include:`one-tap-en.md`}-->
+<!--{include:`one-tap.md`}-->
 
 ### Show Week Numbers
 
@@ -48,7 +48,7 @@ If `<DateRangePicker>` does not satisfy the business scenario in which you selec
 
 ### Disabled
 
-<!--{include:`disabled-en.md`}-->
+<!--{include:`disabled.md`}-->
 
 `disabledDate` is a function type property that is called when the calendar is rendered and the date is selected, and the options that need to be disabled can be customized according to the business. The syntax is as follows:
 
@@ -137,7 +137,7 @@ combine(...) => boolean
 
 ### Custom Shortcut Options
 
-<!--{include:`custom-shortcut-options-en.md`}-->
+<!--{include:`custom-shortcut-options.md`}-->
 
 ### Controlled
 
@@ -145,7 +145,7 @@ combine(...) => boolean
 
 ### Set The Local Language
 
-<!--{include:`intl-en.md`}-->
+<!--{include:`intl.md`}-->
 
 ### Time Zone
 

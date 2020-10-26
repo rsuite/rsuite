@@ -28,15 +28,17 @@
 
 ### 占位符
 
-<!--{include:`placeholder-cn.md`}-->
+<!--{include:`placeholder.md`}-->
 
 ### 选择整周、整月
 
-<!--{include:`hover-range-cn.md`}-->
+<!--{include:`hover-range.md`}-->
+
+如果使用 `isoWeek` 选择整周，会根据 ISO 8601 标准，每个日历星期从星期一开始，星期日为第7天，请参考第二个示例。
 
 ### 一键选值
 
-<!--{include:`one-tap-cn.md`}-->
+<!--{include:`one-tap.md`}-->
 
 ### 显示周数
 
@@ -48,7 +50,7 @@
 
 ### 禁用
 
-<!--{include:`disabled-cn.md`}-->
+<!--{include:`disabled.md`}-->
 
 `disabledDate` 是一个函数类型属性，它会在渲染日历以及选择日期的地方调用，可以根据业务自定义需要禁用的选项。格式如下：
 
@@ -137,7 +139,7 @@ combine(...) => boolean
 
 ### 自定义快捷键
 
-<!--{include:`custom-shortcut-options-cn.md`}-->
+<!--{include:`custom-shortcut-options.md`}-->
 
 ### 受控
 
@@ -145,7 +147,7 @@ combine(...) => boolean
 
 ### 设置本地语言
 
-<!--{include:`intl-cn.md`}-->
+<!--{include:`intl.md`}-->
 
 ### 时区
 
