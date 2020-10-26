@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 import Panel from '../Panel';
 import { parseISO } from '../../utils/dateUtils';
 
