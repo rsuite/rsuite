@@ -182,10 +182,13 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
     const { merge, prefix } = useClassNames(classPrefix);
     const { locale } = useCustom<DateRangePickerLocale>('DateRangePicker', overrideLocale);
 
+    // Temporary store `value` prop in a specific time zone. if `timeZone` prop not passed, use current time zone.
     const zonedValue: ValueType = useMemo(() => toZonedValue(valueProp, timeZone), [
       timeZone,
       valueProp
     ]);
+
+    // Temporary store `defaultValue` prop in a specific time zone. if `timeZone` prop not passed, use current time zone.
     const zonedDefaultValue: ValueType = useMemo(() => toZonedValue(defaultValue || [], timeZone), [
       defaultValue,
       timeZone
@@ -194,14 +197,29 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
     const [value, setValue] = useControlled(zonedValue, zonedDefaultValue);
 
     /**
-     * Whether to complete the selection
+     * Whether to complete the selection.
+     * Everytime selection will change this value. If the value is false, it means that the selection has not been completed.
+     *
+     * In `oneTap` mode, select action will not change this value, its value should be true always.
      */
     const hasDoneSelect = useRef(true);
 
+    /**
+     * The currently selected date range.
+     *
+     * The time range is selected by two clicks. After the first click,
+     * the cursor will store a temporary event date in the process until
+     * the second click to determine the end date of the date range.
+     *
+     */
     const [selectValue, setSelectValue] = useState<ValueType>(
       zonedValue ?? zonedDefaultValue ?? []
     );
+
+    // The date of the current hover, used to reduce the calculation of `handleMouseMove`
     const [hoverValue, setHoverValue] = useState<ValueType>([]);
+
+    // The displayed calendar panel is rendered based on this value.
     const [calendarDate, setCalendarDate] = useState(
       getCalendarDate({
         value: zonedValue ?? toZonedValue(defaultCalendarValue, timeZone),
@@ -378,6 +396,11 @@ const DateRangePicker: DateRangePickerComponent = React.forwardRef(
       [getHoverRange, handleValueUpdate, hoverValue, onSelect, oneTap, timeZone]
     );
 
+    /**
+     * If `selectValue` changed, there will be the following effects.
+     * 1. Check if the selection is completed.
+     * 2. if the selection is completed, set the temporary `hoverValue` empty.
+     */
     useEffect(() => {
       const selectValueLength = selectValue?.length ?? 0;
       const doneSelected = selectValueLength === 0 || selectValueLength === 2;
@@ -687,4 +710,4 @@ DateRangePicker.propTypes = {
   showOneCalendar: PropTypes.bool
 };
 
-export default DateRangePicker as DateRangePickerComponent;
+export default DateRangePicker;
