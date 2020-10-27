@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import DateRangePicker from '../index';
-import { createTestContainer } from '@test/testUtils';
+import { createTestContainer, getInstance } from '@test/testUtils';
+import { getWidth } from 'dom-lib';
 
 import '../styles/index';
 
@@ -17,5 +18,12 @@ describe('DateRangePicker styles', () => {
       `"${String.fromCharCode(0xf073)}"`
     );
     call();
+  });
+
+  it('Should keep size in `block` mode', function () {
+    const instance = getInstance(<DateRangePicker block defaultOpen />);
+
+    assert.ok(instance.root.className.includes('rs-picker-block'));
+    assert.ok(getWidth(instance.menu) === 510);
   });
 });
