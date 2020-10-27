@@ -134,8 +134,7 @@ const defaultProps: Partial<DateRangePickerProps> = {
   format: 'yyyy-MM-dd',
   limitEndYear: 1000,
   placeholder: '',
-  showOneCalendar: false,
-  menuAutoWidth: true
+  showOneCalendar: false
 };
 
 const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
@@ -153,7 +152,6 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     isoWeek,
     limitEndYear,
     locale: overrideLocale,
-    menuAutoWidth,
     menuClassName,
     menuStyle,
     oneTap,
@@ -588,7 +586,6 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       return (
         <MenuWrapper
           className={classes}
-          autoWidth={menuAutoWidth}
           ref={mergeRefs(menuRef, speakerRef)}
           target={triggerRef}
           style={styles}
@@ -635,7 +632,6 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       showWeekNumbers,
       timeZone,
       selectValue,
-      menuAutoWidth,
       getDisplayString,
       disabledOkButton,
       disabledShortcutButton,
