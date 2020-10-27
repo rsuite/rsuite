@@ -224,6 +224,11 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     })
   );
 
+  /**
+   * Call this function to update the calendar panel rendering benchmark value.
+   *
+   * If params `value` is not passed, it defaults to [new Date(), addMonth(new Date(), 1)].
+   */
   const updateCalendarDate = useCallback(
     (value?: ValueType) => {
       setCalendarDate(getCalendarDate({ value, timeZone }));
