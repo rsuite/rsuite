@@ -6,6 +6,7 @@ const instance = (
     <p>Select Single Day</p>
     <DateRangePicker
       oneTap
+      showOneCalendar
       ranges={[
         {
           label: 'today',
@@ -18,9 +19,9 @@ const instance = (
       ]}
     />
     <p>Select Single Week</p>
-    <DateRangePicker oneTap hoverRange="week" ranges={[]} />
+    <DateRangePicker oneTap showOneCalendar hoverRange="week" ranges={[]} />
     <p>Select Single Month</p>
-    <DateRangePicker oneTap hoverRange="month" ranges={[]} />
+    <DateRangePicker oneTap showOneCalendar hoverRange="month" ranges={[]} />
   </div>
 );
 
