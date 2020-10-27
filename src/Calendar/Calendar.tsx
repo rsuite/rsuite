@@ -5,20 +5,10 @@ import MonthDropdown from './MonthDropdown';
 import TimeDropdown from './TimeDropdown';
 import View from './View';
 import Header, { HeaderProps } from './Header';
-import { useClassNames } from '../utils';
-import { shouldDate, shouldMonth, shouldTime } from '../utils/dateUtils';
-import {
-  addMonths,
-  calendarOnlyProps,
-  disabledTime,
-  isSameMonth,
-  omitHideDisabledProps,
-  setDate
-} from '../utils/dateUtils';
+import { useClassNames, DateUtils, composeFunctions } from '../utils';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { CalendarLocale } from './types';
 import { CalendarProvider } from './CalendarContext';
-import composeFunctions from '../utils/composeFunctions';
 
 export enum CalendarState {
   'DROP_TIME' = 'DROP_TIME',
@@ -147,18 +137,18 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
     } = props;
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const isDisabledDate = (date: Date) => disabledDate?.(date);
-    const isTimeDisabled = (date: Date) => disabledTime(props, date);
+    const isTimeDisabled = (date: Date) => DateUtils.disabledTime(props, date);
     const handleMoveForward = useCallback(() => {
-      onMoveForward?.(addMonths(pageDate, 1));
+      onMoveForward?.(DateUtils.addMonths(pageDate, 1));
     }, [onMoveForward, pageDate]);
 
     const handleMoveBackward = useCallback(() => {
-      onMoveBackward?.(addMonths(pageDate, -1));
+      onMoveBackward?.(DateUtils.addMonths(pageDate, -1));
     }, [onMoveBackward, pageDate]);
 
-    const showDate = shouldDate(format);
-    const showTime = shouldTime(format);
-    const showMonth = shouldMonth(format);
+    const showDate = DateUtils.shouldDate(format);
+    const showTime = DateUtils.shouldTime(format);
+    const showMonth = DateUtils.shouldMonth(format);
 
     const onlyShowTime = showTime && !showDate && !showMonth;
     const onlyShowMonth = showMonth && !showDate && !showTime;
@@ -168,8 +158,8 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
     const inSameThisMonthDate = useCallback(
       (date: Date) =>
         composeFunctions(
-          d => setDate(d, 1),
-          d => isSameMonth(d, date)
+          d => DateUtils.setDate(d, 1),
+          d => DateUtils.isSameMonth(d, date)
         )(date),
       []
     );
@@ -181,7 +171,7 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
         'show-month-dropdown': dropMonth
       })
     );
-    const timeDropdownProps = pick(rest, calendarOnlyProps);
+    const timeDropdownProps = pick(rest, DateUtils.calendarOnlyProps);
     const contextValue = {
       date: pageDate,
       dateRange,
@@ -202,7 +192,7 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
     return (
       <CalendarProvider value={contextValue}>
         <Component
-          {...omitHideDisabledProps<Partial<CalendarProps>>(rest)}
+          {...DateUtils.omitHideDisabledProps<Partial<CalendarProps>>(rest)}
           role="table"
           className={calendarClasses}
           ref={ref}

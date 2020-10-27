@@ -1,35 +1,34 @@
-import React from 'react';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
-import { Calendar, CalendarLocale } from '../Calendar';
+import { Calendar, CalendarLocale, CalendarState } from '../Calendar';
 import Toolbar, { RangeType } from './Toolbar';
 
 import {
-  createChainedFunction,
-  mergeRefs,
   composeFunctions,
+  createChainedFunction,
+  DateUtils,
+  mergeRefs,
+  TimeZone,
   useClassNames,
   useControlled,
-  useCustom,
-  DateUtils,
-  TimeZone
+  useCustom
 } from '../utils';
 
 import {
   MenuWrapper,
+  OverlayTriggerInstance,
+  pickerDefaultProps,
+  pickerPropTypes,
   PickerToggle,
   PickerToggleTrigger,
+  pickerToggleTriggerProps,
+  PositionChildProps,
   usePickerClassName,
   usePublicMethods,
-  useToggleKeyDownEvent,
-  pickerToggleTriggerProps,
-  OverlayTriggerInstance,
-  PositionChildProps,
-  pickerDefaultProps,
-  pickerPropTypes
+  useToggleKeyDownEvent
 } from '../Picker';
 
 import {
@@ -320,23 +319,23 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     );
 
     const handleMonthDropdown = useCallback(() => {
-      if (calendarState === 'MONTH') {
+      if (calendarState === CalendarState.DROP_MONTH) {
         reset();
       } else {
         openMonth();
       }
 
-      onToggleMonthDropdown?.(calendarState !== 'MONTH');
+      onToggleMonthDropdown?.(calendarState !== CalendarState.DROP_MONTH);
     }, [calendarState, onToggleMonthDropdown, openMonth, reset]);
 
     const handleTimeDropdown = useCallback(() => {
-      if (calendarState === 'TIME') {
+      if (calendarState === CalendarState.DROP_TIME) {
         reset();
       } else {
         openTime();
       }
 
-      onToggleTimeDropdown?.(calendarState !== 'TIME');
+      onToggleTimeDropdown?.(calendarState !== CalendarState.DROP_TIME);
     }, [calendarState, onToggleTimeDropdown, openTime, reset]);
 
     const handleClean = useCallback(

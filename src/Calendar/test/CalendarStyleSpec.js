@@ -13,6 +13,7 @@ import {
 import ReactTestUtils from 'react-dom/test-utils';
 
 import '../styles/index';
+import { CalendarState } from '../Calendar';
 
 const { H500, H700 } = getDefaultPalette();
 
@@ -112,7 +113,7 @@ describe('Calendar styles', () => {
   itChrome('Should be bordered on month row', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(
-      <Calendar calendarState={'MONTH'} bordered ref={instanceRef} />,
+      <Calendar calendarState={CalendarState.DROP_MONTH} bordered ref={instanceRef} />,
       createTestContainer()
     );
     const dom = instanceRef.current;
