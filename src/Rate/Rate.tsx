@@ -191,7 +191,7 @@ const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
             role="radio"
             aria-posinset={index + 1}
             aria-setsize={max}
-            aria-checked={item !== 0}
+            aria-checked={value === index + 1}
             key={index}
             status={item}
             disabled={disabled || readOnly}

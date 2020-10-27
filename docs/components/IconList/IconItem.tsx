@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import { Icon } from 'rsuite';
 import Clipboard from 'rsuite-clipboard';
@@ -12,9 +12,12 @@ interface IconItemProps {
 export default function IconItem(props: IconItemProps) {
   const { onCopy, icon, newIcon, ...rest } = props;
 
-  const handleCopy = React.useCallback((text, result) => {
-    onCopy?.(text, result);
-  }, []);
+  const handleCopy = React.useCallback(
+    (text, result) => {
+      onCopy?.(text, result);
+    },
+    [onCopy]
+  );
 
   return (
     <Clipboard text={icon} onCopy={handleCopy}>

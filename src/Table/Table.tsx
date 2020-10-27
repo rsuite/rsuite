@@ -216,9 +216,9 @@ const ReactTable = RsTable as any;
 const Table: TableComponent = React.forwardRef(
   (props: TableProps, ref: React.RefObject<typeof ReactTable>) => {
     const { locale: localeProp, ...rest } = props;
-    const { locale } = useCustom('Table', localeProp);
+    const { locale, rtl } = useCustom('Table', localeProp);
 
-    return <ReactTable {...rest} ref={ref} locale={locale} />;
+    return <ReactTable {...rest} rtl={rtl} ref={ref} locale={locale} />;
   }
 );
 

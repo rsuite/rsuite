@@ -47,8 +47,13 @@ When set to true, the Modal will display the background when it is opened. Click
 
 ## Accessibility
 
-- Modal has role `dialog`.
+### Keyboard Interaction
+
 - <kbd>ESC</kbd> closes `Modal` unless `keyboard` is set to `false`.
+
+### WAI-ARIA Roles, States, and Properties
+
+- Modal has role `dialog`.
 - Modal has `aria-modal` set to `true`. Tells assistive technologies that the windows underneath the current dialog are not available for interaction (inert).
 - Be sure to add `aria-labelledby`, referencing the modal title, to the Modal. Additionally, you may give a description of your modal with the `aria-describedby` prop on the Modal.
 

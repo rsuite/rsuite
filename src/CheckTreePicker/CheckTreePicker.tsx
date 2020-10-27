@@ -31,7 +31,8 @@ import {
   listPickerPropTypes,
   listPickerDefaultProps,
   PickerComponent,
-  PickerLocaleType
+  PickerLocaleType,
+  useToggleKeyDownEvent
 } from '../Picker';
 
 import {
@@ -341,7 +342,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   }, [controlledExpandItemValues, setExpandItemValues]);
 
   useEffect(() => {
-    setSearchKeyword(searchKeyword);
+    setSearchKeyword(searchKeyword ?? '');
   }, [searchKeyword, setSearchKeyword]);
 
   useEffect(() => {
@@ -416,6 +417,10 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   const handleSelect = useCallback(
     (node: TreeNodeType, event: React.SyntheticEvent<any>) => {
+      if (!node) {
+        return;
+      }
+
       const selectedValues = toggleChecked(node, !flattenNodes[node.refKey].check);
       if (!isControlled) {
         unSerializeList({
@@ -468,14 +473,6 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     setActive(false);
     setFocusItemValue(activeNode?.[valueKey]);
   }, [activeNode, onClose, setSearchKeyword, valueKey]);
-
-  const handleToggleDropdown = useCallback(() => {
-    if (active) {
-      handleClose();
-      return;
-    }
-    handleOpen();
-  }, [active, handleClose, handleOpen]);
 
   usePublicMethods(ref, { triggerRef, menuRef, toggleRef });
 
@@ -550,18 +547,26 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     [flattenNodes, focusItemValue, handleSelect, uncheckableItemValues, valueKey]
   );
 
-  const handleKeyDown = useCallback(
+  const onPickerKeydown = useToggleKeyDownEvent({
+    toggle: !activeNode || !active,
+    triggerRef,
+    toggleRef,
+    menuRef,
+    active,
+    onExit: handleClean,
+    onClose: handleClose,
+    onMenuKeyDown: event => {
+      onMenuKeyDown(event, {
+        down: () => handleFocusItem(KEY_CODE.DOWN),
+        up: () => handleFocusItem(KEY_CODE.UP),
+        enter: selectActiveItem,
+        del: handleClean
+      });
+    }
+  });
+
+  const handleTreeKeydown = useCallback(
     (event: React.KeyboardEvent<any>) => {
-      // enter
-      if ((!activeNode || !active) && event.keyCode === KEY_CODE.ENTER) {
-        handleToggleDropdown();
-      }
-
-      // delete
-      if (event.keyCode === KEY_CODE.ESC) {
-        handleClean(event);
-      }
-
       if (!treeViewRef.current) {
         return;
       }
@@ -569,11 +574,10 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       onMenuKeyDown(event, {
         down: () => handleFocusItem(KEY_CODE.DOWN),
         up: () => handleFocusItem(KEY_CODE.UP),
-        enter: selectActiveItem,
-        del: handleClean
+        enter: selectActiveItem
       });
     },
-    [active, activeNode, handleClean, handleFocusItem, handleToggleDropdown, selectActiveItem]
+    [handleFocusItem, selectActiveItem]
   );
 
   const handleExpand = useCallback(
@@ -715,7 +719,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         className={classes}
         style={styles}
         onScroll={onScroll}
-        onKeyDown={handleKeyDown}
+        onKeyDown={inline ? handleTreeKeydown : undefined}
       >
         <div className={treeNodesClass}>
           {virtualized ? (
@@ -755,12 +759,12 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         className={classes}
         style={styles}
         ref={mergeRefs(menuRef, speakerRef)}
+        onKeyDown={onPickerKeydown}
         target={triggerRef}
       >
         {searchable ? (
           <SearchBar
             placeholder={locale.searchPlaceholder}
-            key="searchBar"
             onChange={handleSearch}
             value={searchKeywordState}
           />
@@ -825,7 +829,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
           {...omit(rest, [...pickerToggleTriggerProps, ...usedClassNameProps])}
           id={id}
           ref={toggleRef}
-          onKeyDown={handleKeyDown}
+          onKeyDown={onPickerKeydown}
           onClean={createChainedFunction(handleClean, onClean)}
           cleanable={cleanable && !disabled}
           as={toggleAs}

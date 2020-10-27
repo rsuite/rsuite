@@ -26,6 +26,33 @@ Should automatically collapse if there are more than 5 items. Use `maxItems` to 
 
 <!--{include:`with-router.md`}-->
 
+### Accessibility
+
+WAI-ARIA:https://www.w3.org/TR/wai-aria-practices/#breadcrumb
+
+- `<Breadcrumb` trail is contained within a navigation landmark region.
+- The landmark region is labelled via `aria-label` or `aria-labelledby`.
+
+```js
+<Breadcrumb>
+  <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+  <Breadcrumb.Item href="/components">Components</Breadcrumb.Item>
+  <Breadcrumb.Item active>Breadcrumb</Breadcrumb.Item>
+</Breadcrumb>
+```
+
+- The link to the current page has `aria-current` set to `page`.
+
+```js
+<Breadcrumb>
+  <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+  <Breadcrumb.Item href="/components">Components</Breadcrumb.Item>
+  <Breadcrumb.Item aria-current="page" href="/components/breadcrumb">
+    Breadcrumb
+  </Breadcrumb.Item>
+</Breadcrumb>
+```
+
 ## Props
 
 ### `<Breadcrumb>`

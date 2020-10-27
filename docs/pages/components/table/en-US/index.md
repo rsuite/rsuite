@@ -270,6 +270,16 @@ https://codesandbox.io/s/rsuite-table-with-react-dnd-m06cm
 - `<HeanderCell>` has role `columnheader`.
 - `<Cell>` has role `gridcell`.
 - Rows dynamically generated from data in the `<Table>` has role `row`.
+- Use the `aria-rowcount` prop to identify the total number of rows available, and the `aria-rowindex` prop to identify the index of the row.
+- Use the `aria-colcount` prop to identify the total number of available columns, and the `aria-colindex` prop to identify the index of the column.
+- When sorting a column, you can apply the `aria-sort` prop to the column header to indicate the sorting method.
+
+| aria-sort  | Description                                                         |
+| ---------- | ------------------------------------------------------------------- |
+| ascending  | Data are sorted in ascending order.                                 |
+| descending | Data are sorted in descending order.                                |
+| other      | Data are sorted by an algorithm other than ascending or descending. |
+| none       | Default (no sort applied).                                          |
 
 ## Props
 
