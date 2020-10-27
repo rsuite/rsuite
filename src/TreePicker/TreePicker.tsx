@@ -50,7 +50,8 @@ import {
   pickerToggleTriggerProps,
   PositionChildProps,
   PickerLocaleType,
-  PickerComponent
+  PickerComponent,
+  useToggleKeyDownEvent
 } from '../Picker';
 
 import { TreeDragProps, TreeBaseProps } from '../Tree/Tree';
@@ -304,7 +305,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   }, [controlledExpandItemValues, setExpandItemValues]);
 
   useEffect(() => {
-    setSearchKeyword(searchKeyword);
+    setSearchKeyword(searchKeyword ?? '');
   }, [searchKeyword, setSearchKeyword]);
 
   const getDropData = useCallback(
@@ -373,6 +374,9 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
 
   const handleSelect = useCallback(
     (nodeData: any, event: React.SyntheticEvent<any>) => {
+      if (!nodeData) {
+        return;
+      }
       const nodeValue = nodeData[valueKey];
       setValue(nodeValue);
       onChange?.(nodeValue, event);
@@ -528,14 +532,6 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
 
   usePublicMethods(ref, { triggerRef, menuRef, toggleRef });
 
-  const handleToggleDropdown = useCallback(() => {
-    if (active) {
-      handleClose();
-      return;
-    }
-    handleOpen();
-  }, [active, handleClose, handleOpen]);
-
   const handleFocusItem = useCallback(
     (type: number) => {
       const focusableItems = getFocusableItems(filteredData, {
@@ -591,22 +587,15 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     [onChange, setValue]
   );
 
-  const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent<any>) => {
-      // enter
-      if ((!activeNode || !active) && event.keyCode === KEY_CODE.ENTER) {
-        handleToggleDropdown();
-      }
-
-      // delete
-      if (event.keyCode === KEY_CODE.ESC) {
-        handleClean(event);
-      }
-
-      if (!treeViewRef.current) {
-        return;
-      }
-
+  const onPickerKeydown = useToggleKeyDownEvent({
+    toggle: !activeNode || !active,
+    triggerRef,
+    toggleRef,
+    menuRef,
+    active,
+    onExit: handleClean,
+    onClose: handleClose,
+    onMenuKeyDown: event => {
       onMenuKeyDown(event, {
         down: () => handleFocusItem(KEY_CODE.DOWN),
         up: () => handleFocusItem(KEY_CODE.UP),
@@ -614,7 +603,22 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
         del: handleClean
       });
     },
-    [active, activeNode, handleClean, handleFocusItem, handleToggleDropdown, selectActiveItem]
+    ...rest
+  });
+
+  const handleTreeKeyDown = useCallback(
+    (event: React.KeyboardEvent<any>) => {
+      if (!treeViewRef.current) {
+        return;
+      }
+
+      onMenuKeyDown(event, {
+        down: () => handleFocusItem(KEY_CODE.DOWN),
+        up: () => handleFocusItem(KEY_CODE.UP),
+        enter: selectActiveItem
+      });
+    },
+    [handleFocusItem, selectActiveItem]
   );
 
   const renderNode = (node: any, index: number, layer: number) => {
@@ -719,7 +723,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
           ref={treeViewRef}
           className={classes}
           style={styles}
-          onKeyDown={handleKeyDown}
+          onKeyDown={inline ? handleTreeKeyDown : undefined}
         >
           <div className={treePrefix('nodes')}>
             {virtualized ? (
@@ -761,12 +765,12 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
         className={classes}
         style={styles}
         ref={mergeRefs(menuRef, speakerRef)}
+        onKeyDown={onPickerKeydown}
         target={triggerRef}
       >
         {searchable ? (
           <SearchBar
             placeholder={locale.searchPlaceholder}
-            key="searchBar"
             onChange={handleSearch}
             value={searchKeywordState}
           />
@@ -820,7 +824,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
           {...omit(rest, [...pickerToggleTriggerProps, ...usedClassNameProps])}
           id={id}
           ref={toggleRef}
-          onKeyDown={handleKeyDown}
+          onKeyDown={onPickerKeydown}
           onClean={createChainedFunction(handleClean, onClean)}
           cleanable={cleanable && !disabled}
           as={toggleAs}
