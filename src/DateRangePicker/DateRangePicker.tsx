@@ -224,6 +224,13 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     })
   );
 
+  const updateCalendarDate = useCallback(
+    (value?: ValueType) => {
+      setCalendarDate(getCalendarDate({ value, timeZone }));
+    },
+    [timeZone]
+  );
+
   // if valueProp changed then update selectValue/hoverValue
   useEffect(() => {
     setSelectValue(zonedValue ?? []);
@@ -232,8 +239,8 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
   // if selectValue changed then update calendarDate/localZonedSelectValue
   useUpdateEffect(() => {
-    setCalendarDate(getCalendarDate({ value: selectValue, timeZone }));
-  }, [selectValue, timeZone]);
+    updateCalendarDate(selectValue);
+  }, [selectValue, updateCalendarDate]);
 
   const [isPickerToggleActive, setPickerToggleActive] = useState(false);
 
@@ -411,9 +418,9 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       const nextCalendarDate = Array.from(calendarDate);
       nextCalendarDate[index] = date;
 
-      setCalendarDate(nextCalendarDate as ValueType);
+      updateCalendarDate(nextCalendarDate as ValueType);
     },
-    [calendarDate, setCalendarDate]
+    [calendarDate, updateCalendarDate]
   );
 
   /**
@@ -436,10 +443,10 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
   const handleClean = useCallback(
     (event: React.MouseEvent) => {
-      setCalendarDate(getCalendarDate({ timeZone }));
+      updateCalendarDate();
       handleValueUpdate(event, []);
     },
-    [handleValueUpdate, setCalendarDate, timeZone]
+    [handleValueUpdate, updateCalendarDate]
   );
 
   const handleEnter = useCallback(() => {
@@ -459,8 +466,8 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     }
 
     setSelectValue(value);
-    setCalendarDate(nextCalendarDate);
-  }, [defaultCalendarValue, setCalendarDate, setSelectValue, timeZone, value]);
+    updateCalendarDate(nextCalendarDate);
+  }, [defaultCalendarValue, updateCalendarDate, setSelectValue, timeZone, value]);
 
   const handleEntered = useCallback(() => {
     onOpen?.();
