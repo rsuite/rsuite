@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { previewFile, useClassNames } from '../utils';
 import { UploaderLocale, FileType } from './Uploader';
+import CloseButton from '../CloseButton';
 import { WithAsProps } from '../@types/common';
 
 export interface UploadFileItemProps extends WithAsProps {
@@ -114,7 +115,7 @@ const UploadFileItem = React.forwardRef(
     );
 
     const handleRemove = useCallback(
-      (event: React.MouseEvent<HTMLAnchorElement>) => {
+      (event: React.MouseEvent) => {
         if (disabled) {
           return;
         }
@@ -186,17 +187,7 @@ const UploadFileItem = React.forwardRef(
         return null;
       }
 
-      return (
-        <a
-          aria-label="Remove"
-          className={prefix('btn-remove')}
-          onClick={handleRemove}
-          role="button"
-          tabIndex={-1}
-        >
-          <span aria-hidden>×</span>
-        </a>
-      );
+      return <CloseButton className={prefix('btn-remove')} onClick={handleRemove} />;
     };
 
     /**
