@@ -8,6 +8,7 @@ import CalendarCore, {
 import { ValueType } from './types';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { DatePickerLocale } from '../DatePicker/types';
+import { DATERANGE_DISABLED_TARGET } from '../utils';
 
 type OmitCalendarCoreTypes = 'disabledDate' | 'onSelect' | 'onMouseMove' | 'pageDate';
 
@@ -125,7 +126,7 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
       (date: Date) => {
         let after = true;
 
-        if (disabledDate?.(date, value, 'MONTH')) {
+        if (disabledDate?.(date, value, DATERANGE_DISABLED_TARGET.CALENDAR)) {
           return true;
         }
         if (showOneCalendar) return false;
