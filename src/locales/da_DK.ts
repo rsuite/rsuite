@@ -21,16 +21,21 @@ const Calendar = {
 };
 
 export default {
+  common: {
+    loading: 'Indlæser...',
+    emptyMessage: 'Ingen data fundet'
+  },
+  Plaintext: {
+    unfilled: 'ubesatte',
+    notSelected: 'Ikke valgt',
+    notUploaded: 'Ikke uploadet'
+  },
   Pagination: {
     more: 'Mere',
     prev: 'Tidligere',
     next: 'Næste',
     first: 'Først',
     last: 'Sidst'
-  },
-  Table: {
-    emptyMessage: 'Ingen data fundet',
-    loading: 'Indlæser...'
   },
   TablePagination: {
     lengthMenuInfo: '{0} / side',
@@ -48,11 +53,7 @@ export default {
     noResultsText: 'Ingen resultater fundet',
     placeholder: 'Vælg',
     searchPlaceholder: 'Søg',
-    checkAll: 'Alle',
-    loading: 'Indlæser...'
-  },
-  Input: {
-    emptyPlaintext: 'ubesatte'
+    checkAll: 'Alle'
   },
   InputPicker: {
     newItem: 'Ny besked',

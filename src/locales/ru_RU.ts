@@ -17,16 +17,21 @@ const Calendar = {
 };
 
 export default {
+  common: {
+    loading: 'Загрузка...',
+    emptyMessage: 'Данные не найдены'
+  },
+  Plaintext: {
+    unfilled: 'незаполненной',
+    notSelected: 'Није изабран',
+    notUploaded: 'Није отпремљено'
+  },
   Pagination: {
     more: 'Больше',
     prev: 'Предыдущая',
     next: 'Следующая',
     first: 'Первая',
     last: 'Последняя'
-  },
-  Table: {
-    emptyMessage: 'Данные не найдены',
-    loading: 'Загрузка...'
   },
   TablePagination: {
     lengthMenuInfo: '{0} / страниц',
@@ -40,15 +45,11 @@ export default {
     ...Calendar,
     last7Days: 'Последние 7 дней'
   },
-  Input: {
-    emptyPlaintext: 'незаполненной'
-  },
   Picker: {
     noResultsText: 'Результаты не найдены',
     placeholder: 'Выбрать',
     searchPlaceholder: 'Поиск',
-    checkAll: 'Все',
-    loading: 'Загрузка...'
+    checkAll: 'Все'
   },
   InputPicker: {
     newItem: 'Новый',

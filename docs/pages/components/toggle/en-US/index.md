@@ -28,6 +28,17 @@ Can be set by the `checkedchildren`, `uncheckedchildren` two properties, respect
 
 <!--{include:`disabled.md`}-->
 
+## Accessibility
+
+- `Toggle` has role `switch`.
+- When "on" state, `Toggle` has `aria-checked` set to `true`.
+- When "off" state, `Toggle` has `aria-checked` set to `false`.
+- All form controls should have labels, which can be implemented in the form through [`Form.ControlLabel`](./form#Accessibility). If you need to use it independently, you need to directly add attributes (`arial-label`, `aria-labelledby`).
+
+```js
+<Toggle arial-label="Switch" />
+```
+
 ## Props
 
 ### `<Toggle>`

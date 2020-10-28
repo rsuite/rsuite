@@ -17,16 +17,21 @@ const Calendar = {
 };
 
 export default {
+  common: {
+    loading: 'Carregando...',
+    emptyMessage: 'Nenhum dado encontrado'
+  },
+  Plaintext: {
+    unfilled: 'sin llenar',
+    notSelected: 'Não selecionado',
+    notUploaded: 'Não carregado'
+  },
   Pagination: {
     more: 'Mais',
     prev: 'Anterior',
     next: 'Próximo',
     first: 'Primeiro',
     last: 'Último'
-  },
-  Table: {
-    emptyMessage: 'Nenhum dado encontrado',
-    loading: 'Carregando...'
   },
   TablePagination: {
     lengthMenuInfo: '{0} / página',
@@ -44,11 +49,7 @@ export default {
     noResultsText: 'Nenhum resultado encontrado',
     placeholder: 'Selecionar',
     searchPlaceholder: 'Pesquisar',
-    checkAll: 'Todos',
-    loading: 'Carregando...'
-  },
-  Input: {
-    emptyPlaintext: 'sin llenar'
+    checkAll: 'Todos'
   },
   InputPicker: {
     newItem: 'Novo item',

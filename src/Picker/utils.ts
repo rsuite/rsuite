@@ -1,5 +1,4 @@
 import React, { useState, useImperativeHandle, useCallback } from 'react';
-import classNames from 'classnames';
 import kebabCase from 'lodash/kebabCase';
 import trim from 'lodash/trim';
 import isFunction from 'lodash/isFunction';
@@ -47,46 +46,6 @@ export function shouldDisplay(label: React.ReactNode, searchKeyword: string) {
     return nodes.join('').toLocaleLowerCase().indexOf(keyword) >= 0;
   }
   return false;
-}
-
-/**
- * The className of the assembled Toggle is on the Picker.
- * @param name
- * @param prefix
- * @param props
- * @param hasValue
- * @param classes
- */
-export function getToggleWrapperClassName(
-  name: string,
-  prefix: (name: string) => string,
-  props: any,
-  hasValue: boolean,
-  classes?: any
-) {
-  const {
-    className,
-    placement,
-    appearance,
-    cleanable,
-    block,
-    disabled,
-    countable,
-    readOnly,
-    plaintext
-  } = props;
-
-  return classNames(className, prefix(name), prefix(appearance), prefix('toggle-wrapper'), {
-    [prefix(`placement-${kebabCase(placementPolyfill(placement))}`)]: placement,
-    [prefix('block')]: block,
-    [prefix('has-value')]: hasValue,
-    [prefix('cleanable')]: hasValue && cleanable,
-    [prefix('disabled')]: disabled,
-    [prefix('countable')]: countable,
-    [prefix('read-only')]: readOnly,
-    [prefix('plaintext')]: plaintext,
-    ...classes
-  });
 }
 
 interface PickerClassNameProps {
@@ -140,9 +99,11 @@ export function usePickerClassName(props: PickerClassNameProps): [string, string
     })
   );
 
-  const usedClassNameProps = Object.keys(omit(props, Object.keys(rest || {})));
+  const usedClassNamePropKeys = Object.keys(
+    omit(props, [...Object.keys(rest || {}), 'disabled', 'readOnly', 'plaintext'])
+  );
 
-  return [classes, usedClassNameProps];
+  return [classes, usedClassNamePropKeys];
 }
 
 interface EventsProps {

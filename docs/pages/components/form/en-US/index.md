@@ -61,7 +61,7 @@ Error message can be set in 2 ways:
 
 ### Disabled and read only
 
-<!--{include:`read-only.md`}-->
+<!--{include:`status.md`}-->
 
 ## Validations
 

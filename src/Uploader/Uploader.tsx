@@ -5,6 +5,7 @@ import FileItem from './UploadFileItem';
 import UploadTrigger, { UploadTriggerInstance } from './UploadTrigger';
 import { ajaxUpload, useClassNames, useCustom, guid } from '../utils';
 import { WithAsProps } from '../@types/common';
+import Plaintext from '../Plaintext';
 
 export interface FileType {
   /** File Name */
@@ -59,6 +60,12 @@ export interface UploaderProps extends WithAsProps {
 
   /** Disabled upload button */
   disabled?: boolean;
+
+  /** Render the control as plain text */
+  plaintext?: boolean;
+
+  /** Make the control readonly */
+  readOnly?: boolean;
 
   /** Disabled file item */
   disabledFileItem?: boolean;
@@ -271,6 +278,8 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
     name,
     multiple,
     disabled,
+    readOnly,
+    plaintext,
     accept,
     children,
     toggleAs,
@@ -508,6 +517,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
       multiple={multiple}
       draggable={draggable}
       disabled={disabled}
+      readOnly={readOnly}
       accept={accept}
       ref={trigger}
       onChange={handleUploadTriggerChange}
@@ -532,10 +542,19 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
             onReupload={handleReupload}
             onCancel={handleRemoveFile}
             renderFileInfo={renderFileInfo}
-            removable={removable}
+            removable={removable && !readOnly && !plaintext}
+            allowReupload={!readOnly && !plaintext}
           />
         ))}
       </div>
+    );
+  }
+
+  if (plaintext) {
+    return (
+      <Plaintext localeKey="notUploaded">
+        {fileList.current.length ? renderList[1] : null}
+      </Plaintext>
     );
   }
 

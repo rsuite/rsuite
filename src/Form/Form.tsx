@@ -47,6 +47,9 @@ export interface FormProps<
   /** Render the form as plain text */
   plaintext?: boolean;
 
+  /** Disable the form. */
+  disabled?: boolean;
+
   /** The error message comes from context */
   errorFromContext?: boolean;
 
@@ -128,6 +131,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
     plaintext,
     className,
     children,
+    disabled,
     onSubmit,
     onCheck,
     onError,
@@ -138,7 +142,11 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
   const { withClassPrefix, merge } = useClassNames(classPrefix);
   const classes = merge(
     className,
-    withClassPrefix(layout, fluid && layout === 'vertical' ? 'fluid' : 'fixed-width')
+    withClassPrefix(layout, fluid && layout === 'vertical' ? 'fluid' : 'fixed-width', {
+      readonly: readOnly,
+      disabled,
+      plaintext
+    })
   );
   const [_formValue, setFormValue] = useState(formDefaultValue);
   const [_formError, setFormError] = useState(formError || {});
@@ -257,10 +265,8 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
       return model
         .checkForFieldAsync(fieldName, formValue[fieldName], formValue)
         .then(checkResult => {
-          const formError = {
-            ...getFormError(),
-            [fieldName]: checkResult.errorMessage
-          };
+          const formError = { ...getFormError(), [fieldName]: checkResult.errorMessage };
+
           onCheck?.(formError);
           setFormError(formError);
 
@@ -302,13 +308,16 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
 
   const handleSubmit = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
+      if (disabled) {
+        return;
+      }
       event.preventDefault();
       event.stopPropagation();
 
       const checkStatus = check();
       onSubmit?.(checkStatus, event);
     },
-    [onSubmit, check]
+    [disabled, check, onSubmit]
   );
 
   const handleFieldError = useCallback(
@@ -355,6 +364,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
       errorFromContext,
       readOnly,
       plaintext,
+      disabled,
       formError: getFormError(),
       onFieldChange: handleFieldChange,
       onFieldError: handleFieldError,
@@ -367,6 +377,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
       errorFromContext,
       readOnly,
       plaintext,
+      disabled,
       getFormError,
       handleFieldChange,
       handleFieldError,
@@ -409,7 +420,8 @@ Form.propTypes = {
   onSubmit: PropTypes.func,
   model: PropTypes.any,
   readOnly: PropTypes.bool,
-  plaintext: PropTypes.bool
+  plaintext: PropTypes.bool,
+  disabled: PropTypes.bool
 };
 
 export default Form;

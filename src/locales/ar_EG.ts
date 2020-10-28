@@ -17,16 +17,21 @@ const Calendar = {
 };
 
 export default {
+  common: {
+    loading: 'جاري التحميل...',
+    emptyMessage: 'لا يوجد المزيد من البيانات'
+  },
+  Plaintext: {
+    unfilled: 'شاغرة',
+    notSelected: 'لم يتم اختياره',
+    notUploaded: 'لم يتم الرفع'
+  },
   Pagination: {
     more: 'المزيد',
     prev: 'السابق',
     next: 'التالي',
     first: 'الأول',
     last: 'الأخير'
-  },
-  Table: {
-    emptyMessage: 'لا يوجد المزيد من البيانات',
-    loading: 'جاري التحميل...'
   },
   TablePagination: {
     lengthMenuInfo: 'صفحة / {0}',
@@ -44,11 +49,7 @@ export default {
     noResultsText: 'لا يوجد نتائج',
     placeholder: 'إختيار',
     searchPlaceholder: 'البحث',
-    checkAll: 'الجميع',
-    loading: 'جاري التحميل...'
-  },
-  Input: {
-    emptyPlaintext: 'شاغرة'
+    checkAll: 'الجميع'
   },
   InputPicker: {
     newItem: 'عنصر جديد',

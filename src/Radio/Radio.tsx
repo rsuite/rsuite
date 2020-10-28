@@ -14,6 +14,12 @@ export interface RadioProps<T = ValueType>
   /** The disable of component */
   disabled?: boolean;
 
+  /** Make the control readonly */
+  readOnly?: boolean;
+
+  /** Render the control as plain text */
+  plaintext?: boolean;
+
   /** Specifies whether the radio is selected */
   checked?: boolean;
 
@@ -51,32 +57,37 @@ const defaultProps: Partial<RadioProps> = {
 
 const Radio = React.forwardRef((props: RadioProps, ref) => {
   const {
+    value: groupValue,
+    controlled,
+    inline: inlineContext,
+    name: nameContext,
+    disabled: disabledContext,
+    readOnly: readOnlyContext,
+    plaintext: plaintextContext,
+    onChange: onGroupChange
+  } = useContext(RadioContext);
+
+  const {
     as: Component,
     title,
     className,
     children,
-    disabled,
     checked: checkedProp,
     defaultChecked,
     classPrefix,
     tabIndex,
     inputRef,
     inputProps,
-    inline: inlineProp,
-    name: nameProp,
+    disabled = disabledContext,
+    readOnly = readOnlyContext,
+    plaintext = plaintextContext,
+    inline = inlineContext,
+    name = nameContext,
     value,
     onChange,
     onClick,
     ...rest
   } = props;
-
-  const {
-    inline = inlineProp,
-    name = nameProp,
-    value: groupValue,
-    controlled,
-    onChange: onGroupChange
-  } = useContext(RadioContext);
 
   const [checked, setChecked] = useControlled(
     typeof groupValue !== 'undefined' ? groupValue === value : checkedProp,
@@ -89,7 +100,7 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (disabled) {
+      if (disabled || readOnly) {
         return;
       }
 
@@ -97,7 +108,7 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
       onGroupChange?.(value, event);
       onChange?.(value, true, event);
     },
-    [disabled, onChange, onGroupChange, setChecked, value]
+    [disabled, onChange, onGroupChange, readOnly, setChecked, value]
   );
 
   if (typeof controlled !== 'undefined') {
@@ -122,6 +133,14 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
       <span className={prefix('inner')} aria-hidden />
     </span>
   );
+
+  if (plaintext) {
+    return checked ? (
+      <Component {...restProps} ref={ref} className={classes}>
+        {children}
+      </Component>
+    ) : null;
+  }
 
   return (
     <Component

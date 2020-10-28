@@ -4,6 +4,7 @@ import { useClassNames, useControlled, shallowEqualArray, SIZE, KEY_CODE } from 
 import { transformValueToCharacterMap, transformCharacterMapToValue, CharacterType } from './utils';
 import Icon from '../Icon';
 import Character from './Character';
+import Plaintext from '../Plaintext';
 import {
   WithAsProps,
   TypeAttributes,
@@ -174,7 +175,7 @@ const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
     );
 
     if (plaintext) {
-      return <div {...rest} className={className}>{`${value}(${max})`}</div>;
+      return <Plaintext localeKey="notSelected">{`${value}(${max})`}</Plaintext>;
     }
 
     return (

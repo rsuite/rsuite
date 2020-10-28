@@ -1,6 +1,6 @@
 import React from 'react';
 import CloseButton from '../CloseButton';
-import { innerText, getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 
 describe('CloseButton', () => {
   it('Should render a button', () => {

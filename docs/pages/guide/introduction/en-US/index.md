@@ -41,7 +41,7 @@ React Suite supports server side rendering. Support [Next.js](https://github.com
 - [Management system][demo-admin]
 - [Use modularized][demo-modular-import]
 - [Use CDN][demo-cdn]
-- [Internationalization][demo-intl-app]
+- [Installation][demo-intl-app]
 - [Themes][demo-multiple-themes]
 - [RTL - RTLCSS][demo-rtlcss]
 - [RTL - PostCSS-RTL][demo-postcss-rtl]

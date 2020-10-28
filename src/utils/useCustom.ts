@@ -23,18 +23,24 @@ function useCustom<T = any>(keys: string | string[], overrideLocale?): CustomVal
     formatDate: format = formatFns
   } = useContext(CustomContext);
 
-  const componentLocale: T =
-    typeof keys === 'string' ? locale?.[keys] : mergeObject(keys.map(key => locale?.[key]));
+  let componentLocale: T = {
+    // Public part locale
+    ...locale?.common,
+    // Part of the locale of the component itself
+    ...(typeof keys === 'string' ? locale?.[keys] : mergeObject(keys.map(key => locale?.[key])))
+  };
 
-  const formatDate = useCallback(
-    (date: Date, formatStr: string) => {
-      return format(date, formatStr);
-    },
-    [format]
-  );
+  // Component custom locale
+  if (overrideLocale) {
+    componentLocale = mergeObject([componentLocale, overrideLocale]);
+  }
+
+  const formatDate = useCallback((date: Date, formatStr: string) => format(date, formatStr), [
+    format
+  ]);
 
   return {
-    locale: overrideLocale || componentLocale,
+    locale: componentLocale,
     rtl,
     formatDate
   };

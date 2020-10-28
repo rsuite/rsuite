@@ -29,6 +29,8 @@ import {
   Cascader,
   MultiCascader,
   Message,
+  Rate,
+  Uploader,
   toaster
 } from 'rsuite';
 import Loadable from 'react-loadable';
@@ -109,7 +111,9 @@ export default function Page() {
         MultiCascader,
         Message,
         toaster,
-        data
+        data,
+        Rate,
+        Uploader
       }}
     />
   );

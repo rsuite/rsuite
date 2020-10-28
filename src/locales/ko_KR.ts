@@ -20,16 +20,21 @@ const Calendar = {
   formattedDayPattern: 'yyyy 년 MM 월 dd 일'
 };
 export default {
+  common: {
+    loading: '로딩...',
+    emptyMessage: '데이터가 없습니다'
+  },
+  Plaintext: {
+    unfilled: '채워지지 않은',
+    notSelected: '선택되지 않은',
+    notUploaded: '업로드되지 않음'
+  },
   Pagination: {
     more: '더',
     prev: '이전',
     next: '다음',
     first: '첫 페이지',
     last: '마지막'
-  },
-  Table: {
-    emptyMessage: '데이터가 없습니다',
-    loading: '로딩...'
   },
   TablePagination: {
     lengthMenuInfo: '행 표시 {0}',
@@ -47,11 +52,7 @@ export default {
     noResultsText: '일치하지 않습니다',
     placeholder: '고르십시오',
     searchPlaceholder: '검색',
-    checkAll: '모두',
-    loading: '로딩...'
-  },
-  Input: {
-    emptyPlaintext: '채워지지 않은'
+    checkAll: '모두'
   },
   InputPicker: {
     newItem: '새 옵션',

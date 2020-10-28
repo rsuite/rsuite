@@ -25,7 +25,8 @@ import {
   usePickerClassName,
   usePublicMethods,
   useToggleKeyDownEvent,
-  pickerToggleTriggerProps,
+  pickTriggerPropKeys,
+  omitTriggerPropKeys,
   OverlayTriggerInstance,
   PositionChildProps,
   listPickerPropTypes,
@@ -463,7 +464,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
     }
   }
 
-  const [classes, usedClassNameProps] = usePickerClassName({
+  const [classes, usedClassNamePropKeys] = usePickerClassName({
     ...props,
     hasValue,
     name: 'cascader'
@@ -475,7 +476,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
 
   return (
     <PickerToggleTrigger
-      pickerProps={pick(props, pickerToggleTriggerProps)}
+      pickerProps={pick(props, pickTriggerPropKeys)}
       ref={triggerRef}
       placement={placement}
       onEntered={createChainedFunction(handleEntered, onEnter)}
@@ -484,7 +485,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
     >
       <Component className={classes} style={style}>
         <PickerToggle
-          {...omit(rest, [...pickerToggleTriggerProps, ...usedClassNameProps])}
+          {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
           id={id}
           ref={toggleRef}
           as={toggleAs}
