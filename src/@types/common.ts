@@ -221,11 +221,3 @@ export interface Offset {
   width?: number;
   height?: number;
 }
-
-export interface LocaleCommonType {
-  loading?: string;
-  unfilled?: string;
-  notSelected?: string;
-  notUploaded?: string;
-  emptyMessage?: string;
-}
