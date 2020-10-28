@@ -1,9 +1,8 @@
-import React, { useCallback, useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, DateUtils } from '../utils';
+import { DateUtils, useClassNames } from '../utils';
 import Table from './Table';
-import composeFunctions from '../utils/composeFunctions';
-import { CalendarContext } from './Calendar';
+import { useCalendarContext } from './CalendarContext';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 
 export type ViewProps = WithAsProps;
@@ -16,27 +15,14 @@ const defaultProps: Partial<ViewProps> = {
 const View: RsRefForwardingComponent<'div', ViewProps> = React.forwardRef(
   (props: ViewProps, ref) => {
     const { as: Component, className, classPrefix, ...rest } = props;
-    const { date = new Date(), isoWeek } = useContext(CalendarContext);
-
-    const inSameThisMonthDate = useCallback(
-      (date: Date) =>
-        composeFunctions(
-          d => DateUtils.setDate(d, 1),
-          d => DateUtils.isSameMonth(d, date)
-        )(date),
-      []
-    );
-
+    const { date = new Date(), isoWeek } = useCalendarContext();
     const thisMonthDate = DateUtils.setDate(date, 1);
     const { merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
 
     return (
       <Component role="row" {...rest} ref={ref} className={classes}>
-        <Table
-          rows={DateUtils.getMonthView(thisMonthDate, isoWeek)}
-          inSameMonth={inSameThisMonthDate}
-        />
+        <Table rows={DateUtils.getMonthView(thisMonthDate, isoWeek)} />
       </Component>
     );
   }

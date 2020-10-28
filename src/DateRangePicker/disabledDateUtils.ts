@@ -1,5 +1,5 @@
 import { composeFunctions, DateUtils } from '../utils';
-import { DisabledDateFunction } from './DateRangePicker';
+import { DisabledDateFunction } from './types';
 
 function isAfterDay(date1: Date, date2: Date): boolean {
   return DateUtils.isAfter(

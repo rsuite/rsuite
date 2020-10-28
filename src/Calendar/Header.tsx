@@ -1,9 +1,9 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import { FormattedDate } from '../CustomProvider';
-import { CalendarContext } from './Calendar';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { useCalendarContext } from './CalendarContext';
 
 export interface HeaderProps extends WithAsProps {
   disabledBackward?: boolean;
@@ -50,7 +50,7 @@ const Header: RsRefForwardingComponent<'div', HeaderProps> = React.forwardRef(
       ...rest
     } = props;
 
-    const { locale, date = new Date(), format, disabledDate } = useContext(CalendarContext);
+    const { locale, date = new Date(), format, disabledDate } = useCalendarContext();
     const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
 
     const getTimeFormat = useCallback(() => {

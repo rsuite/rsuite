@@ -52,4 +52,3 @@ ReactDOM.render(<Demo />);
 ```
 
 <!--end-code-->
-

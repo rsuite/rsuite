@@ -4,7 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import TableRow from '../TableRow';
 import { getDate, format } from '../../utils/dateUtils';
-import { CalendarContext } from '../Calendar';
+import CalendarContext from '../CalendarContext';
 import { createTestContainer } from '../../../test/testUtils';
 
 describe('Calendar-TableRow', () => {

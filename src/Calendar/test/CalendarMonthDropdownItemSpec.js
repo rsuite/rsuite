@@ -4,7 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import MonthDropdownItem from '../MonthDropdownItem';
 import { format } from '../../utils/dateUtils';
-import { CalendarContext } from '../Calendar';
+import CalendarContext from '../CalendarContext';
 import { createTestContainer } from '../../../test/testUtils';
 
 describe('Calendar-MonthDropdownItem', () => {

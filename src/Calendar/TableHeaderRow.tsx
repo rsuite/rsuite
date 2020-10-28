@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
-import { CalendarContext } from './Calendar';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { useCalendarContext } from './CalendarContext';
 
 export type TableHeaderRowProps = WithAsProps;
 
@@ -16,7 +16,7 @@ const weekKeys = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'frida
 const TableHeaderRow: RsRefForwardingComponent<'div', TableHeaderRowProps> = React.forwardRef(
   (props: TableHeaderRowProps, ref) => {
     const { as: Component, className, classPrefix, ...rest } = props;
-    const { locale, showWeekNumbers, isoWeek } = useContext(CalendarContext);
+    const { locale, showWeekNumbers, isoWeek } = useCalendarContext();
     const { merge, prefix } = useClassNames(classPrefix);
     const classes = merge(className, prefix('row', 'header-row'));
     let items = weekKeys;

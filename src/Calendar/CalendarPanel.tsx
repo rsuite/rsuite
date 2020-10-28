@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import Calendar, { CalendarLocale } from './Calendar';
+import Calendar, { CalendarState } from './Calendar';
+import { CalendarLocale } from './types';
 import Button from '../Button';
 import { FormattedDate } from '../CustomProvider';
 import { composeFunctions, useClassNames, useCustom, TimeZone, DateUtils } from '../utils';
@@ -157,7 +158,7 @@ const CalendarPanel: RsRefForwardingComponent<
       ref={ref}
       isoWeek={isoWeek}
       format="yyyy-MM-dd"
-      calendarState={showMonth ? 'MONTH' : null}
+      calendarState={showMonth ? CalendarState.DROP_MONTH : null}
       pageDate={pageDate}
       timeZone={timeZone}
       limitEndYear={1000}

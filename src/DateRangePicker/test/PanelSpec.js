@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
-import DatePicker from '../DatePicker';
+import Panel from '../Panel';
 import { parseISO } from '../../utils/dateUtils';
 
-describe('DatePicker', () => {
+describe('DateRangePicker - Panel', () => {
   it('Should render a div with "rs-calendar" class', () => {
-    const instance = getDOMNode(<DatePicker />);
+    const instance = getDOMNode(<Panel onChangeCalendarDate={() => {}} />);
 
     assert.equal(instance.nodeName, 'DIV');
     assert.ok(instance.className.match(/\brs-calendar\b/));
@@ -14,14 +14,19 @@ describe('DatePicker', () => {
 
   it('Should output a date', () => {
     const instance = getDOMNode(
-      <DatePicker calendarDate={[parseISO('2017-08'), parseISO('2017-09')]} index={0} />
+      <Panel
+        calendarDate={[parseISO('2017-08'), parseISO('2017-09')]}
+        index={0}
+        onChangeCalendarDate={() => {}}
+        format="yyyy-MM"
+      />
     );
     assert.equal(instance.querySelector('.rs-calendar-header-title').innerText, '2017-08');
   });
 
   it('Should call `onChangeCalendarDate` callback', done => {
     const instance = getDOMNode(
-      <DatePicker
+      <Panel
         calendarDate={[parseISO('2017-08'), parseISO('2017-09')]}
         index={0}
         onChangeCalendarDate={() => {
@@ -35,7 +40,7 @@ describe('DatePicker', () => {
 
   it('Should call `onChangeCalendarDate` callback', done => {
     const instance = getDOMNode(
-      <DatePicker
+      <Panel
         calendarDate={[parseISO('2017-08'), parseISO('2017-10')]}
         index={0}
         onChangeCalendarDate={() => {
@@ -48,7 +53,7 @@ describe('DatePicker', () => {
 
   it('Should call `onChangeCalendarDate` callback', done => {
     const instance = getDOMNode(
-      <DatePicker
+      <Panel
         calendarDate={[parseISO('2017-08'), parseISO('2017-10')]}
         index={0}
         onChangeCalendarDate={() => {
@@ -62,7 +67,7 @@ describe('DatePicker', () => {
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<DatePicker classPrefix="custom-prefix" />);
+    const instance = getDOMNode(<Panel classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });
