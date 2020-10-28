@@ -137,11 +137,11 @@ combine(...) => boolean
 
 ### Custom Shortcut Options
 
-<!--{include:`toolbar.md`}-->
+<!--{include:`custom-shortcut-options.md`}-->
 
 ### Controlled
 
-<!--{include:`value.md`}-->
+<!--{include:`controlled.md`}-->
 
 ### Set The Local Language
 

@@ -19,9 +19,9 @@ const instance = (
       ]}
     />
     <p>Select Single Week</p>
-    <DateRangePicker oneTap hoverRange="week" showOneCalendar ranges={[]} />
+    <DateRangePicker oneTap showOneCalendar hoverRange="week" ranges={[]} />
     <p>Select Single Month</p>
-    <DateRangePicker oneTap hoverRange="month" showOneCalendar ranges={[]} />
+    <DateRangePicker oneTap showOneCalendar hoverRange="month" ranges={[]} />
   </div>
 );
 

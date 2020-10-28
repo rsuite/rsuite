@@ -26,7 +26,7 @@
 
 <!--{include:`block.md`}-->
 
-### Placeholder
+### 占位符
 
 <!--{include:`placeholder.md`}-->
 
@@ -34,11 +34,13 @@
 
 <!--{include:`hover-range.md`}-->
 
+如果使用 `isoWeek` 选择整周，会根据 ISO 8601 标准，每个日历星期从星期一开始，星期日为第7天，请参考第二个示例。
+
 ### 一键选值
 
 <!--{include:`one-tap.md`}-->
 
-### 现在周数
+### 显示周数
 
 <!--{include:`show-week-numbers.md`}-->
 
@@ -137,11 +139,11 @@ combine(...) => boolean
 
 ### 自定义快捷键
 
-<!--{include:`toolbar.md`}-->
+<!--{include:`custom-shortcut-options.md`}-->
 
 ### 受控
 
-<!--{include:`value.md`}-->
+<!--{include:`controlled.md`}-->
 
 ### 设置本地语言
 

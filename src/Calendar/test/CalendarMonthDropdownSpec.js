@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import MonthDropdown from '../MonthDropdown';
-import { CalendarContext } from '../Calendar';
+import CalendarContext from '../CalendarContext';
 import { createTestContainer } from '../../../test/testUtils';
 
 describe('Calendar-MonthDropdown', () => {

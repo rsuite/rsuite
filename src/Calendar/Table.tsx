@@ -7,7 +7,6 @@ import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 
 export interface TableProps extends WithAsProps {
   rows: any[];
-  inSameMonth?: (date: Date) => boolean;
 }
 
 const defaultProps: Partial<TableProps> = {
@@ -18,7 +17,7 @@ const defaultProps: Partial<TableProps> = {
 
 const Table: RsRefForwardingComponent<'div', TableProps> = React.forwardRef(
   (props: TableProps, ref) => {
-    const { as: Component, className, classPrefix, inSameMonth, rows, ...rest } = props;
+    const { as: Component, className, classPrefix, rows, ...rest } = props;
     const { merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
 
@@ -26,7 +25,7 @@ const Table: RsRefForwardingComponent<'div', TableProps> = React.forwardRef(
       <Component role="table" {...rest} ref={ref} className={classes}>
         <TableHeaderRow />
         {rows.map((week, index) => (
-          <TableRow key={index} weekendDate={week} inSameMonth={inSameMonth} />
+          <TableRow key={index} weekendDate={week} />
         ))}
       </Component>
     );
@@ -37,7 +36,6 @@ Table.displayName = 'Table';
 Table.defaultProps = defaultProps;
 Table.propTypes = {
   rows: PropTypes.array,
-  inSameMonth: PropTypes.func,
   className: PropTypes.string,
   classPrefix: PropTypes.string
 };

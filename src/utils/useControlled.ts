@@ -12,7 +12,7 @@ function useControlled<T = any>(
   controlledValue: T,
   defaultValue: T,
   formatValue?: (value: T) => T
-): [T, (value: T | ((v: T) => T)) => void, boolean] {
+): [T, (value: React.SetStateAction<T>) => void, boolean] {
   const { current: isControlled } = useRef(controlledValue !== undefined);
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
 
@@ -22,7 +22,7 @@ function useControlled<T = any>(
   value = formatValue ? formatValue(value) : value;
 
   const setValue = useCallback(
-    (nextValue: T | ((v: T) => T)) => {
+    (nextValue: React.SetStateAction<T>) => {
       // Only update the value in state when it is not under control.
       if (!isControlled) {
         setUncontrolledValue(nextValue);

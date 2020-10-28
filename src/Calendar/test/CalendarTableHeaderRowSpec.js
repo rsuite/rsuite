@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { getDOMNode } from '@test/testUtils';
 import TableHeaderRow from '../TableHeaderRow';
-import { CalendarContext } from '../Calendar';
+import CalendarContext from '../CalendarContext';
 import { createTestContainer } from '../../../test/testUtils';
 
 describe('Calendar-TableHeaderRow', () => {
