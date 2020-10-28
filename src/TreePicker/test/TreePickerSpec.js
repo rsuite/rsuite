@@ -11,6 +11,7 @@ Enzyme.configure({ adapter: new Adapter() });
 export const delay = timeout => new Promise(resolve => setTimeout(resolve, timeout));
 
 const itemFocusClassName = '.rs-tree-node-focus';
+const itemExpandedClassName = '.rs-tree-node-expanded';
 
 const data = [
   {
@@ -232,6 +233,93 @@ describe('TreePicker', () => {
     ReactTestUtils.Simulate.click(instance.menu.querySelector('span[data-key="0-0-1"]'));
   });
 
+  /**
+   * When focus is on an open node, closes the node.
+   */
+  it('Should fold children node by keyCode=37', () => {
+    const tree = getInstance(
+      <TreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
+    );
+
+    ReactTestUtils.Simulate.click(tree.menu.querySelector('span[data-key="0-0"]'));
+    ReactTestUtils.Simulate.keyDown(tree.menu, { keyCode: KEY_CODE.LEFT });
+    assert.equal(
+      tree.menu.querySelectorAll(`div[data-ref="0-0"] > ${itemExpandedClassName}`).length,
+      0
+    );
+  });
+
+  /**
+   * When focus is on a root node that is also either an end node or a closed node, does nothing.
+   */
+  it('Should change nothing when trigger on root node by keyCode=37', () => {
+    const tree = getInstance(
+      <TreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
+    );
+
+    ReactTestUtils.Simulate.click(tree.menu.querySelector('span[data-key="0-0"]'));
+    ReactTestUtils.Simulate.keyDown(tree.menu, { keyCode: KEY_CODE.LEFT });
+    assert.equal(tree.menu.querySelector(itemFocusClassName).innerText, 'Master');
+
+    assert.equal(
+      tree.menu.querySelectorAll(`div[data-ref="0-0"] > ${itemExpandedClassName}`).length,
+      0
+    );
+  });
+
+  /**
+   * When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
+   */
+  it('Should focus on parentNode when trigger on leaf node by keyCode=37', () => {
+    const tree = getInstance(
+      <TreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
+    );
+
+    ReactTestUtils.Simulate.click(tree.menu.querySelector('span[data-key="0-0"]'));
+    ReactTestUtils.Simulate.keyDown(tree.menu, { keyCode: KEY_CODE.LEFT });
+    assert.equal(tree.menu.querySelector(itemFocusClassName).innerText, 'Master');
+  });
+
+  /**
+   * When focus is on a closed node, opens the node; focus does not move.
+   */
+  it('Should fold children node by keyCode=39', () => {
+    const tree = getInstance(<TreePicker defaultOpen data={data} virtualized={false} />);
+
+    ReactTestUtils.Simulate.click(tree.menu.querySelector('span[data-key="0-0"]'));
+    ReactTestUtils.Simulate.keyDown(tree.menu, { keyCode: KEY_CODE.RIGHT });
+    assert.equal(
+      tree.menu.querySelectorAll(`div[data-ref="0-0"] > ${itemExpandedClassName}`).length,
+      1
+    );
+  });
+
+  /**
+   * When focus is on an end node, does nothing.
+   */
+  it('Should change nothing when trigger on leaf node by keyCode=39', () => {
+    const tree = getInstance(
+      <TreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
+    );
+
+    ReactTestUtils.Simulate.click(tree.menu.querySelector('span[data-key="0-0-0"]'));
+    ReactTestUtils.Simulate.keyDown(tree.menu, { keyCode: KEY_CODE.RIGHT });
+    assert.equal(tree.menu.querySelector(itemFocusClassName).innerText, 'tester0');
+  });
+
+  /**
+   * When focus is on a open node, moves focus to the first child node.
+   */
+  it('Should focus on first child node when node expanded by keyCode=39', () => {
+    const tree = getInstance(
+      <TreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
+    );
+
+    ReactTestUtils.Simulate.click(tree.menu.querySelector('span[data-key="0-0"]'));
+    ReactTestUtils.Simulate.keyDown(tree.menu, { keyCode: KEY_CODE.RIGHT });
+    assert.equal(tree.menu.querySelector(itemFocusClassName).innerText, 'tester0');
+  });
+
   it('Should have a custom className', () => {
     const instance = getDOMNode(<TreePicker className="custom" data={data} />);
     assert.include(instance.className, 'custom');
@@ -327,7 +415,7 @@ describe('TreePicker', () => {
     const instance = mount(
       <TreePicker virtualized={false} data={data} inline expandItemValues={['Master']} />
     );
-    assert.equal(instance.find('.rs-tree-node-expanded').length, 1);
+    assert.equal(instance.find(itemExpandedClassName).length, 1);
   });
 
   it('should fold all the node when toggle master node', () => {
