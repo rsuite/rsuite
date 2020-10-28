@@ -26,13 +26,16 @@ import {
   getDefaultExpandItemValues,
   useTreeNodeRefs,
   useTreeSearch,
-  getScrollToIndex,
   focusPreviousItem,
   getFocusableItems,
   focusNextItem,
   getActiveItem,
   toggleExpand,
-  useGetTreeNodeChildren
+  useGetTreeNodeChildren,
+  focusToActiveTreeNode,
+  leftArrowHandler,
+  focusTreeNode,
+  rightArrowHandler
 } from '../utils/treeUtils';
 
 import {
@@ -266,28 +269,17 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     [expandItemValues, filteredData, flattenNodes, formatVirtualizedTreeData, virtualized]
   );
 
-  const focusNode = useCallback(
-    (focusItemElement?: Element) => {
-      const container = treeViewRef.current;
-      if (!container) {
-        return;
-      }
-
-      if (virtualized && activeNode) {
-        const scrollIndex = getScrollToIndex(getFormattedNodes(), activeNode?.[valueKey], valueKey);
-        listRef?.current?.scrollToRow(scrollIndex);
-        return;
-      }
-
-      const activeItem: any =
-        focusItemElement ?? container.querySelector(`.${treePrefix('node-active')}`);
-      if (!activeItem) {
-        return;
-      }
-      activeItem?.focus?.();
-    },
-    [treePrefix, activeNode, getFormattedNodes, valueKey, virtualized]
-  );
+  const focusActiveNode = useCallback(() => {
+    focusToActiveTreeNode({
+      list: listRef.current,
+      valueKey,
+      selector: `.${treePrefix('node-active')}`,
+      activeNode,
+      virtualized,
+      container: treeViewRef.current,
+      formattedNodes: getFormattedNodes()
+    });
+  }, [treePrefix, activeNode, getFormattedNodes, valueKey, virtualized]);
 
   useEffect(() => {
     setFilteredData(data, searchKeywordState);
@@ -517,10 +509,10 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
 
   const handleOpen = useCallback(() => {
     triggerRef.current?.open?.();
-    focusNode();
+    focusActiveNode();
     onOpen?.();
     setActive(true);
-  }, [focusNode, onOpen]);
+  }, [focusActiveNode, onOpen]);
 
   const handleClose = useCallback(() => {
     triggerRef.current?.close?.();
@@ -571,6 +563,49 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     ]
   );
 
+  const handleLeftArrow = useCallback(() => {
+    const focusItem = getActiveItem(focusItemValue, flattenNodes, valueKey);
+    leftArrowHandler({
+      focusItem,
+      expand: expandItemValues.includes(focusItem?.[valueKey]),
+      onExpand: handleExpand,
+      onFocusItem: () => {
+        setFocusItemValue(focusItem?.parent?.[valueKey]);
+        focusTreeNode(focusItem?.parent?.refKey, treeNodesRefs, `.${treePrefix('node-label')}`);
+      }
+    });
+  }, [
+    expandItemValues,
+    flattenNodes,
+    focusItemValue,
+    handleExpand,
+    treeNodesRefs,
+    treePrefix,
+    valueKey
+  ]);
+
+  const handleRightArrow = useCallback(() => {
+    const focusItem = getActiveItem(focusItemValue, flattenNodes, valueKey);
+
+    rightArrowHandler({
+      focusItem,
+      expand: expandItemValues.includes(focusItem?.[valueKey]),
+      childrenKey,
+      onExpand: handleExpand,
+      onFocusItem: () => {
+        handleFocusItem(KEY_CODE.DOWN);
+      }
+    });
+  }, [
+    focusItemValue,
+    flattenNodes,
+    valueKey,
+    expandItemValues,
+    childrenKey,
+    handleExpand,
+    handleFocusItem
+  ]);
+
   const selectActiveItem = useCallback(
     (event: React.SyntheticEvent<any>) => {
       const activeItem = getActiveItem(focusItemValue, flattenNodes, valueKey);
@@ -599,6 +634,8 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       onMenuKeyDown(event, {
         down: () => handleFocusItem(KEY_CODE.DOWN),
         up: () => handleFocusItem(KEY_CODE.UP),
+        left: handleLeftArrow,
+        right: handleRightArrow,
         enter: selectActiveItem,
         del: handleClean
       });
@@ -615,10 +652,12 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       onMenuKeyDown(event, {
         down: () => handleFocusItem(KEY_CODE.DOWN),
         up: () => handleFocusItem(KEY_CODE.UP),
+        left: handleLeftArrow,
+        right: handleRightArrow,
         enter: selectActiveItem
       });
     },
-    [handleFocusItem, selectActiveItem]
+    [handleFocusItem, handleLeftArrow, handleRightArrow, selectActiveItem]
   );
 
   const renderNode = (node: any, index: number, layer: number) => {

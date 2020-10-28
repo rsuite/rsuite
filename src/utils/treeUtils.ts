@@ -373,6 +373,17 @@ export const getElementByDataKey = (dataKey: string, treeNodesRefs: any, selecto
   return null;
 };
 
+/**
+ * focus to specify tree node
+ * @param refKey - target node refKey
+ * @param treeNodeRefs - all tree node refs object
+ * @param selector - node css selector
+ */
+export const focusTreeNode = (refKey: string, treeNodeRefs: any, selector: string) => {
+  const node: any = getElementByDataKey(refKey, treeNodeRefs, selector);
+  node?.focus?.();
+};
+
 export interface FocusPrevOrNextProps {
   focusItemValue: string | number;
   focusableItems: any[];
@@ -401,8 +412,7 @@ export const focusNextItem = ({
   const nextIndex = activeIndex === focusableItems.length - 1 ? 0 : activeIndex + 1;
   const nextFocusItemValue = focusableItems[nextIndex][valueKey];
   callback?.(nextFocusItemValue);
-  const node: any = getElementByDataKey(focusableItems[nextIndex].refKey, treeNodesRefs, selector);
-  node?.focus?.();
+  focusTreeNode(focusableItems[nextIndex].refKey, treeNodesRefs, selector);
 };
 
 /**
@@ -426,9 +436,60 @@ export const focusPreviousItem = ({
   prevIndex = prevIndex >= 0 ? prevIndex : 0;
   const prevFocusItemValue = focusableItems[prevIndex][valueKey];
   callback?.(prevFocusItemValue);
-  const node: any = getElementByDataKey(focusableItems[prevIndex].refKey, treeNodesRefs, selector);
-  node?.focus?.();
+  focusTreeNode(focusableItems[prevIndex].refKey, treeNodesRefs, selector);
 };
+
+export interface ArrowHandlerProps {
+  focusItem: TreeNodeType;
+  expand: boolean;
+  childrenKey?: string;
+  onExpand: (focusItem: TreeNodeType) => void;
+  onFocusItem: () => void;
+}
+
+/**
+ * Left arrow keyboard event handler
+ * When focus is on an open node, closes the node.
+ * When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
+ * When focus is on a root node that is also either an end node or a closed node, does nothing.
+ * @see https://www.w3.org/TR/wai-aria-practices/#TreeView
+ */
+export function leftArrowHandler({ focusItem, expand, onExpand, onFocusItem }: ArrowHandlerProps) {
+  if (isEmpty(focusItem)) {
+    return;
+  }
+
+  if (expand) {
+    onExpand({ ...focusItem, expand });
+  } else if (focusItem?.parent) {
+    onFocusItem();
+  }
+}
+
+/**
+ * Right arrow keyboard event handler
+ * When focus is on a closed node, opens the node; focus does not move.
+ * When focus is on a open node, moves focus to the first child node.
+ * When focus is on an end node, does nothing.
+ * @see https://www.w3.org/TR/wai-aria-practices/#TreeView
+ */
+export function rightArrowHandler({
+  focusItem,
+  expand,
+  childrenKey,
+  onExpand,
+  onFocusItem
+}: ArrowHandlerProps) {
+  if (isEmpty(focusItem) || !Array.isArray(focusItem[childrenKey])) {
+    return;
+  }
+
+  if (!expand) {
+    onExpand({ ...focusItem, expand });
+  } else {
+    onFocusItem();
+  }
+}
 
 /**
  * get scrollIndex in virtualized list
@@ -827,7 +888,7 @@ export interface FocusToTreeNodeProps {
  * Focus to active tree node.
  * @param param0
  */
-export function focusToTreeNode({
+export function focusToActiveTreeNode({
   list,
   valueKey,
   activeNode,
