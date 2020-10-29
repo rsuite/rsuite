@@ -21,16 +21,21 @@ const Calendar = {
 };
 
 export default {
+  common: {
+    loading: 'Caricamento in corso...',
+    emptyMessage: 'Nessun elemento trovato'
+  },
+  Plaintext: {
+    unfilled: 'Vacanti',
+    notSelected: 'Non selezionato',
+    notUploaded: 'Non caricato'
+  },
   Pagination: {
     more: 'Mostra di più',
     prev: 'Indietro',
     next: 'Avanti',
     first: 'Inizio',
     last: 'Fine'
-  },
-  Table: {
-    emptyMessage: 'Nessun elemento trovato',
-    loading: 'Caricamento in corso...'
   },
   TablePagination: {
     lengthMenuInfo: '{0} / pagina',
@@ -48,11 +53,7 @@ export default {
     noResultsText: 'Nessun risultato trovato',
     placeholder: 'Seleziona',
     searchPlaceholder: 'Cerca',
-    checkAll: 'Tutti',
-    loading: 'Caricamento in corso...'
-  },
-  Input: {
-    emptyPlaintext: 'vacanti'
+    checkAll: 'Tutti'
   },
   InputPicker: {
     newItem: 'Nuovo elemento',
@@ -71,5 +72,9 @@ export default {
   },
   Breadcrumb: {
     expandText: 'Mostra percorso'
+  },
+  Toggle: {
+    on: 'Acceso',
+    off: 'Spento'
   }
 };

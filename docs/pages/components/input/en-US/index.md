@@ -25,7 +25,7 @@ Instead of HTML native controls, input, textarea.
 
 <!--{include:`textarea.md`}-->
 
-### Disabled
+### Disabled and read only
 
 <!--{include:`disabled.md`}-->
 
@@ -40,6 +40,10 @@ Instead of HTML native controls, input, textarea.
 ### With Button
 
 <!--{include:`input-group-button.md`}-->
+
+### Password
+
+<!--{include:`input-group-password.md`}-->
 
 ### With Tooltip
 

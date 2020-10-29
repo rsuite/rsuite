@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { previewFile, useClassNames } from '../utils';
 import { UploaderLocale, FileType } from './Uploader';
+import CloseButton from '../CloseButton';
 import { WithAsProps } from '../@types/common';
 
 export interface UploadFileItemProps extends WithAsProps {
@@ -12,6 +13,7 @@ export interface UploadFileItemProps extends WithAsProps {
   maxPreviewFileSize: number;
   classPrefix?: string;
   removable?: boolean;
+  allowReupload?: boolean;
   locale?: UploaderLocale;
   renderFileInfo?: (file: FileType, fileElement: React.ReactNode) => React.ReactNode;
   onCancel?: (fileKey: number | string, event: React.MouseEvent) => void;
@@ -47,7 +49,8 @@ const defaultProps: Partial<UploadFileItemProps> = {
   classPrefix: 'uploader-file-item',
   maxPreviewFileSize: 1024 * 1024 * 5, // 5MB
   listType: 'text',
-  removable: true
+  removable: true,
+  allowReupload: true
 };
 
 const UploadFileItem = React.forwardRef(
@@ -55,6 +58,7 @@ const UploadFileItem = React.forwardRef(
     const {
       as: Component,
       disabled,
+      allowReupload,
       file,
       classPrefix,
       listType,
@@ -114,7 +118,7 @@ const UploadFileItem = React.forwardRef(
     );
 
     const handleRemove = useCallback(
-      (event: React.MouseEvent<HTMLAnchorElement>) => {
+      (event: React.MouseEvent) => {
         if (disabled) {
           return;
         }
@@ -186,17 +190,7 @@ const UploadFileItem = React.forwardRef(
         return null;
       }
 
-      return (
-        <a
-          aria-label="Remove"
-          className={prefix('btn-remove')}
-          onClick={handleRemove}
-          role="button"
-          tabIndex={-1}
-        >
-          <span aria-hidden>×</span>
-        </a>
-      );
+      return <CloseButton className={prefix('btn-remove')} onClick={handleRemove} />;
     };
 
     /**
@@ -206,7 +200,7 @@ const UploadFileItem = React.forwardRef(
       if (file.status === 'error') {
         return (
           <div className={prefix('status')}>
-            {locale?.error}
+            {locale?.error && allowReupload}
             <a role="button" tabIndex={-1} onClick={handleReupload}>
               <i className={prefix('icon-reupload')} />
             </a>
@@ -291,6 +285,7 @@ UploadFileItem.propTypes = {
   maxPreviewFileSize: PropTypes.number,
   classPrefix: PropTypes.string,
   removable: PropTypes.bool,
+  allowReupload: PropTypes.bool,
   renderFileInfo: PropTypes.func,
   onCancel: PropTypes.func,
   onPreview: PropTypes.func,

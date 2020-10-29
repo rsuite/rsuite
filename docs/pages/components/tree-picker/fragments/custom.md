@@ -18,7 +18,7 @@ const instance = (
         </span>
       );
     }}
-    placeholder="选择地区"
+    placeholder="Select region"
     renderValue={(value, item, selectedElement) => {
       return (
         <span>

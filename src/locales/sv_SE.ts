@@ -21,16 +21,21 @@ const Calendar = {
 };
 
 export default {
+  common: {
+    loading: 'Laddar...',
+    emptyMessage: 'Kunde inte hitta data'
+  },
+  Plaintext: {
+    unfilled: 'Ofylld',
+    notSelected: 'Ej valt',
+    notUploaded: 'Ej uppladdad'
+  },
   Pagination: {
     more: 'Mer',
     prev: 'Föregående',
     next: 'Nästa',
     first: 'Första',
     last: 'Sista'
-  },
-  Table: {
-    emptyMessage: 'Kunde inte hitta data',
-    loading: 'Laddar...'
   },
   TablePagination: {
     lengthMenuInfo: '{0} / sida',
@@ -48,11 +53,7 @@ export default {
     noResultsText: 'Inga resultat funna',
     placeholder: 'Välj',
     searchPlaceholder: 'Sök',
-    checkAll: 'Alla',
-    loading: 'Laddar...'
-  },
-  Input: {
-    emptyPlaintext: 'Ofylld'
+    checkAll: 'Alla'
   },
   InputPicker: {
     newItem: 'Ny inkorg',
@@ -67,9 +68,13 @@ export default {
     upload: 'Ladda upp'
   },
   CloseButton: {
-    closeLabel: 'stänga av'
+    closeLabel: 'Stänga av'
   },
   Breadcrumb: {
     expandText: 'Visa väg'
+  },
+  Toggle: {
+    on: 'På',
+    off: 'Av'
   }
 };

@@ -3,7 +3,7 @@ const { basename, join, resolve } = require('path');
 const { existsSync, readFileSync } = require('fs');
 const glob = require('glob');
 
-const UN_STYLED_COMPONENTS = [
+const IGNORE_COMPONENTS = [
   'Schema',
   'DOMHelper',
   'Whisper',
@@ -13,13 +13,14 @@ const UN_STYLED_COMPONENTS = [
   'Affix',
   'RangeSlider',
   'Overlay',
-  'CustomProvider'
+  'CustomProvider',
+  'Plaintext'
 ];
 
 const THEMES = ['default', 'dark'];
 
-const STYLED_COMPONENTS = glob
-  .sync(resolve(__dirname, `../src/[A-Z]*`))
+const IGNORE_COMPONENTS = glob
+  .sync(resolve(__dirname, '../src/[A-Z]*'))
   .map(path => basename(path))
   .filter(componentName => !UN_STYLED_COMPONENTS.includes(componentName));
 

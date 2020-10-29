@@ -10,6 +10,15 @@ const instance = (
   <div>
     <InputGroup inside style={styles}>
       <Input />
+      <InputGroup.Addon>
+        <Whisper placement="top" speaker={<Tooltip> Help information</Tooltip>}>
+          <Icon icon="info" />
+        </Whisper>
+      </InputGroup.Addon>
+    </InputGroup>
+    
+    <InputGroup inside style={styles}>
+      <Input />
       <InputGroup.Button>
         <Icon icon="search" />
       </InputGroup.Button>
@@ -26,6 +35,12 @@ const instance = (
       <InputGroup.Addon>$</InputGroup.Addon>
       <Input />
       <InputGroup.Addon>.00</InputGroup.Addon>
+    </InputGroup>
+
+    <InputGroup inside style={styles}>
+      <InputGroup.Addon>￥</InputGroup.Addon>
+      <Input />
+      <InputGroup.Addon>RMB</InputGroup.Addon>
     </InputGroup>
 
     <InputGroup inside style={styles}>

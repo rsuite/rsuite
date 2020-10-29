@@ -17,16 +17,21 @@ const Calendar = {
 };
 
 export default {
+  common: {
+    loading: '讀取中...',
+    emptyMessage: '沒有資料'
+  },
+  Plaintext: {
+    unfilled: '未填寫',
+    notSelected: '未選擇',
+    notUploaded: '未上傳'
+  },
   Pagination: {
     more: '更多',
     prev: '上一頁',
     next: '下一頁',
     first: '第一頁',
     last: '最後一頁'
-  },
-  Table: {
-    emptyMessage: '沒有資料',
-    loading: '讀取中...'
   },
   TablePagination: {
     lengthMenuInfo: '每頁 {0} 條',
@@ -44,11 +49,7 @@ export default {
     noResultsText: '沒有符合的選項',
     placeholder: '選擇',
     searchPlaceholder: '搜索',
-    checkAll: '全部',
-    loading: '讀取中...'
-  },
-  Input: {
-    emptyPlaintext: '未填寫'
+    checkAll: '全部'
   },
   InputPicker: {
     newItem: '新選項',
@@ -67,5 +68,9 @@ export default {
   },
   Breadcrumb: {
     expandText: '顯示路徑'
+  },
+  Toggle: {
+    on: '開啟',
+    off: '關閉'
   }
 };

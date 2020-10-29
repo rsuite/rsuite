@@ -24,7 +24,8 @@ import {
   pickerPropTypes,
   PickerToggle,
   PickerToggleTrigger,
-  pickerToggleTriggerProps,
+  pickTriggerPropKeys,
+  omitTriggerPropKeys,
   PositionChildProps,
   usePickerClassName,
   usePublicMethods,
@@ -464,7 +465,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
     const hasValue = !!value;
 
-    const [classes, usedClassNameProps] = usePickerClassName({ ...props, name: 'date', hasValue });
+    const [classes, usedClassNamePropKeys] = usePickerClassName({ ...props, name: 'date', hasValue });
 
     const renderDate = useCallback(() => {
       if (!value) {
@@ -484,7 +485,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
     return (
       <PickerToggleTrigger
-        pickerProps={pick(props, pickerToggleTriggerProps)}
+        pickerProps={pick(props, pickTriggerPropKeys)}
         ref={triggerRef}
         placement={placement}
         onEntered={createChainedFunction(handleEntered, onEntered)}
@@ -502,8 +503,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         >
           <PickerToggle
             {...omit(rest, [
-              ...pickerToggleTriggerProps,
-              ...usedClassNameProps,
+              ...omitTriggerPropKeys,
+              ...usedClassNamePropKeys,
               ...DateUtils.calendarOnlyProps
             ])}
             as={toggleAs}

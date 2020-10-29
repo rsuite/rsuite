@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import cloneDeep from 'lodash/cloneDeep';
 import remove from 'lodash/remove';
 import { useClassNames, useControlled, shallowEqual } from '../utils';
+import Plaintext from '../Plaintext';
 import { WithAsProps, FormControlBaseProps, RsRefForwardingComponent } from '../@types/common';
 import { ValueType } from '../Checkbox';
 
@@ -27,6 +28,9 @@ export interface CheckboxGroupContextValue {
   name?: string;
   value?: ValueType[];
   controlled?: boolean;
+  disabled?: boolean;
+  readOnly?: boolean;
+  plaintext?: boolean;
   onChange?: (value: any, checked: boolean, event: React.SyntheticEvent<HTMLInputElement>) => void;
 }
 
@@ -43,6 +47,9 @@ const CheckboxGroup: RsRefForwardingComponent<'div', CheckboxGroupProps> = React
       value: valueProp,
       defaultValue,
       classPrefix,
+      disabled,
+      readOnly,
+      plaintext,
       onChange,
       ...rest
     } = props;
@@ -50,6 +57,7 @@ const CheckboxGroup: RsRefForwardingComponent<'div', CheckboxGroupProps> = React
     const { merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ inline }));
     const [value, setValue, isControlled] = useControlled<ValueType[]>(valueProp, defaultValue);
+
     const handleChange = useCallback(
       (itemValue: any, itemChecked: boolean, event: React.SyntheticEvent) => {
         const nextValue = cloneDeep(value) || [];
@@ -71,17 +79,26 @@ const CheckboxGroup: RsRefForwardingComponent<'div', CheckboxGroupProps> = React
         inline,
         name,
         value,
+        readOnly,
+        disabled,
+        plaintext,
         controlled: isControlled,
         onChange: handleChange
       }),
-      [handleChange, inline, isControlled, name, value]
+      [disabled, handleChange, inline, isControlled, name, plaintext, readOnly, value]
     );
 
     return (
       <CheckboxGroupContext.Provider value={contextValue}>
-        <Component {...rest} ref={ref} role="group" className={classes}>
-          {children}
-        </Component>
+        {plaintext ? (
+          <Plaintext ref={ref} localeKey="notSelected">
+            {value?.length ? children : null}
+          </Plaintext>
+        ) : (
+          <Component {...rest} ref={ref} role="group" className={classes}>
+            {children}
+          </Component>
+        )}
       </CheckboxGroupContext.Provider>
     );
   }
@@ -98,7 +115,10 @@ CheckboxGroup.propTypes = {
   defaultValue: PropTypes.array,
   onChange: PropTypes.func,
   children: PropTypes.array,
-  classPrefix: PropTypes.string
+  classPrefix: PropTypes.string,
+  readOnly: PropTypes.bool,
+  disabled: PropTypes.bool,
+  plaintext: PropTypes.bool
 };
 
 export default CheckboxGroup;

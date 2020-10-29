@@ -5,8 +5,9 @@ import { StandardProps } from '../@types/common';
 
 export interface InputSearchProps
   extends StandardProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+    Omit<React.HTMLAttributes<HTMLInputElement>, 'onChange'> {
   as?: React.ElementType | string;
+  readOnly?: boolean;
   value?: string;
   inputStyle?: React.CSSProperties;
   inputRef?: React.Ref<any>;
@@ -22,6 +23,7 @@ const InputSearch = React.forwardRef((props: InputSearchProps, ref: React.Ref<HT
     value,
     inputRef,
     style,
+    readOnly,
     onChange,
     ...rest
   } = props;
@@ -41,6 +43,7 @@ const InputSearch = React.forwardRef((props: InputSearchProps, ref: React.Ref<HT
       <Component
         {...rest}
         ref={inputRef}
+        readOnly={readOnly}
         className={prefix`input`}
         value={value}
         onChange={handleChange}

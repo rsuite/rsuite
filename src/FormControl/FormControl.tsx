@@ -48,12 +48,29 @@ export interface FormControlProps<P = any, ValueType = any>
   /** Render the control as plain text */
   plaintext?: boolean;
 
+  /** Disable the form control. */
+  disabled?: boolean;
+
   /** Asynchronous check value */
   checkAsync?: boolean;
 }
 
 const FormControl: RsRefForwardingComponent<'div', FormControlProps> = React.forwardRef(
   (props: FormControlProps, ref) => {
+    const {
+      readOnly: readOnlyContext,
+      plaintext: plaintextContext,
+      disabled: disabledContext,
+      errorFromContext,
+      formDefaultValue = {},
+      formError,
+      onFieldChange,
+      onFieldError,
+      onFieldSuccess,
+      model,
+      checkTrigger: contextCheckTrigger
+    } = useContext(FormContext);
+
     const {
       as: Component = 'div',
       accepter: AccepterComponent = Input,
@@ -65,25 +82,15 @@ const FormControl: RsRefForwardingComponent<'div', FormControlProps> = React.for
       errorMessage,
       name,
       value,
+      readOnly = readOnlyContext,
+      plaintext = plaintextContext,
+      disabled = disabledContext,
       onChange,
       onBlur,
       ...rest
     } = props;
 
-    const {
-      readOnly,
-      plaintext,
-      errorFromContext,
-      formDefaultValue = {},
-      formError,
-      onFieldChange,
-      onFieldError,
-      onFieldSuccess,
-      model,
-      checkTrigger: contextCheckTrigger
-    } = useContext(FormContext) || {};
-
-    const { controlId } = useContext(FormGroupContext) || {};
+    const { controlId } = useContext(FormGroupContext);
 
     if (!onFieldChange) {
       throw new Error(`
@@ -165,6 +172,7 @@ const FormControl: RsRefForwardingComponent<'div', FormControlProps> = React.for
           {...rest}
           readOnly={readOnly}
           plaintext={plaintext}
+          disabled={disabled}
           name={name}
           onChange={handleFieldChange}
           onBlur={handleFieldBlur}

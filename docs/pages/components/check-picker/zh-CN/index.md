@@ -44,7 +44,7 @@
 
 <!--{include:`custom.md`}-->
 
-### 自定义选项
+### 禁用与只读
 
 <!--{include:`disabled.md`}-->
 

@@ -36,7 +36,8 @@ import {
   useToggleKeyDownEvent,
   PickerToggle,
   PickerToggleTrigger,
-  pickerToggleTriggerProps,
+  pickTriggerPropKeys,
+  omitTriggerPropKeys,
   PositionChildProps,
   usePickerClassName
 } from '../Picker';
@@ -643,7 +644,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
   );
 
   const hasValue = value && value.length > 1;
-  const [classes, usedClassNameProps] = usePickerClassName({
+  const [classes, usedClassNamePropKeys] = usePickerClassName({
     ...props,
     name: 'daterange',
     hasValue
@@ -651,7 +652,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
   return (
     <PickerToggleTrigger
-      pickerProps={pick(props, pickerToggleTriggerProps)}
+      pickerProps={pick(props, pickTriggerPropKeys)}
       ref={triggerRef}
       placement={placement}
       onEnter={createChainedFunction(handleEnter, onEnter)}
@@ -662,8 +663,8 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       <Component ref={rootRef} className={merge(className, classes)} style={style}>
         <PickerToggle
           {...omit(rest, [
-            ...pickerToggleTriggerProps,
-            ...usedClassNameProps,
+            ...omitTriggerPropKeys,
+            ...usedClassNamePropKeys,
             ...DateUtils.calendarOnlyProps
           ])}
           as={toggleAs}

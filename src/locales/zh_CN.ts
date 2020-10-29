@@ -17,16 +17,21 @@ const Calendar = {
 };
 
 export default {
+  common: {
+    loading: '加载中...',
+    emptyMessage: '数据为空'
+  },
+  Plaintext: {
+    unfilled: '未填写',
+    notSelected: '未选择',
+    notUploaded: '未上传'
+  },
   Pagination: {
     more: '更多',
     prev: '上一页',
     next: '下一页',
     first: '第一页',
     last: '最后一页'
-  },
-  Table: {
-    emptyMessage: '数据为空',
-    loading: '加载中...'
   },
   TablePagination: {
     lengthMenuInfo: '每页 {0} 条',
@@ -44,11 +49,7 @@ export default {
     noResultsText: '无匹配选项',
     placeholder: '选择',
     searchPlaceholder: '搜索',
-    checkAll: '全部',
-    loading: '加载中...'
-  },
-  Input: {
-    emptyPlaintext: '未填写'
+    checkAll: '全部'
   },
   InputPicker: {
     newItem: '新选项',
@@ -67,5 +68,9 @@ export default {
   },
   Breadcrumb: {
     expandText: '显示路径'
+  },
+  Toggle: {
+    on: '开启',
+    off: '关闭'
   }
 };

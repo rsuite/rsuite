@@ -25,7 +25,6 @@
     "color": "^3.1.2",
     "date-fns": "^2.13.0",
     "isomorphic-fetch": "^2.2.1",
-    "loadsh": "0.0.4",
     "nprogress": "^0.2.0",
     "react": "^16.13.1",
     "react-code-view": "^1.2.5",

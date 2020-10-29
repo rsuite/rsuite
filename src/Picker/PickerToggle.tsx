@@ -4,6 +4,7 @@ import ToggleButton, { ToggleButtonProps } from './ToggleButton';
 import CloseButton from '../CloseButton';
 import { createChainedFunction, useClassNames } from '../utils';
 import { RsRefForwardingComponent } from '../@types/common';
+import Plaintext from '../Plaintext';
 
 type ValueType = string | number;
 
@@ -15,6 +16,8 @@ export interface PickerToggleProps extends ToggleButtonProps {
   caret?: boolean;
   active?: boolean;
   disabled?: boolean;
+  readOnly?: boolean;
+  plaintext?: boolean;
   tabIndex?: number;
   onClean?: (event: React.MouseEvent) => void;
 }
@@ -31,8 +34,10 @@ const PickerToggle: RsRefForwardingComponent<
     caret = true,
     className,
     disabled,
+    readOnly,
+    plaintext,
     hasValue,
-    cleanable,
+    cleanable: cleanableProp,
     tabIndex = 0,
     id,
     value,
@@ -69,6 +74,19 @@ const PickerToggle: RsRefForwardingComponent<
     [onClean, handleBlur]
   );
 
+  if (plaintext) {
+    if (hasValue && !children) {
+      return null;
+    }
+    return (
+      <Plaintext ref={ref} localeKey="notSelected">
+        {children}
+      </Plaintext>
+    );
+  }
+
+  const cleanable = cleanableProp && hasValue && !readOnly && !plaintext;
+
   return (
     <Component
       role="combobox"
@@ -98,9 +116,7 @@ const PickerToggle: RsRefForwardingComponent<
       >
         {children}
       </span>
-      {hasValue && cleanable && (
-        <CloseButton className={prefix`clean`} tabIndex={-1} onClick={handleClean} />
-      )}
+      {cleanable && <CloseButton className={prefix`clean`} tabIndex={-1} onClick={handleClean} />}
       {caret && <span className={prefix`caret`} aria-hidden />}
     </Component>
   );
@@ -116,7 +132,10 @@ PickerToggle.propTypes = {
   caret: PropTypes.bool,
   as: PropTypes.elementType,
   onClean: PropTypes.func,
-  active: PropTypes.bool
+  active: PropTypes.bool,
+  readOnly: PropTypes.bool,
+  disabled: PropTypes.bool,
+  plaintext: PropTypes.bool
 };
 
 export default PickerToggle;

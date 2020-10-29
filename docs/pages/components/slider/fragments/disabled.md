@@ -3,11 +3,15 @@
 ```js
 const instance = (
   <div>
-    <Slider disabled />
+    <label>Disabled: </label>
+    <Slider disabled defaultValue={50} min={0} step={10} max={100} graduated progress />
     <hr />
-    <Slider value={50} min={0} step={10} max={100} graduated progress disabled />
+    <label>Read only: </label>
+    <Slider readOnly defaultValue={50} min={0} step={10} max={100} graduated progress />
+
     <hr />
-    <RangeSlider value={[10, 50]} min={0} step={10} max={100} graduated progress disabled />
+    <label>Plaintext: </label>
+    <Slider plaintext defaultValue={50} min={0} step={10} max={100} graduated progress />
   </div>
 );
 ReactDOM.render(instance);

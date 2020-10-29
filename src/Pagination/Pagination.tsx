@@ -47,7 +47,7 @@ export interface PaginationProps extends WithAsProps {
   /** Customizes the element type for the component */
   linkAs?: React.ElementType | string;
 
-  /** locale */
+  /** Custom locale */
   locale?: PaginationLocale;
 
   /** A pagination can have different sizes */

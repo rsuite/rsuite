@@ -22,7 +22,7 @@ export interface PickerToggleTriggerProps {
   onExited?: (node: null | Element | Text) => void;
 }
 
-export const pickerToggleTriggerProps = [
+export const omitTriggerPropKeys = [
   'onEntered',
   'onExited',
   'onEnter',
@@ -31,12 +31,13 @@ export const pickerToggleTriggerProps = [
   'onExiting',
   'open',
   'defaultOpen',
-  'disabled',
   'onHide',
   'container',
   'containerPadding',
   'preventOverflow'
 ];
+
+export const pickTriggerPropKeys = [...omitTriggerPropKeys, 'disabled', 'plaintext', 'readOnly'];
 
 const PickerToggleTrigger = React.forwardRef(
   (props: PickerToggleTriggerProps, ref: React.Ref<any>) => {
@@ -47,7 +48,7 @@ const PickerToggleTrigger = React.forwardRef(
         {context => (
           <OverlayTrigger
             {...rest}
-            {...pick(pickerProps, pickerToggleTriggerProps)}
+            {...pick(pickerProps, pickTriggerPropKeys)}
             ref={ref}
             trigger={trigger}
             placement={placementPolyfill(placement, context?.rtl)}

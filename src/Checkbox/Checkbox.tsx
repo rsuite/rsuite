@@ -15,6 +15,12 @@ export interface CheckboxProps<V = ValueType> extends WithAsProps {
   /** A checkbox can appear disabled and be unable to change states */
   disabled?: boolean;
 
+  /** Make the control readonly */
+  readOnly?: boolean;
+
+  /** Render the control as plain text */
+  plaintext?: boolean;
+
   /** Whether or not checkbox is checked. */
   checked?: boolean;
 
@@ -63,35 +69,40 @@ const defaultProps: Partial<CheckboxProps> = {
 const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRef(
   (props: CheckboxProps, ref) => {
     const {
+      inline: inlineContext,
+      name: nameContext,
+      disabled: disabledContext,
+      readOnly: readOnlyContext,
+      plaintext: plaintextContext,
+      value: groupValue,
+      controlled,
+      onChange: onGroupChange
+    } = useContext(CheckboxGroupContext);
+
+    const {
       as: Component,
       checked: controlledChecked,
       className,
       children,
       classPrefix,
       checkable,
-      disabled,
       defaultChecked,
       title,
       inputRef,
       inputProps,
       indeterminate,
       tabIndex,
-      inline: inlineProp,
-      name: nameProp,
+      disabled = disabledContext,
+      readOnly = readOnlyContext,
+      plaintext = plaintextContext,
+      inline = inlineContext,
+      name = nameContext,
       value,
       onClick,
       onCheckboxClick,
       onChange,
       ...rest
     } = props;
-
-    const {
-      inline = inlineProp,
-      name = nameProp,
-      value: groupValue,
-      controlled,
-      onChange: onGroupChange
-    } = useContext(CheckboxGroupContext);
 
     const isChecked = useCallback(() => {
       if (typeof groupValue !== 'undefined' && typeof value !== 'undefined') {
@@ -114,7 +125,7 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
       (event: React.SyntheticEvent<HTMLInputElement>) => {
         const nextChecked = !checked;
 
-        if (disabled) {
+        if (disabled || readOnly) {
           return;
         }
 
@@ -122,8 +133,16 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
         onChange?.(value, nextChecked, event);
         onGroupChange?.(value, nextChecked, event);
       },
-      [disabled, checked, value, onChange, onGroupChange, setChecked]
+      [checked, disabled, readOnly, setChecked, onChange, value, onGroupChange]
     );
+
+    if (plaintext) {
+      return checked ? (
+        <Component {...restProps} ref={ref} className={classes}>
+          {children}
+        </Component>
+      ) : null;
+    }
 
     const input = (
       <span className={prefix`wrapper`} onClick={onCheckboxClick} aria-disabled={disabled}>
@@ -135,6 +154,7 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
           type="checkbox"
           ref={inputRef}
           tabIndex={tabIndex}
+          readOnly={readOnly}
           disabled={disabled}
           aria-disabled={disabled}
           aria-checked={indeterminate ? 'mixed' : checked}

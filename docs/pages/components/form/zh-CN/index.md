@@ -61,7 +61,7 @@
 
 ### 禁用与只读
 
-<!--{include:`read-only.md`}-->
+<!--{include:`status.md`}-->
 
 ## 数据校验
 

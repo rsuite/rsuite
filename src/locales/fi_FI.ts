@@ -21,16 +21,21 @@ const Calendar = {
 };
 
 export default {
+  common: {
+    loading: 'Hetkinen...',
+    emptyMessage: 'Dataa ei löytynyt'
+  },
+  Plaintext: {
+    unfilled: 'täyttämättömät',
+    notSelected: 'Ei valittu',
+    notUploaded: 'Ei ladattu'
+  },
   Pagination: {
     more: 'Lisää',
     prev: 'Edellinen',
     next: 'Seuraava',
     first: 'Ensimmäinen',
     last: 'Viimeinen'
-  },
-  Table: {
-    emptyMessage: 'Dataa ei löytynyt',
-    loading: 'Hetkinen...'
   },
   TablePagination: {
     lengthMenuInfo: '{0} / sivu',
@@ -67,9 +72,13 @@ export default {
     upload: 'Lataa'
   },
   CloseButton: {
-    closeLabel: 'sammuttaa'
+    closeLabel: 'Sammuttaa'
   },
   Breadcrumb: {
     expandText: 'Näytä polku'
+  },
+  Toggle: {
+    on: 'Päällä',
+    off: 'Pois päältä'
   }
 };

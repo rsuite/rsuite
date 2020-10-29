@@ -46,7 +46,8 @@ const App = () => {
     ],
     inputPicker: 'Rogelio',
     cascader: '1-1-5',
-    multiCascader: ['1-1-4', '1-1-5']
+    multiCascader: ['1-1-4', '1-1-5'],
+    rate: 2
   });
   const [mode, setMode] = useState('readonly');
   const disabled = mode === 'disabled';
@@ -54,7 +55,13 @@ const App = () => {
   const plaintext = mode === 'plaintext';
 
   return (
-    <Form formValue={formValue} onChange={formValue => setFormValue(formValue)}>
+    <Form
+      disabled={disabled}
+      readOnly={readOnly}
+      plaintext={plaintext}
+      formValue={formValue}
+      onChange={formValue => setFormValue(formValue)}
+    >
       <Form.ControlLabel>Change show mode</Form.ControlLabel>
       <RadioGroup inline value={mode} onChange={value => setMode(value)}>
         <Radio value="normal">normal</Radio>
@@ -65,63 +72,30 @@ const App = () => {
 
       <Form.Group controlId="input">
         <Form.ControlLabel>Input</Form.ControlLabel>
-        <Form.Control name="input" disabled={disabled} readOnly={readOnly} plaintext={plaintext} />
+        <Form.Control name="input" />
         <Form.HelpText tooltip>This is a tooltip description.</Form.HelpText>
       </Form.Group>
 
       <Form.Group controlId="checkbox">
         <Form.ControlLabel>Checkbox</Form.ControlLabel>
-        <Form.Control
-          name="checkbox"
-          accepter={CheckboxGroup}
-          inline
-          disabled={disabled}
-          readOnly={readOnly}
-          plaintext={plaintext}
-        >
-          <Checkbox disabled={disabled} value="Node.js">
-            Node.js
-          </Checkbox>
-          <Checkbox disabled={disabled} value="Webpack">
-            Webpack
-          </Checkbox>
-          <Checkbox disabled={disabled} value="CSS3">
-            CSS3
-          </Checkbox>
-          <Checkbox disabled={disabled} value="Javascript">
-            Javascript
-          </Checkbox>
-          <Checkbox disabled={disabled} value="HTML5">
-            HTML5
-          </Checkbox>
+        <Form.Control name="checkbox" accepter={CheckboxGroup} inline>
+          <Checkbox value="Node.js">Node.js</Checkbox>
+          <Checkbox value="Webpack">Webpack</Checkbox>
+          <Checkbox value="CSS3">CSS3</Checkbox>
+          <Checkbox value="Javascript">Javascript</Checkbox>
+          <Checkbox value="HTML5">HTML5</Checkbox>
         </Form.Control>
         <Form.HelpText>This default description.</Form.HelpText>
       </Form.Group>
 
       <Form.Group controlId="radio">
         <Form.ControlLabel>Radio</Form.ControlLabel>
-        <Form.Control
-          name="radio"
-          accepter={RadioGroup}
-          disabled={disabled}
-          readOnly={readOnly}
-          plaintext={plaintext}
-        >
-          <Radio disabled={disabled} value="Node.js">
-            Node.js
-          </Radio>
-          <Radio disabled={disabled} value="Webpack">
-            Webpack
-          </Radio>
-          <Radio disabled={disabled} value="CSS3">
-            CSS3
-          </Radio>
-          <Radio disabled={disabled} value="Javascript">
-            Javascript
-          </Radio>
-          <Radio disabled={disabled} value="HTML5">
-            HTML5
-          </Radio>
+        <Form.Control name="radio" accepter={RadioGroup}>
+          <Radio value="Node.js">Node.js</Radio>
+          <Radio value="Webpack">Webpack</Radio>
+          <Radio value="CSS3">CSS3</Radio>
+          <Radio value="Javascript">Javascript</Radio>
+          <Radio value="HTML5">HTML5</Radio>
         </Form.Control>
       </Form.Group>
 
@@ -129,109 +103,60 @@ const App = () => {
         <Form.ControlLabel>Slider</Form.ControlLabel>
         <Form.Control
           accepter={Slider}
-          min={0}
-          max={20}
           name="slider"
           label="Level"
           style={{ width: 200, margin: '10px 0' }}
-          disabled={disabled}
-          readOnly={readOnly}
-          plaintext={plaintext}
         />
       </Form.Group>
 
       <Form.Group controlId="datePicker">
         <Form.ControlLabel>DatePicker</Form.ControlLabel>
-        <Form.Control
-          name="datePicker"
-          accepter={DatePicker}
-          disabled={disabled}
-          readOnly={readOnly}
-          plaintext={plaintext}
-        />
+        <Form.Control name="datePicker" accepter={DatePicker} />
       </Form.Group>
 
       <Form.Group controlId="dateRangePicker">
         <Form.ControlLabel>DateRangePicker</Form.ControlLabel>
-        <Form.Control
-          name="dateRangePicker"
-          accepter={DateRangePicker}
-          disabled={disabled}
-          readOnly={readOnly}
-          plaintext={plaintext}
-        />
+        <Form.Control name="dateRangePicker" accepter={DateRangePicker} />
       </Form.Group>
 
       <Form.Group controlId="checkPicker">
         <Form.ControlLabel>CheckPicker</Form.ControlLabel>
-        <Form.Control
-          name="checkPicker"
-          accepter={CheckPicker}
-          data={pickerData}
-          disabled={disabled}
-          readOnly={readOnly}
-          plaintext={plaintext}
-        />
+        <Form.Control name="checkPicker" accepter={CheckPicker} data={pickerData} />
       </Form.Group>
 
       <Form.Group controlId="selectPicker">
         <Form.ControlLabel>SelectPicker</Form.ControlLabel>
-        <Form.Control
-          name="selectPicker"
-          accepter={SelectPicker}
-          data={pickerData}
-          disabled={disabled}
-          readOnly={readOnly}
-          plaintext={plaintext}
-        />
+        <Form.Control name="selectPicker" accepter={SelectPicker} data={pickerData} />
       </Form.Group>
 
       <Form.Group controlId="tagPicker">
         <Form.ControlLabel>TagPicker</Form.ControlLabel>
-        <Form.Control
-          name="tagPicker"
-          accepter={TagPicker}
-          data={pickerData}
-          disabled={disabled}
-          readOnly={readOnly}
-          plaintext={plaintext}
-        />
+        <Form.Control name="tagPicker" accepter={TagPicker} data={pickerData} />
       </Form.Group>
 
       <Form.Group controlId="inputPicker">
         <Form.ControlLabel>InputPicker</Form.ControlLabel>
-        <Form.Control
-          name="inputPicker"
-          accepter={InputPicker}
-          data={pickerData}
-          disabled={disabled}
-          readOnly={readOnly}
-          plaintext={plaintext}
-        />
+        <Form.Control name="inputPicker" accepter={InputPicker} data={pickerData} />
       </Form.Group>
 
       <Form.Group controlId="cascader">
         <Form.ControlLabel>Cascader</Form.ControlLabel>
-        <Form.Control
-          name="cascader"
-          accepter={Cascader}
-          data={cascaderData}
-          disabled={disabled}
-          readOnly={readOnly}
-          plaintext={plaintext}
-        />
+        <Form.Control name="cascader" accepter={Cascader} data={cascaderData} />
       </Form.Group>
 
       <Form.Group controlId="multiCascader">
         <Form.ControlLabel>MultiCascader</Form.ControlLabel>
-        <Form.Control
-          name="multiCascader"
-          accepter={MultiCascader}
-          data={cascaderData}
-          disabled={disabled}
-          readOnly={readOnly}
-          plaintext={plaintext}
-        />
+        <Form.Control name="multiCascader" accepter={MultiCascader} data={cascaderData} />
+      </Form.Group>
+
+      <Form.Group controlId="rate">
+        <Form.ControlLabel>Rate</Form.ControlLabel>
+        <Form.Control name="rate" accepter={Rate} />
+      </Form.Group>
+
+      <Form.Group controlId="uploader">
+        <Form.ControlLabel>Uploader</Form.ControlLabel>
+        <Form.Control name="uploader" accepter={Uploader} />
       </Form.Group>
     </Form>
   );

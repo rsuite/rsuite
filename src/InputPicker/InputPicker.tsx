@@ -11,6 +11,7 @@ import pick from 'lodash/pick';
 import { getWidth } from 'dom-lib';
 import shallowEqual from '../utils/shallowEqual';
 import { findNodeOfTree, filterNodesOfTree } from '../utils/treeUtils';
+import Plaintext from '../Plaintext';
 import {
   createChainedFunction,
   tplTransform,
@@ -34,7 +35,8 @@ import {
   useSearch,
   usePublicMethods,
   useToggleKeyDownEvent,
-  pickerToggleTriggerProps,
+  pickTriggerPropKeys,
+  omitTriggerPropKeys,
   OverlayTriggerInstance,
   PositionChildProps,
   PickerComponent,
@@ -105,6 +107,8 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       classPrefix,
       data: controlledData,
       disabled,
+      readOnly,
+      plaintext,
       defaultValue,
       defaultOpen,
       disabledItemValues,
@@ -231,7 +235,9 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     useEffect(() => {
       // In multiple selection, you need to set a maximum width for the input.
-      setMaxWidth(getWidth(triggerRef.current.child));
+      if (triggerRef.current?.child) {
+        setMaxWidth(getWidth(triggerRef.current.child));
+      }
     }, []);
 
     // Update the position of the menu when the search keyword and value change
@@ -584,7 +590,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
             <Tag
               {...tagRest}
               key={tag}
-              closable={!disabled && closable}
+              closable={!disabled && closable && !readOnly && !plaintext}
               title={typeof displayElement === 'string' ? displayElement : undefined}
               onClose={createChainedFunction(handleRemoveItemByTag.bind(null, tag), onClose)}
             >
@@ -676,7 +682,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       isArray(value) && value.length > 0 && isFunction(renderValue) && !isNil(tagElements);
     const hasValue = multi ? !!tagElements?.length || hasMultiValue : isValid || hasSingleValue;
 
-    const [pickerClasses, usedClassNameProps] = usePickerClassName({
+    const [pickerClasses, usedClassNamePropKeys] = usePickerClassName({
       ...props,
       hasValue,
       name: 'input'
@@ -693,9 +699,13 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       ? { inputStyle: { maxWidth: maxWidth - 63 }, as: InputAutosize }
       : { as: 'input' };
 
+    if (plaintext) {
+      return <Plaintext localeKey="notSelected">{displayElement || tagElements}</Plaintext>;
+    }
+
     return (
       <PickerToggleTrigger
-        pickerProps={pick(props, pickerToggleTriggerProps)}
+        pickerProps={pick(props, pickTriggerPropKeys)}
         ref={triggerRef}
         trigger="active"
         onEnter={createChainedFunction(handleEnter, onEnter)}
@@ -711,8 +721,10 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           onKeyDown={onPickerKeyDown}
         >
           <PickerToggle
-            {...omit(rest, [...pickerToggleTriggerProps, ...usedClassNameProps])}
+            {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
             id={id}
+            readOnly={readOnly}
+            plaintext={plaintext}
             ref={toggleRef}
             as={toggleAs}
             tabIndex={null}
@@ -728,6 +740,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
             {displaySearchInput && (
               <InputSearch
                 {...inputProps}
+                readOnly={readOnly}
                 onBlur={createChainedFunction(handleBlur, onBlur)}
                 onFocus={createChainedFunction(handleFocus, onFocus)}
                 inputRef={inputRef}

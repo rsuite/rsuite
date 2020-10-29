@@ -9,7 +9,18 @@ const data = [
   'HYPER Ad Serving',
   'HYPER Data Discovery'
 ];
-const instance = <AutoComplete data={data} disabled />;
+const instance = (
+  <div>
+    <label>Disabled:</label>
+    <AutoComplete data={data} disabled defaultValue="HYPER Web Analytics" />
+    <hr />
+    <label>Disabled:</label>
+    <AutoComplete data={data} readOnly defaultValue="HYPER Web Analytics" />
+    <hr />
+    <label>Plaintext:</label>
+    <AutoComplete data={data} plaintext defaultValue="HYPER Web Analytics" />
+  </div>
+);
 
 ReactDOM.render(instance);
 ```

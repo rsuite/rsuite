@@ -61,7 +61,7 @@ export interface CalendarProps
   /** Limit showing how many years in the future */
   limitEndYear?: number;
 
-  /** The component localized character set. */
+  /** Custom locale */
   locale?: CalendarLocale;
 
   /** Callback after the date has changed */

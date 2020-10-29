@@ -34,7 +34,7 @@
 
 <!--{include:`custom.md`}-->
 
-### 禁用
+### 禁用与只读
 
 <!--{include:`disabled.md`}-->
 

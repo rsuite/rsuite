@@ -12,7 +12,7 @@ import {
   MenuWrapper,
   useFocusItemValue,
   usePublicMethods,
-  pickerToggleTriggerProps,
+  pickTriggerPropKeys,
   PositionChildProps,
   OverlayTriggerInstance,
   PickerComponent
@@ -264,7 +264,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
       <PickerToggleTrigger
         ref={triggerRef}
         placement={placement}
-        pickerProps={pick(props, pickerToggleTriggerProps)}
+        pickerProps={pick(props, pickTriggerPropKeys)}
         trigger={['click', 'focus']}
         open={open || (focus && hasItems)}
         speaker={renderDropdownMenu}

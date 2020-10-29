@@ -36,7 +36,7 @@
 
 <!--{include:`file-list-custom.md`}-->
 
-### Disabled
+### Disabled and read only
 
 <!--{include:`disabled.md`}-->
 

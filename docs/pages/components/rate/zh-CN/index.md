@@ -38,13 +38,9 @@
 
 <!--{include:`hover.md`}}-->
 
-### 禁用
+### 禁用与只读
 
 <!--{include:`disabled.md`}}-->
-
-### 只读
-
-<!--{include:`readonly.md`}}-->
 
 ### 字符
 

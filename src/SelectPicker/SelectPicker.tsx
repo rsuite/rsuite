@@ -28,7 +28,8 @@ import {
   usePickerClassName,
   useSearch,
   usePublicMethods,
-  pickerToggleTriggerProps,
+  pickTriggerPropKeys,
+  omitTriggerPropKeys,
   OverlayTriggerInstance,
   PositionChildProps,
   listPickerPropTypes,
@@ -395,7 +396,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
       );
     };
 
-    const [classes, usedClassNameProps] = usePickerClassName({
+    const [classes, usedClassNamePropKeys] = usePickerClassName({
       ...props,
       hasValue,
       name: 'select'
@@ -403,7 +404,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
 
     return (
       <PickerToggleTrigger
-        pickerProps={pick(props, pickerToggleTriggerProps)}
+        pickerProps={pick(props, pickTriggerPropKeys)}
         ref={triggerRef}
         placement={placement}
         onEntered={createChainedFunction(handleEntered, onEntered)}
@@ -412,7 +413,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
       >
         <Component className={classes} style={style}>
           <PickerToggle
-            {...omit(rest, [...pickerToggleTriggerProps, ...usedClassNameProps])}
+            {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
             id={id}
             ref={toggleRef}
             onClean={createChainedFunction(handleClean, onClean)}
