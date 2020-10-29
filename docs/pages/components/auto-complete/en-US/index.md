@@ -20,7 +20,7 @@ Autocomplete function of input field.
 
 <!--{include:`render-item.md`}-->
 
-### Disabled
+### Disabled and read only
 
 <!--{include:`disabled.md`}-->
 

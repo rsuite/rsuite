@@ -12,7 +12,7 @@ Check boxes are usually used in groups. Allow users to select one or more values
 
 <!--{include:`basic.md`}-->
 
-### Disabled
+### Disabled and read only
 
 <!--{include:`disabled.md`}-->
 

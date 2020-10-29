@@ -8,10 +8,24 @@
 
 const instance = (
   <div>
-    <TreePicker data={data} disabled style={{ width: 246 }} />
+    <label>Disabled: </label>
+    <TreePicker disabled data={data} defaultValue={24} style={{ width: 246 }} />
+    <label style={{ marginLeft: 10 }}>Disabled option: </label>
+    <TreePicker
+      defaultExpandAll
+      data={data}
+      defaultValue={24}
+      disabledItemValues={[2]}
+      style={{ width: 246 }}
+    />
+
     <hr />
-    <p>禁用选项</p>
-    <TreePicker defaultExpandAll data={data} disabledItemValues={[2]} style={{ width: 246 }} />
+    <label>Read only: </label>
+    <TreePicker readOnly data={data} defaultValue={24} style={{ width: 246 }} />
+
+    <hr />
+    <label>Plaintext: </label>
+    <TreePicker plaintext data={data} defaultValue={24} style={{ width: 246 }} />
   </div>
 );
 ReactDOM.render(instance);

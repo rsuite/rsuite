@@ -12,13 +12,13 @@
 <html dir="rtl"></html>
 ```
 
-### 2.配置 IntlProvider
+### 2.配置 CustomProvider
 
-在 IntlProvider 组件上设置 rtl 属性，配置所有组件支持 RTL。
+在 CustomProvider 组件上设置 rtl 属性，及所有组件根据 RTL 布局渲染。
 
 ```jsx
 function RTL(props) {
-  return <IntlProvider rtl>{props.children}</IntlProvider>;
+  return <CustomProvider rtl>{props.children}</CustomProvider>;
 }
 ```
 

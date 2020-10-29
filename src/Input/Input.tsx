@@ -1,16 +1,9 @@
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
-import isUndefined from 'lodash/isUndefined';
 import { FormGroupContext } from '../FormGroup/FormGroup';
 import { InputGroupContext } from '../InputGroup/InputGroup';
-import {
-  createChainedFunction,
-  TypeChecker,
-  mergeRefs,
-  useClassNames,
-  useCustom,
-  KEY_CODE
-} from '../utils';
+import Plaintext from '../Plaintext';
+import { createChainedFunction, TypeChecker, mergeRefs, useClassNames, KEY_CODE } from '../utils';
 import {
   WithAsProps,
   RsRefForwardingComponent,
@@ -19,7 +12,7 @@ import {
 } from '../@types/common';
 
 export interface LocaleType {
-  emptyPlaintext: string;
+  unfilled: string;
 }
 
 export interface InputProps
@@ -40,9 +33,6 @@ export interface InputProps
 
   /** Called on press enter */
   onPressEnter?: React.KeyboardEventHandler<HTMLInputElement>;
-
-  /** Language configuration */
-  locale?: LocaleType;
 }
 
 const defaultProps: Partial<InputProps> = {
@@ -57,7 +47,6 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
       className,
       classPrefix,
       as: Component,
-      locale: overrideLocale,
       type,
       disabled,
       value,
@@ -75,7 +64,6 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
       ...rest
     } = props;
 
-    const { locale } = useCustom<LocaleType>('Input', overrideLocale);
     const handleKeyDown = useCallback(
       (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.keyCode === KEY_CODE.ENTER) {
@@ -94,24 +82,34 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
     );
 
     const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix(size));
+    const classes = merge(className, withClassPrefix(size, { plaintext }));
     const inputGroupContext = useContext(InputGroupContext);
     const formGroupContext = useContext(FormGroupContext);
 
     // Make the Input component display in plain text,
     // and display default characters when there is no value.
     if (plaintext) {
-      const val = isUndefined(value) ? defaultValue : value;
       return (
-        <div {...rest} className={classes}>
-          {val || locale?.emptyPlaintext}
-        </div>
+        <Plaintext ref={ref} localeKey="unfilled">
+          {typeof value === 'undefined' ? defaultValue : value}
+        </Plaintext>
       );
+    }
+
+    const operable = !disabled && !readOnly;
+    const eventProps: React.HTMLAttributes<HTMLInputElement> = {};
+
+    if (operable) {
+      eventProps.onChange = handleChange;
+      eventProps.onKeyDown = handleKeyDown;
+      eventProps.onFocus = createChainedFunction(onFocus, inputGroupContext?.onFocus);
+      eventProps.onBlur = createChainedFunction(onBlur, inputGroupContext?.onBlur);
     }
 
     return (
       <Component
         {...rest}
+        {...eventProps}
         ref={mergeRefs(ref, inputRef)}
         className={classes}
         type={type}
@@ -120,10 +118,6 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
         defaultValue={defaultValue}
         disabled={disabled}
         readOnly={readOnly}
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-        onFocus={createChainedFunction(onFocus, inputGroupContext?.onFocus)}
-        onBlur={createChainedFunction(onBlur, inputGroupContext?.onBlur)}
       />
     );
   }

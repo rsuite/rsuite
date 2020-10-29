@@ -30,7 +30,7 @@ limits: 10 - 100
 
 <!--{include:`step.md`}-->
 
-### Disabled
+### Disabled and read only
 
 <!--{include:`disabled.md`}-->
 

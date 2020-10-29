@@ -59,7 +59,7 @@ export type PickerAppearance = 'default' | 'subtle';
 export interface PickerBaseProps<LocaleType = any> extends WithAsProps, AnimationEventProps {
   id?: string;
 
-  /** locale */
+  /** Custom locale */
   locale?: LocaleType;
 
   /** A picker can have different appearances. */

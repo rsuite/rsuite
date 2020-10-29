@@ -46,7 +46,7 @@ Single selection of data with hierarchical relationship structure.
 
 <!--{include:`custom.md`}-->
 
-### Disabled
+### Disabled and read only
 
 <!--{include:`disabled.md`}-->
 

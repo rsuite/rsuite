@@ -47,7 +47,8 @@ import {
   listPickerPropTypes,
   listPickerDefaultProps,
   OverlayTriggerInstance,
-  pickerToggleTriggerProps,
+  pickTriggerPropKeys,
+  omitTriggerPropKeys,
   PositionChildProps,
   PickerLocaleType,
   PickerComponent,
@@ -799,7 +800,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     }
   }
 
-  const [classes, usedClassNameProps] = usePickerClassName({
+  const [classes, usedClassNamePropKeys] = usePickerClassName({
     ...props,
     hasValue: hasValidValue,
     name: 'tree'
@@ -811,7 +812,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
 
   return (
     <PickerToggleTrigger
-      pickerProps={pick(props, pickerToggleTriggerProps)}
+      pickerProps={pick(props, pickTriggerPropKeys)}
       ref={triggerRef}
       placement={placement}
       onEnter={handleOpen}
@@ -821,7 +822,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     >
       <Component className={classes} style={style}>
         <PickerToggle
-          {...omit(rest, [...pickerToggleTriggerProps, ...usedClassNameProps])}
+          {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
           id={id}
           ref={toggleRef}
           onKeyDown={onPickerKeydown}

@@ -15,7 +15,7 @@ export default {
     useWithCreateReactApp: 'Use in create-react-app',
     useNextApp: 'Use in Next.js',
     customizeTheme: 'Customize theme',
-    intl: 'Internationalization',
+    intl: 'Installation',
     rtl: 'Right-to-left',
     changeLog: 'Change log',
     palette: 'Palette',

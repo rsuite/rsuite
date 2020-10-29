@@ -26,7 +26,8 @@ import {
   usePickerClassName,
   usePublicMethods,
   OverlayTriggerInstance,
-  pickerToggleTriggerProps,
+  pickTriggerPropKeys,
+  omitTriggerPropKeys,
   PositionChildProps,
   listPickerPropTypes,
   listPickerDefaultProps,
@@ -804,7 +805,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     }
   }
 
-  const [classes, usedClassNameProps] = usePickerClassName({
+  const [classes, usedClassNamePropKeys] = usePickerClassName({
     ...props,
     hasValue: hasValidValue,
     name: 'check-tree'
@@ -816,7 +817,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   return (
     <PickerToggleTrigger
-      pickerProps={pick(props, pickerToggleTriggerProps)}
+      pickerProps={pick(props, pickTriggerPropKeys)}
       ref={triggerRef}
       placement={placement}
       onEnter={handleOpen}
@@ -826,7 +827,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     >
       <Component className={classes} style={style}>
         <PickerToggle
-          {...omit(rest, [...pickerToggleTriggerProps, ...usedClassNameProps])}
+          {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
           id={id}
           ref={toggleRef}
           onKeyDown={onPickerKeydown}

@@ -34,7 +34,7 @@
 
 <!--{include:`placeholder.md`}-->
 
-### 日期 + 时间
+### 日期与时间
 
 <!--{include:`format.md`}-->
 
@@ -58,9 +58,7 @@
 
 <!--{include:`iso-week.md`}-->
 
-### 禁用与隐藏
-
-禁用是把一个可点击元素设置为不可点击状态，隐藏是直接在选项中不出现。
+### 禁用与只读
 
 <!--{include:`disabled.md`}-->
 

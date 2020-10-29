@@ -21,16 +21,21 @@ const Calendar = {
 };
 
 export default {
+  common: {
+    loading: 'Cargando...',
+    emptyMessage: 'Sin datos'
+  },
+  Plaintext: {
+    unfilled: 'Sin llenar',
+    notSelected: 'No seleccionado',
+    notUploaded: 'No subido'
+  },
   Pagination: {
     more: 'Más',
     prev: 'Anterior',
     next: 'Siguiente',
     first: 'Primero',
     last: 'Último'
-  },
-  Table: {
-    emptyMessage: 'Sin datos',
-    loading: 'Cargando...'
   },
   TablePagination: {
     lengthMenuInfo: '{0} / páginas',
@@ -48,11 +53,7 @@ export default {
     noResultsText: 'No se encontraron resultados',
     placeholder: 'Seleccionar',
     searchPlaceholder: 'Buscar',
-    checkAll: 'Todos',
-    loading: 'Cargando...'
-  },
-  Input: {
-    emptyPlaintext: 'sin llenar'
+    checkAll: 'Todos'
   },
   InputPicker: {
     newItem: 'Nuevo',
@@ -67,9 +68,13 @@ export default {
     upload: 'Subir'
   },
   CloseButton: {
-    closeLabel: 'apagar'
+    closeLabel: 'Apagar'
   },
   Breadcrumb: {
     expandText: 'Mostrar ruta'
+  },
+  Toggle: {
+    on: 'Encender',
+    off: 'Apagar'
   }
 };

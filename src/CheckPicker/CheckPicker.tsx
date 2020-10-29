@@ -32,7 +32,8 @@ import {
   useSearch,
   usePublicMethods,
   useToggleKeyDownEvent,
-  pickerToggleTriggerProps,
+  pickTriggerPropKeys,
+  omitTriggerPropKeys,
   OverlayTriggerInstance,
   PositionChildProps,
   listPickerPropTypes,
@@ -380,11 +381,11 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
       );
     };
 
-    const [classes, usedClassNameProps] = usePickerClassName({ ...props, hasValue, name: 'check' });
+    const [classes, usedClassNamePropKeys] = usePickerClassName({ ...props, hasValue, name: 'check' });
 
     return (
       <PickerToggleTrigger
-        pickerProps={pick(props, pickerToggleTriggerProps)}
+        pickerProps={pick(props, pickTriggerPropKeys)}
         ref={triggerRef}
         placement={placement}
         onEnter={createChainedFunction(initStickyItems, onEnter)}
@@ -394,7 +395,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
       >
         <Component className={classes} style={style}>
           <PickerToggle
-            {...omit(rest, [...pickerToggleTriggerProps, ...usedClassNameProps])}
+            {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
             id={id}
             ref={toggleRef}
             disabled={disabled}

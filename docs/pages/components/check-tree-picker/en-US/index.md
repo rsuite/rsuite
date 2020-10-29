@@ -2,8 +2,6 @@
 
 CheckTreePicker are supported in multiple selectors for multiple selection of complex data structures.
 
-- `<CheckTreePicker>` The selector component supports Checkbox on the TreePicker node for multiple selection.
-
 ## Import
 
 <!--{include:(components/check-tree-picker/fragments/import.md)}-->
@@ -12,11 +10,7 @@ CheckTreePicker are supported in multiple selectors for multiple selection of co
 
 ### Default
 
-<p>Cascade:</p>
-<!--{include:`basic-cascade.md`}-->
-</hr>
-<p>Not cascaded:</p>
-<!--{include:`basic-uncascade.md`}-->
+<!--{include:`basic.md`}-->
 
 ### Appearance
 
@@ -36,7 +30,7 @@ The cascade attribute can set whether or not CheckTreePicker can consider the ca
 
 <!--{include:`placement.md`}-->
 
-### Disabled and Uncheckable
+### Disabled and read only
 
 <!--{include:`disabled.md`}-->
 
@@ -53,7 +47,7 @@ The cascade attribute can set whether or not CheckTreePicker can consider the ca
 <!--{include:(_common/types/data-item-type.md)}-->
 <!--{include:(_common/types/placement.md)}-->
 
-### <CheckTreePicker>
+### `<CheckTreePicker>`
 
 | Property                | Type `(Default)`                                                                              | Description                                                               |
 | ----------------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
@@ -64,7 +58,7 @@ The cascade attribute can set whether or not CheckTreePicker can consider the ca
 | cleanable               | boolean `(true)`                                                                              | whether the selected value can be cleared                                 |
 | container               | HTMLElement or (() => HTMLElement)                                                            | Sets the rendering container                                              |
 | countable               | boolean `(true)`                                                                              | whether display counts of checkItems                                      |
-| data \*                 | Array&lt;DataItemType&gt;                                                                     | tree data                                                                 |
+| data \*                 | DataItemType[]                                                                                | tree data                                                                 |
 | defaultExpandAll        | boolean                                                                                       | expand all tree node                                                      |
 | defaultExpandItemValues | any []                                                                                        | Set the value of the default expanded node                                |
 | defaultValue            | string[]                                                                                      | (UnControlled) default values of the selected tree node                   |
@@ -94,8 +88,8 @@ The cascade attribute can set whether or not CheckTreePicker can consider the ca
 | preventOverflow         | boolean                                                                                       | Prevent floating element overflow                                         |
 | renderExtraFooter       | () => ReactNode                                                                               | Custom render extra footer                                                |
 | renderMenu              | (menu:ReactNode) => ReactNode                                                                 | Customizing the Rendering Menu list                                       |
-| renderTreeIcon          | (nodeData:Array&lt;Object&gt;) => ReactNode                                                   | Custom render the icon of tree node                                       |
-| renderTreeNode          | (nodeData:Array&lt;DataItemType&gt;) => ReactNode                                             | Custom render tree node                                                   |
+| renderTreeIcon          | (nodeData:object) => ReactNode                                                                | Custom render the icon of tree node                                       |
+| renderTreeNode          | (nodeData:DataItemType[]) => ReactNode                                                        | Custom render tree node                                                   |
 | renderValue             | (values:any[], checkedItems:any[],selectedElement:ReactNode) => ReactNode                     | Custom render selected items                                              |
 | searchBy                | (keyword: string, label: ReactNode, item: ItemDataType) => boolean                            | Custom search rules                                                       |
 | searchable              | boolean `(true)`                                                                              | Whether display search input box                                          |

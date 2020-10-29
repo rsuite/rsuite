@@ -3,12 +3,16 @@ import PropTypes from 'prop-types';
 import { useClassNames, useControlled } from '../utils';
 import { WithAsProps, FormControlBaseProps, RsRefForwardingComponent } from '../@types/common';
 import { ValueType } from '../Radio';
+import Plaintext from '../Plaintext';
 
 export interface RadioContextProps {
   inline?: boolean;
   name?: string;
   value?: ValueType;
   controlled?: boolean;
+  disabled?: boolean;
+  readOnly?: boolean;
+  plaintext?: boolean;
   onChange?: (value: ValueType, event: React.SyntheticEvent<HTMLInputElement>) => void;
 }
 
@@ -40,6 +44,9 @@ const RadioGroup: RsRefForwardingComponent<'div', RadioGroupProps> = React.forwa
       defaultValue,
       appearance,
       name,
+      plaintext,
+      disabled,
+      readOnly,
       onChange,
       ...rest
     } = props;
@@ -61,16 +68,25 @@ const RadioGroup: RsRefForwardingComponent<'div', RadioGroupProps> = React.forwa
         name,
         value: typeof value === 'undefined' ? null : value,
         controlled: isControlled,
+        plaintext,
+        disabled,
+        readOnly,
         onChange: handleChange
       }),
-      [handleChange, inline, isControlled, name, value]
+      [disabled, handleChange, inline, isControlled, name, plaintext, readOnly, value]
     );
 
     return (
       <RadioContext.Provider value={contextValue}>
-        <Component role="radiogroup" {...rest} ref={ref} className={classes}>
-          {children}
-        </Component>
+        {plaintext ? (
+          <Plaintext ref={ref} localeKey="notSelected">
+            {value ? children : null}
+          </Plaintext>
+        ) : (
+          <Component role="radiogroup" {...rest} ref={ref} className={classes}>
+            {children}
+          </Component>
+        )}
       </RadioContext.Provider>
     );
   }
@@ -93,7 +109,8 @@ RadioGroup.propTypes = {
   className: PropTypes.string,
   classPrefix: PropTypes.string,
   children: PropTypes.node,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  plaintext: PropTypes.bool
 };
 
 export default RadioGroup;

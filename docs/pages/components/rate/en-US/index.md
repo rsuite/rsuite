@@ -38,13 +38,9 @@ Direction when half select
 
 <!--{include:`hover.md`}}-->
 
-### Disabled
+### Disabled and read only
 
 <!--{include:`disabled.md`}}-->
-
-### Readonly
-
-<!--{include:`readonly.md`}}-->
 
 ### Characters
 
@@ -61,7 +57,6 @@ When there are multiple levels of rating, you can customize the character displa
 ## Accessibility
 
 WAI tutorial: https://www.w3.org/WAI/tutorials/forms/custom-controls/#a-star-rating
-
 
 ## Props
 

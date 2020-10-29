@@ -10,45 +10,57 @@ const {
   combine
 } = DateRangePicker;
 
-const Demo = props => (
+const Label = props => {
+  return <label style={{ display: 'block', marginTop: 10 }} {...props} />;
+};
+
+const instance = (
   <div className="field">
-    <p>Disabled component.</p>
+    <Label>Disabled: </Label>
     <DateRangePicker disabled />
 
-    <hr />
-    <p>Custom disabled.</p>
+    <br />
+    <Label>Custom disabled </Label>
     <DateRangePicker disabledDate={date => dateFns.isAfter(date, new Date())} />
 
-    <hr />
-    <p>Allow maximum selection for 7 days, other dates are disabled.</p>
+    <br />
+    <Label>Allow maximum selection for 7 days, other dates are disabled.</Label>
     <DateRangePicker disabledDate={allowedMaxDays(7)} />
 
-    <hr />
-    <p>Only 7 days allowed, other dates are disabled</p>
+    <br />
+    <Label>Only 7 days allowed, other dates are disabled</Label>
     <DateRangePicker disabledDate={allowedDays(7)} />
 
-    <hr />
-    <p>Only one date range is allowed, other dates are disabled</p>
+    <br />
+    <Label>Only one date range is allowed, other dates are disabled</Label>
     <DateRangePicker disabledDate={allowedRange('2020-10-01', '2021-10-01')} />
 
-    <hr />
-    <p>Disable dates before today</p>
+    <br />
+    <Label>Disable dates before today</Label>
     <DateRangePicker disabledDate={beforeToday()} />
 
-    <hr />
-    <p>Disable dates after today</p>
+    <br />
+    <Label>Disable dates after today</Label>
     <DateRangePicker disabledDate={afterToday()} />
 
-    <hr />
-    <p>
+    <br />
+    <Label>
       Combination: Allow maximum selection for 7 days, while disabling dates before today, other
       dates are disabled
-    </p>
+    </Label>
     <DateRangePicker disabledDate={combine(allowedMaxDays(7), beforeToday())} />
+
+    <hr />
+    <Label>Read only: </Label>
+    <DateRangePicker readOnly defaultValue={[new Date(), new Date()]} />
+
+    <hr />
+    <Label>Plaintext: </Label>
+    <DateRangePicker plaintext defaultValue={[new Date(), new Date()]} />
   </div>
 );
 
-ReactDOM.render(<Demo />);
+ReactDOM.render(instance);
 ```
 
 <!--end-code-->

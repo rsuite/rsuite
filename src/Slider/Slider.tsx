@@ -6,7 +6,8 @@ import Handle from './Handle';
 import Graduated from './Graduated';
 import { useClassNames, useControlled, useCustom } from '../utils';
 import { precisionMath, checkValue } from './utils';
-import { WithAsProps } from '../@types/common';
+import { WithAsProps, FormControlBaseProps } from '../@types/common';
+import Plaintext from '../Plaintext';
 
 export interface LocaleType {
   placeholder?: string;
@@ -15,7 +16,7 @@ export interface LocaleType {
   loading?: string;
 }
 
-export interface SliderProps<T = number> extends WithAsProps {
+export interface SliderProps<T = number> extends WithAsProps, FormControlBaseProps<T> {
   /**
    * The label of the slider.
    */
@@ -38,12 +39,6 @@ export interface SliderProps<T = number> extends WithAsProps {
   /** Slide the value of one step */
   step?: number;
 
-  /** Value (Controlled) */
-  value?: T;
-
-  /** Default value */
-  defaultValue?: T;
-
   /** A css class to apply to the Handle node. */
   handleClassName?: string;
 
@@ -56,9 +51,6 @@ export interface SliderProps<T = number> extends WithAsProps {
   /** custom style */
   handleStyle?: React.CSSProperties;
 
-  /** The disabled of component */
-  disabled?: boolean;
-
   /** Show Ticks */
   graduated?: boolean;
 
@@ -70,9 +62,6 @@ export interface SliderProps<T = number> extends WithAsProps {
 
   /** Vertical Slide */
   vertical?: boolean;
-
-  /** Callback function that changes data */
-  onChange?: (value: T, event: React.SyntheticEvent) => void;
 
   /** Customize labels on the render ruler */
   renderMark?: (mark: number) => React.ReactNode;
@@ -107,6 +96,8 @@ export const sliderPropTypes = {
   barClassName: PropTypes.string,
   handleStyle: PropTypes.object,
   disabled: PropTypes.bool,
+  plaintext: PropTypes.bool,
+  readOnly: PropTypes.bool,
   graduated: PropTypes.bool,
   tooltip: PropTypes.bool,
   progress: PropTypes.bool,
@@ -129,6 +120,8 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
     progress,
     vertical,
     disabled,
+    readOnly,
+    plaintext,
     classPrefix,
     min,
     handleClassName,
@@ -152,7 +145,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
 
   const classes = merge(
     className,
-    withClassPrefix({ vertical, disabled, graduated, 'with-mark': renderMark })
+    withClassPrefix({ vertical, disabled, readOnly, graduated, 'with-mark': renderMark })
   );
 
   const max = useMemo(() => precisionMath(Math.floor((maxProp - min) / step) * step + min), [
@@ -216,14 +209,14 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
 
   const handleChangeValue = useCallback(
     (event: React.MouseEvent) => {
-      if (disabled) {
+      if (disabled || readOnly) {
         return;
       }
       const nextValue = getValidValue(getValueByPosition(event));
       setValue(nextValue);
       onChange?.(nextValue, event);
     },
-    [disabled, getValidValue, getValueByPosition, onChange, setValue]
+    [disabled, getValidValue, getValueByPosition, onChange, readOnly, setValue]
   );
 
   const handleKeyDown = useCallback(
@@ -261,6 +254,10 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
     [max, min, onChange, rtl, setValue, step, value]
   );
 
+  if (plaintext) {
+    return <Plaintext localeKey="notSelected">{value}</Plaintext>;
+  }
+
   return (
     <Componnet {...rest} ref={ref} className={classes} role="presentation">
       <div ref={barRef} className={merge(barClassName, prefix('bar'))} onClick={handleChangeValue}>
@@ -297,7 +294,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
           onDragMove={handleChangeValue}
           onKeyDown={handleKeyDown}
           role="slider"
-          tabIndex={disabled ? null : 0}
+          tabIndex={disabled || readOnly ? null : 0}
           aria-orientation={vertical ? 'vertical' : 'horizontal'}
           aria-valuenow={value}
           aria-disabled={disabled}

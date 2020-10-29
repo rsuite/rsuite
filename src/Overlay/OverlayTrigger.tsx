@@ -67,6 +67,12 @@ export interface OverlayTriggerProps extends StandardProps, AnimationEventProps 
   /** Once disabled, the event cannot be triggered. */
   disabled?: boolean;
 
+  /** Render the control as plain text */
+  plaintext?: boolean;
+
+  /** Make the control readonly */
+  readOnly?: boolean;
+
   /**  Set the `id` on `<Overlay>` and `aria-describedby` on `<OverlayTrigger>` */
   controlId?: string;
 
@@ -133,6 +139,8 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
     defaultOpen,
     trigger,
     disabled,
+    readOnly,
+    plaintext,
     open: openProp,
     delay,
     delayOpen: delayOpenProp,
@@ -294,7 +302,7 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
 
   const triggerEvents = { onClick, onMouseOver, onMouseOut, onFocus, onBlur };
 
-  if (!disabled) {
+  if (!disabled && !readOnly && !plaintext) {
     if (isOneOf('click', trigger)) {
       triggerEvents.onClick = createChainedFunction(handleOpenState, triggerEvents.onClick);
     }

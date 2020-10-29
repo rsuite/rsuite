@@ -12,13 +12,13 @@ Make sure the `dir` attribute is set on the body:
 <html dir="rtl"></html>
 ```
 
-### 2.IntlProvider
+### 2.CustomProvider
 
-Set the `rtl` props on the IntlProvider component to configure all components to support RTL.
+Set the rtl property on the CustomProvider component, and all components are rendered according to the RTL layout.
 
 ```jsx
 function RTL(props) {
-  return <IntlProvider rtl>{props.children}</IntlProvider>;
+  return <CustomProvider rtl>{props.children}</CustomProvider>;
 }
 ```
 

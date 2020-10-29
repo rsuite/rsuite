@@ -26,6 +26,7 @@ export interface CalendarPanelProps extends WithAsProps {
   /** Show border   */
   bordered?: boolean;
 
+  /** Custom locale */
   locale?: CalendarLocale;
 
   /**  Callback fired before the value changed  */

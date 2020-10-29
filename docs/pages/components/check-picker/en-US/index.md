@@ -44,7 +44,7 @@ Set the `sticky` property to put the selected in the options to the top.
 
 <!--{include:`custom.md`}-->
 
-### Disabled
+### Disabled and read only
 
 <!--{include:`disabled.md`}-->
 
@@ -111,7 +111,7 @@ type ValueType = (string | number)[];
 | onOpen             | () => void                                                                        | Callback fired when open component                          |
 | onSearch           | (searchKeyword:string, event) => void                                             | Callback fired when search                                  |
 | onSelect           | (value:ValueType, item: [DataItemType](#types) , event) => void                   | Callback fired when item is selected                        |
-| open               | boolean                                                                           | Whether open the component                                       |
+| open               | boolean                                                                           | Whether open the component                                  |
 | placeholder        | ReactNode `('Select')`                                                            | Setting placeholders                                        |
 | placement          | Placement`('bottomStart')`                                                        | The placement of component                                  |
 | preventOverflow    | boolean                                                                           | Prevent floating element overflow                           |

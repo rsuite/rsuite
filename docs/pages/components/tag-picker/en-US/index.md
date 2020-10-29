@@ -32,7 +32,7 @@ Multi-select by tag and support new options
 
 <!--{include:`custom.md`}-->
 
-### Disabled
+### Disabled and read only
 
 <!--{include:`disabled.md`}-->
 

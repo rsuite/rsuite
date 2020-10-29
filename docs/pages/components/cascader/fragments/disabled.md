@@ -8,10 +8,23 @@
 
 const instance = (
   <div>
-    <Cascader data={data} disabled style={{ widht: 224 }} />
+    <label>Disabled: </label>
+    <Cascader disabled defaultValue="1-1" data={data} style={{ widht: 224 }} />
+
+    <label style={{ marginLeft: 10 }}>Disabled option: </label>
+    <Cascader
+      data={data}
+      defaultValue="1-1"
+      disabledItemValues={['2', '1-1']}
+      style={{ widht: 224 }}
+    />
     <hr />
-    <p>Disabled Option</p>
-    <Cascader data={data} disabledItemValues={['2', '1-1']} style={{ widht: 224 }} />
+    <label>Read only: </label>
+    <Cascader readOnly defaultValue="1-1" data={data} style={{ widht: 224 }} />
+
+    <hr />
+    <label>Plaintext: </label>
+    <Cascader plaintext defaultValue="1-1" data={data} style={{ widht: 224 }} />
   </div>
 );
 ReactDOM.render(instance);

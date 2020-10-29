@@ -8,6 +8,7 @@ export interface UploadTriggerProps {
   name?: string;
   multiple?: boolean;
   disabled?: boolean;
+  readOnly?: boolean;
   draggable?: boolean;
   accept?: string;
   classPrefix?: string;
@@ -39,6 +40,7 @@ const UploadTrigger = React.forwardRef((props: UploadTriggerProps, ref) => {
     accept,
     multiple,
     disabled,
+    readOnly,
     children,
     classPrefix,
     className,
@@ -62,8 +64,8 @@ const UploadTrigger = React.forwardRef((props: UploadTriggerProps, ref) => {
   );
 
   const handleClick = useCallback(() => {
-    !disabled && inputRef.current.click();
-  }, [disabled]);
+    inputRef.current?.click();
+  }, []);
 
   const handleClearInput = useCallback(() => {
     inputRef.current.value = '';
@@ -134,15 +136,18 @@ const UploadTrigger = React.forwardRef((props: UploadTriggerProps, ref) => {
     clearInput: handleClearInput
   }));
 
-  const buttonProps = {
+  const buttonProps: React.HTMLAttributes<HTMLButtonElement> = {
     ...rest,
-    className: prefix('btn'),
-    onClick: handleClick,
-    onDragEnter: handleDragEnter,
-    onDragLeave: handleDragLeave,
-    onDragOver: handleDragOver,
-    onDrop: handleDrop
+    className: prefix('btn')
   };
+
+  if (!disabled && !readOnly) {
+    buttonProps.onClick = handleClick;
+    buttonProps.onDragEnter = handleDragEnter;
+    buttonProps.onDragLeave = handleDragLeave;
+    buttonProps.onDragOver = handleDragOver;
+    buttonProps.onDrop = handleDrop;
+  }
 
   const trigger = children ? (
     React.cloneElement(React.Children.only(children as any), buttonProps)
@@ -160,6 +165,7 @@ const UploadTrigger = React.forwardRef((props: UploadTriggerProps, ref) => {
         name={name}
         multiple={multiple}
         disabled={disabled}
+        readOnly={readOnly}
         accept={accept}
         ref={inputRef}
         onChange={handleChange}
@@ -176,6 +182,7 @@ UploadTrigger.propTypes = {
   name: PropTypes.string,
   multiple: PropTypes.bool,
   disabled: PropTypes.bool,
+  readOnly: PropTypes.bool,
   accept: PropTypes.string,
   onChange: PropTypes.func,
   classPrefix: PropTypes.string,

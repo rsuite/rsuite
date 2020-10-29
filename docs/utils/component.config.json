@@ -67,16 +67,6 @@
     }
   },
   {
-    "id": "loader",
-    "name": "Loader",
-    "title": "加载器",
-    "components": ["Loader"],
-    "designHash": {
-      "default": "13",
-      "dark": "13"
-    }
-  },
-  {
     "id": "modal",
     "name": "Modal",
     "title": "模态框",
@@ -104,6 +94,16 @@
     "designHash": {
       "default": "10",
       "dark": "10"
+    }
+  },
+  {
+    "id": "loader",
+    "name": "Loader",
+    "title": "加载器",
+    "components": ["Loader"],
+    "designHash": {
+      "default": "13",
+      "dark": "13"
     }
   },
   {

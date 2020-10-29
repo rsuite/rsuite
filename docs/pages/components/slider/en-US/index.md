@@ -27,7 +27,7 @@ A Slider component for displaying current value
 
 <!--{include:`vertical.md`}-->
 
-### Disabled
+### Disabled and read only
 
 <!--{include:`disabled.md`}-->
 
