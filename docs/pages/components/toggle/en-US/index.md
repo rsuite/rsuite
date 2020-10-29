@@ -24,7 +24,7 @@ Can be set by the `checkedchildren`, `uncheckedchildren` two properties, respect
 
 <!--{include:`inner.md`}-->
 
-### Disabled
+### Disabled and read only
 
 <!--{include:`disabled.md`}-->
 

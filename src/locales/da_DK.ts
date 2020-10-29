@@ -72,5 +72,9 @@ export default {
   },
   Breadcrumb: {
     expandText: 'Vis sti'
+  },
+  Toggle: {
+    on: 'på',
+    off: 'Av'
   }
 };

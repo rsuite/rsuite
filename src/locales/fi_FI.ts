@@ -72,9 +72,13 @@ export default {
     upload: 'Lataa'
   },
   CloseButton: {
-    closeLabel: 'sammuttaa'
+    closeLabel: 'Sammuttaa'
   },
   Breadcrumb: {
     expandText: 'Näytä polku'
+  },
+  Toggle: {
+    on: 'Päällä',
+    off: 'Pois päältä'
   }
 };

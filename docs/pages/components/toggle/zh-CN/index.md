@@ -24,9 +24,7 @@
 
 <!--{include:`inner.md`}-->
 
-### 禁用
-
-设置 `disabled` 属性，组件则处于禁用状态
+### 禁用与只读
 
 <!--{include:`disabled.md`}-->
 

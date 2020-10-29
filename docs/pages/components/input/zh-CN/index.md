@@ -25,7 +25,7 @@
 
 <!--{include:`textarea.md`}-->
 
-### 多行输入框
+### 禁用与只读
 
 <!--{include:`disabled.md`}-->
 
@@ -40,6 +40,10 @@
 ### 与按钮组合
 
 <!--{include:`input-group-button.md`}-->
+
+### 密码框
+
+<!--{include:`input-group-password.md`}-->
 
 ### 帮助提示
 

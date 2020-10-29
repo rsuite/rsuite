@@ -6,25 +6,39 @@
  * https://github.com/rsuite/rsuite/blob/master/docs/public/data/city-simplified.json
  */
 
+const Label = props => {
+  return <label style={{ width: 120, display: 'inline-block', marginTop: 10 }} {...props} />;
+};
+
 const instance = (
   <div>
-    <CheckTreePicker data={data} disabled style={{ width: 280 }} />
-    <hr />
-    <p>Disabled item</p>
+    <Label>Disabled: </Label>
+    <CheckTreePicker disabled data={data} defaultValue={[24]} style={{ width: 220 }} />
+    <br />
+    <Label>Disabled option: </Label>
     <CheckTreePicker
       defaultExpandAll
       data={data}
       disabledItemValues={[1, 3, 36]}
-      style={{ width: 280 }}
+      defaultValue={[24]}
+      style={{ width: 220 }}
     />
-    <hr />
-    <p>Uncheckable</p>
+    <br />
+    <Label>Uncheckable: </Label>
     <CheckTreePicker
       defaultExpandAll
-      style={{ width: 280 }}
       data={data}
       uncheckableItemValues={[1, 3, 36]}
+      defaultValue={[24]}
+      style={{ width: 220 }}
     />
+
+    <hr />
+    <Label>Read only: </Label>
+    <CheckTreePicker readOnly data={data} defaultValue={[24]} style={{ width: 220 }} />
+    <hr />
+    <Label>Plaintext: </Label>
+    <CheckTreePicker plaintext data={data} defaultValue={[24]} style={{ width: 220 }} />
   </div>
 );
 ReactDOM.render(instance);

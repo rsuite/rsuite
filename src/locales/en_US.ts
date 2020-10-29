@@ -68,5 +68,9 @@ export default {
   },
   Breadcrumb: {
     expandText: 'Show path'
+  },
+  Toggle: {
+    on: 'Open',
+    off: 'Close'
   }
 };

@@ -68,5 +68,9 @@ export default {
   },
   Breadcrumb: {
     expandText: 'عرض المسار'
+  },
+  Toggle: {
+    on: 'إيقاف',
+    off: 'تشغيل'
   }
 };

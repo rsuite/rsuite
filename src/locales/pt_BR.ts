@@ -64,9 +64,13 @@ export default {
     upload: 'Upload'
   },
   CloseButton: {
-    closeLabel: 'apagar'
+    closeLabel: 'Apagar'
   },
   Breadcrumb: {
     expandText: 'Mostrar caminho'
+  },
+  Toggle: {
+    on: 'Ligado',
+    off: 'Desligado'
   }
 };

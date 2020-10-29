@@ -100,7 +100,7 @@ export interface UploaderProps extends WithAsProps {
   /** Supported Drag and drop upload **/
   draggable?: boolean;
 
-  /** Locale */
+  /** Custom locale */
   locale?: UploaderLocale;
 
   /** Allow the queue to be updated. After you select a file, update the checksum function before the upload file queue, and return false to not update */

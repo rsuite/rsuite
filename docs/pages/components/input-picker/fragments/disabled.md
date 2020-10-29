@@ -8,15 +8,21 @@
 
 const instance = (
   <div>
-    <InputPicker data={data} defaultValue={'Julius'} disabled style={{ width: 224 }} />
-    <hr />
-    <p>Disabled option</p>
+    <label>Disabled: </label>
+    <InputPicker disabled data={data} defaultValue={'Julius'} />
+    <label style={{ marginLeft: 10 }}> Disabled option: </label>
     <InputPicker
       data={data}
       defaultValue={'Julius'}
       disabledItemValues={['Eugenia', 'Travon', 'Vincenza']}
-      style={{ width: 224 }}
     />
+    <hr />
+    <label>Read only: </label>
+    <InputPicker readOnly data={data} defaultValue={'Julius'} />
+
+    <hr />
+    <label>Plaintext: </label>
+    <InputPicker plaintext data={data} defaultValue={'Julius'} />
   </div>
 );
 ReactDOM.render(instance);

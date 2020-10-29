@@ -32,7 +32,7 @@ Single item selector with text box input.
 
 <!--{include:`custom.md`}-->
 
-### Disabled
+### Disabled and read only
 
 <!--{include:`disabled.md`}-->
 

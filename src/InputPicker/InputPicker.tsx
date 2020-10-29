@@ -235,7 +235,9 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     useEffect(() => {
       // In multiple selection, you need to set a maximum width for the input.
-      setMaxWidth(getWidth(triggerRef.current.child));
+      if (triggerRef.current?.child) {
+        setMaxWidth(getWidth(triggerRef.current.child));
+      }
     }, []);
 
     // Update the position of the menu when the search keyword and value change

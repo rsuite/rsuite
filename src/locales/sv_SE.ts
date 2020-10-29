@@ -68,9 +68,13 @@ export default {
     upload: 'Ladda upp'
   },
   CloseButton: {
-    closeLabel: 'stänga av'
+    closeLabel: 'Stänga av'
   },
   Breadcrumb: {
     expandText: 'Visa väg'
+  },
+  Toggle: {
+    on: 'På',
+    off: 'Av'
   }
 };

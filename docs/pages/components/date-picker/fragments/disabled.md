@@ -1,20 +1,22 @@
-Disable is to set a clickable element to be unclickable. Hidden is not display in the option.
-
 <!--start-code-->
 
 ```js
-const DatePickerInstance = props => (
+const Label = props => {
+  return <label style={{ width: 120, display: 'inline-block', marginTop: 10 }} {...props} />;
+};
+
+const instance = (
   <div className="field">
-    <p> Disable Picker</p>
+    <Label>Disabled: </Label>
     <DatePicker disabled />
-
-    <p> Disable Date</p>
+    <br />
+    <Label>Disabled date: </Label>
     <DatePicker disabledDate={date => dateFns.isBefore(date, new Date())} />
-
-    <p> Disable Month</p>
+    <br />
+    <Label>Disabled month: </Label>
     <DatePicker disabledDate={date => dateFns.isBefore(date, new Date())} format="yyyy-MM" />
-
-    <p> Disable Time</p>
+    <br />
+    <Label>Disabled time: </Label>
     <DatePicker
       format="HH:mm:ss"
       ranges={[]}
@@ -23,8 +25,8 @@ const DatePickerInstance = props => (
       disabledMinutes={minute => minute % 15 !== 0}
       disabledSeconds={second => second % 30 !== 0}
     />
-
-    <p> Hidden Time</p>
+    <br />
+    <Label>Hidden time: </Label>
     <DatePicker
       format="HH:mm:ss"
       ranges={[]}
@@ -33,10 +35,17 @@ const DatePickerInstance = props => (
       hideMinutes={minute => minute % 15 !== 0}
       hideSeconds={second => second % 30 !== 0}
     />
+    <hr />
+    <Label>Read only: </Label>
+    <DatePicker readOnly defaultValue={new Date()} />
+
+    <hr />
+    <Label>Plaintext: </Label>
+    <DatePicker plaintext defaultValue={new Date()} />
   </div>
 );
 
-ReactDOM.render(<DatePickerInstance />);
+ReactDOM.render(instance);
 ```
 
 <!--end-code-->

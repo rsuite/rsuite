@@ -96,9 +96,20 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
       );
     }
 
+    const operable = !disabled && !readOnly;
+    const eventProps: React.HTMLAttributes<HTMLInputElement> = {};
+
+    if (operable) {
+      eventProps.onChange = handleChange;
+      eventProps.onKeyDown = handleKeyDown;
+      eventProps.onFocus = createChainedFunction(onFocus, inputGroupContext?.onFocus);
+      eventProps.onBlur = createChainedFunction(onBlur, inputGroupContext?.onBlur);
+    }
+
     return (
       <Component
         {...rest}
+        {...eventProps}
         ref={mergeRefs(ref, inputRef)}
         className={classes}
         type={type}
@@ -107,10 +118,6 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
         defaultValue={defaultValue}
         disabled={disabled}
         readOnly={readOnly}
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-        onFocus={createChainedFunction(onFocus, inputGroupContext?.onFocus)}
-        onBlur={createChainedFunction(onBlur, inputGroupContext?.onBlur)}
       />
     );
   }

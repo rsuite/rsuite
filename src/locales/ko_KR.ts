@@ -71,5 +71,9 @@ export default {
   },
   Breadcrumb: {
     expandText: '경로 표시'
+  },
+  Toggle: {
+    on: '켜기',
+    off: '끄기'
   }
 };

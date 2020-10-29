@@ -12,7 +12,7 @@ Radio buttons allow the user to select one option from a set.
 
 <!--{include:`basic.md`}-->
 
-### Disabled
+### Disabled and read only
 
 <!--{include:`disabled.md`}-->
 

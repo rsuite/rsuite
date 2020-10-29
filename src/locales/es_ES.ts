@@ -26,7 +26,7 @@ export default {
     emptyMessage: 'Sin datos'
   },
   Plaintext: {
-    unfilled: 'sin llenar',
+    unfilled: 'Sin llenar',
     notSelected: 'No seleccionado',
     notUploaded: 'No subido'
   },
@@ -68,9 +68,13 @@ export default {
     upload: 'Subir'
   },
   CloseButton: {
-    closeLabel: 'apagar'
+    closeLabel: 'Apagar'
   },
   Breadcrumb: {
     expandText: 'Mostrar ruta'
+  },
+  Toggle: {
+    on: 'Encender',
+    off: 'Apagar'
   }
 };

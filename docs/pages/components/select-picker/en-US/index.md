@@ -38,7 +38,7 @@ For a single data selection, support grouping.
 
 <!--{include:`custom.md`}-->
 
-### Disabled
+### Disabled and read only
 
 <!--{include:`disabled.md`}-->
 

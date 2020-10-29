@@ -24,7 +24,7 @@
 
 <!--{include:`placement.md`}-->
 
-### Disabled
+### Disabled and Read only
 
 <!--{include:`disabled.md`}-->
 

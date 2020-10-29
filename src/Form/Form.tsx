@@ -308,7 +308,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
 
   const handleSubmit = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
-      if (disabled) {
+      if (disabled || readOnly || plaintext) {
         return;
       }
       event.preventDefault();
@@ -317,7 +317,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
       const checkStatus = check();
       onSubmit?.(checkStatus, event);
     },
-    [disabled, check, onSubmit]
+    [disabled, readOnly, plaintext, check, onSubmit]
   );
 
   const handleFieldError = useCallback(

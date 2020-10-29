@@ -26,7 +26,7 @@ export default {
     emptyMessage: 'Nessun elemento trovato'
   },
   Plaintext: {
-    unfilled: 'vacanti',
+    unfilled: 'Vacanti',
     notSelected: 'Non selezionato',
     notUploaded: 'Non caricato'
   },
@@ -72,5 +72,9 @@ export default {
   },
   Breadcrumb: {
     expandText: 'Mostra percorso'
+  },
+  Toggle: {
+    on: 'Acceso',
+    off: 'Spento'
   }
 };

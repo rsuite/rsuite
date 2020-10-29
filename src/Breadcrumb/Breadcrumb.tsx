@@ -19,7 +19,7 @@ export interface BreadcrumbProps extends WithAsProps {
    * */
   maxItems?: number;
 
-  /** The locale of the custom component. */
+  /** Custom locale */
   locale?: BreadcrumbLocale;
 
   /** A function to be called when you are in the collapsed view and click the ellipsis. */

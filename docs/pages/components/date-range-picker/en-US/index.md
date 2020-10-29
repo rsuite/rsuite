@@ -46,7 +46,7 @@ If `<DateRangePicker>` does not satisfy the business scenario in which you selec
 
 <!--{include:`show-only-calendar.md`}-->
 
-### Disabled
+### Disabled and read only
 
 <!--{include:`disabled.md`}-->
 

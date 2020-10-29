@@ -68,5 +68,9 @@ export default {
   },
   Breadcrumb: {
     expandText: 'Показать путь'
+  },
+  Toggle: {
+    on: 'Вкл',
+    off: 'Выкл'
   }
 };

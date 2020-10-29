@@ -1,11 +1,23 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useControlled } from '../utils';
+import { useClassNames, useControlled, useCustom } from '../utils';
 import { WithAsProps, TypeAttributes } from '../@types/common';
+import Plaintext from '../Plaintext';
+
+export interface ToggleLocale {
+  on: string;
+  off: string;
+}
 
 export interface ToggleProps extends WithAsProps {
   /** Wheather to disabled toggle */
   disabled?: boolean;
+
+  /** Render the control as plain text */
+  plaintext?: boolean;
+
+  /** Make the control readonly */
+  readOnly?: boolean;
 
   /** Checked（Controlled) */
   checked?: boolean;
@@ -19,11 +31,14 @@ export interface ToggleProps extends WithAsProps {
   /** Unselected display content */
   unCheckedChildren?: React.ReactNode;
 
-  /** Callback function when state changes */
-  onChange?: (checked: boolean, event: React.SyntheticEvent<HTMLInputElement>) => void;
-
   /** Toggle size */
   size?: Omit<TypeAttributes.Size, 'xs'>;
+
+  /** Custom locale */
+  locale?: ToggleLocale;
+
+  /** Callback function when state changes */
+  onChange?: (checked: boolean, event: React.SyntheticEvent) => void;
 }
 
 const defaultProps: Partial<ToggleProps> = {
@@ -35,6 +50,8 @@ const Toggle = React.forwardRef((props: ToggleProps, ref) => {
   const {
     as: Component,
     disabled,
+    readOnly,
+    plaintext,
     className,
     checkedChildren,
     unCheckedChildren,
@@ -42,36 +59,43 @@ const Toggle = React.forwardRef((props: ToggleProps, ref) => {
     checked: checkedProp,
     defaultChecked,
     size,
+    locale: localeProp,
     onChange,
     ...rest
   } = props;
   const [checked, setChecked] = useControlled(checkedProp, defaultChecked);
+  const { locale } = useCustom<ToggleLocale>('Toggle', localeProp);
 
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix(size, { checked, disabled }));
   const inner = checked ? checkedChildren : unCheckedChildren;
+  const label = checked ? locale.on : locale.off;
 
   const handleChange = useCallback(
-    (event: React.MouseEvent<any>) => {
-      if (disabled) {
+    (event: React.MouseEvent) => {
+      if (disabled || readOnly) {
         return;
       }
       setChecked(!checked);
       onChange?.(!checked, event);
     },
-    [checked, disabled, onChange, setChecked]
+    [checked, disabled, onChange, readOnly, setChecked]
   );
+
+  if (plaintext) {
+    return <Plaintext>{inner || label}</Plaintext>;
+  }
 
   return (
     <Component
+      role="switch"
       aria-checked={checked}
       aria-disabled={disabled}
-      aria-label={typeof inner === 'string' ? inner : null}
-      role="switch"
+      aria-label={typeof inner === 'string' ? inner : label}
+      tabIndex={-1}
       {...rest}
       ref={ref}
       className={classes}
-      tabIndex={-1}
       onClick={handleChange}
     >
       <span className={prefix('inner')}>{inner}</span>

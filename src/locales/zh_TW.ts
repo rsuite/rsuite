@@ -68,5 +68,9 @@ export default {
   },
   Breadcrumb: {
     expandText: '顯示路徑'
+  },
+  Toggle: {
+    on: '開啟',
+    off: '關閉'
   }
 };

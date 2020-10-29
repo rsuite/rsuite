@@ -9,10 +9,12 @@ import Input from '../Input';
 import Button from '../Button';
 import Icon from '../Icon';
 import { partitionHTMLProps, createChainedFunction, useClassNames, useControlled } from '../utils';
-import { WithAsProps, TypeAttributes } from '../@types/common';
+import { WithAsProps, TypeAttributes, FormControlBaseProps } from '../@types/common';
 import { Partial } from '../@types/utils';
 
-export interface InputNumberProps<T = number | string> extends WithAsProps {
+export interface InputNumberProps<T = number | string>
+  extends WithAsProps,
+    FormControlBaseProps<T> {
   /** Button can have different appearances */
   buttonAppearance?: TypeAttributes.Appearance;
 
@@ -28,12 +30,6 @@ export interface InputNumberProps<T = number | string> extends WithAsProps {
   /** The value of each step. can be decimal */
   step?: number;
 
-  /** Current value of the input. Creates a controlled component */
-  value?: T;
-
-  /** Initial value */
-  defaultValue?: T;
-
   /** Sets the element displayed to the left of the component */
   prefix?: React.ReactNode;
 
@@ -45,9 +41,6 @@ export interface InputNumberProps<T = number | string> extends WithAsProps {
 
   /** Whether the value can be changed through the wheel event */
   scrollable?: boolean;
-
-  /** The callback function when value changes */
-  onChange?: (value: T, event?: React.SyntheticEvent<any>) => void;
 
   onWheel?: (event: React.WheelEvent) => void;
 }
@@ -118,6 +111,8 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
     className,
     classPrefix,
     disabled,
+    readOnly,
+    plaintext,
     value: valueProp,
     defaultValue,
     size,
@@ -195,7 +190,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
 
   const handleWheel = useCallback(
     (event: React.WheelEvent<HTMLInputElement>) => {
-      if (!disabled && event.target === document.activeElement) {
+      if (!disabled && !readOnly && event.target === document.activeElement) {
         event.preventDefault();
         const delta: number = event['wheelDelta'] || -event.deltaY || -event?.detail;
 
@@ -209,7 +204,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
 
       onWheel?.(event);
     },
-    [disabled, handleMinus, handlePlus, onWheel]
+    [disabled, handleMinus, handlePlus, onWheel, readOnly]
   );
 
   const handleChange = useCallback(
@@ -240,27 +235,36 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
     };
   }, [handleWheel, scrollable]);
 
+  const input = (
+    <Input
+      {...(htmlInputProps as Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>)}
+      type="text"
+      autoComplete="off"
+      step={step}
+      inputRef={inputRef}
+      onChange={handleChange}
+      onBlur={createChainedFunction(handleBlur, htmlInputProps?.onBlur)}
+      value={isNil(value) ? '' : `${value}`}
+      disabled={disabled}
+      readOnly={readOnly}
+      plaintext={plaintext}
+    />
+  );
+
+  if (plaintext) {
+    return input;
+  }
+
   return (
     <Component {...rest} ref={ref} className={classes} disabled={disabled} size={size}>
       {prefixElement && <InputGroupAddon>{prefixElement}</InputGroupAddon>}
-      <Input
-        {...(htmlInputProps as Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>)}
-        type="text"
-        autoComplete="off"
-        step={step}
-        inputRef={inputRef}
-        onChange={handleChange}
-        onBlur={createChainedFunction(handleBlur, htmlInputProps?.onBlur)}
-        value={isNil(value) ? '' : `${value}`}
-        disabled={disabled}
-      />
-
+      {input}
       <span className={prefix('btn-group-vertical')}>
         <Button
           appearance={buttonAppearance}
           className={prefix('touchspin-up')}
           onClick={handlePlus}
-          disabled={disabledUpButton || disabled}
+          disabled={disabledUpButton || disabled || readOnly}
         >
           <Icon icon="arrow-up-line" />
         </Button>
@@ -268,7 +272,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
           appearance={buttonAppearance}
           className={prefix('touchspin-down')}
           onClick={handleMinus}
-          disabled={disabledDownButton || disabled}
+          disabled={disabledDownButton || disabled || readOnly}
         >
           <Icon icon="arrow-down-line" />
         </Button>
@@ -291,6 +295,8 @@ InputNumber.propTypes = {
   prefix: PropTypes.node,
   postfix: PropTypes.node,
   disabled: PropTypes.bool,
+  readOnly: PropTypes.bool,
+  plaintext: PropTypes.bool,
   scrollable: PropTypes.bool,
   size: PropTypes.oneOf(['lg', 'md', 'sm', 'xs']),
   buttonAppearance: PropTypes.oneOf(['default', 'primary', 'link', 'subtle', 'ghost']),

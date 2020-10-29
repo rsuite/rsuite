@@ -34,7 +34,7 @@ To select or input a date or time
 
 <!--{include:`placeholder.md`}-->
 
-### Date + Time
+### Date and time
 
 <!--{include:`format.md`}-->
 
@@ -60,7 +60,7 @@ The calendar panel can be displayed in ISO standard via the ʻisoWeek` property 
 
 <!--{include:`iso-week.md`}-->
 
-### Disabled and hidden
+### Disabled and read only
 
 <!--{include:`disabled.md`}-->
 

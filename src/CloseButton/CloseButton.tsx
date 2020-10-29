@@ -7,6 +7,7 @@ export interface CloseButtonLocaleType {
 }
 
 export interface CloseButtonProps extends WithAsProps {
+  /** Custom locale */
   locale?: CloseButtonLocaleType;
 }
 
