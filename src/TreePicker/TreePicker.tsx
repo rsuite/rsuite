@@ -182,7 +182,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   const treeViewRef = useRef<HTMLDivElement>();
   const { rtl, locale } = useCustom<PickerLocaleType>('Picker', overrideLocale);
 
-  const [value, setValue] = useControlled(controlledValue, defaultValue);
+  const [value, setValue, isControlled] = useControlled(controlledValue, defaultValue);
   const {
     data: treeData,
     setData: setTreeData,
@@ -370,14 +370,17 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
         return;
       }
       const nodeValue = nodeData[valueKey];
-      setValue(nodeValue);
+      if (!isControlled) {
+        setValue(nodeValue);
+      }
+
+      setFocusItemValue(nodeData[valueKey]);
       onChange?.(nodeValue, event);
       onSelect?.(nodeData, nodeValue, event);
-      setFocusItemValue(nodeData[valueKey]);
       toggleRef.current?.focus();
       triggerRef.current?.close?.();
     },
-    [valueKey, setValue, onChange, onSelect]
+    [valueKey, isControlled, onChange, onSelect, setValue]
   );
 
   const handleExpand = useCallback(

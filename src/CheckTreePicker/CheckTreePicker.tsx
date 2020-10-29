@@ -434,9 +434,10 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
           uncheckableItemValues
         });
         setValue(selectedValues);
-        setFocusItemValue(node[valueKey]);
-        setActiveNode(node);
       }
+
+      setActiveNode(node);
+      setFocusItemValue(node[valueKey]);
 
       onChange?.(selectedValues, event);
       onSelect?.(node as ItemDataType, selectedValues, event);
