@@ -69,7 +69,6 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
     const handleChangePageDate = useCallback(
       (nextPageDate: Date) => {
         onChangeCalendarDate?.(index, nextPageDate);
-        setCalendarState(undefined);
       },
       [index, onChangeCalendarDate]
     );
