@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { MultiCascader, Button, Icon, Toggle, RadioGroup, Radio } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import PreventOverflowContainer from '@/components/PreventOverflowContainer';

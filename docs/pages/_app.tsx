@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Grid, CustomProvider } from 'rsuite';
 import NProgress from 'nprogress';
 import Router from 'next/router';
@@ -80,7 +80,7 @@ function App({ Component, pageProps }: AppProps) {
     const newThemeName = themeName === 'default' ? 'dark' : 'default';
     setThemeName(newThemeName);
     loadTheme(newThemeName, direction);
-  }, [themeName, direction]);
+  }, [themeName, loadTheme, direction]);
 
   React.useEffect(() => {
     if (!canUseDOM) {
@@ -88,16 +88,17 @@ function App({ Component, pageProps }: AppProps) {
     }
     const media = matchMedia('(prefers-color-scheme: dark)');
     media?.addEventListener?.('change', onChangeTheme);
+
     return () => {
       media?.removeEventListener?.('change', onChangeTheme);
     };
-  }, [themeName, direction]);
+  }, [themeName, direction, onChangeTheme]);
 
   const onChangeDirection = React.useCallback(() => {
     const newDirection = direction === 'ltr' ? 'rtl' : 'ltr';
     setDirection(newDirection);
     loadTheme(themeName, newDirection);
-  }, [themeName, direction]);
+  }, [direction, loadTheme, themeName]);
 
   const onChangeLanguage = React.useCallback((value: string) => {
     setLanguage(value);

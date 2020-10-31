@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { TagPicker, Button, Icon } from 'rsuite';
 import lodashRemove from 'lodash/remove';
 import fetch from 'isomorphic-fetch';

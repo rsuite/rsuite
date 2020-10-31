@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Color from 'color';
 import { Icon, Popover, Whisper } from 'rsuite';
 

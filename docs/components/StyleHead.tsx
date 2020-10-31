@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { canUseDOM } from 'dom-lib';
 import { getThemeCssPath, getThemeId, readTheme } from '../utils/themeHelpers';
 import { useState, useEffect } from 'react';

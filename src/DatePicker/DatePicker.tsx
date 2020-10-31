@@ -465,7 +465,11 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
     const hasValue = !!value;
 
-    const [classes, usedClassNamePropKeys] = usePickerClassName({ ...props, name: 'date', hasValue });
+    const [classes, usedClassNamePropKeys] = usePickerClassName({
+      ...props,
+      name: 'date',
+      hasValue
+    });
 
     const renderDate = useCallback(() => {
       if (!value) {

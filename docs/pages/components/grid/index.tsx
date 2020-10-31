@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Grid, Button, Icon, Row, Col } from 'rsuite';
 import DefaultPage from '@/components/Page';
 

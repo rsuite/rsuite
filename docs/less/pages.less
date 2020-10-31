@@ -1,22 +1,22 @@
 /** Components **/
-@import './components/animation/styles';
-@import './components/avatar/styles';
-@import './components/calendar/styles';
-@import './components/carousel/styles';
-@import './components/container/styles';
-@import './components/grid/styles';
-@import './components/icon/styles';
-@import './components/overview/styles';
-@import './components/slider/styles';
-@import './components/table/styles';
-@import './components/tag/styles';
-@import './components/timeline/styles';
-@import './components/input-number/styles';
-@import './components/progress/styles';
+@import '../pages/components/animation/styles';
+@import '../pages/components/avatar/styles';
+@import '../pages/components/calendar/styles';
+@import '../pages/components/carousel/styles';
+@import '../pages/components/container/styles';
+@import '../pages/components/grid/styles';
+@import '../pages/components/icon/styles';
+@import '../pages/components/overview/styles';
+@import '../pages/components/slider/styles';
+@import '../pages/components/table/styles';
+@import '../pages/components/tag/styles';
+@import '../pages/components/timeline/styles';
+@import '../pages/components/input-number/styles';
+@import '../pages/components/progress/styles';
 
 /** Tools **/
-@import './tools/icons/styles';
-@import './tools/palette/styles';
+@import '../pages/tools/icons/styles';
+@import '../pages/tools/palette/styles';
 
 .page-home {
   position: relative;
@@ -156,6 +156,17 @@
     padding: 5px 10px;
     a {
       color: #aaa;
+    }
+  }
+}
+
+.page-heading {
+  .page-heading-anchor {
+    opacity: 0;
+  }
+  &:hover {
+    .page-heading-anchor {
+      opacity: 1;
     }
   }
 }

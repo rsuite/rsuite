@@ -381,7 +381,11 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
       );
     };
 
-    const [classes, usedClassNamePropKeys] = usePickerClassName({ ...props, hasValue, name: 'check' });
+    const [classes, usedClassNamePropKeys] = usePickerClassName({
+      ...props,
+      hasValue,
+      name: 'check'
+    });
 
     return (
       <PickerToggleTrigger

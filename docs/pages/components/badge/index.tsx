@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Badge, Button, Toggle } from 'rsuite';
 import DefaultPage from '@/components/Page';
 

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { ButtonToolbar, Button, Modal, Icon, Toggle, RadioGroup, Radio, Loader } from 'rsuite';
 import DefaultPage from '@/components/Page';
 

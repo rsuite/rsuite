@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Button, Icon, Panel, PanelGroup, Table, Grid, Row, Col } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import useFetchData from '@/utils/useFetchData';

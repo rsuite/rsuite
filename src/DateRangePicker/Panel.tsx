@@ -74,6 +74,13 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
       [index, onChangeCalendarDate]
     );
 
+    const handleChangePageTime = useCallback(
+      (nextPageDate: Date) => {
+        onChangeCalendarDate(index, nextPageDate);
+      },
+      [index, onChangeCalendarDate]
+    );
+
     const toggleMonthDropdown = useCallback(() => {
       setCalendarState(
         calendarState === CalendarState.DROP_MONTH ? undefined : CalendarState.DROP_MONTH
@@ -156,7 +163,7 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
         index={index}
         limitEndYear={limitEndYear}
         onChangePageDate={handleChangePageDate}
-        onChangePageTime={handleChangePageDate}
+        onChangePageTime={handleChangePageTime}
         onMoveBackward={handleMoveBackward}
         onMoveForward={handleMoveForward}
         onToggleMonthDropdown={toggleMonthDropdown}
