@@ -127,11 +127,14 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
     const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue || []);
 
     // Used to hover the focuse item  when trigger `onKeydown`
-    const { focusItemValue, setFocusItemValue, onKeyDown } = useFocusItemValue(value?.[0], {
-      data,
-      valueKey,
-      target: () => menuRef.current
-    });
+    const { focusItemValue, setFocusItemValue, onKeyDown: onFocusItem } = useFocusItemValue(
+      value?.[0],
+      {
+        data,
+        valueKey,
+        target: () => menuRef.current
+      }
+    );
 
     const handleSearchCallback = useCallback(
       (searchKeyword: string, filteredData: ItemDataType[], event: React.SyntheticEvent<any>) => {
@@ -228,14 +231,11 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
       active,
       onExit: handleClean,
       onClose: () => {
-        setFocusItemValue(value ? value[0] : undefined);
+        setFocusItemValue(null);
       },
       onMenuKeyDown: event => {
-        onKeyDown(event);
-        onMenuKeyDown(event, {
-          enter: selectFocusMenuItem,
-          esc: handleClose
-        });
+        onFocusItem(event);
+        onMenuKeyDown(event, { enter: selectFocusMenuItem, esc: handleClose });
       },
       ...rest
     });
