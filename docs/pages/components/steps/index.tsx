@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Steps, Icon, ButtonGroup, Button, Panel } from 'rsuite';
 import DefaultPage from '@/components/Page';
 

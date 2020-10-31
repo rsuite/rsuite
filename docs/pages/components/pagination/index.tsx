@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Pagination, Button, Icon, Toggle, Divider } from 'rsuite';
 import DefaultPage from '@/components/Page';
 

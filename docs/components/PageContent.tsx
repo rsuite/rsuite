@@ -1,7 +1,8 @@
-import * as React from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { Divider, Icon, ButtonGroup, Button, IconButton, Tooltip, Whisper } from 'rsuite';
+import { Divider, Icon, IconButton, Tooltip, Whisper, Placeholder } from 'rsuite';
 import { canUseDOM } from 'dom-lib';
 import { Markdown } from 'react-markdown-reader';
 import AppContext from './AppContext';
@@ -9,36 +10,47 @@ import PageContainer from './PageContainer';
 import Head from './Head';
 import Paragraph from './Paragraph';
 import components from '../utils/component.config.json';
-import { getTitle, getDescription, replaceWithPlaceholder } from '../utils/parseHTML';
+import { getTitle, getDescription } from '../utils/parseHTML';
+import scrollIntoView from '../utils/scrollIntoView';
+import { CodeViewProps } from './CodeView';
 
 const babelOptions = {
   presets: ['env', 'stage-1', 'react'],
   plugins: ['transform-class-properties']
 };
 
-const CustomCodeView = ({ dependencies, source, onLoaded, ...rest }: any) => {
+interface CustomCodeViewProps {
+  height?: number;
+  dependencies?: any;
+  source?: any;
+  onLoaded?: () => void;
+  renderToolbar?: (showCodeButton: React.ReactNode) => React.ReactNode;
+}
+
+const CustomCodeView = (props: CustomCodeViewProps) => {
+  const { dependencies, source, height = 100, onLoaded, ...rest } = props;
   const { styleLoaded } = React.useContext(AppContext);
-  const placeholder = (
-    <div
-      dangerouslySetInnerHTML={{
-        __html: replaceWithPlaceholder(source ?? '')
-      }}
-    />
-  );
+
+  const renderPlaceholder = React.useCallback(() => {
+    return <Placeholder.Graph height={height} />;
+  }, [height]);
+
   if (canUseDOM && source && styleLoaded) {
-    const CodeView = dynamic(
+    const CodeView: React.ComponentType<CodeViewProps> = dynamic(
       () =>
         import('./CodeView').then(Component => {
           onLoaded?.();
           return Component;
         }),
       {
-        loading: () => placeholder
+        loading: renderPlaceholder
       }
     );
+
     return (
       <CodeView
         {...rest}
+        style={{ minHeight: height }}
         source={source}
         theme="dark"
         babelOptions={babelOptions}
@@ -47,61 +59,25 @@ const CustomCodeView = ({ dependencies, source, onLoaded, ...rest }: any) => {
       />
     );
   }
-  return placeholder;
+  return renderPlaceholder();
 };
 
-interface TabsProps {
-  title: string;
-  tabExamples: any[];
-  dependencies: any;
+CustomCodeView.propTypes = {
+  height: PropTypes.number,
+  dependencies: PropTypes.object,
+  source: PropTypes.string,
+  onLoaded: PropTypes.func
+};
+
+interface ViewCodeProps extends CustomCodeViewProps {
+  path: string;
 }
 
-function Tabs(props: TabsProps) {
-  const { tabExamples, title, dependencies } = props;
-
-  if (!tabExamples?.length) {
-    return null;
-  }
-
-  const [tabIndex, setTabIndex] = React.useState<number>(0);
-  const activeExample = tabExamples[tabIndex];
-
-  return (
-    <div>
-      <h3>{title}</h3>
-      <ButtonGroup size="xs" className="menu-tabs">
-        {tabExamples.map((item, index: number) => (
-          <Button
-            key={index}
-            appearance={index === tabIndex ? 'primary' : 'default'}
-            onClick={() => {
-              setTabIndex(index);
-            }}
-          >
-            {item.title}
-          </Button>
-        ))}
-      </ButtonGroup>
-      <CustomCodeView key={tabIndex} source={activeExample?.source} dependencies={dependencies} />
-    </div>
-  );
-}
-
-export interface PageContentProps {
-  id?: string;
-  category?: string;
-  examples?: string[];
-  dependencies?: any;
-  tabExamples?: any[];
-  children?: React.ReactNode;
-  hidePageNav?: boolean;
-}
-
-const ViewCode = ({ source, dependencies, path }) => {
+const ViewCode = function ViewCode(props: ViewCodeProps) {
+  const { path, ...rest } = props;
   return (
     <CustomCodeView
-      source={source}
-      dependencies={dependencies}
+      {...rest}
       renderToolbar={showCodeButton => {
         return (
           <React.Fragment>
@@ -125,14 +101,19 @@ const ViewCode = ({ source, dependencies, path }) => {
   );
 };
 
-const PageContent = ({
-  category = 'components',
-  dependencies,
-  tabExamples,
-  children,
-  hidePageNav
-}: PageContentProps) => {
-  const { messages, localePath } = React.useContext(AppContext);
+export interface PageContentProps {
+  id?: string;
+  category?: string;
+  examples?: string[];
+  dependencies?: any;
+  tabExamples?: any[];
+  children?: React.ReactNode;
+  hidePageNav?: boolean;
+}
+
+const PageContent = (props: PageContentProps) => {
+  const { category = 'components', dependencies, children, hidePageNav } = props;
+  const { localePath } = React.useContext(AppContext);
 
   const router = useRouter();
 
@@ -150,20 +131,30 @@ const PageContent = ({
 
   const fragments = context.split(/<!--{(\S+)}-->/);
 
+  React.useEffect(() => {
+    scrollIntoView();
+  }, []);
+
   return (
     <PageContainer designHash={designHash} routerId={pathname} hidePageNav={hidePageNav}>
       {pageHead}
       {fragments.map((item, index) => {
+        const result = item.match(/include:`(\S+)`(\|(\d+)\|)?/);
         // Import sample code
-        const codeName = item.match(/include:`(\S+)`/)?.[1];
+        const codeName = result?.[1];
+        const height = result?.[3];
 
         if (codeName) {
           return (
             <ViewCode
               key={index}
+              height={height ? parseInt(height) : undefined}
               source={require(`../pages${pathname}/fragments/${codeName}`)}
               dependencies={dependencies}
               path={`https://github.com/rsuite/rsuite/tree/master/docs/pages${pathname}/fragments/${codeName}`}
+              onLoaded={() => {
+                scrollIntoView();
+              }}
             />
           );
         }
@@ -177,12 +168,6 @@ const PageContent = ({
 
         return <Markdown key={index}>{item}</Markdown>;
       })}
-
-      <Tabs
-        title={messages?.common?.advanced}
-        tabExamples={tabExamples}
-        dependencies={dependencies}
-      />
 
       {children}
     </PageContainer>

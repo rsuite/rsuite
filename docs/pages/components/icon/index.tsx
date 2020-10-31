@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Icon, IconStack, Button, IconButton } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import { IconLogo } from '@/components/SvgIcons';

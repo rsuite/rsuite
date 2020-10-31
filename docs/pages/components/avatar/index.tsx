@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Avatar, Icon, Badge } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import { Avatar as AvatarUser } from '@/components/SvgIcons';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Input, Panel, DOMHelper } from 'rsuite';
 import AppContext from '@/components/AppContext';
 

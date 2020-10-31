@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Sidenav, Nav, Button, Icon, Toggle, Dropdown } from 'rsuite';
 import DefaultPage from '@/components/Page';
 

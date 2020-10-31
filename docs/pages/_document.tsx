@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 
 interface DocumentProps {
@@ -35,6 +35,7 @@ class MyDocument extends Document<DocumentProps> {
               `
             }}
           />
+
           <script
             dangerouslySetInnerHTML={{
               __html: `

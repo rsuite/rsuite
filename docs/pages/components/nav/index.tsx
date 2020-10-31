@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Nav, Button, Icon, Row, Col, Slider } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ResponsiveNav from '@rsuite/responsive-nav';

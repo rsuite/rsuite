@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import 'isomorphic-fetch';
 
 const useFetch = (url: string, options?: any) => {

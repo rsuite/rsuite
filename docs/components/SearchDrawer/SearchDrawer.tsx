@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import algoliasearch from 'algoliasearch/lite';
 import { Drawer, Input } from 'rsuite';
 import Link from '@/components/Link';

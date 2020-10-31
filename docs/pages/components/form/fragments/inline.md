@@ -12,7 +12,7 @@ var instance = (
 
       <Form.Group controlId="password-7">
         <Form.ControlLabel>Password</Form.ControlLabel>
-        <Form.Control name="password" type="password" style={{ width: 160 }} />
+        <Form.Control name="password" type="password" autoComplete="off" style={{ width: 160 }} />
       </Form.Group>
 
       <Button>Login</Button>
@@ -27,7 +27,7 @@ var instance = (
 
       <Form.Group controlId="password-8">
         <Form.ControlLabel>Username</Form.ControlLabel>
-        <Form.Control placeholder="Password" name="password" type="password" />
+        <Form.Control placeholder="Password" name="password" type="password" autoComplete="off" />
       </Form.Group>
 
       <Button>Login</Button>
