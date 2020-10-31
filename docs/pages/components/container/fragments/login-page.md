@@ -22,7 +22,7 @@ const instance = (
                 </Form.Group>
                 <Form.Group>
                   <Form.ControlLabel>Password</Form.ControlLabel>
-                  <Form.Control name="password" type="password" />
+                  <Form.Control name="password" type="password" autoComplete="off" />
                 </Form.Group>
                 <Form.Group>
                   <ButtonToolbar>

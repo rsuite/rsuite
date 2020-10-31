@@ -38,7 +38,7 @@ const App = () => {
             </Form.Group>
             <Form.Group controlId="password-9">
               <Form.ControlLabel>Password</Form.ControlLabel>
-              <Form.Control name="password" type="password" />
+              <Form.Control name="password" type="password" autoComplete="off" />
             </Form.Group>
             <Form.Group controlId="textarea-9">
               <Form.ControlLabel>Textarea</Form.ControlLabel>

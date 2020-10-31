@@ -20,25 +20,25 @@ A set of components and models that process form data.
 
 The default is the vertical layout
 
-<!--{include:`basic.md`}-->
+<!--{include:`basic.md`|589|}-->
 
 ### Fluid
 
 The `fluid` property allows the Input 100% of the form to fill the container, valid only in vertical layouts.
 
-<!--{include:`fluid.md`}-->
+<!--{include:`fluid.md`|613|}-->
 
 ### Horizontal layout
 
-<!--{include:`horizontal.md`}-->
+<!--{include:`horizontal.md`|501|}-->
 
 ### Inline Layout
 
-<!--{include:`inline.md`}-->
+<!--{include:`inline.md`|274|}-->
 
 ### Layout In Modal
 
-<!--{include:`modal-layout.md`}-->
+<!--{include:`modal-layout.md`|149|}-->
 
 ## Status
 
@@ -48,7 +48,7 @@ The `fluid` property allows the Input 100% of the form to fill the container, va
 
 `<Form.HelpText>` A help description can be defined below the form component. If the `tooltip` property is set, an icon will be displayed on the form component and the help description information will be displayed as `<Tooltip>`.
 
-<!--{include:`help-block.md`}-->
+<!--{include:`help-block.md`|233|}-->
 
 ### Error Message
 
@@ -57,11 +57,11 @@ Error message can be set in 2 ways:
 - The `<Form.Control>` component passes an `errorMessage` property setting error message, and `errorPlacement` sets the location of the error message display.
 - Customize a prompt message.
 
-<!--{include:`error-message.md`}-->
+<!--{include:`error-message.md`|423|}-->
 
 ### Disabled and read only
 
-<!--{include:`status.md`}-->
+<!--{include:`status.md`|1480|}-->
 
 ## Validations
 
@@ -71,7 +71,7 @@ Error message can be set in 2 ways:
 
 The form will automatically trigger the data check after the `submit` event is triggered.
 
-<!--{include:`form-check-default.md`}-->
+<!--{include:`form-check-default.md`|317|}-->
 
 ### Schema Model
 
@@ -82,7 +82,7 @@ Form Check needs to be used `<Form>`, `<Form.Control>` and `Schema.Model` 。
 - `Schema.Model` Define a data model, using the reference [schema](/components/schema).
 - Custom trigger check: `<Form>` instance provides `check` and `checkForField` methods, used to trigger form checksum field validation
 
-<!--{include:`form-check.md`}-->
+<!--{include:`form-check.md`|832|}-->
 
 ### Asynchronous check
 
@@ -92,7 +92,7 @@ Under certain conditions, we need to perform asynchronous verification on the da
 - The validation rules for asynchronous validation add an object with a return value of Promise via the `addRule` method of `schema`.
 - The check can be triggered manually by calling `checkAsync` and `checkForFieldAsync` of `<Form>`.
 
-<!--{include:`form-check-async.md`}-->
+<!--{include:`form-check-async.md`|402|}-->
 
 ### Custom Form.Control
 
@@ -101,13 +101,13 @@ All Data Entry-related components can be used in forms such as `Checkbox`, `Sele
 - `Form.Control` used to bind data fields in a Form, passing the `name` attribute to the `key` of the Schema.Model object.
 - `Form.Control` the default is an `Input` component, which can be set through the ʻaccepter` component.
 
-<!--{include:`custom-form-control.md`}-->
+<!--{include:`custom-form-control.md`|1150|}-->
 
 ### Third-Party Libraries
 
 Take [text-mask](https://github.com/text-mask/text-mask) as an example:
 
-<!--{include:`custom-third-party-libraries.md`}-->
+<!--{include:`custom-third-party-libraries.md`|422|}-->
 
 ### Custom trigger verification
 
@@ -121,7 +121,7 @@ The default value of `checkTrigger` is `'change'`, options includes:
 
 There are `checkTrigger` properties on the `<Form>` and `<Form.Control>` components. You can define the entire form's validation method in `<Form>`. If there is a form component that needs to handle the validation independently, you can Set it on `<Form.Control>`.
 
-<!--{include:`custom-check-trigger.md`}-->
+<!--{include:`custom-check-trigger.md`|572|}-->
 
 ## Accessibility
 

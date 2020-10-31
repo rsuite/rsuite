@@ -75,8 +75,13 @@ const App = () => {
         <TextField name="name" label="Username" />
         <TextField name="email" label="Email" />
         <TextField name="age" label="Age" />
-        <TextField name="password" label="Password" type="password" />
-        <TextField name="verifyPassword" label="Verify password" type="password" />
+        <TextField name="password" label="Password" type="password" autoComplete="off" />
+        <TextField
+          name="verifyPassword"
+          label="Verify password"
+          type="password"
+          autoComplete="off"
+        />
 
         <ButtonToolbar>
           <Button appearance="primary" onClick={handleSubmit}>

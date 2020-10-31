@@ -1,8 +1,8 @@
-const titleRegExp = /<h1 id=".*">(.*)<\/h1>[\r\n]/;
+const titleRegExp = /<span class="page-heading-text">(.*)<\/span>[\r\n]/;
 const descriptionRegExp = /<p>(.*)<\/p>[\r\n]/;
 const codeRegExp = /<!--start-code-->[\s\S]*<!--end-code-->/;
 
-export function getTitle(markdown) {
+export function getTitle(markdown: string): string {
   const matches = markdown.match(titleRegExp);
 
   if (!matches || !matches[1]) {
@@ -12,7 +12,7 @@ export function getTitle(markdown) {
   return matches[1];
 }
 
-export function getDescription(markdown) {
+export function getDescription(markdown: string): string {
   const matches = markdown.match(descriptionRegExp);
 
   if (!matches || !matches[1]) {
@@ -22,9 +22,9 @@ export function getDescription(markdown) {
   return matches[1];
 }
 
-export function replaceWithPlaceholder(source) {
+export function replaceWithPlaceholder(source: string, height = 80): string {
   return source.replace(
     codeRegExp,
-    '<div class="code-view-wrapper" style="height:80px"><!-- Loading... --></div>'
+    `<div class="code-view-wrapper" style="height:${height}px"><!-- Loading... --></div>`
   );
 }

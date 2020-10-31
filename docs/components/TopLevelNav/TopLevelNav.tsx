@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Icon, Whisper, Tooltip, Button, IconButton } from 'rsuite';
 import classNames from 'classnames';
 import { isMobile } from 'react-device-detect';

@@ -17,7 +17,7 @@ const instance = (
     </Form.Group>
     <Form.Group controlId="password">
       <Form.ControlLabel>Password</Form.ControlLabel>
-      <Form.Control name="password" type="password" />
+      <Form.Control name="password" type="password" autoComplete="off" />
     </Form.Group>
     <Form.Group controlId="textarea">
       <Form.ControlLabel>Textarea</Form.ControlLabel>

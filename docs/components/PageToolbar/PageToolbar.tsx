@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { ButtonToolbar, Tooltip, Whisper, Popover, Icon, Dropdown, IconButton } from 'rsuite';
 import * as SvgIcons from '@/components/SvgIcons';
 import canUseDOM from 'dom-lib/lib/query/canUseDOM';

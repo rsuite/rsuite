@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Tag, TagGroup, Icon, IconButton, Input } from 'rsuite';
 import DefaultPage from '@/components/Page';
 

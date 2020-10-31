@@ -66,7 +66,7 @@ export default function IconList() {
           </React.Fragment>
         );
       });
-  }, [icons]);
+  }, [icons, onCopy]);
 
   return (
     <div className="icon-list-wrap">

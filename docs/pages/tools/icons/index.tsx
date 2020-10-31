@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Row, Col } from 'rsuite';
 import { Markdown } from 'react-markdown-reader';
 import AppContext from '@/components/AppContext';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Icon } from 'rsuite';
 import components from './component.config.json';
 import AppContext from '@/components/AppContext';

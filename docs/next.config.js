@@ -20,7 +20,7 @@ const LANGUAGES = {
   zh: ['zh', '/zh']
 };
 
-const useLanguage = language => LANGUAGES[language] || '';
+const getLanguage = language => LANGUAGES[language] || '';
 
 module.exports = withPlugins([[withImages]], {
   webpack(config) {
@@ -104,7 +104,7 @@ module.exports = withPlugins([[withImages]], {
     const map = {};
 
     function traverse(nextPages, userLanguage) {
-      const [language, rootPath] = useLanguage(userLanguage);
+      const [language, rootPath] = getLanguage(userLanguage);
 
       nextPages.forEach(page => {
         if (page.children.length === 0) {

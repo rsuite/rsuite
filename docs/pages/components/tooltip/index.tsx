@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Whisper, Tooltip, ButtonToolbar, Button } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import PreventOverflowContainer from '@/components/PreventOverflowContainer';
