@@ -5,6 +5,16 @@
     {
       "src": "/design/(.*)/index.html",
       "dest": "/design/$1/index.html"
+    },
+    {
+      "src": "/en",
+      "status": 301,
+      "headers": { "Location": "/" }
+    },
+    {
+      "src": "/en/(.*)",
+      "status": 301,
+      "headers": { "Location": "/$1" }
     }
   ]
 }
