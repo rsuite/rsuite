@@ -523,6 +523,10 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     onClose?.();
     setActive(false);
     setFocusItemValue(activeNode?.[valueKey]);
+    /**
+     * when using keyboard toggle picker, should refocus on PickerToggle Component after close picker menu
+     */
+    toggleRef.current?.focus();
   }, [activeNode, onClose, setSearchKeyword, valueKey]);
 
   usePublicMethods(ref, { triggerRef, menuRef, toggleRef });

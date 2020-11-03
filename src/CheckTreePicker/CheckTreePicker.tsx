@@ -465,18 +465,24 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   const handleOpen = useCallback(() => {
     triggerRef.current?.open?.();
+    setFocusItemValue(activeNode?.[valueKey]);
     focusActiveNode();
     onOpen?.();
     setActive(true);
-  }, [focusActiveNode, onOpen]);
+  }, [activeNode, focusActiveNode, onOpen, valueKey]);
 
   const handleClose = useCallback(() => {
     triggerRef.current?.close?.();
     setSearchKeyword('');
     onClose?.();
+    setFocusItemValue(null);
     setActive(false);
-    setFocusItemValue(activeNode?.[valueKey]);
-  }, [activeNode, onClose, setSearchKeyword, valueKey]);
+
+    /**
+     * when using keyboard toggle picker, should refocus on PickerToggle Component after close picker menu
+     */
+    toggleRef.current?.focus();
+  }, [onClose, setSearchKeyword]);
 
   const handleExpand = useCallback(
     (node: any) => {
@@ -518,6 +524,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     (event: React.SyntheticEvent<any>) => {
       setActiveNode(null);
       setValue([]);
+      setFocusItemValue(null);
 
       unSerializeList({
         nodes: flattenNodes,
@@ -633,7 +640,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   );
 
   const onPickerKeydown = useToggleKeyDownEvent({
-    toggle: !activeNode || !active,
+    toggle: !focusItemValue || !active,
     triggerRef,
     toggleRef,
     menuRef,

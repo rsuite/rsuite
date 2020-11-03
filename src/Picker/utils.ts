@@ -204,7 +204,7 @@ interface FocusItemValueProps {
   target: HTMLElement | (() => HTMLElement);
   data?: any[];
   valueKey?: string;
-  callback?: (value: any, evnet: React.KeyboardEvent) => void;
+  callback?: (value: any, event: React.KeyboardEvent) => void;
 }
 
 /**
