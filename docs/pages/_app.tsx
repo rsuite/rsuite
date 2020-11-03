@@ -5,6 +5,17 @@ import Router from 'next/router';
 import AppContext from '@/components/AppContext';
 import zhCN from '@rsuite-locales/zh_CN';
 import enUS from '@rsuite-locales/en_US';
+import * as Sentry from '@sentry/react';
+import { Integrations } from '@sentry/tracing';
+
+Sentry.init({
+  dsn: 'https://982cfc8ab91941e483363e7462556851@o470932.ingest.sentry.io/5502270',
+  integrations: [new Integrations.BrowserTracing()],
+
+  // We recommend adjusting this value in production, or using tracesSampler
+  // for finer control
+  tracesSampleRate: 1.0
+});
 
 import { getMessages } from '../locales';
 import {
