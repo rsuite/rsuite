@@ -48,6 +48,7 @@ const defaultProps: Partial<ModalProps> = {
   animation: Bounce,
   animationTimeout: 300,
   dialogAs: ModalDialog,
+  backdrop: true,
   overflow: true
 };
 
@@ -76,6 +77,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     classPrefix,
     dialogClassName,
     backdropClassName,
+    backdrop,
     dialogStyle,
     animation,
     open,
@@ -90,7 +92,6 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     onEntered,
     onEntering,
     onExited,
-    backdrop,
     ...rest
   } = props;
 
@@ -150,7 +151,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
         onEntering={createChainedFunction(onEntering, onChangeBodyStyles)}
         onExited={createChainedFunction(onExited, handleExited)}
         backdropClassName={merge(prefix`backdrop`, backdropClassName, inClass)}
-        containerClassName={prefix(open, { 'has-backdrop': backdrop })}
+        containerClassName={prefix({ open, 'has-backdrop': backdrop })}
         transition={animation ? animation : undefined}
         animationProps={animationProps}
         dialogTransitionTimeout={animationTimeout}

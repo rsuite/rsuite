@@ -67,7 +67,12 @@ interface ModalProps extends BaseModalProps {
   onBackdropClick?: React.MouseEventHandler;
 }
 
-const modalManager = new ModalManager();
+let manager: ModalManager;
+
+function getManager() {
+  if (!manager) manager = new ModalManager();
+  return manager;
+}
 
 const defaultProps: Partial<ModalProps> = {
   as: 'div',
@@ -75,6 +80,24 @@ const defaultProps: Partial<ModalProps> = {
   keyboard: true,
   autoFocus: true,
   enforceFocus: true
+};
+
+const useModalManager = () => {
+  const modalManager = getManager();
+  const modal = useRef({ dialog: null, backdrop: null });
+
+  return {
+    add: (containerElement: Element, containerClassName?: string) =>
+      modalManager.add(modal.current, containerElement, containerClassName),
+    remove: () => modalManager.remove(modal.current),
+    isTopModal: () => modalManager.isTopModal(modal.current),
+    setDialogRef: useCallback((ref: HTMLElement | null) => {
+      modal.current.dialog = ref;
+    }, []),
+    setBackdropRef: useCallback((ref: HTMLElement | null) => {
+      modal.current.backdrop = ref;
+    }, [])
+  };
 };
 
 const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
@@ -112,6 +135,7 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
 
     const [exited, setExited] = useState(!open);
     const { Portal } = usePortal({ container });
+    const modal = useModalManager();
 
     if (open) {
       if (exited) setExited(false);
@@ -124,39 +148,35 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
     const rootRef = useRef<HTMLElement>();
     const lastFocus = useRef<HTMLElement>();
 
-    const isTopModal = () => {
-      return modalManager.isTopModal(rootRef.current);
-    };
-
     const handleDocumentKeyUp = useCallback(
       (event: React.KeyboardEvent) => {
-        if (keyboard && event.keyCode === 27 && isTopModal()) {
+        if (keyboard && event.keyCode === 27 && modal.isTopModal()) {
           onEscapeKeyUp?.(event);
           onClose?.(event);
         }
       },
-      [keyboard, onEscapeKeyUp, onClose]
+      [keyboard, modal, onEscapeKeyUp, onClose]
     );
 
-    const checkForFocus = () => {
+    const checkForFocus = useCallback(() => {
       if (helper.canUseDOM) {
         lastFocus.current = helper.activeElement() as HTMLElement;
       }
-    };
+    }, []);
 
-    const restoreLastFocus = () => {
+    const restoreLastFocus = useCallback(() => {
       if (lastFocus.current) {
         lastFocus.current.focus?.();
         lastFocus.current = null;
       }
-    };
+    }, []);
 
-    const getDialogElement = () => {
+    const getDialogElement = useCallback(() => {
       return getDOMNode(rootRef.current) as HTMLElement;
-    };
+    }, []);
 
     const handleEnforceFocus = useCallback(() => {
-      if (!enforceFocus || !isTopModal()) {
+      if (!enforceFocus || !modal.isTopModal()) {
         return;
       }
 
@@ -170,25 +190,29 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
       ) {
         dialog.focus();
       }
-    }, [enforceFocus]);
+    }, [enforceFocus, getDialogElement, modal]);
 
-    const handleBackdropClick = (event: React.MouseEvent) => {
-      if (event.target !== event.currentTarget) {
-        return;
-      }
+    const handleBackdropClick = useCallback(
+      (event: React.MouseEvent) => {
+        if (event.target !== event.currentTarget) {
+          return;
+        }
 
-      onBackdropClick?.(event);
+        onBackdropClick?.(event);
 
-      if (backdrop === true) {
-        onClose?.(event);
-      }
-    };
+        if (backdrop === true) {
+          onClose?.(event);
+        }
+      },
+      [backdrop, onBackdropClick, onClose]
+    );
+
     const documentKeyupListener = useRef<{ off: () => void }>();
     const docusinListener = useRef<{ off: () => void }>();
     const handleOpen = useCallback(() => {
       const dialog = getDialogElement();
       const containerElement = helper.getContainer(container, document.body);
-      modalManager.add(rootRef.current, containerElement, containerClassName);
+      modal.add(containerElement, containerClassName);
 
       documentKeyupListener.current = helper.on(document, 'keydown', handleDocumentKeyUp);
       docusinListener.current = helper.on(document, 'focus', handleEnforceFocus, true);
@@ -198,22 +222,38 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
       if (autoFocus) {
         dialog?.focus();
       }
-    }, [autoFocus, container, containerClassName, handleDocumentKeyUp, handleEnforceFocus, onOpen]);
+    }, [
+      autoFocus,
+      checkForFocus,
+      container,
+      containerClassName,
+      getDialogElement,
+      handleDocumentKeyUp,
+      handleEnforceFocus,
+      modal,
+      onOpen
+    ]);
 
     const handleClose = useCallback(() => {
-      modalManager.remove(rootRef.current);
+      modal.remove();
       documentKeyupListener.current?.off();
       docusinListener.current?.off();
       restoreLastFocus();
-    }, []);
+    }, [modal, restoreLastFocus]);
 
     useEffect(() => {
-      if (exited) {
-        handleClose();
-      } else if (open) {
-        handleOpen();
+      if (!open) {
+        return;
       }
+      handleOpen();
     }, [open, exited, handleOpen, handleClose]);
+
+    useEffect(() => {
+      if (!exited) {
+        return;
+      }
+      handleClose();
+    }, [exited, handleClose]);
 
     useEffect(() => {
       return () => {
@@ -245,7 +285,7 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
                   aria-hidden
                   {...rest}
                   {...backdropPorps}
-                  ref={ref}
+                  ref={mergeRefs(modal.setBackdropRef, ref)}
                   className={classNames(backdropClassName, className)}
                 />
               );
@@ -283,7 +323,7 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
           role="dialog"
           aria-modal
           {...rest}
-          ref={mergeRefs(rootRef, ref)}
+          ref={mergeRefs(modal.setDialogRef, ref)}
           style={style}
           className={className}
           tabIndex={-1}
