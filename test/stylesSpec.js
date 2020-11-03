@@ -19,10 +19,10 @@ const IGNORE_COMPONENTS = [
 
 const THEMES = ['default', 'dark'];
 
-const IGNORE_COMPONENTS = glob
+const STYLED_COMPONENTS = glob
   .sync(resolve(__dirname, '../src/[A-Z]*'))
   .map(path => basename(path))
-  .filter(componentName => !UN_STYLED_COMPONENTS.includes(componentName));
+  .filter(componentName => !IGNORE_COMPONENTS.includes(componentName));
 
 function shouldHasStyleFile() {
   console.log('Should has style file.');
