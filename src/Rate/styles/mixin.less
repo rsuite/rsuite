@@ -13,9 +13,8 @@
     font-size: @font-size;
 
     .@{ns}icon > svg {
-      height: @font-size;
-      // Fixed bug that ie svg width too long.
-      .ie-width(@font-size);
+      height: 1em;
+      width: 1em;
     }
   }
 }

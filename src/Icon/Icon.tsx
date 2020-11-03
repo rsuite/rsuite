@@ -87,7 +87,7 @@ const Icon: RsRefForwardingComponent<'i', IconProps> = React.forwardRef((props: 
     const svgIcon = icon as SVGIcon;
     return (
       <Component {...rest} ref={ref} className={classes} style={styles}>
-        <svg style={svgStyle} viewBox={svgIcon.viewBox}>
+        <svg style={svgStyle} viewBox={svgIcon.viewBox} preserveAspectRatio="xMidYMid meet">
           <use xlinkHref={`#${svgIcon.id}`} />
         </svg>
       </Component>

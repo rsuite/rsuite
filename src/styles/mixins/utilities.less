@@ -51,13 +51,6 @@
   width: 100% - @substract;
 }
 
-//drop-shadow
-.drop-shadow(@shadow) {
-  filter: drop-shadow(@shadow);
-  // IE don't support `drop-shadow`,replace it with `box-shadow`.
-  .ie-box-shadow(@shadow);
-}
-
 // Reset font color
 .reset-font-color(@font-color:@text-color) {
   &,
@@ -129,7 +122,6 @@
 .pointer-event-none() {
   // Make sure events through
   pointer-events: none;
-  .ie10-visibility(hidden);
   // Fixed in safari, after multiple clicks , the loader still has not disappeared.
   .safari-visibility(hidden);
 }
@@ -143,4 +135,3 @@
   padding-left: @padding-vertical;
   padding-right: @padding-vertical;
 }
-

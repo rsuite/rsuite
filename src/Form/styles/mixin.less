@@ -37,7 +37,8 @@
   padding: (@padding-vertical - @input-border-width) (@padding-horizontal - @input-border-width);
   font-size: @font-size;
   line-height: @line-height;
-  .ie-height(@ie-height);
+  // You must declared height in IE
+  .ie11-height(@ie-height);
 
   textarea& {
     height: auto;

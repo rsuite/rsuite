@@ -51,8 +51,7 @@
   .@{ns}tooltip-arrow {
     bottom: -@tooltip-arrow-width;
     // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
-    .edge-position(bottom, -@tooltip-arrow-width+1px);
-    .ie11-position(bottom, -@tooltip-arrow-width+1px);
+    .ie11-edge-direction(bottom, -@tooltip-arrow-width+1px);
 
     margin-left: -@tooltip-arrow-width;
     border-width: @tooltip-arrow-width @tooltip-arrow-width 0;
@@ -68,8 +67,7 @@
   .@{ns}tooltip-arrow {
     top: -@tooltip-arrow-width;
     // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
-    .edge-position(top, -@tooltip-arrow-width+1px);
-    .ie11-position(top, -@tooltip-arrow-width+1px);
+    .ie11-edge-direction(top,-@tooltip-arrow-width+1px);
 
     margin-left: -@tooltip-arrow-width;
     border-width: 0 @tooltip-arrow-width @tooltip-arrow-width;
@@ -86,8 +84,7 @@
   .@{ns}tooltip-arrow {
     left: -@tooltip-arrow-width;
     // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
-    .edge-position(left, -@tooltip-arrow-width+1px);
-    .ie11-position(left, -@tooltip-arrow-width+1px);
+    .ie11-edge-direction(left, -@tooltip-arrow-width+1px);
 
     margin-top: -@tooltip-arrow-width;
     border-width: @tooltip-arrow-width @tooltip-arrow-width @tooltip-arrow-width 0;
@@ -103,8 +100,7 @@
   .@{ns}tooltip-arrow {
     right: -@tooltip-arrow-width;
     // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
-    .edge-position(right, -@tooltip-arrow-width+1px);
-    .ie11-position(right, -@tooltip-arrow-width+1px);
+    .ie11-edge-direction(right, -@tooltip-arrow-width+1px);
 
     margin-top: -@tooltip-arrow-width;
     border-width: @tooltip-arrow-width 0 @tooltip-arrow-width @tooltip-arrow-width;
