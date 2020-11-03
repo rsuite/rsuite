@@ -69,5 +69,5 @@ export const useBodyStyles = (
     onDestroyEvents();
   }, [onDestroyEvents]);
 
-  return [bodyStyles, onChangeBodyStyles, onDestroyEvents];
+  return [overflow ? bodyStyles : {}, onChangeBodyStyles, onDestroyEvents];
 };
