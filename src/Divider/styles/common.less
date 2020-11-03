@@ -23,20 +23,11 @@
     background: transparent;
     margin: @divider-with-text-horizontal-margin 0;
 
-    .ie-display(table);
-    .ie-text-align(center);
-
     &::before,
     &::after {
       content: '';
       flex: 1 1 auto;
       border-top: 1px solid @divider-border-color;
-
-      .ie-position(relative);
-      .ie-display(table-cell);
-      .ie-top(50%);
-      .ie-width(50%);
-      .ie-transform(~'translateY(50%)');
     }
   }
 

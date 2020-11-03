@@ -17,14 +17,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-///*!
+///*! /*!
 // *  Font Awesome 4.7.0
 // *  https://github.com/FortAwesome/Font-Awesome/tree/v4.7.0
 // */
 
 .@{icon-css-prefix} {
   > svg {
-    height: @icon-font-size-base * @icon-line-height-base;
+    width: 1em;
+    height: 1em;
   }
 }
 
@@ -34,13 +35,6 @@
 //* makes the font 33% larger relative to the icon container */
 .@{icon-css-prefix}-size-lg {
   font-size: (4em / 3);
-
-  > svg {
-    vertical-align: middle;
-    height: floor(1.33 * @icon-font-size-base);
-    // Fixed bug that in IE browser  svg icon width is too long.
-    .ie-width(floor(1.33 * @icon-font-size-base));
-  }
 }
 
 .generate-icon-sizes();

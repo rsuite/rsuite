@@ -16,7 +16,7 @@ describe('BreadcrumbItem styles', () => {
       createTestContainer()
     );
     const dom = instanceRef.current;
-    const itemDom = dom.firstElementChild;
+    const itemDom = dom.querySelector('.rs-breadcrumb-item');
     const separatorDom = dom.querySelector('.rs-breadcrumb-separator');
     const a = itemDom.querySelector('a');
     assert.equal(getStyle(itemDom, 'fontSize'), '12px');
@@ -34,7 +34,7 @@ describe('BreadcrumbItem styles', () => {
       createTestContainer()
     );
     const dom = instanceRef.current;
-    const li = dom.firstElementChild;
+    const li = dom.querySelector('.rs-breadcrumb-item');
     assert.equal(getStyle(li, 'color'), toRGB('#8e8e93'));
   });
 });

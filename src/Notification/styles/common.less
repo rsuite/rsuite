@@ -14,14 +14,9 @@
   display: inline-block;
   flex: 0 0 auto;
 
-  //  Fixed: The problem of wide width in IE browser.
-  max-width: @notify-max-width;
-
-  .ie-text-align(right);
-
   // Multiple notification should have spacing
   // Hiding notification haven't spacing.
-  &:not(.@{notification-ns}-fade-exited) + .@{notification-ns} {
+  &:not(.@{toast-ns}-fade-exited) + .@{notification-ns} {
     margin-top: 10px;
   }
 
@@ -32,14 +27,11 @@
     padding: @notify-padding;
     border-radius: @notify-border-radius;
     max-width: @notify-max-width;
-    // Hack display:contents to make sure width adaptive content.
-    .ie-display(table);
   }
 
   // Title
   &-title {
     .ellipsis;
-    .ie-text-align(left);
 
     color: @notify-title-font-color;
     font-size: @notify-title-font-size;
@@ -64,8 +56,6 @@
   // Description
   &-description {
     color: @notify-description-color;
-    // Hack display:contents to make sure width adaptive content.
-    .ie-display(table);
   }
 
   // Has title and description need to ajust distance
@@ -79,17 +69,17 @@
 // Generate contextual modifier classes for colorizing the alert.
 
 .@{notification-ns}-success {
-  .notifocation-variant(@notify-success-icon-color);
+  .notification-variant(@notify-success-icon-color);
 }
 
 .@{notification-ns}-info {
-  .notifocation-variant(@notify-info-icon-color);
+  .notification-variant(@notify-info-icon-color);
 }
 
 .@{notification-ns}-warning {
-  .notifocation-variant(@notify-warning-icon-color);
+  .notification-variant(@notify-warning-icon-color);
 }
 
 .@{notification-ns}-error {
-  .notifocation-variant(@notify-error-icon-color);
+  .notification-variant(@notify-error-icon-color);
 }

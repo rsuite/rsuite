@@ -53,8 +53,7 @@
   &-value-list {
     flex: 0 1 auto;
     .ellipsis-basic;
-    .ie-display(block);
-    .ie-max-width(100%);
+    .ie11-max-width(100%);
   }
 
   &-value-count {
@@ -202,7 +201,6 @@
   color: @picker-toggle-clean-color;
   transition: 0.2s color linear;
   cursor: pointer;
-  .ie-text-align(center);
 
   &.@{ns}btn-close {
     padding: 4px 0;
