@@ -112,6 +112,8 @@ interface EventsProps {
   enter?: React.KeyboardEventHandler;
   del?: React.KeyboardEventHandler;
   esc?: React.KeyboardEventHandler;
+  right?: React.KeyboardEventHandler;
+  left?: React.KeyboardEventHandler;
 }
 
 /**
@@ -120,7 +122,7 @@ interface EventsProps {
  * @param events Event callback functions
  */
 export function onMenuKeyDown(event: React.KeyboardEvent, events: EventsProps) {
-  const { down, up, enter, del, esc } = events;
+  const { down, up, enter, del, esc, right, left } = events;
   switch (event.keyCode) {
     // down
     case KEY_CODE.DOWN:
@@ -147,6 +149,14 @@ export function onMenuKeyDown(event: React.KeyboardEvent, events: EventsProps) {
       esc?.(event);
       event.preventDefault();
       break;
+    // left arrow
+    case KEY_CODE.LEFT:
+      left?.(event);
+      break;
+    // right arrow
+    case KEY_CODE.RIGHT:
+      right?.(event);
+      break;
     default:
   }
 }
@@ -155,7 +165,7 @@ interface FocusItemValueProps {
   target: HTMLElement | (() => HTMLElement);
   data?: any[];
   valueKey?: string;
-  callback?: (value: any, evnet: React.KeyboardEvent) => void;
+  callback?: (value: any, event: React.KeyboardEvent) => void;
 }
 
 /**

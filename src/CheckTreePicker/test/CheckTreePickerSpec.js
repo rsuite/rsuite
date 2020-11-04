@@ -9,6 +9,7 @@ import { KEY_CODE } from '../../utils';
 Enzyme.configure({ adapter: new Adapter() });
 
 const itemFocusClassName = '.rs-check-tree-node-focus';
+const itemExpandedClassName = '.rs-check-tree-node-expanded';
 
 const data = [
   {
@@ -268,6 +269,93 @@ describe('CheckTreePicker', () => {
       />
     );
     ReactTestUtils.Simulate.change(tree.menu.querySelector('div[data-key="0-0-1"] input'));
+  });
+
+  /**
+   * When focus is on an open node, closes the node.
+   */
+  it('Should fold children node by keyCode=37', () => {
+    const tree = getInstance(
+      <CheckTreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
+    );
+
+    ReactTestUtils.Simulate.change(tree.menu.querySelector('div[data-key="0-0"] input'));
+    ReactTestUtils.Simulate.keyDown(tree.menu, { keyCode: KEY_CODE.LEFT });
+    assert.equal(
+      tree.menu.querySelectorAll(`div[data-ref="0-0"] > ${itemExpandedClassName}`).length,
+      0
+    );
+  });
+
+  /**
+   * When focus is on a root node that is also either an end node or a closed node, does nothing.
+   */
+  it('Should change nothing when trigger on root node by keyCode=37', () => {
+    const tree = getInstance(
+      <CheckTreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
+    );
+
+    ReactTestUtils.Simulate.change(tree.menu.querySelector('div[data-key="0-0"] input'));
+    ReactTestUtils.Simulate.keyDown(tree.menu, { keyCode: KEY_CODE.LEFT });
+    assert.equal(tree.menu.querySelector(itemFocusClassName).innerText, 'Master');
+
+    assert.equal(
+      tree.menu.querySelectorAll(`div[data-ref="0-0"] > ${itemExpandedClassName}`).length,
+      0
+    );
+  });
+
+  /**
+   * When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
+   */
+  it('Should focus on parentNode when trigger on leaf node by keyCode=37', () => {
+    const tree = getInstance(
+      <CheckTreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
+    );
+
+    ReactTestUtils.Simulate.change(tree.menu.querySelector('div[data-key="0-0-0"] input'));
+    ReactTestUtils.Simulate.keyDown(tree.menu, { keyCode: KEY_CODE.LEFT });
+    assert.equal(tree.menu.querySelector(itemFocusClassName).innerText, 'Master');
+  });
+
+  /**
+   * When focus is on a closed node, opens the node; focus does not move.
+   */
+  it('Should fold children node by keyCode=39', () => {
+    const tree = getInstance(<CheckTreePicker defaultOpen data={data} virtualized={false} />);
+
+    ReactTestUtils.Simulate.change(tree.menu.querySelector('div[data-key="0-0"] input'));
+    ReactTestUtils.Simulate.keyDown(tree.menu, { keyCode: KEY_CODE.RIGHT });
+    assert.equal(
+      tree.menu.querySelectorAll(`div[data-ref="0-0"] > ${itemExpandedClassName}`).length,
+      1
+    );
+  });
+
+  /**
+   * When focus is on an end node, does nothing.
+   */
+  it('Should change nothing when trigger on leaf node by keyCode=39', () => {
+    const tree = getInstance(
+      <CheckTreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
+    );
+
+    ReactTestUtils.Simulate.change(tree.menu.querySelector('div[data-key="0-0-0"] input'));
+    ReactTestUtils.Simulate.keyDown(tree.menu, { keyCode: KEY_CODE.RIGHT });
+    assert.equal(tree.menu.querySelector(itemFocusClassName).innerText, 'tester0');
+  });
+
+  /**
+   * When focus is on a open node, moves focus to the first child node.
+   */
+  it('Should focus on first child node when node expanded by keyCode=39', () => {
+    const tree = getInstance(
+      <CheckTreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
+    );
+
+    ReactTestUtils.Simulate.change(tree.menu.querySelector('div[data-key="0-0"] input'));
+    ReactTestUtils.Simulate.keyDown(tree.menu, { keyCode: KEY_CODE.RIGHT });
+    assert.equal(tree.menu.querySelector(itemFocusClassName).innerText, 'tester0');
   });
 
   it('Should have a custom className', () => {

@@ -63,7 +63,10 @@ import {
   toggleExpand,
   getActiveItem,
   useGetTreeNodeChildren,
-  focusToTreeNode
+  focusToActiveTreeNode,
+  focusTreeNode,
+  leftArrowHandler,
+  rightArrowHandler
 } from '../utils/treeUtils';
 
 import { TreeBaseProps } from '../Tree/Tree';
@@ -311,8 +314,8 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     };
   };
 
-  const focusNode = useCallback(() => {
-    focusToTreeNode({
+  const focusActiveNode = useCallback(() => {
+    focusToActiveTreeNode({
       list: listRef.current,
       valueKey,
       selector: `.${checkTreePrefix('node-active')}`,
@@ -432,9 +435,10 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
           uncheckableItemValues
         });
         setValue(selectedValues);
-        setFocusItemValue(node[valueKey]);
-        setActiveNode(node);
       }
+
+      setActiveNode(node);
+      setFocusItemValue(node[valueKey]);
 
       onChange?.(selectedValues, event);
       onSelect?.(node as ItemDataType, selectedValues, event);
@@ -462,18 +466,58 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   const handleOpen = useCallback(() => {
     triggerRef.current?.open?.();
-    focusNode();
+    setFocusItemValue(activeNode?.[valueKey]);
+    focusActiveNode();
     onOpen?.();
     setActive(true);
-  }, [focusNode, onOpen]);
+  }, [activeNode, focusActiveNode, onOpen, valueKey]);
 
   const handleClose = useCallback(() => {
     triggerRef.current?.close?.();
     setSearchKeyword('');
     onClose?.();
+    setFocusItemValue(null);
     setActive(false);
-    setFocusItemValue(activeNode?.[valueKey]);
-  }, [activeNode, onClose, setSearchKeyword, valueKey]);
+
+    /**
+     * when using keyboard toggle picker, should refocus on PickerToggle Component after close picker menu
+     */
+    toggleRef.current?.focus();
+  }, [onClose, setSearchKeyword]);
+
+  const handleExpand = useCallback(
+    (node: any) => {
+      const nextExpandItemValues = toggleExpand({
+        node: node,
+        isExpand: !node.expand,
+        expandItemValues,
+        valueKey
+      });
+      setExpandItemValues(nextExpandItemValues);
+      onExpand?.(
+        nextExpandItemValues,
+        node,
+        createConcatChildrenFunction(node, node[valueKey], { valueKey, childrenKey })
+      );
+      if (
+        isFunction(getChildren) &&
+        !node.expand &&
+        Array.isArray(node[childrenKey]) &&
+        node[childrenKey].length === 0
+      ) {
+        loadChildren(node, getChildren);
+      }
+    },
+    [
+      childrenKey,
+      expandItemValues,
+      getChildren,
+      loadChildren,
+      onExpand,
+      setExpandItemValues,
+      valueKey
+    ]
+  );
 
   usePublicMethods(ref, { triggerRef, menuRef, toggleRef });
 
@@ -481,6 +525,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     (event: React.SyntheticEvent<any>) => {
       setActiveNode(null);
       setValue([]);
+      setFocusItemValue(null);
 
       unSerializeList({
         nodes: flattenNodes,
@@ -535,6 +580,53 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     ]
   );
 
+  const handleLeftArrow = useCallback(() => {
+    const focusItem = getActiveItem(focusItemValue, flattenNodes, valueKey);
+    leftArrowHandler({
+      focusItem,
+      expand: expandItemValues.includes(focusItem?.[valueKey]),
+      onExpand: handleExpand,
+      onFocusItem: () => {
+        setFocusItemValue(focusItem?.parent?.[valueKey]);
+        focusTreeNode(
+          focusItem?.parent?.refKey,
+          treeNodesRefs,
+          `.${checkTreePrefix('node-label')}`
+        );
+      }
+    });
+  }, [
+    checkTreePrefix,
+    expandItemValues,
+    flattenNodes,
+    focusItemValue,
+    handleExpand,
+    treeNodesRefs,
+    valueKey
+  ]);
+
+  const handleRightArrow = useCallback(() => {
+    const focusItem = getActiveItem(focusItemValue, flattenNodes, valueKey);
+
+    rightArrowHandler({
+      focusItem,
+      expand: expandItemValues.includes(focusItem?.[valueKey]),
+      childrenKey,
+      onExpand: handleExpand,
+      onFocusItem: () => {
+        handleFocusItem(KEY_CODE.DOWN);
+      }
+    });
+  }, [
+    focusItemValue,
+    flattenNodes,
+    valueKey,
+    expandItemValues,
+    childrenKey,
+    handleExpand,
+    handleFocusItem
+  ]);
+
   const selectActiveItem = useCallback(
     (event: React.KeyboardEvent<any>) => {
       const activeItem = getActiveItem(focusItemValue, flattenNodes, valueKey);
@@ -549,7 +641,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   );
 
   const onPickerKeydown = useToggleKeyDownEvent({
-    toggle: !activeNode || !active,
+    toggle: !focusItemValue || !active,
     triggerRef,
     toggleRef,
     menuRef,
@@ -560,6 +652,8 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       onMenuKeyDown(event, {
         down: () => handleFocusItem(KEY_CODE.DOWN),
         up: () => handleFocusItem(KEY_CODE.UP),
+        left: handleLeftArrow,
+        right: handleRightArrow,
         enter: selectActiveItem,
         del: handleClean
       });
@@ -575,44 +669,12 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       onMenuKeyDown(event, {
         down: () => handleFocusItem(KEY_CODE.DOWN),
         up: () => handleFocusItem(KEY_CODE.UP),
+        left: handleLeftArrow,
+        right: handleRightArrow,
         enter: selectActiveItem
       });
     },
-    [handleFocusItem, selectActiveItem]
-  );
-
-  const handleExpand = useCallback(
-    (node: any) => {
-      const nextExpandItemValues = toggleExpand({
-        node: node,
-        isExpand: !node.expand,
-        expandItemValues,
-        valueKey
-      });
-      setExpandItemValues(nextExpandItemValues);
-      onExpand?.(
-        nextExpandItemValues,
-        node,
-        createConcatChildrenFunction(node, node[valueKey], { valueKey, childrenKey })
-      );
-      if (
-        isFunction(getChildren) &&
-        !node.expand &&
-        Array.isArray(node[childrenKey]) &&
-        node[childrenKey].length === 0
-      ) {
-        loadChildren(node, getChildren);
-      }
-    },
-    [
-      childrenKey,
-      expandItemValues,
-      getChildren,
-      loadChildren,
-      onExpand,
-      setExpandItemValues,
-      valueKey
-    ]
+    [handleFocusItem, handleLeftArrow, handleRightArrow, selectActiveItem]
   );
 
   const renderNode = (node: TreeNodeType, layer: number) => {
