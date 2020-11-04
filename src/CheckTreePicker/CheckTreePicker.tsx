@@ -652,8 +652,8 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       onMenuKeyDown(event, {
         down: () => handleFocusItem(KEY_CODE.DOWN),
         up: () => handleFocusItem(KEY_CODE.UP),
-        left: handleLeftArrow,
-        right: handleRightArrow,
+        left: rtl ? handleRightArrow : handleLeftArrow,
+        right: rtl ? handleLeftArrow : handleRightArrow,
         enter: selectActiveItem,
         del: handleClean
       });
@@ -669,12 +669,12 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       onMenuKeyDown(event, {
         down: () => handleFocusItem(KEY_CODE.DOWN),
         up: () => handleFocusItem(KEY_CODE.UP),
-        left: handleLeftArrow,
-        right: handleRightArrow,
+        left: rtl ? handleRightArrow : handleLeftArrow,
+        right: rtl ? handleLeftArrow : handleRightArrow,
         enter: selectActiveItem
       });
     },
-    [handleFocusItem, handleLeftArrow, handleRightArrow, selectActiveItem]
+    [handleFocusItem, handleLeftArrow, handleRightArrow, rtl, selectActiveItem]
   );
 
   const renderNode = (node: TreeNodeType, layer: number) => {
