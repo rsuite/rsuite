@@ -10,7 +10,7 @@ import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import { getWidth } from 'dom-lib';
 import shallowEqual from '../utils/shallowEqual';
-import { findNodeOfTree, filterNodesOfTree } from '../utils/treeUtils';
+import { filterNodesOfTree } from '../utils/treeUtils';
 import Plaintext from '../Plaintext';
 import {
   createChainedFunction,
@@ -247,9 +247,9 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     const getDateItem = (value: any) => {
       // Find active `MenuItem` by `value`
-      const activeItem = findNodeOfTree(getAllDataAndCache(), item =>
-        shallowEqual(item[valueKey], value)
-      );
+      const allData = getAllDataAndCache();
+      const activeItem = allData.find(item => shallowEqual(item[valueKey], value));
+
       let displayElement: React.ReactNode = placeholder;
 
       if (activeItem?.[labelKey]) {
@@ -423,9 +423,8 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         }
 
         // Find active `MenuItem` by `value`
-        let focusItem = findNodeOfTree(getAllData(), item =>
-          shallowEqual(item[valueKey], focusItemValue)
-        );
+        const allData = getAllData();
+        let focusItem = allData.find(item => shallowEqual(item[valueKey], focusItemValue));
 
         if (!focusItem && focusItemValue === searchKeyword) {
           focusItem = createOption(searchKeyword);
@@ -615,11 +614,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
       let items = filterNodesOfTree(getAllData(), checkShouldDisplay);
 
-      if (
-        creatable &&
-        searchKeyword &&
-        !findNodeOfTree(items, item => item[valueKey] === searchKeyword)
-      ) {
+      if (creatable && searchKeyword && !items.find(item => item[valueKey] === searchKeyword)) {
         items = [...items, createOption(searchKeyword)];
       }
 
