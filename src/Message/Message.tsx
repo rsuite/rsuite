@@ -75,11 +75,11 @@ const Message: RsRefForwardingComponent<'div', MessageProps> = React.forwardRef(
 
     const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
       setDisplay('hiding');
+      onClose?.(event);
+      clear();
 
       setTimeout(() => {
         setDisplay('hide');
-        onClose?.(event);
-        clear();
       }, 1000);
     };
 

@@ -13,10 +13,11 @@
   position: relative;
   display: inline-block;
   flex: 0 0 auto;
+  animation-fill-mode: forwards;
 
   // Multiple notification should have spacing
   // Hiding notification haven't spacing.
-  &:not(.@{toast-ns}-fade-exited) + .@{notification-ns} {
+  &:not(.@{toast-ns}-fade-exited) ~ .@{notification-ns} {
     margin-top: 10px;
   }
 
@@ -61,6 +62,14 @@
   // Has title and description need to ajust distance
   &-title + &-description {
     margin-top: @notify-title-description-gap;
+  }
+
+  &&-hiding {
+    animation: notificationMoveOut 0.3s ease-in forwards;
+
+    & ~ .@{notification-ns} {
+      margin-top: 0;
+    }
   }
 }
 

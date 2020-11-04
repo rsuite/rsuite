@@ -16,6 +16,10 @@ Used for system notifications. Generally used to push messages.
 
 <!--{include:`type.md`}-->
 
+### Closeable
+
+<!--{include:`close.md`}-->
+
 ### With toaster
 
 <!--{include:`with-toaster.md`}-->

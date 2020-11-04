@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
 import { useClassNames, useTimeout, STATUS_ICON_NAMES } from '../utils';
@@ -6,6 +6,8 @@ import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import CloseButton from '../CloseButton';
 
 export type MessageType = 'info' | 'success' | 'warning' | 'error';
+
+type DisplayType = 'show' | 'hide' | 'hiding';
 
 export interface NotificationProps extends WithAsProps {
   /** Title of the message */
@@ -50,17 +52,23 @@ const Notification: RsRefForwardingComponent<'div', NotificationProps> = React.f
       onClose,
       ...rest
     } = props;
+    const [display, setDisplay] = useState<DisplayType>('show');
+
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix(type, { closable }));
 
     // Timed close message
     const { clear } = useTimeout(onClose, duration, duration > 0);
 
     // Click to trigger to close the message
-    const handleClese = useCallback(
+    const handleClose = useCallback(
       (event: React.MouseEvent<HTMLButtonElement>) => {
+        setDisplay('hiding');
         onClose?.(event);
         clear();
+
+        setTimeout(() => {
+          setDisplay('hide');
+        }, 1000);
       },
       [onClose, clear]
     );
@@ -84,6 +92,12 @@ const Notification: RsRefForwardingComponent<'div', NotificationProps> = React.f
       );
     }, [header, type, prefix]);
 
+    if (display === 'hide') {
+      return null;
+    }
+
+    const classes = merge(className, withClassPrefix(type, display, { closable }));
+
     return (
       <Component role="alert" {...rest} ref={ref} className={classes}>
         <div className={prefix`content`}>
@@ -92,7 +106,7 @@ const Notification: RsRefForwardingComponent<'div', NotificationProps> = React.f
             {typeof children === 'function' ? children() : children}
           </div>
         </div>
-        {closable && <CloseButton onClick={handleClese} />}
+        {closable && <CloseButton onClick={handleClose} />}
       </Component>
     );
   }

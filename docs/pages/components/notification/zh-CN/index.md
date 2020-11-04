@@ -16,6 +16,10 @@
 
 <!--{include:`type.md`}-->
 
+### 可关闭的
+
+<!--{include:`close.md`}-->
+
 ### 与 toaster 组合
 
 <!--{include:`with-toaster.md`}-->
