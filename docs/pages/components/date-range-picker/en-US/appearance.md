@@ -7,7 +7,7 @@ const instance = (
   <div>
     <DateRangePicker
       appearance="default"
-      placeholder="Defult"
+      placeholder="Default"
       style={{ width: 280 }}
     />
     <hr />
