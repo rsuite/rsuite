@@ -13,6 +13,7 @@
   font-size: @font-size-base;
   line-height: @line-height-base;
   position: relative;
+  animation-fill-mode: forwards;
 
   .@{ns}message-container {
     padding: 20px;
@@ -109,14 +110,9 @@
     }
   }
 
-  // Animations
-  // ----------------------------
-  &.@{ns}message-show {
-    animation: messageMoveIn 0.3s ease-in forwards;
-  }
-
   &.@{ns}message-hiding {
-    animation: messageMoveOut 0.3s ease-in forwards;
+    // The same with notification
+    animation: notificationMoveOut 0.3s ease-in forwards;
   }
 }
 

@@ -1,11 +1,14 @@
 @import '../../styles/common';
 
 //
-// Notifications
+// toaster
 // --------------------------------------------------
 
-// Base styles
-// -------------------------
+.@{toast-ns} {
+  // Reset pointer events ,to overwrite line:16
+  pointer-events: auto;
+}
+
 .@{toast-ns}-container {
   position: fixed;
   z-index: @zindex-notification;
@@ -14,7 +17,8 @@
   display: flex;
   flex-direction: column;
 
-  .@{toast-ns} {
+  // Notification has box-shadow on rs-notification-content
+  .@{toast-ns}:not(.@{notification-ns}) {
     box-shadow: @toast-box-shadow;
   }
 
@@ -44,17 +48,18 @@
 
   &-top-center,
   &-bottom-center {
-    left: 50%;
+    align-items: center;
+    width: 100%;
 
-    .@{toast-ns} {
-      margin-left: -50%;
+    .@{toast-ns}-fade-entered {
+      animation-name: notificationMoveIn;
     }
   }
 
   &-bottom-start,
   &-top-start {
     align-items: flex-start;
-    left: 24px;
+    left: @toast-spacing;
 
     .@{toast-ns}-fade-entered {
       margin-left: auto;
@@ -65,7 +70,7 @@
   &-bottom-end,
   &-top-end {
     align-items: flex-end;
-    right: 24px;
+    right: @toast-spacing;
 
     .@{toast-ns}-fade-entered {
       margin-left: auto;
@@ -76,13 +81,13 @@
   &-top-center,
   &-top-start,
   &-top-end {
-    top: 24px;
+    top: @toast-spacing;
   }
 
   &-bottom-center,
   &-bottom-start,
   &-bottom-end {
-    bottom: 24px;
+    bottom: @toast-spacing;
   }
 
   .@{toast-ns}-fade-exiting {
