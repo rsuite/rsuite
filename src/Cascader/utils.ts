@@ -3,9 +3,10 @@ import slice from 'lodash/slice';
 import { shallowEqual } from '../utils';
 import { CascaderProps } from './Cascader';
 import { ItemDataType } from '../@types/common';
+import { findNodeOfTree } from '../utils/treeUtils';
 
-function getColumnsAndPaths(data, value, options) {
-  const { childrenKey, valueKey } = options;
+export function getColumnsAndPaths(data, value, options) {
+  const { childrenKey, valueKey, isAttachChildren } = options;
   const columns: ItemDataType[][] = [];
   const paths = [];
   const findNode = items => {
@@ -27,12 +28,19 @@ function getColumnsAndPaths(data, value, options) {
     }
     return null;
   };
-  const selectedNode = findNode(data);
 
+  const selectedNode = findNode(data);
   columns.push(data);
 
   if (selectedNode) {
     paths.push(selectedNode.active);
+  }
+
+  if (isAttachChildren) {
+    const valueToNode = findNodeOfTree(data, item => item[valueKey] === value);
+    if (valueToNode?.[childrenKey]) {
+      columns.unshift(valueToNode[childrenKey]);
+    }
   }
 
   columns.reverse();
@@ -67,8 +75,17 @@ export function usePaths(props: CascaderProps) {
     setColumnData([...slice(columnData, 0, index), column]);
   }
 
-  function enforceUpdate(nextValue) {
-    const { columns, paths } = getColumnsAndPaths(data, nextValue, { valueKey, childrenKey });
+  /**
+   * Enforce update of columns and paths.
+   * @param nextValue  Selected value
+   * @param isAttachChildren  Whether to attach the children of the selected node.
+   */
+  function enforceUpdate(nextValue, isAttachChildren?: boolean) {
+    const { columns, paths } = getColumnsAndPaths(data, nextValue, {
+      valueKey,
+      childrenKey,
+      isAttachChildren
+    });
 
     setColumnData(columns);
     setSelectedPaths(paths);

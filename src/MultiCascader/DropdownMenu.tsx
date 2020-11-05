@@ -169,7 +169,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
         let uncheckableCount = 0;
         const onlyKey = `${layer}_${children.length}`;
         const menu = (
-          <ul>
+          <ul role="listbox">
             {children.map((item, index) => {
               const uncheckable = uncheckableItemValues.some(uncheckableValue =>
                 shallowEqual(uncheckableValue, item[valueKey])
@@ -208,7 +208,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
         };
 
         const node = (
-          <div key={onlyKey} className={columnClasses} style={columnStyles}>
+          <div key={onlyKey} className={columnClasses} data-layer={layer} style={columnStyles}>
             {renderMenuElement()}
           </div>
         );

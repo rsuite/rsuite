@@ -66,6 +66,29 @@ Single selection of data with hierarchical relationship structure.
 
 <!--{include:`inline.md`}-->
 
+## Accessibility
+
+- Combo Box: https://www.w3.org/TR/wai-aria-practices/#combobox
+- Listbox: https://www.w3.org/TR/wai-aria-practices/#Listbox
+
+### Keyboard Interaction
+
+- <kbd>ArrowDown</kbd> : Moves focus to the next option.
+- <kbd>ArrowUp</kbd> : Moves focus to the previous option.
+- <kbd>ArrowRight</kbd> : Move focus to the right menu
+- <kbd>ArrowLeft</kbd> : Move focus to the left menu
+- <kbd>Enter</kbd> : Changes the selection state of the focused option.
+- <kbd>Escape</kbd> : Dismisses the popup if it is visible.
+
+### WAI-ARIA Roles, States, and Properties
+
+- The component has role `combobox`.
+- The component has the `aria-expanded` prop, the default value is `false`, and the value is `true` when the popup window is displayed.
+- The popup of the component has a `listbox` role.
+- The option in the popup has an `aria-selected` prop, and a value of `true` means it is selected.
+- The option in the popup has an `aria-disabled` prop, and a value of `true` means it is disabled.
+- When an `id` is set for a component, it will automatically generate an `id` for the popup, the value is `[id]-listbox`, and it will also set `aria-controls=[id]-listbox` and popup The id of the window is associated.
+
 ## Props
 
 ### `<MultiCascader>`

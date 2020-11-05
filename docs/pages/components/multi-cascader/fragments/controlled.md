@@ -7,9 +7,9 @@
  */
 
 const App = () => {
-  const [value, setValue] = React.useState(['1-1', '1-2', '1-3']);
+  const [value, setValue] = React.useState(['1-1', '1-2']);
 
-  return <MultiCascader value={value} onChange={setValue} data={data} style={{ width: 224 }} />;
+  return <MultiCascader value={value} onChange={setValue} data={data} />;
 };
 
 ReactDOM.render(<App />);

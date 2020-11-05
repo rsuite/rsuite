@@ -165,6 +165,8 @@ interface FocusItemValueProps {
   target: HTMLElement | (() => HTMLElement);
   data?: any[];
   valueKey?: string;
+  focusableQueryKey?: string;
+  defaultLayer?: number;
   callback?: (value: any, event: React.KeyboardEvent) => void;
 }
 
@@ -177,68 +179,164 @@ export const useFocusItemValue = (
   defaultFocusItemValue: number | string | readonly string[],
   props: FocusItemValueProps
 ) => {
-  const { data, valueKey = 'value', target, callback } = props;
+  const {
+    valueKey = 'value',
+    focusableQueryKey = '[data-key][aria-disabled="false"]',
+    defaultLayer = 0,
+    data,
+    target,
+    callback
+  } = props;
   const [focusItemValue, setFocusItemValue] = useState<any>(defaultFocusItemValue);
+  const [layer, setLayer] = useState(defaultLayer);
+  const [keys, setKeys] = useState([]);
 
-  // Get the elements visible in all options.
-  const getFocusableMenuItems = () => {
+  /**
+   * Get the elements visible in all options.
+   */
+  const getFocusableMenuItems = useCallback(() => {
     if (!target) {
       return [];
     }
     const menu = isFunction(target) ? target() : target;
-    const keys = Array.from(menu?.querySelectorAll('[data-key]'))?.map(
-      (item: HTMLDivElement) => item?.dataset?.key
-    );
 
-    if (keys.length === 0) {
+    let currentKeys = keys;
+    if (currentKeys.length === 0) {
+      currentKeys = Array.from(menu?.querySelectorAll(focusableQueryKey))?.map(
+        (item: HTMLDivElement) => item?.dataset?.key
+      );
+      setKeys(currentKeys);
+    }
+
+    if (currentKeys.length === 0) {
       return [];
     }
 
     // 1. It is necessary to traverse the `keys` instead of `data` here to preserve the order of the array.
     // 2. The values ​​in `keys` are all string, so the corresponding value of `data` should also be converted to string
-    return keys.map(key => find(data, i => `${i[valueKey]}` === key));
-  };
+    return currentKeys.map(key => find(data, i => `${i[valueKey]}` === key));
+  }, [data, focusableQueryKey, keys, target, valueKey]);
 
-  const findNode = callback => {
-    const items = getFocusableMenuItems();
+  /**
+   * Get the index of the focus item.
+   */
+  const findFocusItemIndex = useCallback(
+    callback => {
+      const items = getFocusableMenuItems();
 
-    for (let i = 0; i < items.length; i += 1) {
-      if (shallowEqual(focusItemValue, items[i][valueKey])) {
-        callback(items, i);
-        return;
+      for (let i = 0; i < items.length; i += 1) {
+        if (shallowEqual(focusItemValue, items[i]?.[valueKey])) {
+          callback(items, i);
+          return;
+        }
       }
-    }
-    callback(items, -1);
-  };
+      callback(items, -1);
+    },
+    [focusItemValue, getFocusableMenuItems, valueKey]
+  );
 
-  const focusNextMenuItem = (event: React.KeyboardEvent) => {
-    findNode((items, index) => {
-      const focusItem = items[index + 1];
-      if (!isUndefined(focusItem)) {
-        setFocusItemValue(focusItem[valueKey]);
-        callback?.(focusItem[valueKey], event);
+  const focusNextMenuItem = useCallback(
+    (event: React.KeyboardEvent) => {
+      findFocusItemIndex((items, index) => {
+        const nextIndex = index + 2 > items.length ? 0 : index + 1;
+        const focusItem = items[nextIndex];
+
+        if (!isUndefined(focusItem)) {
+          setFocusItemValue(focusItem[valueKey]);
+          callback?.(focusItem[valueKey], event);
+        }
+      });
+    },
+    [callback, findFocusItemIndex, valueKey]
+  );
+
+  const focusPrevMenuItem = useCallback(
+    (event: React.KeyboardEvent) => {
+      findFocusItemIndex((items, index) => {
+        const nextIndex = index === 0 ? items.length - 1 : index - 1;
+        const focusItem = items[nextIndex];
+        if (!isUndefined(focusItem)) {
+          setFocusItemValue(focusItem[valueKey]);
+          callback?.(focusItem[valueKey], event);
+        }
+      });
+    },
+    [callback, findFocusItemIndex, valueKey]
+  );
+
+  const getSubMenuKeys = useCallback(
+    (nextLayer: number) => {
+      const menu = isFunction(target) ? target() : target;
+      const subMenu = menu?.querySelector(`[data-layer="${nextLayer}"]`);
+
+      if (subMenu) {
+        return Array.from(subMenu.querySelectorAll(focusableQueryKey))?.map(
+          (item: HTMLDivElement) => item?.dataset?.key
+        );
       }
-    });
-  };
 
-  const focusPrevMenuItem = (event: React.KeyboardEvent) => {
-    findNode((items, index) => {
-      const focusItem = items[index - 1];
-      if (!isUndefined(focusItem)) {
-        setFocusItemValue(focusItem[valueKey]);
-        callback?.(focusItem[valueKey], event);
+      return null;
+    },
+    [focusableQueryKey, target]
+  );
+
+  const focusNextLevelMenu = useCallback(
+    (event: React.KeyboardEvent) => {
+      const nextLayer = layer + 1;
+      const nextKeys = getSubMenuKeys(nextLayer);
+
+      if (nextKeys) {
+        setKeys(nextKeys);
+        setLayer(nextLayer);
+        setFocusItemValue(nextKeys[0]);
+        callback?.(nextKeys[0], event);
       }
-    });
-  };
+    },
+    [callback, getSubMenuKeys, layer]
+  );
 
-  const handleKeyDown = (event: any) => {
-    onMenuKeyDown(event, {
-      down: focusNextMenuItem,
-      up: focusPrevMenuItem
-    });
-  };
+  const focusPrevLevelMenu = useCallback(
+    (event: React.KeyboardEvent) => {
+      const nextLayer = layer - 1;
+      const nextKeys = getSubMenuKeys(nextLayer);
 
-  return { focusItemValue, setFocusItemValue, onKeyDown: handleKeyDown };
+      if (nextKeys) {
+        setKeys(nextKeys);
+        setLayer(nextLayer);
+
+        const focusItem = findNodeOfTree(data, item => item[valueKey] === focusItemValue);
+        const parentItemValue = focusItem?.parent?.[valueKey];
+
+        if (parentItemValue) {
+          setFocusItemValue(parentItemValue);
+          callback?.(parentItemValue, event);
+        }
+      }
+    },
+    [callback, data, focusItemValue, getSubMenuKeys, layer, valueKey]
+  );
+
+  const handleKeyDown = useCallback(
+    (event: any) => {
+      onMenuKeyDown(event, {
+        down: focusNextMenuItem,
+        up: focusPrevMenuItem,
+        right: focusNextLevelMenu,
+        left: focusPrevLevelMenu
+      });
+    },
+    [focusNextLevelMenu, focusNextMenuItem, focusPrevLevelMenu, focusPrevMenuItem]
+  );
+
+  return {
+    focusItemValue,
+    setFocusItemValue,
+    layer,
+    setLayer,
+    keys,
+    setKeys,
+    onKeyDown: handleKeyDown
+  };
 };
 
 interface ToggleKeyDownEventProps {
@@ -252,6 +350,8 @@ interface ToggleKeyDownEventProps {
   onOpen?: () => void;
   onClose?: () => void;
   onMenuKeyDown?: (event) => void;
+  onMenuPressEnter?: (event) => void;
+  onMenuPressBackspace?: (event) => void;
   [key: string]: any;
 }
 
@@ -270,8 +370,11 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
     onOpen,
     onClose,
     onKeyDown,
-    onMenuKeyDown
+    onMenuKeyDown,
+    onMenuPressEnter,
+    onMenuPressBackspace
   } = props;
+
   const handleClose = useCallback(() => {
     triggerRef.current?.close?.();
     onClose?.();
@@ -292,14 +395,20 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
 
   const onToggle = useCallback(
     (event: React.KeyboardEvent) => {
-      // enter
-      if (toggle && event.keyCode === KEY_CODE.ENTER) {
-        handleToggleDropdown();
+      if (event.target === toggleRef?.current) {
+        // enter
+        if (toggle && event.keyCode === KEY_CODE.ENTER) {
+          handleToggleDropdown();
+        }
+
+        // delete
+        if (event.keyCode === KEY_CODE.BACKSPACE) {
+          onExit?.(event);
+        }
       }
 
-      // delete
-      if (event.keyCode === KEY_CODE.BACKSPACE && event.target === toggleRef?.current) {
-        onExit?.(event);
+      if (event.keyCode === KEY_CODE.ESC) {
+        handleClose();
       }
 
       // Native event callback
@@ -308,9 +417,27 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
       if (menuRef?.current) {
         // The keyboard operation callback on the menu.
         onMenuKeyDown?.(event);
+
+        if (event.keyCode === KEY_CODE.ENTER) {
+          onMenuPressEnter?.(event);
+        }
+        if (event.keyCode === KEY_CODE.BACKSPACE) {
+          onMenuPressBackspace?.(event);
+        }
       }
     },
-    [handleToggleDropdown, menuRef, onExit, onKeyDown, onMenuKeyDown, toggle, toggleRef]
+    [
+      handleClose,
+      handleToggleDropdown,
+      menuRef,
+      onExit,
+      onKeyDown,
+      onMenuKeyDown,
+      onMenuPressBackspace,
+      onMenuPressEnter,
+      toggle,
+      toggleRef
+    ]
   );
 
   return onToggle;

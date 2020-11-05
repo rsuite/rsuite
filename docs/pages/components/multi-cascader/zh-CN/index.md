@@ -64,6 +64,29 @@
 
 <!--{include:`inline.md`}-->
 
+## 无障碍设计
+
+- Combo Box: https://www.w3.org/TR/wai-aria-practices/#combobox
+- Listbox: https://www.w3.org/TR/wai-aria-practices/#Listbox
+
+### 键盘交互
+
+- <kbd>ArrowDown</kbd> : 将焦点移到下一个选项。
+- <kbd>ArrowUp</kbd> : 将焦点移到上一个选项。
+- <kbd>ArrowRight</kbd> : 将焦点移到右侧菜单。
+- <kbd>ArrowLeft</kbd> : 将焦点移到左侧菜单。
+- <kbd>Enter</kbd> : 更改焦点选项的选择状态。
+- <kbd>Escape</kbd> : 如果当前显示弹窗，则将其关闭。
+
+### WAI-ARIA Roles, States, and Properties
+
+- 组件具有 `combobox` role。
+- 组件具有 `aria-expanded` 属性，默认值为 `false`， 让弹窗展示的时候值为 `true`。
+- 组件的弹窗具有 `listbox` role。
+- 弹窗中的选项具有一个 `aria-selected` 属性，值为 `true` 则表示被选中。
+- 弹窗中的选项具有一个 `aria-disabled` 属性，值为 `true` 则表示被禁用。
+- 当为组件设置一个 `id` 时，会自动为弹窗生成一个 `id`, 值为`[id]-listbox`， 同时会为组件设置 `aria-controls=[id]-listbox` 与弹窗的 id 关联。
+
 ## Props
 
 ### `<MultiCascader>`

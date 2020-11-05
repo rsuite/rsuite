@@ -7,7 +7,8 @@ import isNil from 'lodash/isNil';
 import DropdownMenu from './DropdownMenu';
 import Checkbox from '../Checkbox';
 import { useCascadeValue, useColumnData, useFlattenData, isSomeChildChecked } from './utils';
-import { getNodeParents } from '../utils/treeUtils';
+import { getNodeParents, findNodeOfTree } from '../utils/treeUtils';
+import { getColumnsAndPaths } from '../Cascader/utils';
 
 import {
   createChainedFunction,
@@ -26,6 +27,7 @@ import {
   usePickerClassName,
   usePublicMethods,
   useToggleKeyDownEvent,
+  useFocusItemValue,
   pickTriggerPropKeys,
   omitTriggerPropKeys,
   OverlayTriggerInstance,
@@ -171,6 +173,30 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
     // The path after cascading data selection.
     const [selectedPaths, setSelectedPaths] = useState<ItemDataType[]>();
 
+    // Used to hover the focuse item  when trigger `onKeydown`
+    const { focusItemValue, setLayer, setKeys, onKeyDown: onFocusItem } = useFocusItemValue(
+      selectedPaths?.[selectedPaths.length - 1]?.[valueKey],
+      {
+        data: flattenData,
+        valueKey,
+        defaultLayer: selectedPaths?.length ? selectedPaths.length - 1 : 0,
+        target: () => menuRef.current,
+        callback: useCallback(
+          value => {
+            const { columns, paths } = getColumnsAndPaths(data, value, {
+              valueKey,
+              childrenKey,
+              isAttachChildren: true
+            });
+
+            setColumnData(columns);
+            setSelectedPaths(paths);
+          },
+          [childrenKey, data, setColumnData, valueKey]
+        )
+      }
+    );
+
     const triggerRef = useRef<OverlayTriggerInstance>();
     const menuRef = useRef<HTMLDivElement>();
     const toggleRef = useRef<HTMLDivElement>();
@@ -239,7 +265,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
     );
 
     const handleCheck = useCallback(
-      (node: ItemDataType, event: React.SyntheticEvent<HTMLElement>, checked: boolean) => {
+      (node: ItemDataType, event: React.SyntheticEvent, checked: boolean) => {
         const nodeValue = node[valueKey];
         let nextValue: ValueType = [];
 
@@ -274,11 +300,29 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       [data, disabled, onChange, setColumnData, setValue]
     );
 
+    const handleMenuPressEnter = useCallback(
+      (event: React.SyntheticEvent) => {
+        const focusItem = findNodeOfTree(data, item => item[valueKey] === focusItemValue);
+        const checkbox = menuRef.current?.querySelector(
+          `[data-key="${focusItemValue}"] [type="checkbox"]`
+        );
+
+        if (checkbox) {
+          handleCheck(focusItem, event, checkbox?.getAttribute('aria-checked') !== 'true');
+        }
+      },
+      [data, focusItemValue, handleCheck, valueKey]
+    );
+
     const onPickerKeyDown = useToggleKeyDownEvent({
+      toggle: !focusItemValue || !active,
       triggerRef,
       toggleRef,
+      menuRef,
       active,
       onExit: handleClean,
+      onMenuKeyDown: onFocusItem,
+      onMenuPressEnter: handleMenuPressEnter,
       ...rest
     });
 
@@ -286,8 +330,14 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       (value: string, event: React.SyntheticEvent) => {
         setSearchKeyword(value);
         onSearch?.(value, event);
+        if (value) {
+          setLayer(0);
+        } else if (selectedPaths?.length) {
+          setLayer(selectedPaths.length - 1);
+        }
+        setKeys([]);
       },
-      [onSearch]
+      [onSearch, selectedPaths, setKeys, setLayer]
     );
 
     const getSearchResult = useCallback(() => {
@@ -341,10 +391,13 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
         nodes.some(node => node[valueKey] === value)
       );
 
-      const itemClasses = prefix('cascader-row', { 'cascader-row-disabled': disabled });
+      const itemClasses = prefix('cascader-row', {
+        'cascader-row-disabled': disabled,
+        'cascader-row-focus': item[valueKey] === focusItemValue
+      });
 
       return (
-        <div key={key} className={itemClasses}>
+        <div key={key} className={itemClasses} aria-disabled={disabled} data-key={item[valueKey]}>
           <Checkbox
             disabled={disabled}
             checked={active}
@@ -375,7 +428,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
 
       const items = getSearchResult();
       return (
-        <div className={prefix('cascader-search-panel')}>
+        <div className={prefix('cascader-search-panel')} data-layer={0}>
           {items.length ? (
             items.map(renderSearchRow)
           ) : (
@@ -401,6 +454,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
           className={classes}
           style={styles}
           target={triggerRef}
+          onKeyDown={onPickerKeyDown}
         >
           {searchable && (
             <SearchBar

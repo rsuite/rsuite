@@ -12,7 +12,6 @@ import {
   useCustom,
   useClassNames,
   useControlled,
-  KEY_CODE,
   mergeRefs,
   shallowEqual
 } from '../utils';
@@ -21,13 +20,13 @@ import {
   DropdownMenuItem,
   PickerToggle,
   PickerToggleTrigger,
-  onMenuKeyDown,
   MenuWrapper,
   SearchBar,
   useFocusItemValue,
   usePickerClassName,
   useSearch,
   usePublicMethods,
+  useToggleKeyDownEvent,
   pickTriggerPropKeys,
   omitTriggerPropKeys,
   OverlayTriggerInstance,
@@ -80,16 +79,16 @@ export interface SelectProps<T = ValueType> {
   ) => React.ReactNode;
 
   /** Called when the option is selected */
-  onSelect?: (value: any, item: ItemDataType, event: React.SyntheticEvent<any>) => void;
+  onSelect?: (value: any, item: ItemDataType, event: React.SyntheticEvent) => void;
 
   /** Called after clicking the group title */
-  onGroupTitleClick?: (event: React.SyntheticEvent<any>) => void;
+  onGroupTitleClick?: (event: React.SyntheticEvent) => void;
 
   /** Called when searching */
-  onSearch?: (searchKeyword: string, event: React.SyntheticEvent<any>) => void;
+  onSearch?: (searchKeyword: string, event: React.SyntheticEvent) => void;
 
   /** Called when clean */
-  onClean?: (event: React.SyntheticEvent<any>) => void;
+  onClean?: (event: React.SyntheticEvent) => void;
 }
 
 export interface SelectPickerProps<T = ValueType>
@@ -164,7 +163,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
     const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue);
 
     // Used to hover the focus item  when trigger `onKeydown`
-    const { focusItemValue, setFocusItemValue, onKeyDown } = useFocusItemValue(value, {
+    const { focusItemValue, setFocusItemValue, onKeyDown: onFocusItem } = useFocusItemValue(value, {
       data,
       valueKey,
       target: () => menuRef.current
@@ -178,7 +177,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
       callback: (
         searchKeyword: string,
         filteredData: ItemDataType[],
-        event: React.SyntheticEvent<any>
+        event: React.SyntheticEvent
       ) => {
         // The first option after filtering is the focus.
         setFocusItemValue(filteredData?.[0]?.[valueKey]);
@@ -193,20 +192,8 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
       triggerRef.current?.close?.();
     }, []);
 
-    const handleOpen = useCallback(() => {
-      triggerRef.current?.open?.();
-    }, []);
-
-    const handleToggleDropdown = useCallback(() => {
-      if (active) {
-        handleClose();
-        return;
-      }
-      handleOpen();
-    }, [active, handleOpen, handleClose]);
-
     const handleSelect = useCallback(
-      (value: any, item: ItemDataType, event: React.SyntheticEvent<any>) => {
+      (value: any, item: ItemDataType, event: React.SyntheticEvent) => {
         onSelect?.(value, item, event);
         toggleRef.current?.focus();
       },
@@ -214,14 +201,14 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
     );
 
     const handleChangeValue = useCallback(
-      (value: any, event: React.SyntheticEvent<any>) => {
+      (value: any, event: React.SyntheticEvent) => {
         onChange?.(value, event);
       },
       [onChange]
     );
 
-    const selectFocusMenuItem = useCallback(
-      (event: React.SyntheticEvent<any>) => {
+    const handleMenuPressEnter = useCallback(
+      (event: React.SyntheticEvent) => {
         if (!focusItemValue) {
           return;
         }
@@ -240,7 +227,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
     );
 
     const handleItemSelect = useCallback(
-      (value: any, item: ItemDataType, event: React.SyntheticEvent<any>) => {
+      (value: any, item: ItemDataType, event: React.SyntheticEvent) => {
         setValue(value);
         setFocusItemValue(value);
 
@@ -263,38 +250,20 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
       [value, disabled, cleanable, setValue, handleChangeValue, setFocusItemValue]
     );
 
-    const handleKeyDown = useCallback(
-      (event: React.KeyboardEvent) => {
-        // enter
-        if ((!focusItemValue || !active) && event.keyCode === KEY_CODE.ENTER) {
-          handleToggleDropdown();
-        }
-
-        // delete
-        if (event.keyCode === KEY_CODE.BACKSPACE && event.target === toggleRef?.current) {
-          handleClean(event);
-        }
-
-        if (!menuRef.current) {
-          return;
-        }
-
-        onKeyDown(event);
-        onMenuKeyDown(event, {
-          enter: selectFocusMenuItem,
-          esc: handleClose
-        });
+    const onPickerKeyDown = useToggleKeyDownEvent({
+      toggle: !focusItemValue || !active,
+      triggerRef,
+      toggleRef,
+      menuRef,
+      active,
+      onExit: handleClean,
+      onMenuKeyDown: onFocusItem,
+      onMenuPressEnter: handleMenuPressEnter,
+      onClose: () => {
+        setFocusItemValue(null);
       },
-      [
-        active,
-        focusItemValue,
-        handleClean,
-        handleClose,
-        handleToggleDropdown,
-        onKeyDown,
-        selectFocusMenuItem
-      ]
-    );
+      ...rest
+    });
 
     const handleExited = useCallback(() => {
       setSearchKeyword('');
@@ -379,7 +348,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
           autoWidth={menuAutoWidth}
           className={classes}
           style={styles}
-          onKeyDown={handleKeyDown}
+          onKeyDown={onPickerKeyDown}
           target={triggerRef}
         >
           {searchable && (
@@ -417,7 +386,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
             id={id}
             ref={toggleRef}
             onClean={createChainedFunction(handleClean, onClean)}
-            onKeyDown={handleKeyDown}
+            onKeyDown={onPickerKeyDown}
             as={toggleAs}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
