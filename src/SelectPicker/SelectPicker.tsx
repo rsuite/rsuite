@@ -5,7 +5,6 @@ import isUndefined from 'lodash/isUndefined';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import omit from 'lodash/omit';
-import { findNodeOfTree } from '../utils/treeUtils';
 import {
   createChainedFunction,
   getDataGroupBy,
@@ -227,16 +226,14 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
         }
 
         // Find active `MenuItem` by `value`
-        const focusItem = findNodeOfTree(data, item =>
-          shallowEqual(item[valueKey], focusItemValue)
-        );
+        const focusItem = data.find(item => shallowEqual(item[valueKey], focusItemValue));
 
         setValue(focusItemValue);
         handleSelect(focusItemValue, focusItem, event);
         handleChangeValue(focusItemValue, event);
         handleClose();
       },
-      [data, focusItemValue, valueKey, setValue, handleSelect, handleChangeValue, handleClose]
+      [data, focusItemValue, handleChangeValue, handleClose, handleSelect, setValue, valueKey]
     );
 
     const handleItemSelect = useCallback(
@@ -311,7 +308,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
     usePublicMethods(ref, { triggerRef, menuRef, toggleRef });
 
     // Find active `MenuItem` by `value`
-    const activeItem = findNodeOfTree(data, item => shallowEqual(item[valueKey], value));
+    const activeItem = data.find(item => shallowEqual(item[valueKey], value));
 
     /**
      * 1.Have a value and the value is valid.

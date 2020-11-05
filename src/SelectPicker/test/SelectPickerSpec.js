@@ -308,4 +308,11 @@ describe('SelectPicker', () => {
     assert.notInclude(instance2.className, 'rs-picker-has-value');
     assert.notInclude(instance3.className, 'rs-picker-has-value');
   });
+
+  it('Children should not be selected', () => {
+    const data = [{ value: 1, label: 'A', children: [{ value: 2, label: 'B' }] }];
+    const instance = getDOMNode(<Dropdown data={data} value={2} />);
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.notInclude(instance.className, 'rs-picker-has-value');
+  });
 });
