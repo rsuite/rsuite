@@ -642,8 +642,8 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       onMenuKeyDown(event, {
         down: () => handleFocusItem(KEY_CODE.DOWN),
         up: () => handleFocusItem(KEY_CODE.UP),
-        left: handleLeftArrow,
-        right: handleRightArrow,
+        left: rtl ? handleRightArrow : handleLeftArrow,
+        right: rtl ? handleLeftArrow : handleRightArrow,
         enter: selectActiveItem,
         del: handleClean
       });
@@ -660,12 +660,12 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       onMenuKeyDown(event, {
         down: () => handleFocusItem(KEY_CODE.DOWN),
         up: () => handleFocusItem(KEY_CODE.UP),
-        left: handleLeftArrow,
-        right: handleRightArrow,
+        left: rtl ? handleRightArrow : handleLeftArrow,
+        right: rtl ? handleLeftArrow : handleRightArrow,
         enter: selectActiveItem
       });
     },
-    [handleFocusItem, handleLeftArrow, handleRightArrow, selectActiveItem]
+    [handleFocusItem, handleLeftArrow, handleRightArrow, rtl, selectActiveItem]
   );
 
   const renderNode = (node: any, index: number, layer: number) => {
