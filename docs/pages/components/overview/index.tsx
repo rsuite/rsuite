@@ -1,5 +1,5 @@
 import React from 'react';
-import getPages from '@/utils/pages';
+import usePages from '@/utils/usePages';
 import DefaultPage from '@/components/Page';
 import AppContext from '@/components/AppContext';
 import Link from '@/components/Link';
@@ -21,8 +21,9 @@ const Item = ({ name, isComponent }: { name: string; isComponent?: boolean }) =>
 
 export default function Page() {
   const { language } = React.useContext(AppContext);
+  const pages = usePages();
 
-  const components = (getPages()?.[1]?.children as ComponentType[]).filter(
+  const components = (pages?.[1]?.children as ComponentType[]).filter(
     item => item.id !== 'overview'
   );
 

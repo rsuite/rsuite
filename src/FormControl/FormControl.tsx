@@ -154,6 +154,8 @@ const FormControl: RsRefForwardingComponent<'div', FormControlProps> = React.for
 
       return (
         <FormErrorMessage
+          role="alert"
+          aria-relevant="all"
           show={!!messageNode}
           className={prefix`message-wrapper`}
           placement={errorPlacement}

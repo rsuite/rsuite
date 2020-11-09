@@ -151,6 +151,11 @@ combine(...) => boolean
 
 <!--{include:`time-zone.md`}-->
 
+## Accessibility
+
+Learn more in [Accessibility](../guide/accessibility).
+
+
 ## Props
 
 ```ts

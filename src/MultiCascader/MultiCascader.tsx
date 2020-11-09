@@ -173,10 +173,20 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
     // The path after cascading data selection.
     const [selectedPaths, setSelectedPaths] = useState<ItemDataType[]>();
 
+    const triggerRef = useRef<OverlayTriggerInstance>();
+    const menuRef = useRef<HTMLDivElement>();
+    const toggleRef = useRef<HTMLDivElement>();
+
+    usePublicMethods(ref, { triggerRef, menuRef, toggleRef });
+
+    const { locale, rtl } = useCustom<PickerLocaleType>('Picker', overrideLocale);
+    const selectedItems = flattenData.filter(item => value.some(v => v === item[valueKey])) || [];
+
     // Used to hover the focuse item  when trigger `onKeydown`
     const { focusItemValue, setLayer, setKeys, onKeyDown: onFocusItem } = useFocusItemValue(
       selectedPaths?.[selectedPaths.length - 1]?.[valueKey],
       {
+        rtl,
         data: flattenData,
         valueKey,
         defaultLayer: selectedPaths?.length ? selectedPaths.length - 1 : 0,
@@ -196,15 +206,6 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
         )
       }
     );
-
-    const triggerRef = useRef<OverlayTriggerInstance>();
-    const menuRef = useRef<HTMLDivElement>();
-    const toggleRef = useRef<HTMLDivElement>();
-
-    usePublicMethods(ref, { triggerRef, menuRef, toggleRef });
-
-    const { locale } = useCustom<PickerLocaleType>('Picker', overrideLocale);
-    const selectedItems = flattenData.filter(item => value.some(v => v === item[valueKey])) || [];
 
     /**
      * 1.Have a value and the value is valid.

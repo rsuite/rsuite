@@ -44,6 +44,10 @@
 
 <!--{include:`controlled.md`}-->
 
+## 无障碍设计
+
+了解更多有关[无障碍设计](../guide/accessibility)的信息。
+
 ## Props
 
 <!--{include:(_common/types/data-item-type.md)}-->

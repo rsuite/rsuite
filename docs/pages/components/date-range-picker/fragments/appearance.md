@@ -3,7 +3,7 @@
 ```js
 const instance = (
   <div>
-    <DateRangePicker appearance="default" placeholder="Defult" style={{ width: 280 }} />
+    <DateRangePicker appearance="default" placeholder="Default" style={{ width: 280 }} />
     <hr />
     <DateRangePicker appearance="subtle" placeholder="Subtle" style={{ width: 280 }} />
   </div>

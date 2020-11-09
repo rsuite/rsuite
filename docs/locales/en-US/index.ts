@@ -39,7 +39,8 @@ export default {
     searchIcon: 'Search icon',
     copySucceed: 'Copy success',
     copyFailed: "Copy the failure, the browser doesn't support this feature",
-    shareTwitter: 'Share on Twitter'
+    shareTwitter: 'Share on Twitter',
+    accessibility: 'Accessibility'
   },
 
   palette: {

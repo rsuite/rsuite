@@ -42,6 +42,10 @@ The cascade attribute can set whether or not CheckTreePicker can consider the ca
 
 <!--{include:`async.md`}-->
 
+## Accessibility
+
+Learn more in [Accessibility](../guide/accessibility).
+
 ## Props
 
 <!--{include:(_common/types/data-item-type.md)}-->

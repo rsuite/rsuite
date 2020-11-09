@@ -31,9 +31,6 @@ removeStyle: (node: HTMLElement, propertys: Array<string>) => void;
 getStyle: (node: HTMLElement, property: string) => string;
 getStyle: (node: HTMLElement) => Object;
 
-
-translateDOMPositionXY: (style: Object, x: number, y: number) => Object;
-
 ```
 
 <!--{include:`style-helper.md`}-->
@@ -80,7 +77,7 @@ Mouse drag tracker
 new DOMMouseMoveTracker(
   onMove:(deltaX: number, deltaY: number, moveEvent: Object) => void,
   onMoveEnd:() => void,
-  node: HTMLElement
+  container: HTMLElement
 );
 ```
 

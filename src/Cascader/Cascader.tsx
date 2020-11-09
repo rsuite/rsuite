@@ -172,7 +172,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
 
   usePublicMethods(ref, { triggerRef, menuRef, toggleRef });
 
-  const { locale } = useCustom<PickerLocaleType>('Picker', overrideLocale);
+  const { locale, rtl } = useCustom<PickerLocaleType>('Picker', overrideLocale);
   /**
    * 1.Have a value and the value is valid.
    * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
@@ -229,6 +229,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
     setKeys,
     onKeyDown: onFocusItem
   } = useFocusItemValue(value, {
+    rtl,
     data: flattenData,
     valueKey,
     defaultLayer: valueToPaths?.length ? valueToPaths.length - 1 : 0,

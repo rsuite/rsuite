@@ -40,6 +40,10 @@ Multi-select by tag and support new options
 
 <!--{include:`async.md`}-->
 
+## Accessibility
+
+Learn more in [Accessibility](../guide/accessibility).
+
 ## Props
 
 <!--{include:(_common/types/data-item-type.md)}-->

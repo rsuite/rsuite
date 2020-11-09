@@ -58,6 +58,10 @@ For a single data selection, support grouping.
 
 <!--{include:`controlled.md`}-->
 
+## Accessibility
+
+Learn more in [Accessibility](../guide/accessibility).
+
 ## Props
 
 <!--{include:(_common/types/data-item-type.md)}-->

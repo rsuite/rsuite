@@ -167,6 +167,7 @@ interface FocusItemValueProps {
   valueKey?: string;
   focusableQueryKey?: string;
   defaultLayer?: number;
+  rtl?: boolean;
   callback?: (value: any, event: React.KeyboardEvent) => void;
 }
 
@@ -185,6 +186,7 @@ export const useFocusItemValue = (
     defaultLayer = 0,
     data,
     target,
+    rtl,
     callback
   } = props;
   const [focusItemValue, setFocusItemValue] = useState<any>(defaultFocusItemValue);
@@ -321,11 +323,11 @@ export const useFocusItemValue = (
       onMenuKeyDown(event, {
         down: focusNextMenuItem,
         up: focusPrevMenuItem,
-        right: focusNextLevelMenu,
-        left: focusPrevLevelMenu
+        [rtl ? 'left' : 'right']: focusNextLevelMenu,
+        [rtl ? 'right' : 'left']: focusPrevLevelMenu
       });
     },
-    [focusNextLevelMenu, focusNextMenuItem, focusPrevLevelMenu, focusPrevMenuItem]
+    [focusNextLevelMenu, focusNextMenuItem, focusPrevLevelMenu, focusPrevMenuItem, rtl]
   );
 
   return {
