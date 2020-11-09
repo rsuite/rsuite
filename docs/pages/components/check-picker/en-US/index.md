@@ -70,6 +70,10 @@ Customize a select all function.
 
 <!--{include:`controlled.md`}-->
 
+## Accessibility
+
+Learn more in [Accessibility](../guide/accessibility).
+
 ## Props
 
 <!--{include:(_common/types/data-item-type.md)}-->

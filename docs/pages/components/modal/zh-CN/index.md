@@ -49,7 +49,7 @@
 
 ### 键盘交互
 
-- <kbd>ESC</kbd> 可以关闭 `Modal`，同时也可以通过设置 `keyboard:false` 禁用它。
+- <kbd>ESC</kbd> 可以关闭 `Modal`，同时也可以通过设置 `keyboard=false` 禁用它。
 
 ### WAI-ARIA Roles, States, and Properties
 

@@ -153,6 +153,10 @@ combine(...) => boolean
 
 <!--{include:`time-zone.md`}-->
 
+## 无障碍设计
+
+了解更多有关[无障碍设计](../guide/accessibility)的信息。
+
 ## Props
 
 ```ts

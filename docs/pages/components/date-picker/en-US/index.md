@@ -111,6 +111,10 @@ If you only need to meet the simple date selection function, you can use the nat
 
 <!--{include:`native-pickers.md`}-->
 
+## Accessibility
+
+Learn more in [Accessibility](../guide/accessibility).
+
 ## Props
 
 ### `<DatePicker>`

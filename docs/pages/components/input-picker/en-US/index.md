@@ -44,6 +44,10 @@ Single item selector with text box input.
 
 <!--{include:`controlled.md`}-->
 
+## Accessibility
+
+Learn more in [Accessibility](../guide/accessibility).
+
 ## Props
 
 <!--{include:(_common/types/data-item-type.md)}-->

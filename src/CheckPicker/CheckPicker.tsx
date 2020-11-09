@@ -26,7 +26,6 @@ import {
   SearchBar,
   SelectedElement,
   PickerToggleTrigger,
-  onMenuKeyDown,
   useFocusItemValue,
   usePickerClassName,
   useSearch,
@@ -137,7 +136,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
     );
 
     const handleSearchCallback = useCallback(
-      (searchKeyword: string, filteredData: ItemDataType[], event: React.SyntheticEvent<any>) => {
+      (searchKeyword: string, filteredData: ItemDataType[], event: React.SyntheticEvent) => {
         // The first option after filtering is the focus.
         setFocusItemValue(filteredData?.[0]?.[valueKey]);
         onSearch?.(searchKeyword, event);
@@ -181,20 +180,15 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
       setStickyItems(nextStickyItems);
     };
 
-    const handleClose = useCallback(() => {
-      triggerRef.current?.close();
-      setFocusItemValue(value ? value[0] : undefined);
-    }, [triggerRef, setFocusItemValue, value]);
-
     const handleChangeValue = useCallback(
-      (value: any, event: React.SyntheticEvent<HTMLElement>) => {
+      (value: ValueType, event: React.SyntheticEvent) => {
         onChange?.(value, event);
       },
       [onChange]
     );
 
     const handleClean = useCallback(
-      (event: React.SyntheticEvent<any>) => {
+      (event: React.SyntheticEvent) => {
         if (disabled || !cleanable) {
           return;
         }
@@ -204,7 +198,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
       [disabled, cleanable, setValue, handleChangeValue]
     );
 
-    const selectFocusMenuItem = (event: React.KeyboardEvent<HTMLElement>) => {
+    const handleMenuPressEnter = (event: React.KeyboardEvent<HTMLElement>) => {
       const nextValue = clone(value);
 
       if (!focusItemValue) {
@@ -230,25 +224,23 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
       menuRef,
       active,
       onExit: handleClean,
+      onMenuKeyDown: onFocusItem,
+      onMenuPressEnter: handleMenuPressEnter,
       onClose: () => {
         setFocusItemValue(null);
-      },
-      onMenuKeyDown: event => {
-        onFocusItem(event);
-        onMenuKeyDown(event, { enter: selectFocusMenuItem, esc: handleClose });
       },
       ...rest
     });
 
     const handleSelect = useCallback(
-      (nextItemValue: any, item: ItemDataType, event: React.SyntheticEvent<HTMLElement>) => {
+      (nextItemValue: any, item: ItemDataType, event: React.SyntheticEvent) => {
         onSelect?.(nextItemValue, item, event);
       },
       [onSelect]
     );
 
     const handleItemSelect = useCallback(
-      (nextItemValue: any, item: ItemDataType, event: React.MouseEvent<any>, checked: boolean) => {
+      (nextItemValue: any, item: ItemDataType, event: React.SyntheticEvent, checked: boolean) => {
         const nextValue = clone(value);
 
         if (checked) {

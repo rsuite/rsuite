@@ -26,7 +26,6 @@ import {
   DropdownMenu,
   DropdownMenuItem,
   DropdownMenuCheckItem,
-  onMenuKeyDown,
   PickerToggle,
   MenuWrapper,
   PickerToggleTrigger,
@@ -502,14 +501,9 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       triggerRef,
       toggleRef,
       menuRef,
-      onMenuKeyDown: event => {
-        onKeyDown(event);
-        onMenuKeyDown(event, {
-          enter: multi ? selectFocusMenuCheckItem : selectFocusMenuItem,
-          esc: handleClose,
-          del: multi ? removeLastItem : handleClean
-        });
-      },
+      onMenuPressEnter: multi ? selectFocusMenuCheckItem : selectFocusMenuItem,
+      onMenuPressBackspace: multi ? removeLastItem : handleClean,
+      onMenuKeyDown: onKeyDown,
       ...rest
     });
 

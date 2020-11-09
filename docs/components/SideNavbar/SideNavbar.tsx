@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { Sidebar, Nav, Icon, IconButton } from 'rsuite';
 import Link from '@/components/Link';
 import AppContext from '../AppContext';
-import getPages from '@/utils/pages';
+import usePages from '@/utils/usePages';
 import debounce from 'lodash/debounce';
 import { scrollTop } from 'dom-lib';
 
@@ -35,7 +35,7 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
   const showMediaToggleButton = props.style.width !== 0;
 
   const navItems = [];
-  const menuList = getPages();
+  const menuList = usePages();
   const data = menuList.find(item => item.id === activeKey);
 
   const { name: activeTitle, icon, children = [] } = data;

@@ -6,7 +6,7 @@ import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import shallowEqual from '../utils/shallowEqual';
 import DropdownMenu from './DropdownMenu';
-import { flattenTree, getNodeParents } from '../utils/treeUtils';
+import { findNodeOfTree, flattenTree, getNodeParents } from '../utils/treeUtils';
 import { usePaths } from './utils';
 import {
   getSafeRegExpString,
@@ -25,6 +25,7 @@ import {
   usePickerClassName,
   usePublicMethods,
   useToggleKeyDownEvent,
+  useFocusItemValue,
   pickTriggerPropKeys,
   omitTriggerPropKeys,
   OverlayTriggerInstance,
@@ -148,6 +149,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
   const menuRef = useRef<HTMLDivElement>();
   const toggleRef = useRef<HTMLButtonElement>();
   const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue);
+
   const {
     selectedPaths,
     valueToPaths,
@@ -170,7 +172,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
 
   usePublicMethods(ref, { triggerRef, menuRef, toggleRef });
 
-  const { locale } = useCustom<PickerLocaleType>('Picker', overrideLocale);
+  const { locale, rtl } = useCustom<PickerLocaleType>('Picker', overrideLocale);
   /**
    * 1.Have a value and the value is valid.
    * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
@@ -181,10 +183,79 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
 
   const [searchKeyword, setSearchKeyword] = useState('');
 
-  const handleSearch = (value: string, event: React.SyntheticEvent<HTMLElement>) => {
-    setSearchKeyword(value);
-    onSearch?.(value, event);
-  };
+  const someKeyword = useCallback(
+    (item: ItemDataType, keyword?: string) => {
+      if (item[labelKey].match(new RegExp(getSafeRegExpString(keyword || searchKeyword), 'i'))) {
+        return true;
+      }
+
+      if (item.parent && someKeyword(item.parent)) {
+        return true;
+      }
+
+      return false;
+    },
+    [labelKey, searchKeyword]
+  );
+
+  const getSearchResult = useCallback(
+    (keyword?: string) => {
+      const items = [];
+      const result = flattenData.filter(item => {
+        if (item[childrenKey]) {
+          return false;
+        }
+        return someKeyword(item, keyword);
+      });
+
+      for (let i = 0; i < result.length; i++) {
+        items.push(result[i]);
+
+        // A maximum of 100 search results are returned.
+        if (i === 99) {
+          return items;
+        }
+      }
+      return items;
+    },
+    [childrenKey, flattenData, someKeyword]
+  );
+
+  // Used to hover the focuse item  when trigger `onKeydown`
+  const {
+    focusItemValue,
+    setFocusItemValue,
+    setLayer,
+    setKeys,
+    onKeyDown: onFocusItem
+  } = useFocusItemValue(value, {
+    rtl,
+    data: flattenData,
+    valueKey,
+    defaultLayer: valueToPaths?.length ? valueToPaths.length - 1 : 0,
+    target: () => menuRef.current,
+    callback: useCallback(
+      value => {
+        enforceUpdate(value, true);
+      },
+      [enforceUpdate]
+    )
+  });
+
+  const handleSearch = useCallback(
+    (value: string, event: React.SyntheticEvent<HTMLElement>) => {
+      const items = getSearchResult(value);
+
+      setSearchKeyword(value);
+      onSearch?.(value, event);
+      if (items?.[0]) {
+        setFocusItemValue(items?.[0]);
+        setLayer(0);
+        setKeys([]);
+      }
+    },
+    [getSearchResult, onSearch, setFocusItemValue, setKeys, setLayer]
+  );
 
   const handleEntered = useCallback(() => {
     onOpen?.();
@@ -202,7 +273,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
   }, [triggerRef]);
 
   const handleClean = useCallback(
-    (event: React.SyntheticEvent<any>) => {
+    (event: React.SyntheticEvent) => {
       if (disabled) {
         return;
       }
@@ -216,11 +287,48 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
     [data, disabled, onChange, setSelectedPaths, setColumnData, setValueToPaths, setValue]
   );
 
+  const handleMenuPressEnter = useCallback(
+    (event: React.SyntheticEvent) => {
+      const focusItem = findNodeOfTree(data, item => item[valueKey] === focusItemValue);
+      const isLeafNode = focusItem && !focusItem[childrenKey];
+
+      if (isLeafNode) {
+        setValue(focusItemValue);
+        setValueToPaths(selectedPaths);
+        if (selectedPaths.length) {
+          setLayer(selectedPaths.length - 1);
+        }
+
+        if (!shallowEqual(value, focusItemValue)) {
+          onChange?.(focusItemValue, event);
+        }
+        handleClose();
+      }
+    },
+    [
+      childrenKey,
+      data,
+      focusItemValue,
+      handleClose,
+      onChange,
+      selectedPaths,
+      setLayer,
+      setValue,
+      setValueToPaths,
+      value,
+      valueKey
+    ]
+  );
+
   const onPickerKeyDown = useToggleKeyDownEvent({
+    toggle: !focusItemValue || !active,
     triggerRef,
     toggleRef,
+    menuRef,
     active,
     onExit: handleClean,
+    onMenuKeyDown: onFocusItem,
+    onMenuPressEnter: handleMenuPressEnter,
     ...rest
   });
 
@@ -282,38 +390,6 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
     triggerRef.current?.updatePosition();
   };
 
-  const someKeyword = (item: ItemDataType) => {
-    if (item[labelKey].match(new RegExp(getSafeRegExpString(searchKeyword), 'i'))) {
-      return true;
-    }
-
-    if (item.parent && someKeyword(item.parent)) {
-      return true;
-    }
-
-    return false;
-  };
-
-  const getSearchResult = () => {
-    const items = [];
-    const result = flattenData.filter(item => {
-      if (item[childrenKey]) {
-        return false;
-      }
-      return someKeyword(item);
-    });
-
-    for (let i = 0; i < result.length; i++) {
-      items.push(result[i]);
-
-      // A maximum of 100 search results are returned.
-      if (i === 99) {
-        return items;
-      }
-    }
-    return items;
-  };
-
   /**
    * The search structure option is processed after being selected.
    */
@@ -355,11 +431,16 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
     const disabled = disabledItemValues.some(value =>
       formattedNodes.some(node => node[valueKey] === value)
     );
-    const itemClasses = prefix('cascader-row', { 'cascader-row-disabled': disabled });
+    const itemClasses = prefix('cascader-row', {
+      'cascader-row-disabled': disabled,
+      'cascader-row-focus': item[valueKey] === focusItemValue
+    });
 
     return (
       <div
         key={key}
+        aria-disabled={disabled}
+        data-key={item[valueKey]}
         className={itemClasses}
         onClick={event => {
           if (!disabled) {
@@ -383,7 +464,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
 
     const items = getSearchResult();
     return (
-      <div className={prefix('cascader-search-panel')}>
+      <div className={prefix('cascader-search-panel')} data-layer={0}>
         {items.length ? (
           items.map(renderSearchRow)
         ) : (
@@ -404,6 +485,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
         className={classes}
         style={styles}
         target={triggerRef}
+        onKeyDown={onPickerKeyDown}
       >
         {searchable && (
           <SearchBar

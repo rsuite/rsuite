@@ -9,15 +9,10 @@
 const instance = (
   <div>
     <p>Cascade:</p>
-    <MultiCascader data={data} style={{ width: 224 }} defaultValue={['1-1', '1-2', '1-3']} />
+    <MultiCascader data={data} defaultValue={['1-1', '1-2', '2']} />
     <hr />
     <p>Not cascaded:</p>
-    <MultiCascader
-      data={data}
-      style={{ width: 224 }}
-      defaultValue={['1-1', '1-2', '1-3']}
-      cascade={false}
-    />
+    <MultiCascader data={data} defaultValue={['1-1', '1-2', '2']} cascade={false} />
   </div>
 );
 ReactDOM.render(instance);

@@ -4,7 +4,7 @@ import components from './component.config.json';
 import AppContext from '@/components/AppContext';
 import * as SvgIcons from '@/components/SvgIcons';
 
-export default function getPages() {
+export default function usePages() {
   const { messages } = React.useContext(AppContext);
 
   return [
@@ -47,6 +47,10 @@ export default function getPages() {
         {
           id: 'rtl',
           name: messages?.common?.rtl
+        },
+        {
+          id: 'accessibility',
+          name: messages?.common?.accessibility
         },
         {
           id: 'v3-to-v4',
