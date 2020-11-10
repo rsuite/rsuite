@@ -197,6 +197,7 @@ DropdownMenuItem.displayName = 'DropdownMenuItem';
 DropdownMenuItem.defaultProps = defaultProps;
 DropdownMenuItem.propTypes = {
   as: PropTypes.elementType,
+  linkAs: PropTypes.elementType,
   divider: PropTypes.bool,
   panel: PropTypes.bool,
   trigger: PropTypes.oneOfType([PropTypes.array, PropTypes.oneOf(['click', 'hover'])]),
