@@ -23,22 +23,16 @@ export default function usePages() {
         },
 
         {
-          id: 'use-with-create-react-app',
-          name: messages?.common?.useWithCreateReactApp
+          id: 'composition',
+          name: messages?.common?.composition
         },
-        {
-          id: 'use-next-app',
-          name: messages?.common?.useNextApp
-        },
-
-        {
-          id: 'modularized',
-          name: messages?.common?.modularized
-        },
-
         {
           id: 'themes',
           name: messages?.common?.customizeTheme
+        },
+        {
+          id: 'accessibility',
+          name: messages?.common?.accessibility
         },
         {
           id: 'intl',
@@ -49,8 +43,16 @@ export default function usePages() {
           name: messages?.common?.rtl
         },
         {
-          id: 'accessibility',
-          name: messages?.common?.accessibility
+          id: 'use-with-create-react-app',
+          name: messages?.common?.useWithCreateReactApp
+        },
+        {
+          id: 'use-next-app',
+          name: messages?.common?.useNextApp
+        },
+        {
+          id: 'modularized',
+          name: messages?.common?.modularized
         },
         {
           id: 'v3-to-v4',

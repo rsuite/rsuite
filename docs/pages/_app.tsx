@@ -111,25 +111,27 @@ function App({ Component, pageProps }: AppProps) {
   const messages = getMessages(language);
 
   return (
-    <Grid fluid className="app-container">
-      <CustomProvider locale={locale} rtl={direction === 'rtl'}>
-        <AppContext.Provider
-          value={{
-            messages,
-            language,
-            localePath: language === 'zh' ? '/zh-CN' : '/en-US',
-            theme: [themeName, direction],
-            onChangeDirection,
-            onChangeTheme,
-            onChangeLanguage,
-            styleLoaded
-          }}
-        >
-          <StyleHead onLoaded={handleStyleHeadLoaded} />
-          <Component {...pageProps} />
-        </AppContext.Provider>
-      </CustomProvider>
-    </Grid>
+    <React.StrictMode>
+      <Grid fluid className="app-container">
+        <CustomProvider locale={locale} rtl={direction === 'rtl'}>
+          <AppContext.Provider
+            value={{
+              messages,
+              language,
+              localePath: language === 'zh' ? '/zh-CN' : '/en-US',
+              theme: [themeName, direction],
+              onChangeDirection,
+              onChangeTheme,
+              onChangeLanguage,
+              styleLoaded
+            }}
+          >
+            <StyleHead onLoaded={handleStyleHeadLoaded} />
+            <Component {...pageProps} />
+          </AppContext.Provider>
+        </CustomProvider>
+      </Grid>
+    </React.StrictMode>
   );
 }
 

@@ -5,11 +5,13 @@ import canUseDOM from 'dom-lib/lib/query/canUseDOM';
 import AppContext from '../AppContext';
 import LanguageButton from '../LanguageButton';
 
-const MenuPopover = ({ children, ...rest }: any) => (
-  <Popover {...rest} full>
-    <Dropdown.Menu>{children}</Dropdown.Menu>
-  </Popover>
-);
+const MenuPopover = React.forwardRef(function MenuPopover({ children, ...rest }: any, ref) {
+  return (
+    <Popover ref={ref} {...rest} full>
+      <Dropdown.Menu>{children}</Dropdown.Menu>
+    </Popover>
+  );
+});
 interface PageToolbarProps {
   designHash?: any;
   routerId?: string;
