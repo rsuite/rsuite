@@ -6,7 +6,6 @@ export default function scrollIntoView(arg?: boolean | ScrollIntoViewOptions): v
   }
 
   if (location.hash) {
-    // TODO: 处理中文
-    document.querySelector(location.hash)?.scrollIntoView(arg);
+    document.querySelector(decodeURIComponent(location.hash))?.scrollIntoView(arg);
   }
 }
