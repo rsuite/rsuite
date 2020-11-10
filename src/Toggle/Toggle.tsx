@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import { useClassNames, useControlled, useCustom } from '../utils';
 import { WithAsProps, TypeAttributes } from '../@types/common';
 import Plaintext from '../Plaintext';
-
-export interface ToggleLocale {
-  on: string;
-  off: string;
-}
+import { ToggleLocale } from '../locales';
 
 export interface ToggleProps extends WithAsProps {
   /** Wheather to disabled toggle */

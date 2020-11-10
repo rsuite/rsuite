@@ -1,7 +1,4 @@
-import { CalendarLocale } from '../Calendar/types';
 import { ReactNode } from 'react';
-
-export type DatePickerLocale = CalendarLocale;
 
 export type ToolbarValue = Date | [Date?, Date?];
 

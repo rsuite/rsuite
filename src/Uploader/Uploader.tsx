@@ -6,6 +6,7 @@ import UploadTrigger, { UploadTriggerInstance } from './UploadTrigger';
 import { ajaxUpload, useClassNames, useCustom, guid } from '../utils';
 import { WithAsProps } from '../@types/common';
 import Plaintext from '../Plaintext';
+import { UploaderLocale } from '../locales';
 
 export interface FileType {
   /** File Name */
@@ -158,15 +159,6 @@ export type FileStatusType = 'inited' | 'uploading' | 'error' | 'finished';
 export interface FileProgressType {
   status?: FileStatusType;
   progress?: number;
-}
-
-export interface UploaderLocale {
-  inited?: string;
-  progress?: string;
-  error?: string;
-  complete?: string;
-  emptyFile?: string;
-  upload?: string;
 }
 
 const defaultProps: Partial<UploaderProps> = {
@@ -588,7 +580,7 @@ Uploader.propTypes = {
   timeout: PropTypes.number,
   withCredentials: PropTypes.bool,
   headers: PropTypes.object,
-  locale: PropTypes.object,
+  locale: PropTypes.any,
   listType: PropTypes.oneOf(['text', 'picture-text', 'picture']),
   shouldQueueUpdate: PropTypes.func,
   shouldUpload: PropTypes.func,

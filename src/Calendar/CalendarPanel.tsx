@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Calendar, { CalendarState } from './Calendar';
-import { CalendarLocale } from './types';
+import { CalendarLocale } from '../locales';
 import Button from '../Button';
 import { FormattedDate } from '../CustomProvider';
 import { composeFunctions, useClassNames, useCustom, TimeZone, DateUtils } from '../utils';

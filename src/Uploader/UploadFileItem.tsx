@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { previewFile, useClassNames } from '../utils';
-import { UploaderLocale, FileType } from './Uploader';
+import { FileType } from './Uploader';
+import { UploaderLocale } from '../locales';
 import CloseButton from '../CloseButton';
 import { WithAsProps } from '../@types/common';
 
@@ -277,7 +278,7 @@ const UploadFileItem = React.forwardRef(
 UploadFileItem.displayName = 'UploadFileItem';
 UploadFileItem.defaultProps = defaultProps;
 UploadFileItem.propTypes = {
-  locale: PropTypes.object,
+  locale: PropTypes.any,
   file: PropTypes.object,
   listType: PropTypes.oneOf(['text', 'picture-text', 'picture']),
   disabled: PropTypes.bool,
