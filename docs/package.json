@@ -20,6 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@rsuite/responsive-nav": "0.0.10",
+    "@sentry/browser": "^5.27.3",
     "color": "^3.1.2",
     "date-fns": "^1.30.1",
     "eslint-import-resolver-alias": "^1.1.2",

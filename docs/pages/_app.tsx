@@ -14,13 +14,17 @@ import {
   getThemeId,
   readTheme,
   ThemeType,
-  writeTheme
+  writeTheme,
 } from '../utils/themeHelpers';
 import loadCssFile from '../utils/loadCssFile';
 import StyleHead from '../components/StyleHead';
 import { canUseDOM } from 'dom-lib';
+import * as Sentry from '@sentry/browser';
 
-Router.events.on('routeChangeStart', url => {
+// Connecting the SDK to Sentry
+Sentry.init({ dsn: 'https://ff7dc3ab4cdd42a3b1c9d9d17072029b@sentry-prd.hypers.cc/2' });
+
+Router.events.on('routeChangeStart', (url) => {
   NProgress.start();
   if (process.env.__DEV__) {
     console.log(`Loading: ${url}`);
@@ -31,7 +35,7 @@ Router.events.on('routeChangeComplete', () => {
 
   window['_ha']?.('send', 'pageview', {
     title: document.title,
-    url: document.location.href
+    url: document.location.href,
   });
 });
 Router.events.on('routeChangeError', () => NProgress.done());
@@ -68,7 +72,7 @@ function App({ Component, pageProps }: AppProps) {
       html.dir = direction;
       writeTheme(themeName, direction);
       NProgress.done();
-      Array.from(document.querySelectorAll('[id^=theme]')).forEach(css => {
+      Array.from(document.querySelectorAll('[id^=theme]')).forEach((css) => {
         if (css.id !== themeId) {
           css.remove();
         }
@@ -117,7 +121,7 @@ function App({ Component, pageProps }: AppProps) {
             onChangeDirection,
             onChangeTheme,
             onChangeLanguage,
-            styleLoaded
+            styleLoaded,
           }}
         >
           <StyleHead onLoaded={handleStyleHeadLoaded} />
@@ -130,17 +134,17 @@ function App({ Component, pageProps }: AppProps) {
 
 App.getInitialProps = ({ ctx }) => {
   let pageProps = {
-    userLanguage: 'en'
+    userLanguage: 'en',
   };
 
   if (!process.browser) {
     pageProps = {
-      userLanguage: ctx.query.userLanguage
+      userLanguage: ctx.query.userLanguage,
     };
   }
 
   return {
-    pageProps
+    pageProps,
   };
 };
 
