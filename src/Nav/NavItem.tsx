@@ -33,6 +33,9 @@ export interface NavItemProps<T = string>
   /** Providing a `href` will render an `<a>` element */
   href?: string;
 
+  /** You can use a custom element for this link */
+  linkAs?: React.ElementType;
+
   /** Select the callback function that the event triggers. */
   onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
 
@@ -42,7 +45,8 @@ export interface NavItemProps<T = string>
 
 const defaultProps: Partial<NavItemProps> = {
   classPrefix: 'nav-item',
-  as: SafeAnchor,
+  as: 'li',
+  linkAs: SafeAnchor,
   tabIndex: 0
 };
 
@@ -50,6 +54,7 @@ const NavItem: RsRefForwardingComponent<'li', NavItemProps> = React.forwardRef(
   (props: NavItemProps, ref: React.Ref<HTMLLIElement>) => {
     const {
       as: Component,
+      linkAs: Link,
       active,
       disabled,
       eventKey,
@@ -82,7 +87,7 @@ const NavItem: RsRefForwardingComponent<'li', NavItemProps> = React.forwardRef(
 
     if (divider) {
       return (
-        <li
+        <Component
           ref={ref}
           role="separator"
           style={style}
@@ -93,14 +98,14 @@ const NavItem: RsRefForwardingComponent<'li', NavItemProps> = React.forwardRef(
 
     if (panel) {
       return (
-        <li ref={ref} style={style} className={merge(className, prefix('panel'))}>
+        <Component ref={ref} style={style} className={merge(className, prefix('panel'))}>
           {children}
-        </li>
+        </Component>
       );
     }
 
     let item: React.ReactNode = (
-      <Component
+      <Link
         {...rest}
         disabled={Component === SafeAnchor ? disabled : null}
         tabIndex={tabIndex}
@@ -110,18 +115,18 @@ const NavItem: RsRefForwardingComponent<'li', NavItemProps> = React.forwardRef(
         {icon}
         {children}
         <Ripple />
-      </Component>
+      </Link>
     );
 
     if (renderItem) {
       item = renderItem(item);
     }
     return (
-      <li ref={ref} className={classes} style={style}>
+      <Component ref={ref} className={classes} style={style}>
         {hasTooltip
           ? appendTooltip({ children: item, message: children, placement: 'right' })
           : item}
-      </li>
+      </Component>
     );
   }
 );
@@ -129,6 +134,8 @@ const NavItem: RsRefForwardingComponent<'li', NavItemProps> = React.forwardRef(
 NavItem.defaultProps = defaultProps;
 NavItem.displayName = 'NavItem';
 NavItem.propTypes = {
+  as: PropTypes.elementType,
+  linkAs: PropTypes.elementType,
   active: PropTypes.bool,
   disabled: PropTypes.bool,
   className: PropTypes.string,
@@ -143,7 +150,6 @@ NavItem.propTypes = {
   eventKey: PropTypes.any,
   tabIndex: PropTypes.number,
   hasTooltip: PropTypes.bool,
-  as: PropTypes.elementType,
   renderItem: PropTypes.func
 };
 

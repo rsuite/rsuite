@@ -38,9 +38,10 @@ export default {
     goHomePage: 'Return to homepage.',
     searchIcon: 'Search icon',
     copySucceed: 'Copy success',
-    copyFailed: "Copy the failure, the browser doesn't support this feature",
+    copyFailed: 'Copy the failure, the browser doesn`t support this feature',
     shareTwitter: 'Share on Twitter',
-    accessibility: 'Accessibility'
+    accessibility: 'Accessibility',
+    composition: 'Composition'
   },
 
   palette: {

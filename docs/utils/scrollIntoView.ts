@@ -6,6 +6,6 @@ export default function scrollIntoView(arg?: boolean | ScrollIntoViewOptions): v
   }
 
   if (location.hash) {
-    document.querySelector(location.hash)?.scrollIntoView(arg);
+    document.querySelector(decodeURIComponent(location.hash))?.scrollIntoView(arg);
   }
 }

@@ -76,7 +76,7 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
         );
       } else {
         navItems.push(
-          <Nav.Item key={child.id} href={pathname} active={active} as={Link}>
+          <Nav.Item key={child.id} href={pathname} active={active} linkAs={Link}>
             {child.name}
             {title}
           </Nav.Item>

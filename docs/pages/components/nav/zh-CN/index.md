@@ -49,7 +49,7 @@
 
 <!--{include:`icon.md`}-->
 
-### 与 Router 中的 Link 组合
+### 与 next/link 中的 Link 组合
 
 <!--{include:`with-router.md`}-->
 
@@ -81,11 +81,12 @@
 | 属性名称    | 类型                               | 描述                   |
 | ----------- | ---------------------------------- | ---------------------- |
 | active      | boolean                            | 激活状态               |
+| as          | ElementType`('li')`                | 为组件自定义元素类型   |
 | children \* | ReactNode                          | 组件内容               |
-| as          | ElementType`('a')`                 | 为组件自定义元素类型   |
 | disabled    | boolean                            | 禁用状态               |
 | href        | string                             | 链接                   |
 | icon        | Element&lt;typeof Icon&gt;         | 设置图标               |
+| linkAs      | ElementType `('a')`                | 为链接自定义元素类型   |
 | onSelect    | (eventKey: string, event) => void, | 选择事件触发的回调函数 |
 | renderItem  | (item:ReactNode) => ReactNode      | 自定义渲染选项         |
 

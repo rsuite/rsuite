@@ -10,7 +10,7 @@ const MyLink = React.forwardRef((props, ref) => {
   );
 });
 
-const NavLink = props => <Nav.Item as={MyLink} {...props} />;
+const NavLink = props => <Nav.Item linkAs={MyLink} {...props} />;
 const instance = (
   <Nav>
     <NavLink href="/">Home</NavLink>

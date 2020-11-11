@@ -49,7 +49,7 @@ Provides a list of various forms of navigation menus, which can be landscape and
 
 <!--{include:`icon.md`}-->
 
-### Used with `Link` in `react-router`
+### Used with `Link` in `next/link`
 
 <!--{include:`with-router.md`}-->
 
@@ -82,11 +82,12 @@ Provides a list of various forms of navigation menus, which can be landscape and
 | Property    | Type `(Default)`                   | Description                                           |
 | ----------- | ---------------------------------- | ----------------------------------------------------- |
 | active      | boolean                            | Activation status                                     |
+| as          | ElementType `('li')`               | You can use a custom element type for this component. |
 | children \* | ReactNode                          | The contents of the component                         |
-| as          | ElementType `('a')`                | You can use a custom element type for this component  |
 | disabled    | boolean                            | Disabled status                                       |
 | href        | string                             | Link                                                  |
 | icon        | Element&lt;typeof Icon&gt;         | Sets the icon for the component                       |
+| linkAs      | ElementType `('a')`                | You can use a custom element for this link.           |
 | onSelect    | (eventKey: string, event) => void, | Select the callback function that the event triggers. |
 | renderItem  | (item:ReactNode) => ReactNode      | Custom rendering item                                 |
 
