@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import { useClassNames, useCustom } from '../utils';
 import BreadcrumbItem from './BreadcrumbItem';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-
-export interface BreadcrumbLocale {
-  expandText?: string;
-}
+import { BreadcrumbLocale } from '../locales';
 
 export interface BreadcrumbProps extends WithAsProps {
   /** Shorthand for primary content of the React.ReactNode */

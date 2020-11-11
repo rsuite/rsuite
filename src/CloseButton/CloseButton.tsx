@@ -1,14 +1,11 @@
 import React from 'react';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { useClassNames, useCustom } from '../utils';
-
-export interface CloseButtonLocaleType {
-  closeLabel?: string;
-}
+import { CloseButtonLocale } from '../locales';
 
 export interface CloseButtonProps extends WithAsProps {
   /** Custom locale */
-  locale?: CloseButtonLocaleType;
+  locale?: CloseButtonLocale;
 }
 
 /**
@@ -25,7 +22,7 @@ const CloseButton: RsRefForwardingComponent<'button', CloseButtonProps> = React.
     } = props;
 
     const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const { locale } = useCustom<CloseButtonLocaleType>('CloseButton', overrideLocale);
+    const { locale } = useCustom<CloseButtonLocale>('CloseButton', overrideLocale);
 
     const classes = merge(className, withClassPrefix());
     return (

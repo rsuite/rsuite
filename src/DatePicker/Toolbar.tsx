@@ -4,7 +4,7 @@ import { useClassNames } from '../utils';
 import { RsRefForwardingComponent, WithAsProps, TimeZoneName } from '../@types/common';
 import { getDefaultRanges, getRanges } from './utils';
 import { InnerRange, RangeType, ToolbarValue } from './types';
-import { CalendarLocale } from '../Calendar';
+import { CalendarLocale } from '../locales';
 
 export type { RangeType } from './types';
 

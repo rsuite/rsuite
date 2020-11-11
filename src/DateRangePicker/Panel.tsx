@@ -7,7 +7,7 @@ import CalendarCore, {
 } from '../Calendar/Calendar';
 import { ValueType } from './types';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import { DatePickerLocale } from '../DatePicker/types';
+import { DatePickerLocale } from '../locales';
 import { DATERANGE_DISABLED_TARGET } from '../utils';
 
 type OmitCalendarCoreTypes = 'disabledDate' | 'onSelect' | 'onMouseMove' | 'pageDate';

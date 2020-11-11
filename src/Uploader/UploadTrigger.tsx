@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState, useImperativeHandle } from 'react
 import PropTypes from 'prop-types';
 import Ripple from '../Ripple';
 import { isIE11, useClassNames } from '../utils';
-import { UploaderLocale } from './Uploader';
+import { UploaderLocale } from '../locales';
 export interface UploadTriggerProps {
   as: React.ElementType | string;
   name?: string;
@@ -178,7 +178,7 @@ const UploadTrigger = React.forwardRef((props: UploadTriggerProps, ref) => {
 UploadTrigger.displayName = 'UploadTrigger';
 UploadTrigger.defaultProps = defaultProps;
 UploadTrigger.propTypes = {
-  locale: PropTypes.object,
+  locale: PropTypes.any,
   name: PropTypes.string,
   multiple: PropTypes.bool,
   disabled: PropTypes.bool,

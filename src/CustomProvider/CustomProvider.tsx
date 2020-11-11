@@ -1,8 +1,9 @@
 import React from 'react';
 import { getClassNamePrefix } from '../utils/prefix';
 import { format } from '../utils/dateUtils';
+import { Locale } from '../locales';
 
-export interface CustomValue<T = any> {
+export interface CustomValue<T = Locale> {
   /** Language configuration */
   locale?: T;
 

@@ -4,14 +4,7 @@ import PaginationButton, { PaginationButtonProps } from './PaginationButton';
 import Icon from '../Icon';
 import { useClassNames, useCustom, PAGINATION_ICON_NAMES } from '../utils';
 import { RsRefForwardingComponent, WithAsProps, TypeAttributes } from '../@types/common';
-
-export interface PaginationLocale {
-  more: string;
-  prev: string;
-  next: string;
-  first: string;
-  last: string;
-}
+import { PaginationLocale } from '../locales';
 
 export interface PaginationProps extends WithAsProps {
   /** Current page number */

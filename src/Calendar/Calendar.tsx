@@ -7,7 +7,7 @@ import View from './View';
 import Header, { HeaderProps } from './Header';
 import { useClassNames, DateUtils, composeFunctions } from '../utils';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import { CalendarLocale } from './types';
+import { CalendarLocale } from '../locales';
 import { CalendarProvider } from './CalendarContext';
 
 export enum CalendarState {

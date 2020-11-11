@@ -1,5 +1,6 @@
 import React from 'react';
 import reactToString from '../utils/reactToString';
+import { PickerLocale } from '../locales';
 
 export interface SelectedElementProps {
   selectedItems: any[];
@@ -7,7 +8,7 @@ export interface SelectedElementProps {
   labelKey: string;
   countable: boolean;
   cascade?: boolean;
-  locale?: any;
+  locale?: PickerLocale;
   childrenKey?: string;
   prefix: (name: string) => string;
 }
