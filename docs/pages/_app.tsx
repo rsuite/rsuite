@@ -55,6 +55,14 @@ function App({ Component, pageProps }: AppProps) {
   const [language, setLanguage] = React.useState(pageProps.userLanguage);
   const [styleLoaded, setStyleLoaded] = React.useState(false);
   const locale = language === 'zh' ? zhCN : enUS;
+  // Resolve server render is not same with the client problem.
+  // reference https://itnext.io/tips-for-server-side-rendering-with-react-e42b1b7acd57
+  const [ssrDone, setSsrDone] = React.useState(false);
+
+  React.useEffect(() => {
+    setSsrDone(canUseDOM);
+  }, [canUseDOM]);
+
   React.useEffect(() => {
     NProgress.start();
   }, []);
@@ -110,7 +118,7 @@ function App({ Component, pageProps }: AppProps) {
   const messages = getMessages(language);
 
   return (
-    <Grid fluid className="app-container">
+    <Grid fluid className="app-container" key={ssrDone ? 'client' : 'server'}>
       <RSIntlProvider locale={locale} rtl={direction === 'rtl'}>
         <AppContext.Provider
           value={{
