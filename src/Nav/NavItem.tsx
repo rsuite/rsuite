@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Ripple from '../Ripple';
 import SafeAnchor from '../SafeAnchor';
-import { createChainedFunction, useClassNames, appendTooltip } from '../utils';
+import { useClassNames, appendTooltip } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '../Icon';
 
@@ -74,12 +74,13 @@ const NavItem: RsRefForwardingComponent<'li', NavItemProps> = React.forwardRef(
     } = props;
 
     const handleClick = useCallback(
-      (event: React.MouseEvent) => {
-        if (onSelect && !disabled) {
-          onSelect(eventKey, event);
+      (event: React.MouseEvent<HTMLElement>) => {
+        if (!disabled) {
+          onSelect?.(eventKey, event);
+          onClick?.(event);
         }
       },
-      [onSelect, disabled, eventKey]
+      [disabled, onSelect, eventKey, onClick]
     );
 
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
@@ -110,7 +111,7 @@ const NavItem: RsRefForwardingComponent<'li', NavItemProps> = React.forwardRef(
         disabled={Component === SafeAnchor ? disabled : null}
         tabIndex={tabIndex}
         className={merge(className, prefix('content'))}
-        onClick={createChainedFunction(onClick, handleClick)}
+        onClick={handleClick}
       >
         {icon}
         {children}

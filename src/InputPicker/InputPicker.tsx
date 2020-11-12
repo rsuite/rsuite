@@ -12,6 +12,7 @@ import { getWidth } from 'dom-lib';
 import shallowEqual from '../utils/shallowEqual';
 import { filterNodesOfTree } from '../utils/treeUtils';
 import Plaintext from '../Plaintext';
+import { InputPickerLocale } from '../locales';
 import {
   createChainedFunction,
   tplTransform,
@@ -39,7 +40,6 @@ import {
   OverlayTriggerInstance,
   PositionChildProps,
   PickerComponent,
-  PickerLocaleType,
   listPickerPropTypes
 } from '../Picker';
 
@@ -53,14 +53,9 @@ interface InputItemDataType extends ItemDataType {
   create?: boolean;
 }
 
-export interface InputPickerLocaleType extends PickerLocaleType {
-  newItem?: string;
-  createOption?: string;
-}
-
 export type ValueType = any;
 export interface InputPickerProps<T = ValueType>
-  extends FormControlPickerProps<T, InputPickerLocaleType, InputItemDataType>,
+  extends FormControlPickerProps<T, InputPickerLocale, InputItemDataType>,
     SelectProps<T> {
   multi?: boolean;
 
@@ -161,7 +156,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     const toggleRef = useRef<HTMLButtonElement>();
     const triggerRef = useRef<OverlayTriggerInstance>();
     const inputRef = useRef<any>();
-    const { locale } = useCustom<InputPickerLocaleType>(['Picker', 'InputPicker'], overrideLocale);
+    const { locale } = useCustom<InputPickerLocale>(['Picker', 'InputPicker'], overrideLocale);
 
     const { prefix, merge } = useClassNames(classPrefix);
     const [uncontrolledData, setData] = useState(controlledData);

@@ -8,6 +8,7 @@ import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
 import { filterNodesOfTree } from '../utils/treeUtils';
+import { PickerLocale } from '../locales';
 import {
   createChainedFunction,
   getDataGroupBy,
@@ -36,7 +37,6 @@ import {
   OverlayTriggerInstance,
   PositionChildProps,
   listPickerPropTypes,
-  PickerLocaleType,
   PickerComponent
 } from '../Picker';
 
@@ -45,7 +45,7 @@ import { SelectProps } from '../SelectPicker';
 
 export type ValueType = (number | string)[];
 export interface CheckPickerProps<T = ValueType>
-  extends FormControlPickerProps<T, PickerLocaleType, ItemDataType>,
+  extends FormControlPickerProps<T, PickerLocale, ItemDataType>,
     SelectProps<T> {
   /** Top the selected option in the options */
   sticky?: boolean;
@@ -122,7 +122,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
     const triggerRef = useRef<OverlayTriggerInstance>();
     const toggleRef = useRef<HTMLButtonElement>();
     const menuRef = useRef<HTMLDivElement>();
-    const { locale } = useCustom<PickerLocaleType>('Picker', overrideLocale);
+    const { locale } = useCustom<PickerLocale>('Picker', overrideLocale);
     const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue || []);
 
     // Used to hover the focuse item  when trigger `onKeydown`

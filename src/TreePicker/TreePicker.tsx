@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { pick, omit, isUndefined, isNil, isFunction } from 'lodash';
 import { List, AutoSizer, ListInstance } from '../Picker/VirtualizedList';
 import TreeNode from './TreeNode';
+import { PickerLocale } from '../locales';
 import {
   createChainedFunction,
   useClassNames,
@@ -53,7 +54,6 @@ import {
   pickTriggerPropKeys,
   omitTriggerPropKeys,
   PositionChildProps,
-  PickerLocaleType,
   PickerComponent,
   useToggleKeyDownEvent
 } from '../Picker';
@@ -69,7 +69,7 @@ export const maxTreeHeight = 320;
 export interface TreePickerProps<T = number | string>
   extends TreeBaseProps<T, ItemDataType>,
     TreeDragProps,
-    FormControlPickerProps<T, PickerLocaleType, ItemDataType> {
+    FormControlPickerProps<T, PickerLocale, ItemDataType> {
   /** The height of Dropdown */
   height?: number;
 
@@ -181,7 +181,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   const listRef = useRef<ListInstance>();
   const menuRef = useRef<HTMLDivElement>();
   const treeViewRef = useRef<HTMLDivElement>();
-  const { rtl, locale } = useCustom<PickerLocaleType>('Picker', overrideLocale);
+  const { rtl, locale } = useCustom<PickerLocale>('Picker', overrideLocale);
 
   const [value, setValue, isControlled] = useControlled(controlledValue, defaultValue);
   const {

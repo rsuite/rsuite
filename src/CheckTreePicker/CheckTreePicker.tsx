@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { isNil, pick, isFunction, omit, cloneDeep, isUndefined } from 'lodash';
 import { List, AutoSizer, ListInstance } from '../Picker/VirtualizedList';
-
 import CheckTreeNode from './CheckTreeNode';
+import { PickerLocale } from '../locales';
 import {
   createChainedFunction,
   useCustom,
@@ -32,7 +32,6 @@ import {
   listPickerPropTypes,
   listPickerDefaultProps,
   PickerComponent,
-  PickerLocaleType,
   useToggleKeyDownEvent
 } from '../Picker';
 
@@ -73,12 +72,9 @@ import { TreeBaseProps } from '../Tree/Tree';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
 import { maxTreeHeight } from '../TreePicker/TreePicker';
 
-export interface CheckTreePickerLocaleType extends PickerLocaleType {
-  checkAll?: string;
-}
 export interface CheckTreePickerProps<T = (string | number)[]>
   extends TreeBaseProps<T, ItemDataType>,
-    FormControlPickerProps<T, CheckTreePickerLocaleType, ItemDataType> {
+    FormControlPickerProps<T, PickerLocale, ItemDataType> {
   /** Tree node cascade */
   cascade?: boolean;
 
@@ -180,7 +176,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   const listRef = useRef<ListInstance>();
   const menuRef = useRef<HTMLDivElement>();
   const treeViewRef = useRef<HTMLDivElement>();
-  const { rtl, locale } = useCustom<PickerLocaleType>('Picker', overrideLocale);
+  const { rtl, locale } = useCustom<PickerLocale>('Picker', overrideLocale);
   const [active, setActive] = useState(false);
   const [activeNode, setActiveNode] = useState(null);
   const { prefix, merge } = useClassNames(classPrefix);

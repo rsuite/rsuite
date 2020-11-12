@@ -9,7 +9,7 @@ import Checkbox from '../Checkbox';
 import { useCascadeValue, useColumnData, useFlattenData, isSomeChildChecked } from './utils';
 import { getNodeParents, findNodeOfTree } from '../utils/treeUtils';
 import { getColumnsAndPaths } from '../Cascader/utils';
-
+import { PickerLocale } from '../locales';
 import {
   createChainedFunction,
   mergeRefs,
@@ -33,7 +33,6 @@ import {
   OverlayTriggerInstance,
   PositionChildProps,
   listPickerPropTypes,
-  PickerLocaleType,
   PickerComponent
 } from '../Picker';
 
@@ -41,7 +40,7 @@ import { FormControlPickerProps, ItemDataType } from '../@types/common';
 
 export type ValueType = (number | string)[];
 export interface MultiCascaderProps<T = ValueType>
-  extends FormControlPickerProps<T, PickerLocaleType, ItemDataType> {
+  extends FormControlPickerProps<T, PickerLocale, ItemDataType> {
   cascade?: boolean;
 
   /** A picker that can be counted */
@@ -179,7 +178,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
 
     usePublicMethods(ref, { triggerRef, menuRef, toggleRef });
 
-    const { locale, rtl } = useCustom<PickerLocaleType>('Picker', overrideLocale);
+    const { locale, rtl } = useCustom<PickerLocale>('Picker', overrideLocale);
     const selectedItems = flattenData.filter(item => value.some(v => v === item[valueKey])) || [];
 
     // Used to hover the focuse item  when trigger `onKeydown`

@@ -8,6 +8,7 @@ import shallowEqual from '../utils/shallowEqual';
 import DropdownMenu from './DropdownMenu';
 import { findNodeOfTree, flattenTree, getNodeParents } from '../utils/treeUtils';
 import { usePaths } from './utils';
+import { PickerLocale } from '../locales';
 import {
   getSafeRegExpString,
   createChainedFunction,
@@ -31,7 +32,6 @@ import {
   OverlayTriggerInstance,
   PositionChildProps,
   listPickerPropTypes,
-  PickerLocaleType,
   PickerComponent
 } from '../Picker';
 
@@ -39,7 +39,7 @@ import { ItemDataType, FormControlPickerProps } from '../@types/common';
 
 export type ValueType = number | string;
 export interface CascaderProps<T = ValueType>
-  extends FormControlPickerProps<T, PickerLocaleType, ItemDataType> {
+  extends FormControlPickerProps<T, PickerLocale, ItemDataType> {
   /** Sets the width of the menu */
   menuWidth?: number;
 
@@ -172,7 +172,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
 
   usePublicMethods(ref, { triggerRef, menuRef, toggleRef });
 
-  const { locale, rtl } = useCustom<PickerLocaleType>('Picker', overrideLocale);
+  const { locale, rtl } = useCustom<PickerLocale>('Picker', overrideLocale);
   /**
    * 1.Have a value and the value is valid.
    * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
