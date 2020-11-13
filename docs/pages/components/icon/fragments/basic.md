@@ -1,8 +1,1 @@
-<!--start-code-->
-
-```js
-const instance = <Icon icon="star" />;
-ReactDOM.render(instance);
-```
-
-<!--end-code-->
+<!--start-code-->```jsconst instance = <Gear />;ReactDOM.render(instance);```<!--end-code-->
