@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
-import { Calendar, CalendarLocale, CalendarState } from '../Calendar';
+import { Calendar, CalendarState } from '../Calendar';
 import Toolbar, { RangeType } from './Toolbar';
+import { DatePickerLocale } from '../locales';
 
 import {
   composeFunctions,
@@ -44,7 +45,7 @@ import { useCalendarState } from './utils';
 export type { RangeType } from './Toolbar';
 
 export interface DatePickerProps
-  extends PickerBaseProps<CalendarLocale>,
+  extends PickerBaseProps<DatePickerLocale>,
     FormControlBaseProps<Date> {
   /** Configure shortcut options */
   ranges?: RangeType[];
@@ -122,7 +123,7 @@ export interface DatePickerProps
   onClean?: (event: React.MouseEvent) => void;
 
   /** Custom render value */
-  renderValue?: (value: Date, format: string) => React.ReactNode;
+  renderValue?: (value: Date, format: string) => string;
 }
 
 const defaultProps: Partial<DatePickerProps> = {
@@ -133,6 +134,8 @@ const defaultProps: Partial<DatePickerProps> = {
   limitEndYear: 1000,
   placeholder: ''
 };
+
+type InputState = 'Typing' | 'Error' | 'Initial';
 
 const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwardRef(
   (props: DatePickerProps, ref) => {
@@ -178,7 +181,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       ...rest
     } = props;
 
-    const { locale, formatDate } = useCustom<CalendarLocale>('DatePicker', overrideLocale);
+    const { locale, formatDate } = useCustom<DatePickerLocale>('DatePicker', overrideLocale);
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
 
     // Format the value according to the time zone.
@@ -189,6 +192,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const [pageDate, setPageDate] = useState(
       TimeZone.toTimeZone(value ?? calendarDefaultDate ?? new Date(), timeZone)
     );
+
+    const [inputState, setInputState] = useState<InputState>();
 
     const { calendarState, reset, openMonth, openTime } = useCalendarState();
     const [active, setActive] = useState<boolean>(false);
@@ -311,6 +316,9 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       [handleDateChange, updateValue]
     );
 
+    /**
+     * The callback triggered after clicking the OK button.
+     */
     const handleOK = useCallback(
       (event: React.SyntheticEvent<any>) => {
         updateValue(event);
@@ -319,6 +327,9 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       [getLocalPageDate, updateValue, onOk]
     );
 
+    /**
+     * Toggle month selection panel
+     */
     const handleMonthDropdown = useCallback(() => {
       if (calendarState === CalendarState.DROP_MONTH) {
         reset();
@@ -329,6 +340,9 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       onToggleMonthDropdown?.(calendarState !== CalendarState.DROP_MONTH);
     }, [calendarState, onToggleMonthDropdown, openMonth, reset]);
 
+    /**
+     * Switch time selection panel
+     */
     const handleTimeDropdown = useCallback(() => {
       if (calendarState === CalendarState.DROP_TIME) {
         reset();
@@ -339,6 +353,9 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       onToggleTimeDropdown?.(calendarState !== CalendarState.DROP_TIME);
     }, [calendarState, onToggleTimeDropdown, openTime, reset]);
 
+    /**
+     * Callback after clicking the clear button.
+     */
     const handleClean = useCallback(
       (event: React.SyntheticEvent) => {
         setPageDate(TimeZone.toTimeZone(new Date(), timeZone));
@@ -347,6 +364,9 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       [updateValue, timeZone]
     );
 
+    /**
+     * Handle keyboard events.
+     */
     const onPickerKeyDown = useToggleKeyDownEvent({
       triggerRef,
       toggleRef,
@@ -355,8 +375,11 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       ...rest
     });
 
+    /**
+     * Callback after the date is selected.
+     */
     const handleSelect = useCallback(
-      (nextValue: Date, event: React.SyntheticEvent) => {
+      (nextValue: Date, event: React.SyntheticEvent, updatableValue = true) => {
         setPageDate(
           composeFunctions(
             (d: Date) => DateUtils.setHours(d, DateUtils.getHours(pageDate)),
@@ -366,9 +389,59 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         );
 
         handleDateChange(nextValue);
-        oneTap && updateValue(event, nextValue);
+        if (oneTap && updatableValue) {
+          updateValue(event, nextValue);
+        }
       },
       [handleDateChange, updateValue, oneTap, pageDate]
+    );
+
+    const disabledDate = useCallback(
+      (date?: Date) => disabledDateProp?.(TimeZone.toLocalTimeZone(date, timeZone)),
+      [disabledDateProp, timeZone]
+    );
+
+    /**
+     * Callback after the input box value is changed.
+     */
+    const handleInputChange = useCallback(
+      (value, event) => {
+        setInputState('Typing');
+
+        // isMatch('01/11/2020', 'MM/dd/yyyy') ==> true
+        // isMatch('2020-11-01', 'MM/dd/yyyy') ==> false
+        if (!DateUtils.isMatch(value, formatStr)) {
+          setInputState('Error');
+          return;
+        }
+        const date = new Date(value);
+
+        if (!DateUtils.isValid(date)) {
+          setInputState('Error');
+          return;
+        }
+
+        if (disabledDate(date)) {
+          setInputState('Error');
+          return;
+        }
+
+        handleSelect(date, event, false);
+      },
+      [disabledDate, formatStr, handleSelect]
+    );
+
+    /**
+     * The callback after the enter key is triggered on the input
+     */
+    const handleInputBlur = useCallback(
+      event => {
+        if (inputState === 'Typing') {
+          updateValue(event, pageDate);
+        }
+        setInputState('Initial');
+      },
+      [inputState, pageDate, updateValue]
     );
 
     const handleEntered = useCallback(() => {
@@ -381,11 +454,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       reset();
       setActive(false);
     }, [onClose, reset]);
-
-    const disabledDate = useCallback(
-      (date?: Date) => disabledDateProp?.(TimeZone.toLocalTimeZone(date, timeZone)),
-      [disabledDateProp, timeZone]
-    );
 
     // Check whether the time is within the time range of the shortcut option in the toolbar.
     const disabledToolbarHandle = useCallback(
@@ -489,6 +557,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
     return (
       <PickerToggleTrigger
+        trigger="active"
         pickerProps={pick(props, pickTriggerPropKeys)}
         ref={triggerRef}
         placement={placement}
@@ -511,8 +580,16 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
               ...usedClassNamePropKeys,
               ...DateUtils.calendarOnlyProps
             ])}
+            className={prefix({ error: inputState === 'Error' })}
             as={toggleAs}
             ref={toggleRef}
+            input
+            inputValue={value ? formatDate(value, formatStr) : ''}
+            inputPlaceholder={
+              typeof placeholder === 'string' && placeholder ? placeholder : formatStr
+            }
+            onInputChange={handleInputChange}
+            onInputBlur={handleInputBlur}
             onKeyDown={onPickerKeyDown}
             onClean={createChainedFunction(handleClean, onClean)}
             cleanable={cleanable && !disabled}

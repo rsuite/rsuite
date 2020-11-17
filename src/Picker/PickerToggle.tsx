@@ -1,8 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import debounce from 'lodash/debounce';
 import ToggleButton, { ToggleButtonProps } from './ToggleButton';
 import CloseButton from '../CloseButton';
-import { createChainedFunction, useClassNames } from '../utils';
+import { useClassNames, KEY_CODE } from '../utils';
 import { RsRefForwardingComponent } from '../@types/common';
 import Plaintext from '../Plaintext';
 
@@ -10,6 +11,7 @@ type ValueType = string | number;
 
 export interface PickerToggleProps extends ToggleButtonProps {
   value?: ValueType | ValueType[];
+  inputValue?: string;
   id?: string;
   hasValue?: boolean;
   cleanable?: boolean;
@@ -19,8 +21,18 @@ export interface PickerToggleProps extends ToggleButtonProps {
   readOnly?: boolean;
   plaintext?: boolean;
   tabIndex?: number;
+  input?: boolean;
+  inputPlaceholder?: string;
+  onInputChange?: (value: string, event: React.ChangeEvent) => void;
+  onInputPressEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  onInputBlur?: (event: React.FocusEvent<HTMLElement>) => void;
   onClean?: (event: React.MouseEvent) => void;
 }
+
+const defaultProps: Partial<PickerToggleProps> = {
+  as: ToggleButton,
+  classPrefix: 'picker-toggle'
+};
 
 const PickerToggle: RsRefForwardingComponent<
   typeof ToggleButton,
@@ -28,8 +40,8 @@ const PickerToggle: RsRefForwardingComponent<
 > = React.forwardRef((props: PickerToggleProps, ref) => {
   const {
     active: activeProp,
-    as: Component = ToggleButton,
-    classPrefix = 'picker-toggle',
+    as: Component,
+    classPrefix,
     children,
     caret = true,
     className,
@@ -41,37 +53,91 @@ const PickerToggle: RsRefForwardingComponent<
     tabIndex = 0,
     id,
     value,
+    input,
+    inputPlaceholder,
+    inputValue: inputValueProp,
+    onInputChange,
+    onInputPressEnter,
+    onInputBlur,
     onClean,
     onFocus,
     onBlur,
     ...rest
   } = props;
 
+  const inputRef = useRef<HTMLInputElement>();
   const [activeState, setActive] = useState(false);
   const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+  const getInputValue = useCallback(
+    () =>
+      typeof inputValueProp === 'undefined'
+        ? Array.isArray(value)
+          ? value.join(',')
+          : value
+        : inputValueProp,
+    [inputValueProp, value]
+  );
+  const [inputValue, setInputValue] = useState(getInputValue);
 
-  const classes = merge(
-    className,
-    withClassPrefix({
-      active: activeProp || activeState
-    })
+  useEffect(() => {
+    const value = getInputValue();
+    setInputValue(value);
+  }, [getInputValue]);
+
+  const classes = merge(className, withClassPrefix({ active: activeProp || activeState }));
+
+  const handleFocus = useCallback(
+    (event: React.FocusEvent<HTMLElement>) => {
+      setActive(true);
+      onFocus?.(event);
+      if (input) {
+        inputRef.current.focus();
+      }
+    },
+    [input, onFocus]
   );
 
-  const handleFocus = useCallback(() => {
-    setActive(true);
-  }, []);
+  const handleBlur = useCallback(
+    (event: React.FocusEvent<HTMLElement>) => {
+      if (document.activeElement !== inputRef.current) {
+        setActive(false);
+        inputRef.current.blur();
+      }
+      onBlur?.(event);
+    },
+    [onBlur]
+  );
 
-  const handleBlur = useCallback(() => {
-    setActive(false);
-  }, []);
+  const handleInputBlur = (event: React.FocusEvent<HTMLElement>) => {
+    setInputValue(getInputValue());
+    onInputBlur?.(event);
+  };
 
   const handleClean = useCallback(
     (event: React.MouseEvent<HTMLSpanElement>) => {
       event.stopPropagation();
       onClean?.(event);
-      handleBlur();
+      setActive(false);
     },
-    [onClean, handleBlur]
+    [onClean]
+  );
+
+  const handleInputChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = event.target?.value;
+      setInputValue(value);
+      onInputChange?.(value, event);
+    },
+    [onInputChange]
+  );
+
+  const handleInputKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (input && event.keyCode === KEY_CODE.ENTER) {
+        onInputPressEnter?.(event);
+      }
+    },
+    [onInputPressEnter, input]
   );
 
   if (plaintext) {
@@ -86,6 +152,7 @@ const PickerToggle: RsRefForwardingComponent<
   }
 
   const cleanable = cleanableProp && hasValue && !readOnly && !plaintext;
+  const inputFocused = input && activeState;
 
   return (
     <Component
@@ -98,17 +165,23 @@ const PickerToggle: RsRefForwardingComponent<
       ref={ref}
       tabIndex={tabIndex}
       className={classes}
-      onFocus={!disabled ? createChainedFunction(handleFocus, onFocus) : null}
-      onBlur={!disabled ? createChainedFunction(handleBlur, onBlur) : null}
+      onFocus={!disabled ? handleFocus : null}
+      // The debounce is set to 200 to solve the flicker caused by the switch between input and div.
+      onBlur={!disabled ? debounce(handleBlur, 200) : null}
     >
       <input
+        ref={inputRef}
         id={id}
-        aria-hidden
+        aria-hidden={!inputFocused}
+        readOnly={!inputFocused}
         aria-controls={id ? `${id}-listbox` : undefined}
         tabIndex={-1}
-        className={prefix`native-input`}
-        value={Array.isArray(value) ? value.join(',') : value}
-        readOnly
+        className={prefix('textbox', { 'read-only': !inputFocused })}
+        value={inputValue}
+        placeholder={inputPlaceholder}
+        onBlur={handleInputBlur}
+        onChange={handleInputChange}
+        onKeyDown={handleInputKeyDown}
       />
       <span
         className={prefix(hasValue ? 'value' : 'placeholder')}
@@ -123,6 +196,7 @@ const PickerToggle: RsRefForwardingComponent<
 });
 
 PickerToggle.displayName = 'PickerToggle';
+PickerToggle.defaultProps = defaultProps;
 PickerToggle.propTypes = {
   classPrefix: PropTypes.string,
   hasValue: PropTypes.bool,

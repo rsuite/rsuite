@@ -80,15 +80,37 @@
     padding: @padding-vertical @padding-horizontal;
   }
 
-  &-native-input {
+  &-textbox {
     position: absolute;
     width: 100%;
     height: 100%;
     left: 0;
     top: 0;
+    border: 1px solid #0000;
+    padding-left: 10px;
+    padding-right: 50px;
+  }
+
+  &.@{ns}btn-lg &-textbox {
+    padding-left: 14px;
+  }
+
+  &.@{ns}btn-sm &-textbox {
+    padding-left: 8px;
+  }
+
+  &.@{ns}btn-xs &-textbox {
+    padding-left: 6px;
+  }
+
+  &-read-only {
     opacity: 0;
     pointer-events: none;
   }
+}
+
+.@{ns}picker-error .@{ns}picker-toggle-textbox {
+  text-decoration: underline solid red;
 }
 
 .@{ns}btn,
