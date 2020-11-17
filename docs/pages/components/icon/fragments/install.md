@@ -1,0 +1,1 @@
+```bashnpm install --save @rsuite/icons```
