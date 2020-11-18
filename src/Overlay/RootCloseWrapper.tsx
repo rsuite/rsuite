@@ -12,7 +12,7 @@ function isModifiedEvent(event: React.MouseEvent) {
 
 interface RootCloseWrapperProps {
   children: React.ReactNode;
-  onRootClose?: () => void;
+  onRootClose?: (event: React.SyntheticEvent) => void;
   target?: () => HTMLElement;
 }
 
@@ -52,12 +52,12 @@ class RootCloseWrapper extends React.Component<RootCloseWrapperProps> {
       }
     }
 
-    this.props.onRootClose?.();
+    this.props.onRootClose?.(event);
   };
 
   handleDocumentKeyUp = (event: React.KeyboardEvent) => {
     if (event.keyCode === 27) {
-      this.props.onRootClose?.();
+      this.props.onRootClose?.(event);
     }
   };
 
