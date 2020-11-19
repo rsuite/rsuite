@@ -43,9 +43,10 @@ import {
 } from '../Picker';
 import { toLocalTimeZone } from '../utils/timeZone';
 import { FormControlBaseProps, PickerBaseProps, TimeZoneName } from '../@types/common';
-import { DateRangePickerLocale, DisabledDateFunction, RangeType, ValueType } from './types';
+import { DisabledDateFunction, RangeType, ValueType } from './types';
 import partial from 'lodash/partial';
 import useUpdateEffect from '../utils/useUpdateEffect';
+import { DateRangePickerLocale } from '../locales';
 
 export interface DateRangePickerProps extends PickerBaseProps, FormControlBaseProps<ValueType> {
   /** Configure shortcut options */

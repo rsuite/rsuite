@@ -1,5 +1,4 @@
 import React from 'react';
-import { CalendarLocale } from '../Calendar/types';
 
 export type ValueType = [Date?, Date?];
 
@@ -28,7 +27,3 @@ export type DisabledDateFunction = (
   // Call the target of the `disabledDate` function
   target?: DATE_RANGE_DISABLED_TARGET
 ) => boolean;
-
-export interface DateRangePickerLocale extends CalendarLocale {
-  last7Days?: string;
-}

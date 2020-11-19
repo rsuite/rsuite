@@ -205,8 +205,8 @@ describe('DatePicker ', () => {
       done();
     };
 
-    const instance = getDOMNode(<DatePicker onClose={doneOp} defaultOpen />);
-    ReactTestUtils.Simulate.click(instance.querySelector('[role="combobox"]'));
+    const instance = getInstance(<DatePicker onClose={doneOp} defaultOpen />);
+    ReactTestUtils.Simulate.click(instance.menu.querySelector('.rs-picker-toolbar-right-btn-ok'));
   });
 
   it('Should not change for the value  when it is controlled', done => {
