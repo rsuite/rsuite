@@ -7,8 +7,14 @@ import zhCN from '@rsuite-locales/zh_CN';
 import enUS from '@rsuite-locales/en_US';
 import * as Sentry from '@sentry/browser';
 
+const { __DEV__, VERSION } = process.env;
 // Connecting the SDK to Sentry
-Sentry.init({ dsn: 'https://ff7dc3ab4cdd42a3b1c9d9d17072029b@sentry-prd.hypers.cc/2' });
+if (!__DEV__) {
+  Sentry.init({
+    dsn: 'https://ff7dc3ab4cdd42a3b1c9d9d17072029b@sentry-prd.hypers.cc/2',
+    release: `v${VERSION}`
+  });
+}
 
 import { getMessages } from '../locales';
 import {
@@ -26,7 +32,7 @@ import { canUseDOM } from 'dom-lib';
 
 Router.events.on('routeChangeStart', url => {
   NProgress.start();
-  if (process.env.__DEV__) {
+  if (__DEV__) {
     console.log(`Loading: ${url}`);
   }
 });
