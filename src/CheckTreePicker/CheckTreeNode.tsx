@@ -180,7 +180,8 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
       })
     );
 
-    const padding = layer * TREE_NODE_PADDING + TREE_NODE_ROOT_PADDING;
+    // layer start from 1
+    const padding = (layer - 1) * TREE_NODE_PADDING + TREE_NODE_ROOT_PADDING;
     const styles = { ...style, [rtl ? 'paddingRight' : 'paddingLeft']: padding };
     return visible ? (
       <Component
