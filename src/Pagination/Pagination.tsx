@@ -1,10 +1,23 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import More from '@rsuite/icons/legacy/More';
+import PagePrevious from '@rsuite/icons/legacy/PagePrevious';
+import PageNext from '@rsuite/icons/legacy/PageNext';
+import PageTop from '@rsuite/icons/legacy/PageTop';
+import PageEnd from '@rsuite/icons/legacy/PageEnd';
+
 import PaginationButton, { PaginationButtonProps } from './PaginationButton';
-import Icon from '../Icon';
-import { useClassNames, useCustom, PAGINATION_ICON_NAMES } from '../utils';
+import { useClassNames, useCustom } from '../utils';
 import { RsRefForwardingComponent, WithAsProps, TypeAttributes } from '../@types/common';
 import { PaginationLocale } from '../locales';
+
+const PAGINATION_ICONS = {
+  more: <More />,
+  prev: <PagePrevious />,
+  next: <PageNext />,
+  first: <PageTop />,
+  last: <PageEnd />
+};
 
 export interface PaginationProps extends WithAsProps {
   /** Current page number */
@@ -121,9 +134,7 @@ const Pagination: RsRefForwardingComponent<'ul', PaginationProps> = React.forwar
       return renderItem('first', {
         eventKey: 1,
         disabled: activePage === 1,
-        children: (
-          <span>{first === true ? <Icon icon={PAGINATION_ICON_NAMES.first} /> : first}</span>
-        )
+        children: <span>{first === true ? PAGINATION_ICONS.first : first}</span>
       });
     };
 
@@ -135,7 +146,7 @@ const Pagination: RsRefForwardingComponent<'ul', PaginationProps> = React.forwar
       return renderItem('prev', {
         eventKey: activePage - 1,
         disabled: activePage === 1,
-        children: <span>{prev === true ? <Icon icon={PAGINATION_ICON_NAMES.prev} /> : prev}</span>
+        children: <span>{prev === true ? PAGINATION_ICONS.prev : prev}</span>
       });
     };
 
@@ -179,11 +190,7 @@ const Pagination: RsRefForwardingComponent<'ul', PaginationProps> = React.forwar
           renderItem('more', {
             eventKey: 'ellipsisFirst',
             disabled: true,
-            children: (
-              <span>
-                {ellipsis === true ? <Icon icon={PAGINATION_ICON_NAMES.more} /> : ellipsis}
-              </span>
-            )
+            children: <span>{ellipsis === true ? PAGINATION_ICONS.more : ellipsis}</span>
           })
         );
 
@@ -195,11 +202,7 @@ const Pagination: RsRefForwardingComponent<'ul', PaginationProps> = React.forwar
           renderItem('more', {
             eventKey: 'ellipsis',
             disabled: true,
-            children: (
-              <span>
-                {ellipsis === true ? <Icon icon={PAGINATION_ICON_NAMES.more} /> : ellipsis}
-              </span>
-            )
+            children: <span>{ellipsis === true ? PAGINATION_ICONS.more : ellipsis}</span>
           })
         );
 
@@ -220,7 +223,7 @@ const Pagination: RsRefForwardingComponent<'ul', PaginationProps> = React.forwar
       return renderItem('next', {
         eventKey: activePage + 1,
         disabled: activePage >= pages,
-        children: <span>{next === true ? <Icon icon={PAGINATION_ICON_NAMES.next} /> : next}</span>
+        children: <span>{next === true ? PAGINATION_ICONS.next : next}</span>
       });
     };
 
@@ -232,7 +235,7 @@ const Pagination: RsRefForwardingComponent<'ul', PaginationProps> = React.forwar
       return renderItem('last', {
         eventKey: pages,
         disabled: activePage >= pages,
-        children: <span>{last === true ? <Icon icon={PAGINATION_ICON_NAMES.last} /> : last}</span>
+        children: <span>{last === true ? PAGINATION_ICONS.last : last}</span>
       });
     };
 

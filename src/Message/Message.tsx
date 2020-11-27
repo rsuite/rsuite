@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Icon from '../Icon';
-import { useClassNames, useTimeout, STATUS_ICON_NAMES, STATUS } from '../utils';
+import { useClassNames, useTimeout, MESSAGE_STATUS_ICONS, STATUS } from '../utils';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 import CloseButton from '../CloseButton';
 
@@ -87,11 +86,7 @@ const Message: RsRefForwardingComponent<'div', MessageProps> = React.forwardRef(
       <Component role="alert" {...rest} ref={ref} className={classes}>
         <div className={prefix`container`}>
           {closable && <CloseButton onClick={handleClose} />}
-          {showIcon && (
-            <div className={prefix`icon-wrapper`}>
-              <Icon icon={STATUS_ICON_NAMES[type]} />
-            </div>
-          )}
+          {showIcon && <div className={prefix`icon-wrapper`}>{MESSAGE_STATUS_ICONS[type]}</div>}
           <div className={prefix`content`}>
             {header && <h5 className={prefix`header`}>{header}</h5>}
             {children && <div className={prefix`body`}>{children}</div>}

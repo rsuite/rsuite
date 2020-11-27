@@ -34,11 +34,10 @@ describe('SelectPicker styles', () => {
     inChrome && assert.equal(getStyle(instanceRef.current.toggle, 'padding'), '7px 32px 7px 11px');
     assert.equal(getStyle(instanceRef.current.toggle, 'backgroundColor'), toRGB('#fff'));
     assert.equal(
-      window.getComputedStyle(
-        instanceRef.current.toggle.querySelector('.rs-picker-toggle-caret'),
-        '::before'
-      ).content,
-      `"${String.fromCharCode(0xea08)}"`
+      instanceRef.current.toggle
+        .querySelector('.rs-picker-toggle-caret')
+        .getAttribute('aria-label'),
+      'arrow-down-line'
     );
     inChrome && assert.equal(getStyle(pickerNoneDom, 'padding'), '6px 12px 12px');
   });

@@ -31,44 +31,15 @@
 @inline-gap: 8px;
 
 //== All icon content sets.
-//** Close button content
-@default-close-btn-content: @icon-close;
-//** Check mark
-@check-mark-content: @icon-check;
-//** X mark
-@x-mark-content: @icon-close;
 //** Table expand
 @table-expand-content: @icon-caret-right;
 //** Table shrink
 @table-shrink-content: @icon-caret-down;
-//** DropLeft Caret Content
-@drop-left-caret-content: @icon-arrow-left-line;
-//** DropRight Caret Content
-@drop-right-caret-content: @icon-arrow-right-line;
-//** Dropup Caret Content
-@dropup-caret-content: @icon-arrow-up-line;
-//** Dropdown Caret Content
-@dropdown-caret-content: @icon-arrow-down-line;
-//** Uploder
-@uploader-file-item-icon-content: @icon-attachment;
-@uploader-file-item-retry-icon-content: @icon-reload;
-//** Picker
-@picker-search-bar-icon-content: @icon-search;
 
 //** Placeholder
 @placeholder-holder-bg: @B100;
 @placeholder-holder-bg-active: @B200;
 @placeholder-image-color: @B000;
-
-//** Calendar
-@calendar-default-caret-content: @icon-calendar;
-@calendar-only-time-caret-content: @icon-clock-o;
-//** Progress
-@progress-status-success-icon-content: @check-mark-content;
-@progress-status-fail-icon-content: @x-mark-content;
-//** Panel
-@panel-header-accordion-icon-content: @dropdown-caret-content;
-@panel-header-accordion-in-icon-content: @dropup-caret-content;
 
 //== Typography
 //
@@ -413,6 +384,7 @@
   @dropdown-caret-padding;
 //** Dropdown Caret Font Family
 @dropdown-caret-font-family: @font-family-icon;
+@dropdown-caret-icon-padding-horizontal: 9px;
 
 //** DropDownMenu offset value
 @dropdown-max-height: 280px;
@@ -925,7 +897,6 @@
 @notify-max-width: 400px;
 @notify-close-btn-font-size: 12px;
 @notify-close-btn-margin: 8px;
-@notify-close-button-content: @default-close-btn-content;
 @notify-close-btn-color: @B600;
 @notify-title-font-size: @font-size-large;
 @notify-title-icon-size: 24px;
@@ -1142,11 +1113,11 @@
 @picker-tree-arrow-loading: '\F110';
 @picker-tree-node-padding-vertical: @padding-base-vertical;
 @picker-tree-node-padding-horizontal: @padding-base-horizontal;
-@picker-tree-node-font-size: @font-size-base;
+@picker-tree-node-font-size: 10px;
 @picker-tree-node-active-color: @picker-select-menu-item-selected-color;
 @picker-select-menu-item-selected-bg: fade(@H900, 20);
 @picker-tree-node-active-bg: @picker-select-menu-item-selected-bg;
-@picker-tree-node-line-height: @line-height-base;
+@picker-tree-node-line-height: 22px;
 @picker-tree-node-height: @line-height-computed + @picker-tree-node-padding-vertical*2;
 @picker-tree-arrow-down-width: 8px;
 @picker-tree-arrow-down-gap: 8px;

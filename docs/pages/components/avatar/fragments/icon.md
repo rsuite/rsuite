@@ -4,7 +4,7 @@
 const instance = (
   <div className="avatar-group">
     <Avatar>
-      <Icon icon="user" />
+      <User />
     </Avatar>
     <Avatar>
       <Icon icon={AvatarUser} />

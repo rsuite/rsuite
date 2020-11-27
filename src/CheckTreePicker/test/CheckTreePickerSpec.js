@@ -447,10 +447,12 @@ describe('CheckTreePicker', () => {
   });
 
   it('should render with expand master node', () => {
-    const instance = mount(
-      <CheckTreePicker virtualized={false} data={data} inline expandItemValues={['Master']} />
+    const tree = getInstance(
+      <CheckTreePicker virtualized={false} defaultOpen data={data} expandItemValues={['Master']} />
     );
-    assert.equal(instance.find('.rs-check-tree-node-expanded').length, 1);
+
+    const list = getDOMNode(tree.menu).querySelectorAll('.rs-check-tree-node-expanded');
+    assert.equal(list.length, 1);
   });
 
   it('should fold all the node when toggle master node', () => {

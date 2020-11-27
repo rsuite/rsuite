@@ -77,37 +77,13 @@
     position: absolute;
     top: @message-padding;
     left: @message-padding;
-    line-height: 1;
+    height: @line-height-computed;
   }
 
   // Icon
   .@{ns}message-icon-wrapper .@{ns}icon {
     font-size: @message-icon-size;
-    line-height: @line-height-small;
-  }
-
-  // Close button
-  .@{ns}message-btn-close {
-    background: transparent;
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: @message-close-btn-padding;
-    font-size: @message-close-btn-size;
-    line-height: 1;
-    border: none;
-    outline: none !important;
-
-    .icon-font;
-
-    &::before {
-      content: @default-close-btn-content;
-    }
-
-    // hidden aria-hidden dom
-    [aria-hidden] {
-      display: none;
-    }
+    align-items: center;
   }
 
   &.@{ns}message-hiding {

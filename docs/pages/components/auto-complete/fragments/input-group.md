@@ -3,7 +3,7 @@
 ```js
 const styles = {
   width: 300,
-  marginBottom: 10
+  marginBottom: 10,
 };
 
 const data = [
@@ -12,7 +12,7 @@ const data = [
   'HYPER Video Analytics',
   'HYPER DMP',
   'HYPER Ad Serving',
-  'HYPER Data Discovery'
+  'HYPER Data Discovery',
 ];
 
 const instance = (
@@ -20,27 +20,27 @@ const instance = (
     <InputGroup style={styles}>
       <AutoComplete data={data} />
       <InputGroup.Button>
-        <Icon icon="search" />
+        <Search />
       </InputGroup.Button>
     </InputGroup>
 
     <InputGroup inside style={styles}>
       <AutoComplete data={data} />
       <InputGroup.Button>
-        <Icon icon="search" />
+        <Search />
       </InputGroup.Button>
     </InputGroup>
 
     <InputGroup inside style={styles}>
       <AutoComplete data={data} />
       <InputGroup.Addon>
-        <Icon icon="search" />
+        <Search />
       </InputGroup.Addon>
     </InputGroup>
 
     <InputGroup inside style={styles}>
       <InputGroup.Addon>
-        <Icon icon="avatar" />
+        <Avatar />
       </InputGroup.Addon>
       <AutoComplete data={data} />
     </InputGroup>

@@ -40,6 +40,6 @@ describe('CheckTree styles', () => {
       createTestContainer()
     );
     const itemLabel = document.body.querySelector('.rs-check-tree .rs-check-tree-node');
-    inChrome && assert.equal(getStyle(itemLabel, 'padding'), '0px 0px 0px 28px');
+    inChrome && assert.equal(getStyle(itemLabel, 'padding'), '0px 0px 0px 12px');
   });
 });

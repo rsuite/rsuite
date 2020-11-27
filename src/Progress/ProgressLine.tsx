@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames } from '../utils';
+import { useClassNames, PROGRESS_STATUS_ICON } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export interface ProgressLineProps extends WithAsProps {
@@ -75,7 +75,7 @@ const ProgressLine: RsRefForwardingComponent<'div', ProgressLineProps> = React.f
 
     const showIcon = status && status !== 'active';
     const info = showIcon ? (
-      <span className={prefix(`icon-${status || ''}`)} />
+      <span className={prefix(`icon-${status || ''}`)}>{PROGRESS_STATUS_ICON[status]}</span>
     ) : (
       <span className={prefix('info-status')}>{percent}%</span>
     );

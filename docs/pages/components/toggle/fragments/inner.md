@@ -5,7 +5,7 @@ const instance = (
   <div>
     <Toggle size="lg" checkedChildren="Open" unCheckedChildren="Close" />
 
-    <Toggle checkedChildren={<Icon icon="check" />} unCheckedChildren={<Icon icon="close" />} />
+    <Toggle checkedChildren={<Check />} unCheckedChildren={<Close />} />
   </div>
 );
 ReactDOM.render(instance);

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button, { ButtonProps } from '../Button';
 import { useClassNames } from '../utils';
-import { IconProps } from '../Icon';
+import { IconProps } from '@rsuite/icons';
 
 export interface IconButtonProps extends ButtonProps {
   /** Set the icon */

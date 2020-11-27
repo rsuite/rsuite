@@ -10,7 +10,7 @@ describe('ModalHeader', () => {
     const title = 'Test';
     const instance = getDOMNode(<ModalHeader>{title}</ModalHeader>);
     assert.equal(instance.className, 'rs-modal-header');
-    assert.equal(innerText(instance), '×Test');
+    assert.equal(innerText(instance), 'Test');
   });
 
   it('Should hide close button', () => {

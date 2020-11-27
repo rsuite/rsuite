@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
+import Search from '@rsuite/icons/legacy/Search';
+
 import { useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
@@ -39,6 +41,7 @@ const SearchBar: RsRefForwardingComponent<'div', SearchBarProps> = React.forward
           onChange={handleChange}
           placeholder={placeholder}
         />
+        <Search className={prefix('search-icon')} />
         {children}
       </Component>
     );

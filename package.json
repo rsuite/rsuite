@@ -55,6 +55,7 @@
   ],
   "dependencies": {
     "@babel/runtime": "^7.8.4",
+    "@rsuite/icons": "^1.0.0-11",
     "classnames": ">=2.0.0",
     "date-fns": "^2.13.0",
     "date-fns-timezone": "^0.1.4",

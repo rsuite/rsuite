@@ -1,6 +1,7 @@
 import React from 'react';
 import Color from 'color';
-import { Icon, Popover, Whisper } from 'rsuite';
+import { Popover, Whisper } from 'rsuite';
+import Question2 from '@rsuite/icons/legacy/Question2';
 
 interface ColorType {
   hex: string;
@@ -21,7 +22,7 @@ export default function ColorPanel(props: ColorPanelProps) {
           <th>
             <Whisper placement={'top'} trigger="hover" speaker={<Speaker />}>
               <a href="https://www.w3.org/TR/WCAG20/#visual-audio-contrast-contrast">
-                Ratio <Icon icon="question2" />
+                Ratio <Question2 />
               </a>
             </Whisper>
           </th>
@@ -37,7 +38,7 @@ export default function ColorPanel(props: ColorPanelProps) {
 
           const styles = {
             background: item.hex,
-            color: a > b ? '#575757' : '#fff'
+            color: a > b ? '#575757' : '#fff',
           };
 
           let levelNoraml = '';

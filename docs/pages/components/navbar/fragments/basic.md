@@ -16,7 +16,7 @@ const instance = (
     </Navbar.Header>
     <Navbar.Body>
       <Nav>
-        <Nav.Item icon={<Icon icon="home" />}>Home</Nav.Item>
+        <Nav.Item icon={<Home />}>Home</Nav.Item>
         <Nav.Item>News</Nav.Item>
         <Nav.Item>Products</Nav.Item>
         <Dropdown title="About">
@@ -26,7 +26,7 @@ const instance = (
         </Dropdown>
       </Nav>
       <Nav pullRight>
-        <Nav.Item icon={<Icon icon="cog" />}>Settings</Nav.Item>
+        <Nav.Item icon={<Cog />}>Settings</Nav.Item>
       </Nav>
     </Navbar.Body>
   </Navbar>

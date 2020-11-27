@@ -11,10 +11,10 @@ const instance = (
     </ButtonToolbar>
 
     <ButtonToolbar>
-      <IconButton icon={<Icon icon="star" />} circle size="lg" />
-      <IconButton icon={<Icon icon="star" />} circle size="md" />
-      <IconButton icon={<Icon icon="star" />} circle size="sm" />
-      <IconButton icon={<Icon icon="star" />} circle size="xs" />
+      <IconButton icon={<Star />} circle size="lg" />
+      <IconButton icon={<Star />} circle size="md" />
+      <IconButton icon={<Star />} circle size="sm" />
+      <IconButton icon={<Star />} circle size="xs" />
     </ButtonToolbar>
 
     <ButtonToolbar>

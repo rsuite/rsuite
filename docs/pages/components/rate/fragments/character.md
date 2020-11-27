@@ -22,7 +22,7 @@ const App = () => {
         <Rate
           allowHalf
           value={value}
-          character={<Icon icon="heart" />}
+          character={<Heart />}
           color="red"
           onChange={handleChange}
         />
@@ -41,7 +41,7 @@ const App = () => {
           allowHalf
           value={value}
           vertical
-          character={<Icon className="fill-color" icon={SvgIcons.Dark} />}
+          character={<Icon className="fill-color" as={SvgIcons.Dark} />}
           onChange={handleChange}
         />
       </div>

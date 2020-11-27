@@ -6,19 +6,19 @@ class Demo extends React.Component {
     super();
     this.state = {
       expanded: true,
-      activeKey: '1'
+      activeKey: '1',
     };
     this.handleToggle = this.handleToggle.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
   }
   handleToggle() {
     this.setState({
-      expanded: !this.state.expanded
+      expanded: !this.state.expanded,
     });
   }
   handleSelect(eventKey) {
     this.setState({
-      activeKey: eventKey
+      activeKey: eventKey,
     });
   }
   render() {
@@ -36,18 +36,13 @@ class Demo extends React.Component {
         >
           <Sidenav.Body>
             <Nav>
-              <Nav.Item eventKey="1" icon={<Icon icon="dashboard" />}>
+              <Nav.Item eventKey="1" icon={<Dashboard />}>
                 Dashboard
               </Nav.Item>
-              <Nav.Item eventKey="2" icon={<Icon icon="group" />}>
+              <Nav.Item eventKey="2" icon={<Group />}>
                 User Group
               </Nav.Item>
-              <Dropdown
-                placement="rightStart"
-                eventKey="3"
-                title="Advanced"
-                icon={<Icon icon="magic" />}
-              >
+              <Dropdown placement="rightStart" eventKey="3" title="Advanced" icon={<Magic />}>
                 <Dropdown.Item eventKey="3-1">Geo</Dropdown.Item>
                 <Dropdown.Item eventKey="3-2">Devices</Dropdown.Item>
                 <Dropdown.Item eventKey="3-3">Loyalty</Dropdown.Item>
@@ -57,7 +52,7 @@ class Demo extends React.Component {
                 placement="rightStart"
                 eventKey="4"
                 title="Settings"
-                icon={<Icon icon="gear-circle" />}
+                icon={<GearCircle />}
               >
                 <Dropdown.Item eventKey="4-1">Applications</Dropdown.Item>
                 <Dropdown.Item eventKey="4-2">Channels</Dropdown.Item>

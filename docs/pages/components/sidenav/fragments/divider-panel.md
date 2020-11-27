@@ -3,14 +3,14 @@
 ```js
 const panelStyles = {
   padding: '15px 20px',
-  color: '#aaa'
+  color: '#aaa',
 };
 
 const headerStyles = {
   padding: 20,
   fontSize: 16,
   background: '#34c3ff',
-  color: ' #fff'
+  color: ' #fff',
 };
 
 const instance = (
@@ -21,13 +21,13 @@ const instance = (
       </Sidenav.Header>
       <Sidenav.Body>
         <Nav>
-          <Nav.Item eventKey="1" active icon={<Icon icon="dashboard" />}>
+          <Nav.Item eventKey="1" active icon={<Dashboard />}>
             Dashboard
           </Nav.Item>
-          <Nav.Item eventKey="2" icon={<Icon icon="group" />}>
+          <Nav.Item eventKey="2" icon={<Group />}>
             User Group
           </Nav.Item>
-          <Dropdown eventKey="3" title="Advanced" icon={<Icon icon="magic" />}>
+          <Dropdown eventKey="3" title="Advanced" icon={<Magic />}>
             <Dropdown.Item divider />
             <Dropdown.Item panel style={panelStyles}>
               Reports

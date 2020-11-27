@@ -41,7 +41,7 @@ const App = () => {
               errorPlacement={errorPlacement}
             />
             <InputGroup.Addon>
-              <Icon icon="avatar" />
+              <Avatar />
             </InputGroup.Addon>
           </InputGroup>
         </Form.Group>

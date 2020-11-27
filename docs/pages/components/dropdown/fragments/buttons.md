@@ -13,29 +13,29 @@ const instance = (
       <Dropdown
         placement="bottomEnd"
         renderTitle={() => {
-          return <IconButton icon={<Icon icon="angle-double-down" />} />;
+          return <AngleDoubleDown />;
         }}
       >
-        <Dropdown.Item icon={<Icon icon="save" />}>Save as...</Dropdown.Item>
-        <Dropdown.Item icon={<Icon icon="save" />}>Save & New</Dropdown.Item>
+        <Dropdown.Item icon={<Save />}>Save as...</Dropdown.Item>
+        <Dropdown.Item icon={<Save />}>Save & New</Dropdown.Item>
       </Dropdown>
     </ButtonGroup>
 
     <Dropdown
       renderTitle={() => {
         return (
-          <IconButton icon={<Icon icon="plus" />} placement="left">
+          <IconButton icon={<Plus />} placement="left">
             {' '}
             New
           </IconButton>
         );
       }}
     >
-      <Dropdown.Item icon={<Icon icon="user" />}>New User</Dropdown.Item>
-      <Dropdown.Item icon={<Icon icon="group" />}>New Group</Dropdown.Item>
-      <Dropdown.Menu icon={<Icon icon="group" />} title="More">
-        <Dropdown.Item icon={<Icon icon="user" />}>New User</Dropdown.Item>
-        <Dropdown.Item icon={<Icon icon="group" />}>New Group</Dropdown.Item>
+      <Dropdown.Item icon={<User />}>New User</Dropdown.Item>
+      <Dropdown.Item icon={<Group />}>New Group</Dropdown.Item>
+      <Dropdown.Menu icon={<Group />} title="More">
+        <Dropdown.Item icon={<User />}>New User</Dropdown.Item>
+        <Dropdown.Item icon={<Group />}>New Group</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   </ButtonToolbar>

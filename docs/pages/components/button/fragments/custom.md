@@ -4,22 +4,22 @@
 const instance = (
   <ButtonToolbar>
     <Button color="blue">
-      <Icon icon="facebook-official" /> Facebook
+      <FacebookOfficial /> Facebook
     </Button>
     <Button color="red">
-      <Icon icon="google-plus-circle" /> Google Plus
+      <GooglePlusCircle /> Google Plus
     </Button>
     <Button color="cyan">
-      <Icon icon="twitter" /> Twitter
+      <Twitter /> Twitter
     </Button>
     <Button color="blue">
-      <Icon icon="linkedin" /> LinkedIn
+      <Linkedin /> LinkedIn
     </Button>
     <Button color="green">
-      <Icon icon="wechat" /> WeChat
+      <Wechat /> WeChat
     </Button>
     <Button color="yellow">
-      <Icon icon="weibo" /> WeiBo
+      <Weibo /> WeiBo
     </Button>
   </ButtonToolbar>
 );

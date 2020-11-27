@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Form,
   Dropdown,
-  Icon,
   Button,
   ButtonGroup,
   ButtonToolbar,
@@ -31,7 +30,7 @@ import {
   Message,
   Rate,
   Uploader,
-  toaster
+  toaster,
 } from 'rsuite';
 import Loadable from 'react-loadable';
 import * as dateFns from 'date-fns';
@@ -39,6 +38,7 @@ import * as dateFns from 'date-fns';
 import DefaultPage from '@/components/Page';
 import { useState } from 'react';
 import useFetchData from '@/utils/useFetchData';
+import Avatar from '@rsuite/icons/legacy/Avatar';
 
 function MyLoader() {
   return <div>loading...</div>;
@@ -46,12 +46,12 @@ function MyLoader() {
 
 const JSONTree = Loadable({
   loader: () => import('react-json-tree'),
-  loading: MyLoader
+  loading: MyLoader,
 });
 
 const MaskedInput = Loadable({
   loader: () => import('react-text-mask'),
-  loading: MyLoader
+  loading: MyLoader,
 });
 
 const JSONView = ({ formValue, formError }: any) => (
@@ -84,7 +84,6 @@ export default function Page() {
         InputNumber,
         Dropdown,
         Toggle,
-        Icon,
         Button,
         ButtonGroup,
         ButtonToolbar,
@@ -113,7 +112,8 @@ export default function Page() {
         toaster,
         data,
         Rate,
-        Uploader
+        Uploader,
+        Avatar,
       }}
     />
   );

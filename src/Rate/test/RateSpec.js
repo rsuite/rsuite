@@ -1,8 +1,9 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
+import CameraRetro from '@rsuite/icons/legacy/CameraRetro';
+import Star from '@rsuite/icons/legacy/Star';
 import Rate from '../Rate';
 import ReactTestUtils from 'react-dom/test-utils';
-import Icon from '../../Icon';
 
 describe('Rate', () => {
   it('Should render a default Rate', () => {
@@ -59,16 +60,13 @@ describe('Rate', () => {
         defaultValue={4}
         renderCharacter={value => {
           if (value > 2) {
-            return <Icon icon="camera-retro" className="custom" />;
+            return <CameraRetro />;
           }
-          return <Icon icon="star" />;
+          return <Star />;
         }}
       />
     );
-    assert.include(
-      instance.querySelector('.rs-rate-character-before').firstChild.className,
-      'custom'
-    );
+    assert.isNotNull(instance.querySelector('[aria-label="camera-retro"]'));
   });
 
   it('Should disabled,cant click', () => {

@@ -4,6 +4,7 @@ export * from './constants';
 export * as TimeZone from './timeZone';
 export * as DateUtils from './dateUtils';
 export * as TypeChecker from './propTypeChecker';
+export * from './statusIcons';
 
 export { default as guid } from './guid';
 export { default as prefix, defaultClassPrefix, getClassNamePrefix, globalKey } from './prefix';

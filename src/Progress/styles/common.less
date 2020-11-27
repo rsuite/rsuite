@@ -108,6 +108,8 @@
     flex: 0 0 50px;
     height: 20px;
     padding-left: @progress-element-gap;
+    display: flex;
+    align-items: center;
   }
 
   &-outer {
@@ -178,22 +180,19 @@
 .@{ns}progress-icon-success,
 .@{ns}progress-icon-fail {
   display: inline-block;
-  font-family: @font-family-icon;
+
+  svg {
+    // x2= 1px
+    .icon-bolder(0.5px);
+  }
+
+  .@{ns}progress-line & {
+    line-height: 0;
+    font-size: 14px;
+  }
 
   .@{ns}progress-circle & {
+    line-height: 0;
     font-size: 36px;
-    line-height: 36px;
-  }
-}
-
-.@{ns}progress-icon-success {
-  &::before {
-    content: @progress-status-success-icon-content;
-  }
-}
-
-.@{ns}progress-icon-fail {
-  &::before {
-    content: @progress-status-fail-icon-content;
   }
 }

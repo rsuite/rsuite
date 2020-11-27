@@ -1,4 +1,6 @@
 import React from 'react';
+import Close from '@rsuite/icons/Close';
+
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { useClassNames, useCustom } from '../utils';
 import { CloseButtonLocale } from '../locales';
@@ -34,7 +36,7 @@ const CloseButton: RsRefForwardingComponent<'button', CloseButtonProps> = React.
         title={locale?.closeLabel}
         aria-label={locale?.closeLabel}
       >
-        <span aria-hidden>&times;</span>
+        <Close />
       </Component>
     );
   }

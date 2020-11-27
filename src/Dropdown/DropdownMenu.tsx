@@ -1,10 +1,11 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
+import AngleRight from '@rsuite/icons/legacy/AngleRight';
 import Collapse from '../Animation/Collapse';
 
 import DropdownMenuItem from './DropdownMenuItem';
-import Icon from '../Icon';
 import Ripple from '../Ripple';
 import {
   createChainedFunction,
@@ -14,8 +15,9 @@ import {
   useClassNames
 } from '../utils';
 
-import { IconProps } from '../Icon';
+import { IconProps } from '@rsuite/icons';
 import { StandardProps } from '../@types/common';
+import useCustom from '../utils/useCustom';
 
 export interface DropdownMenuProps<T = string> extends StandardProps {
   /** Define the title as a submenu */
@@ -61,6 +63,7 @@ const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
   } = props;
 
   const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+  const { rtl } = useCustom('DropdownMenu');
   const handleToggleChange = useCallback(
     (eventKey: string, event: React.MouseEvent) => {
       onToggle?.(eventKey, event);
@@ -121,6 +124,7 @@ const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
             'item-focus': isActive(item.props)
           })
         );
+        const Icon = (pullLeft && !rtl) || (rtl && !pullLeft) ? AngleLeft : AngleRight;
 
         return (
           <DropdownMenuItem
@@ -140,10 +144,7 @@ const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
               tabIndex={-1}
             >
               <span>{title}</span>
-              <Icon
-                className={prefix`toggle-icon`}
-                icon={pullLeft ? 'angle-left' : 'angle-right'}
-              />
+              <Icon className={prefix`toggle-icon`} />
               <Ripple />
             </div>
             {renderCollapse((transitionProps, ref) => {

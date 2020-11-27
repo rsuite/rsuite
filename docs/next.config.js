@@ -8,7 +8,7 @@ const findPages = require('./scripts/findPages');
 const markdownRenderer = require('./scripts/markdownRenderer');
 const ip = require('ip');
 
-const resolveToStaticPath = relativePath => path.resolve(__dirname, relativePath);
+const resolveToStaticPath = (relativePath) => path.resolve(__dirname, relativePath);
 const SVG_LOGO_PATH = resolveToStaticPath('./resources/images');
 const __DEV__ = process.env.NODE_ENV !== 'production';
 
@@ -17,10 +17,10 @@ const LANGUAGES = {
   // key: [language, path]
   default: ['en', ''],
   en: ['en', '/en'],
-  zh: ['zh', '/zh']
+  zh: ['zh', '/zh'],
 };
 
-const getLanguage = language => LANGUAGES[language] || '';
+const getLanguage = (language) => LANGUAGES[language] || '';
 
 module.exports = withPlugins([[withImages]], {
   webpack(config) {
@@ -31,27 +31,30 @@ module.exports = withPlugins([[withImages]], {
       include: SVG_LOGO_PATH,
       use: [
         {
-          loader: 'svg-sprite-loader',
-          options: {
-            symbolId: 'icon-[name]'
-          }
+          loader: 'babel-loader',
         },
-        'svgo-loader'
-      ]
+        {
+          loader: '@svgr/webpack',
+          options: {
+            babel: false,
+            icon: true,
+          },
+        },
+      ],
     });
 
     config.module.rules.push({
       test: /\.ts|tsx?$/,
       use: ['babel-loader?babelrc'],
       include: [RSUITE_ROOT, path.join(__dirname, './')],
-      exclude: /node_modules/
+      exclude: /node_modules/,
     });
 
     config.module.rules.push({
       test: /\.md$/,
       use: [
         {
-          loader: 'html-loader'
+          loader: 'html-loader',
         },
         {
           loader: 'markdown-loader',
@@ -65,11 +68,11 @@ module.exports = withPlugins([[withImages]], {
               'less',
               'json',
               'diff',
-              'typescript'
-            ])
-          }
-        }
-      ]
+              'typescript',
+            ]),
+          },
+        },
+      ],
     });
 
     config.plugins = config.plugins.concat([
@@ -78,9 +81,9 @@ module.exports = withPlugins([[withImages]], {
           __DEV__: JSON.stringify(__DEV__),
           // Use to load css when npm run dev,
           __LOCAL_IP__: __DEV__ ? JSON.stringify(ip.address()) : null,
-          VERSION: JSON.stringify(pkg.version)
-        }
-      })
+          VERSION: JSON.stringify(pkg.version),
+        },
+      }),
     ]);
 
     config.resolve.alias['@'] = resolveToStaticPath('./');
@@ -106,11 +109,11 @@ module.exports = withPlugins([[withImages]], {
     function traverse(nextPages, userLanguage) {
       const [language, rootPath] = getLanguage(userLanguage);
 
-      nextPages.forEach(page => {
+      nextPages.forEach((page) => {
         if (page.children.length === 0) {
           map[`${rootPath}${page.pathname}`] = {
             page: page.pathname,
-            query: { userLanguage: language }
+            query: { userLanguage: language },
           };
           return;
         }
@@ -119,7 +122,7 @@ module.exports = withPlugins([[withImages]], {
       });
     }
 
-    Object.keys(LANGUAGES).forEach(key => traverse(pages, key));
+    Object.keys(LANGUAGES).forEach((key) => traverse(pages, key));
 
     return map;
   },
@@ -128,6 +131,6 @@ module.exports = withPlugins([[withImages]], {
     // Period (in ms) where the server will keep pages in the buffer
     maxInactiveAge: 120 * 1e3, // default 25s
     // Number of pages that should be kept simultaneously without being disposed
-    pagesBufferLength: 3 // default 2
-  }
+    pagesBufferLength: 3, // default 2
+  },
 });

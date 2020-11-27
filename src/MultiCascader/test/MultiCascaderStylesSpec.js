@@ -26,26 +26,21 @@ describe('MultiCascader styles', () => {
   it('Should render the correct caret', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(
-      <MultiCascader ref={instanceRef} data={data} menuClassName="rs-multi-cascader-styles-test" />,
+      <MultiCascader
+        ref={instanceRef}
+        data={data}
+        menuClassName="rs-multi-cascader-styles-test"
+        open
+      />,
       createTestContainer()
     );
-    const toggleDom = instanceRef.current.root.querySelector('.rs-picker-toggle');
-    toggleDom.click();
 
-    const menuItemDom = document.body.querySelector(
-      '.rs-multi-cascader-styles-test .rs-picker-cascader-menu-has-children'
-    );
+    const menuItemDom = instanceRef.current.menu;
     inChrome &&
       assert.equal(
         getStyle(menuItemDom.querySelector('.rs-checkbox-checker label'), 'padding'),
         '8px 26px 8px 38px'
       );
-    assert.equal(
-      window.getComputedStyle(
-        menuItemDom.querySelector('.rs-picker-cascader-menu-caret'),
-        '::before'
-      ).content,
-      `"${String.fromCharCode(0xea0c)}"`
-    );
+    assert.isNotNull(menuItemDom.querySelector('[aria-label="arrow-right-line"]'));
   });
 });

@@ -11,14 +11,14 @@ const instance = (
     <InputGroup style={styles}>
       <Input />
       <InputGroup.Button>
-        <Icon icon="search" />
+        <Search />
       </InputGroup.Button>
     </InputGroup>
 
     <InputGroup inside style={styles}>
       <Input />
       <InputGroup.Button>
-        <Icon icon="search" />
+        <Search />
       </InputGroup.Button>
     </InputGroup>
   </div>

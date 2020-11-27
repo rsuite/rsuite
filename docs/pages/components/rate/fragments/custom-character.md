@@ -4,15 +4,15 @@
 const renderCharacter = (value, index) => {
   // unselected character
   if (value < index + 1) {
-    return <Icon icon="meh-o" />;
+    return <MehO />;
   }
   if (value < 3) {
-    return <Icon icon="frown-o" style={{ color: '#99A9BF' }} />;
+    return <FrownO style={{ color: '#99A9BF' }} />;
   }
   if (value < 4) {
-    return <Icon icon="meh-o" style={{ color: '#F4CA1D' }} />;
+    return <MehO style={{ color: '#F4CA1D' }} />;
   }
-  return <Icon icon="smile-o" style={{ color: '#ff9800' }} />;
+  return <SmileO style={{ color: '#ff9800' }} />;
 };
 
 const instance = (

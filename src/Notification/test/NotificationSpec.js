@@ -22,9 +22,8 @@ describe('Notification', () => {
 
   it('Should have a type', () => {
     const instance = getDOMNode(<Notification type="info" header="info" />);
-
     assert.include(instance.className, 'rs-notification-info');
-    assert.ok(instance.querySelector('.rs-notification-title-with-icon .rs-icon-info'));
+    assert.ok(instance.querySelector('[aria-label="info"]'));
   });
 
   it('Should have a header', () => {

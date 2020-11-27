@@ -17,7 +17,7 @@ const NavBarInstance = ({ onSelect, activeKey, ...props }) => {
       </Navbar.Header>
       <Navbar.Body>
         <Nav onSelect={onSelect} activeKey={activeKey}>
-          <Nav.Item eventKey="1" icon={<Icon icon="home" />}>
+          <Nav.Item eventKey="1" icon={<Home />}>
             Home
           </Nav.Item>
           <Nav.Item eventKey="2">News</Nav.Item>
@@ -29,7 +29,7 @@ const NavBarInstance = ({ onSelect, activeKey, ...props }) => {
           </Dropdown>
         </Nav>
         <Nav pullRight>
-          <Nav.Item icon={<Icon icon="cog" />}>Settings</Nav.Item>
+          <Nav.Item icon={<Cog />}>Settings</Nav.Item>
         </Nav>
       </Navbar.Body>
     </Navbar>

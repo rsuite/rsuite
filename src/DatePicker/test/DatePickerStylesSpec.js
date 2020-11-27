@@ -10,21 +10,13 @@ describe('DatePicker styles', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<DatePicker ref={instanceRef} open />, createTestContainer());
     const toggleDom = instanceRef.current.root.querySelector('.rs-picker-toggle');
-    assert.equal(
-      window.getComputedStyle(toggleDom.querySelector('.rs-picker-toggle-caret'), '::before')
-        .content,
-      `"${String.fromCharCode(0xf073)}"`
-    );
+    assert.isNotNull(toggleDom.querySelector('[aria-label="calendar"]'));
   });
 
   it('Should render the clock icon', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<DatePicker ref={instanceRef} format="HH:mm:ss" open />, createTestContainer());
     const toggleDom = instanceRef.current.root.querySelector('.rs-picker-toggle');
-    assert.equal(
-      window.getComputedStyle(toggleDom.querySelector('.rs-picker-toggle-caret'), '::before')
-        .content,
-      `"${String.fromCharCode(0xf017)}"`
-    );
+    assert.isNotNull(toggleDom.querySelector('[aria-label="clock-o"]'));
   });
 });

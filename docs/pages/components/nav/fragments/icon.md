@@ -1,18 +1,17 @@
-
 <!--start-code-->
 
 ```js
 const instance = (
   <Nav>
-    <Nav.Item icon={<Icon icon="facebook-square" />}>facebook</Nav.Item>
-    <Nav.Item icon={<Icon icon="github-alt" />}>github</Nav.Item>
-    <Nav.Item icon={<Icon icon="circle" />}>amazon</Nav.Item>
-    <Nav.Item icon={<Icon icon="chrome" />}>chrome</Nav.Item>
-    <Nav.Dropdown icon={<Icon icon="ellipsis-h" />} title="more...">
-      <Nav.Dropdown.Item icon={<Icon icon="dropbox" />}>dropbox</Nav.Dropdown.Item>
-      <Nav.Dropdown.Item icon={<Icon icon="firefox" />}>firefox</Nav.Dropdown.Item>
-      <Nav.Dropdown.Item icon={<Icon icon="gitlab" />}>gitlab</Nav.Dropdown.Item>
-      <Nav.Dropdown.Item icon={<Icon icon="linux" />}>linux</Nav.Dropdown.Item>
+    <Nav.Item icon={<FacebookSquare />}>facebook</Nav.Item>
+    <Nav.Item icon={<GithubAlt />}>github</Nav.Item>
+    <Nav.Item icon={<Circle />}>amazon</Nav.Item>
+    <Nav.Item icon={<Chrome />}>chrome</Nav.Item>
+    <Nav.Dropdown icon={<EllipsisH />} title="more...">
+      <Nav.Dropdown.Item icon={<Dropbox />}>dropbox</Nav.Dropdown.Item>
+      <Nav.Dropdown.Item icon={<Firefox />}>firefox</Nav.Dropdown.Item>
+      <Nav.Dropdown.Item icon={<Gitlab />}>gitlab</Nav.Dropdown.Item>
+      <Nav.Dropdown.Item icon={<Linux />}>linux</Nav.Dropdown.Item>
     </Nav.Dropdown>
   </Nav>
 );

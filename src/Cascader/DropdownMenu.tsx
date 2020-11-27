@@ -1,13 +1,15 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import Spinner from '@rsuite/icons/legacy/Spinner';
 import helper from '../DOMHelper';
 import isUndefined from 'lodash/isUndefined';
 import isNil from 'lodash/isNil';
-import Icon from '../Icon';
-import { shallowEqual, useClassNames, mergeRefs } from '../utils';
+import { shallowEqual, useClassNames, mergeRefs, useCustom } from '../utils';
 import { DropdownMenuItem } from '../Picker';
 import { ItemDataType, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { ValueType } from './Cascader';
+import ArrowLeftLine from '@rsuite/icons/legacy/ArrowLeftLine';
+import ArrowRightLine from '@rsuite/icons/legacy/ArrowRightLine';
 export interface DropdownMenuProps extends WithAsProps {
   disabledItemValues: ValueType[];
   activeItemValue?: ValueType;
@@ -70,6 +72,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
     const { merge, prefix } = useClassNames(classPrefix);
     const classes = merge(className, prefix('items'));
     const rootRef = useRef<HTMLDivElement>();
+    const rtl = useCustom('DropdownMenu');
 
     useEffect(() => {
       const columns = rootRef.current?.querySelectorAll('[data-type="column"]') || [];
@@ -135,6 +138,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
 
       // Use `value` in keys when If `value` is string or number
       const onlyKey = typeof value === 'number' || typeof value === 'string' ? value : index;
+      const Icon = rtl ? ArrowRightLine : ArrowLeftLine;
 
       return (
         <DropdownMenuItem
@@ -149,7 +153,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
           onSelect={(_value, event) => handleSelect(layer, node, event)}
         >
           {renderMenuItem ? renderMenuItem(label, node) : label}
-          {children ? <span className={prefix('caret')} /> : null}
+          {children ? <Icon className={prefix('caret')} /> : null}
         </DropdownMenuItem>
       );
     };
@@ -178,7 +182,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
 
         return parentNode?.loading ? (
           <div className={prefix('column-loading')}>
-            <Icon icon="spinner" spin /> {loadingText}
+            <Spinner spin /> {loadingText}
           </div>
         ) : (
           menu

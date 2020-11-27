@@ -14,9 +14,8 @@ describe('FormHelpText', () => {
 
   it('Should render a tooltip ', () => {
     const instance = getDOMNode(<FormHelpText tooltip />);
-
     assert.include(instance.className, 'rs-form-help-text-tooltip');
-    assert.ok(instance.querySelector('.rs-icon-question-circle2'));
+    assert.isNotNull(instance.querySelector('[aria-label="help-o"]'));
   });
 
   it('Should have `for` in span ', () => {

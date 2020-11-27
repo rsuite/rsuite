@@ -47,6 +47,7 @@ import { DisabledDateFunction, RangeType, ValueType } from './types';
 import partial from 'lodash/partial';
 import useUpdateEffect from '../utils/useUpdateEffect';
 import { DateRangePickerLocale } from '../locales';
+import IconCalendar from '@rsuite/icons/legacy/Calendar';
 
 export interface DateRangePickerProps extends PickerBaseProps, FormControlBaseProps<ValueType> {
   /** Configure shortcut options */
@@ -675,6 +676,8 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
           cleanable={cleanable && !disabled}
           hasValue={hasValue}
           active={isPickerToggleActive}
+          placement={placement}
+          caretComponent={IconCalendar}
         >
           {getDisplayString()}
         </PickerToggle>

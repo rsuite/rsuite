@@ -3,7 +3,7 @@
 ```js
 const styles = {
   width: 300,
-  marginBottom: 10
+  marginBottom: 10,
 };
 
 const instance = (
@@ -12,22 +12,22 @@ const instance = (
       <Input />
       <InputGroup.Addon>
         <Whisper placement="top" speaker={<Tooltip> Help information</Tooltip>}>
-          <Icon icon="info" />
+          <Info />
         </Whisper>
       </InputGroup.Addon>
     </InputGroup>
-    
+
     <InputGroup inside style={styles}>
       <Input />
       <InputGroup.Button>
-        <Icon icon="search" />
+        <Search />
       </InputGroup.Button>
     </InputGroup>
 
     <InputGroup inside style={styles}>
       <Input />
       <InputGroup.Addon>
-        <Icon icon="search" />
+        <Search />
       </InputGroup.Addon>
     </InputGroup>
 
@@ -45,7 +45,7 @@ const instance = (
 
     <InputGroup inside style={styles}>
       <InputGroup.Addon>
-        <Icon icon="avatar" />
+        <Avatar />
       </InputGroup.Addon>
       <Input />
     </InputGroup>

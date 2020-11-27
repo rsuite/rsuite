@@ -1,5 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import Attachment from '@rsuite/icons/legacy/Attachment';
+import Reload from '@rsuite/icons/Reload';
+
 import { previewFile, useClassNames } from '../utils';
 import { FileType } from './Uploader';
 import { UploaderLocale } from '../locales';
@@ -178,7 +181,7 @@ const UploadFileItem = React.forwardRef(
 
       return (
         <div className={classes}>
-          <i className={prefix('icon')} />
+          <Attachment className={prefix('icon')} />
         </div>
       );
     };
@@ -201,10 +204,12 @@ const UploadFileItem = React.forwardRef(
       if (file.status === 'error') {
         return (
           <div className={prefix('status')}>
-            {locale?.error && allowReupload}
-            <a role="button" tabIndex={-1} onClick={handleReupload}>
-              <i className={prefix('icon-reupload')} />
-            </a>
+            {<span>{locale?.error}</span>}
+            {allowReupload && (
+              <a role="button" tabIndex={-1} onClick={handleReupload}>
+                <Reload className={prefix('icon-reupload')} />
+              </a>
+            )}
           </div>
         );
       }

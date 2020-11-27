@@ -1,9 +1,10 @@
 import React, { forwardRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import reactToString from '../utils/reactToString';
 import { hasClass } from 'dom-lib';
+import Spinner from '@rsuite/icons/legacy/Spinner';
+
+import reactToString from '../utils/reactToString';
 import { useClassNames, TREE_NODE_PADDING, TREE_NODE_ROOT_PADDING } from '../utils';
-import Icon from '../Icon';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export interface TreeNodeProps extends WithAsProps {
@@ -179,7 +180,7 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
       if (loading) {
         expandIcon = (
           <div className={prefix('loading-icon')}>
-            <Icon icon="spinner" spin style={{ verticalAlign: 'middle' }} />
+            <Spinner spin />
           </div>
         );
       }

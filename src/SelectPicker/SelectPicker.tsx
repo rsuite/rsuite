@@ -388,6 +388,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
             active={active}
+            placement={placement}
           >
             {selectedElement || locale?.placeholder}
           </PickerToggle>

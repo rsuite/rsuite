@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckPicker, Button, Icon, Checkbox, RadioGroup, Radio } from 'rsuite';
+import { CheckPicker, Button, Checkbox, RadioGroup, Radio } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import PreventOverflowContainer from '@/components/PreventOverflowContainer';
 import useFetchData from '@/utils/useFetchData';
@@ -11,12 +11,11 @@ export default function Page() {
       dependencies={{
         CheckPicker,
         Button,
-        Icon,
         Checkbox,
         RadioGroup,
         Radio,
         data,
-        PreventOverflowContainer
+        PreventOverflowContainer,
       }}
     />
   );

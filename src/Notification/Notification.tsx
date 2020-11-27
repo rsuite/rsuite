@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import Icon from '../Icon';
-import { useClassNames, useTimeout, STATUS_ICON_NAMES } from '../utils';
+import { useClassNames, useTimeout, MESSAGE_STATUS_ICONS } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import CloseButton from '../CloseButton';
 
@@ -82,7 +81,7 @@ const Notification: RsRefForwardingComponent<'div', NotificationProps> = React.f
         <div className={prefix('title')}>
           {type ? (
             <div className={prefix`title-with-icon`}>
-              <Icon icon={STATUS_ICON_NAMES[type]} />
+              {MESSAGE_STATUS_ICONS[type]}
               {header}
             </div>
           ) : (

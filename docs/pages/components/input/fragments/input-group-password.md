@@ -2,7 +2,7 @@
 
 ```js
 const styles = {
-  width: 300
+  width: 300,
 };
 
 const App = () => {
@@ -15,7 +15,7 @@ const App = () => {
     <InputGroup inside style={styles}>
       <Input type={visible ? 'text' : 'password'} />
       <InputGroup.Button onClick={handleChange}>
-        <Icon icon={visible ? 'eye' : 'eye-slash'} />
+        {visible ? <Eye /> : <EyeSlash />}
       </InputGroup.Button>
     </InputGroup>
   );

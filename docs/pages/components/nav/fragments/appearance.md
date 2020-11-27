@@ -2,13 +2,13 @@
 
 ```js
 const styles = {
-  marginBottom: 50
+  marginBottom: 50,
 };
 
 const CustomNav = ({ active, onSelect, ...props }) => {
   return (
     <Nav {...props} activeKey={active} onSelect={onSelect} style={styles}>
-      <Nav.Item eventKey="home" icon={<Icon icon="home" />}>
+      <Nav.Item eventKey="home" icon={<Home />}>
         Home
       </Nav.Item>
       <Nav.Item eventKey="news">News</Nav.Item>
@@ -36,4 +36,3 @@ ReactDOM.render(<Demo />);
 ```
 
 <!--end-code-->
-

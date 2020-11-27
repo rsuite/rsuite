@@ -12,11 +12,7 @@ describe('DateRangePicker styles', () => {
     ReactDOM.render(<DateRangePicker ref={instanceRef} open />, createTestContainer());
 
     const toggleDom = instanceRef.current.toggle;
-    assert.equal(
-      window.getComputedStyle(toggleDom.querySelector('.rs-picker-toggle-caret'), '::before')
-        .content,
-      `"${String.fromCharCode(0xf073)}"`
-    );
+    assert.isNotNull(toggleDom.querySelector('[aria-label="calendar"]'));
     call();
   });
 

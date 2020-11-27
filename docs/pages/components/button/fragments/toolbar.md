@@ -15,21 +15,21 @@ const instance = (
       <Button>Next</Button>
     </ButtonToolbar>
     <ButtonToolbar>
-      <IconButton icon={<Icon icon="file-text" />} />
-      <IconButton icon={<Icon icon="save" />} />
+      <IconButton icon={<FileText />} />
+      <IconButton icon={<Save />} />
       <ButtonGroup>
-        <IconButton icon={<Icon icon="bold" />} />
-        <IconButton icon={<Icon icon="italic" />} />
-        <IconButton icon={<Icon icon="underline" />} />
-        <IconButton icon={<Icon icon="strikethrough" />} />
+        <IconButton icon={<Bold />} />
+        <IconButton icon={<Italic />} />
+        <IconButton icon={<Underline />} />
+        <IconButton icon={<Strikethrough />} />
       </ButtonGroup>
       <ButtonGroup>
-        <IconButton icon={<Icon icon="align-left" />} />
-        <IconButton icon={<Icon icon="align-center" />} />
-        <IconButton icon={<Icon icon="align-right" />} />
-        <IconButton icon={<Icon icon="align-justify" />} />
+        <IconButton icon={<AlignLeft />} />
+        <IconButton icon={<AlignCenter />} />
+        <IconButton icon={<AlignRight />} />
+        <IconButton icon={<AlignJustify />} />
       </ButtonGroup>
-      <IconButton icon={<Icon icon="link" />} />
+      <IconButton icon={<Link />} />
     </ButtonToolbar>
   </div>
 );

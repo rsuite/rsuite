@@ -4,7 +4,7 @@
 const styles = {
   width: 250,
   display: 'inline-table',
-  marginRight: 10
+  marginRight: 10,
 };
 
 const SidenavInstance = ({ ...props }) => {
@@ -13,19 +13,19 @@ const SidenavInstance = ({ ...props }) => {
       <Sidenav {...props} defaultOpenKeys={['3', '4']}>
         <Sidenav.Body>
           <Nav>
-            <Nav.Item eventKey="1" active icon={<Icon icon="dashboard" />}>
+            <Nav.Item eventKey="1" active icon={<Dashboard />}>
               Dashboard
             </Nav.Item>
-            <Nav.Item eventKey="2" icon={<Icon icon="group" />}>
+            <Nav.Item eventKey="2" icon={<Group />}>
               User Group
             </Nav.Item>
-            <Dropdown eventKey="3" title="Advanced" icon={<Icon icon="magic" />}>
+            <Dropdown eventKey="3" title="Advanced" icon={<Magic />}>
               <Dropdown.Item eventKey="3-1">Geo</Dropdown.Item>
               <Dropdown.Item eventKey="3-2">Devices</Dropdown.Item>
               <Dropdown.Item eventKey="3-3">Loyalty</Dropdown.Item>
               <Dropdown.Item eventKey="3-4">Visit Depth</Dropdown.Item>
             </Dropdown>
-            <Dropdown eventKey="4" title="Settings" icon={<Icon icon="gear-circle" />}>
+            <Dropdown eventKey="4" title="Settings" icon={<GearCircle />}>
               <Dropdown.Item eventKey="4-1">Applications</Dropdown.Item>
               <Dropdown.Item eventKey="4-2">Channels</Dropdown.Item>
               <Dropdown.Item eventKey="4-3">Versions</Dropdown.Item>

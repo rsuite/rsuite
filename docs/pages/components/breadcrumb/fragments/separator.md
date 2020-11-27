@@ -26,7 +26,7 @@ const instance = (
   <div>
     <MyBreadcrumb separator={'-'} />
     <MyBreadcrumb separator={'>'} />
-    <MyBreadcrumb separator={<Icon icon="angle-right" />} />
+    <MyBreadcrumb separator={<AngleRight />} />
   </div>
 );
 ReactDOM.render(instance);

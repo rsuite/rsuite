@@ -1,9 +1,14 @@
 import React from 'react';
-import { ButtonToolbar, Tooltip, Whisper, Popover, Icon, Dropdown, IconButton } from 'rsuite';
+import { ButtonToolbar, Tooltip, Whisper, Popover, Dropdown, IconButton } from 'rsuite';
 import * as SvgIcons from '@/components/SvgIcons';
 import canUseDOM from 'dom-lib/lib/query/canUseDOM';
 import AppContext from '../AppContext';
 import LanguageButton from '../LanguageButton';
+import { Icon } from '@rsuite/icons';
+import Diamond from '@rsuite/icons/legacy/Diamond';
+import Edit2 from '@rsuite/icons/legacy/Edit2';
+import Bug from '@rsuite/icons/legacy/Bug';
+import Twitter from '@rsuite/icons/legacy/Twitter';
 
 const MenuPopover = React.forwardRef(function MenuPopover({ children, ...rest }: any, ref) {
   return (
@@ -24,7 +29,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
     localePath,
     theme: [themeName, direction],
     onChangeDirection,
-    onChangeTheme
+    onChangeTheme,
   } = React.useContext(AppContext);
   return (
     <ButtonToolbar className="page-toolbar">
@@ -34,14 +39,14 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
       <Whisper placement="bottom" speaker={<Tooltip>Toggle light/dark theme</Tooltip>}>
         <IconButton
           appearance="subtle"
-          icon={<Icon icon={themeName === 'dark' ? SvgIcons.Light : SvgIcons.Dark} />}
+          icon={<Icon as={() => (themeName === 'dark' ? <SvgIcons.Light /> : <SvgIcons.Dark />)} />}
           onClick={onChangeTheme}
         />
       </Whisper>
       <Whisper placement="bottom" speaker={<Tooltip>Toggle RTL/LTR</Tooltip>}>
         <IconButton
           appearance="subtle"
-          icon={<Icon icon={direction === 'rtl' ? SvgIcons.Rtl : SvgIcons.Ltr} />}
+          icon={<Icon as={() => (direction === 'rtl' ? <SvgIcons.Rtl /> : <SvgIcons.Ltr />)} />}
           onClick={onChangeDirection}
         />
       </Whisper>
@@ -52,7 +57,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
           <MenuPopover>
             {designHash && (
               <Dropdown.Item
-                icon={<Icon icon="diamond" />}
+                icon={<Diamond />}
                 target="_blank"
                 href={`/design/${themeName}/#artboard${designHash}`}
               >
@@ -61,7 +66,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
             )}
             {routerId && language && (
               <Dropdown.Item
-                icon={<Icon icon="edit2" />}
+                icon={<Edit2 />}
                 target="_blank"
                 href={`https://github.com/rsuite/rsuite/edit/master/docs/pages${routerId}${localePath}/index.md`}
               >
@@ -70,7 +75,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
             )}
 
             <Dropdown.Item
-              icon={<Icon icon="bug" />}
+              icon={<Bug />}
               target="_blank"
               href={'https://github.com/rsuite/rsuite/issues/new?template=bug_report.md'}
             >
@@ -78,7 +83,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
             </Dropdown.Item>
             {canUseDOM && (
               <Dropdown.Item
-                icon={<Icon icon="twitter" />}
+                icon={<Twitter />}
                 target="_blank"
                 href={`https://twitter.com/share?text=${document?.title}&url=${location?.href}`}
               >
@@ -88,7 +93,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
           </MenuPopover>
         }
       >
-        <IconButton appearance="subtle" icon={<Icon icon={SvgIcons.More} />} />
+        <IconButton appearance="subtle" icon={<Icon as={SvgIcons.More} />} />
       </Whisper>
     </ButtonToolbar>
   );

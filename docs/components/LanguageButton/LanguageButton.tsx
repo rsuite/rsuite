@@ -1,10 +1,11 @@
 import React from 'react';
 import classnames from 'classnames';
 import { useRouter } from 'next/router';
-import { Button, Icon } from 'rsuite';
+import { Button } from 'rsuite';
 import AppContext from '../AppContext';
 import * as SvgIcons from '@/components/SvgIcons';
 import { languageToPath } from '@/components/Link';
+import { Icon } from '@rsuite/icons';
 
 interface ButtonProps {
   className?: string;
@@ -38,7 +39,7 @@ const LanguageButton = React.forwardRef((props: ButtonProps, ref) => {
       appearance="subtle"
       onClick={handleChangeLanguage}
     >
-      <Icon icon={SvgIcons.Language} /> {isZH ? 'English' : '中文'}
+      <Icon as={() => <SvgIcons.Language />} /> {isZH ? 'English' : '中文'}
     </Button>
   );
 });

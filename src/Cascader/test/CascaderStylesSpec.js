@@ -26,20 +26,15 @@ describe('Cascader styles', () => {
   it('Should render the correct caret', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(
-      <Cascader ref={instanceRef} data={data} menuClassName="rs-cascader-styles-test" />,
+      <Cascader ref={instanceRef} data={data} menuClassName="rs-cascader-styles-test" open />,
       createTestContainer()
     );
-    const toggleDom = instanceRef.current.root.querySelector('.rs-picker-toggle');
-    toggleDom.click();
 
     const menuItemDom = document.body.querySelector(
       '.rs-cascader-styles-test .rs-picker-cascader-menu-item'
     );
     const caretDom = menuItemDom.querySelector('.rs-picker-cascader-menu-caret');
     inChrome && assert.equal(getStyle(menuItemDom, 'padding'), '8px 28px 8px 12px');
-    assert.equal(
-      window.getComputedStyle(caretDom, '::before').content,
-      `"${String.fromCharCode(0xea0c)}"`
-    );
+    assert.equal(caretDom.getAttribute('aria-label'), 'arrow-right-line');
   });
 });

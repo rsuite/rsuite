@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Tooltip from '../Tooltip';
 import Whisper from '../Whisper';
-import Icon from '../Icon';
 import { useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { FormGroupContext } from '../FormGroup/FormGroup';
+import HelpO from '@rsuite/icons/legacy/HelpO';
 
 export interface FormHelpTextProps extends WithAsProps {
   /** Whether to show through the Tooltip component */
@@ -31,7 +31,7 @@ const FormHelpText: RsRefForwardingComponent<'span', FormHelpTextProps> = React.
       return (
         <Whisper ref={ref} placement="topEnd" speaker={<Tooltip {...rest}>{children}</Tooltip>}>
           <Component className={classes}>
-            <Icon icon="question-circle2" />
+            <HelpO />
           </Component>
         </Whisper>
       );

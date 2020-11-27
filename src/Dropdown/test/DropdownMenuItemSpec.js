@@ -4,7 +4,7 @@ import { innerText, getDOMNode } from '@test/testUtils';
 
 import DropdownMenuItem from '../DropdownMenuItem';
 import Sidenav from '../../Sidenav';
-import Icon from '../../Icon';
+import User from '@rsuite/icons/legacy/User';
 
 describe('DropdownMenuItem', () => {
   it('Should render a li', () => {
@@ -68,8 +68,8 @@ describe('DropdownMenuItem', () => {
   });
 
   it('Should render a icon', () => {
-    const instance = getDOMNode(<DropdownMenuItem icon={<Icon icon="user" />} />);
-    assert.ok(instance.querySelector('.rs-icon-user'));
+    const instance = getDOMNode(<DropdownMenuItem icon={<User />} />);
+    assert.ok(instance.querySelector('.rs-icon-base'));
   });
 
   it('Should call onSelect callback', done => {

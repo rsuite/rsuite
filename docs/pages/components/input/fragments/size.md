@@ -2,7 +2,7 @@
 
 ```js
 const styles = {
-  marginBottom: 10
+  marginBottom: 10,
 };
 
 const CustomInput = ({ ...props }) => <Input {...props} style={styles} />;
@@ -11,7 +11,7 @@ const CustomInputGroup = ({ placeholder, ...props }) => (
   <InputGroup {...props} style={styles}>
     <Input placeholder={placeholder} />
     <InputGroup.Addon>
-      <Icon icon="search" />
+      <Search />
     </InputGroup.Addon>
   </InputGroup>
 );
@@ -20,7 +20,7 @@ const CustomInputGroupWidthButton = ({ placeholder, ...props }) => (
   <InputGroup {...props} inside style={styles}>
     <Input placeholder={placeholder} />
     <InputGroup.Button>
-      <Icon icon="search" />
+      <Search />
     </InputGroup.Button>
   </InputGroup>
 );

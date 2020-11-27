@@ -553,6 +553,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
             active={active}
+            placement={placement}
           >
             {selectedElement || locale.placeholder}
           </PickerToggle>

@@ -15,7 +15,7 @@ const instance = (
     renderMenuItem={item => {
       return (
         <div>
-          <Icon icon="star" /> {item.label}
+          <Star /> {item.label}
         </div>
       );
     }}

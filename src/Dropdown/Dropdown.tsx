@@ -16,7 +16,7 @@ import {
 } from '../utils';
 import { SidenavContext, SidenavContextType } from '../Sidenav/Sidenav';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { IconProps } from '../Icon';
+import { IconProps } from '@rsuite/icons';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface DropdownProps<T = any>
@@ -250,6 +250,7 @@ const Dropdown: DropdownComponent = React.forwardRef((props: DropdownProps, ref)
       className={toggleClassName}
       renderTitle={renderTitle}
       icon={icon}
+      placement={placement}
     >
       {title}
     </DropdownToggle>

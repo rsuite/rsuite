@@ -8,14 +8,7 @@
 
 ## 获取组件
 
-```javascript
-// 基本图标
-import { Icon } from '@rsuite/icon';
-// 字体图标
-import { createIconFont } from '@rsuite/icon';
-// 内置图标
-import Gear from '@rsuite/icons/lib/icons/Gear';
-```
+<!--{include:(components/icon/fragments/import.md)}-->
 
 ## 演示
 
@@ -45,17 +38,17 @@ import Gear from '@rsuite/icons/lib/icons/Gear';
 
 #### `<Icon>` 和内置图标
 
-| 属性名称 | 类型 `(默认值)`                | 描述                      |
-| -------- | ------------------------------ | ------------------------- |
-| fill     | boolean`currentColor`          | 计算后的 `svg` 的填充颜色 |
-| width    | string &#124; number           | 计算后的 `svg` 的宽度     |
-| height   | string &#124; number           | 计算后的 `svg` 的高度     |
-| spin     | boolean                        | 动态旋转图标              |
-| pulse    | boolean                        | 动态旋转图标，旋转 8 步   |
-| rotate   | number                         | 旋转图标                  |
-| flip     | enum: 'horizontal', 'vertical' | 翻转图标                  |
-| style    | enum: 'horizontal', 'vertical' | 计算后的 `svg` 元素样式   |
-| as | React.ReactNode | 传入一个自定义的 react 组件 |
+| 属性名称 | 类型 `(默认值)`                | 描述                        |
+| -------- | ------------------------------ | --------------------------- |
+| fill     | boolean`currentColor`          | 计算后的 `svg` 的填充颜色   |
+| width    | string &#124; number           | 计算后的 `svg` 的宽度       |
+| height   | string &#124; number           | 计算后的 `svg` 的高度       |
+| spin     | boolean                        | 动态旋转图标                |
+| pulse    | boolean                        | 动态旋转图标，旋转 8 步     |
+| rotate   | number                         | 旋转图标                    |
+| flip     | enum: 'horizontal', 'vertical' | 翻转图标                    |
+| style    | enum: 'horizontal', 'vertical' | 计算后的 `svg` 元素样式     |
+| as       | React.ReactNode                | 传入一个自定义的 react 组件 |
 
 #### `createIconFont`
 

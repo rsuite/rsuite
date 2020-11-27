@@ -14,11 +14,10 @@ const App = () => {
 
       <Modal backdrop="static" open={open} onClose={handleClose} size="xs">
         <Modal.Body>
-          <Icon
-            icon="remind"
+          <Remind
             style={{
               color: '#ffb300',
-              fontSize: 24
+              fontSize: 24,
             }}
           />
           Once a project is disabled, there will be no update on project report, and project members

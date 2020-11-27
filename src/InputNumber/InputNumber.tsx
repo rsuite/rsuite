@@ -1,13 +1,14 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
+import ArrowUpLine from '@rsuite/icons/legacy/ArrowUpLine';
+import ArrowDownLine from '@rsuite/icons/legacy/ArrowDownLine';
 
 import helper from '../DOMHelper';
 import InputGroup from '../InputGroup/InputGroup';
 import InputGroupAddon from '../InputGroup/InputGroupAddon';
 import Input from '../Input';
 import Button from '../Button';
-import Icon from '../Icon';
 import { partitionHTMLProps, createChainedFunction, useClassNames, useControlled } from '../utils';
 import { WithAsProps, TypeAttributes, FormControlBaseProps } from '../@types/common';
 import { Partial } from '../@types/utils';
@@ -266,7 +267,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
           onClick={handlePlus}
           disabled={disabledUpButton || disabled || readOnly}
         >
-          <Icon icon="arrow-up-line" />
+          <ArrowUpLine />
         </Button>
         <Button
           appearance={buttonAppearance}
@@ -274,7 +275,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
           onClick={handleMinus}
           disabled={disabledDownButton || disabled || readOnly}
         >
-          <Icon icon="arrow-down-line" />
+          <ArrowDownLine />
         </Button>
       </span>
       {postfix && <InputGroupAddon>{postfix}</InputGroupAddon>}
