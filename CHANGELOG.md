@@ -1,3 +1,13 @@
+# 4.8.5
+
+- **Bugfix**: fix(dropdown): fixed the dropdown trigger multiple callbacks when closed. [#1352]
+- **Bugfix**: fix(table): fix Cell rendering redundant padding when it is not a tree column. [rsuite-table#179]
+- **Improve**: improve(table): Use ARIA to improve accessibility. [rsuite-table#178]
+
+[#1352]: https://github.com/rsuite/rsuite/pull/1352
+[rsuite-table#179]: https://github.com/rsuite/rsuite-table/pull/179
+[rsuite-table#178]: https://github.com/rsuite/rsuite-table/pull/178
+
 # 4.8.4
 
 - **Improve**: Bump rsuite-table@3.14.0
