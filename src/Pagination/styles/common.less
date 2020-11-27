@@ -33,6 +33,13 @@
       cursor: pointer;
       transition: @pagination-transition;
       user-select: none;
+      display: flex;
+
+      > span:not(.@{ns}ripple-pond) {
+        display: flex;
+        align-items: center;
+        height: @line-height-computed;
+      }
 
       &:focus,
       &.focus,
@@ -85,6 +92,10 @@
 
   &-lg > li > a {
     .btn-lg(base);
+
+    > span:not(.@{ns}ripple-pond) {
+      height: @line-height-large-computed;
+    }
   }
 
   &-md > li > a {

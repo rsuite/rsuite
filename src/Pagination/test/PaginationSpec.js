@@ -27,7 +27,7 @@ describe('Pagination', () => {
   it('Should render `ellipsis` button', () => {
     const instance = getDOMNode(<Pagination pages={20} maxButtons={2} ellipsis />);
     assert.equal(instance.querySelectorAll('li').length, 3);
-    assert.ok(instance.querySelector('i.rs-icon-more'));
+    assert.ok(instance.querySelector('[aria-label="more"]'));
   });
 
   it('Should be ellipsis', () => {

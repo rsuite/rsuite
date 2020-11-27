@@ -4,7 +4,7 @@ import SafeAnchor from '../SafeAnchor';
 import { isOneOf, createChainedFunction, useClassNames, useControlled } from '../utils';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { IconProps } from '../Icon';
+import { IconProps } from '@rsuite/icons';
 
 export interface DropdownMenuItemProps<T = any>
   extends WithAsProps,

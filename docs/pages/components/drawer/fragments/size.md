@@ -6,7 +6,7 @@ const App = () => {
   const [open, setOpen] = React.useState(false);
   const [placement, setPlacement] = React.useState();
 
-  const handleOpen = key => {
+  const handleOpen = (key) => {
     setOpen(true);
     setPlacement(key);
   };
@@ -21,16 +21,16 @@ const App = () => {
         </RadioGroup>
       </ButtonToolbar>
       <ButtonToolbar>
-        <IconButton icon={<Icon icon="angle-right" />} onClick={() => handleOpen('left')}>
+        <IconButton icon={<AngleRight />} onClick={() => handleOpen('left')}>
           Left
         </IconButton>
-        <IconButton icon={<Icon icon="angle-left" />} onClick={() => handleOpen('right')}>
+        <IconButton icon={<AngleLeft />} onClick={() => handleOpen('right')}>
           Right
         </IconButton>
-        <IconButton icon={<Icon icon="angle-down" />} onClick={() => handleOpen('top')}>
+        <IconButton icon={<AngleDown />} onClick={() => handleOpen('top')}>
           Top
         </IconButton>
-        <IconButton icon={<Icon icon="angle-up" />} onClick={() => handleOpen('bottom')}>
+        <IconButton icon={<AngleUp />} onClick={() => handleOpen('bottom')}>
           Bottom
         </IconButton>
       </ButtonToolbar>

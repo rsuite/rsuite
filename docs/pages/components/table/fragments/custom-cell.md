@@ -1,12 +1,6 @@
 <!--start-code-->
 
 ```js
-/**
- * import fakeData from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users.json
- */
-
-const NameCell = ({ rowData, dataKey, ...props }) => {
   const speaker = (
     <Popover title="Description">
       <p>
@@ -105,10 +99,10 @@ const ActionCell = ({ rowData, dataKey, container, ...props }) => {
   }
   return (
     <Cell {...props} className="link-group">
-      <IconButton appearance="subtle" onClick={handleAction} icon={<Icon icon="edit2" />} />
+      <IconButton appearance="subtle" onClick={handleAction} icon={<Edit2 />} />
       <Divider vertical />
       <CustomWhisper container={container}>
-        <IconButton appearance="subtle" icon={<Icon icon="more" />} />
+        <IconButton appearance="subtle" icon={<More />} />
       </CustomWhisper>
     </Cell>
   );

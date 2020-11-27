@@ -25,7 +25,7 @@ const AsyncExample = () => {
         if (data.length === 0) {
           return (
             <p style={{ padding: 4, color: '#999', textAlign: 'center' }}>
-              <Icon icon="spinner" spin /> 加载中...
+              <Spinner spin /> 加载中...
             </p>
           );
         }

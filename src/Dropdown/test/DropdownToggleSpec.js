@@ -1,8 +1,8 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
 import DropdownToggle from '../DropdownToggle';
-import Icon from '../../Icon';
 import { innerText } from '@test/testUtils';
+import User from '@rsuite/icons/legacy/User';
 
 describe('DropdownToggle', () => {
   it('Should render a toggle', () => {
@@ -21,8 +21,8 @@ describe('DropdownToggle', () => {
   });
 
   it('Should have a icon', () => {
-    const instance = getDOMNode(<DropdownToggle icon={<Icon icon="user" />}>abc</DropdownToggle>);
-    assert.ok(instance.querySelector('i.rs-icon-user'));
+    const instance = getDOMNode(<DropdownToggle icon={<User />}>abc</DropdownToggle>);
+    assert.ok(instance.querySelector('.rs-icon-base'));
   });
 
   it('Should render custom component', () => {

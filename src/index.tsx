@@ -11,8 +11,6 @@ export { default as Notification } from './Notification';
 export { default as Message } from './Message';
 export { default as Drawer } from './Drawer';
 export { default as Loader } from './Loader';
-export { default as Icon } from './Icon';
-export { default as IconStack } from './IconStack';
 export { default as SafeAnchor } from './SafeAnchor';
 export { default as Divider } from './Divider';
 export { default as Placeholder } from './Placeholder';

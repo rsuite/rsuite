@@ -27,7 +27,7 @@ const App = () => {
       <ResponsiveNav
         removable
         appearance="tabs"
-        moreText={<Icon icon="more" />}
+        moreText={<More />}
         moreProps={{ noCaret: true }}
         activeKey={activeKey}
         onSelect={setActiveKey}

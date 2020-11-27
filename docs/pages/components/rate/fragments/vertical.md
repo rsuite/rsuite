@@ -2,7 +2,7 @@
 
 ```js
 const instance = (
-  <Rate defaultValue={2.5} allowHalf vertical character={<Icon icon="beer" />} color="blue" />
+  <Rate defaultValue={2.5} allowHalf vertical character={<Beer />} color="blue" />
 );
 
 ReactDOM.render(instance);

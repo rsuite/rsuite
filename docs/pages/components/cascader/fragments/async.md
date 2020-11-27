@@ -6,7 +6,7 @@ function createNode() {
   return {
     label: `Node ${(Math.random() * 1e18).toString(36).slice(0, 3).toUpperCase()}`,
     value: Math.random() * 1e18,
-    children: hasChildren ? [] : null
+    children: hasChildren ? [] : null,
   };
 }
 
@@ -19,7 +19,7 @@ function createChildren() {
 }
 
 function fetchNodes(id) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve(createChildren());
     }, 500);
@@ -39,7 +39,7 @@ const App = () => {
         placeholder="Select"
         style={{ width: 224 }}
         data={defaultData}
-        getChildren={node => {
+        getChildren={(node) => {
           return fetchNodes(node.id);
         }}
         /**
@@ -48,7 +48,7 @@ const App = () => {
           if (parentNode && parentNode.loading) {
             return (
               <p style={{ padding: 4, color: '#999', textAlign: 'center' }}>
-                <Icon icon="spinner" spin /> Loading...
+                <Spinner spin /> Loading...
               </p>
             );
           }

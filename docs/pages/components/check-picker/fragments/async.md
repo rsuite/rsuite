@@ -13,11 +13,11 @@ const App = () => {
       setItems(data);
     }
   };
-  const renderMenu = menu => {
+  const renderMenu = (menu) => {
     if (items.length === 0) {
       return (
         <p style={{ padding: 4, color: '#999', textAlign: 'center' }}>
-          <Icon icon="spinner" spin /> loading...
+          <Spinner spin /> loading...
         </p>
       );
     }

@@ -1,8 +1,11 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
-import Icon from '../Icon';
-import { useClassNames, shallowEqual } from '../utils';
+import Spinner from '@rsuite/icons/legacy/Spinner';
+import ArrowLeftLine from '@rsuite/icons/legacy/ArrowLeftLine';
+import ArrowRightLine from '@rsuite/icons/legacy/ArrowRightLine';
+
+import { useClassNames, shallowEqual, useCustom } from '../utils';
 import { DropdownMenuCheckItem } from '../Picker';
 import { isSomeParentChecked, isSomeChildChecked } from './utils';
 import { ItemDataType, WithAsProps, RsRefForwardingComponent } from '../@types/common';
@@ -76,6 +79,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
 
     const { merge, prefix } = useClassNames(classPrefix);
     const classes = merge(className, prefix('items'));
+    const rtl = useCustom('DropdownMenu');
 
     const getCascadeItems = useCallback(
       (items: ItemDataType[], layer: number, node: ItemDataType, isLeafNode: boolean) => {
@@ -132,6 +136,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
 
       // Use `value` in keys when If `value` is string or number
       const onlyKey = typeof value === 'number' || typeof value === 'string' ? value : index;
+      const Icon = rtl ? ArrowRightLine : ArrowLeftLine;
       let active = value.some(v => v === nodeValue);
 
       if (cascade) {
@@ -156,7 +161,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
           checkable={!uncheckable}
         >
           {renderMenuItem ? renderMenuItem(nodeLabel, node) : nodeLabel}
-          {children ? <span className={prefix('caret')} /> : null}
+          {children ? <Icon className={prefix('caret')} /> : null}
         </DropdownMenuCheckItem>
       );
     };
@@ -200,7 +205,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
 
           return parentNode?.loading ? (
             <div className={prefix('column-loading')}>
-              <Icon icon="spinner" spin /> {loadingText}
+              <Spinner spin /> {loadingText}
             </div>
           ) : (
             menu

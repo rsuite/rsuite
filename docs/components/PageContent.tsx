@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { Divider, Icon, IconButton, Tooltip, Whisper, Placeholder } from 'rsuite';
+import { Divider, IconButton, Tooltip, Whisper, Placeholder } from 'rsuite';
 import { canUseDOM } from 'dom-lib';
 import { Markdown } from 'react-markdown-reader';
 import AppContext from './AppContext';
@@ -13,10 +13,11 @@ import components from '../utils/component.config.json';
 import { getTitle, getDescription } from '../utils/parseHTML';
 import scrollIntoView from '../utils/scrollIntoView';
 import { CodeViewProps } from './CodeView';
+import Github from '@rsuite/icons/legacy/Github';
 
 const babelOptions = {
   presets: ['env', 'stage-1', 'react'],
-  plugins: ['transform-class-properties']
+  plugins: ['transform-class-properties'],
 };
 
 interface CustomCodeViewProps {
@@ -38,12 +39,12 @@ const CustomCodeView = (props: CustomCodeViewProps) => {
   if (canUseDOM && source && styleLoaded) {
     const CodeView: React.ComponentType<CodeViewProps> = dynamic(
       () =>
-        import('./CodeView').then(Component => {
+        import('./CodeView').then((Component) => {
           onLoaded?.();
           return Component;
         }),
       {
-        loading: renderPlaceholder
+        loading: renderPlaceholder,
       }
     );
 
@@ -66,7 +67,7 @@ CustomCodeView.propTypes = {
   height: PropTypes.number,
   dependencies: PropTypes.object,
   source: PropTypes.string,
-  onLoaded: PropTypes.func
+  onLoaded: PropTypes.func,
 };
 
 interface ViewCodeProps extends CustomCodeViewProps {
@@ -78,7 +79,7 @@ const ViewCode = function ViewCode(props: ViewCodeProps) {
   return (
     <CustomCodeView
       {...rest}
-      renderToolbar={showCodeButton => {
+      renderToolbar={(showCodeButton) => {
         return (
           <React.Fragment>
             <Whisper placement="top" speaker={<Tooltip>Show the source</Tooltip>}>
@@ -87,7 +88,7 @@ const ViewCode = function ViewCode(props: ViewCodeProps) {
             <Whisper placement="top" speaker={<Tooltip>See the source on GitHub</Tooltip>}>
               <IconButton
                 appearance="subtle"
-                icon={<Icon icon="github" />}
+                icon={<Github />}
                 circle
                 size="xs"
                 target="_blank"
@@ -126,7 +127,7 @@ const PageContent = (props: PageContentProps) => {
   const description = getDescription(context);
   const pageHead = <Head title={title} description={description} />;
 
-  const component = components.find(item => item.id === id || item.name === id);
+  const component = components.find((item) => item.id === id || item.name === id);
   const designHash = component?.designHash;
 
   const fragments = context.split(/<!--{(\S+)}-->/);

@@ -12,7 +12,7 @@ const ActionCell = ({ rowData, dataKey, ...props }) => {
   }
   return (
     <Cell {...props} className="link-group">
-      <IconButton appearance="subtle" onClick={handleAction} icon={<Icon icon="edit2" />} />
+      <IconButton appearance="subtle" onClick={handleAction} icon={<Edit2 />} />
     </Cell>
   );
 };

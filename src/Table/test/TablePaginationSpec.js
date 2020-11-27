@@ -18,22 +18,22 @@ describe('Table-Pagination', () => {
 
   it('Should output a prev button', () => {
     const instance = getInstance(<TablePagination total={10} prev />);
-    assert.ok(instance.querySelector('.rs-icon-page-previous'));
+    assert.ok(instance.querySelector('[aria-label="page-previous"]'));
   });
 
   it('Should output a next button', () => {
     const instance = getInstance(<TablePagination total={10} next />);
-    assert.ok(instance.querySelector('.rs-icon-page-next'));
+    assert.ok(instance.querySelector('[aria-label="page-next"]'));
   });
 
   it('Should output a first button', () => {
     const instance = getInstance(<TablePagination total={10} first />);
-    assert.ok(instance.querySelector('.rs-icon-page-top'));
+    assert.ok(instance.querySelector('[aria-label="page-top"]'));
   });
 
   it('Should output a last button', () => {
     const instance = getInstance(<TablePagination total={10} last />);
-    assert.ok(instance.querySelector('.rs-icon-page-end'));
+    assert.ok(instance.querySelector('[aria-label="page-end"]'));
   });
 
   it('Should render 10  buttons', () => {
@@ -198,6 +198,6 @@ describe('Table-Pagination', () => {
         ellipsis={true}
       />
     );
-    assert.ok(instance.querySelector('li:last-child .rs-icon-more'));
+    assert.ok(instance.querySelector('[aria-label="more"]'));
   });
 });

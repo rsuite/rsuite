@@ -1,8 +1,10 @@
 import React, { forwardRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import ArrowDown from '@rsuite/icons/legacy/ArrowDown';
+import Spinner from '@rsuite/icons/legacy/Spinner';
+
 import DropdownMenuCheckItem from '../Picker/DropdownMenuCheckItem';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import Icon from '../Icon';
 import {
   useClassNames,
   CHECK_STATE,
@@ -116,12 +118,12 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
         expanded: expand
       });
 
-      let expandIcon = <i className={expandIconClasses} />;
+      let expandIcon = <ArrowDown className={expandIconClasses} />;
 
       if (loading) {
         expandIcon = (
           <div className={prefix('loading-icon')}>
-            <Icon icon="spinner" spin style={{ verticalAlign: 'middle' }} />
+            <Spinner spin />
           </div>
         );
       }

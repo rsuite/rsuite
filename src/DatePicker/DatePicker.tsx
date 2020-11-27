@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
+import IconCalendar from '@rsuite/icons/legacy/Calendar';
+import IconClockO from '@rsuite/icons/legacy/ClockO';
+
 import { Calendar, CalendarState } from '../Calendar';
 import Toolbar, { RangeType } from './Toolbar';
 import { DatePickerLocale } from '../locales';
@@ -547,6 +550,11 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       return renderValue?.(value, formatStr) ?? formatDate(value, formatStr);
     }, [formatStr, formatDate, placeholder, renderValue, value]);
 
+    const caretComponent = useMemo(
+      () => (DateUtils.shouldOnlyTime(formatStr) ? IconClockO : IconCalendar),
+      [formatStr]
+    );
+
     if (inline) {
       return (
         <Component ref={rootRef} className={merge(className, withClassPrefix('date-inline'))}>
@@ -565,15 +573,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         onExited={createChainedFunction(handleExited, onExited)}
         speaker={renderDropdownMenu}
       >
-        <Component
-          className={merge(
-            className,
-            classes,
-            prefix({ 'date-only-time': DateUtils.shouldOnlyTime(formatStr) })
-          )}
-          style={style}
-          ref={rootRef}
-        >
+        <Component className={merge(className, classes)} style={style} ref={rootRef}>
           <PickerToggle
             {...omit(rest, [
               ...omitTriggerPropKeys,
@@ -595,6 +595,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
             active={active}
+            placement={placement}
+            caretComponent={caretComponent}
           >
             {renderDate()}
           </PickerToggle>

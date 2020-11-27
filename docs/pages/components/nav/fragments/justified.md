@@ -4,7 +4,7 @@
 const instance = (
   <div>
     <Nav justified>
-      <Nav.Item active icon={<Icon icon="home" />}>
+      <Nav.Item active icon={<Home />}>
         Home
       </Nav.Item>
       <Nav.Item>News</Nav.Item>
@@ -14,7 +14,7 @@ const instance = (
     </Nav>
     <br />
     <Nav appearance="tabs" justified>
-      <Nav.Item active icon={<Icon icon="home" />}>
+      <Nav.Item active icon={<Home />}>
         Home
       </Nav.Item>
       <Nav.Item>News</Nav.Item>
@@ -24,7 +24,7 @@ const instance = (
     </Nav>
     <br />
     <Nav appearance="subtle" justified>
-      <Nav.Item active icon={<Icon icon="home" />}>
+      <Nav.Item active icon={<Home />}>
         Home
       </Nav.Item>
       <Nav.Item>News</Nav.Item>

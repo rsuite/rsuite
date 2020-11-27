@@ -70,7 +70,6 @@ a code {
 
     > .rs-btn {
       .btn-md;
-      height: 36px;
 
       .icon-lg() {
         @font-size: 20px;
@@ -81,9 +80,13 @@ a code {
         .icon-lg;
       }
 
-      > .rs-icon-github {
+      [aria-label='github'] {
         .icon-lg !important;
         top: -4px !important;
+
+        > svg {
+          height: inherit !important;
+        }
       }
     }
   }

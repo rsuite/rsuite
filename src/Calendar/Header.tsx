@@ -1,5 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import ArrowLeftLine from '@rsuite/icons/legacy/ArrowLeftLine';
+import ArrowRightLine from '@rsuite/icons/legacy/ArrowRightLine';
 import { useClassNames } from '../utils';
 import { FormattedDate } from '../CustomProvider';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
@@ -97,7 +99,7 @@ const Header: RsRefForwardingComponent<'div', HeaderProps> = React.forwardRef(
 
     const monthToolbar = (
       <div className={prefix('month-toolbar')}>
-        <i
+        <ArrowLeftLine
           className={backwardClass}
           role="button"
           tabIndex={-1}
@@ -111,7 +113,7 @@ const Header: RsRefForwardingComponent<'div', HeaderProps> = React.forwardRef(
         >
           {renderTitle()}
         </span>
-        <i
+        <ArrowRightLine
           className={forwardClass}
           role="button"
           tabIndex={-1}

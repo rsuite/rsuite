@@ -4,7 +4,7 @@ import Ripple from '../Ripple';
 import SafeAnchor from '../SafeAnchor';
 import { useClassNames, appendTooltip } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { IconProps } from '../Icon';
+import { IconProps } from '@rsuite/icons';
 
 export interface NavItemProps<T = string>
   extends WithAsProps,

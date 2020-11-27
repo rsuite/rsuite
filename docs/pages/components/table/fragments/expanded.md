@@ -16,19 +16,13 @@ const ExpandCell = ({ rowData, dataKey, expandedRowKeys, onChange, ...props }) =
         onChange(rowData);
       }}
       icon={
-        <Icon
-          icon={
-            expandedRowKeys.some(key => key === rowData[rowKey])
-              ? 'minus-square-o'
-              : 'plus-square-o'
-          }
-        />
+        expandedRowKeys.some((key) => key === rowData[rowKey]) ? <MinusSquareO /> : <PlusSquareO />
       }
     />
   </Cell>
 );
 
-const renderRowExpanded = rowData => {
+const renderRowExpanded = (rowData) => {
   return (
     <div>
       <div
@@ -37,7 +31,7 @@ const renderRowExpanded = rowData => {
           height: 60,
           float: 'left',
           marginRight: 10,
-          background: '#eee'
+          background: '#eee',
         }}
       >
         <img src={rowData.avartar} style={{ width: 60 }} />
@@ -56,7 +50,7 @@ const App = () => {
     let open = false;
     const nextExpandedRowKeys = [];
 
-    expandedRowKeys.forEach(key => {
+    expandedRowKeys.forEach((key) => {
       if (key === rowData[rowKey]) {
         open = true;
       } else {
@@ -77,7 +71,7 @@ const App = () => {
       data={data}
       rowKey={rowKey}
       expandedRowKeys={expandedRowKeys}
-      onRowClick={data => {
+      onRowClick={(data) => {
         console.log(data);
       }}
       renderRowExpanded={renderRowExpanded}

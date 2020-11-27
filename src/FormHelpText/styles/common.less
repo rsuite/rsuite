@@ -14,15 +14,9 @@
   font-size: @font-size-base;
 
   &-tooltip {
-    display: inline-block;
-    vertical-align: top;
+    display: inline-flex;
+    align-items: center;
     margin-left: @form-help-text-inline-gap;
     margin-top: @padding-base-vertical;
-
-    .@{ns}icon::before {
-      .icon-font;
-
-      content: @icon-help-o;
-    }
   }
 }

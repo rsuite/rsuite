@@ -1,8 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Check from '@rsuite/icons/Check';
+import Close from '@rsuite/icons/Close';
+
 import { useClassNames } from '../utils';
-import { IconProps } from '../Icon';
+import { IconProps } from '@rsuite/icons';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+
+const STEP_STATUS_ICON = {
+  finish: <Check />,
+  wait: null,
+  process: null,
+  error: <Close />
+};
 
 export interface StepItemProps extends WithAsProps {
   /** The width of each item. */
@@ -53,7 +63,11 @@ const StepItem: RsRefForwardingComponent<'div', StepItemProps> = React.forwardRe
 
     const styles = { width: itemWidth, ...style };
 
-    let iconNode = <span className={prefix('icon', `icon-${status}`)}>{stepNumber}</span>;
+    let iconNode = (
+      <span className={prefix('icon', `icon-${status}`)}>
+        {STEP_STATUS_ICON[status] ?? stepNumber}
+      </span>
+    );
 
     if (icon) {
       iconNode = <span className={prefix('icon')}>{icon}</span>;

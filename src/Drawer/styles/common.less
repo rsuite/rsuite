@@ -186,35 +186,6 @@
   }
 }
 
-// Close Button
-.@{ns}drawer-header .@{ns}drawer-header-close {
-  // button width the same to height
-  @padding-right: (@line-height-computed - @drawer-close-btn-size)/2;
-
-  outline: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  font-size: @drawer-close-btn-size;
-  line-height: @drawer-close-btn-line-height;
-  color: @drawer-close-btn-color;
-  width: @line-height-computed;
-  padding: 0 @padding-right;
-  background: none;
-  // Remove border in IE/Firefox and so on.
-  border-style: none;
-
-  &::before {
-    .icon-font;
-
-    content: @default-close-btn-content;
-  }
-
-  [aria-hidden] {
-    display: none;
-  }
-}
-
 // Title text within header
 .@{ns}drawer-header .@{ns}title {
   margin: 0;

@@ -24,10 +24,8 @@ describe('Dropdown styles', () => {
         '8px 32px 8px 12px',
         'Dropdown toggle button  padding'
       );
-    assert.equal(
-      window.getComputedStyle(toggleDom.querySelector('.rs-dropdown-toggle-caret'), '::before')
-        .content,
-      `"${String.fromCharCode(0xea08)}"`,
+    assert.isNotNull(
+      toggleDom.querySelector('[aria-label="arrow-down-line"]'),
       'Dropdown toggle button caret content'
     );
   });

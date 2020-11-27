@@ -1,8 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
+import Star from '@rsuite/icons/legacy/Star';
+
 import { useClassNames, useControlled, shallowEqualArray, SIZE, KEY_CODE } from '../utils';
 import { transformValueToCharacterMap, transformCharacterMapToValue, CharacterType } from './utils';
-import Icon from '../Icon';
 import Character from './Character';
 import Plaintext from '../Plaintext';
 import {
@@ -47,7 +48,7 @@ export interface RateProps<T = number> extends WithAsProps, FormControlBaseProps
 const defaultProps: Partial<RateProps> = {
   as: 'ul',
   classPrefix: 'rate',
-  character: <Icon icon="star" />,
+  character: <Star />,
   cleanable: true,
   defaultValue: 0,
   max: 5,

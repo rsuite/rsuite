@@ -21,7 +21,7 @@ const App = () => {
       }}
       renderTreeToggle={(icon, rowData) => {
         if (rowData.children && rowData.children.length === 0) {
-          return <Icon icon="spinner" spin />;
+          return <Spinner spin />;
         }
         return icon;
       }}

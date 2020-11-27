@@ -36,9 +36,7 @@ describe('TreePicker styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
     const containerDom = createTestContainer();
-    ReactDOM.render(<TreePicker data={data} ref={instanceRef} />, containerDom);
-    const toggleDom = containerDom.querySelector('.rs-picker-toggle');
-    toggleDom.click();
+    ReactDOM.render(<TreePicker data={data} ref={instanceRef} open />, containerDom);
     const pickerMenuDom = document.querySelector('.rs-picker-tree-menu');
     const treeWrapperDom = pickerMenuDom.querySelector('.rs-tree');
     const treeNodeDom = pickerMenuDom.querySelector('.rs-tree-node');

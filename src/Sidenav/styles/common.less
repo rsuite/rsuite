@@ -41,6 +41,11 @@
     .@{ns}dropdown-toggle-caret {
       right: @sidenav-padding-horizonal;
       top: @sidenav-padding-vertical;
+
+      // Make Caret AngleRight direction at down.
+      &[aria-label='angle-right'] {
+        transform: rotate(90deg);
+      }
     }
   }
 
@@ -59,7 +64,7 @@
     width: 100%;
     white-space: normal;
 
-    > .@{ns}icon {
+    > .@{ns}icon:not(.@{ns}dropdown-toggle-caret) {
       font-size: @sidenav-level1-item-font-size;
       margin-right: @sidenav-icon-spacing;
       position: absolute;
@@ -80,7 +85,7 @@
   }
 }
 
-//** Expanded styles
+// Expanded styles
 .@{ns}sidenav-collapse-in {
   width: @sidenav-collapse-in-width;
 
@@ -109,17 +114,17 @@
     // Setting icon to dropdown-caret.
     .@{ns}dropdown-toggle-caret::before,
     .@{ns}dropdown-menu-toggle > .@{ns}icon::before {
-      content: @dropdown-caret-content !important;
+      display: none;
     }
 
-    .@{ns}dropdown-toggle-caret,
-    .@{ns}dropdown-menu-toggle > .@{ns}icon {
+    .@{ns}dropdown-toggle-caret > svg,
+    .@{ns}dropdown-menu-toggle > .@{ns}icon > svg {
       transition: transform 0.3s linear;
     }
 
     // Expand
-    &.@{ns}dropdown-expand .@{ns}dropdown-toggle-caret,
-    .@{ns}dropdown-item.@{ns}dropdown-item-expand > .@{ns}dropdown-item-content > .@{ns}dropdown-menu-toggle > .@{ns}icon {
+    &.@{ns}dropdown-expand .@{ns}dropdown-toggle-caret > svg,
+    .@{ns}dropdown-item.@{ns}dropdown-item-expand > .@{ns}dropdown-item-content > .@{ns}dropdown-menu-toggle > .@{ns}icon > svg {
       transform: rotate(180deg);
     }
 
@@ -155,7 +160,7 @@
   }
 
   // Expand && Collapse
-  //** Collapse
+  // Collapse
   .@{ns}dropdown-menu {
     overflow: hidden;
   }
@@ -184,6 +189,7 @@
         top: @sidenav-children-padding-vertical;
         width: auto;
         height: @sidenav-dropdown-toggle-caret-width;
+        transform: rotate(90deg);
       }
     }
 
@@ -248,7 +254,7 @@
   }
 }
 
-//** Folded && Collapsing styles
+// Folded && Collapsing styles
 .@{ns}sidenav-collapse-out {
   .@{ns}nav-item .@{ns}nav-item-content,
   .@{ns}dropdown .@{ns}dropdown-toggle {
@@ -261,7 +267,9 @@
 
   // The same to the dropdown item
   .@{ns}dropdown-item > .@{ns}dropdown-item-content {
-    @padding-right: @dropdown-item-content-padding-horizontal+ @dropdown-item-content-submenu-icon-angle-spacing + @dropdown-item-content-submenu-icon-angle-width;
+    @padding-right: @dropdown-item-content-padding-horizontal+
+      @dropdown-item-content-submenu-icon-angle-spacing +
+      @dropdown-item-content-submenu-icon-angle-width;
 
     padding: @dropdown-item-content-padding-vertical @padding-right @dropdown-item-content-padding-vertical @dropdown-item-content-padding-horizontal;
   }
@@ -277,7 +285,7 @@
   }
 }
 
-//** Collapsing styles
+// Collapsing styles
 .@{ns}sidenav-collapsing {
   // Rewrite  text-overflow
   &.@{ns}sidenav-collapse-in,
@@ -308,10 +316,10 @@
   }
 }
 
-// Alternate Sidenavs
+// Alternate Sidenav
 // --------------------------------------------------
 
-//** Default Sidenav
+// Default Sidenav
 .@{ns}sidenav-default {
   background-color: @sidenav-default-bg;
 }
@@ -362,7 +370,7 @@
   }
 }
 
-//** Inverse Sidenav
+// Inverse Sidenav
 .@{ns}sidenav-inverse {
   background-color: @sidenav-inverse-bg;
 
@@ -458,7 +466,7 @@
   }
 }
 
-//** Subtle Sidenav
+// Subtle Sidenav
 .@{ns}sidenav-subtle {
   background-color: @sidenav-subtle-bg;
 

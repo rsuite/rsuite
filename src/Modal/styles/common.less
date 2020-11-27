@@ -117,35 +117,6 @@
   }
 }
 
-// Close icon
-.@{ns}modal-header .@{ns}modal-header-close {
-  // button width the same to height
-  @padding-right: (@line-height-computed - @modal-close-btn-size)/2;
-
-  outline: 0;
-  position: absolute;
-  right: @modal-content-padding;
-  top: @modal-content-padding;
-  font-size: @modal-close-btn-size;
-  line-height: @modal-close-btn-line-height;
-  color: @modal-close-btn-color;
-  width: @line-height-computed;
-  padding: 0 @padding-right;
-  background: none;
-  // Remove border in IE/Firefox and so on.
-  border-style: none;
-
-  &::before {
-    .icon-font;
-
-    content: @default-close-btn-content;
-  }
-
-  [aria-hidden] {
-    display: none;
-  }
-}
-
 // Title text within header
 .@{ns}modal-header .title {
   margin: 0;

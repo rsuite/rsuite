@@ -83,20 +83,6 @@
 
 // Picker date
 .@{ns}@{date-picker-prefix} {
-  .@{ns}picker-toggle-caret::before {
-    // Force overwrite icon to calendar icon.
-    content: @calendar-default-caret-content !important;
-    // Adjust the line-height to make sure icon vertical align middle.
-    line-height: 17px;
-  }
-
-  &-only-time {
-    .@{ns}picker-toggle-caret::before {
-      // Force overwrite icon to clock icon.
-      content: @calendar-only-time-caret-content !important;
-    }
-  }
-
   &-inline {
     height: 299px;
 

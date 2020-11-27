@@ -15,21 +15,21 @@ const instance = (
     renderMenuItem={(label, item) => {
       return (
         <div>
-          <Icon icon="user" /> {label}
+          <User /> {label}
         </div>
       );
     }}
     renderMenuGroup={(label, item) => {
       return (
         <div>
-          <Icon icon="group" /> {label} - ({item.children.length})
+          <Group /> {label} - ({item.children.length})
         </div>
       );
     }}
     renderValue={(values, items, tags) => {
       return values.map((tag, index) => (
         <Tag key={index}>
-          <Icon icon="user" /> {tag}
+          <User /> {tag}
         </Tag>
       ));
     }}

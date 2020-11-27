@@ -10,7 +10,7 @@ const AsyncExample = () => {
       data={data}
       value={value}
       style={{ width: 280 }}
-      onChange={value => setValue(value)}
+      onChange={(value) => setValue(value)}
       onOpen={() => {
         if (data.length === 0) {
           setTimeout(() => {
@@ -18,36 +18,36 @@ const AsyncExample = () => {
               {
                 label: 'Parent Node',
                 value: '0',
-                children: []
-              }
+                children: [],
+              },
             ]);
           }, 1000);
         }
       }}
-      renderMenu={menu => {
+      renderMenu={(menu) => {
         if (data.length === 0) {
           return (
             <p style={{ padding: 4, color: '#999', textAlign: 'center' }}>
-              <Icon icon="spinner" spin /> 加载中...
+              <Spinner spin /> 加载中...
             </p>
           );
         }
         return menu;
       }}
-      getChildren={activeNode =>
-        new Promise(resolve => {
+      getChildren={(activeNode) =>
+        new Promise((resolve) => {
           setTimeout(() => {
             resolve([
               {
                 label: 'Child Node',
                 value: `${activeNode.refKey}-0`,
-                children: []
+                children: [],
               },
               {
                 label: 'Child Node',
                 value: `${activeNode.refKey}-1`,
-                children: []
-              }
+                children: [],
+              },
             ]);
           }, 1000);
         })

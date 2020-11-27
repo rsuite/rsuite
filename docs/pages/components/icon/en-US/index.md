@@ -8,14 +8,8 @@ Semantic vector icon components, in addition to the built-in common icons, you c
 
 ## Import
 
-```javascript
-// Base icon
-import { Icon } from '@rsuite/icon';
-// Create icon font
-import { createIconFont } from '@rsuite/icon';
-// Built-in icons
-import Gear from '@rsuite/icons/lib/icons/Gear';
-```
+<!--{include:(components/icon/fragments/import.md)}-->
+
 
 ## Demo
 

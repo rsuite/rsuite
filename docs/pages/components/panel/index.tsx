@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Icon, Panel, PanelGroup, Table, Grid, Row, Col } from 'rsuite';
+import { Button, Panel, PanelGroup, Table, Grid, Row, Col } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import useFetchData from '@/utils/useFetchData';
 
@@ -20,13 +20,12 @@ export default function Page() {
         'body-fill',
         'panel-group',
         'accordion-group',
-        'accordion-group-active'
+        'accordion-group-active',
       ]}
       dependencies={{
         Table,
         PanelGroup,
         Panel,
-        Icon,
         Button,
         HeaderCell,
         Pagination,
@@ -35,7 +34,7 @@ export default function Page() {
         Grid,
         Row,
         Col,
-        tableData
+        tableData,
       }}
     />
   );

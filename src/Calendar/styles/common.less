@@ -269,7 +269,8 @@
     line-height: @font-size-small;
     border: @calendar-meridian-border-width solid @input-border;
     font-size: @font-size-small;
-    padding: @padding-extra-small-vertical 12px @padding-extra-small-vertical @padding-extra-small-vertical;
+    padding: @padding-extra-small-vertical 12px @padding-extra-small-vertical
+      @padding-extra-small-vertical;
     margin-left: 4px;
 
     &::after {
@@ -302,22 +303,9 @@
 
   &-backward,
   &-forward {
-    font-size: 0;
-    width: @padding-extra-small-vertical * 2 + @font-size-small * @line-height-small;
-
-    &::before {
-      font-family: @font-family-icon;
-      font-style: normal;
-      font-size: @font-size-base;
-    }
-  }
-
-  &-backward::before {
-    content: @drop-left-caret-content;
-  }
-
-  &-forward::before {
-    content: @drop-right-caret-content;
+    font-size: @font-size-base;
+    display: inline-flex;
+    align-items: center;
   }
 
   // Only Has month

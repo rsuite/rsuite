@@ -4,8 +4,10 @@ import debounce from 'lodash/debounce';
 import ToggleButton, { ToggleButtonProps } from './ToggleButton';
 import CloseButton from '../CloseButton';
 import { useClassNames, KEY_CODE } from '../utils';
-import { RsRefForwardingComponent } from '../@types/common';
+import { RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 import Plaintext from '../Plaintext';
+import useToggleCaret from '../utils/useToggleCaret';
+import { IconProps } from '@rsuite/icons/lib/IconBase';
 
 type ValueType = string | number;
 
@@ -26,6 +28,8 @@ export interface PickerToggleProps extends ToggleButtonProps {
   onInputChange?: (value: string, event: React.ChangeEvent) => void;
   onInputPressEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   onInputBlur?: (event: React.FocusEvent<HTMLElement>) => void;
+  placement?: TypeAttributes.Placement;
+  caretComponent?: React.FC<IconProps>;
   onClean?: (event: React.MouseEvent) => void;
 }
 
@@ -62,6 +66,8 @@ const PickerToggle: RsRefForwardingComponent<
     onClean,
     onFocus,
     onBlur,
+    placement,
+    caretComponent,
     ...rest
   } = props;
 
@@ -139,6 +145,7 @@ const PickerToggle: RsRefForwardingComponent<
     },
     [onInputPressEnter, input]
   );
+  const Caret = caretComponent ?? useToggleCaret(placement);
 
   if (plaintext) {
     if (hasValue && !children) {
@@ -190,7 +197,7 @@ const PickerToggle: RsRefForwardingComponent<
         {children}
       </span>
       {cleanable && <CloseButton className={prefix`clean`} tabIndex={-1} onClick={handleClean} />}
-      {caret && <span className={prefix`caret`} aria-hidden />}
+      {caret && <Caret className={prefix`caret`} />}
     </Component>
   );
 });

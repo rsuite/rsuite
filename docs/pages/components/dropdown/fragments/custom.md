@@ -5,39 +5,39 @@ const instance = (
   <ButtonToolbar>
     <Dropdown title="More...">
       <Dropdown.Item>
-        <Icon icon="edit2" /> Edit
+        <Edit2 /> Edit
       </Dropdown.Item>
       <Dropdown.Item>
-        <Icon icon="eye" /> View
+        <Eye /> View
       </Dropdown.Item>
       <Dropdown.Item>
-        <Icon icon="trash" /> Delete
+        <Trash /> Delete
       </Dropdown.Item>
     </Dropdown>
 
     <Dropdown
       title="New"
-      renderTitle={children => {
+      renderTitle={(children) => {
         return <Button appearance="primary">{children} </Button>;
       }}
     >
       <Dropdown.Item>
-        <Icon icon="user" /> New User
+        <User /> New User
       </Dropdown.Item>
       <Dropdown.Item>
-        <Icon icon="group" /> New Group
+        <Group /> New Group
       </Dropdown.Item>
     </Dropdown>
     <Dropdown
       renderTitle={() => {
-        return <IconButton appearance="primary" icon={<Icon icon="plus" />} circle />;
+        return <IconButton appearance="primary" icon={<Plus />} circle />;
       }}
     >
       <Dropdown.Item>
-        <Icon icon="user" /> New User
+        <User /> New User
       </Dropdown.Item>
       <Dropdown.Item>
-        <Icon icon="group" /> New Group
+        <Group /> New Group
       </Dropdown.Item>
     </Dropdown>
   </ButtonToolbar>

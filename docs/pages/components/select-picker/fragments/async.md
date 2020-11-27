@@ -18,7 +18,7 @@ const App = () => {
     if (items.length === 0) {
       return (
         <p style={{ padding: 4, color: '#999', textAlign: 'center' }}>
-          <Icon icon="spinner" spin /> Loading...
+          <Spinner spin /> Loading...
         </p>
       );
     }

@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import { Icon } from 'rsuite';
+import { Icon } from '@rsuite/icons';
 import Clipboard from 'rsuite-clipboard';
 
 interface IconItemProps {
@@ -23,7 +23,7 @@ export default function IconItem(props: IconItemProps) {
     <Clipboard text={icon} onCopy={handleCopy}>
       <div className={classnames('icon-item', { 'new-icon': newIcon })}>
         <div className="icon-wrapper">
-          <Icon icon={icon} {...rest} className="icon-content" />
+          <Icon as={icon} {...rest} className="icon-content" />
         </div>
         <p className="icon-name-text">{icon}</p>
       </div>

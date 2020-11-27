@@ -59,17 +59,14 @@
       border-radius @panel-accodion-transition;
     position: relative;
 
-    &::before {
+    > .@{ns}icon-base {
       position: absolute;
-      font-family: @font-family-icon;
-      content: @panel-header-accordion-icon-content;
       top: @panel-padding;
       right: @panel-padding;
-      transition: transform @panel-accodion-transition;
-    }
-  }
 
-  &-in > &-header::before {
-    transform: rotate(180deg);
+      > svg {
+        transition: transform @panel-accodion-transition;
+      }
+    }
   }
 }

@@ -145,6 +145,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       onBlur,
       onFocus,
       searchBy,
+      placement,
       ...rest
     } = props;
 
@@ -697,6 +698,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         onExit={createChainedFunction(handleExit, onExit)}
         onExited={createChainedFunction(handleExited, onExited)}
         speaker={renderDropdownMenu}
+        placement={placement}
       >
         <Component
           className={classes}
@@ -716,6 +718,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
             active={active}
+            placement={placement}
           >
             {searching || (multi && hasValue) ? null : displayElement || locale?.placeholder}
           </PickerToggle>

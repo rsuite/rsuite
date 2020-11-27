@@ -43,17 +43,7 @@
     cursor: pointer;
     margin-left: 10px;
     color: @uploader-file-item-retry-icon-color;
-
-    &::before {
-      font-family: @font-family-icon;
-      content: @uploader-file-item-retry-icon-content;
-      font-style: normal;
-
-      &,
-      &:hover {
-        text-decoration: none;
-      }
-    }
+    font-size: 12px;
   }
 }
 
@@ -73,28 +63,23 @@
 
     &-icon-wrapper {
       position: absolute;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
       top: @padding-base-vertical;
       left: @padding-base-horizontal;
       width: @line-height-computed;
-      text-align: center;
+      height: @line-height-computed;
+      justify-content: center;
     }
 
     &-icon-loading {
       .@{uplns}-file-item-icon {
         .set-side-length(@loader-default-diameter);
         .loader-spin;
-      }
-    }
 
-    &-icon {
-      &::before {
-        font-family: @font-family-icon;
-        content: @uploader-file-item-icon-content;
-        font-style: normal;
-        color: @uploader-default-font-color;
-        font-size: @uploader-file-item-icon-font-size;
-        line-height: unit(@line-height-computed / @uploader-file-item-icon-font-size);
+        > svg {
+          display: none;
+        }
       }
     }
 
@@ -144,21 +129,11 @@
       right: @padding-base-horizontal;
       color: @uploader-light-font-color;
       cursor: pointer;
-      .icon-font;
+      padding: 0;
 
       &:hover,
       &:focus {
         text-decoration: none;
-      }
-
-      &::before {
-        .icon-font;
-
-        content: @default-close-btn-content;
-      }
-
-      [aria-hidden] {
-        display: none;
       }
     }
 
@@ -257,7 +232,10 @@
       background-color: @uploader-picture-item-background;
       cursor: default;
       color: @error-color;
-      padding-top: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
 
       > span {
         white-space: nowrap;
@@ -288,20 +266,14 @@
       opacity: 0;
       transition: 0.2s opacity;
       z-index: @zindex-uploader-picture-remove-button;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 0;
 
       &:hover,
       &:focus {
         text-decoration: none;
-      }
-
-      &::before {
-        .icon-font;
-
-        content: @default-close-btn-content;
-      }
-
-      [aria-hidden] {
-        display: none;
       }
     }
 
@@ -328,6 +300,10 @@
 
         display: inline-block;
         position: relative;
+
+        > svg {
+          display: none;
+        }
       }
     }
   }
@@ -451,21 +427,14 @@
       color: @uploader-light-font-color;
       cursor: pointer;
       height: @uploader-picture-text-preview-side-length;
-      line-height: @uploader-picture-text-preview-side-length;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
 
       &:hover,
       &:focus {
         text-decoration: none;
-      }
-
-      &::before {
-        .icon-font;
-
-        content: @default-close-btn-content;
-      }
-
-      [aria-hidden] {
-        display: none;
       }
     }
 
@@ -501,6 +470,10 @@
 
         display: inline-block;
         position: relative;
+
+        > svg {
+          display: none;
+        }
       }
     }
   }

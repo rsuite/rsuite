@@ -6,8 +6,8 @@ const App = () => {
   const [typing, setTyping] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
 
-  const handleTagRemove = tag => {
-    const nextTags = tags.filter(item => item !== tag);
+  const handleTagRemove = (tag) => {
+    const nextTags = tags.filter((item) => item !== tag);
     setTags(nextTags);
   };
 
@@ -41,7 +41,7 @@ const App = () => {
       <IconButton
         className="tag-add-btn"
         onClick={handleButtonClick}
-        icon={<Icon icon="plus" />}
+        icon={<Plus />}
         appearance="ghost"
         size="xs"
       />

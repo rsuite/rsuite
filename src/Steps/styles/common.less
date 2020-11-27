@@ -17,7 +17,6 @@
 
 // Item icon
 .@{ns}steps-item-icon-wrapper {
-  display: block;
   width: @steps-icon-diameter;
   height: @steps-icon-diameter;
   text-align: center;
@@ -27,6 +26,8 @@
   position: absolute;
   top: 0;
   left: 0;
+  display: flex;
+  align-items: center;
 
   &:not(.@{ns}steps-item-custom-icon) {
     border-width: 1px;
@@ -38,48 +39,27 @@
     .@{ns}steps-item-status-error & {
       .@{ns}steps-item-icon {
         position: relative;
-        text-indent: -9999px;
-
-        &::before {
-          .icon-font;
-
-          width: @steps-icon-diameter - 2px;
-          height: @steps-icon-diameter - 2px;
-          font-size: @steps-icon-size-default-font-size;
-          // Minus 2px border width;
-          line-height: unit((@steps-icon-diameter - 2px)/12);
-          display: block;
-          position: absolute;
-          top: 0;
-          left: 0;
-          text-indent: 0;
-        }
+        font-size: @steps-icon-size-default-font-size;
       }
     }
 
+    // Finish status show check mark.
     .@{ns}steps-item-status-finish & {
       border-color: @steps-icon-finish-color;
       color: @steps-bg;
 
-      // Finish status show check mark.
       .@{ns}steps-item-icon {
-        &::before {
-          content: @check-mark-content;
-          color: @steps-icon-finish-color;
-        }
+        color: @steps-icon-finish-color;
       }
     }
 
+    // Error status show X mark.
     .@{ns}steps-item-status-error & {
       border-color: @steps-error-color;
       color: @steps-bg;
 
-      // Error status show X mark.
       .@{ns}steps-item-icon {
-        &::before {
-          content: @x-mark-content;
-          color: @steps-icon-error-color;
-        }
+        color: @steps-icon-error-color;
       }
     }
 
@@ -278,13 +258,5 @@
     margin-top: @small-steps-description-margin-top;
     font-size: @small-steps-description-font-size;
     line-height: @small-steps-description-line-height;
-  }
-
-  // Finish status show check mark.
-  .@{ns}steps-item-status-finish .@{ns}steps-item-icon-wrapper:not(.@{ns}steps-item-custom-icon) .@{ns}steps-item-icon::before,
-  .@{ns}steps-item-status-error .@{ns}steps-item-icon-wrapper:not(.@{ns}steps-item-custom-icon) .@{ns}steps-item-icon::before {
-    width: @small-steps-icon-diameter - 2px;
-    height: @small-steps-icon-diameter - 2px;
-    line-height: unit((@small-steps-icon-diameter - 2px)/12);
   }
 }

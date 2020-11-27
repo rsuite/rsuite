@@ -877,6 +877,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
           as={toggleAs}
           hasValue={hasValidValue}
           active={active}
+          placement={placement}
         >
           {selectedElement || locale.placeholder}
         </PickerToggle>

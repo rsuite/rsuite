@@ -217,7 +217,6 @@
 // Picker clean button
 .@{ns}picker-toggle-clean {
   .dropdown-toggle-caret-common(@picker-toggle-clean-right);
-  .set-dropdown-caret(~'dropdown');
 
   background: inherit;
   color: @picker-toggle-clean-color;
@@ -242,14 +241,8 @@
 .@{ns}picker-toggle-caret {
   // Extend  Dropdown toggle caret style
   .dropdown-toggle-caret-common;
-  .set-dropdown-caret(~'@{ns}picker');
 
   color: @picker-default-toggle-caret-color;
-
-  // Set default content to @dropdown-caret-content for support [placement="auto*"]
-  &::before {
-    content: @dropdown-caret-content;
-  }
 }
 
 // Picker Menu
@@ -293,15 +286,12 @@
         (@padding-base-input-horizontal - @input-border-width) * 2;
     }
 
-    &::after {
-      content: @picker-search-bar-icon-content;
-      font-family: @font-family-icon;
-      font-style: normal;
+    .@{ns}picker-search-bar-search-icon {
       position: absolute;
       width: @picker-search-bar-icon-width;
       color: @B400;
       font-size: @font-size-base;
-      line-height: unit(@line-height-computed / @font-size-base);
+      height: @line-height-computed;
       top: @picker-menu-padding - @border-radius-base + @padding-base-input-vertical;
       right: @picker-menu-padding + @padding-base-input-horizontal;
 

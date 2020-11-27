@@ -3,7 +3,7 @@
 ```js
 const styles = {
   width: 300,
-  marginBottom: 10
+  marginBottom: 10,
 };
 
 const instance = (
@@ -33,13 +33,13 @@ const instance = (
     <InputGroup style={styles}>
       <Input />
       <InputGroup.Addon>
-        <Icon icon="search" />
+        <Search />
       </InputGroup.Addon>
     </InputGroup>
 
     <InputGroup style={styles}>
       <InputGroup.Addon>
-        <Icon icon="avatar" />
+        <Avatar />
       </InputGroup.Addon>
       <Input />
     </InputGroup>
