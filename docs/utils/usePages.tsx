@@ -100,7 +100,7 @@ export default function usePages() {
     },
     {
       id: 'extensions',
-      icon: <Icon as={SvgIcons.Extension} style={{ fontSize: 20 }} />,
+      icon: <Icon as={() => <SvgIcons.Extension />} style={{ fontSize: 20 }} />,
       name: messages?.common?.extension,
     },
   ];

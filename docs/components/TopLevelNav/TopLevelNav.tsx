@@ -154,7 +154,7 @@ export default function TopLevelNav(props: TopLevelNavProps) {
           target="_blank"
           href={`/design/${themeName === 'dark' ? 'dark' : 'default'}/`}
         >
-          <Icon as={SvgIcons.Design} style={{ fontSize: 20 }} />
+          <Icon as={() => <SvgIcons.Design />} style={{ fontSize: 20 }} />
         </ButtonWithTooltip>
         <SearchButton
           className="hidden-xs"
