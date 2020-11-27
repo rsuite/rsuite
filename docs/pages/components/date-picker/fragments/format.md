@@ -10,6 +10,7 @@ const instance = (
         value: new Date()
       }
     ]}
+    style={{ width: 260 }}
   />
 );
 

@@ -1,6 +1,6 @@
 # Accessibility
 
-Accessibility in web applications is to make it available to as many people as possible, even if their abilities are limited. React Suite follows the [WAI-ARIA 1.1][wai-aria] standard, and all components have appropriate attributes and keyboard interaction functions out of the box.
+Accessibility in web applications is to make it available to as many people as possible, even if their abilities are limited. [React](https://zh-hans.reactjs.org/docs/accessibility.html) fully supports building accessible websites, often by using standard HTML techniques. React Suite follows the [WAI-ARIA 1.1][wai-aria] standard, and all components have appropriate attributes and keyboard interaction functions out of the box.
 
 ## Signposts/Landmarks
 

@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-const instance = <DatePicker showWeekNumbers />;
+const instance = <DatePicker showWeekNumbers style={{ width: 200 }}/>;
 ReactDOM.render(instance);
 ```
 

@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-const styles = { width: 280, display: 'block', marginBottom: 10 };
+const styles = { width: 200, display: 'block', marginBottom: 10 };
 const instance = (
   <div>
     <DatePicker size="lg" placeholder="Large" style={styles} />

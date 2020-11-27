@@ -5,6 +5,7 @@ const App = () => (
   <div className="field only-date">
     <DatePicker
       format="yyyy-MM-dd HH:mm:ss"
+      style={{ width: 260 }}
       locale={{
         sunday: 'Su',
         monday: 'Mo',

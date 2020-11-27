@@ -1,6 +1,6 @@
 # 无障碍设计
 
-在 Web 应用中无障碍性意味着使尽可能让更多的人使用，即使这些人的能力是有限的。React Suite 遵循 [WAI-ARIA 1.1][wai-aria] 标准，所有组件均具有开箱即用的适当属性和键盘交互功能。
+在 Web 应用中无障碍性意味着使尽可能让更多的人使用，即使这些人的能力是有限的。[React](https://zh-hans.reactjs.org/docs/accessibility.html) 对于创建可访问网站有着全面的支持，而这通常是通过标准 HTML 技术实现的。React Suite 遵循 [WAI-ARIA 1.1][wai-aria] 标准，所有组件均具有开箱即用的适当属性和键盘交互功能。
 
 ## 路牌/地标 （Signposts/Landmarks）
 

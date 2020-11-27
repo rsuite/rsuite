@@ -21,6 +21,7 @@ const instance = (
           }
         }
       ]}
+      style={{ width: 200 }}
     />
   </div>
 );

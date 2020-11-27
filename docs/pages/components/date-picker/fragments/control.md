@@ -3,7 +3,7 @@
 ```js
 const App = () => {
   const [value, setValue] = React.useState(new Date());
-  return <DatePicker style={{ width: 280 }} value={value} onChange={setValue} />;
+  return <DatePicker style={{ width: 200 }} value={value} onChange={setValue} />;
 };
 
 ReactDOM.render(<App />);

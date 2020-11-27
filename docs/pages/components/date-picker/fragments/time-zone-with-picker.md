@@ -6,7 +6,11 @@ const Instance = () => {
   return (
     <div>
       <TimeZonePicker onChange={value => setTimeZone(value)} />
-      <DatePicker format="yyyy-MM-dd HH:mm:ss" timeZone={timeZone} style={{ marginLeft: '15px' }} />
+      <DatePicker
+        format="yyyy-MM-dd HH:mm:ss"
+        timeZone={timeZone}
+        style={{ marginLeft: '15px', width: 260 }}
+      />
     </div>
   );
 };
