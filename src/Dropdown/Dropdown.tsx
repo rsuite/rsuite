@@ -98,6 +98,14 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
     onToggle?.(open);
   };
 
+  handleRootClose = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    this.setState({ open: false });
+    this.props.onToggle?.(false);
+    this.props.onClose?.();
+  };
+
   handleClick = (event: React.SyntheticEvent<any>) => {
     event.preventDefault();
     if (this.props.disabled) {
@@ -208,7 +216,7 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
 
     if (open) {
       menu = (
-        <RootCloseWrapper onRootClose={this.toggle}>
+        <RootCloseWrapper onRootClose={this.handleRootClose}>
           {(props, ref) => (
             <DropdownMenu {...props} {...menuProps} htmlElementRef={ref}>
               {showHeader && <li className={addPrefix('header')}>{title}</li>}
