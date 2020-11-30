@@ -51,6 +51,13 @@
   width: 100% - @substract;
 }
 
+//drop-shadow
+.drop-shadow(@shadow) {
+  filter: drop-shadow(@shadow);
+  // IE don't support `drop-shadow`,replace it with `box-shadow`.
+  .ie-box-shadow(@shadow);
+}
+
 // Reset font color
 .reset-font-color(@font-color:@text-color) {
   &,
