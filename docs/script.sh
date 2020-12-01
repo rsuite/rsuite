@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ "$VERCEL_ENV" == "production" && "$BRANCH" == "next" ]] ; then
+if [[ "$VERCEL_ENV" == "production" ]] ; then
   # Proceed with the build
   exit 1;
 
