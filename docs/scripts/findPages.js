@@ -21,9 +21,16 @@ function findPages(
       .replace(/^\/index$/, '/') // Replace `index` by `/`.
       .replace(/\/index$/, '');
 
-    if (pathname.indexOf('/en-US') !== -1 || pathname.indexOf('/zh-CN') !== -1) {
+    if (
+      pathname.indexOf('/en-US') !== -1 ||
+      pathname.indexOf('/zh-CN') !== -1 ||
+      pathname.indexOf('/fragments') >= 0 ||
+      pathname.indexOf('/_common') >= 0
+    ) {
       return;
     }
+
+    console.log(pathname, '--------');
 
     if (fs.statSync(itemPath).isDirectory()) {
       const children = [];

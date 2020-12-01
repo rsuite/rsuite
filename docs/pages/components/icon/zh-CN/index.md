@@ -28,19 +28,19 @@
 
 <!--{include:`custom.md`}-->
 
-### 使用 icontfont.cn
+### Font icons
 
 如果你是 [iconfont.cn](https://iconfont.cn) 的用户，可以使用 `createIconFont` 方法绘制已有项目中的图标。
 
 <!--{include:`create-icon-font.md`}-->
 
-### API
+## API
 
 #### `<Icon>` 和内置图标
 
 | 属性名称 | 类型 `(默认值)`                | 描述                        |
 | -------- | ------------------------------ | --------------------------- |
-| fill     | boolean`currentColor`          | 计算后的 `svg` 的填充颜色   |
+| fill     | boolean `currentColor`         | 计算后的 `svg` 的填充颜色   |
 | width    | string &#124; number           | 计算后的 `svg` 的宽度       |
 | height   | string &#124; number           | 计算后的 `svg` 的高度       |
 | spin     | boolean                        | 动态旋转图标                |
@@ -57,7 +57,7 @@
 | scriptUrl        | string &#124; string[] | [iconfont.cn](https://iconfont.cn) 项目在线生成的 js 地址，当然你也可以使用本地地址 |
 | extraCommonProps | { [key:string]: any }  | 给所有的 `svg` 图标组件设置额外属性                                                 |
 
-#### `createIconFont`返回的 `<Icon/>` 组件
+#### `createIconFont` 创建的 `<Icon>` 组件
 
 | 属性名称 | 类型 `(默认值)`                | 描述                      |
 | -------- | ------------------------------ | ------------------------- |

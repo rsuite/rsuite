@@ -35,7 +35,10 @@ module.exports = {
     },
     'import/resolver': {
       alias: {
-        map: [['@', './']],
+        map: [
+          ['@', './'],
+          ['rsuite', '../src']
+        ],
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']
       }
     }

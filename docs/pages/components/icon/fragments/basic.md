@@ -1,1 +1,10 @@
-<!--start-code-->```jsconst instance = <Gear />;ReactDOM.render(instance);```<!--end-code-->
+<!--start-code-->
+
+```js
+// import GearIcon from '@rsuite/icons/Gear';
+
+const instance = <GearIcon />;
+ReactDOM.render(instance);
+```
+
+<!--end-code-->

@@ -1,14 +1,16 @@
 <!--start-code-->
 
 ```js
+// import HistoryIcon from '@rsuite/icons/History';
+
 const instance = (
   <div className="icon-example-list">
-    <History />
-    <History rotate={90} />
-    <History rotate={180} />
-    <History rotate={270} />
-    <History flip="horizontal" />
-    <History flip="vertical" />
+    <HistoryIcon />
+    <HistoryIcon rotate={90} />
+    <HistoryIcon rotate={180} />
+    <HistoryIcon rotate={270} />
+    <HistoryIcon flip="horizontal" />
+    <HistoryIcon flip="vertical" />
   </div>
 );
 ReactDOM.render(instance);

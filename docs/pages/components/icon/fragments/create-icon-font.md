@@ -1,8 +1,10 @@
 <!--start-code-->
 
 ```js
+// import { createIconFont } from '@rsuite/icons';
+
 const Icon = createIconFont({
-  scriptUrl: '//at.alicdn.com/t/font_2120285_ve2eozz092d.js',
+  scriptUrl: '//at.alicdn.com/t/font_2120285_ve2eozz092d.js'
 });
 
 const instance = (

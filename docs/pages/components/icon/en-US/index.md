@@ -10,8 +10,7 @@ Semantic vector icon components, in addition to the built-in common icons, you c
 
 <!--{include:(components/icon/fragments/import.md)}-->
 
-
-## Demo
+## Examples
 
 ### Default
 
@@ -29,13 +28,13 @@ Semantic vector icon components, in addition to the built-in common icons, you c
 
 <!--{include:`custom.md`}-->
 
-### Use icontfont.cn
+### Font icons
 
 If you are using [iconfont.cn](https://iconfont.cn) now,you can use `createIconFont` to import they.
 
 <!--{include:`create-icon-font.md`}-->
 
-### API
+## API
 
 #### `<Icon>` and built-in icons.
 

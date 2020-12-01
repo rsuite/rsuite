@@ -20,6 +20,7 @@
     "build": "npm run build:gulp && npm run dist",
     "build:gulp": "gulp build",
     "build:types": "npx tsc --emitDeclarationOnly --outDir lib",
+    "build:docs": "npm run build --prefix docs",
     "dev": "npm i && npm i --prefix docs  && npm run dev --prefix docs",
     "lint": "npm run lint:ts && npm run lint:style",
     "lint:style": "stylelint  \"src/**/*.less\"",

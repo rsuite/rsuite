@@ -16,7 +16,7 @@ export default function IconItem(props: IconItemProps) {
   const handleCopy = React.useCallback(() => {
     const text = `<${name} />`;
     onCopy?.(text, copyToClipboard(text));
-  }, [onCopy]);
+  }, [name, onCopy]);
 
   return (
     <div className={classnames('icon-item', { 'new-icon': newIcon })} onClick={handleCopy}>

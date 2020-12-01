@@ -20,6 +20,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
+      "rsuite": ["../src/"],
       "@rsuite-locales/*": ["./node_modules/rsuite/lib/locales/*"]
     }
   },
