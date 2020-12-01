@@ -26,26 +26,6 @@ function HomePage() {
         <TopLevelNav hideToggle />
         <PageToolbar />
         <Row>
-          <Col md={16}>
-            <Message
-              style={{ marginTop: 20 }}
-              description={
-                <h5>
-                  Black Lives Matter.{' '}
-                  <a
-                    href="https://support.eji.org/give/153413/#!/donation/checkout"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    id="blm-link"
-                  >
-                    Support the Equal Justice Initiative.
-                  </a>
-                </h5>
-              }
-            />
-          </Col>
-        </Row>
-        <Row>
           <FlexboxGrid align="middle" className="banner">
             <FlexboxGrid.Item componentClass={Col} colspan={24} md={12}>
               <section className="section">
