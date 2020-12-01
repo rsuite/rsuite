@@ -1,6 +1,7 @@
 <!--start-code-->
 
 ```js
+const NameCell = ({ rowData, dataKey, ...props }) => {
   const speaker = (
     <Popover title="Description">
       <p>
