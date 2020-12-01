@@ -1,64 +1,73 @@
 import React from 'react';
 import { Input, toaster, Message } from 'rsuite';
 import IconItem from './IconItem';
-import allIcons from './icons.json';
-import newIcons from './icons-new.json';
 import AppContext from '@/components/AppContext';
+import allIconMeta from '@rsuite/icons/meta.json';
+import * as Icons from '@rsuite/icons';
+
+interface IconMeta {
+  iconName: string;
+  componentName: string;
+  categoryName: string;
+}
 
 const parseIconByCategory = (obj, conf) => {
-  conf.categories.forEach(category => {
-    if (obj[category]) {
-      obj[category].push(conf);
-      return;
-    }
-    obj[category] = [conf];
-  });
+  const { categoryName: category } = conf;
+  if (obj[category]) {
+    obj[category].push(conf);
+    return obj;
+  }
+  obj[category] = [conf];
   return obj;
 };
+
+const notLegacy = ({ categoryName }) => categoryName !== 'legacy';
+
+const iconMeta: IconMeta[] = allIconMeta.filter(notLegacy);
 
 const NoneDom = () => <div className="rs-col-md-24">Null</div>;
 
 export default function IconList() {
-  const [icons, setIcons] = React.useState(allIcons);
+  const [icons, setIcons] = React.useState<IconMeta[]>(iconMeta);
   const { messages } = React.useContext(AppContext);
 
   const onCopy = React.useCallback(
-    (_text, result) => {
+    (result) => {
       toaster.push(
-        <Message type="success">{messages?.common[`copy${result ? 'Succeed' : 'Failed'}`]}</Message>
+        <Message type="success" showIcon>
+          {messages?.common[`copy${result ? 'Succeed' : 'Failed'}`]}
+        </Message>
       );
     },
     [messages?.common]
   );
 
-  const onSearch = React.useCallback(key => {
-    const filterByCatogry = iconConf => {
-      const { id, filter = [], categories = [] } = iconConf;
-      const searchKeys = [id, ...filter, ...categories].map(key => key.toUpperCase());
-      return (
-        searchKeys.filter(searchKey => {
-          return searchKey.indexOf(key.toUpperCase()) > -1;
-        }).length > 0
-      );
-    };
-    setIcons(allIcons.filter(filterByCatogry));
+  const onSearch = React.useCallback((key) => {
+    const upperCaseKey = key.toUpperCase();
+    setIcons(
+      iconMeta.filter(({ categoryName, componentName }: IconMeta) => {
+        return (
+          categoryName.toLocaleUpperCase().includes(upperCaseKey) ||
+          componentName.toLocaleUpperCase().includes(upperCaseKey)
+        );
+      })
+    );
   }, []);
 
   const renderIcon = React.useCallback(() => {
-    const nextIcons = icons.reduce(parseIconByCategory, {});
+    const nextIcons = icons.reduce<{ [key: string]: IconMeta[] }>(parseIconByCategory, {});
     return Object.keys(nextIcons)
       .sort((a, b) => a.localeCompare(b))
       .map((category, i) => {
         return (
           <React.Fragment key={i}>
             <h3 className="icon-list-group-title">{category}</h3>
-            {nextIcons[category].map((iconConf, j) => {
-              const { id: icon } = iconConf;
+            {nextIcons[category].map(({ componentName }, j) => {
               return (
                 <IconItem
-                  icon={icon}
-                  newIcon={newIcons.includes(icon)}
-                  key={`${j}-${icon}`}
+                  icon={Icons[componentName]}
+                  name={componentName}
+                  key={`${j}-${componentName}`}
                   onCopy={onCopy}
                 />
               );

@@ -1,32 +1,29 @@
 import React from 'react';
 import classnames from 'classnames';
-import { Icon } from '@rsuite/icons';
-import Clipboard from 'rsuite-clipboard';
+import { IconProps } from '@rsuite/icons';
+import copyToClipboard from 'rsuite-utils/lib/utils/copyToClipboard';
 
 interface IconItemProps {
   onCopy: (text, result) => void;
-  icon: any;
-  newIcon: boolean;
+  icon: React.FC<IconProps>;
+  name: string;
+  newIcon?: boolean;
 }
 
 export default function IconItem(props: IconItemProps) {
-  const { onCopy, icon, newIcon, ...rest } = props;
+  const { onCopy, icon: IconComponent, name, newIcon, ...rest } = props;
 
-  const handleCopy = React.useCallback(
-    (text, result) => {
-      onCopy?.(text, result);
-    },
-    [onCopy]
-  );
+  const handleCopy = React.useCallback(() => {
+    const text = `<${name} />`;
+    onCopy?.(text, copyToClipboard(text));
+  }, [onCopy]);
 
   return (
-    <Clipboard text={icon} onCopy={handleCopy}>
-      <div className={classnames('icon-item', { 'new-icon': newIcon })}>
-        <div className="icon-wrapper">
-          <Icon as={icon} {...rest} className="icon-content" />
-        </div>
-        <p className="icon-name-text">{icon}</p>
+    <div className={classnames('icon-item', { 'new-icon': newIcon })} onClick={handleCopy}>
+      <div className="icon-wrapper">
+        <IconComponent className="icon-content" {...rest} />
       </div>
-    </Clipboard>
+      <p className="icon-name-text">{name}</p>
+    </div>
   );
 }
