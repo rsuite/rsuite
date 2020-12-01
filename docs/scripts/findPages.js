@@ -30,8 +30,6 @@ function findPages(
       return;
     }
 
-    console.log(pathname, '--------');
-
     if (fs.statSync(itemPath).isDirectory()) {
       const children = [];
       pages.push({
