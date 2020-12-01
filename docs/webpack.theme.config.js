@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const merge = require('webpack-merge');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const multipleThemesCompile = require('webpack-multiple-themes-compile');
@@ -52,7 +53,7 @@ const themesConfig = multipleThemesCompile({
         sourceMap,
         javascriptEnabled: true,
         globalVars: {
-          rootPath: __PRO__ ? '~rsuite/' : '../../../'
+          rootPath: '../../../'
         }
       }
     }
