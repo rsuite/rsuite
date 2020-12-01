@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ButtonToolbar, FlexboxGrid, Grid, Row, Col, Message } from 'rsuite';
+import { Button, ButtonToolbar, FlexboxGrid, Grid, Row, Col } from 'rsuite';
 import TopLevelNav from '@/components/TopLevelNav';
 import Link from '@/components/Link';
 import Logo from '@/components/Logo';
