@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
-import { StandardProps } from '../@types/common';
+import { WithAsProps } from '../@types/common';
 
-export interface InputGroupAddonProps extends StandardProps, React.HTMLAttributes<HTMLSpanElement> {
+export interface InputGroupAddonProps extends WithAsProps, React.HTMLAttributes<HTMLSpanElement> {
   /** An Input group addon can show that it is disabled */
   disabled?: boolean;
 }

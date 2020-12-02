@@ -5,7 +5,7 @@ import { TypeAttributes } from '../@types/common';
 
 interface Props {
   message?: React.ReactNode;
-  children?: React.ReactNode;
+  children?: React.ReactElement | ((props: any, ref) => React.ReactElement);
   placement?: TypeAttributes.Placement | TypeAttributes.Placement4;
 }
 

@@ -105,7 +105,7 @@ const NavItem: RsRefForwardingComponent<'li', NavItemProps> = React.forwardRef(
       );
     }
 
-    let item: React.ReactNode = (
+    let item: React.ReactElement = (
       <Link
         {...rest}
         disabled={Component === SafeAnchor ? disabled : null}
@@ -120,7 +120,7 @@ const NavItem: RsRefForwardingComponent<'li', NavItemProps> = React.forwardRef(
     );
 
     if (renderItem) {
-      item = renderItem(item);
+      item = renderItem(item) as React.ReactElement;
     }
     return (
       <Component ref={ref} className={classes} style={style}>
