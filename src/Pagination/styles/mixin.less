@@ -1,7 +1,6 @@
-.pagination-active(@font-color) {
+.pagination-active(@color) {
   .active() {
-    color: @font-color;
-    background-color: transparent;
+    .btn-ghost-variant(@color, @color);
   }
   .active;
 
@@ -19,4 +18,8 @@
       .active;
     }
   }
+}
+
+.pagination-active-size(@padding-vertical:@padding-base-vertical, @padding-horizontal:@padding-base-horizontal) {
+  padding: (@padding-vertical - 1) (@padding-horizontal - 1);
 }
