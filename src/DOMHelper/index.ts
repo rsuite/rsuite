@@ -70,6 +70,14 @@ export interface DOMHelper {
     delay: string;
     duration: string;
   };
+  animation: {
+    cancelAnimationFramePolyfill(handle: number): void;
+    nativeRequestAnimationFrame(callback: FrameRequestCallback): number;
+    requestAnimationFramePolyfill(callback: FrameRequestCallback): number;
+    events(): {
+      end: string;
+    };
+  };
 }
 
 const DOMHelper: DOMHelper = {

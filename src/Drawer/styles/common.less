@@ -111,13 +111,12 @@
 }
 
 .@{ns}drawer-dialog {
-  transition: transform 0.3s ease-out;
   position: relative;
   width: 100%;
   height: 100%;
 
   .@{ns}drawer-shake & {
-    transform: translate(0, -10px);
+    animation: 0.3s linear shakeHead;
   }
 }
 
