@@ -13,7 +13,7 @@ export default function Page() {
         createIconFont,
         GearIcon,
         HistoryIcon,
-        SpinnerIcon
+        SpinnerIcon,
       }}
     />
   );

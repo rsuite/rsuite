@@ -16,6 +16,10 @@
 
 <!--{include:`basic.md`}-->
 
+### 加粗图标
+
+<!--{include:`bolder.md`}-->
+
 ### 动态图标
 
 <!--{include:`spin.md`}-->
@@ -36,37 +40,37 @@
 
 ## API
 
-#### `<Icon>` 和内置图标
+### `<Icon>` 和内置图标
 
 | 属性名称 | 类型 `(默认值)`                | 描述                        |
 | -------- | ------------------------------ | --------------------------- |
-| fill     | boolean `currentColor`         | 计算后的 `svg` 的填充颜色   |
+| fill     | string `currentColor`          | 计算后的 `svg` 的填充颜色   |
 | width    | string &#124; number           | 计算后的 `svg` 的宽度       |
 | height   | string &#124; number           | 计算后的 `svg` 的高度       |
 | spin     | boolean                        | 动态旋转图标                |
 | pulse    | boolean                        | 动态旋转图标，旋转 8 步     |
 | rotate   | number                         | 旋转图标                    |
 | flip     | enum: 'horizontal', 'vertical' | 翻转图标                    |
-| style    | enum: 'horizontal', 'vertical' | 计算后的 `svg` 元素样式     |
+| style    | CSSProperties                  | 计算后的 `svg` 元素样式     |
 | as       | React.ReactNode                | 传入一个自定义的 react 组件 |
 
-#### `createIconFont`
+### `createIconFont`
 
 | 属性名称         | 类型 `(默认值)`        | 描述                                                                                |
 | ---------------- | ---------------------- | ----------------------------------------------------------------------------------- |
 | scriptUrl        | string &#124; string[] | [iconfont.cn](https://iconfont.cn) 项目在线生成的 js 地址，当然你也可以使用本地地址 |
 | extraCommonProps | { [key:string]: any }  | 给所有的 `svg` 图标组件设置额外属性                                                 |
 
-#### `createIconFont` 创建的 `<Icon>` 组件
+### `createIconFont` 创建的 `<Icon>` 组件
 
 | 属性名称 | 类型 `(默认值)`                | 描述                      |
 | -------- | ------------------------------ | ------------------------- |
 | icon     | string                         | iconfont 图标集中的图标名 |
-| fill     | boolean`currentColor`          | `svg` 的填充颜色          |
+| fill     | string`currentColor`           | `svg` 的填充颜色          |
 | width    | string &#124; number `1em`     | `svg` 的宽度              |
 | fill     | string &#124; number `1em`     | `svg` 的高度              |
 | spin     | boolean                        | 动态旋转图标              |
 | pulse    | boolean                        | 动态旋转图标，旋转 8 步   |
 | rotate   | number                         | 旋转图标                  |
 | flip     | enum: 'horizontal', 'vertical' | 翻转图标                  |
-| style    | enum: 'horizontal', 'vertical' | 计算后的 `svg` 元素样式   |
+| style    | CSSProperties                  | 计算后的 `svg` 元素样式   |
