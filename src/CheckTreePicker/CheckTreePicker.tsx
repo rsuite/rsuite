@@ -72,7 +72,8 @@ import { TreeBaseProps } from '../Tree/Tree';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
 import { maxTreeHeight } from '../TreePicker/TreePicker';
 
-export interface CheckTreePickerProps<T = (string | number)[]>
+export type ValueType = (string | number)[];
+export interface CheckTreePickerProps<T = ValueType>
   extends TreeBaseProps<T, ItemDataType>,
     FormControlPickerProps<T, PickerLocale, ItemDataType> {
   /** Tree node cascade */
@@ -184,10 +185,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     'check-tree'
   );
 
-  const [value, setValue, isControlled] = useControlled<(string | number)[]>(
-    controlledValue,
-    defaultValue
-  );
+  const [value, setValue, isControlled] = useControlled<ValueType>(controlledValue, defaultValue);
   const {
     data: treeData,
     setData: setTreeData,

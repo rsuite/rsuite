@@ -3,7 +3,7 @@
   "version": "4.8.0",
   "description": "A suite of react components",
   "main": "lib/index.js",
-  "typings": "types/index.d.ts",
+  "typings": "es/index.d.ts",
   "module": "es/index.js",
   "directories": {
     "lib": "lib/"
@@ -19,7 +19,7 @@
     "dist:pro": "webpack --mode production --progress",
     "build": "npm run build:gulp && npm run dist",
     "build:gulp": "gulp build",
-    "build:types": "npx tsc --emitDeclarationOnly --outDir lib",
+    "build:types": "npx tsc --emitDeclarationOnly --outDir lib && npx tsc --emitDeclarationOnly --outDir es",
     "build:docs": "npm run build --prefix docs",
     "dev": "npm i && npm i --prefix docs  && npm run dev --prefix docs",
     "lint": "npm run lint:ts && npm run lint:style",
