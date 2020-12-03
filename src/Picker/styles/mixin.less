@@ -167,16 +167,11 @@
   );
 }
 
-.date-picker-custom-button-caret-size(@calendar-caret-width: 14px,@padding-horizontal, @top, @clean-btn-margin:2px) {
+.daterange-picker-custom-toggle(@calendar-caret-width: 14px,@padding-horizontal, @top, @clean-btn-margin:2px) {
   @toggle-clean-padding: 4px;
   @clean-btn-width: @dropdown-caret-width;
 
   padding-right: @padding-horizontal + @calendar-caret-width + @dropdown-caret-padding;
-
-  .@{ns}picker-cleanable& {
-    padding-right: @padding-horizontal + @calendar-caret-width + @toggle-clean-padding +
-      @clean-btn-width + @clean-btn-margin;
-  }
 
   .@{ns}picker-toggle-clean,
   .@{ns}picker-toggle-caret {
@@ -199,7 +194,7 @@
 .date-picker-button-caret-lg() {
   .@{ns}picker-date &,
   .@{ns}picker-daterange & {
-    .date-picker-custom-button-caret-size(
+    .daterange-picker-custom-toggle(
       @calendar-caret-width: @font-size-large,
       @padding-large-horizontal,
       @top: 10px,
@@ -211,7 +206,7 @@
 .date-picker-button-caret-md() {
   .@{ns}picker-date &,
   .@{ns}picker-daterange & {
-    .date-picker-custom-button-caret-size(
+    .daterange-picker-custom-toggle(
       @calendar-caret-width: @font-size-base,
       @padding-base-horizontal,
       @top: 8px
@@ -222,7 +217,7 @@
 .date-picker-button-caret-sm() {
   .@{ns}picker-date &,
   .@{ns}picker-daterange & {
-    .date-picker-custom-button-caret-size(
+    .daterange-picker-custom-toggle(
       @calendar-caret-width: @font-size-base,
       @padding-small-horizontal,
       @top: 4px
@@ -233,7 +228,7 @@
 .date-picker-button-caret-xs() {
   .@{ns}picker-date &,
   .@{ns}picker-daterange & {
-    .date-picker-custom-button-caret-size(
+    .daterange-picker-custom-toggle(
       @calendar-caret-width: @font-size-extra-small,
       @padding-extra-small-horizontal,
       @top: 2px

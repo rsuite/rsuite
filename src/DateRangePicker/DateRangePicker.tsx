@@ -513,6 +513,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       setHoverValue(selectValue);
       setSelectValue(selectValue);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [character, rangeFormatStr]
   );
 
