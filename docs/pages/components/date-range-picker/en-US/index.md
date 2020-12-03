@@ -2,7 +2,7 @@
 
 Used to quickly select a date range
 
-If `<DateRangePicker>` does not satisfy the business scenario in which you select the time range, you can use two [`<DatePicker>`](./date-picker#Selection range) combinations.
+If `<DateRangePicker>` does not satisfy the business scenario in which you select the time range, you can use two [`DatePicker`](./date-picker#Selection range) combinations.
 
 ## Import
 
@@ -143,10 +143,6 @@ combine(...) => boolean
 
 <!--{include:`controlled.md`}-->
 
-### Set The Local Language
-
-<!--{include:`intl.md`}-->
-
 ### Time Zone
 
 <!--{include:`time-zone.md`}-->
@@ -154,7 +150,6 @@ combine(...) => boolean
 ## Accessibility
 
 Learn more in [Accessibility](../guide/accessibility).
-
 
 ## Props
 
@@ -226,21 +221,20 @@ type DisabledDateFunction = (
 ### Ranges
 
 ```js
+import { startOfDay, endOfDay, addDays, subDays } from 'date-fns';
+
 const Ranges = [
   {
     label: 'today',
-    value: [dateFns.startOfDay(new Date()), dateFns.endOfDay(new Date())]
+    value: [startOfDay(new Date()), endOfDay(new Date())]
   },
   {
     label: 'yesterday',
-    value: [
-      dateFns.startOfDay(dateFns.addDays(new Date(), -1)),
-      dateFns.endOfDay(dateFns.addDays(new Date(), -1))
-    ]
+    value: [startOfDay(addDays(new Date(), -1)), endOfDay(addDays(new Date(), -1))]
   },
   {
     label: 'last7Days',
-    value: [dateFns.startOfDay(dateFns.subDays(new Date(), 6)), dateFns.endOfDay(new Date())]
+    value: [startOfDay(subDays(new Date(), 6)), endOfDay(new Date())]
   }
 ];
 ```

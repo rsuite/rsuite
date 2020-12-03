@@ -2,7 +2,7 @@
 
 用于快速选择一个日期范围
 
-如果 `<DateRangePicker>` 不能满足您选择时间范围的业务场景，可以采用两个 [`<DatePicker>`](./date-picker#选择范围) 组合。
+如果 `<DateRangePicker>` 不能满足您选择时间范围的业务场景，可以采用两个 [`DatePicker`](./date-picker#选择范围) 组合。
 
 ## 获取组件
 
@@ -145,10 +145,6 @@ combine(...) => boolean
 
 <!--{include:`controlled.md`}-->
 
-### 设置本地语言
-
-<!--{include:`intl.md`}-->
-
 ### 时区
 
 <!--{include:`time-zone.md`}-->
@@ -229,21 +225,20 @@ type DisabledDateFunction = (
 ### Ranges
 
 ```js
+import { startOfDay, endOfDay, addDays, subDays } from 'date-fns';
+
 const Ranges = [
   {
     label: 'today',
-    value: [dateFns.startOfDay(new Date()), dateFns.endOfDay(new Date())]
+    value: [startOfDay(new Date()), endOfDay(new Date())]
   },
   {
     label: 'yesterday',
-    value: [
-      dateFns.startOfDay(dateFns.addDays(new Date(), -1)),
-      dateFns.endOfDay(dateFns.addDays(new Date(), -1))
-    ]
+    value: [startOfDay(addDays(new Date(), -1)), endOfDay(addDays(new Date(), -1))]
   },
   {
     label: 'last7Days',
-    value: [dateFns.startOfDay(dateFns.subDays(new Date(), 6)), dateFns.endOfDay(new Date())]
+    value: [startOfDay(subDays(new Date(), 6)), endOfDay(new Date())]
   }
 ];
 ```

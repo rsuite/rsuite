@@ -535,7 +535,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
             pageDate={pageDate}
             disabledOkBtn={disabledToolbarHandle}
             disabledShortcut={disabledToolbarHandle}
-            onShortcut={handleShortcutPageDate}
+            onClickShortcut={handleShortcutPageDate}
             onOk={handleOK}
             hideOkBtn={oneTap}
           />

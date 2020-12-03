@@ -683,7 +683,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
               disabledShortcut={disabledShortcutButton}
               hideOkBtn={oneTap}
               onOk={handleOK}
-              onShortcut={handleShortcutPageDate}
+              onClickShortcut={handleShortcutPageDate}
               ranges={ranges}
               timeZone={timeZone}
             />
