@@ -49,6 +49,8 @@ import useUpdateEffect from '../utils/useUpdateEffect';
 import { DateRangePickerLocale } from '../locales';
 import IconCalendar from '@rsuite/icons/legacy/Calendar';
 
+type InputState = 'Typing' | 'Error' | 'Initial';
+
 export interface DateRangePickerProps extends PickerBaseProps, FormControlBaseProps<ValueType> {
   /** Configure shortcut options */
   ranges?: RangeType[];
@@ -79,6 +81,9 @@ export interface DateRangePickerProps extends PickerBaseProps, FormControlBasePr
 
   /** Set default date for calendar */
   defaultCalendarValue?: ValueType;
+
+  /** The character that separates two dates */
+  character: string;
 
   /** Disabled date */
   disabledDate?: (
@@ -137,7 +142,8 @@ const defaultProps: Partial<DateRangePickerProps> = {
   format: 'yyyy-MM-dd',
   limitEndYear: 1000,
   placeholder: '',
-  showOneCalendar: false
+  showOneCalendar: false,
+  character: ' ~ '
 };
 
 const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
@@ -146,11 +152,12 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     classPrefix,
     className,
     cleanable,
+    character,
     defaultCalendarValue,
     defaultValue,
     disabled,
     disabledDate: disabledDateProp,
-    format,
+    format: formatStr,
     hoverRange,
     isoWeek,
     limitEndYear,
@@ -180,7 +187,11 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     ...rest
   } = props;
   const { merge, prefix } = useClassNames(classPrefix);
-  const { locale } = useCustom<DateRangePickerLocale>('DateRangePicker', overrideLocale);
+  const { locale, formatDate } = useCustom<DateRangePickerLocale>(
+    'DateRangePicker',
+    overrideLocale
+  );
+  const rangeFormatStr = `${formatStr}${character}${formatStr}`;
 
   // Temporary store `value` prop in a specific time zone. if `timeZone` prop not passed, use current time zone.
   const zonedValue: ValueType = useMemo(() => toZonedValue(valueProp, timeZone), [
@@ -225,6 +236,8 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     })
   );
 
+  const [inputState, setInputState] = useState<InputState>();
+
   /**
    * Call this function to update the calendar panel rendering benchmark value.
    *
@@ -267,26 +280,35 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
   });
 
   const getDisplayString = useCallback(
-    (nextValue: ValueType = value) => {
+    (nextValue: ValueType = value, isPlaintext?: boolean) => {
       const startDate: Date = nextValue?.[0];
       const endDate: Date = nextValue?.[1];
 
       if (startDate && endDate) {
         const displayValue: any = [startDate, endDate].sort(compareAsc);
 
+        if (isPlaintext) {
+          return (
+            formatDate(displayValue[0], formatStr) +
+            character +
+            formatDate(displayValue[1], formatStr)
+          );
+        }
+
         return renderValue ? (
-          renderValue(toLocalValue(displayValue, timeZone), format)
+          renderValue(toLocalValue(displayValue, timeZone), formatStr)
         ) : (
           <>
-            <FormattedDate date={displayValue[0]} formatStr={format} /> ~{' '}
-            <FormattedDate date={displayValue[1]} formatStr={format} />
+            <FormattedDate date={displayValue[0]} formatStr={formatStr} />
+            {character}
+            <FormattedDate date={displayValue[1]} formatStr={formatStr} />
           </>
         );
       }
 
-      return placeholder || `${format} ~ ${format}`;
+      return isPlaintext ? '' : placeholder || rangeFormatStr;
     },
-    [format, placeholder, renderValue, timeZone, value]
+    [character, formatDate, formatStr, placeholder, rangeFormatStr, renderValue, timeZone, value]
   );
 
   /**
@@ -455,6 +477,58 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     [handleValueUpdate, updateCalendarDate]
   );
 
+  /**
+   * Callback after the input box value is changed.
+   */
+  const handleInputChange = useCallback(
+    (value: string) => {
+      setInputState('Typing');
+
+      const rangeValue = value.split(character);
+
+      // isMatch('01/11/2020', 'MM/dd/yyyy') ==> true
+      // isMatch('2020-11-01', 'MM/dd/yyyy') ==> false
+      if (
+        !DateUtils.isMatch(rangeValue[0], formatStr) ||
+        !DateUtils.isMatch(rangeValue[1], formatStr)
+      ) {
+        setInputState('Error');
+        return;
+      }
+
+      const startDate = new Date(rangeValue[0]);
+      const endDate = new Date(rangeValue[1]);
+      const selectValue = [startDate, endDate] as ValueType;
+
+      if (!DateUtils.isValid(startDate) || !DateUtils.isValid(endDate)) {
+        setInputState('Error');
+        return;
+      }
+
+      if (disabledDate(startDate, selectValue, true, DATERANGE_DISABLED_TARGET.CALENDAR)) {
+        setInputState('Error');
+        return;
+      }
+
+      setHoverValue(selectValue);
+      setSelectValue(selectValue);
+    },
+    [character, rangeFormatStr]
+  );
+
+  /**
+   * The callback after the enter key is triggered on the input
+   */
+  const handleInputBlur = useCallback(
+    event => {
+      if (inputState === 'Typing') {
+        handleValueUpdate(event, selectValue);
+      }
+      setInputState('Initial');
+    },
+    [handleValueUpdate, selectValue, inputState]
+  );
+
   const handleEnter = useCallback(() => {
     let nextCalendarDate;
 
@@ -572,7 +646,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       const panelProps = {
         calendarDate,
         disabledDate: handleDisabledDate,
-        format,
+        format: formatStr,
         hoverRangeValue: hoverValue,
         isoWeek,
         limitEndYear,
@@ -624,7 +698,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       showOneCalendar,
       calendarDate,
       handleDisabledDate,
-      format,
+      formatStr,
       hoverValue,
       isoWeek,
       limitEndYear,
@@ -671,6 +745,14 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
           ])}
           as={toggleAs}
           ref={toggleRef}
+          input
+          inputMask={DateUtils.getDateMask(rangeFormatStr)}
+          inputValue={value ? (getDisplayString(value, true) as string) : ''}
+          inputPlaceholder={
+            typeof placeholder === 'string' && placeholder ? placeholder : rangeFormatStr
+          }
+          onInputChange={handleInputChange}
+          onInputBlur={handleInputBlur}
           onKeyDown={onPickerKeyDown}
           onClean={createChainedFunction(handleClean, onClean)}
           cleanable={cleanable && !disabled}
@@ -678,6 +760,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
           active={isPickerToggleActive}
           placement={placement}
           caretComponent={IconCalendar}
+          disabled={disabled}
         >
           {getDisplayString()}
         </PickerToggle>

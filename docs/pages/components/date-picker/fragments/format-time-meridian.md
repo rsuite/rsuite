@@ -10,13 +10,13 @@ const ranges = [
 const App = () => (
   <div>
     <DatePicker
-      format="dd MMM yyyy hh:mm:ss a"
+      format="dd MMM yyyy hh:mm:ss aa"
       showMeridian
       ranges={ranges}
       style={{ width: 260 }}
     />
     <hr />
-    <DatePicker format="hh:mm:ss a" showMeridian ranges={ranges} style={{ width: 260 }} />
+    <DatePicker format="hh:mm:ss aa" showMeridian ranges={ranges} style={{ width: 260 }} />
   </div>
 );
 
