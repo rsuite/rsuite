@@ -20,7 +20,7 @@ import {
 
 import {
   PickerToggle,
-  MenuWrapper,
+  PickerOverlay,
   SearchBar,
   SelectedElement,
   PickerToggleTrigger,
@@ -173,10 +173,10 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
     const [selectedPaths, setSelectedPaths] = useState<ItemDataType[]>();
 
     const triggerRef = useRef<OverlayTriggerInstance>();
-    const menuRef = useRef<HTMLDivElement>();
+    const overlayRef = useRef<HTMLDivElement>();
     const toggleRef = useRef<HTMLDivElement>();
 
-    usePublicMethods(ref, { triggerRef, menuRef, toggleRef });
+    usePublicMethods(ref, { triggerRef, overlayRef, toggleRef });
 
     const { locale, rtl } = useCustom<PickerLocale>('Picker', overrideLocale);
     const selectedItems = flattenData.filter(item => value.some(v => v === item[valueKey])) || [];
@@ -189,7 +189,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
         data: flattenData,
         valueKey,
         defaultLayer: selectedPaths?.length ? selectedPaths.length - 1 : 0,
-        target: () => menuRef.current,
+        target: () => overlayRef.current,
         callback: useCallback(
           value => {
             const { columns, paths } = getColumnsAndPaths(data, value, {
@@ -303,7 +303,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
     const handleMenuPressEnter = useCallback(
       (event: React.SyntheticEvent) => {
         const focusItem = findNodeOfTree(data, item => item[valueKey] === focusItemValue);
-        const checkbox = menuRef.current?.querySelector(
+        const checkbox = overlayRef.current?.querySelector(
           `[data-key="${focusItemValue}"] [type="checkbox"]`
         );
 
@@ -318,7 +318,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       toggle: !focusItemValue || !active,
       triggerRef,
       toggleRef,
-      menuRef,
+      overlayRef,
       active,
       onExit: handleClean,
       onMenuKeyDown: onFocusItem,
@@ -449,8 +449,8 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       );
 
       return (
-        <MenuWrapper
-          ref={mergeRefs(menuRef, speakerRef)}
+        <PickerOverlay
+          ref={mergeRefs(overlayRef, speakerRef)}
           className={classes}
           style={styles}
           target={triggerRef}
@@ -490,7 +490,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
           )}
 
           {renderExtraFooter?.()}
-        </MenuWrapper>
+        </PickerOverlay>
       );
     };
 

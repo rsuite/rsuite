@@ -20,7 +20,7 @@ import {
   DropdownMenuItem,
   PickerToggle,
   PickerToggleTrigger,
-  MenuWrapper,
+  PickerOverlay,
   SearchBar,
   useFocusItemValue,
   usePickerClassName,
@@ -157,7 +157,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
 
     const triggerRef = useRef<OverlayTriggerInstance>();
     const toggleRef = useRef<HTMLButtonElement>();
-    const menuRef = useRef<HTMLDivElement>();
+    const overlayRef = useRef<HTMLDivElement>();
     const { locale } = useCustom<PickerLocale>('Picker', overrideLocale);
     const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue);
 
@@ -165,7 +165,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
     const { focusItemValue, setFocusItemValue, onKeyDown: onFocusItem } = useFocusItemValue(value, {
       data,
       valueKey,
-      target: () => menuRef.current
+      target: () => overlayRef.current
     });
 
     // Use search keywords to filter options.
@@ -251,7 +251,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
       toggle: !focusItemValue || !active,
       triggerRef,
       toggleRef,
-      menuRef,
+      overlayRef,
       active,
       onExit: handleClean,
       onMenuKeyDown: onFocusItem,
@@ -274,7 +274,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
       onOpen?.();
     }, [onOpen, setFocusItemValue, value]);
 
-    usePublicMethods(ref, { triggerRef, menuRef, toggleRef });
+    usePublicMethods(ref, { triggerRef, overlayRef, toggleRef });
 
     // Find active `MenuItem` by `value`
     const activeItem = data.find(item => shallowEqual(item[valueKey], value));
@@ -340,8 +340,8 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
       );
 
       return (
-        <MenuWrapper
-          ref={mergeRefs(menuRef, speakerRef)}
+        <PickerOverlay
+          ref={mergeRefs(overlayRef, speakerRef)}
           autoWidth={menuAutoWidth}
           className={classes}
           style={styles}
@@ -358,7 +358,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
 
           {renderMenu ? renderMenu(menu) : menu}
           {renderExtraFooter?.()}
-        </MenuWrapper>
+        </PickerOverlay>
       );
     };
 

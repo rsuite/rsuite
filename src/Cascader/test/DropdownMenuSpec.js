@@ -39,13 +39,13 @@ describe('Cascader -  DropdownMenu', () => {
 
   it('Should output 3 `menu-item` ', () => {
     const instance = getInstance(<Dropdown defaultOpen data={items} />);
-    assert.equal(instance.menu.querySelectorAll('li').length, 3);
+    assert.equal(instance.overlay.querySelectorAll('li').length, 3);
   });
 
   it('Should have a menuWidth', () => {
     const instance = getInstance(<Dropdown defaultOpen data={items} menuWidth={100} />);
 
-    const menuContainer = instance.menu.querySelector('.rs-picker-cascader-menu-column');
+    const menuContainer = instance.overlay.querySelector('.rs-picker-cascader-menu-column');
     assert.ok(menuContainer.style.width, '100px');
   });
 
@@ -78,7 +78,7 @@ describe('Cascader -  DropdownMenu', () => {
       <Dropdown defaultOpen labelKey="myLabel" valueKey="myValue" childrenKey="items" data={data} />
     );
 
-    assert.equal(instance.menu.querySelectorAll('li').length, 3);
+    assert.equal(instance.overlay.querySelectorAll('li').length, 3);
   });
 
   it('Should call onSelect callback ', done => {
@@ -91,7 +91,7 @@ describe('Cascader -  DropdownMenu', () => {
     const instance = getInstance(<Dropdown defaultOpen data={items} onSelect={doneOp} />);
 
     ReactTestUtils.Simulate.click(
-      instance.menu.querySelectorAll('.rs-picker-cascader-menu-item')[1]
+      instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[1]
     );
   });
 
@@ -103,10 +103,10 @@ describe('Cascader -  DropdownMenu', () => {
 
     setTimeout(() => {
       ReactTestUtils.Simulate.click(
-        instance.menu.querySelectorAll('.rs-picker-cascader-menu-item')[0]
+        instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[0]
       );
       ReactTestUtils.Simulate.click(
-        instance.menu.querySelectorAll('.rs-picker-cascader-menu-item')[2]
+        instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[2]
       );
       assert.equal(onSelectSpy.callCount, 2);
     }, 1);
@@ -119,7 +119,7 @@ describe('Cascader -  DropdownMenu', () => {
     );
 
     ReactTestUtils.Simulate.click(
-      instance.menu.querySelectorAll('.rs-picker-cascader-menu-item')[1]
+      instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[1]
     );
     assert.ok(onSelectSpy.notCalled);
   });
@@ -129,7 +129,10 @@ describe('Cascader -  DropdownMenu', () => {
       <Dropdown defaultOpen data={items} renderMenuItem={item => <i>{item}</i>} />
     );
 
-    assert.equal(instance.menu.querySelectorAll(`${'.rs-picker-cascader-menu-item'} i`).length, 3);
+    assert.equal(
+      instance.overlay.querySelectorAll(`${'.rs-picker-cascader-menu-item'} i`).length,
+      3
+    );
   });
 
   it('Should be disabled item ', () => {
@@ -138,12 +141,12 @@ describe('Cascader -  DropdownMenu', () => {
     );
 
     assert.ok(
-      instance.menu
+      instance.overlay
         .querySelectorAll('.rs-picker-cascader-menu-item')[1]
         .className.match(/\bdisabled\b/)
     );
     assert.ok(
-      instance.menu
+      instance.overlay
         .querySelectorAll('.rs-picker-cascader-menu-item')[2]
         .className.match(/\bdisabled\b/)
     );

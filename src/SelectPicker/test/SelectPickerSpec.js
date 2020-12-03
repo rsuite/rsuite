@@ -65,7 +65,7 @@ describe('SelectPicker', () => {
 
     assert.equal(instance.root.querySelector('.rs-picker-toggle-value').innerText, value);
     assert.equal(
-      instance.menu.querySelector('.rs-picker-select-menu-item-active').innerText,
+      instance.overlay.querySelector('.rs-picker-select-menu-item-active').innerText,
       value
     );
   });
@@ -75,14 +75,14 @@ describe('SelectPicker', () => {
     const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={value} />);
     assert.equal(instance.root.querySelector('.rs-picker-toggle-value').innerText, value);
     assert.equal(
-      instance.menu.querySelector('.rs-picker-select-menu-item-active').innerText,
+      instance.overlay.querySelector('.rs-picker-select-menu-item-active').innerText,
       value
     );
   });
 
   it('Should render a group', () => {
     const instance = getInstance(<Dropdown defaultOpen groupBy="role" data={data} />);
-    assert.ok(instance.menu.querySelector('.rs-picker-menu-group'));
+    assert.ok(instance.overlay.querySelector('.rs-picker-menu-group'));
   });
 
   it('Should have a placeholder', () => {
@@ -95,7 +95,7 @@ describe('SelectPicker', () => {
     const instance = getInstance(
       <Dropdown placeholder="test" data={[{ label: '', value: '1' }]} value={'1'} defaultOpen />
     );
-    const menu = instance.menu.querySelector('.rs-picker-select-menu-item-active');
+    const menu = instance.overlay.querySelector('.rs-picker-select-menu-item-active');
     assert.equal(menu.innerText, '');
   });
 
@@ -152,7 +152,7 @@ describe('SelectPicker', () => {
     };
     const instance = getInstance(<Dropdown defaultOpen onChange={doneOp} data={data} />);
 
-    ReactTestUtils.Simulate.click(instance.menu.querySelector('.rs-picker-select-menu-item'));
+    ReactTestUtils.Simulate.click(instance.overlay.querySelector('.rs-picker-select-menu-item'));
   });
 
   it('Should call `onClean` callback', done => {
@@ -167,7 +167,7 @@ describe('SelectPicker', () => {
   it('Should not output a search bar', () => {
     const instance = getInstance(<Dropdown searchable={false} defaultOpen data={data} />);
 
-    assert.ok(!instance.menu.querySelector('.rs-picker-search-bar-input'));
+    assert.ok(!instance.overlay.querySelector('.rs-picker-search-bar-input'));
   });
 
   it('Should output a clean button', () => {
@@ -182,7 +182,7 @@ describe('SelectPicker', () => {
       }
     };
     const instance = getInstance(<Dropdown defaultOpen onSearch={doneOp} data={data} />);
-    const input = instance.menu.querySelector('.rs-picker-search-bar-input');
+    const input = instance.overlay.querySelector('.rs-picker-search-bar-input');
 
     input.value = 'a';
 
@@ -223,7 +223,9 @@ describe('SelectPicker', () => {
     const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={'Eugenia'} />);
     ReactTestUtils.Simulate.keyDown(instance.toggle, { keyCode: 40 });
 
-    if (instance.menu.querySelector('.rs-picker-select-menu-item-focus').innerText === 'Kariane') {
+    if (
+      instance.overlay.querySelector('.rs-picker-select-menu-item-focus').innerText === 'Kariane'
+    ) {
       done();
     }
   });
@@ -231,7 +233,9 @@ describe('SelectPicker', () => {
   it('Should focus item by keyCode=38 ', done => {
     const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={'Kariane'} />);
     ReactTestUtils.Simulate.keyDown(instance.toggle, { keyCode: 38 });
-    if (instance.menu.querySelector('.rs-picker-select-menu-item-focus').innerText === 'Eugenia') {
+    if (
+      instance.overlay.querySelector('.rs-picker-select-menu-item-focus').innerText === 'Eugenia'
+    ) {
       done();
     }
   });
@@ -266,7 +270,7 @@ describe('SelectPicker', () => {
   it('Should have a custom className', () => {
     const instance = getInstance(<Dropdown className="custom" defaultOpen data={data} />);
     assert.include(instance.root.className, 'custom');
-    expect(instance.menu.className).to.not.include('custom');
+    expect(instance.overlay.className).to.not.include('custom');
   });
 
   it('Should have a custom style', () => {
@@ -289,7 +293,7 @@ describe('SelectPicker', () => {
     const instance = getInstance(
       <Dropdown defaultOpen data={data} searchBy={(a, b, c) => c.value === 'Louisa'} />
     );
-    const list = instance.menu.querySelectorAll('a');
+    const list = instance.overlay.querySelectorAll('a');
 
     assert.equal(list.length, 1);
     assert.ok(list[0].innerText, 'Louisa');

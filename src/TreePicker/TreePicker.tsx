@@ -41,7 +41,7 @@ import {
 
 import {
   PickerToggle,
-  MenuWrapper,
+  PickerOverlay,
   SearchBar,
   PickerToggleTrigger,
   createConcatChildrenFunction,
@@ -179,7 +179,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   const triggerRef = useRef<OverlayTriggerInstance>();
   const toggleRef = useRef<HTMLButtonElement>();
   const listRef = useRef<ListInstance>();
-  const menuRef = useRef<HTMLDivElement>();
+  const overlayRef = useRef<HTMLDivElement>();
   const treeViewRef = useRef<HTMLDivElement>();
   const { rtl, locale } = useCustom<PickerLocale>('Picker', overrideLocale);
 
@@ -530,7 +530,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     toggleRef.current?.focus();
   }, [activeNode, onClose, setSearchKeyword, valueKey]);
 
-  usePublicMethods(ref, { triggerRef, menuRef, toggleRef });
+  usePublicMethods(ref, { triggerRef, overlayRef, toggleRef });
 
   const handleFocusItem = useCallback(
     (type: number) => {
@@ -634,7 +634,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     toggle: !activeNode || !active,
     triggerRef,
     toggleRef,
-    menuRef,
+    overlayRef,
     active,
     onExit: handleClean,
     onClose: handleClose,
@@ -807,11 +807,11 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     const styles = virtualized ? { height, ...mergedMenuStyle } : { ...mergedMenuStyle };
 
     return (
-      <MenuWrapper
+      <PickerOverlay
         autoWidth={menuAutoWidth}
         className={classes}
         style={styles}
-        ref={mergeRefs(menuRef, speakerRef)}
+        ref={mergeRefs(overlayRef, speakerRef)}
         onKeyDown={onPickerKeydown}
         target={triggerRef}
       >
@@ -824,7 +824,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
         ) : null}
         {renderMenu ? renderMenu(renderTree()) : renderTree()}
         {renderExtraFooter?.()}
-      </MenuWrapper>
+      </PickerOverlay>
     );
   };
 

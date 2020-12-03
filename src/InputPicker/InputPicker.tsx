@@ -28,7 +28,7 @@ import {
   DropdownMenuItem,
   DropdownMenuCheckItem,
   PickerToggle,
-  MenuWrapper,
+  PickerOverlay,
   PickerToggleTrigger,
   useFocusItemValue,
   usePickerClassName,
@@ -153,7 +153,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       throw Error('`groupBy` can not be equal to `valueKey` and `labelKey`');
     }
 
-    const menuRef = useRef<HTMLDivElement>();
+    const overlayRef = useRef<HTMLDivElement>();
     const toggleRef = useRef<HTMLButtonElement>();
     const triggerRef = useRef<OverlayTriggerInstance>();
     const inputRef = useRef<any>();
@@ -194,7 +194,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       {
         data: getAllDataAndCache(),
         valueKey,
-        target: () => menuRef.current
+        target: () => overlayRef.current
       }
     );
 
@@ -447,7 +447,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       ]
     );
 
-    usePublicMethods(ref, { triggerRef, menuRef, toggleRef });
+    usePublicMethods(ref, { triggerRef, overlayRef, toggleRef });
 
     /**
      * Remove the last item, after pressing the back key on the keyboard.
@@ -496,7 +496,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     const onPickerKeyDown = useToggleKeyDownEvent({
       triggerRef,
       toggleRef,
-      menuRef,
+      overlayRef,
       onMenuPressEnter: multi ? selectFocusMenuCheckItem : selectFocusMenuItem,
       onMenuPressBackspace: multi ? removeLastItem : handleClean,
       onMenuKeyDown: onKeyDown,
@@ -640,8 +640,8 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       );
 
       return (
-        <MenuWrapper
-          ref={mergeRefs(menuRef, speakerRef)}
+        <PickerOverlay
+          ref={mergeRefs(overlayRef, speakerRef)}
           autoWidth={menuAutoWidth}
           className={classes}
           style={styles}
@@ -650,7 +650,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         >
           {renderMenu ? renderMenu(menu) : menu}
           {renderExtraFooter?.()}
-        </MenuWrapper>
+        </PickerOverlay>
       );
     };
 

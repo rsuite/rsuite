@@ -68,7 +68,7 @@ describe('TagPicker', () => {
     const value = 'Louisa';
     const instance = getInstance(<TagPicker defaultOpen data={data} value={[value]} />);
     assert.equal(instance.root.querySelector('.rs-tag-text').innerText, value);
-    assert.equal(instance.menu.querySelector('.rs-checkbox-checked').innerText, value);
+    assert.equal(instance.overlay.querySelector('.rs-checkbox-checked').innerText, value);
   });
 
   it('Should active item by `defaultValue`', () => {
@@ -76,13 +76,13 @@ describe('TagPicker', () => {
     const instance = getInstance(<TagPicker defaultOpen data={data} defaultValue={[value]} />);
 
     assert.equal(instance.root.querySelector('.rs-tag-text').innerText, value);
-    assert.equal(instance.menu.querySelector('.rs-checkbox-checked').innerText, value);
+    assert.equal(instance.overlay.querySelector('.rs-checkbox-checked').innerText, value);
     assert.ok(instance.root.querySelector('.rs-tag-icon-close'));
   });
 
   it('Should render a group', () => {
     const instance = getInstance(<TagPicker defaultOpen groupBy="role" data={data} />);
-    assert.ok(instance.menu.querySelector('.rs-picker-menu-group'));
+    assert.ok(instance.overlay.querySelector('.rs-picker-menu-group'));
   });
 
   it('Should have a placeholder', () => {
@@ -109,7 +109,7 @@ describe('TagPicker', () => {
     const instance = getInstance(
       <TagPicker placeholder="test" data={[{ label: '', value: '1' }]} value={['1']} defaultOpen />
     );
-    const checkbox = instance.menu.querySelector('.rs-checkbox-checked');
+    const checkbox = instance.overlay.querySelector('.rs-checkbox-checked');
 
     assert.equal(checkbox.innerText, '');
   });
@@ -162,7 +162,7 @@ describe('TagPicker', () => {
       <TagPicker defaultOpen onChange={doneOp} data={[{ label: '1', value: '1' }]} />
     );
 
-    ReactTestUtils.Simulate.change(instance.menu.querySelector('input'));
+    ReactTestUtils.Simulate.change(instance.overlay.querySelector('input'));
   });
 
   it('Should call `onClean` callback', done => {
@@ -209,14 +209,14 @@ describe('TagPicker', () => {
 
   it('Should focus item by keyCode=40 ', () => {
     const instance = getInstance(<TagPicker defaultOpen data={data} defaultValue={['Eugenia']} />);
-    ReactTestUtils.Simulate.keyDown(instance.menu, { keyCode: 40 });
-    assert.equal(instance.menu.querySelector('.rs-check-item-focus').innerText, 'Kariane');
+    ReactTestUtils.Simulate.keyDown(instance.overlay, { keyCode: 40 });
+    assert.equal(instance.overlay.querySelector('.rs-check-item-focus').innerText, 'Kariane');
   });
 
   it('Should focus item by keyCode=38 ', () => {
     const instance = getInstance(<TagPicker defaultOpen data={data} defaultValue={['Kariane']} />);
-    ReactTestUtils.Simulate.keyDown(instance.menu, { keyCode: 38 });
-    assert.equal(instance.menu.querySelector('.rs-check-item-focus').innerText, 'Eugenia');
+    ReactTestUtils.Simulate.keyDown(instance.overlay, { keyCode: 38 });
+    assert.equal(instance.overlay.querySelector('.rs-check-item-focus').innerText, 'Eugenia');
   });
 
   it('Should call `onChange` by keyCode=13 ', done => {

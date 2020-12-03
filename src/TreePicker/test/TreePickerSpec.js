@@ -61,7 +61,7 @@ describe('TreePicker', () => {
 
   it('Should render TreePicker Menu', () => {
     const instance = getInstance(<TreePicker defaultOpen data={data} />);
-    expect(instance.menu.classList.contains('.rs-picker-tree-menu'));
+    expect(instance.overlay.classList.contains('.rs-picker-tree-menu'));
   });
 
   it('Should output a button', () => {
@@ -210,7 +210,7 @@ describe('TreePicker', () => {
     );
     ReactTestUtils.Simulate.keyDown(instance.toggle, { keyCode: KEY_CODE.DOWN });
 
-    assert.equal(instance.menu.querySelector(itemFocusClassName).innerText, 'Master');
+    assert.equal(instance.overlay.querySelector(itemFocusClassName).innerText, 'Master');
   });
 
   it('Should focus item by keyCode=38 ', () => {
@@ -218,9 +218,9 @@ describe('TreePicker', () => {
       <TreePicker open data={data} virtualized={false} defaultExpandAll value="tester1" />
     );
 
-    ReactTestUtils.Simulate.click(instance.menu.querySelector('span[data-key="0-0-1"]'));
+    ReactTestUtils.Simulate.click(instance.overlay.querySelector('span[data-key="0-0-1"]'));
     ReactTestUtils.Simulate.keyDown(instance.toggle, { keyCode: KEY_CODE.UP });
-    assert.equal(instance.menu.querySelector(itemFocusClassName).innerText, 'tester0');
+    assert.equal(instance.overlay.querySelector(itemFocusClassName).innerText, 'tester0');
   });
 
   it('Should focus item by keyCode=13 ', done => {
@@ -230,7 +230,7 @@ describe('TreePicker', () => {
     const instance = getInstance(
       <TreePicker defaultOpen virtualized={false} data={data} onChange={doneOp} defaultExpandAll />
     );
-    ReactTestUtils.Simulate.click(instance.menu.querySelector('span[data-key="0-0-1"]'));
+    ReactTestUtils.Simulate.click(instance.overlay.querySelector('span[data-key="0-0-1"]'));
   });
 
   /**
@@ -241,10 +241,10 @@ describe('TreePicker', () => {
       <TreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
     );
 
-    ReactTestUtils.Simulate.click(tree.menu.querySelector('span[data-key="0-0"]'));
-    ReactTestUtils.Simulate.keyDown(tree.menu, { keyCode: KEY_CODE.LEFT });
+    ReactTestUtils.Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
+    ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.LEFT });
     assert.equal(
-      tree.menu.querySelectorAll(`div[data-ref="0-0"] > ${itemExpandedClassName}`).length,
+      tree.overlay.querySelectorAll(`div[data-ref="0-0"] > ${itemExpandedClassName}`).length,
       0
     );
   });
@@ -257,12 +257,12 @@ describe('TreePicker', () => {
       <TreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
     );
 
-    ReactTestUtils.Simulate.click(tree.menu.querySelector('span[data-key="0-0"]'));
-    ReactTestUtils.Simulate.keyDown(tree.menu, { keyCode: KEY_CODE.LEFT });
-    assert.equal(tree.menu.querySelector(itemFocusClassName).innerText, 'Master');
+    ReactTestUtils.Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
+    ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.LEFT });
+    assert.equal(tree.overlay.querySelector(itemFocusClassName).innerText, 'Master');
 
     assert.equal(
-      tree.menu.querySelectorAll(`div[data-ref="0-0"] > ${itemExpandedClassName}`).length,
+      tree.overlay.querySelectorAll(`div[data-ref="0-0"] > ${itemExpandedClassName}`).length,
       0
     );
   });
@@ -275,9 +275,9 @@ describe('TreePicker', () => {
       <TreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
     );
 
-    ReactTestUtils.Simulate.click(tree.menu.querySelector('span[data-key="0-0"]'));
-    ReactTestUtils.Simulate.keyDown(tree.menu, { keyCode: KEY_CODE.LEFT });
-    assert.equal(tree.menu.querySelector(itemFocusClassName).innerText, 'Master');
+    ReactTestUtils.Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
+    ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.LEFT });
+    assert.equal(tree.overlay.querySelector(itemFocusClassName).innerText, 'Master');
   });
 
   /**
@@ -286,10 +286,10 @@ describe('TreePicker', () => {
   it('Should fold children node by keyCode=39', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} virtualized={false} />);
 
-    ReactTestUtils.Simulate.click(tree.menu.querySelector('span[data-key="0-0"]'));
-    ReactTestUtils.Simulate.keyDown(tree.menu, { keyCode: KEY_CODE.RIGHT });
+    ReactTestUtils.Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
+    ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.RIGHT });
     assert.equal(
-      tree.menu.querySelectorAll(`div[data-ref="0-0"] > ${itemExpandedClassName}`).length,
+      tree.overlay.querySelectorAll(`div[data-ref="0-0"] > ${itemExpandedClassName}`).length,
       1
     );
   });
@@ -302,9 +302,9 @@ describe('TreePicker', () => {
       <TreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
     );
 
-    ReactTestUtils.Simulate.click(tree.menu.querySelector('span[data-key="0-0-0"]'));
-    ReactTestUtils.Simulate.keyDown(tree.menu, { keyCode: KEY_CODE.RIGHT });
-    assert.equal(tree.menu.querySelector(itemFocusClassName).innerText, 'tester0');
+    ReactTestUtils.Simulate.click(tree.overlay.querySelector('span[data-key="0-0-0"]'));
+    ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.RIGHT });
+    assert.equal(tree.overlay.querySelector(itemFocusClassName).innerText, 'tester0');
   });
 
   /**
@@ -315,9 +315,9 @@ describe('TreePicker', () => {
       <TreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
     );
 
-    ReactTestUtils.Simulate.click(tree.menu.querySelector('span[data-key="0-0"]'));
-    ReactTestUtils.Simulate.keyDown(tree.menu, { keyCode: KEY_CODE.RIGHT });
-    assert.equal(tree.menu.querySelector(itemFocusClassName).innerText, 'tester0');
+    ReactTestUtils.Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
+    ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.RIGHT });
+    assert.equal(tree.overlay.querySelector(itemFocusClassName).innerText, 'tester0');
   });
 
   it('Should have a custom className', () => {
@@ -334,7 +334,7 @@ describe('TreePicker', () => {
   it('Should have a custom menuStyle', () => {
     const fontSize = '12px';
     const instance = getInstance(<TreePicker open menuStyle={{ fontSize }} data={data} />);
-    assert.equal(getDOMNode(instance.menu).style.fontSize, fontSize);
+    assert.equal(getDOMNode(instance.overlay).style.fontSize, fontSize);
   });
 
   it('Should load data async', () => {
@@ -455,7 +455,7 @@ describe('TreePicker', () => {
         searchBy={(a, b, c) => c.value === 'Master'}
       />
     );
-    const list = getDOMNode(instance.menu).querySelectorAll('.rs-tree-node');
+    const list = getDOMNode(instance.overlay).querySelectorAll('.rs-tree-node');
     assert.equal(list.length, 1);
     assert.ok(list[0].innerText, 'Louisa');
   });

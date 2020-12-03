@@ -345,7 +345,7 @@ interface ToggleKeyDownEventProps {
   toggle?: boolean;
   triggerRef?: React.RefObject<any>;
   toggleRef: React.RefObject<any>;
-  menuRef?: React.RefObject<any>;
+  overlayRef?: React.RefObject<any>;
   active?: boolean;
   onExit?: (event) => void;
   onKeyDown?: (event) => void;
@@ -366,7 +366,7 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
     toggle = true,
     triggerRef,
     toggleRef,
-    menuRef,
+    overlayRef,
     active,
     onExit,
     onOpen,
@@ -416,7 +416,7 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
       // Native event callback
       onKeyDown?.(event);
 
-      if (menuRef?.current) {
+      if (overlayRef?.current) {
         // The keyboard operation callback on the menu.
         onMenuKeyDown?.(event);
 
@@ -431,7 +431,7 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
     [
       handleClose,
       handleToggleDropdown,
-      menuRef,
+      overlayRef,
       onExit,
       onKeyDown,
       onMenuKeyDown,
@@ -498,7 +498,7 @@ export function useSearch(props: SearchProps) {
 interface Refs {
   triggerRef?: React.RefObject<OverlayTriggerInstance>;
   rootRef?: React.RefObject<HTMLElement>;
-  menuRef?: React.RefObject<HTMLElement>;
+  overlayRef?: React.RefObject<HTMLElement>;
   toggleRef?: React.RefObject<HTMLElement>;
 }
 
@@ -507,7 +507,7 @@ interface Refs {
  *
  * {
  *   root: Element;
- *   menu: Element;
+ *   overlay: Element;
  *   toggle?: Element;
  *   updatePosition:() => void;
  *   open:() => void;
@@ -516,7 +516,7 @@ interface Refs {
  * @param ref
  * @param params
  */
-export function usePublicMethods(ref, { triggerRef, menuRef, toggleRef, rootRef }: Refs) {
+export function usePublicMethods(ref, { triggerRef, overlayRef, toggleRef, rootRef }: Refs) {
   const handleOpen = useCallback(() => {
     triggerRef.current?.open();
   }, [triggerRef]);
@@ -533,8 +533,8 @@ export function usePublicMethods(ref, { triggerRef, menuRef, toggleRef, rootRef 
     get root() {
       return rootRef?.current ? rootRef?.current : triggerRef.current?.child;
     },
-    get menu() {
-      return menuRef.current;
+    get overlay() {
+      return overlayRef.current;
     },
     get toggle() {
       return toggleRef?.current;

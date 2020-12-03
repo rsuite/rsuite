@@ -20,7 +20,7 @@ import {
 
 import {
   PickerToggle,
-  MenuWrapper,
+  PickerOverlay,
   SearchBar,
   PickerToggleTrigger,
   usePickerClassName,
@@ -146,7 +146,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
   const [flattenData, setFlattenData] = useState<ItemDataType[]>(flattenTree(data));
 
   const triggerRef = useRef<OverlayTriggerInstance>();
-  const menuRef = useRef<HTMLDivElement>();
+  const overlayRef = useRef<HTMLDivElement>();
   const toggleRef = useRef<HTMLButtonElement>();
   const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue);
 
@@ -170,7 +170,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
     setFlattenData(flattenTree(data));
   }, [data]);
 
-  usePublicMethods(ref, { triggerRef, menuRef, toggleRef });
+  usePublicMethods(ref, { triggerRef, overlayRef, toggleRef });
 
   const { locale, rtl } = useCustom<PickerLocale>('Picker', overrideLocale);
   /**
@@ -233,7 +233,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
     data: flattenData,
     valueKey,
     defaultLayer: valueToPaths?.length ? valueToPaths.length - 1 : 0,
-    target: () => menuRef.current,
+    target: () => overlayRef.current,
     callback: useCallback(
       value => {
         enforceUpdate(value, true);
@@ -324,7 +324,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
     toggle: !focusItemValue || !active,
     triggerRef,
     toggleRef,
-    menuRef,
+    overlayRef,
     active,
     onExit: handleClean,
     onMenuKeyDown: onFocusItem,
@@ -480,8 +480,8 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
     const classes = merge(className, menuClassName, prefix('cascader-menu', { inline }));
 
     return (
-      <MenuWrapper
-        ref={mergeRefs(menuRef, speakerRef)}
+      <PickerOverlay
+        ref={mergeRefs(overlayRef, speakerRef)}
         className={classes}
         style={styles}
         target={triggerRef}
@@ -516,7 +516,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
           />
         )}
         {renderExtraFooter?.()}
-      </MenuWrapper>
+      </PickerOverlay>
     );
   };
 

@@ -112,7 +112,7 @@ describe('SelectPicker styles', () => {
       createTestContainer()
     );
 
-    const secondItemGroup = ref.current.menu.querySelectorAll(
+    const secondItemGroup = ref.current.overlay.querySelectorAll(
       '.group-test-menu .rs-picker-menu-group'
     )[1];
     inChrome &&

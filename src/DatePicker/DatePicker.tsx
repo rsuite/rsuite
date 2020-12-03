@@ -22,7 +22,7 @@ import {
 } from '../utils';
 
 import {
-  MenuWrapper,
+  PickerOverlay,
   OverlayTriggerInstance,
   pickerDefaultProps,
   pickerPropTypes,
@@ -203,9 +203,9 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const triggerRef = useRef<OverlayTriggerInstance>();
     const rootRef = useRef<HTMLDivElement>();
     const toggleRef = useRef<HTMLButtonElement>();
-    const menuRef = useRef<HTMLDivElement>();
+    const overlayRef = useRef<HTMLDivElement>();
 
-    usePublicMethods(ref, { rootRef, triggerRef, menuRef, toggleRef });
+    usePublicMethods(ref, { rootRef, triggerRef, overlayRef, toggleRef });
 
     const getLocalPageDate = useCallback(
       (date = pageDate) => TimeZone.toLocalTimeZone(date, timeZone),
@@ -512,9 +512,9 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       const classes = merge(menuClassName, className, prefix('date-menu'));
       const styles = { left, top };
       return (
-        <MenuWrapper
+        <PickerOverlay
           className={classes}
-          ref={mergeRefs(menuRef, speakerRef)}
+          ref={mergeRefs(overlayRef, speakerRef)}
           style={styles}
           target={triggerRef}
         >
@@ -530,7 +530,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
             onOk={handleOK}
             hideOkBtn={oneTap}
           />
-        </MenuWrapper>
+        </PickerOverlay>
       );
     };
 

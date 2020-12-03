@@ -27,7 +27,7 @@ import {
   useCustom
 } from '../utils';
 import {
-  MenuWrapper,
+  PickerOverlay,
   OverlayTriggerInstance,
   PickerComponent,
   pickerDefaultProps,
@@ -251,7 +251,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
   const [isPickerToggleActive, setPickerToggleActive] = useState(false);
 
   const rootRef = useRef<HTMLDivElement>();
-  const menuRef = useRef<HTMLDivElement>();
+  const overlayRef = useRef<HTMLDivElement>();
   const toggleRef = useRef<HTMLButtonElement>();
   const triggerRef = useRef<OverlayTriggerInstance>();
 
@@ -261,7 +261,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
   usePublicMethods(ref, {
     triggerRef,
-    menuRef,
+    overlayRef,
     toggleRef,
     rootRef
   });
@@ -587,9 +587,9 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       };
 
       return (
-        <MenuWrapper
+        <PickerOverlay
           className={classes}
-          ref={mergeRefs(menuRef, speakerRef)}
+          ref={mergeRefs(overlayRef, speakerRef)}
           target={triggerRef}
           style={styles}
         >
@@ -613,7 +613,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
               timeZone={timeZone}
             />
           </div>
-        </MenuWrapper>
+        </PickerOverlay>
       );
     },
     [

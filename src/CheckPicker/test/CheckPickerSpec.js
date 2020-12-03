@@ -82,19 +82,19 @@ describe('CheckPicker', () => {
     const value = ['Louisa'];
     const instance = getInstance(<Dropdown defaultOpen data={data} value={value} />);
     assert.equal(instance.root.querySelector(valueClassName).innerText, 'Louisa');
-    assert.equal(instance.menu.querySelector(itemActiveClassName).innerText, value);
+    assert.equal(instance.overlay.querySelector(itemActiveClassName).innerText, value);
   });
 
   it('Should active item by `defaultValue`', () => {
     const value = ['Louisa'];
     const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={value} />);
     assert.equal(instance.root.querySelector(valueClassName).innerText, 'Louisa');
-    assert.equal(instance.menu.querySelector(itemActiveClassName).innerText, value);
+    assert.equal(instance.overlay.querySelector(itemActiveClassName).innerText, value);
   });
 
   it('Should render a group', () => {
     const instance = getInstance(<Dropdown defaultOpen groupBy="role" data={data} />);
-    assert.ok(instance.menu.querySelector('.rs-picker-menu-group'));
+    assert.ok(instance.overlay.querySelector('.rs-picker-menu-group'));
   });
 
   it('Should have a placeholder', () => {
@@ -158,7 +158,7 @@ describe('CheckPicker', () => {
     const instance = getInstance(
       <Dropdown defaultOpen onChange={doneOp} data={[{ label: '1', value: '1' }]} />
     );
-    ReactTestUtils.Simulate.change(instance.menu.querySelectorAll('input')[1]);
+    ReactTestUtils.Simulate.change(instance.overlay.querySelectorAll('input')[1]);
   });
 
   it('Should call `onClean` callback', done => {
@@ -198,7 +198,7 @@ describe('CheckPicker', () => {
 
     ReactTestUtils.Simulate.keyDown(instance.toggle, { keyCode: 40 });
 
-    if (instance.menu.querySelector(itemFocusClassName).innerText === 'Kariane') {
+    if (instance.overlay.querySelector(itemFocusClassName).innerText === 'Kariane') {
       done();
     }
   });
@@ -208,7 +208,7 @@ describe('CheckPicker', () => {
 
     ReactTestUtils.Simulate.keyDown(instance.toggle, { keyCode: 38 });
 
-    if (instance.menu.querySelector(itemFocusClassName).innerText === 'Eugenia') {
+    if (instance.overlay.querySelector(itemFocusClassName).innerText === 'Eugenia') {
       done();
     }
   });
@@ -258,7 +258,7 @@ describe('CheckPicker', () => {
       <Dropdown className="custom" defaultOpen data={[{ label: '', value: '1' }]} />
     );
     assert.include(instance.root.className, 'custom');
-    expect(instance.menu.className).to.not.include('custom');
+    expect(instance.overlay.className).to.not.include('custom');
   });
 
   it('Should have a custom style', () => {
@@ -271,7 +271,7 @@ describe('CheckPicker', () => {
     const instance = getInstance(
       <Dropdown placeholder="test" data={[{ label: '', value: '1' }]} value={['1']} defaultOpen />
     );
-    const checkbox = instance.menu.querySelector('.rs-checkbox-checked');
+    const checkbox = instance.overlay.querySelector('.rs-checkbox-checked');
     assert.equal(checkbox.innerText, '');
   });
 
@@ -285,7 +285,7 @@ describe('CheckPicker', () => {
       <Dropdown placeholder="test" sticky data={data} value={['Kariane']} defaultOpen />
     );
 
-    const menu = instance.menu.querySelector('.rs-checkbox');
+    const menu = instance.overlay.querySelector('.rs-checkbox');
 
     assert.equal(menu.innerText, 'Kariane');
   });
@@ -301,7 +301,7 @@ describe('CheckPicker', () => {
       />
     );
 
-    const count = instance.menu.querySelectorAll('.rs-checkbox-checked').length;
+    const count = instance.overlay.querySelectorAll('.rs-checkbox-checked').length;
     assert.equal(count, 3);
   });
 
@@ -314,7 +314,7 @@ describe('CheckPicker', () => {
     const instance = getInstance(
       <Dropdown defaultOpen data={data} searchBy={(a, b, c) => c.value === 'Louisa'} />
     );
-    const list = instance.menu.querySelectorAll('.rs-check-item');
+    const list = instance.overlay.querySelectorAll('.rs-check-item');
     assert.equal(list.length, 1);
     assert.ok(list[0].innerText, 'Louisa');
   });

@@ -37,7 +37,7 @@ describe('DatePicker ', () => {
     const instance = getInstance(<DatePicker inline />);
 
     assert.ok(instance.root);
-    assert.ok(!instance.menu);
+    assert.ok(!instance.overlay);
   });
 
   it('Should output a date', () => {
@@ -74,7 +74,9 @@ describe('DatePicker ', () => {
     };
 
     const instance = getInstance(<DatePicker onChange={doneOp} defaultOpen />);
-    ReactTestUtils.Simulate.click(instance.menu.querySelector('.rs-picker-toolbar-right-btn-ok'));
+    ReactTestUtils.Simulate.click(
+      instance.overlay.querySelector('.rs-picker-toolbar-right-btn-ok')
+    );
   });
 
   it('Should call `onClean` callback', done => {
@@ -92,7 +94,7 @@ describe('DatePicker ', () => {
 
     const instance = getInstance(<DatePicker onSelect={doneOp} defaultOpen />);
     ReactTestUtils.Simulate.click(
-      instance.menu.querySelector(
+      instance.overlay.querySelector(
         '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
       )
     );
@@ -104,7 +106,9 @@ describe('DatePicker ', () => {
     };
 
     const instance = getInstance(<DatePicker onOk={doneOp} defaultOpen />);
-    ReactTestUtils.Simulate.click(instance.menu.querySelector('.rs-picker-toolbar-right-btn-ok'));
+    ReactTestUtils.Simulate.click(
+      instance.overlay.querySelector('.rs-picker-toolbar-right-btn-ok')
+    );
   });
 
   it('Should call `onNextMonth` callback', done => {
@@ -113,7 +117,7 @@ describe('DatePicker ', () => {
     };
 
     const instance = getInstance(<DatePicker onNextMonth={doneOp} defaultOpen />);
-    ReactTestUtils.Simulate.click(instance.menu.querySelector('.rs-calendar-header-forward'));
+    ReactTestUtils.Simulate.click(instance.overlay.querySelector('.rs-calendar-header-forward'));
   });
 
   it('Should call `onPrevMonth` callback', done => {
@@ -122,7 +126,7 @@ describe('DatePicker ', () => {
     };
 
     const instance = getInstance(<DatePicker onPrevMonth={doneOp} defaultOpen />);
-    ReactTestUtils.Simulate.click(instance.menu.querySelector('.rs-calendar-header-backward'));
+    ReactTestUtils.Simulate.click(instance.overlay.querySelector('.rs-calendar-header-backward'));
   });
 
   it('Should call `onToggleMonthDropdown` callback', done => {
@@ -166,7 +170,7 @@ describe('DatePicker ', () => {
 
     const instance = getInstance(<DatePicker onChangeCalendarDate={doneOp} defaultOpen />);
 
-    ReactTestUtils.Simulate.click(instance.menu.querySelector('.rs-calendar-header-backward'));
+    ReactTestUtils.Simulate.click(instance.overlay.querySelector('.rs-calendar-header-backward'));
   });
 
   it('Should call `onChangeCalendarDate` callback when click forward', done => {
@@ -175,7 +179,7 @@ describe('DatePicker ', () => {
     };
 
     const instance = getInstance(<DatePicker onChangeCalendarDate={doneOp} defaultOpen />);
-    ReactTestUtils.Simulate.click(instance.menu.querySelector('.rs-calendar-header-forward'));
+    ReactTestUtils.Simulate.click(instance.overlay.querySelector('.rs-calendar-header-forward'));
   });
 
   it('Should call `onChangeCalendarDate` callback when click today ', done => {
@@ -185,7 +189,7 @@ describe('DatePicker ', () => {
 
     const instance = getInstance(<DatePicker onChangeCalendarDate={doneOp} defaultOpen />);
     ReactTestUtils.Simulate.click(
-      instance.menu.querySelector(
+      instance.overlay.querySelector(
         '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
       )
     );
@@ -206,7 +210,9 @@ describe('DatePicker ', () => {
     };
 
     const instance = getInstance(<DatePicker onClose={doneOp} defaultOpen />);
-    ReactTestUtils.Simulate.click(instance.menu.querySelector('.rs-picker-toolbar-right-btn-ok'));
+    ReactTestUtils.Simulate.click(
+      instance.overlay.querySelector('.rs-picker-toolbar-right-btn-ok')
+    );
   });
 
   it('Should not change for the value  when it is controlled', done => {
@@ -220,12 +226,14 @@ describe('DatePicker ', () => {
       <DatePicker value={parseISO('2018-01-05')} onChange={doneOp} defaultOpen />
     );
 
-    const allCells = instance.menu.querySelectorAll(
+    const allCells = instance.overlay.querySelectorAll(
       '.rs-calendar-table-cell .rs-calendar-table-cell-content'
     );
 
     ReactTestUtils.Simulate.click(allCells[allCells.length - 1]);
-    ReactTestUtils.Simulate.click(instance.menu.querySelector('.rs-picker-toolbar-right-btn-ok'));
+    ReactTestUtils.Simulate.click(
+      instance.overlay.querySelector('.rs-picker-toolbar-right-btn-ok')
+    );
   });
 
   it('Should call onBlur callback', done => {
@@ -263,7 +271,7 @@ describe('DatePicker ', () => {
 
     const instance = getInstance(<DatePicker onChange={doneOp} oneTap defaultOpen />);
 
-    const today = instance.menu.querySelector(
+    const today = instance.overlay.querySelector(
       '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
     );
 
@@ -279,7 +287,7 @@ describe('DatePicker ', () => {
         showMeridian
       />
     );
-    const picker = instance.menu;
+    const picker = instance.overlay;
 
     assert.equal(picker.querySelector('.rs-calendar-header-meridian').innerText, 'PM');
     assert.equal(picker.querySelector('.rs-calendar-header-title-time').innerText, '01:00:00');

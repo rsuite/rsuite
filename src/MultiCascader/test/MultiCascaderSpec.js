@@ -90,8 +90,8 @@ describe('MultiCascader', () => {
   it('Should be inline', () => {
     const instance = getInstance(<Dropdown inline />);
 
-    assert.ok(instance.menu.className.match(/\brs-picker-inline\b/));
-    assert.ok(instance.menu.querySelector('.rs-picker-cascader-menu-items'));
+    assert.ok(instance.overlay.className.match(/\brs-picker-inline\b/));
+    assert.ok(instance.overlay.querySelector('.rs-picker-cascader-menu-items'));
   });
 
   it('Should output a placeholder', () => {
@@ -164,13 +164,13 @@ describe('MultiCascader', () => {
   it('Should be active by value', () => {
     const value = ['abcd'];
     const instance = getInstance(<Dropdown defaultOpen data={items} value={value} />);
-    assert.equal(instance.menu.querySelector('.rs-checkbox-checked').innerText, value);
+    assert.equal(instance.overlay.querySelector('.rs-checkbox-checked').innerText, value);
   });
 
   it('Should be active by defaultValue', () => {
     const value = ['abcd'];
     const instance = getInstance(<Dropdown defaultOpen data={items} defaultValue={value} />);
-    assert.equal(instance.menu.querySelector('.rs-checkbox-checked').innerText, value);
+    assert.equal(instance.overlay.querySelector('.rs-checkbox-checked').innerText, value);
   });
 
   it('Should call onSelect callback ', done => {
@@ -179,7 +179,7 @@ describe('MultiCascader', () => {
     };
 
     const instance = getInstance(<Dropdown data={items} defaultOpen onSelect={doneOp} />);
-    ReactTestUtils.Simulate.click(instance.menu.querySelector('.rs-checkbox'));
+    ReactTestUtils.Simulate.click(instance.overlay.querySelector('.rs-checkbox'));
   });
 
   it('Should call onChange callback ', done => {
@@ -190,7 +190,7 @@ describe('MultiCascader', () => {
     };
 
     const instance = getInstance(<Dropdown data={items} defaultOpen onChange={doneOp} />);
-    const menu = instance.menu.querySelector('.rs-checkbox-wrapper');
+    const menu = instance.overlay.querySelector('.rs-checkbox-wrapper');
 
     ReactTestUtils.Simulate.click(menu);
   });
