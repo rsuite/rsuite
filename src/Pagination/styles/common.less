@@ -14,11 +14,10 @@
     display: inline; // Remove list-style and block-level defaults
 
     &.@{ns}pagination-btn-active > a {
-      .pagination-active(@pagination-active-color);
+      .pagination-active(@pagination-base-active-color);
     }
 
     &:not(.@{ns}pagination-btn-disabled) > a {
-      transition: @pagination-transition;
       .button-ripple;
     }
 
@@ -31,7 +30,6 @@
       float: left; // Collapse white-space
       text-decoration: none;
       cursor: pointer;
-      transition: @pagination-transition;
       user-select: none;
       display: flex;
 
@@ -90,24 +88,48 @@
   // Pagination Sizes
   // --------------------------------------------------
 
-  &-lg > li > a {
-    .btn-lg(base);
+  &-lg > li {
+    > a {
+      .btn-lg(base);
 
-    > span:not(.@{ns}ripple-pond) {
-      height: @line-height-large-computed;
+      > span:not(.@{ns}ripple-pond) {
+        height: @line-height-large-computed;
+      }
+    }
+
+    &.@{ns}pagination-btn-active > a {
+      .pagination-active-size(@padding-large-vertical,@padding-large-horizontal);
     }
   }
 
-  &-md > li > a {
-    .btn-md(base);
+  &-md > li {
+    > a {
+      .btn-md(base);
+    }
+
+    &.@{ns}pagination-btn-active > a {
+      .pagination-active-size;
+    }
   }
 
-  &-sm > li > a {
-    .btn-sm(base);
+  &-sm > li {
+    > a {
+      .btn-sm(base);
+    }
+
+    &.@{ns}pagination-btn-active > a {
+      .pagination-active-size(@padding-small-vertical,@padding-small-horizontal);
+    }
   }
 
-  &-xs > li > a {
-    .btn-xs(base);
+  &-xs > li {
+    > a {
+      .btn-xs(base);
+    }
+
+    &.@{ns}pagination-btn-active > a {
+      .pagination-active-size(@padding-extra-small-vertical,@padding-extra-small-horizontal);
+    }
   }
 }
 
