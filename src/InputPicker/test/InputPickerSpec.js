@@ -173,7 +173,7 @@ describe('InputPicker', () => {
     const instance = getInstance(
       <InputPicker data={data} defaultOpen defaultValue={'Eugenia'} onClean={doneOp} />
     );
-    ReactTestUtils.Simulate.keyDown(instance.toggle, { keyCode: 8 });
+    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 8 });
   });
 
   it('Should call `onSelect` by keyCode=13 ', done => {
@@ -186,8 +186,8 @@ describe('InputPicker', () => {
       <InputPicker defaultOpen data={data} onSelect={doneOp} defaultValue={'Kariane'} />
     );
 
-    ReactTestUtils.Simulate.keyDown(instance.toggle, { keyCode: 40 });
-    ReactTestUtils.Simulate.keyDown(instance.toggle, { keyCode: 13 });
+    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 40 });
+    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 13 });
   });
 
   it('Should output a clean button', () => {
@@ -227,7 +227,7 @@ describe('InputPicker', () => {
 
   it('Should focus item by keyCode=40 ', done => {
     const instance = getInstance(<InputPicker defaultOpen data={data} defaultValue={'Eugenia'} />);
-    ReactTestUtils.Simulate.keyDown(instance.toggle, { keyCode: 40 });
+    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 40 });
 
     if (
       instance.overlay.querySelector('.rs-picker-select-menu-item-focus').innerText === 'Kariane'
@@ -238,7 +238,7 @@ describe('InputPicker', () => {
 
   it('Should focus item by keyCode=38 ', done => {
     const instance = getInstance(<InputPicker defaultOpen data={data} defaultValue={'Kariane'} />);
-    ReactTestUtils.Simulate.keyDown(instance.toggle, { keyCode: 38 });
+    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 38 });
 
     if (
       instance.overlay.querySelector('.rs-picker-select-menu-item-focus').innerText === 'Eugenia'
@@ -255,7 +255,7 @@ describe('InputPicker', () => {
       <InputPicker defaultOpen data={data} onChange={doneOp} defaultValue={'Kariane'} />
     );
 
-    ReactTestUtils.Simulate.keyDown(instance.toggle, { keyCode: 13 });
+    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 13 });
   });
 
   it('Should call onBlur callback', done => {

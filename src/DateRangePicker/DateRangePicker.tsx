@@ -252,7 +252,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
   const rootRef = useRef<HTMLDivElement>();
   const overlayRef = useRef<HTMLDivElement>();
-  const toggleRef = useRef<HTMLButtonElement>();
+  const targetRef = useRef<HTMLButtonElement>();
   const triggerRef = useRef<OverlayTriggerInstance>();
 
   const handleCloseDropdown = useCallback(() => {
@@ -262,7 +262,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
   usePublicMethods(ref, {
     triggerRef,
     overlayRef,
-    toggleRef,
+    targetRef,
     rootRef
   });
 
@@ -554,7 +554,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
   const onPickerKeyDown = useToggleKeyDownEvent({
     triggerRef,
-    toggleRef,
+    targetRef,
     active: isPickerToggleActive,
     onExit: handleClean,
     ...rest
@@ -670,7 +670,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
             ...DateUtils.calendarOnlyProps
           ])}
           as={toggleAs}
-          ref={toggleRef}
+          ref={targetRef}
           onKeyDown={onPickerKeyDown}
           onClean={createChainedFunction(handleClean, onClean)}
           cleanable={cleanable && !disabled}

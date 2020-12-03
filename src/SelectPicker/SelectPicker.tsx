@@ -156,7 +156,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
     } = props;
 
     const triggerRef = useRef<OverlayTriggerInstance>();
-    const toggleRef = useRef<HTMLButtonElement>();
+    const targetRef = useRef<HTMLButtonElement>();
     const overlayRef = useRef<HTMLDivElement>();
     const { locale } = useCustom<PickerLocale>('Picker', overrideLocale);
     const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue);
@@ -194,7 +194,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
     const handleSelect = useCallback(
       (value: any, item: ItemDataType, event: React.SyntheticEvent) => {
         onSelect?.(value, item, event);
-        toggleRef.current?.focus();
+        targetRef.current?.focus();
       },
       [onSelect]
     );
@@ -250,7 +250,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
     const onPickerKeyDown = useToggleKeyDownEvent({
       toggle: !focusItemValue || !active,
       triggerRef,
-      toggleRef,
+      targetRef,
       overlayRef,
       active,
       onExit: handleClean,
@@ -274,7 +274,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
       onOpen?.();
     }, [onOpen, setFocusItemValue, value]);
 
-    usePublicMethods(ref, { triggerRef, overlayRef, toggleRef });
+    usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
 
     // Find active `MenuItem` by `value`
     const activeItem = data.find(item => shallowEqual(item[valueKey], value));
@@ -381,7 +381,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
           <PickerToggle
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
             id={id}
-            ref={toggleRef}
+            ref={targetRef}
             onClean={createChainedFunction(handleClean, onClean)}
             onKeyDown={onPickerKeyDown}
             as={toggleAs}

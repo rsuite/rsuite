@@ -154,7 +154,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     }
 
     const overlayRef = useRef<HTMLDivElement>();
-    const toggleRef = useRef<HTMLButtonElement>();
+    const targetRef = useRef<HTMLButtonElement>();
     const triggerRef = useRef<OverlayTriggerInstance>();
     const inputRef = useRef<any>();
     const { locale } = useCustom<InputPickerLocale>(['Picker', 'InputPicker'], overrideLocale);
@@ -447,7 +447,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       ]
     );
 
-    usePublicMethods(ref, { triggerRef, overlayRef, toggleRef });
+    usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
 
     /**
      * Remove the last item, after pressing the back key on the keyboard.
@@ -495,7 +495,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     const onPickerKeyDown = useToggleKeyDownEvent({
       triggerRef,
-      toggleRef,
+      targetRef,
       overlayRef,
       onMenuPressEnter: multi ? selectFocusMenuCheckItem : selectFocusMenuItem,
       onMenuPressBackspace: multi ? removeLastItem : handleClean,
@@ -711,7 +711,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
             id={id}
             readOnly={readOnly}
             plaintext={plaintext}
-            ref={toggleRef}
+            ref={targetRef}
             as={toggleAs}
             tabIndex={null}
             onClean={handleClean}

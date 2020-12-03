@@ -173,7 +173,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     ...rest
   } = props;
   const triggerRef = useRef<OverlayTriggerInstance>();
-  const toggleRef = useRef<HTMLButtonElement>();
+  const targetRef = useRef<HTMLButtonElement>();
   const listRef = useRef<ListInstance>();
   const overlayRef = useRef<HTMLDivElement>();
   const treeViewRef = useRef<HTMLDivElement>();
@@ -476,7 +476,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     /**
      * when using keyboard toggle picker, should refocus on PickerToggle Component after close picker menu
      */
-    toggleRef.current?.focus();
+    targetRef.current?.focus();
   }, [onClose, setSearchKeyword]);
 
   const handleExpand = useCallback(
@@ -513,7 +513,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     ]
   );
 
-  usePublicMethods(ref, { triggerRef, overlayRef, toggleRef });
+  usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
 
   const handleClean = useCallback(
     (event: React.SyntheticEvent<any>) => {
@@ -637,7 +637,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   const onPickerKeydown = useToggleKeyDownEvent({
     toggle: !focusItemValue || !active,
     triggerRef,
-    toggleRef,
+    targetRef,
     overlayRef,
     active,
     onExit: handleClean,
@@ -885,7 +885,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         <PickerToggle
           {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
           id={id}
-          ref={toggleRef}
+          ref={targetRef}
           onKeyDown={onPickerKeydown}
           onClean={createChainedFunction(handleClean, onClean)}
           cleanable={cleanable && !disabled}

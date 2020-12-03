@@ -120,7 +120,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
     } = props;
 
     const triggerRef = useRef<OverlayTriggerInstance>();
-    const toggleRef = useRef<HTMLButtonElement>();
+    const targetRef = useRef<HTMLButtonElement>();
     const overlayRef = useRef<HTMLDivElement>();
     const { locale } = useCustom<PickerLocale>('Picker', overrideLocale);
     const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue || []);
@@ -220,7 +220,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
     const onPickerKeyDown = useToggleKeyDownEvent({
       toggle: !focusItemValue || !active,
       triggerRef,
-      toggleRef,
+      targetRef,
       overlayRef,
       active,
       onExit: handleClean,
@@ -270,7 +270,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
       onClose?.();
     }, [onClose, setFocusItemValue, setSearchKeyword]);
 
-    usePublicMethods(ref, { triggerRef, overlayRef, toggleRef });
+    usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
 
     const selectedItems =
       data.filter(item => value.some(val => shallowEqual(item[valueKey], val))) || [];
@@ -393,7 +393,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
           <PickerToggle
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
             id={id}
-            ref={toggleRef}
+            ref={targetRef}
             disabled={disabled}
             onClean={createChainedFunction(handleClean, onClean)}
             onKeyDown={onPickerKeyDown}

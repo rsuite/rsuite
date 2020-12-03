@@ -344,7 +344,7 @@ export const useFocusItemValue = (
 interface ToggleKeyDownEventProps {
   toggle?: boolean;
   triggerRef?: React.RefObject<any>;
-  toggleRef: React.RefObject<any>;
+  targetRef: React.RefObject<any>;
   overlayRef?: React.RefObject<any>;
   active?: boolean;
   onExit?: (event) => void;
@@ -365,7 +365,7 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
   const {
     toggle = true,
     triggerRef,
-    toggleRef,
+    targetRef,
     overlayRef,
     active,
     onExit,
@@ -397,7 +397,7 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
 
   const onToggle = useCallback(
     (event: React.KeyboardEvent) => {
-      if (event.target === toggleRef?.current) {
+      if (event.target === targetRef?.current) {
         // enter
         if (toggle && event.keyCode === KEY_CODE.ENTER) {
           handleToggleDropdown();
@@ -438,7 +438,7 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
       onMenuPressBackspace,
       onMenuPressEnter,
       toggle,
-      toggleRef
+      targetRef
     ]
   );
 
@@ -499,7 +499,7 @@ interface Refs {
   triggerRef?: React.RefObject<OverlayTriggerInstance>;
   rootRef?: React.RefObject<HTMLElement>;
   overlayRef?: React.RefObject<HTMLElement>;
-  toggleRef?: React.RefObject<HTMLElement>;
+  targetRef?: React.RefObject<HTMLElement>;
 }
 
 /**
@@ -508,7 +508,7 @@ interface Refs {
  * {
  *   root: Element;
  *   overlay: Element;
- *   toggle?: Element;
+ *   target?: Element;
  *   updatePosition:() => void;
  *   open:() => void;
  *   close:() => void;
@@ -516,7 +516,7 @@ interface Refs {
  * @param ref
  * @param params
  */
-export function usePublicMethods(ref, { triggerRef, overlayRef, toggleRef, rootRef }: Refs) {
+export function usePublicMethods(ref, { triggerRef, overlayRef, targetRef, rootRef }: Refs) {
   const handleOpen = useCallback(() => {
     triggerRef.current?.open();
   }, [triggerRef]);
@@ -536,8 +536,8 @@ export function usePublicMethods(ref, { triggerRef, overlayRef, toggleRef, rootR
     get overlay() {
       return overlayRef.current;
     },
-    get toggle() {
-      return toggleRef?.current;
+    get target() {
+      return targetRef?.current;
     },
     updatePosition: handleUpdatePosition,
     open: handleOpen,

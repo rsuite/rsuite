@@ -3,7 +3,7 @@ import { RsRefForwardingComponent } from '../@types/common';
 export interface PickerInstance {
   root?: Element;
   overlay?: Element;
-  toggle?: HTMLButtonElement;
+  target?: HTMLElement;
   updatePosition?: () => void;
   open?: () => void;
   close?: () => void;

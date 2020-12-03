@@ -30,11 +30,11 @@ describe('SelectPicker styles', () => {
 
     const pickerNoneDom = document.body.querySelector('.rs-picker-none');
     inChrome &&
-      assert.equal(getStyle(instanceRef.current.toggle, 'border'), `1px solid ${toRGB('#e5e5ea')}`);
-    inChrome && assert.equal(getStyle(instanceRef.current.toggle, 'padding'), '7px 32px 7px 11px');
-    assert.equal(getStyle(instanceRef.current.toggle, 'backgroundColor'), toRGB('#fff'));
+      assert.equal(getStyle(instanceRef.current.target, 'border'), `1px solid ${toRGB('#e5e5ea')}`);
+    inChrome && assert.equal(getStyle(instanceRef.current.target, 'padding'), '7px 32px 7px 11px');
+    assert.equal(getStyle(instanceRef.current.target, 'backgroundColor'), toRGB('#fff'));
     assert.equal(
-      instanceRef.current.toggle
+      instanceRef.current.target
         .querySelector('.rs-picker-toggle-caret')
         .getAttribute('aria-label'),
       'arrow-down-line'
@@ -47,15 +47,15 @@ describe('SelectPicker styles', () => {
     ReactDOM.render(<SelectPicker appearance="subtle" ref={instanceRef} />, createTestContainer());
 
     inChrome &&
-      assert.equal(getStyle(instanceRef.current.toggle, 'borderWidth'), '0px', 'Toggle border');
+      assert.equal(getStyle(instanceRef.current.target, 'borderWidth'), '0px', 'Toggle border');
     inChrome &&
       assert.equal(
-        getStyle(instanceRef.current.toggle, 'padding'),
+        getStyle(instanceRef.current.target, 'padding'),
         '8px 32px 8px 12px',
         'Toggle padding'
       );
     assert.equal(
-      getStyle(instanceRef.current.toggle, 'backgroundColor'),
+      getStyle(instanceRef.current.target, 'backgroundColor'),
       toRGB('#0000'),
       'Toggle background-color'
     );

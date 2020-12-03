@@ -70,7 +70,7 @@ describe('DateRangePicker', () => {
     );
 
     assert.equal(
-      instance.toggle.querySelector('.rs-picker-toggle-value').innerText,
+      instance.target.querySelector('.rs-picker-toggle-value').innerText,
       '04/01/2019~04/02/2019'
     );
   });
@@ -130,7 +130,7 @@ describe('DateRangePicker', () => {
 
   it('Should output a button', () => {
     const instance = getInstance(<DateRangePicker toggleAs="button" />);
-    assert.ok(instance.toggle.tagName === 'BUTTON');
+    assert.ok(instance.target.tagName === 'BUTTON');
   });
 
   it('Should be block', () => {
@@ -234,7 +234,7 @@ describe('DateRangePicker', () => {
       <DateRangePicker format={template} timeZone={timeZone} defaultOpen oneTap />
     );
     const menu = instance.overlay;
-    const toggle = instance.toggle;
+    const toggle = instance.target;
     const today = menu.querySelector(
       '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
     );

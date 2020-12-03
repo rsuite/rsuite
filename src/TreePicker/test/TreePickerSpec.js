@@ -208,7 +208,7 @@ describe('TreePicker', () => {
     const instance = getInstance(
       <TreePicker open data={data} virtualized={false} defaultExpandAll value="tester1" />
     );
-    ReactTestUtils.Simulate.keyDown(instance.toggle, { keyCode: KEY_CODE.DOWN });
+    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: KEY_CODE.DOWN });
 
     assert.equal(instance.overlay.querySelector(itemFocusClassName).innerText, 'Master');
   });
@@ -219,7 +219,7 @@ describe('TreePicker', () => {
     );
 
     ReactTestUtils.Simulate.click(instance.overlay.querySelector('span[data-key="0-0-1"]'));
-    ReactTestUtils.Simulate.keyDown(instance.toggle, { keyCode: KEY_CODE.UP });
+    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: KEY_CODE.UP });
     assert.equal(instance.overlay.querySelector(itemFocusClassName).innerText, 'tester0');
   });
 

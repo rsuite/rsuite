@@ -147,7 +147,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
 
   const triggerRef = useRef<OverlayTriggerInstance>();
   const overlayRef = useRef<HTMLDivElement>();
-  const toggleRef = useRef<HTMLButtonElement>();
+  const targetRef = useRef<HTMLButtonElement>();
   const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue);
 
   const {
@@ -170,7 +170,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
     setFlattenData(flattenTree(data));
   }, [data]);
 
-  usePublicMethods(ref, { triggerRef, overlayRef, toggleRef });
+  usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
 
   const { locale, rtl } = useCustom<PickerLocale>('Picker', overrideLocale);
   /**
@@ -323,7 +323,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
   const onPickerKeyDown = useToggleKeyDownEvent({
     toggle: !focusItemValue || !active,
     triggerRef,
-    toggleRef,
+    targetRef,
     overlayRef,
     active,
     onExit: handleClean,
@@ -569,7 +569,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
         <PickerToggle
           {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
           id={id}
-          ref={toggleRef}
+          ref={targetRef}
           as={toggleAs}
           onClean={createChainedFunction(handleClean, onClean)}
           onKeyDown={onPickerKeyDown}

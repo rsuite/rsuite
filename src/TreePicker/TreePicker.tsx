@@ -177,7 +177,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     ...rest
   } = props;
   const triggerRef = useRef<OverlayTriggerInstance>();
-  const toggleRef = useRef<HTMLButtonElement>();
+  const targetRef = useRef<HTMLButtonElement>();
   const listRef = useRef<ListInstance>();
   const overlayRef = useRef<HTMLDivElement>();
   const treeViewRef = useRef<HTMLDivElement>();
@@ -378,7 +378,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       setFocusItemValue(nodeData[valueKey]);
       onChange?.(nodeValue, event);
       onSelect?.(nodeData, nodeValue, event);
-      toggleRef.current?.focus();
+      targetRef.current?.focus();
       triggerRef.current?.close?.();
     },
     [valueKey, isControlled, onChange, onSelect, setValue]
@@ -527,10 +527,10 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     /**
      * when using keyboard toggle picker, should refocus on PickerToggle Component after close picker menu
      */
-    toggleRef.current?.focus();
+    targetRef.current?.focus();
   }, [activeNode, onClose, setSearchKeyword, valueKey]);
 
-  usePublicMethods(ref, { triggerRef, overlayRef, toggleRef });
+  usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
 
   const handleFocusItem = useCallback(
     (type: number) => {
@@ -633,7 +633,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   const onPickerKeydown = useToggleKeyDownEvent({
     toggle: !activeNode || !active,
     triggerRef,
-    toggleRef,
+    targetRef,
     overlayRef,
     active,
     onExit: handleClean,
@@ -870,7 +870,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
         <PickerToggle
           {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
           id={id}
-          ref={toggleRef}
+          ref={targetRef}
           onKeyDown={onPickerKeydown}
           onClean={createChainedFunction(handleClean, onClean)}
           cleanable={cleanable && !disabled}

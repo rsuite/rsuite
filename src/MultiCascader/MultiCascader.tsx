@@ -174,9 +174,9 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
 
     const triggerRef = useRef<OverlayTriggerInstance>();
     const overlayRef = useRef<HTMLDivElement>();
-    const toggleRef = useRef<HTMLDivElement>();
+    const targetRef = useRef<HTMLDivElement>();
 
-    usePublicMethods(ref, { triggerRef, overlayRef, toggleRef });
+    usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
 
     const { locale, rtl } = useCustom<PickerLocale>('Picker', overrideLocale);
     const selectedItems = flattenData.filter(item => value.some(v => v === item[valueKey])) || [];
@@ -317,7 +317,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
     const onPickerKeyDown = useToggleKeyDownEvent({
       toggle: !focusItemValue || !active,
       triggerRef,
-      toggleRef,
+      targetRef,
       overlayRef,
       active,
       onExit: handleClean,
@@ -547,7 +547,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
             id={id}
             as={toggleAs}
-            ref={toggleRef}
+            ref={targetRef}
             onClean={createChainedFunction(handleClean, onClean)}
             onKeyDown={onPickerKeyDown}
             cleanable={cleanable && !disabled}
