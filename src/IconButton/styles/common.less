@@ -17,7 +17,8 @@
     .btn-icon-with-text(@btn-icon-with-text-focus-bg);
   }
 
-  &:hover {
+
+  &:not(.@{ns}btn-disabled):hover {
     .btn-icon-with-text(@btn-icon-with-text-hover-bg);
   }
 
