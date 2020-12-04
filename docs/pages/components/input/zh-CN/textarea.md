@@ -1,24 +1,11 @@
 ### 多行输入框
 
 <!--start-code-->
+
 ```js
-const instance = (
- <div>
-  <Input
-    componentClass="textarea"
-    rows={3}
-    style={{ width:300 }}
-    placeholder="Textarea"
-  />
-  <hr />
-  <Input
-    componentClass="textarea"
-    rows={3}
-    style={{ width:300, resize: 'auto' }}
-    placeholder="resize: 'auto'"
-  />
- </div>
-);
+const instance = <Input componentClass="textarea" rows={3} placeholder="Textarea" />;
+
 ReactDOM.render(instance);
 ```
+
 <!--end-code-->
