@@ -13,12 +13,14 @@
 .@{ns}btn-default {
   .btn-icon-with-text(@btn-icon-with-text-bg);
 
-  &:focus {
-    .btn-icon-with-text(@btn-icon-with-text-focus-bg);
-  }
+  &:not(.@{ns}btn-disabled) {
+    &:focus {
+      .btn-icon-with-text(@btn-icon-with-text-focus-bg);
+    }
 
-  &:hover {
-    .btn-icon-with-text(@btn-icon-with-text-hover-bg);
+    &:hover {
+      .btn-icon-with-text(@btn-icon-with-text-hover-bg);
+    }
   }
 
   &:active,

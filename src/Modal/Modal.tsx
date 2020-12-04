@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import BaseModal, { BaseModalProps, modalPropTypes } from '../Overlay/Modal';
 import Bounce from '../Animation/Bounce';
-import { createChainedFunction, useClassNames, mergeRefs, SIZE } from '../utils';
+import { useClassNames, mergeRefs, SIZE } from '../utils';
 import ModalDialog, { modalDialogPropTypes } from './ModalDialog';
 import ModalBody from './ModalBody';
 import ModalHeader from './ModalHeader';
@@ -132,10 +132,30 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     }
   }, [backdrop]);
 
-  const handleExited = useCallback(() => {
-    onDestroyEvents();
-    transitionEndListener.current?.off();
-  }, [onDestroyEvents]);
+  const handleExited = useCallback(
+    (node?: Element | Text) => {
+      onExited?.(node);
+      onDestroyEvents();
+      transitionEndListener.current?.off();
+    },
+    [onDestroyEvents, onExited]
+  );
+
+  const handleEntered = useCallback(
+    (node?: Element | Text) => {
+      onEntered?.(node);
+      onChangeBodyStyles();
+    },
+    [onChangeBodyStyles, onEntered]
+  );
+
+  const handleEntering = useCallback(
+    (node?: Element | Text) => {
+      onEntering?.(node);
+      onChangeBodyStyles(true);
+    },
+    [onChangeBodyStyles, onEntering]
+  );
 
   useEffect(() => {
     transitionEndListener.current?.off();
@@ -151,9 +171,9 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
         onClose={onClose}
         onBackdropClick={handleBackdropClick}
         className={prefix`wrapper`}
-        onEntered={createChainedFunction(onEntered, onChangeBodyStyles)}
-        onEntering={createChainedFunction(onEntering, onChangeBodyStyles)}
-        onExited={createChainedFunction(onExited, handleExited)}
+        onEntered={handleEntered}
+        onEntering={handleEntering}
+        onExited={handleExited}
         backdropClassName={merge(prefix`backdrop`, backdropClassName, inClass)}
         containerClassName={prefix({ open, 'has-backdrop': backdrop })}
         transition={animation ? animation : undefined}

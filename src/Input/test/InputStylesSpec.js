@@ -13,12 +13,4 @@ describe('Input styles', () => {
     inChrome &&
       assert.equal(getStyle(dom, 'border'), `1px solid ${toRGB('#e5e5ea')}`, 'Input border');
   });
-
-  it('Textarea should render the correct styles', () => {
-    const instanceRef = React.createRef();
-    ReactDOM.render(<Input ref={instanceRef} as="textarea" />, createTestContainer());
-    const dom = getDOMNode(instanceRef.current);
-    assert.equal(getStyle(dom, 'minWidth'), '300px', 'Textarea min-width');
-    assert.equal(getStyle(dom, 'minHeight'), '76px', 'Textarea min-height');
-  });
 });
