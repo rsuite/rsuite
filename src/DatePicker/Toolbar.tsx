@@ -16,12 +16,8 @@ export interface ToolbarProps extends WithAsProps {
   timeZone?: TimeZoneName;
   disabledOkBtn?: (value?: ToolbarValue) => boolean;
   disabledShortcut?: (value?: ToolbarValue) => boolean;
-  onOk?: (event: React.SyntheticEvent<any>) => void;
-  onShortcut?: (
-    value: ToolbarValue,
-    closeOverlay?: boolean,
-    event?: React.SyntheticEvent<any>
-  ) => void;
+  onOk?: (event: React.MouseEvent) => void;
+  onClickShortcut?: (value: ToolbarValue, closeOverlay?: boolean, event?: React.MouseEvent) => void;
 }
 
 const defaultProps: Partial<ToolbarProps> = {
@@ -42,7 +38,7 @@ const Toolbar: RsRefForwardingComponent<'div', ToolbarProps> = React.forwardRef(
       disabledShortcut,
       hideOkBtn,
       onOk,
-      onShortcut,
+      onClickShortcut,
       pageDate,
       ranges: rangesProp,
       timeZone,
@@ -94,18 +90,20 @@ const Toolbar: RsRefForwardingComponent<'div', ToolbarProps> = React.forwardRef(
               [prefix('option-disabled')]: disabled
             });
 
+            const handleClickShortcut = (event: React.MouseEvent) => {
+              if (disabled) {
+                return;
+              }
+              onClickShortcut?.(value, closeOverlay, event);
+            };
+
             return (
               <a
                 key={index}
                 role="button"
                 tabIndex={-1}
                 className={itemClassName}
-                onClick={event => {
-                  if (disabled) {
-                    return;
-                  }
-                  onShortcut?.(value, closeOverlay, event);
-                }}
+                onClick={handleClickShortcut}
               >
                 {hasLocaleKey(label) && typeof label === 'string' ? locale?.[label] : label}
               </a>
@@ -127,7 +125,7 @@ Toolbar.propTypes = {
     PropTypes.instanceOf(Date),
     PropTypes.arrayOf(PropTypes.instanceOf(Date))
   ]),
-  onShortcut: PropTypes.func,
+  onClickShortcut: PropTypes.func,
   onOk: PropTypes.func,
   disabledShortcut: PropTypes.func,
   disabledOkBtn: PropTypes.func,
