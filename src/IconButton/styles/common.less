@@ -21,17 +21,17 @@
     &:hover {
       .btn-icon-with-text(@btn-icon-with-text-hover-bg);
     }
-  }
 
-  &:active,
-  &.@{ns}btn-active,
-  .@{ns}open > .@{ns}dropdown-toggle& {
-    .btn-icon-with-text(@btn-icon-with-text-active-bg);
-
-    &:hover,
-    &:focus,
-    &.focus {
+    &:active,
+    &.@{ns}btn-active,
+    .@{ns}open > .@{ns}dropdown-toggle& {
       .btn-icon-with-text(@btn-icon-with-text-active-bg);
+
+      &:hover,
+      &:focus,
+      &.focus {
+        .btn-icon-with-text(@btn-icon-with-text-active-bg);
+      }
     }
   }
 }
