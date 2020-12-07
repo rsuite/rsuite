@@ -18,7 +18,7 @@ import {
 import {
   PickerToggle,
   onMenuKeyDown,
-  MenuWrapper,
+  PickerOverlay,
   SearchBar,
   SelectedElement,
   PickerToggleTrigger,
@@ -173,9 +173,9 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     ...rest
   } = props;
   const triggerRef = useRef<OverlayTriggerInstance>();
-  const toggleRef = useRef<HTMLButtonElement>();
+  const targetRef = useRef<HTMLButtonElement>();
   const listRef = useRef<ListInstance>();
-  const menuRef = useRef<HTMLDivElement>();
+  const overlayRef = useRef<HTMLDivElement>();
   const treeViewRef = useRef<HTMLDivElement>();
   const { rtl, locale } = useCustom<PickerLocale>('Picker', overrideLocale);
   const [active, setActive] = useState(false);
@@ -476,7 +476,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     /**
      * when using keyboard toggle picker, should refocus on PickerToggle Component after close picker menu
      */
-    toggleRef.current?.focus();
+    targetRef.current?.focus();
   }, [onClose, setSearchKeyword]);
 
   const handleExpand = useCallback(
@@ -513,7 +513,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     ]
   );
 
-  usePublicMethods(ref, { triggerRef, menuRef, toggleRef });
+  usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
 
   const handleClean = useCallback(
     (event: React.SyntheticEvent<any>) => {
@@ -637,8 +637,8 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   const onPickerKeydown = useToggleKeyDownEvent({
     toggle: !focusItemValue || !active,
     triggerRef,
-    toggleRef,
-    menuRef,
+    targetRef,
+    overlayRef,
     active,
     onExit: handleClean,
     onClose: handleClose,
@@ -811,11 +811,11 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     const styles = virtualized ? { height, ...mergedMenuStyle } : { ...mergedMenuStyle };
 
     return (
-      <MenuWrapper
+      <PickerOverlay
         autoWidth={menuAutoWidth}
         className={classes}
         style={styles}
-        ref={mergeRefs(menuRef, speakerRef)}
+        ref={mergeRefs(overlayRef, speakerRef)}
         onKeyDown={onPickerKeydown}
         target={triggerRef}
       >
@@ -828,7 +828,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         ) : null}
         {renderMenu ? renderMenu(renderCheckTree()) : renderCheckTree()}
         {renderExtraFooter?.()}
-      </MenuWrapper>
+      </PickerOverlay>
     );
   };
 
@@ -885,7 +885,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         <PickerToggle
           {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
           id={id}
-          ref={toggleRef}
+          ref={targetRef}
           onKeyDown={onPickerKeydown}
           onClean={createChainedFunction(handleClean, onClean)}
           cleanable={cleanable && !disabled}

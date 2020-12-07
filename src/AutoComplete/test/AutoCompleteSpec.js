@@ -11,12 +11,12 @@ describe('AutoComplete', () => {
 
   it('Should render 2 `option` when set `open` and `defaultValue`', () => {
     const instance = getInstance(<AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" />);
-    assert.equal(instance.menu.querySelectorAll('[role="option"]').length, 2);
+    assert.equal(instance.overlay.querySelectorAll('[role="option"]').length, 2);
   });
 
   it('Should be a `top-end` for placement', () => {
     const instance = getInstance(<AutoComplete open placement="topEnd" />);
-    const classes = instance.menu.className;
+    const classes = instance.overlay.className;
     assert.include(classes, 'placement-top-end');
   });
 
@@ -34,7 +34,7 @@ describe('AutoComplete', () => {
     const instance = getInstance(
       <AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" onSelect={doneOp} />
     );
-    ReactTestUtils.Simulate.click(instance.menu.querySelectorAll('a')[0]);
+    ReactTestUtils.Simulate.click(instance.overlay.querySelectorAll('a')[0]);
   });
 
   it('Should call onChange callback', done => {
@@ -84,7 +84,7 @@ describe('AutoComplete', () => {
     const instance = getInstance(
       <AutoComplete defaultValue="a" onKeyDown={doneOp} data={['a', 'b']} open />
     );
-    ReactTestUtils.Simulate.keyDown(instance.menu);
+    ReactTestUtils.Simulate.keyDown(instance.overlay);
   });
 
   it('Should call onMenuFocus callback when keyCode=40', done => {
@@ -95,7 +95,7 @@ describe('AutoComplete', () => {
     const instance = getInstance(
       <AutoComplete defaultValue="a" onMenuFocus={doneOp} data={['a', 'ab', 'ac']} open />
     );
-    ReactTestUtils.Simulate.keyDown(instance.menu, {
+    ReactTestUtils.Simulate.keyDown(instance.overlay, {
       keyCode: 40
     });
   });
@@ -112,10 +112,10 @@ describe('AutoComplete', () => {
     const instance = getInstance(
       <AutoComplete defaultValue="a" onMenuFocus={doneOp} data={['a', 'ab', 'ac']} open />
     );
-    ReactTestUtils.Simulate.keyDown(instance.menu, {
+    ReactTestUtils.Simulate.keyDown(instance.overlay, {
       keyCode: 40
     });
-    ReactTestUtils.Simulate.keyDown(instance.menu, {
+    ReactTestUtils.Simulate.keyDown(instance.overlay, {
       keyCode: 38
     });
   });
@@ -128,10 +128,10 @@ describe('AutoComplete', () => {
     const instance = getInstance(
       <AutoComplete defaultValue="a" onChange={doneOp} data={['a', 'ab', 'ac']} open />
     );
-    ReactTestUtils.Simulate.keyDown(instance.menu, {
+    ReactTestUtils.Simulate.keyDown(instance.overlay, {
       keyCode: 40
     });
-    ReactTestUtils.Simulate.keyDown(instance.menu, {
+    ReactTestUtils.Simulate.keyDown(instance.overlay, {
       keyCode: 13
     });
   });
@@ -146,8 +146,8 @@ describe('AutoComplete', () => {
     const instance = getInstance(
       <AutoComplete defaultValue="a" onSelect={doneOp} data={['a', 'ab', 'ac']} open />
     );
-    ReactTestUtils.Simulate.keyDown(instance.menu, { keyCode: 40 });
-    ReactTestUtils.Simulate.keyDown(instance.menu, { keyCode: 13 });
+    ReactTestUtils.Simulate.keyDown(instance.overlay, { keyCode: 40 });
+    ReactTestUtils.Simulate.keyDown(instance.overlay, { keyCode: 13 });
   });
 
   it("Shouldn't call onSelect nor onChange callback on Enter pressed if selectOnEnter=false", () => {
@@ -163,10 +163,10 @@ describe('AutoComplete', () => {
         open
       />
     );
-    ReactTestUtils.Simulate.keyDown(instance.menu, {
+    ReactTestUtils.Simulate.keyDown(instance.overlay, {
       keyCode: 40
     });
-    ReactTestUtils.Simulate.keyDown(instance.menu, {
+    ReactTestUtils.Simulate.keyDown(instance.overlay, {
       keyCode: 13
     });
 
@@ -181,7 +181,7 @@ describe('AutoComplete', () => {
     const instance = getInstance(
       <AutoComplete defaultValue="a" onClose={doneOp} data={['a', 'ab', 'ac']} open />
     );
-    ReactTestUtils.Simulate.keyDown(instance.menu, {
+    ReactTestUtils.Simulate.keyDown(instance.overlay, {
       keyCode: 27
     });
   });
@@ -205,7 +205,7 @@ describe('AutoComplete', () => {
       />
     );
 
-    assert.equal(instance.menu.querySelectorAll('a i').length, 2);
+    assert.equal(instance.overlay.querySelectorAll('a i').length, 2);
   });
 
   it('Should have a custom className', () => {
@@ -217,7 +217,7 @@ describe('AutoComplete', () => {
     const instance = getInstance(
       <AutoComplete menuClassName="custom" data={['a', 'b', 'ab']} open />
     );
-    assert.include(instance.menu.querySelector('[role="listbox"]').className, 'custom');
+    assert.include(instance.overlay.querySelector('[role="listbox"]').className, 'custom');
   });
 
   it('Should have a custom style', () => {
@@ -236,13 +236,13 @@ describe('AutoComplete', () => {
       <AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" filterBy={() => true} />
     );
 
-    assert.equal(instance1.menu.querySelectorAll('[role="option"]').length, 3);
+    assert.equal(instance1.overlay.querySelectorAll('[role="option"]').length, 3);
 
     const instance2 = getInstance(
       <AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" filterBy={() => false} />
     );
 
-    assert.equal(instance2.menu.querySelectorAll('[role="option"]').length, 0);
+    assert.equal(instance2.overlay.querySelectorAll('[role="option"]').length, 0);
 
     const instance3 = getInstance(
       <AutoComplete
@@ -254,7 +254,7 @@ describe('AutoComplete', () => {
       />
     );
 
-    assert.equal(instance3.menu.querySelectorAll('[role="option"]').length, 3);
+    assert.equal(instance3.overlay.querySelectorAll('[role="option"]').length, 3);
 
     const instance4 = getInstance(
       <AutoComplete
@@ -265,6 +265,6 @@ describe('AutoComplete', () => {
       />
     );
 
-    assert.equal(instance4.menu.querySelectorAll('[role="option"]').length, 1);
+    assert.equal(instance4.overlay.querySelectorAll('[role="option"]').length, 1);
   });
 });

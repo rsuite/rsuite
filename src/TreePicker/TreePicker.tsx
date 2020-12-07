@@ -41,7 +41,7 @@ import {
 
 import {
   PickerToggle,
-  MenuWrapper,
+  PickerOverlay,
   SearchBar,
   PickerToggleTrigger,
   createConcatChildrenFunction,
@@ -177,9 +177,9 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     ...rest
   } = props;
   const triggerRef = useRef<OverlayTriggerInstance>();
-  const toggleRef = useRef<HTMLButtonElement>();
+  const targetRef = useRef<HTMLButtonElement>();
   const listRef = useRef<ListInstance>();
-  const menuRef = useRef<HTMLDivElement>();
+  const overlayRef = useRef<HTMLDivElement>();
   const treeViewRef = useRef<HTMLDivElement>();
   const { rtl, locale } = useCustom<PickerLocale>('Picker', overrideLocale);
 
@@ -378,7 +378,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       setFocusItemValue(nodeData[valueKey]);
       onChange?.(nodeValue, event);
       onSelect?.(nodeData, nodeValue, event);
-      toggleRef.current?.focus();
+      targetRef.current?.focus();
       triggerRef.current?.close?.();
     },
     [valueKey, isControlled, onChange, onSelect, setValue]
@@ -527,10 +527,10 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     /**
      * when using keyboard toggle picker, should refocus on PickerToggle Component after close picker menu
      */
-    toggleRef.current?.focus();
+    targetRef.current?.focus();
   }, [activeNode, onClose, setSearchKeyword, valueKey]);
 
-  usePublicMethods(ref, { triggerRef, menuRef, toggleRef });
+  usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
 
   const handleFocusItem = useCallback(
     (type: number) => {
@@ -633,8 +633,8 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   const onPickerKeydown = useToggleKeyDownEvent({
     toggle: !activeNode || !active,
     triggerRef,
-    toggleRef,
-    menuRef,
+    targetRef,
+    overlayRef,
     active,
     onExit: handleClean,
     onClose: handleClose,
@@ -807,11 +807,11 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     const styles = virtualized ? { height, ...mergedMenuStyle } : { ...mergedMenuStyle };
 
     return (
-      <MenuWrapper
+      <PickerOverlay
         autoWidth={menuAutoWidth}
         className={classes}
         style={styles}
-        ref={mergeRefs(menuRef, speakerRef)}
+        ref={mergeRefs(overlayRef, speakerRef)}
         onKeyDown={onPickerKeydown}
         target={triggerRef}
       >
@@ -824,7 +824,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
         ) : null}
         {renderMenu ? renderMenu(renderTree()) : renderTree()}
         {renderExtraFooter?.()}
-      </MenuWrapper>
+      </PickerOverlay>
     );
   };
 
@@ -870,7 +870,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
         <PickerToggle
           {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
           id={id}
-          ref={toggleRef}
+          ref={targetRef}
           onKeyDown={onPickerKeydown}
           onClean={createChainedFunction(handleClean, onClean)}
           cleanable={cleanable && !disabled}

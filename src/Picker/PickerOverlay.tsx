@@ -27,7 +27,7 @@ const resizePlacement = [
   'autoHorizontalEnd'
 ];
 
-export interface MenuWrapperProps extends WithAsProps {
+export interface PickerOverlayProps extends WithAsProps {
   placement?: string;
   autoWidth?: boolean;
   children?: React.ReactNode;
@@ -35,8 +35,8 @@ export interface MenuWrapperProps extends WithAsProps {
   onKeyDown?: (event: React.KeyboardEvent) => void;
 }
 
-const MenuWrapper: RsRefForwardingComponent<'div', MenuWrapperProps> = React.forwardRef(
-  (props: MenuWrapperProps, ref) => {
+const PickerOverlay: RsRefForwardingComponent<'div', PickerOverlayProps> = React.forwardRef(
+  (props: PickerOverlayProps, ref) => {
     const {
       as: Component = 'div',
       classPrefix = 'picker-menu',
@@ -47,7 +47,7 @@ const MenuWrapper: RsRefForwardingComponent<'div', MenuWrapperProps> = React.for
       ...rest
     } = props;
 
-    const menuRef = useRef();
+    const overlayRef = useRef();
     const handleResize = useCallback(() => {
       const instance = target?.current;
       if (instance && resizePlacement.includes(placement)) {
@@ -55,26 +55,26 @@ const MenuWrapper: RsRefForwardingComponent<'div', MenuWrapperProps> = React.for
       }
     }, [target, placement]);
 
-    useElementResize(() => menuRef.current, handleResize);
+    useElementResize(() => overlayRef.current, handleResize);
     useEffect(() => {
       const toggle = target?.current;
       if (autoWidth && toggle.child) {
         // Get the width value of the button,
         // and then set it to the menu to make their width consistent.
         const width = getWidth(getDOMNode(toggle.child));
-        addStyle(menuRef.current, 'min-width', `${width}px`);
+        addStyle(overlayRef.current, 'min-width', `${width}px`);
       }
-    }, [autoWidth, target, menuRef]);
+    }, [autoWidth, target, overlayRef]);
 
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
 
     return (
-      <Component {...omit(rest, omitProps)} ref={mergeRefs(menuRef, ref)} className={classes} />
+      <Component {...omit(rest, omitProps)} ref={mergeRefs(overlayRef, ref)} className={classes} />
     );
   }
 );
 
-MenuWrapper.displayName = 'MenuWrapper';
+PickerOverlay.displayName = 'PickerOverlay';
 
-export default MenuWrapper;
+export default PickerOverlay;

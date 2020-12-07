@@ -11,7 +11,7 @@ describe('DateRangePicker styles', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<DateRangePicker ref={instanceRef} open />, createTestContainer());
 
-    const toggleDom = instanceRef.current.toggle;
+    const toggleDom = instanceRef.current.target;
     assert.isNotNull(toggleDom.querySelector('[aria-label="calendar"]'));
     call();
   });
@@ -20,6 +20,6 @@ describe('DateRangePicker styles', () => {
     const instance = getInstance(<DateRangePicker block defaultOpen />);
 
     assert.ok(instance.root.className.includes('rs-picker-block'));
-    assert.ok(getWidth(instance.menu) === 510);
+    assert.ok(getWidth(instance.overlay) === 510);
   });
 });

@@ -344,8 +344,8 @@ export const useFocusItemValue = (
 interface ToggleKeyDownEventProps {
   toggle?: boolean;
   triggerRef?: React.RefObject<any>;
-  toggleRef: React.RefObject<any>;
-  menuRef?: React.RefObject<any>;
+  targetRef: React.RefObject<any>;
+  overlayRef?: React.RefObject<any>;
   active?: boolean;
   onExit?: (event) => void;
   onKeyDown?: (event) => void;
@@ -365,8 +365,8 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
   const {
     toggle = true,
     triggerRef,
-    toggleRef,
-    menuRef,
+    targetRef,
+    overlayRef,
     active,
     onExit,
     onOpen,
@@ -397,7 +397,7 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
 
   const onToggle = useCallback(
     (event: React.KeyboardEvent) => {
-      if (event.target === toggleRef?.current) {
+      if (event.target === targetRef?.current) {
         // enter
         if (toggle && event.keyCode === KEY_CODE.ENTER) {
           handleToggleDropdown();
@@ -416,7 +416,7 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
       // Native event callback
       onKeyDown?.(event);
 
-      if (menuRef?.current) {
+      if (overlayRef?.current) {
         // The keyboard operation callback on the menu.
         onMenuKeyDown?.(event);
 
@@ -431,14 +431,14 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
     [
       handleClose,
       handleToggleDropdown,
-      menuRef,
+      overlayRef,
       onExit,
       onKeyDown,
       onMenuKeyDown,
       onMenuPressBackspace,
       onMenuPressEnter,
       toggle,
-      toggleRef
+      targetRef
     ]
   );
 
@@ -498,8 +498,8 @@ export function useSearch(props: SearchProps) {
 interface Refs {
   triggerRef?: React.RefObject<OverlayTriggerInstance>;
   rootRef?: React.RefObject<HTMLElement>;
-  menuRef?: React.RefObject<HTMLElement>;
-  toggleRef?: React.RefObject<HTMLElement>;
+  overlayRef?: React.RefObject<HTMLElement>;
+  targetRef?: React.RefObject<HTMLElement>;
 }
 
 /**
@@ -507,8 +507,8 @@ interface Refs {
  *
  * {
  *   root: Element;
- *   menu: Element;
- *   toggle?: Element;
+ *   overlay: Element;
+ *   target?: Element;
  *   updatePosition:() => void;
  *   open:() => void;
  *   close:() => void;
@@ -516,7 +516,7 @@ interface Refs {
  * @param ref
  * @param params
  */
-export function usePublicMethods(ref, { triggerRef, menuRef, toggleRef, rootRef }: Refs) {
+export function usePublicMethods(ref, { triggerRef, overlayRef, targetRef, rootRef }: Refs) {
   const handleOpen = useCallback(() => {
     triggerRef.current?.open();
   }, [triggerRef]);
@@ -533,11 +533,11 @@ export function usePublicMethods(ref, { triggerRef, menuRef, toggleRef, rootRef 
     get root() {
       return rootRef?.current ? rootRef?.current : triggerRef.current?.child;
     },
-    get menu() {
-      return menuRef.current;
+    get overlay() {
+      return overlayRef.current;
     },
-    get toggle() {
-      return toggleRef?.current;
+    get target() {
+      return targetRef?.current;
     },
     updatePosition: handleUpdatePosition,
     open: handleOpen,

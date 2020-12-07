@@ -27,7 +27,7 @@ import {
   useCustom
 } from '../utils';
 import {
-  MenuWrapper,
+  PickerOverlay,
   OverlayTriggerInstance,
   PickerComponent,
   pickerDefaultProps,
@@ -264,8 +264,8 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
   const [isPickerToggleActive, setPickerToggleActive] = useState(false);
 
   const rootRef = useRef<HTMLDivElement>();
-  const menuRef = useRef<HTMLDivElement>();
-  const toggleRef = useRef<HTMLButtonElement>();
+  const overlayRef = useRef<HTMLDivElement>();
+  const targetRef = useRef<HTMLButtonElement>();
   const triggerRef = useRef<OverlayTriggerInstance>();
 
   const handleCloseDropdown = useCallback(() => {
@@ -274,8 +274,8 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
   usePublicMethods(ref, {
     triggerRef,
-    menuRef,
-    toggleRef,
+    overlayRef,
+    targetRef,
     rootRef
   });
 
@@ -629,7 +629,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
   const onPickerKeyDown = useToggleKeyDownEvent({
     triggerRef,
-    toggleRef,
+    targetRef,
     active: isPickerToggleActive,
     onExit: handleClean,
     ...rest
@@ -662,9 +662,9 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       };
 
       return (
-        <MenuWrapper
+        <PickerOverlay
           className={classes}
-          ref={mergeRefs(menuRef, speakerRef)}
+          ref={mergeRefs(overlayRef, speakerRef)}
           target={triggerRef}
           style={styles}
         >
@@ -688,7 +688,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
               timeZone={timeZone}
             />
           </div>
-        </MenuWrapper>
+        </PickerOverlay>
       );
     },
     [
@@ -745,7 +745,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
             ...DateUtils.calendarOnlyProps
           ])}
           as={toggleAs}
-          ref={toggleRef}
+          ref={targetRef}
           input
           inputMask={DateUtils.getDateMask(rangeFormatStr)}
           inputValue={value ? (getDisplayString(value, true) as string) : ''}

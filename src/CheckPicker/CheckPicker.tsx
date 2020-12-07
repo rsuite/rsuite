@@ -23,7 +23,7 @@ import {
   DropdownMenu,
   DropdownMenuCheckItem as DropdownMenuItem,
   PickerToggle,
-  MenuWrapper,
+  PickerOverlay,
   SearchBar,
   SelectedElement,
   PickerToggleTrigger,
@@ -120,8 +120,8 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
     } = props;
 
     const triggerRef = useRef<OverlayTriggerInstance>();
-    const toggleRef = useRef<HTMLButtonElement>();
-    const menuRef = useRef<HTMLDivElement>();
+    const targetRef = useRef<HTMLButtonElement>();
+    const overlayRef = useRef<HTMLDivElement>();
     const { locale } = useCustom<PickerLocale>('Picker', overrideLocale);
     const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue || []);
 
@@ -131,7 +131,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
       {
         data,
         valueKey,
-        target: () => menuRef.current
+        target: () => overlayRef.current
       }
     );
 
@@ -220,8 +220,8 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
     const onPickerKeyDown = useToggleKeyDownEvent({
       toggle: !focusItemValue || !active,
       triggerRef,
-      toggleRef,
-      menuRef,
+      targetRef,
+      overlayRef,
       active,
       onExit: handleClean,
       onMenuKeyDown: onFocusItem,
@@ -270,7 +270,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
       onClose?.();
     }, [onClose, setFocusItemValue, setSearchKeyword]);
 
-    usePublicMethods(ref, { triggerRef, menuRef, toggleRef });
+    usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
 
     const selectedItems =
       data.filter(item => value.some(val => shallowEqual(item[valueKey], val))) || [];
@@ -352,8 +352,8 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
         );
 
       return (
-        <MenuWrapper
-          ref={mergeRefs(menuRef, speakerRef)}
+        <PickerOverlay
+          ref={mergeRefs(overlayRef, speakerRef)}
           autoWidth={menuAutoWidth}
           className={classes}
           style={styles}
@@ -369,7 +369,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
           )}
           {renderMenu ? renderMenu(menu) : menu}
           {renderExtraFooter?.()}
-        </MenuWrapper>
+        </PickerOverlay>
       );
     };
 
@@ -393,7 +393,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
           <PickerToggle
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
             id={id}
-            ref={toggleRef}
+            ref={targetRef}
             disabled={disabled}
             onClean={createChainedFunction(handleClean, onClean)}
             onKeyDown={onPickerKeyDown}

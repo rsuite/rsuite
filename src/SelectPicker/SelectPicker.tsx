@@ -20,7 +20,7 @@ import {
   DropdownMenuItem,
   PickerToggle,
   PickerToggleTrigger,
-  MenuWrapper,
+  PickerOverlay,
   SearchBar,
   useFocusItemValue,
   usePickerClassName,
@@ -156,8 +156,8 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
     } = props;
 
     const triggerRef = useRef<OverlayTriggerInstance>();
-    const toggleRef = useRef<HTMLButtonElement>();
-    const menuRef = useRef<HTMLDivElement>();
+    const targetRef = useRef<HTMLButtonElement>();
+    const overlayRef = useRef<HTMLDivElement>();
     const { locale } = useCustom<PickerLocale>('Picker', overrideLocale);
     const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue);
 
@@ -165,7 +165,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
     const { focusItemValue, setFocusItemValue, onKeyDown: onFocusItem } = useFocusItemValue(value, {
       data,
       valueKey,
-      target: () => menuRef.current
+      target: () => overlayRef.current
     });
 
     // Use search keywords to filter options.
@@ -194,7 +194,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
     const handleSelect = useCallback(
       (value: any, item: ItemDataType, event: React.SyntheticEvent) => {
         onSelect?.(value, item, event);
-        toggleRef.current?.focus();
+        targetRef.current?.focus();
       },
       [onSelect]
     );
@@ -250,8 +250,8 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
     const onPickerKeyDown = useToggleKeyDownEvent({
       toggle: !focusItemValue || !active,
       triggerRef,
-      toggleRef,
-      menuRef,
+      targetRef,
+      overlayRef,
       active,
       onExit: handleClean,
       onMenuKeyDown: onFocusItem,
@@ -274,7 +274,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
       onOpen?.();
     }, [onOpen, setFocusItemValue, value]);
 
-    usePublicMethods(ref, { triggerRef, menuRef, toggleRef });
+    usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
 
     // Find active `MenuItem` by `value`
     const activeItem = data.find(item => shallowEqual(item[valueKey], value));
@@ -340,8 +340,8 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
       );
 
       return (
-        <MenuWrapper
-          ref={mergeRefs(menuRef, speakerRef)}
+        <PickerOverlay
+          ref={mergeRefs(overlayRef, speakerRef)}
           autoWidth={menuAutoWidth}
           className={classes}
           style={styles}
@@ -358,7 +358,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
 
           {renderMenu ? renderMenu(menu) : menu}
           {renderExtraFooter?.()}
-        </MenuWrapper>
+        </PickerOverlay>
       );
     };
 
@@ -381,7 +381,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
           <PickerToggle
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
             id={id}
-            ref={toggleRef}
+            ref={targetRef}
             onClean={createChainedFunction(handleClean, onClean)}
             onKeyDown={onPickerKeyDown}
             as={toggleAs}

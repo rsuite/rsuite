@@ -9,7 +9,7 @@ import {
   onMenuKeyDown,
   DropdownMenu,
   DropdownMenuItem,
-  MenuWrapper,
+  PickerOverlay,
   useFocusItemValue,
   usePublicMethods,
   pickTriggerPropKeys,
@@ -121,7 +121,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
     const [focus, setFocus] = useState(false);
     const items = datalist?.filter(shouldDisplay(filterBy, value)) || [];
     const hasItems = items.length > 0;
-    const menuRef = useRef<HTMLDivElement>(null);
+    const overlayRef = useRef<HTMLDivElement>(null);
 
     // Used to hover the focuse item  when trigger `onKeydown`
     const { focusItemValue, setFocusItemValue, onKeyDown: handleKeyDown } = useFocusItemValue(
@@ -129,12 +129,12 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
       {
         data: datalist,
         callback: onMenuFocus,
-        target: () => menuRef.current
+        target: () => overlayRef.current
       }
     );
 
     const handleKeyDownEvent = (event: React.KeyboardEvent<HTMLDivElement>) => {
-      if (!menuRef.current) {
+      if (!overlayRef.current) {
         return;
       }
       onMenuKeyDown(event, {
@@ -227,7 +227,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
     const classes = merge(className, withClassPrefix({ disabled }));
     const triggerRef = useRef<OverlayTriggerInstance>();
 
-    usePublicMethods(ref, { triggerRef, menuRef });
+    usePublicMethods(ref, { triggerRef, overlayRef });
 
     const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
       const { left, top, className } = positionProps;
@@ -248,15 +248,15 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
       );
 
       return (
-        <MenuWrapper
-          ref={mergeRefs(menuRef, speakerRef)}
+        <PickerOverlay
+          ref={mergeRefs(overlayRef, speakerRef)}
           style={styles}
           className={className}
           onKeyDown={handleKeyDownEvent}
           target={triggerRef}
         >
           {renderMenu ? renderMenu(menu) : menu}
-        </MenuWrapper>
+        </PickerOverlay>
       );
     };
 

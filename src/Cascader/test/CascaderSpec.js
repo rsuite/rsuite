@@ -45,8 +45,8 @@ describe('Cascader', () => {
 
   it('Should be inline', () => {
     const instance = getInstance(<Cascader inline />);
-    assert.ok(instance.menu.className.match(/\brs-picker-inline\b/));
-    assert.ok(instance.menu.querySelector('.rs-picker-cascader-menu-items'));
+    assert.ok(instance.overlay.className.match(/\brs-picker-inline\b/));
+    assert.ok(instance.overlay.querySelector('.rs-picker-cascader-menu-items'));
   });
 
   it('Should output a placeholder', () => {
@@ -103,7 +103,7 @@ describe('Cascader', () => {
     const instance = getInstance(<Cascader defaultOpen data={items} value={value} />);
 
     assert.equal(
-      instance.menu.querySelector('.rs-picker-cascader-menu-item-active').innerText,
+      instance.overlay.querySelector('.rs-picker-cascader-menu-item-active').innerText,
       value
     );
   });
@@ -113,7 +113,7 @@ describe('Cascader', () => {
     const instance = getInstance(<Cascader defaultOpen data={items} defaultValue={value} />);
 
     assert.equal(
-      instance.menu.querySelector('.rs-picker-cascader-menu-item-active').innerText,
+      instance.overlay.querySelector('.rs-picker-cascader-menu-item-active').innerText,
       value
     );
   });
@@ -126,7 +126,7 @@ describe('Cascader', () => {
     };
     const instance = getInstance(<Cascader data={items} defaultOpen onSelect={doneOp} />);
     ReactTestUtils.Simulate.click(
-      instance.menu.querySelectorAll('.rs-picker-cascader-menu-item')[1]
+      instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[1]
     );
   });
 
@@ -139,7 +139,7 @@ describe('Cascader', () => {
 
     const instance = getInstance(<Cascader data={items} defaultOpen onChange={doneOp} />);
     ReactTestUtils.Simulate.click(
-      instance.menu.querySelectorAll('.rs-picker-cascader-menu-item')[1]
+      instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[1]
     );
   });
 
@@ -154,7 +154,7 @@ describe('Cascader', () => {
       <Cascader data={items} defaultOpen parentSelectable onChange={doneOp} />
     );
     ReactTestUtils.Simulate.click(
-      instance.menu.querySelectorAll('.rs-picker-cascader-menu-item')[2]
+      instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[2]
     );
   });
 
@@ -223,10 +223,13 @@ describe('Cascader', () => {
     );
 
     ReactTestUtils.Simulate.click(
-      instance.menu.querySelector('.rs-picker-cascader-menu-has-children a')
+      instance.overlay.querySelector('.rs-picker-cascader-menu-has-children a')
     );
 
-    assert.equal(instance.menu.querySelectorAll('.rs-picker-cascader-menu-item')[1].innerText, '2');
+    assert.equal(
+      instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[1].innerText,
+      '2'
+    );
   });
 
   it('Should call renderValue', () => {

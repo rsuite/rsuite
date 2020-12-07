@@ -35,7 +35,7 @@ describe('MultiCascader styles', () => {
       createTestContainer()
     );
 
-    const menuItemDom = instanceRef.current.menu;
+    const menuItemDom = instanceRef.current.overlay;
     inChrome &&
       assert.equal(
         getStyle(menuItemDom.querySelector('.rs-checkbox-checker label'), 'padding'),

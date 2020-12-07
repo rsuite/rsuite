@@ -22,7 +22,7 @@ import {
 } from '../utils';
 
 import {
-  MenuWrapper,
+  PickerOverlay,
   OverlayTriggerInstance,
   pickerDefaultProps,
   pickerPropTypes,
@@ -202,10 +202,10 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const [active, setActive] = useState<boolean>(false);
     const triggerRef = useRef<OverlayTriggerInstance>();
     const rootRef = useRef<HTMLDivElement>();
-    const toggleRef = useRef<HTMLButtonElement>();
-    const menuRef = useRef<HTMLDivElement>();
+    const targetRef = useRef<HTMLButtonElement>();
+    const overlayRef = useRef<HTMLDivElement>();
 
-    usePublicMethods(ref, { rootRef, triggerRef, menuRef, toggleRef });
+    usePublicMethods(ref, { rootRef, triggerRef, overlayRef, targetRef });
 
     const getLocalPageDate = useCallback(
       (date = pageDate) => TimeZone.toLocalTimeZone(date, timeZone),
@@ -372,7 +372,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
      */
     const onPickerKeyDown = useToggleKeyDownEvent({
       triggerRef,
-      toggleRef,
+      targetRef,
       active,
       onExit: handleClean,
       ...rest
@@ -521,9 +521,9 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       const classes = merge(menuClassName, className, prefix('date-menu'));
       const styles = { left, top };
       return (
-        <MenuWrapper
+        <PickerOverlay
           className={classes}
-          ref={mergeRefs(menuRef, speakerRef)}
+          ref={mergeRefs(overlayRef, speakerRef)}
           style={styles}
           target={triggerRef}
         >
@@ -539,7 +539,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
             onOk={handleOK}
             hideOkBtn={oneTap}
           />
-        </MenuWrapper>
+        </PickerOverlay>
       );
     };
 
@@ -591,7 +591,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
             ])}
             className={prefix({ error: inputState === 'Error' })}
             as={toggleAs}
-            ref={toggleRef}
+            ref={targetRef}
             input
             inputValue={value ? formatDate(value, formatStr) : ''}
             inputPlaceholder={

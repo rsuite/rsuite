@@ -56,7 +56,7 @@ describe('DateRangePicker', () => {
       />
     );
 
-    assert.equal(instance.menu.querySelectorAll('.rs-picker-toolbar-option-disabled').length, 4);
+    assert.equal(instance.overlay.querySelectorAll('.rs-picker-toolbar-option-disabled').length, 4);
   });
 
   it('Should output custom value', () => {
@@ -70,7 +70,7 @@ describe('DateRangePicker', () => {
     );
 
     assert.equal(
-      instance.toggle.querySelector('.rs-picker-toggle-value').innerText,
+      instance.target.querySelector('.rs-picker-toggle-value').innerText,
       '04/01/2019~04/02/2019'
     );
   });
@@ -82,7 +82,7 @@ describe('DateRangePicker', () => {
 
     const instance = getInstance(<DateRangePicker onChange={doneOp} defaultOpen oneTap />);
 
-    const today = instance.menu.querySelector(
+    const today = instance.overlay.querySelector(
       '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
     );
 
@@ -130,7 +130,7 @@ describe('DateRangePicker', () => {
 
   it('Should output a button', () => {
     const instance = getInstance(<DateRangePicker toggleAs="button" />);
-    assert.ok(instance.toggle.tagName === 'BUTTON');
+    assert.ok(instance.target.tagName === 'BUTTON');
   });
 
   it('Should be block', () => {
@@ -145,7 +145,7 @@ describe('DateRangePicker', () => {
   });
 
   it('Should have a menuClassName in Menu', () => {
-    const menu = getInstance(<DateRangePicker menuClassName="custom" open />).menu;
+    const menu = getInstance(<DateRangePicker menuClassName="custom" open />).overlay;
 
     assert.include(menu.className, 'custom');
   });
@@ -167,7 +167,8 @@ describe('DateRangePicker', () => {
       }
     };
 
-    const menu = getInstance(<DateRangePicker onOk={doneOp} hoverRange="week" defaultOpen />).menu;
+    const menu = getInstance(<DateRangePicker onOk={doneOp} hoverRange="week" defaultOpen />)
+      .overlay;
 
     const today = menu?.querySelector(
       '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
@@ -189,7 +190,7 @@ describe('DateRangePicker', () => {
 
     const menu = getInstance(
       <DateRangePicker onChange={doneOp} hoverRange="week" oneTap defaultOpen />
-    ).menu;
+    ).overlay;
 
     const today = menu.querySelector(
       '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
@@ -208,14 +209,14 @@ describe('DateRangePicker', () => {
         open
         defaultCalendarValue={[new Date('2019-01-01'), new Date('2019-09-01')]}
       />
-    ).menu;
+    ).overlay;
 
     assert.ok(menu.querySelector('div[title="01 Feb 2019"]'));
     assert.ok(menu.querySelector('div[title="01 Sep 2019"]'));
   });
 
   it('Should have only one calendar', () => {
-    const menu = getInstance(<DateRangePicker showOneCalendar open />).menu;
+    const menu = getInstance(<DateRangePicker showOneCalendar open />).overlay;
 
     assert.include(
       menu.querySelector('.rs-picker-daterange-panel').className,
@@ -232,8 +233,8 @@ describe('DateRangePicker', () => {
     const instance = getInstance(
       <DateRangePicker format={template} timeZone={timeZone} defaultOpen oneTap />
     );
-    const menu = instance.menu;
-    const toggle = instance.toggle;
+    const menu = instance.overlay;
+    const toggle = instance.target;
     const today = menu.querySelector(
       '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
     );
@@ -266,7 +267,7 @@ describe('DateRangePicker', () => {
         disabledDate={date => isAfter(date, tomorrow)}
       />
     );
-    const menu = instance.menu;
+    const menu = instance.overlay;
     const firstDisabledCell = menu.querySelector(
       '.rs-calendar-table-cell-disabled .rs-calendar-table-cell-content'
     );
