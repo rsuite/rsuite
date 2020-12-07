@@ -2,7 +2,7 @@
 
 ```js
 const styles = {
-  width: 300,
+  width: 300
 };
 
 const App = () => {

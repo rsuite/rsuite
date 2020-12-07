@@ -3,7 +3,7 @@
 ```js
 const styles = {
   width: 300,
-  marginBottom: 10,
+  marginBottom: 10
 };
 
 const instance = (

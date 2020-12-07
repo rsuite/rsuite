@@ -65,6 +65,7 @@
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
     "react-lifecycles-compat": "^3.0.4",
+    "react-text-mask": "^5.4.3",
     "react-virtualized": "^9.21.0",
     "recompose": "^0.30.0",
     "rsuite-table": "^3.14.0",

@@ -384,11 +384,14 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const handleSelect = useCallback(
       (nextValue: Date, event: React.SyntheticEvent, updatableValue = true) => {
         setPageDate(
-          composeFunctions(
-            (d: Date) => DateUtils.setHours(d, DateUtils.getHours(pageDate)),
-            (d: Date) => DateUtils.setMinutes(d, DateUtils.getMinutes(pageDate)),
-            (d: Date) => DateUtils.setSeconds(d, DateUtils.getSeconds(pageDate))
-          )(nextValue)
+          // Determine whether the current value contains time, if not, use pageDate.
+          DateUtils.shouldTime(formatStr)
+            ? nextValue
+            : composeFunctions(
+                (d: Date) => DateUtils.setHours(d, DateUtils.getHours(pageDate)),
+                (d: Date) => DateUtils.setMinutes(d, DateUtils.getMinutes(pageDate)),
+                (d: Date) => DateUtils.setSeconds(d, DateUtils.getSeconds(pageDate))
+              )(nextValue)
         );
 
         handleDateChange(nextValue);
@@ -396,7 +399,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
           updateValue(event, nextValue);
         }
       },
-      [handleDateChange, updateValue, oneTap, pageDate]
+      [formatStr, handleDateChange, oneTap, pageDate, updateValue]
     );
 
     const disabledDate = useCallback(
@@ -417,7 +420,13 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
           setInputState('Error');
           return;
         }
-        const date = new Date(value);
+
+        let date = new Date(value);
+
+        // If only the time is included in the characters, it will default to today.
+        if (DateUtils.shouldOnlyTime(formatStr)) {
+          date = new Date(`${DateUtils.format(new Date(), 'yyyy-MM-dd')} ${value}`);
+        }
 
         if (!DateUtils.isValid(date)) {
           setInputState('Error');
@@ -526,7 +535,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
             pageDate={pageDate}
             disabledOkBtn={disabledToolbarHandle}
             disabledShortcut={disabledToolbarHandle}
-            onShortcut={handleShortcutPageDate}
+            onClickShortcut={handleShortcutPageDate}
             onOk={handleOK}
             hideOkBtn={oneTap}
           />
@@ -588,6 +597,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
             inputPlaceholder={
               typeof placeholder === 'string' && placeholder ? placeholder : formatStr
             }
+            inputMask={DateUtils.getDateMask(formatStr)}
             onInputChange={handleInputChange}
             onInputBlur={handleInputBlur}
             onKeyDown={onPickerKeyDown}
@@ -596,6 +606,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
             hasValue={hasValue}
             active={active}
             placement={placement}
+            disabled={disabled}
             caretComponent={caretComponent}
           >
             {renderDate()}

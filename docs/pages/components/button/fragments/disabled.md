@@ -18,6 +18,9 @@ const instance = (
     <Button appearance="ghost" disabled>
       Ghost
     </Button>
+    <IconButton icon={<Star />} disabled>
+      Icon Button
+    </IconButton>
   </ButtonToolbar>
 );
 ReactDOM.render(instance);

@@ -1,9 +1,10 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
+import MaskedInput from 'react-text-mask';
 import ToggleButton, { ToggleButtonProps } from './ToggleButton';
 import CloseButton from '../CloseButton';
-import { useClassNames, KEY_CODE } from '../utils';
+import { useClassNames, KEY_CODE, mergeRefs } from '../utils';
 import { RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 import Plaintext from '../Plaintext';
 import useToggleCaret from '../utils/useToggleCaret';
@@ -25,6 +26,7 @@ export interface PickerToggleProps extends ToggleButtonProps {
   tabIndex?: number;
   input?: boolean;
   inputPlaceholder?: string;
+  inputMask?: (string | RegExp)[];
   onInputChange?: (value: string, event: React.ChangeEvent) => void;
   onInputPressEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   onInputBlur?: (event: React.FocusEvent<HTMLElement>) => void;
@@ -35,7 +37,8 @@ export interface PickerToggleProps extends ToggleButtonProps {
 
 const defaultProps: Partial<PickerToggleProps> = {
   as: ToggleButton,
-  classPrefix: 'picker-toggle'
+  classPrefix: 'picker-toggle',
+  inputMask: []
 };
 
 const PickerToggle: RsRefForwardingComponent<
@@ -60,6 +63,7 @@ const PickerToggle: RsRefForwardingComponent<
     input,
     inputPlaceholder,
     inputValue: inputValueProp,
+    inputMask,
     onInputChange,
     onInputPressEnter,
     onInputBlur,
@@ -159,7 +163,9 @@ const PickerToggle: RsRefForwardingComponent<
   }
 
   const cleanable = cleanableProp && hasValue && !readOnly && !plaintext;
-  const inputFocused = input && activeState;
+
+  // When the component is read-only or disabled, the input is not interactive.
+  const inputFocused = readOnly || disabled || plaintext ? false : input && activeState;
 
   return (
     <Component
@@ -176,20 +182,23 @@ const PickerToggle: RsRefForwardingComponent<
       // The debounce is set to 200 to solve the flicker caused by the switch between input and div.
       onBlur={!disabled ? debounce(handleBlur, 200) : null}
     >
-      <input
-        ref={inputRef}
-        id={id}
-        aria-hidden={!inputFocused}
-        readOnly={!inputFocused}
-        aria-controls={id ? `${id}-listbox` : undefined}
-        tabIndex={-1}
-        className={prefix('textbox', { 'read-only': !inputFocused })}
+      <MaskedInput
+        mask={inputMask}
         value={inputValue}
-        placeholder={inputPlaceholder}
         onBlur={handleInputBlur}
         onChange={handleInputChange}
         onKeyDown={handleInputKeyDown}
+        id={id}
+        aria-hidden={!inputFocused}
+        readOnly={!inputFocused}
+        disabled={disabled}
+        aria-controls={id ? `${id}-listbox` : undefined}
+        tabIndex={-1}
+        className={prefix('textbox', { 'read-only': !inputFocused })}
+        placeholder={inputPlaceholder}
+        render={(ref, props) => <input ref={mergeRefs(inputRef, ref)} {...props} />}
       />
+
       <span
         className={prefix(hasValue ? 'value' : 'placeholder')}
         aria-placeholder={typeof children === 'string' ? children : null}

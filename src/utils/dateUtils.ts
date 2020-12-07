@@ -127,3 +127,9 @@ export function getMonthView(monthDate: Date, isoWeek: boolean) {
 
   return weeks;
 }
+
+export function getDateMask(formatStr: string) {
+  return Array.from(formatStr).map(i => {
+    return i.match(/[A-Za-z]/) ? /[\d|A-Za-z]/ : i;
+  });
+}

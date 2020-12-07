@@ -1,4 +1,4 @@
-@import '../../styles/common';
+@import '../../styles/common.less';
 
 // Date range Picker
 // ----------------------
@@ -42,6 +42,10 @@
 
   .@{drpns}-panel-show-one-calendar .@{ns}picker-toolbar {
     max-width: @date-range-picker-calendar-default-width;
+
+    &-ranges {
+      width: 190px;
+    }
   }
 
   // Calendar single
