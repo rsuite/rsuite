@@ -1,10 +1,10 @@
 ### 默认
 
 <!--start-code-->
+
 ```js
-const instance = (
- <Input style={{ width:300 }} placeholder="Default Input" />
-);
+const instance = <Input placeholder="Default Input" />;
 ReactDOM.render(instance);
 ```
+
 <!--end-code-->
