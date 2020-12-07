@@ -1,3 +1,19 @@
+# 4.8.6
+
+- fix(tag-picker): fix the issue of invalid renderValue on `TagPicker`. [#1378]
+- fix(form-inline): fix the issue of `Form` layout spacing in inline mode. [#1377]
+- fix(modal): fix `Modal` will change size when opened. [#1375]
+- fix(input-group): fix `InputGroup.Addon` height error when `inside` mode. [#1374]
+- fix(iconbutton): fix `IconButton` style error when disabled. [#1373]
+- fix(input): fix the hard-coded minimum width in textarea. [#1372]
+
+[#1378]: https://github.com/rsuite/rsuite/pull/1378
+[#1377]: https://github.com/rsuite/rsuite/pull/1377
+[#1375]: https://github.com/rsuite/rsuite/pull/1375
+[#1374]: https://github.com/rsuite/rsuite/pull/1374
+[#1373]: https://github.com/rsuite/rsuite/pull/1373
+[#1372]: https://github.com/rsuite/rsuite/pull/1372
+
 # 4.8.5
 
 - **Bugfix**: fix(dropdown): fixed the dropdown trigger multiple callbacks when closed. [#1352]
