@@ -11,12 +11,8 @@
 
   // Reset height for `textarea`
   textarea& {
-    resize: none;
-    // Set textarea valid size
-    min-width: 300px;
-    min-height: 76px;
-    max-width: 100%;
-    max-height: 200px;
+    overflow: auto;
+    resize: vertical;
   }
 }
 
