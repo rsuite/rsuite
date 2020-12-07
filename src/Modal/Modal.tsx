@@ -94,7 +94,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
     this.destroyEvent();
   }
 
-  getBodyStylesByDialog(dialogElement?: HTMLElement) {
+  getBodyStylesByDialog(dialogElement?: HTMLElement, entering?: boolean) {
     const { overflow, drawer } = this.props;
     const node = dialogElement || this.dialogElement;
     const scrollHeight = node ? node.scrollHeight : 0;
@@ -127,7 +127,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
         /**
          * Header height + Footer height + Dialog margin
          */
-        const excludeHeight = headerHeight + footerHeight + 60;
+        const excludeHeight = headerHeight + footerHeight + (entering ? 76 : 60);
         const bodyHeight = getHeight(window) - excludeHeight;
         const maxHeight = scrollHeight >= bodyHeight ? bodyHeight : scrollHeight;
         bodyStyles.maxHeight = maxHeight;
@@ -155,7 +155,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
     bindElementResize(this.contentElement, this.handleResize);
   };
   handleShowing = () => {
-    this.updateModalStyles(this.dialogElement);
+    this.updateModalStyles(this.dialogElement, true);
   };
   handleHide = () => {
     this.destroyEvent();
@@ -179,8 +179,8 @@ class Modal extends React.Component<ModalProps, ModalState> {
     }
   }
 
-  updateModalStyles(dialogElement: HTMLElement) {
-    this.setState({ bodyStyles: this.getBodyStylesByDialog(dialogElement) });
+  updateModalStyles(dialogElement: HTMLElement, entering?: boolean) {
+    this.setState({ bodyStyles: this.getBodyStylesByDialog(dialogElement, entering) });
   }
 
   addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
