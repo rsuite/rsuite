@@ -1,6 +1,7 @@
 import React, { forwardRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { hasClass } from 'dom-lib';
+import ArrowDown from '@rsuite/icons/legacy/ArrowDown';
 import Spinner from '@rsuite/icons/legacy/Spinner';
 
 import reactToString from '../utils/reactToString';
@@ -172,11 +173,11 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
     );
 
     const renderIcon = () => {
-      const classes = merge(prefix('expand-icon'), {
-        [prefix('expanded')]: !!expand
+      const classes = prefix('expand-icon', 'icon', {
+        expanded: expand
       });
 
-      let expandIcon = <i className={classes} />;
+      let expandIcon = <ArrowDown className={classes} />;
       if (loading) {
         expandIcon = (
           <div className={prefix('loading-icon')}>

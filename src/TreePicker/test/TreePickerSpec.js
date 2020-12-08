@@ -384,7 +384,7 @@ describe('TreePicker', () => {
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
-  it('should render tree node with custom dom', () => {
+  it('Should render tree node with custom dom', () => {
     const customData = [
       {
         value: '1',
@@ -411,14 +411,14 @@ describe('TreePicker', () => {
     picker.close();
   });
 
-  it('should render with expand master node', () => {
-    const instance = mount(
-      <TreePicker virtualized={false} data={data} inline expandItemValues={['Master']} />
+  it('Should render with expand master node', () => {
+    const instance = getInstance(
+      <TreePicker virtualized={false} defaultOpen data={data} expandItemValues={['Master']} />
     );
-    assert.equal(instance.find(itemExpandedClassName).length, 1);
+    assert.equal(getDOMNode(instance.overlay).querySelectorAll(itemExpandedClassName).length, 1);
   });
 
-  it('should fold all the node when toggle master node', () => {
+  it('Should fold all the node when toggle master node', () => {
     let expandItemValues = [];
     const mockOnExpand = values => {
       expandItemValues = values;
