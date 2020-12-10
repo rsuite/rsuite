@@ -4,13 +4,13 @@
 // import GearIcon from '@rsuite/icons/Gear';
 // import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 
-const instance = (
+const App = () => (
   <div className="icon-example-list">
-    <GearIcon spin />
-    <SpinnerIcon pulse />
+    <GearIcon spin style={{ fontSize: '2em' }} />
+    <SpinnerIcon pulse style={{ fontSize: '2em' }} />
   </div>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />);
 ```
 
 <!--end-code-->

@@ -1,69 +1,64 @@
 <!--start-code-->
 
 ```js
-class PaginationAdvanced extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      prev: true,
-      next: true,
-      first: true,
-      last: true,
-      ellipsis: true,
-      boundaryLinks: true,
-      activePage: 1
-    };
-    this.handleSelect = this.handleSelect.bind(this);
-  }
+const MyToggle = ({ label, checked, onChange }) => {
+  return (
+    <span>
+      {label}：
+      <Toggle checked={checked} onChange={onChange} />
+    </span>
+  );
+};
 
-  handleSelect(eventKey) {
-    this.setState({ activePage: eventKey });
-  }
-  handleSetProp(key, value) {
-    this.setState({ [key]: value });
-  }
-  renderToggle(type) {
+const App = () => {
+  const [prev, setPrev] = React.useState(true);
+  const [next, setNext] = React.useState(true);
+  const [first, setFirst] = React.useState(true);
+  const [last, setLast] = React.useState(true);
+  const [ellipsis, setEllipsis] = React.useState(true);
+  const [boundaryLinks, setBoundaryLinks] = React.useState(true);
+  const [activePage, setActivePage] = React.useState(1);
+
+  const renderToggle = (prop, setProp) => {
     return (
       <span>
-        {type}：
-        <Toggle
-          checked={this.state[type]}
-          onChange={() => {
-            this.handleSetProp(type, !this.state[type]);
-          }}
-        />
+        {prop}：
+        <Toggle checked={prop} onChange={setProp} />
       </span>
     );
-  }
+  };
 
-  render() {
-    return (
+  return (
+    <div>
       <div>
-        <div>
-          {this.renderToggle('first')}
-          {this.renderToggle('last')}
-          {this.renderToggle('prev')}
-          {this.renderToggle('next')}
-          <br />
-          <br />
-          {this.renderToggle('ellipsis')}
-          {this.renderToggle('boundaryLinks')}
-        </div>
-
-        <hr />
-        <Pagination
-          {...this.state}
-          pages={30}
-          maxButtons={5}
-          activePage={this.state.activePage}
-          onSelect={this.handleSelect}
-        />
+        <MyToggle label="first" checked={first} onChange={setFirst} />
+        <MyToggle label="last" checked={last} onChange={setLast} />
+        <MyToggle label="prev" checked={prev} onChange={setPrev} />
+        <MyToggle label="next" checked={next} onChange={setNext} />
+        <br />
+        <br />
+        <MyToggle label="ellipsis" checked={ellipsis} onChange={setEllipsis} />
+        <MyToggle label="boundaryLinks" checked={boundaryLinks} onChange={setBoundaryLinks} />
       </div>
-    );
-  }
-}
 
-ReactDOM.render(<PaginationAdvanced />);
+      <hr />
+      <Pagination
+        prev={prev}
+        next={next}
+        first={first}
+        last={last}
+        ellipsis={ellipsis}
+        boundaryLinks={boundaryLinks}
+        pages={30}
+        maxButtons={5}
+        activePage={activePage}
+        onSelect={setActivePage}
+      />
+    </div>
+  );
+};
+
+ReactDOM.render(<App />);
 ```
 
 <!--end-code-->

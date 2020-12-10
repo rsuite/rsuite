@@ -27,12 +27,12 @@ const iconMeta: IconMeta[] = allIconMeta.filter(notLegacy);
 
 const NoneDom = () => <div className="rs-col-md-24">Null</div>;
 
-export default function IconList() {
+function IconList() {
   const [icons, setIcons] = React.useState<IconMeta[]>(iconMeta);
   const { messages } = React.useContext(AppContext);
 
   const onCopy = React.useCallback(
-    (result) => {
+    result => {
       toaster.push(
         <Message type="success" showIcon>
           {messages?.common[`copy${result ? 'Succeed' : 'Failed'}`]}
@@ -42,7 +42,7 @@ export default function IconList() {
     [messages?.common]
   );
 
-  const onSearch = React.useCallback((key) => {
+  const onSearch = React.useCallback(key => {
     const upperCaseKey = key.toUpperCase();
     setIcons(
       iconMeta.filter(({ categoryName, componentName }: IconMeta) => {
@@ -90,3 +90,5 @@ export default function IconList() {
     </div>
   );
 }
+
+export default IconList;

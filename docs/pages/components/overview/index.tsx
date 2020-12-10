@@ -35,7 +35,7 @@ export default function Page() {
             if (item.group) {
               return (
                 <li className="title" key={item.id}>
-                  <h4 id={item.name}># {item.name}</h4>
+                  <h4 id={item.name}>{item.name}</h4>
                 </li>
               );
             } else {

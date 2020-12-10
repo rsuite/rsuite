@@ -14,7 +14,7 @@ const instance = (
     <label>Disabled:</label>
     <AutoComplete data={data} disabled defaultValue="HYPER Web Analytics" />
     <hr />
-    <label>Disabled:</label>
+    <label>Read only:</label>
     <AutoComplete data={data} readOnly defaultValue="HYPER Web Analytics" />
     <hr />
     <label>Plaintext:</label>

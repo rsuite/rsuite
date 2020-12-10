@@ -1,9 +1,12 @@
 <!--start-code-->
 
 ```js
-const instance = <Pagination pages={10} activePage={1} />;
+const App = () => {
+  const [activePage, setActivePage] = React.useState(1);
+  return <Pagination pages={10} activePage={activePage} onSelect={setActivePage} />;
+};
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />);
 ```
 
 <!--end-code-->

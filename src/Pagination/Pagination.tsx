@@ -42,7 +42,7 @@ export interface PaginationProps extends WithAsProps {
   pages?: number;
 
   /** Disabled component */
-  disabled?: boolean | ((eventKey: any) => boolean);
+  disabled?: boolean | ((eventKey: number | string) => boolean);
 
   /** Show border paging buttons 1 and pages */
   boundaryLinks?: boolean;
@@ -60,7 +60,7 @@ export interface PaginationProps extends WithAsProps {
   size?: TypeAttributes.Size;
 
   /** callback function for pagination clicked */
-  onSelect?: (eventKey: any, event: React.MouseEvent) => void;
+  onSelect?: (eventKey: number, event: React.MouseEvent) => void;
 }
 
 const defaultProps: Partial<PaginationProps> = {
@@ -68,6 +68,7 @@ const defaultProps: Partial<PaginationProps> = {
   classPrefix: 'pagination',
   activePage: 1,
   pages: 1,
+  size: 'md',
   maxButtons: 0
 };
 

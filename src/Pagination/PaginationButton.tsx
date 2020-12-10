@@ -9,7 +9,7 @@ export interface PaginationButtonProps
   extends WithAsProps,
     Omit<React.HTMLAttributes<HTMLUListElement>, 'onSelect'> {
   /** The value of the current option */
-  eventKey?: any;
+  eventKey?: number | string;
 
   /** Called when the button is clicked. */
   onClick?: React.MouseEventHandler;
@@ -27,7 +27,7 @@ export interface PaginationButtonProps
   linkAs?: React.ElementType | string;
 
   /** Select the callback function for the current option  */
-  onSelect?: (eventKey: any, event: React.MouseEvent) => void;
+  onSelect?: (eventKey: number | string, event: React.MouseEvent) => void;
 
   /** Custom rendering item */
   renderItem?: (item: React.ReactNode) => React.ReactNode;

@@ -1,16 +1,16 @@
 import React from 'react';
 import classnames from 'classnames';
-import { IconProps } from '@rsuite/icons';
+import { IconProps } from '@rsuite/icons/lib/Icon';
 import copyToClipboard from 'rsuite-utils/lib/utils/copyToClipboard';
 
-interface IconItemProps {
+export interface IconItemProps {
   onCopy: (text, result) => void;
   icon: React.FC<IconProps>;
   name: string;
   newIcon?: boolean;
 }
 
-export default function IconItem(props: IconItemProps) {
+const IconItem = (props: IconItemProps) => {
   const { onCopy, icon: IconComponent, name, newIcon, ...rest } = props;
 
   const handleCopy = React.useCallback(() => {
@@ -26,4 +26,6 @@ export default function IconItem(props: IconItemProps) {
       <p className="icon-name-text">{name}</p>
     </div>
   );
-}
+};
+
+export default IconItem;

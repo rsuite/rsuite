@@ -1,16 +1,16 @@
 <!--start-code-->
 
 ```js
-// import HistoryIcon from '@rsuite/icons/History';
+// import PieChartIcon from '@rsuite/icons/PieChartIcon';
 
 const instance = (
   <div className="icon-example-list">
-    <HistoryIcon />
-    <HistoryIcon rotate={90} />
-    <HistoryIcon rotate={180} />
-    <HistoryIcon rotate={270} />
-    <HistoryIcon flip="horizontal" />
-    <HistoryIcon flip="vertical" />
+    <PieChartIcon style={{ fontSize: '2em' }} />
+    <PieChartIcon rotate={90} style={{ fontSize: '2em' }} />
+    <PieChartIcon rotate={180} style={{ fontSize: '2em' }} />
+    <PieChartIcon rotate={270} style={{ fontSize: '2em' }} />
+    <PieChartIcon flip="horizontal" style={{ fontSize: '2em' }} />
+    <PieChartIcon flip="vertical" style={{ fontSize: '2em' }} />
   </div>
 );
 ReactDOM.render(instance);

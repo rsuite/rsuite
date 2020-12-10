@@ -1,28 +1,41 @@
+```js
+import { createIconFont } from '@rsuite/icons';
+
+const IconFont = createIconFont({
+  // Icon resource: https://www.iconfont.cn/
+  scriptUrl: '//at.alicdn.com/t/font_2144422_r174s9i1orl.js'
+});
+```
+
 <!--start-code-->
 
 ```js
 // import { createIconFont } from '@rsuite/icons';
 
-const Icon = createIconFont({
-  scriptUrl: '//at.alicdn.com/t/font_2120285_ve2eozz092d.js'
+const IconFont = createIconFont({
+  scriptUrl: '//at.alicdn.com/t/font_2144422_r174s9i1orl.js',
+  commonProps: { style: { fontSize: 30, color: '#1675e0' } },
+  onLoaded: () => {
+    console.log('onLoaded');
+  }
 });
+
+const styles = {};
 
 const instance = (
   <div className="icon-example-list">
-    <Icon icon="rs-upload" />
-    <Icon icon="rs-upload" style={{ fontSize: 50 }} />
-    <Icon icon="rs-upload" style={{ color: 'tomato' }} />
-    <Icon icon="rs-cog" spin />
-    <Icon icon="rs-spinner" pulse />
-    <Icon icon="rs-upload" rotate={90} />
-    <Icon icon="rs-upload" flip="horizontal" />
-    <Icon icon="rs-upload" flip="vertical" />
-    <Icon
-      icon="rs-upload"
-      onClick={() => {
-        console.log('You clicked Icon');
-      }}
-    />
+    <IconFont icon="rs-iconuser-badge" />
+    <IconFont icon="rs-iconmember" />
+
+    <IconFont icon="rs-icongear-16" spin />
+    <IconFont icon="rs-iconreload" pulse />
+    <IconFont icon="rs-iconnotice" rotate={90} />
+    <IconFont icon="rs-iconrandom" />
+    <IconFont icon="rs-iconrandom" flip="horizontal" />
+    <IconFont icon="rs-icongrowth" />
+    <IconFont icon="rs-icongrowth" flip="vertical" />
+    <IconFont icon="rs-iconemail-fill" />
+    <IconFont icon="rs-iconemail" />
   </div>
 );
 ReactDOM.render(instance);

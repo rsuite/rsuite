@@ -1,9 +1,13 @@
 <!--start-code-->
 
 ```js
+// import { AutoComplete, InputGroup } from 'rsuite';
+// import SearchIcon from '@rsuite/icons/Search';
+// import MemberIcon from '@rsuite/icons/Member';
+
 const styles = {
   width: 300,
-  marginBottom: 10,
+  marginBottom: 10
 };
 
 const data = [
@@ -12,7 +16,7 @@ const data = [
   'HYPER Video Analytics',
   'HYPER DMP',
   'HYPER Ad Serving',
-  'HYPER Data Discovery',
+  'HYPER Data Discovery'
 ];
 
 const instance = (
@@ -20,27 +24,27 @@ const instance = (
     <InputGroup style={styles}>
       <AutoComplete data={data} />
       <InputGroup.Button>
-        <Search />
+        <SearchIcon />
       </InputGroup.Button>
     </InputGroup>
 
     <InputGroup inside style={styles}>
       <AutoComplete data={data} />
       <InputGroup.Button>
-        <Search />
+        <SearchIcon />
       </InputGroup.Button>
     </InputGroup>
 
     <InputGroup inside style={styles}>
       <AutoComplete data={data} />
       <InputGroup.Addon>
-        <Search />
+        <SearchIcon />
       </InputGroup.Addon>
     </InputGroup>
 
     <InputGroup inside style={styles}>
       <InputGroup.Addon>
-        <Avatar />
+        <MemberIcon />
       </InputGroup.Addon>
       <AutoComplete data={data} />
     </InputGroup>

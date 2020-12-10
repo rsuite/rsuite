@@ -18,11 +18,7 @@ An encapsulation of the Nav for the sidebar of the page.
 
 ### Appearance
 
-`appearance` value include::
-
-- 'default'
-- 'inverse'
-- 'subtle'
+`appearance` value include:`default`,`inverse`,`subtle`
 
 <!--{include:`appearance.md`}-->
 
