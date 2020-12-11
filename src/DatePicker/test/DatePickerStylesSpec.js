@@ -17,6 +17,6 @@ describe('DatePicker styles', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(<DatePicker ref={instanceRef} format="HH:mm:ss" open />, createTestContainer());
     const toggleDom = instanceRef.current.root.querySelector('.rs-picker-toggle');
-    assert.isNotNull(toggleDom.querySelector('[aria-label="clock-o"]'));
+    assert.isNotNull(toggleDom.querySelector('[aria-label="clock o"]'));
   });
 });

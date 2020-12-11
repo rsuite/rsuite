@@ -66,7 +66,7 @@ describe('Rate', () => {
         }}
       />
     );
-    assert.isNotNull(instance.querySelector('[aria-label="camera-retro"]'));
+    assert.isNotNull(instance.querySelector('[aria-label="camera retro"]'));
   });
 
   it('Should disabled,cant click', () => {

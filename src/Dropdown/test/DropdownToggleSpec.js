@@ -22,7 +22,7 @@ describe('DropdownToggle', () => {
 
   it('Should have a icon', () => {
     const instance = getDOMNode(<DropdownToggle icon={<User />}>abc</DropdownToggle>);
-    assert.ok(instance.querySelector('.rs-icon-base'));
+    assert.ok(instance.querySelector('.rs-icon'));
   });
 
   it('Should render custom component', () => {

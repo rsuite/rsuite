@@ -69,7 +69,7 @@ describe('DropdownMenuItem', () => {
 
   it('Should render a icon', () => {
     const instance = getDOMNode(<DropdownMenuItem icon={<User />} />);
-    assert.ok(instance.querySelector('.rs-icon-base'));
+    assert.ok(instance.querySelector('.rs-icon'));
   });
 
   it('Should call onSelect callback', done => {

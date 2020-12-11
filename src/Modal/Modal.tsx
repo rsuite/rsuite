@@ -18,10 +18,10 @@ export interface ModalProps extends BaseModalProps {
   size?: TypeAttributes.Size;
 
   /** Set the duration of the animation */
-  animationTimeout: number;
+  animationTimeout?: number;
 
   /** Set an animation effect for Modal, the default is Bounce.  */
-  animation: React.ElementType;
+  animation?: React.ElementType;
 
   /** CSS class applied to Dialog DOM nodes */
   dialogClassName?: string;
@@ -36,10 +36,10 @@ export interface ModalProps extends BaseModalProps {
   dialogAs?: React.ElementType;
 
   /** Automatically sets the height when the body content is too long. */
-  overflow: boolean;
+  overflow?: boolean;
 
   /** Render Modal as Drawer */
-  drawer: boolean;
+  drawer?: boolean;
 }
 
 const defaultProps: Partial<ModalProps> = {

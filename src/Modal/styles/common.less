@@ -111,6 +111,20 @@
     margin: 0;
     .ellipsis;
   }
+
+  .@{ns}modal-header-close {
+    // button width the same to height
+    @padding-right: (@line-height-computed - @modal-close-btn-size)/2;
+
+    position: absolute;
+    right: @modal-content-padding;
+    top: @modal-content-padding;
+    font-size: @modal-close-btn-size;
+    line-height: @modal-close-btn-line-height;
+    color: @modal-close-btn-color;
+    width: @line-height-computed;
+    padding: 0 @padding-right;
+  }
 }
 
 // Title text within header

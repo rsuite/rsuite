@@ -41,6 +41,6 @@ describe('MultiCascader styles', () => {
         getStyle(menuItemDom.querySelector('.rs-checkbox-checker label'), 'padding'),
         '8px 26px 8px 38px'
       );
-    assert.isNotNull(menuItemDom.querySelector('[aria-label="arrow-right-line"]'));
+    assert.isNotNull(menuItemDom.querySelector('[aria-label="arrow right line"]'));
   });
 });
