@@ -64,27 +64,27 @@ function getNavItems(messages) {
       key: 'guide',
       tip: messages?.common?.guide,
       to: '/guide/introduction',
-      icon: <Icon as={() => <SvgIcons.Guide />} style={{ fontSize: 20 }} />,
+      icon: <Icon as={() => <SvgIcons.Guide />} style={{ fontSize: 20 }} />
     },
     {
       key: 'components',
       tip: messages?.common?.components,
       to: '/components/overview',
-      icon: <Icon as={() => <SvgIcons.Component />} style={{ fontSize: 20 }} />,
+      icon: <Icon as={() => <SvgIcons.Component />} style={{ fontSize: 20 }} />
     },
 
     {
       key: 'tools',
       tip: messages?.common?.tools,
       to: '/tools/palette',
-      icon: <Icon as={() => <SvgIcons.Tools />} style={{ fontSize: 20 }} />,
+      icon: <Icon as={() => <SvgIcons.Tools />} style={{ fontSize: 20 }} />
     },
     {
       key: 'extensions',
       tip: messages?.common?.extension,
       to: '/extensions',
-      icon: <Icon as={() => <SvgIcons.Extension />} style={{ fontSize: 20 }} />,
-    },
+      icon: <Icon as={() => <SvgIcons.Extension />} style={{ fontSize: 20 }} />
+    }
   ];
 }
 
@@ -110,7 +110,7 @@ export default function TopLevelNav(props: TopLevelNavProps) {
           icon={showSubmenu ? <AngleLeft /> : <AngleRight />}
           size="xs"
           style={{ left: showSubmenu ? 310 : 70 }}
-          tip={showSubmenu ? messages?.common?.closeMenu : messages?.common?.openMenu}
+          title={showSubmenu ? messages?.common?.closeMenu : messages?.common?.openMenu}
           onClick={onToggleMenu}
         />
       )}
@@ -127,13 +127,13 @@ export default function TopLevelNav(props: TopLevelNavProps) {
             setSearch(true);
           }}
         />
-        {navItems.map((item) => (
+        {navItems.map(item => (
           <ButtonWithTooltip
             tip={item.tip}
             key={item.key}
             href={item.to}
             as={Link}
-            onClick={(event) => {
+            onClick={event => {
               onToggleMenu(event, true);
             }}
           >
@@ -142,8 +142,8 @@ export default function TopLevelNav(props: TopLevelNavProps) {
               router.pathname.indexOf(`/${item.key}`) === 0
                 ? {
                     style: {
-                      fill: '#169de0',
-                    },
+                      fill: '#169de0'
+                    }
                   }
                 : null
             )}
@@ -165,7 +165,13 @@ export default function TopLevelNav(props: TopLevelNavProps) {
         />
       </div>
       <div className="top-level-nav-footer">
-        <ButtonWithTooltip tip="GitHub" href="https://github.com/rsuite/rsuite" target="_blank">
+        <ButtonWithTooltip
+          tip="GitHub"
+          href="https://github.com/rsuite/rsuite"
+          style={{ padding: 11 }}
+          as="a"
+          target="_blank"
+        >
           <Github style={{ fontSize: 20 }} />
         </ButtonWithTooltip>
       </div>

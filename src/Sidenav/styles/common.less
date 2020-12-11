@@ -71,10 +71,7 @@
       left: @sidenav-padding-horizonal;
       top: @sidenav-padding-vertical;
       line-height: @sidenav-level1-item-line-height;
-
-      > svg {
-        height: @sidenav-level1-item-font-size;
-      }
+      height: @sidenav-level1-item-font-size;
     }
   }
 
@@ -117,13 +114,13 @@
       display: none;
     }
 
-    .@{ns}dropdown-toggle-caret > svg,
-    .@{ns}dropdown-menu-toggle > .@{ns}icon > svg {
+    .@{ns}dropdown-toggle-caret,
+    .@{ns}dropdown-menu-toggle > .@{ns}icon {
       transition: transform 0.3s linear;
     }
 
     // Expand
-    &.@{ns}dropdown-expand .@{ns}dropdown-toggle-caret > svg,
+    &.@{ns}dropdown-expand .@{ns}dropdown-toggle-caret,
     .@{ns}dropdown-item.@{ns}dropdown-item-expand > .@{ns}dropdown-item-content > .@{ns}dropdown-menu-toggle > .@{ns}icon > svg {
       transform: rotate(180deg);
     }

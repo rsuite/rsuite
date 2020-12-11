@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+const SearchIcon = props => <SvgIcons.Search {...props} />;
+
 const instance = (
   <div>
     <ButtonToolbar>
@@ -16,13 +18,13 @@ const instance = (
 
     <ButtonToolbar>
       <IconButton size="lg" icon={<Star />} />
-      <IconButton size="lg" icon={<Icon as={() => <SvgIcons.Search />} />} />
+      <IconButton size="lg" icon={<Icon as={SearchIcon} />} />
       <IconButton size="md" icon={<Star />} />
-      <IconButton size="md" icon={<Icon as={() => <SvgIcons.Search />} />} />
+      <IconButton size="md" icon={<Icon as={SearchIcon} />} />
       <IconButton size="sm" icon={<Star />} />
-      <IconButton size="sm" icon={<Icon as={() => <SvgIcons.Search />} />} />
+      <IconButton size="sm" icon={<Icon as={SearchIcon} />} />
       <IconButton size="xs" icon={<Star />} />
-      <IconButton size="xs" icon={<Icon as={() => <SvgIcons.Search />} />} />
+      <IconButton size="xs" icon={<Icon as={SearchIcon} />} />
     </ButtonToolbar>
 
     <ButtonToolbar>

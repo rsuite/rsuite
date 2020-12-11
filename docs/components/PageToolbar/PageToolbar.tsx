@@ -29,24 +29,27 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
     localePath,
     theme: [themeName, direction],
     onChangeDirection,
-    onChangeTheme,
+    onChangeTheme
   } = React.useContext(AppContext);
+
+  const ThemeIcon = props =>
+    themeName === 'dark' ? <SvgIcons.Light {...props} /> : <SvgIcons.Dark {...props} />;
+
+  const DirectionIcon = props =>
+    direction === 'rtl' ? <SvgIcons.Rtl {...props} /> : <SvgIcons.Ltr {...props} />;
+
   return (
     <ButtonToolbar className="page-toolbar">
       <Whisper placement="bottom" speaker={<Tooltip>{messages?.common?.changeLanguage}</Tooltip>}>
         <LanguageButton />
       </Whisper>
       <Whisper placement="bottom" speaker={<Tooltip>Toggle light/dark theme</Tooltip>}>
-        <IconButton
-          appearance="subtle"
-          icon={<Icon as={() => (themeName === 'dark' ? <SvgIcons.Light /> : <SvgIcons.Dark />)} />}
-          onClick={onChangeTheme}
-        />
+        <IconButton appearance="subtle" icon={<Icon as={ThemeIcon} />} onClick={onChangeTheme} />
       </Whisper>
       <Whisper placement="bottom" speaker={<Tooltip>Toggle RTL/LTR</Tooltip>}>
         <IconButton
           appearance="subtle"
-          icon={<Icon as={() => (direction === 'rtl' ? <SvgIcons.Rtl /> : <SvgIcons.Ltr />)} />}
+          icon={<Icon as={DirectionIcon} />}
           onClick={onChangeDirection}
         />
       </Whisper>
@@ -57,6 +60,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
           <MenuPopover>
             {designHash && (
               <Dropdown.Item
+                as="a"
                 icon={<Diamond />}
                 target="_blank"
                 href={`/design/${themeName}/#artboard${designHash}`}
@@ -66,6 +70,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
             )}
             {routerId && language && (
               <Dropdown.Item
+                as="a"
                 icon={<Edit2 />}
                 target="_blank"
                 href={`https://github.com/rsuite/rsuite/edit/master/docs/pages${routerId}${localePath}/index.md`}
@@ -75,6 +80,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
             )}
 
             <Dropdown.Item
+              as="a"
               icon={<Bug />}
               target="_blank"
               href={'https://github.com/rsuite/rsuite/issues/new?template=bug_report.md'}
@@ -83,6 +89,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
             </Dropdown.Item>
             {canUseDOM && (
               <Dropdown.Item
+                as="a"
                 icon={<Twitter />}
                 target="_blank"
                 href={`https://twitter.com/share?text=${document?.title}&url=${location?.href}`}

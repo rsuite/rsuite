@@ -13,6 +13,8 @@
 
   .btn-loading-reset(@font-color, @primary-color);
 
+  .btn-focus(@primary-color);
+
   &:focus,
   &.@{ns}btn-focus {
     color: @font-color;
@@ -69,6 +71,8 @@
 
   .btn-loading-reset(@btn-subtle-color);
 
+  .btn-focus(@primary-color);
+
   &:focus,
   &.@{ns}btn-focus,
   &:hover {
@@ -118,6 +122,8 @@
 
   .btn-loading-reset(@color);
 
+  .btn-focus(@primary-color);
+
   &:focus,
   &.@{ns}btn-focus {
     color: @color-dark;
@@ -154,15 +160,16 @@
 }
 
 .btn-link-variant(@base-color) {
-  @color:color(~`palette('@{base-color}', 700) `);
+  @color: color(~`palette('@{base-color}', 700) `);
   @hover-color: color(~`palette('@{base-color}', 800) `);
   @active-color: color(~`palette('@{base-color}', 900) `);
 
   color: @color;
   font-weight: normal;
-  border-radius: 0;
 
   .btn-loading-reset(@color);
+
+  .btn-focus(@primary-color);
 
   &,
   &:active,

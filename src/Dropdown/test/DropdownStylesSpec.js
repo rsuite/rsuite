@@ -24,7 +24,6 @@ describe('Dropdown styles', () => {
         '8px 32px 8px 12px',
         'Dropdown toggle button  padding'
       );
-    console.log(toggleDom);
     assert.isNotNull(
       toggleDom.querySelector('[aria-label="arrow down line"]'),
       'Dropdown toggle button caret content'
