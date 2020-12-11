@@ -42,7 +42,7 @@
       height: 50px;
       text-align: center;
     }
-    .icon-content {
+    .icon-svg {
       display: block;
       width: 100%;
       height: 50px;
@@ -56,11 +56,11 @@
       border-radius: 4px;
       opacity: 1;
     }
-    &:hover .icon-name-text {
+    &:hover .icon-label {
       color: @H050;
     }
   }
-  .icon-name-text {
+  .icon-label {
     font-size: 0.8rem;
     color: #adb5bd;
     width: 100%;
@@ -72,12 +72,31 @@
   }
 }
 
-.icon-example-list .@{ns}icon {
-  margin: 10px;
+.icon-example-list {
+  .@{ns}icon {
+    margin: 10px;
 
-  &-font::before {
-    display: none;
+    &-font::before {
+      display: none;
+    }
   }
+
+  .icon-item-box {
+    padding: 10px;
+    font-size: 2em;
+    box-sizing: content-box;
+    border-radius: 4px;
+  }
+}
+
+.icon-bg-transparent {
+  background-image: linear-gradient(45deg, #f4f4f4 25%, transparent 25%),
+    linear-gradient(-45deg, #f4f4f4 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #f4f4f4 75%),
+    linear-gradient(-45deg, transparent 75%, #f4f4f4 75%);
+  background-size: 30px 30px;
+  background-color: #fff;
+  background-position: 0 0, 0 15px, 15px -15px, -15px 0;
 }
 
 .code-view-wrapper .@{ns}btn,

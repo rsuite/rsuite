@@ -16,7 +16,7 @@ import {
   Panel,
   Form,
   ButtonToolbar,
-  Navbar,
+  Navbar
 } from 'rsuite';
 
 import DefaultPage from '@/components/Page';
@@ -61,7 +61,7 @@ export default function Page() {
         Dashboard,
         Group,
         Magic,
-        GearCircle,
+        GearCircle
       }}
     />
   );

@@ -23,8 +23,8 @@ const FaSvgIcon = ({ faIcon, ...rest }) => {
 
 const instance = (
   <div className="icon-example-list">
-    <Icon as={FaSvgIcon} faIcon={faCamera} style={{ color: '#1675e0' }} />
-    <Icon as={FaSvgIcon} faIcon={faReact} />
+    <Icon as={FaSvgIcon} faIcon={faCamera} />
+    <Icon as={FaSvgIcon} faIcon={faReact} style={{ color: '#61dafb' }} />
     <Icon as={FaSvgIcon} faIcon={faAddressBook} />
   </div>
 );

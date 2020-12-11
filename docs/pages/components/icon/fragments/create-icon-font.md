@@ -26,7 +26,6 @@ const instance = (
   <div className="icon-example-list">
     <IconFont icon="rs-iconuser-badge" />
     <IconFont icon="rs-iconmember" />
-
     <IconFont icon="rs-icongear-16" spin />
     <IconFont icon="rs-iconreload" pulse />
     <IconFont icon="rs-iconnotice" rotate={90} />
