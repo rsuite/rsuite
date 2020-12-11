@@ -422,7 +422,7 @@ describe('CheckTreePicker', () => {
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
-  it('should render tree without checkbox', () => {
+  it('Should render tree without checkbox', () => {
     const instance = mount(
       <CheckTreePicker
         data={data}
@@ -434,7 +434,7 @@ describe('CheckTreePicker', () => {
     assert.equal(instance.find('.rs-check-tree-node-input-wrapper').length, 0);
   });
 
-  it('should render tree node with custom dom', () => {
+  it('Should render tree node with custom dom', () => {
     const customData = [
       {
         value: '1',
@@ -446,7 +446,7 @@ describe('CheckTreePicker', () => {
     assert.equal(instance.find('.custom-label').length, 1);
   });
 
-  it('should render with expand master node', () => {
+  it('Should render with expand master node', () => {
     const tree = getInstance(
       <CheckTreePicker virtualized={false} defaultOpen data={data} expandItemValues={['Master']} />
     );
@@ -455,7 +455,7 @@ describe('CheckTreePicker', () => {
     assert.equal(list.length, 1);
   });
 
-  it('should fold all the node when toggle master node', () => {
+  it('Should fold all the node when toggle master node', () => {
     let expandItemValues = [];
     const mockOnExpand = values => {
       expandItemValues = values;
