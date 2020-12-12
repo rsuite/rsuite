@@ -37,7 +37,7 @@ describe('SelectPicker styles', () => {
       instanceRef.current.target
         .querySelector('.rs-picker-toggle-caret')
         .getAttribute('aria-label'),
-      'arrow down line'
+      'angle down'
     );
 
     inChrome && assert.equal(getStyle(pickerNoneDom, 'padding'), '6px 12px 12px');

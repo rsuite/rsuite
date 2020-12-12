@@ -4,7 +4,7 @@ import Ripple from '../Ripple';
 import SafeAnchor from '../SafeAnchor';
 import { useClassNames, appendTooltip } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { IconProps } from '@rsuite/icons';
+import { IconProps } from '@rsuite/icons/lib/Icon';
 
 export interface NavItemProps<T = string>
   extends WithAsProps,
@@ -46,8 +46,8 @@ export interface NavItemProps<T = string>
 const defaultProps: Partial<NavItemProps> = {
   classPrefix: 'nav-item',
   as: 'li',
-  linkAs: SafeAnchor,
-  tabIndex: 0
+  tabIndex: 0,
+  linkAs: SafeAnchor
 };
 
 const NavItem: RsRefForwardingComponent<'li', NavItemProps> = React.forwardRef(
@@ -107,9 +107,10 @@ const NavItem: RsRefForwardingComponent<'li', NavItemProps> = React.forwardRef(
 
     let item: React.ReactElement = (
       <Link
+        aria-selected={active}
         {...rest}
-        disabled={Component === SafeAnchor ? disabled : null}
         tabIndex={tabIndex}
+        disabled={Component === SafeAnchor ? disabled : null}
         className={merge(className, prefix('content'))}
         onClick={handleClick}
       >
@@ -122,6 +123,7 @@ const NavItem: RsRefForwardingComponent<'li', NavItemProps> = React.forwardRef(
     if (renderItem) {
       item = renderItem(item) as React.ReactElement;
     }
+
     return (
       <Component ref={ref} className={classes} style={style}>
         {hasTooltip

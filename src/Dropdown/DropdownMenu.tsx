@@ -15,7 +15,7 @@ import {
   useClassNames
 } from '../utils';
 
-import { IconProps } from '@rsuite/icons';
+import { IconProps } from '@rsuite/icons/lib/Icon';
 import { StandardProps } from '../@types/common';
 import useCustom from '../utils/useCustom';
 

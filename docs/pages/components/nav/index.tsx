@@ -38,7 +38,7 @@ export default function Page() {
         Gitlab,
         Linux,
         More,
-        Star,
+        Star
       }}
     />
   );

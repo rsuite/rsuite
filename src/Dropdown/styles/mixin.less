@@ -6,28 +6,30 @@
   top: @padding-base-vertical;
   right: @right;
   height: @line-height-computed;
+  font-size: 12px;
 }
 
-.dropdown-toggle-caret-size(@vertical,@horizontal) {
+.dropdown-toggle-caret-size(@vertical,@horizontal,@caret-size) {
   padding-right: @horizontal+ @dropdown-caret-width+ @dropdown-caret-padding !important;
 
   .@{ns}dropdown-toggle-caret {
     top: @vertical;
     right: @horizontal;
+    font-size: @caret-size;
   }
 }
 
 .dropdown-toggle-size() {
   &.@{ns}btn-lg {
-    .dropdown-toggle-caret-size(@padding-large-vertical, @padding-large-horizontal);
+    .dropdown-toggle-caret-size(@padding-large-vertical, @padding-large-horizontal, 14px);
   }
 
   &.@{ns}btn-sm {
-    .dropdown-toggle-caret-size(@padding-small-vertical, @padding-small-horizontal);
+    .dropdown-toggle-caret-size(@padding-small-vertical, @padding-small-horizontal, 10px);
   }
 
   &.@{ns}btn-xs {
-    .dropdown-toggle-caret-size(@padding-extra-small-vertical, @padding-extra-small-horizontal);
+    .dropdown-toggle-caret-size(@padding-extra-small-vertical, @padding-extra-small-horizontal, 8px);
   }
 }
 
@@ -44,6 +46,12 @@
   // Custom title toggle need reset padding.
   &-custom-title {
     padding: 0 !important;
+  }
+
+  .@{ns}nav & {
+    &:focus {
+      box-shadow: none;
+    }
   }
 }
 

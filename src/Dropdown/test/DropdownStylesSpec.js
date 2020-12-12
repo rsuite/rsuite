@@ -25,7 +25,7 @@ describe('Dropdown styles', () => {
         'Dropdown toggle button  padding'
       );
     assert.isNotNull(
-      toggleDom.querySelector('[aria-label="arrow down line"]'),
+      toggleDom.querySelector('[aria-label="angle down"]'),
       'Dropdown toggle button caret content'
     );
   });

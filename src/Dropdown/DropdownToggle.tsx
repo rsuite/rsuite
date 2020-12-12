@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Ripple from '../Ripple';
 import Button from '../Button';
 import { useClassNames } from '../utils';
-import { IconProps } from '@rsuite/icons';
+import { IconProps } from '@rsuite/icons/lib/Icon';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 import useToggleCaret from '../utils/useToggleCaret';
 
