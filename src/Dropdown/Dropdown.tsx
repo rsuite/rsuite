@@ -16,7 +16,7 @@ import {
 } from '../utils';
 import { SidenavContext, SidenavContextType } from '../Sidenav/Sidenav';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { IconProps } from '@rsuite/icons';
+import { IconProps } from '@rsuite/icons/lib/Icon';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface DropdownProps<T = any>

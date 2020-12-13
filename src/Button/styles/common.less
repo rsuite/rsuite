@@ -1,5 +1,5 @@
-@import '../../styles/common';
-@import 'mixin';
+@import '../../styles/common.less';
+@import 'mixin.less';
 
 //
 // Buttons
@@ -80,6 +80,8 @@
   & > .@{ns}icon {
     .btn-transition();
   }
+
+  .btn-focus(@primary-color);
 
   &:focus {
     color: @btn-default-color;

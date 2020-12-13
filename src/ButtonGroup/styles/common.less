@@ -17,10 +17,9 @@
     position: relative;
     float: left;
 
-    // Bring the "active" ghost-button to the front.
-    &.@{ns}btn-ghost:hover,
-    &.@{ns}btn-ghost:focus,
-    &.@{ns}btn-ghost:active {
+    // Bring the "active" button to the front.
+    &:focus,
+    &:active {
       z-index: 2;
     }
   }

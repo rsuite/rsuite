@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
-import ArrowDownLine from '@rsuite/icons/legacy/ArrowDownLine';
-import ArrowUpLine from '@rsuite/icons/legacy/ArrowUpLine';
-import ArrowLeftLine from '@rsuite/icons/legacy/ArrowLeftLine';
-import ArrowRightLine from '@rsuite/icons/legacy/ArrowRightLine';
+import ArrowDownLine from '@rsuite/icons/legacy/AngleDown';
+import ArrowUpLine from '@rsuite/icons/legacy/AngleUp';
+import ArrowLeftLine from '@rsuite/icons/legacy/AngleLeft';
+import ArrowRightLine from '@rsuite/icons/legacy/AngleRight';
 
 import { TypeAttributes } from '../@types/common';
 import useCustom from './useCustom';

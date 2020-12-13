@@ -110,6 +110,9 @@ const instance = (
     <Icon as={HeartSvg} style={{ color: 'hotpink' }} />
     <Icon as={PeopleFoldSvg} style={{ fontSize: 30 }} />
     <Icon as={RSuiteLogoSvg} />
+    <IconButton icon={<Icon as={HeartSvg} style={{ color: 'hotpink' }} />} />
+    <IconButton icon={<Icon as={PeopleFoldSvg} />} />
+    <IconButton icon={<Icon as={RSuiteLogoSvg} />} />
   </div>
 );
 

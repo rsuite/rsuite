@@ -213,8 +213,7 @@
         padding: (@padding-vertical - @btn-ghost-border-width) 0;
       }
 
-      > svg {
-        height: @svg-icon-height;
+      &svg {
         vertical-align: middle;
       }
     }
@@ -351,4 +350,10 @@
 
 .btn-transition(color) {
   transition: color 0.2s linear;
+}
+
+.btn-focus(@color) {
+  &:focus {
+    box-shadow: 0 0 0 3px fade(@color, 25%);
+  }
 }

@@ -8,7 +8,7 @@ import { useClassNames, KEY_CODE, mergeRefs } from '../utils';
 import { RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 import Plaintext from '../Plaintext';
 import useToggleCaret from '../utils/useToggleCaret';
-import { IconProps } from '@rsuite/icons/lib/IconBase';
+import { IconProps } from '@rsuite/icons/lib/Icon';
 
 type ValueType = string | number;
 

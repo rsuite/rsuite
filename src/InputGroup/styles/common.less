@@ -33,6 +33,7 @@
     &:not(.@{ns}input-group-disabled):hover,
     &:not(.@{ns}input-group-disabled).@{ns}input-group-focus {
       border-color: @input-border-focus;
+      box-shadow: 0 0 0 3px fade(@primary-color, 25%);
     }
 
     .@{ns}input-number,
@@ -42,6 +43,7 @@
     .@{ns}picker-date .@{ns}picker-toggle {
       border: none;
       border-radius: 0;
+      box-shadow: none;
     }
 
     .@{ns}input-number:not(:last-child) .@{ns}input-number {

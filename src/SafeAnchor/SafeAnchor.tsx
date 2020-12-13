@@ -12,7 +12,7 @@ export interface SafeAnchorProps extends WithAsProps, React.HTMLAttributes<HTMLA
 
 const SafeAnchor: RsRefForwardingComponent<'a', SafeAnchorProps> = React.forwardRef(
   (props: SafeAnchorProps, ref) => {
-    const { as: Component = 'a', disabled, onClick, ...rest } = props;
+    const { as: Component = 'a', href, disabled, onClick, ...rest } = props;
     const handleClick = useCallback(
       (event: React.MouseEvent<HTMLAnchorElement>) => {
         if (disabled) {
@@ -30,8 +30,11 @@ const SafeAnchor: RsRefForwardingComponent<'a', SafeAnchorProps> = React.forward
       rest.tabIndex = -1;
       rest['aria-disabled'] = true;
     }
+    if (!href || href !== '#') {
+      rest.role = rest.role || 'button';
+    }
 
-    return <Component {...rest} ref={ref} onClick={handleClick} />;
+    return <Component {...rest} href={href} ref={ref} onClick={handleClick} />;
   }
 );
 

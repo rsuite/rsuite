@@ -29,24 +29,27 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
     localePath,
     theme: [themeName, direction],
     onChangeDirection,
-    onChangeTheme,
+    onChangeTheme
   } = React.useContext(AppContext);
+
+  const ThemeIcon = props =>
+    themeName === 'dark' ? <SvgIcons.Light {...props} /> : <SvgIcons.Dark {...props} />;
+
+  const DirectionIcon = props =>
+    direction === 'rtl' ? <SvgIcons.Rtl {...props} /> : <SvgIcons.Ltr {...props} />;
+
   return (
     <ButtonToolbar className="page-toolbar">
       <Whisper placement="bottom" speaker={<Tooltip>{messages?.common?.changeLanguage}</Tooltip>}>
         <LanguageButton />
       </Whisper>
       <Whisper placement="bottom" speaker={<Tooltip>Toggle light/dark theme</Tooltip>}>
-        <IconButton
-          appearance="subtle"
-          icon={<Icon as={() => (themeName === 'dark' ? <SvgIcons.Light /> : <SvgIcons.Dark />)} />}
-          onClick={onChangeTheme}
-        />
+        <IconButton appearance="subtle" icon={<Icon as={ThemeIcon} />} onClick={onChangeTheme} />
       </Whisper>
       <Whisper placement="bottom" speaker={<Tooltip>Toggle RTL/LTR</Tooltip>}>
         <IconButton
           appearance="subtle"
-          icon={<Icon as={() => (direction === 'rtl' ? <SvgIcons.Rtl /> : <SvgIcons.Ltr />)} />}
+          icon={<Icon as={DirectionIcon} />}
           onClick={onChangeDirection}
         />
       </Whisper>

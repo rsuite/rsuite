@@ -4,7 +4,7 @@ import Check from '@rsuite/icons/Check';
 import Close from '@rsuite/icons/Close';
 
 import { useClassNames } from '../utils';
-import { IconProps } from '@rsuite/icons';
+import { IconProps } from '@rsuite/icons/lib/Icon';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 const STEP_STATUS_ICON = {
