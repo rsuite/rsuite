@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
-import ArrowUpLine from '@rsuite/icons/legacy/ArrowUpLine';
-import ArrowDownLine from '@rsuite/icons/legacy/ArrowDownLine';
+import AngleUpIcon from '@rsuite/icons/legacy/AngleUp';
+import AngleDownIcon from '@rsuite/icons/legacy/AngleDown';
 
 import helper from '../DOMHelper';
 import InputGroup from '../InputGroup/InputGroup';
@@ -267,7 +267,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
           onClick={handlePlus}
           disabled={disabledUpButton || disabled || readOnly}
         >
-          <ArrowUpLine />
+          <AngleUpIcon />
         </Button>
         <Button
           appearance={buttonAppearance}
@@ -275,7 +275,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
           onClick={handleMinus}
           disabled={disabledDownButton || disabled || readOnly}
         >
-          <ArrowDownLine />
+          <AngleDownIcon />
         </Button>
       </span>
       {postfix && <InputGroupAddon>{postfix}</InputGroupAddon>}

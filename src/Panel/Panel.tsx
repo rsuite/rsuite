@@ -1,7 +1,7 @@
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import ArrowDownLine from '@rsuite/icons/legacy/ArrowDownLine';
+import AngleDownIcon from '@rsuite/icons/legacy/AngleDown';
 
 import Collapse from '../Animation/Collapse';
 import { useClassNames, useControlled } from '../utils';
@@ -152,7 +152,7 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
       if (!React.isValidElement(header) || Array.isArray(header)) {
         content = collapsible ? (
           <>
-            <ArrowDownLine rotate={expanded ? 180 : 0} />
+            <AngleDownIcon rotate={expanded ? 180 : 0} />
             <span className={prefix('title')} role="presentation">
               <span className={expanded ? null : 'collapsed'}>{header}</span>
             </span>

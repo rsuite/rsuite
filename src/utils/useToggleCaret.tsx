@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
-import ArrowDownLine from '@rsuite/icons/legacy/AngleDown';
-import ArrowUpLine from '@rsuite/icons/legacy/AngleUp';
-import ArrowLeftLine from '@rsuite/icons/legacy/AngleLeft';
-import ArrowRightLine from '@rsuite/icons/legacy/AngleRight';
+import AngleDownIcon from '@rsuite/icons/legacy/AngleDown';
+import AngleUpIcon from '@rsuite/icons/legacy/AngleUp';
+import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
+import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
 
 import { TypeAttributes } from '../@types/common';
 import useCustom from './useCustom';
@@ -12,14 +12,14 @@ function useToggleCaret(placement: TypeAttributes.Placement8 | TypeAttributes.Pl
   return useMemo(() => {
     switch (true) {
       case /^top/.test(placement):
-        return ArrowUpLine;
+        return AngleUpIcon;
       case /^right/.test(placement):
-        return rtl ? ArrowLeftLine : ArrowRightLine;
+        return rtl ? AngleLeftIcon : AngleRightIcon;
       case /^left/.test(placement):
-        return rtl ? ArrowRightLine : ArrowLeftLine;
+        return rtl ? AngleRightIcon : AngleLeftIcon;
       case /^bottom/.test(placement):
       default:
-        return ArrowDownLine;
+        return AngleDownIcon;
     }
   }, [placement, rtl]);
 }
