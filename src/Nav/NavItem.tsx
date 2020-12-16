@@ -33,28 +33,20 @@ export interface NavItemProps<T = string>
   /** Providing a `href` will render an `<a>` element */
   href?: string;
 
-  /** You can use a custom element for this link */
-  linkAs?: React.ElementType;
-
   /** Select the callback function that the event triggers. */
   onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
-
-  /** Custom rendering item */
-  renderItem?: (item: React.ReactNode) => React.ReactNode;
 }
 
 const defaultProps: Partial<NavItemProps> = {
   classPrefix: 'nav-item',
-  as: 'li',
-  tabIndex: 0,
-  linkAs: SafeAnchor
+  as: SafeAnchor,
+  tabIndex: 0
 };
 
-const NavItem: RsRefForwardingComponent<'li', NavItemProps> = React.forwardRef(
-  (props: NavItemProps, ref: React.Ref<HTMLLIElement>) => {
+const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
+  (props: NavItemProps, ref: React.Ref<any>) => {
     const {
       as: Component,
-      linkAs: Link,
       active,
       disabled,
       eventKey,
@@ -67,7 +59,6 @@ const NavItem: RsRefForwardingComponent<'li', NavItemProps> = React.forwardRef(
       hasTooltip,
       divider,
       panel,
-      renderItem,
       onClick,
       onSelect,
       ...rest
@@ -88,7 +79,7 @@ const NavItem: RsRefForwardingComponent<'li', NavItemProps> = React.forwardRef(
 
     if (divider) {
       return (
-        <Component
+        <div
           ref={ref}
           role="separator"
           style={style}
@@ -99,38 +90,32 @@ const NavItem: RsRefForwardingComponent<'li', NavItemProps> = React.forwardRef(
 
     if (panel) {
       return (
-        <Component ref={ref} style={style} className={merge(className, prefix('panel'))}>
+        <div ref={ref} style={style} className={merge(className, prefix('panel'))}>
           {children}
-        </Component>
+        </div>
       );
     }
 
-    let item: React.ReactElement = (
-      <Link
+    const item = (
+      <Component
         aria-selected={active}
         {...rest}
         tabIndex={tabIndex}
         disabled={Component === SafeAnchor ? disabled : null}
-        className={merge(className, prefix('content'))}
+        className={classes}
         onClick={handleClick}
+        ref={ref}
+        style={style}
       >
         {icon}
         {children}
         <Ripple />
-      </Link>
-    );
-
-    if (renderItem) {
-      item = renderItem(item) as React.ReactElement;
-    }
-
-    return (
-      <Component ref={ref} className={classes} style={style}>
-        {hasTooltip
-          ? appendTooltip({ children: item, message: children, placement: 'right' })
-          : item}
       </Component>
     );
+
+    return hasTooltip
+      ? appendTooltip({ children: item, message: children, placement: 'right' })
+      : item;
   }
 );
 
@@ -138,7 +123,6 @@ NavItem.defaultProps = defaultProps;
 NavItem.displayName = 'NavItem';
 NavItem.propTypes = {
   as: PropTypes.elementType,
-  linkAs: PropTypes.elementType,
   active: PropTypes.bool,
   disabled: PropTypes.bool,
   className: PropTypes.string,
@@ -152,8 +136,7 @@ NavItem.propTypes = {
   children: PropTypes.node,
   eventKey: PropTypes.any,
   tabIndex: PropTypes.number,
-  hasTooltip: PropTypes.bool,
-  renderItem: PropTypes.func
+  hasTooltip: PropTypes.bool
 };
 
 export default NavItem;

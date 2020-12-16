@@ -23,7 +23,7 @@ describe('NavItem styles', () => {
       </Nav>,
       createTestContainer()
     );
-    const navItemContentDom = getDOMNode(instanceRef.current).querySelector('.rs-nav-item-content');
+    const navItemContentDom = getDOMNode(instanceRef.current);
     inChrome && assert.equal(getStyle(navItemContentDom, 'padding'), '8px 12px', 'NavItem padding');
     assert.equal(getStyle(navItemContentDom, 'color'), toRGB('#8e8e93'), 'NavItem color');
   });
@@ -38,7 +38,7 @@ describe('NavItem styles', () => {
       </Nav>,
       createTestContainer()
     );
-    const navItemContentDom = getDOMNode(instanceRef.current).querySelector('.rs-nav-item-content');
+    const navItemContentDom = getDOMNode(instanceRef.current);
     assert.equal(getStyle(navItemContentDom, 'color'), H700, 'NavItem color');
   });
 
@@ -52,7 +52,7 @@ describe('NavItem styles', () => {
       </Nav>,
       createTestContainer()
     );
-    const navItemContentDom = getDOMNode(instanceRef.current).querySelector('.rs-nav-item-content');
+    const navItemContentDom = getDOMNode(instanceRef.current);
     assert.equal(getStyle(navItemContentDom, 'color'), toRGB('#c5c6c7'), 'NavItem color');
     assert.equal(getStyle(navItemContentDom, 'cursor'), 'not-allowed', 'NavItem cursor');
   });

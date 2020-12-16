@@ -4,14 +4,14 @@ import { getDOMNode, innerText } from '@test/testUtils';
 import Pagination from '../Pagination';
 
 describe('Pagination', () => {
-  it('Should render a ul', () => {
+  it('Should render a <div>', () => {
     const instance = getDOMNode(<Pagination />);
-    assert.equal(instance.tagName, 'UL');
+    assert.equal(instance.tagName, 'DIV');
   });
 
-  it('Should render 20 li', () => {
+  it('Should render 20 <a>', () => {
     const instance = getDOMNode(<Pagination pages={20} />);
-    assert.equal(instance.querySelectorAll('li').length, 20);
+    assert.equal(instance.querySelectorAll('a').length, 20);
   });
 
   it('Should render 20 button', () => {
@@ -19,26 +19,26 @@ describe('Pagination', () => {
     assert.equal(instance.querySelectorAll('button').length, 20);
   });
 
-  it('Should render 2 li', () => {
+  it('Should render 2 <a>', () => {
     const instance = getDOMNode(<Pagination pages={20} maxButtons={2} />);
-    assert.equal(instance.querySelectorAll('li').length, 2);
+    assert.equal(instance.querySelectorAll('a').length, 2);
   });
 
   it('Should render `ellipsis` button', () => {
     const instance = getDOMNode(<Pagination pages={20} maxButtons={2} ellipsis />);
-    assert.equal(instance.querySelectorAll('li').length, 3);
+    assert.equal(instance.querySelectorAll('a').length, 3);
     assert.ok(instance.querySelector('[aria-label="more"]'));
   });
 
   it('Should be ellipsis', () => {
     const instance = getDOMNode(<Pagination pages={20} maxButtons={2} ellipsis={'abc'} />);
-    assert.equal(instance.querySelectorAll('li').length, 3);
-    assert.equal(innerText(instance.querySelector('li.rs-pagination-btn-disabled')), 'abc');
+    assert.equal(instance.querySelectorAll('a').length, 3);
+    assert.equal(innerText(instance.querySelector('a.rs-pagination-btn-disabled')), 'abc');
   });
 
   it('Should be disabled', () => {
     const instance = getDOMNode(<Pagination pages={2} disabled first last prev next />);
-    assert.equal(instance.querySelectorAll('li.rs-pagination-btn-disabled').length, 6);
+    assert.equal(instance.querySelectorAll('a.rs-pagination-btn-disabled').length, 6);
   });
 
   it('Should be disabled', () => {
@@ -53,7 +53,7 @@ describe('Pagination', () => {
         }}
       />
     );
-    const disabledDOMs = instance.querySelectorAll('li.rs-pagination-btn-disabled');
+    const disabledDOMs = instance.querySelectorAll('a.rs-pagination-btn-disabled');
     assert.equal(disabledDOMs.length, 1);
     assert.equal(innerText(disabledDOMs[0]), '2');
   });
@@ -80,12 +80,12 @@ describe('Pagination', () => {
 
   it('Should render boundary links', () => {
     const instance = getDOMNode(<Pagination pages={20} maxButtons={2} ellipsis boundaryLinks />);
-    assert.equal(innerText(instance.querySelector('li:last-child')), '20');
+    assert.equal(innerText(instance.querySelector('a:last-child')), '20');
   });
 
   it('Should active page 5', () => {
     const instance = getDOMNode(<Pagination pages={20} activePage={5} />);
-    assert.equal(innerText(instance.querySelector('li.rs-pagination-btn-active')), '5');
+    assert.equal(innerText(instance.querySelector('a.rs-pagination-btn-active')), '5');
   });
 
   it('Should call onSelect callback', done => {

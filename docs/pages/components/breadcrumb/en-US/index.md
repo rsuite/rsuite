@@ -67,9 +67,9 @@ WAI-ARIA:https://www.w3.org/TR/wai-aria-practices/#breadcrumb
 
 ### `<Breadcrumb.Item>`
 
-| Property   | Type `(Default)`              | Description                                           |
-| ---------- | ----------------------------- | ----------------------------------------------------- |
-| active     | boolean                       | Active state                                          |
-| as         | ElementType `('li')`          | You can use a custom element type for this component. |
-| linkAs     | ElementType `('a')`           | You can use a custom element for this link.           |
-| renderItem | (item:ReactNode) => ReactNode | Custom rendering item                                 |
+| Property    | Type `(Default)`             | Description                                           |
+| ----------- | ---------------------------- | ----------------------------------------------------- |
+| active      | boolean                      | Active state                                          |
+| as          | ElementType `('a')`          | You can use a custom element type for this component. |
+| classPrefix | string `('breadcrumb-item')` | The prefix of the component CSS class                 |
+| href        | string                       | Providing a `href` will render an `a` element         |

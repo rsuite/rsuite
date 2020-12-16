@@ -28,8 +28,8 @@ describe('Pagination styles', () => {
     );
     const dom = getDOMNode(instanceRef.current);
 
-    const paginationButton = dom.children[0].querySelector('a');
-    const activePaginationButton = dom.children[1].querySelector('a');
+    const paginationButton = dom.children[0];
+    const activePaginationButton = dom.children[1];
     assert.equal(getStyle(paginationButton, 'color'), toRGB('#8e8e93'), 'Pagination button color');
     assert.equal(getStyle(activePaginationButton, 'color'), H700, 'Active pagination button color');
   });

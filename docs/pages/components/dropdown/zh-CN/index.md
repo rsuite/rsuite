@@ -118,17 +118,15 @@
 | 属性名称    | 类型 `(默认值)`                | 描述                   |
 | ----------- | ------------------------------ | ---------------------- |
 | active      | boolean                        | 选中当前选项           |
-| as          | ElementType `('li')`           | 为组件自定义元素类型   |
+| as          | ElementType `('a')`            | 为组件自定义元素类型   |
 | children \* | ReactNode                      | 组件内容               |
 | classPrefix | string `('dropdown-item')`     | 组件 CSS 类的前缀      |
 | disabled    | boolean                        | 禁用当前选项           |
 | divider     | boolean                        | 显示为分割线           |
 | eventKey    | string                         | 当前选项的值           |
 | icon        | Element&lt;typeof Icon&gt;     | 设置图标               |
-| linkAs      | ElementType `('a')`            | 为链接自定义元素类型   |
 | onSelect    | (eventKey: any, event) => void | 选中当前选项的回调函数 |
 | panel       | boolean                        | 显示一个自定义的面板   |
-| renderItem  | (item:ReactNode) => ReactNode  | 自定义渲染选项         |
 
 ### `<Dropdown.Menu>`
 

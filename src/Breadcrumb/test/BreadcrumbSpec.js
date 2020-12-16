@@ -57,9 +57,7 @@ describe('Breadcrumb', () => {
       </Breadcrumb>
     );
 
-    ReactTestUtils.Simulate.click(
-      instance.querySelectorAll('.rs-breadcrumb-item')[1].querySelector('a')
-    );
+    ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-breadcrumb-item')[1]);
   });
 
   it('Should have a default separator', () => {
@@ -70,8 +68,8 @@ describe('Breadcrumb', () => {
       </Breadcrumb>
     );
 
-    assert.equal(instance.querySelectorAll('li')[1].className, 'rs-breadcrumb-separator');
-    assert.equal(instance.querySelectorAll('li')[1].innerText, '/');
+    assert.equal(instance.childNodes[1].className, 'rs-breadcrumb-separator');
+    assert.equal(instance.childNodes[1].innerText, '/');
   });
 
   it('Should have a custom separator', () => {
@@ -82,9 +80,9 @@ describe('Breadcrumb', () => {
       </Breadcrumb>
     );
 
-    assert.equal(instance.querySelectorAll('li')[1].className, 'rs-breadcrumb-separator');
-    assert.equal(instance.querySelectorAll('li')[1].childNodes[0].tagName, 'SPAN');
-    assert.equal(instance.querySelectorAll('li')[1].childNodes[0].innerText, '-');
+    assert.equal(instance.childNodes[1].className, 'rs-breadcrumb-separator');
+    assert.equal(instance.childNodes[1].tagName, 'SPAN');
+    assert.equal(instance.childNodes[1].innerText, '-');
   });
 
   it('Should have a custom className', () => {

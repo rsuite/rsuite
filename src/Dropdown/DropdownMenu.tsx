@@ -134,8 +134,9 @@ const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
             expanded={expanded}
             className={itemClassName}
             pullLeft={pullLeft}
-            linkAs="div"
+            as="div"
             submenu
+            role={null}
           >
             <div
               className={prefix`toggle`}
@@ -150,14 +151,14 @@ const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
             {renderCollapse((transitionProps, ref) => {
               const { className, ...transitionRestProps } = transitionProps || {};
               return (
-                <ul
+                <div
                   {...transitionRestProps}
                   ref={ref}
                   role="menu"
                   className={merge(className, withClassPrefix())}
                 >
                   {itemsAndStatus.items}
-                </ul>
+                </div>
               );
             }, expanded)}
           </DropdownMenuItem>
@@ -196,7 +197,7 @@ const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
     const { className: transitionClassName, ...transitionRestProps } = transitionProps || {};
 
     return (
-      <ul
+      <div
         {...rest}
         {...transitionRestProps}
         className={classNames(classes, transitionClassName)}
@@ -204,7 +205,7 @@ const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
         ref={mergeRefs(transitionRef, ref)}
       >
         {items}
-      </ul>
+      </div>
     );
   }, expanded);
 });

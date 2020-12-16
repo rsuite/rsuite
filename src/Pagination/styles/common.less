@@ -10,77 +10,56 @@
   padding-left: 0;
   margin-bottom: 0;
 
-  > li {
-    display: inline; // Remove list-style and block-level defaults
+  .@{ns}pagination-btn {
+    .btn-sm(base);
+    .btn-transition;
+    .btn-subtle-variant(@pagination-hover-bg);
 
-    &.@{ns}pagination-btn-active > a {
+    position: relative;
+    float: left; // Collapse white-space
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+
+    &-active {
       .pagination-active(@pagination-base-active-color);
     }
 
-    &:not(.@{ns}pagination-btn-disabled) > a {
+    &-disabled {
+      color: @btn-subtle-color !important;
+      opacity: @btn-disabled-opacity !important;
+      cursor: @cursor-disabled !important;
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+
+    &:not(.@{ns}pagination-btn-disabled) {
       .button-ripple;
     }
 
-    > a {
-      .btn-sm(base);
-      .btn-transition;
-      .btn-subtle-variant(@pagination-hover-bg);
-
-      position: relative;
-      float: left; // Collapse white-space
-      text-decoration: none;
-      cursor: pointer;
-      user-select: none;
+    .@{ns}pagination-symbol {
       display: flex;
-
-      > span:not(.@{ns}ripple-pond) {
-        display: flex;
-        align-items: center;
-        height: @line-height-computed;
-      }
-
-      &:focus,
-      &.focus,
-      &:hover {
-        color: @pagination-hover-color;
-      }
-
-      &:active {
-        color: @pagination-hover-color;
-        background-color: @pagination-active-bg;
-        background-image: none;
-
-        &:hover,
-        &:focus,
-        &.focus {
-          color: @btn-subtle-active-default-color;
-          background-color: @pagination-active-bg;
-        }
-      }
+      align-items: center;
+      height: @line-height-computed;
     }
-  }
 
-  & > &-btn-disabled {
-    > a {
-      &,
+    &:focus,
+    &.focus,
+    &:hover {
+      color: @pagination-hover-color;
+    }
+
+    &:active {
+      color: @pagination-hover-color;
+      background-color: @pagination-active-bg;
+      background-image: none;
+
       &:hover,
-      &:active,
-      &:focus {
-        color: @btn-subtle-color;
-        opacity: @btn-disabled-opacity;
-        cursor: @cursor-disabled;
-        background: transparent;
-      }
-
-      &:active {
-        &:hover,
-        &:focus,
-        &.focus {
-          color: @btn-subtle-color;
-          opacity: @btn-disabled-opacity;
-          cursor: @cursor-disabled;
-          background: transparent;
-        }
+      &:focus,
+      &.focus {
+        color: @btn-subtle-active-default-color;
+        background-color: @pagination-active-bg;
       }
     }
   }
@@ -88,47 +67,47 @@
   // Pagination Sizes
   // --------------------------------------------------
 
-  &-lg > li {
-    > a {
+  &-lg {
+    .@{ns}pagination-btn {
       .btn-lg(base);
 
-      > span:not(.@{ns}ripple-pond) {
+      .@{ns}pagination-symbol {
         height: @line-height-large-computed;
       }
-    }
 
-    &.@{ns}pagination-btn-active > a {
-      .pagination-active-size(@padding-large-vertical,@padding-large-horizontal);
+      &-active {
+        .pagination-active-size(@padding-large-vertical,@padding-large-horizontal);
+      }
     }
   }
 
-  &-md > li {
-    > a {
+  &-md {
+    .@{ns}pagination-btn {
       .btn-md(base);
-    }
 
-    &.@{ns}pagination-btn-active > a {
-      .pagination-active-size;
+      &-active {
+        .pagination-active-size;
+      }
     }
   }
 
-  &-sm > li {
-    > a {
+  &-sm {
+    .@{ns}pagination-btn {
       .btn-sm(base);
-    }
 
-    &.@{ns}pagination-btn-active > a {
-      .pagination-active-size(@padding-small-vertical,@padding-small-horizontal);
+      &-active {
+        .pagination-active-size(@padding-small-vertical,@padding-small-horizontal);
+      }
     }
   }
 
-  &-xs > li {
-    > a {
+  &-xs {
+    .@{ns}pagination-btn {
       .btn-xs(base);
-    }
 
-    &.@{ns}pagination-btn-active > a {
-      .pagination-active-size(@padding-extra-small-vertical,@padding-extra-small-horizontal);
+      &-active {
+        .pagination-active-size(@padding-extra-small-vertical,@padding-extra-small-horizontal);
+      }
     }
   }
 }

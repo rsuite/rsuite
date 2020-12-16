@@ -16,25 +16,17 @@ export interface BreadcrumbItemProps extends WithAsProps<React.ElementType | str
 
   // The target attribute specifies where to open the linked document
   target?: string;
-
-  /** Custom rendering item */
-  renderItem?: (item: React.ReactNode) => React.ReactNode;
-
-  /** You can use a custom element for this link */
-  linkAs?: React.ElementType;
 }
 
 const defaultProps: Partial<BreadcrumbItemProps> = {
-  as: 'li',
-  classPrefix: 'breadcrumb-item',
-  linkAs: SafeAnchor
+  as: SafeAnchor,
+  classPrefix: 'breadcrumb-item'
 };
 
-const BreadcrumbItem: RsRefForwardingComponent<'li', BreadcrumbItemProps> = React.forwardRef(
-  (props: BreadcrumbItemProps, ref) => {
+const BreadcrumbItem: RsRefForwardingComponent<'a', BreadcrumbItemProps> = React.forwardRef(
+  (props: BreadcrumbItemProps, ref: React.Ref<any>) => {
     const {
       as: Component,
-      linkAs: Link,
       href,
       classPrefix,
       title,
@@ -42,18 +34,32 @@ const BreadcrumbItem: RsRefForwardingComponent<'li', BreadcrumbItemProps> = Reac
       className,
       style,
       active,
-      renderItem,
+      children,
       ...rest
     } = props;
 
     const { merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ active }));
 
-    const item = <Link {...rest} href={href} title={title} target={target} />;
+    if (active) {
+      return (
+        <span ref={ref} {...rest} style={style} className={classes}>
+          {children}
+        </span>
+      );
+    }
 
     return (
-      <Component ref={ref} style={style} className={classes}>
-        {active ? <span {...rest} /> : renderItem ? renderItem(item) : item}
+      <Component
+        {...rest}
+        href={href}
+        title={title}
+        target={target}
+        ref={ref}
+        style={style}
+        className={classes}
+      >
+        {children}
       </Component>
     );
   }
@@ -69,8 +75,7 @@ BreadcrumbItem.propTypes = {
   title: PropTypes.string,
   target: PropTypes.string,
   classPrefix: PropTypes.string,
-  as: PropTypes.elementType,
-  renderItem: PropTypes.func
+  as: PropTypes.elementType
 };
 
 export default BreadcrumbItem;

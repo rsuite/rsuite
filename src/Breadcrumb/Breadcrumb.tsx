@@ -53,9 +53,9 @@ const Breadcrumb: BreadcrumbComponent = React.forwardRef((props: BreadcrumbProps
 
   const renderSeparator = (key: number) => {
     return (
-      <li key={key} aria-hidden className={prefix`separator`}>
+      <span key={key} aria-hidden className={prefix`separator`}>
         {separator}
-      </li>
+      </span>
     );
   };
 
@@ -103,7 +103,7 @@ const Breadcrumb: BreadcrumbComponent = React.forwardRef((props: BreadcrumbProps
 
   return (
     <Component {...rest} ref={ref} className={classes}>
-      <ol>{renderCollapseItems()}</ol>
+      {renderCollapseItems()}
     </Component>
   );
 });

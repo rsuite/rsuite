@@ -12,10 +12,10 @@ const NavLink = React.forwardRef((props, ref) => {
 
 const instance = (
   <Breadcrumb>
-    <Breadcrumb.Item linkAs={NavLink} href="/">
+    <Breadcrumb.Item as={NavLink} href="/">
       Home
     </Breadcrumb.Item>
-    <Breadcrumb.Item linkAs={NavLink} href="/components/overview">
+    <Breadcrumb.Item as={NavLink} href="/components/overview">
       Components
     </Breadcrumb.Item>
     <Breadcrumb.Item active>Breadcrumb</Breadcrumb.Item>

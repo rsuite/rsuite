@@ -51,7 +51,10 @@ export interface PaginationProps extends WithAsProps {
   ellipsis?: boolean | React.ReactNode;
 
   /** Customizes the element type for the component */
-  linkAs?: React.ElementType | string;
+  linkAs?: React.ElementType;
+
+  /** Additional props passed as-is to the underlying link for non-active items */
+  linkProps?: Record<string, any>;
 
   /** Custom locale */
   locale?: PaginationLocale;
@@ -64,7 +67,7 @@ export interface PaginationProps extends WithAsProps {
 }
 
 const defaultProps: Partial<PaginationProps> = {
-  as: 'ul',
+  as: 'div',
   classPrefix: 'pagination',
   activePage: 1,
   pages: 1,
@@ -72,7 +75,7 @@ const defaultProps: Partial<PaginationProps> = {
   maxButtons: 0
 };
 
-const Pagination: RsRefForwardingComponent<'ul', PaginationProps> = React.forwardRef(
+const Pagination: RsRefForwardingComponent<'div', PaginationProps> = React.forwardRef(
   (props: PaginationProps, ref) => {
     const {
       as: Component,
@@ -91,10 +94,11 @@ const Pagination: RsRefForwardingComponent<'ul', PaginationProps> = React.forwar
       last,
       size,
       linkAs,
+      linkProps,
       onSelect,
       ...rest
     } = props;
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
+    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
     const { locale } = useCustom<PaginationLocale>('Pagination', overrideLocale);
 
     const renderItem = useCallback(
@@ -111,20 +115,21 @@ const Pagination: RsRefForwardingComponent<'ul', PaginationProps> = React.forwar
 
         return (
           <PaginationButton
-            {...itemRest}
             role="button"
-            key={`${key}-${eventKey}`}
+            aria-disabled={disabledItem}
             aria-label={title}
             title={title}
+            {...itemRest}
+            {...linkProps}
+            key={`${key}-${eventKey}`}
             eventKey={eventKey}
-            linkAs={linkAs}
-            aria-disabled={disabledItem}
+            as={linkAs}
             disabled={disabledItem}
             onSelect={disabledItem ? undefined : onSelect}
           />
         );
       },
-      [disabledProp, linkAs, locale, onSelect]
+      [disabledProp, linkAs, linkProps, locale, onSelect]
     );
 
     const renderFirst = () => {
@@ -135,7 +140,9 @@ const Pagination: RsRefForwardingComponent<'ul', PaginationProps> = React.forwar
       return renderItem('first', {
         eventKey: 1,
         disabled: activePage === 1,
-        children: <span>{first === true ? PAGINATION_ICONS.first : first}</span>
+        children: (
+          <span className={prefix`symbol`}>{first === true ? PAGINATION_ICONS.first : first}</span>
+        )
       });
     };
 
@@ -147,7 +154,9 @@ const Pagination: RsRefForwardingComponent<'ul', PaginationProps> = React.forwar
       return renderItem('prev', {
         eventKey: activePage - 1,
         disabled: activePage === 1,
-        children: <span>{prev === true ? PAGINATION_ICONS.prev : prev}</span>
+        children: (
+          <span className={prefix`symbol`}>{prev === true ? PAGINATION_ICONS.prev : prev}</span>
+        )
       });
     };
 
@@ -191,7 +200,11 @@ const Pagination: RsRefForwardingComponent<'ul', PaginationProps> = React.forwar
           renderItem('more', {
             eventKey: 'ellipsisFirst',
             disabled: true,
-            children: <span>{ellipsis === true ? PAGINATION_ICONS.more : ellipsis}</span>
+            children: (
+              <span className={prefix`symbol`}>
+                {ellipsis === true ? PAGINATION_ICONS.more : ellipsis}
+              </span>
+            )
           })
         );
 
@@ -203,7 +216,11 @@ const Pagination: RsRefForwardingComponent<'ul', PaginationProps> = React.forwar
           renderItem('more', {
             eventKey: 'ellipsis',
             disabled: true,
-            children: <span>{ellipsis === true ? PAGINATION_ICONS.more : ellipsis}</span>
+            children: (
+              <span className={prefix`symbol`}>
+                {ellipsis === true ? PAGINATION_ICONS.more : ellipsis}
+              </span>
+            )
           })
         );
 
@@ -224,7 +241,9 @@ const Pagination: RsRefForwardingComponent<'ul', PaginationProps> = React.forwar
       return renderItem('next', {
         eventKey: activePage + 1,
         disabled: activePage >= pages,
-        children: <span>{next === true ? PAGINATION_ICONS.next : next}</span>
+        children: (
+          <span className={prefix`symbol`}>{next === true ? PAGINATION_ICONS.next : next}</span>
+        )
       });
     };
 
@@ -236,7 +255,9 @@ const Pagination: RsRefForwardingComponent<'ul', PaginationProps> = React.forwar
       return renderItem('last', {
         eventKey: pages,
         disabled: activePage >= pages,
-        children: <span>{last === true ? PAGINATION_ICONS.last : last}</span>
+        children: (
+          <span className={prefix`symbol`}>{last === true ? PAGINATION_ICONS.last : last}</span>
+        )
       });
     };
 
@@ -267,6 +288,7 @@ Pagination.propTypes = {
   prev: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
   next: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
   linkAs: PropTypes.elementType,
+  linkProps: PropTypes.object,
   className: PropTypes.string,
   classPrefix: PropTypes.string,
   locale: PropTypes.any,

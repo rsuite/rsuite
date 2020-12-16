@@ -83,7 +83,7 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
         onSelect,
         activeKey,
         showHeader: hasTooltip,
-        as: 'li'
+        as: 'div'
       };
     }
 
@@ -110,8 +110,8 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
 
         return (
           <Component {...rest} ref={ref} className={classes}>
-            <ul>{items}</ul>
-            {hasWaterline && <div className={prefix('waterline')} />}
+            {items}
+            {hasWaterline && <div className={prefix('bar')} />}
           </Component>
         );
       }}

@@ -16,7 +16,7 @@
 
 `appearance` 属性设置导航外观:
 
-- 'default'(默认值) 默认导航。
+- 'default' (默认值) 默认导航。
 - 'tabs' 标签式的导航。
 - 'subtle' 弱化的导航。
 
@@ -53,42 +53,32 @@
 
 <!--{include:`with-router.md`}-->
 
-### 扩展：响应式
-
-<!--{include:`responsive-nav.md`}-->
-
-### 扩展：可删除
-
-<!--{include:`removable-nav.md`}-->
-
 ## Props
 
 ### `<Nav>`
 
-| 属性名称    | 类型`(默认值)`                                     | 描述                                          |
-| ----------- | -------------------------------------------------- | --------------------------------------------- |
-| activeKey   | string                                             | 激活的 `key`, 对应 `<Nav.Item>` 中 `eventKey` |
-| appearance  | enum: 'default', 'tabs', 'subtle' `('default')`    | 设置外观                                      |
-| children \* | React.ChildrenArray&lt;NavItem or Dropdown&gt;     | 组件内容                                      |
-| classPrefix | string `('nav')`                                   | 组件 CSS 类的前缀                             |
-| justified   | boolean                                            | 宽度自适应                                    |
-| onSelect    | (eventKey: string, event: SyntheticEvent) => void, | 选择事件触发的回调函数                        |
-| pullRight   | boolean                                            | 显示在右侧                                    |
-| vertical    | boolean                                            | 垂直导航                                      |
+| 属性名称    | 类型`(默认值)`                                    | 描述                                          |
+| ----------- | ------------------------------------------------- | --------------------------------------------- |
+| activeKey   | string                                            | 激活的 `key`, 对应 `<Nav.Item>` 中 `eventKey` |
+| appearance  | enum: 'default', 'tabs', 'subtle' `('default')`   | 设置外观                                      |
+| children \* | ChildrenArray&lt;NavItem or Dropdown&gt;          | 组件内容                                      |
+| classPrefix | string `('nav')`                                  | 组件 CSS 类的前缀                             |
+| justified   | boolean                                           | 宽度自适应                                    |
+| onSelect    | (eventKey: string, event: SyntheticEvent) => void | 选择事件触发的回调函数                        |
+| pullRight   | boolean                                           | 显示在右侧                                    |
+| vertical    | boolean                                           | 垂直导航                                      |
 
 ### `<Nav.Item>`
 
-| 属性名称    | 类型                               | 描述                   |
-| ----------- | ---------------------------------- | ---------------------- |
-| active      | boolean                            | 激活状态               |
-| as          | ElementType`('li')`                | 为组件自定义元素类型   |
-| children \* | ReactNode                          | 组件内容               |
-| disabled    | boolean                            | 禁用状态               |
-| href        | string                             | 链接                   |
-| icon        | Element&lt;typeof Icon&gt;         | 设置图标               |
-| linkAs      | ElementType `('a')`                | 为链接自定义元素类型   |
-| onSelect    | (eventKey: string, event) => void, | 选择事件触发的回调函数 |
-| renderItem  | (item:ReactNode) => ReactNode      | 自定义渲染选项         |
+| 属性名称    | 类型                              | 描述                   |
+| ----------- | --------------------------------- | ---------------------- |
+| active      | boolean                           | 激活状态               |
+| as          | ElementType`('a')`                | 为组件自定义元素类型   |
+| children \* | ReactNode                         | 组件内容               |
+| disabled    | boolean                           | 禁用状态               |
+| href        | string                            | 链接                   |
+| icon        | Element&lt;typeof Icon&gt;        | 设置图标               |
+| onSelect    | (eventKey: string, event) => void | 选择事件触发的回调函数 |
 
 ### `<Nav.Dropdown>`
 

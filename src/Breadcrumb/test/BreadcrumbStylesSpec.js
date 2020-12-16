@@ -10,6 +10,6 @@ describe('Breadcrumb styles', () => {
     const instanceRef = React.createRef();
 
     ReactDOM.render(<Breadcrumb ref={instanceRef} />, createTestContainer());
-    assert.equal(getStyle(instanceRef.current.firstElementChild, 'padding'), '8px 15px');
+    assert.equal(getStyle(instanceRef.current, 'padding'), '8px 15px');
   });
 });

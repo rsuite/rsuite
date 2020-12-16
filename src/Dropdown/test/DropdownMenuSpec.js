@@ -6,7 +6,7 @@ import DropdownMenu from '../DropdownMenu';
 import DropdownMenuItem from '../DropdownMenuItem';
 
 describe('DropdownMenu', () => {
-  it('Should render a ul', () => {
+  it('Should render a <div>', () => {
     const instance = getDOMNode(
       <DropdownMenu>
         <DropdownMenuItem>1</DropdownMenuItem>
@@ -15,7 +15,7 @@ describe('DropdownMenu', () => {
     );
 
     assert.ok(instance.className.match(/\bdropdown-menu\b/));
-    assert.equal(instance.tagName, 'UL');
+    assert.equal(instance.tagName, 'DIV');
     assert.equal(instance.children.length, 2);
   });
 

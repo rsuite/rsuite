@@ -80,7 +80,7 @@
     }
   }
 
-  .@{ns}popover-content &-item-submenu:not(&-item-open) > &-item-content > &-menu {
+  .@{ns}popover-content &-item-submenu:not(&-item-open) > &-menu {
     display: none;
   }
 }
@@ -114,9 +114,9 @@
   }
 
   // Links within the dropdown menu
-  .@{ns}dropdown-item-content {
+  .@{ns}dropdown-item {
     display: block;
-    padding: @dropdown-item-content-padding-vertical @dropdown-item-content-padding-horizontal;
+    padding: @dropdown-item-padding-vertical @dropdown-item-padding-horizontal;
     clear: both;
     font-weight: normal;
     line-height: @line-height-base;
@@ -132,7 +132,7 @@
     }
   }
 
-  a.@{ns}dropdown-item-content {
+  a.@{ns}dropdown-item {
     .reset-link-text-decoration(none);
   }
 }
@@ -141,7 +141,7 @@
 .@{ns}dropdown-item-submenu {
   position: relative;
 
-  > .@{ns}dropdown-item-content {
+  &.@{ns}dropdown-item {
     position: relative;
 
     > .@{ns}dropdown-menu-toggle {
@@ -161,10 +161,10 @@
 
   // Set submenu icon
   &.@{ns}dropdown-menu-pull-right {
-    > .@{ns}dropdown-item-content {
-      padding-right: @dropdown-item-content-padding-horizontal+
-        @dropdown-item-content-submenu-icon-angle-spacing+
-        @dropdown-item-content-submenu-icon-angle-width;
+    &.@{ns}dropdown-item {
+      padding-right: @dropdown-item-padding-horizontal+
+        @dropdown-item-submenu-icon-angle-spacing+
+        @dropdown-item-submenu-icon-angle-width;
 
       > .@{ns}dropdown-menu-toggle .@{ns}dropdown-menu-toggle-icon {
         right: @dropdown-caret-icon-padding-horizontal;
@@ -173,10 +173,10 @@
   }
 
   &.@{ns}dropdown-menu-pull-left {
-    > .@{ns}dropdown-item-content {
-      padding-left: @dropdown-item-content-padding-horizontal+
-        @dropdown-item-content-submenu-icon-angle-spacing +
-        @dropdown-item-content-submenu-icon-angle-width;
+    &.@{ns}dropdown-item {
+      padding-left: @dropdown-item-padding-horizontal+
+        @dropdown-item-submenu-icon-angle-spacing +
+        @dropdown-item-submenu-icon-angle-width;
 
       > .@{ns}dropdown-menu-toggle .@{ns}dropdown-menu-toggle-icon {
         left: @dropdown-caret-icon-padding-horizontal;
@@ -185,17 +185,17 @@
   }
 
   // Pull right
-  &.@{ns}dropdown-menu-pull-right > .@{ns}dropdown-item-content > .@{ns}dropdown-menu {
+  &.@{ns}dropdown-menu-pull-right > .@{ns}dropdown-menu {
     left: 100%;
   }
 
   // Pull Left
-  &.@{ns}dropdown-menu-pull-left > .@{ns}dropdown-item-content > .@{ns}dropdown-menu {
+  &.@{ns}dropdown-menu-pull-left > .@{ns}dropdown-menu {
     right: 100%;
   }
 
   // Open
-  &.@{ns}dropdown-item-open > .@{ns}dropdown-item-content > .@{ns}dropdown-menu {
+  &.@{ns}dropdown-item-open > .@{ns}dropdown-menu {
     //use display table to fix-content
     display: table;
     animation-name: slideUpIn;
@@ -204,7 +204,7 @@
 }
 
 // Hover/Focus state
-.@{ns}dropdown-menu > .@{ns}dropdown-item > .@{ns}dropdown-item-content {
+.@{ns}dropdown-menu > .@{ns}dropdown-item {
   &:hover,
   &:focus {
     text-decoration: none;
@@ -214,8 +214,8 @@
 }
 
 // Active state
-.@{ns}dropdown-menu > .@{ns}dropdown-menu-item-focus > .@{ns}dropdown-item-content,
-.@{ns}dropdown-menu > .@{ns}dropdown-item-active > .@{ns}dropdown-item-content {
+.@{ns}dropdown-menu > .@{ns}dropdown-menu-item-focus,
+.@{ns}dropdown-menu > .@{ns}dropdown-item-active {
   font-weight: @dropdown-selected-font-weight;
   outline: 0;
 
@@ -227,7 +227,7 @@
   }
 }
 
-.@{ns}dropdown-menu > .@{ns}dropdown-item-active > .@{ns}dropdown-item-content {
+.@{ns}dropdown-menu > .@{ns}dropdown-item-active {
   &,
   &:hover,
   &:focus {
@@ -238,7 +238,7 @@
 // Disabled state
 //
 // Gray out text and ensure the hover/focus state remains gray
-.@{ns}dropdown-menu > .@{ns}dropdown-item-disabled > .@{ns}dropdown-item-content {
+.@{ns}dropdown-menu > .@{ns}dropdown-item-disabled {
   opacity: 0.3;
 
   &,
@@ -330,7 +330,7 @@
 // Dropdown section headers
 .@{ns}dropdown-header {
   display: block;
-  padding: @dropdown-item-content-padding-vertical @dropdown-item-content-padding-horizontal;
+  padding: @dropdown-item-padding-vertical @dropdown-item-padding-horizontal;
   line-height: @line-height-base;
   color: @dropdown-header-color;
   border-bottom: 1px solid @dropdown-divider-bg;

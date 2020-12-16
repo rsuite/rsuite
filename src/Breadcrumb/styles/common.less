@@ -5,19 +5,12 @@
 // --------------------------------------------------
 
 .@{ns}breadcrumb {
-  ol {
-    padding: @breadcrumb-padding-vertical @breadcrumb-padding-horizontal;
-    margin-bottom: @line-height-computed;
-    list-style: none;
-    // All breadcrumb display value need set to inline-block
-    > li {
-      display: inline-block;
-      font-size: @breadcrumb-font-size;
-    }
-  }
+  padding: @breadcrumb-padding-vertical @breadcrumb-padding-horizontal;
+  margin-bottom: @line-height-computed;
+  font-size: @breadcrumb-font-size;
 
   // If breadcrumbs has a ci
-  &-item > a {
+  a.@{ns}breadcrumb-item {
     cursor: pointer;
     transition: color 0.3s linear;
     color: @link-color;

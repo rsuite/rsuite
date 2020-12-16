@@ -35,7 +35,7 @@ describe('Sidenav', () => {
       </Sidenav>
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-nav-item-content'));
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-nav-item'));
   });
 
   it('Should call onOpenChange callback', done => {

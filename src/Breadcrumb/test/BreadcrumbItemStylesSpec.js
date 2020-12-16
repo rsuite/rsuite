@@ -18,9 +18,8 @@ describe('BreadcrumbItem styles', () => {
     const dom = instanceRef.current;
     const itemDom = dom.querySelector('.rs-breadcrumb-item');
     const separatorDom = dom.querySelector('.rs-breadcrumb-separator');
-    const a = itemDom.querySelector('a');
     assert.equal(getStyle(itemDom, 'fontSize'), '12px');
-    assert.equal(getStyle(a, 'cursor'), 'pointer');
+    assert.equal(getStyle(itemDom, 'cursor'), 'pointer');
     // @description Can't get margin value in other browser except chrome
     inChrome && assert.equal(getStyle(separatorDom, 'margin'), '0px 4px');
   });

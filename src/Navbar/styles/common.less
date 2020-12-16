@@ -22,14 +22,14 @@
   }
 
   // Nav item content
-  .@{ns}nav-item > .@{ns}nav-item-content {
+  .@{ns}nav-item {
     // Reset padding
     padding: @nav-bar-padding-vertical @nav-bar-padding-horizontal;
     height: @nav-bar-height;
   }
 
   // Reset border-radius
-  .@{ns}nav-item:not(.@{ns}nav-item-disabled) > .@{ns}nav-item-content,
+  .@{ns}nav-item:not(.@{ns}nav-item-disabled),
   .@{ns}dropdown > .@{ns}dropdown-toggle {
     border-radius: 0;
   }
@@ -58,11 +58,11 @@
   }
 
   .@{ns}dropdown .@{ns}dropdown-toggle,
-  .@{ns}nav-item > .@{ns}nav-item-content {
-    .navbar-default-item-content;
+  .@{ns}nav-item {
+    .navbar-default-item;
   }
 
-  .@{ns}nav-item-active > .@{ns}nav-item-content,
+  .@{ns}nav-item-active,
   .@{ns}dropdown .@{ns}dropdown-menu-active ~ .@{ns}dropdown-toggle {
     &,
     &:hover,
@@ -86,12 +86,12 @@
 
   .@{ns}dropdown .@{ns}dropdown-menu-active ~ .@{ns}dropdown-toggle,
   .@{ns}dropdown .@{ns}dropdown-toggle,
-  .@{ns}nav-item-active > .@{ns}nav-item-content,
-  .@{ns}nav-item > .@{ns}nav-item-content {
+  .@{ns}nav-item-active,
+  .@{ns}nav-item {
     .reset-font-color(@nav-bar-inverse-font-color);
   }
 
-  .@{ns}nav-item-active > .@{ns}nav-item-content,
+  .@{ns}nav-item-active,
   .@{ns}dropdown .@{ns}dropdown-menu-active ~ .@{ns}dropdown-toggle {
     &,
     &:hover,
@@ -101,7 +101,7 @@
     }
   }
 
-  .@{ns}navbar-nav .@{ns}nav-item > .@{ns}nav-item-content,
+  .@{ns}navbar-nav .@{ns}nav-item,
   .@{ns}navbar-nav .@{ns}dropdown .@{ns}dropdown-toggle {
     &:hover,
     &:focus {
@@ -125,11 +125,11 @@
   }
 
   .@{ns}dropdown .@{ns}dropdown-toggle,
-  .@{ns}nav-item > .@{ns}nav-item-content {
+  .@{ns}nav-item {
     .reset-font-color(@nav-bar-subtle-font-color);
   }
 
-  .@{ns}navbar-nav .@{ns}nav-item:not(.@{ns}nav-item-active) > .@{ns}nav-item-content,
+  .@{ns}navbar-nav .@{ns}nav-item:not(.@{ns}nav-item-active),
   .@{ns}navbar-nav .@{ns}dropdown .@{ns}dropdown-toggle {
     &:hover,
     &:focus {
@@ -144,7 +144,7 @@
   }
 
   // Active
-  .@{ns}navbar-nav .@{ns}nav-item-active > .@{ns}nav-item-content,
+  .@{ns}navbar-nav .@{ns}nav-item-active,
   .@{ns}navbar-nav .@{ns}dropdown .@{ns}dropdown-menu-active ~ .@{ns}dropdown-toggle {
     background-color: @nav-bar-subtle-active-bg;
     .reset-font-color(@nav-bar-subtle-font-active-color);

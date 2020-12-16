@@ -7,18 +7,18 @@ import Sidenav from '../../Sidenav';
 import User from '@rsuite/icons/legacy/User';
 
 describe('DropdownMenuItem', () => {
-  it('Should render a li', () => {
+  it('Should render a <a>', () => {
     const title = 'Test';
     const instance = getDOMNode(<DropdownMenuItem>{title}</DropdownMenuItem>);
 
-    assert.equal(instance.tagName, 'LI');
+    assert.equal(instance.tagName, 'A');
     assert.equal(innerText(instance), title);
   });
 
   it('Should render a Button', () => {
     const title = 'Test';
-    const instance = getDOMNode(<DropdownMenuItem linkAs="button">{title}</DropdownMenuItem>);
-    assert.equal(instance.children[0].tagName, 'BUTTON');
+    const instance = getDOMNode(<DropdownMenuItem as="button">{title}</DropdownMenuItem>);
+    assert.equal(instance.tagName, 'BUTTON');
     assert.equal(innerText(instance), title);
   });
 
@@ -83,7 +83,7 @@ describe('DropdownMenuItem', () => {
         Title
       </DropdownMenuItem>
     );
-    ReactTestUtils.Simulate.click(instance.children[0]);
+    ReactTestUtils.Simulate.click(instance);
   });
 
   it('Should call onClick callback', done => {
@@ -91,18 +91,7 @@ describe('DropdownMenuItem', () => {
       done();
     };
     const instance = getDOMNode(<DropdownMenuItem onClick={doneOp}>Title</DropdownMenuItem>);
-    ReactTestUtils.Simulate.click(instance.children[0]);
-  });
-
-  it('Should output a custom item', () => {
-    let instance = getDOMNode(
-      <DropdownMenuItem
-        renderItem={() => {
-          return <span>custom</span>;
-        }}
-      />
-    );
-    assert.include(instance.querySelector('span').innerText, 'custom');
+    ReactTestUtils.Simulate.click(instance);
   });
 
   it('Should have a custom className', () => {
