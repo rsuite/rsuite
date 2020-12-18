@@ -15,10 +15,10 @@ describe('DropdownMenuItem', () => {
     assert.equal(innerText(instance), title);
   });
 
-  it('Should render a Button', () => {
+  it('Should render a <a>', () => {
     const title = 'Test';
-    const instance = getDOMNode(<DropdownMenuItem as="button">{title}</DropdownMenuItem>);
-    assert.equal(instance.tagName, 'BUTTON');
+    const instance = getDOMNode(<DropdownMenuItem as="a">{title}</DropdownMenuItem>);
+    assert.equal(instance.tagName, 'A');
     assert.equal(innerText(instance), title);
   });
 
