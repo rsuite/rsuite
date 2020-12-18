@@ -101,7 +101,7 @@ function IconList() {
                 <span className="hljs-keyword">import</span>
                 {` ${iconName}Icon `}
                 <span className="hljs-keyword">from</span>{' '}
-                <span className="hljs-string">{`@rsuite/icons/${iconName}`}</span>;
+                <span className="hljs-string">{`'@rsuite/icons/${iconName}'`}</span>;
               </code>
             </pre>
           </div>

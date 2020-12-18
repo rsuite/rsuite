@@ -38,14 +38,7 @@
   }
 
   &-panel &-header-forward,
-  &-panel &-header-title,
   &-panel &-header-backward {
-    .btn-md;
-  }
-
-  &-panel &-header-forward,
-  &-panel &-header-backward {
-    width: 31px;
     float: none !important;
   }
 
@@ -104,6 +97,7 @@
   }
 
   &-panel &-month-dropdown {
+    margin-top: -2px;
     margin-left: 12px;
     margin-right: 12px;
     top: 54px;
@@ -246,39 +240,14 @@
     float: right;
   }
 
-  // Month toolbar title && button
-  &-title,
-  &-meridian,
-  &-backward,
-  &-forward {
-    .btn(base);
-    .btn-subtle;
-    .btn-xs(base);
-
-    padding: 2px 2px;
-    font-size: @font-size-base;
-    line-height: @line-height-base;
-  }
-
   &-title {
     margin: 0 @calendar-header-title-margin;
   }
 
   &-meridian {
     // Designer think it's nice!
-    line-height: @font-size-small;
-    border: @calendar-meridian-border-width solid @input-border;
     font-size: @font-size-small;
-    padding: @padding-extra-small-vertical 12px @padding-extra-small-vertical
-      @padding-extra-small-vertical;
     margin-left: 4px;
-
-    &::after {
-      transform: scale(0.7, 0.9);
-      position: absolute;
-      font-family: @font-family-icon;
-      content: @icon-sort;
-    }
   }
 
   &-error {
@@ -299,13 +268,6 @@
     &::after {
       display: none !important;
     }
-  }
-
-  &-backward,
-  &-forward {
-    font-size: @font-size-base;
-    display: inline-flex;
-    align-items: center;
   }
 
   // Only Has month
@@ -352,7 +314,9 @@
 [dir='rtl'] .@{clpns}-header {
   &-backward,
   &-forward {
-    transform: rotate(180deg);
+    .@{ns}icon {
+      transform: rotate(180deg);
+    }
   }
 }
 
@@ -473,7 +437,7 @@
   position: absolute;
   top: @calendar-dropdown-top;
   border-top: 1px solid @calendar-month-dropdown-border;
-  margin-top: 4px;
+  margin-top: 0;
   width: 100%;
   background-color: @calendar-month-dropdown-bg;
   overflow: hidden;

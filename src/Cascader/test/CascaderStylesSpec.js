@@ -35,6 +35,6 @@ describe('Cascader styles', () => {
     );
     const caretDom = menuItemDom.querySelector('.rs-picker-cascader-menu-caret');
     inChrome && assert.equal(getStyle(menuItemDom, 'padding'), '8px 28px 8px 12px');
-    assert.equal(caretDom.getAttribute('aria-label'), 'arrow right line');
+    assert.equal(caretDom.getAttribute('aria-label'), 'angle right');
   });
 });

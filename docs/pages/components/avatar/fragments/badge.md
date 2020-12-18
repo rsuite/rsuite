@@ -5,13 +5,13 @@ const instance = (
   <div className="avatar-group">
     <Badge>
       <Avatar>
-        <Icon icon={AvatarUser} />
+        <Icon as={AvatarIcon} />
       </Avatar>
     </Badge>
 
     <Badge content="20">
       <Avatar>
-        <Icon icon={AvatarUser} />
+        <Icon as={AvatarIcon} />
       </Avatar>
     </Badge>
   </div>

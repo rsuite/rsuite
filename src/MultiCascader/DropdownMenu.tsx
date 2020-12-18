@@ -2,8 +2,8 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import Spinner from '@rsuite/icons/legacy/Spinner';
-import ArrowLeftLine from '@rsuite/icons/legacy/ArrowLeftLine';
-import ArrowRightLine from '@rsuite/icons/legacy/ArrowRightLine';
+import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
+import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
 
 import { useClassNames, shallowEqual, useCustom } from '../utils';
 import { DropdownMenuCheckItem } from '../Picker';
@@ -136,7 +136,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
 
       // Use `value` in keys when If `value` is string or number
       const onlyKey = typeof value === 'number' || typeof value === 'string' ? value : index;
-      const Icon = rtl ? ArrowRightLine : ArrowLeftLine;
+      const Icon = rtl ? AngleRightIcon : AngleLeftIcon;
       let active = value.some(v => v === nodeValue);
 
       if (cascade) {

@@ -138,7 +138,7 @@ const CalendarPanel: RsRefForwardingComponent<
 
   const renderToolbar = useCallback(
     () => (
-      <Button className={prefix('btn-today')} onClick={handleClickToday}>
+      <Button className={prefix('btn-today')} size="sm" onClick={handleClickToday}>
         {locale.today || 'Today'}
       </Button>
     ),
@@ -155,6 +155,7 @@ const CalendarPanel: RsRefForwardingComponent<
   return (
     <Component
       {...rest}
+      inline
       className={classes}
       ref={ref}
       isoWeek={isoWeek}

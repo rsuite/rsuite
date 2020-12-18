@@ -7,7 +7,7 @@ const instance = (
       <User />
     </Avatar>
     <Avatar>
-      <Icon icon={AvatarUser} />
+      <Icon as={AvatarIcon} />
     </Avatar>
   </div>
 );

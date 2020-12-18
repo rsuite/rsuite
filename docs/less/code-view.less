@@ -53,11 +53,17 @@ a code {
 .code-view-wrapper {
   transition: 0.3s linear border-color;
   margin: 18px 0;
+  padding: 0;
   border-color: @code-view-wrapper-border-color;
   background: @code-view-wrapper-bg;
+  border-radius: 4px;
 
   &:hover {
     border: 1px dashed @H500;
+  }
+  
+  .CodeMirror{
+    margin: 0;
   }
 
   hr {
@@ -65,7 +71,7 @@ a code {
   }
 
   .code-view-toolbar {
-    padding-bottom: 8px;
+    padding: 8px;
     border-color: @code-view-wrapper-border-color;
 
     > .rs-btn {

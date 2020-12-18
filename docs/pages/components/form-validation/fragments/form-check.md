@@ -63,35 +63,39 @@ const App = () => {
   };
 
   return (
-    <div>
-      <JSONView formValue={formValue} formError={formError} />
-      <Form
-        ref={formRef}
-        onChange={setFormValue}
-        onCheck={setFormError}
-        formValue={formValue}
-        model={model}
-      >
-        <TextField name="name" label="Username" />
-        <TextField name="email" label="Email" />
-        <TextField name="age" label="Age" />
-        <TextField name="password" label="Password" type="password" autoComplete="off" />
-        <TextField
-          name="verifyPassword"
-          label="Verify password"
-          type="password"
-          autoComplete="off"
-        />
+    <FlexboxGrid>
+      <FlexboxGrid.Item colspan={12}>
+        <Form
+          ref={formRef}
+          onChange={setFormValue}
+          onCheck={setFormError}
+          formValue={formValue}
+          model={model}
+        >
+          <TextField name="name" label="Username" />
+          <TextField name="email" label="Email" />
+          <TextField name="age" label="Age" />
+          <TextField name="password" label="Password" type="password" autoComplete="off" />
+          <TextField
+            name="verifyPassword"
+            label="Verify password"
+            type="password"
+            autoComplete="off"
+          />
 
-        <ButtonToolbar>
-          <Button appearance="primary" onClick={handleSubmit}>
-            Submit
-          </Button>
+          <ButtonToolbar>
+            <Button appearance="primary" onClick={handleSubmit}>
+              Submit
+            </Button>
 
-          <Button onClick={handleCheckEmail}>Check Email</Button>
-        </ButtonToolbar>
-      </Form>
-    </div>
+            <Button onClick={handleCheckEmail}>Check Email</Button>
+          </ButtonToolbar>
+        </Form>
+      </FlexboxGrid.Item>
+      <FlexboxGrid.Item colspan={12}>
+        <JSONView formValue={formValue} formError={formError} />
+      </FlexboxGrid.Item>
+    </FlexboxGrid>
   );
 };
 

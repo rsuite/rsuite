@@ -10,12 +10,7 @@ const instance = (
 
     <ButtonGroup>
       <Button>Save</Button>
-      <Dropdown
-        placement="bottomEnd"
-        renderTitle={() => {
-          return <AngleDoubleDown />;
-        }}
-      >
+      <Dropdown placement="bottomEnd" renderTitle={() => <IconButton icon={<AngleDoubleDown />} />}>
         <Dropdown.Item icon={<Save />}>Save as...</Dropdown.Item>
         <Dropdown.Item icon={<Save />}>Save & New</Dropdown.Item>
       </Dropdown>
@@ -25,7 +20,6 @@ const instance = (
       renderTitle={() => {
         return (
           <IconButton icon={<Plus />} placement="left">
-            {' '}
             New
           </IconButton>
         );

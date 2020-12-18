@@ -25,59 +25,10 @@
 
   &-ranges {
     display: inline-block;
-    margin-left: -@padding-small-horizontal;
-    margin-top: 5px;
   }
 
   &-right {
     float: right;
-  }
-
-  &-option {
-    .btn(base);
-    .btn-sm(base);
-    .btn-link-variant(@calendar-option-color);
-
-    padding-top: 0;
-    padding-bottom: 0;
-
-    &:not(:last-child) {
-      position: relative;
-
-      &::before {
-        content: '';
-        width: 1px;
-        height: 20px;
-        background-color: @calendar-toolbar-border-color;
-        position: absolute;
-        top: 0;
-        right: 0;
-      }
-    }
-
-    &-disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-
-      .reset-link-text-decoration();
-    }
-  }
-
-  &-right-btn-ok {
-    .btn(base);
-    .btn-sm(base);
-    .button-primary-variant(@calendar-right-btn-ok-color; @calendar-right-btn-ok-bg);
-  }
-
-  &-right-btn-ok&-btn-disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-
-    &,
-    &:hover,
-    &:hover:active {
-      background-color: @calendar-right-btn-ok-bg;
-    }
   }
 }
 

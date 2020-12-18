@@ -68,6 +68,16 @@
   &-value-separator {
     margin: 0 4px 0 0;
   }
+
+  &:not(.@{ns}picker-disabled):hover,
+  &.@{ns}picker-focused {
+    border-color: @picker-default-toggle-hover-border-color;
+  }
+
+  &-toggle-active,
+  &.@{ns}picker-focused {
+    box-shadow: 0 0 0 3px fade(@primary-color, 25%);
+  }
 }
 
 .@{ns}picker-toggle {
@@ -118,7 +128,7 @@
   .@{ns}picker-default:not(.@{ns}picker-disabled) & {
     &:hover,
     &:focus,
-    &.active {
+    &-active {
       border-color: @picker-default-toggle-hover-border-color;
     }
   }
@@ -128,7 +138,7 @@
 
     transition: none;
 
-    &.active {
+    &-active {
       background-color: @btn-subtle-hover-bg;
       color: @btn-subtle-default-hover-color;
     }

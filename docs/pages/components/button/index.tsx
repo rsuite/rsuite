@@ -3,27 +3,29 @@ import { Button, IconButton, ButtonGroup, ButtonToolbar, Panel } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import * as SvgIcons from '@/components/SvgIcons';
 import { Icon } from '@rsuite/icons';
-import FacebookOfficial from '@rsuite/icons/legacy/FacebookOfficial';
-import GooglePlusCircle from '@rsuite/icons/legacy/GooglePlusCircle';
-import Twitter from '@rsuite/icons/legacy/Twitter';
-import Linkedin from '@rsuite/icons/legacy/Linkedin';
-import Wechat from '@rsuite/icons/legacy/Wechat';
-import Weibo from '@rsuite/icons/legacy/Weibo';
-import Star from '@rsuite/icons/legacy/Star';
-import AlignLeft from '@rsuite/icons/legacy/AlignLeft';
-import AlignCenter from '@rsuite/icons/legacy/AlignCenter';
-import AlignRight from '@rsuite/icons/legacy/AlignRight';
-import AlignJustify from '@rsuite/icons/legacy/AlignJustify';
-import Pause from '@rsuite/icons/legacy/Pause';
-import ArrowRight from '@rsuite/icons/ArrowRight';
-import Search from '@rsuite/icons/Search';
-import { FileText } from '@rsuite/icons/lib/icons/legacy';
-import Save from '@rsuite/icons/legacy/Save';
-import Bold from '@rsuite/icons/legacy/Bold';
-import Italic from '@rsuite/icons/legacy/Italic';
-import Underline from '@rsuite/icons/legacy/Underline';
-import Strikethrough from '@rsuite/icons/legacy/Strikethrough';
-import Link from '@rsuite/icons/legacy/Link';
+import FacebookOfficialIcon from '@rsuite/icons/legacy/FacebookOfficial';
+import GooglePlusCircleIcon from '@rsuite/icons/legacy/GooglePlusCircle';
+import TwitterIcon from '@rsuite/icons/legacy/Twitter';
+import LinkedinIcon from '@rsuite/icons/legacy/Linkedin';
+import WechatIcon from '@rsuite/icons/legacy/Wechat';
+import WeiboIcon from '@rsuite/icons/legacy/Weibo';
+import StarIcon from '@rsuite/icons/legacy/Star';
+import AlignLeftIcon from '@rsuite/icons/legacy/AlignLeft';
+import AlignCenterIcon from '@rsuite/icons/legacy/AlignCenter';
+import AlignRightIcon from '@rsuite/icons/legacy/AlignRight';
+import AlignJustifyIcon from '@rsuite/icons/legacy/AlignJustify';
+import PauseIcon from '@rsuite/icons/legacy/Pause';
+import PlayIcon from '@rsuite/icons/legacy/Play';
+import SearchIcon from '@rsuite/icons/Search';
+import FileTextIcon from '@rsuite/icons/legacy/FileText';
+import SaveIcon from '@rsuite/icons/legacy/Save';
+import BoldIcon from '@rsuite/icons/legacy/Bold';
+import ItalicIcon from '@rsuite/icons/legacy/Italic';
+import UnderlineIcon from '@rsuite/icons/legacy/Underline';
+import StrikethroughIcon from '@rsuite/icons/legacy/Strikethrough';
+import LinkIcon from '@rsuite/icons/legacy/Link';
+import AddOutlineIcon from '@rsuite/icons/AddOutline';
+import PlusIcon from '@rsuite/icons/Plus';
 
 export default function Page() {
   return (
@@ -36,27 +38,29 @@ export default function Page() {
         Icon,
         Panel,
         SvgIcons,
-        FacebookOfficial,
-        GooglePlusCircle,
-        Twitter,
-        Linkedin,
-        Wechat,
-        Weibo,
-        Star,
-        AlignLeft,
-        AlignCenter,
-        AlignRight,
-        AlignJustify,
-        Pause,
-        ArrowRight,
-        Search,
-        FileText,
-        Save,
-        Bold,
-        Italic,
-        Underline,
-        Strikethrough,
-        Link,
+        FacebookOfficialIcon,
+        GooglePlusCircleIcon,
+        TwitterIcon,
+        LinkedinIcon,
+        WechatIcon,
+        WeiboIcon,
+        StarIcon,
+        AlignLeftIcon,
+        AlignCenterIcon,
+        AlignRightIcon,
+        AlignJustifyIcon,
+        PauseIcon,
+        PlayIcon,
+        SearchIcon,
+        FileTextIcon,
+        SaveIcon,
+        BoldIcon,
+        ItalicIcon,
+        UnderlineIcon,
+        StrikethroughIcon,
+        LinkIcon,
+        AddOutlineIcon,
+        PlusIcon
       }}
     />
   );

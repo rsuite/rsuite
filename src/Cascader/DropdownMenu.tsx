@@ -8,8 +8,8 @@ import { shallowEqual, useClassNames, mergeRefs, useCustom } from '../utils';
 import { DropdownMenuItem } from '../Picker';
 import { ItemDataType, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { ValueType } from './Cascader';
-import ArrowLeftLine from '@rsuite/icons/legacy/ArrowLeftLine';
-import ArrowRightLine from '@rsuite/icons/legacy/ArrowRightLine';
+import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
+import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
 export interface DropdownMenuProps extends WithAsProps {
   disabledItemValues: ValueType[];
   activeItemValue?: ValueType;
@@ -138,7 +138,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
 
       // Use `value` in keys when If `value` is string or number
       const onlyKey = typeof value === 'number' || typeof value === 'string' ? value : index;
-      const Icon = rtl ? ArrowRightLine : ArrowLeftLine;
+      const Icon = rtl ? AngleRightIcon : AngleLeftIcon;
 
       return (
         <DropdownMenuItem

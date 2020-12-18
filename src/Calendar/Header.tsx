@@ -1,7 +1,9 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import ArrowLeftLine from '@rsuite/icons/legacy/ArrowLeftLine';
-import ArrowRightLine from '@rsuite/icons/legacy/ArrowRightLine';
+import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
+import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
+import IconButton from '../IconButton';
+import Button, { ButtonProps } from '../Button';
 import { useClassNames } from '../utils';
 import { FormattedDate } from '../CustomProvider';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
@@ -52,8 +54,12 @@ const Header: RsRefForwardingComponent<'div', HeaderProps> = React.forwardRef(
       ...rest
     } = props;
 
-    const { locale, date = new Date(), format, disabledDate } = useCalendarContext();
+    const { locale, date = new Date(), format, inline, disabledDate } = useCalendarContext();
     const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
+    const btnProps: ButtonProps = {
+      appearance: 'subtle',
+      size: inline ? 'sm' : 'xs'
+    };
 
     const getTimeFormat = useCallback(() => {
       const timeFormat = [];
@@ -99,25 +105,20 @@ const Header: RsRefForwardingComponent<'div', HeaderProps> = React.forwardRef(
 
     const monthToolbar = (
       <div className={prefix('month-toolbar')}>
-        <ArrowLeftLine
+        <IconButton
+          {...btnProps}
           className={backwardClass}
-          role="button"
-          tabIndex={-1}
           onClick={disabledBackward ? undefined : onMoveBackward}
+          icon={<AngleLeftIcon />}
         />
-        <span
-          role="button"
-          tabIndex={-1}
-          className={dateTitleClasses}
-          onClick={onToggleMonthDropdown}
-        >
+        <Button {...btnProps} className={dateTitleClasses} onClick={onToggleMonthDropdown}>
           {renderTitle()}
-        </span>
-        <ArrowRightLine
+        </Button>
+        <IconButton
+          {...btnProps}
           className={forwardClass}
-          role="button"
-          tabIndex={-1}
           onClick={disabledForward ? undefined : onMoveForward}
+          icon={<AngleRightIcon />}
         />
       </div>
     );
@@ -133,24 +134,14 @@ const Header: RsRefForwardingComponent<'div', HeaderProps> = React.forwardRef(
         {hasMonth && monthToolbar}
         {showTime && (
           <div className={prefix('time-toolbar')}>
-            <span
-              role="button"
-              tabIndex={-1}
-              className={timeTitleClasses}
-              onClick={onToggleTimeDropdown}
-            >
+            <Button {...btnProps} className={timeTitleClasses} onClick={onToggleTimeDropdown}>
               {date && <FormattedDate date={date} formatStr={getTimeFormat()} />}
-            </span>
+            </Button>
 
             {showMeridian && (
-              <span
-                role="button"
-                tabIndex={-1}
-                className={prefix('meridian')}
-                onClick={onToggleMeridian}
-              >
+              <Button {...btnProps} className={prefix('meridian')} onClick={onToggleMeridian}>
                 {date && <FormattedDate date={date} formatStr="a" />}
-              </span>
+              </Button>
             )}
           </div>
         )}
