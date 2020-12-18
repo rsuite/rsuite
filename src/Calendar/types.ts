@@ -16,6 +16,7 @@ export interface CalendarInnerContextValue {
   renderCell?: (date: Date) => React.ReactNode;
   showWeekNumbers?: boolean;
   timeZone?: string;
+  inline?: boolean;
 }
 
 export interface CalendarContextValue extends CalendarInnerContextValue {

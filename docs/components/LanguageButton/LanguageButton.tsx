@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import { useRouter } from 'next/router';
-import { Button } from 'rsuite';
+import { IconButton } from 'rsuite';
 import AppContext from '../AppContext';
 import * as SvgIcons from '@/components/SvgIcons';
 import { languageToPath } from '@/components/Link';
@@ -32,15 +32,17 @@ const LanguageButton = React.forwardRef((props: ButtonProps, ref) => {
   );
 
   return (
-    <Button
+    <IconButton
       {...rest}
       ref={ref}
+      size="sm"
       className={classnames('btn-switch-language', className)}
       appearance="subtle"
+      icon={<Icon as={SvgIcons.Language} />}
       onClick={handleChangeLanguage}
     >
-      <Icon as={() => <SvgIcons.Language />} /> {isZH ? 'English' : '中文'}
-    </Button>
+      {isZH ? 'English' : '中文'}
+    </IconButton>
   );
 });
 

@@ -56,7 +56,10 @@ describe('DateRangePicker', () => {
       />
     );
 
-    assert.equal(instance.overlay.querySelectorAll('.rs-picker-toolbar-option-disabled').length, 4);
+    assert.equal(
+      instance.overlay.querySelectorAll('.rs-picker-toolbar-ranges .rs-btn-disabled').length,
+      4
+    );
   });
 
   it('Should output custom value', () => {
@@ -175,7 +178,7 @@ describe('DateRangePicker', () => {
     );
     ReactTestUtils.Simulate.mouseEnter(today);
     ReactTestUtils.Simulate.click(today);
-    ReactTestUtils.Simulate.click(menu.querySelector('.rs-picker-toolbar-right-btn-ok'));
+    ReactTestUtils.Simulate.click(menu.querySelector('.rs-picker-toolbar-right .rs-btn'));
   });
 
   it('Should fire `onChange` if click ok after only select one date in oneTap mode', done => {

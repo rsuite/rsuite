@@ -30,6 +30,7 @@ export interface PickerToggleProps extends ToggleButtonProps {
   onInputChange?: (value: string, event: React.ChangeEvent) => void;
   onInputPressEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   onInputBlur?: (event: React.FocusEvent<HTMLElement>) => void;
+  onInputFocus?: (event: React.FocusEvent<HTMLElement>) => void;
   placement?: TypeAttributes.Placement;
   caretComponent?: React.FC<IconProps>;
   onClean?: (event: React.MouseEvent) => void;
@@ -67,6 +68,7 @@ const PickerToggle: RsRefForwardingComponent<
     onInputChange,
     onInputPressEnter,
     onInputBlur,
+    onInputFocus,
     onClean,
     onFocus,
     onBlur,
@@ -111,7 +113,7 @@ const PickerToggle: RsRefForwardingComponent<
     (event: React.FocusEvent<HTMLElement>) => {
       if (document.activeElement !== inputRef.current) {
         setActive(false);
-        inputRef.current.blur();
+        inputRef.current?.blur();
       }
       onBlur?.(event);
     },
@@ -186,6 +188,7 @@ const PickerToggle: RsRefForwardingComponent<
         mask={inputMask}
         value={inputValue}
         onBlur={handleInputBlur}
+        onFocus={onInputFocus}
         onChange={handleInputChange}
         onKeyDown={handleInputKeyDown}
         id={id}

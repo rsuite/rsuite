@@ -1,50 +1,53 @@
 <!--start-code-->
 
 ```js
-const SearchIcon = props => <SvgIcons.Search {...props} />;
+const CustomSearchIcon = props => <SvgIcons.Search {...props} />;
 
 const instance = (
   <div>
     <ButtonToolbar>
-      <IconButton icon={<Star />} />
-      <IconButton icon={<Star />} appearance="primary" />
+      <IconButton icon={<StarIcon />} />
+      <IconButton icon={<StarIcon />} appearance="primary" />
       <ButtonGroup>
-        <IconButton icon={<AlignLeft />} />
-        <IconButton icon={<AlignCenter />} />
-        <IconButton icon={<AlignRight />} />
-        <IconButton icon={<AlignJustify />} />
+        <IconButton icon={<AlignLeftIcon />} />
+        <IconButton icon={<AlignCenterIcon />} />
+        <IconButton icon={<AlignRightIcon />} />
+        <IconButton icon={<AlignJustifyIcon />} />
       </ButtonGroup>
     </ButtonToolbar>
 
     <ButtonToolbar>
-      <IconButton size="lg" icon={<Star />} />
-      <IconButton size="lg" icon={<Icon as={SearchIcon} />} />
-      <IconButton size="md" icon={<Star />} />
-      <IconButton size="md" icon={<Icon as={SearchIcon} />} />
-      <IconButton size="sm" icon={<Star />} />
-      <IconButton size="sm" icon={<Icon as={SearchIcon} />} />
-      <IconButton size="xs" icon={<Star />} />
-      <IconButton size="xs" icon={<Icon as={SearchIcon} />} />
+      <IconButton size="lg" icon={<StarIcon />} />
+      <IconButton size="lg" icon={<Icon as={CustomSearchIcon} />} />
+      <IconButton size="md" icon={<StarIcon />} />
+      <IconButton size="md" icon={<Icon as={CustomSearchIcon} />} />
+      <IconButton size="sm" icon={<StarIcon />} />
+      <IconButton size="sm" icon={<Icon as={CustomSearchIcon} />} />
+      <IconButton size="xs" icon={<StarIcon />} />
+      <IconButton size="xs" icon={<Icon as={CustomSearchIcon} />} />
     </ButtonToolbar>
 
     <ButtonToolbar>
-      <IconButton icon={<FacebookOfficial />} color="blue" circle />
-      <IconButton icon={<GooglePlusCircle />} color="red" circle />
-      <IconButton icon={<Twitter />} color="cyan" circle />
-      <IconButton icon={<Linkedin />} color="blue" circle />
+      <IconButton icon={<FacebookOfficialIcon />} color="blue" circle />
+      <IconButton icon={<GooglePlusCircleIcon />} color="red" circle />
+      <IconButton icon={<TwitterIcon />} color="cyan" circle />
+      <IconButton icon={<LinkedinIcon />} color="blue" circle />
     </ButtonToolbar>
 
     <ButtonToolbar>
-      <IconButton icon={<Pause />} placement="left">
+      <IconButton icon={<PauseIcon />} placement="left">
         Pause
       </IconButton>
-      <IconButton icon={<ArrowRight />} placement="right">
+      <IconButton icon={<PlayIcon />} placement="right">
         Next
       </IconButton>
     </ButtonToolbar>
 
     <ButtonToolbar>
-      <IconButton icon={<Search />}>Component</IconButton>
+      <IconButton icon={<SearchIcon />}>Component</IconButton>
+      <IconButton icon={<AddOutlineIcon />}>Add</IconButton>
+
+      <IconButton icon={<PlusIcon />}>Add</IconButton>
     </ButtonToolbar>
   </div>
 );

@@ -32,7 +32,7 @@ describe('Toolbar', () => {
       done();
     };
     const instance = getDOMNode(<Toolbar onOk={doneOp} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toolbar-right-btn-ok'));
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toolbar-right .rs-btn'));
   });
 
   it('Should call `onClickShortcut` callback', done => {
@@ -41,8 +41,7 @@ describe('Toolbar', () => {
     };
 
     const instance = getDOMNode(<Toolbar onClickShortcut={doneOp} />);
-
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toolbar-ranges a'));
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toolbar-ranges button'));
   });
 
   it('Should have a custom className', () => {

@@ -74,8 +74,9 @@ describe('DatePicker ', () => {
     };
 
     const instance = getInstance(<DatePicker onChange={doneOp} defaultOpen />);
+
     ReactTestUtils.Simulate.click(
-      instance.overlay.querySelector('.rs-picker-toolbar-right-btn-ok')
+      instance.overlay.querySelector('.rs-picker-toolbar-right .rs-btn')
     );
   });
 
@@ -107,7 +108,7 @@ describe('DatePicker ', () => {
 
     const instance = getInstance(<DatePicker onOk={doneOp} defaultOpen />);
     ReactTestUtils.Simulate.click(
-      instance.overlay.querySelector('.rs-picker-toolbar-right-btn-ok')
+      instance.overlay.querySelector('.rs-picker-toolbar-right .rs-btn')
     );
   });
 
@@ -211,7 +212,7 @@ describe('DatePicker ', () => {
 
     const instance = getInstance(<DatePicker onClose={doneOp} defaultOpen />);
     ReactTestUtils.Simulate.click(
-      instance.overlay.querySelector('.rs-picker-toolbar-right-btn-ok')
+      instance.overlay.querySelector('.rs-picker-toolbar-right .rs-btn')
     );
   });
 
@@ -232,7 +233,7 @@ describe('DatePicker ', () => {
 
     ReactTestUtils.Simulate.click(allCells[allCells.length - 1]);
     ReactTestUtils.Simulate.click(
-      instance.overlay.querySelector('.rs-picker-toolbar-right-btn-ok')
+      instance.overlay.querySelector('.rs-picker-toolbar-right .rs-btn')
     );
   });
 

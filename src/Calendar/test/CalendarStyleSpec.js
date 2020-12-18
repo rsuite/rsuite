@@ -36,7 +36,7 @@ describe('Calendar styles', () => {
 
     const todayButtonDom = dom.querySelector('.rs-calendar-btn-today');
     assert.equal(getStyle(todayButtonDom, 'backgroundColor'), toRGB('#f7f7fa'));
-    inChrome && assert.equal(getStyle(todayButtonDom, 'padding'), '8px 12px');
+    inChrome && assert.equal(getStyle(todayButtonDom, 'padding'), '5px 10px');
   });
 
   it('Selected item should render correct styles', () => {

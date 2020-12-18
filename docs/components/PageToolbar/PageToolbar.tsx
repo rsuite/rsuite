@@ -44,10 +44,16 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
         <LanguageButton />
       </Whisper>
       <Whisper placement="bottom" speaker={<Tooltip>Toggle light/dark theme</Tooltip>}>
-        <IconButton appearance="subtle" icon={<Icon as={ThemeIcon} />} onClick={onChangeTheme} />
+        <IconButton
+          size="sm"
+          appearance="subtle"
+          icon={<Icon as={ThemeIcon} />}
+          onClick={onChangeTheme}
+        />
       </Whisper>
       <Whisper placement="bottom" speaker={<Tooltip>Toggle RTL/LTR</Tooltip>}>
         <IconButton
+          size="sm"
           appearance="subtle"
           icon={<Icon as={DirectionIcon} />}
           onClick={onChangeDirection}
@@ -96,7 +102,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
           </MenuPopover>
         }
       >
-        <IconButton appearance="subtle" icon={<Icon as={SvgIcons.More} />} />
+        <IconButton size="sm" appearance="subtle" icon={<Icon as={SvgIcons.More} />} />
       </Whisper>
     </ButtonToolbar>
   );

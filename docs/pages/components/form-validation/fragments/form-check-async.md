@@ -37,27 +37,32 @@ const App = () => {
   };
 
   return (
-    <div>
-      <JSONView formValue={formValue} formError={formError} />
-      <Form
-        ref={formRef}
-        onChange={setFormValue}
-        onCheck={setFormError}
-        formValue={formValue}
-        model={model}
-      >
-        <Form.Group controlId="name-2">
-          <Form.ControlLabel>Username </Form.ControlLabel>
-          <Form.Control checkAsync name="name" placeholder="Please enter abc" />
-        </Form.Group>
+    <FlexboxGrid>
+      <FlexboxGrid.Item colspan={12}>
+        <Form
+          ref={formRef}
+          onChange={setFormValue}
+          onCheck={setFormError}
+          formValue={formValue}
+          model={model}
+        >
+          <Form.Group controlId="name-2">
+            <Form.ControlLabel>Username </Form.ControlLabel>
+            <Form.Control checkAsync name="name" placeholder="Please enter abc" />
+          </Form.Group>
 
-        <ButtonToolbar>
-          <Button appearance="primary" onClick={handleSubmit}>
-            Submit
-          </Button>
-        </ButtonToolbar>
-      </Form>
-    </div>
+          <ButtonToolbar>
+            <Button appearance="primary" onClick={handleSubmit}>
+              Submit
+            </Button>
+          </ButtonToolbar>
+        </Form>
+      </FlexboxGrid.Item>
+
+      <FlexboxGrid.Item colspan={12}>
+        <JSONView formValue={formValue} formError={formError} />
+      </FlexboxGrid.Item>
+    </FlexboxGrid>
   );
 };
 

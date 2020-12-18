@@ -18,7 +18,7 @@ const instance = (
     <Button appearance="ghost" disabled>
       Ghost
     </Button>
-    <IconButton icon={<Star />} disabled>
+    <IconButton icon={<StarIcon />} disabled>
       Icon Button
     </IconButton>
   </ButtonToolbar>

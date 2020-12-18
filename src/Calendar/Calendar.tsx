@@ -93,6 +93,8 @@ export interface CalendarProps
 
   /** IANA time zone */
   timeZone?: string;
+
+  inline?: boolean;
 }
 
 const defaultProps: Partial<CalendarProps> = {
@@ -133,6 +135,7 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       showMeridian,
       showWeekNumbers,
       timeZone,
+      inline,
       ...rest
     } = props;
     const { withClassPrefix, merge } = useClassNames(classPrefix);
@@ -187,7 +190,8 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       onSelect,
       renderCell,
       showWeekNumbers,
-      timeZone
+      timeZone,
+      inline
     };
     return (
       <CalendarProvider value={contextValue}>
@@ -231,6 +235,7 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
 );
 
 Calendar.displayName = 'Calendar';
+Calendar.defaultProps = defaultProps;
 Calendar.propTypes = {
   calendarState: PropTypes.oneOf(Object.values(CalendarState)),
   className: PropTypes.string,
@@ -263,6 +268,5 @@ Calendar.propTypes = {
   showWeekNumbers: PropTypes.bool,
   timeZone: PropTypes.string
 };
-Calendar.defaultProps = defaultProps;
 
 export default Calendar;

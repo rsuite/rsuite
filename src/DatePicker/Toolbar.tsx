@@ -1,5 +1,6 @@
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import Button from '../Button';
 import { useClassNames } from '../utils';
 import { RsRefForwardingComponent, WithAsProps, TimeZoneName } from '../@types/common';
 import { getDefaultRanges, getRanges } from './utils';
@@ -63,18 +64,20 @@ const Toolbar: RsRefForwardingComponent<'div', ToolbarProps> = React.forwardRef(
       }
 
       const disabled = disabledOkBtn?.(pageDate);
-      const classes = merge(prefix('right-btn-ok'), {
-        [prefix('btn-disabled')]: disabled
-      });
 
       return (
         <div className={prefix('right')}>
-          <button className={classes} onClick={disabled ? undefined : onOk}>
+          <Button
+            appearance="primary"
+            size="sm"
+            disabled={disabled}
+            onClick={disabled ? undefined : onOk}
+          >
             {locale?.ok}
-          </button>
+          </Button>
         </div>
       );
-    }, [disabledOkBtn, hideOkBtn, locale, merge, onOk, pageDate, prefix]);
+    }, [disabledOkBtn, hideOkBtn, locale?.ok, onOk, pageDate, prefix]);
 
     if (hideOkBtn && ranges.length === 0) {
       return null;
@@ -86,9 +89,6 @@ const Toolbar: RsRefForwardingComponent<'div', ToolbarProps> = React.forwardRef(
         <div className={prefix('ranges')}>
           {ranges.map(({ value, closeOverlay, label }, index: number) => {
             const disabled = disabledShortcut?.(value);
-            const itemClassName = merge(prefix('option'), {
-              [prefix('option-disabled')]: disabled
-            });
 
             const handleClickShortcut = (event: React.MouseEvent) => {
               if (disabled) {
@@ -98,15 +98,15 @@ const Toolbar: RsRefForwardingComponent<'div', ToolbarProps> = React.forwardRef(
             };
 
             return (
-              <a
+              <Button
+                appearance="link"
+                size="sm"
                 key={index}
-                role="button"
-                tabIndex={-1}
-                className={itemClassName}
+                disabled={disabled}
                 onClick={handleClickShortcut}
               >
                 {hasLocaleKey(label) && typeof label === 'string' ? locale?.[label] : label}
-              </a>
+              </Button>
             );
           })}
         </div>
