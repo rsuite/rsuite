@@ -37,7 +37,8 @@
 | ellipsis      | boolean                                       | 显示省略符                  |
 | first         | boolean                                       | 显示第一页                  |
 | last          | boolean                                       | 显示最后一页                |
-| linkAs        | ElementType `(a)`                             | 为组件自定义元素类型        |
+| linkAs        | ElementType `(a)`                             | 为组件选项自定义元素类型    |
+| linkProps     | object                                        | 为组件选项添加属性          |
 | maxButtons    | number `(0)`                                  | 分页按钮最多显示数          |
 | next          | boolean                                       | 显示下一页                  |
 | onSelect      | (eventKey:number, event: MouseEvent) => void; | 选择页码后的回调            |

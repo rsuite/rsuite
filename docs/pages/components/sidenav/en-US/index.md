@@ -22,9 +22,9 @@ An encapsulation of the Nav for the sidebar of the page.
 
 <!--{include:`appearance.md`}-->
 
-### Open/Close Menu
+### Collapsed Menu
 
-<!--{include:`toggle.md`}-->
+<!--{include:`collapsed.md`}-->
 
 ### Custom Side Navigation
 

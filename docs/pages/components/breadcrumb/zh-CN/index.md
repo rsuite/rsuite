@@ -59,7 +59,7 @@ WAI-ARIA:https://www.w3.org/TR/wai-aria-practices/#breadcrumb
 
 | 属性名称    | 类型 `(默认值)`             | 描述                                           |
 | ----------- | --------------------------- | ---------------------------------------------- |
-| as          | elementType `('a')`         | 为组件自定义元素类型                           |
+| as          | elementType `('nav')`       | 为组件自定义元素类型                           |
 | classPrefix | string `('breadcrumb')`     | 组件 CSS 类的前缀                              |
 | maxItems    | numner`(5)`                 | 设置要显示的面包屑的最大数量, 超过后会自动折叠 |
 | separator   | ReactNode `('/')`           | 分隔符                                         |
@@ -67,9 +67,9 @@ WAI-ARIA:https://www.w3.org/TR/wai-aria-practices/#breadcrumb
 
 ### `<Breadcrumb.Item>`
 
-| 属性名称   | 类型 `(默认值)`               | 描述                 |
-| ---------- | ----------------------------- | -------------------- |
-| active     | boolean                       | 激活状态             |
-| as         | elementType `('li')`          | 为组件自定义元素类型 |
-| linkAs     | ElementType `('a')`           | 为链接自定义元素类型 |
-| renderItem | (item:ReactNode) => ReactNode | 自定义渲染选项       |
+| 属性名称    | 类型 `(默认值)`              | 描述                 |
+| ----------- | ---------------------------- | -------------------- |
+| active      | boolean                      | 激活状态             |
+| as          | elementType `('a')`          | 为组件自定义元素类型 |
+| classPrefix | string `('breadcrumb-item')` | 组件 CSS 类的前缀    |
+| href        | string                       | 跳转链接             |

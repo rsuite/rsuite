@@ -18,11 +18,7 @@ For navigation at the top of the page.
 
 ### Appearance
 
-`appearance` values include:
-
-- 'default'
-- 'inverse'
-- 'subtle'
+`appearance` values include: `default`,`inverse`,`subtle`.
 
 <!--{include:`appearance.md`}-->
 

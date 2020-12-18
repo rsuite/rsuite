@@ -10,13 +10,17 @@ const MyLink = React.forwardRef((props, ref) => {
   );
 });
 
-const NavLink = props => <Dropdown.Item linkAs={MyLink} {...props} />;
-
 const instance = (
   <Dropdown title="Menu">
-    <NavLink href="/guide/introduction">Guide</NavLink>
-    <NavLink href="/components/overview">Components</NavLink>
-    <NavLink href="/tools/palette">Tools</NavLink>
+    <Dropdown.Item as={MyLink} href="/guide/introduction">
+      Guide
+    </Dropdown.Item>
+    <Dropdown.Item as={MyLink} href="/components/overview">
+      Components
+    </Dropdown.Item>
+    <Dropdown.Item as={MyLink} href="/tools/palette">
+      Tools
+    </Dropdown.Item>
   </Dropdown>
 );
 ReactDOM.render(instance);

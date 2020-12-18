@@ -5,10 +5,10 @@ import { getDOMNode, innerText } from '@test/testUtils';
 import NavItem from '../NavItem';
 
 describe('NavItem', () => {
-  it('Should render a li', () => {
+  it('Should render a <a>', () => {
     let title = 'Test';
     let instance = getDOMNode(<NavItem>{title}</NavItem>);
-    assert.equal(instance.tagName, 'LI');
+    assert.equal(instance.tagName, 'A');
     assert.equal(innerText(instance), title);
   });
 
@@ -21,7 +21,7 @@ describe('NavItem', () => {
     };
 
     let instance = getDOMNode(<NavItem onSelect={doneOp} eventKey={key} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('a'));
+    ReactTestUtils.Simulate.click(instance);
   });
 
   it('Should call onClick callback', done => {
@@ -29,7 +29,7 @@ describe('NavItem', () => {
       done();
     };
     let instance = getDOMNode(<NavItem onSelect={doneOp} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('a'));
+    ReactTestUtils.Simulate.click(instance);
   });
 
   it('Should render a separator', () => {
@@ -56,7 +56,7 @@ describe('NavItem', () => {
     const onHideSpy = sinon.spy();
 
     let instance = getDOMNode(<NavItem onSelect={onHideSpy} disabled />);
-    ReactTestUtils.Simulate.click(instance.querySelector('a'));
+    ReactTestUtils.Simulate.click(instance);
     assert.ok(!onHideSpy.calledOnce);
   });
 
@@ -64,19 +64,8 @@ describe('NavItem', () => {
     const onHideSpy = sinon.spy();
 
     let instance = getDOMNode(<NavItem onClick={onHideSpy} disabled />);
-    ReactTestUtils.Simulate.click(instance.querySelector('a'));
+    ReactTestUtils.Simulate.click(instance);
     assert.ok(!onHideSpy.calledOnce);
-  });
-
-  it('Should output a custom item', () => {
-    let instance = getDOMNode(
-      <NavItem
-        renderItem={() => {
-          return <span>custom</span>;
-        }}
-      />
-    );
-    assert.include(instance.querySelector('span').innerText, 'custom');
   });
 
   it('Should have a custom className', () => {

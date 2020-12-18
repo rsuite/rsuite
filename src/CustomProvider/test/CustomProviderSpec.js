@@ -14,6 +14,6 @@ describe('CustomProvider', () => {
       </div>
     );
 
-    assert.equal(domNode.querySelectorAll('.rs-pagination-btn a')[0].title, '第一页');
+    assert.equal(domNode.querySelectorAll('.rs-pagination-btn')[0].title, '第一页');
   });
 });

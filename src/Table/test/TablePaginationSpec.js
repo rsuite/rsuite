@@ -48,7 +48,8 @@ describe('Table-Pagination', () => {
         first={false}
       />
     );
-    assert.equal(instance.querySelectorAll('li.rs-pagination-btn').length, 10);
+
+    assert.equal(instance.querySelectorAll('.rs-pagination-btn').length, 10);
   });
 
   it('Should render 6  buttons by `maxButtons`', () => {
@@ -63,7 +64,7 @@ describe('Table-Pagination', () => {
         first={false}
       />
     );
-    assert.equal(instance.querySelectorAll('li.rs-pagination-btn').length, 6);
+    assert.equal(instance.querySelectorAll('.rs-pagination-btn').length, 6);
   });
 
   it('Should active page 2', () => {
@@ -101,7 +102,7 @@ describe('Table-Pagination', () => {
         onChangePage={doneOp}
       />
     );
-    ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-pagination-btn a')[1]);
+    ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-pagination-btn')[1]);
   });
 
   it('Should render a subtle SelectPicker', () => {
@@ -135,7 +136,7 @@ describe('Table-Pagination', () => {
   it('Should be disabled', () => {
     // total={60}  ==> pages 2
     const instance = getDOMNode(<TablePagination total={60} disabled first last prev next />);
-    assert.equal(instance.querySelectorAll('li.rs-pagination-btn-disabled').length, 6);
+    assert.equal(instance.querySelectorAll('.rs-pagination-btn-disabled').length, 6);
     assert.ok(instance.querySelector('.rs-picker-disabled'));
   });
 
@@ -155,7 +156,7 @@ describe('Table-Pagination', () => {
         }}
       />
     );
-    const disabledDOMs = instance.querySelectorAll('li.rs-pagination-btn-disabled');
+    const disabledDOMs = instance.querySelectorAll('.rs-pagination-btn-disabled');
     assert.ok(instance.querySelector('.rs-picker-disabled'));
     assert.equal(disabledDOMs.length, 1);
     assert.equal(innerText(disabledDOMs[0]), '2');
@@ -181,7 +182,7 @@ describe('Table-Pagination', () => {
         boundaryLinks={true}
       />
     );
-    assert.equal(instance.querySelector('li:last-child').innerText, '10');
+    assert.equal(instance.querySelector('a:last-child').innerText, '10');
   });
 
   it('Should render a `more` icon', () => {

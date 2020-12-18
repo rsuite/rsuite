@@ -26,9 +26,9 @@
 
 <!--{include:`appearance.md`}-->
 
-### 打开/关闭菜单
+### 折叠菜单
 
-<!--{include:`toggle.md`}-->
+<!--{include:`collapsed.md`}-->
 
 ### 自定义侧导航
 

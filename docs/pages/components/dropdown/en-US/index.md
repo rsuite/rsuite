@@ -118,17 +118,15 @@ The default value of the `toggleAs` property of`Dropdown` is `Button`. You can s
 | Property    | Type`(default)`                   | Description                                          |
 | ----------- | --------------------------------- | ---------------------------------------------------- |
 | active      | boolean                           | Active the current option                            |
-| as          | ElementType`('li')`               | You can use a custom element type for this component |
+| as          | ElementType`('a')`                | You can use a custom element type for this component |
 | children \* | ReactNode                         | The content of the component                         |
 | classPrefix | string `('dropdown-item')`        | The prefix of the component CSS class                |
 | disabled    | boolean                           | Disable the current option                           |
 | divider     | boolean                           | Whether to display the divider                       |
 | eventKey    | string                            | The value of the current option                      |
 | icon        | Element&lt;typeof Icon&gt;        | Set the icon                                         |
-| linkAs      | ElementType `('a')`               | You can use a custom element for this link.          |
 | onSelect    | (eventKey: string, event) => void | Select the callback function for the current option  |
 | panel       | boolean                           | Displays a custom panel                              |
-| renderItem  | (item:ReactNode) => ReactNode     | Custom rendering item                                |
 
 ### `<Dropdown.Menu>`
 

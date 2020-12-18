@@ -38,7 +38,7 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
 
   const navItems = [];
   const menuList = usePages();
-  const data = menuList.find((item) => item.id === activeKey);
+  const data = menuList.find(item => item.id === activeKey);
 
   const { name: activeTitle, icon, children = [] } = data;
 
@@ -53,7 +53,7 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
   React.useEffect(initSidebarScrollTop, []);
 
   if (children) {
-    children.forEach((child) => {
+    children.forEach(child => {
       const pathname = child.url ? child.url : `/${data.id}/${child.id}`;
       const active = router.pathname === pathname;
 
@@ -78,7 +78,7 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
         );
       } else {
         navItems.push(
-          <Nav.Item key={child.id} href={pathname} active={active} linkAs={Link}>
+          <Nav.Item key={child.id} href={pathname} active={active} as={Link}>
             {child.name}
             {title}
           </Nav.Item>
@@ -98,7 +98,7 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
       )}
       <div
         className={classnames('rs-sidebar-wrapper fixed', {
-          'media-sidebar-show': mediaSidebarShow,
+          'media-sidebar-show': mediaSidebarShow
         })}
         {...props}
       >
@@ -118,7 +118,7 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
       </div>
       <div
         className={classnames('rs-sidebar-media-backdrop', {
-          'media-sidebar-show': mediaSidebarShow,
+          'media-sidebar-show': mediaSidebarShow
         })}
         onClick={handleCloseMediaSidebar}
       />

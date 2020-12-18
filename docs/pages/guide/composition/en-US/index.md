@@ -33,7 +33,7 @@ return (
 
 ## Third-party routing library
 
-The navigation component of React Suite supports the `linkAs` prop, which is used to receive the component type of a third-party routing library. Included components: `Dropdown`, `Breadcrumb`, `Nav`.
+The navigation component of React Suite supports the `as` prop, which is used to receive the component type of a third-party routing library. Included components: `Dropdown`, `Breadcrumb`, `Nav`.
 
 ### next/link
 
@@ -47,7 +47,7 @@ const NavLink = React.forwardRef(({ href, as, ...rest }, ref) => (
 ));
 
 return (
-  <Nav.Item linkAs={NavLink} href="/">
+  <Nav.Item as={NavLink} href="/">
     Home
   </Nav.Item>
 );
@@ -65,7 +65,7 @@ const NavLink = React.forwardRef(({ href, children, ...rest }, ref) => (
 ));
 
 return (
-  <Nav.Item linkAs={NavLink} href="/">
+  <Nav.Item as={NavLink} href="/">
     Home
   </Nav.Item>
 );

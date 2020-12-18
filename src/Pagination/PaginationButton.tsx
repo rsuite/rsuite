@@ -23,21 +23,19 @@ export interface PaginationButtonProps
   /** Primary content */
   children?: React.ReactNode;
 
-  /** You can use a custom element for this link */
-  linkAs?: React.ElementType | string;
-
   /** Select the callback function for the current option  */
   onSelect?: (eventKey: number | string, event: React.MouseEvent) => void;
-
-  /** Custom rendering item */
-  renderItem?: (item: React.ReactNode) => React.ReactNode;
 }
 
-const PaginationButton: RsRefForwardingComponent<'li', PaginationButtonProps> = React.forwardRef(
+const defaultProps: Partial<PaginationButtonProps> = {
+  classPrefix: 'pagination-btn',
+  as: SafeAnchor
+};
+
+const PaginationButton: RsRefForwardingComponent<'a', PaginationButtonProps> = React.forwardRef(
   (props: PaginationButtonProps, ref) => {
     const {
       as: Component,
-      linkAs: Link,
       active,
       disabled,
       className,
@@ -47,7 +45,6 @@ const PaginationButton: RsRefForwardingComponent<'li', PaginationButtonProps> = 
       style,
       onSelect,
       onClick,
-      renderItem,
       ...rest
     } = props;
 
@@ -59,38 +56,30 @@ const PaginationButton: RsRefForwardingComponent<'li', PaginationButtonProps> = 
         if (disabled) {
           return;
         }
-
         onSelect?.(eventKey, event);
       },
       [disabled, eventKey, onSelect]
     );
 
-    const item = (
-      <Link
+    return (
+      <Component
         {...rest}
         disabled={disabled}
         onClick={createChainedFunction(onClick, handleClick)}
-        active={Link !== SafeAnchor && typeof Link !== 'string' ? active : undefined}
+        active={Component !== SafeAnchor && typeof Component !== 'string' ? active : undefined}
+        ref={ref}
+        className={classes}
+        style={style}
       >
         {children}
-        <Ripple />
-      </Link>
-    );
-
-    return (
-      <Component ref={ref} className={classes} style={style}>
-        {renderItem ? renderItem(item) : item}
+        {!disabled ? <Ripple /> : null}
       </Component>
     );
   }
 );
 
 PaginationButton.displayName = 'PaginationButton';
-PaginationButton.defaultProps = {
-  classPrefix: 'pagination-btn',
-  linkAs: SafeAnchor,
-  as: 'li'
-};
+PaginationButton.defaultProps = defaultProps;
 PaginationButton.propTypes = {
   classPrefix: PropTypes.string,
   eventKey: PropTypes.any,

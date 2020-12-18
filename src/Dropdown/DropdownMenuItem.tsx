@@ -48,29 +48,21 @@ export interface DropdownMenuItemProps<T = any>
   /** Whether the submenu is expanded, used in Sidenav. */
   expanded?: boolean;
 
-  /** You can use a custom element for this link */
-  linkAs?: React.ElementType;
-
   /** Select the callback function for the current option  */
   onSelect?: (eventKey: T, event: React.SyntheticEvent<HTMLElement>) => void;
-
-  /** Custom rendering item */
-  renderItem?: (item: React.ReactNode) => React.ReactNode;
 }
 
 const defaultProps: Partial<DropdownMenuItemProps> = {
-  linkAs: SafeAnchor,
-  as: 'li',
+  as: SafeAnchor,
   classPrefix: 'dropdown-item',
   tabIndex: -1,
   trigger: 'hover'
 };
 
-const DropdownMenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.forwardRef(
-  (props: DropdownMenuItemProps, ref) => {
+const DropdownMenuItem: RsRefForwardingComponent<'a', DropdownMenuItemProps> = React.forwardRef(
+  (props: DropdownMenuItemProps, ref: React.Ref<any>) => {
     const {
       as: Component,
-      linkAs: Link,
       children,
       divider,
       panel,
@@ -91,7 +83,6 @@ const DropdownMenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = 
       onMouseOver,
       onMouseOut,
       onSelect,
-      renderItem,
       ...rest
     } = props;
 
@@ -144,7 +135,7 @@ const DropdownMenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = 
 
     if (divider) {
       return (
-        <Component
+        <div
           ref={ref}
           role="separator"
           style={style}
@@ -155,39 +146,26 @@ const DropdownMenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = 
 
     if (panel) {
       return (
-        <Component
-          ref={ref}
-          role="menuitem"
-          style={style}
-          className={merge(prefix('panel'), className)}
-        >
+        <div ref={ref} role="menuitem" style={style} className={merge(prefix('panel'), className)}>
           {children}
-        </Component>
+        </div>
       );
     }
 
-    const item = (
-      <Link
+    return (
+      <Component
+        role="menuitem"
         {...rest}
-        onClick={createChainedFunction(handleClick, onClick)}
-        className={prefix('content')}
+        {...itemEventProps}
         tabIndex={tabIndex}
+        ref={ref}
+        aria-disabled={disabled}
+        style={style}
+        className={classes}
+        onClick={createChainedFunction(handleClick, onClick)}
       >
         {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
         {children}
-      </Link>
-    );
-
-    return (
-      <Component
-        ref={ref}
-        role="menuitem"
-        aria-disabled={disabled}
-        {...itemEventProps}
-        style={style}
-        className={classes}
-      >
-        {renderItem ? renderItem(item) : item}
       </Component>
     );
   }
@@ -197,7 +175,6 @@ DropdownMenuItem.displayName = 'DropdownMenuItem';
 DropdownMenuItem.defaultProps = defaultProps;
 DropdownMenuItem.propTypes = {
   as: PropTypes.elementType,
-  linkAs: PropTypes.elementType,
   divider: PropTypes.bool,
   panel: PropTypes.bool,
   trigger: PropTypes.oneOfType([PropTypes.array, PropTypes.oneOf(['click', 'hover'])]),
@@ -215,8 +192,7 @@ DropdownMenuItem.propTypes = {
   style: PropTypes.object,
   children: PropTypes.node,
   classPrefix: PropTypes.string,
-  tabIndex: PropTypes.number,
-  renderItem: PropTypes.func
+  tabIndex: PropTypes.number
 };
 
 export default DropdownMenuItem;
