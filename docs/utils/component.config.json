@@ -31,7 +31,7 @@
     "components": ["Divider"],
     "designHash": { "default": "10", "dark": "10" }
   },
-  { "id": "icon", "name": "Icon", "title": "图标", "components": ["Icon"] },
+  { "id": "icon", "name": "Icons", "title": "图标" },
   {
     "id": "loader",
     "name": "Loader",

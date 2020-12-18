@@ -13,6 +13,7 @@ export interface DropdownToggleProps extends WithAsProps {
   noCaret?: boolean;
   renderTitle?: (children?: React.ReactNode) => React.ReactNode;
   placement?: TypeAttributes.Placement8;
+  inSidenav?: boolean;
 }
 
 const defaultProps: Partial<DropdownToggleProps> = {
@@ -33,6 +34,7 @@ const DropdownToggle: RsRefForwardingComponent<
     icon,
     noCaret,
     placement,
+    inSidenav,
     ...rest
   } = props;
   const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
@@ -42,7 +44,9 @@ const DropdownToggle: RsRefForwardingComponent<
       'custom-title': typeof renderTitle === 'function'
     })
   );
-  const Caret = useToggleCaret(placement);
+
+  // Caret icon is down by default, when Dropdown is used in Sidenav.
+  const Caret = useToggleCaret(inSidenav ? 'bottomStart' : placement);
 
   if (renderTitle) {
     return (
@@ -53,7 +57,7 @@ const DropdownToggle: RsRefForwardingComponent<
     );
   }
 
-  const buttonProps = Component === Button ? { as: 'a', appearance: 'subtle' } : null;
+  const buttonProps = Component === Button ? { appearance: 'subtle' } : null;
 
   return (
     <Component {...buttonProps} {...rest} ref={ref} className={classes}>
