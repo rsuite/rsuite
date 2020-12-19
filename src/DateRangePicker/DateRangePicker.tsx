@@ -423,7 +423,6 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       setHoverValue(nextSelectValue);
       setSelectValue(nextSelectValue);
       onSelect?.(toLocalTimeZone(date, timeZone), event);
-      event.persist();
     },
     [getHoverRange, handleValueUpdate, hoverValue, onSelect, oneTap, timeZone]
   );

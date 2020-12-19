@@ -320,7 +320,6 @@ const useSortHelper = (config: SortConfig) => {
    * */
   const handleStart: MouseEventHandler = useCallback(
     mouseDownEvent => {
-      mouseDownEvent.persist();
       const triggeredNode = mouseDownEvent.target as HTMLElement;
       const targetNode = closestNode(triggeredNode, el => Boolean(getManagedItem(el)));
       const curManagedItem = getManagedItem(targetNode);
