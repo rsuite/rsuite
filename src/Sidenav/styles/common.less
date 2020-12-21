@@ -95,7 +95,7 @@
   .@{ns}dropdown {
     display: flex;
     flex: 1 1 auto;
-    flex-direction: column-reverse;
+    flex-direction: column;
 
     // Set  the ripple effect of items.
     &-item:not(.@{ns}dropdown-item-submenu),
@@ -471,7 +471,6 @@
   .@{ns}dropdown-menu > .@{ns}dropdown-item.@{ns}dropdown-item-active {
     color: @sidenav-default-active-font-color;
 
-    &,
     &:hover,
     &:focus {
       background-color: @sidenav-subtle-bg;

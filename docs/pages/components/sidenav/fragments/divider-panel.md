@@ -14,7 +14,7 @@ const headerStyles = {
 };
 
 const instance = (
-  <div style={{ width: 250 }}>
+  <div style={{ width: 240 }}>
     <Sidenav defaultOpenKeys={['3', '4']}>
       <Sidenav.Header>
         <div style={headerStyles}>Custom Sidenav</div>

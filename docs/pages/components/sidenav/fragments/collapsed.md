@@ -5,7 +5,7 @@ const App = () => {
   const [expanded, setExpanded] = React.useState(true);
   const [activeKey, setActiveKey] = React.useState('1');
   return (
-    <div style={{ width: 250 }}>
+    <div style={{ width: 240 }}>
       <Toggle
         onChange={setExpanded}
         checked={expanded}

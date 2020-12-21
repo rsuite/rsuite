@@ -70,7 +70,7 @@ describe('Dropdown', () => {
     const toggle = instance.querySelector('.rs-dropdown-toggle');
     assert.include(toggle.className, 'rs-btn-link');
     assert.include(toggle.className, 'rs-btn-xs');
-    assert.equal(toggle.tagName, 'A');
+    assert.equal(toggle.tagName, 'BUTTON');
   });
 
   it('Should not show caret', () => {

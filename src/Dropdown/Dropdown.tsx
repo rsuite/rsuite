@@ -251,6 +251,7 @@ const Dropdown: DropdownComponent = React.forwardRef((props: DropdownProps, ref)
       renderTitle={renderTitle}
       icon={icon}
       placement={placement}
+      inSidenav={sidenav}
     >
       {title}
     </DropdownToggle>
@@ -269,8 +270,8 @@ const Dropdown: DropdownComponent = React.forwardRef((props: DropdownProps, ref)
 
   return (
     <Component {...dropdownProps} ref={ref} style={style} className={classes}>
-      {menuElement}
       {toggleElement}
+      {menuElement}
     </Component>
   );
 });

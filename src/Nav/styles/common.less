@@ -13,15 +13,13 @@
   // Nav item
   &-item {
     //:hover :focus :active
-    &:not(.@{ns}nav-item-disabled) {
-      &:hover,
-      &:focus {
-        color: @nav-item-hover-font-color;
-      }
+    &:hover,
+    &:focus {
+      color: @nav-item-hover-font-color;
+    }
 
-      &:active {
-        color: @nav-item-click-font-color;
-      }
+    &:active {
+      color: @nav-item-click-font-color;
     }
 
     &.@{ns}nav-item-disabled {
@@ -64,7 +62,6 @@
     &:focus,
     &:active {
       color: @nav-item-active-font-color;
-      background: transparent;
     }
   }
 
@@ -161,7 +158,7 @@
     border-radius: @nav-item-border-radius;
   }
 
-  .@{ns}nav-item:not(.@{ns}nav-item-active):not(.@{ns}nav-item-disabled) {
+  .@{ns}nav-item:not(.@{ns}nav-item-disabled) {
     &:hover,
     &:focus {
       background: @nav-item-default-hover-bg;
@@ -260,6 +257,17 @@
 
 // Subtle Nav
 .@{ns}nav-subtle {
+  .@{ns}nav-item:not(.@{ns}nav-item-disabled) {
+    &:hover,
+    &:focus {
+      color: @H600;
+    }
+
+    &:active {
+      color: @nav-item-active-font-color;
+    }
+  }
+
   // Horizontal
   &.@{ns}nav-horizontal {
     //Waterline
@@ -297,7 +305,7 @@
 
   // Vertical
   &.@{ns}nav-vertical {
-    //Waterline
+    // Waterline
     .@{ns}nav-bar {
       width: @nav-subtle-bar-width;
       background: @nav-subtle-bar-default-color;

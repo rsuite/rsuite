@@ -14,11 +14,7 @@ Provides a list of various forms of navigation menus, which can be landscape and
 
 ### Appearance
 
-`appearance` values include:
-
-- 'default'
-- 'tabs'
-- 'subtle'
+`appearance` values include: `default`,`tabs`,`subtle`.
 
 <!--{include:`appearance.md`}-->
 

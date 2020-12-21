@@ -55,7 +55,6 @@ export interface DropdownMenuItemProps<T = any>
 const defaultProps: Partial<DropdownMenuItemProps> = {
   as: SafeAnchor,
   classPrefix: 'dropdown-item',
-  tabIndex: -1,
   trigger: 'hover'
 };
 
@@ -157,7 +156,7 @@ const DropdownMenuItem: RsRefForwardingComponent<'a', DropdownMenuItemProps> = R
         role="menuitem"
         {...rest}
         {...itemEventProps}
-        tabIndex={tabIndex}
+        tabIndex={disabled ? -1 : tabIndex}
         ref={ref}
         aria-disabled={disabled}
         style={style}
