@@ -71,6 +71,9 @@ export interface SliderProps<T = number> extends WithAsProps, FormControlBasePro
 
   /** Accepts a function which returns a string value that provides a user-friendly name for the current value of the slider. */
   getAriaValueText?: (value: number, eventKey?: 'start' | 'end') => string;
+
+  /** Callback function that is fired when the mouseup is triggered. */
+  onChangeCommitted?: (value: T, event: React.MouseEvent) => void;
 }
 
 const defaultProps: Partial<SliderProps> = {
@@ -103,6 +106,7 @@ export const sliderPropTypes = {
   progress: PropTypes.bool,
   vertical: PropTypes.bool,
   onChange: PropTypes.func,
+  onChangeCommitted: PropTypes.func,
   renderMark: PropTypes.func,
   renderTooltip: PropTypes.func,
   getAriaValueText: PropTypes.func
@@ -136,6 +140,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
     renderTooltip,
     renderMark,
     onChange,
+    onChangeCommitted,
     ...rest
   } = props;
 
@@ -207,6 +212,9 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
     [getValueByOffset, min, rtl, vertical]
   );
 
+  /**
+   * Callback function that is fired when the mousemove is triggered
+   */
   const handleChangeValue = useCallback(
     (event: React.MouseEvent) => {
       if (disabled || readOnly) {
@@ -217,6 +225,21 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
       onChange?.(nextValue, event);
     },
     [disabled, getValidValue, getValueByPosition, onChange, readOnly, setValue]
+  );
+
+  /**
+   * Callback function that is fired when the mouseup is triggered
+   */
+  const handleChangeCommitted = useCallback(
+    (event: React.MouseEvent) => {
+      if (disabled || readOnly) {
+        return;
+      }
+      const nextValue = getValidValue(getValueByPosition(event));
+
+      onChangeCommitted?.(nextValue, event);
+    },
+    [disabled, getValidValue, getValueByPosition, onChangeCommitted, readOnly]
   );
 
   const handleKeyDown = useCallback(
@@ -293,6 +316,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
           renderTooltip={renderTooltip}
           onDragMove={handleChangeValue}
           onKeyDown={handleKeyDown}
+          onDragEnd={handleChangeCommitted}
           role="slider"
           tabIndex={disabled || readOnly ? null : 0}
           aria-orientation={vertical ? 'vertical' : 'horizontal'}

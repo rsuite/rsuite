@@ -14,9 +14,9 @@ export interface HandleProps extends WithAsProps, React.HTMLAttributes<HTMLDivEl
   position?: number;
   value?: number;
   renderTooltip?: (value: number) => React.ReactNode;
-  onDragMove?: (event: React.DragEvent, dataset: DOMStringMap) => void;
+  onDragMove?: (event: React.DragEvent, dataset?: DOMStringMap) => void;
   onDragStart?: (event: React.MouseEvent) => void;
-  onDragEnd?: (event: React.MouseEvent) => void;
+  onDragEnd?: (event: React.MouseEvent, dataset?: DOMStringMap) => void;
 }
 
 interface MoveTracker {
@@ -93,7 +93,7 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
       (event: React.MouseEvent) => {
         setActive(false);
         releaseMouseMoves();
-        onDragEnd?.(event);
+        onDragEnd?.(event, rootRef.current.dataset);
       },
       [onDragEnd, releaseMouseMoves]
     );
