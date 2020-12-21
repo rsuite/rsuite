@@ -868,7 +868,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     >
       <Component className={classes} style={style}>
         <PickerToggle
-          {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
+          {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys, 'cascade'])}
           id={id}
           ref={targetRef}
           onKeyDown={onPickerKeydown}

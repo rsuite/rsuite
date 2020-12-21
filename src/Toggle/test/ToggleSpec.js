@@ -1,12 +1,8 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import Enzyme, { mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 
 import Toggle from '../Toggle';
 import { innerText, getDOMNode } from '@test/testUtils';
-
-Enzyme.configure({ adapter: new Adapter() });
 
 describe('Toggle', () => {
   it('Should output a toggle', () => {
@@ -51,19 +47,13 @@ describe('Toggle', () => {
 
   it('Should call onChange callback and the correct arguments returned', done => {
     const doneOp = checked => {
-      if (checked) {
+      if (checked === false) {
         done();
       }
     };
 
-    const instance = mount(<Toggle checked={true} defaultChecked={true} onChange={doneOp} />);
-
-    instance.setProps({
-      checked: false
-    });
-    instance.simulate('click');
-
-    instance.unmount();
+    const instance = getDOMNode(<Toggle defaultChecked={true} onChange={doneOp} />);
+    ReactTestUtils.Simulate.click(instance);
   });
 
   it('Should have a custom className', () => {

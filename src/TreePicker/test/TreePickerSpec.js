@@ -1,14 +1,9 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import Enzyme, { mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import ReactDOM from 'react-dom';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import TreePicker from '../TreePicker';
 import { KEY_CODE } from '../../utils';
-
-Enzyme.configure({ adapter: new Adapter() });
-
-export const delay = timeout => new Promise(resolve => setTimeout(resolve, timeout));
 
 const itemFocusClassName = '.rs-tree-node-focus';
 const itemExpandedClassName = '.rs-tree-node-expanded';
@@ -39,6 +34,18 @@ const data = [
     value: 'disabled'
   }
 ];
+
+let container;
+
+beforeEach(() => {
+  container = document.createElement('div');
+  document.body.appendChild(container);
+});
+
+afterEach(() => {
+  document.body.removeChild(container);
+  container = null;
+});
 
 describe('TreePicker', () => {
   it('Should render default value', () => {
@@ -83,17 +90,19 @@ describe('TreePicker', () => {
   });
 
   it('Should active one node by `value`', () => {
-    const instance = mount(<TreePicker virtualized={false} inline data={data} value={'Master'} />);
-    expect(instance.find('.rs-tree-node-active').length).to.equal(1);
+    const instance = getInstance(<TreePicker data={data} value={'Master'} open />);
+    assert.equal(instance.overlay.querySelectorAll('.rs-tree-node-active').length, 1);
   });
 
   it('Should expand children nodes', () => {
-    const instance = mount(
-      <TreePicker virtualized={false} inline cascade={false} data={data} value={['Master']} />
+    const instance = getInstance(
+      <TreePicker open cascade={false} data={data} value={['Master']} />
     );
 
-    instance.find('div[data-ref="0-0"]  > .rs-tree-node-expand-icon').simulate('click');
-    expect(instance.find('.rs-tree-open').length).to.equal(1);
+    ReactTestUtils.Simulate.click(
+      instance.overlay.querySelector('div[data-ref="0-0"]  > .rs-tree-node-expand-icon')
+    );
+    assert.equal(instance.overlay.querySelectorAll('.rs-tree-open').length, 1);
   });
 
   it('Should have a placeholder', () => {
@@ -169,9 +178,8 @@ describe('TreePicker', () => {
     const doneOp = () => {
       done();
     };
-    const instance = mount(<TreePicker virtualized={false} inline onChange={doneOp} data={data} />);
-
-    instance.find('span[data-key="0-0"]').simulate('click');
+    const instance = getInstance(<TreePicker open onChange={doneOp} data={data} />);
+    ReactTestUtils.Simulate.click(instance.overlay.querySelector('span[data-key="0-0"]'));
   });
 
   it('Should call `onClean` callback', done => {
@@ -205,18 +213,14 @@ describe('TreePicker', () => {
   });
 
   it('Should focus item by keyCode=40', () => {
-    const instance = getInstance(
-      <TreePicker open data={data} virtualized={false} defaultExpandAll value="tester1" />
-    );
+    const instance = getInstance(<TreePicker open data={data} defaultExpandAll value="tester1" />);
     ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: KEY_CODE.DOWN });
 
     assert.equal(instance.overlay.querySelector(itemFocusClassName).innerText, 'Master');
   });
 
   it('Should focus item by keyCode=38 ', () => {
-    const instance = getInstance(
-      <TreePicker open data={data} virtualized={false} defaultExpandAll value="tester1" />
-    );
+    const instance = getInstance(<TreePicker open data={data} defaultExpandAll value="tester1" />);
 
     ReactTestUtils.Simulate.click(instance.overlay.querySelector('span[data-key="0-0-1"]'));
     ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: KEY_CODE.UP });
@@ -228,7 +232,7 @@ describe('TreePicker', () => {
       done();
     };
     const instance = getInstance(
-      <TreePicker defaultOpen virtualized={false} data={data} onChange={doneOp} defaultExpandAll />
+      <TreePicker defaultOpen data={data} onChange={doneOp} defaultExpandAll />
     );
     ReactTestUtils.Simulate.click(instance.overlay.querySelector('span[data-key="0-0-1"]'));
   });
@@ -237,9 +241,7 @@ describe('TreePicker', () => {
    * When focus is on an open node, closes the node.
    */
   it('Should fold children node by keyCode=37', () => {
-    const tree = getInstance(
-      <TreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
-    );
+    const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
     ReactTestUtils.Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
     ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.LEFT });
@@ -253,9 +255,7 @@ describe('TreePicker', () => {
    * When focus is on a root node that is also either an end node or a closed node, does nothing.
    */
   it('Should change nothing when trigger on root node by keyCode=37', () => {
-    const tree = getInstance(
-      <TreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
-    );
+    const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
     ReactTestUtils.Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
     ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.LEFT });
@@ -271,9 +271,7 @@ describe('TreePicker', () => {
    * When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
    */
   it('Should focus on parentNode when trigger on leaf node by keyCode=37', () => {
-    const tree = getInstance(
-      <TreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
-    );
+    const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
     ReactTestUtils.Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
     ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.LEFT });
@@ -284,7 +282,7 @@ describe('TreePicker', () => {
    * When focus is on a closed node, opens the node; focus does not move.
    */
   it('Should fold children node by keyCode=39', () => {
-    const tree = getInstance(<TreePicker defaultOpen data={data} virtualized={false} />);
+    const tree = getInstance(<TreePicker defaultOpen data={data} />);
 
     ReactTestUtils.Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
     ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.RIGHT });
@@ -298,9 +296,7 @@ describe('TreePicker', () => {
    * When focus is on an end node, does nothing.
    */
   it('Should change nothing when trigger on leaf node by keyCode=39', () => {
-    const tree = getInstance(
-      <TreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
-    );
+    const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
     ReactTestUtils.Simulate.click(tree.overlay.querySelector('span[data-key="0-0-0"]'));
     ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.RIGHT });
@@ -311,9 +307,7 @@ describe('TreePicker', () => {
    * When focus is on a open node, moves focus to the first child node.
    */
   it('Should focus on first child node when node expanded by keyCode=39', () => {
-    const tree = getInstance(
-      <TreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
-    );
+    const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
     ReactTestUtils.Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
     ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.RIGHT });
@@ -349,34 +343,39 @@ describe('TreePicker', () => {
         children: []
       }
     ];
+    const ref = React.createRef();
+    ReactTestUtils.act(() => {
+      ReactDOM.render(
+        <TreePicker
+          data={data}
+          cascade={false}
+          open
+          ref={ref}
+          defaultExpandAll
+          getChildren={() => [
+            {
+              label: 'children1',
+              value: 'children1'
+            }
+          ]}
+        />,
+        container
+      );
+    });
 
-    const instance = mount(
-      <TreePicker
-        data={data}
-        virtualized={false}
-        inline
-        cascade={false}
-        defaultExpandAll
-        getChildren={() => [
-          {
-            label: 'children1',
-            value: 'children1'
-          }
-        ]}
-      />
-    );
-    instance.find('div[data-ref="0-1"]  > .rs-tree-node-expand-icon').simulate('click');
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.click(
+        ref.current.overlay.querySelector('div[data-ref="0-1"]  > .rs-tree-node-expand-icon')
+      );
+    });
 
-    assert.equal(instance.html().indexOf('data-key="0-1-0"') > -1, true);
-
-    instance.unmount();
+    assert.ok(ref.current.overlay.querySelector('[data-key="0-1-0"]'));
   });
 
   it('Should render one node when searchKeyword is `M`', () => {
-    const instance = mount(<TreePicker virtualized={false} data={data} inline searchKeyword="M" />);
+    const instance = getInstance(<TreePicker data={data} open searchKeyword="M" />);
 
-    assert.equal(instance.find('.rs-tree-node').length, 1);
-    instance.unmount();
+    assert.equal(instance.overlay.querySelectorAll('.rs-tree-node').length, 1);
   });
 
   it('Should have a custom className prefix', () => {
@@ -391,8 +390,8 @@ describe('TreePicker', () => {
         label: <span className="custom-label">1</span>
       }
     ];
-    const instance = mount(<TreePicker virtualized={false} data={customData} inline />);
-    assert.equal(instance.find('.custom-label').length, 1);
+    const instance = getInstance(<TreePicker data={customData} open />);
+    assert.equal(instance.overlay.querySelectorAll('.custom-label').length, 1);
   });
 
   it('Should call `onOpen` callback', done => {
@@ -413,42 +412,61 @@ describe('TreePicker', () => {
 
   it('Should render with expand master node', () => {
     const instance = getInstance(
-      <TreePicker virtualized={false} defaultOpen data={data} expandItemValues={['Master']} />
+      <TreePicker defaultOpen data={data} expandItemValues={['Master']} />
     );
     assert.equal(getDOMNode(instance.overlay).querySelectorAll(itemExpandedClassName).length, 1);
   });
 
   it('Should fold all the node when toggle master node', () => {
+    const TestApp = React.forwardRef((props, ref) => {
+      const pickerRef = React.useRef();
+      const [expandItemValues, setExpandItemValues] = React.useState(['Master']);
+      React.useImperativeHandle(ref, () => {
+        return {
+          picker: pickerRef.current,
+          setExpandItemValues
+        };
+      });
+      return (
+        <TreePicker
+          ref={pickerRef}
+          {...props}
+          data={data}
+          open
+          expandItemValues={expandItemValues}
+        />
+      );
+    });
+
+    TestApp.displayName = 'TestApp';
+
     let expandItemValues = [];
     const mockOnExpand = values => {
       expandItemValues = values;
     };
-    const instance = mount(
-      <TreePicker
-        virtualized={false}
-        data={data}
-        inline
-        expandItemValues={['Master']}
-        onExpand={mockOnExpand}
-      />
-    );
-
-    assert.equal(instance.html().indexOf('rs-tree-node-expanded') > -1, true);
-
-    instance.find('div[data-ref="0-0"]  > .rs-tree-node-expand-icon').simulate('click');
-
-    instance.setProps({
-      expandItemValues
+    const ref = React.createRef();
+    ReactTestUtils.act(() => {
+      ReactDOM.render(<TestApp ref={ref} onExpand={mockOnExpand} />, container);
     });
-    assert.equal(instance.html().indexOf('rs-tree-node-expanded') === -1, true);
 
-    instance.unmount();
+    assert.ok(ref.current.picker.overlay.querySelector('.rs-tree-node-expanded'));
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.click(
+        ref.current.picker.overlay.querySelector('div[data-ref="0-0"]  > .rs-tree-node-expand-icon')
+      );
+    });
+
+    ReactTestUtils.act(() => {
+      ref.current.setExpandItemValues(expandItemValues);
+    });
+
+    assert.ok(!ref.current.picker.overlay.querySelector('.rs-tree-node-expanded'));
   });
 
   it('Should render the specified menu content by `searchBy`', () => {
     const instance = getInstance(
       <TreePicker
-        virtualized={false}
         defaultOpen
         defaultExpandAll
         data={data}

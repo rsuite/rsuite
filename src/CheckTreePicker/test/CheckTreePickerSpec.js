@@ -1,12 +1,10 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import Enzyme, { mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import CheckTreePicker from '../CheckTreePicker';
 import { KEY_CODE } from '../../utils';
-
-Enzyme.configure({ adapter: new Adapter() });
+import { assert } from 'chai';
 
 const itemFocusClassName = '.rs-check-tree-node-focus';
 const itemExpandedClassName = '.rs-check-tree-node-expanded';
@@ -37,6 +35,18 @@ const data = [
     value: 'disabled'
   }
 ];
+
+let container;
+
+beforeEach(() => {
+  container = document.createElement('div');
+  document.body.appendChild(container);
+});
+
+afterEach(() => {
+  document.body.removeChild(container);
+  container = null;
+});
 
 describe('CheckTreePicker', () => {
   it('Should render default value', () => {
@@ -86,26 +96,26 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should active 4 node by `value` when cascade is true', () => {
-    const instance = mount(
-      <CheckTreePicker virtualized={false} inline data={data} value={['Master']} />
-    );
-    expect(instance.find('.rs-checkbox-checked')).to.have.lengthOf(4);
+    const instance = getInstance(<CheckTreePicker open data={data} value={['Master']} />);
+    assert.equal(instance.overlay.querySelectorAll('.rs-checkbox-checked').length, 4);
   });
 
   it('Should active 1 node by `value` when cascade is false', () => {
-    const instance = mount(
-      <CheckTreePicker inline virtualized={false} cascade={false} data={data} value={['Master']} />
+    const instance = getInstance(
+      <CheckTreePicker open cascade={false} data={data} value={['Master']} />
     );
-    expect(instance.find('.rs-checkbox-checked')).to.have.lengthOf(1);
+    assert.equal(instance.overlay.querySelectorAll('.rs-checkbox-checked').length, 1);
   });
 
   it('Should expand children nodes', () => {
-    const instance = mount(
-      <CheckTreePicker virtualized={false} inline cascade={false} data={data} value={['Master']} />
+    const instance = getInstance(
+      <CheckTreePicker open cascade={false} data={data} value={['Master']} />
     );
 
-    instance.find('div[data-ref="0-0"]  > .rs-check-tree-node-expand-icon').simulate('click');
-    expect(instance.find('.rs-check-tree-open').length).to.equal(1);
+    ReactTestUtils.Simulate.click(
+      instance.overlay.querySelector('div[data-ref="0-0"]  > .rs-check-tree-node-expand-icon')
+    );
+    assert.equal(instance.overlay.querySelectorAll('.rs-check-tree-open').length, 1);
   });
 
   it('Should have a placeholder', () => {
@@ -182,11 +192,8 @@ describe('CheckTreePicker', () => {
         done();
       }
     };
-    const instance = mount(
-      <CheckTreePicker inline virtualized={false} onChange={doneOp} data={data} />
-    );
-
-    instance.find('div[data-key="0-0"] input').simulate('change');
+    const instance = getInstance(<CheckTreePicker open onChange={doneOp} data={data} />);
+    ReactTestUtils.Simulate.change(instance.overlay.querySelector('div[data-key="0-0"] input'));
   });
 
   it('Should call `onClean` callback', done => {
@@ -236,18 +243,14 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should focus item by keyCode=40 ', () => {
-    const tree = getInstance(
-      <CheckTreePicker defaultOpen virtualized={false} data={data} defaultExpandAll />
-    );
+    const tree = getInstance(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
     ReactTestUtils.Simulate.keyDown(tree.target, { keyCode: KEY_CODE.DOWN });
 
     assert.equal(tree.overlay.querySelector(itemFocusClassName).innerText, 'Master');
   });
 
   it('Should focus item by keyCode=38 ', () => {
-    const tree = getInstance(
-      <CheckTreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
-    );
+    const tree = getInstance(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
 
     ReactTestUtils.Simulate.change(tree.overlay.querySelector('div[data-key="0-0-1"] input'));
     ReactTestUtils.Simulate.keyDown(tree.target, { keyCode: KEY_CODE.UP });
@@ -260,13 +263,7 @@ describe('CheckTreePicker', () => {
       done();
     };
     const tree = getInstance(
-      <CheckTreePicker
-        defaultOpen
-        data={data}
-        virtualized={false}
-        defaultExpandAll
-        onChange={doneOp}
-      />
+      <CheckTreePicker defaultOpen data={data} defaultExpandAll onChange={doneOp} />
     );
     ReactTestUtils.Simulate.change(tree.overlay.querySelector('div[data-key="0-0-1"] input'));
   });
@@ -275,9 +272,7 @@ describe('CheckTreePicker', () => {
    * When focus is on an open node, closes the node.
    */
   it('Should fold children node by keyCode=37', () => {
-    const tree = getInstance(
-      <CheckTreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
-    );
+    const tree = getInstance(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
 
     ReactTestUtils.Simulate.change(tree.overlay.querySelector('div[data-key="0-0"] input'));
     ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.LEFT });
@@ -291,9 +286,7 @@ describe('CheckTreePicker', () => {
    * When focus is on a root node that is also either an end node or a closed node, does nothing.
    */
   it('Should change nothing when trigger on root node by keyCode=37', () => {
-    const tree = getInstance(
-      <CheckTreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
-    );
+    const tree = getInstance(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
 
     ReactTestUtils.Simulate.change(tree.overlay.querySelector('div[data-key="0-0"] input'));
     ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.LEFT });
@@ -309,9 +302,7 @@ describe('CheckTreePicker', () => {
    * When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
    */
   it('Should focus on parentNode when trigger on leaf node by keyCode=37', () => {
-    const tree = getInstance(
-      <CheckTreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
-    );
+    const tree = getInstance(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
 
     ReactTestUtils.Simulate.change(tree.overlay.querySelector('div[data-key="0-0-0"] input'));
     ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.LEFT });
@@ -322,7 +313,7 @@ describe('CheckTreePicker', () => {
    * When focus is on a closed node, opens the node; focus does not move.
    */
   it('Should fold children node by keyCode=39', () => {
-    const tree = getInstance(<CheckTreePicker defaultOpen data={data} virtualized={false} />);
+    const tree = getInstance(<CheckTreePicker defaultOpen data={data} />);
 
     ReactTestUtils.Simulate.change(tree.overlay.querySelector('div[data-key="0-0"] input'));
     ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.RIGHT });
@@ -336,9 +327,7 @@ describe('CheckTreePicker', () => {
    * When focus is on an end node, does nothing.
    */
   it('Should change nothing when trigger on leaf node by keyCode=39', () => {
-    const tree = getInstance(
-      <CheckTreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
-    );
+    const tree = getInstance(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
 
     ReactTestUtils.Simulate.change(tree.overlay.querySelector('div[data-key="0-0-0"] input'));
     ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.RIGHT });
@@ -349,9 +338,7 @@ describe('CheckTreePicker', () => {
    * When focus is on a open node, moves focus to the first child node.
    */
   it('Should focus on first child node when node expanded by keyCode=39', () => {
-    const tree = getInstance(
-      <CheckTreePicker defaultOpen data={data} virtualized={false} defaultExpandAll />
-    );
+    const tree = getInstance(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
 
     ReactTestUtils.Simulate.change(tree.overlay.querySelector('div[data-key="0-0"] input'));
     ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.RIGHT });
@@ -388,33 +375,39 @@ describe('CheckTreePicker', () => {
       }
     ];
 
-    const instance = mount(
-      <CheckTreePicker
-        data={data}
-        value={['Master']}
-        inline
-        virtualized={false}
-        cascade={false}
-        defaultExpandAll
-        getChildren={() => [
-          {
-            label: 'children1',
-            value: 'children1'
-          }
-        ]}
-      />
-    );
-    instance.find('div[data-ref="0-1"]  > .rs-check-tree-node-expand-icon').simulate('click');
+    const ref = React.createRef();
+    ReactTestUtils.act(() => {
+      ReactDOM.render(
+        <CheckTreePicker
+          ref={ref}
+          data={data}
+          value={['Master']}
+          open
+          cascade={false}
+          defaultExpandAll
+          getChildren={() => [
+            {
+              label: 'children1',
+              value: 'children1'
+            }
+          ]}
+        />,
+        container
+      );
+    });
 
-    assert.equal(instance.html().indexOf('data-key="0-1-0"') > -1, true);
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.click(
+        ref.current.overlay.querySelector('div[data-ref="0-1"]  > .rs-check-tree-node-expand-icon')
+      );
+    });
 
-    instance.unmount();
+    assert.ok(ref.current.overlay.querySelector('[data-key="0-1-0"]'));
   });
 
   it('Should render empty tree when searchKeyword is `name`', () => {
-    const instance = mount(<CheckTreePicker data={data} inline searchKeyword="name" />);
-    assert.equal(instance.find('.rs-check-tree-node').length, 0);
-    instance.unmount();
+    const instance = getInstance(<CheckTreePicker data={data} open searchKeyword="name" />);
+    assert.equal(instance.overlay.querySelectorAll('.rs-check-tree-node').length, 0);
   });
 
   it('Should have a custom className prefix', () => {
@@ -423,15 +416,15 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should render tree without checkbox', () => {
-    const instance = mount(
+    const instance = getInstance(
       <CheckTreePicker
         data={data}
-        inline
+        open
         uncheckableItemValues={['tester0', 'disabled', 'tester1', 'tester2', 'Master']}
       />
     );
 
-    assert.equal(instance.find('.rs-check-tree-node-input-wrapper').length, 0);
+    assert.equal(instance.overlay.querySelectorAll('.rs-check-tree-node-input-wrapper').length, 0);
   });
 
   it('Should render tree node with custom dom', () => {
@@ -441,14 +434,14 @@ describe('CheckTreePicker', () => {
         label: <span className="custom-label">1</span>
       }
     ];
-    const instance = mount(<CheckTreePicker virtualized={false} data={customData} inline />);
+    const instance = getInstance(<CheckTreePicker data={customData} open />);
 
-    assert.equal(instance.find('.custom-label').length, 1);
+    assert.equal(instance.overlay.querySelectorAll('.custom-label').length, 1);
   });
 
   it('Should render with expand master node', () => {
     const tree = getInstance(
-      <CheckTreePicker virtualized={false} defaultOpen data={data} expandItemValues={['Master']} />
+      <CheckTreePicker defaultOpen data={data} expandItemValues={['Master']} />
     );
 
     const list = getDOMNode(tree.overlay).querySelectorAll('.rs-check-tree-node-expanded');
@@ -456,36 +449,57 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should fold all the node when toggle master node', () => {
+    const TestApp = React.forwardRef((props, ref) => {
+      const pickerRef = React.useRef();
+      const [expandItemValues, setExpandItemValues] = React.useState(['Master']);
+      React.useImperativeHandle(ref, () => {
+        return {
+          picker: pickerRef.current,
+          setExpandItemValues
+        };
+      });
+      return (
+        <CheckTreePicker
+          ref={pickerRef}
+          {...props}
+          data={data}
+          open
+          expandItemValues={expandItemValues}
+        />
+      );
+    });
+
+    TestApp.displayName = 'TestApp';
+
     let expandItemValues = [];
     const mockOnExpand = values => {
       expandItemValues = values;
     };
-    const instance = mount(
-      <CheckTreePicker
-        virtualized={false}
-        data={data}
-        inline
-        expandItemValues={['Master']}
-        onExpand={mockOnExpand}
-      />
-    );
-
-    assert.equal(instance.html().indexOf('rs-check-tree-node-expanded') > -1, true);
-
-    instance.find('div[data-ref="0-0"]  > .rs-check-tree-node-expand-icon').simulate('click');
-
-    instance.setProps({
-      expandItemValues
+    const ref = React.createRef();
+    ReactTestUtils.act(() => {
+      ReactDOM.render(<TestApp ref={ref} onExpand={mockOnExpand} />, container);
     });
-    assert.equal(instance.html().indexOf('rs-check-tree-node-expanded') === -1, true);
 
-    instance.unmount();
+    assert.ok(ref.current.picker.overlay.querySelector('.rs-check-tree-node-expanded'));
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.click(
+        ref.current.picker.overlay.querySelector(
+          'div[data-ref="0-0"]  > .rs-check-tree-node-expand-icon'
+        )
+      );
+    });
+
+    ReactTestUtils.act(() => {
+      ref.current.setExpandItemValues(expandItemValues);
+    });
+
+    assert.ok(!ref.current.picker.overlay.querySelector('.rs-check-tree-node-expanded'));
   });
 
   it('Should render the specified menu content by `searchBy`', () => {
     const instance = getInstance(
       <CheckTreePicker
-        virtualized={false}
         defaultOpen
         defaultExpandAll
         data={data}
