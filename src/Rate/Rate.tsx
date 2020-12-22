@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Star from '@rsuite/icons/legacy/Star';
 
@@ -100,6 +100,11 @@ const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
     const resetCharacterMap = useCallback(() => {
       setCharacterMap(getCharacterMap());
     }, [getCharacterMap]);
+
+    useEffect(() => {
+      // Update characterMap when value is updated.
+      setCharacterMap(getCharacterMap(valueProp));
+    }, [valueProp]);
 
     const handleMouseLeave = useCallback(
       (event: React.SyntheticEvent) => {

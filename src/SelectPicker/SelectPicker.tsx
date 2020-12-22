@@ -385,6 +385,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
             onClean={createChainedFunction(handleClean, onClean)}
             onKeyDown={onPickerKeyDown}
             as={toggleAs}
+            disabled={disabled}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
             active={active}

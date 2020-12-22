@@ -1,9 +1,22 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import CameraRetro from '@rsuite/icons/legacy/CameraRetro';
 import Star from '@rsuite/icons/legacy/Star';
 import Rate from '../Rate';
-import ReactTestUtils from 'react-dom/test-utils';
+
+let container;
+
+beforeEach(() => {
+  container = document.createElement('div');
+  document.body.appendChild(container);
+});
+
+afterEach(() => {
+  document.body.removeChild(container);
+  container = null;
+});
 
 describe('Rate', () => {
   it('Should render a default Rate', () => {
@@ -17,9 +30,16 @@ describe('Rate', () => {
   });
 
   it('Should allow clean full value', () => {
-    const instance = getDOMNode(<Rate defaultValue={1} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-rate-character-full'));
-    assert.equal(instance.querySelectorAll('.rs-rate-character-full').length, 0);
+    const ref = React.createRef();
+    ReactTestUtils.act(() => {
+      ReactDOM.render(<Rate defaultValue={1} ref={ref} />, container);
+    });
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.click(ref.current.querySelector('.rs-rate-character-full'));
+    });
+
+    assert.equal(ref.current.querySelectorAll('.rs-rate-character-full').length, 0);
   });
 
   it('Should allow clean half value', () => {
@@ -97,9 +117,21 @@ describe('Rate', () => {
         done();
       }
     };
-    const instance = getDOMNode(<Rate defaultValue={1} onChange={doneOp} />);
-    ReactTestUtils.Simulate.mouseMove(instance.querySelectorAll('.rs-rate-character-before')[2]);
-    ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-rate-character')[2]);
+
+    const ref = React.createRef();
+    ReactTestUtils.act(() => {
+      ReactDOM.render(<Rate ref={ref} defaultValue={1} onChange={doneOp} />, container);
+    });
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.mouseMove(
+        ref.current.querySelectorAll('.rs-rate-character-before')[2]
+      );
+    });
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.click(ref.current.querySelectorAll('.rs-rate-character')[2]);
+    });
   });
 
   it('Should call onChange callback by KeyDown event', done => {
@@ -108,11 +140,30 @@ describe('Rate', () => {
         done();
       }
     };
-    const instance = getDOMNode(<Rate defaultValue={1} onChange={doneOp} />);
-    const characters = instance.querySelectorAll('.rs-rate-character');
-    ReactTestUtils.Simulate.keyDown(characters[1], { keyCode: 39 });
-    ReactTestUtils.Simulate.keyDown(characters[2], { keyCode: 39 });
-    ReactTestUtils.Simulate.keyDown(characters[2], { keyCode: 13 });
+
+    const ref = React.createRef();
+
+    ReactTestUtils.act(() => {
+      ReactDOM.render(<Rate ref={ref} defaultValue={1} onChange={doneOp} />, container);
+    });
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.keyDown(ref.current.querySelectorAll('.rs-rate-character')[1], {
+        keyCode: 39
+      });
+    });
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.keyDown(ref.current.querySelectorAll('.rs-rate-character')[2], {
+        keyCode: 39
+      });
+    });
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.keyDown(ref.current.querySelectorAll('.rs-rate-character')[2], {
+        keyCode: 13
+      });
+    });
   });
 
   it('Should be vertical', () => {
@@ -134,5 +185,36 @@ describe('Rate', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<Rate classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should update characterMap when value is updated', () => {
+    const TestApp = React.forwardRef((props, ref) => {
+      const [value, setValue] = React.useState(2);
+      const rootRef = React.useRef();
+      React.useImperativeHandle(ref, () => ({
+        root: rootRef.current,
+        setValue
+      }));
+
+      return <Rate {...props} ref={rootRef} value={value} />;
+    });
+
+    TestApp.displayName = 'TestApp';
+
+    const ref = React.createRef();
+    ReactTestUtils.act(() => {
+      ReactDOM.render(<TestApp ref={ref} />, container);
+    });
+
+    assert.equal(
+      ref.current.root.querySelector('[aria-checked="true"]').getAttribute('aria-posinset'),
+      '2'
+    );
+
+    ReactTestUtils.act(() => {
+      ref.current.setValue(0);
+    });
+
+    assert.equal(ref.current.root.querySelectorAll('[aria-checked="false"]').length, 5);
   });
 });

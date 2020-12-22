@@ -889,6 +889,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
           onKeyDown={onPickerKeydown}
           onClean={createChainedFunction(handleClean, onClean)}
           cleanable={cleanable && !disabled}
+          disabled={disabled}
           as={toggleAs}
           hasValue={hasValidValue}
           active={active}

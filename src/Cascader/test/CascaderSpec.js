@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import Cascader from '../Cascader';
 import Button from '../../Button';
@@ -28,6 +29,18 @@ const items = [
     ]
   }
 ];
+
+let container;
+
+beforeEach(() => {
+  container = document.createElement('div');
+  document.body.appendChild(container);
+});
+
+afterEach(() => {
+  document.body.removeChild(container);
+  container = null;
+});
 
 describe('Cascader', () => {
   it('Should output a picker', () => {
@@ -244,6 +257,41 @@ describe('Cascader', () => {
     assert.include(instance1.className, 'rs-picker-has-value');
     assert.notInclude(instance2.className, 'rs-picker-has-value');
     assert.notInclude(instance3.className, 'rs-picker-has-value');
+  });
+
+  it('Should update path', () => {
+    const TestApp = React.forwardRef((props, ref) => {
+      const [value, setValue] = React.useState('2');
+      const pickerRef = React.useRef();
+      React.useImperativeHandle(ref, () => ({
+        picker: pickerRef.current,
+        setValue
+      }));
+
+      return <Cascader {...props} ref={pickerRef} defaultOpen data={items} value={value} open />;
+    });
+
+    TestApp.displayName = 'TestApp';
+
+    const ref = React.createRef();
+    ReactTestUtils.act(() => {
+      ReactDOM.render(<TestApp ref={ref} />, container);
+    });
+
+    assert.equal(ref.current.picker.root.querySelector('.rs-picker-toggle-value').innerText, '2');
+    assert.equal(
+      ref.current.picker.overlay.querySelector('.rs-picker-cascader-menu-item-active').innerText,
+      '2'
+    );
+
+    ReactTestUtils.act(() => {
+      ref.current.setValue(null);
+    });
+
+    assert.equal(
+      ref.current.picker.root.querySelector('.rs-picker-toggle-placeholder').innerText,
+      'Select'
+    );
   });
 
   describe('ref testing', () => {

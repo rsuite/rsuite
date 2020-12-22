@@ -20,25 +20,25 @@ A set of components and models that process form data.
 
 The default is the vertical layout
 
-<!--{include:`basic.md`|589|}-->
+<!--{include:`basic.md`}-->
 
 ### Fluid
 
 The `fluid` property allows the Input 100% of the form to fill the container, valid only in vertical layouts.
 
-<!--{include:`fluid.md`|613|}-->
+<!--{include:`fluid.md`}-->
 
 ### Horizontal layout
 
-<!--{include:`horizontal.md`|501|}-->
+<!--{include:`horizontal.md`}-->
 
 ### Inline Layout
 
-<!--{include:`inline.md`|274|}-->
+<!--{include:`inline.md`}-->
 
 ### Layout In Modal
 
-<!--{include:`modal-layout.md`|149|}-->
+<!--{include:`modal-layout.md`}-->
 
 ## Status
 
@@ -48,7 +48,7 @@ The `fluid` property allows the Input 100% of the form to fill the container, va
 
 `<Form.HelpText>` A help description can be defined below the form component. If the `tooltip` property is set, an icon will be displayed on the form component and the help description information will be displayed as `<Tooltip>`.
 
-<!--{include:`help-block.md`|233|}-->
+<!--{include:`help-block.md`}-->
 
 ### Error Message
 
@@ -57,11 +57,11 @@ Error message can be set in 2 ways:
 - The `<Form.Control>` component passes an `errorMessage` property setting error message, and `errorPlacement` sets the location of the error message display.
 - Customize a prompt message.
 
-<!--{include:`error-message.md`|423|}-->
+<!--{include:`error-message.md`}-->
 
 ### Disabled and read only
 
-<!--{include:`status.md`|1480|}-->
+<!--{include:`status.md`}-->
 
 ## Accessibility
 

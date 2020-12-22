@@ -154,12 +154,9 @@ const PickerToggle: RsRefForwardingComponent<
   const Caret = caretComponent ?? useToggleCaret(placement);
 
   if (plaintext) {
-    if (hasValue && !children) {
-      return null;
-    }
     return (
       <Plaintext ref={ref} localeKey="notSelected">
-        {children}
+        {hasValue ? children : null}
       </Plaintext>
     );
   }
@@ -178,6 +175,7 @@ const PickerToggle: RsRefForwardingComponent<
       aria-owns={id ? `${id}-listbox` : undefined}
       {...rest}
       ref={ref}
+      disabled={disabled}
       tabIndex={tabIndex}
       className={classes}
       onFocus={!disabled ? handleFocus : null}

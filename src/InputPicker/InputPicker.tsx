@@ -685,7 +685,11 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       : { as: 'input' };
 
     if (plaintext) {
-      return <Plaintext localeKey="notSelected">{displayElement || tagElements}</Plaintext>;
+      return (
+        <Plaintext localeKey="notSelected">
+          {displayElement || tagElements?.length ? tagElements : null}
+        </Plaintext>
+      );
     }
 
     return (
@@ -718,6 +722,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
             active={active}
+            disabled={disabled}
             placement={placement}
           >
             {searching || (multi && hasValue) ? null : displayElement || locale?.placeholder}

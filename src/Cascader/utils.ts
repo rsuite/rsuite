@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import slice from 'lodash/slice';
 import { shallowEqual } from '../utils';
 import { CascaderProps } from './Cascader';
@@ -90,6 +90,11 @@ export function usePaths(props: CascaderProps) {
     setColumnData(columns);
     setSelectedPaths(paths);
   }
+
+  useEffect(() => {
+    // Update paths when value is updated, then update valueToPaths.
+    setValueToPaths(paths);
+  }, [paths]);
 
   return {
     enforceUpdate,

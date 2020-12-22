@@ -136,8 +136,9 @@ const UploadTrigger = React.forwardRef((props: UploadTriggerProps, ref) => {
     clearInput: handleClearInput
   }));
 
-  const buttonProps: React.HTMLAttributes<HTMLButtonElement> = {
+  const buttonProps: React.ButtonHTMLAttributes<HTMLButtonElement> = {
     ...rest,
+    disabled,
     className: prefix('btn')
   };
 

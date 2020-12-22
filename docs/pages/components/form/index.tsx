@@ -11,7 +11,6 @@ import {
   Row,
   Checkbox,
   Radio,
-  Schema,
   CheckPicker,
   InputGroup,
   InputNumber,
@@ -30,7 +29,7 @@ import {
   Message,
   Rate,
   Uploader,
-  toaster,
+  toaster
 } from 'rsuite';
 import Loadable from 'react-loadable';
 import * as dateFns from 'date-fns';
@@ -46,12 +45,12 @@ function MyLoader() {
 
 const JSONTree = Loadable({
   loader: () => import('react-json-tree'),
-  loading: MyLoader,
+  loading: MyLoader
 });
 
 const MaskedInput = Loadable({
   loader: () => import('react-text-mask'),
-  loading: MyLoader,
+  loading: MyLoader
 });
 
 const JSONView = ({ formValue, formError }: any) => (
@@ -77,7 +76,6 @@ export default function Page() {
       dependencies={{
         Row,
         Col,
-        Schema,
         Form,
         Input,
         InputGroup,
@@ -113,7 +111,7 @@ export default function Page() {
         data,
         Rate,
         Uploader,
-        Avatar,
+        Avatar
       }}
     />
   );
