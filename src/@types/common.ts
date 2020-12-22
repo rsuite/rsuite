@@ -210,7 +210,6 @@ export interface ItemDataType {
   groupBy?: string;
   parent?: ItemDataType;
   children?: ItemDataType[];
-
   loading?: boolean;
 }
 

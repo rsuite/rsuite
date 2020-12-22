@@ -106,4 +106,11 @@ describe('Button', () => {
     const instance = getDOMNode(<Button classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
+
+  it('Should role be button', () => {
+    const instance = getDOMNode(<Button as="span" />);
+
+    assert.equal(instance.getAttribute('role'), 'button');
+    assert.equal(instance.nodeName, 'SPAN');
+  });
 });

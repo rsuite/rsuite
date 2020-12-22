@@ -65,12 +65,7 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
     const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
     const classes = merge(
       className,
-      withClassPrefix(appearance, color, size, {
-        active,
-        disabled,
-        loading,
-        block
-      })
+      withClassPrefix(appearance, color, size, { active, disabled, loading, block })
     );
 
     const rippleElement = ripple && !isOneOf(appearance, ['link', 'ghost']) ? <Ripple /> : null;
@@ -95,10 +90,12 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
 
     const Component = as || 'button';
     const type = typeProp || (Component === 'button' ? 'button' : undefined);
+    const role = as !== 'button' ? 'button' : rest.role;
 
     return (
       <Component
         {...rest}
+        role={role}
         type={type}
         ref={ref}
         disabled={disabled}
