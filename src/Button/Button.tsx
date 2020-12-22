@@ -90,7 +90,7 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
 
     const Component = as || 'button';
     const type = typeProp || (Component === 'button' ? 'button' : undefined);
-    const role = as !== 'button' ? 'button' : rest.role;
+    const role = rest.role || (Component !== 'button' ? 'button' : undefined);
 
     return (
       <Component
