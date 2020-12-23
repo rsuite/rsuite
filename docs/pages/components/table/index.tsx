@@ -9,11 +9,10 @@ import {
   Divider,
   Nav,
   Checkbox,
-  Dropdown,
+  Dropdown
 } from 'rsuite';
 
 import DefaultPage from '@/components/Page';
-// import AppContext from '@/components/AppContext';
 import useFetchData from '@/utils/useFetchData';
 import Edit2 from '@rsuite/icons/legacy/Edit2';
 import More from '@rsuite/icons/legacy/More';
@@ -28,36 +27,11 @@ import Spinner from '@rsuite/icons/legacy/Spinner';
 const { HeaderCell, Cell, Column, ColumnGroup } = Table;
 
 export default function Page() {
-  // const { messages, localePath } = React.useContext(AppContext);
   const { response: fakeData } = useFetchData('users');
   const { response: fakeTreeData } = useFetchData('tree-data');
   const { response: fakeLargeData } = useFetchData('large-data');
   const { response: fakeDataForColSpan } = useFetchData('users-colspan');
 
-  /*
-  const tabExamples = [
-    'resizable',
-    'fluid-column',
-    'fixed',
-    'word-wrap',
-    'custom-cell',
-    'sort',
-    'pagination',
-    'tree',
-    'expanded',
-    'edit',
-    'loading',
-    'colspan',
-    'summary',
-    'auto-height',
-    'affix-header',
-    'affix-horizontal-scrollbar',
-    'draggable'
-  ].map(item => ({
-    title: messages?.table[`tab.${item}`],
-    source: require(`.${localePath}/${item}.md`)
-  }));
-*/
   return (
     <DefaultPage
       dependencies={{
@@ -87,7 +61,7 @@ export default function Page() {
         Arrows,
         MinusSquareO,
         PlusSquareO,
-        Spinner,
+        Spinner
       }}
     />
   );
