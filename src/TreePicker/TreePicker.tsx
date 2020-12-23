@@ -875,6 +875,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
           onClean={createChainedFunction(handleClean, onClean)}
           cleanable={cleanable && !disabled}
           as={toggleAs}
+          disabled={disabled}
           hasValue={hasValidValue}
           active={active}
           placement={placement}

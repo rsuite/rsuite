@@ -359,7 +359,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
       } else {
         node.loading = false;
         node[childrenKey] = children;
-        addColumn(children, cascadePaths.length);
+        addColumn(children as ItemDataType[], cascadePaths.length);
       }
     }
 
@@ -571,6 +571,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
           id={id}
           ref={targetRef}
           as={toggleAs}
+          disabled={disabled}
           onClean={createChainedFunction(handleClean, onClean)}
           onKeyDown={onPickerKeyDown}
           cleanable={cleanable && !disabled}

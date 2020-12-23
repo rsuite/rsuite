@@ -547,6 +547,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
             id={id}
             as={toggleAs}
+            disabled={disabled}
             ref={targetRef}
             onClean={createChainedFunction(handleClean, onClean)}
             onKeyDown={onPickerKeyDown}

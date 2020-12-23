@@ -273,7 +273,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
     usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
 
     const selectedItems =
-      data.filter(item => value.some(val => shallowEqual(item[valueKey], val))) || [];
+      data.filter(item => value?.some(val => shallowEqual(item[valueKey], val))) || [];
 
     /**
      * 1.Have a value and the value is valid.

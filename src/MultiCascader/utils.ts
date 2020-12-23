@@ -343,6 +343,11 @@ export function useCascadeValue(props: Partial<MultiCascaderProps>, flattenData:
 
   const [value, setValue] = useState<ValueType>(transformValue(valueProp) || []);
 
+  useEffect(() => {
+    // Update value when valueProp is updated.
+    setValue(transformValue(valueProp) || []);
+  }, [transformValue, valueProp]);
+
   return {
     value,
     setValue,
