@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { Divider, IconButton, Tooltip, Whisper, Placeholder } from 'rsuite';
-import { canUseDOM } from 'dom-lib';
+import { canUseDOM, toggleClass } from 'dom-lib';
 import { Markdown } from 'react-markdown-reader';
 import AppContext from './AppContext';
 import PageContainer from './PageContainer';
@@ -14,50 +14,90 @@ import { getTitle, getDescription } from '../utils/parseHTML';
 import scrollIntoView from '../utils/scrollIntoView';
 import { CodeViewProps } from './CodeView';
 import Github from '@rsuite/icons/legacy/Github';
+import { Icon } from '@rsuite/icons';
+import { Transparent as TransparentIcon } from './SvgIcons';
+import { useCallback } from 'react';
 
 const babelOptions = {
   presets: ['env', 'stage-1', 'react'],
-  plugins: ['transform-class-properties'],
+  plugins: ['transform-class-properties']
 };
 
 interface CustomCodeViewProps {
+  className?: string;
   height?: number;
   dependencies?: any;
   source?: any;
   onLoaded?: () => void;
+  path: string;
   renderToolbar?: (showCodeButton: React.ReactNode) => React.ReactNode;
 }
 
 const CustomCodeView = (props: CustomCodeViewProps) => {
-  const { dependencies, source, height = 100, onLoaded, ...rest } = props;
+  const { dependencies, source, height = 100, path, onLoaded, ...rest } = props;
   const { styleLoaded } = React.useContext(AppContext);
+  const viewRef = React.useRef();
 
   const renderPlaceholder = React.useCallback(() => {
     return <Placeholder.Graph height={height} />;
   }, [height]);
 
+  const handleChangeTransparent = useCallback(() => {
+    toggleClass(viewRef.current, 'rs-code-transparent');
+  }, []);
+
   if (canUseDOM && source && styleLoaded) {
     const CodeView: React.ComponentType<CodeViewProps> = dynamic(
       () =>
-        import('./CodeView').then((Component) => {
+        import('./CodeView').then(Component => {
           onLoaded?.();
           return Component;
         }),
       {
-        loading: renderPlaceholder,
+        loading: renderPlaceholder
       }
     );
 
     return (
-      <CodeView
-        {...rest}
-        style={{ minHeight: height }}
-        source={source}
-        theme="dark"
-        babelOptions={babelOptions}
-        buttonClassName="rs-btn-subtle rs-btn-icon-circle"
-        dependencies={{ ...dependencies, Paragraph, Divider }}
-      />
+      <div ref={viewRef} className="rs-code-view">
+        <CodeView
+          {...rest}
+          style={{ minHeight: height }}
+          source={source}
+          theme="dark"
+          babelOptions={babelOptions}
+          buttonClassName="rs-btn-subtle rs-btn-icon-circle"
+          dependencies={{ ...dependencies, Paragraph, Divider }}
+          renderToolbar={CodeButton => {
+            return (
+              <React.Fragment>
+                <Whisper placement="top" speaker={<Tooltip>Show the source</Tooltip>}>
+                  {CodeButton}
+                </Whisper>{' '}
+                <Whisper placement="top" speaker={<Tooltip>Transparent background</Tooltip>}>
+                  <IconButton
+                    onClick={handleChangeTransparent}
+                    appearance="subtle"
+                    icon={<Icon as={TransparentIcon} />}
+                    circle
+                    size="xs"
+                  />
+                </Whisper>
+                <Whisper placement="top" speaker={<Tooltip>See the source on GitHub</Tooltip>}>
+                  <IconButton
+                    appearance="subtle"
+                    icon={<Github />}
+                    circle
+                    size="xs"
+                    target="_blank"
+                    href={path}
+                  />
+                </Whisper>
+              </React.Fragment>
+            );
+          }}
+        />
+      </div>
     );
   }
   return renderPlaceholder();
@@ -67,39 +107,7 @@ CustomCodeView.propTypes = {
   height: PropTypes.number,
   dependencies: PropTypes.object,
   source: PropTypes.string,
-  onLoaded: PropTypes.func,
-};
-
-interface ViewCodeProps extends CustomCodeViewProps {
-  path: string;
-}
-
-const ViewCode = function ViewCode(props: ViewCodeProps) {
-  const { path, ...rest } = props;
-  return (
-    <CustomCodeView
-      {...rest}
-      renderToolbar={(showCodeButton) => {
-        return (
-          <React.Fragment>
-            <Whisper placement="top" speaker={<Tooltip>Show the source</Tooltip>}>
-              {showCodeButton}
-            </Whisper>{' '}
-            <Whisper placement="top" speaker={<Tooltip>See the source on GitHub</Tooltip>}>
-              <IconButton
-                appearance="subtle"
-                icon={<Github />}
-                circle
-                size="xs"
-                target="_blank"
-                href={path}
-              />
-            </Whisper>
-          </React.Fragment>
-        );
-      }}
-    />
-  );
+  onLoaded: PropTypes.func
 };
 
 export interface PageContentProps {
@@ -127,7 +135,7 @@ const PageContent = (props: PageContentProps) => {
   const description = getDescription(context);
   const pageHead = <Head title={title} description={description} />;
 
-  const component = components.find((item) => item.id === id || item.name === id);
+  const component = components.find(item => item.id === id || item.name === id);
   const designHash = component?.designHash;
 
   const fragments = context.split(/<!--{(\S+)}-->/);
@@ -147,7 +155,7 @@ const PageContent = (props: PageContentProps) => {
 
         if (codeName) {
           return (
-            <ViewCode
+            <CustomCodeView
               key={index}
               height={height ? parseInt(height) : undefined}
               source={require(`../pages${pathname}/fragments/${codeName}`)}

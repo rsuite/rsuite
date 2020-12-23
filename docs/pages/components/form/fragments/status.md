@@ -1,6 +1,14 @@
 <!--start-code-->
 
 ```js
+const styles = {
+  radioGroupLabel: {
+    padding: '8px 12px',
+    display: 'inline-block',
+    verticalAlign: 'middle'
+  }
+};
+
 const defaultFormValue = {
   input: '',
   checkbox: [],
@@ -81,8 +89,8 @@ const App = () => {
         formValue={formValue}
         onChange={formValue => setFormValue(formValue)}
       >
-        <Form.ControlLabel>Change status</Form.ControlLabel>
-        <RadioGroup inline value={status} onChange={setStatus}>
+        <RadioGroup appearance="picker" inline value={status} onChange={setStatus}>
+          <span style={styles.radioGroupLabel}>Change status: </span>
           <Radio value="normal">normal</Radio>
           <Radio value="readonly">readonly</Radio>
           <Radio value="disabled">disabled</Radio>

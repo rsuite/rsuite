@@ -18,6 +18,14 @@ const Field = React.forwardRef((props, ref) => {
   );
 });
 
+const styles = {
+  radioGroupLabel: {
+    padding: '8px 12px',
+    display: 'inline-block',
+    verticalAlign: 'middle'
+  }
+};
+
 const App = () => {
   const formRef = React.useRef();
   const [formError, setFormError] = React.useState({});
@@ -35,15 +43,16 @@ const App = () => {
   return (
     <FlexboxGrid>
       <FlexboxGrid.Item colspan={12}>
-        checkTrigger:
         <RadioGroup
           inline
+          appearance="picker"
           value={checkTrigger}
           onChange={value => {
             setCheckTrigger(value);
             setFormError({});
           }}
         >
+          <span style={styles.radioGroupLabel}>checkTrigger: </span>
           <Radio value="blur">blur</Radio>
           <Radio value="change">change</Radio>
           <Radio value="none">none</Radio>
