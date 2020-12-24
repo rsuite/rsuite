@@ -90,10 +90,7 @@ module.exports = merge(
         cleanOnceBeforeBuildPatterns: [resolveDirName('public/css/theme-*.css')],
         cleanAfterEveryBuildPatterns: [resolveDirName('public/css/*.js')]
       }),
-      __PRO__ &&
-        new RTLCSSPlugin({
-          path: CSS_PATH
-        })
+      __PRO__ && new RTLCSSPlugin({ path: CSS_PATH })
     ])
   },
   themesConfig,

@@ -26,6 +26,8 @@
   &-group-picker &-checker {
     padding: 0;
     min-height: auto;
+    border-bottom: 1px solid transparent;
+    margin: 0 10px;
   }
 
   // Picker Radio group hidden radio.
@@ -38,7 +40,7 @@
 
     color: @radio-label-font-color;
     transition: color 0.3s linear;
-    padding: @padding-base-vertical - 1px 10px;
+    padding: @padding-base-vertical - 1px 0;
 
     &:hover,
     &:active {
@@ -46,8 +48,12 @@
     }
   }
 
-  &-group-picker &-checked &-checker > label {
-    color: @radio-picker-active-color;
+  &-group-picker &-checked &-checker {
+    border-bottom: 2px solid @radio-picker-active-color;
+
+    > label {
+      color: @radio-picker-active-color;
+    }
   }
 
   &-group-picker &-disabled &-checker > label {
