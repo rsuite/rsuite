@@ -72,8 +72,8 @@
     "schema-typed": "^1.5.1"
   },
   "peerDependencies": {
-    "react": ">=16.6.0",
-    "react-dom": ">=16.6.0"
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.0",

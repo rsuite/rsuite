@@ -54,6 +54,10 @@ export default function usePages() {
           name: messages?.common?.modularized
         },
         {
+          id: 'v4-to-v5',
+          name: messages?.common?.v4ToV5
+        },
+        {
           id: 'v3-to-v4',
           name: messages?.common?.v3ToV4
         },
