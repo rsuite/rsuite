@@ -1,6 +1,6 @@
 # see https://help.github.com/cn/actions/language-and-framework-guides/publishing-nodejs-packages
 
-name: Node.js Package
+name: Node.js Package - next
 
 on:
   push:
