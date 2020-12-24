@@ -4,7 +4,10 @@ name: Node.js Package - next
 
 on:
   push:
-    tags: ['v[5].[0-9]+.[0-9]+-(alpha|beta).[0-9]+']
+    branches:
+      - next
+    tags: 
+      - v*(alpha|beta)*
 
 jobs:
   publish:
@@ -19,6 +22,6 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
         run: npm install
-      - run: npm publish
+      - run: npm publish --tag next
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
