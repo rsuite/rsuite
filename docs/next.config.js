@@ -102,7 +102,7 @@ module.exports = withPlugins([[withImages]], {
 
     return config;
   },
-  exportTrailingSlash: true,
+  trailingSlash: true,
   exportPathMap: () => {
     const pages = findPages();
     const map = {};

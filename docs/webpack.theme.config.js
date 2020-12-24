@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const multipleThemesCompile = require('webpack-multiple-themes-compile');
+const multipleThemesCompile = require('@rsuite/webpack-multiple-themes-compile');
 const RTLCSSPlugin = require('./scripts/RTLCSSPlugin');
 
 const { resolve } = require('path');
@@ -70,6 +70,7 @@ const themesConfig = multipleThemesCompile({
 
 module.exports = merge(
   {
+    mode: __PRO__ ? 'production' : 'development',
     // https://webpack.js.org/configuration/devtool/#devtool
     devtool: sourceMap && 'source-map',
     devServer: {
