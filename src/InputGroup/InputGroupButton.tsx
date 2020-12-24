@@ -7,7 +7,7 @@ const InputGroupButton = React.forwardRef((props: ButtonProps, ref: React.Ref<an
   const { withClassPrefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix());
 
-  return <Button {...rest} ref={ref} as="a" className={classes} />;
+  return <Button {...rest} ref={ref} className={classes} />;
 });
 
 InputGroupButton.displayName = 'InputGroupButton';
