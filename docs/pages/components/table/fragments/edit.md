@@ -27,7 +27,7 @@ export const EditCell = ({ rowData, dataKey, onChange, ...props }) => {
 
 const ActionCell = ({ rowData, dataKey, onClick, ...props }) => {
   return (
-    <Cell {...props} style={{ padding: '6px 0' }}>
+    <Cell {...props} style={{ padding: '6px' }}>
       <Button
         appearance="link"
         onClick={() => {
