@@ -40,13 +40,13 @@ React Suite supports server side rendering. Support [Next.js](https://github.com
 React Suite is available as an [npm package][npm-home].
 
 ```bash
-npm i rsuite --save
+npm i rsuite@next --save
 ```
 
 or if you prefer Yarn
 
 ```bash
-yarn add rsuite
+yarn add rsuite@next
 ```
 
 ## Usage
