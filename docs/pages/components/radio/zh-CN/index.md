@@ -37,7 +37,6 @@
 WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#radiobutton
 
 - 选中 `Radio` 时将 `aria-checked` 设置为 `true`。 否则，将 `aria-checked` 设置为 `false`。
-- 如果设置了 `children`, 则会和 `Radio` 一起包裹在 `<label>` 中。
 
 ## Props
 
