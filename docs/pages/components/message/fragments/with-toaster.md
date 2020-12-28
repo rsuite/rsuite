@@ -5,8 +5,8 @@ const App = () => {
   const [type, setType] = React.useState('info');
   const [placement, setPlacement] = React.useState('topCenter');
   const message = (
-    <Message showIcon type={type} header={type} closable>
-      Description
+    <Message showIcon type={type} >
+      {type}: The message appears on the {placement}.
     </Message>
   );
 

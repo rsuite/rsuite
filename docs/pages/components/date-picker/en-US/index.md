@@ -94,17 +94,6 @@ Clicking "The day before" in the example does not close the picker layer because
 
 <!--{include:`show-week-numbers.md`}-->
 
-### Time zone
-
-<!--{include:`time-zone.md`}-->
-
-- [Time zone selectable list reference](/components/date-picker#Time%20Zone%20List)
-- [Notes on using time zone attributes](/components/date-picker#Time%20Zone%20Tips)
-
-### Use `TimeZonePicker` to set time zone
-
-<!--{include:`time-zone-with-picker.md`}-->
-
 ### Native pickers
 
 If you only need to meet the simple date selection function, you can use the native pickers supported by the browser.
