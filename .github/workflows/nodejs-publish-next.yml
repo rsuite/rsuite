@@ -4,8 +4,6 @@ name: Node.js Package - next
 
 on:
   push:
-    branches:
-      - next
     tags: 
       - v*(alpha|beta)*
 
