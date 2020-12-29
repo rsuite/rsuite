@@ -77,7 +77,7 @@ const Toolbar: RsRefForwardingComponent<'div', ToolbarProps> = React.forwardRef(
           </Button>
         </div>
       );
-    }, [disabledOkBtn, hideOkBtn, locale?.ok, onOk, pageDate, prefix]);
+    }, [disabledOkBtn, hideOkBtn, locale, onOk, pageDate, prefix]);
 
     if (hideOkBtn && ranges.length === 0) {
       return null;

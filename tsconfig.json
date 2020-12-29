@@ -7,7 +7,9 @@
     "noImplicitAny": false,
     "noUnusedParameters": true,
     "noUnusedLocals": true,
-    "target": "es5",
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "target": "esnext",
     "jsx": "react"
   },
   "include": ["./src/**/*.ts", "./src/**/*.tsx"]

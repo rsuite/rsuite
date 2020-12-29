@@ -104,6 +104,7 @@ const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
     useEffect(() => {
       // Update characterMap when value is updated.
       setCharacterMap(getCharacterMap(valueProp));
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [valueProp]);
 
     const handleMouseLeave = useCallback(
