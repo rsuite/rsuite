@@ -24,6 +24,9 @@ export interface ButtonProps extends WithAsProps, React.HTMLAttributes<HTMLEleme
   /** Providing a `href` will render an `<a>` element, _styled_ as a button */
   href?: string;
 
+  /** Where to display the linked URL */
+  target?: string;
+
   /** A button can show a loading indicator */
   loading?: boolean;
 

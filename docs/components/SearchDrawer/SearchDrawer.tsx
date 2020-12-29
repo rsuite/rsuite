@@ -26,20 +26,23 @@ export default function SearchDrawer(props: SearchDrawerProps) {
     client = createAlgoliaClient(language);
   }, [language]);
 
-  const onSearch = React.useCallback(keyword => {
-    setKeyword(keyword);
-    if (keyword === '') {
-      setList([]);
-      return;
-    }
+  const onSearch = React.useCallback(
+    keyword => {
+      setKeyword(keyword);
+      if (keyword === '') {
+        setList([]);
+        return;
+      }
 
-    client?.search?.(keyword, { hitsPerPage: 6 }).then(({ hits }) => {
-      setList(hits || []);
-    });
-  }, []);
+      client?.search?.(keyword, { hitsPerPage: 6 }).then(({ hits }) => {
+        setList(hits || []);
+      });
+    },
+    [client]
+  );
 
   return (
-    <Drawer className="search-drawer" placement="left" size="xs" show={show} onHide={onHide}>
+    <Drawer className="search-drawer" placement="left" size="xs" open={show} onOpen={onHide}>
       <Drawer.Header>
         <Drawer.Title>{messages?.common?.search}</Drawer.Title>
       </Drawer.Header>

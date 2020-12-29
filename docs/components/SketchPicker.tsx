@@ -14,7 +14,7 @@ interface SketchPickerProps {
 
 export default function SketchPicker(props: SketchPickerProps) {
   const { color } = props;
-  const [displayColorPicker, setDisplayColorPicker] = React.useState();
+  const [displayColorPicker, setDisplayColorPicker] = React.useState(false);
   return (
     <div className="sketch-picker-wrapper">
       <div

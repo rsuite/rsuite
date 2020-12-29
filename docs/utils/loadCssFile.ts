@@ -7,8 +7,8 @@ export default function loadCssFile(url: string, id = 'default') {
     link.rel = 'stylesheet';
     link.type = 'text/css';
     link.href = `${url}?${version ?? ''}`;
-    link.onload = function () {
-      resolve();
+    link.onload = function (event) {
+      resolve(event);
     };
     container.appendChild(link);
   });
