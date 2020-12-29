@@ -2,7 +2,8 @@ const plugins = [
   require('autoprefixer'),
   require('cssnano')({
     preset: [
-      'default', {
+      'default',
+      {
         discardComments: {
           removeAll: true
         }

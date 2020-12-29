@@ -98,18 +98,18 @@
 // Modal header
 // Top section of the modal w/ title and dismiss
 .@{ns}modal-header {
-  .clearfix;
+  .clearfix();
 
   padding-right: @line-height-computed;
 
   .@{ns}modal-title {
     font-size: @modal-title-font-size;
-    line-height: unit(@line-height-computed / @modal-title-font-size);
+    line-height: unit((@line-height-computed / @modal-title-font-size));
     width: 100%;
     display: block;
     color: @modal-title-color;
     margin: 0;
-    .ellipsis;
+    .ellipsis();
   }
 
   .@{ns}modal-header-close {
@@ -148,7 +148,7 @@
 .@{ns}modal-footer {
   text-align: right; // right align buttons
   border-top: none;
-  .clearfix; // clear it in case folks use .pull-* classes on buttons
+  .clearfix(); // clear it in case folks use .pull-* classes on buttons
 
   // Properly space out buttons
   .@{ns}btn + .@{ns}btn {

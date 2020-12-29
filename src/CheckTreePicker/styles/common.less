@@ -44,11 +44,11 @@
     }
 
     &:focus .@{ns}check-item .@{ns}checkbox-checker > label {
-      .picker-item-hover;
+      .picker-item-hover();
     }
 
     .@{ns}check-item.@{ns}checkbox-checked .@{ns}checkbox-checker > label {
-      .picker-item-active;
+      .picker-item-active();
     }
 
     .@{ns}check-item .@{ns}checkbox-checker > label {
@@ -139,7 +139,7 @@
 
   > .@{ctpns}-node-custom-icon,
   > .@{ctpns}-node-loading-icon {
-    .node-item-prepend-icon;
+    .node-item-prepend-icon();
   }
 }
 
@@ -174,7 +174,7 @@
     }
 
     &-node > .@{ctpns}-node-label .@{ctpns}-node-text-wrapper {
-      .ellipsis;
+      .ellipsis();
 
       display: inline-block;
       vertical-align: top;

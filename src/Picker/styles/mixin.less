@@ -76,7 +76,7 @@
 
   /* stylelint-disable-next-line */ // This class name provide by Virtualized.
   .ReactVirtualized__Grid & {
-    .ellipsis-basic;
+    .ellipsis-basic();
   }
 }
 
@@ -349,7 +349,7 @@
 // Default picker toggle
 .picker-default-toggle() {
   .@{ns}picker-default & {
-    .dropdown-toggle;
+    .dropdown-toggle();
 
     color: @picker-default-toggle-font-color;
     border: @picker-default-toggle-border-width solid @picker-default-toggle-border-color;
@@ -370,7 +370,7 @@
 // Subtle picker toggle
 .picker-subtle-toggle {
   .@{ns}picker-subtle & {
-    .dropdown-toggle;
+    .dropdown-toggle();
   }
 
   .@{ns}picker-subtle.@{ns}picker-disabled & {

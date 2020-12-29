@@ -41,7 +41,7 @@
     h5 {
       margin-top: 0;
       margin-bottom: 0;
-      .ellipsis;
+      .ellipsis();
 
       // When title and description all exist , additional a margin
       & + .@{ns}message-description {
@@ -64,7 +64,7 @@
   // Header
   .@{ns}message-header {
     color: @message-header-color;
-    line-height: unit(round(@message-icon-large-size / @message-title-size, 16));
+    line-height: unit((round((@message-icon-large-size / @message-title-size), 16)));
   }
 
   // Description

@@ -73,11 +73,11 @@
 //** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
 @line-height-large-computed: 22px;
 //** Unit-less `line-height` for use in components like buttons.
-@line-height-large: unit(@line-height-large-computed / @font-size-large); // ~1.375
-@line-height-base: unit(@line-height-computed / @font-size-base); // ~1.4285714285714286
-@line-height-small: unit(@line-height-computed / @font-size-small); // ~1.6666666666666667
+@line-height-large: unit((@line-height-large-computed / @font-size-large)); // ~1.375
+@line-height-base: unit((@line-height-computed / @font-size-base)); // ~1.4285714285714286
+@line-height-small: unit((@line-height-computed / @font-size-small)); // ~1.6666666666666667
 @line-height-extra-small: unit(
-  @line-height-computed / @font-size-extra-small
+  (@line-height-computed / @font-size-extra-small)
 ); // ~1.6666666666666667
 
 //** By default, this inherits from the `<body>`.
@@ -410,7 +410,7 @@
 @toggle-md-handle-bg: @B000;
 @toggle-md-inner-line-height-computed: @toggle-md-height;
 @toggle-md-inner-line-height: unit(
-  @toggle-md-inner-line-height-computed / @toggle-md-inner-font-size
+  (@toggle-md-inner-line-height-computed / @toggle-md-inner-font-size)
 );
 // The same to button
 @toggle-md-inner-margin: @padding-base-vertical;
@@ -601,7 +601,7 @@
 @sidenav-menu-max-height: @sidenav-item-height*40;
 @sidenav-menu-animation-time: 1.5s;
 @sidenav-level1-item-font-size: @font-size-large;
-@sidenav-level1-item-line-height: unit(@line-height-computed / @font-size-large);
+@sidenav-level1-item-line-height: unit((@line-height-computed / @font-size-large));
 @sidenav-icon-spacing: 20px;
 @sidenav-icon-width: @sidenav-level1-item-font-size;
 @sidenav-dropdown-toggle-caret-width: 20px;
@@ -664,15 +664,15 @@
 // This space place the steps-icon
 @steps-icon-space-width: @steps-icon-diameter+ @steps-icon-spacing;
 @steps-icon-size: @font-size-large;
-@steps-icon-line-height: unit((@steps-icon-diameter - 2px) / @font-size-large);
+@steps-icon-line-height: unit(((@steps-icon-diameter - 2px) / @font-size-large));
 @steps-title-font-size: @font-size-large;
-@steps-title-line-height: unit(@steps-icon-diameter / @font-size-large);
+@steps-title-line-height: unit((@steps-icon-diameter / @font-size-large));
 @steps-description-margin-top: 12px;
 // Small
 @small-steps-icon-diameter: 24px;
 @small-steps-icon-space-width: @small-steps-icon-diameter + @steps-icon-spacing;
-@small-steps-icon-line-height: unit((@small-steps-icon-diameter - 2px) / @font-size-base);
-@small-steps-title-line-height: unit(@small-steps-icon-diameter / @font-size-base);
+@small-steps-icon-line-height: unit(((@small-steps-icon-diameter - 2px) / @font-size-base));
+@small-steps-title-line-height: unit((@small-steps-icon-diameter / @font-size-base));
 @small-steps-icon-size: @font-size-base;
 @small-steps-description-font-size: @font-size-small;
 @small-steps-description-line-height: @line-height-small;

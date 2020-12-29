@@ -75,7 +75,7 @@
     &-icon-loading {
       .@{uplns}-file-item-icon {
         .set-side-length(@loader-default-diameter);
-        .loader-spin;
+        .loader-spin();
 
         > svg {
           display: none;
@@ -102,7 +102,7 @@
     }
 
     &-title {
-      .ellipsis;
+      .ellipsis();
 
       flex: 1 1 auto;
     }
@@ -117,7 +117,7 @@
       flex: 0 0 auto;
 
       > a {
-        .reset-link-text-decoration;
+        .reset-link-text-decoration();
       }
     }
 
@@ -165,12 +165,12 @@
 
 .@{uplns}-picture {
   display: inline-block;
-  .clearfix;
+  .clearfix();
 
   .@{uplns}-trigger-btn {
     .btn(base);
-    .button-ripple;
-    .btn-subtle;
+    .button-ripple();
+    .btn-subtle();
     .btn-focus(@primary-color);
 
     width: @uploader-picture-side-length;
@@ -218,7 +218,7 @@
       z-index: @zindex-uploader-picture-preview;
 
       > img {
-        .img-cover;
+        .img-cover();
       }
     }
 
@@ -297,7 +297,7 @@
 
       .@{uplns}-file-item-icon {
         .set-side-length(@loader-default-diameter);
-        .loader-spin;
+        .loader-spin();
 
         display: inline-block;
         position: relative;
@@ -331,7 +331,7 @@
   }
 
   .@{uplns}-trigger:not(.@{uplns}-trigger-disabled) .@{uplns}-trigger-btn {
-    .button-ripple;
+    .button-ripple();
 
     &:focus,
     &.focus {
@@ -393,7 +393,7 @@
       border-radius: @border-radius-base 0 0 @border-radius-base;
 
       > img {
-        .img-cover;
+        .img-cover();
       }
     }
 
@@ -406,7 +406,7 @@
       }
 
       .@{uplns}-file-item-title {
-        .ellipsis;
+        .ellipsis();
 
         color: @uploader-default-font-color;
 
@@ -468,7 +468,7 @@
 
       .@{uplns}-file-item-icon {
         .set-side-length(@loader-default-diameter);
-        .loader-spin;
+        .loader-spin();
 
         display: inline-block;
         position: relative;

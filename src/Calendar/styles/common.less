@@ -30,7 +30,7 @@
   &-panel &-header {
     width: 100%;
     padding-bottom: 6px;
-    .clearfix;
+    .clearfix();
   }
 
   &-panel &-header &-btn-today {
@@ -161,7 +161,7 @@
   }
 
   .@{clpns}-header-title-date {
-    .picker-calendar-title-show;
+    .picker-calendar-title-show();
 
     &.@{clpns}-header-error {
       color: @error-color;
@@ -177,7 +177,7 @@
 // Show time dropdown
 .@{clpns}-show-time-dropdown {
   .@{clpns}-header-title-time {
-    .picker-calendar-title-show;
+    .picker-calendar-title-show();
 
     &.@{clpns}-header-error {
       color: @error-color;
@@ -224,7 +224,7 @@
   width: @calendar-header-width;
   padding-left: @calendar-picker-padding;
   padding-right: @calendar-picker-padding;
-  .clearfix;
+  .clearfix();
 
   // Month toolbar && Time toolbar
   &-month-toolbar,
@@ -281,7 +281,7 @@
     display: block;
     text-align: center;
     width: 100%;
-    .clearfix;
+    .clearfix();
   }
 
   &-has-month:not(&-has-time) &-backward {
@@ -377,7 +377,7 @@
 
   &-disabled&-is-today&-selected &-content {
     &:hover {
-      .picker-calendar-cell-content-selected;
+      .picker-calendar-cell-content-selected();
     }
   }
 
@@ -388,7 +388,7 @@
 }
 
 .@{clpns}-table-cell-content {
-  .picker-calendar-cell-content;
+  .picker-calendar-cell-content();
 
   .@{clpns}-table-cell-is-today & {
     border: @calendar-table-cell-content-today-border-width solid
@@ -397,7 +397,7 @@
   }
 
   .@{clpns}-table-cell-selected & {
-    .picker-calendar-cell-content-selected;
+    .picker-calendar-cell-content-selected();
   }
 }
 
@@ -479,7 +479,7 @@
 
   &-list {
     display: block;
-    .clearfix;
+    .clearfix();
   }
 
   &-cell {
@@ -497,7 +497,7 @@
   }
 
   &-cell-content {
-    .picker-calendar-cell-content;
+    .picker-calendar-cell-content();
   }
 
   &-cell:not(&-cell-active).disabled &-cell-content {
@@ -513,7 +513,7 @@
   }
 
   &-cell-active &-cell-content {
-    .picker-calendar-cell-content-selected;
+    .picker-calendar-cell-content-selected();
   }
 }
 

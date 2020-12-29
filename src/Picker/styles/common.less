@@ -52,7 +52,7 @@
 
   &-value-list {
     flex: 0 1 auto;
-    .ellipsis-basic;
+    .ellipsis-basic();
     .ie11-max-width(100%);
   }
 
@@ -136,7 +136,7 @@
   }
 
   .@{ns}picker-subtle & {
-    .btn-subtle;
+    .btn-subtle();
 
     transition: none;
 
@@ -149,16 +149,16 @@
 
 /* stylelint-disable-next-line */ // Custom button sizes
 .@{ns}picker-toggle.@{ns}btn {
-  .picker-button-caret-md;
-  .tag-picker-search-input-md;
-  .date-picker-button-caret-md;
+  .picker-button-caret-md();
+  .tag-picker-search-input-md();
+  .date-picker-button-caret-md();
   .date-picker-button-size(base);
 
   &-lg {
-    .picker-button-caret-lg;
+    .picker-button-caret-lg();
     .picker-default-button-reset-padding-left(large);
-    .tag-picker-search-input-lg;
-    .date-picker-button-caret-lg;
+    .tag-picker-search-input-lg();
+    .date-picker-button-caret-lg();
     .date-picker-button-size(large);
 
     .btn-lg(base);
@@ -169,46 +169,46 @@
   }
 
   &-md {
-    .picker-button-caret-md;
+    .picker-button-caret-md();
     .picker-default-button-reset-padding-left(base);
-    .tag-picker-search-input-md;
-    .date-picker-button-caret-md;
+    .tag-picker-search-input-md();
+    .date-picker-button-caret-md();
     .date-picker-button-size(base);
   }
 
   &-sm {
     .btn-sm(base);
 
-    .picker-button-caret-sm;
+    .picker-button-caret-sm();
     .picker-default-button-reset-padding-left(small);
-    .tag-picker-search-input-sm;
-    .date-picker-button-caret-sm;
+    .tag-picker-search-input-sm();
+    .date-picker-button-caret-sm();
     .date-picker-button-size(small);
   }
 
   &-xs {
     .btn-xs(base);
 
-    .picker-button-caret-xs;
+    .picker-button-caret-xs();
     .picker-default-button-reset-padding-left(extra-small);
-    .tag-picker-search-input-xs;
-    .date-picker-button-caret-xs;
+    .tag-picker-search-input-xs();
+    .date-picker-button-caret-xs();
     .date-picker-button-size(extra-small);
   }
 }
 
 /* stylelint-disable-next-line */ // Custom button
 .@{ns}picker-toggle {
-  .picker-default-toggle;
-  .picker-subtle-toggle;
+  .picker-default-toggle();
+  .picker-subtle-toggle();
 
   width: 100%;
   text-align: left;
-  .ellipsis;
+  .ellipsis();
 
   &-value {
     display: block;
-    .ellipsis;
+    .ellipsis();
   }
 
   .@{ns}picker-cleanable & {
@@ -248,7 +248,7 @@
 // Picker toggle caret
 .@{ns}picker-toggle-caret {
   // Extend  Dropdown toggle caret style
-  .dropdown-toggle-caret-common;
+  .dropdown-toggle-caret-common();
 
   color: @picker-default-toggle-caret-color;
 }
@@ -287,7 +287,7 @@
     padding: (@picker-menu-padding - @border-radius-base) @picker-menu-padding @picker-menu-padding;
 
     .@{ns}picker-search-bar-input {
-      .default-input;
+      .default-input();
 
       min-width: @picker-content-min-width;
       padding-right: @picker-search-bar-icon-width +
@@ -339,7 +339,7 @@
 .@{ns}check-item {
   &:not(.@{ns}checkbox-disabled):hover,
   &-focus {
-    .picker-item-hover;
+    .picker-item-hover();
   }
 
   .@{ns}checkbox-checker {
@@ -356,7 +356,7 @@
 
       /* stylelint-disable-next-line */ // This class name provide by Virtualized.
       .ReactVirtualized__Grid & {
-        .ellipsis-basic;
+        .ellipsis-basic();
       }
 
       .@{ns}checkbox-disabled& {
