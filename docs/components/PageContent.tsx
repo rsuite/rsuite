@@ -68,7 +68,7 @@ const CustomCodeView = (props: CustomCodeViewProps) => {
           babelOptions={babelOptions}
           buttonClassName="rs-btn-subtle rs-btn-icon-circle"
           dependencies={{ ...dependencies, Paragraph, Divider }}
-          renderToolbar={CodeButton => {
+          renderToolbar={(CodeButton: React.ReactElement) => {
             return (
               <React.Fragment>
                 <Whisper placement="top" speaker={<Tooltip>Show the source</Tooltip>}>

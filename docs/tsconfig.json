@@ -21,7 +21,7 @@
     "paths": {
       "@/*": ["./*"],
       "rsuite": ["../src/"],
-      "@rsuite-locales/*": ["./node_modules/rsuite/lib/locales/*"]
+      "@rsuite-locales/*": ["../src/locales/*"]
     }
   },
   "exclude": ["node_modules"],

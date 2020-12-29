@@ -22,7 +22,7 @@ function useControlled<T = any>(
   value = formatValue ? formatValue(value) : value;
 
   const setValue = useCallback(
-    (nextValue: React.SetStateAction<T>) => {
+    nextValue => {
       // Only update the value in state when it is not under control.
       if (!isControlled) {
         setUncontrolledValue(nextValue);
