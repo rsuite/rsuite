@@ -1,14 +1,10 @@
-.active() {
-  .btn-ghost-variant(@color, @color);
-}
-
 .pagination-active(@color) {
-  .active();
+  .btn-ghost-variant(@color, @color);
 
   &:hover,
   &:focus,
   &.focus {
-    .active();
+    .btn-ghost-variant(@color, @color);
   }
 
   &:active {
@@ -16,7 +12,7 @@
     &:hover,
     &:focus,
     &.focus {
-      .active();
+      .btn-ghost-variant(@color, @color);
     }
   }
 }
