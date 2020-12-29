@@ -225,7 +225,7 @@
 
     border-left: @table-column-resize-spanner-gap-width solid @table-spanner-background;
     box-sizing: content-box;
-    margin-left: -1 * @table-column-resize-spanner-gap-width;
+    margin-left: (-1 * @table-column-resize-spanner-gap-width);
 
     &::after,
     &::before {
@@ -301,7 +301,7 @@
 
       background-color: @table-resize-mouse-color;
       position: absolute;
-      left: -1 * (@table-column-resize-spanner-width / 2);
+      left: (-1 * (@table-column-resize-spanner-width / 2));
     }
   }
 
@@ -349,7 +349,6 @@
 }
 
 // Tree Table
-
 
 .@{ns}table-cell-expand-wrapper {
   margin-right: 10px;

@@ -283,13 +283,13 @@
 @input-color-placeholder: @B600;
 
 //** Default `.input` height
-@input-height-base: @line-height-computed + (@padding-base-vertical * 2);
+@input-height-base: (@line-height-computed + (@padding-base-vertical * 2));
 //** Large `.input` height
-@input-height-large: @line-height-large-computed + (@padding-large-vertical * 2);
+@input-height-large: (@line-height-large-computed + (@padding-large-vertical * 2));
 //** Small `.input` height
-@input-height-small: @line-height-computed + (@padding-small-vertical * 2);
+@input-height-small: (@line-height-computed + (@padding-small-vertical * 2));
 //** Extra small `.input` height
-@input-height-extra-small: @line-height-computed + (@padding-extra-small-vertical * 2);
+@input-height-extra-small: (@line-height-computed + (@padding-extra-small-vertical * 2));
 
 //** `.form-group` margin
 @form-group-margin-bottom: 24px;
@@ -319,7 +319,7 @@
 @form-error-message-padding-horizontal: 8px;
 @form-error-message-background-color: @B000;
 @form-error-message-border-color: @B200;
-@form-error-message-height: @form-error-message-padding-vertical*2 + @line-height-computed;
+@form-error-message-height: (@form-error-message-padding-vertical*2 + @line-height-computed);
 @form-error-message-font-color: @error-color;
 @form-error-message-font-size: @font-size-small;
 @form-error-message-triangle-width: 6px;
@@ -376,8 +376,7 @@
 @dropdown-item-submenu-icon-angle-width: 5px;
 @dropdown-item-content-submenu-icon-angle-line-height: @line-height-base;
 @dropdown-item-content-submenu-icon-angle-size: @font-size-base;
-@dropdown-toggle-padding-right: @padding-base-horizontal+ @dropdown-caret-width+
-  @dropdown-caret-padding;
+@dropdown-toggle-padding-right: (@padding-base-horizontal + @dropdown-caret-width + @dropdown-caret-padding);
 //** Dropdown Caret Font Family
 @dropdown-caret-font-family: @font-family-icon;
 @dropdown-caret-icon-padding-horizontal: 9px;
@@ -406,7 +405,7 @@
 @toggle-md-handle-gap: 3px;
 @toggle-md-min-width: 44px;
 @toggle-md-inner-font-size: @font-size-small;
-@toggle-md-handle-diameter: @toggle-md-height - @toggle-md-handle-gap*2;
+@toggle-md-handle-diameter: (@toggle-md-height - @toggle-md-handle-gap*2);
 @toggle-md-handle-bg: @B000;
 @toggle-md-inner-line-height-computed: @toggle-md-height;
 @toggle-md-inner-line-height: unit(
@@ -420,7 +419,7 @@
 @toggle-sm-min-width: 26px;
 @toggle-sm-handle-gap: 2px;
 @toggle-sm-inner-margin: 6px;
-@toggle-sm-inner-font-size: @font-size-small - 2;
+@toggle-sm-inner-font-size: (@font-size-small - 2);
 
 //# Large size
 @toggle-lg-height: 30px;
@@ -443,8 +442,8 @@
 @zindex-input-group-icon: 4;
 @zindex-dropdown: 5;
 @zindex-picker-toggle: 5; // The same with zindex-dropdown
-@zindex-picker-input: @zindex-picker-toggle + 1; // Greater than picker toggle
-@zindex-picker-menu: @zindex-picker-toggle+2; // Greater than picker toggle and input
+@zindex-picker-input: (@zindex-picker-toggle + 1); // Greater than picker toggle
+@zindex-picker-menu: (@zindex-picker-toggle + 2); // Greater than picker toggle and input
 @zindex-dropdown-a: 10;
 @zindex-list-helper: 99;
 @zindex-navbar: 1000;
@@ -530,7 +529,7 @@
 @nav-item-padding-vertical: 8px;
 @nav-item-padding-horizontal: 12px;
 @nav-item-spacing: 6px;
-@nav-base-height: @line-height-computed+ @nav-item-padding-vertical*2;
+@nav-base-height: (@line-height-computed + @nav-item-padding-vertical * 2);
 @nav-item-icon-spacing: 6px;
 @nav-item-font-default-color: @B600;
 @nav-item-font-active-color: @H600;
@@ -567,7 +566,7 @@
 //##
 @nav-bar-padding-vertical: 18px;
 @nav-bar-padding-horizontal: 16px;
-@nav-bar-height: @nav-bar-padding-vertical * 2 + @line-height-computed;
+@nav-bar-height: (@nav-bar-padding-vertical * 2 + @line-height-computed);
 //** Default
 @nav-bar-default-bg: @B050;
 @nav-bar-default-active-color: @H700;
@@ -597,8 +596,8 @@
 @sidenav-padding-horizonal: 20px;
 @sidenav-collapse-in-width: 100%;
 @sidenav-default-width: 56px;
-@sidenav-item-height: @sidenav-padding-vertical*2 + @line-height-computed;
-@sidenav-menu-max-height: @sidenav-item-height*40;
+@sidenav-item-height: (@sidenav-padding-vertical * 2 + @line-height-computed);
+@sidenav-menu-max-height: (@sidenav-item-height * 40);
 @sidenav-menu-animation-time: 1.5s;
 @sidenav-level1-item-font-size: @font-size-large;
 @sidenav-level1-item-line-height: unit((@line-height-computed / @font-size-large));
@@ -606,11 +605,11 @@
 @sidenav-icon-width: @sidenav-level1-item-font-size;
 @sidenav-dropdown-toggle-caret-width: 20px;
 @sidenav-level-retract: 9px;
-@sidenav-level2-retract: @sidenav-padding-horizonal + @sidenav-icon-width + @sidenav-icon-spacing;
-@sidenav-level3-retract: @sidenav-level2-retract + @sidenav-level-retract; //60 px
-@sidenav-level4-retract: @sidenav-level2-retract + @sidenav-level-retract*2;
-@sidenav-level5-retract: @sidenav-level2-retract + @sidenav-level-retract*3;
-@sidenav-level6-retract: @sidenav-level2-retract + @sidenav-level-retract*4;
+@sidenav-level2-retract: (@sidenav-padding-horizonal + @sidenav-icon-width + @sidenav-icon-spacing);
+@sidenav-level3-retract: (@sidenav-level2-retract + @sidenav-level-retract); //60 px
+@sidenav-level4-retract: (@sidenav-level2-retract + @sidenav-level-retract * 2);
+@sidenav-level5-retract: (@sidenav-level2-retract + @sidenav-level-retract * 3);
+@sidenav-level6-retract: (@sidenav-level2-retract + @sidenav-level-retract * 4);
 @sidenav-collapse-transition-config: 0.2s ease-in;
 // ** Sidenav default
 @sidenav-default-bg: @nav-bar-default-bg;
@@ -662,7 +661,7 @@
 @steps-icon-spacing: 10px;
 @steps-item-spacing: 10px;
 // This space place the steps-icon
-@steps-icon-space-width: @steps-icon-diameter+ @steps-icon-spacing;
+@steps-icon-space-width: (@steps-icon-diameter + @steps-icon-spacing);
 @steps-icon-size: @font-size-large;
 @steps-icon-line-height: unit(((@steps-icon-diameter - 2px) / @font-size-large));
 @steps-title-font-size: @font-size-large;
@@ -670,7 +669,7 @@
 @steps-description-margin-top: 12px;
 // Small
 @small-steps-icon-diameter: 24px;
-@small-steps-icon-space-width: @small-steps-icon-diameter + @steps-icon-spacing;
+@small-steps-icon-space-width: (@small-steps-icon-diameter + @steps-icon-spacing);
 @small-steps-icon-line-height: unit(((@small-steps-icon-diameter - 2px) / @font-size-base));
 @small-steps-title-line-height: unit((@small-steps-icon-diameter / @font-size-base));
 @small-steps-icon-size: @font-size-base;
@@ -994,17 +993,16 @@
 //##
 @time-line-item-content-margin-left: 12px;
 @time-line-dot-side-length: 10px;
-@time-line-item-padding-left: @time-line-item-content-margin-left + @time-line-dot-side-length;
+@time-line-item-padding-left: (@time-line-item-content-margin-left + @time-line-dot-side-length);
 @time-line-dot-default-background-color: @B300;
 @time-line-last-dot-default-background-color: @H500;
 @time-line-tail-width: 2px;
 @time-line-tail-default-background-color: @B300;
 @time-line-item-content-padding-bottom: 18px;
-@time-line-dot-center-gap: (@line-height-computed - @time-line-dot-side-length)/2;
-@time-line-content-side-offset: @time-line-dot-side-length / 2 + @time-line-item-content-margin-left;
-@time-line-alternate-time-offset: @time-line-dot-side-length / 2 +
-  @time-line-item-content-margin-left;
-@time-line-tail-min-height: @line-height-computed + @time-line-item-content-padding-bottom; // 20 + 18 = 38
+@time-line-dot-center-gap: ((@line-height-computed - @time-line-dot-side-length) / 2);
+@time-line-content-side-offset: (@time-line-dot-side-length / 2 + @time-line-item-content-margin-left);
+@time-line-alternate-time-offset: (@time-line-dot-side-length / 2 + @time-line-item-content-margin-left);
+@time-line-tail-min-height: (@line-height-computed + @time-line-item-content-padding-bottom); // 20 + 18 = 38
 
 //== Tags
 //
@@ -1114,7 +1112,7 @@
 @picker-select-menu-item-selected-bg: fade(@H900, 20);
 @picker-tree-node-active-bg: @picker-select-menu-item-selected-bg;
 @picker-tree-node-line-height: 22px;
-@picker-tree-node-height: @line-height-computed + @picker-tree-node-padding-vertical*2;
+@picker-tree-node-height: (@line-height-computed + @picker-tree-node-padding-vertical * 2);
 @picker-tree-arrow-down-width: 8px;
 @picker-tree-arrow-down-gap: 8px;
 @picker-tree-node-hover-bg: @H050;
@@ -1181,15 +1179,14 @@
 @date-range-picker-calendar-default-width:255px;
 
 //== Input Picker
-@input-picker-toggle-height: @line-height-computed + @padding-base-vertical*2; // 20px + 8px*2 = 36px  the same with md button
+@input-picker-toggle-height: (@line-height-computed + @padding-base-vertical * 2); // 20px + 8px*2 = 36px  the same with md button
 @input-picker-toggle-content-height: @input-picker-toggle-height -
   @picker-default-toggle-border-width*2;
 
 // == TagPicker
 @tag-picker-toggle-content-height: @input-height-extra-small;
-@tag-picker-content-padding-vertical-all: @input-picker-toggle-content-height -
-  @tag-picker-toggle-content-height;
-@tag-picker-content-padding-vertical: @tag-picker-content-padding-vertical-all / 2; // (34 -24)/2
+@tag-picker-content-padding-vertical-all: (@input-picker-toggle-content-height - @tag-picker-toggle-content-height);
+@tag-picker-content-padding-vertical: (@tag-picker-content-padding-vertical-all / 2); // (34 -24)/2
 @tag-picker-content-padding-horizontal: 6px;
 @tag-picker: ~'@{ns}@{multi-input-picker-prefix}';
 

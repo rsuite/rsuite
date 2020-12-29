@@ -84,7 +84,7 @@ const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
         return true;
       }
 
-      return props.active();
+      return props.active;
     },
     [activeKey]
   );

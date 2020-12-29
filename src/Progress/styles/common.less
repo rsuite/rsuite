@@ -114,7 +114,7 @@
 
   &-outer {
     flex: 1 1 auto;
-    border-radius: @progress-bar-height / 2;
+    border-radius: (@progress-bar-height / 2);
     overflow: hidden;
     // Make sure outer vertical-align:center;
     vertical-align: middle;
@@ -122,12 +122,12 @@
 
   &-inner {
     background: @progress-bar-bg;
-    border-radius: @progress-bar-height / 2;
+    border-radius: (@progress-bar-height / 2);
   }
 
   &-bg {
     background-color: @progress-bar-fill-bg;
-    border-radius: @progress-bar-height / 2;
+    border-radius: (@progress-bar-height / 2);
     transition: @progress-bg-transition;
     transition-property: width, color;
   }

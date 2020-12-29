@@ -84,8 +84,8 @@
   .btn(base);
 
   .@{ns}picker-default & {
-    @padding-vertical: @padding-base-vertical - @picker-default-toggle-border-width;
-    @padding-horizontal: @padding-base-horizontal - @picker-default-toggle-border-width;
+    @padding-vertical: (@padding-base-vertical - @picker-default-toggle-border-width);
+    @padding-horizontal: (@padding-base-horizontal - @picker-default-toggle-border-width);
 
     padding: @padding-vertical @padding-horizontal;
   }
@@ -212,12 +212,13 @@
   }
 
   .@{ns}picker-cleanable & {
-    padding-right: @dropdown-toggle-padding-right + @picker-toggle-clean-width;
+    padding-right: (@dropdown-toggle-padding-right + @picker-toggle-clean-width);
 
     .@{ns}@{date-picker-prefix}&,
     .@{ns}@{date-range-picker-prefix}& {
-      padding-right: @dropdown-toggle-padding-right + @picker-toggle-clean-width +
-        @picker-item-content-padding-vertical;
+      padding-right: (
+        @dropdown-toggle-padding-right + @picker-toggle-clean-width + @picker-item-content-padding-vertical
+      );
     }
   }
 }
@@ -241,7 +242,7 @@
 
   .@{ns}@{date-picker-prefix} &,
   .@{ns}@{date-range-picker-prefix} & {
-    right: @picker-toggle-clean-right + @picker-item-content-padding-vertical;
+    right: (@picker-toggle-clean-right + @picker-item-content-padding-vertical);
   }
 }
 
@@ -267,12 +268,12 @@
 
   // Increase z-index when modal opened.
   .@{ns}modal-open & {
-    z-index: @zindex-modal + @zindex-picker-toggle;
+    z-index: (@zindex-modal + @zindex-picker-toggle);
   }
 
   // Increase z-index when drawer opened.
   .@{ns}drawer-open & {
-    z-index: @zindex-drawer + @zindex-picker-toggle;
+    z-index: (@zindex-drawer + @zindex-picker-toggle);
   }
 
   // Select picker menu & Check select picker menu always has 6px gap
@@ -300,8 +301,8 @@
       color: @B400;
       font-size: @font-size-base;
       height: @line-height-computed;
-      top: @picker-menu-padding - @border-radius-base + @padding-base-input-vertical;
-      right: @picker-menu-padding + @padding-base-input-horizontal;
+      top: (@picker-menu-padding - @border-radius-base + @padding-base-input-vertical);
+      right: (@picker-menu-padding + @padding-base-input-horizontal);
 
       .@{ns}@{tree-picker-prefix}-menu&,
       .@{ns}@{check-tree-picker-prefix}-menu& {
@@ -368,7 +369,9 @@
 
         .grouped &,
         .@{ckpns}-menu-group-children & {
-          left: @picker-item-content-padding-horizontal + @picker-children-check-item-padding-left;
+          left: (
+            @picker-item-content-padding-horizontal + @picker-children-check-item-padding-left
+          );
         }
       }
 

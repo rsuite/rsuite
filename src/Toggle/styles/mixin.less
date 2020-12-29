@@ -1,20 +1,20 @@
 .toggle-size-variant(@toogle-height,@min-width,@toggle-handle-gap,@toggle-inner-margin,@toggle-inner-font-size) {
-  @handle-diameter: @toogle-height - @toggle-handle-gap*2;
+  @handle-diameter: (@toogle-height - @toggle-handle-gap*2);
 
   height: @toogle-height;
   min-width: @min-width;
-  border-radius: @toogle-height / 2;
+  border-radius: (@toogle-height / 2);
 
   &::after {
     width: @handle-diameter;
     height: @handle-diameter;
     left: @toggle-handle-gap;
     top: @toggle-handle-gap;
-    border-radius: @handle-diameter / 2;
+    border-radius: (@handle-diameter / 2);
   }
 
   &:active::after {
-    width: @handle-diameter * @toggle-active-scale;
+    width: (@handle-diameter * @toggle-active-scale);
   }
 
   .@{ns}btn-toggle-inner {

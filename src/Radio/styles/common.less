@@ -40,7 +40,7 @@
 
     color: @radio-label-font-color;
     transition: color 0.3s linear;
-    padding: @padding-base-vertical - 1px 0;
+    padding: (@padding-base-vertical - 1px) 0;
 
     &:hover,
     &:active {
@@ -69,8 +69,8 @@
 .@{ns}radio-checker {
   padding-top: 10px;
   padding-bottom: 10px;
-  padding-left: @radio-sense-width * 2 + @radio-width-height;
-  min-height: @radio-sense-width * 2 + @radio-width-height;
+  padding-left: (@radio-sense-width * 2 + @radio-width-height);
+  min-height: (@radio-sense-width * 2 + @radio-width-height);
   line-height: 1;
   position: relative;
 }

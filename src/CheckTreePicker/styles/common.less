@@ -63,7 +63,7 @@
       &::before {
         content: '';
         position: absolute;
-        width: @picker-tree-arrow-down-width+ @picker-tree-arrow-down-gap + 30px; // checkbox-spacing = 30
+        width: (@picker-tree-arrow-down-width+ @picker-tree-arrow-down-gap + 30px); // checkbox-spacing = 30
         height: 100%;
         background-color: @picker-tree-bg;
         top: 0;
@@ -71,7 +71,7 @@
       }
 
       .@{ns}checkbox-wrapper {
-        left: @checkbox-sense-width + 10px;
+        left: (@checkbox-sense-width + 10px);
       }
 
       // Only has the first level

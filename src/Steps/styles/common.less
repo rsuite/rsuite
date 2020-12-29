@@ -169,7 +169,7 @@
 
     // There is a 10px spacing between each item.
     &:not(:first-child) {
-      padding-left: @steps-icon-space-width + @steps-item-spacing;
+      padding-left: (@steps-icon-space-width + @steps-item-spacing);
 
       .@{ns}steps-item-icon-wrapper {
         left: @steps-item-spacing;
@@ -178,13 +178,13 @@
   }
 
   .@{ns}steps-item-content {
-    height: @steps-title-font-size * @steps-title-line-height;
+    height: (@steps-title-font-size * @steps-title-line-height);
   }
 
   .@{ns}steps-item-title {
     &::after {
       content: '';
-      top: @steps-icon-diameter / 2;
+      top: (@steps-icon-diameter / 2);
       left: 100%;
       width: 9999px;
       border-top-width: 1px;
@@ -211,7 +211,7 @@
   .@{ns}steps-item-tail {
     top: @steps-icon-space-width;
     bottom: 0;
-    left: @steps-icon-diameter / 2;
+    left: (@steps-icon-diameter / 2);
     border-left-width: 1px;
     border-left-style: solid;
   }
@@ -227,11 +227,11 @@
   }
 
   &.@{ns}steps-horizontal .@{ns}steps-item:not(:first-child) {
-    padding-left: @small-steps-icon-space-width + @steps-icon-spacing;
+    padding-left: (@small-steps-icon-space-width + @steps-icon-spacing);
   }
 
   &.@{ns}steps-vertical .@{ns}steps-item-tail {
-    left: @small-steps-icon-diameter / 2;
+    left: (@small-steps-icon-diameter / 2);
   }
 
   &.@{ns}steps-horizontal .@{ns}steps-item-title::after {

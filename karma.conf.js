@@ -46,7 +46,9 @@ const webpackConfig = {
           {
             loader: 'less-loader', // compiles Less to CSS,
             options: {
-              javascriptEnabled: true
+              lessOptions: {
+                javascriptEnabled: true
+              }
             }
           }
         ]

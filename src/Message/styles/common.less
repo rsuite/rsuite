@@ -33,7 +33,7 @@
 
   // Only has icon
   &.@{ns}message-has-icon .@{ns}message-container {
-    padding-left: @message-padding + @message-icon-size + @message-icon-margin-right;
+    padding-left: (@message-padding + @message-icon-size + @message-icon-margin-right);
   }
 
   // Only has title
@@ -52,7 +52,7 @@
 
   // Has icon && title
   &.@{ns}message-has-icon.@{ns}message-has-title .@{ns}message-container {
-    padding-left: @message-padding + @message-icon-large-size + @message-icon-margin-right;
+    padding-left: (@message-padding + @message-icon-large-size + @message-icon-margin-right);
 
     // Bigger icon
     .@{ns}message-icon-wrapper .@{ns}icon {
