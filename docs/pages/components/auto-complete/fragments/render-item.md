@@ -1,6 +1,11 @@
 <!--start-code-->
 
 ```js
+/**
+ * import { AutoComplete } from 'rsuite';
+ * import MemberIcon from '@rsuite/icons/Member';
+ */
+
 const data = [
   'HYPER Advertiser',
   'HYPER Web Analytics',
@@ -15,7 +20,7 @@ const instance = (
     renderMenuItem={item => {
       return (
         <div>
-          <Star /> {item.label}
+          <MemberIcon /> {item}
         </div>
       );
     }}

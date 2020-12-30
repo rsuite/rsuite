@@ -1,6 +1,10 @@
 <!--start-code-->
 
 ```js
+/**
+ * import { AutoComplete } from 'rsuite';
+ */
+
 const data = [
   'HYPER Advertiser',
   'HYPER Web Analytics',

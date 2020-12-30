@@ -1,6 +1,10 @@
 <!--start-code-->
 
 ```js
+/**
+ * import { AutoComplete } from 'rsuite';
+ */
+
 const suffixes = ['@gmail.com', '@sina.com.cn', '@163.com', '@qq.com'];
 
 const App = () => {
