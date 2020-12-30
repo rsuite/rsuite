@@ -6,7 +6,7 @@
 
 我们提供了一套图标组件，你需要安装`@rsuite/icons`图标组件。
 
-> [React Suite 图标库](../tools/icons)
+> [React Suite 图标库](/zh/tools/icons)
 
 <!--{include:(components/icon/fragments/install.md)}-->
 

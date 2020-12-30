@@ -1,6 +1,14 @@
 <!--start-code-->
 
 ```js
+const styles = {
+  radioGroupLabel: {
+    padding: '8px 12px',
+    display: 'inline-block',
+    verticalAlign: 'middle'
+  }
+};
+
 const App = () => {
   const [open, setOpen] = React.useState(false);
   const [backdrop, setBackdrop] = React.useState('static');
@@ -9,9 +17,14 @@ const App = () => {
 
   return (
     <div className="modal-container">
-      <span>Backdrop: </span>
-
-      <RadioGroup name="radioList" inline value={backdrop} onChange={value => setBackdrop(value)}>
+      <RadioGroup
+        name="radioList"
+        appearance="picker"
+        inline
+        value={backdrop}
+        onChange={value => setBackdrop(value)}
+      >
+        <span style={styles.radioGroupLabel}>Backdrop: </span>
         <Radio value="static">static</Radio>
         <Radio value={true}>true</Radio>
         <Radio value={false}>false</Radio>

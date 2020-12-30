@@ -3,7 +3,7 @@ import { SelectPicker, Button, RadioGroup, Radio } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import PreventOverflowContainer from '@/components/PreventOverflowContainer';
 import useFetchData from '@/utils/useFetchData';
-import Spinner from '@rsuite/icons/legacy/Spinner';
+import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 
 export default function Page() {
   const { response: data } = useFetchData('users-role');
@@ -13,10 +13,10 @@ export default function Page() {
         PreventOverflowContainer,
         SelectPicker,
         Button,
-        Spinner,
+        SpinnerIcon,
         data,
         RadioGroup,
-        Radio,
+        Radio
       }}
     />
   );

@@ -39,7 +39,7 @@
 | draggable               | boolean                                                                                        | Setting drag node                                                         |
 | expandItemValues        | any []                                                                                         | Set the value of the expanded node (controlled)                           |
 | getChildren             | (node: DataItemType) => Promise&lt;DataItemType &gt;                                           | load node children data asynchronously                                    |
-| height                  | number `(360px)`                                                                               | height of menu. When `virtualize` is true, you can set the height of menu |
+| height                  | number `(360px)`                                                                               | Height of tree. When `virtualize` is true, you can set the height of tree |
 | labelKey                | string `('label')`                                                                             | Tree data structure Label property name                                   |
 | onChange                | (value:string) => void                                                                         | Callback function for data change                                         |
 | onDragStart             | (nodeData:DataItemType, event) => void                                                         | Called when node drag start                                               |

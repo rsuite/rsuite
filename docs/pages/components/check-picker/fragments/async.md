@@ -4,6 +4,8 @@
 /**
  * import data from
  * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
+ * 
+ * import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
  */
 
 const App = () => {
@@ -17,7 +19,7 @@ const App = () => {
     if (items.length === 0) {
       return (
         <p style={{ padding: 4, color: '#999', textAlign: 'center' }}>
-          <Spinner spin /> loading...
+          <SpinnerIcon spin /> loading...
         </p>
       );
     }
