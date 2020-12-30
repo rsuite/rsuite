@@ -29,7 +29,7 @@
     position: absolute !important;
   }
 
-  .input-picker-input-sizes;
+  .input-picker-input-sizes();
 
   .@{ns}picker-toggle.@{ns}btn-xs ~ .@{ns}picker-tag-wrapper .@{ns}tag {
     padding-top: 0;
@@ -41,7 +41,7 @@
   margin-right: @dropdown-toggle-padding-right;
 
   .@{ns}picker-cleanable & {
-    margin-right: @dropdown-toggle-padding-right + @picker-toggle-clean-width;
+    margin-right: (@dropdown-toggle-padding-right + @picker-toggle-clean-width);
   }
 }
 
@@ -50,7 +50,7 @@
   width: 100%;
 
   &-input {
-    .input-md;
+    .input-md();
 
     .@{tag-picker} & {
       font-size: @font-size-base;

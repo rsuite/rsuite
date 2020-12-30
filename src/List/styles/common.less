@@ -75,12 +75,12 @@
 
     // Increase z-index when modal opened.
     .@{ns}modal-open & {
-      z-index: @zindex-modal + @zindex-list-helper;
+      z-index: (@zindex-modal + @zindex-list-helper);
     }
 
     // Increase z-index when drawer opened.
     .@{ns}drawer-open & {
-      z-index: @zindex-drawer + @zindex-list-helper;
+      z-index: (@zindex-drawer + @zindex-list-helper);
     }
   }
 

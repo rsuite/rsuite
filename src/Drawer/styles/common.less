@@ -168,7 +168,7 @@
 // Drawer header
 // Top section of the modal title.
 .@{ns}drawer-header {
-  .clearfix;
+  .clearfix();
 
   padding-right: @line-height-computed;
   position: relative;
@@ -176,12 +176,12 @@
 
   .@{ns}drawer-title {
     font-size: @drawer-title-font-size;
-    line-height: unit(@line-height-computed / @drawer-title-font-size);
+    line-height: unit((@line-height-computed / @drawer-title-font-size));
     width: 100%;
     display: block;
     color: @drawer-title-color;
     margin: 0;
-    .ellipsis;
+    .ellipsis();
   }
 }
 
@@ -195,7 +195,7 @@
 
 // Footer (for actions)
 .@{ns}drawer-footer {
-  .clearfix; // clear it in case folks use .pull-* classes on buttons
+  .clearfix(); // clear it in case folks use .pull-* classes on buttons
 
   text-align: right; // right align buttons
   border-top: none;

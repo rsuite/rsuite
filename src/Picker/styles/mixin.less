@@ -27,7 +27,7 @@
 .picker-menu-group-title(@prefix) {
   .@{ns}@{prefix}-menu-group-title {
     padding: @picker-item-content-padding-vertical @picker-item-content-padding-horizontal;
-    padding-right: @padding-base-horizontal + @dropdown-caret-width + @dropdown-caret-padding;
+    padding-right: (@padding-base-horizontal + @dropdown-caret-width + @dropdown-caret-padding);
     position: relative;
     cursor: default;
     transition: @picker-item-transition;
@@ -76,7 +76,7 @@
 
   /* stylelint-disable-next-line */ // This class name provide by Virtualized.
   .ReactVirtualized__Grid & {
-    .ellipsis-basic;
+    .ellipsis-basic();
   }
 }
 
@@ -117,12 +117,13 @@
   @clean-btn-width: @dropdown-caret-width;
 
   .@{ns}picker-toggle-wrapper & {
-    padding-right: @padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding;
+    padding-right: (@padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding);
   }
 
   .@{ns}picker-cleanable & {
-    padding-right: @padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding +
-      @clean-btn-width + @clean-btn-margin;
+    padding-right: (
+      @padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding + @clean-btn-width + @clean-btn-margin
+    );
   }
 
   .@{ns}picker-toggle-caret,
@@ -139,7 +140,7 @@
   }
 
   .@{ns}picker-toggle-clean {
-    right: @dropdown-caret-width + @padding-horizontal + @clean-btn-width - @clean-btn-margin;
+    right: (@dropdown-caret-width + @padding-horizontal + @clean-btn-width - @clean-btn-margin);
   }
 }
 
@@ -171,7 +172,7 @@
   @toggle-clean-padding: 4px;
   @clean-btn-width: @dropdown-caret-width;
 
-  padding-right: @padding-horizontal + @calendar-caret-width + @dropdown-caret-padding;
+  padding-right: (@padding-horizontal + @calendar-caret-width + @dropdown-caret-padding);
 
   .@{ns}picker-toggle-clean,
   .@{ns}picker-toggle-caret {
@@ -187,7 +188,7 @@
   }
 
   .@{ns}picker-toggle-clean {
-    right: @padding-horizontal + @toggle-clean-padding + @calendar-caret-width;
+    right: (@padding-horizontal + @toggle-clean-padding + @calendar-caret-width);
   }
 }
 
@@ -330,26 +331,26 @@
   @border-width: 2 * @picker-default-toggle-border-width;
 
   .@{ns}picker-toggle.@{ns}btn-lg {
-    height: @line-height-large-computed + @padding-large-vertical*2 - @border-width;
+    height: (@line-height-large-computed + @padding-large-vertical*2 - @border-width);
   }
 
   .@{ns}picker-toggle.@{ns}btn-md {
-    height: @line-height-computed + @padding-base-vertical*2 - @border-width;
+    height: (@line-height-computed + @padding-base-vertical*2 - @border-width);
   }
 
   .@{ns}picker-toggle.@{ns}btn-sm {
-    height: @line-height-computed + @padding-small-vertical*2 - @border-width;
+    height: (@line-height-computed + @padding-small-vertical*2 - @border-width);
   }
 
   .@{ns}picker-toggle.@{ns}btn-xs {
-    height: @line-height-computed + @padding-extra-small-vertical*2 - @border-width;
+    height: (@line-height-computed + @padding-extra-small-vertical*2 - @border-width);
   }
 }
 
 // Default picker toggle
 .picker-default-toggle() {
   .@{ns}picker-default & {
-    .dropdown-toggle;
+    .dropdown-toggle();
 
     color: @picker-default-toggle-font-color;
     border: @picker-default-toggle-border-width solid @picker-default-toggle-border-color;
@@ -370,7 +371,7 @@
 // Subtle picker toggle
 .picker-subtle-toggle {
   .@{ns}picker-subtle & {
-    .dropdown-toggle;
+    .dropdown-toggle();
   }
 
   .@{ns}picker-subtle.@{ns}picker-disabled & {
