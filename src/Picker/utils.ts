@@ -459,22 +459,26 @@ interface SearchProps {
 export function useSearch(props: SearchProps) {
   const { labelKey, data, searchBy, callback } = props;
 
+  // Use search keywords to filter options.
+  const [searchKeyword, setSearchKeyword] = useState('');
+
   /**
    * Index of keyword  in `label`
    * @param {node} label
    */
-  const checkShouldDisplay = (item: ItemDataType, keyword?: string) => {
-    const label = item?.[labelKey];
-    const _keyword = isUndefined(keyword) ? searchKeyword : keyword;
+  const checkShouldDisplay = useCallback(
+    (item: ItemDataType, keyword?: string) => {
+      const label = item?.[labelKey];
+      const _keyword = isUndefined(keyword) ? searchKeyword : keyword;
 
-    if (typeof searchBy === 'function') {
-      return searchBy(_keyword, label, item);
-    }
-    return shouldDisplay(label, _keyword);
-  };
+      if (typeof searchBy === 'function') {
+        return searchBy(_keyword, label, item);
+      }
+      return shouldDisplay(label, _keyword);
+    },
+    [labelKey, searchBy, searchKeyword]
+  );
 
-  // Use search keywords to filter options.
-  const [searchKeyword, setSearchKeyword] = useState('');
   const [filteredData, setFilteredData] = useState(
     filterNodesOfTree(data, item => checkShouldDisplay(item))
   );
@@ -485,6 +489,10 @@ export function useSearch(props: SearchProps) {
     setSearchKeyword(searchKeyword);
     callback?.(searchKeyword, filteredData, event);
   };
+
+  React.useEffect(() => {
+    setFilteredData(filterNodesOfTree(data, item => checkShouldDisplay(item)));
+  }, [checkShouldDisplay, data]);
 
   return {
     searchKeyword,
