@@ -1,6 +1,9 @@
 <!--start-code-->
 
 ```js
+/**
+ * import { Rate } from 'rsuite'
+ */
 const instance = (
   <div>
     <label>Disabled: </label>
