@@ -1,6 +1,10 @@
 <!--start-code-->
 
 ```js
+/**
+ * import { Rate } from 'rsuite'
+ */
+
 const textStyle = {
   verticalAlign: 'top',
   lineHeight: '42px',

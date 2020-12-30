@@ -2,8 +2,10 @@
 
 ```js
 /**
- * import * as SvgIcons from '@/components/SvgIcons'
- * SvgIcons is external resources.
+ * import { Rate } from 'rsuite'
+ * import { Icon } from '@rsuite/icons';
+ * import HeartIcon from '@rsuite/icons/legacy/Heart';
+ * import * as SvgIcons from '@/components/SvgIcons'; // SvgIcons is external resources.
  *
  * <style>
  *   .rs-icon.fill-color use{
@@ -22,7 +24,7 @@ const App = () => {
         <Rate
           allowHalf
           value={value}
-          character={<Heart />}
+          character={<HeartIcon />}
           color="red"
           onChange={handleChange}
         />
