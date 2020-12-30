@@ -185,7 +185,7 @@ const user = flaser({
   }
 });
 
-model.check(data);
+model.check(user);
 ```
 
 ## 组合

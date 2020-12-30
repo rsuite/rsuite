@@ -5,23 +5,23 @@ const App = () => {
   const [open, setOpen] = React.useState(false);
   const [placement, setPlacement] = React.useState();
 
-  const handleOpen = (key) => {
+  const handleOpen = key => {
     setOpen(true);
     setPlacement(key);
   };
   return (
     <div>
       <ButtonToolbar>
-        <IconButton icon={<AngleRight />} onClick={() => handleOpen('left')}>
+        <IconButton icon={<AngleLeft />} onClick={() => handleOpen('left')}>
           Left
         </IconButton>
-        <IconButton icon={<AngleLeft />} onClick={() => handleOpen('right')}>
+        <IconButton icon={<AngleRight />} onClick={() => handleOpen('right')}>
           Right
         </IconButton>
-        <IconButton icon={<AngleDown />} onClick={() => handleOpen('top')}>
+        <IconButton icon={<AngleUp />} onClick={() => handleOpen('top')}>
           Top
         </IconButton>
-        <IconButton icon={<AngleUp />} onClick={() => handleOpen('bottom')}>
+        <IconButton icon={<AngleDown />} onClick={() => handleOpen('bottom')}>
           Bottom
         </IconButton>
       </ButtonToolbar>

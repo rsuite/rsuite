@@ -1,13 +1,26 @@
 <!--start-code-->
 
 ```js
+const styles = {
+  radioGroupLabel: {
+    padding: '8px 12px',
+    display: 'inline-block',
+    verticalAlign: 'middle'
+  }
+};
 const App = () => {
   const [backdrop, setBackdrop] = React.useState('static');
   const [open, setOpen] = React.useState(false);
   return (
     <div>
-      <span>Backdrop: </span>
-      <RadioGroup name="radioList" inline value={backdrop} onChange={setBackdrop}>
+      <RadioGroup
+        name="radioList"
+        appearance="picker"
+        inline
+        value={backdrop}
+        onChange={setBackdrop}
+      >
+        <span style={styles.radioGroupLabel}>Backdrop: </span>
         <Radio value="static">static</Radio>
         <Radio value={true}>true</Radio>
         <Radio value={false}>false</Radio>
