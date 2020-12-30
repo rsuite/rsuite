@@ -3,11 +3,11 @@ import { Badge, Button, Toggle, Rate } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import * as SvgIcons from '@/components/SvgIcons';
 import { Icon } from '@rsuite/icons';
-import Heart from '@rsuite/icons/legacy/Heart';
-import Beer from '@rsuite/icons/legacy/Beer';
-import FrownO from '@rsuite/icons/legacy/FrownO';
-import MehO from '@rsuite/icons/legacy/MehO';
-import SmileO from '@rsuite/icons/legacy/SmileO';
+import HeartIcon from '@rsuite/icons/legacy/Heart';
+import BeerIcon from '@rsuite/icons/legacy/Beer';
+import FrownIcon from '@rsuite/icons/legacy/FrownO';
+import MehIcon from '@rsuite/icons/legacy/MehO';
+import SmileIcon from '@rsuite/icons/legacy/SmileO';
 
 export default function Page() {
   return (
@@ -19,11 +19,11 @@ export default function Page() {
         Rate,
         Icon,
         SvgIcons,
-        Heart,
-        Beer,
-        FrownO,
-        MehO,
-        SmileO,
+        HeartIcon,
+        BeerIcon,
+        FrownIcon,
+        MehIcon,
+        SmileIcon
       }}
     />
   );

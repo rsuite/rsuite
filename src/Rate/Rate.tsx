@@ -182,7 +182,9 @@ const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
     );
 
     if (plaintext) {
-      return <Plaintext localeKey="notSelected">{`${value}(${max})`}</Plaintext>;
+      return (
+        <Plaintext localeKey="notSelected" className={className}>{`${value}(${max})`}</Plaintext>
+      );
     }
 
     return (

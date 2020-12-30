@@ -6,16 +6,17 @@
 
 .@{ns}rate {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
   color: @rate-selected-color;
   list-style: none;
+  vertical-align: middle;
   margin: 0;
   padding: 0;
 
   &-character {
     position: relative;
-    display: inline-block;
-    margin: 3px 10px 3px 0;
+    margin-right: 10px;
+    padding: 3px 0;
     cursor: pointer;
     outline: none;
     user-select: none;
@@ -57,7 +58,7 @@
       width: 100%;
       height: 50%;
       flex-direction: column-reverse;
-      bottom: 0;
+      bottom: 3px;
     }
   }
 
