@@ -70,6 +70,14 @@ module.exports = config => {
   }
 
   config.set({
+    /** maximum number of tries a browser will attempt in the case of a disconnection */
+    browserDisconnectTolerance: 2,
+
+    /** How long does Karma wait for a browser to reconnect (in ms). */
+    browserDisconnectTimeout: 50000,
+
+    /** How long will Karma wait for a message from a browser before disconnecting from it (in ms). */
+    browserNoActivityTimeout: 50000,
     basePath: '',
     files: [testFile],
     frameworks: ['mocha', 'sinon-chai'],
