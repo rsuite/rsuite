@@ -479,6 +479,13 @@ export function useSearch(props: SearchProps) {
     [labelKey, searchBy, searchKeyword]
   );
 
+  const updateFilteredData = useCallback(
+    (nextData: ItemDataType[]) => {
+      setFilteredData(filterNodesOfTree(nextData, item => checkShouldDisplay(item)));
+    },
+    [checkShouldDisplay]
+  );
+
   const [filteredData, setFilteredData] = useState(
     filterNodesOfTree(data, item => checkShouldDisplay(item))
   );
@@ -490,13 +497,10 @@ export function useSearch(props: SearchProps) {
     callback?.(searchKeyword, filteredData, event);
   };
 
-  React.useEffect(() => {
-    setFilteredData(filterNodesOfTree(data, item => checkShouldDisplay(item)));
-  }, [checkShouldDisplay, data]);
-
   return {
     searchKeyword,
     filteredData,
+    updateFilteredData,
     setSearchKeyword,
     checkShouldDisplay,
     handleSearch

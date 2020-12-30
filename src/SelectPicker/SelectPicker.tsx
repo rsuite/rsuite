@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import isUndefined from 'lodash/isUndefined';
@@ -169,7 +169,13 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
     });
 
     // Use search keywords to filter options.
-    const { searchKeyword, filteredData, setSearchKeyword, handleSearch } = useSearch({
+    const {
+      searchKeyword,
+      filteredData,
+      updateFilteredData,
+      setSearchKeyword,
+      handleSearch
+    } = useSearch({
       labelKey,
       data,
       searchBy,
@@ -183,6 +189,10 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
         onSearch?.(searchKeyword, event);
       }
     });
+
+    useEffect(() => {
+      updateFilteredData(data);
+    }, [data, updateFilteredData]);
 
     // Use component active state to support keyboard events.
     const [active, setActive] = useState(false);
