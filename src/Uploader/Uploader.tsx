@@ -544,7 +544,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
 
   if (plaintext) {
     return (
-      <Plaintext localeKey="notUploaded">
+      <Plaintext localeKey="notUploaded" className={withClassPrefix(listType)}>
         {fileList.current.length ? renderList[1] : null}
       </Plaintext>
     );
