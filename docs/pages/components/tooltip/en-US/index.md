@@ -44,7 +44,7 @@ A text tip for secondary, which replaces the default title property of an HTML e
 
 ### Disabled elements
 
-Elements with the disabled attribute aren’t interactive, meaning users cannot hover or click them to trigger a popover (or tooltip). As a workaround, you’ll want to trigger the overlay from a wrapper `<div>` or `<span>` override the pointer-events on the disabled element.
+Elements with the disabled attribute aren’t interactive, meaning users cannot hover or click them to trigger a popover (or tooltip). As a workaround, you’ll want to trigger the overlay from a wrapper `<div>` or `<span>` and override the pointer-events on the disabled element.
 
 <!--{include:`disabled-elements.md`}-->
 
