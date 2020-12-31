@@ -398,6 +398,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
             disabled={disabled}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
+            inputValue={value}
             active={active}
             placement={placement}
           >

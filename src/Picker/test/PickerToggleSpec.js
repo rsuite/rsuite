@@ -72,4 +72,13 @@ describe('Toggle', () => {
     const instance = getDOMNode(<Toggle classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
+
+  it('Should add value to input', () => {
+    const instance = getDOMNode(
+      <Toggle title="title" inputValue={['value1', 'value2']}>
+        Title
+      </Toggle>
+    );
+    assert.ok(instance.querySelector('[value="value1,value2"]'));
+  });
 });
