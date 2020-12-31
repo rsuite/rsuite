@@ -35,7 +35,9 @@ const App = () => {
         <Button onClick={() => handleToggle('bottom')}>Slide Bottom</Button>
       </ButtonToolbar>
       <hr />
-      <Animation.Slide in={show}>{(props, ref) => <Panel {...props} ref={ref} />}</Animation.Slide>
+      <Animation.Slide in={show} placement={placement}>
+        {(props, ref) => <Panel {...props} ref={ref} />}
+      </Animation.Slide>
     </div>
   );
 };
