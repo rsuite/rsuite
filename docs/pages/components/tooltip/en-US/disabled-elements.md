@@ -1,6 +1,6 @@
 ### Disabled elements
 
-Elements with the disabled attribute aren’t interactive, meaning users cannot hover or click them to trigger a popover (or tooltip). As a workaround, you’ll want to trigger the overlay from a wrapper `<div>` or `<span>`.
+Elements with the disabled attribute aren’t interactive, meaning users cannot hover or click them to trigger a popover (or tooltip). As a workaround, you’ll want to trigger the overlay from a wrapper `<div>` or `<span>` and override the pointer-events on the disabled element.
 
 <!--start-code-->
 
@@ -8,7 +8,7 @@ Elements with the disabled attribute aren’t interactive, meaning users cannot 
 const instance = (
   <Whisper speaker={<Tooltip> Tooltip!</Tooltip>}>
     <span>
-      <Button disabled>button</Button>
+      <Button disabled style={{ pointerEvents: 'none' }}>button</Button>
     </span>
   </Whisper>
 );
