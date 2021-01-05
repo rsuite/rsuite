@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import Form from '../../Form';
 import FormControl from '../FormControl';
+import FormGroup from '../../FormGroup';
 
 describe('FormControl', () => {
   it('Should output a input', () => {
@@ -152,5 +153,21 @@ describe('FormControl', () => {
     );
 
     assert.equal(instance.querySelector('.rs-form-control-message-wrapper').innerText, 'error2');
+  });
+
+  it('Should be associated with ErrorMessage via aria-describedby', () => {
+    const instance = getDOMNode(
+      <Form>
+        <FormGroup controlId="name1">
+          <FormControl errorMessage={'error2'} name="name1" />
+        </FormGroup>
+      </Form>
+    );
+
+    assert.equal(
+      instance.querySelector('input').getAttribute('aria-describedby'),
+      'name1-error-message'
+    );
+    assert.equal(instance.querySelector('[role="alert"]').id, 'name1-error-message');
   });
 });
