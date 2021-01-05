@@ -5,11 +5,12 @@ name: Node.js Package - next
 on:
   push:
     tags: 
-      - v*(alpha|beta)*
+      - v*alpha*
+      - v*beta*
 
 jobs:
   publish:
-    name: 'Publish'
+    name: 'Publish next'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
