@@ -724,6 +724,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
             active={active}
             disabled={disabled}
             placement={placement}
+            inputValue={value}
           >
             {searching || (multi && hasValue) ? null : displayElement || locale?.placeholder}
           </PickerToggle>

@@ -402,6 +402,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
             hasValue={hasValue}
             active={active}
             placement={placement}
+            inputValue={value}
           >
             {selectedElement || locale?.placeholder}
           </PickerToggle>

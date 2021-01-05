@@ -894,6 +894,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
           hasValue={hasValidValue}
           active={active}
           placement={placement}
+          inputValue={value}
         >
           {selectedElement || locale.placeholder}
         </PickerToggle>

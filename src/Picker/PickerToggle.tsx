@@ -14,7 +14,7 @@ type ValueType = string | number;
 
 export interface PickerToggleProps extends ToggleButtonProps {
   value?: ValueType | ValueType[];
-  inputValue?: string;
+  inputValue?: ValueType | ValueType[];
   id?: string;
   hasValue?: boolean;
   cleanable?: boolean;
@@ -184,7 +184,7 @@ const PickerToggle: RsRefForwardingComponent<
     >
       <MaskedInput
         mask={inputMask}
-        value={inputValue}
+        value={Array.isArray(inputValue) ? inputValue.toString() : inputValue}
         onBlur={handleInputBlur}
         onFocus={onInputFocus}
         onChange={handleInputChange}
