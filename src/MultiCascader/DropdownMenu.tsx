@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
-import Spinner from '@rsuite/icons/legacy/Spinner';
+import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
 import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
 
@@ -205,7 +205,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
 
           return parentNode?.loading ? (
             <div className={prefix('column-loading')}>
-              <Spinner spin /> {loadingText}
+              <SpinnerIcon spin /> <span>{loadingText}</span>
             </div>
           ) : (
             menu
