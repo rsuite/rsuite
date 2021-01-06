@@ -106,10 +106,20 @@ const FormControl: RsRefForwardingComponent<'div', FormControlProps> = React.for
     const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix('wrapper'));
 
-    const handleFieldChange = (value: any, event: React.SyntheticEvent<any>) => {
-      handleFieldCheck(value, trigger === 'change');
-      onFieldChange?.(name, value, event);
-      onChange?.(value, event);
+    const handleFieldChange = (
+      value: React.ChangeEvent | any,
+      event: React.SyntheticEvent<any>
+    ) => {
+      // React.ChangeEvent
+      if ('target' in value) {
+        handleFieldCheck(value.target.value, trigger === 'change');
+        onFieldChange?.(name ?? value.target.name, value.target.value, value);
+        onChange?.(value.target.value, value);
+      } else {
+        handleFieldCheck(value, trigger === 'change');
+        onFieldChange?.(name, value, event);
+        onChange?.(value, event);
+      }
     };
 
     const handleFieldBlur = (event: React.FocusEvent<HTMLFormElement>) => {

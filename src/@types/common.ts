@@ -119,6 +119,29 @@ export interface PickerBaseProps<LocaleType = any> extends WithAsProps, Animatio
   renderExtraFooter?: () => React.ReactNode;
 }
 
+export interface ControlledComponentProps<ValueType = any> {
+  /** Initial value */
+  defaultValue?: ValueType;
+
+  /** Current value of the component. Creates a controlled component */
+  value?: ValueType;
+
+  /** Called after the value has been changed */
+  onChange?: (event: React.ChangeEvent) => void;
+
+  /** Make the control readonly */
+  readOnly?: boolean;
+}
+
+export interface FormControlComponentProps<ValueType = any>
+  extends ControlledComponentProps<ValueType> {
+  /** Set the component to be disabled and cannot be entered */
+  disabled?: boolean;
+
+  /** Render the control as plain text */
+  plaintext?: boolean;
+}
+
 export interface FormControlBaseProps<ValueType = any> {
   /** Initial value */
   defaultValue?: ValueType;

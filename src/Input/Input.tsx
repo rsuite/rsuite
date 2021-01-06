@@ -8,7 +8,7 @@ import {
   WithAsProps,
   RsRefForwardingComponent,
   TypeAttributes,
-  FormControlBaseProps
+  FormControlComponentProps
 } from '../@types/common';
 
 export interface LocaleType {
@@ -18,7 +18,7 @@ export interface LocaleType {
 export interface InputProps
   extends WithAsProps,
     Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'size'>,
-    FormControlBaseProps<string | number | ReadonlyArray<string>> {
+    FormControlComponentProps<string | number | ReadonlyArray<string>> {
   /** The HTML input type */
   type?: string;
 
@@ -74,13 +74,6 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
       [onPressEnter, onKeyDown]
     );
 
-    const handleChange = useCallback(
-      (event: React.ChangeEvent<HTMLInputElement>) => {
-        onChange?.(event.target?.value, event);
-      },
-      [onChange]
-    );
-
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix(size, { plaintext }));
     const inputGroupContext = useContext(InputGroupContext);
@@ -97,10 +90,10 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
     }
 
     const operable = !disabled && !readOnly;
-    const eventProps: React.HTMLAttributes<HTMLInputElement> = {};
+    const eventProps: React.InputHTMLAttributes<HTMLInputElement> = {};
 
     if (operable) {
-      eventProps.onChange = handleChange;
+      eventProps.onChange = onChange;
       eventProps.onKeyDown = handleKeyDown;
       eventProps.onFocus = createChainedFunction(onFocus, inputGroupContext?.onFocus);
       eventProps.onBlur = createChainedFunction(onBlur, inputGroupContext?.onBlur);

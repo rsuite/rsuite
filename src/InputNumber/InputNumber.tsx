@@ -209,7 +209,10 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
   );
 
   const handleChange = useCallback(
-    (value: any, event: React.SyntheticEvent<any>) => {
+    (event: React.ChangeEvent<any>) => {
+      const {
+        target: { value }
+      } = event;
       if (!/^-?(?:\d+)?(\.)?(\d+)*$/.test(value) && value !== '') {
         return;
       }
