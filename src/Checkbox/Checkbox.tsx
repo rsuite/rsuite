@@ -2,24 +2,15 @@ import React, { useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useControlled, partitionHTMLProps, useClassNames, TypeChecker } from '../utils';
 import { CheckboxGroupContext } from '../CheckboxGroup';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent, FormControlComponentProps } from '../@types/common';
 
 export type ValueType = string | number;
-export interface CheckboxProps<V = ValueType> extends WithAsProps {
+export interface CheckboxProps<V = ValueType> extends WithAsProps, FormControlComponentProps<V> {
   /** HTML title */
   title?: string;
 
   /** Inline layout */
   inline?: boolean;
-
-  /** A checkbox can appear disabled and be unable to change states */
-  disabled?: boolean;
-
-  /** Make the control readonly */
-  readOnly?: boolean;
-
-  /** Render the control as plain text */
-  plaintext?: boolean;
 
   /** Whether or not checkbox is checked. */
   checked?: boolean;
@@ -31,13 +22,10 @@ export interface CheckboxProps<V = ValueType> extends WithAsProps {
   indeterminate?: boolean;
 
   /** Attributes applied to the input element. */
-  inputProps?: React.HTMLAttributes<HTMLInputElement>;
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 
   /** Pass a ref to the input element. */
   inputRef?: React.Ref<any>;
-
-  /** The HTML input value. */
-  value?: V;
 
   /** A checkbox can receive focus. */
   tabIndex?: number;
@@ -47,9 +35,6 @@ export interface CheckboxProps<V = ValueType> extends WithAsProps {
 
   /** Used for the name of the form */
   name?: string;
-
-  /** Called when the user attempts to change the checked state. */
-  onChange?: (value: V, checked: boolean, event: React.SyntheticEvent<HTMLInputElement>) => void;
 
   /** Called when the checkbox or label is clicked. */
   onClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
@@ -122,7 +107,7 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
     }
 
     const handleChange = useCallback(
-      (event: React.SyntheticEvent<HTMLInputElement>) => {
+      (event: React.ChangeEvent<HTMLInputElement>) => {
         const nextChecked = !checked;
 
         if (disabled || readOnly) {
@@ -130,7 +115,7 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
         }
 
         setChecked(nextChecked);
-        onChange?.(value, nextChecked, event);
+        onChange?.(event);
         onGroupChange?.(value, nextChecked, event);
       },
       [checked, disabled, readOnly, setChecked, onChange, value, onGroupChange]

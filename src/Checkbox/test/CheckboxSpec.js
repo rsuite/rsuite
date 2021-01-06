@@ -49,20 +49,17 @@ describe('Checkbox', () => {
     assert.equal(input.tagName, 'INPUT');
   });
 
-  it('Should call onChange callback', done => {
+  it('Should call onChange callback with correct value', () => {
     const value = 'Test';
-    const doneOp = data => {
-      if (data === value) {
-        done();
-      }
-    };
+    const onChangeSpy = sinon.spy();
 
     const instance = getDOMNode(
-      <Checkbox onChange={doneOp} value={value}>
+      <Checkbox onChange={onChangeSpy} value={value}>
         Title
       </Checkbox>
     );
     ReactTestUtils.Simulate.change(instance.querySelector('input'));
+    assert.equal(onChangeSpy.getCall(0).args[0].target.value, value);
   });
 
   it('Should call onClick callback', done => {
@@ -89,32 +86,28 @@ describe('Checkbox', () => {
     ReactTestUtils.Simulate.focus(instance.querySelector('input'));
   });
 
-  it('Should be checked with change', done => {
-    const doneOp = (value, checked) => {
-      if (checked) {
-        done();
-      }
-    };
+  it('Should be checked with change', () => {
+    const onChangeSpy = sinon.spy();
 
-    const instance = getDOMNode(<Checkbox onChange={doneOp}>Title</Checkbox>);
-
-    ReactTestUtils.Simulate.change(instance.querySelector('input'));
+    const instance = getDOMNode(<Checkbox onChange={onChangeSpy}>Title</Checkbox>);
+    const input = instance.querySelector('input');
+    input.checked = true;
+    ReactTestUtils.Simulate.change(input);
+    assert.equal(onChangeSpy.getCall(0).args[0].target.checked, true);
   });
 
-  it('Should be unchecked with change', done => {
-    const doneOp = checked => {
-      if (!checked) {
-        done();
-      }
-    };
+  it('Should be unchecked with change', () => {
+    const onChangeSpy = sinon.spy();
 
     const instance = getDOMNode(
-      <Checkbox onChange={doneOp} checked>
+      <Checkbox onChange={onChangeSpy} checked>
         Title
       </Checkbox>
     );
-
-    ReactTestUtils.Simulate.change(instance.querySelector('input'));
+    const input = instance.querySelector('input');
+    input.checked = false;
+    ReactTestUtils.Simulate.change(input);
+    assert.equal(onChangeSpy.getCall(0).args[0].target.checked, false);
   });
 
   it('Should have a custom className', () => {
