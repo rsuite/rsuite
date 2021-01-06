@@ -75,15 +75,10 @@ describe('RadioGroup', () => {
     assert.ok(radios[1].className.match(/\bradio-checked\b/));
   });
 
-  it('Should call onChange callback', done => {
+  it('Should call onChange callback with correct value', () => {
+    const onChangeSpy = sinon.spy();
     const instance = getDOMNode(
-      <RadioGroup
-        onChange={value => {
-          if (value === 3) {
-            done();
-          }
-        }}
-      >
+      <RadioGroup onChange={onChangeSpy}>
         <Radio value={1}>Test1</Radio>
         <Radio value={2}>Test2</Radio>
         <Radio value={3}>Test2</Radio>
@@ -93,9 +88,10 @@ describe('RadioGroup', () => {
 
     const radios = instance.querySelectorAll('.rs-radio');
     ReactTestUtils.Simulate.change(radios[2].querySelector('input'));
+    assert.equal(onChangeSpy.getCall(0).args[0].target.value, 3);
   });
 
-  it('Should call onChange callback', done => {
+  it('Should call Radio onChange callback', done => {
     let count = 0;
 
     function onDone() {
@@ -120,16 +116,10 @@ describe('RadioGroup', () => {
     ReactTestUtils.Simulate.change(radios[2].querySelector('input'));
   });
 
-  it('Should call onChange callback and return correct parameters', done => {
+  it('Should call onChange callback and return correct parameters', () => {
+    const onChangeSpy = sinon.spy();
     const instance = getDOMNode(
-      <RadioGroup
-        name="test"
-        onChange={(value, event) => {
-          if (value === 3 && event.target.name === 'test') {
-            done();
-          }
-        }}
-      >
+      <RadioGroup name="test" onChange={onChangeSpy}>
         <Radio value={1}>Test1</Radio>
         <Radio value={2}>Test2</Radio>
         <Radio value={3}>Test2</Radio>
@@ -139,6 +129,9 @@ describe('RadioGroup', () => {
 
     const radios = instance.querySelectorAll('.rs-radio');
     ReactTestUtils.Simulate.change(radios[2].querySelector('input'));
+    const event = onChangeSpy.getCall(0).args[0];
+    assert.equal(event.target.value, 3);
+    assert.equal(event.target.name, 'test');
   });
 
   it('Should be selected as false', () => {

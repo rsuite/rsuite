@@ -2,12 +2,13 @@ import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { RadioContext } from '../RadioGroup/RadioGroup';
 import { useClassNames, useControlled, partitionHTMLProps, TypeChecker } from '../utils';
-import { WithAsProps } from '../@types/common';
+import { FormControlComponentProps, WithAsProps } from '../@types/common';
 
 export type ValueType = string | number;
 export interface RadioProps<T = ValueType>
   extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+    Omit<React.HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange'>,
+    FormControlComponentProps<T> {
   /** HTML title */
   title?: string;
 
@@ -22,9 +23,6 @@ export interface RadioProps<T = ValueType>
 
   /** Specifies whether the radio is selected */
   checked?: boolean;
-
-  /** Specifies the initial state: whether or not the radio is selected */
-  defaultChecked?: boolean;
 
   /** Attributes applied to the input element. */
   inputProps?: React.HTMLAttributes<HTMLInputElement>;
@@ -43,9 +41,6 @@ export interface RadioProps<T = ValueType>
 
   /** Primary content */
   children?: React.ReactNode;
-
-  /** Callback function with value changed */
-  onChange?: (value: T, checked: boolean, event: React.SyntheticEvent<HTMLInputElement>) => void;
 }
 
 const defaultProps: Partial<RadioProps> = {
@@ -105,8 +100,8 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
       }
 
       setChecked(true);
-      onGroupChange?.(value, event);
-      onChange?.(value, true, event);
+      onGroupChange?.(event);
+      onChange?.(event);
     },
     [disabled, onChange, onGroupChange, readOnly, setChecked, value]
   );

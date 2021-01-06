@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames, useControlled } from '../utils';
-import { WithAsProps, FormControlBaseProps, RsRefForwardingComponent } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent, FormControlComponentProps } from '../@types/common';
 import { ValueType } from '../Radio';
 import Plaintext from '../Plaintext';
 
@@ -13,10 +13,10 @@ export interface RadioContextProps {
   disabled?: boolean;
   readOnly?: boolean;
   plaintext?: boolean;
-  onChange?: (value: ValueType, event: React.SyntheticEvent<HTMLInputElement>) => void;
+  onChange?: FormControlComponentProps['onChange'];
 }
 
-export interface RadioGroupProps<T = ValueType> extends WithAsProps, FormControlBaseProps<T> {
+export interface RadioGroupProps<T = ValueType> extends WithAsProps, FormControlComponentProps<T> {
   /** A radio group can have different appearances */
   appearance?: 'default' | 'picker';
 
@@ -55,14 +55,14 @@ const RadioGroup: RsRefForwardingComponent<'div', RadioGroupProps> = React.forwa
     const [value, setValue, isControlled] = useControlled(valueProp, defaultValue);
 
     const handleChange = useCallback(
-      (nextValue: ValueType, event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(nextValue);
-        onChange?.(nextValue, event);
+      (event: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(event.target.value);
+        onChange?.(event);
       },
       [onChange, setValue]
     );
 
-    const contextValue = useMemo(
+    const contextValue = useMemo<RadioContextProps>(
       () => ({
         inline,
         name,

@@ -63,10 +63,9 @@ describe('Radio', () => {
 
   it('Should call onChange callback', done => {
     const value = 'Test';
-    const doneOp = data => {
-      if (data === value) {
-        done();
-      }
+    const doneOp = event => {
+      assert.equal(event.target.value, value);
+      done();
     };
 
     const instance = getDOMNode(
@@ -94,8 +93,8 @@ describe('Radio', () => {
   });
 
   it('Should be checked with change', done => {
-    const doneOp = checked => {
-      if (checked === '100') {
+    const doneOp = event => {
+      if (event.target.value === '100') {
         done();
       }
     };
