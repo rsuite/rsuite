@@ -1123,6 +1123,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
             componentClass={toggleComponentClass}
             hasValue={hasValidValue}
             active={this.state.active}
+            aria-disabled={disabled}
           >
             {selectedElement || locale.placeholder}
           </PickerToggle>
