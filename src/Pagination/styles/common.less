@@ -19,12 +19,12 @@
 
     &:not(.@{ns}pagination-btn-disabled) > a {
       transition: @pagination-transition;
-      .button-ripple;
+      .button-ripple();
     }
 
     > a {
       .btn-sm(base);
-      .btn-transition;
+      .btn-transition();
       .btn-subtle-variant(@pagination-hover-bg);
 
       position: relative;

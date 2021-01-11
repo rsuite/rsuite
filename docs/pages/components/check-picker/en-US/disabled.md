@@ -12,7 +12,7 @@ const instance = (
   <div>
     <CheckPicker data={data} defaultValue={['Julius']} disabled />
     <hr />
-    <p>禁用选项</p>
+    <p>Disabled Option</p>
     <CheckPicker
       data={data}
       defaultValue={['Julius']}

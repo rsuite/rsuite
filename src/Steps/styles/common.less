@@ -41,13 +41,13 @@
         text-indent: -9999px;
 
         &::before {
-          .icon-font;
+          .icon-font();
 
-          width: @steps-icon-diameter - 2px;
-          height: @steps-icon-diameter - 2px;
+          width: (@steps-icon-diameter - 2px);
+          height: (@steps-icon-diameter - 2px);
           font-size: @steps-icon-size-default-font-size;
           // Minus 2px border width;
-          line-height: unit((@steps-icon-diameter - 2px)/12);
+          line-height: unit(((@steps-icon-diameter - 2px)/12));
           display: block;
           position: absolute;
           top: 0;
@@ -189,7 +189,7 @@
 
     // There is a 10px spacing between each item.
     &:not(:first-child) {
-      padding-left: @steps-icon-space-width + @steps-item-spacing;
+      padding-left: (@steps-icon-space-width + @steps-item-spacing);
 
       .@{ns}steps-item-icon-wrapper {
         left: @steps-item-spacing;
@@ -198,13 +198,13 @@
   }
 
   .@{ns}steps-item-content {
-    height: @steps-title-font-size * @steps-title-line-height;
+    height: (@steps-title-font-size * @steps-title-line-height);
   }
 
   .@{ns}steps-item-title {
     &::after {
       content: '';
-      top: @steps-icon-diameter / 2;
+      top: (@steps-icon-diameter / 2);
       left: 100%;
       width: 9999px;
       border-top-width: 1px;
@@ -231,7 +231,7 @@
   .@{ns}steps-item-tail {
     top: @steps-icon-space-width;
     bottom: 0;
-    left: @steps-icon-diameter / 2;
+    left: (@steps-icon-diameter / 2);
     border-left-width: 1px;
     border-left-style: solid;
   }
@@ -247,11 +247,11 @@
   }
 
   &.@{ns}steps-horizontal .@{ns}steps-item:not(:first-child) {
-    padding-left: @small-steps-icon-space-width + @steps-icon-spacing;
+    padding-left: (@small-steps-icon-space-width + @steps-icon-spacing);
   }
 
   &.@{ns}steps-vertical .@{ns}steps-item-tail {
-    left: @small-steps-icon-diameter / 2;
+    left: (@small-steps-icon-diameter / 2);
   }
 
   &.@{ns}steps-horizontal .@{ns}steps-item-title::after {
@@ -283,8 +283,8 @@
   // Finish status show check mark.
   .@{ns}steps-item-status-finish .@{ns}steps-item-icon-wrapper:not(.@{ns}steps-item-custom-icon) .@{ns}steps-item-icon::before,
   .@{ns}steps-item-status-error .@{ns}steps-item-icon-wrapper:not(.@{ns}steps-item-custom-icon) .@{ns}steps-item-icon::before {
-    width: @small-steps-icon-diameter - 2px;
-    height: @small-steps-icon-diameter - 2px;
-    line-height: unit((@small-steps-icon-diameter - 2px)/12);
+    width: (@small-steps-icon-diameter - 2px);
+    height: (@small-steps-icon-diameter - 2px);
+    line-height: unit(((@small-steps-icon-diameter - 2px)/12));
   }
 }

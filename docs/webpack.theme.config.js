@@ -26,24 +26,26 @@ const themesConfig = multipleThemesCompile({
       loader: 'postcss-loader',
       options: {
         sourceMap,
-        plugins: [
-          ...(__DEV_STYLES__
-            ? [
-                require('autoprefixer'),
-                require('cssnano')({
-                  preset: [
-                    'default',
-                    {
-                      discardComnments: {
-                        removeAll: false
+        postcssOptions: {
+          plugins: [
+            ...(__DEV_STYLES__
+              ? [
+                  require('autoprefixer'),
+                  require('cssnano')({
+                    preset: [
+                      'default',
+                      {
+                        discardComnments: {
+                          removeAll: false
+                        }
                       }
-                    }
-                  ]
-                })
-              ]
-            : []),
-          require('postcss-rtl')({})
-        ]
+                    ]
+                  })
+                ]
+              : []),
+            require('postcss-rtl')({})
+          ]
+        }
       }
     },
     {

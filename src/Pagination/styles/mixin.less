@@ -1,14 +1,12 @@
 .pagination-active(@font-color) {
-  .active() {
-    color: @font-color;
-    background-color: transparent;
-  }
-  .active;
+  color: @font-color;
+  background-color: transparent;
 
   &:hover,
   &:focus,
   &.focus {
-    .active;
+    color: @font-color;
+    background-color: transparent;
   }
 
   &:active {
@@ -16,7 +14,8 @@
     &:hover,
     &:focus,
     &.focus {
-      .active;
+      color: @font-color;
+      background-color: transparent;
     }
   }
 }

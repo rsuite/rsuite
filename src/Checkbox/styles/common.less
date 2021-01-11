@@ -2,14 +2,14 @@
 @import 'mixin';
 
 .@{ns}checkbox {
-  .radio-checkbox-common;
+  .radio-checkbox-common();
 }
 
 .@{ns}checkbox-checker {
   padding-top: 10px;
   padding-bottom: 10px;
-  padding-left: @checkbox-sense-width*2 + @checkbox-width-height;
-  min-height: @checkbox-sense-width*2 + @checkbox-width-height;
+  padding-left: (@checkbox-sense-width*2 + @checkbox-width-height);
+  min-height: (@checkbox-sense-width*2 + @checkbox-width-height);
   line-height: 1;
   position: relative;
 }

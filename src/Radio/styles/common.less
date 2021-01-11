@@ -4,7 +4,7 @@
 @import 'mixin';
 
 .@{ns}radio {
-  .radio-checkbox-common;
+  .radio-checkbox-common();
 
   &-group-inline {
     display: inline-block;
@@ -63,8 +63,8 @@
 .@{ns}radio-checker {
   padding-top: 10px;
   padding-bottom: 10px;
-  padding-left: @radio-sense-width * 2 + @radio-width-height;
-  min-height: @radio-sense-width * 2 + @radio-width-height;
+  padding-left: (@radio-sense-width * 2 + @radio-width-height);
+  min-height: (@radio-sense-width * 2 + @radio-width-height);
   line-height: 1;
   position: relative;
 }
@@ -153,8 +153,8 @@
     width: @radio-inner-width-height;
     height: @radio-inner-width-height;
     background: @radio-inner-checked-color;
-    margin-top: (@radio-width-height - @radio-inner-width-height) / 2;
-    margin-left: (@radio-width-height - @radio-inner-width-height) / 2;
+    margin-top: ((@radio-width-height - @radio-inner-width-height) / 2);
+    margin-left: ((@radio-width-height - @radio-inner-width-height) / 2);
     border-radius: @radio-border-radius;
     opacity: 0;
     transform: scale(0);
