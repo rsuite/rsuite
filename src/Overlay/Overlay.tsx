@@ -32,7 +32,7 @@ const Overlay = ({ animation = true, children, transition = Fade, ...rest }: Ove
 
 Overlay.propTypes = {
   animation: PropTypes.bool,
-  container: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  container: PropTypes.any,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   onRendered: PropTypes.func,
   className: PropTypes.string,
