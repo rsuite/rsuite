@@ -18,7 +18,6 @@ class Panel extends React.Component<PanelProps, PanelState> {
     shaded: PropTypes.bool,
     bodyFill: PropTypes.bool,
     header: PropTypes.any,
-    id: PropTypes.oneOf([PropTypes.number, PropTypes.string]),
     defaultExpanded: PropTypes.bool,
     expanded: PropTypes.bool,
     eventKey: PropTypes.any,
