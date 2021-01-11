@@ -1,3 +1,15 @@
+# 4.8.7
+
+- fix(panel): fix the problem of wrong type definition in `Panel` [#1449]
+- fix(overlay): prevent notice for overlay [#1441]
+- fix(table): fix the table height problem caused by `affixHeader` [#1437]
+- chore(less): bump less to 4.0.0 v4 [#1448]
+
+[#1449]: https://github.com/rsuite/rsuite/pull/1449
+[#1448]: https://github.com/rsuite/rsuite/pull/1448
+[#1441]: https://github.com/rsuite/rsuite/pull/1441
+[#1437]: https://github.com/rsuite/rsuite/pull/1437
+
 # 4.8.6
 
 - fix(tag-picker): fix the issue of invalid renderValue on `TagPicker`. [#1378]
