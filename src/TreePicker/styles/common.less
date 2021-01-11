@@ -43,7 +43,7 @@
   margin: 0 0 4px 0;
 
   &-active > .@{tpns}-node-label > .@{tpns}-node-label-content {
-    .picker-item-active;
+    .picker-item-active();
 
     color: @picker-tree-node-active-color;
     background-color: @picker-tree-node-active-bg;
@@ -197,7 +197,7 @@
   }
 
   > .@{tpns}-node-custom-icon {
-    .node-item-prepend-icon;
+    .node-item-prepend-icon();
   }
 }
 
@@ -228,7 +228,7 @@
       margin: 0;
 
       > .@{tpns}-node-label > .@{tpns}-node-label-content {
-        .ellipsis;
+        .ellipsis();
 
         display: block;
       }

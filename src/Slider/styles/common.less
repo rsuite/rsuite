@@ -28,14 +28,14 @@
 
   &-with-mark:not(&-vertical) {
     //White space for mark
-    margin-bottom: @line-height-computed + @slider-mark-margin-top;
+    margin-bottom: (@line-height-computed + @slider-mark-margin-top);
   }
 }
 
 // Mark
 .@{ns}slider-mark {
   position: absolute;
-  top: @slider-bar-side-length + @slider-mark-margin-top;
+  top: (@slider-bar-side-length + @slider-mark-margin-top);
   left: -2px;
   white-space: nowrap;
 
@@ -56,7 +56,7 @@
 // Bar
 .@{ns}slider-bar {
   height: @slider-bar-side-length;
-  border-radius: @slider-bar-side-length / 2;
+  border-radius: (@slider-bar-side-length / 2);
   background-color: @slider-bar-default-bg;
   cursor: pointer;
 
@@ -155,12 +155,12 @@
 .@{ns}slider-progress-bar {
   position: absolute;
   height: @slider-bar-side-length;
-  border-radius: @slider-bar-side-length / 2 0 0 @slider-bar-side-length / 2;
+  border-radius: (@slider-bar-side-length / 2) 0 0 (@slider-bar-side-length / 2);
   background-color: @slider-progress-bar-bg;
 
   .@{ns}slider-vertical & {
     width: @slider-bar-side-length;
-    border-radius: @slider-bar-side-length / 2 @slider-bar-side-length / 2 0 0;
+    border-radius: (@slider-bar-side-length / 2) (@slider-bar-side-length / 2) 0 0;
   }
 }
 
@@ -177,7 +177,7 @@
     border-radius: 50%;
     border: @slider-handle-border-width solid @slider-handle-default-border-color;
     background-color: @slider-handle-default-bg;
-    margin-left: -@slider-handle-diameter / 2;
+    margin-left: -(@slider-handle-diameter / 2);
     cursor: pointer;
     /* stylelint-disable */ //Formatted by prettier
     transition: box-shadow @slider-handle-transition, background-color @slider-handle-transition,
@@ -195,8 +195,8 @@
   }
 
   .@{ns}slider-vertical &::before {
-    left: (@slider-handle-diameter - @slider-bar-side-length)/2;
-    margin-top: -@slider-handle-diameter / 2;
+    left: ((@slider-handle-diameter - @slider-bar-side-length)/2);
+    margin-top: -(@slider-handle-diameter / 2);
   }
 }
 
@@ -220,7 +220,7 @@
   // Reset all setting
   .@{ns}slider-mark {
     top: -8px;
-    left: @slider-bar-side-length + @slider-mark-margin-top;
+    left: (@slider-bar-side-length + @slider-mark-margin-top);
 
     &-content {
       margin-left: auto;

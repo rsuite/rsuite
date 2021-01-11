@@ -17,7 +17,7 @@
 
     &-content {
       font-size: @font-size;
-      line-height: unit(@diameter / @font-size);
+      line-height: unit((@diameter / @font-size));
     }
 
     &-vertical & {
@@ -25,7 +25,7 @@
     }
 
     &-vertical &-content {
-      line-height: unit(@line-height-computed / @font-size);
+      line-height: unit((@line-height-computed / @font-size));
     }
   }
 }

@@ -3,7 +3,7 @@
 <!--start-code-->
 
 ```js
-const instance = <Input componentClass="textarea" rows={} placeholder="Textarea" />;
+const instance = <Input componentClass="textarea" rows={3} placeholder="Textarea" />;
 
 ReactDOM.render(instance);
 ```

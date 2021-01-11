@@ -52,12 +52,12 @@
 
   // Title
   &-title {
-    .ellipsis;
+    .ellipsis();
     .ie-text-align(left);
 
     color: @notify-title-font-color;
     font-size: @notify-title-font-size;
-    line-height: unit(@notify-title-icon-size / @notify-title-font-size);
+    line-height: unit((@notify-title-icon-size / @notify-title-font-size));
 
     > p {
       margin: 0;
@@ -72,7 +72,7 @@
   }
 
   &-title-with-icon {
-    .ellipsis;
+    .ellipsis();
   }
 
   // Description
@@ -99,7 +99,7 @@
     cursor: pointer;
 
     &-x::before {
-      .icon-font;
+      .icon-font();
 
       content: @default-close-btn-content;
     }

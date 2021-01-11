@@ -98,7 +98,7 @@
     // Set  the ripple effect of items.
     &-item:not(.@{ns}dropdown-item-submenu) > .@{ns}dropdown-item-content,
     &-item-submenu > .@{ns}dropdown-item-content > .@{ns}dropdown-menu-toggle {
-      .button-ripple;
+      .button-ripple();
     }
 
     // Remove the ripple effect of disabled items.
@@ -125,7 +125,7 @@
 
     // Dropdown menu
     > .@{ns}dropdown-menu {
-      .reset-sidenav-dropdown-menu;
+      .reset-sidenav-dropdown-menu();
 
       // Submenu
       .@{ns}dropdown-item-submenu > .@{ns}dropdown-item-content {
@@ -137,7 +137,7 @@
         }
 
         > .@{ns}dropdown-menu {
-          .reset-sidenav-dropdown-menu;
+          .reset-sidenav-dropdown-menu();
         }
 
         &:hover {

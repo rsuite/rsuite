@@ -27,7 +27,7 @@
     border-bottom: 1px solid @table-border-color;
 
     &.virtualized {
-      .pointer-event-none;
+      .pointer-event-none();
     }
   }
 
@@ -130,7 +130,7 @@
     background-color: @table-loader-backdrop-color;
     opacity: 0;
     transition: opacity @table-loader-transition;
-    .pointer-event-none;
+    .pointer-event-none();
   }
 
   &-loader {
@@ -143,7 +143,7 @@
 
     &-icon {
       .set-side-length(@loader-default-diameter);
-      .loader-spin;
+      .loader-spin();
 
       display: inline-block;
       position: relative;
@@ -192,7 +192,7 @@
     &-content {
       padding: @table-body-content-padding-vertical @table-content-padding-horizontal;
 
-      .ellipsis;
+      .ellipsis();
     }
 
     &-header &-content {
@@ -239,7 +239,7 @@
   }
 
   &-column-resize-spanner {
-    .column-resize-spanner;
+    .column-resize-spanner();
 
     border-left: @table-column-resize-spanner-gap-width solid @table-spanner-background;
     box-sizing: content-box;
@@ -315,7 +315,7 @@
     z-index: @zindex-table-mouse-area;
 
     > span {
-      .column-resize-spanner;
+      .column-resize-spanner();
 
       background-color: @table-resize-mouse-color;
       position: absolute;

@@ -12,7 +12,7 @@
   border: none;
   user-select: none;
 
-  .btn-md;
+  .btn-md();
 
   &:hover,
   &:focus {
@@ -57,7 +57,7 @@
 
 // Subtle  button style
 .btn-subtle() {
-  .btn-transition;
+  .btn-transition();
   .btn-subtle-variant(@btn-subtle-hover-bg);
   .btn-loading-reset(@btn-subtle-color);
 
@@ -155,8 +155,8 @@
 
 // Full button size
 .button-size(@padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius) {
-  @icon-side-length: @padding-vertical*2 + floor(@font-size* @line-height);
-  @ghost-icon-side-length: @icon-side-length - @btn-ghost-border-width*2;
+  @icon-side-length: ((@padding-vertical*2) + floor(@font-size* @line-height));
+  @ghost-icon-side-length: (@icon-side-length - @btn-ghost-border-width*2);
   @svg-icon-height: @font-size;
 
   .button-size(
@@ -171,23 +171,23 @@
 
   // Button icon
   &.@{ns}btn-icon {
-    padding-left: @icon-side-length - @padding-horizontal;
+    padding-left: (@icon-side-length - @padding-horizontal);
     height: @icon-side-length;
     position: relative;
 
     // Ghost button need minus border-width.
     .@{ns}btn-ghost& {
-      padding-left: @icon-side-length - @padding-horizontal - @btn-ghost-border-width*2;
+      padding-left: (@icon-side-length - @padding-horizontal - @btn-ghost-border-width * 2);
     }
 
     &.@{ns}btn-icon-with-text {
       &.@{ns}btn-icon-placement-left {
-        padding-left: @icon-side-length + @padding-vertical;
+        padding-left: (@icon-side-length + @padding-vertical);
       }
 
       &.@{ns}btn-icon-placement-right {
         padding-left: @padding-base-input-horizontal;
-        padding-right: @icon-side-length + @padding-vertical;
+        padding-right: (@icon-side-length + @padding-vertical);
 
         > .@{ns}icon {
           left: auto;
@@ -231,7 +231,7 @@
   /* stylelint-disable */ //Formatted by prettier
   .button-size(
     base; @padding-small-vertical; @padding-small-horizontal; @font-size-base; @line-height-base;
-    @btn-border-radius-small
+      @btn-border-radius-small
   );
   /* stylelint-enable */
 }
@@ -240,7 +240,7 @@
   /* stylelint-disable */ //Formatted by prettier
   .button-size(
     base; @padding-base-vertical; @padding-base-horizontal; @font-size-base; @line-height-base;
-    @btn-border-radius-base
+      @btn-border-radius-base
   );
   /* stylelint-enable */
 }
@@ -249,7 +249,7 @@
   /* stylelint-disable */ //Formatted by prettier
   .button-size(
     base; @padding-extra-small-vertical; @padding-extra-small-horizontal; @font-size-small;
-    @line-height-small; @btn-border-radius-small
+      @line-height-small; @btn-border-radius-small
   );
   /* stylelint-enable */
 }
@@ -258,7 +258,7 @@
   /* stylelint-disable */ //Formatted by prettier
   .button-size(
     base; @padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large;
-    @btn-border-radius-large
+      @btn-border-radius-large
   );
   /* stylelint-enable */
 }
@@ -268,7 +268,7 @@
   /* stylelint-disable */ //Formatted by prettier
   .button-size(
     @padding-small-vertical; @padding-small-horizontal; @font-size-base; @line-height-base;
-    @btn-border-radius-small
+      @btn-border-radius-small
   );
   /* stylelint-enable */
 }
@@ -277,7 +277,7 @@
   /* stylelint-disable */ //Formatted by prettier
   .button-size(
     @padding-base-vertical; @padding-base-horizontal; @font-size-base; @line-height-base;
-    @btn-border-radius-base
+      @btn-border-radius-base
   );
   /* stylelint-enable */
 }
@@ -286,7 +286,7 @@
   /* stylelint-disable */ //Formatted by prettier
   .button-size(
     @padding-extra-small-vertical; @padding-extra-small-horizontal; @font-size-small;
-    @line-height-small; @btn-border-radius-small
+      @line-height-small; @btn-border-radius-small
   );
   /* stylelint-enable */
 }
@@ -295,7 +295,7 @@
   /* stylelint-disable */ //Formatted by prettier
   .button-size(
     @padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large;
-    @btn-border-radius-large
+      @btn-border-radius-large
   );
   /* stylelint-enable */
 }
@@ -305,7 +305,7 @@
   overflow: hidden;
   position: relative;
 
-  .safari-border-radius-overflow-hidden;
+  .safari-border-radius-overflow-hidden();
 
   &:not(.@{prefix}disabled) {
     .@{ns}ripple {

@@ -2,7 +2,7 @@
 @import 'mixin';
 
 .@{ns}loader {
-  .clearfix;
+  .clearfix();
   .loader-size(@loader-default-diameter, @loader-default-content-font-size);
 
   height: @loader-default-diameter;
@@ -14,7 +14,7 @@
     display: inline-block;
     float: left;
 
-    .loader-spin;
+    .loader-spin();
   }
 
   //Loader spin
@@ -57,7 +57,7 @@
     }
 
     .@{ns}loader-content {
-      line-height: unit(@line-height-computed / @loader-default-content-font-size);
+      line-height: unit((@line-height-computed / @loader-default-content-font-size));
       text-align: center;
     }
 

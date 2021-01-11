@@ -9,7 +9,7 @@
 
 // Menu Items
 .@{slns}-menu-items {
-  .picker-menu-items-reset;
+  .picker-menu-items-reset();
   .picker-menu-group-common(@select-picker-prefix);
   .picker-menu-group-title(@select-picker-prefix);
   .picker-menu-group-closed(@select-picker-prefix);
@@ -17,17 +17,17 @@
 
 // Menu item
 .@{slns}-menu-item {
-  .picker-select-item;
+  .picker-select-item();
 
   &:not(&-disabled):hover,
   &&-focus {
-    .picker-item-hover;
+    .picker-item-hover();
 
     text-decoration: none;
   }
 
   &&-active {
-    .picker-item-active;
+    .picker-item-active();
 
     &,
     &:hover {
