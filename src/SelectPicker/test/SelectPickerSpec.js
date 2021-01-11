@@ -60,6 +60,7 @@ describe('SelectPicker', () => {
     const instance = getDOMNode(<Dropdown disabled />);
     const instanceDom = instance;
     assert.ok(instanceDom.className.match(/\bdisabled\b/));
+    assert.equal(instance.querySelector('[role=combobox]').getAttribute('aria-disabled'), 'true');
   });
 
   it('Should output a button', () => {
