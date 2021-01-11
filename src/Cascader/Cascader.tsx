@@ -543,6 +543,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
               cleanable={cleanable && !disabled}
               hasValue={hasValue}
               active={active}
+              aria-disabled={disabled}
             >
               {activeItemLabel || <FormattedMessage id="placeholder" />}
             </PickerToggle>

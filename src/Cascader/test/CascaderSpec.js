@@ -41,6 +41,7 @@ describe('Cascader', () => {
     const instance = getDOMNode(<Cascader disabled />);
 
     assert.ok(instance.className.match(/\bdisabled\b/));
+    assert.equal(instance.querySelector('[role=combobox]').getAttribute('aria-disabled'), 'true');
   });
 
   it('Should be inline', () => {
