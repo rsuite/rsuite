@@ -50,9 +50,8 @@ export function flattenTree(
 
     data.forEach((item: any, index: number) => {
       const node: any = typeof executor === 'function' ? executor(item, index) : item;
-      node.parent = parent;
-
-      flattenData.push({ ...node });
+      
+      flattenData.push({ ...node, parent });
 
       if (item[childrenKey]) {
         traverse(item[childrenKey], item);
