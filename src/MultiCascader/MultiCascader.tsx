@@ -536,6 +536,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
             active={this.state.active}
+            aria-disabled={disabled}
           >
             {selectedElement || locale.placeholder}
           </PickerToggle>

@@ -438,6 +438,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
             active={this.state.active}
+            aria-disabled={disabled}
           >
             {selectedElement || locale.placeholder}
           </PickerToggle>

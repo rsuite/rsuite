@@ -442,6 +442,7 @@ class DatePicker extends React.Component<DatePickerProps, DatePickerState> {
               cleanable={cleanable && !disabled}
               hasValue={hasValue}
               active={this.state.active}
+              aria-disabled={disabled}
             >
               {this.getDateString()}
             </PickerToggle>

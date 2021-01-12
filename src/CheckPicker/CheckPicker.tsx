@@ -505,6 +505,7 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
               cleanable={cleanable && !disabled}
               hasValue={hasValue}
               active={this.state.active}
+              aria-disabled={disabled}
             >
               {selectedElement || <FormattedMessage id="placeholder" />}
             </PickerToggle>

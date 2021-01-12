@@ -16,6 +16,7 @@ describe('DateRangePicker', () => {
   it('Should be disabled', () => {
     const instance = getDOMNode(<DateRangePicker disabled />);
     assert.ok(instance.className.match(/\bdisabled\b/));
+    assert.equal(instance.querySelector('[role=combobox]').getAttribute('aria-disabled'), 'true');
   });
 
   it('Should be disabled date', () => {

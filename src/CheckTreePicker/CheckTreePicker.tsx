@@ -1226,6 +1226,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
             cleanable={cleanable && !disabled}
             hasValue={hasValidValue}
             active={this.state.active}
+            aria-disabled={disabled}
           >
             {selectedElement || locale.placeholder}
           </PickerToggle>

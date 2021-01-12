@@ -72,6 +72,7 @@ describe('CheckTreePicker', () => {
     const instance = getDOMNode(<CheckTreePicker disabled data={[]} />);
 
     assert.ok(instance.className.match(/\bdisabled\b/));
+    assert.equal(instance.querySelector('[role=combobox]').getAttribute('aria-disabled'), 'true');
   });
 
   it('Should be block', () => {

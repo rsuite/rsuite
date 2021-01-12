@@ -570,6 +570,7 @@ class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePic
               cleanable={cleanable && !disabled}
               hasValue={hasValue}
               active={this.state.active}
+              aria-disabled={disabled}
             >
               {this.getDateString()}
             </PickerToggle>
