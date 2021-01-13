@@ -756,7 +756,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
 
   const renderTree = () => {
     const classes = withTreeClassPrefix({
-      [className]: inline,
+      [className ?? '']: inline,
       virtualized
     });
 
