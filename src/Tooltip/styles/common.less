@@ -45,7 +45,7 @@
 
 // Common style for .placement-top*
 .@{ns}tooltip[class*='placement-top'] {
-  margin-top: -@tooltip-arrow-width;
+  margin-top: -(@tooltip-arrow-width + 2px);
   .set-translate-transition(0, -@tooltip-translate-distance);
 
   .@{ns}tooltip-arrow {
@@ -62,7 +62,7 @@
 
 // Common style for .placement-bottom*
 .@{ns}tooltip[class*='placement-bottom'] {
-  margin-top: @tooltip-arrow-width;
+  margin-top: (@tooltip-arrow-width + 2px);
   .set-translate-transition(0, @tooltip-translate-distance);
 
   .@{ns}tooltip-arrow {
@@ -80,7 +80,7 @@
 /* rtl:begin:ignore */
 // Common style for .placement-right*
 .@{ns}tooltip[class*='placement-right'] {
-  margin-left: @tooltip-arrow-width;
+  margin-left: (@tooltip-arrow-width + 2px);
   .set-translate-transition(@tooltip-translate-distance, 0);
 
   .@{ns}tooltip-arrow {
@@ -97,7 +97,7 @@
 
 // Common style for .placement-lef*
 .@{ns}tooltip[class*='placement-left'] {
-  margin-left: -@tooltip-arrow-width;
+  margin-left: -(@tooltip-arrow-width + 2px);
   .set-translate-transition(-@tooltip-translate-distance, 0);
 
   .@{ns}tooltip-arrow {
