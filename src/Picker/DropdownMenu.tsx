@@ -194,7 +194,8 @@ class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState>
           className={classNames({
             folded: foldedGroupKeys.some(key => key === groupValue)
           })}
-          key={groupValue}
+          key={`group-${groupValue}`}
+          data-key={`group-${groupValue}`}
           onClick={this.handleGroupTitleClick.bind(null, groupValue)}
         >
           {renderMenuGroup ? renderMenuGroup(groupValue, item) : groupValue}
@@ -210,6 +211,7 @@ class DropdownMenu extends React.Component<DropdownMenuProps, DropdownMenuState>
 
     return (
       <DropdownMenuItem
+        data-key={itemKey}
         style={style}
         key={itemKey}
         disabled={disabled}
