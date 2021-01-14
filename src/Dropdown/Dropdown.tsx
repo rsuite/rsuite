@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { setStatic } from 'recompose';
+import { contains } from 'dom-lib';
+
 import RootCloseWrapper from '../Overlay/RootCloseWrapper';
 import shallowEqual from '../utils/shallowEqual';
-
 import DropdownToggle from './DropdownToggle';
 import DropdownMenu from './DropdownMenu';
 import DropdownMenuItem from './DropdownMenuItem';
@@ -15,7 +16,8 @@ import {
   isOneOf,
   getUnhandledProps,
   defaultProps,
-  placementPolyfill
+  placementPolyfill,
+  getDOMNode
 } from '../utils';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { PLACEMENT_8 } from '../constants';
@@ -72,12 +74,13 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
     trigger: 'click',
     tabIndex: 0
   };
-
+  rootRef: React.RefObject<any>;
   constructor(props: DropdownProps) {
     super(props);
     this.state = {
       open: props.open
     };
+    this.rootRef = React.createRef();
   }
 
   getOpen() {
@@ -99,8 +102,13 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
   };
 
   handleRootClose = (event: React.SyntheticEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
+    // Prevent the event from bubbling when closing the overlay is triggered by its own element.
+    // fix#1435
+    if (contains(getDOMNode(this.rootRef.current), event.target)) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
     this.setState({ open: false });
     this.props.onToggle?.(false);
     this.props.onClose?.();
@@ -250,7 +258,13 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
     });
 
     return (
-      <Component {...dropdownProps} style={style} className={classes} role="menu">
+      <Component
+        ref={this.rootRef}
+        {...dropdownProps}
+        style={style}
+        className={classes}
+        role="menu"
+      >
         {menu}
         {toggle}
       </Component>
