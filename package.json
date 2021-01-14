@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "4.8.7",
+  "version": "4.8.8",
   "description": "A suite of react components",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -9,6 +9,7 @@
     "lib": "lib/"
   },
   "scripts": {
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "format": "prettier --write \"{src,test}/**/*.{tsx,ts,js}\"",
     "format:style": "stylelint \"src/**/*.less\" --fix",
     "format:check": "prettier --list-different \"{src,test}/**/*.{tsx,ts,js}\"",
@@ -106,6 +107,7 @@
     "babel-plugin-transform-dev": "^2.0.1",
     "brfs": "^1.6.1",
     "chai": "^4.1.0",
+    "conventional-changelog-cli": "^2.1.1",
     "coveralls": "^2.13.1",
     "cross-env": "^6.0.3",
     "css-loader": "^0.28.11",

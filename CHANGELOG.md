@@ -1,3 +1,15 @@
+<a name="4.8.8"></a>
+## [4.8.8](https://github.com/rsuite/rsuite/compare/4.8.7...4.8.8) (2021-01-14)
+
+
+### Bug Fixes
+
+* **dropdown:** fix the issue of Dropdown close event ([#1455](https://github.com/rsuite/rsuite/issues/1455)) ([76e060d](https://github.com/rsuite/rsuite/commit/76e060d)), closes [#1435](https://github.com/rsuite/rsuite/issues/1435)
+* **picker:** fixed the non-unique key in the Picker option when groupBy ([#1453](https://github.com/rsuite/rsuite/issues/1453)) ([1f9f790](https://github.com/rsuite/rsuite/commit/1f9f790)), closes [#1419](https://github.com/rsuite/rsuite/issues/1419)
+* **whisper:** fix overlay jittering when the cursor is hovered ([#1454](https://github.com/rsuite/rsuite/issues/1454)) ([6537057](https://github.com/rsuite/rsuite/commit/6537057)), closes [#1402](https://github.com/rsuite/rsuite/issues/1402)
+
+
+
 # 4.8.7
 
 - fix(panel): fix the problem of wrong type definition in `Panel` [#1449]
