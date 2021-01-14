@@ -38,7 +38,7 @@ describe('Popover styles', () => {
       createTestContainer()
     );
     const dom = document.querySelector('.popover-top-start');
-    assert.equal(getStyle(dom, 'marginTop'), '-6px', 'Popover margin value');
+    assert.equal(getStyle(dom, 'marginTop'), '-8px', 'Popover margin value');
     const arrowDom = dom.querySelector('.rs-popover-arrow');
     assert.equal(getStyle(arrowDom, 'bottom'), '-6px', 'Popover arrow bottom value');
     assert.equal(getStyle(arrowDom, 'marginLeft'), '-6px', 'Popover arrow bottom value');
