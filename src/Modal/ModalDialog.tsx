@@ -14,7 +14,9 @@ export const modalDialogPropTypes = {
   style: PropTypes.object,
   dialogStyle: PropTypes.object,
   children: PropTypes.node,
-  dialogRef: refType
+  dialogRef: refType,
+  id: PropTypes.string,
+  'aria-labelledby': PropTypes.string
 };
 
 class ModalDialog extends React.Component<ModalDialogProps> {
