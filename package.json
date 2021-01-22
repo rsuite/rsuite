@@ -68,7 +68,6 @@
     "prop-types": "^15.7.2",
     "react-text-mask": "^5.4.3",
     "react-virtualized": "^9.21.0",
-    "recompose": "^0.30.0",
     "rsuite-table": "^5.0.0-alpha",
     "schema-typed": "^1.5.1"
   },
@@ -100,7 +99,6 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-virtualized": "^9.21.10",
-    "@types/recompose": "^0.30.6",
     "@typescript-eslint/eslint-plugin": "^4.11.1",
     "@typescript-eslint/parser": "^4.11.1",
     "autoprefixer": "^8.3.0",
