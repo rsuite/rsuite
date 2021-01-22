@@ -156,7 +156,7 @@ const DropdownMenu = React.forwardRef(
             className={classNames({
               folded: foldedGroupKeys.some(key => key === groupValue)
             })}
-            key={groupValue}
+            key={`group-${groupValue}`}
             onClick={handleGroupTitleClick.bind(null, groupValue)}
           >
             {renderMenuGroup ? renderMenuGroup(groupValue, item) : groupValue}
