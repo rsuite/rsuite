@@ -118,7 +118,7 @@ const DropdownMenu = React.forwardRef(
         return;
       }
 
-      const position = getPosition(activeItem, container);
+      const position = getPosition(activeItem as HTMLElement, container);
       const sTop = scrollTop(container);
       const sHeight = getHeight(container);
       if (sTop > position.top) {

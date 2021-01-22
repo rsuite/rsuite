@@ -157,7 +157,7 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
     this.instanceElement = null;
   }
 
-  onTransitionEnd(node: React.ReactNode, handler: React.AnimationEventHandler) {
+  onTransitionEnd(node: HTMLElement, handler: React.AnimationEventHandler) {
     this.setNextCallback(handler);
 
     this.animationEventListener?.off();
@@ -166,7 +166,7 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
       const { timeout, animation } = this.props;
       this.animationEventListener = on(
         node,
-        animation ? getAnimationEnd() : transition.end,
+        animation ? getAnimationEnd() : transition().end,
         this.nextCallback
       );
       if (timeout !== null) {
