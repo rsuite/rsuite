@@ -30,18 +30,48 @@
 @B800: #575757;
 @B900: #272c36;
 
+// see https://rsuitejs.com/design/default
+:root {
+  --rs-color-white: #fff;
+  --rs-color-black-0: #f7f7fa;
+  --rs-color-black-1: #f2f2f5;
+  --rs-color-black-2: #e5e5ea;
+  --rs-color-black-3: #d9d9d9;
+  --rs-color-black-4: #c5c6c7;
+  --rs-color-black-5: #a6a6a6;
+  --rs-color-black-6: #8e8e93;
+  --rs-color-black-7: #7a7a7a;
+  --rs-color-black-8: #575757;
+  --rs-color-black-9: #272c36;
+}
+
 //** Pallet
-@base-color: #3498ff;
-@H050: color(~`palette('@{base-color}', 50)`);
-@H100: color(~`palette('@{base-color}', 100)`);
-@H200: color(~`palette('@{base-color}', 200)`);
-@H300: color(~`palette('@{base-color}', 300)`);
-@H400: color(~`palette('@{base-color}', 400)`);
-@H500: @base-color;
-@H600: color(~`palette('@{base-color}', 600)`);
-@H700: color(~`palette('@{base-color}', 700)`);
-@H800: color(~`palette('@{base-color}', 800)`);
-@H900: color(~`palette('@{base-color}', 900)`);
+@base-color: #3498ff; // TODO: Deprecate, use --rs-color-highlight
+@H050: color(~`palette('@{base-color}', 50)`); // TODO: Deprecate, use --rs-color-highlight-0
+@H100: color(~`palette('@{base-color}', 100)`); // TODO: Deprecate, use --rs-color-highlight-1
+@H200: color(~`palette('@{base-color}', 200)`); // TODO: Deprecate, use --rs-color-highlight-2
+@H300: color(~`palette('@{base-color}', 300)`); // TODO: Deprecate, use --rs-color-highlight-3
+@H400: color(~`palette('@{base-color}', 400)`); // TODO: Deprecate, use --rs-color-highlight-4
+@H500: @base-color; // TODO: Deprecate, use --rs-color-highlight-5
+@H600: color(~`palette('@{base-color}', 600)`); // TODO: Deprecate, use --rs-color-highlight-6
+@H700: color(~`palette('@{base-color}', 700)`); // TODO: Deprecate, use --rs-color-highlight-7
+@H800: color(~`palette('@{base-color}', 800)`); // TODO: Deprecate, use --rs-color-highlight-8
+@H900: color(~`palette('@{base-color}', 900)`); // TODO: Deprecate, use --rs-color-highlight-9
+
+// see https://rsuitejs.com/design/default
+:root {
+  --rs-color-highlight: #3498ff;
+  --rs-color-highlight-0: #f2faff;
+  --rs-color-highlight-1: #cce9ff;
+  --rs-color-highlight-2: #a6d7ff;
+  --rs-color-highlight-3: #80c4ff;
+  --rs-color-highlight-4: #59afff;
+  --rs-color-highlight-5: #3498ff;
+  --rs-color-highlight-6: #2589f5;
+  --rs-color-highlight-7: #1675e0;
+  --rs-color-highlight-8: #0a5dc2;
+  --rs-color-highlight-9: #004299;
+}
 
 //** spectrum
 @red: #f44336;
@@ -53,33 +83,63 @@
 @violet: #673ab7;
 @spectrum: red, orange, yellow, green, cyan, blue, violet;
 
+:root {
+  --rs-color-spectrum-red: #f44336;
+  --rs-color-spectrum-orange: #ff9800;
+  --rs-color-spectrum-yellow: #ffca28;
+  --rs-color-spectrum-green: #4caf50;
+  --rs-color-spectrum-cyan: #00bcd4;
+  --rs-color-spectrum-blue: #2196f3;
+  --rs-color-spectrum-violet: #673ab7;
+}
+
 //** Sub colors.
-@success-color: #4caf50;
-@success-light-color: #edfae1;
+@success-color: #4caf50; // TODO: Deprecate, use --rs-color-state-success
+@success-light-color: #edfae1; // TODO: Deprecate use --rs-color-bg-success
 
-@info-color: #2196f3;
-@info-light-color: #e9f5fe;
+@info-color: #2196f3; // TODO: Deprecate, use --rs-color-state-info
+@info-light-color: #e9f5fe; // TODO: Deprecate, use --rs-color-bg-info
 
-@warning-color: #ffb300;
-@warning-light-color: #fff9e6;
+@warning-color: #ffb300; // TODO: Deprecate, use --rs-color-state-warning
+@warning-light-color: #fff9e6; // TODO: Deprecate, use --rs-color-bg-warning
 
-@error-color: #f44336;
-@error-light-color: #fde9ef;
+@error-color: #f44336; // TODO: Deprecate, use --rs-color-state-error
+@error-light-color: #fde9ef; // TODO: Deprecate, use --rs-color-bg-error
+
+:root {
+  --rs-color-state-success: #4caf50;
+  --rs-color-state-info: #2196f3;
+  --rs-color-state-warning: #ffb300;
+  --rs-color-state-error: #f44336;
+
+  --rs-color-bg-success: #edfae1;
+  --rs-color-bg-info: #e9f5fe;
+  --rs-color-bg-warning: #fff9e6;
+  --rs-color-bg-error: #fde9ef;
+}
 
 //** Global textual link color.
-@link-color: @H700;
+@link-color: @H700; // TODO: Deprecate, use --rs-color-text-link
 //** Link hover color.
-@link-hover-color: @H800;
+@link-hover-color: @H800; // TODO: Deprecate, use --rs-color-text-link-hover
 //** Link Active color
-@link-active-color: @H900;
+@link-active-color: @H900; // TODO: Deprecate, use --rs-color-text-link-active
 //** border base color.
-@border-base-color: @B300;
+@border-base-color: @B300; // TODO: Deprecate, use --rs-color-border-primary
 //** base bg color.
-@base-bg-color: @B050;
+@base-bg-color: @B050; // TODO: Deprecate, unused
 //** border primary color.
-@border-primary-color: @H500;
+@border-primary-color: @H500; // TODO: Deprecate, use --rs-color-highlight
 //** loading text color
-@loading-text-color: @B800;
+@loading-text-color: @B800; // TODO: Deprecate, unused
+
+:root {
+  --rs-color-text-link: var(--rs-color-highlight-7);
+  --rs-color-text-link-hover: var(--rs-color-highlight-8);
+  --rs-color-text-link-active: var(--rs-color-highlight-9);
+
+  --rs-color-border-primary: var(--rs-color-black-3);
+}
 
 //** Global button ripple switch
 @button-ripple: true;
