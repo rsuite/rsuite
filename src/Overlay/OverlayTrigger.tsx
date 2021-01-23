@@ -113,7 +113,7 @@ function onMouseEventHandler(
   const target = event.currentTarget;
   const related = event.relatedTarget || get(event, ['nativeEvent', 'toElement']);
 
-  if ((!related || related !== target) && !contains(target, related)) {
+  if ((!related || related !== target) && !contains(target as HTMLElement, related)) {
     handler(event, delay);
   }
 }
