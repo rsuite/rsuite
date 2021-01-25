@@ -32,26 +32,11 @@
   }
 }
 
-// When browser don't support `pointer-events`,need reset button styles.
-.btn-loading-reset(@color,@background-color:transparent) {
-  &.@{ns}btn-loading {
-    &:hover,
-    &:not(.@{ns}btn-disabled):hover,
-    &:focus,
-    &:active,
-    &:hover:active {
-      color: @color;
-      background-color: @background-color;
-    }
-  }
-}
-
 // Subtle  button style
 .btn-subtle() {
   .btn-subtle-variant(@btn-subtle-hover-bg);
-  .btn-loading-reset(@btn-subtle-color);
 
-  &.@{ns}btn-disabled {
+  &.rs-btn-disabled {
     &,
     &:hover,
     &:focus,

@@ -31,8 +31,6 @@
   color: @btn-default-color;
   background: @btn-default-bg;
 
-  .btn-loading-reset(@btn-default-color, @btn-default-bg);
-
   &,
   & > .@{ns}icon {
     .btn-transition();
@@ -85,8 +83,6 @@
 .rs-btn-primary {
   .button-primary-variant(@btn-primary-color; @btn-primary-bg; @calc-readable-color: true);
 
-  .btn-loading-reset(@btn-primary-color; @btn-primary-bg);
-
   &,
   & > .@{ns}icon {
     .btn-transition();
@@ -99,7 +95,6 @@
 // Subtle Button
 .rs-btn-subtle {
   .btn-subtle-variant(@btn-subtle-hover-bg);
-  .btn-loading-reset(@btn-subtle-color);
 
   &.@{ns}btn-disabled {
     &,
@@ -139,7 +134,6 @@
 // Link buttons
 .rs-btn-link {
   .btn-link-variant(@btn-link-color);
-  .btn-loading-reset(@btn-link-color);
 
   .generate-spectrum-link-btns();
 }
