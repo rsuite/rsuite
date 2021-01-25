@@ -30,21 +30,6 @@
 @B800: #575757;
 @B900: #272c36;
 
-// see https://rsuitejs.com/design/default
-:root {
-  --rs-color-white: #fff;
-  --rs-color-black-0: #f7f7fa;
-  --rs-color-black-1: #f2f2f5;
-  --rs-color-black-2: #e5e5ea;
-  --rs-color-black-3: #d9d9d9;
-  --rs-color-black-4: #c5c6c7;
-  --rs-color-black-5: #a6a6a6;
-  --rs-color-black-6: #8e8e93;
-  --rs-color-black-7: #7a7a7a;
-  --rs-color-black-8: #575757;
-  --rs-color-black-9: #272c36;
-}
-
 //** Pallet
 @base-color: #3498ff; // TODO: Deprecate, use --rs-color-highlight
 @H050: color(~`palette('@{base-color}', 50)`); // TODO: Deprecate, use --rs-color-highlight-0
@@ -58,21 +43,6 @@
 @H800: color(~`palette('@{base-color}', 800)`); // TODO: Deprecate, use --rs-color-highlight-8
 @H900: color(~`palette('@{base-color}', 900)`); // TODO: Deprecate, use --rs-color-highlight-9
 
-// see https://rsuitejs.com/design/default
-:root {
-  --rs-color-highlight: #3498ff;
-  --rs-color-highlight-0: #f2faff;
-  --rs-color-highlight-1: #cce9ff;
-  --rs-color-highlight-2: #a6d7ff;
-  --rs-color-highlight-3: #80c4ff;
-  --rs-color-highlight-4: #59afff;
-  --rs-color-highlight-5: #3498ff;
-  --rs-color-highlight-6: #2589f5;
-  --rs-color-highlight-7: #1675e0;
-  --rs-color-highlight-8: #0a5dc2;
-  --rs-color-highlight-9: #004299;
-}
-
 //** spectrum
 @red: #f44336;
 @orange: #ff9800;
@@ -82,16 +52,6 @@
 @blue: #2196f3;
 @violet: #673ab7;
 @spectrum: red, orange, yellow, green, cyan, blue, violet;
-
-:root {
-  --rs-color-spectrum-red: #f44336;
-  --rs-color-spectrum-orange: #ff9800;
-  --rs-color-spectrum-yellow: #ffca28;
-  --rs-color-spectrum-green: #4caf50;
-  --rs-color-spectrum-cyan: #00bcd4;
-  --rs-color-spectrum-blue: #2196f3;
-  --rs-color-spectrum-violet: #673ab7;
-}
 
 //** Sub colors.
 @success-color: #4caf50; // TODO: Deprecate, use --rs-color-state-success
@@ -105,18 +65,6 @@
 
 @error-color: #f44336; // TODO: Deprecate, use --rs-color-state-error
 @error-light-color: #fde9ef; // TODO: Deprecate, use --rs-color-bg-error
-
-:root {
-  --rs-color-state-success: #4caf50;
-  --rs-color-state-info: #2196f3;
-  --rs-color-state-warning: #ffb300;
-  --rs-color-state-error: #f44336;
-
-  --rs-color-bg-success: #edfae1;
-  --rs-color-bg-info: #e9f5fe;
-  --rs-color-bg-warning: #fff9e6;
-  --rs-color-bg-error: #fde9ef;
-}
 
 //** Global textual link color.
 @link-color: @H700; // TODO: Deprecate, use --rs-color-text-link
@@ -133,11 +81,57 @@
 //** loading text color
 @loading-text-color: @B800; // TODO: Deprecate, unused
 
+// see https://rsuitejs.com/design/default
 :root {
+  // Black levels
+  --rs-color-white: #fff;
+  --rs-color-black-0: #f7f7fa;
+  --rs-color-black-1: #f2f2f5;
+  --rs-color-black-2: #e5e5ea;
+  --rs-color-black-3: #d9d9d9;
+  --rs-color-black-4: #c5c6c7;
+  --rs-color-black-5: #a6a6a6;
+  --rs-color-black-6: #8e8e93;
+  --rs-color-black-7: #7a7a7a;
+  --rs-color-black-8: #575757;
+  --rs-color-black-9: #272c36;
+
+  // Highlight levels
+  --rs-color-highlight: #3498ff;
+  --rs-color-highlight-0: #f2faff;
+  --rs-color-highlight-1: #cce9ff;
+  --rs-color-highlight-2: #a6d7ff;
+  --rs-color-highlight-3: #80c4ff;
+  --rs-color-highlight-4: #59afff;
+  --rs-color-highlight-5: #3498ff;
+  --rs-color-highlight-6: #2589f5;
+  --rs-color-highlight-7: #1675e0;
+  --rs-color-highlight-8: #0a5dc2;
+  --rs-color-highlight-9: #004299;
+
+  // Spectrum
+  --rs-color-spectrum-red: #f44336;
+  --rs-color-spectrum-orange: #ff9800;
+  --rs-color-spectrum-yellow: #ffca28;
+  --rs-color-spectrum-green: #4caf50;
+  --rs-color-spectrum-cyan: #00bcd4;
+  --rs-color-spectrum-blue: #2196f3;
+  --rs-color-spectrum-violet: #673ab7;
+
+  // States
+  --rs-color-state-success: #4caf50;
+  --rs-color-state-info: #2196f3;
+  --rs-color-state-warning: #ffb300;
+  --rs-color-state-error: #f44336;
+  --rs-color-bg-success: #edfae1;
+  --rs-color-bg-info: #e9f5fe;
+  --rs-color-bg-warning: #fff9e6;
+  --rs-color-bg-error: #fde9ef;
+
+  // Misc
   --rs-color-text-link: var(--rs-color-highlight-7);
   --rs-color-text-link-hover: var(--rs-color-highlight-8);
   --rs-color-text-link-active: var(--rs-color-highlight-9);
-
   --rs-color-border-primary: var(--rs-color-black-3);
 }
 
