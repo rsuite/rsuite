@@ -7,18 +7,29 @@
 
 // Base styles
 // --------------------------------------------------
-.@{ns}btn {
-  .btn();
+.rs-btn {
+  .btn(base);
+
+  &:disabled,
+  &.rs-btn-disabled {
+    cursor: @cursor-disabled !important;
+    opacity: 0.3;
+    box-shadow: none !important;
+
+    .rs-ripple-pond {
+      display: none !important;
+    }
+  }
 }
 
-.@{ns}btn-default,
-.@{ns}btn-primary,
-.@{ns}btn-subtle {
+.rs-btn-default,
+.rs-btn-primary,
+.rs-btn-subtle {
   .button-ripple();
 }
 
 // Button Loading state
-.@{ns}btn-loading {
+.rs-btn-loading {
   color: transparent !important;
   position: relative;
   cursor: default;
@@ -70,7 +81,7 @@
 
 // Default Button
 // Rewrite common button style
-.@{ns}btn-default {
+.rs-btn-default {
   color: @btn-default-color;
   background: @btn-default-bg;
 
@@ -80,8 +91,6 @@
   & > .@{ns}icon {
     .btn-transition();
   }
-
-  .btn-focus(@primary-color);
 
   &:focus {
     color: @btn-default-color;
@@ -126,7 +135,7 @@
 }
 
 // Primary Button
-.@{ns}btn-primary {
+.rs-btn-primary {
   .button-primary-variant(@btn-primary-color; @btn-primary-bg; @calc-readable-color: true);
 
   .btn-loading-reset(@btn-primary-color; @btn-primary-bg);
@@ -140,7 +149,7 @@
 }
 
 // Link buttons
-.@{ns}btn-link {
+.rs-btn-link {
   .btn-transition(color);
   .btn-link-variant(@btn-link-color);
   .btn-loading-reset(@btn-link-color);
@@ -149,12 +158,47 @@
 }
 
 // Subtle Button
-.@{ns}btn-subtle {
-  .btn-subtle();
+.rs-btn-subtle {
+  .btn-transition();
+  .btn-subtle-variant(@btn-subtle-hover-bg);
+  .btn-loading-reset(@btn-subtle-color);
+
+  &.@{ns}btn-disabled {
+    &,
+    &:hover,
+    &:focus,
+    &:active {
+      // Reset Opacity;
+      opacity: 1;
+    }
+  }
+
+  &:focus,
+  &.@{ns}btn-focus,
+  &:hover {
+    color: @btn-subtle-default-hover-color;
+  }
+
+  &:active,
+  &.@{ns}btn-active,
+  .@{ns}open > .@{ns}dropdown-toggle& {
+    color: @btn-subtle-active-default-color;
+    background-color: @btn-subtle-active-default-bg;
+    background-image: none;
+
+    &:hover,
+    &:focus,
+    &.focus {
+      color: @btn-subtle-active-default-color;
+      background-color: @btn-subtle-active-default-bg;
+    }
+  }
+
+  .generate-spectrum-subtle-btns();
 }
 
 // Ghost Button
-.@{ns}btn-ghost {
+.rs-btn-ghost {
   .btn-transition();
   .btn-ghost-variant(@btn-ghost-color, @btn-ghost-border-color);
 

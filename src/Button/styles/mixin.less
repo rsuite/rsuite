@@ -14,6 +14,10 @@
 
   .btn-md();
 
+  &:focus {
+    box-shadow: @btn-focus-shadow;
+  }
+
   &:hover,
   &:focus {
     color: @btn-default-color;
@@ -24,21 +28,6 @@
   &.@{ns}btn-active {
     outline: 0;
     background-image: none;
-  }
-}
-
-// Button full styles
-.btn() {
-  .btn(base);
-
-  &.@{ns}btn-disabled {
-    cursor: @cursor-disabled !important;
-    opacity: 0.3;
-    box-shadow: none !important;
-
-    .@{ns}ripple-pond {
-      display: none !important;
-    }
   }
 }
 
@@ -301,7 +290,7 @@
 }
 
 // Button ripple
-.button-ripple(@prefix:~'@{ns}btn-') when (@button-ripple = true) {
+.button-ripple(@prefix:~'rs-btn-') when (@button-ripple = true) {
   overflow: hidden;
   position: relative;
 
@@ -351,10 +340,4 @@
 
 .btn-transition(color) {
   transition: color 0.2s linear;
-}
-
-.btn-focus(@color) {
-  &:focus {
-    box-shadow: 0 0 0 3px fade(@color, 25%);
-  }
 }
