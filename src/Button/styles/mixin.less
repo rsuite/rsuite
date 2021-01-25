@@ -11,6 +11,7 @@
   // Reset border style in all browser
   border: none;
   user-select: none;
+  transition: @btn-transition;
 
   .btn-md();
 
@@ -47,7 +48,6 @@
 
 // Subtle  button style
 .btn-subtle() {
-  .btn-transition();
   .btn-subtle-variant(@btn-subtle-hover-bg);
   .btn-loading-reset(@btn-subtle-color);
 
@@ -335,7 +335,7 @@
 
 // Button transition
 .btn-transition() {
-  transition: color 0.2s linear, background-color 0.3s linear;
+  transition: @btn-transition;
 }
 
 .btn-transition(color) {
