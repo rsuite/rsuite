@@ -31,11 +31,6 @@
   color: @btn-default-color;
   background: @btn-default-bg;
 
-  &,
-  & > .@{ns}icon {
-    .btn-transition();
-  }
-
   &:focus {
     color: @btn-default-color;
     background-color: @btn-default-focus-bg;
@@ -82,11 +77,6 @@
 // Primary Button
 .rs-btn-primary {
   .button-primary-variant(@btn-primary-color; @btn-primary-bg; @calc-readable-color: true);
-
-  &,
-  & > .@{ns}icon {
-    .btn-transition();
-  }
 
   .generate-spectrum-primary-btns();
   .button-ripple();
