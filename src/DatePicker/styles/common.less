@@ -6,18 +6,18 @@
 // ----------------------
 
 // Change the <caret/> & <clean/> vertical position make it align middle.
-.@{ns}@{date-picker-prefix},
-.@{ns}@{date-range-picker-prefix} {
-  &.@{ns}picker-default {
-    .@{ns}picker-toggle-caret,
-    .@{ns}picker-toggle-clean {
+.rs-@{date-picker-prefix},
+.rs-@{date-range-picker-prefix} {
+  &.rs-picker-default {
+    .rs-picker-toggle-caret,
+    .rs-picker-toggle-clean {
       top: @padding-base-vertical - @picker-default-toggle-border-width;
     }
   }
 }
 
 // Toolbar
-.@{ns}picker-toolbar {
+.rs-picker-toolbar {
   .clearfix();
 
   padding: @calendar-picker-padding;
@@ -33,23 +33,23 @@
 }
 
 // Picker date
-.@{ns}@{date-picker-prefix} {
+.rs-@{date-picker-prefix} {
   &-inline {
     height: 299px;
 
-    .@{ns}@{calendar-picker-prefix} {
+    .rs-@{calendar-picker-prefix} {
       height: 286px;
     }
   }
 }
 
 // In picker menu
-.@{ns}picker-menu {
-  .@{ns}picker-toolbar {
+.rs-picker-menu {
+  .rs-picker-toolbar {
     max-width: @calendar-header-width;
   }
 
-  .@{ns}@{calendar-picker-prefix} {
+  .rs-@{calendar-picker-prefix} {
     width: @calendar-header-width;
     // To make sure <Calendar/> horizontal align at center when toolbar  width is so long.
     display: block;

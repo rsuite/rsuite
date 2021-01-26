@@ -3,67 +3,67 @@
 // NavBar
 // --------------------------------------------------
 
-.@{ns}navbar {
+.rs-navbar {
   .clearfix();
 }
 
-.@{ns}navbar-header {
+.rs-navbar-header {
   float: left;
   display: inline-block;
   height: @nav-bar-height;
 }
 
 // Common
-.@{ns}navbar-nav {
+.rs-navbar-nav {
   float: left;
 
-  &.@{ns}navbar-right {
+  &.rs-navbar-right {
     float: right;
   }
 
   // Nav item content
-  .@{ns}nav-item {
+  .rs-nav-item {
     // Reset padding
     padding: @nav-bar-padding-vertical @nav-bar-padding-horizontal;
     height: @nav-bar-height;
   }
 
   // Reset border-radius
-  .@{ns}nav-item:not(.@{ns}nav-item-disabled),
-  .@{ns}dropdown > .@{ns}dropdown-toggle {
+  .rs-nav-item:not(.rs-nav-item-disabled),
+  .rs-dropdown > .rs-dropdown-toggle {
     border-radius: 0;
   }
 
   // DropDown
-  .@{ns}dropdown > .@{ns}dropdown-toggle {
+  .rs-dropdown > .rs-dropdown-toggle {
     padding: @nav-bar-padding-vertical @nav-bar-padding-horizontal;
     padding-right: @nav-bar-padding-horizontal+ @dropdown-caret-width+ @dropdown-caret-padding;
     height: @nav-bar-height;
   }
 
-  .@{ns}dropdown-toggle-caret {
+  .rs-dropdown-toggle-caret {
     top: @nav-bar-padding-vertical;
     right: @nav-bar-padding-horizontal;
   }
 }
 
 // Default Navbar
-.@{ns}navbar.@{ns}navbar-default {
+.rs-navbar.rs-navbar-default {
   background-color: @nav-bar-default-bg;
 
   //font-color
   &,
-  & .@{ns}navbar-header a {
+  & .rs-navbar-header a {
     color: @nav-bar-default-font-color;
   }
 
-  .@{ns}dropdown .@{ns}dropdown-toggle,
-  .@{ns}nav-item {
+  .rs-dropdown .rs-dropdown-toggle,
+  .rs-nav-item {
     .navbar-default-item();
   }
 
-  .@{ns}nav-item-active,
-  .@{ns}dropdown .@{ns}dropdown-menu-active ~ .@{ns}dropdown-toggle {
+  .rs-nav-item-active,
+  .rs-dropdown .rs-dropdown-menu-active ~ .rs-dropdown-toggle {
     &,
     &:hover,
     &:focus,
@@ -75,24 +75,24 @@
 }
 
 // Inverse Navbar
-.@{ns}navbar.@{ns}navbar-inverse {
+.rs-navbar.rs-navbar-inverse {
   background-color: @nav-bar-inverse-bg;
 
   //font-color
   &,
-  & .@{ns}navbar-header a {
+  & .rs-navbar-header a {
     color: @nav-bar-inverse-font-color;
   }
 
-  .@{ns}dropdown .@{ns}dropdown-menu-active ~ .@{ns}dropdown-toggle,
-  .@{ns}dropdown .@{ns}dropdown-toggle,
-  .@{ns}nav-item-active,
-  .@{ns}nav-item {
+  .rs-dropdown .rs-dropdown-menu-active ~ .rs-dropdown-toggle,
+  .rs-dropdown .rs-dropdown-toggle,
+  .rs-nav-item-active,
+  .rs-nav-item {
     .reset-font-color(@nav-bar-inverse-font-color);
   }
 
-  .@{ns}nav-item-active,
-  .@{ns}dropdown .@{ns}dropdown-menu-active ~ .@{ns}dropdown-toggle {
+  .rs-nav-item-active,
+  .rs-dropdown .rs-dropdown-menu-active ~ .rs-dropdown-toggle {
     &,
     &:hover,
     &:focus,
@@ -101,8 +101,8 @@
     }
   }
 
-  .@{ns}navbar-nav .@{ns}nav-item,
-  .@{ns}navbar-nav .@{ns}dropdown .@{ns}dropdown-toggle {
+  .rs-navbar-nav .rs-nav-item,
+  .rs-navbar-nav .rs-dropdown .rs-dropdown-toggle {
     &:hover,
     &:focus {
       background-color: @nav-bar-inverse-hover-bg;
@@ -115,21 +115,21 @@
 }
 
 // Subtle Navbar
-.@{ns}navbar.@{ns}navbar-subtle {
+.rs-navbar.rs-navbar-subtle {
 
   //font-color
   &,
-  & .@{ns}navbar-header a {
+  & .rs-navbar-header a {
     color: @nav-bar-subtle-font-color;
   }
 
-  .@{ns}dropdown .@{ns}dropdown-toggle,
-  .@{ns}nav-item {
+  .rs-dropdown .rs-dropdown-toggle,
+  .rs-nav-item {
     .reset-font-color(@nav-bar-subtle-font-color);
   }
 
-  .@{ns}navbar-nav .@{ns}nav-item:not(.@{ns}nav-item-active),
-  .@{ns}navbar-nav .@{ns}dropdown .@{ns}dropdown-toggle {
+  .rs-navbar-nav .rs-nav-item:not(.rs-nav-item-active),
+  .rs-navbar-nav .rs-dropdown .rs-dropdown-toggle {
     &:hover,
     &:focus {
       background-color: @nav-bar-subtle-hover-bg;
@@ -143,8 +143,8 @@
   }
 
   // Active
-  .@{ns}navbar-nav .@{ns}nav-item-active,
-  .@{ns}navbar-nav .@{ns}dropdown .@{ns}dropdown-menu-active ~ .@{ns}dropdown-toggle {
+  .rs-navbar-nav .rs-nav-item-active,
+  .rs-navbar-nav .rs-dropdown .rs-dropdown-menu-active ~ .rs-dropdown-toggle {
     background-color: @nav-bar-subtle-active-bg;
     .reset-font-color(@nav-bar-subtle-font-active-color);
   }

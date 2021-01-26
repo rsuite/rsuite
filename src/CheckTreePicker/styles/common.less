@@ -6,7 +6,7 @@
 // ----------------------
 
 // Check tree picker name space
-@ctpns: ~'@{ns}@{check-tree-picker-prefix}';
+@ctpns: ~'rs-@{check-tree-picker-prefix}';
 
 .@{ctpns} {
   background-color: @picker-tree-bg;
@@ -35,23 +35,23 @@
   line-height: @picker-tree-node-line-height;
 
   > .@{ctpns}-node-label {
-    .@{ns}check-item {
+    .rs-check-item {
       display: inline-block;
 
-      .@{ns}picker-menu & {
+      .rs-picker-menu & {
         display: block;
       }
     }
 
-    &:focus .@{ns}check-item .@{ns}checkbox-checker > label {
+    &:focus .rs-check-item .rs-checkbox-checker > label {
       .picker-item-hover();
     }
 
-    .@{ns}check-item.@{ns}checkbox-checked .@{ns}checkbox-checker > label {
+    .rs-check-item.rs-checkbox-checked .rs-checkbox-checker > label {
       .picker-item-active();
     }
 
-    .@{ns}check-item .@{ns}checkbox-checker > label {
+    .rs-check-item .rs-checkbox-checker > label {
       text-align: left;
       position: relative;
       margin: 0;
@@ -70,7 +70,7 @@
         margin-left: -58px; // 10px + 36px + 12px
       }
 
-      .@{ns}checkbox-wrapper {
+      .rs-checkbox-wrapper {
         left: (@checkbox-sense-width + 10px);
       }
 
@@ -83,7 +83,7 @@
           margin-left: -36px;
         }
 
-        .@{ns}checkbox-wrapper {
+        .rs-checkbox-wrapper {
           left: 0;
         }
       }
@@ -92,7 +92,7 @@
 
   // Uncheckable state
   &-all-uncheckable > .@{ctpns}-node-label {
-    .@{ns}check-item .@{ns}checkbox-checker > label {
+    .rs-check-item .rs-checkbox-checker > label {
       padding-left: 22px; // 10px + 12px
 
       &::before {
@@ -154,14 +154,14 @@
   }
 }
 
-.@{ns}picker-menu {
+.rs-picker-menu {
   display: flex;
   flex-direction: column;
 
   &.@{ctpns}-menu {
     padding-top: @picker-menu-padding;
 
-    .@{ns}picker-search-bar {
+    .rs-picker-search-bar {
       padding-top: 0;
     }
   }
@@ -192,7 +192,7 @@
 /* stylelint-disable-next-line */
 .@{ctpns} {
   /* stylelint-disable-next-line */
-  &-node > &-node-label .@{ns}check-item .@{ns}checkbox-checker > label::before {
+  &-node > &-node-label .rs-check-item .rs-checkbox-checker > label::before {
     /* stylelint-disable-next-line */
     [dir='rtl'] .ReactVirtualized__Grid__innerScrollContainer & {
       padding-right: inherit;

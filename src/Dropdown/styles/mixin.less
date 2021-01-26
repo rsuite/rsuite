@@ -12,7 +12,7 @@
 .dropdown-toggle-caret-size(@vertical,@horizontal,@caret-size) {
   padding-right: @horizontal+ @dropdown-caret-width+ @dropdown-caret-padding !important;
 
-  .@{ns}dropdown-toggle-caret {
+  .rs-dropdown-toggle-caret {
     top: @vertical;
     right: @horizontal;
     font-size: @caret-size;
@@ -20,15 +20,15 @@
 }
 
 .dropdown-toggle-size() {
-  &.@{ns}btn-lg {
+  &.rs-btn-lg {
     .dropdown-toggle-caret-size(@padding-large-vertical, @padding-large-horizontal, 14px);
   }
 
-  &.@{ns}btn-sm {
+  &.rs-btn-sm {
     .dropdown-toggle-caret-size(@padding-small-vertical, @padding-small-horizontal, 10px);
   }
 
-  &.@{ns}btn-xs {
+  &.rs-btn-xs {
     .dropdown-toggle-caret-size(@padding-extra-small-vertical, @padding-extra-small-horizontal, 8px);
   }
 }
@@ -48,7 +48,7 @@
     padding: 0 !important;
   }
 
-  .@{ns}nav & {
+  .rs-nav & {
     &:focus {
       box-shadow: none;
     }

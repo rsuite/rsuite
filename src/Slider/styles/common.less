@@ -3,13 +3,13 @@
 //
 // Slider
 // --------------------------------------------------
-.@{ns}slider {
+.rs-slider {
   position: relative;
 
-  .@{ns}tooltip {
+  .rs-tooltip {
     display: none;
 
-    &.@{ns}tooltip-placement-top .@{ns}tooltip-arrow {
+    &.rs-tooltip-placement-top .rs-tooltip-arrow {
       margin: auto;
       left: 0;
       right: 0;
@@ -20,8 +20,8 @@
     opacity: 0.3;
     cursor: not-allowed;
 
-    .@{ns}slider-bar,
-    .@{ns}slider-handle::before {
+    .rs-slider-bar,
+    .rs-slider-handle::before {
       cursor: not-allowed;
     }
   }
@@ -33,7 +33,7 @@
 }
 
 // Mark
-.@{ns}slider-mark {
+.rs-slider-mark {
   position: absolute;
   top: (@slider-bar-side-length + @slider-mark-margin-top);
   left: -2px;
@@ -44,17 +44,17 @@
   }
 }
 
-.@{ns}slider-mark-last {
+.rs-slider-mark-last {
   left: auto;
   right: -2px;
 
-  .@{ns}slider-mark-content {
+  .rs-slider-mark-content {
     margin-left: 50%;
   }
 }
 
 // Bar
-.@{ns}slider-bar {
+.rs-slider-bar {
   height: @slider-bar-side-length;
   border-radius: (@slider-bar-side-length / 2);
   background-color: @slider-bar-default-bg;
@@ -64,14 +64,14 @@
     background-color: @slider-bar-hover-bg;
   }
 
-  .@{ns}slider-vertical & {
+  .rs-slider-vertical & {
     height: 100%;
     width: @slider-bar-side-length;
   }
 }
 
 // Graduator
-.@{ns}slider-graduator {
+.rs-slider-graduator {
   width: 100%;
 
   ul,
@@ -104,7 +104,7 @@
         transition: border-color 0.3s ease-in;
 
         // Vertical styles
-        .@{ns}slider-vertical & {
+        .rs-slider-vertical & {
           top: -4px;
           margin-left: -1px;
         }
@@ -114,25 +114,25 @@
         right: -4px;
 
         // Vertical styles
-        .@{ns}slider-vertical & {
+        .rs-slider-vertical & {
           left: 0;
           top: auto;
           bottom: -4px;
         }
       }
 
-      &.@{ns}slider-pass::before {
+      &.rs-slider-pass::before {
         border-color: @slider-calibration-pass-border-color;
       }
 
-      &.@{ns}slider-active::before {
+      &.rs-slider-active::before {
         visibility: hidden;
       }
     }
   }
 
   // Vertical styles
-  .@{ns}slider-vertical & {
+  .rs-slider-vertical & {
     display: block;
     height: 100%;
 
@@ -152,20 +152,20 @@
 }
 
 // Progress bar
-.@{ns}slider-progress-bar {
+.rs-slider-progress-bar {
   position: absolute;
   height: @slider-bar-side-length;
   border-radius: (@slider-bar-side-length / 2) 0 0 (@slider-bar-side-length / 2);
   background-color: @slider-progress-bar-bg;
 
-  .@{ns}slider-vertical & {
+  .rs-slider-vertical & {
     width: @slider-bar-side-length;
     border-radius: (@slider-bar-side-length / 2) (@slider-bar-side-length / 2) 0 0;
   }
 }
 
 // Handle
-.@{ns}slider-handle {
+.rs-slider-handle {
   position: absolute;
   top: -50%;
 
@@ -194,19 +194,19 @@
     transform: scale(1.2);
   }
 
-  .@{ns}slider-vertical &::before {
+  .rs-slider-vertical &::before {
     left: ((@slider-handle-diameter - @slider-bar-side-length)/2);
     margin-top: (-@slider-handle-diameter / 2);
   }
 }
 
-.@{ns}slider-handle:hover .@{ns}tooltip,
-.@{ns}slider-handle.active .@{ns}tooltip {
+.rs-slider-handle:hover .rs-tooltip,
+.rs-slider-handle.active .rs-tooltip {
   display: block;
   opacity: 1;
   top: -30px;
 
-  .@{ns}slider-vertical & {
+  .rs-slider-vertical & {
     top: -33px;
     // Make sure tooltip align center.
     margin-left: 3px;
@@ -214,11 +214,11 @@
 }
 
 // Vertical
-.@{ns}slider-vertical {
+.rs-slider-vertical {
   height: 100%;
 
   // Reset all setting
-  .@{ns}slider-mark {
+  .rs-slider-mark {
     top: -8px;
     left: (@slider-bar-side-length + @slider-mark-margin-top);
 
@@ -227,7 +227,7 @@
     }
   }
 
-  .@{ns}slider-mark-last {
+  .rs-slider-mark-last {
     top: auto;
     bottom: -8px;
   }

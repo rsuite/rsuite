@@ -16,7 +16,7 @@
 // Picker Menu group common styles
 .picker-menu-group-common(@prefix) {
   // Set border & padding to menu group if  it isn't the first.
-  .@{ns}@{prefix}-menu-group:not(:first-child) {
+  .rs-@{prefix}-menu-group:not(:first-child) {
     margin-top: @picker-group-select-menu-gap;
     border-top: 1px solid @picker-group-select-menu-lin-color;
     padding-top: @picker-group-select-menu-gap;
@@ -25,7 +25,7 @@
 
 // Group title common styles
 .picker-menu-group-title(@prefix) {
-  .@{ns}@{prefix}-menu-group-title {
+  .rs-@{prefix}-menu-group-title {
     padding: @picker-item-content-padding-vertical @picker-item-content-padding-horizontal;
     padding-right: (@padding-base-horizontal + @dropdown-caret-width + @dropdown-caret-padding);
     position: relative;
@@ -37,7 +37,7 @@
       background-color: @picker-menu-item-hover-bg;
     }
 
-    .@{ns}@{prefix}-menu-group-caret {
+    .rs-@{prefix}-menu-group-caret {
       display: inline-block;
       margin-left: 2px;
       position: absolute;
@@ -51,8 +51,8 @@
 
 // Group closed common styles
 .picker-menu-group-closed(@prefix) {
-  .@{ns}@{prefix}-menu-group.folded {
-    .@{ns}@{prefix}-menu-group-caret {
+  .rs-@{prefix}-menu-group.folded {
+    .rs-@{prefix}-menu-group-caret {
       transform: rotate(90deg);
     }
   }
@@ -112,30 +112,30 @@
 .picker-custom-button-caret-size(@padding-horizontal,@padding-vertical,@clean-btn-margin:2px) {
   @clean-btn-width: @dropdown-caret-width;
 
-  .@{ns}picker-toggle-wrapper & {
+  .rs-picker-toggle-wrapper & {
     padding-right: (@padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding);
   }
 
-  .@{ns}picker-cleanable & {
+  .rs-picker-cleanable & {
     padding-right: (
       @padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding + @clean-btn-width + @clean-btn-margin
     );
   }
 
-  .@{ns}picker-toggle-caret,
-  .@{ns}picker-toggle-clean {
+  .rs-picker-toggle-caret,
+  .rs-picker-toggle-clean {
     top: @padding-vertical;
 
-    .@{ns}picker-default & {
+    .rs-picker-default & {
       top: @padding-vertical - @picker-default-toggle-border-width;
     }
   }
 
-  .@{ns}picker-toggle-caret {
+  .rs-picker-toggle-caret {
     right: @padding-horizontal;
   }
 
-  .@{ns}picker-toggle-clean {
+  .rs-picker-toggle-clean {
     right: (@dropdown-caret-width + @padding-horizontal + @clean-btn-width - @clean-btn-margin);
   }
 }
@@ -170,27 +170,27 @@
 
   padding-right: (@padding-horizontal + @calendar-caret-width + @dropdown-caret-padding);
 
-  .@{ns}picker-toggle-clean,
-  .@{ns}picker-toggle-caret {
+  .rs-picker-toggle-clean,
+  .rs-picker-toggle-caret {
     top: @top;
 
-    .@{ns}picker-subtle & {
+    .rs-picker-subtle & {
       top: @top - @picker-default-toggle-border-width;
     }
   }
 
-  .@{ns}picker-toggle-caret {
+  .rs-picker-toggle-caret {
     right: @padding-horizontal;
   }
 
-  .@{ns}picker-toggle-clean {
+  .rs-picker-toggle-clean {
     right: (@padding-horizontal + @toggle-clean-padding + @calendar-caret-width);
   }
 }
 
 .date-picker-button-caret-lg() {
-  .@{ns}picker-date &,
-  .@{ns}picker-daterange & {
+  .rs-picker-date &,
+  .rs-picker-daterange & {
     .daterange-picker-custom-toggle(
       @calendar-caret-width: @font-size-large,
       @padding-large-horizontal,
@@ -201,8 +201,8 @@
 }
 
 .date-picker-button-caret-md() {
-  .@{ns}picker-date &,
-  .@{ns}picker-daterange & {
+  .rs-picker-date &,
+  .rs-picker-daterange & {
     .daterange-picker-custom-toggle(
       @calendar-caret-width: @font-size-base,
       @padding-base-horizontal,
@@ -212,8 +212,8 @@
 }
 
 .date-picker-button-caret-sm() {
-  .@{ns}picker-date &,
-  .@{ns}picker-daterange & {
+  .rs-picker-date &,
+  .rs-picker-daterange & {
     .daterange-picker-custom-toggle(
       @calendar-caret-width: @font-size-base,
       @padding-small-horizontal,
@@ -223,8 +223,8 @@
 }
 
 .date-picker-button-caret-xs() {
-  .@{ns}picker-date &,
-  .@{ns}picker-daterange & {
+  .rs-picker-date &,
+  .rs-picker-daterange & {
     .daterange-picker-custom-toggle(
       @calendar-caret-width: @font-size-extra-small,
       @padding-extra-small-horizontal,
@@ -237,7 +237,7 @@
   @padding-name: 'padding-@{size}-vertical';
   @padding-vertical: @@padding-name;
 
-  .@{ns}picker-default & {
+  .rs-picker-default & {
     .padding-vertical(@padding-vertical - @picker-default-toggle-border-width);
   }
 }
@@ -246,37 +246,37 @@
   @padding-name: 'padding-@{size}-horizontal';
   @padding-horizontal: @@padding-name;
 
-  .@{ns}picker-default & {
+  .rs-picker-default & {
     padding-left: @padding-horizontal - @picker-default-toggle-border-width;
   }
 }
 
 .tag-picker-search-input-size(@padding-vertical; @padding-horizontal; @font-size; @line-height;) {
-  .@{ns}picker-input:not(.@{ns}picker-tag) & ~ .@{ns}picker-tag-wrapper .@{ns}picker-search-input {
+  .rs-picker-input:not(.rs-picker-tag) & ~ .rs-picker-tag-wrapper .rs-picker-search-input {
     padding: (@padding-vertical - 1px) @padding-horizontal;
     font-size: @font-size;
     line-height: @line-height;
   }
 
-  .@{ns}picker-input.@{ns}picker-tag & ~ .@{ns}picker-tag-wrapper {
+  .rs-picker-input.rs-picker-tag & ~ .rs-picker-tag-wrapper {
     padding-bottom: @padding-vertical - 3px;
 
-    .@{ns}tag {
+    .rs-tag {
       margin-top: @padding-vertical - 3px;
     }
 
-    .@{ns}picker-search-input {
+    .rs-picker-search-input {
       padding-left: @padding-horizontal;
       margin-top: @padding-vertical - 3px;
       font-size: @font-size;
     }
 
-    .@{ns}picker-search-input input {
+    .rs-picker-search-input input {
       height: @line-height * @font-size - 2px;
     }
   }
 
-  .@{ns}picker-input.@{ns}picker-tag & {
+  .rs-picker-input.rs-picker-tag & {
     padding-top: @padding-vertical - 1px;
     padding-bottom: @padding-vertical - 1px;
     box-shadow: none;
@@ -309,15 +309,15 @@
   );
   /* stylelint-enable */
 
-  .@{ns}picker-input.@{ns}picker-tag & ~ .@{ns}picker-tag-wrapper {
+  .rs-picker-input.rs-picker-tag & ~ .rs-picker-tag-wrapper {
     padding-bottom: @padding-extra-small-vertical - 1px;
 
-    .@{ns}tag {
+    .rs-tag {
       margin-top: 1px;
     }
 
     // Adjust search-input size the same with button
-    .@{ns}picker-search-input {
+    .rs-picker-search-input {
       .padding-vertical(1px);
     }
   }
@@ -326,37 +326,37 @@
 .input-picker-input-sizes() {
   @border-width: 2 * @picker-default-toggle-border-width;
 
-  .@{ns}picker-toggle.@{ns}btn-lg {
+  .rs-picker-toggle.rs-btn-lg {
     height: (@line-height-large-computed + @padding-large-vertical*2 - @border-width);
   }
 
-  .@{ns}picker-toggle.@{ns}btn-md {
+  .rs-picker-toggle.rs-btn-md {
     height: (@line-height-computed + @padding-base-vertical*2 - @border-width);
   }
 
-  .@{ns}picker-toggle.@{ns}btn-sm {
+  .rs-picker-toggle.rs-btn-sm {
     height: (@line-height-computed + @padding-small-vertical*2 - @border-width);
   }
 
-  .@{ns}picker-toggle.@{ns}btn-xs {
+  .rs-picker-toggle.rs-btn-xs {
     height: (@line-height-computed + @padding-extra-small-vertical*2 - @border-width);
   }
 }
 
 // Default picker toggle
 .picker-default-toggle() {
-  .@{ns}picker-default & {
+  .rs-picker-default & {
     .dropdown-toggle();
 
     color: @picker-default-toggle-font-color;
     border: @picker-default-toggle-border-width solid @picker-default-toggle-border-color;
   }
 
-  .@{ns}picker-disabled & {
+  .rs-picker-disabled & {
     cursor: @cursor-disabled;
   }
 
-  .@{ns}picker-default:not(.@{ns}picker-disabled) {
+  .rs-picker-default:not(.rs-picker-disabled) {
     &:hover,
     &:focus {
       border-color: @picker-default-toggle-hover-border-color;
@@ -366,11 +366,11 @@
 
 // Subtle picker toggle
 .picker-subtle-toggle {
-  .@{ns}picker-subtle & {
+  .rs-picker-subtle & {
     .dropdown-toggle();
   }
 
-  .@{ns}picker-subtle.@{ns}picker-disabled & {
+  .rs-picker-subtle.rs-picker-disabled & {
     cursor: @cursor-disabled;
 
     &:hover,

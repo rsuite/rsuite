@@ -1,6 +1,6 @@
 @import '../../styles/common';
 
-.@{ns}form-control-wrapper .@{ns}form-error-message {
+.rs-form-control-wrapper .rs-form-error-message {
   position: absolute;
   padding: @form-error-message-padding-vertical @form-error-message-padding-horizontal;
   background-color: @form-error-message-background-color;
@@ -40,7 +40,7 @@
   &-placement-bottom-end {
     bottom: -1px; // Error message width form-control has 1px gap
 
-    .@{ns}form-error-message {
+    .rs-form-error-message {
       top: 0;
 
       &-show {
@@ -48,7 +48,7 @@
       }
     }
 
-    .@{ns}form-error-message-arrow {
+    .rs-form-error-message-arrow {
       &::before,
       &::after {
         border-width: 0 @form-error-message-triangle-width @form-error-message-triangle-width;
@@ -67,7 +67,7 @@
   &-placement-top-end {
     top: -1px; // Error message width form-control has 1px gap
 
-    .@{ns}form-error-message {
+    .rs-form-error-message {
       bottom: 0;
 
       &-show {
@@ -75,7 +75,7 @@
       }
     }
 
-    .@{ns}form-error-message-arrow {
+    .rs-form-error-message-arrow {
       &::before,
       &::after {
         border-width: @form-error-message-triangle-width @form-error-message-triangle-width 0;
@@ -94,11 +94,11 @@
   &-placement-top-start {
     left: 0;
 
-    .@{ns}form-error-message {
+    .rs-form-error-message {
       left: 0;
     }
 
-    .@{ns}form-error-message-arrow {
+    .rs-form-error-message-arrow {
       &::before,
       &::after {
         left: @form-error-message-triangle-gap;
@@ -110,11 +110,11 @@
   &-placement-top-end {
     right: 0;
 
-    .@{ns}form-error-message {
+    .rs-form-error-message {
       right: 0;
     }
 
-    .@{ns}form-error-message-arrow {
+    .rs-form-error-message-arrow {
       &::before,
       &::after {
         right: @form-error-message-triangle-gap;
@@ -127,12 +127,12 @@
 
 // == Left Top && Left Bottom Right && Top && Right Bottom
 /* stylelint-disable-next-line */ // For RTL Scope
-.@{ns}form-control-wrapper .@{ns}form-error-message {
+.rs-form-control-wrapper .rs-form-error-message {
   &-placement-left-start,
   &-placement-left-end {
     left: -1px;
 
-    .@{ns}form-error-message {
+    .rs-form-error-message {
       right: 0;
 
       &-show {
@@ -140,7 +140,7 @@
       }
     }
 
-    .@{ns}form-error-message-arrow {
+    .rs-form-error-message-arrow {
       &::before,
       &::after {
         border-width: @form-error-message-triangle-width 0 @form-error-message-triangle-width
@@ -160,7 +160,7 @@
   &-placement-right-end {
     right: -1px;
 
-    .@{ns}form-error-message {
+    .rs-form-error-message {
       left: 0;
 
       &-show {
@@ -168,7 +168,7 @@
       }
     }
 
-    .@{ns}form-error-message-arrow {
+    .rs-form-error-message-arrow {
       &::before,
       &::after {
         border-width: @form-error-message-triangle-width @form-error-message-triangle-width
@@ -188,11 +188,11 @@
   &-placement-right-start {
     top: 0;
 
-    .@{ns}form-error-message {
+    .rs-form-error-message {
       top: 0;
     }
 
-    .@{ns}form-error-message-arrow {
+    .rs-form-error-message-arrow {
       &::before,
       &::after {
         top: @form-error-message-triangle-vertical;
@@ -204,11 +204,11 @@
   &-placement-right-end {
     bottom: 0;
 
-    .@{ns}form-error-message {
+    .rs-form-error-message {
       bottom: 0;
     }
 
-    .@{ns}form-error-message-arrow {
+    .rs-form-error-message-arrow {
       &::before,
       &::after {
         bottom: @form-error-message-triangle-vertical;

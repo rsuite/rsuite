@@ -6,11 +6,11 @@
 // --------------------------------------------------
 
 // Kill the scroll on the body
-.@{ns}modal-open {
+.rs-modal-open {
   overflow: hidden;
 }
 
-.@{ns}modal-wrapper {
+.rs-modal-wrapper {
   position: fixed;
   overflow: auto;
   z-index: @zindex-modal;
@@ -21,7 +21,7 @@
 }
 
 // Container that the modal scrolls within
-.@{ns}modal {
+.rs-modal {
   display: none;
   overflow: visible;
   // Prevent Chrome on Windows from adding a focus outline. For details, see
@@ -53,19 +53,19 @@
     @modal-full-size-margin-value: @modal-full-size-margin* 2;
     .content-width(~'calc(100% - @{modal-full-size-margin-value})');
 
-    .@{ns}modal-dialog {
+    .rs-modal-dialog {
       margin-left: @modal-full-size-margin;
       margin-right: @modal-full-size-margin;
     }
   }
 }
 
-.@{ns}modal-shake .@{ns}modal-dialog {
+.rs-modal-shake .rs-modal-dialog {
   animation: 0.3s linear shakeHead;
 }
 
 // Actual modal
-.@{ns}modal-content {
+.rs-modal-content {
   position: relative;
   background-color: @modal-content-bg;
   border-radius: @modal-border-radius;
@@ -76,7 +76,7 @@
 }
 
 // Modal background
-.@{ns}modal-backdrop {
+.rs-modal-backdrop {
   position: fixed;
   top: 0;
   right: 0;
@@ -97,12 +97,12 @@
 
 // Modal header
 // Top section of the modal w/ title and dismiss
-.@{ns}modal-header {
+.rs-modal-header {
   .clearfix();
 
   padding-right: @line-height-computed;
 
-  .@{ns}modal-title {
+  .rs-modal-title {
     font-size: @modal-title-font-size;
     line-height: unit((@line-height-computed / @modal-title-font-size));
     width: 100%;
@@ -112,7 +112,7 @@
     .ellipsis();
   }
 
-  .@{ns}modal-header-close {
+  .rs-modal-header-close {
     // button width the same to height
     @padding-right: (@line-height-computed - @modal-close-btn-size)/2;
 
@@ -128,7 +128,7 @@
 }
 
 // Title text within header
-.@{ns}modal-header .title {
+.rs-modal-header .title {
   margin: 0;
   color: @text-primary-color;
   font-size: @modal-title-font-size;
@@ -137,7 +137,7 @@
 
 // Modal body
 // Where all modal content resides (sibling of .modal-header and .modal-footer)
-.@{ns}modal-body {
+.rs-modal-body {
   position: relative;
   margin-top: @modal-body-margin;
   // Make sure input error message don't overflow.
@@ -145,28 +145,28 @@
 }
 
 // Footer (for actions)
-.@{ns}modal-footer {
+.rs-modal-footer {
   text-align: right; // right align buttons
   border-top: none;
   .clearfix(); // clear it in case folks use .pull-* classes on buttons
 
   // Properly space out buttons
-  .@{ns}btn + .@{ns}btn {
+  .rs-btn + .rs-btn {
     margin-left: 10px;
     margin-bottom: 0; // account for input[type="submit"] which gets the bottom margin like all other inputs
   }
   // but override that for button groups
-  .@{ns}btn-group .@{ns}btn + .@{ns}btn {
+  .rs-btn-group .rs-btn + .rs-btn {
     margin-left: -1px;
   }
   // and override it for block buttons as well
-  .@{ns}btn-block + .@{ns}btn-block {
+  .rs-btn-block + .rs-btn-block {
     margin-left: 0;
   }
 }
 
 // Measure scrollbar width for padding body during modal show/hide
-.@{ns}modal-scrollbar-measure {
+.rs-modal-scrollbar-measure {
   position: absolute;
   top: -9999px;
   width: 50px;

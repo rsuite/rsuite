@@ -3,48 +3,48 @@
 @import '../../Picker/styles/mixin';
 
 .@{tag-picker} {
-  &:not(.@{ns}picker-disabled) .@{ns}picker-toggle {
+  &:not(.rs-picker-disabled) .rs-picker-toggle {
     // Make sure align with input
     left: 0;
     cursor: text;
   }
 
-  &.@{ns}picker-disabled {
+  &.rs-picker-disabled {
     cursor: not-allowed;
 
-    .@{ns}picker-toggle {
+    .rs-picker-toggle {
       position: absolute;
     }
   }
 
-  .@{ns}tag {
+  .rs-tag {
     max-width: ~'calc(100% - @{tag-picker-content-padding-horizontal})';
     vertical-align: top;
     .ellipsis-basic();
   }
 
-  .@{ns}picker-search-input,
-  .@{ns}tag {
+  .rs-picker-search-input,
+  .rs-tag {
     margin-top: @tag-picker-content-padding-vertical;
   }
 
-  &.@{ns}picker-has-value .@{ns}picker-search-input {
+  &.rs-picker-has-value .rs-picker-search-input {
     padding-left: @tag-picker-content-padding-horizontal;
   }
 
-  .@{ns}tag,
-  .@{ns}tag + .@{ns}tag {
+  .rs-tag,
+  .rs-tag + .rs-tag {
     margin-left: @tag-picker-content-padding-horizontal;
   }
 
-  .@{ns}picker-tag-wrapper {
+  .rs-picker-tag-wrapper {
     position: relative;
     // make sure tag in front of toggle
     z-index: @zindex-picker-toggle + 1;
     padding-bottom: @tag-picker-content-padding-vertical;
   }
 
-  .@{ns}picker-search {
+  .rs-picker-search {
     &,
     &-input,
     &-input > input {

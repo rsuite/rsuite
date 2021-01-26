@@ -4,7 +4,7 @@
 // List
 // --------------------------------------------------
 
-.@{ns}list {
+.rs-list {
   position: relative;
   box-shadow: 0 1px 0 @list-border-color, 0 -1px 0 @list-border-color;
   overflow-x: hidden;
@@ -15,11 +15,11 @@
     box-shadow: 0 0 0 1px @list-border-color;
   }
 
-  &-hover .@{ns}list-item:hover {
+  &-hover .rs-list-item:hover {
     background-color: @list-hover-color;
   }
 
-  &-sortable .@{ns}list-item {
+  &-sortable .rs-list-item {
     cursor: move; // fallback
     cursor: grab;
 
@@ -31,7 +31,7 @@
 }
 
 // default list item ( axis-y )
-.@{ns}list-item {
+.rs-list-item {
   position: relative;
 
   &-bordered {
@@ -57,7 +57,7 @@
 
 /* rtl:begin:ignore */
 /* stylelint-disable-next-line */ // For RTL Scope
-.@{ns}list-item {
+.rs-list-item {
   background-color: @list-item-drag-bg-color;
   box-shadow: 0 -1px 0 @list-border-color, 0 1px 0 @list-border-color;
 
@@ -74,12 +74,12 @@
     cursor: move;
 
     // Increase z-index when modal opened.
-    .@{ns}modal-open & {
+    .rs-modal-open & {
       z-index: (@zindex-modal + @zindex-list-helper);
     }
 
     // Increase z-index when drawer opened.
-    .@{ns}drawer-open & {
+    .rs-drawer-open & {
       z-index: (@zindex-drawer + @zindex-list-helper);
     }
   }

@@ -1,14 +1,14 @@
 @import '../../styles/common';
 @import 'mixin';
 
-.@{ns}drawer-wrapper {
+.rs-drawer-wrapper {
   position: fixed;
   z-index: @zindex-drawer;
   top: 0;
 }
 
 // Container that the drawer scrolls within
-.@{ns}drawer {
+.rs-drawer {
   display: none;
   overflow: hidden;
   position: fixed;
@@ -29,19 +29,19 @@
     top: 0;
     height: 100%;
 
-    &.@{ns}drawer-lg {
+    &.rs-drawer-lg {
       .drawer-content-width(@drawer-horizontal-lg);
     }
 
-    &.@{ns}drawer-md {
+    &.rs-drawer-md {
       .drawer-content-width(@drawer-horizontal-md);
     }
 
-    &.@{ns}drawer-sm {
+    &.rs-drawer-sm {
       .drawer-content-width(@drawer-horizontal-sm);
     }
 
-    &.@{ns}drawer-xs {
+    &.rs-drawer-xs {
       .drawer-content-width(@drawer-horizontal-xs);
     }
   }
@@ -50,19 +50,19 @@
   &-bottom {
     width: 100%;
 
-    &.@{ns}drawer-lg {
+    &.rs-drawer-lg {
       .drawer-content-height(@drawer-vertical-lg);
     }
 
-    &.@{ns}drawer-md {
+    &.rs-drawer-md {
       .drawer-content-height(@drawer-vertical-md);
     }
 
-    &.@{ns}drawer-sm {
+    &.rs-drawer-sm {
       .drawer-content-height(@drawer-vertical-sm);
     }
 
-    &.@{ns}drawer-xs {
+    &.rs-drawer-xs {
       .drawer-content-height(@drawer-vertical-xs);
     }
   }
@@ -72,17 +72,17 @@
     @max-width: ~'calc(100% - @{drawer-full-size-margin})';
     @max-height: @max-width;
 
-    &.@{ns}drawer-top,
-    &.@{ns}drawer-bottom {
+    &.rs-drawer-top,
+    &.rs-drawer-bottom {
       .drawer-content-height(@max-height);
 
-      .@{ns}drawer-content {
+      .rs-drawer-content {
         height: 100%;
       }
     }
 
-    &.@{ns}drawer-left,
-    &.@{ns}drawer-right {
+    &.rs-drawer-left,
+    &.rs-drawer-right {
       .drawer-content-width(@max-width);
     }
   }
@@ -106,21 +106,21 @@
 }
 
 // Make sure drawer can be show in Safari.
-.@{ns}drawer-open .@{ns}drawer {
+.rs-drawer-open .rs-drawer {
   overflow: visible;
 }
 
-.@{ns}drawer-dialog {
+.rs-drawer-dialog {
   position: relative;
   width: 100%;
   height: 100%;
 
-  .@{ns}drawer-shake & {
+  .rs-drawer-shake & {
     animation: 0.3s linear shakeHead;
   }
 }
 
-.@{ns}drawer-content {
+.rs-drawer-content {
   position: absolute;
   background-color: @drawer-content-bg;
   outline: 0;
@@ -128,7 +128,7 @@
   height: 100%;
 }
 
-.@{ns}drawer-backdrop {
+.rs-drawer-backdrop {
   position: fixed;
   top: 0;
   right: 0;
@@ -149,7 +149,7 @@
 }
 
 // Drawer body
-.@{ns}drawer-body {
+.rs-drawer-body {
   position: relative;
   margin: @drawer-body-margin @drawer-content-spacing;
   // Javascript handle height
@@ -157,7 +157,7 @@
 }
 
 // Measure scrollbar width for padding body during modal show/hide
-.@{ns}drawer-scrollbar-measure {
+.rs-drawer-scrollbar-measure {
   position: absolute;
   top: -9999px;
   width: 50px;
@@ -167,14 +167,14 @@
 
 // Drawer header
 // Top section of the modal title.
-.@{ns}drawer-header {
+.rs-drawer-header {
   .clearfix();
 
   padding-right: @line-height-computed;
   position: relative;
   margin: @drawer-content-spacing @drawer-content-spacing 0;
 
-  .@{ns}drawer-title {
+  .rs-drawer-title {
     font-size: @drawer-title-font-size;
     line-height: unit((@line-height-computed / @drawer-title-font-size));
     width: 100%;
@@ -186,7 +186,7 @@
 }
 
 // Title text within header
-.@{ns}drawer-header .@{ns}title {
+.rs-drawer-header .rs-title {
   margin: 0;
   color: @text-primary-color;
   font-size: @modal-title-font-size;
@@ -194,7 +194,7 @@
 }
 
 // Footer (for actions)
-.@{ns}drawer-footer {
+.rs-drawer-footer {
   .clearfix(); // clear it in case folks use .pull-* classes on buttons
 
   text-align: right; // right align buttons
@@ -202,16 +202,16 @@
   margin: 0 @drawer-content-spacing @drawer-content-spacing;
 
   // Properly space out buttons
-  .@{ns}btn + .@{ns}btn {
+  .rs-btn + .rs-btn {
     margin-left: 10px;
     margin-bottom: 0; // account for input[type="submit"] which gets the bottom margin like all other inputs
   }
   // but override that for button groups
-  .@{ns}btn-group .@{ns}btn + .@{ns}btn {
+  .rs-btn-group .rs-btn + .rs-btn {
     margin-left: -1px;
   }
   // and override it for block buttons as well
-  .@{ns}btn-block + .@{ns}btn-block {
+  .rs-btn-block + .rs-btn-block {
     margin-left: 0;
   }
 }

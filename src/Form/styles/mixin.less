@@ -111,7 +111,7 @@
   padding: (@@vertical - @input-border-width) (@@horizontal - @input-border-width);
   border-radius: 0 @border-radius-base @border-radius-base 0;
 
-  > .@{ns}icon {
+  > .rs-icon {
     // Extend font-size from parent.
     font-size: @@font-size;
     line-height: @@line-height;
@@ -124,19 +124,19 @@
   @vertical: ~'padding-@{size-name}-vertical';
   @add-on-padding: ~'input-group-padding-for-add-on-@{size-name}';
 
-  &.@{ns}input-group-inside > .@{ns}input {
+  &.rs-input-group-inside > .rs-input {
     padding-right: @@add-on-padding;
   }
 
-  &.@{ns}input-group {
-    > .@{ns}input {
+  &.rs-input-group {
+    > .rs-input {
       height: @useable-height;
     }
 
-    > .@{ns}input-group-addon {
+    > .rs-input-group-addon {
       height: @useable-height;
 
-      > .@{ns}icon {
+      > .rs-icon {
         font-size: inherit;
       }
     }

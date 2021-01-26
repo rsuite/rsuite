@@ -5,12 +5,12 @@
 //
 // Pagination (multiple pages)
 // --------------------------------------------------
-.@{ns}pagination {
+.rs-pagination {
   display: inline-block;
   padding-left: 0;
   margin-bottom: 0;
 
-  .@{ns}pagination-btn {
+  .rs-pagination-btn {
     .btn-sm(base);
     .btn-subtle-variant(@pagination-hover-bg);
 
@@ -33,11 +33,11 @@
       box-shadow: none !important;
     }
 
-    &:not(.@{ns}pagination-btn-disabled) {
+    &:not(.rs-pagination-btn-disabled) {
       .button-ripple();
     }
 
-    .@{ns}pagination-symbol {
+    .rs-pagination-symbol {
       display: flex;
       align-items: center;
       height: @line-height-computed;
@@ -67,10 +67,10 @@
   // --------------------------------------------------
 
   &-lg {
-    .@{ns}pagination-btn {
+    .rs-pagination-btn {
       .btn-lg(base);
 
-      .@{ns}pagination-symbol {
+      .rs-pagination-symbol {
         height: @line-height-large-computed;
       }
 
@@ -81,7 +81,7 @@
   }
 
   &-md {
-    .@{ns}pagination-btn {
+    .rs-pagination-btn {
       .btn-md(base);
 
       &-active {
@@ -91,7 +91,7 @@
   }
 
   &-sm {
-    .@{ns}pagination-btn {
+    .rs-pagination-btn {
       .btn-sm(base);
 
       &-active {
@@ -101,7 +101,7 @@
   }
 
   &-xs {
-    .@{ns}pagination-btn {
+    .rs-pagination-btn {
       .btn-xs(base);
 
       &-active {
@@ -112,7 +112,7 @@
 }
 
 /* rtl:begin:ignore */
-[dir='rtl'] .@{ns}pagination-btn [class*='@{ns}icon-page'] {
+[dir='rtl'] .rs-pagination-btn [class*='rs-icon-page'] {
   transform: rotate(180deg);
 }
 

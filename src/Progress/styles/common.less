@@ -1,6 +1,6 @@
 @import '../../styles/common';
 
-.@{ns}progress {
+.rs-progress {
   // Remove whitespace.
   &-info {
     font-size: 0;
@@ -16,7 +16,7 @@
   }
 }
 
-.@{ns}progress-circle {
+.rs-progress-circle {
   position: relative;
   font-size: 0;
 
@@ -25,7 +25,7 @@
     color: @progress-status-success-color !important;
   }
 
-  &-success .@{ns}progress-stroke {
+  &-success .rs-progress-stroke {
     stroke: @progress-status-success-color !important;
   }
 
@@ -33,7 +33,7 @@
     color: @progress-status-fail-color !important;
   }
 
-  &-fail .@{ns}progress-stroke {
+  &-fail .rs-progress-stroke {
     stroke: @progress-status-fail-color !important;
   }
 
@@ -53,17 +53,17 @@
     color: @progress-info-text-color;
   }
 
-  .@{ns}progress-trail {
+  .rs-progress-trail {
     stroke: @progress-bar-bg;
   }
 
-  .@{ns}progress-stroke {
+  .rs-progress-stroke {
     stroke: @progress-bar-fill-bg;
     transition: stroke-dashoffset 0.3s ease, stroke-dasharray 0.2s ease-in-out, stroke 0.3s;
   }
 }
 
-.@{ns}progress-line {
+.rs-progress-line {
   display: flex;
   align-items: center;
   width: 100%;
@@ -103,7 +103,7 @@
     }
   }
 
-  .@{ns}progress-info {
+  .rs-progress-info {
     width: 50px;
     flex: 0 0 50px;
     height: 20px;
@@ -157,7 +157,7 @@
     height: 100%;
   }
 
-  &&-vertical .@{ns}progress-info {
+  &&-vertical .rs-progress-info {
     flex-basis: auto;
     padding-left: 0;
     width: auto;
@@ -177,8 +177,8 @@
 }
 
 // Status icons styles
-.@{ns}progress-icon-success,
-.@{ns}progress-icon-fail {
+.rs-progress-icon-success,
+.rs-progress-icon-fail {
   display: inline-block;
 
   svg {
@@ -186,12 +186,12 @@
     .icon-bolder(0.5px);
   }
 
-  .@{ns}progress-line & {
+  .rs-progress-line & {
     line-height: 0;
     font-size: 14px;
   }
 
-  .@{ns}progress-circle & {
+  .rs-progress-circle & {
     line-height: 0;
     font-size: 36px;
   }

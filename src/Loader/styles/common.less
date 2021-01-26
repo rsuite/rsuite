@@ -1,7 +1,7 @@
 @import '../../styles/common';
 @import 'mixin';
 
-.@{ns}loader {
+.rs-loader {
   .clearfix();
   .loader-size(@loader-default-diameter, @loader-default-content-font-size);
 
@@ -27,7 +27,7 @@
     margin-left: @loader-content-spin-spacing-horizontal;
 
     //Extra small size loader spacing is smaller.
-    .@{ns}loader-xs & {
+    .rs-loader-xs & {
       margin-left: @loader-content-spin-spacing-horizontal-xs;
     }
   }
@@ -47,26 +47,26 @@
     width: auto;
     display: inline-block;
 
-    .@{ns}loader {
+    .rs-loader {
       flex-direction: column;
     }
 
-    .@{ns}loader-spin {
+    .rs-loader-spin {
       margin: 0 auto;
     }
 
-    .@{ns}loader-content {
+    .rs-loader-content {
       line-height: unit((@line-height-computed / @loader-default-content-font-size));
       text-align: center;
     }
 
-    .@{ns}loader-spin,
-    .@{ns}loader-content {
+    .rs-loader-spin,
+    .rs-loader-content {
       display: block;
       float: none;
     }
 
-    .@{ns}loader-spin + .@{ns}loader-content {
+    .rs-loader-spin + .rs-loader-content {
       margin-left: 0;
       margin-top: @loader-content-spin-spacing-vertical;
     }
@@ -74,19 +74,19 @@
 
   // inverse
   &-inverse {
-    .@{ns}loader-content {
+    .rs-loader-content {
       color: @loader-content-inverse-color;
     }
 
-    .@{ns}loader-backdrop {
+    .rs-loader-backdrop {
       background: @loader-backdrop-inverse-color;
     }
 
-    .@{ns}loader-spin::before {
+    .rs-loader-spin::before {
       border-color: @loader-spin-ring-inverse-color;
     }
 
-    .@{ns}loader-spin::after {
+    .rs-loader-spin::after {
       border-top-color: @loader-spin-ring-inverse-active-color;
     }
   }
@@ -116,7 +116,7 @@
     width: 100%;
     height: 100%;
 
-    .@{ns}loader {
+    .rs-loader {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -125,15 +125,15 @@
     }
 
     // horizontal loader need set display table to set width auto
-    &:not(.@{ns}loader-vertical) {
-      .@{ns}loader {
+    &:not(.rs-loader-vertical) {
+      .rs-loader {
         display: flex;
       }
     }
 
     // vertical content text align center
-    &.@{ns}loader-vertical {
-      .@{ns}loader {
+    &.rs-loader-vertical {
+      .rs-loader {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -142,7 +142,7 @@
       }
     }
 
-    .@{ns}loader-content {
+    .rs-loader-content {
       z-index: 1;
     }
   }
@@ -166,7 +166,7 @@
 }
 
 // Set loader width auto
-.@{ns}loader-wrapper {
+.rs-loader-wrapper {
   display: inline-block;
   width: auto;
   // Clear white space

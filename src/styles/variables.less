@@ -98,7 +98,7 @@
 @icon-font-path: 'https://cdn.jsdelivr.net/npm/rsuite/dist/styles/fonts';
 @icon-font-size-base: @font-size-base;
 @icon-line-height-base: 1;
-@icon-css-prefix: ~'@{ns}icon';
+@icon-css-prefix: ~'rs-icon';
 @icon-inverse: @B000;
 @icon-font-sizes: 1, 2, 3, 4, 5;
 
@@ -883,14 +883,14 @@
 //== toaster
 //
 //##
-@toast-ns: ~'@{ns}toast';
+@toast-ns: ~'rs-toast';
 @toast-box-shadow: @default-box-shadow;
 @toast-spacing: 24px;
 
 //== Notification
 //
 //##
-@notification-ns: ~'@{ns}notification';
+@notification-ns: ~'rs-notification';
 @notify-default-bg: @B000;
 @notify-padding: 20px;
 @notify-border-radius: @border-radius-base;
@@ -1039,7 +1039,7 @@
 
 //== Picker
 //** prefixs
-@picker-prefix: ~'@{ns}picker';
+@picker-prefix: ~'rs-picker';
 @select-picker-prefix: ~'picker-select';
 @check-picker-prefix: ~'picker-check';
 @calendar-picker-prefix: ~'calendar';
@@ -1052,9 +1052,9 @@
 @input-picker-prefix: ~'picker-input';
 @multi-input-picker-prefix: ~'picker-tag';
 // Calendar Picker Name Space
-@clpns: ~'@{ns}@{calendar-picker-prefix}';
+@clpns: ~'rs-@{calendar-picker-prefix}';
 // Check picker name space
-@ckpns: ~'@{ns}@{check-picker-prefix}';
+@ckpns: ~'rs-@{check-picker-prefix}';
 @picker-none-padding: 6px 12px 12px;
 @picker-none-font-color: @B600;
 //** Picker background
@@ -1194,7 +1194,7 @@
 @tag-picker-content-padding-vertical-all: (@input-picker-toggle-content-height - @tag-picker-toggle-content-height);
 @tag-picker-content-padding-vertical: (@tag-picker-content-padding-vertical-all / 2); // (34 -24)/2
 @tag-picker-content-padding-horizontal: 6px;
-@tag-picker: ~'@{ns}@{multi-input-picker-prefix}';
+@tag-picker: ~'rs-@{multi-input-picker-prefix}';
 
 // == Cascader
 @cascader-search-panel-max-height: 300px;

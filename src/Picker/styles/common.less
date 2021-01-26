@@ -9,7 +9,7 @@
 
 // Common styles
 // ----------------------
-.@{ns}picker {
+.rs-picker {
   &-toggle-wrapper {
     display: inline-block;
     // Clear whitespace.
@@ -17,8 +17,8 @@
     max-width: 100%;
   }
 
-  &-toggle.@{ns}btn {
-    .@{ns}ripple-pond {
+  &-toggle.rs-btn {
+    .rs-ripple-pond {
       display: none !important;
     }
   }
@@ -35,7 +35,7 @@
     color: @picker-placeholder-color;
   }
 
-  &-has-value .@{ns}btn &-toggle-value,
+  &-has-value .rs-btn &-toggle-value,
   &-has-value &-toggle &-toggle-value {
     color: @picker-selected-value-color;
   }
@@ -69,21 +69,21 @@
     margin: 0 4px 0 0;
   }
 
-  &:not(.@{ns}picker-disabled):hover,
-  &.@{ns}picker-focused {
+  &:not(.rs-picker-disabled):hover,
+  &.rs-picker-focused {
     border-color: @picker-default-toggle-hover-border-color;
   }
 
   &-toggle-active,
-  &.@{ns}picker-focused {
+  &.rs-picker-focused {
     box-shadow: 0 0 0 3px fade(@primary-color, 25%);
   }
 }
 
-.@{ns}picker-toggle {
+.rs-picker-toggle {
   .btn-base();
 
-  .@{ns}picker-default & {
+  .rs-picker-default & {
     @padding-vertical: (@padding-base-vertical - @picker-default-toggle-border-width);
     @padding-horizontal: (@padding-base-horizontal - @picker-default-toggle-border-width);
 
@@ -103,15 +103,15 @@
     background-color: @input-bg;
   }
 
-  &.@{ns}btn-lg &-textbox {
+  &.rs-btn-lg &-textbox {
     padding-left: 14px;
   }
 
-  &.@{ns}btn-sm &-textbox {
+  &.rs-btn-sm &-textbox {
     padding-left: 8px;
   }
 
-  &.@{ns}btn-xs &-textbox {
+  &.rs-btn-xs &-textbox {
     padding-left: 6px;
   }
 
@@ -121,13 +121,13 @@
   }
 }
 
-.@{ns}btn,
-.@{ns}picker-toggle {
-  .@{ns}picker-default & {
+.rs-btn,
+.rs-picker-toggle {
+  .rs-picker-default & {
     transition: @picker-transition;
   }
 
-  .@{ns}picker-default:not(.@{ns}picker-disabled) & {
+  .rs-picker-default:not(.rs-picker-disabled) & {
     &:hover,
     &:focus,
     &-active {
@@ -135,7 +135,7 @@
     }
   }
 
-  .@{ns}picker-subtle & {
+  .rs-picker-subtle & {
     .btn-variant-subtle();
 
     transition: none;
@@ -148,7 +148,7 @@
 }
 
 /* stylelint-disable-next-line */ // Custom button sizes
-.@{ns}picker-toggle.@{ns}btn {
+.rs-picker-toggle.rs-btn {
   .picker-button-caret-md();
   .tag-picker-search-input-md();
   .date-picker-button-caret-md();
@@ -163,7 +163,7 @@
 
     .btn-lg(base);
 
-    .@{ns}picker-value-count {
+    .rs-picker-value-count {
       line-height: @line-height-large-computed;
     }
   }
@@ -198,7 +198,7 @@
 }
 
 /* stylelint-disable-next-line */ // Custom button
-.@{ns}picker-toggle {
+.rs-picker-toggle {
   .picker-default-toggle();
   .picker-subtle-toggle();
 
@@ -211,11 +211,11 @@
     .ellipsis();
   }
 
-  .@{ns}picker-cleanable & {
+  .rs-picker-cleanable & {
     padding-right: (@dropdown-toggle-padding-right + @picker-toggle-clean-width);
 
-    .@{ns}@{date-picker-prefix}&,
-    .@{ns}@{date-range-picker-prefix}& {
+    .rs-@{date-picker-prefix}&,
+    .rs-@{date-range-picker-prefix}& {
       padding-right: (
         @dropdown-toggle-padding-right + @picker-toggle-clean-width + @picker-item-content-padding-vertical
       );
@@ -224,7 +224,7 @@
 }
 
 // Picker clean button
-.@{ns}picker-toggle-clean {
+.rs-picker-toggle-clean {
   .dropdown-toggle-caret-common(@picker-toggle-clean-right);
 
   background: inherit;
@@ -232,7 +232,7 @@
   transition: 0.2s color linear;
   cursor: pointer;
 
-  &.@{ns}btn-close {
+  &.rs-btn-close {
     padding: 4px 0;
   }
 
@@ -240,14 +240,14 @@
     color: @picker-toggle-clean-hover-color;
   }
 
-  .@{ns}@{date-picker-prefix} &,
-  .@{ns}@{date-range-picker-prefix} & {
+  .rs-@{date-picker-prefix} &,
+  .rs-@{date-range-picker-prefix} & {
     right: (@picker-toggle-clean-right + @picker-item-content-padding-vertical);
   }
 }
 
 // Picker toggle caret
-.@{ns}picker-toggle-caret {
+.rs-picker-toggle-caret {
   // Extend  Dropdown toggle caret style
   .dropdown-toggle-caret-common();
 
@@ -255,7 +255,7 @@
 }
 
 // Picker Menu
-.@{ns}picker-menu {
+.rs-picker-menu {
   position: absolute;
   text-align: left;
   z-index: @zindex-picker-menu;
@@ -267,27 +267,27 @@
   transition: none;
 
   // Increase z-index when modal opened.
-  .@{ns}modal-open & {
+  .rs-modal-open & {
     z-index: (@zindex-modal + @zindex-picker-toggle);
   }
 
   // Increase z-index when drawer opened.
-  .@{ns}drawer-open & {
+  .rs-drawer-open & {
     z-index: (@zindex-drawer + @zindex-picker-toggle);
   }
 
   // Select picker menu & Check select picker menu always has 6px gap
-  &.@{ns}picker-select-menu,
-  &.@{ns}picker-check-menu {
+  &.rs-picker-select-menu,
+  &.rs-picker-check-menu {
     padding-top: @border-radius-base;
   }
 
   // Searchbar
-  .@{ns}picker-search-bar {
+  .rs-picker-search-bar {
     position: relative;
     padding: (@picker-menu-padding - @border-radius-base) @picker-menu-padding @picker-menu-padding;
 
-    .@{ns}picker-search-bar-input {
+    .rs-picker-search-bar-input {
       .default-input();
 
       min-width: @picker-content-min-width;
@@ -295,7 +295,7 @@
         (@padding-base-input-horizontal - @input-border-width) * 2;
     }
 
-    .@{ns}picker-search-bar-search-icon {
+    .rs-picker-search-bar-search-icon {
       position: absolute;
       width: @picker-search-bar-icon-width;
       color: @B400;
@@ -304,8 +304,8 @@
       top: (@picker-menu-padding - @border-radius-base + @padding-base-input-vertical);
       right: (@picker-menu-padding + @padding-base-input-horizontal);
 
-      .@{ns}@{tree-picker-prefix}-menu&,
-      .@{ns}@{check-tree-picker-prefix}-menu& {
+      .rs-@{tree-picker-prefix}-menu&,
+      .rs-@{check-tree-picker-prefix}-menu& {
         top: (@padding-base-input-vertical - @input-border-width);
       }
     }
@@ -316,34 +316,34 @@
     outline: none;
   }
 
-  &.@{ns}picker-inline {
+  &.rs-picker-inline {
     position: relative;
     box-shadow: none;
   }
 }
 
 // Make sure styles the same with <Input>
-.@{ns}picker-default,
-.@{ns}picker-input {
-  .@{ns}btn,
-  .@{ns}picker-toggle {
+.rs-picker-default,
+.rs-picker-input {
+  .rs-btn,
+  .rs-picker-toggle {
     background: @input-bg !important;
   }
 
-  &.@{ns}picker-disabled .@{ns}picker-toggle,
-  &.@{ns}picker-disabled .@{ns}btn {
+  &.rs-picker-disabled .rs-picker-toggle,
+  &.rs-picker-disabled .rs-btn {
     background: @input-bg-disabled !important;
   }
 }
 
 // Check Item
-.@{ns}check-item {
-  &:not(.@{ns}checkbox-disabled):hover,
+.rs-check-item {
+  &:not(.rs-checkbox-disabled):hover,
   &-focus {
     .picker-item-hover();
   }
 
-  .@{ns}checkbox-checker {
+  .rs-checkbox-checker {
     padding: 0;
 
     > label {
@@ -360,11 +360,11 @@
         .ellipsis-basic();
       }
 
-      .@{ns}checkbox-disabled& {
+      .rs-checkbox-disabled& {
         cursor: not-allowed;
       }
 
-      .@{ns}checkbox-wrapper {
+      .rs-checkbox-wrapper {
         left: @picker-item-content-padding-horizontal;
 
         .grouped &,

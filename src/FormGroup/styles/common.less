@@ -5,28 +5,28 @@
 // FormGroup
 // --------------------------------------------------
 
-.@{ns}form-group {
-  .@{ns}form:not(.@{ns}form-inline) &:not(:last-child) {
+.rs-form-group {
+  .rs-form:not(.rs-form-inline) &:not(:last-child) {
     margin-bottom: @form-group-margin-bottom;
   }
 
-  .@{ns}input {
+  .rs-input {
     display: inline-block;
   }
 
   // Fixed inline element will produce a whitespace
-  textarea.@{ns}input {
+  textarea.rs-input {
     vertical-align: bottom;
   }
 }
 
 // Vertical forms
-.@{ns}form-vertical .@{ns}form-group {
-  .@{ns}form-control-label {
+.rs-form-vertical .rs-form-group {
+  .rs-form-control-label {
     display: block;
   }
 
-  .@{ns}form-help-text:not(.@{ns}form-help-text-tooltip) {
+  .rs-form-help-text:not(.rs-form-help-text-tooltip) {
     padding-top: 4px;
   }
 }
@@ -36,10 +36,10 @@
 // Horizontal forms are built on grid classes and allow you to create forms with
 // labels on the left and inputs on the right.
 
-.@{ns}form-horizontal .@{ns}form-group {
+.rs-form-horizontal .rs-form-group {
   .clearfix();
 
-  .@{ns}form-control-label {
+  .rs-form-control-label {
     float: left;
     display: inline-block;
     //Sometimes help info is more than one line，so height can't set a fixed value
@@ -52,12 +52,12 @@
     text-align: right;
   }
 
-  .@{ns}btn-toolbar {
+  .rs-btn-toolbar {
     padding-left: @form-control-label-width + @form-control-label-margin-right;
   }
 }
 
 // Inline
-.@{ns}form-inline .@{ns}form-group {
+.rs-form-inline .rs-form-group {
   display: inline-block;
 }

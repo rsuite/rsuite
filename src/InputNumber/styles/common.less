@@ -1,7 +1,7 @@
 @import '../../styles/common';
 @import 'mixin';
 
-.@{ns}input-number {
+.rs-input-number {
   background: @input-bg;
 
   &-btn-group-vertical {
@@ -10,7 +10,7 @@
     flex: 0 0 20px;
     display: block;
 
-    & > .@{ns}btn {
+    & > .rs-btn {
       display: block;
       float: none;
       width: 100%;
@@ -31,19 +31,19 @@
     .input-touchspin(base);
 
     //sizes
-    .@{ns}input-group-lg & {
+    .rs-input-group-lg & {
       .input-touchspin(large);
     }
 
-    .@{ns}input-group-sm & {
+    .rs-input-group-sm & {
       .input-touchspin(small);
     }
 
-    .@{ns}input-group-xs & {
+    .rs-input-group-xs & {
       .input-touchspin(extra-small);
     }
 
-    > .@{ns}icon {
+    > .rs-icon {
       position: absolute;
       top: 0;
       left: 0;
@@ -63,7 +63,7 @@
     border-bottom-right-radius: @border-radius-base;
   }
 
-  > .@{ns}input {
+  > .rs-input {
     .border-left-radius(@border-radius-base) !important;
   }
 

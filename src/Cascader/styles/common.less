@@ -6,7 +6,7 @@
 // ----------------------
 
 // Cascader Picker Name Space
-@cspns: ~'@{ns}@{cascader-picker-prefix}';
+@cspns: ~'rs-@{cascader-picker-prefix}';
 
 .@{cspns}-menu-items > div {
   .clearfix();
@@ -75,7 +75,7 @@
     align-items: center;
     justify-content: center;
 
-    .@{ns}icon {
+    .rs-icon {
       margin: 4px;
     }
   }
@@ -114,7 +114,7 @@
 
   &:not(&-disabled):hover,
   &:not(&-disabled):focus,
-  &.@{ns}picker-select-menu-item-focus {
+  &.rs-picker-select-menu-item-focus {
     .picker-item-hover();
 
     text-decoration: none;

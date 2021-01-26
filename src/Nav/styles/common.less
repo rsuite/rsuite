@@ -7,7 +7,7 @@
 
 // Base class
 // --------------------------------------------------
-.@{ns}nav {
+.rs-nav {
   position: relative;
 
   // Nav item
@@ -22,7 +22,7 @@
       color: @nav-item-click-font-color;
     }
 
-    &.@{ns}nav-item-disabled {
+    &.rs-nav-item-disabled {
       cursor: not-allowed;
       color: @B400;
     }
@@ -38,7 +38,7 @@
 
     .safari-border-radius-overflow-hidden();
 
-    > .@{ns}icon {
+    > .rs-icon {
       margin-right: @nav-item-icon-spacing;
     }
 
@@ -47,13 +47,13 @@
   }
 
   // Rest dropdown height
-  .@{ns}dropdown > .@{ns}dropdown-toggle {
+  .rs-dropdown > .rs-dropdown-toggle {
     height: @nav-base-height;
   }
 
   // Active
-  .@{ns}dropdown .@{ns}dropdown-menu-active ~ .@{ns}dropdown-toggle,
-  .@{ns}nav-item-active {
+  .rs-dropdown .rs-dropdown-menu-active ~ .rs-dropdown-toggle,
+  .rs-nav-item-active {
     position: relative;
     z-index: 1;
 
@@ -66,55 +66,55 @@
   }
 
   // Orientation
-  &.@{ns}nav-horizontal {
+  &.rs-nav-horizontal {
     white-space: nowrap;
 
     // Justified
-    &.@{ns}nav-justified {
+    &.rs-nav-justified {
       display: flex;
 
-      .@{ns}nav-item,
-      .@{ns}dropdown {
+      .rs-nav-item,
+      .rs-dropdown {
         flex: 1 1 1%;
       }
 
-      .@{ns}dropdown .@{ns}dropdown-toggle {
+      .rs-dropdown .rs-dropdown-toggle {
         width: 100%;
         text-align: left;
       }
     }
 
-    .@{ns}dropdown,
-    .@{ns}nav-item {
+    .rs-dropdown,
+    .rs-nav-item {
       display: inline-block;
       vertical-align: top;
     }
 
     // Waterline
-    .@{ns}nav-bar {
+    .rs-nav-bar {
       position: absolute;
       bottom: 0;
       width: 100%;
 
       //** Reversed
-      .@{ns}nav-reversed& {
+      .rs-nav-reversed& {
         bottom: auto;
         top: 0;
       }
     }
   }
 
-  &.@{ns}nav-vertical {
+  &.rs-nav-vertical {
     // margin space
-    .@{ns}dropdown:not(:first-child),
-    .@{ns}nav-item:not(:first-child) {
+    .rs-dropdown:not(:first-child),
+    .rs-nav-item:not(:first-child) {
       margin-top: @nav-item-spacing;
     }
 
-    .@{ns}dropdown {
+    .rs-dropdown {
       width: 100%;
 
-      > .@{ns}dropdown-toggle {
+      > .rs-dropdown-toggle {
         width: 100%;
         text-align: left;
         z-index: 0;
@@ -122,28 +122,28 @@
     }
 
     // Waterline
-    .@{ns}nav-bar {
+    .rs-nav-bar {
       display: block;
       position: absolute;
       top: 0;
       bottom: 0;
       right: 0;
 
-      .@{ns}nav-reversed& {
+      .rs-nav-reversed& {
         right: auto;
       }
     }
   }
 
   // Ripple
-  .@{ns}nav-default &-item,
-  .@{ns}nav-tabs &-item {
-    .button-ripple(~'@{ns}nav-item-');
+  .rs-nav-default &-item,
+  .rs-nav-tabs &-item {
+    .button-ripple(~'rs-nav-item-');
 
     transition: @nav-item-transition;
   }
 
-  .@{ns}nav-default &-item .@{ns}ripple-pond {
+  .rs-nav-default &-item .rs-ripple-pond {
     border-radius: inherit;
     overflow: hidden;
   }
@@ -153,12 +153,12 @@
 // --------------------------------------------------
 
 // Default Nav
-.@{ns}nav-default {
-  .@{ns}nav-item {
+.rs-nav-default {
+  .rs-nav-item {
     border-radius: @nav-item-border-radius;
   }
 
-  .@{ns}nav-item:not(.@{ns}nav-item-disabled) {
+  .rs-nav-item:not(.rs-nav-item-disabled) {
     &:hover,
     &:focus {
       background: @nav-item-default-hover-bg;
@@ -171,10 +171,10 @@
 }
 
 // Tab Nav
-.@{ns}nav-tabs {
+.rs-nav-tabs {
 
   //:hover :active :focus
-  .@{ns}nav-item:not(.@{ns}nav-item-active):not(.@{ns}nav-item-disabled) {
+  .rs-nav-item:not(.rs-nav-item-active):not(.rs-nav-item-disabled) {
     &:hover,
     &:focus {
       background: @nav-subtle-hover-bg;
@@ -186,7 +186,7 @@
   }
 
   //** Active
-  .@{ns}nav-item.@{ns}nav-item-active {
+  .rs-nav-item.rs-nav-item-active {
     @padding-vertical: @nav-item-padding-vertical - @nav-tab-bar-width;
     @padding-horizontal: @nav-item-padding-horizontal - @nav-tab-bar-width;
 
@@ -195,28 +195,28 @@
   }
 
   // Horizontal
-  &.@{ns}nav-horizontal {
+  &.rs-nav-horizontal {
     //Nav content
-    .@{ns}nav-item {
+    .rs-nav-item {
       border-radius: @nav-item-border-radius @nav-item-border-radius 0 0;
 
-      .@{ns}nav-reversed& {
+      .rs-nav-reversed& {
         border-radius: 0 0 @nav-item-border-radius @nav-item-border-radius;
       }
     }
 
     //** Waterline
-    .@{ns}nav-bar {
+    .rs-nav-bar {
       border-top: @nav-tab-bar;
     }
 
     //** Active
-    .@{ns}nav-item.@{ns}nav-item-active {
+    .rs-nav-item.rs-nav-item-active {
       border: @nav-tab-bar-width solid @nav-tab-bar-color;
       border-bottom-color: @nav-tab-default-bg;
 
       // Reversed
-      .@{ns}nav-reversed& {
+      .rs-nav-reversed& {
         border-bottom-color: @nav-tab-bar-color;
         border-top-color: @nav-tab-default-bg;
       }
@@ -224,30 +224,30 @@
   }
 
   // Vertical
-  &.@{ns}nav-vertical {
+  &.rs-nav-vertical {
     //Nav content
-    .@{ns}dropdown > .@{ns}dropdown-toggle,
-    .@{ns}nav-item {
+    .rs-dropdown > .rs-dropdown-toggle,
+    .rs-nav-item {
       border-radius: @nav-item-border-radius 0 0 @nav-item-border-radius;
 
-      .@{ns}nav-reversed& {
+      .rs-nav-reversed& {
         border-radius: 0 @nav-item-border-radius @nav-item-border-radius 0;
       }
     }
 
     //** Waterline
-    .@{ns}nav-bar {
+    .rs-nav-bar {
       width: @nav-tab-bar-width;
       background: @nav-tab-bar-color;
     }
 
     //** Active
-    .@{ns}nav-item.@{ns}nav-item-active {
+    .rs-nav-item.rs-nav-item-active {
       border: @nav-tab-bar-width solid @nav-tab-bar-color;
       border-right-color: @nav-tab-default-bg;
 
       // Reversed
-      .@{ns}nav-reversed& {
+      .rs-nav-reversed& {
         border-left-color: @nav-tab-default-bg;
         border-right-color: @nav-tab-bar-color;
       }
@@ -256,8 +256,8 @@
 }
 
 // Subtle Nav
-.@{ns}nav-subtle {
-  .@{ns}nav-item:not(.@{ns}nav-item-disabled) {
+.rs-nav-subtle {
+  .rs-nav-item:not(.rs-nav-item-disabled) {
     &:hover,
     &:focus {
       color: @H600;
@@ -269,14 +269,14 @@
   }
 
   // Horizontal
-  &.@{ns}nav-horizontal {
+  &.rs-nav-horizontal {
     //Waterline
-    .@{ns}nav-bar {
+    .rs-nav-bar {
       border-top: @nav-subtle-default-bar;
     }
 
     // Active item
-    .@{ns}nav-item {
+    .rs-nav-item {
       position: relative;
 
       &::before {
@@ -289,13 +289,13 @@
         background-color: @nav-subtle-bar-active-color;
         transition: left @nav-subtle-content-transition, right @nav-subtle-content-transition;
         // Reversed
-        .@{ns}nav-reversed& {
+        .rs-nav-reversed& {
           bottom: auto;
           top: 0;
         }
       }
 
-      &.@{ns}nav-item-active::before {
+      &.rs-nav-item-active::before {
         left: 0;
         right: 0;
         z-index: 1;
@@ -304,15 +304,15 @@
   }
 
   // Vertical
-  &.@{ns}nav-vertical {
+  &.rs-nav-vertical {
     // Waterline
-    .@{ns}nav-bar {
+    .rs-nav-bar {
       width: @nav-subtle-bar-width;
       background: @nav-subtle-bar-default-color;
     }
 
     // Active item
-    .@{ns}nav-item {
+    .rs-nav-item {
       position: relative;
 
       &::before {
@@ -326,13 +326,13 @@
         transition: top @nav-subtle-content-transition, bottom @nav-subtle-content-transition;
 
         // Reversed
-        .@{ns}nav-reversed& {
+        .rs-nav-reversed& {
           right: auto;
           left: 0;
         }
       }
 
-      &.@{ns}nav-item-active::before {
+      &.rs-nav-item-active::before {
         top: 0;
         bottom: 0;
         z-index: 1;

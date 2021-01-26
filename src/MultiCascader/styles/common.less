@@ -6,23 +6,23 @@
 // ----------------------
 
 // Cascader Picker Name Space
-@cspns: ~'@{ns}@{cascader-picker-prefix}';
-@cmpns: ~'@{ns}@{cascader-multi-picker-prefix}';
+@cspns: ~'rs-@{cascader-picker-prefix}';
+@cmpns: ~'rs-@{cascader-multi-picker-prefix}';
 
 .@{cspns} {
-  &-menu .@{ns}check-item .@{ns}checkbox-checker > label {
+  &-menu .rs-check-item .rs-checkbox-checker > label {
     padding-right: 26px; // 12px + 8px + 6px
   }
 
-  &-menu .@{ns}check-item.@{ns}check-item-focus,
-  &-menu .@{ns}check-item.@{ns}checkbox-checked {
-    .@{ns}checkbox-checker > label {
+  &-menu .rs-check-item.rs-check-item-focus,
+  &-menu .rs-check-item.rs-checkbox-checked {
+    .rs-checkbox-checker > label {
       .picker-item-active();
     }
   }
 
   &-menu-column&-menu-column-uncheckable {
-    .@{ns}check-item .@{ns}checkbox-checker > label {
+    .rs-check-item .rs-checkbox-checker > label {
       padding-left: @picker-item-content-padding-horizontal;
     }
   }

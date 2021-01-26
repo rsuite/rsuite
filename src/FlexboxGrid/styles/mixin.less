@@ -1,6 +1,6 @@
 // Common styles for all sizes of grid columns.
 .calc-flex-box-item(@index) when (@index > 0) {
-  .@{ns}flex-box-grid-item-@{index} {
+  .rs-flex-box-grid-item-@{index} {
     // Provide positioning for child elements.
     position: relative;
     display: block;
@@ -17,7 +17,7 @@
   .loop-flex-box-items((@index - 1));
 
   // Generate order styles.
-  .@{ns}flex-box-grid-item-order-@{index} {
+  .rs-flex-box-grid-item-order-@{index} {
     order: @index;
   }
 }

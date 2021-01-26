@@ -1,11 +1,11 @@
 @import '../../styles/common';
 @import 'mixin';
 
-.@{ns}checkbox {
+.rs-checkbox {
   .radio-checkbox-common();
 }
 
-.@{ns}checkbox-checker {
+.rs-checkbox-checker {
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: (@checkbox-sense-width*2 + @checkbox-width-height);
@@ -15,11 +15,11 @@
 }
 
 /* rtl:begin:ignore */
-.@{ns}checkbox-wrapper {
+.rs-checkbox-wrapper {
   &::before,
   &::after,
-  .@{ns}checkbox-inner::before,
-  .@{ns}checkbox-inner::after {
+  .rs-checkbox-inner::before,
+  .rs-checkbox-inner::after {
     content: '';
     position: absolute;
     left: 0;
@@ -28,13 +28,13 @@
   }
 
   // Check mark
-  .@{ns}checkbox-inner::after {
+  .rs-checkbox-inner::after {
     opacity: 0;
     transform: rotate(45deg) scale(0);
     transition: opacity 0.2s ease-in, transform 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46);
 
-    .@{ns}checkbox-checked &,
-    .@{ns}checkbox-indeterminate & {
+    .rs-checkbox-checked &,
+    .rs-checkbox-indeterminate & {
       border: solid @checkbox-checked-mark-color;
       width: 6px;
       height: 9px;
@@ -43,12 +43,12 @@
       opacity: 1;
     }
 
-    .@{ns}checkbox-checked & {
+    .rs-checkbox-checked & {
       border-width: 0 2px 2px 0;
       transform: rotate(45deg) scale(1);
     }
 
-    .@{ns}checkbox-indeterminate & {
+    .rs-checkbox-indeterminate & {
       border-width: 0 0 2px;
       transform: rotate(0deg) scale(1);
       width: 10px;
@@ -61,7 +61,7 @@
 /* rtl:end:ignore */
 
 /* stylelint-disable-next-line */ // For RTL Scope
-.@{ns}checkbox-wrapper {
+.rs-checkbox-wrapper {
   position: absolute;
   width: @checkbox-width-height;
   height: @checkbox-width-height;
@@ -76,8 +76,8 @@
   }
 
   &::before,
-  .@{ns}checkbox-inner::before,
-  .@{ns}checkbox-inner::after {
+  .rs-checkbox-inner::before,
+  .rs-checkbox-inner::after {
     width: @checkbox-width-height;
     height: @checkbox-width-height;
   }
@@ -91,7 +91,7 @@
     visibility: hidden;
     transition: transform 0.2s linear, opacity 0.2s linear;
 
-    .@{ns}checkbox-checked & {
+    .rs-checkbox-checked & {
       transform: scale(1.5);
       opacity: 0;
       visibility: visible;
@@ -107,33 +107,33 @@
   }
 
   // Out border
-  .@{ns}checkbox-inner::before {
+  .rs-checkbox-inner::before {
     .checkbox-inner-wrap(@checkbox-default-border-color);
 
     transition: background 0.2s linear, border 0.2s linear, box-shadow 0.2s linear;
 
-    .@{ns}checkbox-checker:hover & {
+    .rs-checkbox-checker:hover & {
       border-color: @checkbox-hover-border-color;
     }
 
-    .@{ns}checkbox-checked &,
-    .@{ns}checkbox-indeterminate & {
+    .rs-checkbox-checked &,
+    .rs-checkbox-indeterminate & {
       border-color: @checkbox-checked-border-color;
       background-color: @checkbox-checked-border-color;
     }
 
-    .@{ns}checkbox-disabled:not(.@{ns}checkbox-checked):not(.@{ns}checkbox-indeterminate) & {
+    .rs-checkbox-disabled:not(.rs-checkbox-checked):not(.rs-checkbox-indeterminate) & {
       border-color: @checkbox-disabled-color;
       background-color: @checkbox-disabled-color;
     }
 
-    .@{ns}checkbox-disabled.@{ns}checkbox-checked &,
-    .@{ns}checkbox-disabled.@{ns}checkbox-indeterminate & {
+    .rs-checkbox-disabled.rs-checkbox-checked &,
+    .rs-checkbox-disabled.rs-checkbox-indeterminate & {
       opacity: 0.3;
     }
   }
 
-  [type='checkbox']:focus ~ .@{ns}checkbox-inner::before {
+  [type='checkbox']:focus ~ .rs-checkbox-inner::before {
     .checkbox-inner-active-shadow(@border-primary-color);
 
     @hover: ~':hover';
@@ -142,7 +142,7 @@
       .checkbox-inner-active-shadow(@checkbox-checked-border-color);
     }
 
-    .@{ns}checkbox-checked & {
+    .rs-checkbox-checked & {
       .checkbox-inner-active-shadow(@checkbox-checked-border-color);
     }
   }

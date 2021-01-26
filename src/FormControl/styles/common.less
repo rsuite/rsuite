@@ -2,22 +2,22 @@
 @import '../../Form/styles/mixin';
 
 // Full container.
-.@{ns}form-fluid .@{ns}form-control-wrapper {
+.rs-form-fluid .rs-form-control-wrapper {
   width: 100%;
 
-  > .@{ns}input-number,
-  > .@{ns}input {
+  > .rs-input-number,
+  > .rs-input {
     width: 100%;
   }
 }
 
 // Fixed width.
-.@{ns}form-control-wrapper {
+.rs-form-control-wrapper {
   // Used to provide relation for error message
   position: relative;
 
-  > .@{ns}input-number,
-  > .@{ns}input {
+  > .rs-input-number,
+  > .rs-input {
     width: @form-control-width;
   }
 
@@ -29,11 +29,11 @@
 }
 
 // Vertical forms
-.@{ns}form-vertical .@{ns}form-group .@{ns}input-group {
+.rs-form-vertical .rs-form-group .rs-input-group {
   width: @form-control-width;
 }
 
-.@{ns}form-vertical .@{ns}form-group .@{ns}form-control-wrapper {
+.rs-form-vertical .rs-form-group .rs-form-control-wrapper {
   display: inline-block;
   // Make sure max width won't overflow.
   max-width: 100%;
@@ -44,65 +44,65 @@
 // Horizontal forms are built on grid classes and allow you to create forms with
 // labels on the left and inputs on the right.
 
-.@{ns}form-horizontal .@{ns}form-group {
-  .@{ns}form-control-wrapper {
+.rs-form-horizontal .rs-form-group {
+  .rs-form-control-wrapper {
     float: left;
   }
 
-  .@{ns}form-control-wrapper + .@{ns}form-help-text {
+  .rs-form-control-wrapper + .rs-form-help-text {
     clear: both;
   }
 
   // Help block
-  .@{ns}form-control-wrapper + .@{ns}form-help-text:not(.@{ns}form-help-text-tooltip) {
+  .rs-form-control-wrapper + .rs-form-help-text:not(.rs-form-help-text-tooltip) {
     margin-left: @form-control-label-width + @form-control-label-margin-right;
   }
 }
 
 // Inline
-.@{ns}form-inline .@{ns}form-group {
-  .@{ns}form-control-wrapper {
+.rs-form-inline .rs-form-group {
+  .rs-form-control-wrapper {
     display: inline-block;
   }
 
   // Form control wrapper behind Screen only dom no need margin left.
-  .@{ns}sr-only + .@{ns}form-control-wrapper {
+  .rs-sr-only + .rs-form-control-wrapper {
     margin-left: 0;
   }
 }
 
 // Plain text
-.@{ns}form-control-wrapper.plaintext {
+.rs-form-control-wrapper.plaintext {
   display: block !important;
   max-width: 100%;
 
-  & + .@{ns}form-help-text {
+  & + .rs-form-help-text {
     display: none;
   }
 
-  .@{ns}form-control-default-value {
+  .rs-form-control-default-value {
     padding: @padding-base-input-vertical 0;
   }
 
-  > .@{ns}input {
+  > .rs-input {
     border: 1px solid @form-plain-text-border-color;
     padding-left: 0;
     padding-right: 0;
     width: auto;
   }
 
-  > .@{ns}checkbox-group {
-    .@{ns}checkbox-checker {
+  > .rs-checkbox-group {
+    .rs-checkbox-checker {
       padding-left: 0;
       display: inline-block;
     }
 
-    .@{ns}checkbox-wrapper,
-    .@{ns}checkbox:not(.@{ns}checkbox-checked) {
+    .rs-checkbox-wrapper,
+    .rs-checkbox:not(.rs-checkbox-checked) {
       display: none;
     }
 
-    .@{ns}checkbox {
+    .rs-checkbox {
       position: relative;
       display: inline-block;
       font-weight: normal;
@@ -115,44 +115,44 @@
       margin-left: 0;
     }
 
-    .@{ns}checkbox.@{ns}checkbox-checked ~ .@{ns}checkbox.@{ns}checkbox-checked::before {
+    .rs-checkbox.rs-checkbox-checked ~ .rs-checkbox.rs-checkbox-checked::before {
       content: @form-plain-text-checkbox-divider-content;
     }
   }
 
-  > .@{ns}radio-group {
-    .@{ns}radio-checker {
+  > .rs-radio-group {
+    .rs-radio-checker {
       padding-left: 0;
     }
 
-    .@{ns}radio-wrapper,
-    .@{ns}radio:not(.@{ns}radio-checked) {
+    .rs-radio-wrapper,
+    .rs-radio:not(.rs-radio-checked) {
       display: none;
     }
   }
 
-  > .@{ns}slider {
+  > .rs-slider {
     // Rewrite inline style.
     margin: 0 !important;
     width: auto !important;
 
-    .@{ns}tooltip {
+    .rs-tooltip {
       display: inline;
       position: static;
       opacity: 1;
     }
 
-    .@{ns}slider-bar,
-    .@{ns}slider-handle::before,
-    .@{ns}tooltip-arrow {
+    .rs-slider-bar,
+    .rs-slider-handle::before,
+    .rs-tooltip-arrow {
       display: none;
     }
 
-    .@{ns}slider-handle {
+    .rs-slider-handle {
       position: static;
     }
 
-    .@{ns}tooltip-inner {
+    .rs-tooltip-inner {
       display: inline-block;
       background: transparent;
       color: @text-color;
@@ -162,62 +162,62 @@
     }
   }
 
-  > .@{ns}picker-default {
-    .@{ns}picker-toggle {
+  > .rs-picker-default {
+    .rs-picker-toggle {
       border: 1px solid @form-plain-text-border-color;
       padding-left: 0;
       padding-right: 0;
     }
 
-    .@{ns}picker-toggle,
-    .@{ns}picker-toggle-value {
+    .rs-picker-toggle,
+    .rs-picker-toggle-value {
       color: @text-color;
 
-      .@{ns}picker-value-list {
+      .rs-picker-value-list {
         overflow: visible;
         white-space: normal;
       }
     }
 
-    .@{ns}picker-toggle-clean,
-    .@{ns}picker-toggle-caret,
-    .@{ns}picker-value-count {
+    .rs-picker-toggle-clean,
+    .rs-picker-toggle-caret,
+    .rs-picker-value-count {
       display: none;
     }
   }
 
-  > .@{ns}picker-input {
+  > .rs-picker-input {
     display: block;
     border: 1px solid @form-plain-text-border-color;
 
-    .@{ns}picker-toggle-clean,
-    .@{ns}picker-toggle-caret {
+    .rs-picker-toggle-clean,
+    .rs-picker-toggle-caret {
       display: none;
     }
 
-    .@{ns}picker-tag-wrapper {
+    .rs-picker-tag-wrapper {
       margin-left: -10px;
     }
 
-    .@{ns}tag {
+    .rs-tag {
       padding-right: @tag-picker-content-padding-horizontal;
 
-      .@{ns}tag-icon-close {
+      .rs-tag-icon-close {
         display: none;
       }
     }
 
-    .@{ns}picker-toggle {
+    .rs-picker-toggle {
       padding-left: 0;
       padding-right: @padding-base-horizontal;
 
-      .@{ns}picker-toggle-value {
+      .rs-picker-toggle-value {
         color: @text-color;
       }
     }
   }
 
-  .@{ns}picker-toggle {
+  .rs-picker-toggle {
     user-select: auto;
   }
 }
