@@ -8,37 +8,36 @@
 // Alternate buttons
 // --------------------------------------------------
 
+// Icon Button with text
+.btn-icon-with-text(@bg) {
+  &.rs-btn-icon-with-text > .rs-icon {
+    background: @bg;
+  }
+}
+
 // Default Button
 // Rewrite common button style
-.@{ns}btn-default {
+.rs-btn-icon {
+  &.rs-btn-icon-with-text > .rs-icon {
+    transition: @btn-transition;
+  }
+
   .btn-icon-with-text(@btn-icon-with-text-bg);
 
-  &:not(.@{ns}btn-disabled) {
-    &:focus {
-      .btn-icon-with-text(@btn-icon-with-text-focus-bg);
-    }
+  &:hover,
+  &:focus {
+    .btn-icon-with-text(@btn-icon-with-text-hover-bg);
+  }
 
-    &:hover {
-      .btn-icon-with-text(@btn-icon-with-text-hover-bg);
-    }
-
-    &:active,
-    &.@{ns}btn-active,
-    .@{ns}open > .@{ns}dropdown-toggle& {
-      .btn-icon-with-text(@btn-icon-with-text-active-bg);
-
-      &:hover,
-      &:focus,
-      &.focus {
-        .btn-icon-with-text(@btn-icon-with-text-active-bg);
-      }
-    }
+  &:active,
+  &.rs-btn-active {
+    .btn-icon-with-text(@btn-icon-with-text-active-bg);
   }
 }
 
 // Icon Button
 // Icon Button text size increase 2 px
-.@{ns}btn-icon:not(.@{ns}btn-icon-with-text) {
+.rs-btn-icon:not(.rs-btn-icon-with-text) {
   .icon {
     font-size: @font-size-large;
     line-height: @line-height-large;
@@ -51,7 +50,7 @@
 }
 
 // Circle Button
-.@{ns}btn-icon-circle {
+.rs-btn-icon-circle {
   border-radius: 50% !important;
   width: (@padding-base-vertical*2 + @line-height-computed);
 }
