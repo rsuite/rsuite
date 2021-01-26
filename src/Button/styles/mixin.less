@@ -1,5 +1,7 @@
+@import 'mixins/variants';
+
 // Button base styles
-.btn(base) {
+.btn-base() {
   display: inline-block;
   margin-bottom: 0; // For input.btn
   font-weight: @btn-font-weight;
@@ -12,111 +14,12 @@
   border: none;
   user-select: none;
   transition: @btn-transition;
+  text-decoration: none;
 
   .btn-md();
 
   &:focus {
     box-shadow: @btn-focus-shadow;
-  }
-
-  &:hover,
-  &:focus {
-    color: @btn-default-color;
-    text-decoration: none;
-  }
-
-  &:active,
-  &.@{ns}btn-active {
-    outline: 0;
-    background-image: none;
-  }
-}
-
-// Subtle  button style
-.btn-subtle() {
-  .btn-subtle-variant(@btn-subtle-hover-bg);
-
-  &.rs-btn-disabled {
-    &,
-    &:hover,
-    &:focus,
-    &:active {
-      // Reset Opacity;
-      opacity: 1;
-    }
-  }
-
-  &:focus,
-  &.@{ns}btn-focus,
-  &:hover {
-    color: @btn-subtle-default-hover-color;
-  }
-
-  &:active,
-  &.@{ns}btn-active,
-  .@{ns}open > .@{ns}dropdown-toggle& {
-    color: @btn-subtle-active-default-color;
-    background-color: @btn-subtle-active-default-bg;
-    background-image: none;
-
-    &:hover,
-    &:focus,
-    &.focus {
-      color: @btn-subtle-active-default-color;
-      background-color: @btn-subtle-active-default-bg;
-    }
-  }
-
-  .generate-spectrum-subtle-btns();
-}
-
-// General spectrum buttons
-.generate-spectrum-primary-btns(@i:length(@spectrum)) when (@i>0) {
-  .generate-spectrum-primary-btns(@i - 1);
-  @name: extract(@spectrum, @i);
-  @background-color: @@name;
-
-  &.@{ns}btn-@{name} {
-    .button-primary-variant(@btn-primary-color, @background-color);
-
-    // Defalut button spectrum button need set opacity.
-    &.@{ns}btn-default.@{ns}btn-disabled,
-    .@{ns}dropdown-disabled &.@{ns}btn-default {
-      opacity: 0.3;
-    }
-  }
-}
-
-.generate-spectrum-link-btns(@i:length(@spectrum)) when (@i>0) {
-  .generate-spectrum-link-btns(@i - 1);
-  @name: extract(@spectrum, @i);
-  @base-color: @@name;
-  @color: color(~`palette('@{base-color}', 700) `);
-
-  &.@{ns}btn-@{name} {
-    .btn-link-variant(@color);
-  }
-}
-
-.generate-spectrum-subtle-btns(@i:length(@spectrum)) when (@i>0) {
-  .generate-spectrum-subtle-btns(@i - 1);
-  @name: extract(@spectrum, @i);
-  @color: @@name;
-
-  &.@{ns}btn-@{name} {
-    .btn-subtle-variant(@color);
-  }
-}
-
-.generate-spectrum-ghost-btns(@i:length(@spectrum)) when (@i>0) {
-  .generate-spectrum-ghost-btns(@i - 1);
-  @name: extract(@spectrum, @i);
-  @base-color: @@name;
-  @color: color(~`palette('@{base-color}', 700) `);
-  @border-color: @color;
-
-  &.@{ns}btn-@{name} {
-    .btn-ghost-variant(@color, @border-color);
   }
 }
 
@@ -138,40 +41,40 @@
     base; @padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius
   );
 
-  &.@{ns}btn-ghost {
+  &.rs-btn-ghost {
     // Ghost button has 1px border
     padding-top: (@padding-vertical - 1);
     padding-bottom: (@padding-vertical - 1);
   }
 
   // Button icon
-  &.@{ns}btn-icon {
+  &.rs-btn-icon {
     padding-left: @icon-side-length - @padding-horizontal;
     height: @icon-side-length;
     position: relative;
 
     // Ghost button need minus border-width.
-    .@{ns}btn-ghost& {
+    .rs-btn-ghost& {
       padding-left: (@icon-side-length - @padding-horizontal - @btn-ghost-border-width*2);
     }
 
-    &.@{ns}btn-icon-with-text {
-      &.@{ns}btn-icon-placement-left {
+    &.rs-btn-icon-with-text {
+      &.rs-btn-icon-placement-left {
         padding-left: (@icon-side-length + @padding-vertical);
       }
 
-      &.@{ns}btn-icon-placement-right {
+      &.rs-btn-icon-placement-right {
         padding-left: @padding-base-input-horizontal;
         padding-right: (@icon-side-length + @padding-vertical);
 
-        > .@{ns}icon {
+        > .rs-icon {
           left: auto;
           right: 0;
         }
       }
     }
 
-    > .@{ns}icon {
+    > .rs-icon {
       position: absolute;
       top: 0;
       left: 0;
@@ -182,7 +85,7 @@
       font-size: @font-size;
       line-height: @line-height;
 
-      .@{ns}btn-ghost& {
+      .rs-btn-ghost& {
         width: @ghost-icon-side-length;
         height: @ghost-icon-side-length;
         padding: (@padding-vertical - @btn-ghost-border-width) 0;
@@ -194,7 +97,7 @@
     }
   }
 
-  &.@{ns}btn-icon-circle {
+  &.rs-btn-icon-circle {
     width: @icon-side-length;
     padding: @padding-vertical;
   }
@@ -204,8 +107,7 @@
 .btn-sm(base) {
   /* stylelint-disable */ //Formatted by prettier
   .button-size(
-    base; @padding-small-vertical; @padding-small-horizontal; @font-size-base; @line-height-base;
-    @btn-border-radius-small
+    base; @padding-small-vertical; @padding-small-horizontal; @font-size-base; @line-height-base; @btn-border-radius-small
   );
   /* stylelint-enable */
 }
@@ -213,8 +115,7 @@
 .btn-md(base) {
   /* stylelint-disable */ //Formatted by prettier
   .button-size(
-    base; @padding-base-vertical; @padding-base-horizontal; @font-size-base; @line-height-base;
-    @btn-border-radius-base
+    base; @padding-base-vertical; @padding-base-horizontal; @font-size-base; @line-height-base; @btn-border-radius-base
   );
   /* stylelint-enable */
 }
@@ -222,8 +123,7 @@
 .btn-xs(base) {
   /* stylelint-disable */ //Formatted by prettier
   .button-size(
-    base; @padding-extra-small-vertical; @padding-extra-small-horizontal; @font-size-small;
-    @line-height-small; @btn-border-radius-small
+    base; @padding-extra-small-vertical; @padding-extra-small-horizontal; @font-size-small; @line-height-small; @btn-border-radius-small
   );
   /* stylelint-enable */
 }
@@ -231,8 +131,7 @@
 .btn-lg(base) {
   /* stylelint-disable */ //Formatted by prettier
   .button-size(
-    base; @padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large;
-    @btn-border-radius-large
+    base; @padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large; @btn-border-radius-large
   );
   /* stylelint-enable */
 }
@@ -241,8 +140,7 @@
 .btn-sm() {
   /* stylelint-disable */ //Formatted by prettier
   .button-size(
-    @padding-small-vertical; @padding-small-horizontal; @font-size-base; @line-height-base;
-    @btn-border-radius-small
+    @padding-small-vertical; @padding-small-horizontal; @font-size-base; @line-height-base; @btn-border-radius-small
   );
   /* stylelint-enable */
 }
@@ -250,8 +148,7 @@
 .btn-md() {
   /* stylelint-disable */ //Formatted by prettier
   .button-size(
-    @padding-base-vertical; @padding-base-horizontal; @font-size-base; @line-height-base;
-    @btn-border-radius-base
+    @padding-base-vertical; @padding-base-horizontal; @font-size-base; @line-height-base; @btn-border-radius-base
   );
   /* stylelint-enable */
 }
@@ -259,8 +156,7 @@
 .btn-xs() {
   /* stylelint-disable */ //Formatted by prettier
   .button-size(
-    @padding-extra-small-vertical; @padding-extra-small-horizontal; @font-size-small;
-    @line-height-small; @btn-border-radius-small
+    @padding-extra-small-vertical; @padding-extra-small-horizontal; @font-size-small; @line-height-small; @btn-border-radius-small
   );
   /* stylelint-enable */
 }
@@ -268,8 +164,7 @@
 .btn-lg() {
   /* stylelint-disable */ //Formatted by prettier
   .button-size(
-    @padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large;
-    @btn-border-radius-large
+    @padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large; @btn-border-radius-large
   );
   /* stylelint-enable */
 }
@@ -282,7 +177,7 @@
   .safari-border-radius-overflow-hidden();
 
   &:not(.@{prefix}disabled) {
-    .@{ns}ripple {
+    .rs-ripple {
       position: absolute;
       display: block;
       border-radius: 50%;
@@ -313,7 +208,7 @@
 
 // Icon Button with text
 .btn-icon-with-text(@bg) {
-  &.@{ns}btn-icon.@{ns}btn-icon-with-text > .@{ns}icon {
+  &.rs-btn-icon.rs-btn-icon-with-text > .rs-icon {
     background: @bg;
   }
 }

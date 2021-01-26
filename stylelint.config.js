@@ -16,6 +16,8 @@ module.exports = {
 
     // Forbidden the at rule (eg: @keyframes ) to use the browser prefix.
     'at-rule-no-vendor-prefix': true,
+    // fix less detached ruleset
+    'at-rule-no-unknown': false,
     // Specify a whitelist of attributes and units allowed in the declaration.
     'declaration-property-unit-whitelist': {
       'font-size': ['px', 'em', '%'],

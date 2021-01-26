@@ -23,7 +23,7 @@
     "dev": "npm i && npm i --prefix docs  && npm run dev --prefix docs",
     "format": "prettier --write \"{src,test}/**/*.{tsx,ts,js}\"",
     "format:docs": "prettier --write \"docs/**/*.{tsx,ts,md}\"",
-    "format:style": "stylelint \"src/**/*.less\" --fix",
+    "format:style": "stylelint \"src/**/*.less\" --syntax less --fix",
     "format:check": "prettier --list-different \"{src,test}/**/*.{tsx,ts,js}\"",
     "lint": "npm run lint:ts && npm run lint:style",
     "lint:style": "stylelint  \"src/**/*.less\"",
