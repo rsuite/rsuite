@@ -1,5 +1,4 @@
 @import '../../styles/common';
-@import 'mixin';
 
 .rs-badge {
   display: inline-block;
@@ -18,8 +17,6 @@
     color: @badge-content-color;
   }
 
-  .generate-spectrum();
-
   &-independent&-dot,
   &-wrapper &-content:empty {
     width: @badge-dot-side-length;
@@ -36,3 +33,12 @@
     z-index: @zindex-badge-content;
   }
 }
+
+each(@spectrum, .(@color-name) {
+  .rs-badge-@{color-name} {
+    &.rs-badge-independent,
+    .rs-badge-content {
+      background-color: .palette(@color-name)[value];
+    }
+  }
+});
