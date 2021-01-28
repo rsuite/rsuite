@@ -44,8 +44,8 @@
 
   &:disabled,
   &.rs-btn-disabled {
-    color: @btn-default-disabled-color !important;
-    background-color: @btn-default-disabled-bg !important;
+    color: @btn-default-disabled-color;
+    background-color: @btn-default-disabled-bg;
   }
 
   .button-ripple();
@@ -151,19 +151,19 @@
 each(@spectrum, .(@color) {
   .rs-btn-@{color} {
     .rs-btn-default& {
-      .btn-variant-primary(spectrum, @color);
+      .btn-variant-primary(spectrum; @color);
     }
     .rs-btn-primary& {
-      .btn-variant-primary(spectrum, @color);
+      .btn-variant-primary(spectrum; @color);
     }
     .rs-btn-subtle& {
-      .btn-subtle-variant(spectrum, @color);
+      .btn-subtle-variant(spectrum; @color);
     }
     .rs-btn-link& {
-      .btn-variant-link(spectrum, @color);
+      .btn-variant-link(spectrum; @color);
     }
     .rs-btn-ghost& {
-      .btn-variant-ghost(spectrum, @color);
+      .btn-variant-ghost(spectrum; @color);
     }
   }
 });

@@ -2,7 +2,7 @@
 
 // Button variants
 
-.btn-variant-primary(spectrum, @color) {
+.btn-variant-primary(spectrum; @color) {
   color: @btn-primary-color;
   background-color: .palette(@color, 5) [value];
 
@@ -18,11 +18,11 @@
 }
 
 .btn-subtle-variant(@hover-bg) {
-  @active-bg: color(~`palette('@{color}', 600) `);
+  @active-bg: color(~`palette('@{hover-bg}', 600) `);
   .btn-variant-subtle(@hover-bg; @active-bg);
 }
 
-.btn-subtle-variant(spectrum, @color) {
+.btn-subtle-variant(spectrum; @color) {
   .btn-variant-subtle(
     @hover-bg: .palette(@color, 5)[value];
     @active-bg: .palette(@color, 6)[value];
@@ -31,13 +31,13 @@
 
 .btn-variant-ghost(@color) {
   .btn-variant-ghost(
-    @text-color: @color;
+    @text-color: color(~`palette('@{color}', 700) `);
     @hover-text-color: color(~`palette('@{color}', 800) `);
     @active-text-color: color(~`palette('@{color}', 900) `);
   );
 }
 
-.btn-variant-ghost(spectrum, @color) {
+.btn-variant-ghost(spectrum; @color) {
   .btn-variant-ghost(
     @text-color: .palette(@color, 7)[value];
     @hover-text-color: .palette(@color, 8)[value];
@@ -45,7 +45,7 @@
   );
 }
 
-.btn-variant-link(spectrum, @color) {
+.btn-variant-link(spectrum; @color) {
   .btn-variant-link(
     @text-color: .palette(@color, 7)[value];
     @hover-text-color: .palette(@color, 8)[value];

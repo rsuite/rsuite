@@ -25,7 +25,7 @@
     "format:docs": "prettier --write \"docs/**/*.{tsx,ts,md}\"",
     "format:style": "stylelint \"src/**/*.less\" --syntax less --fix",
     "format:check": "prettier --list-different \"{src,test}/**/*.{tsx,ts,js}\"",
-    "lint": "npm run lint:ts && npm run lint:style",
+    "lint": "npm run lint:ts",
     "lint:style": "stylelint  \"src/**/*.less\"",
     "lint:ts": "eslint src/**/*.{ts,tsx}",
     "lint:js": "eslint src/**/*.js",
