@@ -1,6 +1,7 @@
 const del = require('del');
 const less = require('gulp-less');
 const postcss = require('gulp-postcss');
+const postcssCustomProperties = require('postcss-custom-properties');
 const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
 const babel = require('gulp-babel');
@@ -29,7 +30,7 @@ function buildLess() {
         .src(`${STYLE_SOURCE_DIR}/themes/${theme}/index.less`)
         .pipe(sourcemaps.init())
         .pipe(less({ javascriptEnabled: true }))
-        .pipe(postcss([require('autoprefixer')]))
+        .pipe(postcss([require('autoprefixer'), postcssCustomProperties()]))
         .pipe(sourcemaps.write('./'))
         .pipe(rename(`rsuite-${theme}.css`))
         .pipe(gulp.dest(`${STYLE_DIST_DIR}`))
@@ -74,10 +75,7 @@ function buildRTLCSS() {
 }
 
 function buildLib() {
-  return gulp
-    .src(TS_SOURCE)
-    .pipe(babel(babelrc()))
-    .pipe(gulp.dest(LIB_DIR));
+  return gulp.src(TS_SOURCE).pipe(babel(babelrc())).pipe(gulp.dest(LIB_DIR));
 }
 
 function buildEsm() {
@@ -98,10 +96,7 @@ function copyFontFiles() {
 }
 
 function copyTypescriptDeclarationFiles() {
-  return gulp
-    .src('./src/**/*.d.ts')
-    .pipe(gulp.dest(LIB_DIR))
-    .pipe(gulp.dest(ESM_DIR));
+  return gulp.src('./src/**/*.d.ts').pipe(gulp.dest(LIB_DIR)).pipe(gulp.dest(ESM_DIR));
 }
 
 function copyLessFiles() {
@@ -117,10 +112,7 @@ function watch() {
     console.log('File ' + filePath + ' was changed, running tasks...');
     const libPath = filePath.replace('src/', 'lib/').replace(/\/[a-z|A-Z]+.(tsx|ts)/, '');
 
-    return gulp
-      .src(filePath)
-      .pipe(babel(babelrc()))
-      .pipe(gulp.dest(libPath));
+    return gulp.src(filePath).pipe(babel(babelrc())).pipe(gulp.dest(libPath));
   });
 }
 

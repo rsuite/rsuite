@@ -2,6 +2,7 @@
 const merge = require('webpack-merge');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const multipleThemesCompile = require('webpack-multiple-themes-compile');
+const postcssCustomProperties = require('postcss-custom-properties');
 const RTLCSSPlugin = require('./scripts/RTLCSSPlugin');
 
 const { resolve } = require('path');
@@ -44,7 +45,8 @@ const themesConfig = multipleThemesCompile({
                   })
                 ]
               : []),
-            require('postcss-rtl')({})
+            require('postcss-rtl')({}),
+            postcssCustomProperties()
           ]
         }
       }
