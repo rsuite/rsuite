@@ -148,24 +148,22 @@
 }
 
 // Spectrum buttons
-each(@spectrum, .(@color-name) {
-  .rs-btn-@{color-name} {
-    @color: @@color-name;
-
+each(@spectrum, .(@color) {
+  .rs-btn-@{color} {
     .rs-btn-default& {
-      .btn-variant-primary(@color);
+      .btn-variant-primary(spectrum, @color);
     }
     .rs-btn-primary& {
-      .btn-variant-primary(@color);
+      .btn-variant-primary(spectrum, @color);
     }
     .rs-btn-subtle& {
-      .btn-subtle-variant(@color);
+      .btn-subtle-variant(spectrum, @color);
     }
     .rs-btn-link& {
-      .btn-variant-link(color(~`palette('@{color}', 700) `));
+      .btn-variant-link(spectrum, @color);
     }
     .rs-btn-ghost& {
-      .btn-variant-ghost(color(~`palette('@{color}', 700) `));
+      .btn-variant-ghost(spectrum, @color);
     }
   }
 });

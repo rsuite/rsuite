@@ -10,10 +10,10 @@
   cursor: pointer;
   outline: 0 !important;
   white-space: nowrap;
+  transition: @btn-transition;
   // Reset border style in all browser
   border: none;
   user-select: none;
-  transition: @btn-transition;
   text-decoration: none;
 
   .btn-md();
@@ -43,8 +43,8 @@
 
   &.rs-btn-ghost {
     // Ghost button has 1px border
-    padding-top: (@padding-vertical - 1);
-    padding-bottom: (@padding-vertical - 1);
+    padding-top: (@padding-vertical - @btn-ghost-border-width);
+    padding-bottom: (@padding-vertical - @btn-ghost-border-width);
   }
 
   // Button icon
@@ -187,7 +187,7 @@
 
       &-rippling {
         transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1),
-          opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
         transform: scale(1);
         opacity: 0;
       }

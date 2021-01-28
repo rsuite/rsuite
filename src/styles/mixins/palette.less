@@ -96,8 +96,9 @@
      * @param colorNumber
      */
     this.palette = function(color, colorNumber) {
+      colorNumber = Number(colorNumber);
       var hsv = tinycolor(color).toHsv();
-      var index = COLOR_NUMBER_SET.indexOf(''+colorNumber);
+      var index = colorNumber < 10 ? colorNumber : COLOR_NUMBER_SET.indexOf(''+colorNumber);
       if (index === -1 || index === PRIMARY_INDEX) {
         return color;
       }
@@ -112,3 +113,8 @@
 
 // It's hack way to make this function will be compiled preferentially by less
 .color-palette-mixin();
+
+.palette(@color-name, @level: 5) {
+  @color: @@color-name;
+  value: var(~'--rs-color-@{color-name}-@{level}', color(~`palette('@{color}', '@{level}')`));
+}
