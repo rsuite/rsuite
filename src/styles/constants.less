@@ -69,11 +69,11 @@
 @error-light-color: #fde9ef; // TODO: Deprecate, use --rs-color-bg-error
 
 //** Global textual link color.
-@link-color: @H700; // TODO: Deprecate, use --rs-color-text-link
+@link-color: var(--rs-color-text-link);
 //** Link hover color.
-@link-hover-color: @H800; // TODO: Deprecate, use --rs-color-text-link-hover
+@link-hover-color: var(--rs-color-text-link-hover);
 //** Link Active color
-@link-active-color: @H900; // TODO: Deprecate, use --rs-color-text-link-active
+@link-active-color: var(--rs-color-text-link-active);
 //** border base color.
 @border-base-color: @B300; // TODO: Deprecate, use --rs-color-border-primary
 //** base bg color.
@@ -118,8 +118,8 @@
     each(range(10), {
       @i: @index - 1;
       --rs-color-@{color-name}-@{i}: color(~`palette('@{color}', '@{i}')`);
-    })
-  })
+    });
+  });
 
   // States
   --rs-color-state-success: #4caf50;

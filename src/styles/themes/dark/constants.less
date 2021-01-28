@@ -33,12 +33,6 @@
 @error-color: #f04f43;
 @error-light-color: @B000;
 
-//** Global textual link color.
-@link-color: @H500;
-//** Hover state Font color for `<a>`.
-@link-hover-color: @H400;
-//** Active state font color for `<a>`.
-@link-active-color: @H300;
 //** border base color.
 @border-base-color: @B300;
 //** base bg color.
@@ -47,3 +41,35 @@
 @border-primary-color: @H500;
 //** loading text color
 @loading-text-color: @B800;
+
+:root {
+  // Gray levels
+  --rs-color-gray-0: #e9ebf0;
+  --rs-color-gray-1: #cbced4;
+  --rs-color-gray-2: #a4a9b3;
+  --rs-color-gray-3: #858b94;
+  --rs-color-gray-4: #6a6f76;
+  --rs-color-gray-5: #5c6066;
+  --rs-color-gray-6: #3c3f43;
+  --rs-color-gray-7: #292d33;
+  --rs-color-gray-8: #1a1d24;
+  --rs-color-gray-9: #0f131a;
+
+  // Highlight levels
+  --rs-color-highlight: #34c3ff;
+  --rs-color-highlight-0: #f2fcff;
+  --rs-color-highlight-1: #ccf3ff;
+  --rs-color-highlight-2: #a6e9ff;
+  --rs-color-highlight-3: #80ddff;
+  --rs-color-highlight-4: #59d0ff;
+  --rs-color-highlight-5: #34c3ff;
+  --rs-color-highlight-6: #25b3f5;
+  --rs-color-highlight-7: #169de0;
+  --rs-color-highlight-8: #0a81c2;
+  --rs-color-highlight-9: #006199;
+
+  // Misc
+  --rs-color-text-link: var(--rs-color-highlight-5);
+  --rs-color-text-link-hover: var(--rs-color-highlight-4);
+  --rs-color-text-link-active: var(--rs-color-highlight-3);
+}
