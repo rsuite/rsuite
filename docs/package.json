@@ -12,7 +12,7 @@
     "build": "npm run build:theme && next build && next export",
     "build:next": "next build",
     "build:export": "next export",
-    "build:theme": "cross-env NODE_ENV=production webpack --progress --colors --mode=production --config webpack.theme.config.js",
+    "build:theme": "cross-env NODE_ENV=production webpack --progress --mode=production --config webpack.theme.config.js",
     "start": "cross-env NODE_ENV=production node server.js",
     "start:next": "next start",
     "parsing-design-docs": "node ./scripts/parsingDesignDocs.js"
