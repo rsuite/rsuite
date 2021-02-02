@@ -1,14 +1,23 @@
-<a name="4.8.8"></a>
-## [4.8.8](https://github.com/rsuite/rsuite/compare/4.8.7...4.8.8) (2021-01-14)
+<a name="4.8.9"></a>
 
+## [4.8.9](https://github.com/rsuite/rsuite/compare/4.8.8...4.8.9) (2021-02-02)
 
 ### Bug Fixes
 
-* **dropdown:** fix the issue of Dropdown close event ([#1455](https://github.com/rsuite/rsuite/issues/1455)) ([76e060d](https://github.com/rsuite/rsuite/commit/76e060d)), closes [#1435](https://github.com/rsuite/rsuite/issues/1435)
-* **picker:** fixed the non-unique key in the Picker option when groupBy ([#1453](https://github.com/rsuite/rsuite/issues/1453)) ([1f9f790](https://github.com/rsuite/rsuite/commit/1f9f790)), closes [#1419](https://github.com/rsuite/rsuite/issues/1419)
-* **whisper:** fix overlay jittering when the cursor is hovered ([#1454](https://github.com/rsuite/rsuite/issues/1454)) ([6537057](https://github.com/rsuite/rsuite/commit/6537057)), closes [#1402](https://github.com/rsuite/rsuite/issues/1402)
+- **drawer:** accepts id and aria-labelledby attributes ([#1464](https://github.com/rsuite/rsuite/issues/1464)) ([c7a1194](https://github.com/rsuite/rsuite/commit/c7a1194))
+- **modal:** remove duplicated dialog role ([#1463](https://github.com/rsuite/rsuite/issues/1463)) ([42c456f](https://github.com/rsuite/rsuite/commit/42c456f))
+- **table:** fixed unhandled scroll bar width when Cell is fixed on right ([#1482](https://github.com/rsuite/rsuite/issues/1482)) ([45363bc](https://github.com/rsuite/rsuite/commit/45363bc)), closes [#1446](https://github.com/rsuite/rsuite/issues/1446)
+- **tag-picker:** fix TagPicker clear button not work ([#1480](https://github.com/rsuite/rsuite/issues/1480)) ([aadcb51](https://github.com/rsuite/rsuite/commit/aadcb51)), closes [#1467](https://github.com/rsuite/rsuite/issues/1467)
 
+<a name="4.8.8"></a>
 
+## [4.8.8](https://github.com/rsuite/rsuite/compare/4.8.7...4.8.8) (2021-01-14)
+
+### Bug Fixes
+
+- **dropdown:** fix the issue of Dropdown close event ([#1455](https://github.com/rsuite/rsuite/issues/1455)) ([76e060d](https://github.com/rsuite/rsuite/commit/76e060d)), closes [#1435](https://github.com/rsuite/rsuite/issues/1435)
+- **picker:** fixed the non-unique key in the Picker option when groupBy ([#1453](https://github.com/rsuite/rsuite/issues/1453)) ([1f9f790](https://github.com/rsuite/rsuite/commit/1f9f790)), closes [#1419](https://github.com/rsuite/rsuite/issues/1419)
+- **whisper:** fix overlay jittering when the cursor is hovered ([#1454](https://github.com/rsuite/rsuite/issues/1454)) ([6537057](https://github.com/rsuite/rsuite/commit/6537057)), closes [#1402](https://github.com/rsuite/rsuite/issues/1402)
 
 # 4.8.7
 
