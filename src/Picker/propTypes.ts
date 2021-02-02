@@ -12,7 +12,7 @@ export const pickerPropTypes = {
   appearance: PropTypes.oneOf(['default', 'subtle']),
   block: PropTypes.bool,
   containerPadding: PropTypes.number,
-  container: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  container: PropTypes.any,
   disabled: PropTypes.bool,
   toggleComponentClass: PropTypes.elementType,
   menuClassName: PropTypes.string,
