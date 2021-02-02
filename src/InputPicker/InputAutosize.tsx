@@ -36,6 +36,7 @@ export interface InputAutosizeProps {
 }
 
 interface InputAutosizeState {
+  inputId: string;
   inputWidth: number;
 }
 
@@ -54,12 +55,7 @@ class InputAutosize extends React.Component<InputAutosizeProps, InputAutosizeSta
     onAutosize: PropTypes.func
   };
   static defaultProps = {
-    minWidth: 1,
-    inputId:
-      '_' +
-      Math.random()
-        .toString(36)
-        .substr(2, 12)
+    minWidth: 1
   };
 
   inputRef: React.RefObject<any>;
@@ -69,6 +65,11 @@ class InputAutosize extends React.Component<InputAutosizeProps, InputAutosizeSta
   constructor(props) {
     super(props);
     this.state = {
+      inputId:
+        '_' +
+        Math.random()
+          .toString(36)
+          .substr(2, 12),
       inputWidth: props.minWidth
     };
 
@@ -80,6 +81,10 @@ class InputAutosize extends React.Component<InputAutosizeProps, InputAutosizeSta
   getInputInstance() {
     return this.inputRef.current;
   }
+
+  getInputId = () => {
+    return this.props.inputId || this.state.inputId;
+  };
 
   componentDidMount() {
     this.copyInputStyles();
@@ -135,7 +140,7 @@ class InputAutosize extends React.Component<InputAutosizeProps, InputAutosizeSta
   }
 
   renderStyles() {
-    const { inputId } = this.props;
+    const inputId = this.getInputId();
     return isIE() ? (
       <style
         dangerouslySetInnerHTML={{
@@ -153,10 +158,10 @@ class InputAutosize extends React.Component<InputAutosizeProps, InputAutosizeSta
       className,
       placeholder,
       inputClassName,
-      inputStyle,
-      inputId
+      inputStyle
     } = this.props;
 
+    const inputId = this.getInputId();
     const sizerValue = [defaultValue, value, ''].reduce((previousValue, currentValue) => {
       if (previousValue !== null && previousValue !== undefined) {
         return previousValue;
@@ -178,7 +183,7 @@ class InputAutosize extends React.Component<InputAutosizeProps, InputAutosizeSta
     const [htmlInputProps] = partitionHTMLProps(this.props);
 
     htmlInputProps.className = inputClassName;
-    htmlInputProps.id = inputId;
+    htmlInputProps.id = inputId || inputId;
     htmlInputProps.style = nextInputStyle;
 
     return (
