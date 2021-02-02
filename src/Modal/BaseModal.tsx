@@ -269,12 +269,7 @@ class BaseModal extends React.Component<BaseModalProps, BaseModalState> {
 
     return (
       <Portal ref={this.setMountNodeRef} container={container}>
-        <div
-          ref={this.modalNodeRef}
-          role={rest.role || 'dialog'}
-          style={style}
-          className={className}
-        >
+        <div ref={this.modalNodeRef} role={rest.role} style={style} className={className}>
           {backdrop && this.renderBackdrop()}
           <RefHolder ref={this.dialogRef}>{dialog}</RefHolder>
         </div>

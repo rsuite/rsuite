@@ -5,6 +5,19 @@ import { getInstance } from '@test/testUtils';
 import Modal from '../Modal';
 
 describe('Modal', () => {
+  it('Should render exactly one element with dialog role', () => {
+    const instance = getInstance(
+      <Modal show>
+        <p>message</p>
+      </Modal>
+    );
+
+    assert.notOk(
+      instance.modalRef.current.getDialogElement().parentNode.closest('[role="dialog"]')
+    );
+    assert.equal(instance.modalRef.current.getDialogElement().getAttribute('role'), 'dialog');
+  });
+
   it('Should render the modal content', () => {
     const instance = getInstance(
       <Modal show>
