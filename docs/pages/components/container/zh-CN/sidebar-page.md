@@ -71,17 +71,13 @@ class Page extends React.Component {
             width={expand ? 260 : 56}
             collapsible
           >
-            <Sidenav.Header>
-              <div style={headerStyles}>
-                <Icon icon="logo-analytics" size="lg" style={{ verticalAlign: 0 }} />
-                <span style={{ marginLeft: 12 }}> BRAND</span>
-              </div>
-            </Sidenav.Header>
-            <Sidenav
-              expanded={expand}
-              defaultOpenKeys={['3']}
-              appearance="subtle"
-            >
+            <Sidenav expanded={expand} defaultOpenKeys={['3']} appearance="subtle">
+              <Sidenav.Header>
+                <div style={headerStyles}>
+                  <Icon icon="logo-analytics" size="lg" style={{ verticalAlign: 0 }} />
+                  <span style={{ marginLeft: 12 }}> BRAND</span>
+                </div>
+              </Sidenav.Header>
               <Sidenav.Body>
                 <Nav>
                   <Nav.Item eventKey="1" active icon={<Icon icon="dashboard" />}>
