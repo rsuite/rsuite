@@ -104,6 +104,7 @@ const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
     useEffect(() => {
       // Update characterMap when value is updated.
       setCharacterMap(getCharacterMap(valueProp));
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [valueProp]);
 
     const handleMouseLeave = useCallback(
@@ -181,7 +182,9 @@ const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
     );
 
     if (plaintext) {
-      return <Plaintext localeKey="notSelected">{`${value}(${max})`}</Plaintext>;
+      return (
+        <Plaintext localeKey="notSelected" className={className}>{`${value}(${max})`}</Plaintext>
+      );
     }
 
     return (

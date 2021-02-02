@@ -46,7 +46,9 @@ const webpackConfig = {
           {
             loader: 'less-loader', // compiles Less to CSS,
             options: {
-              javascriptEnabled: true
+              lessOptions: {
+                javascriptEnabled: true
+              }
             }
           }
         ]
@@ -68,6 +70,17 @@ module.exports = config => {
   }
 
   config.set({
+    /** Timeout for capturing a browser (in ms). */
+    captureTimeout: 210000,
+
+    /** maximum number of tries a browser will attempt in the case of a disconnection (in ms) */
+    browserDisconnectTolerance: 3,
+
+    /** How long does Karma wait for a browser to reconnect (in ms). */
+    browserDisconnectTimeout: 210000,
+
+    /** How long will Karma wait for a message from a browser before disconnecting from it (in ms). */
+    browserNoActivityTimeout: 210000,
     basePath: '',
     files: [testFile],
     frameworks: ['mocha', 'sinon-chai'],

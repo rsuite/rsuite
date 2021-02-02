@@ -139,38 +139,24 @@ const FormControl: RsRefForwardingComponent<'div', FormControlProps> = React.for
       return Promise.resolve(callbackEvents(model.checkForField(name, value, formValue)));
     };
 
-    const renderErrorMessage = () => {
-      let messageNode = null;
+    let messageNode = null;
 
-      if (!isUndefined(errorMessage)) {
-        messageNode = errorMessage;
-      } else if (errorFromContext) {
-        messageNode = formError?.[name];
-      }
+    if (!isUndefined(errorMessage)) {
+      messageNode = errorMessage;
+    } else if (errorFromContext) {
+      messageNode = formError?.[name];
+    }
 
-      if (!messageNode) {
-        return null;
-      }
-
-      return (
-        <FormErrorMessage
-          role="alert"
-          aria-relevant="all"
-          show={!!messageNode}
-          className={prefix`message-wrapper`}
-          placement={errorPlacement}
-        >
-          {messageNode}
-        </FormErrorMessage>
-      );
-    };
+    const ariaDescribedby = controlId
+      ? `${controlId}-${messageNode ? 'error-message' : 'help-text'}`
+      : null;
 
     return (
       <Component className={classes} ref={ref}>
         <AccepterComponent
           id={controlId}
           aria-labelledby={controlId ? `${controlId}-control-label` : null}
-          aria-describedby={controlId ? `${controlId}-help-text` : null}
+          aria-describedby={ariaDescribedby}
           {...rest}
           readOnly={readOnly}
           plaintext={plaintext}
@@ -182,7 +168,16 @@ const FormControl: RsRefForwardingComponent<'div', FormControlProps> = React.for
           value={val}
         />
 
-        {renderErrorMessage()}
+        <FormErrorMessage
+          id={`${controlId}-error-message`}
+          role="alert"
+          aria-relevant="all"
+          show={!!messageNode}
+          className={prefix`message-wrapper`}
+          placement={errorPlacement}
+        >
+          {messageNode}
+        </FormErrorMessage>
       </Component>
     );
   }

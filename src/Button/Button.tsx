@@ -24,6 +24,9 @@ export interface ButtonProps extends WithAsProps, React.HTMLAttributes<HTMLEleme
   /** Providing a `href` will render an `<a>` element, _styled_ as a button */
   href?: string;
 
+  /** Where to display the linked URL */
+  target?: string;
+
   /** A button can show a loading indicator */
   loading?: boolean;
 
@@ -65,12 +68,7 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
     const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
     const classes = merge(
       className,
-      withClassPrefix(appearance, color, size, {
-        active,
-        disabled,
-        loading,
-        block
-      })
+      withClassPrefix(appearance, color, size, { active, disabled, loading, block })
     );
 
     const rippleElement = ripple && !isOneOf(appearance, ['link', 'ghost']) ? <Ripple /> : null;
@@ -95,10 +93,12 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
 
     const Component = as || 'button';
     const type = typeProp || (Component === 'button' ? 'button' : undefined);
+    const role = rest.role || (Component !== 'button' ? 'button' : undefined);
 
     return (
       <Component
         {...rest}
+        role={role}
         type={type}
         ref={ref}
         disabled={disabled}

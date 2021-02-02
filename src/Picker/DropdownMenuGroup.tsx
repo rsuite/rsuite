@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import { WithAsProps } from '../@types/common';
+import ArrowDown from '@rsuite/icons/legacy/ArrowDown';
 
 export interface DropdownMenuGroupProps extends WithAsProps, React.HTMLAttributes<HTMLDivElement> {}
 
@@ -20,7 +21,7 @@ const DropdownMenuGroup = React.forwardRef(
       <Component role="group" {...rest} ref={ref} className={classes}>
         <div className={prefix`title`} tabIndex={-1}>
           <span>{children}</span>
-          <span aria-hidden className={prefix`caret`} />
+          <ArrowDown aria-hidden className={prefix`caret`} />
         </div>
       </Component>
     );

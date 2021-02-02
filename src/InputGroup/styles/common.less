@@ -14,6 +14,7 @@
   border-radius: @input-border-radius;
   transition: @input-transition;
   width: 100%;
+  border: 1px solid @input-border;
 
   &-disabled {
     &,
@@ -26,24 +27,27 @@
     }
   }
 
+  &:not(.@{ns}input-group-disabled):hover,
+  &:not(.@{ns}input-group-disabled).@{ns}input-group-focus {
+    border-color: @input-border-focus;
+  }
+
+  &:not(.@{ns}input-group-disabled).@{ns}input-group-focus {
+    box-shadow: 0 0 0 3px fade(@primary-color, 25%);
+  }
+
+  .@{ns}input-number,
+  .@{ns}input-group-addon,
+  .@{ns}input-group-btn,
+  .@{ns}picker-date .@{ns}picker-toggle {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
   // Reset border
   &:not(.@{ns}input-group-inside) {
-    border: 1px solid @input-border;
-
-    &:not(.@{ns}input-group-disabled):hover,
-    &:not(.@{ns}input-group-disabled).@{ns}input-group-focus {
-      border-color: @input-border-focus;
-    }
-
-    &:not(.@{ns}input-group-disabled).@{ns}input-group-focus {
-      box-shadow: 0 0 0 3px fade(@primary-color, 25%);
-    }
-
-    .@{ns}input-number,
-    .@{ns}input-group-addon,
-    .@{ns}input,
-    .@{ns}input-group-btn,
-    .@{ns}picker-date .@{ns}picker-toggle {
+    .@{ns}input {
       border: none;
       border-radius: 0;
       box-shadow: none;
@@ -119,11 +123,12 @@
 
   &.@{ns}input-group-inside {
     width: 100%;
-    border-radius: 0;
+    //border-radius: 0;
 
     .@{ns}input {
       display: block;
       width: 100%;
+      border: none;
       padding-right: @input-group-padding-for-add-on-base;
     }
 
@@ -136,13 +141,15 @@
     }
 
     .@{ns}input-group-btn {
-      .btn-subtle;
+      .btn-subtle();
 
       color: @input-color;
       position: absolute;
-      left: @input-border-width;
-      top: @input-border-width;
       .reset-inside-input-group-btn-size(base);
+
+      &:focus {
+        box-shadow: none;
+      }
 
       // reset border radius
       &:first-child {
@@ -179,7 +186,6 @@
       right: 0;
     }
 
-    input.@{ns}input ~ .@{ns}input-group-btn,
     .@{ns}auto-complete ~ .@{ns}input-group-btn,
     .@{ns}form-control-wrapper ~ .@{ns}input-group-btn {
       left: inherit;

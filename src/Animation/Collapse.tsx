@@ -31,12 +31,14 @@ const MARGINS = {
   width: ['marginLeft', 'marginRight']
 };
 
-function defaultGetDimensionValue(dimension: DIMENSION, elem: Element): number {
+function defaultGetDimensionValue(dimension: DIMENSION, elem: HTMLElement): number {
   const value = get(elem, `offset${capitalize(dimension)}`);
   const margins = MARGINS[dimension];
 
   return (
-    value + parseInt(getStyle(elem, margins[0]), 10) + parseInt(getStyle(elem, margins[1]), 10)
+    value +
+    parseInt(getStyle(elem, margins[0]) as string, 10) +
+    parseInt(getStyle(elem, margins[1]) as string, 10)
   );
 }
 
@@ -75,29 +77,29 @@ class Collapse extends React.Component<CollapseProps> {
     return this.transitionRef.current;
   }
 
-  handleEnter = (elem: Element) => {
+  handleEnter = (elem: HTMLElement) => {
     const dimension = this.dimension();
     addStyle(elem, dimension, 0);
   };
 
-  handleEntering = (elem: Element) => {
+  handleEntering = (elem: HTMLElement) => {
     const dimension = this.dimension();
     addStyle(elem, dimension, getScrollDimensionValue(elem, dimension));
   };
 
-  handleEntered = (elem: Element) => {
+  handleEntered = (elem: HTMLElement) => {
     const dimension = this.dimension();
     addStyle(elem, dimension, 'auto');
   };
 
-  handleExit = (elem: Element) => {
+  handleExit = (elem: HTMLElement) => {
     const dimension = this.dimension();
     const { getDimensionValue } = this.props;
     const value = getDimensionValue ? getDimensionValue(dimension, elem) : 0;
     addStyle(elem, dimension, `${value}px`);
   };
 
-  handleExiting = (elem: Element) => {
+  handleExiting = (elem: HTMLElement) => {
     const dimension = this.dimension();
     triggerBrowserReflow(elem);
     addStyle(elem, dimension, 0);

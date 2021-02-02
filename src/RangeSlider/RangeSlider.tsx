@@ -49,6 +49,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
     renderTooltip,
     renderMark,
     onChange,
+    onChangeCommitted,
     ...rest
   } = props;
 
@@ -144,27 +145,50 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
     [getValueByPosition]
   );
 
-  const handleDragMove = useEventCallback((event: React.MouseEvent, dataset: DOMStringMap) => {
-    const { key: eventKey, range } = dataset;
-    const value = range.split(',').map(i => +i);
-    const nextValue = getValidValue(getRangeValue(value, eventKey, event));
-    if (nextValue[0] >= nextValue[1]) {
-      /**
-       * When the value of `start` is greater than the value of` end`,
-       * the position of the handle is reversed.
-       */
-      handleIndexs.current.reverse();
+  const getNextValue = useCallback(
+    (event: React.MouseEvent, dataset: DOMStringMap) => {
+      const { key: eventKey, range } = dataset;
+      const value = range.split(',').map(i => +i);
+      const nextValue = getValidValue(getRangeValue(value, eventKey, event));
+      if (nextValue[0] >= nextValue[1]) {
+        /**
+         * When the value of `start` is greater than the value of` end`,
+         * the position of the handle is reversed.
+         */
+        handleIndexs.current.reverse();
 
-      if (eventKey === 'start') {
-        nextValue[0] = value[1];
-      } else {
-        nextValue[1] = value[0];
+        if (eventKey === 'start') {
+          nextValue[0] = value[1];
+        } else {
+          nextValue[1] = value[0];
+        }
       }
-    }
 
+      return nextValue;
+    },
+    [getRangeValue, getValidValue]
+  );
+
+  /**
+   * Callback function that is fired when the mousemove is triggered
+   */
+  const handleDragMove = useEventCallback((event: React.MouseEvent, dataset: DOMStringMap) => {
+    const nextValue = getNextValue(event, dataset);
     setValue(nextValue);
     onChange?.(nextValue, event);
   });
+
+  /**
+   * Callback function that is fired when the mouseup is triggered
+   */
+  const handleChangeCommitted = useCallback(
+    (event: React.MouseEvent, dataset: DOMStringMap) => {
+      const nextValue = getNextValue(event, dataset);
+      setValue(nextValue);
+      onChangeCommitted?.(nextValue, event);
+    },
+    [getNextValue, onChangeCommitted, setValue]
+  );
 
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -263,6 +287,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
     style: handleStyle,
     renderTooltip,
     onDragMove: handleDragMove,
+    onDragEnd: handleChangeCommitted,
     onKeyDown: handleKeyDown,
     tabIndex: disabled ? null : 0,
     role: 'slider',

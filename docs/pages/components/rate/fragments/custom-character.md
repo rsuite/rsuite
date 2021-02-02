@@ -1,18 +1,24 @@
 <!--start-code-->
 
 ```js
+/**
+ * import { Rate } from 'rsuite'
+ * import FrownIcon from '@rsuite/icons/legacy/FrownO';
+ * import MehIcon from '@rsuite/icons/legacy/MehO';
+ * import SmileIcon from '@rsuite/icons/legacy/SmileO';
+ */
 const renderCharacter = (value, index) => {
   // unselected character
   if (value < index + 1) {
-    return <MehO />;
+    return <MehIcon />;
   }
   if (value < 3) {
-    return <FrownO style={{ color: '#99A9BF' }} />;
+    return <FrownIcon style={{ color: '#99A9BF' }} />;
   }
   if (value < 4) {
-    return <MehO style={{ color: '#F4CA1D' }} />;
+    return <MehIcon style={{ color: '#F4CA1D' }} />;
   }
-  return <SmileO style={{ color: '#ff9800' }} />;
+  return <SmileIcon style={{ color: '#ff9800' }} />;
 };
 
 const instance = (

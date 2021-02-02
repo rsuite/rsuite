@@ -18,14 +18,14 @@ function setSidebarScrollTop() {
   const sidebar = document.getElementById('sidebar');
   const top = scrollTop(sidebar);
 
-  sessionStorage.setItem('SIDEBAR-TOP', top);
+  sessionStorage.setItem('SIDEBAR-TOP', `${top}`);
 }
 
 function initSidebarScrollTop() {
   const sidebar = document.getElementById('sidebar');
   const top = sessionStorage.getItem('SIDEBAR-TOP') || 0;
   if (sidebar) {
-    scrollTop(sidebar, top);
+    scrollTop(sidebar, +top);
   }
 }
 

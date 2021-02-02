@@ -3,9 +3,11 @@
 ```js
 const instance = (
   <Whisper speaker={<Tooltip> Tooltip!</Tooltip>}>
-    <span>
-      <Button disabled>button</Button>
-    </span>
+    <div>
+      <Button disabled style={{ pointerEvents: 'none' }}>
+        button
+      </Button>
+    </div>
   </Whisper>
 );
 ReactDOM.render(instance);

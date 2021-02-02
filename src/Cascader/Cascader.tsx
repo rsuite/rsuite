@@ -578,6 +578,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
           hasValue={hasValue}
           active={active}
           placement={placement}
+          inputValue={value}
         >
           {selectedElement || locale?.placeholder}
         </PickerToggle>

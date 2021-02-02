@@ -63,11 +63,12 @@ class ModalManager {
     };
 
     if (data.overflowing) {
-      const style = {
-        paddingRight:
-          parseInt(getStyle(container, 'paddingRight') || 0, 10) + getScrollbarSize() + 'px'
-      };
-      addStyle(container, style);
+      const paddingRight = parseInt((getStyle(container, 'paddingRight') || 0) as string, 10);
+      const barSize = getScrollbarSize();
+
+      addStyle(container, {
+        paddingRight: (barSize ? paddingRight + barSize : paddingRight) + 'px'
+      });
     }
 
     data.classes.forEach(addClass.bind(null, container));

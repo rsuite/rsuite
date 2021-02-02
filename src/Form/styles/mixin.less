@@ -7,7 +7,7 @@
   border: @input-border-width solid @input-border;
   transition: @input-transition;
   border-radius: @border-radius-base;
-  .input-base;
+  .input-base();
 
   // Placeholder
   &::placeholder {
@@ -36,7 +36,7 @@
 }
 
 .input-size( @padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius;) {
-  @ie-height: @padding-vertical * 2 + @font-size * @line-height;
+  @ie-height: (@padding-vertical * 2 + @font-size * @line-height);
 
   padding: (@padding-vertical - @input-border-width) (@padding-horizontal - @input-border-width);
   font-size: @font-size;
@@ -86,14 +86,14 @@
 }
 
 .input-base() {
-  .input-md;
+  .input-md();
 }
 
 .reset-input-group-addon-size(@size-name) {
   @padding-horizontal-name: ~'padding-@{size-name}-horizontal';
 
-  @width: @@padding-horizontal-name * 2 - @input-border-width*2 + @font-size-base;
-  @padding-horizontal: (@width - @font-size-base)/2;
+  @width: (@@padding-horizontal-name * 2 - @input-border-width*2 + @font-size-base);
+  @padding-horizontal: ((@width - @font-size-base)/2);
 
   min-width: @width;
   padding-left: @padding-horizontal;
@@ -120,7 +120,7 @@
 
 .reset-input-group-children-size(@size-name) {
   @height: ~'input-height-@{size-name}';
-  @useable-height: @@height - 2px;
+  @useable-height: (@@height - 2px);
   @vertical: ~'padding-@{size-name}-vertical';
   @add-on-padding: ~'input-group-padding-for-add-on-@{size-name}';
 

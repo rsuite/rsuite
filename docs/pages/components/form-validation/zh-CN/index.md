@@ -106,5 +106,5 @@ return (
 
 ## Props & Methods
 
-- [Form props](./components/form)
-- [Schema APIs](./components/schema)
+- [Form props](/zh/components/form)
+- [Schema APIs](/zh/components/schema)

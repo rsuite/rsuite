@@ -747,7 +747,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   const renderCheckTree = () => {
     const classes = withCheckTreeClassPrefix({
-      [className]: inline,
+      [className ?? '']: inline,
       'without-children': !isSomeNodeHasChildren,
       virtualized
     });
@@ -894,6 +894,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
           hasValue={hasValidValue}
           active={active}
           placement={placement}
+          inputValue={value}
         >
           {selectedElement || locale.placeholder}
         </PickerToggle>

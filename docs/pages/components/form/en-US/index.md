@@ -168,16 +168,16 @@ cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
 
 ### `<Form.Control>`
 
-| Property       | Type`(default)`                              | Description                                                                      |
-| -------------- | -------------------------------------------- | -------------------------------------------------------------------------------- |
-| accepter       | ElementType `(Input)`                        | Proxied components                                                               |
-| checkTrigger   | enum: 'change','blur','none'                 | The data validation trigger type, and it wiill overrides the setting on `<Form>` |
-| classPrefix    | string `('form-control')`                    | The prefix of the component CSS class                                            |
-| errorMessage   | ReactNode                                    | Show error messages                                                              |
-| errorPlacement | enum: [Placement8](#types) `('bottomStart')` | The placement of error messages                                                  |
-| name \*        | string                                       | The name of form-control                                                         |
-| plaintext      | boolean                                      | Make the control plaintext                                                       |
-| readOnly       | boolean                                      | Make the control readonly                                                        |
+| Property       | Type`(default)`                   | Description                                                                      |
+| -------------- | --------------------------------- | -------------------------------------------------------------------------------- |
+| accepter       | ElementType `(Input)`             | Proxied components                                                               |
+| checkTrigger   | enum: 'change','blur','none'      | The data validation trigger type, and it wiill overrides the setting on `<Form>` |
+| classPrefix    | string `('form-control')`         | The prefix of the component CSS class                                            |
+| errorMessage   | ReactNode                         | Show error messages                                                              |
+| errorPlacement | enum: Placement `('bottomStart')` | The placement of error messages                                                  |
+| name \*        | string                            | The name of form-control                                                         |
+| plaintext      | boolean                           | Make the control plaintext                                                       |
+| readOnly       | boolean                           | Make the control readonly                                                        |
 
 ### `<Form.Group>`
 
@@ -200,3 +200,23 @@ cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
 | classPrefix | string `('form-help-text')` | The prefix of the component CSS class                                        |
 | htmlFor     | string                      | Attribute of the html label tag, defaults to the controlId of the Form.Group |
 | tooltip     | boolean                     | Whether to show through the Tooltip component                                |
+
+### `<Form.ErrorMessge>`
+
+| Property    | Type`(default)`                   | Description                           |
+| ----------- | --------------------------------- | ------------------------------------- |
+| classPrefix | string `('form-error-message')`   | The prefix of the component CSS class |
+| show        | boolean                           | Whether to display error message      |
+| placement   | enum: Placement `('bottomStart')` | The placement of error messages       |
+
+```js
+type Placement =
+  | 'bottomStart'
+  | 'bottomEnd'
+  | 'topStart'
+  | 'topEnd'
+  | 'leftStart'
+  | 'rightStart'
+  | 'leftEnd'
+  | 'rightEnd';
+```

@@ -27,7 +27,13 @@ const Divider: RsRefForwardingComponent<'div', DividerProps> = React.forwardRef(
     );
 
     return (
-      <Component role="separator" {...rest} ref={ref} className={classes}>
+      <Component
+        role="separator"
+        {...rest}
+        ref={ref}
+        className={classes}
+        aria-orientation={vertical ? 'vertical' : 'horizontal'}
+      >
         {children && <span className={prefix('inner-text')}>{children}</span>}
       </Component>
     );

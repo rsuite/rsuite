@@ -168,14 +168,10 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
     return (
       <Component {...restProps} ref={ref} onClick={onClick} className={classes}>
         <div className={prefix`checker`}>
-          {children ? (
-            <label title={title}>
-              {checkable ? input : null}
-              {children}
-            </label>
-          ) : checkable ? (
-            input
-          ) : null}
+          <label title={title}>
+            {checkable ? input : null}
+            {children}
+          </label>
         </div>
       </Component>
     );

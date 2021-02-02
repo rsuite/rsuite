@@ -12,7 +12,7 @@
 
   .@{ns}pagination-btn {
     .btn-sm(base);
-    .btn-transition;
+    .btn-transition();
     .btn-subtle-variant(@pagination-hover-bg);
 
     position: relative;
@@ -35,7 +35,7 @@
     }
 
     &:not(.@{ns}pagination-btn-disabled) {
-      .button-ripple;
+      .button-ripple();
     }
 
     .@{ns}pagination-symbol {
@@ -86,7 +86,7 @@
       .btn-md(base);
 
       &-active {
-        .pagination-active-size;
+        .pagination-active-size();
       }
     }
   }

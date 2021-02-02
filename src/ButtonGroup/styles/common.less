@@ -28,15 +28,15 @@
 // Force change the size of the button in the button group.
 .@{ns}btn {
   .@{ns}btn-group-lg & {
-    .btn-lg;
+    .btn-lg();
   }
 
   .@{ns}btn-group-sm & {
-    .btn-sm;
+    .btn-sm();
   }
 
   .@{ns}btn-group-xs & {
-    .btn-xs;
+    .btn-xs();
   }
 }
 
@@ -240,7 +240,7 @@
 
   // Clear floats so dropdown menus can be properly placed
   > .@{ns}btn-group {
-    .clearfix;
+    .clearfix();
 
     > .@{ns}btn {
       float: none;
@@ -266,7 +266,7 @@
   > .@{ns}btn,
   > .@{ns}btn-group {
     flex: 1 1 1%;
-    .ellipsis-basic;
+    .ellipsis-basic();
   }
 
   > .@{ns}btn-group .@{ns}btn {

@@ -201,4 +201,25 @@ describe('picker -  DropdownMenu', () => {
     );
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
+
+  it('Should have a unique key on each option', () => {
+    const mockData = Array.from({ length: 20 }, (_v, i) => ({
+      value: i + 1,
+      name: `TEST${i + 1}`,
+      groupValue: i + 1
+    }));
+
+    const instance = getDOMNode(
+      <DropdownMenu
+        group
+        data={getDataGroupBy(mockData, 'groupValue')}
+        valueKey={'value'}
+        labelKey={'name'}
+        dropdownMenuItemAs={DropdownMenuItem}
+        classPrefix={classPrefix}
+      />
+    );
+
+    assert.equal(instance.querySelectorAll('[data-key="1"]').length, 1);
+  });
 });

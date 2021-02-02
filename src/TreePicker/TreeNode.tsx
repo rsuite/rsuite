@@ -108,7 +108,7 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
         }
 
         if (event.target instanceof HTMLElement) {
-          if (hasClass(event.target.parentNode, prefix('expand-icon-wrapper'))) {
+          if (hasClass(event.target.parentNode as HTMLElement, prefix('expand-icon-wrapper'))) {
             return;
           }
         }

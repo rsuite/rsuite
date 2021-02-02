@@ -62,7 +62,7 @@
   // Last item tail need set height.
   &-item:last-child &-item-tail {
     bottom: auto;
-    height: @time-line-dot-center-gap+ @time-line-dot-side-length;
+    height: (@time-line-dot-center-gap + @time-line-dot-side-length);
   }
 
   &-endless &-item:last-child &-item-tail {
@@ -90,13 +90,13 @@
 
   // Align alternate
   &-align-alternate &-item-dot {
-    @dot-offset: @time-line-dot-side-length / 2;
+    @dot-offset: (@time-line-dot-side-length / 2);
 
     left: ~'calc(50% - @{dot-offset})';
   }
 
   &-align-alternate &-item-tail {
-    @tail-offset: @time-line-tail-width / 2;
+    @tail-offset: (@time-line-tail-width / 2);
 
     left: ~'calc(50% - @{tail-offset})';
   }
@@ -123,13 +123,13 @@
   }
 
   &-with-time &-item-dot {
-    @dot-offset: @time-line-dot-side-length / 2;
+    @dot-offset: (@time-line-dot-side-length / 2);
 
     left: ~'calc(50% - @{dot-offset})';
   }
 
   &-with-time &-item-tail {
-    @tail-offset: @time-line-tail-width / 2;
+    @tail-offset: (@time-line-tail-width / 2);
 
     left: ~'calc(50% - @{tail-offset})';
   }

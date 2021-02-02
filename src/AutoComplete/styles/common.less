@@ -4,14 +4,14 @@
 .@{ns}auto-complete {
   &-menu > {
     // Auto complete items style the same to Picker menu items
-    .picker-menu-items-reset;
+    .picker-menu-items-reset();
 
     margin-top: @border-radius-base;
   }
 
   // The same to Picker select menu item
   &-item {
-    .picker-select-item;
+    .picker-select-item();
 
     &,
     &:hover,
@@ -22,7 +22,7 @@
 
     &-focus,
     &:hover {
-      .picker-item-hover;
+      .picker-item-hover();
     }
   }
 

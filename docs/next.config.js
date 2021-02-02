@@ -6,7 +6,6 @@ const withPlugins = require('next-compose-plugins');
 const pkg = require('./package.json');
 const findPages = require('./scripts/findPages');
 const markdownRenderer = require('./scripts/markdownRenderer');
-const ip = require('ip');
 
 const resolveToStaticPath = relativePath => path.resolve(__dirname, relativePath);
 const SVG_LOGO_PATH = resolveToStaticPath('./resources/images');
@@ -77,12 +76,8 @@ module.exports = withPlugins([[withImages]], {
 
     config.plugins = config.plugins.concat([
       new webpack.DefinePlugin({
-        'process.env': {
-          __DEV__: JSON.stringify(__DEV__),
-          // Use to load css when npm run dev,
-          __LOCAL_IP__: __DEV__ ? JSON.stringify(ip.address()) : null,
-          VERSION: JSON.stringify(pkg.version)
-        }
+        'process.env.__DEV__': JSON.stringify(__DEV__),
+        'process.env.VERSION': JSON.stringify(pkg.version)
       })
     ]);
 

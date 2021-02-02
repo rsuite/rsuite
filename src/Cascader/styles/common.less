@@ -9,7 +9,7 @@
 @cspns: ~'@{ns}@{cascader-picker-prefix}';
 
 .@{cspns}-menu-items > div {
-  .clearfix;
+  .clearfix();
 }
 
 // Search panel
@@ -74,6 +74,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    .@{ns}icon {
+      margin: 4px;
+    }
   }
 }
 
@@ -91,7 +95,7 @@
 
 // Menu item
 .@{cspns}-menu-item {
-  @padding-right: 16px + @picker-item-content-padding-horizontal;
+  @padding-right: (16px + @picker-item-content-padding-horizontal);
 
   position: relative;
   display: block;
@@ -111,14 +115,14 @@
   &:not(&-disabled):hover,
   &:not(&-disabled):focus,
   &.@{ns}picker-select-menu-item-focus {
-    .picker-item-hover;
+    .picker-item-hover();
 
     text-decoration: none;
   }
 
   &&-focus,
   &&-active {
-    .picker-item-active;
+    .picker-item-active();
 
     &,
     &:hover,
@@ -156,5 +160,5 @@
 }
 
 .@{cspns}-menu-caret {
-  .dropdown-toggle-caret-common;
+  .dropdown-toggle-caret-common();
 }

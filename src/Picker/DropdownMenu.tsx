@@ -118,7 +118,7 @@ const DropdownMenu = React.forwardRef(
         return;
       }
 
-      const position = getPosition(activeItem, container);
+      const position = getPosition(activeItem as HTMLElement, container);
       const sTop = scrollTop(container);
       const sHeight = getHeight(container);
       if (sTop > position.top) {
@@ -156,7 +156,7 @@ const DropdownMenu = React.forwardRef(
             className={classNames({
               folded: foldedGroupKeys.some(key => key === groupValue)
             })}
-            key={groupValue}
+            key={`group-${groupValue}`}
             onClick={handleGroupTitleClick.bind(null, groupValue)}
           >
             {renderMenuGroup ? renderMenuGroup(groupValue, item) : groupValue}

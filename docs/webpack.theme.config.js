@@ -27,24 +27,26 @@ const themesConfig = multipleThemesCompile({
       loader: 'postcss-loader',
       options: {
         sourceMap,
-        plugins: [
-          ...(__DEV_STYLES__
-            ? [
-                require('autoprefixer'),
-                require('cssnano')({
-                  preset: [
-                    'default',
-                    {
-                      discardComnments: {
-                        removeAll: false
+        postcssOptions: {
+          plugins: [
+            ...(__DEV_STYLES__
+              ? [
+                  require('autoprefixer'),
+                  require('cssnano')({
+                    preset: [
+                      'default',
+                      {
+                        discardComnments: {
+                          removeAll: false
+                        }
                       }
-                    }
-                  ]
-                })
-              ]
-            : []),
-          require('postcss-rtl')({})
-        ]
+                    ]
+                  })
+                ]
+              : []),
+            require('postcss-rtl')({})
+          ]
+        }
       }
     },
     {
@@ -91,10 +93,7 @@ module.exports = merge(
         cleanOnceBeforeBuildPatterns: [resolveDirName('public/css/theme-*.css')],
         cleanAfterEveryBuildPatterns: [resolveDirName('public/css/*.js')]
       }),
-      __PRO__ &&
-        new RTLCSSPlugin({
-          path: CSS_PATH
-        })
+      __PRO__ && new RTLCSSPlugin({ path: CSS_PATH })
     ])
   },
   themesConfig,

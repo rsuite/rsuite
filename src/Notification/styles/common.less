@@ -32,11 +32,11 @@
 
   // Title
   &-title {
-    .ellipsis;
+    .ellipsis();
 
     color: @notify-title-font-color;
     font-size: @notify-title-font-size;
-    line-height: unit(@notify-title-icon-size / @notify-title-font-size);
+    line-height: unit((@notify-title-icon-size / @notify-title-font-size));
 
     > p {
       margin: 0;
@@ -53,7 +53,7 @@
   &-title-with-icon {
     display: flex;
     align-items: center;
-    .ellipsis;
+    .ellipsis();
   }
 
   // Description

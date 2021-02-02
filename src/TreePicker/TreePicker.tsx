@@ -756,7 +756,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
 
   const renderTree = () => {
     const classes = withTreeClassPrefix({
-      [className]: inline,
+      [className ?? '']: inline,
       virtualized
     });
 
@@ -879,6 +879,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
           hasValue={hasValidValue}
           active={active}
           placement={placement}
+          inputValue={value}
         >
           {selectedElement || locale.placeholder}
         </PickerToggle>

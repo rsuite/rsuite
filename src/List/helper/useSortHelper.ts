@@ -56,7 +56,7 @@ const useSortHelper = (config: SortConfig) => {
   } = config;
   const [sorting, setSorting] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const pressTimer = useRef<NodeJS.Timeout>();
+  const pressTimer = useRef<any>();
   const { listItemRegister, getManagedItem, getOrderedItems } = useManager();
 
   /**

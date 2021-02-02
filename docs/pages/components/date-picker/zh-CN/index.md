@@ -92,17 +92,6 @@
 
 <!--{include:`show-week-numbers.md`}-->
 
-### 设定时区
-
-<!--{include:`time-zone.md`}-->
-
-- [时区可选择列表参考](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
-- [使用时区注意事项](/zh/components/date-picker#Time%20Zone%20Tips)
-
-### 与 `TimeZonePicker` 配合设定时区
-
-<!--{include:`time-zone-with-picker.md`}-->
-
 ### 原生的选择器
 
 如果您只需要满足简单的日期选择功能，完全可以使用浏览器支持的原生选择器。

@@ -41,7 +41,7 @@ const ImageCell = ({ rowData, dataKey, ...props }) => (
         display: 'inline-block'
       }}
     >
-      <img src={rowData[dataKey]} width="44" />
+      <img src={rowData[dataKey]} width="40" />
     </div>
   </Cell>
 );

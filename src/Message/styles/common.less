@@ -33,7 +33,7 @@
 
   // Only has icon
   &.@{ns}message-has-icon .@{ns}message-container {
-    padding-left: @message-padding + @message-icon-size + @message-icon-margin-right;
+    padding-left: (@message-padding + @message-icon-size + @message-icon-margin-right);
   }
 
   // Only has title
@@ -41,7 +41,7 @@
     h5 {
       margin-top: 0;
       margin-bottom: 0;
-      .ellipsis;
+      .ellipsis();
 
       // When title and description all exist , additional a margin
       & + .@{ns}message-description {
@@ -52,7 +52,7 @@
 
   // Has icon && title
   &.@{ns}message-has-icon.@{ns}message-has-title .@{ns}message-container {
-    padding-left: @message-padding + @message-icon-large-size + @message-icon-margin-right;
+    padding-left: (@message-padding + @message-icon-large-size + @message-icon-margin-right);
 
     // Bigger icon
     .@{ns}message-icon-wrapper .@{ns}icon {
@@ -64,7 +64,7 @@
   // Header
   .@{ns}message-header {
     color: @message-header-color;
-    line-height: unit(round(@message-icon-large-size / @message-title-size, 16));
+    line-height: unit((round((@message-icon-large-size / @message-title-size), 16)));
   }
 
   // Description

@@ -1,9 +1,11 @@
 <!--start-code-->
 
 ```js
-// import { AutoComplete, InputGroup } from 'rsuite';
-// import SearchIcon from '@rsuite/icons/Search';
-// import MemberIcon from '@rsuite/icons/Member';
+/**
+ * import { AutoComplete, InputGroup } from 'rsuite';
+ * import SearchIcon from '@rsuite/icons/Search';
+ * import MemberIcon from '@rsuite/icons/Member';
+ */
 
 const styles = {
   width: 300,

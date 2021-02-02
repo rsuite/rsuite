@@ -104,5 +104,5 @@ There are `checkTrigger` properties on the `<Form>` and `<Form.Control>` compone
 
 ## Props & Methods
 
-- [Form props](./components/form)
-- [Schema APIs](./components/schema)
+- [Form props](/components/form)
+- [Schema APIs](/components/schema)

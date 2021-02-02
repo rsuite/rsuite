@@ -39,7 +39,7 @@ React Suite 支持服务端渲染， 支持通过 [Next.js](https://github.com/z
 React Suite 可通过 [npm][npm-home] 安装。
 
 ```bash
-npm i rsuite --save
+npm i rsuite@next --save
 ```
 
 ## 使用
