@@ -11,6 +11,7 @@ describe('Drawer', () => {
       </Drawer>
     );
     assert.ok(instance.querySelectorAll('.rs-drawer.rs-drawer-right'));
+    assert.ok(instance.querySelector('[role="dialog"]'));
   });
 
   it('Should be full', () => {
@@ -34,6 +35,19 @@ describe('Drawer', () => {
   it('Should have a custom className', () => {
     const instance = getDOMNode(<Drawer className="custom" show />);
     assert.ok(instance.querySelector('.rs-drawer.custom'));
+  });
+
+  it('Should accept id and aria-labelledby attribute', () => {
+    const instance = getDOMNode(
+      <Drawer show id="drawer" aria-labelledby="drawer-title">
+        <h4 id="drawer-title">My Drawer</h4>
+        <p>message</p>
+      </Drawer>
+    );
+
+    const dialog = instance.querySelector('[role="dialog"]');
+    assert.equal(dialog.getAttribute('id'), 'drawer');
+    assert.equal(dialog.getAttribute('aria-labelledby'), 'drawer-title');
   });
 
   it('Should have a custom style', () => {
