@@ -68,7 +68,7 @@
     "prop-types": "^15.7.2",
     "react-text-mask": "^5.4.3",
     "react-virtualized": "^9.21.0",
-    "rsuite-table": "^5.0.0-alpha",
+    "rsuite-table": "^5.0.0-alpha.1",
     "schema-typed": "^1.5.1"
   },
   "peerDependencies": {
