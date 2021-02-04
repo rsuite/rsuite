@@ -67,10 +67,13 @@ export interface UploaderProps extends StandardProps {
   listType?: 'text' | 'picture-text' | 'picture';
 
   /** Allow the queue to be updated. After you select a file, update the checksum function before the upload file queue, and return false to not update */
-  shouldQueueUpdate?: (fileList: FileType[], newFile: FileType[] | FileType) => boolean;
+  shouldQueueUpdate?: (
+    fileList: FileType[],
+    newFile: FileType[] | FileType
+  ) => boolean | Promise<boolean>;
 
   /** Allow uploading of files. Check function before file upload, return false without uploading  */
-  shouldUpload?: (file: FileType) => boolean;
+  shouldUpload?: (file: FileType) => boolean | Promise<boolean>;
 
   /** callback function that the upload queue has changed */
   onChange?: (fileList: FileType[]) => void;

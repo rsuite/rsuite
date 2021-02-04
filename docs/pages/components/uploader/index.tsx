@@ -15,7 +15,8 @@ export default function Page() {
         'file-list-custom',
         'disabled',
         'manually',
-        'controlled'
+        'controlled',
+        'check'
       ]}
       dependencies={{ Uploader, Icon, Button, Loader, Alert }}
     />

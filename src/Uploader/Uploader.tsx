@@ -135,7 +135,7 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
   };
 
   handleUploadTriggerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { autoUpload, shouldQueueUpdate } = this.props;
+    const { autoUpload, shouldQueueUpdate, onChange } = this.props;
     const fileList = this.getFileList();
     const files: File[] = getFiles(event);
     const newFileList: FileType[] = [];
@@ -150,23 +150,42 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
     });
 
     const nextFileList = [...fileList, ...newFileList];
+    const checkState = shouldQueueUpdate?.(nextFileList, newFileList);
+    const upload = () => {
+      onChange?.(nextFileList);
+      this.setState({ fileList: nextFileList }, () => {
+        autoUpload && this.handleAjaxUpload();
+      });
+    };
 
-    if (shouldQueueUpdate?.(nextFileList, newFileList) === false) {
+    if (checkState instanceof Promise) {
+      checkState.then(res => {
+        if (res) {
+          upload();
+        }
+      });
+      return;
+    } else if (checkState === false) {
       this.cleanInputValue();
       return;
     }
-
-    this.props.onChange?.(nextFileList);
-    this.setState({ fileList: nextFileList }, () => {
-      autoUpload && this.handleAjaxUpload();
-    });
+    upload();
   };
 
   handleAjaxUpload() {
     const { shouldUpload } = this.props;
     const fileList = this.getFileList();
     fileList.forEach(file => {
-      if (shouldUpload?.(file) === false) {
+      const checkState = shouldUpload?.(file);
+
+      if (checkState instanceof Promise) {
+        checkState.then(res => {
+          if (res) {
+            this.handleUploadFile(file);
+          }
+        });
+        return;
+      } else if (checkState === false) {
         return;
       }
 
@@ -336,6 +355,7 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
       ...rest
     } = this.props;
     const unhandled = getUnhandledProps(Uploader, rest);
+
     return (
       <UploadTrigger
         {...unhandled}
