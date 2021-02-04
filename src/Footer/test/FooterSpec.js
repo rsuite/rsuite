@@ -6,6 +6,7 @@ describe('Footer', () => {
   it('Should render a Footer', () => {
     const title = 'Test';
     const instance = getDOMNode(<Footer>{title}</Footer>);
+    assert.equal(instance.tagName, 'FOOTER');
     assert.include(instance.className, 'rs-footer');
     assert.equal(innerText(instance), title);
   });
