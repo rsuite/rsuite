@@ -10,17 +10,17 @@ inputs:
   - type: input
     attributes:
       label: What version of rsuite are you using?
-      description: For example: 4.0.0
+      description: 'For example: 4.0.0'
       required: true
   - type: input
     attributes:
       label: What version of React are you using?
-      description: For example: 17.0.0
+      description: 'For example: 17.0.0'
       required: true
   - type: input
     attributes:
       label: What browser are you using?
-      description: For example: Chrome, Safari
+      description: 'For example: Chrome, Safari'
       required: true
   - type: textarea
     attributes:
@@ -39,4 +39,4 @@ inputs:
       required: true
   - type: description
     attributes:
-      value: If you leave out sections there is a high likelihood it will be moved to the GitHub Discussions "Q&A" section.
+      value: 'If you leave out sections there is a high likelihood it will be moved to the GitHub Discussions "Q&A" section.'
