@@ -4,6 +4,7 @@ import format from 'date-fns/format';
 import DefaultPage from '@/components/Page';
 import ar_EG from '@rsuite-locales/ar_EG';
 import da_DK from '@rsuite-locales/da_DK';
+import de_DE from '@rsuite-locales/de_DE';
 import en_GB from '@rsuite-locales/en_GB';
 import en_US from '@rsuite-locales/en_US';
 import es_AR from '@rsuite-locales/es_AR';
@@ -19,6 +20,7 @@ import zh_TW from '@rsuite-locales/zh_TW';
 
 import ar from 'date-fns/locale/ar-DZ';
 import da from 'date-fns/locale/da';
+import de from 'date-fns/locale/de';
 import enGB from 'date-fns/locale/en-GB';
 import enUS from 'date-fns/locale/en-US';
 import es from 'date-fns/locale/es';
@@ -34,6 +36,7 @@ import zhTW from 'date-fns/locale/zh-TW';
 const locales = [
   { key: 'ar_EG', value: ar_EG, formatDate: (data, str) => format(data, str, { locale: ar }) },
   { key: 'da_DK', value: da_DK, formatDate: (data, str) => format(data, str, { locale: da }) },
+  { key: 'de_DE', value: de_DE, formatDate: (data, str) => format(data, str, { locale: de }) },
   { key: 'en_GB', value: en_GB, formatDate: (data, str) => format(data, str, { locale: enGB }) },
   { key: 'en_US', value: en_US, formatDate: (data, str) => format(data, str, { locale: enUS }) },
   { key: 'es_AR', value: es_AR, formatDate: (data, str) => format(data, str, { locale: es }) },
