@@ -45,7 +45,6 @@ import { Cascader } from 'rsuite';
 | onExit               | () => void                                                                                  | Callback fired right before the overlay transitions out          |
 | onExited             | () => void                                                                                  | Callback fired after the overlay finishes transitioning out      |
 | onExiting            | () => void                                                                                  | Callback fired as the overlay begins to transition out           |
-| onGroupTitleClick    | (event) => void                                                                             | Callback fired when click the group title                        |
 | onOpen               | () => void                                                                                  | Callback fired when open component                               |
 | onSearch             | (searchKeyword:string, event) => void                                                       | callback function for Search                                     |
 | onSelect             | (item:[DataItemType](#types), activePaths: Array, concat:(data, children) => Array) => void | Callback fired when item is selected                             |

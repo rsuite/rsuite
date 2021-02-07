@@ -46,7 +46,6 @@ import { Cascader } from 'rsuite';
 | onExit               | () => void                                                                                  | 退出前动画过渡的回调函数             |
 | onExited             | () => void                                                                                  | 退出后动画过渡的回调函数             |
 | onExiting            | () => void                                                                                  | 退出中动画过渡的回调函数             |
-| onGroupTitleClick    | (event) => void                                                                             | 点击分组标题的回调函数               |
 | onOpen               | () => void                                                                                  | 打开回调函数                         |
 | onSearch             | (searchKeyword:string, event) => void                                                       | 搜索的回调函数                       |
 | onSelect             | (item:[DataItemType](#types), activePaths: Array, concat:(data, children) => Array) => void | 选项被点击选择后的回调函数           |
