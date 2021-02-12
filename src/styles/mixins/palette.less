@@ -114,7 +114,7 @@
 // It's hack way to make this function will be compiled preferentially by less
 .color-palette-mixin();
 
-.palette(@color-name, @level: 5) {
+.palette(@color-name, @level: 500) {
   @color: @@color-name;
   value: var(~'--rs-color-@{color-name}-@{level}', color(~`palette('@{color}', '@{level}')`));
 }

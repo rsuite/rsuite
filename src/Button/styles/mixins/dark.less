@@ -4,16 +4,16 @@
 
 .btn-variant-primary(spectrum; @color) {
   color: @btn-primary-color;
-  background-color: .palette(@color, 5)[value];
+  background-color: .palette(@color, 500)[value];
 
   &:hover,
   &:focus {
-    background-color: .palette(@color, 7)[value];
+    background-color: .palette(@color, 700)[value];
   }
 
   &:active,
   &.rs-btn-active {
-    background-color: .palette(@color, 4)[value];
+    background-color: .palette(@color, 400)[value];
   }
 }
 
@@ -24,8 +24,8 @@
 
 .btn-subtle-variant(spectrum; @color) {
   .btn-variant-subtle(
-    @hover-bg: .palette(@color, 5)[value];
-    @active-bg: .palette(@color, 4)[value];
+    @hover-bg: .palette(@color, 500)[value];
+    @active-bg: .palette(@color, 400)[value];
   );
 }
 
@@ -39,16 +39,16 @@
 
 .btn-variant-ghost(spectrum; @color) {
   .btn-variant-ghost(
-    @text-color: .palette(@color, 7)[value];
-    @hover-text-color: .palette(@color, 4)[value];
-    @active-text-color: .palette(@color, 2)[value];
+    @text-color: .palette(@color, 700)[value];
+    @hover-text-color: .palette(@color, 400)[value];
+    @active-text-color: .palette(@color, 200)[value];
   );
 }
 
 .btn-variant-link(spectrum, @color) {
   .btn-variant-link(
-    @text-color: .palette(@color, 7)[value];
-    @hover-text-color: .palette(@color, 4)[value];
-    @active-text-color: .palette(@color, 2)[value]
+    @text-color: .palette(@color, 700)[value];
+    @hover-text-color: .palette(@color, 400)[value];
+    @active-text-color: .palette(@color, 200)[value]
   );
 }

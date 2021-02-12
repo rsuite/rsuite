@@ -88,36 +88,37 @@
   --rs-color-white: #fff;
 
   // Gray levels
-  --rs-color-gray-0: #f7f7fa;
-  --rs-color-gray-1: #f2f2f5;
-  --rs-color-gray-2: #e5e5ea;
-  --rs-color-gray-3: #d9d9d9;
-  --rs-color-gray-4: #c5c6c7;
-  --rs-color-gray-5: #a6a6a6;
-  --rs-color-gray-6: #8e8e93;
-  --rs-color-gray-7: #7a7a7a;
-  --rs-color-gray-8: #575757;
-  --rs-color-gray-9: #272c36;
+  --rs-color-gray-50: #f7f7fa;
+  --rs-color-gray-100: #f2f2f5;
+  --rs-color-gray-200: #e5e5ea;
+  --rs-color-gray-300: #d9d9d9;
+  --rs-color-gray-400: #c5c6c7;
+  --rs-color-gray-500: #a6a6a6;
+  --rs-color-gray-600: #8e8e93;
+  --rs-color-gray-700: #7a7a7a;
+  --rs-color-gray-800: #575757;
+  --rs-color-gray-900: #272c36;
 
   // Highlight levels
   --rs-color-highlight: #3498ff;
-  --rs-color-highlight-0: #f2faff;
-  --rs-color-highlight-1: #cce9ff;
-  --rs-color-highlight-2: #a6d7ff;
-  --rs-color-highlight-3: #80c4ff;
-  --rs-color-highlight-4: #59afff;
-  --rs-color-highlight-5: #3498ff;
-  --rs-color-highlight-6: #2589f5;
-  --rs-color-highlight-7: #1675e0;
-  --rs-color-highlight-8: #0a5dc2;
-  --rs-color-highlight-9: #004299;
+  --rs-color-highlight-50: #f2faff;
+  --rs-color-highlight-100: #cce9ff;
+  --rs-color-highlight-200: #a6d7ff;
+  --rs-color-highlight-300: #80c4ff;
+  --rs-color-highlight-400: #59afff;
+  --rs-color-highlight-500: #3498ff;
+  --rs-color-highlight-600: #2589f5;
+  --rs-color-highlight-700: #1675e0;
+  --rs-color-highlight-800: #0a5dc2;
+  --rs-color-highlight-900: #004299;
 
   // Spectrum levels
   each(@spectrum, .(@color-name) {
     @color: @@color-name;
-    each(range(10), {
-      @i: @index - 1;
-      --rs-color-@{color-name}-@{i}: color(~`palette('@{color}', '@{i}')`);
+    --rs-color-@{color-name}-50: color(~`palette('@{color}', 50)`);
+    each(range(9), {
+      @level: @{index}00;
+      --rs-color-@{color-name}-@{level}: color(~`palette('@{color}', '@{level}')`);
     });
   });
 
