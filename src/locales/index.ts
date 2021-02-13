@@ -1,6 +1,7 @@
 import defaultLocale from './default';
 export { default as arEG } from './ar_EG';
 export { default as daDK } from './da_DK';
+export { default as deDE } from './de_DE';
 export { default as enGB } from './en_GB';
 export { default as enUS } from './en_US';
 export { default as esAR } from './es_AR';
