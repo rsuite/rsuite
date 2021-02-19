@@ -325,7 +325,7 @@ https://codesandbox.io/s/rsuite-table-with-react-dnd-m06cm
 | width                    | number                                                                            | Table width                                                                                   |
 | wordWrap                 | boolean                                                                           | The cell wraps automatically                                                                  |
 
-### Form methods
+### Table methods
 
 - scrollTop
 
