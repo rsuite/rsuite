@@ -322,7 +322,7 @@ https://codesandbox.io/s/rsuite-table-with-react-dnd-m06cm
 | width                    | number                                                                            | 宽度                                                         |
 | wordWrap                 | boolean                                                                           | 单元格自动换行                                               |
 
-### Form methods
+### Table methods
 
 - scrollTop
 
