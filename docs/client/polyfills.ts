@@ -1,5 +1,4 @@
 // @link {refrence | https://github.com/zeit/next.js/blob/canary/packages/next-polyfill-nomodule/src/index.js}
-import assign from 'core-js/library/fn/object/assign';
 import 'core-js/modules/es6.array.copy-within';
 import 'core-js/modules/es6.array.fill';
 import 'core-js/modules/es6.array.find';
@@ -60,6 +59,7 @@ import 'core-js/modules/es7.string.trim-right';
 import 'core-js/modules/es6.weak-map';
 import 'core-js/modules/es6.weak-set';
 import 'core-js/modules/es6.symbol';
+import assign from 'object-assign'
 
 // Specialized Packages:
 Object.assign = assign;
