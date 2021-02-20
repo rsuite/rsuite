@@ -1,6 +1,6 @@
 import React from 'react';
 import NextHead from 'next/head';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 interface HeadProps {
   description: string;
@@ -27,10 +27,7 @@ export default function Head(props: HeadProps) {
       {/* Facebook */}
       <meta property="og:type" content="website" />
       <meta property="og:title" content={title} />
-      <meta
-        property="og:url"
-        content={`https://rsuitejs.com${Router._rewriteUrlForNextExport(router.asPath)}`}
-      />
+      <meta property="og:url" content={`https://rsuitejs.com${router.asPath}`} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content="https://rsuitejs.com/images/logo.png" />
       <meta property="og:ttl" content="604800" />
