@@ -13,7 +13,7 @@ class Footer extends React.Component<FooterProps> {
     const { className, classPrefix, ...props } = this.props;
     const classes = classNames(classPrefix, className);
 
-    return <div {...props} className={classes} />;
+    return <footer {...props} className={classes} />;
   }
 }
 
