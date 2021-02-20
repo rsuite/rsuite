@@ -7,12 +7,11 @@ import zhCN from '@rsuite-locales/zh_CN';
 import enUS from '@rsuite-locales/en_US';
 import * as Sentry from '@sentry/browser';
 
-const { __DEV__, VERSION } = process.env;
 // Connecting the SDK to Sentry
 if (!__DEV__) {
   Sentry.init({
-    dsn: 'https://ff7dc3ab4cdd42a3b1c9d9d17072029b@sentry-prd.hypers.cc/2',
-    release: `v${VERSION}`
+    dsn: 'https://be402c47cb1a4d79b78ad283191299f7@sentry-prd.hypers.cc/7',
+    release: `v${__VERSION__}`
   });
 }
 

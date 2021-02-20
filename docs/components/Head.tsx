@@ -10,6 +10,7 @@ interface HeadProps {
 
 export default function Head(props: HeadProps) {
   const { description, title, children } = props;
+
   const router = useRouter();
 
   return (
