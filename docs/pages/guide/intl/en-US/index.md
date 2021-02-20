@@ -25,6 +25,7 @@ return (
 | ------ | ------------------- |
 | ar_EG  | Arabic              |
 | da_DK  | Danish              |
+| de_DE  | German              |
 | en_GB  | English             |
 | en_US  | American English    |
 | es_AR  | Spanish (Argentina) |
