@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
-const webpack = require('webpack');
 const withImages = require('next-images');
 const withPlugins = require('next-compose-plugins');
 const pkg = require('./package.json');
@@ -22,7 +21,7 @@ const LANGUAGES = {
 const getLanguage = language => LANGUAGES[language] || '';
 
 module.exports = withPlugins([[withImages]], {
-  webpack(config) {
+  webpack(config, { webpack }) {
     const originEntry = config.entry;
 
     config.module.rules.unshift({
@@ -76,8 +75,8 @@ module.exports = withPlugins([[withImages]], {
 
     config.plugins = config.plugins.concat([
       new webpack.DefinePlugin({
-        '__DEV__': JSON.stringify(__DEV__),
-        '__VERSION__': JSON.stringify(pkg.version)
+        __DEV__: JSON.stringify(__DEV__),
+        __VERSION__: JSON.stringify(pkg.version)
       })
     ]);
 

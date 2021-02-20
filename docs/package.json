@@ -10,7 +10,7 @@
     "dev:server": "cross-env NODE_ENV=development node server.js",
     "dev:theme-server": "webpack serve --config webpack.theme.config.js",
     "build": "npm run build:theme && next build && next export",
-    "build:next": "next build",
+    "build:next": "NODE_OPTIONS=--max_old_space_size=8192 next build",
     "build:export": "next export",
     "build:theme": "cross-env NODE_ENV=production webpack --progress --mode=production --config webpack.theme.config.js",
     "start": "cross-env NODE_ENV=production node server.js",
