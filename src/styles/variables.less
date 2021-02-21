@@ -150,7 +150,7 @@
 @table-column-resize-spanner-gap-width: 3px;
 @table-column-resize-spanner-triangle-side-length: 3px;
 @table-header-sort-wrapper-margin-left: 5px;
-@table-loader-backdrop-color: @loader-backdrop-color;
+@table-loader-backdrop-color: var(--rs-color-loader-backdrop);
 @table-loader-transition: 0.2s ease-in;
 @table-spanner-background: @table-head-background;
 @table-scrollbar-vertical-handle-background-color: fade(@table-scrollbar-background, 40);
@@ -919,23 +919,14 @@
 @loader-md-diameter: 36px;
 @loader-sm-diameter: 18px;
 @loader-xs-diameter: 16px;
-@loader-content-color: @B800;
-@loader-content-inverse-color: @B050;
 @loader-lg-content-font-size: @font-size-large;
 @loader-md-content-font-size: @font-size-base;
 @loader-sm-content-font-size: @font-size-base;
 @loader-xs-content-font-size: @font-size-small;
 @loader-default-diameter: @loader-sm-diameter;
 @loader-default-content-font-size: @font-size-small;
-// backdrop color
-@loader-backdrop-color: fade(@B000, 90);
-@loader-backdrop-inverse-color: fade(@B900, 83);
 // spin
-@loader-spin-ring-wide: 3px;
-@loader-spin-ring-color: fade(@B050, 80);
-@loader-spin-ring-active-color: @B500;
-@loader-spin-ring-inverse-color: fade(@B050, 30);
-@loader-spin-ring-inverse-active-color: @B000;
+@loader-spin-ring-width: 3px;
 // spin animation time
 @loader-duration-fast: 0.4s;
 @loader-duration-normal: 0.6s;

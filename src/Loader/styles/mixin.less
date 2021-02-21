@@ -42,13 +42,13 @@
   }
 
   &::before {
-    border: @loader-spin-ring-wide solid @loader-spin-ring-color;
+    border: @loader-spin-ring-width solid var(--rs-color-loader-ring);
   }
 
   &::after {
-    border-width: @loader-spin-ring-wide;
+    border-width: @loader-spin-ring-width;
     border-style: solid;
-    border-color: @loader-spin-ring-active-color transparent transparent;
+    border-color: var(--rs-color-loader-rotor) transparent transparent;
     animation: loaderSpin @loader-duration-normal infinite linear;
   }
 }
