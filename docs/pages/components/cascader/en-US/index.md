@@ -62,7 +62,7 @@ This tree allows the use of the `getChildren` option and the length of the child
 
 ## Accessibility
 
-Learn more in [Accessibility](../../guide/accessibility).
+Learn more in [Accessibility](/guide/accessibility).
 
 ## Props
 

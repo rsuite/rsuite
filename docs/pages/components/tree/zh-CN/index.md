@@ -60,6 +60,6 @@
 
 ## 相关组件
 
-- [`<CheckTree>`](../check-tree) 用于展示一个树结构数据，同时支持 Checkbox 选择。
-- [`<TreePicker>`](../tree-picker) 选择器组件，树形单项选择器。
-- [`<CheckTreePicker>`](../check-tree-picker) 选择器组件，在 TreePicker 节点上支持 Checkbox，用于多选 。
+- [`<CheckTree>`](/zh/components/check-tree) 用于展示一个树结构数据，同时支持 Checkbox 选择。
+- [`<TreePicker>`](/zh/components/tree-picker) 选择器组件，树形单项选择器。
+- [`<CheckTreePicker>`](/zh/components/check-tree-picker) 选择器组件，在 TreePicker 节点上支持 Checkbox，用于多选 。

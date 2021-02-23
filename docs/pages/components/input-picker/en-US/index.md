@@ -46,7 +46,7 @@ Single item selector with text box input.
 
 ## Accessibility
 
-Learn more in [Accessibility](../../guide/accessibility).
+Learn more in [Accessibility](/guide/accessibility).
 
 ## Props
 

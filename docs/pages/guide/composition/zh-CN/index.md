@@ -98,6 +98,6 @@ return <Whisper speaker={<CustomPopover />}>open</Whisper>;
 
 ## 常见问题
 
-- [怎么实现一个 Card 组件？](../components/panel#card)
-- [怎么自定义一个弹窗?](../components/whisper)
-- [怎么组合 Popover 与 Dropdown ?](../components/dropdown#used-with-popover)
+- [怎么实现一个 Card 组件？](/zh/components/panel#card)
+- [怎么自定义一个弹窗?](/zh/components/whisper)
+- [怎么组合 Popover 与 Dropdown ?](/zh/components/dropdown#used-with-popover)

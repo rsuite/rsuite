@@ -98,6 +98,6 @@ return <Whisper speaker={<CustomPopover />}>open</Whisper>;
 
 ## FAQ?
 
-- [How to implement a Card component?](../components/panel#card)
-- [How to customize a popup?](../components/whisper)
-- [How to combine Popover and Dropdown?](../components/dropdown#used-with-popover)
+- [How to implement a Card component?](/components/panel#card)
+- [How to customize a popup?](/components/whisper)
+- [How to combine Popover and Dropdown?](/components/dropdown#used-with-popover)

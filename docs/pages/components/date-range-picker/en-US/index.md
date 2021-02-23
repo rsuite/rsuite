@@ -2,7 +2,7 @@
 
 Used to quickly select a date range
 
-If `<DateRangePicker>` does not satisfy the business scenario in which you select the time range, you can use two [`DatePicker`](../date-picker#Selection range) combinations.
+If `<DateRangePicker>` does not satisfy the business scenario in which you select the time range, you can use two [`DatePicker`](/components/date-picker#Selection range) combinations.
 
 ## Import
 
@@ -149,7 +149,7 @@ combine(...) => boolean
 
 ## Accessibility
 
-Learn more in [Accessibility](../../guide/accessibility).
+Learn more in [Accessibility](/guide/accessibility).
 
 ## Props
 

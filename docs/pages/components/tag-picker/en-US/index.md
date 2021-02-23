@@ -42,7 +42,7 @@ Multi-select by tag and support new options
 
 ## Accessibility
 
-Learn more in [Accessibility](../../guide/accessibility).
+Learn more in [Accessibility](/guide/accessibility).
 
 ## Props
 

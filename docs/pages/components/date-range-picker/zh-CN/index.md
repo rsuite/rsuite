@@ -2,7 +2,7 @@
 
 用于快速选择一个日期范围
 
-如果 `<DateRangePicker>` 不能满足您选择时间范围的业务场景，可以采用两个 [`DatePicker`](../date-picker#选择范围) 组合。
+如果 `<DateRangePicker>` 不能满足您选择时间范围的业务场景，可以采用两个 [`DatePicker`](/zh/components/date-picker#选择范围) 组合。
 
 ## 获取组件
 
@@ -151,7 +151,7 @@ combine(...) => boolean
 
 ## 无障碍设计
 
-了解更多有关[无障碍设计](../guide/accessibility)的信息。
+了解更多有关[无障碍设计](/zh/guide/accessibility)的信息。
 
 ## Props
 
