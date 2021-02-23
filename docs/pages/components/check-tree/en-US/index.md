@@ -54,7 +54,7 @@ The cascade attribute can set whether or not CheckTree can consider the cascade 
 | uncheckableItemValues   | string[]                                                                                      | Set the option value for the check box not to be rendered                 |
 | value                   | string[]                                                                                      | Specifies the values of the selected tree node (Controlled)               |
 | valueKey                | string `('value')`                                                                            | Set value key in data                                                     |
-| virtualized             | boolean `(true)`                                                                              | Whether using Virtualized List                                            |
+| virtualized             | boolean                                                                                       | Whether using Virtualized List                                            |
 
 ## Related components
 

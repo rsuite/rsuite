@@ -56,7 +56,7 @@
 | searchKeyword           | string                                                                                         | searchKeyword (Controlled)                                                |
 | value                   | string                                                                                         | Selected value                                                            |
 | valueKey                | string `('value')`                                                                             | Tree data Structure Value property name                                   |
-| virtualized             | boolean `(true)`                                                                               | Whether using Virtualized List                                            |
+| virtualized             | boolean                                                                                        | Whether using Virtualized List                                            |
 
 ## Related components
 

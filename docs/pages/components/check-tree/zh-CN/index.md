@@ -54,7 +54,7 @@
 | uncheckableItemValues   | string[]                                                                                      | 设置不显示复选框的选项值                                                        |
 | value                   | string[]                                                                                      | 当前选中的值                                                                    |
 | valueKey                | string `('value')`                                                                            | tree 数据结构 value 属性名称                                                    |
-| virtualized             | boolean `(true)`                                                                              | 是否开启虚拟列表                                                                |
+| virtualized             | boolean                                                                                       | 是否开启虚拟列表                                                                |
 
 ## 相关组件
 
