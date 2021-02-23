@@ -49,6 +49,14 @@ Provides a list of various forms of navigation menus, which can be landscape and
 
 <!--{include:`with-router.md`}-->
 
+### Responsive
+
+<!--{include:`responsive-nav.md`}-->
+
+### Removable
+
+<!--{include:`removable-nav.md`}-->
+
 ## Props
 
 ### `<Nav>`
