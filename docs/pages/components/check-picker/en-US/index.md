@@ -72,7 +72,7 @@ Customize a select all function.
 
 ## Accessibility
 
-Learn more in [Accessibility](../guide/accessibility).
+Learn more in [Accessibility](../../guide/accessibility).
 
 ## Props
 

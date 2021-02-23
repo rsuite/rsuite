@@ -42,7 +42,7 @@
 
 ## 无障碍设计
 
-了解更多有关[无障碍设计](../guide/accessibility)的信息。
+了解更多有关[无障碍设计](../../guide/accessibility)的信息。
 
 ## Props
 
@@ -104,6 +104,6 @@
 
 ## 相关组件
 
-- [`<CheckTreePicker>`](./check-tree-picker) 选择器组件，在 TreePicker 节点上支持 Checkbox，用于多选 。
-- [`<Tree>`](./tree) 用于展示一个树结构数据。
-- [`<CheckTree>`](./check-tree) 用于展示一个树结构数据，同时支持 Checkbox 选择。
+- [`<CheckTreePicker>`](../check-tree-picker) 选择器组件，在 TreePicker 节点上支持 Checkbox，用于多选 。
+- [`<Tree>`](../tree) 用于展示一个树结构数据。
+- [`<CheckTree>`](../check-tree) 用于展示一个树结构数据，同时支持 Checkbox 选择。

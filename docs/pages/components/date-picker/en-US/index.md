@@ -2,7 +2,7 @@
 
 To select or input a date or time
 
-> When you need to select a date range, it is recommended to use [`<DateRangePicker>`](./date-range-picker)
+> When you need to select a date range, it is recommended to use [`<DateRangePicker>`](../date-range-picker)
 
 ## Usage
 
@@ -102,7 +102,7 @@ If you only need to meet the simple date selection function, you can use the nat
 
 ## Accessibility
 
-Learn more in [Accessibility](../guide/accessibility).
+Learn more in [Accessibility](../../guide/accessibility).
 
 ## Props
 

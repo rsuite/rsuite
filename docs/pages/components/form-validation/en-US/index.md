@@ -20,7 +20,7 @@ const model = Schema.Model({
 });
 ```
 
-> You can learn more about about `Schema` by [reading this guide](./components/schema).
+> You can learn more about about `Schema` by [reading this guide](../schema).
 
 **Step 3**: Set `model` for `<Form>`.
 

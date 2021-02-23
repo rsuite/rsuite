@@ -60,6 +60,6 @@
 
 ## Related components
 
-- [`<CheckTree>`](./check-tree) Selector component, which supports a Checkbox on the TreePicker node for multiple selections.
-- [`<TreePicker>`](./tree-picker) Used to show a tree-structured data.
-- [`<CheckTreePicker>`](./check-tree-picker) Used to show a tree-structured data while supporting Checkbox selection.
+- [`<CheckTree>`](../check-tree) Selector component, which supports a Checkbox on the TreePicker node for multiple selections.
+- [`<TreePicker>`](../tree-picker) Used to show a tree-structured data.
+- [`<CheckTreePicker>`](../check-tree-picker) Used to show a tree-structured data while supporting Checkbox selection.

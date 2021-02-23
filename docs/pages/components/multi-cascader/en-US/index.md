@@ -68,7 +68,7 @@ Single selection of data with hierarchical relationship structure.
 
 ## Accessibility
 
-Learn more in [Accessibility](../guide/accessibility).
+Learn more in [Accessibility](../../guide/accessibility).
 
 ## Props
 

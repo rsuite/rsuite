@@ -42,7 +42,7 @@
 
 ## Accessibility
 
-Learn more in [Accessibility](../guide/accessibility).
+Learn more in [Accessibility](../../guide/accessibility).
 
 ## Props
 
@@ -102,6 +102,6 @@ Learn more in [Accessibility](../guide/accessibility).
 
 ## Related components
 
-- [`<CheckTreePicker>`](./check-tree-picker) Selector component, which supports a Checkbox on the Treepicker node for multiple selections.
-- [`<Tree>`](./tree) Used to show a tree-structured data.
-- [`<CheckTree>`](./check-tree) Used to show a tree-structured data while supporting Checkbox selection.
+- [`<CheckTreePicker>`](.check-tree-picker) Selector component, which supports a Checkbox on the Treepicker node for multiple selections.
+- [`<Tree>`](../tree) Used to show a tree-structured data.
+- [`<CheckTree>`](../check-tree) Used to show a tree-structured data while supporting Checkbox selection.

@@ -2,7 +2,7 @@
 
 时间选择器，可以选择日期和时间。
 
-> 当需要选择日期范围，推荐使用 [`<DateRangePicker>`](./date-range-picker)
+> 当需要选择日期范围，推荐使用 [`<DateRangePicker>`](../date-range-picker)
 
 ## 获取组件
 
@@ -100,7 +100,7 @@
 
 ## 无障碍设计
 
-了解更多有关[无障碍设计](../guide/accessibility)的信息。
+了解更多有关[无障碍设计](../../guide/accessibility)的信息。
 
 ## Props
 

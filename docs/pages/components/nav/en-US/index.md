@@ -86,4 +86,4 @@ Provides a list of various forms of navigation menus, which can be landscape and
 
 ### `<Nav.Dropdown>`
 
-- [Extend the Dropdown component](./dropdown#Props)
+- [Extend the Dropdown component](../dropdown#Props)
