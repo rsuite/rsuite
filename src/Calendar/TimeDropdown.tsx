@@ -21,13 +21,6 @@ export interface TimeDropdownProps extends WithAsProps {
   hideSeconds?: (second: number, date: Date) => boolean;
 }
 
-function abc(a: Element) {
-  console.log(a);
-}
-const kk: HTMLElement = null;
-
-abc(kk);
-
 const defaultProps: Partial<TimeDropdownProps> = {
   classPrefix: 'calendar-time-dropdown',
   as: 'div'

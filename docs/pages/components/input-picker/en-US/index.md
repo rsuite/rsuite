@@ -100,6 +100,6 @@ Learn more in [Accessibility](../guide/accessibility).
 | toggleAs           | ElementType `('a')`                                                       | You can use a custom element for this component             |
 | value              | string                                                                    | Value (Controlled)                                          |
 | valueKey           | string `('value')`                                                        | Set option value 'key' in 'data'                            |
-| virtualized        | boolean `(true)`                                                          | Whether using Virtualized List                              |
+| virtualized        | boolean                                                                   | Whether using Virtualized List                              |
 
 [listprops]: https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types

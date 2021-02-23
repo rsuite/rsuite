@@ -81,7 +81,7 @@ toaster.remove(key);
 toaster.clear();
 ```
 
-### 修改 Notification 使用方式
+### Refactor Notification
 
 ```js
 // for rsuite v4

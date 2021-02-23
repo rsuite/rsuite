@@ -102,7 +102,7 @@ Learn more in [Accessibility](../guide/accessibility).
 | uncheckableItemValues   | string[]                                                                                      | Set the option value for the check box not to be rendered                 |
 | value                   | string[]                                                                                      | (Controlled) specifies the values of the selected tree node               |
 | valueKey                | string `('value')`                                                                            | Set value key in data                                                     |
-| virtualized             | boolean `(true)`                                                                              | Whether using Virtualized List                                            |
+| virtualized             | boolean                                                                                       | Whether using Virtualized List                                            |
 
 ## Related Components
 
