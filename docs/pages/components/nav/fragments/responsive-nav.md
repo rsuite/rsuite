@@ -38,7 +38,15 @@ const App = () => {
         </ResponsiveNav>
       </div>
       <hr />
-      <Slider style={{ width: 500 }} min={500} max={1000} progress step={50} onChange={setWidth} />
+      <Slider
+        style={{ width: 500 }}
+        min={300}
+        max={1000}
+        progress
+        step={50}
+        value={width}
+        onChange={setWidth}
+      />
     </div>
   );
 };

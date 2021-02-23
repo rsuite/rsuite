@@ -53,6 +53,14 @@
 
 <!--{include:`with-router.md`}-->
 
+### 扩展：响应式
+
+<!--{include:`responsive-nav.md`}-->
+
+### 扩展：响应式
+
+<!--{include:`removable-nav.md`}-->
+
 ## Props
 
 ### `<Nav>`
