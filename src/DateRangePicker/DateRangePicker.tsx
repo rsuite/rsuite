@@ -83,7 +83,7 @@ export interface DateRangePickerProps extends PickerBaseProps, FormControlBasePr
   defaultCalendarValue?: ValueType;
 
   /** The character that separates two dates */
-  character: string;
+  character?: string;
 
   /** Disabled date */
   disabledDate?: DisabledDateFunction;
