@@ -98,7 +98,7 @@
 | toggleAs           | ElementType `('a')`                                                     | 为组件自定义元素类型                   |
 | value              | string[]                                                                | 设置值 `受控`                          |
 | valueKey           | string `('value')`                                                      | 设置选项值在 `data` 中的 `key`         |
-| virtualized        | boolean `(true)`                                                        | 是否开启虚拟列表                       |
+| virtualized        | boolean                                                                 | 是否开启虚拟列表                       |
 
 [listprops]: https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
 [tagprops]: https://rsuitejs.com/components/tag#Props
