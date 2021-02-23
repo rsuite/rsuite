@@ -72,13 +72,13 @@ Use the `aria-*` attribute in the form to make the form input components descrip
 - The popup of the component has a `listbox` role.
 - When an `id` is set for a component, it will automatically generate an `id` for the popup, the value is `[id]-listbox`, and it will also set `aria-controls=[id]-listbox` and popup The id of the window is associated.
 
-[form.group]: ../components/form#无障碍设计
-[slider]: ../components/slider
-[tree]: ../components/tree
-[input-picker]: ../components/input-picker
-[modal]: ../components/modal
-[input]: ../components/input
-[button]: ../components/button
-[popover]: ../components/popover
-[tooltip]: ../components/tooltip
+[form.group]: /components/form#无障碍设计
+[slider]: /components/slider
+[tree]: /components/tree
+[input-picker]: /components/input-picker
+[modal]: /components/modal
+[input]: /components/input
+[button]: /components/button
+[popover]: /components/popover
+[tooltip]: /components/tooltip
 [wai-aria]: https://www.w3.org/TR/wai-aria/

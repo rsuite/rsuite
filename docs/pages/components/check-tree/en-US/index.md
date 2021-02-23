@@ -58,6 +58,6 @@ The cascade attribute can set whether or not CheckTree can consider the cascade 
 
 ## Related components
 
-- [`<Tree>`](./tree)
-- [`<TreePicker>`](./tree-picker)
-- [`<CheckTreePicker>`](./check-tree-picker)
+- [`<Tree>`](/components/tree)
+- [`<TreePicker>`](/components/tree-picker)
+- [`<CheckTreePicker>`](/components/check-tree-picker)

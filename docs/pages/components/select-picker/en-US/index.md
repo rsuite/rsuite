@@ -60,7 +60,7 @@ For a single data selection, support grouping.
 
 ## Accessibility
 
-Learn more in [Accessibility](../guide/accessibility).
+Learn more in [Accessibility](/guide/accessibility).
 
 ## Props
 

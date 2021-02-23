@@ -63,7 +63,7 @@ Now go to the [palette](/tools/palette) to select the appropriate color or uploa
 
 ### Replace the auxiliary color.
 
-Information, successes, warnings, errors, respectively, the corresponding color, modified to affect the [Message](../components/message), Notification](../components/notification) and other needs to display the status of the components.
+Information, successes, warnings, errors, respectively, the corresponding color, modified to affect the [Message](/components/message), Notification](/components/notification) and other needs to display the status of the components.
 
 ```less
 @info-color: #2196f3;

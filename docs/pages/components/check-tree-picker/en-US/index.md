@@ -44,7 +44,7 @@ The cascade attribute can set whether or not CheckTreePicker can consider the ca
 
 ## Accessibility
 
-Learn more in [Accessibility](../guide/accessibility).
+Learn more in [Accessibility](/guide/accessibility).
 
 ## Props
 
@@ -106,6 +106,6 @@ Learn more in [Accessibility](../guide/accessibility).
 
 ## Related Components
 
-- [`<CheckTree>`](./check-tree)
-- [`<Tree>`](./tree)
-- [`<TreePicker>`](./tree-picker)
+- [`<CheckTree>`](/components/check-tree)
+- [`<Tree>`](/components/tree)
+- [`<TreePicker>`](/components/tree-picker)

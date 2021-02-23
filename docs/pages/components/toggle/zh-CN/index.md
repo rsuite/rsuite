@@ -33,7 +33,7 @@
 - `Toggle` 具有 `switch` role 。
 - 当处于 `on` 状态时，`Toggle` 将 `aria-checked` 设置为 `true`。
 - 当处于 `off` 状态时，`Toggle` 将 `aria-checked` 设置为 `false`。
-- 所有表单控件都应该带有标签，在表单中可以通过[`Form.ControlLabel`](./form#Accessibility)实现。如果你需要独立使用则需要直接添加属性 (`arial-label`,`aria-labelledby`)。
+- 所有表单控件都应该带有标签，在表单中可以通过[`Form.ControlLabel`](/zh/components/form#Accessibility)实现。如果你需要独立使用则需要直接添加属性 (`arial-label`,`aria-labelledby`)。
 
 ```js
 <Toggle arial-label="Switch" />
