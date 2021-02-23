@@ -351,4 +351,9 @@ describe('TagPicker', () => {
     assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
     assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
   });
+
+  it('Should set a tabindex for input', () => {
+    const instance = getDOMNode(<TagPicker tabIndex={10} />);
+    assert.equal(instance.querySelector('input[type="text"]').getAttribute('tabindex'), '10');
+  });
 });
