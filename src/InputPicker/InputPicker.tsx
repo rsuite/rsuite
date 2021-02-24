@@ -472,20 +472,11 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     const { onClose, multi } = this.props;
     const value: any = this.getValue();
 
-    const nextState: InputPickerState = {
-      focusItemValue: multi ? _.get(value, 0) : value
-    };
-
-    if (multi) {
-      /**
-       在多选的情况下, 当 searchKeyword 过长，在 focus 的时候会导致内容换行。
-       把 searchKeyword 清空是为了，Menu 在展开时候位置正确。
-       */
-      nextState.searchKeyword = '';
-    }
-
     onClose?.();
-    this.setState(nextState);
+    this.setState({
+      focusItemValue: multi ? _.get(value, 0) : value,
+      searchKeyword: ''
+    });
   };
 
   handleEnter = () => {
