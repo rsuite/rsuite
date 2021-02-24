@@ -31,6 +31,7 @@ export interface InputAutosizeProps {
   placeholder?: string;
   style?: React.CSSProperties;
   value?: string;
+  tabIndex?: number;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   onAutosize?: (inputWidth: number) => void;
 }
@@ -91,7 +92,8 @@ const InputAutosize = React.forwardRef(
       placeholder,
       inputClassName,
       inputStyle,
-      inputId = uniqueId
+      inputId = uniqueId,
+      tabIndex
     } = props;
 
     const rootRef = useRef();
@@ -140,6 +142,7 @@ const InputAutosize = React.forwardRef(
 
     htmlInputProps.className = inputClassName;
     htmlInputProps.style = nextInputStyle;
+    htmlInputProps.tabIndex = tabIndex;
 
     if (isIE()) {
       // On Internet Explorer, an `x` symbol will appear in the input box.

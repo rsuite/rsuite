@@ -125,7 +125,7 @@ const defaultProps: Partial<OverlayTriggerProps> = {
 };
 
 export interface OverlayTriggerInstance {
-  child: Element;
+  root: Element;
   updatePosition?: () => void;
   open?: () => void;
   close?: () => void;
@@ -216,8 +216,11 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
   );
 
   useImperativeHandle(ref, () => ({
-    get child() {
+    get root() {
       return triggerRef.current;
+    },
+    get overlay() {
+      return overlayRef.current?.child;
     },
     open: handleOpen,
     close: handleClose,
@@ -353,7 +356,11 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
 
     return (
       <Overlay {...overlayProps} ref={overlayRef} childrenProps={speakerProps}>
-        {speaker}
+        {typeof speaker === 'function'
+          ? (props, ref) => {
+              return speaker({ ...props, onClose: handleClose }, ref);
+            }
+          : speaker}
       </Overlay>
     );
   };
