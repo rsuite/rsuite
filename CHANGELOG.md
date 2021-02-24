@@ -1,3 +1,24 @@
+<a name="4.9.0"></a>
+# [4.9.0](https://github.com/rsuite/rsuite/compare/4.8.9...4.9.0) (2021-02-24)
+
+
+### Bug Fixes
+
+* **footer:** use footer tag for Footer ([#1490](https://github.com/rsuite/rsuite/issues/1490)) ([296df45](https://github.com/rsuite/rsuite/commit/296df45))
+* **inputpicker:** fix the input does not work when focused by keyboard ([#1520](https://github.com/rsuite/rsuite/issues/1520)) ([476d5c7](https://github.com/rsuite/rsuite/commit/476d5c7)), closes [#1487](https://github.com/rsuite/rsuite/issues/1487)
+* **inputpicker:** inputPicker should clear search keywords when closed ([#1522](https://github.com/rsuite/rsuite/issues/1522)) ([d9108ea](https://github.com/rsuite/rsuite/commit/d9108ea))
+* **pickers:** picker should not be interactive during animation exit ([#1521](https://github.com/rsuite/rsuite/issues/1521)) ([e201e78](https://github.com/rsuite/rsuite/commit/e201e78)), closes [#1491](https://github.com/rsuite/rsuite/issues/1491)
+* **rangeslider:** fix RangeSlider style problem ([#1519](https://github.com/rsuite/rsuite/issues/1519)) ([a422b7d](https://github.com/rsuite/rsuite/commit/a422b7d)), closes [#1485](https://github.com/rsuite/rsuite/issues/1485)
+* **rtl:** fixed the docs not work when using `rtl` ([#1503](https://github.com/rsuite/rsuite/issues/1503)) ([9c132a9](https://github.com/rsuite/rsuite/commit/9c132a9))
+
+
+### Features
+
+* **uploader:** support file async check on Uploader ([#1489](https://github.com/rsuite/rsuite/issues/1489)) ([25f5b3a](https://github.com/rsuite/rsuite/commit/25f5b3a))
+* **whisper:** support `onClose` on the `speaker` prop of Whisper ([#1523](https://github.com/rsuite/rsuite/issues/1523)) ([5b25e3f](https://github.com/rsuite/rsuite/commit/5b25e3f)), closes [#1458](https://github.com/rsuite/rsuite/issues/1458)
+
+
+
 <a name="4.8.9"></a>
 
 ## [4.8.9](https://github.com/rsuite/rsuite/compare/4.8.8...4.8.9) (2021-02-02)
