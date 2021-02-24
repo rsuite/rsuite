@@ -502,13 +502,6 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     this.triggerRef.current?.show();
   };
 
-  handleInputBlur = () => {
-    if (!this.props.multi) {
-      this.setState({ open: false });
-      this.triggerRef.current?.hide();
-    }
-  };
-
   removeLastItem = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const tagName = _.get(event, 'target.tagName');
     if (tagName !== 'INPUT') {
@@ -686,7 +679,7 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
         tabIndex={tabIndex}
         onChange={this.handleSearch}
         value={this.state.open ? this.state.searchKeyword : ''}
-        onBlur={createChainedFunction(this.handleInputBlur, onBlur)}
+        onBlur={onBlur}
         onFocus={createChainedFunction(this.handleInputFocus, onFocus)}
       />
     );
