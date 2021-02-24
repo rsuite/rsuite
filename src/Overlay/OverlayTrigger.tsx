@@ -211,7 +211,13 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
     }
 
     if (typeof speaker === 'function') {
-      return <Overlay {...overlayProps}>{speaker}</Overlay>;
+      return (
+        <Overlay {...overlayProps}>
+          {(props, ref) => {
+            return speaker({ ...props, onClose: this.hide }, ref);
+          }}
+        </Overlay>
+      );
     }
 
     return <Overlay {...overlayProps}>{React.cloneElement(speaker, speakerProps)}</Overlay>;
