@@ -57,6 +57,8 @@ export type ValueType = any;
 export interface InputPickerProps<T = ValueType>
   extends FormControlPickerProps<T, InputPickerLocale, InputItemDataType>,
     SelectProps<T> {
+  tabIndex?: number;
+
   multi?: boolean;
 
   /** Settings can create new options */
@@ -126,6 +128,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       labelKey,
       listProps,
       id,
+      tabIndex,
       sort,
       renderMenu,
       renderExtraFooter,
@@ -164,8 +167,6 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     const [maxWidth, setMaxWidth] = useState(100);
     const [newData, setNewData] = useState([]);
     const [uncontrolledOpen, setOpen] = useState(defaultOpen);
-    // Use component active state to support keyboard events.
-    const [active, setActive] = useState(false);
     const open = isUndefined(controlledOpen) ? uncontrolledOpen : controlledOpen;
 
     const getAllData = useCallback(() => [].concat(uncontrolledData, newData), [
@@ -516,11 +517,12 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     }, [setFocusItemValue, setSearchKeyword, onClose, value, multi]);
 
     const handleFocus = useCallback(() => {
-      setActive(true);
+      setOpen(true);
+      triggerRef.current?.open();
     }, []);
 
     const handleBlur = useCallback(() => {
-      setActive(false);
+      setOpen(false);
     }, []);
 
     const handleEnter = useCallback(() => {
@@ -675,7 +677,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     const classes = merge(pickerClasses, {
       [prefix`tag`]: multi,
-      [prefix`focused`]: open || active
+      [prefix`focused`]: open
     });
     const searching = !!searchKeyword && open;
     const displaySearchInput = searchable && !disabled;
@@ -721,7 +723,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
             onClean={handleClean}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
-            active={active}
+            active={open}
             disabled={disabled}
             placement={placement}
             inputValue={value}
@@ -733,6 +735,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
             {displaySearchInput && (
               <InputSearch
                 {...inputProps}
+                tabIndex={tabIndex}
                 readOnly={readOnly}
                 onBlur={createChainedFunction(handleBlur, onBlur)}
                 onFocus={createChainedFunction(handleFocus, onFocus)}
