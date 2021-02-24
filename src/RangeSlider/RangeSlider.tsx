@@ -250,7 +250,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
         end = v;
       }
 
-      const nextValue = getValidValue([start, end]);
+      const nextValue = getValidValue([start, end].sort());
 
       setValue(nextValue);
       onChange?.(nextValue, event);
