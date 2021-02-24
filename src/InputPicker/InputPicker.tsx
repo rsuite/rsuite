@@ -503,8 +503,10 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   };
 
   handleInputBlur = () => {
-    this.setState({ open: false });
-    this.triggerRef.current?.hide();
+    if (!this.props.multi) {
+      this.setState({ open: false });
+      this.triggerRef.current?.hide();
+    }
   };
 
   removeLastItem = (event: React.KeyboardEvent<HTMLInputElement>) => {
