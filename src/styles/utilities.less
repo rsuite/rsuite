@@ -44,9 +44,11 @@
 .fade {
   opacity: 0;
   transition: opacity 0.15s linear;
+  pointer-events: none;
 
   &.in {
     opacity: 1;
+    pointer-events: unset;
   }
 }
 
