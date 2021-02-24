@@ -542,7 +542,7 @@ export function usePublicMethods(ref, { triggerRef, overlayRef, targetRef, rootR
 
   useImperativeHandle(ref, () => ({
     get root() {
-      return rootRef?.current ? rootRef?.current : triggerRef.current?.child;
+      return rootRef?.current ? rootRef?.current : triggerRef.current?.root;
     },
     get overlay() {
       return overlayRef.current;

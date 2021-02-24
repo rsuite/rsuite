@@ -1,6 +1,7 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode, getInstance, createTestContainer } from '@test/testUtils';
 
 import Whisper from '../Whisper';
 import Tooltip from '../../Tooltip';
@@ -165,5 +166,48 @@ describe('Whisper', () => {
     );
 
     ReactTestUtils.Simulate.click(whisper);
+  });
+
+  it('Should Overlay be closed, after call onClose', done => {
+    const doneOp = () => {
+      done();
+    };
+    const ref = React.createRef();
+    const btnRef = React.createRef();
+    const Overlay = React.forwardRef(({ style, onClose, ...rest }, ref) => {
+      return (
+        <div {...rest} style={style} ref={ref}>
+          <button onClick={onClose}>close</button>
+        </div>
+      );
+    });
+
+    Overlay.displayName = 'Overlay';
+
+    ReactTestUtils.act(() => {
+      ReactDOM.render(
+        <Whisper
+          ref={ref}
+          onExited={doneOp}
+          trigger="click"
+          speaker={(props, ref) => {
+            const { className, left, top, onClose } = props;
+            return (
+              <Overlay style={{ left, top }} onClose={onClose} className={className} ref={ref} />
+            );
+          }}
+        >
+          <button ref={btnRef}>button</button>
+        </Whisper>,
+        createTestContainer()
+      );
+    });
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.click(ref.current.root);
+    });
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.click(ref.current.overlay.querySelector('button'));
+    });
   });
 });
