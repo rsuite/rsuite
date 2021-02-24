@@ -506,6 +506,16 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     this.handleChange(value, event);
   };
 
+  handleInputFocus = () => {
+    this.setState({ open: true });
+    this.triggerRef.current?.show();
+  };
+
+  handleInputBlur = () => {
+    this.setState({ open: false });
+    this.triggerRef.current?.hide();
+  };
+
   removeLastItem = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const tagName = _.get(event, 'target.tagName');
     if (tagName !== 'INPUT') {
@@ -665,10 +675,8 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   }
 
   renderInputSearch() {
-    const { multi, onBlur, onFocus } = this.props;
+    const { multi, onBlur, onFocus, tabIndex } = this.props;
     const props: any = {
-      onBlur,
-      onFocus,
       componentClass: 'input',
       inputRef: this.inputRef
     };
@@ -682,8 +690,11 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
     return (
       <InputSearch
         {...props}
+        tabIndex={tabIndex}
         onChange={this.handleSearch}
         value={this.state.open ? this.state.searchKeyword : ''}
+        onBlur={createChainedFunction(this.handleInputBlur, onBlur)}
+        onFocus={createChainedFunction(this.handleInputFocus, onFocus)}
       />
     );
   }

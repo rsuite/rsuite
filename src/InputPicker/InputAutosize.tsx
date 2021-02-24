@@ -158,7 +158,8 @@ class InputAutosize extends React.Component<InputAutosizeProps, InputAutosizeSta
       className,
       placeholder,
       inputClassName,
-      inputStyle
+      inputStyle,
+      tabIndex
     } = this.props;
 
     const inputId = this.getInputId();
@@ -185,6 +186,7 @@ class InputAutosize extends React.Component<InputAutosizeProps, InputAutosizeSta
     htmlInputProps.className = inputClassName;
     htmlInputProps.id = inputId || inputId;
     htmlInputProps.style = nextInputStyle;
+    htmlInputProps.tabIndex = tabIndex;
 
     return (
       <div className={className} style={wrapperStyle}>
