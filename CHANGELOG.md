@@ -1,3 +1,13 @@
+<a name="4.9.2"></a>
+## [4.9.2](https://github.com/rsuite/rsuite/compare/4.9.1...4.9.2) (2021-02-24)
+
+
+### Bug Fixes
+
+* **inputpicker:** fix can’t click option on InputPicker ([#1529](https://github.com/rsuite/rsuite/issues/1529)) ([4c2bc6f](https://github.com/rsuite/rsuite/commit/4c2bc6f))
+
+
+
 <a name="4.9.1"></a>
 ## [4.9.1](https://github.com/rsuite/rsuite/compare/4.9.0...4.9.1) (2021-02-24)
 
