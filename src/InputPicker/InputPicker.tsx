@@ -506,13 +506,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     const handleExited = useCallback(() => {
       setFocusItemValue(multi ? value?.[0] : value);
-
-      if (multi) {
-        // In the case of multiple selection, when the `searchKeyword` is too long,it will cause the content to wrap when in the `focus`.
-        // The reason for clearing the `searchKeyword` is that the `Menu` is in the correct position when expanded.
-        setSearchKeyword('');
-      }
-
+      setSearchKeyword('');
       onClose?.();
     }, [setFocusItemValue, setSearchKeyword, onClose, value, multi]);
 
