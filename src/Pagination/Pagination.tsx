@@ -115,8 +115,6 @@ const Pagination: RsRefForwardingComponent<'div', PaginationProps> = React.forwa
 
         return (
           <PaginationButton
-            role="button"
-            aria-disabled={disabledItem}
             aria-label={title}
             title={title}
             {...itemRest}

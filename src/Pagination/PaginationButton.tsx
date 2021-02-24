@@ -29,54 +29,55 @@ export interface PaginationButtonProps
 
 const defaultProps: Partial<PaginationButtonProps> = {
   classPrefix: 'pagination-btn',
-  as: SafeAnchor
+  as: 'button'
 };
 
-const PaginationButton: RsRefForwardingComponent<'a', PaginationButtonProps> = React.forwardRef(
-  (props: PaginationButtonProps, ref) => {
-    const {
-      as: Component,
-      active,
-      disabled,
-      className,
-      classPrefix,
-      children,
-      eventKey,
-      style,
-      onSelect,
-      onClick,
-      ...rest
-    } = props;
+const PaginationButton: RsRefForwardingComponent<
+  'button',
+  PaginationButtonProps
+> = React.forwardRef((props: PaginationButtonProps, ref) => {
+  const {
+    as: Component,
+    active,
+    disabled,
+    className,
+    classPrefix,
+    children,
+    eventKey,
+    style,
+    onSelect,
+    onClick,
+    ...rest
+  } = props;
 
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ active, disabled }));
+  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix({ active, disabled }));
 
-    const handleClick = useCallback(
-      (event: React.MouseEvent) => {
-        if (disabled) {
-          return;
-        }
-        onSelect?.(eventKey, event);
-      },
-      [disabled, eventKey, onSelect]
-    );
+  const handleClick = useCallback(
+    (event: React.MouseEvent) => {
+      if (disabled) {
+        return;
+      }
+      onSelect?.(eventKey, event);
+    },
+    [disabled, eventKey, onSelect]
+  );
 
-    return (
-      <Component
-        {...rest}
-        disabled={disabled}
-        onClick={createChainedFunction(onClick, handleClick)}
-        active={Component !== SafeAnchor && typeof Component !== 'string' ? active : undefined}
-        ref={ref}
-        className={classes}
-        style={style}
-      >
-        {children}
-        {!disabled ? <Ripple /> : null}
-      </Component>
-    );
-  }
-);
+  return (
+    <Component
+      {...rest}
+      disabled={disabled}
+      onClick={createChainedFunction(onClick, handleClick)}
+      active={Component !== SafeAnchor && typeof Component !== 'string' ? active : undefined}
+      ref={ref}
+      className={classes}
+      style={style}
+    >
+      {children}
+      {!disabled ? <Ripple /> : null}
+    </Component>
+  );
+});
 
 PaginationButton.displayName = 'PaginationButton';
 PaginationButton.defaultProps = defaultProps;

@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import Pagination from '../Pagination';
 import SelectPicker from '../SelectPicker';
 import Divider from '../Divider';
+import Input from '../Input';
 import { tplTransform, useClassNames, useCustom } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
@@ -196,6 +197,9 @@ const TablePagination: RsRefForwardingComponent<'div', TablePaginationProps> = R
           activePage={activePage}
           {...rest}
         />
+        <div>
+          跳至 <Input size="xs" /> 页
+        </div>
       </div>
     ];
 
