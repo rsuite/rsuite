@@ -1,3 +1,13 @@
+<a name="4.9.1"></a>
+## [4.9.1](https://github.com/rsuite/rsuite/compare/4.9.0...4.9.1) (2021-02-24)
+
+
+### Bug Fixes
+
+* **tagpicker:** fix the input does not work when focused by keyboard ([#1525](https://github.com/rsuite/rsuite/issues/1525)) ([f5805c0](https://github.com/rsuite/rsuite/commit/f5805c0))
+
+
+
 <a name="4.9.0"></a>
 # [4.9.0](https://github.com/rsuite/rsuite/compare/4.8.9...4.9.0) (2021-02-24)
 
