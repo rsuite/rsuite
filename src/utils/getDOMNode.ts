@@ -6,7 +6,7 @@ const getRefTarget = (ref: React.RefObject<Element> | Element | null | undefined
 
 export default function getDOMNode(elementOrRef) {
   // If elementOrRef is an instance of Position, child is returned. [PositionInstance]
-  const element = elementOrRef?.child ? elementOrRef?.child : getRefTarget(elementOrRef);
+  const element = elementOrRef?.root || elementOrRef?.child || getRefTarget(elementOrRef);
 
   // Native HTML elements
   if (element?.nodeType && typeof element?.nodeName === 'string') {

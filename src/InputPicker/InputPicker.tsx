@@ -231,8 +231,8 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     useEffect(() => {
       // In multiple selection, you need to set a maximum width for the input.
-      if (triggerRef.current?.child) {
-        setMaxWidth(getWidth(triggerRef.current.child));
+      if (triggerRef.current?.root) {
+        setMaxWidth(getWidth(triggerRef.current.root));
       }
     }, []);
 
