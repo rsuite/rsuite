@@ -172,12 +172,14 @@ describe('Whisper', () => {
     const doneOp = () => {
       done();
     };
-    const triggerRef = React.createRef();
     const btnRef = React.createRef();
+    const closeBtnRef = React.createRef();
     const Overlay = React.forwardRef(({ style, onClose, ...rest }, ref) => {
       return (
         <div {...rest} style={style} ref={ref}>
-          <button onClick={onClose}>close</button>
+          <button ref={closeBtnRef} onClick={onClose}>
+            close
+          </button>
         </div>
       );
     });
@@ -186,7 +188,16 @@ describe('Whisper', () => {
 
     ReactTestUtils.act(() => {
       ReactDOM.render(
-        <Whisper ref={triggerRef} onExited={doneOp} trigger="click" speaker={<Tooltip />}>
+        <Whisper
+          onExited={doneOp}
+          trigger="click"
+          speaker={(props, ref) => {
+            const { className, left, top, onClose } = props;
+            return (
+              <Overlay style={{ left, top }} onClose={onClose} className={className} ref={ref} />
+            );
+          }}
+        >
           <button ref={btnRef}>button</button>
         </Whisper>,
         createTestContainer()
@@ -197,7 +208,7 @@ describe('Whisper', () => {
     });
 
     ReactTestUtils.act(() => {
-      ReactTestUtils.Simulate.click(triggerRef.current.getOverlayTarget());
+      ReactTestUtils.Simulate.click(closeBtnRef.current);
     });
   });
 });
