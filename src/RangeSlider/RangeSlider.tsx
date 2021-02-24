@@ -146,7 +146,7 @@ class RangeSlider extends React.Component<RangeSliderProps, RangeSliderState> {
       end = value;
     }
 
-    this.setValue([start, end], event);
+    this.setValue([start, end].sort() as ValueType, event);
   };
 
   handleDragMove = (key: 'start' | 'end', event: React.MouseEvent) => {
